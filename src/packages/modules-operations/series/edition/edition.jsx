@@ -12,7 +12,6 @@ import {
 	Select,
 } from '../../../components';
 
-import { CancelButton, SaveButton } from '@inseefr/wilco';
 import PublishersInput from '../../../modules-operations/components/publishers-input';
 
 import { isMandatoryField, validate } from './validation';
@@ -24,6 +23,10 @@ import {
 } from '../../../redux/actions/constants/codeList';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 const defaultSerie = {
 	id: '',

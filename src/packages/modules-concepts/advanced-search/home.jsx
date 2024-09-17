@@ -1,5 +1,4 @@
 import { Link, useHistory } from 'react-router-dom';
-import { NumberResult } from '@inseefr/wilco';
 import { PageTitle, TextInput, DatePicker, Pagination } from '../../components';
 
 import Select from 'react-select';
@@ -8,6 +7,7 @@ import D from '../../deprecated-locales';
 import { filterKeyDate, filterKeyDeburr } from '../../utils/array-utils';
 import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import { useTitle } from '../../utils/hooks/useTitle';
+import { NumberResults } from '../../components/number-results';
 
 const filterLabel = filterKeyDeburr(['label']);
 const filterAltLabel = filterKeyDeburr(['altLabel']);
@@ -212,7 +212,7 @@ const ConceptSearchList = ({
 				<div className="text-center">
 					<div>
 						<h4>
-							<NumberResult results={hitEls} />
+							<NumberResults results={hitEls} />
 						</h4>
 					</div>
 					<div>

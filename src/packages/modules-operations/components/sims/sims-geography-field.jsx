@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { CancelButton, SaveButton, ErrorBloc } from '@inseefr/wilco';
 import ReactSelect from 'react-select';
 
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -10,6 +9,10 @@ import { Row } from '../../../components';
 import { GeographieApi } from '../../../sdk/geographie';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 	const [name, setName] = useState(territory.labelLg1 ?? '');

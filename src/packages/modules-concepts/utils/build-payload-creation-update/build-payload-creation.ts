@@ -1,6 +1,6 @@
 import { processLinks, processGeneral } from './shared';
-import { takeKeys } from '@inseefr/wilco';
 import { rawHtmlToRmesHtml } from '../../../utils/html-utils';
+import { takeKeys } from '../../../utils/take-keys';
 
 const generalFieldsToKeep = [
 	'prefLabelLg1',

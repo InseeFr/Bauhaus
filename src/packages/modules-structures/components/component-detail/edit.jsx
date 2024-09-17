@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from 'react';
-import { CancelButton, SaveButton } from '@inseefr/wilco';
 import { validate } from '../edition/validation';
 import {
 	MUTUALIZED_COMPONENT_TYPES,
@@ -36,6 +35,10 @@ import { usePermission } from '../../../redux/hooks/usePermission';
 import { useAppContext } from '../../../application/app-context';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,

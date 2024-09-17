@@ -1,12 +1,5 @@
 import { Link } from 'react-router-dom';
-import {
-	Note,
-	UpdateButton,
-	DeleteButton,
-	ReturnButton,
-	ErrorBloc,
-	Table,
-} from '@inseefr/wilco';
+import { Note, ErrorBloc, Table } from '@inseefr/wilco';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -25,6 +18,11 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	DeleteButton,
+	ReturnButton,
+	UpdateButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 export const CodeListPartialDetailView = ({
 	codelist,

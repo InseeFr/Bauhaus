@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { D1, D2 } from '../../../deprecated-locales';
 
-import { CancelButton, SaveButton } from '@inseefr/wilco';
 import { validate } from './validation';
 import D from '../../../deprecated-locales/build-dictionary';
 import {
@@ -17,6 +16,10 @@ import {
 import { OperationsApi } from '../../../sdk/operations-api';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 const defaultFamily = {
 	prefLabelLg1: '',

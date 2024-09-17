@@ -3,7 +3,7 @@ import D from '../../../../deprecated-locales';
 import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-field';
 import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
 import { Loading, Select } from '../../../../components';
-import { CancelButton, CheckSecondLang, SaveButton } from '@inseefr/wilco';
+import { CheckSecondLang } from '@inseefr/wilco';
 import { DUPLICATE } from '../../index';
 import {
 	getParentId,
@@ -21,6 +21,10 @@ import { sortArrayByLabel } from '../../../../utils/array-utils';
 import { flattenTree, rangeType } from '../../../utils/msd';
 import { useHistory } from 'react-router-dom';
 import { ActionToolbar } from '../../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../../components/buttons/buttons-with-icons';
 
 const { RICH_TEXT } = rangeType;
 

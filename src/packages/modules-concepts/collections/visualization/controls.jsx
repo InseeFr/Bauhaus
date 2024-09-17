@@ -1,9 +1,9 @@
-import { Button } from '@inseefr/wilco';
 import check from '../../../auth/auth';
 import D from '../../../deprecated-locales';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import ExportButtons from '../export-buttons';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import { Button } from '../../../components/buttons/button';
 
 const CollectionVisualizationControls = ({
 	isValidated,

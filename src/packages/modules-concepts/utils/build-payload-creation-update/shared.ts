@@ -1,5 +1,6 @@
-import { takeKeys, prefixWithHttp } from '@inseefr/wilco';
+import { prefixWithHttp } from '@inseefr/wilco';
 import { NONE } from '../../../sdk/constants';
+import { takeKeys } from '../../../utils/take-keys';
 
 export function processLinks(conceptsWithLinks: any[]) {
 	/*

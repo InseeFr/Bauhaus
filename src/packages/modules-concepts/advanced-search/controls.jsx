@@ -1,7 +1,8 @@
-import { Button, ReturnButton } from '@inseefr/wilco';
 import D from '../../deprecated-locales';
 import ExportButtons from '../collections/export-buttons';
 import { ActionToolbar } from '../../components/action-toolbar';
+import { ReturnButton } from '../../components/buttons/buttons-with-icons';
+import { Button } from '../../components/buttons/button';
 
 const Controls = ({
 	onClickReturn,

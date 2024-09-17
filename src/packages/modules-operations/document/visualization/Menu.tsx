@@ -1,4 +1,3 @@
-import { Button, ReturnButton } from '@inseefr/wilco';
 import Auth from '../../../auth/components/auth';
 import {
 	ADMIN,
@@ -9,6 +8,8 @@ import D from '../../../deprecated-locales/build-dictionary';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { Document } from '../../../model/operations/document';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import { ReturnButton } from '../../../components/buttons/buttons-with-icons';
+import { Button } from '../../../components/buttons/button';
 
 type MenuTypes = {
 	document: Document;

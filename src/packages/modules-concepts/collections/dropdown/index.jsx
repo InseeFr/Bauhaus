@@ -1,7 +1,7 @@
 import './dropdown.scss';
 import { useEffect, useRef, useState } from 'react';
-import { Button } from '@inseefr/wilco';
 import D from '../../../deprecated-locales';
+import { Button } from '../../../components/buttons/button';
 
 const useOutsideClick = (el, initialState) => {
 	const [isActive, setIsActive] = useState(initialState);

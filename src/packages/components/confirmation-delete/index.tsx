@@ -1,7 +1,7 @@
-import { Button } from '@inseefr/wilco';
 // @ts-ignore
 import Modal from 'react-modal';
 import { createAllDictionary } from '../../utils/dictionnary';
+import { Button } from '../buttons/button';
 
 const { D } = createAllDictionary({
 	deleteTitle: {

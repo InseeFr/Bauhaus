@@ -1,6 +1,6 @@
-import { ReturnButton } from '@inseefr/wilco';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import { ReturnButton } from '../../../components/buttons/buttons-with-icons';
 
 function CorrespondenceControls() {
 	const goBack = useGoBack();

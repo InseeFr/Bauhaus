@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ClassificationTree from './home';
-import { buildExtract } from '@inseefr/wilco';
 import { Loading } from '../../../components';
 import loadClassificationGeneral from '../../../redux/actions/classifications/general';
 import { getGeneral } from '../../../redux/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 import { useClassificationsItem } from '../../../utils/hooks/classifications';
+import { buildExtract } from '../../../utils/buildExtract';
 
 const extractId = buildExtract('id');
 

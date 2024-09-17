@@ -1,7 +1,10 @@
-import { CancelButton, SaveButton } from '@inseefr/wilco';
 import { GlobalClientSideErrorBloc } from '../../../components';
 import D from '../../../deprecated-locales/build-dictionary';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 function Controls({ handleSave, redirectCancel, errors }) {
 	return (

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Table, NumberResult } from '@inseefr/wilco';
+import { Table } from '@inseefr/wilco';
 import { DatePicker } from '../../../../../../components';
 import D from '../../../../../../deprecated-locales';
 import { rowParams } from './data';
 import dayjs from 'dayjs';
+import { NumberResults } from '../../../../../../components/number-results';
 
 const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();
@@ -46,7 +47,7 @@ const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 			</div>
 			<div className="row text-center">
 				<h4>
-					<NumberResult results={data} />
+					<NumberResults results={data} />
 				</h4>
 			</div>
 			<Table

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
 import D from '../../i18n/build-dictionary';
-import { SaveButton } from '@inseefr/wilco';
 import { ComponentSpecificationForm } from '../component-specification-form';
 import './component-specification-modal.scss';
+import { SaveButton } from '../../../components/buttons/buttons-with-icons';
 
 export const ComponentSpecificationModalBody = ({
 	specification: defaultSpecification,

@@ -1,9 +1,9 @@
-import { Button } from '@inseefr/wilco';
 import D from '../../deprecated-locales';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import Auth from '../../auth/components/auth';
 import { ADMIN } from '../../auth/roles';
 import { ActionToolbar } from '../../components/action-toolbar';
+import { Button } from '../../components/buttons/button';
 
 const ItemControls = ({ classificationId, itemId, version }) => {
 	const goBack = useGoBack();

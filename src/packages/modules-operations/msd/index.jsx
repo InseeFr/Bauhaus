@@ -5,7 +5,6 @@ import { Loading, PageTitleBlock } from '../../components';
 import { LOADED, NOT_LOADED } from '../../sdk/constants';
 import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
 import { D1, D2 } from '../../deprecated-locales';
-import { buildExtract } from '@inseefr/wilco';
 
 import { getOperationsCodesList } from '../../redux/operations/selector';
 import loadSIMS, {
@@ -28,6 +27,7 @@ import { GeneralApi } from '../../sdk/general-api';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
 import { useOrganizations } from '../../utils/hooks/organizations';
+import { buildExtract } from '../../utils/buildExtract';
 
 const extractId = buildExtract('id');
 const extractIdParent = buildExtract('idParent');

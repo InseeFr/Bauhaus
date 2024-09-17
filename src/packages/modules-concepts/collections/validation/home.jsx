@@ -1,7 +1,7 @@
 import { Picker } from '../../../components';
 import D from '../../../deprecated-locales';
 import check from '../../../auth/auth';
-import { PublishButton } from '@inseefr/wilco';
+import { PublishButton } from '../../../components/buttons/buttons-with-icons';
 
 const CollectionsToValidate = ({
 	collections,

@@ -42,7 +42,7 @@ export const MainMenu = ({
 	const orderedPaths = paths
 		.filter((path) => path.shouldBeDisplayed !== false)
 		.sort((p1, p2) => p1.order - p2.order);
-	const allPaths = [home, ...orderedPaths].reduce(
+	const allPaths = [{ label: D.home, path: '/' }, ...orderedPaths].reduce(
 		(acc, path) => {
 			if (path.alignToRight) {
 				return [[...acc[0]], [...acc[1], path]];
@@ -54,29 +54,28 @@ export const MainMenu = ({
 	);
 
 	return (
-		<nav className="bauhaus-main-menu navbar navbar-expand navbar-light navbar-primary">
+		<nav className="navbar navbar-default navbar-primary">
 			<div className="container-fluid">
-				<div className="collapse navbar-collapse">
-					<ul className="navbar-nav my-2 mr-auto">
-						{allPaths[0].map((path: Path, index: number) => {
+				<div
+					className="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1"
+				>
+					<ul className="nav navbar-nav">
+						{allPaths[0].map((path, index) => {
 							const classes = getClasses(path, index, allPaths[0]);
 
 							return (
 								<li className={classes} key={path.path}>
 									<Link to={path.path} {...path.attrs}>
-										{path.image ? (
-											<img src={path.image} alt={path.label} />
-										) : (
-											path.label
-										)}
+										{path.label}
 									</Link>
 								</li>
 							);
 						})}
 					</ul>
 
-					<ul className="navbar-nav navbar-right">
-						{allPaths[1].map((path: Path, index: number) => {
+					<ul className="nav navbar-nav navbar-right">
+						{allPaths[1].map((path, index) => {
 							const classes = getClasses(path, index, allPaths[1]);
 
 							return (

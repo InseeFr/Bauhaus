@@ -1,5 +1,4 @@
 import { Series } from '../../../model/operations/series';
-import { Button, ReturnButton } from '@inseefr/wilco';
 import D from '../../../deprecated-locales/build-dictionary';
 import Auth from '../../../auth/components/auth';
 import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
@@ -7,6 +6,8 @@ import { ValidationButton } from '../../../components';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { containUnsupportedStyles } from '../../../utils/html-utils';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import { ReturnButton } from '../../../components/buttons/buttons-with-icons';
+import { Button } from '../../../components/buttons/button';
 
 type MenuTypes = {
 	series: Series;

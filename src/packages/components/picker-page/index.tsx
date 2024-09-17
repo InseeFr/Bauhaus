@@ -3,17 +3,16 @@
 import { useState } from 'react';
 import D from '../../deprecated-locales';
 import {
-	ExportButton,
 	Pagination,
 	AddLogo,
 	DelLogo,
 	PickerItem,
 	filterDeburr,
-	ReturnButton,
 } from '@inseefr/wilco';
 import { TextInput, PageTitle, ErrorBloc } from '../../components';
 import { Panel } from '../panel';
 import { ActionToolbar } from '../action-toolbar';
+import { ReturnButton, ExportButton } from '../buttons/buttons-with-icons';
 
 type Item = { id: string; label: string };
 const trackItems = (items: Item[]) => {

@@ -1,5 +1,4 @@
 import { Family } from '../../../model/operations/family';
-import { Button, ReturnButton } from '@inseefr/wilco';
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
 import { ValidationButton } from '../../../components';
@@ -7,6 +6,8 @@ import D from '../../../deprecated-locales/build-dictionary';
 import { containUnsupportedStyles } from '../../../utils/html-utils';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import { ReturnButton } from '../../../components/buttons/buttons-with-icons';
+import { Button } from '../../../components/buttons/button';
 
 type MenuTypes = {
 	family: Family;

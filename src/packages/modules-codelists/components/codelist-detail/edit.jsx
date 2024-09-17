@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { CancelButton, SaveButton } from '@inseefr/wilco';
 import { validateCodelist } from '../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
@@ -21,6 +20,10 @@ import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 const defaultCodelist = {
 	created: dayjs(),

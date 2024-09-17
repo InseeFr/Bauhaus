@@ -1,15 +1,15 @@
 @mixin list-item-separator($color) {
   content: '';
-  height: 90%;
+  height: 60%;
   width: 1px;
-  position: relative;
-  right: -0.5em;
+  position: absolute;
+  right: 0;
+  top: 20%;
   background-color: $color;
-  display: inline-block;
 }
 
 @media screen and (max-width: 767px) {
-  .bauhaus-main-menu {
+  .navbar-primary {
     .container-fluid {
       padding-right: 0;
       padding-left: 0;
@@ -20,14 +20,14 @@
   }
 }
 @media screen and (min-width: 767px) {
-  .bauhaus-main-menu {
+  .navbar-primary {
     .with-separator::after {
       @include list-item-separator(white);
     }
   }
 }
 
-.bauhaus-main-menu {
+.navbar-primary {
   background: var(--color-3);
   font-size: 15.3pt;
   color: #cccfd9;
@@ -41,14 +41,24 @@
   }
 
   .navbar-nav {
-    align-items: center;
     > li {
       padding: 0 10px;
       &:hover,
       &.active {
+        background: var(--color-2);
+        margin-left: -1px;
+
         > a,
         > button {
-          text-decoration: underline;
+          color: red;
+          background: none;
+          &:focus,
+          &:hover {
+            background: none;
+          }
+        }
+        &::after {
+          @include list-item-separator(transparent);
         }
       }
       a {

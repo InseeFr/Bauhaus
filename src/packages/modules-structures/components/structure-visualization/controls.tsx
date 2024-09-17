@@ -1,10 +1,5 @@
 import { useHistory } from 'react-router-dom';
-import {
-	ReturnButton,
-	UpdateButton,
-	DeleteButton,
-	DuplicateButton,
-} from '@inseefr/wilco';
+
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { ValidationButton } from '../../../components';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
@@ -12,6 +7,12 @@ import { StructureApi } from '../../../sdk';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { Structure } from '../../../model/structures/Structure';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	DeleteButton,
+	DuplicateButton,
+	ReturnButton,
+	UpdateButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 type ControlsTypes = {
 	structure: Structure;
