@@ -209,14 +209,10 @@ const dictionary = {
 		en: 'Please select versioning type',
 	},
 	conceptVersioningBody: {
-		fr: (
-			label: string
-		) => `<p>Les notes du concept « <b>${label}</b> » ont été modifiées.</p>
-            <p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>`,
-		en: (
-			label: string
-		) => `<p>Concept “<b>${label}</b>” notes have been modified.</p>
-            <p>Would you like to create a new version, or update the previous one?</p>`,
+		fr: (label: string) =>
+			`<p>Les notes du concept « <b>${label}</b> » ont été modifiées.</p><p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>`,
+		en: (label: string) =>
+			`<p>Concept “<b>${label}</b>” notes have been modified.</p><p>Would you like to create a new version, or update the previous one?</p>`,
 	},
 	conceptVersioningFooter: {
 		fr: `<p>Pour créer une nouvelle version, la note de changement doit être documentée :</p>
@@ -232,9 +228,9 @@ const dictionary = {
 	},
 	conceptMailDefault: {
 		fr: (params: any[]) => {
-			let prefLabelLg1 = params[1],
+			let validText = '';
+			const prefLabelLg1 = params[1],
 				id = params[2],
-				validText = '',
 				href = params[0] + 'concept/' + id,
 				inseeText = ` (<a href=${href}>Lien vers le concept</a>)`;
 			if (params.includes('false'))
@@ -249,9 +245,9 @@ const dictionary = {
           DMCSI - Unité Qualité</p>`;
 		},
 		en: (params: any[]) => {
-			let prefLabelLg1 = params[1],
+			let validText = '';
+			const prefLabelLg1 = params[1],
 				id = params[2],
-				validText = '',
 				href = params[0] + 'concept/' + id,
 				inseeText = ` (<a href=${href}>Concept link</a>)`;
 			if (params.includes('false'))
@@ -282,9 +278,9 @@ const dictionary = {
 	},
 	collectionMailDefault: {
 		fr: (params: any[]) => {
-			let prefLabelLg1 = params[1],
+			let validText = '';
+			const prefLabelLg1 = params[1],
 				id = params[2],
-				validText = '',
 				href = params[0] + 'collection/' + id,
 				inseeText = ` (<a href=${href}>Lien vers la collection</a>)`;
 			if (params.includes('false'))
@@ -299,9 +295,10 @@ const dictionary = {
 	          DMCSI - Unité Qualité</p>`;
 		},
 		en: (params: any[]) => {
-			let prefLabelLg1 = params[1],
+			let validText = '';
+
+			const prefLabelLg1 = params[1],
 				id = params[2],
-				validText = '',
 				href = params[0] + 'collection/' + id,
 				inseeText = ` (<a href=${href}>Collection link</a>)`;
 			if (params.includes('false'))

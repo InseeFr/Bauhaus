@@ -1,58 +1,56 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { ComponentsPanel } from './components-panel';
 import { getFormattedCodeList } from '../../apis';
 import { ConceptsApi } from '../../../sdk';
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
 import { StructureComponentsSelector } from '../../components/structure-component-selector';
+import { Mock, vi } from 'vitest';
 
-jest.mock('../../components/codes-list-panel/codes-list-panel', () => ({
-	CodesListPanel: jest.fn(() => (
+vi.mock('../../components/codes-list-panel/codes-list-panel', () => ({
+	CodesListPanel: vi.fn(() => (
 		<div data-testid="codes-list-panel">CodesListPanel Mock</div>
 	)),
 }));
 
-jest.mock('../../components/structure-component-selector', () => ({
-	StructureComponentsSelector: jest.fn(() => (
+vi.mock('../../components/structure-component-selector', () => ({
+	StructureComponentsSelector: vi.fn(() => (
 		<div data-testid="codes-list-panel">Structure Component Selector Mock</div>
 	)),
 }));
 
-jest.mock('../../components/component-specification-modal/index', () => ({
-	ComponentSpecificationModal: jest.fn(() => (
+vi.mock('../../components/component-specification-modal/index', () => ({
+	ComponentSpecificationModal: vi.fn(() => (
 		<div data-testid="component-specification-modal">
 			ComponentSpecificationModal Mock
 		</div>
 	)),
 }));
 
-jest.mock('../../apis', () => ({
-	getFormattedCodeList: jest.fn(),
+vi.mock('../../apis', () => ({
+	getFormattedCodeList: vi.fn(),
 }));
 
-jest.mock('../../../sdk', () => ({
+vi.mock('../../../sdk', () => ({
 	ConceptsApi: {
-		getConceptList: jest.fn(),
+		getConceptList: vi.fn(),
 	},
 }));
 
 describe('ComponentsPanel', () => {
 	beforeEach(() => {
 		// Mock des données
-		(ConceptsApi.getConceptList as jest.Mock).mockResolvedValue([]);
-		(getFormattedCodeList as jest.Mock).mockResolvedValue([]);
+		(ConceptsApi.getConceptList as Mock).mockResolvedValue([]);
+		(getFormattedCodeList as Mock).mockResolvedValue([]);
 	});
 
 	afterEach(() => {
-		jest.clearAllMocks();
+		vi.clearAllMocks();
 	});
 
-	fit('should render StructureComponentsSelector and CodesListPanel', async () => {
+	it('should render StructureComponentsSelector and CodesListPanel', async () => {
 		render(<ComponentsPanel componentDefinitions={[]} />);
 
-		expect((StructureComponentsSelector as jest.Mock).mock.calls).toHaveLength(
-			1
-		);
+		expect((StructureComponentsSelector as Mock).mock.calls).toHaveLength(1);
 		expect((CodesListPanel as jest.Mock).mock.calls).toHaveLength(1);
 	});
 });

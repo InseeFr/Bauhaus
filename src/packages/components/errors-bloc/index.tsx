@@ -55,7 +55,7 @@ export const ErrorBloc = ({
 			} else {
 				errorMsg = parsedError.message;
 			}
-		} catch (error) {
+		} catch {
 			errorMsg = e;
 		}
 		return errorMsg;

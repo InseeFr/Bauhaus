@@ -1,17 +1,20 @@
 import { render, screen } from '@testing-library/react';
 import { Loading, Deleting, Publishing } from './loading';
 import D from '../i18n';
+import { vi } from 'vitest';
 
-jest.mock('../i18n', () => ({
-	loading: {
-		auth: 'Authenticating...',
-		saving: 'Saving...',
-		deleting: 'Deleting...',
-		sending: 'Sending...',
-		exporting: 'Exporting...',
-		validating: 'Validating...',
-		loading: 'Loading...',
-	},
+vi.mock('../i18n', () => ({
+	default: {
+		loading: {
+			auth: 'Authenticating...',
+			saving: 'Saving...',
+			deleting: 'Deleting...',
+			sending: 'Sending...',
+			exporting: 'Exporting...',
+			validating: 'Validating...',
+			loading: 'Loading...',
+		},
+	}
 }));
 
 describe('Loading Component', () => {

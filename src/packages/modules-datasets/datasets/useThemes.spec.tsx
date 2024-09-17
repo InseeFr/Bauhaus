@@ -3,21 +3,22 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useThemes } from './useThemes';
 import { ThemesApi } from '../../sdk';
 import { Theme } from '../../model/theme';
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
+import { vi } from 'vitest';
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }: PropsWithChildren<{}>) => (
 	<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
-jest.mock('../../sdk', () => ({
+vi.mock('../../sdk', () => ({
 	ThemesApi: {
-		getThemes: jest.fn(),
+		getThemes: vi.fn(),
 	},
 }));
 
 describe('useThemes Hook', () => {
 	afterEach(() => {
-		jest.clearAllMocks();
+		vi.clearAllMocks();
 	});
 
 	it('should return formatted themes when the API call is successful', async () => {

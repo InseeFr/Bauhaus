@@ -1,5 +1,5 @@
 // @ts-ignore
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { PageTitle } from '@inseefr/wilco';
 import { Loading, Row, SearchableList } from '../../../components/';
 

@@ -1,26 +1,23 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { DescriptionsPanel } from './descriptions-panel';
 import { D1 } from '../../../deprecated-locales';
+import { vi } from 'vitest';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-// Mock de useSecondLang
-jest.mock('../../../utils/hooks/second-lang', () => ({
-	useSecondLang: jest.fn(),
+vi.mock('../../../utils/hooks/second-lang', () => ({
+	useSecondLang: vi.fn(),
 }));
 
-describe('DescriptionsPanel', () => {
+describe('DescriptionsPanel', async () => {
 	const mockDescriptionLg1 = 'Description in first language';
 	const mockDescriptionLg2 = 'Description in second language';
-	const mockUseSecondLang = jest.requireMock(
-		'../../../utils/hooks/second-lang'
-	).useSecondLang;
 
 	beforeEach(() => {
-		jest.clearAllMocks();
+		vi.clearAllMocks();
 	});
 
 	it('should display the first language description when secondLang is false', () => {
-		mockUseSecondLang.mockReturnValue([false]);
+		useSecondLang.mockReturnValue([false]);
 
 		render(
 			<DescriptionsPanel
@@ -38,8 +35,8 @@ describe('DescriptionsPanel', () => {
 		expect(screen.queryByText(mockDescriptionLg2)).toBeNull();
 	});
 
-	fit('should display both descriptions when secondLang is true', () => {
-		mockUseSecondLang.mockReturnValue([true]);
+	it('should display both descriptions when secondLang is true', () => {
+		useSecondLang.mockReturnValue([true]);
 
 		render(
 			<DescriptionsPanel

@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { InputRmes } from './';
 
 describe('inputMulti', () => {
-	const handleChange = jest.fn();
+	const handleChange = vi.fn();
 
 	it('renders without crashing', () => {
 		render(

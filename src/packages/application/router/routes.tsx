@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useMemo, memo } from 'react';
+import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 import auth from '../../auth/hoc';
@@ -7,11 +7,16 @@ import App from '../app';
 import { Loading, NotFound, UnderMaintenance } from '../../components';
 import { useAppContext } from '../app-context';
 
-const getComponent = (
-	pageName: string,
-	pages: Record<string, any>,
-	activeModules: string[]
-) => {
+type ModuleHomePage = {
+	pageName: string;
+	pages: Record<string, any>;
+	activeModules: string[];
+};
+const ModuleHomePage = ({
+	pageName,
+	pages,
+	activeModules,
+}: Readonly<ModuleHomePage>) => {
 	if (!activeModules.includes(pageName)) {
 		return UnderMaintenance;
 	}
@@ -19,15 +24,14 @@ const getComponent = (
 		return NotFound;
 	}
 	const Component = pages[pageName];
-	return memo(() => {
-		useEffect(() => {
-			// @ts-ignore
-			document.getElementById('root-app').removeAttribute('class');
-			// @ts-ignore
-			document.getElementById('root-app').classList.add(pageName);
-		}, []);
-		return <Component />;
-	});
+
+	useEffect(() => {
+		// @ts-ignore
+		document.getElementById('root-app').removeAttribute('class');
+		// @ts-ignore
+		document.getElementById('root-app').classList.add(pageName);
+	}, []);
+	return <Component />;
 };
 
 const getHomePage = (pages: Record<string, string>) => {
@@ -54,7 +58,7 @@ export default auth(() => {
 			const app = appName.trim();
 			return {
 				...acc,
-				[app]: lazy(() => import('../../modules-' + app + '/routes')),
+				[app]: lazy(() => import(`../../modules-${app}/routes/index.tsx`)),
 			};
 		}, []);
 	}, [modules]);
@@ -68,32 +72,57 @@ export default auth(() => {
 	return (
 		<Suspense fallback={<Loading />}>
 			<Switch>
-				<Route exact path="/" render={() => homePage} />
-				<Route
-					path="/(concept|concepts|collections|collection)"
-					component={getComponent('concepts', pages, activeModules)}
-				/>
-				<Route
-					path="/classifications"
-					component={getComponent('classifications', pages, activeModules)}
-				/>
-				<Route
-					path="/operations"
-					component={getComponent('operations', pages, activeModules)}
-				/>
-				<Route
-					path="/structures"
-					component={getComponent('structures', pages, activeModules)}
-				/>
-				<Route
-					path="/datasets"
-					component={getComponent('datasets', pages, activeModules)}
-				/>
-				<Route
-					path="/(codelists|codelists-partial)"
-					component={getComponent('codelists', pages, activeModules)}
-				/>
-				<Route path="*" component={NotFound} />
+				<Route exact path="/">
+					{homePage}
+				</Route>
+
+				<Route path="/(concept|concepts|collections|collection)">
+					<ModuleHomePage
+						pageName="concepts"
+						pages={pages}
+						activeModules={activeModules}
+					/>
+				</Route>
+				<Route path="/classifications">
+					<ModuleHomePage
+						pageName="classifications"
+						pages={pages}
+						activeModules={activeModules}
+					/>
+				</Route>
+				<Route path="/operations">
+					<ModuleHomePage
+						pageName="operations"
+						pages={pages}
+						activeModules={activeModules}
+					/>
+				</Route>
+				<Route path="/structures">
+					<ModuleHomePage
+						pageName="structures"
+						pages={pages}
+						activeModules={activeModules}
+					/>
+				</Route>
+
+				<Route path="/datasets">
+					<ModuleHomePage
+						pageName="datasets"
+						pages={pages}
+						activeModules={activeModules}
+					/>
+				</Route>
+				<Route path="/(codelists|codelists-partial)">
+					<ModuleHomePage
+						pageName="codelists"
+						pages={pages}
+						activeModules={activeModules}
+					/>
+				</Route>
+
+				<Route path="*">
+					<NotFound />
+				</Route>
 			</Switch>
 		</Suspense>
 	);

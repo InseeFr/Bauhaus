@@ -1,11 +1,12 @@
 import { saveComponent } from './saveComponent'; // Remplacez par le chemin correct
 import { Component } from '../../model/structures/Component';
 import { StructureApi } from '../structure-api';
+import { vi } from 'vitest';
 
-jest.mock('../structure-api', () => ({
+vi.mock('../structure-api', () => ({
 	StructureApi: {
-		putMutualizedComponent: jest.fn(),
-		postMutualizedComponent: jest.fn(),
+		putMutualizedComponent: vi.fn(),
+		postMutualizedComponent: vi.fn(),
 	},
 }));
 
@@ -16,7 +17,7 @@ describe('saveComponent', () => {
 		StructureApi.postMutualizedComponent as jest.Mock;
 
 	beforeEach(() => {
-		jest.clearAllMocks();
+		vi.clearAllMocks();
 	});
 
 	it('should call putMutualizedComponent if component has an id', async () => {

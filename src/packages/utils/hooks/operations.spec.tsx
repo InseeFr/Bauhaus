@@ -3,8 +3,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useOperations } from './operations';
 import { Operation } from '../../model/Operation';
 import { OperationsApi } from '../../sdk/operations-api';
+import { vi } from 'vitest';
 
-jest.mock('../../sdk/operations-api');
+vi.mock('../../sdk/operations-api');
 
 const queryClient = new QueryClient();
 

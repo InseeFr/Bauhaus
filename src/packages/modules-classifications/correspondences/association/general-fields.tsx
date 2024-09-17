@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import D from '../../../deprecated-locales';
 
 export const generalFields = (association: any, secondLang: boolean) => {
-	let mapping = {
+	const mapping = {
 		sourceItemLabelLg1: D.sourceItemTitle,
 		targetItemLabelLg1: D.targetItemTitle,
 	};

@@ -1,4 +1,5 @@
-import React from 'react';
+import { vi } from 'vitest';
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AppContextProvider, useAppContext } from './app-context';
 
@@ -35,7 +36,7 @@ describe('AppContext', () => {
 
 	it('throws an error if context is used outside provider', () => {
 		const originalError = console.error;
-		console.error = jest.fn();
+		console.error = vi.fn();
 
 		expect(() => render(<TestComponent />)).toThrow(
 			'The context AppContextTypes is not available.'

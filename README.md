@@ -19,11 +19,11 @@ The application is tested on Node.js 20.
 git clone git@github.com:InseeFr/Bauhaus.git
 cd Bauhaus
 npm install
-npm run build-insee
+npm run build
 npm run start
 ```
 
-You can run all tests suites with this command. You need to run at least once `npm run build-insee`.
+You can run all tests suites with this command. You need to run at least once `npm run build`.
 
 ```shell
 npm run test:coverage

@@ -5,17 +5,18 @@ import { RBACMock } from '../../../tests-utils/rbac';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { Structure } from '../../../model/structures/Structure';
 import { StructureApi } from '../../../sdk';
+import { vi } from 'vitest';
 
-jest.mock('../../../sdk', () => ({
+vi.mock('../../../sdk', () => ({
 	StructureApi: {
-		deleteStructure: jest.fn()
+		deleteStructure: vi.fn()
 	},
 }));
 
 
 
 describe('Structure View Menu', () => {
-	fit('should call handleDelete when DeleteButton is clicked', () => {
+	it('should call handleDelete when DeleteButton is clicked', () => {
 		const structure = {
 			id: '1',
 			contributor: 'someStamp',
@@ -29,7 +30,7 @@ describe('Structure View Menu', () => {
 
 		render(
 			<RBACMock roles={[ADMIN]}>
-				<Controls structure={structure} publish={jest.fn()}></Controls>
+				<Controls structure={structure} publish={vi.fn()}></Controls>
 			</RBACMock>
 		);
 
@@ -43,7 +44,7 @@ describe('Structure View Menu', () => {
 		const structure = { id: '1' } as Structure;
 		render(
 			<RBACMock roles={[]}>
-				<Controls structure={structure} publish={jest.fn()}></Controls>
+				<Controls structure={structure} publish={vi.fn()}></Controls>
 			</RBACMock>
 		);
 
@@ -59,7 +60,7 @@ describe('Structure View Menu', () => {
 
 		render(
 			<RBACMock roles={[ADMIN]}>
-				<Controls structure={structure} publish={jest.fn()}></Controls>
+				<Controls structure={structure} publish={vi.fn()}></Controls>
 			</RBACMock>
 		);
 
@@ -79,7 +80,7 @@ describe('Structure View Menu', () => {
 
 		render(
 			<RBACMock roles={[STRUCTURE_CONTRIBUTOR]} stamp="INSEE">
-				<Controls structure={structure} publish={jest.fn()}></Controls>
+				<Controls structure={structure} publish={vi.fn()}></Controls>
 			</RBACMock>
 		);
 
@@ -99,7 +100,7 @@ describe('Structure View Menu', () => {
 
 		render(
 			<RBACMock roles={[STRUCTURE_CONTRIBUTOR]} stamp="INSEE">
-				<Controls structure={structure} publish={jest.fn()}></Controls>
+				<Controls structure={structure} publish={vi.fn()}></Controls>
 			</RBACMock>
 		);
 
@@ -115,7 +116,7 @@ describe('Structure View Menu', () => {
 
 		render(
 			<RBACMock roles={[STRUCTURE_CONTRIBUTOR]} stamp="XXXXXX">
-				<Controls structure={structure} publish={jest.fn()}></Controls>
+				<Controls structure={structure} publish={vi.fn()}></Controls>
 			</RBACMock>
 		);
 

@@ -1,20 +1,19 @@
 import { PageTitleBlock } from './';
 import { renderWithAppContext } from '../../tests-utils/render';
+import { vi } from 'vitest';
+import { useSecondLang } from '../../utils/hooks/second-lang';
 
-jest.mock('../../utils/hooks/second-lang', () => ({
-	useSecondLang: jest.fn(),
+vi.mock('../../utils/hooks/second-lang', () => ({
+	useSecondLang: vi.fn(),
 }));
-describe('page-title-bloc', () => {
-	const mockUseSecondLang = jest.requireMock(
-		'../../utils/hooks/second-lang'
-	).useSecondLang;
 
+describe('page-title-bloc', () => {
 	beforeEach(() => {
-		jest.clearAllMocks();
+		vi.clearAllMocks();
 	});
 
 	it('renders one PageTitle only is secondLang is false', () => {
-		mockUseSecondLang.mockReturnValue([false]);
+		useSecondLang.mockReturnValue([false]);
 
 		const { container } = renderWithAppContext(
 			<PageTitleBlock titleLg1="titleLg1" />
@@ -24,7 +23,7 @@ describe('page-title-bloc', () => {
 	});
 
 	it('renders one PageTitle only if titleLg2 is undefined', () => {
-		mockUseSecondLang.mockReturnValue([true]);
+		useSecondLang.mockReturnValue([true]);
 		const { container } = renderWithAppContext(
 			<PageTitleBlock titleLg1="titleLg1" />
 		);
@@ -33,7 +32,7 @@ describe('page-title-bloc', () => {
 	});
 
 	it('renders one PageTitle and one PageSubstitle', () => {
-		mockUseSecondLang.mockReturnValue([true]);
+		useSecondLang.mockReturnValue([true]);
 		const { container } = renderWithAppContext(
 			<PageTitleBlock titleLg1="titleLg1" titleLg2="titleLg2" />
 		);

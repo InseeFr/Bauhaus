@@ -10,7 +10,7 @@ describe('picker-page', () => {
 				title="title"
 				panelTitle="panelTitle"
 				labelWarning="labelWarning"
-				handleAction={jest.fn()}
+				handleAction={vi.fn()}
 				context="concepts"
 			/>
 		);

@@ -7,7 +7,7 @@ const computeFromUrl = (defaultValue: any) => {
 
 	const values = { ...defaultValue };
 	//@ts-ignore
-	for (let [key, value] of searchQuery.entries()) {
+	for (const [key, value] of searchQuery.entries()) {
 		values[key] = value;
 	}
 	return values;

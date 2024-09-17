@@ -36,7 +36,7 @@ export const getPublishFactory = (
 	SUCCESS: any,
 	FAILURE: any
 ) => {
-	return (object: any, callback = (p?: any, p2?: any) => {}) =>
+	return (object: any, callback = () => {}) =>
 		(dispatch: any) => {
 			dispatch({
 				type: LOADING,

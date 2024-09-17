@@ -3,7 +3,7 @@ import { SeeButton } from './see'; // Chemin d'accès au fichier du composant
 
 describe('SeeButton', () => {
 	it('renders the button with the correct attributes and icon', () => {
-		render(<SeeButton onClick={jest.fn()} />);
+		render(<SeeButton onClick={vi.fn()} />);
 
 		const button = screen.getByRole('button');
 
@@ -21,7 +21,7 @@ describe('SeeButton', () => {
 	});
 
 	it('calls the onClick handler when clicked', () => {
-		const handleClick = jest.fn();
+		const handleClick = vi.fn();
 		render(<SeeButton onClick={handleClick} />);
 
 		const button = screen.getByRole('button');
@@ -31,7 +31,7 @@ describe('SeeButton', () => {
 	});
 
 	it('passes additional props to the button element', () => {
-		render(<SeeButton onClick={jest.fn()} data-test="see-button" />);
+		render(<SeeButton onClick={vi.fn()} data-test="see-button" />);
 
 		const button = screen.getByRole('button');
 

@@ -68,7 +68,7 @@ export function htmlFromEditorState(editorState: EditorState) {
 			},
 		};
 	}
-	let options = {
+	const options = {
 		inlineStyleFn: (styles: string[]) => {
 			let key = 'color-';
 			let color = styles.find((value: string) => value.startsWith(key));

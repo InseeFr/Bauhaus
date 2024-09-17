@@ -5,8 +5,7 @@ import get, {
 } from './list';
 import { OperationsApi } from '../../../sdk/operations-api';
 
-const dispatch = jest.fn();
-jest.mock('../../../sdk/operations-api');
+const dispatch = vi.fn();
 
 describe('MSD actions', () => {
 	it('should call dispatch LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS action with the sorted array', async () => {

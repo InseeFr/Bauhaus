@@ -5,8 +5,8 @@ describe('concepts-advanced-search-controls', () => {
 	it('renders without crashing', () => {
 		render(
 			<AdvancedSearchControls
-				onClickReturn={jest.fn()}
-				initializeState={jest.fn()}
+				onClickReturn={vi.fn()}
+				initializeState={vi.fn()}
 			/>
 		);
 	});

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 type ConditionalDisplayTypes = PropsWithChildren<{
 	data?: Array<unknown> | string;

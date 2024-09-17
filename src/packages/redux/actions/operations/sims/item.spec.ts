@@ -3,8 +3,7 @@ import * as A from '../../../actions/constants';
 import { LOADING, NOT_LOADED } from '../../../../sdk/constants';
 import { OperationsApi } from '../../../../sdk/operations-api';
 
-const dispatch = jest.fn();
-jest.mock('../../../../sdk/operations-api');
+const dispatch = vi.fn();
 
 describe('SIMS actions', () => {
 	beforeEach(() => dispatch.mockClear());
@@ -18,14 +17,14 @@ describe('SIMS actions', () => {
 	});
 	describe('get a sims', () => {
 		beforeEach(() => {
-			OperationsApi.getOperation = jest.fn(() =>
+			OperationsApi.getOperation = vi.fn(() =>
 				Promise.resolve({ series: { id: 2 } })
 			);
-			OperationsApi.getOperationsWithoutReport = jest.fn(() => ['value1']);
+			OperationsApi.getOperationsWithoutReport = vi.fn(() => ['value1']);
 		});
 
 		it('should call getOperation/getOperationsWithoutReport method and dispatch LOAD_OPERATIONS_SIMS_SUCCESS action with the right sims if the status is not LOADING', async () => {
-			OperationsApi.getSims = jest.fn((id) => {
+			OperationsApi.getSims = vi.fn((id) => {
 				return Promise.resolve({
 					label: 'bbb',
 					idOperation: 3,
@@ -59,7 +58,7 @@ describe('SIMS actions', () => {
 			});
 		});
 		it('should return an empty array for rubrics if the SIMS is empty', async () => {
-			OperationsApi.getSims = jest.fn((id) => {
+			OperationsApi.getSims = vi.fn((id) => {
 				return Promise.resolve({
 					label: 'bbb',
 					idSims: 3,
@@ -85,7 +84,7 @@ describe('SIMS actions', () => {
 		});
 
 		it('should not call getOperation/getOperationsWithoutReport method and dispatch LOAD_OPERATIONS_SIMS_SUCCESS action with the right sims if the status is not LOADING', async () => {
-			OperationsApi.getSims = jest.fn((id) => {
+			OperationsApi.getSims = vi.fn((id) => {
 				return Promise.resolve({
 					label: 'bbb',
 					idSims: 3,
@@ -142,19 +141,19 @@ describe('SIMS actions', () => {
 		const sims = { id: 1, label: 'aaa' };
 
 		beforeEach(() => {
-			OperationsApi.putSims = jest.fn(() => {
+			OperationsApi.putSims = vi.fn(() => {
 				return Promise.resolve('');
 			});
-			OperationsApi.postSims = jest.fn(() => {
+			OperationsApi.postSims = vi.fn(() => {
 				return Promise.resolve('');
 			});
-			OperationsApi.getOperation = jest.fn(() =>
+			OperationsApi.getOperation = vi.fn(() =>
 				Promise.resolve('result get operation')
 			);
-			OperationsApi.getSerie = jest.fn(() =>
+			OperationsApi.getSerie = vi.fn(() =>
 				Promise.resolve('result get serie')
 			);
-			OperationsApi.getIndicatorById = jest.fn(() =>
+			OperationsApi.getIndicatorById = vi.fn(() =>
 				Promise.resolve('result get indicator')
 			);
 		});
@@ -173,7 +172,7 @@ describe('SIMS actions', () => {
 						...sims,
 						[id]: 1,
 					},
-					jest.fn()
+					vi.fn()
 				)(dispatch);
 
 				apis
@@ -190,7 +189,7 @@ describe('SIMS actions', () => {
 						...sims,
 						labelLg1: 'labelLg1',
 					},
-					jest.fn()
+					vi.fn()
 				)(dispatch);
 				apis.forEach((method) => {
 					expect(OperationsApi[method]).not.toHaveBeenCalled();
@@ -202,7 +201,7 @@ describe('SIMS actions', () => {
 					{
 						...sims,
 					},
-					jest.fn()
+					vi.fn()
 				)(dispatch);
 				expect(OperationsApi.getOperation).not.toHaveBeenCalled();
 				expect(OperationsApi.getSerie).not.toHaveBeenCalled();
@@ -211,7 +210,7 @@ describe('SIMS actions', () => {
 		});
 
 		it('should call putSims method and dispatch SAVE_OPERATIONS_SIMS_SUCCESS action with the udpated sims', async () => {
-			await saveSims(sims, jest.fn())(dispatch);
+			await saveSims(sims, vi.fn())(dispatch);
 
 			expect(OperationsApi.putSims).toHaveBeenCalled();
 			expect(OperationsApi.postSims).not.toHaveBeenCalled();
@@ -227,7 +226,7 @@ describe('SIMS actions', () => {
 
 		it('should call postSims method and dispatch SAVE_OPERATIONS_SIMS_SUCCESS action with the udpated sims', async () => {
 			const creationSims = { label: 'label' };
-			await saveSims(creationSims, jest.fn())(dispatch);
+			await saveSims(creationSims, vi.fn())(dispatch);
 
 			expect(OperationsApi.postSims).toHaveBeenCalled();
 			expect(OperationsApi.putSims).not.toHaveBeenCalled();

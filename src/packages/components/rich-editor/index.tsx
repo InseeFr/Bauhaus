@@ -1,6 +1,8 @@
 import { Component } from 'react';
 //@ts-ignore
 import { Editor } from 'react-draft-wysiwyg';
+
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './editor-html.scss';
 import {
 	editorStateFromHtml,

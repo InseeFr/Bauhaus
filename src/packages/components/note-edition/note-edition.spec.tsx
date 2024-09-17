@@ -12,8 +12,8 @@ describe('note-edition', () => {
 				}}
 				noteLg1Name="noteLg1Name"
 				noteLg2Name="noteLg2Name"
-				handleChangeLg1={jest.fn()}
-				handleChangeLg2={jest.fn()}
+				handleChangeLg1={vi.fn()}
+				handleChangeLg2={vi.fn()}
 				maxLength={0}
 				errorMessage={{
 					errorMessage: ['error'],

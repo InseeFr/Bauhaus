@@ -85,7 +85,9 @@ export const computeDscr = (fn: any, [...args]) => {
 				`\`${dscr}\`.`
 		);
 	}
-	let [url, options, thenHandler] = dscr;
+	const [url] = dscr as any;
+	let options = dscr[1];
+	let thenHandler = dscr[2];
 	//We don't deep merge: all nested properties in default options (ie.
 	//headers.Accept) are lost. Hence, if a prop option is overriden (ie.
 	//headers), all relevant options should be present.
@@ -119,7 +121,7 @@ export const getBaseURI = () => {
 
 export const buildCall = (context: string, resource: string, fn: any) => {
 	return async (...args: any[]) => {
-		let [path, options, thenHandler] = computeDscr(fn, args);
+		const [path, options, thenHandler] = computeDscr(fn, args);
 		if (!options.method) {
 			options.method = guessMethod(resource);
 		}
@@ -154,9 +156,10 @@ const patterns = {
  * Takes a string and returns an HTTP verb
  */
 export const guessMethod = (name: string) => {
-	const matchPattern = Object.entries(patterns).find(([_method, pattern]) =>
-		pattern.test(name)
-	);
+	const matchPattern = Object.entries(patterns).find((config) => {
+		const pattern = config[1];
+		return pattern.test(name);
+	});
 	if (!matchPattern)
 		throw new Error(`Could not guess http method from \`${name}\``);
 	const [method] = matchPattern;

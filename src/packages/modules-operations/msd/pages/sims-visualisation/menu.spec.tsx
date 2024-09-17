@@ -11,9 +11,9 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						sims={{ series: { creators: [] } } as unknown as Sims}
-						onPublish={jest.fn()}
-						onExport={jest.fn()}
-						onDelete={jest.fn()}
+						onPublish={vi.fn()}
+						onExport={vi.fn()}
+						onDelete={vi.fn()}
 						owners={[]}
 					/>
 				</RBACMock>
@@ -27,9 +27,9 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						sims={{ parentsWithoutSims: ['1'] } as unknown as Sims}
-						onPublish={jest.fn()}
-						onExport={jest.fn()}
-						onDelete={jest.fn()}
+						onPublish={vi.fn()}
+						onExport={vi.fn()}
+						onDelete={vi.fn()}
 						owners={['stamp']}
 					/>
 				</RBACMock>
@@ -43,9 +43,9 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						sims={{} as unknown as Sims}
-						onPublish={jest.fn()}
-						onExport={jest.fn()}
-						onDelete={jest.fn()}
+						onPublish={vi.fn()}
+						onExport={vi.fn()}
+						onDelete={vi.fn()}
 						owners={['stamp']}
 					/>
 				</RBACMock>
@@ -59,9 +59,9 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						sims={{} as unknown as Sims}
-						onPublish={jest.fn()}
-						onExport={jest.fn()}
-						onDelete={jest.fn()}
+						onPublish={vi.fn()}
+						onExport={vi.fn()}
+						onDelete={vi.fn()}
 						owners={[]}
 					/>
 				</RBACMock>
@@ -75,9 +75,9 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						sims={{ series: { creators: ['stamp'] } } as unknown as Sims}
-						onPublish={jest.fn()}
-						onExport={jest.fn()}
-						onDelete={jest.fn()}
+						onPublish={vi.fn()}
+						onExport={vi.fn()}
+						onDelete={vi.fn()}
 						owners={['stamp']}
 					/>
 				</RBACMock>
@@ -91,9 +91,9 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						sims={{ series: { creators: ['fake'] } } as unknown as Sims}
-						onPublish={jest.fn()}
-						onExport={jest.fn()}
-						onDelete={jest.fn()}
+						onPublish={vi.fn()}
+						onExport={vi.fn()}
+						onDelete={vi.fn()}
 						owners={[]}
 					/>
 				</RBACMock>
@@ -107,9 +107,9 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						sims={{ series: { creators: ['stamp'] } } as unknown as Sims}
-						onPublish={jest.fn()}
-						onExport={jest.fn()}
-						onDelete={jest.fn()}
+						onPublish={vi.fn()}
+						onExport={vi.fn()}
+						onDelete={vi.fn()}
 						owners={['stamp']}
 					/>
 				</RBACMock>
@@ -123,9 +123,9 @@ describe('Family Home Page Menu', () => {
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 					<Menu
 						sims={{ series: { creators: ['fake'] } } as unknown as Sims}
-						onPublish={jest.fn()}
-						onExport={jest.fn()}
-						onDelete={jest.fn()}
+						onPublish={vi.fn()}
+						onExport={vi.fn()}
+						onDelete={vi.fn()}
 						owners={[]}
 					/>
 				</RBACMock>
@@ -139,9 +139,9 @@ describe('Family Home Page Menu', () => {
 			<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 				<Menu
 					sims={{ series: { creators: ['stamp'] } } as unknown as Sims}
-					onPublish={jest.fn()}
-					onExport={jest.fn()}
-					onDelete={jest.fn()}
+					onPublish={vi.fn()}
+					onExport={vi.fn()}
+					onDelete={vi.fn()}
 					owners={['stamp']}
 				/>
 			</RBACMock>

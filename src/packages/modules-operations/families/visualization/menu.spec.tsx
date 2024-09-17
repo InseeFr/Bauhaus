@@ -8,7 +8,7 @@ describe('Family Home Page Menu', () => {
 	it('an admin can update and publish a family', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
-				<Menu family={{} as Family} publish={jest.fn()} />
+				<Menu family={{} as Family} publish={vi.fn()} />
 			</RBACMock>
 		);
 
@@ -20,7 +20,7 @@ describe('Family Home Page Menu', () => {
 	it('a user without Admin cannot create or publish a family', () => {
 		render(
 			<RBACMock roles={[]}>
-				<Menu family={{} as Family} publish={jest.fn()} />
+				<Menu family={{} as Family} publish={vi.fn()} />
 			</RBACMock>
 		);
 
