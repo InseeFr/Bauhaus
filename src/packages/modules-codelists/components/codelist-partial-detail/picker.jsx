@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import D from '../../i18n/build-dictionary';
-import {
-	Pagination,
-	AddLogo,
-	DelLogo,
-	filterDeburr,
-	PickerItem,
-} from '@inseefr/wilco';
 import '../codelist-detail/edit.scss';
-import { TextInput, Row } from '../../../components';
+import { TextInput, Row, Pagination } from '../../../components';
 import { Panel } from '../../../components/panel';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import { AddLogo } from '../../../components/logo/logo-add';
+import { DelLogo } from '../../../components/logo/logo-del';
+import { filterDeburr } from '../../../utils/array-utils';
+import { PickerItem } from '../../../components/picker-item';
 
 const Picker = ({
 	panelTitle,
@@ -84,7 +81,7 @@ const Picker = ({
 						onChange={(e) => setSearchLabel(e.target.value)}
 						placeholder={D.searchLabelPlaceholder}
 					/>
-					<Pagination itemEls={toAddElements} itemsPerPage="10" />
+					<Pagination itemEls={toAddElements} />
 				</div>
 			</Row>
 		</div>

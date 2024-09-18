@@ -1,4 +1,4 @@
-import { isLang2 } from '@inseefr/wilco';
+import { isLang2 } from '../../../i18n';
 
 /**
  *

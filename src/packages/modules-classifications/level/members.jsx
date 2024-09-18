@@ -21,16 +21,13 @@ const Members = ({ members, classificationId, secondLang }) => {
 					<SearchableList
 						items={membersLg1}
 						childPath={`classifications/classification/${classificationId}/item`}
-						col={secondLang ? 12 : 8}
-						colOff={secondLang ? 0 : 2}
 					/>
 				}
 				title={D1.childrenClassificationItems}
 				alone={!secondLang}
 				allowEmpty={true}
 			/>
-
-			{secondLang && membersLg2.length !== 0 && (
+			{secondLang && (
 				<Note
 					text={
 						<SearchableList

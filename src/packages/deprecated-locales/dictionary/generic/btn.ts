@@ -15,10 +15,6 @@ const messages = {
 		fr: 'Comparer',
 		en: 'Compare',
 	},
-	btnCancel: {
-		fr: 'Annuler',
-		en: 'Cancel',
-	},
 	btnClose: {
 		fr: 'Fermer',
 		en: 'Close',

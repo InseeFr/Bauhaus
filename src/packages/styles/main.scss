@@ -2,13 +2,12 @@
 * we tried to respect the ITCSS architecture for our stylessheets
 */
 
-@import 'src/packages/styles/settings.scss';
-@import 'src/packages/styles/tools.scss';
-@import 'src/packages/styles/generic.scss';
-@import 'src/packages/styles/elements.scss';
-@import 'src/packages/styles/objects.scss';
-@import 'src/packages/styles/components.scss';
-@import 'src/packages/styles/utilities.scss';
+@import './settings.scss';
+@import './tools.scss';
+@import './generic.scss';
+@import './elements.scss';
+@import './components.scss';
+@import './utilities.scss';
 
 .items {
 	display: inline-block;
@@ -114,6 +113,14 @@ footer {
 	position: sticky;
 	top: 0;
 	z-index: 10;
+	display: flex;
+	margin: 1em 0;
+	gap: 1em;
+	justify-content: space-between;
+
+	> * {
+		max-width: 250px;
+	}
 }
 .ReactModal__Overlay {
 	z-index: 20;
@@ -128,4 +135,7 @@ footer {
 	position: absolute;
 	top: 0;
 	left: -3000px;
+}
+.form-control {
+	font-size: inherit !important;
 }

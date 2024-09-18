@@ -8,7 +8,8 @@ function Controls() {
 	const nexLocation = location.pathname.replace('/compare', '');
 	return (
 		<ActionToolbar>
-			<Button label={D.btnReturnCurrent} action={nexLocation} col={3} />
+			<Button label={D.btnReturnCurrent} action={nexLocation} />
+			lol
 		</ActionToolbar>
 	);
 }

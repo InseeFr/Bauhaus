@@ -4,7 +4,6 @@ import configureStore from './packages/redux/configure-store';
 import D from './packages/deprecated-locales';
 import { ApplicationTitle } from './packages/components';
 import { AppContextProvider } from './packages/application/app-context';
-import '@inseefr/wilco/dist/index.css';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import loadDevTools from './dev-tools/load';

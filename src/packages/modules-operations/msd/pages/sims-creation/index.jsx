@@ -2,8 +2,7 @@ import { Component, Fragment, useEffect, useState } from 'react';
 import D from '../../../../deprecated-locales';
 import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-field';
 import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
-import { Loading, Select } from '../../../../components';
-import { CheckSecondLang } from '@inseefr/wilco';
+import { CheckSecondLang, Loading, Select } from '../../../../components';
 import { DUPLICATE } from '../../index';
 import {
 	getParentId,
@@ -287,14 +286,7 @@ class SimsCreation extends Component {
 						<div key={msd.idMas} className="bauhaus-sims-creation">
 							{index === 0 && (
 								<>
-									<CheckSecondLang
-										secondLang={secondLang}
-										onChange={() => {
-											this.setState({
-												secondLang: !this.state.secondLang,
-											});
-										}}
-									/>
+									<CheckSecondLang />
 									{mode === DUPLICATE && (
 										<Select
 											placeholder={D.operationsTitle}

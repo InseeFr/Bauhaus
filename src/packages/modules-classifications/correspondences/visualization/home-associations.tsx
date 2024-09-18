@@ -1,9 +1,10 @@
 import { useHistory } from 'react-router-dom';
-import { Table } from '@inseefr/wilco';
 import D, { D1 } from '../../../deprecated-locales';
 import { Row } from '../../../components';
 import { sortArray } from '../../../utils/array-utils';
 import { Note } from '../../../components/note';
+import { DataTable } from '../../../components/datatable';
+import { Column } from 'primereact/column';
 
 const sortById = sortArray('id');
 
@@ -62,18 +63,31 @@ const HomeAssociations = ({
 	];
 	return (
 		<Row>
+			{' '}
 			<Note
 				text={
-					<Table
-						rowParams={rowParams}
-						data={data}
-						search={true}
-						pagination={true}
-						onRowClick={(_: any, row: any) =>
-							history.push(`${id}/association/${row.id}`)
-						}
-						align="left"
-					/>
+					<>
+						<DataTable
+							globalFilterFields={['source', 'target']}
+							value={data}
+							onRowSelect={(e: any) => {
+								history.push(`${id}/association/${e.data.id}`);
+							}}
+						>
+							<Column
+								field="source"
+								header={`${D.sourceClassificationTitle}${
+									sourceLabel && ` : ${sourceLabel}`
+								}`}
+							></Column>
+							<Column
+								field="target"
+								header={`${D.targetClassificationTitle}${
+									sourceLabel && ` : ${targetLabel}`
+								}`}
+							></Column>
+						</DataTable>
+					</>
 				}
 				title={D1.associationsTitle}
 				alone={true}

@@ -1,14 +1,14 @@
 import { useCallback, useState } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
-import { typeUriToLabel, defaultComponentsTableParams } from '../../utils';
+import { typeUriToLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
-import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 
 import Representation from '../representation';
 import { UNPUBLISHED } from '../../../model/ValidationState';
-import { SeeButton } from '../../../components';
+import { Column, SeeButton } from '../../../components';
+import { DataTable } from '../../../components/datatable';
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -73,6 +73,7 @@ export const MutualizedComponentsSelector = ({
 					onClick={seeClickHandler}
 				></SeeButton>
 				<button
+					className="btn btn-default"
 					data-component-id={component.identifiant}
 					onClick={addClickHandler}
 					aria-label={D.add}
@@ -89,12 +90,29 @@ export const MutualizedComponentsSelector = ({
 			hidden={hidden}
 			title={D.mutualizedComponentTitle}
 		>
-			<Table
-				rowParams={defaultComponentsTableParams}
-				data={componentsWithActions}
-				search={true}
-				pagination={false}
-			/>
+			<DataTable
+				value={componentsWithActions}
+				withPagination={false}
+				globalFilterFields={[
+					'labelLg1',
+					'type',
+					'mutualized',
+					'concept',
+					'representation',
+				]}
+			>
+				<Column field="labelLg1" header={D.label}></Column>
+				<Column field="type" header={D.type}></Column>
+				<Column field="mutualized" header={D.mutualized}></Column>
+				<Column field="concept" header={D.conceptTitle}></Column>
+				<Column field="representation" header={D.representationTitle}></Column>
+				<Column
+					field="actions"
+					header={``}
+					style={{ display: 'flex' }}
+				></Column>
+			</DataTable>
+
 			<SlidingPanel
 				type={'right'}
 				isOpen={openPanel}

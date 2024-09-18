@@ -7,7 +7,17 @@ import { ADMIN } from '../../auth/roles';
 import { ActionToolbar } from '../../components/action-toolbar';
 import { ReturnButton } from '../../components/buttons/buttons-with-icons';
 import { Button } from '../../components/buttons/button';
-const ClassificationControls = ({ classification, publish }) => {
+import { Classification } from '../../model/Classification';
+
+type ClassificationControlsTypes = {
+	classification: Classification;
+	publish: () => void;
+};
+
+const ClassificationControls = ({
+	classification,
+	publish,
+}: Readonly<ClassificationControlsTypes>) => {
 	const goBack = useGoBack();
 	const location = useLocation();
 	const treeLocation = `${location.pathname}/tree`;
@@ -24,7 +34,7 @@ const ClassificationControls = ({ classification, publish }) => {
 					label={D.btnUpdate}
 				/>
 			</Auth>
-			<Button key={D.btnTree} action={treeLocation} label={D.btnTree} col={3} />
+			<Button key={D.btnTree} action={treeLocation} label={D.btnTree} />
 		</ActionToolbar>
 	);
 };

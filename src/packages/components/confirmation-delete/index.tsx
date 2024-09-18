@@ -2,6 +2,7 @@
 import Modal from 'react-modal';
 import { createAllDictionary } from '../../utils/dictionnary';
 import { Button } from '../buttons/button';
+import { ActionToolbar } from '../action-toolbar';
 
 const { D } = createAllDictionary({
 	deleteTitle: {
@@ -49,10 +50,10 @@ export const ConfirmationDelete = ({
 
 				<div className="modal-body">{message}</div>
 				<div className="modal-footer text-right">
-					<Button offset={8} action={handleNo}>
-						{D.no}
-					</Button>
-					<Button action={handleYes}>{D.yes}</Button>
+					<ActionToolbar>
+						<Button action={handleNo}>{D.no}</Button>
+						<Button action={handleYes}>{D.yes}</Button>
+					</ActionToolbar>
 				</div>
 			</div>
 		</Modal>

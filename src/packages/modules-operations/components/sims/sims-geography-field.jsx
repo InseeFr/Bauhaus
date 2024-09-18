@@ -1,11 +1,10 @@
 import { useState, useCallback } from 'react';
 import ReactSelect from 'react-select';
-import { ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import SimsGeographySelector from './sims-geography-selector';
 import { useGeographies } from './hooks';
-import { Row } from '../../../components';
+import { ErrorBloc, Row } from '../../../components';
 import { GeographieApi } from '../../../sdk/geographie';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
@@ -68,7 +67,7 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 			.then((uri) => {
 				onSave(territory.uri ?? uri);
 			})
-			.catch((err) => setServerSideError(D.errors[JSON.parse(err).code]));
+			.catch((err) => setServerSideError(JSON.parse(err).message));
 	}, [territory, name, nameLg2, includes, excludes, onSave]);
 
 	return (
@@ -77,7 +76,7 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 				<CancelButton action={onCancel} col={3} />
 				<SaveButton action={save} col={3} />
 			</ActionToolbar>
-			<ErrorBloc error={serverSideError} />
+			{serverSideError && <ErrorBloc error={serverSideError} />}
 			<Row>
 				<div className="form-group col-md-6">
 					<LabelRequired className="form-label w-100">
@@ -136,7 +135,6 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 					</button>
 				</div>
 			</div>
-
 			<SimsGeographySelector
 				includes={includes}
 				excludes={excludes}

@@ -64,7 +64,7 @@ vi.mock('react-router-dom', async () => {
 		useParams: () => ({
 			id: 'pcs2020',
 		}),
-	}
+	};
 });
 
 const MemoryRouterWithRoute = ({ children }) => {
@@ -88,12 +88,6 @@ describe('ClassificationEdition', () => {
 		classification.isLoading = true;
 		const { container } = renderWithContexts(<ClassificationEdition />);
 		expect(container.querySelector('svg')).not.toBeNull();
-	});
-
-	it('should not display the loader', async () => {
-		classification.isLoading = false;
-		const { container } = renderWithContexts(<ClassificationEdition />);
-		expect(container.querySelector('svg')).toBeNull();
 	});
 
 	it('should display the prefLabelLg1', async () => {

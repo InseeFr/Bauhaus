@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from 'react';
-import { nbResults } from '@inseefr/wilco';
 import { PageTitle, TextInput, Pagination, Row } from '../../components';
 
 import D from '../../deprecated-locales';
@@ -9,6 +8,7 @@ import FilterToggleButtons from '../../components/filter-toggle-buttons';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { Menu } from './menu';
 import { filterKeyDeburr } from '../../utils/array-utils';
+import { NumberResults } from '../../components/number-results';
 
 const formatter = (content, label) => {
 	const extraInformations = [];
@@ -87,7 +87,7 @@ const SearchableList = ({
 			</div>
 
 			<p className="text-center" aria-live="assertive">
-				{nbResults(hits, D)}
+				<NumberResults results={hits} />
 			</p>
 			<Pagination itemEls={hitEls} />
 		</>

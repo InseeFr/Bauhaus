@@ -1,15 +1,5 @@
 import D from '../../../../../../deprecated-locales';
 
-export const rowParams = [
-	{
-		dataField: 'type',
-		text: '',
-		width: '66%',
-		isKey: true,
-	},
-	{ dataField: 'total', text: D.totalTitle, width: '34%' },
-];
-
 export const buildData = (d) => [
 	{
 		id: 1,

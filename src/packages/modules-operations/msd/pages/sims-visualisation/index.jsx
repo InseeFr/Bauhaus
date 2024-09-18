@@ -27,6 +27,7 @@ import { Panel } from '../../../../components/panel';
 import { Note } from '../../../../components/note';
 import { CancelButton } from '../../../../components/buttons/buttons-with-icons';
 import { Button } from '../../../../components/buttons/button';
+import { ActionToolbar } from '../../../../components/action-toolbar';
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -229,21 +230,18 @@ export default function SimsVisualisation({
 							</div>
 						</div>
 						<div className="modal-footer text-right">
-							<CancelButton
-								col={3}
-								offset={5}
-								action={() => setExportModalOpened(false)}
-							/>
-							<Button
-								disabled={!exportConfig.lg1 && !exportConfig.lg2}
-								col={4}
-								action={() => {
-									exportCallback(sims.id, exportConfig, sims);
-									setExportModalOpened(false);
-								}}
-							>
-								{D.btnExportValidate}
-							</Button>
+							<ActionToolbar>
+								<CancelButton action={() => setExportModalOpened(false)} />
+								<Button
+									disabled={!exportConfig.lg1 && !exportConfig.lg2}
+									action={() => {
+										exportCallback(sims.id, exportConfig, sims);
+										setExportModalOpened(false);
+									}}
+								>
+									{D.btnExportValidate}
+								</Button>
+							</ActionToolbar>
 						</div>
 					</div>
 				</Modal>

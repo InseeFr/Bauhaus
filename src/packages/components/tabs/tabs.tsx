@@ -1,32 +1,20 @@
-import { useId, useState } from 'react';
-import { Tabs as BootstrapTabs, Tab as BootstrapTab } from 'react-bootstrap';
+import { TabView, TabPanel } from 'primereact/tabview';
+import { Panel } from '../panel';
 
 export const Tabs = ({
 	tabs,
 }: {
 	tabs: { title: string; disabled: boolean; content: unknown }[];
 }) => {
-	const [activeTab, setActiveTab] = useState(0);
-	const id = useId();
 	return (
-		<ul className="nav nav-tabs nav-justified">
-			<BootstrapTabs
-				id={id}
-				defaultActiveKey={0}
-				onSelect={setActiveTab}
-				justified
-			>
-				{tabs.map((t, i) => (
-					<BootstrapTab
-						key={t.title}
-						eventKey={i}
-						title={t.title}
-						disabled={t.disabled}
-					>
-						{activeTab === i && t.content}
-					</BootstrapTab>
-				))}
-			</BootstrapTabs>
-		</ul>
+		<TabView>
+			{tabs.map((t) => (
+				<TabPanel key="title" header={t.title} disabled={t.disabled}>
+					<Panel>
+						<>{t.content}</>
+					</Panel>
+				</TabPanel>
+			))}
+		</TabView>
 	);
 };

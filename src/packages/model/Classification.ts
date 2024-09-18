@@ -1,4 +1,7 @@
+import { ValidationState } from '../components';
+
 export type Classification = {
+	id: string;
 	general: {
 		id: string;
 		prefLabelLg1: string;
@@ -11,4 +14,5 @@ export type Classification = {
 		descriptionLg2: string;
 	};
 	levels: unknown[];
+	validationState: ValidationState;
 };

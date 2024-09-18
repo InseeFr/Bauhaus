@@ -1,9 +1,7 @@
 import { Component } from 'react';
-import { Tab, Tabs } from 'react-bootstrap';
 import { D1 } from '../../../deprecated-locales';
 import ConceptToLink from './concept-to-link';
 import SearchConceptsByLabel from './search-concepts-by-label';
-import { AddLogo, DelLogo, filterDeburr, PickerItem } from '@inseefr/wilco';
 
 import {
 	BROADER,
@@ -15,6 +13,11 @@ import {
 	SUCCEED,
 } from '../../../sdk/constants';
 import { EquivalentLinks } from './equivalentLinks';
+import { AddLogo } from '../../../components/logo/logo-add';
+import { DelLogo } from '../../../components/logo/logo-del';
+import { filterDeburr } from '../../../utils/array-utils';
+import { PickerItem } from '../../../components/picker-item';
+import { TabPanel, TabView } from 'primereact/tabview';
 
 const linkTypes = [
 	{
@@ -156,7 +159,7 @@ class LinksEdition extends Component {
 		);
 
 		const tabs = linkTypes.map(({ title }, i) => (
-			<Tab key={title} eventKey={i} title={title} style={{ marginTop: '20px' }}>
+			<TabPanel key={title} header={title}>
 				{title !== D1.equivalentTitle ? (
 					<ConceptToLink
 						title={title}
@@ -169,20 +172,16 @@ class LinksEdition extends Component {
 						updateEquivalentLinks={this.updateEquivalentLinks}
 					/>
 				)}
-			</Tab>
+			</TabPanel>
 		));
 
 		return (
-			<ul className="nav nav-tabs nav-justified">
-				<Tabs
-					id="kindOfLink"
-					activeKey={activeTab}
-					onSelect={this.handleSelectTab}
-					justified
-				>
-					{tabs}
-				</Tabs>
-			</ul>
+			<TabView
+				activeIndex={activeTab}
+				onTabChange={({ index }) => this.setState({ activeTab: index })}
+			>
+				{tabs}
+			</TabView>
 		);
 	}
 }

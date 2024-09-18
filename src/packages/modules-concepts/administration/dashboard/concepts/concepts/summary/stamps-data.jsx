@@ -1,39 +1,3 @@
-import D from '../../../../../../deprecated-locales';
-
-export const rowParamsStamps = [
-	{
-		dataField: 'stamp',
-		text: D.dashboardConceptsByCreatorTitle,
-		width: '32%',
-		isKey: true,
-		sort: true,
-	},
-	{
-		dataField: 'total',
-		text: D.totalTitle,
-		width: '17%',
-		sort: true,
-	},
-	{
-		dataField: 'generic',
-		text: D.DSPublicGeneriqueTitle,
-		width: '17%',
-		sort: true,
-	},
-	{
-		dataField: 'specific',
-		text: D.DSPublicSpecifiqueTitle,
-		width: '17%',
-		sort: true,
-	},
-	{
-		dataField: 'private',
-		text: D.DSPrivateTitle,
-		width: '17%',
-		sort: true,
-	},
-];
-
 export const buildDataStamps = (d) =>
 	d.reduce((_, c) => {
 		/*Init array element with stamp*/

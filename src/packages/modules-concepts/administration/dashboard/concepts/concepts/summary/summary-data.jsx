@@ -1,22 +1,5 @@
 import D from '../../../../../../deprecated-locales';
 
-export const rowParams = [
-	{
-		dataField: 'type',
-		text: '',
-		width: '32%',
-		isKey: true,
-	},
-	{ dataField: 'total', text: D.totalTitle, width: '17%' },
-	{ dataField: 'generic', text: D.DSPublicGeneriqueTitle, width: '17%' },
-	{
-		dataField: 'specific',
-		text: D.DSPublicSpecifiqueTitle,
-		width: '17%',
-	},
-	{ dataField: 'private', text: D.DSPrivateTitle, width: '17%' },
-];
-
 export const buildData = (d) => [
 	{
 		id: 1,

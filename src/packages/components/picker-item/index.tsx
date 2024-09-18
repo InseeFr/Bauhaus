@@ -1,0 +1,32 @@
+import { Link } from 'react-router-dom';
+
+type PickerItemTypes = {
+	id: string;
+	label: string;
+	logo: any;
+	to: string;
+	handleClick: (id: string) => void;
+};
+export const PickerItem = ({
+	id,
+	label,
+	logo,
+	to,
+	handleClick,
+}: Readonly<PickerItemTypes>) => {
+	if (handleClick) {
+		return (
+			<li className="list-group-item" onClick={() => handleClick(id)}>
+				{logo} {label}
+			</li>
+		);
+	}
+	if (to) {
+		return (
+			<li className="list-group-item">
+				<Link to={to}>{label}</Link>
+			</li>
+		);
+	}
+	return <li className="list-group-item">{label}</li>;
+};

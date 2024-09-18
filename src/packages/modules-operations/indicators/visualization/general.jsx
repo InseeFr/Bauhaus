@@ -51,7 +51,6 @@ function OperationsIndicatorVisualization({
 		(d) => organisations.find((orga) => orga.id === d.id) || {}
 	);
 
-	console.log(contributors, organisations);
 	return (
 		<>
 			<Row>
