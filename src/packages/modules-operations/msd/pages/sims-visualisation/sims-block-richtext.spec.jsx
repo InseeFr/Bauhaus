@@ -1,7 +1,6 @@
 import SimsBlockRichText from './sims-block-richtext';
 import { render } from '@testing-library/react';
 import { DocumentsStoreProvider } from '../sims-creation/documents-store-context';
-import React from 'react';
 
 export const renderWithStore = (component) => {
 	return render(
