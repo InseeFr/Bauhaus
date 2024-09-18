@@ -1,5 +1,14 @@
 import SimsBlockRichText from './sims-block-richtext';
 import { render } from '@testing-library/react';
+import { DocumentsStoreProvider } from '../sims-creation/documents-store-context';
+
+export const renderWithStore = (component) => {
+	return render(
+		<DocumentsStoreProvider value={{ lg1: [], lg2: [] }}>
+			{component}
+		</DocumentsStoreProvider>
+	);
+};
 
 const documents = {
 	labelLg1: 'sectionLg1',
@@ -31,19 +40,19 @@ const documents = {
 };
 describe('<SimsBlockRichText />', () => {
 	it('should display labelLg1', () => {
-		const { container } = render(
+		const { container } = renderWithStore(
 			<SimsBlockRichText currentSection={documents} isSecondLang={false} />
 		);
 		expect(container.querySelector('p').innerHTML).toBe('sectionLg1');
 	});
 	it('should display labelLg2', () => {
-		const { container } = render(
+		const { container } = renderWithStore(
 			<SimsBlockRichText currentSection={documents} isSecondLang={true} />
 		);
 		expect(container.querySelector('p').innerHTML).toBe('sectionLg2');
 	});
 	it('should display link/document Lg1', () => {
-		const { container } = render(
+		const { container } = renderWithStore(
 			<SimsBlockRichText currentSection={documents} isSecondLang={false} />
 		);
 		expect(
@@ -54,7 +63,7 @@ describe('<SimsBlockRichText />', () => {
 		).toBe('Page 1');
 	});
 	it('should display link/document Lg2', () => {
-		const { container } = render(
+		const { container } = renderWithStore(
 			<SimsBlockRichText currentSection={documents} isSecondLang={true} />
 		);
 		expect(

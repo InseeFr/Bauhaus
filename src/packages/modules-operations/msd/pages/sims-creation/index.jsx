@@ -163,7 +163,6 @@ class SimsCreation extends Component {
 			langs: { lg1, lg2 },
 			organisations = [],
 			geographiesOptions = [],
-			documentStores,
 		} = this.props;
 		const { secondLang, sims, idParent } = this.state;
 
@@ -250,7 +249,6 @@ class SimsCreation extends Component {
 										msd={msd}
 										currentSection={sims[msd.idMas]}
 										handleChange={handleChange}
-										documentStores={documentStores}
 									/>
 								</div>
 								{secondLang && (
@@ -259,7 +257,6 @@ class SimsCreation extends Component {
 											msd={msd}
 											currentSection={sims[msd.idMas]}
 											handleChange={handleChange}
-											documentStores={documentStores}
 											lang="Lg2"
 										/>
 									</div>

@@ -1,21 +1,26 @@
 import { memo, useCallback } from 'react';
-import { isLink, isDocument } from '../../../document/utils';
+import { isDocument, isLink } from '../../../document/utils';
 import DocumentsBloc from '../../documents/documents-bloc';
 
+type SimsDocumentFieldTypes = {
+	handleChange: any;
+	msd: any;
+	currentSection: any;
+	lang?: string;
+};
 export const SimsDocumentField = ({
-	documentStores,
 	handleChange,
 	msd,
 	currentSection,
 	lang = 'Lg1',
-}) => {
+}: Readonly<SimsDocumentFieldTypes>) => {
 	const handleDeleteDocument = useCallback(
-		(uri) => {
+		(uri: string) => {
 			const objects = currentSection['documents' + lang] || [];
 			handleChange({
 				id: msd.idMas,
 				override: {
-					['documents' + lang]: objects.filter((doc) => doc.uri !== uri),
+					['documents' + lang]: objects.filter((doc: any) => doc.uri !== uri),
 				},
 			});
 		},
@@ -23,7 +28,7 @@ export const SimsDocumentField = ({
 	);
 
 	const handleAddDocument = useCallback(
-		(newObject) => {
+		(newObject: unknown) => {
 			const objects = currentSection['documents' + lang] || [];
 
 			handleChange({
@@ -35,6 +40,7 @@ export const SimsDocumentField = ({
 		},
 		[handleChange, msd.idMas, currentSection, lang]
 	);
+
 	return (
 		<>
 			{' '}
@@ -48,7 +54,6 @@ export const SimsDocumentField = ({
 					deleteHandler={handleDeleteDocument}
 					addHandler={handleAddDocument}
 					objectType="documents"
-					documentStores={documentStores}
 				/>
 			</div>
 			<div className="bauhaus-document-field">
@@ -59,7 +64,6 @@ export const SimsDocumentField = ({
 					deleteHandler={handleDeleteDocument}
 					addHandler={handleAddDocument}
 					objectType="links"
-					documentStores={documentStores}
 				/>
 			</div>
 		</>
@@ -69,6 +73,5 @@ export const SimsDocumentField = ({
 export default memo(
 	SimsDocumentField,
 	(prevProps, nextProps) =>
-		prevProps.documentStores.length === nextProps.documentStores.length &&
 		prevProps.currentSection === nextProps.currentSection
 );
