@@ -9,7 +9,6 @@ function Controls() {
 	return (
 		<ActionToolbar>
 			<Button label={D.btnReturnCurrent} action={nexLocation} />
-			lol
 		</ActionToolbar>
 	);
 }

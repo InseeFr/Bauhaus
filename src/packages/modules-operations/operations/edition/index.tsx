@@ -7,8 +7,8 @@ import D from '../../../deprecated-locales';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { ReduxModel } from '../../../redux/model';
-import { Operation } from '../../../model/Operation'; // Ajoutez cette ligne en haut du fichier
-import { Series } from '../../../model/operations/series'; // Ajoutez cette ligne en haut du fichier
+import { Operation } from '../../../model/Operation';
+import { Series } from '../../../model/operations/series';
 
 const OperationEditionContainer = () => {
 	const { id } = useParams<{id: string}>();

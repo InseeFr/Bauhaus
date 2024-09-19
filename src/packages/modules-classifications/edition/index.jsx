@@ -90,7 +90,7 @@ export const ClassificationEdition = () => {
 			>
 				<ActionToolbar>
 					<CancelButton
-						action={'/classifications'}
+						action="/classifications"
 						type="button"
 					></CancelButton>
 					<SaveButton type="submit"></SaveButton>

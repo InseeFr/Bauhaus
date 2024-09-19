@@ -228,10 +228,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							className="btn btn-default"
 							data-component-id={code.code}
 							onClick={() => {
-								//setCurrentPage(0);
-								API.deleteCodesDetailedCodelist(codelist.id, code).then(() => {
-									//setCurrentPage(1)
-								});
+								API.deleteCodesDetailedCodelist(codelist.id, code)
 							}}
 							aria-label={D.remove}
 							title={D.remove}
