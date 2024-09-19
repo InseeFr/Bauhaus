@@ -40,6 +40,7 @@ const EditionContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 
 	useEffect(() => {
 		ConceptsApi.getConceptGeneral(id)
@@ -102,6 +103,8 @@ const EditionContainer = () => {
 			conceptsWithLinks={conceptsWithLinks}
 			maxLengthScopeNote={maxLengthScopeNote}
 			save={handleUpdate}
+			submitting={submitting}
+			setSubmitting={setSubmitting}
 		/>
 	);
 };

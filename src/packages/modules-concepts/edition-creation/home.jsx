@@ -14,7 +14,13 @@ import { TabPanel, TabView } from 'primereact/tabview';
 class ConceptEditionCreation extends Component {
 	constructor(props) {
 		super(props);
-		const { general, notes, conceptsWithLinks, equivalentLinks = [] } = props;
+		const {
+			general,
+			notes,
+			conceptsWithLinks,
+			equivalentLinks = [],
+			setSubmitting,
+		} = props;
 		this.state = {
 			id: this.props.id,
 			showModal: false,
@@ -29,6 +35,7 @@ class ConceptEditionCreation extends Component {
 		//update should look like `{ prefLabelLg2: 'something new' }` (we can
 		//set mutliple properties at the same time)
 		this.handleChangeGeneral = (update) => {
+			setSubmitting(true);
 			const data = this.state.data;
 			const general = data.general;
 			const newData = Object.assign(data, {
@@ -41,6 +48,7 @@ class ConceptEditionCreation extends Component {
 
 		//update should look like `{ editorialNoteLg1: '...' }`
 		this.handleChangeNotes = (update) => {
+			setSubmitting(true);
 			const data = this.state.data;
 			const notes = data.notes;
 			const newData = Object.assign(data, {
@@ -52,6 +60,7 @@ class ConceptEditionCreation extends Component {
 		};
 
 		this.handleChangeLinks = (newLinks) => {
+			setSubmitting(true);
 			this.setState({
 				data: {
 					...this.state.data,
@@ -61,6 +70,7 @@ class ConceptEditionCreation extends Component {
 		};
 
 		this.handleChangeEquivalentLinks = (newLinks) => {
+			setSubmitting(true);
 			this.setState({
 				data: {
 					...this.state.data,
@@ -136,8 +146,14 @@ class ConceptEditionCreation extends Component {
 	}
 
 	render() {
-		const { stampList, maxLengthScopeNote, title, subtitle, creation } =
-			this.props;
+		const {
+			stampList,
+			maxLengthScopeNote,
+			title,
+			subtitle,
+			creation,
+			submitting,
+		} = this.props;
 
 		const {
 			showModal,
@@ -179,6 +195,7 @@ class ConceptEditionCreation extends Component {
 						<ConceptCreateControl
 							errorMessage={errorMessage}
 							handleSave={this.handleSave}
+							submitting={submitting}
 						/>
 					)}
 					<TabView>

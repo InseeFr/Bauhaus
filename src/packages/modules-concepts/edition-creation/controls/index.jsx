@@ -1,8 +1,12 @@
 import ConceptCreateControlLayout from './controls-layout';
 
-function ConceptCreateControl({ handleSave, errorMessage }) {
+function ConceptCreateControl({ handleSave, errorMessage, submitting }) {
 	return (
-		<ConceptCreateControlLayout handleSave={handleSave} errors={errorMessage} />
+		<ConceptCreateControlLayout
+			handleSave={handleSave}
+			errors={errorMessage}
+			submitting={submitting}
+		/>
 	);
 }
 
