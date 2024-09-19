@@ -1,5 +1,6 @@
 import { Button } from './button';
 import { createAllDictionary } from '../../utils/dictionnary';
+import { useGoBack } from '../../utils/hooks/useGoBack';
 
 const { D } = createAllDictionary({
 	btnReturn: {
@@ -243,7 +244,17 @@ export const NewButton = (props) => {
 		</AbstractButton>
 	);
 };
-export const CancelButton = (props) => {
+export const CancelButton = ({ action, ...props }: Readonly<{ action: string | (() => void) }>) => {
+	const goBack = useGoBack();
+
+	const handleAction = () => {
+		if (typeof action === 'string') {
+			goBack(action);
+		} else if (typeof action === 'function') {
+			action();
+		}
+	};
+
 	return (
 		<AbstractButton
 			icon={
@@ -265,6 +276,7 @@ export const CancelButton = (props) => {
 					/>
 				</svg>
 			}
+			onClick={handleAction}
 			{...props}
 		>
 			{D.btnCancel}

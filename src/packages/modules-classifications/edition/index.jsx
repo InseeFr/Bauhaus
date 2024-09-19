@@ -17,7 +17,6 @@ import { useStampsOptions } from '../../utils/hooks/stamps';
 import { useOrganizationsOptions } from '../../utils/hooks/organizations';
 import { transformModelToSelectOptions } from '../../utils/transformer';
 import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
-import { useGoBack } from '../../utils/hooks/useGoBack';
 import { ClassificationsApi } from '../../sdk/classification';
 import { useTitle } from '../../utils/hooks/useTitle';
 import LabelRequired from '../../components/label-required';
@@ -28,7 +27,6 @@ import {
 } from '../../components/buttons/buttons-with-icons';
 
 export const ClassificationEdition = () => {
-	const goBack = useGoBack();
 	const { id } = useParams();
 	const {
 		register,
@@ -92,7 +90,7 @@ export const ClassificationEdition = () => {
 			>
 				<ActionToolbar>
 					<CancelButton
-						action={() => goBack('/classifications')}
+						action={'/classifications'}
 						type="button"
 					></CancelButton>
 					<SaveButton type="submit"></SaveButton>

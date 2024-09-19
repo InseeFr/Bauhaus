@@ -10,6 +10,7 @@ import {
 	ClientSideError,
 	PageTitleBlock,
 	Select,
+	Row,
 } from '../../../components';
 import { OperationsApi } from '../../../sdk/operations-api';
 import LabelRequired from '../../../components/label-required';
@@ -118,8 +119,6 @@ class OperationsOperationEdition extends Component {
 
 		const isEditing = !!operation.id;
 
-		const { goBack } = this.props;
-
 		return (
 			<div className="container editor-container">
 				{isEditing && (
@@ -130,7 +129,7 @@ class OperationsOperationEdition extends Component {
 					/>
 				)}
 				<ActionToolbar>
-					<CancelButton action={() => goBack('/operations/operations')} />
+					<CancelButton action="/operations/operations" />
 
 					<SaveButton
 						action={this.onSubmit}
@@ -146,8 +145,8 @@ class OperationsOperationEdition extends Component {
 				{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 				<form>
 					{!isEditing && (
-						<div className="row">
-							<div className="form-group col-md-12">
+						<Row>
+							<div className="form-group">
 								<LabelRequired>{D.serieTitle}</LabelRequired>
 								<Select
 									placeholder={D.seriesTitle}
@@ -164,10 +163,10 @@ class OperationsOperationEdition extends Component {
 									error={this.state.clientSideErrors?.fields?.series}
 								></ClientSideError>
 							</div>
-						</div>
+						</Row>
 					)}
-					<div className="row">
-						<div className="form-group col-md-6">
+					<Row>
+						<div className="form-group">
 							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 							<TextInput
 								id="prefLabelLg1"
@@ -187,7 +186,7 @@ class OperationsOperationEdition extends Component {
 								error={this.state.clientSideErrors?.fields?.prefLabelLg1}
 							></ClientSideError>
 						</div>
-						<div className="form-group col-md-6">
+						<div className="form-group">
 							<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
 							<TextInput
 								id="prefLabelLg2"
@@ -207,9 +206,9 @@ class OperationsOperationEdition extends Component {
 								error={this.state.clientSideErrors?.fields?.prefLabelLg2}
 							></ClientSideError>
 						</div>
-					</div>
-					<div className="row">
-						<div className="form-group col-md-6">
+					</Row>
+					<Row>
+						<div className="form-group">
 							<label htmlFor="altLabelLg1">{D1.altLabel}</label>
 							<TextInput
 								id="altLabelLg1"
@@ -217,7 +216,7 @@ class OperationsOperationEdition extends Component {
 								onChange={this.onChange}
 							/>
 						</div>
-						<div className="form-group col-md-6">
+						<div className="form-group">
 							<label htmlFor="altLabelLg2">{D2.altLabel}</label>
 							<TextInput
 								id="altLabelLg2"
@@ -225,7 +224,7 @@ class OperationsOperationEdition extends Component {
 								onChange={this.onChange}
 							/>
 						</div>
-					</div>
+					</Row>
 				</form>
 			</div>
 		);

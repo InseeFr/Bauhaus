@@ -13,7 +13,6 @@ import {
 	EditorMarkdown,
 	ErrorBloc,
 } from '../../../components';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ClassificationsApi } from '../../../sdk/classification';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
@@ -32,7 +31,6 @@ const titleMapping = {
 };
 
 const ClassificationItemEdition = () => {
-	const goBack = useGoBack();
 	const queryClient = useQueryClient();
 	const { classificationId, itemId } = useParams();
 
@@ -162,7 +160,7 @@ const ClassificationItemEdition = () => {
 			<form onSubmit={handleSubmit((value) => formatAndSave(value))}>
 				<ActionToolbar>
 					<CancelButton
-						action={() => goBack('/classifications')}
+						action={'/classifications'}
 						type="button"
 					></CancelButton>
 					<SaveButton type="submit"></SaveButton>
