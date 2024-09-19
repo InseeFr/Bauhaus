@@ -1,8 +1,10 @@
 import D from '../../deprecated-locales/build-dictionary';
 import check from '../../auth/auth';
-import { Button, VerticalMenu, ExportButton } from '@inseefr/wilco';
 import { FeminineButton } from '../../components';
 import { usePermission } from '../../redux/hooks/usePermission';
+import { VerticalMenu } from '../../components/vertical-menu';
+import { ExportButton } from '../../components/buttons/buttons-with-icons';
+import { Button } from '../../components/buttons/button';
 
 export const Menu = () => {
 	const { authType, roles } = usePermission();

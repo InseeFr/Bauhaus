@@ -1,12 +1,11 @@
-import { Note } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../../deprecated-locales';
+import { Note } from '../../../components/note';
 
 type DisplayLinksTypes = {
 	links: any[];
 	path: string;
 	title: string;
-	langs: { lg1: string; lg2: string };
 	secondLang?: boolean;
 	displayLink?: boolean;
 	labelLg1?: string;
@@ -16,7 +15,6 @@ function DisplayLinks({
 	links = [],
 	path,
 	title,
-	langs: { lg1, lg2 },
 	secondLang,
 	displayLink = true,
 	labelLg1 = 'labelLg1',
@@ -48,7 +46,6 @@ function DisplayLinks({
 					links.length === 1 ? displayItem(labelLg1) : displayList(labelLg1)
 				}
 				title={D1[title]}
-				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
 			/>
@@ -58,7 +55,6 @@ function DisplayLinks({
 						links.length === 1 ? displayItem(labelLg2) : displayList(labelLg2)
 					}
 					title={D2[title]}
-					lang={lg2}
 					alone={false}
 					allowEmpty={true}
 				/>

@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { Tabs, Tab } from 'react-bootstrap';
 import { PageTitle, ModalRmes } from '../../components';
 import ConceptCreateControl from './controls';
 import GeneralEdition from './general';
@@ -10,6 +9,7 @@ import { VERSIONING, NO_VERSIONING } from '../../sdk/constants';
 import { validate } from './controls/validation';
 import { areNotesImpactingVersionChanged } from '../utils/notes';
 import isVersioningPossible from '../../modules-concepts/utils/is-versioning-possible';
+import { TabPanel, TabView } from 'primereact/tabview';
 
 class ConceptEditionCreation extends Component {
 	constructor(props) {
@@ -17,7 +17,6 @@ class ConceptEditionCreation extends Component {
 		const { general, notes, conceptsWithLinks, equivalentLinks = [] } = props;
 		this.state = {
 			id: this.props.id,
-			activeTab: 0,
 			showModal: false,
 			data: {
 				general: { ...general },
@@ -26,11 +25,6 @@ class ConceptEditionCreation extends Component {
 				equivalentLinks: equivalentLinks,
 			},
 		};
-
-		this.selectTab = (tabIndex) =>
-			this.setState({
-				activeTab: tabIndex,
-			});
 
 		//update should look like `{ prefLabelLg2: 'something new' }` (we can
 		//set mutliple properties at the same time)
@@ -142,10 +136,10 @@ class ConceptEditionCreation extends Component {
 	}
 
 	render() {
-		const { maxLengthScopeNote, title, subtitle, creation, langs } = this.props;
+		const { stampList, maxLengthScopeNote, title, subtitle, creation } =
+			this.props;
 
 		const {
-			activeTab,
 			showModal,
 			data: { general, notes, conceptsWithLinks },
 		} = this.state;
@@ -187,50 +181,34 @@ class ConceptEditionCreation extends Component {
 							handleSave={this.handleSave}
 						/>
 					)}
-					<ul className="nav nav-tabs nav-justified">
-						<Tabs
-							defaultActiveKey={0}
-							id="informationToManage"
-							onSelect={this.selectTab}
-							justified
-						>
-							<Tab eventKey={0} title={D.globalInformationsTitle}>
-								{activeTab === 0 && (
-									<GeneralEdition
-										general={general}
-										handleChange={this.handleChangeGeneral}
-										langs={langs}
-										errorMessage={errorMessage}
-									/>
-								)}
-							</Tab>
-							<Tab eventKey={1} title={D.notesTitle}>
-								{activeTab === 1 && (
-									<NotesEdition
-										notes={notes}
-										handleChange={this.handleChangeNotes}
-										maxLengthScopeNote={maxLengthScopeNote}
-										disseminationStatus={general.disseminationStatus}
-										langs={langs}
-										errorMessage={errorMessage}
-									/>
-								)}
-							</Tab>
-							<Tab eventKey={2} title={D.linksTitle}>
-								{activeTab === 2 && (
-									<LinksEdition
-										conceptsWithLinks={conceptsWithLinks}
-										currentId={this.state.id}
-										handleChange={this.handleChangeLinks}
-										equivalentLinks={this.state.data.equivalentLinks}
-										handleChangeEquivalentLinks={
-											this.handleChangeEquivalentLinks
-										}
-									/>
-								)}
-							</Tab>
-						</Tabs>
-					</ul>
+					<TabView>
+						<TabPanel header={D.globalInformationsTitle}>
+							<GeneralEdition
+								general={general}
+								handleChange={this.handleChangeGeneral}
+								stampList={stampList}
+								errorMessage={errorMessage}
+							/>
+						</TabPanel>
+						<TabPanel header={D.notesTitle}>
+							<NotesEdition
+								notes={notes}
+								handleChange={this.handleChangeNotes}
+								maxLengthScopeNote={maxLengthScopeNote}
+								disseminationStatus={general.disseminationStatus}
+								errorMessage={errorMessage}
+							/>
+						</TabPanel>
+						<TabPanel header={D.linksTitle}>
+							<LinksEdition
+								conceptsWithLinks={conceptsWithLinks}
+								currentId={this.state.id}
+								handleChange={this.handleChangeLinks}
+								equivalentLinks={this.state.data.equivalentLinks}
+								handleChangeEquivalentLinks={this.handleChangeEquivalentLinks}
+							/>
+						</TabPanel>
+					</TabView>
 				</div>
 				<div>
 					{!creation && (

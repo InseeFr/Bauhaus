@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Note } from '@inseefr/wilco';
+import { Note } from '../../../components/note';
 
 export const CollapsiblePanel = ({
 	id,

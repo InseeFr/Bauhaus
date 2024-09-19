@@ -2,7 +2,6 @@ import Home from './home';
 import { Provider } from 'react-redux';
 import configureStore from '../../redux/configure-store';
 import { renderWithAppContext } from '../../tests-utils/render';
-import { locales } from '../../tests-utils/default-values';
 
 const store = configureStore({
 	users: { results: { stamp: 'stamp' } },
@@ -27,7 +26,6 @@ describe('classification-home', () => {
 				<Home
 					classification={classification}
 					classificationId={'classificationId'}
-					langs={locales}
 					secondLang={false}
 					publish={vi.fn()}
 					serverSideError={''}

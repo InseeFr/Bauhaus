@@ -2,13 +2,7 @@ import { Component, Fragment, useEffect, useState } from 'react';
 import D from '../../../../deprecated-locales';
 import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-field';
 import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
-import { Loading, Select } from '../../../../components';
-import {
-	ActionToolbar,
-	CancelButton,
-	CheckSecondLang,
-	SaveButton,
-} from '@inseefr/wilco';
+import { CheckSecondLang, Loading, Select } from '../../../../components';
 import { DUPLICATE } from '../../index';
 import {
 	getParentId,
@@ -25,7 +19,11 @@ import { OperationsApi } from '../../../../sdk/operations-api';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
 import { flattenTree, rangeType } from '../../../utils/msd';
 import { useHistory } from 'react-router-dom';
-import { useLocales } from '../../../../utils/hooks/useLocales';
+import { ActionToolbar } from '../../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../../components/buttons/buttons-with-icons';
 
 const { RICH_TEXT } = rangeType;
 
@@ -160,7 +158,6 @@ class SimsCreation extends Component {
 			metadataStructure,
 			codesLists = {},
 			mode,
-			langs: { lg1, lg2 },
 			organisations = [],
 			geographiesOptions = [],
 		} = this.props;
@@ -220,7 +217,6 @@ class SimsCreation extends Component {
 									handleChange={handleChange}
 									codesLists={codesLists}
 									secondLang={false}
-									lang={lg1}
 									alone={!hasLabelLg2(msd) || !secondLang}
 									organisationsOptions={organisationsOptions}
 									geographiesOptions={geographiesOptions}
@@ -234,7 +230,6 @@ class SimsCreation extends Component {
 									handleChange={handleChange}
 									codesLists={codesLists}
 									secondLang={true}
-									lang={lg2}
 									alone={false}
 									organisationsOptions={organisationsOptionsLg2}
 									geographiesOptions={geographiesOptions}
@@ -288,14 +283,7 @@ class SimsCreation extends Component {
 						<div key={msd.idMas} className="bauhaus-sims-creation">
 							{index === 0 && (
 								<>
-									<CheckSecondLang
-										secondLang={secondLang}
-										onChange={() => {
-											this.setState({
-												secondLang: !this.state.secondLang,
-											});
-										}}
-									/>
+									<CheckSecondLang />
 									{mode === DUPLICATE && (
 										<Select
 											placeholder={D.operationsTitle}
@@ -355,7 +343,6 @@ class SimsCreation extends Component {
 
 const withParentWithSims = (Component) => {
 	return (props) => {
-		const langs = useLocales();
 		const history = useHistory();
 		const [parentWithSims, setParentWithSims] = useState([]);
 		const parentType = props.parentType;
@@ -377,12 +364,7 @@ const withParentWithSims = (Component) => {
 			}
 		}, [seriesId, parentType, familyId]);
 		return (
-			<Component
-				{...props}
-				langs={langs}
-				parentWithSims={parentWithSims}
-				history={history}
-			/>
+			<Component {...props} parentWithSims={parentWithSims} history={history} />
 		);
 	};
 };

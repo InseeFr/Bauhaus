@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Loading } from '../../../components';
 import OperationsSerieEdition from '../../../modules-operations/series/edition/edition';
 
@@ -13,7 +12,7 @@ import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
-import { useLocales } from '../../../utils/hooks/useLocales';
+import { useOrganizations } from '../../../utils/hooks/organizations';
 
 const OperationsSeriesEditionContainer = (props) => {
 	const { id } = useParams();
@@ -25,10 +24,7 @@ const OperationsSeriesEditionContainer = (props) => {
 
 	const frequencies = useCodesList(CL_FREQ);
 	const categories = useCodesList(CL_SOURCE_CATEGORY);
-	const organisations = useSelector(
-		(state) => state.operationsOrganisations.results || []
-	);
-	const langs = useLocales();
+	const { data: organisations } = useOrganizations();
 
 	const goBack = useGoBack();
 
@@ -67,7 +63,6 @@ const OperationsSeriesEditionContainer = (props) => {
 			series={series}
 			families={families}
 			indicators={indicators}
-			langs={langs}
 			frequencies={frequencies}
 			goBack={goBack}
 		/>

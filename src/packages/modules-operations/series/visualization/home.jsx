@@ -1,4 +1,3 @@
-import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../deprecated-locales';
 import RelationsView from '../../../modules-operations/shared/relations';
 import DisplayLinks from '../../../modules-operations/shared/links/';
@@ -14,17 +13,17 @@ import {
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
+import { useOrganizations } from '../../../utils/hooks/organizations';
 function OperationsSerieVisualization({
 	attr,
-	langs: { lg1, lg2 },
-	langs,
+	langs: { lg1 },
 	secondLang,
 	frequency = {},
 	category = {},
-	organisations = [],
 }) {
 	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, attr?.prefLabelLg1);
-
+	const { data: organisations } = useOrganizations();
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
 	const dataCollectors = (attr.dataCollectors || []).map(
@@ -56,7 +55,6 @@ function OperationsSerieVisualization({
 				<Note
 					text={attr.altLabelLg1}
 					title={D1.altLabel}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -64,7 +62,6 @@ function OperationsSerieVisualization({
 					<Note
 						text={attr.altLabelLg2}
 						title={D2.altLabel}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -74,7 +71,6 @@ function OperationsSerieVisualization({
 				<Note
 					text={renderMarkdownElement(attr.abstractLg1)}
 					title={D1.summary}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -82,7 +78,6 @@ function OperationsSerieVisualization({
 					<Note
 						text={renderMarkdownElement(attr.abstractLg2)}
 						title={D2.summary}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -93,7 +88,6 @@ function OperationsSerieVisualization({
 				<Note
 					text={renderMarkdownElement(attr.historyNoteLg1)}
 					title={D1.history}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -101,7 +95,6 @@ function OperationsSerieVisualization({
 					<Note
 						text={renderMarkdownElement(attr.historyNoteLg2)}
 						title={D2.history}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -112,7 +105,6 @@ function OperationsSerieVisualization({
 				<Note
 					text={category.labelLg1}
 					title={D1.operationType}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -120,7 +112,6 @@ function OperationsSerieVisualization({
 					<Note
 						text={category.labelLg2}
 						title={D2.operationType}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -131,7 +122,6 @@ function OperationsSerieVisualization({
 				<Note
 					text={frequency.labelLg1}
 					title={D1.dataCollectFrequency}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -139,7 +129,6 @@ function OperationsSerieVisualization({
 					<Note
 						text={frequency.labelLg2}
 						title={D2.dataCollectFrequency}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -153,7 +142,6 @@ function OperationsSerieVisualization({
 			<DisplayLinks
 				links={contributors}
 				title={'stakeholders'}
-				langs={langs}
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
@@ -161,38 +149,34 @@ function OperationsSerieVisualization({
 			<DisplayLinks
 				links={dataCollectors}
 				title={'dataCollector'}
-				langs={langs}
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
 			/>
 
 			<div id="creators" className="row">
-				<CreatorsView creators={attr.creators} lg1={lg1} />
+				<CreatorsView creators={attr.creators} />
 			</div>
 			<DisplayLinks
 				links={attr.replaces}
 				path={'/operations/series/'}
 				title={'replaces'}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
 				path={'/operations/series/'}
 				title={'replacedBy'}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.generate}
 				path={'/operations/indicator/'}
 				title={'indicators'}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 
-			<SeeAlso links={seeAlso} langs={langs} secondLang={secondLang} />
+			<SeeAlso links={seeAlso} secondLang={secondLang} />
 
 			<RelationsView
 				children={attr.operations}
@@ -202,7 +186,6 @@ function OperationsSerieVisualization({
 				parentTitle={'parentFamilly'}
 				parentPath="family"
 				title={'linksTitle'}
-				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
 		</>

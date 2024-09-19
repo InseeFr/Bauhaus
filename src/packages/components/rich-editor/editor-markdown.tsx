@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 //@ts-ignore
 import { Editor } from 'react-draft-wysiwyg';
 import './editor-html.scss';
-import { getLang } from '@inseefr/wilco';
 //@ts-ignore
 import { EditorState } from 'draft-js';
 
 import { mdFromEditorState, editorStateFromMd } from '../../utils/html-utils';
+import { getLang } from '../../utils/dictionnary';
 
 export const EditorDeleteButton = ({
 	onChange,

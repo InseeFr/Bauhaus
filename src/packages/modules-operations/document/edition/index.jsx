@@ -5,14 +5,12 @@ import { Loading } from '../../../components';
 import DocumentationEdition from '../../../modules-operations/document/edition/edition';
 import { loadCodesList } from '../../../redux/actions/operations/utils/setup';
 import { GeneralApi } from '../../../sdk/general-api';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const OperationsDocumentationEditionContainer = (props) => {
 	const { id } = useParams();
 	const { pathname } = useLocation();
 	const type = /(link|document)/.exec(pathname)[1];
 
-	const langs = useLocales();
 	const langOptions = useSelector(
 		(state) => state.operationsCodesList.results['ISO-639'] || {}
 	);
@@ -41,7 +39,6 @@ const OperationsDocumentationEditionContainer = (props) => {
 
 	return (
 		<DocumentationEdition
-			langs={langs}
 			document={document}
 			langOptions={langOptions}
 			id={id}

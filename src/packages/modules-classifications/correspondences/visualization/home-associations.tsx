@@ -1,8 +1,10 @@
 import { useHistory } from 'react-router-dom';
-import { Note, Table } from '@inseefr/wilco';
 import D, { D1 } from '../../../deprecated-locales';
 import { Row } from '../../../components';
 import { sortArray } from '../../../utils/array-utils';
+import { Note } from '../../../components/note';
+import { DataTable } from '../../../components/datatable';
+import { Column } from 'primereact/column';
 
 const sortById = sortArray('id');
 
@@ -42,37 +44,34 @@ const HomeAssociations = ({
 	});
 	const sourceLabel = secondLang ? firstAltLabelLg2 : firstAltLabelLg1;
 	const targetLabel = secondLang ? secondAltLabelLg2 : secondAltLabelLg1;
-	const rowParams = [
-		{
-			dataField: 'source',
-			text: `${D.sourceClassificationTitle}${
-				sourceLabel && ` : ${sourceLabel}`
-			}`,
-			width: '50%',
-			isKey: true,
-		},
-		{
-			dataField: 'target',
-			text: `${D.targetClassificationTitle}${
-				sourceLabel && ` : ${targetLabel}`
-			}`,
-			width: '50%',
-		},
-	];
+
 	return (
 		<Row>
+			{' '}
 			<Note
 				text={
-					<Table
-						rowParams={rowParams}
-						data={data}
-						search={true}
-						pagination={true}
-						onRowClick={(_: any, row: any) =>
-							history.push(`${id}/association/${row.id}`)
-						}
-						align="left"
-					/>
+					<>
+						<DataTable
+							globalFilterFields={['source', 'target']}
+							value={data}
+							onRowSelect={(e: any) => {
+								history.push(`${id}/association/${e.data.id}`);
+							}}
+						>
+							<Column
+								field="source"
+								header={`${D.sourceClassificationTitle}${
+									sourceLabel && ` : ${sourceLabel}`
+								}`}
+							></Column>
+							<Column
+								field="target"
+								header={`${D.targetClassificationTitle}${
+									sourceLabel && ` : ${targetLabel}`
+								}`}
+							></Column>
+						</DataTable>
+					</>
 				}
 				title={D1.associationsTitle}
 				alone={true}

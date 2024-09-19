@@ -12,12 +12,10 @@ import D from '../../../deprecated-locales';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const OperationVisualizationContainer = () => {
 	const { id } = useParams();
 	const [operation, setOperation] = useState({});
-	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 	const [serverSideError, setServerSideError] = useState();
 	const [publishing, setPublishing] = useState(false);
@@ -60,7 +58,6 @@ const OperationVisualizationContainer = () => {
 			<OperationsOperationVisualization
 				id={id}
 				attr={operation}
-				langs={langs}
 				secondLang={secondLang}
 			/>
 		</div>

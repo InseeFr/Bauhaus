@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
 import D from '../../i18n/build-dictionary';
-import { SaveButton } from '@inseefr/wilco';
 import { ComponentSpecificationForm } from '../component-specification-form';
 import './component-specification-modal.scss';
+import { SaveButton } from '../../../components/buttons/buttons-with-icons';
+import { ActionToolbar } from '../../../components/action-toolbar';
 
 export const ComponentSpecificationModalBody = ({
 	specification: defaultSpecification,
@@ -36,14 +37,12 @@ export const ComponentSpecificationModalBody = ({
 				/>
 			</div>
 			<div className="modal-footer">
-				<div className="text-right">
+				<ActionToolbar>
 					<SaveButton
 						disabled={disabled}
-						col={4}
-						offset={8}
 						action={() => onSave(specification)}
 					/>
-				</div>
+				</ActionToolbar>
 			</div>
 		</div>
 	);

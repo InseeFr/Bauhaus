@@ -1,16 +1,14 @@
 import PublishersView from './';
 import { render } from '@testing-library/react';
 
-import { Provider } from 'react-redux';
-import configureStore from '../../../redux/configure-store';
+import { vi } from 'vitest';
+import * as useOrganizationsHook from '../../../utils/hooks/organizations';
 
-const store = configureStore({
-	operationsOrganisations: {
-		results: [
-			{ id: 'id', label: 'label' },
-			{ id: 'id2', label: 'label2' },
-		],
-	},
+vi.spyOn(useOrganizationsHook, 'useOrganizations').mockReturnValue({
+	data: [
+		{ id: 'id', label: 'label' },
+		{ id: 'id2', label: 'label2' },
+	],
 });
 
 describe('<PublishersView />', () => {
@@ -18,11 +16,7 @@ describe('<PublishersView />', () => {
 		const publishers = {
 			id: 'id',
 		};
-		const { container } = render(
-			<Provider store={store}>
-				<PublishersView publishers={publishers} />
-			</Provider>
-		);
+		const { container } = render(<PublishersView publishers={publishers} />);
 		expect(container.querySelector('p').innerHTML).toBe('label');
 	});
 	it('should return a list of two items if the publishers is an array', () => {
@@ -34,11 +28,7 @@ describe('<PublishersView />', () => {
 				id: 'id2',
 			},
 		];
-		const { container } = render(
-			<Provider store={store}>
-				<PublishersView publishers={publishers} />
-			</Provider>
-		);
+		const { container } = render(<PublishersView publishers={publishers} />);
 		expect(container.querySelector('li:nth-child(1)').innerHTML).toBe('label');
 		expect(container.querySelector('li:nth-child(2)').innerHTML).toBe('label2');
 	});

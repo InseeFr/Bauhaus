@@ -10,11 +10,12 @@ import {
 } from '../../../../components';
 import SimsGeographyPicker from '../../../../modules-operations/components/sims/sims-geography-picker';
 import { Editor } from 'react-draft-wysiwyg';
-import { getLang, Note } from '@inseefr/wilco';
 import './sims-field.scss';
 import { SimsFieldTitle } from '../../sims-field-title';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
+import { Note } from '../../../../components/note';
 import { SimsCodeListSelect } from './sims-code-list-select';
+import { getLang } from '../../../../utils/dictionnary';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 
@@ -44,7 +45,6 @@ class SimsField extends PureComponent {
 			msd,
 			currentSection = {},
 			secondLang,
-			lang,
 			alone,
 			organisationsOptions = [],
 			unbounded,
@@ -102,11 +102,9 @@ class SimsField extends PureComponent {
 						currentSection={currentSection}
 						msd={msd}
 						secondLang={secondLang}
-						organisationsOptions={organisationsOptions}
 					/>
 				}
 				alone={alone}
-				lang={lang}
 				text={
 					!msd.isPresentational && (
 						<span className="simsField">

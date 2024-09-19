@@ -1,8 +1,10 @@
-import { Note, ActionToolbar, ReturnButton, ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { HTMLUtils } from '../../../../utils';
 import './view.scss';
-import { Row } from '../../../components';
+import { ErrorBloc, Row } from '../../../components';
+import { Note } from '../../../components/note';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import { ReturnButton } from '../../../components/buttons/buttons-with-icons';
 
 export const CodeDetailView = ({
 	code,
@@ -27,7 +29,7 @@ export const CodeDetailView = ({
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
 			</ActionToolbar>
-			<ErrorBloc error={serverSideError} />
+			{serverSideError && <ErrorBloc error={serverSideError} />}
 
 			<Row>
 				<Note

@@ -51,9 +51,8 @@ describe('Sims Field', () => {
 				alone={true}
 			/>
 		);
-		expect(
-			container.querySelectorAll('input[data-formattedvalue]')
-		).toHaveLength(1);
+
+		expect(container.querySelectorAll('.p-calendar')).toHaveLength(1);
 	});
 
 	it('when rangeType === RICH_TEXT, should display a EditorMarkdown', () => {

@@ -1,4 +1,5 @@
-import { ActionToolbar, ReturnButton, ResetButton } from '@inseefr/wilco';
+import { ActionToolbar } from '../action-toolbar';
+import { ResetButton, ReturnButton } from '../buttons/buttons-with-icons';
 
 export const AdvancedSearchControls = ({
 	onClickReturn,

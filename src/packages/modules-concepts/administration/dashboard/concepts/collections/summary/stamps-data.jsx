@@ -1,21 +1,3 @@
-import D from '../../../../../../deprecated-locales';
-
-export const rowParamsStamps = [
-	{
-		dataField: 'stamp',
-		text: D.dashboardCollectionsByCreatorTitle,
-		width: '66%',
-		isKey: true,
-		sort: true,
-	},
-	{
-		dataField: 'total',
-		text: D.totalTitle,
-		width: '34%',
-		sort: true,
-	},
-];
-
 export const buildDataStamps = (d) =>
 	d.reduce((_, c) => {
 		/*Init array element with stamp*/

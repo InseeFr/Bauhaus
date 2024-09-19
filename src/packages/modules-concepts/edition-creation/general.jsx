@@ -17,7 +17,7 @@ const handleFieldChange = (handleChange) =>
 		return handlers;
 	}, {});
 
-function ConceptGeneralEdition({ general, handleChange, langs, errorMessage }) {
+function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
 	const {
 		prefLabelLg1,
 		prefLabelLg2,
@@ -41,7 +41,6 @@ function ConceptGeneralEdition({ general, handleChange, langs, errorMessage }) {
 				<InputRmes
 					colMd={6}
 					label={D1.labelTitle}
-					lang={langs.lg1}
 					star
 					value={prefLabelLg1}
 					handleChange={handlers.prefLabelLg1}
@@ -56,7 +55,6 @@ function ConceptGeneralEdition({ general, handleChange, langs, errorMessage }) {
 				<InputRmes
 					colMd={6}
 					label={D2.labelTitle}
-					lang={langs.lg2}
 					hiddenStar
 					value={prefLabelLg2}
 					handleChange={handlers.prefLabelLg2}

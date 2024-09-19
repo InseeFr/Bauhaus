@@ -1,4 +1,3 @@
-import { Note } from '@inseefr/wilco';
 import D, { D1 } from '../../../deprecated-locales/build-dictionary';
 import { stringToDate } from '../../../utils/date-utils';
 import {
@@ -20,6 +19,7 @@ import { useOrganizations } from '../../../utils/hooks/organizations';
 import { CodeDisplay } from '../../../components/code-display';
 import { List } from '../../../components/list';
 import { D as DatasetDictionary, lg1, lg2 } from '../../i18n';
+import { Note } from '../../../components/note';
 
 type GlobalInformationBlockTypes = {
 	dataset: Dataset;

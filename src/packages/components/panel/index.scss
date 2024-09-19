@@ -1,0 +1,28 @@
+.panel {
+  height: 100%;
+
+  .card-title {
+    padding: 1rem;
+    margin: 0 !important;
+    font-size: 1em;
+
+    button {
+      background: transparent;
+      border: none;
+    }
+  }
+
+  .card-header {
+    background: var(--color-2);
+    color: #fff;
+  }
+  &:nth-child(2) .card-header {
+    background: var(--second-lang-bloc-title);
+    color: #fff;
+  }
+
+  .card-body {
+    background: white;
+    margin: 1em;
+  }
+}

@@ -13,11 +13,9 @@ import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { Family } from '../../../model/operations/family';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const FamilyView = () => {
 	const { id } = useParams<{ id: string }>();
-	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 
 	const [family, setFamily] = useState<Family>();
@@ -52,11 +50,7 @@ const FamilyView = () => {
 			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			`
 			<CheckSecondLang />
-			<OperationsFamilyVisualization
-				secondLang={secondLang}
-				attr={family}
-				langs={langs}
-			/>
+			<OperationsFamilyVisualization secondLang={secondLang} attr={family} />
 		</div>
 	);
 };

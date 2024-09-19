@@ -1,10 +1,10 @@
 import D, { D1, D2 } from '../../../../deprecated-locales';
-import { getLang } from '@inseefr/wilco';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import './style.scss';
 import { isDocument, isLink } from '../../../document/utils';
 import { getBaseURI } from '../../../../sdk';
 import { sortArray } from '../../../../utils/array-utils';
+import { getLang } from '../../../../utils/dictionnary';
 import { useDocumentsStoreContext } from '../../pages/sims-creation/documents-store-context';
 
 function getAsideToTheDocument(document) {

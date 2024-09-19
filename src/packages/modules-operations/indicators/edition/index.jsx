@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Loading } from '../../../components';
 import OperationsIndicatorEdition from '../../../modules-operations/indicators/edition/edition';
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
@@ -9,17 +8,13 @@ import { useCodesList } from '../../../utils/hooks/codeslist';
 import D from '../../../deprecated-locales';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { OperationsApi } from '../../../sdk/operations-api';
-import { useLocales } from '../../../utils/hooks/useLocales';
+import { useOrganizations } from '../../../utils/hooks/organizations';
 
 const OperationsIndicatorsEditionContainer = (props) => {
 	const { id } = useParams();
 
-	const langs = useLocales();
 	const frequencies = useCodesList(CL_FREQ);
-	const organisations = useSelector(
-		(state) => state.operationsOrganisations.results || []
-	);
-
+	const { data: organisations } = useOrganizations();
 	const goBack = useGoBack();
 
 	const [indicator, setIndicator] = useState({});
@@ -53,7 +48,6 @@ const OperationsIndicatorsEditionContainer = (props) => {
 	return (
 		<OperationsIndicatorEdition
 			series={series}
-			langs={langs}
 			indicators={indicators}
 			organisations={organisations}
 			frequencies={frequencies}

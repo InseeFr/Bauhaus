@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { DocumentsBloc } from './index';
-import { getLang } from '@inseefr/wilco';
 import { sortArray } from '../../../../utils/array-utils';
+import { getLang } from '../../../../utils/dictionnary';
 import { DocumentsStoreProvider } from '../../pages/sims-creation/documents-store-context';
 
 const documents = [

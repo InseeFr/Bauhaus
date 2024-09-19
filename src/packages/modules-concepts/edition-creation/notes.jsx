@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { Tabs, Tab } from 'react-bootstrap';
 import { NoteEdition } from '../../components';
 import { D1 } from '../../deprecated-locales';
 import { htmlIsEmpty, htmlLength } from '../../utils/html-utils';
+import { TabPanel, TabView } from 'primereact/tabview';
 
 const noteTypes = (maxLengthScopeNote) => [
 	{
@@ -43,71 +42,49 @@ const NotesEdition = ({
 	notes,
 	disseminationStatus,
 	maxLengthScopeNote,
-	langs,
 	handleChange,
 	errorMessage,
 }) => {
-	const [activeTab, setActiveTab] = useState(0);
 	const handlers = handleFieldChange(handleChange, maxLengthScopeNote);
 
 	return (
-		<ul className="nav nav-tabs nav-justified">
-			<Tabs
-				defaultActiveKey={0}
-				id="kindOfNote"
-				onSelect={setActiveTab}
-				justified
-			>
-				{noteTypes(maxLengthScopeNote).map(
-					({ rawTitle, noteLg1Name, noteLg2Name, maxLength }, i) => {
-						const noteLg1 = notes[noteLg1Name];
-						const noteLg2 = notes[noteLg2Name];
+		<TabView>
+			{noteTypes(maxLengthScopeNote).map(
+				({ rawTitle, noteLg1Name, noteLg2Name, maxLength }) => {
+					const noteLg1 = notes[noteLg1Name];
+					const noteLg2 = notes[noteLg2Name];
 
-						//we value the note to know if the title should be highlighted or not
-						const highlight =
-							(noteLg1Name === 'definitionLg1' && htmlIsEmpty(noteLg1)) ||
-							(noteLg1Name === 'scopeNoteLg1' &&
-								htmlIsEmpty(noteLg1) &&
-								disseminationStatus.includes('Public')) ||
-							(noteLg1Name === 'scopeNoteLg1' &&
-								(htmlLength(noteLg1) > maxLength ||
-									htmlLength(noteLg2) > maxLength));
-						const title = highlight ? (
-							<div className="red">{D1[rawTitle]}</div>
-						) : (
-							D1[rawTitle]
-						);
+					//we value the note to know if the title should be highlighted or not
+					const highlight =
+						(noteLg1Name === 'definitionLg1' && htmlIsEmpty(noteLg1)) ||
+						(noteLg1Name === 'scopeNoteLg1' &&
+							htmlIsEmpty(noteLg1) &&
+							disseminationStatus.includes('Public')) ||
+						(noteLg1Name === 'scopeNoteLg1' &&
+							(htmlLength(noteLg1) > maxLength ||
+								htmlLength(noteLg2) > maxLength));
+					const title = highlight ? (
+						<div className="red">{D1[rawTitle]}</div>
+					) : (
+						D1[rawTitle]
+					);
 
-						let noteEdition;
-						if (activeTab === i) {
-							noteEdition = (
-								<NoteEdition
-									notes={notes}
-									noteLg1Name={noteLg1Name}
-									noteLg2Name={noteLg2Name}
-									handleChangeLg1={handlers[noteLg1Name]}
-									handleChangeLg2={handlers[noteLg2Name]}
-									maxLength={maxLength}
-									langs={langs}
-									errorMessage={errorMessage}
-								/>
-							);
-						}
-
-						return (
-							<Tab
-								key={noteLg1Name}
-								eventKey={i}
-								title={title}
-								style={{ marginTop: '20px' }}
-							>
-								{noteEdition}
-							</Tab>
-						);
-					}
-				)}
-			</Tabs>
-		</ul>
+					return (
+						<TabPanel key={title} header={title}>
+							<NoteEdition
+								notes={notes}
+								noteLg1Name={noteLg1Name}
+								noteLg2Name={noteLg2Name}
+								handleChangeLg1={handlers[noteLg1Name]}
+								handleChangeLg2={handlers[noteLg2Name]}
+								maxLength={maxLength}
+								errorMessage={errorMessage}
+							/>
+						</TabPanel>
+					);
+				}
+			)}
+		</TabView>
 	);
 };
 

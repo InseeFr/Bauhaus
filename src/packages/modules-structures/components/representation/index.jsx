@@ -1,6 +1,6 @@
 import D from '../../i18n/build-dictionary';
 import { XSD_TYPES } from '../../utils/constants';
-
+import './index.scss';
 const Representation = ({ component, codesLists, handleCodesListDetail }) => {
 	const codeList = codesLists.find(
 		({ id }) => id?.toString() === component.codeList?.toString()
@@ -8,17 +8,17 @@ const Representation = ({ component, codesLists, handleCodesListDetail }) => {
 
 	if (codeList) {
 		return (
-			<>
-				{codeList}
+			<div className="representation">
+				<span>{codeList}</span>
 				<button
-					className="codes-list-detail"
+					className="btn btn-default"
 					onClick={handleCodesListDetail}
 					aria-label={D.seeCodesListDetails}
 					title={D.seeCodesListDetails}
 				>
 					<span className="glyphicon glyphicon-th"></span>
 				</button>
-			</>
+			</div>
 		);
 	}
 

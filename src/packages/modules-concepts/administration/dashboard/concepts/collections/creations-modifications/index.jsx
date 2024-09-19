@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Table, NumberResult } from '@inseefr/wilco';
-import { DatePicker } from '../../../../../../components';
+import {
+	DateItem,
+	DatePicker,
+	getDisseminationStatus,
+} from '../../../../../../components';
 import D from '../../../../../../deprecated-locales';
-import { rowParams } from './data';
 import dayjs from 'dayjs';
+import { NumberResults } from '../../../../../../components/number-results';
+import { Column } from 'primereact/column';
+import { DataTable } from '../../../../../../components/datatable';
 
 const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();
 	const history = useHistory();
-	const onRowClick = (_event, collection) =>
-		history.push(`/collection/${collection.id}`);
 
 	const variable = type === 'creations' ? 'created' : 'modified';
 	const typeByLang =
@@ -45,16 +48,49 @@ const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 			</div>
 			<div className="row text-center">
 				<h4>
-					<NumberResult results={data} />
+					<NumberResults results={data} />
 				</h4>
 			</div>
-			<Table
-				rowParams={rowParams[type]}
-				data={data}
-				search={true}
-				pagination={true}
-				onRowClick={onRowClick}
-			/>
+			<DataTable
+				value={data}
+				globalFilterFields={[
+					'label',
+					'nbMembers',
+					'creator',
+					type === 'creations' ? 'created' : 'modified',
+					'validationStatus',
+				]}
+				onRowClick={({ data: collection }) =>
+					history.push(`/collection/${collection.id}`)
+				}
+			>
+				<Column field="label" header={D.collectionsTitle}></Column>
+
+				<Column field="nbMembers" header={D.conceptsNumberTitle}></Column>
+
+				<Column
+					field="creator"
+					header={D.creatorTitle}
+					body={(item) => getDisseminationStatus(item.disseminationStatus)}
+				></Column>
+
+				<Column
+					field="created"
+					header={
+						type === 'creations' ? D.createdDateTitle : D.modifiedDateTitle
+					}
+					body={(item) => (
+						<DateItem
+							date={type === 'creations' ? item.created : item.modified}
+						/>
+					)}
+				></Column>
+
+				<Column
+					field="validationStatus"
+					header={D.isConceptValidTitle}
+				></Column>
+			</DataTable>
 		</div>
 	);
 };

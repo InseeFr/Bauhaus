@@ -1,8 +1,8 @@
-import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { Link } from 'react-router-dom';
+import { Note } from '../../../components/note';
 
-function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
+function SeeAlso({ links, secondLang }) {
 	function displaySeeAlsos(label) {
 		function displaySeeAlso(seeAlso, title, path) {
 			return (
@@ -42,7 +42,6 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 			<Note
 				text={displaySeeAlsos('labelLg1')}
 				title={D1.seeAlso}
-				lang={lg1}
 				alone={!secondLang}
 				allowEmpty={true}
 			/>
@@ -50,7 +49,6 @@ function SeeAlso({ links, langs: { lg1, lg2 }, secondLang }) {
 				<Note
 					text={displaySeeAlsos('labelLg2')}
 					title={D2.seeAlso}
-					lang={lg2}
 					alone={false}
 					allowEmpty={true}
 				/>

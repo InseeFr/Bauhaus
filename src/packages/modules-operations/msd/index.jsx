@@ -5,12 +5,8 @@ import { Loading, PageTitleBlock } from '../../components';
 import { LOADED, NOT_LOADED } from '../../sdk/constants';
 import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
 import { D1, D2 } from '../../deprecated-locales';
-import { buildExtract } from '@inseefr/wilco';
 
-import {
-	getOperationsCodesList,
-	getOperationsOrganisations,
-} from '../../redux/operations/selector';
+import { getOperationsCodesList } from '../../redux/operations/selector';
 import loadSIMS, {
 	publishSims,
 	saveSims,
@@ -30,6 +26,8 @@ import { isLoaded, loadGeographies } from '../../redux/geographies.action';
 import { GeneralApi } from '../../sdk/general-api';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
+import { useOrganizations } from '../../utils/hooks/organizations';
+import { buildExtract } from '../../utils/buildExtract';
 import { DocumentsStoreProvider } from './pages/sims-creation/documents-store-context';
 
 const extractId = buildExtract('id');
@@ -262,7 +260,6 @@ export const mapStateToProps = (state, ownProps) => {
 		id,
 		idParent,
 		codesLists: getOperationsCodesList(state),
-		organisations: getOperationsOrganisations(state),
 		parentType,
 	};
 };
@@ -276,6 +273,7 @@ const mapDispatchToProps = {
 };
 
 const MSDContainerWithParent = (props) => {
+	const { data: organisations } = useOrganizations();
 	const match = useRouteMatch();
 	const { idParent } = props;
 	const parentType = match.params[0];
@@ -334,6 +332,7 @@ const MSDContainerWithParent = (props) => {
 		<DocumentsStoreProvider value={documentStores}>
 			<MSDContainer
 				{...props}
+				organisations={organisations}
 				currentSims={currentSims}
 				parent={parent}
 				goBack={goBack}

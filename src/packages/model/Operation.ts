@@ -13,6 +13,7 @@ export type Operation = {
 	idSims?: string;
 	series: Series;
 	validationState: ValidationState;
+	prefLabelLg1?: string;
 };
 
 export type SeeAlso = {

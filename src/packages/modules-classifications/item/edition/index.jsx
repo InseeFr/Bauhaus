@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ActionToolbar, ErrorBloc, LabelRequired } from '@inseefr/wilco';
 import { Redirect, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
@@ -12,9 +11,15 @@ import {
 	Row,
 	PageTitleBlock,
 	EditorMarkdown,
+	ErrorBloc,
 } from '../../../components';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ClassificationsApi } from '../../../sdk/classification';
+import LabelRequired from '../../../components/label-required';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',
@@ -26,7 +31,6 @@ const titleMapping = {
 };
 
 const ClassificationItemEdition = () => {
-	const goBack = useGoBack();
 	const queryClient = useQueryClient();
 	const { classificationId, itemId } = useParams();
 
@@ -155,32 +159,13 @@ const ClassificationItemEdition = () => {
 
 			<form onSubmit={handleSubmit((value) => formatAndSave(value))}>
 				<ActionToolbar>
-					<div className="col-md-2">
-						<button
-							onClick={() => goBack('/classifications')}
-							className="btn wilco-btn btn-lg col-md-12"
-							type="button"
-						>
-							<span
-								className={`glyphicon glyphicon-floppy-remove`}
-								aria-hidden="true"
-							/>
-							<span>{D.btnCancel}</span>
-						</button>
-					</div>
-					<div className="col-md-2">
-						<button className="btn wilco-btn btn-lg col-md-12" type="submit">
-							<span
-								className={`glyphicon glyphicon-floppy-disk`}
-								aria-hidden="true"
-							/>
-							<span>{D.btnSave}</span>
-						</button>
-					</div>
+					<CancelButton
+						action="/classifications"
+						type="button"
+					></CancelButton>
+					<SaveButton type="submit"></SaveButton>
 				</ActionToolbar>
-
-				<ErrorBloc error={errorMessage} />
-
+				{errorMessage && <ErrorBloc error={errorMessage} />}
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>

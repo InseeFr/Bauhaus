@@ -1,11 +1,3 @@
-import {
-	ActionToolbar,
-	Button,
-	DeleteButton,
-	DuplicateButton,
-	ExportButton,
-	ReturnButton,
-} from '@inseefr/wilco';
 import { getParentUri, shouldDisplayDuplicateButton } from '../../utils';
 import Auth, { RoleCheck } from '../../../../auth/components/auth';
 import {
@@ -17,6 +9,14 @@ import { ValidationButton } from '../../../../components';
 import D from '../../../../deprecated-locales/build-dictionary';
 import { Sims } from '../../../../model/Sims';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
+import { ActionToolbar } from '../../../../components/action-toolbar';
+import {
+	DeleteButton,
+	DuplicateButton,
+	ExportButton,
+	ReturnButton,
+} from '../../../../components/buttons/buttons-with-icons';
+import { Button } from '../../../../components/buttons/button';
 
 type MenuTypes = {
 	sims: Sims;

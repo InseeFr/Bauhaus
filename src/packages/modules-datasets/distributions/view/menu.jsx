@@ -1,15 +1,15 @@
-import {
-	ActionToolbar,
-	Button,
-	DeleteButton,
-	ReturnButton,
-} from '@inseefr/wilco';
 import D from '../../../deprecated-locales/build-dictionary';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { ValidationButton } from '../../../components';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	DeleteButton,
+	ReturnButton,
+} from '../../../components/buttons/buttons-with-icons';
+import { Button } from '../../../components/buttons/button';
 
 export const ViewMenu = ({ distribution, dataset, onPublish, onDelete }) => {
 	const goBack = useGoBack();

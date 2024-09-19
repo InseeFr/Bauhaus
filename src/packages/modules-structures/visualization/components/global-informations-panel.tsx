@@ -1,5 +1,4 @@
 import { Structure } from '../../../model/structures/Structure';
-import { Note } from '@inseefr/wilco';
 import { D1 } from '../../../deprecated-locales';
 import {
 	ContributorsVisualisation,
@@ -9,6 +8,7 @@ import {
 	Row,
 } from '../../../components';
 import D from '../../i18n/build-dictionary';
+import { Note } from '../../../components/note';
 
 type GlobalInformationsPanelTypes = {
 	structure: Structure;

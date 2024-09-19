@@ -1,4 +1,3 @@
-import { Note, ErrorBloc } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 
 import './view.scss';
@@ -11,9 +10,11 @@ import {
 	DisseminationStatusVisualisation,
 	ConfirmationDelete,
 	CreationUpdateItems,
+	ErrorBloc,
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 export const CodeListDetailView = ({
 	codelist,
 	handleUpdate,
@@ -60,7 +61,7 @@ export const CodeListDetailView = ({
 				deletable={deletable}
 			></ViewMenu>
 
-			<ErrorBloc error={serverSideError} />
+			{serverSideError && <ErrorBloc error={serverSideError} />}
 			{
 				<Row>
 					<Note

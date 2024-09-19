@@ -6,7 +6,6 @@ import {
 	Row,
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
-import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { useDataset, useDistribution } from '../../datasets';
 import { ViewMenu } from './menu';
@@ -15,7 +14,7 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 import { stringToDate } from '../../../utils/date-utils';
 import { DistributionApi } from '../../../sdk';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useLocales } from '../../../utils/hooks/useLocales';
+import { Note } from '../../../components/note';
 
 export const DistributionView = (props) => {
 	const { id } = useParams();
@@ -27,7 +26,6 @@ export const DistributionView = (props) => {
 		distribution?.idDataset
 	);
 
-	const { lg1, lg2 } = useLocales();
 	const [secondLang] = useSecondLang();
 
 	const queryClient = useQueryClient();
@@ -114,7 +112,6 @@ export const DistributionView = (props) => {
 				<Note
 					text={renderMarkdownElement(distribution.descriptionLg1)}
 					title={D1.descriptionTitle}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -122,7 +119,6 @@ export const DistributionView = (props) => {
 					<Note
 						text={renderMarkdownElement(distribution.descriptionLg1)}
 						title={D2.descriptionTitle}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>

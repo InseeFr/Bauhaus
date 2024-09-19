@@ -1,7 +1,7 @@
-import { Note } from '@inseefr/wilco';
 // @ts-ignore
 import DOMPurify from 'dompurify';
 import { markdownToHtml } from '../../utils/html-utils';
+import { Note } from '../note';
 
 type ExplanatoryNoteTypes = {
 	text?: string;

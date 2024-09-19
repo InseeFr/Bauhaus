@@ -1,6 +1,5 @@
-import { Pagination } from '@inseefr/wilco';
 import D from '../../../deprecated-locales';
-import { TextInput } from '../../../components';
+import { Pagination, TextInput } from '../../../components';
 
 const SearchConceptsByLabel = ({ searchLabel, handleSearch, hitEls }) => {
 	return (
@@ -10,7 +9,7 @@ const SearchConceptsByLabel = ({ searchLabel, handleSearch, hitEls }) => {
 				onChange={(e) => handleSearch(e.target.value)}
 				placeholder={D.searchLabelPlaceholder}
 			/>
-			<Pagination itemEls={hitEls} itemsPerPage="10" />
+			<Pagination itemEls={hitEls} />
 		</div>
 	);
 };

@@ -1,11 +1,9 @@
 import { Provider } from 'react-redux';
 import Root from './packages/application/router';
 import configureStore from './packages/redux/configure-store';
-import { I18NContext, BackToTop, getLang } from '@inseefr/wilco';
 import D from './packages/deprecated-locales';
 import { ApplicationTitle } from './packages/components';
 import { AppContextProvider } from './packages/application/app-context';
-import '@inseefr/wilco/dist/index.css';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import loadDevTools from './dev-tools/load';
@@ -13,6 +11,8 @@ import * as Sentry from '@sentry/react';
 
 import './packages/styles/main.scss';
 import { GeneralApi } from './packages/sdk/general-api';
+import { getLang } from './packages/utils/dictionnary';
+import BackToTop from './packages/components/back-to-top';
 
 Sentry.init({
 	dsn: 'https://57eb7cf936ad4c9198267ec7cd0031aa@o364590.ingest.sentry.io/4505557438169088',
@@ -70,13 +70,11 @@ const renderApp = (Component: any, initState: any, props?: any) => {
 						version={version}
 						properties={properties}
 					>
-						<I18NContext.Provider value={D}>
-							<ApplicationTitle />
-							<main>
-								<Component {...props} />
-								<BackToTop />
-							</main>
-						</I18NContext.Provider>
+						<ApplicationTitle />
+						<main>
+							<Component {...props} />
+							<BackToTop />
+						</main>
 					</AppContextProvider>
 				</Provider>
 			</QueryClientProvider>

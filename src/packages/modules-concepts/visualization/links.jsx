@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../deprecated-locales';
-import { Note } from '@inseefr/wilco';
 import {
 	BROADER,
 	CLOSE_MATCH,
@@ -12,6 +11,7 @@ import {
 } from '../../sdk/constants';
 import './links.scss';
 import { sortArray } from '../../utils/array-utils';
+import { Note } from '../../components/note';
 
 const CloseMatchLinks = ({ links, Dictionnary }) => {
 	return (

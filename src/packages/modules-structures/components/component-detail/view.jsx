@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Note } from '@inseefr/wilco';
 import { Link } from 'react-router-dom';
 import { typeUriToLabel, getAllAttachment } from '../../utils';
 import {
@@ -26,6 +25,7 @@ import {
 } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 export const ComponentDetailView = ({
 	component,
 	concepts = [],
@@ -41,7 +41,6 @@ export const ComponentDetailView = ({
 	publishComponent,
 	serverSideError,
 	attributes,
-	langs: { lg1, lg2 },
 }) => {
 	useTitle(D.componentTitle, component?.labelLg1);
 	const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
@@ -137,7 +136,6 @@ export const ComponentDetailView = ({
 				<Note
 					text={component.altLabelLg1}
 					title={D1.altLabel}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -145,7 +143,6 @@ export const ComponentDetailView = ({
 					<Note
 						text={component.altLabelLg2}
 						title={D2.altLabel}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>

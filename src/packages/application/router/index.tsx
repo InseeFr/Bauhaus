@@ -14,7 +14,7 @@ import { useAppContext } from '../app-context';
 const logout = () => {
 	removeToken();
 	// @ts-ignore
-	window.location = window.location.origin;
+	window.location = encodeURI(window.location.origin);
 };
 
 export const RBACLink = ({ children }: PropsWithChildren<{}>) => {

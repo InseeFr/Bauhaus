@@ -1,7 +1,7 @@
 import { PropsWithChildren, useState } from 'react';
-import { NumberResult } from '@inseefr/wilco';
 import { PageTitle, Pagination } from '../../components';
 import { AdvancedSearchControls } from './controls';
+import { NumberResults } from '../number-results';
 
 type AdvancedSearchListTypes = {
 	title: string;
@@ -33,7 +33,7 @@ export const AdvancedSearchList = ({
 				{children}
 				<div className="text-center">
 					<h4>
-						<NumberResult results={data} />
+						<NumberResults results={data} />
 					</h4>
 					<Pagination itemEls={data} />
 				</div>

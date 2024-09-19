@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { Menu } from '@inseefr/wilco';
 import D from '../../deprecated-locales';
+import { MainMenu } from '../../components/menu';
 const defaultAttrs = { 'aria-current': 'page' };
 
 const MenuClassifications = () => {
@@ -51,7 +51,7 @@ const MenuClassifications = () => {
 		currentPath.attrs = defaultAttrs;
 	}
 
-	return <Menu paths={paths} />;
+	return <MainMenu paths={paths} />;
 };
 
 export default MenuClassifications;

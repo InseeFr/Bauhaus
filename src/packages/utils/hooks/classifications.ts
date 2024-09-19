@@ -7,3 +7,10 @@ export const useClassifications = () => {
 		queryFn: ClassificationsApi.getList,
 	});
 };
+
+export const useClassificationsItem = (id: string) => {
+	return useQuery({
+		queryKey: ['classification-items', id],
+		queryFn: () => ClassificationsApi.getClassificationItems(id),
+	});
+};

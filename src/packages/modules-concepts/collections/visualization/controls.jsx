@@ -1,8 +1,9 @@
-import { ActionToolbar, Button } from '@inseefr/wilco';
 import check from '../../../auth/auth';
 import D from '../../../deprecated-locales';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import ExportButtons from '../export-buttons';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import { Button } from '../../../components/buttons/button';
 
 const CollectionVisualizationControls = ({
 	isValidated,
@@ -18,7 +19,6 @@ const CollectionVisualizationControls = ({
 	const contributor = authImpl.isContributor(roles, stamp, collectionCreator);
 	const creator = authImpl.isCollectionCreator(roles, stamp, collectionCreator);
 
-
 	const validate = [handleValidation, D.btnValid];
 	const update = [`/collection/${id}/modify`, D.btnUpdate];
 
@@ -33,11 +33,10 @@ const CollectionVisualizationControls = ({
 		btns.push(update);
 	}
 
-
 	return (
 		<>
 			<ActionToolbar>
-				<Button  action={`/collections`} label={D.btnReturn} />
+				<Button action={`/collections`} label={D.btnReturn} />
 				<ExportButtons
 					ids={[id]}
 					exportHandler={(type, withConcepts, lang = 'lg1') =>

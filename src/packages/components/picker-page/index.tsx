@@ -2,18 +2,14 @@
 
 import { useState } from 'react';
 import D from '../../deprecated-locales';
-import {
-	ExportButton,
-	Pagination,
-	Panel,
-	AddLogo,
-	DelLogo,
-	PickerItem,
-	ActionToolbar,
-	filterDeburr,
-	ReturnButton,
-} from '@inseefr/wilco';
-import { TextInput, PageTitle, ErrorBloc } from '../../components';
+import { TextInput, PageTitle, ErrorBloc, Pagination } from '../../components';
+import { Panel } from '../panel';
+import { ActionToolbar } from '../action-toolbar';
+import { ReturnButton, ExportButton } from '../buttons/buttons-with-icons';
+import { AddLogo } from '../logo/logo-add';
+import { DelLogo } from '../logo/logo-del';
+import { filterDeburr } from '../../utils/array-utils';
+import { PickerItem } from '../picker-item';
 
 type Item = { id: string; label: string };
 const trackItems = (items: Item[]) => {
@@ -153,7 +149,7 @@ export const Picker = ({
 							onChange={(e) => handleChange(e.target.value)}
 							placeholder={D.searchLabelPlaceholder}
 						/>
-						<Pagination itemEls={toAddEls} itemsPerPage="10" />
+						<Pagination itemEls={toAddEls} />
 					</div>
 				</div>
 			</div>

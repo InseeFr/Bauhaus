@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { LabelRequired } from '@inseefr/wilco';
 import {
 	Loading,
 	TextInput,
@@ -23,6 +22,7 @@ import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
 import { StructureApi } from '../../sdk';
 import { usePermission } from '../../redux/hooks/usePermission';
 import { useAppContext } from '../../application/app-context';
+import LabelRequired from '../../components/label-required';
 
 const defaultDSD = {
 	identifiant: '',

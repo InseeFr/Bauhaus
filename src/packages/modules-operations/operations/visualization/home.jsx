@@ -1,4 +1,3 @@
-import { Note } from '@inseefr/wilco';
 import { D1, D2 } from '../../../deprecated-locales';
 import RelationsView from '../../../modules-operations/shared/relations';
 import D from '../../../deprecated-locales/build-dictionary';
@@ -8,12 +7,9 @@ import {
 	CreationUpdateItems,
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 
-function OperationsOperationVisualization({
-	attr,
-	secondLang,
-	langs: { lg1, lg2 },
-}) {
+function OperationsOperationVisualization({ attr, secondLang }) {
 	useTitle(D.operationsTitle, attr?.prefLabelLg1);
 
 	return (
@@ -39,7 +35,6 @@ function OperationsOperationVisualization({
 				<Note
 					text={attr.altLabelLg1}
 					title={D1.altLabel}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -47,7 +42,6 @@ function OperationsOperationVisualization({
 					<Note
 						text={attr.altLabelLg2}
 						title={D2.altLabel}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -58,7 +52,6 @@ function OperationsOperationVisualization({
 				parentTitle={'parentSeries'}
 				parentPath="series"
 				title={'linksTitle'}
-				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
 		</>

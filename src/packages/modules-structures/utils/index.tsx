@@ -1,4 +1,3 @@
-import D from '../i18n/build-dictionary';
 import { MUTUALIZED_COMPONENT_TYPES, ATTACHMENTS } from './constants/';
 import { Component } from '../../model/structures/Component';
 
@@ -44,37 +43,3 @@ export const typeUriToLabel = (uri = '') => {
 	return MUTUALIZED_COMPONENT_TYPES.find((component) => component.value === uri)
 		?.label;
 };
-
-export const defaultComponentsTableParams = [
-	{
-		dataField: 'labelLg1',
-		text: D.label,
-		width: '20%',
-		isKey: true,
-	},
-	{
-		dataField: 'type',
-		text: D.type,
-		width: '20%',
-	},
-	{
-		dataField: 'mutualized',
-		text: D.mutualized,
-		width: '10%',
-	},
-	{
-		dataField: 'concept',
-		text: D.conceptTitle,
-		width: '20%',
-	},
-	{
-		dataField: 'representation',
-		text: D.representationTitle,
-		width: '20%',
-	},
-	{
-		dataField: 'actions',
-		text: '',
-		width: '20%',
-	},
-];

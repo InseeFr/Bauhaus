@@ -9,10 +9,6 @@ const dictionary = {
 		fr: 'Application de gestion des métadonnées de référence',
 		en: 'Metadata management application',
 	},
-	home: {
-		fr: 'Accueil',
-		en: 'Home',
-	},
 	help: {
 		fr: 'Aide',
 		en: 'Help',

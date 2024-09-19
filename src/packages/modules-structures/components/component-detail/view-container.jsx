@@ -7,7 +7,6 @@ import ComponentTitle from './title';
 import { useParams } from 'react-router-dom';
 import { getFormattedCodeList } from '../../apis';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 const ViewContainer = (props) => {
 	const goBack = useGoBack();
@@ -20,7 +19,6 @@ const ViewContainer = (props) => {
 	const [codesLists, setCodesLists] = useState([]);
 	const [serverSideError, setServerSideError] = useState();
 	const [attributes, setAttributes] = useState([]);
-	const langs = useLocales();
 
 	const handleBack = useCallback(
 		() => goBack('/structures/components'),
@@ -83,7 +81,6 @@ const ViewContainer = (props) => {
 				serverSideError={serverSideError}
 				secondLang={secondLang}
 				attributes={attributes}
-				langs={langs}
 			/>
 		</>
 	);

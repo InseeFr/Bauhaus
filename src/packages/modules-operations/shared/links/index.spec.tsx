@@ -1,12 +1,11 @@
 import DisplayLinks from './index';
 import { renderWithRouter } from '../../../tests-utils/render';
-import { locales } from '../../../tests-utils/default-values';
 
 describe('DisplayLinks', () => {
 	it('should display a list if we have multiple item', () => {
 		const links = [{ id: 1 }, { id: 2 }];
 		const { container } = renderWithRouter(
-			<DisplayLinks links={links} langs={locales} path="series/" title="home" />
+			<DisplayLinks links={links} path="series/" title="home" />
 		);
 		expect(container.innerHTML).toContain('<li><a href="/series/1">');
 		expect(container.innerHTML).toContain('<li><a href="/series/2">');
@@ -14,11 +13,11 @@ describe('DisplayLinks', () => {
 	it('should display a paragraph if we have only one item', () => {
 		const links = [{ id: 1 }];
 		const { container } = renderWithRouter(
-			<DisplayLinks links={links} langs={locales} path="series/" title="home" />
+			<DisplayLinks links={links} path="series/" title="home" />
 		);
 
 		expect(container.innerHTML).toContain(
-			'<div class="panel-body"><a href="/series/1">'
+			'<div class="card-body"><a href="/series/1">'
 		);
 	});
 	it('should not display a link', () => {
@@ -26,7 +25,6 @@ describe('DisplayLinks', () => {
 		const { container } = renderWithRouter(
 			<DisplayLinks
 				links={links}
-				langs={locales}
 				path="series/"
 				displayLink={false}
 				title="home"

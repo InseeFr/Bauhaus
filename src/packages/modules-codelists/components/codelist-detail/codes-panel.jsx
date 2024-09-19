@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { API } from '../../apis';
 import { CollapsiblePanel } from '../collapsible-panel';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { rowParams } from '../code-detail/code-columns';
-import { LabelRequired, Table } from '@inseefr/wilco';
 import SlidingPanel from 'react-sliding-side-panel';
 import './codes-panel.scss';
 import { validateCode } from '../../utils';
@@ -15,6 +13,9 @@ import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
 } from '../../../components';
+import LabelRequired from '../../../components/label-required';
+import { DataTable } from '../../../components/datatable';
+import { Column } from 'primereact/column';
 const CodeSlidingPanel = ({
 	code: initialCode,
 	handleBack,
@@ -149,45 +150,6 @@ const CodeSlidingPanel = ({
 
 export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 	const [codes, setCodes] = useState([]);
-	const [currentPage, setCurrentPage] = useState(1);
-
-	const [sort, setSort] = useState('code');
-
-	useEffect(() => {
-		API.getSortedCodes(codelist.id, sort).then((cl) => {
-			setCodes(cl ?? {});
-		});
-	}, [codelist.id, sort]);
-
-	const tableHead = rowParams.map(
-		({ dataField, text, classifiable, ...rowParam }) => ({
-			dataField,
-			text: classifiable ? (
-				<>
-					{text}
-					<button
-						type="button"
-						onClick={() =>
-							sort === dataField ? setSort('code') : setSort(dataField)
-						}
-						aria-label={D.sort}
-						title={D.sort}
-					>
-						<span
-							className={
-								sort === dataField
-									? 'glyphicon glyphicon-triangle-top'
-									: 'glyphicon glyphicon-triangle-bottom'
-							}
-						></span>
-					</button>
-				</>
-			) : (
-				text
-			),
-			...rowParam,
-		})
-	);
 
 	const [searchCode, setSearchCode] = useState('');
 	const [searchLabel, setSearchLabel] = useState('');
@@ -210,50 +172,28 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 			  });
 	};
 
+	const [lazyState, setlazyState] = useState({
+		first: 0,
+		rows: 10,
+		page: 0,
+		sortField: null,
+		sortOrder: null,
+	});
+
+	const [loading, setLoading] = useState(true);
+
 	useEffect(() => {
-		if (currentPage > 0) {
-			API.getCodesDetailedCodelist(codelist.id, currentPage).then((cl) => {
+		setLoading(true);
+		API.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1)
+			.then((cl) => {
 				setCodes(cl ?? {});
-			});
-		}
-	}, [codelist.id, currentPage]);
-
-	function isActivePage(page) {
-		return page === currentPage;
-	}
-
-	function checkInvalidPage(targetPage, listSize) {
-		return targetPage === 0 || targetPage > listSize;
-	}
-
-	function isDisabled(targetPage) {
-		return checkInvalidPage(targetPage, pageNumbers.length);
-	}
-
-	const pageNumbers = [];
-	const numberOfPages = Math.ceil((codes.total ?? 0) / 5);
-	for (let i = 1; i <= numberOfPages; i++) {
-		pageNumbers.push(i);
-	}
-
-	const renderPageNumbers = pageNumbers
-		.filter((number) => number - 3 < currentPage && number + 3 > currentPage)
-		.map((number) => {
-			return (
-				<li className={isActivePage(number) ? 'active' : ''} key={number}>
-					<button
-						type="button"
-						aria-current={number === currentPage}
-						onClick={() => setCurrentPage(number)}
-					>
-						{number}
-					</button>
-				</li>
-			);
-		});
+			})
+			.finally(() => setLoading(false));
+	}, [codelist.id, lazyState.page]);
 
 	const [openPanel, setOpenPanel] = useState(false);
 	const [selectedCode, setSelectedCode] = useState({});
+
 	const onHandlePanel = (e) => {
 		e.stopPropagation();
 		setOpenPanel(true);
@@ -270,6 +210,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 					{editable && (
 						<button
 							type="button"
+							className="btn btn-default"
 							data-component-id={code.code}
 							onClick={() => {
 								setSelectedCode(code);
@@ -284,12 +225,10 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 					{editable && (
 						<button
 							type="button"
+							className="btn btn-default"
 							data-component-id={code.code}
 							onClick={() => {
-								setCurrentPage(0);
-								API.deleteCodesDetailedCodelist(codelist.id, code).then(() =>
-									setCurrentPage(1)
-								);
+								API.deleteCodesDetailedCodelist(codelist.id, code)
 							}}
 							aria-label={D.remove}
 							title={D.remove}
@@ -302,6 +241,9 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 		};
 	});
 
+	const onPage = (e) => {
+		setlazyState(e);
+	};
 	return (
 		<Row>
 			<CollapsiblePanel
@@ -345,54 +287,33 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							</div>
 						</Row>
 
-						<Table rowParams={tableHead} data={codesWithActions} />
+						<DataTable
+							loadind={loading}
+							lazy
+							first={lazyState.first}
+							rows={lazyState.rows}
+							rowsPerPageOptions={[10]}
+							totalRecords={codes.total}
+							value={codesWithActions}
+							onPage={onPage}
+						>
+							<Column field="code" header={D1.codeTitle}></Column>
 
-						{numberOfPages > 1 && (
-							<div
-								className="server-side-pagination col-md-12"
-								style={{ padding: 0 }}
-							>
-								<ul className="wilco-pagination">
-									<li>
-										<button
-											type="button"
-											disabled={isDisabled(currentPage - 1)}
-											onClick={() => setCurrentPage(1)}
-										>
-											<span aria-hidden="true">&laquo;</span>
-										</button>
-									</li>
-									<li>
-										<button
-											type="button"
-											disabled={isDisabled(currentPage - 1)}
-											onClick={() => setCurrentPage(currentPage - 1)}
-										>
-											<span aria-hidden="true">&lt;</span>
-										</button>
-									</li>
-									{renderPageNumbers}
-									<li>
-										<button
-											type="button"
-											disabled={isDisabled(currentPage + 1)}
-											onClick={() => setCurrentPage(currentPage + 1)}
-										>
-											<span aria-hidden="true">&gt;</span>
-										</button>
-									</li>
-									<li>
-										<button
-											type="button"
-											disabled={isDisabled(currentPage + 1)}
-											onClick={() => setCurrentPage(numberOfPages)}
-										>
-											<span aria-hidden="true">&raquo;</span>
-										</button>
-									</li>
-								</ul>
-							</div>
-						)}
+							<Column field="labelLg1" header={D1.codeLabel}></Column>
+
+							<Column field="labelLg2" header={D2.codeLabel}></Column>
+
+							<Column field="broader" header={D1.codelistBroader}></Column>
+
+							<Column field="narrower" header={D1.codelistNarrower}></Column>
+
+							<Column
+								field="closeMatch"
+								header={D1.codelistCloseMatch}
+							></Column>
+
+							<Column field="actions" header={''}></Column>
+						</DataTable>
 					</>
 				}
 			/>
@@ -420,11 +341,9 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 								promise = API.putCodesDetailedCodelist;
 							}
 
-							setCurrentPage(0);
 							promise(codelist.id, code).then(() => {
 								setSelectedCode({});
 								setOpenPanel(false);
-								setCurrentPage(1);
 							});
 						}}
 					></CodeSlidingPanel>

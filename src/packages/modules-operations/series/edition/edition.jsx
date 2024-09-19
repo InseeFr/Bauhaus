@@ -11,12 +11,7 @@ import {
 	EditorMarkdown,
 	Select,
 } from '../../../components';
-import {
-	CancelButton,
-	SaveButton,
-	ActionToolbar,
-	LabelRequired,
-} from '@inseefr/wilco';
+
 import PublishersInput from '../../../modules-operations/components/publishers-input';
 import { isMandatoryField, validate } from './validation';
 import * as ItemToSelectModel from '../../../utils/item-to-select-model';
@@ -25,6 +20,12 @@ import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
+import LabelRequired from '../../../components/label-required';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../../components/buttons/buttons-with-icons';
 
 const defaultSerie = {
 	id: '',

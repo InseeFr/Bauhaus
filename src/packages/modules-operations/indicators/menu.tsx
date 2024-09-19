@@ -1,7 +1,7 @@
 import { ADMIN } from '../../auth/roles';
-import { VerticalMenu } from '@inseefr/wilco';
 import { MasculineButton } from '../../components';
 import Auth from '../../auth/components/auth';
+import { VerticalMenu } from '../../components/vertical-menu';
 
 export const Menu = () => {
 	return (

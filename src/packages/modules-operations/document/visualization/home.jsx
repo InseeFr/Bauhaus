@@ -1,10 +1,10 @@
-import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { useEffect, useState } from 'react';
 import { LINK, isDocument, isLink } from '../utils';
 import RelationsView from '../../shared/relations';
 import { getBaseURI } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Note } from '../../../components/note';
 
 function formatSims(sims) {
 	const simsObject = sims.reduce((acc, s) => {
@@ -47,7 +47,6 @@ function OperationsDocumentationVisualization({
 	id,
 	attr,
 	secondLang,
-	langs: { lg1, lg2 },
 	langOptions,
 	type,
 }) {
@@ -63,7 +62,6 @@ function OperationsDocumentationVisualization({
 				<Note
 					text={attr.descriptionLg1}
 					title={D1.descriptionTitle}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -71,7 +69,6 @@ function OperationsDocumentationVisualization({
 					<Note
 						text={attr.descriptionLg2}
 						title={D2.descriptionTitle}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -85,7 +82,6 @@ function OperationsDocumentationVisualization({
 							new Date(attr.updatedDate).toLocaleDateString()
 						}
 						title={D1.titleUpdatedDate}
-						lang={lg1}
 						alone={true}
 						allowEmpty={true}
 					/>
@@ -104,7 +100,6 @@ function OperationsDocumentationVisualization({
 							</a>
 						}
 						title={D1.titleDocument}
-						lang={lg1}
 						alone={true}
 						allowEmpty={true}
 					/>
@@ -119,7 +114,6 @@ function OperationsDocumentationVisualization({
 							</a>
 						}
 						title={D1.titleLink}
-						lang={lg1}
 						alone={true}
 						allowEmpty={true}
 					/>
@@ -132,7 +126,6 @@ function OperationsDocumentationVisualization({
 							?.labelLg1
 					}
 					title={D1.langTitle}
-					lang={lg1}
 					alone={true}
 					allowEmpty={true}
 				/>
@@ -142,7 +135,6 @@ function OperationsDocumentationVisualization({
 				childrenTitle={'linkedSims'}
 				childrenPath="sims"
 				title={'linksTitle'}
-				langs={{ lg1, lg2 }}
 				secondLang={secondLang}
 			/>
 		</>

@@ -2,8 +2,6 @@ import { useCallback, useState } from 'react';
 import D from '../../../../deprecated-locales';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Button, CancelButton, Note, Panel } from '@inseefr/wilco';
-
 import * as A from '../../../../redux/actions/constants';
 
 import { hasLabelLg2 } from '../../utils';
@@ -24,6 +22,11 @@ import {
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../../utils/hooks/second-lang';
+import { Panel } from '../../../../components/panel';
+import { Note } from '../../../../components/note';
+import { CancelButton } from '../../../../components/buttons/buttons-with-icons';
+import { Button } from '../../../../components/buttons/button';
+import { ActionToolbar } from '../../../../components/action-toolbar';
 import { useDocumentsStoreContext } from '../sims-creation/documents-store-context';
 
 export default function SimsVisualisation({
@@ -227,21 +230,18 @@ export default function SimsVisualisation({
 							</div>
 						</div>
 						<div className="modal-footer text-right">
-							<CancelButton
-								col={3}
-								offset={5}
-								action={() => setExportModalOpened(false)}
-							/>
-							<Button
-								disabled={!exportConfig.lg1 && !exportConfig.lg2}
-								col={4}
-								action={() => {
-									exportCallback(sims.id, exportConfig, sims);
-									setExportModalOpened(false);
-								}}
-							>
-								{D.btnExportValidate}
-							</Button>
+							<ActionToolbar>
+								<CancelButton action={() => setExportModalOpened(false)} />
+								<Button
+									disabled={!exportConfig.lg1 && !exportConfig.lg2}
+									action={() => {
+										exportCallback(sims.id, exportConfig, sims);
+										setExportModalOpened(false);
+									}}
+								>
+									{D.btnExportValidate}
+								</Button>
+							</ActionToolbar>
 						</div>
 					</div>
 				</Modal>

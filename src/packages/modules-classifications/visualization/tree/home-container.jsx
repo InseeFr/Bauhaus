@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ClassificationTree from './home';
-import { buildExtract } from '@inseefr/wilco';
 import { Loading } from '../../../components';
-
 import loadClassificationGeneral from '../../../redux/actions/classifications/general';
 import { getGeneral } from '../../../redux/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';
-import { useQuery } from '@tanstack/react-query';
-import { ClassificationsApi } from '../../../sdk/classification';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useClassificationsItem } from '../../../utils/hooks/classifications';
+import { buildExtract } from '../../../utils/buildExtract';
 
 const extractId = buildExtract('id');
 
@@ -19,10 +17,7 @@ const ClassificationTreeContainer = ({
 	general,
 }) => {
 	const [secondLang] = useSecondLang();
-	const { isLoading, data: flatTree } = useQuery({
-		queryKey: ['classification-items', id],
-		queryFn: () => ClassificationsApi.getClassificationItems(id),
-	});
+	const { isLoading, data: flatTree } = useClassificationsItem(id);
 
 	useEffect(() => {
 		loadClassificationGeneral(id);

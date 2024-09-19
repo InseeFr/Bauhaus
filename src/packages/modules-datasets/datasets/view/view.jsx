@@ -1,7 +1,6 @@
 import { useHistory, useParams } from 'react-router-dom';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useEffect, useState } from 'react';
-import { Note } from '@inseefr/wilco';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { withCodesLists } from '../../../utils/hoc/withCodesLists';
@@ -28,7 +27,7 @@ import { List } from '../../../components/list';
 import { CodeDisplay } from '../../../components/code-display';
 import { StatisticalInformations } from './StatisticalInformations';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useLocales } from '../../../utils/hooks/useLocales';
+import { Note } from '../../../components/note';
 
 const Dataset = (props) => {
 	const [serverSideError, setServerSideError] = useState();
@@ -43,7 +42,6 @@ const Dataset = (props) => {
 
 	const { data: dataset, isLoading } = useDataset(id);
 
-	const { lg1, lg2 } = useLocales();
 	const [secondLang] = useSecondLang();
 	const queryClient = useQueryClient();
 
@@ -104,7 +102,6 @@ const Dataset = (props) => {
 				<Note
 					text={dataset.subTitleLg1}
 					title={D1.datasetsSubtitle}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -112,7 +109,6 @@ const Dataset = (props) => {
 					<Note
 						text={dataset.subTitleLg2}
 						title={D2.datasetsSubtitle}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -122,7 +118,6 @@ const Dataset = (props) => {
 				<Note
 					text={dataset.landingPageLg1}
 					title={D1.datasetsLandingPage}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -130,7 +125,6 @@ const Dataset = (props) => {
 					<Note
 						text={dataset.landingPageLg2}
 						title={D2.datasetsLandingPage}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -147,7 +141,6 @@ const Dataset = (props) => {
 						></List>
 					}
 					title={DatasetDictionary.datasets.linkedDocuments}
-					lang={lg1}
 					alone={true}
 					allowEmpty={true}
 				></Note>
@@ -199,7 +192,6 @@ const Dataset = (props) => {
 				<Note
 					text={renderMarkdownElement(dataset.descriptionLg1)}
 					title={D1.descriptionTitle}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -207,7 +199,6 @@ const Dataset = (props) => {
 					<Note
 						text={renderMarkdownElement(dataset.descriptionLg1)}
 						title={D2.descriptionTitle}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -217,7 +208,6 @@ const Dataset = (props) => {
 				<Note
 					text={renderMarkdownElement(dataset.abstractLg1)}
 					title={D1.datasetsAbstract}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -225,7 +215,6 @@ const Dataset = (props) => {
 					<Note
 						text={renderMarkdownElement(dataset.abstractLg2)}
 						title={D2.datasetsAbstract}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>
@@ -235,7 +224,6 @@ const Dataset = (props) => {
 				<Note
 					text={renderMarkdownElement(dataset.cautionLg1)}
 					title={D1.datasetsCaution}
-					lang={lg1}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
@@ -243,7 +231,6 @@ const Dataset = (props) => {
 					<Note
 						text={renderMarkdownElement(dataset.cautionLg2)}
 						title={D2.datasetsCaution}
-						lang={lg2}
 						alone={false}
 						allowEmpty={true}
 					/>

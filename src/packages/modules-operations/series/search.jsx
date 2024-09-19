@@ -9,15 +9,14 @@ import {
 	AdvancedSearchList,
 } from '../../components';
 
-import { useSelector } from 'react-redux';
 import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import { useCodesList } from '../../utils/hooks/codeslist';
 import { useStamps } from '../../utils/hooks/stamps';
-import * as ItemToSelectModel from '../../utils/item-to-select-model';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { OperationsApi } from '../../sdk/operations-api';
 import { CL_SOURCE_CATEGORY } from '../../redux/actions/constants/codeList';
 import { filterKeyDeburr } from '../../utils/array-utils';
+import { useOrganizationsOptions } from '../../utils/hooks/organizations';
 
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = filterKeyDeburr(['typeCode']);
@@ -30,12 +29,12 @@ const defaultFormState = {
 	dataCollector: '',
 };
 
-export const SearchFormList = ({ categories, organisations, stamps, data }) => {
+export const SearchFormList = ({ categories, stamps, data }) => {
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { prefLabelLg1, typeCode, creator, publisher, dataCollector } = form;
 
-	const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
+	const organisationsOptions = useOrganizationsOptions();
 	const stampsOptions = stamps.map((stamp) => ({
 		value: stamp,
 		label: stamp,
@@ -180,9 +179,7 @@ const SearchListContainer = () => {
 	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, D.advancedSearch);
 	const [data, setData] = useState();
 	const categories = useCodesList(CL_SOURCE_CATEGORY);
-	const organisations = useSelector(
-		(state) => state.operationsOrganisations.results
-	);
+
 	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
@@ -190,14 +187,7 @@ const SearchListContainer = () => {
 	}, []);
 
 	if (!data) return <Loading />;
-	return (
-		<SearchFormList
-			data={data}
-			categories={categories}
-			organisations={organisations}
-			stamps={stamps}
-		/>
-	);
+	return <SearchFormList data={data} categories={categories} stamps={stamps} />;
 };
 
 export default SearchListContainer;

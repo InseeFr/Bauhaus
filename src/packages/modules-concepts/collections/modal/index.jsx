@@ -1,9 +1,9 @@
 import D from '../../../deprecated-locales/build-dictionary';
-import { Button } from '@inseefr/wilco';
 import Modal from 'react-modal';
 import { useCallback, useState } from 'react';
 import './index.scss';
 import { Row } from '../../../components';
+import { Button } from '../../../components/buttons/button';
 
 export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const [lang, setLang] = useState('lg1');

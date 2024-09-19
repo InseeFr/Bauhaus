@@ -1,6 +1,5 @@
 import { useClassification, useUpdateClassification } from '../hooks';
 import { useParams, Redirect } from 'react-router-dom';
-import { ActionToolbar, LabelRequired } from '@inseefr/wilco';
 import { useForm, Controller } from 'react-hook-form';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { useQuery } from '@tanstack/react-query';
@@ -18,12 +17,16 @@ import { useStampsOptions } from '../../utils/hooks/stamps';
 import { useOrganizationsOptions } from '../../utils/hooks/organizations';
 import { transformModelToSelectOptions } from '../../utils/transformer';
 import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
-import { useGoBack } from '../../utils/hooks/useGoBack';
 import { ClassificationsApi } from '../../sdk/classification';
 import { useTitle } from '../../utils/hooks/useTitle';
+import LabelRequired from '../../components/label-required';
+import { ActionToolbar } from '../../components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '../../components/buttons/buttons-with-icons';
 
 export const ClassificationEdition = () => {
-	const goBack = useGoBack();
 	const { id } = useParams();
 	const {
 		register,
@@ -86,28 +89,11 @@ export const ClassificationEdition = () => {
 				)}
 			>
 				<ActionToolbar>
-					<div className="col-md-2">
-						<button
-							onClick={() => goBack('/classifications')}
-							className="btn wilco-btn btn-lg col-md-12"
-							type="button"
-						>
-							<span
-								className={`glyphicon glyphicon-floppy-remove`}
-								aria-hidden="true"
-							/>
-							<span>{D.btnCancel}</span>
-						</button>
-					</div>
-					<div className="col-md-2">
-						<button className="btn wilco-btn btn-lg col-md-12" type="submit">
-							<span
-								className={`glyphicon glyphicon-floppy-disk`}
-								aria-hidden="true"
-							/>
-							<span>{D.btnSave}</span>
-						</button>
-					</div>
+					<CancelButton
+						action="/classifications"
+						type="button"
+					></CancelButton>
+					<SaveButton type="submit"></SaveButton>
 				</ActionToolbar>
 
 				{

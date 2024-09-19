@@ -1,12 +1,27 @@
-import { CheckSecondLang as WilcoCheckSecondLang } from '@inseefr/wilco';
 import { useSecondLang } from '../../utils/hooks/second-lang';
+import './index.scss';
+import { createAllDictionary } from '../../utils/dictionnary';
 
+const { D } = createAllDictionary({
+	displayLg2: {
+		fr: 'Afficher la seconde langue',
+		en: 'Display second language',
+	},
+});
 export const CheckSecondLang = () => {
 	const [secondLang, toggleSecondLang] = useSecondLang();
 	return (
-		<WilcoCheckSecondLang
-			secondLang={secondLang}
-			onChange={() => toggleSecondLang()}
-		/>
+		<div className="row bauhaus-second-lang-checkbox">
+			<div className="col-md-10 text-center col-md-offset-1">
+				<label>
+					<input
+						type="checkbox"
+						checked={secondLang}
+						onChange={() => toggleSecondLang()}
+					/>{' '}
+					{D.displayLg2}
+				</label>
+			</div>
+		</div>
 	);
 };

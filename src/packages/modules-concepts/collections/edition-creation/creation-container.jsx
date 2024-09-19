@@ -4,18 +4,16 @@ import buildPayload from '../../../modules-concepts/collections/utils/build-payl
 import CollectionEditionCreation from './home';
 import D from '../../../deprecated-locales';
 import emptyCollection from '../../../modules-concepts/collections/utils/empty-collection';
-import { cleanId } from '@inseefr/wilco';
 import { Loading } from '../../../components';
 
 import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '../../../sdk/collection-api';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { useLocales } from '../../../utils/hooks/useLocales';
 import { useAppContext } from '../../../application/app-context';
+import { cleanId } from '../../../utils/string-utils';
 
 const CreationContainer = () => {
 	const history = useHistory();
-	const langs = useLocales();
 	const {
 		properties: { defaultContributor },
 	} = useAppContext();
@@ -73,7 +71,6 @@ const CreationContainer = () => {
 			collectionList={collectionList}
 			conceptList={conceptList}
 			save={handleCreation}
-			langs={langs}
 		/>
 	);
 };

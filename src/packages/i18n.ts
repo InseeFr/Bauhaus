@@ -55,3 +55,4 @@ export const D1: Dictionary = createDictionary(firstLang, dictionary);
 export const D2: Dictionary = createDictionary(secondLang, dictionary);
 
 export default getLang() === firstLang ? D1 : D2;
+export const isLang2 = () => getLang() === secondLang;

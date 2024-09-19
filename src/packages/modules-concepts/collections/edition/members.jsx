@@ -1,17 +1,13 @@
 import { useState } from 'react';
-import {
-	AddLogo,
-	arrayDifferenceByID,
-	DelLogo,
-	filterDeburr,
-	Pagination,
-	Panel,
-	PickerItem,
-} from '@inseefr/wilco';
 
 import MainDictonary from '../../../deprecated-locales';
 import { D1 } from '../../../modules-concepts/i18n';
-import { Column, TextInput, Row } from '../../../components';
+import { Column, TextInput, Row, Pagination } from '../../../components';
+import { Panel } from '../../../components/panel';
+import { AddLogo } from '../../../components/logo/logo-add';
+import { DelLogo } from '../../../components/logo/logo-del';
+import { arrayDifferenceByID, filterDeburr } from '../../../utils/array-utils';
+import { PickerItem } from '../../../components/picker-item';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {
@@ -119,7 +115,7 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 					onChange={(e) => setSearchLabel(e.target.value)}
 					placeholder={MainDictonary.searchLabelPlaceholder}
 				/>
-				<Pagination itemEls={toAddEls} itemsPerPage="10" />
+				<Pagination itemEls={toAddEls} />
 			</Column>
 		</Row>
 	);

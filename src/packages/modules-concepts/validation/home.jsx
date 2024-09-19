@@ -2,8 +2,8 @@ import { Component } from 'react';
 import { ModalRmes, Picker } from '../../components';
 import check from '../../auth/auth';
 import D from '../../deprecated-locales';
-import { PublishButton } from '@inseefr/wilco';
 import { getModalMessage } from '../utils/build-validation-message';
+import { PublishButton } from '../../components/buttons/buttons-with-icons';
 
 class ConceptsToValidate extends Component {
 	constructor(props) {

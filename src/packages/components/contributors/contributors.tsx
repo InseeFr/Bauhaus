@@ -1,8 +1,8 @@
 import D, { D1 } from '../i18n';
 import { convertToArrayIfDefined } from '../../utils/array-utils';
-import { LabelRequired } from '@inseefr/wilco';
 import { Options } from '../../model/SelectOption';
 import { Select } from '../select-rmes';
+import LabelRequired from '../label-required';
 
 export const ContributorsVisualisation = ({
 	contributors,

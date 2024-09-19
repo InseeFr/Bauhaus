@@ -1,4 +1,3 @@
-import { Note } from '@inseefr/wilco';
 import D, { D1 } from '../../../deprecated-locales/build-dictionary';
 import { CodeDisplay } from '../../../components/code-display';
 import {
@@ -13,6 +12,7 @@ import { stringToDate } from '../../../utils/date-utils';
 import { Dataset } from '../../../model/Dataset';
 import { useCodesList } from '../../../utils/hooks/codeslist';
 import { useStructures } from '../../../utils/hooks/structures';
+import { Note } from '../../../components/note';
 
 type StatisticalInformationsTypes = {
 	dataset: Dataset;

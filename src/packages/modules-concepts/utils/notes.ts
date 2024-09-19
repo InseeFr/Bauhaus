@@ -1,5 +1,5 @@
-import { buildEmptyNotes } from '@inseefr/wilco';
 import { rawHtmlToRmesHtml } from '../../utils/html-utils';
+import { buildEmptyNotes } from '../../utils/build-empty-notes';
 
 export const versionableNotes = [
 	'scopeNoteLg1',

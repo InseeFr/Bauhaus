@@ -1,6 +1,5 @@
 import Home from './home';
 import { renderWithAppContext } from '../../../tests-utils/render';
-import { locales } from '../../../tests-utils/default-values';
 
 const series = {
 	general: { prefLabelLg1: 'Label' },
@@ -13,8 +12,6 @@ const series = {
 
 describe('classification-series-home', () => {
 	it('renders without crashing', () => {
-		renderWithAppContext(
-			<Home series={series} langs={locales} secondLang={true} />
-		);
+		renderWithAppContext(<Home series={series} secondLang={true} />);
 	});
 });

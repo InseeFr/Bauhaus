@@ -120,8 +120,8 @@ const data = [
 	},
 ];
 const organisations = [
-	{ id: 'Acoss', label: 'Acoss' },
-	{ id: 'DG75-A040', label: 'DG75-A040' },
+	{ value: 'Acoss', label: 'Acoss' },
+	{ value: 'DG75-A040', label: 'DG75-A040' },
 ];
 const stamps = ['DG57-C003'];
 const categories = {
@@ -130,18 +130,19 @@ const categories = {
 
 vi.mock('../../utils/hooks/useUrlQueryParameters');
 
+vi.mock('../../utils/hooks/organizations', () => ({
+	useOrganizationsOptions: () => {
+		return organisations;
+	},
+}));
+
 describe('<SearchFormList />', () => {
 	it('should return all data when the form is empty', () => {
 		const form = {};
 		useUrlQueryParameters.mockReturnValue({ form });
 
 		const { container } = renderWithRouter(
-			<SearchFormList
-				data={data}
-				organisations={organisations}
-				stamps={stamps}
-				categories={categories}
-			/>
+			<SearchFormList data={data} stamps={stamps} categories={categories} />
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(6);
 	});
@@ -151,12 +152,7 @@ describe('<SearchFormList />', () => {
 		useUrlQueryParameters.mockReturnValue({ form });
 
 		const { container } = renderWithRouter(
-			<SearchFormList
-				data={data}
-				organisations={organisations}
-				stamps={stamps}
-				categories={categories}
-			/>
+			<SearchFormList data={data} stamps={stamps} categories={categories} />
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
@@ -164,12 +160,7 @@ describe('<SearchFormList />', () => {
 		const form = { typeCode: 'S' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList
-				data={data}
-				organisations={organisations}
-				stamps={stamps}
-				categories={categories}
-			/>
+			<SearchFormList data={data} stamps={stamps} categories={categories} />
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
@@ -177,12 +168,7 @@ describe('<SearchFormList />', () => {
 		const form = { creator: 'DG57-C003' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList
-				data={data}
-				organisations={organisations}
-				stamps={stamps}
-				categories={categories}
-			/>
+			<SearchFormList data={data} stamps={stamps} categories={categories} />
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
@@ -192,12 +178,7 @@ describe('<SearchFormList />', () => {
 		const form = { publisher: 'Acoss' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList
-				data={data}
-				organisations={organisations}
-				stamps={stamps}
-				categories={categories}
-			/>
+			<SearchFormList data={data} stamps={stamps} categories={categories} />
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
@@ -207,12 +188,7 @@ describe('<SearchFormList />', () => {
 		const form = { dataCollector: 'DG75-A040' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList
-				data={data}
-				organisations={organisations}
-				stamps={stamps}
-				categories={categories}
-			/>
+			<SearchFormList data={data} stamps={stamps} categories={categories} />
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);

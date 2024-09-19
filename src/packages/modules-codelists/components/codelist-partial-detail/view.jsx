@@ -1,18 +1,8 @@
 import { Link } from 'react-router-dom';
-import {
-	Note,
-	UpdateButton,
-	DeleteButton,
-	ActionToolbar,
-	ReturnButton,
-	ErrorBloc,
-	Table,
-} from '@inseefr/wilco';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
-import { rowParams } from '../code-detail/code-columns';
 import {
 	PublicationFemale,
 	Row,
@@ -21,10 +11,18 @@ import {
 	DisseminationStatusVisualisation,
 	ConfirmationDelete,
 	CreationUpdateItems,
+	ErrorBloc,
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import {
+	DeleteButton,
+	ReturnButton,
+	UpdateButton,
+} from '../../../components/buttons/buttons-with-icons';
+import { Note } from '../../../components/note';
 
 export const CodeListPartialDetailView = ({
 	codelist,
@@ -50,7 +48,6 @@ export const CodeListPartialDetailView = ({
 	const publish = () => {
 		publishComponent();
 	};
-	const codes = Object.values(codelist.codes || {});
 
 	return (
 		<>
@@ -70,7 +67,7 @@ export const CodeListPartialDetailView = ({
 					{deletable && <DeleteButton action={handleDelete} col={col} />}
 				</Auth>
 			</ActionToolbar>
-			<ErrorBloc error={serverSideError} />
+			{serverSideError && <ErrorBloc error={serverSideError} />}
 			{
 				<Row>
 					<Note
@@ -136,12 +133,7 @@ export const CodeListPartialDetailView = ({
 						id="code-array"
 						hidden={hidden}
 						title={D.listElements}
-						children={
-							<Table
-								rowParams={rowParams}
-								data={codes.sort((a, b) => (a.code > b.code ? 1 : -1))}
-							/>
-						}
+						children={<></>}
 					/>
 				</Row>
 			)}

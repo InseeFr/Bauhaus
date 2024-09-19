@@ -1,5 +1,6 @@
-import { ReturnButton, ActionToolbar } from '@inseefr/wilco';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import { ReturnButton } from '../../../components/buttons/buttons-with-icons';
 
 type CorrespondenceControlsTypes = {
 	correspondenceId?: string;

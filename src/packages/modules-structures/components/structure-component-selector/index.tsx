@@ -1,20 +1,24 @@
 import { useCallback, useState, useEffect } from 'react';
 import SlidingPanel from 'react-sliding-side-panel';
-import { typeUriToLabel, defaultComponentsTableParams } from '../../utils';
+import { typeUriToLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
-import { Table } from '@inseefr/wilco';
 import { ComponentDetail } from '../component-detail';
 import Auth from '../../../auth/components/auth';
 import Representation from '../representation';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { useStampsOptions } from '../../../utils/hooks/stamps';
 import { ADMIN } from '../../../auth/roles';
-import { Component, ComponentDefinition } from '../../../model/structures/Component';
+import {
+	Component,
+	ComponentDefinition,
+} from '../../../model/structures/Component';
 import { Structure } from '../../../model/structures/Structure';
 import { CodesList } from '../../../model/CodesList';
 import { SeeButton } from '../../../components';
 import { convertToArrayIfDefined } from '../../../utils/array-utils';
+import { DataTable } from '../../../components/datatable';
+import { Column } from 'primereact/column';
 
 type StructureComponentsSelectorTypes = {
 	hidden?: boolean;
@@ -75,26 +79,26 @@ export const StructureComponentsSelector = ({
 		[components, handleSpecificationClick]
 	);
 
-
-
-
-
 	const handleSave = useCallback(
 		(component: ComponentDefinition) => {
-			const generateComponentDefinitionForNewlyCreateComponent = (component: Component): ComponentDefinition => {
+			const generateComponentDefinitionForNewlyCreateComponent = (
+				component: Component
+			): ComponentDefinition => {
 				return {
 					component: {
 						...component,
-						contributor: convertToArrayIfDefined(component.contributor) ?? []
+						contributor: convertToArrayIfDefined(component.contributor) ?? [],
 					},
-					order: components.length + 1
+					order: components.length + 1,
 				};
-			}
+			};
 
 			let newComponent = component;
 			let newComponents;
 			if (!component.id) {
-				newComponent = generateComponentDefinitionForNewlyCreateComponent(component as unknown as  Component)
+				newComponent = generateComponentDefinitionForNewlyCreateComponent(
+					component as unknown as Component
+				);
 				newComponents = [...components, newComponent];
 				setOpenPanel(false);
 			} else {
@@ -203,6 +207,7 @@ export const StructureComponentsSelector = ({
 						></SeeButton>
 
 						<button
+							className="btn btn-default"
 							data-component-id={component.identifiant}
 							onClick={specificationClickHandler}
 							aria-label={D.componentSpecificationTitle}
@@ -212,6 +217,7 @@ export const StructureComponentsSelector = ({
 						</button>
 						{!readOnly && (
 							<button
+								className="btn btn-default"
 								data-component-id={component.identifiant}
 								onClick={removeClickHandler}
 								aria-label={D.remove}
@@ -222,6 +228,7 @@ export const StructureComponentsSelector = ({
 						)}
 						{!readOnly && i !== 0 && (
 							<button
+								className="btn btn-default"
 								data-component-id={component.identifiant}
 								onClick={goingUp}
 								aria-label={D.up}
@@ -232,6 +239,7 @@ export const StructureComponentsSelector = ({
 						)}
 						{!readOnly && i !== components.length - 1 && (
 							<button
+								className="btn btn-default"
 								data-component-id={component.identifiant}
 								onClick={goingDown}
 								aria-label={D.down}
@@ -266,12 +274,18 @@ export const StructureComponentsSelector = ({
 				</>
 			}
 		>
-			<Table
-				rowParams={defaultComponentsTableParams}
-				data={componentsWithActions}
-				search={false}
-				pagination={false}
-			/>
+			<DataTable value={componentsWithActions} withPagination={false}>
+				<Column field="labelLg1" header={D.label}></Column>
+				<Column field="type" header={D.type}></Column>
+				<Column field="mutualized" header={D.mutualized}></Column>
+				<Column field="concept" header={D.conceptTitle}></Column>
+				<Column field="representation" header={D.representationTitle}></Column>
+				<Column
+					field="actions"
+					header={``}
+					style={{ display: 'flex' }}
+				></Column>
+			</DataTable>
 			<SlidingPanel
 				type={'right'}
 				isOpen={openPanel}
