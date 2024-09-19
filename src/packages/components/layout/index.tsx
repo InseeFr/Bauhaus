@@ -6,6 +6,6 @@ export const Column = ({ children }: PropsWithChildren<{}>) => {
 	return <div className="col-md-6">{children}</div>;
 };
 
-export const Row = ({ children }: PropsWithChildren<{}>) => (
-	<div className="row bauhaus-row">{children}</div>
+export const Row = ({ children, className = '' }: PropsWithChildren<{ className: string}>) => (
+	<div className={`row ${className}`}>{children}</div>
 );

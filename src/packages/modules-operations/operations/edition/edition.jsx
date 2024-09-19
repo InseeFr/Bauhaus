@@ -145,7 +145,7 @@ class OperationsOperationEdition extends Component {
 				{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 				<form>
 					{!isEditing && (
-						<Row>
+						<Row className="bauhaus-row">
 							<div className="form-group">
 								<LabelRequired>{D.serieTitle}</LabelRequired>
 								<Select
@@ -165,7 +165,7 @@ class OperationsOperationEdition extends Component {
 							</div>
 						</Row>
 					)}
-					<Row>
+					<Row className="bauhaus-row">
 						<div className="form-group">
 							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 							<TextInput
@@ -207,7 +207,7 @@ class OperationsOperationEdition extends Component {
 							></ClientSideError>
 						</div>
 					</Row>
-					<Row>
+					<Row className="bauhaus-row">
 						<div className="form-group">
 							<label htmlFor="altLabelLg1">{D1.altLabel}</label>
 							<TextInput
