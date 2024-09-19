@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import { DocumentsBloc } from './index';
 import { sortArray } from '../../../../utils/array-utils';
 import { getLang } from '../../../../utils/dictionnary';
+import { DocumentsStoreProvider } from '../../pages/sims-creation/documents-store-context';
 
 const documents = [
 	{
@@ -41,26 +42,34 @@ const documents = [
 	},
 ];
 
+export const renderWithStore = (component) => {
+	return render(
+		<DocumentsStoreProvider value={{ lg1: documents, lg2: documents }}>
+			{component}
+		</DocumentsStoreProvider>
+	);
+};
+
 describe('DocumentsBloc', () => {
 	it('should display nothing if the documents props is not defined', () => {
-		const { container } = render(<DocumentsBloc />);
+		const { container } = renderWithStore(<DocumentsBloc />);
 		expect(container.querySelectorAll('.documentsbloc')).toHaveLength(0);
 	});
 	it('should display nothing if the documents props is an empty array', () => {
-		const { container } = render(<DocumentsBloc documents={[]} />);
+		const { container } = renderWithStore(<DocumentsBloc documents={[]} />);
 		expect(container.querySelectorAll('.documentsbloc')).toHaveLength(0);
 	});
 
 	it('should display three items', () => {
-		const { container } = render(
-			<DocumentsBloc documents={documents} documentStores={documents} />
+		const { container } = renderWithStore(
+			<DocumentsBloc documents={documents} />
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
 
 	it('should display the Lg1 label and description ordered by label', () => {
-		const { container } = render(
-			<DocumentsBloc documents={documents} documentStores={documents} />
+		const { container } = renderWithStore(
+			<DocumentsBloc documents={documents} />
 		);
 		const orderedList = sortArray('labelLg1')(documents);
 
@@ -72,12 +81,8 @@ describe('DocumentsBloc', () => {
 		}
 	});
 	it('should display the Lg2 label and description ordered by label', () => {
-		const { container } = render(
-			<DocumentsBloc
-				documents={documents}
-				localPrefix="Lg2"
-				documentStores={documents}
-			/>
+		const { container } = renderWithStore(
+			<DocumentsBloc documents={documents} localPrefix="Lg2" />
 		);
 		const orderedList = sortArray('labelLg2')(documents);
 
@@ -95,12 +100,11 @@ describe('DocumentsBloc', () => {
 		${'Lg1'} | ${3}         | ${0}
 	`('$a + $b', ({ lang, expectedEdit, expectedView }) => {
 		it('should not display delete buttons', () => {
-			const { container } = render(
+			const { container } = renderWithStore(
 				<DocumentsBloc
 					documents={documents}
 					localPrefix={lang}
 					editMode={false}
-					documentStores={documents}
 				/>
 			);
 
@@ -110,12 +114,11 @@ describe('DocumentsBloc', () => {
 		});
 
 		it('should display zero delete buttons', () => {
-			const { container } = render(
+			const { container } = renderWithStore(
 				<DocumentsBloc
 					documents={documents}
 					localPrefix={lang}
 					editMode={true}
-					documentStores={documents}
 				/>
 			);
 
@@ -126,44 +129,23 @@ describe('DocumentsBloc', () => {
 	});
 
 	it('should display the Add Document button if there is not more document to add', () => {
-		const { container } = render(
-			<DocumentsBloc
-				documents={documents}
-				localPrefix="Lg1"
-				editMode={true}
-				documentStores={documents}
-			/>
+		const { container } = renderWithStore(
+			<DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />
 		);
 
 		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(1);
 	});
 	it('should display the Add Document button if there is more than on document available', () => {
-		const { container } = render(
-			<DocumentsBloc
-				documents={documents}
-				localPrefix="Lg1"
-				editMode={true}
-				documentStores={[
-					...documents,
-					{
-						uri: 'new-uri',
-						...documents[0],
-					},
-				]}
-			/>
+		const { container } = renderWithStore(
+			<DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />
 		);
 
 		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(1);
 	});
 
 	it('should not display the Add Document button for Lg2', () => {
-		const { container } = render(
-			<DocumentsBloc
-				documents={documents}
-				localPrefix="Lg2"
-				editMode={false}
-				documentStores={documents}
-			/>
+		const { container } = renderWithStore(
+			<DocumentsBloc documents={documents} localPrefix="Lg2" editMode={false} />
 		);
 
 		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(0);

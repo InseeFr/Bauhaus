@@ -15,9 +15,6 @@ import { Panel } from '../../../../../../components/panel';
 const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();
 	const history = useHistory();
-	const onRowClick = (event, concept) => {
-		history.push(`/concept/${concept.id}`);
-	};
 
 	const variable = type === 'creations' ? 'created' : 'modified';
 	const typeByLang =
@@ -66,6 +63,9 @@ const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 						type === 'creations' ? 'created' : 'modified',
 						'validationStatus',
 					]}
+					onRowClick={({ data: concept }) =>
+						history.push(`/concept/${concept.id}`)
+					}
 				>
 					<Column field="label" header={D.conceptsTitle}></Column>
 

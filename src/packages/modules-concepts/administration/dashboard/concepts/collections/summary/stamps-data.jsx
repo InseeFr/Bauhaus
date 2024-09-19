@@ -1,5 +1,3 @@
-import D from '../../../../../../deprecated-locales';
-
 export const buildDataStamps = (d) =>
 	d.reduce((_, c) => {
 		/*Init array element with stamp*/

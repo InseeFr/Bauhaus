@@ -48,7 +48,6 @@ export const CodeListPartialDetailView = ({
 	const publish = () => {
 		publishComponent();
 	};
-	const codes = Object.values(codelist.codes || {});
 
 	return (
 		<>

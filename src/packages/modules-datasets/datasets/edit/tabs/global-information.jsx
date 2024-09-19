@@ -22,9 +22,11 @@ const GlobalInformationTab = ({
 	...props
 }) => {
 	const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
+
 	const { data: themesOptions = [] } = useThemes();
 
 	const { data: organisations } = useOrganizations();
+
 	const organisationsOptions =
 		organisations?.map(({ iri, label }) => ({ value: iri, label })) ?? [];
 
@@ -136,7 +138,6 @@ const GlobalInformationTab = ({
 					</label>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
@@ -154,13 +155,11 @@ const GlobalInformationTab = ({
 					</label>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsDataProvider}
 						<ReactSelect
-							unclearable
 							multi={true}
 							value={editingDataset.creators}
 							options={organisationsOptions}
@@ -179,7 +178,6 @@ const GlobalInformationTab = ({
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsPublicationProvider}
 						<ReactSelect
-							unclearable
 							value={editingDataset.publisher}
 							options={organisationsOptions}
 							onChange={(option) => {
@@ -197,7 +195,6 @@ const GlobalInformationTab = ({
 					<label className="w-100 wilco-label-required">
 						{D1.theme}
 						<ReactSelect
-							unclearable
 							multi={true}
 							value={editingDataset.themes}
 							options={themesOptions}

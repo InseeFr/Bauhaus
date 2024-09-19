@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { NoteEdition } from '../../components';
 import { D1 } from '../../deprecated-locales';
 import { htmlIsEmpty, htmlLength } from '../../utils/html-utils';
@@ -51,7 +50,7 @@ const NotesEdition = ({
 	return (
 		<TabView>
 			{noteTypes(maxLengthScopeNote).map(
-				({ rawTitle, noteLg1Name, noteLg2Name, maxLength }, i) => {
+				({ rawTitle, noteLg1Name, noteLg2Name, maxLength }) => {
 					const noteLg1 = notes[noteLg1Name];
 					const noteLg2 = notes[noteLg2Name];
 

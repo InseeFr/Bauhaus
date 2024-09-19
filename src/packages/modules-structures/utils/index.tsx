@@ -1,4 +1,3 @@
-import D from '../i18n/build-dictionary';
 import { MUTUALIZED_COMPONENT_TYPES, ATTACHMENTS } from './constants/';
 import { Component } from '../../model/structures/Component';
 

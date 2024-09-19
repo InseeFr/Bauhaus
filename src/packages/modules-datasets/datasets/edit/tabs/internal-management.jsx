@@ -16,6 +16,7 @@ import { DatasetsApi } from '../../../../sdk';
 import {
 	CL_ACCESS_RIGHTS,
 	CL_CONF_STATUS,
+	CL_PROCESS_STEP,
 } from '../../../../redux/actions/constants/codeList';
 import LabelRequired from '../../../../components/label-required';
 
@@ -38,9 +39,7 @@ const InternalManagementTab = ({
 		props[CL_CONF_STATUS]
 	);
 
-	const clProcessStep = convertCodesListsToSelectOption(
-		props['CL_PROCESS_STEP']
-	);
+	const clProcessStep = convertCodesListsToSelectOption(props[CL_PROCESS_STEP]);
 
 	const [archivageUnits, setArchivageUnits] = useState([]);
 	useEffect(() => {
@@ -71,12 +70,10 @@ const InternalManagementTab = ({
 					></ClientSideError>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<LabelRequired>{D1.creatorTitle}</LabelRequired>
 					<Select
-						unclearable
 						value={editingDataset.catalogRecord?.creator}
 						options={stampsOptions}
 						onChange={(option) => {
@@ -98,7 +95,6 @@ const InternalManagementTab = ({
 					></ClientSideError>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<ContributorsInput
@@ -124,7 +120,6 @@ const InternalManagementTab = ({
 					></ClientSideError>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<DisseminationStatusInput
@@ -146,7 +141,6 @@ const InternalManagementTab = ({
 					></ClientSideError>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<LabelRequired>{D1.generatedBy}</LabelRequired>
@@ -176,7 +170,6 @@ const InternalManagementTab = ({
 					></ClientSideError>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
@@ -194,7 +187,6 @@ const InternalManagementTab = ({
 					/>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
@@ -212,14 +204,12 @@ const InternalManagementTab = ({
 					/>
 				</div>
 			</Row>
-
 			<Row>
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetProcessStep}
 					</label>
 					<Select
-						unclearable
 						value={editingDataset.processStep}
 						options={clProcessStep}
 						onChange={(option) => {
@@ -237,7 +227,6 @@ const InternalManagementTab = ({
 						{D1.datasetsArchiveUnit}
 					</label>
 					<Select
-						unclearable
 						value={editingDataset.archiveUnit}
 						options={archivageUnits}
 						onChange={(option) => {
@@ -256,5 +245,5 @@ const InternalManagementTab = ({
 export const InternalManagement = withCodesLists([
 	CL_ACCESS_RIGHTS,
 	CL_CONF_STATUS,
-	'CL_PROCESS_STEP',
+	CL_PROCESS_STEP,
 ])(InternalManagementTab);

@@ -14,8 +14,6 @@ import { DataTable } from '../../../../../../components/datatable';
 const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();
 	const history = useHistory();
-	const onRowClick = (_event, collection) =>
-		history.push(`/collection/${collection.id}`);
 
 	const variable = type === 'creations' ? 'created' : 'modified';
 	const typeByLang =
@@ -62,6 +60,9 @@ const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 					type === 'creations' ? 'created' : 'modified',
 					'validationStatus',
 				]}
+				onRowClick={({ data: collection }) =>
+					history.push(`/collection/${collection.id}`)
+				}
 			>
 				<Column field="label" header={D.collectionsTitle}></Column>
 

@@ -44,23 +44,7 @@ const HomeAssociations = ({
 	});
 	const sourceLabel = secondLang ? firstAltLabelLg2 : firstAltLabelLg1;
 	const targetLabel = secondLang ? secondAltLabelLg2 : secondAltLabelLg1;
-	const rowParams = [
-		{
-			dataField: 'source',
-			text: `${D.sourceClassificationTitle}${
-				sourceLabel && ` : ${sourceLabel}`
-			}`,
-			width: '50%',
-			isKey: true,
-		},
-		{
-			dataField: 'target',
-			text: `${D.targetClassificationTitle}${
-				sourceLabel && ` : ${targetLabel}`
-			}`,
-			width: '50%',
-		},
-	];
+
 	return (
 		<Row>
 			{' '}

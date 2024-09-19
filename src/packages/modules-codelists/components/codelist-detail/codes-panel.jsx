@@ -344,11 +344,9 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 								promise = API.putCodesDetailedCodelist;
 							}
 
-							setCurrentPage(0);
 							promise(codelist.id, code).then(() => {
 								setSelectedCode({});
 								setOpenPanel(false);
-								setCurrentPage(1);
 							});
 						}}
 					></CodeSlidingPanel>

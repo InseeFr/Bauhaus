@@ -13,7 +13,6 @@ import {
 } from '../../../components';
 
 import PublishersInput from '../../../modules-operations/components/publishers-input';
-
 import { isMandatoryField, validate } from './validation';
 import * as ItemToSelectModel from '../../../utils/item-to-select-model';
 import { OperationsApi } from '../../../sdk/operations-api';
@@ -97,6 +96,7 @@ class OperationsSerieEdition extends Component {
 			},
 		}));
 	};
+
 	onSubmit = () => {
 		const clientSideErrors = validate(this.state.serie);
 		if (clientSideErrors.errorMessage?.length > 0) {
@@ -152,22 +152,27 @@ class OperationsSerieEdition extends Component {
 			replacedBy: (this.state.serie.isReplacedBy || []).map((link) => link.id),
 			generate: (this.state.serie.generate || []).map((link) => link.id),
 		};
+
 		const familiesOptions = this.props.families.map((s) => {
 			return { value: s.id, label: s.label };
 		});
+
 		const family = serie.family || { id: '' };
 
 		const isEditing = !!serie.id;
 
 		const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
+
 		const seriesOptions = ItemToSelectModel.toSelectModel(
 			series.filter((s) => s.id !== serie.id),
 			'series'
 		);
+
 		const indicatorsOptions = ItemToSelectModel.toSelectModel(
 			indicators,
 			'indicator'
 		);
+
 		const seriesAndIndicatorsOptions =
 			ItemToSelectModel.mergedItemsToSelectModels(
 				indicatorsOptions,
@@ -185,7 +190,6 @@ class OperationsSerieEdition extends Component {
 						secondLang={true}
 					/>
 				)}
-
 				<ActionToolbar>
 					<CancelButton action={() => goBack('/operations/series')} />
 					<SaveButton
@@ -207,7 +211,6 @@ class OperationsSerieEdition extends Component {
 								<LabelRequired>{D.familyTitle}</LabelRequired>
 								<Select
 									placeholder={D.familiesTitle}
-									unclearable
 									value={family.id}
 									options={familiesOptions}
 									onChange={(value) =>
@@ -336,7 +339,6 @@ class OperationsSerieEdition extends Component {
 							)}
 							<Select
 								placeholder=""
-								unclearable
 								value={serie.typeCode}
 								options={categories?.codes?.map((cat) => {
 									return { value: cat.code, label: cat.labelLg1 };
@@ -366,7 +368,6 @@ class OperationsSerieEdition extends Component {
 							)}
 							<Select
 								placeholder=""
-								unclearable
 								value={serie.accrualPeriodicityCode}
 								options={frequencies?.codes?.map((cat) => {
 									return { value: cat.code, label: cat.labelLg1 };
@@ -406,7 +407,6 @@ class OperationsSerieEdition extends Component {
 								{D1.stakeholders}
 								<Select
 									placeholder=""
-									unclearable
 									value={serie.contributors}
 									options={organisationsOptions}
 									onChange={(value) =>
@@ -430,7 +430,6 @@ class OperationsSerieEdition extends Component {
 								{D1.dataCollector}
 								<Select
 									placeholder=""
-									unclearable
 									value={serie.dataCollectors}
 									options={organisationsOptions}
 									onChange={(value) =>
@@ -474,7 +473,6 @@ class OperationsSerieEdition extends Component {
 								{D1.replaces}
 								<Select
 									placeholder=""
-									unclearable
 									value={serie.replaces}
 									options={seriesOptions}
 									onChange={(value) =>
@@ -498,7 +496,6 @@ class OperationsSerieEdition extends Component {
 								{D1.replacedBy}
 								<Select
 									placeholder=""
-									unclearable
 									value={serie.replacedBy}
 									options={seriesOptions}
 									onChange={(value) =>
@@ -522,7 +519,6 @@ class OperationsSerieEdition extends Component {
 								{D1.indicators}
 								<Select
 									placeholder=""
-									unclearable
 									value={serie.generate}
 									options={indicatorsOptions}
 									disabled
@@ -537,7 +533,6 @@ class OperationsSerieEdition extends Component {
 							<label htmlFor="seeAlso" className="w-100">
 								{D1.seeAlso}
 								<Select
-									unclearable
 									placeholder=""
 									value={serie.seeAlso}
 									options={seriesAndIndicatorsOptions}

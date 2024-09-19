@@ -53,7 +53,6 @@ export const ContributorsInput = ({
 				}
 				searchable
 				multi
-				unclearable={false}
 			/>
 		</>
 	);

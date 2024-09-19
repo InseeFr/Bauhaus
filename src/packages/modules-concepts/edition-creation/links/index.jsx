@@ -158,7 +158,7 @@ class LinksEdition extends Component {
 			/>
 		);
 
-		const tabs = linkTypes.map(({ title }, i) => (
+		const tabs = linkTypes.map(({ title }) => (
 			<TabPanel key={title} header={title}>
 				{title !== D1.equivalentTitle ? (
 					<ConceptToLink

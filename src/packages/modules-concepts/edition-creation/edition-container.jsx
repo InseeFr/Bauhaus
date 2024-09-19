@@ -7,7 +7,6 @@ import { CLOSE_MATCH } from '../../sdk/constants';
 import { rmesHtmlToRawHtml } from '../../utils/html-utils';
 import { ConceptsApi } from '../../sdk';
 import * as generalUtils from '../../modules-concepts/utils/general';
-import { useStamps } from '../../utils/hooks/stamps';
 import { useTitle } from '../../utils/hooks/useTitle';
 import buildPayloadUpdate from '../../modules-concepts/utils/build-payload-creation-update/build-payload-update';
 import { mergeWithAllConcepts } from '../utils/links';
@@ -24,8 +23,10 @@ const formatNotes = (notes) => {
 		}, {})
 	);
 };
+
 const EditionContainer = () => {
 	const { id } = useParams();
+
 	const history = useHistory();
 
 	const maxLengthScopeNoteString =
@@ -39,8 +40,6 @@ const EditionContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
-
-	const { data: stamps = [] } = useStamps();
 
 	useEffect(() => {
 		ConceptsApi.getConceptGeneral(id)
@@ -77,6 +76,7 @@ const EditionContainer = () => {
 	);
 
 	const { general, notes, links } = concept;
+
 	useTitle(D.conceptsTitle, general?.prefLabelLg1 || D.createConceptTitle);
 
 	const conceptsWithLinks = mergeWithAllConcepts(concepts, links ?? []);
@@ -84,6 +84,7 @@ const EditionContainer = () => {
 	if (loading || loadingExtraData) {
 		return <Loading />;
 	}
+
 	if (saving) {
 		return <Loading textType="saving" />;
 	}
@@ -100,9 +101,9 @@ const EditionContainer = () => {
 			)}
 			conceptsWithLinks={conceptsWithLinks}
 			maxLengthScopeNote={maxLengthScopeNote}
-			stampList={stamps}
 			save={handleUpdate}
 		/>
 	);
 };
+
 export default EditionContainer;

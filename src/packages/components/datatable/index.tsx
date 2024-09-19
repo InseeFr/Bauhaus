@@ -23,7 +23,7 @@ export const DataTable = ({
 	});
 	const onGlobalFilterChange = (e) => {
 		const value = e.target.value;
-		let _filters = { ...filters };
+		const _filters = { ...filters };
 
 		_filters['global'].value = value;
 

@@ -1,12 +1,11 @@
-import spinner from '../../../../../img/spinner.svg';
-import { LOADING } from '../../../../sdk/constants';
 import D, { D1, D2 } from '../../../../deprecated-locales';
 import { useState, useEffect } from 'react';
 import './style.scss';
-import { isLink, isDocument } from '../../../document/utils';
+import { isDocument, isLink } from '../../../document/utils';
 import { getBaseURI } from '../../../../sdk';
 import { sortArray } from '../../../../utils/array-utils';
 import { getLang } from '../../../../utils/dictionnary';
+import { useDocumentsStoreContext } from '../../pages/sims-creation/documents-store-context';
 
 function getAsideToTheDocument(document) {
 	let updatedDate;
@@ -25,8 +24,6 @@ function getAsideToTheDocument(document) {
  * @property {Boolean=} editMode
  * @property {(string) => void } deleteHandler
  * @property {(string) => void } addHandler
- * @property {import('js/types').SimsDocuments[]} documentStores
- * @property {String} documentStoresStatus
  * @property {String} objectType
  */
 
@@ -42,10 +39,10 @@ export function DocumentsBloc({
 	editMode = false,
 	deleteHandler,
 	addHandler,
-	documentStores = [],
-	documentStoresStatus,
 	objectType,
 }) {
+	const documentStores = useDocumentsStoreContext();
+
 	/**
 	 * @param {import('js/types').SimsDocuments} document
 	 */
@@ -71,19 +68,17 @@ export function DocumentsBloc({
 	const currentDocuments = sortArray(`label` + localPrefix)(documents);
 	const currentDocumentsIds = currentDocuments.map((doc) => doc.uri);
 
-	const otherDocuments = sortArray(`label` + localPrefix)(
-		documentStores
-			.filter((document) => !currentDocumentsIds.includes(document.uri))
-			.filter((document) => !!document['label' + localPrefix])
-			.filter((document) =>
-				objectType === 'documents' ? isDocument(document) : isLink(document)
-			)
-			.filter((document) =>
-				document['label' + localPrefix]
-					.toLowerCase()
-					.includes(filter.toLowerCase())
-			)
-	);
+	const otherDocuments = documentStores[localPrefix.toLowerCase()]
+		.filter((document) => !currentDocumentsIds.includes(document.uri))
+		.filter((document) => !!document['label' + localPrefix])
+		.filter((document) =>
+			objectType === 'documents' ? isDocument(document) : isLink(document)
+		)
+		.filter((document) =>
+			document['label' + localPrefix]
+				.toLowerCase()
+				.includes(filter.toLowerCase())
+		);
 
 	const isSecondLang = localPrefix === 'Lg2';
 
@@ -144,12 +139,7 @@ export function DocumentsBloc({
 								}`}
 								aria-hidden="true"
 							/>
-							{addTitle}{' '}
-							{documentStoresStatus === LOADING ? (
-								<img src={spinner} width="30px" alt="loading" />
-							) : (
-								<span className="badge">{otherDocuments.length}</span>
-							)}
+							{addTitle} <span className="badge">{otherDocuments.length}</span>
 						</button>
 					</div>
 					{panelStatus && (

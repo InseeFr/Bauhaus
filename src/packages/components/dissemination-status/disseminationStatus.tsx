@@ -56,7 +56,6 @@ export const DisseminationStatusInput = ({
 				)}
 				options={disseminationStatusListOptions}
 				onChange={handleChange}
-				unclearable={false}
 			/>
 		</>
 	);
