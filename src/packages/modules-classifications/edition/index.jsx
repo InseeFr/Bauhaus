@@ -106,9 +106,7 @@ export const ClassificationEdition = () => {
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
-						<input
-							type="text"
-							className="form-control"
+						<TextInput
 							id="prefLabelLg1"
 							{...register('prefLabelLg1', { required: D.requiredPrefLabel })}
 							defaultValue={classification.general.prefLabelLg1}
@@ -122,10 +120,8 @@ export const ClassificationEdition = () => {
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
-						<input
+						<TextInput
 							id="prefLabelLg2"
-							className="form-control"
-							type="text"
 							{...register('prefLabelLg2', { required: D.requiredPrefLabel })}
 							defaultValue={classification.general.prefLabelLg2}
 							aria-describedby="prefLabelLg2-error"

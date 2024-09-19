@@ -4,7 +4,7 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import SimsGeographySelector from './sims-geography-selector';
 import { useGeographies } from './hooks';
-import { ErrorBloc, Row } from '../../../components';
+import { ErrorBloc, Row, TextInput } from '../../../components';
 import { GeographieApi } from '../../../sdk/geographie';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
@@ -82,9 +82,8 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 					<LabelRequired className="form-label w-100">
 						{D1.simsGeographyZoneName}
 					</LabelRequired>
-					<input
+					<TextInput
 						value={name}
-						className="form-control"
 						onChange={(e) => setName(e.target.value)}
 					/>
 				</div>
@@ -92,9 +91,8 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 					<LabelRequired className="form-label w-100">
 						{D2.simsGeographyZoneName}
 					</LabelRequired>
-					<input
+					<TextInput
 						value={nameLg2}
-						className="form-control"
 						onChange={(e) => setNameLg2(e.target.value)}
 					/>
 				</div>
