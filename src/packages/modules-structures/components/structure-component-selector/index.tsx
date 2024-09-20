@@ -287,7 +287,7 @@ export const StructureComponentsSelector = ({
 				></Column>
 			</DataTable>
 			<SlidingPanel
-				type={'right'}
+				type="right"
 				isOpen={openPanel}
 				size={60}
 				backdropClicked={() => setOpenPanel(false)}

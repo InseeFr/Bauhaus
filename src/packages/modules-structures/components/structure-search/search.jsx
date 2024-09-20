@@ -68,7 +68,7 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 			title={D.structuresSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to={'/structures'} push />}
+			redirect={<Redirect to="/structures" push />}
 		>
 			<div className="row form-group">
 				<div className="col-md-12">

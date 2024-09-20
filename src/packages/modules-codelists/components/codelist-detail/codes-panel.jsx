@@ -312,7 +312,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 								header={D1.codelistCloseMatch}
 							></Column>
 
-							<Column field="actions" header={''}></Column>
+							<Column field="actions" header=""></Column>
 						</DataTable>
 					</>
 				}

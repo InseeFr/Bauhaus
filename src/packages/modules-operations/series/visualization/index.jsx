@@ -51,7 +51,7 @@ const SeriesVisualizationContainer = () => {
 	}, [series, id]);
 
 	if (!series.id) return <Loading />;
-	if (publishing) return <Loading text={'publishing'} />;
+	if (publishing) return <Loading text="publishing" />;
 
 	return (
 		<div className="container">

@@ -111,7 +111,7 @@ const SimsGeographyPicker = ({
 						}}
 						options={secondLang ? geographiesOptionsLg2 : geographiesOptions}
 						onChange={(e) => onChange(e ? e.value : '')}
-						placeholder={''}
+						placeholder=""
 						isSearchable={true}
 						noResultsText={D.noResult}
 						isClearable={true}
@@ -134,7 +134,7 @@ const SimsGeographyPicker = ({
 				></SeeButton>
 			</div>
 			<SlidingPanel
-				type={'right'}
+				type="right"
 				isOpen={slidingModal}
 				size={60}
 				backdropClicked={() => setSlidingModal(false)}

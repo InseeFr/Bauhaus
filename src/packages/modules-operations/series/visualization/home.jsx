@@ -141,14 +141,14 @@ function OperationsSerieVisualization({
 
 			<DisplayLinks
 				links={contributors}
-				title={'stakeholders'}
+				title="stakeholders"
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
 			/>
 			<DisplayLinks
 				links={dataCollectors}
-				title={'dataCollector'}
+				title="dataCollector"
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
@@ -159,20 +159,20 @@ function OperationsSerieVisualization({
 			</div>
 			<DisplayLinks
 				links={attr.replaces}
-				path={'/operations/series/'}
-				title={'replaces'}
+				path="/operations/series/"
+				title="replaces"
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
-				path={'/operations/series/'}
-				title={'replacedBy'}
+				path="/operations/series/"
+				title="replacedBy"
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.generate}
-				path={'/operations/indicator/'}
-				title={'indicators'}
+				path="/operations/indicator/"
+				title="indicators"
 				secondLang={secondLang}
 			/>
 
@@ -180,12 +180,12 @@ function OperationsSerieVisualization({
 
 			<RelationsView
 				children={attr.operations}
-				childrenTitle={'childrenOperations'}
+				childrenTitle="childrenOperations"
 				childrenPath="operation"
 				parent={attr.family}
-				parentTitle={'parentFamilly'}
+				parentTitle="parentFamilly"
 				parentPath="family"
-				title={'linksTitle'}
+				title="linksTitle"
 				secondLang={secondLang}
 			/>
 		</>

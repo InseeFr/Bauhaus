@@ -39,7 +39,7 @@ describe('Dataset View Menu', () => {
 			catalogRecord: { contributor: 'INSEE' },
 		};
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp={'INSEE'}>
+			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
 				<ViewMenu dataset={dataset}></ViewMenu>
 			</RBACMock>
 		);
@@ -56,7 +56,7 @@ describe('Dataset View Menu', () => {
 			catalogRecord: { contributor: 'INSEE' },
 		};
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp={'INSEE'}>
+			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
 				<ViewMenu dataset={dataset}></ViewMenu>
 			</RBACMock>
 		);
@@ -73,7 +73,7 @@ describe('Dataset View Menu', () => {
 			catalogRecord: { contributor: 'XXXXXX' },
 		};
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp={'INSEE'}>
+			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
 				<ViewMenu dataset={dataset}></ViewMenu>
 			</RBACMock>
 		);

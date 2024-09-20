@@ -25,10 +25,10 @@ describe('classification-home', () => {
 			<Provider store={store}>
 				<Home
 					classification={classification}
-					classificationId={'classificationId'}
+					classificationId="classificationId"
 					secondLang={false}
 					publish={vi.fn()}
-					serverSideError={''}
+					serverSideError=""
 				/>
 			</Provider>
 		);

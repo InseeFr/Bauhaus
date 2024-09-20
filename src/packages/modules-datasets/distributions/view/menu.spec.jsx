@@ -44,7 +44,7 @@ describe('Distribution View Menu', () => {
 		const distribution = {};
 
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp={'INSEE'}>
+			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
 				<ViewMenu dataset={dataset} distribution={distribution}></ViewMenu>
 			</RBACMock>
 		);
@@ -63,7 +63,7 @@ describe('Distribution View Menu', () => {
 		const distribution = {};
 
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp={'INSEE'}>
+			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
 				<ViewMenu dataset={dataset} distribution={distribution}></ViewMenu>
 			</RBACMock>
 		);
@@ -82,7 +82,7 @@ describe('Distribution View Menu', () => {
 		const distribution = {};
 
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp={'INSEE'}>
+			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
 				<ViewMenu dataset={dataset} distribution={distribution}></ViewMenu>
 			</RBACMock>
 		);

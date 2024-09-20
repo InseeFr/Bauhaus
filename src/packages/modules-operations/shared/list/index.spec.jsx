@@ -20,7 +20,7 @@ describe('Operation Home', () => {
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createButton={<MasculineButton action={''}></MasculineButton>}
+					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
 					childPath=""
 					roles={[]}
@@ -37,7 +37,7 @@ describe('Operation Home', () => {
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createButton={<MasculineButton action={''}></MasculineButton>}
+					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
 					childPath=""
 					roles={[]}
@@ -54,7 +54,7 @@ describe('Operation Home', () => {
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createButton={<MasculineButton action={''}></MasculineButton>}
+					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
 					childPath=""
 					roles={[]}
@@ -70,7 +70,7 @@ describe('Operation Home', () => {
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createButton={<MasculineButton action={''}></MasculineButton>}
+					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
 					childPath=""
 					roles={['role']}
@@ -86,7 +86,7 @@ describe('Operation Home', () => {
 			<Provider store={store}>
 				<OperationsObjectHome
 					items={[]}
-					createButton={<MasculineButton action={''}></MasculineButton>}
+					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
 					childPath=""
 					roles={['role1']}

@@ -84,7 +84,7 @@ const Edition = ({ creation, initialStructure }) => {
 	}, [initialStructure, isContributor, stamp, creation]);
 
 	if (redirectId) return <Redirect to={`/structures/${redirectId}`} />;
-	if (loading) return <Loading textType={'saving'} />;
+	if (loading) return <Loading textType="saving" />;
 
 	const onSave = () => {
 		const clientSideErrors = validate(structure);

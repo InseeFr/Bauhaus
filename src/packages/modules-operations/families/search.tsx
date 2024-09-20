@@ -34,7 +34,7 @@ const SearchFormList = ({
 			title={D.familiesSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to={'/operations/families'} push />}
+			redirect={<Redirect to="/operations/families" push />}
 		>
 			<div className="row form-group">
 				<div className="col-md-12">
