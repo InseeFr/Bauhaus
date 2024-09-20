@@ -1,4 +1,3 @@
-import D from '../../i18n/build-dictionary';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { AddButton } from '../../../components/buttons/add';
@@ -16,10 +15,7 @@ export const CodesPanelAddButton = ({ codelist, onHandlePanel }) => {
 
 	return (
 		(isAdmin || hasRightsBasedOnStamp) && (
-			<AddButton
-				id="add-code"
-				onClick={onHandlePanel}
-			/>
+			<AddButton id="add-code" onClick={onHandlePanel} />
 		)
 	);
 };
