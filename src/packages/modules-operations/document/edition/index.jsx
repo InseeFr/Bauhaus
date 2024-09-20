@@ -1,20 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Loading } from '../../../components';
 import DocumentationEdition from '../../../modules-operations/document/edition/edition';
-import { loadCodesList } from '../../../redux/actions/operations/utils/setup';
 import { GeneralApi } from '../../../sdk/general-api';
+import { useCodesList } from '../../../utils/hooks/codeslist';
 
 const OperationsDocumentationEditionContainer = (props) => {
 	const { id } = useParams();
 	const { pathname } = useLocation();
 	const type = /(link|document)/.exec(pathname)[1];
 
-	const langOptions = useSelector(
-		(state) => state.operationsCodesList.results['ISO-639'] || {}
-	);
-	const dispatch = useDispatch();
+	const langOptions = useCodesList('ISO-639');
 
 	const [document, setDocument] = useState({});
 
@@ -28,12 +24,6 @@ const OperationsDocumentationEditionContainer = (props) => {
 			});
 		}
 	}, [id, type]);
-
-	useEffect(() => {
-		if (!langOptions.notation) {
-			loadCodesList(['ISO-639'], dispatch);
-		}
-	}, [langOptions, dispatch]);
 
 	if (!document.id && id) return <Loading />;
 
