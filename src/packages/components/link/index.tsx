@@ -12,7 +12,7 @@ export const Link = ({
 	children,
 	className,
 	...rest
-}: LinkTypes) => {
+}: Readonly<LinkTypes>) => {
 	if (disabled) {
 		return <span className={className + ' disabled'}>{children}</span>;
 	}
