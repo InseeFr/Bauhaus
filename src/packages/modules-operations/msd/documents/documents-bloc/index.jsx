@@ -6,6 +6,7 @@ import { getBaseURI } from '../../../../sdk';
 import { sortArray } from '../../../../utils/array-utils';
 import { getLang } from '../../../../utils/dictionnary';
 import { useDocumentsStoreContext } from '../../pages/sims-creation/documents-store-context';
+import { TextInput } from '../../../../components';
 
 function getAsideToTheDocument(document) {
 	let updatedDate;
@@ -148,8 +149,7 @@ export function DocumentsBloc({
 								<label className="sr-only" htmlFor="documentFilter">
 									{D.search}
 								</label>
-								<input
-									className="form-control"
+								<TextInput
 									id="documentFilter"
 									placeholder={D.search}
 									value={filter}

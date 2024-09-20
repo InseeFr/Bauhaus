@@ -57,7 +57,7 @@ export class MenuOperations extends Component {
 				},
 				operations: {
 					path: '/operations/operations',
-					pathKey: /operations\/operations/,
+					pathKey: /operations\/operation/,
 					className: 'active',
 					attrs: defaultAttrs,
 					order: 3,

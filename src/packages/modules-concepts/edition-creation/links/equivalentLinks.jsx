@@ -2,6 +2,7 @@ import { useState } from 'react';
 import D from '../../../deprecated-locales';
 import { CLOSE_MATCH } from '../../../sdk/constants';
 import './equivalentLinks.scss';
+import { TextInput } from '../../../components';
 export const EquivalentLinks = ({ links = [], updateEquivalentLinks }) => {
 	const [value, setValue] = useState('');
 	return (
@@ -9,10 +10,9 @@ export const EquivalentLinks = ({ links = [], updateEquivalentLinks }) => {
 			<div className="row">
 				<div className="col-md-12">
 					<div className="form-group">
-						<input
+						<TextInput
 							placeholder={D.btnNewLink}
 							aria-label={D.btnNewLink}
-							className="form-control"
 							value={value}
 							onChange={(e) => setValue(e.target.value)}
 						/>
