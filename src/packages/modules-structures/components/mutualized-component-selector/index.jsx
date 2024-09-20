@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import SlidingPanel from 'react-sliding-side-panel';
 import { typeUriToLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -9,6 +8,7 @@ import Representation from '../representation';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { Column, SeeButton } from '../../../components';
 import { DataTable } from '../../../components/datatable';
+import { RightSlidingPanel } from '../../../components/sliding-panel';
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -113,10 +113,8 @@ export const MutualizedComponentsSelector = ({
 				></Column>
 			</DataTable>
 
-			<SlidingPanel
-				type="right"
+			<RightSlidingPanel
 				isOpen={openPanel}
-				size={60}
 				backdropClicked={() => setOpenPanel(false)}
 			>
 				<ComponentDetail
@@ -130,7 +128,7 @@ export const MutualizedComponentsSelector = ({
 					readOnly={true}
 					mutualized={true}
 				/>
-			</SlidingPanel>
+			</RightSlidingPanel>
 		</CollapsiblePanel>
 	);
 };

@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
 import ReactSelect from 'react-select';
 import D from '../../i18n/build-dictionary';
-import SlidingPanel from 'react-sliding-side-panel';
 import SimsGeographyField from './sims-geography-field';
 
 import './sims-geography-picker.scss';
@@ -14,6 +13,7 @@ import {
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
 import { SeeButton } from '../../../components';
+import { RightSlidingPanel } from '../../../components/sliding-panel';
 
 const accentsMap = new Map([
 	['A', 'Á|À|Ã|Â|Ä'],
@@ -133,10 +133,8 @@ const SimsGeographyPicker = ({
 					onClick={openViewPanel}
 				></SeeButton>
 			</div>
-			<SlidingPanel
-				type="right"
+			<RightSlidingPanel
 				isOpen={slidingModal}
-				size={60}
 				backdropClicked={() => setSlidingModal(false)}
 			>
 				<SimsGeographyField
@@ -144,7 +142,7 @@ const SimsGeographyPicker = ({
 					onSave={onSave}
 					territory={territory}
 				/>
-			</SlidingPanel>
+			</RightSlidingPanel>
 		</>
 	);
 };

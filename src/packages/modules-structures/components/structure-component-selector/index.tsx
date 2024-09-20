@@ -1,5 +1,4 @@
 import { useCallback, useState, useEffect } from 'react';
-import SlidingPanel from 'react-sliding-side-panel';
 import { typeUriToLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -19,6 +18,7 @@ import { SeeButton } from '../../../components';
 import { convertToArrayIfDefined } from '../../../utils/array-utils';
 import { DataTable } from '../../../components/datatable';
 import { Column } from 'primereact/column';
+import { RightSlidingPanel } from '../../../components/sliding-panel';
 
 type StructureComponentsSelectorTypes = {
 	hidden?: boolean;
@@ -286,10 +286,8 @@ export const StructureComponentsSelector = ({
 					style={{ display: 'flex' }}
 				></Column>
 			</DataTable>
-			<SlidingPanel
-				type="right"
+			<RightSlidingPanel
 				isOpen={openPanel}
-				size={60}
 				backdropClicked={() => setOpenPanel(false)}
 			>
 				<ComponentDetail
@@ -305,7 +303,7 @@ export const StructureComponentsSelector = ({
 					type={type}
 					stampListOptions={stampListOptions}
 				/>
-			</SlidingPanel>
+			</RightSlidingPanel>
 		</CollapsiblePanel>
 	);
 };
