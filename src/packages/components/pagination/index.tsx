@@ -120,7 +120,7 @@ export const Pagination = ({ itemEls }: { itemEls: any }) => {
 						/>
 					</div>
 					<div className="col-md-9" style={{ padding: 0 }}>
-						<ul className={`wilco-pagination pull-right`}>
+						<ul className="wilco-pagination pull-right">
 							<li>
 								<Link
 									to={`${pathnamePrefix}page=1&perPage${numberPerPage}`}

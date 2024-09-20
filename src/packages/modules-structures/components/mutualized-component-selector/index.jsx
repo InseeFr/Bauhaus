@@ -108,7 +108,7 @@ export const MutualizedComponentsSelector = ({
 				<Column field="representation" header={D.representationTitle}></Column>
 				<Column
 					field="actions"
-					header={``}
+					header=""
 					style={{ display: 'flex' }}
 				></Column>
 			</DataTable>

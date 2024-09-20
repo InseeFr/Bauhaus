@@ -147,7 +147,7 @@ export default function SimsVisualisation({
 			)}
 			{exportModalOpened && (
 				<Modal
-					className={`Modal__Bootstrap modal-dialog operations`}
+					className="Modal__Bootstrap modal-dialog operations"
 					isOpen={true}
 					ariaHideApp={false}
 				>

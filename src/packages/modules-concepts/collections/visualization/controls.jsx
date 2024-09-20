@@ -36,7 +36,7 @@ const CollectionVisualizationControls = ({
 	return (
 		<>
 			<ActionToolbar>
-				<Button action={`/collections`} label={D.btnReturn} />
+				<Button action="/collections" label={D.btnReturn} />
 				<ExportButtons
 					ids={[id]}
 					exportHandler={(type, withConcepts, lang = 'lg1') =>
