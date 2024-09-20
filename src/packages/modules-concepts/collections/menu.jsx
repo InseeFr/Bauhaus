@@ -1,10 +1,11 @@
-import D from '../../deprecated-locales/build-dictionary';
 import check from '../../auth/auth';
 import { FeminineButton } from '../../components';
 import { usePermission } from '../../redux/hooks/usePermission';
 import { VerticalMenu } from '../../components/vertical-menu';
-import { ExportButton } from '../../components/buttons/buttons-with-icons';
-import { Button } from '../../components/buttons/button';
+import {
+	ExportButton,
+	PublishButton,
+} from '../../components/buttons/buttons-with-icons';
 
 export const Menu = () => {
 	const { authType, roles } = usePermission();
@@ -18,14 +19,10 @@ export const Menu = () => {
 			{adminOrContributor && <FeminineButton action="/collection/create" />}
 			<ExportButton action="/collections/export" wrapper={false} />
 			{adminOrCreator && (
-				<Button
-					label={
-						<>
-							<span className="glyphicon glyphicon-ok" aria-hidden="true" />
-							<span> {D.btnValid}</span>
-						</>
-					}
+				<PublishButton
 					action="/collections/validation"
+					col={8}
+					offset={2}
 					wrapper={false}
 				/>
 			)}
