@@ -9,7 +9,7 @@ export function toSelectModel(
 	items: { id: string; label: string }[],
 	type?: string
 ) {
-	return items.map((item) => {
+	return items?.map((item) => {
 		return {
 			...item,
 			value: item.id,
