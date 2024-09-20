@@ -442,7 +442,9 @@ export const DumbComponentDetailEdit = ({
 						</div>
 					</Row>
 				)}
-				{(component.range === XSD_STRING || component.range === XSD_INTEGER || component.range === XSD_FLOAT) && (
+				{(component.range === XSD_STRING ||
+					component.range === XSD_INTEGER ||
+					component.range === XSD_FLOAT) && (
 					<>
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
@@ -470,19 +472,17 @@ export const DumbComponentDetailEdit = ({
 				)}
 
 				{component.range === XSD_STRING && (
-					<>
-						<Row>
-							<div className="col-md-offset-1 col-md-11 form-group">
-								<label htmlFor="format">{D1.formatTitle}</label>
-								<TextInput
-									value={component.pattern}
-									id="pattern"
-									name="pattern"
-									onChange={handleChange}
-								/>
-							</div>
-						</Row>
-					</>
+					<Row>
+						<div className="col-md-offset-1 col-md-11 form-group">
+							<label htmlFor="format">{D1.formatTitle}</label>
+							<TextInput
+								value={component.pattern}
+								id="pattern"
+								name="pattern"
+								onChange={handleChange}
+							/>
+						</div>
+					</Row>
 				)}
 
 				{(component.range === XSD_INTEGER || component.range === XSD_FLOAT) && (

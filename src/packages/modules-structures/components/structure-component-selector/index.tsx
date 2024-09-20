@@ -18,6 +18,7 @@ import { SeeButton } from '../../../components';
 import { convertToArrayIfDefined } from '../../../utils/array-utils';
 import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { ComponentsTable } from '../components-table';
+import { AddButton } from '../../../components/buttons/add';
 
 type StructureComponentsSelectorTypes = {
 	hidden?: boolean;
@@ -261,13 +262,7 @@ export const StructureComponentsSelector = ({
 					{D.componentTitle}{' '}
 					{!readOnly && (
 						<Auth roles={[ADMIN]}>
-							<button
-								id="add-component"
-								aria-label={D.addComponentTitle}
-								onClick={handleCreateComponent}
-							>
-								<span className="glyphicon glyphicon-plus"></span>
-							</button>
+							<AddButton id="add-component" onClick={handleCreateComponent} />
 						</Auth>
 					)}
 				</>

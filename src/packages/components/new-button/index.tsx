@@ -2,6 +2,7 @@ import D from '../i18n';
 import { NavLink } from 'react-router-dom';
 import './newButton.scss';
 import { PropsWithChildren } from 'react';
+import { AddLogo } from '../logo/logo-add';
 
 type AbstractNewButtonTypes = {
 	action: ((location: any) => any) | string;
@@ -13,7 +14,7 @@ const AbstractNewButton = ({
 	suffix,
 }: PropsWithChildren<AbstractNewButtonTypes>) => (
 	<NavLink className="new-button btn btn-lg col-md-12" to={action}>
-		<span className="glyphicon glyphicon-plus" aria-hidden={true}></span>
+		<AddLogo />
 		{!!suffix ? (
 			<span>
 				{children} {suffix}

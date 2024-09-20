@@ -9,6 +9,7 @@ import { UNPUBLISHED } from '../../../model/ValidationState';
 import { SeeButton } from '../../../components';
 import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { ComponentsTable } from '../components-table';
+import { AddButton } from '../../../components/buttons/add';
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -71,15 +72,12 @@ export const MutualizedComponentsSelector = ({
 				<SeeButton
 					data-component-id={component.identifiant}
 					onClick={seeClickHandler}
-				></SeeButton>
-				<button
-					className="btn btn-default"
+				/>
+				<AddButton 
 					data-component-id={component.identifiant}
 					onClick={addClickHandler}
-					aria-label={D.add}
-				>
-					<span className="glyphicon glyphicon-plus"></span>
-				</button>
+				/>
+				
 			</>
 		),
 	}));
