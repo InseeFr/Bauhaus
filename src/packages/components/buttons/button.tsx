@@ -5,8 +5,6 @@ import { PropsWithChildren } from 'react';
 
 const DEFAULT_CLASSES: string[] = [];
 
-
-
 type ButtonTypes = {
 	action: string;
 	label?: string;
