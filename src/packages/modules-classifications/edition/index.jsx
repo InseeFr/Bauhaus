@@ -12,6 +12,7 @@ import {
 	PageTitleBlock,
 	EditorMarkdown,
 	Select,
+	UrlInput,
 } from '../../components';
 import { useStampsOptions } from '../../utils/hooks/stamps';
 import { useOrganizationsOptions } from '../../utils/hooks/organizations';
@@ -315,9 +316,7 @@ export const ClassificationEdition = () => {
 					<label htmlFor="additionalMaterial">
 						{D1.additionalMaterialTitle}
 					</label>
-					<input
-						type="url"
-						className="form-control"
+					<UrlInput
 						id="additionalMaterial"
 						{...register('additionalMaterial', {
 							pattern: {
@@ -336,9 +335,7 @@ export const ClassificationEdition = () => {
 				</div>
 				<div className="form-group">
 					<label htmlFor="legalMaterial">{D1.legalMaterialTitle}</label>
-					<input
-						type="url"
-						className="form-control"
+					<UrlInput
 						id="legalMaterial"
 						{...register('legalMaterial', {
 							pattern: {
@@ -357,9 +354,7 @@ export const ClassificationEdition = () => {
 				</div>
 				<div className="form-group">
 					<label htmlFor="homepage">{D1.homepageTitle}</label>
-					<input
-						type="url"
-						className="form-control"
+					<UrlInput
 						id="homepage"
 						{...register('homepage', {
 							pattern: {

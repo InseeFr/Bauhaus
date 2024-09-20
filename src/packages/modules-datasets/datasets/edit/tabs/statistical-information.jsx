@@ -9,7 +9,7 @@ import {
 	CL_STAT_UNIT,
 	CL_TYPE_GEO,
 } from '../../../../redux/actions/constants/codeList';
-import { Row } from '../../../../components';
+import { NumberInput, Row } from '../../../../components';
 import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
 import { useStructures } from '../../../../utils/hooks/structures';
 
@@ -176,9 +176,7 @@ const StatisticalInformationTab = ({
 					<label htmlFor="observationNumber">
 						{D1.datasetsNumberObservations}
 					</label>
-					<input
-						type="number"
-						className="form-control"
+					<NumberInput
 						id="observationNumber"
 						value={editingDataset.observationNumber}
 						onChange={(e) => {
@@ -195,9 +193,7 @@ const StatisticalInformationTab = ({
 					<label htmlFor="timeSeriesNumber">
 						{D1.datasetsNumberTimeSeries}
 					</label>
-					<input
-						type="number"
-						className="form-control"
+					<NumberInput
 						id="timeSeriesNumber"
 						value={editingDataset.timeSeriesNumber}
 						onChange={(e) => {

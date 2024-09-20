@@ -28,6 +28,7 @@ import {
 	ClientSideError,
 	Select,
 	SeeButton,
+	NumberInput,
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
@@ -446,10 +447,8 @@ export const DumbComponentDetailEdit = ({
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="minLength">{D1.minLength}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.minLength}
-									className="form-control"
 									id="minLength"
 									name="minLength"
 									onChange={handleChange}
@@ -459,10 +458,8 @@ export const DumbComponentDetailEdit = ({
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="maxLength">{D1.maxLength}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.maxLength}
-									className="form-control"
 									id="maxLength"
 									name="maxLength"
 									onChange={handleChange}
@@ -488,10 +485,8 @@ export const DumbComponentDetailEdit = ({
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="minLength">{D1.minLength}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.minLength}
-									className="form-control"
 									id="minLength"
 									name="minLength"
 									onChange={handleChange}
@@ -501,10 +496,8 @@ export const DumbComponentDetailEdit = ({
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="maxLength">{D1.maxLength}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.maxLength}
-									className="form-control"
 									id="maxLength"
 									name="maxLength"
 									onChange={handleChange}
@@ -514,10 +507,8 @@ export const DumbComponentDetailEdit = ({
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="minInclusive">{D1.minInclusive}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.minInclusive}
-									className="form-control"
 									id="minInclusive"
 									name="minInclusive"
 									onChange={handleChange}
@@ -527,10 +518,8 @@ export const DumbComponentDetailEdit = ({
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="maxInclusive">{D1.maxInclusive}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.maxInclusive}
-									className="form-control"
 									id="maxInclusive"
 									name="maxInclusive"
 									onChange={handleChange}

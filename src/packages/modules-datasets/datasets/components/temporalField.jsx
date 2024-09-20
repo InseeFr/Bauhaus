@@ -1,5 +1,6 @@
 import ReactSelect from 'react-select';
 import D, { D1 } from '../../../deprecated-locales/build-dictionary';
+import { NumberInput } from '../../../components';
 
 const datasetsTemporalCoverageOptions = [
 	{
@@ -97,9 +98,7 @@ export const TemporalField = ({
 					<div className="col-md-4 form-group">
 						<label className="w-100 wilco-label-required">
 							{D1.datasetsTemporalStartDate}
-							<input
-								type="number"
-								className="form-control"
+							<NumberInput
 								value={
 									temporalCoverageStartDate
 										? new Date(temporalCoverageStartDate).getFullYear()
@@ -122,9 +121,7 @@ export const TemporalField = ({
 					<div className="col-md-4 form-group">
 						<label className="w-100 wilco-label-required">
 							{D1.datasetsTemporalEndDate}
-							<input
-								type="number"
-								className="form-control"
+							<NumberInput
 								value={
 									temporalCoverageEndDate
 										? new Date(temporalCoverageEndDate).getFullYear()

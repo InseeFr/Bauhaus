@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode} from 'react';
 
 type ListTypes<T> = {
 	items: T[];
