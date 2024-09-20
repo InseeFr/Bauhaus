@@ -17,6 +17,7 @@ const EditionContainer = () => {
 	const [loadingCollection, setLoadingCollection] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 
 	const [collection, setCollection] = useState({});
 	const [collectionList, setCollectionList] = useState([]);
@@ -79,6 +80,8 @@ const EditionContainer = () => {
 			collectionList={collectionList}
 			conceptList={conceptList}
 			save={handleUpdate}
+			submitting={submitting}
+			setSubmitting={setSubmitting}
 		/>
 	);
 };
