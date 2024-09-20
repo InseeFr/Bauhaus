@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { PageTitle, ModalRmes } from '../../components';
-import ConceptCreateControl from './controls';
+import ConceptCreateControlLayout from './controls/controls-layout';
 import GeneralEdition from './general';
 import NotesEdition from './notes';
 import LinksEdition from './links';
@@ -192,7 +192,7 @@ class ConceptEditionCreation extends Component {
 				<div className="container">
 					<PageTitle title={title} subtitle={subtitle} />
 					{this.props.general.contributor && (
-						<ConceptCreateControl
+						<ConceptCreateControlLayout
 							errorMessage={errorMessage}
 							handleSave={this.handleSave}
 							submitting={submitting}
