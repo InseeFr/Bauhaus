@@ -6,9 +6,9 @@ import { ComponentDetail } from '../component-detail';
 
 import Representation from '../representation';
 import { UNPUBLISHED } from '../../../model/ValidationState';
-import { Column, SeeButton } from '../../../components';
-import { DataTable } from '../../../components/datatable';
+import { SeeButton } from '../../../components';
 import { RightSlidingPanel } from '../../../components/sliding-panel';
+import { ComponentsTable } from '../components-table';
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,
@@ -90,28 +90,7 @@ export const MutualizedComponentsSelector = ({
 			hidden={hidden}
 			title={D.mutualizedComponentTitle}
 		>
-			<DataTable
-				value={componentsWithActions}
-				withPagination={false}
-				globalFilterFields={[
-					'labelLg1',
-					'type',
-					'mutualized',
-					'concept',
-					'representation',
-				]}
-			>
-				<Column field="labelLg1" header={D.label}></Column>
-				<Column field="type" header={D.type}></Column>
-				<Column field="mutualized" header={D.mutualized}></Column>
-				<Column field="concept" header={D.conceptTitle}></Column>
-				<Column field="representation" header={D.representationTitle}></Column>
-				<Column
-					field="actions"
-					header=""
-					style={{ display: 'flex' }}
-				></Column>
-			</DataTable>
+			<ComponentsTable components={componentsWithActions}/>
 
 			<RightSlidingPanel
 				isOpen={openPanel}

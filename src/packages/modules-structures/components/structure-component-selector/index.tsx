@@ -16,9 +16,8 @@ import { Structure } from '../../../model/structures/Structure';
 import { CodesList } from '../../../model/CodesList';
 import { SeeButton } from '../../../components';
 import { convertToArrayIfDefined } from '../../../utils/array-utils';
-import { DataTable } from '../../../components/datatable';
-import { Column } from 'primereact/column';
 import { RightSlidingPanel } from '../../../components/sliding-panel';
+import { ComponentsTable } from '../components-table';
 
 type StructureComponentsSelectorTypes = {
 	hidden?: boolean;
@@ -274,18 +273,7 @@ export const StructureComponentsSelector = ({
 				</>
 			}
 		>
-			<DataTable value={componentsWithActions} withPagination={false}>
-				<Column field="labelLg1" header={D.label}></Column>
-				<Column field="type" header={D.type}></Column>
-				<Column field="mutualized" header={D.mutualized}></Column>
-				<Column field="concept" header={D.conceptTitle}></Column>
-				<Column field="representation" header={D.representationTitle}></Column>
-				<Column
-					field="actions"
-					header=""
-					style={{ display: 'flex' }}
-				></Column>
-			</DataTable>
+			<ComponentsTable components={componentsWithActions} />
 			<RightSlidingPanel
 				isOpen={openPanel}
 				backdropClicked={() => setOpenPanel(false)}
