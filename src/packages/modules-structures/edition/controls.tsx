@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { ActionToolbar } from '../../components/action-toolbar';
 import {
-	ReturnButton,
+	CancelButton,
 	SaveButton,
 } from '../../components/buttons/buttons-with-icons';
 import { cleanId } from '../../utils/string-utils';
@@ -15,12 +15,11 @@ const Controls = ({ creation, save, disabledSave }: ControlsTypes) => {
 	const { structureId } = useParams<{ structureId: string }>();
 	return (
 		<ActionToolbar>
-			<ReturnButton
+			<CancelButton
 				action={
 					creation ? '/structures' : `/structures/${cleanId(structureId)}`
 				}
 			/>
-
 			<SaveButton action={save} disabled={disabledSave} />
 		</ActionToolbar>
 	);
