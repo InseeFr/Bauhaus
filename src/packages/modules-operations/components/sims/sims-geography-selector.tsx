@@ -21,35 +21,31 @@ const SimsGeographySelector = ({
 }: Readonly<SimsGeographySelectorTypes>) => {
 	const excludedItems = excludes.map((geography) => (
 		<li className="list-group-item" key={geography.value}>
-			<>
-				<SimsGeographyI18NLabel geography={geography} />
+			<SimsGeographyI18NLabel geography={geography} />
 
-				<button
-					type="button"
-					className="documentsbloc__delete documentsbloc__btn"
-					aria-label={D.btnDelete}
-					onClick={() => onRemoveExclude(geography)}
-				>
-					<span className="glyphicon glyphicon-trash" aria-hidden="true" />
-				</button>
-			</>
+			<button
+				type="button"
+				className="documentsbloc__delete documentsbloc__btn"
+				aria-label={D.btnDelete}
+				onClick={() => onRemoveExclude(geography)}
+			>
+				<span className="glyphicon glyphicon-trash" aria-hidden="true" />
+			</button>
 		</li>
 	));
 
 	const includedItems = includes.map((geography) => (
 		<li className="list-group-item" key={geography.value}>
-			<>
-				<SimsGeographyI18NLabel geography={geography} />
+			<SimsGeographyI18NLabel geography={geography} />
 
-				<button
-					type="button"
-					className="documentsbloc__delete documentsbloc__btn"
-					aria-label={D.btnDelete}
-					onClick={() => onRemoveInclude(geography)}
-				>
-					<span className="glyphicon glyphicon-trash" aria-hidden="true" />
-				</button>
-			</>
+			<button
+				type="button"
+				className="documentsbloc__delete documentsbloc__btn"
+				aria-label={D.btnDelete}
+				onClick={() => onRemoveInclude(geography)}
+			>
+				<span className="glyphicon glyphicon-trash" aria-hidden="true" />
+			</button>
 		</li>
 	));
 	return (

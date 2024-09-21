@@ -243,7 +243,7 @@ export const DumbComponentDetailEdit = ({
 		attribute_0: '',
 		attributeValue_0: '',
 		...component,
-	}).filter((key) => key.indexOf('attribute_') === 0);
+	}).filter((key) => key.startsWith('attribute_'));
 
 	if (!!component['attributeValue_' + (attributesKeys.length - 1)]) {
 		component['attribute_' + attributesKeys.length] = '';
@@ -254,10 +254,7 @@ export const DumbComponentDetailEdit = ({
 		// Each time we change the type of a component, we remove all linked attributes
 		const newComponentWithoutAttributes = Object.keys(component).reduce(
 			(acc, key) => {
-				if (
-					key.indexOf('attribute_') === 0 ||
-					key.indexOf('attributeValue_') === 0
-				) {
+				if (key.startsWith('attribute_') || key.startsWith('attributeValue_')) {
 					return acc;
 				}
 				return {
@@ -596,7 +593,7 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
 		attribute_0: '',
 		attributeValue_0: '',
 		...component,
-	}).filter((key) => key.indexOf('attribute_') === 0);
+	}).filter((key) => key.startsWith('attribute_'));
 
 	const attributesListOptions = (attributes ?? []).map((c) => ({
 		value: c.iri,

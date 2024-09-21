@@ -2,7 +2,7 @@ import { MeasureAttribute } from './measureAttribute';
 
 export const MeasureAttributes = ({ measure, attributes, codesLists }) => {
 	const measureAttributes = Object.keys(measure)
-		.filter((key) => key.indexOf('attribute_') === 0)
+		.filter((key) => key.startsWith('attribute_'))
 		.map((key) => {
 			const index = key.substring(key.indexOf('_') + 1);
 			return [
