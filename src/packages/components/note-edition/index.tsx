@@ -25,30 +25,26 @@ export const NoteEdition = ({
 		<div>
 			<div className="row">
 				<div className="col-md-6">
-					<>
-						<NoteOneLangEdition
-							note={noteLg1}
-							handleChange={handleChangeLg1}
-							maxLength={maxLength}
-						/>
-						<ClientSideError
-							id="note-lg1-error"
-							error={errorMessage?.fields[noteLg1Name]}
-						></ClientSideError>
-					</>
+					<NoteOneLangEdition
+						note={noteLg1}
+						handleChange={handleChangeLg1}
+						maxLength={maxLength}
+					/>
+					<ClientSideError
+						id="note-lg1-error"
+						error={errorMessage?.fields[noteLg1Name]}
+					></ClientSideError>
 				</div>
 				<div className="col-md-6">
-					<>
-						<NoteOneLangEdition
-							note={noteLg2}
-							handleChange={handleChangeLg2}
-							maxLength={maxLength}
-						/>
-						<ClientSideError
-							id="note-lg2-error"
-							error={errorMessage?.fields[noteLg2Name]}
-						></ClientSideError>
-					</>
+					<NoteOneLangEdition
+						note={noteLg2}
+						handleChange={handleChangeLg2}
+						maxLength={maxLength}
+					/>
+					<ClientSideError
+						id="note-lg2-error"
+						error={errorMessage?.fields[noteLg2Name]}
+					></ClientSideError>
 				</div>
 			</div>
 		</div>
