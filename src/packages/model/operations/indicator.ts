@@ -6,3 +6,9 @@ export type Indicator = {
 	validationState: ValidationState;
 	creators: string[];
 };
+
+export type IndicatorsList = {
+	altLabel: string;
+	id: string;
+	label: string;
+}[];
