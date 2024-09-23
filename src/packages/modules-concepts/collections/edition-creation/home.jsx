@@ -27,9 +27,13 @@ class CollectionEditionCreation extends Component {
 			setSubmitting(true);
 			const data = this.state.data;
 			const general = data.general;
-			const newData = Object.assign(data, {
-				general: Object.assign(general, update),
-			});
+			const newData = {
+				...data,
+				general: {
+					...general,
+					update,
+				},
+			};
 			this.setState({
 				data: newData,
 			});

@@ -38,9 +38,13 @@ class ConceptEditionCreation extends Component {
 			setSubmitting(true);
 			const data = this.state.data;
 			const general = data.general;
-			const newData = Object.assign(data, {
-				general: Object.assign(general, update),
-			});
+			const newData = {
+				...data,
+				general: {
+					...general,
+					update,
+				},
+			};
 			this.setState({
 				data: newData,
 			});
@@ -51,9 +55,13 @@ class ConceptEditionCreation extends Component {
 			setSubmitting(true);
 			const data = this.state.data;
 			const notes = data.notes;
-			const newData = Object.assign(data, {
-				notes: Object.assign(notes, update),
-			});
+			const newData = {
+				...data,
+				general: {
+					...notes,
+					update,
+				},
+			};
 			this.setState({
 				data: newData,
 			});

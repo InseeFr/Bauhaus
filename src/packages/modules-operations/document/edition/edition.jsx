@@ -227,12 +227,12 @@ const OperationsDocumentationEdition = (props) => {
 	};
 
 	const onSubmit = () => {
-		const newdocument = {
+		const documentWithFile = {
 			...document,
 			files,
 		};
 		const clientSideErrors = validate(
-			newdocument,
+			documentWithFile,
 			type,
 			documentsAndLinksList,
 			currentLabelLg1,
