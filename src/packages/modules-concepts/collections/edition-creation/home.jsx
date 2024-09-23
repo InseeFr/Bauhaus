@@ -49,12 +49,12 @@ class CollectionEditionCreation extends Component {
 		//the UI does not expose this scenario (we can only remove or add).
 		this.handleChangeMembers = (newMembers) => {
 			setSubmitting(true);
-			this.setState({
+			this.setState((state) => ({
 				data: {
-					...this.state.data,
+					...state.data,
 					members: newMembers,
 				},
-			});
+			}));
 		};
 
 		this.handleSave = () => {

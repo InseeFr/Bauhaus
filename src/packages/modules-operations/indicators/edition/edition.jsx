@@ -83,7 +83,7 @@ class OperationsIndicatorEdition extends Component {
 					errorMessage: [],
 				},
 				indicator: {
-					...this.state.indicator,
+					...state.indicator,
 					[selector]: value,
 				},
 			}));

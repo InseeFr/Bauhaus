@@ -63,7 +63,7 @@ class OperationsFamilyEdition extends Component {
 				errorMessage: [],
 			},
 			family: {
-				...this.state.family,
+				...state.family,
 				[e.target.id]: e.target.value,
 			},
 		}));

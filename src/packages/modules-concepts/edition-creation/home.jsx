@@ -69,22 +69,22 @@ class ConceptEditionCreation extends Component {
 
 		this.handleChangeLinks = (newLinks) => {
 			setSubmitting(true);
-			this.setState({
+			this.setState((state) => ({
 				data: {
-					...this.state.data,
+					...state.data,
 					conceptsWithLinks: newLinks,
 				},
-			});
+			}));
 		};
 
 		this.handleChangeEquivalentLinks = (newLinks) => {
 			setSubmitting(true);
-			this.setState({
+			this.setState((state) => ({
 				data: {
-					...this.state.data,
+					...state.data,
 					equivalentLinks: newLinks,
 				},
-			});
+			}));
 		};
 
 		this.handleSave = () => {

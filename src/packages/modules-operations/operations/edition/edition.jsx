@@ -71,7 +71,7 @@ class OperationsOperationEdition extends Component {
 				errorMessage: [],
 			},
 			operation: {
-				...this.state.operation,
+				...state.operation,
 				...override,
 			},
 		}));
