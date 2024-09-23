@@ -66,12 +66,13 @@ export const OutlineBlock = ({
 						</div>
 						{child.opened && (
 							<OutlineBlock
-								children={child.children}
 								secondary
 								parent={parent}
 								baseUrl={baseUrl}
 								disableSectionAnchor={disableSectionAnchor}
-							/>
+							>
+								{child.children}
+							</OutlineBlock>
 						)}
 					</li>
 				);

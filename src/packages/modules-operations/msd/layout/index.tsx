@@ -3,14 +3,22 @@ import D from '../../../deprecated-locales';
 
 import './style.scss';
 import { Status, useLayout } from '../../useLayout';
+import { PropsWithChildren } from 'react';
+import { MetadataStructure } from '../../../model/Sims';
 
+type MSDComponentTypes = {
+	baseUrl: string;
+	disableSectionAnchor: boolean;
+	storeCollapseState: boolean;
+	metadataStructure: Record<string, MetadataStructure>;
+};
 const MSDComponent = ({
 	storeCollapseState,
 	metadataStructure,
 	children,
 	baseUrl,
 	disableSectionAnchor,
-}) => {
+}: Readonly<PropsWithChildren<MSDComponentTypes>>) => {
 	const [status, changeStatus] = useLayout();
 
 	const changeStatusToBoth = () => changeStatus(Status.BOTH);

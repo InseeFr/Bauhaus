@@ -129,16 +129,6 @@ class SimsCreation extends Component {
 		});
 	};
 
-	goBack = () => {
-		const { goBack, sims, parentType } = this.props;
-		const { idParent } = this.state;
-		goBack(
-			sims.id
-				? `/operations/sims/${sims.id}`
-				: `/operations/${parentType}/${idParent}`
-		);
-	};
-
 	convertRubric = (rubric) => {
 		if (rubric.rangeType === 'RICH_TEXT') {
 			return {
@@ -160,8 +150,14 @@ class SimsCreation extends Component {
 			mode,
 			organisations = [],
 			geographiesOptions = [],
+			parentType,
 		} = this.props;
+
 		const { secondLang, sims, idParent } = this.state;
+
+		const goBackUrl = sims.id
+			? `/operations/sims/${sims.id}`
+			: `/operations/${parentType}/${idParent}`;
 
 		const organisationsOptions = sortArrayByLabel(
 			organisations.map((c) => ({
@@ -272,7 +268,7 @@ class SimsCreation extends Component {
 		return (
 			<>
 				<ActionToolbar>
-					<CancelButton action={this.goBack} />
+					<CancelButton action={goBackUrl} />
 					<SaveButton action={this.handleSubmit} col={3} />
 				</ActionToolbar>
 

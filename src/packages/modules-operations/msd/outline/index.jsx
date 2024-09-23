@@ -51,12 +51,13 @@ const Outline = ({
 
 			{opened && (
 				<OutlineBlock
-					children={metadataStructure.children}
 					parent={metadataStructure.idMas}
 					storeCollapseState={storeCollapseState}
 					baseUrl={baseUrl}
 					disableSectionAnchor={disableSectionAnchor}
-				/>
+				>
+					{metadataStructure.children}
+				</OutlineBlock>
 			)}
 		</li>
 	);
