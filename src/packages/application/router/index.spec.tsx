@@ -54,7 +54,7 @@ describe('RBACLink Component', () => {
 			</OidcProvider>
 		);
 
-		expect(screen.getByText('Child Component')).not.toBeNull();
+		expect(screen.getByRole('div', { name: 'Child Component' })).not.toBeNull();
 		screen.getByText('TestApp - Front 1.0.0 - API 2.0.0');
 		screen.getByAltText('application logo');
 	});
@@ -72,7 +72,9 @@ describe('RBACLink Component', () => {
 			</OidcProvider>
 		);
 
-		const logoutButton = screen.getByText(D.authentication.logout);
+		const logoutButton = screen.getByRole('button', {
+			name: D.authentication.logout,
+		});
 		fireEvent.click(logoutButton);
 
 		expect(removeToken).toHaveBeenCalled();
