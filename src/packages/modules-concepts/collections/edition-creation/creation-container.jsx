@@ -21,6 +21,7 @@ const CreationContainer = () => {
 
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 
 	const [collectionList, setCollectionList] = useState([]);
 	const [conceptList, setConceptList] = useState([]);
@@ -71,6 +72,8 @@ const CreationContainer = () => {
 			collectionList={collectionList}
 			conceptList={conceptList}
 			save={handleCreation}
+			submitting={submitting}
+			setSubmitting={setSubmitting}
 		/>
 	);
 };

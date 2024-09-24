@@ -95,7 +95,7 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
 				<div className="input-group">
 					<span className="input-group-addon">http://</span>
 					<TextInput
-						value={additionalMaterial.replace('http://', '')}
+						value={additionalMaterial?.replace('http://', '')}
 						onChange={(e) => handlers.additionalMaterial(e.target.value)}
 					/>
 				</div>

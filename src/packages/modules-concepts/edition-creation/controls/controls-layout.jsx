@@ -6,8 +6,18 @@ import {
 	CancelButton,
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
+import { createAllDictionary } from '../../../utils/dictionnary';
 
-const ConceptCreateControlLayout = ({ errors, handleSave }) => {
+const { D: dict } = createAllDictionary({
+	errors: {
+		GlobalClientSideErrorBloc: {
+			fr: 'Remplissez les champs requis pour pouvoir sauvegarder ce concept.',
+			en: 'Complete mandatory fields to save this concept.',
+		},
+	},
+});
+
+const ConceptCreateControlLayout = ({ errors, handleSave, submitting }) => {
 	const goBack = useGoBack();
 
 	return (
@@ -21,7 +31,7 @@ const ConceptCreateControlLayout = ({ errors, handleSave }) => {
 			</ActionToolbar>
 			<GlobalClientSideErrorBloc
 				clientSideErrors={errors?.errorMessage}
-				D={D}
+				D={submitting ? D : dict}
 			/>
 		</>
 	);

@@ -8,7 +8,7 @@ import { validate } from './validation';
 class CollectionEditionCreation extends Component {
 	constructor(props) {
 		super(props);
-		const { general, members } = props;
+		const { general, members, setSubmitting } = props;
 
 		this.state = {
 			id: general.id,
@@ -24,11 +24,16 @@ class CollectionEditionCreation extends Component {
 		//update should look like `{ prefLabelLg2: 'something new' }` (we can
 		//set mutliple properties at the same time)
 		this.handleChangeGeneral = (update) => {
+			setSubmitting(true);
 			const data = this.state.data;
 			const general = data.general;
-			const newData = Object.assign(data, {
-				general: Object.assign(general, update),
-			});
+			const newData = {
+				...data,
+				general: {
+					...general,
+					update,
+				},
+			};
 			this.setState({
 				data: newData,
 			});
@@ -42,13 +47,15 @@ class CollectionEditionCreation extends Component {
 		// - NONE to something (PARENT, CHILD...) if it has been added.
 		//It should not be switched directle from something to something else since
 		//the UI does not expose this scenario (we can only remove or add).
-		this.handleChangeMembers = (newMembers) =>
-			this.setState({
+		this.handleChangeMembers = (newMembers) => {
+			setSubmitting(true);
+			this.setState((state) => ({
 				data: {
-					...this.state.data,
+					...state.data,
 					members: newMembers,
 				},
-			});
+			}));
+		};
 
 		this.handleSave = () => {
 			this.saveCollection();
@@ -68,8 +75,14 @@ class CollectionEditionCreation extends Component {
 	}
 
 	render() {
-		const { title, subtitle, collectionList, conceptList, creation } =
-			this.props;
+		const {
+			title,
+			subtitle,
+			collectionList,
+			conceptList,
+			creation,
+			submitting,
+		} = this.props;
 
 		const {
 			data: { general, members },
@@ -93,6 +106,7 @@ class CollectionEditionCreation extends Component {
 						handleSave={this.handleSave}
 						redirectCancel={this.redirectCancel}
 						errors={errors}
+						submitting={submitting}
 					/>
 					<GeneralEdition
 						general={general}

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { PageTitle, ModalRmes } from '../../components';
-import ConceptCreateControl from './controls';
+import ConceptCreateControlLayout from './controls/controls-layout';
 import GeneralEdition from './general';
 import NotesEdition from './notes';
 import LinksEdition from './links';
@@ -14,7 +14,13 @@ import { TabPanel, TabView } from 'primereact/tabview';
 class ConceptEditionCreation extends Component {
 	constructor(props) {
 		super(props);
-		const { general, notes, conceptsWithLinks, equivalentLinks = [] } = props;
+		const {
+			general,
+			notes,
+			conceptsWithLinks,
+			equivalentLinks = [],
+			setSubmitting,
+		} = props;
 		this.state = {
 			id: this.props.id,
 			showModal: false,
@@ -29,11 +35,16 @@ class ConceptEditionCreation extends Component {
 		//update should look like `{ prefLabelLg2: 'something new' }` (we can
 		//set mutliple properties at the same time)
 		this.handleChangeGeneral = (update) => {
+			setSubmitting(true);
 			const data = this.state.data;
 			const general = data.general;
-			const newData = Object.assign(data, {
-				general: Object.assign(general, update),
-			});
+			const newData = {
+				...data,
+				general: {
+					...general,
+					update,
+				},
+			};
 			this.setState({
 				data: newData,
 			});
@@ -41,32 +52,39 @@ class ConceptEditionCreation extends Component {
 
 		//update should look like `{ editorialNoteLg1: '...' }`
 		this.handleChangeNotes = (update) => {
+			setSubmitting(true);
 			const data = this.state.data;
 			const notes = data.notes;
-			const newData = Object.assign(data, {
-				notes: Object.assign(notes, update),
-			});
+			const newData = {
+				...data,
+				general: {
+					...notes,
+					update,
+				},
+			};
 			this.setState({
 				data: newData,
 			});
 		};
 
 		this.handleChangeLinks = (newLinks) => {
-			this.setState({
+			setSubmitting(true);
+			this.setState((state) => ({
 				data: {
-					...this.state.data,
+					...state.data,
 					conceptsWithLinks: newLinks,
 				},
-			});
+			}));
 		};
 
 		this.handleChangeEquivalentLinks = (newLinks) => {
-			this.setState({
+			setSubmitting(true);
+			this.setState((state) => ({
 				data: {
-					...this.state.data,
+					...state.data,
 					equivalentLinks: newLinks,
 				},
-			});
+			}));
 		};
 
 		this.handleSave = () => {
@@ -136,8 +154,14 @@ class ConceptEditionCreation extends Component {
 	}
 
 	render() {
-		const { stampList, maxLengthScopeNote, title, subtitle, creation } =
-			this.props;
+		const {
+			stampList,
+			maxLengthScopeNote,
+			title,
+			subtitle,
+			creation,
+			submitting,
+		} = this.props;
 
 		const {
 			showModal,
@@ -176,9 +200,10 @@ class ConceptEditionCreation extends Component {
 				<div className="container">
 					<PageTitle title={title} subtitle={subtitle} />
 					{this.props.general.contributor && (
-						<ConceptCreateControl
+						<ConceptCreateControlLayout
 							errorMessage={errorMessage}
 							handleSave={this.handleSave}
+							submitting={submitting}
 						/>
 					)}
 					<TabView>

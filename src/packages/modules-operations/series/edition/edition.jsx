@@ -91,7 +91,7 @@ class OperationsSerieEdition extends Component {
 				errorMessage: [],
 			},
 			serie: {
-				...this.state.serie,
+				...state.serie,
 				...override,
 			},
 		}));

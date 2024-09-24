@@ -69,7 +69,7 @@ export const validate = (
 			oldLabelLg1,
 			conceptsWithLinks,
 			maxLengthScopeNote,
-			!general.disseminationStatus.includes('Public')
+			!general?.disseminationStatus?.includes('Public')
 		)
 	)({
 		...general,

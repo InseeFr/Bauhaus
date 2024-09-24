@@ -5,8 +5,18 @@ import {
 	CancelButton,
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
+import { createAllDictionary } from '../../../utils/dictionnary';
 
-function Controls({ handleSave, redirectCancel, errors }) {
+const { D: dict } = createAllDictionary({
+	errors: {
+		GlobalClientSideErrorBloc: {
+			fr: 'Remplissez les champs requis pour pouvoir sauvegarder cette collection.',
+			en: 'Complete mandatory fields to save this collection.',
+		},
+	},
+});
+
+function Controls({ handleSave, redirectCancel, errors, submitting }) {
 	return (
 		<>
 			<ActionToolbar>
@@ -18,7 +28,7 @@ function Controls({ handleSave, redirectCancel, errors }) {
 			</ActionToolbar>
 			<GlobalClientSideErrorBloc
 				clientSideErrors={errors?.errorMessage}
-				D={D}
+				D={submitting ? D : dict}
 			/>
 		</>
 	);

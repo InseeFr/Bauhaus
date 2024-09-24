@@ -59,7 +59,7 @@ const NotesEdition = ({
 						(noteLg1Name === 'definitionLg1' && htmlIsEmpty(noteLg1)) ||
 						(noteLg1Name === 'scopeNoteLg1' &&
 							htmlIsEmpty(noteLg1) &&
-							disseminationStatus.includes('Public')) ||
+							disseminationStatus?.includes('Public')) ||
 						(noteLg1Name === 'scopeNoteLg1' &&
 							(htmlLength(noteLg1) > maxLength ||
 								htmlLength(noteLg2) > maxLength));

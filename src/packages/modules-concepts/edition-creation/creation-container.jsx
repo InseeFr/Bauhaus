@@ -22,6 +22,7 @@ const CreationContainer = () => {
 
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
+	const [submitting, setSubmitting] = useState(false);
 
 	const [concepts, setConcepts] = useState([]);
 
@@ -68,6 +69,8 @@ const CreationContainer = () => {
 			conceptsWithLinks={conceptsWithLinks}
 			maxLengthScopeNote={maxLengthScopeNote}
 			save={handleCreation}
+			submitting={submitting}
+			setSubmitting={setSubmitting}
 		/>
 	);
 };
