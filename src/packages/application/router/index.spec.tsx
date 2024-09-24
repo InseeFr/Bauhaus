@@ -5,15 +5,16 @@ import D from '../../i18n';
 import configureStore from '../../redux/configure-store';
 import { renderWithAppContext } from '../../tests-utils/render';
 import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
-import {vi} from 'vitest';
+import { vi } from 'vitest';
 import { useLocation } from 'react-router-dom';
+import { OidcProvider } from '../../auth/create-oidc';
 
 vi.mock('react-router-dom', async () => {
 	const originalModule = await vi.importActual('react-router-dom');
 	return {
 		...originalModule,
 		useLocation: vi.fn(),
-	}
+	};
 });
 vi.mock('../../utils/env', () => ({
 	getEnvVar: (key: string) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
@@ -36,7 +37,6 @@ const store = configureStore({
 });
 
 describe('RBACLink Component', () => {
-
 	beforeEach(() => {
 		vi.clearAllMocks();
 	});
@@ -45,11 +45,13 @@ describe('RBACLink Component', () => {
 		useLocation.mockReturnValue({ pathname: '/' });
 
 		renderWithAppContext(
-			<Provider store={store}>
-				<RBACLink>
-					<div>Child Component</div>
-				</RBACLink>
-			</Provider>
+			<OidcProvider>
+				<Provider store={store}>
+					<RBACLink>
+						<div>Child Component</div>
+					</RBACLink>
+				</Provider>
+			</OidcProvider>
 		);
 
 		expect(screen.getByText('Child Component')).not.toBeNull();
@@ -61,11 +63,13 @@ describe('RBACLink Component', () => {
 		useLocation.mockReturnValue({ pathname: '/' });
 
 		renderWithAppContext(
-			<Provider store={store}>
-				<RBACLink>
-					<div>Child Component</div>
-				</RBACLink>
-			</Provider>
+			<OidcProvider>
+				<Provider store={store}>
+					<RBACLink>
+						<div>Child Component</div>
+					</RBACLink>
+				</Provider>
+			</OidcProvider>
 		);
 
 		const logoutButton = screen.getByText(D.authentication.logout);
