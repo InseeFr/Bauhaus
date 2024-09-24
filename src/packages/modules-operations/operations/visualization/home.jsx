@@ -49,9 +49,9 @@ function OperationsOperationVisualization({ attr, secondLang }) {
 			</Row>
 			<RelationsView
 				parent={attr.series}
-				parentTitle={'parentSeries'}
+				parentTitle="parentSeries"
 				parentPath="series"
-				title={'linksTitle'}
+				title="linksTitle"
 				secondLang={secondLang}
 			/>
 		</>

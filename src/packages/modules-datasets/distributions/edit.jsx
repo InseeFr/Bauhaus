@@ -14,6 +14,8 @@ import {
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
 	EditorMarkdown,
+	NumberInput,
+	UrlInput,
 } from '../../components';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useTitle } from '../../utils/hooks/useTitle';
@@ -233,9 +235,7 @@ export const DistributionEdit = () => {
 				<Row>
 					<div className="col-md-12 form-group">
 						<label htmlFor="taille">{D1.tailleTitle}</label>
-						<input
-							type="number"
-							className="form-control"
+						<NumberInput
 							id="taille"
 							value={editingDistribution.taille}
 							onChange={(e) =>
@@ -250,9 +250,7 @@ export const DistributionEdit = () => {
 				<Row>
 					<div className="col-md-12 form-group">
 						<label htmlFor="url">{D1.downloadUrlTitle}</label>
-						<input
-							type="url"
-							className="form-control"
+						<UrlInput
 							id="url"
 							value={editingDistribution.url}
 							onChange={(e) =>

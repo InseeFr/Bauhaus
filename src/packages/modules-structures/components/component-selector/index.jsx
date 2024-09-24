@@ -204,7 +204,7 @@ const ComponentSelector = ({
 					(fullComponent) => {
 						const componentsToAdd = [component];
 						Object.keys(fullComponent)
-							.filter((key) => key.indexOf('attribute_') === 0)
+							.filter((key) => key.startsWith('attribute_'))
 							.forEach((iri) => {
 								const attribute = mutualizedComponents.find(
 									(c) => c.iri === fullComponent[iri]

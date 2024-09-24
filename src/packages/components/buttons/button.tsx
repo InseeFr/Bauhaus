@@ -1,20 +1,9 @@
-import { Link as ReactLink } from 'react-router-dom';
 
+import { Link } from '../link';
 import './button.scss';
 import { PropsWithChildren } from 'react';
 
 const DEFAULT_CLASSES: string[] = [];
-
-export const Link = ({ to, disabled, children, className, ...rest }) => {
-	if (disabled) {
-		return <span className={className + ' disabled'}>{children}</span>;
-	}
-	return (
-		<ReactLink className={className} to={to} {...rest}>
-			{children}
-		</ReactLink>
-	);
-};
 
 type ButtonTypes = {
 	action: string;

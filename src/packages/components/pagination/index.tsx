@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Link } from '../link';
 //@ts-ignore
@@ -104,7 +104,7 @@ export const Pagination = ({ itemEls }: { itemEls: any }) => {
 		});
 
 	return (
-		<Fragment>
+		<>
 			<ul className="list-group">{currentItems}</ul>
 			{pageNumbers.length > 1 && (
 				<div>
@@ -120,7 +120,7 @@ export const Pagination = ({ itemEls }: { itemEls: any }) => {
 						/>
 					</div>
 					<div className="col-md-9" style={{ padding: 0 }}>
-						<ul className={`wilco-pagination pull-right`}>
+						<ul className="wilco-pagination pull-right">
 							<li>
 								<Link
 									to={`${pathnamePrefix}page=1&perPage${numberPerPage}`}
@@ -168,6 +168,6 @@ export const Pagination = ({ itemEls }: { itemEls: any }) => {
 					</div>
 				</div>
 			)}
-		</Fragment>
+		</>
 	);
 };

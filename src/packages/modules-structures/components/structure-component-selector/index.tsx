@@ -1,5 +1,4 @@
 import { useCallback, useState, useEffect } from 'react';
-import SlidingPanel from 'react-sliding-side-panel';
 import { typeUriToLabel } from '../../utils';
 import D from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
@@ -17,8 +16,9 @@ import { Structure } from '../../../model/structures/Structure';
 import { CodesList } from '../../../model/CodesList';
 import { SeeButton } from '../../../components';
 import { convertToArrayIfDefined } from '../../../utils/array-utils';
-import { DataTable } from '../../../components/datatable';
-import { Column } from 'primereact/column';
+import { RightSlidingPanel } from '../../../components/sliding-panel';
+import { ComponentsTable } from '../components-table';
+import { AddButton } from '../../../components/buttons/add';
 
 type StructureComponentsSelectorTypes = {
 	hidden?: boolean;
@@ -262,34 +262,15 @@ export const StructureComponentsSelector = ({
 					{D.componentTitle}{' '}
 					{!readOnly && (
 						<Auth roles={[ADMIN]}>
-							<button
-								id="add-component"
-								aria-label={D.addComponentTitle}
-								onClick={handleCreateComponent}
-							>
-								<span className="glyphicon glyphicon-plus"></span>
-							</button>
+							<AddButton id="add-component" onClick={handleCreateComponent} />
 						</Auth>
 					)}
 				</>
 			}
 		>
-			<DataTable value={componentsWithActions} withPagination={false}>
-				<Column field="labelLg1" header={D.label}></Column>
-				<Column field="type" header={D.type}></Column>
-				<Column field="mutualized" header={D.mutualized}></Column>
-				<Column field="concept" header={D.conceptTitle}></Column>
-				<Column field="representation" header={D.representationTitle}></Column>
-				<Column
-					field="actions"
-					header={``}
-					style={{ display: 'flex' }}
-				></Column>
-			</DataTable>
-			<SlidingPanel
-				type={'right'}
+			<ComponentsTable components={componentsWithActions} />
+			<RightSlidingPanel
 				isOpen={openPanel}
-				size={60}
 				backdropClicked={() => setOpenPanel(false)}
 			>
 				<ComponentDetail
@@ -305,7 +286,7 @@ export const StructureComponentsSelector = ({
 					type={type}
 					stampListOptions={stampListOptions}
 				/>
-			</SlidingPanel>
+			</RightSlidingPanel>
 		</CollapsiblePanel>
 	);
 };

@@ -81,7 +81,7 @@ export const SearchFormList = ({ categories, stamps, data }) => {
 			title={D.seriesSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to={'/operations/series'} push />}
+			redirect={<Redirect to="/operations/series" push />}
 		>
 			<div className="row form-group">
 				<div className="col-md-12">

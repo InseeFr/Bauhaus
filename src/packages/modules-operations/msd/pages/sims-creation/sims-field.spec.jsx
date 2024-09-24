@@ -86,7 +86,7 @@ describe('Sims Field', () => {
 				codesLists={{ codeList: { codes: [] } }}
 				alone={true}
 				secondLang={false}
-				lang={'fr'}
+				lang="fr"
 			/>
 		);
 		expect(container.querySelectorAll('[id^="react-select"')).toHaveLength(1);

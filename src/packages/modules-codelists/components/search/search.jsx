@@ -56,7 +56,7 @@ const SearchFormList = ({ stampListOptions, data }) => {
 			title={D.codelistsSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to={'/codelists'} push />}
+			redirect={<Redirect to="/codelists" push />}
 		>
 			<fieldset>
 				<legend>{D.codelistTitle}</legend>

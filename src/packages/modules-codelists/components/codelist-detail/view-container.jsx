@@ -63,7 +63,7 @@ const CodelistComponentView = (props) => {
 	if (loading) {
 		return <Loading />;
 	}
-	if (publishing) return <Loading text={'publishing'} />;
+	if (publishing) return <Loading text="publishing" />;
 
 	return (
 		<>

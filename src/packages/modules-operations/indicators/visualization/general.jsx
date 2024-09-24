@@ -73,26 +73,26 @@ function OperationsIndicatorVisualization({
 			<DisplayMultiLangNote
 				value1={attr.altLabelLg1}
 				value2={attr.altLabelLg2}
-				title={'altLabel'}
+				title="altLabel"
 				secondLang={secondLang}
 			/>
 			<DisplayMultiLangNote
 				value1={attr.abstractLg1}
 				value2={attr.abstractLg2}
-				title={'summary'}
+				title="summary"
 				secondLang={secondLang}
 				md
 			/>
 			<DisplayMultiLangNote
 				value1={attr.historyNoteLg1}
 				value2={attr.historyNoteLg2}
-				title={'history'}
+				title="history"
 				secondLang={secondLang}
 			/>
 			<DisplayMultiLangNote
 				value1={frequency.labelLg1}
 				value2={frequency.labelLg2}
-				title={'indicatorDataCollectFrequency'}
+				title="indicatorDataCollectFrequency"
 				secondLang={secondLang}
 			/>
 			<Row>
@@ -103,7 +103,7 @@ function OperationsIndicatorVisualization({
 			</Row>
 			<DisplayLinks
 				links={contributors}
-				title={'stakeholders'}
+				title="stakeholders"
 				secondLang={false}
 				displayLink={false}
 				labelLg1="label"
@@ -111,20 +111,20 @@ function OperationsIndicatorVisualization({
 
 			<DisplayLinks
 				links={attr.replaces}
-				path={'/operations/indicator/'}
-				title={'replaces'}
+				path="/operations/indicator/"
+				title="replaces"
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.isReplacedBy}
-				path={'/operations/indicator/'}
-				title={'replacedBy'}
+				path="/operations/indicator/"
+				title="replacedBy"
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
 				links={attr.wasGeneratedBy}
-				path={'/operations/series/'}
-				title={'generatedBy'}
+				path="/operations/series/"
+				title="generatedBy"
 				secondLang={secondLang}
 			/>
 

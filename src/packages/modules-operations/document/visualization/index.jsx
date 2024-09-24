@@ -1,15 +1,11 @@
 import { CheckSecondLang, Loading, PageTitleBlock } from '../../../components';
-
-import { loadCodesList } from '../../../redux/actions/operations/utils/setup';
-
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import OperationsDocumentVisualization from './home';
-
 import { GeneralApi } from '../../../sdk/general-api';
 import { Menu } from './Menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useCodesList } from '../../../utils/hooks/codeslist';
 
 function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';
@@ -20,10 +16,7 @@ const DocumentationVisualizationContainer = () => {
 	const { path } = useRouteMatch();
 	const type = getPath(path);
 	const [secondLang] = useSecondLang();
-	const langOptions = useSelector(
-		(state) => state.operationsCodesList.results['ISO-639']
-	);
-	const dispatch = useDispatch();
+	const langOptions = useCodesList('ISO-639');
 
 	const [document, setDocument] = useState({});
 	useEffect(() => {
@@ -35,11 +28,6 @@ const DocumentationVisualizationContainer = () => {
 		});
 	}, [id, type]);
 
-	useEffect(() => {
-		if (!langOptions) {
-			loadCodesList(['ISO-639'], dispatch);
-		}
-	}, [langOptions, dispatch]);
 
 	if (!document.id) return <Loading />;
 

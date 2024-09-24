@@ -40,7 +40,7 @@ const OperationVisualizationContainer = () => {
 	}, [operation, id]);
 
 	if (!operation.id) return <Loading />;
-	if (publishing) return <Loading text={'publishing'} />;
+	if (publishing) return <Loading text="publishing" />;
 
 	return (
 		<div className="container">

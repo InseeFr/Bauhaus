@@ -42,7 +42,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 
 	return (
 		<Modal
-			className={`Modal__Bootstrap modal-dialog operations collections-modal`}
+			className="Modal__Bootstrap modal-dialog operations collections-modal"
 			isOpen={true}
 			ariaHideApp={false}
 		>

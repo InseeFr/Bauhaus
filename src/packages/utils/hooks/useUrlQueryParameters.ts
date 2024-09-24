@@ -1,15 +1,20 @@
 import { useHistory, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { z } from 'zod';
 
 const computeFromUrl = (defaultValue: any) => {
-	const url = encodeURI(document.URL);
-	const searchQuery = new URL(url).searchParams;
-
+	const result = z.string().url().safeParse(document.URL);
 	const values = { ...defaultValue };
-	//@ts-ignore
-	for (const [key, value] of searchQuery.entries()) {
-		values[key] = value;
+	if (!result.success) {
+		const url = encodeURI(document.URL);
+		const searchQuery = new URL(url).searchParams;
+
+		//@ts-ignore
+		for (const [key, value] of searchQuery.entries()) {
+			values[key] = value;
+		}
 	}
+
 	return values;
 };
 
@@ -18,7 +23,6 @@ const useUrlQueryParameters = (defaultValue: any) => {
 	const location = useLocation();
 
 	const [form, setSearch] = useState(computeFromUrl(defaultValue));
-
 	const handleChange = (property: string, stateChange: string) => {
 		const newForm = {
 			...form,

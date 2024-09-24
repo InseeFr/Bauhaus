@@ -28,6 +28,7 @@ import {
 	ClientSideError,
 	Select,
 	SeeButton,
+	NumberInput,
 } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
@@ -242,7 +243,7 @@ export const DumbComponentDetailEdit = ({
 		attribute_0: '',
 		attributeValue_0: '',
 		...component,
-	}).filter((key) => key.indexOf('attribute_') === 0);
+	}).filter((key) => key.startsWith('attribute_'));
 
 	if (!!component['attributeValue_' + (attributesKeys.length - 1)]) {
 		component['attribute_' + attributesKeys.length] = '';
@@ -253,10 +254,7 @@ export const DumbComponentDetailEdit = ({
 		// Each time we change the type of a component, we remove all linked attributes
 		const newComponentWithoutAttributes = Object.keys(component).reduce(
 			(acc, key) => {
-				if (
-					key.indexOf('attribute_') === 0 ||
-					key.indexOf('attributeValue_') === 0
-				) {
+				if (key.startsWith('attribute_') || key.startsWith('attributeValue_')) {
 					return acc;
 				}
 				return {
@@ -441,15 +439,15 @@ export const DumbComponentDetailEdit = ({
 						</div>
 					</Row>
 				)}
-				{component.range === XSD_STRING && (
+				{(component.range === XSD_STRING ||
+					component.range === XSD_INTEGER ||
+					component.range === XSD_FLOAT) && (
 					<>
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="minLength">{D1.minLength}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.minLength}
-									className="form-control"
 									id="minLength"
 									name="minLength"
 									onChange={handleChange}
@@ -459,65 +457,38 @@ export const DumbComponentDetailEdit = ({
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="maxLength">{D1.maxLength}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.maxLength}
-									className="form-control"
 									id="maxLength"
 									name="maxLength"
-									onChange={handleChange}
-								/>
-							</div>
-						</Row>
-
-						<Row>
-							<div className="col-md-offset-1 col-md-11 form-group">
-								<label htmlFor="format">{D1.formatTitle}</label>
-								<TextInput
-									value={component.pattern}
-									id="pattern"
-									name="pattern"
 									onChange={handleChange}
 								/>
 							</div>
 						</Row>
 					</>
 				)}
+
+				{component.range === XSD_STRING && (
+					<Row>
+						<div className="col-md-offset-1 col-md-11 form-group">
+							<label htmlFor="format">{D1.formatTitle}</label>
+							<TextInput
+								value={component.pattern}
+								id="pattern"
+								name="pattern"
+								onChange={handleChange}
+							/>
+						</div>
+					</Row>
+				)}
+
 				{(component.range === XSD_INTEGER || component.range === XSD_FLOAT) && (
 					<>
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
-								<label htmlFor="minLength">{D1.minLength}</label>
-								<input
-									type="number"
-									value={component.minLength}
-									className="form-control"
-									id="minLength"
-									name="minLength"
-									onChange={handleChange}
-								/>
-							</div>
-						</Row>
-						<Row>
-							<div className="col-md-offset-1 col-md-11 form-group">
-								<label htmlFor="maxLength">{D1.maxLength}</label>
-								<input
-									type="number"
-									value={component.maxLength}
-									className="form-control"
-									id="maxLength"
-									name="maxLength"
-									onChange={handleChange}
-								/>
-							</div>
-						</Row>
-						<Row>
-							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="minInclusive">{D1.minInclusive}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.minInclusive}
-									className="form-control"
 									id="minInclusive"
 									name="minInclusive"
 									onChange={handleChange}
@@ -527,10 +498,8 @@ export const DumbComponentDetailEdit = ({
 						<Row>
 							<div className="col-md-offset-1 col-md-11 form-group">
 								<label htmlFor="maxInclusive">{D1.maxInclusive}</label>
-								<input
-									type="number"
+								<NumberInput
 									value={component.maxInclusive}
-									className="form-control"
 									id="maxInclusive"
 									name="maxInclusive"
 									onChange={handleChange}
@@ -624,7 +593,7 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
 		attribute_0: '',
 		attributeValue_0: '',
 		...component,
-	}).filter((key) => key.indexOf('attribute_') === 0);
+	}).filter((key) => key.startsWith('attribute_'));
 
 	const attributesListOptions = (attributes ?? []).map((c) => ({
 		value: c.iri,

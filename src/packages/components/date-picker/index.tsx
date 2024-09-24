@@ -6,13 +6,11 @@ type DatePickerTypes = {
 };
 export const DatePicker = ({ value, onChange }: Readonly<DatePickerTypes>) => {
 	return (
-		<>
-			<Calendar
-				value={new Date(value)}
-				onChange={(e) => {
-					onChange(e.value?.toISOString());
-				}}
-			/>
-		</>
+		<Calendar
+			value={new Date(value)}
+			onChange={(e) => {
+				onChange(e.value?.toISOString());
+			}}
+		/>
 	);
 };

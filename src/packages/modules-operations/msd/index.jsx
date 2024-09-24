@@ -327,7 +327,7 @@ const MSDContainerWithParent = (props) => {
 			});
 		});
 	}, []);
-	if (loading) return <Loading textType="loadableLoading" />;
+	if (loading) return <Loading />;
 	return (
 		<DocumentsStoreProvider value={documentStores}>
 			<MSDContainer

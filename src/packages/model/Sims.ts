@@ -13,3 +13,7 @@ export type Sims = {
 	validationState: ValidationState;
 	parentsWithoutSims: any[];
 };
+
+export type MetadataStructure = {
+	idMas: string;
+};

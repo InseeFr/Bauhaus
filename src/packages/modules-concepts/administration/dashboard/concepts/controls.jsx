@@ -8,7 +8,7 @@ function Controls() {
 			<div className="col-md-2">
 				<Link
 					className="btn bauhaus-btn btn-lg col-md-12"
-					to={'/concepts/administration'}
+					to="/concepts/administration"
 				>
 					{D.btnReturn}
 				</Link>

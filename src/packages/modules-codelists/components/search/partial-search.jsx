@@ -55,7 +55,7 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 			title={D.codelistsPartialSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to={'/codelists-partial'} push />}
+			redirect={<Redirect to="/codelists-partial" push />}
 		>
 			<fieldset>
 				<legend>{D.codelistTitle}</legend>

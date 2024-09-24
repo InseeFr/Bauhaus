@@ -55,7 +55,6 @@ const Picker = ({
 			<ActionToolbar>
 				<button
 					type="button"
-					key={`removeAll`}
 					className="btn wilco-btn btn-lg col-md-4"
 					onClick={removeAll}
 				>
@@ -64,7 +63,6 @@ const Picker = ({
 
 				<button
 					type="button"
-					key={`addAll`}
 					className="btn wilco-btn btn-lg col-md-4"
 					onClick={addAll}
 				>

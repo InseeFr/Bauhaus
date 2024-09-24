@@ -107,7 +107,7 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 						}
 						options={geographies}
 						onChange={(e) => handleSelect(e ? e.value : '')}
-						placeholder={''}
+						placeholder=""
 						searchable={true}
 						noResultsText={D.noResult}
 						isClearable={true}

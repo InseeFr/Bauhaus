@@ -6,7 +6,7 @@ describe('concepts-compare', () => {
 	it('renders without crashing', () => {
 		renderWithAppContext(
 			<Compare
-				id={'id'}
+				id="id"
 				conceptGeneral={{ conceptVersion: '2' }}
 				notes={{ 2: {}, 1: {} }}
 				secondLang={false}

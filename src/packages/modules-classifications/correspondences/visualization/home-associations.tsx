@@ -50,28 +50,26 @@ const HomeAssociations = ({
 			{' '}
 			<Note
 				text={
-					<>
-						<DataTable
-							globalFilterFields={['source', 'target']}
-							value={data}
-							onRowSelect={(e: any) => {
-								history.push(`${id}/association/${e.data.id}`);
-							}}
-						>
-							<Column
-								field="source"
-								header={`${D.sourceClassificationTitle}${
-									sourceLabel && ` : ${sourceLabel}`
-								}`}
-							></Column>
-							<Column
-								field="target"
-								header={`${D.targetClassificationTitle}${
-									sourceLabel && ` : ${targetLabel}`
-								}`}
-							></Column>
-						</DataTable>
-					</>
+					<DataTable
+						globalFilterFields={['source', 'target']}
+						value={data}
+						onRowSelect={(e: any) => {
+							history.push(`${id}/association/${e.data.id}`);
+						}}
+					>
+						<Column
+							field="source"
+							header={`${D.sourceClassificationTitle}${
+								sourceLabel && ` : ${sourceLabel}`
+							}`}
+						></Column>
+						<Column
+							field="target"
+							header={`${D.targetClassificationTitle}${
+								sourceLabel && ` : ${targetLabel}`
+							}`}
+						></Column>
+					</DataTable>
 				}
 				title={D1.associationsTitle}
 				alone={true}

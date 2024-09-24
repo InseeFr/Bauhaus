@@ -132,9 +132,9 @@ function OperationsDocumentationVisualization({
 			</div>
 			<RelationsView
 				children={sims}
-				childrenTitle={'linkedSims'}
+				childrenTitle="linkedSims"
 				childrenPath="sims"
-				title={'linksTitle'}
+				title="linksTitle"
 				secondLang={secondLang}
 			/>
 		</>

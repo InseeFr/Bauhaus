@@ -1,6 +1,6 @@
-import D from '../../i18n/build-dictionary';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
+import { AddButton } from '../../../components/buttons/add';
 
 export const CodesPanelAddButton = ({ codelist, onHandlePanel }) => {
 	const permission = usePermission();
@@ -15,14 +15,7 @@ export const CodesPanelAddButton = ({ codelist, onHandlePanel }) => {
 
 	return (
 		(isAdmin || hasRightsBasedOnStamp) && (
-			<button
-				id="add-code"
-				type="button"
-				aria-label={D.addCodeTitle}
-				onClick={onHandlePanel}
-			>
-				<span className="glyphicon glyphicon-plus"></span>
-			</button>
+			<AddButton id="add-code" onClick={onHandlePanel} />
 		)
 	);
 };

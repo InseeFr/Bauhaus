@@ -12,6 +12,7 @@ import { TextInput, Row } from '../../../components';
 import Select from 'js/utils/components/select-rmes';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import { AddLogo } from '../../../components/logo/logo-add';
 
 export const CodeDetailEdit = ({
 	code: initialCode,
@@ -232,7 +233,7 @@ export const CodeDetailEdit = ({
 					}}
 					className="btn wilco-btn btn-lg col-md-12"
 				>
-					<span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					<AddLogo />
 					<span> {D.btnNew}</span>
 				</button>
 				<button
