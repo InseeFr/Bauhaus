@@ -1,111 +1,87 @@
-import { Switch, Route } from 'react-router-dom';
+import { Route, Routes, Switch } from 'react-router-dom';
 
+import ClassificationsCorrespondenceAssociationContainer from '../../modules-classifications/correspondences/association/home-container';
+import ClassificationsCorrespondencesContainer from '../../modules-classifications/correspondences/home-container';
+import ClassificationsCorrespondenceContainer from '../../modules-classifications/correspondences/visualization/home-container';
 import ClassificationsFamiliesContainer from '../../modules-classifications/families/home-container';
 import ClassificationsFamilyContainer from '../../modules-classifications/families/visualization/home-container';
+import ClassificationsContainer from '../../modules-classifications/home-container';
+import ClassificationItemCompareContainer from '../../modules-classifications/item/compare/home-container';
+import ClassificationItemEdition from '../../modules-classifications/item/edition';
+import ClassificationItemContainer from '../../modules-classifications/item/home-container';
+import ClassificationLevelContainer from '../../modules-classifications/level/home-container';
+import Menu from '../../modules-classifications/menu';
 import ClassificationsSeriesContainer from '../../modules-classifications/series/home-container';
 import ClassificationsOneSeriesContainer from '../../modules-classifications/series/visualization/home-container';
-import ClassificationsContainer from '../../modules-classifications/home-container';
 import ClassificationContainer from '../../modules-classifications/visualization/home-container';
 import ClassificationItemsContainer from '../../modules-classifications/visualization/items/home-container';
 import ClassificationTreeContainer from '../../modules-classifications/visualization/tree/home-container';
-import ClassificationLevelContainer from '../../modules-classifications/level/home-container';
-import ClassificationItemContainer from '../../modules-classifications/item/home-container';
-import ClassificationItemEdition from '../../modules-classifications/item/edition';
-import ClassificationItemCompareContainer from '../../modules-classifications/item/compare/home-container';
-import ClassificationsCorrespondencesContainer from '../../modules-classifications/correspondences/home-container';
-import ClassificationsCorrespondenceContainer from '../../modules-classifications/correspondences/visualization/home-container';
-import ClassificationsCorrespondenceAssociationContainer from '../../modules-classifications/correspondences/association/home-container';
-import Menu from '../../modules-classifications/menu';
 import { ClassificationEdition } from '../edition';
 
-const Routes = () => {
+export default () => {
 	return (
 		<>
 			<Menu />
-			<Switch>
+			<Routes>
 				<Route
-					exact
-					path="/classifications/families"
-					component={ClassificationsFamiliesContainer}
+					path="/families"
+					element={<ClassificationsFamiliesContainer />}
 				/>
 				<Route
-					exact
-					path="/classifications/family/:id"
-					component={ClassificationsFamilyContainer}
+					path="/family/:id"
+					element={<ClassificationsFamilyContainer />}
+				/>
+				<Route path="/series" element={<ClassificationsSeriesContainer />} />
+				<Route
+					path="/series/:id"
+					element={<ClassificationsOneSeriesContainer />}
+				/>
+				<Route path="/" element={<ClassificationsContainer />} />
+				<Route
+					path="/classification/:id"
+					element={<ClassificationContainer />}
 				/>
 				<Route
-					exact
-					path="/classifications/series"
-					component={ClassificationsSeriesContainer}
+					path="/classification/:id/modify"
+					element={<ClassificationEdition />}
 				/>
 				<Route
-					exact
-					path="/classifications/series/:id"
-					component={ClassificationsOneSeriesContainer}
+					path="/classification/:id/items"
+					element={<ClassificationItemsContainer />}
 				/>
 				<Route
-					exact
-					path="/classifications"
-					component={ClassificationsContainer}
+					path="/classification/:id/tree"
+					element={<ClassificationTreeContainer />}
 				/>
 				<Route
-					exact
-					path="/classifications/classification/:id"
-					component={ClassificationContainer}
+					path="/classification/:classificationId/level/:levelId"
+					element={<ClassificationLevelContainer />}
 				/>
 				<Route
-					exact
-					path="/classifications/classification/:id/modify"
-					component={ClassificationEdition}
+					path="/classification/:classificationId/item/:itemId"
+					element={<ClassificationItemContainer />}
 				/>
 				<Route
-					exact
-					path="/classifications/classification/:id/items"
-					component={ClassificationItemsContainer}
+					path="/classification/:classificationId/item/:itemId/modify"
+					element={<ClassificationItemEdition />}
 				/>
 				<Route
-					exact
-					path="/classifications/classification/:id/tree"
-					component={ClassificationTreeContainer}
+					path="/classification/:classificationId/item/:itemId/compare"
+					element={<ClassificationItemCompareContainer />}
 				/>
 				<Route
-					exact
-					path="/classifications/classification/:classificationId/level/:levelId"
-					component={ClassificationLevelContainer}
+					path="/correspondences"
+					element={<ClassificationsCorrespondencesContainer />}
 				/>
 				<Route
-					exact
-					path="/classifications/classification/:classificationId/item/:itemId"
-					component={ClassificationItemContainer}
+					path="/correspondence/:id"
+					element={<ClassificationsCorrespondenceContainer />}
 				/>
 				<Route
-					exact
-					path="/classifications/classification/:classificationId/item/:itemId/modify"
-					component={ClassificationItemEdition}
+					path="/correspondence/:correspondenceId/association/:associationId"
+					element={<ClassificationsCorrespondenceAssociationContainer />}
 				/>
-				<Route
-					exact
-					path="/classifications/classification/:classificationId/item/:itemId/compare"
-					component={ClassificationItemCompareContainer}
-				/>
-				<Route
-					exact
-					path="/classifications/correspondences"
-					component={ClassificationsCorrespondencesContainer}
-				/>
-				<Route
-					exact
-					path="/classifications/correspondence/:id"
-					component={ClassificationsCorrespondenceContainer}
-				/>
-				<Route
-					exact
-					path="/classifications/correspondence/:correspondenceId/association/:associationId"
-					component={ClassificationsCorrespondenceAssociationContainer}
-				/>
-			</Switch>
+			</Routes>
 		</>
 	);
 };
-
-export default Routes;

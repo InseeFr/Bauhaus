@@ -40,7 +40,7 @@ const InternalLinks = ({ links, title, labelProperty }) => {
 				<dt>{title}</dt>
 				{sortArray(labelProperty)(links).map((link) => (
 					<dd key={link.id}>
-						<Link to={'/concept/' + link.id}>{link[labelProperty]}</Link>
+						<Link to={'/concepts/' + link.id}>{link[labelProperty]}</Link>
 					</dd>
 				))}
 			</>

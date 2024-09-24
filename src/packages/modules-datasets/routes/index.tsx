@@ -1,10 +1,10 @@
-import { Switch, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import { DatasetHome } from '../datasets/home/home';
 import { DatasetEdit } from '../datasets/edit/edit';
+import { DatasetHome } from '../datasets/home/home';
 import { DatasetView } from '../datasets/view/view';
-import { DistributionHome } from '../distributions/home/home';
 import { DistributionEdit } from '../distributions/edit';
+import { DistributionHome } from '../distributions/home/home';
 import { DistributionView } from '../distributions/view/view';
 import DatasetsMenu from './menu';
 
@@ -17,29 +17,19 @@ const DatasetsComponent = () => {
 		<>
 			<DatasetsMenu />
 			<div className="container">
-				<Switch>
-					<Route exact path="/datasets"><DatasetHome /></Route>
+				<Routes>
+					<Route path="/" element={<DatasetHome />} />
+					<Route path="/distributions" element={<DistributionHome />} />
+					<Route path="/create" element={<DatasetEdit />} />
+					<Route path="/:id" element={<DatasetView />} />
+					<Route path="/:id/modify" element={<DatasetEdit />} />
+					<Route path="/distributions/create" element={<DistributionEdit />} />
+					<Route path="/distributions/:id" element={<DistributionView />} />
 					<Route
-						exact
-						path="/datasets/distributions"
-					><DistributionHome /></Route>
-
-					<Route exact path="/datasets/create"><DatasetEdit /></Route>
-					<Route exact path="/datasets/:id"><DatasetView /></Route>
-					<Route exact path="/datasets/:id/modify"><DatasetEdit /></Route>
-					<Route
-						exact
-						path="/datasets/distributions/create"
-					><DistributionEdit /></Route>
-					<Route
-						exact
-						path="/datasets/distributions/:id"
-					><DistributionView /></Route>
-					<Route
-						exact
-						path="/datasets/distributions/:id/modify"
-					><DistributionEdit /></Route>
-				</Switch>
+						path="/distributions/:id/modify"
+						element={<DistributionEdit />}
+					/>
+				</Routes>
 			</div>
 		</>
 	);

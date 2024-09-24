@@ -1,57 +1,42 @@
-import { Switch, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import Menu from '../menu';
-import Home from '../home/home';
-import Visualization from '../visualization';
-import { Create, Update } from '../edition';
-import StructuresComponentsList from '../components/components-list';
-import StructuresComponentsSearch from '../components/component-search/search';
-import StructuresSearch from '../components/structure-search/search';
-import StructuresComponentView from '../components/component-detail/view-container';
 import StructuresComponentEdit from '../components/component-detail/edit-container';
+import StructuresComponentView from '../components/component-detail/view-container';
+import StructuresComponentsSearch from '../components/component-search/search';
+import StructuresComponentsList from '../components/components-list';
+import StructuresSearch from '../components/structure-search/search';
+import { Create, Update } from '../edition';
+import Home from '../home/home';
+import Menu from '../menu';
+import Visualization from '../visualization';
 
 const StructureComponent = () => {
 	return (
 		<>
 			<Menu />
 			<div className="container">
-				<Switch>
-					<Route exact path="/structures"><Home /></Route>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/components" element={<StructuresComponentsList />} />
+					<Route path="/search" element={<StructuresSearch />} />
 					<Route
-						exact
-						path="/structures/components"
-					><StructuresComponentsList /></Route>
-					<Route exact path="/structures/search"><StructuresSearch /></Route>
+						path="/components/search"
+						element={<StructuresComponentsSearch />}
+					/>
 					<Route
-						exact
-						path="/structures/components/search"
-					><StructuresComponentsSearch /></Route>
+						path="/components/create"
+						element={<StructuresComponentEdit />}
+					/>
+					<Route path="/components/:id" element={<StructuresComponentView />} />
 					<Route
-						exact
-						path="/structures/components/create"
-					><StructuresComponentEdit /></Route>
-					<Route
-						exact
-						path="/structures/components/:id"
-					><StructuresComponentView /></Route>
-					<Route
-						exact
-						path="/structures/components/:id/modify"
-					><StructuresComponentEdit /></Route>
-					<Route exact path="/structures/create"><Create /></Route>
-					<Route
-						exact
-						path="/structures/:structureId/update"
-					><Update /></Route>
-					<Route
-						exact
-						path="/structures/:structureId/duplicate"
-					><Update /></Route>
-					<Route
-						exact
-						path="/structures/:structureId"
-					><Visualization /></Route>
-				</Switch>
+						path="/components/:id/modify"
+						element={<StructuresComponentEdit />}
+					/>
+					<Route path="/create" element={<Create />} />
+					<Route path="/:structureId/update" element={<Update />} />
+					<Route path="/:structureId/duplicate" element={<Update />} />
+					<Route path="/:structureId" element={<Visualization />} />
+				</Routes>
 			</div>
 		</>
 	);

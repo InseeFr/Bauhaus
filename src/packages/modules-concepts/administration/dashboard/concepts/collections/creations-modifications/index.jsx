@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
 	DateItem,
 	DatePicker,
@@ -13,7 +13,7 @@ import { DataTable } from '../../../../../../components/datatable';
 
 const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const variable = type === 'creations' ? 'created' : 'modified';
 	const typeByLang =
@@ -61,7 +61,7 @@ const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 					'validationStatus',
 				]}
 				onRowClick={({ data: collection }) =>
-					history.push(`/collection/${collection.id}`)
+					navigate(`/concepts/collection/${collection.id}`)
 				}
 			>
 				<Column field="label" header={D.collectionsTitle}></Column>

@@ -1,6 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import Keycloak from 'keycloak';
 import { Loading } from '../../components';
 import { saveUserProps } from '../../redux/users';
@@ -11,6 +10,7 @@ import {
 	storeToken,
 } from './token-utils';
 import { getPermission } from '../../redux/selectors';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const kcConfig = `${window.location.origin}/keycloak.json`;
 
@@ -27,7 +27,8 @@ const LoginOpenIDConnect = ({
 	WrappedComponent,
 }: LoginOpenIDConnectTypes) => {
 	const [token, setToken] = useState(getToken());
-	const history = useHistory();
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	const initLogin = useCallback(() => {
 		const refreshToken = () => {
@@ -58,7 +59,7 @@ const LoginOpenIDConnect = ({
 					setToken(kc.token);
 				}
 				setInterval(() => refreshToken(), 20000);
-				history.push({ pathname: history.location.pathname, state: 'init' });
+				navigate(location.pathname, { state: 'init' });
 			})
 			.error((e: any) => console.log('erreur initLogin', e));
 	}, [history, saveUserProps]);

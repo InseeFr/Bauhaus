@@ -1,22 +1,22 @@
-import D from '../../deprecated-locales';
-import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import {
-	Loading,
-	Column,
-	TextInput,
-	Select,
 	AdvancedSearchList,
+	Column,
+	Loading,
+	Select,
+	TextInput,
 } from '../../components';
+import D from '../../deprecated-locales';
 
-import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
+import { CL_SOURCE_CATEGORY } from '../../redux/actions/constants/codeList';
+import { OperationsApi } from '../../sdk/operations-api';
+import { filterKeyDeburr } from '../../utils/array-utils';
 import { useCodesList } from '../../utils/hooks/codeslist';
+import { useOrganizationsOptions } from '../../utils/hooks/organizations';
 import { useStamps } from '../../utils/hooks/stamps';
 import { useTitle } from '../../utils/hooks/useTitle';
-import { OperationsApi } from '../../sdk/operations-api';
-import { CL_SOURCE_CATEGORY } from '../../redux/actions/constants/codeList';
-import { filterKeyDeburr } from '../../utils/array-utils';
-import { useOrganizationsOptions } from '../../utils/hooks/organizations';
+import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = filterKeyDeburr(['typeCode']);
@@ -81,7 +81,7 @@ export const SearchFormList = ({ categories, stamps, data }) => {
 			title={D.seriesSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to="/operations/series" push />}
+			redirect={<Navigate to="/operations/series" />}
 		>
 			<div className="row form-group">
 				<div className="col-md-12">

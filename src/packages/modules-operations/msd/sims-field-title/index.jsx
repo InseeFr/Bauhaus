@@ -107,14 +107,14 @@ export const SimsFieldTitleIndicator = ({ msd, isEmpty }) => {
 
 	if (isEmpty) {
 		return (
-			<span ariaLabel={D.essentialRubricKo} title={D.essentialRubricKo}>
+			<span aria-label={D.essentialRubricKo} title={D.essentialRubricKo}>
 				⚠️
 			</span>
 		);
 	}
 
 	return (
-		<span ariaLabel={D.essentialRubricOk} title={D.essentialRubricOk}>
+		<span aria-label={D.essentialRubricOk} title={D.essentialRubricOk}>
 			✅
 		</span>
 	);

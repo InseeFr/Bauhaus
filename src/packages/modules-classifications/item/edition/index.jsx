@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Redirect, useParams } from 'react-router-dom';
+import { Navigate, Redirect, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import useClassificationItem from '../hook';
@@ -92,13 +92,14 @@ const ClassificationItemEdition = () => {
 
 	if (isSavingSuccess) {
 		return (
-			<Redirect
+			<Navigate
 				to={
 					'/classifications/classification/' +
 					classificationId +
 					'/item/' +
 					itemId
 				}
+				replace
 			/>
 		);
 	}
@@ -159,10 +160,7 @@ const ClassificationItemEdition = () => {
 
 			<form onSubmit={handleSubmit((value) => formatAndSave(value))}>
 				<ActionToolbar>
-					<CancelButton
-						action="/classifications"
-						type="button"
-					></CancelButton>
+					<CancelButton action="/classifications" type="button"></CancelButton>
 					<SaveButton type="submit"></SaveButton>
 				</ActionToolbar>
 				{errorMessage && <ErrorBloc error={errorMessage} />}

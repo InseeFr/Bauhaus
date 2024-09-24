@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import CollectionsToValidate from './home';
 import { Loading } from '../../../components';
 import D from '../../../deprecated-locales';
 import { ConceptsApi } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { usePermission } from '../../../redux/hooks/usePermission';
+import { useNavigate } from 'react-router-dom';
 
 const CollectionsToValidateContainer = () => {
 	useTitle(D.collectionsTitle, D.btnValid);
@@ -14,13 +14,13 @@ const CollectionsToValidateContainer = () => {
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [collections, setCollections] = useState([]);
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const handleValidateCollectionList = (ids) => {
 		setSaving(true);
 		ConceptsApi.putCollectionValidList(ids)
 			.then(() => setSaving(false))
-			.finally(() => history.push('/collections'));
+			.finally(() => navigate('/concepts/collections'));
 	};
 
 	useEffect(() => {

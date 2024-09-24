@@ -40,11 +40,11 @@ const ConceptVisualizationControls = ({
 
 	const cancel = [() => goBack(`/concepts`), D.btnReturn];
 	const validate = adminOrCreator && [handleValidation, D.btnValid];
-	const update = [`/concept/${id}/modify`, D.btnUpdate];
+	const update = [`/concepts/${id}/modify`, D.btnUpdate];
 	const compare =
 		!conceptVersion || conceptVersion <= 1
 			? null
-			: [`/concept/${id}/compare`, D.btnCompare];
+			: [`/concepts/${id}/compare`, D.btnCompare];
 	const erase = adminOrCreator && [() => setModalOpened(true), D.btnDelete];
 
 	const exportConcept = [

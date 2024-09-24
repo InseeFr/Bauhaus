@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import D, { D1 } from '../../../deprecated-locales';
 import { Row } from '../../../components';
 import { sortArray } from '../../../utils/array-utils';
@@ -19,7 +19,7 @@ const HomeAssociations = ({
 	correspondence: any;
 	secondLang: boolean;
 }) => {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const {
 		firstAltLabelLg1,
 		firstAltLabelLg2,
@@ -54,7 +54,7 @@ const HomeAssociations = ({
 						globalFilterFields={['source', 'target']}
 						value={data}
 						onRowSelect={(e: any) => {
-							history.push(`${id}/association/${e.data.id}`);
+							navigate(`${id}/association/${e.data.id}`);
 						}}
 					>
 						<Column

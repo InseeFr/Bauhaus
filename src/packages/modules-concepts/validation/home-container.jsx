@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import ConceptsToValidate from './home';
+import { Navigate } from 'react-router-dom';
 import { Loading } from '../../components';
-import { OK, PENDING } from '../../sdk/constants';
 import D from '../../deprecated-locales';
-import { ConceptsApi } from '../../sdk';
-import { useTitle } from '../../utils/hooks/useTitle';
-import { sortArrayByLabel } from '../../utils/array-utils';
 import { usePermission } from '../../redux/hooks/usePermission';
+import { ConceptsApi } from '../../sdk';
+import { OK, PENDING } from '../../sdk/constants';
+import { sortArrayByLabel } from '../../utils/array-utils';
+import { useTitle } from '../../utils/hooks/useTitle';
+import ConceptsToValidate from './home';
 
 const ConceptsToValidateContainer = () => {
 	useTitle(D.conceptsTitle, D.btnValid);
@@ -30,7 +30,7 @@ const ConceptsToValidateContainer = () => {
 	}, []);
 
 	if (exporting === OK) {
-		return <Redirect to="/concepts" />;
+		return <Navigate to="/concepts" replace />;
 	} else if (exporting === PENDING) {
 		return <Loading textType="validating" />;
 	}

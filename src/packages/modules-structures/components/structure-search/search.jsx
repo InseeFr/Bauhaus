@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 
 import D from '../../i18n/build-dictionary';
 
 import {
+	AdvancedSearchList,
 	Column,
-	TextInput,
 	Loading,
 	Select,
-	AdvancedSearchList,
+	TextInput,
 } from '../../../components';
-import { ConceptsApi, StructureApi } from '../../../sdk';
 import { validateStateOptions } from '../../../model/ValidationState';
+import { ConceptsApi, StructureApi } from '../../../sdk';
+import { filterKeyDeburr } from '../../../utils/array-utils';
 import { useStampsOptions } from '../../../utils/hooks/stamps';
+import { useTitle } from '../../../utils/hooks/useTitle';
 import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
 import * as ItemToSelectModel from '../../../utils/item-to-select-model';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { filterKeyDeburr } from '../../../utils/array-utils';
 import { COMPONENT_TYPES } from '../../utils/constants';
 
 const filterLabelLg1 = filterKeyDeburr(['labelLg1']);
@@ -68,7 +68,7 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 			title={D.structuresSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to="/structures" push />}
+			redirect={<Navigate to="/structures" />}
 		>
 			<div className="row form-group">
 				<div className="col-md-12">

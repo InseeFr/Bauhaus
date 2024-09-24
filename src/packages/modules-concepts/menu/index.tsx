@@ -40,7 +40,7 @@ const MenuConcepts = () => {
 			label: D.conceptsTitle,
 		},
 		{
-			path: '/collections',
+			path: '/concepts/collections',
 			pathKey: 'collection',
 			className: null,
 			attrs: null,

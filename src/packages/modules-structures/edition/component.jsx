@@ -1,28 +1,28 @@
 import { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import {
-	Loading,
-	TextInput,
-	Row,
+	ClientSideError,
 	ContributorsInput,
 	DisseminationStatusInput,
-	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
+	Loading,
+	Row,
 	Select,
+	TextInput,
 } from '../../components';
 
-import Controls from './controls';
-import Components from './components';
-import { DISSEMINATION_STATUS } from '../utils/constants';
-import D, { D1, D2 } from '../../deprecated-locales';
-import { validate } from './validation';
-import { useStampsOptions } from '../../utils/hooks/stamps';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
-import { StructureApi } from '../../sdk';
-import { usePermission } from '../../redux/hooks/usePermission';
 import { useAppContext } from '../../application/app-context';
+import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
 import LabelRequired from '../../components/label-required';
+import D, { D1, D2 } from '../../deprecated-locales';
+import { usePermission } from '../../redux/hooks/usePermission';
+import { StructureApi } from '../../sdk';
+import { useStampsOptions } from '../../utils/hooks/stamps';
+import { DISSEMINATION_STATUS } from '../utils/constants';
+import Components from './components';
+import Controls from './controls';
+import { validate } from './validation';
 
 const defaultDSD = {
 	identifiant: '',
@@ -83,7 +83,7 @@ const Edition = ({ creation, initialStructure }) => {
 		setStructure(structure);
 	}, [initialStructure, isContributor, stamp, creation]);
 
-	if (redirectId) return <Redirect to={`/structures/${redirectId}`} />;
+	if (redirectId) return <Navigate to={`/structures/${redirectId}`} replace />;
 	if (loading) return <Loading textType="saving" />;
 
 	const onSave = () => {

@@ -1,15 +1,15 @@
-import { useState, useEffect, useCallback } from 'react';
-import { PageTitle, Loading, SearchableList } from '../../../components';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Loading, PageTitle, SearchableList } from '../../../components';
 import './component-list.scss';
-import { useHistory } from 'react-router-dom';
 
-import { formatLabel } from '../../utils';
-import D from '../../i18n/build-dictionary';
-import { HomePageMenu } from './menu';
 import FilterToggleButtons from '../../../components/filter-toggle-buttons';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants';
 import { StructureApi } from '../../../sdk';
+import { useTitle } from '../../../utils/hooks/useTitle';
+import D from '../../i18n/build-dictionary';
+import { formatLabel } from '../../utils';
+import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants';
+import { HomePageMenu } from './menu';
 
 const ALL = 'ALL';
 const sessionStorageKey = 'components-displayMode';
@@ -17,7 +17,7 @@ const sessionStorageKey = 'components-displayMode';
 function ComponentsList() {
 	useTitle(D.structuresTitle, D.componentTitle);
 
-	const history = useHistory();
+	const navigate = useNavigate();
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const queryMode = sessionStorage.getItem(sessionStorageKey);
@@ -25,11 +25,11 @@ function ComponentsList() {
 
 	const onFilter = useCallback(
 		(mode) => {
-			history.push(window.location.pathname + '?page=1');
+			navigate(window.location.pathname + '?page=1');
 
 			setFilter(mode);
 		},
-		[history]
+		[navigate]
 	);
 
 	useEffect(() => {

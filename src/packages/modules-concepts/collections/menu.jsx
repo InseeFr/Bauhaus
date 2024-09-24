@@ -16,11 +16,13 @@ export const Menu = () => {
 
 	return (
 		<VerticalMenu>
-			{adminOrContributor && <FeminineButton action="/collection/create" />}
-			<ExportButton action="/collections/export" wrapper={false} />
+			{adminOrContributor && (
+				<FeminineButton action="/concepts/collection/create" />
+			)}
+			<ExportButton action="/concepts/collections/export" wrapper={false} />
 			{adminOrCreator && (
 				<PublishButton
-					action="/collections/validation"
+					action="/concepts/collections/validation"
 					col={8}
 					offset={2}
 					wrapper={false}

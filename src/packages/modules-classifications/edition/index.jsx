@@ -1,31 +1,31 @@
-import { useClassification, useUpdateClassification } from '../hooks';
-import { useParams, Redirect } from 'react-router-dom';
-import { useForm, Controller } from 'react-hook-form';
-import D, { D1, D2 } from '../../deprecated-locales';
 import { useQuery } from '@tanstack/react-query';
+import { Controller, useForm } from 'react-hook-form';
+import { Navigate, useParams } from 'react-router-dom';
 import {
-	TextInput,
-	Row,
-	Loading,
 	ClientSideError,
-	GlobalClientSideErrorBloc,
-	PageTitleBlock,
 	EditorMarkdown,
+	GlobalClientSideErrorBloc,
+	Loading,
+	PageTitleBlock,
+	Row,
 	Select,
+	TextInput,
 	UrlInput,
 } from '../../components';
-import { useStampsOptions } from '../../utils/hooks/stamps';
-import { useOrganizationsOptions } from '../../utils/hooks/organizations';
-import { transformModelToSelectOptions } from '../../utils/transformer';
-import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
-import { ClassificationsApi } from '../../sdk/classification';
-import { useTitle } from '../../utils/hooks/useTitle';
-import LabelRequired from '../../components/label-required';
 import { ActionToolbar } from '../../components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '../../components/buttons/buttons-with-icons';
+import LabelRequired from '../../components/label-required';
+import D, { D1, D2 } from '../../deprecated-locales';
+import { ClassificationsApi } from '../../sdk/classification';
+import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
+import { useOrganizationsOptions } from '../../utils/hooks/organizations';
+import { useStampsOptions } from '../../utils/hooks/stamps';
+import { useTitle } from '../../utils/hooks/useTitle';
+import { transformModelToSelectOptions } from '../../utils/transformer';
+import { useClassification, useUpdateClassification } from '../hooks';
 
 export const ClassificationEdition = () => {
 	const { id } = useParams();
@@ -70,7 +70,7 @@ export const ClassificationEdition = () => {
 	if (isSaving) return <Loading textType="saving" />;
 
 	if (isSavingSuccess) {
-		return <Redirect to={'/classifications/classification/' + id} />;
+		return <Navigate to={'/classifications/classification/' + id} replace />;
 	}
 
 	return (
@@ -90,10 +90,7 @@ export const ClassificationEdition = () => {
 				)}
 			>
 				<ActionToolbar>
-					<CancelButton
-						action="/classifications"
-						type="button"
-					></CancelButton>
+					<CancelButton action="/classifications" type="button"></CancelButton>
 					<SaveButton type="submit"></SaveButton>
 				</ActionToolbar>
 

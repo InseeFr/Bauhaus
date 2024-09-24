@@ -92,7 +92,7 @@ const CodelistPartialComponentView = (props) => {
 				col={2}
 				codelist={codelist}
 				handleBack={() => goBack('/codelists')}
-				handleUpdate={`/codelists-partial/${codelist.id}/modify`}
+				handleUpdate={`/codelists/partial/${codelist.id}/modify`}
 				handleDelete={() => setModalOpened(true)}
 				deletable
 				modalOpened={modalOpened}

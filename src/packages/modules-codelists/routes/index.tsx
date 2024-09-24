@@ -1,14 +1,14 @@
-import { Switch, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import Menu from '../menu';
+import CodesListEdit from '../components/codelist-detail/edit-context';
+import CodesListView from '../components/codelist-detail/view-container';
+import PartialCodesListEdit from '../components/codelist-partial-detail/edit-container';
+import PartialCodesListView from '../components/codelist-partial-detail/view-container';
 import Home from '../components/home/home';
 import CodeListsPartialHome from '../components/home/partial-home';
-import SearchFormList from '../components/search/search';
 import SearchFormPartialList from '../components/search/partial-search';
-import CodesListView from '../components/codelist-detail/view-container';
-import CodesListEdit from '../components/codelist-detail/edit-context';
-import PartialCodesListView from '../components/codelist-partial-detail/view-container';
-import PartialCodesListEdit from '../components/codelist-partial-detail/edit-container';
+import SearchFormList from '../components/search/search';
+import Menu from '../menu';
 
 const CodesListComponent = () => {
 	document.getElementById('root-app').classList = ['codelists'];
@@ -17,33 +17,21 @@ const CodesListComponent = () => {
 		<>
 			<Menu />
 			<div className="container">
-				<Switch>
-					<Route exact path="/codelists"><Home /></Route>
-					<Route exact path="/codelists/create"><CodesListEdit /></Route>
-					<Route exact path="/codelists/search"><SearchFormList /></Route>
-					<Route exact path="/codelists/:id"><CodesListView /></Route>
-					<Route exact path="/codelists/:id/modify"><CodesListEdit /></Route>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/create" element={<CodesListEdit />} />
+					<Route path="/search" element={<SearchFormList />} />
+					<Route path="/:id" element={<CodesListView />} />
+					<Route path="/:id/modify" element={<CodesListEdit />} />
+					<Route path="/partial" element={<CodeListsPartialHome />} />
+					<Route path="/partial/create" element={<PartialCodesListEdit />} />
+					<Route path="/partial/search" element={<SearchFormPartialList />} />
+					<Route path="/partial/:id" element={<PartialCodesListView />} />
 					<Route
-						exact
-						path="/codelists-partial"
-					><CodeListsPartialHome /></Route>
-					<Route
-						exact
-						path="/codelists-partial/create"
-					><PartialCodesListEdit /></Route>
-					<Route
-						exact
-						path="/codelists-partial/search"
-					><SearchFormPartialList /></Route>
-					<Route
-						exact
-						path="/codelists-partial/:id"
-					><PartialCodesListView /></Route>
-					<Route
-						exact
-						path="/codelists-partial/:id/modify"
-					><PartialCodesListEdit /></Route>
-				</Switch>
+						path="/partial/:id/modify"
+						element={<PartialCodesListEdit />}
+					/>
+				</Routes>
 			</div>
 		</>
 	);

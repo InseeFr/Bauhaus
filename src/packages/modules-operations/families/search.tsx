@@ -1,5 +1,5 @@
 import D from '../../deprecated-locales';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import { Loading, TextInput, AdvancedSearchList } from '../../components';
@@ -34,7 +34,7 @@ const SearchFormList = ({
 			title={D.familiesSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to="/operations/families" push />}
+			redirect={<Navigate to="/operations/families" />}
 		>
 			<div className="row form-group">
 				<div className="col-md-12">

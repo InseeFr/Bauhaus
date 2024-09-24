@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Loading } from '../../../components';
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
@@ -8,18 +8,19 @@ import { DumbCodelistDetailEdit } from './edit';
 import { useStampsOptions } from '../../../utils/hooks/stamps';
 
 const useBackOrReplaceHook = () => {
-	const history = useHistory();
+	const navigate = useNavigate();
+	const location = useLocation();
 	return useCallback(
 		(defaultRoute, forceRedirect) => {
 			if (!!forceRedirect) {
-				history.length === 1 || history.location.state
-					? history.push(defaultRoute)
-					: history.goBack();
+				history.length === 1 || location.state
+					? navigate(defaultRoute)
+					: navigate(-1);
 			} else {
-				history.replace(defaultRoute);
+				navigate(defaultRoute, { replace: true });
 			}
 		},
-		[history]
+		[navigate, location]
 	);
 };
 

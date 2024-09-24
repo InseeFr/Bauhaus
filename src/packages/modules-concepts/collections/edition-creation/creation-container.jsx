@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
 import D from '../../../deprecated-locales';
@@ -11,9 +10,10 @@ import { CollectionApi } from '../../../sdk/collection-api';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { useAppContext } from '../../../application/app-context';
 import { cleanId } from '../../../utils/string-utils';
+import { useNavigate } from 'react-router-dom';
 
 const CreationContainer = () => {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const {
 		properties: { defaultContributor },
 	} = useAppContext();
@@ -43,11 +43,11 @@ const CreationContainer = () => {
 			setSaving(true);
 			ConceptsApi.postCollection(buildPayload(data, 'CREATE'))
 				.then(() => {
-					history.push(`/collection/${cleanId(data.general.id)}`);
+					navigate(`/concepts/collection/${cleanId(data.general.id)}`);
 				})
 				.finally(() => setSaving(false));
 		},
-		[history]
+		[navigate]
 	);
 
 	const { general, members } = collection;
