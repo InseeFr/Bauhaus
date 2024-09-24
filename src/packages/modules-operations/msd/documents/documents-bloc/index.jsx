@@ -7,7 +7,7 @@ import { sortArray } from '../../../../utils/array-utils';
 import { getLang } from '../../../../utils/dictionnary';
 import { useDocumentsStoreContext } from '../../pages/sims-creation/documents-store-context';
 import { TextInput } from '../../../../components';
-import { AddButton } from '../../../../components/buttons/add';
+import { AddLogo } from '../../../../components/logo/logo-add';
 
 function getAsideToTheDocument(document) {
 	let updatedDate;
@@ -168,7 +168,7 @@ export function DocumentsBloc({
 												aria-label={D.btnAdd}
 												onClick={() => addHandler(document)}
 											>
-												<AddButton />
+												<AddLogo />
 											</button>
 										));
 									})}
