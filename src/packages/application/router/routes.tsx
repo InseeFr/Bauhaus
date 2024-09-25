@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import {
 	createBrowserRouter,
 	Navigate,
@@ -10,14 +10,14 @@ import auth from '../../auth/hoc';
 
 import { RBACLink } from '.';
 import { Loading, NotFound, UnderMaintenance } from '../../components';
-import App from '../app';
-import { useAppContext } from '../app-context';
-import { routes as ConceptsRoutes } from '../../modules-concepts/routes/index';
 import { routes as ClassificationsRoutes } from '../../modules-classifications/routes/index';
+import { routes as CodelistsRoutes } from '../../modules-codelists/routes/index';
+import { routes as ConceptsRoutes } from '../../modules-concepts/routes/index';
+import { routes as DatasetsRoutes } from '../../modules-datasets/routes/index';
 import { routes as OperationsRoutes } from '../../modules-operations/routes/index';
 import { routes as StructuresRoutes } from '../../modules-structures/routes/index';
-import { routes as DatasetsRoutes } from '../../modules-datasets/routes/index';
-import { routes as CodelistsRoutes } from '../../modules-codelists/routes/index';
+import App from '../app';
+import { useAppContext } from '../app-context';
 
 const HomePage = () => {
 	const {
