@@ -7,7 +7,7 @@ import { PropsWithChildren } from 'react';
 import { vi } from 'vitest';
 
 const queryClient = new QueryClient();
-const wrapper = ({ children }: PropsWithChildren<{}>) => (
+const wrapper = ({ children }: PropsWithChildren<unknown>) => (
 	<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
 vi.mock('../../sdk', () => ({

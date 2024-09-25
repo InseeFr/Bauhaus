@@ -27,8 +27,6 @@ export default [
       "@typescript-eslint/no-require-imports": "off",
       "no-case-declarations": "off",
       "react/no-unknown-property": "off",
-      "react/jsx-key": "off",
-      "@typescript-eslint/no-empty-object-type": "off",
       "@typescript-eslint/no-unnecessary-type-constraint": "off",
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
       "no-prototype-builtins": "off"

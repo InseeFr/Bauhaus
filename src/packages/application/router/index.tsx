@@ -17,7 +17,7 @@ const logout = () => {
 	window.location = encodeURI(window.location.origin);
 };
 
-export const RBACLink = ({ children }: PropsWithChildren<{}>) => {
+export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 	const location = useLocation();
 	const {
 		properties: { authorizationHost },
