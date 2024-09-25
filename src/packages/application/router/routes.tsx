@@ -56,12 +56,9 @@ export default auth(() => {
 	} = useAppContext();
 
 	const pages = useMemo(() => {
-		return modules.reduce((acc: Record<string, any>, appName: string) => {
+		return modules.reduce((acc: string[], appName: string) => {
 			const app = appName.trim();
-			return {
-				...acc,
-				[app]: lazy(() => import(`../../modules-${app}/routes/index.tsx`)),
-			};
+			return [...acc, app];
 		}, []);
 	}, [modules]);
 
@@ -71,7 +68,7 @@ export default auth(() => {
 				element: <UnderMaintenance />,
 			};
 		}
-		if (!pages[pageName]) {
+		if (!pages.includes(pageName.trim())) {
 			return {
 				elemement: <NotFound />,
 			};
