@@ -13,7 +13,6 @@ import {
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
 
-import { useLocation, useNavigate } from 'react-router-dom';
 import { ActionToolbar } from '../../../../components/action-toolbar';
 import {
 	CancelButton,
@@ -25,6 +24,7 @@ import { useGoBack } from '../../../../utils/hooks/useGoBack';
 import { flattenTree, rangeType } from '../../../utils/msd';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import './sims-creation.scss';
+import { useBlocker } from 'react-router-dom';
 
 const { RICH_TEXT } = rangeType;
 
@@ -62,21 +62,6 @@ const convertRubric = (rubric) => {
 	}
 	return rubric;
 };
-class SimsCreation2 {
-	constructor() {
-		this.unblock = this.props.navigator.block((tx) => {
-			if (this.props.location?.pathname === tx.location?.pathname) {
-				return true;
-			}
-
-			if (!this.state.changed || window.confirm(D.quitWithoutSaving)) {
-				this.unblock();
-				return true;
-			}
-			return false;
-		});
-	}
-}
 
 const SimsCreation = ({
 	mode,
@@ -99,9 +84,12 @@ const SimsCreation = ({
 		mode !== DUPLICATE ? idParentProp || getParentId(simsProp) : ''
 	);
 
-	window.onload = function () {
-		window.addEventListener('beforeunload', console.log);
-	};
+	useBlocker(
+		({ currentLocation, nextLocation }) =>
+			changed &&
+			currentLocation.pathname !== nextLocation.pathname &&
+			!window.confirm(D.quitWithoutSaving)
+	);
 
 	const [sims, setSims] = useState(
 		getDefaultSims(
@@ -121,8 +109,6 @@ const SimsCreation = ({
 	};
 
 	const handleSubmit = (e) => {
-		//TODO this.unblock;
-
 		e.preventDefault();
 		e.stopPropagation();
 		setSaving(true);
