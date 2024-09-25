@@ -210,7 +210,7 @@ const dictionary = {
 	},
 	conceptVersioningBody: {
 		fr: (label: string) =>
-			`<p>Les notes du concept « <b>${label}</b> » ont été modifiées.</p><p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>`,
+			`<p>Les notes du concept «<b>${label}</b>» ont été modifiées.</p><p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>`,
 		en: (label: string) =>
 			`<p>Concept “<b>${label}</b>” notes have been modified.</p><p>Would you like to create a new version, or update the previous one?</p>`,
 	},
@@ -223,7 +223,7 @@ const dictionary = {
           <li><p>Note has to be different from the previous one</p></li></ul>`,
 	},
 	conceptMailObjectDefault: {
-		fr: (label: string) => `RMéS - Envoi du descriptif du concept « ${label} »`,
+		fr: (label: string) => `RMéS - Envoi du descriptif du concept «${label}»`,
 		en: (label: string) => `RMéS - Sending the concept “${label}” description`,
 	},
 	conceptMailDefault: {
@@ -236,9 +236,9 @@ const dictionary = {
 			if (params.includes('false'))
 				validText = `<p><b>Ce concept est en attente de publication.</b></p>`;
 			return `<p>Bonjour,</p>
-          <p>Vous trouverez ci-joint la description du concept « <b>
+          <p>Vous trouverez ci-joint la description du concept «<b>
           ${prefLabelLg1}
-          </b> » ${inseeText} extraite de la base RMéS-Bauhaus Concepts.</p>
+          </b>» ${inseeText} extraite de la base RMéS-Bauhaus Concepts.</p>
           ${validText}
           <p>Pour toute demande concernant ce concept, merci d’utiliser la boîte fonctionnelle <a href="mailto:dg75-administration-rmes@insee.fr">dg75-administration-rmes@insee.fr<a>.</p>
           <p>L'équipe RMéS<br/>
@@ -272,7 +272,7 @@ const dictionary = {
 	},
 	collectionMailObjectDefault: {
 		fr: (label: string) =>
-			`RMéS - Envoi de la composition de la collection « ${label} »`,
+			`RMéS - Envoi de la composition de la collection «${label}»`,
 		en: (label: string) =>
 			`RMéS - Sending the composition of collection “${label}”`,
 	},
@@ -286,9 +286,9 @@ const dictionary = {
 			if (params.includes('false'))
 				validText = `<p><b>Cette collection est en attente de publication.</b></p>`;
 			return `<p>Bonjour,</p>
-	          <p>Vous trouverez ci-joint la composition de la collection de concepts « <b>
+	          <p>Vous trouverez ci-joint la composition de la collection de concepts «<b>
 	          ${prefLabelLg1}
-	          </b> » ${inseeText} extraite de la base RMéS-Bauhaus Concepts.</p>
+	          </b>» ${inseeText} extraite de la base RMéS-Bauhaus Concepts.</p>
 	          ${validText}
 	          <p>Pour toute demande concernant cette collection, merci d’utiliser la boîte fonctionnelle <a href="mailto:dg75-administration-rmes@insee.fr">dg75-administration-rmes@insee.fr<a>.</p>
 	          <p>L'équipe RMéS<br/>
@@ -335,11 +335,11 @@ const dictionary = {
 		en: 'State of the collections repository at',
 	},
 	dashboardConceptsListPickerTitle: {
-		fr: (type: string) => `Liste des ${type} de concepts depuis le :`,
+		fr: (type: string) => `Liste des ${type} de concepts depuis le:`,
 		en: (type: string) => `Concepts ${type} list since:`,
 	},
 	dashboardCollectionsListPickerTitle: {
-		fr: (type: string) => `Liste des ${type} de collections depuis le :`,
+		fr: (type: string) => `Liste des ${type} de collections depuis le:`,
 		en: (type: string) => `Collections ${type} list since:`,
 	},
 	dashboardConceptsByCreatorTitle: {
