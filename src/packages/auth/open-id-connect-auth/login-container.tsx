@@ -35,7 +35,9 @@ const LoginOpenIDConnect = ({
 			kc.updateToken(30)
 				.success((isUpdated: boolean) => {
 					if (isUpdated) {
-						kc.token && storeToken(kc.token);
+						if (kc.token) {
+							storeToken(kc.token);
+						}
 						saveUserProps(getAuthPropsFromToken(kc.tokenParsed));
 					}
 				})

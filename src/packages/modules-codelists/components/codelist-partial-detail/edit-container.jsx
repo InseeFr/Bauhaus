@@ -13,9 +13,11 @@ const useBackOrReplaceHook = () => {
 	return useCallback(
 		(defaultRoute, forceRedirect) => {
 			if (!!forceRedirect) {
-				history.length === 1 || location.state
-					? navigate(defaultRoute)
-					: navigate(-1);
+				if (history.length === 1 || location.state) {
+					navigate(defaultRoute);
+				} else {
+					navigate(-1);
+				}
 			} else {
 				navigate(defaultRoute, { replace: true });
 			}
