@@ -1,25 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Navigate, Redirect, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
-import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
-import useClassificationItem from '../hook';
+import { Navigate, useParams } from 'react-router-dom';
 import { default as ReactSelect } from 'react-select';
-import { fetchingPreviousLevels } from '../client';
 import {
-	TextInput,
-	Loading,
-	Row,
-	PageTitleBlock,
 	EditorMarkdown,
 	ErrorBloc,
+	Loading,
+	PageTitleBlock,
+	Row,
+	TextInput,
 } from '../../../components';
-import { ClassificationsApi } from '../../../sdk/classification';
-import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
+import LabelRequired from '../../../components/label-required';
+import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
+import { ClassificationsApi } from '../../../sdk/classification';
+import { fetchingPreviousLevels } from '../client';
+import useClassificationItem from '../hook';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',
