@@ -1,4 +1,4 @@
-import { Component, useEffect, useState } from 'react';
+import { Component as ReactComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Loading, PageTitleBlock } from '../../components';
 import { D1, D2 } from '../../deprecated-locales';
@@ -34,7 +34,7 @@ export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
 
-class MSDContainer extends Component {
+class MSDContainer extends ReactComponent {
 	static defaultProps = {
 		currentSims: {},
 	};
@@ -332,6 +332,6 @@ const withParams = (Component) => {
 		return <Component {...props} params={params} />;
 	};
 };
-export default withParams(
+export const Component = withParams(
 	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
 );

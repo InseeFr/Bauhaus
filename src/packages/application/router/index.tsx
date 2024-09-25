@@ -60,13 +60,7 @@ export const RBACLink = ({ children }: PropsWithChildren<{}>) => {
 	);
 };
 const Root = () => {
-	return (
-		<Router>
-			<RBACLink>
-				<Routes />
-			</RBACLink>
-		</Router>
-	);
+	return <Routes />;
 };
 
 export default Root;

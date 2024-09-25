@@ -7,7 +7,7 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { useNavigate } from 'react-router-dom';
 
-const CollectionsToValidateContainer = () => {
+export const Component = () => {
 	useTitle(D.collectionsTitle, D.btnValid);
 
 	const permission = usePermission();
@@ -39,5 +39,3 @@ const CollectionsToValidateContainer = () => {
 		/>
 	);
 };
-
-export default CollectionsToValidateContainer;

@@ -9,7 +9,7 @@ import { sortArrayByLabel } from '../../utils/array-utils';
 import { useTitle } from '../../utils/hooks/useTitle';
 import ConceptsToValidate from './home';
 
-const ConceptsToValidateContainer = () => {
+export const Component = () => {
 	useTitle(D.conceptsTitle, D.btnValid);
 	const permission = usePermission();
 	const [loading, setLoading] = useState(true);
@@ -44,5 +44,3 @@ const ConceptsToValidateContainer = () => {
 		/>
 	);
 };
-
-export default ConceptsToValidateContainer;

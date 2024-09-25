@@ -175,7 +175,7 @@ export const SearchFormList = ({ categories, stamps, data }) => {
 	);
 };
 
-const SearchListContainer = () => {
+export const Component = () => {
 	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, D.advancedSearch);
 	const [data, setData] = useState();
 	const categories = useCodesList(CL_SOURCE_CATEGORY);
@@ -189,5 +189,3 @@ const SearchListContainer = () => {
 	if (!data) return <Loading />;
 	return <SearchFormList data={data} categories={categories} stamps={stamps} />;
 };
-
-export default SearchListContainer;

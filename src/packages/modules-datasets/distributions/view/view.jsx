@@ -16,7 +16,7 @@ import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useDataset, useDistribution } from '../../datasets';
 import { ViewMenu } from './menu';
 
-export const DistributionView = (props) => {
+export const Component = (props) => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 

@@ -20,7 +20,7 @@ import { useSecondLang } from '../../../utils/hooks/second-lang';
 import { useOrganizations } from '../../../utils/hooks/organizations';
 import { useLocales } from '../../../utils/hooks/useLocales';
 
-const SeriesVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const [series, setSeries] = useState({});
 	const [publishing, setPublishing] = useState(false);
@@ -77,5 +77,3 @@ const SeriesVisualizationContainer = () => {
 		</div>
 	);
 };
-
-export default SeriesVisualizationContainer;

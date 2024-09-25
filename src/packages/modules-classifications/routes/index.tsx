@@ -1,87 +1,87 @@
-import { Route, Routes, Switch } from 'react-router-dom';
+import { RouteObject } from 'react-router-dom';
 
-import ClassificationsCorrespondenceAssociationContainer from '../../modules-classifications/correspondences/association/home-container';
-import ClassificationsCorrespondencesContainer from '../../modules-classifications/correspondences/home-container';
-import ClassificationsCorrespondenceContainer from '../../modules-classifications/correspondences/visualization/home-container';
-import ClassificationsFamiliesContainer from '../../modules-classifications/families/home-container';
-import ClassificationsFamilyContainer from '../../modules-classifications/families/visualization/home-container';
-import ClassificationsContainer from '../../modules-classifications/home-container';
-import ClassificationItemCompareContainer from '../../modules-classifications/item/compare/home-container';
-import ClassificationItemEdition from '../../modules-classifications/item/edition';
-import ClassificationItemContainer from '../../modules-classifications/item/home-container';
-import ClassificationLevelContainer from '../../modules-classifications/level/home-container';
-import Menu from '../../modules-classifications/menu';
-import ClassificationsSeriesContainer from '../../modules-classifications/series/home-container';
-import ClassificationsOneSeriesContainer from '../../modules-classifications/series/visualization/home-container';
-import ClassificationContainer from '../../modules-classifications/visualization/home-container';
-import ClassificationItemsContainer from '../../modules-classifications/visualization/items/home-container';
-import ClassificationTreeContainer from '../../modules-classifications/visualization/tree/home-container';
-import { ClassificationEdition } from '../edition';
-
-export default () => {
-	return (
-		<>
-			<Menu />
-			<Routes>
-				<Route
-					path="/families"
-					element={<ClassificationsFamiliesContainer />}
-				/>
-				<Route
-					path="/family/:id"
-					element={<ClassificationsFamilyContainer />}
-				/>
-				<Route path="/series" element={<ClassificationsSeriesContainer />} />
-				<Route
-					path="/series/:id"
-					element={<ClassificationsOneSeriesContainer />}
-				/>
-				<Route path="/" element={<ClassificationsContainer />} />
-				<Route
-					path="/classification/:id"
-					element={<ClassificationContainer />}
-				/>
-				<Route
-					path="/classification/:id/modify"
-					element={<ClassificationEdition />}
-				/>
-				<Route
-					path="/classification/:id/items"
-					element={<ClassificationItemsContainer />}
-				/>
-				<Route
-					path="/classification/:id/tree"
-					element={<ClassificationTreeContainer />}
-				/>
-				<Route
-					path="/classification/:classificationId/level/:levelId"
-					element={<ClassificationLevelContainer />}
-				/>
-				<Route
-					path="/classification/:classificationId/item/:itemId"
-					element={<ClassificationItemContainer />}
-				/>
-				<Route
-					path="/classification/:classificationId/item/:itemId/modify"
-					element={<ClassificationItemEdition />}
-				/>
-				<Route
-					path="/classification/:classificationId/item/:itemId/compare"
-					element={<ClassificationItemCompareContainer />}
-				/>
-				<Route
-					path="/correspondences"
-					element={<ClassificationsCorrespondencesContainer />}
-				/>
-				<Route
-					path="/correspondence/:id"
-					element={<ClassificationsCorrespondenceContainer />}
-				/>
-				<Route
-					path="/correspondence/:correspondenceId/association/:associationId"
-					element={<ClassificationsCorrespondenceAssociationContainer />}
-				/>
-			</Routes>
-		</>
-	);
-};
+export const routes: RouteObject[] = [
+	{
+		path: 'families',
+		lazy: () => import('../../modules-classifications/families/home-container'),
+	},
+	{
+		path: 'family/:id',
+		lazy: () =>
+			import(
+				'../../modules-classifications/families/visualization/home-container'
+			),
+	},
+	{
+		path: 'series',
+		lazy: () => import('../../modules-classifications/series/home-container'),
+	},
+	{
+		path: 'series/:id',
+		lazy: () =>
+			import(
+				'../../modules-classifications/series/visualization/home-container'
+			),
+	},
+	{
+		path: '',
+		lazy: () => import('../../modules-classifications/home-container'),
+	},
+	{
+		path: 'classification/:id',
+		lazy: () =>
+			import('../../modules-classifications/visualization/home-container'),
+	},
+	{
+		path: 'classification/:id/modify',
+		lazy: () => import('../edition'),
+	},
+	{
+		path: 'classification/:id/items',
+		lazy: () =>
+			import(
+				'../../modules-classifications/visualization/items/home-container'
+			),
+	},
+	{
+		path: 'classification/:id/tree',
+		lazy: () =>
+			import('../../modules-classifications/visualization/tree/home-container'),
+	},
+	{
+		path: 'classification/:classificationId/level/:levelId',
+		lazy: () => import('../../modules-classifications/level/home-container'),
+	},
+	{
+		path: 'classification/:classificationId/item/:itemId',
+		lazy: () => import('../../modules-classifications/item/home-container'),
+	},
+	{
+		path: 'classification/:classificationId/item/:itemId/modify',
+		lazy: () => import('../../modules-classifications/item/edition'),
+	},
+	{
+		path: 'classification/:classificationId/item/:itemId/compare',
+		lazy: () =>
+			import('../../modules-classifications/item/compare/home-container'),
+	},
+	{
+		path: 'correspondences',
+		lazy: () =>
+			import('../../modules-classifications/correspondences/home-container'),
+	},
+	{
+		path: 'correspondence/:id',
+		lazy: () =>
+			import(
+				'../../modules-classifications/correspondences/visualization/home-container'
+			),
+	},
+	{
+		path: 'correspondence/:correspondenceId/association/:associationId',
+		lazy: () =>
+			import(
+				'../../modules-classifications/correspondences/association/home-container'
+			),
+	},
+];

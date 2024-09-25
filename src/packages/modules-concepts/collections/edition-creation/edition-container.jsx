@@ -10,7 +10,7 @@ import { CollectionApi } from '../../../sdk/collection-api';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { cleanId } from '../../../utils/string-utils';
 
-const EditionContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 
@@ -85,5 +85,3 @@ const EditionContainer = () => {
 		/>
 	);
 };
-
-export default EditionContainer;

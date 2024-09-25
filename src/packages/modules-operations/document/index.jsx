@@ -6,7 +6,7 @@ import { sortArray } from '../../utils/array-utils';
 
 const sortByLabel = sortArray('label');
 
-const OperationsDocumentsContainer = () => {
+export const Component = () => {
 	const [documents, setDocuments] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -32,5 +32,3 @@ const OperationsDocumentsContainer = () => {
 	if (loading) return <Loading />;
 	return <DocumentHome documents={documents} />;
 };
-
-export default OperationsDocumentsContainer;

@@ -27,7 +27,7 @@ import {
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
 
-export const DatasetEdit = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const isEditing = !!id;
 

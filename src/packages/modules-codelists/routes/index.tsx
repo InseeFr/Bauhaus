@@ -1,40 +1,44 @@
-import { Route, Routes } from 'react-router-dom';
+import { RouteObject } from 'react-router-dom';
 
-import CodesListEdit from '../components/codelist-detail/edit-context';
-import CodesListView from '../components/codelist-detail/view-container';
-import PartialCodesListEdit from '../components/codelist-partial-detail/edit-container';
-import PartialCodesListView from '../components/codelist-partial-detail/view-container';
-import Home from '../components/home/home';
-import CodeListsPartialHome from '../components/home/partial-home';
-import SearchFormPartialList from '../components/search/partial-search';
-import SearchFormList from '../components/search/search';
-import Menu from '../menu';
-
-const CodesListComponent = () => {
-	document.getElementById('root-app').classList = ['codelists'];
-
-	return (
-		<>
-			<Menu />
-			<div className="container">
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/create" element={<CodesListEdit />} />
-					<Route path="/search" element={<SearchFormList />} />
-					<Route path="/:id" element={<CodesListView />} />
-					<Route path="/:id/modify" element={<CodesListEdit />} />
-					<Route path="/partial" element={<CodeListsPartialHome />} />
-					<Route path="/partial/create" element={<PartialCodesListEdit />} />
-					<Route path="/partial/search" element={<SearchFormPartialList />} />
-					<Route path="/partial/:id" element={<PartialCodesListView />} />
-					<Route
-						path="/partial/:id/modify"
-						element={<PartialCodesListEdit />}
-					/>
-				</Routes>
-			</div>
-		</>
-	);
-};
-
-export default CodesListComponent;
+export const routes: RouteObject[] = [
+	{
+		path: '',
+		lazy: () => import('../components/home/home'),
+	},
+	{
+		path: 'create',
+		lazy: () => import('../components/codelist-detail/edit-context'),
+	},
+	{
+		path: 'search',
+		lazy: () => import('../components/search/search'),
+	},
+	{
+		path: ':id',
+		lazy: () => import('../components/codelist-detail/view-container'),
+	},
+	{
+		path: ':id/modify',
+		lazy: () => import('../components/codelist-detail/edit-context'),
+	},
+	{
+		path: 'partial',
+		lazy: () => import('../components/home/partial-home'),
+	},
+	{
+		path: 'partial/create',
+		lazy: () => import('../components/codelist-partial-detail/edit-container'),
+	},
+	{
+		path: 'partial/search',
+		lazy: () => import('../components/search/partial-search'),
+	},
+	{
+		path: 'partial/:id',
+		lazy: () => import('../components/codelist-partial-detail/view-container'),
+	},
+	{
+		path: 'partial/:id/modify',
+		lazy: () => import('../components/codelist-partial-detail/edit-container'),
+	},
+];

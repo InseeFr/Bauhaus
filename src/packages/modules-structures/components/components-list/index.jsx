@@ -14,7 +14,7 @@ import { HomePageMenu } from './menu';
 const ALL = 'ALL';
 const sessionStorageKey = 'components-displayMode';
 
-function ComponentsList() {
+export const Component = () => {
 	useTitle(D.structuresTitle, D.componentTitle);
 
 	const navigate = useNavigate();
@@ -83,6 +83,4 @@ function ComponentsList() {
 			</div>
 		</div>
 	);
-}
-
-export default ComponentsList;
+};

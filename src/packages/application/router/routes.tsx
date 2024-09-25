@@ -1,12 +1,23 @@
-import { Suspense, lazy, useMemo } from 'react';
-import { createBrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { lazy, Suspense, useMemo } from 'react';
+import {
+	createBrowserRouter,
+	Navigate,
+	Outlet,
+	RouterProvider,
+} from 'react-router-dom';
 
 import auth from '../../auth/hoc';
 
-import { Loading, NotFound } from '../../components';
+import { RBACLink } from '.';
+import { Loading, NotFound, UnderMaintenance } from '../../components';
 import App from '../app';
 import { useAppContext } from '../app-context';
-import { ModuleHomePage } from './module-home-page';
+import { routes as ConceptsRoutes } from '../../modules-concepts/routes/index';
+import { routes as ClassificationsRoutes } from '../../modules-classifications/routes/index';
+import { routes as OperationsRoutes } from '../../modules-operations/routes/index';
+import { routes as StructuresRoutes } from '../../modules-structures/routes/index';
+import { routes as DatasetsRoutes } from '../../modules-datasets/routes/index';
+import { routes as CodelistsRoutes } from '../../modules-codelists/routes/index';
 
 const HomePage = () => {
 	const {
@@ -14,12 +25,8 @@ const HomePage = () => {
 	} = useAppContext();
 
 	const pages = useMemo(() => {
-		return modules.reduce((acc: Record<string, any>, appName: string) => {
-			const app = appName.trim();
-			return {
-				...acc,
-				[app]: lazy(() => import(`../../modules-${app}/routes/index.tsx`)),
-			};
+		return modules.reduce((acc: string[], appName: string) => {
+			return [...acc, appName.trim()];
 		}, []);
 	}, [modules]);
 
@@ -35,17 +42,14 @@ const HomePage = () => {
 
 	return <App />;
 };
-/*
-const router = createBrowserRouter([
-	{
-		path: '/',
-		element: <HomePage />,
-	},
-	{
-		path: 'concepts/*',
 
-	}
-]);*/
+const MainLayout = () => {
+	return (
+		<RBACLink>
+			<Outlet />
+		</RBACLink>
+	);
+};
 export default auth(() => {
 	const {
 		properties: { activeModules, modules },
@@ -61,76 +65,69 @@ export default auth(() => {
 		}, []);
 	}, [modules]);
 
+	const getModuleHomePageRouter = (pageName: string) => {
+		if (!activeModules.includes(pageName)) {
+			return {
+				element: <UnderMaintenance />,
+			};
+		}
+		if (!pages[pageName]) {
+			return {
+				elemement: <NotFound />,
+			};
+		}
+
+		return {
+			lazy: () => import(`../../modules-${pageName}/routes/layout.tsx`),
+		};
+	};
+	const router = createBrowserRouter([
+		{
+			path: '',
+			element: <MainLayout />,
+			children: [
+				{ path: '', element: <HomePage /> },
+				{
+					path: 'concepts',
+					...getModuleHomePageRouter('concepts'),
+					children: ConceptsRoutes,
+				},
+				{
+					path: 'classifications',
+					...getModuleHomePageRouter('classifications'),
+					children: ClassificationsRoutes,
+				},
+				{
+					path: 'operations',
+					...getModuleHomePageRouter('operations'),
+					children: OperationsRoutes,
+				},
+				{
+					path: 'structures',
+					...getModuleHomePageRouter('structures'),
+					children: StructuresRoutes,
+				},
+				{
+					path: 'datasets',
+					...getModuleHomePageRouter('datasets'),
+					children: DatasetsRoutes,
+				},
+				{
+					path: 'codelists',
+					...getModuleHomePageRouter('codelists'),
+					children: CodelistsRoutes,
+				},
+				{
+					path: '*',
+					element: <NotFound />,
+				},
+			],
+		},
+	]);
+
 	return (
 		<Suspense fallback={<Loading />}>
-			<Routes>
-				<Route path="/" element={<HomePage pages={pages} />} />
-
-				<Route
-					path="concepts/*"
-					element={
-						<ModuleHomePage
-							pageName="concepts"
-							pages={pages}
-							activeModules={activeModules}
-						/>
-					}
-				/>
-
-				<Route
-					path="/classifications/*"
-					element={
-						<ModuleHomePage
-							pageName="classifications"
-							pages={pages}
-							activeModules={activeModules}
-						/>
-					}
-				/>
-				<Route
-					path="/operations/*"
-					element={
-						<ModuleHomePage
-							pageName="operations"
-							pages={pages}
-							activeModules={activeModules}
-						/>
-					}
-				/>
-				<Route
-					path="/structures/*"
-					element={
-						<ModuleHomePage
-							pageName="structures"
-							pages={pages}
-							activeModules={activeModules}
-						/>
-					}
-				/>
-
-				<Route
-					path="/datasets/*"
-					element={
-						<ModuleHomePage
-							pageName="datasets"
-							pages={pages}
-							activeModules={activeModules}
-						/>
-					}
-				/>
-				<Route
-					path="/codelists/*"
-					element={
-						<ModuleHomePage
-							pageName="codelists"
-							pages={pages}
-							activeModules={activeModules}
-						/>
-					}
-				/>
-
-				<Route path="*" element={<NotFound />} />
-			</Routes>
+			<RouterProvider router={router}></RouterProvider>
 		</Suspense>
 	);
 });

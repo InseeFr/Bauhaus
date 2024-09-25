@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { ClassificationsApi } from '../../../sdk/classification';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const FamilyVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const [secondLang] = useSecondLang();
 	const [family, setFamily] = useState();
@@ -24,5 +24,3 @@ const FamilyVisualizationContainer = () => {
 	if (!family) return <Loading />;
 	return <FamilyVisualization family={family} secondLang={secondLang} />;
 };
-
-export default FamilyVisualizationContainer;

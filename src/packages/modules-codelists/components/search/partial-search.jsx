@@ -146,7 +146,7 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 	);
 };
 
-const SearchFormPartialListContainer = () => {
+export const Component = () => {
 	useTitle(D.codelistsPartialTitle, D.advancedSearch);
 
 	const [loading, setLoading] = useState(true);
@@ -167,5 +167,3 @@ const SearchFormPartialListContainer = () => {
 		<SearchFormPartialList data={items} stampListOptions={stampListOptions} />
 	);
 };
-
-export default SearchFormPartialListContainer;

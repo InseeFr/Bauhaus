@@ -24,7 +24,7 @@ const useBackOrReplaceHook = () => {
 	);
 };
 
-const CodelistPartialEdit = (props) => {
+export const Component = (props) => {
 	const { id } = useParams();
 	const goBackOrReplace = useBackOrReplaceHook();
 	const [loadingList, setLoadingList] = useState(true);
@@ -126,5 +126,3 @@ const CodelistPartialEdit = (props) => {
 		/>
 	);
 };
-
-export default CodelistPartialEdit;

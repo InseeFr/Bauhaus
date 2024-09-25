@@ -30,7 +30,7 @@ const titleMapping = {
 	changeNote: 'classificationsChangeNote',
 };
 
-const ClassificationItemEdition = () => {
+export const Component = () => {
 	const queryClient = useQueryClient();
 	const { classificationId, itemId } = useParams();
 
@@ -319,4 +319,3 @@ const ClassificationItemEdition = () => {
 		</div>
 	);
 };
-export default ClassificationItemEdition;

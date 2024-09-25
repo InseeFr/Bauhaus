@@ -27,7 +27,7 @@ import { useTitle } from '../../utils/hooks/useTitle';
 import { transformModelToSelectOptions } from '../../utils/transformer';
 import { useClassification, useUpdateClassification } from '../hooks';
 
-export const ClassificationEdition = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const {
 		register,

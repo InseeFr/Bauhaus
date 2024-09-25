@@ -12,7 +12,7 @@ import { useAppContext } from '../../../application/app-context';
 import { cleanId } from '../../../utils/string-utils';
 import { useNavigate } from 'react-router-dom';
 
-const CreationContainer = () => {
+export const Component = () => {
 	const navigate = useNavigate();
 	const {
 		properties: { defaultContributor },
@@ -77,4 +77,3 @@ const CreationContainer = () => {
 		/>
 	);
 };
-export default CreationContainer;

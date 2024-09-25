@@ -27,7 +27,7 @@ const mapDispatchToProps = {
 	loadLevel,
 };
 
-export default connect(
+export const Component = connect(
 	undefined,
 	mapDispatchToProps
 )(LevelVisualizationContainer);

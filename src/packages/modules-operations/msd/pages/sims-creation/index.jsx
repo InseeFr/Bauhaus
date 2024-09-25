@@ -1,4 +1,4 @@
-import { Component, Fragment, useContext, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { CheckSecondLang, Loading, Select } from '../../../../components';
 import D from '../../../../deprecated-locales';
 import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
@@ -13,11 +13,7 @@ import {
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
 
-import {
-	UNSAFE_NavigationContext as NavigationContext,
-	useBlocker,
-	useLocation,
-} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ActionToolbar } from '../../../../components/action-toolbar';
 import {
 	CancelButton,
@@ -25,10 +21,10 @@ import {
 } from '../../../../components/buttons/buttons-with-icons';
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
+import { useGoBack } from '../../../../utils/hooks/useGoBack';
 import { flattenTree, rangeType } from '../../../utils/msd';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import './sims-creation.scss';
-import { useGoBack } from '../../../../utils/hooks/useGoBack';
 
 const { RICH_TEXT } = rangeType;
 
@@ -94,17 +90,6 @@ const SimsCreation = ({
 	organisations = [],
 	parentWithSims,
 }) => {
-	useBlocker(({ currentLocation, nextLocation }) => {
-		if (currentLocation?.pathname === nextLocation?.pathname) {
-			return true;
-		}
-
-		if (!changed || window.confirm(D.quitWithoutSaving)) {
-			return true;
-		}
-		return false;
-	});
-
 	const goBack = useGoBack();
 	const [changed, setChanged] = useState(false);
 	const [saving, setSaving] = useState(false);
@@ -113,6 +98,11 @@ const SimsCreation = ({
 	const [idParent, setIdParent] = useState(
 		mode !== DUPLICATE ? idParentProp || getParentId(simsProp) : ''
 	);
+
+	window.onload = function () {
+		window.addEventListener('beforeunload', console.log);
+	};
+
 	const [sims, setSims] = useState(
 		getDefaultSims(
 			mode,

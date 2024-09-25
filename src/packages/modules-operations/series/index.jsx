@@ -4,7 +4,7 @@ import SeriesHome from './home';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
 
-function SeriesHomeContainer() {
+export const Component = () => {
 	const [series, setSeries] = useState([]);
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
@@ -14,6 +14,4 @@ function SeriesHomeContainer() {
 	}, []);
 	if (loading) return <Loading />;
 	return <SeriesHome series={series} />;
-}
-
-export default SeriesHomeContainer;
+};

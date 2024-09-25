@@ -165,7 +165,7 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 	);
 };
 
-const SearchListContainer = () => {
+export const Component = () => {
 	useTitle(D.structuresTitle, D.structuresAdvancedSearch);
 
 	const [loading, setLoading] = useState(true);
@@ -196,5 +196,3 @@ const SearchListContainer = () => {
 		/>
 	);
 };
-
-export default SearchListContainer;

@@ -11,7 +11,7 @@ function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';
 }
 
-const DocumentationVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const { pathname } = useLocation();
 	const type = getPath(pathname);
@@ -51,5 +51,3 @@ const DocumentationVisualizationContainer = () => {
 		</div>
 	);
 };
-
-export default DocumentationVisualizationContainer;

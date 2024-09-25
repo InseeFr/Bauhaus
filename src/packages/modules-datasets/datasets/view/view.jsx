@@ -240,4 +240,4 @@ const Dataset = (props) => {
 	);
 };
 
-export const DatasetView = withCodesLists([CL_PROCESS_STEP])(Dataset);
+export const Component = withCodesLists([CL_PROCESS_STEP])(Dataset);

@@ -8,7 +8,7 @@ import { sortArray } from '../../utils/array-utils';
 import { ADMIN } from '../../auth/roles';
 import { FamilyHome } from '../../model/operations/family';
 
-export const FamiliesHomeContainer = () => {
+export const Component = () => {
 	const [loading, setLoading] = useState(true);
 	const [families, setFamilies] = useState<FamilyHome[]>([]);
 	useTitle(D.operationsTitle, D.familiesTitle);
@@ -32,5 +32,3 @@ export const FamiliesHomeContainer = () => {
 		/>
 	);
 };
-
-export default FamiliesHomeContainer;

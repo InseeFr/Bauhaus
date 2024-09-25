@@ -20,7 +20,7 @@ const formatNotes = (notes) => {
 		}, {})
 	);
 };
-const ConceptVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 
@@ -96,4 +96,3 @@ const ConceptVisualizationContainer = () => {
 		</LoadingProvider>
 	);
 };
-export default ConceptVisualizationContainer;

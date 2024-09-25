@@ -24,7 +24,7 @@ const formatNotes = (notes) => {
 	);
 };
 
-const EditionContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 
 	const navigate = useNavigate();
@@ -108,5 +108,3 @@ const EditionContainer = () => {
 		/>
 	);
 };
-
-export default EditionContainer;

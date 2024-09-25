@@ -6,7 +6,7 @@ import { OperationsApi } from '../../sdk/operations-api';
 import { Menu } from './menu';
 import { IndicatorsList } from '../../model/operations/indicator';
 
-function IndicatorsHome() {
+export const Component = () => {
 	useTitle(D.operationsTitle, D.indicatorsTitle);
 	const [loading, setLoading] = useState(true);
 	const [indicators, setIndicators] = useState<IndicatorsList>([]);
@@ -36,6 +36,4 @@ function IndicatorsHome() {
 			</Row>
 		</div>
 	);
-}
-
-export default IndicatorsHome;
+};

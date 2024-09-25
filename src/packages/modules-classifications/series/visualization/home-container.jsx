@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { ClassificationsApi } from '../../../sdk/classification';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const SeriesVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const [series, setSeries] = useState();
 
@@ -25,5 +25,3 @@ const SeriesVisualizationContainer = () => {
 	if (!series) return <Loading />;
 	return <SeriesVisualization series={series} secondLang={secondLang} />;
 };
-
-export default SeriesVisualizationContainer;

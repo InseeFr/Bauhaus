@@ -3,7 +3,7 @@ import { Loading } from '../../components';
 import CorrespondencesHome from './home';
 import { ClassificationsApi } from '../..//sdk/classification';
 
-const CorrespondencesHomeContainer = () => {
+export const Component = () => {
 	const [correspondences, setCorrespondences] = useState();
 
 	useEffect(() => {
@@ -13,4 +13,3 @@ const CorrespondencesHomeContainer = () => {
 	if (!correspondences) return <Loading />;
 	return <CorrespondencesHome correspondences={correspondences} />;
 };
-export default CorrespondencesHomeContainer;

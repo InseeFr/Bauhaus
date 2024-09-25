@@ -15,7 +15,7 @@ import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
 import { VerticalMenu } from '../../../components/vertical-menu';
 
-function CodeListsPartialHome() {
+export const Component = () => {
 	useTitle(D.codelistsTitle, D.codelistsPartialTitle);
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -58,6 +58,4 @@ function CodeListsPartialHome() {
 			</Row>
 		</div>
 	);
-}
-
-export default CodeListsPartialHome;
+};

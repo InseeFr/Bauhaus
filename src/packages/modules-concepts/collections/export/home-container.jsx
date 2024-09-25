@@ -8,7 +8,7 @@ import {
 } from '../../../utils/hooks/collections';
 import { useTitle } from '../../../utils/hooks/useTitle';
 
-const CollectionsToExportContainer = () => {
+export const Component = () => {
 	useTitle(D.collectionsTitle, D.exportTitle);
 	const [ids, setIds] = useState([]);
 
@@ -41,5 +41,3 @@ const CollectionsToExportContainer = () => {
 		/>
 	);
 };
-
-export default CollectionsToExportContainer;

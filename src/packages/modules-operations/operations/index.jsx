@@ -4,7 +4,7 @@ import OperationsHome from './home';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
 
-const OperationsHomeContainer = () => {
+export const Component = () => {
 	const [operations, setOperations] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -17,5 +17,3 @@ const OperationsHomeContainer = () => {
 	if (loading) return <Loading />;
 	return <OperationsHome operations={operations} />;
 };
-
-export default OperationsHomeContainer;

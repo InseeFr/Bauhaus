@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ClassificationsApi } from '../../../sdk/classification';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const AssociationHomeContainer = () => {
+export const Component = () => {
 	const { correspondenceId, associationId } = useParams<{
 		correspondenceId: string;
 		associationId: string;
@@ -24,5 +24,3 @@ const AssociationHomeContainer = () => {
 	if (isLoading) return <Loading />;
 	return <AssociationHome association={association} secondLang={secondLang} />;
 };
-
-export default AssociationHomeContainer;

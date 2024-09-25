@@ -147,7 +147,7 @@ const SearchFormList = ({ stampListOptions, data }) => {
 	);
 };
 
-const SearchListContainer = () => {
+export const Component = () => {
 	useTitle(D.codelistsTitle, D.advancedSearch);
 
 	const [loading, setLoading] = useState(true);
@@ -166,5 +166,3 @@ const SearchListContainer = () => {
 	}
 	return <SearchFormList data={items} stampListOptions={stampListOptions} />;
 };
-
-export default SearchListContainer;

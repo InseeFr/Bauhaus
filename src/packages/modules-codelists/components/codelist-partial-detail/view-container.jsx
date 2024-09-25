@@ -11,7 +11,7 @@ import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { Deleting, Publishing, Loading } from '../../../components';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const CodelistPartialComponentView = (props) => {
+export const Component = (props) => {
 	const goBack = useGoBack();
 	const [secondLang] = useSecondLang();
 	const { id } = useParams();
@@ -107,5 +107,3 @@ const CodelistPartialComponentView = (props) => {
 		</>
 	);
 };
-
-export default CodelistPartialComponentView;

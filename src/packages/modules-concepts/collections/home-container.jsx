@@ -3,7 +3,7 @@ import { Loading } from '../../components';
 import CollectionsHome from './home';
 import { CollectionApi } from '../../sdk/collection-api';
 
-const CollectionsHomeContainer = () => {
+export const Component = () => {
 	const [loading, setLoading] = useState(true);
 	const [collections, setCollections] = useState([]);
 	useEffect(() => {
@@ -17,5 +17,3 @@ const CollectionsHomeContainer = () => {
 	}
 	return <CollectionsHome collections={collections} />;
 };
-
-export default CollectionsHomeContainer;

@@ -4,7 +4,7 @@ import Compare from './home';
 import useClassificationItem from '../hook';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const CompareContainer = () => {
+export const Component = () => {
 	const { classificationId, itemId } = useParams();
 
 	const [secondLang] = useSecondLang();
@@ -23,5 +23,3 @@ const CompareContainer = () => {
 		/>
 	);
 };
-
-export default CompareContainer;

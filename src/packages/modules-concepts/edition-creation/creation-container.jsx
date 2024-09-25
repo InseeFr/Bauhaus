@@ -11,7 +11,7 @@ import { useTitle } from '../../utils/hooks/useTitle';
 import { mergeWithAllConcepts } from '../utils/links';
 import ConceptEditionCreation from './home';
 
-const CreationContainer = () => {
+export const Component = () => {
 	const maxLengthScopeNoteString =
 		useAppContext().properties.maxLengthScopeNote;
 	const maxLengthScopeNote = Number(maxLengthScopeNoteString);
@@ -74,5 +74,3 @@ const CreationContainer = () => {
 		/>
 	);
 };
-
-export default CreationContainer;

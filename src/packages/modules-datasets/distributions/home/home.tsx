@@ -5,7 +5,7 @@ import { HomePageMenu } from './menu';
 import { Loading, PageTitle, Row, SearchableList } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
 
-export const DistributionHome = () => {
+export const Component = () => {
 	const { data, isLoading } = useDistributions();
 
 	useTitle(D.datasetsTitle, D.distributionsTitle);

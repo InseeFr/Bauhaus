@@ -64,9 +64,7 @@ const mapDispatchToProps = {
 	loadClassificationGeneral,
 };
 
-const ClassificationTreeReduxContainer = connect(
+export const Component = connect(
 	mapStateToProps,
 	mapDispatchToProps
 )(ClassificationTreeContainer);
-
-export default ClassificationTreeReduxContainer;
