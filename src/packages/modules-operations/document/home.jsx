@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { PageTitle, Pagination, Row, TextInput } from '../../components';
+import DOMPurify from 'dompurify';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import FilterToggleButtons from '../../components/filter-toggle-buttons';
@@ -48,7 +49,7 @@ const SearchableList = ({
 		const searchQuery = new URL(url).searchParams;
 
 		if (searchQuery.has('search')) {
-			setSearch(searchQuery.get('search'));
+			setSearch(DOMPurify.sanitize(searchQuery.get('search')));
 		}
 	}, [url]);
 
