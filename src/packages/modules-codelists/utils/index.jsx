@@ -174,26 +174,24 @@ const getFlatTree = (rootNodes, parentNode) => {
 export const recalculatePositions = (codelist, rootNodes) => {
 	const flattenTree = getFlatTree(rootNodes, '');
 
-	return (
-		{
-			...codelist,
-			codes: Object.values(flattenTree).reduce((acc, c) => {
-				return {
-					...acc,
-					[c.code]: {
-						...c,
-						parents: flattenTree
-							.filter((treedCode) => treedCode.code === c.code)
-							.map((treedCode) => ({
-								code: treedCode.parent,
-								position: treedCode.position + 1,
-							})),
-						lastCodeUriSegment: codelist.lastCodeUriSegment,
-					},
-				};
-			}, {}),
-		} || {}
-	);
+	return {
+		...codelist,
+		codes: Object.values(flattenTree).reduce((acc, c) => {
+			return {
+				...acc,
+				[c.code]: {
+					...c,
+					parents: flattenTree
+						.filter((treedCode) => treedCode.code === c.code)
+						.map((treedCode) => ({
+							code: treedCode.parent,
+							position: treedCode.position + 1,
+						})),
+					lastCodeUriSegment: codelist.lastCodeUriSegment,
+				},
+			};
+		}, {}),
+	};
 };
 
 export const formatCodeList = (cl) => {
