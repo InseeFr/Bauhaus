@@ -65,7 +65,7 @@ class CollectionEditionCreation extends Component {
 			if (this.props.creation) {
 				return `/concepts/collections`;
 			} else {
-				return `/concepts/collection/${general.id}`;
+				return `/concepts/collections/${general.id}`;
 			}
 		};
 

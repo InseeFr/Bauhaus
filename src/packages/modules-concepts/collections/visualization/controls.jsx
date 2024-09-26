@@ -24,7 +24,7 @@ const CollectionVisualizationControls = ({
 	const creator = authImpl.isCollectionCreator(roles, stamp, collectionCreator);
 
 	const validate = <PublishButton action={handleValidation} />;
-	const update = <UpdateButton action={`/concepts/collection/${id}/modify`} />;
+	const update = <UpdateButton action={`/concepts/collections/${id}/modify`} />;
 
 	const btns = [];
 	if (admin || creator) {

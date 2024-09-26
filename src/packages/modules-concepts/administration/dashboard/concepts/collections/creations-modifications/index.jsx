@@ -61,7 +61,7 @@ const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 					'validationStatus',
 				]}
 				onRowClick={({ data: collection }) =>
-					navigate(`/concepts/collection/${collection.id}`)
+					navigate(`/concepts/collections/${collection.id}`)
 				}
 			>
 				<Column field="label" header={D.collectionsTitle}></Column>

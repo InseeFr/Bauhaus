@@ -43,7 +43,7 @@ export const Component = () => {
 			setSaving(true);
 			ConceptsApi.postCollection(buildPayload(data, 'CREATE'))
 				.then(() => {
-					navigate(`/concepts/collection/${cleanId(data.general.id)}`);
+					navigate(`/concepts/collections/${cleanId(data.general.id)}`);
 				})
 				.finally(() => setSaving(false));
 		},

@@ -17,7 +17,7 @@ export const Menu = () => {
 	return (
 		<VerticalMenu>
 			{adminOrContributor && (
-				<FeminineButton action="/concepts/collection/create" />
+				<FeminineButton action="/concepts/collections/create" />
 			)}
 			<ExportButton action="/concepts/collections/export" wrapper={false} />
 			{adminOrCreator && (

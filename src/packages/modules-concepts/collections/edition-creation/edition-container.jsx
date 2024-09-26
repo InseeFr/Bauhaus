@@ -51,7 +51,7 @@ export const Component = () => {
 			setSaving(true);
 			ConceptsApi.putCollection(data.general.id, buildPayload(data, 'UPDATE'))
 				.then(() => {
-					navigate(`/concepts/collection/${cleanId(id)}`);
+					navigate(`/concepts/collections/${cleanId(id)}`);
 				})
 				.finally(() => setSaving(false));
 		},
