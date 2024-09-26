@@ -321,7 +321,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 			/>
 
 			<SlidingPanel
-				type={'right'}
+				type="right"
 				isOpen={openPanel}
 				size={60}
 				backdropClicked={() => setOpenPanel(false)}
