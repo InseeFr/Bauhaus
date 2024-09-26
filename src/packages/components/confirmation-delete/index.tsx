@@ -1,8 +1,9 @@
 // @ts-ignore
 import Modal from 'react-modal';
 import { createAllDictionary } from '../../utils/dictionnary';
-import { Button } from '../buttons/button';
 import { ActionToolbar } from '../action-toolbar';
+import { Button } from '../buttons/button';
+import { CloseIconButton } from '../buttons/buttons-with-icons';
 
 const { D } = createAllDictionary({
 	deleteTitle: {
@@ -41,10 +42,7 @@ export const ConfirmationDelete = ({
 		>
 			<div className="modal-content">
 				<div className="modal-header">
-					<button type="button" className="close" onClick={handleNo}>
-						<span aria-hidden="true">&times;</span>
-						<span className="sr-only">{'btnClose'}</span>
-					</button>
+					<CloseIconButton onClick={handleNo} />
 					<h4 className="modal-title">{D.deleteTitle}</h4>
 				</div>
 

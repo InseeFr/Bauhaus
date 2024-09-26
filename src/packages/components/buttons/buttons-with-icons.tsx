@@ -1,6 +1,7 @@
 import { Button } from './button';
 import { createAllDictionary } from '../../utils/dictionnary';
 import { useGoBack } from '../../utils/hooks/useGoBack';
+import { ComponentProps } from 'react';
 
 const { D } = createAllDictionary({
 	btnReturn: {
@@ -47,11 +48,38 @@ const { D } = createAllDictionary({
 		fr: 'Dupliquer',
 		en: 'Duplicate',
 	},
+	btnClose: {
+		fr: 'Fermer',
+		en: 'Close',
+	},
 });
-export const UpdateButton = (props) => {
+
+export const CloseButton = ({ onClick }: Readonly<{ onClick: () => void }>) => {
+	return (
+		<button type="button" className="btn btn-default btn-lg" onClick={onClick}>
+			{D.btnClose}
+		</button>
+	);
+};
+
+export const CloseIconButton = ({
+	onClick,
+}: Readonly<{ onClick: () => void }>) => {
+	return (
+		<button type="button" className="close" onClick={onClick}>
+			<span aria-hidden="true">&times;</span>
+			<span className="sr-only">{D.btnClose}</span>
+		</button>
+	);
+};
+
+export const UpdateButton = (props: ComponentProps<typeof Button>) => {
 	return <Button label={D.btnUpdate} {...props} />;
 };
-export const AbstractButton = (props) => {
+
+export const AbstractButton = (
+	props: { icon?: unknown } & ComponentProps<typeof Button>
+) => {
 	const p = {
 		...props,
 		label: (
@@ -64,7 +92,9 @@ export const AbstractButton = (props) => {
 	return <Button {...p} />;
 };
 
-export const ReturnButton = (props) => {
+export const ReturnButton = (
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+) => {
 	return (
 		<AbstractButton
 			icon={
@@ -93,7 +123,9 @@ export const ReturnButton = (props) => {
 	);
 };
 
-export const ResetButton = (props) => {
+export const ResetButton = (
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+) => {
 	return (
 		<AbstractButton
 			icon={
@@ -122,7 +154,9 @@ export const ResetButton = (props) => {
 	);
 };
 
-export const ExportButton = (props) => {
+export const ExportButton = (
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+) => {
 	return (
 		<AbstractButton
 			icon={
@@ -155,7 +189,9 @@ export const ExportButton = (props) => {
 	);
 };
 
-export const ImportButton = (props) => {
+export const ImportButton = (
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+) => {
 	return (
 		<AbstractButton
 			icon={
@@ -188,7 +224,9 @@ export const ImportButton = (props) => {
 	);
 };
 
-export const PublishButton = (props) => {
+export const PublishButton = (
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+) => {
 	return (
 		<AbstractButton
 			icon={
@@ -216,7 +254,9 @@ export const PublishButton = (props) => {
 		</AbstractButton>
 	);
 };
-export const NewButton = (props) => {
+export const NewButton = (
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+) => {
 	return (
 		<AbstractButton
 			icon={
@@ -244,7 +284,10 @@ export const NewButton = (props) => {
 		</AbstractButton>
 	);
 };
-export const CancelButton = ({ action, ...props }: Readonly<{ action: string | (() => void) }>) => {
+export const CancelButton = ({
+	action,
+	...props
+}: Readonly<{ action: string | (() => void) }>) => {
 	const goBack = useGoBack();
 
 	const handleAction = () => {
@@ -283,7 +326,9 @@ export const CancelButton = ({ action, ...props }: Readonly<{ action: string | (
 		</AbstractButton>
 	);
 };
-export const SaveButton = (props) => {
+export const SaveButton = (
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+) => {
 	return (
 		<AbstractButton
 			icon={
@@ -308,7 +353,9 @@ export const SaveButton = (props) => {
 	);
 };
 
-export const DuplicateButton = (props) => {
+export const DuplicateButton = (
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+) => {
 	return (
 		<AbstractButton
 			icon={
@@ -334,7 +381,9 @@ export const DuplicateButton = (props) => {
 	);
 };
 
-export const DeleteButton = (props) => {
+export const DeleteButton = (
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+) => {
 	return (
 		<AbstractButton
 			icon={

@@ -1,9 +1,13 @@
 import check from '../../../auth/auth';
-import D from '../../../deprecated-locales';
-import { usePermission } from '../../../redux/hooks/usePermission';
-import ExportButtons from '../export-buttons';
 import { ActionToolbar } from '../../../components/action-toolbar';
 import { Button } from '../../../components/buttons/button';
+import {
+	PublishButton,
+	ReturnButton,
+	UpdateButton,
+} from '../../../components/buttons/buttons-with-icons';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import ExportButtons from '../export-buttons';
 
 const CollectionVisualizationControls = ({
 	isValidated,
@@ -19,8 +23,8 @@ const CollectionVisualizationControls = ({
 	const contributor = authImpl.isContributor(roles, stamp, collectionCreator);
 	const creator = authImpl.isCollectionCreator(roles, stamp, collectionCreator);
 
-	const validate = [handleValidation, D.btnValid];
-	const update = [`/concepts/collection/${id}/modify`, D.btnUpdate];
+	const validate = <PublishButton action={handleValidation} />;
+	const update = <UpdateButton action={`/concepts/collection/${id}/modify`} />;
 
 	const btns = [];
 	if (admin || creator) {
@@ -34,21 +38,26 @@ const CollectionVisualizationControls = ({
 	}
 
 	return (
-		<ActionToolbar>
-			<Button action="/concepts/collections" label={D.btnReturn} />
-			<ExportButtons
-				ids={[id]}
-				exportHandler={(type, withConcepts, lang = 'lg1') =>
-					exportCollection({ ids: [id], type, withConcepts, lang })
-				}
-			/>
+		<>
+			<ActionToolbar>
+				<ReturnButton action="/concepts/collections" />
+				<ExportButtons
+					ids={[id]}
+					exportHandler={(type, withConcepts, lang = 'lg1') =>
+						exportCollection({ ids: [id], type, withConcepts, lang })
+					}
+				/>
 
-			{btns.map((btn) => {
-				if (!btn) return null;
-				const [action, label] = btn;
-				return btn && <Button key={label} action={action} label={label} />;
-			})}
-		</ActionToolbar>
+				{btns.map((btn) => {
+					if (!btn) return null;
+					if (!Array.isArray(btn)) {
+						return btn;
+					}
+					const [action, label] = btn;
+					return <Button key={label} action={action} label={label} />;
+				})}
+			</ActionToolbar>
+		</>
 	);
 };
 

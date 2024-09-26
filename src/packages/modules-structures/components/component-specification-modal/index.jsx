@@ -3,7 +3,10 @@ import Modal from 'react-modal';
 import D from '../../i18n/build-dictionary';
 import { ComponentSpecificationForm } from '../component-specification-form';
 import './component-specification-modal.scss';
-import { SaveButton } from '../../../components/buttons/buttons-with-icons';
+import {
+	CloseIconButton,
+	SaveButton,
+} from '../../../components/buttons/buttons-with-icons';
 import { ActionToolbar } from '../../../components/action-toolbar';
 
 export const ComponentSpecificationModalBody = ({
@@ -21,10 +24,7 @@ export const ComponentSpecificationModalBody = ({
 	return (
 		<div className="modal-content">
 			<div className="modal-header">
-				<button type="button" className="close" onClick={onClose}>
-					<span aria-hidden="true">&times;</span>
-					<span className="sr-only">{'btnClose'}</span>
-				</button>
+				<CloseIconButton onClick={onClose} />
 				<h4 className="modal-title">{D.componentSpecificationTitle}</h4>
 			</div>
 

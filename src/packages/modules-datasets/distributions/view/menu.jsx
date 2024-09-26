@@ -1,15 +1,14 @@
-import D from '../../../deprecated-locales/build-dictionary';
-import { UNPUBLISHED } from '../../../model/ValidationState';
-import { ValidationButton } from '../../../components';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
+import { ValidationButton } from '../../../components';
 import { ActionToolbar } from '../../../components/action-toolbar';
 import {
 	DeleteButton,
 	ReturnButton,
+	UpdateButton,
 } from '../../../components/buttons/buttons-with-icons';
-import { Button } from '../../../components/buttons/button';
+import { UNPUBLISHED } from '../../../model/ValidationState';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { useGoBack } from '../../../utils/hooks/useGoBack';
 
 export const ViewMenu = ({ distribution, dataset, onPublish, onDelete }) => {
 	const goBack = useGoBack();
@@ -34,9 +33,8 @@ export const ViewMenu = ({ distribution, dataset, onPublish, onDelete }) => {
 				<DeleteButton action={onDelete} />
 			)}
 			{(isAdmin || hasDatasetRightsBasedOnStamp) && (
-				<Button
+				<UpdateButton
 					action={`/datasets/distributions/${distribution.id}/modify`}
-					label={D.btnUpdate}
 				/>
 			)}
 		</ActionToolbar>

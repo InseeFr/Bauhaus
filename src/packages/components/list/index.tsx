@@ -1,4 +1,4 @@
-import { ReactNode} from 'react';
+import { ReactNode } from 'react';
 
 type ListTypes<T> = {
 	items: T[];
@@ -6,7 +6,7 @@ type ListTypes<T> = {
 	getKey?: (value: T) => string;
 };
 
-export const List = <T extends unknown>({
+export const List = <T extends object>({
 	items,
 	getContent = (value: any) => value.toString(),
 	getKey = (value: any) => value.toString(),

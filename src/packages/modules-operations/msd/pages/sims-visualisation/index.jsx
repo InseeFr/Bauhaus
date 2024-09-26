@@ -17,7 +17,10 @@ import {
 } from '../../../../components';
 import { ActionToolbar } from '../../../../components/action-toolbar';
 import { Button } from '../../../../components/buttons/button';
-import { CancelButton } from '../../../../components/buttons/buttons-with-icons';
+import {
+	CancelButton,
+	CloseIconButton,
+} from '../../../../components/buttons/buttons-with-icons';
 import { Note } from '../../../../components/note';
 import { Panel } from '../../../../components/panel';
 import { OperationsApi } from '../../../../sdk/operations-api';
@@ -153,14 +156,7 @@ export default function SimsVisualisation({
 				>
 					<div className="modal-content">
 						<div className="modal-header">
-							<button
-								type="button"
-								className="close"
-								onClick={() => setExportModalOpened(false)}
-							>
-								<span aria-hidden="true">&times;</span>
-								<span className="sr-only">{D.btnClose}</span>
-							</button>
+							<CloseIconButton onClick={() => setExportModalOpened(false)} />
 							<h4 className="modal-title">{D.btnExport}</h4>
 						</div>
 
