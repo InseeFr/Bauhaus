@@ -8,8 +8,10 @@ export function useGoBack() {
 		if (shouldReplace) {
 			return navigate(redirectUrl, { replace: true });
 		}
-		return history.length === 1 || location.state
-			? navigate(redirectUrl)
-			: navigate(-1);
+		if (history.length === 1 || location.state) {
+			return navigate(redirectUrl);
+		} else {
+			return navigate(-1);
+		}
 	};
 }
