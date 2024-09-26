@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import './index.scss';
 import { Row } from '../../../components';
 import { Button } from '../../../components/buttons/button';
+import { CloseIconButton } from '../../../components/buttons/buttons-with-icons';
 
 export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const [lang, setLang] = useState('lg1');
@@ -48,10 +49,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 		>
 			<div className="modal-content">
 				<div className="modal-header">
-					<button type="button" className="close" onClick={() => close()}>
-						<span aria-hidden="true">&times;</span>
-						<span className="sr-only">{D.btnClose}</span>
-					</button>
+					<CloseIconButton onClick={close} />
 					<h4 className="modal-title">{D.btnExport}</h4>
 				</div>
 

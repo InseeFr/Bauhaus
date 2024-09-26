@@ -2,7 +2,7 @@
 import Modal from 'react-modal';
 //@ts-ignore
 import DOMPurify from 'dompurify';
-import D from '../../deprecated-locales';
+import { CloseIconButton } from '../buttons/buttons-with-icons';
 
 type ModelRmesTypes = {
 	id?: string;
@@ -43,10 +43,7 @@ export const ModalRmes = ({
 		>
 			<div className="modal-content">
 				<div className="modal-header">
-					<button type="button" className="close" onClick={closeCancel}>
-						<span aria-hidden="true">&times;</span>
-						<span className="sr-only">{D.btnClose}</span>
-					</button>
+					<CloseIconButton onClick={closeCancel} />
 					<h4 className="modal-title">{title}</h4>
 				</div>
 				{body && (

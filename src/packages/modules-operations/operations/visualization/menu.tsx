@@ -5,7 +5,10 @@ import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
 import { ValidationButton } from '../../../components';
 import { Operation } from '../../../model/Operation';
 import { ActionToolbar } from '../../../components/action-toolbar';
-import { ReturnButton } from '../../../components/buttons/buttons-with-icons';
+import {
+	ReturnButton,
+	UpdateButton,
+} from '../../../components/buttons/buttons-with-icons';
 import { Button } from '../../../components/buttons/button';
 
 type MenuTypes = {
@@ -43,10 +46,7 @@ export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
 				/>
 			</Auth>
 			<Auth roles={[ADMIN, [SERIES_CONTRIBUTOR, checkStamp]]}>
-				<Button
-					action={`/operations/operation/${operation.id}/modify`}
-					label={D.btnUpdate}
-				/>
+				<UpdateButton action={`/operations/operation/${operation.id}/modify`} />
 			</Auth>
 		</ActionToolbar>
 	);

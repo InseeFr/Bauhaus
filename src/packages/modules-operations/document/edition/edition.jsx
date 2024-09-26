@@ -1,31 +1,31 @@
 import { useEffect, useMemo, useState } from 'react';
-import D, { D1, D2 } from '../../../deprecated-locales';
-import { validate } from './validation';
-import { LINK, DOCUMENT, isDocument } from '../utils';
 import Dropzone from 'react-dropzone';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import Modal from 'react-modal';
 import {
-	TextInput,
-	Row,
-	Loading,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
 	ClientSideError,
 	DatePicker,
-	PageTitleBlock,
 	EditorMarkdown,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	Loading,
+	PageTitleBlock,
+	Row,
 	Select,
+	TextInput,
 } from '../../../components';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { GeneralApi } from '../../../sdk/general-api';
-import { useDocumentsAndLinks } from '../../../utils/hooks/documents';
-import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
+import LabelRequired from '../../../components/label-required';
+import D, { D1, D2 } from '../../../deprecated-locales';
+import { GeneralApi } from '../../../sdk/general-api';
+import { useDocumentsAndLinks } from '../../../utils/hooks/documents';
+import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { useTitle } from '../../../utils/hooks/useTitle';
+import { DOCUMENT, LINK } from '../utils';
+import { ConfirmationModal } from './confirmation-modal';
+import { validate } from './validation';
 
 const initDocument = {
 	labelLg1: '',
@@ -66,67 +66,6 @@ const saveDocument = (document, type, files) => {
 		promise = GeneralApi[method](body);
 	}
 	return promise;
-};
-
-export const ConfirmationModal = ({ document, isOpen, onYes, onNo }) => {
-	const modalButtons = [
-		{
-			label: D.no,
-			action: onNo,
-			style: 'default',
-		},
-		{
-			label: D.yes,
-			action: onYes,
-			style: 'default',
-		},
-	];
-
-	const buttons = modalButtons.map((b) => (
-		<button
-			key={`${b.label}`}
-			type="button"
-			className={`btn btn-${b.style} btn-lg`}
-			onClick={b.action}
-			disabled={b.disabled}
-		>
-			{b.label}
-		</button>
-	));
-
-	return (
-		<Modal
-			className="Modal__Bootstrap modal-dialog operations"
-			id="updating-document-modal"
-			isOpen={isOpen}
-			onRequestClose={onNo}
-			ariaHideApp={false}
-		>
-			<div className="modal-content">
-				<div className="modal-header">
-					<button type="button" className="close" onClick={onNo}>
-						<span aria-hidden="true">&times;</span>
-						<span className="sr-only">{D.btnClose}</span>
-					</button>
-					<h4 className="modal-title">{D.confirmation}</h4>
-				</div>
-				<div className="modal-body">
-					<p>
-						{isDocument(document)
-							? D.warningDocumentWithSimsPrefix
-							: D.warningLinkWithSimsPrefix}
-					</p>
-					<ul>
-						{document.sims?.map((sims) => (
-							<li key={sims.id}>{sims.labelLg1}</li>
-						))}
-					</ul>
-					<p>{D.warningDocumentLinksWithSimsSuffix}</p>
-				</div>
-				<div className="modal-footer">{buttons}</div>
-			</div>
-		</Modal>
-	);
 };
 
 const OperationsDocumentationEdition = (props) => {
@@ -273,7 +212,7 @@ const OperationsDocumentationEdition = (props) => {
 					saveDocumentOrLink();
 					setValidationModalDisplayed(false);
 				}}
-			></ConfirmationModal>
+			/>
 			{isEditing && (
 				<PageTitleBlock
 					titleLg1={documentProps.labelLg1}

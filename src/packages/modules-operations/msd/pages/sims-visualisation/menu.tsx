@@ -1,4 +1,3 @@
-import { getParentUri, shouldDisplayDuplicateButton } from '../../utils';
 import Auth, { RoleCheck } from '../../../../auth/components/auth';
 import {
 	ADMIN,
@@ -6,17 +5,17 @@ import {
 	SERIES_CONTRIBUTOR,
 } from '../../../../auth/roles';
 import { ValidationButton } from '../../../../components';
-import D from '../../../../deprecated-locales/build-dictionary';
-import { Sims } from '../../../../model/Sims';
-import { useGoBack } from '../../../../utils/hooks/useGoBack';
 import { ActionToolbar } from '../../../../components/action-toolbar';
 import {
 	DeleteButton,
 	DuplicateButton,
 	ExportButton,
 	ReturnButton,
+	UpdateButton,
 } from '../../../../components/buttons/buttons-with-icons';
-import { Button } from '../../../../components/buttons/button';
+import { Sims } from '../../../../model/Sims';
+import { useGoBack } from '../../../../utils/hooks/useGoBack';
+import { getParentUri, shouldDisplayDuplicateButton } from '../../utils';
 
 type MenuTypes = {
 	sims: Sims;
@@ -62,18 +61,7 @@ export const Menu = ({
 					callback={() => onPublish()}
 					disabled={false}
 				/>
-				<Button
-					action={`/operations/sims/${sims.id}/modify`}
-					label={
-						<>
-							<span
-								className="glyphicon glyphicon-floppy-disk"
-								aria-hidden="true"
-							/>
-							<span> {D.btnUpdate}</span>
-						</>
-					}
-				/>
+				<UpdateButton action={`/operations/sims/${sims.id}/modify`} />
 			</Auth>
 			<ExportButton action={onExport} />
 		</ActionToolbar>

@@ -1,13 +1,16 @@
-import D from '../../../deprecated-locales/build-dictionary';
 import Auth from '../../../auth/components/auth';
 import { ADMIN, INDICATOR_CONTRIBUTOR } from '../../../auth/roles';
 import { ValidationButton } from '../../../components';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import { Button } from '../../../components/buttons/button';
+import {
+	ReturnButton,
+	UpdateButton,
+} from '../../../components/buttons/buttons-with-icons';
+import D from '../../../deprecated-locales/build-dictionary';
 import { Indicator } from '../../../model/operations/indicator';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { containUnsupportedStyles } from '../../../utils/html-utils';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import { ReturnButton } from '../../../components/buttons/buttons-with-icons';
-import { Button } from '../../../components/buttons/button';
 
 type MenuTypes = {
 	indicator: Indicator;
@@ -47,10 +50,7 @@ export const Menu = ({ indicator, publish }: Readonly<MenuTypes>) => {
 					callback={publish}
 					disabled={publicationDisabled}
 				/>
-				<Button
-					action={`/operations/indicator/${indicator.id}/modify`}
-					label={D.btnUpdate}
-				/>
+				<UpdateButton action={`/operations/indicator/${indicator.id}/modify`} />
 			</Auth>
 		</ActionToolbar>
 	);

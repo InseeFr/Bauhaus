@@ -1,24 +1,9 @@
-import { render, screen } from '@testing-library/react';
-import OperationsDocumentationEdition, { ConfirmationModal } from './edition';
-import { DOCUMENT, LINK } from '../utils';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render } from '@testing-library/react';
+import { DOCUMENT, LINK } from '../utils';
+import OperationsDocumentationEdition from './edition';
 
 const queryClient = new QueryClient();
-
-describe('ConfirmationModal', () => {
-	it('should display two confirmation buttons', async () => {
-		render(
-			<ConfirmationModal
-				isOpen={true}
-				document={{ sims: [] }}
-				onNo={() => {}}
-				onYes={() => {}}
-			/>
-		);
-		await screen.findByText('Yes');
-		await screen.findByText('No');
-	});
-});
 
 describe('OperationsDocumentationEdition', () => {
 	it('should render without errors', async () => {
