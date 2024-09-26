@@ -16,7 +16,7 @@ export const AdvancedSearchList = ({
 	initializeState,
 	redirect,
 }: Readonly<PropsWithChildren<AdvancedSearchListTypes>>) => {
-	const [askForReturn, askForReturnChange] = useState(false);
+	const [askForReturn, setAskForReturn] = useState(false);
 
 	if (askForReturn) return redirect;
 
@@ -26,7 +26,7 @@ export const AdvancedSearchList = ({
 				<PageTitle title={title} />
 				<AdvancedSearchControls
 					onClickReturn={() => {
-						askForReturnChange(true);
+						setAskForReturn(true);
 					}}
 					initializeState={initializeState}
 				/>
