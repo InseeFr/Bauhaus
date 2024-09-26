@@ -27,7 +27,7 @@ import {
 	SaveButton,
 } from '../../components/buttons/buttons-with-icons';
 
-export const DistributionEdit = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const isEditing = !!id;
 

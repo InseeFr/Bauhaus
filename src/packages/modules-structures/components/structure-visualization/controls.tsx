@@ -1,11 +1,7 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { UNPUBLISHED } from '../../../model/ValidationState';
-import { ValidationButton } from '../../../components';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
-import { StructureApi } from '../../../sdk';
-import { usePermission } from '../../../redux/hooks/usePermission';
-import { Structure } from '../../../model/structures/Structure';
+import { ValidationButton } from '../../../components';
 import { ActionToolbar } from '../../../components/action-toolbar';
 import {
 	DeleteButton,
@@ -13,6 +9,10 @@ import {
 	ReturnButton,
 	UpdateButton,
 } from '../../../components/buttons/buttons-with-icons';
+import { Structure } from '../../../model/structures/Structure';
+import { UNPUBLISHED } from '../../../model/ValidationState';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { StructureApi } from '../../../sdk';
 
 type ControlsTypes = {
 	structure: Structure;
@@ -25,11 +25,11 @@ const Controls = ({ structure, publish }: ControlsTypes) => {
 		: [structure.contributor];
 
 	const { id } = structure;
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const handleDelete = () => {
 		StructureApi.deleteStructure(id).finally(() => {
-			history.push('/structures');
+			navigate('/structures');
 		});
 	};
 

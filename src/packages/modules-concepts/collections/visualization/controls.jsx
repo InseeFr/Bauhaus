@@ -24,7 +24,7 @@ const CollectionVisualizationControls = ({
 	const creator = authImpl.isCollectionCreator(roles, stamp, collectionCreator);
 
 	const validate = <PublishButton action={handleValidation} />;
-	const update = <UpdateButton action={`/collection/${id}/modify`} />;
+	const update = <UpdateButton action={`/concepts/collections/${id}/modify`} />;
 
 	const btns = [];
 	if (admin || creator) {
@@ -40,7 +40,7 @@ const CollectionVisualizationControls = ({
 	return (
 		<>
 			<ActionToolbar>
-				<ReturnButton action="/collections" />
+				<ReturnButton action="/concepts/collections" />
 				<ExportButtons
 					ids={[id]}
 					exportHandler={(type, withConcepts, lang = 'lg1') =>

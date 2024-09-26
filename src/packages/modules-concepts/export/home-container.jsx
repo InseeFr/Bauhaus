@@ -5,7 +5,7 @@ import { Loading, Picker } from '../../components';
 import { useConceptExporter, useConcepts } from '../../utils/hooks/concepts';
 import { useTitle } from '../../utils/hooks/useTitle';
 
-const ConceptsToExportContainer = () => {
+export const Component = () => {
 	useTitle(D.conceptsTitle, D.exportTitle);
 	const [ids, setIds] = useState([]);
 
@@ -42,5 +42,3 @@ const ConceptsToExportContainer = () => {
 		/>
 	);
 };
-
-export default ConceptsToExportContainer;

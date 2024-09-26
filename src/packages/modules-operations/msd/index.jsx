@@ -1,37 +1,32 @@
-import { Component, useEffect, useState } from 'react';
-import MSDLayout from '../../modules-operations/msd/layout/';
+import { Component as ReactComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Loading, PageTitleBlock } from '../../components';
-import { LOADED, NOT_LOADED } from '../../sdk/constants';
-import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
 import { D1, D2 } from '../../deprecated-locales';
+import MSDLayout from '../../modules-operations/msd/layout/';
+import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
+import { LOADED, NOT_LOADED } from '../../sdk/constants';
 
-import { getOperationsCodesList } from '../../redux/operations/selector';
+import MSDHelp from '../../modules-operations/msd/pages/help';
+import SimsCreation from '../../modules-operations/msd/pages/sims-creation/';
+import SimsVisualisation from '../../modules-operations/msd/pages/sims-visualisation/';
 import loadSIMS, {
 	publishSims,
 	saveSims,
 } from '../../redux/actions/operations/sims/item';
-import MSDHelp from '../../modules-operations/msd/pages/help';
-import SimsVisualisation from '../../modules-operations/msd/pages/sims-visualisation/';
-import SimsCreation from '../../modules-operations/msd/pages/sims-creation/';
-import { useRouteMatch } from 'react-router-dom';
+import { getOperationsCodesList } from '../../redux/operations/selector';
 
-import { getParentId, getParentType } from './utils';
-import './msd.scss';
-import { isEssentialRubricKo } from './sims-field-title';
-import { SimsContextProvider } from './context';
-import { useGoBack } from '../../utils/hooks/useGoBack';
+import { useParams } from 'react-router-dom';
 import { getOperationsSimsCurrent } from '../../redux/selectors';
-import { isLoaded, loadGeographies } from '../../redux/geographies.action';
 import { GeneralApi } from '../../sdk/general-api';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
 import { useOrganizations } from '../../utils/hooks/organizations';
-import { buildExtract } from '../../utils/buildExtract';
+import { useGoBack } from '../../utils/hooks/useGoBack';
+import { SimsContextProvider } from './context';
+import './msd.scss';
 import { DocumentsStoreProvider } from './pages/sims-creation/documents-store-context';
-
-const extractId = buildExtract('id');
-const extractIdParent = buildExtract('idParent');
+import { isEssentialRubricKo } from './sims-field-title';
+import { getParentId, getParentType } from './utils';
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
@@ -39,7 +34,7 @@ export const VIEW = 'VIEW';
 export const UPDATE = 'UPDATE';
 export const DUPLICATE = 'DUPLICATE';
 
-class MSDContainer extends Component {
+class MSDContainer extends ReactComponent {
 	static defaultProps = {
 		currentSims: {},
 	};
@@ -63,10 +58,6 @@ class MSDContainer extends Component {
 			!this.props.currentSims.id
 		) {
 			this.props.loadSIMS(this.props.id);
-		}
-
-		if (!this.props.geographiesLoaded) {
-			this.props.loadGeographies();
 		}
 
 		this._loadOwnersList(this.props.id);
@@ -121,7 +112,7 @@ class MSDContainer extends Component {
 		)
 			return <Loading />;
 
-		if (this.state.exportPending) return <Loading textType="loadableLoading" />;
+		if (this.state.exportPending) return <Loading />;
 
 		let essentialRubricContext = {};
 		if (mode === VIEW || this.isEditMode()) {
@@ -164,7 +155,6 @@ class MSDContainer extends Component {
 		return (
 			<MSDLayout
 				metadataStructure={metadataStructure}
-				currentSection={this.props.match.params.idSection}
 				storeCollapseState={mode === HELP}
 				baseUrl={baseUrl}
 				disableSectionAnchor={disableSectionAnchor}
@@ -179,7 +169,6 @@ class MSDContainer extends Component {
 					<MSDHelp
 						metadataStructure={metadataStructure}
 						codesLists={codesLists}
-						currentSection={this.props.match.params.idSection}
 						organisations={organisations}
 					/>
 				)}
@@ -191,7 +180,6 @@ class MSDContainer extends Component {
 							metadataStructure={metadataStructure}
 							codesLists={codesLists}
 							organisations={organisations}
-							currentSection={this.props.match.params.idSection}
 							publishSims={this.props.publishSims}
 							exportCallback={this.exportCallback}
 							missingDocuments={this.state.missingDocuments}
@@ -232,7 +220,7 @@ export const mapStateToProps = (state, ownProps) => {
 	const { results: metadataStructure, status: metadataStructureStatus } =
 		state.operationsMetadataStructureList;
 
-	const id = extractId(ownProps);
+	const id = ownProps.params.id;
 
 	let idParent;
 	let currentSims = {};
@@ -242,8 +230,8 @@ export const mapStateToProps = (state, ownProps) => {
 			currentSims = {};
 			break;
 		case CREATE:
-			idParent = extractIdParent(ownProps);
-			parentType = ownProps.match?.params[0];
+			parentType = ownProps.parentType;
+			idParent = ownProps.params.idParent;
 			break;
 		default:
 			currentSims = getOperationsSimsCurrent(state);
@@ -253,7 +241,6 @@ export const mapStateToProps = (state, ownProps) => {
 	}
 
 	return {
-		geographiesLoaded: isLoaded(state),
 		metadataStructure,
 		metadataStructureStatus,
 		currentSims: !id || currentSims.id === id ? currentSims : {},
@@ -269,14 +256,11 @@ const mapDispatchToProps = {
 	loadSIMS,
 	saveSims,
 	publishSims,
-	loadGeographies: loadGeographies,
 };
 
 const MSDContainerWithParent = (props) => {
 	const { data: organisations } = useOrganizations();
-	const match = useRouteMatch();
-	const { idParent } = props;
-	const parentType = match.params[0];
+	const { idParent, parentType } = props;
 	const [parent, setParent] = useState(props.parent);
 	const [loading, setLoading] = useState(true);
 	const [documentStores, setDocumentStores] = useState({
@@ -327,7 +311,9 @@ const MSDContainerWithParent = (props) => {
 			});
 		});
 	}, []);
+
 	if (loading) return <Loading />;
+
 	return (
 		<DocumentsStoreProvider value={documentStores}>
 			<MSDContainer
@@ -336,18 +322,16 @@ const MSDContainerWithParent = (props) => {
 				currentSims={currentSims}
 				parent={parent}
 				goBack={goBack}
-				match={match}
 			/>
 		</DocumentsStoreProvider>
 	);
 };
-
-const withMatch = (Component) => {
+const withParams = (Component) => {
 	return (props) => {
-		const match = useRouteMatch();
-		return <Component {...props} match={match} />;
+		const params = useParams();
+		return <Component {...props} params={params} />;
 	};
 };
-export default withMatch(
+export const Component = withParams(
 	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
 );

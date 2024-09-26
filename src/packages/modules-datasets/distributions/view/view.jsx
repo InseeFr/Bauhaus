@@ -1,24 +1,24 @@
-import { useHistory, useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
 	CheckSecondLang,
 	Loading,
 	PageTitleBlock,
 	Row,
 } from '../../../components';
-import { renderMarkdownElement } from '../../../utils/html-utils';
+import { Note } from '../../../components/note';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
+import { DistributionApi } from '../../../sdk';
+import { stringToDate } from '../../../utils/date-utils';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useTitle } from '../../../utils/hooks/useTitle';
+import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useDataset, useDistribution } from '../../datasets';
 import { ViewMenu } from './menu';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { stringToDate } from '../../../utils/date-utils';
-import { DistributionApi } from '../../../sdk';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { Note } from '../../../components/note';
 
-export const DistributionView = (props) => {
+export const Component = (props) => {
 	const { id } = useParams();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const { data: distribution, isLoading } = useDistribution(id);
 
@@ -49,7 +49,7 @@ export const DistributionView = (props) => {
 			return Promise.all([
 				queryClient.invalidateQueries(['distributions', id]),
 				queryClient.invalidateQueries(['distributions']),
-			]).then(() => history.push('/datasets/distributions'));
+			]).then(() => navigate('/datasets/distributions'));
 		},
 	});
 

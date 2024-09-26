@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { getFormattedCodeList } from '../../apis';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const ViewContainer = (props) => {
+export const Component = (props) => {
 	const goBack = useGoBack();
 
 	const [secondLang] = useSecondLang();
@@ -85,5 +85,3 @@ const ViewContainer = (props) => {
 		</>
 	);
 };
-
-export default ViewContainer;

@@ -26,8 +26,8 @@ const MenuCodelists = () => {
 
 	if (permission.roles.includes(ADMIN)) {
 		paths.unshift({
-			path: '/codelists-partial',
-			pathKey: 'codelists-partial',
+			path: '/codelists/partial',
+			pathKey: 'partial',
 			className: null,
 			attrs: null,
 			label: D.codelistsPartialTitle,

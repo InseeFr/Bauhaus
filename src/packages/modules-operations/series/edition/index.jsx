@@ -14,7 +14,7 @@ import {
 } from '../../../redux/actions/constants/codeList';
 import { useOrganizations } from '../../../utils/hooks/organizations';
 
-const OperationsSeriesEditionContainer = (props) => {
+export const Component = (props) => {
 	const { id } = useParams();
 	const [serie, setSerie] = useState({});
 
@@ -68,5 +68,3 @@ const OperationsSeriesEditionContainer = (props) => {
 		/>
 	);
 };
-
-export default OperationsSeriesEditionContainer;

@@ -10,8 +10,8 @@ import { ReduxModel } from '../../../redux/model';
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/operations/series';
 
-const OperationEditionContainer = () => {
-	const { id } = useParams<{id: string}>();
+export const Component = () => {
+	const { id } = useParams<{ id: string }>();
 	const [series, setSeries] = useState<Series[]>([]);
 	const [operation, setOperation] = useState<Operation | undefined>(undefined);
 	const stamp = useSelector((state: ReduxModel) => state.app!.auth.user.stamp);
@@ -25,7 +25,9 @@ const OperationEditionContainer = () => {
 	}, [id]);
 
 	useEffect(() => {
-		OperationsApi.getUserSeriesList(stamp).then((series: Series[]) => setSeries(series));
+		OperationsApi.getUserSeriesList(stamp).then((series: Series[]) =>
+			setSeries(series)
+		);
 	}, [stamp]);
 
 	useTitle(
@@ -44,5 +46,3 @@ const OperationEditionContainer = () => {
 		/>
 	);
 };
-
-export default OperationEditionContainer;

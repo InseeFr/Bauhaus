@@ -63,9 +63,9 @@ class CollectionEditionCreation extends Component {
 
 		this.redirectCancel = () => {
 			if (this.props.creation) {
-				return `/collections`;
+				return `/concepts/collections`;
 			} else {
-				return `/collection/${general.id}`;
+				return `/concepts/collections/${general.id}`;
 			}
 		};
 

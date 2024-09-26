@@ -1,4 +1,4 @@
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PageTitle, TextInput, DatePicker, Pagination } from '../../components';
 
 import Select from 'react-select';
@@ -40,7 +40,7 @@ const ConceptSearchList = ({
 	useTitle(D.conceptsTitle, D.advancedSearch);
 
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const {
 		label,
@@ -82,7 +82,7 @@ const ConceptSearchList = ({
 
 	const hitEls = hits.map(({ id, label }) => (
 		<li key={id} className="list-group-item">
-			<Link to={`/concept/${id}`}>{label}</Link>
+			<Link to={`/concepts/${id}`}>{label}</Link>
 		</li>
 	));
 
@@ -91,7 +91,7 @@ const ConceptSearchList = ({
 			<div className="container">
 				<PageTitle title={D.conceptSearchTitle} />
 				<Controls
-					onClickReturn={() => history.push('/concepts')}
+					onClickReturn={() => navigate('/concepts')}
 					initializeState={reset}
 					onExport={onExport}
 					conceptsList={hits}

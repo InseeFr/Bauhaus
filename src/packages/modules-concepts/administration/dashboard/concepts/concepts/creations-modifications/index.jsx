@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
 	DateItem,
 	DatePicker,
@@ -11,10 +10,11 @@ import { NumberResults } from '../../../../../../components/number-results';
 import { DataTable } from '../../../../../../components/datatable';
 import { Column } from 'primereact/column';
 import { Panel } from '../../../../../../components/panel';
+import { useNavigate } from 'react-router-dom';
 
 const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const variable = type === 'creations' ? 'created' : 'modified';
 	const typeByLang =
@@ -64,7 +64,7 @@ const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 						'validationStatus',
 					]}
 					onRowClick={({ data: concept }) =>
-						history.push(`/concept/${concept.id}`)
+						navigate(`/concepts/${concept.id}`)
 					}
 				>
 					<Column field="label" header={D.conceptsTitle}></Column>

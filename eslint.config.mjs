@@ -24,15 +24,9 @@ export default [
       "@typescript-eslint/no-explicit-any": "off",
       "no-extra-boolean-cast": "off",
       '@typescript-eslint/ban-ts-comment': 'off',
-      "@typescript-eslint/no-require-imports": "off",
       "no-case-declarations": "off",
-      "react/no-unknown-property": "off",
-      "react/jsx-key": "off",
-      "react/display-name": "off",
-      "@typescript-eslint/no-unused-expressions": "off",
-      "no-constant-binary-expression": "off",
-      "no-irregular-whitespace": "off",
-      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unnecessary-type-constraint": "off",
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
       "no-prototype-builtins": "off"
     },
     languageOptions: {

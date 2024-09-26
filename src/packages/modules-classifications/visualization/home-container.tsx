@@ -4,7 +4,7 @@ import { Loading } from '../../components';
 import { useClassification, usePublishClassification } from '../hooks';
 import { useSecondLang } from '../../utils/hooks/second-lang';
 
-const ClassificationVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams<{ id: string }>();
 	const [secondLang] = useSecondLang();
 
@@ -28,5 +28,3 @@ const ClassificationVisualizationContainer = () => {
 		/>
 	);
 };
-
-export default ClassificationVisualizationContainer;

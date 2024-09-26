@@ -5,7 +5,7 @@ import D from '../../deprecated-locales';
 import './home.scss';
 import { useTitle } from '../../utils/hooks/useTitle';
 
-function AdministrationHome() {
+export const Component = () => {
 	useTitle(D.conceptsTitle, D.administrationTitle);
 	return (
 		<div className="container admin-home">
@@ -22,6 +22,4 @@ function AdministrationHome() {
 			</div>
 		</div>
 	);
-}
-
-export default AdministrationHome;
+};

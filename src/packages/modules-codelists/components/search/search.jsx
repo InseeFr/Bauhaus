@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Select from 'react-select';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
@@ -56,7 +56,7 @@ const SearchFormList = ({ stampListOptions, data }) => {
 			title={D.codelistsSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to="/codelists" push />}
+			redirect={<Navigate to="/codelists" push />}
 		>
 			<fieldset>
 				<legend>{D.codelistTitle}</legend>
@@ -147,7 +147,7 @@ const SearchFormList = ({ stampListOptions, data }) => {
 	);
 };
 
-const SearchListContainer = () => {
+export const Component = () => {
 	useTitle(D.codelistsTitle, D.advancedSearch);
 
 	const [loading, setLoading] = useState(true);
@@ -166,5 +166,3 @@ const SearchListContainer = () => {
 	}
 	return <SearchFormList data={items} stampListOptions={stampListOptions} />;
 };
-
-export default SearchListContainer;

@@ -1,11 +1,6 @@
 import { useCallback, useState } from 'react';
 import check from '../../auth/auth';
-import D from '../../deprecated-locales';
 import { ConfirmationDelete } from '../../components';
-import { useLoading } from './loading';
-import { useGoBack } from '../../utils/hooks/useGoBack';
-import { saveFileFromHttpResponse } from '../../utils/files';
-import { ConceptsApi } from '../../sdk';
 import { ActionToolbar } from '../../components/action-toolbar';
 import { Button } from '../../components/buttons/button';
 import {
@@ -13,6 +8,11 @@ import {
 	ReturnButton,
 	UpdateButton,
 } from '../../components/buttons/buttons-with-icons';
+import D from '../../deprecated-locales';
+import { ConceptsApi } from '../../sdk';
+import { saveFileFromHttpResponse } from '../../utils/files';
+import { useGoBack } from '../../utils/hooks/useGoBack';
+import { useLoading } from './loading';
 const ConceptVisualizationControls = ({
 	isValidated,
 	isValidOutOfDate,
@@ -44,11 +44,11 @@ const ConceptVisualizationControls = ({
 	let btns;
 
 	const validate = adminOrCreator && [handleValidation, D.btnValid];
-	const update = <UpdateButton action={`/concept/${id}/modify`} />;
+	const update = <UpdateButton action={`/concepts/${id}/modify`} />;
 	const compare =
 		!conceptVersion || conceptVersion <= 1
 			? null
-			: [`/concept/${id}/compare`, D.btnCompare];
+			: [`/concepts/${id}/compare`, D.btnCompare];
 	const erase = adminOrCreator && [() => setModalOpened(true), D.btnDelete];
 
 	const exportConcept = (

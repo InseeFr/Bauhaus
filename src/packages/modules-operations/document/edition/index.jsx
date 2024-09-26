@@ -5,7 +5,7 @@ import DocumentationEdition from '../../../modules-operations/document/edition/e
 import { GeneralApi } from '../../../sdk/general-api';
 import { useCodesList } from '../../../utils/hooks/codeslist';
 
-const OperationsDocumentationEditionContainer = (props) => {
+export const Component = (props) => {
 	const { id } = useParams();
 	const { pathname } = useLocation();
 	const type = /(link|document)/.exec(pathname)[1];
@@ -37,5 +37,3 @@ const OperationsDocumentationEditionContainer = (props) => {
 		/>
 	);
 };
-
-export default OperationsDocumentationEditionContainer;

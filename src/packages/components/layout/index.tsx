@@ -2,7 +2,7 @@
 import { PropsWithChildren } from 'react';
 import './index.scss';
 
-export const Column = ({ children }: PropsWithChildren<{}>) => {
+export const Column = ({ children }: PropsWithChildren<unknown>) => {
 	return <div className="col-md-6">{children}</div>;
 };
 

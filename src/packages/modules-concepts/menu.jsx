@@ -18,7 +18,7 @@ export const Menu = () => {
 	return (
 		<VerticalMenu>
 			<Auth roles={[ADMIN]}>
-				<MasculineButton action="/concept/create" />
+				<MasculineButton action="/concepts/create" />
 			</Auth>
 			<ExportButton action="/concepts/export" wrapper={false} />
 			{adminOrCreator && (

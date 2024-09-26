@@ -7,7 +7,7 @@ import D from '../../../deprecated-locales/build-dictionary';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { OperationsApi } from '../../../sdk/operations-api';
 
-const OperationsFamilyEditionContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const goBack = useGoBack();
 
@@ -27,5 +27,3 @@ const OperationsFamilyEditionContainer = () => {
 	if (!family.id && id) return <Loading />;
 	return <OperationsFamilyEdition id={id} family={family} goBack={goBack} />;
 };
-
-export default OperationsFamilyEditionContainer;

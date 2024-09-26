@@ -67,7 +67,7 @@ export const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
 	});
 };
 
-const TreeComponent = () => {
+export const Component = () => {
 	useTitle(D.operationsTitle, D.operationsTreeTitle);
 
 	const [treeData, setTreeData] = useState([]);
@@ -158,5 +158,3 @@ const TreeComponent = () => {
 		</div>
 	);
 };
-
-export default TreeComponent;

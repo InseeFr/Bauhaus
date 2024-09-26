@@ -1,16 +1,12 @@
 import { useCallback, useState } from 'react';
-import D from '../../../../deprecated-locales';
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import D from '../../../../deprecated-locales';
 import * as A from '../../../../redux/actions/constants';
 
 import { hasLabelLg2 } from '../../utils';
 
-import SimsBlock from './sims-block';
-import './sims-visualisation.scss';
 import Modal from 'react-modal';
-import { SimsFieldTitle } from '../../sims-field-title';
-import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import {
 	CheckSecondLang,
 	ConfirmationDelete,
@@ -19,18 +15,23 @@ import {
 	PublicationFemale,
 	Row,
 } from '../../../../components';
-import { OperationsApi } from '../../../../sdk/operations-api';
-import { Menu } from './menu';
-import { useSecondLang } from '../../../../utils/hooks/second-lang';
-import { Panel } from '../../../../components/panel';
-import { Note } from '../../../../components/note';
+
+import { ActionToolbar } from '../../../../components/action-toolbar';
+import { Button } from '../../../../components/buttons/button';
 import {
 	CancelButton,
 	CloseIconButton,
 } from '../../../../components/buttons/buttons-with-icons';
-import { Button } from '../../../../components/buttons/button';
-import { ActionToolbar } from '../../../../components/action-toolbar';
+import { Note } from '../../../../components/note';
+import { Panel } from '../../../../components/panel';
+import { OperationsApi } from '../../../../sdk/operations-api';
+import { useSecondLang } from '../../../../utils/hooks/second-lang';
+import { RubricEssentialMsg } from '../../rubric-essantial-msg';
+import { SimsFieldTitle } from '../../sims-field-title';
 import { useDocumentsStoreContext } from '../sims-creation/documents-store-context';
+import { Menu } from './menu';
+import SimsBlock from './sims-block';
+import './sims-visualisation.scss';
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -125,7 +126,7 @@ export default function SimsVisualisation({
 	/**
 	 * Handle the deletion of a SIMS.
 	 */
-	const history = useHistory();
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const handleNo = () => {
 		setModalOpened(false);
@@ -134,7 +135,7 @@ export default function SimsVisualisation({
 		OperationsApi.deleteSims(sims).finally(() => {
 			dispatch({ type: A.DELETE_SIMS_SUCCESS });
 			setModalOpened(false);
-			history.push(`/operations/series/${sims.idSeries}`);
+			navigate(`/operations/series/${sims.idSeries}`);
 		});
 	};
 

@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { fetchingPreviousLevels } from './client';
 import { useSecondLang } from '../../utils/hooks/second-lang';
 
-const ItemVisualizationContainer = () => {
+export const Component = () => {
 	const queryClient = useQueryClient();
 	const { classificationId, itemId } = useParams();
 	const [secondLang] = useSecondLang();
@@ -28,5 +28,3 @@ const ItemVisualizationContainer = () => {
 
 	return <ItemVisualization item={item} secondLang={secondLang} />;
 };
-
-export default ItemVisualizationContainer;

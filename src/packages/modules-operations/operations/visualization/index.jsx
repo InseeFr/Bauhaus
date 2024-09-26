@@ -13,7 +13,7 @@ import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const OperationVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const [operation, setOperation] = useState({});
 	const [secondLang] = useSecondLang();
@@ -63,5 +63,3 @@ const OperationVisualizationContainer = () => {
 		</div>
 	);
 };
-
-export default OperationVisualizationContainer;

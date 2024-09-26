@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
@@ -44,7 +44,7 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 			.filter(filterValidationState(validationState)),
 		dataLinks = filteredData.map((codelist) => (
 			<li key={codelist.id} className="list-group-item text-left">
-				<Link to={`/codelists-partial/${codelist.id}`}>
+				<Link to={`/codelists/partial/${codelist.id}`}>
 					{formatLabel(codelist)}
 				</Link>
 			</li>
@@ -55,7 +55,7 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 			title={D.codelistsPartialSearchTitle}
 			data={dataLinks}
 			initializeState={reset}
-			redirect={<Redirect to="/codelists-partial" push />}
+			redirect={<Navigate to="/codelists/partial" push />}
 		>
 			<fieldset>
 				<legend>{D.codelistTitle}</legend>
@@ -146,7 +146,7 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 	);
 };
 
-const SearchFormPartialListContainer = () => {
+export const Component = () => {
 	useTitle(D.codelistsPartialTitle, D.advancedSearch);
 
 	const [loading, setLoading] = useState(true);
@@ -167,5 +167,3 @@ const SearchFormPartialListContainer = () => {
 		<SearchFormPartialList data={items} stampListOptions={stampListOptions} />
 	);
 };
-
-export default SearchFormPartialListContainer;

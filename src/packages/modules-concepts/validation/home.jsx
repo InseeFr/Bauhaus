@@ -25,9 +25,12 @@ class ConceptsToValidate extends Component {
 				if (valid) _.push({ prefLabelLg1, valid });
 				return _;
 			}, []);
-			idWithValid.length === 0
-				? this.handleValidateConceptList(ids)
-				: this.setState({ idWithValid, modalValid: true });
+
+			if (idWithValid.length === 0) {
+				this.handleValidateConceptList(ids);
+			} else {
+				this.setState({ idWithValid, modalValid: true });
+			}
 		};
 		this.handleCancelValidation = () => this.setState({ modalValid: false });
 		this.handleConfirmValidation = () => {

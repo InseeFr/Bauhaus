@@ -7,7 +7,7 @@ import { ConceptsApi } from '../../../sdk';
 import { getPermission } from '../../../redux/selectors';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const CollectionVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const [collection, setCollection] = useState();
 	const [loading, setLoading] = useState(true);
@@ -57,4 +57,3 @@ const CollectionVisualizationContainer = () => {
 		/>
 	);
 };
-export default CollectionVisualizationContainer;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CollectionEditionCreation from './home';
 import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
 import D from '../../../deprecated-locales';
@@ -10,9 +10,9 @@ import { CollectionApi } from '../../../sdk/collection-api';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { cleanId } from '../../../utils/string-utils';
 
-const EditionContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const [loadingCollection, setLoadingCollection] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
@@ -51,11 +51,11 @@ const EditionContainer = () => {
 			setSaving(true);
 			ConceptsApi.putCollection(data.general.id, buildPayload(data, 'UPDATE'))
 				.then(() => {
-					history.push(`/collection/${cleanId(id)}`);
+					navigate(`/concepts/collections/${cleanId(id)}`);
 				})
 				.finally(() => setSaving(false));
 		},
-		[history, id]
+		[navigate, id]
 	);
 
 	const { general, members } = collection;
@@ -85,5 +85,3 @@ const EditionContainer = () => {
 		/>
 	);
 };
-
-export default EditionContainer;

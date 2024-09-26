@@ -1,5 +1,5 @@
-import { useHistory, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
 const computeFromUrl = (defaultValue: any) => {
@@ -19,7 +19,7 @@ const computeFromUrl = (defaultValue: any) => {
 };
 
 const useUrlQueryParameters = (defaultValue: any) => {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const location = useLocation();
 
 	const [form, setSearch] = useState(computeFromUrl(defaultValue));
@@ -33,7 +33,7 @@ const useUrlQueryParameters = (defaultValue: any) => {
 
 	const reset = () => {
 		setSearch(defaultValue);
-		history.replace(location.pathname);
+		navigate(location.pathname, { replace: true });
 	};
 
 	const setForm = (values: Record<string, string>) => {
@@ -42,7 +42,9 @@ const useUrlQueryParameters = (defaultValue: any) => {
 		Object.entries(values).forEach(([key, value]) => {
 			searchParams.set(key, value ?? '');
 		});
-		history.replace(location.pathname + '?' + searchParams.toString());
+		navigate(location.pathname + '?' + searchParams.toString(), {
+			replace: true,
+		});
 	};
 	return { form, setForm, reset, handleChange };
 };

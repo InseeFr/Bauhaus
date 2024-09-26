@@ -14,7 +14,7 @@ import { Menu } from './menu';
 import { Family } from '../../../model/operations/family';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const FamilyView = () => {
+export const Component = () => {
 	const { id } = useParams<{ id: string }>();
 	const [secondLang] = useSecondLang();
 
@@ -54,4 +54,3 @@ const FamilyView = () => {
 		</div>
 	);
 };
-export default FamilyView;

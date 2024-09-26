@@ -18,7 +18,9 @@ const Outline = ({
 
 	const expandOrCollapseItem = () => {
 		setOpened(!opened);
-		storeCollapseState && toggleOpen(metadataStructure.idMas);
+		if (storeCollapseState) {
+			toggleOpen(metadataStructure.idMas);
+		}
 	};
 
 	return (

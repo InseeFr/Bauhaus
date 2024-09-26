@@ -3,7 +3,7 @@ import { Loading } from '../../components';
 import FamiliesHome from './home';
 import { ClassificationsApi } from '../..//sdk/classification';
 
-export const FamiliesHomeContainer = () => {
+export const Component = () => {
 	const [families, setFamilies] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -19,5 +19,3 @@ export const FamiliesHomeContainer = () => {
 
 	return <FamiliesHome families={families} />;
 };
-
-export default FamiliesHomeContainer;

@@ -1,24 +1,24 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import ConceptEditionCreation from './home';
-import D from '../../deprecated-locales';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../application/app-context';
 import { Loading } from '../../components';
-import { ConceptsApi } from '../../sdk';
-import { useTitle } from '../../utils/hooks/useTitle';
+import D from '../../deprecated-locales';
 import buildPayloadCreation from '../../modules-concepts/utils/build-payload-creation-update/build-payload-creation';
 import emptyConcept from '../../modules-concepts/utils/empty-concept';
-import { mergeWithAllConcepts } from '../utils/links';
+import { ConceptsApi } from '../../sdk';
 import { sortArrayByLabel } from '../../utils/array-utils';
-import { useAppContext } from '../../application/app-context';
+import { useTitle } from '../../utils/hooks/useTitle';
+import { mergeWithAllConcepts } from '../utils/links';
+import ConceptEditionCreation from './home';
 
-const CreationContainer = () => {
+export const Component = () => {
 	const maxLengthScopeNoteString =
 		useAppContext().properties.maxLengthScopeNote;
 	const maxLengthScopeNote = Number(maxLengthScopeNoteString);
 
 	const defaultContributor = useAppContext().properties.defaultContributor;
 
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
@@ -40,10 +40,10 @@ const CreationContainer = () => {
 		(data) => {
 			setSaving(true);
 			ConceptsApi.postConcept(buildPayloadCreation(data))
-				.then((id) => history.push(`/concept/${id}`))
+				.then((id) => navigate(`/concepts/${id}`))
 				.finally(() => setSaving(false));
 		},
-		[history]
+		[navigate]
 	);
 
 	const { general, notes, links } = concept;
@@ -74,5 +74,3 @@ const CreationContainer = () => {
 		/>
 	);
 };
-
-export default CreationContainer;
