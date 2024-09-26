@@ -15,7 +15,7 @@ export const routes: RouteObject[] = [
 	},
 	{
 		path: 'components/search',
-		lazy: () => import('../components/structure-search/search'),
+		lazy: () => import('../components/component-search/search'),
 	},
 	{
 		path: 'components/create',

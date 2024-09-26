@@ -15,111 +15,111 @@ export const routes: RouteObject[] = [
 	},
 	{
 		path: 'families',
-		lazy: () => import('../../modules-operations/families/'),
+		lazy: () => import('../families/'),
 	},
 	{
 		path: 'families/search',
-		lazy: () => import('../../modules-operations/families/search'),
+		lazy: () => import('../families/search'),
 	},
 	{
 		path: 'families/create',
-		lazy: () => import('../../modules-operations/families/edition'),
+		lazy: () => import('../families/edition'),
 	},
 	{
 		path: 'family/:id',
-		lazy: () => import('../../modules-operations/families/visualization/'),
+		lazy: () => import('../families/visualization/'),
 	},
 	{
 		path: 'family/:id/modify',
-		lazy: () => import('../../modules-operations/families/edition'),
+		lazy: () => import('../families/edition'),
 	},
 	{
 		path: 'series',
-		lazy: () => import('../../modules-operations/series/'),
+		lazy: () => import('../series/'),
 	},
 	{
 		path: 'series/search',
-		lazy: () => import('../../modules-operations/series/search'),
+		lazy: () => import('../series/search'),
 	},
 	{
 		path: 'series/create',
-		lazy: () => import('../../modules-operations/series/edition'),
+		lazy: () => import('../series/edition'),
 	},
 	{
 		path: 'series/:id',
-		lazy: () => import('../../modules-operations/series/visualization/'),
+		lazy: () => import('../series/visualization/'),
 	},
 	{
 		path: 'series/:id/modify',
-		lazy: () => import('../../modules-operations/series/edition'),
+		lazy: () => import('../series/edition'),
 	},
 	{
 		path: 'operations',
-		lazy: () => import('../../modules-operations/operations/'),
+		lazy: () => import('../operations/'),
 	},
 	{
 		path: 'operation/create',
-		lazy: () => import('../../modules-operations/operations/edition'),
+		lazy: () => import('../operations/edition'),
 	},
 	{
 		path: 'operation/:id',
-		lazy: () => import('../../modules-operations/operations/visualization/'),
+		lazy: () => import('../operations/visualization/'),
 	},
 	{
 		path: 'operation/:id/modify',
-		lazy: () => import('../../modules-operations/operations/edition'),
+		lazy: () => import('../operations/edition'),
 	},
 	{
 		path: 'indicators',
-		lazy: () => import('../../modules-operations/indicators/'),
+		lazy: () => import('../indicators/'),
 	},
 	{
 		path: 'indicator/create',
-		lazy: () => import('../../modules-operations/indicators/edition'),
+		lazy: () => import('../indicators/edition'),
 	},
 	{
 		path: 'indicator/:id',
-		lazy: () => import('../../modules-operations/indicators/visualization/'),
+		lazy: () => import('../indicators/visualization/'),
 	},
 	{
 		path: 'indicator/:id/modify',
-		lazy: () => import('../../modules-operations/indicators/edition'),
+		lazy: () => import('../indicators/edition'),
 	},
 	{
 		path: 'documents',
-		lazy: () => import('../../modules-operations/document/'),
+		lazy: () => import('../document/'),
 	},
 	{
 		path: 'link/create',
-		lazy: () => import('../../modules-operations/document/edition'),
+		lazy: () => import('../document/edition'),
 	},
 	{
 		path: 'document/create',
-		lazy: () => import('../../modules-operations/document/edition'),
+		lazy: () => import('../document/edition'),
 	},
 	{
 		path: 'link/:id',
-		lazy: () => import('../../modules-operations/document/visualization'),
+		lazy: () => import('../document/visualization'),
 	},
 	{
 		path: 'document/:id',
-		lazy: () => import('../../modules-operations/document/visualization'),
+		lazy: () => import('../document/visualization'),
 	},
 	{
 		path: 'link/:id/modify',
-		lazy: () => import('../../modules-operations/document/edition'),
+		lazy: () => import('../document/edition'),
 	},
 	{
 		path: 'document/:id/modify',
-		lazy: () => import('../../modules-operations/document/edition'),
+		lazy: () => import('../document/edition'),
 	},
 	{
 		path: 'msd',
-		lazy: () => import('../../modules-operations/msd/'),
+		lazy: () => import('../msd/'),
 	},
 	{
 		path: 'help/:idSection',
-		lazy: () => import('../../modules-operations/msd/'),
+		lazy: () => import('../msd/'),
 	},
 	{
 		path: 'operation/:idParent/sims/create',

@@ -8,9 +8,7 @@ export const Component = () => {
 	return (
 		<>
 			<Menu />
-			<div className="container">
-				<Outlet />
-			</div>
+			<Outlet />
 		</>
 	);
 };
