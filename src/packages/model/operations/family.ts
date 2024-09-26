@@ -7,7 +7,10 @@ export type Family = {
 	validationState: ValidationState;
 };
 
-export type FamilyHome = unknown;
+export type FamilyHome = {
+	id: string;
+	label: string;
+};
 
 export type FamilyAdvancedSearch = {
 	id: string;
