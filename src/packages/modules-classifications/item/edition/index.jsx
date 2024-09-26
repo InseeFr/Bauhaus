@@ -240,23 +240,22 @@ export const Component = () => {
 										defaultValue={shortLabelLg1}
 									/>
 								</div>
-								{
-									<div className="form-group col-md-6">
-										<label htmlFor={'altLabelsLg2_' + length}>
-											{D2.classificationItemAltLabels(length)}
-										</label>
-										<TextInput
-											id={'altLabelsLg2_' + length}
-											{...register('altLabelsLg2_' + length, {
-												maxLength: {
-													value: Number(length),
-													message: D1.classificationItemAltError(length),
-												},
-											})}
-											defaultValue={shortLabelLg2}
-										/>
-									</div>
-								}
+
+								<div className="form-group col-md-6">
+									<label htmlFor={'altLabelsLg2_' + length}>
+										{D2.classificationItemAltLabels(length)}
+									</label>
+									<TextInput
+										id={'altLabelsLg2_' + length}
+										{...register('altLabelsLg2_' + length, {
+											maxLength: {
+												value: Number(length),
+												message: D1.classificationItemAltError(length),
+											},
+										})}
+										defaultValue={shortLabelLg2}
+									/>
+								</div>
 							</Row>
 						);
 					}

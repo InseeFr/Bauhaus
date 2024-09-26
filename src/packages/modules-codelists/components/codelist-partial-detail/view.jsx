@@ -68,48 +68,46 @@ export const CodeListPartialDetailView = ({
 				</Auth>
 			</ActionToolbar>
 			{serverSideError && <ErrorBloc error={serverSideError} />}
-			{
-				<Row>
-					<Note
-						text={
-							<ul>
-								<li>
-									{D.idTitle} : {codelist.id}
-								</li>
-								<li>
-									{D.parentCodelist} :{' '}
-									<Link to={`/codelists/${codelist.parentCode}`}>
-										{codelist.parentLabel}
-									</Link>
-								</li>
-								<CreationUpdateItems
-									creation={codelist.created}
-									update={codelist.modified}
+			<Row>
+				<Note
+					text={
+						<ul>
+							<li>
+								{D.idTitle} : {codelist.id}
+							</li>
+							<li>
+								{D.parentCodelist} :{' '}
+								<Link to={`/codelists/${codelist.parentCode}`}>
+									{codelist.parentLabel}
+								</Link>
+							</li>
+							<CreationUpdateItems
+								creation={codelist.created}
+								update={codelist.modified}
+							/>
+							<li>
+								{D.codelistValidationStatusTitle} :{' '}
+								<PublicationFemale object={codelist} />
+							</li>
+							<li>
+								{D.creator} : {codelist.creator}
+							</li>
+							<li>
+								<ContributorsVisualisation
+									contributors={codelist.contributor}
 								/>
-								<li>
-									{D.codelistValidationStatusTitle} :{' '}
-									<PublicationFemale object={codelist} />
-								</li>
-								<li>
-									{D.creator} : {codelist.creator}
-								</li>
-								<li>
-									<ContributorsVisualisation
-										contributors={codelist.contributor}
-									/>
-								</li>
-								<li>
-									<DisseminationStatusVisualisation
-										disseminationStatus={codelist.disseminationStatus}
-									/>
-								</li>
-							</ul>
-						}
-						title={D.globalInformationsTitle}
-						alone={true}
-					/>
-				</Row>
-			}
+							</li>
+							<li>
+								<DisseminationStatusVisualisation
+									disseminationStatus={codelist.disseminationStatus}
+								/>
+							</li>
+						</ul>
+					}
+					title={D.globalInformationsTitle}
+					alone={true}
+				/>
+			</Row>
 			<Row>
 				<Note
 					text={descriptionLg1}
