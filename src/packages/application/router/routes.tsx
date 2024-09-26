@@ -43,14 +43,15 @@ const HomePage = () => {
 	return <App />;
 };
 
-const MainLayout = () => {
+const MainLayout = auth(() => {
 	return (
 		<RBACLink>
 			<Outlet />
 		</RBACLink>
 	);
-};
-export default auth(() => {
+});
+
+export default () => {
 	const {
 		properties: { activeModules, modules },
 	} = useAppContext();
@@ -127,4 +128,4 @@ export default auth(() => {
 			<RouterProvider router={router}></RouterProvider>
 		</Suspense>
 	);
-});
+};
