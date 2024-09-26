@@ -1,13 +1,14 @@
-import { Family } from '../../../model/operations/family';
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
 import { ValidationButton } from '../../../components';
-import D from '../../../deprecated-locales/build-dictionary';
-import { containUnsupportedStyles } from '../../../utils/html-utils';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { ActionToolbar } from '../../../components/action-toolbar';
-import { ReturnButton } from '../../../components/buttons/buttons-with-icons';
-import { Button } from '../../../components/buttons/button';
+import {
+	ReturnButton,
+	UpdateButton,
+} from '../../../components/buttons/buttons-with-icons';
+import { Family } from '../../../model/operations/family';
+import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { containUnsupportedStyles } from '../../../utils/html-utils';
 
 type MenuTypes = {
 	family: Family;
@@ -35,10 +36,7 @@ export const Menu = ({ family, publish }: Readonly<MenuTypes>) => {
 				/>
 			</Auth>
 			<Auth roles={[ADMIN]}>
-				<Button
-					action={`/operations/family/${family.id}/modify`}
-					label={D.btnUpdate}
-				/>
+				<UpdateButton action={`/operations/family/${family.id}/modify`} />
 			</Auth>
 		</ActionToolbar>
 	);

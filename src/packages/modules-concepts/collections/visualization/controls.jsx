@@ -1,9 +1,14 @@
 import check from '../../../auth/auth';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import { Button } from '../../../components/buttons/button';
+import {
+	PublishButton,
+	ReturnButton,
+	UpdateButton,
+} from '../../../components/buttons/buttons-with-icons';
 import D from '../../../deprecated-locales';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import ExportButtons from '../export-buttons';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import { Button } from '../../../components/buttons/button';
 
 const CollectionVisualizationControls = ({
 	isValidated,
@@ -19,8 +24,8 @@ const CollectionVisualizationControls = ({
 	const contributor = authImpl.isContributor(roles, stamp, collectionCreator);
 	const creator = authImpl.isCollectionCreator(roles, stamp, collectionCreator);
 
-	const validate = [handleValidation, D.btnValid];
-	const update = [`/collection/${id}/modify`, D.btnUpdate];
+	const validate = <PublishButton action={handleValidation} />;
+	const update = <UpdateButton action={`/collection/${id}/modify`} />;
 
 	const btns = [];
 	if (admin || creator) {
@@ -36,7 +41,7 @@ const CollectionVisualizationControls = ({
 	return (
 		<>
 			<ActionToolbar>
-				<Button action="/collections" label={D.btnReturn} />
+				<ReturnButton action="/collections" />
 				<ExportButtons
 					ids={[id]}
 					exportHandler={(type, withConcepts, lang = 'lg1') =>
@@ -46,8 +51,11 @@ const CollectionVisualizationControls = ({
 
 				{btns.map((btn) => {
 					if (!btn) return null;
+					if (!Array.isArray(btn)) {
+						return btn;
+					}
 					const [action, label] = btn;
-					return btn && <Button key={label} action={action} label={label} />;
+					return <Button key={label} action={action} label={label} />;
 				})}
 			</ActionToolbar>
 		</>

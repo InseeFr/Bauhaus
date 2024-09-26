@@ -15,6 +15,7 @@ import {
 	DuplicateButton,
 	ExportButton,
 	ReturnButton,
+	UpdateButton,
 } from '../../../../components/buttons/buttons-with-icons';
 import { Button } from '../../../../components/buttons/button';
 
@@ -62,18 +63,7 @@ export const Menu = ({
 					callback={() => onPublish()}
 					disabled={false}
 				/>
-				<Button
-					action={`/operations/sims/${sims.id}/modify`}
-					label={
-						<>
-							<span
-								className="glyphicon glyphicon-floppy-disk"
-								aria-hidden="true"
-							/>
-							<span> {D.btnUpdate}</span>
-						</>
-					}
-				/>
+				<UpdateButton action={`/operations/sims/${sims.id}/modify`} />
 			</Auth>
 			<ExportButton action={onExport} />
 		</ActionToolbar>
