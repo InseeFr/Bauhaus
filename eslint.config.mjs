@@ -33,8 +33,6 @@ export default [
       "no-constant-binary-expression": "off",
       "no-irregular-whitespace": "off",
       "@typescript-eslint/no-empty-object-type": "off",
-      "@typescript-eslint/no-unnecessary-type-constraint": "off",
-      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
       "no-prototype-builtins": "off"
     },
     languageOptions: {
