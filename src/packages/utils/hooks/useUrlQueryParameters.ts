@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import DOMPurify from 'dompurify';
 
 const computeFromUrl = (defaultValue: any) => {
 	const result = z.string().url().safeParse(document.URL);
@@ -11,7 +12,7 @@ const computeFromUrl = (defaultValue: any) => {
 
 		//@ts-ignore
 		for (const [key, value] of searchQuery.entries()) {
-			values[key] = value;
+			values[key] = DOMPurify.sanitize(value);
 		}
 	}
 
