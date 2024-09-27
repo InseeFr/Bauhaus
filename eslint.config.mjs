@@ -24,7 +24,6 @@ export default [
       "@typescript-eslint/no-explicit-any": "off",
       "no-extra-boolean-cast": "off",
       '@typescript-eslint/ban-ts-comment': 'off',
-      "no-case-declarations": "off",
       "@typescript-eslint/no-unnecessary-type-constraint": "off",
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
       "no-prototype-builtins": "off"
