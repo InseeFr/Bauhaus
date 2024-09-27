@@ -4,16 +4,16 @@ import { Row } from '../../../components';
 import { Note } from '../../../components/note';
 
 const Members = ({ members, secondLang }) => {
-	const membersLg1 = members.map((m, i) => (
-		<li key={i}>
+	const membersLg1 = members.map((m) => (
+		<li key={m.id}>
 			<Link to={`/classifications/series/${m.id}`}>{m.labelLg1}</Link>
 		</li>
 	));
 	let membersLg2 = [];
 	if (secondLang)
-		membersLg2 = members.map((m, i) =>
+		membersLg2 = members.map((m) =>
 			m.labelLg2 ? (
-				<li key={i}>
+				<li key={m.id}>
 					<Link to={`/classifications/series/${m.id}`}>{m.labelLg2}</Link>
 				</li>
 			) : null

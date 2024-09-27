@@ -12,7 +12,7 @@ const computeFromUrl = (defaultValue: any) => {
 
 		//@ts-ignore
 		for (const [key, value] of searchQuery.entries()) {
-			values[key] = DOMPurify.sanitize(value);
+			values[DOMPurify.sanitize(key)] = DOMPurify.sanitize(value);
 		}
 	}
 
