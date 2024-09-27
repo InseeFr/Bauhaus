@@ -24,7 +24,7 @@ export const Component = () => {
 			title={D.familiesSearchTitle}
 			childPath="operations/family"
 			searchURL="/operations/families/search"
-			createButton={<FeminineButton action="/operations/family/create" />}
+			createButton={<FeminineButton action="/operations/families/create" />}
 		/>
 	);
 };

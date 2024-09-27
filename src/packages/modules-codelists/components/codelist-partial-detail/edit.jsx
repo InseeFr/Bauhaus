@@ -43,10 +43,7 @@ export const DumbCodelistPartialDetailEdit = ({
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 
-	useTitle(
-		D.codelistsPartialTitle,
-		codelist?.labelLg1 || D.codelistsCreateTitle
-	);
+	useTitle(D.codelistsPartialTitle, codelist?.labelLg1);
 
 	const handleParentCode = useCallback(
 		(code) => {

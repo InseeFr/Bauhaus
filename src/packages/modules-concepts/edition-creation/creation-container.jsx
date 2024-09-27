@@ -48,7 +48,7 @@ export const Component = () => {
 
 	const { general, notes, links } = concept;
 
-	useTitle(D.conceptsTitle, general?.prefLabelLg1 || D.createConceptTitle);
+	useTitle(D.conceptsTitle, general?.prefLabelLg1);
 
 	const conceptsWithLinks = mergeWithAllConcepts(concepts, links);
 

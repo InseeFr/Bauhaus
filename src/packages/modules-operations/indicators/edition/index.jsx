@@ -38,10 +38,7 @@ export const Component = (props) => {
 		OperationsApi.getSeriesList().then((payload) => setSeries(payload));
 	}, []);
 
-	useTitle(
-		D.indicatorsTitle,
-		indicator?.prefLabelLg1 || D.indicatorsCreateTitle
-	);
+	useTitle(D.indicatorsTitle, indicator?.prefLabelLg1);
 
 	if (!indicator.id && id) return <Loading />;
 

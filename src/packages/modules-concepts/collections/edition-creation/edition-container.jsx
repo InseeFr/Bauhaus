@@ -59,10 +59,7 @@ export const Component = () => {
 	);
 
 	const { general, members } = collection;
-	useTitle(
-		D.collectionsTitle,
-		general?.prefLabelLg1 || D.createCollectionTitle
-	);
+	useTitle(D.collectionsTitle, general?.prefLabelLg1);
 
 	if (saving) {
 		return <Loading textType="saving" />;
