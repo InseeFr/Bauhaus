@@ -10,9 +10,15 @@ const computeFromUrl = (defaultValue: any) => {
 		const url = encodeURI(document.URL);
 		const searchQuery = new URL(url).searchParams;
 
-		//@ts-ignore
-		for (const [key, value] of searchQuery.entries()) {
-			values[DOMPurify.sanitize(key)] = DOMPurify.sanitize(value);
+		const OBJECT_PROTOTYPE_KEY = Object.getOwnPropertyNames(Object.prototype);
+
+		for (const key in searchQuery) {
+			if (OBJECT_PROTOTYPE_KEY.includes(key)) {
+				continue;
+			}
+			values[DOMPurify.sanitize(key)] = DOMPurify.sanitize(
+				searchQuery.get(key)!
+			);
 		}
 	}
 
