@@ -36,35 +36,31 @@ class ConceptEditionCreation extends Component {
 		//set mutliple properties at the same time)
 		this.handleChangeGeneral = (update) => {
 			setSubmitting(true);
-			const data = this.state.data;
-			const general = data.general;
-			const newData = {
-				...data,
-				general: {
-					...general,
-					update,
+			this.setState((state) => ({
+				...state,
+				data: {
+					...state.data,
+					general: {
+						...state.general,
+						...update,
+					},
 				},
-			};
-			this.setState({
-				data: newData,
-			});
+			}));
 		};
 
 		//update should look like `{ editorialNoteLg1: '...' }`
 		this.handleChangeNotes = (update) => {
 			setSubmitting(true);
-			const data = this.state.data;
-			const notes = data.notes;
-			const newData = {
-				...data,
-				general: {
-					...notes,
-					update,
+			this.setState((state) => ({
+				...state,
+				data: {
+					...state.data,
+					notes: {
+						...state.data.notes,
+						...update,
+					},
 				},
-			};
-			this.setState({
-				data: newData,
-			});
+			}));
 		};
 
 		this.handleChangeLinks = (newLinks) => {
