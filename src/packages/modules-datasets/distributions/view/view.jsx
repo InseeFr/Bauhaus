@@ -4,6 +4,7 @@ import {
 	CheckSecondLang,
 	Loading,
 	PageTitleBlock,
+	PublicationFemale,
 	Row,
 } from '../../../components';
 import { Note } from '../../../components/note';
@@ -85,6 +86,10 @@ export const Component = (props) => {
 							</li>
 							<li>
 								{D.modifiedDateTitle} : {stringToDate(distribution.updated)}{' '}
+							</li>
+							<li>
+								{D.distributionStatus} :
+								<PublicationFemale object={dataset} />
 							</li>
 							<li>
 								{D.formatTitle} : {distribution.format}{' '}

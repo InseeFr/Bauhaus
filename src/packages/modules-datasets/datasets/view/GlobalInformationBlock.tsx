@@ -4,6 +4,7 @@ import {
 	ConditionalDisplay,
 	Organization,
 	Organizations,
+	PublicationMale,
 	Row,
 } from '../../../components';
 import {
@@ -51,6 +52,10 @@ export const GlobalInformationBlock = ({
 						<li>
 							{D.modifiedDateTitle} :{' '}
 							{stringToDate(dataset.catalogRecord?.updated)}{' '}
+						</li>
+						<li>
+							{D.datasetStatus} :
+							<PublicationMale object={dataset} />
 						</li>
 						<ConditionalDisplay data={dataset?.issued}>
 							<li>
