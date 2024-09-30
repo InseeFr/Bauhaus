@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Generic CI for Building the Application
+      - name: Use Generic CI For Building the Application
         uses: ./.github/actions/generic-ci-app
       - name: Upload deploy artifact
         uses: actions/upload-artifact@v4
