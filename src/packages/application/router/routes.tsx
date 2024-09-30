@@ -18,6 +18,9 @@ import { routes as OperationsRoutes } from '../../modules-operations/routes/inde
 import { routes as StructuresRoutes } from '../../modules-structures/routes/index';
 import App from '../app';
 import { useAppContext } from '../app-context';
+import { useOidc } from '../../auth/create-oidc';
+import D from '../../i18n';
+import './routes.scss';
 
 const HomePage = () => {
 	const {
@@ -51,6 +54,30 @@ const MainLayout = auth(() => {
 	);
 });
 
+export const Logout = () => {
+	const { login } = useOidc({
+		assertUserLoggedIn: false,
+	});
+	return (
+		<div id="login">
+			<button
+				onClick={() => {
+					if (!login) {
+						return;
+					}
+					login({
+						doesCurrentHrefRequiresAuth: true,
+						//extraQueryParams: { scope: 'openid timbre' }, // !!! nécessaire mais ne fonctionne pas avec : invalid_scope !!!
+					});
+				}}
+				className="btn btn-primary"
+			>
+				{D.authentication.login}
+			</button>
+		</div>
+	);
+};
+
 export default () => {
 	const {
 		properties: { activeModules, modules },
@@ -80,6 +107,10 @@ export default () => {
 		};
 	};
 	const router = createBrowserRouter([
+		{
+			path: 'logout',
+			element: <Logout />,
+		},
 		{
 			path: '',
 			element: <MainLayout />,

@@ -12,13 +12,17 @@ import { getEnvVar } from '../../utils/env';
 import { useAppContext } from '../app-context';
 import { useOidc } from '../../auth/create-oidc';
 
-export const RBACLink = ({ children }: PropsWithChildren<{}>) => {
+export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 	const { isUserLoggedIn, logout } = useOidc();
 
 	const logoutAndRemoveFromStorage = () => {
+		console.log('logoutAndRemoveFromStorage');
 		removeToken();
 		if (isUserLoggedIn) {
-			logout({ redirectTo: 'home' });
+			logout({
+				redirectTo: 'specific url',
+				url: '/logout',
+			});
 		}
 	};
 
