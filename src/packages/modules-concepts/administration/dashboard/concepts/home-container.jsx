@@ -16,7 +16,7 @@ const emptyItem = {
 	valid: '',
 };
 
-const DashboardContainer = () => {
+export const Component = () => {
 	const [loading, setLoading] = useState(true);
 	const [concepts, setConcepts] = useState([]);
 	const [collections, setCollections] = useState([]);
@@ -41,4 +41,3 @@ const DashboardContainer = () => {
 
 	return <Dashboard conceptsData={concepts} collectionsData={collections} />;
 };
-export default DashboardContainer;

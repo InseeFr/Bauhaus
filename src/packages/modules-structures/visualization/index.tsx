@@ -60,7 +60,7 @@ export const StructureView = ({
 		</>
 	);
 };
-const StructureContainer = () => {
+export const Component = () => {
 	const { structureId } = useParams<{ structureId: string }>();
 	const [structure, setStructure] = useState<Structure>({} as Structure);
 	const [loading, setLoading] = useState(true);
@@ -96,5 +96,3 @@ const StructureContainer = () => {
 		/>
 	);
 };
-
-export default StructureContainer;

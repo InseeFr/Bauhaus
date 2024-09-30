@@ -73,7 +73,9 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 		return concepts.reduce(
 			(byStatus, { id, label, isAdded }) => {
 				if (isAdded) byStatus.added.push({ id, label });
-				else check(label) && byStatus.toAdd.push({ id, label });
+				else if (check(label)) {
+					byStatus.toAdd.push({ id, label });
+				}
 				return byStatus;
 			},
 			{ toAdd: [], added: [] }

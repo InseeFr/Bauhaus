@@ -247,10 +247,6 @@ const dictionary = {
 		fr: 'Supprimer',
 		en: 'Delete',
 	},
-	btnSave: {
-		fr: 'Sauvegarder',
-		en: 'Save',
-	},
 	btnDeleteWithChildren: {
 		fr: 'Supprimer avec les enfants',
 		en: 'Delete with children',

@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ClassificationsApi } from '../../../sdk/classification';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const CorrespondencesHomeContainer = () => {
+export const Component = () => {
 	const { id } = useParams<{ id: string }>();
 	const { data: correspondence, isLoading } = useQuery({
 		queryKey: ['correspondance-general', id],
@@ -37,5 +37,3 @@ const CorrespondencesHomeContainer = () => {
 		</div>
 	);
 };
-
-export default CorrespondencesHomeContainer;

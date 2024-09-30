@@ -1,12 +1,13 @@
 import HelpInformation from '../../../../modules-operations/msd/help-information';
 import { Note } from '../../../../components/note';
+import { useParams } from 'react-router-dom';
 
 export default function MSDHelp({
 	metadataStructure,
-	currentSection,
 	codesLists,
 	organisations,
 }) {
+	const { idSection } = useParams();
 	function MSDInformations({ msd }) {
 		return (
 			<>
@@ -30,7 +31,7 @@ export default function MSDHelp({
 		);
 	}
 	return Object.values(metadataStructure).map((msd) => {
-		if (currentSection && msd.idMas !== currentSection) {
+		if (idSection && msd.idMas !== idSection) {
 			return null;
 		}
 		return <MSDInformations key={msd.idMas} msd={msd} />;

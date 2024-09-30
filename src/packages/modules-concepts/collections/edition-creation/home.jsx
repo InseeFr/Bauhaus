@@ -25,18 +25,15 @@ class CollectionEditionCreation extends Component {
 		//set mutliple properties at the same time)
 		this.handleChangeGeneral = (update) => {
 			setSubmitting(true);
-			const data = this.state.data;
-			const general = data.general;
-			const newData = {
-				...data,
-				general: {
-					...general,
-					update,
+			this.setState((state) => ({
+				data: {
+					...state.data,
+					general: {
+						...state.data.general,
+						...update,
+					},
 				},
-			};
-			this.setState({
-				data: newData,
-			});
+			}));
 		};
 
 		//`newLinks` looks like
@@ -63,9 +60,9 @@ class CollectionEditionCreation extends Component {
 
 		this.redirectCancel = () => {
 			if (this.props.creation) {
-				return `/collections`;
+				return `/concepts/collections`;
 			} else {
-				return `/collection/${general.id}`;
+				return `/concepts/collections/${general.id}`;
 			}
 		};
 

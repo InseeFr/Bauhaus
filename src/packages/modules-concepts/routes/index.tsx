@@ -1,91 +1,68 @@
-import { Switch, Route } from 'react-router-dom';
+import { RouteObject } from 'react-router-dom';
 
-import Concepts from '../../modules-concepts/home';
-import ConceptsSearchListContainer from '../../modules-concepts/advanced-search/home-container';
-import ConceptCompareContainer from '../../modules-concepts/compare/home-container';
-import ConceptCreationContainer from '../../modules-concepts/edition-creation/creation-container';
-import ConceptEditionContainer from '../../modules-concepts/edition-creation/edition-container';
-
-import ConceptVisualizationContainer from '../../modules-concepts/visualization/home-container';
-import ConceptsToValidateContainer from '../../modules-concepts/validation/home-container';
-import ConceptsToExportContainer from '../../modules-concepts/export/home-container';
-import CollectionsContainer from '../collections/home-container';
-import CollectionVisualizationContainer from '../collections/visualization/home-container';
-import CollectionCreationContainer from '../collections/edition-creation/creation-container';
-import CollectionEditionContainer from '../collections/edition-creation/edition-container';
-import CollectionsToValidateContainer from '../collections/validation/home-container';
-import CollectionsToExportContainer from '../collections/export/home-container';
-import Administration from '../../modules-concepts/administration/home';
-import ConceptsDashboard from '../../modules-concepts/administration/dashboard/concepts/home-container';
-import Menu from '../menu/index';
-
-const Routes = () => {
-	return (
-		<>
-			<Menu />
-			<Switch>
-				<Route exact path="/concepts"><Concepts /></Route>
-				<Route
-					exact
-					path="/concepts/search"
-				><ConceptsSearchListContainer /></Route>
-				<Route
-					exact
-					path="/concept/create"
-				><ConceptCreationContainer /></Route>
-				<Route
-					exact
-					path="/concept/:id"
-				><ConceptVisualizationContainer /></Route>
-				<Route
-					exact
-					path="/concept/:id/compare"
-				><ConceptCompareContainer /></Route>
-				<Route
-					exact
-					path="/concept/:id/modify"
-				><ConceptEditionContainer /></Route>
-				<Route
-					exact
-					path="/concepts/validation"
-				><ConceptsToValidateContainer /></Route>
-				<Route
-					exact
-					path="/concepts/export"
-				><ConceptsToExportContainer /></Route>
-				<Route exact path="/collections"><CollectionsContainer /></Route>
-				<Route
-					exact
-					path="/collection/create"
-				><CollectionCreationContainer /></Route>
-				<Route
-					exact
-					path="/collection/:id"
-				><CollectionVisualizationContainer /></Route>
-				<Route
-					exact
-					path="/collection/:id/modify"
-				><CollectionEditionContainer /></Route>
-				<Route
-					exact
-					path="/collections/validation"
-				><CollectionsToValidateContainer /></Route>
-				<Route
-					exact
-					path="/collections/export"
-				><CollectionsToExportContainer /></Route>
-				<Route
-					exact
-					path="/concepts/administration"
-				><Administration /></Route>
-
-				<Route
-					exact
-					path="/concepts/administration/dashboard"
-				><ConceptsDashboard /></Route>
-			</Switch>
-		</>
-	);
-};
-
-export default Routes;
+export const routes: RouteObject[] = [
+	{
+		path: '',
+		lazy: () => import('../home'),
+	},
+	{
+		path: 'validation',
+		lazy: () => import('../validation/home-container'),
+	},
+	{
+		path: 'search',
+		lazy: () => import('../advanced-search/home-container'),
+	},
+	{
+		path: 'export',
+		lazy: () => import('../export/home-container'),
+	},
+	{
+		path: 'create',
+		lazy: () => import('../edition-creation/creation-container'),
+	},
+	{
+		path: ':id',
+		lazy: () => import('../visualization/home-container'),
+	},
+	{
+		path: ':id/compare',
+		lazy: () => import('../compare/home-container'),
+	},
+	{
+		path: ':id/modify',
+		lazy: () => import('../edition-creation/edition-container'),
+	},
+	{
+		path: 'administration',
+		lazy: () => import('../administration/home'),
+	},
+	{
+		path: 'administration/dashboard',
+		lazy: () => import('../administration/dashboard/concepts/home-container'),
+	},
+	{
+		path: 'collections',
+		lazy: () => import('../collections/home-container'),
+	},
+	{
+		path: 'collections/create',
+		lazy: () => import('../collections/edition-creation/creation-container'),
+	},
+	{
+		path: 'collections/:id',
+		lazy: () => import('../collections/visualization/home-container'),
+	},
+	{
+		path: 'collections/:id/modify',
+		lazy: () => import('../collections/edition-creation/edition-container'),
+	},
+	{
+		path: 'collections/validation',
+		lazy: () => import('../collections/validation/home-container'),
+	},
+	{
+		path: 'collections/export',
+		lazy: () => import('../collections/export/home-container'),
+	},
+];

@@ -43,18 +43,20 @@ export const SimsFieldTitleIndicatorBridge = ({
 			case Date:
 				isEmpty = !currentSection.value;
 				break;
-			case RICH_TEXT:
+			case RICH_TEXT: {
 				const richTextValue =
 					currentSection[secondLang ? 'labelLg2' : 'labelLg1'];
 				isEmpty = checkRichText(richTextValue);
 				break;
+			}
 			case GEOGRAPHY:
 				isEmpty = !currentSection.uri;
 				break;
-			case CODE_LIST:
+			case CODE_LIST: {
 				const value = currentSection.value;
 				isEmpty = !value || value.length === 0;
 				break;
+			}
 			default:
 				isEmpty = !currentSection.value;
 		}
@@ -71,9 +73,10 @@ export const isEssentialRubricKo = (msd, currentSection, secondLang) => {
 			switch (msd.rangeType) {
 				case TEXT:
 					return !currentSection?.labelLg2 || currentSection?.labelLg2 === '';
-				case RICH_TEXT:
+				case RICH_TEXT: {
 					const richTextValueLg2 = currentSection.labelLg2;
 					return checkRichText(richTextValueLg2);
+				}
 				default:
 					return false;
 			}
@@ -86,14 +89,16 @@ export const isEssentialRubricKo = (msd, currentSection, secondLang) => {
 				return !currentSection.value;
 			case Date:
 				return !currentSection.value;
-			case RICH_TEXT:
+			case RICH_TEXT: {
 				const richTextValueLg1 = currentSection.labelLg1;
 				return checkRichText(richTextValueLg1);
+			}
 			case GEOGRAPHY:
 				return !currentSection.uri;
-			case CODE_LIST:
+			case CODE_LIST: {
 				const value = currentSection.value;
 				return !value || value.length === 0;
+			}
 			default:
 				return !currentSection.value;
 		}
@@ -107,14 +112,14 @@ export const SimsFieldTitleIndicator = ({ msd, isEmpty }) => {
 
 	if (isEmpty) {
 		return (
-			<span ariaLabel={D.essentialRubricKo} title={D.essentialRubricKo}>
+			<span aria-label={D.essentialRubricKo} title={D.essentialRubricKo}>
 				⚠️
 			</span>
 		);
 	}
 
 	return (
-		<span ariaLabel={D.essentialRubricOk} title={D.essentialRubricOk}>
+		<span aria-label={D.essentialRubricOk} title={D.essentialRubricOk}>
 			✅
 		</span>
 	);

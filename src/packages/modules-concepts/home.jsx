@@ -5,7 +5,7 @@ import { ConceptsApi } from '../sdk';
 import { Menu } from './menu';
 import { useTitle } from '../utils/hooks/useTitle';
 
-const ConceptsHome = () => {
+export const Component = () => {
 	useTitle(D.conceptsTitle, D.conceptsTitle);
 	const [concepts, setConcepts] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -26,7 +26,7 @@ const ConceptsHome = () => {
 					<PageTitle title={D.conceptSearchTitle} col={12} offset={0} />
 					<SearchableList
 						items={concepts}
-						childPath="concept"
+						childPath="concepts"
 						advancedSearch
 						searchUrl="/concepts/search"
 						placeholder={D.searchLabelHomePlaceholder}
@@ -37,5 +37,3 @@ const ConceptsHome = () => {
 		</div>
 	);
 };
-
-export default ConceptsHome;

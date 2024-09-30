@@ -9,7 +9,7 @@ import ComponentTitle from './title';
 import { CodeListDetailView } from './view';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const CodelistComponentView = (props) => {
+export const Component = (props) => {
 	const goBack = useGoBack();
 
 	const [secondLang] = useSecondLang();
@@ -88,5 +88,3 @@ const CodelistComponentView = (props) => {
 		</>
 	);
 };
-
-export default CodelistComponentView;

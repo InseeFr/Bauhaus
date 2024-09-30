@@ -1,129 +1,131 @@
-import { Suspense, lazy, useEffect, useMemo } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Suspense, useMemo } from 'react';
+import {
+	createBrowserRouter,
+	Navigate,
+	Outlet,
+	RouterProvider,
+} from 'react-router-dom';
 
 import auth from '../../auth/hoc';
 
-import App from '../app';
+import { RBACLink } from '.';
 import { Loading, NotFound, UnderMaintenance } from '../../components';
+import { routes as ClassificationsRoutes } from '../../modules-classifications/routes/index';
+import { routes as CodelistsRoutes } from '../../modules-codelists/routes/index';
+import { routes as ConceptsRoutes } from '../../modules-concepts/routes/index';
+import { routes as DatasetsRoutes } from '../../modules-datasets/routes/index';
+import { routes as OperationsRoutes } from '../../modules-operations/routes/index';
+import { routes as StructuresRoutes } from '../../modules-structures/routes/index';
+import App from '../app';
 import { useAppContext } from '../app-context';
 
-type ModuleHomePage = {
-	pageName: string;
-	pages: Record<string, any>;
-	activeModules: string[];
-};
-const ModuleHomePage = ({
-	pageName,
-	pages,
-	activeModules,
-}: Readonly<ModuleHomePage>) => {
-	if (!activeModules.includes(pageName)) {
-		return UnderMaintenance;
-	}
-	if (!pages[pageName]) {
-		return NotFound;
-	}
-	const Component = pages[pageName];
+const HomePage = () => {
+	const {
+		properties: { modules },
+	} = useAppContext();
 
-	useEffect(() => {
-		// @ts-ignore
-		document.getElementById('root-app').removeAttribute('class');
-		// @ts-ignore
-		document.getElementById('root-app').classList.add(pageName);
-	}, []);
-	return <Component />;
-};
+	const pages = useMemo(() => {
+		return modules.reduce((acc: string[], appName: string) => {
+			return [...acc, appName.trim()];
+		}, []);
+	}, [modules]);
 
-const getHomePage = (pages: Record<string, string>) => {
 	if (!pages) {
 		return null;
 	}
 
 	const pageNames = Object.keys(pages);
-	return pageNames.length === 1 ? (
-		<Redirect to={'/' + pageNames[0]} />
-	) : (
-		<App />
-	);
+
+	if (pageNames.length === 1) {
+		return <Navigate to={'/' + pageNames[0]} replace />;
+	}
+
+	return <App />;
 };
-export default auth(() => {
+
+const MainLayout = auth(() => {
+	return (
+		<RBACLink>
+			<Outlet />
+		</RBACLink>
+	);
+});
+
+export default () => {
 	const {
-		properties: { activeModules },
+		properties: { activeModules, modules },
 	} = useAppContext();
-	const {
-		properties: { modules },
-	} = useAppContext();
+
 	const pages = useMemo(() => {
-		return modules.reduce((acc: Record<string, any>, appName: string) => {
+		return modules.reduce((acc: string[], appName: string) => {
 			const app = appName.trim();
-			return {
-				...acc,
-				[app]: lazy(() => import(`../../modules-${app}/routes/index.tsx`)),
-			};
+			return [...acc, app];
 		}, []);
 	}, [modules]);
 
-	const homePage = getHomePage(pages);
+	const getModuleHomePageRouter = (pageName: string) => {
+		if (!activeModules.includes(pageName)) {
+			return {
+				element: <UnderMaintenance />,
+			};
+		}
+		if (!pages.includes(pageName.trim())) {
+			return {
+				elemement: <NotFound />,
+			};
+		}
 
-	if (!homePage) {
-		return null;
-	}
+		return {
+			lazy: () => import(`../../modules-${pageName}/routes/layout.tsx`),
+		};
+	};
+	const router = createBrowserRouter([
+		{
+			path: '',
+			element: <MainLayout />,
+			children: [
+				{ path: '', element: <HomePage /> },
+				{
+					path: 'concepts',
+					...getModuleHomePageRouter('concepts'),
+					children: ConceptsRoutes,
+				},
+				{
+					path: 'classifications',
+					...getModuleHomePageRouter('classifications'),
+					children: ClassificationsRoutes,
+				},
+				{
+					path: 'operations',
+					...getModuleHomePageRouter('operations'),
+					children: OperationsRoutes,
+				},
+				{
+					path: 'structures',
+					...getModuleHomePageRouter('structures'),
+					children: StructuresRoutes,
+				},
+				{
+					path: 'datasets',
+					...getModuleHomePageRouter('datasets'),
+					children: DatasetsRoutes,
+				},
+				{
+					path: 'codelists',
+					...getModuleHomePageRouter('codelists'),
+					children: CodelistsRoutes,
+				},
+				{
+					path: '*',
+					element: <NotFound />,
+				},
+			],
+		},
+	]);
 
 	return (
 		<Suspense fallback={<Loading />}>
-			<Switch>
-				<Route exact path="/">
-					{homePage}
-				</Route>
-
-				<Route path="/(concept|concepts|collections|collection)">
-					<ModuleHomePage
-						pageName="concepts"
-						pages={pages}
-						activeModules={activeModules}
-					/>
-				</Route>
-				<Route path="/classifications">
-					<ModuleHomePage
-						pageName="classifications"
-						pages={pages}
-						activeModules={activeModules}
-					/>
-				</Route>
-				<Route path="/operations">
-					<ModuleHomePage
-						pageName="operations"
-						pages={pages}
-						activeModules={activeModules}
-					/>
-				</Route>
-				<Route path="/structures">
-					<ModuleHomePage
-						pageName="structures"
-						pages={pages}
-						activeModules={activeModules}
-					/>
-				</Route>
-
-				<Route path="/datasets">
-					<ModuleHomePage
-						pageName="datasets"
-						pages={pages}
-						activeModules={activeModules}
-					/>
-				</Route>
-				<Route path="/(codelists|codelists-partial)">
-					<ModuleHomePage
-						pageName="codelists"
-						pages={pages}
-						activeModules={activeModules}
-					/>
-				</Route>
-
-				<Route path="*">
-					<NotFound />
-				</Route>
-			</Switch>
+			<RouterProvider router={router}></RouterProvider>
 		</Suspense>
 	);
-});
+};

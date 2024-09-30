@@ -4,22 +4,18 @@ import OperationsObjectHome from '../shared/list';
 import { FeminineButton, Loading } from '../../components';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { OperationsApi } from '../../sdk/operations-api';
-import { sortArray } from '../../utils/array-utils';
 import { ADMIN } from '../../auth/roles';
 import { FamilyHome } from '../../model/operations/family';
 
-export const FamiliesHomeContainer = () => {
-	const [loading, setLoading] = useState(true);
-	const [families, setFamilies] = useState<FamilyHome[]>([]);
+export const Component = () => {
+	const [families, setFamilies] = useState<FamilyHome[] | undefined>();
 	useTitle(D.operationsTitle, D.familiesTitle);
 
 	useEffect(() => {
-		OperationsApi.getAllFamilies()
-			.then((results: FamilyHome[]) => setFamilies(sortArray('label')(results)))
-			.finally(() => setLoading(false));
+		OperationsApi.getAllFamilies().then(setFamilies);
 	}, []);
 
-	if (loading) return <Loading />;
+	if (!families) return <Loading />;
 
 	return (
 		<OperationsObjectHome
@@ -32,5 +28,3 @@ export const FamiliesHomeContainer = () => {
 		/>
 	);
 };
-
-export default FamiliesHomeContainer;

@@ -9,7 +9,7 @@ import {
 const reducers = (state: any = {}, action: any) => {
 	const { type, payload } = action;
 	switch (type) {
-		case LOAD_CLASSIFICATION_LEVEL_GENERAL:
+		case LOAD_CLASSIFICATION_LEVEL_GENERAL: {
 			const { classificationId, levelId } = payload;
 			const otherLevels = state[classificationId];
 			return {
@@ -21,6 +21,7 @@ const reducers = (state: any = {}, action: any) => {
 					},
 				},
 			};
+		}
 		case LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS: {
 			const { classificationId, levelId, results } = payload;
 			const otherLevels = state[classificationId];

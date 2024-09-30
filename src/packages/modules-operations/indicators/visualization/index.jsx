@@ -15,7 +15,7 @@ import { OperationsApi } from '../../../sdk/operations-api';
 import { Menu } from './menu';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const IndicatorVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 
 	const [secondLang] = useSecondLang();
@@ -63,5 +63,3 @@ const IndicatorVisualizationContainer = () => {
 		</div>
 	);
 };
-
-export default IndicatorVisualizationContainer;

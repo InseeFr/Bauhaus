@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from '../link';
 //@ts-ignore
 import queryString from 'query-string';
@@ -34,7 +34,7 @@ const numberPerPageOptions = [
  *	itemEls: The list of item we want to paginate
  */
 export const Pagination = ({ itemEls }: { itemEls: any }) => {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const { pathname, search } = useLocation();
 
 	const [numberPerPage, setNumberPerPage] = useState(10);
@@ -84,7 +84,7 @@ export const Pagination = ({ itemEls }: { itemEls: any }) => {
 	const onItemPerPageChange = (value: string) => {
 		const searchParams = new URLSearchParams(window.location.search);
 		searchParams.set('perPage', value);
-		history.replace(pathname + '?' + searchParams.toString());
+		navigate(pathname + '?' + searchParams.toString(), { replace: true });
 	};
 
 	const renderPageNumbers = pageNumbers

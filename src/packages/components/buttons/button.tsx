@@ -1,18 +1,17 @@
-
 import { Link } from '../link';
 import './button.scss';
-import { PropsWithChildren } from 'react';
+import { ComponentProps, PropsWithChildren } from 'react';
 
 const DEFAULT_CLASSES: string[] = [];
 
 type ButtonTypes = {
-	action: string;
-	label?: string;
+	action: string | (() => void);
+	label?: any;
 	disabled?: boolean;
 	wrapper?: boolean;
 	classes?: string[];
 	externalLink?: boolean;
-};
+} & ComponentProps<'button'>;
 export const Button = ({
 	action,
 	label,

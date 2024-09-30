@@ -1,18 +1,19 @@
-import { useState, useCallback, useEffect } from 'react';
+import Select from 'js/utils/components/select-rmes';
+import { useCallback, useEffect, useState } from 'react';
 import {
+	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	ClientSideError,
 } from '../../../../utils';
-import { validateCode } from '../../utils';
-import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { emptyCode } from './empty-code';
-import './edit.scss';
-import { TextInput, Row } from '../../../components';
-import Select from 'js/utils/components/select-rmes';
-import LabelRequired from '../../../components/label-required';
+import { Row, TextInput } from '../../../components';
 import { ActionToolbar } from '../../../components/action-toolbar';
+import { SaveButton } from '../../../components/buttons/buttons-with-icons';
+import LabelRequired from '../../../components/label-required';
 import { AddLogo } from '../../../components/logo/logo-add';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { validateCode } from '../../utils';
+import './edit.scss';
+import { emptyCode } from './empty-code';
 
 export const CodeDetailEdit = ({
 	code: initialCode,
@@ -192,18 +193,7 @@ export const CodeDetailEdit = ({
 				</Row>
 			</div>
 			<ActionToolbar>
-				<button
-					type="button"
-					disabled={clientSideErrors.length > 0}
-					onClick={save}
-					className="btn wilco-btn btn-lg col-md-12"
-				>
-					<span
-						className="glyphicon glyphicon-floppy-disk"
-						aria-hidden="true"
-					></span>
-					<span>{D.btnSave}</span>
-				</button>
+				<SaveButton disabled={clientSideErrors.length > 0} onClick={save} />
 				<button
 					type="button"
 					disabled={!code.code}

@@ -1,8 +1,9 @@
-import { Component, Fragment, useEffect, useState } from 'react';
-import D from '../../../../deprecated-locales';
-import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-field';
-import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
+import { Fragment, useEffect, useState } from 'react';
 import { CheckSecondLang, Loading, Select } from '../../../../components';
+import D from '../../../../deprecated-locales';
+import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
+import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-field';
+import { mdFromEditorState } from '../../../../utils/html-utils';
 import { DUPLICATE } from '../../index';
 import {
 	getParentId,
@@ -11,335 +12,303 @@ import {
 	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
-import { mdFromEditorState } from '../../../../utils/html-utils';
 
-import './sims-creation.scss';
-import { RubricEssentialMsg } from '../../rubric-essantial-msg';
-import { OperationsApi } from '../../../../sdk/operations-api';
-import { sortArrayByLabel } from '../../../../utils/array-utils';
-import { flattenTree, rangeType } from '../../../utils/msd';
-import { useHistory } from 'react-router-dom';
 import { ActionToolbar } from '../../../../components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '../../../../components/buttons/buttons-with-icons';
+import { OperationsApi } from '../../../../sdk/operations-api';
+import { sortArrayByLabel } from '../../../../utils/array-utils';
+import { useGoBack } from '../../../../utils/hooks/useGoBack';
+import { flattenTree, rangeType } from '../../../utils/msd';
+import { RubricEssentialMsg } from '../../rubric-essantial-msg';
+import './sims-creation.scss';
+import { useBlocker } from 'react-router-dom';
 
 const { RICH_TEXT } = rangeType;
 
-class SimsCreation extends Component {
-	constructor(props) {
-		super(props);
+const getDefaultSims = (mode, rubrics, metadataStructure) => {
+	const flattenStructure = flattenTree(metadataStructure);
 
-		this.unblock = this.props.history.block((location) => {
-			if (this.props.history.location?.pathname === location?.pathname) {
-				return true;
-			}
+	return {
+		...Object.keys(flattenStructure).reduce((acc, key) => {
+			return {
+				...acc,
+				[key]: {
+					rangeType: flattenStructure[key].rangeType,
+					idAttribute: key,
+					value: '',
+					labelLg1: '',
+					labelLg2: '',
+				},
+			};
+		}, {}),
+		...removeRubricsWhenDuplicate(mode, rubrics),
+	};
+};
 
-			if (!this.state.changed || window.confirm(D.quitWithoutSaving)) {
-				this.unblock();
-				return true;
-			}
-			return false;
-		});
-
-		this.state = {
-			changed: false,
-			saving: false,
-			loading: false,
-			idParent:
-				this.props.mode !== DUPLICATE
-					? this.props.idParent || getParentId(this.props.sims)
-					: '',
-
-			sims: this.getDefaultSims(
-				this.props.mode,
-				this.props.sims.rubrics || this.props.defaultSimsRubrics
-			),
-			secondLang: true,
+const convertRubric = (rubric) => {
+	if (rubric.rangeType === 'RICH_TEXT') {
+		return {
+			...rubric,
+			labelLg1: rubric.labelLg1
+				? mdFromEditorState(rubric.labelLg1)
+				: rubric.labelLg1,
+			labelLg2: rubric.labelLg2
+				? mdFromEditorState(rubric.labelLg2)
+				: rubric.labelLg2,
 		};
 	}
+	return rubric;
+};
 
-	getDefaultSims = (mode, rubrics) => {
-		const flattenStructure = flattenTree(this.props.metadataStructure);
+const SimsCreation = ({
+	mode,
+	idParent: idParentProp,
+	sims: simsProp,
+	defaultSimsRubrics,
+	metadataStructure,
+	parentType,
+	onSubmit,
+	codesLists = {},
+	organisations = [],
+	parentWithSims,
+}) => {
+	const goBack = useGoBack();
+	const [changed, setChanged] = useState(false);
+	const [saving, setSaving] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const secondLang = true;
+	const [idParent, setIdParent] = useState(
+		mode !== DUPLICATE ? idParentProp || getParentId(simsProp) : ''
+	);
 
-		return {
-			...Object.keys(flattenStructure).reduce((acc, key) => {
-				return {
-					...acc,
-					[key]: {
-						rangeType: flattenStructure[key].rangeType,
-						idAttribute: key,
-						value: '',
-						labelLg1: '',
-						labelLg2: '',
-					},
-				};
-			}, {}),
-			...removeRubricsWhenDuplicate(mode, rubrics),
-		};
+	useBlocker(
+		({ currentLocation, nextLocation }) =>
+			changed &&
+			currentLocation.pathname !== nextLocation.pathname &&
+			!window.confirm(D.quitWithoutSaving)
+	);
+
+	const [sims, setSims] = useState(
+		getDefaultSims(
+			mode,
+			simsProp.rubrics || defaultSimsRubrics,
+			metadataStructure
+		)
+	);
+
+	const handleChange = (e) => {
+		setChanged(true);
+		setSims((sims) => ({ ...sims, [e.id]: { ...sims[e.id], ...e.override } }));
 	};
-	handleChange = (e) => {
-		this.setState((state) => ({
-			...state,
-			changed: true,
-			sims: {
-				...state.sims,
-				[e.id]: {
-					...state.sims[e.id],
-					...e.override,
-				},
-			},
-		}));
+
+	const updateIdParent = (value) => {
+		setIdParent(value);
 	};
 
-	updateIdParent = (value) => {
-		this.setState({
-			idParent: value,
-		});
-	};
-
-	handleSubmit = (e) => {
-		this.unblock();
+	const handleSubmit = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
+		setSaving(true);
 
-		this.setState({ saving: true });
+		const idParent = idParent || idParentProp;
 
-		/**
-		 * we get the id of the parent object.
-		 * the id coming from the state is used for duplicate
-		 * the id coming from the props is during creation / update
-		 */
-		const idParent = this.state.idParent || this.props.idParent;
-
-		const rubrics = Object.values(this.state.sims).map(this.convertRubric);
+		const rubrics = Object.values(sims).map(convertRubric);
 
 		const sims = {
-			id: this.props.mode !== DUPLICATE ? this.props.sims.id : '',
-			labelLg1: this.props.mode !== DUPLICATE ? this.props.sims.labelLg1 : '',
-			labelLg2: this.props.mode !== DUPLICATE ? this.props.sims.labelLg2 : '',
-			[getParentIdName(this.props.parentType)]: idParent,
-			created: this.props.mode !== DUPLICATE ? this.props.sims.created : '',
+			id: mode !== DUPLICATE ? simsProp.id : '',
+			labelLg1: mode !== DUPLICATE ? simsProp.labelLg1 : '',
+			labelLg2: mode !== DUPLICATE ? simsProp.labelLg2 : '',
+			[getParentIdName(parentType)]: idParent,
+			created: mode !== DUPLICATE ? simsProp.created : '',
 			rubrics,
 		};
-		this.props.onSubmit(sims, (id) => {
-			this.setState({ saving: false });
-			this.props.goBack(`/operations/sims/${id}`);
+		onSubmit(sims, (id) => {
+			setSaving(false);
+			goBack(`/operations/sims/${id}`);
 		});
 	};
 
-	convertRubric = (rubric) => {
-		if (rubric.rangeType === 'RICH_TEXT') {
-			return {
-				...rubric,
-				labelLg1: rubric.labelLg1
-					? mdFromEditorState(rubric.labelLg1)
-					: rubric.labelLg1,
-				labelLg2: rubric.labelLg2
-					? mdFromEditorState(rubric.labelLg2)
-					: rubric.labelLg2,
-			};
-		}
-		return rubric;
-	};
-	render() {
-		const {
-			metadataStructure,
-			codesLists = {},
-			mode,
-			organisations = [],
-			geographiesOptions = [],
-			parentType,
-		} = this.props;
+	const goBackUrl = sims.id
+		? `/operations/sims/${sims.id}`
+		: `/operations/${parentType}/${idParent}`;
 
-		const { secondLang, sims, idParent } = this.state;
+	const organisationsOptions = sortArrayByLabel(
+		organisations.map((c) => ({
+			label: c.label,
+			value: c.id,
+		}))
+	);
 
-		const goBackUrl = sims.id
-			? `/operations/sims/${sims.id}`
-			: `/operations/${parentType}/${idParent}`;
+	const organisationsOptionsLg2 = sortArrayByLabel(
+		organisations.map((c) => ({
+			label: c.labelLg2,
+			value: c.id,
+		}))
+	);
 
-		const organisationsOptions = sortArrayByLabel(
-			organisations.map((c) => ({
-				label: c.label,
-				value: c.id,
-			}))
+	const operationsOptions = (simsProp.parentsWithoutSims || []).map((op) => ({
+		label: op.labelLg1,
+		value: op.id,
+	}));
+
+	const operationsWithSimsOptions = (parentWithSims || [])
+		.map((op) => ({
+			label: op.labelLg1,
+			value: op.idSims,
+		}))
+		.sort((o1, o2) =>
+			o1.label.toLowerCase().localeCompare(o2.label.toLowerCase())
 		);
 
-		const organisationsOptionsLg2 = sortArrayByLabel(
-			organisations.map((c) => ({
-				label: c.labelLg2,
-				value: c.id,
-			}))
-		);
-
-		const operationsOptions = (this.props.sims.parentsWithoutSims || []).map(
-			(op) => ({
-				label: op.labelLg1,
-				value: op.id,
-			})
-		);
-
-		const operationsWithSimsOptions = (this.props.parentWithSims || [])
-			.map((op) => ({
-				label: op.labelLg1,
-				value: op.idSims,
-			}))
-			.sort((o1, o2) =>
-				o1.label.toLowerCase().localeCompare(o2.label.toLowerCase())
-			);
-
-		function MSDInformations(msd, handleChange, firstLevel = false) {
-			return (
-				<Fragment key={msd.idMas}>
-					{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
-						<h3 className="col-md-12 sims-title">
-							{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
-						</h3>
-					)}
-					<div
-						className={`bauhaus-sims-field row ${
-							!secondLang
-								? 'bauhaus-sims-field__' + msd.rangeType
-								: 'bauhaus-sims-field__' + msd.rangeType + '_2col'
-						}`}
-						id={msd.idMas}
-					>
-						<div className="bauhaus-sims-field-form">
-							{!msd.isPresentational && (
-								<Field
+	function MSDInformations(msd, handleChange, firstLevel = false) {
+		return (
+			<Fragment key={msd.idMas}>
+				{firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
+					<h3 className="col-md-12 sims-title">
+						{msd.idMas} - {msd.masLabelBasedOnCurrentLang}
+					</h3>
+				)}
+				<div
+					className={`bauhaus-sims-field row ${
+						!secondLang
+							? 'bauhaus-sims-field__' + msd.rangeType
+							: 'bauhaus-sims-field__' + msd.rangeType + '_2col'
+					}`}
+					id={msd.idMas}
+				>
+					<div className="bauhaus-sims-field-form">
+						{!msd.isPresentational && (
+							<Field
+								msd={msd}
+								currentSection={sims[msd.idMas]}
+								handleChange={handleChange}
+								codesLists={codesLists}
+								secondLang={false}
+								alone={!hasLabelLg2(msd) || !secondLang}
+								organisationsOptions={organisationsOptions}
+								unbounded={msd.maxOccurs === 'unbounded'}
+							/>
+						)}
+						{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
+							<Field
+								msd={msd}
+								currentSection={sims[msd.idMas]}
+								handleChange={handleChange}
+								codesLists={codesLists}
+								secondLang={true}
+								alone={false}
+								organisationsOptions={organisationsOptionsLg2}
+								unbounded={msd.maxOccurs === 'unbounded'}
+							/>
+						)}
+					</div>
+					{msd.rangeType === RICH_TEXT && (
+						<div className="row bauhaus-documents-bloc">
+							<div className={`col-md-${secondLang ? 6 : 12}`}>
+								<SimsDocumentField
 									msd={msd}
 									currentSection={sims[msd.idMas]}
 									handleChange={handleChange}
-									codesLists={codesLists}
-									secondLang={false}
-									alone={!hasLabelLg2(msd) || !secondLang}
-									organisationsOptions={organisationsOptions}
-									geographiesOptions={geographiesOptions}
-									unbounded={msd.maxOccurs === 'unbounded'}
 								/>
-							)}
-							{!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-								<Field
-									msd={msd}
-									currentSection={sims[msd.idMas]}
-									handleChange={handleChange}
-									codesLists={codesLists}
-									secondLang={true}
-									alone={false}
-									organisationsOptions={organisationsOptionsLg2}
-									geographiesOptions={geographiesOptions}
-									unbounded={msd.maxOccurs === 'unbounded'}
-								/>
-							)}
-						</div>
-						{msd.rangeType === RICH_TEXT && (
-							<div className="row bauhaus-documents-bloc">
-								<div className={`col-md-${secondLang ? 6 : 12}`}>
+							</div>
+							{secondLang && (
+								<div className="col-md-6">
 									<SimsDocumentField
 										msd={msd}
 										currentSection={sims[msd.idMas]}
 										handleChange={handleChange}
+										lang="Lg2"
 									/>
 								</div>
-								{secondLang && (
-									<div className="col-md-6">
-										<SimsDocumentField
-											msd={msd}
-											currentSection={sims[msd.idMas]}
-											handleChange={handleChange}
-											lang="Lg2"
-										/>
-									</div>
-								)}
-							</div>
-						)}
-					</div>
-					{Object.values(msd.children).map((child) =>
-						MSDInformations(child, handleChange)
-					)}
-				</Fragment>
-			);
-		}
-
-		if (this.state.loading) return <Loading textType="loading" />;
-		if (this.state.saving) return <Loading textType="saving" />;
-
-		return (
-			<>
-				<ActionToolbar>
-					<CancelButton action={goBackUrl} />
-					<SaveButton action={this.handleSubmit} col={3} />
-				</ActionToolbar>
-
-				<RubricEssentialMsg secondLang={secondLang} />
-
-				{Object.values(metadataStructure).map((msd, index) => {
-					return (
-						<div key={msd.idMas} className="bauhaus-sims-creation">
-							{index === 0 && (
-								<>
-									<CheckSecondLang />
-									{mode === DUPLICATE && (
-										<Select
-											placeholder={D.operationsTitle}
-											value={operationsOptions.find(
-												({ value }) => value === idParent
-											)}
-											options={operationsOptions}
-											onChange={this.updateIdParent}
-										/>
-									)}
-
-									{mode !== DUPLICATE && (
-										<Select
-											className="bauhaus-sims-duplicate"
-											placeholder={D.createFromAnExistingReport}
-											value={operationsWithSimsOptions.find(
-												({ value }) => value === idParent
-											)}
-											options={operationsWithSimsOptions}
-											onChange={this.onSiblingSimsChange()}
-											disabled={this.state.changed}
-											autofocus
-										/>
-									)}
-								</>
 							)}
-							{MSDInformations(msd, this.handleChange, true)}
 						</div>
-					);
-				})}
-			</>
+					)}
+				</div>
+				{Object.values(msd.children).map((child) =>
+					MSDInformations(child, handleChange)
+				)}
+			</Fragment>
 		);
 	}
 
-	onSiblingSimsChange() {
+	const onSiblingSimsChange = () => {
 		return (value) => {
-			this.setState({ loading: true }, () => {
-				const id = value;
-				OperationsApi.getSims(id).then((result) => {
-					this.setState({
-						loading: false,
-						sims: this.getDefaultSims(
-							DUPLICATE,
-							result.rubrics.reduce((acc, rubric) => {
-								return {
-									...acc,
-									[rubric.idAttribute]: rubric,
-								};
-							}, {})
-						),
-					});
-				});
+			setLoading(true);
+			const id = value;
+			OperationsApi.getSims(id).then((result) => {
+				setLoading(false);
+				setSims(
+					getDefaultSims(
+						DUPLICATE,
+						result.rubrics.reduce((acc, rubric) => {
+							return {
+								...acc,
+								[rubric.idAttribute]: rubric,
+							};
+						}, {}),
+						metadataStructure
+					)
+				);
 			});
 		};
-	}
-}
+	};
+	if (loading) return <Loading textType="loading" />;
+	if (saving) return <Loading textType="saving" />;
+
+	return (
+		<>
+			<ActionToolbar>
+				<CancelButton action={goBackUrl} />
+				<SaveButton action={handleSubmit} col={3} />
+			</ActionToolbar>
+
+			<RubricEssentialMsg secondLang={secondLang} />
+
+			{Object.values(metadataStructure).map((msd, index) => {
+				return (
+					<div key={msd.idMas} className="bauhaus-sims-creation">
+						{index === 0 && (
+							<>
+								<CheckSecondLang />
+								{mode === DUPLICATE && (
+									<Select
+										placeholder={D.operationsTitle}
+										value={operationsOptions.find(
+											({ value }) => value === idParent
+										)}
+										options={operationsOptions}
+										onChange={updateIdParent}
+									/>
+								)}
+
+								{mode !== DUPLICATE && (
+									<Select
+										className="bauhaus-sims-duplicate"
+										placeholder={D.createFromAnExistingReport}
+										value={operationsWithSimsOptions.find(
+											({ value }) => value === idParent
+										)}
+										options={operationsWithSimsOptions}
+										onChange={onSiblingSimsChange()}
+										disabled={changed}
+										autofocus
+									/>
+								)}
+							</>
+						)}
+						{MSDInformations(msd, handleChange, true)}
+					</div>
+				);
+			})}
+		</>
+	);
+};
 
 const withParentWithSims = (Component) => {
 	return (props) => {
-		const history = useHistory();
 		const [parentWithSims, setParentWithSims] = useState([]);
 		const parentType = props.parentType;
 		const seriesId = props.parent?.series?.id;
@@ -359,9 +328,7 @@ const withParentWithSims = (Component) => {
 				});
 			}
 		}, [seriesId, parentType, familyId]);
-		return (
-			<Component {...props} parentWithSims={parentWithSims} history={history} />
-		);
+		return <Component {...props} parentWithSims={parentWithSims} />;
 	};
 };
 

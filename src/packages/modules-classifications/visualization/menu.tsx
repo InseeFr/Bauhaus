@@ -1,13 +1,16 @@
 import { useLocation } from 'react-router-dom';
-import D from '../../deprecated-locales';
-import { useGoBack } from '../../utils/hooks/useGoBack';
-import { ValidationButton } from '../../components';
 import Auth from '../../auth/components/auth';
 import { ADMIN } from '../../auth/roles';
+import { ValidationButton } from '../../components';
 import { ActionToolbar } from '../../components/action-toolbar';
-import { ReturnButton } from '../../components/buttons/buttons-with-icons';
 import { Button } from '../../components/buttons/button';
+import {
+	ReturnButton,
+	UpdateButton,
+} from '../../components/buttons/buttons-with-icons';
+import D from '../../deprecated-locales';
 import { Classification } from '../../model/Classification';
+import { useGoBack } from '../../utils/hooks/useGoBack';
 
 type ClassificationControlsTypes = {
 	classification: Classification;
@@ -29,9 +32,8 @@ const ClassificationControls = ({
 				<ValidationButton object={classification} callback={publish} />
 			</Auth>
 			<Auth roles={[ADMIN]}>
-				<Button
+				<UpdateButton
 					action={`/classifications/classification/${classification.id}/modify`}
-					label={D.btnUpdate}
 				/>
 			</Auth>
 			<Button key={D.btnTree} action={treeLocation} label={D.btnTree} />

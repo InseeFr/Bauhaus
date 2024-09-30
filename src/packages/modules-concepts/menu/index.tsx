@@ -33,19 +33,19 @@ const MenuConcepts = () => {
 			alignToRight: true,
 		},
 		{
-			path: '/concepts',
-			pathKey: 'concept',
-			className: null,
-			order: 1,
-			label: D.conceptsTitle,
-		},
-		{
-			path: '/collections',
+			path: '/concepts/collections',
 			pathKey: 'collection',
 			className: null,
 			attrs: null,
 			order: 2,
 			label: D.collectionsTitle,
+		},
+		{
+			path: '/concepts',
+			pathKey: 'concept',
+			className: null,
+			order: 1,
+			label: D.conceptsTitle,
 		},
 	];
 

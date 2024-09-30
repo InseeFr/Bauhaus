@@ -3,7 +3,7 @@ import SeriesHome from './home';
 import { useQuery } from '@tanstack/react-query';
 import { ClassificationsApi } from '../..//sdk/classification';
 
-const SeriesHomeContainer = () => {
+export const Component = () => {
 	const { isLoading, data: series } = useQuery({
 		queryKey: ['classifications-series'],
 		queryFn: () => {
@@ -17,5 +17,3 @@ const SeriesHomeContainer = () => {
 
 	return <SeriesHome series={series} />;
 };
-
-export default SeriesHomeContainer;

@@ -1,14 +1,15 @@
-import { useState, useCallback, useEffect } from 'react';
-import { PageTitle, TextInput, Pagination, Row } from '../../components';
+import { useCallback, useEffect, useState } from 'react';
+import { PageTitle, Pagination, Row, TextInput } from '../../components';
+import DOMPurify from 'dompurify';
 
-import D from '../../deprecated-locales';
-import { BOTH, DOCUMENT, LINK, isLink, isDocument } from './utils';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import FilterToggleButtons from '../../components/filter-toggle-buttons';
+import { NumberResults } from '../../components/number-results';
+import D from '../../deprecated-locales';
+import { filterKeyDeburr } from '../../utils/array-utils';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { Menu } from './menu';
-import { filterKeyDeburr } from '../../utils/array-utils';
-import { NumberResults } from '../../components/number-results';
+import { BOTH, DOCUMENT, LINK, isDocument, isLink } from './utils';
 
 const formatter = (content, label) => {
 	const extraInformations = [];
@@ -38,7 +39,7 @@ const SearchableList = ({
 	autoFocus,
 	searchValue = '',
 }) => {
-	const history = useHistory();
+	const navigate = useNavigate();
 	const location = useLocation();
 
 	const [search, setSearch] = useState(searchValue);
@@ -48,14 +49,16 @@ const SearchableList = ({
 		const searchQuery = new URL(url).searchParams;
 
 		if (searchQuery.has('search')) {
-			setSearch(searchQuery.get('search'));
+			setSearch(DOMPurify.sanitize(searchQuery.get('search')));
 		}
 	}, [url]);
 
 	const handleSearch = (value) => {
 		const searchParams = new URLSearchParams(window.location.search);
 		searchParams.set('search', value);
-		history.replace(location.pathname + '?' + searchParams.toString());
+		navigate(location.pathname + '?' + searchParams.toString(), {
+			replace: true,
+		});
 	};
 
 	const filter = filterKeyDeburr(['label']);
@@ -97,7 +100,7 @@ const SearchableList = ({
 function DocumentHome({ documents }) {
 	useTitle(D.operationsTitle, D.documentsTitle);
 
-	const history = useHistory();
+	const navigate = useNavigate();
 	const queryMode = sessionStorage.getItem(sessionStorageKey);
 
 	const [filter, setFilter] = useState(queryMode || BOTH);
@@ -114,9 +117,9 @@ function DocumentHome({ documents }) {
 		(mode) => {
 			sessionStorage.setItem(sessionStorageKey, mode);
 			setFilter(mode);
-			history.replace(window.location.pathname + '?page=1');
+			navigate(window.location.pathname + '?page=1', { replace: true });
 		},
-		[history]
+		[navigate]
 	);
 
 	return (

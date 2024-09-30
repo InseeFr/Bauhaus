@@ -1,23 +1,11 @@
 const messages = {
-	btnReturn: {
-		fr: 'Retour',
-		en: 'Back',
-	},
 	btnReturnCurrent: {
 		fr: 'Retour à la version courante',
 		en: 'Back to current version',
 	},
-	btnUpdate: {
-		fr: 'Modifier',
-		en: 'Update',
-	},
 	btnCompare: {
 		fr: 'Comparer',
 		en: 'Compare',
-	},
-	btnClose: {
-		fr: 'Fermer',
-		en: 'Close',
 	},
 	btnAdd: {
 		fr: 'Ajouter',
@@ -47,10 +35,6 @@ const messages = {
 		fr: 'Publier',
 		en: 'Publish',
 	},
-	btnReinitialize: {
-		fr: 'Réinitialiser',
-		en: 'Reinitialize',
-	},
 	btnTree: {
 		fr: "Voir l'arborescence",
 		en: 'View tree',
@@ -58,10 +42,6 @@ const messages = {
 	btnDelete: {
 		fr: 'Supprimer',
 		en: 'Delete',
-	},
-	btnSave: {
-		fr: 'Sauvegarder',
-		en: 'Save',
 	},
 };
 

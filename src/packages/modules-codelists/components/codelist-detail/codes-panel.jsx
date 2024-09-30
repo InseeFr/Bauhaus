@@ -161,15 +161,17 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 				: [valueLabel, searchCode, setSearchLabel, API.getCodesByLabel];
 
 		setSearch(handledValue);
-		otherValue
-			? API.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then(
-					(cl) => {
-						setCodes(cl ?? {});
-					}
-			  )
-			: getCodesBySearch(codelist.id, handledValue).then((cl) => {
+		if (otherValue) {
+			API.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then(
+				(cl) => {
 					setCodes(cl ?? {});
-			  });
+				}
+			);
+		} else {
+			getCodesBySearch(codelist.id, handledValue).then((cl) => {
+				setCodes(cl ?? {});
+			});
+		}
 	};
 
 	const [lazyState, setlazyState] = useState({
@@ -228,7 +230,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							className="btn btn-default"
 							data-component-id={code.code}
 							onClick={() => {
-								API.deleteCodesDetailedCodelist(codelist.id, code)
+								API.deleteCodesDetailedCodelist(codelist.id, code);
 							}}
 							aria-label={D.remove}
 							title={D.remove}
@@ -319,7 +321,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 			/>
 
 			<SlidingPanel
-				type={'right'}
+				type="right"
 				isOpen={openPanel}
 				size={60}
 				backdropClicked={() => setOpenPanel(false)}

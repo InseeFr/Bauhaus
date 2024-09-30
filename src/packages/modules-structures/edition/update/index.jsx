@@ -6,7 +6,7 @@ import D from '../../../deprecated-locales';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { StructureApi } from '../../../sdk';
 
-const Update = () => {
+export const Component = () => {
 	const location = useLocation();
 	const [loading, setLoading] = useState(true);
 	const { structureId } = useParams();
@@ -52,5 +52,3 @@ const Update = () => {
 
 	return <Edition creation={duplicate} initialStructure={structure} />;
 };
-
-export default Update;

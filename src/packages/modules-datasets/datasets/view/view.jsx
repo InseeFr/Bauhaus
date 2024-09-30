@@ -1,11 +1,6 @@
-import { useHistory, useParams } from 'react-router-dom';
-import { renderMarkdownElement } from '../../../utils/html-utils';
-import { useEffect, useState } from 'react';
-import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { withCodesLists } from '../../../utils/hoc/withCodesLists';
-import { useDataset } from '../../datasets';
-import { ViewMenu } from './menu';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
 	CheckSecondLang,
 	ContributorsVisualisation,
@@ -17,23 +12,27 @@ import {
 	Publishing,
 	Row,
 } from '../../../components';
+import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { CL_PROCESS_STEP } from '../../../redux/actions/constants/codeList';
-import { useTitle } from '../../../utils/hooks/useTitle';
 import { DatasetsApi } from '../../../sdk';
+import { withCodesLists } from '../../../utils/hoc/withCodesLists';
+import { useTitle } from '../../../utils/hooks/useTitle';
+import { renderMarkdownElement } from '../../../utils/html-utils';
+import { useDataset } from '../../datasets';
+import { ViewMenu } from './menu';
 
+import { CodeDisplay } from '../../../components/code-display';
+import { List } from '../../../components/list';
+import { Note } from '../../../components/note';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
 import { D as DatasetDictionary } from '../../i18n';
 import { GlobalInformationBlock } from './GlobalInformationBlock';
-import { List } from '../../../components/list';
-import { CodeDisplay } from '../../../components/code-display';
 import { StatisticalInformations } from './StatisticalInformations';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { Note } from '../../../components/note';
 
 const Dataset = (props) => {
 	const [serverSideError, setServerSideError] = useState();
 	const { id } = useParams();
-	const history = useHistory();
-
+	const navigate = useNavigate();
 	const [archivageUnits, setArchivageUnits] = useState([]);
 
 	useEffect(() => {
@@ -66,7 +65,7 @@ const Dataset = (props) => {
 			return Promise.all([
 				queryClient.invalidateQueries(['datasets', id]),
 				queryClient.invalidateQueries(['datasets']),
-			]).then(() => history.push('/datasets'));
+			]).then(() => navigate('/datasets'));
 		},
 	});
 
@@ -241,4 +240,4 @@ const Dataset = (props) => {
 	);
 };
 
-export const DatasetView = withCodesLists([CL_PROCESS_STEP])(Dataset);
+export const Component = withCodesLists([CL_PROCESS_STEP])(Dataset);

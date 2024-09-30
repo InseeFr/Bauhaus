@@ -10,7 +10,7 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { useOrganizations } from '../../../utils/hooks/organizations';
 
-const OperationsIndicatorsEditionContainer = (props) => {
+export const Component = (props) => {
 	const { id } = useParams();
 
 	const frequencies = useCodesList(CL_FREQ);
@@ -57,5 +57,3 @@ const OperationsIndicatorsEditionContainer = (props) => {
 		/>
 	);
 };
-
-export default OperationsIndicatorsEditionContainer;

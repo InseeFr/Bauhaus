@@ -13,7 +13,7 @@ const CollectionsHome = ({ collections }) => {
 					<PageTitle title={D.collectionSearchTitle} col={12} offset={0} />
 					<SearchableList
 						items={collections}
-						childPath="collection"
+						childPath="concepts/collections"
 						autoFocus={true}
 					/>
 				</div>

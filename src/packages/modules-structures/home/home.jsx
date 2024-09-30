@@ -4,7 +4,8 @@ import D from '../../deprecated-locales';
 import { HomePageMenu } from './menu';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { StructureApi } from '../../sdk';
-const Home = () => {
+
+export const Component = () => {
 	useTitle(D.structuresTitle, D.structuresTitle);
 	const [DSDs, setDSDs] = useState([]);
 
@@ -33,5 +34,3 @@ const Home = () => {
 		</div>
 	);
 };
-
-export default Home;

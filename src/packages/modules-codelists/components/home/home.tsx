@@ -8,7 +8,7 @@ import D from '../../i18n/build-dictionary';
 import { HomePageMenu } from './menu';
 import { useTitle } from '../../../utils/hooks/useTitle';
 
-function CodeListsList() {
+export const Component = () => {
 	useTitle(D.codelistsTitle, D.codelistsTitle);
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -43,6 +43,4 @@ function CodeListsList() {
 			</Row>
 		</div>
 	);
-}
-
-export default CodeListsList;
+};

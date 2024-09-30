@@ -1,12 +1,9 @@
 // @ts-ignore
 import Modal from 'react-modal';
 import { createAllDictionary } from '../../utils/dictionnary';
+import { CloseButton, CloseIconButton } from '../buttons/buttons-with-icons';
 
 const { D } = createAllDictionary({
-	btnClose: {
-		fr: 'Fermer',
-		en: 'Close',
-	},
 	altLabelTitle: {
 		fr: 'Libellé alternatif',
 		en: 'Alternative label',
@@ -25,22 +22,13 @@ export const InputMultiModal = ({
 		>
 			<div className="modal-content">
 				<div className="modal-header">
-					<button type="button" className="close" onClick={close}>
-						<span aria-hidden="true">&times;</span>
-						<span className="sr-only">{D.btnClose}</span>
-					</button>
+					<CloseIconButton onClick={close} />
 					<h4 className="modal-title text-center">{D.altLabelTitle}</h4>
 				</div>
 				<div className="modal-body text-center">{body}</div>
 				<div className="modal-footer">
 					<div className="text-center">
-						<button
-							type="button"
-							className="btn btn-default btn-lg"
-							onClick={close}
-						>
-							{D.btnClose}
-						</button>
+						<CloseButton onClick={close} />
 					</div>
 				</div>
 			</div>

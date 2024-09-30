@@ -8,7 +8,7 @@ const sortByLabelLg1 = sortArray('prefLabelLg1');
 const renderMemberList = (sortedMembers, label) =>
 	sortedMembers.map(({ id, [label]: prefLabel }) => (
 		<li key={id}>
-			<Link to={`/concept/${id}`}>{prefLabel}</Link>
+			<Link to={`/concepts/${id}`}>{prefLabel}</Link>
 		</li>
 	));
 

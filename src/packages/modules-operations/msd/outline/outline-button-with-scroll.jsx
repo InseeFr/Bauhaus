@@ -1,11 +1,11 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const OutlineButtonWithScroll = ({ id, baseUrl, children }) => {
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const scrollTo = () => {
 		const url = `${baseUrl}#${id}`;
-		history.replace(url);
+		navigate(url, { replace: true });
 		document.getElementById(id).scrollIntoView({
 			behavior: 'smooth',
 			block: 'center',

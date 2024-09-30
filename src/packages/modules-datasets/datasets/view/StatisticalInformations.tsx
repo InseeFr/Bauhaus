@@ -46,18 +46,16 @@ export const StatisticalInformations = ({
 						<ConditionalDisplay data={dataset.statisticalUnit}>
 							<li>
 								{D.datasetsStatisticalUnits} :{' '}
-								{
-									<ul>
-										{dataset.statisticalUnit.map((unit) => (
-											<li>
-												<CodeDisplay
-													codesList={clStatUnit}
-													value={unit}
-												></CodeDisplay>
-											</li>
-										))}
-									</ul>
-								}
+								<ul>
+									{dataset.statisticalUnit.map((unit) => (
+										<li>
+											<CodeDisplay
+												codesList={clStatUnit}
+												value={unit}
+											></CodeDisplay>
+										</li>
+									))}
+								</ul>
 							</li>
 						</ConditionalDisplay>
 						{dataset.dataStructure && (

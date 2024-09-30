@@ -6,10 +6,10 @@ import { getFormattedCodeList } from '../../apis';
 import { ConceptsApi, saveComponent, StructureApi } from '../../../sdk';
 import { useParams } from 'react-router-dom';
 import { useStampsOptions } from '../../../utils/hooks/stamps';
-import { Component } from '../../../model/structures/Component';
+import { Component as StructureComponent } from '../../../model/structures/Component';
 import { CodesLists } from '../../../model/CodesList';
 
-const EditContainer = (props: any) => {
+export const Component = (props: any) => {
 	const goBack = useGoBack();
 
 	const { id } = useParams<{ id: string }>();
@@ -31,7 +31,7 @@ const EditContainer = (props: any) => {
 	);
 
 	const handleSave = useCallback(
-		(component: Component) => {
+		(component: StructureComponent) => {
 			setSaving(true);
 			setServerSideError('');
 
@@ -91,5 +91,3 @@ const EditContainer = (props: any) => {
 		/>
 	);
 };
-
-export default EditContainer;

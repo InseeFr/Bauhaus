@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import ConceptEditionCreation from './home';
-import D from '../../deprecated-locales';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAppContext } from '../../application/app-context';
 import { Loading } from '../../components';
-import { CLOSE_MATCH } from '../../sdk/constants';
-import { rmesHtmlToRawHtml } from '../../utils/html-utils';
-import { ConceptsApi } from '../../sdk';
-import * as generalUtils from '../../modules-concepts/utils/general';
-import { useTitle } from '../../utils/hooks/useTitle';
+import D from '../../deprecated-locales';
 import buildPayloadUpdate from '../../modules-concepts/utils/build-payload-creation-update/build-payload-update';
+import * as generalUtils from '../../modules-concepts/utils/general';
+import { ConceptsApi } from '../../sdk';
+import { CLOSE_MATCH } from '../../sdk/constants';
+import { useTitle } from '../../utils/hooks/useTitle';
+import { rmesHtmlToRawHtml } from '../../utils/html-utils';
 import { mergeWithAllConcepts } from '../utils/links';
 import { emptyNotes } from '../utils/notes';
-import { useAppContext } from '../../application/app-context';
+import ConceptEditionCreation from './home';
 
 const formatNotes = (notes) => {
 	return Object.assign(
@@ -24,10 +24,10 @@ const formatNotes = (notes) => {
 	);
 };
 
-const EditionContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const maxLengthScopeNoteString =
 		useAppContext().properties.maxLengthScopeNote;
@@ -70,10 +70,10 @@ const EditionContainer = () => {
 		(id, versioning, oldData, data) => {
 			setSaving(true);
 			ConceptsApi.putConcept(id, buildPayloadUpdate(versioning, oldData, data))
-				.then(() => history.push(`/concept/${id}`))
+				.then(() => navigate(`/concepts/${id}`))
 				.finally(() => setSaving(false));
 		},
-		[history]
+		[navigate]
 	);
 
 	const { general, notes, links } = concept;
@@ -108,5 +108,3 @@ const EditionContainer = () => {
 		/>
 	);
 };
-
-export default EditionContainer;

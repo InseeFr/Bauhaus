@@ -1,14 +1,14 @@
-import { BrowserRouter as Router, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Routes from './routes';
 //@ts-ignore
-import bauhausLogo from '../../../img/logo_noir.svg';
-import { getEnvVar } from '../../utils/env';
-import D from '../../i18n';
-import 'react-app-polyfill/stable';
 import { PropsWithChildren } from 'react';
+import 'react-app-polyfill/stable';
+import bauhausLogo from '../../../img/logo_noir.svg';
 import Auth from '../../auth/components/auth';
 import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
 import { ADMIN } from '../../auth/roles';
+import D from '../../i18n';
+import { getEnvVar } from '../../utils/env';
 import { useAppContext } from '../app-context';
 import { useOidc } from '../../auth/create-oidc';
 
@@ -67,13 +67,7 @@ export const RBACLink = ({ children }: PropsWithChildren<{}>) => {
 	);
 };
 const Root = () => {
-	return (
-		<Router>
-			<RBACLink>
-				<Routes />
-			</RBACLink>
-		</Router>
-	);
+	return <Routes />;
 };
 
 export default Root;

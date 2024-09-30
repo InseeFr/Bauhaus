@@ -24,7 +24,9 @@ const Picker = ({
 		return codes.reduce(
 			(byStatus, { id, label, isPartial }) => {
 				if (isPartial) byStatus.selected.push({ id, label });
-				else check(label) && byStatus.toSelect.push({ id, label });
+				else if (check(label)) {
+					byStatus.toSelect.push({ id, label });
+				}
 				return byStatus;
 			},
 			{ toSelect: [], selected: [] }

@@ -1,13 +1,18 @@
 import { useCallback, useState } from 'react';
 import check from '../../auth/auth';
-import D from '../../deprecated-locales';
 import { ConfirmationDelete } from '../../components';
-import { useLoading } from './loading';
-import { useGoBack } from '../../utils/hooks/useGoBack';
-import { saveFileFromHttpResponse } from '../../utils/files';
-import { ConceptsApi } from '../../sdk';
 import { ActionToolbar } from '../../components/action-toolbar';
 import { Button } from '../../components/buttons/button';
+import {
+	ExportButton,
+	ReturnButton,
+	UpdateButton,
+} from '../../components/buttons/buttons-with-icons';
+import D from '../../deprecated-locales';
+import { ConceptsApi } from '../../sdk';
+import { saveFileFromHttpResponse } from '../../utils/files';
+import { useGoBack } from '../../utils/hooks/useGoBack';
+import { useLoading } from './loading';
 const ConceptVisualizationControls = ({
 	isValidated,
 	isValidOutOfDate,
@@ -38,52 +43,52 @@ const ConceptVisualizationControls = ({
 
 	let btns;
 
-	const cancel = [() => goBack(`/concepts`), D.btnReturn];
 	const validate = adminOrCreator && [handleValidation, D.btnValid];
-	const update = [`/concept/${id}/modify`, D.btnUpdate];
+	const update = <UpdateButton action={`/concepts/${id}/modify`} />;
 	const compare =
 		!conceptVersion || conceptVersion <= 1
 			? null
-			: [`/concept/${id}/compare`, D.btnCompare];
+			: [`/concepts/${id}/compare`, D.btnCompare];
 	const erase = adminOrCreator && [() => setModalOpened(true), D.btnDelete];
 
-	const exportConcept = [
-		() => {
-			setLoading('exporting');
-			return ConceptsApi.getConceptExport(
-				id,
-				'application/vnd.oasis.opendocument.text'
-			)
-				.then(saveFileFromHttpResponse)
-				.finally(() => setLoading());
-		},
-		D.btnExporter,
-	];
+	const exportConcept = (
+		<ExportButton
+			action={() => {
+				setLoading('exporting');
+				return ConceptsApi.getConceptExport(
+					id,
+					'application/vnd.oasis.opendocument.text'
+				)
+					.then(saveFileFromHttpResponse)
+					.finally(() => setLoading());
+			}}
+		/>
+	);
 
 	if (admin || (creator && contributor)) {
 		if (isValidOutOfDate) {
 			btns = isValidated
-				? [cancel, compare, exportConcept, erase]
-				: [cancel, compare, exportConcept, update, validate, erase];
+				? [compare, exportConcept, erase]
+				: [compare, exportConcept, update, validate, erase];
 		} else {
 			btns = isValidated
-				? [cancel, compare, exportConcept, update, erase]
-				: [cancel, compare, exportConcept, update, validate, erase];
+				? [compare, exportConcept, update, erase]
+				: [compare, exportConcept, update, validate, erase];
 		}
 	} else if (contributor) {
 		if (isValidOutOfDate) {
 			btns = isValidated
-				? [cancel, compare, exportConcept]
-				: [cancel, compare, exportConcept, update];
+				? [compare, exportConcept]
+				: [compare, exportConcept, update];
 		} else {
-			btns = [cancel, compare, exportConcept, update];
+			btns = [compare, exportConcept, update];
 		}
 	} else if (creator) {
 		btns = isValidated
-			? [cancel, compare, exportConcept, update]
-			: [cancel, compare, exportConcept, update, validate];
+			? [compare, exportConcept, update]
+			: [compare, exportConcept, update, validate];
 	} else {
-		btns = [cancel, compare, exportConcept];
+		btns = [compare, exportConcept];
 	}
 
 	return (
@@ -96,10 +101,15 @@ const ConceptVisualizationControls = ({
 				/>
 			)}
 			<ActionToolbar>
+				<ReturnButton action={() => goBack(`/concepts`)} />
 				{btns.map((btn) => {
 					if (!btn) return null;
+
+					if (!Array.isArray(btn)) {
+						return btn;
+					}
 					const [action, label] = btn;
-					return btn && <Button key={label} action={action} label={label} />;
+					return <Button key={label} action={action} label={label} />;
 				})}
 			</ActionToolbar>
 		</>

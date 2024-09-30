@@ -453,10 +453,7 @@ const dictionary = {
 		en: 'Export the concepts of the selected collections',
 	},
 	btnExportValidate: { fr: 'Exporter en odt', en: 'Export to odt' },
-	btnExporter: {
-		fr: 'Exporter',
-		en: 'Export',
-	},
+
 	advancedSearch: { fr: 'Recherche avancée', en: 'Advanced search' },
 	type: {
 		fr: 'Type',

@@ -20,7 +20,7 @@ const emptyItem = {
 	valid: '',
 };
 
-const ConceptSearchListContainer = () => {
+export const Component = () => {
 	const [loading, setLoading] = useState(true);
 	const [conceptSearchList, setConceptSearchList] = useState([]);
 	const [exporting, setExporting] = useState(false);
@@ -69,5 +69,3 @@ const ConceptSearchListContainer = () => {
 		/>
 	);
 };
-
-export default ConceptSearchListContainer;

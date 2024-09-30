@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { ClassificationsApi } from '../../../sdk/classification';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
-const ClassificationItemsContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const [items, setItems] = useState();
 	const [general, setGeneral] = useState();
@@ -44,5 +44,3 @@ const ClassificationItemsContainer = () => {
 		/>
 	);
 };
-
-export default ClassificationItemsContainer;

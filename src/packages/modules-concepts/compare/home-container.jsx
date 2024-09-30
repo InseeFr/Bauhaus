@@ -9,7 +9,7 @@ import { range } from '../../utils/array-utils';
 import { useSecondLang } from '../../utils/hooks/second-lang';
 import { useLocales } from '../../utils/hooks/useLocales';
 
-const ConceptCompareContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
 	const langs = useLocales();
 	const [secondLang] = useSecondLang();
@@ -71,4 +71,3 @@ const ConceptCompareContainer = () => {
 		/>
 	);
 };
-export default ConceptCompareContainer;

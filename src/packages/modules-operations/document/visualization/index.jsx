@@ -1,20 +1,20 @@
-import { CheckSecondLang, Loading, PageTitleBlock } from '../../../components';
 import { useEffect, useState } from 'react';
-import { useParams, useRouteMatch } from 'react-router-dom';
-import OperationsDocumentVisualization from './home';
+import { useLocation, useParams } from 'react-router-dom';
+import { CheckSecondLang, Loading, PageTitleBlock } from '../../../components';
 import { GeneralApi } from '../../../sdk/general-api';
-import { Menu } from './Menu';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
 import { useCodesList } from '../../../utils/hooks/codeslist';
+import { useSecondLang } from '../../../utils/hooks/second-lang';
+import OperationsDocumentVisualization from './home';
+import { Menu } from './Menu';
 
 function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';
 }
 
-const DocumentationVisualizationContainer = () => {
+export const Component = () => {
 	const { id } = useParams();
-	const { path } = useRouteMatch();
-	const type = getPath(path);
+	const { pathname } = useLocation();
+	const type = getPath(pathname);
 	const [secondLang] = useSecondLang();
 	const langOptions = useCodesList('ISO-639');
 
@@ -27,7 +27,6 @@ const DocumentationVisualizationContainer = () => {
 			});
 		});
 	}, [id, type]);
-
 
 	if (!document.id) return <Loading />;
 
@@ -52,5 +51,3 @@ const DocumentationVisualizationContainer = () => {
 		</div>
 	);
 };
-
-export default DocumentationVisualizationContainer;

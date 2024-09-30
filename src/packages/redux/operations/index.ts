@@ -33,7 +33,7 @@ function makeReducers([
 					status: ERROR,
 					err: action.payload.err,
 				};
-			case SAVE_ITEM_SUCCESS:
+			case SAVE_ITEM_SUCCESS: {
 				if (!state.results) return state;
 
 				/**
@@ -56,6 +56,7 @@ function makeReducers([
 						},
 					]),
 				};
+			}
 			default:
 				return state;
 		}

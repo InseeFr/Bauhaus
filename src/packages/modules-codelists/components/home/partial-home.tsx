@@ -15,7 +15,7 @@ import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
 import { VerticalMenu } from '../../../components/vertical-menu';
 
-function CodeListsPartialHome() {
+export const Component = () => {
 	useTitle(D.codelistsTitle, D.codelistsPartialTitle);
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -36,7 +36,7 @@ function CodeListsPartialHome() {
 			<Row>
 				<VerticalMenu>
 					<Auth roles={[ADMIN]}>
-						<FeminineButton action="/codelists-partial/create" />
+						<FeminineButton action="/codelists/partial/create" />
 					</Auth>
 				</VerticalMenu>
 				<div className="col-md-8 text-center pull-right">
@@ -47,8 +47,8 @@ function CodeListsPartialHome() {
 					/>
 					<SearchableList
 						items={items}
-						childPath="codelists-partial"
-						searchUrl="/codelists-partial/search"
+						childPath="codelists/partial"
+						searchUrl="/codelists/partial/search"
 						advancedSearch={true}
 						label="label"
 						autoFocus={true}
@@ -58,6 +58,4 @@ function CodeListsPartialHome() {
 			</Row>
 		</div>
 	);
-}
-
-export default CodeListsPartialHome;
+};

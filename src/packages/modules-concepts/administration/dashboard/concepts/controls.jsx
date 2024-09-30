@@ -1,17 +1,11 @@
-import { Link } from 'react-router-dom';
-import D from '../../../../deprecated-locales';
 import { ActionToolbar } from '../../../../components/action-toolbar';
+import { ReturnButton } from '../../../../components/buttons/buttons-with-icons';
 
 function Controls() {
 	return (
 		<ActionToolbar>
 			<div className="col-md-2">
-				<Link
-					className="btn bauhaus-btn btn-lg col-md-12"
-					to="/concepts/administration"
-				>
-					{D.btnReturn}
-				</Link>
+				<ReturnButton action="/concepts/administration" />
 			</div>
 		</ActionToolbar>
 	);
