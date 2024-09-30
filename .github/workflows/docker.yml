@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - documentation/**
+    workflow_dispatch:
 jobs:
   build:
     name: Test & Build & Upload artifact
@@ -47,3 +48,4 @@ jobs:
           push: true
           file: Dockerfile
           tags: inseefr/bauhaus:${{ env.VERSION }}
+
