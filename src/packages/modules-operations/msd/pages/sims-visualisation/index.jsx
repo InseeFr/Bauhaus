@@ -43,7 +43,7 @@ export default function SimsVisualisation({
 	missingDocuments,
 	owners = [],
 }) {
-	const documentStores = useDocumentsStoreContext();
+	const { documentStores } = useDocumentsStoreContext();
 	const [secondLang] = useSecondLang();
 	const [modalOpened, setModalOpened] = useState(false);
 	const [exportModalOpened, setExportModalOpened] = useState(false);

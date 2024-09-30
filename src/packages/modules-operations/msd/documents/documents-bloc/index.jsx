@@ -1,7 +1,7 @@
 import D, { D1, D2 } from '../../../../deprecated-locales';
 import { useState, useEffect } from 'react';
 import './style.scss';
-import { isDocument, isLink } from '../../../document/utils';
+import { DOCUMENT, isDocument, isLink, LINK } from '../../../document/utils';
 import { getBaseURI } from '../../../../sdk';
 import { sortArray } from '../../../../utils/array-utils';
 import { getLang } from '../../../../utils/dictionnary';
@@ -43,7 +43,7 @@ export function DocumentsBloc({
 	addHandler,
 	objectType,
 }) {
-	const documentStores = useDocumentsStoreContext();
+	const { documentStores, openLateralPanelOpened } = useDocumentsStoreContext();
 
 	/**
 	 * @param {import('js/types').SimsDocuments} document
@@ -127,7 +127,7 @@ export function DocumentsBloc({
 				</ul>
 			)}
 			{editMode && (
-				<div className="panel panel-default">
+				<div className="documentblock__picker panel panel-default">
 					<div className="panel-heading">
 						<button
 							type="button"
@@ -142,6 +142,18 @@ export function DocumentsBloc({
 								aria-hidden="true"
 							/>
 							{addTitle} <span className="badge">{otherDocuments.length}</span>
+						</button>
+						<button
+							type="button"
+							className="btn"
+							aria-label={D.btnAdd}
+							onClick={() =>
+								openLateralPanelOpened(
+									objectType === 'documents' ? DOCUMENT : LINK
+								)
+							}
+						>
+							<AddLogo />
 						</button>
 					</div>
 					{panelStatus && (
