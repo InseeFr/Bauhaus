@@ -17,9 +17,7 @@ import { getOperationsCodesList } from '../../redux/operations/selector';
 
 import { useParams } from 'react-router-dom';
 import { getOperationsSimsCurrent } from '../../redux/selectors';
-import { GeneralApi } from '../../sdk/general-api';
 import { OperationsApi } from '../../sdk/operations-api';
-import { sortArray } from '../../utils/array-utils';
 import { useOrganizations } from '../../utils/hooks/organizations';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { SimsContextProvider } from './context';
@@ -27,6 +25,7 @@ import './msd.scss';
 import { DocumentsStoreProvider } from './pages/sims-creation/documents-store-context';
 import { isEssentialRubricKo } from './sims-field-title';
 import { getParentId, getParentType } from './utils';
+import { useDocumentsList } from './pages/sims-creation/useDocumentsList';
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
@@ -263,10 +262,7 @@ const MSDContainerWithParent = (props) => {
 	const { idParent, parentType } = props;
 	const [parent, setParent] = useState(props.parent);
 	const [loading, setLoading] = useState(true);
-	const [documentStores, setDocumentStores] = useState({
-		lg1: [],
-		lg2: [],
-	});
+	const { documentStores, setDocumentStores } = useDocumentsList();
 
 	const goBack = useGoBack();
 
@@ -297,25 +293,20 @@ const MSDContainerWithParent = (props) => {
 		}
 	}, [idParent, parentType]);
 
-	useEffect(() => {
-		GeneralApi.getDocumentsList().then((results) => {
-			const unSortedDocuments = results.map((document) => {
-				return {
-					...document,
-					id: document.uri.substr(document.uri.lastIndexOf('/') + 1),
-				};
-			});
-			setDocumentStores({
-				lg1: sortArray('labelLg1')(unSortedDocuments),
-				lg2: sortArray('labelLg2')(unSortedDocuments),
-			});
-		});
-	}, []);
+	const [lateralPanelOpened, setLateralPanelOpened] = useState();
 
 	if (loading) return <Loading />;
 
 	return (
-		<DocumentsStoreProvider value={documentStores}>
+		<DocumentsStoreProvider
+			value={{
+				documentStores,
+				updateDocumentStores: setDocumentStores,
+				lateralPanelOpened,
+				onLateralPanelHide: () => setLateralPanelOpened(undefined),
+				openLateralPanelOpened: (type) => setLateralPanelOpened(type),
+			}}
+		>
 			<MSDContainer
 				{...props}
 				organisations={organisations}

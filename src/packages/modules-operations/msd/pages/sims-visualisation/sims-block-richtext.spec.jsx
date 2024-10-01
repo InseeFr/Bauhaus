@@ -4,7 +4,7 @@ import { DocumentsStoreProvider } from '../sims-creation/documents-store-context
 
 export const renderWithStore = (component) => {
 	return render(
-		<DocumentsStoreProvider value={{ lg1: [], lg2: [] }}>
+		<DocumentsStoreProvider value={{ documentStores: { lg1: [], lg2: [] } }}>
 			{component}
 		</DocumentsStoreProvider>
 	);

@@ -23,3 +23,15 @@
 		flex: 2 1 auto;
 	}
 }
+
+.documentblock__picker {
+	.panel-heading {
+		display: flex;
+		justify-content: space-between;
+
+		.btn {
+			background-color: transparent;
+		}
+	}
+	
+}

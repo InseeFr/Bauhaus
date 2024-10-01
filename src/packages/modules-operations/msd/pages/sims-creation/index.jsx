@@ -25,6 +25,8 @@ import { flattenTree, rangeType } from '../../../utils/msd';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import './sims-creation.scss';
 import { useBlocker } from 'react-router-dom';
+import { DocumentFormPanel } from './document-form-panel';
+import { useDocumentsStoreContext } from './documents-store-context';
 
 const { RICH_TEXT } = rangeType;
 
@@ -255,6 +257,9 @@ const SimsCreation = ({
 			});
 		};
 	};
+
+	const { lateralPanelOpened, onLateralPanelHide } = useDocumentsStoreContext();
+
 	if (loading) return <Loading textType="loading" />;
 	if (saving) return <Loading textType="saving" />;
 
@@ -266,6 +271,11 @@ const SimsCreation = ({
 			</ActionToolbar>
 
 			<RubricEssentialMsg secondLang={secondLang} />
+
+			<DocumentFormPanel
+				opened={lateralPanelOpened}
+				onHide={onLateralPanelHide}
+			/>
 
 			{Object.values(metadataStructure).map((msd, index) => {
 				return (

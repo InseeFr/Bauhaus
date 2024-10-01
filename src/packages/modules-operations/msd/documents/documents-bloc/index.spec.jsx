@@ -44,7 +44,9 @@ const documents = [
 
 export const renderWithStore = (component) => {
 	return render(
-		<DocumentsStoreProvider value={{ lg1: documents, lg2: documents }}>
+		<DocumentsStoreProvider
+			value={{ documentStores: { lg1: documents, lg2: documents } }}
+		>
 			{component}
 		</DocumentsStoreProvider>
 	);
