@@ -63,7 +63,7 @@ const Dataset = (props) => {
 		},
 		onSuccess: (id) => {
 			return Promise.all([
-				queryClient.invalidateQueries(['datasets', id]),
+				queryClient.removeQueries(['datasets', id]),
 				queryClient.invalidateQueries(['datasets']),
 			]).then(() => navigate('/datasets'));
 		},
@@ -77,11 +77,7 @@ const Dataset = (props) => {
 
 	return (
 		<div className="container">
-			<PageTitleBlock
-				titleLg1={dataset.labelLg1}
-				titleLg2={dataset.labelLg2}
-				secondLang={secondLang}
-			/>
+			<PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />
 
 			<ViewMenu
 				dataset={dataset}

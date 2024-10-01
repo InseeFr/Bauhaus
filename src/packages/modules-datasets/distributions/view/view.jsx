@@ -47,7 +47,7 @@ export const Component = (props) => {
 
 		onSuccess: (id) => {
 			return Promise.all([
-				queryClient.invalidateQueries(['distributions', id]),
+				queryClient.removeQueries(['distributions', id]),
 				queryClient.invalidateQueries(['distributions']),
 			]).then(() => navigate('/datasets/distributions'));
 		},
@@ -63,7 +63,6 @@ export const Component = (props) => {
 			<PageTitleBlock
 				titleLg1={distribution.labelLg1}
 				titleLg2={distribution.labelLg1}
-				secondLang={secondLang}
 			/>
 
 			<ViewMenu
