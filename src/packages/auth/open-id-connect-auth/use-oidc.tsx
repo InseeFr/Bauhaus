@@ -21,11 +21,9 @@ const LoginOidcComponent = ({
 
 	useEffect(() => {
 		if (isUserLoggedIn) {
-			console.log('LoginOidcComponent');
+			storeToken(oidcTokens?.accessToken);
 			UsersApi.getStamp().then((stamp: any) => {
 				const roles = (oidcTokens?.decodedIdToken.realm_access as any).roles;
-
-				storeToken(oidcTokens?.accessToken);
 				saveUserProps({ roles, stamp });
 				setUserInformationsLoaded(true);
 			});
