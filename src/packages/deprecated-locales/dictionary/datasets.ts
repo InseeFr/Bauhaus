@@ -61,6 +61,14 @@ const dictionary = {
 		fr: 'Date de première diffusion des données',
 		en: 'Date of the first diffusion of the data',
 	},
+	datasetStatus: {
+		fr: 'État du jeu de données',
+		en: 'State of the dataset',
+	},
+	distributionStatus: {
+		fr: 'État de la distribution',
+		en: 'State of the distribution',
+	},
 	datasetsType: {
 		fr: 'Type de données',
 		en: 'Data Type',
