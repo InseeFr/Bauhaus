@@ -46,10 +46,7 @@ export const Component = (props) => {
 		OperationsApi.getSeriesList().then((results) => setSeries(results));
 	}, []);
 
-	useTitle(
-		D.seriesTitle + ' - ' + D.operationsTitle,
-		serie?.prefLabelLg1 || D.seriesCreateTitle
-	);
+	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, serie?.prefLabelLg1);
 
 	if (!serie.id && id) return <Loading />;
 

@@ -40,7 +40,7 @@ export const DumbCodelistDetailEdit = ({
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 
-	useTitle(D.codelistsTitle, codelist?.labelLg1 || D.codelistsCreateTitle);
+	useTitle(D.codelistsTitle, codelist?.labelLg1);
 
 	const permission = usePermission();
 	const stamp = permission?.stamp;

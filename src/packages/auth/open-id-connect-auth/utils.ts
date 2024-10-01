@@ -60,6 +60,6 @@ export const isAdminOrContributorOrConceptCreator = (
 
 export const isAdminOrCollectionCreator = (
 	roles: string[],
-	stamp: string,
-	collectionCreator: string
+	stamp?: string,
+	collectionCreator?: string
 ) => isAdmin(roles) || isCollectionCreator(roles, stamp, collectionCreator);

@@ -1,9 +1,17 @@
 import { createContext, useContext } from 'react';
 import { Document } from '../../../../model/operations/document';
+import { DOCUMENT, LINK } from '../../../document/utils';
 
-export type DocumentsStoreContextType = {
+export type DocumentsStoreObject = {
 	lg1: Document[];
 	lg2: Document[];
+};
+export type DocumentsStoreContextType = {
+	documentStores: DocumentsStoreObject;
+	updateDocumentStores: (store: DocumentsStoreObject) => void;
+	lateralPanelOpened?: typeof DOCUMENT | typeof LINK;
+	onLateralPanelHide?: () => void;
+	openLateralPanelOpened?: (type: typeof DOCUMENT | typeof LINK) => void;
 };
 const DocumentsStoreContext = createContext<
 	DocumentsStoreContextType | undefined

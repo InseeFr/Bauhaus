@@ -30,10 +30,7 @@ export const Component = () => {
 		);
 	}, [stamp]);
 
-	useTitle(
-		D.operationsTitle,
-		operation?.prefLabelLg1 || D.operationsCreateTitle
-	);
+	useTitle(D.operationsTitle, operation?.prefLabelLg1);
 
 	if (!operation?.id && id) return <Loading />;
 

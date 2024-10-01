@@ -182,7 +182,7 @@ export const DumbComponentDetailEdit = ({
 	const [submitting, setSubmitting] = useState(false);
 
 	const { lg1, lg2 } = useAppContext();
-	useTitle(D.componentTitle, component?.labelLg1 || D.componentsCreateTitle);
+	useTitle(D.componentTitle, component?.labelLg1);
 
 	const permission = usePermission();
 	const stamp = permission?.stamp;

@@ -73,9 +73,7 @@ const OperationsDocumentationEdition = (props) => {
 
 	useTitle(
 		type === LINK ? D.titleLink : D.titleDocument,
-		props.document.labelLg1 || type === LINK
-			? D.linksCreateTitle
-			: D.documentsCreateTitle
+		props.document.labelLg1
 	);
 
 	const goBack = useGoBack();
@@ -156,7 +154,11 @@ const OperationsDocumentationEdition = (props) => {
 		saveDocument(document, type, files)
 			.then(
 				(id = document.id) => {
-					goBack(`/operations/${type}/${id}`, isCreation);
+					if (props.onSave) {
+						props.onSave(id);
+					} else {
+						goBack(`/operations/${type}/${id}`, isCreation);
+					}
 				},
 				(err) => {
 					setServerSideError(err);
@@ -221,7 +223,11 @@ const OperationsDocumentationEdition = (props) => {
 				/>
 			)}
 			<ActionToolbar>
-				<CancelButton action={() => goBack('/operations/documents')} />
+				<CancelButton
+					action={() =>
+						props.onCancel ? props.onCancel() : goBack('/operations/documents')
+					}
+				/>
 				<SaveButton
 					action={onSubmit}
 					disabled={clientSideErrors.errorMessage?.length > 0}

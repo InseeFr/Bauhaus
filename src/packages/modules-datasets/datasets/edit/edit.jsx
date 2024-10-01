@@ -84,7 +84,7 @@ export const Component = () => {
 		},
 	});
 
-	useTitle(D.datasetsTitle, editingDataset?.labelLg1 || D.datasetsCreateTitle);
+	useTitle(D.datasetsTitle, editingDataset?.labelLg1);
 
 	if (!editingDataset.id && isEditing) {
 		return <Loading />;

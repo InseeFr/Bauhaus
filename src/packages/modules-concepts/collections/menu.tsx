@@ -8,9 +8,9 @@ import {
 } from '../../components/buttons/buttons-with-icons';
 
 export const Menu = () => {
-	const { authType, roles } = usePermission();
+	const { roles } = usePermission();
 
-	const authImpl = check(authType);
+	const authImpl = check();
 	const adminOrCreator = authImpl.isAdminOrCollectionCreator(roles);
 	const adminOrContributor = authImpl.isAdminOrContributor(roles);
 
@@ -23,8 +23,6 @@ export const Menu = () => {
 			{adminOrCreator && (
 				<PublishButton
 					action="/concepts/collections/validation"
-					col={8}
-					offset={2}
 					wrapper={false}
 				/>
 			)}

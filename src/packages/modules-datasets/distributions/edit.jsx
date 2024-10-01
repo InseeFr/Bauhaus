@@ -72,10 +72,7 @@ export const Component = () => {
 		},
 	});
 
-	useTitle(
-		D.distributionsTitle,
-		editingDistribution?.labelLg1 || D.distributionsCreateTitle
-	);
+	useTitle(D.distributionsTitle, editingDistribution?.labelLg1);
 
 	if (!distribution && isEditing) {
 		return <Loading />;

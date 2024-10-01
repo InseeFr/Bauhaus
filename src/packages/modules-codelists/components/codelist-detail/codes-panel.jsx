@@ -1,21 +1,21 @@
+import { Column } from 'primereact/column';
 import { useEffect, useState } from 'react';
-import { API } from '../../apis';
-import { CollapsiblePanel } from '../collapsible-panel';
-import D, { D1, D2 } from '../../i18n/build-dictionary';
-import SlidingPanel from 'react-sliding-side-panel';
-import './codes-panel.scss';
-import { validateCode } from '../../utils';
-import { CodesPanelAddButton } from './codes-panel-add-button';
-import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
 import {
-	TextInput,
-	Row,
 	ClientSideError,
 	GlobalClientSideErrorBloc,
+	Row,
+	TextInput,
 } from '../../../components';
-import LabelRequired from '../../../components/label-required';
 import { DataTable } from '../../../components/datatable';
-import { Column } from 'primereact/column';
+import LabelRequired from '../../../components/label-required';
+import { RightSlidingPanel } from '../../../components/sliding-panel';
+import { API } from '../../apis';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { validateCode } from '../../utils';
+import { CollapsiblePanel } from '../collapsible-panel';
+import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
+import { CodesPanelAddButton } from './codes-panel-add-button';
+import './codes-panel.scss';
 const CodeSlidingPanel = ({
 	code: initialCode,
 	handleBack,
@@ -294,6 +294,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							lazy
 							first={lazyState.first}
 							rows={lazyState.rows}
+							withPagination={codes.total > 10}
 							rowsPerPageOptions={[10]}
 							totalRecords={codes.total}
 							value={codesWithActions}
@@ -320,10 +321,8 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 				}
 			/>
 
-			<SlidingPanel
-				type="right"
+			<RightSlidingPanel
 				isOpen={openPanel}
-				size={60}
 				backdropClicked={() => setOpenPanel(false)}
 			>
 				<div id="code-edit-panel">
@@ -350,7 +349,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 						}}
 					></CodeSlidingPanel>
 				</div>
-			</SlidingPanel>
+			</RightSlidingPanel>
 		</Row>
 	);
 };

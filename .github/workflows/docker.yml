@@ -11,11 +11,11 @@ jobs:
     name: Test & Build & Upload artifact
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Use Generic CI For Building the Application
         uses: ./.github/actions/generic-ci-app
       - name: Upload deploy artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: build/
@@ -23,10 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Download build
         id: download
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: build
           path: build/
@@ -47,3 +47,4 @@ jobs:
           push: true
           file: Dockerfile
           tags: inseefr/bauhaus:${{ env.VERSION }}
+
