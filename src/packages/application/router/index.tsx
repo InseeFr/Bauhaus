@@ -16,7 +16,6 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 	const { isUserLoggedIn, logout } = useOidc();
 
 	const logoutAndRemoveFromStorage = () => {
-		console.log('logoutAndRemoveFromStorage');
 		removeToken();
 		if (isUserLoggedIn) {
 			logout({
