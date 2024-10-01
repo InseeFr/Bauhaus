@@ -1,10 +1,10 @@
 //@ts-nocheck
-import SlidingPanel from 'react-sliding-side-panel';
-import './codes-list-panel.scss';
-import D from '../../i18n/build-dictionary';
+import { ActionToolbar } from '../../../components/action-toolbar';
+import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { CodesList } from '../../../model/CodesList';
 import { useAllCodes } from '../../../utils/hooks/codeslist';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import D from '../../i18n/build-dictionary';
+import './codes-list-panel.scss';
 
 type CodesListPanelTypes = {
 	isOpen: boolean;
@@ -23,9 +23,8 @@ export const CodesListPanel = ({
 	}
 
 	return (
-		<SlidingPanel
+		<RightSlidingPanel
 			panelClassName="codes-list-panel"
-			type="right"
 			isOpen={isOpen}
 			size={30}
 		>
@@ -49,6 +48,6 @@ export const CodesListPanel = ({
 					);
 				})}
 			</ul>
-		</SlidingPanel>
+		</RightSlidingPanel>
 	);
 };
