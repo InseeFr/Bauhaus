@@ -1,20 +1,16 @@
 import { PropsWithChildren, useEffect } from 'react';
-import { getPermission } from '../../redux/selectors';
 import { connect } from 'react-redux';
 import { ReduxModel } from '../../redux/model';
-import { getStamp, isLoading, loadUserStamp } from '../../redux/users.action';
+import { getPermission } from '../../redux/selectors';
 
 export const mapStateToProps = (state: ReduxModel) => {
+	const { roles, stamp } = getPermission(state);
 	return {
-		userRoles: getPermission(state).roles,
-		userStamp: getStamp(state),
-		isLoading: isLoading(state),
+		userRoles: roles,
+		userStamp: stamp,
 	};
 };
 
-const mapDispatchToProps = {
-	loadUserStamp: loadUserStamp,
-};
 export type RoleCheck = string | [string, (value: string) => boolean];
 export type RoleChecks = Array<RoleCheck>;
 type AuthDumbTypes = {
@@ -62,4 +58,4 @@ export function AuthDumb({
 	}
 	return children;
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AuthDumb);
+export default connect(mapStateToProps)(AuthDumb);
