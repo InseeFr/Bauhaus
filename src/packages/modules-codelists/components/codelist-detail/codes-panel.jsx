@@ -294,6 +294,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							lazy
 							first={lazyState.first}
 							rows={lazyState.rows}
+							withPagination={codes.total > 10}
 							rowsPerPageOptions={[10]}
 							totalRecords={codes.total}
 							value={codesWithActions}
