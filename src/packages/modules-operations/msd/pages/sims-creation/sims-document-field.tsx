@@ -43,7 +43,6 @@ export const SimsDocumentField = ({
 
 	return (
 		<>
-			{' '}
 			<div className="bauhaus-document-field">
 				<DocumentsBloc
 					documents={(currentSection['documents' + lang] || []).filter(

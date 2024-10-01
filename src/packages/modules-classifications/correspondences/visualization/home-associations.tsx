@@ -47,7 +47,6 @@ const HomeAssociations = ({
 
 	return (
 		<Row>
-			{' '}
 			<Note
 				text={
 					<DataTable
