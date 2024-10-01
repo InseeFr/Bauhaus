@@ -73,9 +73,7 @@ const OperationsDocumentationEdition = (props) => {
 
 	useTitle(
 		type === LINK ? D.titleLink : D.titleDocument,
-		props.document.labelLg1 || type === LINK
-			? D.linksCreateTitle
-			: D.documentsCreateTitle
+		props.document.labelLg1
 	);
 
 	const goBack = useGoBack();

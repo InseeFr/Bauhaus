@@ -19,10 +19,7 @@ export const Component = () => {
 		}
 	}, [id]);
 
-	useTitle(
-		D.familiesTitle + ' - ' + D.operationsTitle,
-		family?.prefLabelLg1 || D.familiesCreateTitle
-	);
+	useTitle(D.familiesTitle + ' - ' + D.operationsTitle, family?.prefLabelLg1);
 
 	if (!family.id && id) return <Loading />;
 	return <OperationsFamilyEdition id={id} family={family} goBack={goBack} />;
