@@ -1,7 +1,6 @@
-import D from '../../deprecated-locales';
 import { useLocation } from 'react-router-dom';
 import { MainMenu } from '../../components/menu';
-import { getLang } from '../../utils/dictionnary';
+import D from '../../deprecated-locales';
 
 const defaultAttrs = { 'aria-current': 'page' };
 
@@ -22,7 +21,7 @@ const MenuConcepts = () => {
 			alignToRight: true,
 		},
 		{
-			path: `//inseefr.github.io/Bauhaus/${getLang()}/guides/user-guide/concept/`,
+			path: import.meta.env.VITE_CONCEPTS_DOCUMENTATION,
 			pathKey: 'help',
 			className: null,
 			order: 4,

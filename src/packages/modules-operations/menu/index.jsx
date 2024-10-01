@@ -36,7 +36,7 @@ export class MenuOperations extends Component {
 					label: D.indicatorsTitle,
 				},
 				help: {
-					path: '//metadonnees.gitlab-pages.insee.fr/rmes/offre-de-service-rmes/#pages/operation-aide',
+					path: import.meta.env.VITE_OPERATIONS_DOCUMENTATION,
 					attrs: {
 						target: '_blank',
 					},
