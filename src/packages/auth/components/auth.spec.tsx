@@ -1,104 +1,120 @@
-import { AuthDumb, mapStateToProps } from './auth';
 import { render } from '@testing-library/react';
-import { LOADING } from '../../sdk/constants';
-import { ReduxModel } from '../../redux/model';
-import {vi} from 'vitest';
+import { AuthDumb } from './auth';
+import configureStore from '../../redux/configure-store';
+import { Provider } from 'react-redux';
 
 describe('AuthDumb', () => {
 	it('should return the fallback if the user is not authorized', () => {
+		const store = configureStore({
+			app: {
+				auth: {
+					type: 'type',
+					user: {
+						roles: ['roles1'],
+						stamp: 'stamp',
+					},
+				},
+			},
+		});
+
 		const { container } = render(
-			<AuthDumb
-				fallback="fallback"
-				userRoles={['roles']}
-				roles={['roles1']}
-				loadUserStamp={vi.fn()}
-			>
-				Children
-			</AuthDumb>
+			<Provider store={store}>
+				<AuthDumb fallback="fallback" roles={['roles']}>
+					Children
+				</AuthDumb>
+			</Provider>
 		);
 		expect(container.innerHTML).toEqual('fallback');
 	});
 	it('should return the children if the user is authorized', () => {
+		const store = configureStore({
+			app: {
+				auth: {
+					type: 'type',
+					user: {
+						roles: ['roles1'],
+						stamp: 'stamp',
+					},
+				},
+			},
+		});
+
 		const { container } = render(
-			<AuthDumb
-				fallback="fallback"
-				userRoles={['roles']}
-				roles={['roles']}
-				loadUserStamp={vi.fn()}
-			>
-				Children
-			</AuthDumb>
+			<Provider store={store}>
+				<AuthDumb fallback="fallback" roles={['roles1']}>
+					Children
+				</AuthDumb>
+			</Provider>
 		);
 		expect(container.innerHTML).toEqual('Children');
 	});
 
 	it('should return the children if the user is authorized via a complementary check', () => {
+		const store = configureStore({
+			app: {
+				auth: {
+					type: 'type',
+					user: {
+						roles: ['roles1'],
+						stamp: 'stamp',
+					},
+				},
+			},
+		});
+
 		const { container } = render(
-			<AuthDumb
-				fallback="fallback"
-				userRoles={['roles']}
-				roles={[['roles', () => true]]}
-				loadUserStamp={vi.fn()}
-				userStamp="stamp"
-			>
-				Children
-			</AuthDumb>
+			<Provider store={store}>
+				<AuthDumb fallback="fallback" roles={[['roles1', () => true]]}>
+					Children
+				</AuthDumb>
+			</Provider>
 		);
 		expect(container.innerHTML).toEqual('Children');
 	});
 
 	it('should return the fallback if the user is not authorized via a complementary check', () => {
+		const store = configureStore({
+			app: {
+				auth: {
+					type: 'type',
+					user: {
+						roles: ['roles1'],
+						stamp: 'stamp',
+					},
+				},
+			},
+		});
+
 		const { container } = render(
-			<AuthDumb
-				fallback="fallback"
-				userRoles={['roles']}
-				roles={[['roles', () => false]]}
-				loadUserStamp={vi.fn()}
-			>
-				Children
-			</AuthDumb>
+			<Provider store={store}>
+				<AuthDumb fallback="fallback" roles={[['roles', () => false]]}>
+					Children
+				</AuthDumb>
+			</Provider>
 		);
 		expect(container.innerHTML).toEqual('fallback');
 	});
 
 	it('should return the fallback if the user does not have a stamp via a complementary check', () => {
-		const { container } = render(
-			<AuthDumb
-				fallback="fallback"
-				userRoles={['roles']}
-				roles={[['roles', () => true]]}
-				loadUserStamp={vi.fn()}
-			>
-				Children
-			</AuthDumb>
-		);
-		expect(container.innerHTML).toEqual('fallback');
-	});
-});
-
-describe('mapStateToProps', () => {
-	it('should return the user object', () => {
-		const state = {
+		const store = configureStore({
 			app: {
 				auth: {
 					type: 'type',
 					user: {
-						roles: ['roles'],
+						roles: ['roles1'],
 						stamp: 'stamp',
 					},
 				},
 			},
-			users: {
-				status: LOADING,
-				results: {
-					stamp: 'stamp',
-				},
-			},
-		} as unknown as ReduxModel;
-		expect(mapStateToProps(state)).toEqual({
-			userRoles: ['roles'],
-			userStamp: 'stamp',
-			isLoading: true,
 		});
+
+		const { container } = render(
+			<Provider store={store}>
+				<AuthDumb fallback="fallback" roles={[['roles', () => true]]}>
+					Children
+				</AuthDumb>
+			</Provider>
+		);
+		expect(container.innerHTML).toEqual('fallback');
 	});
 });
