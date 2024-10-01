@@ -68,7 +68,6 @@ export const Logout = () => {
 					login({
 						doesCurrentHrefRequiresAuth: true,
 						redirectUrl: '/',
-						//extraQueryParams: { scope: 'openid timbre' }, // !!! nécessaire mais ne fonctionne pas avec : invalid_scope !!!
 					});
 				}}
 				className="btn btn-primary"
