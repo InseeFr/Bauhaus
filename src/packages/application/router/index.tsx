@@ -10,14 +10,21 @@ import { ADMIN } from '../../auth/roles';
 import D from '../../i18n';
 import { getEnvVar } from '../../utils/env';
 import { useAppContext } from '../app-context';
-
-const logout = () => {
-	removeToken();
-	// @ts-ignore
-	window.location = encodeURI(window.location.origin);
-};
+import { useOidc } from '../../auth/create-oidc';
 
 export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
+	const { isUserLoggedIn, logout } = useOidc();
+
+	const logoutAndRemoveFromStorage = () => {
+		removeToken();
+		if (isUserLoggedIn) {
+			logout({
+				redirectTo: 'specific url',
+				url: '/logout',
+			});
+		}
+	};
+
 	const location = useLocation();
 	const {
 		properties: { authorizationHost },
@@ -39,7 +46,10 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 					{footer}
 				</p>
 				<div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
-					<button onClick={logout} className="btn btn-primary">
+					<button
+						onClick={logoutAndRemoveFromStorage}
+						className="btn btn-primary"
+					>
 						{D.authentication.logout}
 					</button>
 					<Auth roles={[ADMIN]}>

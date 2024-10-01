@@ -19,7 +19,6 @@ const CloseMatchLinks = ({ links, Dictionnary }) => {
 			<li>
 				{Dictionnary.equivalentTitle} :
 				<ul>
-					{' '}
 					{links.map((cm) => (
 						<li key={cm.urn}>
 							<a href={cm.urn} target="_blank" rel="noopener noreferrer">

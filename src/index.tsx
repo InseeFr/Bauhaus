@@ -7,11 +7,11 @@ import { AppContextProvider } from './packages/application/app-context';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import loadDevTools from './dev-tools/load';
-
 import './packages/styles/main.scss';
 import { GeneralApi } from './packages/sdk/general-api';
 import { getLang } from './packages/utils/dictionnary';
 import BackToTop from './packages/components/back-to-top';
+import { OidcProvider } from './packages/auth/create-oidc';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -57,22 +57,24 @@ const renderApp = (Component: any, initState: any, props?: any) => {
 		const root = createRoot(container!);
 
 		root.render(
-			<QueryClientProvider client={queryClient}>
-				<Provider store={store}>
-					<AppContextProvider
-						lg1={lg1}
-						lg2={lg2}
-						version={version}
-						properties={properties}
-					>
-						<ApplicationTitle />
-						<main>
-							<Component {...props} />
-							<BackToTop />
-						</main>
-					</AppContextProvider>
-				</Provider>
-			</QueryClientProvider>
+			<OidcProvider fallback={<>Checking authentication ⌛️</>}>
+				<QueryClientProvider client={queryClient}>
+					<Provider store={store}>
+						<AppContextProvider
+							lg1={lg1}
+							lg2={lg2}
+							version={version}
+							properties={properties}
+						>
+							<ApplicationTitle />
+							<main>
+								<Component {...props} />
+								<BackToTop />
+							</main>
+						</AppContextProvider>
+					</Provider>
+				</QueryClientProvider>
+			</OidcProvider>
 		);
 	});
 };

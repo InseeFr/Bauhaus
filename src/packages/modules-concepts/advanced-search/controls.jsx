@@ -25,7 +25,7 @@ const Controls = ({
 					lang
 				)
 			}
-		/>{' '}
+		/>
 		<ResetButton action={initializeState} />
 	</ActionToolbar>
 );

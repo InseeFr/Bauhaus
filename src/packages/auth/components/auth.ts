@@ -1,31 +1,16 @@
-import { PropsWithChildren, useEffect } from 'react';
-import { getPermission } from '../../redux/selectors';
-import { connect } from 'react-redux';
+import { PropsWithChildren } from 'react';
+import { useSelector } from 'react-redux';
 import { ReduxModel } from '../../redux/model';
-import { getStamp, isLoading, loadUserStamp } from '../../redux/users.action';
+import { getPermission } from '../../redux/selectors';
 
-export const mapStateToProps = (state: ReduxModel) => {
-	return {
-		userRoles: getPermission(state).roles,
-		userStamp: getStamp(state),
-		isLoading: isLoading(state),
-	};
-};
-
-const mapDispatchToProps = {
-	loadUserStamp: loadUserStamp,
-};
 export type RoleCheck = string | [string, (value: string) => boolean];
 export type RoleChecks = Array<RoleCheck>;
 type AuthDumbTypes = {
-	userRoles?: string[];
-	userStamp?: string;
 	roles: RoleChecks;
 	fallback?: any;
 	complementaryCheck?: boolean;
-	loadUserStamp?: any;
-	isLoading?: boolean;
 };
+
 /**
  * <AuthDumb
  * 	roles: ['ADMIN', ['CONTRIBUTOR', stamp => isUserStampValid()]]>
@@ -34,19 +19,14 @@ type AuthDumbTypes = {
  */
 export function AuthDumb({
 	children,
-	userRoles,
-	userStamp,
 	roles,
 	fallback = null,
 	complementaryCheck = true,
-	loadUserStamp,
-	isLoading,
 }: Readonly<PropsWithChildren<AuthDumbTypes>>) {
-	useEffect(() => {
-		if (userStamp === undefined && !isLoading) {
-			loadUserStamp(userStamp);
-		}
-	}, [userStamp, isLoading, loadUserStamp]);
+	const { roles: userRoles, stamp: userStamp } = useSelector(
+		(state: ReduxModel) => getPermission(state)
+	);
+
 	const isAuthorized = !!roles.find((role) => {
 		if (Array.isArray(role)) {
 			if (!!userStamp) {
@@ -62,4 +42,4 @@ export function AuthDumb({
 	}
 	return children;
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AuthDumb);
+export default AuthDumb;

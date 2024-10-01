@@ -12,6 +12,10 @@ const dictionary = {
 			fr: 'Se déconnecter',
 			en: 'Logout',
 		},
+		login: {
+			fr: 'Se connecter',
+			en: 'Login',
+		},
 		title: {
 			fr: 'Habilitations',
 			en: 'Authorizations',

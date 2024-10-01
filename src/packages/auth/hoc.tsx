@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import LoginNoAuth from './no-auth/login';
-import LoginOpenIDConnect from './open-id-connect-auth/login-container';
+import LoginOidcComponent from './open-id-connect-auth/use-oidc';
 import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from './constants';
 import { getPermission } from '../redux/selectors';
 
@@ -13,7 +13,7 @@ const auth = (WrappedComponent: any) => {
 		roles: string[] | null;
 	}) => {
 		if (authType === OPEN_ID_CONNECT_AUTH)
-			return <LoginOpenIDConnect WrappedComponent={WrappedComponent} />;
+			return <LoginOidcComponent WrappedComponent={WrappedComponent} />;
 
 		if (roles) return <WrappedComponent />;
 		switch (authType) {
