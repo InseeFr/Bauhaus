@@ -1,7 +1,10 @@
-import SlidingPanel, { SliderProps } from "react-sliding-side-panel"
+import SlidingPanel, { SliderProps } from 'react-sliding-side-panel';
 
-type RightSlidingPanelTypes = Omit<SliderProps, 'type' | 'size'>
+type RightSlidingPanelTypes = Omit<SliderProps, 'type'>;
 
-export const RightSlidingPanel = ({ ...props}: Readonly<RightSlidingPanelTypes>) => {
-    return <SlidingPanel type="right" size={60} {...props} />
-}
+export const RightSlidingPanel = ({
+	size = 60,
+	...props
+}: Readonly<RightSlidingPanelTypes>) => {
+	return <SlidingPanel type="right" size={size} {...props} />;
+};
