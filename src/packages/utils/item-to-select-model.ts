@@ -27,7 +27,10 @@ export function mergedItemsToSelectModels(
 	...items: { type: string; label: string }[][]
 ) {
 	return sortArrayByLabel(
-		items.reduce((acc: any, values) => [...acc, ...values], []),
+		items.reduce(
+			(acc: { type: string; label: string }[], values) => [...acc, ...values],
+			[],
+		),
 	).map((elt: { type: string; label: string }) => {
 		return {
 			...elt,

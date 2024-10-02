@@ -1,11 +1,18 @@
 import { renderHook } from '@testing-library/react';
 import { useLocales } from './useLocales';
-import { AppContextProvider } from '../../application/app-context';
+import {
+	AppContextProvider,
+	AppProperties,
+} from '../../application/app-context';
 
 describe('useLocales', () => {
 	it('returns the correct initial value and toggle function', () => {
 		const wrapper = ({ children }: { children: React.ReactNode }) => (
-			<AppContextProvider lg1="English" lg2="French" properties={{} as any}>
+			<AppContextProvider
+				lg1="English"
+				lg2="French"
+				properties={{} as AppProperties}
+			>
 				{children}
 			</AppContextProvider>
 		);

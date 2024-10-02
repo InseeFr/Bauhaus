@@ -93,7 +93,7 @@ describe('Document Visualization Page Menu', () => {
 	it('a user without Admin or  INDICATOR_CONTRIBUTOR or SERIES_CONTRIBUTOR role cannot create a document', () => {
 		render(
 			<RBACMock roles={[]}>
-				<Menu document={{} as any} type="type" />
+				<Menu document={{} as Document} type="type" />
 			</RBACMock>,
 		);
 

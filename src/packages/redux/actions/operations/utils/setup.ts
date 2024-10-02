@@ -1,11 +1,12 @@
 import { CL_SOURCE_CATEGORY, CL_FREQ } from '../../constants/codeList';
 import * as A from '../../../actions/constants';
 import { CodeListApi } from '../../../../sdk';
+import { Dispatch } from 'redux';
 
-export const loadSetup = () => (dispatch: any) => {
+export const loadSetup = () => (dispatch: Dispatch) => {
 	loadCodesList([CL_SOURCE_CATEGORY, CL_FREQ], dispatch);
 };
-export function loadCodesList(notations: any, dispatch: any) {
+export function loadCodesList(notations: string[], dispatch: Dispatch) {
 	notations.forEach((notation: string) => {
 		return Promise.all([
 			CodeListApi.getCodesList(notation),

@@ -1,4 +1,3 @@
-// @ts-ignore
 import D from '../../../deprecated-locales/build-dictionary';
 import { useDistributions } from '../../datasets';
 import { HomePageMenu } from './menu';
