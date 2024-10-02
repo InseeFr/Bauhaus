@@ -10,7 +10,7 @@ describe('association-home', () => {
 				association={associationUtils.empty()}
 				secondLang={false}
 				langs={locales}
-			/>
+			/>,
 		);
 	});
 });

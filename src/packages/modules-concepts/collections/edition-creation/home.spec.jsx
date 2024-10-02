@@ -3,10 +3,11 @@ import { empty } from '../utils/general';
 import { renderWithRouter } from '../../../tests-utils/render';
 import { locales } from '../../../tests-utils/default-values';
 
-vi.mock('./general', ()  => {
+vi.mock('./general', () => {
 	return {
-		default: () => <></>
-}});
+		default: () => <></>,
+	};
+});
 
 describe('collection-edition-creation', () => {
 	it('renders without crashing', () => {
@@ -19,7 +20,7 @@ describe('collection-edition-creation', () => {
 				conceptList={[]}
 				save={vi.fn()}
 				langs={locales}
-			/>
+			/>,
 		);
 	});
 });

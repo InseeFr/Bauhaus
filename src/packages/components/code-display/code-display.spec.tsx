@@ -12,7 +12,7 @@ describe('CodeDisplay Component', () => {
 		} as CodesList;
 		const value = 'code1';
 		const { getByText } = render(
-			<CodeDisplay codesList={codesList} value={value} />
+			<CodeDisplay codesList={codesList} value={value} />,
 		);
 
 		getByText('Label 1');
@@ -27,7 +27,7 @@ describe('CodeDisplay Component', () => {
 		} as CodesList;
 		const value = 'code3';
 		const { container } = render(
-			<CodeDisplay codesList={codesList} value={value} />
+			<CodeDisplay codesList={codesList} value={value} />,
 		);
 
 		expect(container.innerHTML).toBe('');
@@ -36,7 +36,7 @@ describe('CodeDisplay Component', () => {
 	it('renders nothing when codesList is undefined', () => {
 		const value = 'code1';
 		const { container } = render(
-			<CodeDisplay codesList={undefined as any} value={value} />
+			<CodeDisplay codesList={undefined as any} value={value} />,
 		);
 		expect(container.innerHTML).toBe('');
 	});
@@ -47,7 +47,7 @@ describe('CodeDisplay Component', () => {
 		} as CodesList;
 		const value = 'code1';
 		const { container } = render(
-			<CodeDisplay codesList={codesList} value={value} />
+			<CodeDisplay codesList={codesList} value={value} />,
 		);
 
 		expect(container.innerHTML).toBe('');

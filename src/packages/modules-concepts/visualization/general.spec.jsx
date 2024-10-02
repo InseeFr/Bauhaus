@@ -10,7 +10,7 @@ describe('concept-visualization-general', () => {
 				attr={empty()}
 				secondLang={false}
 				langs={locales}
-			/>
+			/>,
 		);
 	});
 });

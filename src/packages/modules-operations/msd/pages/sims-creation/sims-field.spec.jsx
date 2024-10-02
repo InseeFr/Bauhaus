@@ -20,7 +20,7 @@ describe('Sims Field', () => {
 					isPresentational: true,
 				}}
 				codesLists={{}}
-			/>
+			/>,
 		);
 		expect(container).toBeEmptyDOMElement();
 	});
@@ -34,7 +34,7 @@ describe('Sims Field', () => {
 				}}
 				codesLists={{}}
 				alone={true}
-			/>
+			/>,
 		);
 		expect(container.querySelectorAll('input')).toHaveLength(1);
 	});
@@ -49,7 +49,7 @@ describe('Sims Field', () => {
 				}}
 				codesLists={{}}
 				alone={true}
-			/>
+			/>,
 		);
 
 		expect(container.querySelectorAll('.p-calendar')).toHaveLength(1);
@@ -67,7 +67,7 @@ describe('Sims Field', () => {
 					codesLists={{}}
 					alone={true}
 				/>
-			</Provider>
+			</Provider>,
 		);
 
 		expect(container.querySelectorAll('.rdw-editor-wrapper')).toHaveLength(1);
@@ -87,7 +87,7 @@ describe('Sims Field', () => {
 				alone={true}
 				secondLang={false}
 				lang="fr"
-			/>
+			/>,
 		);
 		expect(container.querySelectorAll('[id^="react-select"')).toHaveLength(1);
 	});

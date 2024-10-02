@@ -8,7 +8,7 @@ describe('concept-edition-creation-search-concepts-by-label', () => {
 				searchLabel="label"
 				hitEls={[]}
 				handleSearch={vi.fn()}
-			/>
+			/>,
 		);
 	});
 });

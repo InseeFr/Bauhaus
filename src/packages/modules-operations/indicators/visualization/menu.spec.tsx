@@ -13,7 +13,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Back');
@@ -25,7 +25,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [], idSims: '1' } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Show the report');
@@ -37,7 +37,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Show the report')).toBeNull();
@@ -49,7 +49,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Create the report');
@@ -61,7 +61,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [], idSims: '1' } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -74,7 +74,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Publish');
@@ -87,7 +87,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Update');
@@ -102,7 +102,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Back');
@@ -114,7 +114,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [], idSims: '1' } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Show the report');
@@ -126,7 +126,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Show the report')).toBeNull();
@@ -139,7 +139,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: ['stamp'] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Create the report');
@@ -152,7 +152,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [], idSims: '1' } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -167,7 +167,7 @@ describe('Family Home Page Menu', () => {
 						}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -180,7 +180,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: ['stamp'] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Publish');
@@ -193,7 +193,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: ['fake'] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Publish')).toBeNull();
@@ -206,7 +206,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: ['stamp'] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Update');
@@ -219,7 +219,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: ['fake'] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 			expect(screen.queryByText('Update')).toBeNull();
 		});
@@ -233,7 +233,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Back');
@@ -245,7 +245,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [], idSims: '1' } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Show the report');
@@ -257,7 +257,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Show the report')).toBeNull();
@@ -270,7 +270,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -282,7 +282,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [], idSims: '1' } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -294,7 +294,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 			expect(screen.queryByText('Publish')).toBeNull();
 		});
@@ -306,7 +306,7 @@ describe('Family Home Page Menu', () => {
 						indicator={{ creators: [] } as unknown as Indicator}
 						publish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 			expect(screen.queryByText('Update')).toBeNull();
 		});

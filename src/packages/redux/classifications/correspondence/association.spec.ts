@@ -21,7 +21,7 @@ describe('reducerCorrespondenceAssociation', () => {
 					'C-C': 'previous',
 				},
 			},
-			action
+			action,
 		);
 		expect(result).toEqual({
 			'nafr2-cpfr21': {
@@ -49,7 +49,7 @@ describe('reducerCorrespondenceAssociation', () => {
 					'C-C': 'previous',
 				},
 			},
-			action
+			action,
 		);
 		expect(result).toEqual({
 			'nafr2-cpfr21': {
@@ -77,7 +77,7 @@ describe('getAssociation', () => {
 				},
 			},
 			'nafr2-cpfr21',
-			'B-B'
+			'B-B',
 		);
 		expect(result).toEqual(undefined);
 	});
@@ -91,7 +91,7 @@ describe('getAssociation', () => {
 				},
 			},
 			'nafr2-cpfr21',
-			'A-A'
+			'A-A',
 		);
 		expect(result).toEqual('data');
 	});

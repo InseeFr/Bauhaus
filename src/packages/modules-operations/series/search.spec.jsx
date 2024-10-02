@@ -142,7 +142,7 @@ describe('<SearchFormList />', () => {
 		useUrlQueryParameters.mockReturnValue({ form });
 
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />
+			<SearchFormList data={data} stamps={stamps} categories={categories} />,
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(6);
 	});
@@ -152,7 +152,7 @@ describe('<SearchFormList />', () => {
 		useUrlQueryParameters.mockReturnValue({ form });
 
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />
+			<SearchFormList data={data} stamps={stamps} categories={categories} />,
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
@@ -160,7 +160,7 @@ describe('<SearchFormList />', () => {
 		const form = { typeCode: 'S' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />
+			<SearchFormList data={data} stamps={stamps} categories={categories} />,
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
@@ -168,7 +168,7 @@ describe('<SearchFormList />', () => {
 		const form = { creator: 'DG57-C003' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />
+			<SearchFormList data={data} stamps={stamps} categories={categories} />,
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
@@ -178,7 +178,7 @@ describe('<SearchFormList />', () => {
 		const form = { publisher: 'Acoss' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />
+			<SearchFormList data={data} stamps={stamps} categories={categories} />,
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
@@ -188,7 +188,7 @@ describe('<SearchFormList />', () => {
 		const form = { dataCollector: 'DG75-A040' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />
+			<SearchFormList data={data} stamps={stamps} categories={categories} />,
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);

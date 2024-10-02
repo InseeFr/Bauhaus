@@ -53,7 +53,7 @@ export const ComponentDetailView = ({
 	}, []);
 	const typeValue = typeUriToLabel(component.type);
 	const conceptValue = concepts.find(
-		(concept) => concept.id?.toString() === component.concept?.toString()
+		(concept) => concept.id?.toString() === component.concept?.toString(),
 	)?.label;
 
 	const fullCodeLists = [
@@ -65,7 +65,7 @@ export const ComponentDetailView = ({
 		})),
 	];
 	const codeListValue = fullCodeLists.find(
-		(codelist) => component.codeList?.toString() === codelist.id?.toString()
+		(codelist) => component.codeList?.toString() === codelist.id?.toString(),
 	)?.label;
 
 	const descriptionLg1 = renderMarkdownElement(component.descriptionLg1);
@@ -306,7 +306,7 @@ export const ComponentDetailView = ({
 				codesList={fullCodeLists.find(
 					(c) =>
 						(component.codeList?.id || component.codeList)?.toString() ===
-						c.id?.toString()
+						c.id?.toString(),
 				)}
 				isOpen={codesListPanelOpened}
 				handleBack={() => setCodesListPanelOpened(false)}

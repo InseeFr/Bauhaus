@@ -55,7 +55,7 @@ export const Component = () => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[navigate, id]
+		[navigate, id],
 	);
 
 	const { general, members } = collection;

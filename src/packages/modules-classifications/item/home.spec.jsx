@@ -33,7 +33,7 @@ describe('classification-item-home', () => {
 		renderWithAppContext(
 			<Provider store={store}>
 				<Home item={item} langs={locales} secondLang={true} />
-			</Provider>
+			</Provider>,
 		);
 	});
 });

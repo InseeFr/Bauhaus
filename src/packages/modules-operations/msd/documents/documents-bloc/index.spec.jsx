@@ -15,7 +15,7 @@ const documents = [
 		descriptionLg1: 'descriptionLg1',
 		descriptionLg2: 'descriptionLg2',
 		aside: `fr-${new Intl.DateTimeFormat(getLang()).format(
-			new Date('2019-03-04T10:00:00.000Z')
+			new Date('2019-03-04T10:00:00.000Z'),
 		)}`,
 	},
 	{
@@ -27,7 +27,7 @@ const documents = [
 		descriptionLg1: 'descriptionLg1-2',
 		descriptionLg2: 'descriptionLg2-2',
 		aside: `${new Intl.DateTimeFormat(getLang()).format(
-			new Date('2019-04-04T10:00:00.000Z')
+			new Date('2019-04-04T10:00:00.000Z'),
 		)}`,
 	},
 	{
@@ -48,7 +48,7 @@ export const renderWithStore = (component) => {
 			value={{ documentStores: { lg1: documents, lg2: documents } }}
 		>
 			{component}
-		</DocumentsStoreProvider>
+		</DocumentsStoreProvider>,
 	);
 };
 
@@ -64,34 +64,34 @@ describe('DocumentsBloc', () => {
 
 	it('should display three items', () => {
 		const { container } = renderWithStore(
-			<DocumentsBloc documents={documents} />
+			<DocumentsBloc documents={documents} />,
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
 
 	it('should display the Lg1 label and description ordered by label', () => {
 		const { container } = renderWithStore(
-			<DocumentsBloc documents={documents} />
+			<DocumentsBloc documents={documents} />,
 		);
 		const orderedList = sortArray('labelLg1')(documents);
 
 		const lis = container.querySelectorAll('li');
 		for (let i = 0; i < lis.length; i++) {
 			expect(lis[i].outerHTML).toEqual(
-				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg1}">${orderedList[i].labelLg1}</a><i> (${orderedList[i].aside})</i></span></li>`
+				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg1}">${orderedList[i].labelLg1}</a><i> (${orderedList[i].aside})</i></span></li>`,
 			);
 		}
 	});
 	it('should display the Lg2 label and description ordered by label', () => {
 		const { container } = renderWithStore(
-			<DocumentsBloc documents={documents} localPrefix="Lg2" />
+			<DocumentsBloc documents={documents} localPrefix="Lg2" />,
 		);
 		const orderedList = sortArray('labelLg2')(documents);
 
 		const lis = container.querySelectorAll('li');
 		for (let i = 0; i < lis.length; i++) {
 			expect(lis[i].outerHTML).toEqual(
-				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg2}">${orderedList[i].labelLg2}</a><i> (${orderedList[i].aside})</i></span></li>`
+				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg2}">${orderedList[i].labelLg2}</a><i> (${orderedList[i].aside})</i></span></li>`,
 			);
 		}
 	});
@@ -107,11 +107,11 @@ describe('DocumentsBloc', () => {
 					documents={documents}
 					localPrefix={lang}
 					editMode={false}
-				/>
+				/>,
 			);
 
 			expect(container.querySelectorAll('.documentsbloc__delete')).toHaveLength(
-				expectedView
+				expectedView,
 			);
 		});
 
@@ -121,25 +121,25 @@ describe('DocumentsBloc', () => {
 					documents={documents}
 					localPrefix={lang}
 					editMode={true}
-				/>
+				/>,
 			);
 
 			expect(container.querySelectorAll('.documentsbloc__delete')).toHaveLength(
-				expectedEdit
+				expectedEdit,
 			);
 		});
 	});
 
 	it('should display the Add Document button if there is not more document to add', () => {
 		const { container } = renderWithStore(
-			<DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />
+			<DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
 		);
 
 		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(1);
 	});
 	it('should display the Add Document button if there is more than on document available', () => {
 		const { container } = renderWithStore(
-			<DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />
+			<DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
 		);
 
 		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(1);
@@ -147,7 +147,11 @@ describe('DocumentsBloc', () => {
 
 	it('should not display the Add Document button for Lg2', () => {
 		const { container } = renderWithStore(
-			<DocumentsBloc documents={documents} localPrefix="Lg2" editMode={false} />
+			<DocumentsBloc
+				documents={documents}
+				localPrefix="Lg2"
+				editMode={false}
+			/>,
 		);
 
 		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(0);

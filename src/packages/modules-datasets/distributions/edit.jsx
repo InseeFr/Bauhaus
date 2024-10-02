@@ -122,7 +122,7 @@ export const Component = () => {
 						<ReactSelect
 							placeholder={D1.datasetTitle}
 							value={datasetsOptions.find(
-								({ value }) => value === editingDistribution.idDataset
+								({ value }) => value === editingDistribution.idDataset,
 							)}
 							options={datasetsOptions}
 							onChange={(choice) => {

@@ -11,7 +11,7 @@ describe('concept-edition-creation-notes', () => {
 				disseminationStatus=""
 				handleChange={vi.fn()}
 				langs={locales}
-			/>
+			/>,
 		);
 	});
 });

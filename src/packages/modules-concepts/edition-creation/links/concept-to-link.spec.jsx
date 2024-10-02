@@ -8,7 +8,7 @@ describe('concept-edition-creation-concept-to-link', () => {
 				title="title"
 				memberEls={[]}
 				searchComponent={<div>Element</div>}
-			/>
+			/>,
 		);
 	});
 });

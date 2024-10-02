@@ -13,7 +13,7 @@ function getAsideToTheDocument(document) {
 	let updatedDate;
 	if (document.updatedDate) {
 		updatedDate = new Intl.DateTimeFormat(getLang()).format(
-			new Date(document.updatedDate)
+			new Date(document.updatedDate),
 		);
 	}
 	return [document.lang, updatedDate].filter((val) => !!val).join('-');
@@ -74,12 +74,12 @@ export function DocumentsBloc({
 		.filter((document) => !currentDocumentsIds.includes(document.uri))
 		.filter((document) => !!document['label' + localPrefix])
 		.filter((document) =>
-			objectType === 'documents' ? isDocument(document) : isLink(document)
+			objectType === 'documents' ? isDocument(document) : isLink(document),
 		)
 		.filter((document) =>
 			document['label' + localPrefix]
 				.toLowerCase()
-				.includes(filter.toLowerCase())
+				.includes(filter.toLowerCase()),
 		);
 
 	const isSecondLang = localPrefix === 'Lg2';
@@ -89,7 +89,7 @@ export function DocumentsBloc({
 	 */
 	function displayHTMLForDocument(
 		document,
-		btnBlocFunction = defaultBtnBlocFunction
+		btnBlocFunction = defaultBtnBlocFunction,
 	) {
 		const id = document.uri.substr(document.uri.lastIndexOf('/') + 1);
 		const uri = isDocument(document)
@@ -149,7 +149,7 @@ export function DocumentsBloc({
 							aria-label={D.btnAdd}
 							onClick={() =>
 								openLateralPanelOpened(
-									objectType === 'documents' ? DOCUMENT : LINK
+									objectType === 'documents' ? DOCUMENT : LINK,
 								)
 							}
 						>

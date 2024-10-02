@@ -89,7 +89,7 @@ class OperationsFamilyEdition extends Component {
 						this.setState({
 							serverSideError: err,
 						});
-					}
+					},
 				)
 				.finally(() => this.setState({ saving: false }));
 		}

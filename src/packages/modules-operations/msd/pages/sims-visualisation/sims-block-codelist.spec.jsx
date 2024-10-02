@@ -19,7 +19,7 @@ describe('<SimsBlockCodeList />', () => {
 					codeList: '1',
 					value: 'c1',
 				}}
-			/>
+			/>,
 		);
 
 		expect(container.innerHTML).toBe('labelLg1 1');
@@ -42,7 +42,7 @@ describe('<SimsBlockCodeList />', () => {
 					value: 'c1',
 				}}
 				multi={true}
-			/>
+			/>,
 		);
 		expect(container.querySelector('li')).toBeNull();
 	});
@@ -64,13 +64,13 @@ describe('<SimsBlockCodeList />', () => {
 					value: ['c1', 'c2'],
 				}}
 				multi={true}
-			/>
+			/>,
 		);
 		expect(container.querySelector('li:nth-child(1)').innerHTML).toBe(
-			'labelLg1 1'
+			'labelLg1 1',
 		);
 		expect(container.querySelector('li:nth-child(2)').innerHTML).toBe(
-			'labelLg1 2'
+			'labelLg1 2',
 		);
 	});
 });

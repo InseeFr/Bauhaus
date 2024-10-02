@@ -27,9 +27,12 @@ describe('updateParent', () => {
 		expect(
 			updateParent(
 				{ id: 1, url: 'url', index: 0 },
-				[{ id: 2, url: 'url' }, { id: 3, url: 'url' }],
-				'url/'
-			)
+				[
+					{ id: 2, url: 'url' },
+					{ id: 3, url: 'url' },
+				],
+				'url/',
+			),
 		).toEqual({
 			children: [
 				{

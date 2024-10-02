@@ -8,7 +8,7 @@ describe('Components Home Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<HomePageMenu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New');
@@ -18,7 +18,7 @@ describe('Components Home Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN, STRUCTURE_CONTRIBUTOR]}>
 				<HomePageMenu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New');
@@ -28,7 +28,7 @@ describe('Components Home Page Menu', () => {
 		render(
 			<RBACMock roles={[STRUCTURE_CONTRIBUTOR]}>
 				<HomePageMenu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New');
@@ -38,7 +38,7 @@ describe('Components Home Page Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<HomePageMenu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('New')).toBeNull();

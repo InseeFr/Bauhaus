@@ -12,7 +12,7 @@ describe('Document Home Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New Link');
@@ -23,7 +23,7 @@ describe('Document Home Page Menu', () => {
 		render(
 			<RBACMock roles={[INDICATOR_CONTRIBUTOR]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New Link');
@@ -34,7 +34,7 @@ describe('Document Home Page Menu', () => {
 		render(
 			<RBACMock roles={[SERIES_CONTRIBUTOR]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New Link');
@@ -45,7 +45,7 @@ describe('Document Home Page Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('New Link')).toBeNull();

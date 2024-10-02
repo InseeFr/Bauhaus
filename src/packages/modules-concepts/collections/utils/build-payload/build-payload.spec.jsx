@@ -12,7 +12,10 @@ describe('build-payload', () => {
 				descriptionLg2: 'descriptionLg2',
 				created: 'created',
 			},
-			members: [{ id: '1', label: 'label1' }, { id: '2', label: 'label2' }],
+			members: [
+				{ id: '1', label: 'label1' },
+				{ id: '2', label: 'label2' },
+			],
 		};
 		const output = buildPayload(collection, 'CREATE');
 		const expected = {
@@ -41,7 +44,10 @@ describe('build-payload', () => {
 				descriptionLg2: 'descriptionLg2',
 				created: 'created',
 			},
-			members: [{ id: '1', label: 'label1' }, { id: '2', label: 'label2' }],
+			members: [
+				{ id: '1', label: 'label1' },
+				{ id: '2', label: 'label2' },
+			],
 		};
 		const output = buildPayload(collection, 'UPDATE');
 		const expected = {

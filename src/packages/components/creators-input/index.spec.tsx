@@ -34,7 +34,7 @@ describe('CreatorsInput', () => {
 		]);
 
 		render(
-			<CreatorsInput value="option1" onChange={mockOnChange} multi={false} />
+			<CreatorsInput value="option1" onChange={mockOnChange} multi={false} />,
 		);
 
 		screen.getByText(/Propriétaire/i);
@@ -52,7 +52,7 @@ describe('CreatorsInput', () => {
 				value={['option1', 'option2']}
 				onChange={mockOnChange}
 				multi={true}
-			/>
+			/>,
 		);
 
 		screen.getByText(/Propriétaires/i);
@@ -65,7 +65,7 @@ describe('CreatorsInput', () => {
 		]);
 
 		render(
-			<CreatorsInput value="option1" onChange={mockOnChange} multi={false} />
+			<CreatorsInput value="option1" onChange={mockOnChange} multi={false} />,
 		);
 
 		fireEvent.change(screen.getByTestId('select-mock'), {

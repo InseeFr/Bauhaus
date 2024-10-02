@@ -26,7 +26,7 @@ export const Component = () => {
 
 	useEffect(() => {
 		OperationsApi.getUserSeriesList(stamp).then((series: Series[]) =>
-			setSeries(series)
+			setSeries(series),
 		);
 	}, [stamp]);
 

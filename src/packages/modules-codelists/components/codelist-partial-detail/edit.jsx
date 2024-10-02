@@ -51,12 +51,12 @@ export const DumbCodelistPartialDetailEdit = ({
 				const globalWithPartialCodes =
 					partialInGlobalCodes(
 						Object.values(codes.items || {}),
-						Object.values(codelist.codes || {})
+						Object.values(codelist.codes || {}),
 					) || [];
 				setParentCodes(globalWithPartialCodes);
 			});
 		},
-		[codelist.codes]
+		[codelist.codes],
 	);
 
 	const handleParent = useCallback(
@@ -65,12 +65,12 @@ export const DumbCodelistPartialDetailEdit = ({
 				...codelist,
 				parentCode: value,
 				iriParent: globalCodeListOptions?.find(
-					(parentCL) => parentCL.value === value
+					(parentCL) => parentCL.value === value,
 				).iriParent,
 			});
 			handleParentCode(value);
 		},
-		[codelist, handleParentCode, globalCodeListOptions]
+		[codelist, handleParentCode, globalCodeListOptions],
 	);
 
 	const permission = usePermission();
@@ -107,7 +107,7 @@ export const DumbCodelistPartialDetailEdit = ({
 				[name]: value,
 			});
 		},
-		[clientSideErrors, codelist]
+		[clientSideErrors, codelist],
 	);
 
 	const addAllClickHandler = useCallback(() => {
@@ -132,10 +132,10 @@ export const DumbCodelistPartialDetailEdit = ({
 						return { ...c, isPartial: true };
 					}
 					return c;
-				})
+				}),
 			);
 		},
-		[parentCodes]
+		[parentCodes],
 	);
 
 	const removeClickHandler = useCallback(
@@ -146,10 +146,10 @@ export const DumbCodelistPartialDetailEdit = ({
 						return { ...c, isPartial: false };
 					}
 					return c;
-				})
+				}),
 			);
 		},
-		[parentCodes]
+		[parentCodes],
 	);
 
 	const handleSaveClick = useCallback(() => {
@@ -212,7 +212,7 @@ export const DumbCodelistPartialDetailEdit = ({
 						<Select
 							placeholder={D1.parentCodelistPlaceholder}
 							value={globalCodeListOptions?.find(
-								({ value }) => value === codelist.parentCode
+								({ value }) => value === codelist.parentCode,
 							)}
 							options={globalCodeListOptions}
 							onChange={handleParent}
@@ -266,7 +266,7 @@ export const DumbCodelistPartialDetailEdit = ({
 					<Select
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
-							({ value }) => value === codelist.creator
+							({ value }) => value === codelist.creator,
 						)}
 						options={stampListOptions}
 						onChange={(value) => {

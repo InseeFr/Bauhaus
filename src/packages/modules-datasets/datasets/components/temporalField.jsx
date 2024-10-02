@@ -33,10 +33,10 @@ export const TemporalField = ({
 		} else {
 			updateTemporalCoverage({
 				temporalCoverageStartDate: formatYearTypeValue(
-					getDefaultValueForYearCoverageType()
+					getDefaultValueForYearCoverageType(),
 				),
 				temporalCoverageEndDate: formatYearTypeValue(
-					getDefaultValueForYearCoverageType()
+					getDefaultValueForYearCoverageType(),
 				),
 				temporalCoverageDataType: value,
 			});
@@ -107,11 +107,11 @@ export const TemporalField = ({
 								onChange={(e) => {
 									updateTemporalCoverage({
 										temporalCoverageEndDate: formatYearTypeValue(
-											e.target.value
+											e.target.value,
 										),
 										temporalCoverageDataType,
 										temporalCoverageStartDate: formatYearTypeValue(
-											e.target.value
+											e.target.value,
 										),
 									});
 								}}
@@ -130,11 +130,11 @@ export const TemporalField = ({
 								onChange={(e) => {
 									updateTemporalCoverage({
 										temporalCoverageStartDate: formatYearTypeValue(
-											e.target.value
+											e.target.value,
 										),
 										temporalCoverageDataType,
 										temporalCoverageEndDate: formatYearTypeValue(
-											e.target.value
+											e.target.value,
 										),
 									});
 								}}

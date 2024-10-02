@@ -8,7 +8,7 @@ import { createDictionary, getLang } from './dictionnary';
 			},
 		};
 		expect(createDictionary('fr', dictionary).welcome).toBe(
-			dictionary.welcome.fr
+			dictionary.welcome.fr,
 		);
 	});
 
@@ -19,7 +19,7 @@ import { createDictionary, getLang } from './dictionnary';
 			},
 		};
 		expect(createDictionary('en', dictionary).welcome).toBe(
-			dictionary.welcome.en
+			dictionary.welcome.en,
 		);
 	});
 
@@ -40,7 +40,7 @@ import { createDictionary, getLang } from './dictionnary';
 			},
 		};
 		expect(createDictionary('en', dictionary).welcome).toBe(
-			dictionary.welcome.en
+			dictionary.welcome.en,
 		);
 	});
 	test(`should handle sub object`, () => {
@@ -53,10 +53,10 @@ import { createDictionary, getLang } from './dictionnary';
 			},
 		};
 		expect(createDictionary('en', dictionary).welcome.string).toBe(
-			dictionary.welcome.string.en
+			dictionary.welcome.string.en,
 		);
 		expect(createDictionary('fr', dictionary).welcome.string).toBe(
-			dictionary.welcome.string.fr
+			dictionary.welcome.string.fr,
 		);
 	});
 
@@ -69,7 +69,7 @@ import { createDictionary, getLang } from './dictionnary';
 			},
 		};
 		expect(createDictionary('en', dictionary).classificationsChangeNote()).toBe(
-			'Change note'
+			'Change note',
 		);
 	});
 });

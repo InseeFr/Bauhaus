@@ -10,7 +10,7 @@ import { PageSubtitle } from '../../../components/page-sub-title';
 const SeriesVisualization = ({ series: { general, members }, secondLang }) => {
 	useTitle(
 		D.seriesTitle + ' - ' + D.classificationsTitle,
-		general?.prefLabelLg1
+		general?.prefLabelLg1,
 	);
 
 	const notes = {

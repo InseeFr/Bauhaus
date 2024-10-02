@@ -22,7 +22,7 @@ describe('AppContext', () => {
 		render(
 			<AppContextProvider lg1="English" lg2="French" properties={{} as any}>
 				<TestComponent />
-			</AppContextProvider>
+			</AppContextProvider>,
 		);
 
 		expect(screen.getByTestId('lg1').textContent).toBe('English');
@@ -39,7 +39,7 @@ describe('AppContext', () => {
 		console.error = vi.fn();
 
 		expect(() => render(<TestComponent />)).toThrow(
-			'The context AppContextTypes is not available.'
+			'The context AppContextTypes is not available.',
 		);
 
 		console.error = originalError;

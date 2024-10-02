@@ -8,7 +8,7 @@ function ClassificationNotes({ secondLang, notes }) {
 		if (note.title === 'classificationsChangeNote') {
 			const Dictionnary = secondLang ? D2 : D;
 			return Dictionnary.classificationsChangeNote(
-				stringToDate(delPTags(notes.changeNoteDate))
+				stringToDate(delPTags(notes.changeNoteDate)),
 			);
 		}
 		return note;

@@ -86,7 +86,7 @@ export const Component = () => {
 					save({
 						general: { ...classification.general, ...value },
 						levels: classification.levels,
-					})
+					}),
 				)}
 			>
 				<ActionToolbar>
@@ -198,7 +198,7 @@ export const Component = () => {
 							return (
 								<Select
 									value={classificationsOptions.find(
-										(option) => option.value === value
+										(option) => option.value === value,
 									)}
 									options={classificationsOptions}
 									onChange={onChange}
@@ -217,7 +217,7 @@ export const Component = () => {
 							return (
 								<Select
 									value={classificationsOptions.find(
-										(option) => option.value === value
+										(option) => option.value === value,
 									)}
 									options={classificationsOptions}
 									onChange={onChange}
@@ -236,7 +236,7 @@ export const Component = () => {
 							return (
 								<Select
 									value={classificationsOptions.find(
-										(option) => option.value === value
+										(option) => option.value === value,
 									)}
 									options={classificationsOptions}
 									onChange={onChange}
@@ -256,7 +256,7 @@ export const Component = () => {
 								return (
 									<Select
 										value={organisationsOptions.find(
-											(option) => option.value === value
+											(option) => option.value === value,
 										)}
 										options={organisationsOptions}
 										onChange={onChange}
@@ -277,7 +277,7 @@ export const Component = () => {
 								return (
 									<Select
 										value={stampsOptions.find(
-											(option) => option.value === value
+											(option) => option.value === value,
 										)}
 										options={stampsOptions}
 										onChange={onChange}
@@ -298,7 +298,7 @@ export const Component = () => {
 							return (
 								<Select
 									value={disseminationStatusOptions.find(
-										(option) => option.value === value
+										(option) => option.value === value,
 									)}
 									options={disseminationStatusOptions}
 									onChange={onChange}

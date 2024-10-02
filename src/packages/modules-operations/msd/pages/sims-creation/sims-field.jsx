@@ -55,13 +55,13 @@ class SimsField extends PureComponent {
 			codes.map((c) => ({
 				label: c.labelLg1,
 				value: c.code,
-			}))
+			})),
 		);
 		const codesListOptionsLg2 = sortArrayByLabel(
 			codes.map((c) => ({
 				label: c.labelLg2,
 				value: c.code,
-			}))
+			})),
 		);
 
 		const currentToolbar = {
@@ -76,7 +76,7 @@ class SimsField extends PureComponent {
 				break;
 			case ORGANIZATION:
 				value = organisationsOptions.find(
-					({ value }) => value === currentSection.value
+					({ value }) => value === currentSection.value,
 				);
 				break;
 			case DATE:

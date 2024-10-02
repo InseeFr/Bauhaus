@@ -54,7 +54,7 @@ export const StructureComponentsSelector = ({
 		(e: any) => {
 			handleRemove!(e.target.parentElement.dataset.componentId);
 		},
-		[handleRemove]
+		[handleRemove],
 	);
 	const stampListOptions = useStampsOptions();
 	const [openPanel, setOpenPanel] = useState(false);
@@ -71,18 +71,18 @@ export const StructureComponentsSelector = ({
 				const component = components.find(
 					(c) =>
 						c.component.identifiant ===
-						e.target.parentElement.dataset.componentId
+						e.target.parentElement.dataset.componentId,
 				);
 				handleSpecificationClick(component);
 			}
 		},
-		[components, handleSpecificationClick]
+		[components, handleSpecificationClick],
 	);
 
 	const handleSave = useCallback(
 		(component: ComponentDefinition) => {
 			const generateComponentDefinitionForNewlyCreateComponent = (
-				component: Component
+				component: Component,
 			): ComponentDefinition => {
 				return {
 					component: {
@@ -97,7 +97,7 @@ export const StructureComponentsSelector = ({
 			let newComponents;
 			if (!component.id) {
 				newComponent = generateComponentDefinitionForNewlyCreateComponent(
-					component as unknown as Component
+					component as unknown as Component,
 				);
 				newComponents = [...components, newComponent];
 				setOpenPanel(false);
@@ -114,7 +114,7 @@ export const StructureComponentsSelector = ({
 			handleCreateOrUpdate(newComponents, !component.id, newComponent);
 			setSelectedComponent(newComponent);
 		},
-		[components, handleCreateOrUpdate]
+		[components, handleCreateOrUpdate],
 	);
 
 	const seeClickHandler = useCallback(
@@ -123,13 +123,13 @@ export const StructureComponentsSelector = ({
 				const cs = components.find(
 					(c) =>
 						c.component.identifiant ===
-						e.target.parentElement.dataset.componentId
+						e.target.parentElement.dataset.componentId,
 				);
 				setSelectedComponent(cs!.component);
 				setOpenPanel(true);
 			}
 		},
-		[components]
+		[components],
 	);
 
 	const goingUp = useCallback(
@@ -138,7 +138,7 @@ export const StructureComponentsSelector = ({
 				handleUp!(e.target.parentElement.dataset.componentId);
 			}
 		},
-		[handleUp]
+		[handleUp],
 	);
 	const goingDown = useCallback(
 		(e: any) => {
@@ -146,7 +146,7 @@ export const StructureComponentsSelector = ({
 				handleDown!(e.target.parentElement.dataset.componentId);
 			}
 		},
-		[handleDown]
+		[handleDown],
 	);
 
 	const handleCreateComponent = useCallback(
@@ -158,7 +158,7 @@ export const StructureComponentsSelector = ({
 			});
 			setOpenPanel(true);
 		},
-		[structure]
+		[structure],
 	);
 
 	const componentsWithActions = components
@@ -184,7 +184,7 @@ export const StructureComponentsSelector = ({
 						<></>
 					),
 				concept: concepts.find(
-					({ id }: any) => id?.toString() === component.concept?.toString()
+					({ id }: any) => id?.toString() === component.concept?.toString(),
 				)?.label,
 				representation: (
 					<Representation
@@ -193,7 +193,7 @@ export const StructureComponentsSelector = ({
 						handleCodesListDetail={() => {
 							const codesList = codesLists.find(
 								({ id }: CodesList) =>
-									id?.toString() === component.codeList?.toString()
+									id?.toString() === component.codeList?.toString(),
 							);
 							handleCodesListDetail(codesList);
 						}}

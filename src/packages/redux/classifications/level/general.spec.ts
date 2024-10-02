@@ -19,7 +19,7 @@ describe('reducerLevelGeneral', () => {
 					divisions: 'previous',
 				},
 			},
-			action
+			action,
 		);
 		expect(result).toEqual({
 			nafr2: {
@@ -46,7 +46,7 @@ describe('reducerLevelGeneral', () => {
 					divisions: 'previous',
 				},
 			},
-			action
+			action,
 		);
 		expect(result).toEqual({
 			nafr2: {
@@ -71,7 +71,7 @@ describe('getGeneral', () => {
 				},
 			},
 			'nafr2',
-			'divisions'
+			'divisions',
 		);
 		expect(result).toEqual(undefined);
 	});
@@ -83,7 +83,7 @@ describe('getGeneral', () => {
 				},
 			},
 			'nafr2',
-			'sections'
+			'sections',
 		);
 		expect(result).toEqual('data');
 	});

@@ -9,14 +9,14 @@ describe('<ValidationButton', () => {
 				object={{ validationState: 'Validated' }}
 				callback={vi.fn()}
 				disabled={false}
-			/>
+			/>,
 		);
 		expect(container).toBeEmptyDOMElement();
 	});
 
 	it('should contain a enabled button if the validationStateis not defined', () => {
 		const { container } = render(
-			<ValidationButton object={{}} callback={vi.fn()} disabled={false} />
+			<ValidationButton object={{}} callback={vi.fn()} disabled={false} />,
 		);
 		expect(container.querySelector('button')).toBeEnabled();
 	});
@@ -27,7 +27,7 @@ describe('<ValidationButton', () => {
 				object={{ validationState: 'updated' }}
 				callback={vi.fn()}
 				disabled={false}
-			/>
+			/>,
 		);
 		expect(container.querySelector('button')).toBeEnabled();
 	});
@@ -36,7 +36,7 @@ describe('<ValidationButton', () => {
 		const callback = vi.fn();
 		const object = { validationState: 'updated' };
 		const { container } = render(
-			<ValidationButton object={object} callback={callback} disabled={false} />
+			<ValidationButton object={object} callback={callback} disabled={false} />,
 		);
 		fireEvent.click(container.querySelector('button')!);
 
@@ -47,7 +47,7 @@ describe('<ValidationButton', () => {
 		const callback = vi.fn();
 		const object = { validationState: 'updated' };
 		const { container } = render(
-			<ValidationButton object={object} callback={callback} disabled={true} />
+			<ValidationButton object={object} callback={callback} disabled={true} />,
 		);
 		expect(container.querySelector('button')).toBeDisabled();
 	});

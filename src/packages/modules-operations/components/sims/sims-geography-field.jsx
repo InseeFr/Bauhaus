@@ -25,7 +25,7 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 			const newValue = geographies.find((g) => g.value === value);
 			setSelectedOption(newValue);
 		},
-		[geographies]
+		[geographies],
 	);
 	const include = () => {
 		setIncludes([...includes, selectedOption]);
@@ -43,13 +43,13 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 		(geography) => {
 			setExcludes(excludes.filter((g) => g.value !== geography.value));
 		},
-		[excludes, setExcludes]
+		[excludes, setExcludes],
 	);
 	const onRemoveInclude = useCallback(
 		(geography) => {
 			setIncludes(includes.filter((g) => g.value !== geography.value));
 		},
-		[includes, setIncludes]
+		[includes, setIncludes],
 	);
 
 	const save = useCallback(() => {
@@ -82,10 +82,7 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 					<LabelRequired className="form-label w-100">
 						{D1.simsGeographyZoneName}
 					</LabelRequired>
-					<TextInput
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
+					<TextInput value={name} onChange={(e) => setName(e.target.value)} />
 				</div>
 				<div className="form-group col-md-6">
 					<LabelRequired className="form-label w-100">
@@ -102,7 +99,7 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 					<ReactSelect
 						value={
 							geographies.find(
-								(option) => option.value === selectedOption?.value
+								(option) => option.value === selectedOption?.value,
 							) || null
 						}
 						options={geographies}

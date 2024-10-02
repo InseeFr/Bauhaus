@@ -24,7 +24,7 @@ window.onload = function () {
 				element.classList.remove('block');
 			}
 		},
-		false
+		false,
 	);
 };
 

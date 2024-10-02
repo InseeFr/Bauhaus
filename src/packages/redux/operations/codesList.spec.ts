@@ -27,7 +27,7 @@ describe('operationsCodesList reducer', () => {
 				payload: {
 					notation: 'id',
 				},
-			}
+			},
 		);
 		expect(result).toEqual({
 			results: { id: { notation: 'id' }, old: 'old' },

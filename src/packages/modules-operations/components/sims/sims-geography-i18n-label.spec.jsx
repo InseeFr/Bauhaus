@@ -9,10 +9,10 @@ describe('<SimsGeographyI18NLabel />', () => {
 			typeTerritory: 'typeTerritory',
 		};
 		const { container } = render(
-			<SimsGeographyI18NLabel geography={geography} />
+			<SimsGeographyI18NLabel geography={geography} />,
 		);
 		expect(container.innerHTML).toBe(
-			'labelLg1 <i>(labelLg2 typeTerritory)</i>'
+			'labelLg1 <i>(labelLg2 typeTerritory)</i>',
 		);
 	});
 });

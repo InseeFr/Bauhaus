@@ -8,7 +8,7 @@ describe('classification-items-home', () => {
 				items={[]}
 				classificationId="id"
 				secondLang={false}
-			/>
+			/>,
 		);
 	});
 });

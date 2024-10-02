@@ -6,7 +6,7 @@ describe('getLevel', () => {
 		const result = getLevel(
 			{ classificationLevelGeneral: {}, classificationLevelMembers: {} },
 			'id1',
-			'id1'
+			'id1',
 		);
 		expect(result).toEqual(undefined);
 	});
@@ -25,7 +25,7 @@ describe('getLevel', () => {
 				},
 			},
 			'nafr2',
-			'sections'
+			'sections',
 		);
 		expect(result).toEqual({
 			general: 'data',

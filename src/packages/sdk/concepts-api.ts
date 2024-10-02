@@ -56,10 +56,10 @@ const api = {
 		ids: string[],
 		type: string,
 		lang: string,
-		withConcepts: boolean
+		withConcepts: boolean,
 	) => [
 		`concept/export-zip/${ids.join(
-			'_AND_'
+			'_AND_',
 		)}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
 		{
 			headers: {

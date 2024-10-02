@@ -83,22 +83,22 @@ const SimsCreation = ({
 	const [loading, setLoading] = useState(false);
 	const secondLang = true;
 	const [idParent, setIdParent] = useState(
-		mode !== DUPLICATE ? idParentProp || getParentId(simsProp) : ''
+		mode !== DUPLICATE ? idParentProp || getParentId(simsProp) : '',
 	);
 
 	useBlocker(
 		({ currentLocation, nextLocation }) =>
 			changed &&
 			currentLocation.pathname !== nextLocation.pathname &&
-			!window.confirm(D.quitWithoutSaving)
+			!window.confirm(D.quitWithoutSaving),
 	);
 
 	const [sims, setSims] = useState(
 		getDefaultSims(
 			mode,
 			simsProp.rubrics || defaultSimsRubrics,
-			metadataStructure
-		)
+			metadataStructure,
+		),
 	);
 
 	const handleChange = (e) => {
@@ -141,14 +141,14 @@ const SimsCreation = ({
 		organisations.map((c) => ({
 			label: c.label,
 			value: c.id,
-		}))
+		})),
 	);
 
 	const organisationsOptionsLg2 = sortArrayByLabel(
 		organisations.map((c) => ({
 			label: c.labelLg2,
 			value: c.id,
-		}))
+		})),
 	);
 
 	const operationsOptions = (simsProp.parentsWithoutSims || []).map((op) => ({
@@ -162,7 +162,7 @@ const SimsCreation = ({
 			value: op.idSims,
 		}))
 		.sort((o1, o2) =>
-			o1.label.toLowerCase().localeCompare(o2.label.toLowerCase())
+			o1.label.toLowerCase().localeCompare(o2.label.toLowerCase()),
 		);
 
 	function MSDInformations(msd, handleChange, firstLevel = false) {
@@ -230,7 +230,7 @@ const SimsCreation = ({
 					)}
 				</div>
 				{Object.values(msd.children).map((child) =>
-					MSDInformations(child, handleChange)
+					MSDInformations(child, handleChange),
 				)}
 			</Fragment>
 		);
@@ -251,8 +251,8 @@ const SimsCreation = ({
 								[rubric.idAttribute]: rubric,
 							};
 						}, {}),
-						metadataStructure
-					)
+						metadataStructure,
+					),
 				);
 			});
 		};
@@ -287,7 +287,7 @@ const SimsCreation = ({
 									<Select
 										placeholder={D.operationsTitle}
 										value={operationsOptions.find(
-											({ value }) => value === idParent
+											({ value }) => value === idParent,
 										)}
 										options={operationsOptions}
 										onChange={updateIdParent}
@@ -299,7 +299,7 @@ const SimsCreation = ({
 										className="bauhaus-sims-duplicate"
 										placeholder={D.createFromAnExistingReport}
 										value={operationsWithSimsOptions.find(
-											({ value }) => value === idParent
+											({ value }) => value === idParent,
 										)}
 										options={operationsWithSimsOptions}
 										onChange={onSiblingSimsChange()}

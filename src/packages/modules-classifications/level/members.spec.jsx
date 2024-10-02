@@ -6,7 +6,7 @@ const members = [{ id: '1', label: 'Member 1' }];
 describe('classification-level-members', () => {
 	it('renders without crashing', () => {
 		renderWithRouter(
-			<Members members={members} classificationId="id" secondLang={true} />
+			<Members members={members} classificationId="id" secondLang={true} />,
 		);
 	});
 });

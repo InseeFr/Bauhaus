@@ -12,7 +12,7 @@ describe('getItemFactory', () => {
 		const id = '1';
 		await getItemFactory(remoteCall, 'LOADING', 'SUCCESS', 'FAILURE')(id)(
 			dispatch,
-			() => ({})
+			() => ({}),
 		);
 		expect(dispatch).toHaveBeenCalledWith({
 			type: 'LOADING',
@@ -30,7 +30,7 @@ describe('getItemFactory', () => {
 		const id = '1';
 		await getItemFactory(remoteCall, 'LOADING', 'SUCCESS', 'FAILURE')(id)(
 			dispatch,
-			() => ({})
+			() => ({}),
 		);
 		expect(dispatch).toHaveBeenCalledWith({
 			type: 'LOADING',
@@ -55,7 +55,7 @@ describe('getPublishFactory', () => {
 			remoteCall,
 			'LOADING',
 			'SUCCESS',
-			'FAILURE'
+			'FAILURE',
 		)({
 			id,
 		})(dispatch);
@@ -77,7 +77,7 @@ describe('getPublishFactory', () => {
 			remoteCall,
 			'LOADING',
 			'SUCCESS',
-			'FAILURE'
+			'FAILURE',
 		)({
 			id,
 		})(dispatch);

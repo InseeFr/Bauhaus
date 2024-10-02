@@ -7,7 +7,7 @@ describe('concepts-advanced-search', () => {
 				conceptSearchList={[]}
 				stampList={[]}
 				disseminationStatusList={[]}
-			/>
+			/>,
 		);
 	});
 });

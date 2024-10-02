@@ -8,7 +8,7 @@ describe('collection-edition-creation-members', () => {
 				members={[]}
 				conceptList={[]}
 				handleChange={vi.fn()}
-			/>
+			/>,
 		);
 	});
 });

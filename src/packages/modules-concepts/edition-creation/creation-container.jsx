@@ -43,7 +43,7 @@ export const Component = () => {
 				.then((id) => navigate(`/concepts/${id}`))
 				.finally(() => setSaving(false));
 		},
-		[navigate]
+		[navigate],
 	);
 
 	const { general, notes, links } = concept;

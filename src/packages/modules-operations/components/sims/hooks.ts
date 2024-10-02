@@ -7,13 +7,13 @@ export const useGeographies = (territory: any = {}) => {
 
 	const [excludes, setExcludes] = useState(
 		territory?.difference?.map(({ uri }: any) =>
-			allGeographies.find(({ value }: any) => value === uri)
-		) ?? []
+			allGeographies.find(({ value }: any) => value === uri),
+		) ?? [],
 	);
 	const [includes, setIncludes] = useState(
 		territory?.unions?.map(({ uri }: any) =>
-			allGeographies.find(({ value }: any) => value === uri)
-		) ?? []
+			allGeographies.find(({ value }: any) => value === uri),
+		) ?? [],
 	);
 	const geographies = useMemo(() => {
 		const includesValues = includes.map(({ value }: any) => value);

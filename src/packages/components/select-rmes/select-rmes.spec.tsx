@@ -14,7 +14,7 @@ describe('select', () => {
 				placeholder="..."
 				options={options}
 				onChange={() => ''}
-			/>
+			/>,
 		);
 	});
 });

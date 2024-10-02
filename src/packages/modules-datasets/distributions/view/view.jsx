@@ -24,7 +24,7 @@ export const Component = (props) => {
 	const { data: distribution, isLoading } = useDistribution(id);
 
 	const { data: dataset, isLoading: isLoadingDataSet } = useDataset(
-		distribution?.idDataset
+		distribution?.idDataset,
 	);
 
 	const [secondLang] = useSecondLang();

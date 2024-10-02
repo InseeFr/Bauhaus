@@ -24,7 +24,7 @@ export const SimsDocumentField = ({
 				},
 			});
 		},
-		[handleChange, currentSection, msd.idMas, lang]
+		[handleChange, currentSection, msd.idMas, lang],
 	);
 
 	const handleAddDocument = useCallback(
@@ -38,7 +38,7 @@ export const SimsDocumentField = ({
 				},
 			});
 		},
-		[handleChange, msd.idMas, currentSection, lang]
+		[handleChange, msd.idMas, currentSection, lang],
 	);
 
 	return (
@@ -46,7 +46,7 @@ export const SimsDocumentField = ({
 			<div className="bauhaus-document-field">
 				<DocumentsBloc
 					documents={(currentSection['documents' + lang] || []).filter(
-						isDocument
+						isDocument,
 					)}
 					localPrefix={lang}
 					editMode={true}
@@ -72,5 +72,5 @@ export const SimsDocumentField = ({
 export default memo(
 	SimsDocumentField,
 	(prevProps, nextProps) =>
-		prevProps.currentSection === nextProps.currentSection
+		prevProps.currentSection === nextProps.currentSection,
 );

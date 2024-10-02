@@ -17,7 +17,7 @@ const computeFromUrl = (defaultValue: any) => {
 				continue;
 			}
 			values[DOMPurify.sanitize(key)] = DOMPurify.sanitize(
-				searchQuery.get(key)!
+				searchQuery.get(key)!,
 			);
 		}
 	}

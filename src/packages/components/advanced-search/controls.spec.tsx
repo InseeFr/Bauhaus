@@ -7,7 +7,7 @@ describe('concepts-advanced-search-controls', () => {
 			<AdvancedSearchControls
 				onClickReturn={vi.fn()}
 				initializeState={vi.fn()}
-			/>
+			/>,
 		);
 	});
 });

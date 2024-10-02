@@ -8,7 +8,7 @@ const SimsBlockRichText = ({ currentSection, isSecondLang }) => {
 	return (
 		<>
 			{renderMarkdownElement(
-				currentSection[isSecondLang ? 'labelLg2' : 'labelLg1']
+				currentSection[isSecondLang ? 'labelLg2' : 'labelLg1'],
 			)}
 			{currentSection['documents' + suffix] && (
 				<div className="sims-documents-block">

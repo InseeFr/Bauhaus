@@ -46,7 +46,7 @@ export const CodeDetailEdit = ({
 				[name]: value,
 			});
 		},
-		[clientSideErrors, code]
+		[clientSideErrors, code],
 	);
 
 	const isDescendant = (ancestor, descendant) => {
@@ -95,10 +95,10 @@ export const CodeDetailEdit = ({
 						<Select
 							placeholder={D.parentCodeTitle}
 							value={codesOptions.filter((option) =>
-								code.parents?.find((p) => p.code === option.value)
+								code.parents?.find((p) => p.code === option.value),
 							)}
 							options={codesOptions.filter(
-								(c) => !code.code || !isDescendant(code.code, c.value)
+								(c) => !code.code || !isDescendant(code.code, c.value),
 							)}
 							onChange={(parents) => {
 								setCode({
@@ -210,7 +210,7 @@ export const CodeDetailEdit = ({
 											code: parent.code || '',
 											position: newCodePosition,
 										};
-								  })
+									})
 								: [{ code: '', position: newCodePosition }],
 							labelLg1: '',
 							labelLg2: '',

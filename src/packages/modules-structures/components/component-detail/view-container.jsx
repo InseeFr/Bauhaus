@@ -22,13 +22,13 @@ export const Component = (props) => {
 
 	const handleBack = useCallback(
 		() => goBack('/structures/components'),
-		[goBack]
+		[goBack],
 	);
 
 	const handleDelete = useCallback(() => {
 		setLoading(true);
 		StructureApi.deleteMutualizedComponent(id).then(() =>
-			goBack('/structures/components')
+			goBack('/structures/components'),
 		);
 	}, [id, goBack]);
 

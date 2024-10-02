@@ -14,7 +14,7 @@ dayjs.extend(LocalizedFormat);
 export const isDateIn = (
 	date: Date | string,
 	start: Date | string,
-	end: Date | string
+	end: Date | string,
 ): boolean => {
 	if (!start || !end) {
 		return true;

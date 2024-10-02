@@ -9,7 +9,7 @@ describe('ConfirmationModal', () => {
 				document={{ sims: [] }}
 				onNo={() => {}}
 				onYes={() => {}}
-			/>
+			/>,
 		);
 		await screen.findByText('Yes');
 		await screen.findByText('No');

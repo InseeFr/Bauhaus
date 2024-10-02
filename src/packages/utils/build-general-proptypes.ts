@@ -8,19 +8,19 @@ export const buildFields = (fieldsWithRequired) =>
 export const buildEmpty = (fieldsWithRequired) => {
 	const general = objectFromKeys(buildFields(fieldsWithRequired), '');
 	fieldsWithRequired.map(([field, _req, type]) =>
-		type === 'array' ? (general[field] = []) : null
+		type === 'array' ? (general[field] = []) : null,
 	);
 	return general;
 };
 
 export const buildEmptyWithContributor = (
 	fieldsWithRequired,
-	defaultContributor
+	defaultContributor,
 ) => {
 	const general = objectFromKeys(buildFields(fieldsWithRequired), '');
 	general.contributor = defaultContributor;
 	fieldsWithRequired.map(([field, _req, type]) =>
-		type === 'array' ? (general[field] = []) : null
+		type === 'array' ? (general[field] = []) : null,
 	);
 	return general;
 };

@@ -27,7 +27,7 @@ export const Component = (props: any) => {
 
 	const handleBack = useCallback(
 		() => goBack('/structures/components'),
-		[goBack]
+		[goBack],
 	);
 
 	const handleSave = useCallback(
@@ -37,7 +37,7 @@ export const Component = (props: any) => {
 
 			saveComponent(component)
 				.then((id = component.id) =>
-					goBack(`/structures/components/${id}`, !component.id)
+					goBack(`/structures/components/${id}`, !component.id),
 				)
 				.catch((error: string) => {
 					setComponent(component);
@@ -45,7 +45,7 @@ export const Component = (props: any) => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[goBack]
+		[goBack],
 	);
 
 	useEffect(() => {

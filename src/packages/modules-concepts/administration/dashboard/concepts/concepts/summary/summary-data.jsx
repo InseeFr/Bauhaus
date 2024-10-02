@@ -8,7 +8,7 @@ export const buildData = (d) => [
 		generic: d.filter((c) => c.disseminationStatus.endsWith('PublicGenerique'))
 			.length,
 		specific: d.filter((c) =>
-			c.disseminationStatus.endsWith('PublicSpecifique')
+			c.disseminationStatus.endsWith('PublicSpecifique'),
 		).length,
 		private: d.filter((c) => c.disseminationStatus.endsWith('Prive')).length,
 	},
@@ -19,16 +19,16 @@ export const buildData = (d) => [
 		generic: d.filter(
 			(c) =>
 				c.disseminationStatus.endsWith('PublicGenerique') &&
-				c.isTopConceptOf === 'true'
+				c.isTopConceptOf === 'true',
 		).length,
 		specific: d.filter(
 			(c) =>
 				c.disseminationStatus.endsWith('PublicSpecifique') &&
-				c.isTopConceptOf === 'true'
+				c.isTopConceptOf === 'true',
 		).length,
 		private: d.filter(
 			(c) =>
-				c.disseminationStatus.endsWith('Prive') && c.isTopConceptOf === 'true'
+				c.disseminationStatus.endsWith('Prive') && c.isTopConceptOf === 'true',
 		).length,
 	},
 	{
@@ -38,17 +38,17 @@ export const buildData = (d) => [
 		generic: d.filter(
 			(c) =>
 				c.disseminationStatus.endsWith('PublicGenerique') &&
-				c.validationStatus === 'false'
+				c.validationStatus === 'false',
 		).length,
 		specific: d.filter(
 			(c) =>
 				c.disseminationStatus.endsWith('PublicSpecifique') &&
-				c.validationStatus === 'false'
+				c.validationStatus === 'false',
 		).length,
 		private: d.filter(
 			(c) =>
 				c.disseminationStatus.endsWith('Prive') &&
-				c.validationStatus === 'false'
+				c.validationStatus === 'false',
 		).length,
 	},
 	{
@@ -56,10 +56,10 @@ export const buildData = (d) => [
 		type: D.validDateConceptsNumberTitle,
 		total: d.filter((c) => c.valid).length,
 		generic: d.filter(
-			(c) => c.disseminationStatus.endsWith('PublicGenerique') && c.valid
+			(c) => c.disseminationStatus.endsWith('PublicGenerique') && c.valid,
 		).length,
 		specific: d.filter(
-			(c) => c.disseminationStatus.endsWith('PublicSpecifique') && c.valid
+			(c) => c.disseminationStatus.endsWith('PublicSpecifique') && c.valid,
 		).length,
 		private: d.filter((c) => c.disseminationStatus.endsWith('Prive') && c.valid)
 			.length,

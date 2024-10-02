@@ -15,7 +15,7 @@ const ConceptZod = (
 	oldLabelLg1: string,
 	conceptsWithLinks: ConceptsList,
 	maxLengthScopeNote: number,
-	scopeNoteLg1CanBeEmpty: boolean
+	scopeNoteLg1CanBeEmpty: boolean,
 ) =>
 	z.object({
 		prefLabelLg1: z
@@ -29,7 +29,7 @@ const ConceptZod = (
 						.map((concept: Concept) => concept.label)
 						.includes(value),
 
-				{ message: D.duplicatedLabel }
+				{ message: D.duplicatedLabel },
 			),
 		creator: z
 			.string({ required_error: D.mandatoryProperty(D.creatorTitle) })
@@ -62,15 +62,15 @@ export const validate = (
 	notes: ConceptNotes,
 	oldLabelLg1: string,
 	conceptsWithLinks: ConceptsList,
-	maxLengthScopeNote: number
+	maxLengthScopeNote: number,
 ) =>
 	formatValidation(
 		ConceptZod(
 			oldLabelLg1,
 			conceptsWithLinks,
 			maxLengthScopeNote,
-			!general?.disseminationStatus?.includes('Public')
-		)
+			!general?.disseminationStatus?.includes('Public'),
+		),
 	)({
 		...general,
 		...notes,

@@ -23,7 +23,7 @@ export default function HelpInformation({ msd, codesLists, organisations }) {
 				{msd.rangeType === CODE_LIST && codesLists[msd.codeList]
 					? `${D[`help${msd.rangeType}`]} - ${
 							codesLists[msd.codeList].codeListLabelLg1
-					  }`
+						}`
 					: `${D[`help${msd.rangeType}`]}`}
 
 				{msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (

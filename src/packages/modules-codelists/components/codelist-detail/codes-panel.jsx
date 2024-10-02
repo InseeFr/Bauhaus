@@ -165,7 +165,7 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 			API.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then(
 				(cl) => {
 					setCodes(cl ?? {});
-				}
+				},
 			);
 		} else {
 			getCodesBySearch(codelist.id, handledValue).then((cl) => {

@@ -10,7 +10,7 @@ import { useSecondLang } from '../../utils/hooks/second-lang';
 const LevelVisualizationContainer = ({ loadLevel }) => {
 	const { classificationId, levelId } = useParams();
 	const level = useSelector((state) =>
-		getLevel(state, classificationId, levelId)
+		getLevel(state, classificationId, levelId),
 	);
 	const [secondLang] = useSecondLang();
 
@@ -29,5 +29,5 @@ const mapDispatchToProps = {
 
 export const Component = connect(
 	undefined,
-	mapDispatchToProps
+	mapDispatchToProps,
 )(LevelVisualizationContainer);

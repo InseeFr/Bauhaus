@@ -31,8 +31,8 @@ export const Component = () => {
 						ConceptsApi.getNoteVersionList(id, version).then((notes) => [
 							version,
 							notes,
-						])
-					)
+						]),
+					),
 				)
 					.then((notesAndVersions) => {
 						setNotes(
@@ -44,13 +44,13 @@ export const Component = () => {
 										emptyNotes,
 										Object.keys(notes[1]).reduce((formatted, noteName) => {
 											formatted[noteName] = rmesHtmlToRawHtml(
-												notes[1][noteName]
+												notes[1][noteName],
 											);
 											return formatted;
-										}, {})
+										}, {}),
 									),
 								};
-							}, {})
+							}, {}),
 						);
 					})
 					.finally(() => setLoading(false));

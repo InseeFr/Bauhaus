@@ -6,7 +6,7 @@ describe('ConditionalDisplay component', () => {
 		const { getByText } = render(
 			<ConditionalDisplay data={[1, 2, 3]}>
 				<div>Content to display</div>
-			</ConditionalDisplay>
+			</ConditionalDisplay>,
 		);
 		getByText('Content to display');
 	});
@@ -15,7 +15,7 @@ describe('ConditionalDisplay component', () => {
 		const { queryByText } = render(
 			<ConditionalDisplay data={undefined}>
 				<div>Content to display</div>
-			</ConditionalDisplay>
+			</ConditionalDisplay>,
 		);
 		expect(queryByText('Content to display')).toBeNull();
 	});
@@ -24,7 +24,7 @@ describe('ConditionalDisplay component', () => {
 		const { queryByText } = render(
 			<ConditionalDisplay data={[]}>
 				<div>Content to display</div>
-			</ConditionalDisplay>
+			</ConditionalDisplay>,
 		);
 		expect(queryByText('Content to display')).toBeNull();
 	});
@@ -33,7 +33,7 @@ describe('ConditionalDisplay component', () => {
 		const { queryByText } = render(
 			<ConditionalDisplay data="not an array">
 				<div>Content to display</div>
-			</ConditionalDisplay>
+			</ConditionalDisplay>,
 		);
 		queryByText('Content to display');
 	});
@@ -42,7 +42,7 @@ describe('ConditionalDisplay component', () => {
 		const { queryByText } = render(
 			<ConditionalDisplay data="">
 				<div>Content to display</div>
-			</ConditionalDisplay>
+			</ConditionalDisplay>,
 		);
 		expect(queryByText('Content to display')).toBeNull();
 	});

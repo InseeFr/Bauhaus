@@ -28,7 +28,7 @@ export const useConceptExporter = () => {
 				ids,
 				type,
 				lang,
-				withConcepts
+				withConcepts,
 			).then(saveFileFromHttpResponse);
 		},
 	});

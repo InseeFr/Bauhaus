@@ -6,7 +6,7 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 const ClassificationTree = ({ data, prefLabel }) => {
 	useTitle(
 		D.classificationsTitle,
-		D.classificationTreeTitle + ': ' + prefLabel
+		D.classificationTreeTitle + ': ' + prefLabel,
 	);
 
 	return (

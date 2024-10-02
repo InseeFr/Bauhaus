@@ -16,7 +16,6 @@ describe('Token Utility Functions', () => {
 		vi.clearAllMocks();
 	});
 
-
 	describe('getToken', () => {
 		it('should return the token from localStorage', () => {
 			localStorage.setItem(SESSION_ITEM, 'test-token');

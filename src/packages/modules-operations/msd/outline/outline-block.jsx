@@ -19,7 +19,7 @@ export const OutlineBlock = ({
 					opened: isOpen(childId),
 				},
 			};
-		}, {})
+		}, {}),
 	);
 
 	const expandOrCollapseItem = ({ currentTarget: { id } }) => {

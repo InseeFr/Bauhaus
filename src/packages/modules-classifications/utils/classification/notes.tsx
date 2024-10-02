@@ -1,4 +1,4 @@
-export const buildNotes = n => [
+export const buildNotes = (n) => [
 	{
 		lg1: n.definitionLg1,
 		lg2: n.definitionLg2,

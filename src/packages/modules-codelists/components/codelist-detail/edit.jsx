@@ -71,7 +71,7 @@ export const DumbCodelistDetailEdit = ({
 				[name]: value,
 			});
 		},
-		[clientSideErrors, codelist]
+		[clientSideErrors, codelist],
 	);
 
 	const handleSaveClick = useCallback(() => {
@@ -237,7 +237,7 @@ export const DumbCodelistDetailEdit = ({
 					<Select
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
-							({ value }) => value === codelist.creator
+							({ value }) => value === codelist.creator,
 						)}
 						options={stampListOptions}
 						onChange={(value) => {

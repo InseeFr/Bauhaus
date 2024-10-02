@@ -14,7 +14,7 @@ describe('Representation', () => {
 				component={component}
 				codesLists={[]}
 				handleCodesListDetail={handleCodesListDetail}
-			/>
+			/>,
 		);
 		await screen.findByText('String');
 	});
@@ -32,7 +32,7 @@ describe('Representation', () => {
 				component={component}
 				codesLists={codesLists}
 				handleCodesListDetail={handleCodesListDetail}
-			/>
+			/>,
 		);
 		await screen.findByText('label');
 		const button = await screen.findByRole('button');

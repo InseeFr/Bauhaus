@@ -6,10 +6,10 @@ const api = {
 		ids: string[],
 		type: string,
 		lang = 'lg1',
-		withConcepts = false
+		withConcepts = false,
 	) => [
 		`export-zip/${ids.join(
-			'_AND_'
+			'_AND_',
 		)}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
 		{
 			headers: {
@@ -24,7 +24,7 @@ const api = {
 		MimeType: string,
 		type: string,
 		lang = 'lg1',
-		withConcepts = false
+		withConcepts = false,
 	) => [
 		`export/${id}/${type}?langue=${lang}&withConcepts=${withConcepts}`,
 		{

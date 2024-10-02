@@ -61,7 +61,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : ${arrayToString(
-												attr[fieldName]
+												attr[fieldName],
 											)}`}
 										</li>
 									);
@@ -73,7 +73,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : ${stringToDate(
-												attr[fieldName]
+												attr[fieldName],
 											)}`}
 										</li>
 									);
@@ -82,7 +82,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : ${stringToDate(
-												attr[fieldName]
+												attr[fieldName],
 											)}`}
 										</li>
 									);

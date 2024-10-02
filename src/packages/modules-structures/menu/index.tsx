@@ -53,7 +53,7 @@ const MenuDSDs = () => {
 					},
 				};
 			},
-			{}
+			{},
 		);
 
 		for (const key in paths) {

@@ -58,7 +58,7 @@ const SimsGeographyPicker = ({
 
 	const openViewPanel = useCallback(() => {
 		setTerritory(
-			geographiesOptions?.find(({ value: v }) => v === value)?.geography
+			geographiesOptions?.find(({ value: v }) => v === value)?.geography,
 		);
 		setSlidingModal(true);
 	}, [geographiesOptions, value]);
@@ -69,7 +69,7 @@ const SimsGeographyPicker = ({
 			loadGeographies();
 			onChange(territoryUri);
 		},
-		[loadGeographies, onChange]
+		[loadGeographies, onChange],
 	);
 
 	const onCancel = useCallback(() => {
@@ -91,17 +91,17 @@ const SimsGeographyPicker = ({
 						value={
 							secondLang
 								? geographiesOptionsLg2.find(
-										({ value: gValue }) => gValue === value
-								  )
+										({ value: gValue }) => gValue === value,
+									)
 								: geographiesOptions.find(
-										({ value: gValue }) => gValue === value
-								  )
+										({ value: gValue }) => gValue === value,
+									)
 						}
 						filterOption={(option, searchValue) => {
 							const search = removeAccents(searchValue.toLowerCase());
 							const label = removeAccents(option?.label.toLowerCase());
 							const typeTerritory = removeAccents(
-								option?.typeTerritory.toLowerCase()
+								option?.typeTerritory.toLowerCase(),
 							);
 							return (
 								!searchValue ||

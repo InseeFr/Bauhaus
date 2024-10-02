@@ -25,7 +25,7 @@ const PublishersInput = ({ value, onChange }: PublishersInputTypes) => {
 					onChange(
 						value.map((v: Option) => {
 							return { id: v.value };
-						})
+						}),
 					);
 				}}
 			/>

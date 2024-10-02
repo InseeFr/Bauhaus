@@ -84,51 +84,51 @@ const indicator = {
 describe('IndicatorInformation', () => {
 	it('should renderer all informations for the main lang', () => {
 		const { container } = renderWithRouter(
-			<OperationsIndicatorVisualization attr={indicator} />
+			<OperationsIndicatorVisualization attr={indicator} />,
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
-			4
+			4,
 		);
 		expect(container.querySelectorAll('.bauhaus-see-also')).toHaveLength(1);
 	});
 
 	it('should show the right number of DisplayLinks component', () => {
 		const { container } = renderWithRouter(
-			<OperationsIndicatorVisualization attr={indicator} secondLang={true} />
+			<OperationsIndicatorVisualization attr={indicator} secondLang={true} />,
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
-			4
+			4,
 		);
 	});
 	it('should show the right data in the DisplayLinks component', () => {
 		const { container } = renderWithRouter(
-			<OperationsIndicatorVisualization attr={indicator} secondLang={true} />
+			<OperationsIndicatorVisualization attr={indicator} secondLang={true} />,
 		);
 		const displayLinks = container.querySelectorAll('.bauhaus-display-links');
 
 		const contributor = displayLinks[0];
 		expect(contributor.querySelector('p').innerHTML).toBe(
-			'Agence centrale des organismes de sécurité sociale'
+			'Agence centrale des organismes de sécurité sociale',
 		);
 
 		const replaces = displayLinks[1];
 		expect(replaces.querySelector('a').href).toContain(
-			'/operations/indicator/p1662'
+			'/operations/indicator/p1662',
 		);
 
 		const replacedBy = displayLinks[2];
 		expect(replacedBy.querySelector('a').href).toContain(
-			'/operations/indicator/p1662'
+			'/operations/indicator/p1662',
 		);
 
 		const wasGeneratedBy = displayLinks[3];
 		expect(wasGeneratedBy.querySelector('a').href).toContain(
-			'/operations/series/s1353'
+			'/operations/series/s1353',
 		);
 	});
 	it('should show the right number of SeeAlso component', () => {
 		const { container } = renderWithRouter(
-			<OperationsIndicatorVisualization attr={indicator} secondLang={true} />
+			<OperationsIndicatorVisualization attr={indicator} secondLang={true} />,
 		);
 		const seeAlso = container.querySelector('.bauhaus-see-also');
 

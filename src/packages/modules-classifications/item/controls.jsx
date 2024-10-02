@@ -17,7 +17,7 @@ const ItemControls = ({ classificationId, itemId, version }) => {
 			: [
 					`/classifications/classification/${classificationId}/item/${itemId}/compare`,
 					D.btnCompare,
-			  ];
+				];
 	const btns = [compare];
 
 	return (

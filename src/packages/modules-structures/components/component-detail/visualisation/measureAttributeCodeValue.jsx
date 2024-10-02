@@ -4,7 +4,7 @@ import { API } from '../../../../modules-codelists/apis';
 export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {
 	const [codesList, setCodesList] = useState();
 	const codeListNotation = codesLists.find(
-		(cl) => cl.id === attribute.codeList
+		(cl) => cl.id === attribute.codeList,
 	)?.notation;
 
 	useEffect(() => {

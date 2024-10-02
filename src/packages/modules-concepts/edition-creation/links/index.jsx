@@ -82,7 +82,7 @@ class LinksEdition extends Component {
 							typeOfLink: this.getActualType(),
 						};
 					return concept;
-				})
+				}),
 			);
 		};
 
@@ -95,7 +95,7 @@ class LinksEdition extends Component {
 							typeOfLink: NONE,
 						};
 					return concept;
-				})
+				}),
 			);
 		};
 

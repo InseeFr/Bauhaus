@@ -46,8 +46,8 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 	const [concepts, setConcepts] = useState(
 		trackConcepts(
 			trackPotentialsConcepts(conceptList, members),
-			trackMembers(members)
-		)
+			trackMembers(members),
+		),
 	);
 
 	const addConcept = (id) => {
@@ -78,7 +78,7 @@ const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 				}
 				return byStatus;
 			},
-			{ toAdd: [], added: [] }
+			{ toAdd: [], added: [] },
 		);
 	};
 

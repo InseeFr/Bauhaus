@@ -118,7 +118,7 @@ class OperationsSerieEdition extends Component {
 						this.setState({
 							serverSideError: err,
 						});
-					}
+					},
 				)
 				.finally(() => this.setState({ saving: false }));
 		}
@@ -140,13 +140,13 @@ class OperationsSerieEdition extends Component {
 			...this.state.serie,
 			seeAlso: (this.state.serie.seeAlso || []).map((link) => link.id),
 			contributors: (this.state.serie.contributors || []).map(
-				(link) => link.id
+				(link) => link.id,
 			),
 			dataCollectors: (this.state.serie.dataCollectors || []).map(
-				(link) => link.id
+				(link) => link.id,
 			),
 			publishers: (this.state.serie.publishers || []).map(
-				(publisher) => publisher.id
+				(publisher) => publisher.id,
 			),
 			replaces: (this.state.serie.replaces || []).map((link) => link.id),
 			replacedBy: (this.state.serie.isReplacedBy || []).map((link) => link.id),
@@ -165,18 +165,18 @@ class OperationsSerieEdition extends Component {
 
 		const seriesOptions = ItemToSelectModel.toSelectModel(
 			series.filter((s) => s.id !== serie.id),
-			'series'
+			'series',
 		);
 
 		const indicatorsOptions = ItemToSelectModel.toSelectModel(
 			indicators,
-			'indicator'
+			'indicator',
 		);
 
 		const seriesAndIndicatorsOptions =
 			ItemToSelectModel.mergedItemsToSelectModels(
 				indicatorsOptions,
-				seriesOptions
+				seriesOptions,
 			);
 
 		const serverSideError = this.state.serverSideError;

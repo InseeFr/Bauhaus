@@ -4,7 +4,7 @@ describe('build raw html from rmes version of html', () => {
 	it('removes wrapping `div` and namespace references', () => {
 		const html = `<div xmlns="http:/www.w3.org/1999/xhtml"><p xmlns="http:/www.w3.org/1999/xhtml">Un propriétaire accédant est un propriétaire qui a encore des emprunts à rembourser pour l’achat de sa résidence principale. </p></div>`;
 		expect(htmlUtils.rmesHtmlToRawHtml(html)).toEqual(
-			'<p>Un propriétaire accédant est un propriétaire qui a encore des emprunts à rembourser pour l’achat de sa résidence principale.</p>'
+			'<p>Un propriétaire accédant est un propriétaire qui a encore des emprunts à rembourser pour l’achat de sa résidence principale.</p>',
 		);
 	});
 });
@@ -13,7 +13,7 @@ describe('transform Draft Html to Xhtml', () => {
 	it('transform <br> into <br/>', () => {
 		const html = `<p>a</p><p><br></p><p>b</p>`;
 		expect(htmlUtils.draftHtmlToXhtml(html)).toEqual(
-			'<p>a</p><p><br/></p><p>b</p>'
+			'<p>a</p><p><br/></p><p>b</p>',
 		);
 	});
 });
@@ -22,13 +22,13 @@ describe('build rmes version of html from raw html', () => {
 	it('removes insecable spaces (&nbsp;)', () => {
 		const html = `<p>Html 1&nbsp;Html 2&nbsp;Html 3</p>`;
 		expect(htmlUtils.rawHtmlToRmesHtml(html)).toContain(
-			'<p>Html 1 Html 2 Html 3</p>'
+			'<p>Html 1 Html 2 Html 3</p>',
 		);
 	});
 	it('adds wrapping `div` and namespace references', () => {
 		const html = `<p>Un propriétaire accédant est un propriétaire qui a encore des emprunts à rembourser pour l’achat de sa résidence principale.</p>`;
 		expect(htmlUtils.rawHtmlToRmesHtml(html)).toEqual(
-			'<div xmlns="http://www.w3.org/1999/xhtml"><p>Un propriétaire accédant est un propriétaire qui a encore des emprunts à rembourser pour l’achat de sa résidence principale.</p></div>'
+			'<div xmlns="http://www.w3.org/1999/xhtml"><p>Un propriétaire accédant est un propriétaire qui a encore des emprunts à rembourser pour l’achat de sa résidence principale.</p></div>',
 		);
 	});
 });
@@ -86,7 +86,7 @@ describe('containUnsupportedStyles', () => {
 		expect(
 			htmlUtils.containUnsupportedStyles({
 				key: 'value',
-			})
+			}),
 		).toBeFalsy();
 	});
 	[
@@ -97,7 +97,7 @@ describe('containUnsupportedStyles', () => {
 			expect(
 				htmlUtils.containUnsupportedStyles({
 					key: value,
-				})
+				}),
 			).toBeTruthy();
 		});
 	});
@@ -108,7 +108,7 @@ describe('containUnsupportedStyles', () => {
 				key: '+value+',
 				key1: 'color-rgb(0,0,0)valuecolor-rgb(0,0,0)',
 				key2: 'bgcolor-rgb(0,0,0)valuebgcolor-rgb(0,0,0)',
-			})
+			}),
 		).toBeTruthy();
 	});
 });

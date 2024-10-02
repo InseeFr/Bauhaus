@@ -8,7 +8,7 @@ describe('Collapsible Panel', () => {
 		render(
 			<CollapsiblePanel id="id" title="title" collapsible={false}>
 				Children
-			</CollapsiblePanel>
+			</CollapsiblePanel>,
 		);
 		const div = screen.getByText('Children');
 		expect(div.getAttribute('hidden')).toBeFalsy();
@@ -19,7 +19,7 @@ describe('Collapsible Panel', () => {
 		const { container } = render(
 			<CollapsiblePanel id="id" title="title" collapsible={false}>
 				Children
-			</CollapsiblePanel>
+			</CollapsiblePanel>,
 		);
 		expect(container.querySelector('#idbutton')).toBeNull();
 	});
@@ -27,7 +27,7 @@ describe('Collapsible Panel', () => {
 		const { container } = render(
 			<CollapsiblePanel id="id" title="title" hidden={false}>
 				Children
-			</CollapsiblePanel>
+			</CollapsiblePanel>,
 		);
 		expect(container.querySelector('#idbutton')).not.toBeNull();
 		expect(container.querySelector('#idbody')).not.toHaveAttribute('hidden');
@@ -36,7 +36,7 @@ describe('Collapsible Panel', () => {
 		const { container } = render(
 			<CollapsiblePanel id="id" title="title" hidden={true}>
 				Children
-			</CollapsiblePanel>
+			</CollapsiblePanel>,
 		);
 		expect(container.querySelector('#idbutton')).not.toBeNull();
 		expect(container.querySelector('#idbody')).toHaveAttribute('hidden');
@@ -45,7 +45,7 @@ describe('Collapsible Panel', () => {
 		const { container } = render(
 			<CollapsiblePanel id="id" title="title" hidden={false}>
 				Children
-			</CollapsiblePanel>
+			</CollapsiblePanel>,
 		);
 		expect(container.querySelector('#idbody')).not.toHaveAttribute('hidden');
 

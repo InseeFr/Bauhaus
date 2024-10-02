@@ -1,4 +1,4 @@
-import {parse } from '@textlint/markdown-to-ast'
+import { parse } from '@textlint/markdown-to-ast';
 
 const defaultInlineStyles = {
 	Strong: {
@@ -85,7 +85,7 @@ const splitMdBlocks = (md: string) => {
 const parseMdLine = (
 	line: any,
 	existingEntities: any,
-	extraStyles: any = {}
+	extraStyles: any = {},
 ) => {
 	const inlineStyles = { ...defaultInlineStyles, ...extraStyles.inlineStyles };
 	const blockStyles = { ...defaultBlockStyles, ...extraStyles.blockStyles };
@@ -104,7 +104,7 @@ const parseMdLine = (
 		children.reduce(
 			(prev: any, current: any) =>
 				prev + (current.value ? current.value.length : 0),
-			0
+			0,
 		);
 
 	const addLink = (child: any) => {
@@ -205,7 +205,7 @@ const parseMdLine = (
 				addInlineStyleRange(
 					text.length,
 					child.value.length,
-					inlineStyles[child.type].type
+					inlineStyles[child.type].type,
 				);
 			}
 
@@ -239,7 +239,7 @@ const parseMdLine = (
 									symbol.length -
 									removedSymbolLength +
 									text.length,
-								regexpConfig.type || symbol
+								regexpConfig.type || symbol,
 							);
 							removedSymbolLength += symbol.length * 2;
 

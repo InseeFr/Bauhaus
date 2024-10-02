@@ -14,7 +14,7 @@ describe('reducerClassificationGeneral', () => {
 		};
 		const result = reducerClassificationGeneral(
 			{ id1: 'previous', id2: 'previous' },
-			action
+			action,
 		);
 		expect(result).toEqual({ id1: {}, id2: 'previous' });
 	});

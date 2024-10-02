@@ -45,7 +45,7 @@ export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
 				return [[...acc[0], path], [...acc[1]]];
 			}
 		},
-		[[], []]
+		[[], []],
 	);
 
 	return (

@@ -4,18 +4,18 @@ import { getMembers } from './members';
 export function getLevel(
 	state: any,
 	classificationId: string,
-	levelId: string
+	levelId: string,
 ) {
 	const general = getGeneral(
 		state.classificationLevelGeneral,
 		classificationId,
-		levelId
+		levelId,
 	);
 	if (!general) return;
 	const members = getMembers(
 		state.classificationLevelMembers,
 		classificationId,
-		levelId
+		levelId,
 	);
 	if (!members) return;
 	return {

@@ -29,7 +29,7 @@ export const useAllCodes = (notation: string, enabled: boolean) => {
 			CodeListApi.getCodesListCodes(notation, 1, 0).then(
 				(codes: { items: Code[] }) => {
 					return sortArray('labelLg1')(codes?.items || []);
-				}
+				},
 			),
 	});
 };

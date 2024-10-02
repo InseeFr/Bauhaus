@@ -44,7 +44,7 @@ export const EquivalentLinks = ({ links = [], updateEquivalentLinks }) => {
 								aria-label={D.btnDelete}
 								onClick={() => {
 									updateEquivalentLinks(
-										links.filter(({ urn }) => urn !== link.urn)
+										links.filter(({ urn }) => urn !== link.urn),
 									);
 								}}
 							>

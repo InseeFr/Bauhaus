@@ -29,7 +29,7 @@ const Picker = ({
 				}
 				return byStatus;
 			},
-			{ toSelect: [], selected: [] }
+			{ toSelect: [], selected: [] },
 		);
 	};
 	const { toSelect, selected } = getCodesByStatus();

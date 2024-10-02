@@ -13,7 +13,7 @@ const Outline = ({
 	disableSectionAnchor,
 }) => {
 	const [opened, setOpened] = useState(
-		storeCollapseState && isOpen(metadataStructure.idMas)
+		storeCollapseState && isOpen(metadataStructure.idMas),
 	);
 
 	const expandOrCollapseItem = () => {

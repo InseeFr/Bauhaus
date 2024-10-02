@@ -18,7 +18,7 @@ const Members = ({ members, secondLang }) => {
 						{m.labelLg2}
 					</Link>
 				</li>
-			) : null
+			) : null,
 		);
 	const isMembersLg2 = membersLg2.filter((m) => m !== null).length !== 0;
 	return (

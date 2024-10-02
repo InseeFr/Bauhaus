@@ -11,7 +11,7 @@ describe('visualization-compare-notes', () => {
 				secondLang={false}
 				version={2}
 				buildNotes={builder}
-			/>
+			/>,
 		);
 	});
 });

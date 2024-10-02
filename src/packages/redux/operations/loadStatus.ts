@@ -11,7 +11,7 @@ import {
  */
 export const operationsSimsCurrentStatus = function (
 	state = NOT_LOADED,
-	action: any
+	action: any,
 ) {
 	switch (action.type) {
 		case LOAD_OPERATIONS_SIMS_SUCCESS:

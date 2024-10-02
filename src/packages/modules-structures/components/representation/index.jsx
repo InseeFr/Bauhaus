@@ -3,7 +3,7 @@ import { XSD_TYPES } from '../../utils/constants';
 import './index.scss';
 const Representation = ({ component, codesLists, handleCodesListDetail }) => {
 	const codeList = codesLists.find(
-		({ id }) => id?.toString() === component.codeList?.toString()
+		({ id }) => id?.toString() === component.codeList?.toString(),
 	)?.label;
 
 	if (codeList) {

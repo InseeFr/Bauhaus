@@ -9,7 +9,7 @@ describe('Family Home Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu family={{} as Family} publish={vi.fn()} />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Update');
@@ -21,7 +21,7 @@ describe('Family Home Page Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu family={{} as Family} publish={vi.fn()} />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('Update')).toBeNull();

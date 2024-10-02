@@ -50,7 +50,7 @@ describe('<StructureView />', () => {
 						} as Structure
 					}
 				></StructureView>
-			</Provider>
+			</Provider>,
 		);
 
 		expect(container.querySelector('h2')!.innerHTML).toEqual('labelLg1');
@@ -68,15 +68,15 @@ describe('<StructureView />', () => {
 						} as Structure
 					}
 				></StructureView>
-			</Provider>
+			</Provider>,
 		);
 		expect((GlobalInformationsPanel as jest.Mock).mock.calls).toHaveLength(1);
 		expect((DescriptionsPanel as jest.Mock).mock.calls).toHaveLength(1);
 		expect(
-			(DescriptionsPanel as jest.Mock).mock.calls[0][0].descriptionLg1
+			(DescriptionsPanel as jest.Mock).mock.calls[0][0].descriptionLg1,
 		).toBe('descriptionLg1');
 		expect(
-			(DescriptionsPanel as jest.Mock).mock.calls[0][0].descriptionLg2
+			(DescriptionsPanel as jest.Mock).mock.calls[0][0].descriptionLg2,
 		).toBe('descriptionLg2');
 		expect((ComponentsPanel as jest.Mock).mock.calls).toHaveLength(1);
 	});

@@ -11,7 +11,7 @@ describe('ComponentSpecificationForm', () => {
 				component={component}
 				structureComponents={[]}
 				selectedComponent={{ component }}
-			/>
+			/>,
 		);
 		await screen.findByLabelText('Notation');
 		await screen.findByLabelText('Libellé');
@@ -34,7 +34,7 @@ describe('ComponentSpecificationForm', () => {
 					structureComponents={[]}
 					selectedComponent={{ component }}
 					onChange={onChange}
-				/>
+				/>,
 			);
 			const input = await screen.findByLabelText(label);
 			fireEvent.change(input, { target: { value: 'value' } });

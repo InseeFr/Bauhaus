@@ -78,7 +78,7 @@ export const UpdateButton = (props: ComponentProps<typeof Button>) => {
 };
 
 export const AbstractButton = (
-	props: { icon?: unknown } & ComponentProps<typeof Button>
+	props: { icon?: unknown } & ComponentProps<typeof Button>,
 ) => {
 	const p = {
 		...props,
@@ -93,7 +93,7 @@ export const AbstractButton = (
 };
 
 export const ReturnButton = (
-	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>,
 ) => {
 	return (
 		<AbstractButton
@@ -124,7 +124,7 @@ export const ReturnButton = (
 };
 
 export const ResetButton = (
-	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>,
 ) => {
 	return (
 		<AbstractButton
@@ -155,7 +155,7 @@ export const ResetButton = (
 };
 
 export const ExportButton = (
-	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>,
 ) => {
 	return (
 		<AbstractButton
@@ -190,7 +190,7 @@ export const ExportButton = (
 };
 
 export const ImportButton = (
-	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>,
 ) => {
 	return (
 		<AbstractButton
@@ -225,7 +225,7 @@ export const ImportButton = (
 };
 
 export const PublishButton = (
-	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>,
 ) => {
 	return (
 		<AbstractButton
@@ -255,7 +255,7 @@ export const PublishButton = (
 	);
 };
 export const NewButton = (
-	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>,
 ) => {
 	return (
 		<AbstractButton
@@ -327,7 +327,7 @@ export const CancelButton = ({
 	);
 };
 export const SaveButton = (
-	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>,
 ) => {
 	return (
 		<AbstractButton
@@ -354,7 +354,7 @@ export const SaveButton = (
 };
 
 export const DuplicateButton = (
-	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>,
 ) => {
 	return (
 		<AbstractButton
@@ -382,7 +382,7 @@ export const DuplicateButton = (
 };
 
 export const DeleteButton = (
-	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>
+	props: Omit<ComponentProps<typeof AbstractButton>, 'icon'>,
 ) => {
 	return (
 		<AbstractButton

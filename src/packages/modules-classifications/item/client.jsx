@@ -10,7 +10,7 @@ export const fetchingPreviousLevels = (classificationId, general) => {
 
 	const currentLevel = general.broaderURI.substring(
 		general.broaderURI.indexOf(classificationId) + classificationId.length + 1,
-		general.broaderURI.lastIndexOf('/')
+		general.broaderURI.lastIndexOf('/'),
 	);
 	const previousLevel =
 		levels[levels.findIndex((level) => level.startsWith(currentLevel))];
@@ -18,7 +18,7 @@ export const fetchingPreviousLevels = (classificationId, general) => {
 	if (!!previousLevel) {
 		return ClassificationsApi.getClassificationLevelMembers(
 			classificationId,
-			previousLevel
+			previousLevel,
 		).then((data) => sortArray('labelLg1')(data));
 	}
 

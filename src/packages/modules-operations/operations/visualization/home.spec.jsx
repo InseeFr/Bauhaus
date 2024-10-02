@@ -15,10 +15,10 @@ describe('OperationVisualization', () => {
 				secondLang={false}
 				isModalOpen={false}
 				closeModal={vi.fn()}
-			/>
+			/>,
 		);
 		expect(container.querySelectorAll('.row:first-child .note')).toHaveLength(
-			1
+			1,
 		);
 	});
 
@@ -36,7 +36,7 @@ describe('OperationVisualization', () => {
 				exportVarBook={vi.fn()}
 				isModalOpen={false}
 				closeModal={vi.fn()}
-			/>
+			/>,
 		);
 
 		expect(container.querySelectorAll('.note')).toHaveLength(5);

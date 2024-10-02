@@ -5,13 +5,13 @@ import { Note } from '../../components/note';
 export const RubricEssentialMsg = ({ secondLang }) => {
 	const simsContext = useSimsContext();
 	const numberOfEssantialRubricsKOLg1 = Object.values(simsContext).filter(
-		(rubric) => rubric.essentialRubricKoLg1
+		(rubric) => rubric.essentialRubricKoLg1,
 	).length;
 	const numberOfEssantialRubricsKOLg2 = Object.values(simsContext).filter(
-		(rubric) => rubric.essentialRubricKoLg2
+		(rubric) => rubric.essentialRubricKoLg2,
 	).length;
 	const numberOfEssantialRubrics = Object.values(simsContext).filter(
-		(rubric) => rubric.minOccurs === '1'
+		(rubric) => rubric.minOccurs === '1',
 	).length;
 	const numberOfEssantialRubricsOKLg1 =
 		numberOfEssantialRubrics - numberOfEssantialRubricsKOLg1;
@@ -31,7 +31,7 @@ export const RubricEssentialMsg = ({ secondLang }) => {
 			<Note
 				text={i18nkeyLg1(
 					numberOfEssantialRubricsOKLg1,
-					numberOfEssantialRubrics
+					numberOfEssantialRubrics,
 				)}
 				title={D.essentialRubric}
 				alone={!secondLang}
@@ -40,7 +40,7 @@ export const RubricEssentialMsg = ({ secondLang }) => {
 				<Note
 					text={i18nkeyLg2(
 						numberOfEssantialRubricsOKLg2,
-						numberOfEssantialRubrics
+						numberOfEssantialRubrics,
 					)}
 					title={D2.essentialRubric}
 					alone={!secondLang}

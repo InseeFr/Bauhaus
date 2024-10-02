@@ -8,7 +8,7 @@ describe('concepts-advanced-search-controls', () => {
 				onClickReturn={vi.fn()}
 				initializeState={vi.fn()}
 				conceptsList={[]}
-			/>
+			/>,
 		);
 	});
 });

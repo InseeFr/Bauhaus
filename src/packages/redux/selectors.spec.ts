@@ -21,7 +21,7 @@ describe('getPermission', () => {
 			stamp: 'stamp',
 		};
 		expect(selector.getPermission(input as unknown as ReduxModel)).toEqual(
-			output
+			output,
 		);
 	});
 });

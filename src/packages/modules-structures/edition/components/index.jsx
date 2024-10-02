@@ -23,7 +23,7 @@ const Components = ({ componentDefinitions, onChange, structure = {} }) => {
 	}, []);
 	useEffect(() => {
 		StructureApi.getMutualizedComponents().then((res) =>
-			setMutualizedComponents(res)
+			setMutualizedComponents(res),
 		);
 	}, []);
 	return (

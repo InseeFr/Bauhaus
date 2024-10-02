@@ -66,7 +66,7 @@ const ConceptSearchList = ({
 		.filter(filterModifiedDate(dateModifiedStart, dateModifiedEnd));
 
 	const disseminationStatusListOptions = disseminationStatusList.map(
-		({ label, url: value }) => ({ label, value })
+		({ label, url: value }) => ({ label, value }),
 	);
 	const stampListOptions = stampList.map((stamp) => {
 		return {
@@ -141,7 +141,7 @@ const ConceptSearchList = ({
 							placeholder={D.disseminationStatusPlaceholder}
 							value={
 								disseminationStatusListOptions.find(
-									({ value }) => value === disseminationStatus
+									({ value }) => value === disseminationStatus,
 								) || ''
 							}
 							options={disseminationStatusListOptions}
@@ -155,7 +155,7 @@ const ConceptSearchList = ({
 							placeholder={D.validationStatusPlaceholder}
 							value={
 								validationStatusOptions.find(
-									({ value }) => value === validationStatus
+									({ value }) => value === validationStatus,
 								) || ''
 							}
 							options={validationStatusOptions}

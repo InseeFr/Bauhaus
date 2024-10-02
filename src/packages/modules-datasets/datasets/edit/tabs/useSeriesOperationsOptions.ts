@@ -6,7 +6,7 @@ import { Operation } from '../../../../model/Operation';
 
 const generateOperationsOptionsBasedOnSeries = (
 	serie: Series,
-	operations: Operation[]
+	operations: Operation[],
 ): Options => {
 	return operations
 		.filter((operation) => operation.seriesIri === serie.iri)

@@ -10,7 +10,7 @@ import { draftjsToMd } from '../components/rich-editor/draftjs/draftjsToMd';
 
 export const containUnsupportedStyles = (attr: any = {}) => {
 	return !!REGEXPS.map((r) => r.regexp).find(
-		(regexp) => !!Object.keys(attr).find((key) => regexp.test(attr[key]))
+		(regexp) => !!Object.keys(attr).find((key) => regexp.test(attr[key])),
 	);
 };
 export const htmlToRawText = (html: string) => {
@@ -115,11 +115,11 @@ export function mdFromEditorState(editorState: EditorState) {
 						index !== inlineStyleIndex &&
 						inlineStyleRanges[index].offset === currentInlineStyle.offset
 					);
-				}
+				},
 			);
 			let minLength = Math.min(
 				currentInlineStyle.length,
-				...withSameOffset.map((style: any) => style.length)
+				...withSameOffset.map((style: any) => style.length),
 			);
 			if (text[currentInlineStyle.offset + minLength - 1] === ' ') {
 				minLength -= 1;

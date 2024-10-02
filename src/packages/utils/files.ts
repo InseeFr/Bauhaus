@@ -8,7 +8,7 @@ export const saveFileFromHttpResponse = (response: Response) => {
 
 	if (contentDisposition === null) {
 		console.error(
-			'Unable to download the File due to a missing Content-Disposition header'
+			'Unable to download the File due to a missing Content-Disposition header',
 		);
 		return Promise.reject();
 	}

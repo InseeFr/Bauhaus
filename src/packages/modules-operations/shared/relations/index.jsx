@@ -32,7 +32,7 @@ export function RelationsViewPerLgContent({
 						{children
 							.sort(function (a, b) {
 								return a[`label${langSuffix}`].localeCompare(
-									b[`label${langSuffix}`]
+									b[`label${langSuffix}`],
 								);
 							})
 							.map((item) => (

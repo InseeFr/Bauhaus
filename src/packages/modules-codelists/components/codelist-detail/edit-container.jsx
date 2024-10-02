@@ -22,7 +22,7 @@ const useBackOrReplaceHook = () => {
 				navigate(defaultRoute, { replace: true });
 			}
 		},
-		[navigate, location]
+		[navigate, location],
 	);
 };
 
@@ -60,7 +60,7 @@ const CodelistEdit = (props) => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[tree, goBackOrReplace, id]
+		[tree, goBackOrReplace, id],
 	);
 
 	useEffect(() => {

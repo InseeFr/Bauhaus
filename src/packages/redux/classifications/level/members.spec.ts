@@ -17,7 +17,7 @@ describe('reducerLevelMembers', () => {
 					sections: 'previous',
 				},
 			},
-			action
+			action,
 		);
 		expect(result).toEqual({
 			nafr2: {
@@ -37,7 +37,7 @@ describe('reducerLevelMembers', () => {
 					sections: 'previous',
 				},
 			},
-			action
+			action,
 		);
 		expect(result).toEqual({
 			nafr2: {
@@ -57,7 +57,7 @@ describe('getMembers', () => {
 				},
 			},
 			'nafr2',
-			'divisions'
+			'divisions',
 		);
 		expect(result).toBe(undefined);
 	});
@@ -69,7 +69,7 @@ describe('getMembers', () => {
 				},
 			},
 			'nafr2',
-			'sections'
+			'sections',
 		);
 		expect(result).toEqual('members');
 	});

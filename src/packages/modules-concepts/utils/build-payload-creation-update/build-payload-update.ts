@@ -20,7 +20,7 @@ const generalFieldsToKeep = [
 export default function buildPayloadUpdate(
 	versioning: any,
 	oldConcept: any,
-	concept: any
+	concept: any,
 ) {
 	const { notes: oldNotes } = oldConcept;
 	const { general: rawGeneral, notes, conceptsWithLinks } = concept;
@@ -34,8 +34,8 @@ export default function buildPayloadUpdate(
 					typeOfLink: CLOSE_MATCH,
 					urn: [...acc.urn, link.urn],
 				}),
-				{ urn: [] }
-			)
+				{ urn: [] },
+			),
 		);
 	}
 

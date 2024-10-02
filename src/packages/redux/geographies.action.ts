@@ -45,7 +45,7 @@ const loadGeographiesError = (error: any) => {
 // Reducer
 export const reducer = (
 	state: ReduxModel = {} as ReduxModel,
-	{ type, payload }: any
+	{ type, payload }: any,
 ) => {
 	switch (type) {
 		case LOAD_GEOGRAPHIES:
@@ -75,7 +75,7 @@ export const loadGeographies = () => (dispatch: any) => {
 		(results) => {
 			dispatch(loadGeographiesSuccess(results));
 		},
-		(error) => loadGeographiesError(error)
+		(error) => loadGeographiesError(error),
 	);
 };
 
@@ -86,10 +86,10 @@ const formatLabel = (
 	label: string,
 	geography: any,
 	geographies: any,
-	D: any
+	D: any,
 ) => {
 	const numberOfGeographieWithTheSameName = geographies.filter(
-		(g: any) => g.labelLg1 === geography.labelLg1
+		(g: any) => g.labelLg1 === geography.labelLg1,
 	).length;
 
 	if (numberOfGeographieWithTheSameName > 1) {
@@ -97,7 +97,7 @@ const formatLabel = (
 			return D.geography.labelWithStartDateAndEndDate(
 				label,
 				geography.dateCreation,
-				geography.dateSuppression
+				geography.dateSuppression,
 			);
 		} else if (geography.dateCreation) {
 			return D.geography.labelWithStartDate(label, geography.dateCreation);
@@ -127,7 +127,7 @@ export const getAllOptions = (state: ReduxModel) => {
 				geography.labelLg2,
 				geography,
 				geographiesSorted,
-				D2
+				D2,
 			),
 			value: geography.uri,
 			typeTerritory: geography.typeTerritory,

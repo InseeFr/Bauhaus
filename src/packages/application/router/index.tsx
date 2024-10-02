@@ -31,7 +31,7 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 	} = useAppContext();
 	const { version } = useAppContext();
 	const footer = `${getEnvVar('NAME')} - Front ${getEnvVar(
-		'VERSION'
+		'VERSION',
 	)} - API ${version}`;
 
 	const isHomePage = location.pathname === '/';

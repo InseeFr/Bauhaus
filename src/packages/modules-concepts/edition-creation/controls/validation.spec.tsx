@@ -26,8 +26,8 @@ describe('validation', function () {
 				notes,
 				oldLabelLg1,
 				conceptsWithLinks,
-				maxLengthScopeNote
-			)
+				maxLengthScopeNote,
+			),
 		).toEqual({
 			errorMessage: ['The property <strong>Owner</strong> is required.'],
 			fields: {
@@ -66,8 +66,8 @@ describe('validation', function () {
 				notes,
 				oldLabelLg1,
 				conceptsWithLinks,
-				maxLengthScopeNote
-			)
+				maxLengthScopeNote,
+			),
 		).toEqual({
 			errorMessage: ['This label already exists'],
 			fields: {
@@ -106,8 +106,8 @@ describe('validation', function () {
 				notes,
 				oldLabelLg1,
 				conceptsWithLinks,
-				maxLengthScopeNote
-			)
+				maxLengthScopeNote,
+			),
 		).toEqual({
 			errorMessage: [
 				'Short definition is limited to 350 characters',
@@ -149,8 +149,8 @@ describe('validation', function () {
 				notes,
 				oldLabelLg1,
 				conceptsWithLinks,
-				maxLengthScopeNote
-			)
+				maxLengthScopeNote,
+			),
 		).toEqual({
 			errorMessage: [
 				'As dissemination status is public, short definition has to be completed',
@@ -192,8 +192,8 @@ describe('validation', function () {
 				notes,
 				oldLabelLg1,
 				conceptsWithLinks,
-				maxLengthScopeNote
-			)
+				maxLengthScopeNote,
+			),
 		).toEqual({
 			errorMessage: [],
 			fields: {

@@ -22,7 +22,7 @@ const useBackOrReplaceHook = () => {
 				navigate(defaultRoute, { replace: true });
 			}
 		},
-		[navigate, location]
+		[navigate, location],
 	);
 };
 
@@ -70,7 +70,7 @@ export const Component = (props) => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[goBackOrReplace, id]
+		[goBackOrReplace, id],
 	);
 
 	useEffect(() => {
@@ -83,7 +83,7 @@ export const Component = (props) => {
 							label: cl.labelLg1,
 							iriParent: cl.uri,
 						};
-					})
+					}),
 				);
 			})
 			.finally(() => setLoadingLists(false));
@@ -94,7 +94,7 @@ export const Component = (props) => {
 			API.getCodelistPartial(id)
 				.then((cl) => {
 					const idParent = globalCodeListOptions.find(
-						(parent) => parent.iriParent === cl.iriParent
+						(parent) => parent.iriParent === cl.iriParent,
 					).value;
 					return CodeListApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
 						setCodelist(formatPartialCodeList(cl, codes.items));

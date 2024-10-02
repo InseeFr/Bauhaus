@@ -60,7 +60,7 @@ export class EditorHTML extends Component<EditorHTMLTypes, EditorHTMLState> {
 
 	shouldComponentUpdate(
 		nextProps: EditorHTMLTypes,
-		nextState: EditorHTMLState
+		nextState: EditorHTMLState,
 	) {
 		return this.props.smart ? nextState !== this.state : true;
 	}

@@ -46,7 +46,7 @@ const api = {
 	getCodesByCodeAndLabel: (
 		id: string,
 		valueCode: string,
-		valueLabel: string
+		valueLabel: string,
 	) => [
 		`detailed/${id}/codes?page=1&search=code:${valueCode}&search=labelLg1:${valueLabel}`,
 	],

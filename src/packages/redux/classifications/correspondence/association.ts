@@ -45,7 +45,7 @@ export default reducers;
 export const getAssociation = (
 	state: any,
 	correspondenceId: string,
-	associationId: string
+	associationId: string,
 ) =>
 	state.classificationsCorrespondenceAssociation[correspondenceId]?.[
 		associationId

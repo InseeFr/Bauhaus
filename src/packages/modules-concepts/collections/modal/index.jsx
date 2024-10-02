@@ -14,20 +14,20 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 		(MimeType, lang, withConcepts) => {
 			exportOdt(ids, MimeType, lang, withConcepts);
 		},
-		[ids, exportOdt]
+		[ids, exportOdt],
 	);
 	const handleOdsExportCollectionListCallback = useCallback(
 		(MimeType, lang, withConcepts) => {
 			exportOds(ids, MimeType, lang, withConcepts);
 		},
-		[ids, exportOds]
+		[ids, exportOds],
 	);
 
 	const closeOdt = useCallback(() => {
 		handleOdtExportCollectionListCallback(
 			'application/vnd.oasis.opendocument.text',
 			lang,
-			withConcepts
+			withConcepts,
 		);
 		close();
 	}, [close, handleOdtExportCollectionListCallback, lang, withConcepts]);
@@ -36,7 +36,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 		handleOdsExportCollectionListCallback(
 			'application/vnd.oasis.opendocument.text',
 			lang,
-			withConcepts
+			withConcepts,
 		);
 		close();
 	}, [close, handleOdsExportCollectionListCallback, lang, withConcepts]);

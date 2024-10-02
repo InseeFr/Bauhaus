@@ -17,7 +17,7 @@ const call =
 				dispatch({
 					type: FAILURE,
 					payload: { err },
-				})
+				}),
 		);
 	};
 export default call;
@@ -34,7 +34,7 @@ export const getPublishFactory = (
 	remoteCall: any,
 	LOADING: any,
 	SUCCESS: any,
-	FAILURE: any
+	FAILURE: any,
 ) => {
 	return (object: any, callback = () => {}) =>
 		(dispatch: any) => {
@@ -57,7 +57,7 @@ export const getPublishFactory = (
 						payload: { err },
 					});
 					callback(err);
-				}
+				},
 			);
 		};
 };
@@ -85,6 +85,6 @@ export const getItemFactory =
 				dispatch({
 					type: FAILURE,
 					payload: { err },
-				})
+				}),
 		);
 	};

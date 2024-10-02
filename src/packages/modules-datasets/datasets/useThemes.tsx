@@ -15,7 +15,7 @@ export const useThemes = () =>
 							{theme.label} <i>({theme.idConceptScheme})</i>
 						</>
 					),
-				}))
+				})),
 			);
 		},
 	});

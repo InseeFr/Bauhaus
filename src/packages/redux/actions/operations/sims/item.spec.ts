@@ -18,7 +18,7 @@ describe('SIMS actions', () => {
 	describe('get a sims', () => {
 		beforeEach(() => {
 			OperationsApi.getOperation = vi.fn(() =>
-				Promise.resolve({ series: { id: 2 } })
+				Promise.resolve({ series: { id: 2 } }),
 			);
 			OperationsApi.getOperationsWithoutReport = vi.fn(() => ['value1']);
 		});
@@ -101,7 +101,7 @@ describe('SIMS actions', () => {
 			expect(OperationsApi.getSims).toHaveBeenCalledWith('1');
 			expect(OperationsApi.getOperation).not.toHaveBeenCalledWith(3);
 			expect(OperationsApi.getOperationsWithoutReport).not.toHaveBeenCalledWith(
-				2
+				2,
 			);
 			expect(dispatch).toHaveBeenCalledWith({
 				type: A.LOAD_OPERATIONS_SIMS,
@@ -148,13 +148,11 @@ describe('SIMS actions', () => {
 				return Promise.resolve('');
 			});
 			OperationsApi.getOperation = vi.fn(() =>
-				Promise.resolve('result get operation')
+				Promise.resolve('result get operation'),
 			);
-			OperationsApi.getSerie = vi.fn(() =>
-				Promise.resolve('result get serie')
-			);
+			OperationsApi.getSerie = vi.fn(() => Promise.resolve('result get serie'));
 			OperationsApi.getIndicatorById = vi.fn(() =>
-				Promise.resolve('result get indicator')
+				Promise.resolve('result get indicator'),
 			);
 		});
 
@@ -172,7 +170,7 @@ describe('SIMS actions', () => {
 						...sims,
 						[id]: 1,
 					},
-					vi.fn()
+					vi.fn(),
 				)(dispatch);
 
 				apis
@@ -189,7 +187,7 @@ describe('SIMS actions', () => {
 						...sims,
 						labelLg1: 'labelLg1',
 					},
-					vi.fn()
+					vi.fn(),
 				)(dispatch);
 				apis.forEach((method) => {
 					expect(OperationsApi[method]).not.toHaveBeenCalled();
@@ -201,7 +199,7 @@ describe('SIMS actions', () => {
 					{
 						...sims,
 					},
-					vi.fn()
+					vi.fn(),
 				)(dispatch);
 				expect(OperationsApi.getOperation).not.toHaveBeenCalled();
 				expect(OperationsApi.getSerie).not.toHaveBeenCalled();

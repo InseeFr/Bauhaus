@@ -13,7 +13,7 @@ describe('concept-visualization-controls', () => {
 				conceptVersion="1"
 				handleValidation={vi.fn()}
 				permission={{ authType: '', roles: [''] }}
-			/>
+			/>,
 		);
 	});
 });

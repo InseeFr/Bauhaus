@@ -112,7 +112,7 @@ export const Pagination = ({ itemEls }: { itemEls: any }) => {
 						<Select
 							placeholder={D1.itemPerPagePlaceholder}
 							value={numberPerPageOptions.find(
-								({ value }) => value === numberPerPage
+								({ value }) => value === numberPerPage,
 							)}
 							options={numberPerPageOptions}
 							onChange={onItemPerPageChange}

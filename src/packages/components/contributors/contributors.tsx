@@ -44,8 +44,8 @@ export const ContributorsInput = ({
 				placeholder={D1.contributors.stampsPlaceholder}
 				value={stampListOptions?.filter((c) =>
 					convertToArrayIfDefined(value)?.some((a: string) =>
-						a.includes(c.value)
-					)
+						a.includes(c.value),
+					),
 				)}
 				options={stampListOptions}
 				onChange={(values: { value: string }[]) =>

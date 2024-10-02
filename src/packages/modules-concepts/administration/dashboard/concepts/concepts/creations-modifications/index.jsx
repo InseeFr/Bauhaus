@@ -25,8 +25,8 @@ const ConceptsCreationsModifications = ({ conceptsData, type }) => {
 		: conceptsData
 				.filter((concept) =>
 					dayjs(concept[variable]).isAfter(
-						dayjs(dateFilter).subtract(1, 'days')
-					)
+						dayjs(dateFilter).subtract(1, 'days'),
+					),
 				)
 				.map((d) => ({
 					...d,

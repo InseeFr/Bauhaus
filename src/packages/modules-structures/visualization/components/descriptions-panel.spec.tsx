@@ -23,7 +23,7 @@ describe('DescriptionsPanel', async () => {
 			<DescriptionsPanel
 				descriptionLg1={mockDescriptionLg1}
 				descriptionLg2={mockDescriptionLg2}
-			/>
+			/>,
 		);
 
 		const titleLg1 = screen.getByText(D1.descriptionTitle);
@@ -42,7 +42,7 @@ describe('DescriptionsPanel', async () => {
 			<DescriptionsPanel
 				descriptionLg1={mockDescriptionLg1}
 				descriptionLg2={mockDescriptionLg2}
-			/>
+			/>,
 		);
 
 		screen.getByText(mockDescriptionLg1);

@@ -10,7 +10,7 @@ describe('concept-edition-creation-controls-layout', () => {
 				conceptsWithLinks={[]}
 				handleSave={vi.fn()}
 				redirectCancel={vi.fn()}
-			/>
+			/>,
 		);
 	});
 });

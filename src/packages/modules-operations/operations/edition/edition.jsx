@@ -98,7 +98,7 @@ class OperationsOperationEdition extends Component {
 						this.setState({
 							serverSideError: err,
 						});
-					}
+					},
 				)
 				.finally(() => this.setState({ saving: false }));
 		}

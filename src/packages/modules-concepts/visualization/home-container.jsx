@@ -17,7 +17,7 @@ const formatNotes = (notes) => {
 		Object.keys(notes).reduce((formatted, noteName) => {
 			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
 			return formatted;
-		}, {})
+		}, {}),
 	);
 };
 export const Component = () => {

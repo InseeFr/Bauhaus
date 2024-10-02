@@ -27,10 +27,10 @@ function OperationsSerieVisualization({
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
 	const dataCollectors = (attr.dataCollectors || []).map(
-		(d) => organisations.find((orga) => orga.id === d.id) || {}
+		(d) => organisations.find((orga) => orga.id === d.id) || {},
 	);
 	const contributors = (attr.contributors || []).map(
-		(d) => organisations.find((orga) => orga.id === d.id) || {}
+		(d) => organisations.find((orga) => orga.id === d.id) || {},
 	);
 	return (
 		<>

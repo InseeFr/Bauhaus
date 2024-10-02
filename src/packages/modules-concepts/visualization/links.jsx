@@ -112,7 +112,7 @@ function ConceptLinks({ secondLang, links }) {
 			[RELATED]: [],
 			[CLOSE_MATCH]: [],
 			[IS_REPLACED_BY]: [],
-		}
+		},
 	);
 	const numberOfLinks = Object.values(linksGroupByType).flat().length;
 	if (numberOfLinks === 0) return null;

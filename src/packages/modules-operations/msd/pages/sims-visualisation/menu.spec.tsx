@@ -16,7 +16,7 @@ describe('Family Home Page Menu', () => {
 						onDelete={vi.fn()}
 						owners={[]}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Back');
@@ -32,7 +32,7 @@ describe('Family Home Page Menu', () => {
 						onDelete={vi.fn()}
 						owners={['stamp']}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Duplicate');
@@ -48,7 +48,7 @@ describe('Family Home Page Menu', () => {
 						onDelete={vi.fn()}
 						owners={['stamp']}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Duplicate')).toBeNull();
@@ -64,7 +64,7 @@ describe('Family Home Page Menu', () => {
 						onDelete={vi.fn()}
 						owners={[]}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Duplicate')).toBeNull();
@@ -80,7 +80,7 @@ describe('Family Home Page Menu', () => {
 						onDelete={vi.fn()}
 						owners={['stamp']}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Publish');
@@ -96,7 +96,7 @@ describe('Family Home Page Menu', () => {
 						onDelete={vi.fn()}
 						owners={[]}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Publish')).toBeNull();
@@ -112,7 +112,7 @@ describe('Family Home Page Menu', () => {
 						onDelete={vi.fn()}
 						owners={['stamp']}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Update');
@@ -128,7 +128,7 @@ describe('Family Home Page Menu', () => {
 						onDelete={vi.fn()}
 						owners={[]}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 			expect(screen.queryByText('Update')).toBeNull();
 		});
@@ -144,7 +144,7 @@ describe('Family Home Page Menu', () => {
 					onDelete={vi.fn()}
 					owners={['stamp']}
 				/>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Export');

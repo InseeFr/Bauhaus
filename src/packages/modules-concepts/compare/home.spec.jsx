@@ -11,7 +11,7 @@ describe('concepts-compare', () => {
 				notes={{ 2: {}, 1: {} }}
 				secondLang={false}
 				langs={locales}
-			/>
+			/>,
 		);
 	});
 });

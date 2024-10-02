@@ -20,7 +20,7 @@ export const ExplanatoryNote = ({
 
 	const newText = (md ? markdownToHtml(text) : text).replace(
 		/href="http:\/\/.+?\/codes\/(.+?)\/.+?\/(.+?)"/g,
-		`href="${window.location.origin}/classifications/classification/$1/item/$2"`
+		`href="${window.location.origin}/classifications/classification/$1/item/$2"`,
 	);
 
 	return (

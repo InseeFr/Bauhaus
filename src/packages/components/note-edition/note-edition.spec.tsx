@@ -19,7 +19,7 @@ describe('note-edition', () => {
 					errorMessage: ['error'],
 					fields: { field: 'error' },
 				}}
-			/>
+			/>,
 		);
 	});
 });

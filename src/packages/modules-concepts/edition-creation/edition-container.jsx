@@ -20,7 +20,7 @@ const formatNotes = (notes) => {
 		Object.keys(notes).reduce((formatted, noteName) => {
 			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
 			return formatted;
-		}, {})
+		}, {}),
 	);
 };
 
@@ -73,7 +73,7 @@ export const Component = () => {
 				.then(() => navigate(`/concepts/${id}`))
 				.finally(() => setSaving(false));
 		},
-		[navigate]
+		[navigate],
 	);
 
 	const { general, notes, links } = concept;
@@ -98,7 +98,7 @@ export const Component = () => {
 			general={general}
 			notes={notes}
 			equivalentLinks={concept.links.filter(
-				(link) => link.typeOfLink === CLOSE_MATCH
+				(link) => link.typeOfLink === CLOSE_MATCH,
 			)}
 			conceptsWithLinks={conceptsWithLinks}
 			maxLengthScopeNote={maxLengthScopeNote}

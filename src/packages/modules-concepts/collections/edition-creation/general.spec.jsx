@@ -20,7 +20,7 @@ describe('collection-edition-creation-general', () => {
 				handleChange={vi.fn()}
 				langs={locales}
 				errors={{ errorMessage: [], fields: {} }}
-			/>
+			/>,
 		);
 	});
 });

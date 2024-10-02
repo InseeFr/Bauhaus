@@ -24,7 +24,7 @@ const Levels = ({ levels, classificationId, secondLang }) => {
 						{m.labelLg2}
 					</Link>
 				</li>
-			) : null
+			) : null,
 		);
 	const isMembersLg2 = levelsLg2.filter((m) => m !== null).length !== 0;
 	return (

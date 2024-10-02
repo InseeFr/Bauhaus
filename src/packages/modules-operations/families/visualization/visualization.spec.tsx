@@ -9,7 +9,7 @@ describe('FamilyInformation', () => {
 			abstractLg1: 'descriptionLg1',
 		};
 		const { container } = render(
-			<OperationsFamilyVisualization attr={attr} secondLang={false} />
+			<OperationsFamilyVisualization attr={attr} secondLang={false} />,
 		);
 		expect(container.querySelectorAll('.note')).toHaveLength(4);
 	});
@@ -24,7 +24,7 @@ describe('FamilyInformation', () => {
 			abstractLg2: 'descriptionLg2',
 		};
 		const { container } = render(
-			<OperationsFamilyVisualization attr={attr} secondLang={true} />
+			<OperationsFamilyVisualization attr={attr} secondLang={true} />,
 		);
 		expect(container.querySelectorAll('.note')).toHaveLength(7);
 	});

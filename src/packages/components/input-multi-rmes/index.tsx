@@ -89,7 +89,7 @@ export class InputMultiRmes extends Component<
 			(e: string, j: number) => {
 				if (j === i) return value;
 				return e;
-			}
+			},
 		);
 		// @ts-ignore
 		this.setState({
