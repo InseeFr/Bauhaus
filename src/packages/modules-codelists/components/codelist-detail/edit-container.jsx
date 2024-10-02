@@ -52,7 +52,7 @@ const CodelistEdit = (props) => {
 
 			request(payload)
 				.then(() => {
-					goBackOrReplace(`${codelist.id}`, !!id);
+					goBackOrReplace(`/codelists/${codelist.id}`, !!id);
 				})
 				.catch((error) => {
 					setCodelist(codelist);
