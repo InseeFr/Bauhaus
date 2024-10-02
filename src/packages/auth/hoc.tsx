@@ -16,12 +16,12 @@ const auth = (WrappedComponent: any) => {
 			return <LoginOidcComponent WrappedComponent={WrappedComponent} />;
 
 		if (roles) return <WrappedComponent />;
-		switch (authType) {
-			case NO_AUTH:
-				return <LoginNoAuth />;
-			default:
-				return <div>Error</div>;
+
+		if (authType === NO_AUTH) {
+			return <LoginNoAuth />;
 		}
+
+		return <div>Error</div>;
 	};
 
 	return connect(mapStateToProps)(AuthComponent);

@@ -24,8 +24,8 @@ describe('sortArray', () => {
 
 describe('nbResults', () => {
 	it('should return string ends with any letter', () => {
-		expect(A.nbResults([])).toMatch(/[A-Za-z]{1}$/);
-		expect(A.nbResults(['A'])).toMatch(/[A-Za-z]{1}$/);
+		expect(A.nbResults([])).toMatch(/[A-Za-z]$/);
+		expect(A.nbResults(['A'])).toMatch(/[A-Za-z]$/);
 	});
 
 	it("should return string ends with 's'", () => {

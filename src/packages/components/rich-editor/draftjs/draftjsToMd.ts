@@ -63,21 +63,17 @@ const applyAtomicStyle = (block: any, entityMap: any, content: string) => {
 };
 
 const getEntityStart = (entity: any) => {
-	switch (entity.type) {
-		case 'LINK':
-			return '[';
-		default:
-			return '';
+	if (entity.type === ' LINK') {
+		return '[';
 	}
+	return '';
 };
 
 const getEntityEnd = (entity: any) => {
-	switch (entity.type) {
-		case 'LINK':
-			return `](${entity.data.url})`;
-		default:
-			return '';
+	if (entity.type === ' LINK') {
+		return `](${entity.data.url})`;
 	}
+	return '';
 };
 
 function fixWhitespacesInsideStyle(text: any, style: any) {
