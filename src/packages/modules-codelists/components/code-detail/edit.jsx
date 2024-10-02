@@ -125,7 +125,7 @@ export const CodeDetailEdit = ({
 							disabled={updateMode}
 							aria-invalid={!!clientSideErrors.fields?.code}
 							aria-describedby={
-								!!clientSideErrors.fields?.code ? 'code-error' : null
+								clientSideErrors.fields?.code ? 'code-error' : null
 							}
 						/>
 						<ClientSideError
@@ -144,7 +144,7 @@ export const CodeDetailEdit = ({
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+								clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
 							}
 						/>
 						<ClientSideError
@@ -161,7 +161,7 @@ export const CodeDetailEdit = ({
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+								clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
 							}
 						/>
 						<ClientSideError

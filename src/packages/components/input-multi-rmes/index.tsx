@@ -111,9 +111,7 @@ export class InputMultiRmes extends Component<
 		const { arrayLg1, arrayLg2, modalAdd, modalDelete, modalLast } = this.state;
 
 		const altLg1 = this.initInput(arrayLg1, 'arrayLg1');
-		const altLg2 = !!handleChangeLg2
-			? this.initInput(arrayLg2, 'arrayLg2')
-			: [];
+		const altLg2 = handleChangeLg2 ? this.initInput(arrayLg2, 'arrayLg2') : [];
 
 		const button = (lang: string, type: string) => (
 			<span
@@ -124,7 +122,7 @@ export class InputMultiRmes extends Component<
 
 		return (
 			<Row>
-				<div className={`form-group col-md-${!!handleChangeLg2 ? 6 : 12}`}>
+				<div className={`form-group col-md-${handleChangeLg2 ? 6 : 12}`}>
 					<label>
 						{D1[label] ?? label} {button('Lg1', 'minus')}{' '}
 						{button('Lg1', 'plus')}

@@ -192,7 +192,7 @@ class OperationsIndicatorEdition extends Component {
 							arias={{
 								'aria-invalid':
 									!!this.state.clientSideErrors.fields?.prefLabelLg1,
-								'aria-describedby': !!this.state.clientSideErrors.fields
+								'aria-describedby': this.state.clientSideErrors.fields
 									?.prefLabelLg1
 									? 'prefLabelLg1-error'
 									: null,
@@ -214,7 +214,7 @@ class OperationsIndicatorEdition extends Component {
 							arias={{
 								'aria-invalid':
 									!!this.state.clientSideErrors.fields?.prefLabelLg2,
-								'aria-describedby': !!this.state.clientSideErrors.fields
+								'aria-describedby': this.state.clientSideErrors.fields
 									?.prefLabelLg2
 									? 'prefLabelLg2-error'
 									: null,

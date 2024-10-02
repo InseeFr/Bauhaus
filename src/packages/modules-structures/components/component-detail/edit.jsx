@@ -245,7 +245,7 @@ export const DumbComponentDetailEdit = ({
 		...component,
 	}).filter((key) => key.startsWith('attribute_'));
 
-	if (!!component['attributeValue_' + (attributesKeys.length - 1)]) {
+	if (component['attributeValue_' + (attributesKeys.length - 1)]) {
 		component['attribute_' + attributesKeys.length] = '';
 		component['attributeValue_' + attributesKeys.length] = '';
 	}
@@ -295,7 +295,7 @@ export const DumbComponentDetailEdit = ({
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.identifiant}
 							aria-describedby={
-								!!clientSideErrors.fields?.identifiant
+								clientSideErrors.fields?.identifiant
 									? 'identifiant-error'
 									: null
 							}
@@ -318,7 +318,7 @@ export const DumbComponentDetailEdit = ({
 							value={component.labelLg1}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+								clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
 							}
 						/>
 						<ClientSideError
@@ -338,7 +338,7 @@ export const DumbComponentDetailEdit = ({
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+								clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
 							}
 						/>
 						<ClientSideError

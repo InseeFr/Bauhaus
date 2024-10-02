@@ -81,7 +81,7 @@ export const Picker = ({
 
 	const handleClickValid = () => {
 		const message = added.length === 0 ? labelWarning : '';
-		if (!!message) {
+		if (message) {
 			setClientSideErrors(message);
 		} else {
 			handleUpdateIds();

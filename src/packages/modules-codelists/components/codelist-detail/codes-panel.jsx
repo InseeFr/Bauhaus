@@ -79,7 +79,7 @@ const CodeSlidingPanel = ({
 						value={code.code || ''}
 						aria-invalid={!!clientSideErrors.fields?.code}
 						aria-describedby={
-							!!clientSideErrors.fields?.code ? 'code-error' : null
+							clientSideErrors.fields?.code ? 'code-error' : null
 						}
 					/>
 					<ClientSideError
@@ -98,7 +98,7 @@ const CodeSlidingPanel = ({
 						value={code.labelLg1 || ''}
 						aria-invalid={!!clientSideErrors.fields?.labelLg1}
 						aria-describedby={
-							!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+							clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
 						}
 					/>
 					<ClientSideError
@@ -115,7 +115,7 @@ const CodeSlidingPanel = ({
 						value={code.labelLg2 || ''}
 						aria-invalid={!!clientSideErrors.fields?.labelLg2}
 						aria-describedby={
-							!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+							clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
 						}
 					/>
 					<ClientSideError

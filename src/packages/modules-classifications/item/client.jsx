@@ -15,7 +15,7 @@ export const fetchingPreviousLevels = (classificationId, general) => {
 	const previousLevel =
 		levels[levels.findIndex((level) => level.startsWith(currentLevel))];
 
-	if (!!previousLevel) {
+	if (previousLevel) {
 		return ClassificationsApi.getClassificationLevelMembers(
 			classificationId,
 			previousLevel,

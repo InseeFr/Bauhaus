@@ -20,7 +20,7 @@ export const getAllAttachment = (
 	}));
 
 	// If this measure exists, this attribute can only have a measure as an attachment
-	if (!!measureWithThisAttribute) {
+	if (measureWithThisAttribute) {
 		return measuresOptions;
 	}
 

@@ -129,7 +129,7 @@ const Edition = ({ creation, initialStructure }) => {
 				disabled={!creation}
 				aria-invalid={!!clientSideError.fields?.identifiant}
 				aria-describedby={
-					!!clientSideError.fields?.identifiant ? 'identifiant-error' : null
+					clientSideError.fields?.identifiant ? 'identifiant-error' : null
 				}
 			/>
 			<ClientSideError
@@ -146,7 +146,7 @@ const Edition = ({ creation, initialStructure }) => {
 						onChange={(e) => onChange('labelLg1', e.target.value)}
 						aria-invalid={!!clientSideError.fields?.labelLg1}
 						aria-describedby={
-							!!clientSideError.fields?.labelLg1 ? 'labelLg1-error' : null
+							clientSideError.fields?.labelLg1 ? 'labelLg1-error' : null
 						}
 					/>
 					<ClientSideError
@@ -162,7 +162,7 @@ const Edition = ({ creation, initialStructure }) => {
 						onChange={(e) => onChange('labelLg2', e.target.value)}
 						aria-invalid={!!clientSideError.fields?.labelLg2}
 						aria-describedby={
-							!!clientSideError.fields?.labelLg2 ? 'labelLg2-error' : null
+							clientSideError.fields?.labelLg2 ? 'labelLg2-error' : null
 						}
 					/>
 					<ClientSideError

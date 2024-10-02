@@ -195,7 +195,7 @@ export const DumbCodelistPartialDetailEdit = ({
 							disabled={updateMode}
 							aria-invalid={!!clientSideErrors.fields?.id}
 							aria-describedby={
-								!!clientSideErrors.fields?.id ? 'id-error' : null
+								clientSideErrors.fields?.id ? 'id-error' : null
 							}
 						/>
 						<ClientSideError
@@ -235,7 +235,7 @@ export const DumbCodelistPartialDetailEdit = ({
 							value={codelist.labelLg1 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+								clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
 							}
 						/>
 						<ClientSideError
@@ -252,7 +252,7 @@ export const DumbCodelistPartialDetailEdit = ({
 							value={codelist.labelLg2 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+								clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
 							}
 						/>
 						<ClientSideError

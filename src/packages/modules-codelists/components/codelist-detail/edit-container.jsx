@@ -12,7 +12,7 @@ const useBackOrReplaceHook = () => {
 	const location = useLocation();
 	return useCallback(
 		(defaultRoute, forceRedirect) => {
-			if (!!forceRedirect) {
+			if (forceRedirect) {
 				if (history.length === 1 || location.state) {
 					navigate(defaultRoute);
 				} else {
@@ -64,7 +64,7 @@ const CodelistEdit = (props) => {
 	);
 
 	useEffect(() => {
-		if (!!id) {
+		if (id) {
 			API.getDetailedCodelist(id)
 				.then((cl) => {
 					setCodelist(formatCodeList(cl));

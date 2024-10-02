@@ -15,7 +15,7 @@ const AbstractNewButton = ({
 }: PropsWithChildren<AbstractNewButtonTypes>) => (
 	<NavLink className="new-button btn btn-lg col-md-12" to={action}>
 		<AddLogo />
-		{!!suffix ? (
+		{suffix ? (
 			<span>
 				{children} {suffix}
 			</span>

@@ -250,7 +250,7 @@ const OperationsDocumentationEdition = (props) => {
 							onChange={onChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+								clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
 							}
 						/>
 						<ClientSideError
@@ -266,7 +266,7 @@ const OperationsDocumentationEdition = (props) => {
 							onChange={onChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+								clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
 							}
 						/>
 						<ClientSideError
@@ -305,7 +305,7 @@ const OperationsDocumentationEdition = (props) => {
 								onChange={onChange}
 								aria-invalid={!!clientSideErrors.fields?.url}
 								aria-describedby={
-									!!clientSideErrors.fields?.url ? 'url-error' : null
+									clientSideErrors.fields?.url ? 'url-error' : null
 								}
 							/>
 							<ClientSideError
@@ -349,7 +349,7 @@ const OperationsDocumentationEdition = (props) => {
 											{...getInputProps()}
 											aria-invalid={!!clientSideErrors.fields?.files}
 											aria-describedby={
-												!!clientSideErrors.fields?.files ? 'file-error' : null
+												clientSideErrors.fields?.files ? 'file-error' : null
 											}
 										/>
 										<p>{D.drag}</p>
