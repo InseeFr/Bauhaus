@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router-dom';
 import Routes from './routes';
-//@ts-ignore
 import { PropsWithChildren } from 'react';
 import 'react-app-polyfill/stable';
 import bauhausLogo from '../../../img/logo_noir.svg';
