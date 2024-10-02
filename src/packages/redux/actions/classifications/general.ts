@@ -20,7 +20,7 @@ const fetchClassificationGeneral = (id: string) => (dispatch: any) => {
 			dispatch({
 				type: A.LOAD_CLASSIFICATION_GENERAL_FAILURE,
 				payload: { err, id },
-			})
+			}),
 	);
 };
 

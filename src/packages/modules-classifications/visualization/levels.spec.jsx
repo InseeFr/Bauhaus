@@ -10,7 +10,7 @@ describe('classification-series-levels', () => {
 				levels={levels}
 				classificationId="classification"
 				secondLang={true}
-			/>
+			/>,
 		);
 	});
 });

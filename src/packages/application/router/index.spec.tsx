@@ -56,7 +56,7 @@ describe('RBACLink Component', () => {
 				<RBACLink>
 					<div>Child Component</div>
 				</RBACLink>
-			</Provider>
+			</Provider>,
 		);
 
 		screen.getByText('Child Component');
@@ -73,7 +73,7 @@ describe('RBACLink Component', () => {
 				<RBACLink>
 					<div>Child Component</div>
 				</RBACLink>
-			</Provider>
+			</Provider>,
 		);
 
 		const logoutButton = screen.getByRole('button', {

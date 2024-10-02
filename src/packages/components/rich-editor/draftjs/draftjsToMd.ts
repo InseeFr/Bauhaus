@@ -51,7 +51,7 @@ const applyAtomicStyle = (block: any, entityMap: any, content: string) => {
 	// strip the test that was added in the media block
 	const strippedContent = content.substring(
 		0,
-		content.length - block.text.length
+		content.length - block.text.length,
 	);
 	const key = block.entityRanges[0].key;
 	const type = entityMap[key].type;
@@ -63,21 +63,17 @@ const applyAtomicStyle = (block: any, entityMap: any, content: string) => {
 };
 
 const getEntityStart = (entity: any) => {
-	switch (entity.type) {
-		case 'LINK':
-			return '[';
-		default:
-			return '';
+	if (entity.type === ' LINK') {
+		return '[';
 	}
+	return '';
 };
 
 const getEntityEnd = (entity: any) => {
-	switch (entity.type) {
-		case 'LINK':
-			return `](${entity.data.url})`;
-		default:
-			return '';
+	if (entity.type === ' LINK') {
+		return `](${entity.data.url})`;
 	}
+	return '';
 };
 
 function fixWhitespacesInsideStyle(text: any, style: any) {
@@ -99,7 +95,7 @@ function fixWhitespacesInsideStyle(text: any, style: any) {
 	// Text between the end of trimmed content and closing marker (trailing spaces)
 	const postfix = text.slice(
 		bodyTrimmedStart + bodyTrimmed.length,
-		style.range.end
+		style.range.end,
 	);
 
 	// Temporary text that contains trimmed content wrapped into original pre- and post-texts
@@ -107,7 +103,7 @@ function fixWhitespacesInsideStyle(text: any, style: any) {
 	// Insert leading and trailing spaces between pre-/post- contents and their respective markers
 	return newText.replace(
 		`${symbol}${bodyTrimmed}${symbol}`,
-		`${prefix}${symbol}${bodyTrimmed}${symbol}${postfix}`
+		`${prefix}${symbol}${bodyTrimmed}${symbol}${postfix}`,
 	);
 }
 
@@ -136,7 +132,7 @@ export function draftjsToMd(raw: any, extraMarkdownDict?: any) {
 					let newText = text;
 
 					const sortedInlineStyleRanges = getInlineStyleRangesByLength(
-						block.inlineStyleRanges
+						block.inlineStyleRanges,
 					);
 
 					// find all styled at this character
@@ -144,7 +140,7 @@ export function draftjsToMd(raw: any, extraMarkdownDict?: any) {
 						.filter((range) => range.offset === index)
 						.filter(
 							(range) =>
-								markdownDict[range.style] || RGB_REGEXP.test(range.style)
+								markdownDict[range.style] || RGB_REGEXP.test(range.style),
 						)
 						.forEach((currentStyle) => {
 							let symbol;
@@ -173,7 +169,7 @@ export function draftjsToMd(raw: any, extraMarkdownDict?: any) {
 
 					// check for entityRanges starting and add if existing
 					const entitiesStartAtChar = block.entityRanges.filter(
-						(range: any) => range.offset === index
+						(range: any) => range.offset === index,
 					);
 					entitiesStartAtChar.forEach((entity: any) => {
 						newText += getEntityStart(raw.entityMap[entity.key]);
@@ -184,7 +180,7 @@ export function draftjsToMd(raw: any, extraMarkdownDict?: any) {
 
 					// check for entityRanges ending and add if existing
 					const entitiesEndAtChar = block.entityRanges.filter(
-						(range: any) => range.offset + range.length - 1 === index
+						(range: any) => range.offset + range.length - 1 === index,
 					);
 					entitiesEndAtChar.forEach((entity: any) => {
 						newText += getEntityEnd(raw.entityMap[entity.key]);

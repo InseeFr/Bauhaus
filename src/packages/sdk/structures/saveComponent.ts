@@ -2,7 +2,7 @@ import { Component } from '../../model/structures/Component';
 import { StructureApi } from '../structure-api';
 
 export const saveComponent = (
-	component: Component
+	component: Component,
 ): Promise<string | undefined> => {
 	// We need to sync value if the user does not change the codelist select input
 	if (!!component.codeList && !component.fullCodeListValue) {

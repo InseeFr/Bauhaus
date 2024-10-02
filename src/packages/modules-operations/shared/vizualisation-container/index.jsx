@@ -19,7 +19,7 @@ class VisualizationContainer extends Component {
 	}
 
 	publish(object, publishCall) {
-		publishCall(object, err => {
+		publishCall(object, (err) => {
 			if (err) {
 				this.setState({
 					serverSideError: err,

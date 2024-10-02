@@ -44,7 +44,7 @@ export default membersReducer;
 export function getMembers(
 	state: any,
 	classificationId: string,
-	levelId: string
+	levelId: string,
 ) {
 	return (
 		state[classificationId] &&

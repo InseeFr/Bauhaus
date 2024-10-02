@@ -23,7 +23,7 @@ export const Component = (props) => {
 	useEffect(() => {
 		if (id) {
 			OperationsApi.getIndicatorById(id).then((payload) =>
-				setIndicator(payload)
+				setIndicator(payload),
 			);
 		}
 	}, [id]);

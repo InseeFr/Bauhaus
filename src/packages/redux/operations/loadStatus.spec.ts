@@ -10,7 +10,7 @@ import { LOADED, LOADING, NOT_LOADED } from '../../sdk/constants';
 describe('operationsSimsCurrentStatus reducer', () => {
 	it('should return the previous state', () => {
 		expect(operationsSimsCurrentStatus('STATE', { type: 'BAD_TYPE' })).toBe(
-			'STATE'
+			'STATE',
 		);
 	});
 
@@ -18,22 +18,22 @@ describe('operationsSimsCurrentStatus reducer', () => {
 		expect(
 			operationsSimsCurrentStatus('STATE', {
 				type: LOAD_OPERATIONS_SIMS_SUCCESS,
-			})
+			}),
 		).toBe(LOADED);
 	});
 	it('should return NOT_LOADED', () => {
 		expect(
 			operationsSimsCurrentStatus('STATE', {
 				type: SAVE_OPERATIONS_SIMS_SUCCESS,
-			})
+			}),
 		).toBe(NOT_LOADED);
 	});
 	it('should return LOADING', () => {
 		expect(
-			operationsSimsCurrentStatus('STATE', { type: LOAD_OPERATIONS_SIMS })
+			operationsSimsCurrentStatus('STATE', { type: LOAD_OPERATIONS_SIMS }),
 		).toBe(LOADING);
 		expect(
-			operationsSimsCurrentStatus('STATE', { type: SAVE_OPERATIONS_SIMS })
+			operationsSimsCurrentStatus('STATE', { type: SAVE_OPERATIONS_SIMS }),
 		).toBe(LOADING);
 	});
 });

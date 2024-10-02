@@ -14,7 +14,7 @@ describe('Menu Code List', () => {
 		renderWithRouter(
 			<Provider store={store}>
 				<MenuCodelists />
-			</Provider>
+			</Provider>,
 		);
 	});
 });

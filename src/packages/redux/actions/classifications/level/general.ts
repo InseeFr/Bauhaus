@@ -12,7 +12,7 @@ const fetchClassificationLevelGeneral =
 		});
 		return ClassificationsApi.getClassificationLevelGeneral(
 			classificationId,
-			levelId
+			levelId,
 		).then(
 			(results: any) => {
 				dispatch({
@@ -33,7 +33,7 @@ const fetchClassificationLevelGeneral =
 						classificationId,
 						levelId,
 					},
-				})
+				}),
 		);
 	};
 

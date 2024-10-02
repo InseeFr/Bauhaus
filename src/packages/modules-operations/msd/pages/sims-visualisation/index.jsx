@@ -120,7 +120,7 @@ export default function SimsVisualisation({
 				}
 			});
 		},
-		[publishSims]
+		[publishSims],
 	);
 
 	/**
@@ -256,8 +256,8 @@ export default function SimsVisualisation({
 					<ErrorBloc
 						error={D.missingDocumentWhenExportingSims(
 							Array.from(missingDocuments).map(
-								(id) => documentStores.find((d) => d.id === id)?.labelLg1
-							)
+								(id) => documentStores.find((d) => d.id === id)?.labelLg1,
+							),
 						)}
 						D={D}
 					/>

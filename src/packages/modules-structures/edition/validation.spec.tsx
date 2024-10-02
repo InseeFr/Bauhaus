@@ -7,7 +7,7 @@ describe('validation', function () {
 				identifiant: '',
 				labelLg1: 'labelLg1',
 				labelLg2: 'labelLg2',
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Notation</strong> is required.'],
 			fields: {
@@ -23,7 +23,7 @@ describe('validation', function () {
 				identifiant: 'id',
 				labelLg1: '',
 				labelLg2: 'labelLg2',
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Libellé</strong> is required.'],
 			fields: {
@@ -39,7 +39,7 @@ describe('validation', function () {
 				identifiant: 'id',
 				labelLg1: 'labelLg1',
 				labelLg2: '',
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Label</strong> is required.'],
 			fields: {
@@ -55,7 +55,7 @@ describe('validation', function () {
 				identifiant: 'id',
 				labelLg1: 'labelLg1',
 				labelLg2: 'labelLg2',
-			})
+			}),
 		).toEqual({
 			errorMessage: [],
 			fields: {

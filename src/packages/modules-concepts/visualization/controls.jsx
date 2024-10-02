@@ -57,7 +57,7 @@ const ConceptVisualizationControls = ({
 				setLoading('exporting');
 				return ConceptsApi.getConceptExport(
 					id,
-					'application/vnd.oasis.opendocument.text'
+					'application/vnd.oasis.opendocument.text',
 				)
 					.then(saveFileFromHttpResponse)
 					.finally(() => setLoading());

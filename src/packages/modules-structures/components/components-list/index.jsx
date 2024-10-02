@@ -29,7 +29,7 @@ export const Component = () => {
 
 			setFilter(mode);
 		},
-		[navigate]
+		[navigate],
 	);
 
 	useEffect(() => {

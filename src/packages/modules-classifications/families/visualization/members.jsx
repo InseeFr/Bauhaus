@@ -16,7 +16,7 @@ const Members = ({ members, secondLang }) => {
 				<li key={m.id}>
 					<Link to={`/classifications/series/${m.id}`}>{m.labelLg2}</Link>
 				</li>
-			) : null
+			) : null,
 		);
 	const isMembersLg2 = membersLg2.filter((m) => m !== null).length !== 0;
 	return (

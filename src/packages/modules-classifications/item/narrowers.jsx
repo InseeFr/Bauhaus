@@ -28,7 +28,7 @@ const Narrowers = ({ narrowers, classificationId, secondLang }) => {
 						{`${n.id} - ${n.labelLg2}`}
 					</Link>
 				</li>
-			) : null
+			) : null,
 		);
 	const isMembersLg2 = narrowersLg2.filter((m) => m !== null).length !== 0;
 	return (

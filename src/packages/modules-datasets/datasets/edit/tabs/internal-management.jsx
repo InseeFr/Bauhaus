@@ -32,11 +32,11 @@ const InternalManagementTab = ({
 	const seriesOperationsOptions = useSeriesOperationsOptions();
 
 	const clAccessRightsOptions = convertCodesListsToSelectOption(
-		props[CL_ACCESS_RIGHTS]
+		props[CL_ACCESS_RIGHTS],
 	);
 
 	const clConfStatusOptions = convertCodesListsToSelectOption(
-		props[CL_CONF_STATUS]
+		props[CL_CONF_STATUS],
 	);
 
 	const clProcessStep = convertCodesListsToSelectOption(props[CL_PROCESS_STEP]);

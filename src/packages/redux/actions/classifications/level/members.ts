@@ -12,7 +12,7 @@ const fetchClassificationLevelMembers =
 		});
 		return ClassificationsApi.getClassificationLevelMembers(
 			classificationId,
-			levelId
+			levelId,
 		).then(
 			(results: any) => {
 				dispatch({
@@ -25,7 +25,7 @@ const fetchClassificationLevelMembers =
 				dispatch({
 					type: A.LOAD_CLASSIFICATION_LEVEL_MEMBERS_FAILURE,
 					payload: { err, classificationId, levelId },
-				})
+				}),
 		);
 	};
 export default fetchClassificationLevelMembers;

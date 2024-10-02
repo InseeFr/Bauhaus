@@ -35,7 +35,7 @@ const handleFieldChange = (handleChange, maxLengthScopeNote) =>
 			handlers[noteLg2Name] = (value) => handleChange({ [noteLg2Name]: value });
 			return handlers;
 		},
-		{}
+		{},
 	);
 
 const NotesEdition = ({
@@ -82,7 +82,7 @@ const NotesEdition = ({
 							/>
 						</TabPanel>
 					);
-				}
+				},
 			)}
 		</TabView>
 	);

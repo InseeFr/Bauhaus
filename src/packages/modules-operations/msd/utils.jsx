@@ -19,7 +19,7 @@ export function toggleOpen(id) {
 		JSON.stringify({
 			...collapsed,
 			[id]: !previous,
-		})
+		}),
 	);
 }
 

@@ -18,7 +18,7 @@ export const formatLeaf = (
 	index,
 	parent,
 	baseURL,
-	canHaveChildren = true
+	canHaveChildren = true,
 ) => {
 	return {
 		...leaf,
@@ -34,14 +34,14 @@ export const updateParent = (
 	leaf,
 	children,
 	path,
-	canHaveGrantChildren = true
+	canHaveGrantChildren = true,
 ) => {
 	return {
 		...leaf,
 		expanded: true,
 		childrenFetched: true,
 		children: children.map((d, index) =>
-			formatLeaf(d, index, leaf.index, path, canHaveGrantChildren)
+			formatLeaf(d, index, leaf.index, path, canHaveGrantChildren),
 		),
 	};
 };
@@ -79,8 +79,8 @@ export const Component = () => {
 		OperationsApi.getAllFamilies().then((data) => {
 			setTreeData(
 				data.map((d, index) =>
-					formatLeaf(d, index, undefined, '/operations/family/')
-				)
+					formatLeaf(d, index, undefined, '/operations/family/'),
+				),
 			);
 		});
 	}, []);
@@ -102,8 +102,8 @@ export const Component = () => {
 								treeData,
 								updateParent(node, series, '/operations/series/'),
 								familyIndex,
-								seriesIndex
-							)
+								seriesIndex,
+							),
 						);
 					});
 				} else if (isSeries) {
@@ -112,11 +112,11 @@ export const Component = () => {
 							node,
 							operations,
 							'/operations/operation/',
-							false
+							false,
 						);
 
 						setTreeData(
-							updateTree(treeData, updateNode, familyIndex, seriesIndex)
+							updateTree(treeData, updateNode, familyIndex, seriesIndex),
 						);
 					});
 				}

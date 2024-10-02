@@ -5,12 +5,12 @@ const sortByLabel = sortArray('labelLg1');
 
 export const getCodeList = () =>
 	CodeListApi.getCodesLists().then((response: CodesList[]) =>
-		sortByLabel(response)
+		sortByLabel(response),
 	);
 
 export const getPartialCodeLists = () =>
 	CodeListApi.getPartialCodesLists().then((response: CodesList[]) =>
-		sortByLabel(response)
+		sortByLabel(response),
 	);
 
 export const getFormattedCodeList = (): Promise<CodesLists> => {
@@ -23,6 +23,6 @@ export const getFormattedCodeList = (): Promise<CodesLists> => {
 					notation: id,
 				};
 			});
-		}
+		},
 	);
 };

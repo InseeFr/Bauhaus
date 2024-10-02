@@ -50,7 +50,7 @@ class OperationsIndicatorEdition extends Component {
 				...acc,
 				[selector]: this.onChange(selector),
 			}),
-			{}
+			{},
 		);
 	}
 
@@ -110,7 +110,7 @@ class OperationsIndicatorEdition extends Component {
 						this.setState({
 							serverSideError: err,
 						});
-					}
+					},
 				)
 				.finally(() => this.setState({ saving: false }));
 		}
@@ -127,17 +127,17 @@ class OperationsIndicatorEdition extends Component {
 			...this.state.indicator,
 			seeAlso: (this.state.indicator.seeAlso || []).map((link) => link.id),
 			contributors: (this.state.indicator.contributors || []).map(
-				(link) => link.id
+				(link) => link.id,
 			),
 			publishers: (this.state.indicator.publishers || []).map(
-				(link) => link.id
+				(link) => link.id,
 			),
 			wasGeneratedBy: (this.state.indicator.wasGeneratedBy || []).map(
-				(link) => link.id
+				(link) => link.id,
 			),
 			replaces: (this.state.indicator.replaces || []).map((link) => link.id),
 			replacedBy: (this.state.indicator.isReplacedBy || []).map(
-				(link) => link.id
+				(link) => link.id,
 			),
 		};
 
@@ -147,13 +147,13 @@ class OperationsIndicatorEdition extends Component {
 
 		const indicatorsOptions = ItemToSelectModel.toSelectModel(
 			indicators.filter((s) => s.id !== indicator.id),
-			'indicator'
+			'indicator',
 		);
 
 		const seriesAndIndicatorsOptions =
 			ItemToSelectModel.mergedItemsToSelectModels(
 				indicatorsOptions,
-				seriesOptions
+				seriesOptions,
 			);
 
 		return (
@@ -192,7 +192,7 @@ class OperationsIndicatorEdition extends Component {
 							arias={{
 								'aria-invalid':
 									!!this.state.clientSideErrors.fields?.prefLabelLg1,
-								'aria-describedby': !!this.state.clientSideErrors.fields
+								'aria-describedby': this.state.clientSideErrors.fields
 									?.prefLabelLg1
 									? 'prefLabelLg1-error'
 									: null,
@@ -214,7 +214,7 @@ class OperationsIndicatorEdition extends Component {
 							arias={{
 								'aria-invalid':
 									!!this.state.clientSideErrors.fields?.prefLabelLg2,
-								'aria-describedby': !!this.state.clientSideErrors.fields
+								'aria-describedby': this.state.clientSideErrors.fields
 									?.prefLabelLg2
 									? 'prefLabelLg2-error'
 									: null,
@@ -325,7 +325,7 @@ class OperationsIndicatorEdition extends Component {
 										this.onChange('contributors')(
 											value.map((v) => {
 												return { id: v.value };
-											})
+											}),
 										)
 									}
 								/>
@@ -344,7 +344,7 @@ class OperationsIndicatorEdition extends Component {
 										this.onChange('replaces')(
 											value.map((v) => {
 												return { id: v.value, type: v.type };
-											})
+											}),
 										)
 									}
 									multi
@@ -364,7 +364,7 @@ class OperationsIndicatorEdition extends Component {
 										this.onChange('isReplacedBy')(
 											value.map((v) => {
 												return { id: v.value, type: v.type };
-											})
+											}),
 										)
 									}
 									multi
@@ -385,7 +385,7 @@ class OperationsIndicatorEdition extends Component {
 										this.onChange('wasGeneratedBy')(
 											value.map((v) => {
 												return { id: v.value, type: v.type };
-											})
+											}),
 										)
 									}
 								/>
@@ -404,7 +404,7 @@ class OperationsIndicatorEdition extends Component {
 										this.onChange('seeAlso')(
 											value.map((v) => {
 												return { id: v.value, type: v.type };
-											})
+											}),
 										)
 									}
 									multi

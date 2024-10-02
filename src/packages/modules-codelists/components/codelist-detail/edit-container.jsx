@@ -12,7 +12,7 @@ const useBackOrReplaceHook = () => {
 	const location = useLocation();
 	return useCallback(
 		(defaultRoute, forceRedirect) => {
-			if (!!forceRedirect) {
+			if (forceRedirect) {
 				if (history.length === 1 || location.state) {
 					navigate(defaultRoute);
 				} else {
@@ -22,7 +22,7 @@ const useBackOrReplaceHook = () => {
 				navigate(defaultRoute, { replace: true });
 			}
 		},
-		[navigate, location]
+		[navigate, location],
 	);
 };
 
@@ -52,7 +52,7 @@ const CodelistEdit = (props) => {
 
 			request(payload)
 				.then(() => {
-					goBackOrReplace(`${codelist.id}`, !!id);
+					goBackOrReplace(`/codelists/${codelist.id}`, !!id);
 				})
 				.catch((error) => {
 					setCodelist(codelist);
@@ -60,11 +60,11 @@ const CodelistEdit = (props) => {
 				})
 				.finally(() => setSaving(false));
 		},
-		[tree, goBackOrReplace, id]
+		[tree, goBackOrReplace, id],
 	);
 
 	useEffect(() => {
-		if (!!id) {
+		if (id) {
 			API.getDetailedCodelist(id)
 				.then((cl) => {
 					setCodelist(formatCodeList(cl));

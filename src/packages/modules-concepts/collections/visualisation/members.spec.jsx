@@ -27,7 +27,7 @@ describe('CollectionMembers', () => {
 
 	it('should render only the lg1 list', async () => {
 		renderWithRouter(
-			<CollectionMembers members={members} secondLang={false} />
+			<CollectionMembers members={members} secondLang={false} />,
 		);
 
 		const links = await screen.findAllByRole('link');

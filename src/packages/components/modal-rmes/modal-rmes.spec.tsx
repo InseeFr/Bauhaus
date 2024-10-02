@@ -23,7 +23,7 @@ describe('modal', () => {
 				title="title"
 				closeCancel={vi.fn()}
 				modalButtons={modalButtons}
-			/>
+			/>,
 		);
 	});
 });

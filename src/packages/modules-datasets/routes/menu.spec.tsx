@@ -7,7 +7,7 @@ describe('Menu', () => {
 		render(
 			<MemoryRouter initialEntries={['/datasets/distribution']}>
 				<DatasetsMenu />
-			</MemoryRouter>
+			</MemoryRouter>,
 		);
 		expect(screen.getAllByRole('link')).toHaveLength(3);
 	});

@@ -17,7 +17,7 @@ describe('concept-visualization', () => {
 				secondLang={true}
 				langs={locales}
 				permission={{ authType: '', roles: [''] }}
-			/>
+			/>,
 		);
 	});
 });

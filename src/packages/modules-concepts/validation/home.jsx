@@ -20,7 +20,7 @@ class ConceptsToValidate extends Component {
 			this.setState({ ids });
 			const idWithValid = ids.reduce((_, id) => {
 				const { label: prefLabelLg1, valid } = this.props.concepts.find(
-					(c) => c.id === id
+					(c) => c.id === id,
 				);
 				if (valid) _.push({ prefLabelLg1, valid });
 				return _;
@@ -63,7 +63,7 @@ class ConceptsToValidate extends Component {
 		const filteredConcepts = authImpl.filterConceptsToValidate(
 			concepts,
 			roles,
-			stamp
+			stamp,
 		);
 		return (
 			<div>

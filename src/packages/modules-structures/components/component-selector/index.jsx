@@ -47,9 +47,9 @@ const ComponentSelector = ({
 		setFilteredMutualizedComponents(
 			mutualizedComponents.filter(filterComponent(type)).filter((component) => {
 				return !structureComponents.find(
-					({ component: c }) => c.id === component.id
+					({ component: c }) => c.id === component.id,
 				);
-			})
+			}),
 		);
 	}, [mutualizedComponents, structureComponents, type]);
 
@@ -73,22 +73,22 @@ const ComponentSelector = ({
 				handleUpdate(components);
 			}
 		},
-		[handleUpdate, structureComponents]
+		[handleUpdate, structureComponents],
 	);
 
 	const handleRemove = useCallback(
 		(id) => {
 			const filteredComponentsByType = _groupByType(
 				structureComponents.filter(
-					({ component }) => component.identifiant !== id
-				)
+					({ component }) => component.identifiant !== id,
+				),
 			);
 
 			const filteredComponents = _makeFlat(filteredComponentsByType);
 			setStructureComponents(filteredComponents);
 			handleUpdate(filteredComponents);
 		},
-		[handleUpdate, structureComponents]
+		[handleUpdate, structureComponents],
 	);
 
 	const saveSpecification = useCallback(
@@ -114,7 +114,7 @@ const ComponentSelector = ({
 
 			setModalOpened(false);
 		},
-		[handleUpdate, structureComponents, selectedComponent]
+		[handleUpdate, structureComponents, selectedComponent],
 	);
 
 	const _handleAttributeComponent = (component) => {
@@ -139,7 +139,7 @@ const ComponentSelector = ({
 				[ATTRIBUTE_PROPERTY_TYPE]: [],
 				[DIMENSION_PROPERTY_TYPE]: [],
 				[MEASURE_PROPERTY_TYPE]: [],
-			}
+			},
 		);
 		return componentsByType;
 	};
@@ -194,7 +194,7 @@ const ComponentSelector = ({
 
 			_handleAttributeComponent(componentsToAdd[0]);
 		},
-		[handleUpdate]
+		[handleUpdate],
 	);
 	const handleAdd = useCallback(
 		(id) => {
@@ -207,25 +207,25 @@ const ComponentSelector = ({
 							.filter((key) => key.startsWith('attribute_'))
 							.forEach((iri) => {
 								const attribute = mutualizedComponents.find(
-									(c) => c.iri === fullComponent[iri]
+									(c) => c.iri === fullComponent[iri],
 								);
 
 								componentsToAdd.push(attribute);
 							});
 						addComponent(structureComponents, componentsToAdd);
-					}
+					},
 				);
 			} else {
 				addComponent(structureComponents, component);
 			}
 		},
-		[mutualizedComponents, structureComponents, addComponent]
+		[mutualizedComponents, structureComponents, addComponent],
 	);
 
 	const handleUp = useCallback(
 		(id) => {
 			const structureComponent = structureComponents.find(
-				(cs) => cs.component.identifiant === id
+				(cs) => cs.component.identifiant === id,
 			);
 			const componentByType = _groupByType(structureComponents);
 			const componentArrayToUpdate =
@@ -253,12 +253,12 @@ const ComponentSelector = ({
 			handleUpdate(components);
 		},
 
-		[handleUpdate, structureComponents]
+		[handleUpdate, structureComponents],
 	);
 	const handleDown = useCallback(
 		(id) => {
 			const structureComponent = structureComponents.find(
-				(cs) => cs.component.identifiant === id
+				(cs) => cs.component.identifiant === id,
 			);
 			const componentByType = _groupByType(structureComponents);
 			const componentArrayToUpdate =
@@ -284,7 +284,7 @@ const ComponentSelector = ({
 			setStructureComponents(components);
 			handleUpdate(components);
 		},
-		[handleUpdate, structureComponents]
+		[handleUpdate, structureComponents],
 	);
 
 	return (
@@ -310,7 +310,7 @@ const ComponentSelector = ({
 				codesLists={codesLists}
 				concepts={concepts}
 				componentDefinitions={componentDefinitions.filter(
-					filterComponentDefinition(type)
+					filterComponentDefinition(type),
 				)}
 				handleRemove={handleRemove}
 				handleUp={handleUp}

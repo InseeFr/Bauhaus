@@ -92,7 +92,7 @@ class CollectionEditionCreation extends Component {
 			general,
 			collectionList,
 			initialId,
-			initialPrefLabelLg1
+			initialPrefLabelLg1,
 		);
 
 		return (

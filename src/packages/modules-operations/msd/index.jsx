@@ -122,12 +122,12 @@ class MSDContainer extends ReactComponent {
 				return [
 					...items,
 					...makeMetadatastructureFlat(
-						items.map((item) => Object.values(item.children)).flat()
+						items.map((item) => Object.values(item.children)).flat(),
 					),
 				];
 			};
 			const flatMetadataStructure = makeMetadatastructureFlat(
-				Object.values(metadataStructure)
+				Object.values(metadataStructure),
 			);
 
 			essentialRubricContext = flatMetadataStructure.reduce((acc, msd) => {
@@ -135,12 +135,12 @@ class MSDContainer extends ReactComponent {
 					msd.essentialRubricKoLg1 = isEssentialRubricKo(
 						msd,
 						currentSims.rubrics?.[msd.idMas],
-						false
+						false,
 					);
 					msd.essentialRubricKoLg2 = isEssentialRubricKo(
 						msd,
 						currentSims.rubrics?.[msd.idMas],
-						true
+						true,
 					);
 				}
 				return {
@@ -271,7 +271,7 @@ const MSDContainerWithParent = (props) => {
 			? {
 					labelLg1: D1.simsTitle + parent?.prefLabelLg1,
 					labelLg2: D2.simsTitle + parent?.prefLabelLg2,
-			  }
+				}
 			: props.currentSims;
 
 	useEffect(() => {
@@ -324,5 +324,5 @@ const withParams = (Component) => {
 	};
 };
 export const Component = withParams(
-	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent)
+	connect(mapStateToProps, mapDispatchToProps)(MSDContainerWithParent),
 );

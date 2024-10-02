@@ -110,7 +110,7 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
 							placeholder=""
 							value={
 								validateStateOptions.find(
-									(option) => option.value === validationState
+									(option) => option.value === validationState,
 								) || ''
 							}
 							options={validateStateOptions}

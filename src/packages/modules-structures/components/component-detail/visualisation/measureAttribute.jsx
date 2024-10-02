@@ -13,7 +13,7 @@ export const MeasureAttribute = ({
 
 	useEffect(() => {
 		StructureApi.getMutualizedComponent(attributeId).then((body) =>
-			setFullAttribute(body)
+			setFullAttribute(body),
 		);
 	}, [attributeId]);
 

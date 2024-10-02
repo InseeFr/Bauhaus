@@ -31,7 +31,7 @@ export const useCollectionExporter = () => {
 					ids,
 					type,
 					lang,
-					withConcepts
+					withConcepts,
 				);
 			} else if (ids.length === 1) {
 				promise = CollectionApi.getCollectionExportByType(
@@ -39,7 +39,7 @@ export const useCollectionExporter = () => {
 					'application/vnd.oasis.opendocument.text',
 					type,
 					lang,
-					withConcepts
+					withConcepts,
 				);
 			}
 

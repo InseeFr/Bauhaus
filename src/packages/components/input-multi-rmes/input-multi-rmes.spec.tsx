@@ -22,7 +22,7 @@ describe('inputMulti', () => {
 		const { container } = render(component);
 
 		const inputs = container.querySelectorAll<HTMLInputElement>(
-			'.form-group:first-child input'
+			'.form-group:first-child input',
 		)!;
 
 		expect(inputs[0].value).toBe('altLg1');
@@ -34,7 +34,7 @@ describe('inputMulti', () => {
 
 		fireEvent.click(container.querySelector('.glyphicon-plus')!);
 		const inputs = container.querySelectorAll<HTMLInputElement>(
-			'.form-group:first-child input'
+			'.form-group:first-child input',
 		)!;
 
 		expect(inputs[0].value).toBe('altLg1');

@@ -28,7 +28,7 @@ export const Component = () => {
 		])
 			.then(([conceptsList, collectionsList]) => {
 				setConcepts(
-					conceptsList.map((concept) => ({ ...emptyItem, ...concept }))
+					conceptsList.map((concept) => ({ ...emptyItem, ...concept })),
 				);
 
 				setCollections(collectionsList);

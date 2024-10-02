@@ -20,7 +20,7 @@ describe('saveFileFromHttpResponse', () => {
 
 		await expect(saveFileFromHttpResponse(response)).rejects.toBeUndefined();
 		expect(console.error).toHaveBeenCalledWith(
-			'Unable to download the File due to a missing Content-Disposition header'
+			'Unable to download the File due to a missing Content-Disposition header',
 		);
 	});
 
@@ -33,7 +33,7 @@ describe('saveFileFromHttpResponse', () => {
 
 		await expect(saveFileFromHttpResponse(response)).rejects.toBeUndefined();
 		expect(console.error).toHaveBeenCalledWith(
-			'Unable to parse the Content-Disposition header'
+			'Unable to parse the Content-Disposition header',
 		);
 	});
 
@@ -45,9 +45,11 @@ describe('saveFileFromHttpResponse', () => {
 			}),
 		});
 
-
 		await saveFileFromHttpResponse(response);
 
-		expect(FileSaver.saveAs).toHaveBeenCalledWith(expect.anything(), 'testfile.txt');
+		expect(FileSaver.saveAs).toHaveBeenCalledWith(
+			expect.anything(),
+			'testfile.txt',
+		);
 	});
 });

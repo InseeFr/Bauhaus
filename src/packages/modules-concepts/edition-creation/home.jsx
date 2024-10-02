@@ -120,7 +120,7 @@ class ConceptEditionCreation extends Component {
 					this.props.id,
 					versioningType,
 					this.getOriginalData(),
-					this.state.data
+					this.state.data,
 				);
 			}
 		};
@@ -188,7 +188,7 @@ class ConceptEditionCreation extends Component {
 			notes,
 			this.getOriginalData().general.prefLabelLg1,
 			conceptsWithLinks,
-			maxLengthScopeNote
+			maxLengthScopeNote,
 		);
 
 		return (

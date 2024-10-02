@@ -6,7 +6,7 @@ describe('validation', function () {
 			validate({
 				idDataset: 'id',
 				labelLg2: 'labelLg2',
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
@@ -21,7 +21,7 @@ describe('validation', function () {
 			validate({
 				idDataset: 'id',
 				labelLg1: 'labelLg1',
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
@@ -36,7 +36,7 @@ describe('validation', function () {
 			validate({
 				labelLg1: 'labelLg1',
 				labelLg2: 'labelLg2',
-			})
+			}),
 		).toEqual({
 			errorMessage: [
 				'The property <strong>Jeu de Données</strong> is required.',
@@ -54,7 +54,7 @@ describe('validation', function () {
 				idDataset: 'id',
 				labelLg1: 'labelLg2',
 				labelLg2: 'labelLg2',
-			})
+			}),
 		).toEqual({
 			errorMessage: [],
 			fields: {

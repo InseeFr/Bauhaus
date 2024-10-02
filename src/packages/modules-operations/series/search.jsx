@@ -104,7 +104,7 @@ export const SearchFormList = ({ categories, stamps, data }) => {
 							value={
 								(
 									categories.codes.find(
-										(category) => category.code === typeCode
+										(category) => category.code === typeCode,
 									) || {}
 								).value
 							}
@@ -160,7 +160,7 @@ export const SearchFormList = ({ categories, stamps, data }) => {
 							placeholder=""
 							value={
 								organisationsOptions.find(
-									(code) => code.value === dataCollector
+									(code) => code.value === dataCollector,
 								) || ''
 							}
 							options={organisationsOptions}

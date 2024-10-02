@@ -48,7 +48,7 @@ function OperationsIndicatorVisualization({
 	const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
 	const contributors = (attr.contributors || []).map(
-		(d) => organisations.find((orga) => orga.id === d.id) || {}
+		(d) => organisations.find((orga) => orga.id === d.id) || {},
 	);
 
 	return (

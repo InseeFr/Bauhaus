@@ -22,7 +22,7 @@ export const Component = () => {
 							updatedDate: document.updatedDate,
 							id: document.uri.substr(document.uri.lastIndexOf('/') + 1),
 						};
-					})
+					}),
 				);
 				setDocuments(sortedDocuments);
 			})

@@ -12,7 +12,7 @@ describe('Document Visualization Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu document={{} as Document} type="type" />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Update');
@@ -30,7 +30,7 @@ describe('Document Visualization Page Menu', () => {
 					}
 					type="type"
 				/>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Update');
@@ -48,7 +48,7 @@ describe('Document Visualization Page Menu', () => {
 					}
 					type="type"
 				/>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('Update')).toBeNull();
@@ -66,7 +66,7 @@ describe('Document Visualization Page Menu', () => {
 					}
 					type="type"
 				/>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Update');
@@ -84,7 +84,7 @@ describe('Document Visualization Page Menu', () => {
 					}
 					type="type"
 				/>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('Update')).toBeNull();
@@ -94,7 +94,7 @@ describe('Document Visualization Page Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu document={{} as any} type="type" />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('Update')).toBeNull();

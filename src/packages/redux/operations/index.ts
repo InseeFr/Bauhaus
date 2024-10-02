@@ -43,7 +43,7 @@ function makeReducers([
 				 * Finally, we should sort by label again
 				 */
 				const tail = state.results.filter(
-					(obj: any) => obj.id !== action.payload.id
+					(obj: any) => obj.id !== action.payload.id,
 				);
 				return {
 					status: state.status,

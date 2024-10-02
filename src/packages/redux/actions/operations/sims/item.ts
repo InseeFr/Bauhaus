@@ -10,7 +10,7 @@ export const publishSims = getPublishFactory(
 	OperationsApi.publishSims,
 	A.PUBLISH_OPERATIONS_SIMS,
 	A.PUBLISH_OPERATIONS_SIMS_SUCCESS,
-	A.PUBLISH_OPERATIONS_SIMS_FAILURE
+	A.PUBLISH_OPERATIONS_SIMS_FAILURE,
 );
 
 /**
@@ -30,17 +30,17 @@ function getFetchLabelsPromise(sims: any, promise: any) {
 	}
 	if (sims.idOperation) {
 		return OperationsApi.getOperation(sims.idOperation).then((parent: any) =>
-			mergeLabels(parent)
+			mergeLabels(parent),
 		);
 	}
 	if (sims.idSeries) {
 		return OperationsApi.getSerie(sims.idSeries).then((parent: any) =>
-			mergeLabels(parent)
+			mergeLabels(parent),
 		);
 	}
 	if (sims.idIndicator) {
 		return OperationsApi.getIndicatorById(sims.idIndicator).then(
-			(parent: any) => mergeLabels(parent)
+			(parent: any) => mergeLabels(parent),
 		);
 	}
 	return promise;
@@ -80,7 +80,7 @@ export const saveSims = (sims: any, callback: any) => (dispatch: any) => {
 					type: A.SAVE_OPERATIONS_SIMS_FAILURE,
 					payload: { err },
 				});
-			}
+			},
 		);
 	});
 };
@@ -88,14 +88,14 @@ export const saveSims = (sims: any, callback: any) => (dispatch: any) => {
 function getParentsWithoutSims(idOperation: string) {
 	if (idOperation) {
 		return OperationsApi.getOperation(idOperation).then((operation: any) =>
-			OperationsApi.getOperationsWithoutReport(operation.series.id)
+			OperationsApi.getOperationsWithoutReport(operation.series.id),
 		);
 	}
 	return Promise.resolve([]);
 }
 
 const computeRubrics = (
-	rubrics: Rubric[]
+	rubrics: Rubric[],
 ): Record<string, Rubric & { idMas: string }> => {
 	return (rubrics || []).reduce((acc: any, rubric: any) => {
 		return {
@@ -135,7 +135,7 @@ const fetchSims = (id: string) => (dispatch: any, getState: any) => {
 			return getParentsWithoutSims(results.idOperation).then(
 				(parentsWithoutSims = []) => {
 					dispatchSimsSuccess(results, parentsWithoutSims);
-				}
+				},
 			);
 		},
 
@@ -144,7 +144,7 @@ const fetchSims = (id: string) => (dispatch: any, getState: any) => {
 				type: A.LOAD_OPERATIONS_SIMS_LIST_FAILURE,
 				payload: { err },
 			});
-		}
+		},
 	);
 };
 export default fetchSims;

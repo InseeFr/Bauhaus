@@ -6,7 +6,7 @@ import { getEnvVar } from '../utils/env';
 
 export const generateGenericApiEndpoints = (
 	pluralPrefix = '',
-	singularPrefix = ''
+	singularPrefix = '',
 ) => {
 	const capitalizedPluralPrefix =
 		pluralPrefix.charAt(0).toUpperCase() + pluralPrefix.slice(1);
@@ -57,7 +57,7 @@ export const removeTrailingSlash = (url: string) => url.replace(/\/$/, '');
 
 export const buildApi = <T extends Record<string, any>>(
 	context: string,
-	api: T
+	api: T,
 ): Record<keyof T, () => Promise<unknown>> => {
 	return Object.keys(api).reduce((apiFns: any, resource) => {
 		if (!apiFns[resource]) {
@@ -82,7 +82,7 @@ export const computeDscr = (fn: any, [...args]) => {
 	if (!Array.isArray(dscr)) {
 		throw new Error(
 			'API descr function should return a `string` or an `array`, got ' +
-				`\`${dscr}\`.`
+				`\`${dscr}\`.`,
 		);
 	}
 	const [url] = dscr as any;
@@ -112,11 +112,11 @@ export const getBaseURI = () => {
 					saveApiURL = config.bauhaus;
 					return config.bauhaus;
 				});
-		  })
+			})
 		: Promise.resolve(getEnvVar('API_BASE_HOST')).then((u) => {
 				saveApiURL = u;
 				return u;
-		  });
+			});
 };
 
 export const buildCall = (context: string, resource: string, fn: any) => {
@@ -128,7 +128,7 @@ export const buildCall = (context: string, resource: string, fn: any) => {
 
 		const baseURI = await getBaseURI();
 		const baseHost = removeTrailingSlash(
-			`${baseURI}${context ? `/${context}` : ''}`
+			`${baseURI}${context ? `/${context}` : ''}`,
 		);
 
 		const url = path !== '' ? `${baseHost}/${path}` : baseHost;
@@ -140,7 +140,7 @@ export const buildCall = (context: string, resource: string, fn: any) => {
 			},
 			(err) => {
 				return Promise.reject(err.toString());
-			}
+			},
 		);
 	};
 };

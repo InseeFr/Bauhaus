@@ -25,20 +25,20 @@ const deburr = (value: string) =>
 const CollectionZod = (
 	collectionList: CollectionsList,
 	initialId: string,
-	initialPrefLabelLg1: string
+	initialPrefLabelLg1: string,
 ) =>
 	z.object({
 		id: generateMandatoryAndNotEmptyField(D.idTitle).refine(
 			(value) =>
 				value === initialId ||
 				!arrayKeepUniqueField(collectionList, 'id').includes(deburr(value)),
-			{ message: D.duplicatedId }
+			{ message: D.duplicatedId },
 		),
 		prefLabelLg1: generateMandatoryAndNotEmptyField(D1.labelTitle).refine(
 			(value) =>
 				value === initialPrefLabelLg1 ||
 				!arrayKeepUniqueField(collectionList, 'label').includes(deburr(value)),
-			{ message: D.duplicatedLabel }
+			{ message: D.duplicatedLabel },
 		),
 		creator: generateMandatoryAndNotEmptyField(D.creatorTitle),
 	});
@@ -47,8 +47,8 @@ export const validate = (
 	general: Collection,
 	collectionList: CollectionsList,
 	initialId: string,
-	initialPrefLabelLg1: string
+	initialPrefLabelLg1: string,
 ) =>
 	formatValidation(
-		CollectionZod(collectionList, initialId, initialPrefLabelLg1)
+		CollectionZod(collectionList, initialId, initialPrefLabelLg1),
 	)(general);

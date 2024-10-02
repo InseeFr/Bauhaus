@@ -71,7 +71,7 @@ describe('GlobalInformationBlock', () => {
 					default:
 						return {} as CodesList;
 				}
-			}
+			},
 		);
 	});
 
@@ -92,7 +92,7 @@ describe('GlobalInformationBlock', () => {
 		} as any);
 
 		const { container } = render(
-			<GlobalInformationBlock dataset={mockDataset} />
+			<GlobalInformationBlock dataset={mockDataset} />,
 		);
 
 		expect(container.firstChild).toBeNull();

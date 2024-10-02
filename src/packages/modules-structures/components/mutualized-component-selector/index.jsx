@@ -24,19 +24,19 @@ export const MutualizedComponentsSelector = ({
 	const seeClickHandler = useCallback(
 		(e) => {
 			const component = components.find(
-				(c) => c.identifiant === e.target.parentElement.dataset.componentId
+				(c) => c.identifiant === e.target.parentElement.dataset.componentId,
 			);
 			setSelectedComponent(component);
 			setOpenPanel(true);
 		},
-		[components]
+		[components],
 	);
 
 	const addClickHandler = useCallback(
 		(e) => {
 			handleAdd(e.target.parentElement.dataset.componentId);
 		},
-		[handleAdd]
+		[handleAdd],
 	);
 
 	const componentsWithActions = components.map((component) => ({
@@ -53,7 +53,7 @@ export const MutualizedComponentsSelector = ({
 				<></>
 			),
 		concept: concepts.find(({ id }) =>
-			component.concept?.toString().includes(id?.toString())
+			component.concept?.toString().includes(id?.toString()),
 		)?.label,
 		representation: (
 			<Representation
@@ -61,7 +61,7 @@ export const MutualizedComponentsSelector = ({
 				codesLists={codesLists}
 				handleCodesListDetail={() => {
 					const codesList = codesLists.find(
-						({ id }) => id?.toString() === component.codeList?.toString()
+						({ id }) => id?.toString() === component.codeList?.toString(),
 					);
 					handleCodesListDetail(codesList);
 				}}
@@ -73,11 +73,10 @@ export const MutualizedComponentsSelector = ({
 					data-component-id={component.identifiant}
 					onClick={seeClickHandler}
 				/>
-				<AddButton 
+				<AddButton
 					data-component-id={component.identifiant}
 					onClick={addClickHandler}
 				/>
-				
 			</>
 		),
 	}));
@@ -88,7 +87,7 @@ export const MutualizedComponentsSelector = ({
 			hidden={hidden}
 			title={D.mutualizedComponentTitle}
 		>
-			<ComponentsTable components={componentsWithActions}/>
+			<ComponentsTable components={componentsWithActions} />
 
 			<RightSlidingPanel
 				isOpen={openPanel}

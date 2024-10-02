@@ -63,7 +63,7 @@ export const Picker = ({
 			items.map((item) => {
 				if (item.id === id) item.isAdded = true;
 				return item;
-			})
+			}),
 		);
 		handleUpdateIds();
 	};
@@ -74,14 +74,14 @@ export const Picker = ({
 			items.map((item) => {
 				if (item.id === id) item.isAdded = false;
 				return item;
-			})
+			}),
 		);
 		handleUpdateIds();
 	};
 
 	const handleClickValid = () => {
 		const message = added.length === 0 ? labelWarning : '';
-		if (!!message) {
+		if (message) {
 			setClientSideErrors(message);
 		} else {
 			handleUpdateIds();
@@ -98,7 +98,7 @@ export const Picker = ({
 				}
 				return byStatus;
 			},
-			{ toAdd: [], added: [] } as { toAdd: Item[]; added: Item[] }
+			{ toAdd: [], added: [] } as { toAdd: Item[]; added: Item[] },
 		);
 	};
 

@@ -12,7 +12,7 @@ const Operation = z.object({
 		},
 		{
 			required_error: D.mandatoryProperty(D1.seriesTitle),
-		}
+		},
 	),
 	prefLabelLg1: z
 		.string({ required_error: D.mandatoryProperty(D1.title) })

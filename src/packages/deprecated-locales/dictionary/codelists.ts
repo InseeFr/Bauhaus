@@ -5,8 +5,8 @@ const dictionary = {
 	},
 	ErrorDoubleCode: {
 		fr: 'Le code créé existe déjà',
-		en: 'The created code already exists'
-	}
+		en: 'The created code already exists',
+	},
 };
 
 export default dictionary;

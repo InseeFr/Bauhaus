@@ -97,7 +97,7 @@ describe('SerieInformation', () => {
 				secondLang={false}
 				organisations={organisations}
 				langs={{ lg1: 'fr' }}
-			/>
+			/>,
 		);
 		expect(container.querySelectorAll('.note')).toHaveLength(15);
 	});
@@ -109,7 +109,7 @@ describe('SerieInformation', () => {
 				secondLang={true}
 				organisations={organisations}
 				langs={{ lg1: 'fr' }}
-			/>
+			/>,
 		);
 		expect(container.querySelectorAll('.note')).toHaveLength(25);
 	});
@@ -120,10 +120,10 @@ describe('SerieInformation', () => {
 				secondLang={true}
 				organisations={organisations}
 				langs={{ lg1: 'fr' }}
-			/>
+			/>,
 		);
 		expect(container.querySelectorAll('.bauhaus-display-links')).toHaveLength(
-			5
+			5,
 		);
 	});
 
@@ -137,7 +137,7 @@ describe('SerieInformation', () => {
 				attr={attr2}
 				secondLang={true}
 				langs={{ lg1: 'fr' }}
-			/>
+			/>,
 		);
 		const creator = container.querySelector('#creators p');
 		expect(creator.innerHTML).toEqual('DG75-G001');
@@ -148,7 +148,7 @@ describe('SerieInformation', () => {
 				attr={attr}
 				secondLang={true}
 				langs={{ lg1: 'fr' }}
-			/>
+			/>,
 		);
 		const publisher = container.querySelector('#publishers p');
 		expect(publisher.innerHTML).toEqual('GF3C');

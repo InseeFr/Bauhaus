@@ -274,5 +274,5 @@ const GlobalInformationTab = ({
 };
 
 export const GlobalInformation = withCodesLists([CL_FREQ])(
-	GlobalInformationTab
+	GlobalInformationTab,
 );

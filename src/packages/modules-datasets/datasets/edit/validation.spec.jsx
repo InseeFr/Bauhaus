@@ -11,7 +11,7 @@ describe('validation', function () {
 				},
 				disseminationStatus: 'status',
 				wasGeneratedIRIs: ['id'],
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
@@ -35,7 +35,7 @@ describe('validation', function () {
 				},
 				disseminationStatus: 'status',
 				wasGeneratedIRIs: ['id'],
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
@@ -55,7 +55,7 @@ describe('validation', function () {
 				labelLg1: 'labelLg2',
 				labelLg2: 'labelLg2',
 				contributor: [],
-			})
+			}),
 		).toEqual({
 			errorMessage: [
 				'The property <strong>Propriétaire</strong> is required.',
@@ -87,7 +87,7 @@ describe('validation', function () {
 				},
 				disseminationStatus: 'status',
 				wasGeneratedIRIs: [],
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Produit de</strong> is required.'],
 			fields: {
@@ -113,7 +113,7 @@ describe('validation', function () {
 				},
 				disseminationStatus: 'status',
 				wasGeneratedIRIs: ['id'],
-			})
+			}),
 		).toEqual({
 			errorMessage: [],
 			fields: {

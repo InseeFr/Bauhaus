@@ -17,7 +17,7 @@ describe('Component View Menu', () => {
 					handleDelete={vi.fn()}
 					handleBack={vi.fn}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -39,7 +39,7 @@ describe('Component View Menu', () => {
 					handleDelete={vi.fn()}
 					handleBack={vi.fn}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -65,7 +65,7 @@ describe('Component View Menu', () => {
 					handleDelete={vi.fn()}
 					handleBack={vi.fn}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -91,7 +91,7 @@ describe('Component View Menu', () => {
 					handleDelete={vi.fn()}
 					handleBack={vi.fn}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -113,7 +113,7 @@ describe('Component View Menu', () => {
 					handleDelete={vi.fn()}
 					handleBack={vi.fn}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');

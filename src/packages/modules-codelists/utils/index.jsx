@@ -45,7 +45,7 @@ const CodesList = z.object({
 	disseminationStatus: z
 		.string({
 			required_error: D.mandatoryProperty(
-				MainDictionary.disseminationStatusTitle
+				MainDictionary.disseminationStatusTitle,
 			),
 		})
 		.min(1, {
@@ -88,7 +88,7 @@ const PartialCodesList = z.object({
 	disseminationStatus: z
 		.string({
 			required_error: D.mandatoryProperty(
-				MainDictionary.disseminationStatusTitle
+				MainDictionary.disseminationStatusTitle,
 			),
 		})
 		.min(1, {
@@ -109,7 +109,7 @@ const Code = (shouldCheckDuplicate, codes) =>
 					!shouldCheckDuplicate || !codes.find((c) => c.code === value),
 				{
 					message: D.ErrorDoubleCode,
-				}
+				},
 			),
 		labelLg1: z
 			.string({ required_error: D.mandatoryProperty(D1.labelTitle) })
@@ -245,7 +245,7 @@ export const partialInGlobalCodes = (parentCL, childCl) => {
 					isPartial:
 						childCl.filter(
 							(partial) =>
-								partial.code === c.code && partial.parent === c.parent
+								partial.code === c.code && partial.parent === c.parent,
 						).length > 0,
 				},
 			];

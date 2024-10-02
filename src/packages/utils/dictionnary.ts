@@ -20,14 +20,14 @@ export const createAllDictionary = (dict: any) => {
  */
 export const createDictionary = (
 	lang: string,
-	dict: any
+	dict: any,
 ): Record<string, any> =>
 	Object.keys(dict).reduce((acc, k) => {
 		const hasChildObject = Object.keys(dict[k]).find(
 			(key) =>
 				dict[k][key] &&
 				typeof dict[k][key] === 'object' &&
-				dict[k][key].constructor === Object
+				dict[k][key].constructor === Object,
 		);
 		return {
 			...acc,

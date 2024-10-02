@@ -10,7 +10,7 @@ describe('classification-item-narrowers', () => {
 				narrowers={narrowers}
 				classificationId="id"
 				secondLang={true}
-			/>
+			/>,
 		);
 	});
 });

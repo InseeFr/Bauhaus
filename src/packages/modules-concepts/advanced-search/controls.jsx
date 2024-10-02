@@ -22,7 +22,7 @@ const Controls = ({
 					conceptsList.map((c) => c.id),
 					type,
 					withConcepts,
-					lang
+					lang,
 				)
 			}
 		/>

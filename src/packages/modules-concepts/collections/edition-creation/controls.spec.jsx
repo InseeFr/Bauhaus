@@ -8,7 +8,7 @@ describe('collection-edition-creation-controls', () => {
 				handleSave={vi.fn()}
 				redirectCancel={() => 'collections'}
 				errors={{ errorMessage: [], fields: {} }}
-			/>
+			/>,
 		);
 	});
 });

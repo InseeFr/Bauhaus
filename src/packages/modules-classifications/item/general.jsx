@@ -56,7 +56,7 @@ const General = ({ general, classificationId, secondLang }) => {
 														: ''
 												}`}
 											</li>
-										)
+										),
 									);
 								}
 								if (fieldName === 'isValidated') {
@@ -64,7 +64,7 @@ const General = ({ general, classificationId, secondLang }) => {
 										<li key={fieldName}>{`${
 											mapping[fieldName]
 										} : ${D.classificationItemIsValidated(
-											general[fieldName] === 'true'
+											general[fieldName] === 'true',
 										)}`}</li>
 									);
 								}

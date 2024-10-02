@@ -14,7 +14,7 @@ export const Component = () => {
 	const { isLoading, item } = useClassificationItem(
 		classificationId,
 		itemId,
-		true
+		true,
 	);
 
 	if (isLoading || !item.general) return <Loading />;
@@ -23,7 +23,7 @@ export const Component = () => {
 		['classification-parent-levels', classificationId, itemId],
 		() => {
 			return fetchingPreviousLevels(classificationId, item.general);
-		}
+		},
 	);
 
 	return <ItemVisualization item={item} secondLang={secondLang} />;

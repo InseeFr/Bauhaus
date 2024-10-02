@@ -71,7 +71,7 @@ export const DumbCodelistDetailEdit = ({
 				[name]: value,
 			});
 		},
-		[clientSideErrors, codelist]
+		[clientSideErrors, codelist],
 	);
 
 	const handleSaveClick = useCallback(() => {
@@ -118,7 +118,7 @@ export const DumbCodelistDetailEdit = ({
 							disabled={updateMode && codelist.lastListUriSegment !== ''}
 							aria-invalid={!!clientSideErrors.fields?.lastListUriSegment}
 							aria-describedby={
-								!!clientSideErrors.fields?.lastListUriSegment
+								clientSideErrors.fields?.lastListUriSegment
 									? 'lastListUriSegment-error'
 									: null
 							}
@@ -142,7 +142,7 @@ export const DumbCodelistDetailEdit = ({
 							disabled={updateMode && codelist.lastCodeUriSegment !== ''}
 							aria-invalid={!!clientSideErrors.fields?.lastCodeUriSegment}
 							aria-describedby={
-								!!clientSideErrors.fields?.lastCodeUriSegment
+								clientSideErrors.fields?.lastCodeUriSegment
 									? 'lastCodeUriSegment-error'
 									: null
 							}
@@ -166,7 +166,7 @@ export const DumbCodelistDetailEdit = ({
 							disabled={updateMode && codelist.lastClassUriSegment !== ''}
 							aria-invalid={!!clientSideErrors.fields?.lastClassUriSegment}
 							aria-describedby={
-								!!clientSideErrors.fields?.lastClassUriSegment
+								clientSideErrors.fields?.lastClassUriSegment
 									? 'lastClassUriSegment-error'
 									: null
 							}
@@ -187,7 +187,7 @@ export const DumbCodelistDetailEdit = ({
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.id}
 							aria-describedby={
-								!!clientSideErrors.fields?.id ? 'id-error' : null
+								clientSideErrors.fields?.id ? 'id-error' : null
 							}
 						/>
 						<ClientSideError
@@ -206,7 +206,7 @@ export const DumbCodelistDetailEdit = ({
 							value={codelist.labelLg1 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+								clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
 							}
 						/>
 						<ClientSideError
@@ -223,7 +223,7 @@ export const DumbCodelistDetailEdit = ({
 							value={codelist.labelLg2 || ''}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+								clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
 							}
 						/>
 						<ClientSideError
@@ -237,7 +237,7 @@ export const DumbCodelistDetailEdit = ({
 					<Select
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
-							({ value }) => value === codelist.creator
+							({ value }) => value === codelist.creator,
 						)}
 						options={stampListOptions}
 						onChange={(value) => {

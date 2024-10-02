@@ -81,7 +81,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 			const list = fullCodeLists.find((list) => list.id === fullCodeListValue);
 			if (list) {
 				API.getPartialsByParent(list.notation).then((partials) =>
-					setPartials(partials)
+					setPartials(partials),
 				);
 			}
 		}
@@ -105,7 +105,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 						placeholder={D1.codesListTitle}
 						options={codeListOptions}
 						value={codeListOptions.find(
-							(c) => fullCodeListValue?.toString() === c.value?.toString()
+							(c) => fullCodeListValue?.toString() === c.value?.toString(),
 						)}
 						onChange={(value) =>
 							setComponent({
@@ -129,7 +129,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 							placeholder={D1.codelistsPartialTitle}
 							options={partialsOptions}
 							value={partialsOptions.find(
-								(c) => currentCodeList?.toString() === c.value?.toString()
+								(c) => currentCodeList?.toString() === c.value?.toString(),
 							)}
 							onChange={(value) =>
 								setComponent({ ...component, codeList: value })
@@ -146,7 +146,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 				codesList={codesLists.find(
 					(c) =>
 						(fullCodeListValue?.id || fullCodeListValue)?.toString() ===
-						c.id?.toString()
+						c.id?.toString(),
 				)}
 				isOpen={codesFullListPanelOpened}
 				handleBack={() => setFullCodesListPanelOpened(false)}
@@ -156,7 +156,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 					notation: partials.find((c) =>
 						(currentCodeList?.id || currentCodeList)
 							?.toString()
-							.includes(c.iri?.toString())
+							.includes(c.iri?.toString()),
 					)?.id,
 				}}
 				isOpen={codesPartialListPanelOpened}
@@ -220,7 +220,7 @@ export const DumbComponentDetailEdit = ({
 				[name]: value,
 			});
 		},
-		[component, clientSideErrors]
+		[component, clientSideErrors],
 	);
 
 	const handleSaveClick = useCallback(() => {
@@ -245,7 +245,7 @@ export const DumbComponentDetailEdit = ({
 		...component,
 	}).filter((key) => key.startsWith('attribute_'));
 
-	if (!!component['attributeValue_' + (attributesKeys.length - 1)]) {
+	if (component['attributeValue_' + (attributesKeys.length - 1)]) {
 		component['attribute_' + attributesKeys.length] = '';
 		component['attributeValue_' + attributesKeys.length] = '';
 	}
@@ -262,7 +262,7 @@ export const DumbComponentDetailEdit = ({
 					[key]: component[key],
 				};
 			},
-			{}
+			{},
 		);
 		setComponent({ ...newComponentWithoutAttributes, type: option });
 	};
@@ -295,7 +295,7 @@ export const DumbComponentDetailEdit = ({
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.identifiant}
 							aria-describedby={
-								!!clientSideErrors.fields?.identifiant
+								clientSideErrors.fields?.identifiant
 									? 'identifiant-error'
 									: null
 							}
@@ -318,7 +318,7 @@ export const DumbComponentDetailEdit = ({
 							value={component.labelLg1}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+								clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
 							}
 						/>
 						<ClientSideError
@@ -338,7 +338,7 @@ export const DumbComponentDetailEdit = ({
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+								clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
 							}
 						/>
 						<ClientSideError
@@ -381,7 +381,7 @@ export const DumbComponentDetailEdit = ({
 						<Select
 							placeholder={D1.type}
 							value={MUTUALIZED_COMPONENT_TYPES.find(
-								(c) => c.value === component.type
+								(c) => c.value === component.type,
 							)}
 							options={MUTUALIZED_COMPONENT_TYPES}
 							onChange={onComponentTypeChange}
@@ -400,7 +400,7 @@ export const DumbComponentDetailEdit = ({
 							placeholder={D1.conceptTitle}
 							options={conceptOptions}
 							value={conceptOptions.find(
-								(c) => c.value === component.concept?.toString()
+								(c) => c.value === component.concept?.toString(),
 							)}
 							onChange={(value) =>
 								setComponent({ ...component, concept: value })
@@ -520,7 +520,7 @@ export const DumbComponentDetailEdit = ({
 					<Select
 						placeholder={D1.stampsPlaceholder}
 						value={stampListOptions.find(
-							({ value }) => value === component.creator
+							({ value }) => value === component.creator,
 						)}
 						options={stampListOptions}
 						onChange={(value) => setComponent({ ...component, creator: value })}
@@ -602,7 +602,7 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
 
 	return componentAttributes.map((attribute, index) => {
 		const attributeId = (attributes ?? []).find(
-			(a) => a.iri === component['attribute_' + index]
+			(a) => a.iri === component['attribute_' + index],
 		)?.id;
 		return (
 			<Row key={index}>
@@ -611,7 +611,7 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
 					<Select
 						placeholder={D1.attributePlaceholder}
 						value={attributesListOptions.find(
-							({ value }) => value === component['attribute_' + index]
+							({ value }) => value === component['attribute_' + index],
 						)}
 						options={attributesListOptions}
 						onChange={(value) => onChange({ ['attribute_' + index]: value })}
@@ -659,12 +659,12 @@ const AttributeCodeList = ({
 	const [codes, setCodes] = useState();
 
 	const codeListNotation = codesLists.find(
-		(cl) => cl.id === codeListIri
+		(cl) => cl.id === codeListIri,
 	)?.notation;
 
 	useEffect(() => {
 		CodeListApi.getCodesListCodes(codeListNotation, 1, 0).then((codes) =>
-			setCodes(codes)
+			setCodes(codes),
 		);
 	}, [codeListNotation]);
 
@@ -673,7 +673,7 @@ const AttributeCodeList = ({
 	}
 
 	const codesOptions = sortByLabel(
-		codes?.codes?.map((code) => ({ value: code.iri, label: code.labelLg1 }))
+		codes?.codes?.map((code) => ({ value: code.iri, label: code.labelLg1 })),
 	);
 
 	return (
@@ -694,7 +694,7 @@ const AttributeValue = ({ onChange, value, codesLists, attributeId }) => {
 	const [attribute, setAttribute] = useState();
 	useEffect(() => {
 		StructureApi.getMutualizedComponent(attributeId).then((body) =>
-			setAttribute(body)
+			setAttribute(body),
 		);
 	}, [attributeId]);
 

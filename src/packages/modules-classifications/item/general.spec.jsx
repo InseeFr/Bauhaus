@@ -13,7 +13,7 @@ describe('classification-level-general', () => {
 				itemId="id"
 				secondLang={false}
 				langs={locales}
-			/>
+			/>,
 		);
 	});
 });

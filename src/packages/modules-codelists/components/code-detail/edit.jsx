@@ -46,7 +46,7 @@ export const CodeDetailEdit = ({
 				[name]: value,
 			});
 		},
-		[clientSideErrors, code]
+		[clientSideErrors, code],
 	);
 
 	const isDescendant = (ancestor, descendant) => {
@@ -95,10 +95,10 @@ export const CodeDetailEdit = ({
 						<Select
 							placeholder={D.parentCodeTitle}
 							value={codesOptions.filter((option) =>
-								code.parents?.find((p) => p.code === option.value)
+								code.parents?.find((p) => p.code === option.value),
 							)}
 							options={codesOptions.filter(
-								(c) => !code.code || !isDescendant(code.code, c.value)
+								(c) => !code.code || !isDescendant(code.code, c.value),
 							)}
 							onChange={(parents) => {
 								setCode({
@@ -125,7 +125,7 @@ export const CodeDetailEdit = ({
 							disabled={updateMode}
 							aria-invalid={!!clientSideErrors.fields?.code}
 							aria-describedby={
-								!!clientSideErrors.fields?.code ? 'code-error' : null
+								clientSideErrors.fields?.code ? 'code-error' : null
 							}
 						/>
 						<ClientSideError
@@ -144,7 +144,7 @@ export const CodeDetailEdit = ({
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+								clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
 							}
 						/>
 						<ClientSideError
@@ -161,7 +161,7 @@ export const CodeDetailEdit = ({
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+								clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
 							}
 						/>
 						<ClientSideError
@@ -210,7 +210,7 @@ export const CodeDetailEdit = ({
 											code: parent.code || '',
 											position: newCodePosition,
 										};
-								  })
+									})
 								: [{ code: '', position: newCodePosition }],
 							labelLg1: '',
 							labelLg2: '',

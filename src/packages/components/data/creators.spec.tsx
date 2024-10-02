@@ -22,7 +22,7 @@ describe('Organizations component', () => {
 		const creators = ['creator1', 'creator2'];
 
 		const { getByText } = render(
-			<Organizations creators={creators} organizations={organizations} />
+			<Organizations creators={creators} organizations={organizations} />,
 		);
 
 		getByText('Organization 1');
@@ -31,7 +31,7 @@ describe('Organizations component', () => {
 
 	it('renders nothing when creators list is empty', () => {
 		const { container } = render(
-			<Organizations creators={[]} organizations={organizations} />
+			<Organizations creators={[]} organizations={organizations} />,
 		);
 
 		expect(container.querySelector('li')).toBeNull();
@@ -42,7 +42,7 @@ describe('Organization component', () => {
 	it('renders the label of the organization', () => {
 		const creator = 'creator1';
 		const { getByText } = render(
-			<Organization creator={creator} organizations={organizations} />
+			<Organization creator={creator} organizations={organizations} />,
 		);
 
 		getByText('Organization 1');

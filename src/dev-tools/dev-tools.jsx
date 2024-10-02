@@ -48,7 +48,7 @@ function install(store) {
 		};
 
 		const value = options.filter(
-			({ value }) => rolesAndStamps.roles.indexOf(value) >= 0
+			({ value }) => rolesAndStamps.roles.indexOf(value) >= 0,
 		);
 		return (
 			<div>

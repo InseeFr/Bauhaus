@@ -14,7 +14,7 @@ const generateMandatoryAndNotEmptyField = (property: string) => {
 const Base = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string
+	currentLabelLg2: string,
 ) =>
 	z.object({
 		labelLg1: generateMandatoryAndNotEmptyField(D1.title).refine(
@@ -24,7 +24,7 @@ const Base = (
 					.map((document: Document) => document.labelLg1)
 					.includes(value),
 
-			{ message: D.duplicatedTitle }
+			{ message: D.duplicatedTitle },
 		),
 		labelLg2: generateMandatoryAndNotEmptyField(D2.title).refine(
 			(value) =>
@@ -33,7 +33,7 @@ const Base = (
 					.map((document: Document) => document.labelLg2)
 					.includes(value),
 
-			{ message: D.duplicatedTitle }
+			{ message: D.duplicatedTitle },
 		),
 		lang: z
 			.string({ required_error: D.requiredLang })
@@ -43,7 +43,7 @@ const Base = (
 const LinkZod = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string
+	currentLabelLg2: string,
 ) =>
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		url: z
@@ -72,7 +72,7 @@ const File = (documentsAndLinksList: Document[], currentFile: string) =>
 						.map((document: Document) => document.url)
 						.includes(value),
 
-				{ message: D.duplicatedFile }
+				{ message: D.duplicatedFile },
 			),
 	});
 
@@ -80,7 +80,7 @@ const DocumentZod = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
 	currentLabelLg2: string,
-	currentFile: string
+	currentFile: string,
 ) =>
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		updatedDate: z
@@ -101,7 +101,7 @@ export const validate = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
 	currentLabelLg2: string,
-	currentFile: string
+	currentFile: string,
 ) =>
 	formatValidation(
 		type === LINK
@@ -110,6 +110,6 @@ export const validate = (
 					documentsAndLinksList,
 					currentLabelLg1,
 					currentLabelLg2,
-					currentFile
-			  )
+					currentFile,
+				),
 	)(document);

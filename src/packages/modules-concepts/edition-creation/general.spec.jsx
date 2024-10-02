@@ -13,7 +13,7 @@ describe('concept-edition-creation-general', () => {
 				stampList={[]}
 				handleChange={vi.fn()}
 				langs={locales}
-			/>
+			/>,
 		);
 	});
 });

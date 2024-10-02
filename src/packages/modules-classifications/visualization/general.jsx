@@ -158,7 +158,7 @@ const General = ({ general, secondLang }) => {
 										return (
 											<li key={fieldName}>
 												{`${mapping[fieldName]} : ${getDisseminationStatus(
-													general[fieldName]
+													general[fieldName],
 												)}`}
 											</li>
 										);
@@ -181,7 +181,7 @@ const General = ({ general, secondLang }) => {
 										return (
 											<li key={fieldName}>
 												{`${mapping[fieldName]} : ${stringToDate(
-													general[fieldName]
+													general[fieldName],
 												)}`}
 											</li>
 										);

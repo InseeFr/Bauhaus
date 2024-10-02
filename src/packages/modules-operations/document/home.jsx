@@ -119,7 +119,7 @@ function DocumentHome({ documents }) {
 			setFilter(mode);
 			navigate(window.location.pathname + '?page=1', { replace: true });
 		},
-		[navigate]
+		[navigate],
 	);
 
 	return (

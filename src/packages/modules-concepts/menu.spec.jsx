@@ -8,7 +8,7 @@ describe('Concepts Home Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New');
@@ -18,7 +18,7 @@ describe('Concepts Home Page Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('New')).toBeNull();

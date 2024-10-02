@@ -40,10 +40,10 @@ export const LayoutWithLateralMenu = ({ children, layoutConfiguration }) => {
 				...configuration.children,
 			};
 		},
-		{}
+		{},
 	);
 	const [currentOpenedPanelKey, setCurrentOpenedPanelKey] = useState(
-		Object.keys(allChildrenItems)[0]
+		Object.keys(allChildrenItems)[0],
 	);
 
 	const openMainMenu = (key) => {
@@ -96,7 +96,7 @@ export const LayoutWithLateralMenu = ({ children, layoutConfiguration }) => {
 															</button>
 														</li>
 													);
-												}
+												},
 											)}
 										</ul>
 									)}

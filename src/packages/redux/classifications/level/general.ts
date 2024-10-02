@@ -46,7 +46,7 @@ export default reducers;
 export function getGeneral(
 	state: any,
 	classificationId: string,
-	levelId: string
+	levelId: string,
 ) {
 	return (
 		state[classificationId] &&

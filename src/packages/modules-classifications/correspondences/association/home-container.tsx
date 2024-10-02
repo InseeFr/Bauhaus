@@ -17,7 +17,7 @@ export const Component = () => {
 		queryFn: () =>
 			ClassificationsApi.getCorrespondenceAssociation(
 				correspondenceId,
-				associationId
+				associationId,
 			),
 	});
 

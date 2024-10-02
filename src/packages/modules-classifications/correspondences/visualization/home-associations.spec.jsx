@@ -28,7 +28,7 @@ describe('correspondence-home-associations', () => {
 				associations={associations}
 				correspondence={correspondence}
 				secondLang={false}
-			/>
+			/>,
 		);
 	});
 });

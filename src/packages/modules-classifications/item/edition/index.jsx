@@ -53,7 +53,7 @@ export const Component = () => {
 			return ClassificationsApi.putClassificationItemGeneral(
 				classificationId,
 				itemId,
-				general
+				general,
 			);
 		},
 
@@ -69,7 +69,7 @@ export const Component = () => {
 	const { isLoading, item } = useClassificationItem(
 		classificationId,
 		itemId,
-		true
+		true,
 	);
 
 	const { data: previousLevels = [], isPending: isPreviousLevelsLoading } =
@@ -128,7 +128,7 @@ export const Component = () => {
 		});
 		queryClient.setQueriesData(
 			['classifications-item', classificationId, itemId],
-			{}
+			{},
 		);
 		save({ ...general, ...notes, ...value });
 	};
@@ -211,7 +211,7 @@ export const Component = () => {
 							return (
 								<ReactSelect
 									value={previousLevelsOptions.find(
-										(option) => option.value === value
+										(option) => option.value === value,
 									)}
 									options={previousLevelsOptions}
 									onChange={(option) => onChange(option.value)}
@@ -258,7 +258,7 @@ export const Component = () => {
 								</div>
 							</Row>
 						);
-					}
+					},
 				)}
 				{Object.entries(notesGroupByKey).map(([key, values], index) => {
 					const keyLg1 = `${key}Lg1`;

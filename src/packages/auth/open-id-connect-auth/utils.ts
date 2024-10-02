@@ -5,7 +5,7 @@ export const isAdmin = (roles: string[]) => roles.includes(R.ADMIN);
 export const isContributor = (
 	roles: string[],
 	stamp: string,
-	conceptCreator: string
+	conceptCreator: string,
 ) => {
 	return (
 		roles.includes(R.CONCEPTS_CONTRIBUTOR) ||
@@ -15,13 +15,13 @@ export const isContributor = (
 export const isConceptCreator = (
 	roles: string[],
 	stamp: string,
-	conceptCreator: string
+	conceptCreator: string,
 ) => roles.includes(R.CONCEPTS_CREATOR) && stamp === conceptCreator;
 
 export const filterConceptsToValidate = (
 	concepts: any[],
 	roles: string[],
-	stamp: string
+	stamp: string,
 ) =>
 	!roles.includes(R.CONCEPTS_CREATOR)
 		? concepts
@@ -30,13 +30,13 @@ export const filterConceptsToValidate = (
 export const isCollectionCreator = (
 	roles: string[],
 	stamp: string,
-	collectionCreator: string
+	collectionCreator: string,
 ) => roles.includes(R.COLLECTIONS_CREATOR) && stamp === collectionCreator;
 
 export const filterCollectionsToValidate = (
 	collections: any[],
 	roles: string[],
-	stamp: string
+	stamp: string,
 ) =>
 	!roles.includes(R.COLLECTIONS_CREATOR)
 		? collections
@@ -48,18 +48,18 @@ export const isAdminOrContributor = (roles: string[]) =>
 export const isAdminOrConceptCreator = (
 	roles: string[],
 	stamp: string,
-	conceptCreator: string
+	conceptCreator: string,
 ) => isAdmin(roles) || isConceptCreator(roles, stamp, conceptCreator);
 
 export const isAdminOrContributorOrConceptCreator = (
 	roles: string[],
 	stamp: string,
-	conceptCreator: string
+	conceptCreator: string,
 ) =>
 	isAdminOrContributor(roles) || isConceptCreator(roles, stamp, conceptCreator);
 
 export const isAdminOrCollectionCreator = (
 	roles: string[],
 	stamp?: string,
-	collectionCreator?: string
+	collectionCreator?: string,
 ) => isAdmin(roles) || isCollectionCreator(roles, stamp, collectionCreator);

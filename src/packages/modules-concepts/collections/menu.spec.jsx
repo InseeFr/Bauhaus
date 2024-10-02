@@ -12,7 +12,7 @@ describe('Distributions Home Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New');
@@ -22,7 +22,7 @@ describe('Distributions Home Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN, CONCEPTS_CONTRIBUTOR]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New');
@@ -32,7 +32,7 @@ describe('Distributions Home Page Menu', () => {
 		render(
 			<RBACMock roles={[CONCEPTS_CONTRIBUTOR]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('New');
@@ -42,7 +42,7 @@ describe('Distributions Home Page Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('New')).toBeNull();
@@ -52,7 +52,7 @@ describe('Distributions Home Page Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.queryByText('Export');
@@ -62,7 +62,7 @@ describe('Distributions Home Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Publish');
@@ -72,7 +72,7 @@ describe('Distributions Home Page Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN, COLLECTIONS_CREATOR]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Publish');
@@ -82,7 +82,7 @@ describe('Distributions Home Page Menu', () => {
 		render(
 			<RBACMock roles={[COLLECTIONS_CREATOR]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Publish');
@@ -92,7 +92,7 @@ describe('Distributions Home Page Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('Publish')).toBeNull();

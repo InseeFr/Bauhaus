@@ -9,22 +9,22 @@ describe('page-title', () => {
 	it('returns component title', () => {
 		const { container } = render(<PageTitle title="title" />);
 		expect(
-			container.querySelector('.wilco-page-title__title')!.innerHTML
+			container.querySelector('.wilco-page-title__title')!.innerHTML,
 		).toEqual('title');
 	});
 
 	it('returns component text', () => {
 		const { container } = render(
-			<PageTitle title="title" subtitle="subtitle" />
+			<PageTitle title="title" subtitle="subtitle" />,
 		);
 		expect(
-			container.querySelector('.wilco-page-title__title')!.innerHTML
+			container.querySelector('.wilco-page-title__title')!.innerHTML,
 		).toEqual('title<div>" subtitle "</div>');
 	});
 
 	it('returns component into row', () => {
 		const { container } = render(
-			<PageTitle title="title" subtitle="subtitle" />
+			<PageTitle title="title" subtitle="subtitle" />,
 		);
 		expect(container.querySelectorAll('.row')).toHaveLength(1);
 	});

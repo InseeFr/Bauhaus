@@ -43,7 +43,7 @@ export function processGeneral(general: any, keys: any[]) {
 	general.additionalMaterial = prefixWithHttp(general.additionalMaterial);
 	general.valid = general.valid.replace(
 		/T[0-9]{2}:00:00.000Z/,
-		'T00:00:00.000Z'
+		'T00:00:00.000Z',
 	);
 	return general;
 }

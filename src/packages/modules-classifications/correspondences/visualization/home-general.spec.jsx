@@ -18,7 +18,7 @@ describe('correspondence-home-general', () => {
 				correspondence={correspondence}
 				secondLang={true}
 				langs={locales}
-			/>
+			/>,
 		);
 	});
 });

@@ -38,7 +38,7 @@ GeneralApi.getInit()
 		(err: any) => {
 			renderApp(ErrorBlock, {}, { home: true });
 			return Promise.reject(err.toString());
-		}
+		},
 	)
 	.then((res: any) => renderApp(Root, res));
 
@@ -74,7 +74,7 @@ const renderApp = (Component: any, initState: any, props?: any) => {
 						</AppContextProvider>
 					</Provider>
 				</QueryClientProvider>
-			</OidcProvider>
+			</OidcProvider>,
 		);
 	});
 };

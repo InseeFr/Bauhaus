@@ -25,12 +25,12 @@ function SeeAlso({ links, secondLang }) {
 				{displaySeeAlso(
 					links.indicator,
 					D.indicatorsTitle,
-					'/operations/indicator'
+					'/operations/indicator',
 				)}
 				{displaySeeAlso(
 					links.operation,
 					D.operationsTitle,
-					'/operations/operation'
+					'/operations/operation',
 				)}
 				{displaySeeAlso(links.series, D.seriesTitle, '/operations/series')}
 				{displaySeeAlso(links.family, D.familiesTitle, '/operations/family')}

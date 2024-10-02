@@ -10,7 +10,7 @@ describe('reducerSeriesMembers', () => {
 		};
 		const result = reducerClassificationLevels(
 			{ id1: 'previous', id2: 'previous' },
-			action
+			action,
 		);
 		expect(result).toEqual({
 			id1: {

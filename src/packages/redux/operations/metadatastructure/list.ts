@@ -28,12 +28,12 @@ const fetchMsd = () => (dispatch: any, getState: any) => {
 						},
 					};
 				},
-				{}
+				{},
 			);
 			const metaDataStructureTree = getTree(
 				metaDataStructure,
 				undefined,
-				metadataAttributesObject
+				metadataAttributesObject,
 			);
 
 			const codesList = new Set();
@@ -43,7 +43,7 @@ const fetchMsd = () => (dispatch: any, getState: any) => {
 				.filter(
 					(code: any) =>
 						Object.keys(getState().operationsCodesList.results).indexOf(code) <
-						0
+						0,
 				)
 				.forEach((code: any) => codesList.add(code));
 			loadCodesList(codesList, dispatch);
@@ -57,7 +57,7 @@ const fetchMsd = () => (dispatch: any, getState: any) => {
 			dispatch({
 				type: LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
 				payload: { err },
-			})
+			}),
 	);
 };
 export default fetchMsd;

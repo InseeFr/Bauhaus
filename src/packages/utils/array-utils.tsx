@@ -7,7 +7,7 @@ import { deburr } from './string-utils';
  * @param value
  */
 export const convertToArrayIfDefined = (
-	value: string | string[]
+	value: string | string[],
 ): string[] | undefined => {
 	if (!value) return;
 	return Array.isArray(value) ? value : [value];
@@ -26,7 +26,7 @@ export const creatSelectList = (max: number) => {
 		result.push(
 			<option value={i} key={i}>
 				{i}
-			</option>
+			</option>,
 		);
 	}
 	return result;
@@ -38,13 +38,13 @@ export const creatSelectListSelectedLast = (max: number) => {
 		result.push(
 			<option value={i} key={i}>
 				{i}
-			</option>
+			</option>,
 		);
 	}
 	result.push(
 		<option value={max} key={max}>
 			{max}
-		</option>
+		</option>,
 	);
 	return max === 0 ? null : result;
 };
@@ -136,7 +136,7 @@ export const arrayKeepUniqueField = (array: any[], field: string) =>
 		(item[field] ?? '')
 			.toLowerCase()
 			.normalize('NFD')
-			.replace(/\p{Diacritic}/gu, '')
+			.replace(/\p{Diacritic}/gu, ''),
 	);
 
 export const range = (start: number, end: number) =>
@@ -146,7 +146,7 @@ export const range = (start: number, end: number) =>
 
 export const arrayDifferenceByID = (
 	array1: Array<{ id: number }>,
-	array2: Array<{ id: number }>
+	array2: Array<{ id: number }>,
 ) => {
 	const idsArray1 = array1.map((item) => item.id);
 	const idsArray2 = array2.map((item) => item.id);

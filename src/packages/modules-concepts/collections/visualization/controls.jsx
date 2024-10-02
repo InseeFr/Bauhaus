@@ -38,26 +38,24 @@ const CollectionVisualizationControls = ({
 	}
 
 	return (
-		<>
-			<ActionToolbar>
-				<ReturnButton action="/concepts/collections" />
-				<ExportButtons
-					ids={[id]}
-					exportHandler={(type, withConcepts, lang = 'lg1') =>
-						exportCollection({ ids: [id], type, withConcepts, lang })
-					}
-				/>
+		<ActionToolbar>
+			<ReturnButton action="/concepts/collections" />
+			<ExportButtons
+				ids={[id]}
+				exportHandler={(type, withConcepts, lang = 'lg1') =>
+					exportCollection({ ids: [id], type, withConcepts, lang })
+				}
+			/>
 
-				{btns.map((btn) => {
-					if (!btn) return null;
-					if (!Array.isArray(btn)) {
-						return btn;
-					}
-					const [action, label] = btn;
-					return <Button key={label} action={action} label={label} />;
-				})}
-			</ActionToolbar>
-		</>
+			{btns.map((btn) => {
+				if (!btn) return null;
+				if (!Array.isArray(btn)) {
+					return btn;
+				}
+				const [action, label] = btn;
+				return <Button key={label} action={action} label={label} />;
+			})}
+		</ActionToolbar>
 	);
 };
 

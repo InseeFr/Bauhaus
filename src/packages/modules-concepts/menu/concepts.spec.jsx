@@ -7,7 +7,7 @@ describe('menu-concepts', () => {
 			<MenuConcepts
 				location={{ pathname: '/location' }}
 				permission={{ authType: 'authType', roles: [] }}
-			/>
+			/>,
 		);
 	});
 });

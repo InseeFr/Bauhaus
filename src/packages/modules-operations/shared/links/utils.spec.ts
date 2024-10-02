@@ -8,7 +8,10 @@ describe('getSeeAlsoByType', () => {
 			{ type: 'operation', id: 1 },
 		];
 		const output = {
-			series: [{ type: 'series', id: 1 }, { type: 'series', id: 2 }],
+			series: [
+				{ type: 'series', id: 1 },
+				{ type: 'series', id: 2 },
+			],
 			operation: [{ type: 'operation', id: 1 }],
 		};
 		expect(getSeeAlsoByType(input)).toEqual(output);

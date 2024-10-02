@@ -18,7 +18,7 @@ describe('DocumentHome', () => {
 		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<DocumentHome documents={[]} />
-			</Provider>
+			</Provider>,
 		);
 		expect(container.querySelectorAll('h1')).toHaveLength(1);
 	});
@@ -30,7 +30,7 @@ describe('DocumentHome', () => {
 		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<DocumentHome documents={[]} />
-			</Provider>
+			</Provider>,
 		);
 		expect(container.querySelectorAll('ul')).toHaveLength(1);
 	});
@@ -46,11 +46,11 @@ describe('DocumentHome', () => {
 				renderWithRouter(
 					<Provider store={store}>
 						<DocumentHome documents={[]} />
-					</Provider>
+					</Provider>,
 				);
 				await screen.findByText('New Document');
 				await screen.findByText('New Link');
-			}
+			},
 		);
 	}
 
@@ -62,7 +62,7 @@ describe('DocumentHome', () => {
 		renderWithRouter(
 			<Provider store={store}>
 				<DocumentHome documents={[]} />
-			</Provider>
+			</Provider>,
 		);
 		expect(screen.queryByText('New Document')).toBeNull();
 		expect(screen.queryByText('New Link')).toBeNull();

@@ -8,7 +8,7 @@ export const ComponentDetail = (props) => {
 	const [secondLang] = useSecondLang();
 
 	const [mode, setMode] = useState(
-		!props.component?.labelLg1 ? 'EDIT' : 'VIEW'
+		!props.component?.labelLg1 ? 'EDIT' : 'VIEW',
 	);
 
 	const handleViewUpdate = useCallback(() => setMode('EDIT'), []);
@@ -17,11 +17,11 @@ export const ComponentDetail = (props) => {
 			props.handleSave(component);
 			setMode('VIEW');
 		},
-		[props]
+		[props],
 	);
 	const handleEditBack = useCallback(
 		() => (!props.component.labelLg1 ? props.handleBack() : setMode('VIEW')),
-		[props]
+		[props],
 	);
 
 	return (

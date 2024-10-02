@@ -30,7 +30,7 @@ describe('classification-home', () => {
 					publish={vi.fn()}
 					serverSideError=""
 				/>
-			</Provider>
+			</Provider>,
 		);
 	});
 });

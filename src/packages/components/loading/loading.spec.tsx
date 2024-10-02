@@ -14,14 +14,14 @@ vi.mock('../i18n', () => ({
 			validating: 'Validating...',
 			loading: 'Loading...',
 		},
-	}
+	},
 }));
 
 describe('Loading Component', () => {
 	it('renders with default loading text', () => {
 		render(<Loading />);
 		expect(
-			screen.getByRole('heading', { name: D.loadableLoading })
+			screen.getByRole('heading', { name: D.loadableLoading }),
 		).not.toBeNull();
 	});
 
@@ -34,21 +34,21 @@ describe('Loading Component', () => {
 	it('renders with authentification text type', () => {
 		render(<Loading textType="authentification" />);
 		expect(
-			screen.getByRole('heading', { name: D.loadableAuth })
+			screen.getByRole('heading', { name: D.loadableAuth }),
 		).not.toBeNull();
 	});
 
 	it('renders with deleting text type', () => {
 		render(<Deleting />);
 		expect(
-			screen.getByRole('heading', { name: D.loadableDeleting })
+			screen.getByRole('heading', { name: D.loadableDeleting }),
 		).not.toBeNull();
 	});
 
 	it('renders with validating text type', () => {
 		render(<Publishing />);
 		expect(
-			screen.getByRole('heading', { name: D.loadableValidating })
+			screen.getByRole('heading', { name: D.loadableValidating }),
 		).not.toBeNull();
 	});
 });

@@ -22,8 +22,8 @@ export const ComponentSpecificationForm = ({
 			structureComponents
 				.filter((c) => c.component.type === MEASURE_PROPERTY_TYPE)
 				.map((measure) =>
-					StructureApi.getMutualizedComponent(measure.component.id)
-				)
+					StructureApi.getMutualizedComponent(measure.component.id),
+				),
 		).then((measures) => {
 			setAttachments(getAllAttachment(measures, selectedComponent));
 		});
@@ -89,7 +89,7 @@ export const ComponentSpecificationForm = ({
 							<Select
 								placeholder={D.attachmentTitle}
 								value={attachments.filter((c) =>
-									component.attachment?.some((a) => a.includes(c.value))
+									component.attachment?.some((a) => a.includes(c.value)),
 								)}
 								multi
 								options={attachments}

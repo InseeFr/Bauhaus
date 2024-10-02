@@ -66,5 +66,5 @@ const mapDispatchToProps = {
 
 export const Component = connect(
 	mapStateToProps,
-	mapDispatchToProps
+	mapDispatchToProps,
 )(ClassificationTreeContainer);

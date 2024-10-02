@@ -14,9 +14,7 @@ describe('explanatory-note', () => {
 	});
 
 	it('renders not null component', () => {
-		const { container } = render(
-			<ExplanatoryNote text="text" title="title" />
-		);
+		const { container } = render(<ExplanatoryNote text="text" title="title" />);
 		expect(container.innerHTML).not.toBeNull();
 	});
 });

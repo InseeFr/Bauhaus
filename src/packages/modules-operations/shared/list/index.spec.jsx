@@ -25,7 +25,7 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={[]}
 				/>
-			</Provider>
+			</Provider>,
 		);
 
 		expect(container.querySelectorAll('h1')).toHaveLength(1);
@@ -42,7 +42,7 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={[]}
 				/>
-			</Provider>
+			</Provider>,
 		);
 		expect(container.querySelectorAll('.list-group')).toHaveLength(1);
 	});
@@ -59,7 +59,7 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={[]}
 				/>
-			</Provider>
+			</Provider>,
 		);
 		await screen.findByText('View tree');
 	});
@@ -75,7 +75,7 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={['role']}
 				/>
-			</Provider>
+			</Provider>,
 		);
 		await screen.findByText('New');
 	});
@@ -91,7 +91,7 @@ describe('Operation Home', () => {
 					childPath=""
 					roles={['role1']}
 				/>
-			</Provider>
+			</Provider>,
 		);
 		expect(queryByText('New')).toBeNull();
 	});

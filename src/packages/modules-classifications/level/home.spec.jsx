@@ -10,7 +10,7 @@ const level = {
 describe('classification-level-home', () => {
 	it('renders without crashing', () => {
 		renderWithAppContext(
-			<Home level={level} langs={locales} secondLang={true} />
+			<Home level={level} langs={locales} secondLang={true} />,
 		);
 	});
 });

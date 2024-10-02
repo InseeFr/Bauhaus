@@ -17,7 +17,7 @@ describe('Codes List View Menu', () => {
 					updatable={true}
 					deletable={true}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -40,7 +40,7 @@ describe('Codes List View Menu', () => {
 					updatable={true}
 					deletable={true}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -67,7 +67,7 @@ describe('Codes List View Menu', () => {
 					updatable={true}
 					deletable={true}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -94,7 +94,7 @@ describe('Codes List View Menu', () => {
 					updatable={true}
 					deletable={true}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -117,7 +117,7 @@ describe('Codes List View Menu', () => {
 					updatable={true}
 					deletable={true}
 				></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');

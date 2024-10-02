@@ -10,7 +10,7 @@ import { isLang2 } from '../../../i18n';
 export function getTree(
 	input: any[],
 	idParent?: string,
-	objectToMerge?: any
+	objectToMerge?: any,
 ): any {
 	return input
 		.filter((msd) => msd.idParent === idParent)

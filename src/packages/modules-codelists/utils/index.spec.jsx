@@ -13,37 +13,37 @@ describe('validateCodelist', () => {
 		const result = validateCodelist(codelist);
 
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.lastListUriSegmentTitleShort)
+			D.mandatoryProperty(D.lastListUriSegmentTitleShort),
 		);
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.lastCodeUriSegmentTitleShort)
+			D.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
 		);
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.lastClassUriSegmentTitleShort)
+			D.mandatoryProperty(D.lastClassUriSegmentTitleShort),
 		);
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D.idTitle));
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D1.labelTitle));
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D2.labelTitle));
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D2.creator));
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle)
+			D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
 		);
 
 		expect(result.fields.lastListUriSegment).toBe(
-			D.mandatoryProperty(D.lastListUriSegmentTitleShort)
+			D.mandatoryProperty(D.lastListUriSegmentTitleShort),
 		);
 		expect(result.fields.lastCodeUriSegment).toBe(
-			D.mandatoryProperty(D.lastCodeUriSegmentTitleShort)
+			D.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
 		);
 		expect(result.fields.lastClassUriSegment).toBe(
-			D.mandatoryProperty(D.lastClassUriSegmentTitleShort)
+			D.mandatoryProperty(D.lastClassUriSegmentTitleShort),
 		);
 		expect(result.fields.id).toBe(D.mandatoryProperty(D.idTitle));
 		expect(result.fields.labelLg1).toBe(D.mandatoryProperty(D1.labelTitle));
 		expect(result.fields.labelLg2).toBe(D.mandatoryProperty(D2.labelTitle));
 		expect(result.fields.creator).toBe(D.mandatoryProperty(D.creator));
 		expect(result.fields.disseminationStatus).toBe(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle)
+			D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
 		);
 	});
 
@@ -83,24 +83,24 @@ describe('validatePartialCodelist', () => {
 
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D.idTitle));
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.parentCodelist)
+			D.mandatoryProperty(D.parentCodelist),
 		);
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D1.labelTitle));
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D2.labelTitle));
 		expect(result.errorMessage).toContain(D.mandatoryProperty(D.creator));
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle)
+			D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
 		);
 
 		expect(result.fields.id).toBe(D.mandatoryProperty(D.idTitle));
 		expect(result.fields.parentCode).toBe(
-			D.mandatoryProperty(D.parentCodelist)
+			D.mandatoryProperty(D.parentCodelist),
 		);
 		expect(result.fields.labelLg1).toBe(D.mandatoryProperty(D1.labelTitle));
 		expect(result.fields.labelLg2).toBe(D.mandatoryProperty(D2.labelTitle));
 		expect(result.fields.creator).toBe(D.mandatoryProperty(D.creator));
 		expect(result.fields.disseminationStatus).toBe(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle)
+			D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
 		);
 	});
 
@@ -117,7 +117,7 @@ describe('validatePartialCodelist', () => {
 		const result = validatePartialCodelist(codelist);
 
 		expect(result.errorMessage).toContain(
-			D.validCharactersProperty(D1.idTitle)
+			D.validCharactersProperty(D1.idTitle),
 		);
 		expect(result.fields.id).toBe(D.validCharactersProperty(D1.idTitle));
 	});

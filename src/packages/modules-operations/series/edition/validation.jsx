@@ -12,7 +12,7 @@ let Serie = z.object({
 		},
 		{
 			required_error: D.mandatoryProperty(D1.familyTitle),
-		}
+		},
 	),
 	prefLabelLg1: z
 		.string({ required_error: D.mandatoryProperty(D1.title) })
@@ -50,14 +50,14 @@ listOfExtraMandatoryFields.forEach((extraMandatoryField) => {
 		z
 			.string({
 				required_error: D.mandatoryProperty(
-					fieldToTitleMapping[extraMandatoryField] ?? ''
+					fieldToTitleMapping[extraMandatoryField] ?? '',
 				),
 			})
 			.min(1, {
 				message: D.mandatoryProperty(
-					fieldToTitleMapping[extraMandatoryField] ?? ''
+					fieldToTitleMapping[extraMandatoryField] ?? '',
 				),
-			})
+			}),
 	);
 });
 

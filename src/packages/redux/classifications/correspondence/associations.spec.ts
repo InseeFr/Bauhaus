@@ -12,7 +12,7 @@ describe('reducerSeriesMembers', () => {
 		};
 		const result = reducerClassificationCorrespondenceAssociations(
 			{ id1: 'previous', id2: 'previous' },
-			action
+			action,
 		);
 		expect(result).toEqual({
 			id1: {

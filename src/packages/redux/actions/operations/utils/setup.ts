@@ -23,7 +23,7 @@ export function loadCodesList(notations: any, dispatch: any) {
 				dispatch({
 					type: A.LOAD_OPERATIONS_CODES_LIST_FAILURE,
 					payload: { err },
-				})
+				}),
 		);
 	});
 }

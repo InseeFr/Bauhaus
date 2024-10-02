@@ -3,7 +3,7 @@ import { Component } from '../../model/structures/Component';
 
 export const getAllAttachment = (
 	measures: Component[] = [],
-	specification: any
+	specification: any,
 ) => {
 	// We find one measure linked to the attribute
 	const measureWithThisAttribute = measures.find((measure: any) => {
@@ -20,7 +20,7 @@ export const getAllAttachment = (
 	}));
 
 	// If this measure exists, this attribute can only have a measure as an attachment
-	if (!!measureWithThisAttribute) {
+	if (measureWithThisAttribute) {
 		return measuresOptions;
 	}
 

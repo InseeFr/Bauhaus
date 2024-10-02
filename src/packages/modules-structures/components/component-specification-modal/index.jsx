@@ -18,7 +18,7 @@ export const ComponentSpecificationModalBody = ({
 	disabled = false,
 }) => {
 	const [specification, setSpecification] = useState(
-		defaultSpecification || {}
+		defaultSpecification || {},
 	);
 
 	return (

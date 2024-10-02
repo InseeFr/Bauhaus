@@ -9,11 +9,9 @@ import { vi } from 'vitest';
 
 vi.mock('../../../sdk', () => ({
 	StructureApi: {
-		deleteStructure: vi.fn()
+		deleteStructure: vi.fn(),
 	},
 }));
-
-
 
 describe('Structure View Menu', () => {
 	it('should call handleDelete when DeleteButton is clicked', () => {
@@ -23,15 +21,12 @@ describe('Structure View Menu', () => {
 			validationState: UNPUBLISHED,
 		} as Structure;
 
-
-		StructureApi.deleteStructure.mockReturnValue(
-			Promise.resolve()
-		);
+		StructureApi.deleteStructure.mockReturnValue(Promise.resolve());
 
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Controls structure={structure} publish={vi.fn()}></Controls>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		const deleteButton = screen.getByRole('button', { name: /delete/i });
@@ -45,7 +40,7 @@ describe('Structure View Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Controls structure={structure} publish={vi.fn()}></Controls>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -56,12 +51,12 @@ describe('Structure View Menu', () => {
 	});
 
 	it('an admin can goBack, publish, delete and update a structure even if the stamp is not correct', () => {
-		const structure = { id: '1' }  as Structure;
+		const structure = { id: '1' } as Structure;
 
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Controls structure={structure} publish={vi.fn()}></Controls>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -81,7 +76,7 @@ describe('Structure View Menu', () => {
 		render(
 			<RBACMock roles={[STRUCTURE_CONTRIBUTOR]} stamp="INSEE">
 				<Controls structure={structure} publish={vi.fn()}></Controls>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -101,7 +96,7 @@ describe('Structure View Menu', () => {
 		render(
 			<RBACMock roles={[STRUCTURE_CONTRIBUTOR]} stamp="INSEE">
 				<Controls structure={structure} publish={vi.fn()}></Controls>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -117,7 +112,7 @@ describe('Structure View Menu', () => {
 		render(
 			<RBACMock roles={[STRUCTURE_CONTRIBUTOR]} stamp="XXXXXX">
 				<Controls structure={structure} publish={vi.fn()}></Controls>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');

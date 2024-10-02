@@ -8,10 +8,10 @@ export enum Status {
 
 export const useLayout = (): [
 	layoutMode: Status,
-	changeLayoutMode: (mode: Status) => void
+	changeLayoutMode: (mode: Status) => void,
 ] => {
 	const [layoutMode, setLayoutMode] = useState<Status>(
-		(localStorage.getItem('HELP_VIEW') as unknown as Status) || Status.BOTH
+		(localStorage.getItem('HELP_VIEW') as unknown as Status) || Status.BOTH,
 	);
 
 	const changeLayoutMode = (status: Status): void => {

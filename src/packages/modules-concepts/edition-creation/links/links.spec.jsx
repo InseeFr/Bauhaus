@@ -8,7 +8,7 @@ describe('concept-edition-creation-links', () => {
 				conceptsWithLinks={[]}
 				handleChange={vi.fn()}
 				handleChangeEquivalentLinks={vi.fn()}
-			/>
+			/>,
 		);
 	});
 });

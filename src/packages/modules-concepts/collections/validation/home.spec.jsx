@@ -8,7 +8,7 @@ describe('collection-validation', () => {
 				collections={[]}
 				permission={{ authType: '', roles: [''] }}
 				handleValidateCollectionList={vi.fn()}
-			/>
+			/>,
 		);
 	});
 });

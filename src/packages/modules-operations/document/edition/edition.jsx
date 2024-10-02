@@ -73,7 +73,7 @@ const OperationsDocumentationEdition = (props) => {
 
 	useTitle(
 		type === LINK ? D.titleLink : D.titleDocument,
-		props.document.labelLg1
+		props.document.labelLg1,
 	);
 
 	const goBack = useGoBack();
@@ -96,7 +96,7 @@ const OperationsDocumentationEdition = (props) => {
 	const [document, setDocument] = useState(defaultDocument);
 
 	const [files, setFiles] = useState(
-		document.url ? [{ name: document.url }] : []
+		document.url ? [{ name: document.url }] : [],
 	);
 
 	const [validationModalDisplayed, setValidationModalDisplayed] =
@@ -109,7 +109,7 @@ const OperationsDocumentationEdition = (props) => {
 	useEffect(() => {
 		if (documentsAndLinksList) {
 			setCurrentDocument(
-				documentsAndLinksList.find((doc) => doc.id === document?.id)
+				documentsAndLinksList.find((doc) => doc.id === document?.id),
 			);
 		}
 	}, [documentsAndLinksList, document]);
@@ -162,7 +162,7 @@ const OperationsDocumentationEdition = (props) => {
 				},
 				(err) => {
 					setServerSideError(err);
-				}
+				},
 			)
 			.finally(() => setSaving(false));
 	};
@@ -178,7 +178,7 @@ const OperationsDocumentationEdition = (props) => {
 			documentsAndLinksList,
 			currentLabelLg1,
 			currentLabelLg2,
-			currentFile
+			currentFile,
 		);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
@@ -250,7 +250,7 @@ const OperationsDocumentationEdition = (props) => {
 							onChange={onChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg1}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
+								clientSideErrors.fields?.labelLg1 ? 'labelLg1-error' : null
 							}
 						/>
 						<ClientSideError
@@ -266,7 +266,7 @@ const OperationsDocumentationEdition = (props) => {
 							onChange={onChange}
 							aria-invalid={!!clientSideErrors.fields?.labelLg2}
 							aria-describedby={
-								!!clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
+								clientSideErrors.fields?.labelLg2 ? 'labelLg2-error' : null
 							}
 						/>
 						<ClientSideError
@@ -305,7 +305,7 @@ const OperationsDocumentationEdition = (props) => {
 								onChange={onChange}
 								aria-invalid={!!clientSideErrors.fields?.url}
 								aria-describedby={
-									!!clientSideErrors.fields?.url ? 'url-error' : null
+									clientSideErrors.fields?.url ? 'url-error' : null
 								}
 							/>
 							<ClientSideError
@@ -349,7 +349,7 @@ const OperationsDocumentationEdition = (props) => {
 											{...getInputProps()}
 											aria-invalid={!!clientSideErrors.fields?.files}
 											aria-describedby={
-												!!clientSideErrors.fields?.files ? 'file-error' : null
+												clientSideErrors.fields?.files ? 'file-error' : null
 											}
 										/>
 										<p>{D.drag}</p>
@@ -393,7 +393,7 @@ const OperationsDocumentationEdition = (props) => {
 						<Select
 							placeholder=""
 							value={langSelectOptions.find(
-								({ value }) => value === document.lang
+								({ value }) => value === document.lang,
 							)}
 							options={langSelectOptions}
 							onChange={(value) => {

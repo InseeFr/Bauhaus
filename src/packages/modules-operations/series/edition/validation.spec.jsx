@@ -10,7 +10,7 @@ describe('validation', function () {
 				family: { id: 'i' },
 				accrualPeriodicityCode: 'accrualPeriodicityCode',
 				typeCode: 'typeCode',
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
@@ -32,7 +32,7 @@ describe('validation', function () {
 				family: { id: 'i' },
 				accrualPeriodicityCode: 'accrualPeriodicityCode',
 				typeCode: 'typeCode',
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
@@ -52,7 +52,7 @@ describe('validation', function () {
 				prefLabelLg2: '',
 				accrualPeriodicityCode: 'accrualPeriodicityCode',
 				typeCode: 'typeCode',
-			})
+			}),
 		).toEqual({
 			errorMessage: [
 				'The property <strong>Famille</strong> is required.',
@@ -79,7 +79,7 @@ describe('validation', function () {
 				creators: ['creator'],
 				accrualPeriodicityCode: 'accrualPeriodicityCode',
 				typeCode: 'typeCode',
-			})
+			}),
 		).toEqual({
 			errorMessage: [],
 			fields: {

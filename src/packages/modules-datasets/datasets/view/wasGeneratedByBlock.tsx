@@ -12,7 +12,7 @@ type WasGeneratedByBlockTypes = {
 const generateGenericWasGeneratedBy = (
 	basePath: string,
 	datas: Array<Operation | Series>,
-	iris: string[]
+	iris: string[],
 ): { label: string; url: string }[] => {
 	return iris
 		.map((wasGeneratedIRI) => {

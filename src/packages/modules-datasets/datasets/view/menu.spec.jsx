@@ -10,7 +10,7 @@ describe('Dataset View Menu', () => {
 		render(
 			<RBACMock roles={[]}>
 				<ViewMenu dataset={dataset}></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -24,7 +24,7 @@ describe('Dataset View Menu', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<ViewMenu dataset={dataset}></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -41,7 +41,7 @@ describe('Dataset View Menu', () => {
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
 				<ViewMenu dataset={dataset}></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -58,7 +58,7 @@ describe('Dataset View Menu', () => {
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
 				<ViewMenu dataset={dataset}></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -75,7 +75,7 @@ describe('Dataset View Menu', () => {
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
 				<ViewMenu dataset={dataset}></ViewMenu>
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');

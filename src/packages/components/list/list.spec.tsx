@@ -15,7 +15,7 @@ describe('List Component', () => {
 		const items = [{ name: 'John' }, { name: 'Doe' }];
 		const getContent = (item: { name: string }) => `Name: ${item.name}`;
 		const { getByText } = render(
-			<List items={items} getContent={getContent} />
+			<List items={items} getContent={getContent} />,
 		);
 
 		items.forEach((item) => {
@@ -28,7 +28,7 @@ describe('List Component', () => {
 		expect(container.querySelector('ul')).toBeNull();
 
 		const { container: containerUndefined } = render(
-			<List items={undefined as any} />
+			<List items={undefined as any} />,
 		);
 		expect(containerUndefined.querySelector('ul')).toBeNull();
 	});

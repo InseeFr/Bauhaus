@@ -41,7 +41,7 @@ export default function buildPayloadCreation(concept: any) {
 				});
 			return arr;
 		},
-		[]
+		[],
 	);
 
 	const datableNotes = ['changeNoteLg1', 'changeNoteLg2']

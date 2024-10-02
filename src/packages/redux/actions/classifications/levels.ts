@@ -20,7 +20,7 @@ const loadClassificationLevels = (id: string) => (dispatch: any) => {
 			dispatch({
 				type: A.LOAD_CLASSIFICATION_LEVELS_FAILURE,
 				payload: { err, id },
-			})
+			}),
 	);
 };
 

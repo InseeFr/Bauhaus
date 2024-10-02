@@ -5,16 +5,16 @@ describe('DropDown', () => {
 	it('should be closed by default', () => {
 		const { container } = render(<ExportButton actions={[]} />);
 		expect(container.querySelector('.dropdown__content').classList).toContain(
-			'inactive'
+			'inactive',
 		);
 	});
 	it('should be opened after clicking on the trigger button', () => {
 		const { container } = render(
-			<ExportButton actions={[<button key={1}>Action 1</button>]} />
+			<ExportButton actions={[<button key={1}>Action 1</button>]} />,
 		);
 		fireEvent.click(container.querySelector('button'));
 		expect(container.querySelector('.dropdown__content').classList).toContain(
-			'active'
+			'active',
 		);
 	});
 	it('should be closed when pressing the Escape key', () => {
@@ -27,15 +27,15 @@ describe('DropDown', () => {
 			charCode: 27,
 		});
 		expect(container.querySelector('.dropdown__content').classList).toContain(
-			'inactive'
+			'inactive',
 		);
 	});
 	it('should display the actions props', () => {
 		const { container } = render(
-			<ExportButton actions={[<button key={1}>Action 1</button>]} />
+			<ExportButton actions={[<button key={1}>Action 1</button>]} />,
 		);
 		expect(container.querySelector('li button').innerHTML).toContain(
-			'Action 1'
+			'Action 1',
 		);
 	});
 });

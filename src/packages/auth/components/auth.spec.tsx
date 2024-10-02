@@ -22,7 +22,7 @@ describe('AuthDumb', () => {
 				<AuthDumb fallback="fallback" roles={['roles']}>
 					Children
 				</AuthDumb>
-			</Provider>
+			</Provider>,
 		);
 		expect(container.innerHTML).toEqual('fallback');
 	});
@@ -44,7 +44,7 @@ describe('AuthDumb', () => {
 				<AuthDumb fallback="fallback" roles={['roles1']}>
 					Children
 				</AuthDumb>
-			</Provider>
+			</Provider>,
 		);
 		expect(container.innerHTML).toEqual('Children');
 	});
@@ -67,7 +67,7 @@ describe('AuthDumb', () => {
 				<AuthDumb fallback="fallback" roles={[['roles1', () => true]]}>
 					Children
 				</AuthDumb>
-			</Provider>
+			</Provider>,
 		);
 		expect(container.innerHTML).toEqual('Children');
 	});
@@ -90,7 +90,7 @@ describe('AuthDumb', () => {
 				<AuthDumb fallback="fallback" roles={[['roles', () => false]]}>
 					Children
 				</AuthDumb>
-			</Provider>
+			</Provider>,
 		);
 		expect(container.innerHTML).toEqual('fallback');
 	});
@@ -113,7 +113,7 @@ describe('AuthDumb', () => {
 				<AuthDumb fallback="fallback" roles={[['roles', () => true]]}>
 					Children
 				</AuthDumb>
-			</Provider>
+			</Provider>,
 		);
 		expect(container.innerHTML).toEqual('fallback');
 	});

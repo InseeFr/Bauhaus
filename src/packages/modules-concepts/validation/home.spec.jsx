@@ -8,7 +8,7 @@ describe('concept-validation', () => {
 				concepts={[]}
 				permission={{ authType: '', roles: [''] }}
 				handleValidateConceptList={vi.fn()}
-			/>
+			/>,
 		);
 	});
 });

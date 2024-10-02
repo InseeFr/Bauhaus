@@ -17,17 +17,23 @@ const metadataStructureClosed = {
 describe('Outline', () => {
 	it('should displayed a collapsed block', () => {
 		const { container } = renderWithRouter(
-			<Outline metadataStructure={metadataStructureClosed} storeCollapseState />
+			<Outline
+				metadataStructure={metadataStructureClosed}
+				storeCollapseState
+			/>,
 		);
 		expect(container.querySelectorAll('.glyphicon-chevron-down')).toHaveLength(
-			1
+			1,
 		);
 		expect(container.querySelectorAll('.msd__item')).toHaveLength(0);
 	});
 
 	it('should display a expanded block', () => {
 		const { container } = renderWithRouter(
-			<Outline metadataStructure={metadataStructureOpened} storeCollapseState />
+			<Outline
+				metadataStructure={metadataStructureOpened}
+				storeCollapseState
+			/>,
 		);
 		expect(container.querySelectorAll('.glyphicon-chevron-up')).toHaveLength(1);
 		expect(container.querySelectorAll('.msd__item')).toHaveLength(1);
@@ -35,7 +41,7 @@ describe('Outline', () => {
 
 	it('should not store the collapse status', () => {
 		const { container } = renderWithRouter(
-			<Outline metadataStructure={metadataStructureOpened} />
+			<Outline metadataStructure={metadataStructureOpened} />,
 		);
 		expect(container.querySelectorAll('.glyphicon-chevron-up')).toHaveLength(0);
 		expect(container.querySelectorAll('.msd__item')).toHaveLength(0);

@@ -15,7 +15,7 @@ describe('isOpen', () => {
 			JSON.stringify({
 				2: true,
 				3: false,
-			})
+			}),
 		);
 	});
 	it('should return false as a default value', () => {

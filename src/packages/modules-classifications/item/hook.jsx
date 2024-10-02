@@ -14,11 +14,11 @@ const useClassificationItem = (classificationId, itemId, current) => {
 			const [general, narrowers] = await Promise.all([
 				ClassificationsApi.getClassificationItemGeneral(
 					classificationId,
-					itemId
+					itemId,
 				),
 				ClassificationsApi.getClassificationItemNarrowers(
 					classificationId,
-					itemId
+					itemId,
 				),
 			]);
 
@@ -29,7 +29,7 @@ const useClassificationItem = (classificationId, itemId, current) => {
 						return ClassificationsApi.getClassificationItemNotes(
 							classificationId,
 							itemId,
-							version
+							version,
 						).then((note) => {
 							return {
 								version,
@@ -37,12 +37,12 @@ const useClassificationItem = (classificationId, itemId, current) => {
 								...note,
 							};
 						});
-					})
+					}),
 				);
 			}
 			const formattedNotes = notes.reduce(
 				(acc, note) => ({ ...acc, [note.version]: note }),
-				{}
+				{},
 			);
 			return { general, notes: formattedNotes, narrowers };
 		},

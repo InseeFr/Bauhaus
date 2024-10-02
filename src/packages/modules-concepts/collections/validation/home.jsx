@@ -14,7 +14,7 @@ const CollectionsToValidate = ({
 	const filteredCollections = authImpl.filterCollectionsToValidate(
 		collections,
 		roles,
-		stamp
+		stamp,
 	);
 	return (
 		<Picker

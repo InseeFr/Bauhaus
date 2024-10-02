@@ -9,7 +9,7 @@ export const formatValidation =
 				...acc,
 				[key]: '',
 			}),
-			{}
+			{},
 		);
 
 		if (ZodError.success) {
@@ -26,7 +26,7 @@ export const formatValidation =
 					...acc,
 					[error.path[0]]: error.message,
 				}),
-				{}
+				{},
 			),
 		};
 

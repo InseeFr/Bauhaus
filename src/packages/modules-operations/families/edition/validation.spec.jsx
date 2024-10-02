@@ -6,7 +6,7 @@ describe('validation', function () {
 			validate({
 				prefLabelLg1: '',
 				prefLabelLg2: 'prefLabelLg2',
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Intitulé</strong> is required.'],
 			fields: {
@@ -20,7 +20,7 @@ describe('validation', function () {
 			validate({
 				prefLabelLg1: 'prefLabelLg1',
 				prefLabelLg2: '',
-			})
+			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Title</strong> is required.'],
 			fields: {
@@ -34,7 +34,7 @@ describe('validation', function () {
 			validate({
 				prefLabelLg1: '',
 				prefLabelLg2: '',
-			})
+			}),
 		).toEqual({
 			errorMessage: [
 				'The property <strong>Intitulé</strong> is required.',
@@ -51,7 +51,7 @@ describe('validation', function () {
 			validate({
 				prefLabelLg1: 'prefLabelLg1',
 				prefLabelLg2: 'prefLabelLg2',
-			})
+			}),
 		).toEqual({
 			errorMessage: [],
 			fields: {

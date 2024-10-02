@@ -12,7 +12,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[]}>
 				<CollectionVisualizationControls />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Back');
@@ -22,7 +22,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[]}>
 				<CollectionVisualizationControls />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Export');
@@ -32,7 +32,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[]}>
 				<CollectionVisualizationControls />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('Update')).toBeNull();
@@ -42,7 +42,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<CollectionVisualizationControls />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Update');
@@ -52,7 +52,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[COLLECTIONS_CREATOR]} stamp="stamp">
 				<CollectionVisualizationControls creator="stamp" />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Update');
@@ -62,7 +62,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[COLLECTIONS_CREATOR]} stamp="stamp">
 				<CollectionVisualizationControls />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('Update')).toBeNull();
@@ -72,7 +72,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[CONCEPT_CONTRIBUTOR]} stamp="stamp">
 				<CollectionVisualizationControls creator="stamp" />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Update');
@@ -82,7 +82,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[COLLECTIONS_CREATOR]} stamp="stamp">
 				<CollectionVisualizationControls creator="stamp" />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Publish');
@@ -92,7 +92,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[COLLECTIONS_CREATOR]} stamp="stamp">
 				<CollectionVisualizationControls creator="stamp" isValidated={true} />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('Publish')).toBeNull();
@@ -102,7 +102,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<CollectionVisualizationControls />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		screen.getByText('Publish');
@@ -112,7 +112,7 @@ describe('collection-visualization-controls', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<CollectionVisualizationControls isValidated={true} />
-			</RBACMock>
+			</RBACMock>,
 		);
 
 		expect(screen.queryByText('Publish')).toBeNull();

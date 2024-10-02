@@ -16,6 +16,6 @@ export const renderWithAppContext = (component: ReactNode) => {
 			properties={{} as any}
 		>
 			{component}
-		</AppContextProvider>
+		</AppContextProvider>,
 	);
 };

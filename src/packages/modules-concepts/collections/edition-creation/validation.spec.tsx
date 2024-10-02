@@ -11,8 +11,8 @@ describe('validation', function () {
 				},
 				[],
 				'id',
-				'prefLabelLg1'
-			)
+				'prefLabelLg1',
+			),
 		).toEqual({
 			errorMessage: ['The property <strong>Owner</strong> is required.'],
 			fields: {
@@ -33,8 +33,8 @@ describe('validation', function () {
 				},
 				[{ id: 'exemple', label: 'other' }],
 				'id',
-				'prefLabelLg1'
-			)
+				'prefLabelLg1',
+			),
 		).toEqual({
 			errorMessage: ['This identifier already exists'],
 			fields: {
@@ -55,8 +55,8 @@ describe('validation', function () {
 				},
 				[{ id: 'other', label: 'exemple' }],
 				'id',
-				'prefLabelLg1'
-			)
+				'prefLabelLg1',
+			),
 		).toEqual({
 			errorMessage: ['This label already exists'],
 			fields: {
@@ -77,8 +77,8 @@ describe('validation', function () {
 				},
 				[],
 				'id',
-				'prefLabelLg1'
-			)
+				'prefLabelLg1',
+			),
 		).toEqual({
 			errorMessage: [],
 			fields: {

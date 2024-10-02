@@ -10,7 +10,7 @@ describe('classification-visualization-controls', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu classification={classification} publish={vi.fn()} />
-			</RBACMock>
+			</RBACMock>,
 		);
 		await screen.findByText('Back');
 	});
@@ -19,7 +19,7 @@ describe('classification-visualization-controls', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu classification={classification} publish={vi.fn()} />
-			</RBACMock>
+			</RBACMock>,
 		);
 		await screen.findByText('Publish');
 	});
@@ -28,7 +28,7 @@ describe('classification-visualization-controls', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu classification={classification} publish={vi.fn()} />
-			</RBACMock>
+			</RBACMock>,
 		);
 		const publishButton = screen.queryByText('Publish');
 		expect(publishButton).toBeNull();
@@ -38,11 +38,11 @@ describe('classification-visualization-controls', () => {
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu classification={classification} publish={vi.fn()} />
-			</RBACMock>
+			</RBACMock>,
 		);
 		const link = await screen.findByText('Update');
 		expect(link.getAttribute('href')).toEqual(
-			'/classifications/classification/pcs2020/modify'
+			'/classifications/classification/pcs2020/modify',
 		);
 	});
 
@@ -50,7 +50,7 @@ describe('classification-visualization-controls', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu classification={classification} publish={vi.fn()} />
-			</RBACMock>
+			</RBACMock>,
 		);
 		const updateLink = screen.queryByText('Update');
 		expect(updateLink).toBeNull();
@@ -60,7 +60,7 @@ describe('classification-visualization-controls', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu classification={classification} publish={vi.fn()} />
-			</RBACMock>
+			</RBACMock>,
 		);
 		await screen.findByText('View tree');
 	});

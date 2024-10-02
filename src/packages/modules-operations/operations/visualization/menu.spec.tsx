@@ -13,7 +13,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Back');
@@ -27,7 +27,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Show the report');
@@ -39,7 +39,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Show the report')).toBeNull();
@@ -51,7 +51,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Create the report');
@@ -65,7 +65,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -78,7 +78,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Publish');
@@ -91,7 +91,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Update');
@@ -106,7 +106,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Back');
@@ -120,7 +120,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Show the report');
@@ -132,7 +132,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Show the report')).toBeNull();
@@ -147,7 +147,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Create the report');
@@ -162,7 +162,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -180,7 +180,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -195,7 +195,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Publish');
@@ -210,7 +210,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Publish')).toBeNull();
@@ -225,7 +225,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Update');
@@ -240,7 +240,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 			expect(screen.queryByText('Update')).toBeNull();
 		});
@@ -254,7 +254,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Back');
@@ -268,7 +268,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			screen.getByText('Show the report');
@@ -280,7 +280,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Show the report')).toBeNull();
@@ -293,7 +293,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -307,7 +307,7 @@ describe('Family Home Page Menu', () => {
 						}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 
 			expect(screen.queryByText('Create the report')).toBeNull();
@@ -319,7 +319,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 			expect(screen.queryByText('Publish')).toBeNull();
 		});
@@ -331,7 +331,7 @@ describe('Family Home Page Menu', () => {
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
 					/>
-				</RBACMock>
+				</RBACMock>,
 			);
 			expect(screen.queryByText('Update')).toBeNull();
 		});

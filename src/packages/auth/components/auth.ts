@@ -24,12 +24,12 @@ export function AuthDumb({
 	complementaryCheck = true,
 }: Readonly<PropsWithChildren<AuthDumbTypes>>) {
 	const { roles: userRoles, stamp: userStamp } = useSelector(
-		(state: ReduxModel) => getPermission(state)
+		(state: ReduxModel) => getPermission(state),
 	);
 
 	const isAuthorized = !!roles.find((role) => {
 		if (Array.isArray(role)) {
-			if (!!userStamp) {
+			if (userStamp) {
 				const [r, check] = role;
 				return userRoles?.includes(r) && check(userStamp);
 			}

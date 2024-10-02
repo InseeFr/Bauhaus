@@ -21,7 +21,7 @@ describe('current reducer', () => {
 						reducer[configuration.method]('state', {
 							type: action,
 							payload: 'payload',
-						})
+						}),
 					).toEqual('payload');
 				});
 			});
@@ -32,7 +32,7 @@ describe('current reducer', () => {
 						reducer[configuration.method]('state', {
 							type: action,
 							payload: 'payload',
-						})
+						}),
 					).toEqual({});
 				});
 			});

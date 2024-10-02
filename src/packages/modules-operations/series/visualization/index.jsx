@@ -32,7 +32,7 @@ export const Component = () => {
 	const [secondLang] = useSecondLang();
 
 	const frequency = frequencies.codes.find(
-		(c) => c.code === series.accrualPeriodicityCode
+		(c) => c.code === series.accrualPeriodicityCode,
 	);
 	const category = categories.codes.find((c) => c.code === series.typeCode);
 	useEffect(() => {

@@ -33,7 +33,7 @@ describe('StatisticalInformations Component', () => {
 		});
 
 		const { getByText } = render(
-			<StatisticalInformations dataset={mockDataset} />
+			<StatisticalInformations dataset={mockDataset} />,
 		);
 
 		getByText('Data structure : Structure 1');
@@ -54,7 +54,7 @@ describe('StatisticalInformations Component', () => {
 		} as unknown as Dataset;
 
 		const { queryByText } = render(
-			<StatisticalInformations dataset={datasetWithoutOptionalFields} />
+			<StatisticalInformations dataset={datasetWithoutOptionalFields} />,
 		);
 
 		expect(queryByText('100')).toBeNull();

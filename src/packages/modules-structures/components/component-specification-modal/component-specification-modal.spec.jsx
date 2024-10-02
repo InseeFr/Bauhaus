@@ -18,7 +18,7 @@ describe('<ComponentSpecificationModal />', () => {
 				selectedComponent={{ component: {} }}
 				structureComponents={[]}
 				onClose={onClose}
-			/>
+			/>,
 		);
 		fireEvent.click(container.querySelector('.modal-header button'));
 		expect(onClose).toHaveBeenCalled();
@@ -31,7 +31,7 @@ describe('<ComponentSpecificationModal />', () => {
 				selectedComponent={{ component: {} }}
 				structureComponents={[]}
 				onSave={onSave}
-			/>
+			/>,
 		);
 		fireEvent.click(container.querySelector('.modal-footer button'));
 		expect(onSave).toHaveBeenCalled();

@@ -14,7 +14,7 @@ export const EditorDeleteButton = ({
 	onChange?: (state: EditorState) => void;
 }) => {
 	const erease = () => {
-		if (!!onChange) {
+		if (onChange) {
 			onChange(EditorState.createEmpty());
 		}
 	};

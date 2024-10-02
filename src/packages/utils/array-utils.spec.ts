@@ -24,13 +24,13 @@ describe('sortArray', () => {
 
 describe('nbResults', () => {
 	it('should return string ends with any letter', () => {
-		expect(A.nbResults([])).toMatch(/[A-Za-z]{1}$/);
-		expect(A.nbResults(['A'])).toMatch(/[A-Za-z]{1}$/);
+		expect(A.nbResults([])).toMatch(/[A-Za-z]$/);
+		expect(A.nbResults(['A'])).toMatch(/[A-Za-z]$/);
 	});
 
 	it("should return string ends with 's'", () => {
 		expect(
-			A.nbResults(['a', 'b'], 'euros', 'euro').endsWith('euros')
+			A.nbResults(['a', 'b'], 'euros', 'euro').endsWith('euros'),
 		).toBeTruthy();
 	});
 });
@@ -57,21 +57,21 @@ describe('filterKeyDeburr', () => {
 			expect(
 				A.filterKeyDeburr(['components.label'])('a')({
 					components: [{ label: 'a' }],
-				})
+				}),
 			).toBeTruthy();
 		});
 		it('should return true if the value is present in an array', () => {
 			expect(
 				A.filterKeyDeburr(['components.label'])('a')({
 					components: [{ label: ['a'] }],
-				})
+				}),
 			).toBeTruthy();
 		});
 		it('should return false if the value is not present', () => {
 			expect(
 				A.filterKeyDeburr(['components.label'])('b')({
 					components: [{ label: ['a'] }],
-				})
+				}),
 			).toBeFalsy();
 		});
 	});

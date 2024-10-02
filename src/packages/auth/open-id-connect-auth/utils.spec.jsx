@@ -41,12 +41,12 @@ describe('open-id-connect-auth-utils', () => {
 	describe('filterConceptsToValidate', () => {
 		it('should return items', () => {
 			expect(U.filterConceptsToValidate(items, emptyRole, 'creator')).toEqual(
-				items
+				items,
 			);
 		});
 		it('should return empty array', () => {
 			expect(
-				U.filterConceptsToValidate(items, fullRoles, 'creatorXXX')
+				U.filterConceptsToValidate(items, fullRoles, 'creatorXXX'),
 			).toEqual([]);
 		});
 		it('should return filtered array', () => {
@@ -61,7 +61,7 @@ describe('open-id-connect-auth-utils', () => {
 		});
 		it('should return false because of stamps', () => {
 			expect(
-				U.isCollectionCreator(fullRoles, 'stamp', 'other stamp')
+				U.isCollectionCreator(fullRoles, 'stamp', 'other stamp'),
 			).toBeFalsy();
 		});
 		it('should return true', () => {
@@ -71,17 +71,17 @@ describe('open-id-connect-auth-utils', () => {
 	describe('filterCollectionsToValidate', () => {
 		it('should return items', () => {
 			expect(
-				U.filterCollectionsToValidate(items, emptyRole, 'creator')
+				U.filterCollectionsToValidate(items, emptyRole, 'creator'),
 			).toEqual(items);
 		});
 		it('should return empty array', () => {
 			expect(
-				U.filterCollectionsToValidate(items, fullRoles, 'creatorXXX')
+				U.filterCollectionsToValidate(items, fullRoles, 'creatorXXX'),
 			).toEqual([]);
 		});
 		it('should return filtered array', () => {
 			expect(
-				U.filterCollectionsToValidate(items, fullRoles, 'creator')
+				U.filterCollectionsToValidate(items, fullRoles, 'creator'),
 			).toEqual([{ creator: 'creator' }]);
 		});
 	});
@@ -99,7 +99,7 @@ describe('open-id-connect-auth-utils', () => {
 		});
 		it('should return false because of stamps', () => {
 			expect(
-				U.isAdminOrConceptCreator([R.CONCEPTS_CREATOR], 'stamp', 'stampX')
+				U.isAdminOrConceptCreator([R.CONCEPTS_CREATOR], 'stamp', 'stampX'),
 			).toBeFalsy();
 		});
 		it('should return true if we pass all roles', () => {
@@ -107,19 +107,19 @@ describe('open-id-connect-auth-utils', () => {
 		});
 		it('should return true if we pass only the CONCEPT_CREATOR role', () => {
 			expect(
-				U.isAdminOrConceptCreator([R.CONCEPTS_CREATOR], 'stamp', 'stamp')
+				U.isAdminOrConceptCreator([R.CONCEPTS_CREATOR], 'stamp', 'stamp'),
 			).toBeTruthy();
 		});
 	});
 	describe('isAdminOrContributorOrConceptCreator', () => {
 		it('should return false', () => {
 			expect(
-				U.isAdminOrContributorOrConceptCreator(emptyRole, 'stamp', 'stamp')
+				U.isAdminOrContributorOrConceptCreator(emptyRole, 'stamp', 'stamp'),
 			).toBeFalsy();
 		});
 		it('should return true if we pass all roles', () => {
 			expect(
-				U.isAdminOrContributorOrConceptCreator(fullRoles, 'stamp', 'stamp')
+				U.isAdminOrContributorOrConceptCreator(fullRoles, 'stamp', 'stamp'),
 			).toBeTruthy();
 		});
 		it('should return true if we pass only the CONCEPT_CREATOR rolee', () => {
@@ -127,8 +127,8 @@ describe('open-id-connect-auth-utils', () => {
 				U.isAdminOrContributorOrConceptCreator(
 					[R.CONCEPTS_CONTRIBUTOR],
 					'stamp',
-					'stamp'
-				)
+					'stamp',
+				),
 			).toBeTruthy();
 		});
 		it('should return false because of stamps', () => {
@@ -136,8 +136,8 @@ describe('open-id-connect-auth-utils', () => {
 				U.isAdminOrContributorOrConceptCreator(
 					[R.CONCEPTS_CREATOR],
 					'stamp',
-					'stampX'
-				)
+					'stampX',
+				),
 			).toBeFalsy();
 		});
 		it('should return true', () => {
@@ -145,8 +145,8 @@ describe('open-id-connect-auth-utils', () => {
 				U.isAdminOrContributorOrConceptCreator(
 					[R.CONCEPTS_CREATOR],
 					'stamp',
-					'stamp'
-				)
+					'stamp',
+				),
 			).toBeTruthy();
 		});
 	});
@@ -156,7 +156,11 @@ describe('open-id-connect-auth-utils', () => {
 		});
 		it('should return false because of stamps', () => {
 			expect(
-				U.isAdminOrCollectionCreator([R.COLLECTIONS_CREATOR], 'stamp', 'stampX')
+				U.isAdminOrCollectionCreator(
+					[R.COLLECTIONS_CREATOR],
+					'stamp',
+					'stampX',
+				),
 			).toBeFalsy();
 		});
 		it('should return true if we pass all roles', () => {
@@ -164,7 +168,7 @@ describe('open-id-connect-auth-utils', () => {
 		});
 		it('should return true if we pass only the COLLECTIONS_CREATOR role', () => {
 			expect(
-				U.isAdminOrCollectionCreator([R.COLLECTIONS_CREATOR], 'stamp', 'stamp')
+				U.isAdminOrCollectionCreator([R.COLLECTIONS_CREATOR], 'stamp', 'stamp'),
 			).toBeTruthy();
 		});
 	});

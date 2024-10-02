@@ -18,7 +18,7 @@ describe('concept-edition-creation', () => {
 				stampList={[]}
 				save={vi.fn()}
 				langs={locales}
-			/>
+			/>,
 		);
 	});
 });
