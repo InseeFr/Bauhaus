@@ -1,5 +1,12 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
+export type AppProperties = {
+	authorizationHost: string;
+	modules: string[];
+	activeModules: string[];
+	defaultContributor: string;
+	maxLengthScopeNote: string;
+};
 type AppContextTypes = {
 	lg1: string;
 	lg2: string;
@@ -8,13 +15,7 @@ type AppContextTypes = {
 		value: boolean;
 		toggle: () => void;
 	};
-	properties: {
-		authorizationHost: string;
-		modules: string[];
-		activeModules: string[];
-		defaultContributor: string;
-		maxLengthScopeNote: string;
-	};
+	properties: AppProperties;
 };
 
 const AppContext = createContext<AppContextTypes | undefined>(undefined);

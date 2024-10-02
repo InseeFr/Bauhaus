@@ -1,7 +1,8 @@
 import * as A from '../../actions/constants';
 import { ClassificationsApi } from '../../../sdk/classification';
+import { Dispatch } from 'redux';
 
-const fetchClassificationGeneral = (id: string) => (dispatch: any) => {
+const fetchClassificationGeneral = (id: string) => (dispatch: Dispatch) => {
 	dispatch({
 		type: A.LOAD_CLASSIFICATION_GENERAL,
 		payload: {

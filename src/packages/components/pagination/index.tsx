@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from '../link';
-//@ts-ignore
 import queryString from 'query-string';
 import './pagination.scss';
 import { createAllDictionary } from '../../utils/dictionnary';

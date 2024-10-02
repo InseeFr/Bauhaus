@@ -3,7 +3,7 @@ import { buildApi } from './build-api';
 
 const apiConfig = {
 	getAll: () => ['territories'],
-	postTerritory: (territory: any) => [
+	postTerritory: (territory: unknown) => [
 		`territory`,
 		{
 			headers: {
@@ -13,7 +13,7 @@ const apiConfig = {
 		},
 		(res: Response) => res.text(),
 	],
-	putTerritory: (id: string, territory: any) => [
+	putTerritory: (id: string, territory: unknown) => [
 		`territory/` + id,
 		{
 			headers: {

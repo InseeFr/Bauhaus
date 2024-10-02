@@ -19,8 +19,7 @@ const linkTypes = {
 	[IS_REPLACED_BY]: IS_REPLACED_BY,
 };
 
-const getType = (typeOfLink: string) => {
-	//@ts-ignore
+const getType = (typeOfLink: keyof typeof linkTypes) => {
 	const type: string = linkTypes[typeOfLink];
 	if (type) return type;
 	throw new TypeError(

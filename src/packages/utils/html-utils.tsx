@@ -8,7 +8,7 @@ import {
 } from '../components/rich-editor/draftjs/mdToDraftjs';
 import { draftjsToMd } from '../components/rich-editor/draftjs/draftjsToMd';
 
-export const containUnsupportedStyles = (attr: any = {}) => {
+export const containUnsupportedStyles = (attr: Record<string, string> = {}) => {
 	return !!REGEXPS.map((r) => r.regexp).find(
 		(regexp) => !!Object.keys(attr).find((key) => regexp.test(attr[key])),
 	);
