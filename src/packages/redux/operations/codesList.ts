@@ -5,6 +5,7 @@ import {
 	LOAD_OPERATIONS_CODES_LIST_FAILURE,
 	LOAD_OPERATIONS_CODES_LIST_SUCCESS,
 } from '../actions/constants';
+import { ReduxAction } from '../model';
 
 const defaultState = {
 	results: {
@@ -12,7 +13,10 @@ const defaultState = {
 		[CL_FREQ]: { codes: [] },
 	},
 };
-const operationsCodesList = function (state = defaultState, action: any) {
+const operationsCodesList = function (
+	state = defaultState,
+	action: ReduxAction,
+) {
 	switch (action.type) {
 		case LOAD_OPERATIONS_CODES_LIST:
 			return {

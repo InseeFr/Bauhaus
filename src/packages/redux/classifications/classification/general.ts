@@ -4,8 +4,9 @@ import {
 	LOAD_CLASSIFICATION_GENERAL_SUCCESS,
 	UPDATE_CLASSIFICATION_SUCCESS,
 } from '../../actions/constants';
+import { ReduxAction } from '../../model';
 
-const reducers = (state: any = {}, action: any) => {
+const reducers = (state: any = {}, action: ReduxAction) => {
 	const { type, payload } = action;
 	switch (type) {
 		case UPDATE_CLASSIFICATION_SUCCESS: {

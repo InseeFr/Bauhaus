@@ -1,8 +1,9 @@
 import * as generalUtils from '../../../modules-classifications/utils/correspondence/general';
 import { LOADED } from '../../../sdk/constants';
 import { LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS } from '../../actions/constants';
+import { ReduxAction } from '../../model';
 
-const reducers = (state: any = {}, action: any) => {
+const reducers = (state: any = {}, action: ReduxAction) => {
 	const { type, payload } = action;
 	switch (type) {
 		case LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS: {

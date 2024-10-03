@@ -1,3 +1,17 @@
+export type ReduxAction = {
+	type: string;
+	payload: any;
+};
+
+export type ReduxAppModel = {
+	auth?: {
+		type: string;
+		user: {
+			roles: string[];
+			stamp: string;
+		};
+	};
+};
 export type ReduxModel = {
 	operationsSeriesCurrent?: any;
 	operationsIndicatorsCurrent?: any;
@@ -12,13 +26,5 @@ export type ReduxModel = {
 		status: string;
 		results: any[];
 	};
-	app?: {
-		auth: {
-			type: string;
-			user: {
-				roles: string[];
-				stamp: string;
-			};
-		};
-	};
+	app?: ReduxAppModel;
 };

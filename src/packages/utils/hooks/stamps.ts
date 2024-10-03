@@ -5,12 +5,12 @@ export const useStamps = () =>
 	useQuery({
 		queryKey: ['stamps'],
 		queryFn: () => {
-			return StampsApi.getStamps();
+			return StampsApi.getStamps() as Promise<string[]>;
 		},
 	});
 
 export const useStampsOptions = () => {
-	const { data = [] } = useStamps() as any;
+	const { data = [] } = useStamps();
 	return data.map((stamp: string) => ({
 		value: stamp,
 		label: stamp,

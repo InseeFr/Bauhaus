@@ -6,6 +6,7 @@ import {
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
 } from './metadatastructure/list';
 import { sortArrayByLabel } from '../../utils/array-utils';
+import { ReduxAction } from '../model';
 
 /**
  *
@@ -17,7 +18,7 @@ function makeReducers([
 	GET_ITEMS_FAILURE,
 	SAVE_ITEM_SUCCESS,
 ]: any[]) {
-	return function (state: any = {}, action: any) {
+	return function (state: any = {}, action: ReduxAction) {
 		switch (action.type) {
 			case GET_ITEMS:
 				return {

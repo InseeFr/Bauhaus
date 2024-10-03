@@ -4,11 +4,15 @@ import {
 	SAVE_OPERATIONS_SIMS,
 	SAVE_OPERATIONS_SIMS_SUCCESS,
 } from '../actions/constants';
+import { ReduxAction } from '../model';
 
 /**
  * Reducer for fetching the current indicator displayed during the visualisation or the edition
  */
-export const operationsSimsCurrent = function (state = {}, action: any) {
+export const operationsSimsCurrent = function (
+	state = {},
+	action: ReduxAction,
+) {
 	switch (action.type) {
 		case LOAD_OPERATIONS_SIMS_SUCCESS:
 		case SAVE_OPERATIONS_SIMS:

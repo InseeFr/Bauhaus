@@ -3,8 +3,9 @@ import {
 	LOAD_CLASSIFICATION_LEVEL_MEMBERS,
 	LOAD_CLASSIFICATION_LEVEL_MEMBERS_SUCCESS,
 } from '../../actions/constants';
+import { ReduxAction } from '../../model';
 
-const membersReducer = (state: any = {}, action: any) => {
+const membersReducer = (state: any = {}, action: ReduxAction) => {
 	const { type, payload } = action;
 	switch (type) {
 		case LOAD_CLASSIFICATION_LEVEL_MEMBERS: {
