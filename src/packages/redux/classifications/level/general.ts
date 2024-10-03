@@ -32,7 +32,7 @@ const reducers = (state: any = {}, action: ReduxAction) => {
 					...otherLevels,
 					[levelId]: {
 						status: LOADED,
-						results: Object.assign(generalUtils.empty(), results),
+						results: { ...generalUtils.empty(), ...results },
 					},
 				},
 			};

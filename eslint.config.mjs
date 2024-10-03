@@ -17,8 +17,8 @@ export default [
 	{
 		settings: { react: { version: '18.3' } },
 		rules: {
+			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/ban-ts-comment': 'off',
-			'no-prototype-builtins': 'off',
 		},
 		languageOptions: {
 			globals: {

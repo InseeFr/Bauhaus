@@ -27,9 +27,10 @@ describe('reducerClassificationGeneral', () => {
 		expect(result).toEqual({
 			id1: {
 				status: LOADED,
-				results: Object.assign(generalUtils.empty(), {
+				results: {
+					...generalUtils.empty(),
 					prefLabelLg1: 'My classification',
-				}),
+				},
 			},
 		});
 	});

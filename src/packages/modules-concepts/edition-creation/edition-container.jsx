@@ -14,14 +14,13 @@ import { emptyNotes } from '../utils/notes';
 import ConceptEditionCreation from './home';
 
 const formatNotes = (notes) => {
-	return Object.assign(
-		{},
-		emptyNotes,
-		Object.keys(notes).reduce((formatted, noteName) => {
+	return {
+		...emptyNotes,
+		...Object.keys(notes).reduce((formatted, noteName) => {
 			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
 			return formatted;
 		}, {}),
-	);
+	};
 };
 
 export const Component = () => {
@@ -51,7 +50,10 @@ export const Component = () => {
 					ConceptsApi.getConceptLinkList(id),
 				]).then(([notes, links]) => {
 					setConcept({
-						general: Object.assign(generalUtils.empty(), general),
+						general: {
+							...generalUtils.empty(),
+							...general,
+						},
 						notes: formatNotes(notes),
 						links,
 					});

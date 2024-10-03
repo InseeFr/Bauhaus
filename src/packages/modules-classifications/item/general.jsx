@@ -20,7 +20,10 @@ const General = ({ general, classificationId, secondLang }) => {
 				text={
 					<ul>
 						{Object.keys(mapping).map((fieldName) => {
-							if (general.hasOwnProperty(fieldName) && general[fieldName]) {
+							if (
+								Object.prototype.hasOwnProperty.call(general, fieldName) &&
+								general[fieldName]
+							) {
 								if (fieldName === 'broaderLg1') {
 									return (
 										<li key={fieldName}>

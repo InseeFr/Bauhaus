@@ -32,7 +32,7 @@ export const Component = () => {
 		ConceptsApi.getConceptSearchList()
 			.then((concepts) => {
 				setConceptSearchList(
-					concepts.map((concept) => Object.assign({}, emptyItem, concept)),
+					concepts.map((concept) => ({ ...emptyItem, ...concept })),
 				);
 			})
 			.finally(() => setLoading(false));

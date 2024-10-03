@@ -21,7 +21,10 @@ function CollectionGeneral({ attr, secondLang }) {
 								update={attr.modified}
 							/>
 							{Object.keys(mapping).map((fieldName) => {
-								if (attr.hasOwnProperty(fieldName) && attr[fieldName] !== '') {
+								if (
+									Object.prototype.hasOwnProperty.call(attr, fieldName) &&
+									attr[fieldName] !== ''
+								) {
 									if (fieldName === 'isValidated') {
 										return (
 											<li key={fieldName}>{`${mapping[fieldName]} : ${

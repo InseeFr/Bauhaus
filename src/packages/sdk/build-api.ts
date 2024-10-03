@@ -91,7 +91,7 @@ export const computeDscr = (fn: any, [...args]) => {
 	//We don't deep merge: all nested properties in default options (ie.
 	//headers.Accept) are lost. Hence, if a prop option is overriden (ie.
 	//headers), all relevant options should be present.
-	options = Object.assign({}, defaultOptions, options);
+	options = { ...defaultOptions, ...options };
 	const token = getToken();
 	if (token && isTokenValid(token)) {
 		options = {

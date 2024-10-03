@@ -39,16 +39,15 @@ export const Component = () => {
 							notesAndVersions.reduce((acc, notes) => {
 								return {
 									...acc,
-									[notes[0]]: Object.assign(
-										{},
-										emptyNotes,
-										Object.keys(notes[1]).reduce((formatted, noteName) => {
+									[notes[0]]: {
+										...emptyNotes,
+										...Object.keys(notes[1]).reduce((formatted, noteName) => {
 											formatted[noteName] = rmesHtmlToRawHtml(
 												notes[1][noteName],
 											);
 											return formatted;
 										}, {}),
-									),
+									},
 								};
 							}, {}),
 						);

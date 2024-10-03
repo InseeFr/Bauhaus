@@ -32,7 +32,10 @@ const reducers = (state: any = {}, action: ReduxAction) => {
 					...otherAssociation,
 					[associationId]: {
 						status: LOADED,
-						results: Object.assign(associationUtils.empty(), results),
+						results: {
+							...associationUtils.empty(),
+							...results,
+						},
 					},
 				},
 			};

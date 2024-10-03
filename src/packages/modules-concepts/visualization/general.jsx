@@ -53,7 +53,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 				text={
 					<ul>
 						{Object.keys(mapping).map((fieldName) => {
-							if (attr.hasOwnProperty(fieldName)) {
+							if (Object.prototype.hasOwnProperty.call(attr, fieldName)) {
 								if (fieldName === 'altLabelLg2' && !secondLang) {
 									return null;
 								}
