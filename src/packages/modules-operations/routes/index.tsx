@@ -7,6 +7,7 @@ import {
 	UPDATE,
 	VIEW,
 } from '../../modules-operations/msd/';
+import { OperationsApi } from '../../sdk/operations-api';
 
 export const routes: RouteObject[] = [
 	{
@@ -16,6 +17,7 @@ export const routes: RouteObject[] = [
 	{
 		path: 'families',
 		lazy: () => import('../families/'),
+		loader: () => OperationsApi.getAllFamilies(),
 	},
 	{
 		path: 'families/search',

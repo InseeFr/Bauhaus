@@ -1,21 +1,13 @@
-import { useEffect, useState } from 'react';
-import D from '../../deprecated-locales/build-dictionary';
-import OperationsObjectHome from '../shared/list';
-import { FeminineButton, Loading } from '../../components';
-import { useTitle } from '../../utils/hooks/useTitle';
-import { OperationsApi } from '../../sdk/operations-api';
+import { useLoaderData } from 'react-router-dom';
 import { ADMIN } from '../../auth/roles';
-import { FamilyHome } from '../../model/operations/family';
+import { FeminineButton } from '../../components';
+import D from '../../deprecated-locales/build-dictionary';
+import { useTitle } from '../../utils/hooks/useTitle';
+import OperationsObjectHome from '../shared/list';
 
 export const Component = () => {
-	const [families, setFamilies] = useState<FamilyHome[] | undefined>();
+	const families = useLoaderData();
 	useTitle(D.operationsTitle, D.familiesTitle);
-
-	useEffect(() => {
-		OperationsApi.getAllFamilies().then(setFamilies);
-	}, []);
-
-	if (!families) return <Loading />;
 
 	return (
 		<OperationsObjectHome
