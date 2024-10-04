@@ -3,7 +3,7 @@ import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
 import { buildNotes } from '../utils/notes';
 
-const ConceptCompare = ({ conceptGeneral, notes, secondLang, langs }) => {
+const ConceptCompare = ({ conceptGeneral, notes, secondLang }) => {
 	const { prefLabelLg1, prefLabelLg2 } = conceptGeneral;
 	const version = Number(conceptGeneral.conceptVersion);
 	return (
@@ -13,11 +13,7 @@ const ConceptCompare = ({ conceptGeneral, notes, secondLang, langs }) => {
 				<Controls />
 				<CheckSecondLang />
 
-				<ConceptGeneral
-					attr={conceptGeneral}
-					secondLang={secondLang}
-					langs={langs}
-				/>
+				<ConceptGeneral attr={conceptGeneral} secondLang={secondLang} />
 				<CompareNotes
 					secondLang={secondLang}
 					notes={notes}
