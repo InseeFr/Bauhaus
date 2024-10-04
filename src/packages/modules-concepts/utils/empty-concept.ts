@@ -2,7 +2,7 @@ import { emptyWithContributor as emptyGeneral } from './general';
 import { fields as noteFields } from './notes';
 import objectFromKeys from '../../utils/object-from-keys';
 
-const emptyConcept = (defaultContributor: any) => ({
+const emptyConcept = (defaultContributor: string) => ({
 	general: emptyGeneral(defaultContributor),
 	links: [],
 	notes: objectFromKeys(noteFields, ''),

@@ -1,8 +1,9 @@
+import { ConceptNotes } from '../../model/concepts/concept';
 import { buildNotes, capitalizeFirst } from './notes';
 
 describe('concepts-notes-utils', () => {
 	it('should return an array', () => {
-		const notes = { scopeNoteLg1: 'scopeNoteLg1' };
+		const notes = { scopeNoteLg1: 'scopeNoteLg1' } as ConceptNotes;
 		const result = [
 			{ lg1: 'scopeNoteLg1', lg2: undefined, title: 'conceptsScopeNote' },
 			{ lg1: undefined, lg2: undefined, title: 'conceptsDefinition' },
