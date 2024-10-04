@@ -18,10 +18,17 @@ export const routes: RouteObject[] = [
 		path: 'families',
 		lazy: () => import('../families/'),
 		loader: () => OperationsApi.getAllFamilies(),
+		shouldRevalidate: ({ currentUrl, nextUrl }) => {
+			return currentUrl.pathname !== nextUrl.pathname;
+		},
 	},
 	{
 		path: 'families/search',
 		lazy: () => import('../families/search'),
+		loader: () => OperationsApi.getAllFamiliesForAdvancedSearch(),
+		shouldRevalidate: ({ currentUrl, nextUrl }) => {
+			return currentUrl.pathname !== nextUrl.pathname;
+		},
 	},
 	{
 		path: 'families/create',

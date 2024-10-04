@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useLoaderData } from 'react-router-dom';
 import D from '../../deprecated-locales';
 
 import useUrlQueryParameters from '../..//utils/hooks/useUrlQueryParameters';
-import { AdvancedSearchList, Loading, TextInput } from '../../components';
+import { AdvancedSearchList, TextInput } from '../../components';
 import { FamilyAdvancedSearch } from '../../model/operations/family';
-import { OperationsApi } from '../../sdk/operations-api';
 import { filterKeyDeburr } from '../../utils/array-utils';
 import { useTitle } from '../../utils/hooks/useTitle';
 
@@ -53,14 +51,6 @@ const SearchFormList = ({
 
 export const Component = () => {
 	useTitle(D.familiesTitle + ' - ' + D.operationsTitle, D.advancedSearch);
-	const [data, setData] = useState<FamilyAdvancedSearch[]>();
-
-	useEffect(() => {
-		OperationsApi.getAllFamiliesForAdvancedSearch().then(setData);
-	}, []);
-
-	if (!data) {
-		return <Loading />;
-	}
+	const data = useLoaderData() as FamilyAdvancedSearch[];
 	return <SearchFormList data={data} />;
 };
