@@ -132,36 +132,63 @@ export const routes: RouteObject[] = [
 	},
 	{
 		path: 'operation/:idParent/sims/create',
+		loader: ({ params }) => {
+			return {
+				baseUrl: `/operations/operation/${params.idParent}/sims/create`,
+			};
+		},
 		element: (
 			<Component mode={CREATE} disableSectionAnchor parentType="operation" />
 		),
 	},
 	{
 		path: 'series/:idParent/sims/create',
+		loader: ({ params }) => {
+			return {
+				baseUrl: `/operations/series/${params.idParent}/sims/create`,
+			};
+		},
 		element: (
 			<Component mode={CREATE} disableSectionAnchor parentType="series" />
 		),
 	},
 	{
 		path: 'indicator/:idParent/sims/create',
+		loader: ({ params }) => {
+			return {
+				baseUrl: `/operations/indicator/${params.idParent}/sims/create`,
+			};
+		},
 		element: (
 			<Component mode={CREATE} disableSectionAnchor parentType="indicator" />
 		),
 	},
 	{
 		path: 'sims/:id',
+		loader: ({ params }) => {
+			return { baseUrl: `/operations/sims/${params.id}/section/` };
+		},
 		element: <Component mode={VIEW} />,
 	},
 	{
 		path: 'sims/:id/modify',
+		loader: ({ params }) => {
+			return { baseUrl: `/operations/sims/${params.id}/modify` };
+		},
 		element: <Component mode={UPDATE} disableSectionAnchor />,
 	},
 	{
 		path: 'sims/:id/duplicate',
+		loader: ({ params }) => {
+			return { baseUrl: `/operations/sims/${params.id}/duplicate` };
+		},
 		element: <Component mode={DUPLICATE} disableSectionAnchor />,
 	},
 	{
 		path: 'sims/:id/section/:idSection',
+		loader: ({ params }) => {
+			return { baseUrl: `/operations/sims/${params.id}/section/` };
+		},
 		element: <Component mode={VIEW} />,
 	},
 	{

@@ -9,46 +9,29 @@ import {
 	getParentId,
 	getParentIdName,
 	hasLabelLg2,
-	removeRubricsWhenDuplicate,
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
 
+import { useBlocker } from 'react-router-dom';
 import { ActionToolbar } from '../../../../components/action-toolbar';
 import {
 	CancelButton,
+	CloseIconButton,
 	SaveButton,
 } from '../../../../components/buttons/buttons-with-icons';
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
-import { flattenTree, rangeType } from '../../../utils/msd';
+import { rangeType } from '../../../utils/msd';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
-import './sims-creation.scss';
-import { useBlocker } from 'react-router-dom';
 import { DocumentFormPanel } from './document-form-panel';
 import { useDocumentsStoreContext } from './documents-store-context';
+import './sims-creation.scss';
+import { getDefaultSims, getSiblingSims } from './utils/getSims';
+import Modal from 'react-modal';
+import { Button } from '../../../../components/buttons/button';
 
 const { RICH_TEXT } = rangeType;
-
-const getDefaultSims = (mode, rubrics, metadataStructure) => {
-	const flattenStructure = flattenTree(metadataStructure);
-
-	return {
-		...Object.keys(flattenStructure).reduce((acc, key) => {
-			return {
-				...acc,
-				[key]: {
-					rangeType: flattenStructure[key].rangeType,
-					idAttribute: key,
-					value: '',
-					labelLg1: '',
-					labelLg2: '',
-				},
-			};
-		}, {}),
-		...removeRubricsWhenDuplicate(mode, rubrics),
-	};
-};
 
 const convertRubric = (rubric) => {
 	if (rubric.rangeType === 'RICH_TEXT') {
@@ -86,12 +69,9 @@ const SimsCreation = ({
 		mode !== DUPLICATE ? idParentProp || getParentId(simsProp) : '',
 	);
 
-	useBlocker(
-		({ currentLocation, nextLocation }) =>
-			changed &&
-			currentLocation.pathname !== nextLocation.pathname &&
-			!window.confirm(D.quitWithoutSaving),
-	);
+	const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+		return changed && currentLocation.pathname !== nextLocation.pathname;
+	});
 
 	const [sims, setSims] = useState(
 		getDefaultSims(
@@ -239,28 +219,16 @@ const SimsCreation = ({
 	const onSiblingSimsChange = () => {
 		return (value) => {
 			setLoading(true);
-			const id = value;
-			OperationsApi.getSims(id).then((result) => {
+			getSiblingSims(value).then((sims) => {
 				setLoading(false);
-				setSims(
-					getDefaultSims(
-						DUPLICATE,
-						result.rubrics.reduce((acc, rubric) => {
-							return {
-								...acc,
-								[rubric.idAttribute]: rubric,
-							};
-						}, {}),
-						metadataStructure,
-					),
-				);
+				setSims(sims);
 			});
 		};
 	};
 
 	const { lateralPanelOpened, onLateralPanelHide } = useDocumentsStoreContext();
 
-	if (loading) return <Loading textType="loading" />;
+	if (loading) return <Loading />;
 	if (saving) return <Loading textType="saving" />;
 
 	return (
@@ -269,6 +237,27 @@ const SimsCreation = ({
 				<CancelButton action={goBackUrl} />
 				<SaveButton action={handleSubmit} col={3} />
 			</ActionToolbar>
+
+			<Modal
+				className="Modal__Bootstrap modal-dialog operations structures-specification-modal"
+				isOpen={blocker.state === 'blocked'}
+				ariaHideApp={false}
+			>
+				<div className="modal-content">
+					<div className="modal-header">
+						<CloseIconButton onClick={() => blocker.reset()} />
+						<h4 className="modal-title">{D.deleteTitle}</h4>
+					</div>
+
+					<div className="modal-body">{D.quitWithoutSaving}</div>
+					<div className="modal-footer text-right">
+						<ActionToolbar>
+							<Button action={() => blocker.reset()}>{D.no}</Button>
+							<Button action={() => blocker.proceed()}>{D.yes}</Button>
+						</ActionToolbar>
+					</div>
+				</div>
+			</Modal>
 
 			<RubricEssentialMsg secondLang={secondLang} />
 

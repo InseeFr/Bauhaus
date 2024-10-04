@@ -12,6 +12,7 @@ export type Sims = {
 	idSeries?: string;
 	validationState: ValidationState;
 	parentsWithoutSims: any[];
+	rubrics: Rubric[];
 };
 
 export type MetadataStructure = {
