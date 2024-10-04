@@ -13,15 +13,7 @@ export type ReduxAppModel = {
 	};
 };
 export type ReduxModel = {
-	operationsSeriesCurrent?: any;
-	operationsIndicatorsCurrent?: any;
 	operationsSimsCurrent?: any;
-	users?: {
-		status: string;
-		results: {
-			stamp: string;
-		};
-	};
 	geographies?: {
 		status: string;
 		results: any[];

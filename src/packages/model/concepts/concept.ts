@@ -9,6 +9,10 @@ export type ConceptNotes = {
 	scopeNoteLg2?: string;
 	definitionLg1: string;
 	definitionLg2?: string;
+	changeNoteLg1?: string;
+	changeNoteLg2?: string;
+	editorialNoteLg1?: string;
+	editorialNoteLg2?: string;
 };
 
 export type Concept = ConceptGeneral & ConceptNotes;
