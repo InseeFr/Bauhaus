@@ -11,6 +11,17 @@ import { areNotesImpactingVersionChanged } from '../utils/notes';
 import isVersioningPossible from '../../modules-concepts/utils/is-versioning-possible';
 import { TabPanel, TabView } from 'primereact/tabview';
 
+export const onGeneralInformationChange = (state, update) => ({
+	...state,
+	data: {
+		...state.data,
+		general: {
+			...state.data.general,
+			...update,
+		},
+	},
+});
+
 class ConceptEditionCreation extends Component {
 	constructor(props) {
 		super(props);
@@ -36,16 +47,7 @@ class ConceptEditionCreation extends Component {
 		//set mutliple properties at the same time)
 		this.handleChangeGeneral = (update) => {
 			setSubmitting(true);
-			this.setState((state) => ({
-				...state,
-				data: {
-					...state.data,
-					general: {
-						...state.general,
-						...update,
-					},
-				},
-			}));
+			this.setState((state) => onGeneralInformationChange(state, update));
 		};
 
 		//update should look like `{ editorialNoteLg1: '...' }`

@@ -75,7 +75,7 @@ export class InputMultiRmes extends Component<
 		return array.map((alt: string, i: number) => (
 			<input
 				type={this.props.type ?? 'text'}
-				key={alt}
+				key={i}
 				value={alt}
 				className="form-control form-group"
 				onChange={(e) => this.handleChange(e.target.value, arrayName, i)}
