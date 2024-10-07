@@ -1,4 +1,4 @@
-import ConceptEditionCreation from './home';
+import ConceptEditionCreation, { onGeneralInformationChange } from './home';
 import { empty } from '../utils/general';
 import { renderWithRouter } from '../../tests-utils/render';
 import { locales } from '../../tests-utils/default-values';
@@ -6,6 +6,36 @@ import { locales } from '../../tests-utils/default-values';
 vi.mock('./general');
 
 describe('concept-edition-creation', () => {
+	it('should update general informations', () => {
+		expect(
+			onGeneralInformationChange(
+				{
+					state1: 'state1',
+					data: {
+						data1: 'data1',
+						general: {
+							general1: 'general1',
+							general2: 'general2',
+						},
+					},
+				},
+				{
+					general2: 'general21',
+					general3: 'general3',
+				},
+			),
+		).toEqual({
+			state1: 'state1',
+			data: {
+				data1: 'data1',
+				general: {
+					general1: 'general1',
+					general2: 'general21',
+					general3: 'general3',
+				},
+			},
+		});
+	});
 	it('renders without crashing', () => {
 		renderWithRouter(
 			<ConceptEditionCreation
