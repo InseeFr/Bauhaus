@@ -47,7 +47,7 @@ const General = ({ general, secondLang }) => {
 					text={
 						<ul>
 							{Object.keys(mapping).map((fieldName) => {
-								if (general.hasOwnProperty(fieldName) && general[fieldName]) {
+								if (Object.hasOwn(general, fieldName) && general[fieldName]) {
 									if (fieldName === 'seriesLg1') {
 										return (
 											<li key={fieldName}>

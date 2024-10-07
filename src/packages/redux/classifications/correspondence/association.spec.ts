@@ -55,9 +55,10 @@ describe('reducerCorrespondenceAssociation', () => {
 			'nafr2-cpfr21': {
 				'A-A': {
 					status: LOADED,
-					results: Object.assign(associationUtils.empty(), {
+					results: {
+						...associationUtils.empty(),
 						labelLg1: 'Label',
-					}),
+					},
 				},
 				'B-B': 'previous',
 				'C-C': 'previous',

@@ -15,7 +15,7 @@ import loadSIMS, {
 } from '../../redux/actions/operations/sims/item';
 import { getOperationsCodesList } from '../../redux/operations/selector';
 
-import { useParams } from 'react-router-dom';
+import { useLoaderData, useParams } from 'react-router-dom';
 import { getOperationsSimsCurrent } from '../../redux/selectors';
 import { OperationsApi } from '../../sdk/operations-api';
 import { useOrganizations } from '../../utils/hooks/organizations';
@@ -320,7 +320,8 @@ const MSDContainerWithParent = (props) => {
 const withParams = (Component) => {
 	return (props) => {
 		const params = useParams();
-		return <Component {...props} params={params} />;
+		const { baseUrl } = useLoaderData();
+		return <Component {...props} params={params} baseUrl={baseUrl} />;
 	};
 };
 export const Component = withParams(

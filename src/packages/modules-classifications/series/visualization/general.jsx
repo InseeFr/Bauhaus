@@ -43,7 +43,7 @@ const General = ({ general, secondLang }) => {
 	}
 
 	const lis = Object.keys(mapping).map((fieldName) => {
-		if (general.hasOwnProperty(fieldName)) {
+		if (Object.hasOwn(general, fieldName)) {
 			if (fieldName === 'familyLg1') {
 				return (
 					<li key={fieldName}>

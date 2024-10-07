@@ -19,7 +19,6 @@ export default [
 		rules: {
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/ban-ts-comment': 'off',
-			'no-prototype-builtins': 'off',
 		},
 		languageOptions: {
 			globals: {

@@ -4,8 +4,9 @@ import {
 	LOAD_CLASSIFICATION_GENERAL_SUCCESS,
 	UPDATE_CLASSIFICATION_SUCCESS,
 } from '../../actions/constants';
+import { ReduxAction } from '../../model';
 
-const reducers = (state: any = {}, action: any) => {
+const reducers = (state: any = {}, action: ReduxAction) => {
 	const { type, payload } = action;
 	switch (type) {
 		case UPDATE_CLASSIFICATION_SUCCESS: {
@@ -23,7 +24,10 @@ const reducers = (state: any = {}, action: any) => {
 					status: LOADED,
 					//ensure that all the fields are present (the server
 					//does not return the fields not defined)
-					results: Object.assign(generalUtils.empty(), results),
+					results: {
+						...generalUtils.empty(),
+						...results,
+					},
 				},
 			};
 		}

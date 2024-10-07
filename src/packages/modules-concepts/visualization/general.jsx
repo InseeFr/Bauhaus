@@ -1,11 +1,12 @@
 import { D1 } from '../../deprecated-locales';
-import { DisseminationStatusVisualisation } from '../../components';
+import { DisseminationStatusVisualisation, Row } from '../../components';
 import { stringToDate } from '../../utils/date-utils';
 import { arrayToString } from '../../utils/array-utils';
 import { Note } from '../../components/note';
+import { useLocales } from '../../utils/hooks/useLocales';
 
-function ConceptGeneral({ attr, secondLang, langs }) {
-	const { lg1, lg2 } = langs;
+function ConceptGeneral({ attr, secondLang }) {
+	const { lg1, lg2 } = useLocales();
 	let mapping = {
 		id: D1.identifiantTitle,
 	};
@@ -48,12 +49,12 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 	}
 
 	return (
-		<div className="row">
+		<Row>
 			<Note
 				text={
 					<ul>
 						{Object.keys(mapping).map((fieldName) => {
-							if (attr.hasOwnProperty(fieldName)) {
+							if (Object.hasOwn(attr, fieldName)) {
 								if (fieldName === 'altLabelLg2' && !secondLang) {
 									return null;
 								}
@@ -129,7 +130,7 @@ function ConceptGeneral({ attr, secondLang, langs }) {
 				title={D1.globalInformationsTitle}
 				alone={true}
 			/>
-		</div>
+		</Row>
 	);
 }
 

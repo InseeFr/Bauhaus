@@ -25,14 +25,15 @@ describe('reducerClassificationCorrespondenceGeneral', () => {
 		expect(result).toEqual({
 			id1: {
 				status: LOADED,
-				results: Object.assign(generalUtils.empty(), {
+				results: {
+					...generalUtils.empty(),
 					id: 'id1',
 					labelLg1: 'Label',
 					idFirstClass: 'idF',
 					firstClassLabelLg1: 'Label class 1',
 					idSecondClass: 'idS',
 					secondClassLabelLg1: 'Label class 2',
-				}),
+				},
 			},
 		});
 	});

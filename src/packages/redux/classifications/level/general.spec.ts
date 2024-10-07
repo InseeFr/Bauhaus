@@ -52,9 +52,10 @@ describe('reducerLevelGeneral', () => {
 			nafr2: {
 				sections: {
 					status: LOADED,
-					results: Object.assign(generalUtils.empty(), {
+					results: {
+						...generalUtils.empty(),
 						prefLabelLg1: 'Label',
-					}),
+					},
 				},
 				divisions: 'previous',
 			},

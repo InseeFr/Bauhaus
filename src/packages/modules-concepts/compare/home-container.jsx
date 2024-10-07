@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../components';
-import ConceptCompare from './home';
 import { ConceptsApi } from '../../sdk';
-import { rmesHtmlToRawHtml } from '../../utils/html-utils';
-import { emptyNotes } from '../utils/notes';
 import { range } from '../../utils/array-utils';
 import { useSecondLang } from '../../utils/hooks/second-lang';
-import { useLocales } from '../../utils/hooks/useLocales';
+import { rmesHtmlToRawHtml } from '../../utils/html-utils';
+import { emptyNotes } from '../utils/notes';
+import ConceptCompare from './home';
 
 export const Component = () => {
 	const { id } = useParams();
-	const langs = useLocales();
 	const [secondLang] = useSecondLang();
 	const [loading, setLoading] = useState(true);
 
@@ -39,16 +37,15 @@ export const Component = () => {
 							notesAndVersions.reduce((acc, notes) => {
 								return {
 									...acc,
-									[notes[0]]: Object.assign(
-										{},
-										emptyNotes,
-										Object.keys(notes[1]).reduce((formatted, noteName) => {
+									[notes[0]]: {
+										...emptyNotes,
+										...Object.keys(notes[1]).reduce((formatted, noteName) => {
 											formatted[noteName] = rmesHtmlToRawHtml(
 												notes[1][noteName],
 											);
 											return formatted;
 										}, {}),
-									),
+									},
 								};
 							}, {}),
 						);
@@ -63,11 +60,9 @@ export const Component = () => {
 
 	return (
 		<ConceptCompare
-			id={id}
 			conceptGeneral={general}
 			notes={notes}
 			secondLang={secondLang}
-			langs={langs}
 		/>
 	);
 };

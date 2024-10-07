@@ -1,7 +1,6 @@
 import { render } from '@testing-library/react';
-import ConceptGeneral from './general';
 import { empty } from '../utils/general';
-import { locales } from '../../tests-utils/default-values';
+import ConceptGeneral from './general';
 
 vi.mock('../../components');
 
@@ -12,7 +11,6 @@ describe('concept-edition-creation-general', () => {
 				general={empty()}
 				stampList={[]}
 				handleChange={vi.fn()}
-				langs={locales}
 			/>,
 		);
 	});

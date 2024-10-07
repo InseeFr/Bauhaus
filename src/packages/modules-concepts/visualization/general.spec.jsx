@@ -1,16 +1,11 @@
-import { render } from '@testing-library/react';
-import ConceptGeneralVisualization from './general';
+import { renderWithAppContext } from '../../tests-utils/render';
 import { empty } from '../utils/general';
-import { locales } from '../../tests-utils/default-values';
+import ConceptGeneralVisualization from './general';
 
 describe('concept-visualization-general', () => {
 	it('renders without crashing', () => {
-		render(
-			<ConceptGeneralVisualization
-				attr={empty()}
-				secondLang={false}
-				langs={locales}
-			/>,
+		renderWithAppContext(
+			<ConceptGeneralVisualization attr={empty()} secondLang={false} />,
 		);
 	});
 });

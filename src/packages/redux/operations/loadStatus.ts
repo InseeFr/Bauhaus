@@ -5,13 +5,14 @@ import {
 	SAVE_OPERATIONS_SIMS,
 	SAVE_OPERATIONS_SIMS_SUCCESS,
 } from '../actions/constants';
+import { ReduxAction } from '../model';
 
 /**
  * Track the loading of a SIMS. Used to avoid sending multiple request simultaneously
  */
 export const operationsSimsCurrentStatus = function (
 	state = NOT_LOADED,
-	action: any,
+	action: ReduxAction,
 ) {
 	switch (action.type) {
 		case LOAD_OPERATIONS_SIMS_SUCCESS:

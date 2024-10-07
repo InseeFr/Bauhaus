@@ -1,3 +1,5 @@
+import { ReduxAction, ReduxAppModel } from './model';
+
 export const CHECK_AUTH = 'CHECK_AUTH';
 export const SAVE_USER_PROPS = 'SAVE_USER_PROPS';
 
@@ -13,8 +15,8 @@ export const checkAuth = (body: unknown) => ({
 	payload: body,
 });
 
-const UserReducer = (state: any = {}, action: unknown) => {
-	const { type, payload } = action as any;
+const UserReducer = (state: ReduxAppModel = {}, action: ReduxAction) => {
+	const { type, payload } = action;
 	switch (type) {
 		case SAVE_USER_PROPS: {
 			return {
