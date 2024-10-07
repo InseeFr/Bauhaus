@@ -1,8 +1,9 @@
+import { Dispatch } from 'redux';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
 
 const call =
 	(remoteCall: any, LOADING: any, SUCCESS: any, FAILURE: any) =>
-	(dispatch: any) => {
+	(dispatch: Dispatch) => {
 		dispatch({
 			type: LOADING,
 			payload: {},
@@ -37,7 +38,7 @@ export const getPublishFactory = (
 	FAILURE: any,
 ) => {
 	return (object: any, callback = () => {}) =>
-		(dispatch: any) => {
+		(dispatch: Dispatch) => {
 			dispatch({
 				type: LOADING,
 				payload: {},
@@ -65,7 +66,7 @@ export const getPublishFactory = (
 export const getItemFactory =
 	(remoteCall: any, LOADING: any, SUCCESS: any, FAILURE: any) =>
 	(id: string) =>
-	(dispatch: any, getState: any) => {
+	(dispatch: Dispatch, getState: any) => {
 		if (getState().operationsOperationCurrentStatus === LOADING) {
 			return;
 		}
