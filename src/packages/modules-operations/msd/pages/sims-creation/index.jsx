@@ -33,6 +33,23 @@ import { Button } from '../../../../components/buttons/button';
 
 const { RICH_TEXT } = rangeType;
 
+export const generateSimsBeforeSubmit = (
+	mode,
+	simsProp,
+	parentType,
+	idParent,
+	rubrics,
+) => {
+	return {
+		id: mode !== DUPLICATE ? simsProp.id : '',
+		labelLg1: mode !== DUPLICATE ? simsProp.labelLg1 : '',
+		labelLg2: mode !== DUPLICATE ? simsProp.labelLg2 : '',
+		[getParentIdName(parentType)]: idParent,
+		created: mode !== DUPLICATE ? simsProp.created : '',
+		rubrics,
+	};
+};
+
 const convertRubric = (rubric) => {
 	if (rubric.rangeType === 'RICH_TEXT') {
 		return {
@@ -96,21 +113,21 @@ const SimsCreation = ({
 		setSaving(true);
 
 		const idParentToSave = idParent || idParentProp;
-
 		const rubrics = Object.values(sims).map(convertRubric);
 
-		const simsToSave = {
-			id: mode !== DUPLICATE ? simsProp.id : '',
-			labelLg1: mode !== DUPLICATE ? simsProp.labelLg1 : '',
-			labelLg2: mode !== DUPLICATE ? simsProp.labelLg2 : '',
-			[getParentIdName(parentType)]: idParentToSave,
-			created: mode !== DUPLICATE ? simsProp.created : '',
-			rubrics,
-		};
-		onSubmit(simsToSave, (id) => {
-			setSaving(false);
-			goBack(`/operations/sims/${id}`);
-		});
+		onSubmit(
+			generateSimsBeforeSubmit(
+				mode,
+				simsProp,
+				parentType,
+				idParentToSave,
+				rubrics,
+			),
+			(id) => {
+				setSaving(false);
+				goBack(`/operations/sims/${id}`, true);
+			},
+		);
 	};
 
 	const goBackUrl = sims.id
