@@ -95,19 +95,19 @@ const SimsCreation = ({
 		e.stopPropagation();
 		setSaving(true);
 
-		const idParent = idParent || idParentProp;
+		const idParentToSave = idParent || idParentProp;
 
 		const rubrics = Object.values(sims).map(convertRubric);
 
-		const sims = {
+		const simsToSave = {
 			id: mode !== DUPLICATE ? simsProp.id : '',
 			labelLg1: mode !== DUPLICATE ? simsProp.labelLg1 : '',
 			labelLg2: mode !== DUPLICATE ? simsProp.labelLg2 : '',
-			[getParentIdName(parentType)]: idParent,
+			[getParentIdName(parentType)]: idParentToSave,
 			created: mode !== DUPLICATE ? simsProp.created : '',
 			rubrics,
 		};
-		onSubmit(sims, (id) => {
+		onSubmit(simsToSave, (id) => {
 			setSaving(false);
 			goBack(`/operations/sims/${id}`);
 		});
