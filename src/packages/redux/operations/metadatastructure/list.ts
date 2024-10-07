@@ -1,3 +1,4 @@
+import { Dispatch } from 'redux';
 import { getTree } from '../../../modules-operations/utils/msd';
 import { OperationsApi } from '../../../sdk/operations-api';
 import { loadCodesList } from '../../actions/operations/utils/setup';
@@ -9,7 +10,7 @@ export const LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS =
 export const LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE =
 	'LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE';
 
-const fetchMsd = () => (dispatch: any, getState: any) => {
+const fetchMsd = () => (dispatch: Dispatch, getState: any) => {
 	dispatch({
 		type: LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 		payload: {},

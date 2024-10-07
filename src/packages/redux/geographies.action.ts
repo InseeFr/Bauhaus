@@ -2,6 +2,7 @@ import { GeographieApi } from '../sdk/geographie';
 import { ERROR, LOADED, LOADING } from '../sdk/constants';
 import { ReduxModel } from './model';
 import { createAllDictionary } from '../utils/dictionnary';
+import { Dispatch } from 'redux';
 
 // Constants
 const LOAD_GEOGRAPHIES = 'LOAD_GEOGRAPHIES';
@@ -69,7 +70,7 @@ export const reducer = (
 };
 
 // loader
-export const loadGeographies = () => (dispatch: any) => {
+export const loadGeographies = () => (dispatch: Dispatch) => {
 	dispatch(loadGeographiesPending());
 	return GeographieApi.getAll().then(
 		(results) => {
