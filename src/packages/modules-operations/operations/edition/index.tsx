@@ -9,12 +9,14 @@ import { OperationsApi } from '../../../sdk/operations-api';
 import { ReduxModel } from '../../../redux/model';
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/operations/series';
+import { useGoBack } from '../../../utils/hooks/useGoBack';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();
 	const [series, setSeries] = useState<Series[]>([]);
 	const [operation, setOperation] = useState<Operation | undefined>(undefined);
 	const stamp = useSelector((state: ReduxModel) => state.app!.auth.user.stamp);
+	const goBack = useGoBack();
 
 	useEffect(() => {
 		if (id) {
@@ -40,6 +42,7 @@ export const Component = () => {
 			series={series}
 			id={id}
 			operation={editingOperation}
+			goBack={goBack}
 		/>
 	);
 };
