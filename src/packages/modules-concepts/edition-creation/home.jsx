@@ -192,14 +192,13 @@ class ConceptEditionCreation extends Component {
 			conceptsWithLinks,
 			maxLengthScopeNote,
 		);
-
 		return (
 			<div>
 				<div className="container">
 					<PageTitle title={title} subtitle={subtitle} />
 					{this.props.general.contributor && (
 						<ConceptCreateControlLayout
-							errorMessage={errorMessage}
+							errors={errorMessage}
 							handleSave={this.handleSave}
 							submitting={submitting}
 						/>
