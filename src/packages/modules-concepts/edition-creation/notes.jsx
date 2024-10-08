@@ -50,7 +50,7 @@ const NotesEdition = ({
 	return (
 		<TabView>
 			{noteTypes(maxLengthScopeNote).map(
-				({ rawTitle, noteLg1Name, noteLg2Name, maxLength }) => {
+				({ rawTitle, noteLg1Name, noteLg2Name, maxLength }, i) => {
 					const noteLg1 = notes[noteLg1Name];
 					const noteLg2 = notes[noteLg2Name];
 
@@ -70,7 +70,7 @@ const NotesEdition = ({
 					);
 
 					return (
-						<TabPanel key={title} header={title}>
+						<TabPanel key={i} header={title}>
 							<NoteEdition
 								notes={notes}
 								noteLg1Name={noteLg1Name}
