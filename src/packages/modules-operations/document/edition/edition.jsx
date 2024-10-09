@@ -73,7 +73,7 @@ const OperationsDocumentationEdition = (props) => {
 
 	useTitle(
 		type === LINK ? D.titleLink : D.titleDocument,
-		props.document.labelLg1,
+		props.document.labelLg1
 	);
 
 	const goBack = useGoBack();
@@ -96,7 +96,7 @@ const OperationsDocumentationEdition = (props) => {
 	const [document, setDocument] = useState(defaultDocument);
 
 	const [files, setFiles] = useState(
-		document.url ? [{ name: document.url }] : [],
+		document.url ? [{ name: document.url }] : []
 	);
 
 	const [validationModalDisplayed, setValidationModalDisplayed] =
@@ -109,14 +109,13 @@ const OperationsDocumentationEdition = (props) => {
 	useEffect(() => {
 		if (documentsAndLinksList) {
 			setCurrentDocument(
-				documentsAndLinksList.find((doc) => doc.id === document?.id),
+				documentsAndLinksList.find((doc) => doc.id === document?.id)
 			);
 		}
 	}, [documentsAndLinksList, document]);
 
 	const currentLabelLg1 = currentDocument?.labelLg1;
 	const currentLabelLg2 = currentDocument?.labelLg2;
-	const currentFile = currentDocument?.url;
 
 	const uploadFile = (files) => {
 		setServerSideError('');
@@ -162,7 +161,7 @@ const OperationsDocumentationEdition = (props) => {
 				},
 				(err) => {
 					setServerSideError(err);
-				},
+				}
 			)
 			.finally(() => setSaving(false));
 	};
@@ -177,8 +176,7 @@ const OperationsDocumentationEdition = (props) => {
 			type,
 			documentsAndLinksList,
 			currentLabelLg1,
-			currentLabelLg2,
-			currentFile,
+			currentLabelLg2
 		);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
@@ -393,7 +391,7 @@ const OperationsDocumentationEdition = (props) => {
 						<Select
 							placeholder=""
 							value={langSelectOptions.find(
-								({ value }) => value === document.lang,
+								({ value }) => value === document.lang
 							)}
 							options={langSelectOptions}
 							onChange={(value) => {
