@@ -19,9 +19,8 @@ describe('validation', function () {
 					},
 				],
 				'currentLabelLg1',
-				'currentLabelLg2',
-				'currentFile',
-			),
+				'currentLabelLg2'
+			)
 		).toEqual({
 			errorMessage: [
 				'This title already exists',
@@ -48,9 +47,8 @@ describe('validation', function () {
 				'link',
 				[],
 				'currentLabelLg1',
-				'currentLabelLg2',
-				'currentFile',
-			),
+				'currentLabelLg2'
+			)
 		).toEqual({
 			errorMessage: ['The link is not valid'],
 			fields: {
@@ -75,9 +73,8 @@ describe('validation', function () {
 				'document',
 				[],
 				'currentLabelLg1',
-				'currentLabelLg2',
-				'currentFile',
-			),
+				'currentLabelLg2'
+			)
 		).toEqual({
 			errorMessage: ['The language is required'],
 			fields: {
@@ -102,9 +99,8 @@ describe('validation', function () {
 				'document',
 				[],
 				'currentLabelLg1',
-				'currentLabelLg2',
-				'currentFile',
-			),
+				'currentLabelLg2'
+			)
 		).toEqual({
 			errorMessage: ['The update date is required'],
 			fields: {
@@ -130,9 +126,8 @@ describe('validation', function () {
 				'document',
 				[],
 				'currentLabelLg1',
-				'currentLabelLg2',
-				'currentFile',
-			),
+				'currentLabelLg2'
+			)
 		).toEqual({
 			errorMessage: [
 				'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
@@ -160,9 +155,8 @@ describe('validation', function () {
 				'link',
 				[],
 				'currentLabelLg1',
-				'currentLabelLg2',
-				'currentFile',
-			),
+				'currentLabelLg2'
+			)
 		).toEqual({
 			errorMessage: [],
 			fields: {
@@ -187,9 +181,8 @@ describe('validation', function () {
 				'document',
 				[],
 				'currentLabelLg1',
-				'currentLabelLg2',
-				'currentFile',
-			),
+				'currentLabelLg2'
+			)
 		).toEqual({
 			errorMessage: [],
 			fields: {

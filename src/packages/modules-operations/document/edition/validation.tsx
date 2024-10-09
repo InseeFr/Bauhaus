@@ -14,7 +14,7 @@ const generateMandatoryAndNotEmptyField = (property: string) => {
 const Base = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string,
+	currentLabelLg2: string
 ) =>
 	z.object({
 		labelLg1: generateMandatoryAndNotEmptyField(D1.title).refine(
@@ -24,7 +24,7 @@ const Base = (
 					.map((document: Document) => document.labelLg1)
 					.includes(value),
 
-			{ message: D.duplicatedTitle },
+			{ message: D.duplicatedTitle }
 		),
 		labelLg2: generateMandatoryAndNotEmptyField(D2.title).refine(
 			(value) =>
@@ -33,7 +33,7 @@ const Base = (
 					.map((document: Document) => document.labelLg2)
 					.includes(value),
 
-			{ message: D.duplicatedTitle },
+			{ message: D.duplicatedTitle }
 		),
 		lang: z
 			.string({ required_error: D.requiredLang })
@@ -43,7 +43,7 @@ const Base = (
 const LinkZod = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string,
+	currentLabelLg2: string
 ) =>
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		url: z
@@ -60,27 +60,16 @@ const LinkZod = (
 			.min(1, { message: D.mandatoryProperty(D.titleLink) }),
 	});
 
-const File = (documentsAndLinksList: Document[], currentFile: string) =>
-	z.object({
-		name: z
-			.string()
-			.regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { message: D.wrongFileName })
-			.refine(
-				(value) =>
-					value === currentFile ||
-					!documentsAndLinksList
-						.map((document: Document) => document.url)
-						.includes(value),
-
-				{ message: D.duplicatedFile },
-			),
-	});
+const File = z.object({
+	name: z
+		.string()
+		.regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { message: D.wrongFileName }),
+});
 
 const DocumentZod = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string,
-	currentFile: string,
+	currentLabelLg2: string
 ) =>
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		updatedDate: z
@@ -90,7 +79,7 @@ const DocumentZod = (
 			.min(1, { message: D.requiredUpdatedDate })
 			.nullable()
 			.refine((value) => value !== null, { message: D.requiredUpdatedDate }),
-		files: z.array(File(documentsAndLinksList, currentFile)).nonempty({
+		files: z.array(File).nonempty({
 			message: D.requiredFile,
 		}),
 	});
@@ -100,16 +89,10 @@ export const validate = (
 	type: string,
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string,
-	currentFile: string,
+	currentLabelLg2: string
 ) =>
 	formatValidation(
 		type === LINK
 			? LinkZod(documentsAndLinksList, currentLabelLg1, currentLabelLg2)
-			: DocumentZod(
-					documentsAndLinksList,
-					currentLabelLg1,
-					currentLabelLg2,
-					currentFile,
-				),
+			: DocumentZod(documentsAndLinksList, currentLabelLg1, currentLabelLg2)
 	)(document);

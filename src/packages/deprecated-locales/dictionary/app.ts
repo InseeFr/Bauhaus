@@ -214,10 +214,6 @@ const dictionary = {
 		fr: "L'intitulé choisi existe déjà",
 		en: 'This title already exists',
 	},
-	duplicatedFile: {
-		fr: 'Le fichier ajouté existe déjà',
-		en: 'This file already exists',
-	},
 	globalInformationsTitle: {
 		fr: 'Informations générales',
 		en: 'General information',
