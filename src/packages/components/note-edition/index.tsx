@@ -1,14 +1,15 @@
 import NoteOneLangEdition from './note-one-lang-edition';
 import { ClientSideError } from '../errors-bloc';
+import { ConceptNotes } from '../../model/concepts/concept';
 
 type NoteEditionTypes = {
-	notes: any;
-	noteLg1Name: string;
-	noteLg2Name: string;
+	notes: ConceptNotes;
+	noteLg1Name: keyof ConceptNotes;
+	noteLg2Name: keyof ConceptNotes;
 	handleChangeLg1: (value: string) => void;
 	handleChangeLg2: (value: string) => void;
 	maxLength: number;
-	errorMessage: { errorMessage: string[]; fields: any };
+	errorMessage: { errorMessage: string[]; fields: Record<string, string> };
 };
 export const NoteEdition = ({
 	notes,
@@ -26,7 +27,7 @@ export const NoteEdition = ({
 			<div className="row">
 				<div className="col-md-6">
 					<NoteOneLangEdition
-						note={noteLg1}
+						note={noteLg1 ?? ''}
 						handleChange={handleChangeLg1}
 						maxLength={maxLength}
 					/>
@@ -37,7 +38,7 @@ export const NoteEdition = ({
 				</div>
 				<div className="col-md-6">
 					<NoteOneLangEdition
-						note={noteLg2}
+						note={noteLg2 ?? ''}
 						handleChange={handleChangeLg2}
 						maxLength={maxLength}
 					/>
