@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import fixReactVirtualized from 'esbuild-plugin-react-virtualized';
+import { viteEnvs } from 'vite-envs';
 
 export default defineConfig(() => {
 	return {
@@ -16,13 +17,17 @@ export default defineConfig(() => {
 				},
 			},
 		},
-
 		build: {
 			outDir: 'build',
 		},
 		server: {
 			port: 3000,
 		},
-		plugins: [react()],
+		plugins: [
+			react(),
+			viteEnvs({
+				declarationFile: '.env',
+			}),
+		],
 	};
 });
