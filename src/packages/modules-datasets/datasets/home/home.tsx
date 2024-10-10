@@ -25,7 +25,7 @@ export const Component = () => {
 						childPath="datasets"
 						autoFocus={true}
 						advancedSearch={false}
-						itemFormatter={(_: any, dataset: any) => dataset.label}
+						itemFormatter={(_: unknown, dataset: any) => dataset.label}
 					/>
 				</div>
 			</Row>
