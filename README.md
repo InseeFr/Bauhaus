@@ -19,7 +19,6 @@ The application is tested on Node.js 20.
 git clone git@github.com:InseeFr/Bauhaus.git
 cd Bauhaus
 npm install
-npm run build
 npm run start
 ```
 
@@ -40,8 +39,8 @@ npm run test --watchAll
 You can also run the application thanks to **Docker**
 
 ```shell
-docker build --file Dockerfile.dev -t bauhaus:front .
-docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 bauhaus:front
+docker build -t bauhaus:front .
+docker run -it -p 8080:8080 bauhaus:front
 ```
 
 ## Issues
