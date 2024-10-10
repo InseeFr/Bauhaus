@@ -1,4 +1,5 @@
-# Étape de construction
+### BUILD STEP ###
+
 FROM node:latest as builder
 
 WORKDIR /bauhaus
@@ -9,7 +10,8 @@ RUN npm install --force
 
 RUN npm run build
 
-# Étape d'exécution
+### EXECUTION STEP ###
+
 FROM nginxinc/nginx-unprivileged:mainline-alpine
 
 # Non root user
@@ -20,12 +22,12 @@ ENV NGINX_GROUP=nginx
 
 USER $NGINX_USER_ID
 
-# Ajout du build au dossier root de nginx
+# Add build to nginx root file
 COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/build /usr/share/nginx/html
 
-# Copie de la configuration nginx
+# Copy nginx configuration
 RUN rm /etc/nginx/conf.d/default.conf
-COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/config/nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 # Add entrypoint
 RUN chmod 755 /usr/share/nginx/html/vite-envs.sh
