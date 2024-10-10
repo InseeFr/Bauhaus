@@ -14,7 +14,7 @@ type RouterConfig = Record<
 		order: number;
 		label: string;
 		className: string | null;
-		attrs: any | null;
+		attrs: Record<string, string> | null;
 	}
 >;
 

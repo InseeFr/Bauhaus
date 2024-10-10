@@ -1,9 +1,8 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, PropsWithChildren } from 'react';
 import { Link as ReactLink } from 'react-router-dom';
 
 type LinkTypes = {
 	disabled?: boolean;
-	children: any;
 	className?: string;
 } & ComponentProps<typeof ReactLink>;
 
@@ -12,7 +11,7 @@ export const Link = ({
 	children,
 	className,
 	...rest
-}: Readonly<LinkTypes>) => {
+}: Readonly<PropsWithChildren<LinkTypes>>) => {
 	if (disabled) {
 		return <span className={className + ' disabled'}>{children}</span>;
 	}
