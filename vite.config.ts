@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react';
 import fixReactVirtualized from 'esbuild-plugin-react-virtualized';
+import { viteEnvs } from 'vite-envs';
 
 export default {
 	optimizeDeps: {
@@ -14,12 +15,16 @@ export default {
 			},
 		},
 	},
-
 	build: {
 		outDir: 'build',
 	},
 	server: {
 		port: 3000,
 	},
-	plugins: [react()],
+	plugins: [
+		react(),
+		viteEnvs({
+			declarationFile: '.env',
+		}),
+	],
 };
