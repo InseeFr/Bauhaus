@@ -110,7 +110,7 @@ export function mdFromEditorState(editorState: EditorState) {
 		) {
 			const currentInlineStyle = inlineStyleRanges[inlineStyleIndex];
 			const withSameOffset = inlineStyleRanges.filter(
-				(_: any, index: number) => {
+				(_: unknown, index: number) => {
 					return (
 						index !== inlineStyleIndex &&
 						inlineStyleRanges[index].offset === currentInlineStyle.offset

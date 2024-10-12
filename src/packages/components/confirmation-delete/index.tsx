@@ -1,4 +1,3 @@
-// @ts-ignore
 import Modal from 'react-modal';
 import { createAllDictionary } from '../../utils/dictionnary';
 import { ActionToolbar } from '../action-toolbar';

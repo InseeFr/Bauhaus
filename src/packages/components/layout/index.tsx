@@ -1,4 +1,3 @@
-// @ts-ignore
 import { PropsWithChildren } from 'react';
 import './index.scss';
 
