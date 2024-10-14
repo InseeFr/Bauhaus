@@ -18,7 +18,7 @@ type MenuTypes = {
 export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
 	const goBack = useGoBack();
 	const checkStamp = (stamp: string) =>
-		operation.series.creators.includes(stamp);
+		operation.series.creators?.includes(stamp);
 
 	return (
 		<ActionToolbar>
