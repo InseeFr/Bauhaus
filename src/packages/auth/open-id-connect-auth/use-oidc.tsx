@@ -17,18 +17,8 @@ const LoginOidcComponent = ({
 	const { isUserLoggedIn, login, oidcTokens } = useOidc({
 		assertUserLoggedIn: false,
 	});
-	const [userInformationsLoaded, setUserInformationsLoaded] = useState(false);
-
-	useEffect(() => {
-		if (isUserLoggedIn) {
-			storeToken(oidcTokens?.accessToken);
-			UsersApi.getStamp().then(({ stamp }: { stamp: string }) => {
-				const roles = (oidcTokens?.decodedIdToken.realm_access as any).roles;
-				saveUserProps({ roles, stamp });
-				setUserInformationsLoaded(true);
-			});
-		}
-	}, []);
+	const { renewTokens } = useOidc({ assertUserLoggedIn: true });
+	const [userInformationLoaded, setUserInformationLoaded] = useState(false);
 
 	if (!isUserLoggedIn) {
 		login({
@@ -37,7 +27,21 @@ const LoginOidcComponent = ({
 		return null;
 	}
 
-	if (!userInformationsLoaded) {
+	useEffect(() => {
+		if (isUserLoggedIn) {
+			storeToken(oidcTokens?.accessToken);
+			UsersApi.getStamp().then(({ stamp }: { stamp: string }) => {
+				const roles = (oidcTokens?.decodedIdToken.realm_access as any).roles;
+				saveUserProps({ roles, stamp });
+				setUserInformationLoaded(true);
+			});
+		}
+		setInterval(() => {
+			renewTokens();
+		}, 120000);
+	}, []);
+
+	if (!userInformationLoaded) {
 		return null;
 	}
 
