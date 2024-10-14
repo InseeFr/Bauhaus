@@ -115,6 +115,8 @@ const SimsCreation = ({
 		const idParentToSave = idParent || idParentProp;
 		const rubrics = Object.values(sims).map(convertRubric);
 
+		setChanged(false);
+
 		onSubmit(
 			generateSimsBeforeSubmit(
 				mode,
