@@ -43,8 +43,10 @@ export class InputMultiRmes extends Component<
 	};
 
 	update = (lang: string, type: string) => {
-		const arrayName = `array${lang}`;
-		//@ts-ignore
+		const arrayName = `array${lang}` as keyof Pick<
+			typeof this.state,
+			'arrayLg1' | 'arrayLg2'
+		>;
 		const array = this.state[arrayName];
 		const arrayLength = array.length;
 		if (array[arrayLength - 1] === '' && type === 'plus')
@@ -83,15 +85,19 @@ export class InputMultiRmes extends Component<
 		));
 	};
 
-	handleChange = (value: any, arrayName: string, i: number) => {
-		//@ts-ignore
-		const newArray = (this.state[arrayName] as any[]).map(
+	handleChange = (
+		value: string,
+		arrayName: keyof Pick<typeof this.state, 'arrayLg1' | 'arrayLg2'>,
+		i: number,
+	) => {
+		const newArray: string[] = (this.state[arrayName] as any[]).map(
 			(e: string, j: number) => {
 				if (j === i) return value;
 				return e;
 			},
 		);
-		// @ts-ignore
+
+		//@ts-ignore
 		this.setState({
 			[arrayName]: newArray,
 		});

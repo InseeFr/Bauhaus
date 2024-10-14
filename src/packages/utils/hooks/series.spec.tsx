@@ -4,12 +4,13 @@ import { useSeries } from './series';
 import { Series } from '../../model/Series';
 import { OperationsApi } from '../../sdk/operations-api';
 import { vi } from 'vitest';
+import { PropsWithChildren } from 'react';
 
 vi.mock('../../sdk/operations-api');
 
 const queryClient = new QueryClient();
 
-const wrapper = ({ children }: any) => (
+const wrapper = ({ children }: Readonly<PropsWithChildren<unknown>>) => (
 	<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 );
 

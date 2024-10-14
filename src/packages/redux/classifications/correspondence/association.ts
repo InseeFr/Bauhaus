@@ -5,9 +5,12 @@ import {
 	LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION,
 	LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION_SUCCESS,
 } from '../../actions/constants';
-import { ReduxAction } from '../../model';
+import { CorrespondenceReduxModel, ReduxAction } from '../../model';
 
-const reducers = (state: any = {}, action: ReduxAction) => {
+const reducers = (
+	state: CorrespondenceReduxModel = {},
+	action: ReduxAction,
+) => {
 	const { type, payload } = action;
 	switch (type) {
 		case LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION: {

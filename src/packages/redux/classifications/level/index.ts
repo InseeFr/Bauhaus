@@ -1,8 +1,9 @@
+import { ClassificationReduxModel } from '../../model';
 import { getGeneral } from './general';
 import { getMembers } from './members';
 
 export function getLevel(
-	state: any,
+	state: ClassificationReduxModel,
 	classificationId: string,
 	levelId: string,
 ) {

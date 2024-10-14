@@ -20,3 +20,9 @@ export type ReduxModel = {
 	};
 	app?: ReduxAppModel;
 };
+
+export type CorrespondenceReduxModel = Record<string, object>;
+export type ClassificationReduxModel = {
+	classificationLevelGeneral: unknown;
+	classificationLevelMembers: unknown;
+};

@@ -1,8 +1,9 @@
 import * as A from '../../../actions/constants';
 import { ClassificationsApi } from '../../../../sdk/classification';
+import { Dispatch } from 'redux';
 
 const fetchClassificationLevelMembers =
-	(classificationId: string, levelId: string) => (dispatch: any) => {
+	(classificationId: string, levelId: string) => (dispatch: Dispatch) => {
 		dispatch({
 			type: A.LOAD_CLASSIFICATION_LEVEL_MEMBERS,
 			payload: {

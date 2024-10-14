@@ -1,5 +1,7 @@
 export type ConceptGeneral = {
 	prefLabelLg1: string;
+	prefLabelLg2: string;
+	conceptVersion: string;
 	creator: string;
 	disseminationStatus: string;
 };

@@ -1,7 +1,11 @@
 import { vi } from 'vitest';
 
 import { render, screen, fireEvent } from '@testing-library/react';
-import { AppContextProvider, useAppContext } from './app-context';
+import {
+	AppContextProvider,
+	AppProperties,
+	useAppContext,
+} from './app-context';
 
 const TestComponent = () => {
 	const { lg1, lg2, secondLang } = useAppContext();
@@ -20,7 +24,11 @@ const TestComponent = () => {
 describe('AppContext', () => {
 	it('provides the correct context values', () => {
 		render(
-			<AppContextProvider lg1="English" lg2="French" properties={{} as any}>
+			<AppContextProvider
+				lg1="English"
+				lg2="French"
+				properties={{} as AppProperties}
+			>
 				<TestComponent />
 			</AppContextProvider>,
 		);
