@@ -41,6 +41,10 @@ const LoginOidcComponent = ({
 		}, 120000);
 	}, []);
 
+	useEffect(() => {
+		storeToken(oidcTokens?.accessToken);
+	}, [oidcTokens]);
+
 	if (!userInformationLoaded) {
 		return null;
 	}
