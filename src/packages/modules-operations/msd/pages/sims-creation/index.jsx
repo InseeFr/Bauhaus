@@ -236,7 +236,7 @@ const SimsCreation = ({
 	const onSiblingSimsChange = () => {
 		return (value) => {
 			setLoading(true);
-			getSiblingSims(value).then((sims) => {
+			getSiblingSims(value, metadataStructure).then((sims) => {
 				setLoading(false);
 				setSims(sims);
 			});
