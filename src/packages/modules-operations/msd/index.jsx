@@ -26,6 +26,7 @@ import { DocumentsStoreProvider } from './pages/sims-creation/documents-store-co
 import { isEssentialRubricKo } from './sims-field-title';
 import { getParentId, getParentType } from './utils';
 import { useDocumentsList } from './pages/sims-creation/useDocumentsList';
+import { isLoaded, loadGeographies } from '../../redux/geographies.action';
 
 export const HELP = 'HELP';
 export const CREATE = 'CREATE';
@@ -57,6 +58,10 @@ class MSDContainer extends ReactComponent {
 			!this.props.currentSims.id
 		) {
 			this.props.loadSIMS(this.props.id);
+		}
+
+		if (!this.props.geographiesLoaded) {
+			this.props.loadGeographies();
 		}
 
 		this._loadOwnersList(this.props.id);
@@ -240,6 +245,7 @@ export const mapStateToProps = (state, ownProps) => {
 	}
 
 	return {
+		geographiesLoaded: isLoaded(state),
 		metadataStructure,
 		metadataStructureStatus,
 		currentSims: !id || currentSims.id === id ? currentSims : {},
@@ -251,6 +257,7 @@ export const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
+	loadGeographies,
 	loadMetadataStructure,
 	loadSIMS,
 	saveSims,

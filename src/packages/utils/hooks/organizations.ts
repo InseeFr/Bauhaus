@@ -6,7 +6,7 @@ import { transformModelToSelectOptions } from '../transformer';
 
 export const useOrganizations = () => {
 	return useQuery({
-		initialData: [],
+		placeholderData: [],
 		queryKey: ['organization'],
 		queryFn: (): Promise<Organization[]> => {
 			return OrganisationsApi.getOrganisations() as Promise<Organization[]>;
