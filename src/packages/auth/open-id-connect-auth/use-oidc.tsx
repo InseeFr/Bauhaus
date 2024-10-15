@@ -11,11 +11,11 @@ type OidcWrapperTypes = {
 };
 
 export const LoginComponent = () => {
-	const { isUserLoggedIn, login } = useOidc({
+	const { login } = useOidc({
 		assertUserLoggedIn: false,
 	});
 
-	if (!isUserLoggedIn) {
+	if (login) {
 		login({
 			doesCurrentHrefRequiresAuth: true,
 		});
