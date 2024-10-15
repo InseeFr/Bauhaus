@@ -8,7 +8,7 @@ const PublishersView = ({ publishers, lg1 }) => {
 		: [publishers];
 	const { data: organisations } = useOrganizations();
 	const publishersArray = publishersIdArray.map(
-		({ id }) => organisations?.find((orga) => orga.id === id) || {},
+		({ id }) => organisations.find((orga) => orga.id === id) || {},
 	);
 	return (
 		<Note
