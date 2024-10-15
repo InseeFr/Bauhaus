@@ -90,12 +90,11 @@ export const computeDscr = async (fn: any, [...args]) => {
 	//headers), all relevant options should be present.
 	options = { ...defaultOptions, ...options };
 	const oidc = await getOidc();
-	let token;
-	if (oidc.isUserLoggedIn) token = oidc.getTokens().accessToken;
-	if (token) {
+	if (oidc && oidc.isUserLoggedIn) {
+		const { accessToken } = oidc.getTokens();
 		options = {
 			...options,
-			headers: { ...options.headers, Authorization: `Bearer ${token}` },
+			headers: { ...options.headers, Authorization: `Bearer ${accessToken}` },
 		};
 	}
 	thenHandler = thenHandler || defaultThenHandler;
