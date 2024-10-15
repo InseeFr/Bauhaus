@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import LoginNoAuth from './no-auth/login';
-import LoginOidcComponent from './open-id-connect-auth/use-oidc';
+import LoggedWrapper, { LoginWrapper } from './open-id-connect-auth/use-oidc';
 import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from './constants';
 import { getPermission } from '../redux/selectors';
 import { ReduxModel } from '../redux/model';
+import { useOidc } from './create-oidc';
 
 const auth = (WrappedComponent: any) => {
 	const AuthComponent = ({
@@ -13,8 +14,12 @@ const auth = (WrappedComponent: any) => {
 		authType: string;
 		roles: string[] | null;
 	}) => {
-		if (authType === OPEN_ID_CONNECT_AUTH)
-			return <LoginOidcComponent WrappedComponent={WrappedComponent} />;
+		if (authType === OPEN_ID_CONNECT_AUTH) {
+			const { isUserLoggedIn } = useOidc();
+			if (!isUserLoggedIn)
+				return <LoginWrapper WrappedComponent={WrappedComponent} />;
+			else return <LoggedWrapper WrappedComponent={WrappedComponent} />;
+		}
 
 		if (roles) return <WrappedComponent />;
 
