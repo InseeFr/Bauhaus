@@ -17,7 +17,7 @@ const LoginOidcComponent = ({
 	const { isUserLoggedIn, login, oidcTokens } = useOidc({
 		assertUserLoggedIn: false,
 	});
-	const { renewTokens } = useOidc({ assertUserLoggedIn: true });
+	const { renewTokens } = useOidc({ assertUserLoggedIn: false });
 	const [userInformationLoaded, setUserInformationLoaded] = useState(false);
 
 	if (!isUserLoggedIn) {
