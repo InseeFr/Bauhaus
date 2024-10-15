@@ -10,9 +10,7 @@ type OidcWrapperTypes = {
 	saveUserProps: ({ roles, stamp }: { roles: string[]; stamp: string }) => void;
 };
 
-export const LoginWrapper = ({
-	WrappedComponent,
-}: Omit<OidcWrapperTypes, 'saveUserProps'>) => {
+export const LoginComponent = () => {
 	const { isUserLoggedIn, login } = useOidc({
 		assertUserLoggedIn: false,
 	});
@@ -23,10 +21,10 @@ export const LoginWrapper = ({
 		});
 	}
 
-	return <WrappedComponent />;
+	return null;
 };
 
-const LoggedWrapper = ({
+const LoggedInWrapper = ({
 	WrappedComponent,
 	saveUserProps,
 }: OidcWrapperTypes) => {
@@ -62,4 +60,4 @@ const mapDispatchToProps = {
 	saveUserProps,
 };
 
-export default connect(undefined, mapDispatchToProps)(LoggedWrapper);
+export default connect(undefined, mapDispatchToProps)(LoggedInWrapper);
