@@ -17,7 +17,7 @@ const LoginOidcComponent = ({
 	const { isUserLoggedIn, login, oidcTokens } = useOidc({
 		assertUserLoggedIn: false,
 	});
-	const { renewTokens } = useOidc({ assertUserLoggedIn: false });
+	const { renewTokens } = useOidc({ assertUserLoggedIn: true });
 	const [userInformationLoaded, setUserInformationLoaded] = useState(false);
 
 	if (!isUserLoggedIn) {
@@ -35,10 +35,10 @@ const LoginOidcComponent = ({
 				saveUserProps({ roles, stamp });
 				setUserInformationLoaded(true);
 			});
+			setInterval(() => {
+				renewTokens();
+			}, 120000);
 		}
-		setInterval(() => {
-			renewTokens();
-		}, 120000);
 	}, []);
 
 	useEffect(() => {

@@ -60,7 +60,7 @@ describe('RBACLink Component', () => {
 		);
 
 		screen.getByText('Child Component');
-		screen.getByText('TestApp - Front 1.0.0 - API 2.0.0');
+		screen.getByText('TestApp - IHM 1.0.0 - API 2.0.0');
 		screen.getByAltText('application logo');
 	});
 

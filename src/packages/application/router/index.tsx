@@ -29,7 +29,7 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 		properties: { authorizationHost },
 	} = useAppContext();
 	const { version } = useAppContext();
-	const footer = `${getEnvVar('NAME')} - Front ${getEnvVar(
+	const footer = `${getEnvVar('NAME')} - IHM ${getEnvVar(
 		'VERSION',
 	)} - API ${version}`;
 
