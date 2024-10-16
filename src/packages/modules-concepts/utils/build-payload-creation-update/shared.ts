@@ -41,9 +41,6 @@ export function processGeneral(general: any, keys: any[]) {
 	const extract = takeKeys(keys);
 	general = extract(general);
 	general.additionalMaterial = prefixWithHttp(general.additionalMaterial);
-	general.valid = general.valid.replace(
-		/T[0-9]{2}:00:00.000Z/,
-		'T00:00:00.000Z',
-	);
+	general.valid = general.valid.replace(/T\d{2}:00:00.000Z/, 'T00:00:00.000Z');
 	return general;
 }
