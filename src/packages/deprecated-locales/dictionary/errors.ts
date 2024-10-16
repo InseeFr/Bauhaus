@@ -305,9 +305,9 @@ const messages = {
 		},
 		804: {
 			fr: () =>
-				'Vous ne pouvez pas publier une documentation Sims sans avoir publié au préalable l’objet qu’il documente. Merci de publier l’objet documenté.',
+				'Vous ne pouvez pas publier cet objet (rapport, opération ou indicateur) sans avoir publié l’objet auquel il est rattaché (opération ou indicateur, série)',
 			en: () =>
-				'You can not publish a Sims documentation without first publishing the object it documents. Please, publish the documented object.',
+				'You cannot publish this object (report, operation, or indicator) without first publishing the object it is attached to (operation or indicator, series)',
 		},
 		841: {
 			fr: () => 'La documentation Sims n’existe pas.',
