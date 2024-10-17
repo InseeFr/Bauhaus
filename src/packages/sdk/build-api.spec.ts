@@ -26,9 +26,9 @@ const postCommentFn = (username: string, info: unknown) => [
 ];
 
 describe('compute api call description', () => {
-	it('should fetch an url with some options and chain the given then handler', () => {
+	it('should fetch an url with some options and chain the given then handler', async () => {
 		global.fetch = vi.fn();
-		const [url, options, thenHandler] = computeDscr(postCommentFn, [
+		const [url, options, thenHandler] = await computeDscr(postCommentFn, [
 			'john',
 			'some raw text',
 		]);

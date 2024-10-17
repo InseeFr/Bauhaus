@@ -1,7 +1,4 @@
-import {
-	getToken,
-	isTokenValid,
-} from '../auth/open-id-connect-auth/token-utils';
+import { getOidc } from '../auth/create-oidc';
 import { getEnvVar } from '../utils/env';
 
 export const generateGenericApiEndpoints = (
@@ -77,7 +74,7 @@ export const defaultOptions = {
 
 export const defaultThenHandler = (res: Response) => res.json();
 
-export const computeDscr = (fn: any, [...args]) => {
+export const computeDscr = async (fn: any, [...args]) => {
 	const dscr = fn(...args);
 	if (!Array.isArray(dscr)) {
 		throw new Error(
@@ -92,11 +89,12 @@ export const computeDscr = (fn: any, [...args]) => {
 	//headers.Accept) are lost. Hence, if a prop option is overriden (ie.
 	//headers), all relevant options should be present.
 	options = { ...defaultOptions, ...options };
-	const token = getToken();
-	if (token && isTokenValid(token)) {
+	const oidc = await getOidc();
+	if (oidc && oidc.isUserLoggedIn) {
+		const { accessToken } = oidc.getTokens();
 		options = {
 			...options,
-			headers: { ...options.headers, Authorization: `Bearer ${token}` },
+			headers: { ...options.headers, Authorization: `Bearer ${accessToken}` },
 		};
 	}
 	thenHandler = thenHandler || defaultThenHandler;
@@ -121,7 +119,7 @@ export const getBaseURI = () => {
 
 export const buildCall = (context: string, resource: string, fn: any) => {
 	return async (...args: any[]) => {
-		const [path, options, thenHandler] = computeDscr(fn, args);
+		const [path, options, thenHandler] = await computeDscr(fn, args);
 		if (!options.method) {
 			options.method = guessMethod(resource);
 		}
