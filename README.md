@@ -1,4 +1,4 @@
-<img align="right" src="docs/img/bauhaus-logo.png" alt="Bauhaus logo"/>
+<img align="right" src="documentation/src/assets/img/bauhaus-logo.png" alt="Bauhaus logo"/>
 
 # Bauhaus
 
@@ -9,7 +9,7 @@ Web application for the management of concepts, classifications and other statis
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=InseeFr_Bauhaus&metric=coverage)](https://sonarcloud.io/dashboard?id=InseeFr_Bauhaus)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-The documentation can be found in the [docs](https://github.com/InseeFr/Bauhaus/tree/main/docs) folder and [browsed online](https://inseefr.github.io/Bauhaus).
+The documentation can be found in the [docs](https://github.com/InseeFr/Bauhaus/tree/main/documentation/src/content/docs) folder and [browsed online](https://inseefr.github.io/Bauhaus).
 
 ## How to start
 
