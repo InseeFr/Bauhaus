@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { Mock, vi } from 'vitest';
 import { RBACLink } from '.';
 import { useOidc } from '../../auth/create-oidc';
-import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
 import D from '../../i18n';
 import configureStore from '../../redux/configure-store';
 import { renderWithAppContext } from '../../tests-utils/render';
@@ -24,10 +23,6 @@ vi.mock('react-router-dom', async () => {
 });
 vi.mock('../../utils/env', () => ({
 	getEnvVar: (key: string) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
-}));
-
-vi.mock('../../auth/open-id-connect-auth/token-utils', () => ({
-	removeToken: vi.fn(),
 }));
 
 const store = configureStore({
@@ -81,7 +76,6 @@ describe('RBACLink Component', () => {
 		});
 		fireEvent.click(logoutButton);
 
-		expect(removeToken).toHaveBeenCalled();
 		expect(logout).toHaveBeenCalled();
 	});
 });
