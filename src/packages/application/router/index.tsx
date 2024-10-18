@@ -4,7 +4,6 @@ import { PropsWithChildren } from 'react';
 import 'react-app-polyfill/stable';
 import bauhausLogo from '../../../img/logo_noir.svg';
 import Auth from '../../auth/components/auth';
-import { removeToken } from '../../auth/open-id-connect-auth/token-utils';
 import { ADMIN } from '../../auth/roles';
 import D from '../../i18n';
 import { getEnvVar } from '../../utils/env';
@@ -15,7 +14,6 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 	const { isUserLoggedIn, logout } = useOidc();
 
 	const logoutAndRemoveFromStorage = () => {
-		removeToken();
 		if (isUserLoggedIn) {
 			logout({
 				redirectTo: 'specific url',

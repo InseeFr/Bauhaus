@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { saveUserProps } from '../../redux/users';
 import { useOidc } from '../create-oidc';
-import { storeToken } from './token-utils';
 import { useEffect, useState } from 'react';
 import { UsersApi } from '../../sdk/users-api';
 
@@ -34,7 +33,6 @@ const LoggedInWrapper = ({
 	const [userInformationLoaded, setUserInformationLoaded] = useState(false);
 
 	useEffect(() => {
-		storeToken(oidcTokens?.accessToken);
 		UsersApi.getStamp().then(({ stamp }: { stamp: string }) => {
 			const roles = (oidcTokens?.decodedIdToken.realm_access as any).roles;
 			saveUserProps({ roles, stamp });
@@ -44,10 +42,6 @@ const LoggedInWrapper = ({
 			renewTokens();
 		}, 120000);
 	}, []);
-
-	useEffect(() => {
-		storeToken(oidcTokens?.accessToken);
-	}, [oidcTokens]);
 
 	if (!userInformationLoaded) {
 		return null;
