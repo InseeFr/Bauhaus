@@ -1,20 +1,26 @@
 import { Dispatch } from 'redux';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
+import { ReduxModel } from '../../../model';
 
 const call =
-	(remoteCall: any, LOADING: any, SUCCESS: any, FAILURE: any) =>
+	(
+		remoteCall: () => Promise<{ label: string }[]>,
+		LOADING: string,
+		SUCCESS: string,
+		FAILURE: string,
+	) =>
 	(dispatch: Dispatch) => {
 		dispatch({
 			type: LOADING,
 			payload: {},
 		});
 		return remoteCall().then(
-			(results: any) =>
+			(results: { label: string }[]) =>
 				dispatch({
 					type: SUCCESS,
 					payload: { results: sortArrayByLabel(results) },
 				}),
-			(err: any) =>
+			(err: string) =>
 				dispatch({
 					type: FAILURE,
 					payload: { err },
@@ -32,12 +38,15 @@ export default call;
  * @param {*} FAILURE The name of the action if this is an error
  */
 export const getPublishFactory = (
-	remoteCall: any,
-	LOADING: any,
-	SUCCESS: any,
-	FAILURE: any,
+	remoteCall: (value: unknown) => Promise<unknown>,
+	LOADING: string,
+	SUCCESS: string,
+	FAILURE: string,
 ) => {
-	return (object: any, callback = () => {}) =>
+	return (
+			object: unknown,
+			callback: (err: null | string, value?: unknown) => void = () => {},
+		) =>
 		(dispatch: Dispatch) => {
 			dispatch({
 				type: LOADING,
@@ -45,14 +54,14 @@ export const getPublishFactory = (
 			});
 
 			return remoteCall(object).then(
-				(results: any) => {
+				(results) => {
 					dispatch({
 						type: SUCCESS,
 						payload: results,
 					});
 					callback(null, results);
 				},
-				(err: any) => {
+				(err: string) => {
 					dispatch({
 						type: FAILURE,
 						payload: { err },
@@ -64,9 +73,14 @@ export const getPublishFactory = (
 };
 
 export const getItemFactory =
-	(remoteCall: any, LOADING: any, SUCCESS: any, FAILURE: any) =>
+	(
+		remoteCall: (id: string) => Promise<unknown>,
+		LOADING: string,
+		SUCCESS: string,
+		FAILURE: string,
+	) =>
 	(id: string) =>
-	(dispatch: Dispatch, getState: any) => {
+	(dispatch: Dispatch, getState: () => ReduxModel) => {
 		if (getState().operationsOperationCurrentStatus === LOADING) {
 			return;
 		}
@@ -77,12 +91,12 @@ export const getItemFactory =
 			},
 		});
 		return remoteCall(id).then(
-			(results: any) =>
+			(results) =>
 				dispatch({
 					type: SUCCESS,
 					payload: results,
 				}),
-			(err: any) =>
+			(err: string) =>
 				dispatch({
 					type: FAILURE,
 					payload: { err },
