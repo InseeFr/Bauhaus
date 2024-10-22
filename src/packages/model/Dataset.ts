@@ -39,4 +39,5 @@ export type CatalogRecord = {
 };
 export type Distribution = {
 	id?: string;
+	validationState: ValidationState;
 };

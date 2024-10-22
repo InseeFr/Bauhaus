@@ -6,11 +6,24 @@ import {
 	ReturnButton,
 	UpdateButton,
 } from '../../../components/buttons/buttons-with-icons';
+import { Dataset, Distribution } from '../../../model/Dataset';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 
-export const ViewMenu = ({ distribution, dataset, onPublish, onDelete }) => {
+type ViewMenuTypes = {
+	distribution: Distribution;
+	dataset: Dataset;
+	onPublish: () => void;
+	onDelete: () => void;
+};
+
+export const ViewMenu = ({
+	distribution,
+	dataset,
+	onPublish,
+	onDelete,
+}: Readonly<ViewMenuTypes>) => {
 	const goBack = useGoBack();
 
 	const permission = usePermission();
