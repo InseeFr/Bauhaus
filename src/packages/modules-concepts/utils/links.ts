@@ -1,3 +1,4 @@
+import { Link } from '../../model/concepts/concept';
 import {
 	BROADER,
 	NARROWER,
@@ -9,7 +10,7 @@ import {
 	IS_REPLACED_BY,
 } from '../../sdk/constants';
 
-const linkTypes = {
+export const linkTypes = {
 	[BROADER]: BROADER,
 	[NARROWER]: NARROWER,
 	[REFERENCES]: REFERENCES,
@@ -27,9 +28,12 @@ const getType = (typeOfLink: keyof typeof linkTypes) => {
 	);
 };
 
-export const mergeWithAllConcepts = (concepts: any, links: any) =>
-	concepts.map(({ id, label }: any) => {
-		const link = links.find(({ id: idLinked }: any) => idLinked === id);
+export const mergeWithAllConcepts = (
+	concepts: { id: string; label: string }[],
+	links: Link[],
+) =>
+	concepts.map(({ id, label }: { id: string; label: string }) => {
+		const link = links.find(({ id: idLinked }: Link) => idLinked === id);
 		const typeOfLink = link ? getType(link.typeOfLink) : NONE;
 		return {
 			id,
