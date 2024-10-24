@@ -1,10 +1,10 @@
 name: 'Build Application'
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: 23
         cache: npm
     - name: 🏗️ Installing Dependencies
       shell: bash
