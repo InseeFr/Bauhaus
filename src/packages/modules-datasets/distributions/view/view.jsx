@@ -88,7 +88,7 @@ export const Component = (props) => {
 							</li>
 							<li>
 								{D.distributionStatus} :
-								<PublicationFemale object={dataset} />
+								<PublicationFemale object={distribution} />
 							</li>
 							<li>
 								{D.formatTitle} : {distribution.format}{' '}

@@ -12,7 +12,9 @@ export type ReduxAppModel = {
 		};
 	};
 };
+
 export type ReduxModel = {
+	operationsOperationCurrentStatus: string;
 	operationsSimsCurrent?: any;
 	geographies?: {
 		status: string;

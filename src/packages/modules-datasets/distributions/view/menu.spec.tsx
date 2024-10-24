@@ -3,14 +3,20 @@ import { ViewMenu } from './menu';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { RBACMock } from '../../../tests-utils/rbac';
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
+import { Dataset, Distribution } from '../../../model/Dataset';
 
 describe('Distribution View Menu', () => {
 	it('a user can only see the go back button', () => {
-		const dataset = {};
-		const distribution = {};
+		const dataset = {} as Dataset;
+		const distribution = {} as Distribution;
 		render(
 			<RBACMock roles={[]}>
-				<ViewMenu dataset={dataset} distribution={distribution}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					distribution={distribution}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
@@ -21,12 +27,17 @@ describe('Distribution View Menu', () => {
 	});
 
 	it('an admin can goBack, publish, delete and update a distribution even if the stamp is not correct', () => {
-		const dataset = {};
-		const distribution = {};
+		const dataset = {} as Dataset;
+		const distribution = {} as Distribution;
 
 		render(
 			<RBACMock roles={[ADMIN]}>
-				<ViewMenu dataset={dataset} distribution={distribution}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					distribution={distribution}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
@@ -40,12 +51,17 @@ describe('Distribution View Menu', () => {
 		const dataset = {
 			validationState: UNPUBLISHED,
 			catalogRecord: { contributor: 'INSEE' },
-		};
-		const distribution = {};
+		} as Dataset;
+		const distribution = {} as Distribution;
 
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
-				<ViewMenu dataset={dataset} distribution={distribution}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					distribution={distribution}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
@@ -59,12 +75,17 @@ describe('Distribution View Menu', () => {
 		const dataset = {
 			validationState: 'Published',
 			catalogRecord: { contributor: 'INSEE' },
-		};
-		const distribution = {};
+		} as unknown as Dataset;
+		const distribution = {} as Distribution;
 
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
-				<ViewMenu dataset={dataset} distribution={distribution}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					distribution={distribution}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
@@ -78,12 +99,17 @@ describe('Distribution View Menu', () => {
 		const dataset = {
 			validationState: 'Published',
 			catalogRecord: { contributor: 'XXXXXX' },
-		};
-		const distribution = {};
+		} as unknown as Dataset;
+		const distribution = {} as Distribution;
 
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
-				<ViewMenu dataset={dataset} distribution={distribution}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					distribution={distribution}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
