@@ -161,7 +161,10 @@ export const Component = () => {
 			<form onSubmit={handleSubmit((value) => formatAndSave(value))}>
 				<ActionToolbar>
 					<CancelButton action="/classifications" type="button"></CancelButton>
-					<SaveButton type="submit"></SaveButton>
+					<SaveButton
+						disabled={Object.keys(errors).length > 0}
+						type="submit"
+					></SaveButton>
 				</ActionToolbar>
 				{errorMessage && <ErrorBloc error={errorMessage} />}
 				<Row>
