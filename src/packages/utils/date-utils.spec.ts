@@ -3,7 +3,9 @@ import { isDateIn, isOutOfDate, stringToDate } from './date-utils';
 describe('is date in', () => {
 	it('returns true if the start and end dates are null', () => {
 		const toTest = '2017-06-25T10:51:47.812';
-		expect(isDateIn(toTest, null as any, null as any)).toBe(true);
+		expect(
+			isDateIn(toTest, null as unknown as Date, null as unknown as Date),
+		).toBe(true);
 	});
 
 	it('returns true if the dates match', () => {
@@ -23,7 +25,7 @@ describe('is date in', () => {
 
 describe('has date passed', () => {
 	it('returns false if the end date is null', () => {
-		expect(isOutOfDate(null as any)).toBe(false);
+		expect(isOutOfDate(null as unknown as Date)).toBe(false);
 	});
 
 	it('returns false if the date has not passed', () => {

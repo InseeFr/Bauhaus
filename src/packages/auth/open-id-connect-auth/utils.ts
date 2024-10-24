@@ -1,4 +1,6 @@
 import * as R from '../../auth/roles';
+import { Collection } from '../../model/concepts/collection';
+import { Concept } from '../../model/concepts/concept';
 
 export const isAdmin = (roles: string[]) => roles.includes(R.ADMIN);
 
@@ -19,7 +21,7 @@ export const isConceptCreator = (
 ) => roles.includes(R.CONCEPTS_CREATOR) && stamp === conceptCreator;
 
 export const filterConceptsToValidate = (
-	concepts: any[],
+	concepts: Concept[],
 	roles: string[],
 	stamp: string,
 ) =>
@@ -29,12 +31,12 @@ export const filterConceptsToValidate = (
 
 export const isCollectionCreator = (
 	roles: string[],
-	stamp: string,
-	collectionCreator: string,
+	stamp?: string,
+	collectionCreator?: string,
 ) => roles.includes(R.COLLECTIONS_CREATOR) && stamp === collectionCreator;
 
 export const filterCollectionsToValidate = (
-	collections: any[],
+	collections: Collection[],
 	roles: string[],
 	stamp: string,
 ) =>

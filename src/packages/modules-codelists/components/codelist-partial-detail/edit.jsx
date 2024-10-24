@@ -45,6 +45,12 @@ export const DumbCodelistPartialDetailEdit = ({
 
 	useTitle(D.codelistsPartialTitle, codelist?.labelLg1);
 
+	const resetErrorsMessages = () =>
+		setClientSideErrors({
+			...clientSideErrors,
+			errorMessage: [],
+		});
+
 	const handleParentCode = useCallback(
 		(code) => {
 			CodeListApi.getCodesListCodes(code, 1, 0).then((codes) => {
@@ -68,6 +74,7 @@ export const DumbCodelistPartialDetailEdit = ({
 					(parentCL) => parentCL.value === value,
 				).iriParent,
 			});
+			resetErrorsMessages();
 			handleParentCode(value);
 		},
 		[codelist, handleParentCode, globalCodeListOptions],
@@ -97,10 +104,7 @@ export const DumbCodelistPartialDetailEdit = ({
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
-			setClientSideErrors({
-				...clientSideErrors,
-				errorMessage: [],
-			});
+			resetErrorsMessages();
 
 			setCodelist({
 				...codelist,
@@ -194,9 +198,7 @@ export const DumbCodelistPartialDetailEdit = ({
 							onChange={handleChange}
 							disabled={updateMode}
 							aria-invalid={!!clientSideErrors.fields?.id}
-							aria-describedby={
-								clientSideErrors.fields?.id ? 'id-error' : null
-							}
+							aria-describedby={clientSideErrors.fields?.id ? 'id-error' : null}
 						/>
 						<ClientSideError
 							id="id-error"

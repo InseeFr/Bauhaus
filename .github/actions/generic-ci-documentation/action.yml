@@ -1,10 +1,10 @@
 name: 'Build Documentation'
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: 23
     - name: 🏗️ Generate Astro Documentation
       shell: bash
       run: ./scripts/documentation-build.sh
