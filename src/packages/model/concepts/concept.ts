@@ -1,3 +1,5 @@
+import { linkTypes } from '../../modules-concepts/utils/links';
+
 export type ConceptGeneral = {
 	prefLabelLg1: string;
 	prefLabelLg2: string;
@@ -18,3 +20,10 @@ export type ConceptNotes = {
 };
 
 export type Concept = ConceptGeneral & ConceptNotes;
+
+export type Link = {
+	id: string;
+	typeOfLink: keyof typeof linkTypes;
+	prefLabelLg1: string;
+	prefLabelLg2: string;
+};
