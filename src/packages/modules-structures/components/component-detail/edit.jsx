@@ -208,13 +208,16 @@ export const DumbComponentDetailEdit = ({
 		}
 	}, [type, component, initialComponent]);
 
+	const resetErrorsMessages = () =>
+		setClientSideErrors({
+			...clientSideErrors,
+			errorMessage: [],
+		});
+
 	const handleChange = useCallback(
 		(e) => {
 			const { name, value } = e.target;
-			setClientSideErrors({
-				...clientSideErrors,
-				errorMessage: [],
-			});
+			resetErrorsMessages();
 			setComponent({
 				...component,
 				[name]: value,
@@ -264,6 +267,8 @@ export const DumbComponentDetailEdit = ({
 			},
 			{},
 		);
+
+		resetErrorsMessages();
 		setComponent({ ...newComponentWithoutAttributes, type: option });
 	};
 
