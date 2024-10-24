@@ -1,14 +1,12 @@
 ### BUILD STEP ###
 
-FROM node:latest as builder
+FROM node:latest AS builder
 
 WORKDIR /bauhaus
 
 COPY ./ ./
 
-RUN npm install --force
-
-RUN npm run build
+RUN npm install --force && npm run build
 
 ### EXECUTION STEP ###
 

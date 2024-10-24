@@ -39,6 +39,7 @@ export const Component = () => {
 		mode: 'all',
 	});
 
+	console.log(errors);
 	const { isLoading, classification } = useClassification(id);
 	useTitle(D.classificationsTitle, classification?.general?.prefLabelLg1);
 
@@ -91,7 +92,10 @@ export const Component = () => {
 			>
 				<ActionToolbar>
 					<CancelButton action="/classifications" type="button"></CancelButton>
-					<SaveButton type="submit"></SaveButton>
+					<SaveButton
+						disabled={Object.keys(errors).length > 0}
+						type="submit"
+					></SaveButton>
 				</ActionToolbar>
 
 				<GlobalClientSideErrorBloc
