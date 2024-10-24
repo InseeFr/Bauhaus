@@ -7,9 +7,7 @@ import { getGeneral } from '../../../redux/classifications/classification/genera
 import { getTreeFromFlatData } from 'react-sortable-tree';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 import { useClassificationsItem } from '../../../utils/hooks/classifications';
-import { buildExtract } from '../../../utils/buildExtract';
-
-const extractId = buildExtract('id');
+import { useParams } from 'react-router-dom';
 
 const ClassificationTreeContainer = ({
 	id,
@@ -52,7 +50,7 @@ const ClassificationTreeContainer = ({
 };
 
 const mapStateToProps = (state, ownProps) => {
-	const id = extractId(ownProps);
+	const id = ownProps.params.id;
 	const general = getGeneral(state.classificationGeneral, id);
 	return {
 		id,
@@ -64,7 +62,13 @@ const mapDispatchToProps = {
 	loadClassificationGeneral,
 };
 
-export const Component = connect(
-	mapStateToProps,
-	mapDispatchToProps,
-)(ClassificationTreeContainer);
+const withParams = (Component) => {
+	return (props) => {
+		const params = useParams();
+		return <Component {...props} params={params} />;
+	};
+};
+
+export const Component = withParams(
+	connect(mapStateToProps, mapDispatchToProps)(ClassificationTreeContainer),
+);
