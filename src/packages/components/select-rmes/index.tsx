@@ -2,6 +2,7 @@ import OriginalSelect from 'react-select';
 import 'react-select/dist/react-select.css';
 import './select-rmes.scss';
 import { createAllDictionary } from '../../utils/dictionnary';
+import { Option } from '../../model/SelectOption';
 
 const { D } = createAllDictionary({
 	fr: 'Aucun résultat',
@@ -16,7 +17,7 @@ type SelectRmesTypes = {
 	disabled?: boolean;
 	placeholder?: string;
 	value?: any;
-	options?: any;
+	options?: Option[];
 } & {};
 
 export const Select = ({

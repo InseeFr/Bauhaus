@@ -1,11 +1,18 @@
 import { renderHook, act } from '@testing-library/react';
 import { useSecondLang } from './second-lang';
-import { AppContextProvider } from '../../application/app-context';
+import {
+	AppContextProvider,
+	AppProperties,
+} from '../../application/app-context';
 
 describe('useSecondLang', () => {
 	it('returns the correct initial value and toggle function', () => {
 		const wrapper = ({ children }: { children: React.ReactNode }) => (
-			<AppContextProvider lg1="English" lg2="French" properties={{} as any}>
+			<AppContextProvider
+				lg1="English"
+				lg2="French"
+				properties={{} as AppProperties}
+			>
 				{children}
 			</AppContextProvider>
 		);

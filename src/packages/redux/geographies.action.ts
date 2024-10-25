@@ -36,7 +36,7 @@ const loadGeographiesSuccess = (geographies: any) => {
 		payload: geographies,
 	};
 };
-const loadGeographiesError = (error: any) => {
+const loadGeographiesError = (error: string) => {
 	return {
 		type: LOAD_GEOGRAPHIES_ERROR,
 		payload: error,
