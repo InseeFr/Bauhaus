@@ -1,5 +1,5 @@
 import { D1, D2 } from '../../../deprecated-locales';
-import { CreationUpdateItems } from '../../../components';
+import { CreationUpdateItems, Row } from '../../../components';
 import { Note } from '../../../components/note';
 
 function CollectionGeneral({ attr, secondLang }) {
@@ -10,7 +10,7 @@ function CollectionGeneral({ attr, secondLang }) {
 	};
 	return (
 		<>
-			<div className="row">
+			<Row>
 				<Note
 					title={D1.globalInformationsTitle}
 					alone={true}
@@ -42,9 +42,9 @@ function CollectionGeneral({ attr, secondLang }) {
 						</ul>
 					}
 				/>
-			</div>
+			</Row>
 			{attr.descriptionLg1 && (
-				<div className="row">
+				<Row>
 					<Note
 						text={attr.descriptionLg1}
 						title={D1.descriptionTitle}
@@ -57,7 +57,7 @@ function CollectionGeneral({ attr, secondLang }) {
 							alone={false}
 						/>
 					)}
-				</div>
+				</Row>
 			)}
 		</>
 	);

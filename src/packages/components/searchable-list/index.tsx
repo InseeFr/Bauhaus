@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { TextInput, Pagination } from '../../components';
+import { TextInput, Pagination, Row } from '../../components';
 import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import { createAllDictionary } from '../../utils/dictionnary';
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
@@ -93,7 +93,7 @@ export const SearchableList = ({
 				</div>
 			</div>
 			{advancedSearch && (
-				<div className="row">
+				<Row>
 					<div className="col-md-12">
 						<Link to={searchUrl}>
 							<h2>
@@ -105,7 +105,7 @@ export const SearchableList = ({
 							</h2>
 						</Link>
 					</div>
-				</div>
+				</Row>
 			)}
 			<p aria-live="assertive">{nbResults(hits, D.results, D.result)}</p>
 			<Pagination itemEls={hitEls} />

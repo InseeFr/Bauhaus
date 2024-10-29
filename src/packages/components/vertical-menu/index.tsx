@@ -1,3 +1,4 @@
+import { Row } from '../layout';
 import './index.scss';
 
 export const VerticalMenu = ({
@@ -7,9 +8,9 @@ export const VerticalMenu = ({
 	return (
 		<div className="col-md-3 btn-group-vertical">
 			{buttons.map((child, index) => (
-				<div key={index} className="row">
+				<Row key={index}>
 					<div className="col-md-12">{child}</div>
-				</div>
+				</Row>
 			))}
 		</div>
 	);

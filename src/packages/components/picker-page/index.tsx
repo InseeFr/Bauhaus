@@ -2,7 +2,13 @@
 
 import { useState } from 'react';
 import D from '../../deprecated-locales';
-import { TextInput, PageTitle, ErrorBloc, Pagination } from '../../components';
+import {
+	TextInput,
+	PageTitle,
+	ErrorBloc,
+	Pagination,
+	Row,
+} from '../../components';
 import { Panel } from '../panel';
 import { ActionToolbar } from '../action-toolbar';
 import { ReturnButton, ExportButton } from '../buttons/buttons-with-icons';
@@ -141,7 +147,7 @@ export const Picker = ({
 				{controls}
 				{clientSideErrors && <ErrorBloc error={clientSideErrors} />}
 				{disabled && <ErrorBloc error={disabledWarningMessage} />}
-				<div className="row">
+				<Row>
 					<div className="col-md-6">
 						<Panel title={panelTitle}>{addedEls}</Panel>
 					</div>
@@ -153,7 +159,7 @@ export const Picker = ({
 						/>
 						<Pagination itemEls={toAddEls} />
 					</div>
-				</div>
+				</Row>
 			</div>
 		</div>
 	);

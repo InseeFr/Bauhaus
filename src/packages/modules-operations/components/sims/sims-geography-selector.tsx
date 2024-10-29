@@ -1,5 +1,6 @@
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import D from '../../i18n/build-dictionary';
+import { Row } from '../../../components';
 
 export type Geography = {
 	value: string;
@@ -49,7 +50,7 @@ const SimsGeographySelector = ({
 		</li>
 	));
 	return (
-		<div className="row">
+		<Row>
 			<div className="col-md-6">
 				<h4>{D.includedZone}</h4>
 				{includedItems}
@@ -58,7 +59,7 @@ const SimsGeographySelector = ({
 				<h4>{D.excludedZone}</h4>
 				{excludedItems}
 			</div>
-		</div>
+		</Row>
 	);
 };
 

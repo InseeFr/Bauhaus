@@ -162,10 +162,10 @@ export default function SimsVisualisation({
 						</div>
 
 						<div className="modal-body export-modal-body">
-							<div className="row">
+							<Row>
 								<p className="col-md-offset-1">{D.exportSimsTips}</p>
-							</div>
-							<div className="row">
+							</Row>
+							<Row>
 								<label className="col-md-offset-1">
 									<input
 										type="checkbox"
@@ -179,8 +179,8 @@ export default function SimsVisualisation({
 									/>
 									{D.exportSimsIncludeEmptyMas}
 								</label>
-							</div>
-							<div className="row">
+							</Row>
+							<Row>
 								<label className="col-md-offset-1">
 									<input
 										type="checkbox"
@@ -194,8 +194,8 @@ export default function SimsVisualisation({
 									/>
 									{D.exportSimsIncludeLg1}
 								</label>
-							</div>
-							<div className="row">
+							</Row>
+							<Row>
 								<label className="col-md-offset-1">
 									<input
 										type="checkbox"
@@ -209,8 +209,8 @@ export default function SimsVisualisation({
 									/>
 									{D.exportSimsIncludeLg2}
 								</label>
-							</div>
-							<div className="row">
+							</Row>
+							<Row>
 								<label className="col-md-offset-1">
 									<input
 										type="checkbox"
@@ -224,7 +224,7 @@ export default function SimsVisualisation({
 									/>
 									{D.exportDocument}
 								</label>
-							</div>
+							</Row>
 						</div>
 						<div className="modal-footer text-right">
 							<ActionToolbar>

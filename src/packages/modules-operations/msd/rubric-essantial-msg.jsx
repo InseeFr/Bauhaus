@@ -1,6 +1,7 @@
 import D, { D2 } from '../../deprecated-locales/build-dictionary';
 import { useSimsContext } from './context';
 import { Note } from '../../components/note';
+import { Row } from '../../components';
 
 export const RubricEssentialMsg = ({ secondLang }) => {
 	const simsContext = useSimsContext();
@@ -27,7 +28,7 @@ export const RubricEssentialMsg = ({ secondLang }) => {
 			? D2.essentialRubricMsg
 			: D2.essentialRubricMsgPlural;
 	return (
-		<div className="row">
+		<Row>
 			<Note
 				text={i18nkeyLg1(
 					numberOfEssantialRubricsOKLg1,
@@ -46,6 +47,6 @@ export const RubricEssentialMsg = ({ secondLang }) => {
 					alone={!secondLang}
 				/>
 			)}
-		</div>
+		</Row>
 	);
 };

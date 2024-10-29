@@ -5,6 +5,7 @@ import RelationsView from '../../shared/relations';
 import { getBaseURI } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { Note } from '../../../components/note';
+import { Row } from '../../../components';
 
 function formatSims(sims) {
 	const simsObject = sims.reduce((acc, s) => {
@@ -58,7 +59,7 @@ function OperationsDocumentationVisualization({
 	});
 	return (
 		<>
-			<div className="row">
+			<Row>
 				<Note
 					text={attr.descriptionLg1}
 					title={D1.descriptionTitle}
@@ -73,9 +74,9 @@ function OperationsDocumentationVisualization({
 						allowEmpty={true}
 					/>
 				)}
-			</div>
+			</Row>
 			{isDocument(attr) && (
-				<div className="row">
+				<Row>
 					<Note
 						text={
 							attr.updatedDate &&
@@ -85,10 +86,10 @@ function OperationsDocumentationVisualization({
 						alone={true}
 						allowEmpty={true}
 					/>
-				</div>
+				</Row>
 			)}
 			{isDocument(attr) && (
-				<div className="row">
+				<Row>
 					<Note
 						text={
 							<a
@@ -103,10 +104,10 @@ function OperationsDocumentationVisualization({
 						alone={true}
 						allowEmpty={true}
 					/>
-				</div>
+				</Row>
 			)}
 			{isLink(attr) && (
-				<div className="row">
+				<Row>
 					<Note
 						text={
 							<a href={attr.url} rel="noopener noreferrer" target="_blank">
@@ -117,9 +118,9 @@ function OperationsDocumentationVisualization({
 						alone={true}
 						allowEmpty={true}
 					/>
-				</div>
+				</Row>
 			)}
-			<div className="row">
+			<Row>
 				<Note
 					text={
 						langOptions?.codes?.find((option) => option.code === attr.lang)
@@ -129,7 +130,7 @@ function OperationsDocumentationVisualization({
 					alone={true}
 					allowEmpty={true}
 				/>
-			</div>
+			</Row>
 			<RelationsView
 				children={sims}
 				childrenTitle="linkedSims"

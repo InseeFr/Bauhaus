@@ -5,6 +5,7 @@ import {
 	creatSelectList,
 	creatSelectListSelectedLast,
 } from '../../utils/array-utils';
+import { Row } from '../layout';
 
 type CompareNotesTypes = {
 	version: number;
@@ -45,7 +46,7 @@ export class CompareNotes extends Component<
 
 		return (
 			<div>
-				<div className="row">
+				<Row>
 					<div className="col-md-6 text-center">
 						<h3>
 							{' '}
@@ -70,9 +71,9 @@ export class CompareNotes extends Component<
 							</select>
 						</h3>
 					</div>
-				</div>
+				</Row>
 				{notesVersion2.map((n: any, i: number) => (
-					<div className="row" key={`notes-compare-${i}`}>
+					<Row key={`notes-compare-${i}`}>
 						<ExplanatoryNote
 							text={
 								secondLang ? notesVersion1[i]['lg2'] : notesVersion1[i]['lg1']
@@ -85,7 +86,7 @@ export class CompareNotes extends Component<
 							title={D[n.title]}
 							alone={false}
 						/>
-					</div>
+					</Row>
 				))}
 			</div>
 		);
