@@ -4,7 +4,7 @@ import { useDatasets } from '../../datasets';
 import { HomePageMenu } from './menu';
 import { Loading, PageTitle, Row, SearchableList } from '../../../components';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { Dataset, PartialDataset } from '../../../model/Dataset';
+import { PartialDataset } from '../../../model/Dataset';
 
 export const Component = () => {
 	const { data, isLoading } = useDatasets();
