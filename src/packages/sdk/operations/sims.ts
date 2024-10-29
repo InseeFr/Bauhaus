@@ -1,3 +1,4 @@
+import { Sims } from '../../model/Sims';
 import { saveFileFromHttpResponse } from '../../utils/files';
 
 const hasDocument = (sims: any, withDocument: boolean) => {
@@ -19,7 +20,7 @@ const api = {
 	getSims: (id: string) => [`metadataReport/${id}`],
 	getDefaultSims: () => ['metadataReport/default'],
 	getOwners: (id: string) => [`metadataReport/Owner/${id}`],
-	exportSims: (id: string, config: any, sims: any) => [
+	exportSims: (id: string, config: any, sims: Sims) => [
 		`metadataReport/export/${id}?emptyMas=${config.emptyMas}&lg1=${
 			config.lg1
 		}&lg2=${config.lg2}&document=${hasDocument(sims, config.document)}`,
@@ -40,16 +41,16 @@ const api = {
 			return new Set();
 		},
 	],
-	deleteSims: (sims: any) => [
+	deleteSims: (sims: Sims) => [
 		`metadataReport/delete/${sims.id}`,
 		(res: Response) => res.text(),
 	],
-	publishSims: (sims: any) => [
+	publishSims: (sims: Sims) => [
 		`metadataReport/validate/${sims.id}`,
 		{ method: 'PUT' },
 		(res: Response) => res.text(),
 	],
-	putSims: (sims: any) => [
+	putSims: (sims: Sims) => [
 		`metadataReport/${sims.id}`,
 		{
 			headers: {
@@ -59,7 +60,7 @@ const api = {
 		},
 		() => {},
 	],
-	postSims: (sims: any) => [
+	postSims: (sims: Sims) => [
 		`metadataReport`,
 		{
 			headers: {
