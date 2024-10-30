@@ -135,7 +135,7 @@ function OperationsSerieVisualization({
 				)}
 			</Row>
 
-			<Row>
+			<Row id="publishers">
 				<PublishersView publishers={attr.publishers} lg1={lg1} />
 			</Row>
 
@@ -154,7 +154,7 @@ function OperationsSerieVisualization({
 				labelLg1="label"
 			/>
 
-			<Row>
+			<Row id="creators">
 				<CreatorsView creators={attr.creators} />
 			</Row>
 			<DisplayLinks
