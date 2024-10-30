@@ -10,6 +10,7 @@ import {
 	PageTitleBlock,
 	EditorMarkdown,
 	Select,
+	Row,
 } from '../../../components';
 
 import PublishersInput from '../../../modules-operations/components/publishers-input';
@@ -206,7 +207,7 @@ class OperationsSerieEdition extends Component {
 				{serverSideError && <ErrorBloc error={[serverSideError]} D={D} />}
 				<form>
 					{!isEditing && (
-						<div className="row">
+						<Row>
 							<div className="form-group col-md-12">
 								<LabelRequired>{D.familyTitle}</LabelRequired>
 								<Select
@@ -224,9 +225,9 @@ class OperationsSerieEdition extends Component {
 									error={this.state.clientSideErrors?.fields?.family}
 								></ClientSideError>
 							</div>
-						</div>
+						</Row>
 					)}
-					<div className="row">
+					<Row>
 						<div className="form-group col-md-6">
 							<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 							<TextInput
@@ -267,8 +268,8 @@ class OperationsSerieEdition extends Component {
 								error={this.state.clientSideErrors?.fields?.prefLabelLg2}
 							></ClientSideError>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-6">
 							<label htmlFor="altLabelLg1">{D1.altLabel}</label>
 							<TextInput
@@ -285,8 +286,8 @@ class OperationsSerieEdition extends Component {
 								onChange={this.onChange}
 							/>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-6">
 							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
@@ -305,8 +306,8 @@ class OperationsSerieEdition extends Component {
 								}
 							/>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-6">
 							<label htmlFor="historyNoteLg1">{D1.history}</label>
 							<EditorMarkdown
@@ -325,8 +326,8 @@ class OperationsSerieEdition extends Component {
 								}
 							/>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							{isMandatoryField('typeCode') ? (
 								<LabelRequired htmlFor="typeCode">
@@ -354,8 +355,8 @@ class OperationsSerieEdition extends Component {
 								error={this.state.clientSideErrors?.fields?.typeCode}
 							></ClientSideError>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							{isMandatoryField('accrualPeriodicityCode') ? (
 								<LabelRequired htmlFor="accrualPeriodicityCode">
@@ -385,8 +386,8 @@ class OperationsSerieEdition extends Component {
 								}
 							></ClientSideError>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<PublishersInput
 								value={serie.publishers}
@@ -400,8 +401,8 @@ class OperationsSerieEdition extends Component {
 								}
 							/>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.stakeholders}
@@ -423,8 +424,8 @@ class OperationsSerieEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label htmlFor="dataCollector" className="w-100">
 								{D1.dataCollector}
@@ -446,8 +447,8 @@ class OperationsSerieEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<CreatorsInput
 								value={serie.creators}
@@ -466,8 +467,8 @@ class OperationsSerieEdition extends Component {
 								error={this.state.clientSideErrors?.fields?.creators}
 							></ClientSideError>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label htmlFor="replaces" className="w-100">
 								{D1.replaces}
@@ -489,8 +490,8 @@ class OperationsSerieEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label htmlFor="replacedBy" className="w-100">
 								{D1.replacedBy}
@@ -512,8 +513,8 @@ class OperationsSerieEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label htmlFor="indicators" className="w-100">
 								{D1.indicators}
@@ -527,8 +528,8 @@ class OperationsSerieEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label htmlFor="seeAlso" className="w-100">
 								{D1.seeAlso}
@@ -550,7 +551,7 @@ class OperationsSerieEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
+					</Row>
 				</form>
 			</div>
 		);

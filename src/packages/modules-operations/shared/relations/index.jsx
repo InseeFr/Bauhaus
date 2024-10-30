@@ -2,6 +2,7 @@ import './relations.scss';
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../../deprecated-locales';
 import { Note } from '../../../components/note';
+import { Row } from '../../../components';
 
 export function RelationsViewPerLgContent({
 	children,
@@ -62,7 +63,7 @@ export function RelationsViewPerLg(props) {
 
 function RelationsView(props) {
 	return (
-		<div className="row">
+		<Row>
 			<RelationsViewPerLg {...props} title={D1[props.title]} langSuffix="Lg1" />
 			{props.secondLang && (
 				<RelationsViewPerLg
@@ -71,7 +72,7 @@ function RelationsView(props) {
 					langSuffix="Lg2"
 				/>
 			)}
-		</div>
+		</Row>
 	);
 }
 

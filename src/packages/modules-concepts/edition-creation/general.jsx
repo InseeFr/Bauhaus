@@ -9,6 +9,7 @@ import {
 	DatePicker,
 	InputMultiRmes,
 	CreatorsInput,
+	Row,
 } from '../../components';
 
 const handleFieldChange = (handleChange) =>
@@ -37,7 +38,7 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
 			<h4 className="text-center">
 				( <RequiredIcon /> : {D.requiredFields})
 			</h4>
-			<div className="row">
+			<Row>
 				<InputRmes
 					colMd={6}
 					label={D1.labelTitle}
@@ -60,7 +61,7 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
 					handleChange={handlers.prefLabelLg2}
 					className="w-100"
 				/>
-			</div>
+			</Row>
 			<InputMultiRmes
 				inputLg1={altLabelLg1}
 				inputLg2={altLabelLg2}

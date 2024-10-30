@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { ComponentProps, PropsWithChildren } from 'react';
 import './index.scss';
 
 export const Column = ({ children }: PropsWithChildren<unknown>) => {
@@ -8,6 +8,9 @@ export const Column = ({ children }: PropsWithChildren<unknown>) => {
 export const Row = ({
 	children,
 	className = '',
-}: PropsWithChildren<{ className?: string }>) => (
-	<div className={`row ${className}`}>{children}</div>
+	...props
+}: PropsWithChildren<ComponentProps<'div'>>) => (
+	<div className={`row ${className}`} {...props}>
+		{children}
+	</div>
 );

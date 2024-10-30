@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PageTitle, SearchableList } from '../../components';
+import { PageTitle, Row, SearchableList } from '../../components';
 import D from '../../deprecated-locales';
 import { HomePageMenu } from './menu';
 import { useTitle } from '../../utils/hooks/useTitle';
@@ -17,7 +17,7 @@ export const Component = () => {
 
 	return (
 		<div className="container">
-			<div className="row">
+			<Row>
 				<HomePageMenu />
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.dsdsSearchTitle} col={12} offset={0} />
@@ -30,7 +30,7 @@ export const Component = () => {
 						itemFormatter={(_, structure) => structure.labelLg1}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 };

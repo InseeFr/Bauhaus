@@ -1,4 +1,4 @@
-import { PageTitle, SearchableList } from '../../../components';
+import { PageTitle, Row, SearchableList } from '../../../components';
 
 import D from '../../../deprecated-locales';
 import Auth from '../../../auth/components/auth';
@@ -16,7 +16,7 @@ function OperationsObjectHome({
 }) {
 	return (
 		<div className="container">
-			<div className="row">
+			<Row>
 				<VerticalMenu>
 					<Auth roles={roles}>{createButton}</Auth>
 					<Button wrapper={false} action="/operations/tree">
@@ -34,7 +34,7 @@ function OperationsObjectHome({
 						autoFocus={true}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 }
