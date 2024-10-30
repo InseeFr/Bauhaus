@@ -252,7 +252,7 @@ export default function SimsVisualisation({
 				onPublish={() => publish(sims)}
 			/>
 			<Row>
-				{missingDocuments?.size > 0 && (
+				{missingDocuments?.size > 0 && documentStores && (
 					<ErrorBloc
 						error={D.missingDocumentWhenExportingSims(
 							Array.from(missingDocuments).map(
