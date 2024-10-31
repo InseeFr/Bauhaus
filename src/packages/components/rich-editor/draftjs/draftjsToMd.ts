@@ -46,7 +46,15 @@ const applyWrappingBlockStyle = (currentStyle: string, content: string) => {
 	return content;
 };
 
-const applyAtomicStyle = (block: any, entityMap: any, content: string) => {
+type Block = {
+	type: 'atomic',
+	text: string;
+	entityRanges: { key: string}[]
+}
+type Entity = { type: string, data: { url: string, src: string, fileName: string}};
+type EntityMap = Record<string, Entity>
+
+const applyAtomicStyle = (block: Block, entityMap: EntityMap, content: string) => {
 	if (block.type !== 'atomic') return content;
 	// strip the test that was added in the media block
 	const strippedContent = content.substring(
@@ -62,21 +70,21 @@ const applyAtomicStyle = (block: any, entityMap: any, content: string) => {
 	return `${strippedContent}![${data.fileName || ''}](${data.url || data.src})`;
 };
 
-const getEntityStart = (entity: any) => {
+const getEntityStart = (entity: Entity) => {
 	if (entity.type === ' LINK') {
 		return '[';
 	}
 	return '';
 };
 
-const getEntityEnd = (entity: any) => {
+const getEntityEnd = (entity: Entity) => {
 	if (entity.type === ' LINK') {
 		return `](${entity.data.url})`;
 	}
 	return '';
 };
 
-function fixWhitespacesInsideStyle(text: any, style: any) {
+function fixWhitespacesInsideStyle(text: string, style: any) {
 	const { symbol } = style;
 
 	// Text before style-opening marker (including the marker)
