@@ -9,7 +9,7 @@ export default defineConfig({
 			reporter: ['text'],
 			include: ['src/**/*.{ts,tsx,js,jsx}'],
 		},
-		include: ['**/*.spec.*'],
+		include: ['src/**/*.spec.*'],
 		environment: 'jsdom',
 		globals: true,
 	},
