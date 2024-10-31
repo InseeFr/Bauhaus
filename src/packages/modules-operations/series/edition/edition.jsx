@@ -8,11 +8,11 @@ import {
 	TextInput,
 	CreatorsInput,
 	PageTitleBlock,
-	EditorMarkdown,
 	Select,
 	Row,
 } from '../../../components';
 
+import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import PublishersInput from '../../../modules-operations/components/publishers-input';
 import { isMandatoryField, validate } from './validation';
 import * as ItemToSelectModel from '../../../utils/item-to-select-model';

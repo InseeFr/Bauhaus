@@ -1,6 +1,7 @@
 {
 	"name": "bauhaus",
 	"version": "4.1.1",
+	"type": "module",
 	"description": "Web application for the management of concepts, classifications and other statistical objects",
 	"repository": {
 		"type": "git",

@@ -13,10 +13,10 @@ import {
 	PageTitleBlock,
 	InputRmes,
 	RequiredIcon,
-	EditorMarkdown,
 	Select,
 	Row,
 } from '../../../components';
+import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import * as ItemToSelectModel from '../../../utils/item-to-select-model';
 import { OperationsApi } from '../../../sdk/operations-api';
 

@@ -3,13 +3,13 @@ import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useParams } from 'react-router-dom';
 import { default as ReactSelect } from 'react-select';
 import {
-	EditorMarkdown,
 	ErrorBloc,
 	Loading,
 	PageTitleBlock,
 	Row,
 	TextInput,
 } from '../../../components';
+import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import { ActionToolbar } from '../../../components/action-toolbar';
 import {
 	CancelButton,

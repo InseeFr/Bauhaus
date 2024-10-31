@@ -1,13 +1,11 @@
 import { PureComponent } from 'react';
 import D from '../../../../deprecated-locales';
 import { rangeType } from '../../../utils/msd';
+import { DatePicker, InputRmes, Select } from '../../../../components';
 import {
-	DatePicker,
 	EditorDeleteButton,
 	EditorMarkdownToolbar,
-	InputRmes,
-	Select,
-} from '../../../../components';
+} from '../../../../components/rich-editor/editor-markdown';
 import SimsGeographyPicker from '../../../../modules-operations/components/sims/sims-geography-picker';
 import { Editor } from 'react-draft-wysiwyg';
 import './sims-field.scss';

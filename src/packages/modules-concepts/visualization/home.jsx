@@ -7,9 +7,9 @@ import {
 	ErrorBloc,
 	PageTitleBlock,
 	CheckSecondLang,
-	ModalRmes,
 	NoteVisualization,
 } from '../../components';
+import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { isOutOfDate } from '../../utils/date-utils';
 import { getModalMessage } from '../../modules-concepts/utils/build-validation-message';

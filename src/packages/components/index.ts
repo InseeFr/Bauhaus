@@ -20,7 +20,6 @@ export * from './input-multi-modal-rmes/input-multi-modal-rmes';
 export * from './layout/';
 export * from './link/';
 export * from './loading/loading';
-export * from './modal-rmes/modal-rmes';
 export * from './new-button';
 export * from './not-found';
 export * from './note-compare';
@@ -30,8 +29,7 @@ export * from './page-title-block';
 export * from './pagination';
 export * from './picker-page';
 export * from './required-icon';
-export * from './rich-editor';
-export * from './rich-editor/editor-markdown';
+
 export * from './searchable-list';
 export * from './select-rmes';
 export * from './status';

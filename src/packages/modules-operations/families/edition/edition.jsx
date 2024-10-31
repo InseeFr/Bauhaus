@@ -11,8 +11,8 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	PageTitleBlock,
-	EditorMarkdown,
 } from '../../../components';
+import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import { OperationsApi } from '../../../sdk/operations-api';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';
