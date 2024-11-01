@@ -1,33 +1,6 @@
 import { Dispatch } from 'redux';
-import { sortArrayByLabel } from '../../../../utils/array-utils';
 import { ReduxModel } from '../../../model';
 
-const call =
-	(
-		remoteCall: () => Promise<{ label: string }[]>,
-		LOADING: string,
-		SUCCESS: string,
-		FAILURE: string,
-	) =>
-	(dispatch: Dispatch) => {
-		dispatch({
-			type: LOADING,
-			payload: {},
-		});
-		return remoteCall().then(
-			(results: { label: string }[]) =>
-				dispatch({
-					type: SUCCESS,
-					payload: { results: sortArrayByLabel(results) },
-				}),
-			(err: string) =>
-				dispatch({
-					type: FAILURE,
-					payload: { err },
-				}),
-		);
-	};
-export default call;
 /**
  * This is a factory we use to create actions related to the publish action.
  * The callback paramter is used only if we need to display server-side error

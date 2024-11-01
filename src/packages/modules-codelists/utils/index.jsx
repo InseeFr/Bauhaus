@@ -146,19 +146,6 @@ const treeElement = (n, i) => {
 	};
 };
 
-export const treedData = (arrayData) => {
-	return getTreeFromFlatData({
-		flatData: arrayData
-			.filter((code) => !!code.code)
-			.map((n, i) => treeElement(n, i))
-			.flat()
-			.sort((a, b) => (a.position > b.position ? 1 : -1)),
-		getKey: (node) => node.code,
-		getParentKey: (node) => node.parent,
-		rootKey: '',
-	});
-};
-
 const getFlatTree = (rootNodes, parentNode) => {
 	return rootNodes?.reduce((acc, code, i) => {
 		if (code.children)
