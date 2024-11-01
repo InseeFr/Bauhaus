@@ -1,16 +1,18 @@
 import { render } from '@testing-library/react';
-import { ModalRmes } from './modal-rmes';
+import { ModalButton, ModalRmes } from './modal-rmes';
 
-const modalButtons = [
+const modalButtons: ModalButton[] = [
 	{
 		label: 'primary',
 		action: vi.fn(),
 		style: 'primary',
+		disabled: false,
 	},
 	{
 		label: 'default',
 		action: vi.fn(),
 		style: 'default',
+		disabled: false,
 	},
 ];
 

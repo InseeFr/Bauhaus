@@ -3,15 +3,22 @@ import Modal from 'react-modal';
 //@ts-ignore
 import DOMPurify from 'dompurify';
 import { CloseIconButton } from '../buttons/buttons-with-icons';
+import { ReactNode } from 'react';
 
-type ModelRmesTypes = {
+export type ModalButton = {
+	style: string;
+	action: () => void;
+	disabled: boolean;
+	label: string | ReactNode;
+};
+export type ModalRmesTypes = {
 	id?: string;
 	isOpen?: boolean;
 	title?: string;
 	body?: any;
 	footer?: any;
-	closeCancel?: any;
-	modalButtons: any[];
+	closeCancel: () => void;
+	modalButtons: ModalButton[];
 };
 export const ModalRmes = ({
 	id,
@@ -21,8 +28,8 @@ export const ModalRmes = ({
 	footer,
 	closeCancel,
 	modalButtons,
-}: ModelRmesTypes) => {
-	const buttons = modalButtons.map((b: any, i: number) => (
+}: ModalRmesTypes) => {
+	const buttons = modalButtons.map((b: ModalButton, i: number) => (
 		<button
 			key={`${id}-${i}`}
 			type="button"

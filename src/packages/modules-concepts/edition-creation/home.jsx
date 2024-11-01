@@ -244,7 +244,7 @@ class ConceptEditionCreation extends Component {
 								this.isVersioningPossible() ? '' : D.conceptVersioningFooter
 							}
 							modalButtons={modalButtons}
-							closeCancel={() => this.closeModal()}
+							closeCancel={this.closeModal}
 						/>
 					)}
 				</div>
