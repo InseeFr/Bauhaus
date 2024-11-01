@@ -1,4 +1,5 @@
-import { PageTitle, Tabs } from '../../../../components';
+import { PageTitle } from '../../../../components';
+import { Tabs } from '../../../../components/tabs/tabs';
 import Controls from './controls';
 import ConceptsSummary from './concepts/summary';
 import ConceptsCreationsModifications from './concepts/creations-modifications';

@@ -33,7 +33,5 @@ export * from './required-icon';
 export * from './searchable-list';
 export * from './select-rmes';
 export * from './status';
-export * from './tabs/tabs';
 export * from './page-title';
-export * from './tree';
 export * from './validationButton';
