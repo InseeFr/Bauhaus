@@ -7,10 +7,11 @@ import {
 	InputRmes,
 	RequiredIcon,
 	DatePicker,
-	InputMultiRmes,
 	CreatorsInput,
 	Row,
 } from '../../components';
+
+import { InputMultiRmes } from '../../components/input-multi-rmes';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {

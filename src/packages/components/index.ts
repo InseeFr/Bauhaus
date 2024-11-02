@@ -15,8 +15,6 @@ export * from './explanatory-note';
 export * from './creators-input';
 export * from './form/input';
 export * from './input-rmes';
-export * from './input-multi-rmes';
-export * from './input-multi-modal-rmes/input-multi-modal-rmes';
 export * from './layout/';
 export * from './link/';
 export * from './loading/loading';
@@ -29,7 +27,6 @@ export * from './page-title-block';
 export * from './pagination';
 export * from './picker-page';
 export * from './required-icon';
-
 export * from './searchable-list';
 export * from './select-rmes';
 export * from './status';

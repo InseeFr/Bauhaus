@@ -3,12 +3,8 @@ import { useThemes } from '../../useThemes';
 import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
 import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
-import {
-	TextInput,
-	Row,
-	ClientSideError,
-	InputMultiRmes,
-} from '../../../../components';
+import { TextInput, Row, ClientSideError } from '../../../../components';
+import { InputMultiRmes } from '../../../../components/input-multi-rmes';
 import { useOrganizations } from '../../../../utils/hooks/organizations';
 import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
 import { D1 as DatasetDictionary } from '../../../i18n';
