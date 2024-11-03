@@ -20,7 +20,6 @@ export * from './link/';
 export * from './loading/loading';
 export * from './new-button';
 export * from './not-found';
-export * from './note-compare';
 export * from './note-edition';
 export * from './note-visualization';
 export * from './page-title-block';
