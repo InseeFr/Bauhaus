@@ -42,7 +42,11 @@ GeneralApi.getInit()
 	)
 	.then((res: any) => renderApp(Root, res));
 
-const renderApp = (Component: any, initState: any, props?: any) => {
+const renderApp = (
+	Component: () => JSX.Element,
+	initState: Record<string, string>,
+	props?: { home: true },
+) => {
 	const { authType: type, lg1, lg2, version, ...properties } = initState;
 	const store = configureStore({
 		app: {
