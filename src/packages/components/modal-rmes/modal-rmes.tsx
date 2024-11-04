@@ -15,8 +15,8 @@ export type ModalRmesTypes = {
 	id?: string;
 	isOpen?: boolean;
 	title?: string;
-	body?: any;
-	footer?: any;
+	body?: Node;
+	footer?: Node;
 	closeCancel: () => void;
 	modalButtons: ModalButton[];
 };
