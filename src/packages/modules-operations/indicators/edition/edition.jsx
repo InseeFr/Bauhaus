@@ -13,9 +13,10 @@ import {
 	PageTitleBlock,
 	InputRmes,
 	RequiredIcon,
-	EditorMarkdown,
 	Select,
+	Row,
 } from '../../../components';
+import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import * as ItemToSelectModel from '../../../utils/item-to-select-model';
 import { OperationsApi } from '../../../sdk/operations-api';
 
@@ -182,7 +183,7 @@ class OperationsIndicatorEdition extends Component {
 					<h4 className="text-center">
 						( <RequiredIcon /> : {D.requiredFields})
 					</h4>
-					<div className="row">
+					<Row>
 						<InputRmes
 							colMd={6}
 							value={indicator.prefLabelLg1}
@@ -227,8 +228,8 @@ class OperationsIndicatorEdition extends Component {
 								></ClientSideError>
 							}
 						/>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<InputRmes
 							colMd={6}
 							value={indicator.altLabelLg1}
@@ -243,8 +244,8 @@ class OperationsIndicatorEdition extends Component {
 							handleChange={this.onChanges.altLabelLg2}
 							className="w-100"
 						/>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-6">
 							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
@@ -259,8 +260,8 @@ class OperationsIndicatorEdition extends Component {
 								handleChange={this.onChanges.abstractLg2}
 							/>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-6">
 							<label htmlFor="historyNoteLg1">{D1.history}</label>
 							<EditorMarkdown
@@ -275,8 +276,8 @@ class OperationsIndicatorEdition extends Component {
 								handleChange={this.onChanges.historyNoteLg2}
 							/>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label htmlFor="accrualPeriodicity" className="w-100">
 								{D1.indicatorDataCollectFrequency}
@@ -290,16 +291,16 @@ class OperationsIndicatorEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<PublishersInput
 								value={indicator.publishers}
 								onChange={(value) => this.onChange('publishers')(value)}
 							/>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<CreatorsInput
 								value={indicator.creators}
@@ -311,8 +312,8 @@ class OperationsIndicatorEdition extends Component {
 								error={this.state.clientSideErrors?.fields?.creators}
 							></ClientSideError>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.stakeholders}
@@ -331,8 +332,8 @@ class OperationsIndicatorEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.replaces}
@@ -351,8 +352,8 @@ class OperationsIndicatorEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.replacedBy}
@@ -371,8 +372,8 @@ class OperationsIndicatorEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label className="w-100">
 								{D1.generatedBy}
@@ -391,8 +392,8 @@ class OperationsIndicatorEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
-					<div className="row">
+					</Row>
+					<Row>
 						<div className="form-group col-md-12">
 							<label htmlFor="seeAlso" className="w-100">
 								{D1.seeAlso}
@@ -411,7 +412,7 @@ class OperationsIndicatorEdition extends Component {
 								/>
 							</label>
 						</div>
-					</div>
+					</Row>
 				</form>
 			</div>
 		);

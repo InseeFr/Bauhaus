@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { PageTitle, ModalRmes } from '../../components';
+import { PageTitle } from '../../components';
+import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
 import ConceptCreateControlLayout from './controls/controls-layout';
 import GeneralEdition from './general';
 import NotesEdition from './notes';
@@ -243,7 +244,7 @@ class ConceptEditionCreation extends Component {
 								this.isVersioningPossible() ? '' : D.conceptVersioningFooter
 							}
 							modalButtons={modalButtons}
-							closeCancel={() => this.closeModal()}
+							closeCancel={this.closeModal}
 						/>
 					)}
 				</div>

@@ -86,14 +86,7 @@ export const processVersionableChanges = (
 	oldNotes: ConceptNotes,
 	notes: ConceptNotes,
 ) => processChanges(oldNotes, notes, versionableNotes);
-export const processDatableChanges = (
-	oldNotes: ConceptNotes,
-	notes: ConceptNotes,
-) => processChanges(oldNotes, notes, datableNotes);
-export const processAllChanges = (
-	oldNotes: ConceptNotes,
-	notes: ConceptNotes,
-) => processChanges(oldNotes, notes, allNotes);
+
 export const keepDatableNotes = (notes: ConceptNotes) =>
 	processNotes(notes, datableNotes);
 

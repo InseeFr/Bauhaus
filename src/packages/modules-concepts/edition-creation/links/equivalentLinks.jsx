@@ -2,12 +2,12 @@ import { useState } from 'react';
 import D from '../../../deprecated-locales';
 import { CLOSE_MATCH } from '../../../sdk/constants';
 import './equivalentLinks.scss';
-import { TextInput } from '../../../components';
+import { Row, TextInput } from '../../../components';
 export const EquivalentLinks = ({ links = [], updateEquivalentLinks }) => {
 	const [value, setValue] = useState('');
 	return (
 		<div className="equivalentLinks">
-			<div className="row">
+			<Row>
 				<div className="col-md-12">
 					<div className="form-group">
 						<TextInput
@@ -34,7 +34,7 @@ export const EquivalentLinks = ({ links = [], updateEquivalentLinks }) => {
 						{D.btnAdd}
 					</button>
 				</div>
-			</div>
+			</Row>
 			<ul>
 				{links.map((link) => {
 					return (

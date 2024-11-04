@@ -50,7 +50,7 @@ export const generateGenericApiEndpoints = (
 
 const apiURL = `${window.location.origin}/configuration.json`;
 
-export const removeTrailingSlash = (url: string) => url.replace(/\/$/, '');
+const removeTrailingSlash = (url: string) => url.replace(/\/$/, '');
 
 export const buildApi = <T extends Record<string, any>>(
 	context: string,

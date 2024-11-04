@@ -135,9 +135,9 @@ function OperationsSerieVisualization({
 				)}
 			</Row>
 
-			<div id="publishers" className="row">
+			<Row id="publishers">
 				<PublishersView publishers={attr.publishers} lg1={lg1} />
-			</div>
+			</Row>
 
 			<DisplayLinks
 				links={contributors}
@@ -154,9 +154,9 @@ function OperationsSerieVisualization({
 				labelLg1="label"
 			/>
 
-			<div id="creators" className="row">
+			<Row id="creators">
 				<CreatorsView creators={attr.creators} />
-			</div>
+			</Row>
 			<DisplayLinks
 				links={attr.replaces}
 				path="/operations/series/"

@@ -33,3 +33,4 @@ yarn-error.log*
 *.mp4
 .sonar_lock
 .scannerwork
+test-results

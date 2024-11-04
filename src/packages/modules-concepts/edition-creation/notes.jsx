@@ -1,4 +1,4 @@
-import { NoteEdition } from '../../components';
+import { NoteEdition } from '../../components/note-edition';
 import { D1 } from '../../deprecated-locales';
 import { htmlIsEmpty, htmlLength } from '../../utils/html-utils';
 import { TabPanel, TabView } from 'primereact/tabview';

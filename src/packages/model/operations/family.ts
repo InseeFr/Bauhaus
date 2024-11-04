@@ -5,6 +5,13 @@ export type Family = {
 	prefLabelLg1?: string;
 	prefLabelLg2?: string;
 	validationState: ValidationState;
+	created: string;
+	modified: string;
+	themeLg1: string;
+	themeLg2: string;
+	abstractLg1: string;
+	abstractLg2: string;
+	series: unknown[];
 };
 
 export type FamilyHome = {

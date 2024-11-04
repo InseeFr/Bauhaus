@@ -13,10 +13,10 @@ import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
 	PageTitleBlock,
-	EditorMarkdown,
 	NumberInput,
 	UrlInput,
 } from '../../components';
+import { EditorMarkdown } from '../../components/rich-editor/editor-markdown';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { DistributionApi } from '../../sdk';

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loading, PageTitle, SearchableList } from '../../../components';
+import { Loading, PageTitle, Row, SearchableList } from '../../../components';
 import './component-list.scss';
 
 import FilterToggleButtons from '../../../components/filter-toggle-buttons';
@@ -55,7 +55,7 @@ export const Component = () => {
 	}
 	return (
 		<div className="container structures-components-list">
-			<div className="row">
+			<Row>
 				<HomePageMenu filter={filter} />
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle title={D.componentHomePageTitle} col={12} offset={0} />
@@ -80,7 +80,7 @@ export const Component = () => {
 						itemFormatter={(_, component) => formatLabel(component)}
 					/>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 };

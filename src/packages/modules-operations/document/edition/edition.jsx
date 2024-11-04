@@ -3,7 +3,6 @@ import Dropzone from 'react-dropzone';
 import {
 	ClientSideError,
 	DatePicker,
-	EditorMarkdown,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	Loading,
@@ -12,6 +11,7 @@ import {
 	Select,
 	TextInput,
 } from '../../../components';
+import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import { ActionToolbar } from '../../../components/action-toolbar';
 import {
 	CancelButton,
@@ -73,7 +73,7 @@ const OperationsDocumentationEdition = (props) => {
 
 	useTitle(
 		type === LINK ? D.titleLink : D.titleDocument,
-		props.document.labelLg1
+		props.document.labelLg1,
 	);
 
 	const goBack = useGoBack();
@@ -96,7 +96,7 @@ const OperationsDocumentationEdition = (props) => {
 	const [document, setDocument] = useState(defaultDocument);
 
 	const [files, setFiles] = useState(
-		document.url ? [{ name: document.url }] : []
+		document.url ? [{ name: document.url }] : [],
 	);
 
 	const [validationModalDisplayed, setValidationModalDisplayed] =
@@ -109,7 +109,7 @@ const OperationsDocumentationEdition = (props) => {
 	useEffect(() => {
 		if (documentsAndLinksList) {
 			setCurrentDocument(
-				documentsAndLinksList.find((doc) => doc.id === document?.id)
+				documentsAndLinksList.find((doc) => doc.id === document?.id),
 			);
 		}
 	}, [documentsAndLinksList, document]);
@@ -161,7 +161,7 @@ const OperationsDocumentationEdition = (props) => {
 				},
 				(err) => {
 					setServerSideError(err);
-				}
+				},
 			)
 			.finally(() => setSaving(false));
 	};
@@ -176,7 +176,7 @@ const OperationsDocumentationEdition = (props) => {
 			type,
 			documentsAndLinksList,
 			currentLabelLg1,
-			currentLabelLg2
+			currentLabelLg2,
 		);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
@@ -391,7 +391,7 @@ const OperationsDocumentationEdition = (props) => {
 						<Select
 							placeholder=""
 							value={langSelectOptions.find(
-								({ value }) => value === document.lang
+								({ value }) => value === document.lang,
 							)}
 							options={langSelectOptions}
 							onChange={(value) => {

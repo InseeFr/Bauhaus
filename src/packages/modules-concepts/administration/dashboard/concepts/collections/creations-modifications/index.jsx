@@ -4,6 +4,7 @@ import {
 	DateItem,
 	DatePicker,
 	getDisseminationStatus,
+	Row,
 } from '../../../../../../components';
 import D from '../../../../../../deprecated-locales';
 import dayjs from 'dayjs';
@@ -36,7 +37,7 @@ const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 				}));
 	return (
 		<div>
-			<div className="row" style={{ marginTop: '2%' }}>
+			<Row style={{ marginTop: '2%' }}>
 				<div className="form-group col-md-4 col-md-offset-4 text-center">
 					<label>{D.dashboardConceptsListPickerTitle(typeByLang)}</label>
 					<DatePicker
@@ -45,7 +46,7 @@ const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 						placement="top"
 					/>
 				</div>
-			</div>
+			</Row>
 			<div className="row text-center">
 				<h4>
 					<NumberResults results={data} />

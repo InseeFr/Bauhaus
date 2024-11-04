@@ -1,6 +1,7 @@
 import HelpInformation from '../../../../modules-operations/msd/help-information';
 import { Note } from '../../../../components/note';
 import { useParams } from 'react-router-dom';
+import { Row } from '../../../../components';
 
 export default function MSDHelp({
 	metadataStructure,
@@ -11,7 +12,7 @@ export default function MSDHelp({
 	function MSDInformations({ msd }) {
 		return (
 			<>
-				<div className="row" key={msd.idMas} id={msd.idMas}>
+				<Row key={msd.idMas}>
 					<Note
 						title={`${msd.idMas} - ${msd.masLabelLg1}`}
 						text={
@@ -23,7 +24,7 @@ export default function MSDHelp({
 						}
 						alone
 					/>
-				</div>
+				</Row>
 				{Object.values(msd.children).map((child) => (
 					<MSDInformations key={child.idMas} msd={child} />
 				))}

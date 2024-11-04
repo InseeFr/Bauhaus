@@ -1,6 +1,7 @@
 import NoteOneLangEdition from './note-one-lang-edition';
 import { ClientSideError } from '../errors-bloc';
 import { ConceptNotes } from '../../model/concepts/concept';
+import { Row } from '../layout';
 
 type NoteEditionTypes = {
 	notes: ConceptNotes;
@@ -24,7 +25,7 @@ export const NoteEdition = ({
 	const noteLg2 = notes[noteLg2Name];
 	return (
 		<div>
-			<div className="row">
+			<Row>
 				<div className="col-md-6">
 					<NoteOneLangEdition
 						note={noteLg1 ?? ''}
@@ -47,7 +48,7 @@ export const NoteEdition = ({
 						error={errorMessage?.fields[noteLg2Name]}
 					></ClientSideError>
 				</div>
-			</div>
+			</Row>
 		</div>
 	);
 };

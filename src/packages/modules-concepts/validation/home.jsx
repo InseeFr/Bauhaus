@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { ModalRmes, Picker } from '../../components';
+import { Picker } from '../../components';
+import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
 import check from '../../auth/auth';
 import D from '../../deprecated-locales';
 import { getModalMessage } from '../utils/build-validation-message';

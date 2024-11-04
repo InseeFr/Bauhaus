@@ -3,11 +3,9 @@ export const LOADED = 'LOADED';
 export const ERROR = 'ERROR';
 
 export const NOT_LOADED = 'NOT_LOADED';
-export const FAILURE = 'FAILURE';
 export const PENDING = 'PENDING';
 
 export const OK = 'OK';
-export const KO = 'KO';
 
 export const VERSIONING = 'VERSIONING';
 export const NO_VERSIONING = 'NO_VERSIONING';

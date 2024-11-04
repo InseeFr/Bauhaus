@@ -1,12 +1,12 @@
 import { Link } from '../link';
 import './button.scss';
-import { ComponentProps, PropsWithChildren } from 'react';
+import { ComponentProps, PropsWithChildren, ReactNode } from 'react';
 
 const DEFAULT_CLASSES: string[] = [];
 
 type ButtonTypes = {
 	action: string | (() => void);
-	label?: any;
+	label?: ReactNode;
 	disabled?: boolean;
 	wrapper?: boolean;
 	classes?: string[];

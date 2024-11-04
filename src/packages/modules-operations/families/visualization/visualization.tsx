@@ -9,9 +9,10 @@ import {
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { Note } from '../../../components/note';
+import { Family } from '../../../model/operations/family';
 
 type OperationsFamilyVisualizationTypes = {
-	attr: any;
+	attr: Family;
 	secondLang: boolean;
 };
 function OperationsFamilyVisualization({

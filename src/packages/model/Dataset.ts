@@ -1,5 +1,9 @@
 import { ValidationState } from '../components';
 
+export type PartialDataset = {
+	id: string;
+	label: string;
+};
 export type Dataset = {
 	accessRights: string;
 	accrualPeriodicity: string;

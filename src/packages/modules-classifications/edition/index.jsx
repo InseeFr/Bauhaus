@@ -3,7 +3,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useParams } from 'react-router-dom';
 import {
 	ClientSideError,
-	EditorMarkdown,
 	GlobalClientSideErrorBloc,
 	Loading,
 	PageTitleBlock,
@@ -12,6 +11,7 @@ import {
 	TextInput,
 	UrlInput,
 } from '../../components';
+import { EditorMarkdown } from '../../components/rich-editor/editor-markdown';
 import { ActionToolbar } from '../../components/action-toolbar';
 import {
 	CancelButton,

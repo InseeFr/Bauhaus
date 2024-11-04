@@ -1,4 +1,5 @@
-import { PageTitle, CheckSecondLang, CompareNotes } from '../../components';
+import { PageTitle, CheckSecondLang } from '../../components';
+import { CompareNotes } from '../../components/note-compare';
 import Controls from './controls';
 import ConceptGeneral from '../visualization/general';
 import { buildNotes } from '../utils/notes';

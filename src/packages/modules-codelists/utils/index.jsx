@@ -1,4 +1,3 @@
-import { getTreeFromFlatData } from 'react-sortable-tree';
 import D, { D1, D2 } from '../i18n/build-dictionary';
 import MainDictionary from '../../deprecated-locales/build-dictionary';
 import { z } from 'zod';
@@ -123,40 +122,6 @@ const Code = (shouldCheckDuplicate, codes) =>
 
 export const validateCode = (code, codes, updateMode) => {
 	return formatValidation(Code(!updateMode, codes))(code);
-};
-
-const treeElement = (n, i) => {
-	if (n.parents?.length > 0) {
-		return n.parents.map((p) => {
-			return {
-				...n,
-				title: n.code + ' - ' + n.labelLg1,
-				label: n.labelLg1,
-				parent: p.code,
-				position: p.position,
-			};
-		});
-	}
-	return {
-		...n,
-		title: n.code + ' - ' + n.labelLg1,
-		label: n.labelLg1,
-		parent: '',
-		position: n.position ? n.position[0] : i + 1,
-	};
-};
-
-export const treedData = (arrayData) => {
-	return getTreeFromFlatData({
-		flatData: arrayData
-			.filter((code) => !!code.code)
-			.map((n, i) => treeElement(n, i))
-			.flat()
-			.sort((a, b) => (a.position > b.position ? 1 : -1)),
-		getKey: (node) => node.code,
-		getParentKey: (node) => node.parent,
-		rootKey: '',
-	});
 };
 
 const getFlatTree = (rootNodes, parentNode) => {
