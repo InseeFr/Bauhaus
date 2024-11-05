@@ -14,7 +14,7 @@ const WITH_SEPARATOR_CLASS = 'with-separator';
 type Path = {
 	path: string;
 	className: string;
-	attrs: any;
+	attrs: Record<string, string>;
 	image?: string;
 	label: string;
 };
@@ -56,7 +56,7 @@ export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
 					id="bs-example-navbar-collapse-1"
 				>
 					<ul className="nav navbar-nav">
-						{allPaths[0].map((path, index) => {
+						{allPaths[0].map((path: Path, index: number) => {
 							const classes = getClasses(path, index, allPaths[0]);
 
 							return (
@@ -70,7 +70,7 @@ export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
 					</ul>
 
 					<ul className="nav navbar-nav navbar-right">
-						{allPaths[1].map((path, index) => {
+						{allPaths[1].map((path: Path, index: number) => {
 							const classes = getClasses(path, index, allPaths[1]);
 
 							return (

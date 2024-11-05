@@ -3,7 +3,17 @@ import D from '../../../deprecated-locales';
 import { CLOSE_MATCH } from '../../../sdk/constants';
 import './equivalentLinks.scss';
 import { Row, TextInput } from '../../../components';
-export const EquivalentLinks = ({ links = [], updateEquivalentLinks }) => {
+import { Link } from '../../../model/concepts/concept';
+
+type EquivalentLinksTypes = {
+	links: (Link & { urn: string })[];
+	updateEquivalentLinks: (links: (Link | { urn: string })[]) => void;
+};
+
+export const EquivalentLinks = ({
+	links = [],
+	updateEquivalentLinks,
+}: Readonly<EquivalentLinksTypes>) => {
 	const [value, setValue] = useState('');
 	return (
 		<div className="equivalentLinks">
