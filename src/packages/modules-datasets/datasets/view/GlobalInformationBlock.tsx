@@ -1,12 +1,12 @@
 import D, { D1 } from '../../../deprecated-locales/build-dictionary';
 import { stringToDate } from '../../../utils/date-utils';
 import {
-	ConditionalDisplay,
 	Organization,
 	Organizations,
 	PublicationMale,
 	Row,
 } from '../../../components';
+import { ConditionalDisplay } from '../../../components/data/conditional-display';
 import {
 	CL_ACCESS_RIGHTS,
 	CL_CONF_STATUS,

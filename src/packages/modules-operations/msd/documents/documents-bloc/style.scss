@@ -1,4 +1,4 @@
-@import '../../../../styles/tools.scss';
+@use '../../../../styles/tools.scss';
 
 .documentsbloc {
 	i {
@@ -6,7 +6,7 @@
 	}
 
 	&__btn {
-		@include reset-btn();
+		@include tools.reset-btn();
 	}
 	&__delete {
 		float: right;
