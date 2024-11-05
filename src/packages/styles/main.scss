@@ -2,12 +2,12 @@
 * we tried to respect the ITCSS architecture for our stylessheets
 */
 
-@import './settings.scss';
-@import './tools.scss';
-@import './generic.scss';
-@import './elements.scss';
-@import './components.scss';
-@import './utilities.scss';
+@use 'settings.scss';
+@use 'tools.scss';
+@use 'generic.scss';
+@use 'elements.scss';
+@use 'components.scss';
+@use 'utilities.scss';
 
 .items {
 	display: inline-block;

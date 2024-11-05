@@ -7,7 +7,8 @@ import {
 	CL_STAT_UNIT,
 	CL_TYPE_GEO,
 } from '../../../redux/actions/constants/codeList';
-import { ConditionalDisplay, Row } from '../../../components';
+import { Row } from '../../../components/layout';
+import { ConditionalDisplay } from '../../../components/data/conditional-display';
 import { stringToDate } from '../../../utils/date-utils';
 import { Dataset } from '../../../model/Dataset';
 import { useCodesList } from '../../../utils/hooks/codeslist';

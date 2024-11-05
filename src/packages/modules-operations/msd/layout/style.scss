@@ -1,4 +1,4 @@
-@import '../../../styles/tools.scss';
+@use '../../../styles/tools.scss';
 .container.msd__container {
 	width: 1300px;
 }
@@ -78,13 +78,13 @@
 
 .msd__panel-trigger {
 	&_right {
-		@include panel-trigger();
+		@include tools.panel-trigger();
 		position: absolute;
 		right: 0;
 		display: block;
 	}
 	&_left {
-		@include panel-trigger();
+		@include tools.panel-trigger();
 	}
 	&_middle {
 		position: absolute;
