@@ -1,7 +1,16 @@
 import { Row } from '../../../components';
 import { Panel } from '../../../components/panel';
 
-function ConceptToLink({ title, memberEls, searchComponent }) {
+type ConceptToLinkTypes = {
+	title: string;
+	memberEls: JSX.Element[];
+	searchComponent: JSX.Element;
+};
+function ConceptToLink({
+	title,
+	memberEls,
+	searchComponent,
+}: Readonly<ConceptToLinkTypes>) {
 	return (
 		<Row>
 			<div className="col-md-6">

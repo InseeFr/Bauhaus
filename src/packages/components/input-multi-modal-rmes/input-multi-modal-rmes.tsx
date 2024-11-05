@@ -11,7 +11,7 @@ const { D } = createAllDictionary({
 export const InputMultiModal = ({
 	body,
 	close,
-}: Readonly<{ body: any; close: any }>) => {
+}: Readonly<{ body: string; close: () => void }>) => {
 	return (
 		<Modal
 			className="Modal__Bootstrap modal-dialog"
