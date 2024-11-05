@@ -3,7 +3,7 @@ import { D1 } from '../../deprecated-locales';
 import { htmlIsEmpty, htmlLength } from '../../utils/html-utils';
 import { TabPanel, TabView } from 'primereact/tabview';
 
-const noteTypes = (maxLengthScopeNote: number) => [
+const noteTypes = (maxLengthScopeNote) => [
 	{
 		rawTitle: 'conceptsScopeNote',
 		noteLg1Name: 'scopeNoteLg1',
