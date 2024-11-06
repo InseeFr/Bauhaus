@@ -29,6 +29,8 @@ jobs:
         run: npm ci --force
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      - name: LS
+        run: ls -al
       - uses: adambirds/docker-compose-action@v1.5.0
         with:
           compose-file: './bauhaus-back-office/compose.yml'
