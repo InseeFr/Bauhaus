@@ -1,8 +1,10 @@
+import { Loading, PageTitle, SearchableList } from '../../../components';
+import { Row } from '../../../components/layout';
 import D from '../../../deprecated-locales/build-dictionary';
+import { PartialDistribution } from '../../../model/Dataset';
+import { useTitle } from '../../../utils/hooks/useTitle';
 import { useDistributions } from '../../datasets';
 import { HomePageMenu } from './menu';
-import { Loading, PageTitle, Row, SearchableList } from '../../../components';
-import { useTitle } from '../../../utils/hooks/useTitle';
 
 export const Component = () => {
 	const { data, isLoading } = useDistributions();
@@ -22,7 +24,9 @@ export const Component = () => {
 						items={data ?? []}
 						childPath="datasets/distributions"
 						advancedSearch={false}
-						itemFormatter={(_: any, dataset: any) => dataset.labelLg1}
+						itemFormatter={(_: unknown, distribution: PartialDistribution) =>
+							distribution.labelLg1
+						}
 					/>
 				</div>
 			</Row>
