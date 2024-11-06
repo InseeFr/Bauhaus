@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: inseefr/bauhaus-back-office
+          ref: 787-publication-des-triplets-uriserie-dcthaspart-urioperation
           path: ./bauhaus-back-office
       - uses: actions/setup-node@v4
         with:
