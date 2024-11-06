@@ -13,7 +13,6 @@ type ImportMetaEnv = {
   VITE_OPERATIONS_DOCUMENTATION: string
   VITE_VERSION: string
   VITE_NAME: string
-  VITE_INSEE: string
   BASE_URL: string
   MODE: string
   DEV: boolean
