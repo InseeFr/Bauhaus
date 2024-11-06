@@ -1,4 +1,5 @@
-import { Loading, PageTitle, Row, SearchableList } from '../../../components';
+import { Loading, PageTitle, SearchableList } from '../../../components';
+import { Row } from '../../../components/layout';
 import D from '../../../deprecated-locales/build-dictionary';
 import { PartialDistribution } from '../../../model/Dataset';
 import { useTitle } from '../../../utils/hooks/useTitle';
