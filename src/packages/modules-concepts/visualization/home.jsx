@@ -3,12 +3,8 @@ import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
 import D from '../../deprecated-locales';
-import {
-	ErrorBloc,
-	PageTitleBlock,
-	CheckSecondLang,
-	NoteVisualization,
-} from '../../components';
+import { ErrorBloc, PageTitleBlock, CheckSecondLang } from '../../components';
+import { NoteVisualization } from '../../components/note-visualization';
 import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { isOutOfDate } from '../../utils/date-utils';

@@ -19,7 +19,6 @@ export * from './link/';
 export * from './loading/loading';
 export * from './new-button';
 export * from './not-found';
-export * from './note-visualization';
 export * from './page-title-block';
 export * from './pagination';
 export * from './picker-page';
