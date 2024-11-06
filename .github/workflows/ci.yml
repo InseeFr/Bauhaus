@@ -33,7 +33,7 @@ jobs:
         run: ls -al bauhaus-back-office
       - uses: adambirds/docker-compose-action@v1.5.0
         with:
-          compose-file: './bauhaus-back-office/compose.yml'
+          compose-file: './bauhaus-back-office/compose.yaml'
           test-command: 'npx playwright test'
   test-build:
     name: Test & Build & Deploy Sonar report
