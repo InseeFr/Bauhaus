@@ -33,12 +33,6 @@ jobs:
         with:
           compose-file: './bauhaus-back-office/compose.yml'
           test-command: 'npx playwright test'
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with: I 
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
   test-build:
     name: Test & Build & Deploy Sonar report
     runs-on: ubuntu-latest
