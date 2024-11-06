@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { DatasetsApi, DistributionApi } from '../sdk';
+import { PartialDistribution } from '../model/Dataset';
 
 export const useDatasets = () => {
 	return useQuery({
@@ -16,7 +17,7 @@ export const useDatasetsForDistributions = () => {
 };
 
 export const useDistributions = () => {
-	return useQuery({
+	return useQuery<PartialDistribution[]>({
 		queryFn: () => DistributionApi.getAll(),
 		queryKey: ['distributions'],
 	});

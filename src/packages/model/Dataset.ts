@@ -45,3 +45,17 @@ export type Distribution = {
 	id?: string;
 	validationState: ValidationState;
 };
+
+export type PartialDistribution = {
+	id: string;
+	idDataset: string;
+	labelLg1: string;
+	labelLg2: string;
+	descriptionLg1: string;
+	descriptionLg2: string;
+	created: string;
+	updated: string;
+	format: string;
+	byteSize: string;
+	url: string;
+};
