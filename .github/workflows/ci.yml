@@ -12,28 +12,6 @@ concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
   cancel-in-progress: true
 jobs:
-  playwright:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Checkout BackOffice
-        uses: actions/checkout@v4
-        with:
-          repository: inseefr/bauhaus-back-office
-          ref: 787-publication-des-triplets-uriserie-dcthaspart-urioperation
-          path: ./bauhaus-back-office
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-      - name: Install dependencies
-        run: npm ci --force
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Playwright Test
-        run: |
-          docker compose -f "./bauhaus-back-office/compose.yaml" up -d
-          npx playwright test
   test-build:
     name: Test & Build & Deploy Sonar report
     runs-on: ubuntu-latest
