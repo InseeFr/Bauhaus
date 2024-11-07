@@ -1,16 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { PageTitle, Row, SearchableList } from '../../components';
 import D from '../../deprecated-locales';
-import { HomePageMenu } from './menu';
-import { useTitle } from '../../utils/hooks/useTitle';
+import {
+	PartialStructure,
+	StructuresList,
+} from '../../model/structures/Structure';
 import { StructureApi } from '../../sdk';
+import { useTitle } from '../../utils/hooks/useTitle';
+import { HomePageMenu } from './menu';
 
 export const Component = () => {
 	useTitle(D.structuresTitle, D.structuresTitle);
-	const [DSDs, setDSDs] = useState([]);
+	const [DSDs, setDSDs] = useState<StructuresList>([]);
 
 	useEffect(() => {
-		StructureApi.getStructures().then((res) => {
+		StructureApi.getStructures().then((res: StructuresList) => {
 			setDSDs(res);
 		});
 	}, []);
@@ -27,7 +31,9 @@ export const Component = () => {
 						autoFocus={true}
 						advancedSearch={true}
 						searchUrl="/structures/search"
-						itemFormatter={(_, structure) => structure.labelLg1}
+						itemFormatter={(_: unknown, structure: PartialStructure) =>
+							structure.labelLg1
+						}
 					/>
 				</div>
 			</Row>
