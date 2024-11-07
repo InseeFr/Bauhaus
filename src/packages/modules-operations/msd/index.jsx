@@ -27,13 +27,7 @@ import { isEssentialRubricKo } from './sims-field-title';
 import { getParentId, getParentType } from './utils';
 import { useDocumentsList } from './pages/sims-creation/useDocumentsList';
 import { isLoaded, loadGeographies } from '../../redux/geographies.action';
-
-export const HELP = 'HELP';
-export const CREATE = 'CREATE';
-export const VIEW = 'VIEW';
-export const UPDATE = 'UPDATE';
-export const DUPLICATE = 'DUPLICATE';
-
+import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from './constant';
 class MSDContainer extends ReactComponent {
 	static defaultProps = {
 		currentSims: {},
@@ -327,8 +321,17 @@ const MSDContainerWithParent = (props) => {
 const withParams = (Component) => {
 	return (props) => {
 		const params = useParams();
-		const { baseUrl } = useLoaderData();
-		return <Component {...props} params={params} baseUrl={baseUrl} />;
+		const { baseUrl, mode, disableSectionAnchor, parentType } = useLoaderData();
+		return (
+			<Component
+				{...props}
+				mode={mode}
+				disableSectionAnchor={disableSectionAnchor}
+				parentType={parentType}
+				params={params}
+				baseUrl={baseUrl}
+			/>
+		);
 	};
 };
 export const Component = withParams(

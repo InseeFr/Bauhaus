@@ -1,5 +1,5 @@
 import { rangeType } from '../utils/msd';
-import { DUPLICATE } from './index';
+import { DUPLICATE } from './constant';
 import { editorStateFromMd } from '../../utils/html-utils';
 
 const { RICH_TEXT, TEXT, ORGANIZATION, DATE, GEOGRAPHY, CODE_LIST } = rangeType;
