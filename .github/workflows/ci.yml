@@ -32,7 +32,7 @@ jobs:
         run: npx playwright install --with-deps
       - name: Playwright Test
         run: |
-          docker-compose -f "./bauhaus-back-office/compose.yaml" up
+          docker compose -f "./bauhaus-back-office/compose.yaml" up -d
           npx playwright test
   test-build:
     name: Test & Build & Deploy Sonar report
