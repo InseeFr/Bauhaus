@@ -30,12 +30,10 @@ jobs:
         run: npm ci --force
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: LS
-        run: ls -al bauhaus-back-office
-      - uses: adambirds/docker-compose-action@v1.5.0
-        with:
-          compose-file: './bauhaus-back-office/compose.yaml'
-          test-command: 'npx playwright test'
+      - name: Playwright Test
+        run: |
+          docker-compose -f "./bauhaus-back-office/compose.yaml" up
+          npx playwright test
   test-build:
     name: Test & Build & Deploy Sonar report
     runs-on: ubuntu-latest
