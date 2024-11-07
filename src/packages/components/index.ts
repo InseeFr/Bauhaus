@@ -6,6 +6,7 @@ export * from './buttons/see';
 export * from './check-second-lang';
 export * from './confirmation-delete';
 export * from './contributors/contributors';
+export * from './note-edition';
 export * from './creation-update-items';
 export * from './date-picker';
 export * from './dissemination-status/disseminationStatus';
