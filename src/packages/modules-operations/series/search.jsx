@@ -4,9 +4,10 @@ import {
 	AdvancedSearchList,
 	Column,
 	Loading,
-	Select,
 	TextInput,
 } from '../../components';
+import { Select } from '../../components/select-rmes';
+
 import D from '../../deprecated-locales';
 
 import { CL_SOURCE_CATEGORY } from '../../redux/actions/constants/codeList';

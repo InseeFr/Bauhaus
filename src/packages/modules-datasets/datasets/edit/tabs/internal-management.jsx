@@ -9,8 +9,8 @@ import {
 	ContributorsInput,
 	DisseminationStatusInput,
 	ClientSideError,
-	Select,
 } from '../../../../components';
+import { Select } from '../../../../components/select-rmes';
 import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
 import { DatasetsApi } from '../../../../sdk';
 import {

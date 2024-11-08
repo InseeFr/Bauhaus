@@ -7,9 +7,11 @@ import {
 	AdvancedSearchList,
 	Column,
 	Loading,
-	Select,
 	TextInput,
 } from '../../../components';
+
+import { Select } from '../../../components/select-rmes';
+
 import { validateStateOptions } from '../../../model/ValidationState';
 import { ConceptsApi, StructureApi } from '../../../sdk';
 import { filterKeyDeburr } from '../../../utils/array-utils';

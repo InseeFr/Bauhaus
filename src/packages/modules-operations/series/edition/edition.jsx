@@ -8,9 +8,9 @@ import {
 	TextInput,
 	CreatorsInput,
 	PageTitleBlock,
-	Select,
 	Row,
 } from '../../../components';
+import { Select } from '../../../components/select-rmes';
 
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import PublishersInput from '../../../modules-operations/components/publishers-input';

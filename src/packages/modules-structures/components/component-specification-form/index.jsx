@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Column, Row, TextInput } from '../../../components';
+import { Select } from '../../../components/select-rmes';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { getAllAttachment } from '../../utils';
-import './component-specification-form.scss';
 import {
 	ATTRIBUTE_PROPERTY_TYPE,
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
-import { TextInput, Column, Row, Select } from '../../../components';
+import './component-specification-form.scss';
+
 import { StructureApi } from '../../../sdk';
 
 export const ComponentSpecificationForm = ({

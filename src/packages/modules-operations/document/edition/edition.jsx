@@ -8,16 +8,17 @@ import {
 	Loading,
 	PageTitleBlock,
 	Row,
-	Select,
 	TextInput,
 } from '../../../components';
-import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
+import { Select } from '../../../components/select-rmes';
+
 import { ActionToolbar } from '../../../components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
 import LabelRequired from '../../../components/label-required';
+import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { GeneralApi } from '../../../sdk/general-api';
 import { useDocumentsAndLinks } from '../../../utils/hooks/documents';

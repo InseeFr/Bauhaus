@@ -1,7 +1,9 @@
 import { PureComponent } from 'react';
 import D from '../../../../deprecated-locales';
 import { rangeType } from '../../../utils/msd';
-import { DatePicker, InputRmes, Select } from '../../../../components';
+import { DatePicker, InputRmes } from '../../../../components';
+import { Select } from '../../../../components/select-rmes';
+
 import {
 	EditorDeleteButton,
 	EditorMarkdownToolbar,
