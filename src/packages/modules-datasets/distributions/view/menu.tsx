@@ -28,9 +28,14 @@ export const ViewMenu = ({
 
 	const permission = usePermission();
 
+	const contributors = Array.isArray(dataset?.catalogRecord?.contributor)
+		? dataset?.catalogRecord?.contributor
+		: [dataset?.catalogRecord?.contributor];
+
 	const hasDatasetRightsBasedOnStamp =
-		permission?.stamp === dataset?.catalogRecord?.contributor &&
+		contributors.find((c) => c === permission?.stamp) &&
 		permission?.roles?.includes(DATASET_CONTRIBUTOR);
+
 	const isAdmin = permission?.roles?.includes(ADMIN);
 
 	return (

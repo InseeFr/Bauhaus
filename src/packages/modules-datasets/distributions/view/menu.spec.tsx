@@ -50,8 +50,8 @@ describe('Distribution View Menu', () => {
 	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish, delete and update a distribution if the stamp is correct and validationState is unpublished', () => {
 		const dataset = {
 			validationState: UNPUBLISHED,
-			catalogRecord: { contributor: 'INSEE' },
-		} as Dataset;
+			catalogRecord: { contributor: ['INSEE'] },
+		} as unknown as Dataset;
 		const distribution = {} as Distribution;
 
 		render(
@@ -74,7 +74,7 @@ describe('Distribution View Menu', () => {
 	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish and update a distribution if the stamp is correct and validationState is published', () => {
 		const dataset = {
 			validationState: 'Published',
-			catalogRecord: { contributor: 'INSEE' },
+			catalogRecord: { contributor: ['INSEE'] },
 		} as unknown as Dataset;
 		const distribution = {} as Distribution;
 
@@ -98,7 +98,7 @@ describe('Distribution View Menu', () => {
 	it('an Gestionnaire_jeu_donnees_RMESGNCS can only goBack if the stamp not is correct', () => {
 		const dataset = {
 			validationState: 'Published',
-			catalogRecord: { contributor: 'XXXXXX' },
+			catalogRecord: { contributor: ['XXXXXX'] },
 		} as unknown as Dataset;
 		const distribution = {} as Distribution;
 

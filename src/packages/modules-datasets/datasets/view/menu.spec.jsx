@@ -53,7 +53,7 @@ describe('Dataset View Menu', () => {
 	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish  and update a dataset if the stamp is correct and validationState is unpublished', () => {
 		const dataset = {
 			validationState: 'Published',
-			catalogRecord: { contributor: 'INSEE' },
+			catalogRecord: { contributor: ['INSEE'] },
 		};
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
@@ -70,7 +70,7 @@ describe('Dataset View Menu', () => {
 	it('an Gestionnaire_jeu_donnees_RMESGNCS can only goBack if the stamp not is correct', () => {
 		const dataset = {
 			validationState: 'Published',
-			catalogRecord: { contributor: 'XXXXXX' },
+			catalogRecord: { contributor: ['XXXXXX'] },
 		};
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
