@@ -24,15 +24,15 @@ function checkInvalidPage(targetPage: number, listSize: number) {
 }
 
 const numberPerPageOptions = [
-	{ value: 10, label: 10 },
-	{ value: 25, label: 25 },
-	{ value: 100, label: 100 },
+	{ value: 10, label: '10' },
+	{ value: 25, label: '25' },
+	{ value: 100, label: '100' },
 ];
 /**
  * Component used to display a pagination block for a list.
  *	itemEls: The list of item we want to paginate
  */
-export const Pagination = ({ itemEls }: { itemEls: any }) => {
+export const Pagination = ({ itemEls }: { itemEls: JSX.Element[] }) => {
 	const navigate = useNavigate();
 	const { pathname, search } = useLocation();
 

@@ -38,6 +38,7 @@ export type CatalogRecord = {
 	created: string;
 	updated: string;
 	contributor: string;
+	creator: string;
 	catalogRecord: CatalogRecord;
 	validationState: ValidationState;
 };

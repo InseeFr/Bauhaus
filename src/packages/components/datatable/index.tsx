@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from 'react';
+import { ComponentPropsWithoutRef, PropsWithChildren, useState } from 'react';
 import { FilterMatchMode } from 'primereact/api';
 import { DataTable as PrimeDataTable } from 'primereact/datatable';
 import { IconField } from 'primereact/iconfield';
@@ -12,11 +12,20 @@ const { D } = createAllDictionary({
 		en: 'Search in the table...',
 	},
 });
+
+type DataTableTypes = {
+	withPagination?: boolean;
+	globalFilterFields?: boolean;
+};
 export const DataTable = ({
 	children,
 	withPagination = true,
 	...props
-}: Readonly<PropsWithChildren<any>>) => {
+}: Readonly<
+	PropsWithChildren<
+		DataTableTypes & ComponentPropsWithoutRef<typeof PrimeDataTable>
+	>
+>) => {
 	const [globalFilterValue, setGlobalFilterValue] = useState('');
 	const [filters, setFilters] = useState({
 		global: { value: null, matchMode: FilterMatchMode.CONTAINS },
