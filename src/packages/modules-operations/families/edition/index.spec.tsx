@@ -37,7 +37,7 @@ describe('Component', () => {
 		vi.clearAllMocks();
 	});
 
-	it.only('should display loading component when family data is not yet loaded', async () => {
+	it('should display loading component when family data is not yet loaded', async () => {
 		(useParams as Mock).mockReturnValue({ id: '123' });
 		(OperationsApi.getFamilyById as Mock).mockResolvedValueOnce({});
 
