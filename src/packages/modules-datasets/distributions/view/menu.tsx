@@ -1,4 +1,4 @@
-import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
+import { ADMIN } from '../../../auth/roles';
 import { ValidationButton } from '../../../components';
 import { ActionToolbar } from '../../../components/action-toolbar';
 import {
@@ -10,6 +10,7 @@ import { Dataset, Distribution } from '../../../model/Dataset';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { checkIfContributorContainsUserStamp } from '../../utils/check-stamp-with-contributor';
 
 type ViewMenuTypes = {
 	distribution: Distribution;
@@ -28,13 +29,10 @@ export const ViewMenu = ({
 
 	const permission = usePermission();
 
-	const contributors = Array.isArray(dataset?.catalogRecord?.contributor)
-		? dataset?.catalogRecord?.contributor
-		: [dataset?.catalogRecord?.contributor];
-
-	const hasDatasetRightsBasedOnStamp =
-		contributors.find((c) => c === permission?.stamp) &&
-		permission?.roles?.includes(DATASET_CONTRIBUTOR);
+	const hasDatasetRightsBasedOnStamp = checkIfContributorContainsUserStamp(
+		dataset,
+		permission,
+	);
 
 	const isAdmin = permission?.roles?.includes(ADMIN);
 
