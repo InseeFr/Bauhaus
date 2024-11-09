@@ -10,7 +10,7 @@ export const checkIfContributorContainsUserStamp = (
 		? dataset?.catalogRecord?.contributor
 		: [dataset?.catalogRecord?.contributor];
 
-	return (
+	return !!(
 		contributors.find((c) => c === permission?.stamp) &&
 		permission?.roles?.includes(DATASET_CONTRIBUTOR)
 	);
