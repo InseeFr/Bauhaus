@@ -1,21 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-	CheckSecondLang,
-	Loading,
-	PageTitleBlock,
-	PublicationFemale,
-	Row,
-} from '../../../components';
-import { Note } from '../../../components/note';
-import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
+import { CheckSecondLang, Loading, PageTitleBlock } from '../../../components';
+import D from '../../../deprecated-locales/build-dictionary';
 import { DistributionApi } from '../../../sdk';
-import { stringToDate } from '../../../utils/date-utils';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useDataset, useDistribution } from '../../datasets';
 import { ViewMenu } from './menu';
+import { ViewMainBlock } from './view-main-block';
 
 export const Component = (props) => {
 	const { id } = useParams();
@@ -26,8 +17,6 @@ export const Component = (props) => {
 	const { data: dataset, isLoading: isLoadingDataSet } = useDataset(
 		distribution?.idDataset,
 	);
-
-	const [secondLang] = useSecondLang();
 
 	const queryClient = useQueryClient();
 
@@ -76,58 +65,7 @@ export const Component = (props) => {
 
 			<CheckSecondLang />
 
-			<Row>
-				<Note
-					text={
-						<ul>
-							<li>
-								{D.createdDateTitle} : {stringToDate(distribution.created)}{' '}
-							</li>
-							<li>
-								{D.modifiedDateTitle} : {stringToDate(distribution.updated)}{' '}
-							</li>
-							<li>
-								{D.distributionStatus} :
-								<PublicationFemale object={distribution} />
-							</li>
-							<li>
-								{D.formatTitle} : {distribution.format}{' '}
-							</li>
-							<li>
-								{D.tailleTitle} : {distribution.taille}{' '}
-							</li>
-							<li>
-								{D.downloadUrlTitle} :{' '}
-								<a
-									target="_blank"
-									rel="noreferrer noopener"
-									href={distribution.url}
-								>
-									{distribution.url}{' '}
-								</a>
-							</li>
-						</ul>
-					}
-					title={D1.globalInformationsTitle}
-					alone={true}
-				/>
-			</Row>
-			<Row>
-				<Note
-					text={renderMarkdownElement(distribution.descriptionLg1)}
-					title={D1.descriptionTitle}
-					alone={!secondLang}
-					allowEmpty={true}
-				/>
-				{secondLang && (
-					<Note
-						text={renderMarkdownElement(distribution.descriptionLg1)}
-						title={D2.descriptionTitle}
-						alone={false}
-						allowEmpty={true}
-					/>
-				)}
-			</Row>
+			<ViewMainBlock distribution={distribution} />
 		</div>
 	);
 };

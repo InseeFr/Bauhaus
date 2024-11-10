@@ -26,6 +26,7 @@ import {
 	CancelButton,
 	SaveButton,
 } from '../../components/buttons/buttons-with-icons';
+import { ByteSizeInput } from './edit/byte-size-input';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -230,19 +231,10 @@ export const Component = () => {
 					</div>
 				</Row>
 				<Row>
-					<div className="col-md-12 form-group">
-						<label htmlFor="taille">{D1.tailleTitle}</label>
-						<NumberInput
-							id="taille"
-							value={editingDistribution.taille}
-							onChange={(e) =>
-								setEditingDistribution({
-									...editingDistribution,
-									taille: e.target.value,
-								})
-							}
-						/>
-					</div>
+					<ByteSizeInput
+						value={editingDistribution}
+						onChange={setEditingDistribution}
+					/>
 				</Row>
 				<Row>
 					<div className="col-md-12 form-group">

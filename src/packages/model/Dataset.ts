@@ -44,6 +44,13 @@ export type CatalogRecord = {
 export type Distribution = {
 	id?: string;
 	validationState: ValidationState;
+	descriptionLg1: string;
+	descriptionLg2: string;
+	created: string;
+	updated: string;
+	format: string;
+	byteSize: string;
+	url: string;
 };
 
 export type PartialDistribution = {
