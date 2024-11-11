@@ -23,6 +23,7 @@ import { DISSEMINATION_STATUS } from '../utils/constants';
 import Components from './components';
 import Controls from './controls';
 import { validate } from './validation';
+import { initializeContributorProperty } from '../../utils/creation/contributor-init';
 
 const defaultDSD = {
 	identifiant: '',
@@ -75,11 +76,12 @@ const Edition = ({ creation, initialStructure }) => {
 		!permission?.roles?.includes(ADMIN);
 
 	useEffect(() => {
-		let structure = { ...defaultDSD, ...initialStructure };
+		let structure = {
+			...defaultDSD,
+			...initialStructure,
+			...initializeContributorProperty(isContributor, creation, stamp),
+		};
 
-		if (isContributor && creation) {
-			structure.contributor = stamp;
-		}
 		setStructure(structure);
 	}, [initialStructure, isContributor, stamp, creation]);
 

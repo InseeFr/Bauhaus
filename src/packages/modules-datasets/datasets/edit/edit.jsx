@@ -26,6 +26,7 @@ import {
 	CancelButton,
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
+import { initializeContributorProperty } from '../../../utils/creation/contributor-init';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -57,7 +58,7 @@ export const Component = () => {
 		} else if (isContributor && !id) {
 			setEditingDataset({
 				catalogRecord: {
-					contributor: stamp,
+					...initializeContributorProperty(isContributor, !id, stamp),
 				},
 			});
 		}
