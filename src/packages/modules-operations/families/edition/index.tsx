@@ -6,12 +6,13 @@ import { useGoBack } from '../../../utils/hooks/useGoBack';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { OperationsApi } from '../../../sdk/operations-api';
+import { Family } from '../../../model/operations/family';
 
 export const Component = () => {
 	const { id } = useParams();
 	const goBack = useGoBack();
 
-	const [family, setFamily] = useState({});
+	const [family, setFamily] = useState<Family>({} as Family);
 
 	useEffect(() => {
 		if (id) {

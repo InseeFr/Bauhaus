@@ -3,13 +3,14 @@ import { Loading } from '../../components';
 import SeriesHome from './home';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
+import { Series } from '../../model/operations/series';
 
 export const Component = () => {
-	const [series, setSeries] = useState([]);
+	const [series, setSeries] = useState<Series[]>([]);
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		OperationsApi.getSeriesList()
-			.then((result) => setSeries(sortArray('label')(result)))
+			.then((result: Series[]) => setSeries(sortArray('label')(result)))
 			.finally(() => setLoading(false));
 	}, []);
 	if (loading) return <Loading />;
