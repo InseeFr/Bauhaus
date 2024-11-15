@@ -8,7 +8,7 @@ import { getPermission } from '../redux/selectors';
 import { ReduxModel } from '../redux/model';
 import { useOidc } from './create-oidc';
 
-const auth = (WrappedComponent: any) => {
+const auth = (WrappedComponent: () => JSX.Element) => {
 	const AuthComponent = ({
 		authType,
 		roles,
