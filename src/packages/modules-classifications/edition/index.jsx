@@ -7,10 +7,10 @@ import {
 	Loading,
 	PageTitleBlock,
 	Row,
-	Select,
 	TextInput,
 	UrlInput,
 } from '../../components';
+import { Select } from '../../components/select-rmes';
 import { EditorMarkdown } from '../../components/rich-editor/editor-markdown';
 import { ActionToolbar } from '../../components/action-toolbar';
 import {

@@ -1,12 +1,11 @@
 import { Navigate, RouteObject } from 'react-router-dom';
 
 import {
-	Component,
 	CREATE,
 	DUPLICATE,
 	UPDATE,
 	VIEW,
-} from '../../modules-operations/msd/';
+} from '../../modules-operations/msd/constant';
 import { OperationsApi } from '../../sdk/operations-api';
 
 export const routes: RouteObject[] = [
@@ -134,62 +133,79 @@ export const routes: RouteObject[] = [
 		path: 'operation/:idParent/sims/create',
 		loader: ({ params }) => {
 			return {
+				mode: CREATE,
+				disableSectionAnchor: true,
+				parentType: 'operation',
 				baseUrl: `/operations/operation/${params.idParent}/sims/create`,
 			};
 		},
-		element: (
-			<Component mode={CREATE} disableSectionAnchor parentType="operation" />
-		),
+		lazy: () => import('../msd/'),
 	},
 	{
 		path: 'series/:idParent/sims/create',
 		loader: ({ params }) => {
 			return {
+				mode: CREATE,
+				disableSectionAnchor: true,
+				parentType: 'series',
 				baseUrl: `/operations/series/${params.idParent}/sims/create`,
 			};
 		},
-		element: (
-			<Component mode={CREATE} disableSectionAnchor parentType="series" />
-		),
+		lazy: () => import('../msd/'),
 	},
 	{
 		path: 'indicator/:idParent/sims/create',
 		loader: ({ params }) => {
 			return {
+				mode: CREATE,
+				disableSectionAnchor: true,
+				parentType: 'indicator',
 				baseUrl: `/operations/indicator/${params.idParent}/sims/create`,
 			};
 		},
-		element: (
-			<Component mode={CREATE} disableSectionAnchor parentType="indicator" />
-		),
+		lazy: () => import('../msd/'),
 	},
 	{
 		path: 'sims/:id',
 		loader: ({ params }) => {
-			return { baseUrl: `/operations/sims/${params.id}/section/` };
+			return {
+				mode: VIEW,
+				baseUrl: `/operations/sims/${params.id}/section/`,
+			};
 		},
-		element: <Component mode={VIEW} />,
+		lazy: () => import('../msd/'),
 	},
 	{
 		path: 'sims/:id/modify',
 		loader: ({ params }) => {
-			return { baseUrl: `/operations/sims/${params.id}/modify` };
+			return {
+				mode: UPDATE,
+				disableSectionAnchor: true,
+				baseUrl: `/operations/sims/${params.id}/modify`,
+			};
 		},
-		element: <Component mode={UPDATE} disableSectionAnchor />,
+		lazy: () => import('../msd/'),
 	},
 	{
 		path: 'sims/:id/duplicate',
 		loader: ({ params }) => {
-			return { baseUrl: `/operations/sims/${params.id}/duplicate` };
+			return {
+				mode: DUPLICATE,
+				disableSectionAnchor: true,
+				baseUrl: `/operations/sims/${params.id}/duplicate`,
+			};
 		},
-		element: <Component mode={DUPLICATE} disableSectionAnchor />,
+		lazy: () => import('../msd/'),
 	},
 	{
 		path: 'sims/:id/section/:idSection',
 		loader: ({ params }) => {
-			return { baseUrl: `/operations/sims/${params.id}/section/` };
+			return {
+				mode: VIEW,
+				baseUrl: `/operations/sims/${params.id}/section/`,
+			};
 		},
-		element: <Component mode={VIEW} />,
+		lazy: () => import('../msd/'),
 	},
 	{
 		path: 'tree',
