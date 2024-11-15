@@ -1,8 +1,9 @@
-import D, { D1, D2 } from '../../../deprecated-locales';
 import { z } from 'zod';
+import D, { D1, D2 } from '../../../deprecated-locales';
+import { Dataset } from '../../../model/Dataset';
 import { formatValidation } from '../../../utils/validation';
 
-const Dataset = z.object({
+const ZodDataset = z.object({
 	labelLg1: z
 		.string({ required_error: D.mandatoryProperty(D1.title) })
 		.trim()
@@ -34,8 +35,8 @@ const Dataset = z.object({
 		.nonempty({ message: D.mandatoryProperty(D1.generatedBy) }),
 });
 
-export const validate = ({ catalogRecord, ...otherFields }) =>
-	formatValidation(Dataset)({
+export const validate = ({ catalogRecord, ...otherFields }: Dataset) =>
+	formatValidation(ZodDataset)({
 		creator: catalogRecord?.creator,
 		contributor: catalogRecord?.contributor,
 		...otherFields,

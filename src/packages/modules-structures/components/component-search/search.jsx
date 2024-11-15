@@ -4,9 +4,9 @@ import {
 	AdvancedSearchList,
 	Column,
 	Loading,
-	Select,
 	TextInput,
 } from '../../../components';
+import { Select } from '../../../components/select-rmes';
 
 import { Link, Navigate } from 'react-router-dom';
 import { validateStateOptions } from '../../../model/ValidationState';

@@ -13,8 +13,8 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-	Select,
 } from '../../../components';
+import { Select } from '../../../components/select-rmes';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
@@ -186,9 +186,7 @@ export const DumbCodelistDetailEdit = ({
 							value={codelist.id || ''}
 							onChange={handleChange}
 							aria-invalid={!!clientSideErrors.fields?.id}
-							aria-describedby={
-								clientSideErrors.fields?.id ? 'id-error' : null
-							}
+							aria-describedby={clientSideErrors.fields?.id ? 'id-error' : null}
 						/>
 						<ClientSideError
 							id="id-error"

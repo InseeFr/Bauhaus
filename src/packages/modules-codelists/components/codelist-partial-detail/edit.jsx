@@ -13,8 +13,8 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 	ClientSideError,
-	Select,
 } from '../../../components';
+import { Select } from '../../../components/select-rmes';
 import { CodeListApi } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';

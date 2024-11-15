@@ -8,9 +8,9 @@ import {
 	GlobalClientSideErrorBloc,
 	Loading,
 	Row,
-	Select,
 	TextInput,
 } from '../../components';
+import { Select } from '../../components/select-rmes';
 
 import { useAppContext } from '../../application/app-context';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';

@@ -1,10 +1,12 @@
 import { Fragment, useEffect, useState } from 'react';
-import { CheckSecondLang, Loading, Select } from '../../../../components';
+import { CheckSecondLang, Loading } from '../../../../components';
+import { Select } from '../../../../components/select-rmes';
+
 import D from '../../../../deprecated-locales';
 import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
 import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-field';
 import { mdFromEditorState } from '../../../../utils/html-utils';
-import { DUPLICATE } from '../../index';
+import { DUPLICATE } from '../../constant';
 import {
 	getParentId,
 	getParentIdName,

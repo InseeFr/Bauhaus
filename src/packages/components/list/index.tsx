@@ -8,8 +8,8 @@ type ListTypes<T> = {
 
 export const List = <T extends object>({
 	items,
-	getContent = (value: any) => value.toString(),
-	getKey = (value: any) => value.toString(),
+	getContent = (value: T) => value.toString(),
+	getKey = (value: T) => value.toString(),
 }: Readonly<ListTypes<T>>) => {
 	if (!items || items.length === 0) {
 		return null;
