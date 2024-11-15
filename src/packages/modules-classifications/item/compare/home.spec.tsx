@@ -1,6 +1,5 @@
-import Compare from './home';
 import { renderWithAppContext } from '../../../tests-utils/render';
-import { locales } from '../../../tests-utils/default-values';
+import Compare from './home';
 
 describe('concepts-compare', () => {
 	it('renders without crashing', () => {
@@ -15,7 +14,6 @@ describe('concepts-compare', () => {
 				}}
 				notes={{ 1: {}, 2: {} }}
 				secondLang={false}
-				langs={locales}
 			/>,
 		);
 	});

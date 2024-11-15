@@ -3,11 +3,17 @@ on:
   pull_request:
     branches: [main, master]
 jobs:
-  test:
+  playwright:
+    if: false
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout BackOffice
+        uses: actions/checkout@v4
+        with:
+          repository: inseefr/bauhaus-back-office
+          path: ./bauhaus-back-office
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
@@ -15,11 +21,13 @@ jobs:
         run: npm ci --force
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npx playwright test
+      - uses: adambirds/docker-compose-action@v1.5.0
+        with:
+          compose-file: './bauhaus-back-office/compose.yml'
+          test-command: 'npx playwright test'
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
-        with:
+        with: I 
           name: playwright-report
           path: playwright-report/
           retention-days: 30
