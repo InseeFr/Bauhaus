@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 type PickerItemTypes = {
 	id: string;
 	label: string;
-	logo: any;
+	logo: JSX.Element;
 	to: string;
 	handleClick: (id: string) => void;
 };

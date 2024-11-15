@@ -1,8 +1,24 @@
-import { useState, useCallback, useEffect } from 'react';
-import { validate } from '../edition/validation';
+import { useCallback, useEffect, useState } from 'react';
 import {
-	MUTUALIZED_COMPONENT_TYPES,
+	ClientSideError,
+	ContributorsInput,
+	DisseminationStatusInput,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+	NumberInput,
+	Row,
+	SeeButton,
+	TextInput,
+} from '../../../components';
+import { Select } from '../../../components/select-rmes';
+import { API } from '../../../modules-codelists/apis';
+import { CodeListApi, StructureApi } from '../../../sdk';
+import { convertToArrayIfDefined, sortArray } from '../../../utils/array-utils';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
+import {
+	IGEO_PAYS_OU_TERRITOIRE,
 	MEASURE_PROPERTY_TYPE,
+	MUTUALIZED_COMPONENT_TYPES,
 	XSD_CODE_LIST,
 	XSD_DATE,
 	XSD_DATE_TIME,
@@ -10,36 +26,21 @@ import {
 	XSD_INTEGER,
 	XSD_STRING,
 	XSD_TYPES,
-	IGEO_PAYS_OU_TERRITOIRE,
 } from '../../utils/constants';
-import { CodeListApi, StructureApi } from '../../../sdk';
-import D, { D1, D2 } from '../../i18n/build-dictionary';
-import './edit.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
-import { API } from '../../../modules-codelists/apis';
-import { convertToArrayIfDefined, sortArray } from '../../../utils/array-utils';
-import {
-	TextInput,
-	Row,
-	ContributorsInput,
-	DisseminationStatusInput,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-	Select,
-	SeeButton,
-	NumberInput,
-} from '../../../components';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
+import { validate } from '../edition/validation';
+import './edit.scss';
+
 import { useAppContext } from '../../../application/app-context';
-import LabelRequired from '../../../components/label-required';
+import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { ActionToolbar } from '../../../components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
+import LabelRequired from '../../../components/label-required';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { useTitle } from '../../../utils/hooks/useTitle';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,

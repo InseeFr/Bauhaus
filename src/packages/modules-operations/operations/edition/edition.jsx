@@ -9,9 +9,10 @@ import {
 	GlobalClientSideErrorBloc,
 	ClientSideError,
 	PageTitleBlock,
-	Select,
 	Row,
 } from '../../../components';
+import { Select } from '../../../components/select-rmes';
+
 import { OperationsApi } from '../../../sdk/operations-api';
 import LabelRequired from '../../../components/label-required';
 import { ActionToolbar } from '../../../components/action-toolbar';

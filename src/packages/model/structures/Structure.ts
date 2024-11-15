@@ -1,9 +1,10 @@
 import { ValidationState } from '../../components';
 
-export type StructuresList = {
+export type PartialStructure = {
 	iri: string;
 	labelLg1: string;
-}[];
+};
+export type StructuresList = PartialStructure[];
 
 export type Structure = {
 	id: string;
