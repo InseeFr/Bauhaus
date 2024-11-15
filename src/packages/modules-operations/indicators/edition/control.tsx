@@ -5,7 +5,12 @@ import {
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
 
-function Control({ onSubmit, disabled }) {
+type ControlTypes = {
+	onSubmit: () => void;
+	disabled?: boolean;
+};
+
+function Control({ onSubmit, disabled }: Readonly<ControlTypes>) {
 	const goBack = useGoBack();
 
 	return (

@@ -9,7 +9,16 @@ import {
 	UpdateButton,
 } from '../../components/buttons/buttons-with-icons';
 
-const ItemControls = ({ classificationId, itemId, version }) => {
+type ItemControls = {
+	classificationId: string;
+	itemId: string;
+	version?: number;
+};
+const ItemControls = ({
+	classificationId,
+	itemId,
+	version,
+}: Readonly<ItemControls>) => {
 	const goBack = useGoBack();
 	const compare =
 		!version || version <= 1
