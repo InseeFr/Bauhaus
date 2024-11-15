@@ -29,4 +29,4 @@ COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/nginx.conf /etc/ng
 
 # Add entrypoint and start nginx server
 RUN chmod 755 /usr/share/nginx/html/vite-envs.sh
-ENTRYPOINT nginx -g 'daemon off;'
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
