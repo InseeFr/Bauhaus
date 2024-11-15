@@ -37,7 +37,7 @@ export type Dataset = {
 export type CatalogRecord = {
 	created: string;
 	updated: string;
-	contributor: string;
+	contributor: string | string[];
 	creator: string;
 	catalogRecord: CatalogRecord;
 	validationState: ValidationState;
