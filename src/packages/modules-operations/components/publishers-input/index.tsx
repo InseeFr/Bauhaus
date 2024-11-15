@@ -7,7 +7,10 @@ type PublishersInputTypes = {
 	value: string;
 	onChange: (value: string) => void;
 };
-const PublishersInput = ({ value, onChange }: PublishersInputTypes) => {
+const PublishersInput = ({
+	value,
+	onChange,
+}: Readonly<PublishersInputTypes>) => {
 	const organisationsOptions = useOrganizationsOptions();
 
 	const publishersArray = Array.isArray(value) ? value : [value];
