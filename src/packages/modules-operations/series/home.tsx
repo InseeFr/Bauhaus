@@ -4,8 +4,9 @@ import OperationsObjectHome from '../../modules-operations/shared/list';
 import { FeminineButton } from '../../components';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { ADMIN } from '../../auth/roles';
+import { Series } from '../../model/Series';
 
-function SeriesHome({ series }) {
+function SeriesHome({ series }: Readonly<{ series: Series[] }>) {
 	useTitle(D.operationsTitle, D.seriesTitle);
 
 	return (

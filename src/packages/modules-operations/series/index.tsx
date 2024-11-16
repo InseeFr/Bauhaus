@@ -3,7 +3,7 @@ import { Loading } from '../../components';
 import SeriesHome from './home';
 import { OperationsApi } from '../../sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
-import { Series } from '../../model/operations/series';
+import { Series } from '../../model/Series';
 
 export const Component = () => {
 	const [series, setSeries] = useState<Series[]>([]);

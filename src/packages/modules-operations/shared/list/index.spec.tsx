@@ -6,7 +6,7 @@ import { MasculineButton } from '../../../components';
 import configureStore from '../../../redux/configure-store';
 import { renderWithRouter } from '../../../tests-utils/render';
 
-const createStore = (roles = []) => {
+const createStore = (roles: string[] = []) => {
 	return configureStore({
 		users: { results: { stamp: 'stamp' } },
 		app: { auth: { user: { roles } } },
@@ -19,6 +19,7 @@ describe('Operation Home', () => {
 		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
+					title="title"
 					items={[]}
 					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
@@ -36,6 +37,7 @@ describe('Operation Home', () => {
 		const { container } = renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
+					title="title"
 					items={[]}
 					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
@@ -53,6 +55,7 @@ describe('Operation Home', () => {
 		renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
+					title="title"
 					items={[]}
 					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
@@ -69,6 +72,7 @@ describe('Operation Home', () => {
 		renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
+					title="title"
 					items={[]}
 					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
@@ -85,6 +89,7 @@ describe('Operation Home', () => {
 		const { queryByText } = renderWithRouter(
 			<Provider store={store}>
 				<OperationsObjectHome
+					title="title"
 					items={[]}
 					createButton={<MasculineButton action=""></MasculineButton>}
 					searchURL=""
