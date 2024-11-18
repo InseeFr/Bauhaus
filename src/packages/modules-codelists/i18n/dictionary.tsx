@@ -265,15 +265,15 @@ const dictionary = {
 	},
 	//TODO find a solution in order to avoid this duplicated key
 	mandatoryProperty: {
-		fr: (propertyName) =>
+		fr: (propertyName: string) =>
 			`La propriété <strong>${propertyName}</strong> est obligatoire.`,
-		en: (propertyName) =>
+		en: (propertyName: string) =>
 			`The property <strong>${propertyName}</strong> is required.`,
 	},
 	validCharactersProperty: {
-		fr: (propertyName) =>
+		fr: (propertyName: string) =>
 			`La propriété <strong>${propertyName}</strong> possède des caractères invalides.`,
-		en: (propertyName) =>
+		en: (propertyName: string) =>
 			`The property <strong>${propertyName}</strong> has invalid characters.`,
 	},
 	errors: {
