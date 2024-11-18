@@ -18,7 +18,7 @@
 		"start": "npm run pre-script vite",
 		"build": "npm run pre-script cross-env VITE_INSEE=true vite build && npm run create-zip",
 		"create-zip": "cd build && bestzip build.zip *",
-		"pre-push": "npm format:check && npm run lint && npm run test:coverage",
+		"pre-push": "npm run format:check && npm run lint && npm run test:coverage",
 		"prepare": "husky",
 		"_format": "prettier 'src/**/*.{ts,tsx,js,jsx,json,md}'",
 		"format": "npm run _format -- --write",
