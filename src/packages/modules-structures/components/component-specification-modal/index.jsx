@@ -6,8 +6,8 @@ import './component-specification-modal.scss';
 import {
 	CloseIconButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
-import { ActionToolbar } from '../../../components/action-toolbar';
+} from '@components/buttons/buttons-with-icons';
+import { ActionToolbar } from '@components/action-toolbar';
 
 export const ComponentSpecificationModalBody = ({
 	specification: defaultSpecification,

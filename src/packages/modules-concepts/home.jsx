@@ -1,9 +1,12 @@
+import { Row } from '@components/layout';
+import { Loading } from '@components/loading';
+import { PageTitle } from '@components/page-title';
+import { SearchableList } from '@components/searchable-list';
 import { useEffect, useState } from 'react';
-import { PageTitle, Loading, Row, SearchableList } from '../components';
 import D from '../deprecated-locales';
 import { ConceptsApi } from '../sdk';
-import { Menu } from './menu';
 import { useTitle } from '../utils/hooks/useTitle';
+import { Menu } from './menu';
 
 export const Component = () => {
 	useTitle(D.conceptsTitle, D.conceptsTitle);

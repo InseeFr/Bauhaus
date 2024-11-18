@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { PageTitle, TextInput, DatePicker, Pagination } from '../../components';
 
 import Select from 'react-select';
 import Controls from './controls';
@@ -8,6 +7,10 @@ import { filterKeyDate, filterKeyDeburr } from '../../utils/array-utils';
 import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { NumberResults } from '../../components/number-results';
+import { PageTitle } from '@components/page-title';
+import { TextInput } from '@components/form/input';
+import { DatePicker } from '@components/date-picker';
+import { Pagination } from '@components/pagination';
 
 const filterLabel = filterKeyDeburr(['label']);
 const filterAltLabel = filterKeyDeburr(['altLabel']);

@@ -2,12 +2,14 @@ import { useState } from 'react';
 
 import MainDictonary from '../../../deprecated-locales';
 import { D1 } from '../../../modules-concepts/i18n';
-import { Column, TextInput, Row, Pagination } from '../../../components';
-import { Panel } from '../../../components/panel';
-import { AddLogo } from '../../../components/logo/logo-add';
-import { DelLogo } from '../../../components/logo/logo-del';
+import { Panel } from '@components/panel';
+import { AddLogo } from '@components/logo/logo-add';
+import { DelLogo } from '@components/logo/logo-del';
 import { arrayDifferenceByID, filterDeburr } from '../../../utils/array-utils';
-import { PickerItem } from '../../../components/picker-item';
+import { PickerItem } from '@components/picker-item';
+import { Column, Row } from '@components/layout';
+import { TextInput } from '@components/form/input';
+import { Pagination } from '@components/pagination';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {

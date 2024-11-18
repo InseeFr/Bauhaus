@@ -1,32 +1,31 @@
-import D from '../../../deprecated-locales';
+import { Loading, Saving } from '@components/loading';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import D from '../../../deprecated-locales';
 import { useDataset } from '../../datasets';
-import {
-	Loading,
-	GlobalClientSideErrorBloc,
-	PageTitleBlock,
-} from '../../../components';
 
+import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
+import { PageTitleBlock } from '@components/page-title-block';
+
+import { ActionToolbar } from '@components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '@components/buttons/buttons-with-icons';
+import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { DatasetsApi } from '../../../sdk';
+import { initializeContributorProperty } from '../../../utils/creation/contributor-init';
+import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { useTitle } from '../../../utils/hooks/useTitle';
+import './edit.scss';
+import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';
 import { StatisticalInformation } from './tabs/statistical-information';
-import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
 import { validate } from './validation';
-import './edit.scss';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
-import { DatasetsApi } from '../../../sdk';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import {
-	CancelButton,
-	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
-import { initializeContributorProperty } from '../../../utils/creation/contributor-init';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -91,7 +90,7 @@ export const Component = () => {
 		return <Loading />;
 	}
 	if (isSaving) {
-		return <Loading textType="saving" />;
+		return <Saving />;
 	}
 
 	const layoutConfiguration = {

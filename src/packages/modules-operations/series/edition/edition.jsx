@@ -1,32 +1,32 @@
-import D, { D1, D2 } from '../../../deprecated-locales';
+import { Select } from '@components/select-rmes';
 import { Component } from 'react';
+import D, { D1, D2 } from '../../../deprecated-locales';
+
+import { ActionToolbar } from '@components/action-toolbar';
 import {
-	Loading,
+	CancelButton,
+	SaveButton,
+} from '@components/buttons/buttons-with-icons';
+import {
+	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	ClientSideError,
-	TextInput,
-	CreatorsInput,
-	PageTitleBlock,
-	Row,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
-
+} from '@components/errors-bloc';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import PublishersInput from '../../../modules-operations/components/publishers-input';
-import { isMandatoryField, validate } from './validation';
-import * as ItemToSelectModel from '../../../utils/item-to-select-model';
-import { OperationsApi } from '../../../sdk/operations-api';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
-import LabelRequired from '../../../components/label-required';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import {
-	CancelButton,
-	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
+import { OperationsApi } from '../../../sdk/operations-api';
+import * as ItemToSelectModel from '../../../utils/item-to-select-model';
+import { isMandatoryField, validate } from './validation';
+import { TextInput } from '@components/form/input';
+import { CreatorsInput } from '@components/creators-input';
 
 const defaultSerie = {
 	id: '',
@@ -126,7 +126,7 @@ class OperationsSerieEdition extends Component {
 	};
 
 	render() {
-		if (this.state.saving) return <Loading textType="saving" />;
+		if (this.state.saving) return <Saving />;
 
 		const {
 			frequencies,

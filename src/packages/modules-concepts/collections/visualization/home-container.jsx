@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Loading } from '../../../components';
+import { Loading, Publishing } from '@components/loading';
 import CollectionVisualization from './home';
 import { useParams } from 'react-router-dom';
 import { ConceptsApi } from '../../../sdk';
@@ -42,7 +42,7 @@ export const Component = () => {
 	}
 
 	if (saving) {
-		return <Loading textType="validating" />;
+		return <Publishing />;
 	}
 	const { general, members } = collection;
 

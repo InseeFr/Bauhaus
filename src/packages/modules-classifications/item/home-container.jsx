@@ -1,5 +1,5 @@
 import ItemVisualization from './home';
-import { Loading } from '../../components';
+import { Loading } from '@components/loading';
 import { useParams } from 'react-router-dom';
 import useClassificationItem from './hook';
 import { useQueryClient } from '@tanstack/react-query';

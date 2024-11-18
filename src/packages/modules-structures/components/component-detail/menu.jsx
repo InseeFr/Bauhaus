@@ -1,13 +1,13 @@
 import { UNPUBLISHED } from '../../../model/ValidationState';
-import { ValidationButton } from '../../../components';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	DeleteButton,
 	ReturnButton,
 	UpdateButton,
-} from '../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
+import { ValidationButton } from '@components/validationButton';
 const canBeDeleted = (component) => {
 	const withoutStructuresUsingThisComponent =
 		!component.structures || component.structures?.length === 0;

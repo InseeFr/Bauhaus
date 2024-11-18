@@ -1,5 +1,6 @@
+import { TextInput } from '@components/form/input';
 import D from '../../../deprecated-locales';
-import { Pagination, TextInput } from '../../../components';
+import { Pagination } from '@components/pagination';
 
 type SearchConceptsByLabelTypes = {
 	searchLabel: string;

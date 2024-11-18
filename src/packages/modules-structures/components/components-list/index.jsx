@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loading, PageTitle, Row, SearchableList } from '../../../components';
 import './component-list.scss';
 
+import { Row } from '@components/layout';
+import { Loading } from '@components/loading';
+import { PageTitle } from '@components/page-title';
+import { SearchableList } from '@components/searchable-list';
 import FilterToggleButtons from '../../../components/filter-toggle-buttons';
 import { StructureApi } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';

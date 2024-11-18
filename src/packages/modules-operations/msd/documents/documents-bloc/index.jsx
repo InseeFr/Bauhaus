@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { TextInput } from '../../../../components';
-import { AddLogo } from '../../../../components/logo/logo-add';
+import { AddLogo } from '@components/logo/logo-add';
 import D, { D1, D2 } from '../../../../deprecated-locales';
-import { getBaseURI } from '../../../../sdk';
+import { getBaseURI } from '@sdk/build-api';
 import { sortArray } from '../../../../utils/array-utils';
 import { DOCUMENT, isDocument, isLink, LINK } from '../../../document/utils';
 import { useDocumentsStoreContext } from '../../pages/sims-creation/documents-store-context';

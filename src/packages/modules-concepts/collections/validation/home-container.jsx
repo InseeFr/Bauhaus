@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import CollectionsToValidate from './home';
-import { Loading } from '../../../components';
+import { Loading, Publishing } from '@components/loading';
 import D from '../../../deprecated-locales';
 import { ConceptsApi } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';
@@ -29,7 +29,7 @@ export const Component = () => {
 			.then(() => setLoading(false));
 	}, []);
 
-	if (saving) return <Loading textType="validating" />;
+	if (saving) return <Publishing />;
 	if (loading) return <Loading />;
 	return (
 		<CollectionsToValidate

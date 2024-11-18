@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { DumbComponentDetailEdit } from './edit';
 import { getFormattedCodeList } from '../../apis';

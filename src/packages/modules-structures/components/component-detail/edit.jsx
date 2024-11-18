@@ -1,16 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-	ClientSideError,
-	ContributorsInput,
-	DisseminationStatusInput,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	NumberInput,
-	Row,
-	SeeButton,
-	TextInput,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
+
+import { Select } from '@components/select-rmes';
 import { API } from '../../../modules-codelists/apis';
 import { CodeListApi, StructureApi } from '../../../sdk';
 import { convertToArrayIfDefined, sortArray } from '../../../utils/array-utils';
@@ -33,14 +23,24 @@ import './edit.scss';
 
 import { useAppContext } from '../../../application/app-context';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
-import LabelRequired from '../../../components/label-required';
+} from '@components/buttons/buttons-with-icons';
+import LabelRequired from '@components/label-required';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { useTitle } from '../../../utils/hooks/useTitle';
+import { Row } from '@components/layout';
+import { SeeButton } from '@components/buttons/see';
+import {
+	ClientSideError,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { NumberInput, TextInput } from '@components/form/input';
+import { ContributorsInput } from '@components/contributors/contributors';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,

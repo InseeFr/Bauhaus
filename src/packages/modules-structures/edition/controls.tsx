@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
-import { ActionToolbar } from '../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
 import { cleanId } from '../../utils/string-utils';
 
 type ControlsTypes = {

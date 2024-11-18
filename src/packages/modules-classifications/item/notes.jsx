@@ -1,4 +1,4 @@
-import { NoteVisualization } from '../../components/note-visualization';
+import { NoteVisualization } from '@components/note-visualization';
 import { buildNotes } from '../utils/classification/notes';
 import D, { D2 } from '../../deprecated-locales';
 import { delPTags } from '../../utils/html-utils';

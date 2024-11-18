@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from '../../components';
+import { Loading } from '@components/loading';
 import {
 	ADMIN,
 	CODELIST_CONTRIBUTOR,

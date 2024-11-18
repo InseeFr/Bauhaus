@@ -4,7 +4,7 @@ import OperationsDocumentationEdition from '../../../document/edition/edition';
 import { useDocumentsStoreContext } from './documents-store-context';
 import './document-form-panel.scss';
 import { useState } from 'react';
-import { Loading } from '../../../../components';
+import { Loading, Saving } from '@components/loading';
 import { getDocumentsList } from './useDocumentsList';
 import { Document } from '../../../../model/operations/document';
 
@@ -55,7 +55,7 @@ export const DocumentFormPanel = ({
 			panelClassName="documents-form-panel"
 		>
 			{saving ? (
-				<Loading textType="saving" />
+				<Saving />
 			) : (
 				<OperationsDocumentationEdition
 					document={{}}

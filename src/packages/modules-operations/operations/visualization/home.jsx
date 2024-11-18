@@ -1,13 +1,11 @@
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PublicationFemale } from '@components/status';
 import { D1, D2 } from '../../../deprecated-locales';
-import RelationsView from '../../../modules-operations/shared/relations';
 import D from '../../../deprecated-locales/build-dictionary';
-import {
-	PublicationFemale,
-	Row,
-	CreationUpdateItems,
-} from '../../../components';
+import RelationsView from '../../../modules-operations/shared/relations';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
 
 function OperationsOperationVisualization({ attr, secondLang }) {
 	useTitle(D.operationsTitle, attr?.prefLabelLg1);

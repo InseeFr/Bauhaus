@@ -3,13 +3,15 @@ import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
 import D from '../../deprecated-locales';
-import { ErrorBloc, PageTitleBlock, CheckSecondLang } from '../../components';
-import { NoteVisualization } from '../../components/note-visualization';
+import { NoteVisualization } from '@components/note-visualization';
 import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { isOutOfDate } from '../../utils/date-utils';
 import { getModalMessage } from '../../modules-concepts/utils/build-validation-message';
 import { buildNotes } from '../../modules-concepts/utils/notes';
+import { PageTitleBlock } from '@components/page-title-block';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ErrorBloc } from '@components/errors-bloc';
 
 const ConceptVisualization = ({
 	id,

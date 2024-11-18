@@ -1,5 +1,4 @@
-import { ValidationState } from '../../components';
-
+import { ValidationState } from '@components/status';
 export type Indicator = {
 	id: string;
 	idSims: string;

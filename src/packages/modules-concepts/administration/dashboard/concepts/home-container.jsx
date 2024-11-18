@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '../../../../components';
+import { Loading } from '@components/loading';
 import Dashboard from './home';
 import { ConceptsApi } from '../../../..//sdk';
 

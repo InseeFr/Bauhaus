@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import { ComponentDetailView } from './view';
 import { ConceptsApi, StructureApi } from '../../../sdk';
 import ComponentTitle from './title';

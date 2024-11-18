@@ -4,16 +4,16 @@ import ReactSelect from 'react-select';
 import D from '../../i18n/build-dictionary';
 import SimsGeographyField from './sims-geography-field';
 
-import './sims-geography-picker.scss';
-import SimsGeographyI18NLabel from './sims-geography-i18n-label';
+import { SeeButton } from '@components/buttons/see';
+import Auth from '../../../auth/components/auth';
+import { ADMIN } from '../../../auth/roles';
+import { RightSlidingPanel } from '../../../components/sliding-panel';
 import {
 	getAllOptions,
 	loadGeographies,
 } from '../../../redux/geographies.action';
-import Auth from '../../../auth/components/auth';
-import { ADMIN } from '../../../auth/roles';
-import { SeeButton } from '../../../components';
-import { RightSlidingPanel } from '../../../components/sliding-panel';
+import SimsGeographyI18NLabel from './sims-geography-i18n-label';
+import './sims-geography-picker.scss';
 
 const accentsMap = new Map([
 	['A', 'Á|À|Ã|Â|Ä'],

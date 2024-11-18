@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import OperationsIndicatorEdition from '../../../modules-operations/indicators/edition/edition';
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
 import { useGoBack } from '../../../utils/hooks/useGoBack';

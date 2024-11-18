@@ -4,11 +4,11 @@ import {
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from '../../../auth/roles';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	ReturnButton,
 	UpdateButton,
-} from '../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
 import { Document } from '../../../model/operations/document';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 

@@ -3,8 +3,8 @@ import { D1, D2 } from '../../../../deprecated-locales';
 
 import { getPublishFactory } from '../utils';
 import { OperationsApi } from '../../../../sdk/operations-api';
-import { LOADING } from '../../../../sdk/constants';
 import { Rubric } from '../../../../model/Sims';
+import { LOADING } from '@sdk/constants';
 
 export const publishSims = getPublishFactory(
 	OperationsApi.publishSims,

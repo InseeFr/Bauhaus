@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Loading } from '../../components';
+import { Exporting, Loading } from '@components/loading';
 import ConceptSearchList from './home';
 import { ConceptsApi } from '../../sdk';
 import { saveFileFromHttpResponse } from '../../utils/files';
@@ -57,7 +57,7 @@ export const Component = () => {
 	}
 
 	if (exporting) {
-		return <Loading textType="exporting" />;
+		return <Exporting />;
 	}
 
 	return (

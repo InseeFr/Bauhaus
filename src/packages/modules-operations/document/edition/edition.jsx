@@ -1,23 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import {
-	ClientSideError,
-	DatePicker,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	Loading,
-	PageTitleBlock,
-	Row,
-	TextInput,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
 
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { Select } from '@components/select-rmes';
+
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
-import LabelRequired from '../../../components/label-required';
+} from '@components/buttons/buttons-with-icons';
+import {
+	ClientSideError,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { GeneralApi } from '../../../sdk/general-api';
@@ -27,6 +26,8 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 import { DOCUMENT, LINK } from '../utils';
 import { ConfirmationModal } from './confirmation-modal';
 import { validate } from './validation';
+import { TextInput } from '@components/form/input';
+import { DatePicker } from '@components/date-picker';
 
 const initDocument = {
 	labelLg1: '',
@@ -193,7 +194,7 @@ const OperationsDocumentationEdition = (props) => {
 		return { value: lang.code, label: lang.labelLg1 };
 	});
 
-	if (saving) return <Loading textType="saving" />;
+	if (saving) return <Saving />;
 
 	const isEditing = !!document.id;
 

@@ -1,4 +1,4 @@
-import { Loading } from '../components';
+import { Loading } from '@components/loading';
 import ClassificationsHome from './home';
 import { useClassifications } from '../utils/hooks/classifications';
 

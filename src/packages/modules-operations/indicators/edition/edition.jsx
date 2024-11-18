@@ -1,25 +1,26 @@
 import { Component } from 'react';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import PublishersInput from '../../../modules-operations/components/publishers-input';
-import { CL_FREQ } from '../../../redux/actions/constants/codeList';
 import Control from '../../../modules-operations/indicators/edition/control';
 import { validate } from '../../../modules-operations/indicators/edition/validation';
+import { CL_FREQ } from '../../../redux/actions/constants/codeList';
+
+import { Select } from '@components/select-rmes';
+
+import { CreatorsInput } from '@components/creators-input';
 import {
-	Loading,
-	CreatorsInput,
+	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	ClientSideError,
-	PageTitleBlock,
-	InputRmes,
-	RequiredIcon,
-	Row,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
-
+} from '@components/errors-bloc';
+import { InputRmes } from '@components/input-rmes';
+import { Row } from '@components/layout';
+import { Loading, Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+import { RequiredIcon } from '@components/required-icon';
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
-import * as ItemToSelectModel from '../../../utils/item-to-select-model';
 import { OperationsApi } from '../../../sdk/operations-api';
+import * as ItemToSelectModel from '../../../utils/item-to-select-model';
 
 const defaultIndicator = {
 	prefLabelLg1: '',
@@ -119,7 +120,7 @@ class OperationsIndicatorEdition extends Component {
 	};
 
 	render() {
-		if (this.state.saving) return <Loading textType="saving" />;
+		if (this.state.saving) return <Saving />;
 
 		const { frequencies, organisations, indicators, series } = this.props;
 

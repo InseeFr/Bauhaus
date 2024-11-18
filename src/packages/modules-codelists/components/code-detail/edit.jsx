@@ -1,4 +1,4 @@
-import Select from 'js/utils/components/select-rmes';
+import Select from '@components/select-rmes';
 import { useCallback, useEffect, useState } from 'react';
 import {
 	ClientSideError,
@@ -6,10 +6,10 @@ import {
 	GlobalClientSideErrorBloc,
 } from '../../../../utils';
 import { Row, TextInput } from '../../../components';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import { SaveButton } from '../../../components/buttons/buttons-with-icons';
-import LabelRequired from '../../../components/label-required';
-import { AddLogo } from '../../../components/logo/logo-add';
+import { ActionToolbar } from '@components/action-toolbar';
+import { SaveButton } from '@components/buttons/buttons-with-icons';
+import LabelRequired from '@components/label-required';
+import { AddLogo } from '@components/logo/logo-add';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { validateCode } from '../../utils';
 import './edit.scss';

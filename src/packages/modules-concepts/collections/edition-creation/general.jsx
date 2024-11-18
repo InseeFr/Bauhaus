@@ -1,13 +1,11 @@
+import { CreatorsInput } from '@components/creators-input';
+import { ClientSideError } from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
+import { InputRmes } from '@components/input-rmes';
+import { Row } from '@components/layout';
+import { RequiredIcon } from '@components/required-icon';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { fields as generalFields } from '../../../modules-concepts/collections/utils/general';
-import {
-	TextInput,
-	Row,
-	CreatorsInput,
-	RequiredIcon,
-	InputRmes,
-	ClientSideError,
-} from '../../../components';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {

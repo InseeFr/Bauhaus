@@ -1,10 +1,13 @@
 // @ts-ignore
+import { Row } from '@components/layout';
+import { Loading } from '@components/loading';
+import { PageTitle } from '@components/page-title';
+import { SearchableList } from '@components/searchable-list';
 import D from '../../../deprecated-locales/build-dictionary';
+import { PartialDataset } from '../../../model/Dataset';
+import { useTitle } from '../../../utils/hooks/useTitle';
 import { useDatasets } from '../../datasets';
 import { HomePageMenu } from './menu';
-import { Loading, PageTitle, Row, SearchableList } from '../../../components';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { PartialDataset } from '../../../model/Dataset';
 
 export const Component = () => {
 	const { data, isLoading } = useDatasets();

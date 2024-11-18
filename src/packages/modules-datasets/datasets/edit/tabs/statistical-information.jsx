@@ -9,9 +9,10 @@ import {
 	CL_STAT_UNIT,
 	CL_TYPE_GEO,
 } from '../../../../redux/actions/constants/codeList';
-import { NumberInput, Row } from '../../../../components';
 import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
 import { useStructures } from '../../../../utils/hooks/structures';
+import { Row } from '@components/layout';
+import { NumberInput } from '@components/form/input';
 
 const StatisticalInformationTab = ({
 	editingDataset,

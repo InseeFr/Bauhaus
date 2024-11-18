@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import D from '../../../deprecated-locales/build-dictionary';
 import ExportButtons from '../export-buttons';
-import { Loading, Picker } from '../../../components';
+import { Picker } from '@components/picker-page';
+import { Exporting, Loading } from '@components/loading';
 import {
 	useCollectionExporter,
 	useCollections,
@@ -16,7 +17,7 @@ export const Component = () => {
 	const { mutate: exportCollection, isPending: isExporting } =
 		useCollectionExporter();
 
-	if (isExporting) return <Loading textType="exporting" />;
+	if (isExporting) return <Exporting />;
 	if (isLoading) return <Loading />;
 
 	return (

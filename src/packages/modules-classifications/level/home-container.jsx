@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import LevelVisualization from './home';
-import { Loading } from '../../components';
+import { Loading } from '@components/loading';
 import loadLevel from '../../redux/actions/classifications/level';
 import { getLevel } from '../../redux/classifications/level';
 import { useParams } from 'react-router-dom';

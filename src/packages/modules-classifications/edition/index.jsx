@@ -1,23 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useParams } from 'react-router-dom';
-import {
-	ClientSideError,
-	GlobalClientSideErrorBloc,
-	Loading,
-	PageTitleBlock,
-	Row,
-	TextInput,
-	UrlInput,
-} from '../../components';
-import { Select } from '../../components/select-rmes';
-import { EditorMarkdown } from '../../components/rich-editor/editor-markdown';
-import { ActionToolbar } from '../../components/action-toolbar';
+
+import { Loading, Saving } from '@components/loading';
+import { Select } from '@components/select-rmes';
+import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../components/buttons/buttons-with-icons';
-import LabelRequired from '../../components/label-required';
+} from '@components/buttons/buttons-with-icons';
+import LabelRequired from '@components/label-required';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { ClassificationsApi } from '../../sdk/classification';
 import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
@@ -26,6 +19,13 @@ import { useStampsOptions } from '../../utils/hooks/stamps';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { transformModelToSelectOptions } from '../../utils/transformer';
 import { useClassification, useUpdateClassification } from '../hooks';
+import { PageTitleBlock } from '@components/page-title-block';
+import {
+	ClientSideError,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { TextInput, UrlInput } from '@components/form/input';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -67,7 +67,7 @@ export const Component = () => {
 
 	if (isLoading) return <Loading />;
 
-	if (isSaving) return <Loading textType="saving" />;
+	if (isSaving) return <Saving />;
 
 	if (isSavingSuccess) {
 		return <Navigate to={'/classifications/classification/' + id} replace />;

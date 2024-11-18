@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { PageTitle, Row, ErrorBloc, CheckSecondLang } from '../../components';
 import Menu from './menu';
 import General from './general';
 import Notes from './notes';
@@ -7,7 +6,11 @@ import Levels from './levels';
 import D from '../../deprecated-locales';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { Classification } from '../../model/Classification';
-import { PageSubtitle } from '../../components/page-sub-title';
+import { PageSubtitle } from '@components/page-sub-title';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
 
 type ClassificationVisualizationTypes = {
 	classification: Classification;

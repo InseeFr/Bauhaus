@@ -1,5 +1,5 @@
+import { MasculineButton } from '@components/new-button';
 import Auth from '../../../auth/components/auth';
-import { MasculineButton } from '../../../components';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { VerticalMenu } from '../../../components/vertical-menu';
 export const HomePageMenu = ({ filter }) => {

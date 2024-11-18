@@ -1,15 +1,13 @@
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PublicationFemale } from '@components/status';
 import { D1, D2 } from '../../../deprecated-locales';
-import RelationsView from '../../../modules-operations/shared/relations';
 import D from '../../../deprecated-locales/build-dictionary';
-import {
-	PublicationFemale,
-	Row,
-	CreationUpdateItems,
-} from '../../../components';
-import { renderMarkdownElement } from '../../../utils/html-utils';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
 import { Family } from '../../../model/operations/family';
+import RelationsView from '../../../modules-operations/shared/relations';
+import { useTitle } from '../../../utils/hooks/useTitle';
+import { renderMarkdownElement } from '../../../utils/html-utils';
 
 type OperationsFamilyVisualizationTypes = {
 	attr: Family;

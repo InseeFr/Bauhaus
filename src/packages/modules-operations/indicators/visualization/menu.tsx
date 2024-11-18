@@ -1,16 +1,16 @@
 import Auth from '../../../auth/components/auth';
 import { ADMIN, INDICATOR_CONTRIBUTOR } from '../../../auth/roles';
-import { ValidationButton } from '../../../components';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import { Button } from '../../../components/buttons/button';
+import { ActionToolbar } from '@components/action-toolbar';
+import { Button } from '@components/buttons/button';
 import {
 	ReturnButton,
 	UpdateButton,
-} from '../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Indicator } from '../../../model/operations/indicator';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { containUnsupportedStyles } from '../../../utils/html-utils';
+import { ValidationButton } from '@components/validationButton';
 
 type MenuTypes = {
 	indicator: Indicator;

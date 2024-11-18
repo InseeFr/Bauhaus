@@ -11,7 +11,7 @@ import {
 } from '../../sdk/constants';
 import './links.scss';
 import { sortArray } from '../../utils/array-utils';
-import { Note } from '../../components/note';
+import { Note } from '@components/note';
 
 const CloseMatchLinks = ({ links, Dictionnary }) => {
 	return (

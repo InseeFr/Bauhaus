@@ -5,8 +5,8 @@ import { Options, stateToHTML } from 'draft-js-export-html';
 import {
 	mdToDraftjs,
 	REGEXPS,
-} from '../components/rich-editor/draftjs/mdToDraftjs';
-import { draftjsToMd } from '../components/rich-editor/draftjs/draftjsToMd';
+} from '@components/rich-editor/draftjs/mdToDraftjs';
+import { draftjsToMd } from '@components/rich-editor/draftjs/draftjsToMd';
 
 export const containUnsupportedStyles = (attr: Record<string, string> = {}) => {
 	return !!REGEXPS.map((r) => r.regexp).find(

@@ -1,13 +1,13 @@
-import { Column } from 'primereact/column';
-import { useEffect, useState } from 'react';
 import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
-	Row,
-	TextInput,
-} from '../../../components';
+} from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Column } from 'primereact/column';
+import { useEffect, useState } from 'react';
 import { DataTable } from '../../../components/datatable';
-import LabelRequired from '../../../components/label-required';
 import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { API } from '../../apis';
 import D, { D1, D2 } from '../../i18n/build-dictionary';

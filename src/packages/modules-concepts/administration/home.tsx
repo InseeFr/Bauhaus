@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import dashBoardLogo from '../../../img/dashboard.png';
-import { PageTitle } from '../../components';
 import D from '../../deprecated-locales';
 import './home.scss';
 import { useTitle } from '../../utils/hooks/useTitle';
+import { PageTitle } from '@components/page-title';
 
 export const Component = () => {
 	useTitle(D.conceptsTitle, D.administrationTitle);

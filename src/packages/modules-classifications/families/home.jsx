@@ -1,4 +1,6 @@
-import { PageTitle, Row, SearchableList } from '../../components';
+import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
+import { SearchableList } from '@components/searchable-list';
 import D from '../../deprecated-locales';
 import { useTitle } from '../../utils/hooks/useTitle';
 

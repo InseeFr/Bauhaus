@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import OperationsSerieEdition from '../../../modules-operations/series/edition/edition';
 
 import { useGoBack } from '../../../utils/hooks/useGoBack';

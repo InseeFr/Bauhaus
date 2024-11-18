@@ -3,26 +3,25 @@ import { renderMarkdownElement } from '../../../utils/html-utils';
 
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
-import {
-	PublicationFemale,
-	Row,
-	ValidationButton,
-	ContributorsVisualisation,
-	DisseminationStatusVisualisation,
-	ConfirmationDelete,
-	CreationUpdateItems,
-	ErrorBloc,
-} from '../../../components';
+
 import { useTitle } from '../../../utils/hooks/useTitle';
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	DeleteButton,
 	ReturnButton,
 	UpdateButton,
-} from '../../../components/buttons/buttons-with-icons';
-import { Note } from '../../../components/note';
+} from '@components/buttons/buttons-with-icons';
+import { Note } from '@components/note';
+import { ConfirmationDelete } from '@components/confirmation-delete';
+import { ValidationButton } from '@components/validationButton';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { PublicationFemale } from '@components/status';
+import { ContributorsVisualisation } from '@components/contributors/contributors';
+import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 
 export const CodeListPartialDetailView = ({
 	codelist,

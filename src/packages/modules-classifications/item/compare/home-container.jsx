@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import Compare from './home';
 import useClassificationItem from '../hook';
 import { useSecondLang } from '../../../utils/hooks/second-lang';

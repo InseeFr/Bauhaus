@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
-import { TextInput, Pagination, Row } from '../../components';
+import { TextInput } from '@components/form/input';
+import { Pagination } from '@components/pagination';
+import { Row } from '@components/layout';
 import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import { createAllDictionary } from '../../utils/dictionnary';
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';

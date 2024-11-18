@@ -13,8 +13,8 @@ import {
 	SUCCEED,
 } from '../../../sdk/constants';
 import { EquivalentLinks } from './equivalentLinks';
-import { AddLogo } from '../../../components/logo/logo-add';
-import { DelLogo } from '../../../components/logo/logo-del';
+import { AddLogo } from '@components/logo/logo-add';
+import { DelLogo } from '@components/logo/logo-del';
 import { filterDeburr } from '../../../utils/array-utils';
 import { PickerItem } from '../../../components/picker-item';
 import { TabPanel, TabView } from 'primereact/tabview';

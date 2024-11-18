@@ -1,11 +1,11 @@
 import check from '../../../auth/auth';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import { Button } from '../../../components/buttons/button';
+import { ActionToolbar } from '@components/action-toolbar';
+import { Button } from '@components/buttons/button';
 import {
 	PublishButton,
 	ReturnButton,
 	UpdateButton,
-} from '../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import ExportButtons from '../export-buttons';
 

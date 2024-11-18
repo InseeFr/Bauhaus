@@ -1,5 +1,6 @@
+import { Row } from '@components/layout';
 import { D1, D2 } from '../../../deprecated-locales';
-import { Row, ExplanatoryNote } from '../../../components';
+import { ExplanatoryNote } from '@components/explanatory-note';
 
 const Notes = ({ notes: { scopeNoteLg1, scopeNoteLg2 }, secondLang }) => (
 	<div>

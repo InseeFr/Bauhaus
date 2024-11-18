@@ -3,14 +3,8 @@ import { useEffect, useState } from 'react';
 import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
 import { useStampsOptions } from '../../../../utils/hooks/stamps';
 import { useSeriesOperationsOptions } from './useSeriesOperationsOptions';
-import {
-	TextInput,
-	Row,
-	ContributorsInput,
-	DisseminationStatusInput,
-	ClientSideError,
-} from '../../../../components';
-import { Select } from '../../../../components/select-rmes';
+
+import { Select } from '@components/select-rmes';
 import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
 import { DatasetsApi } from '../../../../sdk';
 import {
@@ -18,7 +12,12 @@ import {
 	CL_CONF_STATUS,
 	CL_PROCESS_STEP,
 } from '../../../../redux/actions/constants/codeList';
-import LabelRequired from '../../../../components/label-required';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { TextInput } from '@components/form/input';
+import { ClientSideError } from '@components/errors-bloc';
+import { ContributorsInput } from '@components/contributors/contributors';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 
 const InternalManagementTab = ({
 	editingDataset,

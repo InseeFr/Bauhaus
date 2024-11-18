@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { CheckSecondLang, Loading } from '../../../../components';
-import { Select } from '../../../../components/select-rmes';
+import { Select } from '@components/select-rmes';
 
 import D from '../../../../deprecated-locales';
 import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
@@ -14,11 +13,9 @@ import {
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
 
-import Modal from 'react-modal';
 import { useBlocker } from 'react-router-dom';
-import { ActionToolbar } from '../../../../components/action-toolbar';
-import { Button } from '../../../../components/buttons/button';
-import { CloseIconButton } from '../../../../components/buttons/buttons-with-icons';
+import { ActionToolbar } from '@components/action-toolbar';
+import { CloseIconButton } from '@components/buttons/buttons-with-icons';
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
@@ -29,6 +26,10 @@ import { useDocumentsStoreContext } from './documents-store-context';
 import { Menu } from './menu';
 import './sims-creation.scss';
 import { getDefaultSims, getSiblingSims } from './utils/getSims';
+import Modal from 'react-modal';
+import { Button } from '@components/buttons/button';
+import { Loading, Saving } from '@components/loading';
+import { CheckSecondLang } from '@components/check-second-lang';
 
 const { RICH_TEXT } = rangeType;
 
@@ -247,7 +248,7 @@ const SimsCreation = ({
 	const { lateralPanelOpened, onLateralPanelHide } = useDocumentsStoreContext();
 
 	if (loading) return <Loading />;
-	if (saving) return <Loading textType="saving" />;
+	if (saving) return <Saving />;
 
 	return (
 		<>

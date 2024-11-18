@@ -1,6 +1,8 @@
+import { CheckSecondLang } from '@components/check-second-lang';
+import { Loading } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CheckSecondLang, Loading, PageTitleBlock } from '../../../components';
 import D from '../../../deprecated-locales/build-dictionary';
 import { DistributionApi } from '../../../sdk';
 import { useTitle } from '../../../utils/hooks/useTitle';

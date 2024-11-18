@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../../deprecated-locales';
-import { Row } from '../../../components';
-import { Note } from '../../../components/note';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
 
 const Members = ({ members, secondLang }) => {
 	const membersLg1 = members.map((m) => (

@@ -4,9 +4,9 @@ import {
 	SERIES_CONTRIBUTOR,
 } from '../../auth/roles';
 import D from '../../deprecated-locales/build-dictionary';
-import { MasculineButton } from '../../components';
 import Auth from '../../auth/components/auth';
 import { VerticalMenu } from '../../components/vertical-menu';
+import { MasculineButton } from '@components/new-button';
 
 const routes = [
 	['/operations/document/create', D.document],

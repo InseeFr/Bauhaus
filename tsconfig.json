@@ -15,7 +15,12 @@
 		"isolatedModules": true,
 		"noEmit": true,
 		"jsx": "react-jsx",
-		"types": ["vitest/globals", "vite/client"]
+		"types": ["vitest/globals", "vite/client"],
+		"paths": {
+			"@components/*": ["./src/packages/components/*"],
+			"@sdk/*": ["./src/packages/sdk/*"],
+			"@utils/*": ["./src/packages/utils/*"]
+		}
 	},
 	"include": ["src"]
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { Loading } from '../../components';
+import { Loading, Publishing } from '@components/loading';
 import D from '../../deprecated-locales';
 import { usePermission } from '../../redux/hooks/usePermission';
 import { ConceptsApi } from '../../sdk';
@@ -32,7 +32,7 @@ export const Component = () => {
 	if (exporting === OK) {
 		return <Navigate to="/concepts" replace />;
 	} else if (exporting === PENDING) {
-		return <Loading textType="validating" />;
+		return <Publishing />;
 	}
 
 	if (loading) return <Loading />;

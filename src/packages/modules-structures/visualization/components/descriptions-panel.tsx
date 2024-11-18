@@ -1,7 +1,7 @@
 import { D1, D2 } from '../../../deprecated-locales';
-import { Row } from '../../../components';
+import { Row } from '@components/layout';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { Note } from '../../../components/note';
+import { Note } from '@components/note';
 
 type DescriptionsPanelTypes = {
 	descriptionLg1: string;

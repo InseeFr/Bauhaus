@@ -1,11 +1,11 @@
 import check from '../../auth/auth';
-import { FeminineButton } from '../../components';
 import { usePermission } from '../../redux/hooks/usePermission';
 import { VerticalMenu } from '../../components/vertical-menu';
 import {
 	ExportButton,
 	PublishButton,
-} from '../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
+import { FeminineButton } from '@components/new-button';
 
 export const Menu = () => {
 	const { roles } = usePermission();

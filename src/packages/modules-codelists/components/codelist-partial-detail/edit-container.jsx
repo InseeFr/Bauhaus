@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import { CodeListApi } from '../../../sdk';
 import { API } from '../../apis';
 import { formatPartialCodeList } from '../../utils';

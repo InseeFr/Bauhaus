@@ -13,7 +13,7 @@ import { stringToDate } from '../../../utils/date-utils';
 import { Dataset } from '../../../model/Dataset';
 import { useCodesList } from '../../../utils/hooks/codeslist';
 import { useStructures } from '../../../utils/hooks/structures';
-import { Note } from '../../../components/note';
+import { Note } from '@components/note';
 
 type StatisticalInformationsTypes = {
 	dataset: Dataset;

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import CollectionEditionCreation from './home';
 import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
 import D from '../../../deprecated-locales';
-import { Loading } from '../../../components';
+import { Loading, Saving } from '@components/loading';
 
 import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '../../../sdk/collection-api';
@@ -62,7 +62,7 @@ export const Component = () => {
 	useTitle(D.collectionsTitle, general?.prefLabelLg1);
 
 	if (saving) {
-		return <Loading textType="saving" />;
+		return <Saving />;
 	}
 	if (loadingCollection || loadingExtraData) {
 		return <Loading />;

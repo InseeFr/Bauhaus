@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../deprecated-locales';
-import { Row } from '../../components';
-import { Note } from '../../components/note';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
 
 const Levels = ({ levels, classificationId, secondLang }) => {
 	const levelsLg1 = levels.map((m, i) => (

@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { CodesList } from '../../../model/CodesList';
 import { useAllCodes } from '../../../utils/hooks/codeslist';

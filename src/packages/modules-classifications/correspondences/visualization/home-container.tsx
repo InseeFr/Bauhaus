@@ -1,4 +1,4 @@
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import HomeGeneral from './home-general';
 import HomeAssociations from './home-associations';
 import { useParams } from 'react-router-dom';

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { NotFound, UnderMaintenance } from '../../components';
+import { NotFound, UnderMaintenance } from '@components/not-found';
 
 type ModuleHomePage = {
 	pageName: string;

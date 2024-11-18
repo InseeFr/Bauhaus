@@ -81,3 +81,5 @@ export const Loading = ({ text, textType }: LoadingTypes) => {
 
 export const Deleting = () => <Loading textType="deleting" />;
 export const Publishing = () => <Loading textType="validating" />;
+export const Saving = () => <Loading textType="saving" />;
+export const Exporting = () => <Loading textType="exporting" />;

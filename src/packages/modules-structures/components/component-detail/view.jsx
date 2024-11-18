@@ -14,18 +14,17 @@ import { API } from '../../../modules-codelists/apis';
 import MainDictionary from '../../../deprecated-locales/build-dictionary';
 import { ViewMenu } from './menu';
 import { MeasureAttributes } from './visualisation/measureAttributes';
-import {
-	PublicationMale,
-	Row,
-	ContributorsVisualisation,
-	DisseminationStatusVisualisation,
-	ErrorBloc,
-	CreationUpdateItems,
-	SeeButton,
-} from '../../../components';
+
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
+import { Note } from '@components/note';
+import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
+import { ContributorsVisualisation } from '@components/contributors/contributors';
+import { PublicationMale } from '@components/status';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { SeeButton } from '@components/buttons/see';
 export const ComponentDetailView = ({
 	component,
 	concepts = [],

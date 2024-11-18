@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppContext } from '../../application/app-context';
-import { Loading } from '../../components';
+import { Loading, Saving } from '@components/loading';
 import D from '../../deprecated-locales';
 import buildPayloadUpdate from '../../modules-concepts/utils/build-payload-creation-update/build-payload-update';
 import * as generalUtils from '../../modules-concepts/utils/general';
@@ -89,7 +89,7 @@ export const Component = () => {
 	}
 
 	if (saving) {
-		return <Loading textType="saving" />;
+		return <Saving />;
 	}
 
 	return (

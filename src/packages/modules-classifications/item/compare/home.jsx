@@ -1,8 +1,9 @@
-import { PageTitle, CheckSecondLang } from '../../../components';
-import { CompareNotes } from '../../../components/note-compare';
+import { CompareNotes } from '@components/note-compare';
 import Controls from './controls';
 import General from '../general';
 import { buildNotes } from '../../utils/classification/notes';
+import { PageTitle } from '@components/page-title';
+import { CheckSecondLang } from '@components/check-second-lang';
 
 const Compare = ({ classificationId, itemId, general, notes, secondLang }) => {
 	const { prefLabelLg1, prefLabelLg2 } = general;

@@ -1,13 +1,11 @@
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
 import { D2, D1 } from '../../../deprecated-locales';
-import {
-	PageTitle,
-	Row,
-	ExplanatoryNote,
-	CheckSecondLang,
-} from '../../../components';
-import { Note } from '../../../components/note';
+import { Note } from '@components/note';
+import { PageTitle } from '@components/page-title';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { Row } from '@components/layout';
+import { ExplanatoryNote } from '@components/explanatory-note';
 
 const Home = ({
 	association,

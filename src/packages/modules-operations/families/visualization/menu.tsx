@@ -1,14 +1,14 @@
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
-import { ValidationButton } from '../../../components';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	ReturnButton,
 	UpdateButton,
-} from '../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
 import { Family } from '../../../model/operations/family';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import { containUnsupportedStyles } from '../../../utils/html-utils';
+import { ValidationButton } from '@components/validationButton';
 
 type MenuTypes = {
 	family: Family;

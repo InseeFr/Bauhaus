@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '../../components';
+import { Loading } from '@components/loading';
 import FamiliesHome from './home';
 import { ClassificationsApi } from '../..//sdk/classification';
 

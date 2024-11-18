@@ -1,7 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
-import { PageTitle, Pagination, Row, TextInput } from '../../components';
 import DOMPurify from 'dompurify';
+import { useCallback, useEffect, useState } from 'react';
 
+import { TextInput } from '@components/form/input';
+import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
+import { Pagination } from '@components/pagination';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import FilterToggleButtons from '../../components/filter-toggle-buttons';
 import { NumberResults } from '../../components/number-results';

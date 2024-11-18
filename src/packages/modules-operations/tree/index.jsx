@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react';
+import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
-import { Link } from 'react-router-dom';
 import D from '../../deprecated-locales';
-import { PageTitle, Row } from '../../components';
 
 import { useGoBack } from '../../utils/hooks/useGoBack';
 
-import './tree.scss';
-import { useTitle } from '../../utils/hooks/useTitle';
+import { ActionToolbar } from '@components/action-toolbar';
+import { ReturnButton } from '@components/buttons/buttons-with-icons';
 import { OperationsApi } from '../../sdk/operations-api';
-import { ActionToolbar } from '../../components/action-toolbar';
-import { ReturnButton } from '../../components/buttons/buttons-with-icons';
+import { useTitle } from '../../utils/hooks/useTitle';
+import './tree.scss';
 
 export const formatLeaf = (
 	leaf,

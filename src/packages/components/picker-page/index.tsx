@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import D from '../../deprecated-locales';
-import {
-	TextInput,
-	PageTitle,
-	ErrorBloc,
-	Pagination,
-	Row,
-} from '../../components';
+import { TextInput } from '@components/form/input';
+
+import { PageTitle } from '@components/page-title';
+
+import { ErrorBloc } from '@components/errors-bloc';
+
+import { Pagination } from '@components/pagination';
+
+import { Row } from '@components/layout';
 import { Panel } from '../panel';
 import { ActionToolbar } from '../action-toolbar';
 import { ReturnButton, ExportButton } from '../buttons/buttons-with-icons';

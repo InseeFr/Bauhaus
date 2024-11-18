@@ -1,5 +1,5 @@
-import { ActionToolbar } from '../../../../components/action-toolbar';
-import { ReturnButton } from '../../../../components/buttons/buttons-with-icons';
+import { ActionToolbar } from '@components/action-toolbar';
+import { ReturnButton } from '@components/buttons/buttons-with-icons';
 
 function Controls() {
 	return (

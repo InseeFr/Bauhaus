@@ -1,4 +1,4 @@
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import AssociationHome from './home';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';

@@ -1,6 +1,5 @@
 import { Series } from './operations/series';
-import { ValidationState } from '../components';
-
+import { ValidationState } from '@components/status';
 /**
  * Type used when fetching all Series
  */

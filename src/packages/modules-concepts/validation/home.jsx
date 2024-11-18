@@ -1,10 +1,10 @@
 import { Component } from 'react';
-import { Picker } from '../../components';
-import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
+import { ModalRmes } from '@components/modal-rmes/modal-rmes';
 import check from '../../auth/auth';
 import D from '../../deprecated-locales';
 import { getModalMessage } from '../utils/build-validation-message';
-import { PublishButton } from '../../components/buttons/buttons-with-icons';
+import { PublishButton } from '@components/buttons/buttons-with-icons';
+import { Picker } from '@components/picker-page';
 
 class ConceptsToValidate extends Component {
 	constructor(props) {

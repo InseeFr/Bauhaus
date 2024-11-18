@@ -1,9 +1,10 @@
-import { PageTitle, Row, SearchableList } from '../../../components';
-
-import D from '../../../deprecated-locales';
+import { Button } from '@components/buttons/button';
+import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
+import { SearchableList } from '@components/searchable-list';
 import Auth from '../../../auth/components/auth';
 import { VerticalMenu } from '../../../components/vertical-menu';
-import { Button } from '../../../components/buttons/button';
+import D from '../../../deprecated-locales';
 
 function OperationsObjectHome({
 	items,

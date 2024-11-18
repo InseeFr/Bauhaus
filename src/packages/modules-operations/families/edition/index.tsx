@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import OperationsFamilyEdition from '../../../modules-operations/families/edition/edition';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
 import D from '../../../deprecated-locales/build-dictionary';

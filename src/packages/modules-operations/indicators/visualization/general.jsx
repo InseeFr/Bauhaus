@@ -5,11 +5,13 @@ import SeeAlso from '../../../modules-operations/shared/seeAlso';
 import PublishersView from '../../../modules-operations/components/publishers-view';
 import CreatorsView from '../../../modules-operations/components/creators-view';
 import D from '../../../deprecated-locales/build-dictionary';
-import { PublicationMale, Row, CreationUpdateItems } from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
+import { Note } from '@components/note';
 import { useOrganizations } from '../../../utils/hooks/organizations';
+import { Row } from '@components/layout';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { PublicationMale } from '@components/status';
 
 function DisplayMultiLangNote({
 	value1,

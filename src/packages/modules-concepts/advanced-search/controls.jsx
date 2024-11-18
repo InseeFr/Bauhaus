@@ -1,8 +1,8 @@
-import { ActionToolbar } from '../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	ResetButton,
 	ReturnButton,
-} from '../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
 import ExportButtons from '../collections/export-buttons';
 
 const Controls = ({

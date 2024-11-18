@@ -2,9 +2,9 @@ import D from '../../../deprecated-locales/build-dictionary';
 import Modal from 'react-modal';
 import { useCallback, useState } from 'react';
 import './index.scss';
-import { Row } from '../../../components';
-import { Button } from '../../../components/buttons/button';
-import { CloseIconButton } from '../../../components/buttons/buttons-with-icons';
+import { Row } from '@components/layout';
+import { Button } from '@components/buttons/button';
+import { CloseIconButton } from '@components/buttons/buttons-with-icons';
 
 export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const [lang, setLang] = useState('lg1');

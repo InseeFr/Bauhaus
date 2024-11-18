@@ -9,7 +9,8 @@ import {
 import auth from '../../auth/hoc';
 
 import { RBACLink } from '.';
-import { Loading, NotFound, UnderMaintenance } from '../../components';
+import { NotFound, UnderMaintenance } from '@components/not-found';
+import { Loading } from '@components/loading';
 import { routes as ClassificationsRoutes } from '../../modules-classifications/routes/index';
 import { routes as CodelistsRoutes } from '../../modules-codelists/routes/index';
 import { routes as ConceptsRoutes } from '../../modules-concepts/routes/index';

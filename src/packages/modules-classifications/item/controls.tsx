@@ -2,12 +2,12 @@ import D from '../../deprecated-locales';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import Auth from '../../auth/components/auth';
 import { ADMIN } from '../../auth/roles';
-import { ActionToolbar } from '../../components/action-toolbar';
-import { Button } from '../../components/buttons/button';
+import { ActionToolbar } from '@components/action-toolbar';
+import { Button } from '@components/buttons/button';
 import {
 	ReturnButton,
 	UpdateButton,
-} from '../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
 
 type ItemControls = {
 	classificationId: string;

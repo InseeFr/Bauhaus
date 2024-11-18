@@ -4,14 +4,16 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import SimsGeographySelector from './sims-geography-selector';
 import { useGeographies } from './hooks';
-import { ErrorBloc, Row, TextInput } from '../../../components';
 import { GeographieApi } from '../../../sdk/geographie';
-import LabelRequired from '../../../components/label-required';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import LabelRequired from '@components/label-required';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { TextInput } from '@components/form/input';
 
 const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 	const [name, setName] = useState(territory.labelLg1 ?? '');

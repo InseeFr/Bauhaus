@@ -2,20 +2,18 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useParams } from 'react-router-dom';
 import { default as ReactSelect } from 'react-select';
-import {
-	ErrorBloc,
-	Loading,
-	PageTitleBlock,
-	Row,
-	TextInput,
-} from '../../../components';
-import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Loading, Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+import { Row } from '@components/layout';
+import { TextInput } from '@components/form/input';
+import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
-import LabelRequired from '../../../components/label-required';
+} from '@components/buttons/buttons-with-icons';
+import LabelRequired from '@components/label-required';
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { ClassificationsApi } from '../../../sdk/classification';
 import { fetchingPreviousLevels } from '../client';
@@ -88,7 +86,7 @@ export const Component = () => {
 
 	if (isLoading || isPreviousLevelsLoading) return <Loading />;
 
-	if (isSaving) return <Loading textType="saving" />;
+	if (isSaving) return <Saving />;
 
 	if (isSavingSuccess) {
 		return (

@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { PageTitle } from '../../components';
 import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
 import ConceptCreateControlLayout from './controls/controls-layout';
 import GeneralEdition from './general';
@@ -11,6 +10,7 @@ import { validate } from './controls/validation';
 import { areNotesImpactingVersionChanged } from '../utils/notes';
 import isVersioningPossible from '../../modules-concepts/utils/is-versioning-possible';
 import { TabPanel, TabView } from 'primereact/tabview';
+import { PageTitle } from '@components/page-title';
 
 export const onGeneralInformationChange = (state, update) => ({
 	...state,

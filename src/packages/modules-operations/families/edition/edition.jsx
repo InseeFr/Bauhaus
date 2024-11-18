@@ -1,25 +1,26 @@
 import { Component } from 'react';
 import { D1, D2 } from '../../../deprecated-locales';
 
-import { validate } from './validation';
 import D from '../../../deprecated-locales/build-dictionary';
-import {
-	TextInput,
-	Row,
-	Loading,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-	PageTitleBlock,
-} from '../../../components';
-import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
-import { OperationsApi } from '../../../sdk/operations-api';
-import LabelRequired from '../../../components/label-required';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { validate } from './validation';
+
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
+import {
+	ClientSideError,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
+import { OperationsApi } from '../../../sdk/operations-api';
 
 const defaultFamily = {
 	prefLabelLg1: '',
@@ -96,7 +97,7 @@ class OperationsFamilyEdition extends Component {
 	};
 
 	render() {
-		if (this.state.saving) return <Loading textType="saving" />;
+		if (this.state.saving) return <Saving />;
 
 		const { goBack } = this.props;
 		const { family, serverSideError } = this.state;

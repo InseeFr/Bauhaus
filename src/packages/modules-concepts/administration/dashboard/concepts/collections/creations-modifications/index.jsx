@@ -1,16 +1,14 @@
+import { DateItem } from '@components/creation-update-items';
+import { DatePicker } from '@components/date-picker';
+import { getDisseminationStatus } from '@components/dissemination-status/disseminationStatus';
+import { Row } from '@components/layout';
+import dayjs from 'dayjs';
+import { Column } from 'primereact/column';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-	DateItem,
-	DatePicker,
-	getDisseminationStatus,
-	Row,
-} from '../../../../../../components';
-import D from '../../../../../../deprecated-locales';
-import dayjs from 'dayjs';
-import { NumberResults } from '../../../../../../components/number-results';
-import { Column } from 'primereact/column';
 import { DataTable } from '../../../../../../components/datatable';
+import { NumberResults } from '../../../../../../components/number-results';
+import D from '../../../../../../deprecated-locales';
 
 const CollectionsCreationsModifications = ({ collectionsData, type }) => {
 	const [dateFilter, setDateFilter] = useState();

@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import D, { D1, D2 } from '../../deprecated-locales';
-import { getDisseminationStatus, Row } from '../../components';
 import { renderMarkdownElement } from '../../utils/html-utils';
 import { stringToDate } from '../../utils/date-utils';
-import { Note } from '../../components/note';
+import { Note } from '@components/note';
+import { getDisseminationStatus } from '@components/dissemination-status/disseminationStatus';
+import { Row } from '@components/layout';
 const General = ({ general, secondLang }) => {
 	let mapping = {};
 	mapping = {

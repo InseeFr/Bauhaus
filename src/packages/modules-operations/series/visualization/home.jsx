@@ -6,15 +6,13 @@ import { getSeeAlsoByType } from '../../shared/links/utils';
 import CreatorsView from '../../../modules-operations/components/creators-view';
 import PublishersView from '../../../modules-operations/components/publishers-view';
 import D from '../../../deprecated-locales/build-dictionary';
-import {
-	PublicationFemale,
-	Row,
-	CreationUpdateItems,
-} from '../../../components';
 import { renderMarkdownElement } from '../../../utils/html-utils';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
+import { Note } from '@components/note';
 import { useOrganizations } from '../../../utils/hooks/organizations';
+import { Row } from '@components/layout';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { PublicationFemale } from '@components/status';
 function OperationsSerieVisualization({
 	attr,
 	langs: { lg1 },

@@ -2,8 +2,9 @@ import { useState } from 'react';
 import D from '../../../deprecated-locales';
 import { CLOSE_MATCH } from '../../../sdk/constants';
 import './equivalentLinks.scss';
-import { Row, TextInput } from '../../../components';
 import { Link } from '../../../model/concepts/concept';
+import { Row } from '@components/layout';
+import { TextInput } from '@components/form/input';
 
 type EquivalentLinksTypes = {
 	links: (Link & { urn: string })[];

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '../../components';
+import { Loading } from '@components/loading';
 import CollectionsHome from './home';
 import { CollectionApi } from '../../sdk/collection-api';
 

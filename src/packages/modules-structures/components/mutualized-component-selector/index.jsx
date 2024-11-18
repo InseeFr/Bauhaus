@@ -6,10 +6,10 @@ import { ComponentDetail } from '../component-detail';
 
 import Representation from '../representation';
 import { UNPUBLISHED } from '../../../model/ValidationState';
-import { SeeButton } from '../../../components';
 import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { ComponentsTable } from '../components-table';
-import { AddButton } from '../../../components/buttons/add';
+import { AddButton } from '@components/buttons/add';
+import { SeeButton } from '@components/buttons/see';
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,

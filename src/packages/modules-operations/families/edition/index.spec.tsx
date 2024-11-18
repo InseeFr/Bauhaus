@@ -24,7 +24,7 @@ vi.mock('../../../sdk/operations-api', () => ({
 	},
 }));
 
-vi.mock('../../../components', () => ({
+vi.mock('@components/loading', () => ({
 	Loading: () => <div>Loading...</div>,
 }));
 

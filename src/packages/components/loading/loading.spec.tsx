@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Loading, Deleting, Publishing } from './loading';
+import { Loading, Deleting, Publishing } from './';
 import D from '../i18n';
 import { vi } from 'vitest';
 

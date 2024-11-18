@@ -1,6 +1,6 @@
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { Link } from 'react-router-dom';
-import { Note } from '../../../components/note';
+import { Note } from '@components/note';
 
 function SeeAlso({ links, secondLang }) {
 	function displaySeeAlsos(label) {

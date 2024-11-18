@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Note } from '../../../components/note';
+import { Note } from '@components/note';
 
 export const CollapsiblePanel = ({
 	id,

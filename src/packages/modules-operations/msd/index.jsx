@@ -1,6 +1,5 @@
 import { Component as ReactComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Loading, PageTitleBlock } from '../../components';
 import { D1, D2 } from '../../deprecated-locales';
 import MSDLayout from '../../modules-operations/msd/layout/';
 import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
@@ -28,6 +27,8 @@ import { getParentId, getParentType } from './utils';
 import { useDocumentsList } from './pages/sims-creation/useDocumentsList';
 import { isLoaded, loadGeographies } from '../../redux/geographies.action';
 import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from './constant';
+import { Loading } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
 class MSDContainer extends ReactComponent {
 	static defaultProps = {
 		currentSims: {},

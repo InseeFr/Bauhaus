@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react';
-import Select from 'react-select';
+import { TextInput } from '@components/form/input';
+import { Loading } from '@components/loading';
+import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import Select from 'react-select';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
-import {
-	Loading,
-	TextInput,
-	Column,
-	AdvancedSearchList,
-} from '../../../components';
+
+import { Column } from '@components/layout';
+
+import { AdvancedSearchList } from '@components/advanced-search/home';
 import { validateStateOptions } from '../../../model/ValidationState';
-import { useStampsOptions } from '../../../utils/hooks/stamps';
-import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
-import { useTitle } from '../../../utils/hooks/useTitle';
 import { filterKeyDeburr } from '../../../utils/array-utils';
+import { useStampsOptions } from '../../../utils/hooks/stamps';
+import { useTitle } from '../../../utils/hooks/useTitle';
+import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
 
 const filterId = filterKeyDeburr(['id']);
 const filterLabel = filterKeyDeburr(['labelLg1']);

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ClassificationTree from './home';
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import loadClassificationGeneral from '../../../redux/actions/classifications/general';
 import { getGeneral } from '../../../redux/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';

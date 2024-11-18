@@ -1,7 +1,7 @@
 import D, { D2 } from '../../deprecated-locales/build-dictionary';
 import { useSimsContext } from './context';
-import { Note } from '../../components/note';
-import { Row } from '../../components';
+import { Note } from '@components/note';
+import { Row } from '@components/layout';
 
 export const RubricEssentialMsg = ({ secondLang }) => {
 	const simsContext = useSimsContext();

@@ -2,7 +2,7 @@ import { Provider } from 'react-redux';
 import Root from './packages/application/router';
 import configureStore from './packages/redux/configure-store';
 import D from './packages/deprecated-locales';
-import { ApplicationTitle } from './packages/components';
+import { ApplicationTitle } from '@components/application-title';
 import { AppContextProvider } from './packages/application/app-context';
 import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

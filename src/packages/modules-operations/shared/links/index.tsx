@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../../deprecated-locales';
-import { Note } from '../../../components/note';
+import { Note } from '@components/note';
 
 type DisplayLinksTypes = {
 	links: any[];

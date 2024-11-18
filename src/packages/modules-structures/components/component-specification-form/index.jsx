@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Column, Row, TextInput } from '../../../components';
-import { Select } from '../../../components/select-rmes';
+import { Select } from '@components/select-rmes';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { getAllAttachment } from '../../utils';
 import {
@@ -10,6 +9,8 @@ import {
 import './component-specification-form.scss';
 
 import { StructureApi } from '../../../sdk';
+import { Column, Row } from '@components/layout';
+import { TextInput } from '@components/form/input';
 
 export const ComponentSpecificationForm = ({
 	structureComponents,

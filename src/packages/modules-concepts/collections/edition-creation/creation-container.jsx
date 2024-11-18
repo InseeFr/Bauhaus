@@ -3,7 +3,7 @@ import buildPayload from '../../../modules-concepts/collections/utils/build-payl
 import CollectionEditionCreation from './home';
 import D from '../../../deprecated-locales';
 import emptyCollection from '../../../modules-concepts/collections/utils/empty-collection';
-import { Loading } from '../../../components';
+import { Loading, Saving } from '@components/loading';
 
 import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '../../../sdk/collection-api';
@@ -54,7 +54,7 @@ export const Component = () => {
 	useTitle(D.collectionsTitle, general?.prefLabelLg1);
 
 	if (saving) {
-		return <Loading textType="saving" />;
+		return <Saving />;
 	}
 	if (loading) {
 		return <Loading />;

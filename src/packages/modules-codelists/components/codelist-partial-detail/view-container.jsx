@@ -8,7 +8,7 @@ import ComponentTitle from '../codelist-detail/title';
 import { CodeListPartialDetailView } from './view';
 import { useQuery } from '@tanstack/react-query';
 import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { Deleting, Publishing, Loading } from '../../../components';
+import { Deleting, Publishing, Loading } from '@components/loading';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
 
 export const Component = (props) => {

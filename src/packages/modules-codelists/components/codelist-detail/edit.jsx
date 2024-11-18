@@ -5,25 +5,25 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './edit.scss';
 import MainDictionary from '../../../deprecated-locales/build-dictionary';
 import { CodesCollapsiblePanel } from './codes-panel';
-import {
-	TextInput,
-	Row,
-	ContributorsInput,
-	DisseminationStatusInput,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
+import { Select } from '@components/select-rmes';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
-import LabelRequired from '../../../components/label-required';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import LabelRequired from '@components/label-required';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
+import {
+	ClientSideError,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { TextInput } from '@components/form/input';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
+import { ContributorsInput } from '@components/contributors/contributors';
 
 const defaultCodelist = {
 	created: dayjs(),

@@ -1,4 +1,4 @@
-import { Loading } from '../../components';
+import { Loading } from '@components/loading';
 import SeriesHome from './home';
 import { useQuery } from '@tanstack/react-query';
 import { ClassificationsApi } from '../..//sdk/classification';

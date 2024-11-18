@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import FamilyVisualization from './home';
-import { Loading } from '../../../components';
+import { Loading } from '@components/loading';
 import { useParams } from 'react-router-dom';
 import { ClassificationsApi } from '../../../sdk/classification';
 import { useSecondLang } from '../../../utils/hooks/second-lang';
