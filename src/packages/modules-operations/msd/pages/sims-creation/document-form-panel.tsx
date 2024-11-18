@@ -1,10 +1,10 @@
+import { Saving } from '@components/loading';
+import { useState } from 'react';
 import { RightSlidingPanel } from '../../../../components/sliding-panel';
 import { useCodesList } from '../../../../utils/hooks/codeslist';
 import OperationsDocumentationEdition from '../../../document/edition/edition';
-import { useDocumentsStoreContext } from './documents-store-context';
 import './document-form-panel.scss';
-import { useState } from 'react';
-import { Loading, Saving } from '@components/loading';
+import { useDocumentsStoreContext } from './documents-store-context';
 import { getDocumentsList } from './useDocumentsList';
 import { Document } from '../../../../model/operations/document';
 

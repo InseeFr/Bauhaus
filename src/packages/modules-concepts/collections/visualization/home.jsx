@@ -1,5 +1,5 @@
 import { CheckSecondLang } from '@components/check-second-lang';
-import { Exporting, Loading } from '@components/loading';
+import { Exporting } from '@components/loading';
 import { PageTitle } from '@components/page-title';
 
 import { PageSubtitle } from '../../../components/page-sub-title';

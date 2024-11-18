@@ -15,7 +15,7 @@ import {
 } from '@components/errors-bloc';
 import { InputRmes } from '@components/input-rmes';
 import { Row } from '@components/layout';
-import { Loading, Saving } from '@components/loading';
+import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { RequiredIcon } from '@components/required-icon';
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
