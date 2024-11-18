@@ -19,8 +19,8 @@ import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { RequiredIcon } from '@components/required-icon';
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
-import { OperationsApi } from '../../../sdk/operations-api';
-import * as ItemToSelectModel from '../../../utils/item-to-select-model';
+import { OperationsApi } from '@sdk/operations-api';
+import * as ItemToSelectModel from '@utils/item-to-select-model';
 
 const defaultIndicator = {
 	prefLabelLg1: '',

@@ -6,10 +6,10 @@ import emptyCollection from '../../../modules-concepts/collections/utils/empty-c
 import { Loading, Saving } from '@components/loading';
 
 import { ConceptsApi } from '../../../sdk';
-import { CollectionApi } from '../../../sdk/collection-api';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { CollectionApi } from '@sdk/collection-api';
+import { useTitle } from '@utils/hooks/useTitle';
 import { useAppContext } from '../../../application/app-context';
-import { cleanId } from '../../../utils/string-utils';
+import { cleanId } from '@utils/string-utils';
 import { useNavigate } from 'react-router-dom';
 
 export const Component = () => {

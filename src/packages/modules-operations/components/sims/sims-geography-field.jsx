@@ -4,7 +4,7 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 import SimsGeographySelector from './sims-geography-selector';
 import { useGeographies } from './hooks';
-import { GeographieApi } from '../../../sdk/geographie';
+import { GeographieApi } from '@sdk/geographie';
 import LabelRequired from '@components/label-required';
 import { ActionToolbar } from '@components/action-toolbar';
 import {

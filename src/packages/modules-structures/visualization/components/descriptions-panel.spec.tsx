@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react';
 import { DescriptionsPanel } from './descriptions-panel';
 import { D1 } from '../../../deprecated-locales';
 import { vi } from 'vitest';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useSecondLang } from '@utils/hooks/second-lang';
 
-vi.mock('../../../utils/hooks/second-lang', () => ({
+vi.mock('@utils/hooks/second-lang', () => ({
 	useSecondLang: vi.fn(),
 }));
 

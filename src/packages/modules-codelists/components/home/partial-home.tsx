@@ -7,7 +7,7 @@ import { SearchableList } from '@components/searchable-list';
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
 import { VerticalMenu } from '../../../components/vertical-menu';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';

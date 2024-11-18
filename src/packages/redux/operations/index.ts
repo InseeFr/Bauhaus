@@ -1,4 +1,4 @@
-import { LOADED, LOADING, ERROR } from '../../sdk/constants';
+import { LOADED, LOADING, ERROR } from '@sdk/constants';
 import * as currentReducers from './current';
 import {
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST,

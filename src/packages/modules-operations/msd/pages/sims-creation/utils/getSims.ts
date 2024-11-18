@@ -1,6 +1,6 @@
 import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from '../../../constant';
 import { Rubric } from '../../../../../model/Sims';
-import { OperationsApi } from '../../../../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { flattenTree } from '../../../../utils/msd';
 import { removeRubricsWhenDuplicate } from '../../../utils';
 

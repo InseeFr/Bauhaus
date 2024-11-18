@@ -5,7 +5,7 @@ import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
 import D from '../../../deprecated-locales/build-dictionary';
 import { PartialDataset } from '../../../model/Dataset';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { useDatasets } from '../../datasets';
 import { HomePageMenu } from './menu';
 

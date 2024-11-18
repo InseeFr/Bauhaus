@@ -6,7 +6,7 @@ import {
 	LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION,
 	LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION_SUCCESS,
 } from '../../actions/constants';
-import { LOADED, LOADING } from '../../../sdk/constants';
+import { LOADED, LOADING } from '@sdk/constants';
 
 describe('reducerCorrespondenceAssociation', () => {
 	test('action LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION', () => {

@@ -5,8 +5,8 @@ import { Loading } from '@components/loading';
 import loadClassificationGeneral from '../../../redux/actions/classifications/general';
 import { getGeneral } from '../../../redux/classifications/classification/general';
 import { getTreeFromFlatData } from 'react-sortable-tree';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useClassificationsItem } from '../../../utils/hooks/classifications';
+import { useSecondLang } from '@utils/hooks/second-lang';
+import { useClassificationsItem } from '@utils/hooks/classifications';
 import { useParams } from 'react-router-dom';
 
 const ClassificationTreeContainer = ({

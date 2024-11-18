@@ -1,7 +1,7 @@
 import { D1 } from '../../i18n/build-dictionary';
 import { Select } from '@components/select-rmes';
 import { Option } from '../../../model/SelectOption';
-import { useOrganizationsOptions } from '../../../utils/hooks/organizations';
+import { useOrganizationsOptions } from '@utils/hooks/organizations';
 
 type PublishersInputTypes = {
 	value: string;

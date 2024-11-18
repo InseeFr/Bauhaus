@@ -1,7 +1,7 @@
 import ConceptEditionCreation, { onGeneralInformationChange } from './home';
-import { empty } from '../utils/general';
 import { renderWithRouter } from '../../tests-utils/render';
 import { locales } from '../../tests-utils/default-values';
+import { empty } from '../utils/general';
 
 vi.mock('./general');
 

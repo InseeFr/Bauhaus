@@ -3,16 +3,16 @@ import { useParams } from 'react-router-dom';
 import { Loading } from '@components/loading';
 import OperationsSerieEdition from '../../../modules-operations/series/edition/edition';
 
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { useCodesList } from '../../../utils/hooks/codeslist';
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useCodesList } from '@utils/hooks/codeslist';
 import D from '../../../deprecated-locales';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { OperationsApi } from '../../../sdk/operations-api';
+import { useTitle } from '@utils/hooks/useTitle';
+import { OperationsApi } from '@sdk/operations-api';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
-import { useOrganizations } from '../../../utils/hooks/organizations';
+import { useOrganizations } from '@utils/hooks/organizations';
 
 export const Component = (props) => {
 	const { id } = useParams();

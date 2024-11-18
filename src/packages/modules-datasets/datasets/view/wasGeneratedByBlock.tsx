@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useSeries } from '../../../utils/hooks/series';
-import { useOperations } from '../../../utils/hooks/operations';
+import { useSeries } from '@utils/hooks/series';
+import { useOperations } from '@utils/hooks/operations';
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/Series';
 import { List } from '../../../components/list';

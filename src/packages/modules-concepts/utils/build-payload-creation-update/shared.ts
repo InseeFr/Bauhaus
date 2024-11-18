@@ -1,6 +1,6 @@
-import { NONE } from '../../../sdk/constants';
-import { takeKeys } from '../../../utils/take-keys';
-import { prefixWithHttp } from '../../../utils/prefix-with-http';
+import { NONE } from '@sdk/constants';
+import { takeKeys } from '@utils/take-keys';
+import { prefixWithHttp } from '@utils/prefix-with-http';
 
 export function processLinks(conceptsWithLinks: any[]) {
 	/*

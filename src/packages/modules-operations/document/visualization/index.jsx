@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { GeneralApi } from '../../../sdk/general-api';
-import { useCodesList } from '../../../utils/hooks/codeslist';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { GeneralApi } from '@sdk/general-api';
+import { useCodesList } from '@utils/hooks/codeslist';
+import { useSecondLang } from '@utils/hooks/second-lang';
 import OperationsDocumentVisualization from './home';
 import { Menu } from './Menu';
 import { Loading } from '@components/loading';

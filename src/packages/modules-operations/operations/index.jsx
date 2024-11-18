@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Loading } from '@components/loading';
 import OperationsHome from './home';
-import { OperationsApi } from '../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { sortArray } from '../../utils/array-utils';
 
 export const Component = () => {

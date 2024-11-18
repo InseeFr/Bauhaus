@@ -1,4 +1,4 @@
-import { ERROR, LOADED, LOADING } from '../../sdk/constants';
+import { ERROR, LOADED, LOADING } from '@sdk/constants';
 import { CL_FREQ, CL_SOURCE_CATEGORY } from '../actions/constants/codeList';
 import {
 	LOAD_OPERATIONS_CODES_LIST,

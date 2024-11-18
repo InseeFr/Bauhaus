@@ -1,11 +1,11 @@
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { useEffect, useState } from 'react';
-import { LINK, isDocument, isLink } from '../utils';
 import RelationsView from '../../shared/relations';
 import { getBaseURI } from '../../../sdk';
-import { useTitle } from '../../../utils/hooks/useTitle';
 import { Note } from '@components/note';
 import { Row } from '@components/layout';
+import { isDocument, isLink, LINK } from '../utils';
+import { useTitle } from '@utils/hooks/useTitle';
 
 function formatSims(sims) {
 	const simsObject = sims.reduce((acc, s) => {

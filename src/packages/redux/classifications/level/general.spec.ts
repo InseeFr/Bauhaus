@@ -4,7 +4,7 @@ import {
 	LOAD_CLASSIFICATION_LEVEL_GENERAL,
 	LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS,
 } from '../../actions/constants';
-import { LOADED, LOADING } from '../../../sdk/constants';
+import { LOADED, LOADING } from '@sdk/constants';
 
 describe('reducerLevelGeneral', () => {
 	test('action LOAD_CLASSIFICATION_LEVEL_GENERAL', () => {

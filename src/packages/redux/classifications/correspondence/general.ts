@@ -1,5 +1,5 @@
 import * as generalUtils from '../../../modules-classifications/utils/correspondence/general';
-import { LOADED } from '../../../sdk/constants';
+import { LOADED } from '@sdk/constants';
 import { LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS } from '../../actions/constants';
 import { ReduxAction } from '../../model';
 

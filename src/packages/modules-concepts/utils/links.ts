@@ -8,7 +8,7 @@ import {
 	NONE,
 	CLOSE_MATCH,
 	IS_REPLACED_BY,
-} from '../../sdk/constants';
+} from '@sdk/constants';
 
 export const linkTypes = {
 	[BROADER]: BROADER,

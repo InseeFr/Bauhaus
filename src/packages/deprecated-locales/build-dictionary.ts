@@ -11,7 +11,7 @@ import {
 	firstLang,
 	getLang,
 	secondLang,
-} from '../utils/dictionnary';
+} from '@utils/dictionnary';
 
 const dictionary = {
 	...appD,

@@ -1,5 +1,5 @@
 import * as A from '../../actions/constants';
-import { ClassificationsApi } from '../../../sdk/classification';
+import { ClassificationsApi } from '@sdk/classification';
 import { Dispatch } from 'redux';
 
 const fetchClassificationGeneral = (id: string) => (dispatch: Dispatch) => {

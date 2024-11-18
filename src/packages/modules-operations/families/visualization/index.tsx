@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom';
 
 import { useCallback, useEffect, useState } from 'react';
 import OperationsFamilyVisualization from '../../../modules-operations/families/visualization/visualization';
-import { OperationsApi } from '../../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { Menu } from './menu';
 import { Family } from '../../../model/operations/family';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useSecondLang } from '@utils/hooks/second-lang';
 import { Loading } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { ErrorBloc } from '@components/errors-bloc';

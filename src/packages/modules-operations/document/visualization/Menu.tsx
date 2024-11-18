@@ -10,7 +10,7 @@ import {
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
 import { Document } from '../../../model/operations/document';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { useGoBack } from '@utils/hooks/useGoBack';
 
 type MenuTypes = {
 	document: Document;

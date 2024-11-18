@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { DumbComponentDetailEdit } from './edit';
 import { ComponentDetailView } from './view';
 import ComponentTitle from './title';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useSecondLang } from '@utils/hooks/second-lang';
 
 export const ComponentDetail = (props) => {
 	const [secondLang] = useSecondLang();

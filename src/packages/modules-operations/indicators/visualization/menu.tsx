@@ -8,8 +8,8 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Indicator } from '../../../model/operations/indicator';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { containUnsupportedStyles } from '../../../utils/html-utils';
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { containUnsupportedStyles } from '@utils/html-utils';
 import { ValidationButton } from '@components/validationButton';
 
 type MenuTypes = {

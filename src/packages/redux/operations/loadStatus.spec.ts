@@ -5,7 +5,7 @@ import {
 	SAVE_OPERATIONS_SIMS,
 	SAVE_OPERATIONS_SIMS_SUCCESS,
 } from '../actions/constants';
-import { LOADED, LOADING, NOT_LOADED } from '../../sdk/constants';
+import { LOADED, LOADING, NOT_LOADED } from '@sdk/constants';
 
 describe('operationsSimsCurrentStatus reducer', () => {
 	it('should return the previous state', () => {

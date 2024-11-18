@@ -6,7 +6,7 @@ import { ComponentDetail } from '../component-detail';
 import Auth from '../../../auth/components/auth';
 import Representation from '../representation';
 import { UNPUBLISHED } from '../../../model/ValidationState';
-import { useStampsOptions } from '../../../utils/hooks/stamps';
+import { useStampsOptions } from '@utils/hooks/stamps';
 import { ADMIN } from '../../../auth/roles';
 import {
 	Component,
@@ -14,7 +14,7 @@ import {
 } from '../../../model/structures/Component';
 import { Structure } from '../../../model/structures/Structure';
 import { CodesList } from '../../../model/CodesList';
-import { convertToArrayIfDefined } from '../../../utils/array-utils';
+import { convertToArrayIfDefined } from '@utils/array-utils';
 import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { ComponentsTable } from '../components-table';
 import { AddButton } from '@components/buttons/add';

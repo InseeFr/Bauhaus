@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import D, { D1 } from '../../../deprecated-locales';
 import { Row } from '@components/layout';
-import { sortArray } from '../../../utils/array-utils';
+import { sortArray } from '@utils/array-utils';
 import { Note } from '@components/note';
 import { DataTable } from '@components/datatable';
 import { Column } from 'primereact/column';

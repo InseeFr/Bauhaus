@@ -5,7 +5,7 @@ import {
 } from '../../../redux/actions/constants/codeList';
 import { renderWithRouter } from '../../../tests-utils/render';
 import { vi } from 'vitest';
-import * as useOrganizationsHook from '../../../utils/hooks/organizations';
+import * as useOrganizationsHook from '@utils/hooks/organizations';
 
 const organisations = [
 	{

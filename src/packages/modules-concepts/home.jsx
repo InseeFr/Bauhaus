@@ -5,7 +5,7 @@ import { SearchableList } from '@components/searchable-list';
 import { useEffect, useState } from 'react';
 import D from '../deprecated-locales';
 import { ConceptsApi } from '../sdk';
-import { useTitle } from '../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { Menu } from './menu';
 
 export const Component = () => {

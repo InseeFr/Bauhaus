@@ -1,4 +1,4 @@
-import { createAllDictionary } from '../utils/dictionnary';
+import { createAllDictionary } from '@utils/dictionnary';
 
 export const { D, D1, D2, lg1, lg2 } = createAllDictionary({
 	errors: {

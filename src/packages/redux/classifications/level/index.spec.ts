@@ -1,5 +1,5 @@
 import { getLevel } from './';
-import { LOADED } from '../../../sdk/constants';
+import { LOADED } from '@sdk/constants';
 
 describe('getLevel', () => {
 	test('getLevel selector should extract results', () => {

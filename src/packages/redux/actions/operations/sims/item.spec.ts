@@ -1,7 +1,7 @@
 import get, { saveSims } from './item';
 import * as A from '../../../actions/constants';
-import { LOADING, NOT_LOADED } from '../../../../sdk/constants';
-import { OperationsApi } from '../../../../sdk/operations-api';
+import { LOADING, NOT_LOADED } from '@sdk/constants';
+import { OperationsApi } from '@sdk/operations-api';
 
 const dispatch = vi.fn();
 

@@ -3,7 +3,7 @@ import CollectionsToValidate from './home';
 import { Loading, Publishing } from '@components/loading';
 import D from '../../../deprecated-locales';
 import { ConceptsApi } from '../../../sdk';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { useNavigate } from 'react-router-dom';
 

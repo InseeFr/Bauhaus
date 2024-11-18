@@ -1,4 +1,4 @@
-import { buildEmptyNotes } from '../../../utils/build-empty-notes';
+import { buildEmptyNotes } from '@utils/build-empty-notes';
 
 export const versionableNotes = [
 	'scopeNoteLg1',

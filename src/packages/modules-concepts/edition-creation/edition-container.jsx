@@ -6,7 +6,7 @@ import D from '../../deprecated-locales';
 import buildPayloadUpdate from '../../modules-concepts/utils/build-payload-creation-update/build-payload-update';
 import * as generalUtils from '../../modules-concepts/utils/general';
 import { ConceptsApi } from '../../sdk';
-import { CLOSE_MATCH } from '../../sdk/constants';
+import { CLOSE_MATCH } from '@sdk/constants';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { rmesHtmlToRawHtml } from '../../utils/html-utils';
 import { mergeWithAllConcepts } from '../utils/links';

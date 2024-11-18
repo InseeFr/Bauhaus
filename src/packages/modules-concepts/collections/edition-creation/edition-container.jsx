@@ -6,9 +6,9 @@ import D from '../../../deprecated-locales';
 import { Loading, Saving } from '@components/loading';
 
 import { ConceptsApi } from '../../../sdk';
-import { CollectionApi } from '../../../sdk/collection-api';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { cleanId } from '../../../utils/string-utils';
+import { CollectionApi } from '@sdk/collection-api';
+import { useTitle } from '@utils/hooks/useTitle';
+import { cleanId } from '@utils/string-utils';
 
 export const Component = () => {
 	const { id } = useParams();

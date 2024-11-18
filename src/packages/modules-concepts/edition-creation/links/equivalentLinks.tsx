@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import D from '../../../deprecated-locales';
-import { CLOSE_MATCH } from '../../../sdk/constants';
+import { CLOSE_MATCH } from '@sdk/constants';
 import './equivalentLinks.scss';
 import { Link } from '../../../model/concepts/concept';
 import { Row } from '@components/layout';

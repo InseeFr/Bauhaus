@@ -6,8 +6,8 @@ import { D1, D2 } from '../../../deprecated-locales';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Family } from '../../../model/operations/family';
 import RelationsView from '../../../modules-operations/shared/relations';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { renderMarkdownElement } from '../../../utils/html-utils';
+import { useTitle } from '@utils/hooks/useTitle';
+import { renderMarkdownElement } from '@utils/html-utils';
 
 type OperationsFamilyVisualizationTypes = {
 	attr: Family;

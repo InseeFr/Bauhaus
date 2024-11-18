@@ -1,6 +1,5 @@
 import { PureComponent } from 'react';
 import D from '../../../../deprecated-locales';
-import { rangeType } from '../../../utils/msd';
 import { Select } from '@components/select-rmes';
 
 import {
@@ -17,6 +16,7 @@ import { SimsCodeListSelect } from './sims-code-list-select';
 import { getLang } from '../../../../utils/dictionnary';
 import { InputRmes } from '@components/input-rmes';
 import { DatePicker } from '@components/date-picker';
+import { rangeType } from '../../../utils/msd';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 

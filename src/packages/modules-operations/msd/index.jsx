@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { D1, D2 } from '../../deprecated-locales';
 import MSDLayout from '../../modules-operations/msd/layout/';
 import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
-import { LOADED, NOT_LOADED } from '../../sdk/constants';
+import { LOADED, NOT_LOADED } from '@sdk/constants';
 
 import MSDHelp from '../../modules-operations/msd/pages/help';
 import SimsCreation from '../../modules-operations/msd/pages/sims-creation/';
@@ -16,7 +16,7 @@ import { getOperationsCodesList } from '../../redux/operations/selector';
 
 import { useLoaderData, useParams } from 'react-router-dom';
 import { getOperationsSimsCurrent } from '../../redux/selectors';
-import { OperationsApi } from '../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { useOrganizations } from '../../utils/hooks/organizations';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { SimsContextProvider } from './context';

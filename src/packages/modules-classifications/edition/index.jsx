@@ -12,7 +12,7 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import LabelRequired from '@components/label-required';
 import D, { D1, D2 } from '../../deprecated-locales';
-import { ClassificationsApi } from '../../sdk/classification';
+import { ClassificationsApi } from '@sdk/classification';
 import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
 import { useOrganizationsOptions } from '../../utils/hooks/organizations';
 import { useStampsOptions } from '../../utils/hooks/stamps';

@@ -1,6 +1,6 @@
 import { Button } from './button';
 import { createAllDictionary } from '../../utils/dictionnary';
-import { useGoBack } from '../../utils/hooks/useGoBack';
+import { useGoBack } from '@utils/hooks/useGoBack';
 import { ComponentProps } from 'react';
 
 const { D } = createAllDictionary({

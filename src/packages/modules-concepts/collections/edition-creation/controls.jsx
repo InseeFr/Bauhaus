@@ -5,7 +5,7 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
 import D from '../../../deprecated-locales/build-dictionary';
-import { createAllDictionary } from '../../../utils/dictionnary';
+import { createAllDictionary } from '@utils/dictionnary';
 
 const { D: dict } = createAllDictionary({
 	errors: {

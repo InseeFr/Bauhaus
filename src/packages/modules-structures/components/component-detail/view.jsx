@@ -15,8 +15,8 @@ import MainDictionary from '../../../deprecated-locales/build-dictionary';
 import { ViewMenu } from './menu';
 import { MeasureAttributes } from './visualisation/measureAttributes';
 
-import { renderMarkdownElement } from '../../../utils/html-utils';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { renderMarkdownElement } from '@utils/html-utils';
+import { useTitle } from '@utils/hooks/useTitle';
 import { Note } from '@components/note';
 import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 import { ContributorsVisualisation } from '@components/contributors/contributors';

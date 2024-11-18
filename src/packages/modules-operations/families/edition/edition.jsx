@@ -20,7 +20,7 @@ import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
-import { OperationsApi } from '../../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 
 const defaultFamily = {
 	prefLabelLg1: '',

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { DocumentsApi } from '../../sdk/documents';
+import { DocumentsApi } from '@sdk/documents';
 import { Document } from '../../model/operations/document';
 
 export const useDocumentsAndLinks = () => {

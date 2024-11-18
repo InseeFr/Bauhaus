@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import { Loading } from '@components/loading';
 import OperationsOperationEdition from '../../../modules-operations/operations/edition/edition';
 import D from '../../../deprecated-locales';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { OperationsApi } from '../../../sdk/operations-api';
+import { useTitle } from '@utils/hooks/useTitle';
+import { OperationsApi } from '@sdk/operations-api';
 import { ReduxModel } from '../../../redux/model';
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/operations/series';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { useGoBack } from '@utils/hooks/useGoBack';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();

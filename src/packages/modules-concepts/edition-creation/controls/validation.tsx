@@ -1,7 +1,7 @@
-import { htmlIsEmpty, htmlLength } from '../../../utils/html-utils';
+import { htmlIsEmpty, htmlLength } from '@utils/html-utils';
 import D, { D1 } from '../../../deprecated-locales';
 import { z } from 'zod';
-import { formatValidation } from '../../../utils/validation';
+import { formatValidation } from '@utils/validation';
 import { ConceptGeneral, ConceptNotes } from '../../../model/concepts/concept';
 
 type Concept = {

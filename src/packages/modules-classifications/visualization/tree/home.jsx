@@ -1,7 +1,7 @@
 import Controls from './controls';
 import D from '../../../deprecated-locales';
 import { Tree } from '../../../components/tree';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { PageTitle } from '@components/page-title';
 import { CheckSecondLang } from '@components/check-second-lang';
 import { Row } from '@components/layout';

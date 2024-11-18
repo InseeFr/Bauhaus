@@ -20,7 +20,7 @@ import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
-import { OperationsApi } from '../../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 
 const defaultOperation = {
 	prefLabelLg1: '',

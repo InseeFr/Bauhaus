@@ -8,7 +8,7 @@ import {
 	REFERENCES,
 	RELATED,
 	SUCCEED,
-} from '../../sdk/constants';
+} from '@sdk/constants';
 import './links.scss';
 import { sortArray } from '../../utils/array-utils';
 import { Note } from '@components/note';

@@ -8,7 +8,7 @@ import {
 import { Dataset } from '../../../model/Dataset';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { usePermission } from '../../../redux/hooks/usePermission';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { useGoBack } from '@utils/hooks/useGoBack';
 import { checkIfContributorContainsUserStamp } from '../../utils/check-stamp-with-contributor';
 import { ValidationButton } from '@components/validationButton';
 

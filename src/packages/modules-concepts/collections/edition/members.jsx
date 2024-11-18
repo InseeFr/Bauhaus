@@ -5,7 +5,7 @@ import { D1 } from '../../../modules-concepts/i18n';
 import { Panel } from '@components/panel';
 import { AddLogo } from '@components/logo/logo-add';
 import { DelLogo } from '@components/logo/logo-del';
-import { arrayDifferenceByID, filterDeburr } from '../../../utils/array-utils';
+import { arrayDifferenceByID, filterDeburr } from '@utils/array-utils';
 import { PickerItem } from '@components/picker-item';
 import { Column, Row } from '@components/layout';
 import { TextInput } from '@components/form/input';

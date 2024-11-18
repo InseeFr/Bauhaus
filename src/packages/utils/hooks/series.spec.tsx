@@ -2,11 +2,11 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useSeries } from './series';
 import { Series } from '../../model/Series';
-import { OperationsApi } from '../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { vi } from 'vitest';
 import { PropsWithChildren } from 'react';
 
-vi.mock('../../sdk/operations-api');
+vi.mock('@sdk/operations-api');
 
 const queryClient = new QueryClient();
 

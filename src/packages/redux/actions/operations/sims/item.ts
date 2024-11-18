@@ -1,10 +1,10 @@
 import * as A from '../../../actions/constants';
 import { D1, D2 } from '../../../../deprecated-locales';
 
-import { getPublishFactory } from '../utils';
-import { OperationsApi } from '../../../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { Rubric } from '../../../../model/Sims';
 import { LOADING } from '@sdk/constants';
+import { getPublishFactory } from '../utils';
 
 export const publishSims = getPublishFactory(
 	OperationsApi.publishSims,

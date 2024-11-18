@@ -5,7 +5,7 @@ import { PublicationFemale } from '@components/status';
 import { D1, D2 } from '../../../deprecated-locales';
 import D from '../../../deprecated-locales/build-dictionary';
 import RelationsView from '../../../modules-operations/shared/relations';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 
 function OperationsOperationVisualization({ attr, secondLang }) {
 	useTitle(D.operationsTitle, attr?.prefLabelLg1);

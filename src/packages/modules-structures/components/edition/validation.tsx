@@ -1,6 +1,6 @@
 import D from '../../../deprecated-locales';
 import { z } from 'zod';
-import { formatValidation } from '../../../utils/validation';
+import { formatValidation } from '@utils/validation';
 import { StructureZod } from '../../edition/validation';
 
 const ComponentZod = StructureZod.extend({

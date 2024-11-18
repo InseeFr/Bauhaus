@@ -1,6 +1,6 @@
+import { createAllDictionary } from '@utils/dictionnary';
 import { useCallback } from 'react';
 import './index.scss';
-import { createAllDictionary } from '../../utils/dictionnary';
 
 const className = 'sticky-top';
 

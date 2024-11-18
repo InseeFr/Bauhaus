@@ -6,7 +6,7 @@ import './edit.scss';
 import MainDictionary from '../../../deprecated-locales/build-dictionary';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { Select } from '@components/select-rmes';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import LabelRequired from '@components/label-required';

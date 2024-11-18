@@ -8,7 +8,7 @@ import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import loadDevTools from './dev-tools/load';
 import './packages/styles/main.scss';
-import { GeneralApi } from './packages/sdk/general-api';
+import { GeneralApi } from '@sdk/general-api';
 import { getLang } from './packages/utils/dictionnary';
 import BackToTop from './packages/components/back-to-top';
 import { OidcProvider } from './packages/auth/create-oidc';

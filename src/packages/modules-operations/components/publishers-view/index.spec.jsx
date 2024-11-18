@@ -2,7 +2,7 @@ import PublishersView from './';
 import { render } from '@testing-library/react';
 
 import { vi } from 'vitest';
-import * as useOrganizationsHook from '../../../utils/hooks/organizations';
+import * as useOrganizationsHook from '@utils/hooks/organizations';
 
 vi.spyOn(useOrganizationsHook, 'useOrganizations').mockReturnValue({
 	data: [

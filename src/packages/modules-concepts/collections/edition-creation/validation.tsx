@@ -1,7 +1,7 @@
 import D, { D1 } from '../../../deprecated-locales';
-import { arrayKeepUniqueField } from '../../../utils/array-utils';
+import { arrayKeepUniqueField } from '@utils/array-utils';
 import { z } from 'zod';
-import { formatValidation } from '../../../utils/validation';
+import { formatValidation } from '@utils/validation';
 import { Collection } from '../../../model/concepts/collection';
 
 type CollectionsList = {

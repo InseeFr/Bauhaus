@@ -16,9 +16,9 @@ import {
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { DatasetsApi } from '../../../sdk';
-import { initializeContributorProperty } from '../../../utils/creation/contributor-init';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { initializeContributorProperty } from '@utils/creation/contributor-init';
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
 import './edit.scss';
 import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
 import { GlobalInformation } from './tabs/global-information';

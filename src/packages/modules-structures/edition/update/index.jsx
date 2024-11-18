@@ -3,7 +3,7 @@ import Edition from '../component';
 import { Loading } from '@components/loading';
 import { useLocation, useParams } from 'react-router-dom';
 import D from '../../../deprecated-locales';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { StructureApi } from '../../../sdk';
 
 export const Component = () => {

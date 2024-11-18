@@ -8,7 +8,7 @@ import MainDictionary from '../../../deprecated-locales/build-dictionary';
 
 import { Select } from '@components/select-rmes';
 import { CodeListApi } from '../../../sdk';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import LabelRequired from '@components/label-required';

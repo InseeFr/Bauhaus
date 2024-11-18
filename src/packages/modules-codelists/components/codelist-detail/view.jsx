@@ -4,8 +4,8 @@ import './view.scss';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { ViewMenu } from './menu';
 
-import { renderMarkdownElement } from '../../../utils/html-utils';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { renderMarkdownElement } from '@utils/html-utils';
+import { useTitle } from '@utils/hooks/useTitle';
 import { Note } from '@components/note';
 import { ConfirmationDelete } from '@components/confirmation-delete';
 import { ErrorBloc } from '@components/errors-bloc';

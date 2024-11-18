@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import DocumentHome from './home';
 import { Loading } from '@components/loading';
-import { GeneralApi } from '../../sdk/general-api';
+import { GeneralApi } from '@sdk/general-api';
 import { sortArray } from '../../utils/array-utils';
 
 const sortByLabel = sortArray('label');

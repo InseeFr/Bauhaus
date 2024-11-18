@@ -5,8 +5,8 @@ import { PageTitle } from '@components/page-title';
 import { PageSubtitle } from '../../../components/page-sub-title';
 import D from '../../../deprecated-locales';
 import CollectionMembers from '../../../modules-concepts/collections/visualisation/members';
-import { useCollectionExporter } from '../../../utils/hooks/collections';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useCollectionExporter } from '@utils/hooks/collections';
+import { useTitle } from '@utils/hooks/useTitle';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 

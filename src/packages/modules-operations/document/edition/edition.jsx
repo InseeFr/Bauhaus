@@ -19,15 +19,15 @@ import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import D, { D1, D2 } from '../../../deprecated-locales';
-import { GeneralApi } from '../../../sdk/general-api';
-import { useDocumentsAndLinks } from '../../../utils/hooks/documents';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { DOCUMENT, LINK } from '../utils';
+import { GeneralApi } from '@sdk/general-api';
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
 import { ConfirmationModal } from './confirmation-modal';
 import { validate } from './validation';
 import { TextInput } from '@components/form/input';
 import { DatePicker } from '@components/date-picker';
+import { useDocumentsAndLinks } from '@utils/hooks/documents';
+import { DOCUMENT, LINK } from '../utils';
 
 const initDocument = {
 	labelLg1: '',

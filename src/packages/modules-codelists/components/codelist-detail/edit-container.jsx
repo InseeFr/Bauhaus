@@ -5,7 +5,7 @@ import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
 import { TreeContext } from '../tree/treeContext';
 import { DumbCodelistDetailEdit } from './edit';
-import { useStampsOptions } from '../../../utils/hooks/stamps';
+import { useStampsOptions } from '@utils/hooks/stamps';
 
 const useBackOrReplaceHook = () => {
 	const navigate = useNavigate();

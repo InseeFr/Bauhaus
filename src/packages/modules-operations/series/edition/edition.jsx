@@ -22,8 +22,8 @@ import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
-import { OperationsApi } from '../../../sdk/operations-api';
-import * as ItemToSelectModel from '../../../utils/item-to-select-model';
+import { OperationsApi } from '@sdk/operations-api';
+import * as ItemToSelectModel from '@utils/item-to-select-model';
 import { isMandatoryField, validate } from './validation';
 import { TextInput } from '@components/form/input';
 import { CreatorsInput } from '@components/creators-input';

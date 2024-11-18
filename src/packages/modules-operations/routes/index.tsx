@@ -6,7 +6,7 @@ import {
 	UPDATE,
 	VIEW,
 } from '../../modules-operations/msd/constant';
-import { OperationsApi } from '../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 
 export const routes: RouteObject[] = [
 	{

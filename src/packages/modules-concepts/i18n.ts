@@ -1,10 +1,10 @@
-import { Dictionary } from '../utils/types';
+import { Dictionary } from '@utils/types';
 import {
 	createDictionary,
 	firstLang,
 	getLang,
 	secondLang,
-} from '../utils/dictionnary';
+} from '@utils/dictionnary';
 
 const dictionary = {
 	collectionMembersPanelTitle: {

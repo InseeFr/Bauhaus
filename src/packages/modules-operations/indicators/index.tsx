@@ -5,7 +5,7 @@ import { SearchableList } from '@components/searchable-list';
 import { useEffect, useState } from 'react';
 import D from '../../deprecated-locales';
 import { IndicatorsList } from '../../model/operations/indicator';
-import { OperationsApi } from '../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { Menu } from './menu';
 

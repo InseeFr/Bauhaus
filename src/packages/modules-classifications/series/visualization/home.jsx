@@ -3,7 +3,7 @@ import General from './general';
 import Notes from './notes';
 import Members from './members';
 import D from '../../../deprecated-locales/build-dictionary';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { PageSubtitle } from '@components/page-sub-title';
 import { PageTitle } from '@components/page-title';
 import { CheckSecondLang } from '@components/check-second-lang';

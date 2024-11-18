@@ -1,6 +1,6 @@
 import reducerClassificationGeneral, { getGeneral } from './general';
 import * as generalUtils from '../../../modules-classifications/utils/classification/general';
-import { LOADED } from '../../../sdk/constants';
+import { LOADED } from '@sdk/constants';
 import {
 	LOAD_CLASSIFICATION_GENERAL_SUCCESS,
 	UPDATE_CLASSIFICATION_SUCCESS,

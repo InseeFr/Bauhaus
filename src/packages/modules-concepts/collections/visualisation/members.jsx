@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { D1, D2 } from '../../i18n';
 import { Row } from '@components/layout';
-import { sortArray } from '../../../utils/array-utils';
+import { sortArray } from '@utils/array-utils';
 import { Note } from '@components/note';
 
 const sortByLabelLg1 = sortArray('prefLabelLg1');

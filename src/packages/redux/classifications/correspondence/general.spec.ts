@@ -3,7 +3,7 @@ import reducerClassificationCorrespondenceGeneral, {
 } from './general';
 import * as generalUtils from '../../../modules-classifications/utils/correspondence/general';
 import { LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS } from '../../actions/constants';
-import { LOADED } from '../../../sdk/constants';
+import { LOADED } from '@sdk/constants';
 
 describe('reducerClassificationCorrespondenceGeneral', () => {
 	test('action LOAD_CLASSIFICATION_CORRESPONDENCE_GENERAL_SUCCESS', () => {

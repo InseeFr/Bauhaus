@@ -1,4 +1,4 @@
-import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { useGoBack } from '@utils/hooks/useGoBack';
 import D from '../../../deprecated-locales/build-dictionary';
 import Auth from '../../../auth/components/auth';
 import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';

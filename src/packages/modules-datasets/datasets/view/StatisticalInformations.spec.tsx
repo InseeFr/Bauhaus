@@ -1,12 +1,12 @@
 import { render } from '@testing-library/react';
 import { StatisticalInformations } from './StatisticalInformations'; // Assurez-vous que le chemin vers le composant est correct
 import { Dataset } from '../../../model/Dataset';
-import * as hooks from '../../../utils/hooks/codeslist';
-import * as structureHooks from '../../../utils/hooks/structures';
+import * as hooks from '@utils/hooks/codeslist';
+import * as structureHooks from '@utils/hooks/structures';
 import { vi } from 'vitest';
 
-vi.mock('../../../utils/hooks/codeslist');
-vi.mock('../../../utils/hooks/structures');
+vi.mock('@utils/hooks/codeslist');
+vi.mock('@utils/hooks/structures');
 
 describe('StatisticalInformations Component', () => {
 	const mockDataset = {

@@ -11,10 +11,10 @@ import { Column } from '@components/layout';
 
 import { AdvancedSearchList } from '@components/advanced-search/home';
 import { validateStateOptions } from '../../../model/ValidationState';
-import { filterKeyDeburr } from '../../../utils/array-utils';
-import { useStampsOptions } from '../../../utils/hooks/stamps';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
+import { filterKeyDeburr } from '@utils/array-utils';
+import { useStampsOptions } from '@utils/hooks/stamps';
+import { useTitle } from '@utils/hooks/useTitle';
+import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 
 const filterId = filterKeyDeburr(['id']);
 const filterLabel = filterKeyDeburr(['labelLg1']);

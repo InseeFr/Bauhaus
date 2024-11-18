@@ -10,7 +10,7 @@ import { useGoBack } from '../../utils/hooks/useGoBack';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import { ReturnButton } from '@components/buttons/buttons-with-icons';
-import { OperationsApi } from '../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { useTitle } from '../../utils/hooks/useTitle';
 import './tree.scss';
 

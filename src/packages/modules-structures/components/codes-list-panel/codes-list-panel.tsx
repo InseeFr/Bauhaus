@@ -2,7 +2,7 @@
 import { ActionToolbar } from '@components/action-toolbar';
 import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { CodesList } from '../../../model/CodesList';
-import { useAllCodes } from '../../../utils/hooks/codeslist';
+import { useAllCodes } from '@utils/hooks/codeslist';
 import D from '../../i18n/build-dictionary';
 import './codes-list-panel.scss';
 

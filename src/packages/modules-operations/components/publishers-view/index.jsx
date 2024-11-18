@@ -1,6 +1,6 @@
 import { D1 } from '../../i18n/build-dictionary';
 import { Note } from '@components/note';
-import { useOrganizations } from '../../../utils/hooks/organizations';
+import { useOrganizations } from '@utils/hooks/organizations';
 
 const PublishersView = ({ publishers, lg1 }) => {
 	const publishersIdArray = Array.isArray(publishers)

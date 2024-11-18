@@ -11,11 +11,11 @@ import {
 	REFERENCES,
 	RELATED,
 	SUCCEED,
-} from '../../../sdk/constants';
+} from '@sdk/constants';
 import { EquivalentLinks } from './equivalentLinks';
 import { AddLogo } from '@components/logo/logo-add';
 import { DelLogo } from '@components/logo/logo-del';
-import { filterDeburr } from '../../../utils/array-utils';
+import { filterDeburr } from '@utils/array-utils';
 import { PickerItem } from '../../../components/picker-item';
 import { TabPanel, TabView } from 'primereact/tabview';
 

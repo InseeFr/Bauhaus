@@ -1,6 +1,6 @@
 import { processLinks, processGeneral } from './shared';
-import { rawHtmlToRmesHtml } from '../../../utils/html-utils';
-import { takeKeys } from '../../../utils/take-keys';
+import { rawHtmlToRmesHtml } from '@utils/html-utils';
+import { takeKeys } from '@utils/take-keys';
 
 const generalFieldsToKeep = [
 	'prefLabelLg1',

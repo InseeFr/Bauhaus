@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Select } from '@components/select-rmes';
 import { API } from '../../../modules-codelists/apis';
 import { CodeListApi, StructureApi } from '../../../sdk';
-import { convertToArrayIfDefined, sortArray } from '../../../utils/array-utils';
+import { convertToArrayIfDefined, sortArray } from '@utils/array-utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import {
 	IGEO_PAYS_OU_TERRITOIRE,
@@ -30,7 +30,7 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import LabelRequired from '@components/label-required';
 import { usePermission } from '../../../redux/hooks/usePermission';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { Row } from '@components/layout';
 import { SeeButton } from '@components/buttons/see';
 import {

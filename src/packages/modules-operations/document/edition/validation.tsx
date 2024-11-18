@@ -1,8 +1,8 @@
 import D, { D1, D2 } from '../../../deprecated-locales';
-import { LINK } from '../utils';
 import { z } from 'zod';
-import { formatValidation } from '../../../utils/validation';
+import { formatValidation } from '@utils/validation';
 import { Document } from '../../../model/operations/document';
+import { LINK } from '../utils';
 
 const generateMandatoryAndNotEmptyField = (property: string) => {
 	return z
@@ -14,7 +14,7 @@ const generateMandatoryAndNotEmptyField = (property: string) => {
 const Base = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string
+	currentLabelLg2: string,
 ) =>
 	z.object({
 		labelLg1: generateMandatoryAndNotEmptyField(D1.title).refine(
@@ -24,7 +24,7 @@ const Base = (
 					.map((document: Document) => document.labelLg1)
 					.includes(value),
 
-			{ message: D.duplicatedTitle }
+			{ message: D.duplicatedTitle },
 		),
 		labelLg2: generateMandatoryAndNotEmptyField(D2.title).refine(
 			(value) =>
@@ -33,7 +33,7 @@ const Base = (
 					.map((document: Document) => document.labelLg2)
 					.includes(value),
 
-			{ message: D.duplicatedTitle }
+			{ message: D.duplicatedTitle },
 		),
 		lang: z
 			.string({ required_error: D.requiredLang })
@@ -43,7 +43,7 @@ const Base = (
 const LinkZod = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string
+	currentLabelLg2: string,
 ) =>
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		url: z
@@ -69,7 +69,7 @@ const File = z.object({
 const DocumentZod = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string
+	currentLabelLg2: string,
 ) =>
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		updatedDate: z
@@ -89,10 +89,10 @@ export const validate = (
 	type: string,
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
-	currentLabelLg2: string
+	currentLabelLg2: string,
 ) =>
 	formatValidation(
 		type === LINK
 			? LinkZod(documentsAndLinksList, currentLabelLg1, currentLabelLg2)
-			: DocumentZod(documentsAndLinksList, currentLabelLg1, currentLabelLg2)
+			: DocumentZod(documentsAndLinksList, currentLabelLg1, currentLabelLg2),
 	)(document);

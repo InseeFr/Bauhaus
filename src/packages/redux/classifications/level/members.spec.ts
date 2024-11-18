@@ -3,7 +3,7 @@ import {
 	LOAD_CLASSIFICATION_LEVEL_MEMBERS,
 	LOAD_CLASSIFICATION_LEVEL_MEMBERS_SUCCESS,
 } from '../../actions/constants';
-import { LOADED, LOADING } from '../../../sdk/constants';
+import { LOADED, LOADING } from '@sdk/constants';
 
 describe('reducerLevelMembers', () => {
 	test('action LOAD_CLASSIFICATION_LEVEL_MEMBERS', () => {

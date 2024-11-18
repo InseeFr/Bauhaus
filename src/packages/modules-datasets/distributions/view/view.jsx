@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import D from '../../../deprecated-locales/build-dictionary';
 import { DistributionApi } from '../../../sdk';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { useDataset, useDistribution } from '../../datasets';
 import { ViewMenu } from './menu';
 import { ViewMainBlock } from './view-main-block';

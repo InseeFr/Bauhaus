@@ -5,7 +5,7 @@ import CollectionVisualization from './home';
 import { useParams } from 'react-router-dom';
 import { ConceptsApi } from '../../../sdk';
 import { getPermission } from '../../../redux/selectors';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useSecondLang } from '@utils/hooks/second-lang';
 
 export const Component = () => {
 	const { id } = useParams();

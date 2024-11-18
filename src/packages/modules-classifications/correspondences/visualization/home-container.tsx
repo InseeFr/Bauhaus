@@ -3,8 +3,8 @@ import HomeGeneral from './home-general';
 import HomeAssociations from './home-associations';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ClassificationsApi } from '../../../sdk/classification';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { ClassificationsApi } from '@sdk/classification';
+import { useSecondLang } from '@utils/hooks/second-lang';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();

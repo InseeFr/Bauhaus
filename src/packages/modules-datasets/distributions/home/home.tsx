@@ -4,7 +4,7 @@ import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
 import D from '../../../deprecated-locales/build-dictionary';
 import { PartialDistribution } from '../../../model/Dataset';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { useDistributions } from '../../datasets';
 import { HomePageMenu } from './menu';
 

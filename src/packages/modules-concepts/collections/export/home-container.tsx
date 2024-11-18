@@ -6,8 +6,8 @@ import { Exporting, Loading } from '@components/loading';
 import {
 	useCollectionExporter,
 	useCollections,
-} from '../../../utils/hooks/collections';
-import { useTitle } from '../../../utils/hooks/useTitle';
+} from '@utils/hooks/collections';
+import { useTitle } from '@utils/hooks/useTitle';
 
 export const Component = () => {
 	useTitle(D.collectionsTitle, D.exportTitle);

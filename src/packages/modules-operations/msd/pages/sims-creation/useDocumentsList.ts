@@ -1,5 +1,5 @@
 import { sortArray } from '../../../../utils/array-utils';
-import { GeneralApi } from '../../../../sdk/general-api';
+import { GeneralApi } from '@sdk/general-api';
 import { useEffect, useState } from 'react';
 
 export const useDocumentsList = () => {

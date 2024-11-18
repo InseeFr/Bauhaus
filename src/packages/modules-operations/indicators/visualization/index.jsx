@@ -8,9 +8,9 @@ import { ErrorBloc } from '@components/errors-bloc';
 import { Loading } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
-import { OperationsApi } from '../../../sdk/operations-api';
-import { useCodesList } from '../../../utils/hooks/codeslist';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { OperationsApi } from '@sdk/operations-api';
+import { useCodesList } from '@utils/hooks/codeslist';
+import { useSecondLang } from '@utils/hooks/second-lang';
 import { Menu } from './menu';
 
 export const Component = () => {

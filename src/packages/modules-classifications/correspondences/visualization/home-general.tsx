@@ -3,7 +3,7 @@ import { generalFields } from './general-fields';
 import { D1, D2 } from '../../../deprecated-locales';
 
 import D from '../../../deprecated-locales/build-dictionary';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import { Note } from '@components/note';
 import { PageTitle } from '@components/page-title';
 import { CheckSecondLang } from '@components/check-second-lang';

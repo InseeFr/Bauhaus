@@ -4,7 +4,7 @@ import {
 	LOAD_OPERATIONS_CODES_LIST_FAILURE,
 	LOAD_OPERATIONS_CODES_LIST_SUCCESS,
 } from '../actions/constants';
-import { ERROR, LOADED, LOADING } from '../../sdk/constants';
+import { ERROR, LOADED, LOADING } from '@sdk/constants';
 
 describe('operationsCodesList reducer', () => {
 	it('LOAD_OPERATIONS_CODES_LIST', () => {

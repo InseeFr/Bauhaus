@@ -8,7 +8,7 @@ import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
 import FilterToggleButtons from '../../../components/filter-toggle-buttons';
 import { StructureApi } from '../../../sdk';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { useTitle } from '@utils/hooks/useTitle';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants';

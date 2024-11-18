@@ -5,7 +5,7 @@ import { CodeListApi } from '../../../sdk';
 import { API } from '../../apis';
 import { formatPartialCodeList } from '../../utils';
 import { DumbCodelistPartialDetailEdit } from './edit';
-import { useStampsOptions } from '../../../utils/hooks/stamps';
+import { useStampsOptions } from '@utils/hooks/stamps';
 
 const useBackOrReplaceHook = () => {
 	const navigate = useNavigate();

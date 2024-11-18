@@ -22,7 +22,7 @@ import { Row } from '@components/layout';
 import { Note } from '@components/note';
 import { Panel } from '@components/panel';
 import { PublicationFemale } from '@components/status';
-import { OperationsApi } from '../../../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { useSecondLang } from '../../../../utils/hooks/second-lang';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { SimsFieldTitle } from '../../sims-field-title';

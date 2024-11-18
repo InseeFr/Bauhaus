@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import * as A from '../../../../redux/actions/constants';
-import { ClassificationsApi } from '../../../../sdk/classification';
+import { ClassificationsApi } from '@sdk/classification';
 
 const fetchClassificationLevelGeneral =
 	(classificationId: string, levelId: string) => (dispatch: Dispatch) => {

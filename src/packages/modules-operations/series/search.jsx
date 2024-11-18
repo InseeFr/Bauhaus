@@ -9,7 +9,7 @@ import { AdvancedSearchList } from '@components/advanced-search/home';
 import { TextInput } from '@components/form/input';
 import { Column } from '@components/layout';
 import { Loading } from '@components/loading';
-import { OperationsApi } from '../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { filterKeyDeburr } from '../../utils/array-utils';
 import { useOrganizationsOptions } from '../../utils/hooks/organizations';
 import { useStamps } from '../../utils/hooks/stamps';

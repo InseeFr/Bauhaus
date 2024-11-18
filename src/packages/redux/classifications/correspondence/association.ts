@@ -1,6 +1,6 @@
 import * as associationUtils from '../../../modules-classifications/utils/correspondence/association';
 
-import { LOADED, LOADING } from '../../../sdk/constants';
+import { LOADED, LOADING } from '@sdk/constants';
 import {
 	LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION,
 	LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION_SUCCESS,

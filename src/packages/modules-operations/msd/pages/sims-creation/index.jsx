@@ -16,10 +16,9 @@ import {
 import { useBlocker } from 'react-router-dom';
 import { ActionToolbar } from '@components/action-toolbar';
 import { CloseIconButton } from '@components/buttons/buttons-with-icons';
-import { OperationsApi } from '../../../../sdk/operations-api';
+import { OperationsApi } from '@sdk/operations-api';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
-import { rangeType } from '../../../utils/msd';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { DocumentFormPanel } from './document-form-panel';
 import { useDocumentsStoreContext } from './documents-store-context';
@@ -30,6 +29,7 @@ import Modal from 'react-modal';
 import { Button } from '@components/buttons/button';
 import { Loading, Saving } from '@components/loading';
 import { CheckSecondLang } from '@components/check-second-lang';
+import { rangeType } from '../../../utils/msd';
 
 const { RICH_TEXT } = rangeType;
 
