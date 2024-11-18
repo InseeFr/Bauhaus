@@ -1,7 +1,8 @@
 import { useState } from 'react';
+
 import D from '../../../deprecated-locales';
-import { OutlineButtonWithScroll } from './outline-button-with-scroll';
 import { isOpen, toggleOpen } from '../utils';
+import { OutlineButtonWithScroll } from './outline-button-with-scroll';
 
 export const OutlineBlock = ({
 	secondary,

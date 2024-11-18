@@ -1,10 +1,11 @@
-import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useThemes } from './useThemes';
-import { ThemesApi } from '../../sdk';
-import { Theme } from '../../model/theme';
+import { renderHook, waitFor } from '@testing-library/react';
 import { PropsWithChildren } from 'react';
 import { vi } from 'vitest';
+
+import { Theme } from '../../model/theme';
+import { ThemesApi } from '../../sdk';
+import { useThemes } from './useThemes';
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }: PropsWithChildren<unknown>) => (

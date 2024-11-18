@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import OperationsOperationVisualization from './home';
-import D from '../../../deprecated-locales';
-
-import { OperationsApi } from '@sdk/operations-api';
-import { Menu } from './menu';
-import { useSecondLang } from '@utils/hooks/second-lang';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ErrorBloc } from '@components/errors-bloc';
 import { Loading } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
-import { ErrorBloc } from '@components/errors-bloc';
-import { CheckSecondLang } from '@components/check-second-lang';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+
+import D from '../../../deprecated-locales';
+import OperationsOperationVisualization from './home';
+import { Menu } from './menu';
 
 export const Component = () => {
 	const { id } = useParams();

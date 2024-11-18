@@ -1,11 +1,4 @@
 import { Component } from 'react';
-import D, { D1, D2 } from '../../../deprecated-locales';
-import PublishersInput from '../../../modules-operations/components/publishers-input';
-import Control from '../../../modules-operations/indicators/edition/control';
-import { validate } from '../../../modules-operations/indicators/edition/validation';
-import { CL_FREQ } from '../../../redux/actions/constants/codeList';
-
-import { Select } from '@components/select-rmes';
 
 import { CreatorsInput } from '@components/creators-input';
 import {
@@ -18,9 +11,18 @@ import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { RequiredIcon } from '@components/required-icon';
-import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
+import { Select } from '@components/select-rmes';
+
 import { OperationsApi } from '@sdk/operations-api';
+
 import * as ItemToSelectModel from '@utils/item-to-select-model';
+
+import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
+import D, { D1, D2 } from '../../../deprecated-locales';
+import PublishersInput from '../../../modules-operations/components/publishers-input';
+import Control from '../../../modules-operations/indicators/edition/control';
+import { validate } from '../../../modules-operations/indicators/edition/validation';
+import { CL_FREQ } from '../../../redux/actions/constants/codeList';
 
 const defaultIndicator = {
 	prefLabelLg1: '',

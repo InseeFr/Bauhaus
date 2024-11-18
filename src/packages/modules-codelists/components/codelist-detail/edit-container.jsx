@@ -1,11 +1,14 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+
 import { Loading } from '@components/loading';
+
+import { useStampsOptions } from '@utils/hooks/stamps';
+
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
 import { TreeContext } from '../tree/treeContext';
 import { DumbCodelistDetailEdit } from './edit';
-import { useStampsOptions } from '@utils/hooks/stamps';
 
 const useBackOrReplaceHook = () => {
 	const navigate = useNavigate();

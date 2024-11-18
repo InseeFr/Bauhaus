@@ -1,4 +1,5 @@
 import { LOADED } from '@sdk/constants';
+
 import { LOAD_CLASSIFICATION_LEVELS_SUCCESS } from '../../actions/constants';
 import { ReduxAction } from '../../model';
 

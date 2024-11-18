@@ -1,7 +1,8 @@
 import { render } from '@testing-library/react';
-import CollectionGeneral from './general';
+
 import { empty } from '../../../modules-concepts/collections/utils/general';
 import { locales } from '../../../tests-utils/default-values';
+import CollectionGeneral from './general';
 
 vi.mock('@components/form/input', () => ({ TextInput: () => <></> }));
 vi.mock('@components/errors-bloc', () => ({ ClientSideError: () => <></> }));

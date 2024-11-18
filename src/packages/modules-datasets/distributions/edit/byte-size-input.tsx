@@ -1,4 +1,5 @@
 import { NumberInput } from '@components/form/input';
+
 import { D1 } from '../../../deprecated-locales';
 import { Distribution } from '../../../model/Dataset';
 

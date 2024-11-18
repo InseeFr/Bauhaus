@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+
 import { Loading } from '@components/loading';
-import SeriesHome from './home';
+
 import { OperationsApi } from '@sdk/operations-api';
-import { sortArray } from '../../utils/array-utils';
+
 import { Series } from '../../model/Series';
+import { sortArray } from '../../utils/array-utils';
+import SeriesHome from './home';
 
 export const Component = () => {
 	const [series, setSeries] = useState<Series[]>([]);

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { DatasetsApi, DistributionApi } from '../sdk';
+
 import { PartialDistribution } from '../model/Dataset';
+import { DatasetsApi, DistributionApi } from '../sdk';
 
 export const useDatasets = () => {
 	return useQuery({

@@ -1,7 +1,7 @@
-import { processLinks, processGeneral } from './shared';
+import { CLOSE_MATCH, VERSIONING } from '@sdk/constants';
 
 import { processVersionableChanges, keepDatableNotes } from '../notes';
-import { CLOSE_MATCH, VERSIONING } from '@sdk/constants';
+import { processLinks, processGeneral } from './shared';
 
 //only `isValidated` is not sent
 const generalFieldsToKeep = [

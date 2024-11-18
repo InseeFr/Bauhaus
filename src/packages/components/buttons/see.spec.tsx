@@ -1,5 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { SeeButton } from './see'; // Chemin d'accès au fichier du composant
+
+import { SeeButton } from './see';
+
+// Chemin d'accès au fichier du composant
 
 describe('SeeButton', () => {
 	it('renders the button with the correct attributes and icon', () => {

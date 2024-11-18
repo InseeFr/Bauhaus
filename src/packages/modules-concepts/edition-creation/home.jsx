@@ -1,16 +1,19 @@
-import { Component } from 'react';
-import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
-import ConceptCreateControlLayout from './controls/controls-layout';
-import GeneralEdition from './general';
-import NotesEdition from './notes';
-import LinksEdition from './links';
-import D from '../../deprecated-locales';
-import { VERSIONING, NO_VERSIONING } from '@sdk/constants';
-import { validate } from './controls/validation';
-import { areNotesImpactingVersionChanged } from '../utils/notes';
-import isVersioningPossible from '../../modules-concepts/utils/is-versioning-possible';
 import { TabPanel, TabView } from 'primereact/tabview';
+import { Component } from 'react';
+
 import { PageTitle } from '@components/page-title';
+
+import { VERSIONING, NO_VERSIONING } from '@sdk/constants';
+
+import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
+import D from '../../deprecated-locales';
+import isVersioningPossible from '../../modules-concepts/utils/is-versioning-possible';
+import { areNotesImpactingVersionChanged } from '../utils/notes';
+import ConceptCreateControlLayout from './controls/controls-layout';
+import { validate } from './controls/validation';
+import GeneralEdition from './general';
+import LinksEdition from './links';
+import NotesEdition from './notes';
 
 export const onGeneralInformationChange = (state, update) => ({
 	...state,

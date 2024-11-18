@@ -1,6 +1,6 @@
-import HomeGeneral from './home-general';
-import { renderWithAppContext } from '../../../tests-utils/render';
 import { locales } from '../../../tests-utils/default-values';
+import { renderWithAppContext } from '../../../tests-utils/render';
+import HomeGeneral from './home-general';
 
 const correspondence = {
 	id: '1',

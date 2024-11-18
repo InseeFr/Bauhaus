@@ -1,4 +1,5 @@
 import { Calendar } from 'primereact/calendar';
+
 import './date-picker.scss';
 
 type DatePickerTypes = {

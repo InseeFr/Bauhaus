@@ -1,5 +1,14 @@
-import D, { D1 } from '../../../deprecated-locales/build-dictionary';
+import { Note } from '@components/note';
+
+import { stringToDate } from '@utils/date-utils';
+import { useCodesList } from '@utils/hooks/codeslist';
+import { useStructures } from '@utils/hooks/structures';
+
 import { CodeDisplay } from '../../../components/code-display';
+import { ConditionalDisplay } from '../../../components/data/conditional-display';
+import { Row } from '../../../components/layout';
+import D, { D1 } from '../../../deprecated-locales/build-dictionary';
+import { Dataset } from '../../../model/Dataset';
 import {
 	CL_DATA_TYPES,
 	CL_FREQ,
@@ -7,13 +16,6 @@ import {
 	CL_STAT_UNIT,
 	CL_TYPE_GEO,
 } from '../../../redux/actions/constants/codeList';
-import { Row } from '../../../components/layout';
-import { ConditionalDisplay } from '../../../components/data/conditional-display';
-import { stringToDate } from '@utils/date-utils';
-import { Dataset } from '../../../model/Dataset';
-import { useCodesList } from '@utils/hooks/codeslist';
-import { useStructures } from '@utils/hooks/structures';
-import { Note } from '@components/note';
 
 type StatisticalInformationsTypes = {
 	dataset: Dataset;

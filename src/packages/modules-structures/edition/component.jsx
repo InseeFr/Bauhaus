@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { Select } from '@components/select-rmes';
-
+import { ContributorsInput } from '@components/contributors/contributors';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import {
 	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 } from '@components/errors-bloc';
-
+import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
+import { Select } from '@components/select-rmes';
+
 import { useAppContext } from '../../application/app-context';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
 import D, { D1, D2 } from '../../deprecated-locales';
@@ -22,10 +25,6 @@ import { DISSEMINATION_STATUS } from '../utils/constants';
 import Components from './components';
 import Controls from './controls';
 import { validate } from './validation';
-import { TextInput } from '@components/form/input';
-import { Row } from '@components/layout';
-import { ContributorsInput } from '@components/contributors/contributors';
-import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 
 const defaultDSD = {
 	identifiant: '',

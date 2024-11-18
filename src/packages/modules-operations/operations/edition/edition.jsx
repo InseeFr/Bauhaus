@@ -1,9 +1,4 @@
 import { Component } from 'react';
-import D, { D1, D2 } from '../../../deprecated-locales';
-
-import { validate } from './validation';
-
-import { Select } from '@components/select-rmes';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import {
@@ -20,7 +15,12 @@ import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
+import { Select } from '@components/select-rmes';
+
 import { OperationsApi } from '@sdk/operations-api';
+
+import D, { D1, D2 } from '../../../deprecated-locales';
+import { validate } from './validation';
 
 const defaultOperation = {
 	prefLabelLg1: '',

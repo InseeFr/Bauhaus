@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
-import { StructureComponentsSelector } from '../../components/structure-component-selector';
-import ComponentSpecificationModal from '../../components/component-specification-modal/index';
-import { getFormattedCodeList } from '../../apis';
-import { ConceptsApi } from '../../../sdk';
-import { Component } from '../../../model/structures/Component';
 import { CodesList, CodesLists } from '../../../model/CodesList';
+import { Component } from '../../../model/structures/Component';
+import { ConceptsApi } from '../../../sdk';
+import { getFormattedCodeList } from '../../apis';
+import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
+import ComponentSpecificationModal from '../../components/component-specification-modal/index';
+import { StructureComponentsSelector } from '../../components/structure-component-selector';
 
 export const ComponentsPanel = ({ componentDefinitions = [] }) => {
 	const [concepts, setConcepts] = useState([]);

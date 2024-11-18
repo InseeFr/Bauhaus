@@ -1,10 +1,11 @@
-import { D1 } from '../../deprecated-locales';
-import { stringToDate } from '../../utils/date-utils';
-import { arrayToString } from '../../utils/array-utils';
-import { Note } from '@components/note';
-import { useLocales } from '../../utils/hooks/useLocales';
-import { Row } from '@components/layout';
 import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+
+import { D1 } from '../../deprecated-locales';
+import { arrayToString } from '../../utils/array-utils';
+import { stringToDate } from '../../utils/date-utils';
+import { useLocales } from '../../utils/hooks/useLocales';
 
 function ConceptGeneral({ attr, secondLang }) {
 	const { lg1, lg2 } = useLocales();

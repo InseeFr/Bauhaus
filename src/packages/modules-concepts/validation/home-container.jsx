@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+
 import { Loading, Publishing } from '@components/loading';
+
+import { OK, PENDING } from '@sdk/constants';
+
 import D from '../../deprecated-locales';
 import { usePermission } from '../../redux/hooks/usePermission';
 import { ConceptsApi } from '../../sdk';
-import { OK, PENDING } from '@sdk/constants';
 import { sortArrayByLabel } from '../../utils/array-utils';
 import { useTitle } from '../../utils/hooks/useTitle';
 import ConceptsToValidate from './home';

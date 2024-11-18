@@ -1,5 +1,5 @@
-import HomeAssociations from './home-associations';
 import { renderWithRouter } from '../../../tests-utils/render';
+import HomeAssociations from './home-associations';
 
 const associations = [
 	{

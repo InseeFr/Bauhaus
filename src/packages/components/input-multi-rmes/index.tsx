@@ -1,7 +1,9 @@
 import { Component } from 'react';
-import D, { D1, D2 } from '../../deprecated-locales';
-import { Row } from '@components/layout';
+
 import { InputMultiModal } from '@components/input-multi-modal-rmes/input-multi-modal-rmes';
+import { Row } from '@components/layout';
+
+import D, { D1, D2 } from '../../deprecated-locales';
 
 type InputMultiRmesTypes = {
 	inputLg1: string[];

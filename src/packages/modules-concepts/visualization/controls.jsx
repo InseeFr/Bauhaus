@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import check from '../../auth/auth';
+
 import { ActionToolbar } from '@components/action-toolbar';
 import { Button } from '@components/buttons/button';
 import {
@@ -7,12 +7,15 @@ import {
 	ReturnButton,
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
+import { ConfirmationDelete } from '@components/confirmation-delete';
+
+import check from '../../auth/auth';
 import D from '../../deprecated-locales';
 import { ConceptsApi } from '../../sdk';
 import { saveFileFromHttpResponse } from '../../utils/files';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useLoading } from './loading';
-import { ConfirmationDelete } from '@components/confirmation-delete';
+
 const ConceptVisualizationControls = ({
 	isValidated,
 	isValidOutOfDate,

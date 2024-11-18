@@ -1,6 +1,7 @@
-import { useGoBack } from '@utils/hooks/useGoBack';
 import { ActionToolbar } from '@components/action-toolbar';
 import { ReturnButton } from '@components/buttons/buttons-with-icons';
+
+import { useGoBack } from '@utils/hooks/useGoBack';
 
 type CorrespondenceControlsTypes = {
 	correspondenceId?: string;

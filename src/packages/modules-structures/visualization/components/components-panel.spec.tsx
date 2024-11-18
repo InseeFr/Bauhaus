@@ -1,10 +1,11 @@
 import { render } from '@testing-library/react';
-import { ComponentsPanel } from './components-panel';
-import { getFormattedCodeList } from '../../apis';
+import { Mock, vi } from 'vitest';
+
 import { ConceptsApi } from '../../../sdk';
+import { getFormattedCodeList } from '../../apis';
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
 import { StructureComponentsSelector } from '../../components/structure-component-selector';
-import { Mock, vi } from 'vitest';
+import { ComponentsPanel } from './components-panel';
 
 vi.mock('../../components/codes-list-panel/codes-list-panel', () => ({
 	CodesListPanel: vi.fn(() => (

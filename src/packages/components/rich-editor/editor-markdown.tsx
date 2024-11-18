@@ -1,14 +1,14 @@
+//@ts-ignore
+import { EditorState } from 'draft-js';
 import { useEffect, useRef, useState } from 'react';
 //@ts-ignore
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import './editor-html.scss';
-//@ts-ignore
-import { EditorState } from 'draft-js';
-import '../note-edition';
 
-import { mdFromEditorState, editorStateFromMd } from '../../utils/html-utils';
 import { getLang } from '../../utils/dictionnary';
+import { mdFromEditorState, editorStateFromMd } from '../../utils/html-utils';
+import '../note-edition';
+import './editor-html.scss';
 
 export const EditorDeleteButton = ({
 	onChange,

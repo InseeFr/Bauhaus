@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
-import ConceptGeneral from './general';
+
 import { empty } from '../utils/general';
+import ConceptGeneral from './general';
 
 vi.mock('@components/creators-input', () => ({ CreatorsInput: () => <></> }));
 vi.mock('@components/dissemination-status/disseminationStatus', () => ({

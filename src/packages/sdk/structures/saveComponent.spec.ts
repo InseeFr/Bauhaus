@@ -1,7 +1,9 @@
-import { saveComponent } from './saveComponent'; // Remplacez par le chemin correct
+// Remplacez par le chemin correct
+import { vi } from 'vitest';
+
 import { Component } from '../../model/structures/Component';
 import { StructureApi } from '../structure-api';
-import { vi } from 'vitest';
+import { saveComponent } from './saveComponent';
 
 vi.mock('../structure-api', () => ({
 	StructureApi: {

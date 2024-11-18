@@ -1,7 +1,7 @@
-import { D1 } from '../i18n';
 import { useStampsOptions } from '../../utils/hooks/stamps';
-import { Select } from '../select-rmes';
+import { D1 } from '../i18n';
 import LabelRequired from '../label-required';
+import { Select } from '../select-rmes';
 
 export const CreatorsInput = ({
 	value,

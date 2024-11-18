@@ -1,5 +1,6 @@
-import D, { D1, D2 } from '../../deprecated-locales';
 import { z } from 'zod';
+
+import D, { D1, D2 } from '../../deprecated-locales';
 import { formatValidation } from '../../utils/validation';
 
 export const generateMandatoryAndNotEmptyField = (property: string) => {

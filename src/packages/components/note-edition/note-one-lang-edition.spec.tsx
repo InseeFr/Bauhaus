@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+
 import NoteOneLangEdition from './note-one-lang-edition';
 
 describe('note-one-lang-edition', () => {

@@ -1,5 +1,6 @@
-import { D1 } from '../../i18n/build-dictionary';
 import { Note } from '@components/note';
+
+import { D1 } from '../../i18n/build-dictionary';
 
 type CreatorsViewTypes = {
 	creators: string | string[];

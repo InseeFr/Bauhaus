@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+
 import { ExportButton } from '@components/buttons/buttons-with-icons';
+
 import './dropdown.scss';
 
 const useOutsideClick = (el, initialState) => {

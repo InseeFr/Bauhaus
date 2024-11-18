@@ -1,6 +1,8 @@
-import { D1, D2 } from '../../../../deprecated-locales';
 import { Row } from '@components/layout';
+
 import { EditorMarkdown } from '../../../../components/rich-editor/editor-markdown';
+import { D1, D2 } from '../../../../deprecated-locales';
+
 export const Notes = ({ editingDataset, setEditingDataset }) => {
 	return (
 		<>

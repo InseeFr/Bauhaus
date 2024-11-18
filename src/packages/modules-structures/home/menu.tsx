@@ -1,12 +1,13 @@
-import Auth from '../../auth/components/auth';
-import D from '../../deprecated-locales/build-dictionary';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
-import { VerticalMenu } from '../../components/vertical-menu';
 import {
 	ExportButton,
 	ImportButton,
 } from '@components/buttons/buttons-with-icons';
 import { FeminineButton } from '@components/new-button';
+
+import Auth from '../../auth/components/auth';
+import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
+import { VerticalMenu } from '../../components/vertical-menu';
+import D from '../../deprecated-locales/build-dictionary';
 
 export const HomePageMenu = () => {
 	const isLocal = import.meta.env.VITE_API_MODE === 'local';

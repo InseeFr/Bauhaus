@@ -6,6 +6,7 @@ import {
 	HELP_COLLAPSED,
 	getParentUri,
 } from './utils';
+
 const { RICH_TEXT, TEXT, REPORTED_ATTRIBUTE } = rangeType;
 
 describe('isOpen', () => {

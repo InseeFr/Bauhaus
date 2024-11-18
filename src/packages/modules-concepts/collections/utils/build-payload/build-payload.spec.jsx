@@ -1,4 +1,5 @@
 import buildPayload from './build-payload';
+
 describe('build-payload', () => {
 	it('CREATE', () => {
 		const collection = {

@@ -1,17 +1,18 @@
-import appD from './dictionary/app';
-import conceptsD from './dictionary/concepts';
-import classificationsD from './dictionary/classifications';
-import operationsD from './dictionary/operations';
-import DSDsD from './dictionary/dsds';
-import codelistsD from './dictionary/codelists';
-import errors from './dictionary/errors';
-import datasets from './dictionary/datasets';
 import {
 	createDictionary,
 	firstLang,
 	getLang,
 	secondLang,
 } from '@utils/dictionnary';
+
+import appD from './dictionary/app';
+import classificationsD from './dictionary/classifications';
+import codelistsD from './dictionary/codelists';
+import conceptsD from './dictionary/concepts';
+import datasets from './dictionary/datasets';
+import DSDsD from './dictionary/dsds';
+import errors from './dictionary/errors';
+import operationsD from './dictionary/operations';
 
 const dictionary = {
 	...appD,

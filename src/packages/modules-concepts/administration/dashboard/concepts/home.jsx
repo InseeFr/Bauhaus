@@ -1,12 +1,13 @@
+import { PageTitle } from '@components/page-title';
 import { Tabs } from '@components/tabs/tabs';
-import Controls from './controls';
-import ConceptsSummary from './concepts/summary';
-import ConceptsCreationsModifications from './concepts/creations-modifications';
-import CollectionsSummary from './collections/summary';
-import CollectionsCreationsModifications from './collections/creations-modifications';
+
 import D from '../../../../deprecated-locales';
 import { useTitle } from '../../../../utils/hooks/useTitle';
-import { PageTitle } from '@components/page-title';
+import CollectionsCreationsModifications from './collections/creations-modifications';
+import CollectionsSummary from './collections/summary';
+import ConceptsCreationsModifications from './concepts/creations-modifications';
+import ConceptsSummary from './concepts/summary';
+import Controls from './controls';
 
 function ConceptsDashboard({ conceptsData, collectionsData }) {
 	useTitle(D.conceptsTitle, D.administrationTitle);

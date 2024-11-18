@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { Series } from '../../model/Series';
+
 import { OperationsApi } from '@sdk/operations-api';
+
+import { Series } from '../../model/Series';
 
 export const useSeries = () => {
 	return useQuery({

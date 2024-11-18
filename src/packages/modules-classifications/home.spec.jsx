@@ -1,5 +1,5 @@
-import Home from './home';
 import { renderWithRouter } from '../tests-utils/render';
+import Home from './home';
 
 const classifications = [{ id: '1', label: 'Classification 1' }];
 

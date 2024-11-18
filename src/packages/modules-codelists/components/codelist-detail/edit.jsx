@@ -1,29 +1,32 @@
-import { useState, useCallback, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { validateCodelist } from '../../utils';
-import D, { D1, D2 } from '../../i18n/build-dictionary';
-import './edit.scss';
-import MainDictionary from '../../../deprecated-locales/build-dictionary';
-import { CodesCollapsiblePanel } from './codes-panel';
-import { Select } from '@components/select-rmes';
-import { useTitle } from '@utils/hooks/useTitle';
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
-import LabelRequired from '@components/label-required';
+import { useState, useCallback, useEffect } from 'react';
+
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
+import { ContributorsInput } from '@components/contributors/contributors';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import {
 	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 } from '@components/errors-bloc';
-import { Row } from '@components/layout';
 import { TextInput } from '@components/form/input';
-import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
-import { ContributorsInput } from '@components/contributors/contributors';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Select } from '@components/select-rmes';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
+import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
+import MainDictionary from '../../../deprecated-locales/build-dictionary';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { validateCodelist } from '../../utils';
+import { CodesCollapsiblePanel } from './codes-panel';
+import './edit.scss';
 
 const defaultCodelist = {
 	created: dayjs(),

@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+
 import { Loading } from '@components/loading';
-import OperationsHome from './home';
+
 import { OperationsApi } from '@sdk/operations-api';
+
 import { sortArray } from '../../utils/array-utils';
+import OperationsHome from './home';
 
 export const Component = () => {
 	const [operations, setOperations] = useState([]);

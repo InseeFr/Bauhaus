@@ -1,6 +1,7 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { CodeListApi, fetchCodeList } from '../../sdk';
+
 import { Code, CodesList } from '../../model/CodesList';
+import { CodeListApi, fetchCodeList } from '../../sdk';
 import { sortArray } from '../array-utils';
 
 const defaultCodesList = { codes: [] } as unknown as CodesList;

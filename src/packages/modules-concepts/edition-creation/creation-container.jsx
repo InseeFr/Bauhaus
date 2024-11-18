@@ -1,6 +1,8 @@
-import { Loading, Saving } from '@components/loading';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { Loading, Saving } from '@components/loading';
+
 import { useAppContext } from '../../application/app-context';
 import D from '../../deprecated-locales';
 import buildPayloadCreation from '../../modules-concepts/utils/build-payload-creation-update/build-payload-creation';

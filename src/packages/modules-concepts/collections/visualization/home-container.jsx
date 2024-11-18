@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Loading, Publishing } from '@components/loading';
-import CollectionVisualization from './home';
 import { useParams } from 'react-router-dom';
-import { ConceptsApi } from '../../../sdk';
-import { getPermission } from '../../../redux/selectors';
+
+import { Loading, Publishing } from '@components/loading';
+
 import { useSecondLang } from '@utils/hooks/second-lang';
+
+import { getPermission } from '../../../redux/selectors';
+import { ConceptsApi } from '../../../sdk';
+import CollectionVisualization from './home';
 
 export const Component = () => {
 	const { id } = useParams();

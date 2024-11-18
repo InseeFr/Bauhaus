@@ -1,4 +1,5 @@
 import { memo, useCallback } from 'react';
+
 import { isDocument, isLink } from '../../../document/utils';
 import DocumentsBloc from '../../documents/documents-bloc';
 

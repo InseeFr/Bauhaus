@@ -1,4 +1,3 @@
-import { Link } from '../../model/concepts/concept';
 import {
 	BROADER,
 	NARROWER,
@@ -9,6 +8,8 @@ import {
 	CLOSE_MATCH,
 	IS_REPLACED_BY,
 } from '@sdk/constants';
+
+import { Link } from '../../model/concepts/concept';
 
 export const linkTypes = {
 	[BROADER]: BROADER,

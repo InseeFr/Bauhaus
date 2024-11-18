@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
-import Notes from './notes';
+
 import { locales } from '../../tests-utils/default-values';
+import Notes from './notes';
 
 const notes = {};
 

@@ -1,10 +1,12 @@
 //@ts-nocheck
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 import { CheckSecondLang } from '@components/check-second-lang';
 import { ErrorBloc } from '@components/errors-bloc';
 import { Loading } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+
 import MainDictionary from '../../deprecated-locales/build-dictionary';
 import { Structure } from '../../model/structures/Structure';
 import { StructureApi } from '../../sdk';

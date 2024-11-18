@@ -4,8 +4,10 @@ import {
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
 import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
-import D from '../../../deprecated-locales/build-dictionary';
+
 import { createAllDictionary } from '@utils/dictionnary';
+
+import D from '../../../deprecated-locales/build-dictionary';
 
 const { D: dict } = createAllDictionary({
 	errors: {

@@ -1,8 +1,9 @@
-import Controls from './controls';
-import { ADMIN } from '../../auth/roles';
 import { Provider } from 'react-redux';
+
+import { ADMIN } from '../../auth/roles';
 import configureStore from '../../redux/configure-store';
 import { renderWithRouter } from '../../tests-utils/render';
+import Controls from './controls';
 
 const store = configureStore({
 	users: { results: { stamp: 'stamp' } },

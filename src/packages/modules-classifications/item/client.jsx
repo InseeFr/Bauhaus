@@ -1,4 +1,5 @@
 import { ClassificationsApi } from '@sdk/classification';
+
 import { sortArray } from '../../utils/array-utils';
 
 export const fetchingPreviousLevels = (classificationId, general) => {

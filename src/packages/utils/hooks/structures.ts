@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { StructureApi } from '../../sdk';
+
 import { StructuresList } from '../../model/structures/Structure';
+import { StructureApi } from '../../sdk';
 
 export const useStructures = () =>
 	useQuery<StructuresList>({

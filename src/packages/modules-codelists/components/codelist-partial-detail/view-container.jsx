@@ -1,15 +1,18 @@
+import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
+import { Deleting, Publishing, Loading } from '@components/loading';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+import { useGoBack } from '@utils/hooks/useGoBack';
+
 import { CodeListApi } from '../../../sdk';
-import { formatPartialCodeList } from '../../utils';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
+import { formatPartialCodeList } from '../../utils';
 import ComponentTitle from '../codelist-detail/title';
 import { CodeListPartialDetailView } from './view';
-import { useQuery } from '@tanstack/react-query';
-import { useGoBack } from '@utils/hooks/useGoBack';
-import { Deleting, Publishing, Loading } from '@components/loading';
-import { useSecondLang } from '@utils/hooks/second-lang';
 
 export const Component = (props) => {
 	const goBack = useGoBack();

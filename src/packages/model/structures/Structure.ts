@@ -1,4 +1,5 @@
 import { ValidationState } from '@components/status';
+
 export type PartialStructure = {
 	iri: string;
 	labelLg1: string;

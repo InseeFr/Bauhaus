@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import DatasetsMenu from './menu';
 import { MemoryRouter } from 'react-router-dom';
+
+import DatasetsMenu from './menu';
 
 describe('Menu', () => {
 	it('should contains three items', () => {

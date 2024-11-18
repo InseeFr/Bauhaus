@@ -1,12 +1,14 @@
-import D from '../../../deprecated-locales/build-dictionary';
-import { useGoBack } from '@utils/hooks/useGoBack';
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
-import { createAllDictionary } from '@utils/dictionnary';
 import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
+
+import { createAllDictionary } from '@utils/dictionnary';
+import { useGoBack } from '@utils/hooks/useGoBack';
+
+import D from '../../../deprecated-locales/build-dictionary';
 
 const { D: dict } = createAllDictionary({
 	errors: {

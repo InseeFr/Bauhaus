@@ -1,7 +1,8 @@
-import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from '../../../constant';
-import { Rubric } from '../../../../../model/Sims';
 import { OperationsApi } from '@sdk/operations-api';
+
+import { Rubric } from '../../../../../model/Sims';
 import { flattenTree } from '../../../../utils/msd';
+import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from '../../../constant';
 import { removeRubricsWhenDuplicate } from '../../../utils';
 
 export type MsdMode =

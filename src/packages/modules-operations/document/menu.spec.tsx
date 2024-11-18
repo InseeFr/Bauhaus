@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { Menu } from './menu';
-import { RBACMock } from '../../tests-utils/rbac';
+
 import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from '../../auth/roles';
+import { RBACMock } from '../../tests-utils/rbac';
+import { Menu } from './menu';
 
 describe('Document Home Page Menu', () => {
 	it('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', () => {

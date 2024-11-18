@@ -2,29 +2,30 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
-import { CL_PROCESS_STEP } from '../../../redux/actions/constants/codeList';
-import { DatasetsApi } from '../../../sdk';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ContributorsVisualisation } from '@components/contributors/contributors';
+import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { Deleting, Loading, Publishing } from '@components/loading';
+import { Note } from '@components/note';
+import { PageTitleBlock } from '@components/page-title-block';
+
 import { withCodesLists } from '@utils/hoc/withCodesLists';
+import { useSecondLang } from '@utils/hooks/second-lang';
 import { useTitle } from '@utils/hooks/useTitle';
 import { renderMarkdownElement } from '@utils/html-utils';
-import { useDataset } from '../../datasets';
-import { ViewMenu } from './menu';
 
 import { CodeDisplay } from '../../../components/code-display';
 import { List } from '../../../components/list';
-import { Note } from '@components/note';
-import { useSecondLang } from '@utils/hooks/second-lang';
+import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
+import { CL_PROCESS_STEP } from '../../../redux/actions/constants/codeList';
+import { DatasetsApi } from '../../../sdk';
+import { useDataset } from '../../datasets';
 import { D as DatasetDictionary } from '../../i18n';
 import { GlobalInformationBlock } from './GlobalInformationBlock';
 import { StatisticalInformations } from './StatisticalInformations';
-import { PageTitleBlock } from '@components/page-title-block';
-import { Deleting, Loading, Publishing } from '@components/loading';
-import { ErrorBloc } from '@components/errors-bloc';
-import { CheckSecondLang } from '@components/check-second-lang';
-import { Row } from '@components/layout';
-import { ContributorsVisualisation } from '@components/contributors/contributors';
-import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
+import { ViewMenu } from './menu';
 
 const Dataset = (props) => {
 	const [serverSideError, setServerSideError] = useState();

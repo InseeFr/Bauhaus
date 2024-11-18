@@ -1,17 +1,20 @@
-import { Provider } from 'react-redux';
-import Root from './packages/application/router';
-import configureStore from './packages/redux/configure-store';
-import D from './packages/deprecated-locales';
-import { ApplicationTitle } from '@components/application-title';
-import { AppContextProvider } from './packages/application/app-context';
-import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import loadDevTools from './dev-tools/load';
-import './packages/styles/main.scss';
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+
+import { ApplicationTitle } from '@components/application-title';
+
 import { GeneralApi } from '@sdk/general-api';
-import { getLang } from './packages/utils/dictionnary';
-import BackToTop from './packages/components/back-to-top';
+
+import loadDevTools from './dev-tools/load';
+import { AppContextProvider } from './packages/application/app-context';
+import Root from './packages/application/router';
 import { OidcProvider } from './packages/auth/create-oidc';
+import BackToTop from './packages/components/back-to-top';
+import D from './packages/deprecated-locales';
+import configureStore from './packages/redux/configure-store';
+import './packages/styles/main.scss';
+import { getLang } from './packages/utils/dictionnary';
 
 const queryClient = new QueryClient({
 	defaultOptions: {

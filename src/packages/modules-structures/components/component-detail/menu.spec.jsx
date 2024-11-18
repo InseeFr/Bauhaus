@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { ViewMenu } from './menu';
+
+import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { RBACMock } from '../../../tests-utils/rbac';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
+import { ViewMenu } from './menu';
 
 describe('Component View Menu', () => {
 	it('a user can only see the go back button', () => {

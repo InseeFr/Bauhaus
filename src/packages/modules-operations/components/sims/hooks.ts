@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux';
 import { useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+
 import { getAllOptions } from '../../../redux/geographies.action';
 
 export const useGeographies = (territory: any = {}) => {

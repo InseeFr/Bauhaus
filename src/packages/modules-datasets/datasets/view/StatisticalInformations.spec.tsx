@@ -1,9 +1,12 @@
+// Assurez-vous que le chemin vers le composant est correct
 import { render } from '@testing-library/react';
-import { StatisticalInformations } from './StatisticalInformations'; // Assurez-vous que le chemin vers le composant est correct
-import { Dataset } from '../../../model/Dataset';
+import { vi } from 'vitest';
+
 import * as hooks from '@utils/hooks/codeslist';
 import * as structureHooks from '@utils/hooks/structures';
-import { vi } from 'vitest';
+
+import { Dataset } from '../../../model/Dataset';
+import { StatisticalInformations } from './StatisticalInformations';
 
 vi.mock('@utils/hooks/codeslist');
 vi.mock('@utils/hooks/structures');

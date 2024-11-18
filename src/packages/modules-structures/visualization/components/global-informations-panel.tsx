@@ -4,6 +4,7 @@ import { DisseminationStatusVisualisation } from '@components/dissemination-stat
 import { Row } from '@components/layout';
 import { Note } from '@components/note';
 import { PublicationFemale } from '@components/status';
+
 import { D1 } from '../../../deprecated-locales';
 import { Structure } from '../../../model/structures/Structure';
 import D from '../../i18n/build-dictionary';

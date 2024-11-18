@@ -2,11 +2,12 @@ import { CheckSecondLang } from '@components/check-second-lang';
 import { Exporting } from '@components/loading';
 import { PageTitle } from '@components/page-title';
 
+import { useCollectionExporter } from '@utils/hooks/collections';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import { PageSubtitle } from '../../../components/page-sub-title';
 import D from '../../../deprecated-locales';
 import CollectionMembers from '../../../modules-concepts/collections/visualisation/members';
-import { useCollectionExporter } from '@utils/hooks/collections';
-import { useTitle } from '@utils/hooks/useTitle';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
 

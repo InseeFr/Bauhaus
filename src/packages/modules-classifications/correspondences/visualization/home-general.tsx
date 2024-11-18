@@ -1,14 +1,15 @@
-import CorrespondenceControls from './controls';
-import { generalFields } from './general-fields';
-import { D1, D2 } from '../../../deprecated-locales';
-
-import D from '../../../deprecated-locales/build-dictionary';
-import { useTitle } from '@utils/hooks/useTitle';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ExplanatoryNote } from '@components/explanatory-note';
+import { Row } from '@components/layout';
 import { Note } from '@components/note';
 import { PageTitle } from '@components/page-title';
-import { CheckSecondLang } from '@components/check-second-lang';
-import { Row } from '@components/layout';
-import { ExplanatoryNote } from '@components/explanatory-note';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
+import { D1, D2 } from '../../../deprecated-locales';
+import D from '../../../deprecated-locales/build-dictionary';
+import CorrespondenceControls from './controls';
+import { generalFields } from './general-fields';
 
 const HomeGeneral = ({
 	correspondence,

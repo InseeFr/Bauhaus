@@ -1,4 +1,9 @@
 import { useEffect, useState } from 'react';
+
+import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
+import { SearchableList } from '@components/searchable-list';
+
 import D from '../../deprecated-locales';
 import {
 	PartialStructure,
@@ -7,9 +12,6 @@ import {
 import { StructureApi } from '../../sdk';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { HomePageMenu } from './menu';
-import { Row } from '@components/layout';
-import { PageTitle } from '@components/page-title';
-import { SearchableList } from '@components/searchable-list';
 
 export const Component = () => {
 	useTitle(D.structuresTitle, D.structuresTitle);

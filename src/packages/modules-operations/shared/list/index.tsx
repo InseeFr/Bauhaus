@@ -2,6 +2,7 @@ import { Button } from '@components/buttons/button';
 import { Row } from '@components/layout';
 import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
+
 import Auth from '../../../auth/components/auth';
 import { VerticalMenu } from '../../../components/vertical-menu';
 import D from '../../../deprecated-locales';

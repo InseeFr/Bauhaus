@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { useStructures } from './structures';
 import { vi } from 'vitest';
+
+import { useStructures } from './structures';
 
 vi.mock('@tanstack/react-query', () => ({
 	useQuery: vi.fn().mockReturnValue({

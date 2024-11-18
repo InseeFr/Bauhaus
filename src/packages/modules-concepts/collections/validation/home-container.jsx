@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import CollectionsToValidate from './home';
-import { Loading, Publishing } from '@components/loading';
-import D from '../../../deprecated-locales';
-import { ConceptsApi } from '../../../sdk';
-import { useTitle } from '@utils/hooks/useTitle';
-import { usePermission } from '../../../redux/hooks/usePermission';
 import { useNavigate } from 'react-router-dom';
+
+import { Loading, Publishing } from '@components/loading';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
+import D from '../../../deprecated-locales';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { ConceptsApi } from '../../../sdk';
+import CollectionsToValidate from './home';
 
 export const Component = () => {
 	useTitle(D.collectionsTitle, D.btnValid);

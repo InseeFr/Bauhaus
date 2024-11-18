@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { NotFound, UnderMaintenance } from '@components/not-found';
 
 type ModuleHomePage = {

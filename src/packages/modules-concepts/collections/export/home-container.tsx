@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import D from '../../../deprecated-locales/build-dictionary';
-import ExportButtons from '../export-buttons';
-import { Picker } from '@components/picker-page';
+
 import { Exporting, Loading } from '@components/loading';
+import { Picker } from '@components/picker-page';
+
 import {
 	useCollectionExporter,
 	useCollections,
 } from '@utils/hooks/collections';
 import { useTitle } from '@utils/hooks/useTitle';
+
+import D from '../../../deprecated-locales/build-dictionary';
+import ExportButtons from '../export-buttons';
 
 export const Component = () => {
 	useTitle(D.collectionsTitle, D.exportTitle);

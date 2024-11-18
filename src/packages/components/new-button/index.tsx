@@ -1,8 +1,9 @@
-import D from '../i18n';
-import { NavLink } from 'react-router-dom';
-import './newButton.scss';
 import { PropsWithChildren } from 'react';
+import { NavLink } from 'react-router-dom';
+
+import D from '../i18n';
 import { AddLogo } from '../logo/logo-add';
+import './newButton.scss';
 
 type AbstractNewButtonTypes = {
 	action: ((location: any) => any) | string;

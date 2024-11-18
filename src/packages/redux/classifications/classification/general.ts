@@ -1,5 +1,6 @@
-import * as generalUtils from '../../../modules-classifications/utils/classification/general';
 import { LOADED } from '@sdk/constants';
+
+import * as generalUtils from '../../../modules-classifications/utils/classification/general';
 import {
 	LOAD_CLASSIFICATION_GENERAL_SUCCESS,
 	UPDATE_CLASSIFICATION_SUCCESS,

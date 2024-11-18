@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
-import { ViewMenu } from './menu';
-import { UNPUBLISHED } from '../../../model/ValidationState';
-import { RBACMock } from '../../../tests-utils/rbac';
+
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { Dataset, Distribution } from '../../../model/Dataset';
+import { UNPUBLISHED } from '../../../model/ValidationState';
+import { RBACMock } from '../../../tests-utils/rbac';
+import { ViewMenu } from './menu';
 
 describe('Distribution View Menu', () => {
 	it('a user can only see the go back button', () => {

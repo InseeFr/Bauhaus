@@ -1,9 +1,10 @@
-import D from '../../deprecated-locales';
-import { Menu } from './menu';
-import { useTitle } from '../../utils/hooks/useTitle';
 import { Row } from '@components/layout';
 import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
+
+import D from '../../deprecated-locales';
+import { useTitle } from '../../utils/hooks/useTitle';
+import { Menu } from './menu';
 
 const CollectionsHome = ({ collections }) => {
 	useTitle(D.conceptsTitle, D.collectionsTitle);

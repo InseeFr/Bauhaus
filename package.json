@@ -18,8 +18,11 @@
 		"start": "npm run pre-script vite",
 		"build": "npm run pre-script cross-env VITE_INSEE=true vite build && npm run create-zip",
 		"create-zip": "cd build && bestzip build.zip *",
-		"pre-push": "npm run lint && npm run test:coverage",
-		"prepare": "husky"
+		"pre-push": "npm format:check && npm run lint && npm run test:coverage",
+		"prepare": "husky",
+		"_format": "prettier 'src/**/*.{ts,tsx,js,jsx,json,md}'",
+		"format": "npm run _format -- --write",
+		"format:check": "npm run _format -- --list-different"
 	},
 	"browserslist": [
 		">0.2%",
@@ -48,6 +51,7 @@
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.0.1",
 		"@testing-library/user-event": "^14.5.2",
+		"@trivago/prettier-plugin-sort-imports": "^4.3.0",
 		"@types/dompurify": "^3.0.5",
 		"@types/file-saver": "^2.0.7",
 		"@types/node": "^22.9.0",
@@ -104,8 +108,18 @@
 	},
 	"prettier": {
 		"bracketSpacing": true,
+		"importOrderSeparation": true,
+		"importOrder": [
+			"^@components/(.*)$",
+			"^@sdk/(.*)$",
+			"^@utils/(.*)$",
+			"^[./]"
+		],
 		"semi": true,
 		"singleQuote": true,
-		"useTabs": true
+		"useTabs": true,
+		"plugins": [
+			"@trivago/prettier-plugin-sort-imports"
+		]
 	}
 }

@@ -1,5 +1,5 @@
-import { Structure } from '../model/structures/Structure';
 import { Component } from '../model/structures/Component';
+import { Structure } from '../model/structures/Structure';
 import { buildApi } from './build-api';
 
 const api = {

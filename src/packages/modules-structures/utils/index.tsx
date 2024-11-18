@@ -1,5 +1,5 @@
-import { MUTUALIZED_COMPONENT_TYPES, ATTACHMENTS } from './constants/';
 import { Component } from '../../model/structures/Component';
+import { MUTUALIZED_COMPONENT_TYPES, ATTACHMENTS } from './constants/';
 
 export const getAllAttachment = (
 	measures: Component[] = [],

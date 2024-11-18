@@ -1,16 +1,18 @@
-import { ADMIN } from '../../../auth/roles';
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	DeleteButton,
 	ReturnButton,
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
+import { ValidationButton } from '@components/validationButton';
+
+import { useGoBack } from '@utils/hooks/useGoBack';
+
+import { ADMIN } from '../../../auth/roles';
 import { Dataset, Distribution } from '../../../model/Dataset';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { usePermission } from '../../../redux/hooks/usePermission';
-import { useGoBack } from '@utils/hooks/useGoBack';
 import { checkIfContributorContainsUserStamp } from '../../utils/check-stamp-with-contributor';
-import { ValidationButton } from '@components/validationButton';
 
 type ViewMenuTypes = {
 	distribution: Distribution;

@@ -1,8 +1,8 @@
-import D, { D1 } from '../i18n';
-import { convertToArrayIfDefined } from '../../utils/array-utils';
 import { Options } from '../../model/SelectOption';
-import { Select } from '../select-rmes';
+import { convertToArrayIfDefined } from '../../utils/array-utils';
+import D, { D1 } from '../i18n';
 import LabelRequired from '../label-required';
+import { Select } from '../select-rmes';
 
 export const ContributorsVisualisation = ({
 	contributors,

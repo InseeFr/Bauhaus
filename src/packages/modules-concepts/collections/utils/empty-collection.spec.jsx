@@ -1,4 +1,5 @@
 import defaultContributor from './empty-collection';
+
 describe('defaultContributor', () => {
 	it('should return the defaultContributor', () => {
 		expect(defaultContributor()).toEqual({

@@ -2,6 +2,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Mock, vi } from 'vitest';
+
 import { RBACLink } from '.';
 import { useOidc } from '../../auth/create-oidc';
 import D from '../../i18n';

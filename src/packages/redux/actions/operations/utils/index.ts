@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+
 import { ReduxModel } from '../../../model';
 
 /**

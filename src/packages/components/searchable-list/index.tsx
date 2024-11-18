@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
+
 import { TextInput } from '@components/form/input';
-import { Pagination } from '@components/pagination';
 import { Row } from '@components/layout';
-import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
-import { createAllDictionary } from '../../utils/dictionnary';
+import { Pagination } from '@components/pagination';
+
 import { filterKeyDeburr, nbResults } from '../../utils/array-utils';
+import { createAllDictionary } from '../../utils/dictionnary';
+import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 
 const { D } = createAllDictionary({
 	searchLabelPlaceholder: {

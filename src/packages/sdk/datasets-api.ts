@@ -1,5 +1,5 @@
-import { buildApi } from './build-api';
 import { Dataset } from '../model/Dataset';
+import { buildApi } from './build-api';
 
 const api = {
 	getAll: () => [''],

@@ -1,8 +1,10 @@
 import Modal from 'react-modal';
-import D from '../../../deprecated-locales';
+
 import { ActionToolbar } from '@components/action-toolbar';
 import { Button } from '@components/buttons/button';
 import { CloseIconButton } from '@components/buttons/buttons-with-icons';
+
+import D from '../../../deprecated-locales';
 import { isDocument } from '../utils';
 
 type ConfirmationModalTypes = {

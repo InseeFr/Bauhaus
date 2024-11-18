@@ -1,27 +1,28 @@
 import { Link } from 'react-router-dom';
-import { renderMarkdownElement } from '@utils/html-utils';
 
-import D, { D1, D2 } from '../../i18n/build-dictionary';
-import { CollapsiblePanel } from '../collapsible-panel';
-
-import { useTitle } from '@utils/hooks/useTitle';
-import Auth from '../../../auth/components/auth';
-import { ADMIN } from '../../../auth/roles';
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	DeleteButton,
 	ReturnButton,
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
-import { Note } from '@components/note';
 import { ConfirmationDelete } from '@components/confirmation-delete';
-import { ValidationButton } from '@components/validationButton';
+import { ContributorsVisualisation } from '@components/contributors/contributors';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 import { ErrorBloc } from '@components/errors-bloc';
 import { Row } from '@components/layout';
-import { CreationUpdateItems } from '@components/creation-update-items';
+import { Note } from '@components/note';
 import { PublicationFemale } from '@components/status';
-import { ContributorsVisualisation } from '@components/contributors/contributors';
-import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
+import { ValidationButton } from '@components/validationButton';
+
+import { useTitle } from '@utils/hooks/useTitle';
+import { renderMarkdownElement } from '@utils/html-utils';
+
+import Auth from '../../../auth/components/auth';
+import { ADMIN } from '../../../auth/roles';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { CollapsiblePanel } from '../collapsible-panel';
 
 export const CodeListPartialDetailView = ({
 	codelist,

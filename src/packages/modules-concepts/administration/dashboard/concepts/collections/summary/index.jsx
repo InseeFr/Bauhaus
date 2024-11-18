@@ -1,10 +1,12 @@
-import D from '../../../../../../deprecated-locales';
-import { buildData } from './summary-data';
-import { buildDataStamps } from './stamps-data';
-import { today } from '../../../../../../utils/date-utils';
-import { Panel } from '@components/panel';
-import { DataTable } from '../../../../../../components/datatable';
 import { Column } from 'primereact/column';
+
+import { Panel } from '@components/panel';
+
+import { DataTable } from '../../../../../../components/datatable';
+import D from '../../../../../../deprecated-locales';
+import { today } from '../../../../../../utils/date-utils';
+import { buildDataStamps } from './stamps-data';
+import { buildData } from './summary-data';
 
 function CollectionsSummary({ collectionsData }) {
 	const data = buildData(collectionsData);

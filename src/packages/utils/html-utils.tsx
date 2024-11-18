@@ -1,12 +1,13 @@
 //@ts-ignore
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
-import { stateFromHTML } from 'draft-js-import-html';
 import { Options, stateToHTML } from 'draft-js-export-html';
+import { stateFromHTML } from 'draft-js-import-html';
+
+import { draftjsToMd } from '@components/rich-editor/draftjs/draftjsToMd';
 import {
 	mdToDraftjs,
 	REGEXPS,
 } from '@components/rich-editor/draftjs/mdToDraftjs';
-import { draftjsToMd } from '@components/rich-editor/draftjs/draftjsToMd';
 
 export const containUnsupportedStyles = (attr: Record<string, string> = {}) => {
 	return !!REGEXPS.map((r) => r.regexp).find(

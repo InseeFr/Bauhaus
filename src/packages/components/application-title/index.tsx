@@ -1,6 +1,7 @@
+import { createAllDictionary } from '@utils/dictionnary';
+
 import bauhausLogo from '../../../img/logo.svg';
 import './index.scss';
-import { createAllDictionary } from '@utils/dictionnary';
 
 const { D } = createAllDictionary({
 	welcome: {

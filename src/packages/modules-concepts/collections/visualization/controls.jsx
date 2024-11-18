@@ -1,4 +1,3 @@
-import check from '../../../auth/auth';
 import { ActionToolbar } from '@components/action-toolbar';
 import { Button } from '@components/buttons/button';
 import {
@@ -6,6 +5,8 @@ import {
 	ReturnButton,
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
+
+import check from '../../../auth/auth';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import ExportButtons from '../export-buttons';
 

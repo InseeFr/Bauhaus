@@ -1,12 +1,7 @@
 import { useCallback, useState } from 'react';
+import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import D from '../../../../deprecated-locales';
-import * as A from '../../../../redux/actions/constants';
-
-import { hasLabelLg2 } from '../../utils';
-
-import Modal from 'react-modal';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import { Button } from '@components/buttons/button';
@@ -22,10 +17,15 @@ import { Row } from '@components/layout';
 import { Note } from '@components/note';
 import { Panel } from '@components/panel';
 import { PublicationFemale } from '@components/status';
+
 import { OperationsApi } from '@sdk/operations-api';
+
+import D from '../../../../deprecated-locales';
+import * as A from '../../../../redux/actions/constants';
 import { useSecondLang } from '../../../../utils/hooks/second-lang';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { SimsFieldTitle } from '../../sims-field-title';
+import { hasLabelLg2 } from '../../utils';
 import { useDocumentsStoreContext } from '../sims-creation/documents-store-context';
 import { Menu } from './menu';
 import SimsBlock from './sims-block';

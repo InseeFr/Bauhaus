@@ -1,8 +1,10 @@
 import { useParams } from 'react-router-dom';
-import ClassificationVisualization from './home';
+
 import { Loading } from '@components/loading';
-import { useClassification, usePublishClassification } from '../hooks';
+
 import { useSecondLang } from '../../utils/hooks/second-lang';
+import { useClassification, usePublishClassification } from '../hooks';
+import ClassificationVisualization from './home';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();

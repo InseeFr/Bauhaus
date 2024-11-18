@@ -1,7 +1,7 @@
-import ConceptVisualization from './home';
-import { renderWithAppContext } from '../../tests-utils/render';
 import { locales } from '../../tests-utils/default-values';
+import { renderWithAppContext } from '../../tests-utils/render';
 import { empty } from '../utils/general';
+import ConceptVisualization from './home';
 
 describe('concept-visualization', () => {
 	it('renders without crashing', () => {

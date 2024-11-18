@@ -1,22 +1,19 @@
 //@ts-nocheck
-
 import { useState } from 'react';
-import D from '../../deprecated-locales';
-import { TextInput } from '@components/form/input';
-
-import { PageTitle } from '@components/page-title';
 
 import { ErrorBloc } from '@components/errors-bloc';
-
+import { TextInput } from '@components/form/input';
+import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
 import { Pagination } from '@components/pagination';
 
-import { Row } from '@components/layout';
-import { Panel } from '../panel';
+import D from '../../deprecated-locales';
+import { filterDeburr } from '../../utils/array-utils';
 import { ActionToolbar } from '../action-toolbar';
 import { ReturnButton, ExportButton } from '../buttons/buttons-with-icons';
 import { AddLogo } from '../logo/logo-add';
 import { DelLogo } from '../logo/logo-del';
-import { filterDeburr } from '../../utils/array-utils';
+import { Panel } from '../panel';
 import { PickerItem } from '../picker-item';
 
 type Item = { id: string; label: string };

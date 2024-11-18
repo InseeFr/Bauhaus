@@ -1,7 +1,8 @@
+import { TabPanel, TabView } from 'primereact/tabview';
 import { Component } from 'react';
-import { D1 } from '../../../deprecated-locales';
-import ConceptToLink from './concept-to-link';
-import SearchConceptsByLabel from './search-concepts-by-label';
+
+import { AddLogo } from '@components/logo/logo-add';
+import { DelLogo } from '@components/logo/logo-del';
 
 import {
 	BROADER,
@@ -12,12 +13,14 @@ import {
 	RELATED,
 	SUCCEED,
 } from '@sdk/constants';
-import { EquivalentLinks } from './equivalentLinks';
-import { AddLogo } from '@components/logo/logo-add';
-import { DelLogo } from '@components/logo/logo-del';
+
 import { filterDeburr } from '@utils/array-utils';
+
 import { PickerItem } from '../../../components/picker-item';
-import { TabPanel, TabView } from 'primereact/tabview';
+import { D1 } from '../../../deprecated-locales';
+import ConceptToLink from './concept-to-link';
+import { EquivalentLinks } from './equivalentLinks';
+import SearchConceptsByLabel from './search-concepts-by-label';
 
 const linkTypes = [
 	{

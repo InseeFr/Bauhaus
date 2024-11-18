@@ -1,6 +1,8 @@
 import ReactSelect from 'react-select';
-import D, { D1 } from '../../../deprecated-locales/build-dictionary';
+
 import { NumberInput } from '@components/form/input';
+
+import D, { D1 } from '../../../deprecated-locales/build-dictionary';
 
 const datasetsTemporalCoverageOptions = [
 	{

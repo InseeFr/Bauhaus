@@ -1,4 +1,5 @@
 import { FeminineButton } from '@components/new-button';
+
 import { ADMIN } from '../../auth/roles';
 import D from '../../deprecated-locales';
 import { Series } from '../../model/Series';

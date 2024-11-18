@@ -1,10 +1,11 @@
-import reducerClassificationGeneral, { getGeneral } from './general';
-import * as generalUtils from '../../../modules-classifications/utils/classification/general';
 import { LOADED } from '@sdk/constants';
+
+import * as generalUtils from '../../../modules-classifications/utils/classification/general';
 import {
 	LOAD_CLASSIFICATION_GENERAL_SUCCESS,
 	UPDATE_CLASSIFICATION_SUCCESS,
 } from '../../actions/constants';
+import reducerClassificationGeneral, { getGeneral } from './general';
 
 describe('reducerClassificationGeneral', () => {
 	test('action UPDATE_CLASSIFICATION_SUCCESS', () => {

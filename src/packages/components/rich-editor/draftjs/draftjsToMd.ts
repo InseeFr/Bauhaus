@@ -47,14 +47,21 @@ const applyWrappingBlockStyle = (currentStyle: string, content: string) => {
 };
 
 type Block = {
-	type: 'atomic',
+	type: 'atomic';
 	text: string;
-	entityRanges: { key: string}[]
-}
-type Entity = { type: string, data: { url: string, src: string, fileName: string}};
-type EntityMap = Record<string, Entity>
+	entityRanges: { key: string }[];
+};
+type Entity = {
+	type: string;
+	data: { url: string; src: string; fileName: string };
+};
+type EntityMap = Record<string, Entity>;
 
-const applyAtomicStyle = (block: Block, entityMap: EntityMap, content: string) => {
+const applyAtomicStyle = (
+	block: Block,
+	entityMap: EntityMap,
+	content: string,
+) => {
 	if (block.type !== 'atomic') return content;
 	// strip the test that was added in the media block
 	const strippedContent = content.substring(

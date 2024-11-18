@@ -1,5 +1,5 @@
-import Levels from './levels';
 import { renderWithRouter } from '../../tests-utils/render';
+import Levels from './levels';
 
 const levels = [{ id: '1', label: 'Member 1' }];
 

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import OutlineBlock from '../../../modules-operations/msd/outline/outline-block';
-import D from '../../../deprecated-locales';
 
-import './style.scss';
-import { OutlineButtonWithScroll } from './outline-button-with-scroll';
+import D from '../../../deprecated-locales';
+import OutlineBlock from '../../../modules-operations/msd/outline/outline-block';
 import { isOpen, toggleOpen } from '../utils';
+import { OutlineButtonWithScroll } from './outline-button-with-scroll';
+import './style.scss';
 
 const Outline = ({
 	storeCollapseState,

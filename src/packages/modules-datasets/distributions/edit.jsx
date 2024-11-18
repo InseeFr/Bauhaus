@@ -8,7 +8,16 @@ import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
+import {
+	ClientSideError,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { TextInput, UrlInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Loading, Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+
 import { EditorMarkdown } from '../../components/rich-editor/editor-markdown';
 import { D1, D2 } from '../../deprecated-locales';
 import D from '../../deprecated-locales/build-dictionary';
@@ -18,14 +27,6 @@ import { useTitle } from '../../utils/hooks/useTitle';
 import { useDatasetsForDistributions, useDistribution } from '../datasets';
 import { ByteSizeInput } from './edit/byte-size-input';
 import { validate } from './validation';
-import { Loading, Saving } from '@components/loading';
-import { PageTitleBlock } from '@components/page-title-block';
-import {
-	ClientSideError,
-	GlobalClientSideErrorBloc,
-} from '@components/errors-bloc';
-import { Row } from '@components/layout';
-import { TextInput, UrlInput } from '@components/form/input';
 
 export const Component = () => {
 	const { id } = useParams();

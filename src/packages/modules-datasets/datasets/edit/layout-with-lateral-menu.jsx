@@ -1,5 +1,6 @@
-import D from '../../../deprecated-locales';
 import { useState } from 'react';
+
+import D from '../../../deprecated-locales';
 import './layout-with-lateral-menu.scss';
 
 const styleContent = {

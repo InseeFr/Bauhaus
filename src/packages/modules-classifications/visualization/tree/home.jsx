@@ -1,10 +1,12 @@
-import Controls from './controls';
-import D from '../../../deprecated-locales';
-import { Tree } from '../../../components/tree';
-import { useTitle } from '@utils/hooks/useTitle';
-import { PageTitle } from '@components/page-title';
 import { CheckSecondLang } from '@components/check-second-lang';
 import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
+import { Tree } from '../../../components/tree';
+import D from '../../../deprecated-locales';
+import Controls from './controls';
 
 const ClassificationTree = ({ data, prefLabel }) => {
 	useTitle(

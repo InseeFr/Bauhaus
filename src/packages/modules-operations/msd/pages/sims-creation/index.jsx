@@ -1,35 +1,36 @@
 import { Fragment, useEffect, useState } from 'react';
+import Modal from 'react-modal';
+import { useBlocker } from 'react-router-dom';
+
+import { ActionToolbar } from '@components/action-toolbar';
+import { Button } from '@components/buttons/button';
+import { CloseIconButton } from '@components/buttons/buttons-with-icons';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { Loading, Saving } from '@components/loading';
 import { Select } from '@components/select-rmes';
+
+import { OperationsApi } from '@sdk/operations-api';
 
 import D from '../../../../deprecated-locales';
 import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
 import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-field';
+import { sortArrayByLabel } from '../../../../utils/array-utils';
+import { useGoBack } from '../../../../utils/hooks/useGoBack';
 import { mdFromEditorState } from '../../../../utils/html-utils';
+import { rangeType } from '../../../utils/msd';
 import { DUPLICATE } from '../../constant';
+import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import {
 	getParentId,
 	getParentIdName,
 	hasLabelLg2,
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
-
-import { useBlocker } from 'react-router-dom';
-import { ActionToolbar } from '@components/action-toolbar';
-import { CloseIconButton } from '@components/buttons/buttons-with-icons';
-import { OperationsApi } from '@sdk/operations-api';
-import { sortArrayByLabel } from '../../../../utils/array-utils';
-import { useGoBack } from '../../../../utils/hooks/useGoBack';
-import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { DocumentFormPanel } from './document-form-panel';
 import { useDocumentsStoreContext } from './documents-store-context';
 import { Menu } from './menu';
 import './sims-creation.scss';
 import { getDefaultSims, getSiblingSims } from './utils/getSims';
-import Modal from 'react-modal';
-import { Button } from '@components/buttons/button';
-import { Loading, Saving } from '@components/loading';
-import { CheckSecondLang } from '@components/check-second-lang';
-import { rangeType } from '../../../utils/msd';
 
 const { RICH_TEXT } = rangeType;
 

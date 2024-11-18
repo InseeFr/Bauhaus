@@ -1,4 +1,5 @@
 import { useState, useCallback, PropsWithChildren } from 'react';
+
 import { Note } from '@components/note';
 
 type CollapsiblePanelTypes = {

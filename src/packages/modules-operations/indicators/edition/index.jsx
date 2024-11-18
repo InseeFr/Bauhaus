@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 import { Loading } from '@components/loading';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useCodesList } from '@utils/hooks/codeslist';
+import { useOrganizations } from '@utils/hooks/organizations';
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
+
+import D from '../../../deprecated-locales';
 import OperationsIndicatorEdition from '../../../modules-operations/indicators/edition/edition';
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
-import { useGoBack } from '@utils/hooks/useGoBack';
-import { useCodesList } from '@utils/hooks/codeslist';
-import D from '../../../deprecated-locales';
-import { useTitle } from '@utils/hooks/useTitle';
-import { OperationsApi } from '@sdk/operations-api';
-import { useOrganizations } from '@utils/hooks/organizations';
 
 export const Component = (props) => {
 	const { id } = useParams();

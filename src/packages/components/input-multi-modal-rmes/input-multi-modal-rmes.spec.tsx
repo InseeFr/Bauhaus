@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+
 import { InputMultiModal } from './input-multi-modal-rmes';
 
 describe('inputMultiModal', () => {

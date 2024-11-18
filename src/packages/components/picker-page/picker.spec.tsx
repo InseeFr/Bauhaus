@@ -1,5 +1,6 @@
-import { Picker } from './';
 import { renderWithRouter } from '../../tests-utils/render';
+import { Picker } from './';
+
 const items = [{ id: '1', label: 'Item 1' }];
 
 describe('picker-page', () => {

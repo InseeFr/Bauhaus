@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
-import { D1, D2 } from '../../deprecated-locales';
+
+import { Note } from '@components/note';
+
 import {
 	BROADER,
 	CLOSE_MATCH,
@@ -9,9 +11,10 @@ import {
 	RELATED,
 	SUCCEED,
 } from '@sdk/constants';
-import './links.scss';
+
+import { D1, D2 } from '../../deprecated-locales';
 import { sortArray } from '../../utils/array-utils';
-import { Note } from '@components/note';
+import './links.scss';
 
 const CloseMatchLinks = ({ links, Dictionnary }) => {
 	return (

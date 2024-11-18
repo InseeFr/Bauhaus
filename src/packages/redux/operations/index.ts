@@ -1,12 +1,13 @@
 import { LOADED, LOADING, ERROR } from '@sdk/constants';
+
+import { sortArrayByLabel } from '../../utils/array-utils';
+import { ReduxAction } from '../model';
 import * as currentReducers from './current';
 import {
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
 } from './metadatastructure/list';
-import { sortArrayByLabel } from '../../utils/array-utils';
-import { ReduxAction } from '../model';
 
 /**
  *

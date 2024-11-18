@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import D from '../../../deprecated-locales';
-import OperationsIndicatorVisualization from '../../../modules-operations/indicators/visualization/general';
 
 import { CheckSecondLang } from '@components/check-second-lang';
 import { ErrorBloc } from '@components/errors-bloc';
 import { Loading } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
-import { CL_FREQ } from '../../../redux/actions/constants/codeList';
+
 import { OperationsApi } from '@sdk/operations-api';
+
 import { useCodesList } from '@utils/hooks/codeslist';
 import { useSecondLang } from '@utils/hooks/second-lang';
+
+import D from '../../../deprecated-locales';
+import OperationsIndicatorVisualization from '../../../modules-operations/indicators/visualization/general';
+import { CL_FREQ } from '../../../redux/actions/constants/codeList';
 import { Menu } from './menu';
 
 export const Component = () => {

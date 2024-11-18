@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
-import Edition from '../component';
-import { Loading } from '@components/loading';
 import { useLocation, useParams } from 'react-router-dom';
-import D from '../../../deprecated-locales';
+
+import { Loading } from '@components/loading';
+
 import { useTitle } from '@utils/hooks/useTitle';
+
+import D from '../../../deprecated-locales';
 import { StructureApi } from '../../../sdk';
+import Edition from '../component';
 
 export const Component = () => {
 	const location = useLocation();

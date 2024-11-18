@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import CollectionEditionCreation from './home';
-import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
-import D from '../../../deprecated-locales';
+
 import { Loading, Saving } from '@components/loading';
 
-import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '@sdk/collection-api';
+
 import { useTitle } from '@utils/hooks/useTitle';
 import { cleanId } from '@utils/string-utils';
+
+import D from '../../../deprecated-locales';
+import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
+import { ConceptsApi } from '../../../sdk';
+import CollectionEditionCreation from './home';
 
 export const Component = () => {
 	const { id } = useParams();

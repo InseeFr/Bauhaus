@@ -1,7 +1,7 @@
-import D from '../i18n';
 import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
-import { Select } from '../select-rmes';
+import D from '../i18n';
 import LabelRequired from '../label-required';
+import { Select } from '../select-rmes';
 
 export const getDisseminationStatus = (disseminationStatus: string): string => {
 	if (!disseminationStatus) {

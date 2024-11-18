@@ -1,16 +1,18 @@
-import { D1, D2 } from '../../../../deprecated-locales';
-import { useThemes } from '../../useThemes';
-import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
-import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
-import { InputMultiRmes } from '../../../../components/input-multi-rmes';
-import { useOrganizations } from '../../../../utils/hooks/organizations';
-import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
-import { D1 as DatasetDictionary } from '../../../i18n';
-import LabelRequired from '@components/label-required';
+
 import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
+
+import { InputMultiRmes } from '../../../../components/input-multi-rmes';
+import { D1, D2 } from '../../../../deprecated-locales';
+import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
+import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
+import { useOrganizations } from '../../../../utils/hooks/organizations';
+import { D1 as DatasetDictionary } from '../../../i18n';
+import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
+import { useThemes } from '../../useThemes';
 
 const GlobalInformationTab = ({
 	editingDataset,

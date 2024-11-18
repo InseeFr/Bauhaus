@@ -1,11 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import Controls from './controls';
-import { MODIFIED, UNPUBLISHED } from '../../../model/ValidationState';
-import { RBACMock } from '../../../tests-utils/rbac';
+import { vi } from 'vitest';
+
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
+import { MODIFIED, UNPUBLISHED } from '../../../model/ValidationState';
 import { Structure } from '../../../model/structures/Structure';
 import { StructureApi } from '../../../sdk';
-import { vi } from 'vitest';
+import { RBACMock } from '../../../tests-utils/rbac';
+import Controls from './controls';
 
 vi.mock('../../../sdk', () => ({
 	StructureApi: {

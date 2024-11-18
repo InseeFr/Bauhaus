@@ -6,11 +6,13 @@ import {
 	RouterProvider,
 } from 'react-router-dom';
 
-import auth from '../../auth/hoc';
+import { Loading } from '@components/loading';
+import { NotFound, UnderMaintenance } from '@components/not-found';
 
 import { RBACLink } from '.';
-import { NotFound, UnderMaintenance } from '@components/not-found';
-import { Loading } from '@components/loading';
+import { useOidc } from '../../auth/create-oidc';
+import auth from '../../auth/hoc';
+import D from '../../i18n';
 import { routes as ClassificationsRoutes } from '../../modules-classifications/routes/index';
 import { routes as CodelistsRoutes } from '../../modules-codelists/routes/index';
 import { routes as ConceptsRoutes } from '../../modules-concepts/routes/index';
@@ -19,8 +21,6 @@ import { routes as OperationsRoutes } from '../../modules-operations/routes/inde
 import { routes as StructuresRoutes } from '../../modules-structures/routes/index';
 import App from '../app';
 import { useAppContext } from '../app-context';
-import { useOidc } from '../../auth/create-oidc';
-import D from '../../i18n';
 import './routes.scss';
 
 const HomePage = () => {

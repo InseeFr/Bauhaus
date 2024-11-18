@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
-import D from '../../deprecated-locales';
+
 import { Row } from '@components/layout';
 import { Note } from '@components/note';
+
+import D from '../../deprecated-locales';
 
 const General = ({ general, classificationId, secondLang }) => {
 	const mapping = {

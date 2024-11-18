@@ -1,12 +1,13 @@
-import reducerCorrespondenceAssociation, {
-	getAssociation,
-} from './association';
+import { LOADED, LOADING } from '@sdk/constants';
+
 import * as associationUtils from '../../../modules-classifications/utils/correspondence/association';
 import {
 	LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION,
 	LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION_SUCCESS,
 } from '../../actions/constants';
-import { LOADED, LOADING } from '@sdk/constants';
+import reducerCorrespondenceAssociation, {
+	getAssociation,
+} from './association';
 
 describe('reducerCorrespondenceAssociation', () => {
 	test('action LOAD_CLASSIFICATION_CORRESPONDENCE_ASSOCIATION', () => {

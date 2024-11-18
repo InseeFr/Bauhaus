@@ -1,5 +1,6 @@
-import D, { D1, D2 } from '../../deprecated-locales/build-dictionary';
 import { z } from 'zod';
+
+import D, { D1, D2 } from '../../deprecated-locales/build-dictionary';
 import { formatValidation } from '../../utils/validation';
 
 const Distribution = z.object({

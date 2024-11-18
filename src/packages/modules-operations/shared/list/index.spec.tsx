@@ -1,10 +1,11 @@
 import { screen } from '@testing-library/react';
-import OperationsObjectHome from './index';
-
 import { Provider } from 'react-redux';
+
+import { MasculineButton } from '@components/new-button';
+
 import configureStore from '../../../redux/configure-store';
 import { renderWithRouter } from '../../../tests-utils/render';
-import { MasculineButton } from '@components/new-button';
+import OperationsObjectHome from './index';
 
 const createStore = (roles: string[] = []) => {
 	return configureStore({

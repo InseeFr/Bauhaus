@@ -2,20 +2,23 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useParams } from 'react-router-dom';
 import { default as ReactSelect } from 'react-select';
-import { ErrorBloc } from '@components/errors-bloc';
-import { Loading, Saving } from '@components/loading';
-import { PageTitleBlock } from '@components/page-title-block';
-import { Row } from '@components/layout';
-import { TextInput } from '@components/form/input';
-import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
+import { ErrorBloc } from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
-import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
+import { Row } from '@components/layout';
+import { Loading, Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+
 import { ClassificationsApi } from '@sdk/classification';
+
+import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { fetchingPreviousLevels } from '../client';
 import useClassificationItem from '../hook';
 

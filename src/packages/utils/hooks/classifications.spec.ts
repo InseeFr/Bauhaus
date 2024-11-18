@@ -1,6 +1,7 @@
-import { useClassifications } from './classifications';
 import { renderHook } from '@testing-library/react';
 import { vi } from 'vitest';
+
+import { useClassifications } from './classifications';
 
 vi.mock('@tanstack/react-query', () => ({
 	useQuery: vi.fn().mockReturnValue({

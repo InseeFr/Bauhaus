@@ -1,5 +1,4 @@
 /* eslint  @typescript-eslint/no-unused-vars: 0 */
-
 import objectFromKeys from './object-from-keys';
 
 export const buildFields = (fieldsWithRequired) =>

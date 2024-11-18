@@ -1,11 +1,13 @@
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	ReturnButton,
 	SaveButton,
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
+
+import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
+import { usePermission } from '../../../redux/hooks/usePermission';
+
 export const CodeSlidingPanelMenu = ({
 	codelist,
 	handleSubmit,

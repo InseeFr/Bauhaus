@@ -2,9 +2,11 @@ import { Row } from '@components/layout';
 import { Loading } from '@components/loading';
 import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../../deprecated-locales/build-dictionary';
 import { PartialDistribution } from '../../../model/Dataset';
-import { useTitle } from '@utils/hooks/useTitle';
 import { useDistributions } from '../../datasets';
 import { HomePageMenu } from './menu';
 

@@ -1,9 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { useParams } from 'react-router-dom';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+
 import { OperationsApi } from '@sdk/operations-api';
+
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
+
 import { Component } from './';
 
 vi.mock('react-router-dom', () => ({

@@ -1,15 +1,16 @@
 import { useCallback, useState } from 'react';
-import { typeUriToLabel } from '../../utils';
-import D from '../../i18n/build-dictionary';
-import { CollapsiblePanel } from '../collapsible-panel';
-import { ComponentDetail } from '../component-detail';
 
-import Representation from '../representation';
-import { UNPUBLISHED } from '../../../model/ValidationState';
-import { RightSlidingPanel } from '../../../components/sliding-panel';
-import { ComponentsTable } from '../components-table';
 import { AddButton } from '@components/buttons/add';
 import { SeeButton } from '@components/buttons/see';
+
+import { RightSlidingPanel } from '../../../components/sliding-panel';
+import { UNPUBLISHED } from '../../../model/ValidationState';
+import D from '../../i18n/build-dictionary';
+import { typeUriToLabel } from '../../utils';
+import { CollapsiblePanel } from '../collapsible-panel';
+import { ComponentDetail } from '../component-detail';
+import { ComponentsTable } from '../components-table';
+import Representation from '../representation';
 
 export const MutualizedComponentsSelector = ({
 	hidden = false,

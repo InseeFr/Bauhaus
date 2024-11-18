@@ -1,10 +1,11 @@
 import { Component } from 'react';
+
 import D from '../../deprecated-locales';
-import { ExplanatoryNote } from '../explanatory-note';
 import {
 	creatSelectList,
 	creatSelectListSelectedLast,
 } from '../../utils/array-utils';
+import { ExplanatoryNote } from '../explanatory-note';
 import { Row } from '../layout';
 
 type CompareNotesTypes = {

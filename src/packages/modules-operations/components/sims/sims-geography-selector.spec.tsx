@@ -1,5 +1,6 @@
-import SimsGeographySelector, { Geography } from './sims-geography-selector';
 import { render } from '@testing-library/react';
+
+import SimsGeographySelector, { Geography } from './sims-geography-selector';
 
 describe('<SimsGeographySelector />', () => {
 	it('should display a list with included zones', () => {

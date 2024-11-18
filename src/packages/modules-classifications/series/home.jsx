@@ -1,8 +1,9 @@
 import { Row } from '@components/layout';
-import D from '../../deprecated-locales';
-import { useTitle } from '../../utils/hooks/useTitle';
 import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
+
+import D from '../../deprecated-locales';
+import { useTitle } from '../../utils/hooks/useTitle';
 
 const SeriesHome = ({ series }) => {
 	useTitle(D.classificationsTitle, D.seriesTitle);

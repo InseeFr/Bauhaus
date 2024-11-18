@@ -1,24 +1,25 @@
-import { Loading, Saving } from '@components/loading';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import D from '../../../deprecated-locales';
-import { useDataset } from '../../datasets';
-
-import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
-import { PageTitleBlock } from '@components/page-title-block';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
-import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
-import { DatasetsApi } from '../../../sdk';
+import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
+import { Loading, Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+
 import { initializeContributorProperty } from '@utils/creation/contributor-init';
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
+
+import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
+import D from '../../../deprecated-locales';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { DatasetsApi } from '../../../sdk';
+import { useDataset } from '../../datasets';
 import './edit.scss';
 import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
 import { GlobalInformation } from './tabs/global-information';

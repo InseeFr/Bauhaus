@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
-import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
-import CollectionEditionCreation from './home';
-import D from '../../../deprecated-locales';
-import emptyCollection from '../../../modules-concepts/collections/utils/empty-collection';
+import { useNavigate } from 'react-router-dom';
+
 import { Loading, Saving } from '@components/loading';
 
-import { ConceptsApi } from '../../../sdk';
 import { CollectionApi } from '@sdk/collection-api';
+
 import { useTitle } from '@utils/hooks/useTitle';
-import { useAppContext } from '../../../application/app-context';
 import { cleanId } from '@utils/string-utils';
-import { useNavigate } from 'react-router-dom';
+
+import { useAppContext } from '../../../application/app-context';
+import D from '../../../deprecated-locales';
+import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
+import emptyCollection from '../../../modules-concepts/collections/utils/empty-collection';
+import { ConceptsApi } from '../../../sdk';
+import CollectionEditionCreation from './home';
 
 export const Component = () => {
 	const navigate = useNavigate();

@@ -1,6 +1,8 @@
-import D, { D1, D2 } from '../../../deprecated-locales';
 import { z } from 'zod';
+
 import { formatValidation } from '@utils/validation';
+
+import D, { D1, D2 } from '../../../deprecated-locales';
 
 let Serie = z.object({
 	family: z.object(

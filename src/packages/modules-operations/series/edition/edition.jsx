@@ -1,32 +1,35 @@
-import { Select } from '@components/select-rmes';
 import { Component } from 'react';
-import D, { D1, D2 } from '../../../deprecated-locales';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
+import { CreatorsInput } from '@components/creators-input';
 import {
 	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 } from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
+import { Select } from '@components/select-rmes';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import * as ItemToSelectModel from '@utils/item-to-select-model';
+
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
+import D, { D1, D2 } from '../../../deprecated-locales';
 import PublishersInput from '../../../modules-operations/components/publishers-input';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
-import { OperationsApi } from '@sdk/operations-api';
-import * as ItemToSelectModel from '@utils/item-to-select-model';
 import { isMandatoryField, validate } from './validation';
-import { TextInput } from '@components/form/input';
-import { CreatorsInput } from '@components/creators-input';
 
 const defaultSerie = {
 	id: '',

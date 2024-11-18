@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
-import LevelVisualization from './home';
+import { useParams } from 'react-router-dom';
+
 import { Loading } from '@components/loading';
+
 import loadLevel from '../../redux/actions/classifications/level';
 import { getLevel } from '../../redux/classifications/level';
-import { useParams } from 'react-router-dom';
 import { useSecondLang } from '../../utils/hooks/second-lang';
+import LevelVisualization from './home';
 
 const LevelVisualizationContainer = ({ loadLevel }) => {
 	const { classificationId, levelId } = useParams();

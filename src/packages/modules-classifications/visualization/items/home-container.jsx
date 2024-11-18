@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
-import ClassificationItems from './home';
-import { Loading } from '@components/loading';
 import { useParams } from 'react-router-dom';
+
+import { Loading } from '@components/loading';
+
 import { ClassificationsApi } from '@sdk/classification';
+
 import { useSecondLang } from '@utils/hooks/second-lang';
+
+import ClassificationItems from './home';
 
 export const Component = () => {
 	const { id } = useParams();

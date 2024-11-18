@@ -1,7 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
-import Control from './control';
+
 import { useGoBack } from '@utils/hooks/useGoBack';
+
+import Control from './control';
 
 // Mock de useGoBack
 vi.mock('@utils/hooks/useGoBack', () => ({

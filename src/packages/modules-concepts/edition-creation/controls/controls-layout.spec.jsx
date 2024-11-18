@@ -1,5 +1,5 @@
-import ControlsLayout from './controls-layout';
 import { renderWithRouter } from '../../../tests-utils/render';
+import ControlsLayout from './controls-layout';
 
 describe('concept-edition-creation-controls-layout', () => {
 	it('renders without crashing', () => {

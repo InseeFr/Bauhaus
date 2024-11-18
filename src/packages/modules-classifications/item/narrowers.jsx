@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
-import { D1, D2 } from '../../deprecated-locales';
+
 import { Row } from '@components/layout';
 import { Note } from '@components/note';
+
+import { D1, D2 } from '../../deprecated-locales';
 
 const Narrowers = ({ narrowers, classificationId, secondLang }) => {
 	if (!narrowers || narrowers?.length === 0) {

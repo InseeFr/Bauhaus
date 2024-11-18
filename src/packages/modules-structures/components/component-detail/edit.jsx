@@ -1,9 +1,31 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { ActionToolbar } from '@components/action-toolbar';
+import {
+	CancelButton,
+	SaveButton,
+} from '@components/buttons/buttons-with-icons';
+import { SeeButton } from '@components/buttons/see';
+import { ContributorsInput } from '@components/contributors/contributors';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
+import {
+	ClientSideError,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { NumberInput, TextInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
 import { Select } from '@components/select-rmes';
-import { API } from '../../../modules-codelists/apis';
-import { CodeListApi, StructureApi } from '../../../sdk';
+
 import { convertToArrayIfDefined, sortArray } from '@utils/array-utils';
+import { useTitle } from '@utils/hooks/useTitle';
+
+import { useAppContext } from '../../../application/app-context';
+import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
+import { API } from '../../../modules-codelists/apis';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { CodeListApi, StructureApi } from '../../../sdk';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import {
 	IGEO_PAYS_OU_TERRITOIRE,
@@ -20,27 +42,6 @@ import {
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { validate } from '../edition/validation';
 import './edit.scss';
-
-import { useAppContext } from '../../../application/app-context';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
-import { ActionToolbar } from '@components/action-toolbar';
-import {
-	CancelButton,
-	SaveButton,
-} from '@components/buttons/buttons-with-icons';
-import LabelRequired from '@components/label-required';
-import { usePermission } from '../../../redux/hooks/usePermission';
-import { useTitle } from '@utils/hooks/useTitle';
-import { Row } from '@components/layout';
-import { SeeButton } from '@components/buttons/see';
-import {
-	ClientSideError,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-} from '@components/errors-bloc';
-import { NumberInput, TextInput } from '@components/form/input';
-import { ContributorsInput } from '@components/contributors/contributors';
-import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,

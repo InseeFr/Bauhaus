@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { Operation } from '../../model/Operation';
+
 import { OperationsApi } from '@sdk/operations-api';
+
+import { Operation } from '../../model/Operation';
 
 export const useOperations = () => {
 	return useQuery({

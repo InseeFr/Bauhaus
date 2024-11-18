@@ -1,16 +1,18 @@
-import Auth from '../../../auth/components/auth';
-import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
 import { ActionToolbar } from '@components/action-toolbar';
 import { Button } from '@components/buttons/button';
 import {
 	ReturnButton,
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
-import D from '../../../deprecated-locales/build-dictionary';
-import { Series } from '../../../model/operations/series';
+import { ValidationButton } from '@components/validationButton';
+
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { containUnsupportedStyles } from '@utils/html-utils';
-import { ValidationButton } from '@components/validationButton';
+
+import Auth from '../../../auth/components/auth';
+import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
+import D from '../../../deprecated-locales/build-dictionary';
+import { Series } from '../../../model/operations/series';
 
 type MenuTypes = {
 	series: Series;

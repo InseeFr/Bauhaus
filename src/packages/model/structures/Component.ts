@@ -1,4 +1,5 @@
 import { ValidationState } from '@components/status';
+
 export type Component = {
 	identifiant?: string;
 	type?: string;

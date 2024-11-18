@@ -1,11 +1,14 @@
+import { useEffect, useState } from 'react';
+
 import { Row } from '@components/layout';
 import { Loading } from '@components/loading';
 import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
-import { useEffect, useState } from 'react';
+
+import { OperationsApi } from '@sdk/operations-api';
+
 import D from '../../deprecated-locales';
 import { IndicatorsList } from '../../model/operations/indicator';
-import { OperationsApi } from '@sdk/operations-api';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { Menu } from './menu';
 

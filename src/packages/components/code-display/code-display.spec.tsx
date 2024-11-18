@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
-import { CodeDisplay } from './';
+
 import { Code, CodesList } from '../../model/CodesList';
+import { CodeDisplay } from './';
 
 describe('CodeDisplay Component', () => {
 	it('renders the correct label when a matching code is found', () => {

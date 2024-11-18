@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet, useLocation, useNavigation } from 'react-router-dom';
 
+import { Loading } from '@components/loading';
+
 import { loadSetup } from '../../redux/actions/operations/utils/setup';
 import { useTheme } from '../../utils/hooks/useTheme';
 import Menu from '../menu';
-import { Loading } from '@components/loading';
 
 export const Component = () => {
 	useTheme('operations');

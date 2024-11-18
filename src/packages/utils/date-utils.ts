@@ -1,11 +1,12 @@
 //@ts-ignore
 import dayjs from 'dayjs';
+import 'dayjs/locale/en';
+import 'dayjs/locale/fr';
 //@ts-ignore
 import isBetween from 'dayjs/plugin/isBetween';
 //@ts-ignore
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-import 'dayjs/locale/en';
-import 'dayjs/locale/fr';
+
 import { getLang } from './dictionnary';
 
 dayjs.extend(isBetween);

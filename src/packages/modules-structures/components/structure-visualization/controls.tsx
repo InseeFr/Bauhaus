@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	DeleteButton,
@@ -8,11 +7,13 @@ import {
 	ReturnButton,
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
-import { Structure } from '../../../model/structures/Structure';
+import { ValidationButton } from '@components/validationButton';
+
+import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { UNPUBLISHED } from '../../../model/ValidationState';
+import { Structure } from '../../../model/structures/Structure';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { StructureApi } from '../../../sdk';
-import { ValidationButton } from '@components/validationButton';
 
 type ControlsTypes = {
 	structure: Structure;
