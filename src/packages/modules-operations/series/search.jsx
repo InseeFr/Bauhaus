@@ -10,14 +10,13 @@ import { Select } from '../../components/select-rmes';
 
 import D from '../../deprecated-locales';
 
-import { CL_SOURCE_CATEGORY } from '../../redux/actions/constants/codeList';
 import { OperationsApi } from '../../sdk/operations-api';
 import { filterKeyDeburr } from '../../utils/array-utils';
-import { useCodesList } from '../../utils/hooks/codeslist';
 import { useOrganizationsOptions } from '../../utils/hooks/organizations';
 import { useStamps } from '../../utils/hooks/stamps';
 import { useTitle } from '../../utils/hooks/useTitle';
 import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
+import { TypeCodeInput } from './search/typeCodeInput';
 
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 const filterTypeCode = filterKeyDeburr(['typeCode']);
@@ -30,7 +29,7 @@ const defaultFormState = {
 	dataCollector: '',
 };
 
-export const SearchFormList = ({ categories, stamps, data }) => {
+export const SearchFormList = ({ stamps, data }) => {
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { prefLabelLg1, typeCode, creator, publisher, dataCollector } = form;
@@ -97,26 +96,10 @@ export const SearchFormList = ({ categories, stamps, data }) => {
 			</div>
 			<div className="form-group row">
 				<div className="col-md-12">
-					<label htmlFor="typeOperation" className="w-100">
-						{D.operationType}
-
-						<Select
-							placeholder=""
-							value={
-								(
-									categories.codes.find(
-										(category) => category.code === typeCode,
-									) || {}
-								).value
-							}
-							options={categories?.codes?.map((cat) => {
-								return { value: cat.code, label: cat.labelLg1 };
-							})}
-							onChange={(value) => {
-								handleChange('typeCode', value);
-							}}
-						/>
-					</label>
+					<TypeCodeInput
+						value={typeCode}
+						onChange={(value) => handleChange('typeCode', value)}
+					/>
 				</div>
 			</div>
 			<div className="form-group row">
@@ -179,7 +162,6 @@ export const SearchFormList = ({ categories, stamps, data }) => {
 export const Component = () => {
 	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, D.advancedSearch);
 	const [data, setData] = useState();
-	const categories = useCodesList(CL_SOURCE_CATEGORY);
 
 	const { data: stamps = [] } = useStamps();
 
@@ -188,5 +170,5 @@ export const Component = () => {
 	}, []);
 
 	if (!data) return <Loading />;
-	return <SearchFormList data={data} categories={categories} stamps={stamps} />;
+	return <SearchFormList data={data} stamps={stamps} />;
 };

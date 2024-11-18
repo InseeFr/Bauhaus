@@ -10,7 +10,7 @@ import { useTitle } from '../../../utils/hooks/useTitle';
 
 export const Component = () => {
 	useTitle(D.collectionsTitle, D.exportTitle);
-	const [ids, setIds] = useState([]);
+	const [ids, setIds] = useState<string[]>([]);
 
 	const { data: collections, isLoading } = useCollections();
 	const { mutate: exportCollection, isPending: isExporting } =
@@ -25,17 +25,18 @@ export const Component = () => {
 			title={D.exportTitle}
 			panelTitle={D.collectionsExportPanelTitle}
 			labelWarning={D.hasNotCollectionToExport}
-			handleAction={(value) => setIds(value)}
-			context="collections"
+			handleAction={(value: string[]) => setIds(value)}
+			context="concepts/collections"
 			disabled={ids.length < 1}
 			disabledWarningMessage={D.hasNotCollectionToExport}
 			ValidationButton={() => (
 				<ExportButtons
-					ids={ids}
 					disabled={ids.length < 1}
-					exportHandler={(type, withConcepts, lang = 'lg1') =>
-						exportCollection({ ids, type, withConcepts, lang })
-					}
+					exportHandler={(
+						type: string,
+						withConcepts: boolean,
+						lang: 'lg1' | 'lg2' = 'lg1',
+					) => exportCollection({ ids, type, withConcepts, lang })}
 				/>
 			)}
 		/>
