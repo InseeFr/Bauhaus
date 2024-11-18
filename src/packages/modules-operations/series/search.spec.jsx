@@ -5,6 +5,7 @@ import {
 } from '../../redux/actions/constants/codeList';
 import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import { renderWithRouter } from '../../tests-utils/render';
+import * as useCodesListHook from '../../utils/hooks/codeslist';
 
 const data = [
 	{
@@ -124,9 +125,12 @@ const organisations = [
 	{ value: 'DG75-A040', label: 'DG75-A040' },
 ];
 const stamps = ['DG57-C003'];
-const categories = {
-	codes: [{ code: 'S', labelLg2: 'Survey', labelLg1: 'Enquete' }],
-};
+
+vi.spyOn(useCodesListHook, 'useCodesList').mockImplementation(() => {
+	return {
+		codes: [{ code: 'S', labelLg2: 'Survey', labelLg1: 'Enquete' }],
+	};
+});
 
 vi.mock('../../utils/hooks/useUrlQueryParameters');
 
@@ -142,7 +146,7 @@ describe('<SearchFormList />', () => {
 		useUrlQueryParameters.mockReturnValue({ form });
 
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />,
+			<SearchFormList data={data} stamps={stamps} />,
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(6);
 	});
@@ -152,7 +156,7 @@ describe('<SearchFormList />', () => {
 		useUrlQueryParameters.mockReturnValue({ form });
 
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />,
+			<SearchFormList data={data} stamps={stamps} />,
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
@@ -160,7 +164,7 @@ describe('<SearchFormList />', () => {
 		const form = { typeCode: 'S' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />,
+			<SearchFormList data={data} stamps={stamps} />,
 		);
 		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
@@ -168,7 +172,7 @@ describe('<SearchFormList />', () => {
 		const form = { creator: 'DG57-C003' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />,
+			<SearchFormList data={data} stamps={stamps} />,
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
@@ -178,7 +182,7 @@ describe('<SearchFormList />', () => {
 		const form = { publisher: 'Acoss' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />,
+			<SearchFormList data={data} stamps={stamps} />,
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
@@ -188,7 +192,7 @@ describe('<SearchFormList />', () => {
 		const form = { dataCollector: 'DG75-A040' };
 		useUrlQueryParameters.mockReturnValue({ form });
 		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} categories={categories} />,
+			<SearchFormList data={data} stamps={stamps} />,
 		);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
