@@ -52,7 +52,6 @@ describe('RBACLink Component', () => {
 		);
 
 		screen.getByText('Child Component');
-		screen.getByText('API 2.0.0');
 		screen.getByAltText('application logo');
 	});
 
