@@ -11,13 +11,13 @@ type ImportMetaEnv = {
   VITE_OIDC_CLIENT_ID: string
   VITE_CONCEPTS_DOCUMENTATION: string
   VITE_OPERATIONS_DOCUMENTATION: string
-  VITE_VERSION: string
+  VITE_DEV_TOOLS_ENABLED: string
   VITE_NAME: string
+  VITE_VERSION: string
   BASE_URL: string
   MODE: string
   DEV: boolean
   PROD: boolean
-  SKIP_PREFLIGHT_CHECK: string
   // @user-defined-start
   /*
    *  You can use this section to explicitly extend the type definition of `import.meta.env`

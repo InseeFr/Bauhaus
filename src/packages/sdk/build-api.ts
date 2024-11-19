@@ -1,5 +1,4 @@
 import { getOidc } from '../auth/create-oidc';
-import { getEnvVar } from '../utils/env';
 
 export const generateGenericApiEndpoints = (
 	pluralPrefix = '',
@@ -104,14 +103,14 @@ export const computeDscr = async (fn: any, [...args]) => {
 let saveApiURL = '';
 export const getBaseURI = () => {
 	if (saveApiURL) return Promise.resolve(saveApiURL);
-	return getEnvVar('INSEE')
+	return import.meta.env.VITE_INSEE
 		? fetch(apiURL).then((res) => {
 				return res.json().then((config) => {
 					saveApiURL = config.bauhaus;
 					return config.bauhaus;
 				});
 			})
-		: Promise.resolve(getEnvVar('API_BASE_HOST')).then((u) => {
+		: Promise.resolve(import.meta.env.VITE_API_BASE_HOST).then((u) => {
 				saveApiURL = u;
 				return u;
 			});

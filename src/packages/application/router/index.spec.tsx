@@ -21,9 +21,6 @@ vi.mock('react-router-dom', async () => {
 		useLocation: vi.fn(),
 	};
 });
-vi.mock('../../utils/env', () => ({
-	getEnvVar: (key: string) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
-}));
 
 const store = configureStore({
 	app: {
@@ -55,7 +52,7 @@ describe('RBACLink Component', () => {
 		);
 
 		screen.getByText('Child Component');
-		screen.getByText('TestApp - IHM 1.0.0 - API 2.0.0');
+		screen.getByText('API 2.0.0');
 		screen.getByAltText('application logo');
 	});
 
