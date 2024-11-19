@@ -9,6 +9,7 @@ export const DatePicker = ({ value, onChange }: Readonly<DatePickerTypes>) => {
 	const date = value ? new Date(value) : undefined;
 	return (
 		<Calendar
+			dateFormat="dd/mm/yy"
 			value={date}
 			onChange={(e) => {
 				onChange(e.value?.toISOString());
