@@ -14,6 +14,7 @@ type ImportMetaEnv = {
   VITE_DEV_TOOLS_ENABLED: string
   VITE_NAME: string
   VITE_VERSION: string
+  VITE_INSEE: any
   BASE_URL: string
   MODE: string
   DEV: boolean

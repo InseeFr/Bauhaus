@@ -22,6 +22,9 @@ vi.mock('react-router-dom', async () => {
 	};
 });
 
+vi.stubEnv('VITE_NAME', 'TestApp');
+vi.stubEnv('VITE_VERSION', '1.0.0');
+
 const store = configureStore({
 	app: {
 		auth: {
@@ -52,6 +55,7 @@ describe('RBACLink Component', () => {
 		);
 
 		screen.getByText('Child Component');
+		screen.getByText('TestApp - IHM 1.0.0 - API 2.0.0');
 		screen.getByAltText('application logo');
 	});
 
