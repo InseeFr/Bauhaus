@@ -5,7 +5,7 @@ import { NumberResults } from '../number-results';
 
 type AdvancedSearchListTypes = {
 	title: string;
-	data: unknown[];
+	data: JSX.Element[];
 	initializeState?: unknown;
 	redirect?: JSX.Element;
 };
