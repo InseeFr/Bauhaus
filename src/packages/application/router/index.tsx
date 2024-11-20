@@ -6,7 +6,6 @@ import bauhausLogo from '../../../img/logo_noir.svg';
 import Auth from '../../auth/components/auth';
 import { ADMIN } from '../../auth/roles';
 import D from '../../i18n';
-import { getEnvVar } from '../../utils/env';
 import { useAppContext } from '../app-context';
 import { useOidc } from '../../auth/create-oidc';
 
@@ -27,9 +26,7 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 		properties: { authorizationHost },
 	} = useAppContext();
 	const { version } = useAppContext();
-	const footer = `${getEnvVar('NAME')} - IHM ${getEnvVar(
-		'VERSION',
-	)} - API ${version}`;
+	const footer = `${import.meta.env.VITE_NAME} - IHM ${import.meta.env.VITE_VERSION} - API ${version}`;
 
 	const isHomePage = location.pathname === '/';
 

@@ -21,9 +21,9 @@ vi.mock('react-router-dom', async () => {
 		useLocation: vi.fn(),
 	};
 });
-vi.mock('../../utils/env', () => ({
-	getEnvVar: (key: string) => (key === 'NAME' ? 'TestApp' : '1.0.0'),
-}));
+
+vi.stubEnv('VITE_NAME', 'TestApp');
+vi.stubEnv('VITE_VERSION', '1.0.0');
 
 const store = configureStore({
 	app: {
