@@ -1,7 +1,13 @@
 import D from '../../../deprecated-locales';
 import { Pagination, TextInput } from '../../../components';
 
-const SearchConceptsByLabel = ({ searchLabel, handleSearch, hitEls }) => {
+type SearchConceptsByLabelTypes = {
+	searchLabel: string;
+	hitEls: JSX.Element[],
+	handleSearch: (value: string) => void	
+}
+
+const SearchConceptsByLabel = ({ searchLabel, handleSearch, hitEls }: Readonly<SearchConceptsByLabelTypes>) => {
 	return (
 		<div>
 			<TextInput
