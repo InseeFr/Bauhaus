@@ -14,13 +14,11 @@ import {
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
 
+import Modal from 'react-modal';
 import { useBlocker } from 'react-router-dom';
 import { ActionToolbar } from '../../../../components/action-toolbar';
-import {
-	CancelButton,
-	CloseIconButton,
-	SaveButton,
-} from '../../../../components/buttons/buttons-with-icons';
+import { Button } from '../../../../components/buttons/button';
+import { CloseIconButton } from '../../../../components/buttons/buttons-with-icons';
 import { OperationsApi } from '../../../../sdk/operations-api';
 import { sortArrayByLabel } from '../../../../utils/array-utils';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
@@ -28,10 +26,9 @@ import { rangeType } from '../../../utils/msd';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { DocumentFormPanel } from './document-form-panel';
 import { useDocumentsStoreContext } from './documents-store-context';
+import { Menu } from './menu';
 import './sims-creation.scss';
 import { getDefaultSims, getSiblingSims } from './utils/getSims';
-import Modal from 'react-modal';
-import { Button } from '../../../../components/buttons/button';
 
 const { RICH_TEXT } = rangeType;
 
@@ -254,10 +251,7 @@ const SimsCreation = ({
 
 	return (
 		<>
-			<ActionToolbar>
-				<CancelButton action={goBackUrl} />
-				<SaveButton action={handleSubmit} col={3} />
-			</ActionToolbar>
+			<Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
 
 			<Modal
 				className="Modal__Bootstrap modal-dialog operations structures-specification-modal"
