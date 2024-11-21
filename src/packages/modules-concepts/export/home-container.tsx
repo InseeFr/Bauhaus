@@ -7,7 +7,7 @@ import { useTitle } from '../../utils/hooks/useTitle';
 
 export const Component = () => {
 	useTitle(D.conceptsTitle, D.exportTitle);
-	const [ids, setIds] = useState([]);
+	const [ids, setIds] = useState<string[]>([]);
 
 	const { mutate: exportConcept, isPending: isExporting } =
 		useConceptExporter();
@@ -26,13 +26,12 @@ export const Component = () => {
 			title={D.exportTitle}
 			panelTitle={D.conceptsExportPanelTitle}
 			labelWarning={D.hasNotConceptToExport}
-			handleAction={(value) => setIds(value)}
+			handleAction={(value: string[]) => setIds(value)}
 			context="concepts"
 			disabled={ids.length < 1}
 			disabledWarningMessage={D.hasNotConceptToExport}
 			ValidationButton={() => (
 				<ExportButtons
-					ids={ids}
 					exportHandler={(type, withConcepts, lang = 'lg1') =>
 						exportConcept({ ids, type, withConcepts, lang })
 					}
