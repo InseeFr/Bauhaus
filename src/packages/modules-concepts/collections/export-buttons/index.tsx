@@ -1,6 +1,19 @@
 import D from '../../../deprecated-locales/build-dictionary';
 import ExportButton from '../dropdown';
-const ExportButtons = ({ exportHandler, disabled }) => {
+
+type ExportButtonsTypes = {
+	disabled?: boolean;
+	exportHandler: (
+		type: string,
+		withConcepts: boolean,
+		lang?: 'lg1' | 'lg2',
+	) => void;
+};
+
+const ExportButtons = ({
+	exportHandler,
+	disabled,
+}: Readonly<ExportButtonsTypes>) => {
 	return (
 		<ExportButton
 			disabled={disabled}
