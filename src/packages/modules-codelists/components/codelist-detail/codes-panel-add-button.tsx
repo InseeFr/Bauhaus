@@ -2,7 +2,14 @@ import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { AddButton } from '../../../components/buttons/add';
 
-export const CodesPanelAddButton = ({ codelist, onHandlePanel }) => {
+type CodesPanelAddButtonTypes = {
+	codelist: any;
+	onHandlePanel: () => void;
+};
+export const CodesPanelAddButton = ({
+	codelist,
+	onHandlePanel,
+}: Readonly<CodesPanelAddButtonTypes>) => {
 	const permission = usePermission();
 
 	if (!codelist.lastCodeUriSegment) {

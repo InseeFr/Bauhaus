@@ -8,8 +8,18 @@ import {
 	ReturnButton,
 	UpdateButton,
 } from '../../../components/buttons/buttons-with-icons';
+
+type ViewMenuTypes = {
+	handleUpdate: () => void;
+	handleDelete: () => void;
+	handleBack: () => void;
+	publish: () => void;
+	updatable: boolean;
+	deletable: boolean;
+	codelist: any;
+};
+
 export const ViewMenu = ({
-	col,
 	handleUpdate,
 	handleDelete,
 	handleBack,
@@ -17,7 +27,7 @@ export const ViewMenu = ({
 	publish,
 	updatable,
 	deletable,
-}) => {
+}: Readonly<ViewMenuTypes>) => {
 	const permission = usePermission();
 
 	const hasRightsBasedOnStamp =
@@ -27,7 +37,7 @@ export const ViewMenu = ({
 
 	return (
 		<ActionToolbar>
-			<ReturnButton action={handleBack} col={col} />
+			<ReturnButton action={handleBack} />
 
 			{(isAdmin || hasRightsBasedOnStamp) && (
 				<ValidationButton callback={publish} object={codelist} />
@@ -37,11 +47,11 @@ export const ViewMenu = ({
 				(isAdmin ||
 					(hasRightsBasedOnStamp &&
 						codelist.validationState === UNPUBLISHED)) && (
-					<DeleteButton action={handleDelete} col={col} />
+					<DeleteButton action={handleDelete} />
 				)}
 
 			{updatable && (isAdmin || hasRightsBasedOnStamp) && (
-				<UpdateButton action={handleUpdate} col={col} />
+				<UpdateButton action={handleUpdate} />
 			)}
 		</ActionToolbar>
 	);

@@ -16,8 +16,8 @@ export const isContributor = (
 };
 export const isConceptCreator = (
 	roles: string[],
-	stamp: string,
-	conceptCreator: string,
+	stamp?: string,
+	conceptCreator?: string,
 ) => roles.includes(R.CONCEPTS_CREATOR) && stamp === conceptCreator;
 
 export const filterConceptsToValidate = (
@@ -49,8 +49,8 @@ export const isAdminOrContributor = (roles: string[]) =>
 
 export const isAdminOrConceptCreator = (
 	roles: string[],
-	stamp: string,
-	conceptCreator: string,
+	stamp?: string,
+	conceptCreator?: string,
 ) => isAdmin(roles) || isConceptCreator(roles, stamp, conceptCreator);
 
 export const isAdminOrContributorOrConceptCreator = (
