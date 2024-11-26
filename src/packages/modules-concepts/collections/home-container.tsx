@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { Loading } from '../../components';
 import CollectionsHome from './home';
 import { CollectionApi } from '../../sdk/collection-api';
+import { PartialCollection } from '../../model/concepts/collection';
 
 export const Component = () => {
 	const [loading, setLoading] = useState(true);
-	const [collections, setCollections] = useState([]);
+	const [collections, setCollections] = useState<PartialCollection[]>([]);
 	useEffect(() => {
 		CollectionApi.getCollectionList()
 			.then(setCollections)

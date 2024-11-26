@@ -2,8 +2,13 @@ import D from '../../deprecated-locales';
 import { PageTitle, Row, SearchableList } from '../../components';
 import { Menu } from './menu';
 import { useTitle } from '../../utils/hooks/useTitle';
+import { PartialCollection } from '../../model/concepts/collection';
 
-const CollectionsHome = ({ collections }) => {
+type CollectionsHomeTypes = {
+	collections: PartialCollection[];
+};
+
+const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>) => {
 	useTitle(D.conceptsTitle, D.collectionsTitle);
 	return (
 		<div className="container">
