@@ -279,6 +279,16 @@ const SimsCreation = ({
 			<DocumentFormPanel
 				opened={lateralPanelOpened}
 				onHide={onLateralPanelHide}
+				onAdd={(rubric, lang, newDocument) => {
+					const rubricLang = lang === 'lg1' ? 'Lg1' : 'Lg2';
+					const currentDocuments = sims[rubric]['documents' + rubricLang] || [];
+					handleChange({
+						id: rubric,
+						override: {
+							['documents' + rubricLang]: [...currentDocuments, newDocument],
+						},
+					});
+				}}
 			/>
 
 			{Object.values(metadataStructure).map((msd, index) => {

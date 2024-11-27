@@ -264,7 +264,7 @@ const MSDContainerWithParent = (props) => {
 	const [parent, setParent] = useState(props.parent);
 	const [loading, setLoading] = useState(true);
 	const { documentStores, setDocumentStores } = useDocumentsList();
-
+	const [rubricIdForNewDocument, setRubricIdForNewDocument] = useState();
 	const goBack = useGoBack();
 
 	const currentSims =
@@ -306,6 +306,8 @@ const MSDContainerWithParent = (props) => {
 				lateralPanelOpened,
 				onLateralPanelHide: () => setLateralPanelOpened(undefined),
 				openLateralPanelOpened: (type) => setLateralPanelOpened(type),
+				rubricIdForNewDocument,
+				setRubricIdForNewDocument,
 			}}
 		>
 			<MSDContainer

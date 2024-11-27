@@ -1,8 +1,9 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { DocumentsBloc } from './index';
 import { sortArray } from '../../../../utils/array-utils';
 import { getLang } from '../../../../utils/dictionnary';
 import { DocumentsStoreProvider } from '../../pages/sims-creation/documents-store-context';
+import D, { D1, D2 } from '../../../../deprecated-locales';
 
 const documents = [
 	{
@@ -78,7 +79,7 @@ describe('DocumentsBloc', () => {
 		const lis = container.querySelectorAll('li');
 		for (let i = 0; i < lis.length; i++) {
 			expect(lis[i].outerHTML).toEqual(
-				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg1}">${orderedList[i].labelLg1}</a><i> (${orderedList[i].aside})</i></span></li>`,
+				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg1}">${orderedList[i].labelLg1}</a><i>(${orderedList[i].aside})</i></span></li>`,
 			);
 		}
 	});
@@ -91,7 +92,7 @@ describe('DocumentsBloc', () => {
 		const lis = container.querySelectorAll('li');
 		for (let i = 0; i < lis.length; i++) {
 			expect(lis[i].outerHTML).toEqual(
-				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg2}">${orderedList[i].labelLg2}</a><i> (${orderedList[i].aside})</i></span></li>`,
+				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg2}">${orderedList[i].labelLg2}</a><i>(${orderedList[i].aside})</i></span></li>`,
 			);
 		}
 	});
@@ -143,6 +144,34 @@ describe('DocumentsBloc', () => {
 		);
 
 		expect(container.querySelectorAll('.documentsbloc__add')).toHaveLength(1);
+	});
+
+	it('should display the Add new Document button', () => {
+		const openLateralPanelOpened = vi.fn();
+		const setRubricIdForNewDocument = vi.fn();
+		renderWithStore(
+			<DocumentsStoreProvider
+				value={{
+					documentStores: { lg1: [], lg2: [] },
+					openLateralPanelOpened,
+					setRubricIdForNewDocument,
+				}}
+			>
+				<DocumentsBloc
+					documents={documents}
+					localPrefix="Lg1"
+					editMode={true}
+					idMas="1"
+				/>
+			</DocumentsStoreProvider>,
+		);
+		const btn = screen.getByLabelText(D.btnAdd);
+		fireEvent.click(btn);
+		expect(openLateralPanelOpened).toHaveBeenCalledWith('link');
+		expect(setRubricIdForNewDocument).toHaveBeenCalledWith({
+			lang: 'Lg1',
+			rubric: '1',
+		});
 	});
 
 	it('should not display the Add Document button for Lg2', () => {
