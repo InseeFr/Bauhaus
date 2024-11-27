@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { DocumentsBloc } from './index';
+import D from '../../../../deprecated-locales';
 import { sortArray } from '../../../../utils/array-utils';
 import { getLang } from '../../../../utils/dictionnary';
 import { DocumentsStoreProvider } from '../../pages/sims-creation/documents-store-context';
-import D, { D1, D2 } from '../../../../deprecated-locales';
+import { DocumentsBloc } from './index';
 
 const documents = [
 	{
