@@ -12,6 +12,7 @@ type ImportMetaEnv = {
   VITE_OPERATIONS_DOCUMENTATION: string
   VITE_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS: string
   VITE_INSEE: string
+  VITE_DEV_TOOLS_ENABLED: string
   BASE_URL: string
   MODE: string
   DEV: boolean

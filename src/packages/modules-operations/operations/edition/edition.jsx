@@ -27,6 +27,7 @@ const defaultOperation = {
 	prefLabelLg2: '',
 	altLabelLg1: '',
 	altLabelLg2: '',
+	year: '',
 };
 
 class OperationsOperationEdition extends Component {
@@ -226,6 +227,14 @@ class OperationsOperationEdition extends Component {
 								onChange={this.onChange}
 							/>
 						</div>
+					</Row>
+					<Row>
+						<label>{D.year}</label>
+						<TextInput
+							id="year"
+							value={operation.year}
+							onChange={this.onChange}
+						/>
 					</Row>
 				</form>
 			</div>

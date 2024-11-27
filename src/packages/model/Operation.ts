@@ -9,6 +9,7 @@ export type Operation = {
 	id: string;
 	label: string;
 	altLabel: string;
+	year: string;
 	iri: string;
 	seriesIri: string;
 	idSims?: string;
