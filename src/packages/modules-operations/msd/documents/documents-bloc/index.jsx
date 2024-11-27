@@ -1,23 +1,13 @@
-import D, { D1, D2 } from '../../../../deprecated-locales';
-import { useState, useEffect } from 'react';
-import './style.scss';
-import { DOCUMENT, isDocument, isLink, LINK } from '../../../document/utils';
-import { getBaseURI } from '../../../../sdk';
-import { sortArray } from '../../../../utils/array-utils';
-import { getLang } from '../../../../utils/dictionnary';
-import { useDocumentsStoreContext } from '../../pages/sims-creation/documents-store-context';
+import { useEffect, useState } from 'react';
 import { TextInput } from '../../../../components';
 import { AddLogo } from '../../../../components/logo/logo-add';
-
-function getAsideToTheDocument(document) {
-	let updatedDate;
-	if (document.updatedDate) {
-		updatedDate = new Intl.DateTimeFormat(getLang()).format(
-			new Date(document.updatedDate),
-		);
-	}
-	return [document.lang, updatedDate].filter((val) => !!val).join('-');
-}
+import D, { D1, D2 } from '../../../../deprecated-locales';
+import { getBaseURI } from '../../../../sdk';
+import { sortArray } from '../../../../utils/array-utils';
+import { DOCUMENT, isDocument, isLink, LINK } from '../../../document/utils';
+import { useDocumentsStoreContext } from '../../pages/sims-creation/documents-store-context';
+import './style.scss';
+import { DocumentAsideInformation, DocumentLink } from './document-list-item';
 
 /**
  * @typedef {Object} DocumentsBlocProps
@@ -27,6 +17,7 @@ function getAsideToTheDocument(document) {
  * @property {(string) => void } deleteHandler
  * @property {(string) => void } addHandler
  * @property {String} objectType
+ * @property {String} idMas
  */
 
 /**
@@ -42,8 +33,10 @@ export function DocumentsBloc({
 	deleteHandler,
 	addHandler,
 	objectType,
+	idMas,
 }) {
-	const { documentStores, openLateralPanelOpened } = useDocumentsStoreContext();
+	const { documentStores, openLateralPanelOpened, setRubricIdForNewDocument } =
+		useDocumentsStoreContext();
 
 	/**
 	 * @param {import('js/types').SimsDocuments} document
@@ -91,24 +84,16 @@ export function DocumentsBloc({
 		document,
 		btnBlocFunction = defaultBtnBlocFunction,
 	) {
-		const id = document.uri.substr(document.uri.lastIndexOf('/') + 1);
-		const uri = isDocument(document)
-			? `${baseURI}/documents/document/${id}/file`
-			: document.url;
-		const label =
-			document[`label${localPrefix}`] || document.labelLg1 || document.labelLg2;
 		return (
 			<li className="list-group-item documentbloc__item" key={document.uri}>
 				<span>
-					<a
-						target="_blank"
-						rel="noopener noreferrer"
-						href={uri}
-						title={document[`description${localPrefix}`]}
-					>
-						{label}
-					</a>
-					<i> ({getAsideToTheDocument(document)})</i>
+					<DocumentLink
+						document={document}
+						localPrefix={localPrefix}
+						baseURI={baseURI}
+					/>
+
+					<DocumentAsideInformation document={document} />
 				</span>
 				{editMode && btnBlocFunction(document)}
 			</li>
@@ -147,11 +132,12 @@ export function DocumentsBloc({
 							type="button"
 							className="btn"
 							aria-label={D.btnAdd}
-							onClick={() =>
+							onClick={() => {
 								openLateralPanelOpened(
 									objectType === 'documents' ? DOCUMENT : LINK,
-								)
-							}
+								);
+								setRubricIdForNewDocument({ rubric: idMas, lang: localPrefix });
+							}}
 						>
 							<AddLogo />
 						</button>
