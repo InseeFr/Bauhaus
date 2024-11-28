@@ -9,12 +9,13 @@ import { Select } from '@components/select-rmes';
 
 import { OperationsApi } from '@sdk/operations-api';
 
+import { useOrganizationsOptions } from '@utils/hooks/organizations';
+import { useStamps } from '@utils/hooks/stamps';
+import { useTitle } from '@utils/hooks/useTitle';
+import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
+
 import D from '../../deprecated-locales';
 import { filterKeyDeburr } from '../../utils/array-utils';
-import { useOrganizationsOptions } from '../../utils/hooks/organizations';
-import { useStamps } from '../../utils/hooks/stamps';
-import { useTitle } from '../../utils/hooks/useTitle';
-import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import { TypeCodeInput } from './search/typeCodeInput';
 
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);

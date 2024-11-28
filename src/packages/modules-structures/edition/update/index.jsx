@@ -3,10 +3,11 @@ import { useLocation, useParams } from 'react-router-dom';
 
 import { Loading } from '@components/loading';
 
+import { StructureApi } from '@sdk/index';
+
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../../deprecated-locales';
-import { StructureApi } from '../../../sdk';
 import Edition from '../component';
 
 export const Component = () => {

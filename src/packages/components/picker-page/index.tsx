@@ -7,8 +7,9 @@ import { Row } from '@components/layout';
 import { PageTitle } from '@components/page-title';
 import { Pagination } from '@components/pagination';
 
+import { filterDeburr } from '@utils/array-utils';
+
 import D from '../../deprecated-locales';
-import { filterDeburr } from '../../utils/array-utils';
 import { ActionToolbar } from '../action-toolbar';
 import { ReturnButton, ExportButton } from '../buttons/buttons-with-icons';
 import { AddLogo } from '../logo/logo-add';

@@ -4,13 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Loading, Saving } from '@components/loading';
 
 import { CollectionApi } from '@sdk/collection-api';
+import { ConceptsApi } from '@sdk/index';
 
 import { useTitle } from '@utils/hooks/useTitle';
 import { cleanId } from '@utils/string-utils';
 
 import D from '../../../deprecated-locales';
-import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
-import { ConceptsApi } from '../../../sdk';
+import buildPayload from '../utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
 
 export const Component = () => {

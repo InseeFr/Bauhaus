@@ -6,14 +6,15 @@ import { InputRmes } from '@components/input-rmes';
 import { Note } from '@components/note';
 import { Select } from '@components/select-rmes';
 
+import { sortArrayByLabel } from '@utils/array-utils';
+import { getLang } from '@utils/dictionnary';
+
 import {
 	EditorDeleteButton,
 	EditorMarkdownToolbar,
 } from '../../../../components/rich-editor/editor-markdown';
 import D from '../../../../deprecated-locales';
-import SimsGeographyPicker from '../../../../modules-operations/components/sims/sims-geography-picker';
-import { sortArrayByLabel } from '../../../../utils/array-utils';
-import { getLang } from '../../../../utils/dictionnary';
+import SimsGeographyPicker from '../../../components/sims/sims-geography-picker';
 import { rangeType } from '../../../utils/msd';
 import { SimsFieldTitle } from '../../sims-field-title';
 import { SimsCodeListSelect } from './sims-code-list-select';

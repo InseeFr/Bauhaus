@@ -7,10 +7,10 @@ import { AddLogo } from '@components/logo/logo-add';
 import { DelLogo } from '@components/logo/logo-del';
 import { Pagination } from '@components/pagination';
 import { Panel } from '@components/panel';
+import { PickerItem } from '@components/picker-item';
 
 import { filterDeburr } from '@utils/array-utils';
 
-import { PickerItem } from '../../../components/picker-item';
 import D from '../../i18n/build-dictionary';
 import '../codelist-detail/edit.scss';
 

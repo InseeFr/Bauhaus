@@ -17,6 +17,7 @@ import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
+import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
 import { Select } from '@components/select-rmes';
 
 import { GeneralApi } from '@sdk/general-api';
@@ -25,7 +26,6 @@ import { useDocumentsAndLinks } from '@utils/hooks/documents';
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
 
-import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { DOCUMENT, LINK } from '../utils';
 import { ConfirmationModal } from './confirmation-modal';

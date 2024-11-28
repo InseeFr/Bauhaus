@@ -6,7 +6,7 @@ import {
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
 
-import { cleanId } from '../../utils/string-utils';
+import { cleanId } from '@utils/string-utils';
 
 type ControlsTypes = {
 	creation: boolean;

@@ -1,6 +1,8 @@
+import { CodeListApi } from '@sdk/index';
+
+import { sortArray } from '@utils/array-utils';
+
 import { CodesList, CodesLists } from '../../model/CodesList';
-import { CodeListApi } from '../../sdk';
-import { sortArray } from '../../utils/array-utils';
 
 const sortByLabel = sortArray('labelLg1');
 

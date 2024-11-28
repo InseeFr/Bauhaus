@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { Exporting, Loading } from '@components/loading';
 
-import { ConceptsApi } from '../../sdk';
-import { saveFileFromHttpResponse } from '../../utils/files';
-import { useDisseminationStatus } from '../../utils/hooks/disseminationStatus';
-import { useStamps } from '../../utils/hooks/stamps';
+import { ConceptsApi } from '@sdk/index';
+
+import { saveFileFromHttpResponse } from '@utils/files';
+import { useDisseminationStatus } from '@utils/hooks/disseminationStatus';
+import { useStamps } from '@utils/hooks/stamps';
+
 import ConceptSearchList from './home';
 
 const emptyItem = {

@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 import { PageTitle } from '@components/page-title';
 
-import MembersEdition from '../../../modules-concepts/collections/edition/members';
+import MembersEdition from '../../collections/edition/members';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
 import { validate } from './validation';

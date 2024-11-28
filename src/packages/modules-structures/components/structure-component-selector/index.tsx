@@ -2,13 +2,13 @@ import { useCallback, useState, useEffect } from 'react';
 
 import { AddButton } from '@components/buttons/add';
 import { SeeButton } from '@components/buttons/see';
+import { RightSlidingPanel } from '@components/sliding-panel';
 
 import { convertToArrayIfDefined } from '@utils/array-utils';
 import { useStampsOptions } from '@utils/hooks/stamps';
 
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
-import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { CodesList } from '../../../model/CodesList';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import {

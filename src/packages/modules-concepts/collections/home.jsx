@@ -2,8 +2,9 @@ import { Row } from '@components/layout';
 import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
 
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../deprecated-locales';
-import { useTitle } from '../../utils/hooks/useTitle';
 import { Menu } from './menu';
 
 const CollectionsHome = ({ collections }) => {

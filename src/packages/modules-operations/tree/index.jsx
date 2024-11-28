@@ -10,9 +10,10 @@ import { PageTitle } from '@components/page-title';
 
 import { OperationsApi } from '@sdk/operations-api';
 
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../deprecated-locales';
-import { useGoBack } from '../../utils/hooks/useGoBack';
-import { useTitle } from '../../utils/hooks/useTitle';
 import './tree.scss';
 
 export const formatLeaf = (

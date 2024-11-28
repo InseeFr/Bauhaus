@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 
+import { ConceptsApi, StructureApi } from '@sdk/index';
+
 import D from '../../../deprecated-locales';
-import { ConceptsApi, StructureApi } from '../../../sdk';
 import { getFormattedCodeList } from '../../apis';
 import ComponentSelector from '../../components/component-selector';
 import {

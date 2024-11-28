@@ -12,8 +12,8 @@ import { useTitle } from '@utils/hooks/useTitle';
 import D from '../../../deprecated-locales';
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/operations/series';
-import OperationsOperationEdition from '../../../modules-operations/operations/edition/edition';
 import { ReduxModel } from '../../../redux/model';
+import OperationsOperationEdition from './edition';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();

@@ -1,7 +1,8 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { MainMenu } from '../../components/menu';
+import { MainMenu } from '@components/menu';
+
 import D from '../../deprecated-locales';
 import { getOperationsSimsCurrent } from '../../redux/selectors';
 

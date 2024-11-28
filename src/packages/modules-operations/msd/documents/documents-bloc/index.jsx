@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import { TextInput } from '@components/form/input';
 import { AddLogo } from '@components/logo/logo-add';
 
 import { getBaseURI } from '@sdk/build-api';
 
-import { TextInput } from '../../../../components';
+import { sortArray } from '@utils/array-utils';
+
 import D, { D1, D2 } from '../../../../deprecated-locales';
-import { sortArray } from '../../../../utils/array-utils';
 import { DOCUMENT, isDocument, isLink, LINK } from '../../../document/utils';
 import { useDocumentsStoreContext } from '../../pages/sims-creation/documents-store-context';
 import { DocumentAsideInformation, DocumentLink } from './document-list-item';

@@ -2,12 +2,7 @@ import { Navigate, RouteObject } from 'react-router-dom';
 
 import { OperationsApi } from '@sdk/operations-api';
 
-import {
-	CREATE,
-	DUPLICATE,
-	UPDATE,
-	VIEW,
-} from '../../modules-operations/msd/constant';
+import { CREATE, DUPLICATE, UPDATE, VIEW } from '../msd/constant';
 
 export const routes: RouteObject[] = [
 	{

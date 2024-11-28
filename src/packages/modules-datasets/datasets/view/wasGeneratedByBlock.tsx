@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 
+import { List } from '@components/list';
+
 import { useOperations } from '@utils/hooks/operations';
 import { useSeries } from '@utils/hooks/series';
 
-import { List } from '../../../components/list';
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/Series';
 

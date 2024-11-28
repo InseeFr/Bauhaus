@@ -1,13 +1,13 @@
 import { TabPanel, TabView } from 'primereact/tabview';
 import { Component } from 'react';
 
+import { ModalRmes } from '@components/modal-rmes/modal-rmes';
 import { PageTitle } from '@components/page-title';
 
 import { VERSIONING, NO_VERSIONING } from '@sdk/constants';
 
-import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
 import D from '../../deprecated-locales';
-import isVersioningPossible from '../../modules-concepts/utils/is-versioning-possible';
+import isVersioningPossible from '../utils/is-versioning-possible';
 import { areNotesImpactingVersionChanged } from '../utils/notes';
 import ConceptCreateControlLayout from './controls/controls-layout';
 import { validate } from './controls/validation';

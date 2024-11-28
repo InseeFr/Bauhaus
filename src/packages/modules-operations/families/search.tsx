@@ -3,11 +3,12 @@ import { Link, Navigate, useLoaderData } from 'react-router-dom';
 import { AdvancedSearchList } from '@components/advanced-search/home';
 import { TextInput } from '@components/form/input';
 
-import useUrlQueryParameters from '../..//utils/hooks/useUrlQueryParameters';
+import { filterKeyDeburr } from '@utils/array-utils';
+import { useTitle } from '@utils/hooks/useTitle';
+import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
+
 import D from '../../deprecated-locales';
 import { FamilyAdvancedSearch } from '../../model/operations/family';
-import { filterKeyDeburr } from '../../utils/array-utils';
-import { useTitle } from '../../utils/hooks/useTitle';
 
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);
 

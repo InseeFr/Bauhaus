@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { GeneralApi } from '@sdk/general-api';
 
-import { sortArray } from '../../../../utils/array-utils';
+import { sortArray } from '@utils/array-utils';
 
 export const useDocumentsList = () => {
 	const [documentStores, setDocumentStores] = useState({

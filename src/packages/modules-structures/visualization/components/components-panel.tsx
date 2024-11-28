@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 
+import { ConceptsApi } from '@sdk/index';
+
 import { CodesList, CodesLists } from '../../../model/CodesList';
 import { Component } from '../../../model/structures/Component';
-import { ConceptsApi } from '../../../sdk';
 import { getFormattedCodeList } from '../../apis';
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
 import ComponentSpecificationModal from '../../components/component-specification-modal/index';

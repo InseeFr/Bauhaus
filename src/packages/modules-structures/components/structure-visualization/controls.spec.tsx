@@ -1,14 +1,15 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
+import { StructureApi } from '@sdk/index';
+
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { MODIFIED, UNPUBLISHED } from '../../../model/ValidationState';
 import { Structure } from '../../../model/structures/Structure';
-import { StructureApi } from '../../../sdk';
 import { RBACMock } from '../../../tests-utils/rbac';
 import Controls from './controls';
 
-vi.mock('../../../sdk', () => ({
+vi.mock('@sdk/index', () => ({
 	StructureApi: {
 		deleteStructure: vi.fn(),
 	},

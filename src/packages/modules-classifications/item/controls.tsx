@@ -5,10 +5,11 @@ import {
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
 
+import { useGoBack } from '@utils/hooks/useGoBack';
+
 import Auth from '../../auth/components/auth';
 import { ADMIN } from '../../auth/roles';
 import D from '../../deprecated-locales';
-import { useGoBack } from '../../utils/hooks/useGoBack';
 
 type ItemControls = {
 	classificationId: string;

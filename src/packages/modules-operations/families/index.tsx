@@ -2,9 +2,10 @@ import { useLoaderData } from 'react-router-dom';
 
 import { FeminineButton } from '@components/new-button';
 
+import { useTitle } from '@utils/hooks/useTitle';
+
 import { ADMIN } from '../../auth/roles';
 import D from '../../deprecated-locales/build-dictionary';
-import { useTitle } from '../../utils/hooks/useTitle';
 import OperationsObjectHome from '../shared/list';
 
 export const Component = () => {

@@ -9,7 +9,7 @@ import { renderMarkdownElement } from '@utils/html-utils';
 import { D1, D2 } from '../../../deprecated-locales';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Family } from '../../../model/operations/family';
-import RelationsView from '../../../modules-operations/shared/relations';
+import RelationsView from '../../shared/relations';
 
 type OperationsFamilyVisualizationTypes = {
 	attr: Family;

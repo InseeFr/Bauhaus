@@ -8,11 +8,10 @@ import { PageTitleBlock } from '@components/page-title-block';
 import { LOADED, NOT_LOADED } from '@sdk/constants';
 import { OperationsApi } from '@sdk/operations-api';
 
+import { useOrganizations } from '@utils/hooks/organizations';
+import { useGoBack } from '@utils/hooks/useGoBack';
+
 import { D1, D2 } from '../../deprecated-locales';
-import MSDLayout from '../../modules-operations/msd/layout/';
-import MSDHelp from '../../modules-operations/msd/pages/help';
-import SimsCreation from '../../modules-operations/msd/pages/sims-creation/';
-import SimsVisualisation from '../../modules-operations/msd/pages/sims-visualisation/';
 import loadSIMS, {
 	publishSims,
 	saveSims,
@@ -21,8 +20,10 @@ import { isLoaded, loadGeographies } from '../../redux/geographies.action';
 import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
 import { getOperationsCodesList } from '../../redux/operations/selector';
 import { getOperationsSimsCurrent } from '../../redux/selectors';
-import { useOrganizations } from '../../utils/hooks/organizations';
-import { useGoBack } from '../../utils/hooks/useGoBack';
+import MSDLayout from '../msd/layout';
+import MSDHelp from '../msd/pages/help';
+import SimsCreation from '../msd/pages/sims-creation';
+import SimsVisualisation from '../msd/pages/sims-visualisation';
 import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from './constant';
 import { SimsContextProvider } from './context';
 import './msd.scss';

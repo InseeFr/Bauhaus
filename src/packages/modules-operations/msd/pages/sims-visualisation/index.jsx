@@ -20,9 +20,10 @@ import { PublicationFemale } from '@components/status';
 
 import { OperationsApi } from '@sdk/operations-api';
 
+import { useSecondLang } from '@utils/hooks/second-lang';
+
 import D from '../../../../deprecated-locales';
 import * as A from '../../../../redux/actions/constants';
-import { useSecondLang } from '../../../../utils/hooks/second-lang';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { SimsFieldTitle } from '../../sims-field-title';
 import { hasLabelLg2 } from '../../utils';

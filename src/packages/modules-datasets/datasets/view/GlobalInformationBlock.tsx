@@ -1,5 +1,8 @@
+import { CodeDisplay } from '@components/code-display';
+import { ConditionalDisplay } from '@components/data/conditional-display';
 import { Organization, Organizations } from '@components/data/creators';
 import { Row } from '@components/layout';
+import { List } from '@components/list';
 import { Note } from '@components/note';
 import { PublicationMale } from '@components/status';
 
@@ -7,9 +10,6 @@ import { stringToDate } from '@utils/date-utils';
 import { useCodesList } from '@utils/hooks/codeslist';
 import { useOrganizations } from '@utils/hooks/organizations';
 
-import { CodeDisplay } from '../../../components/code-display';
-import { ConditionalDisplay } from '../../../components/data/conditional-display';
-import { List } from '../../../components/list';
 import D, { D1 } from '../../../deprecated-locales/build-dictionary';
 import { Dataset } from '../../../model/Dataset';
 import {

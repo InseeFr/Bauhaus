@@ -3,10 +3,11 @@ import { useParams } from 'react-router-dom';
 
 import { Loading } from '@components/loading';
 
+import { ConceptsApi, StructureApi } from '@sdk/index';
+
 import { useSecondLang } from '@utils/hooks/second-lang';
 import { useGoBack } from '@utils/hooks/useGoBack';
 
-import { ConceptsApi, StructureApi } from '../../../sdk';
 import { getFormattedCodeList } from '../../apis';
 import ComponentTitle from './title';
 import { ComponentDetailView } from './view';

@@ -1,12 +1,12 @@
+import { CodeDisplay } from '@components/code-display';
+import { ConditionalDisplay } from '@components/data/conditional-display';
+import { Row } from '@components/layout';
 import { Note } from '@components/note';
 
 import { stringToDate } from '@utils/date-utils';
 import { useCodesList } from '@utils/hooks/codeslist';
 import { useStructures } from '@utils/hooks/structures';
 
-import { CodeDisplay } from '../../../components/code-display';
-import { ConditionalDisplay } from '../../../components/data/conditional-display';
-import { Row } from '../../../components/layout';
 import D, { D1 } from '../../../deprecated-locales/build-dictionary';
 import { Dataset } from '../../../model/Dataset';
 import {

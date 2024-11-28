@@ -14,11 +14,11 @@ import { useSecondLang } from '@utils/hooks/second-lang';
 import { useLocales } from '@utils/hooks/useLocales';
 
 import D from '../../../deprecated-locales';
-import OperationsSerieVisualization from '../../../modules-operations/series/visualization/home';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
+import OperationsSerieVisualization from './home';
 import { Menu } from './menu';
 
 export const Component = () => {

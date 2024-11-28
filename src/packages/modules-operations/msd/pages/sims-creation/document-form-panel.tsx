@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
 import { Saving } from '@components/loading';
+import { RightSlidingPanel } from '@components/sliding-panel';
 
-import { RightSlidingPanel } from '../../../../components/sliding-panel';
-import { useCodesList } from '../../../../utils/hooks/codeslist';
+import { useCodesList } from '@utils/hooks/codeslist';
+
+import { Document } from '../../../../model/operations/document';
 import OperationsDocumentationEdition from '../../../document/edition/edition';
 import './document-form-panel.scss';
 import { useDocumentsStoreContext } from './documents-store-context';
 import { getDocumentsList } from './useDocumentsList';
-import { Document } from '../../../../model/operations/document';
 
 type DocumentFormPanelTypes = {
 	opened: boolean;

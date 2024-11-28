@@ -21,11 +21,12 @@ import { Select } from '@components/select-rmes';
 
 import { ClassificationsApi } from '@sdk/classification';
 
+import { useDisseminationStatusOptions } from '@utils/hooks/disseminationStatus';
+import { useOrganizationsOptions } from '@utils/hooks/organizations';
+import { useStampsOptions } from '@utils/hooks/stamps';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D, { D1, D2 } from '../../deprecated-locales';
-import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
-import { useOrganizationsOptions } from '../../utils/hooks/organizations';
-import { useStampsOptions } from '../../utils/hooks/stamps';
-import { useTitle } from '../../utils/hooks/useTitle';
 import { transformModelToSelectOptions } from '../../utils/transformer';
 import { useClassification, useUpdateClassification } from '../hooks';
 

@@ -1,7 +1,8 @@
 import { render } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
 
-import { ConceptsApi } from '../../../sdk';
+import { ConceptsApi } from '@sdk/index';
+
 import { getFormattedCodeList } from '../../apis';
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
 import { StructureComponentsSelector } from '../../components/structure-component-selector';
@@ -31,7 +32,7 @@ vi.mock('../../apis', () => ({
 	getFormattedCodeList: vi.fn(),
 }));
 
-vi.mock('../../../sdk', () => ({
+vi.mock('@sdk/index', () => ({
 	ConceptsApi: {
 		getConceptList: vi.fn(),
 	},

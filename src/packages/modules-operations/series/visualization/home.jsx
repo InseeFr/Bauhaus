@@ -9,12 +9,12 @@ import { renderMarkdownElement } from '@utils/html-utils';
 
 import { D1, D2 } from '../../../deprecated-locales';
 import D from '../../../deprecated-locales/build-dictionary';
-import CreatorsView from '../../../modules-operations/components/creators-view';
-import PublishersView from '../../../modules-operations/components/publishers-view';
-import DisplayLinks from '../../../modules-operations/shared/links/';
-import RelationsView from '../../../modules-operations/shared/relations';
 import SeeAlso from '../../../modules-operations/shared/seeAlso';
+import CreatorsView from '../../components/creators-view';
+import PublishersView from '../../components/publishers-view';
+import DisplayLinks from '../../shared/links/';
 import { getSeeAlsoByType } from '../../shared/links/utils';
+import RelationsView from '../../shared/relations';
 
 function OperationsSerieVisualization({
 	attr,

@@ -2,10 +2,11 @@ import { DisseminationStatusVisualisation } from '@components/dissemination-stat
 import { Row } from '@components/layout';
 import { Note } from '@components/note';
 
+import { arrayToString } from '@utils/array-utils';
+import { stringToDate } from '@utils/date-utils';
+import { useLocales } from '@utils/hooks/useLocales';
+
 import { D1 } from '../../deprecated-locales';
-import { arrayToString } from '../../utils/array-utils';
-import { stringToDate } from '../../utils/date-utils';
-import { useLocales } from '../../utils/hooks/useLocales';
 
 function ConceptGeneral({ attr, secondLang }) {
 	const { lg1, lg2 } = useLocales();

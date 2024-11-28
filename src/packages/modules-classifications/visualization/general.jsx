@@ -4,9 +4,10 @@ import { getDisseminationStatus } from '@components/dissemination-status/dissemi
 import { Row } from '@components/layout';
 import { Note } from '@components/note';
 
+import { stringToDate } from '@utils/date-utils';
+import { renderMarkdownElement } from '@utils/html-utils';
+
 import D, { D1, D2 } from '../../deprecated-locales';
-import { stringToDate } from '../../utils/date-utils';
-import { renderMarkdownElement } from '../../utils/html-utils';
 
 const General = ({ general, secondLang }) => {
 	let mapping = {};

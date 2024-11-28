@@ -3,10 +3,10 @@ import { connect, useSelector } from 'react-redux';
 import ReactSelect from 'react-select';
 
 import { SeeButton } from '@components/buttons/see';
+import { RightSlidingPanel } from '@components/sliding-panel';
 
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
-import { RightSlidingPanel } from '../../../components/sliding-panel';
 import {
 	getAllOptions,
 	loadGeographies,

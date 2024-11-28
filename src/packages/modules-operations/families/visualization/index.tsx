@@ -12,8 +12,8 @@ import { useSecondLang } from '@utils/hooks/second-lang';
 
 import D from '../../../deprecated-locales';
 import { Family } from '../../../model/operations/family';
-import OperationsFamilyVisualization from '../../../modules-operations/families/visualization/visualization';
 import { Menu } from './menu';
+import OperationsFamilyVisualization from './visualization';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();

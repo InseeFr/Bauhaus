@@ -6,9 +6,10 @@ import { Row } from '@components/layout';
 import { PageSubtitle } from '@components/page-sub-title';
 import { PageTitle } from '@components/page-title';
 
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../deprecated-locales';
 import { Classification } from '../../model/Classification';
-import { useTitle } from '../../utils/hooks/useTitle';
 import General from './general';
 import Levels from './levels';
 import Menu from './menu';

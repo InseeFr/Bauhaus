@@ -24,11 +24,11 @@ import * as ItemToSelectModel from '@utils/item-to-select-model';
 
 import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
 import D, { D1, D2 } from '../../../deprecated-locales';
-import PublishersInput from '../../../modules-operations/components/publishers-input';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
+import PublishersInput from '../../components/publishers-input';
 import { isMandatoryField, validate } from './validation';
 
 const defaultSerie = {

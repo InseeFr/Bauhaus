@@ -2,14 +2,15 @@ import ReactSelect from 'react-select';
 
 import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
+import { InputMultiRmes } from '@components/input-multi-rmes';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 
-import { InputMultiRmes } from '../../../../components/input-multi-rmes';
+import { withCodesLists } from '@utils/hoc/withCodesLists';
+import { useOrganizations } from '@utils/hooks/organizations';
+
 import { D1, D2 } from '../../../../deprecated-locales';
 import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
-import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
-import { useOrganizations } from '../../../../utils/hooks/organizations';
 import { D1 as DatasetDictionary } from '../../../i18n';
 import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
 import { useThemes } from '../../useThemes';

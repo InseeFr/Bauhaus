@@ -1,4 +1,3 @@
-// Assurez-vous que le chemin vers le composant est correct
 import { render } from '@testing-library/react';
 import { vi } from 'vitest';
 

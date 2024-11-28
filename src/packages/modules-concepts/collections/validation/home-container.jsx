@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { Loading, Publishing } from '@components/loading';
 
+import { ConceptsApi } from '@sdk/index';
+
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../../deprecated-locales';
 import { usePermission } from '../../../redux/hooks/usePermission';
-import { ConceptsApi } from '../../../sdk';
 import CollectionsToValidate from './home';
 
 export const Component = () => {

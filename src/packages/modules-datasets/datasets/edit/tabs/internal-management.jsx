@@ -8,16 +8,18 @@ import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Select } from '@components/select-rmes';
 
+import { DatasetsApi } from '@sdk/index';
+
+import { withCodesLists } from '@utils/hoc/withCodesLists';
+import { useStampsOptions } from '@utils/hooks/stamps';
+
 import { D1 } from '../../../../deprecated-locales';
-import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
 import {
 	CL_ACCESS_RIGHTS,
 	CL_CONF_STATUS,
 	CL_PROCESS_STEP,
 } from '../../../../redux/actions/constants/codeList';
-import { DatasetsApi } from '../../../../sdk';
-import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
-import { useStampsOptions } from '../../../../utils/hooks/stamps';
+import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
 import { useSeriesOperationsOptions } from './useSeriesOperationsOptions';
 
 const InternalManagementTab = ({

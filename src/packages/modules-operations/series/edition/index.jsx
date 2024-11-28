@@ -11,11 +11,11 @@ import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../../deprecated-locales';
-import OperationsSerieEdition from '../../../modules-operations/series/edition/edition';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
+import OperationsSerieEdition from './edition';
 
 export const Component = (props) => {
 	const { id } = useParams();

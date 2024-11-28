@@ -7,6 +7,8 @@ import { Column } from '@components/layout';
 import { Loading } from '@components/loading';
 import { Select } from '@components/select-rmes';
 
+import { ConceptsApi, StructureApi } from '@sdk/index';
+
 import { filterKeyDeburr } from '@utils/array-utils';
 import { useStampsOptions } from '@utils/hooks/stamps';
 import { useTitle } from '@utils/hooks/useTitle';
@@ -14,7 +16,6 @@ import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 import * as ItemToSelectModel from '@utils/item-to-select-model';
 
 import { validateStateOptions } from '../../../model/ValidationState';
-import { ConceptsApi, StructureApi } from '../../../sdk';
 import D from '../../i18n/build-dictionary';
 import { COMPONENT_TYPES } from '../../utils/constants';
 

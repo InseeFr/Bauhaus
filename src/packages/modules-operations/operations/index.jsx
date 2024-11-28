@@ -4,7 +4,8 @@ import { Loading } from '@components/loading';
 
 import { OperationsApi } from '@sdk/operations-api';
 
-import { sortArray } from '../../utils/array-utils';
+import { sortArray } from '@utils/array-utils';
+
 import OperationsHome from './home';
 
 export const Component = () => {

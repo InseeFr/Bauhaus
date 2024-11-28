@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 
-import { StructureApi } from '../../../sdk';
+import { StructureApi } from '@sdk/index';
+
 import { OBSERVATION } from '../../utils/constants';
 import {
 	ATTRIBUTE_PROPERTY_TYPE,

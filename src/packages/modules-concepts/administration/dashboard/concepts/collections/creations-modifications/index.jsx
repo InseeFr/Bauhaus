@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { DateItem } from '@components/creation-update-items';
+import { DataTable } from '@components/datatable';
 import { DatePicker } from '@components/date-picker';
 import { getDisseminationStatus } from '@components/dissemination-status/disseminationStatus';
 import { Row } from '@components/layout';
+import { NumberResults } from '@components/number-results';
 
-import { DataTable } from '../../../../../../components/datatable';
-import { NumberResults } from '../../../../../../components/number-results';
 import D from '../../../../../../deprecated-locales';
 
 const CollectionsCreationsModifications = ({ collectionsData, type }) => {

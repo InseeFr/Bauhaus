@@ -1,4 +1,5 @@
-import { editorStateFromMd } from '../../utils/html-utils';
+import { editorStateFromMd } from '@utils/html-utils';
+
 import { rangeType } from '../utils/msd';
 import { DUPLICATE } from './constant';
 

@@ -7,9 +7,10 @@ import { SearchableList } from '@components/searchable-list';
 
 import { OperationsApi } from '@sdk/operations-api';
 
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../deprecated-locales';
 import { IndicatorsList } from '../../model/operations/indicator';
-import { useTitle } from '../../utils/hooks/useTitle';
 import { Menu } from './menu';
 
 export const Component = () => {

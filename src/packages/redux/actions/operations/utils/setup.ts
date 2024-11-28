@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 
-import { CodeListApi } from '../../../../sdk';
+import { CodeListApi } from '@sdk/index';
+
 import * as A from '../../../actions/constants';
 import { CL_SOURCE_CATEGORY, CL_FREQ } from '../../constants/codeList';
 

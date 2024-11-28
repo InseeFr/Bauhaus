@@ -5,10 +5,11 @@ import { CheckSecondLang } from '@components/check-second-lang';
 import { Loading } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 
+import { DistributionApi } from '@sdk/index';
+
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../../deprecated-locales/build-dictionary';
-import { DistributionApi } from '../../../sdk';
 import { useDataset, useDistribution } from '../../datasets';
 import { ViewMenu } from './menu';
 import { ViewMainBlock } from './view-main-block';

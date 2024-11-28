@@ -1,10 +1,11 @@
 import { Column } from 'primereact/column';
 
+import { DataTable } from '@components/datatable';
 import { Panel } from '@components/panel';
 
-import { DataTable } from '../../../../../../components/datatable';
+import { today } from '@utils/date-utils';
+
 import D from '../../../../../../deprecated-locales';
-import { today } from '../../../../../../utils/date-utils';
 import { buildDataStamps } from './stamps-data';
 import { buildData } from './summary-data';
 

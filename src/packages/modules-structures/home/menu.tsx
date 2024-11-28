@@ -3,10 +3,10 @@ import {
 	ImportButton,
 } from '@components/buttons/buttons-with-icons';
 import { FeminineButton } from '@components/new-button';
+import { VerticalMenu } from '@components/vertical-menu';
 
 import Auth from '../../auth/components/auth';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
-import { VerticalMenu } from '../../components/vertical-menu';
 import D from '../../deprecated-locales/build-dictionary';
 
 export const HomePageMenu = () => {

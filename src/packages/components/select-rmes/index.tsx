@@ -1,8 +1,9 @@
 import OriginalSelect from 'react-select';
 import 'react-select/dist/react-select.css';
 
+import { createAllDictionary } from '@utils/dictionnary';
+
 import { Option } from '../../model/SelectOption';
-import { createAllDictionary } from '../../utils/dictionnary';
 import './select-rmes.scss';
 
 const { D } = createAllDictionary({

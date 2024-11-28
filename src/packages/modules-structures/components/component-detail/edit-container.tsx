@@ -3,12 +3,13 @@ import { useParams } from 'react-router-dom';
 
 import { Loading } from '@components/loading';
 
+import { ConceptsApi, saveComponent, StructureApi } from '@sdk/index';
+
 import { useStampsOptions } from '@utils/hooks/stamps';
 import { useGoBack } from '@utils/hooks/useGoBack';
 
 import { CodesLists } from '../../../model/CodesList';
 import { Component as StructureComponent } from '../../../model/structures/Component';
-import { ConceptsApi, saveComponent, StructureApi } from '../../../sdk';
 import { getFormattedCodeList } from '../../apis';
 import { DumbComponentDetailEdit } from './edit';
 

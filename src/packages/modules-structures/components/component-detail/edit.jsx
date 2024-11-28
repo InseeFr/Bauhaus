@@ -18,6 +18,8 @@ import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Select } from '@components/select-rmes';
 
+import { CodeListApi, StructureApi } from '@sdk/index';
+
 import { convertToArrayIfDefined, sortArray } from '@utils/array-utils';
 import { useTitle } from '@utils/hooks/useTitle';
 
@@ -25,7 +27,6 @@ import { useAppContext } from '../../../application/app-context';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { API } from '../../../modules-codelists/apis';
 import { usePermission } from '../../../redux/hooks/usePermission';
-import { CodeListApi, StructureApi } from '../../../sdk';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import {
 	IGEO_PAYS_OU_TERRITOIRE,

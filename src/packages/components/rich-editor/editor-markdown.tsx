@@ -5,8 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-import { getLang } from '../../utils/dictionnary';
-import { mdFromEditorState, editorStateFromMd } from '../../utils/html-utils';
+import { getLang } from '@utils/dictionnary';
+import { mdFromEditorState, editorStateFromMd } from '@utils/html-utils';
+
 import '../note-edition';
 import './editor-html.scss';
 

@@ -14,11 +14,12 @@ import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
 import { Select } from '@components/select-rmes';
 
+import { StructureApi } from '@sdk/index';
+
 import { useAppContext } from '../../application/app-context';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { usePermission } from '../../redux/hooks/usePermission';
-import { StructureApi } from '../../sdk';
 import { initializeContributorProperty } from '../../utils/creation/contributor-init';
 import { useStampsOptions } from '../../utils/hooks/stamps';
 import { DISSEMINATION_STATUS } from '../utils/constants';

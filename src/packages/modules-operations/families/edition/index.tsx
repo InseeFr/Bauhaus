@@ -10,7 +10,7 @@ import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../../deprecated-locales/build-dictionary';
 import { Family } from '../../../model/operations/family';
-import OperationsFamilyEdition from '../../../modules-operations/families/edition/edition';
+import OperationsFamilyEdition from './edition';
 
 export const Component = () => {
 	const { id } = useParams();

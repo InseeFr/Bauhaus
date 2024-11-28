@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-import { ConceptsApi } from '../../sdk';
+import { ConceptsApi } from '@sdk/index';
+
 import { saveFileFromHttpResponse } from '../files';
 
 export const useConcepts = () => {

@@ -11,12 +11,11 @@ import { Select } from '@components/select-rmes';
 
 import { OperationsApi } from '@sdk/operations-api';
 
+import { sortArrayByLabel } from '@utils/array-utils';
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { mdFromEditorState } from '@utils/html-utils';
+
 import D from '../../../../deprecated-locales';
-import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
-import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-field';
-import { sortArrayByLabel } from '../../../../utils/array-utils';
-import { useGoBack } from '../../../../utils/hooks/useGoBack';
-import { mdFromEditorState } from '../../../../utils/html-utils';
 import { rangeType } from '../../../utils/msd';
 import { DUPLICATE } from '../../constant';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
@@ -30,6 +29,8 @@ import { DocumentFormPanel } from './document-form-panel';
 import { useDocumentsStoreContext } from './documents-store-context';
 import { Menu } from './menu';
 import './sims-creation.scss';
+import SimsDocumentField from './sims-document-field';
+import Field from './sims-field';
 import { getDefaultSims, getSiblingSims } from './utils/getSims';
 
 const { RICH_TEXT } = rangeType;

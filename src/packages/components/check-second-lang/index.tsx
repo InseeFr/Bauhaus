@@ -1,5 +1,6 @@
+import { useSecondLang } from '@utils/hooks/second-lang';
+
 import { createAllDictionary } from '../../utils/dictionnary';
-import { useSecondLang } from '../../utils/hooks/second-lang';
 import './index.scss';
 
 const { D } = createAllDictionary({

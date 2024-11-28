@@ -2,8 +2,8 @@ import { PropsWithChildren } from 'react';
 
 import D from '../../../deprecated-locales';
 import { MetadataStructure } from '../../../model/Sims';
-import Outline from '../../../modules-operations/msd/outline/';
 import { Status, useLayout } from '../../useLayout';
+import Outline from '../outline';
 import './style.scss';
 
 type MSDComponentTypes = {

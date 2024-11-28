@@ -3,14 +3,15 @@ import Select from 'react-select';
 
 import { DatePicker } from '@components/date-picker';
 import { TextInput } from '@components/form/input';
+import { NumberResults } from '@components/number-results';
 import { PageTitle } from '@components/page-title';
 import { Pagination } from '@components/pagination';
 
-import { NumberResults } from '../../components/number-results';
+import { filterKeyDate, filterKeyDeburr } from '@utils/array-utils';
+import { useTitle } from '@utils/hooks/useTitle';
+import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
+
 import D from '../../deprecated-locales';
-import { filterKeyDate, filterKeyDeburr } from '../../utils/array-utils';
-import { useTitle } from '../../utils/hooks/useTitle';
-import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import Controls from './controls';
 
 const filterLabel = filterKeyDeburr(['label']);
