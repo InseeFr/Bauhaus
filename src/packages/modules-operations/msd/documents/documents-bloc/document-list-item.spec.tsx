@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { DocumentAsideInformation, DocumentLink } from './document-list-item';
+
 import { Document } from '../../../../model/operations/document';
+import { DocumentAsideInformation, DocumentLink } from './document-list-item';
 
 describe('DocumentAsideInformation', () => {
 	it('renders language and updatedDate correctly', () => {

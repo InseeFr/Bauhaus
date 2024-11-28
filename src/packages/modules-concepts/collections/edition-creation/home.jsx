@@ -1,8 +1,10 @@
 import { Component } from 'react';
-import { PageTitle } from '../../../components';
+
+import { PageTitle } from '@components/page-title';
+
+import MembersEdition from '../../collections/edition/members';
 import CollectionEditionCreationControls from './controls';
 import GeneralEdition from './general';
-import MembersEdition from '../../../modules-concepts/collections/edition/members';
 import { validate } from './validation';
 
 class CollectionEditionCreation extends Component {

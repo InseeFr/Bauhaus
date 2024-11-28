@@ -1,7 +1,8 @@
-import { Picker } from '../../../components';
-import D from '../../../deprecated-locales';
+import { PublishButton } from '@components/buttons/buttons-with-icons';
+import { Picker } from '@components/picker-page';
+
 import check from '../../../auth/auth';
-import { PublishButton } from '../../../components/buttons/buttons-with-icons';
+import D from '../../../deprecated-locales';
 
 const CollectionsToValidate = ({
 	collections,

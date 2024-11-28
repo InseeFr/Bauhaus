@@ -1,6 +1,7 @@
 import { screen, render, fireEvent } from '@testing-library/react';
-import Representation from './index';
+
 import { XSD_CODE_LIST, XSD_STRING } from '../../utils/constants';
+import Representation from './index';
 
 describe('Representation', () => {
 	it('should display the label of a XSD_TYPES', async () => {

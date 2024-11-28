@@ -1,20 +1,21 @@
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PublicationFemale } from '@components/status';
+
+import { useOrganizations } from '@utils/hooks/organizations';
+import { useTitle } from '@utils/hooks/useTitle';
+import { renderMarkdownElement } from '@utils/html-utils';
+
 import { D1, D2 } from '../../../deprecated-locales';
-import RelationsView from '../../../modules-operations/shared/relations';
-import DisplayLinks from '../../../modules-operations/shared/links/';
-import SeeAlso from '../../../modules-operations/shared/seeAlso';
-import { getSeeAlsoByType } from '../../shared/links/utils';
-import CreatorsView from '../../../modules-operations/components/creators-view';
-import PublishersView from '../../../modules-operations/components/publishers-view';
 import D from '../../../deprecated-locales/build-dictionary';
-import {
-	PublicationFemale,
-	Row,
-	CreationUpdateItems,
-} from '../../../components';
-import { renderMarkdownElement } from '../../../utils/html-utils';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
-import { useOrganizations } from '../../../utils/hooks/organizations';
+import SeeAlso from '../../../modules-operations/shared/seeAlso';
+import CreatorsView from '../../components/creators-view';
+import PublishersView from '../../components/publishers-view';
+import DisplayLinks from '../../shared/links/';
+import { getSeeAlsoByType } from '../../shared/links/utils';
+import RelationsView from '../../shared/relations';
+
 function OperationsSerieVisualization({
 	attr,
 	langs: { lg1 },

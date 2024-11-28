@@ -1,5 +1,6 @@
 import documentsD from '../operations/documents';
 import validationD from '../operations/validation';
+
 const dictionary = {
 	createFromAnExistingReport: {
 		fr: "Créer à partir d'un rapport qualité existant",

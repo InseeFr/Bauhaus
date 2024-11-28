@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../components';
+
+import { Loading } from '@components/loading';
+
 import { ConceptsApi } from '../../sdk';
 import { range } from '../../utils/array-utils';
 import { useSecondLang } from '../../utils/hooks/second-lang';

@@ -1,5 +1,5 @@
-import ConceptValidation from './home';
 import { renderWithRouter } from '../../tests-utils/render';
+import ConceptValidation from './home';
 
 describe('concept-validation', () => {
 	it('renders without crashing', () => {

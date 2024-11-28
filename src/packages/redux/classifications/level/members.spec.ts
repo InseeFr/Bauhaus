@@ -1,9 +1,10 @@
-import reducerLevelMembers, { getMembers } from './members';
+import { LOADED, LOADING } from '@sdk/constants';
+
 import {
 	LOAD_CLASSIFICATION_LEVEL_MEMBERS,
 	LOAD_CLASSIFICATION_LEVEL_MEMBERS_SUCCESS,
 } from '../../actions/constants';
-import { LOADED, LOADING } from '../../../sdk/constants';
+import reducerLevelMembers, { getMembers } from './members';
 
 describe('reducerLevelMembers', () => {
 	test('action LOAD_CLASSIFICATION_LEVEL_MEMBERS', () => {

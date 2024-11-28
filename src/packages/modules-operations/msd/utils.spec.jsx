@@ -1,3 +1,4 @@
+import { rangeType } from '../utils/msd';
 import {
 	hasLabelLg2,
 	shouldDisplayDuplicateButton,
@@ -5,7 +6,7 @@ import {
 	HELP_COLLAPSED,
 	getParentUri,
 } from './utils';
-import { rangeType } from '../utils/msd';
+
 const { RICH_TEXT, TEXT, REPORTED_ATTRIBUTE } = rangeType;
 
 describe('isOpen', () => {

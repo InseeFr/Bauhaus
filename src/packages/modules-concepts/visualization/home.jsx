@@ -1,15 +1,20 @@
 import { useState, useCallback } from 'react';
+
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ErrorBloc } from '@components/errors-bloc';
+import { ModalRmes } from '@components/modal-rmes/modal-rmes';
+import { NoteVisualization } from '@components/note-visualization';
+import { PageTitleBlock } from '@components/page-title-block';
+
+import { isOutOfDate } from '@utils/date-utils';
+import { useTitle } from '@utils/hooks/useTitle';
+
+import D from '../../deprecated-locales';
+import { getModalMessage } from '../utils/build-validation-message';
+import { buildNotes } from '../utils/notes';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links';
-import D from '../../deprecated-locales';
-import { ErrorBloc, PageTitleBlock, CheckSecondLang } from '../../components';
-import { NoteVisualization } from '../../components/note-visualization';
-import { ModalRmes } from '../../components/modal-rmes/modal-rmes';
-import { useTitle } from '../../utils/hooks/useTitle';
-import { isOutOfDate } from '../../utils/date-utils';
-import { getModalMessage } from '../../modules-concepts/utils/build-validation-message';
-import { buildNotes } from '../../modules-concepts/utils/notes';
 
 const ConceptVisualization = ({
 	id,

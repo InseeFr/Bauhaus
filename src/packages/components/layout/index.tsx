@@ -1,4 +1,5 @@
 import { ComponentProps, PropsWithChildren } from 'react';
+
 import './index.scss';
 
 export const Column = ({ children }: PropsWithChildren<unknown>) => {

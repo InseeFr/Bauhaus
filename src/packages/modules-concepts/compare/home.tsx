@@ -1,12 +1,14 @@
-import { PageTitle, CheckSecondLang } from '../../components';
-import { CompareNotes } from '../../components/note-compare';
-import Controls from './controls';
-import ConceptGeneral from '../visualization/general';
-import { buildNotes } from '../utils/notes';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { CompareNotes } from '@components/note-compare';
+import { PageTitle } from '@components/page-title';
+
 import {
 	ConceptGeneral as ConceptGeneralType,
 	ConceptNotes,
 } from '../../model/concepts/concept';
+import { buildNotes } from '../utils/notes';
+import ConceptGeneral from '../visualization/general';
+import Controls from './controls';
 
 type ConceptCompare = {
 	conceptGeneral: ConceptGeneralType;

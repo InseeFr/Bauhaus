@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
+
+import { ReduxModel } from '../redux/model';
+import { getPermission } from '../redux/selectors';
+import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from './constants';
+import { useOidc } from './create-oidc';
 import LoginNoAuth from './no-auth/login';
 import LoggedInWrapper, {
 	LoginComponent,
 } from './open-id-connect-auth/use-oidc';
-import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from './constants';
-import { getPermission } from '../redux/selectors';
-import { ReduxModel } from '../redux/model';
-import { useOidc } from './create-oidc';
 
 const auth = (WrappedComponent: () => JSX.Element) => {
 	const AuthComponent = ({

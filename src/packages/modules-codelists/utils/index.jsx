@@ -1,7 +1,8 @@
-import D, { D1, D2 } from '../i18n/build-dictionary';
-import MainDictionary from '../../deprecated-locales/build-dictionary';
 import { z } from 'zod';
+
+import MainDictionary from '../../deprecated-locales/build-dictionary';
 import { formatValidation } from '../../utils/validation';
+import D, { D1, D2 } from '../i18n/build-dictionary';
 
 export const formatLabel = (component) => {
 	return <>{component.labelLg1}</>;

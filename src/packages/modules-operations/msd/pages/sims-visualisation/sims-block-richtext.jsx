@@ -1,6 +1,7 @@
-import { renderMarkdownElement } from '../../../../utils/html-utils';
-import DocumentsBloc from '../../../../modules-operations/msd/documents/documents-bloc/index';
+import { renderMarkdownElement } from '@utils/html-utils';
+
 import { isLink, isDocument } from '../../../document/utils';
+import DocumentsBloc from '../../documents/documents-bloc';
 
 const SimsBlockRichText = ({ currentSection, isSecondLang }) => {
 	const suffix = isSecondLang ? 'Lg2' : 'Lg1';

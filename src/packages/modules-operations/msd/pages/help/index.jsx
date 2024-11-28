@@ -1,7 +1,9 @@
-import HelpInformation from '../../../../modules-operations/msd/help-information';
-import { Note } from '../../../../components/note';
 import { useParams } from 'react-router-dom';
-import { Row } from '../../../../components';
+
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+
+import HelpInformation from '../../help-information';
 
 export default function MSDHelp({
 	metadataStructure,

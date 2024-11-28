@@ -1,18 +1,19 @@
-import D from '../../../deprecated-locales';
-import { useParams } from 'react-router-dom';
-import {
-	CheckSecondLang,
-	ErrorBloc,
-	Loading,
-	PageTitleBlock,
-} from '../../../components';
-
 import { useCallback, useEffect, useState } from 'react';
-import OperationsFamilyVisualization from '../../../modules-operations/families/visualization/visualization';
-import { OperationsApi } from '../../../sdk/operations-api';
-import { Menu } from './menu';
+import { useParams } from 'react-router-dom';
+
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Loading } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+
+import D from '../../../deprecated-locales';
 import { Family } from '../../../model/operations/family';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { Menu } from './menu';
+import OperationsFamilyVisualization from './visualization';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();

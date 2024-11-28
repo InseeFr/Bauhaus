@@ -1,6 +1,8 @@
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+
 import { D1, D2 } from '../../../deprecated-locales';
-import { CreationUpdateItems, Row } from '../../../components';
-import { Note } from '../../../components/note';
 
 function CollectionGeneral({ attr, secondLang }) {
 	const mapping = {

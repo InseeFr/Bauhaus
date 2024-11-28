@@ -1,5 +1,6 @@
-import SimsBlockCodeList from './sims-block-codelist';
 import { render } from '@testing-library/react';
+
+import SimsBlockCodeList from './sims-block-codelist';
 
 describe('<SimsBlockCodeList />', () => {
 	it('should not display a list if the maxOccurs property is not unbounded', () => {

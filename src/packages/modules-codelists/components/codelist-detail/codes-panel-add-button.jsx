@@ -1,6 +1,7 @@
+import { AddButton } from '@components/buttons/add';
+
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
-import { AddButton } from '../../../components/buttons/add';
 
 export const CodesPanelAddButton = ({ codelist, onHandlePanel }) => {
 	const permission = usePermission();

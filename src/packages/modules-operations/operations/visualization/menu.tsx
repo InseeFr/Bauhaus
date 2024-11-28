@@ -1,15 +1,17 @@
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import D from '../../../deprecated-locales/build-dictionary';
-import Auth from '../../../auth/components/auth';
-import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
-import { ValidationButton } from '../../../components';
-import { Operation } from '../../../model/Operation';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
+import { Button } from '@components/buttons/button';
 import {
 	ReturnButton,
 	UpdateButton,
-} from '../../../components/buttons/buttons-with-icons';
-import { Button } from '../../../components/buttons/button';
+} from '@components/buttons/buttons-with-icons';
+import { ValidationButton } from '@components/validationButton';
+
+import { useGoBack } from '@utils/hooks/useGoBack';
+
+import Auth from '../../../auth/components/auth';
+import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
+import D from '../../../deprecated-locales/build-dictionary';
+import { Operation } from '../../../model/Operation';
 
 type MenuTypes = {
 	operation: Operation;

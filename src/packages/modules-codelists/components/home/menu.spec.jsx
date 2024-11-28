@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { HomePageMenu } from './menu';
-import { RBACMock } from '../../../tests-utils/rbac';
+
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
+import { RBACMock } from '../../../tests-utils/rbac';
+import { HomePageMenu } from './menu';
 
 describe('Codes List Home Page Menu', () => {
 	it('an admin can create a new codes list if he does not have the Gestionnaire_liste_codes_RMESGNCS role', () => {

@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react';
+
+import { Row } from '@components/layout';
+import { Loading } from '@components/loading';
+import { PageTitle } from '@components/page-title';
+import { SearchableList } from '@components/searchable-list';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../deprecated-locales';
-import { SearchableList, PageTitle, Loading, Row } from '../../components';
-import { useTitle } from '../../utils/hooks/useTitle';
-import { OperationsApi } from '../../sdk/operations-api';
-import { Menu } from './menu';
 import { IndicatorsList } from '../../model/operations/indicator';
+import { Menu } from './menu';
 
 export const Component = () => {
 	useTitle(D.operationsTitle, D.indicatorsTitle);

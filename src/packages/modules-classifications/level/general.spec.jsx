@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
-import General from './general';
+
 import { locales } from '../../tests-utils/default-values';
+import General from './general';
 
 const general = {};
 

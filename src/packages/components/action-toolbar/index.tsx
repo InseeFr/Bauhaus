@@ -1,5 +1,6 @@
-import './index.scss';
 import { PropsWithChildren } from 'react';
+
+import './index.scss';
 
 export const ActionToolbar = ({
 	children,

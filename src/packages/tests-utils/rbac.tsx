@@ -1,7 +1,8 @@
+import { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+
 import configureStore from '../redux/configure-store';
-import { PropsWithChildren } from 'react';
 
 export const RBACMock = ({
 	roles = [],

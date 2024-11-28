@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '../../../../components';
-import Dashboard from './home';
+
+import { Loading } from '@components/loading';
+
 import { ConceptsApi } from '../../../..//sdk';
+import Dashboard from './home';
 
 const emptyItem = {
 	id: '',

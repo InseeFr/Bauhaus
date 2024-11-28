@@ -1,5 +1,6 @@
-import VisualizationContainer from './';
 import { vi } from 'vitest';
+
+import VisualizationContainer from './';
 
 describe('VisualizationContainer', () => {
 	describe('componentDidMount', () => {

@@ -1,12 +1,15 @@
-import { PageTitle, Loading, CheckSecondLang } from '../../../components';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { Exporting } from '@components/loading';
+import { PageSubtitle } from '@components/page-sub-title';
+import { PageTitle } from '@components/page-title';
 
+import { useCollectionExporter } from '@utils/hooks/collections';
+import { useTitle } from '@utils/hooks/useTitle';
+
+import D from '../../../deprecated-locales';
+import CollectionMembers from '../../collections/visualisation/members';
 import CollectionVisualizationControls from './controls';
 import CollectionGeneral from './general';
-import CollectionMembers from '../../../modules-concepts/collections/visualisation/members';
-import D from '../../../deprecated-locales';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { useCollectionExporter } from '../../../utils/hooks/collections';
-import { PageSubtitle } from '../../../components/page-sub-title';
 
 const CollectionVisualization = ({
 	id,
@@ -25,7 +28,7 @@ const CollectionVisualization = ({
 		validateCollection(id);
 	};
 
-	if (isExporting) return <Loading textType="exporting" />;
+	if (isExporting) return <Exporting />;
 
 	return (
 		<div>

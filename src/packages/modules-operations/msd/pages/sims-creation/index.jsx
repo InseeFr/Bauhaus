@@ -1,33 +1,36 @@
 import { Fragment, useEffect, useState } from 'react';
-import { CheckSecondLang, Loading } from '../../../../components';
-import { Select } from '../../../../components/select-rmes';
+import Modal from 'react-modal';
+import { useBlocker } from 'react-router-dom';
+
+import { ActionToolbar } from '@components/action-toolbar';
+import { Button } from '@components/buttons/button';
+import { CloseIconButton } from '@components/buttons/buttons-with-icons';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { Loading, Saving } from '@components/loading';
+import { Select } from '@components/select-rmes';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { sortArrayByLabel } from '@utils/array-utils';
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { mdFromEditorState } from '@utils/html-utils';
 
 import D from '../../../../deprecated-locales';
-import SimsDocumentField from '../../../../modules-operations/msd/pages/sims-creation/sims-document-field';
-import Field from '../../../../modules-operations/msd/pages/sims-creation/sims-field';
-import { mdFromEditorState } from '../../../../utils/html-utils';
+import { rangeType } from '../../../utils/msd';
 import { DUPLICATE } from '../../constant';
+import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import {
 	getParentId,
 	getParentIdName,
 	hasLabelLg2,
 	shouldDisplayTitleForPrimaryItem,
 } from '../../utils';
-
-import Modal from 'react-modal';
-import { useBlocker } from 'react-router-dom';
-import { ActionToolbar } from '../../../../components/action-toolbar';
-import { Button } from '../../../../components/buttons/button';
-import { CloseIconButton } from '../../../../components/buttons/buttons-with-icons';
-import { OperationsApi } from '../../../../sdk/operations-api';
-import { sortArrayByLabel } from '../../../../utils/array-utils';
-import { useGoBack } from '../../../../utils/hooks/useGoBack';
-import { rangeType } from '../../../utils/msd';
-import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { DocumentFormPanel } from './document-form-panel';
 import { useDocumentsStoreContext } from './documents-store-context';
 import { Menu } from './menu';
 import './sims-creation.scss';
+import SimsDocumentField from './sims-document-field';
+import Field from './sims-field';
 import { getDefaultSims, getSiblingSims } from './utils/getSims';
 
 const { RICH_TEXT } = rangeType;
@@ -247,7 +250,7 @@ const SimsCreation = ({
 	const { lateralPanelOpened, onLateralPanelHide } = useDocumentsStoreContext();
 
 	if (loading) return <Loading />;
-	if (saving) return <Loading textType="saving" />;
+	if (saving) return <Saving />;
 
 	return (
 		<>

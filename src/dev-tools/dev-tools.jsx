@@ -1,4 +1,7 @@
+import { createRoot } from 'react-dom/client';
 import { Provider, useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
+
 import {
 	ADMIN,
 	COLLECTIONS_CREATOR,
@@ -11,9 +14,7 @@ import {
 	CODELIST_CONTRIBUTOR,
 	STRUCTURE_CONTRIBUTOR,
 } from '../packages/auth/roles';
-import Select from 'react-select';
 import D from '../packages/deprecated-locales';
-import { createRoot } from 'react-dom/client';
 import { CHECK_AUTH } from '../packages/redux/users';
 
 const options = [

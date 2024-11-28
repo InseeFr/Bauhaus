@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import ClassificationTree from './home';
-import { Loading } from '../../../components';
+import { useParams } from 'react-router-dom';
+import { getTreeFromFlatData } from 'react-sortable-tree';
+
+import { Loading } from '@components/loading';
+
+import { useClassificationsItem } from '@utils/hooks/classifications';
+import { useSecondLang } from '@utils/hooks/second-lang';
+
 import loadClassificationGeneral from '../../../redux/actions/classifications/general';
 import { getGeneral } from '../../../redux/classifications/classification/general';
-import { getTreeFromFlatData } from 'react-sortable-tree';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useClassificationsItem } from '../../../utils/hooks/classifications';
-import { useParams } from 'react-router-dom';
+import ClassificationTree from './home';
 
 const ClassificationTreeContainer = ({
 	id,

@@ -1,27 +1,32 @@
 import { render, screen } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
-import { Component } from './home-container';
+
+import { Picker } from '@components/picker-page';
+
+import D from '../../../deprecated-locales/build-dictionary';
 import {
 	useCollections,
 	useCollectionExporter,
 } from '../../../utils/hooks/collections';
 import { useTitle } from '../../../utils/hooks/useTitle';
-import { Picker } from '../../../components';
-import D from '../../../deprecated-locales/build-dictionary';
+import { Component } from './home-container';
 
-// Mock des hooks
-vi.mock('../../../utils/hooks/collections', () => ({
+vi.mock('@utils/hooks/collections', () => ({
 	useCollections: vi.fn(),
 	useCollectionExporter: vi.fn(),
 }));
 
-vi.mock('../../../utils/hooks/useTitle', () => ({
+vi.mock('@utils/hooks/useTitle', () => ({
 	useTitle: vi.fn(),
 }));
 
-vi.mock('../../../components', () => ({
+vi.mock('@components/picker-page', () => ({
 	Picker: vi.fn(() => <div data-testid="picker-mock" />),
+}));
+
+vi.mock('@components/loading', () => ({
 	Loading: () => <div data-testid="loading-mock" />,
+	Exporting: () => <div data-testid="exporting-mock" />,
 }));
 
 describe('Component', () => {
@@ -56,7 +61,7 @@ describe('Component', () => {
 
 		render(<Component />);
 
-		screen.getByTestId('loading-mock');
+		screen.getByTestId('exporting-mock');
 	});
 
 	it('displays Picker with the correct props after loading', () => {

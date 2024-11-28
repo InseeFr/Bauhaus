@@ -1,12 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { Loading } from '../../../components';
-import { ComponentDetailView } from './view';
-import { ConceptsApi, StructureApi } from '../../../sdk';
-import ComponentTitle from './title';
 import { useParams } from 'react-router-dom';
+
+import { Loading } from '@components/loading';
+
+import { ConceptsApi, StructureApi } from '@sdk/index';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+import { useGoBack } from '@utils/hooks/useGoBack';
+
 import { getFormattedCodeList } from '../../apis';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import ComponentTitle from './title';
+import { ComponentDetailView } from './view';
 
 export const Component = (props) => {
 	const goBack = useGoBack();

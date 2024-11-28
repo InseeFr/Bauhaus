@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Loading } from '../../components';
+
+import { Loading } from '@components/loading';
+
+import { CollectionApi } from '@sdk/collection-api';
+
 import CollectionsHome from './home';
-import { CollectionApi } from '../../sdk/collection-api';
 
 export const Component = () => {
 	const [loading, setLoading] = useState(true);

@@ -1,24 +1,25 @@
 import { useCallback, useEffect, useState } from 'react';
-import D from '../../../deprecated-locales';
 import { useParams } from 'react-router-dom';
-import OperationsSerieVisualization from '../../../modules-operations/series/visualization/home';
-import {
-	CheckSecondLang,
-	ErrorBloc,
-	Loading,
-	PageTitleBlock,
-} from '../../../components';
 
-import { useCodesList } from '../../../utils/hooks/codeslist';
-import { OperationsApi } from '../../../sdk/operations-api';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Loading } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useCodesList } from '@utils/hooks/codeslist';
+import { useOrganizations } from '@utils/hooks/organizations';
+import { useSecondLang } from '@utils/hooks/second-lang';
+import { useLocales } from '@utils/hooks/useLocales';
+
+import D from '../../../deprecated-locales';
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
+import OperationsSerieVisualization from './home';
 import { Menu } from './menu';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { useOrganizations } from '../../../utils/hooks/organizations';
-import { useLocales } from '../../../utils/hooks/useLocales';
 
 export const Component = () => {
 	const { id } = useParams();

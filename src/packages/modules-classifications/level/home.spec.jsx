@@ -1,6 +1,6 @@
-import Home from './home';
-import { renderWithAppContext } from '../../tests-utils/render';
 import { locales } from '../../tests-utils/default-values';
+import { renderWithAppContext } from '../../tests-utils/render';
+import Home from './home';
 
 const level = {
 	general: { prefLabelLg1: 'Label', classificationId: 'id' },

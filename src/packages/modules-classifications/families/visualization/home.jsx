@@ -1,8 +1,11 @@
-import { PageTitle, CheckSecondLang } from '../../../components';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { PageTitle } from '@components/page-title';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
+import D from '../../../deprecated-locales/build-dictionary';
 import Controls from './controls';
 import Members from './members';
-import D from '../../../deprecated-locales/build-dictionary';
-import { useTitle } from '../../../utils/hooks/useTitle';
 
 const FamilyVisualization = ({
 	family: {

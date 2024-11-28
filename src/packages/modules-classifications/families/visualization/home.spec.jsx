@@ -1,5 +1,5 @@
-import Home from './home';
 import { renderWithAppContext } from '../../../tests-utils/render';
+import Home from './home';
 
 const family = {
 	general: { prefLabelLg1: 'Label' },

@@ -1,4 +1,5 @@
 import btnD from './generic/btn';
+
 const dictionary = {
 	errorTitle: { fr: 'Erreur', en: 'Error' },
 	langs: {

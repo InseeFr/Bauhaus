@@ -1,15 +1,19 @@
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PublicationMale } from '@components/status';
+
+import { useOrganizations } from '@utils/hooks/organizations';
+import { useTitle } from '@utils/hooks/useTitle';
+import { renderMarkdownElement } from '@utils/html-utils';
+
 import { D1, D2 } from '../../../deprecated-locales';
-import { getSeeAlsoByType } from '../../shared/links/utils';
-import DisplayLinks from '../../../modules-operations/shared/links/';
-import SeeAlso from '../../../modules-operations/shared/seeAlso';
-import PublishersView from '../../../modules-operations/components/publishers-view';
-import CreatorsView from '../../../modules-operations/components/creators-view';
 import D from '../../../deprecated-locales/build-dictionary';
-import { PublicationMale, Row, CreationUpdateItems } from '../../../components';
-import { renderMarkdownElement } from '../../../utils/html-utils';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
-import { useOrganizations } from '../../../utils/hooks/organizations';
+import CreatorsView from '../../components/creators-view';
+import PublishersView from '../../components/publishers-view';
+import DisplayLinks from '../../shared/links';
+import { getSeeAlsoByType } from '../../shared/links/utils';
+import SeeAlso from '../../shared/seeAlso';
 
 function DisplayMultiLangNote({
 	value1,

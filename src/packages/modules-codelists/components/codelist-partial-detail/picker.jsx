@@ -1,13 +1,18 @@
 import { useState } from 'react';
+
+import { ActionToolbar } from '@components/action-toolbar';
+import { TextInput } from '@components/form/input';
+import { Row } from '@components/layout';
+import { AddLogo } from '@components/logo/logo-add';
+import { DelLogo } from '@components/logo/logo-del';
+import { Pagination } from '@components/pagination';
+import { Panel } from '@components/panel';
+import { PickerItem } from '@components/picker-item';
+
+import { filterDeburr } from '@utils/array-utils';
+
 import D from '../../i18n/build-dictionary';
 import '../codelist-detail/edit.scss';
-import { TextInput, Row, Pagination } from '../../../components';
-import { Panel } from '../../../components/panel';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import { AddLogo } from '../../../components/logo/logo-add';
-import { DelLogo } from '../../../components/logo/logo-del';
-import { filterDeburr } from '../../../utils/array-utils';
-import { PickerItem } from '../../../components/picker-item';
 
 const Picker = ({
 	panelTitle,

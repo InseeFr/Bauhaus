@@ -1,24 +1,27 @@
 import { useCallback, useState, useEffect } from 'react';
-import { typeUriToLabel } from '../../utils';
-import D from '../../i18n/build-dictionary';
-import { CollapsiblePanel } from '../collapsible-panel';
-import { ComponentDetail } from '../component-detail';
+
+import { AddButton } from '@components/buttons/add';
+import { SeeButton } from '@components/buttons/see';
+import { RightSlidingPanel } from '@components/sliding-panel';
+
+import { convertToArrayIfDefined } from '@utils/array-utils';
+import { useStampsOptions } from '@utils/hooks/stamps';
+
 import Auth from '../../../auth/components/auth';
-import Representation from '../representation';
-import { UNPUBLISHED } from '../../../model/ValidationState';
-import { useStampsOptions } from '../../../utils/hooks/stamps';
 import { ADMIN } from '../../../auth/roles';
+import { CodesList } from '../../../model/CodesList';
+import { UNPUBLISHED } from '../../../model/ValidationState';
 import {
 	Component,
 	ComponentDefinition,
 } from '../../../model/structures/Component';
 import { Structure } from '../../../model/structures/Structure';
-import { CodesList } from '../../../model/CodesList';
-import { SeeButton } from '../../../components';
-import { convertToArrayIfDefined } from '../../../utils/array-utils';
-import { RightSlidingPanel } from '../../../components/sliding-panel';
+import D from '../../i18n/build-dictionary';
+import { typeUriToLabel } from '../../utils';
+import { CollapsiblePanel } from '../collapsible-panel';
+import { ComponentDetail } from '../component-detail';
 import { ComponentsTable } from '../components-table';
-import { AddButton } from '../../../components/buttons/add';
+import Representation from '../representation';
 
 type StructureComponentsSelectorTypes = {
 	hidden?: boolean;

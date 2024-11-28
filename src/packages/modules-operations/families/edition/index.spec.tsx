@@ -1,30 +1,33 @@
 import { render, screen } from '@testing-library/react';
 import { useParams } from 'react-router-dom';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
-import { OperationsApi } from '../../../sdk/operations-api';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { useTitle } from '../../../utils/hooks/useTitle';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import { Component } from './';
 
 vi.mock('react-router-dom', () => ({
 	useParams: vi.fn(),
 }));
 
-vi.mock('../../../utils/hooks/useGoBack', () => ({
+vi.mock('@utils/hooks/useGoBack', () => ({
 	useGoBack: vi.fn(),
 }));
 
-vi.mock('../../../utils/hooks/useTitle', () => ({
+vi.mock('@utils/hooks/useTitle', () => ({
 	useTitle: vi.fn(),
 }));
 
-vi.mock('../../../sdk/operations-api', () => ({
+vi.mock('@sdk/operations-api', () => ({
 	OperationsApi: {
 		getFamilyById: vi.fn(),
 	},
 }));
 
-vi.mock('../../../components', () => ({
+vi.mock('@components/loading', () => ({
 	Loading: () => <div>Loading...</div>,
 }));
 

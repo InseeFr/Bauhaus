@@ -1,5 +1,5 @@
-import * as selector from './selectors';
 import { ReduxModel } from './model';
+import * as selector from './selectors';
 
 describe('getPermission', () => {
 	it('should return the permission object', () => {

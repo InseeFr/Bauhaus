@@ -1,4 +1,5 @@
-import { PageTitle } from '../../components';
+import { PageTitle } from '@components/page-title';
+
 import { createAllDictionary } from '../../utils/dictionnary';
 
 const { D } = createAllDictionary({

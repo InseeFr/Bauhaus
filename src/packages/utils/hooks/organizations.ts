@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { OrganisationsApi } from '../../sdk';
-import { Organization } from '../../model/organization';
+
+import { OrganisationsApi } from '@sdk/index';
+
 import { Options } from '../../model/SelectOption';
+import { Organization } from '../../model/organization';
 import { transformModelToSelectOptions } from '../transformer';
 
 export const useOrganizations = () => {

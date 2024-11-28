@@ -1,7 +1,10 @@
-import { Loading } from '../../components';
-import SeriesHome from './home';
 import { useQuery } from '@tanstack/react-query';
-import { ClassificationsApi } from '../..//sdk/classification';
+
+import { Loading } from '@components/loading';
+
+import { ClassificationsApi } from '@sdk/classification';
+
+import SeriesHome from './home';
 
 export const Component = () => {
 	const { isLoading, data: series } = useQuery({

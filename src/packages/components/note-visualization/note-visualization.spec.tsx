@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+
 import { NoteVisualization } from './';
 
 describe('note-visualization', () => {

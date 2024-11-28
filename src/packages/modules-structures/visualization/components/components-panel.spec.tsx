@@ -1,10 +1,12 @@
 import { render } from '@testing-library/react';
-import { ComponentsPanel } from './components-panel';
+import { Mock, vi } from 'vitest';
+
+import { ConceptsApi } from '@sdk/index';
+
 import { getFormattedCodeList } from '../../apis';
-import { ConceptsApi } from '../../../sdk';
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
 import { StructureComponentsSelector } from '../../components/structure-component-selector';
-import { Mock, vi } from 'vitest';
+import { ComponentsPanel } from './components-panel';
 
 vi.mock('../../components/codes-list-panel/codes-list-panel', () => ({
 	CodesListPanel: vi.fn(() => (
@@ -30,7 +32,7 @@ vi.mock('../../apis', () => ({
 	getFormattedCodeList: vi.fn(),
 }));
 
-vi.mock('../../../sdk', () => ({
+vi.mock('@sdk/index', () => ({
 	ConceptsApi: {
 		getConceptList: vi.fn(),
 	},

@@ -1,21 +1,24 @@
 import { PureComponent } from 'react';
-import D from '../../../../deprecated-locales';
-import { rangeType } from '../../../utils/msd';
-import { DatePicker, InputRmes } from '../../../../components';
-import { Select } from '../../../../components/select-rmes';
+import { Editor } from 'react-draft-wysiwyg';
+
+import { DatePicker } from '@components/date-picker';
+import { InputRmes } from '@components/input-rmes';
+import { Note } from '@components/note';
+import { Select } from '@components/select-rmes';
+
+import { sortArrayByLabel } from '@utils/array-utils';
+import { getLang } from '@utils/dictionnary';
 
 import {
 	EditorDeleteButton,
 	EditorMarkdownToolbar,
 } from '../../../../components/rich-editor/editor-markdown';
-import SimsGeographyPicker from '../../../../modules-operations/components/sims/sims-geography-picker';
-import { Editor } from 'react-draft-wysiwyg';
-import './sims-field.scss';
+import D from '../../../../deprecated-locales';
+import SimsGeographyPicker from '../../../components/sims/sims-geography-picker';
+import { rangeType } from '../../../utils/msd';
 import { SimsFieldTitle } from '../../sims-field-title';
-import { sortArrayByLabel } from '../../../../utils/array-utils';
-import { Note } from '../../../../components/note';
 import { SimsCodeListSelect } from './sims-code-list-select';
-import { getLang } from '../../../../utils/dictionnary';
+import './sims-field.scss';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 

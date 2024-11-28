@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Loading } from '../../../components';
-import OperationsOperationEdition from '../../../modules-operations/operations/edition/edition';
+import { useParams } from 'react-router-dom';
+
+import { Loading } from '@components/loading';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../../deprecated-locales';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { OperationsApi } from '../../../sdk/operations-api';
-import { ReduxModel } from '../../../redux/model';
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/operations/series';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
+import { ReduxModel } from '../../../redux/model';
+import OperationsOperationEdition from './edition';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();

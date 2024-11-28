@@ -1,8 +1,11 @@
-import { NoteVisualization } from '../../components/note-visualization';
-import { buildNotes } from '../utils/classification/notes';
+import { NoteVisualization } from '@components/note-visualization';
+
+import { stringToDate } from '@utils/date-utils';
+import { delPTags } from '@utils/html-utils';
+
 import D, { D2 } from '../../deprecated-locales';
-import { delPTags } from '../../utils/html-utils';
-import { stringToDate } from '../../utils/date-utils';
+import { buildNotes } from '../utils/classification/notes';
+
 function ClassificationNotes({ secondLang, notes }) {
 	const noteValues = buildNotes(notes).map((note) => {
 		if (note.title === 'classificationsChangeNote') {

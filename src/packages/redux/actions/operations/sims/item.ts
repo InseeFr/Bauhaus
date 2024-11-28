@@ -1,10 +1,10 @@
-import * as A from '../../../actions/constants';
-import { D1, D2 } from '../../../../deprecated-locales';
+import { LOADING } from '@sdk/constants';
+import { OperationsApi } from '@sdk/operations-api';
 
-import { getPublishFactory } from '../utils';
-import { OperationsApi } from '../../../../sdk/operations-api';
-import { LOADING } from '../../../../sdk/constants';
+import { D1, D2 } from '../../../../deprecated-locales';
 import { Rubric } from '../../../../model/Sims';
+import * as A from '../../../actions/constants';
+import { getPublishFactory } from '../utils';
 
 export const publishSims = getPublishFactory(
 	OperationsApi.publishSims,

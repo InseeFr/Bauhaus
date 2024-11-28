@@ -1,5 +1,6 @@
-import { AdvancedSearchControls } from './controls';
 import { fireEvent, render, screen } from '@testing-library/react';
+
+import { AdvancedSearchControls } from './controls';
 
 describe('concepts-advanced-search-controls', () => {
 	const mockOnClickReturn = vi.fn();

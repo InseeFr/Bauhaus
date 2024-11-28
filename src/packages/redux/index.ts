@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
-import app from './users';
+
 import classificationsReducers from './classifications';
+import { reducer as geographiesReducer } from './geographies.action';
 import operationsReducers from './operations';
 import codesListReducers from './operations/codesList';
-import { reducer as geographiesReducer } from './geographies.action';
+import app from './users';
 
 export default combineReducers({
 	app,

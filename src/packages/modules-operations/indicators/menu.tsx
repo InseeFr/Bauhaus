@@ -1,7 +1,8 @@
-import { ADMIN } from '../../auth/roles';
-import { MasculineButton } from '../../components';
+import { MasculineButton } from '@components/new-button';
+import { VerticalMenu } from '@components/vertical-menu';
+
 import Auth from '../../auth/components/auth';
-import { VerticalMenu } from '../../components/vertical-menu';
+import { ADMIN } from '../../auth/roles';
 
 export const Menu = () => {
 	return (

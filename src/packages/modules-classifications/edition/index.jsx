@@ -1,29 +1,32 @@
 import { useQuery } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useParams } from 'react-router-dom';
-import {
-	ClientSideError,
-	GlobalClientSideErrorBloc,
-	Loading,
-	PageTitleBlock,
-	Row,
-	TextInput,
-	UrlInput,
-} from '../../components';
-import { Select } from '../../components/select-rmes';
-import { EditorMarkdown } from '../../components/rich-editor/editor-markdown';
-import { ActionToolbar } from '../../components/action-toolbar';
+
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../components/buttons/buttons-with-icons';
-import LabelRequired from '../../components/label-required';
+} from '@components/buttons/buttons-with-icons';
+import {
+	ClientSideError,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { TextInput, UrlInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Loading, Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+import { Select } from '@components/select-rmes';
+
+import { ClassificationsApi } from '@sdk/classification';
+
+import { useDisseminationStatusOptions } from '@utils/hooks/disseminationStatus';
+import { useOrganizationsOptions } from '@utils/hooks/organizations';
+import { useStampsOptions } from '@utils/hooks/stamps';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D, { D1, D2 } from '../../deprecated-locales';
-import { ClassificationsApi } from '../../sdk/classification';
-import { useDisseminationStatusOptions } from '../../utils/hooks/disseminationStatus';
-import { useOrganizationsOptions } from '../../utils/hooks/organizations';
-import { useStampsOptions } from '../../utils/hooks/stamps';
-import { useTitle } from '../../utils/hooks/useTitle';
 import { transformModelToSelectOptions } from '../../utils/transformer';
 import { useClassification, useUpdateClassification } from '../hooks';
 
@@ -67,7 +70,7 @@ export const Component = () => {
 
 	if (isLoading) return <Loading />;
 
-	if (isSaving) return <Loading textType="saving" />;
+	if (isSaving) return <Saving />;
 
 	if (isSavingSuccess) {
 		return <Navigate to={'/classifications/classification/' + id} replace />;

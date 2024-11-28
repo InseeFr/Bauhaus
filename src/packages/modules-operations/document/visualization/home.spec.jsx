@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
-import OperationsDocumentationVisualization from './home';
 import { render } from '@testing-library/react';
+
+import OperationsDocumentationVisualization from './home';
 
 const document = {
 	descriptionLg1: 'descriptionLg1',

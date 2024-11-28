@@ -1,12 +1,13 @@
+import { MasculineButton } from '@components/new-button';
+import { VerticalMenu } from '@components/vertical-menu';
+
+import Auth from '../../auth/components/auth';
 import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from '../../auth/roles';
 import D from '../../deprecated-locales/build-dictionary';
-import { MasculineButton } from '../../components';
-import Auth from '../../auth/components/auth';
-import { VerticalMenu } from '../../components/vertical-menu';
 
 const routes = [
 	['/operations/document/create', D.document],

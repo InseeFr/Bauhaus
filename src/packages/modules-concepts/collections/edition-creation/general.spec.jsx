@@ -1,16 +1,14 @@
 import { render } from '@testing-library/react';
-import CollectionGeneral from './general';
+
 import { empty } from '../../../modules-concepts/collections/utils/general';
 import { locales } from '../../../tests-utils/default-values';
+import CollectionGeneral from './general';
 
-vi.mock('../../../components', () => ({
-	InputRmes: () => <></>,
-	ClientSideError: () => <></>,
-	TextInput: () => <></>,
-	Row: () => <></>,
-	CreatorsInput: () => <></>,
-	RequiredIcon: () => <></>,
-}));
+vi.mock('@components/form/input', () => ({ TextInput: () => <></> }));
+vi.mock('@components/errors-bloc', () => ({ ClientSideError: () => <></> }));
+vi.mock('@components/input-rmes', () => ({ InputRmes: () => <></> }));
+vi.mock('@components/creators-input', () => ({ CreatorsInput: () => <></> }));
+vi.mock('@components/required-icon', () => ({ RequiredIcon: () => <></> }));
 
 describe('collection-edition-creation-general', () => {
 	it('renders without crashing', () => {

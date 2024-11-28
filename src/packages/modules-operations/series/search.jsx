@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import {
-	AdvancedSearchList,
-	Column,
-	Loading,
-	TextInput,
-} from '../../components';
-import { Select } from '../../components/select-rmes';
+
+import { AdvancedSearchList } from '@components/advanced-search/home';
+import { TextInput } from '@components/form/input';
+import { Column } from '@components/layout';
+import { Loading } from '@components/loading';
+import { Select } from '@components/select-rmes';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useOrganizationsOptions } from '@utils/hooks/organizations';
+import { useStamps } from '@utils/hooks/stamps';
+import { useTitle } from '@utils/hooks/useTitle';
+import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 
 import D from '../../deprecated-locales';
-
-import { OperationsApi } from '../../sdk/operations-api';
 import { filterKeyDeburr } from '../../utils/array-utils';
-import { useOrganizationsOptions } from '../../utils/hooks/organizations';
-import { useStamps } from '../../utils/hooks/stamps';
-import { useTitle } from '../../utils/hooks/useTitle';
-import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import { TypeCodeInput } from './search/typeCodeInput';
 
 const filterLabel = filterKeyDeburr(['prefLabelLg1']);

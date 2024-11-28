@@ -1,5 +1,6 @@
 import D from '../../../deprecated-locales';
 import { rangeType } from '../../../modules-operations/utils/msd';
+
 const { CODE_LIST, ORGANIZATION } = rangeType;
 
 export default function HelpInformation({ msd, codesLists, organisations }) {

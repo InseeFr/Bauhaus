@@ -1,8 +1,8 @@
-import simsApi from './operations/sims';
-import indicatorApi from './operations/indicator';
-import seriesApi from './operations/series';
-import operationsApi from './operations/operation';
 import { buildApi, generateGenericApiEndpoints } from './build-api';
+import indicatorApi from './operations/indicator';
+import operationsApi from './operations/operation';
+import seriesApi from './operations/series';
+import simsApi from './operations/sims';
 
 const api = {
 	...simsApi,

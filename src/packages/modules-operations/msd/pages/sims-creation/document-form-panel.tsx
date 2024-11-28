@@ -1,12 +1,15 @@
-import { RightSlidingPanel } from '../../../../components/sliding-panel';
-import { useCodesList } from '../../../../utils/hooks/codeslist';
-import OperationsDocumentationEdition from '../../../document/edition/edition';
-import { useDocumentsStoreContext } from './documents-store-context';
-import './document-form-panel.scss';
 import { useState } from 'react';
-import { Loading } from '../../../../components';
-import { getDocumentsList } from './useDocumentsList';
+
+import { Saving } from '@components/loading';
+import { RightSlidingPanel } from '@components/sliding-panel';
+
+import { useCodesList } from '@utils/hooks/codeslist';
+
 import { Document } from '../../../../model/operations/document';
+import OperationsDocumentationEdition from '../../../document/edition/edition';
+import './document-form-panel.scss';
+import { useDocumentsStoreContext } from './documents-store-context';
+import { getDocumentsList } from './useDocumentsList';
 
 type DocumentFormPanelTypes = {
 	opened: boolean;
@@ -55,7 +58,7 @@ export const DocumentFormPanel = ({
 			panelClassName="documents-form-panel"
 		>
 			{saving ? (
-				<Loading textType="saving" />
+				<Saving />
 			) : (
 				<OperationsDocumentationEdition
 					document={{}}

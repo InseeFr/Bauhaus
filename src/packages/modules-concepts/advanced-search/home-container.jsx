@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import { Loading } from '../../components';
+import { Exporting, Loading } from '@components/loading';
+
+import { ConceptsApi } from '@sdk/index';
+
+import { saveFileFromHttpResponse } from '@utils/files';
+import { useDisseminationStatus } from '@utils/hooks/disseminationStatus';
+import { useStamps } from '@utils/hooks/stamps';
+
 import ConceptSearchList from './home';
-import { ConceptsApi } from '../../sdk';
-import { saveFileFromHttpResponse } from '../../utils/files';
-import { useStamps } from '../../utils/hooks/stamps';
-import { useDisseminationStatus } from '../../utils/hooks/disseminationStatus';
 
 const emptyItem = {
 	id: '',
@@ -57,7 +60,7 @@ export const Component = () => {
 	}
 
 	if (exporting) {
-		return <Loading textType="exporting" />;
+		return <Exporting />;
 	}
 
 	return (

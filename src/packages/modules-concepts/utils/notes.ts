@@ -1,5 +1,6 @@
-import { rawHtmlToRmesHtml } from '../../utils/html-utils';
-import { buildEmptyNotes } from '../../utils/build-empty-notes';
+import { buildEmptyNotes } from '@utils/build-empty-notes';
+import { rawHtmlToRmesHtml } from '@utils/html-utils';
+
 import { ConceptNotes } from '../../model/concepts/concept';
 
 export const versionableNotes: Array<keyof ConceptNotes> = [

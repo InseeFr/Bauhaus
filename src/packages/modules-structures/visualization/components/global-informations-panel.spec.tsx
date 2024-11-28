@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { GlobalInformationsPanel } from './global-informations-panel';
+
 import { Structure } from '../../../model/structures/Structure';
+import { GlobalInformationsPanel } from './global-informations-panel';
 
 describe('GlobalInformationsPanel', () => {
 	const mockStructure: Structure = {

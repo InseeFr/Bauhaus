@@ -1,11 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, Mock, vi } from 'vitest';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+
 import D from '../../../deprecated-locales/build-dictionary';
 import { Distribution } from '../../../model/Dataset';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
 import { ViewMainBlock } from './view-main-block';
 
-vi.mock('../../../utils/hooks/second-lang', () => ({
+vi.mock('@utils/hooks/second-lang', () => ({
 	useSecondLang: vi.fn(),
 }));
 

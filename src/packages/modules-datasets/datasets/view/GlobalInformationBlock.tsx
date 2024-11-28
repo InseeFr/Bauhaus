@@ -1,26 +1,25 @@
+import { CodeDisplay } from '@components/code-display';
+import { ConditionalDisplay } from '@components/data/conditional-display';
+import { Organization, Organizations } from '@components/data/creators';
+import { Row } from '@components/layout';
+import { List } from '@components/list';
+import { Note } from '@components/note';
+import { PublicationMale } from '@components/status';
+
+import { stringToDate } from '@utils/date-utils';
+import { useCodesList } from '@utils/hooks/codeslist';
+import { useOrganizations } from '@utils/hooks/organizations';
+
 import D, { D1 } from '../../../deprecated-locales/build-dictionary';
-import { stringToDate } from '../../../utils/date-utils';
-import {
-	Organization,
-	Organizations,
-	PublicationMale,
-	Row,
-} from '../../../components';
-import { ConditionalDisplay } from '../../../components/data/conditional-display';
+import { Dataset } from '../../../model/Dataset';
 import {
 	CL_ACCESS_RIGHTS,
 	CL_CONF_STATUS,
 	CL_FREQ,
 } from '../../../redux/actions/constants/codeList';
-import { WasGeneratedByBlock } from './wasGeneratedByBlock';
-import { Dataset } from '../../../model/Dataset';
-import { useThemes } from '../useThemes';
-import { useCodesList } from '../../../utils/hooks/codeslist';
-import { useOrganizations } from '../../../utils/hooks/organizations';
-import { CodeDisplay } from '../../../components/code-display';
-import { List } from '../../../components/list';
 import { D as DatasetDictionary, lg1, lg2 } from '../../i18n';
-import { Note } from '../../../components/note';
+import { useThemes } from '../useThemes';
+import { WasGeneratedByBlock } from './wasGeneratedByBlock';
 
 type GlobalInformationBlockTypes = {
 	dataset: Dataset;

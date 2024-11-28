@@ -1,5 +1,6 @@
-import { getModalMessage } from './build-validation-message';
 import dayjs from 'dayjs';
+
+import { getModalMessage } from './build-validation-message';
 
 describe('getModalMessage', () => {
 	it('should display if the date is out of date', () => {

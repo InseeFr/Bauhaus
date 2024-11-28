@@ -1,13 +1,12 @@
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ExplanatoryNote } from '@components/explanatory-note';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PageTitle } from '@components/page-title';
+
+import { D2, D1 } from '../../../deprecated-locales';
 import CorrespondenceControls from './controls';
 import { generalFields } from './general-fields';
-import { D2, D1 } from '../../../deprecated-locales';
-import {
-	PageTitle,
-	Row,
-	ExplanatoryNote,
-	CheckSecondLang,
-} from '../../../components';
-import { Note } from '../../../components/note';
 
 const Home = ({
 	association,

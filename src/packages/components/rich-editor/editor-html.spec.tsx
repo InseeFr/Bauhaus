@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+
 import { EditorHTML } from '.';
 
 describe('editor-html', () => {

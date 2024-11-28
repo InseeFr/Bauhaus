@@ -1,4 +1,5 @@
 import { CheckSecondLang, PageTitleBlock } from '../../../../utils';
+
 const CodeTitle = ({ code, secondLang }) => {
 	return (
 		<>

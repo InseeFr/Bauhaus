@@ -1,7 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import { Mock, vi } from 'vitest';
+
 import { CreatorsInput } from '.';
 import { useStampsOptions } from '../../utils/hooks/stamps';
-import { Mock, vi } from 'vitest';
 
 // Mock du hook useStampsOptions
 vi.mock('../../utils/hooks/stamps', () => ({

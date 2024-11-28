@@ -1,18 +1,19 @@
-import Auth, { RoleCheck } from '../../../../auth/components/auth';
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from '../../../../auth/roles';
-import { ValidationButton } from '../../../../components';
-import { ActionToolbar } from '../../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	DeleteButton,
 	DuplicateButton,
 	ExportButton,
 	ReturnButton,
 	UpdateButton,
-} from '../../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
+import { ValidationButton } from '@components/validationButton';
+
+import Auth, { RoleCheck } from '../../../../auth/components/auth';
+import {
+	ADMIN,
+	INDICATOR_CONTRIBUTOR,
+	SERIES_CONTRIBUTOR,
+} from '../../../../auth/roles';
 import { Sims } from '../../../../model/Sims';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
 import { getParentUri, shouldDisplayDuplicateButton } from '../../utils';

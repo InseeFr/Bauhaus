@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
-import SeriesVisualization from './home';
-import { Loading } from '../../../components';
 import { useParams } from 'react-router-dom';
-import { ClassificationsApi } from '../../../sdk/classification';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+
+import { Loading } from '@components/loading';
+
+import { ClassificationsApi } from '@sdk/classification';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+
+import SeriesVisualization from './home';
 
 export const Component = () => {
 	const { id } = useParams();

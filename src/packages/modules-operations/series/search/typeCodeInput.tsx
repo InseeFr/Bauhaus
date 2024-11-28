@@ -1,8 +1,10 @@
-import { Select } from '../../../components/select-rmes';
+import { Select } from '@components/select-rmes';
+
+import { useCodesList } from '@utils/hooks/codeslist';
+
 import D from '../../../deprecated-locales';
 import { Option } from '../../../model/SelectOption';
 import { CL_SOURCE_CATEGORY } from '../../../redux/actions/constants/codeList';
-import { useCodesList } from '../../../utils/hooks/codeslist';
 
 type TypeCodeInputTypes = {
 	value: string;

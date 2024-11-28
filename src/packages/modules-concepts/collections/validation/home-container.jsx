@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import CollectionsToValidate from './home';
-import { Loading } from '../../../components';
-import D from '../../../deprecated-locales';
-import { ConceptsApi } from '../../../sdk';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { usePermission } from '../../../redux/hooks/usePermission';
 import { useNavigate } from 'react-router-dom';
+
+import { Loading, Publishing } from '@components/loading';
+
+import { ConceptsApi } from '@sdk/index';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
+import D from '../../../deprecated-locales';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import CollectionsToValidate from './home';
 
 export const Component = () => {
 	useTitle(D.collectionsTitle, D.btnValid);
@@ -29,7 +33,7 @@ export const Component = () => {
 			.then(() => setLoading(false));
 	}, []);
 
-	if (saving) return <Loading textType="validating" />;
+	if (saving) return <Publishing />;
 	if (loading) return <Loading />;
 	return (
 		<CollectionsToValidate

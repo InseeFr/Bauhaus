@@ -1,9 +1,10 @@
+import { OperationsApi } from '@sdk/operations-api';
+
 import get, {
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST,
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_FAILURE,
 	LOAD_OPERATIONS_METADATASTRUCTURE_LIST_SUCCESS,
 } from './list';
-import { OperationsApi } from '../../../sdk/operations-api';
 
 const dispatch = vi.fn();
 

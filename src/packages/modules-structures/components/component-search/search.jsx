@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
-
-import {
-	AdvancedSearchList,
-	Column,
-	Loading,
-	TextInput,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
-
 import { Link, Navigate } from 'react-router-dom';
+
+import { AdvancedSearchList } from '@components/advanced-search/home';
+import { TextInput } from '@components/form/input';
+import { Column } from '@components/layout';
+import { Loading } from '@components/loading';
+import { Select } from '@components/select-rmes';
+
+import { ConceptsApi, StructureApi } from '@sdk/index';
+
+import { filterKeyDeburr } from '@utils/array-utils';
+import { useStampsOptions } from '@utils/hooks/stamps';
+import { useTitle } from '@utils/hooks/useTitle';
+import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
+import * as ItemToSelectModel from '@utils/item-to-select-model';
+
 import { validateStateOptions } from '../../../model/ValidationState';
-import { ConceptsApi, StructureApi } from '../../../sdk';
-import { filterKeyDeburr } from '../../../utils/array-utils';
-import { useStampsOptions } from '../../../utils/hooks/stamps';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import useUrlQueryParameters from '../../../utils/hooks/useUrlQueryParameters';
-import * as ItemToSelectModel from '../../../utils/item-to-select-model';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
 

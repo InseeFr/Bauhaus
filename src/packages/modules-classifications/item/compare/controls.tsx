@@ -1,7 +1,9 @@
 import { useLocation } from 'react-router-dom';
+
+import { ActionToolbar } from '@components/action-toolbar';
+import { Button } from '@components/buttons/button';
+
 import D from '../../../deprecated-locales';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import { Button } from '../../../components/buttons/button';
 
 function Controls() {
 	const location = useLocation();

@@ -18,8 +18,11 @@
 		"start": "npm run pre-script vite",
 		"build": "npm run pre-script cross-env VITE_INSEE=true vite build && npm run create-zip",
 		"create-zip": "cd build && bestzip build.zip *",
-		"pre-push": "npm run lint && npm run test:coverage",
-		"prepare": "husky"
+		"pre-push": "npm run format:check && npm run lint && npm run test:coverage",
+		"prepare": "husky",
+		"_format": "prettier 'src/**/*.{ts,tsx,js,jsx,json,md}'",
+		"format": "npm run _format -- --write",
+		"format:check": "npm run _format -- --list-different"
 	},
 	"browserslist": [
 		">0.2%",
@@ -32,8 +35,6 @@
 		"react-dom": "18.3.1",
 		"react-router-dom": "5.2.0",
 		"@babel/traverse": "7.24.1",
-		"immer": "9.0.21",
-		"ejs": "3.1.9",
 		"loader-utils": "2.0.4",
 		"shell-quote": "1.8.1",
 		"typescript": "5.5.3"
@@ -48,6 +49,7 @@
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.0.1",
 		"@testing-library/user-event": "^14.5.2",
+		"@trivago/prettier-plugin-sort-imports": "^4.3.0",
 		"@types/dompurify": "^3.0.5",
 		"@types/file-saver": "^2.0.7",
 		"@types/node": "^22.9.0",
@@ -71,6 +73,7 @@
 		"typescript-eslint": "^8.13.0",
 		"vite": "^5.4.11",
 		"vite-envs": "^4.4.5",
+		"vite-tsconfig-paths": "^5.1.2",
 		"vitest": "^2.1.5"
 	},
 	"dependencies": {
@@ -103,8 +106,18 @@
 	},
 	"prettier": {
 		"bracketSpacing": true,
+		"importOrderSeparation": true,
+		"importOrder": [
+			"^@components/(.*)$",
+			"^@sdk/(.*)$",
+			"^@utils/(.*)$",
+			"^[./]"
+		],
 		"semi": true,
 		"singleQuote": true,
-		"useTabs": true
+		"useTabs": true,
+		"plugins": [
+			"@trivago/prettier-plugin-sort-imports"
+		]
 	}
 }

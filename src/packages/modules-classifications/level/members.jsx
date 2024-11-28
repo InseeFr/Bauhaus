@@ -1,6 +1,7 @@
+import { Note } from '@components/note';
+import { SearchableList } from '@components/searchable-list';
+
 import { D1, D2 } from '../../deprecated-locales';
-import { SearchableList } from '../../components';
-import { Note } from '../../components/note';
 
 const Members = ({ members, classificationId, secondLang }) => {
 	const membersLg1 = members.map(({ id, labelLg1 }) => ({

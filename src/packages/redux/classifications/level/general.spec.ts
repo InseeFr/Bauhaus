@@ -1,10 +1,11 @@
-import reducerLevelGeneral, { getGeneral } from './general';
+import { LOADED, LOADING } from '@sdk/constants';
+
 import * as generalUtils from '../../../modules-classifications/utils/level/general';
 import {
 	LOAD_CLASSIFICATION_LEVEL_GENERAL,
 	LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS,
 } from '../../actions/constants';
-import { LOADED, LOADING } from '../../../sdk/constants';
+import reducerLevelGeneral, { getGeneral } from './general';
 
 describe('reducerLevelGeneral', () => {
 	test('action LOAD_CLASSIFICATION_LEVEL_GENERAL', () => {

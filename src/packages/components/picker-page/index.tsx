@@ -1,20 +1,20 @@
 //@ts-nocheck
-
 import { useState } from 'react';
+
+import { ErrorBloc } from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
+import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
+import { Pagination } from '@components/pagination';
+
+import { filterDeburr } from '@utils/array-utils';
+
 import D from '../../deprecated-locales';
-import {
-	TextInput,
-	PageTitle,
-	ErrorBloc,
-	Pagination,
-	Row,
-} from '../../components';
-import { Panel } from '../panel';
 import { ActionToolbar } from '../action-toolbar';
 import { ReturnButton, ExportButton } from '../buttons/buttons-with-icons';
 import { AddLogo } from '../logo/logo-add';
 import { DelLogo } from '../logo/logo-del';
-import { filterDeburr } from '../../utils/array-utils';
+import { Panel } from '../panel';
 import { PickerItem } from '../picker-item';
 
 type Item = { id: string; label: string };

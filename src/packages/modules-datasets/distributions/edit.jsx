@@ -2,27 +2,30 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { default as ReactSelect } from 'react-select';
-import {
-	ClientSideError,
-	GlobalClientSideErrorBloc,
-	Loading,
-	PageTitleBlock,
-	Row,
-	TextInput,
-	UrlInput,
-} from '../../components';
-import { ActionToolbar } from '../../components/action-toolbar';
+
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../components/buttons/buttons-with-icons';
-import LabelRequired from '../../components/label-required';
-import { EditorMarkdown } from '../../components/rich-editor/editor-markdown';
+} from '@components/buttons/buttons-with-icons';
+import {
+	ClientSideError,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { TextInput, UrlInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Loading, Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+
+import { DistributionApi } from '@sdk/index';
+
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import { D1, D2 } from '../../deprecated-locales';
 import D from '../../deprecated-locales/build-dictionary';
-import { DistributionApi } from '../../sdk';
-import { useGoBack } from '../../utils/hooks/useGoBack';
-import { useTitle } from '../../utils/hooks/useTitle';
 import { useDatasetsForDistributions, useDistribution } from '../datasets';
 import { ByteSizeInput } from './edit/byte-size-input';
 import { validate } from './validation';
@@ -78,7 +81,7 @@ export const Component = () => {
 		return <Loading />;
 	}
 	if (isSaving) {
-		return <Loading textType="saving" />;
+		return <Saving />;
 	}
 
 	const onSubmit = () => {

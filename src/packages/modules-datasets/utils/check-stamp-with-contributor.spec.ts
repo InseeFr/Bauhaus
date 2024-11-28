@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { checkIfContributorContainsUserStamp } from './check-stamp-with-contributor';
+
 import { DATASET_CONTRIBUTOR } from '../../auth/roles';
 import { Dataset } from '../../model/Dataset';
 import { Permission } from '../../redux/selectors';
+import { checkIfContributorContainsUserStamp } from './check-stamp-with-contributor';
 
 describe('checkIfContributorContainsUserStamp', () => {
 	it('should return true if the user stamp is in contributors and the role is correct', () => {

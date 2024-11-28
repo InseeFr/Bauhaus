@@ -1,8 +1,10 @@
-import { PageTitle, CheckSecondLang } from '../../components';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { PageSubtitle } from '@components/page-sub-title';
+import { PageTitle } from '@components/page-title';
+
 import Controls from './controls';
 import General from './general';
 import Members from './members';
-import { PageSubtitle } from '../../components/page-sub-title';
 
 const LevelVisualization = ({ level: { general, members }, secondLang }) => {
 	const { classificationId } = general;

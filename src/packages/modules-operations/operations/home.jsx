@@ -1,8 +1,10 @@
-import D from '../../deprecated-locales';
-import OperationsObjectHome from '../../modules-operations/shared/list';
-import { FeminineButton } from '../../components';
-import { useTitle } from '../../utils/hooks/useTitle';
+import { FeminineButton } from '@components/new-button';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
 import { ADMIN, SERIES_CONTRIBUTOR } from '../../auth/roles';
+import D from '../../deprecated-locales';
+import OperationsObjectHome from '../shared/list';
 
 function OperationsHome({ operations }) {
 	useTitle(D.operationsTitle, D.operationsTitle);

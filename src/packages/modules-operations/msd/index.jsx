@@ -1,33 +1,37 @@
 import { Component as ReactComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Loading, PageTitleBlock } from '../../components';
-import { D1, D2 } from '../../deprecated-locales';
-import MSDLayout from '../../modules-operations/msd/layout/';
-import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
-import { LOADED, NOT_LOADED } from '../../sdk/constants';
+import { useLoaderData, useParams } from 'react-router-dom';
 
-import MSDHelp from '../../modules-operations/msd/pages/help';
-import SimsCreation from '../../modules-operations/msd/pages/sims-creation/';
-import SimsVisualisation from '../../modules-operations/msd/pages/sims-visualisation/';
+import { Loading } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+
+import { LOADED, NOT_LOADED } from '@sdk/constants';
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useOrganizations } from '@utils/hooks/organizations';
+import { useGoBack } from '@utils/hooks/useGoBack';
+
+import { D1, D2 } from '../../deprecated-locales';
 import loadSIMS, {
 	publishSims,
 	saveSims,
 } from '../../redux/actions/operations/sims/item';
+import { isLoaded, loadGeographies } from '../../redux/geographies.action';
+import loadMetadataStructure from '../../redux/operations/metadatastructure/list';
 import { getOperationsCodesList } from '../../redux/operations/selector';
-
-import { useLoaderData, useParams } from 'react-router-dom';
 import { getOperationsSimsCurrent } from '../../redux/selectors';
-import { OperationsApi } from '../../sdk/operations-api';
-import { useOrganizations } from '../../utils/hooks/organizations';
-import { useGoBack } from '../../utils/hooks/useGoBack';
+import MSDLayout from '../msd/layout';
+import MSDHelp from '../msd/pages/help';
+import SimsCreation from '../msd/pages/sims-creation';
+import SimsVisualisation from '../msd/pages/sims-visualisation';
+import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from './constant';
 import { SimsContextProvider } from './context';
 import './msd.scss';
 import { DocumentsStoreProvider } from './pages/sims-creation/documents-store-context';
+import { useDocumentsList } from './pages/sims-creation/useDocumentsList';
 import { isEssentialRubricKo } from './sims-field-title';
 import { getParentId, getParentType } from './utils';
-import { useDocumentsList } from './pages/sims-creation/useDocumentsList';
-import { isLoaded, loadGeographies } from '../../redux/geographies.action';
-import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from './constant';
+
 class MSDContainer extends ReactComponent {
 	static defaultProps = {
 		currentSims: {},

@@ -1,5 +1,5 @@
-import Members from './members';
 import { renderWithRouter } from '../../../tests-utils/render';
+import Members from './members';
 
 const members = [{ id: '1', label: 'Member 1' }];
 

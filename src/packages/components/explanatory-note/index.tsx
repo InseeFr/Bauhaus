@@ -1,4 +1,5 @@
 import DOMPurify from 'dompurify';
+
 import { markdownToHtml } from '../../utils/html-utils';
 import { Note } from '../note';
 

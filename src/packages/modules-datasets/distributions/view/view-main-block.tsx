@@ -1,10 +1,13 @@
-import { PublicationFemale, Row } from '../../../components';
-import { Note } from '../../../components/note';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PublicationFemale } from '@components/status';
+
+import { stringToDate } from '@utils/date-utils';
+import { useSecondLang } from '@utils/hooks/second-lang';
+import { renderMarkdownElement } from '@utils/html-utils';
+
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { Distribution } from '../../../model/Dataset';
-import { stringToDate } from '../../../utils/date-utils';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
-import { renderMarkdownElement } from '../../../utils/html-utils';
 
 export const ViewMainBlock = ({
 	distribution,

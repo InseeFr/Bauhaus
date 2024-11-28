@@ -1,11 +1,13 @@
-import { GlobalClientSideErrorBloc } from '../../../components';
-import D from '../../../deprecated-locales/build-dictionary';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
-import { createAllDictionary } from '../../../utils/dictionnary';
+} from '@components/buttons/buttons-with-icons';
+import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
+
+import { createAllDictionary } from '@utils/dictionnary';
+
+import D from '../../../deprecated-locales/build-dictionary';
 
 const { D: dict } = createAllDictionary({
 	errors: {

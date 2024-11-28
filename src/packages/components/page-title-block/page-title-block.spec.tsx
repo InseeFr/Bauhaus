@@ -1,7 +1,8 @@
-import { PageTitleBlock } from './';
-import { renderWithAppContext } from '../../tests-utils/render';
 import { vi } from 'vitest';
+
+import { renderWithAppContext } from '../../tests-utils/render';
 import { useSecondLang } from '../../utils/hooks/second-lang';
+import { PageTitleBlock } from './';
 
 vi.mock('../../utils/hooks/second-lang', () => ({
 	useSecondLang: vi.fn(),

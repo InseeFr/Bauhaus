@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { Menu } from './menu';
-import { RBACMock } from '../../../tests-utils/rbac';
+
 import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
 import { Series } from '../../../model/operations/series';
+import { RBACMock } from '../../../tests-utils/rbac';
+import { Menu } from './menu';
 
 describe('Family Home Page Menu', () => {
 	describe('As an ADMIN', () => {

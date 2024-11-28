@@ -1,12 +1,13 @@
-import { vi } from 'vitest';
-import { StructureView } from './index';
 import { Provider } from 'react-redux';
+import { vi } from 'vitest';
+
+import { Structure } from '../../model/structures/Structure';
 import configureStore from '../../redux/configure-store';
 import { renderWithAppContext } from '../../tests-utils/render';
-import { Structure } from '../../model/structures/Structure';
+import { ComponentsPanel } from './components/components-panel';
 import { DescriptionsPanel } from './components/descriptions-panel';
 import { GlobalInformationsPanel } from './components/global-informations-panel';
-import { ComponentsPanel } from './components/components-panel';
+import { StructureView } from './index';
 
 vi.mock('./components/global-informations-panel', () => ({
 	GlobalInformationsPanel: vi.fn(() => <div></div>),

@@ -1,14 +1,13 @@
-import { Structure } from '../../../model/structures/Structure';
+import { ContributorsVisualisation } from '@components/contributors/contributors';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PublicationFemale } from '@components/status';
+
 import { D1 } from '../../../deprecated-locales';
-import {
-	ContributorsVisualisation,
-	CreationUpdateItems,
-	DisseminationStatusVisualisation,
-	PublicationFemale,
-	Row,
-} from '../../../components';
+import { Structure } from '../../../model/structures/Structure';
 import D from '../../i18n/build-dictionary';
-import { Note } from '../../../components/note';
 
 type GlobalInformationsPanelTypes = {
 	structure: Structure;
