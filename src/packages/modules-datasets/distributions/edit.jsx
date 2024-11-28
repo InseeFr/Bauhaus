@@ -17,13 +17,15 @@ import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
+import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
 
-import { EditorMarkdown } from '../../components/rich-editor/editor-markdown';
+import { DistributionApi } from '@sdk/index';
+
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import { D1, D2 } from '../../deprecated-locales';
 import D from '../../deprecated-locales/build-dictionary';
-import { DistributionApi } from '../../sdk';
-import { useGoBack } from '../../utils/hooks/useGoBack';
-import { useTitle } from '../../utils/hooks/useTitle';
 import { useDatasetsForDistributions, useDistribution } from '../datasets';
 import { ByteSizeInput } from './edit/byte-size-input';
 import { validate } from './validation';

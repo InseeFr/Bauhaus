@@ -3,13 +3,13 @@ import { DatePicker } from '@components/date-picker';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
+import { InputMultiRmes } from '@components/input-multi-rmes';
 import { InputRmes } from '@components/input-rmes';
 import { Row } from '@components/layout';
 import { RequiredIcon } from '@components/required-icon';
 
-import { InputMultiRmes } from '../../components/input-multi-rmes';
 import D, { D1, D2 } from '../../deprecated-locales';
-import { fields as generalFields } from '../../modules-concepts/utils/general';
+import { fields as generalFields } from '../utils/general';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {

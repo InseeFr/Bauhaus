@@ -1,6 +1,7 @@
 import { Column } from 'primereact/column';
 import { useEffect, useState } from 'react';
 
+import { DataTable } from '@components/datatable';
 import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
@@ -8,9 +9,8 @@ import {
 import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
+import { RightSlidingPanel } from '@components/sliding-panel';
 
-import { DataTable } from '../../../components/datatable';
-import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { API } from '../../apis';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { validateCode } from '../../utils';

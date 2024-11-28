@@ -1,9 +1,11 @@
 import { ActionToolbar } from '@components/action-toolbar';
 import { ReturnButton } from '@components/buttons/buttons-with-icons';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Row } from '@components/layout';
 import { Note } from '@components/note';
 
-import { HTMLUtils } from '../../../../utils';
-import { ErrorBloc, Row } from '../../../components';
+import { renderMarkdownElement } from '@utils/html-utils';
+
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import './view.scss';
 
@@ -15,8 +17,8 @@ export const CodeDetailView = ({
 	col = 3,
 	serverSideError,
 }) => {
-	const descriptionLg1 = HTMLUtils.renderMarkdownElement(code.descriptionLg1);
-	const descriptionLg2 = HTMLUtils.renderMarkdownElement(code.descriptionLg2);
+	const descriptionLg1 = renderMarkdownElement(code.descriptionLg1);
+	const descriptionLg2 = renderMarkdownElement(code.descriptionLg2);
 
 	const codesOptions = codes.map((code) => {
 		return {

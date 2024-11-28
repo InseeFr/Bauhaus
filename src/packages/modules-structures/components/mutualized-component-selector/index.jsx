@@ -2,8 +2,8 @@ import { useCallback, useState } from 'react';
 
 import { AddButton } from '@components/buttons/add';
 import { SeeButton } from '@components/buttons/see';
+import { RightSlidingPanel } from '@components/sliding-panel';
 
-import { RightSlidingPanel } from '../../../components/sliding-panel';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import D from '../../i18n/build-dictionary';
 import { typeUriToLabel } from '../../utils';

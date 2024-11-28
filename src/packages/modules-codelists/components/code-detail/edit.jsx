@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import { SaveButton } from '@components/buttons/buttons-with-icons';
+import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
 import { AddLogo } from '@components/logo/logo-add';
 import Select from '@components/select-rmes';
 
@@ -11,7 +13,6 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 } from '../../../../utils';
-import { Row, TextInput } from '../../../components';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { validateCode } from '../../utils';
 import './edit.scss';

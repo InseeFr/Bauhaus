@@ -3,6 +3,7 @@ import { Component } from 'react';
 
 import { AddLogo } from '@components/logo/logo-add';
 import { DelLogo } from '@components/logo/logo-del';
+import { PickerItem } from '@components/picker-item';
 
 import {
 	BROADER,
@@ -16,7 +17,6 @@ import {
 
 import { filterDeburr } from '@utils/array-utils';
 
-import { PickerItem } from '../../../components/picker-item';
 import { D1 } from '../../../deprecated-locales';
 import ConceptToLink from './concept-to-link';
 import { EquivalentLinks } from './equivalentLinks';

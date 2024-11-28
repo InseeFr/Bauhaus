@@ -2,16 +2,17 @@ import DOMPurify from 'dompurify';
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
+import FilterToggleButtons from '@components/filter-toggle-buttons';
 import { TextInput } from '@components/form/input';
 import { Row } from '@components/layout';
+import { NumberResults } from '@components/number-results';
 import { PageTitle } from '@components/page-title';
 import { Pagination } from '@components/pagination';
 
-import FilterToggleButtons from '../../components/filter-toggle-buttons';
-import { NumberResults } from '../../components/number-results';
+import { filterKeyDeburr } from '@utils/array-utils';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../deprecated-locales';
-import { filterKeyDeburr } from '../../utils/array-utils';
-import { useTitle } from '../../utils/hooks/useTitle';
 import { Menu } from './menu';
 import { BOTH, DOCUMENT, LINK, isDocument, isLink } from './utils';
 

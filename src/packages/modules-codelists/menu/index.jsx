@@ -1,7 +1,8 @@
 import { useLocation } from 'react-router-dom';
 
+import { MainMenu } from '@components/menu';
+
 import { ADMIN } from '../../auth/roles';
-import { MainMenu } from '../../components/menu';
 import { usePermission } from '../../redux/hooks/usePermission';
 import D from '../i18n/build-dictionary';
 
