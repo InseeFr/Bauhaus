@@ -228,13 +228,15 @@ class OperationsOperationEdition extends Component {
 							/>
 						</div>
 					</Row>
-					<Row>
-						<label>{D.year}</label>
-						<TextInput
-							id="year"
-							value={operation.year}
-							onChange={this.onChange}
-						/>
+					<Row className="bauhaus-row">
+						<div className="form-group">
+							<label>{D.year}</label>
+							<TextInput
+								id="year"
+								value={operation.year}
+								onChange={this.onChange}
+							/>
+						</div>
 					</Row>
 				</form>
 			</div>

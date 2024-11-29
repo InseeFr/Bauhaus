@@ -25,6 +25,9 @@ function OperationsOperationVisualization({ attr, secondLang }) {
 							<li>
 								{D1.operationStatus} : <PublicationFemale object={attr} />
 							</li>
+							<li>
+								{D.year} : {attr.year}
+							</li>
 						</ul>
 					}
 					title={D1.globalInformationsTitle}
