@@ -16,6 +16,10 @@ export type Operation = {
 	series: Series;
 	validationState: ValidationState;
 	prefLabelLg1?: string;
+	created: string;
+	modified: string;
+	altLabelLg1: string;
+	altLabelLg2: string;
 };
 
 export type SeeAlso = {

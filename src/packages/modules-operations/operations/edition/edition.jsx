@@ -1,14 +1,18 @@
 import { Component } from 'react';
 
+<<<<<<< HEAD
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
+=======
+>>>>>>> d60f6cf8 (feat: add unit test)
 import {
 	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
+<<<<<<< HEAD
 } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
@@ -21,6 +25,20 @@ import { OperationsApi } from '@sdk/operations-api';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { validate } from './validation';
+=======
+	Loading,
+	PageTitleBlock,
+	Row,
+	TextInput,
+} from '../../../components';
+import { Select } from '../../../components/select-rmes';
+import { validate } from './validation';
+
+import LabelRequired from '../../../components/label-required';
+import { OperationsApi } from '../../../sdk/operations-api';
+import { Controls } from './controls';
+import { YearInput } from './fields/year';
+>>>>>>> d60f6cf8 (feat: add unit test)
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -131,14 +149,11 @@ class OperationsOperationEdition extends Component {
 						secondLang={true}
 					/>
 				)}
-				<ActionToolbar>
-					<CancelButton action="/operations/operations" />
+				<Controls
+					onSubmit={this.onSubmit}
+					disabled={this.state.clientSideErrors.errorMessage?.length > 0}
+				/>
 
-					<SaveButton
-						action={this.onSubmit}
-						disabled={this.state.clientSideErrors.errorMessage?.length > 0}
-					/>
-				</ActionToolbar>
 				{this.state.submitting && this.state.clientSideErrors && (
 					<GlobalClientSideErrorBloc
 						clientSideErrors={this.state.clientSideErrors.errorMessage}
@@ -228,16 +243,7 @@ class OperationsOperationEdition extends Component {
 							/>
 						</div>
 					</Row>
-					<Row className="bauhaus-row">
-						<div className="form-group">
-							<label>{D.year}</label>
-							<TextInput
-								id="year"
-								value={operation.year}
-								onChange={this.onChange}
-							/>
-						</div>
-					</Row>
+					<YearInput value={operation.year} onChange={this.onChange} />
 				</form>
 			</div>
 		);
