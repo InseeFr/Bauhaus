@@ -5,8 +5,8 @@ import { Loading, Saving } from '@components/loading';
 
 import { useAppContext } from '../../application/app-context';
 import D from '../../deprecated-locales';
-import buildPayloadCreation from '../../modules-concepts/utils/build-payload-creation-update/build-payload-creation';
-import emptyConcept from '../../modules-concepts/utils/empty-concept';
+import buildPayloadCreation from '../utils/build-payload-creation-update/build-payload-creation';
+import emptyConcept from '../utils/empty-concept';
 import { ConceptsApi } from '../../sdk';
 import { sortArrayByLabel } from '../../utils/array-utils';
 import { useTitle } from '../../utils/hooks/useTitle';

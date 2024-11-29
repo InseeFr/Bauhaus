@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { empty } from '../../../modules-concepts/collections/utils/general';
+import { empty } from '../utils/general';
 import { locales } from '../../../tests-utils/default-values';
 import CollectionGeneral from './general';
 
