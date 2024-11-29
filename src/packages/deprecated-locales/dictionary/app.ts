@@ -456,6 +456,10 @@ const dictionary = {
 		fr: 'Type',
 		en: 'Type',
 	},
+	year: {
+		fr: 'Millésime',
+		en: 'Year',
+	},
 	mandatoryProperty: {
 		fr: (propertyName: string) =>
 			`La propriété <strong>${propertyName}</strong> est obligatoire.`,

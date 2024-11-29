@@ -1,10 +1,5 @@
 import { Component } from 'react';
 
-import { ActionToolbar } from '@components/action-toolbar';
-import {
-	CancelButton,
-	SaveButton,
-} from '@components/buttons/buttons-with-icons';
 import {
 	ClientSideError,
 	ErrorBloc,
@@ -20,6 +15,8 @@ import { Select } from '@components/select-rmes';
 import { OperationsApi } from '@sdk/operations-api';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
+import { Controls } from './controls';
+import { YearInput } from './fields/year';
 import { validate } from './validation';
 
 const defaultOperation = {
@@ -27,6 +24,7 @@ const defaultOperation = {
 	prefLabelLg2: '',
 	altLabelLg1: '',
 	altLabelLg2: '',
+	year: '',
 };
 
 class OperationsOperationEdition extends Component {
@@ -130,14 +128,11 @@ class OperationsOperationEdition extends Component {
 						secondLang={true}
 					/>
 				)}
-				<ActionToolbar>
-					<CancelButton action="/operations/operations" />
+				<Controls
+					onSubmit={this.onSubmit}
+					disabled={this.state.clientSideErrors.errorMessage?.length > 0}
+				/>
 
-					<SaveButton
-						action={this.onSubmit}
-						disabled={this.state.clientSideErrors.errorMessage?.length > 0}
-					/>
-				</ActionToolbar>
 				{this.state.submitting && this.state.clientSideErrors && (
 					<GlobalClientSideErrorBloc
 						clientSideErrors={this.state.clientSideErrors.errorMessage}
@@ -227,6 +222,7 @@ class OperationsOperationEdition extends Component {
 							/>
 						</div>
 					</Row>
+					<YearInput value={operation.year} onChange={this.onChange} />
 				</form>
 			</div>
 		);

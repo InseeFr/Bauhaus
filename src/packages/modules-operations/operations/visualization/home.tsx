@@ -7,9 +7,17 @@ import { useTitle } from '@utils/hooks/useTitle';
 
 import { D1, D2 } from '../../../deprecated-locales';
 import D from '../../../deprecated-locales/build-dictionary';
+import { Operation } from '../../../model/Operation';
 import RelationsView from '../../shared/relations';
 
-function OperationsOperationVisualization({ attr, secondLang }) {
+type OperationsOperationVisualizationTypes = {
+	attr: Operation;
+	secondLang: boolean;
+};
+function OperationsOperationVisualization({
+	attr,
+	secondLang,
+}: Readonly<OperationsOperationVisualizationTypes>) {
 	useTitle(D.operationsTitle, attr?.prefLabelLg1);
 
 	return (
@@ -24,6 +32,9 @@ function OperationsOperationVisualization({ attr, secondLang }) {
 							/>
 							<li>
 								{D1.operationStatus} : <PublicationFemale object={attr} />
+							</li>
+							<li>
+								{D.year} : {attr.year}
 							</li>
 						</ul>
 					}
