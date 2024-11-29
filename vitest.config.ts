@@ -7,7 +7,7 @@ export default defineConfig({
 	test: {
 		coverage: {
 			provider: 'istanbul',
-			reporter: ['text'],
+			reporter: ['text', 'lcov'],
 			include: ['src/**/*.{ts,tsx,js,jsx}'],
 		},
 		include: ['src/**/*.spec.*'],
