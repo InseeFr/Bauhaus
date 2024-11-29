@@ -120,8 +120,8 @@ const dictionary = {
 		en: 'Stackeholders',
 	},
 	organisation: {
-		fr: 'Organisme responsable',
-		en: 'Legal owner',
+		fr: 'Organismes responsables',
+		en: 'Legal owners',
 	},
 	indicatorDataCollectFrequency: {
 		fr: 'Fréquence de diffusion',

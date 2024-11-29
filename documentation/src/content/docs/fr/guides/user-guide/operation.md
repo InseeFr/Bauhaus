@@ -11,26 +11,28 @@ Le module Opérations encore appelé « Bauhaus-opérations » permet de gérer 
 ### Qu'est-ce qu'une opération statistique ?
 
 Le référentiel de métadonnées statistiques est organisé selon une arborescence :
+
 - Famille d'opérations statistiques
-    - Série d'opérations statistiques
-        - Opérations statistiques
+  - Série d'opérations statistiques
+    - Opérations statistiques
 
 Dans la suite du document, on pourra utiliser les raccourcis « Famille », « Série » et « Opération » pour mentionner un des trois niveaux.
 
 Une opération statistique peut être définie comme l'ensemble des phases de collecte, de traitement voire de diffusion de données. Cet ensemble peut être millésimé. Il s'agit d'enquêtes statistiques ou d'utilisation de données administratives (ex : l'enquête de fréquentation dans l'hôtellerie 2016, les Déclarations Annuelles de Données Sociales 2015) ou des nouvelles sources de données (ex : mégadonnées ou autres).
 
 Pour illustrer cette hiérarchie, on considérera :
+
 - la famille d'opérations statistiques « Technologie de l'information et de la communication » comprenant trois séries d'opérations statistiques pour distinguer des grands domaines, des processus ou des objectifs :
-    - la série d'opérations statistiques : « Enquête annuelle auprès des ménages sur les technologies de l'information et de la communication / TIC-ménages » comprenant une opération statistique pour distinguer le millésime :
-        - Enquête annuelle auprès des ménages sur les technologies de l'information et de la communication 2020
-    - la série d'opérations statistiques : « Enquête sur l'usage de l'informatique, des technologies de la communication et le commerce électronique dans les entreprises de moins de 10 personnes occupées / TIC-TPE » comprenant deux opérations statistiques pour distinguer chaque millésime :
-        - « Enquête sur l'usage de l'informatique et des technologies de la communication dans les entreprises de moins 10 personnes (2012) »
-        - « Enquête sur l'usage de l'informatique, des technologies de la communication et le commerce électronique dans les entreprises de moins de 10 personnes occupées (2016) »
-    - la série d'opérations statistiques « Enquête sur les technologies de l'information et de la communication dans les entreprises / TIC-entreprises » comprenant quinze opérations statistiques pour distinguer chaque millésime :
-        - « Enquête sur les technologies de l'information et de la communication dans les entreprises 2020 »
-        - « Enquête sur les technologies de l'information et de la communication dans les entreprises 2019 »
-        - « Enquête sur les technologies de l'information et de la communication dans les entreprises 2018 »
-        - etc. jusque 2006.
+  - la série d'opérations statistiques : « Enquête annuelle auprès des ménages sur les technologies de l'information et de la communication / TIC-ménages » comprenant une opération statistique pour distinguer le millésime :
+    - Enquête annuelle auprès des ménages sur les technologies de l'information et de la communication 2020
+  - la série d'opérations statistiques : « Enquête sur l'usage de l'informatique, des technologies de la communication et le commerce électronique dans les entreprises de moins de 10 personnes occupées / TIC-TPE » comprenant deux opérations statistiques pour distinguer chaque millésime :
+    - « Enquête sur l'usage de l'informatique et des technologies de la communication dans les entreprises de moins 10 personnes (2012) »
+    - « Enquête sur l'usage de l'informatique, des technologies de la communication et le commerce électronique dans les entreprises de moins de 10 personnes occupées (2016) »
+  - la série d'opérations statistiques « Enquête sur les technologies de l'information et de la communication dans les entreprises / TIC-entreprises » comprenant quinze opérations statistiques pour distinguer chaque millésime :
+    - « Enquête sur les technologies de l'information et de la communication dans les entreprises 2020 »
+    - « Enquête sur les technologies de l'information et de la communication dans les entreprises 2019 »
+    - « Enquête sur les technologies de l'information et de la communication dans les entreprises 2018 »
+    - etc. jusque 2006.
 
 **Schéma (partiel pour des questions de lisibilité) de l'exemple**
 ![](../../../../../assets/img/arborescence-operations-fr.gif)
@@ -46,6 +48,7 @@ Le rapport qualité permet de décrire les opérations statistiques et indicateu
 ### Le processus et les différents états des objets
 
 Le processus est le suivant :
+
 - le producteur gère sa documentation dans l'application de gestion. L'information saisie demeure dans une base de gestion et reste non visible par les clients qui s'alimentent dans le référentiel de diffusion RMéS.
 - le producteur publie ses modifications via l'application dans les référentiels de diffusion interne et externe.
 - les applications clientes internes et externes s'alimentent des informations présentes dans les référentiels de diffusion.
@@ -70,18 +73,19 @@ Dans cette arborescence, les boutons + et - permettent de déplier ou replier l'
 Afin de garantir l'intégrité et la qualité de la base, les fonctionnalités de création et modification des familles, de création des séries et indicateurs ainsi que l'identification des propriétaires sont réservés à l'unité Qualité. Toute unité en ayant l'utilité peut demander la création d'une famille, d'une série ou d'un indicateur. La publication est de la responsabilité du propriétaire identifié et renseigné dans l'application, charge à lui éventuellement d'organiser la consultation avec d'autres utilisateurs. Dans l'application, le propriétaire ou par délégation l'unité Qualité sont habilités à publier.
 
 Dans l'application, quatre grands profils d'utilisateurs ont été créés. Chacun correspond à un niveau d'habilitation donnant accès à différentes fonctionnalités :
+
 - **Administrateur de l'application** : accès à toutes les fonctionnalités ;
 - **Propriétaire de série** :
-    - rechercher, modifier et publier une série dont il est propriétaire
-    - rechercher, créer, modifier et publier une opération appartenant à une des séries dont il est propriétaire
-    - rechercher, créer, modifier et publier un rapport qualité, un document ou un lien
-    - rechercher, créer, modifier et publier un document ou un lien
+  - rechercher, modifier et publier une série dont il est propriétaire
+  - rechercher, créer, modifier et publier une opération appartenant à une des séries dont il est propriétaire
+  - rechercher, créer, modifier et publier un rapport qualité, un document ou un lien
+  - rechercher, créer, modifier et publier un document ou un lien
 - **Propriétaire d'indicateur** :
-    - rechercher, modifier, publier un indicateur dont il est propriétaire
-    - rechercher, modifier, publier un rapport qualité lié à cet indicateur
-    - rechercher, créer, modifier et publier un document ou un lien
+  - rechercher, modifier, publier un indicateur dont il est propriétaire
+  - rechercher, modifier, publier un rapport qualité lié à cet indicateur
+  - rechercher, créer, modifier et publier un document ou un lien
 - **Invité** (profil par défaut pour tout utilisateur se connectant à l'application) :
-    - rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et un rapport qualité.
+  - rechercher et consulter une famille d'opérations statistiques, séries d'opérations statistiques, opérations statistiques, indicateurs et un rapport qualité.
 
 **Les boutons correspondant aux différentes fonctionnalités s'affichent en fonction du profil utilisateur.**
 
@@ -101,6 +105,7 @@ La page d'accueil Familles, accessible à partir de la barre horizontale de menu
 Cliquer ensuite sur la famille souhaitée pour accéder à sa page de description. Pour consulter la version anglaise, cocher la case : [ ] **Afficher la seconde langue**. Celle-ci s'affichera à droite de la version française.
 
 **(2)** La recherche avancée est disponible en cliquant sur <span style="color: brown">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités dans les champs** :
+
 - **Libellé** : saisir le nom ;
 - **Thème** : sélectionner le thème.
 
@@ -119,6 +124,7 @@ La création d'une famille est possible à partir de la page d'accueil Familles.
 - Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de la famille s'affiche alors.
 
 Les champs disponibles sont les suivants :
+
 - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires ;
 - Le **Thème** de la famille ;
 - Le **Résumé** permet d'expliquer les objectifs et une courte description générale de la famille d'opérations statistiques.
@@ -154,9 +160,11 @@ La publication d'une famille est possible à partir de la page de description d'
 Les changements seront reportés sur insee.fr le jour suivant la publication.
 
 ## Fonctionnalités de gestion d'une série d'opérations statistiques
+
 ### Rechercher une série
 
 La page d'accueil Séries, accessible à partir de la barre horizontale de menu, propose deux méthodes de recherche :
+
 - Une barre de recherche principale, qui donne accès à l'ensemble des Séries enregistrées dans l'application **(1)** ;
 - Un lien vers la page de recherche avancée, qui permet d'affiner une recherche selon différents critères **(2)**.
 
@@ -171,7 +179,7 @@ Cliquer ensuite sur la série souhaitée pour accéder à sa page de description
 - **Libellé** : saisir le nom de la série;
 - **Type d'opération** : sélectionner le type d'opération dans le menu déroulant
 - **Gestionnaire** : sélectionner le gestionnaire dans le menu déroulant
-- **Organisme responsable** : sélectionner l'organisme responsable dans le menu déroulant
+- **Organismes responsables** : sélectionner le ou les organisme(s) responsable(s) dans le menu déroulant
 - **Services collecteurs** : sélectionner le service collecteur dans le menu déroulant.
 
 La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre de séries trouvées.
@@ -189,14 +197,15 @@ La création d'une série est possible à partir de la page d'accueil Séries.
 - Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de la série s'affiche alors.
 
 Les champs disponibles sont les suivants :
+
 - La série doit être rattachée à sa **famille mère**. Si la famille souhaitée n'existe pas, il faut demander sa création à l'équipe d'administration RMéS.
 - L'**Intitulé** est le libellé de la série. Les intitulés français et anglais sont obligatoires.
 - Le **Nom court** est un libellé alternatif. Il peut s'agir d‘un sigle ou d'un acronyme.
 - Le **Résumé** permet d'expliquer les objectifs et une courte description générale du processus et de ses résultats ; du domaine statistique auquel appartiennent les résultats ; des autres résultats statistiques ;
 - L' **Historique** est un bref historique du processus statistique et des résultats ;
 - Le **Type d'opération** prend une des valeurs suivante : Enquête, Source administrative, Synthèse, Indicateur ;
-- La **Fréquence de collecte** correspond au *rythme* de collecte des données ;
-- L' **Organisme responsable** est l'organisme responsable de la série ;
+- La **Fréquence de collecte** correspond au _rythme_ de collecte des données ;
+- Les **Organismes responsables** sont les organismes responsables de la série ;
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de la série ;
 - Les **Services collecteurs** correspond aux services réalisant la collecte ;
 - Le **Propriétaire** est l'unité responsable de la gestion et de la publication de la série ainsi que des opérations statistiques et rapports qualité qui en découlent. Le propriétaire est obligatoire. Ne pas modifier le timbre propriétaire de la série au risque de perdre les droits en gestion et publication ;
@@ -212,6 +221,7 @@ Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page
 Pour publier une série dans le référentiel, voir [Publier une série](#publier-serie).
 
 ### Modifier une série
+
 La modification d'une série est possible à partir de sa page de description. Seul le propriétaire de la série, ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une série.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
@@ -221,6 +231,7 @@ La modification d'une série est possible à partir de sa page de description. S
 Une fois la série modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir Publier une série), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage...).
 
 ### Publier une série
+
 L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
 
 La publication d'une série est possible à partir de la page de description d'une série. Seul le propriétaire de la série (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une série.
@@ -252,18 +263,20 @@ La création d'une opération est possible à partir de la page d'accueil Opéra
 - Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de l'opération s'affiche alors.
 
 Les champs disponibles sont les suivants :
+
 - L'opération doit être rattachée à sa **série mère**. Si la série souhaitée n'existe pas, demander sa création à l'administrateur RMéS.
 - L' **Intitulé** est le libellé de l'opération. Les intitulés français et anglais sont obligatoires.
 - Le **Nom court** est un libellé alternatif. Il peut s'agir d‘un sigle ou d'un acronyme.
 - Cliquer sur le bouton <span style="color: brown">Sauvegarder</span>
 
-Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été renseignés. Penser à sauvegarder les informations saisies avant de changer d'écran.** La sauvegarde n'entraîne pas la publication de l'opération. Il est donc possible, si nécessaire, de créer l'opération en plusieurs étapes. Le statut de publication de l'opération passe alors en « Provisoire », jusqu'à sa publication. Pour publier une opération dans le référentiel, voir [Publier une opération](#publier-operation).
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été renseignés. Penser à sauvegarder les informations saisies avant de changer d'écran.** La sauvegarde n'entraîne pas la publication de l'opération. Il est donc possible, si nécessaire, de créer l'opération en plusieurs étapes. Le statut de publication de l'opération passe alors en « Provisoire », jusqu'à sa publication. Pour publier une opération dans le référentiel, voir [Publier une opération](#publier-operation).
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Opérations.
 
 **A noter : suite à la création d'une opération, il vous sera proposé de créer un rapport qualité soit à partir d’un rapport vierge soit en dupliquant un rapport qualité d’une opération (voir [Dupliquer un rapport qualité](#dupliquer-rapport)).**
 
 ### Modifier une opération
+
 La modification d'une opération est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
@@ -273,6 +286,7 @@ La modification d'une opération est possible à partir de sa page de descriptio
 Une fois l'opération modifiée, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier une opération](#publier-operation)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage, etc.).
 
 ### Publier une opération
+
 L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
 
 La publication d'une opération est possible à partir de la page de description d'une opération. Seul le propriétaire de la série à laquelle appartient l'opération (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série d'opérations statistiques), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier une opération.
@@ -301,7 +315,7 @@ Cliquer ensuite sur l'indicateur souhaité pour accéder à sa page de descripti
 **(2)** La recherche avancée est disponible en cliquant sur <span style="color: brown">**Recherche avancée**</span>. Pour affiner la sélection, **renseigner les filtres souhaités** dans les champs :
 
 - **Libellé** : saisir le nom de l'indicateur ;
-- **Organisme responsable** : sélectionner l'organisme responsable dans le menu déroulant ;
+- **Organismes responsables** : sélectionner le ou les organisme(s) responsable(s) dans le menu déroulant ;
 - **Gestionnaire** : sélectionner le gestionnaire dans le menu déroulant.
 
 La recherche se lance automatiquement à mesure que des critères sont renseignés dans les différents champs. Les résultats s'affichent sur une ou plusieurs pages en fonction du nombre d'indicateurs trouvés. Cliquer ensuite sur l'indicateur recherché pour accéder à sa page de description.
@@ -319,28 +333,30 @@ La création d'un indicateur est possible à partir de la page d'accueil Indicat
 - Cliquer sur le bouton <span style="color: brown">Nouveau</span> à gauche de la page. La page de création de l'indicateur s'affiche alors.
 
 Les champs disponibles sont les suivantes :
+
 - L'**Intitulé** est le libellé de l'indicateur. Les intitulés français et anglais sont obligatoires.
 - Le **Nom court** est un libellé alternatif. Il peut s'agir d‘un sigle ou d'un acronyme.
 - Le **Résumé** permet d'expliquer les objectifs et une courte description générale du processus et de ses résultats ; du domaine statistique auquel appartiennent les résultats ; des autres résultats statistiques ;
 - L'**Historique** est un bref historique du processus statistique et des résultats ;
-- La **Fréquence de diffusion** correspond au *rythme* de collecte des données ;
-- L'**Organisme responsable** est l'organisme responsable de l'indicateur ;
+- La **Fréquence de diffusion** correspond au _rythme_ de collecte des données ;
+- Les **Organismes responsables** sont les organismes responsables de l'indicateur ;
 - Les **Partenaires** sont les organismes associés à la conception et au pilotage de l'indicateur ;
 - Le **Propriétaire** est l'unité responsable de la gestion et de la publication de l'indicateur ainsi que des opérations statistiques et rapports qualité qui en découlent ;
 - Le champ **Succède à** permet de préciser si un indicateur succède à un autre. Si un indicateur B succède à un indicateur A, alors l'indicateur A est automatiquement remplacé par l'indicateur B ;
-- Le champ **Remplacée par** permet de préciser si un indicateur est remplacé par un autre. Si un indicateur A est remplacé par un indicateur B, alors l'indicateur A est automatiquement remplacé par l'indicateur B ;
+- Le champ **Remplacé par** permet de préciser si un indicateur est remplacé par un autre. Si un indicateur A est remplacé par un indicateur B, alors l'indicateur A est automatiquement remplacé par l'indicateur B ;
 - Le champ **Produits de** permet de préciser les séries contribuant à la production de l'indicateur ;
 - Les **Séries ou Indicateurs liés** permet de renvoyer vers des séries ou des indicateurs connexes.
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Indicateurs.
 
-Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis.**
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis.**
 
 Penser à sauvegarder les informations saisies avant de changer d'écran. **Il est à noter que la sauvegarde n'entraîne pas la publication de l'indicateur. Il est donc possible, si nécessaire, de créer l'indicateur en plusieurs étapes. Le statut de publication de l'indicateur passe alors en « Provisoire », jusqu'à sa publication.**
 
 Pour publier un indicateur dans le référentiel, voir [Publier un indicateur](#publier-indicateur).
 
 ## Modifier un indicateur
+
 La modification d'un indicateur est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
@@ -350,6 +366,7 @@ La modification d'un indicateur est possible à partir de sa page de description
 Une fois l'indicateur modifié, son statut de publication devient **« Provisoire, déjà publié » ou « Provisoire, jamais publié » s'il n'a jamais été publié, jusqu'à sa publication**. Tant qu'il n'est pas publié dans le référentiel de publication (voir [Publier un indicateur](#publier-indicateur)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage, etc.).
 
 ## Publier un indicateur
+
 L'action de publier consiste à pousser les informations saisies dans le référentiel de publication.
 
 La publication d'un indicateur est possible à partir de sa page de description. Seul le propriétaire de l'indicateur (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de l'indicateur), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier un indicateur.
@@ -359,6 +376,7 @@ La publication d'un indicateur est possible à partir de sa page de description.
 Les changements seront reportés sur insee.fr le jour suivant la publication.
 
 ## Gérer un rapport qualité
+
 ### Créer un rapport qualité
 
 La création d'un rapport qualité est possible à partir de son opération.
@@ -368,7 +386,7 @@ La création d'un rapport qualité est possible à partir de son opération.
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'opération.
 
-Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du rapport. Il est donc possible, si nécessaire, de créer le rapport en plusieurs étapes. Le statut de publication du rapport passe alors en « Provisoire », jusqu'à sa publication.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du rapport. Il est donc possible, si nécessaire, de créer le rapport en plusieurs étapes. Le statut de publication du rapport passe alors en « Provisoire », jusqu'à sa publication.
 
 Pour publier un rapport dans le référentiel, voir [Publier un rapport qualité](#publier-rapport).
 
@@ -394,8 +412,8 @@ La duplication d'un rapport est possible à partir de sa page de description. Se
 
 Une fois le rapport modifié, son statut de publication devient **« Provisoire, déjà publiée » ou « Provisoire, jamais publiée » si elle n'a jamais été publiée, jusqu'à sa publication**. Tant qu'elle n'est pas publiée dans le référentiel de publication (voir [Publier un rapport](#publier-rapport)), l'ancienne version reste à disposition des applications clientes (insee.fr, mise à disposition et archivage, etc.).
 
-
 ### Publier un rapport qualité
+
 L'action de publier consiste à pousser les informations saisies dans le référentiel de diffusion. Lors de la publication d'un rapport, toutes les rubriques sont publiées exceptées les rubriques S.1.3 à S.1.8. Leur contenu est remplacé sur insee.fr par l’adresse mél d’insee contact.
 
 La publication d'un rapport est possible à partir de sa page de description. Seul le propriétaire du rapport (i.e la personne désignée dans l'application comme ayant ce rôle et appartenant à l'unité dont le timbre est le même que le propriétaire de la série d'opérations statistiques), ou par délégation l'unité Qualité (après échanges de mails), est habilité à publier un rapport.
@@ -407,13 +425,14 @@ Un rapport ne peut être publié que si l'opération à laquelle il est rattach�
 Les changements (hors rubriques décrivant le contact) seront reportés sur insee.fr le jour suivant la publication.
 
 ### Exporter un rapport qualité
+
 L'export d'un rapport est possible à partir de sa page de description. L'export inclut également les informations descriptives de la série et de l'opération statistique.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Exporter</span>. Une fenêtre s'ouvre alors.
 - Sélectionner les options proposées :
-    - Inclure ou non les rubriques vides
-    - Inclure ou non la première langue
-    - Inclure ou non la seconde langue
+  - Inclure ou non les rubriques vides
+  - Inclure ou non la première langue
+  - Inclure ou non la seconde langue
 - Cliquer sur Exporter
 
 Une fichier au format Open Document est alors exporté. La version actuelle de la fonctionnalité n'exporte pas les documents joints aux différentes rubriques mais seulement un descriptif du document.
@@ -449,17 +468,19 @@ La création d'un document est possible à partir de la page d'accueil Documents
 - Cliquer sur le bouton <span style="color: brown">Nouveau Document</span> à gauche de la page. La page de création du document s'affiche alors.
 
 Les champs disponibles sont les suivants :
+
 - L'**Intitulé** est le libellé du document. Afin de faciliter la recherche d'un document, indiquer un intitulé explicite (ex : Questionnaire 2019 de l'enquête sur les technologies de l'information et de la communication et le commerce électronique (auprès des entreprises) / TIC 2019). Les intitulés français et anglais sont obligatoires ;
 - La **Description** permet de décrire le document. Il s'agit d'une information que l'on peut retrouver en infobulle ;
 - La **Date de mise à jour** est la date de dernière mise à jour du document. La date de mise à jour est obligatoire ;
 - Pour joindre un **Fichier**, se placer sur le champ ad hoc et faire un « glisser-déposer » ou cliquer dans le champ pour ajouter le document. Le nom du fichier peut uniquement contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas. Le document est obligatoire ;
 - La **Langue** correspond à la langue du contenu du document. La langue est obligatoire.
 
-Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du document. Il est publié en même temps que la publication du rapport qualité.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du document. Il est publié en même temps que la publication du rapport qualité.
 
-Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents /  Liens.
+Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents / Liens.
 
 ### Modifier un document
+
 La modification d'un document est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
@@ -469,12 +490,13 @@ La modification d'un document est possible à partir de sa page de description.
 Lorsque vous modifiez un document (libellé, description, date, langue), alors pour publier les changements, il faut publier le rapport qualité qui référence le document. Si le rapport est à l'état "Publié", le bouton n'est alors pas visible. Réalisez les actions suivantes :
 
 - cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
-- cliquer sur le bouton <span style="color: brown">Sauvegarder</span>. *Cette action permet de passer l'état du rapport qualité de "Publié" à "Provisoire, déjà publié" et rend alors visible le bouton "Publier"*
+- cliquer sur le bouton <span style="color: brown">Sauvegarder</span>. _Cette action permet de passer l'état du rapport qualité de "Publié" à "Provisoire, déjà publié" et rend alors visible le bouton "Publier"_
 - cliquer sur le bouton <span style="color: brown">Publier</span>
 
 **A noter : si un document est partagé entre plusieurs rapports qualité associés à des séries d'opérations statistiques dont les timbres propriétaires sont différents, alors vous ne pourrez pas modifier le document (cas assez rare). Pour le modifier, contacter l'équipe d'administration.**
 
 ### Créer un lien
+
 Avant de créer un lien, il est important de vérifier qu'il n'a pas déjà été renseigné en utilisant les fonctionnalités de recherche.
 
 La création d'un lien est possible à partir du menu Documents / Liens.
@@ -482,16 +504,18 @@ La création d'un lien est possible à partir du menu Documents / Liens.
 - Cliquer sur le bouton <span style="color: brown">Nouveau Lien</span> à gauche de la page. La page de création du lien s'affiche alors.
 
 Les champs disponibles sont les suivants :
+
 - L' **Intitulé** est le libellé du lien. Les intitulés français et anglais sont obligatoires ;
 - La **Description** permet de décrire le lien. Il s'agit d'une information que l'on peut retrouver en infobulle ;
 - Le **Lien** correspond à l'URL de la page sur laquelle renvoyer. Le lien est obligatoire ;
 - La **Langue** correspond à la langue du contenu de la page sur laquelle on renvoie. La langue est obligatoire.
 
-Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « * », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du lien. Il est publié en même temps que la publication du rapport qualité.
+Le bouton <span style="color: brown">Sauvegarder</span> permet d'enregistrer les données dans la base de gestion. **A noter que toute sauvegarde est impossible tant que les champs obligatoires, marqués d'une « \* », n'ont pas été remplis. Penser à sauvegarder les informations saisies avant de changer d'écran.** Il est à noter que la sauvegarde n'entraîne pas la publication du lien. Il est publié en même temps que la publication du rapport qualité.
 
 Le bouton <span style="color: brown">Annuler</span> permet de revenir à la page d'accueil de l'onglet Documents / Liens.
 
 ### Modifier un lien
+
 La modification d'un lien est possible à partir de sa page de description.
 
 - Cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
@@ -501,7 +525,7 @@ La modification d'un lien est possible à partir de sa page de description.
 Lorsque vous modifiez un lien (libellé, description, date, langue), alors pour publier les changements, il faut publier le rapport qualité qui référence le lien. Si le rapport est à l'état "Publié", le bouton n'est alors pas visible. Réalisez les actions suivantes :
 
 - cliquer en haut à droite sur le bouton <span style="color: brown">Modifier</span>
-- cliquer sur le bouton <span style="color: brown">Sauvegarder</span>. *Cette action permet de passer l'état du rapport qualité de "Publié" à "Provisoire, déjà publié" et rend alors visible le bouton "Publier"*
+- cliquer sur le bouton <span style="color: brown">Sauvegarder</span>. _Cette action permet de passer l'état du rapport qualité de "Publié" à "Provisoire, déjà publié" et rend alors visible le bouton "Publier"_
 - cliquer sur le bouton <span style="color: brown">Publier</span>
 
 **A noter : si un lien est partagé entre plusieurs rapports qualité associés à des séries d'opérations statistiques dont les timbres propriétaires sont différents, alors vous ne pourrez pas modifier le lien (cas assez rare). Pour le modifier, contacter l'équipe d'administration.**

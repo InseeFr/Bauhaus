@@ -18,8 +18,8 @@ const dictionary = {
 		en: 'Select stamp...',
 	},
 	organisation: {
-		fr: 'Organisme responsable',
-		en: 'Legal owner',
+		fr: 'Organismes responsables',
+		en: 'Legal owners',
 	},
 	btnDelete: {
 		fr: 'Supprimer',
