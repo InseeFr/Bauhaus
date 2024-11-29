@@ -360,7 +360,7 @@ class OperationsIndicatorEdition extends Component {
 					<Row>
 						<div className="form-group col-md-12">
 							<label className="w-100">
-								{D1.replacedBy}
+								{D1.replacedByMasc}
 								<Select
 									value={indicator.replacedBy}
 									options={indicatorsOptions}

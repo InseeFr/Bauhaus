@@ -122,7 +122,7 @@ function OperationsIndicatorVisualization({
 			<DisplayLinks
 				links={attr.isReplacedBy}
 				path="/operations/indicator/"
-				title="replacedBy"
+				title="replacedByMasc"
 				secondLang={secondLang}
 			/>
 			<DisplayLinks
