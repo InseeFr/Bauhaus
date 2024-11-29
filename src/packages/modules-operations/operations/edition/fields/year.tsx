@@ -1,5 +1,8 @@
-import { NumberInput, Row } from '../../../../components';
 import { ChangeEventHandler } from 'react';
+
+import { NumberInput } from '@components/form/input';
+import { Row } from '@components/layout';
+
 import D from '../../../../deprecated-locales';
 
 type YearInputTypes = {

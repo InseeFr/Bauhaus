@@ -1,18 +1,9 @@
 import { Component } from 'react';
 
-<<<<<<< HEAD
-import { ActionToolbar } from '@components/action-toolbar';
-import {
-	CancelButton,
-	SaveButton,
-} from '@components/buttons/buttons-with-icons';
-=======
->>>>>>> d60f6cf8 (feat: add unit test)
 import {
 	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-<<<<<<< HEAD
 } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
@@ -24,21 +15,9 @@ import { Select } from '@components/select-rmes';
 import { OperationsApi } from '@sdk/operations-api';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
-import { validate } from './validation';
-=======
-	Loading,
-	PageTitleBlock,
-	Row,
-	TextInput,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
-import { validate } from './validation';
-
-import LabelRequired from '../../../components/label-required';
-import { OperationsApi } from '../../../sdk/operations-api';
 import { Controls } from './controls';
 import { YearInput } from './fields/year';
->>>>>>> d60f6cf8 (feat: add unit test)
+import { validate } from './validation';
 
 const defaultOperation = {
 	prefLabelLg1: '',

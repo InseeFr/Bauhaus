@@ -7,18 +7,8 @@ import { useTitle } from '@utils/hooks/useTitle';
 
 import { D1, D2 } from '../../../deprecated-locales';
 import D from '../../../deprecated-locales/build-dictionary';
-<<<<<<< HEAD:src/packages/modules-operations/operations/visualization/home.jsx
-import RelationsView from '../../shared/relations';
-=======
-import {
-	PublicationFemale,
-	Row,
-	CreationUpdateItems,
-} from '../../../components';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
 import { Operation } from '../../../model/Operation';
->>>>>>> d60f6cf8 (feat: add unit test):src/packages/modules-operations/operations/visualization/home.tsx
+import RelationsView from '../../shared/relations';
 
 type OperationsOperationVisualizationTypes = {
 	attr: Operation;

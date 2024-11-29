@@ -1,11 +1,7 @@
-<<<<<<< HEAD:src/packages/modules-operations/operations/visualization/home.spec.jsx
-import { render } from '@testing-library/react';
-
-=======
 import { render, screen } from '@testing-library/react';
->>>>>>> d60f6cf8 (feat: add unit test):src/packages/modules-operations/operations/visualization/home.spec.tsx
-import OperationsOperationVisualization from './home';
+
 import { Operation } from '../../../model/Operation';
+import OperationsOperationVisualization from './home';
 
 describe('OperationVisualization', () => {
 	it('should renderer all informations for the main lang', () => {
