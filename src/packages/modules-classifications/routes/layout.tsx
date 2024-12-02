@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
-import Menu from '../../modules-classifications/menu';
 import { useTheme } from '../../utils/hooks/useTheme';
+import Menu from '../menu';
 
 export const Component = () => {
 	useTheme('classifications');

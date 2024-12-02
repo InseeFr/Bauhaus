@@ -11,8 +11,8 @@ import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../../deprecated-locales';
-import OperationsIndicatorEdition from '../../../modules-operations/indicators/edition/edition';
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
+import OperationsIndicatorEdition from './edition';
 
 export const Component = (props) => {
 	const { id } = useParams();

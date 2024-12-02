@@ -11,7 +11,7 @@ import { PickerItem } from '@components/picker-item';
 import { arrayDifferenceByID, filterDeburr } from '@utils/array-utils';
 
 import MainDictonary from '../../../deprecated-locales';
-import { D1 } from '../../../modules-concepts/i18n';
+import { D1 } from '../../i18n';
 
 const extractMembers = (concepts) => {
 	return concepts.reduce((members, { id, label, isAdded }) => {

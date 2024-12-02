@@ -31,7 +31,7 @@ vi.mock('@components/loading', () => ({
 	Loading: () => <div>Loading...</div>,
 }));
 
-vi.mock('../../../modules-operations/families/edition/edition', () => ({
+vi.mock('./edition', () => ({
 	default: () => <div>Operations Family Edition Component</div>,
 }));
 

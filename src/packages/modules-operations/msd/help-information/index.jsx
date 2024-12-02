@@ -1,5 +1,5 @@
 import D from '../../../deprecated-locales';
-import { rangeType } from '../../../modules-operations/utils/msd';
+import { rangeType } from '../../utils/msd';
 
 const { CODE_LIST, ORGANIZATION } = rangeType;
 

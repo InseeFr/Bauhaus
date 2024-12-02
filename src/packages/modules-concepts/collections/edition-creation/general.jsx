@@ -6,7 +6,7 @@ import { Row } from '@components/layout';
 import { RequiredIcon } from '@components/required-icon';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
-import { fields as generalFields } from '../../../modules-concepts/collections/utils/general';
+import { fields as generalFields } from '../utils/general';
 
 const handleFieldChange = (handleChange) =>
 	generalFields.reduce((handlers, fieldName) => {

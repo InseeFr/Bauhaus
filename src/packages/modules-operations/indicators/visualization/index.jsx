@@ -12,8 +12,8 @@ import { useCodesList } from '@utils/hooks/codeslist';
 import { useSecondLang } from '@utils/hooks/second-lang';
 
 import D from '../../../deprecated-locales';
-import OperationsIndicatorVisualization from '../../../modules-operations/indicators/visualization/general';
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
+import OperationsIndicatorVisualization from './general';
 import { Menu } from './menu';
 
 export const Component = () => {

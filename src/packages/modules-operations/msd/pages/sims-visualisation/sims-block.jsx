@@ -1,4 +1,4 @@
-import { rangeType } from '../../../../modules-operations/utils/msd';
+import { rangeType } from '../../../utils/msd';
 import SimsBlockCodeList from './sims-block-codelist';
 import SimsBlockDate from './sims-block-date';
 import SimsBlockGeography from './sims-block-geography';
