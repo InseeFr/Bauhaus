@@ -1,6 +1,7 @@
-import { saveFileFromHttpResponse } from './files';
 import FileSaver from 'file-saver';
 import { vi } from 'vitest';
+
+import { saveFileFromHttpResponse } from './files';
 
 vi.mock('file-saver', () => ({
 	default: {

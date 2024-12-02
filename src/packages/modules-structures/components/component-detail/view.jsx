@@ -1,5 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+import { SeeButton } from '@components/buttons/see';
+import { ContributorsVisualisation } from '@components/contributors/contributors';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PublicationMale } from '@components/status';
+
+import { useTitle } from '@utils/hooks/useTitle';
+import { renderMarkdownElement } from '@utils/html-utils';
+
+import MainDictionary from '../../../deprecated-locales/build-dictionary';
+import { API } from '../../../modules-codelists/apis';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { typeUriToLabel, getAllAttachment } from '../../utils';
 import {
 	XSD_CODE_LIST,
@@ -7,25 +23,11 @@ import {
 	ATTRIBUTE_TYPE,
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
-import D, { D1, D2 } from '../../i18n/build-dictionary';
-import './view.scss';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
-import { API } from '../../../modules-codelists/apis';
-import MainDictionary from '../../../deprecated-locales/build-dictionary';
 import { ViewMenu } from './menu';
+import './view.scss';
 import { MeasureAttributes } from './visualisation/measureAttributes';
-import {
-	PublicationMale,
-	Row,
-	ContributorsVisualisation,
-	DisseminationStatusVisualisation,
-	ErrorBloc,
-	CreationUpdateItems,
-	SeeButton,
-} from '../../../components';
-import { renderMarkdownElement } from '../../../utils/html-utils';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
+
 export const ComponentDetailView = ({
 	component,
 	concepts = [],

@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import { Loading, Saving } from '@components/loading';
+
 import { useAppContext } from '../../application/app-context';
-import { Loading } from '../../components';
 import D from '../../deprecated-locales';
-import buildPayloadCreation from '../../modules-concepts/utils/build-payload-creation-update/build-payload-creation';
-import emptyConcept from '../../modules-concepts/utils/empty-concept';
 import { ConceptsApi } from '../../sdk';
 import { sortArrayByLabel } from '../../utils/array-utils';
 import { useTitle } from '../../utils/hooks/useTitle';
+import buildPayloadCreation from '../utils/build-payload-creation-update/build-payload-creation';
+import emptyConcept from '../utils/empty-concept';
 import { mergeWithAllConcepts } from '../utils/links';
 import ConceptEditionCreation from './home';
 
@@ -57,7 +59,7 @@ export const Component = () => {
 	}
 
 	if (saving) {
-		return <Loading textType="saving" />;
+		return <Saving />;
 	}
 
 	return (

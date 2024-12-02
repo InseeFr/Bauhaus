@@ -1,7 +1,8 @@
 import { render } from '@testing-library/react';
-import { AuthDumb } from './auth';
-import configureStore from '../../redux/configure-store';
 import { Provider } from 'react-redux';
+
+import configureStore from '../../redux/configure-store';
+import { AuthDumb } from './auth';
 
 describe('AuthDumb', () => {
 	it('should return the fallback if the user is not authorized', () => {

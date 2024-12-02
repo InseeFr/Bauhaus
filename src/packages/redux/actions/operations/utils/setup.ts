@@ -1,7 +1,9 @@
-import { CL_SOURCE_CATEGORY, CL_FREQ } from '../../constants/codeList';
-import * as A from '../../../actions/constants';
-import { CodeListApi } from '../../../../sdk';
 import { Dispatch } from 'redux';
+
+import { CodeListApi } from '@sdk/index';
+
+import * as A from '../../../actions/constants';
+import { CL_SOURCE_CATEGORY, CL_FREQ } from '../../constants/codeList';
 
 export const loadSetup = () => (dispatch: Dispatch) => {
 	loadCodesList([CL_SOURCE_CATEGORY, CL_FREQ], dispatch);

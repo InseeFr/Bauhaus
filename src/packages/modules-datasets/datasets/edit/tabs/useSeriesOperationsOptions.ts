@@ -1,8 +1,9 @@
-import { useSeries } from '../../../../utils/hooks/series';
-import { useOperations } from '../../../../utils/hooks/operations';
+import { useOperations } from '@utils/hooks/operations';
+import { useSeries } from '@utils/hooks/series';
+
+import { Operation } from '../../../../model/Operation';
 import { Options } from '../../../../model/SelectOption';
 import { Series } from '../../../../model/Series';
-import { Operation } from '../../../../model/Operation';
 
 const generateOperationsOptionsBasedOnSeries = (
 	serie: Series,

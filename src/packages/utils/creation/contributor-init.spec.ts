@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+
 import { initializeContributorProperty } from './contributor-init';
 
 describe('initializeContributorProperty', () => {

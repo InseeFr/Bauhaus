@@ -1,35 +1,54 @@
-import { RightSlidingPanel } from '../../../../components/sliding-panel';
-import { useCodesList } from '../../../../utils/hooks/codeslist';
-import OperationsDocumentationEdition from '../../../document/edition/edition';
-import { useDocumentsStoreContext } from './documents-store-context';
-import './document-form-panel.scss';
 import { useState } from 'react';
-import { Loading } from '../../../../components';
+
+import { Saving } from '@components/loading';
+import { RightSlidingPanel } from '@components/sliding-panel';
+
+import { useCodesList } from '@utils/hooks/codeslist';
+
+import { Document } from '../../../../model/operations/document';
+import OperationsDocumentationEdition from '../../../document/edition/edition';
+import './document-form-panel.scss';
+import { useDocumentsStoreContext } from './documents-store-context';
 import { getDocumentsList } from './useDocumentsList';
 
 type DocumentFormPanelTypes = {
 	opened: boolean;
 	onHide: () => void;
+	onAdd: (rubric?: string, lang?: string, documentId?: string) => void;
 };
 export const DocumentFormPanel = ({
 	opened,
 	onHide,
+	onAdd,
 }: Readonly<DocumentFormPanelTypes>) => {
 	const langOptions = useCodesList('ISO-639');
-	const { lateralPanelOpened, onLateralPanelHide, updateDocumentStores } =
-		useDocumentsStoreContext();
+	const {
+		lateralPanelOpened,
+		onLateralPanelHide,
+		updateDocumentStores,
+		rubricIdForNewDocument,
+	} = useDocumentsStoreContext();
 	const [saving, setSaving] = useState(false);
 
-	const onSave = () => {
+	const onSave = (id: string) => {
 		setSaving(true);
-		getDocumentsList()
-			.then((result) => updateDocumentStores(result))
-			.then(() => {
-				setSaving(false);
-				if (onLateralPanelHide) {
-					onLateralPanelHide();
-				}
-			});
+		getDocumentsList().then((result) => {
+			updateDocumentStores(result);
+			setSaving(false);
+			if (onLateralPanelHide) {
+				onLateralPanelHide();
+				const newDocument = result[
+					rubricIdForNewDocument?.lang.toLowerCase() as 'lg1' | 'lg2'
+				].find((d: Document) => {
+					return d.id == id;
+				});
+				onAdd(
+					rubricIdForNewDocument?.rubric,
+					rubricIdForNewDocument?.lang.toLowerCase(),
+					newDocument,
+				);
+			}
+		});
 	};
 
 	return (
@@ -39,7 +58,7 @@ export const DocumentFormPanel = ({
 			panelClassName="documents-form-panel"
 		>
 			{saving ? (
-				<Loading textType="saving" />
+				<Saving />
 			) : (
 				<OperationsDocumentationEdition
 					document={{}}

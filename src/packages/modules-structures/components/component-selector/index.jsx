@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
-import './component-selector.scss';
-import { MutualizedComponentsSelector } from '../mutualized-component-selector';
-import { StructureComponentsSelector } from '../structure-component-selector';
-import ComponentSpecificationModal from '../component-specification-modal';
+
+import { StructureApi } from '@sdk/index';
+
+import { OBSERVATION } from '../../utils/constants';
 import {
 	ATTRIBUTE_PROPERTY_TYPE,
 	ATTRIBUTE_TYPE,
@@ -10,8 +10,10 @@ import {
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants/dsd-components';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
-import { OBSERVATION } from '../../utils/constants';
-import { StructureApi } from '../../../sdk';
+import ComponentSpecificationModal from '../component-specification-modal';
+import { MutualizedComponentsSelector } from '../mutualized-component-selector';
+import { StructureComponentsSelector } from '../structure-component-selector';
+import './component-selector.scss';
 
 const filterComponentDefinition = (type) => (componentDefinition) =>
 	componentDefinition?.component?.type === type;

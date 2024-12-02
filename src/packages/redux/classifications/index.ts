@@ -1,10 +1,10 @@
 import classificationGeneral from './classification/general';
 import classificationLevels from './classification/levels';
+import classificationsCorrespondenceAssociation from './correspondence/association';
+import classificationsCorrespondenceAssociations from './correspondence/associations';
+import classificationsCorrespondenceGeneral from './correspondence/general';
 import classificationLevelGeneral from './level/general';
 import classificationLevelMembers from './level/members';
-import classificationsCorrespondenceGeneral from './correspondence/general';
-import classificationsCorrespondenceAssociations from './correspondence/associations';
-import classificationsCorrespondenceAssociation from './correspondence/association';
 
 const reducers = {
 	classificationGeneral,

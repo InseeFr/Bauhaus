@@ -1,22 +1,24 @@
 //@ts-nocheck
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-	Loading,
-	ErrorBloc,
-	PageTitleBlock,
-	CheckSecondLang,
-} from '../../components';
+
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Loading } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+
+import { StructureApi } from '@sdk/index';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+import { useTitle } from '@utils/hooks/useTitle';
+
+import MainDictionary from '../../deprecated-locales/build-dictionary';
+import { Structure } from '../../model/structures/Structure';
 import StructureVisualizationControl from '../components/structure-visualization/controls';
 import D from '../i18n/build-dictionary';
-import MainDictionary from '../../deprecated-locales/build-dictionary';
-import { useTitle } from '../../utils/hooks/useTitle';
-import { Structure } from '../../model/structures/Structure';
-import { StructureApi } from '../../sdk';
+import { ComponentsPanel } from './components/components-panel';
 import { DescriptionsPanel } from './components/descriptions-panel';
 import { GlobalInformationsPanel } from './components/global-informations-panel';
-import { ComponentsPanel } from './components/components-panel';
-import { useSecondLang } from '../../utils/hooks/second-lang';
 
 type StructureViewTypes = {
 	structure: Structure;

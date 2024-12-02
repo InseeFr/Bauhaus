@@ -1,5 +1,6 @@
-import './index.scss';
 import { ComponentProps, PropsWithChildren } from 'react';
+
+import './index.scss';
 
 export default ({
 	children,

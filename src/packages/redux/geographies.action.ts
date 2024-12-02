@@ -1,8 +1,11 @@
-import { GeographieApi } from '../sdk/geographie';
-import { ERROR, LOADED, LOADING } from '../sdk/constants';
-import { ReduxModel } from './model';
-import { createAllDictionary } from '../utils/dictionnary';
 import { Dispatch } from 'redux';
+
+import { ERROR, LOADED, LOADING } from '@sdk/constants';
+import { GeographieApi } from '@sdk/geographie';
+
+import { createAllDictionary } from '@utils/dictionnary';
+
+import { ReduxModel } from './model';
 
 // Constants
 const LOAD_GEOGRAPHIES = 'LOAD_GEOGRAPHIES';

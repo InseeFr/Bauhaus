@@ -1,9 +1,9 @@
-import MenuCodelists from '.';
-
 import { Provider } from 'react-redux';
+
+import MenuCodelists from '.';
+import { ADMIN } from '../../auth/roles';
 import configureStore from '../../redux/configure-store';
 import { renderWithRouter } from '../../tests-utils/render';
-import { ADMIN } from '../../auth/roles';
 
 describe('Menu Code List', () => {
 	it('Should not crash', () => {

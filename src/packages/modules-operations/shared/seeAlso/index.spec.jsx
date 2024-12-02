@@ -1,6 +1,7 @@
-import SeeAlso from './index';
 import { render } from '@testing-library/react';
+
 import { renderWithRouter } from '../../../tests-utils/render';
+import SeeAlso from './index';
 
 describe('SeeAlso', () => {
 	it('should display one Note if the second lang is not selected', () => {

@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { PropsWithChildren } from 'react';
 import { vi } from 'vitest';
+
 import { useStamps, useStampsOptions } from './stamps';
 
 // Mock de l'API

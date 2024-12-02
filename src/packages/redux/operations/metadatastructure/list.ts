@@ -1,6 +1,8 @@
 import { Dispatch } from 'redux';
+
+import { OperationsApi } from '@sdk/operations-api';
+
 import { getTree } from '../../../modules-operations/utils/msd';
-import { OperationsApi } from '../../../sdk/operations-api';
 import { loadCodesList } from '../../actions/operations/utils/setup';
 
 export const LOAD_OPERATIONS_METADATASTRUCTURE_LIST =

@@ -1,7 +1,8 @@
-import { saveComponent } from './saveComponent'; // Remplacez par le chemin correct
+import { Mock, vi } from 'vitest';
+
 import { Component } from '../../model/structures/Component';
 import { StructureApi } from '../structure-api';
-import { vi } from 'vitest';
+import { saveComponent } from './saveComponent';
 
 vi.mock('../structure-api', () => ({
 	StructureApi: {
@@ -12,9 +13,9 @@ vi.mock('../structure-api', () => ({
 
 describe('saveComponent', () => {
 	const mockPutMutualizedComponent =
-		StructureApi.putMutualizedComponent as jest.Mock;
+		StructureApi.putMutualizedComponent as Mock;
 	const mockPostMutualizedComponent =
-		StructureApi.postMutualizedComponent as jest.Mock;
+		StructureApi.postMutualizedComponent as Mock;
 
 	beforeEach(() => {
 		vi.clearAllMocks();

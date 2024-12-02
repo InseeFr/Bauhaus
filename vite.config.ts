@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
 import fixReactVirtualized from 'esbuild-plugin-react-virtualized';
 import { viteEnvs } from 'vite-envs';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default {
 	optimizeDeps: {
@@ -23,6 +24,7 @@ export default {
 	},
 	plugins: [
 		react(),
+		tsconfigPaths(),
 		viteEnvs({
 			declarationFile: '.env',
 			computedEnv: async () => {

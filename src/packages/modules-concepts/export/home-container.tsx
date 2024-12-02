@@ -1,9 +1,12 @@
 import { useState } from 'react';
+
+import { Exporting, Loading } from '@components/loading';
+import { Picker } from '@components/picker-page';
+
 import D from '../../deprecated-locales';
-import ExportButtons from '../collections/export-buttons';
-import { Loading, Picker } from '../../components';
 import { useConceptExporter, useConcepts } from '../../utils/hooks/concepts';
 import { useTitle } from '../../utils/hooks/useTitle';
+import ExportButtons from '../collections/export-buttons';
 
 export const Component = () => {
 	useTitle(D.conceptsTitle, D.exportTitle);
@@ -14,7 +17,7 @@ export const Component = () => {
 	const { isLoading, data: concepts } = useConcepts();
 
 	if (isExporting) {
-		return <Loading textType="exporting" />;
+		return <Exporting />;
 	}
 	if (isLoading) {
 		return <Loading />;

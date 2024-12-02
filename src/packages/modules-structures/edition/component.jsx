@@ -1,29 +1,31 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+
+import { ContributorsInput } from '@components/contributors/contributors';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import {
 	ClientSideError,
-	ContributorsInput,
-	DisseminationStatusInput,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	Loading,
-	Row,
-	TextInput,
-} from '../../components';
-import { Select } from '../../components/select-rmes';
+} from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Saving } from '@components/loading';
+import { Select } from '@components/select-rmes';
+
+import { StructureApi } from '@sdk/index';
 
 import { useAppContext } from '../../application/app-context';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
-import LabelRequired from '../../components/label-required';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { usePermission } from '../../redux/hooks/usePermission';
-import { StructureApi } from '../../sdk';
+import { initializeContributorProperty } from '../../utils/creation/contributor-init';
 import { useStampsOptions } from '../../utils/hooks/stamps';
 import { DISSEMINATION_STATUS } from '../utils/constants';
 import Components from './components';
 import Controls from './controls';
 import { validate } from './validation';
-import { initializeContributorProperty } from '../../utils/creation/contributor-init';
 
 const defaultDSD = {
 	identifiant: '',
@@ -86,7 +88,7 @@ const Edition = ({ creation, initialStructure }) => {
 	}, [initialStructure, isContributor, stamp, creation]);
 
 	if (redirectId) return <Navigate to={`/structures/${redirectId}`} replace />;
-	if (loading) return <Loading textType="saving" />;
+	if (loading) return <Saving />;
 
 	const onSave = () => {
 		const clientSideErrors = validate(structure);

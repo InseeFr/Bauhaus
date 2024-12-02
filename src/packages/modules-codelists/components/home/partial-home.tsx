@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react';
-import {
-	PageTitle,
-	Loading,
-	Row,
-	FeminineButton,
-	SearchableList,
-} from '../../../components';
+import { useEffect, useState } from 'react';
 
-import { API } from '../../apis';
-import { formatLabel } from '../../utils';
-import D from '../../i18n/build-dictionary';
-import { useTitle } from '../../../utils/hooks/useTitle';
+import { Row } from '@components/layout';
+import { Loading } from '@components/loading';
+import { FeminineButton } from '@components/new-button';
+import { PageTitle } from '@components/page-title';
+import { SearchableList } from '@components/searchable-list';
+import { VerticalMenu } from '@components/vertical-menu';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
 import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
-import { VerticalMenu } from '../../../components/vertical-menu';
+import { API } from '../../apis';
+import D from '../../i18n/build-dictionary';
+import { formatLabel } from '../../utils';
 
 export const Component = () => {
 	useTitle(D.codelistsTitle, D.codelistsPartialTitle);

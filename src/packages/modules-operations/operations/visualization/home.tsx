@@ -1,15 +1,23 @@
-import { D1, D2 } from '../../../deprecated-locales';
-import RelationsView from '../../../modules-operations/shared/relations';
-import D from '../../../deprecated-locales/build-dictionary';
-import {
-	PublicationFemale,
-	Row,
-	CreationUpdateItems,
-} from '../../../components';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PublicationFemale } from '@components/status';
 
-function OperationsOperationVisualization({ attr, secondLang }) {
+import { useTitle } from '@utils/hooks/useTitle';
+
+import { D1, D2 } from '../../../deprecated-locales';
+import D from '../../../deprecated-locales/build-dictionary';
+import { Operation } from '../../../model/Operation';
+import RelationsView from '../../shared/relations';
+
+type OperationsOperationVisualizationTypes = {
+	attr: Operation;
+	secondLang: boolean;
+};
+function OperationsOperationVisualization({
+	attr,
+	secondLang,
+}: Readonly<OperationsOperationVisualizationTypes>) {
 	useTitle(D.operationsTitle, attr?.prefLabelLg1);
 
 	return (
@@ -24,6 +32,9 @@ function OperationsOperationVisualization({ attr, secondLang }) {
 							/>
 							<li>
 								{D1.operationStatus} : <PublicationFemale object={attr} />
+							</li>
+							<li>
+								{D.year} : {attr.year}
 							</li>
 						</ul>
 					}

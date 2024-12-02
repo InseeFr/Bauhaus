@@ -1,4 +1,5 @@
 import { TabView, TabPanel } from 'primereact/tabview';
+
 import { Panel } from '../panel';
 
 export const Tabs = ({

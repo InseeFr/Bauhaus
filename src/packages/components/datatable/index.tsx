@@ -1,9 +1,10 @@
-import { ComponentPropsWithoutRef, PropsWithChildren, useState } from 'react';
 import { FilterMatchMode } from 'primereact/api';
 import { DataTable as PrimeDataTable } from 'primereact/datatable';
 import { IconField } from 'primereact/iconfield';
 import { InputIcon } from 'primereact/inputicon';
 import { InputText } from 'primereact/inputtext';
+import { ComponentPropsWithoutRef, PropsWithChildren, useState } from 'react';
+
 import { createAllDictionary } from '../../utils/dictionnary';
 
 const { D } = createAllDictionary({

@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import { Loading, Saving } from '@components/loading';
+
+import { CLOSE_MATCH } from '@sdk/constants';
+
 import { useAppContext } from '../../application/app-context';
-import { Loading } from '../../components';
 import D from '../../deprecated-locales';
-import buildPayloadUpdate from '../../modules-concepts/utils/build-payload-creation-update/build-payload-update';
-import * as generalUtils from '../../modules-concepts/utils/general';
 import { ConceptsApi } from '../../sdk';
-import { CLOSE_MATCH } from '../../sdk/constants';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { rmesHtmlToRawHtml } from '../../utils/html-utils';
+import buildPayloadUpdate from '../utils/build-payload-creation-update/build-payload-update';
+import * as generalUtils from '../utils/general';
 import { mergeWithAllConcepts } from '../utils/links';
 import { emptyNotes } from '../utils/notes';
 import ConceptEditionCreation from './home';
@@ -89,7 +92,7 @@ export const Component = () => {
 	}
 
 	if (saving) {
-		return <Loading textType="saving" />;
+		return <Saving />;
 	}
 
 	return (

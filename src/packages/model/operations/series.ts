@@ -1,4 +1,5 @@
-import { ValidationState } from '../../components';
+import { ValidationState } from '@components/status';
+
 import { Operation } from '../Operation';
 
 export type Series = {

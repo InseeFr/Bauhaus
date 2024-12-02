@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Loading } from '../../../components';
-import CollectionVisualization from './home';
 import { useParams } from 'react-router-dom';
-import { ConceptsApi } from '../../../sdk';
+
+import { Loading, Publishing } from '@components/loading';
+
+import { ConceptsApi } from '@sdk/index';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+
 import { getPermission } from '../../../redux/selectors';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import CollectionVisualization from './home';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -42,7 +46,7 @@ export const Component = () => {
 	}
 
 	if (saving) {
-		return <Loading textType="validating" />;
+		return <Publishing />;
 	}
 	const { general, members } = collection;
 

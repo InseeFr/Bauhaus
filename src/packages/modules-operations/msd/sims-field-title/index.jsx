@@ -1,5 +1,6 @@
 import D from '../../../deprecated-locales/build-dictionary';
-import { rangeType } from '../../../modules-operations/utils/msd';
+import { rangeType } from '../../utils/msd';
+
 const { RICH_TEXT, TEXT, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 
 export const SimsFieldTitle = ({ msd, secondLang, currentSection }) => {

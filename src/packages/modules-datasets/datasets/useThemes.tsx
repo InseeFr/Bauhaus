@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { ThemesApi } from '../../sdk';
+
+import { ThemesApi } from '@sdk/index';
+
 import { Options } from '../../model/SelectOption';
 import { Theme } from '../../model/theme';
 

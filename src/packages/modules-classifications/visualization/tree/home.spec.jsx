@@ -1,5 +1,5 @@
-import ClassificationTree from './home';
 import { renderWithAppContext } from '../../../tests-utils/render';
+import ClassificationTree from './home';
 
 describe('classification-tree-home', () => {
 	it('renders without crashing', () => {

@@ -1,20 +1,20 @@
-import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { ConfirmationDelete } from '@components/confirmation-delete';
+import { ContributorsVisualisation } from '@components/contributors/contributors';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { PublicationFemale } from '@components/status';
 
-import './view.scss';
+import { useTitle } from '@utils/hooks/useTitle';
+import { renderMarkdownElement } from '@utils/html-utils';
+
+import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { ViewMenu } from './menu';
-import {
-	PublicationFemale,
-	Row,
-	ContributorsVisualisation,
-	DisseminationStatusVisualisation,
-	ConfirmationDelete,
-	CreationUpdateItems,
-	ErrorBloc,
-} from '../../../components';
-import { renderMarkdownElement } from '../../../utils/html-utils';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
+import './view.scss';
+
 export const CodeListDetailView = ({
 	codelist,
 	handleUpdate,

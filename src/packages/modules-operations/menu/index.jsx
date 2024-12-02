@@ -1,8 +1,10 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
+
+import { MainMenu } from '@components/menu';
+
 import D from '../../deprecated-locales';
 import { getOperationsSimsCurrent } from '../../redux/selectors';
-import { MainMenu } from '../../components/menu';
 
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };

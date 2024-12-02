@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
-import DocumentHome from './home';
-import { Loading } from '../../components';
-import { GeneralApi } from '../../sdk/general-api';
+
+import { Loading } from '@components/loading';
+
+import { GeneralApi } from '@sdk/general-api';
+
 import { sortArray } from '../../utils/array-utils';
+import DocumentHome from './home';
 
 const sortByLabel = sortArray('label');
 

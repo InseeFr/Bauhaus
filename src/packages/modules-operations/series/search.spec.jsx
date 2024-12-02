@@ -1,11 +1,12 @@
-import { SearchFormList } from './search';
+import * as useCodesListHook from '@utils/hooks/codeslist';
+import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
+
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../redux/actions/constants/codeList';
-import useUrlQueryParameters from '../../utils/hooks/useUrlQueryParameters';
 import { renderWithRouter } from '../../tests-utils/render';
-import * as useCodesListHook from '../../utils/hooks/codeslist';
+import { SearchFormList } from './search';
 
 const data = [
 	{

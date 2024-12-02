@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { toggleOpen, isOpen } from '../utils';
-import OutlineBlock from '../../../modules-operations/msd/outline/outline-block';
-import D from '../../../deprecated-locales';
 
-import './style.scss';
+import D from '../../../deprecated-locales';
+import OutlineBlock from '../outline/outline-block';
+import { isOpen, toggleOpen } from '../utils';
 import { OutlineButtonWithScroll } from './outline-button-with-scroll';
+import './style.scss';
 
 const Outline = ({
 	storeCollapseState,
@@ -18,7 +18,7 @@ const Outline = ({
 
 	const expandOrCollapseItem = () => {
 		setOpened(!opened);
-		if (storeCollapseState) {
+		if (toggleOpen) {
 			toggleOpen(metadataStructure.idMas);
 		}
 	};

@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
-import D from '../../deprecated-locales';
 import { useLocation } from 'react-router-dom';
-import { MainMenu } from '../../components/menu';
+
+import { MainMenu } from '@components/menu';
+
+import D from '../../deprecated-locales';
 
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };

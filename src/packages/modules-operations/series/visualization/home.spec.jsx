@@ -1,11 +1,13 @@
-import OperationsSerieVisualization from './home';
+import { vi } from 'vitest';
+
+import * as useOrganizationsHook from '@utils/hooks/organizations';
+
 import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
 import { renderWithRouter } from '../../../tests-utils/render';
-import { vi } from 'vitest';
-import * as useOrganizationsHook from '../../../utils/hooks/organizations';
+import OperationsSerieVisualization from './home';
 
 const organisations = [
 	{

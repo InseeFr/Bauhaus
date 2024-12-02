@@ -1,6 +1,8 @@
-import * as A from '../../../actions/constants';
-import { ClassificationsApi } from '../../../../sdk/classification';
 import { Dispatch } from 'redux';
+
+import { ClassificationsApi } from '@sdk/classification';
+
+import * as A from '../../../actions/constants';
 
 const fetchClassificationLevelMembers =
 	(classificationId: string, levelId: string) => (dispatch: Dispatch) => {

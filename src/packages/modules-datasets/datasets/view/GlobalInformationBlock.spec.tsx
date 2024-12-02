@@ -1,15 +1,17 @@
 import { render, screen } from '@testing-library/react';
-import { GlobalInformationBlock } from './GlobalInformationBlock';
-import * as useThemesHook from '../useThemes';
-import * as useOrganizationsHook from '../../../utils/hooks/organizations';
-import * as useCodesListHook from '../../../utils/hooks/codeslist';
-import { Dataset } from '../../../model/Dataset';
-import { CodesList } from '../../../model/CodesList';
 import { vi } from 'vitest';
 
+import * as useCodesListHook from '@utils/hooks/codeslist';
+import * as useOrganizationsHook from '@utils/hooks/organizations';
+
+import { CodesList } from '../../../model/CodesList';
+import { Dataset } from '../../../model/Dataset';
+import * as useThemesHook from '../useThemes';
+import { GlobalInformationBlock } from './GlobalInformationBlock';
+
 vi.mock('../useThemes');
-vi.mock('../../../utils/hooks/organizations');
-vi.mock('../../../utils/hooks/codeslist');
+vi.mock('@utils/hooks/organizations');
+vi.mock('@utils/hooks/codeslist');
 
 vi.mock('./wasGeneratedByBlock', () => ({
 	WasGeneratedByBlock: () => <div>Mocked WasGeneratedByBlock</div>,

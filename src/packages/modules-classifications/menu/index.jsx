@@ -1,6 +1,9 @@
 import { useLocation } from 'react-router-dom';
+
+import { MainMenu } from '@components/menu';
+
 import D from '../../deprecated-locales';
-import { MainMenu } from '../../components/menu';
+
 const defaultAttrs = { 'aria-current': 'page' };
 
 const MenuClassifications = () => {

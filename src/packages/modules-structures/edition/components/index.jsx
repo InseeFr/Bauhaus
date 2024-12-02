@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
+
+import { ConceptsApi, StructureApi } from '@sdk/index';
+
+import D from '../../../deprecated-locales';
+import { getFormattedCodeList } from '../../apis';
 import ComponentSelector from '../../components/component-selector';
 import {
 	ATTRIBUTE_PROPERTY_TYPE,
 	DIMENSION_PROPERTY_TYPE,
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
-import { getFormattedCodeList } from '../../apis';
-import { ConceptsApi, StructureApi } from '../../../sdk';
-import D from '../../../deprecated-locales';
 
 const Components = ({ componentDefinitions, onChange, structure = {} }) => {
 	const [concepts, setConcepts] = useState([]);

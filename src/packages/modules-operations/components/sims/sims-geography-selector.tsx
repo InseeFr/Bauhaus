@@ -1,6 +1,7 @@
-import SimsGeographyI18NLabel from './sims-geography-i18n-label';
+import { Row } from '@components/layout';
+
 import D from '../../i18n/build-dictionary';
-import { Row } from '../../../components';
+import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 
 export type Geography = {
 	value: string;

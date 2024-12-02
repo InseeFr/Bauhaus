@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { Menu } from './menu';
-import { RBACMock } from '../../../../tests-utils/rbac';
+
 import { SERIES_CONTRIBUTOR } from '../../../../auth/roles';
 import { Sims } from '../../../../model/Sims';
+import { RBACMock } from '../../../../tests-utils/rbac';
+import { Menu } from './menu';
 
 describe('Family Home Page Menu', () => {
 	describe('As an SERIES_CONTRIBUTOR', () => {

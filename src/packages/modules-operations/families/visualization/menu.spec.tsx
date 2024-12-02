@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { Menu } from './menu';
-import { RBACMock } from '../../../tests-utils/rbac';
+
 import { ADMIN } from '../../../auth/roles';
 import { Family } from '../../../model/operations/family';
+import { RBACMock } from '../../../tests-utils/rbac';
+import { Menu } from './menu';
 
 describe('Family Home Page Menu', () => {
 	it('an admin can update and publish a family', () => {

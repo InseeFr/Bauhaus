@@ -1,7 +1,10 @@
 import { PropsWithChildren, useState } from 'react';
-import { PageTitle, Pagination } from '../../components';
-import { AdvancedSearchControls } from './controls';
+
+import { PageTitle } from '@components/page-title';
+import { Pagination } from '@components/pagination';
+
 import { NumberResults } from '../number-results';
+import { AdvancedSearchControls } from './controls';
 
 type AdvancedSearchListTypes = {
 	title: string;

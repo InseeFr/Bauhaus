@@ -1,10 +1,10 @@
-import Home from './home';
-
 import { Provider } from 'react-redux';
+
 import { ADMIN } from '../../auth/roles';
 import configureStore from '../../redux/configure-store';
-import { renderWithAppContext } from '../../tests-utils/render';
 import { locales } from '../../tests-utils/default-values';
+import { renderWithAppContext } from '../../tests-utils/render';
+import Home from './home';
 
 const store = configureStore({
 	users: { results: { stamp: 'stamp' } },

@@ -1,7 +1,7 @@
-import NoteOneLangEdition from './note-one-lang-edition';
-import { ClientSideError } from '../errors-bloc';
 import { ConceptNotes } from '../../model/concepts/concept';
+import { ClientSideError } from '../errors-bloc';
 import { Row } from '../layout';
+import NoteOneLangEdition from './note-one-lang-edition';
 
 type NoteEditionTypes = {
 	notes: ConceptNotes;

@@ -1,6 +1,6 @@
-import * as generalUtils from '../../../modules-classifications/utils/level/general';
+import { LOADED, LOADING } from '@sdk/constants';
 
-import { LOADED, LOADING } from '../../../sdk/constants';
+import * as generalUtils from '../../../modules-classifications/utils/level/general';
 import {
 	LOAD_CLASSIFICATION_LEVEL_GENERAL,
 	LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS,

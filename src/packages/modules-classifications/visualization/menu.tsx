@@ -1,13 +1,15 @@
 import { useLocation } from 'react-router-dom';
-import Auth from '../../auth/components/auth';
-import { ADMIN } from '../../auth/roles';
-import { ValidationButton } from '../../components';
-import { ActionToolbar } from '../../components/action-toolbar';
-import { Button } from '../../components/buttons/button';
+
+import { ActionToolbar } from '@components/action-toolbar';
+import { Button } from '@components/buttons/button';
 import {
 	ReturnButton,
 	UpdateButton,
-} from '../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
+import { ValidationButton } from '@components/validationButton';
+
+import Auth from '../../auth/components/auth';
+import { ADMIN } from '../../auth/roles';
 import D from '../../deprecated-locales';
 import { Classification } from '../../model/Classification';
 import { useGoBack } from '../../utils/hooks/useGoBack';

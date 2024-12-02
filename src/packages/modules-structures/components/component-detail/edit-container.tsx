@@ -1,13 +1,17 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Loading } from '../../../components';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { DumbComponentDetailEdit } from './edit';
-import { getFormattedCodeList } from '../../apis';
-import { ConceptsApi, saveComponent, StructureApi } from '../../../sdk';
 import { useParams } from 'react-router-dom';
-import { useStampsOptions } from '../../../utils/hooks/stamps';
-import { Component as StructureComponent } from '../../../model/structures/Component';
+
+import { Loading } from '@components/loading';
+
+import { ConceptsApi, saveComponent, StructureApi } from '@sdk/index';
+
+import { useStampsOptions } from '@utils/hooks/stamps';
+import { useGoBack } from '@utils/hooks/useGoBack';
+
 import { CodesLists } from '../../../model/CodesList';
+import { Component as StructureComponent } from '../../../model/structures/Component';
+import { getFormattedCodeList } from '../../apis';
+import { DumbComponentDetailEdit } from './edit';
 
 export const Component = (props: any) => {
 	const goBack = useGoBack();

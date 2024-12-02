@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { CheckSecondLang, Loading, PageTitleBlock } from '../../../components';
-import { GeneralApi } from '../../../sdk/general-api';
-import { useCodesList } from '../../../utils/hooks/codeslist';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
-import OperationsDocumentVisualization from './home';
+
+import { CheckSecondLang } from '@components/check-second-lang';
+import { Loading } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+
+import { GeneralApi } from '@sdk/general-api';
+
+import { useCodesList } from '@utils/hooks/codeslist';
+import { useSecondLang } from '@utils/hooks/second-lang';
+
 import { Menu } from './Menu';
+import OperationsDocumentVisualization from './home';
 
 function getPath(path) {
 	return path.includes('document') ? 'document' : 'link';

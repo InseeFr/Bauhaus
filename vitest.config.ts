@@ -1,12 +1,13 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-	plugins: [react()],
+	plugins: [react(), tsconfigPaths()],
 	test: {
 		coverage: {
 			provider: 'istanbul',
-			reporter: ['text'],
+			reporter: ['text', 'lcov'],
 			include: ['src/**/*.{ts,tsx,js,jsx}'],
 		},
 		include: ['src/**/*.spec.*'],

@@ -1,9 +1,10 @@
 import { renderHook } from '@testing-library/react';
-import { useLocales } from './useLocales';
+
 import {
 	AppContextProvider,
 	AppProperties,
 } from '../../application/app-context';
+import { useLocales } from './useLocales';
 
 describe('useLocales', () => {
 	it('returns the correct initial value and toggle function', () => {

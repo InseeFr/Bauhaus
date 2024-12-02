@@ -1,5 +1,5 @@
-import Home from './home';
 import { renderWithRouter } from '../../tests-utils/render';
+import Home from './home';
 
 const correspondences = [{ id: '1', label: 'Correspondence 1' }];
 

@@ -1,5 +1,5 @@
-import DisplayLinks from './index';
 import { renderWithRouter } from '../../../tests-utils/render';
+import DisplayLinks from './index';
 
 describe('DisplayLinks', () => {
 	it('should display a list if we have multiple item', () => {

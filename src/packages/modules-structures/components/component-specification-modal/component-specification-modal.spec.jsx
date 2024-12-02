@@ -1,5 +1,6 @@
-import { ComponentSpecificationModalBody } from '.';
 import { render, fireEvent } from '@testing-library/react';
+
+import { ComponentSpecificationModalBody } from '.';
 
 describe('<ComponentSpecificationModal />', () => {
 	beforeEach(() => {

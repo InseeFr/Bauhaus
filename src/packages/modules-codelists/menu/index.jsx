@@ -1,8 +1,10 @@
-import D from '../i18n/build-dictionary';
 import { useLocation } from 'react-router-dom';
+
+import { MainMenu } from '@components/menu';
+
 import { ADMIN } from '../../auth/roles';
 import { usePermission } from '../../redux/hooks/usePermission';
-import { MainMenu } from '../../components/menu';
+import D from '../i18n/build-dictionary';
 
 const defaultAttrs = { 'aria-current': 'page' };
 

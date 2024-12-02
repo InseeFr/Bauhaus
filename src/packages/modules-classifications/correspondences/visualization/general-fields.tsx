@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import D from '../../../deprecated-locales';
 
 export const generalFields = (correspondence: any, secondLang: boolean) => {

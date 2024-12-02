@@ -1,5 +1,5 @@
-import CollectionValidation from './home';
 import { renderWithRouter } from '../../../tests-utils/render';
+import CollectionValidation from './home';
 
 describe('collection-validation', () => {
 	it('renders without crashing', () => {

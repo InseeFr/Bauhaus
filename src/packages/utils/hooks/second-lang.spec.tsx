@@ -1,9 +1,10 @@
 import { renderHook, act } from '@testing-library/react';
-import { useSecondLang } from './second-lang';
+
 import {
 	AppContextProvider,
 	AppProperties,
 } from '../../application/app-context';
+import { useSecondLang } from './second-lang';
 
 describe('useSecondLang', () => {
 	it('returns the correct initial value and toggle function', () => {

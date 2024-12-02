@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import CollectionEditionCreation from './home';
-import buildPayload from '../../../modules-concepts/collections/utils/build-payload/build-payload';
-import D from '../../../deprecated-locales';
-import { Loading } from '../../../components';
 
-import { ConceptsApi } from '../../../sdk';
-import { CollectionApi } from '../../../sdk/collection-api';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { cleanId } from '../../../utils/string-utils';
+import { Loading, Saving } from '@components/loading';
+
+import { CollectionApi } from '@sdk/collection-api';
+import { ConceptsApi } from '@sdk/index';
+
+import { useTitle } from '@utils/hooks/useTitle';
+import { cleanId } from '@utils/string-utils';
+
+import D from '../../../deprecated-locales';
+import buildPayload from '../utils/build-payload/build-payload';
+import CollectionEditionCreation from './home';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -62,7 +65,7 @@ export const Component = () => {
 	useTitle(D.collectionsTitle, general?.prefLabelLg1);
 
 	if (saving) {
-		return <Loading textType="saving" />;
+		return <Saving />;
 	}
 	if (loadingCollection || loadingExtraData) {
 		return <Loading />;

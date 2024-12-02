@@ -1,4 +1,4 @@
-import { buildEmpty } from '../../../utils/build-general-proptypes';
+import { buildEmpty } from '@utils/build-general-proptypes';
 
 export const fieldsWithRequired = [
 	['correspondenceId', true],

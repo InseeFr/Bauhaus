@@ -1,4 +1,5 @@
 import Modal from 'react-modal';
+
 import { createAllDictionary } from '../../utils/dictionnary';
 import { CloseButton, CloseIconButton } from '../buttons/buttons-with-icons';
 

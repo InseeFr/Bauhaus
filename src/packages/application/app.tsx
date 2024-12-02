@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
-import D from '../deprecated-locales';
 import 'primereact/resources/themes/lara-light-blue/theme.css';
+import { Link } from 'react-router-dom';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
+import D from '../deprecated-locales';
 import '../styles/bootstrap.scss';
-import './app.scss';
-import { useTitle } from '../utils/hooks/useTitle';
 import { useAppContext } from './app-context';
+import './app.scss';
 
 const App = () => {
 	useTitle();

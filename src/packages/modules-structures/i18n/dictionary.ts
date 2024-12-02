@@ -1,5 +1,5 @@
-import errors from './errors';
 import component from './component';
+import errors from './errors';
 
 const dictionary = {
 	...errors,

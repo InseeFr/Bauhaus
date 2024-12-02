@@ -1,10 +1,10 @@
+import D, { D1, D2 } from '../i18n/build-dictionary';
+import MainDictionary from './../../deprecated-locales/build-dictionary';
 import {
 	validateCode,
 	validateCodelist,
 	validatePartialCodelist,
 } from './index';
-import D, { D1, D2 } from '../i18n/build-dictionary';
-import MainDictionary from './../../deprecated-locales/build-dictionary';
 
 describe('validateCodelist', () => {
 	it('should return errors for missing mandatory fields', () => {

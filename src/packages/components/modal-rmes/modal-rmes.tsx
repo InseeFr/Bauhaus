@@ -1,9 +1,10 @@
 //@ts-ignore
-import Modal from 'react-modal';
 //@ts-ignore
 import DOMPurify from 'dompurify';
-import { CloseIconButton } from '../buttons/buttons-with-icons';
 import { ReactNode } from 'react';
+import Modal from 'react-modal';
+
+import { CloseIconButton } from '../buttons/buttons-with-icons';
 
 export type ModalButton = {
 	style: string;

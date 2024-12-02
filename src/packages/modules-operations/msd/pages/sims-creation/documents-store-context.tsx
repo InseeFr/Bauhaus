@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+
 import { Document } from '../../../../model/operations/document';
 import { DOCUMENT, LINK } from '../../../document/utils';
 
@@ -12,6 +13,10 @@ export type DocumentsStoreContextType = {
 	lateralPanelOpened?: typeof DOCUMENT | typeof LINK;
 	onLateralPanelHide?: () => void;
 	openLateralPanelOpened?: (type: typeof DOCUMENT | typeof LINK) => void;
+	rubricIdForNewDocument: { rubric: string; lang: string } | null;
+	setRubricIdForNewDocument: (
+		value: { rubric: string; lang: string } | null,
+	) => void;
 };
 const DocumentsStoreContext = createContext<
 	DocumentsStoreContextType | undefined

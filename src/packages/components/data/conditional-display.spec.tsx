@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react';
+
 import { ConditionalDisplay } from './conditional-display';
 
 describe('ConditionalDisplay component', () => {

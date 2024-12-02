@@ -1,7 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
-import ExportButtons from './';
+
 import D from '../../../deprecated-locales/build-dictionary';
+import ExportButtons from './';
 
 describe('ExportButtons Component', () => {
 	it('should render all buttons with the correct labels', () => {

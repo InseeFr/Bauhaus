@@ -1,6 +1,7 @@
 import D from '../../i18n/build-dictionary';
 import { XSD_TYPES } from '../../utils/constants';
 import './index.scss';
+
 const Representation = ({ component, codesLists, handleCodesListDetail }) => {
 	const codeList = codesLists.find(
 		({ id }) => id?.toString() === component.codeList?.toString(),

@@ -1,5 +1,5 @@
-import { QB } from './prefixes';
 import D from '../../i18n/build-dictionary';
+import { QB } from './prefixes';
 
 export const MEASURE_TYPE = `${QB}measure`;
 export const DIMENSION_TYPE = `${QB}dimension`;

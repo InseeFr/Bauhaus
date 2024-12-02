@@ -1,4 +1,6 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+
+import { Operation } from '../../../model/Operation';
 import OperationsOperationVisualization from './home';
 
 describe('OperationVisualization', () => {
@@ -7,19 +9,15 @@ describe('OperationVisualization', () => {
 			prefLabelLg1: 'prefLabelLg1',
 			prefLabelLg2: 'prefLabelLg2',
 			altLabelLg1: 'altLabel1',
-		};
+			year: '2024',
+		} as unknown as Operation;
 		const { container } = render(
-			<OperationsOperationVisualization
-				attr={attr}
-				exportVarBook={vi.fn()}
-				secondLang={false}
-				isModalOpen={false}
-				closeModal={vi.fn()}
-			/>,
+			<OperationsOperationVisualization attr={attr} secondLang={false} />,
 		);
 		expect(container.querySelectorAll('.row:first-child .note')).toHaveLength(
 			1,
 		);
+		screen.getByText('Year : 2024');
 	});
 
 	it('should renderer all informations for the second lang', () => {
@@ -28,17 +26,14 @@ describe('OperationVisualization', () => {
 			prefLabelLg2: 'prefLabelLg2',
 			altLabelLg1: 'altLabel1',
 			altLabelLg2: 'altLabel2',
-		};
+			year: '2024',
+		} as unknown as Operation;
 		const { container } = render(
-			<OperationsOperationVisualization
-				attr={attr}
-				secondLang={true}
-				exportVarBook={vi.fn()}
-				isModalOpen={false}
-				closeModal={vi.fn()}
-			/>,
+			<OperationsOperationVisualization attr={attr} secondLang={true} />,
 		);
 
 		expect(container.querySelectorAll('.note')).toHaveLength(5);
+
+		screen.getByText('Year : 2024');
 	});
 });

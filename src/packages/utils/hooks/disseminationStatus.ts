@@ -1,6 +1,9 @@
-import { Options } from '../../model/SelectOption';
 import { useQuery } from '@tanstack/react-query';
-import { DisseminationStatus } from '../../sdk/dissemination-status';
+
+import { DisseminationStatus } from '@sdk/dissemination-status';
+
+import { Options } from '../../model/SelectOption';
+
 export const useDisseminationStatus = () => {
 	return useQuery({
 		queryKey: ['dissemination-status'],

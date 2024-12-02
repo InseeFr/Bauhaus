@@ -1,4 +1,5 @@
 import btnD from './generic/btn';
+
 const dictionary = {
 	errorTitle: { fr: 'Erreur', en: 'Error' },
 	langs: {
@@ -454,6 +455,10 @@ const dictionary = {
 	type: {
 		fr: 'Type',
 		en: 'Type',
+	},
+	year: {
+		fr: 'Millésime',
+		en: 'Year',
 	},
 	mandatoryProperty: {
 		fr: (propertyName: string) =>

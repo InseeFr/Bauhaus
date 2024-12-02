@@ -1,29 +1,32 @@
 import { useEffect, useMemo, useState } from 'react';
 import Dropzone from 'react-dropzone';
-import {
-	ClientSideError,
-	DatePicker,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	Loading,
-	PageTitleBlock,
-	Row,
-	TextInput,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
 
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
-import LabelRequired from '../../../components/label-required';
-import { EditorMarkdown } from '../../../components/rich-editor/editor-markdown';
+} from '@components/buttons/buttons-with-icons';
+import { DatePicker } from '@components/date-picker';
+import {
+	ClientSideError,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+import { Select } from '@components/select-rmes';
+
+import { GeneralApi } from '@sdk/general-api';
+
+import { useDocumentsAndLinks } from '@utils/hooks/documents';
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D, { D1, D2 } from '../../../deprecated-locales';
-import { GeneralApi } from '../../../sdk/general-api';
-import { useDocumentsAndLinks } from '../../../utils/hooks/documents';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
-import { useTitle } from '../../../utils/hooks/useTitle';
 import { DOCUMENT, LINK } from '../utils';
 import { ConfirmationModal } from './confirmation-modal';
 import { validate } from './validation';
@@ -193,7 +196,7 @@ const OperationsDocumentationEdition = (props) => {
 		return { value: lang.code, label: lang.labelLg1 };
 	});
 
-	if (saving) return <Loading textType="saving" />;
+	if (saving) return <Saving />;
 
 	const isEditing = !!document.id;
 

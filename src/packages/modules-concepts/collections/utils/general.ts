@@ -2,7 +2,7 @@ import {
 	buildEmpty,
 	buildEmptyWithContributor,
 	buildFields,
-} from '../../../utils/build-general-proptypes';
+} from '@utils/build-general-proptypes';
 
 export const fieldsWithRequired = [
 	['id', false],

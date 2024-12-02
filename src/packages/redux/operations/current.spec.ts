@@ -1,9 +1,9 @@
-import * as reducer from './current';
 import {
 	LOAD_OPERATIONS_SIMS_SUCCESS,
 	SAVE_OPERATIONS_SIMS,
 	SAVE_OPERATIONS_SIMS_SUCCESS,
 } from '../actions/constants';
+import * as reducer from './current';
 
 describe('current reducer', () => {
 	[

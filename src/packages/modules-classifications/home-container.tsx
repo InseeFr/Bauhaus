@@ -1,6 +1,8 @@
-import { Loading } from '../components';
+import { Loading } from '@components/loading';
+
+import { useClassifications } from '@utils/hooks/classifications';
+
 import ClassificationsHome from './home';
-import { useClassifications } from '../utils/hooks/classifications';
 
 export const Component = () => {
 	const { isLoading, data: classifications } = useClassifications();

@@ -1,30 +1,33 @@
-import { useState, useCallback, useEffect } from 'react';
 import dayjs from 'dayjs';
-import Picker from './picker';
-import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
-import D, { D1, D2 } from '../../i18n/build-dictionary';
-import '../codelist-detail/edit.scss';
-import MainDictionary from '../../../deprecated-locales/build-dictionary';
-import {
-	TextInput,
-	Row,
-	ContributorsInput,
-	DisseminationStatusInput,
-	ErrorBloc,
-	GlobalClientSideErrorBloc,
-	ClientSideError,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
-import { CodeListApi } from '../../../sdk';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
-import LabelRequired from '../../../components/label-required';
-import { ActionToolbar } from '../../../components/action-toolbar';
+import { useState, useCallback, useEffect } from 'react';
+
+import { ActionToolbar } from '@components/action-toolbar';
 import {
 	CancelButton,
 	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
+} from '@components/buttons/buttons-with-icons';
+import { ContributorsInput } from '@components/contributors/contributors';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
+import {
+	ClientSideError,
+	ErrorBloc,
+	GlobalClientSideErrorBloc,
+} from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Select } from '@components/select-rmes';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
+import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
+import MainDictionary from '../../../deprecated-locales/build-dictionary';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { CodeListApi } from '../../../sdk';
+import D, { D1, D2 } from '../../i18n/build-dictionary';
+import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
+import '../codelist-detail/edit.scss';
+import Picker from './picker';
 
 const defaultCodelist = {
 	created: dayjs(),

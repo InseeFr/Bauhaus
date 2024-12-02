@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Loading } from '../../components';
+
+import { Loading } from '@components/loading';
+
+import { checkAuth } from '../../redux/users';
 import {
 	ADMIN,
 	CODELIST_CONTRIBUTOR,
@@ -9,7 +12,6 @@ import {
 	SERIES_CONTRIBUTOR,
 	STRUCTURE_CONTRIBUTOR,
 } from '../roles';
-import { checkAuth } from '../../redux/users';
 
 type LoginNoAuthTypes = {
 	checkAuth: (option: { stamp: string; roles: string[] }) => void;

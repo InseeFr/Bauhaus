@@ -1,31 +1,30 @@
 import { Component } from 'react';
-import D, { D1, D2 } from '../../../deprecated-locales';
 
-import { validate } from './validation';
 import {
-	TextInput,
-	Loading,
+	ClientSideError,
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
-	ClientSideError,
-	PageTitleBlock,
-	Row,
-} from '../../../components';
-import { Select } from '../../../components/select-rmes';
+} from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { Saving } from '@components/loading';
+import { PageTitleBlock } from '@components/page-title-block';
+import { Select } from '@components/select-rmes';
 
-import { OperationsApi } from '../../../sdk/operations-api';
-import LabelRequired from '../../../components/label-required';
-import { ActionToolbar } from '../../../components/action-toolbar';
-import {
-	CancelButton,
-	SaveButton,
-} from '../../../components/buttons/buttons-with-icons';
+import { OperationsApi } from '@sdk/operations-api';
+
+import D, { D1, D2 } from '../../../deprecated-locales';
+import { Controls } from './controls';
+import { YearInput } from './fields/year';
+import { validate } from './validation';
 
 const defaultOperation = {
 	prefLabelLg1: '',
 	prefLabelLg2: '',
 	altLabelLg1: '',
 	altLabelLg2: '',
+	year: '',
 };
 
 class OperationsOperationEdition extends Component {
@@ -106,7 +105,7 @@ class OperationsOperationEdition extends Component {
 	};
 
 	render() {
-		if (this.state.saving) return <Loading textType="saving" />;
+		if (this.state.saving) return <Saving />;
 
 		const seriesOptions = this.props.series
 			.filter((series) => !series.idSims)
@@ -129,14 +128,11 @@ class OperationsOperationEdition extends Component {
 						secondLang={true}
 					/>
 				)}
-				<ActionToolbar>
-					<CancelButton action="/operations/operations" />
+				<Controls
+					onSubmit={this.onSubmit}
+					disabled={this.state.clientSideErrors.errorMessage?.length > 0}
+				/>
 
-					<SaveButton
-						action={this.onSubmit}
-						disabled={this.state.clientSideErrors.errorMessage?.length > 0}
-					/>
-				</ActionToolbar>
 				{this.state.submitting && this.state.clientSideErrors && (
 					<GlobalClientSideErrorBloc
 						clientSideErrors={this.state.clientSideErrors.errorMessage}
@@ -226,6 +222,7 @@ class OperationsOperationEdition extends Component {
 							/>
 						</div>
 					</Row>
+					<YearInput value={operation.year} onChange={this.onChange} />
 				</form>
 			</div>
 		);

@@ -3,8 +3,8 @@ import {
 	firstLang,
 	getLang,
 	secondLang,
-} from '../utils/dictionnary';
-import { Dictionary } from '../utils/types';
+} from '@utils/dictionnary';
+import { Dictionary } from '@utils/types';
 
 const dictionary = {
 	btnNew: {

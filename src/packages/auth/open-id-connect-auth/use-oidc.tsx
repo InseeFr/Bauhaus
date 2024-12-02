@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+
+import { UsersApi } from '@sdk/users-api';
+
 import { saveUserProps } from '../../redux/users';
 import { useOidc } from '../create-oidc';
-import { useEffect, useState } from 'react';
-import { UsersApi } from '../../sdk/users-api';
 
 type OidcWrapperTypes = {
 	WrappedComponent: any;

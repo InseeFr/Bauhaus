@@ -1,4 +1,5 @@
 import { memo, useCallback } from 'react';
+
 import { isDocument, isLink } from '../../../document/utils';
 import DocumentsBloc from '../../documents/documents-bloc';
 
@@ -53,6 +54,7 @@ export const SimsDocumentField = ({
 					deleteHandler={handleDeleteDocument}
 					addHandler={handleAddDocument}
 					objectType="documents"
+					idMas={msd.idMas}
 				/>
 			</div>
 			<div className="bauhaus-document-field">
@@ -63,6 +65,7 @@ export const SimsDocumentField = ({
 					deleteHandler={handleDeleteDocument}
 					addHandler={handleAddDocument}
 					objectType="links"
+					idMas={msd.idMas}
 				/>
 			</div>
 		</>

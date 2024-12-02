@@ -1,5 +1,6 @@
 import documentsD from '../operations/documents';
 import validationD from '../operations/validation';
+
 const dictionary = {
 	createFromAnExistingReport: {
 		fr: "Créer à partir d'un rapport qualité existant",
@@ -119,8 +120,8 @@ const dictionary = {
 		en: 'Stackeholders',
 	},
 	organisation: {
-		fr: 'Organisme responsable',
-		en: 'Legal owner',
+		fr: 'Organismes responsables',
+		en: 'Legal owners',
 	},
 	indicatorDataCollectFrequency: {
 		fr: 'Fréquence de diffusion',

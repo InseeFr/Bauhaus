@@ -1,9 +1,13 @@
 import { useState } from 'react';
+
+import { TextInput } from '@components/form/input';
+import { Row } from '@components/layout';
+
+import { CLOSE_MATCH } from '@sdk/constants';
+
 import D from '../../../deprecated-locales';
-import { CLOSE_MATCH } from '../../../sdk/constants';
-import './equivalentLinks.scss';
-import { Row, TextInput } from '../../../components';
 import { Link } from '../../../model/concepts/concept';
+import './equivalentLinks.scss';
 
 type EquivalentLinksTypes = {
 	links: (Link & { urn: string })[];

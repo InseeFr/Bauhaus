@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+
+import { createAllDictionary } from '@utils/dictionnary';
+
 import './index.scss';
-import { createAllDictionary } from '../../utils/dictionnary';
 
 const { D } = createAllDictionary({
 	home: {

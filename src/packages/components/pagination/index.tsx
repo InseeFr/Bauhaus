@@ -1,10 +1,11 @@
+import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Link } from '../link';
-import queryString from 'query-string';
-import './pagination.scss';
+
 import { createAllDictionary } from '../../utils/dictionnary';
+import { Link } from '../link';
 import { Select } from '../select-rmes';
+import './pagination.scss';
 
 const { D1, D } = createAllDictionary({
 	itemPerPagePlaceholder: {

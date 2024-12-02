@@ -1,11 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Loading } from '../../../components';
+
+import { Loading } from '@components/loading';
+
+import { useStampsOptions } from '@utils/hooks/stamps';
+
 import { CodeListApi } from '../../../sdk';
 import { API } from '../../apis';
 import { formatPartialCodeList } from '../../utils';
 import { DumbCodelistPartialDetailEdit } from './edit';
-import { useStampsOptions } from '../../../utils/hooks/stamps';
 
 const useBackOrReplaceHook = () => {
 	const navigate = useNavigate();

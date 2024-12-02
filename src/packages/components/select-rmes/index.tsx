@@ -1,8 +1,10 @@
 import OriginalSelect from 'react-select';
 import 'react-select/dist/react-select.css';
-import './select-rmes.scss';
-import { createAllDictionary } from '../../utils/dictionnary';
+
+import { createAllDictionary } from '@utils/dictionnary';
+
 import { Option } from '../../model/SelectOption';
+import './select-rmes.scss';
 
 const { D } = createAllDictionary({
 	fr: 'Aucun résultat',

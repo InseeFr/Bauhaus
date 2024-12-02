@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { Loading } from '../../../components';
-import DocumentationEdition from '../../../modules-operations/document/edition/edition';
-import { GeneralApi } from '../../../sdk/general-api';
-import { useCodesList } from '../../../utils/hooks/codeslist';
+
+import { Loading } from '@components/loading';
+
+import { GeneralApi } from '@sdk/general-api';
+
+import { useCodesList } from '@utils/hooks/codeslist';
+
+import DocumentationEdition from './edition';
 
 export const Component = (props) => {
 	const { id } = useParams();

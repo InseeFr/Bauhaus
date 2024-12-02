@@ -1,5 +1,5 @@
-import ConceptVisualizationControls from './controls';
 import { renderWithRouter } from '../../tests-utils/render';
+import ConceptVisualizationControls from './controls';
 
 vi.mock('../../sdk');
 

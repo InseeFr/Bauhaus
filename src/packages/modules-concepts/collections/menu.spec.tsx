@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { Menu } from './menu';
-import { RBACMock } from '../../tests-utils/rbac';
+
 import {
 	ADMIN,
 	COLLECTIONS_CREATOR,
 	CONCEPTS_CONTRIBUTOR,
 } from '../../auth/roles';
+import { RBACMock } from '../../tests-utils/rbac';
+import { Menu } from './menu';
 
 describe('Distributions Home Page Menu', () => {
 	it('an admin can create a new collection if he does not have the Gestionnaire_ensemble_concepts_RMESGNCS role', () => {

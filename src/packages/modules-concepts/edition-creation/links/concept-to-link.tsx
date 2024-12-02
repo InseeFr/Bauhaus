@@ -1,5 +1,5 @@
-import { Row } from '../../../components';
-import { Panel } from '../../../components/panel';
+import { Row } from '@components/layout';
+import { Panel } from '@components/panel';
 
 type ConceptToLinkTypes = {
 	title: string;

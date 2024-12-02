@@ -1,11 +1,14 @@
-import D, { D1, D2 } from '../../../deprecated-locales';
 import { useEffect, useState } from 'react';
-import { LINK, isDocument, isLink } from '../utils';
-import RelationsView from '../../shared/relations';
+
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+
+import { useTitle } from '@utils/hooks/useTitle';
+
+import D, { D1, D2 } from '../../../deprecated-locales';
 import { getBaseURI } from '../../../sdk';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { Note } from '../../../components/note';
-import { Row } from '../../../components';
+import RelationsView from '../../shared/relations';
+import { isDocument, isLink, LINK } from '../utils';
 
 function formatSims(sims) {
 	const simsObject = sims.reduce((acc, s) => {

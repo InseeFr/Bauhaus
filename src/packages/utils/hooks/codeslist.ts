@@ -1,5 +1,7 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { CodeListApi, fetchCodeList } from '../../sdk';
+
+import { CodeListApi, fetchCodeList } from '@sdk/index';
+
 import { Code, CodesList } from '../../model/CodesList';
 import { sortArray } from '../array-utils';
 

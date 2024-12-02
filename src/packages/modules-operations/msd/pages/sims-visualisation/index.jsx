@@ -1,33 +1,32 @@
 import { useCallback, useState } from 'react';
+import Modal from 'react-modal';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import D from '../../../../deprecated-locales';
-import * as A from '../../../../redux/actions/constants';
 
-import { hasLabelLg2 } from '../../utils';
-
-import Modal from 'react-modal';
-import {
-	CheckSecondLang,
-	ConfirmationDelete,
-	CreationUpdateItems,
-	ErrorBloc,
-	PublicationFemale,
-	Row,
-} from '../../../../components';
-
-import { ActionToolbar } from '../../../../components/action-toolbar';
-import { Button } from '../../../../components/buttons/button';
+import { ActionToolbar } from '@components/action-toolbar';
+import { Button } from '@components/buttons/button';
 import {
 	CancelButton,
 	CloseIconButton,
-} from '../../../../components/buttons/buttons-with-icons';
-import { Note } from '../../../../components/note';
-import { Panel } from '../../../../components/panel';
-import { OperationsApi } from '../../../../sdk/operations-api';
-import { useSecondLang } from '../../../../utils/hooks/second-lang';
+} from '@components/buttons/buttons-with-icons';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { ConfirmationDelete } from '@components/confirmation-delete';
+import { CreationUpdateItems } from '@components/creation-update-items';
+import { ErrorBloc } from '@components/errors-bloc';
+import { Row } from '@components/layout';
+import { Note } from '@components/note';
+import { Panel } from '@components/panel';
+import { PublicationFemale } from '@components/status';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+
+import D from '../../../../deprecated-locales';
+import * as A from '../../../../redux/actions/constants';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { SimsFieldTitle } from '../../sims-field-title';
+import { hasLabelLg2 } from '../../utils';
 import { useDocumentsStoreContext } from '../sims-creation/documents-store-context';
 import { Menu } from './menu';
 import SimsBlock from './sims-block';

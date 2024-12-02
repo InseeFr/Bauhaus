@@ -1,5 +1,6 @@
-import Controls from './controls';
 import { render } from '@testing-library/react';
+
+import Controls from './controls';
 
 describe('concepts-advanced-search-controls', () => {
 	it('renders without crashing', () => {

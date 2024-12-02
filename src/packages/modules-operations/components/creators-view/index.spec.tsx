@@ -1,5 +1,6 @@
-import CreatorsView from './';
 import { render } from '@testing-library/react';
+
+import CreatorsView from './';
 
 describe('<CreatorsView />', () => {
 	it('should return a list of item if the creators is an object', () => {

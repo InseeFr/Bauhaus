@@ -1,8 +1,11 @@
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../../components';
-import Compare from './home';
+
+import { Loading } from '@components/loading';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+
 import useClassificationItem from '../hook';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import Compare from './home';
 
 export const Component = () => {
 	const { classificationId, itemId } = useParams();

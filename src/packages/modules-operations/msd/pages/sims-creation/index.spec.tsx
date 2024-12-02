@@ -1,6 +1,7 @@
 import { vi, expect, describe, it, beforeEach, Mock } from 'vitest';
-import { generateSimsBeforeSubmit } from './index';
+
 import * as utils from '../../utils';
+import { generateSimsBeforeSubmit } from './index';
 
 describe('generateSimsBeforeSubmit', () => {
 	beforeEach(() => {

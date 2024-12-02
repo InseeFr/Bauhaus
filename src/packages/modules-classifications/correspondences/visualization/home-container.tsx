@@ -1,10 +1,14 @@
-import { Loading } from '../../../components';
-import HomeGeneral from './home-general';
-import HomeAssociations from './home-associations';
-import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { ClassificationsApi } from '../../../sdk/classification';
-import { useSecondLang } from '../../../utils/hooks/second-lang';
+import { useParams } from 'react-router-dom';
+
+import { Loading } from '@components/loading';
+
+import { ClassificationsApi } from '@sdk/classification';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+
+import HomeAssociations from './home-associations';
+import HomeGeneral from './home-general';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();

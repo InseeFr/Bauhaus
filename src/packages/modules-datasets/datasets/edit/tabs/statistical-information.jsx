@@ -1,7 +1,12 @@
-import { D1 } from '../../../../deprecated-locales';
-import { withCodesLists } from '../../../../utils/hoc/withCodesLists';
 import ReactSelect from 'react-select';
-import { TemporalField } from '../../components/temporalField';
+
+import { NumberInput } from '@components/form/input';
+import { Row } from '@components/layout';
+
+import { withCodesLists } from '@utils/hoc/withCodesLists';
+import { useStructures } from '@utils/hooks/structures';
+
+import { D1 } from '../../../../deprecated-locales';
 import {
 	CL_DATA_TYPES,
 	CL_FREQ,
@@ -9,9 +14,8 @@ import {
 	CL_STAT_UNIT,
 	CL_TYPE_GEO,
 } from '../../../../redux/actions/constants/codeList';
-import { NumberInput, Row } from '../../../../components';
-import { convertCodesListsToSelectOption } from '../../../../modules-datasets/utils/codelist-to-select-options';
-import { useStructures } from '../../../../utils/hooks/structures';
+import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
+import { TemporalField } from '../../components/temporalField';
 
 const StatisticalInformationTab = ({
 	editingDataset,

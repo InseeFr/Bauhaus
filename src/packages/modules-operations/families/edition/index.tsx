@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Loading } from '../../../components';
-import OperationsFamilyEdition from '../../../modules-operations/families/edition/edition';
-import { useGoBack } from '../../../utils/hooks/useGoBack';
+
+import { Loading } from '@components/loading';
+
+import { OperationsApi } from '@sdk/operations-api';
+
+import { useGoBack } from '@utils/hooks/useGoBack';
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../../deprecated-locales/build-dictionary';
-import { useTitle } from '../../../utils/hooks/useTitle';
-import { OperationsApi } from '../../../sdk/operations-api';
 import { Family } from '../../../model/operations/family';
+import OperationsFamilyEdition from './edition';
 
 export const Component = () => {
 	const { id } = useParams();

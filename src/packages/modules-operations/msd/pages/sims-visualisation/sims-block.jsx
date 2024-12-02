@@ -1,11 +1,10 @@
-import { rangeType } from '../../../../modules-operations/utils/msd';
-
-import SimsBlockText from './sims-block-text';
-import SimsBlockDate from './sims-block-date';
-import SimsBlockRichText from './sims-block-richtext';
+import { rangeType } from '../../../utils/msd';
 import SimsBlockCodeList from './sims-block-codelist';
-import SimsBlockOrganisation from './sims-block-organisation';
+import SimsBlockDate from './sims-block-date';
 import SimsBlockGeography from './sims-block-geography';
+import SimsBlockOrganisation from './sims-block-organisation';
+import SimsBlockRichText from './sims-block-richtext';
+import SimsBlockText from './sims-block-text';
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 

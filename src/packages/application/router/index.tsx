@@ -1,13 +1,14 @@
-import { useLocation } from 'react-router-dom';
-import Routes from './routes';
 import { PropsWithChildren } from 'react';
 import 'react-app-polyfill/stable';
+import { useLocation } from 'react-router-dom';
+
 import bauhausLogo from '../../../img/logo_noir.svg';
 import Auth from '../../auth/components/auth';
+import { useOidc } from '../../auth/create-oidc';
 import { ADMIN } from '../../auth/roles';
 import D from '../../i18n';
 import { useAppContext } from '../app-context';
-import { useOidc } from '../../auth/create-oidc';
+import Routes from './routes';
 
 export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 	const { isUserLoggedIn, logout } = useOidc();

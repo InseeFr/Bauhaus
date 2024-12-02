@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { formatValidation } from './validation';
 
 describe('formatValidation', () => {

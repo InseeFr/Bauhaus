@@ -1,9 +1,11 @@
-import { PageTitle, CheckSecondLang } from '../../components';
+import { CheckSecondLang } from '@components/check-second-lang';
+import { PageSubtitle } from '@components/page-sub-title';
+import { PageTitle } from '@components/page-title';
+
 import Controls from './controls';
 import General from './general';
-import Notes from './notes';
 import Narrowers from './narrowers';
-import { PageSubtitle } from '../../components/page-sub-title';
+import Notes from './notes';
 
 const ItemVisualization = ({
 	item: { general, notes, narrowers },

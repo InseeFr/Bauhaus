@@ -1,4 +1,4 @@
-import { ValidationState } from '../components';
+import { ValidationState } from '@components/status';
 
 export type PartialDataset = {
 	id: string;

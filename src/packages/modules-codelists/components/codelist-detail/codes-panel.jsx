@@ -1,14 +1,16 @@
 import { Column } from 'primereact/column';
 import { useEffect, useState } from 'react';
+
+import { DataTable } from '@components/datatable';
 import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
-	Row,
-	TextInput,
-} from '../../../components';
-import { DataTable } from '../../../components/datatable';
-import LabelRequired from '../../../components/label-required';
-import { RightSlidingPanel } from '../../../components/sliding-panel';
+} from '@components/errors-bloc';
+import { TextInput } from '@components/form/input';
+import LabelRequired from '@components/label-required';
+import { Row } from '@components/layout';
+import { RightSlidingPanel } from '@components/sliding-panel';
+
 import { API } from '../../apis';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { validateCode } from '../../utils';
@@ -16,6 +18,7 @@ import { CollapsiblePanel } from '../collapsible-panel';
 import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
 import { CodesPanelAddButton } from './codes-panel-add-button';
 import './codes-panel.scss';
+
 const CodeSlidingPanel = ({
 	code: initialCode,
 	handleBack,

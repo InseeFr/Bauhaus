@@ -1,4 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
+
 import { InputMultiRmes } from './';
 
 const handleChangeLg1 = () => '';

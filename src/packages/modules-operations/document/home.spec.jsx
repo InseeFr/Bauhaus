@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
-import DocumentHome from './home';
 import { Provider } from 'react-redux';
+
 import {
 	ADMIN,
 	INDICATOR_CONTRIBUTOR,
@@ -8,6 +8,7 @@ import {
 } from '../../auth/roles';
 import configureStore from '../../redux/configure-store';
 import { renderWithRouter } from '../../tests-utils/render';
+import DocumentHome from './home';
 
 describe('DocumentHome', () => {
 	it('should display the PageTitle component', () => {

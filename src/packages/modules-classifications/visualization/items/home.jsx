@@ -1,10 +1,9 @@
+import { CheckSecondLang } from '@components/check-second-lang';
+import { Row } from '@components/layout';
+import { PageTitle } from '@components/page-title';
+import { SearchableList } from '@components/searchable-list';
+
 import D from '../../../deprecated-locales';
-import {
-	PageTitle,
-	Row,
-	SearchableList,
-	CheckSecondLang,
-} from '../../../components';
 import Controls from './controls';
 
 const ClassificationTree = ({ items, subtitle, classificationId }) => {

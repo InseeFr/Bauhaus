@@ -1,5 +1,7 @@
 import { Column } from 'primereact/column';
-import { DataTable } from '../../../components/datatable';
+
+import { DataTable } from '@components/datatable';
+
 import D from '../../i18n/build-dictionary';
 
 export const ComponentsTable = ({
