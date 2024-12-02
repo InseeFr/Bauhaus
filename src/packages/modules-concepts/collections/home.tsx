@@ -5,9 +5,14 @@ import { SearchableList } from '@components/searchable-list';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../deprecated-locales';
+import { PartialCollection } from '../../model/concepts/collection';
 import { Menu } from './menu';
 
-const CollectionsHome = ({ collections }) => {
+type CollectionsHomeTypes = {
+	collections: PartialCollection[];
+};
+
+const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>) => {
 	useTitle(D.conceptsTitle, D.collectionsTitle);
 	return (
 		<div className="container">

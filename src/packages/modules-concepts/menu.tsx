@@ -12,8 +12,8 @@ import { usePermission } from '../redux/hooks/usePermission';
 
 export const Menu = () => {
 	const permission = usePermission();
-	const { authType, roles } = permission;
-	const authImpl = check(authType);
+	const { roles } = permission;
+	const authImpl = check();
 	const adminOrCreator = authImpl.isAdminOrConceptCreator(roles);
 
 	return (
@@ -23,12 +23,7 @@ export const Menu = () => {
 			</Auth>
 			<ExportButton action="/concepts/export" wrapper={false} />
 			{adminOrCreator && (
-				<PublishButton
-					action="/concepts/validation"
-					col={8}
-					offset={2}
-					wrapper={false}
-				/>
+				<PublishButton action="/concepts/validation" wrapper={false} />
 			)}
 		</VerticalMenu>
 	);
