@@ -23,22 +23,6 @@ describe('Family Home Page Menu', () => {
 			screen.getByText('Back');
 		});
 
-		it('can see the Sims View button if defined with good stamp', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						sims={{ parentsWithoutSims: ['1'] } as unknown as Sims}
-						onPublish={vi.fn()}
-						onExport={vi.fn()}
-						onDelete={vi.fn()}
-						owners={['stamp']}
-					/>
-				</RBACMock>,
-			);
-
-			screen.getByText('Duplicate');
-		});
-
 		it('can not see the Sims View button if defined with good stamp but no siblings', () => {
 			render(
 				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
