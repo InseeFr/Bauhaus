@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { SearchableList } from '../../components';
+import { SearchableList } from '@components/searchable-list';
+
 import D from '../../deprecated-locales';
 import { useTitle } from '../../utils/hooks/useTitle';
 import CollectionsHome from './home';
