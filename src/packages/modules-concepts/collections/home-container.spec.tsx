@@ -6,7 +6,7 @@ import { CollectionApi } from '@sdk/collection-api';
 import CollectionsHome from './home';
 import { Component } from './home-container';
 
-vi.mock('@/components/loading', () => ({
+vi.mock('@components/loading', () => ({
 	Loading: vi.fn(() => <div>Loading...</div>),
 }));
 
