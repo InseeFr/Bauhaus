@@ -7,11 +7,11 @@ import { CLOSE_MATCH } from '@sdk/constants';
 
 import { useAppContext } from '../../application/app-context';
 import D from '../../deprecated-locales';
-import buildPayloadUpdate from '../utils/build-payload-creation-update/build-payload-update';
-import * as generalUtils from '../utils/general';
 import { ConceptsApi } from '../../sdk';
 import { useTitle } from '../../utils/hooks/useTitle';
 import { rmesHtmlToRawHtml } from '../../utils/html-utils';
+import buildPayloadUpdate from '../utils/build-payload-creation-update/build-payload-update';
+import * as generalUtils from '../utils/general';
 import { mergeWithAllConcepts } from '../utils/links';
 import { emptyNotes } from '../utils/notes';
 import ConceptEditionCreation from './home';
