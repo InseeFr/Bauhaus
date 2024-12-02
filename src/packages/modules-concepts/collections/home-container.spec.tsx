@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { CollectionApi } from '../../sdk/collection-api';
+import { CollectionApi } from '@sdk/collection-api';
+
 import CollectionsHome from './home';
 import { Component } from './home-container';
 
@@ -13,7 +14,7 @@ vi.mock('./home', () => ({
 	default: vi.fn(() => <div>CollectionsHome</div>),
 }));
 
-vi.mock('../../sdk/collection-api', () => ({
+vi.mock('@sdk/collection-api', () => ({
 	CollectionApi: {
 		getCollectionList: vi.fn(),
 	},

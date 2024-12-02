@@ -3,16 +3,23 @@ import { vi } from 'vitest';
 
 import { SearchableList } from '@components/searchable-list';
 
+import { useTitle } from '@utils/hooks/useTitle';
+
 import D from '../../deprecated-locales';
-import { useTitle } from '../../utils/hooks/useTitle';
 import CollectionsHome from './home';
 
-vi.mock('../../utils/hooks/useTitle');
-vi.mock('../../components', () => ({
+vi.mock('@components/page-title', () => ({
 	PageTitle: vi.fn(() => <div>PageTitle</div>),
+}));
+vi.mock('@components/layout', () => ({
 	Row: vi.fn(({ children }) => <div>{children}</div>),
+}));
+vi.mock('@components/searchable-list', () => ({
 	SearchableList: vi.fn(() => <div>SearchableList</div>),
 }));
+
+vi.mock('@utils/hooks/useTitle');
+
 vi.mock('./menu', () => ({
 	Menu: vi.fn(() => <div>Menu</div>),
 }));
