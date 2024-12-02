@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
+
 import { SearchableList } from '../../components';
 import D from '../../deprecated-locales';
 import { useTitle } from '../../utils/hooks/useTitle';

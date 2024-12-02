@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
+
 import { CollectionApi } from '../../sdk/collection-api';
 import CollectionsHome from './home';
 import { Component } from './home-container';

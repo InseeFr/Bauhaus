@@ -1,8 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
-import { CodesPanelAddButton } from './codes-panel-add-button';
-import { usePermission } from '../../../redux/hooks/usePermission';
+
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
+import { usePermission } from '../../../redux/hooks/usePermission';
+import { CodesPanelAddButton } from './codes-panel-add-button';
 
 vi.mock('../../../redux/hooks/usePermission', () => ({
 	usePermission: vi.fn(),
