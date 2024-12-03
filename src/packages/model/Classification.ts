@@ -16,3 +16,9 @@ export type Classification = {
 	levels: unknown[];
 	validationState: ValidationState;
 };
+
+export type PartialClassification = {
+	id: string;
+	label: string;
+	altLabels: string;
+};

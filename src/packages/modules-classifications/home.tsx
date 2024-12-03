@@ -5,8 +5,14 @@ import { SearchableList } from '@components/searchable-list';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../deprecated-locales';
+import { PartialClassification } from '../model/Classification';
 
-const ClassificationsHome = ({ classifications }) => {
+type ClassificationsHomeTypes = {
+	classifications: PartialClassification[];
+};
+const ClassificationsHome = ({
+	classifications,
+}: Readonly<ClassificationsHomeTypes>) => {
 	useTitle(D.classificationsTitle, D.classificationsTitle);
 
 	return (
