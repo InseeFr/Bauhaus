@@ -2,7 +2,6 @@ import { PropsWithChildren } from 'react';
 import 'react-app-polyfill/stable';
 import { useLocation } from 'react-router-dom';
 
-import bauhausLogo from '../../../img/logo_noir.svg';
 import Auth from '../../auth/components/auth';
 import { useOidc } from '../../auth/create-oidc';
 import { ADMIN } from '../../auth/roles';
@@ -37,7 +36,7 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 
 			<footer className="text-center" style={{ marginTop: '50px' }}>
 				<p>
-					<img width="100" src={bauhausLogo} alt="application logo" />
+					<img width="100" src="/img/logo_noir.svg" alt="application logo" />
 					{footer}
 				</p>
 				<div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
