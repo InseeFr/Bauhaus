@@ -1,4 +1,4 @@
-import { vi, expect, describe, it, beforeEach, Mock } from 'vitest';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
 import * as utils from '../../utils';
 import { generateSimsBeforeSubmit } from './index';
@@ -14,7 +14,6 @@ describe('generateSimsBeforeSubmit', () => {
 		(utils.getParentIdName as Mock).mockReturnValue('parentId');
 
 		const result = generateSimsBeforeSubmit(
-			'CREATE',
 			{
 				id: '123',
 				labelLg1: 'Label 1',
@@ -36,37 +35,10 @@ describe('generateSimsBeforeSubmit', () => {
 		});
 	});
 
-	it('should generate the correct payload for DUPLICATE mode', () => {
-		(utils.getParentIdName as Mock).mockReturnValue('parentId');
-
-		const result = generateSimsBeforeSubmit(
-			'DUPLICATE',
-			{
-				id: '123',
-				labelLg1: 'Label 1',
-				labelLg2: 'Label 2',
-				created: '2023-01-01',
-			},
-			'series',
-			'parent456',
-			{ rubric2: 'value2' },
-		);
-
-		expect(result).toEqual({
-			id: '',
-			labelLg1: '',
-			labelLg2: '',
-			parentId: 'parent456',
-			created: '',
-			rubrics: { rubric2: 'value2' },
-		});
-	});
-
 	it('should use the correct parent ID name based on parent type', () => {
 		(utils.getParentIdName as Mock).mockReturnValue('idOperation');
 
 		const result = generateSimsBeforeSubmit(
-			'UPDATE',
 			{
 				id: '123',
 				labelLg1: 'Label 1',

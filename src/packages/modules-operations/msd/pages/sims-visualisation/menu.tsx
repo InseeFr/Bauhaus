@@ -1,7 +1,6 @@
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	DeleteButton,
-	DuplicateButton,
 	ExportButton,
 	ReturnButton,
 	UpdateButton,
@@ -16,7 +15,7 @@ import {
 } from '../../../../auth/roles';
 import { Sims } from '../../../../model/Sims';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
-import { getParentUri, shouldDisplayDuplicateButton } from '../../utils';
+import { getParentUri } from '../../utils';
 
 type MenuTypes = {
 	sims: Sims;
@@ -32,7 +31,6 @@ export const Menu = ({
 	onDelete,
 	onPublish,
 }: Readonly<MenuTypes>) => {
-	const shouldDisplayDuplicateButtonFlag = shouldDisplayDuplicateButton(sims);
 	const goBack = useGoBack();
 
 	const checkStamp = (stamp: string) => owners.includes(stamp);
@@ -44,15 +42,6 @@ export const Menu = ({
 	return (
 		<ActionToolbar>
 			<ReturnButton action={() => goBack(getParentUri(sims))} />
-			<Auth
-				roles={[ADMIN, CREATOR]}
-				complementaryCheck={shouldDisplayDuplicateButtonFlag}
-			>
-				<DuplicateButton
-					action={`/operations/sims/${sims.id}/duplicate`}
-					col={3}
-				/>
-			</Auth>
 			<Auth roles={[ADMIN]} complementaryCheck={!!sims.idSeries}>
 				<DeleteButton action={onDelete} />
 			</Auth>

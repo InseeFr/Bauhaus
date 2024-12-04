@@ -14,17 +14,6 @@ import { DocumentAsideInformation, DocumentLink } from './document-list-item';
 import './style.scss';
 
 /**
- * @typedef {Object} DocumentsBlocProps
- * @property {import('js/types').SimsDocuments[]=}  documents
- * @property {String=} localPrefix
- * @property {Boolean=} editMode
- * @property {(string) => void } deleteHandler
- * @property {(string) => void } addHandler
- * @property {String} objectType
- * @property {String} idMas
- */
-
-/**
  * This component will display a list of documents associated
  * to a RICH_TEXT typed rubric of a SIMS
  *

@@ -1,11 +1,5 @@
 import { rangeType } from '../utils/msd';
-import {
-	hasLabelLg2,
-	shouldDisplayDuplicateButton,
-	isOpen,
-	HELP_COLLAPSED,
-	getParentUri,
-} from './utils';
+import { HELP_COLLAPSED, getParentUri, hasLabelLg2, isOpen } from './utils';
 
 const { RICH_TEXT, TEXT, REPORTED_ATTRIBUTE } = rangeType;
 
@@ -34,26 +28,6 @@ describe('isOpen', () => {
 		const input = 2;
 		const output = isOpen(input);
 		expect(output).toBeTruthy();
-	});
-});
-
-describe('shouldDisplayDuplicateButton', () => {
-	it('should return false if this is not an operation', () => {
-		const input = {};
-		expect(shouldDisplayDuplicateButton(input)).toBeFalsy();
-	});
-	it('should return false if this is an operation without any siblings SIMS-less', () => {
-		const input = {
-			idOperation: 1,
-		};
-		expect(shouldDisplayDuplicateButton(input)).toBeFalsy();
-	});
-	it('should return true if this is an operation with siblings without SIMS', () => {
-		const input = {
-			parentsWithoutSims: ['op'],
-			idOperation: 1,
-		};
-		expect(shouldDisplayDuplicateButton(input)).toBeTruthy();
 	});
 });
 

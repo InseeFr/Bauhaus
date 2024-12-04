@@ -24,7 +24,7 @@ import MSDLayout from '../msd/layout';
 import MSDHelp from '../msd/pages/help';
 import SimsCreation from '../msd/pages/sims-creation';
 import SimsVisualisation from '../msd/pages/sims-visualisation';
-import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from './constant';
+import { CREATE, HELP, UPDATE, VIEW } from './constant';
 import { SimsContextProvider } from './context';
 import './msd.scss';
 import { DocumentsStoreProvider } from './pages/sims-creation/documents-store-context';
@@ -89,7 +89,7 @@ class MSDContainer extends ReactComponent {
 	}
 	isEditMode = () => {
 		const { mode } = this.props;
-		return mode === CREATE || mode === UPDATE || mode === DUPLICATE;
+		return mode === CREATE || mode === UPDATE;
 	};
 	render() {
 		const {
@@ -161,7 +161,7 @@ class MSDContainer extends ReactComponent {
 				baseUrl={baseUrl}
 				disableSectionAnchor={disableSectionAnchor}
 			>
-				{mode !== HELP && mode !== DUPLICATE && (
+				{mode !== HELP && (
 					<PageTitleBlock
 						titleLg1={currentSims.labelLg1}
 						titleLg2={currentSims.labelLg2}
