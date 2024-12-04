@@ -11,10 +11,10 @@ export const generateMandatoryAndNotEmptyField = (property: string) => {
 		.min(1, { message: D.mandatoryProperty(property) });
 };
 
-export const StructureZod = z.object({
+export const ZodStructure = z.object({
 	identifiant: generateMandatoryAndNotEmptyField(D.idTitle),
 	labelLg1: generateMandatoryAndNotEmptyField(D1.labelTitle),
 	labelLg2: generateMandatoryAndNotEmptyField(D2.labelTitle),
 });
 
-export const validate = formatValidation(StructureZod);
+export const validate = formatValidation(ZodStructure);

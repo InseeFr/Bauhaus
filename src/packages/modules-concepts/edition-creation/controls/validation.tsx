@@ -13,7 +13,7 @@ type Concept = {
 
 type ConceptsList = Concept[];
 
-const ConceptZod = (
+const ZodConcept = (
 	oldLabelLg1: string,
 	conceptsWithLinks: ConceptsList,
 	maxLengthScopeNote: number,
@@ -67,7 +67,7 @@ export const validate = (
 	maxLengthScopeNote: number,
 ) =>
 	formatValidation(
-		ConceptZod(
+		ZodConcept(
 			oldLabelLg1,
 			conceptsWithLinks,
 			maxLengthScopeNote,

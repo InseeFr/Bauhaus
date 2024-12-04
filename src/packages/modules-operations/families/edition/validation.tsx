@@ -4,7 +4,7 @@ import { formatValidation } from '@utils/validation';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
 
-const Family = z.object({
+const ZodFamily = z.object({
 	prefLabelLg1: z
 		.string({ required_error: D.mandatoryProperty(D1.title) })
 		.trim()
@@ -15,4 +15,4 @@ const Family = z.object({
 		.min(1, { message: D.mandatoryProperty(D2.title) }),
 });
 
-export const validate = formatValidation(Family);
+export const validate = formatValidation(ZodFamily);

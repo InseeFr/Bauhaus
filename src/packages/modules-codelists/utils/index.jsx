@@ -1,14 +1,15 @@
 import { z } from 'zod';
 
+import { formatValidation } from '@utils/validation';
+
 import MainDictionary from '../../deprecated-locales/build-dictionary';
-import { formatValidation } from '../../utils/validation';
 import D, { D1, D2 } from '../i18n/build-dictionary';
 
 export const formatLabel = (component) => {
 	return <>{component.labelLg1}</>;
 };
 
-const CodesList = z.object({
+const ZodCodeList = z.object({
 	lastListUriSegment: z
 		.string({
 			required_error: D.mandatoryProperty(D.lastListUriSegmentTitleShort),
@@ -53,16 +54,16 @@ const CodesList = z.object({
 		}),
 });
 export const validateCodelist = (codelist) =>
-	formatValidation(CodesList)(codelist);
+	formatValidation(ZodCodeList)(codelist);
 
-const PartialCodesList = z.object({
+const ZodPartialCodeList = z.object({
 	id: z
 		.string({
 			required_error: D.mandatoryProperty(D.idTitle),
 		})
 		.trim()
 		.min(1, { message: D.mandatoryProperty(D.idTitle) })
-		.regex(/^[a-zA-Z0-9_]*$/, D.validCharactersProperty(D1.idTitle)),
+		.regex(/^\w*$/, D.validCharactersProperty(D1.idTitle)),
 	parentCode: z
 		.string({
 			required_error: D.mandatoryProperty(D.parentCodelist),
@@ -96,7 +97,7 @@ const PartialCodesList = z.object({
 		}),
 });
 export const validatePartialCodelist = (codelist) =>
-	formatValidation(PartialCodesList)(codelist);
+	formatValidation(ZodPartialCodeList)(codelist);
 
 const Code = (shouldCheckDuplicate, codes) =>
 	z.object({

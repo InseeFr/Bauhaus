@@ -4,7 +4,7 @@ import { formatValidation } from '@utils/validation';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
 
-const Operation = z.object({
+const ZodOperation = z.object({
 	series: z.object(
 		{
 			id: z
@@ -26,4 +26,4 @@ const Operation = z.object({
 		.min(1, { message: D.mandatoryProperty(D2.title) }),
 });
 
-export const validate = formatValidation(Operation);
+export const validate = formatValidation(ZodOperation);

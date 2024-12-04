@@ -24,7 +24,7 @@ const deburr = (value: string) =>
 		.normalize('NFD')
 		.replace(/\p{Diacritic}/gu, '');
 
-const CollectionZod = (
+const ZodCollection = (
 	collectionList: CollectionsList,
 	initialId: string,
 	initialPrefLabelLg1: string,
@@ -52,5 +52,5 @@ export const validate = (
 	initialPrefLabelLg1: string,
 ) =>
 	formatValidation(
-		CollectionZod(collectionList, initialId, initialPrefLabelLg1),
+		ZodCollection(collectionList, initialId, initialPrefLabelLg1),
 	)(general);

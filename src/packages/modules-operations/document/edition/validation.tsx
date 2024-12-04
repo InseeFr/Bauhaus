@@ -42,7 +42,7 @@ const Base = (
 			.min(1, { message: D.requiredLang }),
 	});
 
-const LinkZod = (
+const ZodLink = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
 	currentLabelLg2: string,
@@ -68,7 +68,7 @@ const File = z.object({
 		.regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { message: D.wrongFileName }),
 });
 
-const DocumentZod = (
+const ZodDocument = (
 	documentsAndLinksList: Document[],
 	currentLabelLg1: string,
 	currentLabelLg2: string,
@@ -95,6 +95,6 @@ export const validate = (
 ) =>
 	formatValidation(
 		type === LINK
-			? LinkZod(documentsAndLinksList, currentLabelLg1, currentLabelLg2)
-			: DocumentZod(documentsAndLinksList, currentLabelLg1, currentLabelLg2),
+			? ZodLink(documentsAndLinksList, currentLabelLg1, currentLabelLg2)
+			: ZodDocument(documentsAndLinksList, currentLabelLg1, currentLabelLg2),
 	)(document);

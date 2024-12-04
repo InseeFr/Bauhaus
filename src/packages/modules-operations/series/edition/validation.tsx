@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { z, ZodObject } from 'zod';
 
 import { formatValidation } from '@utils/validation';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
 
-let Serie = z.object({
+let ZodSerie: ZodObject<any> = z.object({
 	family: z.object(
 		{
 			id: z
@@ -38,16 +38,20 @@ export const listOfExtraMandatoryFields = (
 	import.meta.env.VITE_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? ''
 ).split(',');
 
-export const isMandatoryField = (fieldName) =>
+export const isMandatoryField = (fieldName: string) =>
 	listOfExtraMandatoryFields.indexOf(fieldName) >= 0;
 
-const fieldToTitleMapping = {
+type Fields = {
+	[key: string]: string;
+};
+
+const fieldToTitleMapping: Fields = {
 	typeCode: D1.operationType,
 	accrualPeriodicityCode: D1.dataCollectFrequency,
 };
 
 listOfExtraMandatoryFields.forEach((extraMandatoryField) => {
-	Serie = Serie.setKey(
+	ZodSerie = ZodSerie.setKey(
 		extraMandatoryField,
 		z
 			.string({
@@ -63,4 +67,4 @@ listOfExtraMandatoryFields.forEach((extraMandatoryField) => {
 	);
 });
 
-export const validate = formatValidation(Serie);
+export const validate = formatValidation(ZodSerie);
