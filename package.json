@@ -22,7 +22,8 @@
 		"prepare": "husky",
 		"_format": "prettier 'src/**/*.{ts,tsx,js,jsx,json,md}'",
 		"format": "npm run _format -- --write",
-		"format:check": "npm run _format -- --list-different"
+		"format:check": "npm run _format -- --list-different",
+		"typecheck": "tsc --noEmit"
 	},
 	"browserslist": [
 		">0.2%",

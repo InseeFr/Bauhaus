@@ -3,7 +3,6 @@
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
-
 import { defineConfig, devices } from 'playwright/test';
 
 /**
@@ -39,8 +38,7 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command:
-			'chmod 777 ./playwright/db/init.sh && ./playwright/db/init.sh && VITE_API_BASE_HOST=http://localhost:8080/api npm run start',
+		command: 'VITE_API_BASE_HOST=http://localhost:8080/api npm run start',
 		url: 'http://localhost:3000',
 	},
 });

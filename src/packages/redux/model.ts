@@ -1,6 +1,6 @@
 export type ReduxAction = {
 	type: string;
-	payload: any;
+	payload?: any;
 };
 
 export type ReduxAppModel = {
