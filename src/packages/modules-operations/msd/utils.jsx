@@ -43,19 +43,6 @@ export function hasLabelLg2(section) {
 }
 
 /**
- * Return true if the duplicate button should be displayed.
- * For the moment only Sims linked to an operation (with siblings operations
- * wihout SIMS) can use this feature.
- *
- * @param {Object} sims
- * @returns {Boolean}
- */
-export function shouldDisplayDuplicateButton(sims) {
-	const siblingsWithoutSims = sims.parentsWithoutSims || [];
-	return siblingsWithoutSims.length > 0 && sims.idOperation;
-}
-
-/**
  *
  * @param {import('js/types').Sims} sims
  * @returns {String}

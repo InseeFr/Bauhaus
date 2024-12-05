@@ -2,7 +2,7 @@ import { Navigate, RouteObject } from 'react-router-dom';
 
 import { OperationsApi } from '@sdk/operations-api';
 
-import { CREATE, DUPLICATE, UPDATE, VIEW } from '../msd/constant';
+import { CREATE, UPDATE, VIEW } from '../msd/constant';
 
 export const routes: RouteObject[] = [
 	{
@@ -178,17 +178,6 @@ export const routes: RouteObject[] = [
 				mode: UPDATE,
 				disableSectionAnchor: true,
 				baseUrl: `/operations/sims/${params.id}/modify`,
-			};
-		},
-		lazy: () => import('../msd/'),
-	},
-	{
-		path: 'sims/:id/duplicate',
-		loader: ({ params }) => {
-			return {
-				mode: DUPLICATE,
-				disableSectionAnchor: true,
-				baseUrl: `/operations/sims/${params.id}/duplicate`,
 			};
 		},
 		lazy: () => import('../msd/'),

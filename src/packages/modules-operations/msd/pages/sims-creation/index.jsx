@@ -17,7 +17,6 @@ import { mdFromEditorState } from '@utils/html-utils';
 
 import D from '../../../../deprecated-locales';
 import { rangeType } from '../../../utils/msd';
-import { DUPLICATE } from '../../constant';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import {
 	getParentId,
@@ -36,18 +35,17 @@ import { getDefaultSims, getSiblingSims } from './utils/getSims';
 const { RICH_TEXT } = rangeType;
 
 export const generateSimsBeforeSubmit = (
-	mode,
 	simsProp,
 	parentType,
 	idParent,
 	rubrics,
 ) => {
 	return {
-		id: mode !== DUPLICATE ? simsProp.id : '',
-		labelLg1: mode !== DUPLICATE ? simsProp.labelLg1 : '',
-		labelLg2: mode !== DUPLICATE ? simsProp.labelLg2 : '',
+		id: simsProp.id,
+		labelLg1: simsProp.labelLg1,
+		labelLg2: simsProp.labelLg2,
 		[getParentIdName(parentType)]: idParent,
-		created: mode !== DUPLICATE ? simsProp.created : '',
+		created: simsProp.created,
 		rubrics,
 	};
 };
@@ -84,9 +82,7 @@ const SimsCreation = ({
 	const [saving, setSaving] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const secondLang = true;
-	const [idParent, setIdParent] = useState(
-		mode !== DUPLICATE ? idParentProp || getParentId(simsProp) : '',
-	);
+	const idParent = idParentProp || getParentId(simsProp);
 
 	const blocker = useBlocker(({ currentLocation, nextLocation }) => {
 		return changed && currentLocation.pathname !== nextLocation.pathname;
@@ -105,10 +101,6 @@ const SimsCreation = ({
 		setSims((sims) => ({ ...sims, [e.id]: { ...sims[e.id], ...e.override } }));
 	};
 
-	const updateIdParent = (value) => {
-		setIdParent(value);
-	};
-
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
@@ -120,13 +112,7 @@ const SimsCreation = ({
 		setChanged(false);
 
 		onSubmit(
-			generateSimsBeforeSubmit(
-				mode,
-				simsProp,
-				parentType,
-				idParentToSave,
-				rubrics,
-			),
+			generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics),
 			(id) => {
 				setSaving(false);
 				goBack(`/operations/sims/${id}`, true);
@@ -151,11 +137,6 @@ const SimsCreation = ({
 			value: c.id,
 		})),
 	);
-
-	const operationsOptions = (simsProp.parentsWithoutSims || []).map((op) => ({
-		label: op.labelLg1,
-		value: op.id,
-	}));
 
 	const operationsWithSimsOptions = (parentWithSims || [])
 		.map((op) => ({
@@ -300,30 +281,18 @@ const SimsCreation = ({
 						{index === 0 && (
 							<>
 								<CheckSecondLang />
-								{mode === DUPLICATE && (
-									<Select
-										placeholder={D.operationsTitle}
-										value={operationsOptions.find(
-											({ value }) => value === idParent,
-										)}
-										options={operationsOptions}
-										onChange={updateIdParent}
-									/>
-								)}
 
-								{mode !== DUPLICATE && (
-									<Select
-										className="bauhaus-sims-duplicate"
-										placeholder={D.createFromAnExistingReport}
-										value={operationsWithSimsOptions.find(
-											({ value }) => value === idParent,
-										)}
-										options={operationsWithSimsOptions}
-										onChange={onSiblingSimsChange()}
-										disabled={changed}
-										autofocus
-									/>
-								)}
+								<Select
+									className="bauhaus-sims-duplicate"
+									placeholder={D.createFromAnExistingReport}
+									value={operationsWithSimsOptions.find(
+										({ value }) => value === idParent,
+									)}
+									options={operationsWithSimsOptions}
+									onChange={onSiblingSimsChange()}
+									disabled={changed}
+									autofocus
+								/>
 							</>
 						)}
 						{MSDInformations(msd, handleChange, true)}

@@ -1,6 +1,5 @@
 import { createAllDictionary } from '@utils/dictionnary';
 
-import bauhausLogo from '../../../img/logo.svg';
 import './index.scss';
 
 const { D } = createAllDictionary({
@@ -15,7 +14,7 @@ export const ApplicationTitle = () => {
 			<div className="application-title__container">
 				<div className="application-title__wrapper">
 					<h1>
-						<img src={bauhausLogo} alt="application logo" />
+						<img src="/img/logo.svg" alt="application logo" />
 						{D.welcome}
 					</h1>
 				</div>

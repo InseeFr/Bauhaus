@@ -7,6 +7,7 @@ import {
 	GlobalClientSideErrorBloc,
 } from '@components/errors-bloc';
 import { InputRmes } from '@components/input-rmes';
+import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
@@ -34,6 +35,7 @@ const defaultIndicator = {
 	historyNoteLg1: '',
 	historyNoteLg2: '',
 	accrualPeriodicityList: CL_FREQ,
+	wasGeneratedBy: [],
 };
 
 class OperationsIndicatorEdition extends Component {
@@ -379,22 +381,24 @@ class OperationsIndicatorEdition extends Component {
 					</Row>
 					<Row>
 						<div className="form-group col-md-12">
-							<label className="w-100">
-								{D1.generatedBy}
-								<Select
-									value={indicator.wasGeneratedBy}
-									options={seriesOptions}
-									multi
-									placeholder=""
-									onChange={(value) =>
-										this.onChange('wasGeneratedBy')(
-											value.map((v) => {
-												return { id: v.value, type: v.type };
-											}),
-										)
-									}
-								/>
-							</label>
+							<LabelRequired className="w-100">{D1.generatedBy}</LabelRequired>
+							<Select
+								value={indicator.wasGeneratedBy}
+								options={seriesOptions}
+								multi
+								placeholder=""
+								onChange={(value) =>
+									this.onChange('wasGeneratedBy')(
+										value.map((v) => {
+											return { id: v.value, type: v.type };
+										}),
+									)
+								}
+							/>
+							<ClientSideError
+								id="generated-by-error"
+								error={this.state.clientSideErrors?.fields?.wasGeneratedBy}
+							></ClientSideError>
 						</div>
 					</Row>
 					<Row>

@@ -42,9 +42,9 @@ describe('validation', function () {
 				prefLabelLg2: 'prefLabelLg2',
 			}),
 		).toEqual({
-			errorMessage: ['The property <strong>Séries</strong> is required.'],
+			errorMessage: ['The property <strong>Serie</strong> is required.'],
 			fields: {
-				series: 'The property <strong>Séries</strong> is required.',
+				series: 'The property <strong>Serie</strong> is required.',
 				prefLabelLg1: '',
 				prefLabelLg2: '',
 				year: '',

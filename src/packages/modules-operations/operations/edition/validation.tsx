@@ -1,33 +1,30 @@
 import { z } from 'zod';
 
-import { formatValidation } from '@utils/validation';
+import {
+	formatValidation,
+	mandatoryAndNotEmptyTextField,
+} from '@utils/validation';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
 
-const Operation = z.object({
+const ZodOperation = z.object({
 	series: z.object(
 		{
 			id: z
-				.string({ required_error: D.mandatoryProperty(D1.seriesTitle) })
+				.string({ required_error: D.mandatoryProperty(D.serieTitle) })
 				.trim()
-				.min(1, { message: D.mandatoryProperty(D1.seriesTitle) }),
+				.min(1, { message: D.mandatoryProperty(D.serieTitle) }),
 		},
 		{
-			required_error: D.mandatoryProperty(D1.seriesTitle),
+			required_error: D.mandatoryProperty(D.serieTitle),
 		},
 	),
-	prefLabelLg1: z
-		.string({ required_error: D.mandatoryProperty(D1.title) })
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D1.title) }),
-	prefLabelLg2: z
-		.string({ required_error: D.mandatoryProperty(D2.title) })
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D2.title) }),
-	year: z.coerce
+	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
+	prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
+  year: z.coerce
 		.number({ message: D.numberProperty(D1.year) })
 		.int({ message: D.numberProperty(D1.year) })
 		.optional(),
 });
 
-export const validate = formatValidation(Operation);
+export const validate = formatValidation(ZodOperation);

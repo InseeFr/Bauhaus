@@ -38,11 +38,9 @@ describe('validation', function () {
 				labelLg2: 'labelLg2',
 			}),
 		).toEqual({
-			errorMessage: [
-				'The property <strong>Jeu de Données</strong> is required.',
-			],
+			errorMessage: ['The property <strong>Dataset</strong> is required.'],
 			fields: {
-				idDataset: 'The property <strong>Jeu de Données</strong> is required.',
+				idDataset: 'The property <strong>Dataset</strong> is required.',
 				labelLg1: '',
 				labelLg2: '',
 			},

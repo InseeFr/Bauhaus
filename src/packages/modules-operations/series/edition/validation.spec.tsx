@@ -55,16 +55,16 @@ describe('validation', function () {
 			}),
 		).toEqual({
 			errorMessage: [
-				'The property <strong>Famille</strong> is required.',
+				'The property <strong>Family</strong> is required.',
 				'The property <strong>Intitulé</strong> is required.',
 				'The property <strong>Title</strong> is required.',
-				'The property <strong>Owner</strong> is required.',
+				'The property <strong>Owners</strong> is required.',
 			],
 			fields: {
-				family: 'The property <strong>Famille</strong> is required.',
+				family: 'The property <strong>Family</strong> is required.',
 				prefLabelLg1: 'The property <strong>Intitulé</strong> is required.',
 				prefLabelLg2: 'The property <strong>Title</strong> is required.',
-				creators: 'The property <strong>Owner</strong> is required.',
+				creators: 'The property <strong>Owners</strong> is required.',
 				accrualPeriodicityCode: '',
 				typeCode: '',
 			},

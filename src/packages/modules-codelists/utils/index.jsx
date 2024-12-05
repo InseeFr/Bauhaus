@@ -1,124 +1,67 @@
 import { z } from 'zod';
 
+import {
+	formatValidation,
+	mandatoryAndNotEmptySelectField,
+	mandatoryAndNotEmptyTextField,
+} from '@utils/validation';
+
 import MainDictionary from '../../deprecated-locales/build-dictionary';
-import { formatValidation } from '../../utils/validation';
 import D, { D1, D2 } from '../i18n/build-dictionary';
 
 export const formatLabel = (component) => {
 	return <>{component.labelLg1}</>;
 };
 
-const CodesList = z.object({
-	lastListUriSegment: z
-		.string({
-			required_error: D.mandatoryProperty(D.lastListUriSegmentTitleShort),
-		})
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D.lastListUriSegmentTitleShort) }),
-	lastCodeUriSegment: z
-		.string({
-			required_error: D.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
-		})
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D.lastCodeUriSegmentTitleShort) }),
-	lastClassUriSegment: z
-		.string({
-			required_error: D.mandatoryProperty(D.lastClassUriSegmentTitleShort),
-		})
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D.lastClassUriSegmentTitleShort) }),
-	id: z
-		.string({ required_error: D.mandatoryProperty(D.idTitle) })
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D.idTitle) }),
-	labelLg1: z
-		.string({ required_error: D.mandatoryProperty(D1.labelTitle) })
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D1.labelTitle) }),
-	labelLg2: z
-		.string({ required_error: D.mandatoryProperty(D2.labelTitle) })
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D2.labelTitle) }),
-	creator: z
-		.string({ required_error: D.mandatoryProperty(D.creator) })
-		.min(1, { message: D.mandatoryProperty(D.creator) }),
-	disseminationStatus: z
-		.string({
-			required_error: D.mandatoryProperty(
-				MainDictionary.disseminationStatusTitle,
-			),
-		})
-		.min(1, {
-			message: D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
-		}),
+const ZodCodeList = z.object({
+	lastListUriSegment: mandatoryAndNotEmptyTextField(
+		D.lastListUriSegmentTitleShort,
+	),
+	lastCodeUriSegment: mandatoryAndNotEmptyTextField(
+		D.lastCodeUriSegmentTitleShort,
+	),
+	lastClassUriSegment: mandatoryAndNotEmptyTextField(
+		D.lastClassUriSegmentTitleShort,
+	),
+	id: mandatoryAndNotEmptyTextField(D.idTitle),
+	labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
+	labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
+	creator: mandatoryAndNotEmptySelectField(D.creator),
+	disseminationStatus: mandatoryAndNotEmptySelectField(
+		MainDictionary.disseminationStatusTitle,
+	),
 });
-export const validateCodelist = (codelist) =>
-	formatValidation(CodesList)(codelist);
 
-const PartialCodesList = z.object({
-	id: z
-		.string({
-			required_error: D.mandatoryProperty(D.idTitle),
-		})
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D.idTitle) })
-		.regex(/^[a-zA-Z0-9_]*$/, D.validCharactersProperty(D1.idTitle)),
-	parentCode: z
-		.string({
-			required_error: D.mandatoryProperty(D.parentCodelist),
-		})
-		.min(1, { message: D.mandatoryProperty(D.parentCodelist) }),
-	labelLg1: z
-		.string({
-			required_error: D.mandatoryProperty(D1.labelTitle),
-		})
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D1.labelTitle) }),
-	labelLg2: z
-		.string({
-			required_error: D.mandatoryProperty(D2.labelTitle),
-		})
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D2.labelTitle) }),
-	creator: z
-		.string({
-			required_error: D.mandatoryProperty(D.creator),
-		})
-		.min(1, { message: D.mandatoryProperty(D.creator) }),
-	disseminationStatus: z
-		.string({
-			required_error: D.mandatoryProperty(
-				MainDictionary.disseminationStatusTitle,
-			),
-		})
-		.min(1, {
-			message: D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
-		}),
+export const validateCodelist = (codelist) =>
+	formatValidation(ZodCodeList)(codelist);
+
+const ZodPartialCodeList = z.object({
+	id: mandatoryAndNotEmptyTextField(D.idTitle).regex(
+		/^\w*$/,
+		D.validCharactersProperty(D.idTitle),
+	),
+	parentCode: mandatoryAndNotEmptySelectField(D.parentCodelist),
+	labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
+	labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
+	creator: mandatoryAndNotEmptySelectField(D.creator),
+	disseminationStatus: mandatoryAndNotEmptySelectField(
+		MainDictionary.disseminationStatusTitle,
+	),
 });
+
 export const validatePartialCodelist = (codelist) =>
-	formatValidation(PartialCodesList)(codelist);
+	formatValidation(ZodPartialCodeList)(codelist);
 
 const Code = (shouldCheckDuplicate, codes) =>
 	z.object({
-		code: z
-			.string({ required_error: D.mandatoryProperty(D.idTitle) })
-			.trim()
-			.min(1, { message: D.mandatoryProperty(D.idTitle) })
-			.refine(
-				(value) =>
-					!shouldCheckDuplicate || !codes.find((c) => c.code === value),
-				{
-					message: D.ErrorDoubleCode,
-				},
-			),
-		labelLg1: z
-			.string({ required_error: D.mandatoryProperty(D1.labelTitle) })
-			.trim()
-			.min(1, { message: D.mandatoryProperty(D1.labelTitle) }),
-		labelLg2: z
-			.string({ required_error: D.mandatoryProperty(D2.labelTitle) })
-			.trim()
-			.min(1, { message: D.mandatoryProperty(D2.labelTitle) }),
+		code: mandatoryAndNotEmptyTextField(D.idTitle).refine(
+			(value) => !shouldCheckDuplicate || !codes.find((c) => c.code === value),
+			{
+				message: D.ErrorDoubleCode,
+			},
+		),
+		labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
+		labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
 	});
 
 export const validateCode = (code, codes, updateMode) => {

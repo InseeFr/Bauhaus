@@ -2,6 +2,10 @@ import { ValidationState } from '@components/status';
 
 export type Rubric = {
 	idAttribute: string;
+	labelLg1: string;
+	labelLg2: string;
+	documentsLg1?: string[];
+	documentsLg2?: string[];
 };
 
 export type Sims = {

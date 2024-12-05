@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 
 import { PageTitle } from '@components/page-title';
 
-import dashBoardLogo from '../../../img/dashboard.png';
 import D from '../../deprecated-locales';
 import { useTitle } from '../../utils/hooks/useTitle';
 import './home.scss';
@@ -19,7 +18,7 @@ export const Component = () => {
 			</div>
 			<div className="text-center">
 				<Link to="/concepts/administration/dashboard">
-					<img src={dashBoardLogo} alt="Dashboard" />
+					<img src="/img/dashboard.png" alt="Dashboard" />
 				</Link>
 			</div>
 		</div>

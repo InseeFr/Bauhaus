@@ -58,21 +58,21 @@ describe('validation', function () {
 			}),
 		).toEqual({
 			errorMessage: [
-				'The property <strong>Propriétaire</strong> is required.',
-				'The property <strong>Gestionnaire</strong> is required.',
-				'The property <strong>Statut de diffusion</strong> is required.',
-				'The property <strong>Produit de</strong> is required.',
+				'The property <strong>Owner</strong> is required.',
+				'The property <strong>Contributors</strong> is required.',
+				'The property <strong>Dissemination status</strong> is required.',
+				'The property <strong>Produced from</strong> is required.',
 			],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
 				altIdentifier: '',
-				creator: 'The property <strong>Propriétaire</strong> is required.',
-				contributor: 'The property <strong>Gestionnaire</strong> is required.',
+				creator: 'The property <strong>Owner</strong> is required.',
+				contributor: 'The property <strong>Contributors</strong> is required.',
 				disseminationStatus:
-					'The property <strong>Statut de diffusion</strong> is required.',
+					'The property <strong>Dissemination status</strong> is required.',
 				wasGeneratedIRIs:
-					'The property <strong>Produit de</strong> is required.',
+					'The property <strong>Produced from</strong> is required.',
 			},
 		});
 	});
@@ -89,7 +89,9 @@ describe('validation', function () {
 				wasGeneratedIRIs: [],
 			}),
 		).toEqual({
-			errorMessage: ['The property <strong>Produit de</strong> is required.'],
+			errorMessage: [
+				'The property <strong>Produced from</strong> is required.',
+			],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
@@ -98,7 +100,7 @@ describe('validation', function () {
 				contributor: '',
 				disseminationStatus: '',
 				wasGeneratedIRIs:
-					'The property <strong>Produit de</strong> is required.',
+					'The property <strong>Produced from</strong> is required.',
 			},
 		});
 	});
