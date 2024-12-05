@@ -1,7 +1,5 @@
-import { ChangeEventHandler } from 'react';
-
 import { ClientSideError } from '@components/errors-bloc';
-import { NumberInput, TextInput } from '@components/form/input';
+import { TextInput } from '@components/form/input';
 import { Row } from '@components/layout';
 
 import D from '../../../../deprecated-locales';
