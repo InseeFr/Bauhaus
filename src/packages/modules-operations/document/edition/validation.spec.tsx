@@ -76,11 +76,11 @@ describe('validation', function () {
 				'currentLabelLg2',
 			),
 		).toEqual({
-			errorMessage: ['The language is required'],
+			errorMessage: ['The property <strong>Language</strong> is required.'],
 			fields: {
 				labelLg1: '',
 				labelLg2: '',
-				lang: 'The language is required',
+				lang: 'The property <strong>Language</strong> is required.',
 				updatedDate: '',
 				files: '',
 			},

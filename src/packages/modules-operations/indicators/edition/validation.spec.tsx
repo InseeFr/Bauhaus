@@ -45,11 +45,11 @@ describe('validation', function () {
 				wasGeneratedBy: [{ id: 'i', type: 'series' }],
 			}),
 		).toEqual({
-			errorMessage: ['The property <strong>Owner</strong> is required.'],
+			errorMessage: ['The property <strong>Owners</strong> is required.'],
 			fields: {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
-				creators: 'The property <strong>Owner</strong> is required.',
+				creators: 'The property <strong>Owners</strong> is required.',
 				wasGeneratedBy: '',
 			},
 		});
@@ -63,11 +63,11 @@ describe('validation', function () {
 				wasGeneratedBy: [{ id: 'i', type: 'series' }],
 			}),
 		).toEqual({
-			errorMessage: ['The property <strong>Owner</strong> is required.'],
+			errorMessage: ['The property <strong>Owners</strong> is required.'],
 			fields: {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
-				creators: 'The property <strong>Owner</strong> is required.',
+				creators: 'The property <strong>Owners</strong> is required.',
 				wasGeneratedBy: '',
 			},
 		});
