@@ -25,7 +25,7 @@ export const YearInput = ({
 					onChange={(e) => {
 						onChange(e.target.value);
 					}}
-					aria-describedby="year"
+					aria-describedby="year-error"
 				/>
 				<ClientSideError id="year-error" error={error}></ClientSideError>
 			</div>
