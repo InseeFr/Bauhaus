@@ -138,15 +138,22 @@ const dictionary = {
 		fr: 'Sélectionnez le statut de publication...',
 		en: 'Select publication status...',
 	},
+	creatorsTitle: {
+		fr: 'Propriétaires',
+		en: 'Owners',
+	},
 	creatorTitle: {
 		fr: 'Propriétaire',
 		en: 'Owner',
+	},
+	contributorsTitle: {
+		fr: 'Gestionnaires',
+		en: 'Contributors',
 	},
 	contributorTitle: {
 		fr: 'Gestionnaire',
 		en: 'Contributor',
 	},
-
 	disseminationStatusTitle: {
 		fr: 'Statut de diffusion',
 		en: 'Dissemination status',

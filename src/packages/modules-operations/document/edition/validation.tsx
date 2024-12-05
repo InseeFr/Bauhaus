@@ -1,17 +1,14 @@
 import { z } from 'zod';
 
-import { formatValidation } from '@utils/validation';
+import {
+	formatValidation,
+	mandatoryAndNotEmptySelectField,
+	mandatoryAndNotEmptyTextField,
+} from '@utils/validation';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
 import { Document } from '../../../model/operations/document';
 import { LINK } from '../utils';
-
-const generateMandatoryAndNotEmptyField = (property: string) => {
-	return z
-		.string({ required_error: D.mandatoryProperty(property) })
-		.trim()
-		.min(1, { message: D.mandatoryProperty(property) });
-};
 
 const Base = (
 	documentsAndLinksList: Document[],
@@ -19,7 +16,7 @@ const Base = (
 	currentLabelLg2: string,
 ) =>
 	z.object({
-		labelLg1: generateMandatoryAndNotEmptyField(D1.title).refine(
+		labelLg1: mandatoryAndNotEmptyTextField(D1.title).refine(
 			(value) =>
 				value === currentLabelLg1 ||
 				!documentsAndLinksList
@@ -28,7 +25,7 @@ const Base = (
 
 			{ message: D.duplicatedTitle },
 		),
-		labelLg2: generateMandatoryAndNotEmptyField(D2.title).refine(
+		labelLg2: mandatoryAndNotEmptyTextField(D2.title).refine(
 			(value) =>
 				value === currentLabelLg2 ||
 				!documentsAndLinksList
@@ -37,9 +34,7 @@ const Base = (
 
 			{ message: D.duplicatedTitle },
 		),
-		lang: z
-			.string({ required_error: D.requiredLang })
-			.min(1, { message: D.requiredLang }),
+		lang: mandatoryAndNotEmptySelectField(D.langTitle),
 	});
 
 const ZodLink = (

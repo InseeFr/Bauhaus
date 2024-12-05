@@ -1,6 +1,11 @@
 import { z, ZodObject } from 'zod';
 
-import { formatValidation } from '@utils/validation';
+import {
+	formatValidation,
+	mandatoryAndNotEmptyMultiSelectField,
+	mandatoryAndNotEmptySelectField,
+	mandatoryAndNotEmptyTextField,
+} from '@utils/validation';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
 
@@ -8,30 +13,17 @@ let ZodSerie: ZodObject<any> = z.object({
 	family: z.object(
 		{
 			id: z
-				.string({ required_error: D.mandatoryProperty(D1.familyTitle) })
+				.string({ required_error: D.mandatoryProperty(D.familyTitle) })
 				.trim()
-				.min(1, { message: D.mandatoryProperty(D1.familyTitle) }),
+				.min(1, { message: D.mandatoryProperty(D.familyTitle) }),
 		},
 		{
-			required_error: D.mandatoryProperty(D1.familyTitle),
+			required_error: D.mandatoryProperty(D.familyTitle),
 		},
 	),
-	prefLabelLg1: z
-		.string({ required_error: D.mandatoryProperty(D1.title) })
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D1.title) }),
-	prefLabelLg2: z
-		.string({ required_error: D.mandatoryProperty(D2.title) })
-		.trim()
-		.min(1, { message: D.mandatoryProperty(D2.title) }),
-	creators: z
-		.string({
-			required_error: D.mandatoryProperty(D.creatorTitle),
-		})
-		.array()
-		.nonempty({
-			message: D.mandatoryProperty(D.creatorTitle),
-		}),
+	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
+	prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
+	creators: mandatoryAndNotEmptyMultiSelectField(D.creatorsTitle),
 });
 
 export const listOfExtraMandatoryFields = (
@@ -41,29 +33,17 @@ export const listOfExtraMandatoryFields = (
 export const isMandatoryField = (fieldName: string) =>
 	listOfExtraMandatoryFields.indexOf(fieldName) >= 0;
 
-type Fields = {
-	[key: string]: string;
-};
-
-const fieldToTitleMapping: Fields = {
-	typeCode: D1.operationType,
-	accrualPeriodicityCode: D1.dataCollectFrequency,
+const fieldToTitleMapping: Record<string, string> = {
+	typeCode: D.operationType,
+	accrualPeriodicityCode: D.dataCollectFrequency,
 };
 
 listOfExtraMandatoryFields.forEach((extraMandatoryField) => {
 	ZodSerie = ZodSerie.setKey(
 		extraMandatoryField,
-		z
-			.string({
-				required_error: D.mandatoryProperty(
-					fieldToTitleMapping[extraMandatoryField] ?? '',
-				),
-			})
-			.min(1, {
-				message: D.mandatoryProperty(
-					fieldToTitleMapping[extraMandatoryField] ?? '',
-				),
-			}),
+		mandatoryAndNotEmptySelectField(
+			fieldToTitleMapping[extraMandatoryField] ?? '',
+		),
 	);
 });
 

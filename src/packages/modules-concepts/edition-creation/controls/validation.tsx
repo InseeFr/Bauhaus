@@ -1,7 +1,11 @@
 import { z } from 'zod';
 
 import { htmlIsEmpty, htmlLength } from '@utils/html-utils';
-import { formatValidation } from '@utils/validation';
+import {
+	formatValidation,
+	mandatoryAndNotEmptySelectField,
+	mandatoryAndNotEmptyTextField,
+} from '@utils/validation';
 
 import D, { D1 } from '../../../deprecated-locales';
 import { ConceptGeneral, ConceptNotes } from '../../../model/concepts/concept';
@@ -20,27 +24,18 @@ const ZodConcept = (
 	scopeNoteLg1CanBeEmpty: boolean,
 ) =>
 	z.object({
-		prefLabelLg1: z
-			.string({ required_error: D.mandatoryProperty(D1.labelTitle) })
-			.trim()
-			.min(1, { message: D.mandatoryProperty(D1.labelTitle) })
-			.refine(
-				(value) =>
-					value === oldLabelLg1 ||
-					!conceptsWithLinks
-						.map((concept: Concept) => concept.label)
-						.includes(value),
-
-				{ message: D.duplicatedLabel },
-			),
-		creator: z
-			.string({ required_error: D.mandatoryProperty(D.creatorTitle) })
-			.min(1, { message: D.mandatoryProperty(D.creatorTitle) }),
-		disseminationStatus: z
-			.string({
-				required_error: D.mandatoryProperty(D.disseminationStatusTitle),
-			})
-			.min(1, { message: D.mandatoryProperty(D.disseminationStatusTitle) }),
+		prefLabelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle).refine(
+			(value) =>
+				value === oldLabelLg1 ||
+				!conceptsWithLinks
+					.map((concept: Concept) => concept.label)
+					.includes(value),
+			{ message: D.duplicatedLabel },
+		),
+		creator: mandatoryAndNotEmptySelectField(D.creatorTitle),
+		disseminationStatus: mandatoryAndNotEmptySelectField(
+			D.disseminationStatusTitle,
+		),
 		scopeNoteLg1: z
 			.string()
 			.refine((value) => htmlLength(value) <= maxLengthScopeNote, {

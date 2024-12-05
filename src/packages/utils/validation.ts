@@ -1,4 +1,6 @@
-import { ZodObject } from 'zod';
+import { z, ZodObject } from 'zod';
+
+import D from '../deprecated-locales';
 
 export const formatValidation =
 	(zodObject: ZodObject<any>) => (values: any) => {
@@ -37,3 +39,25 @@ export const formatValidation =
 			errorMessage,
 		};
 	};
+
+export const mandatoryAndNotEmptyTextField = (property: string) => {
+	return z
+		.string({ required_error: D.mandatoryProperty(property) })
+		.trim()
+		.min(1, { message: D.mandatoryProperty(property) });
+};
+
+export const mandatoryAndNotEmptySelectField = (property: string) => {
+	return z
+		.string({ required_error: D.mandatoryProperty(property) })
+		.min(1, { message: D.mandatoryProperty(property) });
+};
+
+export const mandatoryAndNotEmptyMultiSelectField = (property: string) => {
+	return z
+		.string({ required_error: D.mandatoryProperty(property) })
+		.array()
+		.nonempty({
+			message: D.mandatoryProperty(property),
+		});
+};

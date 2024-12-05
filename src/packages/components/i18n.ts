@@ -81,8 +81,8 @@ const dictionary = {
 	},
 	contributors: {
 		title: {
-			fr: 'Gestionnaire',
-			en: 'Contributor',
+			fr: 'Gestionnaires',
+			en: 'Contributors',
 		},
 		stampsPlaceholder: {
 			fr: 'Sélectionnez un timbre...',

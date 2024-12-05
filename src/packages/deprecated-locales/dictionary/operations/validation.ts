@@ -23,10 +23,6 @@ const messages = {
 		fr: 'Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.',
 		en: 'The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols',
 	},
-	notASerie: {
-		fr: "L'objet rattaché n'est pas une série",
-		en: 'Linked object is not a serie',
-	},
 	documents: {
 		serverSideErrors: {
 			304: {

@@ -1,14 +1,18 @@
 import { z } from 'zod';
 
-import { formatValidation } from '@utils/validation';
+import {
+	formatValidation,
+	mandatoryAndNotEmptySelectField,
+	mandatoryAndNotEmptyTextField,
+} from '@utils/validation';
 
-import D from '../../../deprecated-locales';
-import { ZodStructure } from '../../edition/validation';
+import D, { D1, D2 } from '../../../deprecated-locales';
 
-const ZodComponent = ZodStructure.extend({
-	type: z
-		.string({ required_error: D.mandatoryProperty(D.type) })
-		.min(1, { message: D.mandatoryProperty(D.type) }),
+const ZodComponent = z.object({
+	identifiant: mandatoryAndNotEmptyTextField(D.idTitle),
+	labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
+	labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
+	type: mandatoryAndNotEmptySelectField(D.type),
 });
 
 export const validate = formatValidation(ZodComponent);
