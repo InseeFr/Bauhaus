@@ -22,7 +22,7 @@ describe('GlobalInformationsPanel', () => {
 		screen.getByText(/Modification date : 02\/01\/2022/);
 		screen.getByText(/Publication status : Temporary, never published/);
 		screen.getByText(/Creator : STAMP CREATOR/);
-		screen.getByText(/Contributor :/);
+		screen.getByText(/Contributors :/);
 		screen.getByText(/STAMP CONTRIBUTOR/);
 		screen.getByText(/Dissemination status : Public generic/);
 	});

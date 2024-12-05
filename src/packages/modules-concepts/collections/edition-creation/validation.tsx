@@ -1,7 +1,11 @@
 import { z } from 'zod';
 
 import { arrayKeepUniqueField } from '@utils/array-utils';
-import { formatValidation } from '@utils/validation';
+import {
+	formatValidation,
+	mandatoryAndNotEmptySelectField,
+	mandatoryAndNotEmptyTextField,
+} from '@utils/validation';
 
 import D, { D1 } from '../../../deprecated-locales';
 import { Collection } from '../../../model/concepts/collection';
@@ -11,38 +15,31 @@ type CollectionsList = {
 	label: string;
 }[];
 
-const generateMandatoryAndNotEmptyField = (property: string) => {
-	return z
-		.string({ required_error: D.mandatoryProperty(property) })
-		.trim()
-		.min(1, { message: D.mandatoryProperty(property) });
-};
-
 const deburr = (value: string) =>
 	value
 		.toLowerCase()
 		.normalize('NFD')
 		.replace(/\p{Diacritic}/gu, '');
 
-const CollectionZod = (
+const ZodCollection = (
 	collectionList: CollectionsList,
 	initialId: string,
 	initialPrefLabelLg1: string,
 ) =>
 	z.object({
-		id: generateMandatoryAndNotEmptyField(D.idTitle).refine(
+		id: mandatoryAndNotEmptyTextField(D.idTitle).refine(
 			(value) =>
 				value === initialId ||
 				!arrayKeepUniqueField(collectionList, 'id').includes(deburr(value)),
 			{ message: D.duplicatedId },
 		),
-		prefLabelLg1: generateMandatoryAndNotEmptyField(D1.labelTitle).refine(
+		prefLabelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle).refine(
 			(value) =>
 				value === initialPrefLabelLg1 ||
 				!arrayKeepUniqueField(collectionList, 'label').includes(deburr(value)),
 			{ message: D.duplicatedLabel },
 		),
-		creator: generateMandatoryAndNotEmptyField(D.creatorTitle),
+		creator: mandatoryAndNotEmptySelectField(D.creatorTitle),
 	});
 
 export const validate = (
@@ -52,5 +49,5 @@ export const validate = (
 	initialPrefLabelLg1: string,
 ) =>
 	formatValidation(
-		CollectionZod(collectionList, initialId, initialPrefLabelLg1),
+		ZodCollection(collectionList, initialId, initialPrefLabelLg1),
 	)(general);
