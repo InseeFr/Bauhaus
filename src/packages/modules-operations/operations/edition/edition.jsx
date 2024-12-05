@@ -24,7 +24,7 @@ const defaultOperation = {
 	prefLabelLg2: '',
 	altLabelLg1: '',
 	altLabelLg2: '',
-	year: '',
+	year: undefined,
 };
 
 class OperationsOperationEdition extends Component {
@@ -78,6 +78,7 @@ class OperationsOperationEdition extends Component {
 	};
 
 	onSubmit = () => {
+		console.log(this.state.operation);
 		const clientSideErrors = validate(this.state.operation);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			this.setState({
@@ -222,7 +223,16 @@ class OperationsOperationEdition extends Component {
 							/>
 						</div>
 					</Row>
-					<YearInput value={operation.year} onChange={this.onChange} />
+					<YearInput
+						value={operation.year}
+						onChange={(value) => {
+							console.log(value);
+							this.onChange({
+								target: { value, id: 'year' },
+							});
+						}}
+						error={this.state.clientSideErrors?.fields?.year}
+					/>
 				</form>
 			</div>
 		);

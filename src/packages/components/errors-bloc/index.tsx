@@ -4,7 +4,7 @@ export const ClientSideError = ({
 	error,
 	id,
 }: Readonly<{
-	error: string;
+	error?: string;
 	id: string;
 }>) => {
 	return error ? (

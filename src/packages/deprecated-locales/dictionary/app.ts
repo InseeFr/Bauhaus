@@ -466,6 +466,12 @@ const dictionary = {
 		en: (propertyName: string) =>
 			`The property <strong>${propertyName}</strong> is required.`,
 	},
+	numberProperty: {
+		fr: (propertyName: string) =>
+			`La propriété <strong>${propertyName}</strong> doit être un entier.`,
+		en: (propertyName: string) =>
+			`The property <strong>${propertyName}</strong> must be an integer.`,
+	},
 };
 
 export default dictionary;
