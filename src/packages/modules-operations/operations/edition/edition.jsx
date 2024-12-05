@@ -226,7 +226,6 @@ class OperationsOperationEdition extends Component {
 					<YearInput
 						value={operation.year}
 						onChange={(value) => {
-							console.log(value);
 							this.onChange({
 								target: { value, id: 'year' },
 							});
