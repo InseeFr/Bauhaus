@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import * as hooks from '@utils/hooks/codeslist';
 import * as structureHooks from '@utils/hooks/structures';
@@ -29,8 +29,8 @@ describe('StatisticalInformations Component', () => {
 	const mockStructures = [{ iri: 'structure1', labelLg1: 'Structure 1' }];
 
 	it('renders all statistical information correctly', () => {
-		(hooks.useCodesList as jest.Mock).mockReturnValue([]);
-		(structureHooks.useStructures as jest.Mock).mockReturnValue({
+		(hooks.useCodesList as Mock).mockReturnValue([]);
+		(structureHooks.useStructures as Mock).mockReturnValue({
 			data: mockStructures,
 		});
 

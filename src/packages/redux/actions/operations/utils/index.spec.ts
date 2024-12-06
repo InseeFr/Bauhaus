@@ -1,3 +1,4 @@
+import { ReduxModel } from '../../../model';
 import { getItemFactory, getPublishFactory } from './index';
 
 const dispatch = vi.fn();
@@ -12,7 +13,7 @@ describe('getItemFactory', () => {
 		const id = '1';
 		await getItemFactory(remoteCall, 'LOADING', 'SUCCESS', 'FAILURE')(id)(
 			dispatch,
-			() => ({}),
+			() => ({}) as unknown as ReduxModel,
 		);
 		expect(dispatch).toHaveBeenCalledWith({
 			type: 'LOADING',
@@ -30,7 +31,7 @@ describe('getItemFactory', () => {
 		const id = '1';
 		await getItemFactory(remoteCall, 'LOADING', 'SUCCESS', 'FAILURE')(id)(
 			dispatch,
-			() => ({}),
+			() => ({}) as unknown as ReduxModel,
 		);
 		expect(dispatch).toHaveBeenCalledWith({
 			type: 'LOADING',

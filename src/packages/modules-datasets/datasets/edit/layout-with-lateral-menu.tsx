@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { MouseEvent, ReactNode, useState } from 'react';
 
 import D from '../../../deprecated-locales';
 import './layout-with-lateral-menu.scss';
@@ -8,7 +8,13 @@ const styleContent = {
 	display: 'block',
 };
 
-export const CollapsibleTrigger = ({ opened, onClick }) => {
+export const CollapsibleTrigger = ({
+	opened,
+	onClick,
+}: Readonly<{
+	opened: boolean;
+	onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
+}>) => {
 	return (
 		<button type="button" title={opened ? D.hide : D.display} onClick={onClick}>
 			<span
@@ -18,10 +24,12 @@ export const CollapsibleTrigger = ({ opened, onClick }) => {
 	);
 };
 
-export const MenuTabInErrorIndicator = ({ isInError }) => {
+export const MenuTabInErrorIndicator = ({
+	isInError,
+}: Readonly<{ isInError: boolean }>) => {
 	if (isInError) {
 		return (
-			<span ariaLabel={D.menuTabKo} title={D.menuTabKo}>
+			<span aria-label={D.menuTabKo} title={D.menuTabKo}>
 				⚠️
 			</span>
 		);
@@ -30,24 +38,35 @@ export const MenuTabInErrorIndicator = ({ isInError }) => {
 	return <></>;
 };
 
-export const LayoutWithLateralMenu = ({ children, layoutConfiguration }) => {
+type LayoutItemConfiguration = {
+	children: LayoutConfiguration;
+	closed: boolean;
+	title: string;
+	isInError: boolean;
+};
+type LayoutConfiguration = Record<string, LayoutItemConfiguration>;
+export const LayoutWithLateralMenu = ({
+	children,
+	layoutConfiguration,
+}: Readonly<{
+	layoutConfiguration: LayoutConfiguration;
+	children: (key: string) => ReactNode;
+}>) => {
 	const [runtimeLayoutConfiguration, setRuntimeLayoutConfiguration] =
-		useState(layoutConfiguration);
+		useState<LayoutConfiguration>(layoutConfiguration);
 
-	const allChildrenItems = Object.values(runtimeLayoutConfiguration).reduce(
-		(acc, configuration) => {
+	const allChildrenItems: Record<string, LayoutItemConfiguration> =
+		Object.values(runtimeLayoutConfiguration).reduce((acc, configuration) => {
 			return {
 				...acc,
 				...configuration.children,
 			};
-		},
-		{},
-	);
+		}, {});
 	const [currentOpenedPanelKey, setCurrentOpenedPanelKey] = useState(
 		Object.keys(allChildrenItems)[0],
 	);
 
-	const openMainMenu = (key) => {
+	const openMainMenu = (key: string) => {
 		setRuntimeLayoutConfiguration({
 			...runtimeLayoutConfiguration,
 			[key]: {

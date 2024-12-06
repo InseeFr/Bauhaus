@@ -60,7 +60,7 @@ export const delPTags = (s: string) =>
 //HACK avoid new lines and unecesseray whitespaces in the html. Not safe: some
 //of these whitespaces might impact the rendered html. But for notes edited with
 //the html editor, it should be ok.
-export function htmlFromEditorState(editorState: EditorState) {
+export function htmlFromEditorState(editorState: typeof EditorState) {
 	function setStyle(property: string, color: string) {
 		return {
 			element: 'span',
@@ -93,7 +93,7 @@ export function editorStateFromHtml(html: string) {
 	return EditorState.createWithContent(stateFromHTML(html));
 }
 
-export function mdFromEditorState(editorState: EditorState) {
+export function mdFromEditorState(editorState: typeof EditorState) {
 	/*
 	 * Sometimes the React editor  include space when formatting text (bold or italic).
 	 * With the following code, we remove this issue.

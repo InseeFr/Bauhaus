@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { PropsWithChildren } from 'react';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import { ThemesApi } from '@sdk/index';
 
@@ -29,7 +29,7 @@ describe('useThemes Hook', () => {
 			{ uri: 'theme2', label: 'Theme 2', idConceptScheme: 'Scheme 2' },
 		];
 
-		(ThemesApi.getThemes as jest.Mock).mockResolvedValue(mockThemes);
+		(ThemesApi.getThemes as Mock).mockResolvedValue(mockThemes);
 
 		const { result } = renderHook(() => useThemes(), { wrapper });
 
