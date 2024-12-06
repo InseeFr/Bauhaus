@@ -6,9 +6,11 @@ export const buildFields = (fieldsWithRequired: string[][]) =>
 
 export const buildEmpty = (fieldsWithRequired: string[][]) => {
 	const general = objectFromKeys(buildFields(fieldsWithRequired), '');
-	fieldsWithRequired.map(([field, _req, type]) =>
-		type === 'array' ? (general[field] = []) : null,
-	);
+	fieldsWithRequired.forEach(([field, _req, type]) => {
+		if (type === 'array') {
+			general[field] = [];
+		}
+	});
 	return general;
 };
 
@@ -16,10 +18,8 @@ export const buildEmptyWithContributor = (
 	fieldsWithRequired: string[][],
 	defaultContributor: string,
 ) => {
-	const general = objectFromKeys(buildFields(fieldsWithRequired), '');
-	general.contributor = defaultContributor;
-	fieldsWithRequired.map(([field, _req, type]) =>
-		type === 'array' ? (general[field] = []) : null,
-	);
-	return general;
+	return {
+		...buildEmpty(fieldsWithRequired),
+		contributor: defaultContributor,
+	};
 };
