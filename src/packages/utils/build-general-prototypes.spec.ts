@@ -1,11 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import {
-	buildFields,
 	buildEmpty,
 	buildEmptyWithContributor,
+	buildFields,
 } from './build-general-proptypes';
-import objectFromKeys from './object-from-keys';
 
 vi.mock('./object-from-keys', () => ({
 	default: (keys: string[], defaultValue: any) => {
