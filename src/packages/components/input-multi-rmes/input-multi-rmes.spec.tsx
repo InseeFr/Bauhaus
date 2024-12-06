@@ -5,7 +5,7 @@ import { InputMultiRmes } from './index';
 
 vi.mock('primereact/chips', () => ({
 	Chips: ({
-		value,
+		value = [],
 		onChange,
 	}: {
 		value: string[];
@@ -14,7 +14,7 @@ vi.mock('primereact/chips', () => ({
 		<input
 			data-testid="chips-input"
 			value={value.join(',')}
-			onChange={(e) => onChange({ value: e.target.value.split(',') })}
+			onChange={(e) => onChange({ value: e.target.value?.split(',') })}
 		/>
 	),
 }));
@@ -95,9 +95,9 @@ describe('InputMultiRmes', () => {
 				inputLg1={['value1']}
 				label="untranslatedLabel"
 				handleChangeLg1={handleChangeLg1}
+				handleChangeLg2={handleChangeLg1}
 			/>,
 		);
-
-		expect(screen.getByText('untranslatedLabel')).toBeInTheDocument();
+		expect(screen.getAllByText('untranslatedLabel').length).toBe(2);
 	});
 });
