@@ -38,13 +38,14 @@ export const MenuTabInErrorIndicator = ({
 	return <></>;
 };
 
-type LayoutItemConfiguration = {
+export type LayoutItemConfiguration = {
 	children: LayoutConfiguration;
 	closed: boolean;
 	title: string;
 	isInError: boolean;
 };
-type LayoutConfiguration = Record<string, LayoutItemConfiguration>;
+export type LayoutConfiguration = Record<string, LayoutItemConfiguration>;
+
 export const LayoutWithLateralMenu = ({
 	children,
 	layoutConfiguration,
