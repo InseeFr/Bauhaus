@@ -13,7 +13,7 @@ describe('YearInput Component', () => {
 		const label = screen.getByText('Year');
 		expect(label.getAttribute('for')).toBe('year');
 
-		const numberInput = screen.getByRole('spinbutton') as HTMLInputElement;
+		const numberInput = screen.getByRole('textbox') as HTMLInputElement;
 		expect(numberInput.getAttribute('id')).toBe('year');
 		expect(numberInput.value).toBe('2024');
 	});
@@ -24,7 +24,7 @@ describe('YearInput Component', () => {
 
 		render(<YearInput value="" onChange={mockOnChange} />);
 
-		const numberInput = screen.getByRole('spinbutton') as HTMLInputElement;
+		const numberInput = screen.getByRole('textbox') as HTMLInputElement;
 
 		await user.type(numberInput, '2025');
 

@@ -21,6 +21,10 @@ const ZodOperation = z.object({
 	),
 	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
 	prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
+  year: z.coerce
+		.number({ message: D.numberProperty(D1.year) })
+		.int({ message: D.numberProperty(D1.year) })
+		.optional(),
 });
 
 export const validate = formatValidation(ZodOperation);
