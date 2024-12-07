@@ -78,7 +78,6 @@ class OperationsOperationEdition extends Component {
 	};
 
 	onSubmit = () => {
-		console.log(this.state.operation);
 		const clientSideErrors = validate(this.state.operation);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			this.setState({

@@ -1,7 +1,7 @@
-import globals from 'globals';
 import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default [
 	{
@@ -24,6 +24,7 @@ export default [
 	{
 		settings: { react: { version: '18.3' } },
 		rules: {
+			'no-console': ['error', { allow: ['warn', 'error'] }],
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/ban-ts-comment': 'off',
 		},
