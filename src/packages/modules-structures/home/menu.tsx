@@ -21,19 +21,10 @@ export const HomePageMenu = () => {
 				<ImportButton
 					label={D.btnImport}
 					action="/structures/import"
-					col={8}
-					offset={2}
 					wrapper={false}
 				/>
 			)}
-			{isLocal && (
-				<ExportButton
-					action="/structures/export"
-					col={8}
-					offset={2}
-					wrapper={false}
-				/>
-			)}
+			{isLocal && <ExportButton action="/structures/export" wrapper={false} />}
 		</VerticalMenu>
 	);
 };

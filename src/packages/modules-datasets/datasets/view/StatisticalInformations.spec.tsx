@@ -44,8 +44,8 @@ describe('StatisticalInformations Component', () => {
 	});
 
 	it('renders conditional fields correctly', () => {
-		hooks.useCodesList.mockReturnValue([]);
-		structureHooks.useStructures.mockReturnValue({
+		(hooks.useCodesList as Mock).mockReturnValue([]);
+		(structureHooks.useStructures as Mock).mockReturnValue({
 			data: mockStructures,
 		});
 

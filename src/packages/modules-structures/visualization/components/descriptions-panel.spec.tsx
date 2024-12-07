@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import { useSecondLang } from '@utils/hooks/second-lang';
 
@@ -19,7 +19,7 @@ describe('DescriptionsPanel', async () => {
 	});
 
 	it('should display the first language description when secondLang is false', () => {
-		useSecondLang.mockReturnValue([false]);
+		(useSecondLang as Mock).mockReturnValue([false]);
 
 		render(
 			<DescriptionsPanel
@@ -38,7 +38,7 @@ describe('DescriptionsPanel', async () => {
 	});
 
 	it('should display both descriptions when secondLang is true', () => {
-		useSecondLang.mockReturnValue([true]);
+		(useSecondLang as Mock).mockReturnValue([true]);
 
 		render(
 			<DescriptionsPanel
