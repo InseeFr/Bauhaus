@@ -6,10 +6,6 @@ const dictionary = {
 		fr: 'Français',
 		en: 'English',
 	},
-	welcome: {
-		fr: 'Application de gestion des métadonnées de référence',
-		en: 'Metadata management application',
-	},
 	help: {
 		fr: 'Aide',
 		en: 'Help',

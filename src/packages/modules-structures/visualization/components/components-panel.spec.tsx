@@ -53,6 +53,6 @@ describe('ComponentsPanel', () => {
 		render(<ComponentsPanel componentDefinitions={[]} />);
 
 		expect((StructureComponentsSelector as Mock).mock.calls).toHaveLength(1);
-		expect((CodesListPanel as jest.Mock).mock.calls).toHaveLength(1);
+		expect((CodesListPanel as Mock).mock.calls).toHaveLength(1);
 	});
 });

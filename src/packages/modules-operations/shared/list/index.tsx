@@ -1,12 +1,23 @@
+import { ReactNode } from 'react';
+
 import { Button } from '@components/buttons/button';
 import { Row } from '@components/layout';
 import { PageTitle } from '@components/page-title';
 import { SearchableList } from '@components/searchable-list';
 import { VerticalMenu } from '@components/vertical-menu';
 
-import Auth from '../../../auth/components/auth';
+import Auth, { RoleChecks } from '../../../auth/components/auth';
 import D from '../../../deprecated-locales';
 
+type OperationsObjectHomeTypes = {
+	items: any[];
+	roles: RoleChecks;
+	title: string;
+	childPath: string;
+	searchURL: string;
+	advancedSearch?: boolean;
+	createButton: ReactNode;
+};
 function OperationsObjectHome({
 	items,
 	roles,
@@ -15,7 +26,7 @@ function OperationsObjectHome({
 	searchURL,
 	advancedSearch = true,
 	createButton,
-}) {
+}: Readonly<OperationsObjectHomeTypes>) {
 	return (
 		<div className="container">
 			<Row>

@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
 import { Structure } from '../../model/structures/Structure';
 import configureStore from '../../redux/configure-store';
@@ -71,14 +71,14 @@ describe('<StructureView />', () => {
 				></StructureView>
 			</Provider>,
 		);
-		expect((GlobalInformationsPanel as jest.Mock).mock.calls).toHaveLength(1);
-		expect((DescriptionsPanel as jest.Mock).mock.calls).toHaveLength(1);
-		expect(
-			(DescriptionsPanel as jest.Mock).mock.calls[0][0].descriptionLg1,
-		).toBe('descriptionLg1');
-		expect(
-			(DescriptionsPanel as jest.Mock).mock.calls[0][0].descriptionLg2,
-		).toBe('descriptionLg2');
-		expect((ComponentsPanel as jest.Mock).mock.calls).toHaveLength(1);
+		expect((GlobalInformationsPanel as Mock).mock.calls).toHaveLength(1);
+		expect((DescriptionsPanel as Mock).mock.calls).toHaveLength(1);
+		expect((DescriptionsPanel as Mock).mock.calls[0][0].descriptionLg1).toBe(
+			'descriptionLg1',
+		);
+		expect((DescriptionsPanel as Mock).mock.calls[0][0].descriptionLg2).toBe(
+			'descriptionLg2',
+		);
+		expect((ComponentsPanel as Mock).mock.calls).toHaveLength(1);
 	});
 });

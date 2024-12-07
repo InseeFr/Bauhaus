@@ -24,7 +24,7 @@ jobs:
       - uses: adambirds/docker-compose-action@v1.5.0
         with:
           compose-file: './bauhaus-back-office/compose.yml'
-          test-command: 'npx playwright test'
+          test-command: 'chmod 777 ./playwright/db/init.sh && ./playwright/db/init.sh && npx playwright test'
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with: I 

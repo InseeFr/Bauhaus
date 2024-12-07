@@ -1,13 +1,8 @@
 /**
  * Create an empty object with a default value
- *
- * @export
- * @param {array} keys
- * @param {any} defaultValue
- * @returns {object}
  */
-export default function objectFromKeys(keys, defaultValue) {
-	return keys.reduce((obj, key) => {
+export default function objectFromKeys(keys: string[], defaultValue: string) {
+	return keys.reduce((obj: Record<string, string>, key: string) => {
 		obj[key] = defaultValue;
 		return obj;
 	}, {});
