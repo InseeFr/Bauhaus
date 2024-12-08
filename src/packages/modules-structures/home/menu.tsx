@@ -9,9 +9,9 @@ import Auth from '../../auth/components/auth';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
 import D from '../../deprecated-locales/build-dictionary';
 
-export const HomePageMenu = () => {
-	const isLocal = import.meta.env.VITE_API_MODE === 'local';
-
+export const DumbHomePageMenu = ({
+	isLocal,
+}: Readonly<{ isLocal: boolean }>) => {
 	return (
 		<VerticalMenu>
 			<Auth roles={[ADMIN, STRUCTURE_CONTRIBUTOR]}>
@@ -27,4 +27,9 @@ export const HomePageMenu = () => {
 			{isLocal && <ExportButton action="/structures/export" wrapper={false} />}
 		</VerticalMenu>
 	);
+};
+
+export const HomePageMenu = () => {
+	const isLocal = import.meta.env.VITE_API_MODE === 'local';
+	return <DumbHomePageMenu isLocal={isLocal} />;
 };
