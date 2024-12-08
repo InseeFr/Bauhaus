@@ -21,7 +21,7 @@ import { routes as OperationsRoutes } from '../../modules-operations/routes/inde
 import { routes as StructuresRoutes } from '../../modules-structures/routes/index';
 import App from '../app';
 import { useAppContext } from '../app-context';
-import './routes.scss';
+import './routes.css';
 
 const HomePage = () => {
 	const {
