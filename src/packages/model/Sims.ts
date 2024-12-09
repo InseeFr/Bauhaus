@@ -6,6 +6,7 @@ export type Rubric = {
 	labelLg2: string;
 	documentsLg1?: string[];
 	documentsLg2?: string[];
+	rangeType: string;
 };
 
 export type Sims = {
@@ -21,4 +22,6 @@ export type Sims = {
 
 export type MetadataStructure = {
 	idMas: string;
+	isPresentational: boolean;
+	children: Record<string, MetadataStructure>;
 };

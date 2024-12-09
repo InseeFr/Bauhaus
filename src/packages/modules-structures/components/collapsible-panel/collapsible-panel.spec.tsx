@@ -49,7 +49,7 @@ describe('Collapsible Panel', () => {
 		);
 		expect(container.querySelector('#idbody')).not.toHaveAttribute('hidden');
 
-		fireEvent.click(container.querySelector('#idbutton'));
+		fireEvent.click(container.querySelector('#idbutton')!);
 
 		expect(container.querySelector('#idbody')).toHaveAttribute('hidden');
 	});

@@ -1,19 +1,20 @@
 import { editorStateFromMd } from '@utils/html-utils';
 
+import { MetadataStructure, Rubric, Sims } from '../../model/Sims';
 import { rangeType } from '../utils/msd';
-import { DUPLICATE } from './constant';
+import { DUPLICATE, Mode } from './constant';
 
 const { RICH_TEXT, TEXT, ORGANIZATION, DATE, GEOGRAPHY, CODE_LIST } = rangeType;
 
 export const HELP_COLLAPSED = 'HELP_COLLAPSED';
 
-export function isOpen(id) {
-	const collapsed = JSON.parse(localStorage.getItem(HELP_COLLAPSED)) || {};
+export function isOpen(id: string) {
+	const collapsed = JSON.parse(localStorage.getItem(HELP_COLLAPSED) || '{}');
 	return collapsed[id] || false;
 }
 
-export function toggleOpen(id) {
-	const collapsed = JSON.parse(localStorage.getItem(HELP_COLLAPSED)) || {};
+export function toggleOpen(id: string) {
+	const collapsed = JSON.parse(localStorage.getItem(HELP_COLLAPSED) || '{}');
 	const previous = collapsed[id] || false;
 	localStorage.setItem(
 		HELP_COLLAPSED,
@@ -26,11 +27,8 @@ export function toggleOpen(id) {
 
 /**
  * Return true if the section of a MSD should display its labelLg2
- *
- * @param {Object} section
- * @returns {Boolean}
  */
-export function hasLabelLg2(section) {
+export function hasLabelLg2(section: Rubric) {
 	const sectionsWhichDisplayLg2 = [
 		TEXT,
 		RICH_TEXT,
@@ -42,12 +40,7 @@ export function hasLabelLg2(section) {
 	return sectionsWhichDisplayLg2.includes(section.rangeType);
 }
 
-/**
- *
- * @param {import('js/types').Sims} sims
- * @returns {String}
- */
-export function getParentUri(sims) {
+export function getParentUri(sims: Sims) {
 	if (sims.idOperation) {
 		return `/operations/operation/${sims.idOperation}`;
 	} else if (sims.idSeries) {
@@ -57,7 +50,9 @@ export function getParentUri(sims) {
 	}
 }
 
-export function getParentType(sims) {
+export const getParentType = (
+	sims: Sims,
+): 'operation' | 'series' | 'indicator' | undefined => {
 	if (sims.idOperation) {
 		return 'operation';
 	}
@@ -67,13 +62,15 @@ export function getParentType(sims) {
 	if (sims.idIndicator) {
 		return 'indicator';
 	}
-}
+};
 
-export function getParentId(sims) {
+export function getParentId(sims: Sims) {
 	return sims.idOperation || sims.idSeries || sims.idIndicator;
 }
 
-export function getParentIdName(parentType) {
+export function getParentIdName(
+	parentType: 'operation' | 'series' | 'indicator',
+) {
 	if (parentType === 'operation') {
 		return 'idOperation';
 	}
@@ -85,7 +82,10 @@ export function getParentIdName(parentType) {
 	}
 }
 
-export function removeRubricsWhenDuplicate(mode, rubrics = {}) {
+export function removeRubricsWhenDuplicate(
+	mode: Mode,
+	rubrics: Record<string, Rubric> = {},
+) {
 	/**
 	 * @type {string[]} name A name to use.
 	 */
@@ -110,7 +110,7 @@ export function removeRubricsWhenDuplicate(mode, rubrics = {}) {
 	}, {});
 }
 
-export function shouldDisplayTitleForPrimaryItem(msd) {
+export function shouldDisplayTitleForPrimaryItem(msd: MetadataStructure) {
 	return (
 		msd.isPresentational ||
 		(!msd.isPresentational && Object.keys(msd.children).length === 0)
