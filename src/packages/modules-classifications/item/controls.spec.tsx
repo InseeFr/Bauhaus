@@ -21,7 +21,7 @@ describe('classification-item-controls', () => {
 	it('renders without crashing', () => {
 		renderWithRouter(
 			<Provider store={store}>
-				<Controls classificationId="nafr2" itemId="A" version="1" />
+				<Controls classificationId="nafr2" itemId="A" version={1} />
 			</Provider>,
 		);
 	});

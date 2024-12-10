@@ -4,7 +4,7 @@ import { VerticalMenu } from '@components/vertical-menu';
 import Auth from '../../../auth/components/auth';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 
-export const HomePageMenu = ({ filter }) => {
+export const HomePageMenu = ({ filter }: Readonly<{ filter: string }>) => {
 	return (
 		<VerticalMenu>
 			<Auth roles={[ADMIN, STRUCTURE_CONTRIBUTOR]}>
