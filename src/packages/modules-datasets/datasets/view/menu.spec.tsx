@@ -1,16 +1,21 @@
 import { render, screen } from '@testing-library/react';
 
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
+import { Dataset } from '../../../model/Dataset';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { RBACMock } from '../../../tests-utils/rbac';
 import { ViewMenu } from './menu';
 
 describe('Dataset View Menu', () => {
 	it('a user can only see the go back button', () => {
-		const dataset = {};
+		const dataset = {} as unknown as Dataset;
 		render(
 			<RBACMock roles={[]}>
-				<ViewMenu dataset={dataset}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
@@ -21,10 +26,14 @@ describe('Dataset View Menu', () => {
 	});
 
 	it('an admin can goBack, publish, delete and update a dataset even if the stamp is not correct', () => {
-		const dataset = {};
+		const dataset = {} as unknown as Dataset;
 		render(
 			<RBACMock roles={[ADMIN]}>
-				<ViewMenu dataset={dataset}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
@@ -38,10 +47,14 @@ describe('Dataset View Menu', () => {
 		const dataset = {
 			validationState: UNPUBLISHED,
 			catalogRecord: { contributor: 'INSEE' },
-		};
+		} as unknown as Dataset;
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
-				<ViewMenu dataset={dataset}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
@@ -55,10 +68,14 @@ describe('Dataset View Menu', () => {
 		const dataset = {
 			validationState: 'Published',
 			catalogRecord: { contributor: ['INSEE'] },
-		};
+		} as unknown as Dataset;
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
-				<ViewMenu dataset={dataset}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
@@ -72,10 +89,14 @@ describe('Dataset View Menu', () => {
 		const dataset = {
 			validationState: 'Published',
 			catalogRecord: { contributor: ['XXXXXX'] },
-		};
+		} as unknown as Dataset;
 		render(
 			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
-				<ViewMenu dataset={dataset}></ViewMenu>
+				<ViewMenu
+					dataset={dataset}
+					onPublish={vi.fn()}
+					onDelete={vi.fn()}
+				></ViewMenu>
 			</RBACMock>,
 		);
 
