@@ -1,4 +1,4 @@
-import './errors-bloc.scss';
+import './errors-bloc.css';
 
 export const ClientSideError = ({
 	error,

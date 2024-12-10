@@ -13,9 +13,6 @@ dist
 .deploy
 deploy.sh
 
-# styles
-*.css
-
 # storybook building files
 /website
 

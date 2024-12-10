@@ -85,7 +85,7 @@ export const sortArray =
 
 export const sortArrayByLabel = sortArray('label');
 
-export const nbResults = (array: any[], many?: any, one?: any) =>
+export const nbResults = (array: unknown[], many?: string, one?: string) =>
 	`${array.length} ${array.length > 1 ? many : one}`;
 
 export const filterKeyDeburr = (keys: any) => (rawStr: string) => {
@@ -125,13 +125,16 @@ export const filterKeyDeburr = (keys: any) => (rawStr: string) => {
 	};
 };
 
-export const arrayToString = (array: any[]) =>
+export const arrayToString = (array: string[]) =>
 	array.reduce((_, a, i) => {
 		if (i === 0) return a;
 		return _ + ` - ${a}`;
 	}, '');
 
-export const arrayKeepUniqueField = (array: any[], field: string) =>
+export const arrayKeepUniqueField = (
+	array: Record<string, any>[],
+	field: string,
+) =>
 	array.map((item) =>
 		(item[field] ?? '')
 			.toLowerCase()

@@ -1,4 +1,7 @@
-export const cleanId = (id: string) => {
+export const cleanId = (id?: string) => {
+	if (!id) {
+		return '';
+	}
 	return id.replace(/ /g, '-').toLowerCase();
 };
 export const deburr = (str: string): string => {

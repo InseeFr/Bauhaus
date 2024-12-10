@@ -1,7 +1,9 @@
 import { renderWithRouter } from '../../../tests-utils/render';
 import Outline from './index';
 
-vi.mock('../../msd/utils');
+vi.mock('../../msd/utils', () => ({
+	isOpen: (idMas) => idMas === '1',
+}));
 
 const metadataStructureOpened = {
 	idMas: '1',

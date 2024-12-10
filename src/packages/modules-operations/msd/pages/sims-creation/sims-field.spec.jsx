@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
@@ -89,6 +88,6 @@ describe('Sims Field', () => {
 				lang="fr"
 			/>,
 		);
-		expect(container.querySelectorAll('[id^="react-select"')).toHaveLength(1);
+		expect(container.querySelectorAll('[id^="react-select"]')).toHaveLength(1);
 	});
 });

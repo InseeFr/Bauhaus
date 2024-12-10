@@ -3,7 +3,7 @@ import { ReturnButton } from '@components/buttons/buttons-with-icons';
 
 import { useGoBack } from '../../utils/hooks/useGoBack';
 
-function LevelControls({ id }) {
+function LevelControls({ id }: Readonly<{ id: string }>) {
 	const goBack = useGoBack();
 	return (
 		<ActionToolbar>
