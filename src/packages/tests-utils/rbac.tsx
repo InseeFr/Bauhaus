@@ -13,12 +13,6 @@ export const RBACMock = ({
 	stamp?: string;
 }>) => {
 	const store = configureStore({
-		users: {
-			status: 'LOADED',
-			results: {
-				stamp,
-			},
-		},
 		app: {
 			auth: {
 				type: 'type',
