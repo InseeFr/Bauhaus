@@ -1,4 +1,3 @@
-import { locales } from '../../../tests-utils/default-values';
 import { renderWithAppContext } from '../../../tests-utils/render';
 import HomeGeneral from './home-general';
 
@@ -14,11 +13,7 @@ const correspondence = {
 describe('correspondence-home-general', () => {
 	it('renders without crashing', () => {
 		renderWithAppContext(
-			<HomeGeneral
-				correspondence={correspondence}
-				secondLang={true}
-				langs={locales}
-			/>,
+			<HomeGeneral correspondence={correspondence} secondLang={true} />,
 		);
 	});
 });
