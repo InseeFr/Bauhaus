@@ -17,7 +17,6 @@ import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
-import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
 import { MDEditor } from '@components/rich-editor/react-md-editor';
 
 import { DistributionApi } from '@sdk/index';
