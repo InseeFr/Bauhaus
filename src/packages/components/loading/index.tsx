@@ -1,5 +1,5 @@
 import D from '../i18n';
-import './loading.scss';
+import './loading.css';
 
 const getText = (textType?: string) => {
 	switch (textType) {
