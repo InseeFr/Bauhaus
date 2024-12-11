@@ -18,6 +18,7 @@ import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+import { MDEditor } from '@components/rich-editor/react-md-editor';
 
 import { DistributionApi } from '@sdk/index';
 
@@ -188,7 +189,7 @@ export const Component = () => {
 				<Row>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
-						<EditorMarkdown
+						<MDEditor
 							text={editingDistribution.descriptionLg1}
 							handleChange={(value) =>
 								setEditingDistribution({
@@ -200,7 +201,7 @@ export const Component = () => {
 					</div>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
-						<EditorMarkdown
+						<MDEditor
 							text={editingDistribution.descriptionLg2}
 							handleChange={(value) =>
 								setEditingDistribution({

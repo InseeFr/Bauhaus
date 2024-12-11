@@ -74,6 +74,7 @@
 	},
 	"dependencies": {
 		"@tanstack/react-query": "^5.59.20",
+		"@uiw/react-md-editor": "^4.0.4",
 		"dayjs": "^1.11.6",
 		"dompurify": "2.5.6",
 		"draft-js": "0.11.7",
