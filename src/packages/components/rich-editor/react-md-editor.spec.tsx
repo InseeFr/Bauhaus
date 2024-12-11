@@ -6,6 +6,9 @@ import { MDEditor } from './react-md-editor';
 
 vi.mock('@uiw/react-md-editor', () => {
 	return {
+		italic: undefined,
+		bold: undefined,
+		unorderedListCommand: undefined,
 		default: ({
 			value,
 			onChange,
