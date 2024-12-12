@@ -12,6 +12,7 @@ export default [
 			'build/',
 			'scripts',
 			'test-results',
+			'coverage/',
 		],
 	},
 	{
