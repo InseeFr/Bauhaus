@@ -19,10 +19,13 @@ export const GlobalClientSideErrorBloc = ({
 	clientSideErrors,
 	D,
 }: Readonly<{
-	clientSideErrors: string[];
+	clientSideErrors?: string[];
 	D: any;
 }>) => {
-	return clientSideErrors?.length > 0 ? (
+	if (!clientSideErrors) {
+		return null;
+	}
+	return clientSideErrors.length > 0 ? (
 		<div className="bauhaus-error-bloc alert alert-danger" role="alert">
 			{(
 				<div

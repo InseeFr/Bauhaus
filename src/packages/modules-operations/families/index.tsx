@@ -6,10 +6,11 @@ import { useTitle } from '@utils/hooks/useTitle';
 
 import { ADMIN } from '../../auth/roles';
 import D from '../../deprecated-locales/build-dictionary';
+import { FamilyHome } from '../../model/operations/family';
 import OperationsObjectHome from '../shared/list';
 
 export const Component = () => {
-	const families = useLoaderData();
+	const families = useLoaderData() as FamilyHome[];
 	useTitle(D.operationsTitle, D.familiesTitle);
 
 	return (

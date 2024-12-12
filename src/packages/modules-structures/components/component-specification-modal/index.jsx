@@ -9,7 +9,7 @@ import {
 
 import D from '../../i18n/build-dictionary';
 import { ComponentSpecificationForm } from '../component-specification-form';
-import './component-specification-modal.scss';
+import './component-specification-modal.css';
 
 export const ComponentSpecificationModalBody = ({
 	specification: defaultSpecification,

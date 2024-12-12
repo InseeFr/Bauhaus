@@ -21,6 +21,7 @@ import { OperationsApi } from '@sdk/operations-api';
 
 import { D1, D2 } from '../../../deprecated-locales';
 import D from '../../../deprecated-locales/build-dictionary';
+import { Family } from '../../../model/operations/family';
 import { validate } from './validation';
 
 const defaultFamily = {
@@ -32,9 +33,28 @@ const defaultFamily = {
 	abstractLg2: '',
 };
 
-const setInitialState = (props) => {
+type OperationsFamilyEditionProps = {
+	id: string;
+	family: Family;
+	goBack: (url: string, replace?: boolean) => void;
+};
+type OperationsFamilyEditionState = {
+	family: Family;
+	clientSideErrors: {
+		errorMessage: string[];
+		fields?: Record<string, string>;
+	};
+	serverSideError: string;
+	submitting: boolean;
+	saving?: boolean;
+};
+const setInitialState = (
+	props: OperationsFamilyEditionProps,
+): OperationsFamilyEditionState => {
 	return {
-		clientSideErrors: {},
+		clientSideErrors: {
+			errorMessage: [],
+		},
 		serverSideError: '',
 		saving: false,
 		submitting: false,
@@ -44,19 +64,25 @@ const setInitialState = (props) => {
 		},
 	};
 };
-class OperationsFamilyEdition extends Component {
-	constructor(props) {
+class OperationsFamilyEdition extends Component<
+	OperationsFamilyEditionProps,
+	OperationsFamilyEditionState
+> {
+	constructor(props: OperationsFamilyEditionProps) {
 		super(props);
 		this.state = setInitialState(props);
 	}
 
-	static getDerivedStateFromProps(nextProps, prevState) {
+	static getDerivedStateFromProps(
+		nextProps: OperationsFamilyEditionProps,
+		prevState: OperationsFamilyEditionState,
+	) {
 		if (nextProps.id !== prevState.family.id) {
 			return setInitialState(nextProps);
 		} else return null;
 	}
 
-	onChange = (e) => {
+	onChange = (target: string, value: string) => {
 		this.setState((state) => ({
 			serverSideError: '',
 			submitting: true,
@@ -66,7 +92,7 @@ class OperationsFamilyEdition extends Component {
 			},
 			family: {
 				...state.family,
-				[e.target.id]: e.target.value,
+				[target]: value,
 			},
 		}));
 	};
@@ -87,7 +113,7 @@ class OperationsFamilyEdition extends Component {
 					(id = this.state.family.id) => {
 						this.props.goBack(`/operations/family/${id}`, isCreation);
 					},
-					(err) => {
+					(err: string) => {
 						this.setState({
 							serverSideError: err,
 						});
@@ -110,7 +136,6 @@ class OperationsFamilyEdition extends Component {
 					<PageTitleBlock
 						titleLg1={this.props.family.prefLabelLg1}
 						titleLg2={this.props.family.prefLabelLg2}
-						secondLang={true}
 					/>
 				)}
 
@@ -118,7 +143,7 @@ class OperationsFamilyEdition extends Component {
 					<CancelButton action={() => goBack('/operations/families')} />
 					<SaveButton
 						action={this.onSubmit}
-						disabled={this.state.clientSideErrors.errorMessage?.length > 0}
+						disabled={this.state.clientSideErrors.errorMessage.length > 0}
 					/>
 				</ActionToolbar>
 
@@ -137,14 +162,14 @@ class OperationsFamilyEdition extends Component {
 							<TextInput
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
-								onChange={this.onChange}
+								onChange={(e) => this.onChange(e.target.id, e.target.value)}
 								aria-invalid={
 									!!this.state.clientSideErrors.fields?.prefLabelLg1
 								}
 								aria-describedby={
 									this.state.clientSideErrors.fields?.prefLabelLg1
 										? 'prefLabelLg1-error'
-										: null
+										: undefined
 								}
 							/>
 							<ClientSideError
@@ -157,14 +182,14 @@ class OperationsFamilyEdition extends Component {
 							<TextInput
 								id="prefLabelLg2"
 								value={family.prefLabelLg2}
-								onChange={this.onChange}
+								onChange={(e) => this.onChange(e.target.id, e.target.value)}
 								aria-invalid={
 									!!this.state.clientSideErrors.fields?.prefLabelLg2
 								}
 								aria-describedby={
 									this.state.clientSideErrors.fields?.prefLabelLg2
 										? 'prefLabelLg2-error'
-										: null
+										: undefined
 								}
 							/>
 							<ClientSideError
@@ -179,7 +204,7 @@ class OperationsFamilyEdition extends Component {
 							<TextInput
 								id="themeLg1"
 								value={family.themeLg1}
-								onChange={this.onChange}
+								onChange={(e) => this.onChange(e.target.id, e.target.value)}
 							/>
 						</div>
 						<div className="col-md-6 form-group">
@@ -187,7 +212,7 @@ class OperationsFamilyEdition extends Component {
 							<TextInput
 								id="themeLg2"
 								value={family.themeLg2}
-								onChange={this.onChange}
+								onChange={(e) => this.onChange(e.target.id, e.target.value)}
 							/>
 						</div>
 					</Row>
@@ -196,18 +221,14 @@ class OperationsFamilyEdition extends Component {
 							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
 								text={family.abstractLg1}
-								handleChange={(value) =>
-									this.onChange({ target: { value, id: 'abstractLg1' } })
-								}
+								handleChange={(value) => this.onChange('abstractLg1', value)}
 							/>
 						</div>
 						<div className="col-md-6 form-group">
 							<label htmlFor="abstractLg2">{D2.summary}</label>
 							<EditorMarkdown
 								text={family.abstractLg2}
-								handleChange={(value) =>
-									this.onChange({ target: { value, id: 'abstractLg2' } })
-								}
+								handleChange={(value) => this.onChange('abstractLg2', value)}
 							/>
 						</div>
 					</Row>
