@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Outlet, useLocation, useNavigation } from 'react-router-dom';
+import { Outlet, useNavigation } from 'react-router-dom';
 
 import { Loading } from '@components/loading';
 
@@ -13,7 +13,6 @@ export const Component = () => {
 	useTheme('operations');
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
-	const location = useLocation();
 
 	useEffect(() => {
 		dispatch(loadSetup());
@@ -21,7 +20,7 @@ export const Component = () => {
 
 	return (
 		<>
-			<Menu location={location} />
+			<Menu />
 			{navigation.state === 'loading' ? <Loading /> : <Outlet />}
 		</>
 	);
