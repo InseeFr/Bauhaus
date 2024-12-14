@@ -14,7 +14,7 @@ import {
 import D from '../../i18n/build-dictionary';
 import SimsGeographyField from './sims-geography-field';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
-import './sims-geography-picker.scss';
+import './sims-geography-picker.css';
 
 const accentsMap = new Map([
 	['A', 'Á|À|Ã|Â|Ä'],
