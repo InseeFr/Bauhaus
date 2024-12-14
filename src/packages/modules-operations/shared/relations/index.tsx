@@ -4,9 +4,18 @@ import { Row } from '@components/layout';
 import { Note } from '@components/note';
 
 import { D1, D2 } from '../../../deprecated-locales';
-import './relations.scss';
+import './relations.css';
 
-export function RelationsViewPerLgContent({
+type RelationsViewPerLgContentTypes = {
+	children: { id: string; labelLg1: string; labelLg2: string }[];
+	childrenTitle: string;
+	childrenPath: string;
+	parent: { id: string; labelLg1: string; labelLg2: string };
+	parentTitle: string;
+	parentPath: string;
+	langSuffix: 'Lg1' | 'Lg2';
+};
+export const RelationsViewPerLgContent = ({
 	children,
 	childrenTitle,
 	childrenPath,
@@ -14,7 +23,7 @@ export function RelationsViewPerLgContent({
 	parentTitle,
 	parentPath,
 	langSuffix,
-}) {
+}: Readonly<RelationsViewPerLgContentTypes>) => {
 	const Dictionnary = langSuffix === 'Lg1' ? D1 : D2;
 	return (
 		<>
@@ -50,20 +59,32 @@ export function RelationsViewPerLgContent({
 			)}
 		</>
 	);
-}
+};
 
-export function RelationsViewPerLg(props) {
+export function RelationsViewPerLg({
+	title,
+	secondLang,
+	...props
+}: RelationsViewPerLgContentTypes &
+	Readonly<{
+		title: string;
+		secondLang: boolean;
+	}>) {
 	return (
 		<Note
 			text={<RelationsViewPerLgContent {...props} />}
-			title={props.title}
-			alone={!props.secondLang}
+			title={title}
+			alone={!secondLang}
 			allowEmpty={true}
 		/>
 	);
 }
 
-function RelationsView(props) {
+function RelationsView(
+	props: Readonly<
+		{ title: string; secondLang: boolean } & RelationsViewPerLgContentTypes
+	>,
+) {
 	return (
 		<Row>
 			<RelationsViewPerLg {...props} title={D1[props.title]} langSuffix="Lg1" />
