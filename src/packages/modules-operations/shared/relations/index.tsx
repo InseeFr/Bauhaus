@@ -6,7 +6,7 @@ import { Note } from '@components/note';
 import { D1, D2 } from '../../../deprecated-locales';
 import './relations.css';
 
-type RelationsViewPerLgContentTypes = {
+export type RelationsViewPerLgContentTypes = {
 	children: { id: string; labelLg1: string; labelLg2: string }[];
 	childrenTitle: string;
 	childrenPath: string;
@@ -29,7 +29,7 @@ export const RelationsViewPerLgContent = ({
 		<>
 			{parent && (
 				<p>
-					<span className="linksTitle">{Dictionnary[parentTitle]}</span>
+					<span className="links-title">{Dictionnary[parentTitle]}</span>
 					<Link to={`/operations/${parentPath}/${parent.id}`}>
 						{parent[`label${langSuffix}`]}
 					</Link>
@@ -38,7 +38,7 @@ export const RelationsViewPerLgContent = ({
 			{children && (
 				<>
 					<p>
-						<span className="linksTitle">{Dictionnary[childrenTitle]}</span>
+						<span className="links-title">{Dictionnary[childrenTitle]}</span>
 					</p>
 					<ul>
 						{children
