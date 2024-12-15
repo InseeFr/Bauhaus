@@ -36,7 +36,7 @@ describe('DocumentHome', () => {
 		expect(container.querySelectorAll('ul')).toHaveLength(1);
 	});
 
-	for (let right of [ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]) {
+	for (const right of [ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]) {
 		it(
 			'should display two Add buttons if the user is an ' + right,
 			async () => {

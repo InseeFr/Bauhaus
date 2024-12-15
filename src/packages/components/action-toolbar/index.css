@@ -1,0 +1,24 @@
+.action-toolbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	flex-wrap: wrap;
+}
+
+.action-toolbar::before {
+	content: none;
+}
+
+.action-toolbar::after {
+	content: none;
+}
+
+.action-toolbar > div {
+	flex-grow: 1;
+}
+
+.action-toolbar .empty-center {
+	flex-grow: 1;
+}

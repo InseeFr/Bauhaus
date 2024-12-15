@@ -13,3 +13,11 @@ export type Document = {
 	sims?: Sims[];
 	uri?: string;
 };
+
+export type HomeDocument = {
+	label: string;
+	uri: string;
+	lang: string;
+	updatedDate: string;
+	id: string;
+};

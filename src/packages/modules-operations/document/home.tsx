@@ -13,10 +13,11 @@ import { filterKeyDeburr } from '@utils/array-utils';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../deprecated-locales';
+import { HomeDocument } from '../../model/operations/document';
 import { Menu } from './menu';
 import { BOTH, DOCUMENT, LINK, isDocument, isLink } from './utils';
 
-const formatter = (content, label) => {
+const formatter = (content: HomeDocument, label: keyof typeof content) => {
 	const extraInformations = [];
 	if (content.lang) {
 		extraInformations.push(content.lang);
@@ -43,7 +44,14 @@ const SearchableList = ({
 	label,
 	autoFocus,
 	searchValue = '',
-}) => {
+}: Readonly<{
+	items: HomeDocument[];
+	placeholder?: string;
+	searchValue?: string;
+	autoFocus: boolean;
+	label: keyof HomeDocument;
+	childPath: (document: HomeDocument) => string;
+}>) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -58,7 +66,7 @@ const SearchableList = ({
 		}
 	}, [url]);
 
-	const handleSearch = (value) => {
+	const handleSearch = (value: string) => {
 		const searchParams = new URLSearchParams(window.location.search);
 		searchParams.set('search', value);
 		navigate(location.pathname + '?' + searchParams.toString(), {
@@ -102,7 +110,7 @@ const SearchableList = ({
 	);
 };
 
-function DocumentHome({ documents }) {
+function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[] }>) {
 	useTitle(D.operationsTitle, D.documentsTitle);
 
 	const navigate = useNavigate();
@@ -110,7 +118,7 @@ function DocumentHome({ documents }) {
 
 	const [filter, setFilter] = useState(queryMode || BOTH);
 
-	const filteredDocuments = documents.filter((document) => {
+	const filteredDocuments = documents.filter((document: HomeDocument) => {
 		return (
 			filter === BOTH ||
 			(filter === DOCUMENT && isDocument(document)) ||
@@ -119,7 +127,7 @@ function DocumentHome({ documents }) {
 	});
 
 	const onFilter = useCallback(
-		(mode) => {
+		(mode: typeof BOTH | typeof DOCUMENT | typeof LINK) => {
 			sessionStorage.setItem(sessionStorageKey, mode);
 			setFilter(mode);
 			navigate(window.location.pathname + '?page=1', { replace: true });
@@ -145,7 +153,7 @@ function DocumentHome({ documents }) {
 					/>
 					<SearchableList
 						items={filteredDocuments}
-						childPath={(document) => {
+						childPath={(document: HomeDocument) => {
 							if (isDocument(document)) {
 								return 'operations/document';
 							}
