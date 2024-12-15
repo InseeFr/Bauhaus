@@ -6,6 +6,7 @@ import {
 	INDICATOR_CONTRIBUTOR,
 	SERIES_CONTRIBUTOR,
 } from '../../auth/roles';
+import { HomeDocument } from '../../model/operations/document';
 import configureStore from '../../redux/configure-store';
 import { renderWithRouter } from '../../tests-utils/render';
 import DocumentHome from './home';
@@ -30,10 +31,19 @@ describe('DocumentHome', () => {
 		});
 		const { container } = renderWithRouter(
 			<Provider store={store}>
-				<DocumentHome documents={[]} />
+				<DocumentHome
+					documents={
+						[
+							{
+								id: '1',
+							},
+						] as unknown as HomeDocument[]
+					}
+				/>
 			</Provider>,
 		);
 		expect(container.querySelectorAll('ul')).toHaveLength(1);
+		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 
 	for (const right of [ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]) {
