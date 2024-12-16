@@ -6,7 +6,7 @@ import { useAllCodes } from '@utils/hooks/codeslist';
 
 import { CodesList } from '../../../model/CodesList';
 import D from '../../i18n/build-dictionary';
-import './codes-list-panel.scss';
+import './codes-list-panel.css';
 
 type CodesListPanelTypes = {
 	isOpen: boolean;

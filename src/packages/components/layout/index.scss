@@ -2,8 +2,8 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 1em;
+}
 
-	> * {
-		flex: 1 1 0;
-	}
+.bauhaus-row > * {
+	flex: 1 1 0;
 }

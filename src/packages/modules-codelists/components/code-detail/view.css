@@ -2,10 +2,10 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+}
 
-	button {
-		padding: 0.5em 2em;
-		margin: 0 0 0 1em;
-		align-self: flex-end;
-	}
+.code-list-zone-view button {
+	padding: 0.5em 2em;
+	margin: 0 0 0 1em;
+	align-self: flex-end;
 }

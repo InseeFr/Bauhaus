@@ -12,7 +12,7 @@ import {
 	ATTRIBUTE_PROPERTY_TYPE,
 	MEASURE_PROPERTY_TYPE,
 } from '../../utils/constants';
-import './component-specification-form.scss';
+import './component-specification-form.css';
 
 export const ComponentSpecificationForm = ({
 	structureComponents,
