@@ -1,8 +1,8 @@
 .representation {
 	display: flex;
 	justify-content: space-between;
+}
 
-	> span {
-		text-align: left;
-	}
+.representation > span {
+	text-align: left;
 }
