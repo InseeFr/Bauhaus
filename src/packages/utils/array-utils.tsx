@@ -148,8 +148,8 @@ export const range = (start: number, end: number) =>
 		.map((_, i) => i + start);
 
 export const arrayDifferenceByID = (
-	array1: Array<{ id: number }>,
-	array2: Array<{ id: number }>,
+	array1: { id: number }[],
+	array2: { id: number }[],
 ) => {
 	const idsArray1 = array1.map((item) => item.id);
 	const idsArray2 = array2.map((item) => item.id);

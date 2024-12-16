@@ -5,7 +5,7 @@ import { ReduxModel } from '../../redux/model';
 import { getPermission } from '../../redux/selectors';
 
 export type RoleCheck = string | [string, (value: string) => boolean];
-export type RoleChecks = Array<RoleCheck>;
+export type RoleChecks = RoleCheck[];
 type AuthDumbTypes = {
 	roles: RoleChecks;
 	fallback?: any;
