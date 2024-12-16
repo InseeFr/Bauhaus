@@ -41,7 +41,6 @@ export const Component = () => {
 			<PageTitleBlock
 				titleLg1={document.labelLg1 || document.labelLg2}
 				titleLg2={document.labelLg2}
-				secondLang={secondLang}
 			/>
 
 			<Menu document={document} type={type} />
