@@ -4,10 +4,10 @@ import {
 	SaveButton,
 } from '../../../components/buttons/buttons-with-icons';
 
-type ControlsTypes = {
+interface ControlsTypes {
 	onSubmit: () => void;
 	disabled: boolean;
-};
+}
 export const Controls = ({ onSubmit, disabled }: Readonly<ControlsTypes>) => {
 	return (
 		<ActionToolbar>

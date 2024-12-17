@@ -21,9 +21,9 @@ import { D as DatasetDictionary, lg1, lg2 } from '../../i18n';
 import { useThemes } from '../useThemes';
 import { WasGeneratedByBlock } from './wasGeneratedByBlock';
 
-type GlobalInformationBlockTypes = {
+interface GlobalInformationBlockTypes {
 	dataset: Dataset;
-};
+}
 
 export const GlobalInformationBlock = ({
 	dataset,

@@ -14,10 +14,10 @@ import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Series } from '../../../model/operations/series';
 
-type MenuTypes = {
+interface MenuTypes {
 	series: Series;
 	onPublish: () => void;
-};
+}
 export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
 	const goBack = useGoBack();
 

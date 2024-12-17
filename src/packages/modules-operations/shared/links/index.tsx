@@ -4,7 +4,7 @@ import { Note } from '@components/note';
 
 import { D1, D2 } from '../../../deprecated-locales';
 
-type DisplayLinksTypes = {
+interface DisplayLinksTypes {
 	links: any[];
 	path: string;
 	title: string;
@@ -12,7 +12,7 @@ type DisplayLinksTypes = {
 	displayLink?: boolean;
 	labelLg1?: string;
 	labelLg2?: string;
-};
+}
 function DisplayLinks({
 	links = [],
 	path,

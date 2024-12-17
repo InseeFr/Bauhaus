@@ -10,11 +10,11 @@ import { buildNotes } from '../utils/notes';
 import ConceptGeneral from '../visualization/general';
 import Controls from './controls';
 
-type ConceptCompare = {
+interface ConceptCompare {
 	conceptGeneral: ConceptGeneralType;
 	notes: Record<number, ConceptNotes>;
 	secondLang: boolean;
-};
+}
 
 const ConceptCompare = ({
 	conceptGeneral,

@@ -9,7 +9,7 @@ import D from '../../../../../../deprecated-locales';
 import { buildDataStamps } from './stamps-data';
 import { buildData } from './summary-data';
 
-type ConceptData = {
+interface ConceptData {
 	altLabel: '';
 	created: string;
 	creator: string;
@@ -21,7 +21,7 @@ type ConceptData = {
 	modified: string;
 	valid: string;
 	validationStatus: boolean;
-};
+}
 function ConceptsSummary({
 	conceptsData,
 }: Readonly<{ conceptsData: ConceptData[] }>) {

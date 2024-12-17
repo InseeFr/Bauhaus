@@ -6,7 +6,7 @@ import { Note } from '@components/note';
 import { D1, D2 } from '../../../deprecated-locales';
 import './relations.css';
 
-export type RelationsViewPerLgContentTypes = {
+export interface RelationsViewPerLgContentTypes {
 	children: { id: string; labelLg1: string; labelLg2: string }[];
 	childrenTitle: string;
 	childrenPath: string;
@@ -14,7 +14,7 @@ export type RelationsViewPerLgContentTypes = {
 	parentTitle: string;
 	parentPath: string;
 	langSuffix: 'Lg1' | 'Lg2';
-};
+}
 export const RelationsViewPerLgContent = ({
 	children,
 	childrenTitle,

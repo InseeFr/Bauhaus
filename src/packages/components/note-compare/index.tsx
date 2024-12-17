@@ -8,16 +8,16 @@ import {
 import { ExplanatoryNote } from '../explanatory-note';
 import { Row } from '../layout';
 
-type CompareNotesTypes = {
+interface CompareNotesTypes {
 	version: number;
 	secondLang: boolean;
 	notes: any;
 	buildNotes: any;
-};
-type CompareNotesState = {
+}
+interface CompareNotesState {
 	select1: number;
 	select2: number;
-};
+}
 
 export class CompareNotes extends Component<
 	CompareNotesTypes,

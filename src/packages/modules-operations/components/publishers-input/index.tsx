@@ -5,10 +5,10 @@ import { useOrganizationsOptions } from '@utils/hooks/organizations';
 import { Option } from '../../../model/SelectOption';
 import { D1 } from '../../i18n/build-dictionary';
 
-type PublishersInputTypes = {
+interface PublishersInputTypes {
 	value: string;
 	onChange: (value: string) => void;
-};
+}
 const PublishersInput = ({
 	value,
 	onChange,

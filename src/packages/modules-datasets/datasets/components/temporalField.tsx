@@ -15,17 +15,29 @@ const datasetsTemporalCoverageOptions = [
 	},
 ];
 
+const formatYearTypeValue = (year: number | string) =>
+	new Date(`${year}-01-01`);
+
+interface TemporalField {
+	temporalCoverageStartDate: string;
+	temporalCoverageEndDate: string;
+	temporalCoverageDataType: string;
+	updateTemporalCoverage: (value: {
+		temporalCoverageStartDate: Date | string;
+		temporalCoverageEndDate: Date | string;
+		temporalCoverageDataType: string;
+	}) => void;
+}
 export const TemporalField = ({
 	temporalCoverageStartDate,
 	temporalCoverageEndDate,
 	temporalCoverageDataType,
 	updateTemporalCoverage,
-}) => {
-	const formatYearTypeValue = (year) => new Date(`${year}-01-01`);
+}: Readonly<TemporalField>) => {
 	const getDefaultValueForYearCoverageType = () => {
 		return new Date().getFullYear();
 	};
-	const onTemporalCoverageChange = ({ value }) => {
+	const onTemporalCoverageChange = ({ value }: { value: string }) => {
 		if (value?.endsWith('date')) {
 			updateTemporalCoverage({
 				temporalCoverageStartDate: '',
@@ -44,6 +56,7 @@ export const TemporalField = ({
 			});
 		}
 	};
+
 	return (
 		<>
 			<div className="col-md-4 form-group">

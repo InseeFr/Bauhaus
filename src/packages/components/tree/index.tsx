@@ -5,15 +5,15 @@ import 'react-sortable-tree/style.css';
 
 import './dnd.scss';
 
-type TreeNode = {
+interface TreeNode {
 	id: string;
 	label: string;
-};
-type TreeTypes = {
+}
+interface TreeTypes {
 	treeData: TreeItem<TreeNode>[];
 	canDrag?: boolean;
 	linkPath: (id: string) => string;
-};
+}
 export const Tree = ({ treeData, canDrag, linkPath }: TreeTypes) => {
 	const [tree, setTree] = useState<TreeItem<TreeNode>[]>(treeData);
 

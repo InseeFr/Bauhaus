@@ -14,11 +14,11 @@ import { UNPUBLISHED } from '../../../model/ValidationState';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { checkIfContributorContainsUserStamp } from '../../utils/check-stamp-with-contributor';
 
-type ViewMenuTypes = {
+interface ViewMenuTypes {
 	dataset: Dataset;
 	onPublish: () => void;
 	onDelete: () => void;
-};
+}
 export const ViewMenu = ({
 	dataset,
 	onPublish,

@@ -31,11 +31,11 @@ export const DisseminationStatusVisualisation = ({
 	);
 };
 
-type DisseminationStatusInputTypes = {
+interface DisseminationStatusInputTypes {
 	value: string;
 	handleChange: (value: string) => void;
 	required: boolean;
-};
+}
 export const DisseminationStatusInput = ({
 	value,
 	handleChange,

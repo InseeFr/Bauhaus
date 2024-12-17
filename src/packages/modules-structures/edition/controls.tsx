@@ -8,11 +8,11 @@ import {
 
 import { cleanId } from '@utils/string-utils';
 
-type ControlsTypes = {
+interface ControlsTypes {
 	creation: boolean;
 	save: () => void;
 	disabledSave?: boolean;
-};
+}
 const Controls = ({ creation, save, disabledSave }: ControlsTypes) => {
 	const { structureId } = useParams<{ structureId: string }>();
 	return (

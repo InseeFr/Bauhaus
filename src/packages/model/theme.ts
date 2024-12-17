@@ -1,5 +1,5 @@
-export type Theme = {
+export interface Theme {
 	label: string;
 	idConceptScheme: string;
 	uri: string;
-};
+}

@@ -5,8 +5,8 @@
 	width: 40%;
 	height: 40%;
 	margin: auto;
+}
 
-	.loader {
-		fill: var(--color-3) !important;
-	}
+.loading .loader {
+	fill: var(--color-3) !important;
 }

@@ -5,14 +5,14 @@ import { Row } from '@components/layout';
 
 import D, { D1, D2 } from '../../deprecated-locales';
 
-type InputMultiRmesTypes = {
+interface InputMultiRmesTypes {
 	inputLg1: string[];
 	inputLg2?: string[];
 	label: string;
 	handleChangeLg1: (value: string[]) => void;
 	handleChangeLg2?: (value: string[]) => void;
 	type?: 'text' | 'url';
-};
+}
 
 export class InputMultiRmes extends Component<
 	Readonly<InputMultiRmesTypes>,

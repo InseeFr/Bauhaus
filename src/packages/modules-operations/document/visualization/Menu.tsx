@@ -14,10 +14,10 @@ import {
 } from '../../../auth/roles';
 import { Document } from '../../../model/operations/document';
 
-type MenuTypes = {
+interface MenuTypes {
 	document: Document;
 	type: string;
-};
+}
 
 const checkContributorRight = (document: Document) => {
 	return (stamp: string) => {

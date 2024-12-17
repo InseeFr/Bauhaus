@@ -17,13 +17,13 @@ import { Sims } from '../../../../model/Sims';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
 import { getParentUri } from '../../utils';
 
-type MenuTypes = {
+interface MenuTypes {
 	sims: Sims;
 	owners: string[];
 	onExport: () => void;
 	onDelete: () => void;
 	onPublish: () => void;
-};
+}
 export const Menu = ({
 	sims,
 	owners,

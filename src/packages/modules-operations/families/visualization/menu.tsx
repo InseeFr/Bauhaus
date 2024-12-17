@@ -12,10 +12,10 @@ import Auth from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
 import { Family } from '../../../model/operations/family';
 
-type MenuTypes = {
+interface MenuTypes {
 	family: Family;
 	publish: () => void;
-};
+}
 
 export const Menu = ({ family, publish }: Readonly<MenuTypes>) => {
 	const goBack = useGoBack();

@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 
-type PickerItemTypes = {
+interface PickerItemTypes {
 	id: string;
 	label: string;
 	logo: JSX.Element;
 	to: string;
 	handleClick: (id: string) => void;
-};
+}
 export const PickerItem = ({
 	id,
 	label,

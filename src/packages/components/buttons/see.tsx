@@ -7,9 +7,9 @@ const { D } = createAllDictionary({
 	},
 });
 
-type SeeButtonTypes = {
+interface SeeButtonTypes {
 	onClick: (e: any) => void;
-};
+}
 export const SeeButton = (props: Readonly<SeeButtonTypes>) => {
 	return (
 		<button

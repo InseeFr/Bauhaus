@@ -1,14 +1,14 @@
 import { linkTypes } from '../../modules-concepts/utils/links';
 
-export type ConceptGeneral = {
+export interface ConceptGeneral {
 	prefLabelLg1: string;
 	prefLabelLg2: string;
 	conceptVersion: string;
 	creator: string;
 	disseminationStatus: string;
-};
+}
 
-export type ConceptNotes = {
+export interface ConceptNotes {
 	scopeNoteLg1?: string;
 	scopeNoteLg2?: string;
 	definitionLg1: string;
@@ -17,13 +17,13 @@ export type ConceptNotes = {
 	changeNoteLg2?: string;
 	editorialNoteLg1?: string;
 	editorialNoteLg2?: string;
-};
+}
 
 export type Concept = ConceptGeneral & ConceptNotes;
 
-export type Link = {
+export interface Link {
 	id: string;
 	typeOfLink: keyof typeof linkTypes;
 	prefLabelLg1: string;
 	prefLabelLg2: string;
-};
+}

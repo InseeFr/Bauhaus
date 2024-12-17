@@ -23,7 +23,7 @@ import { ComponentDetail } from '../component-detail';
 import { ComponentsTable } from '../components-table';
 import Representation from '../representation';
 
-type StructureComponentsSelectorTypes = {
+interface StructureComponentsSelectorTypes {
 	hidden?: boolean;
 	componentDefinitions: ComponentDefinition[];
 	handleRemove?: (value: ComponentDefinition) => void;
@@ -37,7 +37,7 @@ type StructureComponentsSelectorTypes = {
 	type?: string;
 	handleCodesListDetail: any;
 	structure?: Structure;
-};
+}
 export const StructureComponentsSelector = ({
 	hidden = false,
 	componentDefinitions: defaultComponents,

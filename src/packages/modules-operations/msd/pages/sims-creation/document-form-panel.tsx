@@ -11,11 +11,11 @@ import './document-form-panel.scss';
 import { useDocumentsStoreContext } from './documents-store-context';
 import { getDocumentsList } from './useDocumentsList';
 
-type DocumentFormPanelTypes = {
+interface DocumentFormPanelTypes {
 	opened: boolean;
 	onHide: () => void;
 	onAdd: (rubric?: string, lang?: string, documentId?: string) => void;
-};
+}
 export const DocumentFormPanel = ({
 	opened,
 	onHide,

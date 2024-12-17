@@ -4,10 +4,10 @@ import {
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
 
-type MenuTypes = {
+interface MenuTypes {
 	goBackUrl: () => void;
 	handleSubmit: () => void;
-};
+}
 export const Menu = ({ goBackUrl, handleSubmit }: Readonly<MenuTypes>) => {
 	return (
 		<ActionToolbar>

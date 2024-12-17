@@ -2,9 +2,9 @@ import { Note } from '@components/note';
 
 import { D1 } from '../../i18n/build-dictionary';
 
-type CreatorsViewTypes = {
+interface CreatorsViewTypes {
 	creators: string | string[];
-};
+}
 const CreatorsView = ({ creators }: CreatorsViewTypes) => {
 	const creatorsArray = Array.isArray(creators) ? creators : [creators];
 	return (

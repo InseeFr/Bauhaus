@@ -5,10 +5,10 @@ import { useSecondLang } from '@utils/hooks/second-lang';
 
 import { D1, D2 } from '../../../deprecated-locales';
 
-type DescriptionsPanelTypes = {
+interface DescriptionsPanelTypes {
 	descriptionLg1: string;
 	descriptionLg2: string;
-};
+}
 export const DescriptionsPanel = ({
 	descriptionLg1,
 	descriptionLg2,

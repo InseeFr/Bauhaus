@@ -15,13 +15,13 @@ import Levels from './levels';
 import Menu from './menu';
 import Notes from './notes';
 
-type ClassificationVisualizationTypes = {
+interface ClassificationVisualizationTypes {
 	classification: Classification;
 	classificationId: string;
 	secondLang?: boolean;
 	publish: () => void;
 	serverSideError?: any;
-};
+}
 const ClassificationVisualization = ({
 	classification: { general, levels },
 	classificationId,

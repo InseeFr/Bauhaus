@@ -35,7 +35,7 @@ const defautState = {
 	search: '',
 };
 
-type SearchableListTypes = {
+interface SearchableListTypes {
 	items: any[];
 	advancedSearch?: boolean;
 	searchUrl?: string;
@@ -46,7 +46,7 @@ type SearchableListTypes = {
 	label?: string;
 	autoFocus?: boolean;
 	itemFormatter?: any;
-};
+}
 export const SearchableList = ({
 	items = [],
 	advancedSearch = false,

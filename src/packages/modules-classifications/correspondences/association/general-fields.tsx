@@ -7,7 +7,7 @@ const mapping = {
 	targetItemLabelLg1: D.targetItemTitle,
 };
 
-type SourceItemLabelTypes = {
+interface SourceItemLabelTypes {
 	label: string;
 	classId: string;
 	itemId: string;
@@ -16,7 +16,7 @@ type SourceItemLabelTypes = {
 	secondLang: boolean;
 	classAltLabelLg1: string;
 	classAltLabelLg2: string;
-};
+}
 const SourceItemLabel = ({
 	label,
 	classId,

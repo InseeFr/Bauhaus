@@ -1,6 +1,6 @@
 import { ValidationState } from '@components/status';
 
-export type Component = {
+export interface Component {
 	identifiant?: string;
 	type?: string;
 	validationState?: ValidationState;
@@ -14,10 +14,10 @@ export type Component = {
 	fullCodeListValue?: string;
 	concept?: string;
 	contributor: string[];
-};
+}
 
-export type ComponentDefinition = {
+export interface ComponentDefinition {
 	id?: string;
 	component: Component;
 	order?: string | number;
-};
+}

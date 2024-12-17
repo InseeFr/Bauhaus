@@ -7,9 +7,9 @@ import { useTitle } from '@utils/hooks/useTitle';
 import D from '../deprecated-locales';
 import { PartialClassification } from '../model/Classification';
 
-type ClassificationsHomeTypes = {
+interface ClassificationsHomeTypes {
 	classifications: PartialClassification[];
-};
+}
 const ClassificationsHome = ({
 	classifications,
 }: Readonly<ClassificationsHomeTypes>) => {

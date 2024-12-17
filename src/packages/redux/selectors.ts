@@ -1,10 +1,10 @@
 import { ReduxModel } from './model';
 
-export type Permission = {
+export interface Permission {
 	authType: string;
 	roles: string[];
 	stamp: string;
-};
+}
 export const getPermission = (state: ReduxModel) => {
 	const {
 		type: authType,

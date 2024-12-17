@@ -30,9 +30,9 @@ window.onload = function () {
 	);
 };
 
-type BackToTopTypes = {
+interface BackToTopTypes {
 	label?: string;
-};
+}
 
 export default function BackToTop({ label }: Readonly<BackToTopTypes>) {
 	const clickHandler = useCallback(() => {

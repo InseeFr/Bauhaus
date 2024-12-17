@@ -5,7 +5,7 @@ import { Series } from './operations/series';
 /**
  * Type used when fetching all Series
  */
-export type Operation = {
+export interface Operation {
 	id: string;
 	label: string;
 	altLabel: string;
@@ -20,8 +20,8 @@ export type Operation = {
 	modified: string;
 	altLabelLg1: string;
 	altLabelLg2: string;
-};
+}
 
-export type SeeAlso = {
+export interface SeeAlso {
 	type: string;
-};
+}

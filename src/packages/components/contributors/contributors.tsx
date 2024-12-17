@@ -22,12 +22,12 @@ export const ContributorsVisualisation = ({
 	);
 };
 
-type ContributorsInputType = {
+interface ContributorsInputType {
 	value: string[];
 	handleChange: (values: string[]) => void;
 	stampListOptions: Options;
 	required: boolean;
-};
+}
 export const ContributorsInput = ({
 	value,
 	handleChange,

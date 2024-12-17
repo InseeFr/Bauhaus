@@ -11,11 +11,11 @@ import Auth from '../../auth/components/auth';
 import { ADMIN } from '../../auth/roles';
 import D from '../../deprecated-locales';
 
-type ItemControls = {
+interface ItemControls {
 	classificationId: string;
 	itemId: string;
 	version?: number;
-};
+}
 const ItemControls = ({
 	classificationId,
 	itemId,

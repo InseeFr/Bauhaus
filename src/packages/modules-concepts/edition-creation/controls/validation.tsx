@@ -10,10 +10,10 @@ import {
 import D, { D1 } from '../../../deprecated-locales';
 import { ConceptGeneral, ConceptNotes } from '../../../model/concepts/concept';
 
-type Concept = {
+interface Concept {
 	id: string;
 	label: string;
-};
+}
 
 type ConceptsList = Concept[];
 

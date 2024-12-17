@@ -35,7 +35,6 @@ export default [
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/ban-ts-comment': 'off',
 			'@typescript-eslint/no-non-null-assertion': 'off',
-			'@typescript-eslint/consistent-type-definitions': 'off',
 			'@typescript-eslint/no-empty-function': 'off',
 			'@typescript-eslint/no-dynamic-delete': 'off',
 			'@typescript-eslint/prefer-for-of': 'off',

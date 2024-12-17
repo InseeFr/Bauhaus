@@ -7,12 +7,12 @@ import { CloseIconButton } from '@components/buttons/buttons-with-icons';
 import D from '../../../deprecated-locales';
 import { isDocument } from '../utils';
 
-type ConfirmationModalTypes = {
+interface ConfirmationModalTypes {
 	isOpen: true;
 	document: any;
 	onYes: () => void;
 	onNo: () => void;
-};
+}
 export const ConfirmationModal = ({
 	document,
 	isOpen,

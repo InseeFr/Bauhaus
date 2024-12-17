@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 
 import { NotFound, UnderMaintenance } from '@components/not-found';
 
-type ModuleHomePage = {
+interface ModuleHomePage {
 	pageName: string;
 	pages: Record<string, any>;
 	activeModules: string[];
-};
+}
 export const ModuleHomePage = ({
 	pageName,
 	pages,

@@ -3,18 +3,18 @@ import { Row } from '@components/layout';
 import D from '../../i18n/build-dictionary';
 import SimsGeographyI18NLabel from './sims-geography-i18n-label';
 
-export type Geography = {
+export interface Geography {
 	value: string;
 	label: string;
 	labelLg2: string;
 	typeTerritory: string;
-};
-type SimsGeographySelectorTypes = {
+}
+interface SimsGeographySelectorTypes {
 	excludes: Geography[];
 	includes: Geography[];
 	onRemoveExclude: (value: Geography) => void;
 	onRemoveInclude: (value: Geography) => void;
-};
+}
 const SimsGeographySelector = ({
 	includes,
 	excludes,

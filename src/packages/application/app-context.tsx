@@ -1,13 +1,13 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
-export type AppProperties = {
+export interface AppProperties {
 	authorizationHost: string;
 	modules: string[];
 	activeModules: string[];
 	defaultContributor: string;
 	maxLengthScopeNote: string;
-};
-type AppContextTypes = {
+}
+interface AppContextTypes {
 	lg1: string;
 	lg2: string;
 	version?: string;
@@ -16,7 +16,7 @@ type AppContextTypes = {
 		toggle: () => void;
 	};
 	properties: AppProperties;
-};
+}
 
 const AppContext = createContext<AppContextTypes | undefined>(undefined);
 

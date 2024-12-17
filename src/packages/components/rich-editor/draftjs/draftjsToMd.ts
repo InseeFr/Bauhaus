@@ -46,15 +46,15 @@ const applyWrappingBlockStyle = (currentStyle: string, content: string) => {
 	return content;
 };
 
-type Block = {
+interface Block {
 	type: 'atomic';
 	text: string;
 	entityRanges: { key: string }[];
-};
-type Entity = {
+}
+interface Entity {
 	type: string;
 	data: { url: string; src: string; fileName: string };
-};
+}
 type EntityMap = Record<string, Entity>;
 
 const applyAtomicStyle = (

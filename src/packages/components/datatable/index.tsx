@@ -14,10 +14,10 @@ const { D } = createAllDictionary({
 	},
 });
 
-type DataTableTypes = {
+interface DataTableTypes {
 	withPagination?: boolean;
 	globalFilterFields?: boolean;
-};
+}
 export const DataTable = ({
 	children,
 	withPagination = true,

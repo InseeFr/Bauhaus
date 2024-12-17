@@ -1,11 +1,11 @@
 import { Row } from '@components/layout';
 import { Panel } from '@components/panel';
 
-type ConceptToLinkTypes = {
+interface ConceptToLinkTypes {
 	title: string;
 	memberEls: JSX.Element[];
 	searchComponent: JSX.Element;
-};
+}
 function ConceptToLink({
 	title,
 	memberEls,

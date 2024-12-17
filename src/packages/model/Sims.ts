@@ -1,15 +1,15 @@
 import { ValidationState } from '@components/status';
 
-export type Rubric = {
+export interface Rubric {
 	idAttribute: string;
 	labelLg1: string;
 	labelLg2: string;
 	documentsLg1?: string[];
 	documentsLg2?: string[];
 	rangeType: string;
-};
+}
 
-export type Sims = {
+export interface Sims {
 	id: string;
 	creators: string[];
 	idIndicator?: string;
@@ -18,10 +18,10 @@ export type Sims = {
 	validationState: ValidationState;
 	parentsWithoutSims: any[];
 	rubrics: Rubric[];
-};
+}
 
-export type MetadataStructure = {
+export interface MetadataStructure {
 	idMas: string;
 	isPresentational: boolean;
 	children: Record<string, MetadataStructure>;
-};
+}

@@ -4,10 +4,10 @@ import { Rubric } from '../../../../model/Sims';
 import { isLink, isDocument } from '../../../document/utils';
 import DocumentsBloc from '../../documents/documents-bloc';
 
-type SimsBlockRichTextTypes = {
+interface SimsBlockRichTextTypes {
 	currentSection: Rubric;
 	isSecondLang: boolean;
-};
+}
 const SimsBlockRichText = ({
 	currentSection,
 	isSecondLang,

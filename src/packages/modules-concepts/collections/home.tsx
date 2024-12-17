@@ -8,9 +8,9 @@ import D from '../../deprecated-locales';
 import { PartialCollection } from '../../model/concepts/collection';
 import { Menu } from './menu';
 
-type CollectionsHomeTypes = {
+interface CollectionsHomeTypes {
 	collections: PartialCollection[];
-};
+}
 
 const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>) => {
 	useTitle(D.conceptsTitle, D.collectionsTitle);

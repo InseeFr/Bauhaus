@@ -6,11 +6,11 @@ import { getPermission } from '../../redux/selectors';
 
 export type RoleCheck = string | [string, (value: string) => boolean];
 export type RoleChecks = RoleCheck[];
-type AuthDumbTypes = {
+interface AuthDumbTypes {
 	roles: RoleChecks;
 	fallback?: any;
 	complementaryCheck?: boolean;
-};
+}
 
 /**
  * <AuthDumb

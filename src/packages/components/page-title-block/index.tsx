@@ -1,9 +1,9 @@
 import { useSecondLang } from '../../utils/hooks/second-lang';
 
-type PageTitleBlockTypes = {
+interface PageTitleBlockTypes {
 	titleLg1?: string;
 	titleLg2?: string;
-};
+}
 
 export const PageTitleBlock = ({
 	titleLg1,

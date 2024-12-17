@@ -22,16 +22,16 @@ const toolbar = {
 	},
 };
 
-type EditorHTMLTypes = {
+interface EditorHTMLTypes {
 	handleChange: (value: string) => void;
 	smart: boolean;
 	ariaLabel?: string;
 	id?: string;
 	text: string;
-};
-type EditorHTMLState = {
+}
+interface EditorHTMLState {
 	editorState: any;
-};
+}
 
 export class EditorHTML extends Component<EditorHTMLTypes, EditorHTMLState> {
 	constructor(props: EditorHTMLTypes) {

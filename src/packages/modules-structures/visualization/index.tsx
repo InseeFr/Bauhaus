@@ -20,11 +20,11 @@ import { ComponentsPanel } from './components/components-panel';
 import { DescriptionsPanel } from './components/descriptions-panel';
 import { GlobalInformationsPanel } from './components/global-informations-panel';
 
-type StructureViewTypes = {
+interface StructureViewTypes {
 	structure: Structure;
 	publish: (id: string) => void;
 	serverSideError?: string;
-};
+}
 export const StructureView = ({
 	structure,
 	publish,

@@ -33,12 +33,12 @@ const defaultFamily = {
 	abstractLg2: '',
 };
 
-type OperationsFamilyEditionProps = {
+interface OperationsFamilyEditionProps {
 	id: string;
 	family: Family;
 	goBack: (url: string, replace?: boolean) => void;
-};
-type OperationsFamilyEditionState = {
+}
+interface OperationsFamilyEditionState {
 	family: Family;
 	clientSideErrors: {
 		errorMessage: string[];
@@ -47,7 +47,7 @@ type OperationsFamilyEditionState = {
 	serverSideError: string;
 	submitting: boolean;
 	saving?: boolean;
-};
+}
 const setInitialState = (
 	props: OperationsFamilyEditionProps,
 ): OperationsFamilyEditionState => {
