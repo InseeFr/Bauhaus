@@ -29,7 +29,7 @@ describe('TemporalField Component', () => {
 		screen.getByLabelText(/Date de Fin/i);
 	});
 
-	it.only('should render NumberInputs when temporalCoverageDataType ends with "Year"', () => {
+	it('should render NumberInputs when temporalCoverageDataType ends with "Year"', () => {
 		render(
 			<TemporalField
 				{...defaultProps}
