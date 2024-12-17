@@ -1,45 +1,103 @@
-import { render, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 
-import { InputMultiRmes } from './';
+import { InputMultiRmes } from './index';
 
-const handleChangeLg1 = () => '';
-const handleChangeLg2 = () => '';
-const component = (
-	<InputMultiRmes
-		inputLg1={['altLg1', 'altLg1Bis']}
-		inputLg2={['altLg2']}
-		label="Input Label"
-		handleChangeLg1={handleChangeLg1}
-		handleChangeLg2={handleChangeLg2}
-	/>
-);
+vi.mock('primereact/chips', () => ({
+	Chips: ({
+		value = [],
+		onChange,
+	}: {
+		value: string[];
+		onChange: (e: any) => void;
+	}) => (
+		<input
+			data-testid="chips-input"
+			value={value.join(',')}
+			onChange={(e) => onChange({ value: e.target.value?.split(',') })}
+		/>
+	),
+}));
 
-describe('inputMulti', () => {
-	it('renders without crashing', () => {
-		render(component);
+describe('InputMultiRmes', () => {
+	const handleChangeLg1 = vi.fn();
+	const handleChangeLg2 = vi.fn();
+
+	afterEach(() => {
+		handleChangeLg1.mockClear();
+		handleChangeLg2.mockClear();
 	});
 
-	it('returns arrayLg1 from component state', () => {
-		const { container } = render(component);
+	it('should render a single input when handleChangeLg2 is not provided', () => {
+		render(
+			<InputMultiRmes
+				inputLg1={['value1']}
+				label="testLabel"
+				handleChangeLg1={handleChangeLg1}
+			/>,
+		);
 
-		const inputs = container.querySelectorAll<HTMLInputElement>(
-			'.form-group:first-child input',
-		)!;
-
-		expect(inputs[0].value).toBe('altLg1');
-		expect(inputs[1].value).toBe('altLg1Bis');
+		expect(screen.getByText('testLabel')).toBeInTheDocument();
+		expect(screen.getAllByTestId('chips-input').length).toBe(1);
 	});
 
-	it('should add an empty string when clicking on the Lg1/plus button', () => {
-		const { container } = render(component);
+	it('should render two inputs when handleChangeLg2 is provided', () => {
+		render(
+			<InputMultiRmes
+				inputLg1={['value1']}
+				inputLg2={['value2']}
+				label="altLabelTitle"
+				handleChangeLg1={handleChangeLg1}
+				handleChangeLg2={handleChangeLg2}
+			/>,
+		);
 
-		fireEvent.click(container.querySelector('.glyphicon-plus')!);
-		const inputs = container.querySelectorAll<HTMLInputElement>(
-			'.form-group:first-child input',
-		)!;
+		expect(screen.getByText('Libellé alternatif')).toBeInTheDocument();
+		expect(screen.getByText('Alternative label')).toBeInTheDocument();
+		expect(screen.getAllByTestId('chips-input').length).toBe(2);
+	});
 
-		expect(inputs[0].value).toBe('altLg1');
-		expect(inputs[1].value).toBe('altLg1Bis');
-		expect(inputs[2].value).toBe('');
+	it('should call handleChangeLg1 when the first input changes', () => {
+		render(
+			<InputMultiRmes
+				inputLg1={['value1']}
+				label="altLabelTitle"
+				handleChangeLg1={handleChangeLg1}
+			/>,
+		);
+
+		const input = screen.getByTestId('chips-input');
+		fireEvent.change(input, { target: { value: 'newValue1,newValue2' } });
+
+		expect(handleChangeLg1).toHaveBeenCalledWith(['newValue1', 'newValue2']);
+	});
+
+	it('should call handleChangeLg2 when the second input changes', () => {
+		render(
+			<InputMultiRmes
+				inputLg1={['value1']}
+				inputLg2={['value2']}
+				label="altLabelTitle"
+				handleChangeLg1={handleChangeLg1}
+				handleChangeLg2={handleChangeLg2}
+			/>,
+		);
+
+		const inputs = screen.getAllByTestId('chips-input');
+		fireEvent.change(inputs[1], { target: { value: 'newValue3,newValue4' } });
+
+		expect(handleChangeLg2).toHaveBeenCalledWith(['newValue3', 'newValue4']);
+	});
+
+	it('should fallback to the label prop if no translation is available', () => {
+		render(
+			<InputMultiRmes
+				inputLg1={['value1']}
+				label="untranslatedLabel"
+				handleChangeLg1={handleChangeLg1}
+				handleChangeLg2={handleChangeLg1}
+			/>,
+		);
+		expect(screen.getAllByText('untranslatedLabel').length).toBe(2);
 	});
 });
