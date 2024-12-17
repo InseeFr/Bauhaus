@@ -17,7 +17,10 @@ import { DelLogo } from '../logo/logo-del';
 import { Panel } from '../panel';
 import { PickerItem } from '../picker-item';
 
-interface Item { id: string; label: string }
+interface Item {
+	id: string;
+	label: string;
+}
 const trackItems = (items: Item[]) => {
 	return (
 		items &&
