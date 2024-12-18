@@ -15,7 +15,7 @@ import {
 } from '../../../../utils';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { validateCode } from '../../utils';
-import './edit.scss';
+import './edit.css';
 import { emptyCode } from './empty-code';
 
 export const CodeDetailEdit = ({

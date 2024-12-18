@@ -4,7 +4,7 @@ import { PageTitle } from '@components/page-title';
 
 import D from '../../deprecated-locales';
 import { useTitle } from '../../utils/hooks/useTitle';
-import './home.scss';
+import './home.css';
 
 export const Component = () => {
 	useTitle(D.conceptsTitle, D.administrationTitle);

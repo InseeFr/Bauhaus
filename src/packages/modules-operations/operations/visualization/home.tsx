@@ -10,10 +10,10 @@ import D from '../../../deprecated-locales/build-dictionary';
 import { Operation } from '../../../model/Operation';
 import RelationsView from '../../shared/relations';
 
-type OperationsOperationVisualizationTypes = {
+interface OperationsOperationVisualizationTypes {
 	attr: Operation;
 	secondLang: boolean;
-};
+}
 function OperationsOperationVisualization({
 	attr,
 	secondLang,

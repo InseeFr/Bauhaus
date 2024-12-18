@@ -1,12 +1,12 @@
 import { Panel } from '../panel';
 
-type NoteTypes = {
+interface NoteTypes {
 	text?: string | any;
 	title: string;
 	alone?: boolean;
 	allowEmpty?: boolean;
 	alt?: string;
-};
+}
 
 export const Note = ({
 	text = '',

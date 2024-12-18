@@ -4,11 +4,11 @@ import { Row } from '@components/layout';
 
 import D from '../../../../deprecated-locales';
 
-type YearInputTypes = {
+interface YearInputTypes {
 	value: string;
 	onChange: (value?: string | number) => void;
 	error?: string;
-};
+}
 
 export const YearInput = ({
 	value,

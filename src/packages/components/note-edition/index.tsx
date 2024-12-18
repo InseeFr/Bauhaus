@@ -3,7 +3,7 @@ import { ClientSideError } from '../errors-bloc';
 import { Row } from '../layout';
 import NoteOneLangEdition from './note-one-lang-edition';
 
-type NoteEditionTypes = {
+interface NoteEditionTypes {
 	notes: ConceptNotes;
 	noteLg1Name: keyof ConceptNotes;
 	noteLg2Name: keyof ConceptNotes;
@@ -11,7 +11,7 @@ type NoteEditionTypes = {
 	handleChangeLg2: (value: string) => void;
 	maxLength: number;
 	errorMessage: { errorMessage: string[]; fields: Record<string, string> };
-};
+}
 export const NoteEdition = ({
 	notes,
 	noteLg1Name,

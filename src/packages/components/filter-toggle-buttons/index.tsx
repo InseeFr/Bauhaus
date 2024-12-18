@@ -1,10 +1,11 @@
+import { BOTH, DOCUMENT, LINK } from '../../modules-operations/document/utils';
 import './filter-toggle-buttons.scss';
 
-type FilterToggleButtonsTypes = {
-	options: [string, string][];
+interface FilterToggleButtonsTypes {
+	options: [typeof BOTH | typeof DOCUMENT | typeof LINK, string][];
 	currentValue: string;
-	handleSelection: (value: string) => void;
-};
+	handleSelection: (value: typeof BOTH | typeof DOCUMENT | typeof LINK) => void;
+}
 
 const FilterToggleButtons = ({
 	options,

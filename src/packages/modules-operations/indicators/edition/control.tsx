@@ -6,10 +6,10 @@ import {
 
 import { useGoBack } from '@utils/hooks/useGoBack';
 
-type ControlTypes = {
+interface ControlTypes {
 	onSubmit: () => void;
 	disabled?: boolean;
-};
+}
 
 function Control({ onSubmit, disabled }: Readonly<ControlTypes>) {
 	const goBack = useGoBack();

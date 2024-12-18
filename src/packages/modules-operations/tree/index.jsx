@@ -14,7 +14,7 @@ import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../deprecated-locales';
-import './tree.scss';
+import './tree.css';
 
 export const formatLeaf = (
 	leaf,

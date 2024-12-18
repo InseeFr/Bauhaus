@@ -17,9 +17,9 @@ import {
 	CL_TYPE_GEO,
 } from '../../../redux/actions/constants/codeList';
 
-type StatisticalInformationsTypes = {
+interface StatisticalInformationsTypes {
 	dataset: Dataset;
-};
+}
 
 export const StatisticalInformations = ({
 	dataset,

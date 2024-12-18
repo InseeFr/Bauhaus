@@ -14,10 +14,10 @@ import D from '../../deprecated-locales';
 import { Classification } from '../../model/Classification';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 
-type ClassificationControlsTypes = {
+interface ClassificationControlsTypes {
 	classification: Classification;
 	publish: () => void;
-};
+}
 
 const ClassificationControls = ({
 	classification,

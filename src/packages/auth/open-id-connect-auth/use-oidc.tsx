@@ -6,10 +6,10 @@ import { UsersApi } from '@sdk/users-api';
 import { saveUserProps } from '../../redux/users';
 import { useOidc } from '../create-oidc';
 
-type OidcWrapperTypes = {
+interface OidcWrapperTypes {
 	WrappedComponent: any;
 	saveUserProps: ({ roles, stamp }: { roles: string[]; stamp: string }) => void;
-};
+}
 
 export const LoginComponent = () => {
 	const { login } = useOidc({

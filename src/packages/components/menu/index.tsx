@@ -13,13 +13,13 @@ const { D } = createAllDictionary({
 
 const WITH_SEPARATOR_CLASS = 'with-separator';
 
-type Path = {
+interface Path {
 	path: string;
 	className: string;
 	attrs: Record<string, string>;
 	image?: string;
 	label: string;
-};
+}
 
 function getClasses(path: Path, index: number, paths: Path[]) {
 	return [
@@ -31,9 +31,9 @@ function getClasses(path: Path, index: number, paths: Path[]) {
 		.trim();
 }
 
-type MainMenuTypes = {
+interface MainMenuTypes {
 	paths: any[];
-};
+}
 
 export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
 	const orderedPaths = paths

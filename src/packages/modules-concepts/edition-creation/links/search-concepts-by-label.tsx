@@ -3,11 +3,11 @@ import { Pagination } from '@components/pagination';
 
 import D from '../../../deprecated-locales';
 
-type SearchConceptsByLabelTypes = {
+interface SearchConceptsByLabelTypes {
 	searchLabel: string;
 	hitEls: JSX.Element[];
 	handleSearch: (value: string) => void;
-};
+}
 
 const SearchConceptsByLabel = ({
 	searchLabel,

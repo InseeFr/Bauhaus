@@ -6,13 +6,13 @@ import Modal from 'react-modal';
 
 import { CloseIconButton } from '../buttons/buttons-with-icons';
 
-export type ModalButton = {
+export interface ModalButton {
 	style: string;
 	action: () => void;
 	disabled: boolean;
 	label: string | ReactNode;
-};
-export type ModalRmesTypes = {
+}
+export interface ModalRmesTypes {
 	id?: string;
 	isOpen?: boolean;
 	title?: string;
@@ -20,7 +20,7 @@ export type ModalRmesTypes = {
 	footer?: Node;
 	closeCancel: () => void;
 	modalButtons: ModalButton[];
-};
+}
 export const ModalRmes = ({
 	id,
 	isOpen,

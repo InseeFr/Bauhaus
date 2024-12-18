@@ -1,4 +1,4 @@
-export type ServerSideError = {
+export interface ServerSideError {
 	code: number;
 	message: string;
-};
+}

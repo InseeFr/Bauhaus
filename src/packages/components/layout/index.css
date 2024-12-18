@@ -1,0 +1,9 @@
+.bauhaus-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1em;
+}
+
+.bauhaus-row > * {
+	flex: 1 1 0;
+}

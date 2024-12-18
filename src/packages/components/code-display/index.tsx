@@ -1,9 +1,9 @@
 import { CodesList } from '../../model/CodesList';
 
-type CodeDisplayTypes = {
+interface CodeDisplayTypes {
 	codesList: CodesList;
 	value: string;
-};
+}
 
 export const CodeDisplay = ({
 	codesList,

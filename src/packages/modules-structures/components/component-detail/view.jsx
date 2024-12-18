@@ -25,7 +25,7 @@ import {
 } from '../../utils/constants';
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { ViewMenu } from './menu';
-import './view.scss';
+import './view.css';
 import { MeasureAttributes } from './visualisation/measureAttributes';
 
 export const ComponentDetailView = ({

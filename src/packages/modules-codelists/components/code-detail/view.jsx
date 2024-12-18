@@ -7,7 +7,7 @@ import { Note } from '@components/note';
 import { renderMarkdownElement } from '@utils/html-utils';
 
 import D, { D1, D2 } from '../../i18n/build-dictionary';
-import './view.scss';
+import './view.css';
 
 export const CodeDetailView = ({
 	code,

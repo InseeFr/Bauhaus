@@ -5,11 +5,11 @@ export type ValidationState =
 	| typeof MODIFIED
 	| typeof UNPUBLISHED
 	| typeof VALIDATED;
-type PublicationType = {
+interface PublicationType {
 	object: {
 		validationState: ValidationState;
 	};
-};
+}
 export function PublicationMale({ object }: Readonly<PublicationType>) {
 	return <PublicationStatus object={object} />;
 }

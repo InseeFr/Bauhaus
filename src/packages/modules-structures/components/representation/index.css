@@ -1,0 +1,8 @@
+.representation {
+	display: flex;
+	justify-content: space-between;
+}
+
+.representation > span {
+	text-align: left;
+}

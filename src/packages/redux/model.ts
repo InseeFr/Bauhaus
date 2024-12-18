@@ -1,9 +1,9 @@
-export type ReduxAction = {
+export interface ReduxAction {
 	type: string;
 	payload?: any;
-};
+}
 
-export type ReduxAppModel = {
+export interface ReduxAppModel {
 	auth?: {
 		type: string;
 		user: {
@@ -11,9 +11,9 @@ export type ReduxAppModel = {
 			stamp: string;
 		};
 	};
-};
+}
 
-export type ReduxModel = {
+export interface ReduxModel {
 	operationsOperationCurrentStatus: string;
 	operationsSimsCurrent?: any;
 	geographies?: {
@@ -21,10 +21,10 @@ export type ReduxModel = {
 		results: any[];
 	};
 	app?: ReduxAppModel;
-};
+}
 
 export type CorrespondenceReduxModel = Record<string, object>;
-export type ClassificationReduxModel = {
+export interface ClassificationReduxModel {
 	classificationLevelGeneral: unknown;
 	classificationLevelMembers: unknown;
-};
+}

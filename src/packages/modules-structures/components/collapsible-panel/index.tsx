@@ -2,12 +2,12 @@ import { useState, useCallback, PropsWithChildren } from 'react';
 
 import { Note } from '@components/note';
 
-type CollapsiblePanelTypes = {
+interface CollapsiblePanelTypes {
 	id: string;
 	title: any;
 	hidden?: boolean;
 	collapsible?: boolean;
-};
+}
 export const CollapsiblePanel = ({
 	id,
 	title,

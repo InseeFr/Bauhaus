@@ -1,12 +1,12 @@
 import { ValidationState } from '@components/status';
 
-export type PartialStructure = {
+export interface PartialStructure {
 	iri: string;
 	labelLg1: string;
-};
+}
 export type StructuresList = PartialStructure[];
 
-export type Structure = {
+export interface Structure {
 	id: string;
 	labelLg1: string;
 	labelLg2: string;
@@ -20,4 +20,4 @@ export type Structure = {
 	modified: string;
 	contributor: string[] | string;
 	validationState: ValidationState;
-};
+}

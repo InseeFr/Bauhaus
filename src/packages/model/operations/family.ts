@@ -1,6 +1,6 @@
 import { ValidationState } from '@components/status';
 
-export type Family = {
+export interface Family {
 	id: string;
 	prefLabelLg1?: string;
 	prefLabelLg2?: string;
@@ -12,14 +12,14 @@ export type Family = {
 	abstractLg1: string;
 	abstractLg2: string;
 	series: unknown[];
-};
+}
 
-export type FamilyHome = {
+export interface FamilyHome {
 	id: string;
 	label: string;
-};
+}
 
-export type FamilyAdvancedSearch = {
+export interface FamilyAdvancedSearch {
 	id: string;
 	prefLabelLg1: string;
-};
+}

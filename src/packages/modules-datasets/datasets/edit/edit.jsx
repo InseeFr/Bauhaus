@@ -21,7 +21,7 @@ import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import D from '../../../deprecated-locales';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { useDataset } from '../../datasets';
-import './edit.scss';
+import './edit.css';
 import { LayoutWithLateralMenu } from './layout-with-lateral-menu';
 import { GlobalInformation } from './tabs/global-information';
 import { InternalManagement } from './tabs/internal-management';

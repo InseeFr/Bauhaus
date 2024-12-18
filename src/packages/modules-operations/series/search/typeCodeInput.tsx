@@ -6,10 +6,10 @@ import D from '../../../deprecated-locales';
 import { Option } from '../../../model/SelectOption';
 import { CL_SOURCE_CATEGORY } from '../../../redux/actions/constants/codeList';
 
-type TypeCodeInputTypes = {
+interface TypeCodeInputTypes {
 	value: string;
 	onChange: (value: string) => void;
-};
+}
 export const TypeCodeInput = ({
 	value,
 	onChange,

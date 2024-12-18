@@ -17,7 +17,10 @@ import { DelLogo } from '../logo/logo-del';
 import { Panel } from '../panel';
 import { PickerItem } from '../picker-item';
 
-type Item = { id: string; label: string };
+interface Item {
+	id: string;
+	label: string;
+}
 const trackItems = (items: Item[]) => {
 	return (
 		items &&
@@ -29,7 +32,7 @@ const trackItems = (items: Item[]) => {
 	);
 };
 
-type PickerTypes = {
+interface PickerTypes {
 	items: any;
 	handleAction: any;
 	title: string;
@@ -39,7 +42,7 @@ type PickerTypes = {
 	ValidationButton: any;
 	disabled?: boolean;
 	disabledWarningMessage?: string;
-};
+}
 export const Picker = ({
 	items: itemsProps,
 	handleAction,

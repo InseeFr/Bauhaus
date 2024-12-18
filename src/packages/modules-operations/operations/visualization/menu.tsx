@@ -13,10 +13,10 @@ import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Operation } from '../../../model/Operation';
 
-type MenuTypes = {
+interface MenuTypes {
 	operation: Operation;
 	onPublish: () => void;
-};
+}
 export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
 	const goBack = useGoBack();
 	const checkStamp = (stamp: string) =>

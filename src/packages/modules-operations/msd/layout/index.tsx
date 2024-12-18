@@ -6,12 +6,12 @@ import { Status, useLayout } from '../../useLayout';
 import Outline from '../outline';
 import './style.scss';
 
-type MSDComponentTypes = {
+interface MSDComponentTypes {
 	baseUrl: string;
 	disableSectionAnchor: boolean;
 	storeCollapseState: boolean;
 	metadataStructure: Record<string, MetadataStructure>;
-};
+}
 const MSDComponent = ({
 	storeCollapseState,
 	metadataStructure,

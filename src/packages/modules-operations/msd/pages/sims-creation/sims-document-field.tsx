@@ -3,12 +3,12 @@ import { memo, useCallback } from 'react';
 import { isDocument, isLink } from '../../../document/utils';
 import DocumentsBloc from '../../documents/documents-bloc';
 
-type SimsDocumentFieldTypes = {
+interface SimsDocumentFieldTypes {
 	handleChange: any;
 	msd: any;
 	currentSection: any;
 	lang?: string;
-};
+}
 export const SimsDocumentField = ({
 	handleChange,
 	msd,

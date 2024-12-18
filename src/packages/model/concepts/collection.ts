@@ -1,10 +1,10 @@
-export type Collection = {
+export interface Collection {
 	id: string;
 	prefLabelLg1: string;
 	creator: string;
-};
+}
 
-export type PartialCollection = {
+export interface PartialCollection {
 	id: string;
 	label: string;
-};
+}

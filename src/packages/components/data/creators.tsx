@@ -1,9 +1,9 @@
 import { Organization as OrganizationType } from '../../model/organization';
 
-type OrganizationsTypes = {
+interface OrganizationsTypes {
 	creators: string[];
 	organizations: OrganizationType[];
-};
+}
 export const Organizations = ({
 	creators,
 	organizations,
@@ -21,10 +21,10 @@ export const Organizations = ({
 	);
 };
 
-type OrganizationTypes = {
+interface OrganizationTypes {
 	creator: string;
 	organizations: OrganizationType[];
-};
+}
 
 export const Organization = ({
 	creator,

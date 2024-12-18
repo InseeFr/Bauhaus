@@ -3,11 +3,11 @@ import { createContext, useContext } from 'react';
 import { Document } from '../../../../model/operations/document';
 import { DOCUMENT, LINK } from '../../../document/utils';
 
-export type DocumentsStoreObject = {
+export interface DocumentsStoreObject {
 	lg1: Document[];
 	lg2: Document[];
-};
-export type DocumentsStoreContextType = {
+}
+export interface DocumentsStoreContextType {
 	documentStores: DocumentsStoreObject;
 	updateDocumentStores: (store: DocumentsStoreObject) => void;
 	lateralPanelOpened?: typeof DOCUMENT | typeof LINK;
@@ -17,7 +17,7 @@ export type DocumentsStoreContextType = {
 	setRubricIdForNewDocument: (
 		value: { rubric: string; lang: string } | null,
 	) => void;
-};
+}
 const DocumentsStoreContext = createContext<
 	DocumentsStoreContextType | undefined
 >(undefined);

@@ -1,6 +1,6 @@
 import { RequiredIcon } from '../required-icon';
 
-type InputRmesTypes = {
+interface InputRmesTypes {
 	colMd?: number;
 	value: string;
 	label: string;
@@ -12,7 +12,7 @@ type InputRmesTypes = {
 	arias?: any;
 	className?: string;
 	errorBlock?: any;
-};
+}
 export const InputRmes = ({
 	colMd,
 	value,

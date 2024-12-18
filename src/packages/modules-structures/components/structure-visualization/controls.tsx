@@ -16,10 +16,10 @@ import { UNPUBLISHED } from '../../../model/ValidationState';
 import { Structure } from '../../../model/structures/Structure';
 import { usePermission } from '../../../redux/hooks/usePermission';
 
-type ControlsTypes = {
+interface ControlsTypes {
 	structure: Structure;
 	publish: () => void;
-};
+}
 const Controls = ({ structure, publish }: ControlsTypes) => {
 	const permission = usePermission();
 	const contributors = Array.isArray(structure.contributor)

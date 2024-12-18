@@ -47,10 +47,10 @@ export const EditorMarkdownToolbar = {
 	},
 };
 
-type EditorMarkdownTypes = {
+interface EditorMarkdownTypes {
 	text: string;
 	handleChange: (value: any) => void;
-};
+}
 export const EditorMarkdown = ({ text, handleChange }: EditorMarkdownTypes) => {
 	const [editorState, setEditorState] = useState(editorStateFromMd(''));
 	const editorRef = useRef();

@@ -10,7 +10,7 @@ import { UNPUBLISHED } from '../../..//model/ValidationState';
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 
-type ViewMenuTypes = {
+interface ViewMenuTypes {
 	handleUpdate: () => void;
 	handleDelete: () => void;
 	handleBack: () => void;
@@ -18,7 +18,7 @@ type ViewMenuTypes = {
 	updatable: boolean;
 	deletable: boolean;
 	codelist: any;
-};
+}
 
 export const ViewMenu = ({
 	handleUpdate,

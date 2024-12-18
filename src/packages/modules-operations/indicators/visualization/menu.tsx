@@ -14,10 +14,10 @@ import { ADMIN, INDICATOR_CONTRIBUTOR } from '../../../auth/roles';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Indicator } from '../../../model/operations/indicator';
 
-type MenuTypes = {
+interface MenuTypes {
 	indicator: Indicator;
 	publish: () => void;
-};
+}
 
 export const Menu = ({ indicator, publish }: Readonly<MenuTypes>) => {
 	const goBack = useGoBack();

@@ -1,5 +1,5 @@
 import D from '../i18n';
-import './loading.scss';
+import './loading.css';
 
 const getText = (textType?: string) => {
 	switch (textType) {
@@ -21,10 +21,10 @@ const getText = (textType?: string) => {
 	}
 };
 
-type LoadingTypes = {
+interface LoadingTypes {
 	text?: string;
 	textType?: string;
-};
+}
 
 export const Loading = ({ text, textType }: LoadingTypes) => {
 	const style = {

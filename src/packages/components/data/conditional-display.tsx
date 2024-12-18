@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 
 type ConditionalDisplayTypes = PropsWithChildren<{
-	data?: Array<unknown> | string;
+	data?: unknown[] | string;
 }>;
 
 export const ConditionalDisplay = ({

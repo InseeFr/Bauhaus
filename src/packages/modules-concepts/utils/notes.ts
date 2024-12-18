@@ -3,7 +3,7 @@ import { rawHtmlToRmesHtml } from '@utils/html-utils';
 
 import { ConceptNotes } from '../../model/concepts/concept';
 
-export const versionableNotes: Array<keyof ConceptNotes> = [
+export const versionableNotes: (keyof ConceptNotes)[] = [
 	'scopeNoteLg1',
 	'scopeNoteLg2',
 	'definitionLg1',
@@ -12,7 +12,7 @@ export const versionableNotes: Array<keyof ConceptNotes> = [
 	'editorialNoteLg2',
 ];
 
-export const datableNotes: Array<keyof ConceptNotes> = [
+export const datableNotes: (keyof ConceptNotes)[] = [
 	'changeNoteLg1',
 	'changeNoteLg2',
 ];
@@ -40,7 +40,7 @@ export const capitalizeFirst = (str: string) =>
 export const processChanges = (
 	oldNotes: ConceptNotes,
 	notes: ConceptNotes,
-	fields: Array<keyof ConceptNotes>,
+	fields: (keyof ConceptNotes)[],
 ) =>
 	fields.reduce(
 		(
@@ -63,7 +63,7 @@ export const processChanges = (
 
 export const processNotes = (
 	notesToKeep: ConceptNotes,
-	fields: Array<keyof ConceptNotes>,
+	fields: (keyof ConceptNotes)[],
 ) =>
 	fields.reduce(
 		(
@@ -91,7 +91,7 @@ export const processVersionableChanges = (
 export const keepDatableNotes = (notes: ConceptNotes) =>
 	processNotes(notes, datableNotes);
 
-const versionImpactingNotes: Array<keyof ConceptNotes> = [
+const versionImpactingNotes: (keyof ConceptNotes)[] = [
 	'scopeNoteLg1',
 	'definitionLg1',
 	'editorialNoteLg1',

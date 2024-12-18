@@ -1,10 +1,10 @@
 import { ValidationState } from '@components/status';
 
-export type PartialDataset = {
+export interface PartialDataset {
 	id: string;
 	label: string;
-};
-export type Dataset = {
+}
+export interface Dataset {
 	accessRights: string;
 	accrualPeriodicity: string;
 	confidentialityStatus: string;
@@ -33,16 +33,16 @@ export type Dataset = {
 	dataStructure: string;
 	issued?: string;
 	type: string;
-};
-export type CatalogRecord = {
+}
+export interface CatalogRecord {
 	created: string;
 	updated: string;
 	contributor: string | string[];
 	creator: string;
 	catalogRecord: CatalogRecord;
 	validationState: ValidationState;
-};
-export type Distribution = {
+}
+export interface Distribution {
 	id?: string;
 	validationState: ValidationState;
 	descriptionLg1: string;
@@ -52,9 +52,9 @@ export type Distribution = {
 	format: string;
 	byteSize: string;
 	url: string;
-};
+}
 
-export type PartialDistribution = {
+export interface PartialDistribution {
 	id: string;
 	idDataset: string;
 	labelLg1: string;
@@ -66,4 +66,4 @@ export type PartialDistribution = {
 	format: string;
 	byteSize: string;
 	url: string;
-};
+}

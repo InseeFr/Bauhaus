@@ -5,12 +5,12 @@ import { ReduxModel } from '../../redux/model';
 import { getPermission } from '../../redux/selectors';
 
 export type RoleCheck = string | [string, (value: string) => boolean];
-export type RoleChecks = Array<RoleCheck>;
-type AuthDumbTypes = {
+export type RoleChecks = RoleCheck[];
+interface AuthDumbTypes {
 	roles: RoleChecks;
 	fallback?: any;
 	complementaryCheck?: boolean;
-};
+}
 
 /**
  * <AuthDumb

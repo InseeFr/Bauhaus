@@ -2,12 +2,12 @@ import { Select } from '@components/select-rmes';
 
 import { Option } from '../../../../../model/SelectOption';
 
-type SimsCodeListSelectTypes = {
+interface SimsCodeListSelectTypes {
 	multi: boolean;
 	currentSection: any;
 	options: Option[];
 	onChange: any;
-};
+}
 export const SimsCodeListSelect = ({
 	multi,
 	currentSection,

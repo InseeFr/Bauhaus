@@ -1,14 +1,14 @@
 import D from '../../../deprecated-locales/build-dictionary';
 import ExportButton from '../dropdown';
 
-type ExportButtonsTypes = {
+interface ExportButtonsTypes {
 	disabled?: boolean;
 	exportHandler: (
 		type: string,
 		withConcepts: boolean,
 		lang?: 'lg1' | 'lg2',
 	) => void;
-};
+}
 
 const ExportButtons = ({
 	exportHandler,

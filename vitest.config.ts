@@ -11,7 +11,7 @@ export default defineConfig({
 			include: ['src/**/*.{ts,tsx,js,jsx}'],
 		},
 		include: ['src/**/*.spec.*'],
-		environment: 'jsdom',
+		environment: 'happy-dom',
 		globals: true,
 		setupFiles: ['./setupTests.js'],
 	},

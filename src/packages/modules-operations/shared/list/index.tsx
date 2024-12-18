@@ -9,7 +9,7 @@ import { VerticalMenu } from '@components/vertical-menu';
 import Auth, { RoleChecks } from '../../../auth/components/auth';
 import D from '../../../deprecated-locales';
 
-type OperationsObjectHomeTypes = {
+interface OperationsObjectHomeTypes {
 	items: any[];
 	roles: RoleChecks;
 	title: string;
@@ -17,7 +17,7 @@ type OperationsObjectHomeTypes = {
 	searchURL: string;
 	advancedSearch?: boolean;
 	createButton: ReactNode;
-};
+}
 function OperationsObjectHome({
 	items,
 	roles,

@@ -1,9 +1,9 @@
 import { Rubric } from '../../../../model/Sims';
 
-type SimsBlockTextTypes = {
+interface SimsBlockTextTypes {
 	currentSection: Rubric;
 	isSecondLang: boolean;
-};
+}
 
 const SimsBlockText = ({
 	currentSection,

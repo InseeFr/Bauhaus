@@ -1,11 +1,11 @@
 import './page-title.scss';
 
-type PageTitleTypes = {
+interface PageTitleTypes {
 	title: string;
 	subtitle?: string;
 	col?: number;
 	offset?: number;
-};
+}
 
 export const PageTitle = ({
 	title,

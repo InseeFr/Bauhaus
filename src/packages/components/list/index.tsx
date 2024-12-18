@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 
-type ListTypes<T> = {
+interface ListTypes<T> {
 	items: T[];
 	getContent?: (value: T) => string | ReactNode;
 	getKey?: (value: T) => string;
-};
+}
 
 export const List = <T extends object>({
 	items,

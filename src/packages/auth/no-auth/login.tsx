@@ -13,9 +13,9 @@ import {
 	STRUCTURE_CONTRIBUTOR,
 } from '../roles';
 
-type LoginNoAuthTypes = {
+interface LoginNoAuthTypes {
 	checkAuth: (option: { stamp: string; roles: string[] }) => void;
-};
+}
 const LoginNoAuth = ({ checkAuth }: Readonly<LoginNoAuthTypes>) => {
 	useEffect(() => {
 		checkAuth({

@@ -3,11 +3,11 @@ import { Row } from '@components/layout';
 
 import { D1, D2 } from '../../deprecated-locales';
 
-type NoteVizualizationTypes = {
+interface NoteVizualizationTypes {
 	params: any[];
 	secondLang: boolean;
 	md?: boolean;
-};
+}
 export const NoteVisualization = ({
 	params,
 	secondLang,

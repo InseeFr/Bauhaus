@@ -14,7 +14,7 @@ import { useTitle } from '@utils/hooks/useTitle';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
 import { MUTUALIZED_COMPONENT_TYPES } from '../../utils/constants';
-import './component-list.scss';
+import './component-list.css';
 import { HomePageMenu } from './menu';
 
 const ALL = 'ALL';

@@ -1,9 +1,9 @@
 import { Rubric } from '../../../../model/Sims';
 
-type SimsBlockGeographyTypes = {
+interface SimsBlockGeographyTypes {
 	currentSection: Rubric;
 	isSecondLang: boolean;
-};
+}
 
 const SimsBlockGeography = ({
 	currentSection,

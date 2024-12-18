@@ -8,13 +8,13 @@ import { useSeries } from '@utils/hooks/series';
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/Series';
 
-type WasGeneratedByBlockTypes = {
+interface WasGeneratedByBlockTypes {
 	iris: string[];
-};
+}
 
 const generateGenericWasGeneratedBy = (
 	basePath: string,
-	datas: Array<Operation | Series>,
+	datas: (Operation | Series)[],
 	iris: string[],
 ): { label: string; url: string }[] => {
 	return iris

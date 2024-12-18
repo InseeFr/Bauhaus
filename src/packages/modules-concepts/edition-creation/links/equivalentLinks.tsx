@@ -9,10 +9,10 @@ import D from '../../../deprecated-locales';
 import { Link } from '../../../model/concepts/concept';
 import './equivalentLinks.scss';
 
-type EquivalentLinksTypes = {
+interface EquivalentLinksTypes {
 	links: (Link & { urn: string })[];
 	updateEquivalentLinks: (links: (Link | { urn: string })[]) => void;
-};
+}
 
 export const EquivalentLinks = ({
 	links = [],

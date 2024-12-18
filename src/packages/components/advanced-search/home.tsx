@@ -6,12 +6,12 @@ import { Pagination } from '@components/pagination';
 import { NumberResults } from '../number-results';
 import { AdvancedSearchControls } from './controls';
 
-type AdvancedSearchListTypes = {
+interface AdvancedSearchListTypes {
 	title: string;
 	data: JSX.Element[];
 	initializeState?: unknown;
 	redirect?: JSX.Element;
-};
+}
 export const AdvancedSearchList = ({
 	title,
 	children,

@@ -5,10 +5,10 @@ import D from '../i18n';
 import { AddLogo } from '../logo/logo-add';
 import './newButton.scss';
 
-type AbstractNewButtonTypes = {
+interface AbstractNewButtonTypes {
 	action: ((location: any) => any) | string;
 	suffix?: string;
-};
+}
 const AbstractNewButton = ({
 	action,
 	children,

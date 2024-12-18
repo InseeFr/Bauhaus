@@ -1,6 +1,6 @@
 import { Sims } from '../Sims';
 
-export type Document = {
+export interface Document {
 	id?: string;
 	labelLg1: string;
 	labelLg2: string;
@@ -12,4 +12,12 @@ export type Document = {
 	lang: string;
 	sims?: Sims[];
 	uri?: string;
-};
+}
+
+export interface HomeDocument {
+	label: string;
+	uri: string;
+	lang: string;
+	updatedDate: string;
+	id: string;
+}

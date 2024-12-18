@@ -1,6 +1,6 @@
 import { ValidationState } from '@components/status';
 
-export type Classification = {
+export interface Classification {
 	id: string;
 	general: {
 		id: string;
@@ -15,10 +15,10 @@ export type Classification = {
 	};
 	levels: unknown[];
 	validationState: ValidationState;
-};
+}
 
-export type PartialClassification = {
+export interface PartialClassification {
 	id: string;
 	label: string;
 	altLabels: string;
-};
+}

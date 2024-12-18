@@ -11,10 +11,10 @@ import D from '../../../deprecated-locales/build-dictionary';
 import { Family } from '../../../model/operations/family';
 import RelationsView from '../../shared/relations';
 
-type OperationsFamilyVisualizationTypes = {
+interface OperationsFamilyVisualizationTypes {
 	attr: Family;
 	secondLang: boolean;
-};
+}
 function OperationsFamilyVisualization({
 	attr,
 	secondLang,
