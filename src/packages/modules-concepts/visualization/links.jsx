@@ -14,7 +14,7 @@ import {
 
 import { D1, D2 } from '../../deprecated-locales';
 import { sortArray } from '../../utils/array-utils';
-import './links.scss';
+import './links.css';
 
 const CloseMatchLinks = ({ links, Dictionnary }) => {
 	return (

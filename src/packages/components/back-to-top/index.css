@@ -12,13 +12,13 @@ button.sticky-top {
 	line-height: 18px;
 	text-align: center;
 	color: white;
+}
 
-	&.block {
-		display: block !important;
-	}
+button.sticky-top.block {
+	display: block !important;
+}
 
-	span {
-		text-transform: uppercase;
-		font-weight: 700;
-	}
+button.sticky-top span {
+	text-transform: uppercase;
+	font-weight: 700;
 }

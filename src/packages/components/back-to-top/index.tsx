@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { createAllDictionary } from '@utils/dictionnary';
 
-import './index.scss';
+import './index.css';
 
 const className = 'sticky-top';
 
