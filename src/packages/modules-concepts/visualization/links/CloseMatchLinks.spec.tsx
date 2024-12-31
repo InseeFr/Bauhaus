@@ -14,7 +14,7 @@ const mockDictionnary = {
 };
 
 describe('CloseMatchLinks', () => {
-	it.only('renders the equivalent links when links are provided', () => {
+	it('renders the equivalent links when links are provided', () => {
 		render(<CloseMatchLinks links={mockLinks} Dictionnary={mockDictionnary} />);
 
 		screen.getByText(/Equivalent links/);
