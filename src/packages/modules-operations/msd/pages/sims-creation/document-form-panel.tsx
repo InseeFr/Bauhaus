@@ -7,7 +7,7 @@ import { useCodesList } from '@utils/hooks/codeslist';
 
 import { Document } from '../../../../model/operations/document';
 import OperationsDocumentationEdition from '../../../document/edition/edition';
-import './document-form-panel.scss';
+import './document-form-panel.css';
 import { useDocumentsStoreContext } from './documents-store-context';
 import { getDocumentsList } from './useDocumentsList';
 

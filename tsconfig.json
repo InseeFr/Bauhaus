@@ -18,6 +18,7 @@
 		"types": ["vitest/globals", "vite/client"],
 		"paths": {
 			"@components/*": ["./src/packages/components/*"],
+			"@model/*": ["./src/packages/model/*"],
 			"@sdk/*": ["./src/packages/sdk/*"],
 			"@utils/*": ["./src/packages/utils/*"]
 		}

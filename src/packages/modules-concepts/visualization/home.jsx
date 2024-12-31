@@ -14,7 +14,7 @@ import { getModalMessage } from '../utils/build-validation-message';
 import { buildNotes } from '../utils/notes';
 import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
-import ConceptLinks from './links';
+import ConceptLinks from './links/Links';
 
 const ConceptVisualization = ({
 	id,

@@ -6,7 +6,7 @@ import { CloseIconButton } from '@components/buttons/buttons-with-icons';
 import { Row } from '@components/layout';
 
 import D from '../../../deprecated-locales/build-dictionary';
-import './index.scss';
+import './index.css';
 
 export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const [lang, setLang] = useState('lg1');

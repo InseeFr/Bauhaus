@@ -9,35 +9,41 @@ import { useSecondLang } from '@utils/hooks/second-lang';
 import { useLocales } from '@utils/hooks/useLocales';
 import { rmesHtmlToRawHtml } from '@utils/html-utils';
 
+import {
+	Concept,
+	ConceptGeneral,
+	ConceptNotes,
+} from '../../model/concepts/concept';
 import { usePermission } from '../../redux/hooks/usePermission';
 import { emptyNotes } from '../utils/notes';
 import ConceptVisualization from './home';
-import { LoadingProvider } from './loading';
+import { LoadingProvider, LoadingType } from './loading';
 
-const formatNotes = (notes) => {
+const formatNotes = (notes: ConceptNotes) => {
+	const keys = Object.keys(notes) as unknown as (keyof ConceptNotes)[];
 	return {
 		...emptyNotes,
-		...Object.keys(notes).reduce((formatted, noteName) => {
-			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
+		...keys.reduce((formatted: ConceptNotes, noteName) => {
+			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]!);
 			return formatted;
-		}, {}),
+		}, {} as ConceptNotes),
 	};
 };
 export const Component = () => {
-	const { id } = useParams();
+	const { id } = useParams<{ id: string }>();
 	const navigate = useNavigate();
 
 	const langs = useLocales();
 	const permission = usePermission();
 	const [secondLang] = useSecondLang();
 
-	const [loading, setLoading] = useState('loading');
-	const [concept, setConcept] = useState({});
-	const [error, setError] = useState();
+	const [loading, setLoading] = useState<LoadingType>('loading');
+	const [concept, setConcept] = useState<Concept>();
+	const [error, setError] = useState<string | undefined>();
 
-	const fetchConcept = (id) => {
+	const fetchConcept = (id: string) => {
 		return ConceptsApi.getConceptGeneral(id)
-			.then((general) => {
+			.then((general: ConceptGeneral) => {
 				const { conceptVersion } = general;
 				return Promise.all([
 					ConceptsApi.getNoteVersionList(id, conceptVersion),
@@ -50,20 +56,20 @@ export const Component = () => {
 					});
 				});
 			})
-			.finally(() => setLoading());
+			.finally(() => setLoading(undefined));
 	};
 	useEffect(() => {
-		fetchConcept(id);
+		fetchConcept(id!);
 	}, [id]);
 
-	const handleConceptValidation = useCallback((id) => {
+	const handleConceptValidation = useCallback((id: string) => {
 		setLoading('validating');
 
 		ConceptsApi.putConceptValidList([id])
 			.then(() => fetchConcept(id))
-			.catch((e) => setError(e))
+			.catch((e: string) => setError(e))
 			.finally(() => {
-				setLoading();
+				setLoading(undefined);
 			});
 	}, []);
 
@@ -71,16 +77,15 @@ export const Component = () => {
 		setLoading('deleting');
 		ConceptsApi.deleteConcept(id)
 			.then(() => navigate(`/concepts`))
-			.catch((e) => setError(e))
-			.finally(() => setLoading());
+			.catch((e: string) => setError(e))
+			.finally(() => setLoading(undefined));
 	}, [navigate, id]);
 
 	if (loading) {
 		return <Loading />;
 	}
 
-	const { general, links } = concept;
-	let { notes } = concept;
+	const { general, links, notes } = concept!;
 
 	return (
 		<LoadingProvider value={{ loading, setLoading }}>
