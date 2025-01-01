@@ -1,7 +1,7 @@
 import { ComponentProps, PropsWithChildren, ReactNode } from 'react';
 
 import { Link } from '../link';
-import './button.scss';
+import './button.css';
 
 const DEFAULT_CLASSES: string[] = [];
 
