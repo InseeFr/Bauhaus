@@ -5,12 +5,12 @@
 	margin-bottom: 0.5em;
 }
 
-.bauhaus-btn:hover:not([disabled]),
-.bauhaus-btn:focus {
-	background-color: var(--color-2);
+.bauhaus-btn:hover {
 	color: white;
 }
 
-.bauhaus-btn:hover {
+.bauhaus-btn:focus,
+.bauhaus-btn:hover:not([disabled]) {
+	background-color: var(--color-2);
 	color: white;
 }
