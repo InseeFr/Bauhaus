@@ -1,6 +1,6 @@
 import { createAllDictionary } from '@utils/dictionnary';
 
-import './index.scss';
+import './index.css';
 
 const { D } = createAllDictionary({
 	welcome: {
@@ -11,8 +11,8 @@ const { D } = createAllDictionary({
 export const ApplicationTitle = () => {
 	return (
 		<header className="application-title">
-			<div className="application-title__container">
-				<div className="application-title__wrapper">
+			<div className="application-title-container">
+				<div className="application-title-wrapper">
 					<h1>
 						<img src="/img/logo.svg" alt="application logo" />
 						{D.welcome}
