@@ -68,7 +68,7 @@ export const Component = (props) => {
 	};
 	return (
 		<>
-			<ComponentTitle component={component} secondLang={secondLang} />
+			<ComponentTitle component={component} />
 
 			<ComponentDetailView
 				{...props}

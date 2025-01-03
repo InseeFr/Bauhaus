@@ -49,7 +49,6 @@ export const Component = () => {
 			<PageTitleBlock
 				titleLg1={indicator.prefLabelLg1}
 				titleLg2={indicator.prefLabelLg2}
-				secondLang={secondLang}
 			/>
 			<Menu indicator={indicator} publish={publish} />
 

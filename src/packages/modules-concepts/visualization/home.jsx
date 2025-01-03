@@ -66,7 +66,6 @@ const ConceptVisualization = ({
 				<PageTitleBlock
 					titleLg1={general.prefLabelLg1}
 					titleLg2={general.prefLabelLg2}
-					secondLang={secondLang}
 				/>
 
 				<ConceptVisualizationControls

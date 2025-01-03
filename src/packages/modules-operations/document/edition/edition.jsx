@@ -221,7 +221,6 @@ const OperationsDocumentationEdition = (props) => {
 				<PageTitleBlock
 					titleLg1={documentProps.labelLg1}
 					titleLg2={documentProps.labelLg2}
-					secondLang={true}
 				/>
 			)}
 			<ActionToolbar>

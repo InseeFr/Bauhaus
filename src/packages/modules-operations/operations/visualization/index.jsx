@@ -48,7 +48,6 @@ export const Component = () => {
 			<PageTitleBlock
 				titleLg1={operation.prefLabelLg1}
 				titleLg2={operation.prefLabelLg2}
-				secondLang={secondLang}
 			/>
 			<Menu operation={operation} onPublish={publish} />
 

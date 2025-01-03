@@ -1,5 +1,5 @@
 import { BOTH, DOCUMENT, LINK } from '../../modules-operations/document/utils';
-import './filter-toggle-buttons.scss';
+import './filter-toggle-buttons.css';
 
 interface FilterToggleButtonsTypes {
 	options: [typeof BOTH | typeof DOCUMENT | typeof LINK, string][];
@@ -24,7 +24,7 @@ const FilterToggleButtons = ({
 							type="button"
 							className={`btn btn-default ${
 								currentValue === value
-									? 'bauhaus-filter-toggle-buttons__btn-active'
+									? 'bauhaus-filter-toggle-buttons-btn-active'
 									: ''
 							}`}
 							onClick={() => handleSelection(value)}

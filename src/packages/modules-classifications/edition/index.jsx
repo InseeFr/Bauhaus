@@ -81,7 +81,6 @@ export const Component = () => {
 			<PageTitleBlock
 				titleLg1={classification?.general?.prefLabelLg1}
 				titleLg2={classification?.general?.prefLabelLg2}
-				secondLang={true}
 			/>
 
 			<form

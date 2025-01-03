@@ -101,7 +101,6 @@ export const Component = () => {
 				<PageTitleBlock
 					titleLg1={distribution.labelLg1}
 					titleLg2={distribution.labelLg2}
-					secondLang={true}
 				/>
 			)}
 
