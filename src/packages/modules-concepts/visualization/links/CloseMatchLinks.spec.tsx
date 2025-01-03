@@ -20,7 +20,6 @@ describe('CloseMatchLinks', () => {
 		screen.getByText(/Equivalent links/);
 
 		const items = screen.queryAllByRole('listitem');
-		screen.debug();
 		expect(items).toHaveLength(mockLinks.length + 1);
 
 		mockLinks.forEach((link) => {
