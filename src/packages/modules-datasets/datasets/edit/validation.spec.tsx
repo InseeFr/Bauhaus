@@ -1,14 +1,17 @@
+import { CatalogRecord } from '@model/Dataset';
+
 import { validate } from './validation';
 
+const catalogRecord = {
+	creator: 'creator',
+	contributor: ['contributor'],
+} as CatalogRecord;
 describe('validation', function () {
 	it('should return an error for labelLg1', function () {
 		expect(
 			validate({
 				labelLg2: 'labelLg2',
-				catalogRecord: {
-					creator: 'creator',
-					contributor: ['contributor'],
-				},
+				catalogRecord,
 				disseminationStatus: 'status',
 				wasGeneratedIRIs: ['id'],
 			}),
@@ -29,10 +32,7 @@ describe('validation', function () {
 		expect(
 			validate({
 				labelLg1: 'labelLg1',
-				catalogRecord: {
-					creator: 'creator',
-					contributor: ['contributor'],
-				},
+				catalogRecord,
 				disseminationStatus: 'status',
 				wasGeneratedIRIs: ['id'],
 			}),
@@ -55,6 +55,7 @@ describe('validation', function () {
 				labelLg1: 'labelLg2',
 				labelLg2: 'labelLg2',
 				contributor: [],
+				wasGeneratedIRIs: [],
 			}),
 		).toEqual({
 			errorMessage: [
@@ -81,10 +82,7 @@ describe('validation', function () {
 			validate({
 				labelLg1: 'labelLg2',
 				labelLg2: 'labelLg2',
-				catalogRecord: {
-					creator: 'creator',
-					contributor: ['contributor'],
-				},
+				catalogRecord,
 				disseminationStatus: 'status',
 				wasGeneratedIRIs: [],
 			}),
@@ -109,10 +107,7 @@ describe('validation', function () {
 			validate({
 				labelLg1: 'labelLg2',
 				labelLg2: 'labelLg2',
-				catalogRecord: {
-					creator: 'creator',
-					contributor: ['contributor'],
-				},
+				catalogRecord,
 				disseminationStatus: 'status',
 				wasGeneratedIRIs: ['id'],
 			}),
