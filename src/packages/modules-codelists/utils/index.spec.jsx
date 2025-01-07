@@ -1,3 +1,4 @@
+import NewDictionary from '../../i18n';
 import D, { D1, D2 } from '../i18n/build-dictionary';
 import MainDictionary from './../../deprecated-locales/build-dictionary';
 import {
@@ -13,37 +14,57 @@ describe('validateCodelist', () => {
 		const result = validateCodelist(codelist);
 
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.lastListUriSegmentTitleShort),
+			NewDictionary.errors.mandatoryProperty(D.lastListUriSegmentTitleShort),
 		);
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
+			NewDictionary.errors.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
 		);
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.lastClassUriSegmentTitleShort),
+			NewDictionary.errors.mandatoryProperty(D.lastClassUriSegmentTitleShort),
 		);
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D.idTitle));
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D1.labelTitle));
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D2.labelTitle));
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D2.creator));
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
+			NewDictionary.errors.mandatoryProperty(D.idTitle),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(D1.labelTitle),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(D2.labelTitle),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(D2.creator),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(
+				MainDictionary.disseminationStatusTitle,
+			),
 		);
 
 		expect(result.fields.lastListUriSegment).toBe(
-			D.mandatoryProperty(D.lastListUriSegmentTitleShort),
+			NewDictionary.errors.mandatoryProperty(D.lastListUriSegmentTitleShort),
 		);
 		expect(result.fields.lastCodeUriSegment).toBe(
-			D.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
+			NewDictionary.errors.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
 		);
 		expect(result.fields.lastClassUriSegment).toBe(
-			D.mandatoryProperty(D.lastClassUriSegmentTitleShort),
+			NewDictionary.errors.mandatoryProperty(D.lastClassUriSegmentTitleShort),
 		);
-		expect(result.fields.id).toBe(D.mandatoryProperty(D.idTitle));
-		expect(result.fields.labelLg1).toBe(D.mandatoryProperty(D1.labelTitle));
-		expect(result.fields.labelLg2).toBe(D.mandatoryProperty(D2.labelTitle));
-		expect(result.fields.creator).toBe(D.mandatoryProperty(D.creator));
+		expect(result.fields.id).toBe(
+			NewDictionary.errors.mandatoryProperty(D.idTitle),
+		);
+		expect(result.fields.labelLg1).toBe(
+			NewDictionary.errors.mandatoryProperty(D1.labelTitle),
+		);
+		expect(result.fields.labelLg2).toBe(
+			NewDictionary.errors.mandatoryProperty(D2.labelTitle),
+		);
+		expect(result.fields.creator).toBe(
+			NewDictionary.errors.mandatoryProperty(D.creator),
+		);
 		expect(result.fields.disseminationStatus).toBe(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
+			NewDictionary.errors.mandatoryProperty(
+				MainDictionary.disseminationStatusTitle,
+			),
 		);
 	});
 
@@ -81,26 +102,46 @@ describe('validatePartialCodelist', () => {
 
 		const result = validatePartialCodelist(codelist);
 
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D.idTitle));
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(D.parentCodelist),
+			NewDictionary.errors.mandatoryProperty(D.idTitle),
 		);
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D1.labelTitle));
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D2.labelTitle));
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D.creator));
 		expect(result.errorMessage).toContain(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
+			NewDictionary.errors.mandatoryProperty(D.parentCodelist),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(D1.labelTitle),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(D2.labelTitle),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(D.creator),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(
+				MainDictionary.disseminationStatusTitle,
+			),
 		);
 
-		expect(result.fields.id).toBe(D.mandatoryProperty(D.idTitle));
-		expect(result.fields.parentCode).toBe(
-			D.mandatoryProperty(D.parentCodelist),
+		expect(result.fields.id).toBe(
+			NewDictionary.errors.mandatoryProperty(D.idTitle),
 		);
-		expect(result.fields.labelLg1).toBe(D.mandatoryProperty(D1.labelTitle));
-		expect(result.fields.labelLg2).toBe(D.mandatoryProperty(D2.labelTitle));
-		expect(result.fields.creator).toBe(D.mandatoryProperty(D.creator));
+		expect(result.fields.parentCode).toBe(
+			NewDictionary.errors.mandatoryProperty(D.parentCodelist),
+		);
+		expect(result.fields.labelLg1).toBe(
+			NewDictionary.errors.mandatoryProperty(D1.labelTitle),
+		);
+		expect(result.fields.labelLg2).toBe(
+			NewDictionary.errors.mandatoryProperty(D2.labelTitle),
+		);
+		expect(result.fields.creator).toBe(
+			NewDictionary.errors.mandatoryProperty(D.creator),
+		);
 		expect(result.fields.disseminationStatus).toBe(
-			D.mandatoryProperty(MainDictionary.disseminationStatusTitle),
+			NewDictionary.errors.mandatoryProperty(
+				MainDictionary.disseminationStatusTitle,
+			),
 		);
 	});
 
@@ -154,13 +195,25 @@ describe('validateCode', () => {
 
 		const result = validateCode(code, codes, updateMode);
 
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D.idTitle));
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D1.labelTitle));
-		expect(result.errorMessage).toContain(D.mandatoryProperty(D2.labelTitle));
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(D.idTitle),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(D1.labelTitle),
+		);
+		expect(result.errorMessage).toContain(
+			NewDictionary.errors.mandatoryProperty(D2.labelTitle),
+		);
 
-		expect(result.fields.code).toBe(D.mandatoryProperty(D.idTitle));
-		expect(result.fields.labelLg1).toBe(D.mandatoryProperty(D1.labelTitle));
-		expect(result.fields.labelLg2).toBe(D.mandatoryProperty(D2.labelTitle));
+		expect(result.fields.code).toBe(
+			NewDictionary.errors.mandatoryProperty(D.idTitle),
+		);
+		expect(result.fields.labelLg1).toBe(
+			NewDictionary.errors.mandatoryProperty(D1.labelTitle),
+		);
+		expect(result.fields.labelLg2).toBe(
+			NewDictionary.errors.mandatoryProperty(D2.labelTitle),
+		);
 	});
 
 	it('should return error for duplicate code when not in update mode', () => {

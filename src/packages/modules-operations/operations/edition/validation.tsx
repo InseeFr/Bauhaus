@@ -6,17 +6,22 @@ import {
 } from '@utils/validation';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
+import NewDictionary from '../../../i18n';
 
 const ZodOperation = z.object({
 	series: z.object(
 		{
 			id: z
-				.string({ required_error: D.mandatoryProperty(D.serieTitle) })
+				.string({
+					required_error: NewDictionary.errors.mandatoryProperty(D.serieTitle),
+				})
 				.trim()
-				.min(1, { message: D.mandatoryProperty(D.serieTitle) }),
+				.min(1, {
+					message: NewDictionary.errors.mandatoryProperty(D.serieTitle),
+				}),
 		},
 		{
-			required_error: D.mandatoryProperty(D.serieTitle),
+			required_error: NewDictionary.errors.mandatoryProperty(D.serieTitle),
 		},
 	),
 	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),

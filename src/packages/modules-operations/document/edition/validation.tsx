@@ -7,6 +7,7 @@ import {
 } from '@utils/validation';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
+import NewDictionary from '../../../i18n';
 import { Document } from '../../../model/operations/document';
 import { LINK } from '../utils';
 
@@ -45,7 +46,7 @@ const ZodLink = (
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		url: z
 			.string({
-				required_error: D.mandatoryProperty(D.titleLink),
+				required_error: NewDictionary.errors.mandatoryProperty(D.titleLink),
 			})
 			.url({
 				message: D.badUrl,
@@ -54,7 +55,7 @@ const ZodLink = (
 				message: D.badUrl,
 			})
 			.trim()
-			.min(1, { message: D.mandatoryProperty(D.titleLink) }),
+			.min(1, { message: NewDictionary.errors.mandatoryProperty(D.titleLink) }),
 	});
 
 const File = z.object({
