@@ -52,6 +52,7 @@ describe('validation', function () {
 				prefLabelLg2: '',
 				accrualPeriodicityCode: 'accrualPeriodicityCode',
 				typeCode: 'typeCode',
+				creators: [],
 			}),
 		).toEqual({
 			errorMessage: [

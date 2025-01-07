@@ -43,6 +43,7 @@ describe('validation', function () {
 				prefLabelLg1: 'prefLabelLg1',
 				prefLabelLg2: 'prefLabelLg2',
 				wasGeneratedBy: [{ id: 'i', type: 'series' }],
+				creators: [],
 			}),
 		).toEqual({
 			errorMessage: ['The property <strong>Owners</strong> is required.'],
