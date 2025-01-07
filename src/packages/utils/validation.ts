@@ -1,6 +1,5 @@
 import { z, ZodObject } from 'zod';
 
-import D from '../deprecated-locales';
 import NewDictionary from '../i18n';
 
 export const formatValidation =
