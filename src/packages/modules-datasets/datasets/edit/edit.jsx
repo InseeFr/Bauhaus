@@ -206,7 +206,6 @@ export const Component = () => {
 				<PageTitleBlock
 					titleLg1={dataset.labelLg1}
 					titleLg2={dataset.labelLg2}
-					secondLang={true}
 				/>
 			)}
 

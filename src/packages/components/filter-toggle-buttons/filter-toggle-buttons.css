@@ -1,0 +1,7 @@
+.bauhaus-filter-toggle-buttons {
+	margin-bottom: 1em;
+}
+
+.bauhaus-filter-toggle-buttons-btn-active {
+	border: 2px var(--color-3) solid;
+}

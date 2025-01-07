@@ -30,7 +30,7 @@ export const ComponentDetail = (props) => {
 		<div className="container">
 			{mode === 'VIEW' && (
 				<>
-					<ComponentTitle component={props.component} secondLang={secondLang} />
+					<ComponentTitle component={props.component} />
 
 					<ComponentDetailView
 						{...props}

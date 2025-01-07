@@ -8,5 +8,5 @@ export const Component = () => {
 	const { isLoading, data: classifications } = useClassifications();
 
 	if (isLoading) return <Loading />;
-	return <ClassificationsHome classifications={classifications} />;
+	return <ClassificationsHome classifications={classifications!} />;
 };

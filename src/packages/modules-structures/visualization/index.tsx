@@ -9,7 +9,6 @@ import { PageTitleBlock } from '@components/page-title-block';
 
 import { StructureApi } from '@sdk/index';
 
-import { useSecondLang } from '@utils/hooks/second-lang';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import MainDictionary from '../../deprecated-locales/build-dictionary';
@@ -31,7 +30,6 @@ export const StructureView = ({
 	serverSideError,
 }: StructureViewTypes) => {
 	useTitle(D.structuresTitle, structure?.labelLg1);
-	const [secondLang] = useSecondLang();
 
 	const {
 		labelLg1,
@@ -43,11 +41,7 @@ export const StructureView = ({
 
 	return (
 		<>
-			<PageTitleBlock
-				secondLang={secondLang}
-				titleLg1={labelLg1}
-				titleLg2={labelLg2}
-			/>
+			<PageTitleBlock titleLg1={labelLg1} titleLg2={labelLg2} />
 			<CheckSecondLang />
 			<StructureVisualizationControl structure={structure} publish={publish} />
 			{serverSideError && (

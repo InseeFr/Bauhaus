@@ -169,7 +169,6 @@ class OperationsIndicatorEdition extends Component {
 					<PageTitleBlock
 						titleLg1={indicator.prefLabelLg1}
 						titleLg2={indicator.prefLabelLg2}
-						secondLang={true}
 					/>
 				)}
 				<Control

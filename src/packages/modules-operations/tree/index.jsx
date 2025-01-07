@@ -52,7 +52,7 @@ export const updateParent = (
 export const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
 	return treeData.map((data, i) => {
 		if (i === familyIndex) {
-			if (!(seriesIndex >= 0)) {
+			if (seriesIndex < 0) {
 				return leaf;
 			} else {
 				return {

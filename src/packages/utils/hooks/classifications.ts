@@ -2,8 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 
 import { ClassificationsApi } from '@sdk/classification';
 
+import { PartialClassification } from '../../model/Classification';
+
 export const useClassifications = () => {
-	return useQuery({
+	return useQuery<PartialClassification[]>({
 		queryKey: ['classifications'],
 		queryFn: ClassificationsApi.getList,
 	});

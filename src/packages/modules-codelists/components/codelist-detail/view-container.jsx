@@ -70,7 +70,7 @@ export const Component = (props) => {
 
 	return (
 		<>
-			<ComponentTitle component={codelist} secondLang={secondLang} />
+			<ComponentTitle component={codelist} />
 			<CodeListDetailView
 				{...props}
 				col={2}

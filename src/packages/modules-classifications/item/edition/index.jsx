@@ -156,7 +156,6 @@ export const Component = () => {
 			<PageTitleBlock
 				titleLg1={general?.prefLabelLg1}
 				titleLg2={general?.prefLabelLg2}
-				secondLang={true}
 			/>
 
 			<form onSubmit={handleSubmit((value) => formatAndSave(value))}>

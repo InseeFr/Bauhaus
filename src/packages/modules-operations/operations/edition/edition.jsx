@@ -125,7 +125,6 @@ class OperationsOperationEdition extends Component {
 					<PageTitleBlock
 						titleLg1={this.props.operation.prefLabelLg1}
 						titleLg2={this.props.operation.prefLabelLg2}
-						secondLang={true}
 					/>
 				)}
 				<Controls

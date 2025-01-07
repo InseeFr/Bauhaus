@@ -191,7 +191,6 @@ class OperationsSerieEdition extends Component {
 					<PageTitleBlock
 						titleLg1={this.props.serie.prefLabelLg1}
 						titleLg2={this.props.serie.prefLabelLg2}
-						secondLang={true}
 					/>
 				)}
 				<ActionToolbar>
