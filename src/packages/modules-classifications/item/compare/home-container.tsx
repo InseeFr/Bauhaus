@@ -20,8 +20,8 @@ export const Component = () => {
 		<Compare
 			classificationId={classificationId}
 			itemId={itemId}
-			general={item.general}
-			notes={item.notes}
+			general={item!.general}
+			notes={item!.notes}
 			secondLang={secondLang}
 		/>
 	);

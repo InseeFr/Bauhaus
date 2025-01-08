@@ -463,12 +463,6 @@ const dictionary = {
 		fr: 'Millésime',
 		en: 'Year',
 	},
-	mandatoryProperty: {
-		fr: (propertyName: string) =>
-			`La propriété <strong>${propertyName}</strong> est obligatoire.`,
-		en: (propertyName: string) =>
-			`The property <strong>${propertyName}</strong> is required.`,
-	},
 	numberProperty: {
 		fr: (propertyName: string) =>
 			`La propriété <strong>${propertyName}</strong> doit être un entier.`,

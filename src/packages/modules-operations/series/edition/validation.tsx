@@ -8,17 +8,22 @@ import {
 } from '@utils/validation';
 
 import D, { D1, D2 } from '../../../deprecated-locales';
+import NewDictionary from '../../../i18n';
 
 let ZodSerie: ZodObject<any> = z.object({
 	family: z.object(
 		{
 			id: z
-				.string({ required_error: D.mandatoryProperty(D.familyTitle) })
+				.string({
+					required_error: NewDictionary.errors.mandatoryProperty(D.familyTitle),
+				})
 				.trim()
-				.min(1, { message: D.mandatoryProperty(D.familyTitle) }),
+				.min(1, {
+					message: NewDictionary.errors.mandatoryProperty(D.familyTitle),
+				}),
 		},
 		{
-			required_error: D.mandatoryProperty(D.familyTitle),
+			required_error: NewDictionary.errors.mandatoryProperty(D.familyTitle),
 		},
 	),
 	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),

@@ -53,6 +53,14 @@ const dictionary = {
 			},
 		},
 	},
+	errors: {
+		mandatoryProperty: {
+			fr: (propertyName: string) =>
+				`La propriété <strong>${propertyName}</strong> est obligatoire.`,
+			en: (propertyName: string) =>
+				`The property <strong>${propertyName}</strong> is required.`,
+		},
+	},
 };
 
 export const D1: Dictionary = createDictionary(firstLang, dictionary);
