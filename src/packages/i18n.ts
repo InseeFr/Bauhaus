@@ -16,10 +16,6 @@ const dictionary = {
 			fr: 'Se connecter',
 			en: 'Login',
 		},
-		title: {
-			fr: 'Habilitations',
-			en: 'Authorizations',
-		},
 	},
 	validationState: {
 		validated: {
