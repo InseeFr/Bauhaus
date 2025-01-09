@@ -1,7 +1,6 @@
-import { Column } from 'primereact/column';
 import { useEffect, useState } from 'react';
 
-import { DataTable } from '@components/datatable';
+import { SeeButton } from '@components/buttons/see';
 import {
 	ClientSideError,
 	GlobalClientSideErrorBloc,
@@ -18,6 +17,7 @@ import { CollapsiblePanel } from '../collapsible-panel';
 import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
 import { CodesPanelAddButton } from './codes-panel-add-button';
 import './codes-panel.scss';
+import { Table } from './codes/table';
 
 const CodeSlidingPanel = ({
 	code: initialCode,
@@ -187,13 +187,18 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 
 	const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
+	const fetchCodes = () => {
 		setLoading(true);
+
 		API.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1)
 			.then((cl) => {
 				setCodes(cl ?? {});
 			})
 			.finally(() => setLoading(false));
+	};
+
+	useEffect(() => {
+		fetchCodes();
 	}, [codelist.id, lazyState.page]);
 
 	const [openPanel, setOpenPanel] = useState(false);
@@ -213,19 +218,13 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 			actions: (
 				<>
 					{editable && (
-						<button
-							type="button"
-							className="btn btn-default"
+						<SeeButton
 							data-component-id={code.code}
 							onClick={() => {
 								setSelectedCode(code);
 								setOpenPanel(true);
 							}}
-							aria-label={D.see}
-							title={D.see}
-						>
-							<span className="glyphicon glyphicon-eye-open"></span>
-						</button>
+						></SeeButton>
 					)}
 					{editable && (
 						<button
@@ -233,7 +232,9 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							className="btn btn-default"
 							data-component-id={code.code}
 							onClick={() => {
-								API.deleteCodesDetailedCodelist(codelist.id, code);
+								API.deleteCodesDetailedCodelist(codelist.id, code).then(() =>
+									fetchCodes(),
+								);
 							}}
 							aria-label={D.remove}
 							title={D.remove}
@@ -246,9 +247,6 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 		};
 	});
 
-	const onPage = (e) => {
-		setlazyState(e);
-	};
 	return (
 		<Row>
 			<CollapsiblePanel
@@ -292,34 +290,13 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 							</div>
 						</Row>
 
-						<DataTable
-							loadind={loading}
-							lazy
-							first={lazyState.first}
-							rows={lazyState.rows}
-							withPagination={codes.total > 10}
-							rowsPerPageOptions={[10]}
-							totalRecords={codes.total}
-							value={codesWithActions}
-							onPage={onPage}
-						>
-							<Column field="code" header={D1.codeTitle}></Column>
-
-							<Column field="labelLg1" header={D1.codeLabel}></Column>
-
-							<Column field="labelLg2" header={D2.codeLabel}></Column>
-
-							<Column field="broader" header={D1.codelistBroader}></Column>
-
-							<Column field="narrower" header={D1.codelistNarrower}></Column>
-
-							<Column
-								field="closeMatch"
-								header={D1.codelistCloseMatch}
-							></Column>
-
-							<Column field="actions" header=""></Column>
-						</DataTable>
+						<Table
+							codesWithActions={codesWithActions}
+							loading={loading}
+							onPage={setlazyState}
+							total={codes.total}
+							state={lazyState}
+						/>
 					</>
 				}
 			/>
@@ -345,10 +322,12 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
 								promise = API.putCodesDetailedCodelist;
 							}
 
-							promise(codelist.id, code).then(() => {
-								setSelectedCode({});
-								setOpenPanel(false);
-							});
+							promise(codelist.id, code)
+								.then(() => fetchCodes())
+								.then(() => {
+									setSelectedCode({});
+									setOpenPanel(false);
+								});
 						}}
 					></CodeSlidingPanel>
 				</div>
