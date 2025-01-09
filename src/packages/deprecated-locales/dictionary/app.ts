@@ -355,12 +355,6 @@ const dictionary = {
 		fr: 'Sélectionner un rôle...',
 		en: 'Select a role...',
 	},
-
-	authorizationManagementTitle: {
-		fr: 'Habilitations',
-		en: 'Authorization',
-	},
-
 	pickedUserAddTitle: {
 		fr: 'Agents à ajouter',
 		en: 'User to add',
