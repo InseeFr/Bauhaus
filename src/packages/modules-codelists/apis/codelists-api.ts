@@ -112,6 +112,6 @@ const api = {
 		{},
 		() => Promise.resolve(),
 	],
-} as const;
+};
 
-export default buildApi('codeList', api);
+export default buildApi('codeList', api) as any;
