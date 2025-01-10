@@ -1,3 +1,5 @@
+import { CodesList } from '@model/CodesList';
+
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	ReturnButton,
@@ -8,12 +10,18 @@ import {
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 
+interface CodeSlidingPanelMenuTypes {
+	codelist: CodesList;
+	handleSubmit: () => void;
+	handleBack: () => void;
+	creation: boolean;
+}
 export const CodeSlidingPanelMenu = ({
 	codelist,
 	handleSubmit,
 	handleBack,
 	creation,
-}) => {
+}: Readonly<CodeSlidingPanelMenuTypes>) => {
 	const permission = usePermission();
 
 	const hasRightsBasedOnStamp =
@@ -23,11 +31,11 @@ export const CodeSlidingPanelMenu = ({
 
 	return (
 		<ActionToolbar>
-			<ReturnButton action={handleBack} col={6} />
+			<ReturnButton action={handleBack} />
 			{(isAdmin || hasRightsBasedOnStamp) && (
 				<>
-					{!creation && <UpdateButton action={handleSubmit} col={6} />}
-					{creation && <SaveButton action={handleSubmit} col={6} />}
+					{!creation && <UpdateButton action={handleSubmit} />}
+					{creation && <SaveButton action={handleSubmit} />}
 				</>
 			)}
 		</ActionToolbar>
