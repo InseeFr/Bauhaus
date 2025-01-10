@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { CheckSecondLang } from '@components/check-second-lang';
 import { ErrorBloc } from '@components/errors-bloc';
-import { Loading } from '@components/loading';
+import { Loading, Publishing } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 
 import { OperationsApi } from '@sdk/operations-api';
@@ -39,7 +39,7 @@ export const Component = () => {
 	}, [family, id]);
 
 	if (!family) return <Loading />;
-	if (publishing) return <Loading text="publishing" />;
+	if (publishing) return <Publishing />;
 
 	return (
 		<div className="container">

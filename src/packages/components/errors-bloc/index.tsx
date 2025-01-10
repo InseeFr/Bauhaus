@@ -1,3 +1,4 @@
+import NewDictionnary from '../../i18n';
 import './errors-bloc.css';
 
 export const ClientSideError = ({
@@ -55,6 +56,8 @@ export const ErrorBloc = ({
 				errorMsg = D.errors[parsedError.code](parsedError);
 			} else if (parsedError.message && D.errors[parsedError.message]) {
 				errorMsg = D.errors[parsedError.message](parsedError);
+			} else if (parsedError.status === 500) {
+				errorMsg = NewDictionnary.errors.serversideErrors['500'](e);
 			} else {
 				errorMsg = parsedError.message;
 			}
@@ -63,7 +66,6 @@ export const ErrorBloc = ({
 		}
 		return errorMsg;
 	});
-
 	return (
 		<>
 			{formattedErrors.map((e, index) => (
