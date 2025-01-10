@@ -16,7 +16,7 @@ import { validateCode } from '../../utils';
 import { CollapsiblePanel } from '../collapsible-panel';
 import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
 import { CodesPanelAddButton } from './codes-panel-add-button';
-import './codes-panel.scss';
+import './codes-panel.css';
 import { Table } from './codes/table';
 
 const CodeSlidingPanel = ({

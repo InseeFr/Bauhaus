@@ -13,6 +13,8 @@ export interface CodesList {
 	id?: string;
 	codes: Code[];
 	notation: string;
+	lastCodeUriSegment: string;
+	contributor: string;
 }
 
 export type CodesLists = {
