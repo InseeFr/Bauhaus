@@ -50,6 +50,14 @@ const dictionary = {
 		},
 	},
 	errors: {
+		serversideErrors: {
+			500: {
+				fr: (error: string) =>
+					`Une erreur s'est produite. Veuillez contacter l'équipe d'administration RMéS en lui communiquant le message suivant: ${error}`,
+				en: (error: string) =>
+					`An error has occurred. Please contact the RMéS administration team and provide them with the following message: ${error}`,
+			},
+		},
 		mandatoryProperty: {
 			fr: (propertyName: string) =>
 				`La propriété <strong>${propertyName}</strong> est obligatoire.`,
