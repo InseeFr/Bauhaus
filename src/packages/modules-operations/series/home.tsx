@@ -5,7 +5,7 @@ import { useTitle } from '@utils/hooks/useTitle';
 import { ADMIN } from '../../auth/roles';
 import D from '../../deprecated-locales';
 import { Series } from '../../model/Series';
-import OperationsObjectHome from '../shared/list';
+import OperationsObjectHome from '../components/list';
 
 function SeriesHome({ series }: Readonly<{ series: Series[] }>) {
 	useTitle(D.operationsTitle, D.seriesTitle);
