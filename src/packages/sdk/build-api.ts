@@ -143,7 +143,7 @@ export const buildCall = (context: string, resource: string, fn: any) => {
 							});
 						} catch {
 							return Promise.reject({
-								message: res.status,
+								message: text,
 								status: res.status,
 							});
 						}
