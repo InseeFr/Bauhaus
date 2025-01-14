@@ -52,14 +52,18 @@ describe('ErrorBloc', () => {
 	it('renders formatted errors for an array of error messages', () => {
 		const errors = [
 			JSON.stringify({ code: 'SOME_ERROR_CODE' }),
-			JSON.stringify({ status: 500 }),
+			JSON.stringify({ status: 500, message: 'message' }),
+			{ status: 500, message: 'object' },
 			'Plain error message',
 		];
 		render(<ErrorBloc error={errors} D={mockD} />);
 
 		screen.getByText('Error related to SOME_ERROR_CODE.');
 		screen.getByText(
-			'An error has occurred. Please contact the RMéS administration team and provide them with the following message: {"status":500}',
+			'An error has occurred. Please contact the RMéS administration team and provide them with the following message: message',
+		);
+		screen.getByText(
+			'An error has occurred. Please contact the RMéS administration team and provide them with the following message: object',
 		);
 		screen.getByText('Plain error message');
 	});

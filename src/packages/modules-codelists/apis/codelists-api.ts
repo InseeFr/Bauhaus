@@ -1,4 +1,4 @@
-import { buildApi } from '../..//sdk';
+import { buildApi } from '../../sdk';
 
 const api = {
 	getCodelists: () => [''],
