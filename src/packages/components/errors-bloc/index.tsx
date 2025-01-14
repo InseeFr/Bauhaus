@@ -38,13 +38,7 @@ export const GlobalClientSideErrorBloc = ({
 		</div>
 	) : null;
 };
-export const ErrorBloc = ({
-	error,
-	D,
-}: {
-	error: string[] | string;
-	D?: any;
-}) => {
+export const ErrorBloc = ({ error, D }: { error: unknown; D?: any }) => {
 	const errors = Array.isArray(error) ? error : [error];
 
 	const formattedErrors = errors.map((e) => {
