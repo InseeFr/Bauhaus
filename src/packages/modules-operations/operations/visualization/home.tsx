@@ -8,7 +8,7 @@ import { useTitle } from '@utils/hooks/useTitle';
 import { D1, D2 } from '../../../deprecated-locales';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Operation } from '../../../model/Operation';
-import RelationsView from '../../shared/relations';
+import RelationsView from '../../components/relations';
 
 interface OperationsOperationVisualizationTypes {
 	attr: Operation;
