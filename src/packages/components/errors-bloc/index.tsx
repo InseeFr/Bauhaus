@@ -50,14 +50,17 @@ export const ErrorBloc = ({
 	const formattedErrors = errors.map((e) => {
 		let errorMsg;
 		try {
-			const parsedError = JSON.parse(e);
+			const parsedError =
+				e !== null && typeof e === 'object' ? e : JSON.parse(e);
 
 			if (parsedError.code && D.errors[parsedError.code]) {
 				errorMsg = D.errors[parsedError.code](parsedError);
 			} else if (parsedError.message && D.errors[parsedError.message]) {
 				errorMsg = D.errors[parsedError.message](parsedError);
 			} else if (parsedError.status === 500) {
-				errorMsg = NewDictionnary.errors.serversideErrors['500'](e);
+				errorMsg = NewDictionnary.errors.serversideErrors['500'](
+					parsedError.message,
+				);
 			} else {
 				errorMsg = parsedError.message;
 			}
