@@ -327,7 +327,9 @@ const MSDContainerWithParent = (props) => {
 const withParams = (Component) => {
 	return (props) => {
 		const params = useParams();
-		const { baseUrl, mode, disableSectionAnchor, parentType } = useLoaderData();
+		const data = useLoaderData();
+
+		const { baseUrl, mode, disableSectionAnchor, parentType } = data ?? {};
 		return (
 			<Component
 				{...props}
