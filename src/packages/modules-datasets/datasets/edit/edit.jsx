@@ -7,7 +7,7 @@ import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
-import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
+import { ErrorBloc, GlobalClientSideErrorBloc } from '@components/errors-bloc';
 import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 
@@ -67,7 +67,11 @@ export const Component = () => {
 
 	const queryClient = useQueryClient();
 
-	const { isPending: isSaving, mutate: save } = useMutation({
+	const {
+		isPending: isSaving,
+		mutate: save,
+		error: serverSideError,
+	} = useMutation({
 		mutationFn: () => {
 			const formattedDataset = { themes: [], ...editingDataset };
 			if (isEditing) {
@@ -222,6 +226,7 @@ export const Component = () => {
 					D={D}
 				/>
 			)}
+			{serverSideError && <ErrorBloc error={[serverSideError]} D={D} />}
 
 			<form>
 				<LayoutWithLateralMenu layoutConfiguration={layoutConfiguration}>

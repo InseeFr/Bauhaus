@@ -1,4 +1,3 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { default as ReactSelect } from 'react-select';
@@ -10,6 +9,7 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import {
 	ClientSideError,
+	ErrorBloc,
 	GlobalClientSideErrorBloc,
 } from '@components/errors-bloc';
 import { TextInput, UrlInput } from '@components/form/input';
@@ -19,14 +19,16 @@ import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { MDEditor } from '@components/rich-editor/react-md-editor';
 
-import { DistributionApi } from '@sdk/index';
-
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import { D1, D2 } from '../../deprecated-locales';
 import D from '../../deprecated-locales/build-dictionary';
-import { useDatasetsForDistributions, useDistribution } from '../datasets';
+import {
+	useCreateOrUpdateDistribution,
+	useDatasetsForDistributions,
+	useDistribution,
+} from '../datasets';
 import { ByteSizeInput } from './edit/byte-size-input';
 import { validate } from './validation';
 
@@ -55,25 +57,10 @@ export const Component = () => {
 			label: dataset.label,
 		})) ?? [];
 
-	const queryClient = useQueryClient();
-
-	const { isPending: isSaving, mutate: save } = useMutation({
-		mutationFn: () => {
-			if (isEditing) {
-				return DistributionApi.putDistribution(editingDistribution);
-			}
-			return DistributionApi.postDistribution(editingDistribution);
-		},
-
-		onSuccess: (id) => {
-			if (isEditing) {
-				queryClient.invalidateQueries(['distributions', id]);
-			}
-			queryClient.invalidateQueries(['distributions']);
-
-			goBack(`/datasets/distributions/${id}`, !isEditing);
-		},
-	});
+	const { isSaving, save, serverSideError } = useCreateOrUpdateDistribution(
+		isEditing,
+		editingDistribution,
+	);
 
 	useTitle(D.distributionsTitle, editingDistribution?.labelLg1);
 
@@ -117,6 +104,7 @@ export const Component = () => {
 					D={D}
 				/>
 			)}
+			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
 			<form>
 				<Row>
 					<div className="col-md-12 form-group">
