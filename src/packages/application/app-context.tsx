@@ -1,7 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
 export interface AppProperties {
-	authorizationHost: string;
 	modules: string[];
 	activeModules: string[];
 	defaultContributor: string;
