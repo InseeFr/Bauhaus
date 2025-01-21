@@ -149,7 +149,7 @@ export const Picker = ({
 				<PageTitle title={title} />
 				{controls}
 				<ErrorBloc error={clientSideErrors} />
-				<ErrorBloc error={disabledWarningMessage} />
+				{disabled && <ErrorBloc error={disabledWarningMessage} />}
 				<Row>
 					<div className="col-md-6">
 						<Panel title={panelTitle}>{addedEls}</Panel>
