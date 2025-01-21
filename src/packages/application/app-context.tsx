@@ -13,7 +13,7 @@ interface AppContextTypes {
 	version?: string;
 	secondLang: {
 		value: boolean;
-		toggle: () => void;
+		toggle: VoidFunction;
 	};
 	properties: AppProperties;
 }

@@ -13,7 +13,7 @@ import { getDocumentsList } from './useDocumentsList';
 
 interface DocumentFormPanelTypes {
 	opened: boolean;
-	onHide: () => void;
+	onHide: VoidFunction;
 	onAdd: (rubric?: string, lang?: string, documentId?: string) => void;
 }
 export const DocumentFormPanel = ({

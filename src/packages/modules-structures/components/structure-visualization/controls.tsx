@@ -18,7 +18,7 @@ import { usePermission } from '../../../redux/hooks/usePermission';
 
 interface ControlsTypes {
 	structure: Structure;
-	publish: () => void;
+	publish: VoidFunction;
 }
 const Controls = ({ structure, publish }: ControlsTypes) => {
 	const permission = usePermission();

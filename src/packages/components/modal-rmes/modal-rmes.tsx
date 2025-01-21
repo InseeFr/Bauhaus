@@ -8,7 +8,7 @@ import { CloseIconButton } from '../buttons/buttons-with-icons';
 
 export interface ModalButton {
 	style: string;
-	action: () => void;
+	action: VoidFunction;
 	disabled: boolean;
 	label: string | ReactNode;
 }
@@ -18,7 +18,7 @@ export interface ModalRmesTypes {
 	title?: string;
 	body?: Node;
 	footer?: Node;
-	closeCancel: () => void;
+	closeCancel: VoidFunction;
 	modalButtons: ModalButton[];
 }
 export const ModalRmes = ({

@@ -16,7 +16,7 @@ import { Series } from '../../../model/operations/series';
 
 interface MenuTypes {
 	series: Series;
-	onPublish: () => void;
+	onPublish: VoidFunction;
 }
 export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
 	const goBack = useGoBack();

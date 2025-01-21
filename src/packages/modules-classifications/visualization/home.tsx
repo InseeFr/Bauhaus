@@ -19,7 +19,7 @@ interface ClassificationVisualizationTypes {
 	classification: Classification;
 	classificationId: string;
 	secondLang?: boolean;
-	publish: () => void;
+	publish: VoidFunction;
 	serverSideError?: any;
 }
 const ClassificationVisualization = ({

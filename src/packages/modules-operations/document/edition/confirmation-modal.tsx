@@ -10,8 +10,8 @@ import { isDocument } from '../utils';
 interface ConfirmationModalTypes {
 	isOpen: true;
 	document: any;
-	onYes: () => void;
-	onNo: () => void;
+	onYes: VoidFunction;
+	onNo: VoidFunction;
 }
 export const ConfirmationModal = ({
 	document,

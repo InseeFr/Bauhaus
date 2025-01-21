@@ -10,7 +10,7 @@ import './codes-list-panel.css';
 
 interface CodesListPanelTypes {
 	isOpen: boolean;
-	handleBack: () => void;
+	handleBack: VoidFunction;
 	codesList?: CodesList;
 }
 export const CodesListPanel = ({

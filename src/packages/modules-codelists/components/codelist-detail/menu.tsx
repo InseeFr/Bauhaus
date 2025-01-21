@@ -11,10 +11,10 @@ import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';
 
 interface ViewMenuTypes {
-	handleUpdate: () => void;
-	handleDelete: () => void;
-	handleBack: () => void;
-	publish: () => void;
+	handleUpdate: VoidFunction;
+	handleDelete: VoidFunction;
+	handleBack: VoidFunction;
+	publish: VoidFunction;
 	updatable: boolean;
 	deletable: boolean;
 	codelist: any;

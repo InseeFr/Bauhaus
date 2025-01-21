@@ -5,8 +5,8 @@ import {
 } from '@components/buttons/buttons-with-icons';
 
 interface MenuTypes {
-	goBackUrl: () => void;
-	handleSubmit: () => void;
+	goBackUrl: VoidFunction;
+	handleSubmit: VoidFunction;
 }
 export const Menu = ({ goBackUrl, handleSubmit }: Readonly<MenuTypes>) => {
 	return (

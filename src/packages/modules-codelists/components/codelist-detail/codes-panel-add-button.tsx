@@ -7,7 +7,7 @@ import { usePermission } from '../../../redux/hooks/usePermission';
 
 interface CodesPanelAddButtonTypes {
 	codelist: CodesList;
-	onHandlePanel: () => void;
+	onHandlePanel: VoidFunction;
 }
 export const CodesPanelAddButton = ({
 	codelist,

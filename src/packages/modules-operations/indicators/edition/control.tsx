@@ -7,7 +7,7 @@ import {
 import { useGoBack } from '@utils/hooks/useGoBack';
 
 interface ControlTypes {
-	onSubmit: () => void;
+	onSubmit: VoidFunction;
 	disabled?: boolean;
 }
 

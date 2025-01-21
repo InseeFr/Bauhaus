@@ -16,7 +16,7 @@ import { Indicator } from '../../../model/operations/indicator';
 
 interface MenuTypes {
 	indicator: Indicator;
-	publish: () => void;
+	publish: VoidFunction;
 }
 
 export const Menu = ({ indicator, publish }: Readonly<MenuTypes>) => {

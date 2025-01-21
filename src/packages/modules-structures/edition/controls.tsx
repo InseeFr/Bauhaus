@@ -10,7 +10,7 @@ import { cleanId } from '@utils/string-utils';
 
 interface ControlsTypes {
 	creation: boolean;
-	save: () => void;
+	save: VoidFunction;
 	disabledSave?: boolean;
 }
 const Controls = ({ creation, save, disabledSave }: ControlsTypes) => {
