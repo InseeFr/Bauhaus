@@ -44,9 +44,7 @@ export const StructureView = ({
 			<PageTitleBlock titleLg1={labelLg1} titleLg2={labelLg2} />
 			<CheckSecondLang />
 			<StructureVisualizationControl structure={structure} publish={publish} />
-			{serverSideError && (
-				<ErrorBloc error={serverSideError} D={MainDictionary} />
-			)}
+			<ErrorBloc error={serverSideError} D={MainDictionary} />
 			<GlobalInformationsPanel structure={structure} />
 			<DescriptionsPanel
 				descriptionLg1={descriptionLg1}

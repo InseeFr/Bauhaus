@@ -212,7 +212,6 @@ export const Component = () => {
 					titleLg2={dataset.labelLg2}
 				/>
 			)}
-
 			<ActionToolbar>
 				<CancelButton action={() => goBack('/datasets')} />
 				<SaveButton
@@ -223,11 +222,9 @@ export const Component = () => {
 			{submitting && clientSideErrors && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideErrors.errorMessage}
-					D={D}
 				/>
 			)}
-			{serverSideError && <ErrorBloc error={[serverSideError]} D={D} />}
-
+			<ErrorBloc error={[serverSideError]} D={D} />
 			<form>
 				<LayoutWithLateralMenu layoutConfiguration={layoutConfiguration}>
 					{(key) => allChildrenItems[key].content()}

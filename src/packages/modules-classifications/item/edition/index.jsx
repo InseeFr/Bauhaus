@@ -163,7 +163,7 @@ export const Component = () => {
 					<CancelButton action="/classifications" type="button"></CancelButton>
 					<SaveButton type="submit"></SaveButton>
 				</ActionToolbar>
-				{errorMessage && <ErrorBloc error={errorMessage} />}
+				<ErrorBloc error={errorMessage} />
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>

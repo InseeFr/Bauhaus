@@ -52,12 +52,10 @@ export const Component = (props) => {
 				{...props}
 			/>
 
-			{validationServerSideError && (
-				<ErrorBloc error={validationServerSideError} D={D} />
-			)}
-			{deleteServerSideError && (
-				<ErrorBloc error={deleteServerSideError} D={D} />
-			)}
+			<ErrorBloc
+				error={validationServerSideError || deleteServerSideError}
+				D={D}
+			/>
 
 			<CheckSecondLang />
 

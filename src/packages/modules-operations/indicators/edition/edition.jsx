@@ -178,7 +178,6 @@ class OperationsIndicatorEdition extends Component {
 				{this.state.submitting && this.state.clientSideErrors && (
 					<GlobalClientSideErrorBloc
 						clientSideErrors={this.state.clientSideErrors.errorMessage}
-						D={D}
 					/>
 				)}
 				{this.state.serverSideError && (

@@ -81,7 +81,7 @@ const api = {
 	getCodelistsPartial: () => ['partial'],
 	getCodelistPartial: (id: string) => [`partial/${id}`],
 	publishPartialCodelist: (id: string) => [
-		`partial/validate/${id}`,
+		`partial/${id}/validate`,
 		{ method: 'PUT' },
 		(res: Response) => res.text(),
 	],

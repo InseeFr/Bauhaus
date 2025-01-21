@@ -88,11 +88,11 @@ const Dataset = (props) => {
 				onPublish={publish}
 				onDelete={remove}
 			/>
-			{serverSideError && (
-				<ErrorBloc error={[serverSideError]} D={DatasetDictionary} />
-			)}
-			{publishServerSideError && (
-				<ErrorBloc error={[publishServerSideError]} D={DatasetDictionary} />
+			{(serverSideError || publishServerSideError) && (
+				<ErrorBloc
+					error={[serverSideError || publishServerSideError]}
+					D={DatasetDictionary}
+				/>
 			)}
 
 			<CheckSecondLang />

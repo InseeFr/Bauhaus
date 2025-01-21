@@ -184,6 +184,7 @@ export const Component = () => {
 			})
 			.finally(() => setLoading(false));
 	}, []);
+
 	if (loading) {
 		return <Loading />;
 	}

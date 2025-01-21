@@ -87,10 +87,9 @@ export const CodeDetailEdit = ({
 			{submitting && clientSideErrors && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideErrors.errorMessage}
-					D={D}
 				/>
 			)}
-			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
+			<ErrorBloc error={serverSideError} D={D} />
 			<div>
 				<Row>
 					<div className="col-md-12 form-group">

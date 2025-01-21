@@ -58,7 +58,7 @@ const ClassificationVisualization = ({
 			</Row>
 			<Menu classification={general} publish={publish} />
 			<CheckSecondLang />
-			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
+			<ErrorBloc error={serverSideError} D={D} />
 			<General general={general} secondLang={secondLang} />
 			{notes.scopeNoteLg1 && <Notes notes={notes} secondLang={secondLang} />}
 			{levels.length !== 0 && (

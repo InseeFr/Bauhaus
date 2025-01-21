@@ -48,8 +48,8 @@ export const Component = () => {
 				titleLg2={family.prefLabelLg2}
 			/>
 			<Menu family={family} publish={publish} />
-			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
-			`
+			<ErrorBloc error={serverSideError} D={D} />
+
 			<CheckSecondLang />
 			<OperationsFamilyVisualization secondLang={secondLang} attr={family} />
 		</div>

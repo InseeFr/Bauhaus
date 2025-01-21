@@ -50,6 +50,10 @@ const dictionary = {
 		},
 	},
 	errors: {
+		globalClientSideErrorBloc: {
+			fr: 'Vous avez des erreurs dans ce formulaire.',
+			en: 'You have errors in this form.',
+		},
 		serversideErrors: {
 			500: {
 				fr: (error: string) =>

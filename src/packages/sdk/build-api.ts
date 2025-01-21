@@ -40,7 +40,7 @@ export const generateGenericApiEndpoints = (
 			() => Promise.resolve(object.id),
 		],
 		[`publish${capitalizedSingularPrefix}`]: (object: { id: string }) => [
-			`${singularPrefix}/validate/${object.id}`,
+			`${singularPrefix}/${object.id}/validate`,
 			{ method: 'PUT' },
 			(res: Response) => res.text(),
 		],

@@ -96,10 +96,7 @@ export const Component = () => {
 					<SaveButton type="submit"></SaveButton>
 				</ActionToolbar>
 
-				<GlobalClientSideErrorBloc
-					clientSideErrors={Object.values(errors)}
-					D={D}
-				/>
+				<GlobalClientSideErrorBloc clientSideErrors={Object.values(errors)} />
 
 				<Row>
 					<div className="col-md-6 form-group">

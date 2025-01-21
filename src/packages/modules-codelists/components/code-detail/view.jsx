@@ -32,8 +32,7 @@ export const CodeDetailView = ({
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
 			</ActionToolbar>
-			{serverSideError && <ErrorBloc error={serverSideError} />}
-
+			<ErrorBloc error={serverSideError} />
 			<Row>
 				<Note
 					text={

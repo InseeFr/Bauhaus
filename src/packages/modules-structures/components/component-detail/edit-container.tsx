@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Loading } from '@components/loading';
+import { Loading, Saving } from '@components/loading';
 
 import { ConceptsApi, saveComponent, StructureApi } from '@sdk/index';
 
@@ -71,12 +71,8 @@ export const Component = (props: any) => {
 			.finally(() => setLoading(false));
 	}, [id]);
 
-	if (loading) {
-		return <Loading />;
-	}
-	if (saving) {
-		return <Loading text="saving" />;
-	}
+	if (loading) return <Loading />;
+	if (saving) return <Saving />;
 
 	return (
 		<DumbComponentDetailEdit

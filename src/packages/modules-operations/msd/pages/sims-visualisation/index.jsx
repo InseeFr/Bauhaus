@@ -261,11 +261,9 @@ export default function SimsVisualisation({
 						D={D}
 					/>
 				)}
-				{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
-
+				<ErrorBloc error={serverSideError} D={D} />
 				<CheckSecondLang />
 				<RubricEssentialMsg secondLang={secondLang} />
-
 				<Row>
 					<Note
 						text={
@@ -283,7 +281,6 @@ export default function SimsVisualisation({
 						alone={true}
 					/>
 				</Row>
-
 				{Object.values(metadataStructure).map((msd) => {
 					return (
 						<MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />

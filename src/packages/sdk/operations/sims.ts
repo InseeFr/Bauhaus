@@ -46,7 +46,7 @@ const api = {
 		(res: Response) => res.text(),
 	],
 	publishSims: (sims: Sims) => [
-		`metadataReport/validate/${sims.id}`,
+		`metadataReport/${sims.id}/validate`,
 		{ method: 'PUT' },
 		(res: Response) => res.text(),
 	],

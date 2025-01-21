@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { Loading } from '@components/loading';
+import { Loading, Publishing } from '@components/loading';
 
 import { useSecondLang } from '@utils/hooks/second-lang';
 import { useGoBack } from '@utils/hooks/useGoBack';
@@ -66,7 +66,7 @@ export const Component = (props) => {
 	if (loading) {
 		return <Loading />;
 	}
-	if (publishing) return <Loading text="publishing" />;
+	if (publishing) return <Publishing />;
 
 	return (
 		<>

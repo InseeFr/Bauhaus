@@ -5,21 +5,9 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
 
-import { createAllDictionary } from '@utils/dictionnary';
 import { useGoBack } from '@utils/hooks/useGoBack';
 
-import D from '../../../deprecated-locales/build-dictionary';
-
-const { D: dict } = createAllDictionary({
-	errors: {
-		GlobalClientSideErrorBloc: {
-			fr: 'Remplissez les champs requis pour pouvoir sauvegarder ce concept.',
-			en: 'Complete mandatory fields to save this concept.',
-		},
-	},
-});
-
-const ConceptCreateControlLayout = ({ errors, handleSave, submitting }) => {
+const ConceptCreateControlLayout = ({ errors, handleSave }) => {
 	const goBack = useGoBack();
 
 	return (
@@ -31,10 +19,7 @@ const ConceptCreateControlLayout = ({ errors, handleSave, submitting }) => {
 					disabled={errors?.errorMessage?.length > 0}
 				/>
 			</ActionToolbar>
-			<GlobalClientSideErrorBloc
-				clientSideErrors={errors?.errorMessage}
-				D={submitting ? D : dict}
-			/>
+			<GlobalClientSideErrorBloc clientSideErrors={errors?.errorMessage} />
 		</>
 	);
 };

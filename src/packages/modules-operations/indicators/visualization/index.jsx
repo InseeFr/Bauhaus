@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { CheckSecondLang } from '@components/check-second-lang';
 import { ErrorBloc } from '@components/errors-bloc';
-import { Loading } from '@components/loading';
+import { Loading, Publishing } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 
 import { OperationsApi } from '@sdk/operations-api';
@@ -42,7 +42,7 @@ export const Component = () => {
 	}, [id]);
 
 	if (!indicator.id) return <Loading />;
-	if (publishing) return <Loading text="publishing" />;
+	if (publishing) return <Publishing />;
 
 	return (
 		<div className="container">
@@ -51,9 +51,7 @@ export const Component = () => {
 				titleLg2={indicator.prefLabelLg2}
 			/>
 			<Menu indicator={indicator} publish={publish} />
-
-			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
-
+			<ErrorBloc error={serverSideError} D={D} />
 			<CheckSecondLang />
 			<OperationsIndicatorVisualization
 				secondLang={secondLang}

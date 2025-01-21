@@ -67,7 +67,7 @@ export const CodeListPartialDetailView = ({
 					{deletable && <DeleteButton action={handleDelete} col={col} />}
 				</Auth>
 			</ActionToolbar>
-			{serverSideError && <ErrorBloc error={serverSideError} />}
+			<ErrorBloc error={serverSideError} />
 			<Row>
 				<Note
 					text={

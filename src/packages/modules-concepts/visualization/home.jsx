@@ -67,7 +67,6 @@ const ConceptVisualization = ({
 					titleLg1={general.prefLabelLg1}
 					titleLg2={general.prefLabelLg2}
 				/>
-
 				<ConceptVisualizationControls
 					id={id}
 					permission={permission}
@@ -78,9 +77,8 @@ const ConceptVisualization = ({
 					handleValidation={handleClickValidation}
 					handleDeletion={handleClickDeletion}
 				/>
-				{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
+				<ErrorBloc error={serverSideError} D={D} />
 				<CheckSecondLang />
-
 				<ConceptGeneral secondLang={secondLang} attr={general} langs={langs} />
 				<ConceptLinks secondLang={secondLang} links={links} />
 				<NoteVisualization params={buildNotes(notes)} secondLang={secondLang} />

@@ -131,14 +131,12 @@ class OperationsOperationEdition extends Component {
 					onSubmit={this.onSubmit}
 					disabled={this.state.clientSideErrors.errorMessage?.length > 0}
 				/>
-
 				{this.state.submitting && this.state.clientSideErrors && (
 					<GlobalClientSideErrorBloc
 						clientSideErrors={this.state.clientSideErrors.errorMessage}
-						D={D}
 					/>
 				)}
-				{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
+				<ErrorBloc error={serverSideError} D={D} />
 				<form>
 					{!isEditing && (
 						<Row className="bauhaus-row">

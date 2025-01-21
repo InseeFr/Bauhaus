@@ -5,20 +5,7 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
 
-import { createAllDictionary } from '@utils/dictionnary';
-
-import D from '../../../deprecated-locales/build-dictionary';
-
-const { D: dict } = createAllDictionary({
-	errors: {
-		GlobalClientSideErrorBloc: {
-			fr: 'Remplissez les champs requis pour pouvoir sauvegarder cette collection.',
-			en: 'Complete mandatory fields to save this collection.',
-		},
-	},
-});
-
-function Controls({ handleSave, redirectCancel, errors, submitting }) {
+function Controls({ handleSave, redirectCancel, errors }) {
 	return (
 		<>
 			<ActionToolbar>
@@ -28,10 +15,7 @@ function Controls({ handleSave, redirectCancel, errors, submitting }) {
 					disabled={errors?.errorMessage?.length > 0}
 				/>
 			</ActionToolbar>
-			<GlobalClientSideErrorBloc
-				clientSideErrors={errors?.errorMessage}
-				D={submitting ? D : dict}
-			/>
+			<GlobalClientSideErrorBloc clientSideErrors={errors?.errorMessage} />
 		</>
 	);
 }

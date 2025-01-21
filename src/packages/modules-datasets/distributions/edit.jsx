@@ -90,7 +90,6 @@ export const Component = () => {
 					titleLg2={distribution.labelLg2}
 				/>
 			)}
-
 			<ActionToolbar>
 				<CancelButton action={() => goBack('/datasets/distributions')} />
 				<SaveButton
@@ -101,10 +100,9 @@ export const Component = () => {
 			{submitting && clientSideErrors && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideErrors.errorMessage}
-					D={D}
 				/>
 			)}
-			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
+			<ErrorBloc error={serverSideError} D={D} />
 			<form>
 				<Row>
 					<div className="col-md-12 form-group">
