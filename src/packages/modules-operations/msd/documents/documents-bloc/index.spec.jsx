@@ -9,8 +9,8 @@ import { DocumentsBloc } from './index';
 
 const documents = [
 	{
-		uri: 'uri1-bis',
-		url: 'http:/google.fr?q=url-1',
+		uri: 'http://uri1-bis.fr',
+		url: 'http://google.fr?q=url-1',
 		updatedDate: '2019-03-04T10:00:00.000Z',
 		labelLg1: 'B labelLg1-0',
 		labelLg2: 'B labelLg2-0',
@@ -22,8 +22,8 @@ const documents = [
 		)}`,
 	},
 	{
-		uri: 'uri2-bis',
-		url: 'http:/google.fr?q=url-2',
+		uri: 'http://uri2-bis.fr',
+		url: 'http://google.fr?q=url-2',
 		updatedDate: '2019-04-04T10:00:00.000Z',
 		labelLg1: 'A labelLg1-1',
 		labelLg2: 'A labelLg2-1',
@@ -34,8 +34,8 @@ const documents = [
 		)}`,
 	},
 	{
-		uri: 'uri3-bis',
-		url: 'http:/google.fr?q=url-2',
+		uri: 'http://uri3-bis.fr',
+		url: 'http://google.fr?q=url-2',
 		labelLg1: 'Z labelLg1-2',
 		labelLg2: 'Z labelLg2-2',
 		lang: 'fr',

@@ -18,24 +18,24 @@ const documents = {
 		{
 			labelLg1: 'Page 1',
 			labelLg2: 'Page 2',
-			uri: '/page/1',
+			uri: 'http://page/1',
 		},
 		{
 			labelLg1: 'Document 1',
 			labelLg2: 'Document 2',
-			uri: '/document/1',
+			uri: 'http://document/1',
 		},
 	],
 	documentsLg2: [
 		{
 			labelLg1: 'Page 1',
 			labelLg2: 'Page 2',
-			uri: '/page/1',
+			uri: 'http://page/1',
 		},
 		{
 			labelLg1: 'Document 1',
 			labelLg2: 'Document 2',
-			uri: '/document/1',
+			uri: 'http://document/1',
 		},
 	],
 };
