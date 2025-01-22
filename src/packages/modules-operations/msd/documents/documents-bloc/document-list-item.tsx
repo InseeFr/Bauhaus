@@ -16,6 +16,18 @@ export const DocumentAsideInformation = ({
 	);
 };
 
+const validateUri = (uri: string): string => {
+	try {
+		const url = new URL(uri);
+		if (url.protocol === 'http:' || url.protocol === 'https:') {
+			return url.href;
+		}
+		throw new Error('Invalid protocol');
+	} catch {
+		throw new Error('Invalid baseURI');
+	}
+};
+
 export const DocumentLink = ({
 	document,
 	localPrefix,
@@ -25,9 +37,15 @@ export const DocumentLink = ({
 	localPrefix: 'Lg1' | 'Lg2';
 	baseURI: string;
 }>) => {
-	const id = document.uri.substr(document.uri.lastIndexOf('/') + 1);
+	if (!document.uri) {
+		return null;
+	}
+
+	const safeBaseURI = validateUri(baseURI);
+
+	const id = document.uri.substring(document.uri.lastIndexOf('/') + 1);
 	const uri = isDocument(document)
-		? `${baseURI}/documents/document/${id}/file`
+		? `${safeBaseURI}documents/document/${encodeURIComponent(id)}/file`
 		: document.url;
 
 	const label =
