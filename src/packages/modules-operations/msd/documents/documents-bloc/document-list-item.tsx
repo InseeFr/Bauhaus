@@ -18,7 +18,6 @@ export const DocumentAsideInformation = ({
 
 const validateUri = (uri: string): string => {
 	try {
-		console.log(uri);
 		const url = new URL(uri, window.location.origin);
 		if (url.protocol === 'http:' || url.protocol === 'https:') {
 			return url.href;
