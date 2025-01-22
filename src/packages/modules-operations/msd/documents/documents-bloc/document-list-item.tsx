@@ -18,13 +18,14 @@ export const DocumentAsideInformation = ({
 
 const validateUri = (uri: string): string => {
 	try {
-		const url = new URL(uri);
+		console.log(uri);
+		const url = new URL(uri, window.location.origin);
 		if (url.protocol === 'http:' || url.protocol === 'https:') {
 			return url.href;
 		}
 		throw new Error('Invalid protocol');
 	} catch {
-		throw new Error('Invalid baseURI');
+		throw new Error('Invalid baseURI' + uri);
 	}
 };
 
