@@ -7,7 +7,6 @@ import { VerticalMenu } from '@components/vertical-menu';
 
 import Auth from '../../auth/components/auth';
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
-import D from '../../deprecated-locales/build-dictionary';
 
 export const DumbHomePageMenu = ({
 	isLocal,
@@ -17,13 +16,7 @@ export const DumbHomePageMenu = ({
 			<Auth roles={[ADMIN, STRUCTURE_CONTRIBUTOR]}>
 				<FeminineButton action="/structures/create" />
 			</Auth>
-			{isLocal && (
-				<ImportButton
-					label={D.btnImport}
-					action="/structures/import"
-					wrapper={false}
-				/>
-			)}
+			{isLocal && <ImportButton action="/structures/import" wrapper={false} />}
 			{isLocal && <ExportButton action="/structures/export" wrapper={false} />}
 		</VerticalMenu>
 	);

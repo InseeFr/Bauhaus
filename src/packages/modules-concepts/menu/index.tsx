@@ -1,3 +1,4 @@
+import { UIMenuItem } from '@model/Menu';
 import { useLocation } from 'react-router-dom';
 
 import { MainMenu } from '@components/menu';
@@ -12,7 +13,7 @@ const MenuConcepts = () => {
 
 	if (activePath === '/') return null;
 
-	const paths = [
+	const paths: UIMenuItem[] = [
 		{
 			path: '/concepts/administration',
 			pathKey: 'administration',

@@ -1,3 +1,4 @@
+import { UIMenuItem } from '@model/Menu';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
@@ -11,18 +12,7 @@ import { getOperationsSimsCurrent } from '../../redux/selectors';
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };
 
-const defaultPaths: Record<
-	string,
-	{
-		path: string;
-		pathKey: RegExp;
-		className: string | null;
-		attrs: { 'aria-current'?: string; target?: string } | null;
-		order: number;
-		label: string;
-		alignToRight?: boolean;
-	}
-> = {
+const defaultPaths: Record<string, UIMenuItem> = {
 	families: {
 		path: '/operations/families',
 		pathKey: /operations\/famil/,
@@ -103,19 +93,25 @@ export const MenuOperations = ({ sims }: Readonly<{ sims: Sims }>) => {
 	 * During the creation phase, we are checking the previous page.
 	 */
 	if (pathname.includes('sims')) {
-		if (sims.idSeries || paths.series.pathKey.test(pathname)) {
+		if (sims.idSeries || (paths.series.pathKey as RegExp).test(pathname)) {
 			paths['series']['className'] = ACTIVE;
 			paths['series']['attrs'] = defaultAttrs;
-		} else if (sims.idIndicator || paths.indicators.pathKey.test(pathname)) {
+		} else if (
+			sims.idIndicator ||
+			(paths.indicators.pathKey as RegExp).test(pathname)
+		) {
 			paths['indicators']['className'] = ACTIVE;
 			paths['indicators']['attrs'] = defaultAttrs;
-		} else if (sims.idOperation || paths.operations.pathKey.test(pathname)) {
+		} else if (
+			sims.idOperation ||
+			(paths.operations.pathKey as RegExp).test(pathname)
+		) {
 			paths['operations']['className'] = ACTIVE;
 			paths['operations']['attrs'] = defaultAttrs;
 		}
 	} else {
 		for (const key in paths) {
-			if (paths[key]['pathKey'].test(pathname)) {
+			if ((paths[key]['pathKey'] as RegExp).test(pathname)) {
 				paths[key]['className'] = ACTIVE;
 				paths[key]['attrs'] = defaultAttrs;
 

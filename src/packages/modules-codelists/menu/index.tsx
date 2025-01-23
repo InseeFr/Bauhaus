@@ -1,3 +1,4 @@
+import { UIMenuItem } from '@model/Menu';
 import { useLocation } from 'react-router-dom';
 
 import { MainMenu } from '@components/menu';
@@ -15,7 +16,7 @@ const MenuCodelists = () => {
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
 
-	const paths = [
+	const paths: UIMenuItem[] = [
 		{
 			path: '/codelists',
 			pathKey: 'codelists',
