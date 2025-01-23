@@ -16,13 +16,13 @@
 		background: var(--color-2);
 		color: #fff;
 	}
-	&:nth-child(2) .card-header {
-		background: var(--second-lang-bloc-title);
-		color: #fff;
-	}
 
 	.card-body {
 		background: white;
 		margin: 1em;
 	}
+}
+
+.row .note:nth-child(2) .card-header {
+	background: var(--color-1);
 }
