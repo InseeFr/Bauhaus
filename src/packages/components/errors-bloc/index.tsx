@@ -1,6 +1,12 @@
 import NewDictionnary from '../../i18n';
+import D from '../../i18n';
 import './errors-bloc.css';
 
+/**
+ * Component used next to an form input.
+ * Inside this component, we will display the client-side
+ * error of the corresponding input.
+ */
 export const ClientSideError = ({
 	error,
 	id,
@@ -8,20 +14,22 @@ export const ClientSideError = ({
 	error?: string;
 	id: string;
 }>) => {
-	return error ? (
+	if (!error) {
+		return null;
+	}
+	return (
 		<div
 			id={id}
 			className="text-danger"
 			dangerouslySetInnerHTML={{ __html: error }}
 		></div>
-	) : null;
+	);
 };
+
 export const GlobalClientSideErrorBloc = ({
 	clientSideErrors,
-	D,
 }: Readonly<{
 	clientSideErrors?: string[];
-	D: any;
 }>) => {
 	if (!clientSideErrors) {
 		return null;
@@ -31,33 +39,35 @@ export const GlobalClientSideErrorBloc = ({
 			{(
 				<div
 					dangerouslySetInnerHTML={{
-						__html: D.errors.GlobalClientSideErrorBloc,
+						__html: D.errors.globalClientSideErrorBloc,
 					}}
 				/>
 			) || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}
 		</div>
 	) : null;
 };
-export const ErrorBloc = ({
-	error,
-	D,
-}: {
-	error: string[] | string;
-	D?: any;
-}) => {
+
+export const ErrorBloc = ({ error, D }: { error?: unknown; D?: any }) => {
+	if (!error) {
+		return null;
+	}
+
 	const errors = Array.isArray(error) ? error : [error];
 
 	const formattedErrors = errors.map((e) => {
 		let errorMsg;
 		try {
-			const parsedError = JSON.parse(e);
+			const parsedError =
+				e !== null && typeof e === 'object' ? e : JSON.parse(e);
 
 			if (parsedError.code && D.errors[parsedError.code]) {
 				errorMsg = D.errors[parsedError.code](parsedError);
 			} else if (parsedError.message && D.errors[parsedError.message]) {
 				errorMsg = D.errors[parsedError.message](parsedError);
 			} else if (parsedError.status === 500) {
-				errorMsg = NewDictionnary.errors.serversideErrors['500'](e);
+				errorMsg = NewDictionnary.errors.serversideErrors['500'](
+					parsedError.message,
+				);
 			} else {
 				errorMsg = parsedError.message;
 			}

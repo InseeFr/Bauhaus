@@ -121,10 +121,9 @@ const Edition = ({ creation, initialStructure }) => {
 			{submitting && clientSideError && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideError.errorMessage}
-					D={D}
 				/>
 			)}
-			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
+			<ErrorBloc error={serverSideError} D={D} />
 			<LabelRequired htmlFor="identifiant">{D1.idTitle}</LabelRequired>
 			<TextInput
 				id="identifiant"

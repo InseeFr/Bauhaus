@@ -155,22 +155,6 @@ const dictionary = {
 		fr: 'Description (fr)',
 		en: 'Description (en)',
 	},
-	statusValidatedM: {
-		fr: 'Publié',
-		en: 'Published',
-	},
-	statusValidatedF: {
-		fr: 'Publiée',
-		en: 'Published',
-	},
-	statusModifiedM: {
-		fr: 'Provisoire, déjà publié',
-		en: 'Temporary, already published',
-	},
-	statusModifiedF: {
-		fr: 'Provisoire, déjà publiée',
-		en: 'Temporary, already published',
-	},
 	disseminationStatusPlaceholder: {
 		fr: 'Sélectionnez un statut de diffusion...',
 		en: 'Select dissemination status...',
@@ -268,12 +252,6 @@ const dictionary = {
 			`La propriété <strong>${propertyName}</strong> possède des caractères invalides.`,
 		en: (propertyName: string) =>
 			`The property <strong>${propertyName}</strong> has invalid characters.`,
-	},
-	errors: {
-		GlobalClientSideErrorBloc: {
-			fr: 'Vous avez des erreurs dans ce formulaire.',
-			en: 'You have errors in this form.',
-		},
 	},
 };
 export default dictionary;

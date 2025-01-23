@@ -1,4 +1,4 @@
-import { buildApi } from '../..//sdk';
+import { buildApi } from '../../sdk';
 
 const api = {
 	getCodelists: () => [''],
@@ -81,7 +81,7 @@ const api = {
 	getCodelistsPartial: () => ['partial'],
 	getCodelistPartial: (id: string) => [`partial/${id}`],
 	publishPartialCodelist: (id: string) => [
-		`partial/validate/${id}`,
+		`partial/${id}/validate`,
 		{ method: 'PUT' },
 		(res: Response) => res.text(),
 	],

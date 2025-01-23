@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
-import { Loading } from '@components/loading';
+import { Loading, Saving } from '@components/loading';
 
 import { useStampsOptions } from '@utils/hooks/stamps';
 
@@ -80,7 +80,7 @@ const CodelistEdit = (props) => {
 		return <Loading />;
 	}
 	if (saving) {
-		return <Loading text="saving" />;
+		return <Saving />;
 	}
 
 	return (

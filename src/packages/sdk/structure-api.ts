@@ -9,7 +9,7 @@ const api = {
 	getStructuresForSearch: () => ['search'],
 	getMutualizedComponentsForSearch: () => ['components/search'],
 	publishMutualizedComponent: (component: Component) => [
-		`components/${component.id}/publish`,
+		`components/${component.id}/validate`,
 		{
 			method: 'PUT',
 		},
@@ -48,7 +48,7 @@ const api = {
 		(res: Response) => res.text(),
 	],
 	publishStructure: (structure: Structure) => [
-		`structure/${structure.id}/publish`,
+		`structure/${structure.id}/validate`,
 		{
 			method: 'PUT',
 		},

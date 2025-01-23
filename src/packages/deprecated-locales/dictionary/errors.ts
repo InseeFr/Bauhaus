@@ -1,9 +1,5 @@
 const messages = {
 	errors: {
-		GlobalClientSideErrorBloc: {
-			fr: 'Vous avez des erreurs dans ce formulaire.',
-			en: 'You have errors in this form.',
-		},
 		'406_OPERATION_DOCUMENT_OPERATION_DOCUMENT_LINK_EXISTING_LABEL_LG1': {
 			fr: () =>
 				'La propriété <strong>Intitulé</strong> est déjà utilisée par un autre document ou lien.',

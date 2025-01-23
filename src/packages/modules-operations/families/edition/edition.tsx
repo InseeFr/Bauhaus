@@ -150,10 +150,9 @@ class OperationsFamilyEdition extends Component<
 				{this.state.submitting && this.state.clientSideErrors && (
 					<GlobalClientSideErrorBloc
 						clientSideErrors={this.state.clientSideErrors.errorMessage}
-						D={D}
 					/>
 				)}
-				{serverSideError && <ErrorBloc error={[serverSideError]} D={D} />}
+				<ErrorBloc error={[serverSideError]} D={D} />
 
 				<form>
 					<Row>

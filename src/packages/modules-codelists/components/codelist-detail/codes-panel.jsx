@@ -68,7 +68,6 @@ const CodeSlidingPanel = ({
 			{submitting && clientSideErrors && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideErrors.errorMessage}
-					D={D}
 				/>
 			)}
 			<Row>

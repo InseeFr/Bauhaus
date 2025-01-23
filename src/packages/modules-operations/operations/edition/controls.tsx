@@ -5,7 +5,7 @@ import {
 } from '../../../components/buttons/buttons-with-icons';
 
 interface ControlsTypes {
-	onSubmit: () => void;
+	onSubmit: VoidFunction;
 	disabled: boolean;
 }
 export const Controls = ({ onSubmit, disabled }: Readonly<ControlsTypes>) => {

@@ -6,7 +6,7 @@ import './button.css';
 const DEFAULT_CLASSES: string[] = [];
 
 type ButtonTypes = {
-	action: string | (() => void);
+	action: string | VoidFunction;
 	label?: ReactNode;
 	disabled?: boolean;
 	wrapper?: boolean;

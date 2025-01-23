@@ -81,7 +81,7 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 				<CancelButton action={onCancel} col={3} />
 				<SaveButton action={save} col={3} />
 			</ActionToolbar>
-			{serverSideError && <ErrorBloc error={serverSideError} />}
+			<ErrorBloc error={serverSideError} />
 			<Row>
 				<div className="form-group col-md-6">
 					<LabelRequired className="form-label w-100">

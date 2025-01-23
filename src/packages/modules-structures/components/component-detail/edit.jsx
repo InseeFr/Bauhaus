@@ -288,10 +288,9 @@ export const DumbComponentDetailEdit = ({
 			{submitting && clientSideErrors && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideErrors.errorMessage}
-					D={D}
 				/>
 			)}
-			{serverSideError && <ErrorBloc error={serverSideError} D={D} />}
+			<ErrorBloc error={serverSideError} D={D} />
 			<form>
 				<Row>
 					<div className="col-md-12 form-group">

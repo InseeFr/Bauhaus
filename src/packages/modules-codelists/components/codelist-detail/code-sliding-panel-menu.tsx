@@ -12,8 +12,8 @@ import { usePermission } from '../../../redux/hooks/usePermission';
 
 interface CodeSlidingPanelMenuTypes {
 	codelist: CodesList;
-	handleSubmit: () => void;
-	handleBack: () => void;
+	handleSubmit: VoidFunction;
+	handleBack: VoidFunction;
 	creation: boolean;
 }
 export const CodeSlidingPanelMenu = ({

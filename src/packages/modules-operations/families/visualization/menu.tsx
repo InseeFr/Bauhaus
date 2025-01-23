@@ -14,7 +14,7 @@ import { Family } from '../../../model/operations/family';
 
 interface MenuTypes {
 	family: Family;
-	publish: () => void;
+	publish: VoidFunction;
 }
 
 export const Menu = ({ family, publish }: Readonly<MenuTypes>) => {

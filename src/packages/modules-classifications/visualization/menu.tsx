@@ -16,7 +16,7 @@ import { useGoBack } from '../../utils/hooks/useGoBack';
 
 interface ClassificationControlsTypes {
 	classification: Classification;
-	publish: () => void;
+	publish: VoidFunction;
 }
 
 const ClassificationControls = ({

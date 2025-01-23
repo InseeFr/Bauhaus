@@ -184,7 +184,6 @@ export const DumbCodelistPartialDetailEdit = ({
 			{submitting && clientSideErrors && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideErrors.errorMessage}
-					D={D}
 				/>
 			)}
 			{serverSideError && (

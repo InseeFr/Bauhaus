@@ -20,9 +20,9 @@ import { getParentUri } from '../../utils';
 interface MenuTypes {
 	sims: Sims;
 	owners: string[];
-	onExport: () => void;
-	onDelete: () => void;
-	onPublish: () => void;
+	onExport: VoidFunction;
+	onDelete: VoidFunction;
+	onPublish: VoidFunction;
 }
 export const Menu = ({
 	sims,

@@ -1,8 +1,6 @@
 import component from './component';
-import errors from './errors';
 
 const dictionary = {
-	...errors,
 	...component,
 	altLabel: {
 		fr: 'Nom court',
@@ -255,18 +253,6 @@ const dictionary = {
 	seeCodesListDetails: {
 		fr: 'Voir les codes de cette liste',
 		en: 'see codes of this list',
-	},
-	statusValidatedM: {
-		fr: 'Publié',
-		en: 'Published',
-	},
-	statusValidatedF: {
-		fr: 'Publiée',
-		en: 'Published',
-	},
-	statusModifiedM: {
-		fr: 'Provisoire, déjà publié',
-		en: 'Temporary, already published',
 	},
 	structuresTitle: { fr: 'Structures', en: 'Structures' },
 	structuresAdvancedSearch: { fr: 'Recherche avancée', en: 'Advanced search' },

@@ -15,7 +15,7 @@ import { Operation } from '../../../model/Operation';
 
 interface MenuTypes {
 	operation: Operation;
-	onPublish: () => void;
+	onPublish: VoidFunction;
 }
 export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
 	const goBack = useGoBack();

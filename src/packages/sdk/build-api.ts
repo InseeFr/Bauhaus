@@ -40,7 +40,7 @@ export const generateGenericApiEndpoints = (
 			() => Promise.resolve(object.id),
 		],
 		[`publish${capitalizedSingularPrefix}`]: (object: { id: string }) => [
-			`${singularPrefix}/validate/${object.id}`,
+			`${singularPrefix}/${object.id}/validate`,
 			{ method: 'PUT' },
 			(res: Response) => res.text(),
 		],
@@ -133,7 +133,21 @@ export const buildCall = (context: string, resource: string, fn: any) => {
 		return fetch(url, options).then(
 			(res) => {
 				if (res.ok) return Promise.resolve(res).then(thenHandler);
-				else return res.text().then((text) => Promise.reject(text));
+				else
+					return res.text().then((text) => {
+						try {
+							const object = JSON.parse(text);
+							return Promise.reject({
+								...object,
+								status: res.status,
+							});
+						} catch {
+							return Promise.reject({
+								message: text,
+								status: res.status,
+							});
+						}
+					});
 			},
 			(err) => {
 				return Promise.reject(err.toString());

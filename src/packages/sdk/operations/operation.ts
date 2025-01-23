@@ -4,7 +4,7 @@ const api = {
 	getOperationsSearchList: () => ['operations/advanced-search'],
 	getOperation: (id: string) => [`operation/${id}`],
 	publishOperation: (operation: any) => [
-		`operation/validate/${operation.id}`,
+		`operation/${operation.id}/validate`,
 		{ method: 'PUT' },
 		(res: Response) => res.text(),
 	],

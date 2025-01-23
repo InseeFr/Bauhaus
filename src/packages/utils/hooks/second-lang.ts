@@ -1,6 +1,6 @@
 import { useAppContext } from '../../application/app-context';
 
-export const useSecondLang = (): [boolean, () => void] => {
+export const useSecondLang = (): [boolean, VoidFunction] => {
 	const {
 		secondLang: { value, toggle },
 	} = useAppContext();

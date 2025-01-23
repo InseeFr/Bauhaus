@@ -5,7 +5,7 @@ const api = {
 	getSerie: (id: string) => [`series/${id}`],
 	getSeriesWithReport: (id: string) => [`families/${id}/seriesWithReport`],
 	publishSeries: (series: any) => [
-		`series/validate/${series.id}`,
+		`series/${series.id}/validate`,
 		{ method: 'PUT' },
 		(res: Response) => res.text(),
 	],

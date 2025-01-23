@@ -17,8 +17,8 @@ import { checkIfContributorContainsUserStamp } from '../../utils/check-stamp-wit
 interface ViewMenuTypes {
 	distribution: Distribution;
 	dataset: Dataset;
-	onPublish: () => void;
-	onDelete: () => void;
+	onPublish: VoidFunction;
+	onDelete: VoidFunction;
 }
 
 export const ViewMenu = ({

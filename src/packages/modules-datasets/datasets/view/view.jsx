@@ -29,7 +29,6 @@ import { StatisticalInformations } from './StatisticalInformations';
 import { ViewMenu } from './menu';
 
 const Dataset = (props) => {
-	const [serverSideError, setServerSideError] = useState();
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [archivageUnits, setArchivageUnits] = useState([]);
@@ -43,7 +42,11 @@ const Dataset = (props) => {
 	const [secondLang] = useSecondLang();
 	const queryClient = useQueryClient();
 
-	const { isPending: isPublishing, mutate: publish } = useMutation({
+	const {
+		isPending: isPublishing,
+		mutate: publish,
+		error: publishServerSideError,
+	} = useMutation({
 		mutationFn: () => {
 			return DatasetsApi.publish(id);
 		},
@@ -53,12 +56,13 @@ const Dataset = (props) => {
 		},
 	});
 
-	const { isPending: isDeleting, mutate: remove } = useMutation({
+	const {
+		isPending: isDeleting,
+		mutate: remove,
+		error: serverSideError,
+	} = useMutation({
 		mutationFn: () => {
 			return DatasetsApi.deleteDataset(id);
-		},
-		onError: (error) => {
-			setServerSideError(error);
 		},
 		onSuccess: (id) => {
 			return Promise.all([
@@ -84,8 +88,11 @@ const Dataset = (props) => {
 				onPublish={publish}
 				onDelete={remove}
 			/>
-			{serverSideError && (
-				<ErrorBloc error={[serverSideError]} D={DatasetDictionary} />
+			{(serverSideError || publishServerSideError) && (
+				<ErrorBloc
+					error={[serverSideError || publishServerSideError]}
+					D={DatasetDictionary}
+				/>
 			)}
 
 			<CheckSecondLang />

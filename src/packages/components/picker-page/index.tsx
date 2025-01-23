@@ -148,7 +148,7 @@ export const Picker = ({
 			<div className="container">
 				<PageTitle title={title} />
 				{controls}
-				{clientSideErrors && <ErrorBloc error={clientSideErrors} />}
+				<ErrorBloc error={clientSideErrors} />
 				{disabled && <ErrorBloc error={disabledWarningMessage} />}
 				<Row>
 					<div className="col-md-6">

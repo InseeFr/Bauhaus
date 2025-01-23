@@ -11,7 +11,7 @@ export interface DocumentsStoreContextType {
 	documentStores: DocumentsStoreObject;
 	updateDocumentStores: (store: DocumentsStoreObject) => void;
 	lateralPanelOpened?: typeof DOCUMENT | typeof LINK;
-	onLateralPanelHide?: () => void;
+	onLateralPanelHide?: VoidFunction;
 	openLateralPanelOpened?: (type: typeof DOCUMENT | typeof LINK) => void;
 	rubricIdForNewDocument: { rubric: string; lang: string } | null;
 	setRubricIdForNewDocument: (

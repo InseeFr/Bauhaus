@@ -56,7 +56,9 @@ const { D } = createAllDictionary({
 	},
 });
 
-export const CloseButton = ({ onClick }: Readonly<{ onClick: () => void }>) => {
+export const CloseButton = ({
+	onClick,
+}: Readonly<{ onClick: VoidFunction }>) => {
 	return (
 		<button type="button" className="btn btn-default btn-lg" onClick={onClick}>
 			{D.btnClose}
@@ -66,7 +68,7 @@ export const CloseButton = ({ onClick }: Readonly<{ onClick: () => void }>) => {
 
 export const CloseIconButton = ({
 	onClick,
-}: Readonly<{ onClick: () => void }>) => {
+}: Readonly<{ onClick: VoidFunction }>) => {
 	return (
 		<button type="button" className="close" onClick={onClick}>
 			<span aria-hidden="true">&times;</span>
@@ -289,7 +291,7 @@ export const NewButton = (
 export const CancelButton = ({
 	action,
 	...props
-}: Readonly<{ action: string | (() => void) }>) => {
+}: Readonly<{ action: string | VoidFunction }>) => {
 	const goBack = useGoBack();
 
 	const handleAction = () => {

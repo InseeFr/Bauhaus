@@ -60,7 +60,7 @@ export const CodeListDetailView = ({
 				codelist={codelist}
 				deletable={deletable}
 			></ViewMenu>
-			{serverSideError && <ErrorBloc error={serverSideError} />}
+			<ErrorBloc error={serverSideError} />
 			<Row>
 				<Note
 					text={

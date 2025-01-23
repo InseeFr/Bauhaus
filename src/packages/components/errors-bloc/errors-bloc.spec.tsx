@@ -26,23 +26,19 @@ describe('ClientSideError', () => {
 
 describe('GlobalClientSideErrorBloc', () => {
 	it('renders global error message when clientSideErrors are provided', () => {
-		render(
-			<GlobalClientSideErrorBloc clientSideErrors={['error1']} D={mockD} />,
-		);
+		render(<GlobalClientSideErrorBloc clientSideErrors={['error1']} />);
 		const errorElement = screen.getByRole('alert');
-		expect(errorElement).toHaveTextContent(
-			'A global client-side error occurred.',
-		);
+		expect(errorElement).toHaveTextContent('You have errors in this form.');
 	});
 
 	it('does not render anything when clientSideErrors is undefined', () => {
-		render(<GlobalClientSideErrorBloc D={mockD} />);
+		render(<GlobalClientSideErrorBloc />);
 		const errorElement = screen.queryByRole('alert');
 		expect(errorElement).toBeNull();
 	});
 
 	it('does not render anything when clientSideErrors is an empty array', () => {
-		render(<GlobalClientSideErrorBloc clientSideErrors={[]} D={mockD} />);
+		render(<GlobalClientSideErrorBloc clientSideErrors={[]} />);
 		const errorElement = screen.queryByRole('alert');
 		expect(errorElement).toBeNull();
 	});
@@ -52,14 +48,18 @@ describe('ErrorBloc', () => {
 	it('renders formatted errors for an array of error messages', () => {
 		const errors = [
 			JSON.stringify({ code: 'SOME_ERROR_CODE' }),
-			JSON.stringify({ status: 500 }),
+			JSON.stringify({ status: 500, message: 'message' }),
+			{ status: 500, message: 'object' },
 			'Plain error message',
 		];
 		render(<ErrorBloc error={errors} D={mockD} />);
 
 		screen.getByText('Error related to SOME_ERROR_CODE.');
 		screen.getByText(
-			'An error has occurred. Please contact the RMéS administration team and provide them with the following message: {"status":500}',
+			'An error has occurred. Please contact the RMéS administration team and provide them with the following message: message',
+		);
+		screen.getByText(
+			'An error has occurred. Please contact the RMéS administration team and provide them with the following message: object',
 		);
 		screen.getByText('Plain error message');
 	});

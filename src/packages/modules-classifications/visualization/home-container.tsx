@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import { Loading } from '@components/loading';
+import { Loading, Publishing } from '@components/loading';
 
 import { useSecondLang } from '../../utils/hooks/second-lang';
 import { useClassification, usePublishClassification } from '../hooks';
@@ -17,7 +17,7 @@ export const Component = () => {
 		return <Loading />;
 	}
 
-	if (isPublishing) return <Loading text="publishing" />;
+	if (isPublishing) return <Publishing />;
 
 	if (!classification) return <Loading />;
 	return (
