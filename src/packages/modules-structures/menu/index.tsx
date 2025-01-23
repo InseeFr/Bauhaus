@@ -1,3 +1,4 @@
+import { UIMenuItem } from '@model/Menu';
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -8,17 +9,7 @@ import D from '../../deprecated-locales';
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };
 
-type RouterConfig = Record<
-	string,
-	{
-		pathKey: RegExp;
-		path: string;
-		order: number;
-		label: string;
-		className: string | null;
-		attrs: Record<string, string> | null;
-	}
->;
+type RouterConfig = Record<string, UIMenuItem>;
 
 const structureMenuItems: RouterConfig = {
 	components: {
@@ -59,7 +50,7 @@ const MenuDSDs = () => {
 		);
 
 		for (const key in paths) {
-			if (paths[key]['pathKey'].test(pathname)) {
+			if ((paths[key]['pathKey'] as RegExp).test(pathname)) {
 				paths[key]['className'] = ACTIVE;
 				paths[key]['attrs'] = defaultAttrs;
 				break;
