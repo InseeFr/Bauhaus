@@ -1,4 +1,5 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import 'react-select/dist/react-select.css';
 
 export interface AppProperties {
 	modules: string[];

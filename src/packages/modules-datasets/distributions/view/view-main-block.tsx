@@ -61,7 +61,7 @@ export const ViewMainBlock = ({
 				/>
 				{secondLang && (
 					<Note
-						text={renderMarkdownElement(distribution.descriptionLg1)}
+						text={renderMarkdownElement(distribution.descriptionLg2)}
 						title={D2.descriptionTitle}
 						alone={false}
 						allowEmpty={true}

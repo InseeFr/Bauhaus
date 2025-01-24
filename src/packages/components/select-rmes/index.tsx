@@ -1,5 +1,4 @@
 import OriginalSelect from 'react-select';
-import 'react-select/dist/react-select.css';
 
 import { createAllDictionary } from '@utils/dictionnary';
 

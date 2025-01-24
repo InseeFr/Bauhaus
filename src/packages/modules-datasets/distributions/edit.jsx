@@ -2,11 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { default as ReactSelect } from 'react-select';
 
-import { ActionToolbar } from '@components/action-toolbar';
-import {
-	CancelButton,
-	SaveButton,
-} from '@components/buttons/buttons-with-icons';
 import {
 	ClientSideError,
 	ErrorBloc,
@@ -19,7 +14,6 @@ import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { MDEditor } from '@components/rich-editor/react-md-editor';
 
-import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import { D1, D2 } from '../../deprecated-locales';
@@ -30,13 +24,12 @@ import {
 	useDistribution,
 } from '../datasets';
 import { ByteSizeInput } from './edit/byte-size-input';
+import { Menu } from './edit/menu';
 import { validate } from './validation';
 
 export const Component = () => {
 	const { id } = useParams();
 	const isEditing = !!id;
-
-	const goBack = useGoBack();
 
 	const [editingDistribution, setEditingDistribution] = useState({});
 	const [clientSideErrors, setClientSideErrors] = useState({});
@@ -90,13 +83,11 @@ export const Component = () => {
 					titleLg2={distribution.labelLg2}
 				/>
 			)}
-			<ActionToolbar>
-				<CancelButton action={() => goBack('/datasets/distributions')} />
-				<SaveButton
-					action={onSubmit}
-					disabled={clientSideErrors.errorMessage?.length > 0}
-				/>
-			</ActionToolbar>
+			<Menu
+				onSubmit={onSubmit}
+				onSubmitDisabled={clientSideErrors.errorMessage?.length > 0}
+			/>
+
 			{submitting && clientSideErrors && (
 				<GlobalClientSideErrorBloc
 					clientSideErrors={clientSideErrors.errorMessage}
