@@ -14,6 +14,8 @@ export interface Component {
 	fullCodeListValue?: string;
 	concept?: string;
 	contributor: string[];
+
+	structures: string[];
 }
 
 export interface ComponentDefinition {

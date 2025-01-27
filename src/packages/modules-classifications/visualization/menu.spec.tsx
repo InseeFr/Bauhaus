@@ -1,10 +1,11 @@
+import { Classification } from '@model/Classification';
 import { render, screen } from '@testing-library/react';
 
 import { ADMIN } from '../../auth/roles';
 import { RBACMock } from '../../tests-utils/rbac';
 import Menu from './menu';
 
-const classification = { id: 'pcs2020' };
+const classification = { id: 'pcs2020' } as unknown as Classification;
 
 describe('classification-visualization-controls', () => {
 	it('should contains the Back button', async () => {
