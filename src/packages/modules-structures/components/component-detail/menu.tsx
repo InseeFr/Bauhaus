@@ -1,3 +1,5 @@
+import { Component } from '@model/structures/Component';
+
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	DeleteButton,
@@ -10,11 +12,20 @@ import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { usePermission } from '../../../redux/hooks/usePermission';
 
-const canBeDeleted = (component) => {
+const canBeDeleted = (component: Component) => {
 	const withoutStructuresUsingThisComponent =
 		!component.structures || component.structures?.length === 0;
 	return withoutStructuresUsingThisComponent;
 };
+
+interface ViewMenuTypes {
+	component: Component;
+	handleUpdate: VoidFunction;
+	publish: VoidFunction;
+	handleDelete: VoidFunction;
+	handleBack: VoidFunction;
+	updatable: boolean;
+}
 
 export const ViewMenu = ({
 	component,
@@ -23,8 +34,7 @@ export const ViewMenu = ({
 	handleDelete,
 	handleBack,
 	updatable,
-	col,
-}) => {
+}: Readonly<ViewMenuTypes>) => {
 	const permission = usePermission();
 
 	const hasRightsBasedOnStamp =
@@ -34,7 +44,7 @@ export const ViewMenu = ({
 
 	return (
 		<ActionToolbar>
-			<ReturnButton action={handleBack} col={col} />
+			<ReturnButton action={handleBack} />
 
 			{(isAdmin || hasRightsBasedOnStamp) && (
 				<ValidationButton callback={publish} object={component} />
@@ -44,11 +54,11 @@ export const ViewMenu = ({
 				(isAdmin ||
 					(hasRightsBasedOnStamp &&
 						component.validationState === UNPUBLISHED)) && (
-					<DeleteButton action={handleDelete} col={col} />
+					<DeleteButton action={handleDelete} />
 				)}
 
 			{updatable && (isAdmin || hasRightsBasedOnStamp) && (
-				<UpdateButton action={handleUpdate} col={col} />
+				<UpdateButton action={handleUpdate} />
 			)}
 		</ActionToolbar>
 	);
