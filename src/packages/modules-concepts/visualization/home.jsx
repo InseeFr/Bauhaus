@@ -12,9 +12,9 @@ import { useTitle } from '@utils/hooks/useTitle';
 import D from '../../deprecated-locales';
 import { getModalMessage } from '../utils/build-validation-message';
 import { buildNotes } from '../utils/notes';
-import ConceptVisualizationControls from './controls';
 import ConceptGeneral from './general';
 import ConceptLinks from './links/Links';
+import ConceptVisualizationControls from './menu';
 
 const ConceptVisualization = ({
 	id,

@@ -16,9 +16,15 @@ import { saveFileFromHttpResponse } from '../../utils/files';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useLoading } from './loading';
 
+const ConceptCompareButton = ({ conceptVersion, id }) => {
+	if (!conceptVersion || conceptVersion <= 1) {
+		return null;
+	}
+
+	return <Button action={`/concepts/${id}/compare`} label={D.btnCompare} />;
+};
 const ConceptVisualizationControls = ({
 	isValidated,
-	isValidOutOfDate,
 	conceptVersion,
 	id,
 	permission: { authType, roles, stamp },
@@ -44,54 +50,19 @@ const ConceptVisualizationControls = ({
 	const creator = authImpl.isConceptCreator(roles, stamp, conceptCreator);
 	const adminOrCreator = admin || creator;
 
-	let btns;
+	let btns = [];
 
 	const validate = adminOrCreator && [handleValidation, D.btnValid];
 	const update = <UpdateButton action={`/concepts/${id}/modify`} />;
-	const compare =
-		!conceptVersion || conceptVersion <= 1
-			? null
-			: [`/concepts/${id}/compare`, D.btnCompare];
+
 	const erase = adminOrCreator && [() => setModalOpened(true), D.btnDelete];
 
-	const exportConcept = (
-		<ExportButton
-			action={() => {
-				setLoading('exporting');
-				return ConceptsApi.getConceptExport(
-					id,
-					'application/vnd.oasis.opendocument.text',
-				)
-					.then(saveFileFromHttpResponse)
-					.finally(() => setLoading());
-			}}
-		/>
-	);
-
 	if (admin || (creator && contributor)) {
-		if (isValidOutOfDate) {
-			btns = isValidated
-				? [compare, exportConcept, erase]
-				: [compare, exportConcept, update, validate, erase];
-		} else {
-			btns = isValidated
-				? [compare, exportConcept, update, erase]
-				: [compare, exportConcept, update, validate, erase];
-		}
+		btns = isValidated ? [update, erase] : [update, validate, erase];
 	} else if (contributor) {
-		if (isValidOutOfDate) {
-			btns = isValidated
-				? [compare, exportConcept]
-				: [compare, exportConcept, update];
-		} else {
-			btns = [compare, exportConcept, update];
-		}
+		btns = [update];
 	} else if (creator) {
-		btns = isValidated
-			? [compare, exportConcept, update]
-			: [compare, exportConcept, update, validate];
-	} else {
-		btns = [compare, exportConcept];
+		btns = isValidated ? [update] : [update, validate];
 	}
 
 	return (
@@ -105,6 +76,19 @@ const ConceptVisualizationControls = ({
 			)}
 			<ActionToolbar>
 				<ReturnButton action={() => goBack(`/concepts`)} />
+				<ConceptCompareButton id={id} conceptVersion={conceptVersion} />
+				<ExportButton
+					action={() => {
+						setLoading('exporting');
+						return ConceptsApi.getConceptExport(
+							id,
+							'application/vnd.oasis.opendocument.text',
+						)
+							.then(saveFileFromHttpResponse)
+							.finally(() => setLoading());
+					}}
+				/>
+
 				{btns.map((btn) => {
 					if (!btn) return null;
 
