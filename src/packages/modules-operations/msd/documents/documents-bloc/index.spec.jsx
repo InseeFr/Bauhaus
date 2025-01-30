@@ -81,7 +81,7 @@ describe('DocumentsBloc', () => {
 		const lis = container.querySelectorAll('li');
 		for (let i = 0; i < lis.length; i++) {
 			expect(lis[i].outerHTML).toEqual(
-				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg1}">${orderedList[i].labelLg1}</a><i>(${orderedList[i].aside})</i></span></li>`,
+				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg1}">${orderedList[i].labelLg1}</a><i>(${orderedList[i].aside})</i></span></li>`,
 			);
 		}
 	});
@@ -94,7 +94,7 @@ describe('DocumentsBloc', () => {
 		const lis = container.querySelectorAll('li');
 		for (let i = 0; i < lis.length; i++) {
 			expect(lis[i].outerHTML).toEqual(
-				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noopener noreferrer" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg2}">${orderedList[i].labelLg2}</a><i>(${orderedList[i].aside})</i></span></li>`,
+				`<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg2}">${orderedList[i].labelLg2}</a><i>(${orderedList[i].aside})</i></span></li>`,
 			);
 		}
 	});
