@@ -54,28 +54,30 @@ export const ErrorBloc = ({ error, D }: { error?: unknown; D?: any }) => {
 
 	const errors = Array.isArray(error) ? error : [error];
 
-	const formattedErrors = errors.map((e) => {
-		let errorMsg;
-		try {
-			const parsedError =
-				e !== null && typeof e === 'object' ? e : JSON.parse(e);
+	const formattedErrors = errors
+		.filter((e) => !!e)
+		.map((e) => {
+			let errorMsg;
+			try {
+				const parsedError =
+					e !== null && typeof e === 'object' ? e : JSON.parse(e);
 
-			if (parsedError.code && D.errors[parsedError.code]) {
-				errorMsg = D.errors[parsedError.code](parsedError);
-			} else if (parsedError.message && D.errors[parsedError.message]) {
-				errorMsg = D.errors[parsedError.message](parsedError);
-			} else if (parsedError.status === 500) {
-				errorMsg = NewDictionnary.errors.serversideErrors['500'](
-					parsedError.message,
-				);
-			} else {
-				errorMsg = parsedError.message;
+				if (parsedError.code && D.errors[parsedError.code]) {
+					errorMsg = D.errors[parsedError.code](parsedError);
+				} else if (parsedError.message && D.errors[parsedError.message]) {
+					errorMsg = D.errors[parsedError.message](parsedError);
+				} else if (parsedError.status === 500) {
+					errorMsg = NewDictionnary.errors.serversideErrors['500'](
+						parsedError.message,
+					);
+				} else {
+					errorMsg = parsedError.message;
+				}
+			} catch {
+				errorMsg = e;
 			}
-		} catch {
-			errorMsg = e;
-		}
-		return errorMsg;
-	});
+			return errorMsg;
+		});
 	return (
 		<>
 			{formattedErrors.map((e, index) => (
