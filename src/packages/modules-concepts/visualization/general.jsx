@@ -1,5 +1,6 @@
 import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 import { Row } from '@components/layout';
+import { ExternalLink } from '@components/link';
 import { Note } from '@components/note';
 
 import { arrayToString } from '@utils/array-utils';
@@ -95,11 +96,9 @@ function ConceptGeneral({ attr, secondLang }) {
 									return (
 										<li key={fieldName}>
 											{`${mapping[fieldName]} : `}
-											<a
+											<ExternalLink
 												href={attr[fieldName]}
-												target="_blank"
-												rel="noopener noreferrer"
-											>{`${attr[fieldName]}`}</a>
+											>{`${attr[fieldName]}`}</ExternalLink>
 										</li>
 									);
 								}

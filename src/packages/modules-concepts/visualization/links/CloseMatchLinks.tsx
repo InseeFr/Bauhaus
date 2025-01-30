@@ -1,3 +1,5 @@
+import { ExternalLink } from '@components/link';
+
 import { Link as LinkType } from '../../../model/concepts/concept';
 
 export const CloseMatchLinks = ({
@@ -11,9 +13,7 @@ export const CloseMatchLinks = ({
 				<ul>
 					{links.map((cm) => (
 						<li key={cm.urn}>
-							<a href={cm.urn} target="_blank" rel="noopener noreferrer">
-								{cm.urn}
-							</a>
+							<ExternalLink href={cm.urn}>{cm.urn}</ExternalLink>
 						</li>
 					))}
 				</ul>
