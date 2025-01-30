@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { getDisseminationStatus } from '@components/dissemination-status/disseminationStatus';
 import { Row } from '@components/layout';
+import { ExternalLink } from '@components/link';
 import { Note } from '@components/note';
 
 import { stringToDate } from '@utils/date-utils';
@@ -151,11 +152,9 @@ const General = ({ general, secondLang }) => {
 										return (
 											<li key={fieldName}>
 												{`${mapping[fieldName]} : `}
-												<a
+												<ExternalLink
 													href={general[fieldName]}
-													target="_blank"
-													rel="noopener noreferrer"
-												>{`${general[fieldName]}`}</a>
+												>{`${general[fieldName]}`}</ExternalLink>
 											</li>
 										);
 									}

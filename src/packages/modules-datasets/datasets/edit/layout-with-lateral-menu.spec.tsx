@@ -10,10 +10,10 @@ import {
 
 describe('CollapsibleTrigger', () => {
 	it('should display the correct title based on the "opened" prop', () => {
-		render(<CollapsibleTrigger opened={true} onClick={() => {}} />);
+		render(<CollapsibleTrigger opened={true} onClick={vi.fn()} />);
 		expect(screen.getByTitle('Hide')).toBeInTheDocument();
 
-		render(<CollapsibleTrigger opened={false} onClick={() => {}} />);
+		render(<CollapsibleTrigger opened={false} onClick={vi.fn()} />);
 		expect(screen.getByTitle('Display')).toBeInTheDocument();
 	});
 

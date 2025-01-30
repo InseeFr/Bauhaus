@@ -26,7 +26,7 @@ describe('CloseMatchLinks', () => {
 			const linkElement = screen.getByText(link.urn);
 			expect(linkElement.getAttribute('href')).toBe(link.urn);
 			expect(linkElement.getAttribute('target')).toBe('_blank');
-			expect(linkElement.getAttribute('rel')).toBe('noopener noreferrer');
+			expect(linkElement.getAttribute('rel')).toBe('noreferrer noopener');
 		});
 	});
 

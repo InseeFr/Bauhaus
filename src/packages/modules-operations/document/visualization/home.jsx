@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Row } from '@components/layout';
+import { ExternalLink } from '@components/link';
 import { Note } from '@components/note';
 
 import { useTitle } from '@utils/hooks/useTitle';
@@ -95,13 +96,9 @@ function OperationsDocumentationVisualization({
 				<Row>
 					<Note
 						text={
-							<a
-								href={`${baseURI}/documents/document/${id}/file`}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
+							<ExternalLink href={`${baseURI}/documents/document/${id}/file`}>
 								{attr.labelLg1}
-							</a>
+							</ExternalLink>
 						}
 						title={D1.titleDocument}
 						alone={true}
@@ -112,11 +109,7 @@ function OperationsDocumentationVisualization({
 			{isLink(attr) && (
 				<Row>
 					<Note
-						text={
-							<a href={attr.url} rel="noopener noreferrer" target="_blank">
-								{attr.url}
-							</a>
-						}
+						text={<ExternalLink href={attr.url}>{attr.url}</ExternalLink>}
 						title={D1.titleLink}
 						alone={true}
 						allowEmpty={true}

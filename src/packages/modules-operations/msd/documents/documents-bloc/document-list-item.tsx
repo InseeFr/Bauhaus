@@ -1,3 +1,5 @@
+import { ExternalLink } from '@components/link';
+
 import { Document } from '../../../../model/operations/document';
 import { getLang } from '../../../../utils/dictionnary';
 import { isDocument } from '../../../document/utils';
@@ -51,13 +53,8 @@ export const DocumentLink = ({
 	const label =
 		document[`label${localPrefix}`] || document.labelLg1 || document.labelLg2;
 	return (
-		<a
-			target="_blank"
-			rel="noopener noreferrer"
-			href={uri}
-			title={document[`description${localPrefix}`]}
-		>
+		<ExternalLink href={uri} title={document[`description${localPrefix}`]}>
 			{label}
-		</a>
+		</ExternalLink>
 	);
 };

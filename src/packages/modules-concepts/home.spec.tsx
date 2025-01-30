@@ -21,7 +21,7 @@ describe('Component (home.tsx)', () => {
 	});
 
 	it('renders the loading state initially', () => {
-		ConceptsApi.getConceptList.mockReturnValue(new Promise(() => {}));
+		ConceptsApi.getConceptList.mockReturnValue(new Promise(vi.fn()));
 
 		render(<Component />);
 

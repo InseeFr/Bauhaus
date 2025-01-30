@@ -26,7 +26,7 @@ describe('OperationsDocumentationVisualization', () => {
 		const a = notes[1].querySelector('a');
 		expect(a).toBeDefined();
 		expect(a.href).toContain(document.url);
-		expect(a).toHaveAttribute('rel', 'noopener noreferrer');
+		expect(a).toHaveAttribute('rel', 'noreferrer noopener');
 		expect(a).toHaveAttribute('target', '_blank');
 		expect(a.innerHTML).toContain(document.url);
 	});

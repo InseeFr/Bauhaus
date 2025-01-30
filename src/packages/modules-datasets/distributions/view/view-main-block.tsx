@@ -1,10 +1,12 @@
+import Editor from '@uiw/react-md-editor';
+
 import { Row } from '@components/layout';
+import { ExternalLink } from '@components/link';
 import { Note } from '@components/note';
 import { PublicationFemale } from '@components/status';
 
 import { stringToDate } from '@utils/date-utils';
 import { useSecondLang } from '@utils/hooks/second-lang';
-import { renderMarkdownElement } from '@utils/html-utils';
 
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { Distribution } from '../../../model/Dataset';
@@ -38,13 +40,9 @@ export const ViewMainBlock = ({
 							</li>
 							<li>
 								{D.downloadUrlTitle} :{' '}
-								<a
-									target="_blank"
-									rel="noreferrer noopener"
-									href={distribution.url}
-								>
-									{distribution.url}{' '}
-								</a>
+								<ExternalLink href={distribution.url}>
+									{distribution.url}
+								</ExternalLink>
 							</li>
 						</ul>
 					}
@@ -54,14 +52,14 @@ export const ViewMainBlock = ({
 			</Row>
 			<Row>
 				<Note
-					text={renderMarkdownElement(distribution.descriptionLg1)}
+					text={<Editor.Markdown source={distribution.descriptionLg1} />}
 					title={D1.descriptionTitle}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
 				{secondLang && (
 					<Note
-						text={renderMarkdownElement(distribution.descriptionLg1)}
+						text={<Editor.Markdown source={distribution.descriptionLg2} />}
 						title={D2.descriptionTitle}
 						alone={false}
 						allowEmpty={true}

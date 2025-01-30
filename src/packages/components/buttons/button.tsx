@@ -1,6 +1,6 @@
 import { ComponentProps, PropsWithChildren, ReactNode } from 'react';
 
-import { Link } from '../link';
+import { ExternalLink, Link } from '../link';
 import './button.css';
 
 const DEFAULT_CLASSES: string[] = [];
@@ -29,14 +29,9 @@ export const Button = ({
 	if (typeof action === 'string') {
 		if (externalLink) {
 			button = (
-				<a
-					className={className}
-					href={action}
-					rel="noopener noreferrer"
-					target="_blank"
-				>
+				<ExternalLink className={className} href={action}>
 					{content}
-				</a>
+				</ExternalLink>
 			);
 		} else {
 			button = (
