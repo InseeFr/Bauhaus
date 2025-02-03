@@ -24,7 +24,6 @@ export const Component = () => {
 		);
 	}, [id]);
 
-	console.log(general);
 	if (isLoading || !general) return <Loading />;
 
 	const { prefLabelLg1, prefLabelLg2 } = general;
