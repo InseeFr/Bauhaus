@@ -45,7 +45,7 @@ describe('Component', () => {
 		expect(screen.getByText('Loading in progress...')).toBeInTheDocument();
 	});
 
-	it.only('display the ClassificationTree component', async () => {
+	it('display the ClassificationTree component', async () => {
 		(useClassificationsItem as Mock).mockReturnValue({
 			isLoading: false,
 			data: [
