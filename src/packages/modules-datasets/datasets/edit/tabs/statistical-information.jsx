@@ -4,7 +4,6 @@ import { NumberInput } from '@components/form/input';
 import { Row } from '@components/layout';
 
 import { withCodesLists } from '@utils/hoc/withCodesLists';
-import { useStructures } from '@utils/hooks/structures';
 
 import { D1 } from '../../../../deprecated-locales';
 import {
@@ -16,19 +15,15 @@ import {
 } from '../../../../redux/actions/constants/codeList';
 import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
 import { TemporalField } from '../../components/temporalField';
+import { DataStructure } from './statistical-information/data-structure';
 
 const StatisticalInformationTab = ({
 	editingDataset,
 	setEditingDataset,
+	clientSideErrors,
 	...props
 }) => {
 	const clDataTypes = convertCodesListsToSelectOption(props[CL_DATA_TYPES]);
-
-	const { data: structures } = useStructures();
-
-	const structuresOptions =
-		structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ??
-		[];
 
 	const clStatUnit = convertCodesListsToSelectOption(props[CL_STAT_UNIT]);
 
@@ -58,21 +53,16 @@ const StatisticalInformationTab = ({
 				</div>
 			</Row>
 			<Row>
-				<div className="col-md-12 form-group">
-					<label className="w-100 wilco-label-required">
-						{D1.datasetsDataStructure}
-						<ReactSelect
-							value={editingDataset.dataStructure}
-							options={structuresOptions}
-							onChange={(option) => {
-								setEditingDataset({
-									...editingDataset,
-									dataStructure: option?.value,
-								});
-							}}
-						/>
-					</label>
-				</div>
+				<DataStructure
+					value={editingDataset.dataStructure}
+					error={clientSideErrors?.fields?.dataStructure}
+					onChange={(value) => {
+						setEditingDataset({
+							...editingDataset,
+							dataStructure: value,
+						});
+					}}
+				/>
 			</Row>
 			<Row>
 				<div className="col-md-12 form-group">

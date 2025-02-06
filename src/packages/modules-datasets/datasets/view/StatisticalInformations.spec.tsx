@@ -43,6 +43,21 @@ describe('StatisticalInformations Component', () => {
 		getByText('Number of time-series : 10');
 	});
 
+	it('renders datastructure URL if the structure do not exist', () => {
+		(hooks.useCodesList as Mock).mockReturnValue([]);
+		(structureHooks.useStructures as Mock).mockReturnValue({
+			data: [],
+		});
+
+		const { getByText } = render(
+			<StatisticalInformations dataset={mockDataset} />,
+		);
+
+		getByText('Data structure : structure1');
+		getByText('Number of observation : 100');
+		getByText('Number of time-series : 10');
+	});
+
 	it('renders conditional fields correctly', () => {
 		(hooks.useCodesList as Mock).mockReturnValue([]);
 		(structureHooks.useStructures as Mock).mockReturnValue({

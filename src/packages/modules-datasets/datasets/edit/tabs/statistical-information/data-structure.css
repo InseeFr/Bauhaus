@@ -1,0 +1,10 @@
+.data-structure-input {
+	display: flex;
+	gap: 1em;
+}
+
+.data-structure-input button {
+	height: fit-content;
+	align-self: end;
+	margin-bottom: 5px;
+}
