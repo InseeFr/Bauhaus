@@ -1,6 +1,5 @@
-import { Option } from '@model/SelectOption';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, Mock } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it, Mock, vi } from 'vitest';
 
 import { useStructures } from '@utils/hooks/structures';
 
