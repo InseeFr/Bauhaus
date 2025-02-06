@@ -50,7 +50,7 @@ describe('DocumentLink', () => {
 			'http://example.com/documents/document/123/file',
 		);
 		expect(link.getAttribute('target')).toBe('_blank');
-		expect(link.getAttribute('rel')).toBe('noopener noreferrer');
+		expect(link.getAttribute('rel')).toBe('noreferrer noopener');
 	});
 
 	it('renders a link with document.url if it is not a document', () => {

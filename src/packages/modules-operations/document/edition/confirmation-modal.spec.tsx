@@ -8,8 +8,8 @@ describe('ConfirmationModal', () => {
 			<ConfirmationModal
 				isOpen={true}
 				document={{ sims: [] }}
-				onNo={() => {}}
-				onYes={() => {}}
+				onNo={vi.fn()}
+				onYes={vi.fn()}
 			/>,
 		);
 		await screen.findByText('Yes');

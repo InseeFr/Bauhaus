@@ -17,7 +17,7 @@ import {
 import { ViewMenu } from './menu';
 import { ViewMainBlock } from './view-main-block';
 
-export const Component = (props) => {
+export const Component = () => {
 	const { id } = useParams<{ id: string }>();
 
 	const { data: distribution, isLoading } = useDistribution(id!);
@@ -49,7 +49,6 @@ export const Component = (props) => {
 				dataset={dataset}
 				onPublish={publish}
 				onDelete={remove}
-				{...props}
 			/>
 
 			<ErrorBloc

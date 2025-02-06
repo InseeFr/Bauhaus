@@ -53,7 +53,7 @@ describe('Component', () => {
 		const familyData = { id: '123', prefLabelLg1: 'Test Family' };
 		(useParams as Mock).mockReturnValue({ id: '123' });
 		(OperationsApi.getFamilyById as Mock).mockResolvedValueOnce(familyData);
-		(useGoBack as Mock).mockReturnValue(() => {});
+		(useGoBack as Mock).mockReturnValue(vi.fn());
 
 		render(<Component />);
 

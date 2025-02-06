@@ -33,7 +33,7 @@ describe('Component', () => {
 	it('should show the loading spinner initially', () => {
 		// Simuler une promesse qui ne se résout pas immédiatement
 		CollectionApi.getCollectionList.mockImplementation(
-			() => new Promise(() => {}),
+			() => new Promise(vi.fn()),
 		);
 
 		render(<Component />);
