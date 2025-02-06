@@ -11,12 +11,12 @@ describe('concept-visualization', () => {
 				general={empty()}
 				notes={{}}
 				links={[]}
-				stampList={[]}
-				disseminationStatusList={[]}
 				validateConcept={vi.fn()}
 				secondLang={true}
 				langs={locales}
 				permission={{ authType: '', roles: [''] }}
+				serverSideError=""
+				deleteConcept={vi.fn()}
 			/>,
 		);
 	});
