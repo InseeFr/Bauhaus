@@ -45,33 +45,31 @@ export const DataStructure = ({
 
 	if (mode === URN_MODE) {
 		return (
-			<>
-				<div className="data-structure-input  col-md-12 form-group">
-					<div className="w-100">
-						<label className="w-100 wilco-label-required">
-							{D1.datasetsDataStructure}
-							<TextInput
-								aria-describedby="datastructure-error"
-								value={value}
-								onChange={(e) => {
-									onChange(e.target.value);
-								}}
-							/>
-						</label>
-						<ClientSideError
-							id="datastructure-error"
-							error={error}
-						></ClientSideError>
-					</div>
-					<button
-						type="button"
-						className="btn btn-default"
-						onClick={() => setMode('URL_MODE')}
-					>
-						{D.chooseUrl}
-					</button>
+			<div className="data-structure-input  col-md-12 form-group">
+				<div className="w-100">
+					<label className="w-100 wilco-label-required">
+						{D1.datasetsDataStructure}
+						<TextInput
+							aria-describedby="datastructure-error"
+							value={value}
+							onChange={(e) => {
+								onChange(e.target.value);
+							}}
+						/>
+					</label>
+					<ClientSideError
+						id="datastructure-error"
+						error={error}
+					></ClientSideError>
 				</div>
-			</>
+				<button
+					type="button"
+					className="btn btn-default"
+					onClick={() => setMode('URL_MODE')}
+				>
+					{D.chooseUrl}
+				</button>
+			</div>
 		);
 	}
 	return (
