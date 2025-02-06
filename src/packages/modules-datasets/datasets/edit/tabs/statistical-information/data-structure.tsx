@@ -5,6 +5,7 @@ import ReactSelect from 'react-select';
 import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
 
+import { createDictionary, firstLang } from '@utils/dictionnary';
 import { useStructures } from '@utils/hooks/structures';
 
 import { D1 } from '../../../../../deprecated-locales';
@@ -13,6 +14,16 @@ import './data-structure.css';
 const URN_MODE = 'URN_MODE';
 const URL_MODE = 'URL_MODE';
 
+const D = createDictionary(firstLang, {
+	chooseUrn: {
+		fr: 'Saisir une URN',
+		en: 'Type a URN',
+	},
+	chooseUrl: {
+		fr: 'Choisir une structure',
+		en: 'Choose a structure',
+	},
+});
 export const DataStructure = ({
 	value,
 	onChange,
@@ -57,7 +68,7 @@ export const DataStructure = ({
 						className="btn btn-default"
 						onClick={() => setMode('URL_MODE')}
 					>
-						Choisir une structure
+						{D.chooseUrl}
 					</button>
 				</div>
 			</>
@@ -80,7 +91,7 @@ export const DataStructure = ({
 				className="btn btn-default"
 				onClick={() => setMode('URN_MODE')}
 			>
-				Saisir une URN
+				{D.chooseUrn}
 			</button>
 		</div>
 	);
