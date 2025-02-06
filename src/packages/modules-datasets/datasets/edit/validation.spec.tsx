@@ -23,6 +23,7 @@ describe('validation', function () {
 				altIdentifier: '',
 				creator: '',
 				contributor: '',
+				dataStructure: '',
 				disseminationStatus: '',
 				wasGeneratedIRIs: '',
 			},
@@ -44,6 +45,7 @@ describe('validation', function () {
 				altIdentifier: '',
 				creator: '',
 				contributor: '',
+				dataStructure: '',
 				disseminationStatus: '',
 				wasGeneratedIRIs: '',
 			},
@@ -70,6 +72,7 @@ describe('validation', function () {
 				altIdentifier: '',
 				creator: 'The property <strong>Owner</strong> is required.',
 				contributor: 'The property <strong>Contributors</strong> is required.',
+				dataStructure: '',
 				disseminationStatus:
 					'The property <strong>Dissemination status</strong> is required.',
 				wasGeneratedIRIs:
@@ -96,13 +99,63 @@ describe('validation', function () {
 				altIdentifier: '',
 				creator: '',
 				contributor: '',
+				dataStructure: '',
 				disseminationStatus: '',
 				wasGeneratedIRIs:
 					'The property <strong>Produced from</strong> is required.',
 			},
 		});
 	});
+
+	it('should return an error if datastructure is not a URI', function () {
+		expect(
+			validate({
+				labelLg1: 'labelLg2',
+				labelLg2: 'labelLg2',
+				catalogRecord,
+				disseminationStatus: 'status',
+				wasGeneratedIRIs: ['id'],
+				dataStructure: 'dataset',
+			}),
+		).toEqual({
+			errorMessage: ['Invalid url'],
+			fields: {
+				labelLg1: '',
+				labelLg2: '',
+				altIdentifier: '',
+				creator: '',
+				contributor: '',
+				dataStructure: 'Invalid url',
+				disseminationStatus: '',
+				wasGeneratedIRIs: '',
+			},
+		});
+	});
 	it('should return no error', function () {
+		expect(
+			validate({
+				labelLg1: 'labelLg2',
+				labelLg2: 'labelLg2',
+				catalogRecord,
+				disseminationStatus: 'status',
+				wasGeneratedIRIs: ['id'],
+				dataStructure: 'http://dataset',
+			}),
+		).toEqual({
+			errorMessage: [],
+			fields: {
+				labelLg1: '',
+				labelLg2: '',
+				altIdentifier: '',
+				creator: '',
+				contributor: '',
+				dataStructure: '',
+				disseminationStatus: '',
+				wasGeneratedIRIs: '',
+			},
+		});
+	});
+	it('should return no error if datastructure is undefined', function () {
 		expect(
 			validate({
 				labelLg1: 'labelLg2',
@@ -119,6 +172,7 @@ describe('validation', function () {
 				altIdentifier: '',
 				creator: '',
 				contributor: '',
+				dataStructure: '',
 				disseminationStatus: '',
 				wasGeneratedIRIs: '',
 			},

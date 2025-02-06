@@ -5,7 +5,6 @@ import { Note } from '@components/note';
 
 import { stringToDate } from '@utils/date-utils';
 import { useCodesList } from '@utils/hooks/codeslist';
-import { useStructures } from '@utils/hooks/structures';
 
 import D, { D1 } from '../../../deprecated-locales/build-dictionary';
 import { Dataset } from '../../../model/Dataset';
@@ -16,6 +15,7 @@ import {
 	CL_STAT_UNIT,
 	CL_TYPE_GEO,
 } from '../../../redux/actions/constants/codeList';
+import { DataStructure } from './statistical-informations/data-structure';
 
 interface StatisticalInformationsTypes {
 	dataset: Dataset;
@@ -29,8 +29,6 @@ export const StatisticalInformations = ({
 	const clTypeGeo = useCodesList(CL_TYPE_GEO);
 	const clGeo = useCodesList(CL_GEO);
 	const clFreq = useCodesList(CL_FREQ);
-
-	const { data: structures } = useStructures();
 
 	return (
 		<Row>
@@ -63,11 +61,7 @@ export const StatisticalInformations = ({
 						</ConditionalDisplay>
 						{dataset.dataStructure && (
 							<li>
-								{D.datasetsDataStructure} :{' '}
-								{
-									structures?.find((t) => dataset.dataStructure === t.iri)
-										?.labelLg1
-								}
+								<DataStructure dataStructure={dataset.dataStructure} />
 							</li>
 						)}
 						{dataset.temporalCoverageDataType && (

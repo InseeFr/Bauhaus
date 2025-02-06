@@ -176,6 +176,7 @@ export const Component = () => {
 						<StatisticalInformation
 							editingDataset={editingDataset}
 							setEditingDataset={setEditingDataset}
+							clientSideErrors={clientSideErrors}
 						/>
 					),
 				},
