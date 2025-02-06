@@ -1,3 +1,5 @@
+import { useParams } from 'react-router-dom';
+
 import { CheckSecondLang } from '@components/check-second-lang';
 import { Row } from '@components/layout';
 import { PageTitle } from '@components/page-title';
@@ -9,6 +11,8 @@ import D from '../../../deprecated-locales';
 import Controls from './controls';
 
 const ClassificationTree = ({ data, prefLabel }) => {
+	const { id } = useParams();
+
 	useTitle(
 		D.classificationsTitle,
 		D.classificationTreeTitle + ': ' + prefLabel,
@@ -24,7 +28,12 @@ const ClassificationTree = ({ data, prefLabel }) => {
 				{data.length !== 0 && (
 					<Row>
 						<div className="col-md-12">
-							<Tree treeData={data} linkPath={(id) => `item/${id}`} />
+							<Tree
+								treeData={data}
+								linkPath={(identifier) =>
+									`/classifications/classification/${id}/item/${identifier}`
+								}
+							/>
 						</div>
 					</Row>
 				)}

@@ -1,28 +1,28 @@
-import { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTreeFromFlatData } from 'react-sortable-tree';
 
 import { Loading } from '@components/loading';
 
+import { ClassificationsApi } from '@sdk/classification';
+
 import { useClassificationsItem } from '@utils/hooks/classifications';
 import { useSecondLang } from '@utils/hooks/second-lang';
 
-import loadClassificationGeneral from '../../../redux/actions/classifications/general';
-import { getGeneral } from '../../../redux/classifications/classification/general';
 import ClassificationTree from './home';
 
-const ClassificationTreeContainer = ({
-	id,
-	loadClassificationGeneral,
-	general,
-}) => {
+export const Component = () => {
 	const [secondLang] = useSecondLang();
+	const { id } = useParams();
+	const [general, setGeneral] = useState();
+
 	const { isLoading, data: flatTree } = useClassificationsItem(id);
 
 	useEffect(() => {
-		loadClassificationGeneral(id);
-	}, [id, loadClassificationGeneral]);
+		ClassificationsApi.getClassificationGeneral(id).then((response) =>
+			setGeneral(response),
+		);
+	}, [id]);
 
 	if (isLoading || !general) return <Loading />;
 
@@ -47,31 +47,6 @@ const ClassificationTreeContainer = ({
 		<ClassificationTree
 			prefLabel={secondLang ? prefLabelLg2 : prefLabelLg1}
 			data={data}
-			secondLang={secondLang}
 		/>
 	);
 };
-
-const mapStateToProps = (state, ownProps) => {
-	const id = ownProps.params.id;
-	const general = getGeneral(state.classificationGeneral, id);
-	return {
-		id,
-		general,
-	};
-};
-
-const mapDispatchToProps = {
-	loadClassificationGeneral,
-};
-
-const withParams = (Component) => {
-	return (props) => {
-		const params = useParams();
-		return <Component {...props} params={params} />;
-	};
-};
-
-export const Component = withParams(
-	connect(mapStateToProps, mapDispatchToProps)(ClassificationTreeContainer),
-);
