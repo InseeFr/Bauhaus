@@ -291,7 +291,7 @@ export const NewButton = (
 export const CancelButton = ({
 	action,
 	...props
-}: Readonly<{ action: string | VoidFunction }>) => {
+}: Readonly<{ action: string | VoidFunction } & ComponentProps<'button'>>) => {
 	const goBack = useGoBack();
 
 	const handleAction = () => {
