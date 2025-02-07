@@ -26,8 +26,8 @@ jobs:
       - name: Log in to ghcr.io
         run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Build, tag and deploy image
+      - name: Build, tag and image
         run: |
-          TAG=$(echo "$COMMENT" | awk '{print $2}')
+          TAG=$(echo "$COMMENT" | grep -oP '^deploy\s+\K\S+')
           docker build -t ghcr.io/emmanueldemey/bauhaus:$TAG -f ./Dockerfile .
           docker push ghcr.io/emmanueldemey/bauhaus:$TAG
