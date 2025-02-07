@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   test-build:
-    name: Test & Build & Deploy Sonar report
+    name: Deploy to Github Container Registry
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
