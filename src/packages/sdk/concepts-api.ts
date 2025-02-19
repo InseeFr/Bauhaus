@@ -45,7 +45,7 @@ const api = {
 		() => {},
 	],
 	putConceptValidList: (ids: string[]) => [
-		`validate/${ids}`,
+		`${ids}/validate`,
 		{
 			body: JSON.stringify(ids),
 		},
