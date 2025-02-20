@@ -23,7 +23,7 @@ export const Button = ({
 	externalLink,
 	...rest
 }: Readonly<PropsWithChildren<ButtonTypes>>) => {
-	const content = label ? label : children;
+	const content = label || children;
 	const className = `btn bauhaus-btn btn-lg col-md-12 ${classes.join(' ')}`;
 	let button;
 	if (typeof action === 'string') {
