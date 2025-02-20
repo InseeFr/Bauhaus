@@ -52,7 +52,7 @@ export const updateParent = (
 export const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
 	return treeData.map((data, i) => {
 		if (i === familyIndex) {
-			if (seriesIndex < 0) {
+			if (seriesIndex === undefined) {
 				return leaf;
 			} else {
 				return {
@@ -91,6 +91,7 @@ export const Component = () => {
 	useEffect(() => {
 		if (selectedLeaf.node) {
 			const { treeData, node, expanded, path } = selectedLeaf;
+
 			const isFamily = path.length === 1;
 			const isSeries = path.length === 2;
 
