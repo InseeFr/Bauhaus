@@ -63,6 +63,12 @@ const messages = {
 			en: () =>
 				'The <strong>Title</strong> property is already used by another indicator.',
 		},
+		OPERATION_INDICATOR_VALIDATION_UNVALIDATED_SERIES: {
+			fr: () =>
+				'Un indicateur ne peut être publié si et seulement si les séries associées le sont également.',
+			en: () =>
+				'An indicator can be published if and only if all parent series has been published.',
+		},
 		101: {
 			fr: () =>
 				'Vous ne disposez pas des autorisation requises pour la création d’un concept. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.',
