@@ -1,0 +1,43 @@
+<http://rdf.insee.fr/graphes/organisations> {
+    <http://bauhaus/organisations/insee/DG75-G001>
+            a       <http://www.w3.org/ns/org#OrganizationalUnit> , <http://www.w3.org/ns/org#Organization> ;
+            <http://purl.org/dc/terms/identifier>
+                    "DG75-G001" ;
+            <http://www.w3.org/2004/02/skos/core#prefLabel>
+                    "Direction des études et synthèses économiques (DESE)"@fr ;
+            <http://www.w3.org/ns/org#hasUnit>
+                    <http://bauhaus/organisations/insee/DG75-G010> , <http://bauhaus/organisations/insee/DG75-G101> , <http://bauhaus/organisations/insee/DG75-G201> , <http://bauhaus/organisations/insee/DG75-G401> ;
+            <http://www.w3.org/ns/org#unitOf>
+                    <http://bauhaus/organisations/insee/DG75-A001> .
+}
+
+<http://rdf.insee.fr/graphes/operations> {
+    <http://bauhaus/operations/famille/s1>
+            a       <http://rdf.insee.fr/def/base#StatisticalOperationFamily> ;
+            <http://purl.org/dc/terms/hasPart>
+                    <http://bauhaus/operations/serie/s1000>  ;
+            <http://purl.org/dc/terms/subject>
+                    <http://bauhaus/concepts/theme/eco2> ;
+            <http://rdf.insee.fr/def/base#validationState>
+                    "Validated" ;
+            <http://www.w3.org/2004/02/skos/core#prefLabel>
+                    "Family Imported 1"@en , "Famille Importée 1"@fr .
+    
+    <http://bauhaus/operations/serie/s1000>
+            a       <http://rdf.insee.fr/def/base#StatisticalOperationSeries> ;
+            <http://purl.org/dc/terms/abstract>
+                    "<p>The objective of the quarterly survey on investment in industry is to provide infra-annual information on the evolution of annual investment expenditure by French industrial companies, for the purpose of short-term diagnosis of the economic situation and forecast of activity, both at national and European level.<br />The purpose of the quarterly survey on investment in industry is to transcribe the opinion of business managers in industry on the cyclical trend in investment, the purpose of investment (replacement, modernisation, capacity extension, etc.), the change in production capacity and equipment scrapping, investments abroad, factors influencing investment decisions. In addition to qualitative questions, the survey also contains quantitative questions. The company's annual investment amounts for two years plus the current year are collected, as well as the breakdown of investments according to their purpose.<br />Two synthetic indicators are computed from the survey data: <br />- the annual growth rate of industrial investment in nominal terms;<br />- the investment revision indicator.</p>"@en , "<p>L&rsquo;objectif de l&rsquo;enqu&ecirc;te trimestrielle sur les investissements dans l&rsquo;industrie est de fournir des informations infra-annuelles sur l&rsquo;&eacute;volution des d&eacute;penses annuelles d&rsquo;investissement des entreprises industrielles fran&ccedil;aises, &agrave; des fins de diagnostic conjoncturel et de pr&eacute;visions &agrave; court terme de l&rsquo;activit&eacute;, tant sur le plan national qu&rsquo;europ&eacute;en.<br />L&rsquo;enqu&ecirc;te trimestrielle sur les investissements dans l&rsquo;industrie a pour objet de transcrire l&rsquo;opinion des industriels sur l&rsquo;&eacute;volution conjoncturelle de l&rsquo;investissement, la destination de l&rsquo;investissement (remplacement, modernisation, extension de capacit&eacute;, etc.), l&rsquo;&eacute;volution de la capacit&eacute; de production et des d&eacute;classements d&rsquo;&eacute;quipements, les investissements &agrave; l&rsquo;&eacute;tranger, les facteurs influen&ccedil;ant la d&eacute;cision d&rsquo;investissement. Outre des questions qualitatives, l&rsquo;enqu&ecirc;te pr&eacute;sente la particularit&eacute; de contenir &eacute;galement des questions quantitatives. Sont ainsi collect&eacute;s les montants annuels d&rsquo;investissement de l&rsquo;entreprise relatifs &agrave; deux ann&eacute;es et &agrave; l&rsquo;ann&eacute;e courante ou encore la r&eacute;partition des investissements selon leur destination.<br />L&rsquo;enqu&ecirc;te permet &eacute;galement de calculer deux indicateurs synth&eacute;tiques : <br />- le taux de croissance annuel de l&rsquo;investissement industriel en valeur&nbsp;;<br />- l&rsquo;indicateur de r&eacute;vision des investissements.</p>"@fr ;
+            <http://purl.org/dc/terms/isPartOf>
+                    <http://bauhaus/operations/famille/s1> ;
+            <http://purl.org/dc/terms/publisher>
+                    <http://bauhaus/organisations/insee/DG75-G001> ;
+            <http://purl.org/dc/terms/type>
+                    <http://bauhaus/codes/categorieSource/S> ;
+            <http://rdf.insee.fr/def/base#validationState>
+                    "Validated" ;
+            <http://www.w3.org/2004/02/skos/core#historyNote>
+                    "<p>Note FR</p>"@fr ;
+            <http://www.w3.org/2004/02/skos/core#prefLabel>
+                    "Series Imported 1"@en , "Série Importée 1"@fr .
+    
+}
