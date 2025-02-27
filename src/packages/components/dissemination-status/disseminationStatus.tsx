@@ -35,20 +35,23 @@ interface DisseminationStatusInputTypes {
 	value: string;
 	handleChange: (value: string) => void;
 	required: boolean;
+	withLabel?: boolean;
 }
 export const DisseminationStatusInput = ({
 	value,
 	handleChange,
 	required = false,
+	withLabel = true,
 }: Readonly<DisseminationStatusInputTypes>) => {
 	const disseminationStatusListOptions = useDisseminationStatusOptions();
 	return (
 		<>
-			{required ? (
-				<LabelRequired>{D.disseminationStatus.title}</LabelRequired>
-			) : (
-				<label>{D.disseminationStatus.title}</label>
-			)}
+			{withLabel &&
+				(required ? (
+					<LabelRequired>{D.disseminationStatus.title}</LabelRequired>
+				) : (
+					<label>{D.disseminationStatus.title}</label>
+				))}
 			<Select
 				placeholder={D.disseminationStatus.placeholder}
 				value={disseminationStatusListOptions.find(

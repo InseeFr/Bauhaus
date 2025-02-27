@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Select from 'react-select';
 
 import { DatePicker } from '@components/date-picker';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import { TextInput } from '@components/form/input';
 import { NumberResults } from '@components/number-results';
 import { PageTitle } from '@components/page-title';
@@ -36,12 +37,7 @@ const defaultFormState = {
 	validationStatus: '',
 };
 
-const ConceptSearchList = ({
-	conceptSearchList,
-	stampList,
-	disseminationStatusList,
-	onExport,
-}) => {
+const ConceptSearchList = ({ conceptSearchList, stampList, onExport }) => {
 	useTitle(D.conceptsTitle, D.advancedSearch);
 
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
@@ -70,9 +66,6 @@ const ConceptSearchList = ({
 		.filter(filterCreatedDate(dateCreatedStart, dateCreatedEnd))
 		.filter(filterModifiedDate(dateModifiedStart, dateModifiedEnd));
 
-	const disseminationStatusListOptions = disseminationStatusList.map(
-		({ label, url: value }) => ({ label, value }),
-	);
 	const stampListOptions = stampList.map((stamp) => {
 		return {
 			label: stamp,
@@ -142,16 +135,11 @@ const ConceptSearchList = ({
 						/>
 					</div>
 					<div className="col-md-4">
-						<Select
-							placeholder={D.disseminationStatusPlaceholder}
-							value={
-								disseminationStatusListOptions.find(
-									({ value }) => value === disseminationStatus,
-								) || ''
-							}
-							options={disseminationStatusListOptions}
-							onChange={(option) =>
-								handleChange('disseminationStatus', option?.value ?? '')
+						<DisseminationStatusInput
+							value={disseminationStatus}
+							withLabel={false}
+							handleChange={(option) =>
+								handleChange('disseminationStatus', option ?? '')
 							}
 						/>
 					</div>

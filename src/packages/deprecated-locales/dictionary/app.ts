@@ -158,10 +158,6 @@ const dictionary = {
 		fr: 'Sélectionnez un timbre...',
 		en: 'Select stamp...',
 	},
-	disseminationStatusPlaceholder: {
-		fr: 'Sélectionnez un statut de diffusion...',
-		en: 'Select dissemination status...',
-	},
 	additionalMaterialTitle: {
 		fr: 'Document lié',
 		en: 'Additional material',

@@ -29,8 +29,6 @@ export const Component = () => {
 	const [exporting, setExporting] = useState(false);
 	const { data: stampList = [] } = useStamps();
 
-	const { data: disseminationStatusList = [] } = useDisseminationStatus();
-
 	useEffect(() => {
 		ConceptsApi.getConceptSearchList()
 			.then((concepts) => {
@@ -67,7 +65,6 @@ export const Component = () => {
 		<ConceptSearchList
 			conceptSearchList={conceptSearchList}
 			stampList={stampList}
-			disseminationStatusList={disseminationStatusList}
 			onExport={exportHandler}
 		/>
 	);
