@@ -31,7 +31,7 @@ function OperationsOperationVisualization({
 								update={attr.modified}
 							/>
 							<li>
-								{D1.operationStatus} : <PublicationFemale object={attr} />
+								{D.operationStatus} : <PublicationFemale object={attr} />
 							</li>
 							<li>
 								{D.year} : {attr.year}
