@@ -10,14 +10,18 @@ abstract class OperationsPageObject {
 
 	abstract goTo();
 
-	goToFormPage() {
-		return this.page.getByRole('link', { name: 'New' }).click();
+	async goToFormPage() {
+		await this.page.getByRole('link', { name: 'New' }).click();
+		await expect(this.page.getByText('Cancel')).toBeVisible();
 	}
 
 	async publish() {
-		expect(this.page.getByText('Published')).not.toBeVisible();
 		await this.page.getByRole('button', { name: 'Publish' }).click();
 		await expect(this.page.getByText('Published')).toBeVisible();
+	}
+
+	async createReport() {
+		await this.page.getByRole('link', { name: 'Create the report' }).click();
 	}
 }
 
@@ -70,7 +74,7 @@ export class OperationPageObject extends OperationsPageObject {
 		year: string;
 	}) {
 		await this.page
-			.locator('#react-select-2--value')
+			.locator('.Select-multi-value-wrapper')
 			.getByText('Series')
 			.click();
 		await this.page.getByLabel(series).click();
