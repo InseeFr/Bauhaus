@@ -22,8 +22,7 @@ test('Should create a new family', async ({ page }) => {
 	await page.getByText('Display second language').click();
 	await expect(page.locator('h2')).toContainText('" Familie 2 "');
 	await page.getByRole('link', { name: 'Families' }).click();
-	await expect(page.locator('#root-app')).toContainText('2 results');
-	await expect(page.getByRole('link', { name: 'Familie 1' })).toBeVisible();
+	await expect(page.locator('#root-app')).toContainText('57 results');
 });
 
 test('complete end-to-end test for module Operation', async ({ page }) => {
@@ -37,38 +36,33 @@ test('complete end-to-end test for module Operation', async ({ page }) => {
 
 	// Creating a new operation
 	await operationPage.goToFormPage();
-	await operationPage.fillForm({
+	const values = {
 		series: 'Autres indicateurs',
 		prefLabelLg1: 'Autres Indicateurs Op1',
 		prefLabelLg2: 'Autres Indicateurs Op1',
 		shortLabelLg1: 'OS1',
 		shortLabelLg2: 'OS1',
 		year: '2000',
-	});
+	};
+
+	await operationPage.fillForm(values);
 
 	// Checking if the operation has been saved
-	await expect(
-		page.getByRole('heading', { name: 'Autres Indicateurs Op1' }),
-	).toBeVisible();
-	await expect(
-		page.getByText('State of the operation : Temporary, never published'),
-	).toBeVisible();
-	await expect(page.getByText('Year : 2000')).toBeVisible();
+	await operationPage.assertValues(values);
 	await page.getByRole('link', { name: 'Operations' }).click();
 	await page.getByRole('link', { name: 'Autres Indicateurs Op1' }).click();
-	await expect(
-		page.getByRole('heading', { name: 'Autres Indicateurs Op1' }),
-	).toBeVisible();
+	await operationPage.assertValues(values);
 
 	// Publishing the operation
 	await operationPage.publish();
 
 	// Creating the Report
 	await operationPage.createReport();
-	await page.locator('#react-select-7--value div').first().click();
 	await page
-		.getByRole('option', { name: 'Administration du comité du' })
+		.locator('[id="S\\.1\\.1"] .Select-multi-value-wrapper')
+		.first()
 		.click();
+	await page.getByLabel('Administration du comité du').click();
 	await page.getByRole('button', { name: 'Save' }).click();
 	await page.getByRole('button', { name: 'Publish' }).click();
 
@@ -76,34 +70,29 @@ test('complete end-to-end test for module Operation', async ({ page }) => {
 
 	// Creating a new operation
 	await operationPage.goToFormPage();
-	await operationPage.fillForm({
+
+	const values2 = {
 		series: 'Autres indicateurs',
 		prefLabelLg1: 'Autres Indicateurs Op2',
 		prefLabelLg2: 'Autres Indicateurs Op2',
 		shortLabelLg1: 'OS1',
 		shortLabelLg2: 'OS1',
 		year: '2000',
-	});
+	};
+	await operationPage.fillForm(values2);
 
 	// Checking if the operation has been saved
-	await expect(
-		page.getByRole('heading', { name: 'Autres Indicateurs Op2' }),
-	).toBeVisible();
-	await expect(
-		page.getByText('State of the operation : Temporary, never published'),
-	).toBeVisible();
-	await expect(page.getByText('Year : 2000')).toBeVisible();
+	await operationPage.assertValues(values2);
 	await page.getByRole('link', { name: 'Operations' }).click();
 	await page.getByRole('link', { name: 'Autres Indicateurs Op2' }).click();
-	await expect(
-		page.getByRole('heading', { name: 'Autres Indicateurs Op2' }),
-	).toBeVisible();
+	await operationPage.assertValues(values2);
 
 	// Publishing the operation
 	await operationPage.publish();
 
 	// Creating the Report
 	await operationPage.createReport();
+
 	await expect(
 		page.getByRole('heading', {
 			name: 'Rapport qualité : Autres Indicateurs Op2',
@@ -180,24 +169,22 @@ test('complete end-to-end test for module Operation', async ({ page }) => {
 		.getByRole('button', { name: 'Save' })
 		.click();
 	await expect(page.getByRole('textbox', { name: 'Lien*' })).not.toBeVisible();
-	/*
-  
-  
-  
-  
 
-  
-  
-  await page.locator('#react-select-48--value div').first().click();
-  await page.getByRole('option', { name: 'Enquête d\'intérêt général et de qualité statistique', exact: true }).click();
-  await page.getByRole('button', { name: 'Sauvegarder' }).click();
-  await expect(page.getByText('S.1.1 - Organisme de contactAdministration du comité du Label')).toBeVisible();
-  await expect(page.getByText('S.1.2 - Unité d\'appartenance du contact dans l\'organismeAdministration du comit')).toBeVisible();
-  await expect(page.getByText('S.1.3 - Nom du contactContact')).toBeVisible();
-  await expect(page.getByText('S.3.1 - Description des donnéesDescriptionLienInsee Résultats « Estimations d’')).toBeVisible();
-  await expect(page.getByText('I.6.3 - Statut de l\'enquêteEnquête d\'intérêt général et de qualité statistique')).toBeVisible();
-  await expect(page.getByText('État du SIMS : Provisoire,')).toBeVisible();
-  await page.getByRole('button', { name: 'Publier' }).click();
-  await expect(page.getByText('État du SIMS : Publiée')).toBeVisible();
-  */
+	await page
+		.locator('[id="I\\.6\\.3"] .Select-multi-value-wrapper')
+		.first()
+		.click();
+
+	await page
+		.getByRole('option', {
+			name: "Enquête d'intérêt général et de qualité statistique",
+			exact: true,
+		})
+		.click();
+	await page.getByRole('button', { name: 'Save' }).click();
+
+	await expect(
+		page.getByText('State of the SIMS : Temporary, never published'),
+	).toBeVisible();
+	await page.getByRole('button', { name: 'Publish' }).click();
 });

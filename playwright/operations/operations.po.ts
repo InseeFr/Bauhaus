@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 
-abstract class OperationsPageObject {
+abstract class AbstractOperationsPageObject {
 	protected page: Page;
 
 	constructor(page: Page) {
@@ -9,7 +9,7 @@ abstract class OperationsPageObject {
 	}
 
 	abstract goTo();
-
+	abstract assertValues(values: unknown);
 	async goToFormPage() {
 		await this.page.getByRole('link', { name: 'New' }).click();
 		await expect(this.page.getByText('Cancel')).toBeVisible();
@@ -25,7 +25,7 @@ abstract class OperationsPageObject {
 	}
 }
 
-export class FamilyPageObject extends OperationsPageObject {
+export class FamilyPageObject extends AbstractOperationsPageObject {
 	goTo() {
 		return this.page.getByRole('link', { name: 'Families' }).click();
 	}
@@ -51,9 +51,19 @@ export class FamilyPageObject extends OperationsPageObject {
 		await this.page.getByLabel('Theme').fill(themeLg2);
 		await this.page.getByRole('button', { name: 'Save' }).click();
 	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	assertValues(_values: {
+		prefLabelLg1: string;
+		prefLabelLg2: string;
+		themeLg1: string;
+		themeLg2: string;
+	}) {
+		throw new Error('Method not implemented.');
+	}
 }
 
-export class OperationPageObject extends OperationsPageObject {
+export class OperationPageObject extends AbstractOperationsPageObject {
 	goTo() {
 		return this.page.getByRole('link', { name: 'Operations' }).click();
 	}
@@ -89,5 +99,23 @@ export class OperationPageObject extends OperationsPageObject {
 		await this.page.getByLabel('Year').click();
 		await this.page.getByLabel('Year').fill(year);
 		await this.page.getByRole('button', { name: 'Save' }).click();
+	}
+	async assertValues(values: {
+		series: string;
+		prefLabelLg1: string;
+		prefLabelLg2: string;
+		shortLabelLg1: string;
+		shortLabelLg2: string;
+		year: string;
+	}) {
+		await expect(
+			this.page.getByRole('heading', { name: values.prefLabelLg1 }),
+		).toBeVisible();
+		await expect(
+			this.page.getByText(
+				'State of the operation : Temporary, never published',
+			),
+		).toBeVisible();
+		await expect(this.page.getByText('Year : ' + values.year)).toBeVisible();
 	}
 }
