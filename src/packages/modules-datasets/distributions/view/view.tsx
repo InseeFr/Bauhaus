@@ -41,7 +41,7 @@ export const Component = () => {
 		<div className="container">
 			<PageTitleBlock
 				titleLg1={distribution.labelLg1}
-				titleLg2={distribution.labelLg1}
+				titleLg2={distribution.labelLg2}
 			/>
 
 			<ViewMenu
