@@ -19,10 +19,10 @@ import { useStampsOptions } from '@utils/hooks/stamps';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D, { D1, D2 } from '../../deprecated-locales';
-import { validate } from '../../modules-operations/families/edition/validation';
 import { transformModelToSelectOptions } from '../../utils/transformer';
 import { useClassification, useUpdateClassification } from '../hooks';
 import { Menu } from './menu';
+import { validate } from './validate';
 
 export const Component = () => {
 	const { id } = useParams();

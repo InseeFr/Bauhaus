@@ -19,8 +19,11 @@ export const GenericInputBlock = ({
 
 	return (
 		<>
-			{required && <LabelRequired htmlFor={id}>{label}</LabelRequired>}
-			{!required && <label htmlFor={id}>{label}</label>}
+			{required ? (
+				<LabelRequired htmlFor={id}>{label}</LabelRequired>
+			) : (
+				<label htmlFor={id}>{label}</label>
+			)}
 			<Component
 				id={id}
 				aria-describedby={`${id}-error`}
