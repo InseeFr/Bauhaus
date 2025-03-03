@@ -2,7 +2,7 @@ name: Build and Deploy Documentation On Main
 on:
   push:
     branches:
-      - "main"
+      - 'main'
     paths:
       - .github/
       - documentation/**

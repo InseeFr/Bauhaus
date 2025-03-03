@@ -1,17 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { Controller, useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
-import { ActionToolbar } from '@components/action-toolbar';
-import {
-	CancelButton,
-	SaveButton,
-} from '@components/buttons/buttons-with-icons';
-import {
-	ClientSideError,
-	GlobalClientSideErrorBloc,
-} from '@components/errors-bloc';
-import { TextInput, UrlInput } from '@components/form/input';
+import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
+import { TextInputBlock, UrlInputBlock } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
@@ -29,20 +21,17 @@ import { useTitle } from '@utils/hooks/useTitle';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { transformModelToSelectOptions } from '../../utils/transformer';
 import { useClassification, useUpdateClassification } from '../hooks';
+import { Menu } from './menu';
+import { validate } from './validate';
 
 export const Component = () => {
 	const { id } = useParams();
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		control,
-	} = useForm({
-		criteriaMode: 'all',
-		mode: 'all',
-	});
-
 	const { isLoading, classification } = useClassification(id);
+
+	const [clientSideErrors, setClientSideErrors] = useState({});
+	const [submitting, setSubmitting] = useState(false);
+	const [value, setValue] = useState(classification);
+
 	useTitle(D.classificationsTitle, classification?.general?.prefLabelLg1);
 
 	const { save, isSavingSuccess, isSaving } = useUpdateClassification(id);
@@ -76,6 +65,10 @@ export const Component = () => {
 		return <Navigate to={'/classifications/classification/' + id} replace />;
 	}
 
+	if (!value?.general) {
+		return;
+	}
+
 	return (
 		<div className="container editor-container">
 			<PageTitleBlock
@@ -84,286 +77,276 @@ export const Component = () => {
 			/>
 
 			<form
-				onSubmit={handleSubmit((value) =>
-					save({
-						general: { ...classification.general, ...value },
-						levels: classification.levels,
-					}),
-				)}
+				onSubmit={(e) => {
+					e.preventDefault();
+					const clientSideErrors = validate(value.general);
+					if (clientSideErrors.errorMessage?.length > 0) {
+						setSubmitting(true);
+						setClientSideErrors(clientSideErrors);
+					} else {
+						setClientSideErrors({});
+						save({
+							general: { ...classification.general, ...value.general },
+							levels: classification.levels,
+						});
+					}
+				}}
 			>
-				<ActionToolbar>
-					<CancelButton action="/classifications" type="button"></CancelButton>
-					<SaveButton type="submit"></SaveButton>
-				</ActionToolbar>
+				<Menu disabled={clientSideErrors.errorMessage?.length > 0} />
 
-				<GlobalClientSideErrorBloc clientSideErrors={Object.values(errors)} />
+				{submitting && clientSideErrors && (
+					<GlobalClientSideErrorBloc
+						clientSideErrors={clientSideErrors.errorMessage}
+					/>
+				)}
 
 				<Row>
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
-						<TextInput
-							id="prefLabelLg1"
-							{...register('prefLabelLg1', { required: D.requiredPrefLabel })}
-							defaultValue={classification.general.prefLabelLg1}
-							aria-describedby="prefLabelLg1-error"
-							aria-invalid={!!errors?.prefLabelLg1?.message}
+						<TextInputBlock
+							required
+							label={D1.title}
+							error={clientSideErrors?.fields?.prefLabelLg1}
+							value={value.general.prefLabelLg1}
+							onChange={(e) => {
+								setValue({
+									...value,
+									general: { ...value.general, prefLabelLg1: e.target.value },
+								});
+								setClientSideErrors((clientSideErrors) => ({
+									...clientSideErrors,
+									errorMessage: [],
+								}));
+							}}
 						/>
-						<ClientSideError
-							id="prefLabelLg1-error"
-							error={errors?.prefLabelLg1?.message}
-						></ClientSideError>
 					</div>
 					<div className="col-md-6 form-group">
-						<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
-						<TextInput
-							id="prefLabelLg2"
-							{...register('prefLabelLg2', { required: D.requiredPrefLabel })}
-							defaultValue={classification.general.prefLabelLg2}
-							aria-describedby="prefLabelLg2-error"
-							aria-invalid={!!errors?.prefLabelLg2?.message}
+						<TextInputBlock
+							required
+							label={D2.title}
+							error={clientSideErrors?.fields?.prefLabelLg2}
+							value={value.general.prefLabelLg2}
+							onChange={(e) => {
+								setValue({
+									...value,
+									general: { ...value.general, prefLabelLg2: e.target.value },
+								});
+								setClientSideErrors((clientSideErrors) => ({
+									...clientSideErrors,
+									errorMessage: [],
+								}));
+							}}
 						/>
-						<ClientSideError
-							id="prefLabelLg2-error"
-							error={errors?.prefLabelLg2?.message}
-						></ClientSideError>
 					</div>
 				</Row>
 				<Row>
 					<div className="form-group col-md-6">
-						<label htmlFor="altLabelLg1">{D1.altLabel}</label>
-						<TextInput
-							id="altLabelLg1"
-							{...register('altLabelLg1')}
-							defaultValue={classification.general.altLabelLg1}
+						<TextInputBlock
+							label={D1.altLabel}
+							value={value.general.altLabelLg1}
+							onChange={(e) =>
+								setValue({
+									...value,
+									general: { ...value.general, altLabelLg1: e.target.value },
+								})
+							}
 						/>
 					</div>
 					<div className="form-group col-md-6">
-						<label htmlFor="altLabelLg2">{D2.altLabel}</label>
-						<TextInput
-							id="altLabelLg2"
-							{...register('altLabelLg2')}
-							defaultValue={classification.general.altLabelLg2}
+						<TextInputBlock
+							label={D2.altLabel}
+							value={value.general.altLabelLg2}
+							onChange={(e) =>
+								setValue({
+									...value,
+									general: { ...value.general, altLabelLg2: e.target.value },
+								})
+							}
 						/>
 					</div>
 				</Row>
 				<Row>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg1">{D1.summary}</label>
-						<Controller
-							name="descriptionLg1"
-							control={control}
-							defaultValue={classification.general.descriptionLg1}
-							render={({ field: { onChange, value } }) => {
-								return <EditorMarkdown text={value} handleChange={onChange} />;
-							}}
+						<EditorMarkdown
+							text={value.general.descriptionLg1}
+							handleChange={(v) =>
+								setValue({
+									...value,
+									general: { ...value.general, descriptionLg1: v },
+								})
+							}
 						/>
 					</div>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D2.summary}</label>
-						<Controller
-							name="descriptionLg2"
-							control={control}
-							defaultValue={classification.general.descriptionLg2}
-							render={({ field: { onChange, value } }) => {
-								return <EditorMarkdown text={value} handleChange={onChange} />;
-							}}
+						<EditorMarkdown
+							text={value.general.descriptionLg2}
+							handleChange={(v) =>
+								setValue({
+									...value,
+									general: { ...value.general, descriptionLg2: v },
+								})
+							}
 						/>
 					</div>
 				</Row>
 				<div className="form-group">
 					<label>{D1.motherSeries}</label>
-					<Controller
-						name="idSeries"
-						control={control}
-						defaultValue={classification.general.idSeries}
-						render={({ field: { onChange, value } }) => {
-							return (
-								<Select
-									value={seriesOptions.find((option) => option.value === value)}
-									options={seriesOptions}
-									onChange={onChange}
-								/>
-							);
-						}}
+					<Select
+						value={classificationsOptions.find(
+							(option) => option.value === value.general.idSeries,
+						)}
+						options={seriesOptions}
+						onChange={(v) =>
+							setValue({
+								...value,
+								general: { ...value.general, idSeries: v },
+							})
+						}
 					/>
 				</div>
 				<div className="form-group">
 					<label>{D1.classificationsBeforeTitle}</label>
-					<Controller
-						name="idBefore"
-						control={control}
-						defaultValue={classification.general.idBefore}
-						render={({ field: { onChange, value } }) => {
-							return (
-								<Select
-									value={classificationsOptions.find(
-										(option) => option.value === value,
-									)}
-									options={classificationsOptions}
-									onChange={onChange}
-								/>
-							);
-						}}
+					<Select
+						value={classificationsOptions.find(
+							(option) => option.value === value.general.idBefore,
+						)}
+						options={classificationsOptions}
+						onChange={(v) =>
+							setValue({
+								...value,
+								general: { ...value.general, idBefore: v },
+							})
+						}
 					/>
 				</div>
 				<div className="form-group">
 					<label>{D1.classificationsAfterTitle}</label>
-					<Controller
-						name="idAfter"
-						control={control}
-						defaultValue={classification.general.idAfter}
-						render={({ field: { onChange, value } }) => {
-							return (
-								<Select
-									value={classificationsOptions.find(
-										(option) => option.value === value,
-									)}
-									options={classificationsOptions}
-									onChange={onChange}
-								/>
-							);
-						}}
+					<Select
+						value={classificationsOptions.find(
+							(option) => option.value === value.general.idAfter,
+						)}
+						options={classificationsOptions}
+						onChange={(v) =>
+							setValue({
+								...value,
+								general: { ...value.general, idAfter: v },
+							})
+						}
 					/>
 				</div>
 				<div className="form-group">
 					<label>{D1.classificationsVariantTitle}</label>
-					<Controller
-						name="idVariant"
-						control={control}
-						defaultValue={classification.general.idVariant}
-						render={({ field: { onChange, value } }) => {
-							return (
-								<Select
-									value={classificationsOptions.find(
-										(option) => option.value === value,
-									)}
-									options={classificationsOptions}
-									onChange={onChange}
-								/>
-							);
-						}}
+					<Select
+						value={classificationsOptions.find(
+							(option) => option.value === value.general.idVariant,
+						)}
+						options={classificationsOptions}
+						onChange={(v) =>
+							setValue({
+								...value,
+								general: { ...value.general, idVariant: v },
+							})
+						}
 					/>
 				</div>
 				<div className="form-group">
 					<label className="w-100">
 						{D1.creatorTitle}
-						<Controller
-							name="creator"
-							control={control}
-							defaultValue={classification.general.creator}
-							render={({ field: { onChange, value } }) => {
-								return (
-									<Select
-										value={organisationsOptions.find(
-											(option) => option.value === value,
-										)}
-										options={organisationsOptions}
-										onChange={onChange}
-									/>
-								);
-							}}
+						<Select
+							value={organisationsOptions.find(
+								(option) => option.value === value.general.creator,
+							)}
+							options={organisationsOptions}
+							onChange={(v) =>
+								setValue({
+									...value,
+									general: { ...value.general, creator: v },
+								})
+							}
 						/>
 					</label>
 				</div>
 				<div className="form-group">
 					<label className="w-100">
 						{D1.contributorTitle}
-						<Controller
-							name="contributor"
-							control={control}
-							defaultValue={classification.general.contributor}
-							render={({ field: { onChange, value } }) => {
-								return (
-									<Select
-										value={stampsOptions.find(
-											(option) => option.value === value,
-										)}
-										options={stampsOptions}
-										onChange={onChange}
-									/>
-								);
-							}}
+						<Select
+							value={stampsOptions.find(
+								(option) => option.value === value.general.contributor,
+							)}
+							options={stampsOptions}
+							onChange={(v) =>
+								setValue({
+									...value,
+									general: { ...value.general, contributor: v },
+								})
+							}
 						/>
 					</label>
 				</div>
 
 				<div className="form-group">
 					<label>{D1.disseminationStatusTitle}</label>
-					<Controller
-						name="disseminationStatus"
-						control={control}
-						defaultValue={classification.general.disseminationStatus}
-						render={({ field: { onChange, value } }) => {
-							return (
-								<Select
-									value={disseminationStatusOptions.find(
-										(option) => option.value === value,
-									)}
-									options={disseminationStatusOptions}
-									onChange={onChange}
-								/>
-							);
-						}}
+					<Select
+						value={disseminationStatusOptions.find(
+							(option) => option.value === value.general.disseminationStatus,
+						)}
+						options={disseminationStatusOptions}
+						onChange={(v) =>
+							setValue({
+								...value,
+								general: { ...value.general, disseminationStatus: v },
+							})
+						}
 					/>
 				</div>
 				<div className="form-group">
-					<label htmlFor="additionalMaterial">
-						{D1.additionalMaterialTitle}
-					</label>
-					<UrlInput
-						id="additionalMaterial"
-						{...register('additionalMaterial', {
-							pattern: {
-								value: /^(http|https)/,
-								message: D1.additionalMaterialHttp,
-							},
-						})}
-						defaultValue={classification.general.additionalMaterial}
-						aria-describedby="additionalMaterial-error"
-						aria-invalid={!!errors?.additionalMaterial?.message}
+					<UrlInputBlock
+						label={D1.additionalMaterialTitle}
+						error={clientSideErrors?.fields?.additionalMaterial}
+						onChange={(e) =>
+							setValue({
+								...value,
+								general: {
+									...value.general,
+									additionalMaterial: e.target.value,
+								},
+							})
+						}
+						value={value.general.additionalMaterial}
 					/>
-					<ClientSideError
-						id="additionalMaterial-error"
-						error={errors?.additionalMaterial?.message}
-					></ClientSideError>
 				</div>
 				<div className="form-group">
-					<label htmlFor="legalMaterial">{D1.legalMaterialTitle}</label>
-					<UrlInput
-						id="legalMaterial"
-						{...register('legalMaterial', {
-							pattern: {
-								value: /^(http|https)/,
-								message: D1.legalMaterialHttp,
-							},
-						})}
-						defaultValue={classification.general.legalMaterial}
-						aria-describedby="legalMaterial-error"
-						aria-invalid={!!errors?.legalMaterial?.message}
+					<UrlInputBlock
+						label={D1.legalMaterialTitle}
+						error={clientSideErrors?.fields?.legalMaterial}
+						onChange={(e) =>
+							setValue({
+								...value,
+								general: {
+									...value.general,
+									legalMaterial: e.target.value,
+								},
+							})
+						}
+						value={value.general.legalMaterial}
 					/>
-					<ClientSideError
-						id="legalMaterial-error"
-						error={errors?.legalMaterial?.message}
-					></ClientSideError>
 				</div>
 				<div className="form-group">
-					<label htmlFor="homepage">{D1.homepageTitle}</label>
-					<UrlInput
-						id="homepage"
-						{...register('homepage', {
-							pattern: {
-								value: /^(http|https)/,
-								message: D1.homepageHttp,
-							},
-						})}
-						defaultValue={classification.general.homepage}
-						aria-describedby="homepage-error"
-						aria-invalid={!!errors?.homepage?.message}
+					<UrlInputBlock
+						label={D1.homepageTitle}
+						error={clientSideErrors?.fields?.homepage}
+						onChange={(e) =>
+							setValue({
+								...value,
+								general: {
+									...value.general,
+									legalMaterial: e.target.homepage,
+								},
+							})
+						}
+						value={value.general.homepage}
 					/>
-					<ClientSideError
-						id="homepage-error"
-						error={errors?.homepage?.message}
-					></ClientSideError>
 				</div>
 				{(classification.general.scopeNoteUriLg1 ||
 					classification.general.scopeNoteUriLg2) && (
@@ -374,15 +357,14 @@ export const Component = () => {
 									<LabelRequired htmlFor="scopeNoteLg1">
 										{D1.classificationsScopeNote}
 									</LabelRequired>
-									<Controller
-										name="scopeNoteLg1"
-										control={control}
-										defaultValue={classification.general.scopeNoteLg1}
-										render={({ field: { onChange, value } }) => {
-											return (
-												<EditorMarkdown text={value} handleChange={onChange} />
-											);
-										}}
+									<EditorMarkdown
+										text={value.general.scopeNoteLg1}
+										handleChange={(v) =>
+											setValue({
+												...value,
+												general: { ...value.general, scopeNoteLg1: v },
+											})
+										}
 									/>
 								</>
 							)}
@@ -393,15 +375,14 @@ export const Component = () => {
 									<LabelRequired htmlFor="scopeNoteLg2">
 										{D2.classificationsScopeNote}
 									</LabelRequired>
-									<Controller
-										name="scopeNoteLg2"
-										control={control}
-										defaultValue={classification.general.scopeNoteLg2}
-										render={({ field: { onChange, value } }) => {
-											return (
-												<EditorMarkdown text={value} handleChange={onChange} />
-											);
-										}}
+									<EditorMarkdown
+										text={value.general.scopeNoteLg2}
+										handleChange={(v) =>
+											setValue({
+												...value,
+												general: { ...value.general, scopeNoteLg2: v },
+											})
+										}
 									/>
 								</>
 							)}
@@ -417,15 +398,14 @@ export const Component = () => {
 									<LabelRequired htmlFor="scopeNoteLg1">
 										{D1.classificationsChangeNote()}
 									</LabelRequired>
-									<Controller
-										name="changeNoteLg1"
-										control={control}
-										defaultValue={classification.general.changeNoteLg1}
-										render={({ field: { onChange, value } }) => {
-											return (
-												<EditorMarkdown text={value} handleChange={onChange} />
-											);
-										}}
+									<EditorMarkdown
+										text={value.general.changeNoteLg1}
+										handleChange={(v) =>
+											setValue({
+												...value,
+												general: { ...value.general, changeNoteLg1: v },
+											})
+										}
 									/>
 								</>
 							)}
@@ -436,15 +416,14 @@ export const Component = () => {
 									<LabelRequired htmlFor="scopeNoteLg2">
 										{D2.classificationsChangeNote()}
 									</LabelRequired>
-									<Controller
-										name="changeNoteLg2"
-										control={control}
-										defaultValue={classification.general.changeNoteLg2}
-										render={({ field: { onChange, value } }) => {
-											return (
-												<EditorMarkdown text={value} handleChange={onChange} />
-											);
-										}}
+									<EditorMarkdown
+										text={value.general.changeNoteLg2}
+										handleChange={(v) =>
+											setValue({
+												...value,
+												general: { ...value.general, changeNoteLg2: v },
+											})
+										}
 									/>
 								</>
 							)}
