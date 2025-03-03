@@ -76,7 +76,7 @@
 		"@tanstack/react-query": "^5.59.20",
 		"@uiw/react-md-editor": "^4.0.4",
 		"dayjs": "^1.11.6",
-		"dompurify": "2.5.6",
+		"dompurify": "3.2.4",
 		"draft-js": "0.11.7",
 		"draft-js-export-html": "1.4.1",
 		"draft-js-import-html": "1.2.1",
