@@ -22,10 +22,6 @@ const dictionary = {
 		fr: 'Sélectionnez un timbre...',
 		en: 'Select stamp...',
 	},
-	disseminationStatusPlaceholder: {
-		fr: 'Sélectionnez un statut de diffusion...',
-		en: 'Select dissemination status...',
-	},
 	componentSpecificationTitle: {
 		fr: 'Spécification du Composant',
 		en: 'Component Specification',

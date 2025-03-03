@@ -5,7 +5,6 @@ import { Exporting, Loading } from '@components/loading';
 import { ConceptsApi } from '@sdk/index';
 
 import { saveFileFromHttpResponse } from '@utils/files';
-import { useDisseminationStatus } from '@utils/hooks/disseminationStatus';
 import { useStamps } from '@utils/hooks/stamps';
 
 import ConceptSearchList from './home';
@@ -28,8 +27,6 @@ export const Component = () => {
 	const [conceptSearchList, setConceptSearchList] = useState([]);
 	const [exporting, setExporting] = useState(false);
 	const { data: stampList = [] } = useStamps();
-
-	const { data: disseminationStatusList = [] } = useDisseminationStatus();
 
 	useEffect(() => {
 		ConceptsApi.getConceptSearchList()
@@ -67,7 +64,6 @@ export const Component = () => {
 		<ConceptSearchList
 			conceptSearchList={conceptSearchList}
 			stampList={stampList}
-			disseminationStatusList={disseminationStatusList}
 			onExport={exportHandler}
 		/>
 	);

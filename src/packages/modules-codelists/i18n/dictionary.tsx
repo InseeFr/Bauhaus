@@ -155,10 +155,6 @@ const dictionary = {
 		fr: 'Description (fr)',
 		en: 'Description (en)',
 	},
-	disseminationStatusPlaceholder: {
-		fr: 'Sélectionnez un statut de diffusion...',
-		en: 'Select dissemination status...',
-	},
 	errorsIdMandatory: {
 		fr: "L'identifiant est obligatoire",
 		en: 'The id is mandatory',
