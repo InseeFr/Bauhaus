@@ -34,14 +34,18 @@ const LoggedInWrapper = ({
 	});
 	const [userInformationLoaded, setUserInformationLoaded] = useState(false);
 
-	useEffect(() => {
+	const syncUserInformation = () => {
+		console.debug('Fetching User Informations...');
 		UsersApi.getStamp().then(({ stamp }: { stamp: string }) => {
 			const roles = (oidcTokens?.decodedIdToken.realm_access as any).roles;
 			saveUserProps({ roles, stamp });
 			setUserInformationLoaded(true);
 		});
+	};
+	useEffect(() => {
+		syncUserInformation();
 		setInterval(() => {
-			renewTokens();
+			renewTokens().then(syncUserInformation);
 		}, 120000);
 	}, []);
 

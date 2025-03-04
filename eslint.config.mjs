@@ -31,7 +31,7 @@ export default [
 	{
 		settings: { react: { version: '18.3' } },
 		rules: {
-			'no-console': ['error', { allow: ['warn', 'error'] }],
+			'no-console': ['error', { allow: ['warn', 'error', 'debug'] }],
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/ban-ts-comment': 'off',
 			'@typescript-eslint/no-non-null-assertion': 'off',
