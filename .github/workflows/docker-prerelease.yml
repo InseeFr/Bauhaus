@@ -47,4 +47,4 @@ jobs:
         with:
           push: true
           file: Dockerfile
-          tags: ghcr.io/emmanueldemey/bauhaus:${{ env.VERSION }}
+          tags: ghcr.io/inseefr/bauhaus:${{ env.VERSION }}
