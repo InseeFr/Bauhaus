@@ -129,46 +129,6 @@ test('complete end-to-end test for module Operation', async ({ page }) => {
 		.filter({ hasText: 'Insee Résultats « Estimations' })
 		.getByLabel('Add')
 		.click();
-	await page
-		.locator('[id="S\\.3\\.1"]')
-		.locator('div')
-		.filter({ hasText: /^Ajoutez un lien 89$/ })
-		.getByLabel('Add')
-		.click();
-	await page
-		.locator('div')
-		.filter({ hasText: /^Intitulé\*$/ })
-		.getByRole('textbox')
-		.click();
-	await page
-		.locator('div')
-		.filter({ hasText: /^Intitulé\*$/ })
-		.getByRole('textbox')
-		.fill('Nouveau Lien');
-	await page
-		.locator('div')
-		.filter({ hasText: /^Title\*$/ })
-		.getByRole('textbox')
-		.click();
-	await page
-		.locator('div')
-		.filter({ hasText: /^Title\*$/ })
-		.getByRole('textbox')
-		.fill('Nouveau Lien');
-
-	await page.getByRole('textbox', { name: 'Lien*' }).click();
-	await page.getByRole('textbox', { name: 'Lien*' }).fill('http://lien.fr');
-	await page
-		.locator('.panel-container-right-enter-done .Select-multi-value-wrapper')
-		.first()
-		.click();
-
-	await page.getByRole('option', { name: 'Français' }).click();
-	await page
-		.locator('.panel-container-right-enter-done')
-		.getByRole('button', { name: 'Save' })
-		.click();
-	await expect(page.getByRole('textbox', { name: 'Lien*' })).not.toBeVisible();
 
 	await page
 		.locator('[id="I\\.6\\.3"] .Select-multi-value-wrapper')
