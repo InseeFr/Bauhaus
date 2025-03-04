@@ -47,4 +47,4 @@ jobs:
         with:
           push: true
           file: Dockerfile
-          tags: inseefr/bauhaus:${{ env.VERSION }}
+          tags: ${{ github.repository_owner }}/bauhaus:${{ env.VERSION }}
