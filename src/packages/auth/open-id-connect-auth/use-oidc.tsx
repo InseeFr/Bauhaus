@@ -25,7 +25,7 @@ export const LoginComponent = () => {
 	return null;
 };
 
-const LoggedInWrapper = ({
+export const LoggedInWrapper = ({
 	WrappedComponent,
 	saveUserProps,
 }: OidcWrapperTypes) => {
