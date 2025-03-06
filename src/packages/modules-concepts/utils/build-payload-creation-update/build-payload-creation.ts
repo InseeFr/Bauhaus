@@ -1,7 +1,6 @@
-import { rawHtmlToRmesHtml } from '@utils/html-utils';
 import { takeKeys } from '@utils/take-keys';
 
-import { processLinks, processGeneral } from './shared';
+import { processGeneral, processLinks } from './shared';
 
 const generalFieldsToKeep = [
 	'prefLabelLg1',
@@ -38,7 +37,7 @@ export default function buildPayloadCreation(concept: any) {
 			if (content)
 				arr.push({
 					noteType,
-					content: rawHtmlToRmesHtml(content),
+					content: content,
 				});
 			return arr;
 		},
@@ -51,7 +50,7 @@ export default function buildPayloadCreation(concept: any) {
 			if (content)
 				return {
 					noteType,
-					content: rawHtmlToRmesHtml(content),
+					content: content,
 				};
 			return null;
 		})
