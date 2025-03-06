@@ -1,5 +1,4 @@
 import { buildEmptyNotes } from '@utils/build-empty-notes';
-import { rawHtmlToRmesHtml } from '@utils/html-utils';
 
 import { ConceptNotes } from '../../model/concepts/concept';
 
@@ -44,7 +43,7 @@ export const processChanges = (
 ) =>
 	fields.reduce(
 		(
-			changes: { noteType: string; content: string }[],
+			changes: { noteType: string; content?: string }[],
 			noteType: keyof ConceptNotes,
 		) => {
 			const oldContent = oldNotes[noteType];
@@ -52,9 +51,7 @@ export const processChanges = (
 			if (oldContent !== content)
 				changes.push({
 					noteType,
-					//format the note the `rmes` way (with a wrapping div and a
-					//namespace attribte).
-					content: rawHtmlToRmesHtml(content ?? ''),
+					content,
 				});
 			return changes;
 		},
@@ -74,9 +71,7 @@ export const processNotes = (
 			if (content)
 				notes.push({
 					noteType,
-					//format the note the `rmes` way (with a wrapping div and a
-					//namespace attribte).
-					content: rawHtmlToRmesHtml(content),
+					content: content,
 				});
 			return notes;
 		},
