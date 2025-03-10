@@ -1,7 +1,6 @@
 import { convertToArrayIfDefined } from '@utils/array-utils';
 import { useStampsOptions } from '@utils/hooks/stamps';
 
-import { Options } from '../../model/SelectOption';
 import D, { D1 } from '../i18n';
 import LabelRequired from '../label-required';
 import { Select } from '../select-rmes';
