@@ -7,8 +7,8 @@ interface NoteEditionTypes {
 	notes: ConceptNotes;
 	noteLg1Name: keyof ConceptNotes;
 	noteLg2Name: keyof ConceptNotes;
-	handleChangeLg1: (value: string) => void;
-	handleChangeLg2: (value: string) => void;
+	handleChangeLg1: (value?: string) => void;
+	handleChangeLg2: (value?: string) => void;
 	maxLength: number;
 	errorMessage: { errorMessage: string[]; fields: Record<string, string> };
 }

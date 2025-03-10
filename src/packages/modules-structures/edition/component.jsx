@@ -210,7 +210,6 @@ const Edition = ({ creation, initialStructure }) => {
 				<ContributorsInput
 					value={contributor}
 					handleChange={(values) => onChange('contributor', values)}
-					stampListOptions={stampListOptions}
 				/>
 			</div>
 

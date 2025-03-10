@@ -22,14 +22,12 @@ const Notes = ({
 						text={descriptionLg1}
 						title={D1.classificationsDescription}
 						alone={!secondLang}
-						md
 					/>
 					{secondLang && (
 						<ExplanatoryNote
 							text={descriptionLg2}
 							title={D2.classificationsDescription}
 							alone={false}
-							md
 						/>
 					)}
 				</Row>
@@ -42,14 +40,12 @@ const Notes = ({
 						text={scopeNoteLg1}
 						title={D1.classificationsScopeNote}
 						alone={!secondLang}
-						md
 					/>
 					{secondLang && (
 						<ExplanatoryNote
 							text={scopeNoteLg2}
 							title={D2.classificationsScopeNote}
 							alone={false}
-							md
 						/>
 					)}
 				</Row>
@@ -62,14 +58,12 @@ const Notes = ({
 						text={changeNoteLg1}
 						title={D1.classificationsChangeNote()}
 						alone={!secondLang}
-						md
 					/>
 					{secondLang && (
 						<ExplanatoryNote
 							text={changeNoteLg2}
 							title={D2.classificationsChangeNote()}
 							alone={false}
-							md
 						/>
 					)}
 				</Row>

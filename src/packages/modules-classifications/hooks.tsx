@@ -1,8 +1,18 @@
+import { Classification, PartialClassification } from '@model/Classification';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { ClassificationsApi } from '@sdk/classification';
 
-export const useClassification = (id) => {
+export const useClassifications = () => {
+	const { isLoading, data: classifications } = useQuery<
+		PartialClassification[]
+	>({
+		queryKey: ['classifications'],
+		queryFn: ClassificationsApi.getList,
+	});
+	return { isLoading, classifications };
+};
+export const useClassification = (id: string) => {
 	const { isLoading, data: classification } = useQuery({
 		queryKey: ['classifications', id],
 		queryFn: () => {
@@ -17,7 +27,7 @@ export const useClassification = (id) => {
 
 	return { isLoading, classification };
 };
-export const usePublishClassification = (id) => {
+export const usePublishClassification = (id: string) => {
 	const queryClient = useQueryClient();
 	const {
 		isPending: isPublishing,
@@ -29,13 +39,15 @@ export const usePublishClassification = (id) => {
 		},
 
 		onSuccess: () => {
-			queryClient.invalidateQueries(['classifications', id]);
+			queryClient.invalidateQueries({
+				queryKey: ['classifications', id],
+			});
 		},
 	});
 	return { isPublishing, publish, error };
 };
 
-export const useUpdateClassification = (id) => {
+export const useUpdateClassification = (id: string) => {
 	const queryClient = useQueryClient();
 	const {
 		isPending: isSaving,
@@ -44,12 +56,14 @@ export const useUpdateClassification = (id) => {
 		isSuccess: isSavingSuccess,
 		status,
 	} = useMutation({
-		mutationFn: (classification) => {
+		mutationFn: (classification: Classification) => {
 			return ClassificationsApi.putClassification(classification.general);
 		},
 
 		onSuccess: () => {
-			queryClient.invalidateQueries(['classifications', id]);
+			queryClient.invalidateQueries({
+				queryKey: ['classifications', id],
+			});
 		},
 	});
 	return { isSaving, save, error, isSavingSuccess, status };
