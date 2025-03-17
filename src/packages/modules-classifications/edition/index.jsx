@@ -1,32 +1,34 @@
-import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
 import { TextInputBlock, UrlInputBlock } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
-import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+import { MDEditor } from '@components/rich-editor/react-md-editor';
 import { Select } from '@components/select-rmes';
 
-import { ClassificationsApi } from '@sdk/classification';
-
-import { useDisseminationStatusOptions } from '@utils/hooks/disseminationStatus';
 import { useOrganizationsOptions } from '@utils/hooks/organizations';
 import { useStampsOptions } from '@utils/hooks/stamps';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D, { D1, D2 } from '../../deprecated-locales';
-import { transformModelToSelectOptions } from '../../utils/transformer';
-import { useClassification, useUpdateClassification } from '../hooks';
+import { SeriesSelect } from '../components/series-select';
+import {
+	useClassification,
+	useClassifications,
+	useUpdateClassification,
+} from '../hooks';
 import { Menu } from './menu';
 import { validate } from './validate';
 
 export const Component = () => {
 	const { id } = useParams();
 	const { isLoading, classification } = useClassification(id);
+	const { classifications } = useClassifications();
 
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
@@ -36,22 +38,10 @@ export const Component = () => {
 
 	const { save, isSavingSuccess, isSaving } = useUpdateClassification(id);
 
-	const { data: series } = useQuery({
-		queryKey: ['classifications-series'],
-		queryFn: () => {
-			return ClassificationsApi.getSeriesList();
-		},
-	});
-	const seriesOptions = transformModelToSelectOptions(series ?? []);
-
-	const disseminationStatusOptions = useDisseminationStatusOptions();
 	const organisationsOptions = useOrganizationsOptions();
 
 	const stampsOptions = useStampsOptions();
-	const { data: classifications } = useQuery({
-		queryKey: ['classifications'],
-		queryFn: ClassificationsApi.getList,
-	});
+
 	const classificationsOptions =
 		classifications
 			?.filter((classification) => classification.id !== id)
@@ -167,7 +157,7 @@ export const Component = () => {
 				<Row>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg1">{D1.summary}</label>
-						<EditorMarkdown
+						<MDEditor
 							text={value.general.descriptionLg1}
 							handleChange={(v) =>
 								setValue({
@@ -179,7 +169,7 @@ export const Component = () => {
 					</div>
 					<div className="col-md-6 form-group">
 						<label htmlFor="descriptionLg2">{D2.summary}</label>
-						<EditorMarkdown
+						<MDEditor
 							text={value.general.descriptionLg2}
 							handleChange={(v) =>
 								setValue({
@@ -191,12 +181,8 @@ export const Component = () => {
 					</div>
 				</Row>
 				<div className="form-group">
-					<label>{D1.motherSeries}</label>
-					<Select
-						value={classificationsOptions.find(
-							(option) => option.value === value.general.idSeries,
-						)}
-						options={seriesOptions}
+					<SeriesSelect
+						value={value.general.idSeries}
 						onChange={(v) =>
 							setValue({
 								...value,
@@ -286,13 +272,9 @@ export const Component = () => {
 				</div>
 
 				<div className="form-group">
-					<label>{D1.disseminationStatusTitle}</label>
-					<Select
-						value={disseminationStatusOptions.find(
-							(option) => option.value === value.general.disseminationStatus,
-						)}
-						options={disseminationStatusOptions}
-						onChange={(v) =>
+					<DisseminationStatusInput
+						value={value.general.disseminationStatus}
+						handleChange={(v) =>
 							setValue({
 								...value,
 								general: { ...value.general, disseminationStatus: v },
@@ -357,7 +339,7 @@ export const Component = () => {
 									<LabelRequired htmlFor="scopeNoteLg1">
 										{D1.classificationsScopeNote}
 									</LabelRequired>
-									<EditorMarkdown
+									<MDEditor
 										text={value.general.scopeNoteLg1}
 										handleChange={(v) =>
 											setValue({
@@ -375,7 +357,7 @@ export const Component = () => {
 									<LabelRequired htmlFor="scopeNoteLg2">
 										{D2.classificationsScopeNote}
 									</LabelRequired>
-									<EditorMarkdown
+									<MDEditor
 										text={value.general.scopeNoteLg2}
 										handleChange={(v) =>
 											setValue({
@@ -398,7 +380,7 @@ export const Component = () => {
 									<LabelRequired htmlFor="scopeNoteLg1">
 										{D1.classificationsChangeNote()}
 									</LabelRequired>
-									<EditorMarkdown
+									<MDEditor
 										text={value.general.changeNoteLg1}
 										handleChange={(v) =>
 											setValue({
@@ -416,7 +398,7 @@ export const Component = () => {
 									<LabelRequired htmlFor="scopeNoteLg2">
 										{D2.classificationsChangeNote()}
 									</LabelRequired>
-									<EditorMarkdown
+									<MDEditor
 										text={value.general.changeNoteLg2}
 										handleChange={(v) =>
 											setValue({

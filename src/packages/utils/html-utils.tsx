@@ -40,12 +40,6 @@ export const draftHtmlToXhtml = (html: string) =>
 		.replace(/<br>/g, '<br/>')
 		.replace(/<p><\/p>/g, '<br/>');
 
-/**
- * We need to transform back the html to comply with the repository rules
- */
-export const rawHtmlToRmesHtml = (html: string) =>
-	`<div xmlns="http://www.w3.org/1999/xhtml">${draftHtmlToXhtml(html)}</div>`;
-
 const rNewLine = /\n/g;
 const rUselessSpace = /(>)\s*(<)/g;
 export const cleanHtml = (html: string) => {
@@ -140,13 +134,15 @@ export function editorStateFromMd(md = '') {
 	return EditorState.createWithContent(convertedFromRaw);
 }
 
-export function markdownToHtml(markdown: string) {
-	return htmlFromEditorState(editorStateFromMd(markdown));
-}
-
 export function renderMarkdownElement(value: string) {
 	if (value === null) {
 		return '';
 	}
-	return <div dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }} />;
+	return (
+		<div
+			dangerouslySetInnerHTML={{
+				__html: htmlFromEditorState(editorStateFromMd(value)),
+			}}
+		/>
+	);
 }

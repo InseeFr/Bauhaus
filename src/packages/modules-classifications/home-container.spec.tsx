@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
 
-import { useClassifications } from '@utils/hooks/classifications';
-
 import { PartialClassification } from '../model/Classification';
 import { Component } from './home-container';
+import { useClassifications } from './hooks';
 
-vi.mock('@utils/hooks/classifications', () => ({
+vi.mock('./hooks', () => ({
 	useClassifications: vi.fn(),
 }));
 
@@ -30,7 +29,7 @@ describe('Component', () => {
 	it('renders the Loading component when isLoading is true', () => {
 		(useClassifications as Mock).mockReturnValue({
 			isLoading: true,
-			data: null,
+			classifications: null,
 		});
 
 		render(<Component />);
@@ -46,7 +45,7 @@ describe('Component', () => {
 
 		(useClassifications as Mock).mockReturnValue({
 			isLoading: false,
-			data: mockClassifications,
+			classifications: mockClassifications,
 		});
 
 		render(<Component />);
