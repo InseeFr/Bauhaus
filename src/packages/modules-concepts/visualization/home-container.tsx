@@ -7,6 +7,7 @@ import { ConceptsApi } from '@sdk/index';
 
 import { useSecondLang } from '@utils/hooks/second-lang';
 import { useLocales } from '@utils/hooks/useLocales';
+import { rmesHtmlToRawHtml } from '@utils/html-utils';
 
 import {
 	Concept,
@@ -19,9 +20,13 @@ import ConceptVisualization from './home';
 import { LoadingProvider, LoadingType } from './loading';
 
 const formatNotes = (notes: ConceptNotes) => {
+	const keys = Object.keys(notes) as unknown as (keyof ConceptNotes)[];
 	return {
 		...emptyNotes,
-		...notes,
+		...keys.reduce((formatted: ConceptNotes, noteName) => {
+			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]!);
+			return formatted;
+		}, {} as ConceptNotes),
 	};
 };
 export const Component = () => {

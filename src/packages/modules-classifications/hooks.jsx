@@ -1,18 +1,8 @@
-import { Classification, PartialClassification } from '@model/Classification';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { ClassificationsApi } from '@sdk/classification';
 
-export const useClassifications = () => {
-	const { isLoading, data: classifications } = useQuery<
-		PartialClassification[]
-	>({
-		queryKey: ['classifications'],
-		queryFn: ClassificationsApi.getList,
-	});
-	return { isLoading, classifications };
-};
-export const useClassification = (id: string) => {
+export const useClassification = (id) => {
 	const { isLoading, data: classification } = useQuery({
 		queryKey: ['classifications', id],
 		queryFn: () => {
@@ -27,7 +17,7 @@ export const useClassification = (id: string) => {
 
 	return { isLoading, classification };
 };
-export const usePublishClassification = (id: string) => {
+export const usePublishClassification = (id) => {
 	const queryClient = useQueryClient();
 	const {
 		isPending: isPublishing,
@@ -39,15 +29,13 @@ export const usePublishClassification = (id: string) => {
 		},
 
 		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: ['classifications', id],
-			});
+			queryClient.invalidateQueries(['classifications', id]);
 		},
 	});
 	return { isPublishing, publish, error };
 };
 
-export const useUpdateClassification = (id: string) => {
+export const useUpdateClassification = (id) => {
 	const queryClient = useQueryClient();
 	const {
 		isPending: isSaving,
@@ -56,14 +44,12 @@ export const useUpdateClassification = (id: string) => {
 		isSuccess: isSavingSuccess,
 		status,
 	} = useMutation({
-		mutationFn: (classification: Classification) => {
+		mutationFn: (classification) => {
 			return ClassificationsApi.putClassification(classification.general);
 		},
 
 		onSuccess: () => {
-			queryClient.invalidateQueries({
-				queryKey: ['classifications', id],
-			});
+			queryClient.invalidateQueries(['classifications', id]);
 		},
 	});
 	return { isSaving, save, error, isSavingSuccess, status };

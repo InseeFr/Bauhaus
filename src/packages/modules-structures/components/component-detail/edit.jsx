@@ -536,6 +536,7 @@ export const DumbComponentDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<ContributorsInput
+						stampListOptions={stampListOptions}
 						value={component.contributor}
 						handleChange={(values) =>
 							setComponent({

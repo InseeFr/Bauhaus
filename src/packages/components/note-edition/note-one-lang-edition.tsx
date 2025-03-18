@@ -7,7 +7,7 @@ function NoteOneLangEdition({
 	maxLength,
 }: Readonly<{
 	note: string;
-	handleChange: (value?: string) => void;
+	handleChange: (value: string) => void;
 	maxLength: number;
 }>) {
 	const noteLength = htmlLength(note);
