@@ -289,6 +289,7 @@ export const DumbCodelistPartialDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<ContributorsInput
+						stampListOptions={stampListOptions}
 						value={codelist.contributor}
 						handleChange={(values) =>
 							setCodelist({ ...codelist, contributor: values })

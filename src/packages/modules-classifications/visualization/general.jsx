@@ -1,4 +1,3 @@
-import Editor from '@uiw/react-md-editor';
 import { Link } from 'react-router-dom';
 
 import { getDisseminationStatus } from '@components/dissemination-status/disseminationStatus';
@@ -7,11 +6,14 @@ import { ExternalLink } from '@components/link';
 import { Note } from '@components/note';
 
 import { stringToDate } from '@utils/date-utils';
+import { renderMarkdownElement } from '@utils/html-utils';
 
 import D, { D1, D2 } from '../../deprecated-locales';
 
 const General = ({ general, secondLang }) => {
-	let mapping = {
+	let mapping = {};
+	mapping = {
+		...mapping,
 		seriesLg1: D.motherSeries,
 		afterLg1: D.classificationsAfterTitle,
 		beforeLg1: D.classificationsBeforeTitle,
@@ -203,14 +205,14 @@ const General = ({ general, secondLang }) => {
 			<Row>
 				<Note
 					title={D1.descriptionTitle}
-					text={<Editor.Markdown source={general.descriptionLg1} />}
+					text={renderMarkdownElement(general.descriptionLg1)}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
 				{secondLang && (
 					<Note
 						title={D2.descriptionTitle}
-						text={<Editor.Markdown source={general.descriptionLg2} />}
+						text={renderMarkdownElement(general.descriptionLg2)}
 						alone={false}
 						allowEmpty={true}
 					/>

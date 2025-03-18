@@ -11,6 +11,7 @@ interface NoteVizualizationTypes {
 export const NoteVisualization = ({
 	params,
 	secondLang,
+	md,
 }: Readonly<NoteVizualizationTypes>) => (
 	<>
 		{params
@@ -21,12 +22,14 @@ export const NoteVisualization = ({
 						text={note.lg1}
 						title={D1[note.title]}
 						alone={!secondLang}
+						md={md}
 					/>
 					{secondLang && (
 						<ExplanatoryNote
 							text={note.lg2}
 							title={D2[note.title]}
 							alone={false}
+							md={md}
 						/>
 					)}
 				</Row>

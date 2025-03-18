@@ -1,6 +1,6 @@
 import { convertToArrayIfDefined } from '@utils/array-utils';
-import { useStampsOptions } from '@utils/hooks/stamps';
 
+import { Options } from '../../model/SelectOption';
 import D, { D1 } from '../i18n';
 import LabelRequired from '../label-required';
 import { Select } from '../select-rmes';
@@ -25,15 +25,15 @@ export const ContributorsVisualisation = ({
 interface ContributorsInputType {
 	value: string[];
 	handleChange: (values: string[]) => void;
+	stampListOptions: Options;
 	required: boolean;
 }
 export const ContributorsInput = ({
 	value,
 	handleChange,
+	stampListOptions,
 	required = false,
 }: Readonly<ContributorsInputType>) => {
-	const stampListOptions = useStampsOptions();
-
 	return (
 		<>
 			{required ? (

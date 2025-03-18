@@ -1,10 +1,10 @@
-import { MDEditor } from '@components/rich-editor/react-md-editor';
+import { EditorHTML } from '../rich-editor';
 
 function ModifyNotes({
 	note,
 	handleChange,
-}: Readonly<{ note: string; handleChange: (value?: string) => void }>) {
-	return <MDEditor text={note} handleChange={handleChange} />;
+}: Readonly<{ note: string; handleChange: (value: string) => void }>) {
+	return <EditorHTML smart text={note} handleChange={handleChange} />;
 }
 
 export default ModifyNotes;
