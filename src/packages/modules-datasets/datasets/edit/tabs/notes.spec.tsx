@@ -62,11 +62,46 @@ describe('Notes component', () => {
 		);
 
 		const editors = screen.getAllByTestId('md-editor');
-		fireEvent.change(editors[0], { target: { value: 'New Abstract 1' } });
+		fireEvent.change(editors[0], { target: { value: 'New Value 0' } });
 
 		expect(setEditingDataset).toHaveBeenCalledWith({
 			...editingDataset,
-			abstractLg1: 'New Abstract 1',
+			abstractLg1: 'New Value 0',
+		});
+
+		fireEvent.change(editors[1], { target: { value: 'New Value 1' } });
+
+		expect(setEditingDataset).toHaveBeenCalledWith({
+			...editingDataset,
+			abstractLg2: 'New Value 1',
+		});
+
+		fireEvent.change(editors[2], { target: { value: 'New Value 2' } });
+
+		expect(setEditingDataset).toHaveBeenCalledWith({
+			...editingDataset,
+			descriptionLg1: 'New Value 2',
+		});
+
+		fireEvent.change(editors[3], { target: { value: 'New Value 3' } });
+
+		expect(setEditingDataset).toHaveBeenCalledWith({
+			...editingDataset,
+			descriptionLg2: 'New Value 3',
+		});
+
+		fireEvent.change(editors[4], { target: { value: 'New Value 4' } });
+
+		expect(setEditingDataset).toHaveBeenCalledWith({
+			...editingDataset,
+			cautionLg1: 'New Value 4',
+		});
+
+		fireEvent.change(editors[5], { target: { value: 'New Value 5' } });
+
+		expect(setEditingDataset).toHaveBeenCalledWith({
+			...editingDataset,
+			cautionLg2: 'New Value 5',
 		});
 	});
 });
