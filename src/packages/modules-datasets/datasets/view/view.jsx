@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Editor from '@uiw/react-md-editor';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -18,7 +19,6 @@ import { DatasetsApi } from '@sdk/index';
 import { withCodesLists } from '@utils/hoc/withCodesLists';
 import { useSecondLang } from '@utils/hooks/second-lang';
 import { useTitle } from '@utils/hooks/useTitle';
-import { renderMarkdownElement } from '@utils/html-utils';
 
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { CL_PROCESS_STEP } from '../../../redux/actions/constants/codeList';
@@ -191,14 +191,14 @@ const Dataset = (props) => {
 
 			<Row>
 				<Note
-					text={renderMarkdownElement(dataset.descriptionLg1)}
+					text={<Editor.Markdown source={dataset.descriptionLg1} />}
 					title={D1.descriptionTitle}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
 				{secondLang && (
 					<Note
-						text={renderMarkdownElement(dataset.descriptionLg1)}
+						text={<Editor.Markdown source={dataset.descriptionLg1} />}
 						title={D2.descriptionTitle}
 						alone={false}
 						allowEmpty={true}
@@ -207,14 +207,14 @@ const Dataset = (props) => {
 			</Row>
 			<Row>
 				<Note
-					text={renderMarkdownElement(dataset.abstractLg1)}
+					text={<Editor.Markdown source={dataset.abstractLg1} />}
 					title={D1.datasetsAbstract}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
 				{secondLang && (
 					<Note
-						text={renderMarkdownElement(dataset.abstractLg2)}
+						text={<Editor.Markdown source={dataset.abstractLg2} />}
 						title={D2.datasetsAbstract}
 						alone={false}
 						allowEmpty={true}
@@ -223,14 +223,14 @@ const Dataset = (props) => {
 			</Row>
 			<Row>
 				<Note
-					text={renderMarkdownElement(dataset.cautionLg1)}
+					text={<Editor.Markdown source={dataset.cautionLg1} />}
 					title={D1.datasetsCaution}
 					alone={!secondLang}
 					allowEmpty={true}
 				/>
 				{secondLang && (
 					<Note
-						text={renderMarkdownElement(dataset.cautionLg2)}
+						text={<Editor.Markdown source={dataset.cautionLg2} />}
 						title={D2.datasetsCaution}
 						alone={false}
 						allowEmpty={true}
