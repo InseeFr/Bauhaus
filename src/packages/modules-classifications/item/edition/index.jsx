@@ -124,7 +124,10 @@ export const Component = () => {
 		}, {});
 
 	const onSubmit = () => {
-		const clientSideErrors = validate(value);
+		const clientSideErrors = validate(
+			value.general,
+			value.general.altLabels.length,
+		);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
 			setClientSideErrors(clientSideErrors);
