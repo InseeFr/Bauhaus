@@ -24,3 +24,9 @@ export interface PartialClassification {
 	label: string;
 	altLabels: string;
 }
+
+export interface ItemGeneral {
+	prefLabelLg1: string;
+	prefLabelLg2: string;
+	altLabelsLg1_?: string;
+}
