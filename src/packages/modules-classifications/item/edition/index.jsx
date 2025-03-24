@@ -74,8 +74,6 @@ export const Component = () => {
 		label: previousLevel.labelLg1,
 	}));
 
-	console.log(item);
-
 	const [value, setValue] = useState(item);
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
