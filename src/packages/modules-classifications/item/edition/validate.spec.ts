@@ -29,11 +29,14 @@ describe('validation', function () {
 					'a way way way way way way way way way way way way way way way way too long string',
 			}),
 		).toEqual({
-			errorMessage: ['Truc'],
+			errorMessage: [
+				'Le titre abrégé (65) doit contenir maximum 65 caractères',
+			],
 			fields: {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
-				altLabelsLg1_: 'Truc',
+				altLabelsLg1_:
+					'Le titre abrégé (65) doit contenir maximum 65 caractères',
 				altLabelsLg2_: '',
 			},
 		});
