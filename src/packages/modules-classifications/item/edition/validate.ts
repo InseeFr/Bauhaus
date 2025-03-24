@@ -12,10 +12,12 @@ const ZodItem = z.object({
 	prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
 	altLabelsLg1_: z
 		.string()
-		.max(length, { message: D1.classificationItemAltError(length) }),
+		.max(length, { message: D1.classificationItemAltError(length) })
+		.optional(),
 	altLabelsLg2_: z
 		.string()
-		.max(length, { message: D2.classificationItemAltError(length) }),
+		.max(length, { message: D2.classificationItemAltError(length) })
+		.optional(),
 });
 
 export const validate = formatValidation(ZodItem);

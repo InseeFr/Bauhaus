@@ -15,6 +15,9 @@ describe('validation', function () {
 			fields: {
 				prefLabelLg1: 'The property <strong>Intitulé</strong> is required.',
 				prefLabelLg2: 'The property <strong>Title</strong> is required.',
+				additionalMaterial: '',
+				legalMaterial: '',
+				homepage: '',
 			},
 		});
 	});
@@ -28,13 +31,13 @@ describe('validation', function () {
 				homepage: 'definetelyNotAnUrl',
 			}),
 		).toEqual({
-			errorMessage: ['Truc', 'Machin', 'Chouette'],
+			errorMessage: ['Invalid url', 'Invalid url', 'Invalid url'],
 			fields: {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
-				additionalMaterial: 'Truc',
-				legalMaterial: 'Machin',
-				homepage: 'Chouette',
+				additionalMaterial: 'Invalid url',
+				legalMaterial: 'Invalid url',
+				homepage: 'Invalid url',
 			},
 		});
 	});
@@ -49,6 +52,9 @@ describe('validation', function () {
 			fields: {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
+				additionalMaterial: '',
+				legalMaterial: '',
+				homepage: '',
 			},
 		});
 	});
