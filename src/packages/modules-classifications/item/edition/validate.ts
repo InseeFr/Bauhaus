@@ -12,11 +12,11 @@ const ZodItem = z.object({
 	prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
 	altLabelsLg1_: z
 		.string()
-		.max(length, { message: D1.classificationItemAltError(length) })
+		.max(65, { message: D1.classificationItemAltError(65) })
 		.optional(),
 	altLabelsLg2_: z
 		.string()
-		.max(length, { message: D2.classificationItemAltError(length) })
+		.max(65, { message: D2.classificationItemAltError(65) })
 		.optional(),
 });
 

@@ -15,6 +15,8 @@ describe('validation', function () {
 			fields: {
 				prefLabelLg1: 'The property <strong>Intitulé</strong> is required.',
 				prefLabelLg2: 'The property <strong>Title</strong> is required.',
+				altLabelsLg1_: '',
+				altLabelsLg2_: '',
 			},
 		});
 	});
@@ -32,6 +34,7 @@ describe('validation', function () {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
 				altLabelsLg1_: 'Truc',
+				altLabelsLg2_: '',
 			},
 		});
 	});
@@ -46,6 +49,8 @@ describe('validation', function () {
 			fields: {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
+				altLabelsLg1_: '',
+				altLabelsLg2_: '',
 			},
 		});
 	});
