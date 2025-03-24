@@ -7,7 +7,7 @@ import {
 
 import { D1, D2 } from '../../deprecated-locales';
 
-const ZodFamily = z.object({
+const ZodClassification = z.object({
 	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
 	prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
 	additionalMaterial: z.string().url().optional(),
@@ -15,4 +15,4 @@ const ZodFamily = z.object({
 	homepage: z.string().url().optional(),
 });
 
-export const validate = formatValidation(ZodFamily);
+export const validate = formatValidation(ZodClassification);
