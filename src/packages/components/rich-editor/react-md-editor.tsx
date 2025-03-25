@@ -7,7 +7,7 @@ import Editor, {
 export const MDEditor = ({
 	text,
 	handleChange,
-}: Readonly<{ text: string; handleChange: (value?: string) => void }>) => {
+}: Readonly<{ text?: string; handleChange: (value?: string) => void }>) => {
 	return (
 		<Editor
 			value={text}

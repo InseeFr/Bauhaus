@@ -33,6 +33,13 @@ export interface Dataset {
 	dataStructure: string;
 	issued?: string;
 	type: string;
+
+	abstractLg1?: string;
+	abstractLg2?: string;
+	descriptionLg1?: string;
+	descriptionLg2?: string;
+	cautionLg1?: string;
+	cautionLg2?: string;
 }
 export interface CatalogRecord {
 	created: string;
