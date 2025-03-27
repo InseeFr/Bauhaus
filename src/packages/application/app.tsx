@@ -22,7 +22,7 @@ const App = () => {
 					<h2 className="items page-title page-title-link">
 						{D[app + 'Title']}
 					</h2>
-					<img src={`/img/${app}_blanc.svg`} alt={app} />
+					<img src={`/img/${app}_blanc.svg`} alt="" />
 				</Link>
 			</div>
 		);
