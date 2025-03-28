@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import ReactSelect from 'react-select';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import {
@@ -10,6 +9,7 @@ import { ErrorBloc } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
+import { Select } from '@components/select-rmes';
 
 import { GeographieApi } from '@sdk/geographie';
 
@@ -101,14 +101,14 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
 			</Row>
 			<div className="bauhaus-sims-geography-field">
 				<div className="form-group">
-					<ReactSelect
+					<Select
 						value={
 							geographies.find(
 								(option) => option.value === selectedOption?.value,
 							) || null
 						}
 						options={geographies}
-						onChange={(e) => handleSelect(e ? e.value : '')}
+						onChange={(value) => handleSelect(value)}
 						placeholder=""
 						searchable={true}
 						noResultsText={D.noResult}

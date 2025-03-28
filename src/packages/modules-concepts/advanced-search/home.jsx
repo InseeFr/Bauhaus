@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import Select from 'react-select';
 
 import { DatePicker } from '@components/date-picker';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
@@ -7,6 +6,7 @@ import { TextInput } from '@components/form/input';
 import { NumberResults } from '@components/number-results';
 import { PageTitle } from '@components/page-title';
 import { Pagination } from '@components/pagination';
+import { Select } from '@components/select-rmes';
 
 import { filterKeyDate, filterKeyDeburr } from '@utils/array-utils';
 import { useTitle } from '@utils/hooks/useTitle';
@@ -129,9 +129,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, onExport }) => {
 								stampListOptions.find(({ value }) => value === creator) || ''
 							}
 							options={stampListOptions}
-							onChange={(option) =>
-								handleChange('creator', option?.value ?? '')
-							}
+							onChange={(value) => handleChange('creator', value)}
 						/>
 					</div>
 					<div className="col-md-4">
@@ -152,9 +150,7 @@ const ConceptSearchList = ({ conceptSearchList, stampList, onExport }) => {
 								) || ''
 							}
 							options={validationStatusOptions}
-							onChange={(option) =>
-								handleChange('validationStatus', option?.value ?? '')
-							}
+							onChange={(value) => handleChange('validationStatus', value)}
 						/>
 					</div>
 				</div>
