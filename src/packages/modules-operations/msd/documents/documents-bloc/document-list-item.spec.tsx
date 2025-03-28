@@ -33,7 +33,7 @@ describe('DocumentLink', () => {
 			uri: 'http://example.com/document/123',
 			labelLg1: 'Document Label',
 		} as Document;
-		const baseURI = 'http://example.com';
+		const baseURI = 'http://example.com/api';
 		const localPrefix = 'Lg1';
 
 		render(
@@ -47,7 +47,7 @@ describe('DocumentLink', () => {
 		const link = screen.getByRole('link', { name: 'Document Label' });
 
 		expect(link.getAttribute('href')).toBe(
-			'http://example.com/documents/document/123/file',
+			'http://example.com/api/documents/document/123/file',
 		);
 		expect(link.getAttribute('target')).toBe('_blank');
 		expect(link.getAttribute('rel')).toBe('noreferrer noopener');
