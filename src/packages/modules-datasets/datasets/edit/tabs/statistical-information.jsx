@@ -1,7 +1,6 @@
-import ReactSelect from 'react-select';
-
 import { NumberInput } from '@components/form/input';
 import { Row } from '@components/layout';
+import { Select } from '@components/select-rmes';
 
 import { withCodesLists } from '@utils/hoc/withCodesLists';
 
@@ -39,13 +38,13 @@ const StatisticalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsType}
-						<ReactSelect
+						<Select
 							value={editingDataset.type}
 							options={clDataTypes}
-							onChange={(option) => {
+							onChange={(value) => {
 								setEditingDataset({
 									...editingDataset,
-									type: option?.value,
+									type: value,
 								});
 							}}
 						/>
@@ -68,14 +67,14 @@ const StatisticalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsStatisticalUnits}
-						<ReactSelect
+						<Select
 							value={editingDataset.statisticalUnit}
 							multi={true}
 							options={clStatUnit}
 							onChange={(values) => {
 								setEditingDataset({
 									...editingDataset,
-									statisticalUnit: values.map(({ value }) => value),
+									statisticalUnit: values,
 								});
 							}}
 						/>
@@ -99,13 +98,13 @@ const StatisticalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsTemporalResolution}
-						<ReactSelect
+						<Select
 							value={editingDataset.temporalResolution}
 							options={clFreqOptions}
-							onChange={(option) => {
+							onChange={(value) => {
 								setEditingDataset({
 									...editingDataset,
-									temporalResolution: option?.value,
+									temporalResolution: value,
 								});
 							}}
 						/>
@@ -116,13 +115,13 @@ const StatisticalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsSpacialCoverage}
-						<ReactSelect
+						<Select
 							value={editingDataset.spacialCoverage}
 							options={clGeo}
-							onChange={(option) => {
+							onChange={(value) => {
 								setEditingDataset({
 									...editingDataset,
-									spacialCoverage: option?.value,
+									spacialCoverage: value,
 								});
 							}}
 						/>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { default as ReactSelect } from 'react-select';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import {
@@ -18,6 +17,7 @@ import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { MDEditor } from '@components/rich-editor/react-md-editor';
+import { Select } from '@components/select-rmes';
 
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
@@ -107,16 +107,16 @@ export const Component = () => {
 				<Row>
 					<div className="col-md-12 form-group">
 						<LabelRequired htmlFor="idDataset">{D1.datasetTitle}</LabelRequired>
-						<ReactSelect
+						<Select
 							placeholder={D1.datasetTitle}
 							value={datasetsOptions.find(
 								({ value }) => value === editingDistribution.idDataset,
 							)}
 							options={datasetsOptions}
-							onChange={(choice) => {
+							onChange={(value) => {
 								setEditingDistribution({
 									...editingDistribution,
-									idDataset: choice?.value,
+									idDataset: value,
 								});
 								setClientSideErrors((clientSideErrors) => ({
 									...clientSideErrors,

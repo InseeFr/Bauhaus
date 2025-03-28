@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import Select from 'react-select';
 
 import { AdvancedSearchList } from '@components/advanced-search/home';
 import { TextInput } from '@components/form/input';
 import { Column } from '@components/layout';
 import { Loading } from '@components/loading';
+import { Select } from '@components/select-rmes';
 
 import { filterKeyDeburr } from '@utils/array-utils';
 import { useStampsOptions } from '@utils/hooks/stamps';
@@ -94,8 +94,8 @@ const SearchFormList = ({ stampListOptions, data }) => {
 									''
 								}
 								options={stampListOptions}
-								onChange={(option) => {
-									handleChange('creator', option?.value ?? '');
+								onChange={(value) => {
+									handleChange('creator', value);
 								}}
 							/>
 						</label>
@@ -111,8 +111,8 @@ const SearchFormList = ({ stampListOptions, data }) => {
 									) || ''
 								}
 								options={validateStateOptions}
-								onChange={(option) => {
-									handleChange('validationState', option?.value ?? '');
+								onChange={(value) => {
+									handleChange('validationState', value);
 								}}
 							/>
 						</label>

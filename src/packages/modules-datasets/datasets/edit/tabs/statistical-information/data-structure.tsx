@@ -1,9 +1,9 @@
 import { Option } from '@model/SelectOption';
 import { useState } from 'react';
-import ReactSelect from 'react-select';
 
 import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
+import { Select } from '@components/select-rmes';
 
 import { createDictionary, firstLang } from '@utils/dictionnary';
 import { useStructures } from '@utils/hooks/structures';
@@ -76,11 +76,11 @@ export const DataStructure = ({
 		<div className="data-structure-input col-md-12 form-group">
 			<label className="w-100 wilco-label-required">
 				{D1.datasetsDataStructure}
-				<ReactSelect
+				<Select
 					value={value}
 					options={options}
-					onChange={(option: Option) => {
-						onChange(option?.value);
+					onChange={(value) => {
+						onChange(value);
 					}}
 				/>
 			</label>
