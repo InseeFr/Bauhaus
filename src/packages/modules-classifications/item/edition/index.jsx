@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useParams } from 'react-router-dom';
-import { default as ReactSelect } from 'react-select';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import {
@@ -15,6 +14,7 @@ import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+import { Select } from '@components/select-rmes';
 
 import { ClassificationsApi } from '@sdk/classification';
 
@@ -209,12 +209,12 @@ export const Component = () => {
 						defaultValue={general.broaderURI}
 						render={({ field: { onChange, value } }) => {
 							return (
-								<ReactSelect
+								<Select
 									value={previousLevelsOptions.find(
 										(option) => option.value === value,
 									)}
 									options={previousLevelsOptions}
-									onChange={(option) => onChange(option.value)}
+									onChange={(value) => onChange(value)}
 									clearable={false}
 								/>
 							);
