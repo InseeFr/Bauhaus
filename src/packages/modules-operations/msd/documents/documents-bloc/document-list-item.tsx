@@ -47,7 +47,7 @@ export const DocumentLink = ({
 
 	const id = document.uri.substring(document.uri.lastIndexOf('/') + 1);
 	const uri = isDocument(document)
-		? `${safeBaseURI}documents/document/${encodeURIComponent(id)}/file`
+		? `${safeBaseURI}/documents/document/${encodeURIComponent(id)}/file`
 		: document.url;
 
 	const label =
