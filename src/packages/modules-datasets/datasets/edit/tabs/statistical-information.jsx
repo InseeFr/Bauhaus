@@ -150,14 +150,14 @@ const StatisticalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsSpacialResolutions}
-						<ReactSelect
+						<Select
 							value={editingDataset.spacialResolutions}
 							options={clGeoType}
 							multi={true}
 							onChange={(values) => {
 								setEditingDataset({
 									...editingDataset,
-									spacialResolutions: values.map(({ value }) => value),
+									spacialResolutions: values,
 								});
 							}}
 						/>
