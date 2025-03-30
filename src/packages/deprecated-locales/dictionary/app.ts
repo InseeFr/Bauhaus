@@ -68,18 +68,6 @@ const dictionary = {
 		fr: 'En maintenance',
 		en: 'Under maintenance',
 	},
-	multiModalNoNewBody: {
-		fr: 'Remplissez le champ précédent pour en ajouter un nouveau',
-		en: 'Complete the previous field before adding another',
-	},
-	multiModalRemoveCompleteBody: {
-		fr: 'Impossible de supprimer un champ rempli',
-		en: 'Impossible to remove a completed field',
-	},
-	multiModalRemoveLastBody: {
-		fr: 'Impossible de supprimer le dernier champ',
-		en: 'Impossible to remove the last field',
-	},
 
 	errorBody: {
 		fr: "Veuillez contacter l'équipe RMéS dg75-administration-rmes@insee.fr",
@@ -256,35 +244,6 @@ const dictionary = {
 		fr: 'Correspond à',
 		en: 'Matches',
 	},
-	// Mail
-	mailTitle: {
-		fr: 'Message',
-		en: 'Mail',
-	},
-	mailRecipientTitle: {
-		fr: 'Destinataire',
-		en: 'Recipient',
-	},
-	mailSenderTitle: {
-		fr: 'Emetteur',
-		en: 'Sender',
-	},
-	mailObjectTitle: {
-		fr: 'Objet',
-		en: 'Object',
-	},
-	invalidMailAdress: {
-		fr: 'Saisir une adresse mail valide pour le destinataire',
-		en: 'Insert a valid e-mail address for the recipient',
-	},
-	emptyMailObject: {
-		fr: "L'objet du message est vide",
-		en: 'The mail subject is empty',
-	},
-	emptyMailBody: {
-		fr: 'Le corps du message est vide',
-		en: 'The mail body is empty',
-	},
 	// Export
 	exportModalTitle: {
 		fr: "Veuillez sélectionner le type d'export",
@@ -293,41 +252,6 @@ const dictionary = {
 	exportModalBody: {
 		fr: `Les ODT sont modifiables sous LibreOffice.`,
 		en: `ODT files can be modified with LibreOffice.`,
-	},
-	// Calendar
-	calendarDays: {
-		fr: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-		en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-	},
-	calendarMonths: {
-		fr: [
-			'Janvier',
-			'Février',
-			'Mars',
-			'Avril',
-			'Mai',
-			'Juin',
-			'Juillet',
-			'Août',
-			'Septembre',
-			'Octobre',
-			'Novembre',
-			'Décembre',
-		],
-		en: [
-			'January',
-			'February',
-			'March',
-			'April',
-			'May',
-			'June',
-			'July',
-			'August',
-			'September',
-			'October',
-			'November',
-			'December',
-		],
 	},
 	// Pagination
 	paginationFirst: {
@@ -339,32 +263,12 @@ const dictionary = {
 		en: 'Last',
 	},
 	// Auth
-	passwordTitle: {
-		fr: 'Mot de passe',
-		en: 'Password',
-	},
-	pickedUserProfil: {
-		fr: 'Choisir un profil utilisateur',
-		en: 'Pick a user profil',
-	},
+
 	pickedRolePlaceholder: {
 		fr: 'Sélectionner un rôle...',
 		en: 'Select a role...',
 	},
-	pickedUserAddTitle: {
-		fr: 'Agents à ajouter',
-		en: 'User to add',
-	},
-	modalRemoveRoleTitle: {
-		fr: 'Confirmation',
-		en: 'Confirm',
-	},
-	modalRemoveRoleBody: {
-		fr: (role: string, user: string) =>
-			`Voulez-vous supprimer le rôle ' ${role} ' à ${user} ?`,
-		en: (role: string, user: string) =>
-			`Do you want to remove ' ${role} ' role from ${user} ?`,
-	},
+
 	dashboardTitle: {
 		fr: 'Tableau de bord',
 		en: 'Dashboard',
