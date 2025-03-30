@@ -27,10 +27,6 @@ const messages = {
 		fr: 'Exporter en ODS',
 		en: 'Export as ODS',
 	},
-	btnSend: {
-		fr: 'Envoyer',
-		en: 'Send',
-	},
 	btnValid: {
 		fr: 'Publier',
 		en: 'Publish',
