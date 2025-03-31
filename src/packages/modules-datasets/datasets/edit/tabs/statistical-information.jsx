@@ -54,7 +54,6 @@ const StatisticalInformationTab = ({
 			<Row>
 				<DataStructure
 					value={editingDataset.dataStructure}
-					error={clientSideErrors?.fields?.dataStructure}
 					onChange={(value) => {
 						setEditingDataset({
 							...editingDataset,

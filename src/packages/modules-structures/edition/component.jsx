@@ -52,7 +52,7 @@ const Edition = ({ creation, initialStructure }) => {
 	const [serverSideError, setServerSideError] = useState('');
 	const [clientSideError, setClientSideError] = useState({});
 
-	const onChange = (key, value) => {
+	const onChange = (key) => (value) => {
 		setStructure({ ...structure, [key]: value });
 		setClientSideError({
 			...clientSideError,
@@ -128,7 +128,7 @@ const Edition = ({ creation, initialStructure }) => {
 			<TextInput
 				id="identifiant"
 				value={identifiant}
-				onChange={(e) => onChange('identifiant', e.target.value)}
+				onChange={(e) => onChange('identifiant')(e.target.value)}
 				disabled={!creation}
 				aria-invalid={!!clientSideError.fields?.identifiant}
 				aria-describedby={
@@ -146,7 +146,7 @@ const Edition = ({ creation, initialStructure }) => {
 					<TextInput
 						id="labelLg1"
 						value={labelLg1}
-						onChange={(e) => onChange('labelLg1', e.target.value)}
+						onChange={(e) => onChange('labelLg1')(e.target.value)}
 						aria-invalid={!!clientSideError.fields?.labelLg1}
 						aria-describedby={
 							clientSideError.fields?.labelLg1 ? 'labelLg1-error' : null
@@ -162,7 +162,7 @@ const Edition = ({ creation, initialStructure }) => {
 					<TextInput
 						id="labelLg2"
 						value={labelLg2}
-						onChange={(e) => onChange('labelLg2', e.target.value)}
+						onChange={(e) => onChange('labelLg2')(e.target.value)}
 						aria-invalid={!!clientSideError.fields?.labelLg2}
 						aria-describedby={
 							clientSideError.fields?.labelLg2 ? 'labelLg2-error' : null
@@ -182,7 +182,7 @@ const Edition = ({ creation, initialStructure }) => {
 					<TextInput
 						id="descriptionLg1"
 						value={descriptionLg1}
-						onChange={(e) => onChange('descriptionLg1', e.target.value)}
+						onChange={(e) => onChange('descriptionLg1')(e.target.value)}
 					/>
 				</div>
 				<div className="col-md-6">
@@ -192,7 +192,7 @@ const Edition = ({ creation, initialStructure }) => {
 					<TextInput
 						id="descriptionLg2"
 						value={descriptionLg2}
-						onChange={(e) => onChange('descriptionLg2', e.target.value)}
+						onChange={(e) => onChange('descriptionLg2')(e.target.value)}
 					/>
 				</div>
 			</Row>
@@ -202,14 +202,14 @@ const Edition = ({ creation, initialStructure }) => {
 					placeholder={D1.stampsPlaceholder}
 					value={stampListOptions.find(({ value }) => value === creator)}
 					options={stampListOptions}
-					onChange={(value) => onChange('creator', value)}
+					onChange={onChange('creator')}
 					searchable
 				/>
 			</div>
 			<div className="form-group">
 				<ContributorsInput
 					value={contributor}
-					handleChange={(values) => onChange('contributor', values)}
+					handleChange={onChange('contributor')}
 					stampListOptions={stampListOptions}
 				/>
 			</div>
@@ -217,14 +217,14 @@ const Edition = ({ creation, initialStructure }) => {
 			<div className="form-group">
 				<DisseminationStatusInput
 					value={disseminationStatus}
-					handleChange={(value) => onChange('disseminationStatus', value)}
+					handleChange={onChange('disseminationStatus')}
 				/>
 			</div>
 
 			<Components
 				creation={creation}
 				componentDefinitions={componentDefinitions}
-				onChange={(components) => onChange('componentDefinitions', components)}
+				onChange={onChange('componentDefinitions')}
 				structure={structure}
 			/>
 		</>
