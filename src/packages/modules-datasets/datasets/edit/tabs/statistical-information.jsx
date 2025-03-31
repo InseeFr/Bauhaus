@@ -19,7 +19,6 @@ import { DataStructure } from './statistical-information/data-structure';
 const StatisticalInformationTab = ({
 	editingDataset,
 	setEditingDataset,
-	clientSideErrors,
 	...props
 }) => {
 	const clDataTypes = convertCodesListsToSelectOption(props[CL_DATA_TYPES]);
