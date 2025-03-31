@@ -7,8 +7,7 @@ import { Option } from '../../model/SelectOption';
 import './select-rmes.scss';
 
 const { D } = createAllDictionary({
-	fr: 'Aucun résultat',
-	en: 'No results',
+	noResult: { fr: 'Aucun résultat', en: 'No results' },
 });
 
 type SelectRmesTypes = {

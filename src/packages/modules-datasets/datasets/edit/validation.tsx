@@ -23,7 +23,6 @@ const ZodDataset = z.object({
 	disseminationStatus: mandatoryAndNotEmptySelectField(
 		D.disseminationStatusTitle,
 	),
-	dataStructure: z.string().url().optional(),
 	wasGeneratedIRIs: mandatoryAndNotEmptyMultiSelectField(D.generatedBy),
 });
 

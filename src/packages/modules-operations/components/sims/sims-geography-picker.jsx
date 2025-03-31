@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
-import ReactSelect from 'react-select';
 
 import { SeeButton } from '@components/buttons/see';
+import { Select } from '@components/select-rmes';
 import { RightSlidingPanel } from '@components/sliding-panel';
 
 import Auth from '../../../auth/components/auth';
@@ -88,7 +88,7 @@ const SimsGeographyPicker = ({
 		<>
 			<div className="bauhaus-sims-geography-picker">
 				<div className="form-group">
-					<ReactSelect
+					<Select
 						value={
 							secondLang
 								? geographiesOptionsLg2.find(
@@ -111,7 +111,7 @@ const SimsGeographyPicker = ({
 							);
 						}}
 						options={secondLang ? geographiesOptionsLg2 : geographiesOptions}
-						onChange={(e) => onChange(e ? e.value : '')}
+						onChange={(value) => onChange(value)}
 						placeholder=""
 						isSearchable={true}
 						noResultsText={D.noResult}
