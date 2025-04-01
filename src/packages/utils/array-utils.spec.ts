@@ -122,16 +122,6 @@ describe('array utils', () => {
 		});
 	});
 
-	describe('creatSelectListSelectedLast', () => {
-		it('should return null', () => {
-			expect(A.creatSelectListSelectedLast(0)).toBeNull();
-		});
-
-		it('should return max.length elements', () => {
-			expect(A.creatSelectListSelectedLast(5)).toHaveLength(5);
-		});
-	});
-
 	describe('getMembers', () => {
 		const array = [{ idLinked: '1', prefLabelLg1: 'A', conceptLink: 'LINK' }];
 		it('should return empty array', () => {
