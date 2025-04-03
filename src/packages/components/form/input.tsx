@@ -8,6 +8,7 @@ type BlockTypes = {
 	error?: string;
 	required?: boolean;
 } & ComponentProps<'input'>;
+
 export const GenericInputBlock = ({
 	Component,
 	label,

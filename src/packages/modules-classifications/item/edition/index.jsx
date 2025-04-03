@@ -1,26 +1,23 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Controller, useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { default as ReactSelect } from 'react-select';
 
-import { ActionToolbar } from '@components/action-toolbar';
-import {
-	CancelButton,
-	SaveButton,
-} from '@components/buttons/buttons-with-icons';
-import { ErrorBloc } from '@components/errors-bloc';
+import { ClientSideError, ErrorBloc } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
+import { Select } from '@components/select-rmes';
 
 import { ClassificationsApi } from '@sdk/classification';
 
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { fetchingPreviousLevels } from '../client';
 import useClassificationItem from '../hook';
+import { Menu } from './menu';
+import { validate } from './validate';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',
@@ -34,16 +31,6 @@ const titleMapping = {
 export const Component = () => {
 	const queryClient = useQueryClient();
 	const { classificationId, itemId } = useParams();
-
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		control,
-	} = useForm({
-		criteriaMode: 'firstError',
-		mode: 'all',
-	});
 
 	const {
 		isLoading: isSaving,
@@ -87,26 +74,11 @@ export const Component = () => {
 		label: previousLevel.labelLg1,
 	}));
 
-	if (isLoading || isPreviousLevelsLoading) return <Loading />;
+	const [value, setValue] = useState(item);
+	const [clientSideErrors, setClientSideErrors] = useState({});
+	const [submitting, setSubmitting] = useState(false);
 
-	if (isSaving) return <Saving />;
-
-	if (isSavingSuccess) {
-		return (
-			<Navigate
-				to={
-					'/classifications/classification/' +
-					classificationId +
-					'/item/' +
-					itemId
-				}
-				replace
-			/>
-		);
-	}
-
-	const errorMessage = Object.values(errors)?.[0]?.message;
-	const { general, notes } = item;
+	const { general, notes } = value;
 
 	const formatAndSave = (value) => {
 		value.altLabels = general.altLabels?.map((altLabel) => {
@@ -151,35 +123,95 @@ export const Component = () => {
 			};
 		}, {});
 
+	const onSubmit = () => {
+		const clientSideErrors = validate(
+			value.general,
+			value.general.altLabels.length,
+		);
+		if (clientSideErrors.errorMessage?.length > 0) {
+			setSubmitting(true);
+			setClientSideErrors(clientSideErrors);
+		} else {
+			setClientSideErrors({});
+			formatAndSave(value);
+		}
+	};
+
+	if (isLoading || isPreviousLevelsLoading) return <Loading />;
+
+	if (isSaving) return <Saving />;
+
+	if (isSavingSuccess) {
+		return (
+			<Navigate
+				to={
+					'/classifications/classification/' +
+					classificationId +
+					'/item/' +
+					itemId
+				}
+				replace
+			/>
+		);
+	}
+
+	if (!value?.general) {
+		return;
+	}
+
 	return (
 		<div className="container editor-container">
 			<PageTitleBlock
 				titleLg1={general?.prefLabelLg1}
 				titleLg2={general?.prefLabelLg2}
 			/>
-
-			<form onSubmit={handleSubmit((value) => formatAndSave(value))}>
-				<ActionToolbar>
-					<CancelButton action="/classifications" type="button"></CancelButton>
-					<SaveButton type="submit"></SaveButton>
-				</ActionToolbar>
-				<ErrorBloc error={errorMessage} />
+			<form onSubmit={onSubmit}>
+				<Menu disabled={clientSideErrors.errorMessage?.length > 0} />
+				{submitting && clientSideErrors && (
+					<ErrorBloc error={clientSideErrors.errorMessage} />
+				)}
 				<Row>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
 						<TextInput
 							id="prefLabelLg1"
-							{...register('prefLabelLg1', { required: D.requiredPrefLabel })}
-							defaultValue={general.prefLabelLg1}
+							value={general.prefLabelLg1}
+							onChange={(e) => {
+								setValue({
+									...value,
+									general: { ...value.general, prefLabelLg1: e.target.value },
+								});
+								setClientSideErrors((clientSideErrors) => ({
+									...clientSideErrors,
+									errorMessage: [],
+								}));
+							}}
 						/>
+						<ClientSideError
+							id="prefLabelLg1-error"
+							error={clientSideErrors?.fields?.prefLabelLg1}
+						></ClientSideError>
 					</div>
 					<div className="col-md-6 form-group">
 						<LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
 						<TextInput
 							id="prefLabelLg2"
-							{...register('prefLabelLg2', { required: D.requiredPrefLabel })}
-							defaultValue={general.prefLabelLg2}
+							value={general.prefLabelLg2}
+							onChange={(e) => {
+								setValue({
+									...value,
+									general: { ...value.general, prefLabelLg2: e.target.value },
+								});
+								setClientSideErrors((clientSideErrors) => ({
+									...clientSideErrors,
+									errorMessage: [],
+								}));
+							}}
 						/>
+						<ClientSideError
+							id="prefLabelLg2-error"
+							error={clientSideErrors?.fields?.prefLabelLg2}
+						></ClientSideError>
 					</div>
 				</Row>
 				<Row>
@@ -187,38 +219,41 @@ export const Component = () => {
 						<label htmlFor="altLabelLg1">{D1.altLabel}</label>
 						<TextInput
 							id="altLabelLg1"
-							{...register('altLabelLg1')}
-							defaultValue={general.altLabelLg1}
+							value={general.altLabelLg1}
+							onChange={(e) =>
+								setValue({
+									...value,
+									general: { ...value.general, altLabelLg1: e.target.value },
+								})
+							}
 						/>
 					</div>
 					<div className="form-group col-md-6">
 						<label htmlFor="altLabelLg2">{D2.altLabel}</label>
 						<TextInput
 							id="altLabelLg2"
-							{...register('altLabelLg2')}
-							defaultValue={general.altLabelLg2}
+							value={general.altLabelLg2}
+							onChange={(e) =>
+								setValue({
+									...value,
+									general: { ...value.general, altLabelLg2: e.target.value },
+								})
+							}
 						/>
 					</div>
 				</Row>
-				<Row></Row>
 				<div className="form-group">
 					<label>{D.classificationsBroaderLevel}</label>
-					<Controller
-						name="broaderURI"
-						control={control}
-						defaultValue={general.broaderURI}
-						render={({ field: { onChange, value } }) => {
-							return (
-								<ReactSelect
-									value={previousLevelsOptions.find(
-										(option) => option.value === value,
-									)}
-									options={previousLevelsOptions}
-									onChange={(option) => onChange(option.value)}
-									clearable={false}
-								/>
-							);
-						}}
+					<Select
+						value={general.broaderURI}
+						options={previousLevelsOptions}
+						onChange={(v) =>
+							setValue({
+								...value,
+								general: { ...value.general, broaderURI: v },
+							})
+						}
+						clearable={false}
 					/>
 				</div>
 				{general.altLabels?.map(
@@ -231,29 +266,34 @@ export const Component = () => {
 									</label>
 									<TextInput
 										id={'altLabelsLg1_' + length}
-										{...register('altLabelsLg1_' + length, {
-											maxLength: {
-												value: Number(length),
-												message: D1.classificationItemAltError(length),
-											},
-										})}
-										defaultValue={shortLabelLg1}
+										value={shortLabelLg1}
+										onChange={(e) =>
+											setValue({
+												...value,
+												general: {
+													...value.general,
+													altLabelsLg1_: e.target.value,
+												},
+											})
+										}
 									/>
 								</div>
-
 								<div className="form-group col-md-6">
 									<label htmlFor={'altLabelsLg2_' + length}>
 										{D2.classificationItemAltLabels(length)}
 									</label>
 									<TextInput
 										id={'altLabelsLg2_' + length}
-										{...register('altLabelsLg2_' + length, {
-											maxLength: {
-												value: Number(length),
-												message: D1.classificationItemAltError(length),
-											},
-										})}
-										defaultValue={shortLabelLg2}
+										value={shortLabelLg2}
+										onChange={(e) =>
+											setValue({
+												...value,
+												general: {
+													...value.general,
+													altLabelsLg2_: e.target.value,
+												},
+											})
+										}
 									/>
 								</div>
 							</Row>
@@ -265,6 +305,7 @@ export const Component = () => {
 					const keyLg2 = `${key}Lg2`;
 					const keyLg1Uri = `${keyLg1}Uri`;
 					const keyLg2Uri = `${keyLg2}Uri`;
+
 					if (!values[keyLg1Uri] && !values[keyLg2Uri]) {
 						return null;
 					}
@@ -275,18 +316,14 @@ export const Component = () => {
 								{values[keyLg1Uri] && (
 									<>
 										<label htmlFor={keyLg1}>{D1[titleMapping[key]]}</label>
-										<Controller
-											name={keyLg1}
-											control={control}
-											defaultValue={values[keyLg1]}
-											render={({ field: { onChange, value } }) => {
-												return (
-													<EditorMarkdown
-														text={value}
-														handleChange={onChange}
-													/>
-												);
-											}}
+										<EditorMarkdown
+											text={values[keyLg1]}
+											handleChange={(v) =>
+												setValue({
+													...value,
+													general: { ...value.general, keyLg1: v },
+												})
+											}
 										/>
 									</>
 								)}
@@ -295,18 +332,14 @@ export const Component = () => {
 								{values[keyLg2Uri] && (
 									<>
 										<label htmlFor={keyLg2}>{D2[titleMapping[key]]}</label>
-										<Controller
-											name={keyLg2}
-											control={control}
-											defaultValue={values[keyLg2]}
-											render={({ field: { onChange, value } }) => {
-												return (
-													<EditorMarkdown
-														text={value}
-														handleChange={onChange}
-													/>
-												);
-											}}
+										<EditorMarkdown
+											text={values[keyLg2]}
+											handleChange={(v) =>
+												setValue({
+													...value,
+													general: { ...value.general, keyLg2: v },
+												})
+											}
 										/>
 									</>
 								)}
