@@ -1,10 +1,9 @@
-import ReactSelect from 'react-select';
-
 import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
 import { InputMultiRmes } from '@components/input-multi-rmes';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
+import { Select } from '@components/select-rmes';
 
 import { withCodesLists } from '@utils/hoc/withCodesLists';
 import { useOrganizations } from '@utils/hooks/organizations';
@@ -143,13 +142,13 @@ const GlobalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsUpdateFrequency}
-						<ReactSelect
+						<Select
 							value={editingDataset.accrualPeriodicity}
 							options={clFreqOptions}
-							onChange={(option) => {
+							onChange={(value) => {
 								setEditingDataset({
 									...editingDataset,
-									accrualPeriodicity: option?.value,
+									accrualPeriodicity: value,
 								});
 							}}
 						/>
@@ -160,14 +159,14 @@ const GlobalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsDataProvider}
-						<ReactSelect
+						<Select
 							multi={true}
 							value={editingDataset.creators}
 							options={organisationsOptions}
 							onChange={(values) => {
 								setEditingDataset({
 									...editingDataset,
-									creators: values.map((v) => v.value),
+									creators: values,
 								});
 							}}
 						/>
@@ -178,13 +177,13 @@ const GlobalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsPublicationProvider}
-						<ReactSelect
+						<Select
 							value={editingDataset.publisher}
 							options={organisationsOptions}
-							onChange={(option) => {
+							onChange={(value) => {
 								setEditingDataset({
 									...editingDataset,
-									publisher: option?.value,
+									publisher: value,
 								});
 							}}
 						/>
@@ -195,14 +194,14 @@ const GlobalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.theme}
-						<ReactSelect
+						<Select
 							multi={true}
 							value={editingDataset.themes}
 							options={themesOptions}
 							onChange={(values) => {
 								setEditingDataset({
 									...editingDataset,
-									themes: values.map(({ value }) => value),
+									themes: values,
 								});
 							}}
 						/>

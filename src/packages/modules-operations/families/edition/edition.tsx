@@ -82,7 +82,7 @@ class OperationsFamilyEdition extends Component<
 		} else return null;
 	}
 
-	onChange = (target: string, value: string) => {
+	onChange = (target: string) => (value: string) => {
 		this.setState((state) => ({
 			serverSideError: '',
 			submitting: true,
@@ -161,7 +161,7 @@ class OperationsFamilyEdition extends Component<
 							<TextInput
 								id="prefLabelLg1"
 								value={this.state.family.prefLabelLg1}
-								onChange={(e) => this.onChange(e.target.id, e.target.value)}
+								onChange={(e) => this.onChange(e.target.id)(e.target.value)}
 								aria-invalid={
 									!!this.state.clientSideErrors.fields?.prefLabelLg1
 								}
@@ -181,7 +181,7 @@ class OperationsFamilyEdition extends Component<
 							<TextInput
 								id="prefLabelLg2"
 								value={family.prefLabelLg2}
-								onChange={(e) => this.onChange(e.target.id, e.target.value)}
+								onChange={(e) => this.onChange(e.target.id)(e.target.value)}
 								aria-invalid={
 									!!this.state.clientSideErrors.fields?.prefLabelLg2
 								}
@@ -203,7 +203,7 @@ class OperationsFamilyEdition extends Component<
 							<TextInput
 								id="themeLg1"
 								value={family.themeLg1}
-								onChange={(e) => this.onChange(e.target.id, e.target.value)}
+								onChange={(e) => this.onChange(e.target.id)(e.target.value)}
 							/>
 						</div>
 						<div className="col-md-6 form-group">
@@ -211,7 +211,7 @@ class OperationsFamilyEdition extends Component<
 							<TextInput
 								id="themeLg2"
 								value={family.themeLg2}
-								onChange={(e) => this.onChange(e.target.id, e.target.value)}
+								onChange={(e) => this.onChange(e.target.id)(e.target.value)}
 							/>
 						</div>
 					</Row>
@@ -220,14 +220,14 @@ class OperationsFamilyEdition extends Component<
 							<label htmlFor="abstractLg1">{D1.summary}</label>
 							<EditorMarkdown
 								text={family.abstractLg1}
-								handleChange={(value) => this.onChange('abstractLg1', value)}
+								handleChange={this.onChange('abstractLg1')}
 							/>
 						</div>
 						<div className="col-md-6 form-group">
 							<label htmlFor="abstractLg2">{D2.summary}</label>
 							<EditorMarkdown
 								text={family.abstractLg2}
-								handleChange={(value) => this.onChange('abstractLg2', value)}
+								handleChange={this.onChange('abstractLg2')}
 							/>
 						</div>
 					</Row>
