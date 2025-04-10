@@ -58,8 +58,7 @@ export const GlobalInformationBlock = ({
 						</li>
 						<ConditionalDisplay data={dataset?.issued}>
 							<li>
-								{D.datasetsFirstDiffusion} :{' '}
-								{stringToDate(dataset.issued!)}{' '}
+								{D.datasetsFirstDiffusion} : {stringToDate(dataset.issued!)}{' '}
 							</li>
 						</ConditionalDisplay>
 
