@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import { AdvancedSearchList } from '@components/advanced-search/home';
+import { CreatorsInput } from '@components/creators-input';
 import { TextInput } from '@components/form/input';
 import { Column } from '@components/layout';
 import { Loading } from '@components/loading';
@@ -104,18 +105,14 @@ export const SearchFormList = ({ stamps, data }) => {
 			</div>
 			<div className="form-group row">
 				<div className="col-md-12">
-					<label htmlFor="creator" className="w-100">
-						{D.creatorTitle}
-
-						<Select
-							placeholder=""
-							value={stampsOptions.find((code) => code.value === creator) || ''}
-							options={stampsOptions}
-							onChange={(value) => {
-								handleChange('creator', value);
-							}}
-						/>
-					</label>
+					<CreatorsInput
+						lang="default"
+						value={creator}
+						required={false}
+						onChange={(value) => {
+							handleChange('creator', value);
+						}}
+					/>
 				</div>
 			</div>
 			<div className="form-group row">
