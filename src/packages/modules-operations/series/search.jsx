@@ -11,7 +11,6 @@ import { Select } from '@components/select-rmes';
 import { OperationsApi } from '@sdk/operations-api';
 
 import { useOrganizationsOptions } from '@utils/hooks/organizations';
-import { useStamps } from '@utils/hooks/stamps';
 import { useTitle } from '@utils/hooks/useTitle';
 import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 
@@ -30,16 +29,12 @@ const defaultFormState = {
 	dataCollector: '',
 };
 
-export const SearchFormList = ({ stamps, data }) => {
+export const SearchFormList = ({ data }) => {
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { prefLabelLg1, typeCode, creator, publisher, dataCollector } = form;
 
 	const organisationsOptions = useOrganizationsOptions();
-	const stampsOptions = stamps.map((stamp) => ({
-		value: stamp,
-		label: stamp,
-	}));
 
 	const filteredData = data
 		.filter(filterLabel(prefLabelLg1))
@@ -160,12 +155,10 @@ export const Component = () => {
 	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, D.advancedSearch);
 	const [data, setData] = useState();
 
-	const { data: stamps = [] } = useStamps();
-
 	useEffect(() => {
 		OperationsApi.getSeriesSearchList().then(setData);
 	}, []);
 
 	if (!data) return <Loading />;
-	return <SearchFormList data={data} stamps={stamps} />;
+	return <SearchFormList data={data} />;
 };
