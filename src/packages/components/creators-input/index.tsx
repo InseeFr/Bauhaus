@@ -1,5 +1,5 @@
 import { useStampsOptions } from '../../utils/hooks/stamps';
-import { D1 } from '../i18n';
+import D, { D1 } from '../i18n';
 import LabelRequired from '../label-required';
 import { Select } from '../select-rmes';
 
@@ -7,10 +7,14 @@ export const CreatorsInput = ({
 	value,
 	onChange,
 	multi = false,
+	required = true,
+	lang = 'first',
 }: Readonly<{
 	value: string | string[];
 	onChange: (value: string | string[]) => void;
 	multi?: boolean;
+	required?: boolean;
+	lang: 'first' | 'default';
 }>) => {
 	const stampsOptions = useStampsOptions();
 
@@ -19,15 +23,18 @@ export const CreatorsInput = ({
 		creatorsArray = [value];
 	}
 
+	const Dictionnary = lang === 'first' ? D1 : D;
+	const label = !multi
+		? Dictionnary.creatorsInput.creatorTitle
+		: Dictionnary.creatorsInput.creatorsTitle;
+
 	return (
-		<div>
-			<LabelRequired>
-				{!multi
-					? D1.creatorsInput.creatorTitle
-					: D1.creatorsInput.creatorsTitle}
-			</LabelRequired>
+		<>
+			{required && <LabelRequired>{label}</LabelRequired>}
+
+			{!required && <label>{label}</label>}
 			<Select
-				placeholder={D1.stampsPlaceholder}
+				placeholder={Dictionnary.stampsPlaceholder}
 				value={creatorsArray}
 				options={stampsOptions}
 				onChange={(value: string | string[]) => {
@@ -39,6 +46,6 @@ export const CreatorsInput = ({
 				}}
 				multi={multi}
 			/>
-		</div>
+		</>
 	);
 };
