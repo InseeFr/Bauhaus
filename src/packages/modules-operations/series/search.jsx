@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import { AdvancedSearchList } from '@components/advanced-search/home';
+import { CreatorsInput } from '@components/creators-input';
 import { TextInput } from '@components/form/input';
 import { Column } from '@components/layout';
 import { Loading } from '@components/loading';
@@ -10,7 +11,6 @@ import { Select } from '@components/select-rmes';
 import { OperationsApi } from '@sdk/operations-api';
 
 import { useOrganizationsOptions } from '@utils/hooks/organizations';
-import { useStamps } from '@utils/hooks/stamps';
 import { useTitle } from '@utils/hooks/useTitle';
 import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 
@@ -29,16 +29,12 @@ const defaultFormState = {
 	dataCollector: '',
 };
 
-export const SearchFormList = ({ stamps, data }) => {
+export const SearchFormList = ({ data }) => {
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const { prefLabelLg1, typeCode, creator, publisher, dataCollector } = form;
 
 	const organisationsOptions = useOrganizationsOptions();
-	const stampsOptions = stamps.map((stamp) => ({
-		value: stamp,
-		label: stamp,
-	}));
 
 	const filteredData = data
 		.filter(filterLabel(prefLabelLg1))
@@ -104,18 +100,14 @@ export const SearchFormList = ({ stamps, data }) => {
 			</div>
 			<div className="form-group row">
 				<div className="col-md-12">
-					<label htmlFor="creator" className="w-100">
-						{D.creatorTitle}
-
-						<Select
-							placeholder=""
-							value={stampsOptions.find((code) => code.value === creator) || ''}
-							options={stampsOptions}
-							onChange={(value) => {
-								handleChange('creator', value);
-							}}
-						/>
-					</label>
+					<CreatorsInput
+						lang="default"
+						value={creator}
+						required={false}
+						onChange={(value) => {
+							handleChange('creator', value);
+						}}
+					/>
 				</div>
 			</div>
 			<div className="form-group row">
@@ -163,12 +155,10 @@ export const Component = () => {
 	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, D.advancedSearch);
 	const [data, setData] = useState();
 
-	const { data: stamps = [] } = useStamps();
-
 	useEffect(() => {
 		OperationsApi.getSeriesSearchList().then(setData);
 	}, []);
 
 	if (!data) return <Loading />;
-	return <SearchFormList data={data} stamps={stamps} />;
+	return <SearchFormList data={data} />;
 };
