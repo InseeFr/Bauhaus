@@ -1,6 +1,5 @@
-import ReactSelect from 'react-select';
-
 import { NumberInput } from '@components/form/input';
+import { Select } from '@components/select-rmes';
 
 import D, { D1 } from '../../../deprecated-locales/build-dictionary';
 
@@ -37,7 +36,7 @@ export const TemporalField = ({
 	const getDefaultValueForYearCoverageType = () => {
 		return new Date().getFullYear();
 	};
-	const onTemporalCoverageChange = ({ value }: { value: string }) => {
+	const onTemporalCoverageChange = (value: string) => {
 		if (value?.endsWith('date')) {
 			updateTemporalCoverage({
 				temporalCoverageStartDate: '',
@@ -62,10 +61,9 @@ export const TemporalField = ({
 			<div className="col-md-4 form-group">
 				<label className="w-100 wilco-label-required">
 					{D1.datasetsTemporalCoverage}
-					<ReactSelect
+					<Select
 						value={temporalCoverageDataType}
 						options={datasetsTemporalCoverageOptions}
-						clearable={false}
 						onChange={onTemporalCoverageChange}
 					/>
 				</label>

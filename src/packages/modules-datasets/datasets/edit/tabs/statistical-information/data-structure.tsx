@@ -1,9 +1,8 @@
 import { Option } from '@model/SelectOption';
 import { useState } from 'react';
-import ReactSelect from 'react-select';
 
-import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
+import { Select } from '@components/select-rmes';
 
 import { createDictionary, firstLang } from '@utils/dictionnary';
 import { useStructures } from '@utils/hooks/structures';
@@ -11,86 +10,89 @@ import { useStructures } from '@utils/hooks/structures';
 import { D1 } from '../../../../../deprecated-locales';
 import './data-structure.css';
 
+const STRUCTURE_MODE = 'STRUCTURE_MODE';
 const URN_MODE = 'URN_MODE';
-const URL_MODE = 'URL_MODE';
 
 const D = createDictionary(firstLang, {
 	chooseUrn: {
 		fr: 'Saisir une URN',
 		en: 'Type a URN',
 	},
-	chooseUrl: {
+	chooseStructure: {
 		fr: 'Choisir une structure',
 		en: 'Choose a structure',
 	},
 });
+
+const firstOptions = [
+	{ value: STRUCTURE_MODE, label: D.chooseStructure },
+	{ value: URN_MODE, label: D.chooseUrn },
+];
+
 export const DataStructure = ({
 	value,
 	onChange,
-	error,
 }: Readonly<{
 	value: string;
 	onChange: (value: string) => void;
-	error?: string;
 }>) => {
 	const { data: structures } = useStructures();
-
 	const options: Option[] =
 		structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ??
 		[];
 
-	const [mode, setMode] = useState<typeof URN_MODE | typeof URL_MODE>(
-		structures?.find((s) => s.iri === value) ? URL_MODE : URN_MODE,
+	const [mode, setMode] = useState<
+		typeof URN_MODE | typeof STRUCTURE_MODE | null
+	>(
+		structures?.find((s) => s.iri === value)
+			? STRUCTURE_MODE
+			: value
+				? URN_MODE
+				: null,
 	);
 
-	if (mode === URN_MODE) {
-		return (
-			<div className="data-structure-input  col-md-12 form-group">
-				<div className="w-100">
-					<label className="w-100 wilco-label-required">
+	return (
+		<>
+			<div className="col-md-4 form-group">
+				<label className="w-100 wilco-label-required">
+					{D1.datasetsTemporalCoverage}
+					<Select
+						value={mode}
+						options={firstOptions}
+						onChange={(m) => {
+							setMode(m);
+							onChange('');
+						}}
+					/>
+				</label>
+			</div>
+			{mode === STRUCTURE_MODE && (
+				<>
+					<label className="col-md-8">
 						{D1.datasetsDataStructure}
-						<TextInput
-							aria-describedby="datastructure-error"
+						<Select
 							value={value}
-							onChange={(e) => {
-								onChange(e.target.value);
+							options={options}
+							onChange={(value) => {
+								onChange(value);
 							}}
 						/>
 					</label>
-					<ClientSideError
-						id="datastructure-error"
-						error={error}
-					></ClientSideError>
-				</div>
-				<button
-					type="button"
-					className="btn btn-default"
-					onClick={() => setMode('URL_MODE')}
-				>
-					{D.chooseUrl}
-				</button>
-			</div>
-		);
-	}
-	return (
-		<div className="data-structure-input col-md-12 form-group">
-			<label className="w-100 wilco-label-required">
-				{D1.datasetsDataStructure}
-				<ReactSelect
-					value={value}
-					options={options}
-					onChange={(option: Option) => {
-						onChange(option?.value);
-					}}
-				/>
-			</label>
-			<button
-				type="button"
-				className="btn btn-default"
-				onClick={() => setMode('URN_MODE')}
-			>
-				{D.chooseUrn}
-			</button>
-		</div>
+				</>
+			)}
+
+			{mode === URN_MODE && (
+				<label className="col-md-8">
+					{D1.datasetsDataStructure}
+					<TextInput
+						aria-describedby="datastructure-error"
+						value={value}
+						onChange={(e) => {
+							onChange(e.target.value);
+						}}
+					/>
+				</label>
+			)}
+		</>
 	);
 };

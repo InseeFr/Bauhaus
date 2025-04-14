@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import Select from 'react-select';
+
+import { Select } from '@components/select-rmes';
 
 import {
 	ADMIN,

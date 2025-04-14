@@ -8,30 +8,7 @@ const messages = {
 		fr: 'Structures - Recherche',
 		en: 'Structures - Search',
 	},
-	initApp: {
-		fr: "Initialisation de l'application ...",
-		en: 'Initializing the application...',
-	},
-	savingText: {
-		fr: 'Sauvegarde en cours ...',
-		en: 'Backup in progress',
-	},
-	importTitle: {
-		fr: 'Importer',
-		en: 'Import',
-	},
-	graphPlaceholder: {
-		fr: 'Identifiant de la DSD',
-		en: 'DSD Identifier',
-	},
-	selectFilesPlaceholder: {
-		fr: 'Choisisser un type de fichier ...',
-		en: 'Select a file type...',
-	},
-	importPlaceholder: {
-		fr: 'Insérer vos données RDF ...',
-		en: 'Insert your RDF data...',
-	},
+
 	exportTitle: {
 		fr: 'Exporter',
 		en: 'Export',

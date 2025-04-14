@@ -300,7 +300,7 @@ class OperationsIndicatorEdition extends Component {
 						<div className="form-group col-md-12">
 							<PublishersInput
 								value={indicator.publishers}
-								onChange={(value) => this.onChange('publishers')(value)}
+								onChange={this.onChange('publishers')}
 							/>
 						</div>
 					</Row>
@@ -308,7 +308,7 @@ class OperationsIndicatorEdition extends Component {
 						<div className="form-group col-md-12">
 							<CreatorsInput
 								value={indicator.creators}
-								onChange={(value) => this.onChange('creators')(value)}
+								onChange={this.onChange('creators')}
 								multi
 							/>
 							<ClientSideError
