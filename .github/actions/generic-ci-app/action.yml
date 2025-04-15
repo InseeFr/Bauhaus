@@ -2,10 +2,14 @@ name: 'Build Application'
 runs:
   using: 'composite'
   steps:
+    - name: Remove package-lock.json and node_modules
+      shell: bash
+      run: |
+        rm -f package-lock.json
+        rm -rf node_modules
     - uses: actions/setup-node@v4
       with:
         node-version: 23
-        cache: npm
     - name: 🏗️ Installing Dependencies
       shell: bash
       run: npm i --force
