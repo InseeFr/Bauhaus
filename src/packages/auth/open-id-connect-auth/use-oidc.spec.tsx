@@ -29,9 +29,7 @@ describe('LoggedInWrapper', () => {
 	it('devrait récupérer les informations utilisateur et afficher WrappedComponent', async () => {
 		const mockTokens = {
 			decodedIdToken: {
-				realm_access: {
-					roles: ['admin', 'user'],
-				},
+				roles: ['admin', 'user'],
 			},
 		};
 
