@@ -37,7 +37,7 @@ export const LoggedInWrapper = ({
 	const syncUserInformation = () => {
 		console.debug('Fetching User Informations...');
 		UsersApi.getStamp().then(({ stamp }: { stamp: string }) => {
-			console.log({ oidcTokens });
+			console.debug({ oidcTokens });
 			const roles = (oidcTokens?.decodedIdToken.realm_access as any).roles;
 			saveUserProps({ roles, stamp });
 			setUserInformationLoaded(true);
