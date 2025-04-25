@@ -30,9 +30,12 @@ export const CreatorsInput = ({
 
 	return (
 		<>
-			{required && <LabelRequired>{label}</LabelRequired>}
+			{required ? (
+				<LabelRequired>{label}</LabelRequired>
+			) : (
+				<label>{label}</label>
+			)}
 
-			{!required && <label>{label}</label>}
 			<Select
 				placeholder={Dictionnary.stampsPlaceholder}
 				value={creatorsArray}
