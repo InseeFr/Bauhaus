@@ -6,6 +6,7 @@ import {
 	CL_SOURCE_CATEGORY,
 } from '../../redux/actions/constants/codeList';
 import { renderWithRouter } from '../../tests-utils/render';
+import * as useStampsHook from '../../utils/hooks/stamps';
 import { SearchFormList } from './search';
 
 const data = [
@@ -125,7 +126,10 @@ const organisations = [
 	{ value: 'Acoss', label: 'Acoss' },
 	{ value: 'DG75-A040', label: 'DG75-A040' },
 ];
-const stamps = ['DG57-C003'];
+
+vi.spyOn(useStampsHook, 'useStampsOptions').mockImplementation(() => {
+	return [{ value: 'DG57-C003', label: 'DG57-C003' }];
+});
 
 vi.spyOn(useCodesListHook, 'useCodesList').mockImplementation(() => {
 	return {
@@ -146,9 +150,7 @@ describe('<SearchFormList />', () => {
 		const form = {};
 		useUrlQueryParameters.mockReturnValue({ form });
 
-		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} />,
-		);
+		const { container } = renderWithRouter(<SearchFormList data={data} />);
 		expect(container.querySelectorAll('li')).toHaveLength(6);
 	});
 
@@ -156,25 +158,19 @@ describe('<SearchFormList />', () => {
 		const form = { prefLabelLg1: 'Base' };
 		useUrlQueryParameters.mockReturnValue({ form });
 
-		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} />,
-		);
+		const { container } = renderWithRouter(<SearchFormList data={data} />);
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 	it('should filter by typeCode', () => {
 		const form = { typeCode: 'S' };
 		useUrlQueryParameters.mockReturnValue({ form });
-		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} />,
-		);
+		const { container } = renderWithRouter(<SearchFormList data={data} />);
 		expect(container.querySelectorAll('li')).toHaveLength(3);
 	});
 	it('should filter by creators', async () => {
 		const form = { creator: 'DG57-C003' };
 		useUrlQueryParameters.mockReturnValue({ form });
-		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} />,
-		);
+		const { container } = renderWithRouter(<SearchFormList data={data} />);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
@@ -182,9 +178,7 @@ describe('<SearchFormList />', () => {
 	it('should filter by publishers', async () => {
 		const form = { publisher: 'Acoss' };
 		useUrlQueryParameters.mockReturnValue({ form });
-		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} />,
-		);
+		const { container } = renderWithRouter(<SearchFormList data={data} />);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
@@ -192,9 +186,7 @@ describe('<SearchFormList />', () => {
 	it('should filter by dataCollector', async () => {
 		const form = { dataCollector: 'DG75-A040' };
 		useUrlQueryParameters.mockReturnValue({ form });
-		const { container } = renderWithRouter(
-			<SearchFormList data={data} stamps={stamps} />,
-		);
+		const { container } = renderWithRouter(<SearchFormList data={data} />);
 
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
