@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
@@ -10,8 +9,6 @@ import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
 import { Select } from '@components/select-rmes';
-
-import { ClassificationsApi } from '@sdk/classification';
 
 import { useDisseminationStatusOptions } from '@utils/hooks/disseminationStatus';
 import { useOrganizationsOptions } from '@utils/hooks/organizations';
