@@ -2,8 +2,32 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { ClassificationsApi } from '@sdk/classification';
 
+export const useSeries = () => {
+	const { isLoading, data: series } = useQuery({
+		queryKey: ['classifications-series'],
+		queryFn: () => {
+			return ClassificationsApi.getSeriesList();
+		},
+	});
+
+	return { isLoading, series };
+};
+
+export const useClassifications = () => {
+	const { isLoading, data: classifications } = useQuery({
+		queryKey: ['classifications'],
+		queryFn: ClassificationsApi.getList,
+	});
+
+	return { isLoading, classifications };
+};
+
 export const useClassification = (id) => {
-	const { isLoading, data: classification } = useQuery({
+	const {
+		isLoading,
+		status,
+		data: classification,
+	} = useQuery({
 		queryKey: ['classifications', id],
 		queryFn: () => {
 			return Promise.all([
@@ -15,7 +39,7 @@ export const useClassification = (id) => {
 		},
 	});
 
-	return { isLoading, classification };
+	return { isLoading, classification, status };
 };
 export const usePublishClassification = (id) => {
 	const queryClient = useQueryClient();

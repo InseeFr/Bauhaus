@@ -1,5 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { GlobalClientSideErrorBloc } from '@components/errors-bloc';
@@ -11,8 +10,6 @@ import { PageTitleBlock } from '@components/page-title-block';
 import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
 import { Select } from '@components/select-rmes';
 
-import { ClassificationsApi } from '@sdk/classification';
-
 import { useDisseminationStatusOptions } from '@utils/hooks/disseminationStatus';
 import { useOrganizationsOptions } from '@utils/hooks/organizations';
 import { useStampsOptions } from '@utils/hooks/stamps';
@@ -20,13 +17,20 @@ import { useTitle } from '@utils/hooks/useTitle';
 
 import D, { D1, D2 } from '../../deprecated-locales';
 import { transformModelToSelectOptions } from '../../utils/transformer';
-import { useClassification, useUpdateClassification } from '../hooks';
+import {
+	useClassification,
+	useClassifications,
+	useSeries,
+	useUpdateClassification,
+} from '../hooks';
 import { Menu } from './menu';
 import { validate } from './validate';
 
 export const Component = () => {
 	const { id } = useParams();
-	const { isLoading, classification } = useClassification(id);
+	const { isLoading, classification, status } = useClassification(id);
+	const { series } = useSeries();
+	const { classifications } = useClassifications();
 
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
@@ -36,26 +40,22 @@ export const Component = () => {
 
 	const { save, isSavingSuccess, isSaving } = useUpdateClassification(id);
 
-	const { data: series } = useQuery({
-		queryKey: ['classifications-series'],
-		queryFn: () => {
-			return ClassificationsApi.getSeriesList();
-		},
-	});
 	const seriesOptions = transformModelToSelectOptions(series ?? []);
 
 	const disseminationStatusOptions = useDisseminationStatusOptions();
 	const organisationsOptions = useOrganizationsOptions();
 
 	const stampsOptions = useStampsOptions();
-	const { data: classifications } = useQuery({
-		queryKey: ['classifications'],
-		queryFn: ClassificationsApi.getList,
-	});
 	const classificationsOptions =
 		classifications
 			?.filter((classification) => classification.id !== id)
 			?.map(({ id, label }) => ({ value: id, label })) ?? [];
+
+	useEffect(() => {
+		if (status === 'success') {
+			setValue(classification);
+		}
+	}, [status, classification]);
 
 	if (isLoading) return <Loading />;
 
