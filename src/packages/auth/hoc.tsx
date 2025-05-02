@@ -18,6 +18,7 @@ const auth = (WrappedComponent: () => JSX.Element) => {
 		roles: string[] | null;
 	}) => {
 		const { isUserLoggedIn } = useOidc();
+
 		if (authType === OPEN_ID_CONNECT_AUTH) {
 			if (!isUserLoggedIn) return <LoginComponent />;
 			else return <LoggedInWrapper WrappedComponent={WrappedComponent} />;
