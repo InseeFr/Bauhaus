@@ -1,8 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
 import { PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
-
-import { MODULE, PRIVILEGE, UsersApi } from '@sdk/users-api';
 
 import { ReduxModel } from '../../redux/model';
 import { getPermission } from '../../redux/selectors';
@@ -46,40 +43,4 @@ export function AuthDumb({
 	}
 	return children;
 }
-
-export const HasAccess = ({
-	children,
-	module,
-	privilege,
-	fallback = null,
-	complementaryCheck = true,
-}: Readonly<
-	PropsWithChildren<{
-		module: MODULE;
-		privilege: PRIVILEGE;
-		fallback?: any;
-		complementaryCheck?: boolean;
-	}>
->) => {
-	const { data } = useQuery({
-		queryKey: ['users'],
-		queryFn: () => UsersApi.getInfo(),
-	});
-
-	if (!data) {
-		return fallback;
-	}
-	const currentModule = data.find((d) => d.application === module);
-	const currentPrivilege = currentModule?.privileges.find(
-		(p) => p.privilege === privilege,
-	);
-
-	const isAuthorized = currentPrivilege?.strategy === 'ALL';
-
-	if (!isAuthorized || !complementaryCheck) {
-		return fallback;
-	}
-	return children;
-};
-
 export default AuthDumb;

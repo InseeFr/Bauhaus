@@ -8,7 +8,8 @@ import { ValidationButton } from '@components/validationButton';
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { containUnsupportedStyles } from '@utils/html-utils';
 
-import { HasAccess } from '../../../auth/components/auth';
+import Auth from '../../../auth/components/auth';
+import { ADMIN } from '../../../auth/roles';
 import { Family } from '../../../model/operations/family';
 
 interface MenuTypes {
@@ -24,20 +25,21 @@ export const Menu = ({ family, publish }: Readonly<MenuTypes>) => {
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
 	const publicationDisabled = containUnsupportedStyles(family);
+
 	return (
 		<ActionToolbar>
 			<ReturnButton action={() => goBack('/operations/families')} />
 
-			<HasAccess module="FAMILY" privilege="PUBLISH">
+			<Auth roles={[ADMIN]}>
 				<ValidationButton
 					object={family}
 					callback={publish}
 					disabled={publicationDisabled}
 				/>
-			</HasAccess>
-			<HasAccess module="FAMILY" privilege="UPDATE">
+			</Auth>
+			<Auth roles={[ADMIN]}>
 				<UpdateButton action={`/operations/family/${family.id}/modify`} />
-			</HasAccess>
+			</Auth>
 		</ActionToolbar>
 	);
 };
