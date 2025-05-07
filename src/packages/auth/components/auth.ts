@@ -88,7 +88,7 @@ export const HasAccess = ({
 	children,
 	module,
 	privilege,
-	fallback = null,
+	stamps = [],
 	complementaryCheck = true,
 }: Readonly<
 	PropsWithChildren<{
@@ -96,22 +96,26 @@ export const HasAccess = ({
 		privilege: PRIVILEGE;
 		fallback?: any;
 		complementaryCheck?: boolean;
+		stamps?: string[];
 	}>
 >) => {
 	const { privileges } = usePrivileges();
-
+	const { stamp } = useSelector((state: ReduxModel) => getPermission(state));
 	if (!privileges) {
-		return fallback;
+		return null;
 	}
 	const currentModule = privileges.find((d) => d.application === module);
 	const currentPrivilege = currentModule?.privileges.find(
 		(p) => p.privilege === privilege,
 	);
+	const isAuthorized =
+		currentPrivilege?.strategy === 'ALL' ||
+		(currentPrivilege?.strategy === 'STAMP' &&
+			stamps.includes(stamp) &&
+			complementaryCheck);
 
-	const isAuthorized = currentPrivilege?.strategy === 'ALL';
-
-	if (!isAuthorized || !complementaryCheck) {
-		return fallback;
+	if (!isAuthorized) {
+		return null;
 	}
 	return children;
 };

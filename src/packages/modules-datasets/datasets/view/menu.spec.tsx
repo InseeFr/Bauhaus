@@ -1,13 +1,37 @@
+import { UNPUBLISHED } from '@model/ValidationState';
 import { render, screen } from '@testing-library/react';
 
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { Dataset } from '../../../model/Dataset';
-import { UNPUBLISHED } from '../../../model/ValidationState';
 import { RBACMock } from '../../../tests-utils/rbac';
-import { ViewMenu } from './menu';
 
 describe('Dataset View Menu', () => {
-	it('a user can only see the go back button', () => {
+	afterEach(() => {
+		vi.resetModules();
+		vi.clearAllMocks();
+	});
+
+	it('a user can only see the go back button', async () => {
+		vi.doMock('@tanstack/react-query', async () => {
+			const actual = await vi.importActual<
+				typeof import('@tanstack/react-query')
+			>('@tanstack/react-query');
+			return {
+				...actual,
+				useQuery: vi.fn().mockReturnValue({
+					isLoading: false,
+					data: [
+						{
+							application: 'DATASET_DATASET',
+							privileges: [],
+						},
+					],
+				}),
+			};
+		});
+
+		const { ViewMenu } = await import('./menu');
+
 		const dataset = {} as unknown as Dataset;
 		render(
 			<RBACMock roles={[]}>
@@ -25,7 +49,31 @@ describe('Dataset View Menu', () => {
 		expect(screen.queryByText('Update')).toBeNull();
 	});
 
-	it('an admin can goBack, publish, delete and update a dataset even if the stamp is not correct', () => {
+	it('an admin can goBack, publish, delete and update a dataset even if the stamp is not correct', async () => {
+		vi.doMock('@tanstack/react-query', async () => {
+			const actual = await vi.importActual<
+				typeof import('@tanstack/react-query')
+			>('@tanstack/react-query');
+			return {
+				...actual,
+				useQuery: vi.fn().mockReturnValue({
+					isLoading: false,
+					data: [
+						{
+							application: 'DATASET_DATASET',
+							privileges: [
+								{ privilege: 'UPDATE', strategy: 'ALL' },
+								{ privilege: 'DELETE', strategy: 'ALL' },
+								{ privilege: 'PUBLISH', strategy: 'ALL' },
+							],
+						},
+					],
+				}),
+			};
+		});
+
+		const { ViewMenu } = await import('./menu');
+
 		const dataset = {} as unknown as Dataset;
 		render(
 			<RBACMock roles={[ADMIN]}>
@@ -43,7 +91,31 @@ describe('Dataset View Menu', () => {
 		screen.getByText('Update');
 	});
 
-	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish, delete and update a dataset if the stamp is correct and validationState is unpublished', () => {
+	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish, delete and update a dataset if the stamp is correct and validationState is unpublished', async () => {
+		vi.doMock('@tanstack/react-query', async () => {
+			const actual = await vi.importActual<
+				typeof import('@tanstack/react-query')
+			>('@tanstack/react-query');
+			return {
+				...actual,
+				useQuery: vi.fn().mockReturnValue({
+					isLoading: false,
+					data: [
+						{
+							application: 'DATASET_DATASET',
+							privileges: [
+								{ privilege: 'UPDATE', strategy: 'STAMP' },
+								{ privilege: 'DELETE', strategy: 'STAMP' },
+								{ privilege: 'PUBLISH', strategy: 'STAMP' },
+							],
+						},
+					],
+				}),
+			};
+		});
+
+		const { ViewMenu } = await import('./menu');
+
 		const dataset = {
 			validationState: UNPUBLISHED,
 			catalogRecord: { contributor: 'INSEE' },
@@ -64,7 +136,31 @@ describe('Dataset View Menu', () => {
 		screen.getByText('Update');
 	});
 
-	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish  and update a dataset if the stamp is correct and validationState is unpublished', () => {
+	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish  and update a dataset if the stamp is correct and validationState is unpublished', async () => {
+		vi.doMock('@tanstack/react-query', async () => {
+			const actual = await vi.importActual<
+				typeof import('@tanstack/react-query')
+			>('@tanstack/react-query');
+			return {
+				...actual,
+				useQuery: vi.fn().mockReturnValue({
+					isLoading: false,
+					data: [
+						{
+							application: 'DATASET_DATASET',
+							privileges: [
+								{ privilege: 'UPDATE', strategy: 'STAMP' },
+								{ privilege: 'DELETE', strategy: 'STAMP' },
+								{ privilege: 'PUBLISH', strategy: 'STAMP' },
+							],
+						},
+					],
+				}),
+			};
+		});
+
+		const { ViewMenu } = await import('./menu');
+
 		const dataset = {
 			validationState: 'Published',
 			catalogRecord: { contributor: ['INSEE'] },
@@ -85,7 +181,31 @@ describe('Dataset View Menu', () => {
 		screen.getByText('Update');
 	});
 
-	it('an Gestionnaire_jeu_donnees_RMESGNCS can only goBack if the stamp not is correct', () => {
+	it('an Gestionnaire_jeu_donnees_RMESGNCS can only goBack if the stamp not is correct', async () => {
+		vi.doMock('@tanstack/react-query', async () => {
+			const actual = await vi.importActual<
+				typeof import('@tanstack/react-query')
+			>('@tanstack/react-query');
+			return {
+				...actual,
+				useQuery: vi.fn().mockReturnValue({
+					isLoading: false,
+					data: [
+						{
+							application: 'DATASET_DATASET',
+							privileges: [
+								{ privilege: 'UPDATE', strategy: 'STAMP' },
+								{ privilege: 'DELETE', strategy: 'STAMP' },
+								{ privilege: 'PUBLISH', strategy: 'STAMP' },
+							],
+						},
+					],
+				}),
+			};
+		});
+
+		const { ViewMenu } = await import('./menu');
+
 		const dataset = {
 			validationState: 'Published',
 			catalogRecord: { contributor: ['XXXXXX'] },

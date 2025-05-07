@@ -28,14 +28,14 @@ export const Menu = ({ family, publish }: Readonly<MenuTypes>) => {
 		<ActionToolbar>
 			<ReturnButton action={() => goBack('/operations/families')} />
 
-			<HasAccess module="FAMILY" privilege="PUBLISH">
+			<HasAccess module="OPERATION_FAMILY" privilege="PUBLISH">
 				<ValidationButton
 					object={family}
 					callback={publish}
 					disabled={publicationDisabled}
 				/>
 			</HasAccess>
-			<HasAccess module="FAMILY" privilege="UPDATE">
+			<HasAccess module="OPERATION_FAMILY" privilege="UPDATE">
 				<UpdateButton action={`/operations/family/${family.id}/modify`} />
 			</HasAccess>
 		</ActionToolbar>

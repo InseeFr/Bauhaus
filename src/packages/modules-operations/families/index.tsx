@@ -21,7 +21,7 @@ export const Component = () => {
 		<div className="container">
 			<Row>
 				<VerticalMenu>
-					<HasAccess module="FAMILY" privilege="CREATE">
+					<HasAccess module="OPERATION_FAMILY" privilege="CREATE">
 						<FeminineButton action="/operations/families/create" />
 					</HasAccess>
 					<Button wrapper={false} action="/operations/tree">

@@ -4,7 +4,6 @@ import { ADMIN } from '../../../auth/roles';
 import { Family } from '../../../model/operations/family';
 import { RBACMock } from '../../../tests-utils/rbac';
 
-vi.mock('');
 describe('Family Home Page Menu', () => {
 	afterEach(() => {
 		vi.resetModules();
@@ -21,7 +20,7 @@ describe('Family Home Page Menu', () => {
 					isLoading: false,
 					data: [
 						{
-							application: 'FAMILY',
+							application: 'OPERATION_FAMILY',
 							privileges: [
 								{ privilege: 'UPDATE', strategy: 'ALL' },
 								{ privilege: 'PUBLISH', strategy: 'ALL' },
@@ -55,7 +54,7 @@ describe('Family Home Page Menu', () => {
 					isLoading: false,
 					data: [
 						{
-							application: 'FAMILY',
+							application: 'OPERATION_FAMILY',
 							privileges: [],
 						},
 					],
