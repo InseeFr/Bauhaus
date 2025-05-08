@@ -9,7 +9,32 @@ import { RBACMock } from '../../tests-utils/rbac';
 import { Menu } from './menu';
 
 describe('Document Home Page Menu', () => {
-	it('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', () => {
+	afterEach(() => {
+		vi.resetModules();
+		vi.clearAllMocks();
+	});
+
+	it('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', async () => {
+		vi.doMock('@tanstack/react-query', async () => {
+			const actual = await vi.importActual<
+				typeof import('@tanstack/react-query')
+			>('@tanstack/react-query');
+			return {
+				...actual,
+				useQuery: vi.fn().mockReturnValue({
+					isLoading: false,
+					data: [
+						{
+							application: 'OPERATION_DOCUMENT',
+							privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+						},
+					],
+				}),
+			};
+		});
+
+		const { Menu } = await import('./menu');
+
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu />
@@ -20,29 +45,27 @@ describe('Document Home Page Menu', () => {
 		screen.getByText('New Document');
 	});
 
-	it('a user with INDICATOR_CONTRIBUTOR role can create a document', () => {
-		render(
-			<RBACMock roles={[INDICATOR_CONTRIBUTOR]}>
-				<Menu />
-			</RBACMock>,
-		);
+	it('a user without Admin or  INDICATOR_CONTRIBUTOR or SERIES_CONTRIBUTOR role cannot create a document', async () => {
+		vi.doMock('@tanstack/react-query', async () => {
+			const actual = await vi.importActual<
+				typeof import('@tanstack/react-query')
+			>('@tanstack/react-query');
+			return {
+				...actual,
+				useQuery: vi.fn().mockReturnValue({
+					isLoading: false,
+					data: [
+						{
+							application: 'OPERATION_DOCUMENT',
+							privileges: [],
+						},
+					],
+				}),
+			};
+		});
 
-		screen.getByText('New Link');
-		screen.getByText('New Document');
-	});
+		const { Menu } = await import('./menu');
 
-	it('a user with SERIES_CONTRIBUTOR role can create a document', () => {
-		render(
-			<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-				<Menu />
-			</RBACMock>,
-		);
-
-		screen.getByText('New Link');
-		screen.getByText('New Document');
-	});
-
-	it('a user without Admin or  INDICATOR_CONTRIBUTOR or SERIES_CONTRIBUTOR role cannot create a document', () => {
 		render(
 			<RBACMock roles={[]}>
 				<Menu />

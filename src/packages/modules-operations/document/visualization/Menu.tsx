@@ -6,12 +6,7 @@ import {
 
 import { useGoBack } from '@utils/hooks/useGoBack';
 
-import Auth from '../../../auth/components/auth';
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import { Document } from '../../../model/operations/document';
 
 interface MenuTypes {
@@ -49,15 +44,13 @@ export const Menu = ({ document, type }: Readonly<MenuTypes>) => {
 		<ActionToolbar>
 			<ReturnButton action={() => goBack('/operations/documents')} />
 
-			<Auth
-				roles={[
-					ADMIN,
-					[SERIES_CONTRIBUTOR, checkContributorRight(document)],
-					[INDICATOR_CONTRIBUTOR, checkContributorRight(document)],
-				]}
+			<HasAccess
+				module="OPERATION_DOCUMENT"
+				privilege="UPDATE"
+				check={checkContributorRight(document)}
 			>
 				<UpdateButton action={`/operations/${type}/${document.id}/modify`} />
-			</Auth>
+			</HasAccess>
 		</ActionToolbar>
 	);
 };

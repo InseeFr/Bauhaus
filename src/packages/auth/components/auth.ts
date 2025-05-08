@@ -90,6 +90,7 @@ export const HasAccess = ({
 	privilege,
 	stamps = [],
 	complementaryCheck = true,
+	check = () => true,
 }: Readonly<
 	PropsWithChildren<{
 		module: MODULE;
@@ -97,6 +98,7 @@ export const HasAccess = ({
 		fallback?: any;
 		complementaryCheck?: boolean;
 		stamps?: string[];
+		check?: (stamp: string) => boolean;
 	}>
 >) => {
 	const { privileges } = usePrivileges();
@@ -111,8 +113,9 @@ export const HasAccess = ({
 	const isAuthorized =
 		currentPrivilege?.strategy === 'ALL' ||
 		(currentPrivilege?.strategy === 'STAMP' &&
-			stamps.includes(stamp) &&
-			complementaryCheck);
+			(stamps.includes(stamp) || stamps.length === 0) &&
+			complementaryCheck &&
+			check(stamp));
 
 	if (!isAuthorized) {
 		return null;
