@@ -110,6 +110,7 @@ export const HasAccess = ({
 	const currentPrivilege = currentModule?.privileges.find(
 		(p) => p.privilege === privilege,
 	);
+
 	const isAuthorized =
 		currentPrivilege?.strategy === 'ALL' ||
 		(currentPrivilege?.strategy === 'STAMP' &&
