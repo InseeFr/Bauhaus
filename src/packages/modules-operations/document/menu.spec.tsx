@@ -1,12 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from '../../auth/roles';
+import { ADMIN } from '../../auth/roles';
 import { RBACMock } from '../../tests-utils/rbac';
-import { Menu } from './menu';
 
 describe('Document Home Page Menu', () => {
 	afterEach(() => {
