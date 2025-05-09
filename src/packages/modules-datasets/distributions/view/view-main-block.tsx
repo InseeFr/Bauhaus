@@ -26,7 +26,8 @@ export const ViewMainBlock = ({
 								{D.createdDateTitle} : {stringToDate(distribution.created)}{' '}
 							</li>
 							<li>
-								{D.modifiedDateTitle} : {stringToDate(distribution.updated)}{' '}
+								{D.modifiedDateTitle} :{' '}
+								{stringToDate(distribution.updated)}{' '}
 							</li>
 							<li>
 								{D.distributionStatus} :

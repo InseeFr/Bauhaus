@@ -1,5 +1,13 @@
 import { validate } from './validation';
 
+vi.mock('../../../application/app-context', () => ({
+	useAppContext: () => ({
+		properties: {
+			extraMandatoryFields: 'accrualPeriodicityCode,typeCode',
+		},
+	}),
+}));
+
 describe('validation', function () {
 	it('should return an error for prefLabelLg1', function () {
 		expect(
