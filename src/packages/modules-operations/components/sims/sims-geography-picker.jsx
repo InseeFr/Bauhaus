@@ -5,8 +5,7 @@ import { SeeButton } from '@components/buttons/see';
 import { Select } from '@components/select-rmes';
 import { RightSlidingPanel } from '@components/sliding-panel';
 
-import Auth, { HasAccess } from '../../../auth/components/auth';
-import { ADMIN } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import {
 	getAllOptions,
 	loadGeographies,
