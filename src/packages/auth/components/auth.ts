@@ -88,7 +88,7 @@ export const HasAccess = ({
 	children,
 	module,
 	privilege,
-	stamps = [],
+	stamps: stampsProps = [],
 	complementaryCheck = true,
 	check = () => true,
 }: Readonly<
@@ -101,6 +101,8 @@ export const HasAccess = ({
 		check?: (stamp: string) => boolean;
 	}>
 >) => {
+	const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
+
 	const { privileges } = usePrivileges();
 	const { stamp } = useSelector((state: ReduxModel) => getPermission(state));
 	if (!privileges) {

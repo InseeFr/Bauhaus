@@ -11,17 +11,15 @@ import { ValidationButton } from '@components/validationButton';
 
 import { StructureApi } from '@sdk/index';
 
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { Structure } from '../../../model/structures/Structure';
-import { usePermission } from '../../../redux/hooks/usePermission';
 
 interface ControlsTypes {
 	structure: Structure;
 	publish: VoidFunction;
 }
 const Controls = ({ structure, publish }: ControlsTypes) => {
-	const permission = usePermission();
 	const contributors = Array.isArray(structure.contributor)
 		? structure.contributor
 		: [structure.contributor];
@@ -35,27 +33,42 @@ const Controls = ({ structure, publish }: ControlsTypes) => {
 		});
 	};
 
-	const hasRightsBasedOnStamp =
-		contributors.find((contributor) => contributor === permission.stamp) &&
-		permission?.roles?.includes(STRUCTURE_CONTRIBUTOR);
-	const isAdmin = permission?.roles?.includes(ADMIN);
 	return (
 		<ActionToolbar>
 			<ReturnButton action="/structures" />
-			{(isAdmin || hasRightsBasedOnStamp) && (
+			<HasAccess
+				module="STRUCTURE_STRUCTURE"
+				privilege="PUBLISH"
+				stamps={contributors}
+			>
 				<ValidationButton object={structure} callback={publish} />
-			)}
-			{(isAdmin || hasRightsBasedOnStamp) && (
+			</HasAccess>
+
+			<HasAccess
+				module="STRUCTURE_STRUCTURE"
+				privilege="CREATE"
+				stamps={contributors}
+			>
 				<DuplicateButton action={`/structures/${id}/duplicate`} />
-			)}
-			{(isAdmin ||
-				(hasRightsBasedOnStamp &&
-					structure.validationState === UNPUBLISHED)) && (
+			</HasAccess>
+
+			<HasAccess
+				module="STRUCTURE_STRUCTURE"
+				privilege="DELETE"
+				complementaryCheck={structure.validationState === UNPUBLISHED}
+				stamps={contributors}
+			>
 				<DeleteButton action={handleDelete} />
-			)}
-			{(isAdmin || hasRightsBasedOnStamp) && (
+			</HasAccess>
+
+			<HasAccess
+				module="STRUCTURE_STRUCTURE"
+				privilege="UPDATE"
+				complementaryCheck={structure.validationState === UNPUBLISHED}
+				stamps={contributors}
+			>
 				<UpdateButton action={`/structures/${id}/update`} />
-			)}
+			</HasAccess>
 		</ActionToolbar>
 	);
 };
