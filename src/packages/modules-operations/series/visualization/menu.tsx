@@ -9,8 +9,7 @@ import { ValidationButton } from '@components/validationButton';
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { containUnsupportedStyles } from '@utils/html-utils';
 
-import Auth from '../../../auth/components/auth';
-import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Series } from '../../../model/operations/series';
 
@@ -26,7 +25,6 @@ export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
 	 * have unsupported styles like STRIKETHROUGH, color or background color
 	 */
 	const publicationDisabled = containUnsupportedStyles(series);
-	const checkStamp = (stamp: string) => series.creators.includes(stamp);
 	const ableToCreateASimsForThisSeries = (series.operations || []).length === 0;
 
 	return (
@@ -40,26 +38,38 @@ export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
 				/>
 			)}
 			{!series.idSims && (
-				<Auth
-					roles={[ADMIN, [SERIES_CONTRIBUTOR, checkStamp]]}
+				<HasAccess
+					module="OPERATION_SERIES"
+					privilege="CREATE"
+					stamps={series.creators}
 					complementaryCheck={ableToCreateASimsForThisSeries}
 				>
 					<Button
 						action={`/operations/series/${series.id}/sims/create`}
 						label={D.btnSimsCreate}
 					/>
-				</Auth>
+				</HasAccess>
 			)}
-			<Auth roles={[ADMIN, [SERIES_CONTRIBUTOR, checkStamp]]}>
+			<HasAccess
+				module="OPERATION_SERIES"
+				privilege="PUBLISH"
+				stamps={series.creators}
+				complementaryCheck={ableToCreateASimsForThisSeries}
+			>
 				<ValidationButton
 					object={series}
 					callback={onPublish}
 					disabled={publicationDisabled}
 				/>
-			</Auth>
-			<Auth roles={[ADMIN, [SERIES_CONTRIBUTOR, checkStamp]]}>
+			</HasAccess>
+			<HasAccess
+				module="OPERATION_SERIES"
+				privilege="UPDATE"
+				stamps={series.creators}
+				complementaryCheck={ableToCreateASimsForThisSeries}
+			>
 				<UpdateButton action={`/operations/series/${series.id}/modify`} />
-			</Auth>
+			</HasAccess>
 		</ActionToolbar>
 	);
 };
