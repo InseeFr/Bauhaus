@@ -5,7 +5,7 @@ import { SeeButton } from '@components/buttons/see';
 import { Select } from '@components/select-rmes';
 import { RightSlidingPanel } from '@components/sliding-panel';
 
-import Auth from '../../../auth/components/auth';
+import Auth, { HasAccess } from '../../../auth/components/auth';
 import { ADMIN } from '../../../auth/roles';
 import {
 	getAllOptions,
@@ -120,7 +120,7 @@ const SimsGeographyPicker = ({
 					/>
 				</div>
 
-				<Auth roles={[ADMIN]}>
+				<HasAccess module="GEOGRAPHY" privilege="CREATE">
 					<button
 						type="button"
 						className="btn btn-default"
@@ -128,7 +128,7 @@ const SimsGeographyPicker = ({
 					>
 						{D.btnNew}
 					</button>
-				</Auth>
+				</HasAccess>
 				<SeeButton
 					disabled={!shouldSeeViewButton}
 					onClick={openViewPanel}

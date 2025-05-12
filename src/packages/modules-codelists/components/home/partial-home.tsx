@@ -9,8 +9,7 @@ import { VerticalMenu } from '@components/vertical-menu';
 
 import { useTitle } from '@utils/hooks/useTitle';
 
-import Auth from '../../../auth/components/auth';
-import { ADMIN } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import { API } from '../../apis';
 import D from '../../i18n/build-dictionary';
 import { formatLabel } from '../../utils';
@@ -35,9 +34,9 @@ export const Component = () => {
 		<div className="container codelists-list">
 			<Row>
 				<VerticalMenu>
-					<Auth roles={[ADMIN]}>
+					<HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="CREATE">
 						<FeminineButton action="/codelists/partial/create" />
-					</Auth>
+					</HasAccess>
 				</VerticalMenu>
 				<div className="col-md-8 text-center pull-right">
 					<PageTitle
