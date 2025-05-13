@@ -36,16 +36,17 @@ export const SearchForm = () => {
 			.finally(() => setLoading(false));
 	}, []);
 
-	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
+	const { form, reset /*, handleChange*/ } =
+		useUrlQueryParameters(defaultFormState);
 
 	const {
 		labelLg1,
-		creator,
-		disseminationStatus,
-		validationStatus,
-		wasGeneratedIRIs,
-		created,
-		updated,
+		// creator,
+		// disseminationStatus,
+		// validationStatus,
+		// wasGeneratedIRIs,
+		// created,
+		// updated,
 	} = form;
 
 	const filteredData = data.filter(filterLabel(labelLg1));
