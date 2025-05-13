@@ -1,5 +1,8 @@
+import { ComponentProps } from 'react';
+
 import { ActionToolbar } from '@components/action-toolbar';
 import {
+	AbstractButton,
 	PublishButton,
 	ReturnButton,
 	UpdateButton,
@@ -13,12 +16,21 @@ const CollectionVisualizationControls = ({
 	id,
 	handleValidation,
 	exportCollection,
-}) => {
+}: Readonly<{
+	isValidated: boolean;
+	id: string;
+	handleValidation: ComponentProps<typeof AbstractButton>['action'];
+	exportCollection: (value: {
+		ids: string[];
+		type: string;
+		withConcepts: boolean;
+		lang: string;
+	}) => void;
+}>) => {
 	return (
 		<ActionToolbar>
 			<ReturnButton action="/concepts/collections" />
 			<ExportButtons
-				ids={[id]}
 				exportHandler={(type, withConcepts, lang = 'lg1') =>
 					exportCollection({ ids: [id], type, withConcepts, lang })
 				}

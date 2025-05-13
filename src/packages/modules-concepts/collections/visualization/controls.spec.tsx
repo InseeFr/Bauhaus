@@ -27,7 +27,12 @@ describe('collection-visualization-controls', () => {
 
 		render(
 			<RBACMock roles={[]}>
-				<CollectionVisualizationControls />
+				<CollectionVisualizationControls
+					exportCollection={vi.fn()}
+					handleValidation={vi.fn()}
+					id={'1'}
+					isValidated={false}
+				/>
 			</RBACMock>,
 		);
 
@@ -51,7 +56,12 @@ describe('collection-visualization-controls', () => {
 
 		render(
 			<RBACMock roles={[]}>
-				<CollectionVisualizationControls />
+				<CollectionVisualizationControls
+					exportCollection={vi.fn()}
+					handleValidation={vi.fn()}
+					id={'1'}
+					isValidated={false}
+				/>
 			</RBACMock>,
 		);
 
