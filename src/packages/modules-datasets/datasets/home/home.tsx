@@ -29,7 +29,7 @@ export const Component = () => {
 					<SearchableList
 						items={data ?? []}
 						childPath="datasets"
-						advancedSearch={true}
+						advancedSearch
 						searchUrl="/datasets/search"
 						autoFocus
 						itemFormatter={(_: unknown, dataset: PartialDataset) =>

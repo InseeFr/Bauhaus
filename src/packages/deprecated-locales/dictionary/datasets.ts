@@ -12,11 +12,19 @@ const dictionary = {
 	},
 	datasetsHomePageTitle: {
 		fr: 'Jeux de Données - Recherche',
-		en: 'Dataset - Search',
+		en: 'Datasets - Search',
 	},
 	distributionsHomePageTitle: {
 		fr: 'Distributions - Recherche',
 		en: 'Distributions - Search',
+	},
+	datasetsSearchTitle: {
+		fr: 'Jeux de Données - Recherche avancée',
+		en: 'Datasets - Advanced search',
+	},
+	distributionsSearchTitle: {
+		fr: 'Distributions - Recherche avancée',
+		en: 'Distributions - Advanced search',
 	},
 	formatTitle: { fr: 'Format', en: 'Format' },
 	tailleTitle: { fr: 'Taille', en: 'Size' },
