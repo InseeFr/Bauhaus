@@ -16,7 +16,7 @@ const SeriesHome = ({ series }) => {
 					<SearchableList
 						items={series}
 						childPath="classifications/series"
-						autoFocus={true}
+						autoFocus
 					/>
 				</div>
 			</Row>

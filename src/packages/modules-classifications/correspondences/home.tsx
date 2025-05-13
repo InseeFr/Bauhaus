@@ -15,7 +15,7 @@ const CorrespondencesHome = ({ correspondences }: { correspondences: any }) => {
 					<SearchableList
 						items={correspondences}
 						childPath="classifications/correspondence"
-						autoFocus={true}
+						autoFocus
 					/>
 				</div>
 			</Row>
