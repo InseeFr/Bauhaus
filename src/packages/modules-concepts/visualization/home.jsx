@@ -18,7 +18,6 @@ import ConceptVisualizationControls from './menu';
 
 const ConceptVisualization = ({
 	id,
-	permission,
 	links,
 	notes,
 	secondLang,
@@ -69,8 +68,6 @@ const ConceptVisualization = ({
 				/>
 				<ConceptVisualizationControls
 					id={id}
-					permission={permission}
-					creator={general.creator}
 					isValidated={general.isValidated === 'true'}
 					isValidOutOfDate={isOutOfDate(general.valid)}
 					conceptVersion={general.conceptVersion}

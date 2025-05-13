@@ -1,43 +1,19 @@
 import { ActionToolbar } from '@components/action-toolbar';
-import { Button } from '@components/buttons/button';
 import {
 	PublishButton,
 	ReturnButton,
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
 
-import check from '../../../auth/auth';
-import { usePermission } from '../../../redux/hooks/usePermission';
+import { HasAccess } from '../../../auth/components/auth';
 import ExportButtons from '../export-buttons';
 
 const CollectionVisualizationControls = ({
 	isValidated,
-	creator: collectionCreator,
 	id,
 	handleValidation,
 	exportCollection,
 }) => {
-	const { authType, roles, stamp } = usePermission();
-
-	const authImpl = check(authType);
-	const admin = authImpl.isAdmin(roles);
-	const contributor = authImpl.isContributor(roles, stamp, collectionCreator);
-	const creator = authImpl.isCollectionCreator(roles, stamp, collectionCreator);
-
-	const validate = <PublishButton action={handleValidation} />;
-	const update = <UpdateButton action={`/concepts/collections/${id}/modify`} />;
-
-	const btns = [];
-	if (admin || creator) {
-		btns.push(update);
-
-		if (!isValidated) {
-			btns.push(validate);
-		}
-	} else if (contributor) {
-		btns.push(update);
-	}
-
 	return (
 		<ActionToolbar>
 			<ReturnButton action="/concepts/collections" />
@@ -48,14 +24,17 @@ const CollectionVisualizationControls = ({
 				}
 			/>
 
-			{btns.map((btn) => {
-				if (!btn) return null;
-				if (!Array.isArray(btn)) {
-					return btn;
-				}
-				const [action, label] = btn;
-				return <Button key={label} action={action} label={label} />;
-			})}
+			<HasAccess
+				module="CONCEPT_COLLECTION"
+				privilege="PUBLISH"
+				complementaryCheck={!isValidated}
+			>
+				<PublishButton action={handleValidation} />
+			</HasAccess>
+
+			<HasAccess module="CONCEPT_COLLECTION" privilege="UPDATE">
+				<UpdateButton action={`/concepts/collections/${id}/modify`} />
+			</HasAccess>
 		</ActionToolbar>
 	);
 };

@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { Dataset } from '../../../model/Dataset';
 import { RBACMock } from '../../../tests-utils/rbac';
+import { mockReactQueryForRbac } from '../../../tests-utils/render';
 
 describe('Dataset View Menu', () => {
 	afterEach(() => {
@@ -12,23 +13,12 @@ describe('Dataset View Menu', () => {
 	});
 
 	it('a user can only see the go back button', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'DATASET_DATASET',
-							privileges: [],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'DATASET_DATASET',
+				privileges: [],
+			},
+		]);
 
 		const { ViewMenu } = await import('./menu');
 
@@ -50,27 +40,16 @@ describe('Dataset View Menu', () => {
 	});
 
 	it('an admin can goBack, publish, delete and update a dataset even if the stamp is not correct', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'DATASET_DATASET',
-							privileges: [
-								{ privilege: 'UPDATE', strategy: 'ALL' },
-								{ privilege: 'DELETE', strategy: 'ALL' },
-								{ privilege: 'PUBLISH', strategy: 'ALL' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'DATASET_DATASET',
+				privileges: [
+					{ privilege: 'UPDATE', strategy: 'ALL' },
+					{ privilege: 'DELETE', strategy: 'ALL' },
+					{ privilege: 'PUBLISH', strategy: 'ALL' },
+				],
+			},
+		]);
 
 		const { ViewMenu } = await import('./menu');
 
@@ -92,27 +71,16 @@ describe('Dataset View Menu', () => {
 	});
 
 	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish, delete and update a dataset if the stamp is correct and validationState is unpublished', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'DATASET_DATASET',
-							privileges: [
-								{ privilege: 'UPDATE', strategy: 'STAMP' },
-								{ privilege: 'DELETE', strategy: 'STAMP' },
-								{ privilege: 'PUBLISH', strategy: 'STAMP' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'DATASET_DATASET',
+				privileges: [
+					{ privilege: 'UPDATE', strategy: 'STAMP' },
+					{ privilege: 'DELETE', strategy: 'STAMP' },
+					{ privilege: 'PUBLISH', strategy: 'STAMP' },
+				],
+			},
+		]);
 
 		const { ViewMenu } = await import('./menu');
 
@@ -137,27 +105,16 @@ describe('Dataset View Menu', () => {
 	});
 
 	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish  and update a dataset if the stamp is correct and validationState is unpublished', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'DATASET_DATASET',
-							privileges: [
-								{ privilege: 'UPDATE', strategy: 'STAMP' },
-								{ privilege: 'DELETE', strategy: 'STAMP' },
-								{ privilege: 'PUBLISH', strategy: 'STAMP' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'DATASET_DATASET',
+				privileges: [
+					{ privilege: 'UPDATE', strategy: 'STAMP' },
+					{ privilege: 'DELETE', strategy: 'STAMP' },
+					{ privilege: 'PUBLISH', strategy: 'STAMP' },
+				],
+			},
+		]);
 
 		const { ViewMenu } = await import('./menu');
 
@@ -182,27 +139,16 @@ describe('Dataset View Menu', () => {
 	});
 
 	it('an Gestionnaire_jeu_donnees_RMESGNCS can only goBack if the stamp not is correct', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'DATASET_DATASET',
-							privileges: [
-								{ privilege: 'UPDATE', strategy: 'STAMP' },
-								{ privilege: 'DELETE', strategy: 'STAMP' },
-								{ privilege: 'PUBLISH', strategy: 'STAMP' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'DATASET_DATASET',
+				privileges: [
+					{ privilege: 'UPDATE', strategy: 'STAMP' },
+					{ privilege: 'DELETE', strategy: 'STAMP' },
+					{ privilege: 'PUBLISH', strategy: 'STAMP' },
+				],
+			},
+		]);
 
 		const { ViewMenu } = await import('./menu');
 

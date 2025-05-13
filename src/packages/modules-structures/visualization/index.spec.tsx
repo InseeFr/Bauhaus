@@ -3,7 +3,10 @@ import { vi } from 'vitest';
 
 import { Structure } from '../../model/structures/Structure';
 import configureStore from '../../redux/configure-store';
-import { renderWithAppContext } from '../../tests-utils/render';
+import {
+	mockReactQueryForRbac,
+	renderWithAppContext,
+} from '../../tests-utils/render';
 
 vi.mock('./components/global-informations-panel', () => ({
 	GlobalInformationsPanel: vi.fn(() => <div></div>),
@@ -38,19 +41,7 @@ describe('<StructureView />', () => {
 		vi.clearAllMocks();
 	});
 	it('should display labelLg1', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [],
-				}),
-			};
-		});
-
+		mockReactQueryForRbac([]);
 		const { StructureView } = await import('./index');
 
 		const { container } = renderWithAppContext(

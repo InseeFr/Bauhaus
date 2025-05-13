@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import { ADMIN } from '../../../auth/roles';
 import { RBACMock } from '../../../tests-utils/rbac';
+import { mockReactQueryForRbac } from '../../../tests-utils/render';
 
 describe('Distributions Home Page Menu', () => {
 	afterEach(() => {
@@ -10,23 +11,12 @@ describe('Distributions Home Page Menu', () => {
 	});
 
 	it('an admin can create a new distribution if he does not have the Gestionnaire_jeu_donnees_RMESGNCS role', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'DATASET_DISTRIBUTION',
-							privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'DATASET_DISTRIBUTION',
+				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+			},
+		]);
 
 		const { HomePageMenu } = await import('./menu');
 
@@ -40,23 +30,12 @@ describe('Distributions Home Page Menu', () => {
 	});
 
 	it('a user without Admin or  Gestionnaire_jeu_donnees_RMESGNCS role cannot create a distribution', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'DATASET_DISTRIBUTION',
-							privileges: [],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'DATASET_DISTRIBUTION',
+				privileges: [],
+			},
+		]);
 
 		const { HomePageMenu } = await import('./menu');
 

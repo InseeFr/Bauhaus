@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { ADMIN, INDICATOR_CONTRIBUTOR } from '../../../auth/roles';
 import { Document } from '../../../model/operations/document';
 import { RBACMock } from '../../../tests-utils/rbac';
+import { mockReactQueryForRbac } from '../../../tests-utils/render';
 
 describe('Document Visualization Page Menu', () => {
 	afterEach(() => {
@@ -10,23 +11,12 @@ describe('Document Visualization Page Menu', () => {
 		vi.clearAllMocks();
 	});
 	it('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_DOCUMENT',
-							privileges: [{ privilege: 'UPDATE', strategy: 'ALL' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [{ privilege: 'UPDATE', strategy: 'ALL' }],
+			},
+		]);
 
 		const { Menu } = await import('./Menu');
 
@@ -40,23 +30,12 @@ describe('Document Visualization Page Menu', () => {
 	});
 
 	it('a user with INDICATOR_CONTRIBUTOR role can update a document if the stamp match', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_DOCUMENT',
-							privileges: [{ privilege: 'UPDATE', strategy: 'STAMP' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [{ privilege: 'UPDATE', strategy: 'STAMP' }],
+			},
+		]);
 
 		const { Menu } = await import('./Menu');
 
@@ -78,23 +57,12 @@ describe('Document Visualization Page Menu', () => {
 	});
 
 	it('a user with INDICATOR_CONTRIBUTOR role cannot update a document if the stamp does not match', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_DOCUMENT',
-							privileges: [{ privilege: 'UPDATE', strategy: 'STAMP' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [{ privilege: 'UPDATE', strategy: 'STAMP' }],
+			},
+		]);
 
 		const { Menu } = await import('./Menu');
 
@@ -116,23 +84,12 @@ describe('Document Visualization Page Menu', () => {
 	});
 
 	it('a user without Admin or  INDICATOR_CONTRIBUTOR or SERIES_CONTRIBUTOR role cannot create a document', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_DOCUMENT',
-							privileges: [],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [],
+			},
+		]);
 
 		const { Menu } = await import('./Menu');
 

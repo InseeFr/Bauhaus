@@ -7,6 +7,7 @@ import { ADMIN } from '../../../auth/roles';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { Structure } from '../../../model/structures/Structure';
 import { RBACMock } from '../../../tests-utils/rbac';
+import { mockReactQueryForRbac } from '../../../tests-utils/render';
 
 vi.mock('@sdk/index', () => ({
 	StructureApi: {
@@ -20,23 +21,12 @@ describe('Structure View Menu', () => {
 		vi.clearAllMocks();
 	});
 	it('should call handleDelete when DeleteButton is clicked', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'STRUCTURE_STRUCTURE',
-							privileges: [{ privilege: 'DELETE', strategy: 'ALL' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'STRUCTURE_STRUCTURE',
+				privileges: [{ privilege: 'DELETE', strategy: 'ALL' }],
+			},
+		]);
 
 		const { default: Controls } = await import('./controls');
 
@@ -61,23 +51,12 @@ describe('Structure View Menu', () => {
 	});
 
 	it('a user can only see the go back button', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'STRUCTURE_STRUCTURE',
-							privileges: [],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'STRUCTURE_STRUCTURE',
+				privileges: [],
+			},
+		]);
 
 		const { default: Controls } = await import('./controls');
 
@@ -96,28 +75,17 @@ describe('Structure View Menu', () => {
 	});
 
 	it('an admin can goBack, publish, delete and update a structure even if the stamp is not correct', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'STRUCTURE_STRUCTURE',
-							privileges: [
-								{ privilege: 'PUBLISH', strategy: 'ALL' },
-								{ privilege: 'CREATE', strategy: 'ALL' },
-								{ privilege: 'UPDATE', strategy: 'ALL' },
-								{ privilege: 'DELETE', strategy: 'ALL' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'STRUCTURE_STRUCTURE',
+				privileges: [
+					{ privilege: 'PUBLISH', strategy: 'ALL' },
+					{ privilege: 'CREATE', strategy: 'ALL' },
+					{ privilege: 'UPDATE', strategy: 'ALL' },
+					{ privilege: 'DELETE', strategy: 'ALL' },
+				],
+			},
+		]);
 
 		const { default: Controls } = await import('./controls');
 

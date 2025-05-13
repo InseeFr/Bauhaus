@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
+import { ADMIN } from '../../auth/roles';
 import { RBACMock } from '../../tests-utils/rbac';
-import { DumbHomePageMenu, HomePageMenu } from './menu';
+import { mockReactQueryForRbac } from '../../tests-utils/render';
 
 describe('Structures Home Page Menu', () => {
 	afterEach(() => {
@@ -10,24 +10,13 @@ describe('Structures Home Page Menu', () => {
 		vi.clearAllMocks();
 	});
 
-	it.only('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'STRUCTURE_STRUCTURE',
-							privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-						},
-					],
-				}),
-			};
-		});
+	it('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', async () => {
+		mockReactQueryForRbac([
+			{
+				application: 'STRUCTURE_STRUCTURE',
+				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+			},
+		]);
 
 		const { HomePageMenu } = await import('./menu');
 
@@ -41,23 +30,12 @@ describe('Structures Home Page Menu', () => {
 	});
 
 	it('a user without Admin or  Gestionnaire_structures_RMESGNCS role cannot create a structure', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'STRUCTURE_STRUCTURE',
-							privileges: [],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'STRUCTURE_STRUCTURE',
+				privileges: [],
+			},
+		]);
 
 		const { HomePageMenu } = await import('./menu');
 
@@ -71,18 +49,7 @@ describe('Structures Home Page Menu', () => {
 	});
 
 	it('should not return import button if isLocal is falsy', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [],
-				}),
-			};
-		});
+		mockReactQueryForRbac([]);
 
 		const { DumbHomePageMenu } = await import('./menu');
 		render(
@@ -95,18 +62,7 @@ describe('Structures Home Page Menu', () => {
 	});
 
 	it('should add import button if isLocal is true', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [],
-				}),
-			};
-		});
+		mockReactQueryForRbac([]);
 
 		const { DumbHomePageMenu } = await import('./menu');
 
@@ -120,18 +76,7 @@ describe('Structures Home Page Menu', () => {
 	});
 
 	it('should not return export button if isLocal is falsy', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [],
-				}),
-			};
-		});
+		mockReactQueryForRbac([]);
 
 		const { DumbHomePageMenu } = await import('./menu');
 
@@ -145,18 +90,7 @@ describe('Structures Home Page Menu', () => {
 	});
 
 	it('should add export button if isLocal is true', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [],
-				}),
-			};
-		});
+		mockReactQueryForRbac([]);
 
 		const { DumbHomePageMenu } = await import('./menu');
 

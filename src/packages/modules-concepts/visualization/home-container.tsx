@@ -14,7 +14,6 @@ import {
 	ConceptGeneral,
 	ConceptNotes,
 } from '../../model/concepts/concept';
-import { usePermission } from '../../redux/hooks/usePermission';
 import { emptyNotes } from '../utils/notes';
 import ConceptVisualization from './home';
 import { LoadingProvider, LoadingType } from './loading';
@@ -34,7 +33,6 @@ export const Component = () => {
 	const navigate = useNavigate();
 
 	const langs = useLocales();
-	const permission = usePermission();
 	const [secondLang] = useSecondLang();
 
 	const [loading, setLoading] = useState<LoadingType>('loading');
@@ -91,7 +89,6 @@ export const Component = () => {
 		<LoadingProvider value={{ loading, setLoading }}>
 			<ConceptVisualization
 				id={id}
-				permission={permission}
 				general={general}
 				notes={notes}
 				links={links}

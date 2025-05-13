@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { RBACMock } from '../../../tests-utils/rbac';
+import { mockReactQueryForRbac } from '../../../tests-utils/render';
 
 describe('Component View Menu', () => {
 	afterEach(() => {
@@ -10,24 +11,12 @@ describe('Component View Menu', () => {
 		vi.clearAllMocks();
 	});
 	it('a user can only see the go back button', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'STRUCTURE_STRUCTURE',
-							privileges: [],
-						},
-					],
-				}),
-			};
-		});
-
+		mockReactQueryForRbac([
+			{
+				application: 'STRUCTURE_STRUCTURE',
+				privileges: [],
+			},
+		]);
 		const { ViewMenu } = await import('./menu');
 
 		const component = { id: '1' } as unknown as Component;
@@ -51,27 +40,16 @@ describe('Component View Menu', () => {
 	});
 
 	it('an admin can goBack, publish, delete and update a component even if the stamp is not correct', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'STRUCTURE_COMPONENT',
-							privileges: [
-								{ privilege: 'DELETE', strategy: 'ALL' },
-								{ privilege: 'PUBLISH', strategy: 'ALL' },
-								{ privilege: 'UPDATE', strategy: 'ALL' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'STRUCTURE_COMPONENT',
+				privileges: [
+					{ privilege: 'DELETE', strategy: 'ALL' },
+					{ privilege: 'PUBLISH', strategy: 'ALL' },
+					{ privilege: 'UPDATE', strategy: 'ALL' },
+				],
+			},
+		]);
 
 		const { ViewMenu } = await import('./menu');
 		const component = { id: '1' } as unknown as Component;
@@ -96,27 +74,16 @@ describe('Component View Menu', () => {
 	});
 
 	it('an Gestionnaire_ structures_RMESGNCS can goBack, publish and update a component if the stamp is correct and validationState is published', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'STRUCTURE_COMPONENT',
-							privileges: [
-								{ privilege: 'DELETE', strategy: 'STAMP' },
-								{ privilege: 'PUBLISH', strategy: 'ALL' },
-								{ privilege: 'UPDATE', strategy: 'ALL' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'STRUCTURE_COMPONENT',
+				privileges: [
+					{ privilege: 'DELETE', strategy: 'STAMP' },
+					{ privilege: 'PUBLISH', strategy: 'ALL' },
+					{ privilege: 'UPDATE', strategy: 'ALL' },
+				],
+			},
+		]);
 
 		const { ViewMenu } = await import('./menu');
 

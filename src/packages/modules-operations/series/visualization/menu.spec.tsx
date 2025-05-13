@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { ADMIN } from '../../../auth/roles';
 import { Series } from '../../../model/operations/series';
 import { RBACMock } from '../../../tests-utils/rbac';
+import { mockReactQueryForRbac } from '../../../tests-utils/render';
 
 describe('Family Home Page Menu', () => {
 	afterEach(() => {
@@ -11,26 +12,15 @@ describe('Family Home Page Menu', () => {
 	});
 
 	it('can See Create the report', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_SERIES',
-							privileges: [
-								{ privilege: 'CREATE', strategy: 'ALL' },
-								{ privilege: 'READ', strategy: 'ALL' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_SERIES',
+				privileges: [
+					{ privilege: 'CREATE', strategy: 'ALL' },
+					{ privilege: 'READ', strategy: 'ALL' },
+				],
+			},
+		]);
 
 		const { Menu } = await import('./menu');
 
@@ -49,26 +39,15 @@ describe('Family Home Page Menu', () => {
 	});
 
 	it('can See Show the report', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_SERIES',
-							privileges: [
-								{ privilege: 'CREATE', strategy: 'ALL' },
-								{ privilege: 'READ', strategy: 'ALL' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_SERIES',
+				privileges: [
+					{ privilege: 'CREATE', strategy: 'ALL' },
+					{ privilege: 'READ', strategy: 'ALL' },
+				],
+			},
+		]);
 
 		const { Menu } = await import('./menu');
 
@@ -87,23 +66,12 @@ describe('Family Home Page Menu', () => {
 	});
 
 	it('can see the Publish button', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_SERIES',
-							privileges: [{ privilege: 'PUBLISH', strategy: 'ALL' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_SERIES',
+				privileges: [{ privilege: 'PUBLISH', strategy: 'ALL' }],
+			},
+		]);
 
 		const { Menu } = await import('./menu');
 
@@ -120,23 +88,12 @@ describe('Family Home Page Menu', () => {
 	});
 
 	it('can see the Update', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_SERIES',
-							privileges: [{ privilege: 'UPDATE', strategy: 'ALL' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_SERIES',
+				privileges: [{ privilege: 'UPDATE', strategy: 'ALL' }],
+			},
+		]);
 
 		const { Menu } = await import('./menu');
 

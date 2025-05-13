@@ -3,7 +3,10 @@ import { Provider } from 'react-redux';
 
 import { HomeDocument } from '../../model/operations/document';
 import configureStore from '../../redux/configure-store';
-import { renderWithRouter } from '../../tests-utils/render';
+import {
+	mockReactQueryForRbac,
+	renderWithRouter,
+} from '../../tests-utils/render';
 
 describe('DocumentHome', async () => {
 	afterEach(() => {
@@ -12,23 +15,12 @@ describe('DocumentHome', async () => {
 	});
 
 	it('should display the PageTitle component', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_DOCUMENT',
-							privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+			},
+		]);
 
 		const { default: DocumentHome } = await import('./home');
 
@@ -44,23 +36,12 @@ describe('DocumentHome', async () => {
 		expect(container.querySelectorAll('h1')).toHaveLength(1);
 	});
 	it('should display the SearchableList component', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_DOCUMENT',
-							privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+			},
+		]);
 
 		const { default: DocumentHome } = await import('./home');
 
@@ -91,23 +72,12 @@ describe('DocumentHome', async () => {
 			app: { auth: { user: { roles: [] } } },
 		});
 
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_DOCUMENT',
-							privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+			},
+		]);
 
 		const { default: DocumentHome } = await import('./home');
 
@@ -120,23 +90,12 @@ describe('DocumentHome', async () => {
 		await screen.findByText('New Link');
 	});
 	it('should not display any Add button if the user is an the right role,', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_DOCUMENT',
-							privileges: [],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [],
+			},
+		]);
 
 		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },

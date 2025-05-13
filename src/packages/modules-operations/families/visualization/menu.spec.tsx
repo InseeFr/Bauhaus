@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { ADMIN } from '../../../auth/roles';
 import { Family } from '../../../model/operations/family';
 import { RBACMock } from '../../../tests-utils/rbac';
+import { mockReactQueryForRbac } from '../../../tests-utils/render';
 
 describe('Family Home Page Menu', () => {
 	afterEach(() => {
@@ -10,26 +11,15 @@ describe('Family Home Page Menu', () => {
 		vi.clearAllMocks();
 	});
 	it('an admin can update and publish a family', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_FAMILY',
-							privileges: [
-								{ privilege: 'UPDATE', strategy: 'ALL' },
-								{ privilege: 'PUBLISH', strategy: 'ALL' },
-							],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_FAMILY',
+				privileges: [
+					{ privilege: 'UPDATE', strategy: 'ALL' },
+					{ privilege: 'PUBLISH', strategy: 'ALL' },
+				],
+			},
+		]);
 
 		const { Menu } = await import('./menu');
 		render(
@@ -44,23 +34,12 @@ describe('Family Home Page Menu', () => {
 	});
 
 	it('a user without Admin cannot create or publish a family', async () => {
-		vi.doMock('@tanstack/react-query', async () => {
-			const actual = await vi.importActual<
-				typeof import('@tanstack/react-query')
-			>('@tanstack/react-query');
-			return {
-				...actual,
-				useQuery: vi.fn().mockReturnValue({
-					isLoading: false,
-					data: [
-						{
-							application: 'OPERATION_FAMILY',
-							privileges: [],
-						},
-					],
-				}),
-			};
-		});
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_FAMILY',
+				privileges: [],
+			},
+		]);
 
 		const { Menu } = await import('./menu');
 		render(
