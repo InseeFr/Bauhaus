@@ -21,6 +21,8 @@ import D from '../../../deprecated-locales/build-dictionary';
 import { useSeriesOperationsOptions } from '../../datasets/edit/tabs/useSeriesOperationsOptions';
 
 const filterLabel = filterKeyDeburr(['labelLg1']);
+const filterDatasetLabel = filterKeyDeburr(['datasetLabelLg1']);
+const filterAltId = filterKeyDeburr(['altIdentifier']);
 
 const defaultFormState = {
 	labelLg1: '',
@@ -68,7 +70,10 @@ export const Component = () => {
 		datasetUpdated,
 	} = form;
 
-	const filteredData = data.filter(filterLabel(labelLg1));
+	const filteredData = data
+		.filter(filterLabel(labelLg1))
+		.filter(filterDatasetLabel(datasetLabelLg1))
+		.filter(filterAltId(altIdentifier));
 
 	const dataLinks = filteredData.map(({ id, labelLg1 }) => (
 		<li key={id} className="list-group-item">
