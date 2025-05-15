@@ -55,7 +55,7 @@ export const DataStructure = ({
 		<>
 			<div className="col-md-4 form-group">
 				<label className="w-100 wilco-label-required">
-					{D1.datasetsTemporalCoverage}
+					{D1.datasetsDataStructure}
 					<Select
 						value={mode}
 						options={firstOptions}
