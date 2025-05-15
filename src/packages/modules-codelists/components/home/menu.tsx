@@ -1,15 +1,14 @@
 import { FeminineButton } from '@components/new-button';
 import { VerticalMenu } from '@components/vertical-menu';
 
-import Auth from '../../../auth/components/auth';
-import { ADMIN } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 
 export const HomePageMenu = () => {
 	return (
 		<VerticalMenu>
-			<Auth roles={[ADMIN]}>
+			<HasAccess module="CODESLIST_CODESLIST" privilege="CREATE">
 				<FeminineButton action="/codelists/create" />
-			</Auth>
+			</HasAccess>
 		</VerticalMenu>
 	);
 };

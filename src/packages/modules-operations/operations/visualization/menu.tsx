@@ -8,8 +8,7 @@ import { ValidationButton } from '@components/validationButton';
 
 import { useGoBack } from '@utils/hooks/useGoBack';
 
-import Auth from '../../../auth/components/auth';
-import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import D from '../../../deprecated-locales/build-dictionary';
 import { Operation } from '../../../model/Operation';
 
@@ -19,8 +18,6 @@ interface MenuTypes {
 }
 export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
 	const goBack = useGoBack();
-	const checkStamp = (stamp: string) =>
-		operation.series.creators?.includes(stamp);
 
 	return (
 		<ActionToolbar>
@@ -33,23 +30,35 @@ export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
 				/>
 			)}
 			{!operation.idSims && (
-				<Auth roles={[ADMIN, [SERIES_CONTRIBUTOR, checkStamp]]}>
+				<HasAccess
+					module="OPERATION_SIMS"
+					privilege="CREATE"
+					stamps={operation.series.creators}
+				>
 					<Button
 						action={`/operations/operation/${operation.id}/sims/create`}
 						label={D.btnSimsCreate}
 					/>
-				</Auth>
+				</HasAccess>
 			)}
-			<Auth roles={[ADMIN, [SERIES_CONTRIBUTOR, checkStamp]]}>
+			<HasAccess
+				module="OPERATION_OPERATION"
+				privilege="PUBLISH"
+				stamps={operation.series.creators}
+			>
 				<ValidationButton
 					object={operation}
 					callback={onPublish}
 					disabled={false}
 				/>
-			</Auth>
-			<Auth roles={[ADMIN, [SERIES_CONTRIBUTOR, checkStamp]]}>
+			</HasAccess>
+			<HasAccess
+				module="OPERATION_OPERATION"
+				privilege="UPDATE"
+				stamps={operation.series.creators}
+			>
 				<UpdateButton action={`/operations/operation/${operation.id}/modify`} />
-			</Auth>
+			</HasAccess>
 		</ActionToolbar>
 	);
 };

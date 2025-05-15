@@ -1,13 +1,26 @@
 import { render, screen } from '@testing-library/react';
 
-import { ADMIN, SERIES_CONTRIBUTOR } from '../../../auth/roles';
+import { ADMIN } from '../../../auth/roles';
 import { Operation } from '../../../model/Operation';
 import { RBACMock } from '../../../tests-utils/rbac';
-import { Menu } from './menu';
+import { mockReactQueryForRbac } from '../../../tests-utils/render';
 
 describe('Family Home Page Menu', () => {
+	afterEach(() => {
+		vi.resetModules();
+		vi.clearAllMocks();
+	});
+
 	describe('As an ADMIN', () => {
-		it('can see the Back button', () => {
+		it('can see the Back button', async () => {
+			mockReactQueryForRbac([
+				{
+					application: 'OPERATION_OPERATION',
+					privileges: [],
+				},
+			]);
+			const { Menu } = await import('./menu');
+
 			render(
 				<RBACMock roles={[ADMIN]}>
 					<Menu
@@ -19,7 +32,16 @@ describe('Family Home Page Menu', () => {
 
 			screen.getByText('Back');
 		});
-		it('can see the Sims View button if exists', () => {
+
+		it('can see the Sims View button if exists', async () => {
+			mockReactQueryForRbac([
+				{
+					application: 'OPERATION_OPERATION',
+					privileges: [],
+				},
+			]);
+			const { Menu } = await import('./menu');
+
 			render(
 				<RBACMock roles={[ADMIN]}>
 					<Menu
@@ -33,7 +55,14 @@ describe('Family Home Page Menu', () => {
 
 			screen.getByText('Show the report');
 		});
-		it('can not see the Sims View button if undefined', () => {
+		it('can not see the Sims View button if undefined', async () => {
+			mockReactQueryForRbac([
+				{
+					application: 'OPERATION_OPERATION',
+					privileges: [],
+				},
+			]);
+			const { Menu } = await import('./menu');
 			render(
 				<RBACMock roles={[ADMIN]}>
 					<Menu
@@ -45,7 +74,15 @@ describe('Family Home Page Menu', () => {
 
 			expect(screen.queryByText('Show the report')).toBeNull();
 		});
-		it('can see the Sims Create button if undefined', () => {
+		it('can see the Sims Create button if undefined', async () => {
+			mockReactQueryForRbac([
+				{
+					application: 'OPERATION_SIMS',
+					privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+				},
+			]);
+			const { Menu } = await import('./menu');
+
 			render(
 				<RBACMock roles={[ADMIN]}>
 					<Menu
@@ -57,7 +94,15 @@ describe('Family Home Page Menu', () => {
 
 			screen.getByText('Create the report');
 		});
-		it('can not see the Sims View button if defined', () => {
+		it('can not see the Sims View button if defined', async () => {
+			mockReactQueryForRbac([
+				{
+					application: 'OPERATION_SIMS',
+					privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+				},
+			]);
+			const { Menu } = await import('./menu');
+
 			render(
 				<RBACMock roles={[ADMIN]}>
 					<Menu
@@ -72,7 +117,14 @@ describe('Family Home Page Menu', () => {
 			expect(screen.queryByText('Create the report')).toBeNull();
 		});
 
-		it('can see the Publish button', () => {
+		it('can see the Publish button', async () => {
+			mockReactQueryForRbac([
+				{
+					application: 'OPERATION_OPERATION',
+					privileges: [{ privilege: 'PUBLISH', strategy: 'ALL' }],
+				},
+			]);
+			const { Menu } = await import('./menu');
 			render(
 				<RBACMock roles={[ADMIN]}>
 					<Menu
@@ -85,7 +137,15 @@ describe('Family Home Page Menu', () => {
 			screen.getByText('Publish');
 		});
 
-		it('can see the Update', () => {
+		it('can see the Update', async () => {
+			mockReactQueryForRbac([
+				{
+					application: 'OPERATION_OPERATION',
+					privileges: [{ privilege: 'UPDATE', strategy: 'ALL' }],
+				},
+			]);
+			const { Menu } = await import('./menu');
+
 			render(
 				<RBACMock roles={[ADMIN]}>
 					<Menu
@@ -96,245 +156,6 @@ describe('Family Home Page Menu', () => {
 			);
 
 			screen.getByText('Update');
-		});
-	});
-
-	describe('As an SERIES_CONTRIBUTOR', () => {
-		it('can see the Back button', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			screen.getByText('Back');
-		});
-		it('can see the Sims View button if exists', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						operation={
-							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			screen.getByText('Show the report');
-		});
-		it('can not see the Sims View button if undefined', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			expect(screen.queryByText('Show the report')).toBeNull();
-		});
-
-		it('can see the Sims Create button if undefined', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						operation={
-							{ series: { creators: ['stamp'] } } as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			screen.getByText('Create the report');
-		});
-
-		it('can not see the Sims View button if defined', () => {
-			render(
-				<RBACMock roles={[ADMIN]}>
-					<Menu
-						operation={
-							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			expect(screen.queryByText('Create the report')).toBeNull();
-		});
-
-		it('can not see the Sims View button if defined with wrong stamp', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						operation={
-							{
-								series: { creators: ['fake'] },
-								idSims: '1',
-							} as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			expect(screen.queryByText('Create the report')).toBeNull();
-		});
-
-		it('can see the Publish button if good stamp', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						operation={
-							{ series: { creators: ['stamp'] } } as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			screen.getByText('Publish');
-		});
-
-		it('can not see the Publish button if bad stamp', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						operation={
-							{ series: { creators: ['fake'] } } as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			expect(screen.queryByText('Publish')).toBeNull();
-		});
-
-		it('can see the Update button if good stamp', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						operation={
-							{ series: { creators: ['stamp'] } } as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			screen.getByText('Update');
-		});
-
-		it('can not see the Update button if wrong stamp', () => {
-			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
-					<Menu
-						operation={
-							{ series: { creators: ['fake'] } } as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-			expect(screen.queryByText('Update')).toBeNull();
-		});
-	});
-
-	describe('As an anonymous', () => {
-		it('can see the Back button', () => {
-			render(
-				<RBACMock roles={[]}>
-					<Menu
-						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			screen.getByText('Back');
-		});
-		it('can see the Sims View button if exists', () => {
-			render(
-				<RBACMock roles={[]}>
-					<Menu
-						operation={
-							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			screen.getByText('Show the report');
-		});
-		it('can not see the Sims View button if undefined', () => {
-			render(
-				<RBACMock roles={[]}>
-					<Menu
-						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			expect(screen.queryByText('Show the report')).toBeNull();
-		});
-
-		it('can not see the Sims Create button if undefined', () => {
-			render(
-				<RBACMock roles={[]}>
-					<Menu
-						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			expect(screen.queryByText('Create the report')).toBeNull();
-		});
-		it('can not see the Sims View button if defined', () => {
-			render(
-				<RBACMock roles={[]}>
-					<Menu
-						operation={
-							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
-						}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-
-			expect(screen.queryByText('Create the report')).toBeNull();
-		});
-		it('can see the Publish button', () => {
-			render(
-				<RBACMock roles={[]}>
-					<Menu
-						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-			expect(screen.queryByText('Publish')).toBeNull();
-		});
-
-		it('can see the Update', () => {
-			render(
-				<RBACMock roles={[]}>
-					<Menu
-						operation={{ series: { creators: [] } } as unknown as Operation}
-						onPublish={vi.fn()}
-					/>
-				</RBACMock>,
-			);
-			expect(screen.queryByText('Update')).toBeNull();
 		});
 	});
 });
