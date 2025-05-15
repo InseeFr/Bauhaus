@@ -1,6 +1,7 @@
 const dictionary = {
 	datasetTitle: { fr: 'Jeu de Données', en: 'Dataset' },
 	datasetsTitle: { fr: 'Jeux de Données', en: 'Datasets' },
+	distributionTitle: { fr: 'Distribution', en: 'Distribution' },
 	distributionsTitle: { fr: 'Distributions', en: 'Distributions' },
 	datasetsCreateTitle: {
 		fr: 'Créer un nouveau jeu de données',
