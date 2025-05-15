@@ -134,7 +134,6 @@ export const Component = () => {
 		e.stopPropagation();
 		e.preventDefault();
 
-		console.log(value.general);
 		const clientSideErrors = validate(
 			value.general,
 			value.general.altLabels?.length,
