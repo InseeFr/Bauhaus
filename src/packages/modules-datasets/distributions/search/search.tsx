@@ -3,11 +3,8 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import { AdvancedSearchList } from '@components/advanced-search/home';
-import { CreatorsInput } from '@components/creators-input';
 import { DatePicker } from '@components/date-picker';
-import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import { TextInput } from '@components/form/input';
-import { Column } from '@components/layout';
 import { Loading } from '@components/loading';
 import { Select } from '@components/select-rmes';
 
@@ -18,25 +15,25 @@ import { useTitle } from '@utils/hooks/useTitle';
 import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 
 import D from '../../../deprecated-locales/build-dictionary';
-import { useSeriesOperationsOptions } from '../../datasets/edit/tabs/useSeriesOperationsOptions';
+import { FieldsForDatasetsAdvancedSearch } from '../../datasets/search/search';
 
-const filterLabel = filterKeyDeburr(['labelLg1']);
-const filterDatasetLabel = filterKeyDeburr(['datasetLabelLg1']);
+const filterLabel = filterKeyDeburr(['distributionLabelLg1']);
+const filterDatasetLabel = filterKeyDeburr(['labelLg1']);
 const filterAltId = filterKeyDeburr(['altIdentifier']);
 
 const defaultFormState = {
+	distributionLabelLg1: '',
+	distributionValidationStatus: '',
+	distributionCreated: '',
+	distributionUpdated: '',
 	labelLg1: '',
-	validationStatus: '',
-	created: '',
-	updated: '',
-	datasetLabelLg1: '',
 	altIdentifier: '',
 	creator: '',
 	disseminationStatus: '',
-	datasetValidationStatus: '',
+	validationStatus: '',
 	wasGeneratedIRIs: '',
-	datasetCreated: '',
-	datasetUpdated: '',
+	created: '',
+	updated: '',
 };
 
 export const Component = () => {
@@ -51,33 +48,31 @@ export const Component = () => {
 			.finally(() => setLoading(false));
 	}, []);
 
-	const seriesOperationsOptions = useSeriesOperationsOptions();
-
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const {
+		distributionLabelLg1,
+		distributionValidationStatus,
+		distributionCreated,
+		distributionUpdated,
 		labelLg1,
-		validationStatus,
-		created,
-		updated,
-		datasetLabelLg1,
 		altIdentifier,
 		creator,
 		disseminationStatus,
-		datasetValidationStatus,
+		validationStatus,
 		wasGeneratedIRIs,
-		datasetCreated,
-		datasetUpdated,
+		created,
+		updated,
 	} = form;
 
 	const filteredData = data
-		.filter(filterLabel(labelLg1))
-		.filter(filterDatasetLabel(datasetLabelLg1))
+		.filter(filterLabel(distributionLabelLg1))
+		.filter(filterDatasetLabel(labelLg1))
 		.filter(filterAltId(altIdentifier));
 
-	const dataLinks = filteredData.map(({ id, labelLg1 }) => (
+	const dataLinks = filteredData.map(({ id, distributionLabelLg1 }) => (
 		<li key={id} className="list-group-item">
-			<Link to={`/datasets/distributions/${id}`}>{labelLg1}</Link>
+			<Link to={`/datasets/distributions/${id}`}>{distributionLabelLg1}</Link>
 		</li>
 	));
 
@@ -94,36 +89,42 @@ export const Component = () => {
 				<legend>{D.distributionTitle}</legend>
 				<div className="row form-group">
 					<div className="col-md-12">
-						<label className="w-100">
-							{D.labelTitle}
-							<TextInput
-								value={labelLg1}
-								onChange={(e) => handleChange('labelLg1', e.target.value)}
-							/>
-						</label>
+						<label className="w-100">{D.labelTitle}</label>
+						<TextInput
+							value={distributionLabelLg1}
+							onChange={(e) =>
+								handleChange('distributionLabelLg1', e.target.value)
+							}
+						/>
 					</div>
 				</div>
 				<div className="row form-group">
 					<div className="col-md-3">
 						<label className="w-100">{D.createdDateTitle}</label>
 						<DatePicker
-							value={created}
-							onChange={(value: any) => handleChange('created', value)}
+							value={distributionCreated}
+							onChange={(value: any) =>
+								handleChange('distributionCreated', value)
+							}
 						/>
 					</div>
 					<div className="col-md-4">
 						<label className="w-100">{D.modifiedDateTitle}</label>
 						<DatePicker
-							value={updated}
-							onChange={(value: any) => handleChange('updated', value)}
+							value={distributionUpdated}
+							onChange={(value: any) =>
+								handleChange('distributionUpdated', value)
+							}
 						/>
 					</div>
 					<div className="col-md-4">
 						<label className="w-100">{D.validationStatusTitle}</label>
 						<Select
-							value={validationStatus}
+							value={distributionValidationStatus}
 							options={validateStateOptions}
-							onChange={(value: any) => handleChange('validationStatus', value)}
+							onChange={(value: any) =>
+								handleChange('distributionValidationStatus', value)
+							}
 						/>
 					</div>
 				</div>
@@ -131,16 +132,7 @@ export const Component = () => {
 			<fieldset>
 				<legend>{D.datasetTitle}</legend>
 				<div className="row form-group">
-					<Column>
-						<label className="w-100">{D.labelTitle}</label>
-						<TextInput
-							value={datasetLabelLg1}
-							onChange={(e: any) =>
-								handleChange('datasetLabelLg1', e.target.value)
-							}
-						/>
-					</Column>
-					<Column>
+					<div className="col-md-12">
 						<label className="w-100">{D.datasetsAltId}</label>
 						<TextInput
 							value={altIdentifier}
@@ -148,66 +140,18 @@ export const Component = () => {
 								handleChange('altIdentifier', e.target.value)
 							}
 						/>
-					</Column>
-				</div>
-				<div className="row form-group">
-					<div className="col-md-4">
-						<CreatorsInput
-							lang="default"
-							value={creator}
-							onChange={(value: any) => handleChange('creator', value)}
-							required={false}
-						/>
-					</div>
-					<div className="col-md-4">
-						<DisseminationStatusInput
-							value={disseminationStatus}
-							handleChange={(value: any) =>
-								handleChange('disseminationStatus', value)
-							}
-						/>
-					</div>
-					<div className="col-md-4">
-						<label className="w-100">{D.validationStatusTitle}</label>
-						<Select
-							value={datasetValidationStatus}
-							options={validateStateOptions}
-							onChange={(value: any) =>
-								handleChange('datasetValidationStatus', value)
-							}
-						/>
 					</div>
 				</div>
-				<div className="row form-group">
-					<div className="col-md-3">
-						<label className="w-100">{D.createdDateTitle}</label>
-						<DatePicker
-							value={datasetCreated}
-							onChange={(value: any) => handleChange('datasetCreated', value)}
-						/>
-					</div>
-					<div className="col-md-3">
-						<label className="w-100">{D.modifiedDateTitle}</label>
-						<DatePicker
-							value={datasetUpdated}
-							onChange={(value: any) => handleChange('datasetUpdated', value)}
-						/>
-					</div>
-					<Column>
-						<label className="w-100">{D.generatedBy}</label>
-						<Select
-							value={wasGeneratedIRIs}
-							options={seriesOperationsOptions}
-							onChange={(value: any) => handleChange('wasGeneratedIRIs', value)}
-							optionRenderer={(v: any) => {
-								if (!v.value.includes('/serie/')) {
-									return <span className="padding">{v.label}</span>;
-								}
-								return `${v.label}`;
-							}}
-						/>
-					</Column>
-				</div>
+				<FieldsForDatasetsAdvancedSearch
+					labelLg1={labelLg1}
+					creator={creator}
+					disseminationStatus={disseminationStatus}
+					validationStatus={validationStatus}
+					wasGeneratedIRIs={wasGeneratedIRIs}
+					created={created}
+					updated={updated}
+					handleChange={handleChange}
+				/>
 			</fieldset>
 		</AdvancedSearchList>
 	);

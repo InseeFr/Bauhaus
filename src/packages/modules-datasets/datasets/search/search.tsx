@@ -32,49 +32,29 @@ const defaultFormState = {
 	updated: '',
 };
 
-export const Component = () => {
-	useTitle(D.datasetsTitle, D.advancedSearch);
-
-	const [loading, setLoading] = useState(true);
-	const [data, setData] = useState([]);
-
-	useEffect(() => {
-		DatasetsApi.getDatasetsForSearch()
-			.then(setData)
-			.finally(() => setLoading(false));
-	}, []);
-
+export const FieldsForDatasetsAdvancedSearch = ({
+	labelLg1,
+	creator,
+	disseminationStatus,
+	validationStatus,
+	wasGeneratedIRIs,
+	created,
+	updated,
+	handleChange,
+}: {
+	labelLg1: string;
+	creator: string;
+	disseminationStatus: string;
+	validationStatus: string;
+	wasGeneratedIRIs: string;
+	created: string;
+	updated: string;
+	handleChange: any;
+}) => {
 	const seriesOperationsOptions = useSeriesOperationsOptions();
 
-	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
-
-	const {
-		labelLg1,
-		creator,
-		disseminationStatus,
-		validationStatus,
-		wasGeneratedIRIs,
-		created,
-		updated,
-	} = form;
-
-	const filteredData = data.filter(filterLabel(labelLg1));
-
-	const dataLinks = filteredData.map(({ id, labelLg1 }) => (
-		<li key={id} className="list-group-item">
-			<Link to={`/datasets/${id}`}>{labelLg1}</Link>
-		</li>
-	));
-
-	if (loading) return <Loading />;
-
 	return (
-		<AdvancedSearchList
-			title={D.datasetsSearchTitle}
-			data={dataLinks}
-			initializeState={reset}
-			redirect={<Navigate to="/datasets" />}
-		>
+		<>
 			<div className="row form-group">
 				<div className="col-md-12">
 					<label className="w-100">{D.labelTitle}</label>
@@ -140,6 +120,61 @@ export const Component = () => {
 					/>
 				</Column>
 			</div>
+		</>
+	);
+};
+
+export const Component = () => {
+	useTitle(D.datasetsTitle, D.advancedSearch);
+
+	const [loading, setLoading] = useState(true);
+	const [data, setData] = useState([]);
+
+	useEffect(() => {
+		DatasetsApi.getDatasetsForSearch()
+			.then(setData)
+			.finally(() => setLoading(false));
+	}, []);
+
+	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
+
+	const {
+		labelLg1,
+		creator,
+		disseminationStatus,
+		validationStatus,
+		wasGeneratedIRIs,
+		created,
+		updated,
+	} = form;
+
+	const filteredData = data.filter(filterLabel(labelLg1));
+
+	const dataLinks = filteredData.map(({ id, labelLg1 }) => (
+		<li key={id} className="list-group-item">
+			<Link to={`/datasets/${id}`}>{labelLg1}</Link>
+		</li>
+	));
+
+	if (loading) return <Loading />;
+
+	return (
+		<AdvancedSearchList
+			title={D.datasetsSearchTitle}
+			data={dataLinks}
+			initializeState={reset}
+			redirect={<Navigate to="/datasets" />}
+		>
+			<FieldsForDatasetsAdvancedSearch
+				labelLg1={labelLg1}
+				creator={creator}
+				disseminationStatus={disseminationStatus}
+				validationStatus={validationStatus}
+				wasGeneratedIRIs={wasGeneratedIRIs}
+				created={created}
+				updated={updated}
+				handleChange={handleChange}
+			/>
 		</AdvancedSearchList>
 	);
 };
