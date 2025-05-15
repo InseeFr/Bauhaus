@@ -15,7 +15,32 @@ import { useTitle } from '@utils/hooks/useTitle';
 import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 
 import D from '../../../deprecated-locales/build-dictionary';
+import { useSeriesOperationsOptions } from '../../datasets/edit/tabs/useSeriesOperationsOptions';
 import { FieldsForDatasetsAdvancedSearch } from '../../datasets/search/search';
+
+export const Component = () => {
+	useTitle(D.distributionsTitle, D.advancedSearch);
+
+	const [loading, setLoading] = useState(true);
+	const [data, setData] = useState([]);
+
+	useEffect(() => {
+		DistributionApi.getDistributionsForSearch()
+			.then(setData)
+			.finally(() => setLoading(false));
+	}, []);
+
+	const seriesOperationsOptions = useSeriesOperationsOptions();
+
+	if (loading) return <Loading />;
+
+	return (
+		<AdvancedSearchForm
+			data={data}
+			seriesOperationsOptions={seriesOperationsOptions}
+		/>
+	);
+};
 
 const filterLabel = filterKeyDeburr(['distributionLabelLg1']);
 const filterDatasetLabel = filterKeyDeburr(['labelLg1']);
@@ -36,18 +61,13 @@ const defaultFormState = {
 	updated: '',
 };
 
-export const Component = () => {
-	useTitle(D.distributionsTitle, D.advancedSearch);
-
-	const [loading, setLoading] = useState(true);
-	const [data, setData] = useState([]);
-
-	useEffect(() => {
-		DistributionApi.getDistributionsForSearch()
-			.then(setData)
-			.finally(() => setLoading(false));
-	}, []);
-
+export const AdvancedSearchForm = ({
+	data,
+	seriesOperationsOptions,
+}: {
+	data: any;
+	seriesOperationsOptions: any;
+}) => {
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
 	const {
@@ -70,13 +90,19 @@ export const Component = () => {
 		.filter(filterDatasetLabel(labelLg1))
 		.filter(filterAltId(altIdentifier));
 
-	const dataLinks = filteredData.map(({ id, distributionLabelLg1 }) => (
-		<li key={id} className="list-group-item">
-			<Link to={`/datasets/distributions/${id}`}>{distributionLabelLg1}</Link>
-		</li>
-	));
-
-	if (loading) return <Loading />;
+	const dataLinks = filteredData.map(
+		({
+			id,
+			distributionLabelLg1,
+		}: {
+			id: string;
+			distributionLabelLg1: string;
+		}) => (
+			<li key={id} className="list-group-item">
+				<Link to={`/datasets/distributions/${id}`}>{distributionLabelLg1}</Link>
+			</li>
+		),
+	);
 
 	return (
 		<AdvancedSearchList
@@ -151,6 +177,7 @@ export const Component = () => {
 					created={created}
 					updated={updated}
 					handleChange={handleChange}
+					seriesOperationsOptions={seriesOperationsOptions}
 				/>
 			</fieldset>
 		</AdvancedSearchList>

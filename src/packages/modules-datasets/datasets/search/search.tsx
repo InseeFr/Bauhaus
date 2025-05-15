@@ -20,6 +20,30 @@ import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useSeriesOperationsOptions } from '../edit/tabs/useSeriesOperationsOptions';
 
+export const Component = () => {
+	useTitle(D.datasetsTitle, D.advancedSearch);
+
+	const [loading, setLoading] = useState(true);
+	const [data, setData] = useState([]);
+
+	useEffect(() => {
+		DatasetsApi.getDatasetsForSearch()
+			.then(setData)
+			.finally(() => setLoading(false));
+	}, []);
+
+	const seriesOperationsOptions = useSeriesOperationsOptions();
+
+	if (loading) return <Loading />;
+
+	return (
+		<AdvancedSearchForm
+			data={data}
+			seriesOperationsOptions={seriesOperationsOptions}
+		/>
+	);
+};
+
 const filterLabel = filterKeyDeburr(['labelLg1']);
 
 const defaultFormState = {
@@ -32,6 +56,57 @@ const defaultFormState = {
 	updated: '',
 };
 
+export const AdvancedSearchForm = ({
+	data,
+	seriesOperationsOptions,
+}: {
+	data: any;
+	seriesOperationsOptions: any;
+}) => {
+	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
+
+	const {
+		labelLg1,
+		creator,
+		disseminationStatus,
+		validationStatus,
+		wasGeneratedIRIs,
+		created,
+		updated,
+	} = form;
+
+	const filteredData = data.filter(filterLabel(labelLg1));
+
+	const dataLinks = filteredData.map(
+		({ id, labelLg1 }: { id: string; labelLg1: string }) => (
+			<li key={id} className="list-group-item">
+				<Link to={`/datasets/${id}`}>{labelLg1}</Link>
+			</li>
+		),
+	);
+
+	return (
+		<AdvancedSearchList
+			title={D.datasetsSearchTitle}
+			data={dataLinks}
+			initializeState={reset}
+			redirect={<Navigate to="/datasets" />}
+		>
+			<FieldsForDatasetsAdvancedSearch
+				labelLg1={labelLg1}
+				creator={creator}
+				disseminationStatus={disseminationStatus}
+				validationStatus={validationStatus}
+				wasGeneratedIRIs={wasGeneratedIRIs}
+				created={created}
+				updated={updated}
+				handleChange={handleChange}
+				seriesOperationsOptions={seriesOperationsOptions}
+			/>
+		</AdvancedSearchList>
+	);
+};
+
 export const FieldsForDatasetsAdvancedSearch = ({
 	labelLg1,
 	creator,
@@ -41,6 +116,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
 	created,
 	updated,
 	handleChange,
+	seriesOperationsOptions,
 }: {
 	labelLg1: string;
 	creator: string;
@@ -50,9 +126,8 @@ export const FieldsForDatasetsAdvancedSearch = ({
 	created: string;
 	updated: string;
 	handleChange: any;
+	seriesOperationsOptions: any;
 }) => {
-	const seriesOperationsOptions = useSeriesOperationsOptions();
-
 	return (
 		<>
 			<div className="row form-group">
@@ -121,60 +196,5 @@ export const FieldsForDatasetsAdvancedSearch = ({
 				</Column>
 			</div>
 		</>
-	);
-};
-
-export const Component = () => {
-	useTitle(D.datasetsTitle, D.advancedSearch);
-
-	const [loading, setLoading] = useState(true);
-	const [data, setData] = useState([]);
-
-	useEffect(() => {
-		DatasetsApi.getDatasetsForSearch()
-			.then(setData)
-			.finally(() => setLoading(false));
-	}, []);
-
-	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
-
-	const {
-		labelLg1,
-		creator,
-		disseminationStatus,
-		validationStatus,
-		wasGeneratedIRIs,
-		created,
-		updated,
-	} = form;
-
-	const filteredData = data.filter(filterLabel(labelLg1));
-
-	const dataLinks = filteredData.map(({ id, labelLg1 }) => (
-		<li key={id} className="list-group-item">
-			<Link to={`/datasets/${id}`}>{labelLg1}</Link>
-		</li>
-	));
-
-	if (loading) return <Loading />;
-
-	return (
-		<AdvancedSearchList
-			title={D.datasetsSearchTitle}
-			data={dataLinks}
-			initializeState={reset}
-			redirect={<Navigate to="/datasets" />}
-		>
-			<FieldsForDatasetsAdvancedSearch
-				labelLg1={labelLg1}
-				creator={creator}
-				disseminationStatus={disseminationStatus}
-				validationStatus={validationStatus}
-				wasGeneratedIRIs={wasGeneratedIRIs}
-				created={created}
-				updated={updated}
-				handleChange={handleChange}
-			/>
-		</AdvancedSearchList>
 	);
 };

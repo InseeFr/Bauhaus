@@ -1,8 +1,10 @@
 import { renderWithRouter } from '../../../tests-utils/render';
-import { Component } from './search';
+import { AdvancedSearchForm } from './search';
 
 describe('advanced search component', () => {
 	it('renders without crashing', () => {
-		renderWithRouter(<Component />);
+		renderWithRouter(
+			<AdvancedSearchForm data={[]} seriesOperationsOptions={[]} />,
+		);
 	});
 });
