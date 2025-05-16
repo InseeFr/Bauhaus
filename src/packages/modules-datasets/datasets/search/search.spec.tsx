@@ -1,5 +1,5 @@
 import { renderWithRouter } from '../../../tests-utils/render';
-import { AdvancedSearchForm } from './search';
+import { AdvancedSearchForm, FieldsForDatasetsAdvancedSearch } from './search';
 
 vi.mock('@tanstack/react-query', () => ({
 	useQuery: vi.fn().mockReturnValue({
@@ -12,6 +12,22 @@ describe('advanced search component', () => {
 	it('renders without crashing', () => {
 		renderWithRouter(
 			<AdvancedSearchForm data={[]} seriesOperationsOptions={[]} />,
+		);
+	});
+
+	it('renders without crashing', () => {
+		renderWithRouter(
+			<FieldsForDatasetsAdvancedSearch
+				labelLg1=""
+				creator=""
+				disseminationStatus=""
+				validationStatus=""
+				wasGeneratedIRIs=""
+				created=""
+				updated=""
+				handleChange={vi.fn()}
+				seriesOperationsOptions={[]}
+			/>,
 		);
 	});
 });
