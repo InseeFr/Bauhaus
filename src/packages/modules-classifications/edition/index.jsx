@@ -52,7 +52,7 @@ export const Component = () => {
 			?.map(({ id, label }) => ({ value: id, label })) ?? [];
 
 	useEffect(() => {
-		if (status === 'success') {
+		if (status === 'success' && !value?.general) {
 			setValue(classification);
 		}
 	}, [status, classification]);
