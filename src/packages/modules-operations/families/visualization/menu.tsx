@@ -8,8 +8,7 @@ import { ValidationButton } from '@components/validationButton';
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { containUnsupportedStyles } from '@utils/html-utils';
 
-import Auth from '../../../auth/components/auth';
-import { ADMIN } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import { Family } from '../../../model/operations/family';
 
 interface MenuTypes {
