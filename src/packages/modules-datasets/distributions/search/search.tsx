@@ -1,4 +1,3 @@
-import { validateStateOptions } from '@model/ValidationState';
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
@@ -8,6 +7,9 @@ import { TextInput } from '@components/form/input';
 import { Loading } from '@components/loading';
 import { Select } from '@components/select-rmes';
 
+import { Options } from '@model/SelectOption';
+import { validateStateOptions } from '@model/ValidationState';
+
 import { DistributionApi } from '@sdk/distributions-api';
 
 import { filterKeyDeburr } from '@utils/array-utils';
@@ -16,13 +18,25 @@ import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 
 import D from '../../../deprecated-locales/build-dictionary';
 import { useSeriesOperationsOptions } from '../../datasets/edit/tabs/useSeriesOperationsOptions';
-import { FieldsForDatasetsAdvancedSearch } from '../../datasets/search/search';
+import {
+	FieldsForDatasetsAdvancedSearch,
+	SearchDataset,
+} from '../../datasets/search/search';
+
+interface SearchDistribution {
+	id: string;
+	distributionLabelLg1: string;
+	distributionValidationStatus: string;
+	distributionCreated: string;
+	distributionUpdated: string;
+	dataset: SearchDataset;
+}
 
 export const Component = () => {
 	useTitle(D.distributionsTitle, D.advancedSearch);
 
 	const [loading, setLoading] = useState(true);
-	const [data, setData] = useState([]);
+	const [data, setData] = useState<SearchDistribution[]>([]);
 
 	useEffect(() => {
 		DistributionApi.getDistributionsForSearch()
@@ -65,8 +79,8 @@ export const AdvancedSearchForm = ({
 	data,
 	seriesOperationsOptions,
 }: {
-	data: any;
-	seriesOperationsOptions: any;
+	data: SearchDistribution[];
+	seriesOperationsOptions: Options;
 }) => {
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
@@ -90,19 +104,11 @@ export const AdvancedSearchForm = ({
 		.filter(filterDatasetLabel(labelLg1))
 		.filter(filterAltId(altIdentifier));
 
-	const dataLinks = filteredData.map(
-		({
-			id,
-			distributionLabelLg1,
-		}: {
-			id: string;
-			distributionLabelLg1: string;
-		}) => (
-			<li key={id} className="list-group-item">
-				<Link to={`/datasets/distributions/${id}`}>{distributionLabelLg1}</Link>
-			</li>
-		),
-	);
+	const dataLinks = filteredData.map(({ id, distributionLabelLg1 }) => (
+		<li key={id} className="list-group-item">
+			<Link to={`/datasets/distributions/${id}`}>{distributionLabelLg1}</Link>
+		</li>
+	));
 
 	return (
 		<AdvancedSearchList
@@ -129,8 +135,8 @@ export const AdvancedSearchForm = ({
 						<label className="w-100">{D.createdDateTitle}</label>
 						<DatePicker
 							value={distributionCreated}
-							onChange={(value: any) =>
-								handleChange('distributionCreated', value)
+							onChange={(value) =>
+								handleChange('distributionCreated', value ?? '')
 							}
 						/>
 					</div>
@@ -138,8 +144,8 @@ export const AdvancedSearchForm = ({
 						<label className="w-100">{D.modifiedDateTitle}</label>
 						<DatePicker
 							value={distributionUpdated}
-							onChange={(value: any) =>
-								handleChange('distributionUpdated', value)
+							onChange={(value) =>
+								handleChange('distributionUpdated', value ?? '')
 							}
 						/>
 					</div>
@@ -148,7 +154,7 @@ export const AdvancedSearchForm = ({
 						<Select
 							value={distributionValidationStatus}
 							options={validateStateOptions}
-							onChange={(value: any) =>
+							onChange={(value) =>
 								handleChange('distributionValidationStatus', value)
 							}
 						/>
@@ -162,9 +168,7 @@ export const AdvancedSearchForm = ({
 						<label className="w-100">{D.datasetsAltId}</label>
 						<TextInput
 							value={altIdentifier}
-							onChange={(e: any) =>
-								handleChange('altIdentifier', e.target.value)
-							}
+							onChange={(e) => handleChange('altIdentifier', e.target.value)}
 						/>
 					</div>
 				</div>

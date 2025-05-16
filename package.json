@@ -107,6 +107,7 @@
 		"importOrderSeparation": true,
 		"importOrder": [
 			"^@components/(.*)$",
+			"^@model/(.*)$",
 			"^@sdk/(.*)$",
 			"^@utils/(.*)$",
 			"^[./]"

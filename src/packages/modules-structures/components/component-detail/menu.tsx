@@ -1,5 +1,3 @@
-import { Component } from '@model/structures/Component';
-
 import { ActionToolbar } from '@components/action-toolbar';
 import {
 	DeleteButton,
@@ -7,6 +5,8 @@ import {
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
 import { ValidationButton } from '@components/validationButton';
+
+import { Component } from '@model/structures/Component';
 
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { UNPUBLISHED } from '../../../model/ValidationState';

@@ -1,4 +1,3 @@
-import { validateStateOptions } from '@model/ValidationState';
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
@@ -11,6 +10,9 @@ import { Column } from '@components/layout';
 import { Loading } from '@components/loading';
 import { Select } from '@components/select-rmes';
 
+import { Options } from '@model/SelectOption';
+import { validateStateOptions } from '@model/ValidationState';
+
 import { DatasetsApi } from '@sdk/datasets-api';
 
 import { filterKeyDeburr } from '@utils/array-utils';
@@ -20,11 +22,22 @@ import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 import D from '../../../deprecated-locales/build-dictionary';
 import { useSeriesOperationsOptions } from '../edit/tabs/useSeriesOperationsOptions';
 
+export interface SearchDataset {
+	id: string;
+	labelLg1: string;
+	creator: string;
+	disseminationStatus: string;
+	validationStatus: string;
+	wasGeneratedIRIs: string;
+	created: string;
+	updated: string;
+}
+
 export const Component = () => {
 	useTitle(D.datasetsTitle, D.advancedSearch);
 
 	const [loading, setLoading] = useState(true);
-	const [data, setData] = useState([]);
+	const [data, setData] = useState<SearchDataset[]>([]);
 
 	useEffect(() => {
 		DatasetsApi.getDatasetsForSearch()
@@ -60,8 +73,8 @@ export const AdvancedSearchForm = ({
 	data,
 	seriesOperationsOptions,
 }: {
-	data: any;
-	seriesOperationsOptions: any;
+	data: SearchDataset[];
+	seriesOperationsOptions: Options;
 }) => {
 	const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
@@ -77,13 +90,11 @@ export const AdvancedSearchForm = ({
 
 	const filteredData = data.filter(filterLabel(labelLg1));
 
-	const dataLinks = filteredData.map(
-		({ id, labelLg1 }: { id: string; labelLg1: string }) => (
-			<li key={id} className="list-group-item">
-				<Link to={`/datasets/${id}`}>{labelLg1}</Link>
-			</li>
-		),
-	);
+	const dataLinks = filteredData.map(({ id, labelLg1 }) => (
+		<li key={id} className="list-group-item">
+			<Link to={`/datasets/${id}`}>{labelLg1}</Link>
+		</li>
+	));
 
 	return (
 		<AdvancedSearchList
@@ -125,8 +136,8 @@ export const FieldsForDatasetsAdvancedSearch = ({
 	wasGeneratedIRIs: string;
 	created: string;
 	updated: string;
-	handleChange: any;
-	seriesOperationsOptions: any;
+	handleChange: (property: string, stateChange: string) => void;
+	seriesOperationsOptions: Options;
 }) => {
 	return (
 		<>
@@ -135,7 +146,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
 					<label className="w-100">{D.labelTitle}</label>
 					<TextInput
 						value={labelLg1}
-						onChange={(e: any) => handleChange('labelLg1', e.target.value)}
+						onChange={(e) => handleChange('labelLg1', e.target.value)}
 					/>
 				</div>
 			</div>
@@ -151,9 +162,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
 				<div className="col-md-4">
 					<DisseminationStatusInput
 						value={disseminationStatus}
-						handleChange={(value: any) =>
-							handleChange('disseminationStatus', value)
-						}
+						handleChange={(value) => handleChange('disseminationStatus', value)}
 					/>
 				</div>
 				<div className="col-md-4">
@@ -161,7 +170,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
 					<Select
 						value={validationStatus}
 						options={validateStateOptions}
-						onChange={(value: any) => handleChange('validationStatus', value)}
+						onChange={(value) => handleChange('validationStatus', value)}
 					/>
 				</div>
 			</div>
@@ -170,14 +179,14 @@ export const FieldsForDatasetsAdvancedSearch = ({
 					<label className="w-100">{D.createdDateTitle}</label>
 					<DatePicker
 						value={created}
-						onChange={(value: any) => handleChange('created', value)}
+						onChange={(value) => handleChange('created', value ?? '')}
 					/>
 				</div>
 				<div className="col-md-3">
 					<label className="w-100">{D.modifiedDateTitle}</label>
 					<DatePicker
 						value={updated}
-						onChange={(value: any) => handleChange('updated', value)}
+						onChange={(value) => handleChange('updated', value ?? '')}
 					/>
 				</div>
 				<Column>
@@ -185,7 +194,9 @@ export const FieldsForDatasetsAdvancedSearch = ({
 					<Select
 						value={wasGeneratedIRIs}
 						options={seriesOperationsOptions}
-						onChange={(value: any) => handleChange('wasGeneratedIRIs', value)}
+						onChange={(value: string) =>
+							handleChange('wasGeneratedIRIs', value)
+						}
 						optionRenderer={(v: any) => {
 							if (!v.value.includes('/serie/')) {
 								return <span className="padding">{v.label}</span>;
