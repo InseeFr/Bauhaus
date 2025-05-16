@@ -1,4 +1,3 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
@@ -37,6 +36,7 @@ export const renderWithQueryClient = (ui: React.ReactElement) => {
 		<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>,
 	);
 };
+
 
 export const renderWithRouter = (component: ReactNode) => {
 	return render(<MemoryRouter>{component}</MemoryRouter>);

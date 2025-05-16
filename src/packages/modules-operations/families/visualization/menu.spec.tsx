@@ -22,6 +22,7 @@ describe('Family Home Page Menu', () => {
 		]);
 
 		const { Menu } = await import('./menu');
+
 		render(
 			<RBACMock roles={[ADMIN]}>
 				<Menu family={{} as Family} publish={vi.fn()} />
@@ -42,6 +43,7 @@ describe('Family Home Page Menu', () => {
 		]);
 
 		const { Menu } = await import('./menu');
+
 		render(
 			<RBACMock roles={[]}>
 				<Menu family={{} as Family} publish={vi.fn()} />

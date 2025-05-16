@@ -29,18 +29,9 @@ export type MODULE =
 export type PRIVILEGE = 'READ' | 'CREATE' | 'UPDATE' | 'PUBLISH' | 'DELETE';
 export type STRATEGY = 'ALL' | 'STAMP' | 'NONE';
 
+
 const apiConfig = {
 	getStamp: () => ['stamp'],
-	getInfo: () => ['info'],
-};
-export const UsersApi = buildApi('users', apiConfig) as {
-	getStamp: () => Promise<string>;
-	getInfo: () => Promise<
-		{
-			application: MODULE;
-			privileges: { privilege: PRIVILEGE; strategy: STRATEGY }[];
-		}[]
-	>;
 };
 
 export const usePrivileges = () => {
@@ -50,3 +41,5 @@ export const usePrivileges = () => {
 	});
 	return { privileges };
 };
+
+export const UsersApi = buildApi('users', apiConfig) as any;
