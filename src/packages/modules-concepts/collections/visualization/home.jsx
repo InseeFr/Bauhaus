@@ -21,7 +21,7 @@ const CollectionVisualization = ({
 }) => {
 	useTitle(D.collectionsTitle, general.prefLabelLg1);
 
-	const { isValidated, creator } = general;
+	const { isValidated } = general;
 	const { mutate: exportCollection, isPending: isExporting } =
 		useCollectionExporter();
 	const handleClickValid = () => {
@@ -40,7 +40,6 @@ const CollectionVisualization = ({
 				<CollectionVisualizationControls
 					id={id}
 					permission={permission}
-					creator={creator}
 					isValidated={isValidated === 'true'}
 					handleValidation={handleClickValid}
 					exportCollection={exportCollection}

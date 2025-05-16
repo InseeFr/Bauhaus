@@ -5,7 +5,7 @@ import { buildApi } from './build-api';
 const api = {
 	getStructures: () => [''],
 	getMutualizedComponents: () => ['components'],
-	getMutualizedAttributes: () => ['attributes'],
+	getMutualizedAttributes: () => ['components/attributes'],
 	getStructuresForSearch: () => ['search'],
 	getMutualizedComponentsForSearch: () => ['components/search'],
 	publishMutualizedComponent: (component: Component) => [

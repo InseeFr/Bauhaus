@@ -5,17 +5,16 @@ import {
 import { FeminineButton } from '@components/new-button';
 import { VerticalMenu } from '@components/vertical-menu';
 
-import Auth from '../../auth/components/auth';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
+import { HasAccess } from '../../auth/components/auth';
 
 export const DumbHomePageMenu = ({
 	isLocal,
 }: Readonly<{ isLocal: boolean }>) => {
 	return (
 		<VerticalMenu>
-			<Auth roles={[ADMIN, STRUCTURE_CONTRIBUTOR]}>
+			<HasAccess module="STRUCTURE_STRUCTURE" privilege="CREATE">
 				<FeminineButton action="/structures/create" />
-			</Auth>
+			</HasAccess>
 			{isLocal && <ImportButton action="/structures/import" wrapper={false} />}
 			{isLocal && <ExportButton action="/structures/export" wrapper={false} />}
 		</VerticalMenu>

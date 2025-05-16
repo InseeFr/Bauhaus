@@ -8,11 +8,10 @@ import { ValidationButton } from '@components/validationButton';
 
 import { useGoBack } from '@utils/hooks/useGoBack';
 
-import { ADMIN } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import { Dataset, Distribution } from '../../../model/Dataset';
 import { UNPUBLISHED } from '../../../model/ValidationState';
-import { usePermission } from '../../../redux/hooks/usePermission';
-import { checkIfContributorContainsUserStamp } from '../../utils/check-stamp-with-contributor';
+import { getContributors } from '../../utils/check-stamp-with-contributor';
 
 interface ViewMenuTypes {
 	distribution: Distribution;
@@ -29,32 +28,37 @@ export const ViewMenu = ({
 }: Readonly<ViewMenuTypes>) => {
 	const goBack = useGoBack();
 
-	const permission = usePermission();
-
-	const hasDatasetRightsBasedOnStamp = checkIfContributorContainsUserStamp(
-		dataset,
-		permission,
-	);
-
-	const isAdmin = permission?.roles?.includes(ADMIN);
-
+	const contributors = getContributors(dataset);
 	return (
 		<ActionToolbar>
 			<ReturnButton action={() => goBack('/datasets/distributions')} />
 
-			{(isAdmin || hasDatasetRightsBasedOnStamp) && (
+			<HasAccess
+				module="DATASET_DISTRIBUTION"
+				privilege="PUBLISH"
+				stamps={contributors}
+			>
 				<ValidationButton object={distribution} callback={onPublish} />
-			)}
-			{(isAdmin ||
-				(hasDatasetRightsBasedOnStamp &&
-					dataset.validationState === UNPUBLISHED)) && (
+			</HasAccess>
+
+			<HasAccess
+				module="DATASET_DISTRIBUTION"
+				privilege="DELETE"
+				stamps={contributors}
+				complementaryCheck={dataset.validationState === UNPUBLISHED}
+			>
 				<DeleteButton action={onDelete} />
-			)}
-			{(isAdmin || hasDatasetRightsBasedOnStamp) && (
+			</HasAccess>
+
+			<HasAccess
+				module="DATASET_DISTRIBUTION"
+				privilege="UPDATE"
+				stamps={contributors}
+			>
 				<UpdateButton
 					action={`/datasets/distributions/${distribution.id}/modify`}
 				/>
-			)}
+			</HasAccess>
 		</ActionToolbar>
 	);
 };

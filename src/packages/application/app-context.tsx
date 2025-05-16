@@ -1,7 +1,14 @@
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
+export type AppName =
+	| 'concepts'
+	| 'classifications'
+	| 'operations'
+	| 'structures'
+	| 'codelists'
+	| 'datasets';
 export interface AppProperties {
-	modules: string[];
+	modules: AppName[];
 	activeModules: string[];
 	defaultContributor: string;
 	maxLengthScopeNote: string;

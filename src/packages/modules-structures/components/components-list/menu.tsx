@@ -1,19 +1,18 @@
 import { MasculineButton } from '@components/new-button';
 import { VerticalMenu } from '@components/vertical-menu';
 
-import Auth from '../../../auth/components/auth';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 
 export const HomePageMenu = ({ filter }: Readonly<{ filter: string }>) => {
 	return (
 		<VerticalMenu>
-			<Auth roles={[ADMIN, STRUCTURE_CONTRIBUTOR]}>
+			<HasAccess module="STRUCTURE_COMPONENT" privilege="CREATE">
 				<MasculineButton
 					action={
 						'/structures/components/create?type=' + encodeURIComponent(filter)
 					}
 				/>
-			</Auth>
+			</HasAccess>
 		</VerticalMenu>
 	);
 };
