@@ -1,6 +1,6 @@
-import { Links } from '@model/concepts/concept';
-
 import { Note } from '@components/note';
+
+import { Links } from '@model/concepts/concept';
 
 import {
 	BROADER,

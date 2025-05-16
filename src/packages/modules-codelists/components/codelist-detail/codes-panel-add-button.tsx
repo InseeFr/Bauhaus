@@ -1,6 +1,6 @@
-import { CodesList } from '@model/CodesList';
-
 import { AddButton } from '@components/buttons/add';
+
+import { CodesList } from '@model/CodesList';
 
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';

@@ -5,6 +5,7 @@ const api = {
 	getAll: () => [''],
 	getArchivageUnits: () => ['archivageUnits'],
 	getById: (id: string) => [id],
+	getDatasetsForSearch: () => ['search'],
 	publish: (id: string) => [
 		`${id}/validate`,
 		{ method: 'PUT' },

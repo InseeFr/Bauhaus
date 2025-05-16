@@ -1,8 +1,9 @@
-import { Code } from '@model/CodesList';
 import { Column } from 'primereact/column';
 import { DataTableStateEvent } from 'primereact/datatable';
 
 import { DataTable } from '@components/datatable';
+
+import { Code } from '@model/CodesList';
 
 import { D1, D2 } from '../../../i18n/build-dictionary';
 

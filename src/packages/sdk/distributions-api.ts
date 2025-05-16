@@ -4,6 +4,7 @@ import { buildApi } from './build-api';
 const api = {
 	getAll: () => [''],
 	getById: (id: string) => [id],
+	getDistributionsForSearch: () => ['search'],
 	getDatasets: () => ['datasets'],
 	publish: (id: string) => [
 		`${id}/validate`,

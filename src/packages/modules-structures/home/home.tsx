@@ -32,9 +32,9 @@ export const Component = () => {
 					<SearchableList
 						items={DSDs}
 						childPath="structures"
-						autoFocus={true}
-						advancedSearch={true}
+						advancedSearch
 						searchUrl="/structures/search"
+						autoFocus
 						itemFormatter={(_: unknown, structure: PartialStructure) =>
 							structure.labelLg1
 						}
