@@ -24,7 +24,7 @@ import {
 } from '../../datasets/search/search';
 
 interface SearchDistribution {
-	id: string;
+	distributionId: string;
 	distributionLabelLg1: string;
 	distributionValidationStatus: string;
 	distributionCreated: string;
@@ -105,11 +105,15 @@ export const AdvancedSearchForm = ({
 		.filter(filterDatasetLabel(labelLg1))
 		.filter(filterAltId(altIdentifier));
 
-	const dataLinks = filteredData.map(({ id, distributionLabelLg1 }) => (
-		<li key={id} className="list-group-item">
-			<Link to={`/datasets/distributions/${id}`}>{distributionLabelLg1}</Link>
-		</li>
-	));
+	const dataLinks = filteredData.map(
+		({ distributionId, distributionLabelLg1 }) => (
+			<li key={distributionId} className="list-group-item">
+				<Link to={`/datasets/distributions/${distributionId}`}>
+					{distributionLabelLg1}
+				</Link>
+			</li>
+		),
+	);
 
 	return (
 		<AdvancedSearchList
