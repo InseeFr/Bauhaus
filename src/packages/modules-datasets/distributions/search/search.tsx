@@ -29,6 +29,7 @@ interface SearchDistribution {
 	distributionValidationStatus: string;
 	distributionCreated: string;
 	distributionUpdated: string;
+	altIdentifier: string;
 	dataset: SearchDataset;
 }
 

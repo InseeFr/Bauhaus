@@ -8,7 +8,7 @@ export const useDocumentsAndLinks = () => {
 	return useQuery({
 		queryKey: ['documents'],
 		queryFn: () => {
-			return DocumentsApi.getDocumentsAandLinksList() as Promise<Document[]>;
+			return DocumentsApi.getDocumentsAndLinksList() as Promise<Document[]>;
 		},
 	});
 };
