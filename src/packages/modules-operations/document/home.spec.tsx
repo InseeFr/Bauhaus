@@ -1,18 +1,26 @@
 import { screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from '../../auth/roles';
 import { HomeDocument } from '../../model/operations/document';
 import configureStore from '../../redux/configure-store';
-import { renderWithRouter } from '../../tests-utils/render';
-import DocumentHome from './home';
+import { mockReactQueryForRbac, renderWithRouter } from '../../tests/render';
 
-describe('DocumentHome', () => {
-	it('should display the PageTitle component', () => {
+describe('DocumentHome', async () => {
+	afterEach(() => {
+		vi.resetModules();
+		vi.clearAllMocks();
+	});
+
+	it('should display the PageTitle component', async () => {
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+			},
+		]);
+
+		const { default: DocumentHome } = await import('./home');
+
 		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
 			app: { auth: { user: { roles: [] } } },
@@ -24,7 +32,16 @@ describe('DocumentHome', () => {
 		);
 		expect(container.querySelectorAll('h1')).toHaveLength(1);
 	});
-	it('should display the SearchableList component', () => {
+	it('should display the SearchableList component', async () => {
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+			},
+		]);
+
+		const { default: DocumentHome } = await import('./home');
+
 		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
 			app: { auth: { user: { roles: [] } } },
@@ -46,30 +63,43 @@ describe('DocumentHome', () => {
 		expect(container.querySelectorAll('li')).toHaveLength(1);
 	});
 
-	for (const right of [ADMIN, INDICATOR_CONTRIBUTOR, SERIES_CONTRIBUTOR]) {
-		it(
-			'should display two Add buttons if the user is an ' + right,
-			async () => {
-				const store = configureStore({
-					users: { results: { stamp: 'stamp' } },
-					app: { auth: { user: { roles: [right] } } },
-				});
-				renderWithRouter(
-					<Provider store={store}>
-						<DocumentHome documents={[]} />
-					</Provider>,
-				);
-				await screen.findByText('New Document');
-				await screen.findByText('New Link');
-			},
-		);
-	}
+	it('should display two Add buttons', async () => {
+		const store = configureStore({
+			users: { results: { stamp: 'stamp' } },
+			app: { auth: { user: { roles: [] } } },
+		});
 
-	it('should not display any Add button if the user is an the right role,', () => {
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+			},
+		]);
+
+		const { default: DocumentHome } = await import('./home');
+
+		renderWithRouter(
+			<Provider store={store}>
+				<DocumentHome documents={[]} />
+			</Provider>,
+		);
+		await screen.findByText('New Document');
+		await screen.findByText('New Link');
+	});
+	it('should not display any Add button if the user is an the right role,', async () => {
+		mockReactQueryForRbac([
+			{
+				application: 'OPERATION_DOCUMENT',
+				privileges: [],
+			},
+		]);
+
 		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
 			app: { auth: { user: { roles: ['other'] } } },
 		});
+		const { default: DocumentHome } = await import('./home');
+
 		renderWithRouter(
 			<Provider store={store}>
 				<DocumentHome documents={[]} />

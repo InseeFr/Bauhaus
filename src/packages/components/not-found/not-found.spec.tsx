@@ -1,5 +1,5 @@
 import { UnderMaintenance } from '.';
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 
 describe('not-found', () => {
 	it('renders without crashing', () => {

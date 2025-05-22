@@ -9,26 +9,17 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import { ConfirmationDelete } from '@components/confirmation-delete';
 
-import check from '../../auth/auth';
+import { HasAccess } from '../../auth/components/auth';
 import D from '../../deprecated-locales';
 import { ConceptsApi } from '../../sdk';
 import { saveFileFromHttpResponse } from '../../utils/files';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useLoading } from './loading';
 
-const ConceptCompareButton = ({ conceptVersion, id }) => {
-	if (!conceptVersion || conceptVersion <= 1) {
-		return null;
-	}
-
-	return <Button action={`/concepts/${id}/compare`} label={D.btnCompare} />;
-};
 const ConceptVisualizationControls = ({
 	isValidated,
 	conceptVersion,
 	id,
-	permission: { authType, roles, stamp },
-	creator: conceptCreator,
 	handleValidation,
 	handleDeletion,
 }) => {
@@ -44,27 +35,6 @@ const ConceptVisualizationControls = ({
 		setModalOpened(false);
 	}, [handleDeletion]);
 
-	const authImpl = check(authType);
-	const admin = authImpl.isAdmin(roles);
-	const contributor = authImpl.isContributor(roles, stamp, conceptCreator);
-	const creator = authImpl.isConceptCreator(roles, stamp, conceptCreator);
-	const adminOrCreator = admin || creator;
-
-	let btns = [];
-
-	const validate = adminOrCreator && [handleValidation, D.btnValid];
-	const update = <UpdateButton action={`/concepts/${id}/modify`} />;
-
-	const erase = adminOrCreator && [() => setModalOpened(true), D.btnDelete];
-
-	if (admin || (creator && contributor)) {
-		btns = isValidated ? [update, erase] : [update, validate, erase];
-	} else if (contributor) {
-		btns = [update];
-	} else if (creator) {
-		btns = isValidated ? [update] : [update, validate];
-	}
-
 	return (
 		<>
 			{modalOpened && (
@@ -76,7 +46,13 @@ const ConceptVisualizationControls = ({
 			)}
 			<ActionToolbar>
 				<ReturnButton action={() => goBack(`/concepts`)} />
-				<ConceptCompareButton id={id} conceptVersion={conceptVersion} />
+				<HasAccess
+					module="CONCEPT_CONCEPT"
+					privilege="READ"
+					complementaryCheck={conceptVersion > 1}
+				>
+					<Button action={`/concepts/${id}/compare`} label={D.btnCompare} />
+				</HasAccess>
 				<ExportButton
 					action={() => {
 						setLoading('exporting');
@@ -88,16 +64,21 @@ const ConceptVisualizationControls = ({
 							.finally(() => setLoading());
 					}}
 				/>
+				<HasAccess module="CONCEPT_CONCEPT" privilege="UPDATE">
+					<UpdateButton action={`/concepts/${id}/modify`} />
+				</HasAccess>
 
-				{btns.map((btn) => {
-					if (!btn) return null;
+				<HasAccess module="CONCEPT_CONCEPT" privilege="DELETE">
+					<Button action={() => setModalOpened(true)} label={D.btnDelete} />
+				</HasAccess>
 
-					if (!Array.isArray(btn)) {
-						return btn;
-					}
-					const [action, label] = btn;
-					return <Button key={label} action={action} label={label} />;
-				})}
+				<HasAccess
+					module="CONCEPT_CONCEPT"
+					privilege="PUBLISH"
+					complementaryCheck={!isValidated}
+				>
+					<Button action={handleValidation} label={D.btnValid} />
+				</HasAccess>
 			</ActionToolbar>
 		</>
 	);

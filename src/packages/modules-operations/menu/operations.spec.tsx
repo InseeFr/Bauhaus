@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { describe, expect, it, Mock, vi } from 'vitest';
 
 import { Sims } from '../../model/Sims';
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 import { MenuOperations } from './index';
 
 vi.mock('react-router-dom', async () => {

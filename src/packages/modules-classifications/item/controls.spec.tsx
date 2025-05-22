@@ -1,28 +1,22 @@
-import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 
-import { ADMIN } from '../../auth/roles';
-import configureStore from '../../redux/configure-store';
-import { renderWithRouter } from '../../tests-utils/render';
-import Controls from './controls';
-
-const store = configureStore({
-	users: { results: { stamp: 'stamp' } },
-	app: {
-		secondLang: true,
-		auth: {
-			user: {
-				roles: [ADMIN],
-			},
-		},
-	},
-});
+import { RBACMock } from '../../tests/rbac';
+import { mockReactQueryForRbac } from '../../tests/render';
 
 describe('classification-item-controls', () => {
-	it('renders without crashing', () => {
-		renderWithRouter(
-			<Provider store={store}>
+	it('renders without crashing', async () => {
+		mockReactQueryForRbac([
+			{
+				application: 'CONCEPT_CONCEPT',
+				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+			},
+		]);
+
+		const { default: Controls } = await import('./controls');
+		render(
+			<RBACMock roles={[]}>
 				<Controls classificationId="nafr2" itemId="A" version={1} />
-			</Provider>,
+			</RBACMock>,
 		);
 	});
 });

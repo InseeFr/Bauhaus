@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 import Narrowers from './narrowers';
 
 const narrowers = [{ id: '1', label: 'Narrower 1' }];

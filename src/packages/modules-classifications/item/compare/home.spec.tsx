@@ -1,4 +1,4 @@
-import { renderWithAppContext } from '../../../tests-utils/render';
+import { renderWithAppContext } from '../../../tests/render';
 import Compare from './home';
 
 describe('concepts-compare', () => {

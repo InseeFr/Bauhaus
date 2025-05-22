@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 import Home from './home';
 
 const correspondences = [{ id: '1', label: 'Correspondence 1' }];

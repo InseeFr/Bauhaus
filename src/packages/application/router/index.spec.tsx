@@ -7,7 +7,7 @@ import { RBACLink } from '.';
 import { useOidc } from '../../auth/create-oidc';
 import D from '../../i18n';
 import configureStore from '../../redux/configure-store';
-import { renderWithAppContext } from '../../tests-utils/render';
+import { renderWithAppContext } from '../../tests/render';
 
 vi.mock('../../auth/create-oidc', async () => {
 	return {

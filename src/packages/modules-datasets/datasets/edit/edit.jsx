@@ -80,7 +80,7 @@ export const Component = () => {
 			return DatasetsApi.postDataset(formattedDataset);
 		},
 
-		onSuccess: (id) => {
+		onSuccess: (id = editingDataset.id) => {
 			if (isEditing) {
 				queryClient.invalidateQueries(['datasets', id]);
 			}

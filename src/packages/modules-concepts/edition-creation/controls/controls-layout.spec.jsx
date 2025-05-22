@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../../tests-utils/render';
+import { renderWithRouter } from '../../../tests/render';
 import ControlsLayout from './controls-layout';
 
 describe('concept-edition-creation-controls-layout', () => {

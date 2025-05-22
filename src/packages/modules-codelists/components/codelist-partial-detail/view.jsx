@@ -19,8 +19,7 @@ import { ValidationButton } from '@components/validationButton';
 import { useTitle } from '@utils/hooks/useTitle';
 import { renderMarkdownElement } from '@utils/html-utils';
 
-import Auth from '../../../auth/components/auth';
-import { ADMIN } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
 
@@ -61,11 +60,21 @@ export const CodeListPartialDetailView = ({
 			)}
 			<ActionToolbar>
 				<ReturnButton action={handleBack} col={col} />
-				<Auth roles={[ADMIN]}>
+				<HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="PUBLISH">
 					<ValidationButton callback={publish} object={codelist} />
-					{updatable && <UpdateButton action={handleUpdate} col={col} />}
-					{deletable && <DeleteButton action={handleDelete} col={col} />}
-				</Auth>
+				</HasAccess>
+
+				{updatable && (
+					<HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="UPDATE">
+						<UpdateButton action={handleUpdate} col={col} />
+					</HasAccess>
+				)}
+
+				{deletable && (
+					<HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="DELETE">
+						<DeleteButton action={handleDelete} col={col} />
+					</HasAccess>
+				)}
 			</ActionToolbar>
 			<ErrorBloc error={serverSideError} />
 			<Row>

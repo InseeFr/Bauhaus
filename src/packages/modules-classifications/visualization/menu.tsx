@@ -8,8 +8,7 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import { ValidationButton } from '@components/validationButton';
 
-import Auth from '../../auth/components/auth';
-import { ADMIN } from '../../auth/roles';
+import { HasAccess } from '../../auth/components/auth';
 import D from '../../deprecated-locales';
 import { Classification } from '../../model/Classification';
 import { useGoBack } from '../../utils/hooks/useGoBack';
@@ -30,14 +29,14 @@ const ClassificationControls = ({
 	return (
 		<ActionToolbar>
 			<ReturnButton action={() => goBack('/classifications')} />
-			<Auth roles={[ADMIN]}>
+			<HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="PUBLISH">
 				<ValidationButton object={classification} callback={publish} />
-			</Auth>
-			<Auth roles={[ADMIN]}>
+			</HasAccess>
+			<HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="UPDATE">
 				<UpdateButton
 					action={`/classifications/classification/${classification.id}/modify`}
 				/>
-			</Auth>
+			</HasAccess>
 			<Button key={D.btnTree} action={treeLocation} label={D.btnTree} />
 		</ActionToolbar>
 	);

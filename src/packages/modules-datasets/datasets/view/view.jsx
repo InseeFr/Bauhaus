@@ -51,7 +51,7 @@ const Dataset = (props) => {
 			return DatasetsApi.publish(id);
 		},
 
-		onSuccess: (id) => {
+		onSuccess: () => {
 			queryClient.invalidateQueries(['datasets', id]);
 		},
 	});

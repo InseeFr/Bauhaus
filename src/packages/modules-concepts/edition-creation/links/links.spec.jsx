@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../../tests-utils/render';
+import { renderWithRouter } from '../../../tests/render';
 import ConceptLinks from './';
 
 describe('concept-edition-creation-links', () => {

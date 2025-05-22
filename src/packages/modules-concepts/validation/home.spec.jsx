@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 import ConceptValidation from './home';
 
 describe('concept-validation', () => {

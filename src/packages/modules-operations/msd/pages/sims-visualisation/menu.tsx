@@ -7,12 +7,7 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import { ValidationButton } from '@components/validationButton';
 
-import Auth, { RoleCheck } from '../../../../auth/components/auth';
-import {
-	ADMIN,
-	INDICATOR_CONTRIBUTOR,
-	SERIES_CONTRIBUTOR,
-} from '../../../../auth/roles';
+import { HasAccess } from '../../../../auth/components/auth';
 import { Sims } from '../../../../model/Sims';
 import { useGoBack } from '../../../../utils/hooks/useGoBack';
 import { getParentUri } from '../../utils';
@@ -33,26 +28,26 @@ export const Menu = ({
 }: Readonly<MenuTypes>) => {
 	const goBack = useGoBack();
 
-	const checkStamp = (stamp: string) => owners.includes(stamp);
-
-	const CREATOR: RoleCheck = !sims.idIndicator
-		? [SERIES_CONTRIBUTOR, checkStamp]
-		: [INDICATOR_CONTRIBUTOR, checkStamp];
-
 	return (
 		<ActionToolbar>
 			<ReturnButton action={() => goBack(getParentUri(sims))} />
-			<Auth roles={[ADMIN]} complementaryCheck={!!sims.idSeries}>
+			<HasAccess
+				module="OPERATION_SIMS"
+				privilege="DELETE"
+				complementaryCheck={!!sims.idSeries}
+			>
 				<DeleteButton action={onDelete} />
-			</Auth>
-			<Auth roles={[ADMIN, CREATOR]}>
+			</HasAccess>
+			<HasAccess module="OPERATION_SIMS" privilege="PUBLISH" stamps={owners}>
 				<ValidationButton
 					object={sims}
 					callback={() => onPublish()}
 					disabled={false}
 				/>
+			</HasAccess>
+			<HasAccess module="OPERATION_SIMS" privilege="UPDATE" stamps={owners}>
 				<UpdateButton action={`/operations/sims/${sims.id}/modify`} />
-			</Auth>
+			</HasAccess>
 			<ExportButton action={onExport} />
 		</ActionToolbar>
 	);
