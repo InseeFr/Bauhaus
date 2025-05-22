@@ -11,6 +11,7 @@ const useClassificationItem = (classificationId, itemId, current) => {
 		isLoading,
 		isPreviousData,
 		data: item,
+		status,
 	} = useQuery({
 		queryKey: ['classifications-item', classificationId, itemId],
 		queryFn: async () => {
@@ -54,6 +55,7 @@ const useClassificationItem = (classificationId, itemId, current) => {
 	if (current) {
 		return {
 			isLoading,
+			status,
 			item: {
 				general: item?.general,
 				narrowers: item?.narrowers,
@@ -61,7 +63,7 @@ const useClassificationItem = (classificationId, itemId, current) => {
 			},
 		};
 	}
-	return { isLoading, isPreviousData, item };
+	return { isLoading, isPreviousData, item, status };
 };
 
 export const useClassificationParentLevels = (
