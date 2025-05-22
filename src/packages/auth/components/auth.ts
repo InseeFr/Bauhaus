@@ -1,7 +1,12 @@
 import { PropsWithChildren } from 'react';
 import { useSelector } from 'react-redux';
 
-import { MODULE, PRIVILEGE, STRATEGY, usePrivileges } from '@sdk/users-api';
+import {
+	MODULE,
+	Privilege,
+	PRIVILEGE,
+	usePrivileges,
+} from '@utils/hooks/users';
 
 import { AppName } from '../../application/app-context';
 import { ReduxModel } from '../../redux/model';
@@ -12,15 +17,7 @@ export type RoleChecks = RoleCheck[];
 
 export const hasAccessToModule = (
 	module: AppName,
-	privileges:
-		| {
-				application: MODULE;
-				privileges: {
-					privilege: PRIVILEGE;
-					strategy: STRATEGY;
-				}[];
-		  }[]
-		| undefined,
+	privileges: Privilege[] | undefined,
 ) => {
 	if (!privileges || privileges.length === 0) {
 		return false;

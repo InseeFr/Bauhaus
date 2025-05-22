@@ -9,6 +9,7 @@ export default defineConfig({
 			provider: 'istanbul',
 			reporter: ['text', 'lcov'],
 			include: ['src/**/*.{ts,tsx,js,jsx}'],
+			exclude: ['src/packages/tests-utils'],
 		},
 		include: ['src/**/*.spec.*'],
 		environment: 'happy-dom',

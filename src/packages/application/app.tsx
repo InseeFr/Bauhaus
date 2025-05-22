@@ -1,9 +1,8 @@
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import { Link } from 'react-router-dom';
 
-import { usePrivileges } from '@sdk/users-api';
-
 import { useTitle } from '@utils/hooks/useTitle';
+import { usePrivileges } from '@utils/hooks/users';
 
 import { hasAccessToModule } from '../auth/components/auth';
 import D from '../deprecated-locales';
@@ -15,6 +14,7 @@ const App = () => {
 	useTitle();
 
 	const { privileges = [] } = usePrivileges();
+
 	const {
 		properties: { modules },
 	} = useAppContext();

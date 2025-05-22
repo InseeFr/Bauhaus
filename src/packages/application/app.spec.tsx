@@ -2,14 +2,14 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { usePrivileges } from '@sdk/users-api';
+import { usePrivileges } from '@utils/hooks/users';
 
 import { hasAccessToModule } from '../auth/components/auth';
 import App from './app';
 import { useAppContext } from './app-context';
 
 // Mocks
-vi.mock('@sdk/users-api', () => ({
+vi.mock('@utils/hooks/users', () => ({
 	usePrivileges: vi.fn(),
 }));
 
