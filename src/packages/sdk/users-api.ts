@@ -29,7 +29,6 @@ export type MODULE =
 export type PRIVILEGE = 'READ' | 'CREATE' | 'UPDATE' | 'PUBLISH' | 'DELETE';
 export type STRATEGY = 'ALL' | 'STAMP' | 'NONE';
 
-
 const apiConfig = {
 	getStamp: () => ['stamp'],
 };

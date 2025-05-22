@@ -37,7 +37,6 @@ export const renderWithQueryClient = (ui: React.ReactElement) => {
 	);
 };
 
-
 export const renderWithRouter = (component: ReactNode) => {
 	return render(<MemoryRouter>{component}</MemoryRouter>);
 };

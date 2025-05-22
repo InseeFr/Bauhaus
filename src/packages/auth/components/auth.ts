@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { MODULE, PRIVILEGE, STRATEGY, usePrivileges } from '@sdk/users-api';
 
 import { AppName } from '../../application/app-context';
-
 import { ReduxModel } from '../../redux/model';
 import { getPermission } from '../../redux/selectors';
 
