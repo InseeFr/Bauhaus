@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { ClientSideError, ErrorBloc } from '@components/errors-bloc';
@@ -54,7 +54,7 @@ export const Component = () => {
 		},
 	});
 
-	const { isLoading, item } = useClassificationItem(
+	const { isLoading, item, status } = useClassificationItem(
 		classificationId,
 		itemId,
 		true,
@@ -75,6 +75,13 @@ export const Component = () => {
 	}));
 
 	const [value, setValue] = useState(item);
+
+	useEffect(() => {
+		if (status === 'success' && !value.general) {
+			setValue(item);
+		}
+	}, [status, item]);
+
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
 
@@ -123,10 +130,13 @@ export const Component = () => {
 			};
 		}, {});
 
-	const onSubmit = () => {
+	const onSubmit = (e) => {
+		e.stopPropagation();
+		e.preventDefault();
+
 		const clientSideErrors = validate(
 			value.general,
-			value.general.altLabels.length,
+			value.general.altLabels?.length,
 		);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			setSubmitting(true);
@@ -154,7 +164,6 @@ export const Component = () => {
 			/>
 		);
 	}
-
 	if (!value?.general) {
 		return;
 	}
