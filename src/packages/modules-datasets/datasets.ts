@@ -56,7 +56,7 @@ export const useDatasetPublisher = (id: string) => {
 			return DistributionApi.publish(id);
 		},
 
-		onSuccess: (id) => {
+		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ['distributions', id],
 			});
