@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
@@ -14,7 +14,6 @@ import { Select } from '@components/select-rmes';
 import { ClassificationsApi } from '@sdk/classification';
 
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
-import { fetchingPreviousLevels } from '../client';
 import useClassificationItem, { useClassificationParentLevels } from '../hook';
 import { Menu } from './menu';
 import { validate } from './validate';
