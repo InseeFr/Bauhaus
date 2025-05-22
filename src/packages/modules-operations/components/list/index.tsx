@@ -41,10 +41,9 @@ function OperationsObjectHome({
 					<SearchableList
 						items={items}
 						childPath={childPath}
-						label="label"
-						searchUrl={searchURL}
 						advancedSearch={advancedSearch}
-						autoFocus={true}
+						searchUrl={searchURL}
+						autoFocus
 					/>
 				</div>
 			</Row>

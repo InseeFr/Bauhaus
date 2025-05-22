@@ -6,8 +6,8 @@ export const routes: RouteObject[] = [
 		lazy: () => import('../datasets/home/home'),
 	},
 	{
-		path: 'distributions',
-		lazy: () => import('../distributions/home/home'),
+		path: 'search',
+		lazy: () => import('../datasets/search/search'),
 	},
 	{
 		path: 'create',
@@ -20,6 +20,14 @@ export const routes: RouteObject[] = [
 	{
 		path: ':id/modify',
 		lazy: () => import('../datasets/edit/edit'),
+	},
+	{
+		path: 'distributions',
+		lazy: () => import('../distributions/home/home'),
+	},
+	{
+		path: 'distributions/search',
+		lazy: () => import('../distributions/search/search'),
 	},
 	{
 		path: 'distributions/create',

@@ -1,6 +1,7 @@
-import { CodesList } from '@model/CodesList';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
+
+import { CodesList } from '@model/CodesList';
 
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { usePermission } from '../../../redux/hooks/usePermission';

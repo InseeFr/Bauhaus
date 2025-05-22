@@ -142,6 +142,10 @@ const dictionary = {
 		fr: 'Statut de diffusion',
 		en: 'Dissemination status',
 	},
+	validationStatusTitle: {
+		fr: 'Statut de publication',
+		en: 'Publication status',
+	},
 	stampsPlaceholder: {
 		fr: 'Sélectionnez un timbre...',
 		en: 'Select stamp...',

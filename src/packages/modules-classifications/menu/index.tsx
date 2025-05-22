@@ -1,7 +1,8 @@
-import { UIMenuItem } from '@model/Menu';
 import { useLocation } from 'react-router-dom';
 
 import { MainMenu } from '@components/menu';
+
+import { UIMenuItem } from '@model/Menu';
 
 import D from '../../deprecated-locales';
 
