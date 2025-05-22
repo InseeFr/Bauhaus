@@ -38,6 +38,27 @@ describe('<App />', () => {
 		vi.clearAllMocks();
 	});
 
+	it('renders nothing', () => {
+		(usePrivileges as any).mockReturnValue({});
+		(useAppContext as any).mockReturnValue({
+			properties: {
+				modules: ['analytics', 'admin', 'users'],
+			},
+		});
+
+		(hasAccessToModule as any).mockImplementation(() => false);
+
+		render(
+			<MemoryRouter>
+				<App />
+			</MemoryRouter>,
+		);
+
+		expect(screen.queryByText('Analytics')).not.toBeInTheDocument();
+		expect(screen.queryByText('Administration')).not.toBeInTheDocument();
+		expect(screen.queryByText('Users')).not.toBeInTheDocument();
+	});
+
 	it('renders modules the user has access to', () => {
 		(usePrivileges as any).mockReturnValue({ privileges: ['admin'] });
 		(useAppContext as any).mockReturnValue({
