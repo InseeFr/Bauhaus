@@ -4,6 +4,7 @@ import { ClassificationsApi } from '@sdk/classification';
 
 import { range } from '../../utils/array-utils';
 import { emptyNotes } from '../utils/item/notes';
+import { fetchingPreviousLevels } from './client';
 
 const useClassificationItem = (classificationId, itemId, current) => {
 	const {
@@ -63,4 +64,17 @@ const useClassificationItem = (classificationId, itemId, current) => {
 	return { isLoading, isPreviousData, item };
 };
 
+export const useClassificationParentLevels = (
+	classificationId,
+	itemId,
+	item,
+) => {
+	return useQuery({
+		queryKey: ['classification-parent-levels', classificationId, itemId],
+		queryFn: () => {
+			return fetchingPreviousLevels(classificationId, item.general);
+		},
+		enabled: !!item?.general,
+	});
+};
 export default useClassificationItem;

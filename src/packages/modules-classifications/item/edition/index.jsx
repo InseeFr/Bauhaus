@@ -15,7 +15,7 @@ import { ClassificationsApi } from '@sdk/classification';
 
 import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import { fetchingPreviousLevels } from '../client';
-import useClassificationItem from '../hook';
+import useClassificationItem, { useClassificationParentLevels } from '../hook';
 import { Menu } from './menu';
 import { validate } from './validate';
 
@@ -61,13 +61,7 @@ export const Component = () => {
 	);
 
 	const { data: previousLevels = [], isPending: isPreviousLevelsLoading } =
-		useQuery({
-			queryKey: ['classification-parent-levels', classificationId, itemId],
-			queryFn: () => {
-				return fetchingPreviousLevels(classificationId, item.general);
-			},
-			enabled: !!item.general,
-		});
+		useClassificationParentLevels(classificationId, itemId, item);
 
 	const previousLevelsOptions = previousLevels.map((previousLevel) => ({
 		value: previousLevel.item,
@@ -77,6 +71,10 @@ export const Component = () => {
 	const [value, setValue] = useState(item);
 	const [clientSideErrors, setClientSideErrors] = useState({});
 	const [submitting, setSubmitting] = useState(false);
+
+	if (isLoading || isPreviousLevelsLoading) return <Loading />;
+
+	if (isSaving) return <Saving />;
 
 	const { general, notes } = value;
 
@@ -136,10 +134,6 @@ export const Component = () => {
 			formatAndSave(value);
 		}
 	};
-
-	if (isLoading || isPreviousLevelsLoading) return <Loading />;
-
-	if (isSaving) return <Saving />;
 
 	if (isSavingSuccess) {
 		return (
