@@ -7,6 +7,7 @@ import {
 	mandatoryAndNotEmptyTextField,
 } from '@utils/validation';
 
+import { useAppContext } from '../../../application/app-context';
 import D, { D1, D2 } from '../../../deprecated-locales';
 import NewDictionary from '../../../i18n';
 
@@ -31,9 +32,12 @@ let ZodSerie: ZodObject<any> = z.object({
 	creators: mandatoryAndNotEmptyMultiSelectField(D.creatorsTitle),
 });
 
-export const listOfExtraMandatoryFields = (
-	import.meta.env.VITE_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? ''
-).split(',');
+const {
+	properties: { extraMandatoryFields },
+} = useAppContext();
+export const listOfExtraMandatoryFields = (extraMandatoryFields ?? '').split(
+	',',
+);
 
 export const isMandatoryField = (fieldName: string) =>
 	listOfExtraMandatoryFields.indexOf(fieldName) >= 0;
