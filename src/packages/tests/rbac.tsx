@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 import configureStore from '../redux/configure-store';
 
 export const RBACMock = ({
-	roles = [],
+	roles,
 	stamp = 'stamp',
 	children,
 }: PropsWithChildren<{
