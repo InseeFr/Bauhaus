@@ -6,8 +6,8 @@ import { StructureApi } from '@sdk/index';
 import { ADMIN } from '../../../auth/roles';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { Structure } from '../../../model/structures/Structure';
-import { RBACMock } from '../../../tests-utils/rbac';
-import { mockReactQueryForRbac } from '../../../tests-utils/render';
+import { RBACMock } from '../../../tests/rbac';
+import { mockReactQueryForRbac } from '../../../tests/render';
 
 vi.mock('@sdk/index', () => ({
 	StructureApi: {

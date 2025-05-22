@@ -3,10 +3,7 @@ import { Provider } from 'react-redux';
 
 import { HomeDocument } from '../../model/operations/document';
 import configureStore from '../../redux/configure-store';
-import {
-	mockReactQueryForRbac,
-	renderWithRouter,
-} from '../../tests-utils/render';
+import { mockReactQueryForRbac, renderWithRouter } from '../../tests/render';
 
 describe('DocumentHome', async () => {
 	afterEach(() => {

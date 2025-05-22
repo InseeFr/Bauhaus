@@ -1,5 +1,5 @@
-import { locales } from '../../tests-utils/default-values';
-import { renderWithAppContext } from '../../tests-utils/render';
+import { locales } from '../../tests/default-values';
+import { renderWithAppContext } from '../../tests/render';
 import Home from './home';
 
 const level = {

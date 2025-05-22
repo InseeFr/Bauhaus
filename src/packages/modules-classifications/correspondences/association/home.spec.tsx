@@ -1,4 +1,4 @@
-import { renderWithAppContext } from '../../../tests-utils/render';
+import { renderWithAppContext } from '../../../tests/render';
 import * as associationUtils from '../../utils/correspondence/association';
 import Home from './home';
 

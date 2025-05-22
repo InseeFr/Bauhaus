@@ -2,8 +2,8 @@ import { Classification } from '@model/Classification';
 import { render, screen } from '@testing-library/react';
 
 import { ADMIN } from '../../auth/roles';
-import { RBACMock } from '../../tests-utils/rbac';
-import { mockReactQueryForRbac } from '../../tests-utils/render';
+import { RBACMock } from '../../tests/rbac';
+import { mockReactQueryForRbac } from '../../tests/render';
 
 const classification = { id: 'pcs2020' } as unknown as Classification;
 

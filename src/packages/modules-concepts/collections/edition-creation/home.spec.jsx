@@ -1,5 +1,5 @@
-import { locales } from '../../../tests-utils/default-values';
-import { renderWithRouter } from '../../../tests-utils/render';
+import { locales } from '../../../tests/default-values';
+import { renderWithRouter } from '../../../tests/render';
 import { empty } from '../utils/general';
 import Collection from './home';
 

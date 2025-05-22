@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 
 import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { Dataset } from '../../../model/Dataset';
-import { RBACMock } from '../../../tests-utils/rbac';
-import { mockReactQueryForRbac } from '../../../tests-utils/render';
+import { RBACMock } from '../../../tests/rbac';
+import { mockReactQueryForRbac } from '../../../tests/render';
 
 describe('Dataset View Menu', () => {
 	afterEach(() => {

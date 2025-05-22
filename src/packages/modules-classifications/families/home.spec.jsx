@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 import Home from './home';
 
 const families = [{ id: '1', label: 'Family 1' }];

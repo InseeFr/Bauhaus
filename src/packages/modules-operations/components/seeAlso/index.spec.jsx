@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { renderWithRouter } from '../../../tests-utils/render';
+import { renderWithRouter } from '../../../tests/render';
 import SeeAlso from './index';
 
 describe('SeeAlso', () => {

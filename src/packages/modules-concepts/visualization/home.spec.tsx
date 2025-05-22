@@ -1,9 +1,9 @@
-import { locales } from '../../tests-utils/default-values';
-import { RBACMock } from '../../tests-utils/rbac';
+import { locales } from '../../tests/default-values';
+import { RBACMock } from '../../tests/rbac';
 import {
 	mockReactQueryForRbac,
 	renderWithAppContext,
-} from '../../tests-utils/render';
+} from '../../tests/render';
 import { empty } from '../utils/general';
 
 describe('concept-visualization', () => {

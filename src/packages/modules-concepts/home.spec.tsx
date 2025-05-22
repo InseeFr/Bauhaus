@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { ConceptsApi } from '../sdk';
-import { renderWithRouter } from '../tests-utils/render';
+import { renderWithRouter } from '../tests/render';
 import { Component } from './home';
 
 vi.mock('../sdk', () => ({

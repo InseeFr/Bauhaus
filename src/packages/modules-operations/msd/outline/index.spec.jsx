@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../../tests-utils/render';
+import { renderWithRouter } from '../../../tests/render';
 import Outline from './index';
 
 vi.mock('../../msd/utils', () => ({

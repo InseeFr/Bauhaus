@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
-import { RBACMock } from '../../../tests-utils/rbac';
-import { mockReactQueryForRbac } from '../../../tests-utils/render';
+import { RBACMock } from '../../../tests/rbac';
+import { mockReactQueryForRbac } from '../../../tests/render';
 
 describe('collection-visualization-controls', () => {
 	afterEach(() => {

@@ -1,8 +1,8 @@
-import { RBACMock } from '../../tests-utils/rbac';
+import { RBACMock } from '../../tests/rbac';
 import {
 	mockReactQueryForRbac,
 	renderWithAppContext,
-} from '../../tests-utils/render';
+} from '../../tests/render';
 
 const item = {
 	general: {

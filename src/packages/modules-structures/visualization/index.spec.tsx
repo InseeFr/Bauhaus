@@ -6,7 +6,7 @@ import configureStore from '../../redux/configure-store';
 import {
 	mockReactQueryForRbac,
 	renderWithAppContext,
-} from '../../tests-utils/render';
+} from '../../tests/render';
 
 vi.mock('./components/global-informations-panel', () => ({
 	GlobalInformationsPanel: vi.fn(() => <div></div>),
