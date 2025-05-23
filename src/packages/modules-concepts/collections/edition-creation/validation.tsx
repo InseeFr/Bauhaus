@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { arrayKeepUniqueField } from '@utils/array-utils';
+import { normalize } from '@utils/string-utils';
 import {
 	formatValidation,
 	mandatoryAndNotEmptySelectField,
@@ -15,12 +16,6 @@ type CollectionsList = {
 	label: string;
 }[];
 
-const deburr = (value: string) =>
-	value
-		.toLowerCase()
-		.normalize('NFD')
-		.replace(/\p{Diacritic}/gu, '');
-
 const ZodCollection = (
 	collectionList: CollectionsList,
 	initialId: string,
@@ -30,13 +25,15 @@ const ZodCollection = (
 		id: mandatoryAndNotEmptyTextField(D.idTitle).refine(
 			(value) =>
 				value === initialId ||
-				!arrayKeepUniqueField(collectionList, 'id').includes(deburr(value)),
+				!arrayKeepUniqueField(collectionList, 'id').includes(normalize(value)),
 			{ message: D.duplicatedId },
 		),
 		prefLabelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle).refine(
 			(value) =>
 				value === initialPrefLabelLg1 ||
-				!arrayKeepUniqueField(collectionList, 'label').includes(deburr(value)),
+				!arrayKeepUniqueField(collectionList, 'label').includes(
+					normalize(value),
+				),
 			{ message: D.duplicatedLabel },
 		),
 		creator: mandatoryAndNotEmptySelectField(D.creatorTitle),

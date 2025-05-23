@@ -36,6 +36,14 @@ describe('nbResults', () => {
 });
 
 describe('filterKeyDeburr', () => {
+	describe('without keys array', () => {
+		it('should return true if the value is present', () => {
+			expect(A.filterKeyDeburr()('a')({ label: 'a' })).toBeTruthy();
+		});
+		it('should return false if the value is not present', () => {
+			expect(A.filterKeyDeburr()('a')({ label: 'b' })).toBeFalsy();
+		});
+	});
 	describe('the value is single', () => {
 		it('should return true if the value is present', () => {
 			expect(A.filterKeyDeburr(['label'])('a')({ label: 'a' })).toBeTruthy();
