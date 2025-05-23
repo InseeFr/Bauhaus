@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
-import { MemoryRouter, useLocation } from 'react-router-dom';
-import { describe, it, expect, vi } from 'vitest';
+import { useLocation } from 'react-router-dom';
+import { describe, expect, it, vi } from 'vitest';
 
 import { MainMenu } from '@components/menu';
 
 import D from '../../deprecated-locales';
+import { renderWithRouter } from '../../tests-utils/render';
 import MenuClassifications from './index';
 
 vi.mock('react-router-dom', async () => {
@@ -27,11 +27,7 @@ describe('MenuClassifications', () => {
 	it('should not render anything if the path is "/"', () => {
 		vi.mocked(useLocation).mockReturnValue({ pathname: '/' } as any);
 
-		const { container } = render(
-			<MemoryRouter>
-				<MenuClassifications />
-			</MemoryRouter>,
-		);
+		const { container } = renderWithRouter(<MenuClassifications />);
 
 		expect(container.firstChild).toBeNull();
 	});
@@ -41,11 +37,7 @@ describe('MenuClassifications', () => {
 			pathname: '/classifications/families',
 		} as any);
 
-		render(
-			<MemoryRouter>
-				<MenuClassifications />
-			</MemoryRouter>,
-		);
+		renderWithRouter(<MenuClassifications />);
 
 		expect(MainMenu).toHaveBeenCalledWith(
 			{
@@ -93,11 +85,7 @@ describe('MenuClassifications', () => {
 			pathname: '/classifications/series',
 		} as any);
 
-		render(
-			<MemoryRouter>
-				<MenuClassifications />
-			</MemoryRouter>,
-		);
+		renderWithRouter(<MenuClassifications />);
 
 		expect(MainMenu).toHaveBeenCalledWith(
 			{
@@ -145,11 +133,7 @@ describe('MenuClassifications', () => {
 			pathname: '/classifications',
 		} as any);
 
-		render(
-			<MemoryRouter>
-				<MenuClassifications />
-			</MemoryRouter>,
-		);
+		renderWithRouter(<MenuClassifications />);
 
 		expect(MainMenu).toHaveBeenCalledWith(
 			{

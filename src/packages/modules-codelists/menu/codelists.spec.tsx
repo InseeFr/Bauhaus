@@ -1,12 +1,12 @@
-import { render } from '@testing-library/react';
-import { MemoryRouter, useLocation } from 'react-router-dom';
-import { describe, expect, it, vi, afterEach } from 'vitest';
+import { useLocation } from 'react-router-dom';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { MainMenu } from '@components/menu';
 
 import MenuCodelists from '.';
 import { ADMIN } from '../../auth/roles';
 import { usePermission } from '../../redux/hooks/usePermission';
+import { renderWithRouter } from '../../tests-utils/render';
 import D from '../i18n/build-dictionary';
 
 vi.mock('react-router-dom', async () => {
@@ -34,11 +34,7 @@ describe('MenuCodelists', () => {
 		vi.mocked(useLocation).mockReturnValue({ pathname: '/' } as any);
 		vi.mocked(usePermission).mockReturnValue({ roles: [] } as any);
 
-		const { container } = render(
-			<MemoryRouter>
-				<MenuCodelists />
-			</MemoryRouter>,
-		);
+		const { container } = renderWithRouter(<MenuCodelists />);
 
 		expect(container.firstChild).toBeNull();
 	});
@@ -47,11 +43,7 @@ describe('MenuCodelists', () => {
 		vi.mocked(useLocation).mockReturnValue({ pathname: '/codelists' } as any);
 		vi.mocked(usePermission).mockReturnValue({ roles: [] } as any);
 
-		const { getByText } = render(
-			<MemoryRouter>
-				<MenuCodelists />
-			</MemoryRouter>,
-		);
+		const { getByText } = renderWithRouter(<MenuCodelists />);
 
 		expect(MainMenu).toHaveBeenCalledWith(
 			{
@@ -77,11 +69,7 @@ describe('MenuCodelists', () => {
 		} as any);
 		vi.mocked(usePermission).mockReturnValue({ roles: [ADMIN] } as any);
 
-		const { getByText } = render(
-			<MemoryRouter>
-				<MenuCodelists />
-			</MemoryRouter>,
-		);
+		const { getByText } = renderWithRouter(<MenuCodelists />);
 
 		expect(MainMenu).toHaveBeenCalledWith(
 			{
@@ -113,11 +101,7 @@ describe('MenuCodelists', () => {
 		vi.mocked(useLocation).mockReturnValue({ pathname: '/codelists' } as any);
 		vi.mocked(usePermission).mockReturnValue({ roles: [ADMIN] } as any);
 
-		render(
-			<MemoryRouter>
-				<MenuCodelists />
-			</MemoryRouter>,
-		);
+		renderWithRouter(<MenuCodelists />);
 
 		expect(MainMenu).toHaveBeenCalledWith(
 			{
