@@ -1,5 +1,5 @@
 import { isDateIn } from './date-utils';
-import { deburr } from './string-utils';
+import { deburr, normalize } from './string-utils';
 
 /**
  * This is function is used to manage old version of our data. The main case
@@ -54,14 +54,8 @@ export const sortArray =
 	(arr: any[], desc = false) => {
 		const order = desc ? 1 : -1;
 		return arr.sort((a: any, b: any) => {
-			const aUp = (a[key] ?? '')
-				.toLowerCase()
-				.normalize('NFD')
-				.replace(/\p{Diacritic}/gu, '');
-			const bUp = (b[key] ?? '')
-				.toLowerCase()
-				.normalize('NFD')
-				.replace(/\p{Diacritic}/gu, '');
+			const aUp = normalize(a[key]);
+			const bUp = normalize(b[key]);
 			return bUp > aUp ? order : bUp === aUp ? 0 : -order;
 		});
 	};
@@ -71,7 +65,7 @@ export const sortArrayByLabel = sortArray('label');
 export const nbResults = (array: unknown[], many?: string, one?: string) =>
 	`${array.length} ${array.length > 1 ? many : one}`;
 
-export const filterKeyDeburr = (keys: any) => (rawStr: string) => {
+export const filterKeyDeburr = (keys?: any[]) => (rawStr: string) => {
 	function getValue(item: any, key: string): any {
 		if (!key.includes('.')) {
 			if (Array.isArray(item)) {
@@ -83,23 +77,19 @@ export const filterKeyDeburr = (keys: any) => (rawStr: string) => {
 		return getValue(item[first], rest.join('.'));
 	}
 
-	const str = (rawStr ?? '')
-		.toLocaleLowerCase()
-		.normalize('NFD')
-		.replace(/\p{Diacritic}/gu, '');
+	const str = normalize(rawStr);
 	return (item: any) => {
 		let isIn = false;
-		for (let i = 0; i < keys.length; i++) {
-			const key = keys[i];
+
+		const keysToCheck = keys
+			? keys
+			: Object.keys(item).filter((k) => k !== 'id');
+
+		for (let i = 0; i < keysToCheck.length; i++) {
+			const key = keysToCheck[i];
 			const value = getValue(item, key);
 			const formattedValue = Array.isArray(value) ? value.join(',') : value;
-			if (
-				(formattedValue || '')
-					.toLocaleLowerCase()
-					.normalize('NFD')
-					.replace(/\p{Diacritic}/gu, '')
-					.includes(str)
-			) {
+			if (normalize(formattedValue).includes(str)) {
 				isIn = true;
 				break;
 			}
@@ -117,13 +107,7 @@ export const arrayToString = (array: string[]) =>
 export const arrayKeepUniqueField = (
 	array: Record<string, any>[],
 	field: string,
-) =>
-	array.map((item) =>
-		(item[field] ?? '')
-			.toLowerCase()
-			.normalize('NFD')
-			.replace(/\p{Diacritic}/gu, ''),
-	);
+) => array.map((item) => normalize(item[field]));
 
 export const range = (start: number, end: number) =>
 	Array(end - start)
