@@ -10,6 +10,7 @@ import { useOrganizations } from '@utils/hooks/organizations';
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
 
+import { useAppContext } from '../../../application/app-context';
 import D from '../../../deprecated-locales';
 import {
 	CL_FREQ,
@@ -51,6 +52,10 @@ export const Component = (props) => {
 
 	useTitle(D.seriesTitle + ' - ' + D.operationsTitle, serie?.prefLabelLg1);
 
+	const {
+		properties: { extraMandatoryFields },
+	} = useAppContext();
+
 	if (!serie.id && id) return <Loading />;
 
 	return (
@@ -65,6 +70,7 @@ export const Component = (props) => {
 			indicators={indicators}
 			frequencies={frequencies}
 			goBack={goBack}
+			extraMandatoryFields={extraMandatoryFields}
 		/>
 	);
 };

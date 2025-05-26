@@ -31,25 +31,20 @@ let ZodSerie: ZodObject<any> = z.object({
 	creators: mandatoryAndNotEmptyMultiSelectField(D.creatorsTitle),
 });
 
-export const listOfExtraMandatoryFields = (
-	import.meta.env.VITE_VALIDATION_OPERATION_SERIES_EXTRA_MANDATORY_FIELDS ?? ''
-).split(',');
-
-export const isMandatoryField = (fieldName: string) =>
-	listOfExtraMandatoryFields.indexOf(fieldName) >= 0;
-
 const fieldToTitleMapping: Record<string, string> = {
 	typeCode: D.operationType,
 	accrualPeriodicityCode: D.dataCollectFrequency,
 };
 
-listOfExtraMandatoryFields.forEach((extraMandatoryField) => {
-	ZodSerie = ZodSerie.setKey(
-		extraMandatoryField,
-		mandatoryAndNotEmptySelectField(
-			fieldToTitleMapping[extraMandatoryField] ?? '',
-		),
-	);
-});
+export const validate = (extraMandatoryFields: string[]) => {
+	extraMandatoryFields.forEach((extraMandatoryField) => {
+		ZodSerie = ZodSerie.setKey(
+			extraMandatoryField,
+			mandatoryAndNotEmptySelectField(
+				fieldToTitleMapping[extraMandatoryField] ?? '',
+			),
+		);
+	});
 
-export const validate = formatValidation(ZodSerie);
+	return formatValidation(ZodSerie);
+};
