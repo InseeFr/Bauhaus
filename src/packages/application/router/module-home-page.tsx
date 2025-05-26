@@ -12,6 +12,7 @@ export const ModuleHomePage = ({
 	pages,
 	activeModules,
 }: Readonly<ModuleHomePage>) => {
+	console.log(activeModules, pageName);
 	if (!activeModules.includes(pageName)) {
 		return <UnderMaintenance />;
 	}
