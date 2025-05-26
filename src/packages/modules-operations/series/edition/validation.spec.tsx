@@ -11,7 +11,7 @@ vi.mock('../../../application/app-context', () => ({
 describe('validation', function () {
 	it('should return an error for prefLabelLg1', function () {
 		expect(
-			validate({
+			validate(['accrualPeriodicityCode', 'typeCode'])({
 				prefLabelLg1: '',
 				prefLabelLg2: 'prefLabelLg2',
 				creators: ['creator'],
@@ -33,7 +33,7 @@ describe('validation', function () {
 	});
 	it('should return an error for prefLabelLg2', function () {
 		expect(
-			validate({
+			validate(['accrualPeriodicityCode', 'typeCode'])({
 				prefLabelLg1: 'prefLabelLg1',
 				prefLabelLg2: '',
 				creators: ['creator'],
@@ -55,7 +55,7 @@ describe('validation', function () {
 	});
 	it('should return an error for prefLabelLg1, prefLabelLg2, family and creators', function () {
 		expect(
-			validate({
+			validate(['accrualPeriodicityCode', 'typeCode'])({
 				prefLabelLg1: '',
 				prefLabelLg2: '',
 				accrualPeriodicityCode: 'accrualPeriodicityCode',
@@ -81,7 +81,7 @@ describe('validation', function () {
 	});
 	it('should return no error', function () {
 		expect(
-			validate({
+			validate(['accrualPeriodicityCode', 'typeCode'])({
 				family: { id: 'i' },
 				prefLabelLg1: 'prefLabelLg1',
 				prefLabelLg2: 'prefLabelLg2',
