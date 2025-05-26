@@ -92,7 +92,6 @@ export default () => {
 	}, [modules]);
 
 	const getModuleHomePageRouter = (pageName: string) => {
-		console.log(activeModules, pageName);
 		if (!activeModules.includes(pageName)) {
 			return {
 				element: <UnderMaintenance />,
