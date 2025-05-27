@@ -35,9 +35,7 @@ export const Component = () => {
 					<SearchableList
 						items={indicators}
 						childPath="operations/indicator"
-						label="label"
-						advancedSearch={false}
-						autoFocus={true}
+						autoFocus
 					/>
 				</div>
 			</Row>

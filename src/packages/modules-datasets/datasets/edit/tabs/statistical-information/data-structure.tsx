@@ -1,8 +1,9 @@
-import { Option } from '@model/SelectOption';
 import { useState } from 'react';
 
 import { TextInput } from '@components/form/input';
 import { Select } from '@components/select-rmes';
+
+import { Option } from '@model/SelectOption';
 
 import { createDictionary, firstLang } from '@utils/dictionnary';
 import { useStructures } from '@utils/hooks/structures';

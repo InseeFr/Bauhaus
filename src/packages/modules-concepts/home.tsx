@@ -36,7 +36,7 @@ export const Component = () => {
 						advancedSearch
 						searchUrl="/concepts/search"
 						placeholder={D.searchLabelHomePlaceholder}
-						autoFocus={true}
+						autoFocus
 					/>
 				</div>
 			</Row>
