@@ -12,7 +12,7 @@ import { validateStateOptions } from '@model/ValidationState';
 
 import { DistributionApi } from '@sdk/distributions-api';
 
-import { filterKeyDeburr } from '@utils/array-utils';
+import { filterKeyDate, filterKeyDeburr } from '@utils/array-utils';
 import { useTitle } from '@utils/hooks/useTitle';
 import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 
@@ -57,9 +57,21 @@ export const Component = () => {
 	);
 };
 
-const filterLabel = filterKeyDeburr(['distributionLabelLg1']);
-const filterDatasetLabel = filterKeyDeburr(['labelLg1']);
+const filterDistributionLabel = filterKeyDeburr(['distributionLabelLg1']);
+const filterDistributionValidationStatus = filterKeyDeburr([
+	'distributionValidationStatus',
+]);
+const filterDistributionCreatedDate = filterKeyDate('distributionCreated');
+const filterDistributionUpdatedDate = filterKeyDate('distributionUpdated');
+
+const filterLabel = filterKeyDeburr(['labelLg1']);
 const filterAltId = filterKeyDeburr(['altIdentifier']);
+const filterCreator = filterKeyDeburr(['creator']);
+const filterDisseminationStatus = filterKeyDeburr(['disseminationStatus']);
+const filterValidationStatus = filterKeyDeburr(['validationStatus']);
+const filterWasGeneratedIRIs = filterKeyDeburr(['wasGeneratedIRIs']);
+const filterCreatedDate = filterKeyDate('created');
+const filterUpdatedDate = filterKeyDate('updated');
 
 const defaultFormState = {
 	distributionLabelLg1: '',
@@ -100,10 +112,21 @@ export const AdvancedSearchForm = ({
 		updated,
 	} = form;
 
+	const today = new Date();
+
 	const filteredData = data
-		.filter(filterLabel(distributionLabelLg1))
-		.filter(filterDatasetLabel(labelLg1))
-		.filter(filterAltId(altIdentifier));
+		.filter(filterDistributionLabel(distributionLabelLg1))
+		.filter(filterDistributionValidationStatus(distributionValidationStatus))
+		.filter(filterDistributionCreatedDate(distributionCreated, today))
+		.filter(filterDistributionUpdatedDate(distributionUpdated, today))
+		.filter(filterLabel(labelLg1))
+		.filter(filterAltId(altIdentifier))
+		.filter(filterCreator(creator))
+		.filter(filterDisseminationStatus(disseminationStatus))
+		.filter(filterValidationStatus(validationStatus))
+		.filter(filterWasGeneratedIRIs(wasGeneratedIRIs))
+		.filter(filterCreatedDate(created, today))
+		.filter(filterUpdatedDate(updated, today));
 
 	const dataLinks = filteredData.map(
 		({ distributionId, distributionLabelLg1 }) => (

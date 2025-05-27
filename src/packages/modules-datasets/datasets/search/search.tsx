@@ -15,7 +15,7 @@ import { validateStateOptions } from '@model/ValidationState';
 
 import { DatasetsApi } from '@sdk/datasets-api';
 
-import { filterKeyDeburr } from '@utils/array-utils';
+import { filterKeyDate, filterKeyDeburr } from '@utils/array-utils';
 import { useTitle } from '@utils/hooks/useTitle';
 import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
 
@@ -58,6 +58,12 @@ export const Component = () => {
 };
 
 const filterLabel = filterKeyDeburr(['labelLg1']);
+const filterCreator = filterKeyDeburr(['creator']);
+const filterDisseminationStatus = filterKeyDeburr(['disseminationStatus']);
+const filterValidationStatus = filterKeyDeburr(['validationStatus']);
+const filterWasGeneratedIRIs = filterKeyDeburr(['wasGeneratedIRIs']);
+const filterCreatedDate = filterKeyDate('created');
+const filterUpdatedDate = filterKeyDate('updated');
 
 const defaultFormState = {
 	labelLg1: '',
@@ -88,7 +94,16 @@ export const AdvancedSearchForm = ({
 		updated,
 	} = form;
 
-	const filteredData = data.filter(filterLabel(labelLg1));
+	const today = new Date();
+
+	const filteredData = data
+		.filter(filterLabel(labelLg1))
+		.filter(filterCreator(creator))
+		.filter(filterDisseminationStatus(disseminationStatus))
+		.filter(filterValidationStatus(validationStatus))
+		.filter(filterWasGeneratedIRIs(wasGeneratedIRIs))
+		.filter(filterCreatedDate(created, today))
+		.filter(filterUpdatedDate(updated, today));
 
 	const dataLinks = filteredData.map(({ id, labelLg1 }) => (
 		<li key={id} className="list-group-item">
