@@ -7,3 +7,10 @@ export const cleanId = (id?: string) => {
 export const deburr = (str: string): string => {
 	return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
+
+export const normalize = (str = ''): string => {
+	return str
+		.toLowerCase()
+		.normalize('NFD')
+		.replace(/\p{Diacritic}/gu, '');
+};
