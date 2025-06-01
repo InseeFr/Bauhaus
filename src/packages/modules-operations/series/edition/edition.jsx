@@ -29,7 +29,7 @@ import {
 	CL_SOURCE_CATEGORY,
 } from '../../../redux/actions/constants/codeList';
 import PublishersInput from '../../components/publishers-input';
-import { isMandatoryField, validate } from './validation';
+import { validate } from './validation';
 
 const defaultSerie = {
 	id: '',
@@ -102,7 +102,9 @@ class OperationsSerieEdition extends Component {
 	};
 
 	onSubmit = () => {
-		const clientSideErrors = validate(this.state.serie);
+		const clientSideErrors = validate(this.props.extraMandatoryFields)(
+			this.state.serie,
+		);
 		if (clientSideErrors.errorMessage?.length > 0) {
 			this.setState({
 				submitting: true,
@@ -184,6 +186,9 @@ class OperationsSerieEdition extends Component {
 			);
 
 		const serverSideError = this.state.serverSideError;
+
+		const isMandatoryField = (fieldName) =>
+			this.props.extraMandatoryFields.indexOf(fieldName) >= 0;
 
 		return (
 			<div className="container editor-container">
