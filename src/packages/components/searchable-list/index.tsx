@@ -51,7 +51,7 @@ export const SearchableList = ({
 	items = [],
 	advancedSearch = false,
 	searchUrl = '',
-	placeholder = '',
+	placeholder,
 	childPath,
 	col = undefined,
 	colOff = undefined,
@@ -63,6 +63,7 @@ export const SearchableList = ({
 		form: { search },
 		setForm: handleSearch,
 	} = useUrlQueryParameters(defautState);
+
 
 	const filter = filterKeyDeburr();
 
@@ -88,7 +89,7 @@ export const SearchableList = ({
 						onChange={(e) => {
 							handleSearch({ search: e.target.value });
 						}}
-						placeholder={D.searchLabelPlaceholder || placeholder}
+						placeholder={placeholder ?? D.searchLabelPlaceholder}
 						aria-label={D.search}
 						autoFocus={autoFocus}
 					/>

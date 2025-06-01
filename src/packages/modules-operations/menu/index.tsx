@@ -1,8 +1,9 @@
-import { UIMenuItem } from '@model/Menu';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { MainMenu } from '@components/menu';
+
+import { UIMenuItem } from '@model/Menu';
 
 import D from '../../deprecated-locales';
 import { Sims } from '../../model/Sims';

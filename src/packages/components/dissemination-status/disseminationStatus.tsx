@@ -34,7 +34,7 @@ export const DisseminationStatusVisualisation = ({
 interface DisseminationStatusInputTypes {
 	value: string;
 	handleChange: (value: string) => void;
-	required: boolean;
+	required?: boolean;
 	withLabel?: boolean;
 }
 export const DisseminationStatusInput = ({

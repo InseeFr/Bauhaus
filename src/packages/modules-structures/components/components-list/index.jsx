@@ -79,10 +79,9 @@ export const Component = () => {
 					<SearchableList
 						items={filteredItems}
 						childPath="structures/components"
+						advancedSearch
 						searchUrl="/structures/components/search"
-						advancedSearch={true}
-						label="label"
-						autoFocus={true}
+						autoFocus
 						itemFormatter={(_, component) => formatLabel(component)}
 					/>
 				</div>

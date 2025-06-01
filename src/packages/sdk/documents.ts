@@ -1,7 +1,7 @@
 import { buildApi } from './build-api';
 
 const api = {
-	getDocumentsAandLinksList: () => [''],
+	getDocumentsAndLinksList: () => [''],
 };
 
 export const DocumentsApi = buildApi('documents', api) as any;
