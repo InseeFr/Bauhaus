@@ -64,9 +64,8 @@ export const SearchableList = ({
 		setForm: handleSearch,
 	} = useUrlQueryParameters(defautState);
 
-	const filter = filterKeyDeburr(
-		Object.keys(items[0] ?? {}).filter((k) => k !== 'id'),
-	);
+
+	const filter = filterKeyDeburr();
 
 	const hits = items.filter(filter(search));
 
