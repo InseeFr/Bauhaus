@@ -44,7 +44,7 @@ export const ViewMenu = ({
 			</HasAccess>
 			<HasAccess
 				module="DATASET_DATASET"
-				privilege="PUBLISH"
+				privilege="DELETE"
 				stamps={contributors}
 				complementaryCheck={dataset.validationState === UNPUBLISHED}
 			>

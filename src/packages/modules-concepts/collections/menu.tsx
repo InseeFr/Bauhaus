@@ -14,7 +14,7 @@ export const Menu = () => {
 				<FeminineButton action="/concepts/collections/create" />
 			</HasAccess>
 			<ExportButton action="/concepts/collections/export" wrapper={false} />
-			<HasAccess module="CONCEPT_COLLECTION" privilege="READ">
+			<HasAccess module="CONCEPT_COLLECTION" privilege="PUBLISH">
 				<PublishButton
 					action="/concepts/collections/validation"
 					wrapper={false}
