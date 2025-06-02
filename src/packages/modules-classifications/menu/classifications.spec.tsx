@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { MainMenu } from '@components/menu';
 
 import D from '../../deprecated-locales';
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 import MenuClassifications from './index';
 
 vi.mock('react-router-dom', async () => {
