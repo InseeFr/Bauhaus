@@ -23,7 +23,7 @@ const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>) => {
 					<SearchableList
 						items={collections}
 						childPath="concepts/collections"
-						autoFocus={true}
+						autoFocus
 					/>
 				</div>
 			</Row>

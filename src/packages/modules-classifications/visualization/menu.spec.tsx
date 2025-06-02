@@ -1,5 +1,6 @@
-import { Classification } from '@model/Classification';
 import { render, screen } from '@testing-library/react';
+
+import { Classification } from '@model/Classification';
 
 import { ADMIN } from '../../auth/roles';
 import { RBACMock } from '../../tests/rbac';

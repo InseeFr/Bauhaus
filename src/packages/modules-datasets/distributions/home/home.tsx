@@ -27,7 +27,9 @@ export const Component = () => {
 					<SearchableList
 						items={data ?? []}
 						childPath="datasets/distributions"
-						advancedSearch={false}
+						advancedSearch
+						searchUrl="/datasets/distributions/search"
+						autoFocus
 						itemFormatter={(_: unknown, distribution: PartialDistribution) =>
 							distribution.labelLg1
 						}

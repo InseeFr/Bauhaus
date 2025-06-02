@@ -12,6 +12,7 @@ export interface AppProperties {
 	activeModules: string[];
 	defaultContributor: string;
 	maxLengthScopeNote: string;
+	extraMandatoryFields: string;
 }
 interface AppContextTypes {
 	lg1: string;

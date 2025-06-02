@@ -47,10 +47,9 @@ export const Component = () => {
 					<SearchableList
 						items={items}
 						childPath="codelists/partial"
+						advancedSearch
 						searchUrl="/codelists/partial/search"
-						advancedSearch={true}
-						label="label"
-						autoFocus={true}
+						autoFocus
 						itemFormatter={(_: any, codelist: any) => formatLabel(codelist)}
 					/>
 				</div>

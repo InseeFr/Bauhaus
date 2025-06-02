@@ -1,5 +1,6 @@
-import { Link as LinkType } from '@model/concepts/concept';
 import { Link } from 'react-router-dom';
+
+import { Link as LinkType } from '@model/concepts/concept';
 
 import { sortArray } from '@utils/array-utils';
 

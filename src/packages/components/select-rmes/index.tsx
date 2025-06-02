@@ -19,6 +19,7 @@ type SelectRmesTypes = {
 	placeholder?: string;
 	value?: any;
 	options?: Option[];
+	optionRenderer?: any;
 } & {};
 
 export const Select = ({

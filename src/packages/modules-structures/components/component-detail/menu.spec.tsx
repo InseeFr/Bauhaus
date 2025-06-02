@@ -1,5 +1,6 @@
-import { Component } from '@model/structures/Component';
 import { render, screen } from '@testing-library/react';
+
+import { Component } from '@model/structures/Component';
 
 import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { RBACMock } from '../../../tests/rbac';

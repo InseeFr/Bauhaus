@@ -1,6 +1,7 @@
 const dictionary = {
 	datasetTitle: { fr: 'Jeu de Données', en: 'Dataset' },
 	datasetsTitle: { fr: 'Jeux de Données', en: 'Datasets' },
+	distributionTitle: { fr: 'Distribution', en: 'Distribution' },
 	distributionsTitle: { fr: 'Distributions', en: 'Distributions' },
 	datasetsCreateTitle: {
 		fr: 'Créer un nouveau jeu de données',
@@ -12,11 +13,19 @@ const dictionary = {
 	},
 	datasetsHomePageTitle: {
 		fr: 'Jeux de Données - Recherche',
-		en: 'Dataset - Search',
+		en: 'Datasets - Search',
 	},
 	distributionsHomePageTitle: {
 		fr: 'Distributions - Recherche',
 		en: 'Distributions - Search',
+	},
+	datasetsSearchTitle: {
+		fr: 'Jeux de Données - Recherche avancée',
+		en: 'Datasets - Advanced search',
+	},
+	distributionsSearchTitle: {
+		fr: 'Distributions - Recherche avancée',
+		en: 'Distributions - Advanced search',
 	},
 	formatTitle: { fr: 'Format', en: 'Format' },
 	tailleTitle: { fr: 'Taille', en: 'Size' },
