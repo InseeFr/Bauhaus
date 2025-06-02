@@ -1,4 +1,4 @@
-import { renderWithAppContext } from '../../../tests-utils/render';
+import { renderWithAppContext } from '../../../tests/render';
 import ClassificationTree from './home';
 
 describe('classification-tree-home', () => {

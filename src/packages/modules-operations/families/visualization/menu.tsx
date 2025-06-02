@@ -8,8 +8,7 @@ import { ValidationButton } from '@components/validationButton';
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { containUnsupportedStyles } from '@utils/html-utils';
 
-import Auth from '../../../auth/components/auth';
-import { ADMIN } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 import { Family } from '../../../model/operations/family';
 
 interface MenuTypes {
@@ -30,16 +29,16 @@ export const Menu = ({ family, publish }: Readonly<MenuTypes>) => {
 		<ActionToolbar>
 			<ReturnButton action={() => goBack('/operations/families')} />
 
-			<Auth roles={[ADMIN]}>
+			<HasAccess module="OPERATION_FAMILY" privilege="PUBLISH">
 				<ValidationButton
 					object={family}
 					callback={publish}
 					disabled={publicationDisabled}
 				/>
-			</Auth>
-			<Auth roles={[ADMIN]}>
+			</HasAccess>
+			<HasAccess module="OPERATION_FAMILY" privilege="UPDATE">
 				<UpdateButton action={`/operations/family/${family.id}/modify`} />
-			</Auth>
+			</HasAccess>
 		</ActionToolbar>
 	);
 };

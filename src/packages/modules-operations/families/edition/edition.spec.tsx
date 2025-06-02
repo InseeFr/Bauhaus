@@ -5,7 +5,7 @@ import { ValidationState } from '@components/status';
 
 import { OperationsApi } from '@sdk/operations-api';
 
-import { renderWithAppContext } from '../../../tests-utils/render';
+import { renderWithAppContext } from '../../../tests/render';
 import OperationsFamilyEdition from './edition';
 
 vi.mock('@sdk/operations-api', () => ({

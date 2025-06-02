@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 import { Picker } from './';
 
 const items = [{ id: '1', label: 'Item 1' }];

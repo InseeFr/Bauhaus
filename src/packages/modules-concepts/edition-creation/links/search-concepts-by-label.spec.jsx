@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../../tests-utils/render';
+import { renderWithRouter } from '../../../tests/render';
 import SearchConceptsByLabel from './search-concepts-by-label';
 
 describe('concept-edition-creation-search-concepts-by-label', () => {

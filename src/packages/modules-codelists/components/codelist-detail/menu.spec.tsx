@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { UNPUBLISHED } from '../../../model/ValidationState';
-import { RBACMock } from '../../../tests-utils/rbac';
+import { RBACMock } from '../../../tests/rbac';
 import { ViewMenu } from './menu';
 
 describe('Codes List View Menu', () => {

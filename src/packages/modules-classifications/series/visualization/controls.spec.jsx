@@ -1,4 +1,4 @@
-import { renderWithRouter } from '../../../tests-utils/render';
+import { renderWithRouter } from '../../../tests/render';
 import Controls from './controls';
 
 describe('classification-series-visualization-controls', () => {

@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 
-import { renderWithAppContext } from '../../tests-utils/render';
+import { renderWithAppContext } from '../../tests/render';
 import { useSecondLang } from '../../utils/hooks/second-lang';
 import { PageTitleBlock } from './';
 

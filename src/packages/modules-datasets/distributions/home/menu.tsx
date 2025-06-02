@@ -1,15 +1,14 @@
 import { FeminineButton } from '@components/new-button';
 import { VerticalMenu } from '@components/vertical-menu';
 
-import Auth from '../../../auth/components/auth';
-import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
+import { HasAccess } from '../../../auth/components/auth';
 
 export const HomePageMenu = () => {
 	return (
 		<VerticalMenu>
-			<Auth roles={[ADMIN, DATASET_CONTRIBUTOR]}>
+			<HasAccess module="DATASET_DISTRIBUTION" privilege="CREATE">
 				<FeminineButton action="/datasets/distributions/create" />
-			</Auth>
+			</HasAccess>
 		</VerticalMenu>
 	);
 };

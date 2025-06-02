@@ -7,8 +7,7 @@ import {
 
 import { useGoBack } from '@utils/hooks/useGoBack';
 
-import Auth from '../../auth/components/auth';
-import { ADMIN } from '../../auth/roles';
+import { HasAccess } from '../../auth/components/auth';
 import D from '../../deprecated-locales';
 
 interface ItemControls {
@@ -22,14 +21,6 @@ const ItemControls = ({
 	version,
 }: Readonly<ItemControls>) => {
 	const goBack = useGoBack();
-	const compare =
-		!version || version <= 1
-			? null
-			: [
-					`/classifications/classification/${classificationId}/item/${itemId}/compare`,
-					D.btnCompare,
-				];
-	const btns = [compare];
 
 	return (
 		<ActionToolbar>
@@ -38,16 +29,23 @@ const ItemControls = ({
 					goBack(`/classifications/classification/${classificationId}/items`)
 				}
 			/>
-			{btns.map((btn) => {
-				if (!btn) return null;
-				const [action, label] = btn;
-				return btn && <Button key={label} action={action} label={label} />;
-			})}
-			<Auth roles={[ADMIN]}>
+
+			<HasAccess
+				module="CLASSIFICATION_CLASSIFICATION"
+				privilege="READ"
+				complementaryCheck={!!(version && version > 1)}
+			>
+				<Button
+					action={`/classifications/classification/${classificationId}/item/${itemId}/compare`}
+					label={D.btnCompare}
+				/>
+			</HasAccess>
+
+			<HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="UPDATE">
 				<UpdateButton
 					action={`/classifications/classification/${classificationId}/item/${itemId}/modify`}
 				/>
-			</Auth>
+			</HasAccess>
 		</ActionToolbar>
 	);
 };

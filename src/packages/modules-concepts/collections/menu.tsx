@@ -5,28 +5,21 @@ import {
 import { FeminineButton } from '@components/new-button';
 import { VerticalMenu } from '@components/vertical-menu';
 
-import check from '../../auth/auth';
-import { usePermission } from '../../redux/hooks/usePermission';
+import { HasAccess } from '../../auth/components/auth';
 
 export const Menu = () => {
-	const { roles } = usePermission();
-
-	const authImpl = check();
-	const adminOrCreator = authImpl.isAdminOrCollectionCreator(roles);
-	const adminOrContributor = authImpl.isAdminOrContributor(roles);
-
 	return (
 		<VerticalMenu>
-			{adminOrContributor && (
+			<HasAccess module="CONCEPT_COLLECTION" privilege="CREATE">
 				<FeminineButton action="/concepts/collections/create" />
-			)}
+			</HasAccess>
 			<ExportButton action="/concepts/collections/export" wrapper={false} />
-			{adminOrCreator && (
+			<HasAccess module="CONCEPT_COLLECTION" privilege="PUBLISH">
 				<PublishButton
 					action="/concepts/collections/validation"
 					wrapper={false}
 				/>
-			)}
+			</HasAccess>
 		</VerticalMenu>
 	);
 };

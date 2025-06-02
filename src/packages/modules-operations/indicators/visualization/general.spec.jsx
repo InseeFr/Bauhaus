@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 import * as useOrganizationsHook from '@utils/hooks/organizations';
 
 import { CL_FREQ } from '../../../redux/actions/constants/codeList';
-import { renderWithRouter } from '../../../tests-utils/render';
+import { renderWithRouter } from '../../../tests/render';
 import OperationsIndicatorVisualization from './general';
 
 vi.spyOn(useOrganizationsHook, 'useOrganizations').mockReturnValue({

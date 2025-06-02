@@ -5,7 +5,7 @@ import {
 	CL_FREQ,
 	CL_SOURCE_CATEGORY,
 } from '../../redux/actions/constants/codeList';
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 import * as useStampsHook from '../../utils/hooks/stamps';
 import { SearchFormList } from './search';
 

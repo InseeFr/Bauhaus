@@ -6,7 +6,7 @@ import { MainMenu } from '@components/menu';
 import MenuCodelists from '.';
 import { ADMIN } from '../../auth/roles';
 import { usePermission } from '../../redux/hooks/usePermission';
-import { renderWithRouter } from '../../tests-utils/render';
+import { renderWithRouter } from '../../tests/render';
 import D from '../i18n/build-dictionary';
 
 vi.mock('react-router-dom', async () => {
