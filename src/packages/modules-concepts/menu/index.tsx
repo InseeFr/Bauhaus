@@ -1,29 +1,23 @@
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { MainMenu } from '@components/menu';
 
 import { UIMenuItem } from '@model/Menu';
 
+import { ADMIN } from '../../auth/roles';
 import D from '../../deprecated-locales';
+import { getPermission } from '../../redux/selectors';
 
 const defaultAttrs = { 'aria-current': 'page' };
 
 const MenuConcepts = () => {
 	const location = useLocation();
+	const { roles } = useSelector(getPermission);
 	const activePath = location.pathname;
-
 	if (activePath === '/') return null;
 
-	const paths: UIMenuItem[] = [
-		{
-			path: '/concepts/administration',
-			pathKey: 'administration',
-			className: null,
-			attrs: null,
-			label: D.administrationTitle,
-			order: 3,
-			alignToRight: true,
-		},
+	let paths: UIMenuItem[] = [
 		{
 			path: import.meta.env.VITE_CONCEPTS_DOCUMENTATION,
 			pathKey: 'help',
@@ -52,6 +46,20 @@ const MenuConcepts = () => {
 		},
 	];
 
+	if (roles.includes(ADMIN)) {
+		paths = [
+			{
+				path: '/concepts/administration',
+				pathKey: 'administration',
+				className: null,
+				attrs: null,
+				label: D.administrationTitle,
+				order: 3,
+				alignToRight: true,
+			},
+			...paths,
+		];
+	}
 	const currentPath = paths.find((path) => {
 		return location.pathname.includes(path.pathKey);
 	});
