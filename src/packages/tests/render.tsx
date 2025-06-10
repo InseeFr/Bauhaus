@@ -30,8 +30,13 @@ export const mockReactQueryForRbac = (
 	mockReactQuery(rbac);
 };
 
-export const renderWithRouter = (component: ReactNode) => {
-	return render(<MemoryRouter>{component}</MemoryRouter>);
+export const renderWithRouter = (
+	component: ReactNode,
+	initialEntries: string[] = ['/'],
+) => {
+	return render(
+		<MemoryRouter initialEntries={initialEntries}>{component}</MemoryRouter>,
+	);
 };
 
 export const renderWithAppContext = (
