@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import fixReactVirtualized from 'esbuild-plugin-react-virtualized';
 import { defineConfig, loadEnv } from 'vite';
 import { viteEnvs } from 'vite-envs';
-import csp from 'vite-plugin-csp-guard';
+// import csp from 'vite-plugin-csp-guard';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(({ mode }) => {
@@ -29,20 +29,20 @@ export default defineConfig(({ mode }) => {
 		},
 		plugins: [
 			react(),
-			csp({
-				dev: {
-					run: true,
-				},
-				policy: {
-					'style-src-elem': ["'unsafe-inline'", 'https://fonts.googleapis.com'],
-					'script-src-elem': ["'self'", 'https://ajax.googleapis.com/'],
-					'font-src': ["'self'", 'https://fonts.gstatic.com/'],
-					'connect-src': [env.VITE_API_BASE_HOST + '/', 'ws://localhost:3000'],
-				},
-				build: {
-					sri: true,
-				},
-			}),
+//			csp({
+//				dev: {
+//					run: true,
+//				},
+//				policy: {
+//					'style-src-elem': ["'unsafe-inline'", 'https://fonts.googleapis.com'],
+//					'script-src-elem': ["'self'", 'https://ajax.googleapis.com/'],
+//					'font-src': ["'self'", 'https://fonts.gstatic.com/'],
+//					'connect-src': [env.VITE_API_BASE_HOST + '/', 'ws://localhost:3000'],
+//				},
+//				build: {
+//					sri: true,
+//				},
+//			}),
 			tsconfigPaths(),
 			viteEnvs({
 				declarationFile: '.env',
