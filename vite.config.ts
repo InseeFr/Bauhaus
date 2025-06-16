@@ -5,7 +5,7 @@ import { viteEnvs } from 'vite-envs';
 // import csp from 'vite-plugin-csp-guard';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-export default defineConfig(({ mode }) => {
+export default defineConfig((/*{ mode }*/) => {
 	//const env = loadEnv(mode, process.cwd(), '');
 
 	return {
