@@ -84,12 +84,11 @@ export const filterKeyDeburr = (keys?: any[]) => (rawStr: string) => {
 		const keysToCheck = keys
 			? keys
 			: Object.keys(item).filter((k) => k !== 'id');
-
 		for (let i = 0; i < keysToCheck.length; i++) {
 			const key = keysToCheck[i];
 			const value = getValue(item, key);
 			const formattedValue = Array.isArray(value) ? value.join(',') : value;
-			if (normalize(formattedValue).includes(str)) {
+			if (formattedValue && normalize(formattedValue).includes(str)) {
 				isIn = true;
 				break;
 			}
