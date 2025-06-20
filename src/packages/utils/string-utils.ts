@@ -9,6 +9,9 @@ export const deburr = (str: string): string => {
 };
 
 export const normalize = (str = ''): string => {
+	if(!str){
+		return str
+	}
 	return str
 		.toLowerCase()
 		.normalize('NFD')
