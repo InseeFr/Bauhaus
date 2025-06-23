@@ -53,6 +53,7 @@ describe('DocumentHome', async () => {
 						[
 							{
 								id: '1',
+								label: 'label',
 							},
 						] as unknown as HomeDocument[]
 					}
