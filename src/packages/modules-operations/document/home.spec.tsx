@@ -32,7 +32,7 @@ describe('DocumentHome', async () => {
 		);
 		expect(container.querySelectorAll('h1')).toHaveLength(1);
 	});
-	it.only('should display the SearchableList component', async () => {
+	it('should display the SearchableList component', async () => {
 		mockReactQueryForRbac([
 			{
 				application: 'OPERATION_DOCUMENT',
