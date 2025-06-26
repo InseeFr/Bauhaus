@@ -10,7 +10,7 @@ describe('Concepts Home Page Menu', () => {
 		vi.clearAllMocks();
 	});
 
-	it('an admin can create a new concept ', async () => {
+	it('an admin can create a new concept', async () => {
 		mockReactQueryForRbac([
 			{
 				application: 'CONCEPT_CONCEPT',

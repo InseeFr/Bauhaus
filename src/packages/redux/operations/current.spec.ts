@@ -12,22 +12,22 @@ describe('current reducer', () => {
 			returnPayload: [LOAD_OPERATIONS_SIMS_SUCCESS, SAVE_OPERATIONS_SIMS],
 			returnEmpty: [SAVE_OPERATIONS_SIMS_SUCCESS],
 		},
-	].forEach((configuration) => {
-		describe(configuration.method, () => {
-			configuration.returnPayload.forEach((action) => {
+	].forEach(({ method, returnPayload, returnEmpty }) => {
+		describe(method, () => {
+			returnPayload.forEach((action) => {
 				it(action, () => {
 					expect(
-						reducer[configuration.method as keyof typeof reducer]('state', {
+						reducer[method as keyof typeof reducer]('state', {
 							type: action,
 							payload: 'payload',
 						}),
 					).toEqual('payload');
 				});
 			});
-			configuration.returnEmpty.forEach((action) => {
+			returnEmpty.forEach((action) => {
 				it(action, () => {
 					expect(
-						reducer[configuration.method as keyof typeof reducer]('state', {
+						reducer[method as keyof typeof reducer]('state', {
 							type: action,
 							payload: 'payload',
 						}),

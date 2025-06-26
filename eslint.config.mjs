@@ -1,5 +1,6 @@
 import pluginJs from '@eslint/js';
 import pluginReact from 'eslint-plugin-react';
+import vitestPlugin from 'eslint-plugin-vitest';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -22,6 +23,7 @@ export default [
 	...tseslint.configs.strict,
 	...tseslint.configs.stylistic,
 	pluginReact.configs.flat['jsx-runtime'],
+	vitestPlugin.configs.recommended,
 	{
 		languageOptions: {
 			globals: globals.browser,
@@ -38,6 +40,13 @@ export default [
 			'@typescript-eslint/no-empty-function': 'off',
 			'@typescript-eslint/no-dynamic-delete': 'off',
 			'@typescript-eslint/prefer-for-of': 'off',
+			'vitest/expect-expect': 'off',
+			'vitest/valid-title': [
+				'error',
+				{
+					allowArguments: true,
+				},
+			],
 		},
 		languageOptions: {
 			globals: {
