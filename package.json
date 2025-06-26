@@ -41,6 +41,7 @@
 		"@axe-core/playwright": "^4.10.1",
 		"@eslint/js": "^9.16.0",
 		"@playwright/test": "^1.50.1",
+		"@prettier/plugin-oxc": "^0.0.4",
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.1.0",
@@ -117,6 +118,7 @@
 		"singleQuote": true,
 		"useTabs": true,
 		"plugins": [
+			"@prettier/plugin-oxc",
 			"@trivago/prettier-plugin-sort-imports"
 		]
 	}
