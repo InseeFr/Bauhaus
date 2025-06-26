@@ -29,23 +29,6 @@ export default defineConfig(({ mode }) => {
 		},
 		plugins: [
 			react(),
-			csp({
-				dev: {
-					run: true,
-				},
-				policy: {
-					'default-src': ["'self'", env.VITE_OIDC_ISSUER + '/'],
-					'style-src-elem': ["'unsafe-inline'", 'https://fonts.googleapis.com'],
-					'script-src': ["'self'", 'https://ajax.googleapis.com'],
-					'script-src-elem': ["'self'", 'https://ajax.googleapis.com/'],
-					'font-src': ["'self'", 'https://fonts.gstatic.com/'],
-					'connect-src': [
-						env.VITE_API_BASE_HOST + '/',
-						'ws://localhost:3000',
-						env.VITE_OIDC_ISSUER + '/',
-					],
-				},
-			}),
 			tsconfigPaths(),
 			viteEnvs({
 				declarationFile: '.env',
@@ -64,6 +47,23 @@ export default defineConfig(({ mode }) => {
 						VITE_NAME: packageJson.name,
 						VITE_VERSION: packageJson.version,
 					};
+				},
+			}),
+			csp({
+				dev: {
+					run: true,
+				},
+				policy: {
+					'default-src': ["'self'", env.VITE_OIDC_ISSUER + '/'],
+					'style-src-elem': ["'unsafe-inline'", 'https://fonts.googleapis.com'],
+					'script-src': ["'self'", 'https://ajax.googleapis.com'],
+					'script-src-elem': ["'self'", "'unsafe-inline'", 'https://ajax.googleapis.com/'],
+					'font-src': ["'self'", 'https://fonts.gstatic.com/'],
+					'connect-src': [
+						env.VITE_API_BASE_HOST + '/',
+						'ws://localhost:3000',
+						env.VITE_OIDC_ISSUER + '/',
+					],
 				},
 			}),
 		],
