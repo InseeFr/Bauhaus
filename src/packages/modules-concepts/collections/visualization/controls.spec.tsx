@@ -9,7 +9,7 @@ describe('collection-visualization-controls', () => {
 		vi.clearAllMocks();
 	});
 
-	it('a user can go back ', async () => {
+	it('a user can go back', async () => {
 		mockReactQueryForRbac([
 			{
 				application: 'CONCEPT_COLLECTION',

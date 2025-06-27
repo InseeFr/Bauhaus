@@ -5,7 +5,7 @@ import { HomeDocument } from '../../model/operations/document';
 import configureStore from '../../redux/configure-store';
 import { mockReactQueryForRbac, renderWithRouter } from '../../tests/render';
 
-describe('DocumentHome', async () => {
+describe('DocumentHome', () => {
 	afterEach(() => {
 		vi.resetModules();
 		vi.clearAllMocks();

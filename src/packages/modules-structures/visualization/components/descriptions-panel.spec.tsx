@@ -10,7 +10,7 @@ vi.mock('@utils/hooks/second-lang', () => ({
 	useSecondLang: vi.fn(),
 }));
 
-describe('DescriptionsPanel', async () => {
+describe('DescriptionsPanel', () => {
 	const mockDescriptionLg1 = 'Description in first language';
 	const mockDescriptionLg2 = 'Description in second language';
 

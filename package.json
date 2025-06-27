@@ -60,6 +60,7 @@
 		"esbuild-plugin-react-virtualized": "^1.0.4",
 		"eslint": "^9.16.0",
 		"eslint-plugin-react": "^7.37.2",
+		"eslint-plugin-vitest": "^0.5.4",
 		"globals": "^15.9.0",
 		"happy-dom": "^15.11.7",
 		"husky": "^9.1.6",

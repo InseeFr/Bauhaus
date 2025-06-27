@@ -9,13 +9,13 @@ vi.mock('@tanstack/react-query', () => ({
 }));
 
 describe('advanced search component', () => {
-	it('renders without crashing', () => {
+	it('AdvancedSearchForm renders without crashing', () => {
 		renderWithRouter(
 			<AdvancedSearchForm data={[]} seriesOperationsOptions={[]} />,
 		);
 	});
 
-	it('renders without crashing', () => {
+	it('FieldsForDatasetsAdvancedSearch renders without crashing', () => {
 		renderWithRouter(
 			<FieldsForDatasetsAdvancedSearch
 				labelLg1=""
