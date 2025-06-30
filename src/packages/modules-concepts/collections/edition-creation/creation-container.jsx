@@ -7,7 +7,6 @@ import { CollectionApi } from '@sdk/collection-api';
 import { ConceptsApi } from '@sdk/index';
 
 import { useTitle } from '@utils/hooks/useTitle';
-import { cleanId } from '@utils/string-utils';
 
 import { useAppContext } from '../../../application/app-context';
 import D from '../../../deprecated-locales';
