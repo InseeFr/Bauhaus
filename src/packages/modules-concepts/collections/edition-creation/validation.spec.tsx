@@ -23,28 +23,6 @@ describe('validation', function () {
 		});
 	});
 
-	it('should return an error if id already exists', function () {
-		expect(
-			validate(
-				{
-					id: 'éXèmplê',
-					prefLabelLg1: 'prefLabelLg1',
-					creator: 'creator',
-				},
-				[{ id: 'exemple', label: 'other' }],
-				'id',
-				'prefLabelLg1',
-			),
-		).toEqual({
-			errorMessage: ['This identifier already exists'],
-			fields: {
-				id: 'This identifier already exists',
-				prefLabelLg1: '',
-				creator: '',
-			},
-		});
-	});
-
 	it('should return an error if prefLabelLg1 already exists', function () {
 		expect(
 			validate(

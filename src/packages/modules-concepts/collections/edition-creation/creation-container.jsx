@@ -45,8 +45,8 @@ export const Component = () => {
 		(data) => {
 			setSaving(true);
 			ConceptsApi.postCollection(buildPayload(data, 'CREATE'))
-				.then(() => {
-					navigate(`/concepts/collections/${cleanId(data.general.id)}`);
+				.then((id) => {
+					navigate(`/concepts/collections/${id}`);
 				})
 				.finally(() => setSaving(false));
 		},
@@ -65,7 +65,6 @@ export const Component = () => {
 
 	return (
 		<CollectionEditionCreation
-			creation
 			title={D.createCollectionTitle}
 			general={general}
 			members={members}
