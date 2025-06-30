@@ -16,7 +16,6 @@ describe('validation', function () {
 		).toEqual({
 			errorMessage: ['The property <strong>Owner</strong> is required.'],
 			fields: {
-				id: '',
 				prefLabelLg1: '',
 				creator: 'The property <strong>Owner</strong> is required.',
 			},
@@ -38,7 +37,6 @@ describe('validation', function () {
 		).toEqual({
 			errorMessage: ['This label already exists'],
 			fields: {
-				id: '',
 				prefLabelLg1: 'This label already exists',
 				creator: '',
 			},
@@ -60,7 +58,6 @@ describe('validation', function () {
 		).toEqual({
 			errorMessage: [],
 			fields: {
-				id: '',
 				prefLabelLg1: '',
 				creator: '',
 			},
