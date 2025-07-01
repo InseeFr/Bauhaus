@@ -16,31 +16,8 @@ describe('validation', function () {
 		).toEqual({
 			errorMessage: ['The property <strong>Owner</strong> is required.'],
 			fields: {
-				id: '',
 				prefLabelLg1: '',
 				creator: 'The property <strong>Owner</strong> is required.',
-			},
-		});
-	});
-
-	it('should return an error if id already exists', function () {
-		expect(
-			validate(
-				{
-					id: 'éXèmplê',
-					prefLabelLg1: 'prefLabelLg1',
-					creator: 'creator',
-				},
-				[{ id: 'exemple', label: 'other' }],
-				'id',
-				'prefLabelLg1',
-			),
-		).toEqual({
-			errorMessage: ['This identifier already exists'],
-			fields: {
-				id: 'This identifier already exists',
-				prefLabelLg1: '',
-				creator: '',
 			},
 		});
 	});
@@ -60,7 +37,6 @@ describe('validation', function () {
 		).toEqual({
 			errorMessage: ['This label already exists'],
 			fields: {
-				id: '',
 				prefLabelLg1: 'This label already exists',
 				creator: '',
 			},
@@ -82,7 +58,6 @@ describe('validation', function () {
 		).toEqual({
 			errorMessage: [],
 			fields: {
-				id: '',
 				prefLabelLg1: '',
 				creator: '',
 			},

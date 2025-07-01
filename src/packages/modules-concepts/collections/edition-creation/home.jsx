@@ -74,14 +74,8 @@ class CollectionEditionCreation extends Component {
 	}
 
 	render() {
-		const {
-			title,
-			subtitle,
-			collectionList,
-			conceptList,
-			creation,
-			submitting,
-		} = this.props;
+		const { title, subtitle, collectionList, conceptList, submitting } =
+			this.props;
 
 		const {
 			data: { general, members },
@@ -109,7 +103,6 @@ class CollectionEditionCreation extends Component {
 					/>
 					<GeneralEdition
 						general={general}
-						creation={creation}
 						handleChange={this.handleChangeGeneral}
 						errors={errors}
 					/>
