@@ -1,5 +1,6 @@
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 
+import { makeSafeUseContext } from '@utils/hooks/makeSafeUseContext';
 import { Document } from '../../../../model/operations/document';
 import { DOCUMENT, LINK } from '../../../document/utils';
 
@@ -24,10 +25,7 @@ const DocumentsStoreContext = createContext<
 
 export const DocumentsStoreProvider = DocumentsStoreContext.Provider;
 
-export const useDocumentsStoreContext = (): DocumentsStoreContextType => {
-	const context = useContext(DocumentsStoreContext);
-	if (!context) {
-		throw new Error('The context DocumentsStoreContext is not available.');
-	}
-	return context;
-};
+export const useDocumentsStoreContext = makeSafeUseContext(
+	DocumentsStoreContext,
+	'DocumentsStoreContext',
+);

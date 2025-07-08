@@ -1,4 +1,5 @@
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { makeSafeUseContext } from '@utils/hooks/makeSafeUseContext';
+import { createContext, PropsWithChildren, useState } from 'react';
 
 export type AppName =
 	| 'concepts'
@@ -55,10 +56,4 @@ export const AppContextProvider = ({
 		</AppContext.Provider>
 	);
 };
-export const useAppContext = (): AppContextTypes => {
-	const context = useContext(AppContext);
-	if (!context) {
-		throw new Error('The context AppContextTypes is not available.');
-	}
-	return context;
-};
+export const useAppContext = makeSafeUseContext(AppContext, 'AppContext');

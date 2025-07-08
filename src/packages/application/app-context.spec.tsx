@@ -47,7 +47,7 @@ describe('AppContext', () => {
 		console.error = vi.fn();
 
 		expect(() => render(<TestComponent />)).toThrow(
-			'The context AppContextTypes is not available.',
+			'AppContext.Provider was not found in tree',
 		);
 
 		console.error = originalError;

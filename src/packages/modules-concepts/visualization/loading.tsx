@@ -1,4 +1,5 @@
-import { createContext, useContext } from 'react';
+import { makeSafeUseContext } from '@utils/hooks/makeSafeUseContext';
+import { createContext } from 'react';
 
 export type LoadingType =
 	| ''
@@ -13,4 +14,4 @@ const LoadingContext = createContext<{
 }>({ loading: '', setLoading: () => {} });
 
 export const LoadingProvider = LoadingContext.Provider;
-export const useLoading = () => useContext(LoadingContext);
+export const useLoading = makeSafeUseContext(LoadingContext, 'LoadingContext');
