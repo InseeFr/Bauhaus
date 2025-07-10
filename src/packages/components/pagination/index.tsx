@@ -29,6 +29,10 @@ const numberPerPageOptions = [
 	{ value: 25, label: '25' },
 	{ value: 100, label: '100' },
 ];
+
+const paginationD = D.pagination || {};
+const ariaLabel = (number?: number) =>
+	number ? `${paginationD.goTo} ${number}` : '';
 /**
  * Component used to display a pagination block for a list.
  *	itemEls: The list of item we want to paginate
@@ -38,8 +42,6 @@ export const Pagination = ({ itemEls }: { itemEls: JSX.Element[] }) => {
 	const { pathname, search } = useLocation();
 
 	const [numberPerPage, setNumberPerPage] = useState(10);
-	const paginationD = D.pagination || {};
-	const ariaLabel = (number: number) => `${paginationD.goTo} ${number}`;
 
 	const queryParams = queryString.parse(search);
 	let currentPage = parseInt((queryParams.page as string) || '1', 10);
@@ -155,10 +157,10 @@ export const Pagination = ({ itemEls }: { itemEls: JSX.Element[] }) => {
 							</li>
 							<li>
 								<Link
-									aria-label={ariaLabel(pageNumbers[pageNumbers.length - 1])}
-									to={`${pathnamePrefix}page=${
-										pageNumbers[pageNumbers.length - 1]
-									}&perPage${numberPerPage}`}
+									aria-label={ariaLabel(pageNumbers.at(-1))}
+									to={`${pathnamePrefix}page=${pageNumbers.at(
+										-1,
+									)}&perPage${numberPerPage}`}
 									disabled={isDisabled(currentPage + 1)}
 								>
 									<span aria-hidden="true">&raquo;</span>
