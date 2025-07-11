@@ -1,0 +1,59 @@
+.wilco-pagination {
+	display: inline-block;
+	padding-left: 0;
+	margin: 20px 0;
+	border-radius: 4px;
+	list-style: none;
+}
+
+.wilco-pagination li {
+	color: black;
+	float: left;
+	width: 40px;
+	height: 40px;
+	text-decoration: none;
+	border: 1px solid #ddd;
+}
+
+.wilco-pagination li:first-child {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.wilco-pagination li:last-child {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.wilco-pagination li:hover:not(.active) {
+	background-color: #ddd;
+}
+
+.wilco-pagination li.active {
+	background-color: var(--color-3);
+	color: white;
+	border: 1px solid var(--color-3);
+}
+
+.wilco-pagination li > * {
+	text-decoration: none;
+	position: relative;
+	float: left;
+	border: none;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	line-height: 40px;
+	display: block;
+	overflow: visible;
+	color: inherit;
+	-webkit-font-smoothing: inherit;
+	-moz-osx-font-smoothing: inherit;
+	background-color: white !important;
+}
+
+.wilco-pagination li > *.disabled {
+	color: lightgrey;
+}
