@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { createAllDictionary } from '../../utils/dictionnary';
 import { Link } from '../link';
 import { Select } from '../select-rmes';
-import './pagination.scss';
+import './pagination.css';
 
 const { D1, D } = createAllDictionary({
 	itemPerPagePlaceholder: {
