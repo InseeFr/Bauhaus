@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import D from '../i18n';
 import { AddLogo } from '../logo/logo-add';
-import './newButton.scss';
+import './newButton.css';
 
 interface AbstractNewButtonTypes {
 	action: ((location: any) => any) | string;
