@@ -13,6 +13,8 @@ describe('validation', function () {
 				idDataset: '',
 				labelLg1: 'The property <strong>Intitulé</strong> is required.',
 				labelLg2: '',
+				accessUrl: '',
+				url: '',
 			},
 		});
 	});
@@ -28,6 +30,8 @@ describe('validation', function () {
 				idDataset: '',
 				labelLg1: '',
 				labelLg2: 'The property <strong>Title</strong> is required.',
+				accessUrl: '',
+				url: '',
 			},
 		});
 	});
@@ -43,6 +47,8 @@ describe('validation', function () {
 				idDataset: 'The property <strong>Dataset</strong> is required.',
 				labelLg1: '',
 				labelLg2: '',
+				accessUrl: '',
+				url: '',
 			},
 		});
 	});
@@ -59,6 +65,8 @@ describe('validation', function () {
 				idDataset: '',
 				labelLg1: '',
 				labelLg2: '',
+				accessUrl: '',
+				url: '',
 			},
 		});
 	});
