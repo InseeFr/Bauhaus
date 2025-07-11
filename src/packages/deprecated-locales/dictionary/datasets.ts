@@ -27,8 +27,12 @@ const dictionary = {
 		fr: 'Distributions - Recherche avancée',
 		en: 'Distributions - Advanced search',
 	},
+	languageTitle: { fr: 'Langue', en: 'Language' },
 	formatTitle: { fr: 'Format', en: 'Format' },
+	mediaTypeTitle: { fr: 'Type de média', en: 'Media type' },
+	compressFormatTitle: { fr: 'Format de compression', en: 'Compress format' },
 	tailleTitle: { fr: 'Taille', en: 'Size' },
+	accessUrlTitle: { fr: "URL d'accès", en: 'Access URL' },
 	downloadUrlTitle: { fr: 'URL de téléchargement', en: 'Download URL' },
 	statisticalInformation: {
 		fr: 'Informations Statistiques',
