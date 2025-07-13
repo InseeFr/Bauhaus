@@ -4,7 +4,7 @@ import starlight from '@astrojs/starlight';
 // https://astro.build/config
 export default defineConfig({
 	base: 'Bauhaus',
-	trailingSlash: "always",
+	trailingSlash: 'always',
 	integrations: [
 		starlight({
 			title: 'Bauhaus',
@@ -15,10 +15,7 @@ export default defineConfig({
 				// English docs in `src/content/docs/en/`
 				root: {
 					label: 'English',
-					lang: 'en'
-				},
-				fr: {
-					label: 'Français',
+					lang: 'en',
 				},
 			},
 			sidebar: [
@@ -26,12 +23,21 @@ export default defineConfig({
 					label: 'Developer Guide',
 					items: [
 						// Each item here is one entry in the navigation menu.
-						{ label: 'Getting Started', link: import.meta.env.BASE_URL + 'guides/getting-started/' },
+						{
+							label: 'Getting Started',
+							link: import.meta.env.BASE_URL + 'guides/getting-started/',
+						},
+						{
+							label: 'Conventional Commits',
+							link: import.meta.env.BASE_URL + 'guides/conventional_commit/',
+						},
 					],
 				},
 				{
 					label: 'User Guide',
-					autogenerate: { directory: import.meta.env.BASE_URL + 'guides/user-guide' },
+					autogenerate: {
+						directory: import.meta.env.BASE_URL + 'guides/user-guide',
+					},
 				},
 			],
 		}),
