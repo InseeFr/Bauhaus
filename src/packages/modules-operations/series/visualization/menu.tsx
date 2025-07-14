@@ -54,7 +54,6 @@ export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
 				module="OPERATION_SERIES"
 				privilege="PUBLISH"
 				stamps={series.creators}
-				complementaryCheck={ableToCreateASimsForThisSeries}
 			>
 				<ValidationButton
 					object={series}
@@ -66,7 +65,6 @@ export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
 				module="OPERATION_SERIES"
 				privilege="UPDATE"
 				stamps={series.creators}
-				complementaryCheck={ableToCreateASimsForThisSeries}
 			>
 				<UpdateButton action={`/operations/series/${series.id}/modify`} />
 			</HasAccess>
