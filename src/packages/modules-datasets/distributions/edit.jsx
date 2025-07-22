@@ -65,7 +65,7 @@ export const Component = () => {
 
 	const langSelectOptions = langOptions.map((lang) => ({
 		value: lang.code,
-		label: isLang2 ? lang.labelLg2 : lang.labelLg1,
+		label: isLang2() ? lang.labelLg2 : lang.labelLg1,
 	}));
 
 	const { isSaving, save, serverSideError } = useCreateOrUpdateDistribution(
