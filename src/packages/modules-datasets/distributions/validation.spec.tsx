@@ -52,11 +52,31 @@ describe('validation', function () {
 			},
 		});
 	});
+	it('should return an error for accessUrl and url', function () {
+		expect(
+			validate({
+				idDataset: 'id',
+				labelLg1: 'labelLg1',
+				labelLg2: 'labelLg2',
+				accessUrl: 'wrong@url',
+				url: 'wrong@url',
+			}),
+		).toEqual({
+			errorMessage: ['The link is not valid', 'The link is not valid'],
+			fields: {
+				idDataset: '',
+				labelLg1: '',
+				labelLg2: '',
+				accessUrl: 'The link is not valid',
+				url: 'The link is not valid',
+			},
+		});
+	});
 	it('should return no error', function () {
 		expect(
 			validate({
 				idDataset: 'id',
-				labelLg1: 'labelLg2',
+				labelLg1: 'labelLg1',
 				labelLg2: 'labelLg2',
 			}),
 		).toEqual({
