@@ -31,6 +31,7 @@ import {
 } from '../datasets';
 import { ByteSizeInput } from './edit/byte-size-input';
 import { validate } from './validation';
+import { isLang2 } from '../../i18n';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -58,12 +59,14 @@ export const Component = () => {
 		})) ?? [];
 
 	const langOptions = [
-		{
-			value: 'fr',
-			label: 'Français',
-		},
-		{ value: 'en', label: 'Anglais' },
+		{ code: 'fr', labelLg1: 'Français', labelLg2: 'French' },
+		{ code: 'en', labelLg1: 'Anglais', labelLg2: 'English' },
 	];
+
+	const langSelectOptions = langOptions.map((lang) => ({
+		value: lang.code,
+		label: isLang2 ? lang.labelLg2 : lang.labelLg1,
+	}));
 
 	const { isSaving, save, serverSideError } = useCreateOrUpdateDistribution(
 		isEditing,
@@ -211,7 +214,7 @@ export const Component = () => {
 						<Select
 							disabled={id !== undefined}
 							value={editingDistribution.language}
-							options={langOptions}
+							options={langSelectOptions}
 							onChange={(value) => {
 								setEditingDistribution({
 									...editingDistribution,
