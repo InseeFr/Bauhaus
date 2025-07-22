@@ -39,7 +39,7 @@ export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
 			)}
 			{!series.idSims && (
 				<HasAccess
-					module="OPERATION_SERIES"
+					module="OPERATION_SIMS"
 					privilege="CREATE"
 					stamps={series.creators}
 					complementaryCheck={ableToCreateASimsForThisSeries}

@@ -4,7 +4,7 @@ import { markdownToHtml } from '../../utils/html-utils';
 import { Note } from '../note';
 
 interface ExplanatoryNoteTypes {
-	text?: string;
+	text?: string | any;
 	title: string;
 	alone?: boolean;
 	md?: boolean;

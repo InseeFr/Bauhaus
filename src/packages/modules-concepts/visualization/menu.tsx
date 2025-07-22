@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import { Button } from '@components/buttons/button';
@@ -16,24 +16,33 @@ import { saveFileFromHttpResponse } from '../../utils/files';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useLoading } from './loading';
 
+interface ConceptVisualizationControlsTypes {
+	general: any;
+	isValidated: boolean;
+	conceptVersion: number;
+	id: string;
+	onValidate: () => void;
+	onDelete: () => void;
+}
+
 const ConceptVisualizationControls = ({
+	general,
 	isValidated,
 	conceptVersion,
 	id,
-	handleValidation,
-	handleDeletion,
-}) => {
+	onValidate,
+	onDelete,
+}: Readonly<ConceptVisualizationControlsTypes>) => {
 	const { setLoading } = useLoading();
 	const goBack = useGoBack();
 
 	const [modalOpened, setModalOpened] = useState(false);
-	const handleNo = useCallback(() => {
+
+	const handleNo = () => setModalOpened(false);
+	const handleYes = () => {
+		onDelete();
 		setModalOpened(false);
-	}, []);
-	const handleYes = useCallback(() => {
-		handleDeletion();
-		setModalOpened(false);
-	}, [handleDeletion]);
+	};
 
 	return (
 		<>
@@ -64,11 +73,19 @@ const ConceptVisualizationControls = ({
 							.finally(() => setLoading());
 					}}
 				/>
-				<HasAccess module="CONCEPT_CONCEPT" privilege="UPDATE">
+				<HasAccess
+					module="CONCEPT_CONCEPT"
+					privilege="UPDATE"
+					stamps={general.creator}
+				>
 					<UpdateButton action={`/concepts/${id}/modify`} />
 				</HasAccess>
 
-				<HasAccess module="CONCEPT_CONCEPT" privilege="DELETE">
+				<HasAccess
+					module="CONCEPT_CONCEPT"
+					privilege="DELETE"
+					stamps={general.creator}
+				>
 					<Button action={() => setModalOpened(true)} label={D.btnDelete} />
 				</HasAccess>
 
@@ -76,8 +93,9 @@ const ConceptVisualizationControls = ({
 					module="CONCEPT_CONCEPT"
 					privilege="PUBLISH"
 					complementaryCheck={!isValidated}
+					stamps={general.creator}
 				>
-					<Button action={handleValidation} label={D.btnValid} />
+					<Button action={onValidate} label={D.btnValid} />
 				</HasAccess>
 			</ActionToolbar>
 		</>

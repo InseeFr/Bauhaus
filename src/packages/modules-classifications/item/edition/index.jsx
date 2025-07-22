@@ -8,7 +8,6 @@ import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
-import { EditorMarkdown } from '@components/rich-editor/editor-markdown';
 import { Select } from '@components/select-rmes';
 
 import { ClassificationsApi } from '@sdk/classification';
@@ -17,6 +16,7 @@ import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import useClassificationItem, { useClassificationParentLevels } from '../hook';
 import { Menu } from './menu';
 import { validate } from './validate';
+import { MDEditor } from '@components/rich-editor/react-md-editor';
 
 const titleMapping = {
 	definition: 'classificationsDefinition',
@@ -62,10 +62,12 @@ export const Component = () => {
 	const { data: previousLevels = [], isPending: isPreviousLevelsLoading } =
 		useClassificationParentLevels(classificationId, itemId, item);
 
-	const previousLevelsOptions = previousLevels.map((previousLevel) => ({
-		value: previousLevel.item,
-		label: previousLevel.labelLg1,
-	}));
+	const previousLevelsOptions = Array.isArray(previousLevels)
+		? previousLevels.map((previousLevel) => ({
+				value: previousLevel.item,
+				label: previousLevel.labelLg1,
+			}))
+		: [];
 
 	const [value, setValue] = useState(item);
 
@@ -318,7 +320,7 @@ export const Component = () => {
 								{values[keyLg1Uri] && (
 									<>
 										<label htmlFor={keyLg1}>{D1[titleMapping[key]]}</label>
-										<EditorMarkdown
+										<MDEditor
 											text={values[keyLg1]}
 											handleChange={(v) =>
 												setValue({
@@ -334,7 +336,7 @@ export const Component = () => {
 								{values[keyLg2Uri] && (
 									<>
 										<label htmlFor={keyLg2}>{D2[titleMapping[key]]}</label>
-										<EditorMarkdown
+										<MDEditor
 											text={values[keyLg2]}
 											handleChange={(v) =>
 												setValue({

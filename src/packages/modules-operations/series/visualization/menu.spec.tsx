@@ -20,6 +20,13 @@ describe('Family Home Page Menu', () => {
 					{ privilege: 'READ', strategy: 'ALL' },
 				],
 			},
+			{
+				application: 'OPERATION_SIMS',
+				privileges: [
+					{ privilege: 'CREATE', strategy: 'ALL' },
+					{ privilege: 'READ', strategy: 'ALL' },
+				],
+			},
 		]);
 
 		const { Menu } = await import('./menu');

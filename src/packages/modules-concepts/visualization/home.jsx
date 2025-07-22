@@ -68,11 +68,12 @@ const ConceptVisualization = ({
 				/>
 				<ConceptVisualizationControls
 					id={id}
+					general={general}
 					isValidated={general.isValidated === 'true'}
 					isValidOutOfDate={isOutOfDate(general.valid)}
 					conceptVersion={general.conceptVersion}
-					handleValidation={handleClickValidation}
-					handleDeletion={handleClickDeletion}
+					onValidate={handleClickValidation}
+					onDelete={handleClickDeletion}
 				/>
 				<ErrorBloc error={serverSideError} D={D} />
 				<CheckSecondLang />
