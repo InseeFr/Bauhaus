@@ -5,6 +5,7 @@ export type LoadingType =
 	| 'loading'
 	| 'validating'
 	| 'deleting'
+	| 'exporting'
 	| undefined;
 
 const LoadingContext = createContext<{

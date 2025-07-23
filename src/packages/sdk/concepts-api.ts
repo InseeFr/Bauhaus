@@ -128,7 +128,7 @@ const api = {
 		{
 			body: JSON.stringify(ids),
 		},
-		//do not process resspoonse
+		//do not process response
 		() => {},
 	],
 	getCollectionGeneral: (id: string) => [`collection/${id}`],

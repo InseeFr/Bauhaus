@@ -1,5 +1,6 @@
 import { ExplanatoryNote } from '@components/explanatory-note';
 import { Row } from '@components/layout';
+import Editor from '@uiw/react-md-editor';
 
 import { D1, D2 } from '../../deprecated-locales';
 
@@ -19,17 +20,15 @@ const Notes = ({
 			{descriptionLg1 && (
 				<Row>
 					<ExplanatoryNote
-						text={descriptionLg1}
+						text={<Editor.Markdown source={descriptionLg1} />}
 						title={D1.classificationsDescription}
 						alone={!secondLang}
-						md
 					/>
 					{secondLang && (
 						<ExplanatoryNote
-							text={descriptionLg2}
+							text={<Editor.Markdown source={descriptionLg2} />}
 							title={D2.classificationsDescription}
 							alone={false}
-							md
 						/>
 					)}
 				</Row>
@@ -39,17 +38,15 @@ const Notes = ({
 			{scopeNoteLg1 && (
 				<Row>
 					<ExplanatoryNote
-						text={scopeNoteLg1}
+						text={<Editor.Markdown source={scopeNoteLg1} />}
 						title={D1.classificationsScopeNote}
 						alone={!secondLang}
-						md
 					/>
 					{secondLang && (
 						<ExplanatoryNote
-							text={scopeNoteLg2}
+							text={<Editor.Markdown source={scopeNoteLg2} />}
 							title={D2.classificationsScopeNote}
 							alone={false}
-							md
 						/>
 					)}
 				</Row>
@@ -59,17 +56,15 @@ const Notes = ({
 			{changeNoteLg1 && (
 				<Row>
 					<ExplanatoryNote
-						text={changeNoteLg1}
+						text={<Editor.Markdown source={changeNoteLg1} />}
 						title={D1.classificationsChangeNote()}
 						alone={!secondLang}
-						md
 					/>
 					{secondLang && (
 						<ExplanatoryNote
-							text={changeNoteLg2}
+							text={<Editor.Markdown source={changeNoteLg2} />}
 							title={D2.classificationsChangeNote()}
 							alone={false}
-							md
 						/>
 					)}
 				</Row>
