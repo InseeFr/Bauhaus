@@ -22,12 +22,6 @@ const ZodCollection = (
 	initialPrefLabelLg1: string,
 ) =>
 	z.object({
-		id: mandatoryAndNotEmptyTextField(D.idTitle).refine(
-			(value) =>
-				value === initialId ||
-				!arrayKeepUniqueField(collectionList, 'id').includes(normalize(value)),
-			{ message: D.duplicatedId },
-		),
 		prefLabelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle).refine(
 			(value) =>
 				value === initialPrefLabelLg1 ||
