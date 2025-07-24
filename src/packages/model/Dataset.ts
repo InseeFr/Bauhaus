@@ -54,10 +54,14 @@ export interface Distribution {
 	validationState: ValidationState;
 	descriptionLg1: string;
 	descriptionLg2: string;
+	language: string;
 	created: string;
 	updated: string;
 	format: string;
+	mediaType: string;
+	compressFormat: string;
 	byteSize: string;
+	accessUrl: string;
 	url: string;
 }
 

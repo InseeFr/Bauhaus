@@ -34,10 +34,25 @@ export const ViewMainBlock = ({
 								<PublicationFemale object={distribution} />
 							</li>
 							<li>
+								{D.languageTitle} : {distribution.language}{' '}
+							</li>
+							<li>
 								{D.formatTitle} : {distribution.format}{' '}
 							</li>
 							<li>
+								{D.mediaTypeTitle} : {distribution.mediaType}{' '}
+							</li>
+							<li>
+								{D.compressFormatTitle} : {distribution.compressFormat}{' '}
+							</li>
+							<li>
 								{D.tailleTitle} : {distribution.byteSize}{' '}
+							</li>
+							<li>
+								{D.accessUrlTitle} : {distribution.accessUrl}
+								<ExternalLink href={distribution.accessUrl}>
+									{distribution.accessUrl}
+								</ExternalLink>
 							</li>
 							<li>
 								{D.downloadUrlTitle} :{' '}

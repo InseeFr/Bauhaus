@@ -11,7 +11,7 @@ import {
 	ErrorBloc,
 	GlobalClientSideErrorBloc,
 } from '@components/errors-bloc';
-import { TextInput, UrlInput } from '@components/form/input';
+import { TextInput, UrlInputBlock } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Loading, Saving } from '@components/loading';
@@ -31,6 +31,7 @@ import {
 } from '../datasets';
 import { ByteSizeInput } from './edit/byte-size-input';
 import { validate } from './validation';
+import { isLang2 } from '../../i18n';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -56,6 +57,16 @@ export const Component = () => {
 			value: dataset.id,
 			label: dataset.label,
 		})) ?? [];
+
+	const langOptions = [
+		{ code: 'fr', labelLg1: 'Français', labelLg2: 'French' },
+		{ code: 'en', labelLg1: 'Anglais', labelLg2: 'English' },
+	];
+
+	const langSelectOptions = langOptions.map((lang) => ({
+		value: lang.code,
+		label: isLang2() ? lang.labelLg2 : lang.labelLg1,
+	}));
 
 	const { isSaving, save, serverSideError } = useCreateOrUpdateDistribution(
 		isEditing,
@@ -199,6 +210,22 @@ export const Component = () => {
 				</Row>
 				<Row>
 					<div className="col-md-12 form-group">
+						<label htmlFor="language">{D1.languageTitle}</label>
+						<Select
+							disabled={id !== undefined}
+							value={editingDistribution.language}
+							options={langSelectOptions}
+							onChange={(value) => {
+								setEditingDistribution({
+									...editingDistribution,
+									language: value,
+								});
+							}}
+						/>
+					</div>
+				</Row>
+				<Row>
+					<div className="col-md-12 form-group">
 						<label htmlFor="format">{D1.formatTitle}</label>
 						<TextInput
 							id="format"
@@ -218,6 +245,46 @@ export const Component = () => {
 					</div>
 				</Row>
 				<Row>
+					<div className="col-md-6 form-group">
+						<label htmlFor="mediaType">{D.mediaTypeTitle}</label>
+						<TextInput
+							id="mediaType"
+							value={editingDistribution.mediaType}
+							onChange={(e) =>
+								setEditingDistribution({
+									...editingDistribution,
+									mediaType: e.target.value,
+								})
+							}
+							list="mediaType-list"
+						/>
+						<datalist id="mediaType-list">
+							<option value="CSV"></option>
+							<option value="PARQUET"></option>
+							<option value="XSLX"></option>
+						</datalist>
+					</div>
+					<div className="col-md-6 form-group">
+						<label htmlFor="compressFormat">{D.compressFormatTitle}</label>
+						<TextInput
+							id="compressFormat"
+							value={editingDistribution.compressFormat}
+							onChange={(e) =>
+								setEditingDistribution({
+									...editingDistribution,
+									compressFormat: e.target.value,
+								})
+							}
+							list="compressFormat-list"
+						/>
+						<datalist id="compressFormat-list">
+							<option value="7Z"></option>
+							<option value="TAR GZ"></option>
+							<option value="ZIP"></option>
+						</datalist>
+					</div>
+				</Row>
+				<Row>
 					<ByteSizeInput
 						value={editingDistribution}
 						onChange={setEditingDistribution}
@@ -225,9 +292,23 @@ export const Component = () => {
 				</Row>
 				<Row>
 					<div className="col-md-12 form-group">
-						<label htmlFor="url">{D1.downloadUrlTitle}</label>
-						<UrlInput
-							id="url"
+						<UrlInputBlock
+							label={D.accessUrlTitle}
+							value={editingDistribution.accessUrl}
+							onChange={(e) =>
+								setEditingDistribution({
+									...editingDistribution,
+									accessUrl: e.target.value,
+								})
+							}
+							error={clientSideErrors?.fields?.accessUrl}
+						/>
+					</div>
+				</Row>
+				<Row>
+					<div className="col-md-12 form-group">
+						<UrlInputBlock
+							label={D.downloadUrlTitle}
 							value={editingDistribution.url}
 							onChange={(e) =>
 								setEditingDistribution({
@@ -235,6 +316,7 @@ export const Component = () => {
 									url: e.target.value,
 								})
 							}
+							error={clientSideErrors?.fields?.url}
 						/>
 					</div>
 				</Row>
