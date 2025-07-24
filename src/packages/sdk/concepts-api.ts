@@ -111,7 +111,7 @@ const api = {
 			},
 			body: JSON.stringify(collection),
 		},
-		() => {},
+		(res: Response) => res.text(),
 	],
 	putCollection: (id: string, collection: unknown) => [
 		`collection/${id}`,
@@ -121,7 +121,7 @@ const api = {
 			},
 			body: JSON.stringify(collection),
 		},
-		() => {},
+		() => id,
 	],
 	putCollectionValidList: (ids: string[]) => [
 		`collections/${ids}/validate`,
