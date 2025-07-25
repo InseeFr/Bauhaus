@@ -1,0 +1,4 @@
+/* stylelint-disable-next-line selector-class-pattern */
+div.rst__rowLabel {
+	display: none;
+}
