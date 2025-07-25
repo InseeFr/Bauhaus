@@ -1,6 +1,6 @@
 import DOMPurify from 'dompurify';
 
-import { markdownToHtml } from '../../utils/html-utils';
+import Editor from '@uiw/react-md-editor';
 import { Note } from '../note';
 
 interface ExplanatoryNoteTypes {
@@ -18,11 +18,20 @@ export const ExplanatoryNote = ({
 	const cl = alone ? 'col-md-12' : 'col-md-6';
 	if (!text) return <div className={cl} />;
 
-	const newText = (md ? markdownToHtml(text) : text).replace(
+	const newText = text.replace(
 		/href="http:\/\/.+?\/codes\/(.+?)\/.+?\/(.+?)"/g,
 		`href="${window.location.origin}/classifications/classification/$1/item/$2"`,
 	);
 
+	if (md) {
+		return (
+			<Note
+				title={title}
+				alone={alone}
+				text={<Editor.Markdown source={newText} />}
+			></Note>
+		);
+	}
 	return (
 		<Note
 			title={title}

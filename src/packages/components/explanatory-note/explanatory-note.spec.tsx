@@ -1,20 +1,35 @@
 import { render } from '@testing-library/react';
-
+import { describe, expect, it } from 'vitest';
 import { ExplanatoryNote } from './';
 
-describe('explanatory-note', () => {
-	it('renders without crashing', () => {
-		render(<ExplanatoryNote title="title" text="text" />);
+describe('ExplanatoryNote', () => {
+	it('renders nothing when text is undefined', () => {
+		const { container } = render(<ExplanatoryNote title="My Title" />);
+		expect(container.querySelector('.col-md-6')).toBeInTheDocument();
+		expect(container).not.toHaveTextContent();
 	});
 
-	it('renders null component', () => {
-		const { container } = render(<ExplanatoryNote title="title" />);
-		const { container: container2 } = render(<div className="col-md-6" />);
-		expect(container).toContainHTML(container2.innerHTML);
+	it('renders markdown content when md is true', () => {
+		const { container } = render(
+			<ExplanatoryNote title="MD Title" text={'**bold**'} md />,
+		);
+
+		expect(container.querySelector('.wmde-markdown strong')).toHaveTextContent(
+			'bold',
+		);
 	});
 
-	it('renders not null component', () => {
-		const { container } = render(<ExplanatoryNote text="text" title="title" />);
-		expect(container.innerHTML).not.toBeNull();
+	it('uses col-md-12 when alone is true', () => {
+		const { container } = render(
+			<ExplanatoryNote title="Alone" text="Hello" alone />,
+		);
+		expect(container.querySelector('.col-md-12')).toBeInTheDocument();
+	});
+
+	it('uses col-md-6 when alone is false', () => {
+		const { container } = render(
+			<ExplanatoryNote title="Not Alone" text="Hello" />,
+		);
+		expect(container.querySelector('.col-md-6')).toBeInTheDocument();
 	});
 });
