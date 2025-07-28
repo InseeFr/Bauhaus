@@ -3,13 +3,24 @@ import Editor, {
 	italic,
 	unorderedListCommand,
 } from '@uiw/react-md-editor';
+import { ComponentProps } from 'react';
 
 export const MDEditor = ({
 	text,
 	handleChange,
-}: Readonly<{ text?: string; handleChange: (value?: string) => void }>) => {
+	...props
+}: Readonly<
+	{
+		text?: string;
+		handleChange: (value?: string) => void;
+	} & Omit<
+		ComponentProps<typeof Editor>,
+		'value' | 'onChange' | 'commands' | 'preview'
+	>
+>) => {
 	return (
 		<Editor
+			{...props}
 			value={text}
 			onChange={handleChange}
 			commands={[italic, bold, unorderedListCommand]}
