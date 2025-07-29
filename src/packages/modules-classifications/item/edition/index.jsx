@@ -16,16 +16,7 @@ import D, { D1, D2 } from '../../../deprecated-locales/build-dictionary';
 import useClassificationItem, { useClassificationParentLevels } from '../hook';
 import { Menu } from './menu';
 import { validate } from './validate';
-import { MDEditor } from '@components/rich-editor/react-md-editor';
-
-const titleMapping = {
-	definition: 'classificationsDefinition',
-	scopeNote: 'classificationsScopeNote',
-	coreContentNote: 'classificationsCoreContentNote',
-	additionalContentNote: 'classificationsAdditionalContentNote',
-	exclusionNote: 'classificationsExclusionNote',
-	changeNote: 'classificationsChangeNote',
-};
+import { NotesInputs } from './notes';
 
 export const Component = () => {
 	const queryClient = useQueryClient();
@@ -111,23 +102,6 @@ export const Component = () => {
 		);
 		save({ ...general, ...notes, ...value });
 	};
-
-	const notesGroupByKey = Object.keys(notes)
-		.filter((noteKey) => noteKey !== 'version')
-		.reduce((acc, noteKey) => {
-			const prefixNoteKey = noteKey
-				.replace('Lg1', '')
-				.replace('Lg2', '')
-				.replace('Uri', '')
-				.replace('Date', '');
-			return {
-				...acc,
-				[prefixNoteKey]: {
-					...(acc[prefixNoteKey] ?? {}),
-					[noteKey]: notes[noteKey],
-				},
-			};
-		}, {});
 
 	const onSubmit = (e) => {
 		e.stopPropagation();
@@ -304,53 +278,19 @@ export const Component = () => {
 						);
 					},
 				)}
-				{Object.entries(notesGroupByKey).map(([key, values], index) => {
-					const keyLg1 = `${key}Lg1`;
-					const keyLg2 = `${key}Lg2`;
-					const keyLg1Uri = `${keyLg1}Uri`;
-					const keyLg2Uri = `${keyLg2}Uri`;
 
-					if (!values[keyLg1Uri] && !values[keyLg2Uri]) {
-						return null;
-					}
-
-					return (
-						<Row key={index}>
-							<div className="form-group col-md-6">
-								{values[keyLg1Uri] && (
-									<>
-										<label htmlFor={keyLg1}>{D1[titleMapping[key]]}</label>
-										<MDEditor
-											text={values[keyLg1]}
-											handleChange={(v) =>
-												setValue({
-													...value,
-													general: { ...value.general, keyLg1: v },
-												})
-											}
-										/>
-									</>
-								)}
-							</div>
-							<div className="form-group col-md-6">
-								{values[keyLg2Uri] && (
-									<>
-										<label htmlFor={keyLg2}>{D2[titleMapping[key]]}</label>
-										<MDEditor
-											text={values[keyLg2]}
-											handleChange={(v) =>
-												setValue({
-													...value,
-													general: { ...value.general, keyLg2: v },
-												})
-											}
-										/>
-									</>
-								)}
-							</div>
-						</Row>
-					);
-				})}
+				<NotesInputs
+					value={notes}
+					onChange={(v) => {
+						setValue({
+							...value,
+							notes: {
+								...value.notes,
+								...v,
+							},
+						});
+					}}
+				/>
 			</form>
 		</div>
 	);

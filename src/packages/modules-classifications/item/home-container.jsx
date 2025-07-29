@@ -21,12 +21,12 @@ export const Component = () => {
 
 	if (isLoading || !item.general) return <Loading />;
 
-	queryClient.prefetchQuery(
-		['classification-parent-levels', classificationId, itemId],
-		() => {
+	queryClient.prefetchQuery({
+		queryKey: ['classification-parent-levels', classificationId, itemId],
+		queryFn: () => {
 			return fetchingPreviousLevels(classificationId, item.general);
 		},
-	);
+	});
 
 	return <ItemVisualization item={item} secondLang={secondLang} />;
 };
