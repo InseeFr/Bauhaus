@@ -14,9 +14,8 @@ const handleFieldChange = (handleChange) =>
 		return handlers;
 	}, {});
 
-function CollectionGeneralEdition({ general, creation, handleChange, errors }) {
+function CollectionGeneralEdition({ general, handleChange, errors }) {
 	const {
-		id,
 		prefLabelLg1,
 		prefLabelLg2,
 		creator,
@@ -32,23 +31,7 @@ function CollectionGeneralEdition({ general, creation, handleChange, errors }) {
 			<h4 className="text-center">
 				( <RequiredIcon /> : {D.requiredFields})
 			</h4>
-			<Row>
-				<InputRmes
-					colMd={12}
-					label={D1.idTitle}
-					star
-					value={id}
-					disabled={!creation}
-					handleChange={handlers.id}
-					className="w-100"
-					errorBlock={
-						<ClientSideError
-							id="id-error"
-							error={errors?.fields?.id}
-						></ClientSideError>
-					}
-				/>
-			</Row>
+
 			<Row>
 				<InputRmes
 					colMd={6}

@@ -3,7 +3,7 @@ import { Chips } from 'primereact/chips';
 import { Row } from '@components/layout';
 
 import { D1, D2 } from '../../deprecated-locales';
-import './input-multi-rmes.scss';
+import './input-multi-rmes.css';
 
 interface InputMultiRmesTypes {
 	inputLg1: string[];

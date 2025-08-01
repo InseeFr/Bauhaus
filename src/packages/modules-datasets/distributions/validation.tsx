@@ -12,6 +12,18 @@ const ZodDistribution = z.object({
 	idDataset: mandatoryAndNotEmptySelectField(D.datasetTitle),
 	labelLg1: mandatoryAndNotEmptyTextField(D1.title),
 	labelLg2: mandatoryAndNotEmptyTextField(D2.title),
+	accessUrl: z
+		.string()
+		.url({
+			message: D.badUrl,
+		})
+		.optional(),
+	url: z
+		.string()
+		.url({
+			message: D.badUrl,
+		})
+		.optional(),
 });
 
 export const validate = formatValidation(ZodDistribution);

@@ -47,8 +47,6 @@ export const generateGenericApiEndpoints = (
 	};
 };
 
-const apiURL = `${window.location.origin}/configuration.json`;
-
 const removeTrailingSlash = (url: string) => url.replace(/\/$/, '');
 
 export const buildApi = <T extends Record<string, any>>(
@@ -103,17 +101,10 @@ export const computeDscr = async (fn: any, [...args]) => {
 let saveApiURL = '';
 export const getBaseURI = () => {
 	if (saveApiURL) return Promise.resolve(saveApiURL);
-	return import.meta.env.VITE_INSEE
-		? fetch(apiURL).then((res) => {
-				return res.json().then((config) => {
-					saveApiURL = config.bauhaus;
-					return config.bauhaus;
-				});
-			})
-		: Promise.resolve(import.meta.env.VITE_API_BASE_HOST).then((u) => {
-				saveApiURL = u;
-				return u;
-			});
+	return Promise.resolve(import.meta.env.VITE_API_BASE_HOST).then((u) => {
+		saveApiURL = u;
+		return u;
+	});
 };
 
 export const buildCall = (context: string, resource: string, fn: any) => {

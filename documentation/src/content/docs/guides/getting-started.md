@@ -26,7 +26,7 @@ Unit tests are launched each time a `git push` is executed.
 
 ## Build
 
-To build the application, run `yarn build`. You can now serve the content of the `dist` folder with the HTTP server of your choice. 
+To build the application, run `yarn build`. You can now serve the content of the `dist` folder with the HTTP server of your choice.
 
 For the deployment needs at INSEE, the CI will need to use the yarn build command. This command will also create an archive (zip) containing the project in order to deploy it.
 
@@ -36,12 +36,12 @@ You can also build a Docker container :
 
 ```shell
 docker build . -t bauhaus-front
-````
+```
 
 And run it :
 
 ```shell
-docker run  -it -p 8083:80 -e BAUHAUS_API_URL=http://192.168.1.12:8081/api bauhaus-front
+docker run  -it -p 8083:80 -e VITE_API_BASE_HOST=http://192.168.1.12:8081/api bauhaus-front
 ```
 
 `http://192.168.1.12:8081/api` is the base URL of the Bauhaus API.
@@ -59,7 +59,6 @@ If you're new to JavaScript, you might need to first install [node](https://node
 ## Project Structure
 
 In this paragraph, we will try to explain the rules we defined and try to follow when talking about the structure of the project.
-
 
 ### I18N
 

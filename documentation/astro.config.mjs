@@ -31,6 +31,10 @@ export default defineConfig({
 							label: 'Conventional Commits',
 							link: import.meta.env.BASE_URL + 'guides/conventional_commit/',
 						},
+						{
+							label: 'Git Branch Management Strategy',
+							link: import.meta.env.BASE_URL + 'guides/pr_branch_strategy/',
+						},
 					],
 				},
 				{
