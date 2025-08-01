@@ -16,7 +16,7 @@
     "test": "vitest",
     "test:coverage": "cross-env CI=true vitest run --coverage",
     "start": "npm run pre-script vite",
-    "build": "npm run pre-script cross-env VITE_INSEE=true vite build && npm run create-zip",
+    "build": "npm run pre-script vite build && npm run create-zip",
     "create-zip": "cd build && bestzip build.zip *",
     "pre-push": "npm run format:check && npm run lint && npm run test:coverage -- --allowOnly false",
     "prepare": "husky",
