@@ -203,7 +203,7 @@ const OperationsDocumentationEdition = (props) => {
 	let updatedDate;
 	if (document.updatedDate) {
 		const [year, month, day] = document.updatedDate.split('-');
-		updatedDate = `${year}-${month}-${day}T23:00:00.000Z`;
+		updatedDate = `${year}-${month}-${day}T12:00:00.000Z`;
 	}
 
 	return (
