@@ -13,6 +13,8 @@ describe('validation', function () {
 				idDataset: '',
 				labelLg1: 'The property <strong>Intitulé</strong> is required.',
 				labelLg2: '',
+				accessUrl: '',
+				url: '',
 			},
 		});
 	});
@@ -28,6 +30,8 @@ describe('validation', function () {
 				idDataset: '',
 				labelLg1: '',
 				labelLg2: 'The property <strong>Title</strong> is required.',
+				accessUrl: '',
+				url: '',
 			},
 		});
 	});
@@ -43,6 +47,28 @@ describe('validation', function () {
 				idDataset: 'The property <strong>Dataset</strong> is required.',
 				labelLg1: '',
 				labelLg2: '',
+				accessUrl: '',
+				url: '',
+			},
+		});
+	});
+	it('should return an error for accessUrl and url', function () {
+		expect(
+			validate({
+				idDataset: 'id',
+				labelLg1: 'labelLg1',
+				labelLg2: 'labelLg2',
+				accessUrl: 'wrong@url',
+				url: 'wrong@url',
+			}),
+		).toEqual({
+			errorMessage: ['The link is not valid', 'The link is not valid'],
+			fields: {
+				idDataset: '',
+				labelLg1: '',
+				labelLg2: '',
+				accessUrl: 'The link is not valid',
+				url: 'The link is not valid',
 			},
 		});
 	});
@@ -50,7 +76,7 @@ describe('validation', function () {
 		expect(
 			validate({
 				idDataset: 'id',
-				labelLg1: 'labelLg2',
+				labelLg1: 'labelLg1',
 				labelLg2: 'labelLg2',
 			}),
 		).toEqual({
@@ -59,6 +85,8 @@ describe('validation', function () {
 				idDataset: '',
 				labelLg1: '',
 				labelLg2: '',
+				accessUrl: '',
+				url: '',
 			},
 		});
 	});
