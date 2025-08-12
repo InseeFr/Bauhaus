@@ -1,12 +1,13 @@
 import react from '@vitejs/plugin-react';
 import fixReactVirtualized from 'esbuild-plugin-react-virtualized';
-import { defineConfig /*, loadEnv*/ } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import { viteEnvs } from 'vite-envs';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import csp from 'vite-plugin-csp-guard';
 
-export default defineConfig((/*{ mode }*/) => {
-	//const env = loadEnv(mode, process.cwd(), '');
-
+export default defineConfig(({ mode }) => {
+	const env = loadEnv(mode, process.cwd(), '');
+	const isProd = mode === 'production';
 	return {
 		optimizeDeps: {
 			esbuildOptions: {
@@ -28,20 +29,23 @@ export default defineConfig((/*{ mode }*/) => {
 		},
 		plugins: [
 			react(),
-			//			csp({
-			//				dev: {
-			//					run: true,
-			//				},
-			//				policy: {
-			//					'style-src-elem': ["'unsafe-inline'", 'https://fonts.googleapis.com'],
-			//					'script-src-elem': ["'self'", 'https://ajax.googleapis.com/'],
-			//					'font-src': ["'self'", 'https://fonts.gstatic.com/'],
-			//					'connect-src': [env.VITE_API_BASE_HOST + '/', 'ws://localhost:3000'],
-			//				},
-			//				build: {
-			//					sri: true,
-			//				},
-			//			}),
+			csp({
+				dev: {
+					run: true,
+				},
+				policy: {
+					'style-src-elem': ["'unsafe-inline'", 'https://fonts.googleapis.com'],
+					'script-src-elem': ["'self'", 'https://ajax.googleapis.com/'],
+					'font-src': ["'self'", 'https://fonts.gstatic.com/'],
+					'connect-src': [
+						isProd ? '__API_BASE_HOST__' : env.VITE_API_BASE_HOST + '/',
+						'ws://localhost:3000',
+					],
+				},
+				build: {
+					sri: false,
+				},
+			}),
 			tsconfigPaths(),
 			viteEnvs({
 				declarationFile: '.env',
