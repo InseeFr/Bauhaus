@@ -1,4 +1,4 @@
-const StorageKeys = {
+export const StorageKeys = {
 	HELP_VIEW: 'HELP_VIEW',
 	HELP_COLLAPSED: 'HELP_COLLAPSED',
 } as const;
