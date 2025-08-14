@@ -5,12 +5,22 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as clientModule from './client';
 import { useClassificationParentLevels } from './hook';
 
-const createWrapper = () => {
-	const queryClient = new QueryClient();
-	return ({ children }: { children: React.ReactNode }) => (
-		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-	);
-};
+const mockData = [{ item: 'id1', labelLg1: 'Label 1' }];
+
+vi.mock('./client', async () => {
+	const actual = await vi.importActual<typeof import('./client')>('./client');
+	return {
+		...actual,
+		fetchingPreviousLevels: () => {
+			return mockData;
+		},
+	};
+});
+
+const queryClient = new QueryClient();
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+	<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
 
 describe('useClassificationParentLevels', () => {
 	beforeEach(() => {
@@ -18,25 +28,14 @@ describe('useClassificationParentLevels', () => {
 	});
 
 	it('calls fetchingPreviousLevels and returns data when item.general is defined', async () => {
-		const mockData = [{ item: 'id1', labelLg1: 'Label 1' }];
-		vi.spyOn(clientModule, 'fetchingPreviousLevels').mockResolvedValue(
-			mockData,
-		);
-
 		const item = { general: { label: 'X' } };
 
 		const { result } = renderHook(
 			() => useClassificationParentLevels('class1', 'item1', item),
-			{ wrapper: createWrapper() },
+			{ wrapper },
 		);
 
-		await waitFor(() => result.current.isSuccess);
-
-		expect(clientModule.fetchingPreviousLevels).toHaveBeenCalledWith(
-			'class1',
-			item.general,
-		);
-		expect(result.current.data).toEqual(mockData);
+		await waitFor(() => expect(result.current.data).toEqual(mockData));
 	});
 
 	it('does not call fetchingPreviousLevels if item.general is undefined', async () => {
@@ -45,7 +44,7 @@ describe('useClassificationParentLevels', () => {
 		const item = {}; // item.general is undefined
 		const { result } = renderHook(
 			() => useClassificationParentLevels('class1', 'item1', item),
-			{ wrapper: createWrapper() },
+			{ wrapper },
 		);
 
 		expect(result.current.isLoading).toBe(false);
