@@ -41,7 +41,7 @@ docker build . -t bauhaus-front
 And run it :
 
 ```shell
-docker run  -it -p 8083:80 -e VITE_API_BASE_HOST=http://192.168.1.12:8081/api bauhaus-front
+docker run  -it -p 8083:8080 -e VITE_API_BASE_HOST=http://192.168.1.12:8081/api bauhaus-front
 ```
 
 `http://192.168.1.12:8081/api` is the base URL of the Bauhaus API.
