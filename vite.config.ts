@@ -35,7 +35,11 @@ export default defineConfig(({ mode }) => {
 				},
 				policy: {
 					'style-src-elem': ["'unsafe-inline'", 'https://fonts.googleapis.com'],
-					'script-src-elem': ["'self'", 'https://ajax.googleapis.com/'],
+					'script-src-elem': [
+						"'unsafe-inline'",
+						"'self'",
+						'https://ajax.googleapis.com/',
+					],
 					'font-src': ["'self'", 'https://fonts.gstatic.com/'],
 					'connect-src': [
 						isProd ? '__API_BASE_HOST__' : env.VITE_API_BASE_HOST + '/',
