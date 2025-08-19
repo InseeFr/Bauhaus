@@ -1,6 +1,6 @@
 {
 	"name": "bauhaus",
-	"version": "vcsp-rc2",
+	"version": "vcsp-rc3",
 	"type": "module",
 	"description": "Web application for the management of concepts, classifications and other statistical objects",
 	"repository": {
