@@ -40,10 +40,12 @@ export default defineConfig(({ mode }) => {
 						"'self'",
 						'https://ajax.googleapis.com/',
 					],
+					'worker-src': ["'self"],
 					'font-src': ["'self'", 'https://fonts.gstatic.com/'],
 					'connect-src': [
 						isProd ? '__API_BASE_HOST__' : env.VITE_API_BASE_HOST + '/',
 						'ws://localhost:3000',
+						'https://auth.insee.test',
 					],
 				},
 				build: {
