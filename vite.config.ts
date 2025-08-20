@@ -40,13 +40,16 @@ export default defineConfig(({ mode }) => {
 						"'self'",
 						'https://ajax.googleapis.com/',
 					],
-					'worker-src': ["'self'"],
-					'frame-src': ["'https://auth.insee.test'"],
+					'worker-src': ["'self'", 'blob:'],
+					'frame-src': [
+						"'self'",
+						isProd ? '__OIDC_BASE_URL__' : env.VITE_OIDC_BASE_URL,
+					],
 					'font-src': ["'self'", 'https://fonts.gstatic.com/'],
 					'connect-src': [
 						isProd ? '__API_BASE_HOST__' : env.VITE_API_BASE_HOST + '/',
 						'ws://localhost:3000',
-						'https://auth.insee.test',
+						isProd ? '__OIDC_BASE_URL__' : env.VITE_OIDC_BASE_URL,
 					],
 				},
 				build: {
