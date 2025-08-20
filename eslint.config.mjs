@@ -3,6 +3,8 @@ import pluginReact from 'eslint-plugin-react';
 import vitestPlugin from 'eslint-plugin-vitest';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import reactPerfPlugin from 'eslint-plugin-react-perf';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 
 export default [
 	{
@@ -24,6 +26,8 @@ export default [
 	...tseslint.configs.stylistic,
 	pluginReact.configs.flat['jsx-runtime'],
 	vitestPlugin.configs.recommended,
+	reactPerfPlugin.configs.flat.recommended,
+	jsxA11y.flatConfigs.recommended,
 	{
 		languageOptions: {
 			globals: globals.browser,
@@ -40,6 +44,14 @@ export default [
 			'@typescript-eslint/no-empty-function': 'off',
 			'@typescript-eslint/no-dynamic-delete': 'off',
 			'@typescript-eslint/prefer-for-of': 'off',
+			'react-perf/jsx-no-new-array-as-prop': 'off',
+			'react-perf/jsx-no-new-function-as-prop': 'off',
+			'react-perf/jsx-no-new-object-as-prop': 'off',
+			'jsx-a11y/no-autofocus': 'off',
+			'jsx-a11y/click-events-have-key-events': 'off',
+			'jsx-a11y/no-noninteractive-element-interactions': 'off',
+			'jsx-a11y/no-static-element-interactions': 'off',
+			// Final valid rules
 			'vitest/expect-expect': 'off',
 			'vitest/valid-title': [
 				'error',
