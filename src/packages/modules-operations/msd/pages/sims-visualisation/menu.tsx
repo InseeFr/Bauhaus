@@ -39,11 +39,7 @@ export const Menu = ({
 				<DeleteButton action={onDelete} />
 			</HasAccess>
 			<HasAccess module="OPERATION_SIMS" privilege="PUBLISH" stamps={owners}>
-				<ValidationButton
-					object={sims}
-					callback={() => onPublish()}
-					disabled={false}
-				/>
+				<ValidationButton object={sims} callback={onPublish} disabled={false} />
 			</HasAccess>
 			<HasAccess module="OPERATION_SIMS" privilege="UPDATE" stamps={owners}>
 				<UpdateButton action={`/operations/sims/${sims.id}/modify`} />
