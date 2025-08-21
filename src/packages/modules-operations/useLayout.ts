@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { getItem, setItem } from '@utils/localStorage';
 export enum Status {
 	BOTH = 'BOTH',
 	SUMMARY = 'SUMMARY',
@@ -11,11 +11,11 @@ export const useLayout = (): [
 	changeLayoutMode: (mode: Status) => void,
 ] => {
 	const [layoutMode, setLayoutMode] = useState<Status>(
-		(localStorage.getItem('HELP_VIEW') as unknown as Status) || Status.BOTH,
+		(getItem('HELP_VIEW') as unknown as Status) || Status.BOTH,
 	);
 
 	const changeLayoutMode = (status: Status): void => {
-		localStorage.setItem('HELP_VIEW', status as unknown as string);
+		setItem('HELP_VIEW', status as unknown as string);
 		setLayoutMode(status);
 	};
 

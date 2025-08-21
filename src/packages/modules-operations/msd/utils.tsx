@@ -3,21 +3,20 @@ import { editorStateFromMd } from '@utils/html-utils';
 import { MetadataStructure, Rubric, Sims } from '../../model/Sims';
 import { rangeType } from '../utils/msd';
 import { DUPLICATE, Mode } from './constant';
+import { getItem, setItem } from '@utils/localStorage';
 
 const { RICH_TEXT, TEXT, ORGANIZATION, DATE, GEOGRAPHY, CODE_LIST } = rangeType;
 
-export const HELP_COLLAPSED = 'HELP_COLLAPSED';
-
 export function isOpen(id: string) {
-	const collapsed = JSON.parse(localStorage.getItem(HELP_COLLAPSED) || '{}');
+	const collapsed = JSON.parse(getItem('HELP_COLLAPSED') || '{}');
 	return collapsed[id] || false;
 }
 
 export function toggleOpen(id: string) {
-	const collapsed = JSON.parse(localStorage.getItem(HELP_COLLAPSED) || '{}');
+	const collapsed = JSON.parse(getItem('HELP_COLLAPSED') || '{}');
 	const previous = collapsed[id] || false;
-	localStorage.setItem(
-		HELP_COLLAPSED,
+	setItem(
+		'HELP_COLLAPSED',
 		JSON.stringify({
 			...collapsed,
 			[id]: !previous,
