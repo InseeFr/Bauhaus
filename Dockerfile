@@ -6,6 +6,9 @@ WORKDIR /bauhaus
 
 COPY ./ ./
 
+RUN rm -f package-lock.json
+RUN rm -rf node_modules
+
 RUN npm install --force && npm run build
 
 ### EXECUTION STEP ###
