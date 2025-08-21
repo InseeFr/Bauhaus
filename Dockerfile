@@ -1,14 +1,12 @@
 ### BUILD STEP ###
 
-FROM node:latest AS builder
+FROM node:23 AS builder
 
 WORKDIR /bauhaus
 
 COPY ./ ./
 
-RUN rm -f package-lock.json
-RUN rm -rf node_modules
-
+RUN ls
 RUN npm install --force && npm run build
 
 ### EXECUTION STEP ###
