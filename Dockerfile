@@ -6,7 +6,6 @@ WORKDIR /bauhaus
 
 COPY ./ ./
 
-RUN ls
 RUN npm install --force && npm run build
 
 ### EXECUTION STEP ###
