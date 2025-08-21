@@ -17,13 +17,15 @@ jobs:
         with:
           node-version: lts/*
       - name: Install dependencies
+        working-directory: ./e2e
         run: npm ci --force
       - name: Install Playwright Browsers
+        working-directory: ./e2e
         run: npx playwright install --with-deps
       - uses: adambirds/docker-compose-action@v1.5.0
         with:
           compose-file: './bauhaus-back-office/compose.yml'
-          test-command: 'chmod 777 ./playwright/db/init.sh && ./playwright/db/init.sh && npx playwright test'
+          test-command: 'chmod 777 ./playwright/db/init.sh && ./playwright/db/init.sh && cd ./e2e && npx playwright test'
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
