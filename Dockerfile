@@ -1,6 +1,6 @@
 ### BUILD STEP ###
 
-FROM node:latest AS builder
+FROM node:23 AS builder
 
 WORKDIR /bauhaus
 
@@ -32,4 +32,10 @@ COPY --from=builder --chown=$NGINX_USER:$NGINX_GROUP /bauhaus/nginx.conf /etc/ng
 
 # Add entrypoint and start nginx server
 RUN chmod 755 /usr/share/nginx/html/vite-envs.sh
-ENTRYPOINT [ "sh", "-c", "/usr/share/nginx/html/vite-envs.sh && nginx -g 'daemon off;'"]
+RUN chown $NGINX_USER:$NGINX_GROUP /usr/share/nginx/html/index.html
+
+ENTRYPOINT [ "sh", "-c", "/usr/share/nginx/html/vite-envs.sh && \
+  : \"${VITE_API_BASE_HOST:?Set VITE_API_BASE_HOST env var}\" && \
+  sed \"s|__API_BASE_HOST__|${VITE_API_BASE_HOST}|g\" /usr/share/nginx/html/index.html > /tmp/index.html && \
+  cat /tmp/index.html > /usr/share/nginx/html/index.html && \
+  nginx -g 'daemon off;'" ]
