@@ -45,13 +45,11 @@ const ZodLink = (
 ) =>
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		url: z
-			.string({
-				error: (issue) =>
-					issue.input === undefined &&
-					NewDictionary.errors.mandatoryProperty(D.titleLink),
-			})
 			.url({
-				error: D.badUrl,
+				error: (issue) =>
+					issue.input === undefined
+						? NewDictionary.errors.mandatoryProperty(D.titleLink)
+						: D.badUrl,
 			})
 			.startsWith('http', {
 				error: D.badUrl,

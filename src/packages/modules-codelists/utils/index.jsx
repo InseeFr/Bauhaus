@@ -56,9 +56,7 @@ const Code = (shouldCheckDuplicate, codes) =>
 	z.object({
 		code: mandatoryAndNotEmptyTextField(D.idTitle).refine(
 			(value) => !shouldCheckDuplicate || !codes.find((c) => c.code === value),
-			{
-				error: D.ErrorDoubleCode,
-			},
+			{ error: D.ErrorDoubleCode },
 		),
 		labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
 		labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
