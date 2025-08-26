@@ -46,13 +46,11 @@ const ZodLink = (
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		url: z
 			.url({
+				protocol: /^https$/,
 				error: (issue) =>
 					issue.input === undefined
 						? NewDictionary.errors.mandatoryProperty(D.titleLink)
 						: D.badUrl,
-			})
-			.startsWith('http', {
-				error: D.badUrl,
 			})
 			.trim()
 			.min(1, { error: NewDictionary.errors.mandatoryProperty(D.titleLink) }),
