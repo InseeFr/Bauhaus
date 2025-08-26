@@ -4,9 +4,16 @@ import { SearchableList } from '@components/searchable-list';
 
 import D from '../../deprecated-locales';
 import { useTitle } from '../../utils/hooks/useTitle';
+import { PartialClassificationSerie } from '@model/Classification';
 
-const SeriesHome = ({ series }) => {
+const SeriesHome = ({
+	series,
+}: Readonly<{ series: PartialClassificationSerie[] | undefined }>) => {
 	useTitle(D.classificationsTitle, D.seriesTitle);
+
+	if (!series) {
+		return null;
+	}
 
 	return (
 		<div className="container">
