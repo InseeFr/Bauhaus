@@ -19,7 +19,7 @@ const ZodIndicator = z.object({
 	prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
 	creators: mandatoryAndNotEmptyMultiSelectField(D.creatorsTitle),
 	wasGeneratedBy: z.array(Serie).nonempty({
-		message: NewDictionary.errors.mandatoryProperty(D.generatedBy),
+		error: NewDictionary.errors.mandatoryProperty(D.generatedBy),
 	}),
 });
 

@@ -11,6 +11,8 @@ type ImportMetaEnv = {
   VITE_OIDC_CLIENT_ID: string
   VITE_CONCEPTS_DOCUMENTATION: string
   VITE_OPERATIONS_DOCUMENTATION: string
+  VITE_DEV_TOOLS_ENABLED: string
+  VITE_OIDC_BASE_URL: string
   BASE_URL: string
   MODE: string
   DEV: boolean

@@ -15,13 +15,13 @@ const ZodDistribution = z.object({
 	accessUrl: z
 		.string()
 		.url({
-			message: D.badUrl,
+			error: D.badUrl,
 		})
 		.optional(),
 	url: z
 		.string()
 		.url({
-			message: D.badUrl,
+			error: D.badUrl,
 		})
 		.optional(),
 });

@@ -46,7 +46,7 @@ export const mandatoryAndNotEmptyTextField = (property: string) => {
 			required_error: NewDictionary.errors.mandatoryProperty(property),
 		})
 		.trim()
-		.min(1, { message: NewDictionary.errors.mandatoryProperty(property) });
+		.min(1, { error: NewDictionary.errors.mandatoryProperty(property) });
 };
 
 export const mandatoryAndNotEmptySelectField = (property: string) => {
@@ -54,7 +54,7 @@ export const mandatoryAndNotEmptySelectField = (property: string) => {
 		.string({
 			required_error: NewDictionary.errors.mandatoryProperty(property),
 		})
-		.min(1, { message: NewDictionary.errors.mandatoryProperty(property) });
+		.min(1, { error: NewDictionary.errors.mandatoryProperty(property) });
 };
 
 export const mandatoryAndNotEmptyMultiSelectField = (property: string) => {
@@ -64,6 +64,6 @@ export const mandatoryAndNotEmptyMultiSelectField = (property: string) => {
 		})
 		.array()
 		.nonempty({
-			message: NewDictionary.errors.mandatoryProperty(property),
+			error: NewDictionary.errors.mandatoryProperty(property),
 		});
 };

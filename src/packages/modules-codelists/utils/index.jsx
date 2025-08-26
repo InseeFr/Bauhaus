@@ -57,7 +57,7 @@ const Code = (shouldCheckDuplicate, codes) =>
 		code: mandatoryAndNotEmptyTextField(D.idTitle).refine(
 			(value) => !shouldCheckDuplicate || !codes.find((c) => c.code === value),
 			{
-				message: D.ErrorDoubleCode,
+				error: D.ErrorDoubleCode,
 			},
 		),
 		labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),

@@ -19,7 +19,7 @@ let ZodSerie: ZodObject<any> = z.object({
 				})
 				.trim()
 				.min(1, {
-					message: NewDictionary.errors.mandatoryProperty(D.familyTitle),
+					error: NewDictionary.errors.mandatoryProperty(D.familyTitle),
 				}),
 		},
 		{

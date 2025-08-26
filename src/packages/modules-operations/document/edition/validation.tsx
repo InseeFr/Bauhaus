@@ -24,7 +24,7 @@ const Base = (
 					.map((document: Document) => document.labelLg1)
 					.includes(value),
 
-			{ message: D.duplicatedTitle },
+			{ error: D.duplicatedTitle },
 		),
 		labelLg2: mandatoryAndNotEmptyTextField(D2.title).refine(
 			(value) =>
@@ -33,7 +33,7 @@ const Base = (
 					.map((document: Document) => document.labelLg2)
 					.includes(value),
 
-			{ message: D.duplicatedTitle },
+			{ error: D.duplicatedTitle },
 		),
 		lang: mandatoryAndNotEmptySelectField(D.langTitle),
 	});
@@ -49,19 +49,19 @@ const ZodLink = (
 				required_error: NewDictionary.errors.mandatoryProperty(D.titleLink),
 			})
 			.url({
-				message: D.badUrl,
+				error: D.badUrl,
 			})
 			.startsWith('http', {
-				message: D.badUrl,
+				error: D.badUrl,
 			})
 			.trim()
-			.min(1, { message: NewDictionary.errors.mandatoryProperty(D.titleLink) }),
+			.min(1, { error: NewDictionary.errors.mandatoryProperty(D.titleLink) }),
 	});
 
 const File = z.object({
 	name: z
 		.string()
-		.regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { message: D.wrongFileName }),
+		.regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { error: D.wrongFileName }),
 });
 
 const ZodDocument = (
@@ -74,11 +74,11 @@ const ZodDocument = (
 			.string({
 				required_error: D.requiredUpdatedDate,
 			})
-			.min(1, { message: D.requiredUpdatedDate })
+			.min(1, { error: D.requiredUpdatedDate })
 			.nullable()
-			.refine((value) => value !== null, { message: D.requiredUpdatedDate }),
+			.refine((value) => value !== null, { error: D.requiredUpdatedDate }),
 		files: z.array(File).nonempty({
-			message: D.requiredFile,
+			error: D.requiredFile,
 		}),
 	});
 
