@@ -46,7 +46,9 @@ const ZodLink = (
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		url: z
 			.string({
-				required_error: NewDictionary.errors.mandatoryProperty(D.titleLink),
+				error: (issue) =>
+					issue.input === undefined &&
+					NewDictionary.errors.mandatoryProperty(D.titleLink),
 			})
 			.url({
 				error: D.badUrl,
@@ -72,7 +74,7 @@ const ZodDocument = (
 	Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
 		updatedDate: z
 			.string({
-				required_error: D.requiredUpdatedDate,
+				error: (issue) => issue.input === undefined && D.requiredUpdatedDate,
 			})
 			.min(1, { error: D.requiredUpdatedDate })
 			.nullable()

@@ -15,7 +15,9 @@ let ZodSerie: ZodObject<any> = z.object({
 		{
 			id: z
 				.string({
-					required_error: NewDictionary.errors.mandatoryProperty(D.familyTitle),
+					error: (issue) =>
+						issue.input === undefined &&
+						NewDictionary.errors.mandatoryProperty(D.familyTitle),
 				})
 				.trim()
 				.min(1, {
@@ -23,7 +25,9 @@ let ZodSerie: ZodObject<any> = z.object({
 				}),
 		},
 		{
-			required_error: NewDictionary.errors.mandatoryProperty(D.familyTitle),
+			error: (issue) =>
+				issue.input === undefined &&
+				NewDictionary.errors.mandatoryProperty(D.familyTitle),
 		},
 	),
 	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),

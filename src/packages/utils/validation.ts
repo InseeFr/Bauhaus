@@ -43,7 +43,10 @@ export const formatValidation =
 export const mandatoryAndNotEmptyTextField = (property: string) => {
 	return z
 		.string({
-			required_error: NewDictionary.errors.mandatoryProperty(property),
+			error: (issue) =>
+				issue.input === undefined
+					? NewDictionary.errors.mandatoryProperty(property)
+					: '',
 		})
 		.trim()
 		.min(1, { error: NewDictionary.errors.mandatoryProperty(property) });
@@ -52,17 +55,20 @@ export const mandatoryAndNotEmptyTextField = (property: string) => {
 export const mandatoryAndNotEmptySelectField = (property: string) => {
 	return z
 		.string({
-			required_error: NewDictionary.errors.mandatoryProperty(property),
+			error: (issue) =>
+				issue.input === undefined &&
+				NewDictionary.errors.mandatoryProperty(property),
 		})
 		.min(1, { error: NewDictionary.errors.mandatoryProperty(property) });
 };
 
 export const mandatoryAndNotEmptyMultiSelectField = (property: string) => {
 	return z
-		.string({
-			required_error: NewDictionary.errors.mandatoryProperty(property),
+		.array(z.string(), {
+			error: (issue) =>
+				issue.input === undefined &&
+				NewDictionary.errors.mandatoryProperty(property),
 		})
-		.array()
 		.nonempty({
 			error: NewDictionary.errors.mandatoryProperty(property),
 		});

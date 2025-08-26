@@ -13,7 +13,9 @@ const ZodOperation = z.object({
 		{
 			id: z
 				.string({
-					required_error: NewDictionary.errors.mandatoryProperty(D.serieTitle),
+					error: (issue) =>
+						issue.input === undefined &&
+						NewDictionary.errors.mandatoryProperty(D.serieTitle),
 				})
 				.trim()
 				.min(1, {
@@ -21,7 +23,9 @@ const ZodOperation = z.object({
 				}),
 		},
 		{
-			required_error: NewDictionary.errors.mandatoryProperty(D.serieTitle),
+			error: (issue) =>
+				issue.input === undefined &&
+				NewDictionary.errors.mandatoryProperty(D.serieTitle),
 		},
 	),
 	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
