@@ -8,7 +8,7 @@ describe('validation', function () {
 					labelLg1: 'existingLabel',
 					labelLg2: '',
 					lang: 'l',
-					url: 'https:/u',
+					url: 'http:/u',
 				},
 				'link',
 				[
