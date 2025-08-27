@@ -16,13 +16,13 @@ const ZodItem = (altLabelsLength: number) =>
 		altLabelsLg1_: z
 			.string()
 			.max(altLabelsLength, {
-				message: D1.classificationItemAltError(altLabelsLength),
+				error: D1.classificationItemAltError(altLabelsLength),
 			})
 			.optional(),
 		altLabelsLg2_: z
 			.string()
 			.max(altLabelsLength, {
-				message: D2.classificationItemAltError(altLabelsLength),
+				error: D2.classificationItemAltError(altLabelsLength),
 			})
 			.optional(),
 	});

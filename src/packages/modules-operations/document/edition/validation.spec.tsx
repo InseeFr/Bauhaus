@@ -150,7 +150,7 @@ describe('validation', function () {
 					labelLg1: 'labelLg2',
 					labelLg2: 'labelLg2',
 					lang: 'l',
-					url: 'http:/u',
+					url: 'https:/u',
 				},
 				'link',
 				[],

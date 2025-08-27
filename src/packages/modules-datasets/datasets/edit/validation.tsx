@@ -15,7 +15,7 @@ const ZodDataset = z.object({
 	labelLg2: mandatoryAndNotEmptyTextField(D2.title),
 	altIdentifier: z
 		.string()
-		.regex(/^[a-zA-Z0-9-_]+$/, { message: D.altIdError })
+		.regex(/^[a-zA-Z0-9-_]+$/, { error: D.altIdError })
 		.or(z.string().trim().length(0))
 		.optional(),
 	creator: mandatoryAndNotEmptySelectField(D.creatorTitle),

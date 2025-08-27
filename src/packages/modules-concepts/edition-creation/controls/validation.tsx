@@ -30,7 +30,7 @@ const ZodConcept = (
 				!conceptsWithLinks
 					.map((concept: Concept) => concept.label)
 					.includes(value),
-			{ message: D.duplicatedLabel },
+			{ error: D.duplicatedLabel },
 		),
 		creator: mandatoryAndNotEmptySelectField(D.creatorTitle),
 		disseminationStatus: mandatoryAndNotEmptySelectField(
@@ -39,18 +39,18 @@ const ZodConcept = (
 		scopeNoteLg1: z
 			.string()
 			.refine((value) => htmlLength(value) <= maxLengthScopeNote, {
-				message: D.tooLongScopeNote(maxLengthScopeNote),
+				error: D.tooLongScopeNote(maxLengthScopeNote),
 			})
 			.refine((value) => scopeNoteLg1CanBeEmpty || !htmlIsEmpty(value), {
-				message: D.emptyScopeNoteLg1,
+				error: D.emptyScopeNoteLg1,
 			}),
 		scopeNoteLg2: z
 			.string()
 			.refine((value) => htmlLength(value) <= maxLengthScopeNote, {
-				message: D.tooLongScopeNote(maxLengthScopeNote),
+				error: D.tooLongScopeNote(maxLengthScopeNote),
 			}),
 		definitionLg1: z.string().refine((value) => !htmlIsEmpty(value), {
-			message: D.emptyDefinitionLg1,
+			error: D.emptyDefinitionLg1,
 		}),
 	});
 

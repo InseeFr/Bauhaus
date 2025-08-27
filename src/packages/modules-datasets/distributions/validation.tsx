@@ -13,15 +13,13 @@ const ZodDistribution = z.object({
 	labelLg1: mandatoryAndNotEmptyTextField(D1.title),
 	labelLg2: mandatoryAndNotEmptyTextField(D2.title),
 	accessUrl: z
-		.string()
 		.url({
-			message: D.badUrl,
+			error: D.badUrl,
 		})
 		.optional(),
 	url: z
-		.string()
 		.url({
-			message: D.badUrl,
+			error: D.badUrl,
 		})
 		.optional(),
 });
