@@ -189,27 +189,28 @@ const SimsCreation = ({
 							/>
 						)}
 					</div>
-					{msd.rangeType === RICH_TEXT && (
-						<div className="row bauhaus-documents-bloc">
-							<div className={`col-md-${secondLang ? 6 : 12}`}>
-								<SimsDocumentField
-									msd={msd}
-									currentSection={sims[msd.idMas]}
-									handleChange={handleChange}
-								/>
-							</div>
-							{secondLang && (
-								<div className="col-md-6">
+					{sims[msd.idMas].rangeType !== rangeType.RUBRIQUE_SANS_OBJECT &&
+						msd.rangeType === RICH_TEXT && (
+							<div className="row bauhaus-documents-bloc">
+								<div className={`col-md-${secondLang ? 6 : 12}`}>
 									<SimsDocumentField
 										msd={msd}
 										currentSection={sims[msd.idMas]}
 										handleChange={handleChange}
-										lang="Lg2"
 									/>
 								</div>
-							)}
-						</div>
-					)}
+								{secondLang && (
+									<div className="col-md-6">
+										<SimsDocumentField
+											msd={msd}
+											currentSection={sims[msd.idMas]}
+											handleChange={handleChange}
+											lang="Lg2"
+										/>
+									</div>
+								)}
+							</div>
+						)}
 				</div>
 				{Object.values(msd.children).map((child) =>
 					MSDInformations(child, handleChange),
