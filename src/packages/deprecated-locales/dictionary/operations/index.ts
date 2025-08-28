@@ -304,11 +304,11 @@ const dictionary = {
 		en: 'Include the empty rubrics',
 	},
 	simsWithoutObject: {
-		fr: 'Sans Object',
+		fr: 'Sans Objet',
 		en: 'Without Object',
 	},
 	simsWithoutObjectLabel: {
-		fr: 'Sans Object ?',
+		fr: 'Sans Objet ?',
 		en: 'Without Object ?',
 	},
 	simsConfirmationMessage: {
