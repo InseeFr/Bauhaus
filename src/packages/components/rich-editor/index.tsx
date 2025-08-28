@@ -48,8 +48,6 @@ export class EditorHTML extends Component<EditorHTMLTypes, EditorHTMLState> {
 		});
 		this.props.handleChange(htmlFromEditorState(editorState));
 	};
-	handleLeave = () =>
-		this.props.handleChange(htmlFromEditorState(this.state.editorState));
 
 	componentWillReceiveProps({ text }: { text: string }) {
 		if (this.props.smart) return;
@@ -68,7 +66,7 @@ export class EditorHTML extends Component<EditorHTMLTypes, EditorHTMLState> {
 	render() {
 		return (
 			<Editor
-				toolbarCustomButtons={[<EditorDeleteButton />]}
+				toolbarCustomButtons={[<EditorDeleteButton key="delete" />]}
 				ariaLabel={this.props.ariaLabel}
 				editorState={this.state.editorState}
 				id={this.props.id}

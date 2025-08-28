@@ -39,10 +39,11 @@ interface PickerTypes {
 	panelTitle: string;
 	labelWarning: string;
 	context: any;
-	ValidationButton: any;
+	ValidationButton: () => JSX.Element;
 	disabled?: boolean;
 	disabledWarningMessage?: string;
 }
+
 export const Picker = ({
 	items: itemsProps,
 	handleAction,
@@ -55,7 +56,7 @@ export const Picker = ({
 	disabledWarningMessage,
 }: PickerTypes) => {
 	const [search, setSearch] = useState('');
-	const [items, setItems] = useState(trackItems(itemsProps ?? []));
+	const [items, setItems] = useState(() => trackItems(itemsProps ?? []));
 	const [clientSideErrors, setClientSideErrors] = useState('');
 
 	const handleChange = (searchLabel: string) => setSearch(searchLabel);
@@ -166,8 +167,4 @@ export const Picker = ({
 			</div>
 		</div>
 	);
-};
-
-Picker.defaultProps = {
-	ValidationButton: ExportButton,
 };

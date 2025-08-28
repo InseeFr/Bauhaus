@@ -9,7 +9,7 @@ import { NumberResults } from '@components/number-results';
 import { PageTitle } from '@components/page-title';
 import { Pagination } from '@components/pagination';
 
-import { filterKeyDeburr } from '@utils/array-utils';
+import { EMPTY_ARRAY, filterKeyDeburr } from '@utils/array-utils';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../deprecated-locales';
@@ -38,7 +38,7 @@ const formatter = (content: HomeDocument, label: keyof typeof content) => {
 
 const sessionStorageKey = 'documents-displayMode';
 const SearchableList = ({
-	items = [],
+	items = EMPTY_ARRAY,
 	placeholder,
 	childPath,
 	label,

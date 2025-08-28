@@ -5,6 +5,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import reactPerfPlugin from 'eslint-plugin-react-perf';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import eslintReact from '@eslint-react/eslint-plugin';
 
 export default [
 	{
@@ -28,6 +29,7 @@ export default [
 	vitestPlugin.configs.recommended,
 	reactPerfPlugin.configs.flat.recommended,
 	jsxA11y.flatConfigs.recommended,
+	eslintReact.configs['recommended-typescript'],
 	{
 		languageOptions: {
 			globals: globals.browser,
@@ -51,6 +53,17 @@ export default [
 			'jsx-a11y/click-events-have-key-events': 'off',
 			'jsx-a11y/no-noninteractive-element-interactions': 'off',
 			'jsx-a11y/no-static-element-interactions': 'off',
+			'@eslint-react/no-array-index-key': 'off',
+			'@eslint-react/hooks-extra/no-direct-set-state-in-use-effect': 'off',
+			'@eslint-react/dom/no-dangerously-set-innerhtml': 'off',
+			'@eslint-react/no-component-will-receive-props': 'off',
+			'@eslint-react/no-unstable-default-props': 'off',
+			'@eslint-react/hooks-extra/no-unnecessary-use-prefix': 'off',
+			'@eslint-react/no-unstable-context-value': 'off',
+			'@eslint-react/no-unused-class-component-members': 'off',
+			'@eslint-react/no-nested-component-definitions': 'off',
+			'@eslint-react/no-duplicate-key': 'off',
+			'@eslint-react/web-api/no-leaked-interval': 'off',
 			// Final valid rules
 			'vitest/expect-expect': 'off',
 			'vitest/valid-title': [
