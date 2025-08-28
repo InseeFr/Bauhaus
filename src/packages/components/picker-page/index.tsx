@@ -11,7 +11,7 @@ import { filterDeburr } from '@utils/array-utils';
 
 import D from '../../deprecated-locales';
 import { ActionToolbar } from '../action-toolbar';
-import { ReturnButton, ExportButton } from '../buttons/buttons-with-icons';
+import { ReturnButton } from '../buttons/buttons-with-icons';
 import { AddLogo } from '../logo/logo-add';
 import { DelLogo } from '../logo/logo-del';
 import { Panel } from '../panel';
