@@ -13,6 +13,7 @@ describe('picker-page', () => {
 				labelWarning="labelWarning"
 				handleAction={vi.fn()}
 				context="concepts"
+				ValidationButton={() => <></>}
 			/>,
 		);
 	});
