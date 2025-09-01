@@ -31,13 +31,13 @@ describe('validation', function () {
 				homepage: 'definetelyNotAnUrl',
 			}),
 		).toEqual({
-			errorMessage: ['Invalid url', 'Invalid url', 'Invalid url'],
+			errorMessage: ['Invalid URL', 'Invalid URL', 'Invalid URL'],
 			fields: {
 				prefLabelLg1: '',
 				prefLabelLg2: '',
-				additionalMaterial: 'Invalid url',
-				legalMaterial: 'Invalid url',
-				homepage: 'Invalid url',
+				additionalMaterial: 'Invalid URL',
+				legalMaterial: 'Invalid URL',
+				homepage: 'Invalid URL',
 			},
 		});
 	});

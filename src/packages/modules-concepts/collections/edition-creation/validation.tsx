@@ -28,7 +28,7 @@ const ZodCollection = (
 				!arrayKeepUniqueField(collectionList, 'label').includes(
 					normalize(value),
 				),
-			{ message: D.duplicatedLabel },
+			{ error: D.duplicatedLabel },
 		),
 		creator: mandatoryAndNotEmptySelectField(D.creatorTitle),
 	});
