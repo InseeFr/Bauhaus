@@ -51,7 +51,6 @@
 	color: inherit;
 	-webkit-font-smoothing: inherit;
 	-moz-osx-font-smoothing: inherit;
-	background-color: white !important;
 }
 
 .wilco-pagination li > *.disabled {
