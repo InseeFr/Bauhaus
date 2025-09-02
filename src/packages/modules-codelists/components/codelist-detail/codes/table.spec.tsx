@@ -12,7 +12,7 @@ const mockData = [
 		narrower: 'Child 1',
 		iri: 'iri 1',
 		closeMatch: 'Close Match 1',
-		actions: <button>Action 1</button>,
+		actions: <button type="button">Action 1</button>,
 	},
 	{
 		code: '002',
@@ -23,7 +23,7 @@ const mockData = [
 		iri: 'iri 2',
 
 		closeMatch: 'Close Match 2',
-		actions: <button>Action 2</button>,
+		actions: <button type="button">Action 2</button>,
 	},
 ];
 

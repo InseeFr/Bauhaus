@@ -1,6 +1,8 @@
 import { isDateIn } from './date-utils';
 import { deburr, normalize } from './string-utils';
 
+export const EMPTY_ARRAY: any[] = [];
+
 /**
  * This is function is used to manage old version of our data. The main case
  * is to manage the change to multi-contributors value for all Bauhaus components.
@@ -85,8 +87,7 @@ export const filterKeyDeburr = (keys?: any[]) => (rawStr: string) => {
 			? keys
 			: Object.keys(item).filter((k) => k !== 'id');
 
-		for (let i = 0; i < keysToCheck.length; i++) {
-			const key = keysToCheck[i];
+		for (const key of keysToCheck) {
 			const value = getValue(item, key);
 
 			const formattedValue = Array.isArray(value) ? value.join(',') : value;

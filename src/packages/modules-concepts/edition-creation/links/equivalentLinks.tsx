@@ -8,6 +8,7 @@ import { CLOSE_MATCH } from '@sdk/constants';
 import D from '../../../deprecated-locales';
 import { Link } from '../../../model/concepts/concept';
 import './equivalentLinks.scss';
+import { EMPTY_ARRAY } from '@utils/array-utils';
 
 interface EquivalentLinksTypes {
 	links: (Link & { urn: string })[];
@@ -15,7 +16,7 @@ interface EquivalentLinksTypes {
 }
 
 export const EquivalentLinks = ({
-	links = [],
+	links = EMPTY_ARRAY,
 	updateEquivalentLinks,
 }: Readonly<EquivalentLinksTypes>) => {
 	const [value, setValue] = useState('');
@@ -32,6 +33,7 @@ export const EquivalentLinks = ({
 						/>
 					</div>
 					<button
+						type="button"
 						onClick={() => {
 							updateEquivalentLinks([
 								...links,
@@ -55,6 +57,7 @@ export const EquivalentLinks = ({
 						<li key={link.urn} className="list-group-item">
 							<span>{link.urn}</span>
 							<button
+								type="button"
 								aria-label={D.btnDelete}
 								onClick={() => {
 									updateEquivalentLinks(
