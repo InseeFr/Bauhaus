@@ -45,7 +45,6 @@ export default [
 			'@typescript-eslint/no-non-null-assertion': 'off',
 			'@typescript-eslint/no-empty-function': 'off',
 			'@typescript-eslint/no-dynamic-delete': 'off',
-			'@typescript-eslint/prefer-for-of': 'off',
 			'react-perf/jsx-no-new-array-as-prop': 'off',
 			'react-perf/jsx-no-new-function-as-prop': 'off',
 			'react-perf/jsx-no-new-object-as-prop': 'off',
