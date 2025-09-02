@@ -31,6 +31,7 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
 					{footer}
 				</p>
 				<button
+					type="button"
 					onClick={logoutAndRemoveFromStorage}
 					className="btn btn-primary"
 				>

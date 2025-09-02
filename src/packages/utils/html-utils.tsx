@@ -101,9 +101,9 @@ export function mdFromEditorState(editorState: typeof EditorState) {
 	 */
 	const content = convertToRaw(editorState.getCurrentContent());
 
-	for (let blockIndex = 0; blockIndex < content.blocks.length; blockIndex++) {
-		const text = content.blocks[blockIndex].text;
-		const inlineStyleRanges = content.blocks[blockIndex].inlineStyleRanges;
+	for (const block of content.blocks) {
+		const text = block.text;
+		const inlineStyleRanges = block.inlineStyleRanges;
 		for (
 			let inlineStyleIndex = 0;
 			inlineStyleIndex < inlineStyleRanges.length;

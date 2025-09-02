@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 
 import { StructureApi } from '@sdk/index';
 
@@ -14,6 +14,7 @@ import ComponentSpecificationModal from '../component-specification-modal';
 import { MutualizedComponentsSelector } from '../mutualized-component-selector';
 import { StructureComponentsSelector } from '../structure-component-selector';
 import './component-selector.scss';
+import { EMPTY_ARRAY } from '@utils/array-utils';
 
 const filterComponentDefinition = (type) => (componentDefinition) =>
 	componentDefinition?.component?.type === type;
@@ -23,8 +24,8 @@ const filterComponent = (type) => (component) => component?.type === type;
 const ComponentSelector = ({
 	componentDefinitions,
 	mutualizedComponents,
-	concepts,
-	codesLists,
+	concepts = EMPTY_ARRAY,
+	codesLists = EMPTY_ARRAY,
 	handleUpdate,
 	type,
 	structure,
@@ -38,21 +39,18 @@ const ComponentSelector = ({
 	const [modalOpened, setModalOpened] = useState(false);
 	const [selectedComponent, setSelectedComponent] = useState({});
 
-	const [filteredMutualizedComponents, setFilteredMutualizedComponents] =
-		useState(mutualizedComponents);
-
 	useEffect(() => {
 		setStructureComponents(componentDefinitions);
 	}, [componentDefinitions]);
 
-	useEffect(() => {
-		setFilteredMutualizedComponents(
-			mutualizedComponents.filter(filterComponent(type)).filter((component) => {
+	const filteredMutualizedComponents = useMemo(() => {
+		return mutualizedComponents
+			.filter(filterComponent(type))
+			.filter((component) => {
 				return !structureComponents.find(
 					({ component: c }) => c.id === component.id,
 				);
-			}),
-		);
+			});
 	}, [mutualizedComponents, structureComponents, type]);
 
 	const handleSpecificationClick = useCallback((component) => {
@@ -343,9 +341,4 @@ const ComponentSelector = ({
 	);
 };
 
-ComponentSelector.defaultProps = {
-	components: [],
-	concepts: [],
-	codesLists: [],
-};
 export default ComponentSelector;

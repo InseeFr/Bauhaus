@@ -49,7 +49,7 @@ export const StatisticalInformations = ({
 								{D.datasetsStatisticalUnits} :{' '}
 								<ul>
 									{dataset.statisticalUnit.map((unit) => (
-										<li>
+										<li key={unit}>
 											<CodeDisplay
 												codesList={clStatUnit}
 												value={unit}
@@ -104,7 +104,7 @@ export const StatisticalInformations = ({
 								<ul>
 									{dataset.spacialResolutions?.map((spacialResolution) => {
 										return (
-											<li>
+											<li key={spacialResolution}>
 												<CodeDisplay
 													codesList={clTypeGeo}
 													value={spacialResolution}

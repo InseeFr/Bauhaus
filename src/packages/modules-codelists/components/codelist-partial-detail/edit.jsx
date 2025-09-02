@@ -28,6 +28,7 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import '../codelist-detail/edit.scss';
 import Picker from './picker';
+import { EMPTY_ARRAY } from '@utils/array-utils';
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -37,8 +38,8 @@ export const DumbCodelistPartialDetailEdit = ({
 	handleSave,
 	handleBack,
 	updateMode,
-	stampListOptions = [],
-	globalCodeListOptions = [],
+	stampListOptions = EMPTY_ARRAY,
+	globalCodeListOptions = EMPTY_ARRAY,
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);

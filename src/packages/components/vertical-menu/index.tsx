@@ -1,8 +1,9 @@
+import { EMPTY_ARRAY } from '@utils/array-utils';
 import { Row } from '../layout';
 import './index.scss';
 
 export const VerticalMenu = ({
-	children = [],
+	children = EMPTY_ARRAY,
 }: Readonly<{ children: unknown }>) => {
 	const buttons = Array.isArray(children) ? children : [children];
 	return (
