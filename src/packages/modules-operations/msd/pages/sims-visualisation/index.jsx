@@ -31,6 +31,7 @@ import { useDocumentsStoreContext } from '../sims-creation/documents-store-conte
 import { Menu } from './menu';
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
+import { EMPTY_ARRAY } from '@utils/array-utils';
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -40,7 +41,7 @@ export default function SimsVisualisation({
 	publishSims,
 	exportCallback,
 	missingDocuments,
-	owners = [],
+	owners = EMPTY_ARRAY,
 }) {
 	const { documentStores } = useDocumentsStoreContext();
 	const [secondLang] = useSecondLang();

@@ -162,7 +162,9 @@ class SimsField extends PureComponent {
 									{msd.rangeType === RICH_TEXT && (
 										<Editor
 											editorState={value}
-											toolbarCustomButtons={[<EditorDeleteButton />]}
+											toolbarCustomButtons={[
+												<EditorDeleteButton key="delete" />,
+											]}
 											toolbar={currentToolbar}
 											toolbarClassName="home-toolbar"
 											wrapperClassName="home-wrapper"

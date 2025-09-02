@@ -11,7 +11,7 @@ import { Select } from '@components/select-rmes';
 
 import { OperationsApi } from '@sdk/operations-api';
 
-import { sortArrayByLabel } from '@utils/array-utils';
+import { EMPTY_ARRAY, sortArrayByLabel } from '@utils/array-utils';
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { mdFromEditorState } from '@utils/html-utils';
 
@@ -74,7 +74,7 @@ const SimsCreation = ({
 	parentType,
 	onSubmit,
 	codesLists = {},
-	organisations = [],
+	organisations = EMPTY_ARRAY,
 	parentWithSims,
 }) => {
 	const goBack = useGoBack();
@@ -88,7 +88,7 @@ const SimsCreation = ({
 		return changed && currentLocation.pathname !== nextLocation.pathname;
 	});
 
-	const [sims, setSims] = useState(
+	const [sims, setSims] = useState(() =>
 		getDefaultSims(
 			mode,
 			simsProp.rubrics || defaultSimsRubrics,
