@@ -12,6 +12,7 @@ const Representation = ({ component, codesLists, handleCodesListDetail }) => {
 			<div className="representation">
 				<span>{codeList}</span>
 				<button
+					type="button"
 					className="btn btn-default"
 					onClick={handleCodesListDetail}
 					aria-label={D.seeCodesListDetails}

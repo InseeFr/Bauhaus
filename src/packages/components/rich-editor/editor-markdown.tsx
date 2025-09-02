@@ -52,7 +52,7 @@ interface EditorMarkdownTypes {
 	handleChange: (value: any) => void;
 }
 export const EditorMarkdown = ({ text, handleChange }: EditorMarkdownTypes) => {
-	const [editorState, setEditorState] = useState(editorStateFromMd(''));
+	const [editorState, setEditorState] = useState(() => editorStateFromMd(''));
 	const editorRef = useRef();
 
 	useEffect(() => {
@@ -65,7 +65,7 @@ export const EditorMarkdown = ({ text, handleChange }: EditorMarkdownTypes) => {
 
 	return (
 		<Editor
-			toolbarCustomButtons={[<EditorDeleteButton />]}
+			toolbarCustomButtons={[<EditorDeleteButton key="delete" />]}
 			ref={editorRef}
 			editorState={editorState}
 			toolbar={EditorMarkdownToolbar}

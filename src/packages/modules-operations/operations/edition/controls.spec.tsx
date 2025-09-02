@@ -12,12 +12,17 @@ vi.mock('../../../components/action-toolbar', () => ({
 
 vi.mock('../../../components/buttons/buttons-with-icons', () => ({
 	CancelButton: vi.fn(({ action }) => (
-		<button data-testid="cancel-button" data-action={action}>
+		<button type="button" data-testid="cancel-button" data-action={action}>
 			Cancel
 		</button>
 	)),
 	SaveButton: vi.fn(({ action, disabled }) => (
-		<button data-testid="save-button" onClick={action} disabled={disabled}>
+		<button
+			type="button"
+			data-testid="save-button"
+			onClick={action}
+			disabled={disabled}
+		>
 			Save
 		</button>
 	)),

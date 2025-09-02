@@ -47,7 +47,7 @@ const trackConcepts = (potentialList, memberList) => {
 
 const CollectionMembersEdition = ({ conceptList, members, handleChange }) => {
 	const [searchLabel, setSearchLabel] = useState('');
-	const [concepts, setConcepts] = useState(
+	const [concepts, setConcepts] = useState(() =>
 		trackConcepts(
 			trackPotentialsConcepts(conceptList, members),
 			trackMembers(members),

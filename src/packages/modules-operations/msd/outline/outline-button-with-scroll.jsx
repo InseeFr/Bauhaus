@@ -13,7 +13,7 @@ export const OutlineButtonWithScroll = ({ id, baseUrl, children }) => {
 	};
 
 	return (
-		<button className="btn-link btn" onClick={scrollTo}>
+		<button type="button" className="btn-link btn" onClick={scrollTo}>
 			{children}
 		</button>
 	);

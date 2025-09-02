@@ -38,7 +38,6 @@ const fetchMsd = () => (dispatch: Dispatch, getState: any) => {
 				undefined,
 				metadataAttributesObject,
 			);
-
 			const codesList = new Set();
 			metadataAttributes
 				.filter((attr: any) => attr.codeList)

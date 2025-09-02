@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { SeeButton } from '@components/buttons/see';
@@ -27,11 +27,12 @@ import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { ViewMenu } from './menu';
 import './view.css';
 import { MeasureAttributes } from './visualisation/measureAttributes';
+import { EMPTY_ARRAY } from '@utils/array-utils';
 
 export const ComponentDetailView = ({
 	component,
-	concepts = [],
-	codesLists = [],
+	concepts = EMPTY_ARRAY,
+	codesLists = EMPTY_ARRAY,
 	handleUpdate,
 	handleDelete,
 	handleBack,
@@ -72,15 +73,10 @@ export const ComponentDetailView = ({
 
 	const descriptionLg1 = renderMarkdownElement(component.descriptionLg1);
 	const descriptionLg2 = renderMarkdownElement(component.descriptionLg2);
-	const [attachments, setAttachments] = useState([]);
 
-	useEffect(() => {
-		setAttachments(getAllAttachment(structureComponents, { component }));
+	const attachments = useMemo(() => {
+		return getAllAttachment(structureComponents, { component });
 	}, [structureComponents, component]);
-
-	const publish = () => {
-		publishComponent();
-	};
 
 	return (
 		<>
@@ -89,7 +85,7 @@ export const ComponentDetailView = ({
 				handleBack={handleBack}
 				handleDelete={handleDelete}
 				handleUpdate={handleUpdate}
-				publish={publish}
+				publish={publishComponent}
 				updatable={updatable}
 				col={col}
 			></ViewMenu>

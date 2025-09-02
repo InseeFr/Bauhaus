@@ -132,7 +132,6 @@ class MSDContainer extends ReactComponent {
 			const flatMetadataStructure = makeMetadatastructureFlat(
 				Object.values(metadataStructure),
 			);
-
 			essentialRubricContext = flatMetadataStructure.reduce((acc, msd) => {
 				if (msd.minOccurs === '1') {
 					msd.essentialRubricKoLg1 = isEssentialRubricKo(

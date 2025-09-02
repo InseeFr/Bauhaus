@@ -209,6 +209,7 @@ export const StructureComponentsSelector = ({
 						></SeeButton>
 
 						<button
+							type="button"
 							className="btn btn-default"
 							data-component-id={component.identifiant}
 							onClick={specificationClickHandler}
@@ -219,6 +220,7 @@ export const StructureComponentsSelector = ({
 						</button>
 						{!readOnly && (
 							<button
+								type="button"
 								className="btn btn-default"
 								data-component-id={component.identifiant}
 								onClick={removeClickHandler}
@@ -230,6 +232,7 @@ export const StructureComponentsSelector = ({
 						)}
 						{!readOnly && i !== 0 && (
 							<button
+								type="button"
 								className="btn btn-default"
 								data-component-id={component.identifiant}
 								onClick={goingUp}
@@ -241,6 +244,7 @@ export const StructureComponentsSelector = ({
 						)}
 						{!readOnly && i !== components.length - 1 && (
 							<button
+								type="button"
 								className="btn btn-default"
 								data-component-id={component.identifiant}
 								onClick={goingDown}

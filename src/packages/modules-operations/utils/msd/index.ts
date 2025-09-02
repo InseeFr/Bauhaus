@@ -33,6 +33,7 @@ export function getTree(
 					rangeType: msdToMerge.rangeType,
 					codeList: msdToMerge.codeList,
 					children: getTree(input, msd.idMas, objectToMerge),
+					sansObject: msdToMerge.sansObject,
 				},
 			};
 		}, {});
@@ -66,4 +67,5 @@ export const rangeType = {
 	RICH_TEXT: 'RICH_TEXT',
 	ORGANIZATION: 'ORGANIZATION',
 	GEOGRAPHY: 'GEOGRAPHY',
+	RUBRIQUE_SANS_OBJECT: 'RUBRIQUE_SANS_OBJECT',
 };

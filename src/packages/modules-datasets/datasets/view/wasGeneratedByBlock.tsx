@@ -7,6 +7,7 @@ import { useSeries } from '@utils/hooks/series';
 
 import { Operation } from '../../../model/Operation';
 import { Series } from '../../../model/Series';
+import { EMPTY_ARRAY } from '@utils/array-utils';
 
 interface WasGeneratedByBlockTypes {
 	iris: string[];
@@ -31,7 +32,7 @@ const generateGenericWasGeneratedBy = (
 };
 
 export const WasGeneratedByBlock = ({
-	iris = [],
+	iris = EMPTY_ARRAY,
 }: WasGeneratedByBlockTypes) => {
 	const { data: series = [], isLoading: isSeriesLoading } = useSeries();
 	const { data: operations = [], isLoading: isOperationsLoading } =
