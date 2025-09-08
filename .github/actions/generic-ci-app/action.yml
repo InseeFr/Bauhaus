@@ -9,7 +9,7 @@ runs:
         rm -rf node_modules
     - uses: actions/setup-node@v4
       with:
-        node-version: 23
+        node-version: 22
     - name: 🏗️ Installing Dependencies
       shell: bash
       run: npm i --force
