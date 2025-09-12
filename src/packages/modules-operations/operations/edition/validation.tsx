@@ -13,22 +13,26 @@ const ZodOperation = z.object({
 		{
 			id: z
 				.string({
-					required_error: NewDictionary.errors.mandatoryProperty(D.serieTitle),
+					error: (issue) =>
+						issue.input === undefined &&
+						NewDictionary.errors.mandatoryProperty(D.serieTitle),
 				})
 				.trim()
 				.min(1, {
-					message: NewDictionary.errors.mandatoryProperty(D.serieTitle),
+					error: NewDictionary.errors.mandatoryProperty(D.serieTitle),
 				}),
 		},
 		{
-			required_error: NewDictionary.errors.mandatoryProperty(D.serieTitle),
+			error: (issue) =>
+				issue.input === undefined &&
+				NewDictionary.errors.mandatoryProperty(D.serieTitle),
 		},
 	),
 	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
 	prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
 	year: z.coerce
-		.number({ message: D.numberProperty(D1.year) })
-		.int({ message: D.numberProperty(D1.year) })
+		.number({ error: D.numberProperty(D1.year) })
+		.int({ error: D.numberProperty(D1.year) })
 		.optional(),
 });
 
