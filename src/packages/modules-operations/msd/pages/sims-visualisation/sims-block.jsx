@@ -5,8 +5,17 @@ import SimsBlockGeography from './sims-block-geography';
 import SimsBlockOrganisation from './sims-block-organisation';
 import SimsBlockRichText from './sims-block-richtext';
 import SimsBlockText from './sims-block-text';
+import SimsBlockWithoutObject from './sims-block-without-object';
 
-const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
+const {
+	RICH_TEXT,
+	TEXT,
+	DATE,
+	CODE_LIST,
+	ORGANIZATION,
+	GEOGRAPHY,
+	RUBRIQUE_SANS_OBJECT,
+} = rangeType;
 
 const SimsBlock = ({
 	msd,
@@ -58,6 +67,9 @@ const SimsBlock = ({
 						currentSection={currentSection}
 						isSecondLang={isSecondLang}
 					/>
+				)}
+				{currentSection.rangeType === RUBRIQUE_SANS_OBJECT && (
+					<SimsBlockWithoutObject />
 				)}
 			</>
 		)

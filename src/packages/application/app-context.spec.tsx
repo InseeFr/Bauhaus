@@ -14,7 +14,11 @@ const TestComponent = () => {
 			<p data-testid="lg1">{lg1}</p>
 			<p data-testid="lg2">{lg2}</p>
 			<p data-testid="secondLangValue">{secondLang.value ? 'true' : 'false'}</p>
-			<button onClick={secondLang.toggle} data-testid="toggleButton">
+			<button
+				type="button"
+				onClick={secondLang.toggle}
+				data-testid="toggleButton"
+			>
 				Toggle Second Language
 			</button>
 		</div>

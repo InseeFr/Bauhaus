@@ -20,7 +20,11 @@ import { Select } from '@components/select-rmes';
 
 import { CodeListApi, StructureApi } from '@sdk/index';
 
-import { convertToArrayIfDefined, sortArray } from '@utils/array-utils';
+import {
+	convertToArrayIfDefined,
+	EMPTY_ARRAY,
+	sortArray,
+} from '@utils/array-utils';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import { useAppContext } from '../../../application/app-context';
@@ -171,13 +175,13 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
 
 export const DumbComponentDetailEdit = ({
 	component: initialComponent,
-	concepts = [],
-	codesLists = [],
+	concepts = EMPTY_ARRAY,
+	codesLists = EMPTY_ARRAY,
 	handleSave,
 	handleBack,
 	type,
 	attributes,
-	stampListOptions = [],
+	stampListOptions = EMPTY_ARRAY,
 	serverSideError,
 }) => {
 	const [component, setComponent] = useState({});

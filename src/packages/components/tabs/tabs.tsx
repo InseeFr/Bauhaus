@@ -11,9 +11,7 @@ export const Tabs = ({
 		<TabView>
 			{tabs.map((t) => (
 				<TabPanel key="title" header={t.title} disabled={t.disabled}>
-					<Panel>
-						<>{t.content}</>
-					</Panel>
+					<Panel>{t.content}</Panel>
 				</TabPanel>
 			))}
 		</TabView>

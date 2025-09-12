@@ -46,6 +46,7 @@ export const OutlineBlock = ({
 						<div className="msd__item-buttons">
 							{Object.keys(child.children).length > 0 && (
 								<button
+									type="button"
 									className="msd__item-updown"
 									title={child.opened ? D.hide : D.display}
 									id={child.idMas}

@@ -13,7 +13,7 @@ const Outline = ({
 	disableSectionAnchor,
 }) => {
 	const [opened, setOpened] = useState(
-		storeCollapseState && isOpen(metadataStructure.idMas),
+		() => storeCollapseState && isOpen(metadataStructure.idMas),
 	);
 
 	const expandOrCollapseItem = () => {
@@ -38,6 +38,7 @@ const Outline = ({
 
 				{Object.keys(metadataStructure.children).length > 0 && (
 					<button
+						type="button"
 						className="msd__outline-primary-updown"
 						title={opened ? D.hide : D.display}
 						onClick={expandOrCollapseItem}

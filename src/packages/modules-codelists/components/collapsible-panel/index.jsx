@@ -28,6 +28,7 @@ export const CollapsiblePanel = ({
 				title={
 					collapsible ? (
 						<button
+							type="button"
 							id={buttonId}
 							aria-expanded={!hidden}
 							aria-controls={bodyId}
