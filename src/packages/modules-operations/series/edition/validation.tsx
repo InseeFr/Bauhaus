@@ -10,20 +10,24 @@ import {
 import D, { D1, D2 } from '../../../deprecated-locales';
 import NewDictionary from '../../../i18n';
 
-let ZodSerie: ZodObject<any> = z.object({
+const ZodSerie: ZodObject<any> = z.object({
 	family: z.object(
 		{
 			id: z
 				.string({
-					required_error: NewDictionary.errors.mandatoryProperty(D.familyTitle),
+					error: (issue) =>
+						issue.input === undefined &&
+						NewDictionary.errors.mandatoryProperty(D.familyTitle),
 				})
 				.trim()
 				.min(1, {
-					message: NewDictionary.errors.mandatoryProperty(D.familyTitle),
+					error: NewDictionary.errors.mandatoryProperty(D.familyTitle),
 				}),
 		},
 		{
-			required_error: NewDictionary.errors.mandatoryProperty(D.familyTitle),
+			error: (issue) =>
+				issue.input === undefined &&
+				NewDictionary.errors.mandatoryProperty(D.familyTitle),
 		},
 	),
 	prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
@@ -36,15 +40,25 @@ const fieldToTitleMapping: Record<string, string> = {
 	accrualPeriodicityCode: D.dataCollectFrequency,
 };
 
-export const validate = (extraMandatoryFields: string[]) => {
-	extraMandatoryFields.forEach((extraMandatoryField) => {
-		ZodSerie = ZodSerie.setKey(
-			extraMandatoryField,
-			mandatoryAndNotEmptySelectField(
-				fieldToTitleMapping[extraMandatoryField] ?? '',
-			),
-		);
+const addFieldsToObject = (
+	listOfFields: string[],
+	baseObject: ZodObject<any>,
+) => {
+	const shapeFromFields = Object.fromEntries(
+		listOfFields.map((field) => [
+			field,
+			mandatoryAndNotEmptySelectField(fieldToTitleMapping[field] ?? ''),
+		]),
+	);
+	return z.object({
+		...baseObject.shape,
+		...shapeFromFields,
 	});
+};
 
-	return formatValidation(ZodSerie);
+export const validate = (extraMandatoryFields: string[]) => {
+	if (!extraMandatoryFields) return formatValidation(ZodSerie);
+
+	const ZodEnhancedSerie = addFieldsToObject(extraMandatoryFields, ZodSerie);
+	return formatValidation(ZodEnhancedSerie);
 };
