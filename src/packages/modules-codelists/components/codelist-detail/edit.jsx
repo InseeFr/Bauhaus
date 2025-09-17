@@ -28,7 +28,7 @@ import { validateCodelist } from '../../utils';
 import { CodesCollapsiblePanel } from './codes-panel';
 import './edit.scss';
 import { EMPTY_ARRAY } from '@utils/array-utils';
-import { InputText } from 'primereact/inputtext';
+import { UriInputGroup } from './components/UriInputGroup';
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -110,92 +110,40 @@ export const DumbCodelistDetailEdit = ({
 			)}
 			<form>
 				<Row>
-					<div className="col-md-12 form-group">
-						<LabelRequired htmlFor="lastListUriSegment">
-							{D1.lastListUriSegmentTitleShort}
-						</LabelRequired>
-						<div className="p-inputgroup flex-1">
-							<span className="p-inputgroup-addon">
-								http://rdf.insee.fr/codes/
-							</span>
-							<InputText
-								id="lastListUriSegment"
-								name="lastListUriSegment"
-								onChange={handleChange}
-								value={codelist.lastListUriSegment || ''}
-								disabled={updateMode && codelist.lastListUriSegment !== ''}
-								aria-invalid={!!clientSideErrors.fields?.lastListUriSegment}
-								aria-describedby={
-									clientSideErrors.fields?.lastListUriSegment
-										? 'lastListUriSegment-error'
-										: null
-								}
-							/>
-						</div>
-
-						<ClientSideError
-							id="lastListUriSegment-error"
-							error={clientSideErrors?.fields?.lastListUriSegment}
-						></ClientSideError>
-					</div>
+					<UriInputGroup
+						id="lastListUriSegment"
+						name="lastListUriSegment"
+						label={D1.lastListUriSegmentTitleShort}
+						prefix="http://rdf.insee.fr/codes/"
+						value={codelist.lastListUriSegment || ''}
+						onChange={handleChange}
+						disabled={updateMode && codelist.lastListUriSegment !== ''}
+						error={clientSideErrors?.fields?.lastListUriSegment}
+					/>
 				</Row>
 				<Row>
-					<div className="col-md-12 form-group">
-						<LabelRequired htmlFor="lastCodeUriSegment">
-							{D1.lastCodeUriSegmentTitleShort}
-						</LabelRequired>
-						<div className="p-inputgroup flex-1">
-							<span className="p-inputgroup-addon">
-								http://rdf.insee.fr/codes/
-							</span>
-							<InputText
-								id="lastCodeUriSegment"
-								name="lastCodeUriSegment"
-								onChange={handleChange}
-								value={codelist.lastCodeUriSegment || ''}
-								disabled={updateMode && codelist.lastCodeUriSegment !== ''}
-								aria-invalid={!!clientSideErrors.fields?.lastCodeUriSegment}
-								aria-describedby={
-									clientSideErrors.fields?.lastCodeUriSegment
-										? 'lastCodeUriSegment-error'
-										: null
-								}
-							/>
-						</div>
-						<ClientSideError
-							id="lastCodeUriSegment-error"
-							error={clientSideErrors?.fields?.lastCodeUriSegment}
-						></ClientSideError>
-					</div>
+					<UriInputGroup
+						id="lastCodeUriSegment"
+						name="lastCodeUriSegment"
+						label={D1.lastCodeUriSegmentTitleShort}
+						prefix="http://rdf.insee.fr/codes/"
+						value={codelist.lastCodeUriSegment || ''}
+						onChange={handleChange}
+						disabled={updateMode && codelist.lastCodeUriSegment !== ''}
+						error={clientSideErrors?.fields?.lastCodeUriSegment}
+					/>
 				</Row>
 				<Row>
-					<div className="col-md-12 form-group">
-						<LabelRequired htmlFor="lastClassUriSegment">
-							{D1.lastClassUriSegmentTitleShort}
-						</LabelRequired>
-						<div className="p-inputgroup flex-1">
-							<span className="p-inputgroup-addon">
-								http://rdf.insee.fr/codes/concept/
-							</span>
-							<InputText
-								id="lastClassUriSegment"
-								name="lastClassUriSegment"
-								onChange={handleChange}
-								value={codelist.lastClassUriSegment || ''}
-								disabled={updateMode && codelist.lastClassUriSegment !== ''}
-								aria-invalid={!!clientSideErrors.fields?.lastClassUriSegment}
-								aria-describedby={
-									clientSideErrors.fields?.lastClassUriSegment
-										? 'lastClassUriSegment-error'
-										: null
-								}
-							/>
-						</div>
-						<ClientSideError
-							id="lastClassUriSegment-error"
-							error={clientSideErrors?.fields?.lastClassUriSegment}
-						></ClientSideError>
-					</div>
+					<UriInputGroup
+						id="lastClassUriSegment"
+						name="lastClassUriSegment"
+						label={D1.lastClassUriSegmentTitleShort}
+						prefix="http://rdf.insee.fr/codes/concept/"
+						value={codelist.lastClassUriSegment || ''}
+						onChange={handleChange}
+						disabled={updateMode && codelist.lastClassUriSegment !== ''}
+						error={clientSideErrors?.fields?.lastClassUriSegment}
+					/>
 				</Row>
 				<Row>
 					<div className="col-md-12 form-group">
