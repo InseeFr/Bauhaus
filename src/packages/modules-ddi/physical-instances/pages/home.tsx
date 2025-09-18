@@ -9,23 +9,27 @@ import D from '../../../deprecated-locales';
 import { usePhysicalInstances } from '../../hooks/usePhysicalInstances';
 
 export const Component = () => {
-    useTitle(D.ddiTitle, D.physicalInstanceTitle);
-    const { data = [], isLoading } = usePhysicalInstances();
+	useTitle(D.ddiTitle, D.physicalInstanceTitle);
+	const { data = [], isLoading } = usePhysicalInstances();
 
-    if (isLoading) return <Loading />;
+	if (isLoading) return <Loading />;
 
-    return (
-        <div className="container">
-            <Row>
-                <div className="col-md-8 text-center pull-right">
-                    <PageTitle title={D.physicalInstancSearcheTitle} col={12} offset={0} />
-                    <SearchableList
-                        items={data}
-                        childPath="ddi/physical-instances"
-                        autoFocus
-                    />
-                </div>
-            </Row>
-        </div>
-    );
+	return (
+		<div className="container">
+			<Row>
+				<div className="col-md-8 text-center pull-right">
+					<PageTitle
+						title={D.physicalInstancSearcheTitle}
+						col={12}
+						offset={0}
+					/>
+					<SearchableList
+						items={data}
+						childPath="ddi/physical-instances"
+						autoFocus
+					/>
+				</div>
+			</Row>
+		</div>
+	);
 };

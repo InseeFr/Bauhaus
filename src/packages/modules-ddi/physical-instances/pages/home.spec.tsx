@@ -10,92 +10,102 @@ import { Component } from './home';
 vi.mock('../../hooks/usePhysicalInstances');
 vi.mock('@utils/hooks/useTitle');
 vi.mock('../../../deprecated-locales', () => ({
-    default: {
-        ddiTitle: 'DDI Title',
-        physicalInstanceTitle: 'Physical Instance Title',
-        physicalInstancSearcheTitle: 'Physical Instance Search Title',
-    },
+	default: {
+		ddiTitle: 'DDI Title',
+		physicalInstanceTitle: 'Physical Instance Title',
+		physicalInstancSearcheTitle: 'Physical Instance Search Title',
+	},
 }));
 
 const createWrapper = () => {
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                retry: false,
-            },
-        },
-    });
-    return ({ children }: { children: ReactNode }) => (
-        <QueryClientProvider client={queryClient}>
-            <MemoryRouter>
-                {children}
-            </MemoryRouter>
-        </QueryClientProvider>
-    );
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				retry: false,
+			},
+		},
+	});
+	return ({ children }: { children: ReactNode }) => (
+		<QueryClientProvider client={queryClient}>
+			<MemoryRouter>{children}</MemoryRouter>
+		</QueryClientProvider>
+	);
 };
 
 describe('Home Component', () => {
-    it('should show loading state when data is loading', () => {
-        vi.mocked(usePhysicalInstances).mockReturnValue({
-            data: undefined,
-            isLoading: true,
-            isSuccess: false,
-            isError: false,
-            error: null,
-        } as any);
+	it('should show loading state when data is loading', () => {
+		vi.mocked(usePhysicalInstances).mockReturnValue({
+			data: undefined,
+			isLoading: true,
+			isSuccess: false,
+			isError: false,
+			error: null,
+		} as any);
 
-        render(<Component />, { wrapper: createWrapper() });
+		render(<Component />, { wrapper: createWrapper() });
 
-        expect(screen.getByText('Loading in progress...')).toBeInTheDocument();
-    });
+		expect(screen.getByText('Loading in progress...')).toBeInTheDocument();
+	});
 
-    it('should render SearchableList when data is loaded', () => {
-        const mockData = [
-            { id: '1', name: 'Physical Instance 1' },
-            { id: '2', name: 'Physical Instance 2' },
-        ];
+	it('should render SearchableList when data is loaded', () => {
+		const mockData = [
+			{ id: '1', name: 'Physical Instance 1' },
+			{ id: '2', name: 'Physical Instance 2' },
+		];
 
-        vi.mocked(usePhysicalInstances).mockReturnValue({
-            data: mockData,
-            isLoading: false,
-            isSuccess: true,
-            isError: false,
-            error: null,
-        } as any);
+		vi.mocked(usePhysicalInstances).mockReturnValue({
+			data: mockData,
+			isLoading: false,
+			isSuccess: true,
+			isError: false,
+			error: null,
+		} as any);
 
-        render(<Component />, { wrapper: createWrapper() });
+		render(<Component />, { wrapper: createWrapper() });
 
-        expect(screen.getByText('Physical Instance Search Title')).toBeInTheDocument();
-        expect(screen.queryByText('Loading in progress...')).not.toBeInTheDocument();
-    });
+		expect(
+			screen.getByText('Physical Instance Search Title'),
+		).toBeInTheDocument();
+		expect(
+			screen.queryByText('Loading in progress...'),
+		).not.toBeInTheDocument();
+	});
 
-    it('should render empty list when no data', () => {
-        vi.mocked(usePhysicalInstances).mockReturnValue({
-            data: [],
-            isLoading: false,
-            isSuccess: true,
-            isError: false,
-            error: null,
-        } as any);
+	it('should render empty list when no data', () => {
+		vi.mocked(usePhysicalInstances).mockReturnValue({
+			data: [],
+			isLoading: false,
+			isSuccess: true,
+			isError: false,
+			error: null,
+		} as any);
 
-        render(<Component />, { wrapper: createWrapper() });
+		render(<Component />, { wrapper: createWrapper() });
 
-        expect(screen.getByText('Physical Instance Search Title')).toBeInTheDocument();
-        expect(screen.queryByText('Loading in progress...')).not.toBeInTheDocument();
-    });
+		expect(
+			screen.getByText('Physical Instance Search Title'),
+		).toBeInTheDocument();
+		expect(
+			screen.queryByText('Loading in progress...'),
+		).not.toBeInTheDocument();
+	});
 
-    it('should handle undefined data gracefully', () => {
-        vi.mocked(usePhysicalInstances).mockReturnValue({
-            data: undefined,
-            isLoading: false,
-            isSuccess: true,
-            isError: false,
-            error: null,
-        } as any);
+	it('should handle undefined data gracefully', () => {
+		vi.mocked(usePhysicalInstances).mockReturnValue({
+			data: undefined,
+			isLoading: false,
+			isSuccess: true,
+			isError: false,
+			error: null,
+		} as any);
 
-        render(<Component />, { wrapper: createWrapper() });
+		render(<Component />, { wrapper: createWrapper() });
 
-        expect(screen.getByText('Physical Instance Search Title')).toBeInTheDocument();
-        expect(screen.queryByText('Loading in progress...')).not.toBeInTheDocument();
-    });
+		expect(
+			screen.getByText('Physical Instance Search Title'),
+		).toBeInTheDocument();
+		expect(
+			screen.queryByText('Loading in progress...'),
+		).not.toBeInTheDocument();
+	});
 });
