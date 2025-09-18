@@ -19,7 +19,6 @@ const App = () => {
 		properties: { modules },
 	} = useAppContext();
 
-	console.log(modules);
 	const apps = modules
 		.filter((app) => {
 			return hasAccessToModule(app, privileges);
