@@ -6,7 +6,8 @@ export type AppName =
 	| 'operations'
 	| 'structures'
 	| 'codelists'
-	| 'datasets';
+	| 'datasets'
+	| 'ddi';
 export interface AppProperties {
 	modules: AppName[];
 	activeModules: string[];
