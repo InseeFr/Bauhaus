@@ -13,6 +13,7 @@ import datasets from './dictionary/datasets';
 import DSDsD from './dictionary/dsds';
 import errors from './dictionary/errors';
 import operationsD from './dictionary/operations';
+import { dictionary as DDIDictionary } from './dictionary/ddi';
 
 const dictionary = {
 	...appD,
@@ -23,6 +24,7 @@ const dictionary = {
 	...codelistsD,
 	...errors,
 	...datasets,
+	...DDIDictionary,
 };
 
 export const D1 = createDictionary(firstLang, dictionary);

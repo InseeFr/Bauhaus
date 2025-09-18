@@ -30,6 +30,7 @@ export const hasAccessToModule = (
 		structures: 'STRUCTURE',
 		codelists: 'CODESLIST',
 		datasets: 'DATASET',
+		ddi: 'DDI',
 	};
 
 	const applicationPrefix = modulePrefixMap[module];
