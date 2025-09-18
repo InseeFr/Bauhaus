@@ -5,7 +5,9 @@ import { MissingDocumentsErrorBloc } from './missing-documents-error-bloc';
 import { DocumentsStoreProvider } from '../sims-creation/documents-store-context';
 
 vi.mock('@components/errors-bloc', () => ({
-	ErrorBloc: ({ error }: { error: string }) => <div data-testid="error-bloc">{error}</div>,
+	ErrorBloc: ({ error }: { error: string }) => (
+		<div data-testid="error-bloc">{error}</div>
+	),
 }));
 
 vi.mock('../../../../deprecated-locales', () => ({
@@ -32,27 +34,29 @@ const renderWithContext = (component: React.ReactElement) => {
 	return render(
 		<DocumentsStoreProvider value={mockContextValue}>
 			{component}
-		</DocumentsStoreProvider>
+		</DocumentsStoreProvider>,
 	);
 };
 
 describe('MissingDocumentsErrorBloc', () => {
 	it('renders error bloc when there are missing documents', () => {
 		const missingDocuments = new Set(['1', '2']);
-		
+
 		renderWithContext(
-			<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
+			<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />,
 		);
 
 		const errorBloc = screen.getByTestId('error-bloc');
-		expect(errorBloc).toHaveTextContent('Missing documents: Document 1, Document 2');
+		expect(errorBloc).toHaveTextContent(
+			'Missing documents: Document 1, Document 2',
+		);
 	});
 
 	it('returns null when there are no missing documents', () => {
 		const missingDocuments = new Set<string>();
-		
+
 		const { container } = renderWithContext(
-			<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
+			<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />,
 		);
 
 		expect(container.firstChild).toBeNull();
@@ -60,7 +64,7 @@ describe('MissingDocumentsErrorBloc', () => {
 
 	it('returns null when missingDocuments is undefined', () => {
 		const { container } = renderWithContext(
-			<MissingDocumentsErrorBloc missingDocuments={undefined as any} />
+			<MissingDocumentsErrorBloc missingDocuments={undefined as any} />,
 		);
 
 		expect(container.firstChild).toBeNull();
@@ -76,7 +80,7 @@ describe('MissingDocumentsErrorBloc', () => {
 		render(
 			<DocumentsStoreProvider value={emptyContextValue}>
 				<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
-			</DocumentsStoreProvider>
+			</DocumentsStoreProvider>,
 		);
 
 		expect(screen.queryByTestId('error-bloc')).not.toBeInTheDocument();
@@ -92,7 +96,7 @@ describe('MissingDocumentsErrorBloc', () => {
 		render(
 			<DocumentsStoreProvider value={nullContextValue}>
 				<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
-			</DocumentsStoreProvider>
+			</DocumentsStoreProvider>,
 		);
 
 		expect(screen.queryByTestId('error-bloc')).not.toBeInTheDocument();
@@ -100,9 +104,9 @@ describe('MissingDocumentsErrorBloc', () => {
 
 	it('handles missing documents that are not found in store', () => {
 		const missingDocuments = new Set(['1', '999']); // '999' doesn't exist in store
-		
+
 		renderWithContext(
-			<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
+			<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />,
 		);
 
 		const errorBloc = screen.getByTestId('error-bloc');
@@ -111,9 +115,9 @@ describe('MissingDocumentsErrorBloc', () => {
 
 	it('handles when all missing documents are not found in store', () => {
 		const missingDocuments = new Set(['999', '888']); // Neither exist in store
-		
+
 		renderWithContext(
-			<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
+			<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />,
 		);
 
 		const errorBloc = screen.getByTestId('error-bloc');
