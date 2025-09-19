@@ -56,7 +56,6 @@ const { D } = createAllDictionary({
 	},
 });
 
-
 export const CloseIconButton = ({
 	onClick,
 }: Readonly<{ onClick: VoidFunction }>) => {
