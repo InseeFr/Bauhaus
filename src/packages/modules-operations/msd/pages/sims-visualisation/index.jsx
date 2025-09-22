@@ -27,11 +27,11 @@ import * as A from '../../../../redux/actions/constants';
 import { RubricEssentialMsg } from '../../rubric-essantial-msg';
 import { SimsFieldTitle } from '../../sims-field-title';
 import { hasLabelLg2 } from '../../utils';
-import { useDocumentsStoreContext } from '../sims-creation/documents-store-context';
 import { Menu } from './menu';
 import SimsBlock from './sims-block';
 import './sims-visualisation.scss';
 import { EMPTY_ARRAY } from '@utils/array-utils';
+import { MissingDocumentsErrorBloc } from './missing-documents-error-bloc';
 
 export default function SimsVisualisation({
 	metadataStructure,
@@ -43,7 +43,6 @@ export default function SimsVisualisation({
 	missingDocuments,
 	owners = EMPTY_ARRAY,
 }) {
-	const { documentStores } = useDocumentsStoreContext();
 	const [secondLang] = useSecondLang();
 	const [modalOpened, setModalOpened] = useState(false);
 	const [exportModalOpened, setExportModalOpened] = useState(false);
@@ -252,16 +251,7 @@ export default function SimsVisualisation({
 				onPublish={() => publish(sims)}
 			/>
 			<Row>
-				{missingDocuments?.size > 0 && documentStores && (
-					<ErrorBloc
-						error={D.missingDocumentWhenExportingSims(
-							Array.from(missingDocuments).map(
-								(id) => documentStores.find((d) => d.id === id)?.labelLg1,
-							),
-						)}
-						D={D}
-					/>
-				)}
+				<MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
 				<ErrorBloc error={serverSideError} D={D} />
 				<CheckSecondLang />
 				<RubricEssentialMsg secondLang={secondLang} />
