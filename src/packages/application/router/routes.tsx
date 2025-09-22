@@ -19,6 +19,7 @@ import { routes as ConceptsRoutes } from '../../modules-concepts/routes/index';
 import { routes as DatasetsRoutes } from '../../modules-datasets/routes/index';
 import { routes as OperationsRoutes } from '../../modules-operations/routes/index';
 import { routes as StructuresRoutes } from '../../modules-structures/routes/index';
+import { routes as DDIRoutes } from '../../modules-ddi/routes/index';
 import App from '../app';
 import { useAppContext } from '../app-context';
 import './routes.css';
@@ -147,6 +148,11 @@ export default () => {
 					path: 'codelists',
 					...getModuleHomePageRouter('codelists'),
 					children: CodelistsRoutes,
+				},
+				{
+					path: 'ddi',
+					...getModuleHomePageRouter('ddi'),
+					children: DDIRoutes,
 				},
 				{
 					path: '*',
