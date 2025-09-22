@@ -39,25 +39,13 @@ const dictionary = {
 		fr: 'Créer une liste de code partielle',
 		en: 'Create a partial code list',
 	},
-	lastListUriSegmentTitle: {
-		fr: 'Uri Liste : commence par http://rdf.insee.fr/codes/',
-		en: 'Uri Liste : starts with http://rdf.insee.fr/codes/',
-	},
 	lastListUriSegmentTitleShort: {
 		fr: 'Uri Liste',
 		en: 'Uri Liste',
 	},
-	lastCodeUriSegmentTitle: {
-		fr: "Uri des codes, singulier de l'URI de la liste : commence par http://rdf.insee.fr/codes/",
-		en: 'Uri of codes, singular from list URI : starts with http://rdf.insee.fr/codes/',
-	},
 	lastCodeUriSegmentTitleShort: {
 		fr: 'Uri des codes',
 		en: 'Uri of codes',
-	},
-	lastClassUriSegmentTitle: {
-		fr: 'Uri class owl : commence par http://rdf.insee.fr/codes/concept/',
-		en: 'Uri class owl : starts with http://rdf.insee.fr/codes/concept/',
 	},
 	lastClassUriSegmentTitleShort: {
 		fr: 'Uri class owl',
