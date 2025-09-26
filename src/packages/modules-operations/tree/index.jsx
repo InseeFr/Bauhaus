@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SortableTree from 'react-sortable-tree';
-import 'react-sortable-tree/style.css';
+import { Tree } from 'primereact/tree';
 
 import { ActionToolbar } from '@components/action-toolbar';
 import { ReturnButton } from '@components/buttons/buttons-with-icons';
@@ -16,117 +15,129 @@ import { useTitle } from '@utils/hooks/useTitle';
 import D from '../../deprecated-locales';
 import './tree.css';
 
-export const formatLeaf = (
-	leaf,
-	index,
-	parent,
-	baseURL,
-	canHaveChildren = true,
-) => {
+const formatFamily = (family) => {
 	return {
-		...leaf,
-		index,
-		parent,
-		childrenFetched: false,
-		children: canHaveChildren && [{}],
-		url: baseURL + leaf.id,
+		key: `family-${family.id}`,
+		label: family.label || family.labelLg1,
+		data: { ...family, type: 'family' },
+		leaf: false,
+		children: [],
 	};
 };
 
-export const updateParent = (
-	leaf,
-	children,
-	path,
-	canHaveGrantChildren = true,
-) => {
+const formatSeries = (series, familyId) => {
 	return {
-		...leaf,
-		expanded: true,
-		childrenFetched: true,
-		children: children.map((d, index) =>
-			formatLeaf(d, index, leaf.index, path, canHaveGrantChildren),
-		),
+		key: `series-${series.id}`,
+		label: series.label || series.labelLg1,
+		data: { ...series, type: 'series', familyId },
+		leaf: false,
+		children: [],
 	};
 };
 
-export const updateTree = (treeData, leaf, familyIndex, seriesIndex) => {
-	return treeData.map((data, i) => {
-		if (i === familyIndex) {
-			if (seriesIndex === undefined) {
-				return leaf;
-			} else {
-				return {
-					...data,
-					children: data.children.map((data, i) => {
-						if (i === seriesIndex) {
-							return leaf;
-						}
-						return data;
-					}),
-				};
-			}
-		}
-		return data;
-	});
+const formatOperation = (operation, seriesId) => {
+	return {
+		key: `operation-${operation.id}`,
+		label: operation.label || operation.labelLg1,
+		data: { ...operation, type: 'operation', seriesId },
+		leaf: true,
+	};
 };
 
 export const Component = () => {
 	useTitle(D.operationsTitle, D.operationsTreeTitle);
 
 	const [treeData, setTreeData] = useState([]);
-	const [selectedLeaf, setSelectedLeaf] = useState({});
+	const [loadingNodes, setLoadingNodes] = useState(new Set());
 
 	const goBack = useGoBack();
 
 	useEffect(() => {
 		OperationsApi.getAllFamilies().then((data) => {
-			setTreeData(
-				data.map((d, index) =>
-					formatLeaf(d, index, undefined, '/operations/family/'),
-				),
-			);
+			setTreeData(data.map(formatFamily));
 		});
 	}, []);
 
-	useEffect(() => {
-		if (selectedLeaf.node) {
-			const { treeData, node, expanded, path } = selectedLeaf;
+	const onExpand = (event) => {
+		const node = event.node;
+		const nodeData = node.data;
 
-			const isFamily = path.length === 1;
-			const isSeries = path.length === 2;
+		if (node.children && node.children.length > 0) {
+			return;
+		}
 
-			const familyIndex = node.parent || node.index;
-			const seriesIndex = node.parent && node.index;
+		setLoadingNodes((prev) => new Set(prev).add(node.key));
 
-			if (expanded && !node.childrenFetched) {
-				if (isFamily) {
-					OperationsApi.getFamilyById(node.id).then(({ series = [] }) => {
-						setTreeData(
-							updateTree(
-								treeData,
-								updateParent(node, series, '/operations/series/'),
-								familyIndex,
-								seriesIndex,
-							),
-						);
-					});
-				} else if (isSeries) {
-					OperationsApi.getSerie(node.id).then(({ operations = [] }) => {
-						const updateNode = updateParent(
-							node,
-							operations,
-							'/operations/operation/',
-							false,
-						);
-
-						setTreeData(
-							updateTree(treeData, updateNode, familyIndex, seriesIndex),
-						);
-					});
+		if (nodeData.type === 'family') {
+			OperationsApi.getFamilyById(nodeData.id).then(({ series = [] }) => {
+				const updatedTreeData = [...treeData];
+				const familyNode = findNodeByKey(updatedTreeData, node.key);
+				if (familyNode) {
+					familyNode.children = series.map((s) => formatSeries(s, nodeData.id));
 				}
+				setTreeData(updatedTreeData);
+				setLoadingNodes((prev) => {
+					const newSet = new Set(prev);
+					newSet.delete(node.key);
+					return newSet;
+				});
+			});
+		} else if (nodeData.type === 'series') {
+			OperationsApi.getSerie(nodeData.id).then(({ operations = [] }) => {
+				const updatedTreeData = [...treeData];
+				const seriesNode = findNodeByKey(updatedTreeData, node.key);
+				if (seriesNode) {
+					seriesNode.children = operations.map((o) =>
+						formatOperation(o, nodeData.id),
+					);
+				}
+				setTreeData(updatedTreeData);
+				setLoadingNodes((prev) => {
+					const newSet = new Set(prev);
+					newSet.delete(node.key);
+					return newSet;
+				});
+			});
+		}
+	};
+
+	const findNodeByKey = (nodes, key) => {
+		for (let node of nodes) {
+			if (node.key === key) {
+				return node;
+			}
+			if (node.children) {
+				const found = findNodeByKey(node.children, key);
+				if (found) return found;
 			}
 		}
-	}, [selectedLeaf]);
+		return null;
+	};
+
+	const nodeTemplate = (node) => {
+		const nodeData = node.data;
+		let linkPath = '';
+
+		switch (nodeData.type) {
+			case 'family':
+				linkPath = `/operations/family/${nodeData.id}`;
+				break;
+			case 'series':
+				linkPath = `/operations/series/${nodeData.id}`;
+				break;
+			case 'operation':
+				linkPath = `/operations/operation/${nodeData.id}`;
+				break;
+			default:
+				return <span>{node.label}</span>;
+		}
+
+		return (
+			<Link to={linkPath} style={{ textDecoration: 'none', color: 'inherit' }}>
+				{node.label}
+			</Link>
+		);
+	};
 
 	return (
 		<div className="container">
@@ -137,24 +148,11 @@ export const Component = () => {
 			<Row>
 				<div className="col-md-12 text-center pull-right operations-list">
 					<div style={{ height: '100vh' }}>
-						<SortableTree
-							treeData={treeData}
-							onChange={(treeData) => setTreeData(treeData)}
-							onVisibilityToggle={(visibilityToggleEvent) => {
-								setSelectedLeaf(visibilityToggleEvent);
-							}}
-							canDrag={false}
-							canDrop={() => false}
-							canNodeHaveChildren={() => true}
-							generateNodeProps={(rowInfo) => ({
-								buttons: [
-									rowInfo.node.url && (
-										<Link to={rowInfo.node.url}>
-											{rowInfo.node.label || rowInfo.node.labelLg1}
-										</Link>
-									),
-								],
-							})}
+						<Tree
+							value={treeData}
+							onExpand={onExpand}
+							nodeTemplate={nodeTemplate}
+							loading={loadingNodes.size > 0}
 						/>
 					</div>
 				</div>
