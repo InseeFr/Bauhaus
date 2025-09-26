@@ -8,8 +8,8 @@ SITE_FOLDER="website"
 function buildDocumentation() {
   echo "Running gitbook install and build"
   pushd "$DOC_FOLDER"
-  yarn
-  yarn build
+  pnpm install
+  pnpm build build
   popd
 }
 

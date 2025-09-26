@@ -12,13 +12,13 @@ runs:
         node-version: 22
     - name: 🏗️ Installing Dependencies
       shell: bash
-      run: npm i --force
+      run: pnpm install
     - name: 🧪 Running ESLint
       shell: bash
-      run: npm run lint
+      run: pnpm lint
     - name: 🧪 Running unit tests
       shell: bash
-      run: npm run test:coverage
+      run: pnpm test:coverage
     - name: 🧪 Building the application
       shell: bash
-      run: npm run build
+      run: pnpm build

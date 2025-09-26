@@ -9,7 +9,7 @@ COPY ./ ./
 RUN rm -f package-lock.json
 RUN rm -rf node_modules
 
-RUN npm install --force && npm run build
+RUN pnpm install && pnpm build
 
 ### EXECUTION STEP ###
 
