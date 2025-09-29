@@ -8,6 +8,16 @@ import { useTitle } from '@utils/hooks/useTitle';
 import D from '../../../deprecated-locales';
 import { usePhysicalInstances } from '../../hooks/usePhysicalInstances';
 
+const formatDate = (dateString: string) => {
+	if (!dateString) return '';
+	try {
+		const date = new Date(dateString);
+		return date.toLocaleDateString('fr-FR');
+	} catch {
+		return dateString;
+	}
+};
+
 export const Component = () => {
 	useTitle(D.ddiTitle, D.physicalInstanceTitle);
 	const { data = [], isLoading } = usePhysicalInstances();
@@ -27,6 +37,9 @@ export const Component = () => {
 						items={data}
 						childPath="ddi/physical-instances"
 						autoFocus
+						itemFormatter={(_content: any, item: any) => {
+							return `${item.label} (${formatDate(item.versionDate)})`;
+						}}
 					/>
 				</div>
 			</Row>
