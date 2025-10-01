@@ -36,6 +36,6 @@ describe('DDI Routes', () => {
 	});
 
 	it('should have correct number of routes', () => {
-		expect(routes).toHaveLength(2);
+		expect(routes).toHaveLength(3);
 	});
 });

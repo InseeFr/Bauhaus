@@ -4,11 +4,14 @@ import { ReactNode } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
 
-import { usePhysicalInstances } from '../../hooks/usePhysicalInstances';
+import { usePhysicalInstances } from '../../../hooks/usePhysicalInstances';
 import { Component } from './home';
 
-vi.mock('../../hooks/usePhysicalInstances');
+vi.mock('../../../hooks/usePhysicalInstances');
 vi.mock('@utils/hooks/useTitle');
+vi.mock('./menu', () => ({
+	HomePageMenu: () => <div data-testid="home-page-menu">Menu</div>,
+}));
 vi.mock('../../../deprecated-locales', () => ({
 	default: {
 		ddiTitle: 'DDI Title',
@@ -63,9 +66,7 @@ describe('Home Component', () => {
 
 		render(<Component />, { wrapper: createWrapper() });
 
-		expect(
-			screen.getByText('Physical Instance Search Title'),
-		).toBeInTheDocument();
+		expect(screen.getByText('Physical Instance - Search')).toBeInTheDocument();
 		expect(
 			screen.queryByText('Loading in progress...'),
 		).not.toBeInTheDocument();
@@ -82,9 +83,7 @@ describe('Home Component', () => {
 
 		render(<Component />, { wrapper: createWrapper() });
 
-		expect(
-			screen.getByText('Physical Instance Search Title'),
-		).toBeInTheDocument();
+		expect(screen.getByText('Physical Instance - Search')).toBeInTheDocument();
 		expect(
 			screen.queryByText('Loading in progress...'),
 		).not.toBeInTheDocument();
@@ -101,9 +100,7 @@ describe('Home Component', () => {
 
 		render(<Component />, { wrapper: createWrapper() });
 
-		expect(
-			screen.getByText('Physical Instance Search Title'),
-		).toBeInTheDocument();
+		expect(screen.getByText('Physical Instance - Search')).toBeInTheDocument();
 		expect(
 			screen.queryByText('Loading in progress...'),
 		).not.toBeInTheDocument();
