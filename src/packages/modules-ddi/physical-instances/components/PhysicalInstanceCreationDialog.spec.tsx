@@ -25,7 +25,7 @@ vi.mock('primereact/inputtext', () => ({
 }));
 
 vi.mock('primereact/button', () => ({
-	Button: ({ label, onClick, type = 'button', className, outlined }: any) => (
+	Button: ({ label, onClick, type = 'button', className }: any) => (
 		<button type={type} onClick={onClick} className={className}>
 			{label}
 		</button>
@@ -38,7 +38,9 @@ vi.mock('primereact/dialog', () => ({
 		return (
 			<div className={className} data-testid="dialog">
 				<h2>{header}</h2>
-				<button onClick={onHide}>Close</button>
+				<button type="button" onClick={onHide}>
+					Close
+				</button>
 				{children}
 			</div>
 		);

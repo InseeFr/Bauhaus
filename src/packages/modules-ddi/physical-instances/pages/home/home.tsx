@@ -27,8 +27,7 @@ export const Component = () => {
 	const [visible, setVisible] = useState(false);
 
 	const handleSubmit = (data: { label: string; name: string }) => {
-		// TODO: Traiter la soumission du formulaire
-		console.log(data);
+		console.debug(data);
 		setVisible(false);
 	};
 
