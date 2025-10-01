@@ -61,7 +61,6 @@ export const PhysicalInstanceCreationDialog = ({
 						type="button"
 						outlined
 						onClick={handleHide}
-						type="button"
 					/>
 					<Button
 						label={t('physicalInstance.creation.create')}
