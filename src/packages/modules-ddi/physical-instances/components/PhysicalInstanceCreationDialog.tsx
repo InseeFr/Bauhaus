@@ -42,7 +42,11 @@ export const PhysicalInstanceCreationDialog = ({
 			onHide={handleHide}
 			className="ddi physical-instance-creation-dialog"
 		>
-			<form ref={formRef} onSubmit={handleSubmit} className="flex flex-column gap-2">
+			<form
+				ref={formRef}
+				onSubmit={handleSubmit}
+				className="flex flex-column gap-2"
+			>
 				<div className="flex flex-column gap-2">
 					<label htmlFor="label">{t('physicalInstance.creation.label')}</label>
 					<InputText id="label" name="label" />
@@ -52,8 +56,18 @@ export const PhysicalInstanceCreationDialog = ({
 					<InputText id="name" name="name" />
 				</div>
 				<div className="dialog-footer">
-					<Button label={t('physicalInstance.creation.cancel')} type="button" outlined onClick={handleHide} type="button" />
-					<Button label={t('physicalInstance.creation.create')} type="submit" className="create-button" />
+					<Button
+						label={t('physicalInstance.creation.cancel')}
+						type="button"
+						outlined
+						onClick={handleHide}
+						type="button"
+					/>
+					<Button
+						label={t('physicalInstance.creation.create')}
+						type="submit"
+						className="create-button"
+					/>
 				</div>
 			</form>
 		</Dialog>

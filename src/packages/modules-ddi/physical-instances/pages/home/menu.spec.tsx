@@ -18,7 +18,11 @@ vi.mock('@components/vertical-menu', () => ({
 
 vi.mock('../../../../auth/components/auth', () => ({
 	HasAccess: ({ children, module, privilege }: any) => (
-		<div data-testid="has-access" data-module={module} data-privilege={privilege}>
+		<div
+			data-testid="has-access"
+			data-module={module}
+			data-privilege={privilege}
+		>
 			{children}
 		</div>
 	),

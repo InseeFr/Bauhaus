@@ -8,7 +8,7 @@ import { useTitle } from '@utils/hooks/useTitle';
 import { useState } from 'react';
 import D from '../../../../deprecated-locales';
 import { usePhysicalInstances } from '../../../hooks/usePhysicalInstances';
-import {HomePageMenu} from './menu';
+import { HomePageMenu } from './menu';
 import { PhysicalInstanceCreationDialog } from '../../components/PhysicalInstanceCreationDialog';
 
 const formatDate = (dateString: string) => {
@@ -25,7 +25,6 @@ export const Component = () => {
 	useTitle(D.ddiTitle, D.physicalInstanceTitle);
 	const { data = [], isLoading } = usePhysicalInstances();
 	const [visible, setVisible] = useState(false);
-
 
 	const handleSubmit = (data: { label: string; name: string }) => {
 		// TODO: Traiter la soumission du formulaire

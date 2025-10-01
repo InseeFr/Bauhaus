@@ -6,7 +6,8 @@ vi.mock('react-i18next', () => ({
 	useTranslation: () => ({
 		t: (key: string) => {
 			const translations: Record<string, string> = {
-				'physicalInstance.creation.title': 'Créer une nouvelle instance physique',
+				'physicalInstance.creation.title':
+					'Créer une nouvelle instance physique',
 				'physicalInstance.creation.label': 'Label',
 				'physicalInstance.creation.name': 'Name',
 				'physicalInstance.creation.cancel': 'Annuler',
@@ -61,15 +62,21 @@ describe('PhysicalInstanceCreationDialog', () => {
 	it('should render the dialog when visible is true', () => {
 		render(<PhysicalInstanceCreationDialog {...defaultProps} />);
 
-		expect(screen.getByText('Créer une nouvelle instance physique')).toBeInTheDocument();
+		expect(
+			screen.getByText('Créer une nouvelle instance physique'),
+		).toBeInTheDocument();
 		expect(screen.getByLabelText('Label')).toBeInTheDocument();
 		expect(screen.getByLabelText('Name')).toBeInTheDocument();
 	});
 
 	it('should not render the dialog when visible is false', () => {
-		render(<PhysicalInstanceCreationDialog {...defaultProps} visible={false} />);
+		render(
+			<PhysicalInstanceCreationDialog {...defaultProps} visible={false} />,
+		);
 
-		expect(screen.queryByText('Créer une nouvelle instance physique')).not.toBeInTheDocument();
+		expect(
+			screen.queryByText('Créer une nouvelle instance physique'),
+		).not.toBeInTheDocument();
 	});
 
 	it('should call onHide when cancel button is clicked', () => {
@@ -101,7 +108,9 @@ describe('PhysicalInstanceCreationDialog', () => {
 	});
 
 	it('should call onSubmit and form reset method after submission', async () => {
-		const { container } = render(<PhysicalInstanceCreationDialog {...defaultProps} />);
+		const { container } = render(
+			<PhysicalInstanceCreationDialog {...defaultProps} />,
+		);
 
 		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
 		const nameInput = screen.getByLabelText('Name') as HTMLInputElement;
@@ -122,7 +131,9 @@ describe('PhysicalInstanceCreationDialog', () => {
 	});
 
 	it('should call form reset method when dialog is hidden', async () => {
-		const { container } = render(<PhysicalInstanceCreationDialog {...defaultProps} />);
+		const { container } = render(
+			<PhysicalInstanceCreationDialog {...defaultProps} />,
+		);
 
 		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
 		const nameInput = screen.getByLabelText('Name') as HTMLInputElement;
