@@ -15,7 +15,12 @@ export interface State {
 	isImportModalVisible: boolean;
 	formData: { label: string; name: string };
 	importData: string;
-	selectedVariable: { id: string; label: string; name: string; type: string } | null;
+	selectedVariable: {
+		id: string;
+		label: string;
+		name: string;
+		type: string;
+	} | null;
 }
 
 export type Action =

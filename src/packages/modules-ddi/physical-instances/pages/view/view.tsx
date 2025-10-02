@@ -184,7 +184,7 @@ export const Component = () => {
 	const handleVariableSave = useCallback(
 		(data: { id: string; label: string; name: string; type: string }) => {
 			// TODO: Save variable logic
-			console.log('Save variable:', data);
+			console.debug('Save variable:', data);
 		},
 		[],
 	);

@@ -12,8 +12,13 @@ interface VariableEditFormProps {
 		name: string;
 		type: string;
 	};
-	typeOptions: Array<{ label: string; value: string }>;
-	onSave: (data: { id: string; label: string; name: string; type: string }) => void;
+	typeOptions: { label: string; value: string }[];
+	onSave: (data: {
+		id: string;
+		label: string;
+		name: string;
+		type: string;
+	}) => void;
 }
 
 export const VariableEditForm = ({
@@ -46,10 +51,7 @@ export const VariableEditForm = ({
 	);
 
 	return (
-		<Card
-			title={t('physicalInstance.view.editVariable')}
-			className="h-full"
-		>
+		<Card title={t('physicalInstance.view.editVariable')} className="h-full">
 			<form onSubmit={handleSubmit} className="flex flex-column gap-3">
 				<div className="flex gap-2 justify-content-end">
 					<Button
