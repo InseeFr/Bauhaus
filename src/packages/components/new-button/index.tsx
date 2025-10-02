@@ -8,23 +8,45 @@ import './newButton.css';
 interface AbstractNewButtonTypes {
 	action: ((location: any) => any) | string;
 	suffix?: string;
+	component?: 'button' | 'link';
 }
 const AbstractNewButton = ({
 	action,
 	children,
 	suffix,
-}: PropsWithChildren<AbstractNewButtonTypes>) => (
-	<NavLink className="new-button btn btn-lg col-md-12" to={action}>
-		<AddLogo />
-		{suffix ? (
-			<span>
-				{children} {suffix}
-			</span>
-		) : (
-			<span>{children}</span>
-		)}
-	</NavLink>
-);
+	component = 'link',
+}: PropsWithChildren<AbstractNewButtonTypes>) => {
+	if (component === 'button') {
+		return (
+			<button
+				type="button"
+				className="new-button btn btn-lg col-md-12"
+				onClick={action as () => void}
+			>
+				<AddLogo />
+				{suffix ? (
+					<span>
+						{children} {suffix}
+					</span>
+				) : (
+					<span>{children}</span>
+				)}
+			</button>
+		);
+	}
+	return (
+		<NavLink className="new-button btn btn-lg col-md-12" to={action}>
+			<AddLogo />
+			{suffix ? (
+				<span>
+					{children} {suffix}
+				</span>
+			) : (
+				<span>{children}</span>
+			)}
+		</NavLink>
+	);
+};
 
 export const MasculineButton = (props: AbstractNewButtonTypes) => (
 	<AbstractNewButton {...props}>{D.btnNew.masculine}</AbstractNewButton>

@@ -10,7 +10,6 @@
 }
 
 .application-title .application-title-wrapper {
-	display: flex;
 	margin: auto;
 }
 
@@ -23,7 +22,6 @@
 	font-size: 15.3pt;
 	float: right;
 	margin: 0;
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	text-align: center;

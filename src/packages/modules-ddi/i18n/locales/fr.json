@@ -1,0 +1,11 @@
+{
+	"physicalInstance": {
+		"creation": {
+			"title": "Créer une nouvelle physical instance",
+			"label": "Label",
+			"name": "Name",
+			"cancel": "Annuler",
+			"create": "Créer"
+		}
+	}
+}
