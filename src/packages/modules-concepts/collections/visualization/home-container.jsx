@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { Loading, Publishing } from '@components/loading';
-import { Message } from 'primereact/message';
 
 import { ConceptsApi } from '@sdk/index';
 
