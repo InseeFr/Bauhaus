@@ -9,7 +9,7 @@ export const deburr = (str: string): string => {
 };
 
 export const normalize = (str = ''): string => {
-	if (!str) {
+	if (!str || typeof str !== 'string') {
 		return str;
 	}
 	return str

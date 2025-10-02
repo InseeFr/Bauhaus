@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 
-import { TextInput } from '@components/form/input';
 import { Row } from '@components/layout';
 import { Pagination } from '@components/pagination';
 
 import { filterKeyDeburr, nbResults } from '@utils/array-utils';
 import { createAllDictionary } from '@utils/dictionnary';
 import useUrlQueryParameters from '@utils/hooks/useUrlQueryParameters';
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from 'primereact/inputicon';
+import { InputText } from 'primereact/inputtext';
 
 const { D } = createAllDictionary({
 	searchLabelPlaceholder: {
@@ -83,15 +85,19 @@ export const SearchableList = ({
 		<div className={`${colSize} ${colOffset}`}>
 			<div className="row form-group">
 				<div className="col-md-12">
-					<TextInput
-						value={search}
-						onChange={(e) => {
-							handleSearch({ search: e.target.value });
-						}}
-						placeholder={placeholder ?? D.searchLabelPlaceholder}
-						aria-label={D.search}
-						autoFocus={autoFocus}
-					/>
+					<IconField iconPosition="left" className="flex-1">
+						<InputIcon className="pi pi-search"> </InputIcon>
+						<InputText
+							value={search}
+							onChange={(e) => {
+								handleSearch({ search: e.target.value });
+							}}
+							placeholder={placeholder ?? D.searchLabelPlaceholder}
+							aria-label={D.search}
+							autoFocus={autoFocus}
+							className="w-full"
+						/>
+					</IconField>
 				</div>
 			</div>
 			{advancedSearch && (
