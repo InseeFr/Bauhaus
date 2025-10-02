@@ -329,7 +329,7 @@ describe('View Component', () => {
 			const typeDropdown = screen.getByLabelText(
 				'physicalInstance.view.typeFilter',
 			);
-			fireEvent.change(typeDropdown, { target: { value: 'Code' } });
+			fireEvent.change(typeDropdown, { target: { value: 'code' } });
 
 			await waitFor(() => {
 				expect(screen.getByText('Variable1')).toBeInTheDocument();
@@ -351,9 +351,25 @@ describe('View Component', () => {
 			expect(
 				screen.getByRole('option', { name: 'physicalInstance.view.allTypes' }),
 			).toBeInTheDocument();
-			expect(screen.getByRole('option', { name: 'Code' })).toBeInTheDocument();
 			expect(
-				screen.getByRole('option', { name: 'Numeric' }),
+				screen.getByRole('option', {
+					name: 'physicalInstance.view.variableTypes.text',
+				}),
+			).toBeInTheDocument();
+			expect(
+				screen.getByRole('option', {
+					name: 'physicalInstance.view.variableTypes.code',
+				}),
+			).toBeInTheDocument();
+			expect(
+				screen.getByRole('option', {
+					name: 'physicalInstance.view.variableTypes.date',
+				}),
+			).toBeInTheDocument();
+			expect(
+				screen.getByRole('option', {
+					name: 'physicalInstance.view.variableTypes.numeric',
+				}),
 			).toBeInTheDocument();
 		});
 	});
