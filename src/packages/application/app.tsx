@@ -8,6 +8,7 @@ import { hasAccessToModule } from '../auth/components/auth';
 import D from '../deprecated-locales';
 import '../styles/bootstrap.scss';
 import 'primeflex/primeflex.css';
+import 'primeicons/primeicons.css';
 
 import { useAppContext } from './app-context';
 import './app.scss';

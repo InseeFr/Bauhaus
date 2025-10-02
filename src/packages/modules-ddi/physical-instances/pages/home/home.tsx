@@ -9,7 +9,7 @@ import { useState } from 'react';
 import D from '../../../../deprecated-locales';
 import { usePhysicalInstances } from '../../../hooks/usePhysicalInstances';
 import { HomePageMenu } from './menu';
-import { PhysicalInstanceCreationDialog } from '../../components/PhysicalInstanceCreationDialog';
+import { PhysicalInstanceCreationDialog } from '../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog';
 
 const formatDate = (dateString: string) => {
 	if (!dateString) return '';

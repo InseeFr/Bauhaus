@@ -11,6 +11,6 @@ export const routes: RouteObject[] = [
 	},
 	{
 		path: 'physical-instances/:id',
-		lazy: () => import('../physical-instances/pages/view'),
+		lazy: () => import('../physical-instances/pages/view/view'),
 	},
 ];

@@ -6,6 +6,44 @@
 			"name": "Name",
 			"cancel": "Annuler",
 			"create": "Créer"
+		},
+		"view": {
+			"search": "Rechercher",
+			"allTypes": "Tous types",
+			"newVariable": "Nouvelle Variable",
+			"editTitle": "Modifier le titre",
+			"typeFilter": "Filtrer par type",
+			"globalActions": "Actions Globales",
+			"import": "Importer",
+			"export": "Exporter",
+			"bulkEdit": "Édition en masse",
+			"publish": "Publier",
+			"variablesTable": "Tableau des variables",
+			"columns": {
+				"name": "Nom",
+				"label": "Label",
+				"type": "Type",
+				"lastModified": "Dernière Modification"
+			},
+			"editModal": {
+				"title": "Modifier",
+				"label": "Label",
+				"name": "Name",
+				"cancel": "Annuler",
+				"save": "Enregistrer"
+			},
+			"importModal": {
+				"title": "Importer",
+				"placeholder": "Collez vos données ici...",
+				"cancel": "Annuler",
+				"import": "Importer"
+			},
+			"exportSuccess": "Export réussi",
+			"exportSuccessDetail": "Les données ont été copiées dans le presse-papiers",
+			"exportError": "Erreur lors de l'export",
+			"exportErrorDetail": "Impossible de copier les données dans le presse-papiers",
+			"loading": "Chargement des données en cours...",
+			"errorLoading": "Erreur lors du chargement des données"
 		}
 	}
 }

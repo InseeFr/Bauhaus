@@ -6,6 +6,44 @@
 			"name": "Name",
 			"cancel": "Cancel",
 			"create": "Create"
+		},
+		"view": {
+			"search": "Search",
+			"allTypes": "All types",
+			"newVariable": "New Variable",
+			"editTitle": "Edit title",
+			"typeFilter": "Filter by type",
+			"globalActions": "Global Actions",
+			"import": "Import",
+			"export": "Export",
+			"bulkEdit": "Bulk Edit",
+			"publish": "Publish",
+			"variablesTable": "Variables table",
+			"columns": {
+				"name": "Name",
+				"label": "Label",
+				"type": "Type",
+				"lastModified": "Last Modified"
+			},
+			"editModal": {
+				"title": "Edit",
+				"label": "Label",
+				"name": "Name",
+				"cancel": "Cancel",
+				"save": "Save"
+			},
+			"importModal": {
+				"title": "Import",
+				"placeholder": "Paste your data here...",
+				"cancel": "Cancel",
+				"import": "Import"
+			},
+			"exportSuccess": "Export successful",
+			"exportSuccessDetail": "Data has been copied to clipboard",
+			"exportError": "Export error",
+			"exportErrorDetail": "Unable to copy data to clipboard",
+			"loading": "Loading data...",
+			"errorLoading": "Error loading data"
 		}
 	}
 }
