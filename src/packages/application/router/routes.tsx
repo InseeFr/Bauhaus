@@ -61,7 +61,7 @@ export const Logout = () => {
 		assertUserLoggedIn: false,
 	});
 	return (
-		<div id="login">
+		<div id="login" className="flex">
 			<button
 				type="button"
 				onClick={() => {
