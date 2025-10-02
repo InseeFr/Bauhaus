@@ -8,12 +8,14 @@ interface GlobalActionsCardProps {
 	variables: any[];
 	onImport: () => void;
 	onExport: () => void;
+	onRowClick?: (data: any) => void;
 }
 
 export const GlobalActionsCard = ({
 	variables,
 	onImport,
 	onExport,
+	onRowClick,
 }: Readonly<GlobalActionsCardProps>) => {
 	const { t } = useTranslation();
 
@@ -55,6 +57,8 @@ export const GlobalActionsCard = ({
 				value={variables}
 				stripedRows
 				aria-label={t('physicalInstance.view.variablesTable')}
+				onRowClick={(e) => onRowClick?.(e.data)}
+				selectionMode="single"
 			>
 				<Column field="name" header={t('physicalInstance.view.columns.name')} />
 				<Column

@@ -38,6 +38,17 @@
 				"cancel": "Cancel",
 				"import": "Import"
 			},
+			"editVariable": "Edit Variable",
+			"selectVariable": "Select a variable to edit",
+			"selectType": "Select a type",
+			"cancel": "Cancel",
+			"save": "Save",
+			"variableTypes": {
+				"text": "Text",
+				"code": "Code",
+				"date": "Date",
+				"numeric": "Numeric"
+			},
 			"exportSuccess": "Export successful",
 			"exportSuccessDetail": "Data has been copied to clipboard",
 			"exportError": "Export error",

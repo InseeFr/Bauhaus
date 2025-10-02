@@ -5,6 +5,7 @@ export const ACTION_TYPES = {
 	SET_IMPORT_MODAL_VISIBLE: 'SET_IMPORT_MODAL_VISIBLE',
 	SET_FORM_DATA: 'SET_FORM_DATA',
 	SET_IMPORT_DATA: 'SET_IMPORT_DATA',
+	SET_SELECTED_VARIABLE: 'SET_SELECTED_VARIABLE',
 } as const;
 
 export interface State {
@@ -14,6 +15,7 @@ export interface State {
 	isImportModalVisible: boolean;
 	formData: { label: string; name: string };
 	importData: string;
+	selectedVariable: { id: string; label: string; name: string; type: string } | null;
 }
 
 export type Action =
@@ -25,7 +27,11 @@ export type Action =
 			type: typeof ACTION_TYPES.SET_FORM_DATA;
 			payload: { label: string; name: string };
 	  }
-	| { type: typeof ACTION_TYPES.SET_IMPORT_DATA; payload: string };
+	| { type: typeof ACTION_TYPES.SET_IMPORT_DATA; payload: string }
+	| {
+			type: typeof ACTION_TYPES.SET_SELECTED_VARIABLE;
+			payload: { id: string; label: string; name: string; type: string } | null;
+	  };
 
 export const initialState: State = {
 	searchValue: '',
@@ -34,6 +40,7 @@ export const initialState: State = {
 	isImportModalVisible: false,
 	formData: { label: '', name: '' },
 	importData: '',
+	selectedVariable: null,
 };
 
 export function viewReducer(state: State, action: Action): State {
@@ -50,6 +57,8 @@ export function viewReducer(state: State, action: Action): State {
 			return { ...state, formData: action.payload };
 		case ACTION_TYPES.SET_IMPORT_DATA:
 			return { ...state, importData: action.payload };
+		case ACTION_TYPES.SET_SELECTED_VARIABLE:
+			return { ...state, selectedVariable: action.payload };
 		default:
 			return state;
 	}
@@ -79,6 +88,12 @@ export const actions = {
 	}),
 	setImportData: (payload: string): Action => ({
 		type: ACTION_TYPES.SET_IMPORT_DATA,
+		payload,
+	}),
+	setSelectedVariable: (
+		payload: { id: string; label: string; name: string; type: string } | null,
+	): Action => ({
+		type: ACTION_TYPES.SET_SELECTED_VARIABLE,
 		payload,
 	}),
 };

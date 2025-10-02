@@ -7,12 +7,14 @@ import { EditModal } from '../../components/EditModal/EditModal';
 import { ImportModal } from '../../components/ImportModal/ImportModal';
 import { SearchFilters } from '../../components/SearchFilters/SearchFilters';
 import { GlobalActionsCard } from '../../components/GlobalActionsCard/GlobalActionsCard';
+import { VariableEditForm } from '../../components/VariableEditForm/VariableEditForm';
 import { usePhysicalInstancesData } from '../../../hooks/usePhysicalInstance';
 import { viewReducer, initialState, actions } from './viewReducer';
 import {
 	FILTER_ALL_TYPES,
 	TOAST_DURATION,
 	EXPORT_DELAY,
+	VARIABLE_TYPES,
 } from '../../constants';
 import type { VariableTableData } from '../../types/api';
 import { Loading } from '../../../../components/loading';
@@ -23,13 +25,34 @@ export const Component = () => {
 	const [state, dispatch] = useReducer(viewReducer, initialState);
 	const { variables, isLoading, isError, error } = usePhysicalInstancesData();
 
+	const variableTypeOptions = useMemo(
+		() => [
+			{
+				label: t('physicalInstance.view.variableTypes.text'),
+				value: VARIABLE_TYPES.TEXT,
+			},
+			{
+				label: t('physicalInstance.view.variableTypes.code'),
+				value: VARIABLE_TYPES.CODE,
+			},
+			{
+				label: t('physicalInstance.view.variableTypes.date'),
+				value: VARIABLE_TYPES.DATE,
+			},
+			{
+				label: t('physicalInstance.view.variableTypes.numeric'),
+				value: VARIABLE_TYPES.NUMERIC,
+			},
+		],
+		[t],
+	);
+
 	const typeOptions = useMemo(() => {
-		const types = new Set(variables.map((v) => v.type));
 		return [
 			{ label: t('physicalInstance.view.allTypes'), value: FILTER_ALL_TYPES },
-			...Array.from(types).map((type) => ({ label: type, value: type })),
+			...variableTypeOptions,
 		];
-	}, [variables, t]);
+	}, [variableTypeOptions, t]);
 
 	const filteredVariables = useMemo(() => {
 		let filtered = variables;
@@ -43,11 +66,11 @@ export const Component = () => {
 				return nameMatch || labelMatch;
 			});
 		}
-
 		// Filtre par type
 		if (state.typeFilter !== FILTER_ALL_TYPES) {
 			filtered = filtered.filter(
-				(variable: VariableTableData) => variable.type === state.typeFilter,
+				(variable: VariableTableData) =>
+					variable.type.toLowerCase() === state.typeFilter.toLowerCase(),
 			);
 		}
 
@@ -136,6 +159,36 @@ export const Component = () => {
 		dispatch(actions.setImportData(''));
 	}, []);
 
+	const handleVariableClick = useCallback((variable: VariableTableData) => {
+		dispatch(
+			actions.setSelectedVariable({
+				id: variable.id,
+				label: variable.label,
+				name: variable.name,
+				type: variable.type,
+			}),
+		);
+	}, []);
+
+	const handleNewVariable = useCallback(() => {
+		dispatch(
+			actions.setSelectedVariable({
+				id: 'new',
+				label: '',
+				name: '',
+				type: VARIABLE_TYPES.TEXT,
+			}),
+		);
+	}, []);
+
+	const handleVariableSave = useCallback(
+		(data: { id: string; label: string; name: string; type: string }) => {
+			// TODO: Save variable logic
+			console.log('Save variable:', data);
+		},
+		[],
+	);
+
 	if (isLoading) {
 		return <Loading />;
 	}
@@ -175,17 +228,28 @@ export const Component = () => {
 					typeFilter={state.typeFilter}
 					onTypeFilterChange={handleTypeFilterChange}
 					typeOptions={typeOptions}
-					onNewVariable={() => {}}
+					onNewVariable={handleNewVariable}
 				/>
 
 				<GlobalActionsCard
 					variables={filteredVariables}
 					onImport={handleOpenImportModal}
 					onExport={handleExport}
+					onRowClick={handleVariableClick}
 				/>
 			</div>
 			<div className="col-4" role="complementary">
-				Contenu 1/3
+				{state.selectedVariable ? (
+					<VariableEditForm
+						variable={state.selectedVariable}
+						typeOptions={variableTypeOptions}
+						onSave={handleVariableSave}
+					/>
+				) : (
+					<div className="text-center text-gray-500 mt-4">
+						{t('physicalInstance.view.selectVariable')}
+					</div>
+				)}
 			</div>
 
 			<EditModal
