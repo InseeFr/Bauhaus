@@ -55,7 +55,7 @@ vi.mock('primereact/dropdown', () => ({
 }));
 
 vi.mock('primereact/dialog', () => ({
-	Dialog: ({ visible, children, header, onHide }: any) =>
+	Dialog: ({ visible, children, header }: any) =>
 		visible ? (
 			<div role="dialog" aria-label={header}>
 				<h2>{header}</h2>
