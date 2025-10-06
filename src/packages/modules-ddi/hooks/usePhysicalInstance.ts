@@ -61,8 +61,12 @@ export function usePhysicalInstancesData(id: string) {
 		? transformVariablesToTableData(query.data, i18n.language)
 		: [];
 
-	const title = query.data?.PhysicalInstance?.[0]?.Citation?.Title?.String?.['#text'] || '';
-	const dataRelationshipName = query.data?.DataRelationship?.[0]?.DataRelationshipName?.String?.['#text'] || '';
+	const title =
+		query.data?.PhysicalInstance?.[0]?.Citation?.Title?.String?.['#text'] || '';
+	const dataRelationshipName =
+		query.data?.DataRelationship?.[0]?.DataRelationshipName?.String?.[
+			'#text'
+		] || '';
 
 	return {
 		...query,

@@ -180,9 +180,10 @@ export const Component = () => {
 
 			dispatch(actions.setEditModalVisible(false));
 		} catch (err: unknown) {
-			const errorMessage = err && typeof err === 'object' && 'message' in err
-				? String(err.message)
-				: t('physicalInstance.view.saveErrorDetail');
+			const errorMessage =
+				err && typeof err === 'object' && 'message' in err
+					? String(err.message)
+					: t('physicalInstance.view.saveErrorDetail');
 
 			toast.current?.show({
 				severity: 'error',

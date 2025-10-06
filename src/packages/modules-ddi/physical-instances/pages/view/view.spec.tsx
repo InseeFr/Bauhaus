@@ -569,7 +569,9 @@ describe('View Component', () => {
 		});
 
 		it('should handle save error gracefully', async () => {
-			const mutateAsyncMock = vi.fn().mockRejectedValue(new Error('Save failed'));
+			const mutateAsyncMock = vi
+				.fn()
+				.mockRejectedValue(new Error('Save failed'));
 			mockUpdatePhysicalInstance.mockReturnValue({
 				mutateAsync: mutateAsyncMock,
 				isPending: false,
