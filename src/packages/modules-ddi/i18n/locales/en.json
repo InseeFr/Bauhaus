@@ -53,6 +53,10 @@
 			"exportSuccessDetail": "Data has been copied to clipboard",
 			"exportError": "Export error",
 			"exportErrorDetail": "Unable to copy data to clipboard",
+			"saveSuccess": "Save successful",
+			"saveSuccessDetail": "Physical instance has been updated",
+			"saveError": "Save error",
+			"saveErrorDetail": "Unable to save physical instance",
 			"loading": "Loading data...",
 			"errorLoading": "Error loading data"
 		}

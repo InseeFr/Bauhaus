@@ -6,15 +6,7 @@ import type {
 	Variable,
 } from '../physical-instances/types/api';
 
-const API_URL = 'https://poc-ddi-insee.netlify.app/.netlify/functions/api';
-
-async function fetchPhysicalInstances(): Promise<PhysicalInstanceResponse> {
-	const response = await fetch(API_URL);
-	if (!response.ok) {
-		throw new Error('Failed to fetch physical instances');
-	}
-	return response.json();
-}
+import { DDIApi } from '../../sdk';
 
 function formatDate(dateString: string, locale: string): string {
 	if (!dateString) return '';
@@ -58,19 +50,24 @@ function getVariableType(variable: Variable): string {
 	return 'Unknown';
 }
 
-export function usePhysicalInstancesData() {
+export function usePhysicalInstancesData(id: string) {
 	const { i18n } = useTranslation();
 	const query = useQuery({
-		queryKey: ['physicalInstance'],
-		queryFn: fetchPhysicalInstances,
+		queryKey: ['physicalInstanceById', id],
+		queryFn: () => DDIApi.getPhysicalInstance(id),
 	});
 
 	const variables: VariableTableData[] = query.data
 		? transformVariablesToTableData(query.data, i18n.language)
 		: [];
 
+	const title = query.data?.PhysicalInstance?.[0]?.Citation?.Title?.String?.['#text'] || '';
+	const dataRelationshipName = query.data?.DataRelationship?.[0]?.DataRelationshipName?.String?.['#text'] || '';
+
 	return {
 		...query,
 		variables,
+		title,
+		dataRelationshipName,
 	};
 }

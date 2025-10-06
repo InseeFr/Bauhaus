@@ -5,6 +5,7 @@ import { Component } from './view';
 import type { ReactNode } from 'react';
 
 const mockUsePhysicalInstancesData = vi.fn();
+const mockUpdatePhysicalInstance = vi.fn();
 
 vi.mock('react-i18next', () => ({
 	useTranslation: () => ({
@@ -13,8 +14,16 @@ vi.mock('react-i18next', () => ({
 	}),
 }));
 
+vi.mock('react-router-dom', () => ({
+	useParams: () => ({ id: 'test-id-123' }),
+}));
+
 vi.mock('../../../hooks/usePhysicalInstance', () => ({
 	usePhysicalInstancesData: () => mockUsePhysicalInstancesData(),
+}));
+
+vi.mock('../../../hooks/useUpdatePhysicalInstance', () => ({
+	useUpdatePhysicalInstance: () => mockUpdatePhysicalInstance(),
 }));
 
 vi.mock('primereact/progressspinner', () => ({
@@ -43,6 +52,16 @@ vi.mock('primereact/dropdown', () => ({
 			))}
 		</select>
 	),
+}));
+
+vi.mock('primereact/dialog', () => ({
+	Dialog: ({ visible, children, header, onHide }: any) =>
+		visible ? (
+			<div role="dialog" aria-label={header}>
+				<h2>{header}</h2>
+				{children}
+			</div>
+		) : null,
 }));
 
 // Mock navigator.clipboard
@@ -89,7 +108,16 @@ describe('View Component', () => {
 					lastModified: '03/06/2024',
 				},
 			],
+			title: 'Test Physical Instance',
+			dataRelationshipName: 'Test Data Relationship',
 			isLoading: false,
+			isError: false,
+		});
+
+		// Default mock for mutation
+		mockUpdatePhysicalInstance.mockReturnValue({
+			mutateAsync: vi.fn().mockResolvedValue({}),
+			isPending: false,
 			isError: false,
 		});
 	});
@@ -171,10 +199,16 @@ describe('View Component', () => {
 	});
 
 	describe('Successful render', () => {
-		it('should render the main title', () => {
+		it('should render the physical instance title', () => {
 			render(<Component />, { wrapper });
 
-			expect(screen.getByText('TODO')).toBeInTheDocument();
+			expect(screen.getByText('Test Physical Instance')).toBeInTheDocument();
+		});
+
+		it('should render the data relationship name', () => {
+			render(<Component />, { wrapper });
+
+			expect(screen.getByText('Test Data Relationship')).toBeInTheDocument();
 		});
 
 		it('should have correct accessibility role for main container', () => {
@@ -445,6 +479,132 @@ describe('View Component', () => {
 				value: originalClipboard,
 				writable: true,
 				configurable: true,
+			});
+		});
+	});
+
+	describe('Save functionality', () => {
+		it('should initialize edit modal with title and dataRelationshipName', () => {
+			render(<Component />, { wrapper });
+
+			const editButton = screen.getByLabelText(
+				'physicalInstance.view.editTitle',
+			);
+			fireEvent.click(editButton);
+
+			const labelInput = screen.getByLabelText(
+				'physicalInstance.view.editModal.label',
+			) as HTMLInputElement;
+			const nameInput = screen.getByLabelText(
+				'physicalInstance.view.editModal.name',
+			) as HTMLInputElement;
+
+			expect(labelInput.value).toBe('Test Physical Instance');
+			expect(nameInput.value).toBe('Test Data Relationship');
+		});
+
+		it('should call mutation when save button is clicked', async () => {
+			const mutateAsyncMock = vi.fn().mockResolvedValue({});
+			mockUpdatePhysicalInstance.mockReturnValue({
+				mutateAsync: mutateAsyncMock,
+				isPending: false,
+				isError: false,
+			});
+
+			render(<Component />, { wrapper });
+
+			const editButton = screen.getByLabelText(
+				'physicalInstance.view.editTitle',
+			);
+			fireEvent.click(editButton);
+
+			const labelInput = screen.getByLabelText(
+				'physicalInstance.view.editModal.label',
+			);
+			fireEvent.change(labelInput, { target: { value: 'Updated Title' } });
+
+			// Find and submit the form
+			const form = screen.getByRole('dialog').querySelector('form');
+			if (form) {
+				fireEvent.submit(form);
+			}
+
+			await waitFor(() => {
+				expect(mutateAsyncMock).toHaveBeenCalledWith({
+					id: 'test-id-123',
+					data: {
+						physicalInstanceLabel: 'Updated Title',
+						dataRelationshipName: 'Test Data Relationship',
+					},
+				});
+			});
+		});
+
+		it('should close modal after successful save', async () => {
+			const mutateAsyncMock = vi.fn().mockResolvedValue({});
+			mockUpdatePhysicalInstance.mockReturnValue({
+				mutateAsync: mutateAsyncMock,
+				isPending: false,
+				isError: false,
+			});
+
+			render(<Component />, { wrapper });
+
+			const editButton = screen.getByLabelText(
+				'physicalInstance.view.editTitle',
+			);
+			fireEvent.click(editButton);
+
+			// Find and submit the form
+			const form = screen.getByRole('dialog').querySelector('form');
+			if (form) {
+				fireEvent.submit(form);
+			}
+
+			await waitFor(() => {
+				expect(
+					screen.queryByText('physicalInstance.view.editModal.title'),
+				).not.toBeInTheDocument();
+			});
+		});
+
+		it('should handle save error gracefully', async () => {
+			const mutateAsyncMock = vi.fn().mockRejectedValue(new Error('Save failed'));
+			mockUpdatePhysicalInstance.mockReturnValue({
+				mutateAsync: mutateAsyncMock,
+				isPending: false,
+				isError: false,
+			});
+
+			render(<Component />, { wrapper });
+
+			const editButton = screen.getByLabelText(
+				'physicalInstance.view.editTitle',
+			);
+			fireEvent.click(editButton);
+
+			// Wait for modal to be visible
+			await waitFor(() => {
+				expect(
+					screen.getByText('physicalInstance.view.editModal.title'),
+				).toBeInTheDocument();
+			});
+
+			// Find and submit the form
+			const form = screen.getByRole('dialog').querySelector('form');
+			if (form) {
+				fireEvent.submit(form);
+			}
+
+			await waitFor(() => {
+				expect(mutateAsyncMock).toHaveBeenCalled();
+			});
+
+			// Modal should remain open on error
+			await waitFor(() => {
+				expect(
+					screen.getByText('physicalInstance.view.editModal.title'),
+				).toBeInTheDocument();
 			});
 		});
 	});
