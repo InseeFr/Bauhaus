@@ -45,7 +45,9 @@ describe('OperationsFamilyEdition', () => {
 			expect(screen.getByDisplayValue('Test Label 1')).toBeInTheDocument();
 			expect(screen.getByDisplayValue('Test Label 2')).toBeInTheDocument();
 			expect(screen.getByRole('button', { name: /Save/i })).toBeInTheDocument();
-			expect(screen.getByRole('button', { name: /Cancel/i })).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: /Cancel/i }),
+			).toBeInTheDocument();
 		});
 
 		it('should display page title when editing existing family', () => {
@@ -77,7 +79,9 @@ describe('OperationsFamilyEdition', () => {
 		it('should update prefLabelLg1 when input changes', () => {
 			renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
 
-			const input = screen.getByDisplayValue('Test Label 1') as HTMLInputElement;
+			const input = screen.getByDisplayValue(
+				'Test Label 1',
+			) as HTMLInputElement;
 			fireEvent.change(input, {
 				target: { id: 'prefLabelLg1', value: 'Updated Label 1' },
 			});
@@ -88,7 +92,9 @@ describe('OperationsFamilyEdition', () => {
 		it('should update prefLabelLg2 when input changes', () => {
 			renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
 
-			const input = screen.getByDisplayValue('Test Label 2') as HTMLInputElement;
+			const input = screen.getByDisplayValue(
+				'Test Label 2',
+			) as HTMLInputElement;
 			fireEvent.change(input, {
 				target: { id: 'prefLabelLg2', value: 'Updated Label 2' },
 			});
@@ -107,7 +113,9 @@ describe('OperationsFamilyEdition', () => {
 				expect(screen.getByText('Server error')).toBeInTheDocument();
 			});
 
-			const input = screen.getByDisplayValue('Test Label 1') as HTMLInputElement;
+			const input = screen.getByDisplayValue(
+				'Test Label 1',
+			) as HTMLInputElement;
 			fireEvent.change(input, {
 				target: { id: 'prefLabelLg1', value: 'New value' },
 			});
@@ -268,7 +276,9 @@ describe('OperationsFamilyEdition', () => {
 
 			await waitFor(
 				() => {
-					expect(screen.queryByText(/Saving in progress/i)).not.toBeInTheDocument();
+					expect(
+						screen.queryByText(/Saving in progress/i),
+					).not.toBeInTheDocument();
 				},
 				{ timeout: 200 },
 			);
@@ -277,9 +287,7 @@ describe('OperationsFamilyEdition', () => {
 
 	describe('Component Lifecycle', () => {
 		it('should reinitialize state when id prop changes', () => {
-			const { rerender } = renderWithAppContext(
-				<OperationsFamilyEdition {...defaultProps} />,
-			);
+			renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
 
 			expect(screen.getByDisplayValue('Test Label 1')).toBeInTheDocument();
 
