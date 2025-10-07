@@ -21,6 +21,11 @@ export const EditModal = ({
 }: Readonly<EditModalProps>) => {
 	const { t } = useTranslation();
 
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		onSave();
+	};
+
 	return (
 		<Dialog
 			header={t('physicalInstance.view.editModal.title')}
@@ -28,7 +33,7 @@ export const EditModal = ({
 			onHide={onHide}
 			className="ddi physical-instance-update-dialog"
 		>
-			<form className="flex flex-column gap-3">
+			<form className="flex flex-column gap-3" onSubmit={handleSubmit}>
 				<div className="flex flex-column gap-2">
 					<label htmlFor="label">
 						{t('physicalInstance.view.editModal.label')}
@@ -62,7 +67,6 @@ export const EditModal = ({
 					/>
 					<Button
 						label={t('physicalInstance.view.editModal.save')}
-						onClick={onSave}
 						type="submit"
 						className="create-button"
 					/>

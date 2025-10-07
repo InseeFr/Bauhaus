@@ -53,6 +53,10 @@
 			"exportSuccessDetail": "Les données ont été copiées dans le presse-papiers",
 			"exportError": "Erreur lors de l'export",
 			"exportErrorDetail": "Impossible de copier les données dans le presse-papiers",
+			"saveSuccess": "Enregistrement réussi",
+			"saveSuccessDetail": "L'instance physique a été mise à jour",
+			"saveError": "Erreur lors de l'enregistrement",
+			"saveErrorDetail": "Impossible d'enregistrer l'instance physique",
 			"loading": "Chargement des données en cours...",
 			"errorLoading": "Erreur lors du chargement des données"
 		}
