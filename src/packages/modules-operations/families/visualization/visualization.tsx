@@ -42,24 +42,6 @@ function OperationsFamilyVisualization({
 			</Row>
 			<Row>
 				<Note
-					text={attr.themeLg1}
-					title={D1.theme}
-					alone={!secondLang}
-					allowEmpty={true}
-				/>
-
-				{secondLang && (
-					<Note
-						text={attr.themeLg2}
-						title={D2.theme}
-						alone={false}
-						allowEmpty={true}
-					/>
-				)}
-			</Row>
-
-			<Row>
-				<Note
 					text={renderMarkdownElement(attr.abstractLg1)}
 					title={D1.summary}
 					alone={!secondLang}
