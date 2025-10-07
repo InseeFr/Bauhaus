@@ -1,4 +1,5 @@
-import { useReducer, useRef, useMemo, useCallback } from 'react';
+import { useReducer, useRef, useMemo, useCallback, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { useTranslation } from 'react-i18next';
 import { Toast } from 'primereact/toast';
@@ -9,6 +10,7 @@ import { SearchFilters } from '../../components/SearchFilters/SearchFilters';
 import { GlobalActionsCard } from '../../components/GlobalActionsCard/GlobalActionsCard';
 import { VariableEditForm } from '../../components/VariableEditForm/VariableEditForm';
 import { usePhysicalInstancesData } from '../../../hooks/usePhysicalInstance';
+import { useUpdatePhysicalInstance } from '../../../hooks/useUpdatePhysicalInstance';
 import { viewReducer, initialState, actions } from './viewReducer';
 import {
 	FILTER_ALL_TYPES,
@@ -20,10 +22,21 @@ import type { VariableTableData } from '../../types/api';
 import { Loading } from '../../../../components/loading';
 
 export const Component = () => {
+	const { id } = useParams<{ id: string }>();
 	const { t } = useTranslation();
 	const toast = useRef<Toast>(null);
 	const [state, dispatch] = useReducer(viewReducer, initialState);
-	const { variables, isLoading, isError, error } = usePhysicalInstancesData();
+	const { variables, title, dataRelationshipName, isLoading, isError, error } =
+		usePhysicalInstancesData(id!);
+	const updatePhysicalInstance = useUpdatePhysicalInstance();
+
+	useEffect(() => {
+		if (title || dataRelationshipName) {
+			dispatch(
+				actions.setFormData({ label: title, name: dataRelationshipName }),
+			);
+		}
+	}, [title, dataRelationshipName]);
 
 	const variableTypeOptions = useMemo(
 		() => [
@@ -148,10 +161,38 @@ export const Component = () => {
 		dispatch(actions.setImportData(data));
 	}, []);
 
-	const handleSave = useCallback(() => {
-		// TODO: Save logic
-		dispatch(actions.setEditModalVisible(false));
-	}, []);
+	const handleSave = useCallback(async () => {
+		try {
+			await updatePhysicalInstance.mutateAsync({
+				id: id!,
+				data: {
+					physicalInstanceLabel: state.formData.label,
+					dataRelationshipName: state.formData.name,
+				},
+			});
+
+			toast.current?.show({
+				severity: 'success',
+				summary: t('physicalInstance.view.saveSuccess'),
+				detail: t('physicalInstance.view.saveSuccessDetail'),
+				life: TOAST_DURATION,
+			});
+
+			dispatch(actions.setEditModalVisible(false));
+		} catch (err: unknown) {
+			const errorMessage =
+				err && typeof err === 'object' && 'message' in err
+					? String(err.message)
+					: t('physicalInstance.view.saveErrorDetail');
+
+			toast.current?.show({
+				severity: 'error',
+				summary: t('physicalInstance.view.saveError'),
+				detail: errorMessage,
+				life: TOAST_DURATION,
+			});
+		}
+	}, [state.formData, id, t, updatePhysicalInstance]);
 
 	const handleImport = useCallback(() => {
 		// TODO: Import logic
@@ -212,7 +253,7 @@ export const Component = () => {
 		<div className="flex" role="main">
 			<div className="col-8">
 				<div className="flex align-items-center gap-2 mb-3">
-					<h1 className="m-0">TODO</h1>
+					<h1 className="m-0">{title}</h1>
 					<Button
 						icon="pi pi-pencil"
 						text
@@ -220,6 +261,9 @@ export const Component = () => {
 						aria-label={t('physicalInstance.view.editTitle')}
 						onClick={handleOpenEditModal}
 					/>
+				</div>
+				<div className="mb-3">
+					<p className="text-gray-600">{dataRelationshipName}</p>
 				</div>
 
 				<SearchFilters
