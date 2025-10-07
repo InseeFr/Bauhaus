@@ -31,6 +31,7 @@ import './sims-creation.scss';
 import SimsDocumentField from './sims-document-field';
 import Field from './sims-field';
 import { getDefaultSims, getSiblingSims } from './utils/getSims';
+import { EditorState } from 'draft-js';
 
 const { RICH_TEXT } = rangeType;
 
@@ -51,18 +52,17 @@ export const generateSimsBeforeSubmit = (
 };
 
 const convertRubric = (rubric) => {
-	if (rubric.rangeType === 'RICH_TEXT') {
-		return {
-			...rubric,
-			labelLg1: rubric.labelLg1
+	return {
+		...rubric,
+		labelLg1:
+			rubric.labelLg1 instanceof EditorState
 				? mdFromEditorState(rubric.labelLg1)
 				: rubric.labelLg1,
-			labelLg2: rubric.labelLg2
+		labelLg2:
+			rubric.labelLg2 instanceof EditorState
 				? mdFromEditorState(rubric.labelLg2)
 				: rubric.labelLg2,
-		};
-	}
-	return rubric;
+	};
 };
 
 const SimsCreation = ({
