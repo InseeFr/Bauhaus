@@ -28,7 +28,7 @@ export const SimsWithoutObjectCheckbox = ({
 				/>
 			)}
 			<label>
-				{D.simsWithoutObjectLabel}
+				{D.simsWithoutObject}
 				<input
 					ref={input}
 					type="checkbox"

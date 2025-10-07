@@ -305,11 +305,7 @@ const dictionary = {
 	},
 	simsWithoutObject: {
 		fr: 'Sans Objet',
-		en: 'Without Object',
-	},
-	simsWithoutObjectLabel: {
-		fr: 'Sans Objet ?',
-		en: 'Without Object ?',
+		en: 'Not applicable',
 	},
 	simsConfirmationMessage: {
 		fr: 'Vous êtes sur le point de supprimer les données de cette rubrique. Souhaitez-vous confirmer ?',
