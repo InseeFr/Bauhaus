@@ -13,7 +13,7 @@ The documentation can be found in the [documentation folder](https://github.com/
 
 ## How to start
 
-The application is tested on Node.js 20.
+The application is tested on Node.js 22.
 
 ```
 git clone git@github.com:InseeFr/Bauhaus.git

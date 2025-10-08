@@ -8,8 +8,9 @@ import { getFormattedCodeList } from '../../apis';
 import { CodesListPanel } from '../../components/codes-list-panel/codes-list-panel';
 import ComponentSpecificationModal from '../../components/component-specification-modal/index';
 import { StructureComponentsSelector } from '../../components/structure-component-selector';
+import { EMPTY_ARRAY } from '@utils/array-utils';
 
-export const ComponentsPanel = ({ componentDefinitions = [] }) => {
+export const ComponentsPanel = ({ componentDefinitions = EMPTY_ARRAY }) => {
 	const [concepts, setConcepts] = useState([]);
 	const [codesLists, setCodesLists] = useState<CodesLists>([]);
 	const [modalOpened, setModalOpened] = useState(false);

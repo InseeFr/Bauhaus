@@ -11,7 +11,13 @@ describe('DropDown', () => {
 	});
 	it('should be opened after clicking on the trigger button', () => {
 		const { container } = render(
-			<ExportButton actions={[<button key={1}>Action 1</button>]} />,
+			<ExportButton
+				actions={[
+					<button type="button" key={1}>
+						Action 1
+					</button>,
+				]}
+			/>,
 		);
 		fireEvent.click(container.querySelector('button'));
 		expect(container.querySelector('.dropdown__content').classList).toContain(
@@ -33,7 +39,13 @@ describe('DropDown', () => {
 	});
 	it('should display the actions props', () => {
 		const { container } = render(
-			<ExportButton actions={[<button key={1}>Action 1</button>]} />,
+			<ExportButton
+				actions={[
+					<button type="button" key={1}>
+						Action 1
+					</button>,
+				]}
+			/>,
 		);
 		expect(container.querySelector('li button').innerHTML).toContain(
 			'Action 1',

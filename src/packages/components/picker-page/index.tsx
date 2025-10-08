@@ -11,7 +11,7 @@ import { filterDeburr } from '@utils/array-utils';
 
 import D from '../../deprecated-locales';
 import { ActionToolbar } from '../action-toolbar';
-import { ReturnButton, ExportButton } from '../buttons/buttons-with-icons';
+import { ReturnButton } from '../buttons/buttons-with-icons';
 import { AddLogo } from '../logo/logo-add';
 import { DelLogo } from '../logo/logo-del';
 import { Panel } from '../panel';
@@ -39,10 +39,11 @@ interface PickerTypes {
 	panelTitle: string;
 	labelWarning: string;
 	context: any;
-	ValidationButton: any;
+	ValidationButton: () => JSX.Element;
 	disabled?: boolean;
 	disabledWarningMessage?: string;
 }
+
 export const Picker = ({
 	items: itemsProps,
 	handleAction,
@@ -55,7 +56,7 @@ export const Picker = ({
 	disabledWarningMessage,
 }: PickerTypes) => {
 	const [search, setSearch] = useState('');
-	const [items, setItems] = useState(trackItems(itemsProps ?? []));
+	const [items, setItems] = useState(() => trackItems(itemsProps ?? []));
 	const [clientSideErrors, setClientSideErrors] = useState('');
 
 	const handleChange = (searchLabel: string) => setSearch(searchLabel);
@@ -166,8 +167,4 @@ export const Picker = ({
 			</div>
 		</div>
 	);
-};
-
-Picker.defaultProps = {
-	ValidationButton: ExportButton,
 };

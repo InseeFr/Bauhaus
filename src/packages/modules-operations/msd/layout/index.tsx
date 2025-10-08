@@ -55,6 +55,7 @@ const MSDComponent = ({
 
 			{status === Status.CONTENT && (
 				<button
+					type="button"
 					className="msd__panel-trigger_left"
 					onClick={changeStatusToBoth}
 				>
@@ -65,12 +66,20 @@ const MSDComponent = ({
 			{status === Status.BOTH && (
 				<div className="msd__panel-trigger_middle">
 					<div>
-						<button onClick={changeStatusToContent} title="open content">
+						<button
+							type="button"
+							onClick={changeStatusToContent}
+							title="open content"
+						>
 							<span className="glyphicon glyphicon-chevron-left" />
 						</button>
 					</div>
 					<div>
-						<button onClick={changeStatusToSummary} title="open summary">
+						<button
+							type="button"
+							onClick={changeStatusToSummary}
+							title="open summary"
+						>
 							<span className="glyphicon glyphicon-chevron-right" />
 						</button>
 					</div>
@@ -78,6 +87,7 @@ const MSDComponent = ({
 			)}
 			{status === Status.SUMMARY && (
 				<button
+					type="button"
 					className="msd__panel-trigger_right"
 					onClick={changeStatusToBoth}
 				>

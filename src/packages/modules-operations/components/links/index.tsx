@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Note } from '@components/note';
 
 import { D1, D2 } from '../../../deprecated-locales';
+import { EMPTY_ARRAY } from '@utils/array-utils';
 
 interface DisplayLinksTypes {
 	links: any[];
@@ -14,7 +15,7 @@ interface DisplayLinksTypes {
 	labelLg2?: string;
 }
 function DisplayLinks({
-	links = [],
+	links = EMPTY_ARRAY,
 	path,
 	title,
 	secondLang,

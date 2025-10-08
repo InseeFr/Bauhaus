@@ -62,6 +62,7 @@ export const Logout = () => {
 	return (
 		<div id="login">
 			<button
+				type="button"
 				onClick={() => {
 					if (!login) {
 						return;

@@ -44,6 +44,7 @@ export const Button = ({
 		//if action is a function, it means a handler was passed in instead of an URL
 		button = (
 			<button
+				type="button"
 				className={className}
 				onClick={action}
 				disabled={disabled}

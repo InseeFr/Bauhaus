@@ -27,6 +27,7 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { validateCodelist } from '../../utils';
 import { CodesCollapsiblePanel } from './codes-panel';
 import './edit.scss';
+import { EMPTY_ARRAY } from '@utils/array-utils';
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -36,7 +37,7 @@ export const DumbCodelistDetailEdit = ({
 	handleSave,
 	handleBack,
 	updateMode,
-	stampListOptions = [],
+	stampListOptions = EMPTY_ARRAY,
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);

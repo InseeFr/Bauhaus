@@ -11,7 +11,7 @@ export const useLayout = (): [
 	changeLayoutMode: (mode: Status) => void,
 ] => {
 	const [layoutMode, setLayoutMode] = useState<Status>(
-		(getItem('HELP_VIEW') as unknown as Status) || Status.BOTH,
+		() => (getItem('HELP_VIEW') as unknown as Status) || Status.BOTH,
 	);
 
 	const changeLayoutMode = (status: Status): void => {

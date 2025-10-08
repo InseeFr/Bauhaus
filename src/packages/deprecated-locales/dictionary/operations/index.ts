@@ -303,6 +303,14 @@ const dictionary = {
 		fr: 'Inclure les rubriques vides',
 		en: 'Include the empty rubrics',
 	},
+	simsWithoutObject: {
+		fr: 'Sans Objet',
+		en: 'Not applicable',
+	},
+	simsConfirmationMessage: {
+		fr: 'Vous êtes sur le point de supprimer les données de cette rubrique. Souhaitez-vous confirmer ?',
+		en: 'You are about to delete the data for this rubric. Do you wish to confirm?',
+	},
 	...documentsD,
 	...validationD,
 };
