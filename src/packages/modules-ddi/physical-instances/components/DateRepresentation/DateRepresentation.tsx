@@ -44,9 +44,7 @@ export const DateRepresentation = ({
 
 	return (
 		<div className="flex flex-column gap-2">
-			<label htmlFor="date-type">
-				{t('physicalInstance.view.date.type')}
-			</label>
+			<label htmlFor="date-type">{t('physicalInstance.view.date.type')}</label>
 			<Dropdown
 				id="date-type"
 				name="dateType"

@@ -29,7 +29,15 @@ vi.mock('react-i18next', () => ({
 }));
 
 vi.mock('primereact/inputtext', () => ({
-	InputText: ({ id, value, onChange, onBlur, onKeyDown, placeholder, ...props }: any) => (
+	InputText: ({
+		id,
+		value,
+		onChange,
+		onBlur,
+		onKeyDown,
+		placeholder,
+		...props
+	}: any) => (
 		<input
 			id={id}
 			value={value}
@@ -44,7 +52,7 @@ vi.mock('primereact/inputtext', () => ({
 
 vi.mock('primereact/button', () => ({
 	Button: ({ icon, label, onClick, disabled, tooltip, children }: any) => (
-		<button onClick={onClick} disabled={disabled} title={tooltip}>
+		<button type="button" onClick={onClick} disabled={disabled} title={tooltip}>
 			{label || icon || children}
 		</button>
 	),
@@ -244,7 +252,9 @@ describe('CodeRepresentation', () => {
 		);
 
 		const addButtons = screen.getAllByRole('button');
-		const addButton = addButtons.find((btn) => btn.textContent === 'pi pi-plus');
+		const addButton = addButtons.find(
+			(btn) => btn.textContent === 'pi pi-plus',
+		);
 
 		// Le bouton devrait être désactivé au départ
 		expect(addButton).toBeDefined();

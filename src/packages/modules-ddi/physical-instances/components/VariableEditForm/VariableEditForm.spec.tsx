@@ -168,7 +168,9 @@ describe('VariableEditForm', () => {
 
 		const nameInput = screen.getByLabelText('Nom') as HTMLInputElement;
 		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
-		const descriptionInput = screen.getByLabelText('Description') as HTMLTextAreaElement;
+		const descriptionInput = screen.getByLabelText(
+			'Description',
+		) as HTMLTextAreaElement;
 		const typeSelect = screen.getByRole('combobox', {
 			name: 'Type',
 		}) as HTMLSelectElement;
@@ -189,15 +191,9 @@ describe('VariableEditForm', () => {
 		);
 
 		expect(screen.getByTestId('numeric-representation')).toBeInTheDocument();
-		expect(
-			screen.queryByTestId('date-representation'),
-		).not.toBeInTheDocument();
-		expect(
-			screen.queryByTestId('text-representation'),
-		).not.toBeInTheDocument();
-		expect(
-			screen.queryByTestId('code-representation'),
-		).not.toBeInTheDocument();
+		expect(screen.queryByTestId('date-representation')).not.toBeInTheDocument();
+		expect(screen.queryByTestId('text-representation')).not.toBeInTheDocument();
+		expect(screen.queryByTestId('code-representation')).not.toBeInTheDocument();
 	});
 
 	it('should show DateRepresentation when type is date', () => {
@@ -397,7 +393,9 @@ describe('VariableEditForm', () => {
 
 		const nameInput = screen.getByLabelText('Nom') as HTMLInputElement;
 		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
-		const descriptionInput = screen.getByLabelText('Description') as HTMLTextAreaElement;
+		const descriptionInput = screen.getByLabelText(
+			'Description',
+		) as HTMLTextAreaElement;
 		const typeSelect = screen.getByRole('combobox', {
 			name: 'Type',
 		}) as HTMLSelectElement;
@@ -618,8 +616,12 @@ describe('VariableEditForm', () => {
 		);
 
 		const updatedNameInput = screen.getByLabelText('Nom') as HTMLInputElement;
-		const updatedLabelInput = screen.getByLabelText('Label') as HTMLInputElement;
-		const updatedDescriptionInput = screen.getByLabelText('Description') as HTMLTextAreaElement;
+		const updatedLabelInput = screen.getByLabelText(
+			'Label',
+		) as HTMLInputElement;
+		const updatedDescriptionInput = screen.getByLabelText(
+			'Description',
+		) as HTMLTextAreaElement;
 		const checkbox = screen.getByLabelText(
 			'Variable géographique',
 		) as HTMLInputElement;

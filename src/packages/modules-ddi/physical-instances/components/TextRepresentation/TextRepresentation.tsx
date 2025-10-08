@@ -42,7 +42,9 @@ export const TextRepresentation = ({
 			newRepresentation['@regExp'] = regExp;
 		}
 
-		onChange(Object.keys(newRepresentation).length > 0 ? newRepresentation : undefined);
+		onChange(
+			Object.keys(newRepresentation).length > 0 ? newRepresentation : undefined,
+		);
 	}, [minLength, maxLength, regExp, onChange]);
 
 	return (

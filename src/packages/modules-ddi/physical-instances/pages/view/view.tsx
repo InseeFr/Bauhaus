@@ -251,7 +251,7 @@ export const Component = () => {
 
 	return (
 		<div className="flex" role="main">
-			<div className={state.selectedVariable ? "col-8" : "col-12"}>
+			<div className={state.selectedVariable ? 'col-8' : 'col-12'}>
 				<div className="flex align-items-center gap-2 mb-3">
 					<h1 className="m-0">{title}</h1>
 					<Button

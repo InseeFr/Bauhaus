@@ -122,7 +122,11 @@ export const CodeRepresentation = ({
 		onChange(representation, updatedCodeList, updatedCategories);
 	};
 
-	const handleCellEdit = (rowData: CodeTableRow, field: 'value' | 'label', newValue: string) => {
+	const handleCellEdit = (
+		rowData: CodeTableRow,
+		field: 'value' | 'label',
+		newValue: string,
+	) => {
 		const updatedCodes = codes.map((code) =>
 			code.id === rowData.id ? { ...code, [field]: newValue } : code,
 		);
@@ -324,7 +328,10 @@ export const CodeRepresentation = ({
 			Code: [...(codeList?.Code || []), newCode],
 		};
 
-		onChange(currentRepresentation, updatedCodeList, [...categories, newCategory]);
+		onChange(currentRepresentation, updatedCodeList, [
+			...categories,
+			newCategory,
+		]);
 	};
 
 	const emptyRowValueTemplate = () => {
@@ -372,7 +379,11 @@ export const CodeRepresentation = ({
 					onClick={handleAddCodeFromEmpty}
 					disabled={!hasContent}
 					className="add-code-button"
-					tooltip={hasContent ? t('physicalInstance.view.code.addCodeTooltip') : t('physicalInstance.view.code.fillFieldsTooltip')}
+					tooltip={
+						hasContent
+							? t('physicalInstance.view.code.addCodeTooltip')
+							: t('physicalInstance.view.code.fillFieldsTooltip')
+					}
 					tooltipOptions={{ position: 'left' }}
 				/>
 			</>
@@ -399,33 +410,50 @@ export const CodeRepresentation = ({
 						icon="pi pi-plus"
 						label={t('physicalInstance.view.code.createNewList')}
 						outlined
-						onClick={() => {/* TODO: Implement create new list */}}
+						onClick={() => {
+							/* TODO: Implement create new list */
+						}}
 					/>
 					<Button
 						icon="pi pi-sync"
 						label={t('physicalInstance.view.code.reuseList')}
 						outlined
-						onClick={() => {/* TODO: Implement reuse list */}}
+						onClick={() => {
+							/* TODO: Implement reuse list */
+						}}
 					/>
 					<Button
 						icon="pi pi-upload"
 						label={t('physicalInstance.view.code.importList')}
 						outlined
-						onClick={() => {/* TODO: Implement import list */}}
+						onClick={() => {
+							/* TODO: Implement import list */
+						}}
 					/>
 				</div>
 				<DataTable value={[...codes, emptyRow]} size="small">
 					<Column
 						field="value"
 						header={t('physicalInstance.view.code.value')}
-						body={(rowData) => rowData.id === '' ? emptyRowValueTemplate() : valueEditor(rowData)}
+						body={(rowData) =>
+							rowData.id === '' ? emptyRowValueTemplate() : valueEditor(rowData)
+						}
 					/>
 					<Column
 						field="label"
 						header={t('physicalInstance.view.code.label')}
-						body={(rowData) => rowData.id === '' ? emptyRowLabelTemplate() : labelEditor(rowData)}
+						body={(rowData) =>
+							rowData.id === '' ? emptyRowLabelTemplate() : labelEditor(rowData)
+						}
 					/>
-					<Column body={(rowData) => rowData.id === '' ? emptyRowActionTemplate() : actionBodyTemplate(rowData)} style={{ width: '5rem' }} />
+					<Column
+						body={(rowData) =>
+							rowData.id === ''
+								? emptyRowActionTemplate()
+								: actionBodyTemplate(rowData)
+						}
+						style={{ width: '5rem' }}
+					/>
 				</DataTable>
 			</div>
 		</>
