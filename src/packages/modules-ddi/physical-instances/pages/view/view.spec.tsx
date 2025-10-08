@@ -217,12 +217,6 @@ describe('View Component', () => {
 			expect(screen.getByRole('main')).toBeInTheDocument();
 		});
 
-		it('should have correct accessibility role for complementary section', () => {
-			render(<Component />, { wrapper });
-
-			expect(screen.getByRole('complementary')).toBeInTheDocument();
-		});
-
 		it('should render SearchFilters component', () => {
 			render(<Component />, { wrapper });
 

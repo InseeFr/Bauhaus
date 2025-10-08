@@ -23,8 +23,14 @@
 			"columns": {
 				"name": "Name",
 				"label": "Label",
+				"description": "Description",
 				"type": "Type",
 				"lastModified": "Last Modified"
+			},
+			"tabs": {
+				"information": "Information",
+				"representation": "Representation",
+				"ddiXml": "DDI XML Preview"
 			},
 			"numeric": {
 				"type": "Numeric type",
@@ -51,7 +57,10 @@
 				"value": "Value",
 				"label": "Label",
 				"addCodeTooltip": "Add this code",
-				"fillFieldsTooltip": "Fill at least one field to add a code"
+				"fillFieldsTooltip": "Fill at least one field to add a code",
+				"createNewList": "Create new list",
+				"reuseList": "Reuse",
+				"importList": "Import"
 			},
 			"delete": "Delete",
 			"editModal": {
@@ -72,6 +81,7 @@
 			"selectType": "Select a type",
 			"cancel": "Cancel",
 			"save": "Save",
+			"duplicate": "Duplicate",
 			"variableTypes": {
 				"text": "Text",
 				"code": "Code",

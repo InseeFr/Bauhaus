@@ -251,7 +251,7 @@ export const Component = () => {
 
 	return (
 		<div className="flex" role="main">
-			<div className="col-8">
+			<div className={state.selectedVariable ? "col-8" : "col-12"}>
 				<div className="flex align-items-center gap-2 mb-3">
 					<h1 className="m-0">{title}</h1>
 					<Button
@@ -282,19 +282,15 @@ export const Component = () => {
 					onRowClick={handleVariableClick}
 				/>
 			</div>
-			<div className="col-4" role="complementary">
-				{state.selectedVariable ? (
+			{state.selectedVariable && (
+				<div className="col-4" role="complementary">
 					<VariableEditForm
 						variable={state.selectedVariable}
 						typeOptions={variableTypeOptions}
 						onSave={handleVariableSave}
 					/>
-				) : (
-					<div className="text-center text-gray-500 mt-4">
-						{t('physicalInstance.view.selectVariable')}
-					</div>
-				)}
-			</div>
+				</div>
+			)}
 
 			<EditModal
 				visible={state.isEditModalVisible}

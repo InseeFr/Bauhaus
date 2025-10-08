@@ -23,8 +23,14 @@
 			"columns": {
 				"name": "Nom",
 				"label": "Label",
+				"description": "Description",
 				"type": "Type",
 				"lastModified": "Dernière Modification"
+			},
+			"tabs": {
+				"information": "Informations",
+				"representation": "Représentation",
+				"ddiXml": "Aperçu DDI XML"
 			},
 			"numeric": {
 				"type": "Type numérique",
@@ -51,7 +57,10 @@
 				"value": "Valeur",
 				"label": "Libellé",
 				"addCodeTooltip": "Ajouter ce code",
-				"fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code"
+				"fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
+				"createNewList": "Créer une nouvelle liste",
+				"reuseList": "Réutiliser",
+				"importList": "Importer"
 			},
 			"delete": "Supprimer",
 			"editModal": {
@@ -72,6 +81,7 @@
 			"selectType": "Sélectionnez un type",
 			"cancel": "Annuler",
 			"save": "Enregistrer",
+			"duplicate": "Dupliquer",
 			"variableTypes": {
 				"text": "Texte",
 				"code": "Code",

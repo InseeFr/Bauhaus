@@ -67,8 +67,8 @@ describe('EditModal', () => {
 		render(<EditModal {...defaultProps} />);
 
 		expect(screen.getByText('Modifier')).toBeInTheDocument();
-		expect(screen.getByLabelText('Label')).toBeInTheDocument();
 		expect(screen.getByLabelText('Name')).toBeInTheDocument();
+		expect(screen.getByLabelText('Label')).toBeInTheDocument();
 	});
 
 	it('should not render the dialog when visible is false', () => {
@@ -80,11 +80,11 @@ describe('EditModal', () => {
 	it('should display current form data', () => {
 		render(<EditModal {...defaultProps} />);
 
-		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
 		const nameInput = screen.getByLabelText('Name') as HTMLInputElement;
+		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
 
-		expect(labelInput.value).toBe('Test Label');
 		expect(nameInput.value).toBe('Test Name');
+		expect(labelInput.value).toBe('Test Label');
 	});
 
 	it('should call onFormDataChange when label input changes', () => {
@@ -94,8 +94,8 @@ describe('EditModal', () => {
 		fireEvent.change(labelInput, { target: { value: 'New Label' } });
 
 		expect(mockOnFormDataChange).toHaveBeenCalledWith({
-			label: 'New Label',
 			name: 'Test Name',
+			label: 'New Label',
 		});
 	});
 
@@ -106,8 +106,8 @@ describe('EditModal', () => {
 		fireEvent.change(nameInput, { target: { value: 'New Name' } });
 
 		expect(mockOnFormDataChange).toHaveBeenCalledWith({
-			label: 'Test Label',
 			name: 'New Name',
+			label: 'Test Label',
 		});
 	});
 

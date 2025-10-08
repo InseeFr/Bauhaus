@@ -19,6 +19,9 @@ vi.mock('react-i18next', () => ({
 				'physicalInstance.view.code.addCodeTooltip': 'Ajouter ce code',
 				'physicalInstance.view.code.fillFieldsTooltip':
 					'Remplissez au moins un champ pour ajouter un code',
+				'physicalInstance.view.code.createNewList': 'Créer une nouvelle liste',
+				'physicalInstance.view.code.reuseList': 'Réutiliser',
+				'physicalInstance.view.code.importList': 'Importer',
 			};
 			return translations[key] || key;
 		},
@@ -40,9 +43,9 @@ vi.mock('primereact/inputtext', () => ({
 }));
 
 vi.mock('primereact/button', () => ({
-	Button: ({ icon, onClick, disabled, tooltip, children }: any) => (
+	Button: ({ icon, label, onClick, disabled, tooltip, children }: any) => (
 		<button onClick={onClick} disabled={disabled} title={tooltip}>
-			{icon || children}
+			{label || icon || children}
 		</button>
 	),
 }));
@@ -201,7 +204,7 @@ describe('CodeRepresentation', () => {
 		);
 	});
 
-	it('should display existing codes in table', () => {
+	it('should display code action buttons', () => {
 		render(
 			<CodeRepresentation
 				representation={mockRepresentation}
@@ -211,7 +214,9 @@ describe('CodeRepresentation', () => {
 			/>,
 		);
 
-		expect(screen.getByText('Codes')).toBeInTheDocument();
+		expect(screen.getByText('Créer une nouvelle liste')).toBeInTheDocument();
+		expect(screen.getByText('Réutiliser')).toBeInTheDocument();
+		expect(screen.getByText('Importer')).toBeInTheDocument();
 	});
 
 	it('should display empty row with input fields', () => {

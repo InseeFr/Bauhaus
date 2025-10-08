@@ -394,7 +394,26 @@ export const CodeRepresentation = ({
 			</div>
 
 			<div className="flex flex-column gap-2">
-				<label>{t('physicalInstance.view.code.codes')}</label>
+				<div className="flex gap-2">
+					<Button
+						icon="pi pi-plus"
+						label={t('physicalInstance.view.code.createNewList')}
+						outlined
+						onClick={() => {/* TODO: Implement create new list */}}
+					/>
+					<Button
+						icon="pi pi-sync"
+						label={t('physicalInstance.view.code.reuseList')}
+						outlined
+						onClick={() => {/* TODO: Implement reuse list */}}
+					/>
+					<Button
+						icon="pi pi-upload"
+						label={t('physicalInstance.view.code.importList')}
+						outlined
+						onClick={() => {/* TODO: Implement import list */}}
+					/>
+				</div>
 				<DataTable value={[...codes, emptyRow]} size="small">
 					<Column
 						field="value"

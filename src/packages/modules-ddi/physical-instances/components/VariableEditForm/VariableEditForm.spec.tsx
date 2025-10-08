@@ -14,11 +14,16 @@ vi.mock('react-i18next', () => ({
 			const translations: Record<string, string> = {
 				'physicalInstance.view.editVariable': 'Modifier la variable',
 				'physicalInstance.view.save': 'Enregistrer',
+				'physicalInstance.view.duplicate': 'Dupliquer',
 				'physicalInstance.view.columns.label': 'Label',
 				'physicalInstance.view.columns.name': 'Nom',
+				'physicalInstance.view.columns.description': 'Description',
 				'physicalInstance.view.columns.type': 'Type',
 				'physicalInstance.view.selectType': 'Sélectionnez un type',
 				'physicalInstance.view.isGeographic': 'Variable géographique',
+				'physicalInstance.view.tabs.information': 'Informations',
+				'physicalInstance.view.tabs.representation': 'Représentation',
+				'physicalInstance.view.tabs.ddiXml': 'Aperçu DDI XML',
 			};
 			return translations[key] || key;
 		},
@@ -76,6 +81,22 @@ vi.mock('primereact/checkbox', () => ({
 	),
 }));
 
+vi.mock('primereact/inputtextarea', () => ({
+	InputTextarea: ({ id, value, onChange, rows }: any) => (
+		<textarea id={id} value={value} onChange={onChange} rows={rows} />
+	),
+}));
+
+vi.mock('primereact/tabview', () => ({
+	TabView: ({ children }: any) => <div>{children}</div>,
+	TabPanel: ({ header, children }: any) => (
+		<div>
+			<h3>{header}</h3>
+			{children}
+		</div>
+	),
+}));
+
 vi.mock('../NumericRepresentation/NumericRepresentation', () => ({
 	NumericRepresentation: () => (
 		<div data-testid="numeric-representation">
@@ -116,6 +137,7 @@ describe('VariableEditForm', () => {
 		id: 'var-1',
 		label: 'Test Variable',
 		name: 'testVar',
+		description: 'Test description',
 		type: 'numeric',
 	};
 
@@ -135,7 +157,7 @@ describe('VariableEditForm', () => {
 		expect(screen.getByText('Modifier la variable')).toBeInTheDocument();
 	});
 
-	it('should display variable label, name and type', () => {
+	it('should display variable name, label, description and type', () => {
 		render(
 			<VariableEditForm
 				variable={defaultVariable}
@@ -144,14 +166,16 @@ describe('VariableEditForm', () => {
 			/>,
 		);
 
-		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
 		const nameInput = screen.getByLabelText('Nom') as HTMLInputElement;
+		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
+		const descriptionInput = screen.getByLabelText('Description') as HTMLTextAreaElement;
 		const typeSelect = screen.getByRole('combobox', {
 			name: 'Type',
 		}) as HTMLSelectElement;
 
-		expect(labelInput.value).toBe('Test Variable');
 		expect(nameInput.value).toBe('testVar');
+		expect(labelInput.value).toBe('Test Variable');
+		expect(descriptionInput.value).toBe('Test description');
 		expect(typeSelect.value).toBe('numeric');
 	});
 
@@ -264,6 +288,7 @@ describe('VariableEditForm', () => {
 				id: 'var-1',
 				label: 'Test Variable',
 				name: 'testVar',
+				description: 'Test description',
 				type: 'numeric',
 			}),
 		);
@@ -358,6 +383,7 @@ describe('VariableEditForm', () => {
 			id: 'var-2',
 			label: 'New Variable',
 			name: 'newVar',
+			description: 'New description',
 			type: 'date',
 		};
 
@@ -369,14 +395,16 @@ describe('VariableEditForm', () => {
 			/>,
 		);
 
-		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
 		const nameInput = screen.getByLabelText('Nom') as HTMLInputElement;
+		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
+		const descriptionInput = screen.getByLabelText('Description') as HTMLTextAreaElement;
 		const typeSelect = screen.getByRole('combobox', {
 			name: 'Type',
 		}) as HTMLSelectElement;
 
-		expect(labelInput.value).toBe('New Variable');
 		expect(nameInput.value).toBe('newVar');
+		expect(labelInput.value).toBe('New Variable');
+		expect(descriptionInput.value).toBe('New description');
 		expect(typeSelect.value).toBe('date');
 		expect(screen.getByTestId('date-representation')).toBeInTheDocument();
 	});
@@ -576,6 +604,7 @@ describe('VariableEditForm', () => {
 			id: 'var-2',
 			label: 'Different Variable',
 			name: 'differentVar',
+			description: 'Different description',
 			type: 'date',
 			isGeographic: true,
 		};
@@ -588,14 +617,16 @@ describe('VariableEditForm', () => {
 			/>,
 		);
 
-		const updatedLabelInput = screen.getByLabelText('Label') as HTMLInputElement;
 		const updatedNameInput = screen.getByLabelText('Nom') as HTMLInputElement;
+		const updatedLabelInput = screen.getByLabelText('Label') as HTMLInputElement;
+		const updatedDescriptionInput = screen.getByLabelText('Description') as HTMLTextAreaElement;
 		const checkbox = screen.getByLabelText(
 			'Variable géographique',
 		) as HTMLInputElement;
 
-		expect(updatedLabelInput.value).toBe('Different Variable');
 		expect(updatedNameInput.value).toBe('differentVar');
+		expect(updatedLabelInput.value).toBe('Different Variable');
+		expect(updatedDescriptionInput.value).toBe('Different description');
 		expect(checkbox.checked).toBe(true);
 		expect(screen.getByTestId('date-representation')).toBeInTheDocument();
 	});
