@@ -97,6 +97,8 @@ export interface VariableRepresentation {
 	VariableRole?: string;
 	CodeRepresentation?: CodeRepresentation;
 	NumericRepresentation?: NumericRepresentation;
+	DateTimeRepresentation?: DateTimeRepresentation;
+	TextRepresentation?: TextRepresentation;
 }
 
 export interface CodeRepresentation {
@@ -107,6 +109,16 @@ export interface CodeRepresentation {
 export interface NumericRepresentation {
 	NumericTypeCode: string;
 	NumberRange?: NumberRange;
+}
+
+export interface DateTimeRepresentation {
+	DateTypeCode: string;
+}
+
+export interface TextRepresentation {
+	'@minLength'?: string;
+	'@maxLength'?: string;
+	'@regExp'?: string;
 }
 
 export interface NumberRange {

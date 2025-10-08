@@ -42,12 +42,15 @@ function transformVariablesToTableData(
 
 function getVariableType(variable: Variable): string {
 	if (variable.VariableRepresentation?.CodeRepresentation) {
-		return 'Code';
+		return 'code';
 	}
 	if (variable.VariableRepresentation?.NumericRepresentation) {
-		return 'Numeric';
+		return 'numeric';
 	}
-	return 'Unknown';
+	if (variable.VariableRepresentation?.DateTimeRepresentation) {
+		return 'date';
+	}
+	return 'text';
 }
 
 export function usePhysicalInstancesData(id: string) {
