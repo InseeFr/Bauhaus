@@ -217,6 +217,12 @@ describe('View Component', () => {
 			expect(screen.getByRole('main')).toBeInTheDocument();
 		});
 
+		it('should have correct accessibility role for complementary section', () => {
+			render(<Component />, { wrapper });
+
+			expect(screen.getByRole('complementary')).toBeInTheDocument();
+		});
+
 		it('should render SearchFilters component', () => {
 			render(<Component />, { wrapper });
 
@@ -476,6 +482,7 @@ describe('View Component', () => {
 			});
 		});
 	});
+<<<<<<< HEAD
 
 	describe('Save functionality', () => {
 		it('should initialize edit modal with title and dataRelationshipName', () => {
@@ -604,4 +611,6 @@ describe('View Component', () => {
 			});
 		});
 	});
+=======
+>>>>>>> dfa24ed9 (feat: physical instance page (#1309))
 });

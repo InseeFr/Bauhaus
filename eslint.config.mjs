@@ -63,6 +63,7 @@ export default [
 			'@eslint-react/no-nested-component-definitions': 'off',
 			'@eslint-react/no-duplicate-key': 'off',
 			'@eslint-react/web-api/no-leaked-interval': 'off',
+			'@typescript-eslint/no-unused-expressions': 'off',
 			// Final valid rules
 			'vitest/expect-expect': 'off',
 			'vitest/valid-title': [

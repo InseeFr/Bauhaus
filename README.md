@@ -18,20 +18,20 @@ The application is tested on Node.js 22.
 ```
 git clone git@github.com:InseeFr/Bauhaus.git
 cd Bauhaus
-npm install
-npm run start
+pnpm install
+pnpm start
 ```
 
 You can run all tests suites with this command. You need to run at least once `npm run build`.
 
 ```shell
-npm run test:coverage
+pnpm test:coverage
 ```
 
 The following command will activate the **watch** mode, and you will be able to select a subset of tests you want to run.
 
 ```shell
-npm run test --watchAll
+pnpm test --watchAll
 ```
 
 ## Docker
@@ -48,6 +48,6 @@ docker run -it -p 8080:8080 bauhaus:front
 If you are using, you should install the following dependency.
 
 ```
-npm install --global windows-build-tools
+pnpm install --global windows-build-tools
 
 ```
