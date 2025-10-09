@@ -48,7 +48,7 @@ export const Component = () => {
 	useTitle(D.operationsTitle, D.operationsTreeTitle);
 
 	const [treeData, setTreeData] = useState([]);
-	const [loadingNodes, setLoadingNodes] = useState(new Set());
+	const [loadingNodes, setLoadingNodes] = useState(() => new Set());
 
 	const goBack = useGoBack();
 

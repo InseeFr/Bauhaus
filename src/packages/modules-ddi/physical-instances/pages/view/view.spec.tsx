@@ -482,7 +482,6 @@ describe('View Component', () => {
 			});
 		});
 	});
-<<<<<<< HEAD
 
 	describe('Save functionality', () => {
 		it('should initialize edit modal with title and dataRelationshipName', () => {
@@ -611,6 +610,4 @@ describe('View Component', () => {
 			});
 		});
 	});
-=======
->>>>>>> dfa24ed9 (feat: physical instance page (#1309))
 });
