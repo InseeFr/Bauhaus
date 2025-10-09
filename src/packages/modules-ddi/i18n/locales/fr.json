@@ -19,12 +19,50 @@
 			"bulkEdit": "Édition en masse",
 			"publish": "Publier",
 			"variablesTable": "Tableau des variables",
+			"isGeographic": "Variable géographique?",
 			"columns": {
 				"name": "Nom",
 				"label": "Label",
+				"description": "Description",
 				"type": "Type",
 				"lastModified": "Dernière Modification"
 			},
+			"tabs": {
+				"information": "Informations",
+				"representation": "Représentation",
+				"ddiXml": "Aperçu DDI XML"
+			},
+			"numeric": {
+				"type": "Type numérique",
+				"selectType": "Sélectionnez un type numérique",
+				"min": "Min",
+				"max": "Max",
+				"addMinBound": "Ajouter une borne minimale",
+				"addMaxBound": "Ajouter une borne maximale"
+			},
+			"date": {
+				"type": "Type de date",
+				"selectType": "Sélectionnez un type de date"
+			},
+			"text": {
+				"minLength": "Taille minimale",
+				"maxLength": "Taille maximale",
+				"regExp": "Expression régulière"
+			},
+			"code": {
+				"codeListLabel": "Libellé de la liste de codes",
+				"codes": "Codes",
+				"addCode": "Ajouter un code",
+				"editCode": "Modifier le code",
+				"value": "Valeur",
+				"label": "Libellé",
+				"addCodeTooltip": "Ajouter ce code",
+				"fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
+				"createNewList": "Créer une nouvelle liste",
+				"reuseList": "Réutiliser",
+				"importList": "Importer"
+			},
+			"delete": "Supprimer",
 			"editModal": {
 				"title": "Modifier",
 				"label": "Label",
@@ -43,6 +81,7 @@
 			"selectType": "Sélectionnez un type",
 			"cancel": "Annuler",
 			"save": "Enregistrer",
+			"duplicate": "Dupliquer",
 			"variableTypes": {
 				"text": "Texte",
 				"code": "Code",

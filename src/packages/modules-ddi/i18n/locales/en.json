@@ -19,12 +19,50 @@
 			"bulkEdit": "Bulk Edit",
 			"publish": "Publish",
 			"variablesTable": "Variables table",
+			"isGeographic": "Is geographic?",
 			"columns": {
 				"name": "Name",
 				"label": "Label",
+				"description": "Description",
 				"type": "Type",
 				"lastModified": "Last Modified"
 			},
+			"tabs": {
+				"information": "Information",
+				"representation": "Representation",
+				"ddiXml": "DDI XML Preview"
+			},
+			"numeric": {
+				"type": "Numeric type",
+				"selectType": "Select a numeric type",
+				"min": "Min",
+				"max": "Max",
+				"addMinBound": "Add minimum bound",
+				"addMaxBound": "Add maximum bound"
+			},
+			"date": {
+				"type": "Date type",
+				"selectType": "Select a date type"
+			},
+			"text": {
+				"minLength": "Minimum length",
+				"maxLength": "Maximum length",
+				"regExp": "Regular expression"
+			},
+			"code": {
+				"codeListLabel": "Code list label",
+				"codes": "Codes",
+				"addCode": "Add code",
+				"editCode": "Edit code",
+				"value": "Value",
+				"label": "Label",
+				"addCodeTooltip": "Add this code",
+				"fillFieldsTooltip": "Fill at least one field to add a code",
+				"createNewList": "Create new list",
+				"reuseList": "Reuse",
+				"importList": "Import"
+			},
+			"delete": "Delete",
 			"editModal": {
 				"title": "Edit",
 				"label": "Label",
@@ -43,6 +81,7 @@
 			"selectType": "Select a type",
 			"cancel": "Cancel",
 			"save": "Save",
+			"duplicate": "Duplicate",
 			"variableTypes": {
 				"text": "Text",
 				"code": "Code",

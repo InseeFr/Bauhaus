@@ -35,18 +35,6 @@ export const EditModal = ({
 		>
 			<form className="flex flex-column gap-3" onSubmit={handleSubmit}>
 				<div className="flex flex-column gap-2">
-					<label htmlFor="label">
-						{t('physicalInstance.view.editModal.label')}
-					</label>
-					<InputText
-						id="label"
-						value={formData.label}
-						onChange={(e) =>
-							onFormDataChange({ ...formData, label: e.target.value })
-						}
-					/>
-				</div>
-				<div className="flex flex-column gap-2">
 					<label htmlFor="name">
 						{t('physicalInstance.view.editModal.name')}
 					</label>
@@ -55,6 +43,18 @@ export const EditModal = ({
 						value={formData.name}
 						onChange={(e) =>
 							onFormDataChange({ ...formData, name: e.target.value })
+						}
+					/>
+				</div>
+				<div className="flex flex-column gap-2">
+					<label htmlFor="label">
+						{t('physicalInstance.view.editModal.label')}
+					</label>
+					<InputText
+						id="label"
+						value={formData.label}
+						onChange={(e) =>
+							onFormDataChange({ ...formData, label: e.target.value })
 						}
 					/>
 				</div>

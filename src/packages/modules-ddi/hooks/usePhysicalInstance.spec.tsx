@@ -113,7 +113,7 @@ describe('usePhysicalInstancesData', () => {
 			json: async () => mockApiResponse,
 		});
 
-		const { result } = renderHook(() => usePhysicalInstancesData(), {
+		const { result } = renderHook(() => usePhysicalInstancesData('test-id'), {
 			wrapper,
 		});
 
@@ -124,21 +124,21 @@ describe('usePhysicalInstancesData', () => {
 			id: '1',
 			name: 'ACTOCCUPE',
 			label: 'Actif occupé',
-			type: 'Code',
+			type: 'code',
 			lastModified: expect.stringContaining('2024'),
 		});
 		expect(result.current.variables[1]).toEqual({
 			id: '2',
 			name: 'AG',
 			label: 'Age',
-			type: 'Numeric',
+			type: 'numeric',
 			lastModified: expect.stringContaining('2024'),
 		});
 		expect(result.current.variables[2]).toEqual({
 			id: '3',
 			name: 'UNKNOWN_VAR',
 			label: 'Unknown Variable',
-			type: 'Unknown',
+			type: 'text',
 			lastModified: expect.stringContaining('2024'),
 		});
 	});
@@ -149,7 +149,7 @@ describe('usePhysicalInstancesData', () => {
 			json: async () => ({ Variable: [] }),
 		});
 
-		const { result } = renderHook(() => usePhysicalInstancesData(), {
+		const { result } = renderHook(() => usePhysicalInstancesData('test-id'), {
 			wrapper,
 		});
 
@@ -164,7 +164,7 @@ describe('usePhysicalInstancesData', () => {
 			json: async () => ({}),
 		});
 
-		const { result } = renderHook(() => usePhysicalInstancesData(), {
+		const { result } = renderHook(() => usePhysicalInstancesData('test-id'), {
 			wrapper,
 		});
 
@@ -178,7 +178,7 @@ describe('usePhysicalInstancesData', () => {
 			ok: false,
 		});
 
-		const { result } = renderHook(() => usePhysicalInstancesData(), {
+		const { result } = renderHook(() => usePhysicalInstancesData('test-id'), {
 			wrapper,
 		});
 
@@ -190,7 +190,7 @@ describe('usePhysicalInstancesData', () => {
 	it('should handle network error', async () => {
 		(global.fetch as any).mockRejectedValueOnce(new Error('Network error'));
 
-		const { result } = renderHook(() => usePhysicalInstancesData(), {
+		const { result } = renderHook(() => usePhysicalInstancesData('test-id'), {
 			wrapper,
 		});
 
@@ -214,7 +214,7 @@ describe('usePhysicalInstancesData', () => {
 				}),
 		);
 
-		const { result } = renderHook(() => usePhysicalInstancesData(), {
+		const { result } = renderHook(() => usePhysicalInstancesData('test-id'), {
 			wrapper,
 		});
 
@@ -227,7 +227,7 @@ describe('usePhysicalInstancesData', () => {
 			json: async () => mockApiResponse,
 		});
 
-		const { result } = renderHook(() => usePhysicalInstancesData(), {
+		const { result } = renderHook(() => usePhysicalInstancesData('test-id'), {
 			wrapper,
 		});
 
