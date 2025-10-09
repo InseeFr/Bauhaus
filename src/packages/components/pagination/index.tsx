@@ -44,14 +44,14 @@ export const Pagination = ({ itemEls }: { itemEls: JSX.Element[] }) => {
 	const [numberPerPage, setNumberPerPage] = useState(10);
 
 	const queryParams = queryString.parse(search);
-	let currentPage = parseInt((queryParams.page as string) || '1', 10);
+	let currentPage = Number.parseInt((queryParams.page as string) || '1', 10);
 
 	const url = document.URL;
 	useEffect(() => {
 		const search = new URL(url).searchParams;
 
 		if (search.has('perPage')) {
-			setNumberPerPage(parseInt(search.get('perPage') as string, 10));
+			setNumberPerPage(Number.parseInt(search.get('perPage') as string, 10));
 		}
 	}, [url]);
 

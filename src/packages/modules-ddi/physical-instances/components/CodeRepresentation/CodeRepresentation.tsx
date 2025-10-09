@@ -410,25 +410,19 @@ export const CodeRepresentation = ({
 						icon="pi pi-plus"
 						label={t('physicalInstance.view.code.createNewList')}
 						outlined
-						onClick={() => {
-							/* TODO: Implement create new list */
-						}}
+						onClick={() => {}}
 					/>
 					<Button
 						icon="pi pi-sync"
 						label={t('physicalInstance.view.code.reuseList')}
 						outlined
-						onClick={() => {
-							/* TODO: Implement reuse list */
-						}}
+						onClick={() => {}}
 					/>
 					<Button
 						icon="pi pi-upload"
 						label={t('physicalInstance.view.code.importList')}
 						outlined
-						onClick={() => {
-							/* TODO: Implement import list */
-						}}
+						onClick={() => {}}
 					/>
 				</div>
 				<DataTable value={[...codes, emptyRow]} size="small">

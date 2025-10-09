@@ -1,5 +1,4 @@
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 import { CheckSecondLang } from '@components/check-second-lang';
 import { Row } from '@components/layout';
@@ -91,9 +90,14 @@ const ClassificationTree = ({
 	const treeData = convertToTreeNodes(data);
 
 	const nodeTemplate = (node: TreeNode) => {
-		const nodeData = node.data as { id: string; labelLg1: string; labelLg2: string; parent?: string };
+		const nodeData = node.data as {
+			id: string;
+			labelLg1: string;
+			labelLg2: string;
+			parent?: string;
+		};
 		const linkPath = `/classifications/classification/${id}/item/${nodeData.id}`;
-		
+
 		return (
 			<Link to={linkPath} style={{ textDecoration: 'none', color: 'inherit' }}>
 				{node.label}
@@ -110,10 +114,7 @@ const ClassificationTree = ({
 
 				{data.length !== 0 && (
 					<Row>
-						<Tree 
-							value={treeData} 
-							nodeTemplate={nodeTemplate}
-						/>
+						<Tree value={treeData} nodeTemplate={nodeTemplate} />
 					</Row>
 				)}
 			</div>

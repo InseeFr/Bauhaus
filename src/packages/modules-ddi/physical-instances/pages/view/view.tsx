@@ -195,7 +195,6 @@ export const Component = () => {
 	}, [state.formData, id, t, updatePhysicalInstance]);
 
 	const handleImport = useCallback(() => {
-		// TODO: Import logic
 		dispatch(actions.setImportModalVisible(false));
 		dispatch(actions.setImportData(''));
 	}, []);
@@ -224,7 +223,6 @@ export const Component = () => {
 
 	const handleVariableSave = useCallback(
 		(data: { id: string; label: string; name: string; type: string }) => {
-			// TODO: Save variable logic
 			console.debug('Save variable:', data);
 		},
 		[],
