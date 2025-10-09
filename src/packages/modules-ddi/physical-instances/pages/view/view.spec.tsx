@@ -220,6 +220,9 @@ describe('View Component', () => {
 		it('should have correct accessibility role for complementary section', () => {
 			render(<Component />, { wrapper });
 
+			const firstRow = screen.getAllByRole('row')[1];
+			fireEvent.click(firstRow);
+
 			expect(screen.getByRole('complementary')).toBeInTheDocument();
 		});
 
