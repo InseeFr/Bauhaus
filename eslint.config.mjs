@@ -39,7 +39,6 @@ export default [
 	{
 		settings: { react: { version: '18.3' } },
 		rules: {
-			'no-console': ['error', { allow: ['warn', 'error', 'debug'] }],
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/ban-ts-comment': 'off',
 			'@typescript-eslint/no-non-null-assertion': 'off',
@@ -65,6 +64,7 @@ export default [
 			'@eslint-react/web-api/no-leaked-interval': 'off',
 			'@typescript-eslint/no-unused-expressions': 'off',
 			// Final valid rules
+			'no-console': ['error', { allow: ['warn', 'error', 'debug'] }],
 			'vitest/expect-expect': 'off',
 			'vitest/valid-title': [
 				'error',
