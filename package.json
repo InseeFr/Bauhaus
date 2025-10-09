@@ -35,11 +35,17 @@
 		"overrides": {
 			"react": "18.3.1",
 			"react-dom": "18.3.1",
-			"@types/react": "18.3.24",
-			"@types/react-dom": "18.3.7",
+			"@types/react": "18.2.79",
+			"@types/react-dom": "18.2.25",
 			"loader-utils": "2.0.4",
 			"shell-quote": "1.8.1"
-		}
+		},
+		"onlyBuiltDependencies": [
+			"@parcel/watcher",
+			"core-js",
+			"esbuild",
+			"sharp"
+		]
 	},
 	"devDependencies": {
 		"@eslint-react/eslint-plugin": "^1.52.6",
@@ -53,8 +59,8 @@
 		"@types/dompurify": "^3.0.5",
 		"@types/file-saver": "^2.0.7",
 		"@types/node": "^22.9.0",
-		"@types/react": "^18.3.24",
-		"@types/react-dom": "^18.3.7",
+		"@types/react": "^18.2.79",
+		"@types/react-dom": "^18.2.25",
 		"@types/react-select": "^5.0.1",
 		"@vitejs/plugin-react": "^4.3.4",
 		"@vitest/browser": "3.2.4",
@@ -99,7 +105,7 @@
 		"oidc-spa": "^5.3.0",
 		"primeflex": "^4.0.0",
 		"primeicons": "^7.0.0",
-		"primereact": "^10.8.4",
+		"primereact": "^10.9.7",
 		"query-string": "^9.1.0",
 		"react": "18.3.1",
 		"react-dom": "18.3.1",
@@ -113,7 +119,7 @@
 		"react-sliding-side-panel": "1.1.8",
 		"redux": "^4.2.0",
 		"redux-thunk": "^2.4.2",
-		"typescript": "4.8.4",
+		"typescript": "5.7.3",
 		"zod": "^4.0.0"
 	},
 	"prettier": {
