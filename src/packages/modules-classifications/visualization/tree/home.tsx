@@ -39,7 +39,7 @@ const ClassificationTree = ({
 		const rootNodes: TreeNode[] = [];
 		const processedIds = new Set<string>();
 
-		items.forEach((item) => {
+		for (const item of items) {
 			if (!processedIds.has(item.id)) {
 				const node: TreeNode = {
 					key: item.id,
@@ -51,9 +51,9 @@ const ClassificationTree = ({
 				itemMap.set(item.id, node);
 				processedIds.add(item.id);
 			}
-		});
+		}
 
-		items.forEach((item) => {
+		for (const item of items) {
 			const node = itemMap.get(item.id);
 			if (node) {
 				if (item.parent && itemMap.has(item.parent)) {
@@ -73,7 +73,7 @@ const ClassificationTree = ({
 					}
 				}
 			}
-		});
+		}
 
 		const sortTreeNodes = (nodes: TreeNode[]): TreeNode[] => {
 			return nodes
