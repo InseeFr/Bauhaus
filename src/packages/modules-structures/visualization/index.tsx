@@ -18,6 +18,7 @@ import D from '../i18n/build-dictionary';
 import { ComponentsPanel } from './components/components-panel';
 import { DescriptionsPanel } from './components/descriptions-panel';
 import { GlobalInformationsPanel } from './components/global-informations-panel';
+import { EMPTY_ARRAY } from '../../utils/array-utils';
 
 interface StructureViewTypes {
 	structure: Structure;
@@ -36,7 +37,7 @@ export const StructureView = ({
 		labelLg2,
 		descriptionLg1,
 		descriptionLg2,
-		componentDefinitions = [],
+		componentDefinitions = EMPTY_ARRAY,
 	} = structure;
 
 	return (

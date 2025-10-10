@@ -85,7 +85,7 @@ export const filterKeyDeburr = (keys?: any[]) => (rawStr: string) => {
 
 		const keysToCheck = keys
 			? keys
-			: Object.keys(item).filter((k) => k !== 'id');
+			: Object.keys(item).filter((k) => k !== 'id' && !k.startsWith('_'));
 
 		for (const key of keysToCheck) {
 			const value = getValue(item, key);

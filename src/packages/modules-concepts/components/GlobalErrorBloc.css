@@ -1,0 +1,10 @@
+.global-error-bloc {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 50vh;
+}
+
+.global-error-bloc .p-card {
+	width: 400px;
+}

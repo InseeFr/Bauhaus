@@ -2,6 +2,9 @@ import { screen, render, fireEvent } from '@testing-library/react';
 
 import { XSD_CODE_LIST, XSD_STRING } from '../../utils/constants';
 import Representation from './index';
+import { EMPTY_ARRAY } from '@utils/array-utils';
+
+const codesLists = [{ id: 'id', label: 'label' }];
 
 describe('Representation', () => {
 	it('should display the label of a XSD_TYPES', async () => {
@@ -13,7 +16,7 @@ describe('Representation', () => {
 		render(
 			<Representation
 				component={component}
-				codesLists={[]}
+				codesLists={EMPTY_ARRAY}
 				handleCodesListDetail={handleCodesListDetail}
 			/>,
 		);
@@ -25,7 +28,6 @@ describe('Representation', () => {
 			range: XSD_CODE_LIST,
 			codeList: 'id',
 		};
-		const codesLists = [{ id: 'id', label: 'label' }];
 		const handleCodesListDetail = vi.fn();
 
 		render(

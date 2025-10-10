@@ -7,8 +7,6 @@ export interface Family {
 	validationState: ValidationState;
 	created: string;
 	modified: string;
-	themeLg1: string;
-	themeLg2: string;
 	abstractLg1: string;
 	abstractLg2: string;
 	series: unknown[];

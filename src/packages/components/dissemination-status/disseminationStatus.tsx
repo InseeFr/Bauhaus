@@ -7,11 +7,11 @@ export const getDisseminationStatus = (disseminationStatus: string): string => {
 	if (!disseminationStatus) {
 		return '';
 	}
-	if (disseminationStatus.indexOf('PublicGenerique') > 0) {
+	if (disseminationStatus.includes('PublicGenerique')) {
 		return D.disseminationStatus.DSPublicGeneriqueTitle;
-	} else if (disseminationStatus.indexOf('PublicSpecifique') > 0) {
+	} else if (disseminationStatus.includes('PublicSpecifique')) {
 		return D.disseminationStatus.DSPublicSpecifiqueTitle;
-	} else if (disseminationStatus.indexOf('Prive') > 0) {
+	} else if (disseminationStatus.includes('Prive')) {
 		return D.disseminationStatus.DSPrivateTitle;
 	}
 

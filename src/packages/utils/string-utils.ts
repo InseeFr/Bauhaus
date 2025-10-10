@@ -2,14 +2,14 @@ export const cleanId = (id?: string) => {
 	if (!id) {
 		return '';
 	}
-	return id.replace(/ /g, '-').toLowerCase();
+	return id.replaceAll(' ', '-').toLowerCase();
 };
 export const deburr = (str: string): string => {
 	return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
 
 export const normalize = (str = ''): string => {
-	if (!str) {
+	if (!str || typeof str !== 'string') {
 		return str;
 	}
 	return str

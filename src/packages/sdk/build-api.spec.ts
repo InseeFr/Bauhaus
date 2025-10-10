@@ -2,6 +2,10 @@ import { vi } from 'vitest';
 
 import { buildApi, computeDscr, guessMethod, buildCall } from './build-api';
 
+vi.mock('../auth/create-oidc', () => ({
+	getOidc: vi.fn(() => Promise.resolve(null)),
+}));
+
 describe('guess method from end point', () => {
 	it('should return GET', () => {
 		expect(guessMethod('getSomething')).toEqual('GET');

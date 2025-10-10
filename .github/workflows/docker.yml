@@ -2,10 +2,6 @@ name: Release
 on:
   release:
     types: [released]
-    branches:
-      - main
-    paths-ignore:
-      - documentation/**
 jobs:
   build:
     name: Test & Build & Upload artifact
@@ -24,6 +20,12 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v4
+      - name: Check if on main branch
+        run: |
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "Error: Docker job can only run on main branch"
+            exit 1
+          fi
       - name: Download build
         id: download
         uses: actions/download-artifact@v4

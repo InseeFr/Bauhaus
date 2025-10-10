@@ -8,7 +8,7 @@ export const getAllAttachment = (
 	// We find one measure linked to the attribute
 	const measureWithThisAttribute = measures.find((measure: any) => {
 		return !!Object.keys(measure)
-			.filter((key) => key.indexOf('attribute_') === 0)
+			.filter((key) => key.startsWith('attribute_'))
 			.find((key) => {
 				return measure[key] === specification.component.iri;
 			});

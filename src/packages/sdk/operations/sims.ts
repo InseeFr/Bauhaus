@@ -9,7 +9,7 @@ const hasDocument = (sims: any, withDocument: boolean) => {
 	const hasDocument =
 		Object.values(sims.rubrics).filter((rubric: any) => {
 			return rubric.documentsLg1?.find((doc: any) => {
-				return doc.url.indexOf('file') === 0;
+				return doc.url.startsWith('file');
 			});
 		})?.length > 0;
 

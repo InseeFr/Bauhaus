@@ -49,8 +49,8 @@ function install(store) {
 			});
 		};
 
-		const value = options.filter(
-			({ value }) => rolesAndStamps.roles.indexOf(value) >= 0,
+		const value = options.filter(({ value }) =>
+			rolesAndStamps.roles.includes(value),
 		);
 		return (
 			<div>

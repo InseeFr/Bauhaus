@@ -25,7 +25,7 @@ export const Component = () => {
 				setLoading(false);
 			});
 	}, [structureId]);
-	const duplicate = location.pathname.indexOf('/duplicate') >= 0;
+	const duplicate = location.pathname.includes('/duplicate');
 
 	if (loading) return <Loading />;
 

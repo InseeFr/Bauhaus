@@ -105,8 +105,8 @@ const SimsGeographyPicker = ({
 							);
 							return (
 								!searchValue ||
-								label.indexOf(search) >= 0 ||
-								typeTerritory.indexOf(search) >= 0
+								label.includes(search) ||
+								typeTerritory.includes(search)
 							);
 						}}
 						options={secondLang ? geographiesOptionsLg2 : geographiesOptions}

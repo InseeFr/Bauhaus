@@ -91,7 +91,7 @@ export function removeRubricsWhenDuplicate(
 	const blackList = ['I.6.4'];
 
 	return Object.keys(rubrics).reduce((acc, rubricKey) => {
-		if (mode === DUPLICATE && blackList.indexOf(rubricKey) >= 0) return acc;
+		if (mode === DUPLICATE && blackList.includes(rubricKey)) return acc;
 		return {
 			...acc,
 			[rubricKey]: {
