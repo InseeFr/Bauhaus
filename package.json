@@ -63,7 +63,7 @@
 		"eslint-plugin-react-perf": "^3.3.3",
 		"eslint-plugin-vitest": "^0.5.4",
 		"globals": "^15.9.0",
-		"happy-dom": "^15.11.7",
+		"happy-dom": "^20.0.2",
 		"husky": "^9.1.6",
 		"prettier": "^3.6.1",
 		"react-app-polyfill": "^3.0.0",
