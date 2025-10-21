@@ -38,8 +38,8 @@ export const LoggedInWrapper = ({
 		console.debug('Fetching User Informations...');
 		UsersApi.getStamp().then(({ stamp }: { stamp: string }) => {
 			console.debug({ oidcTokens });
-			const roles = (oidcTokens?.decodedIdToken.realm_access as any).roles;
-			saveUserProps({ roles, stamp });
+			const roles = (oidcTokens?.decodedIdToken.realm_access as any)?.roles ?? [];
+			saveUserProps({ roles: [p, stamp });
 			setUserInformationLoaded(true);
 		});
 	};
