@@ -11,7 +11,7 @@ import { NotFound, UnderMaintenance } from '@components/not-found';
 
 import { RBACLink } from '.';
 import { useOidc } from '../../auth/create-oidc';
-import auth from '../../auth/hoc';
+import { withAuth } from '../../auth/hoc';
 import D from '../../i18n';
 import { routes as ClassificationsRoutes } from '../../modules-classifications/routes/index';
 import { routes as CodelistsRoutes } from '../../modules-codelists/routes/index';
@@ -48,7 +48,7 @@ const HomePage = () => {
 	return <App />;
 };
 
-const MainLayout = auth(() => {
+const MainLayout = withAuth(() => {
 	return (
 		<RBACLink>
 			<Outlet />

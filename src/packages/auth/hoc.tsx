@@ -9,27 +9,32 @@ import LoggedInWrapper, {
 	LoginComponent,
 } from './open-id-connect-auth/use-oidc';
 
-const auth = (WrappedComponent: () => JSX.Element) => {
-	const AuthComponent = ({
-		authType,
-		roles,
-	}: {
-		authType: string;
-		roles: string[] | null;
-	}) => {
+interface AuthProps {
+	authType: string;
+	roles: string[] | null;
+}
+
+export const withAuth = (WrappedComponent: () => JSX.Element) => {
+	const AuthComponent = ({ authType, roles }: AuthProps) => {
 		const { isUserLoggedIn } = useOidc();
 		if (authType === OPEN_ID_CONNECT_AUTH) {
 			if (!isUserLoggedIn) return <LoginComponent />;
 			else return <LoggedInWrapper WrappedComponent={WrappedComponent} />;
 		}
 
-		if (roles) return <WrappedComponent />;
+		if (roles && roles.length > 0) {
+			return <WrappedComponent />;
+		}
 
 		if (authType === NO_AUTH) {
 			return <LoginNoAuth />;
 		}
 
-		return <div>Error</div>;
+		return (
+			<div role="alert" aria-live="polite">
+				Erreur d'authentification
+			</div>
+		);
 	};
 
 	return connect(mapStateToProps)(AuthComponent);
@@ -40,5 +45,3 @@ export const mapStateToProps = (state: ReduxModel) => {
 	if (stamp) return { authType, roles };
 	return { authType, roles: null };
 };
-
-export default auth;
