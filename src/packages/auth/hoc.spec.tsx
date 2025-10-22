@@ -66,6 +66,6 @@ describe('auth HOC', () => {
 
 		render(<AuthTestComponent />);
 
-		expect(screen.getByText('Error')).toBeInTheDocument();
+		expect(screen.getByText('Erreur d\'authentification')).toBeInTheDocument();
 	});
 });
