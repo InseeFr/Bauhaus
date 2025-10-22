@@ -2,8 +2,7 @@ import { AddButton } from '@components/buttons/add';
 
 import { CodesList } from '@model/CodesList';
 
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
+import { HasAccess } from '../../../auth/components/auth';
 
 interface CodesPanelAddButtonTypes {
 	codelist: CodesList;
@@ -13,19 +12,16 @@ export const CodesPanelAddButton = ({
 	codelist,
 	onHandlePanel,
 }: Readonly<CodesPanelAddButtonTypes>) => {
-	const permission = usePermission();
-
 	if (!codelist.lastCodeUriSegment) {
 		return null;
 	}
-	const hasRightsBasedOnStamp =
-		permission?.stamp === codelist?.contributor &&
-		permission?.roles?.includes(CODELIST_CONTRIBUTOR);
-	const isAdmin = permission?.roles?.includes(ADMIN);
-
 	return (
-		(isAdmin || hasRightsBasedOnStamp) && (
+		<HasAccess
+			module="CODESLIST_CODESLIST"
+			privilege="CREATE"
+			stamps={[codelist?.contributor]}
+		>
 			<AddButton id="add-code" onClick={onHandlePanel} />
-		)
+		</HasAccess>
 	);
 };

@@ -20,7 +20,6 @@ import { Select } from '@components/select-rmes';
 
 import { useTitle } from '@utils/hooks/useTitle';
 
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import MainDictionary from '../../../deprecated-locales/build-dictionary';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -29,6 +28,7 @@ import { CodesCollapsiblePanel } from './codes-panel';
 import './edit.scss';
 import { EMPTY_ARRAY } from '@utils/array-utils';
 import { UriInputGroup } from './components/UriInputGroup';
+import { useAuthorizationGuard } from '../../../auth/components/auth';
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -49,9 +49,7 @@ export const DumbCodelistDetailEdit = ({
 
 	const permission = usePermission();
 	const stamp = permission?.stamp;
-	const isContributor =
-		permission?.roles?.includes(CODELIST_CONTRIBUTOR) &&
-		!permission?.roles?.includes(ADMIN);
+	const isContributor = useAuthorizationGuard('CODESLIST_CODESLIST', 'CREATE');
 
 	useEffect(() => {
 		let codesList = { ...initialCodelist, ...defaultCodelist };

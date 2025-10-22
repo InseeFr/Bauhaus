@@ -8,7 +8,7 @@ import { useOidc } from '../create-oidc';
 
 interface OidcWrapperTypes {
 	WrappedComponent: any;
-	saveUserProps: ({ roles, stamp }: { roles: string[]; stamp: string }) => void;
+	saveUserProps: ({ stamp }: { stamp: string }) => void;
 }
 
 export const LoginComponent = () => {
@@ -38,8 +38,7 @@ export const LoggedInWrapper = ({
 		console.debug('Fetching User Informations...');
 		UsersApi.getStamp().then(({ stamp }: { stamp: string }) => {
 			console.debug({ oidcTokens });
-			const roles = (oidcTokens?.decodedIdToken.realm_access as any)?.roles ?? [];
-			saveUserProps({ roles, stamp });
+			saveUserProps({ stamp });
 			setUserInformationLoaded(true);
 		});
 	};

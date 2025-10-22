@@ -6,9 +6,7 @@ import {
 } from '@components/buttons/buttons-with-icons';
 import { ValidationButton } from '@components/validationButton';
 
-import { UNPUBLISHED } from '../../..//model/ValidationState';
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
+import { HasAccess } from '../../../auth/components/auth';
 
 interface ViewMenuTypes {
 	handleUpdate: VoidFunction;
@@ -29,30 +27,36 @@ export const ViewMenu = ({
 	updatable,
 	deletable,
 }: Readonly<ViewMenuTypes>) => {
-	const permission = usePermission();
-
-	const hasRightsBasedOnStamp =
-		permission?.stamp === codelist?.contributor &&
-		permission?.roles?.includes(CODELIST_CONTRIBUTOR);
-	const isAdmin = permission?.roles?.includes(ADMIN);
-
 	return (
 		<ActionToolbar>
 			<ReturnButton action={handleBack} />
 
-			{(isAdmin || hasRightsBasedOnStamp) && (
+			<HasAccess
+				module="CODESLIST_CODESLIST"
+				privilege="PUBLISH"
+				stamps={[codelist?.contributor]}
+			>
 				<ValidationButton callback={publish} object={codelist} />
+			</HasAccess>
+
+			{deletable && (
+				<HasAccess
+					module="CODESLIST_CODESLIST"
+					privilege="DELETE"
+					stamps={[codelist?.contributor]}
+				>
+					<DeleteButton action={handleDelete} />
+				</HasAccess>
 			)}
 
-			{deletable &&
-				(isAdmin ||
-					(hasRightsBasedOnStamp &&
-						codelist.validationState === UNPUBLISHED)) && (
-					<DeleteButton action={handleDelete} />
-				)}
-
-			{updatable && (isAdmin || hasRightsBasedOnStamp) && (
-				<UpdateButton action={handleUpdate} />
+			{updatable && (
+				<HasAccess
+					module="CODESLIST_CODESLIST"
+					privilege="UPDATE"
+					stamps={[codelist?.contributor]}
+				>
+					<UpdateButton action={handleUpdate} />
+				</HasAccess>
 			)}
 		</ActionToolbar>
 	);

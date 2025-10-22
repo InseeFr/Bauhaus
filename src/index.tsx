@@ -52,7 +52,7 @@ const renderApp = (
 	const { authType: type, lg1, lg2, version, ...properties } = initState;
 	const store = configureStore({
 		app: {
-			auth: { type, user: { roles: [], stamp: '' } },
+			auth: { type, user: { stamp: '' } },
 		},
 	});
 

@@ -4,7 +4,6 @@ import { PublishButton } from '@components/buttons/buttons-with-icons';
 import { ModalRmes } from '@components/modal-rmes/modal-rmes';
 import { Picker } from '@components/picker-page';
 
-import check from '../../auth/auth';
 import D from '../../deprecated-locales';
 import { getModalMessage } from '../utils/build-validation-message';
 
@@ -44,11 +43,7 @@ class ConceptsToValidate extends Component {
 
 	render() {
 		const { modalValid, idWithValid } = this.state;
-		const {
-			concepts,
-			permission: { authType, roles, stamp },
-		} = this.props;
-		const authImpl = check(authType);
+		const { concepts } = this.props;
 
 		const modalButtons = [
 			{
@@ -63,15 +58,10 @@ class ConceptsToValidate extends Component {
 			},
 		];
 
-		const filteredConcepts = authImpl.filterConceptsToValidate(
-			concepts,
-			roles,
-			stamp,
-		);
 		return (
 			<div>
 				<Picker
-					items={filteredConcepts}
+					items={concepts}
 					title={D.conceptsToValidTitle}
 					panelTitle={D.conceptsToValidPanelTitle}
 					labelWarning={D.hasNotConceptToValid}

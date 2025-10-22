@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 
-import { SERIES_CONTRIBUTOR } from '../../../../auth/roles';
 import { Sims } from '../../../../model/Sims';
 import { RBACMock } from '../../../../tests/rbac';
 import { mockReactQueryForRbac } from '../../../../tests/render';
@@ -25,7 +24,7 @@ describe('Family Home Page Menu', () => {
 			const { Menu } = await import('./menu');
 
 			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
+				<RBACMock>
 					<Menu
 						sims={{ series: { creators: [] } } as unknown as Sims}
 						onPublish={vi.fn()}
@@ -53,7 +52,7 @@ describe('Family Home Page Menu', () => {
 			const { Menu } = await import('./menu');
 
 			render(
-				<RBACMock roles={[SERIES_CONTRIBUTOR]}>
+				<RBACMock>
 					<Menu
 						sims={{} as unknown as Sims}
 						onPublish={vi.fn()}
