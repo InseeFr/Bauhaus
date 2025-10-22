@@ -6,7 +6,6 @@ import { ApplicationTitle } from '@components/application-title';
 
 import { GeneralApi } from '@sdk/general-api';
 
-import loadDevTools from './dev-tools/load';
 import { AppContextProvider } from './packages/application/app-context';
 import Root from './packages/application/router';
 import { OidcProvider } from './packages/auth/create-oidc';
@@ -57,31 +56,29 @@ const renderApp = (
 		},
 	});
 
-	loadDevTools(store, () => {
-		document.querySelector('html')!.setAttribute('lang', getLang());
+	document.querySelector('html')!.setAttribute('lang', getLang());
 
-		const container = document.getElementById('root');
-		const root = createRoot(container!);
+	const container = document.getElementById('root');
+	const root = createRoot(container!);
 
-		root.render(
-			<OidcProvider fallback={<>Checking authentication ⌛️</>}>
-				<QueryClientProvider client={queryClient}>
-					<Provider store={store}>
-						<AppContextProvider
-							lg1={lg1}
-							lg2={lg2}
-							version={version}
-							properties={properties}
-						>
-							<ApplicationTitle />
-							<main>
-								<Component {...props} />
-								<BackToTop />
-							</main>
-						</AppContextProvider>
-					</Provider>
-				</QueryClientProvider>
-			</OidcProvider>,
-		);
-	});
+	root.render(
+		<OidcProvider fallback={<>Checking authentication ⌛️</>}>
+			<QueryClientProvider client={queryClient}>
+				<Provider store={store}>
+					<AppContextProvider
+						lg1={lg1}
+						lg2={lg2}
+						version={version}
+						properties={properties}
+					>
+						<ApplicationTitle />
+						<main>
+							<Component {...props} />
+							<BackToTop />
+						</main>
+					</AppContextProvider>
+				</Provider>
+			</QueryClientProvider>
+		</OidcProvider>,
+	);
 };
