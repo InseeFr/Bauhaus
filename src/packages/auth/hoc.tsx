@@ -8,11 +8,6 @@ import LoggedInWrapper, {
 } from './open-id-connect-auth/use-oidc';
 
 
-interface AuthProps {
-	authType: string;
-	roles: string[] | null;
-}
-
 export const withAuth = (WrappedComponent: () => JSX.Element) => {
 	const AuthComponent = () => {
 		const { authType } = useSelector(getPermission);

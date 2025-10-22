@@ -26,7 +26,7 @@ vi.mock('./open-id-connect-auth/use-oidc', () => ({
 }));
 
 const TestComponent = () => <div>Test Component</div>;
-const AuthTestComponent = auth(TestComponent);
+const AuthTestComponent = withAuth(TestComponent);
 
 describe('auth HOC', () => {
 	beforeEach(() => {
