@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { useSelector } from 'react-redux';
 import { Mock, vi } from 'vitest';
 
-import auth from './hoc';
+import { withAuth } from './hoc';
 import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from './constants';
 import { useOidc } from './create-oidc';
 

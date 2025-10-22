@@ -7,7 +7,13 @@ import LoggedInWrapper, {
 	LoginComponent,
 } from './open-id-connect-auth/use-oidc';
 
-const auth = (WrappedComponent: () => JSX.Element) => {
+
+interface AuthProps {
+	authType: string;
+	roles: string[] | null;
+}
+
+export const withAuth = (WrappedComponent: () => JSX.Element) => {
 	const AuthComponent = () => {
 		const { authType } = useSelector(getPermission);
 		const { isUserLoggedIn } = useOidc();
@@ -16,14 +22,17 @@ const auth = (WrappedComponent: () => JSX.Element) => {
 			else return <LoggedInWrapper WrappedComponent={WrappedComponent} />;
 		}
 
+
 		if (authType === NO_AUTH) {
 			return <WrappedComponent />;
 		}
 
-		return <div>Error</div>;
+		return (
+			<div role="alert" aria-live="polite">
+				Erreur d'authentification
+			</div>
+		);
 	};
 
 	return AuthComponent;
 };
-
-export default auth;
