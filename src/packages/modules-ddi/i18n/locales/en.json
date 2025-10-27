@@ -89,9 +89,9 @@
 				"numeric": "Numeric"
 			},
 			"exportSuccess": "Export successful",
-			"exportSuccessDetail": "Data has been copied to clipboard",
+			"exportSuccessDetail": "File in {{format}} format has been downloaded",
 			"exportError": "Export error",
-			"exportErrorDetail": "Unable to copy data to clipboard",
+			"exportErrorDetail": "Unable to download file",
 			"saveSuccess": "Save successful",
 			"saveSuccessDetail": "Physical instance has been updated",
 			"saveError": "Save error",
