@@ -20,7 +20,7 @@ export const ValidationButton = ({
 		callback(object);
 	}, [object, callback]);
 
-	if (state.indexOf('Validated') >= 0) {
+	if (state.includes('Validated')) {
 		return null;
 	}
 	return <PublishButton action={clickHandler} disabled={disabled} />;

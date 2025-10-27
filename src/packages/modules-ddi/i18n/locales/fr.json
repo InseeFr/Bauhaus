@@ -1,0 +1,103 @@
+{
+	"physicalInstance": {
+		"creation": {
+			"title": "Créer une nouvelle physical instance",
+			"label": "Label",
+			"name": "Name",
+			"cancel": "Annuler",
+			"create": "Créer"
+		},
+		"view": {
+			"search": "Rechercher",
+			"allTypes": "Tous types",
+			"newVariable": "Nouvelle Variable",
+			"editTitle": "Modifier le titre",
+			"typeFilter": "Filtrer par type",
+			"globalActions": "Actions Globales",
+			"import": "Importer",
+			"export": "Exporter",
+			"bulkEdit": "Édition en masse",
+			"publish": "Publier",
+			"variablesTable": "Tableau des variables",
+			"isGeographic": "Variable géographique?",
+			"columns": {
+				"name": "Nom",
+				"label": "Label",
+				"description": "Description",
+				"type": "Type",
+				"lastModified": "Dernière Modification"
+			},
+			"tabs": {
+				"information": "Informations",
+				"representation": "Représentation",
+				"ddiXml": "Aperçu DDI XML"
+			},
+			"numeric": {
+				"type": "Type numérique",
+				"selectType": "Sélectionnez un type numérique",
+				"min": "Min",
+				"max": "Max",
+				"addMinBound": "Ajouter une borne minimale",
+				"addMaxBound": "Ajouter une borne maximale"
+			},
+			"date": {
+				"type": "Type de date",
+				"selectType": "Sélectionnez un type de date"
+			},
+			"text": {
+				"minLength": "Taille minimale",
+				"maxLength": "Taille maximale",
+				"regExp": "Expression régulière"
+			},
+			"code": {
+				"codeListLabel": "Libellé de la liste de codes",
+				"codes": "Codes",
+				"addCode": "Ajouter un code",
+				"editCode": "Modifier le code",
+				"value": "Valeur",
+				"label": "Libellé",
+				"addCodeTooltip": "Ajouter ce code",
+				"fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
+				"createNewList": "Créer une nouvelle liste",
+				"reuseList": "Réutiliser",
+				"importList": "Importer"
+			},
+			"delete": "Supprimer",
+			"editModal": {
+				"title": "Modifier",
+				"label": "Label",
+				"name": "Name",
+				"cancel": "Annuler",
+				"save": "Enregistrer"
+			},
+			"importModal": {
+				"title": "Importer",
+				"placeholder": "Collez vos données ici...",
+				"cancel": "Annuler",
+				"import": "Importer"
+			},
+			"editVariable": "Modifier la variable",
+			"selectVariable": "Sélectionnez une variable pour l'éditer",
+			"selectType": "Sélectionnez un type",
+			"cancel": "Annuler",
+			"save": "Enregistrer",
+			"duplicate": "Dupliquer",
+			"variableTypes": {
+				"text": "Texte",
+				"code": "Code",
+				"date": "Date",
+				"numeric": "Numérique"
+			},
+			"exportSuccess": "Export réussi",
+			"exportSuccessDetail": "Les données ont été copiées dans le presse-papiers",
+			"exportError": "Erreur lors de l'export",
+			"exportErrorDetail": "Impossible de copier les données dans le presse-papiers",
+			"saveSuccess": "Enregistrement réussi",
+			"saveSuccessDetail": "L'instance physique a été mise à jour",
+			"saveError": "Erreur lors de l'enregistrement",
+			"saveErrorDetail": "Impossible d'enregistrer l'instance physique",
+			"loading": "Chargement des données en cours...",
+			"errorLoading": "Erreur lors du chargement des données"
+		}
+	}
+}

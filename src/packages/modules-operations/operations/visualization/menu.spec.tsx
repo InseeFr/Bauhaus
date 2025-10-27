@@ -5,6 +5,7 @@ import { Operation } from '../../../model/Operation';
 import { RBACMock } from '../../../tests/rbac';
 import { mockReactQueryForRbac } from '../../../tests/render';
 
+const roles = [ADMIN];
 describe('Family Home Page Menu', () => {
 	afterEach(() => {
 		vi.resetModules();
@@ -22,7 +23,7 @@ describe('Family Home Page Menu', () => {
 			const { Menu } = await import('./menu');
 
 			render(
-				<RBACMock roles={[ADMIN]}>
+				<RBACMock roles={roles}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
@@ -43,7 +44,7 @@ describe('Family Home Page Menu', () => {
 			const { Menu } = await import('./menu');
 
 			render(
-				<RBACMock roles={[ADMIN]}>
+				<RBACMock roles={roles}>
 					<Menu
 						operation={
 							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
@@ -64,7 +65,7 @@ describe('Family Home Page Menu', () => {
 			]);
 			const { Menu } = await import('./menu');
 			render(
-				<RBACMock roles={[ADMIN]}>
+				<RBACMock roles={roles}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
@@ -84,7 +85,7 @@ describe('Family Home Page Menu', () => {
 			const { Menu } = await import('./menu');
 
 			render(
-				<RBACMock roles={[ADMIN]}>
+				<RBACMock roles={roles}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
@@ -104,7 +105,7 @@ describe('Family Home Page Menu', () => {
 			const { Menu } = await import('./menu');
 
 			render(
-				<RBACMock roles={[ADMIN]}>
+				<RBACMock roles={roles}>
 					<Menu
 						operation={
 							{ series: { creators: [] }, idSims: '1' } as unknown as Operation
@@ -126,7 +127,7 @@ describe('Family Home Page Menu', () => {
 			]);
 			const { Menu } = await import('./menu');
 			render(
-				<RBACMock roles={[ADMIN]}>
+				<RBACMock roles={roles}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}
@@ -147,7 +148,7 @@ describe('Family Home Page Menu', () => {
 			const { Menu } = await import('./menu');
 
 			render(
-				<RBACMock roles={[ADMIN]}>
+				<RBACMock roles={roles}>
 					<Menu
 						operation={{ series: { creators: [] } } as unknown as Operation}
 						onPublish={vi.fn()}

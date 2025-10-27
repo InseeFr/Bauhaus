@@ -188,7 +188,7 @@ class OperationsSerieEdition extends Component {
 		const serverSideError = this.state.serverSideError;
 
 		const isMandatoryField = (fieldName) =>
-			this.props.extraMandatoryFields.indexOf(fieldName) >= 0;
+			this.props.extraMandatoryFields.includes(fieldName);
 
 		return (
 			<div className="container editor-container">

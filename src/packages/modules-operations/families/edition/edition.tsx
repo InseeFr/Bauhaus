@@ -27,8 +27,6 @@ import { validate } from './validation';
 const defaultFamily = {
 	prefLabelLg1: '',
 	prefLabelLg2: '',
-	themeLg1: '',
-	themeLg2: '',
 	abstractLg1: '',
 	abstractLg2: '',
 };
@@ -195,24 +193,6 @@ class OperationsFamilyEdition extends Component<
 								id="prefLabelLg2-error"
 								error={this.state.clientSideErrors?.fields?.prefLabelLg2}
 							></ClientSideError>
-						</div>
-					</Row>
-					<Row>
-						<div className="col-md-6 form-group">
-							<label htmlFor="themeLg1">{D1.theme}</label>
-							<TextInput
-								id="themeLg1"
-								value={family.themeLg1}
-								onChange={(e) => this.onChange(e.target.id)(e.target.value)}
-							/>
-						</div>
-						<div className="col-md-6 form-group">
-							<label htmlFor="themeLg2">{D2.theme}</label>
-							<TextInput
-								id="themeLg2"
-								value={family.themeLg2}
-								onChange={(e) => this.onChange(e.target.id)(e.target.value)}
-							/>
 						</div>
 					</Row>
 					<Row>

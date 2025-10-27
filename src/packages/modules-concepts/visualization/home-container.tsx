@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { Loading } from '@components/loading';
 
 import { ConceptsApi } from '@sdk/index';
+
+import { GlobalErrorBloc } from '../components/GlobalErrorBloc';
 
 import { useSecondLang } from '@utils/hooks/second-lang';
 import { useLocales } from '@utils/hooks/useLocales';
@@ -31,6 +34,7 @@ const formatNotes = (notes: ConceptNotes) => {
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const langs = useLocales();
 	const [secondLang] = useSecondLang();
@@ -83,7 +87,16 @@ export const Component = () => {
 		return <Loading />;
 	}
 
-	const { general, links, notes } = concept!;
+	if (!concept) {
+		return (
+			<GlobalErrorBloc
+				title={t('concept.error.title')}
+				message={t('concept.error.notFound')}
+			/>
+		);
+	}
+
+	const { general, links, notes } = concept;
 
 	return (
 		<LoadingProvider value={{ loading, setLoading }}>

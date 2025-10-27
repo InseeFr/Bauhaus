@@ -125,6 +125,7 @@ class SimsField extends PureComponent {
 									}
 									onChange={this.handleWithoutObject}
 									displayConfirmation={!!value}
+									secondLang={secondLang}
 								/>
 							)}
 							{currentSection.rangeType !== rangeType.RUBRIQUE_SANS_OBJECT && (
