@@ -6,7 +6,7 @@ describe('concept-validation', () => {
 		renderWithRouter(
 			<ConceptValidation
 				concepts={[]}
-				permission={{ authType: '', roles: [''] }}
+				permission={{ authType: '' }}
 				handleValidateConceptList={vi.fn()}
 			/>,
 		);

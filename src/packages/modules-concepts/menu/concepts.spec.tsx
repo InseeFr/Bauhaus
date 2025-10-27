@@ -1,56 +1,50 @@
 import { screen } from '@testing-library/dom';
-import { Provider } from 'react-redux';
+import { Mock, vi } from 'vitest';
 
-import { ADMIN } from '../../auth/roles';
+import { useAuthorizationGuard } from '../../auth/components/auth';
 import D from '../../deprecated-locales';
-import configureStore from '../../redux/configure-store';
 import { renderWithRouter } from '../../tests/render';
 import MenuConcepts from './index';
 
-describe('menu-concepts', () => {
-	it('should display the administrion menu', () => {
-		const store = configureStore({
-			app: {
-				auth: {
-					type: 'type',
-					user: {
-						roles: [ADMIN],
-					},
-				},
-			},
-		});
+vi.mock('../../auth/components/auth', async (importOriginal) => {
+	const actual =
+		await importOriginal<typeof import('../../auth/components/auth')>();
+	return {
+		...actual,
+		useAuthorizationGuard: vi.fn(),
+	};
+});
 
-		renderWithRouter(
-			<Provider store={store}>
-				<MenuConcepts />
-			</Provider>,
-			['/concepts'],
-		);
+describe('menu-concepts', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+	});
+
+	it('should display the administration menu', () => {
+		(useAuthorizationGuard as Mock).mockReturnValue(true);
+
+		renderWithRouter(<MenuConcepts />, ['/concepts']);
+
 		const links = screen.getAllByRole('link');
 
 		expect(links).toHaveLength(5);
 		expect(links[3].textContent).toBe(D.administrationTitle);
+		expect(useAuthorizationGuard).toHaveBeenCalledWith({
+			module: 'CONCEPT_CONCEPT',
+			privilege: 'ADMINISTRATION',
+		});
 	});
 
-	it('should not display the administrion menu', () => {
-		const store = configureStore({
-			app: {
-				auth: {
-					type: 'type',
-					user: {
-						roles: [],
-					},
-				},
-			},
-		});
+	it('should not display the administration menu', () => {
+		(useAuthorizationGuard as Mock).mockReturnValue(false);
 
-		renderWithRouter(
-			<Provider store={store}>
-				<MenuConcepts />
-			</Provider>,
-			['/concepts'],
-		);
+		renderWithRouter(<MenuConcepts />, ['/concepts']);
+
 		const links = screen.getAllByRole('link');
 		expect(links).toHaveLength(4);
+		expect(useAuthorizationGuard).toHaveBeenCalledWith({
+			module: 'CONCEPT_CONCEPT',
+			privilege: 'ADMINISTRATION',
+		});
 	});
 });

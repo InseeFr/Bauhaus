@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 
 import { UNPUBLISHED } from '@model/ValidationState';
 
-import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { Dataset } from '../../../model/Dataset';
 import { RBACMock } from '../../../tests/rbac';
 import { mockReactQueryForRbac } from '../../../tests/render';
@@ -25,7 +24,7 @@ describe('Dataset View Menu', () => {
 
 		const dataset = {} as unknown as Dataset;
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<ViewMenu
 					dataset={dataset}
 					onPublish={vi.fn()}
@@ -56,7 +55,7 @@ describe('Dataset View Menu', () => {
 
 		const dataset = {} as unknown as Dataset;
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<ViewMenu
 					dataset={dataset}
 					onPublish={vi.fn()}
@@ -90,7 +89,7 @@ describe('Dataset View Menu', () => {
 			catalogRecord: { contributor: 'INSEE' },
 		} as unknown as Dataset;
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
+			<RBACMock stamp="INSEE">
 				<ViewMenu
 					dataset={dataset}
 					onPublish={vi.fn()}
@@ -124,7 +123,7 @@ describe('Dataset View Menu', () => {
 			catalogRecord: { contributor: ['INSEE'] },
 		} as unknown as Dataset;
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
+			<RBACMock stamp="INSEE">
 				<ViewMenu
 					dataset={dataset}
 					onPublish={vi.fn()}
@@ -158,7 +157,7 @@ describe('Dataset View Menu', () => {
 			catalogRecord: { contributor: ['XXXXXX'] },
 		} as unknown as Dataset;
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
+			<RBACMock stamp="INSEE">
 				<ViewMenu
 					dataset={dataset}
 					onPublish={vi.fn()}

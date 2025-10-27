@@ -1,12 +1,11 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Mock, vi } from 'vitest';
 
 import { RBACLink } from '.';
+import { useAppContext } from '../app-context';
 import { useOidc } from '../../auth/create-oidc';
 import D from '../../i18n';
-import configureStore from '../../redux/configure-store';
 import { renderWithAppContext } from '../../tests/render';
 
 vi.mock('../../auth/create-oidc', async () => {
@@ -23,20 +22,17 @@ vi.mock('react-router-dom', async () => {
 	};
 });
 
+vi.mock('../app-context', async (importOriginal) => {
+	const actual =
+		await importOriginal<typeof import('../app-context')>();
+	return {
+		...actual,
+		useAppContext: vi.fn(),
+	};
+});
+
 vi.stubEnv('VITE_NAME', 'TestApp');
 vi.stubEnv('VITE_VERSION', '1.0.0');
-
-const store = configureStore({
-	app: {
-		auth: {
-			type: 'type',
-			user: {
-				roles: [],
-				stamp: 'stamp',
-			},
-		},
-	},
-});
 
 describe('RBACLink Component', () => {
 	beforeEach(() => {
@@ -46,13 +42,12 @@ describe('RBACLink Component', () => {
 	it('should render children and footer correctly', () => {
 		(useLocation as Mock).mockReturnValue({ pathname: '/' });
 		(useOidc as Mock).mockReturnValue({ isUserLoggedIn: true });
+		(useAppContext as Mock).mockReturnValue({ version: '2.0.0' });
 
 		renderWithAppContext(
-			<Provider store={store}>
-				<RBACLink>
-					<div>Child Component</div>
-				</RBACLink>
-			</Provider>,
+			<RBACLink>
+				<div>Child Component</div>
+			</RBACLink>,
 		);
 
 		screen.getByText('Child Component');
@@ -64,12 +59,12 @@ describe('RBACLink Component', () => {
 		const logout = vi.fn();
 		(useLocation as Mock).mockReturnValue({ pathname: '/' });
 		(useOidc as Mock).mockReturnValue({ isUserLoggedIn: true, logout });
+		(useAppContext as Mock).mockReturnValue({ version: '2.0.0' });
+
 		renderWithAppContext(
-			<Provider store={store}>
-				<RBACLink>
-					<div>Child Component</div>
-				</RBACLink>
-			</Provider>,
+			<RBACLink>
+				<div>Child Component</div>
+			</RBACLink>,
 		);
 
 		const logoutButton = screen.getByRole('button', {

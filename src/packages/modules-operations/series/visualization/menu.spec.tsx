@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 
-import { ADMIN } from '../../../auth/roles';
 import { Series } from '../../../model/operations/series';
 import { RBACMock } from '../../../tests/rbac';
 import { mockReactQueryForRbac } from '../../../tests/render';
@@ -32,7 +31,7 @@ describe('Family Home Page Menu', () => {
 		const { Menu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<Menu
 					series={{ creators: [] } as unknown as Series}
 					onPublish={vi.fn()}
@@ -59,7 +58,7 @@ describe('Family Home Page Menu', () => {
 		const { Menu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<Menu
 					series={{ creators: [], idSims: '1' } as unknown as Series}
 					onPublish={vi.fn()}
@@ -83,7 +82,7 @@ describe('Family Home Page Menu', () => {
 		const { Menu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<Menu
 					series={{ creators: [] } as unknown as Series}
 					onPublish={vi.fn()}
@@ -105,7 +104,7 @@ describe('Family Home Page Menu', () => {
 		const { Menu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<Menu
 					series={{ creators: [] } as unknown as Series}
 					onPublish={vi.fn()}

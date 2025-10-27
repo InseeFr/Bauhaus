@@ -27,7 +27,13 @@ export type MODULE =
 	| DATASET_MODULE
 	| DDI_MODULE
 	| 'GEOGRAPHY';
-export type PRIVILEGE = 'READ' | 'CREATE' | 'UPDATE' | 'PUBLISH' | 'DELETE';
+export type PRIVILEGE =
+	| 'READ'
+	| 'CREATE'
+	| 'UPDATE'
+	| 'PUBLISH'
+	| 'DELETE'
+	| 'ADMINISTRATION';
 export type STRATEGY = 'ALL' | 'STAMP' | 'NONE';
 
 export interface Privilege {

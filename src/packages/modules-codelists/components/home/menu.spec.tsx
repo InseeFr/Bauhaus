@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import { RBACMock } from '../../../tests/rbac';
 import { mockReactQueryForRbac } from '../../../tests/render';
 
@@ -20,7 +19,7 @@ describe('Codes List Home Page Menu', () => {
 		const { HomePageMenu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<HomePageMenu />
 			</RBACMock>,
 		);
@@ -38,7 +37,7 @@ describe('Codes List Home Page Menu', () => {
 		const { HomePageMenu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[CODELIST_CONTRIBUTOR]}>
+			<RBACMock>
 				<HomePageMenu />
 			</RBACMock>,
 		);

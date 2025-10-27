@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 
-import { ADMIN, INDICATOR_CONTRIBUTOR } from '../../../auth/roles';
 import { Document } from '../../../model/operations/document';
 import { RBACMock } from '../../../tests/rbac';
 import { mockReactQueryForRbac } from '../../../tests/render';
@@ -21,7 +20,7 @@ describe('Document Visualization Page Menu', () => {
 		const { Menu } = await import('./Menu');
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<Menu document={{} as Document} type="type" />
 			</RBACMock>,
 		);
@@ -40,7 +39,7 @@ describe('Document Visualization Page Menu', () => {
 		const { Menu } = await import('./Menu');
 
 		render(
-			<RBACMock roles={[INDICATOR_CONTRIBUTOR]} stamp="stamp">
+			<RBACMock stamp="stamp">
 				<Menu
 					document={
 						{
@@ -67,7 +66,7 @@ describe('Document Visualization Page Menu', () => {
 		const { Menu } = await import('./Menu');
 
 		render(
-			<RBACMock roles={[INDICATOR_CONTRIBUTOR]}>
+			<RBACMock>
 				<Menu
 					document={
 						{
@@ -94,7 +93,7 @@ describe('Document Visualization Page Menu', () => {
 		const { Menu } = await import('./Menu');
 
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<Menu document={{} as Document} type="type" />
 			</RBACMock>,
 		);

@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 
-import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import { Dataset, Distribution } from '../../../model/Dataset';
 import { UNPUBLISHED, VALIDATED } from '../../../model/ValidationState';
 import { RBACMock } from '../../../tests/rbac';
@@ -25,7 +24,7 @@ describe('Distribution View Menu', () => {
 		const dataset = {} as Dataset;
 		const distribution = {} as Distribution;
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<ViewMenu
 					dataset={dataset}
 					distribution={distribution}
@@ -58,7 +57,7 @@ describe('Distribution View Menu', () => {
 		const distribution = {} as Distribution;
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<ViewMenu
 					dataset={dataset}
 					distribution={distribution}
@@ -95,7 +94,7 @@ describe('Distribution View Menu', () => {
 		const distribution = {} as Distribution;
 
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
+			<RBACMock stamp="INSEE">
 				<ViewMenu
 					dataset={dataset}
 					distribution={distribution}
@@ -132,7 +131,7 @@ describe('Distribution View Menu', () => {
 		const distribution = {} as Distribution;
 
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
+			<RBACMock stamp="INSEE">
 				<ViewMenu
 					dataset={dataset}
 					distribution={distribution}
@@ -169,7 +168,7 @@ describe('Distribution View Menu', () => {
 		const distribution = {} as Distribution;
 
 		render(
-			<RBACMock roles={[DATASET_CONTRIBUTOR]} stamp="INSEE">
+			<RBACMock stamp="INSEE">
 				<ViewMenu
 					dataset={dataset}
 					distribution={distribution}

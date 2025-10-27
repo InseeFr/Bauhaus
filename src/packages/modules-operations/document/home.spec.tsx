@@ -23,7 +23,7 @@ describe('DocumentHome', () => {
 
 		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
-			app: { auth: { user: { roles: [] } } },
+			app: { auth: { user: {} } },
 		});
 		const { container } = renderWithRouter(
 			<Provider store={store}>
@@ -44,7 +44,7 @@ describe('DocumentHome', () => {
 
 		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
-			app: { auth: { user: { roles: [] } } },
+			app: { auth: { user: {} } },
 		});
 		const { container } = renderWithRouter(
 			<Provider store={store}>
@@ -67,7 +67,7 @@ describe('DocumentHome', () => {
 	it('should display two Add buttons', async () => {
 		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
-			app: { auth: { user: { roles: [] } } },
+			app: { auth: { user: {} } },
 		});
 
 		mockReactQueryForRbac([
@@ -97,7 +97,7 @@ describe('DocumentHome', () => {
 
 		const store = configureStore({
 			users: { results: { stamp: 'stamp' } },
-			app: { auth: { user: { roles: ['other'] } } },
+			app: { auth: { user: {} } },
 		});
 		const { default: DocumentHome } = await import('./home');
 

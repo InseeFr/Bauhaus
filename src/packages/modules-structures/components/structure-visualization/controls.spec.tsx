@@ -3,12 +3,10 @@ import { vi } from 'vitest';
 
 import { StructureApi } from '@sdk/index';
 
-import { ADMIN } from '../../../auth/roles';
 import { UNPUBLISHED } from '../../../model/ValidationState';
 import { Structure } from '../../../model/structures/Structure';
 import { RBACMock } from '../../../tests/rbac';
 import { mockReactQueryForRbac } from '../../../tests/render';
-import { EMPTY_ARRAY } from '../../../utils/array-utils';
 
 vi.mock('@sdk/index', () => ({
 	StructureApi: {
@@ -16,7 +14,6 @@ vi.mock('@sdk/index', () => ({
 	},
 }));
 
-const roles = [ADMIN];
 describe('Structure View Menu', () => {
 	afterEach(() => {
 		vi.resetModules();
@@ -41,7 +38,7 @@ describe('Structure View Menu', () => {
 		StructureApi.deleteStructure.mockReturnValue(Promise.resolve());
 
 		render(
-			<RBACMock roles={roles}>
+			<RBACMock>
 				<Controls structure={structure} publish={vi.fn()}></Controls>
 			</RBACMock>,
 		);
@@ -64,7 +61,7 @@ describe('Structure View Menu', () => {
 
 		const structure = { id: '1' } as Structure;
 		render(
-			<RBACMock roles={EMPTY_ARRAY}>
+			<RBACMock>
 				<Controls structure={structure} publish={vi.fn()}></Controls>
 			</RBACMock>,
 		);
@@ -94,7 +91,7 @@ describe('Structure View Menu', () => {
 		const structure = { id: '1' } as Structure;
 
 		render(
-			<RBACMock roles={roles}>
+			<RBACMock>
 				<Controls structure={structure} publish={vi.fn()}></Controls>
 			</RBACMock>,
 		);

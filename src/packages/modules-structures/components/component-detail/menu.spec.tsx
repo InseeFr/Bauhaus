@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 
 import { Component } from '@model/structures/Component';
 
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { RBACMock } from '../../../tests/rbac';
 import { mockReactQueryForRbac } from '../../../tests/render';
 
@@ -22,7 +21,7 @@ describe('Component View Menu', () => {
 
 		const component = { id: '1' } as unknown as Component;
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<ViewMenu
 					component={component}
 					updatable={true}
@@ -56,7 +55,7 @@ describe('Component View Menu', () => {
 		const component = { id: '1' } as unknown as Component;
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<ViewMenu
 					component={component}
 					updatable={true}
@@ -95,7 +94,7 @@ describe('Component View Menu', () => {
 		} as unknown as Component;
 
 		render(
-			<RBACMock roles={[STRUCTURE_CONTRIBUTOR]} stamp="INSEE">
+			<RBACMock stamp="INSEE">
 				<ViewMenu
 					component={component}
 					updatable={true}

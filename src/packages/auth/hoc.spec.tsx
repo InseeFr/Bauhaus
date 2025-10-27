@@ -1,304 +1,71 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, vi, expect, beforeEach, Mock } from 'vitest';
-import { Provider } from 'react-redux';
-import type { Store } from 'redux';
+import { useSelector } from 'react-redux';
+import { Mock, vi } from 'vitest';
 
-import { withAuth, mapStateToProps } from './hoc';
-import { ReduxModel } from '../redux/model';
-import { useOidc } from './create-oidc';
+import { withAuth } from './hoc';
 import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from './constants';
+import { useOidc } from './create-oidc';
+
+vi.mock('react-redux', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('react-redux')>();
+	return {
+		...actual,
+		useSelector: vi.fn(),
+	};
+});
 
 vi.mock('./create-oidc', () => ({
 	useOidc: vi.fn(),
 }));
 
-vi.mock('./no-auth/login', () => ({
-	default: () => <div data-testid="login-no-auth">Login No Auth</div>,
-}));
-
 vi.mock('./open-id-connect-auth/use-oidc', () => ({
-	LoginComponent: () => <div data-testid="login-component">Login Component</div>,
 	default: ({ WrappedComponent }: { WrappedComponent: () => JSX.Element }) => (
-		<div data-testid="logged-in-wrapper">
-			<WrappedComponent />
-		</div>
+		<WrappedComponent />
 	),
+	LoginComponent: () => <div>Login Component</div>,
 }));
 
-describe('mapStateToProps', () => {
-	it('should return the auth object with roles when stamp is present', () => {
-		const input: Partial<ReduxModel> = {
-			app: {
-				auth: {
-					type: 'OpenIDConnectAuth',
-					user: {
-						stamp: 'stamp-123',
-						roles: ['admin', 'user'],
-					},
-				},
-			},
-		};
-		const output = {
-			authType: 'OpenIDConnectAuth',
-			roles: ['admin', 'user']
-		};
-		expect(mapStateToProps(input as ReduxModel)).toEqual(output);
-	});
+const TestComponent = () => <div>Test Component</div>;
+const AuthTestComponent = withAuth(TestComponent);
 
-	it('should return the auth object without roles when stamp is missing', () => {
-		const input: Partial<ReduxModel> = {
-			app: {
-				auth: {
-					type: 'NoAuthImpl',
-					user: {
-						stamp: undefined,
-						roles: ['admin'],
-					},
-				},
-			},
-		};
-		const output = {
-			authType: 'NoAuthImpl',
-			roles: null
-		};
-		expect(mapStateToProps(input as ReduxModel)).toEqual(output);
-	});
-
-	it('should return the auth object without roles when stamp is empty string', () => {
-		const input: Partial<ReduxModel> = {
-			app: {
-				auth: {
-					type: 'OpenIDConnectAuth',
-					user: {
-						stamp: '',
-						roles: ['admin'],
-					},
-				},
-			},
-		};
-		const output = {
-			authType: 'OpenIDConnectAuth',
-			roles: null
-		};
-		expect(mapStateToProps(input as ReduxModel)).toEqual(output);
-	});
-
-	it('should handle empty roles array when stamp is present', () => {
-		const input: Partial<ReduxModel> = {
-			app: {
-				auth: {
-					type: 'OpenIDConnectAuth',
-					user: {
-						stamp: 'stamp-123',
-						roles: [],
-					},
-				},
-			},
-		};
-		const output = {
-			authType: 'OpenIDConnectAuth',
-			roles: []
-		};
-		expect(mapStateToProps(input as ReduxModel)).toEqual(output);
-	});
-
-	it('should handle multiple roles when stamp is present', () => {
-		const input: Partial<ReduxModel> = {
-			app: {
-				auth: {
-					type: 'OpenIDConnectAuth',
-					user: {
-						stamp: 'stamp-456',
-						roles: ['admin', 'user', 'moderator'],
-					},
-				},
-			},
-		};
-		const output = {
-			authType: 'OpenIDConnectAuth',
-			roles: ['admin', 'user', 'moderator']
-		};
-		expect(mapStateToProps(input as ReduxModel)).toEqual(output);
-	});
-});
-
-describe('withAuth', () => {
-	const MockComponent = () => <div data-testid="wrapped-component">Wrapped Component</div>;
-
-	const createMockStore = (authType: string, roles: string[] | null): Store => {
-		const state = {
-			app: {
-				auth: {
-					type: authType,
-					user: {
-						stamp: roles ? 'stamp-123' : '',
-						roles: roles || [],
-					},
-				},
-			},
-		};
-
-		return {
-			getState: () => state,
-			dispatch: vi.fn(),
-			subscribe: vi.fn(),
-			replaceReducer: vi.fn(),
-		} as unknown as Store;
-	};
-
+describe('auth HOC', () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 	});
 
-	describe('OpenID Connect Authentication', () => {
-		it('should render LoginComponent when user is not logged in', () => {
-			(useOidc as Mock).mockReturnValue({
-				isUserLoggedIn: false,
-			});
+	it('should render LoginComponent when user is not logged in with OIDC auth', () => {
+		(useSelector as Mock).mockReturnValue({ authType: OPEN_ID_CONNECT_AUTH });
+		(useOidc as Mock).mockReturnValue({ isUserLoggedIn: false });
 
-			const store = createMockStore(OPEN_ID_CONNECT_AUTH, null);
-			const AuthenticatedComponent = withAuth(MockComponent);
+		render(<AuthTestComponent />);
 
-			render(
-				<Provider store={store}>
-					<AuthenticatedComponent />
-				</Provider>
-			);
-
-			expect(screen.getByTestId('login-component')).toBeInTheDocument();
-			expect(screen.queryByTestId('wrapped-component')).not.toBeInTheDocument();
-		});
-
-		it('should render LoggedInWrapper with WrappedComponent when user is logged in', () => {
-			(useOidc as Mock).mockReturnValue({
-				isUserLoggedIn: true,
-			});
-
-			const store = createMockStore(OPEN_ID_CONNECT_AUTH, ['admin']);
-			const AuthenticatedComponent = withAuth(MockComponent);
-
-			render(
-				<Provider store={store}>
-					<AuthenticatedComponent />
-				</Provider>
-			);
-
-			expect(screen.getByTestId('logged-in-wrapper')).toBeInTheDocument();
-			expect(screen.queryByTestId('login-component')).not.toBeInTheDocument();
-		});
+		expect(screen.getByText('Login Component')).toBeInTheDocument();
 	});
 
-	describe('Roles-based Authentication', () => {
-		it('should render WrappedComponent when user has valid roles', () => {
-			(useOidc as Mock).mockReturnValue({
-				isUserLoggedIn: false,
-			});
+	it('should render wrapped component when user is logged in with OIDC auth', () => {
+		(useSelector as Mock).mockReturnValue({ authType: OPEN_ID_CONNECT_AUTH });
+		(useOidc as Mock).mockReturnValue({ isUserLoggedIn: true });
 
-			const store = createMockStore('CustomAuth', ['admin', 'user']);
-			const AuthenticatedComponent = withAuth(MockComponent);
+		render(<AuthTestComponent />);
 
-			render(
-				<Provider store={store}>
-					<AuthenticatedComponent />
-				</Provider>
-			);
-
-			expect(screen.getByTestId('wrapped-component')).toBeInTheDocument();
-		});
-
-		it('should NOT render WrappedComponent when roles array is empty', () => {
-			(useOidc as Mock).mockReturnValue({
-				isUserLoggedIn: false,
-			});
-
-			const store = createMockStore('CustomAuth', []);
-			const AuthenticatedComponent = withAuth(MockComponent);
-
-			render(
-				<Provider store={store}>
-					<AuthenticatedComponent />
-				</Provider>
-			);
-
-			expect(screen.queryByTestId('wrapped-component')).not.toBeInTheDocument();
-			expect(screen.getByRole('alert')).toBeInTheDocument();
-			expect(screen.getByText('Erreur d\'authentification')).toBeInTheDocument();
-		});
-
-		it('should NOT render WrappedComponent when roles is null', () => {
-			(useOidc as Mock).mockReturnValue({
-				isUserLoggedIn: false,
-			});
-
-			const store = createMockStore('CustomAuth', null);
-			const AuthenticatedComponent = withAuth(MockComponent);
-
-			render(
-				<Provider store={store}>
-					<AuthenticatedComponent />
-				</Provider>
-			);
-
-			expect(screen.queryByTestId('wrapped-component')).not.toBeInTheDocument();
-		});
+		expect(screen.getByText('Test Component')).toBeInTheDocument();
 	});
 
-	describe('No Authentication (NO_AUTH)', () => {
-		it('should render LoginNoAuth component when authType is NO_AUTH', () => {
-			(useOidc as Mock).mockReturnValue({
-				isUserLoggedIn: false,
-			});
+	it('should render wrapped component directly when auth type is NO_AUTH', () => {
+		(useSelector as Mock).mockReturnValue({ authType: NO_AUTH });
+		(useOidc as Mock).mockReturnValue({ isUserLoggedIn: false });
 
-			const store = createMockStore(NO_AUTH, null);
-			const AuthenticatedComponent = withAuth(MockComponent);
+		render(<AuthTestComponent />);
 
-			render(
-				<Provider store={store}>
-					<AuthenticatedComponent />
-				</Provider>
-			);
-
-			expect(screen.getByTestId('login-no-auth')).toBeInTheDocument();
-			expect(screen.queryByTestId('wrapped-component')).not.toBeInTheDocument();
-		});
+		expect(screen.getByText('Test Component')).toBeInTheDocument();
 	});
 
-	describe('Error cases', () => {
-		it('should render error message for invalid auth type with no roles', () => {
-			(useOidc as Mock).mockReturnValue({
-				isUserLoggedIn: false,
-			});
+	it('should render error when auth type is unknown', () => {
+		(useSelector as Mock).mockReturnValue({ authType: 'UNKNOWN_AUTH' });
+		(useOidc as Mock).mockReturnValue({ isUserLoggedIn: false });
 
-			const store = createMockStore('InvalidAuthType', null);
-			const AuthenticatedComponent = withAuth(MockComponent);
+		render(<AuthTestComponent />);
 
-			render(
-				<Provider store={store}>
-					<AuthenticatedComponent />
-				</Provider>
-			);
-
-			expect(screen.getByRole('alert')).toBeInTheDocument();
-			expect(screen.getByText('Erreur d\'authentification')).toBeInTheDocument();
-			expect(screen.queryByTestId('wrapped-component')).not.toBeInTheDocument();
-		});
-
-		it('should ensure error message has proper accessibility attributes', () => {
-			(useOidc as Mock).mockReturnValue({
-				isUserLoggedIn: false,
-			});
-
-			const store = createMockStore('InvalidAuthType', null);
-			const AuthenticatedComponent = withAuth(MockComponent);
-
-			render(
-				<Provider store={store}>
-					<AuthenticatedComponent />
-				</Provider>
-			);
-
-			const errorElement = screen.getByRole('alert');
-			expect(errorElement).toHaveAttribute('aria-live', 'polite');
-		});
+		expect(screen.getByText('Erreur d\'authentification')).toBeInTheDocument();
 	});
 });
