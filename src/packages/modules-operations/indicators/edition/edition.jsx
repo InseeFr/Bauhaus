@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import { CreatorsInput } from '@components/creators-input';
+import { CreatorsInput } from '@components/business/creators-input';
 import {
 	ClientSideError,
 	ErrorBloc,

@@ -9,11 +9,11 @@ import { renderMarkdownElement } from '@utils/html-utils';
 
 import { D1, D2 } from '../../../deprecated-locales';
 import D from '../../../deprecated-locales/build-dictionary';
-import CreatorsView from '../../components/creators-view';
 import DisplayLinks from '../../components/links';
 import { getSeeAlsoByType } from '../../components/links/utils';
 import PublishersView from '../../components/publishers-view';
 import SeeAlso from '../../components/seeAlso';
+import { CreatorsView } from '@components/business/creators-view';
 
 function DisplayMultiLangNote({
 	value1,

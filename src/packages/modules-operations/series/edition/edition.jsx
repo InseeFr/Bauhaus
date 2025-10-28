@@ -5,7 +5,7 @@ import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
-import { CreatorsInput } from '@components/creators-input';
+import { CreatorsInput } from '@components/business/creators-input';
 import {
 	ClientSideError,
 	ErrorBloc,
