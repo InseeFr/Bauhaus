@@ -2,23 +2,26 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
 
 import { CreatorsInput } from '.';
-import { useStampsOptions } from '../../utils/hooks/stamps';
+import { useV2StampsOptions } from '../../../utils/hooks/stamps';
 
-// Mock du hook useStampsOptions
-vi.mock('../../utils/hooks/stamps', () => ({
-	useStampsOptions: vi.fn(),
+// Mock du hook useV2StampsOptions
+vi.mock('../../../utils/hooks/stamps', () => ({
+	useV2StampsOptions: vi.fn(),
 }));
 
 // Mock du composant Select
-vi.mock('../select-rmes', () => ({
-	Select: ({ onChange }: any) => (
-		<select
-			data-testid="select-mock"
-			onChange={(e) => onChange(e.target.value)}
-		>
-			<option value="option1">Option 1</option>
-			<option value="option2">Option 2</option>
-		</select>
+vi.mock('../../ui/select', () => ({
+	Select: ({ label, onChange }: any) => (
+		<div>
+			<label>{label}</label>
+			<select
+				data-testid="select-mock"
+				onChange={(e) => onChange(e.target.value)}
+			>
+				<option value="option1">Option 1</option>
+				<option value="option2">Option 2</option>
+			</select>
+		</div>
 	),
 }));
 
@@ -30,7 +33,7 @@ describe('CreatorsInput', () => {
 	});
 
 	it('should render with single select and label for single creator', () => {
-		(useStampsOptions as Mock).mockReturnValue([
+		(useV2StampsOptions as Mock).mockReturnValue([
 			{ value: 'option1', label: 'Option 1' },
 		]);
 
@@ -43,7 +46,7 @@ describe('CreatorsInput', () => {
 	});
 
 	it('should render with multi select and label for multiple creators', () => {
-		(useStampsOptions as Mock).mockReturnValue([
+		(useV2StampsOptions as Mock).mockReturnValue([
 			{ value: 'option1', label: 'Option 1' },
 			{ value: 'option2', label: 'Option 2' },
 		]);
@@ -61,7 +64,7 @@ describe('CreatorsInput', () => {
 	});
 
 	it('should call onChange with correct value when single select changes', () => {
-		(useStampsOptions as Mock).mockReturnValue([
+		(useV2StampsOptions as Mock).mockReturnValue([
 			{ value: 'option1', label: 'Option 1' },
 		]);
 

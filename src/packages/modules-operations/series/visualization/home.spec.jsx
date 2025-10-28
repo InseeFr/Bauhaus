@@ -142,7 +142,7 @@ describe('SerieInformation', () => {
 			/>,
 		);
 		const creator = container.querySelector('#creators p');
-		expect(creator.innerHTML).toEqual('DG75-G001');
+		expect(creator.innerHTML).toEqual('Direction Générale');
 	});
 	it('should display the publisher', () => {
 		const { container } = renderWithRouter(

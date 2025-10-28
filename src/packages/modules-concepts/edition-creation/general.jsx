@@ -1,4 +1,4 @@
-import { CreatorsInput } from '@components/creators-input';
+import { CreatorsInput } from '@components/business/creators-input';
 import { DatePicker } from '@components/date-picker';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import { ClientSideError } from '@components/errors-bloc';
