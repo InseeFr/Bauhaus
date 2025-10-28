@@ -6,10 +6,12 @@ export const OutlineButtonWithScroll = ({ id, baseUrl, children }) => {
 	const scrollTo = () => {
 		const url = `${baseUrl}#${id}`;
 		navigate(url, { replace: true });
-		document.getElementById(id).scrollIntoView({
-			behavior: 'smooth',
-			block: 'center',
-		});
+		setTimeout(() => {
+			document.getElementById(id).scrollIntoView({
+				behavior: 'smooth',
+				block: 'center',
+			});
+		}, 500);
 	};
 
 	return (
