@@ -89,9 +89,9 @@
 				"numeric": "Numérique"
 			},
 			"exportSuccess": "Export réussi",
-			"exportSuccessDetail": "Les données ont été copiées dans le presse-papiers",
+			"exportSuccessDetail": "Le fichier au format {{format}} a été téléchargé",
 			"exportError": "Erreur lors de l'export",
-			"exportErrorDetail": "Impossible de copier les données dans le presse-papiers",
+			"exportErrorDetail": "Impossible de télécharger le fichier",
 			"saveSuccess": "Enregistrement réussi",
 			"saveSuccessDetail": "L'instance physique a été mise à jour",
 			"saveError": "Erreur lors de l'enregistrement",
