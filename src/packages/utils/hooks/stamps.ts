@@ -12,7 +12,7 @@ export const useStamps = () =>
 
 export const useV2Stamps = () =>
 	useQuery({
-		queryKey: ['stamps'],
+		queryKey: ['v2-stamps'],
 		queryFn: () => {
 			return V2Api.getStamps() as Promise<{ stamp: string; label: string }[]>;
 		},

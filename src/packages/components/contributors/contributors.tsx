@@ -4,6 +4,7 @@ import { Options } from '../../model/SelectOption';
 import D, { D1 } from '../i18n';
 import LabelRequired from '../label-required';
 import { Select } from '../select-rmes';
+import { List } from '../ui/list';
 
 export const ContributorsVisualisation = ({
 	contributors,
@@ -13,11 +14,11 @@ export const ContributorsVisualisation = ({
 	return (
 		<>
 			{D.contributors.title} :
-			<ul>
-				{convertToArrayIfDefined(contributors)?.map((c: string) => (
-					<li key={c}>{c}</li>
-				))}
-			</ul>
+			<List<string>
+				items={convertToArrayIfDefined(contributors)}
+				getContent={(item) => item}
+				getKey={(item) => item}
+			/>
 		</>
 	);
 };

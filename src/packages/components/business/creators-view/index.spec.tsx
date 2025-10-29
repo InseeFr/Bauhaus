@@ -37,6 +37,30 @@ describe('<CreatorsView />', () => {
 		);
 	});
 
+	it('should use List component with proper getContent for label mapping', () => {
+		const creators = ['DG75-L201', 'DG75-L202'];
+		const { container } = render(<CreatorsView creators={creators} />);
+
+		const listItems = container.querySelectorAll('li');
+		expect(listItems).toHaveLength(2);
+		expect(listItems[0].textContent).toBe('INSEE');
+		expect(listItems[1].textContent).toBe('DARES');
+	});
+
+	it('should pass correct type parameter to List component', () => {
+		const creators = ['id', 'id2', 'DG75-L201'];
+		const { container } = render(<CreatorsView creators={creators} />);
+
+		const ul = container.querySelector('ul');
+		expect(ul).toBeTruthy();
+
+		const listItems = container.querySelectorAll('li');
+		expect(listItems).toHaveLength(3);
+		expect(listItems[0].textContent).toBe('Label for id');
+		expect(listItems[1].textContent).toBe('Label for id2');
+		expect(listItems[2].textContent).toBe('INSEE');
+	});
+
 	it('should fallback to value when label is not found in the map', () => {
 		const creators = 'unknown-id';
 		const { container } = render(<CreatorsView creators={creators} />);

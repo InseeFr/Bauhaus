@@ -9,7 +9,6 @@ import { Loading, Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
 import { Select } from '@components/select-rmes';
 
-import { useDisseminationStatusOptions } from '@utils/hooks/disseminationStatus';
 import { useOrganizationsOptions } from '@utils/hooks/organizations';
 import { useStampsOptions } from '@utils/hooks/stamps';
 import { useTitle } from '@utils/hooks/useTitle';
@@ -25,6 +24,7 @@ import {
 } from '../hooks';
 import { Menu } from './menu';
 import { validate } from './validate';
+import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -42,7 +42,6 @@ export const Component = () => {
 
 	const seriesOptions = transformModelToSelectOptions(series ?? []);
 
-	const disseminationStatusOptions = useDisseminationStatusOptions();
 	const organisationsOptions = useOrganizationsOptions();
 
 	const stampsOptions = useStampsOptions();
@@ -287,12 +286,10 @@ export const Component = () => {
 
 				<div className="form-group">
 					<label>{D1.disseminationStatusTitle}</label>
-					<Select
-						value={disseminationStatusOptions.find(
-							(option) => option.value === value.general.disseminationStatus,
-						)}
-						options={disseminationStatusOptions}
-						onChange={(v) =>
+					<DisseminationStatusInput
+						withLabel={false}
+						value={value.general.disseminationStatus}
+						handleChange={(v) =>
 							setValue({
 								...value,
 								general: { ...value.general, disseminationStatus: v },

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { CreatorsInput } from './index';
+import { ContributorsInput } from './contributors-input';
 
 vi.mock('../stamps-input/stamps-input', () => ({
 	StampsInput: ({
@@ -20,12 +20,12 @@ vi.mock('../stamps-input/stamps-input', () => ({
 	),
 }));
 
-describe('CreatorsInput', () => {
-	it('renders StampsInput with creator labels for first lang', () => {
+describe('ContributorsInput', () => {
+	it('renders StampsInput with contributor labels for first lang', () => {
 		const mockOnChange = vi.fn();
 		render(
-			<CreatorsInput
-				value="creator1"
+			<ContributorsInput
+				value="contributor1"
 				onChange={mockOnChange}
 				lang="first"
 				multi={false}
@@ -37,11 +37,11 @@ describe('CreatorsInput', () => {
 		expect(screen.getByTestId('lang')).toHaveTextContent('first');
 	});
 
-	it('renders StampsInput with creator labels for default lang', () => {
+	it('renders StampsInput with contributor labels for default lang', () => {
 		const mockOnChange = vi.fn();
 		render(
-			<CreatorsInput
-				value="creator1"
+			<ContributorsInput
+				value="contributor1"
 				onChange={mockOnChange}
 				lang="default"
 				multi={false}
@@ -56,8 +56,8 @@ describe('CreatorsInput', () => {
 	it('forwards all props to StampsInput', () => {
 		const mockOnChange = vi.fn();
 		render(
-			<CreatorsInput
-				value={['creator1', 'creator2']}
+			<ContributorsInput
+				value={['contributor1', 'contributor2']}
 				onChange={mockOnChange}
 				lang="first"
 				multi={true}
@@ -66,14 +66,14 @@ describe('CreatorsInput', () => {
 		);
 
 		expect(screen.getByTestId('value')).toHaveTextContent(
-			'["creator1","creator2"]',
+			'["contributor1","contributor2"]',
 		);
 	});
 
 	it('handles empty value', () => {
 		const mockOnChange = vi.fn();
 		render(
-			<CreatorsInput
+			<ContributorsInput
 				value=""
 				onChange={mockOnChange}
 				lang="first"
@@ -82,5 +82,23 @@ describe('CreatorsInput', () => {
 		);
 
 		expect(screen.getByTestId('stamps-input')).toBeInTheDocument();
+	});
+
+	it('uses same label for single and multi mode', () => {
+		const mockOnChange = vi.fn();
+		render(
+			<ContributorsInput
+				value={['contributor1']}
+				onChange={mockOnChange}
+				lang="first"
+				multi={true}
+			/>,
+		);
+
+		const labels = screen.getAllByText('Gestionnaires');
+		expect(labels).toHaveLength(2);
+
+		const labelMulti = screen.getByTestId('label-multi');
+		expect(labelMulti.textContent).toBe('Gestionnaires');
 	});
 });

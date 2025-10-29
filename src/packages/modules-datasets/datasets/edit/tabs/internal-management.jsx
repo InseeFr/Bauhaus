@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { ContributorsInput } from '@components/contributors/contributors';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
@@ -21,6 +20,8 @@ import {
 } from '../../../../redux/actions/constants/codeList';
 import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
 import { useSeriesOperationsOptions } from './useSeriesOperationsOptions';
+import { CreatorsInput } from '@components/business/creators-input';
+import { ContributorsInput } from '@components/business/contributors-input/contributors-input';
 
 const InternalManagementTab = ({
 	editingDataset,
@@ -29,8 +30,6 @@ const InternalManagementTab = ({
 	setClientSideErrors,
 	...props
 }) => {
-	const stampsOptions = useStampsOptions();
-
 	const seriesOperationsOptions = useSeriesOperationsOptions();
 
 	const clAccessRightsOptions = convertCodesListsToSelectOption(
@@ -74,16 +73,14 @@ const InternalManagementTab = ({
 			</Row>
 			<Row>
 				<div className="col-md-12 form-group">
-					<LabelRequired>{D1.creatorTitle}</LabelRequired>
-					<Select
+					<CreatorsInput
 						value={editingDataset.catalogRecord?.creator}
-						options={stampsOptions}
-						onChange={(option) => {
+						onChange={(values) => {
 							setEditingDataset({
 								...editingDataset,
 								catalogRecord: {
 									...(editingDataset.catalogRecord ?? {}),
-									creator: option,
+									creator: values,
 								},
 							});
 							setClientSideErrors((clientSideErrors) => ({
@@ -92,6 +89,7 @@ const InternalManagementTab = ({
 							}));
 						}}
 					/>
+
 					<ClientSideError
 						error={clientSideErrors?.fields?.creator}
 					></ClientSideError>
@@ -100,9 +98,8 @@ const InternalManagementTab = ({
 			<Row>
 				<div className="col-md-12 form-group">
 					<ContributorsInput
-						stampListOptions={stampsOptions}
 						value={editingDataset.catalogRecord?.contributor}
-						handleChange={(values) => {
+						onChange={(values) => {
 							setEditingDataset({
 								...editingDataset,
 								catalogRecord: {
@@ -115,8 +112,9 @@ const InternalManagementTab = ({
 								errorMessage: [],
 							}));
 						}}
-						required
+						multi
 					/>
+
 					<ClientSideError
 						error={clientSideErrors?.fields?.contributor}
 					></ClientSideError>

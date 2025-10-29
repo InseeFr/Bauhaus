@@ -9,7 +9,7 @@ import { ContributorsVisualisation } from '@components/contributors/contributors
 import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 import { ErrorBloc } from '@components/errors-bloc';
 import { Row } from '@components/layout';
-import { List } from '@components/list';
+import { List } from '@components/ui/list';
 import { Deleting, Loading, Publishing } from '@components/loading';
 import { Note } from '@components/note';
 import { PageTitleBlock } from '@components/page-title-block';
@@ -27,6 +27,7 @@ import { D as DatasetDictionary } from '../../i18n';
 import { GlobalInformationBlock } from './GlobalInformationBlock';
 import { StatisticalInformations } from './StatisticalInformations';
 import { ViewMenu } from './menu';
+import { CreatorsView } from '@components/business/creators-view';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -151,11 +152,21 @@ const Dataset = (props) => {
 					text={
 						<ul>
 							<li>
-								{D.creatorTitle} : {dataset.catalogRecord?.creator}{' '}
+								<CreatorsView
+									render={(creators) => (
+										<>
+											{D.creatorTitle} : {creators[0]}
+										</>
+									)}
+									creators={dataset.catalogRecord?.creator}
+								/>
 							</li>
 							<li>
-								<ContributorsVisualisation
-									contributors={dataset.catalogRecord?.contributor}
+								<CreatorsView
+									render={(contributors) => (
+										<ContributorsVisualisation contributors={contributors} />
+									)}
+									creators={dataset.catalogRecord?.contributor}
 								/>
 							</li>
 
