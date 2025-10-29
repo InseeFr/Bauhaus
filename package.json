@@ -12,7 +12,7 @@
 	"private": true,
 	"scripts": {
 		"pre-script": "cross-env NODE_OPTIONS=--openssl-legacy-provider",
-		"lint": "npx oxlint -c oxlint.json && npx stylelint \"src/**/*.css\"",
+		"lint": "oxlint -c oxlint.json && npx stylelint \"src/**/*.css\"",
 		"test": "vitest",
 		"test:coverage": "cross-env CI=true vitest run --coverage",
 		"start": "pnpm pre-script vite",
@@ -44,7 +44,8 @@
 			"@parcel/watcher",
 			"core-js",
 			"esbuild",
-			"sharp"
+			"sharp",
+			"@oxlint/darwin-universal"
 		]
 	},
 	"devDependencies": {
