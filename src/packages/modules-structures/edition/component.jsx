@@ -19,7 +19,6 @@ import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { usePermission } from '../../redux/hooks/usePermission';
 import { initializeContributorProperty } from '../../utils/creation/contributor-init';
-import { useStampsOptions } from '../../utils/hooks/stamps';
 import { DISSEMINATION_STATUS } from '../utils/constants';
 import Components from './components';
 import Controls from './controls';
@@ -40,8 +39,6 @@ const defaultDSD = {
 };
 
 const Edition = ({ creation, initialStructure }) => {
-	const stampListOptions = useStampsOptions();
-
 	const { lg1, lg2 } = useAppContext();
 
 	const [structure, setStructure] = useState(defaultDSD);

@@ -5,7 +5,6 @@ import { Loading, Saving } from '@components/loading';
 
 import { ConceptsApi, saveComponent, StructureApi } from '@sdk/index';
 
-import { useStampsOptions } from '@utils/hooks/stamps';
 import { useGoBack } from '@utils/hooks/useGoBack';
 
 import { CodesLists } from '../../../model/CodesList';
@@ -26,8 +25,6 @@ export const Component = (props: any) => {
 	const [codesLists, setCodesLists] = useState<CodesLists>([]);
 	const [serverSideError, setServerSideError] = useState<string>('');
 	const [attributes, setAttributes] = useState([]);
-
-	const stampListOptions = useStampsOptions();
 
 	const handleBack = useCallback(
 		() => goBack('/structures/components'),
@@ -84,7 +81,6 @@ export const Component = (props: any) => {
 			handleBack={handleBack}
 			handleSave={handleSave}
 			mutualized={true}
-			stampListOptions={stampListOptions}
 			attributes={attributes}
 			serverSideError={serverSideError}
 			type={type === 'ALL' ? undefined : type}

@@ -7,7 +7,6 @@ import {
 	UpdateButton,
 } from '@components/buttons/buttons-with-icons';
 import { ConfirmationDelete } from '@components/confirmation-delete';
-import { ContributorsVisualisation } from '@components/contributors/contributors';
 import { CreationUpdateItems } from '@components/creation-update-items';
 import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 import { ErrorBloc } from '@components/errors-bloc';

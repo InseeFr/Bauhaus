@@ -1,4 +1,3 @@
-import { ContributorsVisualisation } from '@components/contributors/contributors';
 import { CreationUpdateItems } from '@components/creation-update-items';
 import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 import { Row } from '@components/layout';

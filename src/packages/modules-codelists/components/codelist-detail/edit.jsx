@@ -15,7 +15,6 @@ import {
 import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
-import { Select } from '@components/select-rmes';
 
 import { useTitle } from '@utils/hooks/useTitle';
 
@@ -26,7 +25,6 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { validateCodelist } from '../../utils';
 import { CodesCollapsiblePanel } from './codes-panel';
 import './edit.scss';
-import { EMPTY_ARRAY } from '@utils/array-utils';
 import { UriInputGroup } from './components/UriInputGroup';
 import { CreatorsInput } from '@components/business/creators-input';
 import { ContributorsInput } from '@components/business/contributors-input/contributors-input';

@@ -182,7 +182,6 @@ export const DumbComponentDetailEdit = ({
 	handleBack,
 	type,
 	attributes,
-	stampListOptions = EMPTY_ARRAY,
 	serverSideError,
 }) => {
 	const [component, setComponent] = useState({});

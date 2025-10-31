@@ -212,7 +212,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
 						onChange={(value: string) =>
 							handleChange('wasGeneratedIRIs', value)
 						}
-						optionRenderer={(v: any) => {
+						itemTemplate={(v: any) => {
 							if (!v.value.includes('/serie/')) {
 								return <span className="padding">{v.label}</span>;
 							}

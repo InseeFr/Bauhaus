@@ -10,7 +10,6 @@ import { Select } from '@components/select-rmes';
 import { DatasetsApi } from '@sdk/index';
 
 import { withCodesLists } from '@utils/hoc/withCodesLists';
-import { useStampsOptions } from '@utils/hooks/stamps';
 
 import { D1 } from '../../../../deprecated-locales';
 import {
@@ -148,7 +147,7 @@ const InternalManagementTab = ({
 						multi
 						value={editingDataset.wasGeneratedIRIs}
 						options={seriesOperationsOptions}
-						optionRenderer={(v) => {
+						itemTemplate={(v) => {
 							if (!v.value.includes('/serie/')) {
 								return <span className="padding">{v.label}</span>;
 							}

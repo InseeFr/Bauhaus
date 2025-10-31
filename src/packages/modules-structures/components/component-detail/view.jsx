@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { SeeButton } from '@components/buttons/see';
-import { ContributorsVisualisation } from '@components/contributors/contributors';
 import { CreationUpdateItems } from '@components/creation-update-items';
 import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 import { ErrorBloc } from '@components/errors-bloc';
@@ -28,7 +27,10 @@ import { ViewMenu } from './menu';
 import './view.css';
 import { MeasureAttributes } from './visualisation/measureAttributes';
 import { EMPTY_ARRAY } from '@utils/array-utils';
-import { InseeOrganisationText } from '@components/business/creators-view';
+import {
+	InseeOrganisationList,
+	InseeOrganisationText,
+} from '@components/business/creators-view';
 
 export const ComponentDetailView = ({
 	component,

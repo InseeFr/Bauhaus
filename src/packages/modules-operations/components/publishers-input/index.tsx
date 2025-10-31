@@ -2,7 +2,6 @@ import { Select } from '@components/select-rmes';
 
 import { useOrganizationsOptions } from '@utils/hooks/organizations';
 
-import { Option } from '../../../model/SelectOption';
 import { D1 } from '../../i18n/build-dictionary';
 
 interface PublishersInputTypes {

@@ -171,7 +171,7 @@ function ConceptGeneral({ attr, secondLang = false }: ConceptGeneralProps) {
 	const { lg1, lg2 } = useLocales();
 
 	// Build fields configuration dynamically based on available data
-	const fields: Array<{ name: FieldName; label: string }> = [
+	const fields: { name: FieldName; label: string }[] = [
 		{ name: 'id', label: D1.identifiantTitle },
 	];
 

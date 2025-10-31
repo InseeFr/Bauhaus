@@ -146,7 +146,7 @@ describe('CollectionGeneral', () => {
 				contributor: [],
 			};
 
-			const { container } = render(<CollectionGeneral attr={attr} />, {
+			render(<CollectionGeneral attr={attr} />, {
 				wrapper: createWrapper(),
 			});
 

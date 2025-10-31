@@ -8,16 +8,7 @@ vi.mock('../../../utils/hooks/stamps', () => ({
 }));
 
 vi.mock('../../ui/select', () => ({
-	Select: ({
-		label,
-		placeholder,
-		value,
-		options,
-		onChange,
-		multi,
-		required,
-		filter,
-	}: any) => (
+	Select: ({ label, placeholder, value, multi, required, filter }: any) => (
 		<div data-testid="select-component">
 			<label>{label}</label>
 			<div data-testid="placeholder">{placeholder}</div>

@@ -73,7 +73,7 @@ const renderFieldItem = (
 };
 
 function CollectionGeneral({ attr, secondLang }: CollectionGeneralProps) {
-	const fields: ReadonlyArray<{ name: FieldName; label: string }> = [
+	const fields: readonly { name: FieldName; label: string }[] = [
 		{ name: 'creator', label: D1.creatorTitle },
 		{ name: 'contributor', label: D1.contributorTitle },
 		{ name: 'isValidated', label: D1.isCollectionValidTitle },

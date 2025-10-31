@@ -3,14 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { CreatorsInput } from './index';
 
 vi.mock('../stamps-input/stamps-input', () => ({
-	StampsInput: ({
-		labelSingle,
-		labelMulti,
-		lang,
-		value,
-		onChange,
-		...rest
-	}: any) => (
+	StampsInput: ({ labelSingle, labelMulti, lang, value }: any) => (
 		<div data-testid="stamps-input">
 			<label>{labelSingle}</label>
 			<div data-testid="label-multi">{labelMulti}</div>

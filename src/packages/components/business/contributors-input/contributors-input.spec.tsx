@@ -16,14 +16,7 @@ vi.mock('../../i18n', () => ({
 }));
 
 vi.mock('../stamps-input/stamps-input', () => ({
-	StampsInput: ({
-		labelSingle,
-		labelMulti,
-		lang,
-		value,
-		onChange,
-		...rest
-	}: any) => (
+	StampsInput: ({ labelSingle, labelMulti, lang, value }: any) => (
 		<div data-testid="stamps-input">
 			<label>{labelSingle}</label>
 			<div data-testid="label-multi">{labelMulti}</div>

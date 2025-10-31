@@ -19,7 +19,7 @@ type SelectRmesTypes = {
 	placeholder?: string;
 	value?: any;
 	options?: Option[];
-	optionRenderer?: any;
+	itemTemplate?: MultiSelect['props']['itemTemplate'];
 } & {};
 
 export const Select = ({
@@ -30,11 +30,6 @@ export const Select = ({
 	disabled = false,
 	...props
 }: SelectRmesTypes) => {
-	const onChangeSelect = multi
-		? (e: any) => onChange(e)
-		: (e: any) => onChange(e ? e.value : '');
-
-	//optionRenderer
 	if (multi) {
 		return (
 			<MultiSelect
@@ -50,6 +45,7 @@ export const Select = ({
 				disabled={disabled}
 				showClear={!unclearable}
 				emptyMessage={D.noResult}
+				itemTemplate={props.itemTemplate}
 			/>
 		);
 	}
@@ -67,6 +63,7 @@ export const Select = ({
 			disabled={disabled}
 			showClear={!unclearable}
 			emptyMessage={D.noResult}
+			itemTemplate={props.itemTemplate}
 		/>
 	);
 };
