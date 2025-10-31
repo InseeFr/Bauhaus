@@ -16,6 +16,16 @@ const api = {
 			body: JSON.stringify(data),
 		},
 	],
+	convertToDDI3: (data: unknown) => [
+		'convert/ddi4-to-ddi3',
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		},
+	],
 };
 
 export const DDIApi = buildApi('ddi', api) as any;
