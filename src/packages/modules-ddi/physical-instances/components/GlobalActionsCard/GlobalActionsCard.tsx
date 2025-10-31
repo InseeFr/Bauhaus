@@ -1,13 +1,15 @@
 import { Button } from 'primereact/button';
+import { SplitButton } from 'primereact/splitbutton';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Card } from 'primereact/card';
 import { useTranslation } from 'react-i18next';
+import type { MenuItem } from 'primereact/menuitem';
 
 interface GlobalActionsCardProps {
 	variables: any[];
 	onImport: () => void;
-	onExport: () => void;
+	onExport: (format: 'DDI3' | 'DDI4') => void;
 	onRowClick?: (data: any) => void;
 }
 
@@ -18,6 +20,19 @@ export const GlobalActionsCard = ({
 	onRowClick,
 }: Readonly<GlobalActionsCardProps>) => {
 	const { t } = useTranslation();
+
+	const exportMenuItems: MenuItem[] = [
+		{
+			label: 'DDI3',
+			icon: 'pi pi-file',
+			command: () => onExport('DDI3'),
+		},
+		{
+			label: 'DDI4',
+			icon: 'pi pi-file',
+			command: () => onExport('DDI4'),
+		},
+	];
 
 	return (
 		<Card title={t('physicalInstance.view.globalActions')}>
@@ -30,13 +45,19 @@ export const GlobalActionsCard = ({
 					aria-label={t('physicalInstance.view.import')}
 					onClick={onImport}
 				/>
-				<Button
+				<SplitButton
 					icon="pi pi-download"
 					label={t('physicalInstance.view.export')}
+					model={exportMenuItems}
 					severity="secondary"
-					style={{ background: 'transparent' }}
+					buttonProps={{
+						style: { background: 'transparent' },
+					}}
+					menuButtonProps={{
+						style: { background: 'transparent' },
+					}}
 					aria-label={t('physicalInstance.view.export')}
-					onClick={onExport}
+					onClick={() => onExport('DDI3')}
 				/>
 				<Button
 					icon="pi pi-pencil"

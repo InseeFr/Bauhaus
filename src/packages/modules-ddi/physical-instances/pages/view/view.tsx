@@ -15,19 +15,26 @@ import { viewReducer, initialState, actions } from './viewReducer';
 import {
 	FILTER_ALL_TYPES,
 	TOAST_DURATION,
-	EXPORT_DELAY,
 	VARIABLE_TYPES,
 } from '../../constants';
 import type { VariableTableData } from '../../types/api';
 import { Loading } from '../../../../components/loading';
+import { DDIApi } from '../../../../sdk';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();
 	const { t } = useTranslation();
 	const toast = useRef<Toast>(null);
 	const [state, dispatch] = useReducer(viewReducer, initialState);
-	const { variables, title, dataRelationshipName, isLoading, isError, error } =
-		usePhysicalInstancesData(id!);
+	const {
+		data,
+		variables,
+		title,
+		dataRelationshipName,
+		isLoading,
+		isError,
+		error,
+	} = usePhysicalInstancesData(id!);
 	const updatePhysicalInstance = useUpdatePhysicalInstance();
 
 	useEffect(() => {
@@ -90,41 +97,66 @@ export const Component = () => {
 		return filtered;
 	}, [variables, state.searchValue, state.typeFilter]);
 
-	const handleExport = useCallback(async () => {
-		try {
-			// Traitement asynchrone fictif
-			await new Promise((resolve) => setTimeout(resolve, EXPORT_DELAY));
+	const handleExport = useCallback(
+		async (format: 'DDI3' | 'DDI4') => {
+			try {
+				let exportedData: string;
+				let fileName: string;
 
-			const exportedData = JSON.stringify({ variables }, null, 2);
+				if (format === 'DDI3') {
+					// Appel de l'API pour convertir en DDI3
+					const result = await DDIApi.convertToDDI3(data);
+					exportedData =
+						typeof result === 'string'
+							? result
+							: JSON.stringify(result, null, 2);
+					// Nettoyer le titre pour créer un nom de fichier valide
+					const sanitizedTitle = title
+						.replace(/[^a-z0-9]/gi, '_')
+						.toLowerCase();
+					fileName = `${sanitizedTitle}-ddi3.json`;
+				} else {
+					// Pour DDI4, on utilise les données telles quelles
+					exportedData = JSON.stringify(data, null, 2);
+					const sanitizedTitle = title
+						.replace(/[^a-z0-9]/gi, '_')
+						.toLowerCase();
+					fileName = `${sanitizedTitle}-ddi4.json`;
+				}
 
-			// Vérifier si clipboard est disponible
-			if (!navigator.clipboard) {
-				throw new Error('Clipboard API not available');
+				// Créer un blob et déclencher le téléchargement
+				const blob = new Blob([exportedData], { type: 'application/json' });
+				const url = URL.createObjectURL(blob);
+				const link = document.createElement('a');
+				link.href = url;
+				link.download = fileName;
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				URL.revokeObjectURL(url);
+
+				// Affichage du toast de succès
+				toast.current?.show({
+					severity: 'success',
+					summary: t('physicalInstance.view.exportSuccess'),
+					detail: t('physicalInstance.view.exportSuccessDetail', { format }),
+					life: TOAST_DURATION,
+				});
+			} catch (err) {
+				// Affichage du toast d'erreur
+				toast.current?.show({
+					severity: 'error',
+					summary: t('physicalInstance.view.exportError'),
+					detail:
+						err instanceof Error
+							? err.message
+							: t('physicalInstance.view.exportErrorDetail'),
+					life: TOAST_DURATION,
+				});
 			}
-
-			// Copie dans le clipboard
-			await navigator.clipboard.writeText(exportedData);
-
-			// Affichage du toast de succès
-			toast.current?.show({
-				severity: 'success',
-				summary: t('physicalInstance.view.exportSuccess'),
-				detail: t('physicalInstance.view.exportSuccessDetail'),
-				life: TOAST_DURATION,
-			});
-		} catch (err) {
-			// Affichage du toast d'erreur
-			toast.current?.show({
-				severity: 'error',
-				summary: t('physicalInstance.view.exportError'),
-				detail:
-					err instanceof Error
-						? err.message
-						: t('physicalInstance.view.exportErrorDetail'),
-				life: TOAST_DURATION,
-			});
-		}
-	}, [variables, t]);
+		},
+		[data, title, t],
+	);
 
 	const handleSearchChange = useCallback((value: string) => {
 		dispatch(actions.setSearchValue(value));
