@@ -65,8 +65,7 @@ describe('SimsGeographyField', () => {
 			onCancel: mockOnCancel,
 			onSave: mockOnSave,
 		});
-
-		expect(container.querySelectorAll('input[type="text"]')).toHaveLength(2);
+		expect(container.querySelectorAll('input[type="text"]')).toHaveLength(3);
 		expect(container.querySelector('.bauhaus-sims-geography-field')).toBeTruthy();
 	});
 

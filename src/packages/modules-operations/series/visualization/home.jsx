@@ -14,7 +14,7 @@ import { getSeeAlsoByType } from '../../components/links/utils';
 import PublishersView from '../../components/publishers-view';
 import RelationsView from '../../components/relations';
 import SeeAlso from '../../components/seeAlso';
-import { CreatorsView } from '@components/business/creators-view';
+import { InseeOrganisationNotes } from '@components/business/creators-view';
 
 function OperationsSerieVisualization({
 	attr,
@@ -156,7 +156,7 @@ function OperationsSerieVisualization({
 			/>
 
 			<Row id="creators">
-				<CreatorsView creators={attr.creators} />
+				<InseeOrganisationNotes organisations={attr.creators} />
 			</Row>
 			<DisplayLinks
 				links={attr.replaces}

@@ -2,6 +2,19 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { ContributorsInput } from './contributors-input';
 
+vi.mock('../../i18n', () => ({
+	default: {
+		contributors: {
+			title: 'Gestionnaires',
+		},
+	},
+	D2: {
+		contributors: {
+			title: 'Contributors',
+		},
+	},
+}));
+
 vi.mock('../stamps-input/stamps-input', () => ({
 	StampsInput: ({
 		labelSingle,

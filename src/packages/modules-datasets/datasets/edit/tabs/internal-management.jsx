@@ -145,7 +145,7 @@ const InternalManagementTab = ({
 				<div className="col-md-12 form-group">
 					<LabelRequired>{D1.generatedBy}</LabelRequired>
 					<Select
-						multi={true}
+						multi
 						value={editingDataset.wasGeneratedIRIs}
 						options={seriesOperationsOptions}
 						optionRenderer={(v) => {
@@ -157,7 +157,7 @@ const InternalManagementTab = ({
 						onChange={(values) => {
 							setEditingDataset({
 								...editingDataset,
-								wasGeneratedIRIs: values.map(({ value }) => value),
+								wasGeneratedIRIs: values,
 							});
 							setClientSideErrors((clientSideErrors) => ({
 								...clientSideErrors,

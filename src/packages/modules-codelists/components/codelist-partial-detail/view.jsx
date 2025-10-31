@@ -22,6 +22,7 @@ import { renderMarkdownElement } from '@utils/html-utils';
 import { HasAccess } from '../../../auth/components/auth';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CollapsiblePanel } from '../collapsible-panel';
+import { InseeOrganisationText } from '@components/business/creators-view';
 
 export const CodeListPartialDetailView = ({
 	codelist,
@@ -99,12 +100,12 @@ export const CodeListPartialDetailView = ({
 								<PublicationFemale object={codelist} />
 							</li>
 							<li>
-								{D.creator} : {codelist.creator}
+								{D.creator} :{' '}
+								<InseeOrganisationText organisations={codelist.creator} />
 							</li>
 							<li>
-								<ContributorsVisualisation
-									contributors={codelist.contributor}
-								/>
+								{D.contributor} :{' '}
+								<InseeOrganisationText organisations={codelist.contributor} />
 							</li>
 							<li>
 								<DisseminationStatusVisualisation

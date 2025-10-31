@@ -28,8 +28,8 @@ const PublishersInput = ({
 				multi
 				onChange={(value) => {
 					onChange(
-						value.map((v: Option) => {
-							return { id: v.value };
+						value.map((v: string) => {
+							return { id: v };
 						}),
 					);
 				}}

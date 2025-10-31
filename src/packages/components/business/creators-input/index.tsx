@@ -1,12 +1,12 @@
 import { ComponentProps } from 'react';
-import D, { D1 } from '../../i18n';
+import D, { D2 } from '../../i18n';
 import { StampsInput } from '../stamps-input/stamps-input';
 
 export const CreatorsInput = ({
-	lang,
+	lang = 'first',
 	...props
 }: Readonly<ComponentProps<typeof StampsInput>>) => {
-	const Dictionnary = lang === 'first' ? D1 : D;
+	const Dictionnary = lang === 'first' ? D : D2;
 
 	return (
 		<StampsInput

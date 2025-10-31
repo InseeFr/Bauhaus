@@ -6,7 +6,6 @@ import {
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
 import { SeeButton } from '@components/buttons/see';
-import { ContributorsInput } from '@components/contributors/contributors';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import {
 	ClientSideError,
@@ -47,6 +46,8 @@ import {
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { validate } from '../edition/validation';
 import './edit.scss';
+import { CreatorsInput } from '@components/business/creators-input';
+import { ContributorsInput } from '@components/business/contributors-input/contributors-input';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -527,27 +528,21 @@ export const DumbComponentDetailEdit = ({
 					/>
 				)}
 				<div className="form-group">
-					<label>{D1.creatorTitle}</label>
-					<Select
-						placeholder={D1.stampsPlaceholder}
-						value={stampListOptions.find(
-							({ value }) => value === component.creator,
-						)}
-						options={stampListOptions}
+					<CreatorsInput
+						value={component.creator}
 						onChange={(value) => setComponent({ ...component, creator: value })}
-						searchable={true}
 					/>
 				</div>
 				<div className="form-group">
 					<ContributorsInput
-						stampListOptions={stampListOptions}
 						value={component.contributor}
-						handleChange={(values) =>
+						onChange={(values) =>
 							setComponent({
 								...component,
 								contributor: values,
 							})
 						}
+						multi={true}
 					/>
 				</div>
 				<div className="form-group">

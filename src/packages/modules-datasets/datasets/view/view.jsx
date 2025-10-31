@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { CheckSecondLang } from '@components/check-second-lang';
 import { CodeDisplay } from '@components/code-display';
-import { ContributorsVisualisation } from '@components/contributors/contributors';
 import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 import { ErrorBloc } from '@components/errors-bloc';
 import { Row } from '@components/layout';
@@ -27,7 +26,10 @@ import { D as DatasetDictionary } from '../../i18n';
 import { GlobalInformationBlock } from './GlobalInformationBlock';
 import { StatisticalInformations } from './StatisticalInformations';
 import { ViewMenu } from './menu';
-import { CreatorsView } from '@components/business/creators-view';
+import {
+	InseeOrganisationList,
+	InseeOrganisationText,
+} from '@components/business/creators-view';
 
 const Dataset = (props) => {
 	const { id } = useParams();
@@ -152,21 +154,15 @@ const Dataset = (props) => {
 					text={
 						<ul>
 							<li>
-								<CreatorsView
-									render={(creators) => (
-										<>
-											{D.creatorTitle} : {creators[0]}
-										</>
-									)}
-									creators={dataset.catalogRecord?.creator}
+								{D.creatorTitle} :{' '}
+								<InseeOrganisationText
+									organisations={dataset.catalogRecord?.creator}
 								/>
 							</li>
 							<li>
-								<CreatorsView
-									render={(contributors) => (
-										<ContributorsVisualisation contributors={contributors} />
-									)}
-									creators={dataset.catalogRecord?.contributor}
+								{D.contributorTitle} :{' '}
+								<InseeOrganisationList
+									organisations={dataset.catalogRecord?.contributor}
 								/>
 							</li>
 

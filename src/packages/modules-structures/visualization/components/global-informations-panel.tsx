@@ -8,6 +8,10 @@ import { PublicationFemale } from '@components/status';
 import { D1 } from '../../../deprecated-locales';
 import { Structure } from '../../../model/structures/Structure';
 import D from '../../i18n/build-dictionary';
+import {
+	InseeOrganisationList,
+	InseeOrganisationText,
+} from '../../../components/business/creators-view';
 
 interface GlobalInformationsPanelTypes {
 	structure: Structure;
@@ -33,10 +37,12 @@ export const GlobalInformationsPanel = ({
 							<PublicationFemale object={structure} />
 						</li>
 						<li>
-							{D.creator} : {structure.creator}
+							{D.creator} :{' '}
+							<InseeOrganisationText organisations={structure.creator} />
 						</li>
 						<li>
-							<ContributorsVisualisation contributors={structure.contributor} />
+							{D.contributor} :{' '}
+							<InseeOrganisationList organisations={structure.contributor} />
 						</li>
 						<li>
 							<DisseminationStatusVisualisation

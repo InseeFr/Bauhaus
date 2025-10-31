@@ -10,7 +10,6 @@ import { PageTitleBlock } from '@components/page-title-block';
 import { Select } from '@components/select-rmes';
 
 import { useOrganizationsOptions } from '@utils/hooks/organizations';
-import { useStampsOptions } from '@utils/hooks/stamps';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import { MDEditor } from '@components/rich-editor/react-md-editor';
@@ -25,6 +24,7 @@ import {
 import { Menu } from './menu';
 import { validate } from './validate';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
+import { ContributorsInput } from '@components/business/contributors-input/contributors-input';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -44,7 +44,6 @@ export const Component = () => {
 
 	const organisationsOptions = useOrganizationsOptions();
 
-	const stampsOptions = useStampsOptions();
 	const classificationsOptions =
 		classifications
 			?.filter((classification) => classification.id !== id)
@@ -267,21 +266,16 @@ export const Component = () => {
 					</label>
 				</div>
 				<div className="form-group">
-					<label className="w-100">
-						{D1.contributorTitle}
-						<Select
-							value={stampsOptions.find(
-								(option) => option.value === value.general.contributor,
-							)}
-							options={stampsOptions}
-							onChange={(v) =>
-								setValue({
-									...value,
-									general: { ...value.general, contributor: v },
-								})
-							}
-						/>
-					</label>
+					<ContributorsInput
+						required={false}
+						value={value.general.contributor}
+						onChange={(v) =>
+							setValue({
+								...value,
+								general: { ...value.general, contributor: v },
+							})
+						}
+					/>
 				</div>
 
 				<div className="form-group">

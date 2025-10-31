@@ -1,5 +1,5 @@
-import OriginalSelect from 'react-select';
-import 'react-select/dist/react-select.css';
+import { MultiSelect } from 'primereact/multiselect';
+import { Dropdown } from 'primereact/dropdown';
 
 import { createAllDictionary } from '@utils/dictionnary';
 
@@ -34,16 +34,39 @@ export const Select = ({
 		? (e: any) => onChange(e)
 		: (e: any) => onChange(e ? e.value : '');
 
+	//optionRenderer
+	if (multi) {
+		return (
+			<MultiSelect
+				placeholder={props.placeholder}
+				value={props.value}
+				options={props.options}
+				onChange={(e) => {
+					onChange(e.value);
+				}}
+				display="chip"
+				filter={searchable}
+				className="w-full select-rmes-multi"
+				disabled={disabled}
+				showClear={!unclearable}
+				emptyMessage={D.noResult}
+			/>
+		);
+	}
+
 	return (
-		// @ts-ignore
-		<OriginalSelect
-			{...props}
-			multi={multi}
-			searchable={searchable}
+		<Dropdown
+			placeholder={props.placeholder}
+			value={props.value}
+			options={props.options}
+			onChange={(e) => {
+				onChange(e.value);
+			}}
+			filter={searchable}
+			className="w-full select-rmes-single"
 			disabled={disabled}
-			onChange={onChangeSelect}
-			clearable={!unclearable}
-			noResultsText={D.noResult}
+			showClear={!unclearable}
+			emptyMessage={D.noResult}
 		/>
 	);
 };

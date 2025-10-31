@@ -329,7 +329,7 @@ class OperationsIndicatorEdition extends Component {
 									onChange={(value) =>
 										this.onChange('contributors')(
 											value.map((v) => {
-												return { id: v.value };
+												return { id: v };
 											}),
 										)
 									}
@@ -348,7 +348,10 @@ class OperationsIndicatorEdition extends Component {
 									onChange={(value) =>
 										this.onChange('replaces')(
 											value.map((v) => {
-												return { id: v.value, type: v.type };
+												return {
+													id: v,
+													type: 'indicator',
+												};
 											}),
 										)
 									}
@@ -368,7 +371,10 @@ class OperationsIndicatorEdition extends Component {
 									onChange={(value) =>
 										this.onChange('isReplacedBy')(
 											value.map((v) => {
-												return { id: v.value, type: v.type };
+												return {
+													id: v,
+													type: 'indicator',
+												};
 											}),
 										)
 									}
@@ -388,7 +394,10 @@ class OperationsIndicatorEdition extends Component {
 								onChange={(value) =>
 									this.onChange('wasGeneratedBy')(
 										value.map((v) => {
-											return { id: v.value, type: v.type };
+											return {
+												id: v,
+												type: 'series',
+											};
 										}),
 									)
 								}
@@ -410,7 +419,12 @@ class OperationsIndicatorEdition extends Component {
 									onChange={(value) =>
 										this.onChange('seeAlso')(
 											value.map((v) => {
-												return { id: v.value, type: v.type };
+												return {
+													id: v,
+													type: value.startsWith('indicator')
+														? 'indicator'
+														: 'series',
+												};
 											}),
 										)
 									}

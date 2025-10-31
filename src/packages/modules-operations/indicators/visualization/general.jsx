@@ -13,7 +13,7 @@ import DisplayLinks from '../../components/links';
 import { getSeeAlsoByType } from '../../components/links/utils';
 import PublishersView from '../../components/publishers-view';
 import SeeAlso from '../../components/seeAlso';
-import { CreatorsView } from '@components/business/creators-view';
+import { InseeOrganisationNotes } from '@components/business/creators-view';
 
 function DisplayMultiLangNote({
 	value1,
@@ -103,7 +103,7 @@ function OperationsIndicatorVisualization({
 				<PublishersView publishers={attr.publishers} />
 			</Row>
 			<Row>
-				<CreatorsView creators={attr.creators} />
+				<InseeOrganisationNotes organisations={attr.creators} />
 			</Row>
 			<DisplayLinks
 				links={contributors}
