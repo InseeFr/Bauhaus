@@ -1,10 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
-import { ADMIN } from '../../auth/roles';
 import { RBACMock } from '../../tests/rbac';
 import { mockReactQueryForRbac } from '../../tests/render';
-
-const emptyRoles: string[] = [];
 
 describe('Structures Home Page Menu', () => {
 	afterEach(() => {
@@ -23,7 +20,7 @@ describe('Structures Home Page Menu', () => {
 		const { HomePageMenu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<HomePageMenu />
 			</RBACMock>,
 		);
@@ -42,7 +39,7 @@ describe('Structures Home Page Menu', () => {
 		const { HomePageMenu } = await import('./menu');
 
 		render(
-			<RBACMock roles={emptyRoles}>
+			<RBACMock>
 				<HomePageMenu />
 			</RBACMock>,
 		);
@@ -55,7 +52,7 @@ describe('Structures Home Page Menu', () => {
 
 		const { DumbHomePageMenu } = await import('./menu');
 		render(
-			<RBACMock roles={emptyRoles}>
+			<RBACMock>
 				<DumbHomePageMenu isLocal={false} />
 			</RBACMock>,
 		);
@@ -69,7 +66,7 @@ describe('Structures Home Page Menu', () => {
 		const { DumbHomePageMenu } = await import('./menu');
 
 		render(
-			<RBACMock roles={emptyRoles}>
+			<RBACMock>
 				<DumbHomePageMenu isLocal={true} />
 			</RBACMock>,
 		);
@@ -83,7 +80,7 @@ describe('Structures Home Page Menu', () => {
 		const { DumbHomePageMenu } = await import('./menu');
 
 		render(
-			<RBACMock roles={emptyRoles}>
+			<RBACMock>
 				<DumbHomePageMenu isLocal={false} />
 			</RBACMock>,
 		);
@@ -96,7 +93,7 @@ describe('Structures Home Page Menu', () => {
 
 		const { DumbHomePageMenu } = await import('./menu');
 		render(
-			<RBACMock roles={emptyRoles}>
+			<RBACMock>
 				<DumbHomePageMenu isLocal={true} />
 			</RBACMock>,
 		);

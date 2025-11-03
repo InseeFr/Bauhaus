@@ -1,27 +1,46 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { useSelector } from 'react-redux';
 import { Mock, vi } from 'vitest';
 
 import { CodesList } from '@model/CodesList';
 
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
+import { usePrivileges } from '@utils/hooks/users';
 import { CodesPanelAddButton } from './codes-panel-add-button';
 
-vi.mock('../../../redux/hooks/usePermission', () => ({
-	usePermission: vi.fn(),
-}));
+vi.mock('react-redux', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('react-redux')>();
+	return {
+		...actual,
+		useSelector: vi.fn(),
+	};
+});
+
+vi.mock('@utils/hooks/users', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('@utils/hooks/users')>();
+	return {
+		...actual,
+		usePrivileges: vi.fn(),
+	};
+});
 
 describe('CodesPanelAddButton', () => {
 	const mockOnHandlePanel = vi.fn();
 
-	afterEach(() => {
+	beforeEach(() => {
 		vi.clearAllMocks();
 	});
 
 	it('should not render if codelist.lastCodeUriSegment is missing', () => {
-		(usePermission as Mock).mockReturnValue({
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({
 			stamp: 'test-stamp',
-			roles: [ADMIN],
 		});
 
 		render(
@@ -35,9 +54,16 @@ describe('CodesPanelAddButton', () => {
 	});
 
 	it('should render the button if user is an admin', () => {
-		(usePermission as Mock).mockReturnValue({
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({
 			stamp: 'test-stamp',
-			roles: [ADMIN],
 		});
 
 		render(
@@ -51,9 +77,16 @@ describe('CodesPanelAddButton', () => {
 	});
 
 	it('should render the button if user has contributor rights based on stamp', () => {
-		(usePermission as Mock).mockReturnValue({
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [{ privilege: 'CREATE', strategy: 'STAMP' }],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({
 			stamp: 'test-contributor',
-			roles: [CODELIST_CONTRIBUTOR],
 		});
 
 		render(
@@ -72,9 +105,16 @@ describe('CodesPanelAddButton', () => {
 	});
 
 	it('should not render the button if user lacks the required permissions', () => {
-		(usePermission as Mock).mockReturnValue({
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [{ privilege: 'CREATE', strategy: 'STAMP' }],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({
 			stamp: 'test-stamp',
-			roles: ['OTHER_ROLE'],
 		});
 
 		render(
@@ -93,9 +133,16 @@ describe('CodesPanelAddButton', () => {
 	});
 
 	it('should trigger onHandlePanel when the button is clicked', () => {
-		(usePermission as Mock).mockReturnValue({
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [{ privilege: 'CREATE', strategy: 'STAMP' }],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({
 			stamp: 'test-contributor',
-			roles: [CODELIST_CONTRIBUTOR],
 		});
 
 		render(

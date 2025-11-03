@@ -27,16 +27,7 @@ describe('LoggedInWrapper', () => {
 	});
 
 	it('devrait récupérer les informations utilisateur et afficher WrappedComponent', async () => {
-		const mockTokens = {
-			decodedIdToken: {
-				realm_access: {
-					roles: ['admin', 'user'],
-				},
-			},
-		};
-
 		(useOidc as Mock).mockReturnValue({
-			oidcTokens: mockTokens,
 			renewTokens: vi.fn().mockResolvedValue(undefined),
 		});
 
@@ -52,7 +43,6 @@ describe('LoggedInWrapper', () => {
 		// Attendre que les informations utilisateur soient chargées
 		await waitFor(() => {
 			expect(mockSaveUserProps).toHaveBeenCalledWith({
-				roles: ['admin', 'user'],
 				stamp: '12345',
 			});
 		});
@@ -62,7 +52,6 @@ describe('LoggedInWrapper', () => {
 
 	it('ne devrait pas afficher WrappedComponent tant que les informations ne sont pas chargées', () => {
 		(useOidc as Mock).mockReturnValue({
-			oidcTokens: { decodedIdToken: { realm_access: { roles: [] } } },
 			renewTokens: vi.fn().mockResolvedValue(undefined),
 		});
 
