@@ -15,7 +15,6 @@ import { Saving } from '@components/loading';
 import { StructureApi } from '@sdk/index';
 
 import { useAppContext } from '../../application/app-context';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../auth/roles';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { usePermission } from '../../redux/hooks/usePermission';
 import { initializeContributorProperty } from '../../utils/creation/contributor-init';
@@ -25,6 +24,7 @@ import Controls from './controls';
 import { validate } from './validation';
 import { CreatorsInput } from '@components/business/creators-input';
 import { ContributorsInput } from '@components/business/contributors-input/contributors-input';
+import { useAuthorizationGuard } from '../../auth/components/auth';
 
 const defaultDSD = {
 	identifiant: '',
@@ -70,9 +70,7 @@ const Edition = ({ creation, initialStructure }) => {
 
 	const permission = usePermission();
 	const stamp = permission?.stamp;
-	const isContributor =
-		permission?.roles?.includes(STRUCTURE_CONTRIBUTOR) &&
-		!permission?.roles?.includes(ADMIN);
+	const isContributor = useAuthorizationGuard('STRUCTURE_STRUCTURE', 'CREATE');
 
 	useEffect(() => {
 		let structure = {

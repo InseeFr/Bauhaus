@@ -27,7 +27,6 @@ import {
 import { useTitle } from '@utils/hooks/useTitle';
 
 import { useAppContext } from '../../../application/app-context';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { API } from '../../../modules-codelists/apis';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -48,6 +47,7 @@ import { validate } from '../edition/validation';
 import './edit.scss';
 import { CreatorsInput } from '@components/business/creators-input';
 import { ContributorsInput } from '@components/business/contributors-input/contributors-input';
+import { useAuthorizationGuard } from '../../../auth/components/auth';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -193,9 +193,7 @@ export const DumbComponentDetailEdit = ({
 
 	const permission = usePermission();
 	const stamp = permission?.stamp;
-	const isContributor =
-		permission?.roles?.includes(STRUCTURE_CONTRIBUTOR) &&
-		!permission?.roles?.includes(ADMIN);
+	const isContributor = useAuthorizationGuard('STRUCTURE_COMPONENT', 'CREATE');
 
 	useEffect(() => {
 		let component = { ...initialComponent };

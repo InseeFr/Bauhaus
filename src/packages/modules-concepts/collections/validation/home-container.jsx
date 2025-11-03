@@ -8,13 +8,11 @@ import { ConceptsApi } from '@sdk/index';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../../deprecated-locales';
-import { usePermission } from '../../../redux/hooks/usePermission';
 import CollectionsToValidate from './home';
 
 export const Component = () => {
 	useTitle(D.collectionsTitle, D.btnValid);
 
-	const permission = usePermission();
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [collections, setCollections] = useState([]);
@@ -38,7 +36,6 @@ export const Component = () => {
 	return (
 		<CollectionsToValidate
 			collections={collections}
-			permission={permission}
 			handleValidateCollectionList={handleValidateCollectionList}
 		/>
 	);

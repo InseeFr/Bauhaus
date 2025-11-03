@@ -17,7 +17,6 @@ import { initializeContributorProperty } from '@utils/creation/contributor-init'
 import { useGoBack } from '@utils/hooks/useGoBack';
 import { useTitle } from '@utils/hooks/useTitle';
 
-import { ADMIN, DATASET_CONTRIBUTOR } from '../../../auth/roles';
 import D from '../../../deprecated-locales';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { useDataset } from '../../datasets';
@@ -28,6 +27,7 @@ import { InternalManagement } from './tabs/internal-management';
 import { Notes } from './tabs/notes';
 import { StatisticalInformation } from './tabs/statistical-information';
 import { validate } from './validation';
+import { useAuthorizationGuard } from '../../../auth/components/auth';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -49,10 +49,8 @@ export const Component = () => {
 	const permission = usePermission();
 
 	const stamp = permission?.stamp;
-	const isContributor =
-		permission?.roles?.includes(DATASET_CONTRIBUTOR) &&
-		!permission?.roles?.includes(ADMIN);
 
+	const isContributor = useAuthorizationGuard('DATASET_DATASET', 'CREATE');
 	useEffect(() => {
 		if (status === 'success') {
 			setEditingDataset(dataset);

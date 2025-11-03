@@ -2,15 +2,14 @@ import { ReduxModel } from './model';
 
 export interface Permission {
 	authType: string;
-	roles: string[];
 	stamp: string;
 }
 export const getPermission = (state: ReduxModel) => {
 	const {
 		type: authType,
-		user: { roles, stamp },
+		user: { stamp },
 	} = state.app!.auth;
-	return { authType, roles, stamp };
+	return { authType, stamp };
 };
 
 export const getOperationsSimsCurrent = (state: ReduxModel) => {

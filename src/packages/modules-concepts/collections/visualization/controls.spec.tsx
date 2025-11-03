@@ -26,7 +26,7 @@ describe('collection-visualization-controls', () => {
 		);
 
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<CollectionVisualizationControls
 					exportCollection={vi.fn()}
 					handleValidation={vi.fn()}
@@ -55,7 +55,7 @@ describe('collection-visualization-controls', () => {
 		);
 
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<CollectionVisualizationControls
 					exportCollection={vi.fn()}
 					handleValidation={vi.fn()}

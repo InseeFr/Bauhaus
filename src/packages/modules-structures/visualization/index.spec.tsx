@@ -28,9 +28,7 @@ const store = configureStore({
 	},
 	app: {
 		auth: {
-			user: {
-				roles: [],
-			},
+			user: {},
 		},
 	},
 });
