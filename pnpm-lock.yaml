@@ -91,9 +91,6 @@ importers:
       react-router-dom:
         specifier: 6.27.0
         version: 6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-select:
-        specifier: 1.3.0
-        version: 1.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-sliding-side-panel:
         specifier: 1.1.8
         version: 1.1.8
@@ -143,9 +140,6 @@ importers:
       '@types/react-dom':
         specifier: 18.2.25
         version: 18.2.25
-      '@types/react-select':
-        specifier: ^5.0.1
-        version: 5.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@vitejs/plugin-react':
         specifier: ^4.3.4
         version: 4.7.0(vite@7.1.9(@types/node@22.18.8)(sass-embedded@1.93.2)(sass@1.93.2)(yaml@2.8.1))
@@ -1535,10 +1529,6 @@ packages:
 
   '@types/react-redux@7.1.34':
     resolution: {integrity: sha512-GdFaVjEbYv4Fthm2ZLvj1VSCedV7TqE5y1kNwnjSdBOTXuRSgowux6J8TAct15T3CKBr63UMk+2CO7ilRhyrAQ==}
-
-  '@types/react-select@5.0.1':
-    resolution: {integrity: sha512-h5Im0AP0dr4AVeHtrcvQrLV+gmPa7SA0AGdxl2jOhtwiE6KgXBFSogWw8az32/nusE6AQHlCOHQWjP1S/+oMWA==}
-    deprecated: This is a stub types definition. react-select provides its own type definitions, so you do not need this installed.
 
   '@types/react-transition-group@4.4.12':
     resolution: {integrity: sha512-8TV6R3h2j7a91c+1DXdJi3Syo69zzIZbz7Lg5tORM5LEJG7X/E6a1V3drRyBRZq7/utz7A+c4OgYLiLcYGHG6w==}
@@ -3728,11 +3718,6 @@ packages:
       typescript:
         optional: true
 
-  react-input-autosize@2.2.2:
-    resolution: {integrity: sha512-jQJgYCA3S0j+cuOwzuCd1OjmBmnZLdqQdiLKRYrsMMzbjUrVDS5RvJUDwJqA7sKuksDuzFtm6hZGKFu7Mjk5aw==}
-    peerDependencies:
-      react: 18.3.1
-
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -3782,12 +3767,6 @@ packages:
     engines: {node: '>=14.0.0'}
     peerDependencies:
       react: 18.3.1
-
-  react-select@1.3.0:
-    resolution: {integrity: sha512-g/QAU1HZrzSfxkwMAo/wzi6/ezdWye302RGZevsATec07hI/iSxcpB1hejFIp7V63DJ8mwuign6KmB3VjdlinQ==}
-    peerDependencies:
-      react: 18.3.1
-      react-dom: 18.3.1
 
   react-sliding-side-panel@1.1.8:
     resolution: {integrity: sha512-G11bdjK3lyddKV8PINhrwVPTfkq9O15dMgM1bvIqwNCN2MOfiEvrjIdL7aR8SbAO7eFHIsPGNr1J4JToMLiFyw==}
@@ -6305,13 +6284,6 @@ snapshots:
       '@types/react': 18.2.79
       hoist-non-react-statics: 3.3.2
       redux: 4.2.1
-
-  '@types/react-select@5.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      react-select: 1.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-    transitivePeerDependencies:
-      - react
-      - react-dom
 
   '@types/react-transition-group@4.4.12(@types/react@18.2.79)':
     dependencies:
@@ -9255,11 +9227,6 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       typescript: 5.7.3
 
-  react-input-autosize@2.2.2(react@18.3.1):
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.3.1
-
   react-is@16.13.1: {}
 
   react-is@17.0.2: {}
@@ -9317,14 +9284,6 @@ snapshots:
     dependencies:
       '@remix-run/router': 1.20.0
       react: 18.3.1
-
-  react-select@1.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      classnames: 2.5.1
-      prop-types: 15.8.1
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-input-autosize: 2.2.2(react@18.3.1)
 
   react-sliding-side-panel@1.1.8:
     dependencies:

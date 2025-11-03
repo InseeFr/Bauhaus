@@ -1,5 +1,4 @@
 import { ConfirmationDelete } from '@components/confirmation-delete';
-import { ContributorsVisualisation } from '@components/contributors/contributors';
 import { CreationUpdateItems } from '@components/creation-update-items';
 import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
 import { ErrorBloc } from '@components/errors-bloc';
@@ -14,6 +13,10 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { CodesCollapsiblePanel } from './codes-panel';
 import { ViewMenu } from './menu';
 import './view.scss';
+import {
+	InseeOrganisationList,
+	InseeOrganisationText,
+} from '@components/business/creators-view';
 
 export const CodeListDetailView = ({
 	codelist,
@@ -77,12 +80,12 @@ export const CodeListDetailView = ({
 								<PublicationFemale object={codelist} />
 							</li>
 							<li>
-								{D.creator} : {codelist.creator}
+								{D.creator} :{' '}
+								<InseeOrganisationText organisations={codelist.creator} />
 							</li>
 							<li>
-								<ContributorsVisualisation
-									contributors={codelist.contributor}
-								/>
+								{D.contributor} :{' '}
+								<InseeOrganisationList organisations={codelist.contributor} />
 							</li>
 							<li>
 								<DisseminationStatusVisualisation

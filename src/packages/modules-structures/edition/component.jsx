@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { ContributorsInput } from '@components/contributors/contributors';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import {
 	ClientSideError,
@@ -12,7 +11,6 @@ import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
-import { Select } from '@components/select-rmes';
 
 import { StructureApi } from '@sdk/index';
 
@@ -20,11 +18,12 @@ import { useAppContext } from '../../application/app-context';
 import D, { D1, D2 } from '../../deprecated-locales';
 import { usePermission } from '../../redux/hooks/usePermission';
 import { initializeContributorProperty } from '../../utils/creation/contributor-init';
-import { useStampsOptions } from '../../utils/hooks/stamps';
 import { DISSEMINATION_STATUS } from '../utils/constants';
 import Components from './components';
 import Controls from './controls';
 import { validate } from './validation';
+import { CreatorsInput } from '@components/business/creators-input';
+import { ContributorsInput } from '@components/business/contributors-input/contributors-input';
 import { useAuthorizationGuard } from '../../auth/components/auth';
 
 const defaultDSD = {
@@ -40,8 +39,6 @@ const defaultDSD = {
 };
 
 const Edition = ({ creation, initialStructure }) => {
-	const stampListOptions = useStampsOptions();
-
 	const { lg1, lg2 } = useAppContext();
 
 	const [structure, setStructure] = useState(defaultDSD);
@@ -195,20 +192,13 @@ const Edition = ({ creation, initialStructure }) => {
 				</div>
 			</Row>
 			<div className="form-group">
-				<label>{D1.creatorTitle}</label>
-				<Select
-					placeholder={D1.stampsPlaceholder}
-					value={stampListOptions.find(({ value }) => value === creator)}
-					options={stampListOptions}
-					onChange={onChange('creator')}
-					searchable
-				/>
+				<CreatorsInput value={creator} onChange={onChange('creator')} />
 			</div>
 			<div className="form-group">
 				<ContributorsInput
 					value={contributor}
-					handleChange={onChange('contributor')}
-					stampListOptions={stampListOptions}
+					onChange={onChange('contributor')}
+					multi
 				/>
 			</div>
 

@@ -16,20 +16,15 @@ export const SimsCodeListSelect = ({
 	...rest
 }: Readonly<SimsCodeListSelectTypes>) => {
 	let value;
-	let onChangeHandler;
 
 	if (!multi) {
 		value = options.find(({ value }) => value === currentSection.value);
-		onChangeHandler = onChange;
 	} else {
 		const currentSectionValue = Array.isArray(currentSection.value)
 			? currentSection.value
 			: [currentSection.value];
 
 		value = options.filter(({ value }) => currentSectionValue.includes(value));
-		onChangeHandler = (values: Option[]) => {
-			onChange((values || []).map(({ value }) => value));
-		};
 	}
 
 	return (
@@ -38,7 +33,7 @@ export const SimsCodeListSelect = ({
 			placeholder=""
 			value={value}
 			options={options}
-			onChange={onChangeHandler}
+			onChange={onChange}
 			multi={multi}
 		/>
 	);

@@ -6,7 +6,6 @@ import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
-import { ContributorsInput } from '@components/contributors/contributors';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import {
 	ClientSideError,
@@ -16,7 +15,6 @@ import {
 import { TextInput } from '@components/form/input';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
-import { Select } from '@components/select-rmes';
 
 import { useTitle } from '@utils/hooks/useTitle';
 
@@ -26,8 +24,9 @@ import D, { D1, D2 } from '../../i18n/build-dictionary';
 import { validateCodelist } from '../../utils';
 import { CodesCollapsiblePanel } from './codes-panel';
 import './edit.scss';
-import { EMPTY_ARRAY } from '@utils/array-utils';
 import { UriInputGroup } from './components/UriInputGroup';
+import { CreatorsInput } from '@components/business/creators-input';
+import { ContributorsInput } from '@components/business/contributors-input/contributors-input';
 import { useAuthorizationGuard } from '../../../auth/components/auth';
 
 const defaultCodelist = {
@@ -38,7 +37,6 @@ export const DumbCodelistDetailEdit = ({
 	handleSave,
 	handleBack,
 	updateMode,
-	stampListOptions = EMPTY_ARRAY,
 	serverSideError,
 }) => {
 	const [codelist, setCodelist] = useState(defaultCodelist);
@@ -197,13 +195,9 @@ export const DumbCodelistDetailEdit = ({
 					</div>
 				</Row>
 				<div className="form-group">
-					<LabelRequired htmlFor="creator">{D1.creator}</LabelRequired>
-					<Select
-						placeholder={D1.stampsPlaceholder}
-						value={stampListOptions.find(
-							({ value }) => value === codelist.creator,
-						)}
-						options={stampListOptions}
+					<CreatorsInput
+						value={codelist.creator}
+						multi
 						onChange={(value) => {
 							setCodelist({ ...codelist, creator: value });
 							setClientSideErrors({
@@ -211,8 +205,8 @@ export const DumbCodelistDetailEdit = ({
 								errorMessage: [],
 							});
 						}}
-						searchable={true}
 					/>
+
 					<ClientSideError
 						id="creator-error"
 						error={clientSideErrors?.fields?.creator}
@@ -220,9 +214,9 @@ export const DumbCodelistDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<ContributorsInput
-						stampListOptions={stampListOptions}
+						multi
 						value={codelist.contributor}
-						handleChange={(values) => {
+						onChange={(values) => {
 							setCodelist({ ...codelist, contributor: values });
 						}}
 					/>

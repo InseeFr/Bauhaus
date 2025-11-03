@@ -5,7 +5,7 @@ import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
-import { CreatorsInput } from '@components/creators-input';
+import { CreatorsInput } from '@components/business/creators-input';
 import {
 	ClientSideError,
 	ErrorBloc,
@@ -420,7 +420,7 @@ class OperationsSerieEdition extends Component {
 										this.onChange({
 											target: {
 												value: value.map((v) => {
-													return { id: v.value };
+													return { id: v };
 												}),
 												id: 'contributors',
 											},
@@ -443,7 +443,7 @@ class OperationsSerieEdition extends Component {
 										this.onChange({
 											target: {
 												value: value.map((v) => {
-													return { id: v.value };
+													return { id: v };
 												}),
 												id: 'dataCollectors',
 											},
@@ -486,7 +486,7 @@ class OperationsSerieEdition extends Component {
 										this.onChange({
 											target: {
 												value: value.map((v) => {
-													return { id: v.value, type: v.type };
+													return { id: v, type: 'series' };
 												}),
 												id: 'replaces',
 											},
@@ -509,28 +509,13 @@ class OperationsSerieEdition extends Component {
 										this.onChange({
 											target: {
 												value: value.map((v) => {
-													return { id: v.value, type: v.type };
+													return { id: v, type: 'series' };
 												}),
 												id: 'isReplacedBy',
 											},
 										})
 									}
 									multi
-								/>
-							</label>
-						</div>
-					</Row>
-					<Row>
-						<div className="form-group col-md-12">
-							<label htmlFor="indicators" className="w-100">
-								{D1.indicators}
-								<Select
-									placeholder=""
-									value={serie.generate}
-									options={indicatorsOptions}
-									disabled
-									multi
-									onChange={() => {}}
 								/>
 							</label>
 						</div>
@@ -547,7 +532,12 @@ class OperationsSerieEdition extends Component {
 										this.onChange({
 											target: {
 												value: value.map((v) => {
-													return { id: v.value, type: v.type };
+													return {
+														id: v,
+														type: v.startsWith('indicator')
+															? 'indicator'
+															: 'series',
+													};
 												}),
 												id: 'seeAlso',
 											},

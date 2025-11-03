@@ -3,7 +3,6 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import { Loading, Saving } from '@components/loading';
 
-import { useStampsOptions } from '@utils/hooks/stamps';
 
 import { API } from '../../apis';
 import { formatCodeList, recalculatePositions } from '../../utils';
@@ -37,8 +36,6 @@ const CodelistEdit = (props) => {
 	const [codelist, setCodelist] = useState({});
 	const [serverSideError, setServerSideError] = useState('');
 	const [tree] = useContext(TreeContext);
-
-	const stampListOptions = useStampsOptions();
 
 	const handleBack = useCallback(() => {
 		goBackOrReplace('/codelists', true);
@@ -91,7 +88,6 @@ const CodelistEdit = (props) => {
 			handleBack={handleBack}
 			handleSave={handleSave}
 			updateMode={id !== undefined}
-			stampListOptions={stampListOptions}
 			serverSideError={serverSideError}
 		/>
 	);

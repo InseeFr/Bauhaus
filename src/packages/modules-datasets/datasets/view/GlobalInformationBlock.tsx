@@ -2,7 +2,7 @@ import { CodeDisplay } from '@components/code-display';
 import { ConditionalDisplay } from '@components/data/conditional-display';
 import { Organization, Organizations } from '@components/data/creators';
 import { Row } from '@components/layout';
-import { List } from '@components/list';
+import { List } from '@components/ui/list';
 import { Note } from '@components/note';
 import { PublicationMale } from '@components/status';
 

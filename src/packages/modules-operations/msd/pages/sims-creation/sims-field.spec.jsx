@@ -88,6 +88,6 @@ describe('Sims Field', () => {
 				lang="fr"
 			/>,
 		);
-		expect(container.querySelectorAll('[id^="react-select"]')).toHaveLength(1);
+		expect(container.querySelectorAll('.p-dropdown')).toHaveLength(1);
 	});
 });
