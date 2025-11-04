@@ -182,10 +182,10 @@ describe('ConceptValidation Home Container', () => {
 			mockGetConceptValidateList.mockResolvedValue(mockConcepts);
 			mockPutConceptValidList.mockResolvedValue({});
 
-			const { container } = render(
+			render(
 				<MemoryRouter initialEntries={['/concepts/validation']}>
 					<Component />
-				</MemoryRouter>
+				</MemoryRouter>,
 			);
 
 			await waitFor(() => {

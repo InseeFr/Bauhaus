@@ -163,7 +163,7 @@ describe('isEmpty', () => {
 		});
 
 		it('should handle very large empty array', () => {
-			const largeArray = new Array(1000).fill(null);
+			const largeArray = new Array({ length: 1000 }).fill(null);
 			expect(isEmpty(largeArray)).toBe(true);
 		});
 
