@@ -39,6 +39,72 @@ const createWrapper = () => {
 	);
 };
 
+describe('InseeOrganisationProvider', () => {
+	describe('Creator label mapping', () => {
+		it('should correctly map stamp IDs to organisation labels', () => {
+			// This tests the core functionality of useV2StampsMap
+			render(
+				<InseeOrganisationList organisations={['DG75-L201', 'DG75-L202', 'DG75-G001']} />,
+				{ wrapper: createWrapper() }
+			);
+
+			// Should display mapped labels
+			expect(screen.getByText('INSEE')).toBeInTheDocument();
+			expect(screen.getByText('DARES')).toBeInTheDocument();
+			expect(screen.getByText('Direction Générale')).toBeInTheDocument();
+		});
+
+		it('should fallback to original value when mapping not found', () => {
+			render(
+				<InseeOrganisationList organisations={['unknown-stamp-123']} />,
+				{ wrapper: createWrapper() }
+			);
+
+			expect(screen.getByText('unknown-stamp-123')).toBeInTheDocument();
+		});
+
+		it('should handle mixed known and unknown stamps', () => {
+			const { container } = render(
+				<InseeOrganisationList organisations={['DG75-L201', 'unknown-1', 'DG75-L202', 'unknown-2']} />,
+				{ wrapper: createWrapper() }
+			);
+
+			const listItems = container.querySelectorAll('li');
+			expect(listItems).toHaveLength(4);
+
+			expect(screen.getByText('INSEE')).toBeInTheDocument();
+			expect(screen.getByText('unknown-1')).toBeInTheDocument();
+			expect(screen.getByText('DARES')).toBeInTheDocument();
+			expect(screen.getByText('unknown-2')).toBeInTheDocument();
+		});
+
+		it('should preserve order of organisations after mapping', () => {
+			const { container } = render(
+				<InseeOrganisationList organisations={['DG75-L202', 'DG75-L201', 'DG75-G001']} />,
+				{ wrapper: createWrapper() }
+			);
+
+			const listItems = container.querySelectorAll('li');
+
+			// Order should be: DARES, INSEE, Direction Générale
+			expect(listItems[0].textContent).toBe('DARES');
+			expect(listItems[1].textContent).toBe('INSEE');
+			expect(listItems[2].textContent).toBe('Direction Générale');
+		});
+	});
+
+	describe('Empty array handling', () => {
+		it('should return empty array when render callback receives empty array', () => {
+			const { container } = render(
+				<InseeOrganisationList organisations={[]} />,
+				{ wrapper: createWrapper() }
+			);
+
+			expect(container.firstChild).toBeNull();
+		});
+	});
+});
+
 describe('InseeOrganisationList', () => {
 	describe('Label mapping', () => {
 		it('should map single organisation ID to label', () => {
@@ -224,9 +290,29 @@ describe('InseeOrganisationNotes', () => {
 			);
 
 			expect(screen.getByText('Créateur')).toBeInTheDocument();
-			// Note: Dans InseeOrganisationNotes, la liste utilise les IDs originaux, pas les labels mappés
-			expect(screen.getByText('DG75-L201')).toBeInTheDocument();
-			expect(screen.getByText('DG75-G001')).toBeInTheDocument();
+
+			// After the bug fix, the list should display mapped labels
+			expect(screen.getByText('INSEE')).toBeInTheDocument();
+			expect(screen.getByText('Direction Générale')).toBeInTheDocument();
+
+			// The IDs should NOT be displayed
+			expect(screen.queryByText('DG75-L201')).not.toBeInTheDocument();
+			expect(screen.queryByText('DG75-G001')).not.toBeInTheDocument();
+		});
+
+		it('should fallback to ID when label mapping is not found', () => {
+			render(
+				<InseeOrganisationNotes organisations={['unknown-123', 'DG75-L201']} />,
+				{ wrapper: createWrapper() }
+			);
+
+			expect(screen.getByText('Créateur')).toBeInTheDocument();
+
+			// Known ID should be mapped
+			expect(screen.getByText('INSEE')).toBeInTheDocument();
+
+			// Unknown ID should fallback to displaying the ID itself
+			expect(screen.getByText('unknown-123')).toBeInTheDocument();
 		});
 	});
 
@@ -291,6 +377,40 @@ describe('InseeOrganisationNotes', () => {
 
 			const listItems = container.querySelectorAll('li');
 			expect(listItems).toHaveLength(3);
+		});
+
+		it('should render mapped labels in list for multiple organisations', () => {
+			const { container } = render(
+				<InseeOrganisationNotes
+					organisations={['DG75-L201', 'DG75-L202', 'DG75-G001']}
+				/>,
+				{ wrapper: createWrapper() }
+			);
+
+			const listItems = container.querySelectorAll('li');
+			expect(listItems).toHaveLength(3);
+
+			// IMPORTANT: Since the fix, the list should display mapped labels, not IDs
+			expect(listItems[0].textContent).toBe('INSEE');
+			expect(listItems[1].textContent).toBe('DARES');
+			expect(listItems[2].textContent).toBe('Direction Générale');
+		});
+
+		it('should handle mix of known and unknown IDs in list', () => {
+			const { container } = render(
+				<InseeOrganisationNotes
+					organisations={['DG75-L201', 'unknown-org', 'DG75-G001']}
+				/>,
+				{ wrapper: createWrapper() }
+			);
+
+			const listItems = container.querySelectorAll('li');
+			expect(listItems).toHaveLength(3);
+
+			// Known IDs should be mapped, unknown should fallback
+			expect(listItems[0].textContent).toBe('INSEE');
+			expect(listItems[1].textContent).toBe('unknown-org');
+			expect(listItems[2].textContent).toBe('Direction Générale');
 		});
 	});
 

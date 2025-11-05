@@ -1,27 +1,50 @@
+import { useMemo } from 'react';
 import { Note } from '@components/note';
 import { useV2StampsMap } from '../../../utils/hooks/stamps';
 import { D1 } from '../../../modules-operations/i18n/build-dictionary';
 import { List } from '../../ui/list';
 
-interface CreatorsViewTypes {
-	creators?: string | string[];
-	render: (creators: string[]) => React.ReactNode;
+interface OrganisationMapperProps {
+	organisations?: string | string[];
+	children: (mappedLabels: string[]) => React.ReactElement;
 }
 
-const InseeOrganisationProvider = ({ creators, render }: CreatorsViewTypes) => {
+/**
+ * Provider component that maps organisation IDs to their human-readable labels.
+ * Uses the V2 stamps map to retrieve organisation names.
+ * Falls back to displaying the ID if no label is found.
+ */
+const InseeOrganisationProvider = ({
+	organisations,
+	children,
+}: OrganisationMapperProps) => {
 	const stampsMap = useV2StampsMap();
 
-	const getCreatorLabel = (value: string): string => {
-		return stampsMap.get(value) ?? value;
-	};
+	const mappedLabels = useMemo(() => {
+		if (
+			!organisations ||
+			(Array.isArray(organisations) && organisations.length === 0)
+		) {
+			return [];
+		}
 
-	if (!creators || (Array.isArray(creators) && creators.length === 0)) {
-		return <>{render([])}</>;
-	}
+		const orgArray = Array.isArray(organisations)
+			? organisations
+			: [organisations];
 
-	const creatorsArray = Array.isArray(creators) ? creators : [creators];
+		return orgArray.map((id) => {
+			const label = stampsMap.get(id);
 
-	return <>{render(creatorsArray.map(getCreatorLabel))}</>;
+			// Warn in development if an organisation ID is not found in the map
+			if (!label && process.env.NODE_ENV === 'development') {
+				console.warn(`Organisation stamp not found: ${id}`);
+			}
+
+			return label ?? id; // Fallback to ID if label not found
+		});
+	}, [organisations, stampsMap]);
+
+	return <>{children(mappedLabels)}</>;
 };
 
 export const InseeOrganisationList = ({
@@ -35,16 +58,15 @@ export const InseeOrganisationList = ({
 	}
 
 	return (
-		<InseeOrganisationProvider
-			creators={organisations}
-			render={(response) => (
+		<InseeOrganisationProvider organisations={organisations}>
+			{(response) => (
 				<List<string>
 					items={response}
 					getContent={(item) => item}
 					getKey={(item) => item}
 				/>
 			)}
-		/>
+		</InseeOrganisationProvider>
 	);
 };
 
@@ -59,10 +81,9 @@ export const InseeOrganisationText = ({
 	}
 
 	return (
-		<InseeOrganisationProvider
-			creators={organisations}
-			render={(response) => response[0]}
-		/>
+		<InseeOrganisationProvider organisations={organisations}>
+			{(response) => <>{response[0]}</>}
+		</InseeOrganisationProvider>
 	);
 };
 export const InseeOrganisationNotes = ({
@@ -87,15 +108,14 @@ export const InseeOrganisationNotes = ({
 		: [organisations];
 
 	return (
-		<InseeOrganisationProvider
-			creators={organisationsArray}
-			render={(response) => {
+		<InseeOrganisationProvider organisations={organisationsArray}>
+			{(response) => {
 				const text =
 					organisationsArray.length === 1 ? (
 						<p>{response[0]}</p>
 					) : (
 						<List<string>
-							items={organisationsArray}
+							items={response}
 							getContent={(item) => item}
 							getKey={(item) => item}
 						/>
@@ -110,6 +130,6 @@ export const InseeOrganisationNotes = ({
 					/>
 				);
 			}}
-		/>
+		</InseeOrganisationProvider>
 	);
 };

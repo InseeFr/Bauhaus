@@ -163,12 +163,12 @@ describe('isEmpty', () => {
 		});
 
 		it('should handle very large empty array', () => {
-			const largeArray = new Array({ length: 1000 }).fill(null);
+			const largeArray = Array.from({ length: 1000 }).fill(null);
 			expect(isEmpty(largeArray)).toBe(true);
 		});
 
 		it('should handle very large array with one valid value', () => {
-			const largeArray = new Array(1000).fill(null);
+			const largeArray = Array.from({ length: 1000 }).fill(null);
 			largeArray[500] = 'valid';
 			expect(isEmpty(largeArray)).toBe(false);
 		});
