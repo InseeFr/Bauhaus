@@ -64,9 +64,9 @@ describe('ConceptValidation Home Container', () => {
 	});
 
 	describe('Loading State', () => {
-		it('should display loading indicator while fetching concepts', () => {
+		it('should display loading indicator while fetching concepts', async () => {
 			mockGetConceptValidateList.mockReturnValue(
-				new Promise(() => {}) // Never resolves
+				new Promise((resolve) => setTimeout(() => resolve(mockConcepts), 50))
 			);
 
 			render(
@@ -76,6 +76,11 @@ describe('ConceptValidation Home Container', () => {
 			);
 
 			expect(screen.getByText('Loading in progress...')).toBeInTheDocument();
+
+			// Wait for the promise to resolve to avoid state updates after unmount
+			await waitFor(() => {
+				expect(screen.queryByText('Loading in progress...')).not.toBeInTheDocument();
+			});
 		});
 
 		it('should hide loading indicator after concepts are fetched', async () => {
