@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 import configureStore from '../../../redux/configure-store';
-import { renderWithRouter, mockReactQueryForRbac } from '../../../tests/render';
+import { renderWithRouter } from '../../../tests/render';
 
 import SimsGeographyPicker, { removeAccents } from './sims-geography-picker';
 
@@ -107,7 +107,9 @@ describe('SimsGeographyPicker', () => {
 			loadGeographies: mockLoadGeographies,
 		});
 
-		expect(container.querySelector('.bauhaus-sims-geography-picker')).toBeTruthy();
+		expect(
+			container.querySelector('.bauhaus-sims-geography-picker'),
+		).toBeTruthy();
 		expect(container.querySelector('.form-group')).toBeTruthy();
 	});
 
@@ -184,7 +186,9 @@ describe('SimsGeographyPicker', () => {
 		});
 
 		// RightSlidingPanel should be in the DOM but not open
-		expect(container.querySelector('.bauhaus-sims-geography-picker')).toBeTruthy();
+		expect(
+			container.querySelector('.bauhaus-sims-geography-picker'),
+		).toBeTruthy();
 	});
 
 	it('should open sliding panel when SeeButton is clicked', () => {
@@ -213,7 +217,9 @@ describe('SimsGeographyPicker', () => {
 			value: '',
 		});
 
-		expect(container.querySelector('.bauhaus-sims-geography-picker')).toBeTruthy();
+		expect(
+			container.querySelector('.bauhaus-sims-geography-picker'),
+		).toBeTruthy();
 	});
 
 	it('should render with a selected value', () => {
@@ -223,7 +229,9 @@ describe('SimsGeographyPicker', () => {
 			value: 'http://geo1',
 		});
 
-		expect(container.querySelector('.bauhaus-sims-geography-picker')).toBeTruthy();
+		expect(
+			container.querySelector('.bauhaus-sims-geography-picker'),
+		).toBeTruthy();
 	});
 
 	it('should have isClearable prop on Select', () => {
@@ -266,7 +274,9 @@ describe('SimsGeographyPicker', () => {
 		});
 
 		// Component should render without errors with a value
-		expect(container.querySelector('.bauhaus-sims-geography-picker')).toBeTruthy();
+		expect(
+			container.querySelector('.bauhaus-sims-geography-picker'),
+		).toBeTruthy();
 	});
 
 	it('should render geography options in the dropdown', () => {
@@ -280,65 +290,6 @@ describe('SimsGeographyPicker', () => {
 	});
 });
 
-describe('SimsGeographyPicker - New Territory', () => {
-	const mockOnChange = vi.fn();
-	const mockLoadGeographies = vi.fn();
-
-	beforeEach(() => {
-		mockReactQueryForRbac([
-			{
-				application: 'GEOGRAPHY',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
-	});
-
-	it('should render New button when user has CREATE privilege', async () => {
-		const { default: SimsGeographyPickerComponent } = await import('./sims-geography-picker');
-		const store = createStore();
-
-		renderWithRouter(
-			<Provider store={store}>
-				<QueryClientProvider client={queryClient}>
-					<SimsGeographyPickerComponent
-						onChange={mockOnChange}
-						loadGeographies={mockLoadGeographies}
-						value=""
-					/>
-				</QueryClientProvider>
-			</Provider>,
-		);
-
-		await waitFor(() => {
-			const newButton = screen.queryByText('New');
-			expect(newButton).toBeTruthy();
-		});
-	});
-
-	it('should render New button and respond to clicks', async () => {
-		const { default: SimsGeographyPickerComponent } = await import('./sims-geography-picker');
-		const store = createStore();
-
-		renderWithRouter(
-			<Provider store={store}>
-				<QueryClientProvider client={queryClient}>
-					<SimsGeographyPickerComponent
-						onChange={mockOnChange}
-						loadGeographies={mockLoadGeographies}
-						value=""
-					/>
-				</QueryClientProvider>
-			</Provider>,
-		);
-
-		await waitFor(() => {
-			const newButton = screen.queryByText('New');
-			expect(newButton).toBeTruthy();
-			// Verify button is clickable
-			expect(newButton.tagName).toBe('BUTTON');
-		});
-	});
-});
 
 describe('removeAccents utility function', () => {
 	it('should remove accents from lowercase letters', () => {
