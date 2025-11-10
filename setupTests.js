@@ -1,5 +1,10 @@
 import '@testing-library/jest-dom';
-import { vi } from 'vitest';
+import { vi, beforeEach } from 'vitest';
+
+// Clear all mocks before each test globally
+beforeEach(() => {
+	vi.clearAllMocks();
+});
 
 // Mock global pour useV2StampsMap
 vi.mock('./src/packages/utils/hooks/stamps', async () => {

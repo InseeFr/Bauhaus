@@ -54,9 +54,7 @@ export const DisseminationStatusInput = ({
 				))}
 			<Select
 				placeholder={D.disseminationStatus.placeholder}
-				value={disseminationStatusListOptions.find(
-					({ value: v }) => v === value,
-				)}
+				value={value}
 				options={disseminationStatusListOptions}
 				onChange={handleChange}
 			/>

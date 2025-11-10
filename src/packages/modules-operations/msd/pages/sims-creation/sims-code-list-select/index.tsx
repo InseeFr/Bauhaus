@@ -18,13 +18,13 @@ export const SimsCodeListSelect = ({
 	let value;
 
 	if (!multi) {
-		value = options.find(({ value }) => value === currentSection.value);
+		value = currentSection.value;
 	} else {
 		const currentSectionValue = Array.isArray(currentSection.value)
 			? currentSection.value
 			: [currentSection.value];
 
-		value = options.filter(({ value }) => currentSectionValue.includes(value));
+		value = currentSectionValue;
 	}
 
 	return (

@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 
 import { GeographieApi } from '@sdk/geographie';
 
@@ -56,17 +56,15 @@ describe('SimsGeographyField', () => {
 	const mockOnCancel = vi.fn();
 	const mockOnSave = vi.fn();
 
-	beforeEach(() => {
-		vi.clearAllMocks();
-	});
-
 	it('should render the component with empty territory', () => {
 		const { container } = renderComponent({
 			onCancel: mockOnCancel,
 			onSave: mockOnSave,
 		});
 		expect(container.querySelectorAll('input[type="text"]')).toHaveLength(3);
-		expect(container.querySelector('.bauhaus-sims-geography-field')).toBeTruthy();
+		expect(
+			container.querySelector('.bauhaus-sims-geography-field'),
+		).toBeTruthy();
 	});
 
 	it('should render with existing territory data', () => {
@@ -139,7 +137,9 @@ describe('SimsGeographyField', () => {
 			onSave: mockOnSave,
 		});
 
-		const buttons = container.querySelectorAll('.btn-group[role="group"] button');
+		const buttons = container.querySelectorAll(
+			'.btn-group[role="group"] button',
+		);
 		const includeButton = buttons[0];
 		expect(includeButton.textContent.trim()).toBe('Include');
 		expect(includeButton.disabled).toBe(true);
@@ -243,6 +243,151 @@ describe('SimsGeographyField', () => {
 		});
 
 		// Check that the component has sections for included and excluded zones
+		const headers = container.querySelectorAll('h4');
+		expect(headers.length).toBeGreaterThanOrEqual(2);
+	});
+
+	it('should render with existing territory data including unions and difference', () => {
+		const territory = {
+			id: '123',
+			uri: 'http://territory1',
+			labelLg1: 'Test Territory',
+			labelLg2: 'Territoire Test',
+			unions: [],
+			difference: [],
+		};
+
+		const { container } = renderComponent({
+			onCancel: mockOnCancel,
+			onSave: mockOnSave,
+			territory,
+		});
+
+		// Verify the component renders without crashing
+		expect(
+			container.querySelector('.bauhaus-sims-geography-field'),
+		).toBeTruthy();
+	});
+
+	it('should pass territory data to save callback', async () => {
+		const territory = {
+			id: '123',
+			uri: 'http://territory1',
+			labelLg1: 'Test',
+			labelLg2: 'Test',
+			unions: [],
+			difference: [],
+		};
+
+		GeographieApi.putTerritory.mockResolvedValue('http://territory1');
+
+		renderComponent({
+			onCancel: mockOnCancel,
+			onSave: mockOnSave,
+			territory,
+		});
+
+		const saveButton = screen.getByText('Save');
+		fireEvent.click(saveButton);
+
+		await waitFor(() => {
+			expect(GeographieApi.putTerritory).toHaveBeenCalledWith(
+				'123',
+				expect.objectContaining({
+					unions: [],
+					difference: [],
+				}),
+			);
+		});
+	});
+
+	it('should render Select component', () => {
+		const { container } = renderComponent({
+			onCancel: mockOnCancel,
+			onSave: mockOnSave,
+		});
+
+		// The component should have a select/dropdown for geographies
+		const selectContainer = container.querySelector('.form-group');
+		expect(selectContainer).toBeTruthy();
+	});
+
+	it('should render ActionToolbar with Cancel and Save buttons', () => {
+		renderComponent({
+			onCancel: mockOnCancel,
+			onSave: mockOnSave,
+		});
+
+		expect(screen.getByText('Cancel')).toBeInTheDocument();
+		expect(screen.getByText('Save')).toBeInTheDocument();
+	});
+
+	it('should have include button with correct text', () => {
+		renderComponent({
+			onCancel: mockOnCancel,
+			onSave: mockOnSave,
+		});
+
+		const includeButton = screen.getByText('Include');
+		expect(includeButton).toBeInTheDocument();
+		expect(includeButton.tagName).toBe('BUTTON');
+	});
+
+	it('should have exclude button with correct text', () => {
+		renderComponent({
+			onCancel: mockOnCancel,
+			onSave: mockOnSave,
+		});
+
+		const excludeButton = screen.getByText('Exclude');
+		expect(excludeButton).toBeInTheDocument();
+		expect(excludeButton.tagName).toBe('BUTTON');
+	});
+
+	it('should initialize with empty strings when territory labels are not provided', () => {
+		const { container } = renderComponent({
+			onCancel: mockOnCancel,
+			onSave: mockOnSave,
+			territory: {},
+		});
+
+		const inputs = container.querySelectorAll('input[type="text"]');
+		expect(inputs[0].value).toBe('');
+		expect(inputs[1].value).toBe('');
+	});
+
+	it('should handle save with uri from territory when updating', async () => {
+		const territory = {
+			id: '123',
+			uri: 'http://existing-uri',
+			labelLg1: 'Test',
+			labelLg2: 'Test',
+			unions: [],
+			difference: [],
+		};
+
+		GeographieApi.putTerritory.mockResolvedValue('http://new-uri');
+
+		renderComponent({
+			onCancel: mockOnCancel,
+			onSave: mockOnSave,
+			territory,
+		});
+
+		const saveButton = screen.getByText('Save');
+		fireEvent.click(saveButton);
+
+		await waitFor(() => {
+			expect(mockOnSave).toHaveBeenCalledWith('http://existing-uri');
+		});
+	});
+
+	it('should render SimsGeographySelector component', () => {
+		const { container } = renderComponent({
+			onCancel: mockOnCancel,
+			onSave: mockOnSave,
+		});
+
 		const headers = container.querySelectorAll('h4');
 		expect(headers.length).toBeGreaterThanOrEqual(2);
 	});
