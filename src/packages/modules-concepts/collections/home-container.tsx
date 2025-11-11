@@ -1,22 +1,12 @@
-import { useEffect, useState } from 'react';
-
 import { Loading } from '@components/loading';
 
-import { CollectionApi } from '@sdk/collection-api';
-
-import { PartialCollection } from '../../model/concepts/collection';
 import CollectionsHome from './home';
+import { useCollections } from '../../utils/hooks/collections';
 
 export const Component = () => {
-	const [loading, setLoading] = useState(true);
-	const [collections, setCollections] = useState<PartialCollection[]>([]);
-	useEffect(() => {
-		CollectionApi.getCollectionList()
-			.then(setCollections)
-			.finally(() => setLoading(false));
-	}, []);
+	const { data: collections, isLoading } = useCollections();
 
-	if (loading) {
+	if (isLoading) {
 		return <Loading />;
 	}
 	return <CollectionsHome collections={collections} />;

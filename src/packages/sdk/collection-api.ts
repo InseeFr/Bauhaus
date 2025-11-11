@@ -1,7 +1,6 @@
 import { buildApi } from './build-api';
 
 const api = {
-	getCollectionList: () => ['collections'],
 	getCollectionExportZipByType: (
 		ids: string[],
 		type: string,

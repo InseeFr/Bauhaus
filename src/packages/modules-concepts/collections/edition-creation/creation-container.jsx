@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { Loading, Saving } from '@components/loading';
 
-import { CollectionApi } from '@sdk/collection-api';
 import { ConceptsApi } from '@sdk/index';
 
 import { useTitle } from '@utils/hooks/useTitle';
@@ -13,6 +12,7 @@ import D from '../../../deprecated-locales';
 import emptyCollection from '../../collections/utils/empty-collection';
 import buildPayload from '../utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
+import { useCollections } from '../../../utils/hooks/collections';
 
 export const Component = () => {
 	const navigate = useNavigate();
@@ -25,17 +25,13 @@ export const Component = () => {
 	const [saving, setSaving] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 
-	const [collectionList, setCollectionList] = useState([]);
 	const [conceptList, setConceptList] = useState([]);
+	const { data: collectionList } = useCollections();
 
 	useEffect(() => {
-		Promise.all([
-			ConceptsApi.getConceptList(),
-			CollectionApi.getCollectionList(),
-		])
-			.then(([conceptsList, collectionsList]) => {
+		ConceptsApi.getConceptList()
+			.then((conceptsList) => {
 				setConceptList(conceptsList);
-				setCollectionList(collectionsList);
 			})
 			.finally(() => setLoading(false));
 	}, []);
