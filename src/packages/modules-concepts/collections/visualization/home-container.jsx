@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { Loading, Publishing } from '@components/loading';
 
 import { ConceptsApi } from '@sdk/index';
+import { CollectionApi } from '@sdk/new-collection-api';
 
 import { useSecondLang } from '@utils/hooks/second-lang';
 
@@ -22,7 +23,7 @@ export const Component = () => {
 
 	const fetchData = useCallback(() => {
 		Promise.all([
-			ConceptsApi.getCollectionGeneral(id),
+			CollectionApi.getCollectionById(id),
 			ConceptsApi.getCollectionMembersList(id),
 		])
 			.then(([generalValue, membersValue]) => {

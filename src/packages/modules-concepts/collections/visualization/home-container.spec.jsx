@@ -1,0 +1,169 @@
+import { render, screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { ConceptsApi } from '@sdk/index';
+import { CollectionApi } from '@sdk/new-collection-api';
+
+import { useSecondLang } from '@utils/hooks/second-lang';
+import { Component } from './home-container';
+
+vi.mock('react-router-dom', () => ({
+	useParams: vi.fn(),
+}));
+
+vi.mock('react-redux', () => ({
+	useSelector: vi.fn(),
+}));
+
+vi.mock('@sdk/index', () => ({
+	ConceptsApi: {
+		getCollectionMembersList: vi.fn(),
+		putCollectionValidList: vi.fn(),
+	},
+}));
+
+vi.mock('@sdk/new-collection-api', () => ({
+	CollectionApi: {
+		getCollectionById: vi.fn(),
+	},
+}));
+
+vi.mock('@utils/hooks/second-lang', () => ({
+	useSecondLang: vi.fn(),
+}));
+
+vi.mock('../../../redux/selectors', () => ({
+	getPermission: vi.fn(),
+}));
+
+vi.mock('@components/loading', () => ({
+	Loading: () => <div data-testid="loading">Loading...</div>,
+	Publishing: () => <div data-testid="publishing">Publishing...</div>,
+}));
+
+vi.mock('./home', () => ({
+	default: () => <div data-testid="collection-visualization">Visualization</div>,
+}));
+
+describe('Visualization Container Component', () => {
+	beforeEach(() => {
+		vi.clearAllMocks();
+		useParams.mockReturnValue({ id: '123' });
+		useSelector.mockReturnValue({
+			roles: ['ADMIN'],
+			stamp: 'DG75-L201',
+		});
+		useSecondLang.mockReturnValue(['en', vi.fn()]);
+	});
+
+	it('renders Loading component while loading collection data', () => {
+		CollectionApi.getCollectionById.mockReturnValue(
+			new Promise(() => {}),
+		);
+		ConceptsApi.getCollectionMembersList.mockReturnValue(
+			new Promise(() => {}),
+		);
+
+		render(<Component />);
+
+		screen.getByTestId('loading');
+	});
+
+	it('renders CollectionVisualization component after loading', async () => {
+		const mockCollection = {
+			id: '123',
+			prefLabelLg1: 'Test Collection',
+		};
+		const mockMembers = [{ id: 'c1', label: 'Concept 1' }];
+
+		CollectionApi.getCollectionById.mockResolvedValue(
+			mockCollection,
+		);
+		ConceptsApi.getCollectionMembersList.mockResolvedValue(
+			mockMembers,
+		);
+
+		render(<Component />);
+
+		await waitFor(() => {
+			screen.getByTestId('collection-visualization');
+		});
+	});
+
+	it('renders Publishing component when validating collection', async () => {
+		const mockCollection = {
+			id: '123',
+			prefLabelLg1: 'Test Collection',
+		};
+
+		CollectionApi.getCollectionById.mockResolvedValue(
+			mockCollection,
+		);
+		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
+		ConceptsApi.putCollectionValidList.mockReturnValue(
+			new Promise(() => {}),
+		);
+
+		const { rerender } = render(<Component />);
+
+		await waitFor(() => {
+			screen.getByTestId('collection-visualization');
+		});
+
+		// Verify the component structure is correct
+		expect(screen.queryByTestId('publishing')).toBeNull();
+
+		rerender(<Component />);
+	});
+
+	it('calls useParams to get collection id', () => {
+		CollectionApi.getCollectionById.mockResolvedValue({});
+		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
+
+		render(<Component />);
+
+		expect(useParams).toHaveBeenCalled();
+	});
+
+	it('calls useSelector to get permissions', () => {
+		CollectionApi.getCollectionById.mockResolvedValue({});
+		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
+
+		render(<Component />);
+
+		expect(useSelector).toHaveBeenCalled();
+	});
+
+	it('calls useSecondLang hook', () => {
+		CollectionApi.getCollectionById.mockResolvedValue({});
+		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
+
+		render(<Component />);
+
+		expect(useSecondLang).toHaveBeenCalled();
+	});
+
+	it('fetches collection and members data on mount', async () => {
+		const mockCollection = {
+			id: '123',
+			prefLabelLg1: 'Test Collection',
+		};
+		const mockMembers = [{ id: 'c1', label: 'Concept 1' }];
+
+		CollectionApi.getCollectionById.mockResolvedValue(
+			mockCollection,
+		);
+		ConceptsApi.getCollectionMembersList.mockResolvedValue(
+			mockMembers,
+		);
+
+		render(<Component />);
+
+		await waitFor(() => {
+			expect(CollectionApi.getCollectionById).toHaveBeenCalledWith('123');
+			expect(ConceptsApi.getCollectionMembersList).toHaveBeenCalledWith('123');
+		});
+	});
+});

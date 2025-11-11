@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Loading, Saving } from '@components/loading';
 
-import { CollectionApi } from '@sdk/collection-api';
 import { ConceptsApi } from '@sdk/index';
 
 import { useTitle } from '@utils/hooks/useTitle';
@@ -12,6 +11,8 @@ import { cleanId } from '@utils/string-utils';
 import D from '../../../deprecated-locales';
 import buildPayload from '../utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
+import { useCollections } from '../../../utils/hooks/collections';
+import { CollectionApi } from '@sdk/new-collection-api';
 
 export const Component = () => {
 	const { id } = useParams();
@@ -21,14 +22,14 @@ export const Component = () => {
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
-
 	const [collection, setCollection] = useState({});
-	const [collectionList, setCollectionList] = useState([]);
+
+	const { data: collectionList } = useCollections();
 	const [conceptList, setConceptList] = useState([]);
 
 	useEffect(() => {
 		Promise.all([
-			ConceptsApi.getCollectionGeneral(id),
+			CollectionApi.getCollectionById(id),
 			ConceptsApi.getCollectionMembersList(id),
 		])
 			.then(([general, members]) => {
@@ -38,13 +39,9 @@ export const Component = () => {
 	}, [id]);
 
 	useEffect(() => {
-		Promise.all([
-			ConceptsApi.getConceptList(),
-			CollectionApi.getCollectionList(),
-		])
-			.then(([conceptsList, collectionsList]) => {
+		ConceptsApi.getConceptList()
+			.then((conceptsList) => {
 				setConceptList(conceptsList);
-				setCollectionList(collectionsList);
 			})
 			.finally(() => setLoadingExtraData(false));
 	}, []);
