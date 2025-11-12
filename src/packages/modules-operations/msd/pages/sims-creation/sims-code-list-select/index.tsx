@@ -16,7 +16,6 @@ export const SimsCodeListSelect = ({
 	...rest
 }: Readonly<SimsCodeListSelectTypes>) => {
 	let value;
-
 	if (!multi) {
 		value = currentSection.value;
 	} else {
@@ -24,7 +23,9 @@ export const SimsCodeListSelect = ({
 			? currentSection.value
 			: [currentSection.value];
 
-		value = currentSectionValue;
+		value = currentSectionValue.filter(
+			(val) => val !== null && val !== undefined && val !== '',
+		);
 	}
 
 	return (

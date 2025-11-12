@@ -1,7 +1,3 @@
-.Select-menu-outer {
-	z-index: 5;
-}
-
-.Select-option .padding {
-	padding-left: 2rem;
+.p-dropdown-panel {
+	z-index: 10000 !important;
 }
