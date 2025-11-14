@@ -1,11 +1,10 @@
 import { useLocation } from 'react-router-dom';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { MainMenu } from '@components/menu';
 
 import MenuCodelists from '.';
-import { ADMIN } from '../../auth/roles';
-import { usePermission } from '../../redux/hooks/usePermission';
+import { useAuthorizationGuard } from '../../auth/components/auth';
 import { renderWithRouter } from '../../tests/render';
 import D from '../i18n/build-dictionary';
 
@@ -17,31 +16,35 @@ vi.mock('react-router-dom', async () => {
 	};
 });
 
-vi.mock('../../redux/hooks/usePermission', () => ({
-	usePermission: vi.fn(),
-}));
+vi.mock('../../auth/components/auth', async () => {
+	const actual = await vi.importActual('../../auth/components/auth');
+	return {
+		...actual,
+		useAuthorizationGuard: vi.fn(),
+	};
+});
 
 vi.mock('@components/menu', () => ({
 	MainMenu: vi.fn(() => <div>MainMenu Mock</div>),
 }));
 
 describe('MenuCodelists', () => {
-	afterEach(() => {
+	beforeEach(() => {
 		vi.clearAllMocks();
 	});
 
 	it('should not render anything if the path is "/"', () => {
 		vi.mocked(useLocation).mockReturnValue({ pathname: '/' } as any);
-		vi.mocked(usePermission).mockReturnValue({ roles: [] } as any);
+		vi.mocked(useAuthorizationGuard).mockReturnValue(false);
 
 		const { container } = renderWithRouter(<MenuCodelists />);
 
 		expect(container.firstChild).toBeNull();
 	});
 
-	it('should render the menu with only default paths if user does not have ADMIN role', () => {
+	it('should render the menu with only default paths if user does not have administration privilege', () => {
 		vi.mocked(useLocation).mockReturnValue({ pathname: '/codelists' } as any);
-		vi.mocked(usePermission).mockReturnValue({ roles: [] } as any);
+		vi.mocked(useAuthorizationGuard).mockReturnValue(false);
 
 		const { getByText } = renderWithRouter(<MenuCodelists />);
 
@@ -61,13 +64,17 @@ describe('MenuCodelists', () => {
 			{},
 		);
 		expect(getByText('MainMenu Mock')).toBeTruthy();
+		expect(useAuthorizationGuard).toHaveBeenCalledWith({
+			module: 'CODESLIST_CODESLIST',
+			privilege: 'READ',
+		});
 	});
 
-	it('should render the menu with additional paths if user has ADMIN role', () => {
+	it('should render the menu with additional paths if user has administration privilege', () => {
 		vi.mocked(useLocation).mockReturnValue({
 			pathname: '/codelists/partial',
 		} as any);
-		vi.mocked(usePermission).mockReturnValue({ roles: [ADMIN] } as any);
+		vi.mocked(useAuthorizationGuard).mockReturnValue(true);
 
 		const { getByText } = renderWithRouter(<MenuCodelists />);
 
@@ -95,11 +102,15 @@ describe('MenuCodelists', () => {
 			{},
 		);
 		expect(getByText('MainMenu Mock')).toBeTruthy();
+		expect(useAuthorizationGuard).toHaveBeenCalledWith({
+			module: 'CODESLIST_CODESLIST',
+			privilege: 'READ',
+		});
 	});
 
 	it('should apply "active" class to the correct path based on location.pathname', () => {
 		vi.mocked(useLocation).mockReturnValue({ pathname: '/codelists' } as any);
-		vi.mocked(usePermission).mockReturnValue({ roles: [ADMIN] } as any);
+		vi.mocked(useAuthorizationGuard).mockReturnValue(true);
 
 		renderWithRouter(<MenuCodelists />);
 
@@ -126,5 +137,9 @@ describe('MenuCodelists', () => {
 			},
 			{},
 		);
+		expect(useAuthorizationGuard).toHaveBeenCalledWith({
+			module: 'CODESLIST_CODESLIST',
+			privilege: 'READ',
+		});
 	});
 });

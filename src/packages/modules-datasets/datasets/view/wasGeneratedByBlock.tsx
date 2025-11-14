@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { List } from '@components/list';
+import { List } from '@components/ui/list';
 
 import { useOperations } from '@utils/hooks/operations';
 import { useSeries } from '@utils/hooks/series';

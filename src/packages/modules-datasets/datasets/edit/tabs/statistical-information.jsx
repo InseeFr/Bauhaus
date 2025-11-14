@@ -67,7 +67,7 @@ const StatisticalInformationTab = ({
 						{D1.datasetsStatisticalUnits}
 						<Select
 							value={editingDataset.statisticalUnit}
-							multi={true}
+							multi
 							options={clStatUnit}
 							onChange={(values) => {
 								setEditingDataset({
@@ -151,7 +151,7 @@ const StatisticalInformationTab = ({
 						<Select
 							value={editingDataset.spacialResolutions}
 							options={clGeoType}
-							multi={true}
+							multi
 							onChange={(values) => {
 								setEditingDataset({
 									...editingDataset,

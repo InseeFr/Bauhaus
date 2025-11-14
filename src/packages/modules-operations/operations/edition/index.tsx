@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { Loading } from '@components/loading';
@@ -11,15 +10,11 @@ import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../../deprecated-locales';
 import { Operation } from '../../../model/Operation';
-import { Series } from '../../../model/operations/series';
-import { ReduxModel } from '../../../redux/model';
 import OperationsOperationEdition from './edition';
 
 export const Component = () => {
 	const { id } = useParams<{ id: string }>();
-	const [series, setSeries] = useState<Series[]>([]);
 	const [operation, setOperation] = useState<Operation | undefined>(undefined);
-	const stamp = useSelector((state: ReduxModel) => state.app!.auth.user.stamp);
 	const goBack = useGoBack();
 
 	useEffect(() => {
@@ -30,12 +25,6 @@ export const Component = () => {
 		}
 	}, [id]);
 
-	useEffect(() => {
-		OperationsApi.getUserSeriesList(stamp).then((series: Series[]) =>
-			setSeries(series),
-		);
-	}, [stamp]);
-
 	useTitle(D.operationsTitle, operation?.prefLabelLg1);
 
 	if (!operation?.id && id) return <Loading />;
@@ -43,7 +32,6 @@ export const Component = () => {
 	const editingOperation = operation ?? {};
 	return (
 		<OperationsOperationEdition
-			series={series}
 			id={id}
 			operation={editingOperation}
 			goBack={goBack}

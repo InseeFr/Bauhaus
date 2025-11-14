@@ -6,7 +6,6 @@ import {
 	CancelButton,
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
-import { ContributorsInput } from '@components/contributors/contributors';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import {
 	ClientSideError,
@@ -20,7 +19,6 @@ import { Select } from '@components/select-rmes';
 
 import { useTitle } from '@utils/hooks/useTitle';
 
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
 import MainDictionary from '../../../deprecated-locales/build-dictionary';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import { CodeListApi } from '../../../sdk';
@@ -29,6 +27,9 @@ import { validatePartialCodelist, partialInGlobalCodes } from '../../utils';
 import '../codelist-detail/edit.scss';
 import Picker from './picker';
 import { EMPTY_ARRAY } from '@utils/array-utils';
+import { CreatorsInput } from '@components/business/creators-input';
+import { ContributorsInput } from '@components/business/contributors-input/contributors-input';
+import { useAuthorizationGuard } from '../../../auth/components/auth';
 
 const defaultCodelist = {
 	created: dayjs(),
@@ -38,7 +39,6 @@ export const DumbCodelistPartialDetailEdit = ({
 	handleSave,
 	handleBack,
 	updateMode,
-	stampListOptions = EMPTY_ARRAY,
 	globalCodeListOptions = EMPTY_ARRAY,
 	serverSideError,
 }) => {
@@ -86,9 +86,10 @@ export const DumbCodelistPartialDetailEdit = ({
 
 	const permission = usePermission();
 	const stamp = permission?.stamp;
-	const isContributor =
-		permission?.roles?.includes(CODELIST_CONTRIBUTOR) &&
-		!permission?.roles?.includes(ADMIN);
+	const isContributor = useAuthorizationGuard(
+		'CODESLIST_PARTIALCODESLIST',
+		'CREATE',
+	);
 
 	useEffect(() => {
 		let codesList = { ...initialCodelist, ...defaultCodelist };
@@ -267,13 +268,9 @@ export const DumbCodelistPartialDetailEdit = ({
 					</div>
 				</Row>
 				<div className="form-group">
-					<LabelRequired htmlFor="creator">{D1.creator}</LabelRequired>
-					<Select
-						placeholder={D1.stampsPlaceholder}
-						value={stampListOptions.find(
-							({ value }) => value === codelist.creator,
-						)}
-						options={stampListOptions}
+					<CreatorsInput
+						multi
+						value={codelist.creator}
 						onChange={(value) => {
 							setCodelist({ ...codelist, creator: value });
 							setClientSideErrors({
@@ -281,7 +278,6 @@ export const DumbCodelistPartialDetailEdit = ({
 								errorMessage: [],
 							});
 						}}
-						searchable={true}
 					/>
 					<ClientSideError
 						id="creator-error"
@@ -290,9 +286,9 @@ export const DumbCodelistPartialDetailEdit = ({
 				</div>
 				<div className="form-group">
 					<ContributorsInput
-						stampListOptions={stampListOptions}
+						multi
 						value={codelist.contributor}
-						handleChange={(values) =>
+						onChange={(values) =>
 							setCodelist({ ...codelist, contributor: values })
 						}
 					/>

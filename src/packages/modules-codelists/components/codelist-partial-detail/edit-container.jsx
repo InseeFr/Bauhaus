@@ -3,8 +3,6 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import { Loading, Saving } from '@components/loading';
 
-import { useStampsOptions } from '@utils/hooks/stamps';
-
 import { CodeListApi } from '../../../sdk';
 import { API } from '../../apis';
 import { formatPartialCodeList } from '../../utils';
@@ -38,8 +36,6 @@ export const Component = (props) => {
 	const [codelist, setCodelist] = useState({});
 	const [globalCodeListOptions, setGlobalCodeListOptions] = useState([]);
 	const [serverSideError, setServerSideError] = useState('');
-
-	const stampListOptions = useStampsOptions();
 
 	const handleBack = useCallback(() => {
 		goBackOrReplace('/codelists/partial', true);
@@ -125,7 +121,6 @@ export const Component = (props) => {
 			handleBack={handleBack}
 			handleSave={handleSave}
 			updateMode={id !== undefined}
-			stampListOptions={stampListOptions}
 			globalCodeListOptions={globalCodeListOptions}
 			serverSideError={serverSideError}
 		/>

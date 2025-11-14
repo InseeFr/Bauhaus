@@ -6,27 +6,32 @@ import { Loading, Publishing } from '@components/loading';
 import { OK, PENDING } from '@sdk/constants';
 
 import D from '../../deprecated-locales';
-import { usePermission } from '../../redux/hooks/usePermission';
+import { ConceptGeneral } from '../../model/concepts/concept';
 import { ConceptsApi } from '../../sdk';
 import { sortArrayByLabel } from '../../utils/array-utils';
 import { useTitle } from '../../utils/hooks/useTitle';
 import ConceptsToValidate from './home';
 
+type ExportingStatus = typeof OK | typeof PENDING | undefined;
+
+interface ConceptValidateItem extends Pick<ConceptGeneral, 'id' | 'label'> {
+	validationState?: string;
+}
+
 export const Component = () => {
 	useTitle(D.conceptsTitle, D.btnValid);
-	const permission = usePermission();
-	const [loading, setLoading] = useState(true);
-	const [exporting, setExporting] = useState();
-	const [concepts, setConcepts] = useState([]);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [exporting, setExporting] = useState<ExportingStatus>();
+	const [concepts, setConcepts] = useState<ConceptValidateItem[]>([]);
 
-	const handleValidateConceptList = (ids) => {
+	const handleValidateConceptList = (ids: string[]): void => {
 		setExporting(PENDING);
 		ConceptsApi.putConceptValidList(ids).finally(() => setExporting(OK));
 	};
 
 	useEffect(() => {
 		ConceptsApi.getConceptValidateList()
-			.then((body) => {
+			.then((body: ConceptValidateItem[]) => {
 				setConcepts(sortArrayByLabel(body));
 			})
 			.finally(() => setLoading(false));
@@ -34,15 +39,19 @@ export const Component = () => {
 
 	if (exporting === OK) {
 		return <Navigate to="/concepts" replace />;
-	} else if (exporting === PENDING) {
+	}
+
+	if (exporting === PENDING) {
 		return <Publishing />;
 	}
 
-	if (loading) return <Loading />;
+	if (loading) {
+		return <Loading />;
+	}
+
 	return (
 		<ConceptsToValidate
 			concepts={concepts}
-			permission={permission}
 			handleValidateConceptList={handleValidateConceptList}
 		/>
 	);

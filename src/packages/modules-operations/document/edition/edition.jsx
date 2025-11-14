@@ -392,9 +392,7 @@ const OperationsDocumentationEdition = (props) => {
 						<LabelRequired htmlFor="lang">{D1.langTitle}</LabelRequired>
 						<Select
 							placeholder=""
-							value={langSelectOptions.find(
-								({ value }) => value === document.lang,
-							)}
+							value={document.lang}
 							options={langSelectOptions}
 							onChange={(value) => {
 								onChange({ target: { value, id: 'lang' } });

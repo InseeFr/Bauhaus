@@ -31,6 +31,32 @@ vi.mock('primereact/button', () => ({
 	),
 }));
 
+vi.mock('primereact/splitbutton', () => ({
+	SplitButton: ({ label, onClick, model, icon, ...props }: any) => (
+		<div data-testid="split-button" {...props}>
+			<button type="button" onClick={onClick} aria-label={props['aria-label']}>
+				{icon && <span className={icon} />}
+				{label}
+			</button>
+			{model && (
+				<div data-testid="split-button-menu">
+					{model.map((item: any, index: number) => (
+						<button
+							key={index}
+							type="button"
+							onClick={item.command}
+							data-testid={`menu-item-${item.label}`}
+						>
+							{item.icon && <span className={item.icon} />}
+							{item.label}
+						</button>
+					))}
+				</div>
+			)}
+		</div>
+	),
+}));
+
 vi.mock('primereact/card', () => ({
 	Card: ({ title, children }: any) => (
 		<div data-testid="card">
@@ -119,13 +145,41 @@ describe('GlobalActionsCard', () => {
 		expect(mockOnImport).toHaveBeenCalledTimes(1);
 	});
 
-	it('should call onExport when export button is clicked', () => {
+	it('should call onExport with DDI3 when export button is clicked', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
 		const exportButton = screen.getByText('Exporter');
 		fireEvent.click(exportButton);
 
 		expect(mockOnExport).toHaveBeenCalledTimes(1);
+		expect(mockOnExport).toHaveBeenCalledWith('DDI3');
+	});
+
+	it('should render export menu with DDI3 and DDI4 options', () => {
+		render(<GlobalActionsCard {...defaultProps} />);
+
+		expect(screen.getByTestId('menu-item-DDI3')).toBeInTheDocument();
+		expect(screen.getByTestId('menu-item-DDI4')).toBeInTheDocument();
+	});
+
+	it('should call onExport with DDI3 when DDI3 menu item is clicked', () => {
+		render(<GlobalActionsCard {...defaultProps} />);
+
+		const ddi3MenuItem = screen.getByTestId('menu-item-DDI3');
+		fireEvent.click(ddi3MenuItem);
+
+		expect(mockOnExport).toHaveBeenCalledTimes(1);
+		expect(mockOnExport).toHaveBeenCalledWith('DDI3');
+	});
+
+	it('should call onExport with DDI4 when DDI4 menu item is clicked', () => {
+		render(<GlobalActionsCard {...defaultProps} />);
+
+		const ddi4MenuItem = screen.getByTestId('menu-item-DDI4');
+		fireEvent.click(ddi4MenuItem);
+
+		expect(mockOnExport).toHaveBeenCalledTimes(1);
+		expect(mockOnExport).toHaveBeenCalledWith('DDI4');
 	});
 
 	it('should render data table with correct columns', () => {
@@ -159,7 +213,9 @@ describe('GlobalActionsCard', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
 		expect(screen.getByLabelText('Importer')).toBeInTheDocument();
-		expect(screen.getByLabelText('Exporter')).toBeInTheDocument();
+		// SplitButton creates multiple elements with the same aria-label
+		const exportElements = screen.getAllByLabelText('Exporter');
+		expect(exportElements.length).toBeGreaterThan(0);
 		expect(screen.getByLabelText('Édition en masse')).toBeInTheDocument();
 		expect(screen.getByLabelText('Publier')).toBeInTheDocument();
 		expect(screen.getByLabelText('Tableau des variables')).toBeInTheDocument();

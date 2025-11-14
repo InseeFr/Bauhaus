@@ -10,7 +10,6 @@ import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Saving } from '@components/loading';
 import { PageTitleBlock } from '@components/page-title-block';
-import { Select } from '@components/select-rmes';
 
 import { OperationsApi } from '@sdk/operations-api';
 
@@ -18,6 +17,7 @@ import D, { D1, D2 } from '../../../deprecated-locales';
 import { Controls } from './controls';
 import { YearInput } from './fields/year';
 import { validate } from './validation';
+import { Series } from './fields/series';
 
 const defaultOperation = {
 	prefLabelLg1: '',
@@ -107,12 +107,6 @@ class OperationsOperationEdition extends Component {
 	render() {
 		if (this.state.saving) return <Saving />;
 
-		const seriesOptions = this.props.series
-			.filter((series) => !series.idSims)
-			.map(({ id, label }) => {
-				return { value: id, label: label };
-			});
-
 		const { operation, serverSideError } = this.state;
 
 		const series = operation.series || { id: '' };
@@ -139,25 +133,15 @@ class OperationsOperationEdition extends Component {
 				<ErrorBloc error={serverSideError} D={D} />
 				<form>
 					{!isEditing && (
-						<Row className="bauhaus-row">
-							<div className="form-group">
-								<LabelRequired>{D.serieTitle}</LabelRequired>
-								<Select
-									placeholder={D.seriesTitle}
-									value={seriesOptions.find(({ value }) => value === series.id)}
-									options={seriesOptions}
-									onChange={(value) =>
-										this.onChange({
-											target: { value, id: 'idSeries' },
-										})
-									}
-								/>
-								<ClientSideError
-									id="series-error"
-									error={this.state.clientSideErrors?.fields?.series}
-								></ClientSideError>
-							</div>
-						</Row>
+						<Series
+							label={D.seriesTitle}
+							value={series.id}
+							onChange={(value) =>
+								this.onChange({
+									target: { value, id: 'idSeries' },
+								})
+							}
+						></Series>
 					)}
 					<Row className="bauhaus-row">
 						<div className="form-group">

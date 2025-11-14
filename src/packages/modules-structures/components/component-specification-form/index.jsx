@@ -101,7 +101,7 @@ export const ComponentSpecificationForm = ({
 								onChange={(value) => {
 									onChange({
 										...component,
-										attachment: value?.map((v) => v.value),
+										attachment: value,
 									});
 								}}
 								disabled={disabled}

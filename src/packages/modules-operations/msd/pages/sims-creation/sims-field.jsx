@@ -86,9 +86,7 @@ class SimsField extends PureComponent {
 				value = currentSection[secondLang ? 'labelLg2' : 'labelLg1'];
 				break;
 			case ORGANIZATION:
-				value = organisationsOptions.find(
-					({ value }) => value === currentSection.value,
-				);
+				value = currentSection.value;
 				break;
 			case DATE:
 				value = currentSection.value;
@@ -142,12 +140,14 @@ class SimsField extends PureComponent {
 										/>
 									)}
 									{msd.rangeType === ORGANIZATION && (
-										<Select
-											placeholder=""
-											value={value}
-											options={organisationsOptions}
-											onChange={this.handleCodeListInput}
-										/>
+										<>
+											<Select
+												placeholder=""
+												value={value}
+												options={organisationsOptions}
+												onChange={this.handleCodeListInput}
+											/>
+										</>
 									)}
 									{msd.rangeType === DATE && (
 										<DatePicker

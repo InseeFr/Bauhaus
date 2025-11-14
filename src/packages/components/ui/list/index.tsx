@@ -6,10 +6,10 @@ interface ListTypes<T> {
 	getKey?: (value: T) => string;
 }
 
-export const List = <T extends object>({
+export const List = <T,>({
 	items,
-	getContent = (value: T) => value.toString(),
-	getKey = (value: T) => value.toString(),
+	getContent = (value: T) => String(value),
+	getKey = (value: T) => String(value),
 }: Readonly<ListTypes<T>>) => {
 	if (!items || items.length === 0) {
 		return null;

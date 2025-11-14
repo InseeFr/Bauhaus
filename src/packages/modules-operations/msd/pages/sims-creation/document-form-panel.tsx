@@ -50,7 +50,6 @@ export const DocumentFormPanel = ({
 			}
 		});
 	};
-
 	return (
 		<RightSlidingPanel
 			isOpen={opened}

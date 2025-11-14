@@ -1,21 +1,23 @@
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
 import { MainMenu } from '@components/menu';
 
 import { UIMenuItem } from '@model/Menu';
 
-import { ADMIN } from '../../auth/roles';
+import { useAuthorizationGuard } from '../../auth/components/auth';
 import D from '../../deprecated-locales';
-import { getPermission } from '../../redux/selectors';
 
 const defaultAttrs = { 'aria-current': 'page' };
 
 const MenuConcepts = () => {
 	const location = useLocation();
-	const { roles } = useSelector(getPermission);
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
+
+	const canAccessAdministration = useAuthorizationGuard({
+		module: 'CONCEPT_CONCEPT',
+		privilege: 'ADMINISTRATION',
+	});
 
 	let paths: UIMenuItem[] = [
 		{
@@ -46,7 +48,7 @@ const MenuConcepts = () => {
 		},
 	];
 
-	if (roles.includes(ADMIN)) {
+	if (canAccessAdministration) {
 		paths = [
 			{
 				path: '/concepts/administration',

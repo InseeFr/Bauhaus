@@ -6,7 +6,6 @@ import {
 	SaveButton,
 } from '@components/buttons/buttons-with-icons';
 import { SeeButton } from '@components/buttons/see';
-import { ContributorsInput } from '@components/contributors/contributors';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import {
 	ClientSideError,
@@ -28,7 +27,6 @@ import {
 import { useTitle } from '@utils/hooks/useTitle';
 
 import { useAppContext } from '../../../application/app-context';
-import { ADMIN, STRUCTURE_CONTRIBUTOR } from '../../../auth/roles';
 import { API } from '../../../modules-codelists/apis';
 import { usePermission } from '../../../redux/hooks/usePermission';
 import D, { D1, D2 } from '../../i18n/build-dictionary';
@@ -47,6 +45,9 @@ import {
 import { CodesListPanel } from '../codes-list-panel/codes-list-panel';
 import { validate } from '../edition/validation';
 import './edit.scss';
+import { CreatorsInput } from '@components/business/creators-input';
+import { ContributorsInput } from '@components/business/contributors-input/contributors-input';
+import { useAuthorizationGuard } from '../../../auth/components/auth';
 
 const linkedAttributeLabelMapping = {
 	[XSD_INTEGER]: D.insertIntValue,
@@ -181,7 +182,6 @@ export const DumbComponentDetailEdit = ({
 	handleBack,
 	type,
 	attributes,
-	stampListOptions = EMPTY_ARRAY,
 	serverSideError,
 }) => {
 	const [component, setComponent] = useState({});
@@ -193,9 +193,7 @@ export const DumbComponentDetailEdit = ({
 
 	const permission = usePermission();
 	const stamp = permission?.stamp;
-	const isContributor =
-		permission?.roles?.includes(STRUCTURE_CONTRIBUTOR) &&
-		!permission?.roles?.includes(ADMIN);
+	const isContributor = useAuthorizationGuard('STRUCTURE_COMPONENT', 'CREATE');
 
 	useEffect(() => {
 		let component = { ...initialComponent };
@@ -527,27 +525,21 @@ export const DumbComponentDetailEdit = ({
 					/>
 				)}
 				<div className="form-group">
-					<label>{D1.creatorTitle}</label>
-					<Select
-						placeholder={D1.stampsPlaceholder}
-						value={stampListOptions.find(
-							({ value }) => value === component.creator,
-						)}
-						options={stampListOptions}
+					<CreatorsInput
+						value={component.creator}
 						onChange={(value) => setComponent({ ...component, creator: value })}
-						searchable={true}
 					/>
 				</div>
 				<div className="form-group">
 					<ContributorsInput
-						stampListOptions={stampListOptions}
 						value={component.contributor}
-						handleChange={(values) =>
+						onChange={(values) =>
 							setComponent({
 								...component,
 								contributor: values,
 							})
 						}
+						multi={true}
 					/>
 				</div>
 				<div className="form-group">

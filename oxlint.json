@@ -1,0 +1,9 @@
+{
+	"rules": {
+		"eslint/no-console": "off",
+		"unicorn/no-single-promise-in-promise-methods": "off",
+		"eslint/no-unsafe-optional-chaining": "off",
+		"unicorn/no-useless-fallback-in-spread": "off",
+		"typescript/triple-slash-reference": "off"
+	}
+}

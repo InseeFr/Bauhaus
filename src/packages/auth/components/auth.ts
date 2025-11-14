@@ -45,11 +45,50 @@ export const hasAccessToModule = (
 	);
 };
 
+export interface AuthorizationGuardOptions {
+	module: MODULE;
+	privilege: PRIVILEGE;
+	stamps?: string[];
+	complementaryCheck?: boolean;
+	check?: (stamp: string) => boolean;
+}
+
+export const useAuthorizationGuard = ({
+	module,
+	privilege,
+	stamps: stampsProps = [],
+	complementaryCheck = true,
+	check = () => true,
+}: AuthorizationGuardOptions): boolean => {
+	const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
+
+	const { privileges } = usePrivileges();
+	const { stamp } = useSelector((state: ReduxModel) => getPermission(state));
+
+	if (!privileges) {
+		return false;
+	}
+
+	const currentModule = privileges.find((d) => d.application === module);
+	const currentPrivilege = currentModule?.privileges.find(
+		(p) => p.privilege === privilege,
+	);
+
+	const isAuthorized =
+		currentPrivilege?.strategy === 'ALL' ||
+		(currentPrivilege?.strategy === 'STAMP' &&
+			(stamps.includes(stamp) || stamps.length === 0) &&
+			complementaryCheck &&
+			check(stamp));
+
+	return isAuthorized;
+};
+
 export const HasAccess = ({
 	children,
 	module,
 	privilege,
-	stamps: stampsProps = [],
+	stamps = [],
 	complementaryCheck = true,
 	check = () => true,
 }: Readonly<
@@ -62,24 +101,13 @@ export const HasAccess = ({
 		check?: (stamp: string) => boolean;
 	}>
 >) => {
-	const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
-
-	const { privileges } = usePrivileges();
-	const { stamp } = useSelector((state: ReduxModel) => getPermission(state));
-	if (!privileges) {
-		return null;
-	}
-	const currentModule = privileges.find((d) => d.application === module);
-	const currentPrivilege = currentModule?.privileges.find(
-		(p) => p.privilege === privilege,
-	);
-
-	const isAuthorized =
-		currentPrivilege?.strategy === 'ALL' ||
-		(currentPrivilege?.strategy === 'STAMP' &&
-			(stamps.includes(stamp) || stamps.length === 0) &&
-			complementaryCheck &&
-			check(stamp));
+	const isAuthorized = useAuthorizationGuard({
+		module,
+		privilege,
+		stamps,
+		complementaryCheck,
+		check,
+	});
 
 	if (!isAuthorized) {
 		return null;
