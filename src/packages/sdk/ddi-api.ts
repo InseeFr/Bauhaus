@@ -2,7 +2,9 @@ import { buildApi } from './build-api';
 
 const api = {
 	getPhysicalInstances: () => ['physical-instance'],
-	getPhysicalInstance: (id: string) => ['physical-instance/' + id],
+	getPhysicalInstance: (agencyId: string, id: string) => [
+		'physical-instance/' + agencyId + '/' + id,
+	],
 	patchPhysicalInstance: (
 		id: string,
 		data: { physicalInstanceLabel: string; dataRelationshipName: string },

@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { Mock, vi } from 'vitest';
 
-import { useCollections } from '../../utils/hooks/collections';
 import { Component } from './home-container';
+import { useCollections } from '../hooks/useCollections';
 
-vi.mock('../../utils/hooks/collections', () => ({
+vi.mock('../hooks/useCollections', () => ({
 	useCollections: vi.fn(),
 }));
 
@@ -32,8 +32,8 @@ describe('Component', () => {
 
 	it('renders the CollectionsHome component when isLoading is false', () => {
 		const mockCollections = [
-			{ id: 1, label: 'Collection 1' },
-			{ id: 2, label: 'Collection 2' },
+			{ id: 1, label: { value: 'Collection 1', lang: 'fr' } },
+			{ id: 2, label: { value: 'Collection 2', lang: 'fr' } },
 		];
 
 		(useCollections as Mock).mockReturnValue({
@@ -44,6 +44,11 @@ describe('Component', () => {
 		render(<Component />);
 
 		const home = screen.getByTestId('collections-home');
-		expect(home.innerText).toContain(JSON.stringify(mockCollections));
+		expect(home.innerText).toContain(
+			JSON.stringify([
+				{ id: 1, label: 'Collection 1' },
+				{ id: 2, label: 'Collection 2' },
+			]),
+		);
 	});
 });

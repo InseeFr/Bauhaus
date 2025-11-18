@@ -1,11 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import { useNavigate, useParams } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { ConceptsApi } from '@sdk/index';
 import { CollectionApi } from '@sdk/new-collection-api';
 
-import { useCollections } from '../../../utils/hooks/collections';
+import { useCollections } from '../../hooks/useCollections';
 import { useTitle } from '@utils/hooks/useTitle';
 import { Component } from './edition-container';
 
@@ -28,7 +29,7 @@ vi.mock('@sdk/new-collection-api', () => ({
 	},
 }));
 
-vi.mock('../../../utils/hooks/collections', () => ({
+vi.mock('../../hooks/useCollections', () => ({
 	useCollections: vi.fn(),
 }));
 
@@ -47,8 +48,24 @@ vi.mock('./home', () => ({
 
 describe('Edition Container Component', () => {
 	const mockNavigate = vi.fn();
+	let queryClient;
+
+	const renderWithQueryClient = (component) => {
+		return render(
+			<QueryClientProvider client={queryClient}>
+				{component}
+			</QueryClientProvider>
+		);
+	};
 
 	beforeEach(() => {
+		queryClient = new QueryClient({
+			defaultOptions: {
+				queries: {
+					retry: false,
+				},
+			},
+		});
 		vi.clearAllMocks();
 		useNavigate.mockReturnValue(mockNavigate);
 		useParams.mockReturnValue({ id: '123' });
@@ -68,7 +85,7 @@ describe('Edition Container Component', () => {
 			new Promise(() => {}),
 		);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		screen.getByTestId('loading');
 	});
@@ -83,7 +100,7 @@ describe('Edition Container Component', () => {
 			new Promise(() => {}),
 		);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
 			screen.getByTestId('loading');
@@ -106,7 +123,7 @@ describe('Edition Container Component', () => {
 		);
 		ConceptsApi.getConceptList.mockResolvedValue(mockConceptList);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
 			screen.getByTestId('collection-edition-creation');
@@ -121,7 +138,7 @@ describe('Edition Container Component', () => {
 		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
 		ConceptsApi.getConceptList.mockResolvedValue([]);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		expect(useTitle).toHaveBeenCalled();
 	});
@@ -141,7 +158,7 @@ describe('Edition Container Component', () => {
 			new Promise(() => {}),
 		);
 
-		const { rerender } = render(<Component />);
+		const { rerender } = renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
 			screen.getByTestId('collection-edition-creation');
@@ -152,6 +169,10 @@ describe('Edition Container Component', () => {
 		// For this test, we verify the component structure is correct
 		expect(screen.queryByTestId('saving')).toBeNull();
 
-		rerender(<Component />);
+		rerender(
+			<QueryClientProvider client={queryClient}>
+				<Component />
+			</QueryClientProvider>
+		);
 	});
 });

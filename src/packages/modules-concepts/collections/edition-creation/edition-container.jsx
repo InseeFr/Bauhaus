@@ -11,32 +11,23 @@ import { cleanId } from '@utils/string-utils';
 import D from '../../../deprecated-locales';
 import buildPayload from '../utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
-import { useCollections } from '../../../utils/hooks/collections';
-import { CollectionApi } from '@sdk/new-collection-api';
+import { useCollections } from '../../hooks/useCollections';
+import { useCollection } from '../../hooks/useCollection';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const Component = () => {
 	const { id } = useParams();
+	const queryClient = useQueryClient();
+
 	const navigate = useNavigate();
 
-	const [loadingCollection, setLoadingCollection] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
-	const [collection, setCollection] = useState({});
 
+	const { data: collection, isLoading: loadingCollection } = useCollection(id);
 	const { data: collectionList } = useCollections();
 	const [conceptList, setConceptList] = useState([]);
-
-	useEffect(() => {
-		Promise.all([
-			CollectionApi.getCollectionById(id),
-			ConceptsApi.getCollectionMembersList(id),
-		])
-			.then(([general, members]) => {
-				setCollection({ general, members });
-			})
-			.finally(() => setLoadingCollection(false));
-	}, [id]);
 
 	useEffect(() => {
 		ConceptsApi.getConceptList()
@@ -51,6 +42,8 @@ export const Component = () => {
 			setSaving(true);
 			ConceptsApi.putCollection(data.general.id, buildPayload(data, 'UPDATE'))
 				.then(() => {
+					queryClient.invalidateQueries(['collection', id]);
+					queryClient.invalidateQueries(['collections']);
 					navigate(`/concepts/collections/${cleanId(id)}`);
 				})
 				.finally(() => setSaving(false));
@@ -58,7 +51,7 @@ export const Component = () => {
 		[navigate, id],
 	);
 
-	const { general, members } = collection;
+	const { general, members } = collection || {};
 	useTitle(D.collectionsTitle, general?.prefLabelLg1);
 
 	if (saving) {

@@ -1,10 +1,11 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import { useNavigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { ConceptsApi } from '@sdk/index';
 
-import { useCollections } from '../../../utils/hooks/collections';
+import { useCollections } from '../../hooks/useCollections';
 import { useTitle } from '@utils/hooks/useTitle';
 import { useAppContext } from '../../../application/app-context';
 import { Component } from './creation-container';
@@ -20,7 +21,7 @@ vi.mock('@sdk/index', () => ({
 	},
 }));
 
-vi.mock('../../../utils/hooks/collections', () => ({
+vi.mock('../../hooks/useCollections', () => ({
 	useCollections: vi.fn(),
 }));
 
@@ -40,8 +41,8 @@ vi.mock('../../collections/utils/empty-collection', () => ({
 }));
 
 vi.mock('@components/loading', () => ({
-	Loading: () => <div data-testid="loading">Loading...</div>,
-	Saving: () => <div data-testid="saving">Saving...</div>,
+	Loading: () => <div data-testid="collection-loading">Loading...</div>,
+	Saving: () => <div data-testid="collection-saving">Saving...</div>,
 }));
 
 vi.mock('./home', () => ({
@@ -50,8 +51,24 @@ vi.mock('./home', () => ({
 
 describe('Creation Container Component', () => {
 	const mockNavigate = vi.fn();
+	let queryClient;
+
+	const renderWithQueryClient = (component) => {
+		return render(
+			<QueryClientProvider client={queryClient}>
+				{component}
+			</QueryClientProvider>
+		);
+	};
 
 	beforeEach(() => {
+		queryClient = new QueryClient({
+			defaultOptions: {
+				queries: {
+					retry: false,
+				},
+			},
+		});
 		vi.clearAllMocks();
 		useNavigate.mockReturnValue(mockNavigate);
 		useCollections.mockReturnValue({
@@ -67,7 +84,7 @@ describe('Creation Container Component', () => {
 			new Promise(() => {}),
 		);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		screen.getByTestId('loading');
 	});
@@ -80,7 +97,7 @@ describe('Creation Container Component', () => {
 
 		ConceptsApi.getConceptList.mockResolvedValue(mockConceptList);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
 			screen.getByTestId('collection-edition-creation');
@@ -90,7 +107,7 @@ describe('Creation Container Component', () => {
 	it('calls useTitle with the correct title', () => {
 		ConceptsApi.getConceptList.mockResolvedValue([]);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		expect(useTitle).toHaveBeenCalled();
 	});
@@ -101,7 +118,7 @@ describe('Creation Container Component', () => {
 			new Promise(() => {}),
 		);
 
-		const { rerender } = render(<Component />);
+		const { rerender } = renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
 			screen.getByTestId('collection-edition-creation');
@@ -110,13 +127,17 @@ describe('Creation Container Component', () => {
 		// Verify the component structure is correct
 		expect(screen.queryByTestId('saving')).toBeNull();
 
-		rerender(<Component />);
+		rerender(
+			<QueryClientProvider client={queryClient}>
+				<Component />
+			</QueryClientProvider>
+		);
 	});
 
 	it('uses the default contributor from app context', () => {
 		ConceptsApi.getConceptList.mockResolvedValue([]);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		expect(useAppContext).toHaveBeenCalled();
 	});
@@ -124,7 +145,7 @@ describe('Creation Container Component', () => {
 	it('calls useCollections hook', () => {
 		ConceptsApi.getConceptList.mockResolvedValue([]);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		expect(useCollections).toHaveBeenCalled();
 	});

@@ -4,15 +4,16 @@ import { Mock, vi } from 'vitest';
 import { Picker } from '@components/picker-page';
 
 import D from '../../../deprecated-locales/build-dictionary';
-import {
-	useCollections,
-	useCollectionExporter,
-} from '../../../utils/hooks/collections';
+import { useCollectionExporter } from '../../../utils/hooks/collections';
 import { useTitle } from '../../../utils/hooks/useTitle';
 import { Component } from './home-container';
+import { useCollections } from '../../hooks/useCollections';
+
+vi.mock('../../hooks/useCollections', () => ({
+	useCollections: vi.fn(),
+}));
 
 vi.mock('@utils/hooks/collections', () => ({
-	useCollections: vi.fn(),
 	useCollectionExporter: vi.fn(),
 }));
 

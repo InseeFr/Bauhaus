@@ -45,7 +45,7 @@ export const Component = () => {
 					/>
 					<SearchableList
 						items={data}
-						childPath="ddi/physical-instances"
+						childPath={(data) => 'ddi/physical-instances/' + data.agency}
 						autoFocus
 						itemFormatter={(_content: any, item: any) => {
 							return `${item.label} (${formatDate(item.versionDate)})`;

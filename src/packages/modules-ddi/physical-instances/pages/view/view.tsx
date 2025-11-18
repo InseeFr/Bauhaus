@@ -22,7 +22,7 @@ import { Loading } from '../../../../components/loading';
 import { DDIApi } from '../../../../sdk';
 
 export const Component = () => {
-	const { id } = useParams<{ id: string }>();
+	const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
 	const { t } = useTranslation();
 	const toast = useRef<Toast>(null);
 	const [state, dispatch] = useReducer(viewReducer, initialState);
@@ -34,7 +34,7 @@ export const Component = () => {
 		isLoading,
 		isError,
 		error,
-	} = usePhysicalInstancesData(id!);
+	} = usePhysicalInstancesData(agencyId!, id!);
 	const updatePhysicalInstance = useUpdatePhysicalInstance();
 
 	useEffect(() => {

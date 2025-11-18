@@ -1,7 +1,7 @@
 import { Loading } from '@components/loading';
 
 import CollectionsHome from './home';
-import { useCollections } from '../../utils/hooks/collections';
+import { useCollections } from '../hooks/useCollections';
 
 export const Component = () => {
 	const { data: collections, isLoading } = useCollections();
@@ -9,5 +9,9 @@ export const Component = () => {
 	if (isLoading) {
 		return <Loading />;
 	}
-	return <CollectionsHome collections={collections} />;
+	return (
+		<CollectionsHome
+			collections={collections.map((c) => ({ id: c.id, label: c.label.value }))}
+		/>
+	);
 };

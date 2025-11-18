@@ -53,11 +53,11 @@ function getVariableType(variable: Variable): string {
 	return 'text';
 }
 
-export function usePhysicalInstancesData(id: string) {
+export function usePhysicalInstancesData(agencyId: string, id: string) {
 	const { i18n } = useTranslation();
 	const query = useQuery({
-		queryKey: ['physicalInstanceById', id],
-		queryFn: () => DDIApi.getPhysicalInstance(id),
+		queryKey: ['physicalInstanceById', agencyId, id],
+		queryFn: () => DDIApi.getPhysicalInstance(agencyId, id),
 	});
 
 	const variables: VariableTableData[] = query.data
