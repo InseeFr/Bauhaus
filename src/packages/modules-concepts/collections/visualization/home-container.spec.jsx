@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { ConceptsApi } from '@sdk/index';
 import { CollectionApi } from '@sdk/new-collection-api';
@@ -39,8 +40,8 @@ vi.mock('../../../redux/selectors', () => ({
 }));
 
 vi.mock('@components/loading', () => ({
-	Loading: () => <div data-testid="loading">Loading...</div>,
-	Publishing: () => <div data-testid="publishing">Publishing...</div>,
+	Loading: () => <div data-testid="collection-loading">Loading...</div>,
+	Publishing: () => <div data-testid="collection-publishing">Publishing...</div>,
 }));
 
 vi.mock('./home', () => ({
@@ -48,7 +49,24 @@ vi.mock('./home', () => ({
 }));
 
 describe('Visualization Container Component', () => {
+	let queryClient;
+
+	const renderWithQueryClient = (component) => {
+		return render(
+			<QueryClientProvider client={queryClient}>
+				{component}
+			</QueryClientProvider>
+		);
+	};
+
 	beforeEach(() => {
+		queryClient = new QueryClient({
+			defaultOptions: {
+				queries: {
+					retry: false,
+				},
+			},
+		});
 		vi.clearAllMocks();
 		useParams.mockReturnValue({ id: '123' });
 		useSelector.mockReturnValue({
@@ -66,9 +84,9 @@ describe('Visualization Container Component', () => {
 			new Promise(() => {}),
 		);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
-		screen.getByTestId('loading');
+		expect(screen.getByTestId('collection-loading')).toBeInTheDocument();
 	});
 
 	it('renders CollectionVisualization component after loading', async () => {
@@ -85,10 +103,10 @@ describe('Visualization Container Component', () => {
 			mockMembers,
 		);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
-			screen.getByTestId('collection-visualization');
+			expect(screen.getByTestId('collection-visualization')).toBeInTheDocument();
 		});
 	});
 
@@ -106,23 +124,27 @@ describe('Visualization Container Component', () => {
 			new Promise(() => {}),
 		);
 
-		const { rerender } = render(<Component />);
+		const { rerender } = renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
-			screen.getByTestId('collection-visualization');
+			expect(screen.getByTestId('collection-visualization')).toBeInTheDocument();
 		});
 
 		// Verify the component structure is correct
-		expect(screen.queryByTestId('publishing')).toBeNull();
+		expect(screen.queryByTestId('collection-publishing')).not.toBeInTheDocument();
 
-		rerender(<Component />);
+		rerender(
+			<QueryClientProvider client={queryClient}>
+				<Component />
+			</QueryClientProvider>
+		);
 	});
 
 	it('calls useParams to get collection id', () => {
 		CollectionApi.getCollectionById.mockResolvedValue({});
 		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		expect(useParams).toHaveBeenCalled();
 	});
@@ -131,7 +153,7 @@ describe('Visualization Container Component', () => {
 		CollectionApi.getCollectionById.mockResolvedValue({});
 		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		expect(useSelector).toHaveBeenCalled();
 	});
@@ -140,7 +162,7 @@ describe('Visualization Container Component', () => {
 		CollectionApi.getCollectionById.mockResolvedValue({});
 		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		expect(useSecondLang).toHaveBeenCalled();
 	});
@@ -159,7 +181,7 @@ describe('Visualization Container Component', () => {
 			mockMembers,
 		);
 
-		render(<Component />);
+		renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
 			expect(CollectionApi.getCollectionById).toHaveBeenCalledWith('123');

@@ -10,7 +10,7 @@ export const routes: RouteObject[] = [
 		lazy: () => import('../physical-instances/pages/home/home'),
 	},
 	{
-		path: 'physical-instances/:id',
+		path: 'physical-instances/:agencyId/:id',
 		lazy: () => import('../physical-instances/pages/view/view'),
 	},
 ];

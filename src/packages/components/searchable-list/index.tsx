@@ -70,13 +70,16 @@ export const SearchableList = ({
 
 	const hits = items.filter(filter(search));
 
-	const hitEls = hits.map((item: any) => (
-		<li key={item.id} className="list-group-item">
-			<Link to={`/${childPath}/${item.id}`}>
-				{itemFormatter(item[label], item)}
-			</Link>
-		</li>
-	));
+	const hitEls = hits.map((item: any) => {
+		const path = typeof childPath === 'function' ? childPath(item) : childPath;
+		return (
+			<li key={item.id} className="list-group-item">
+				<Link to={`/${path}/${item.id}`}>
+					{itemFormatter(item[label], item)}
+				</Link>
+			</li>
+		);
+	});
 
 	const colSize = col ? `col-md-${col}` : '';
 	const colOffset = colOff ? `col-md-offset-${colOff}` : '';

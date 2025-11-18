@@ -12,10 +12,13 @@ import D from '../../../deprecated-locales';
 import emptyCollection from '../../collections/utils/empty-collection';
 import buildPayload from '../utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
-import { useCollections } from '../../../utils/hooks/collections';
+import { useCollections } from '../../hooks/useCollections';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const Component = () => {
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
+
 	const {
 		properties: { defaultContributor },
 	} = useAppContext();
@@ -41,6 +44,7 @@ export const Component = () => {
 			setSaving(true);
 			ConceptsApi.postCollection(buildPayload(data, 'CREATE'))
 				.then((id) => {
+					queryClient.invalidateQueries(['collections']);
 					navigate(`/concepts/collections/${id}`);
 				})
 				.finally(() => setSaving(false));

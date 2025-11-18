@@ -3,14 +3,12 @@ import { useState } from 'react';
 import { Exporting, Loading } from '@components/loading';
 import { Picker } from '@components/picker-page';
 
-import {
-	useCollectionExporter,
-	useCollections,
-} from '@utils/hooks/collections';
+import { useCollectionExporter } from '@utils/hooks/collections';
 import { useTitle } from '@utils/hooks/useTitle';
 
 import D from '../../../deprecated-locales/build-dictionary';
 import ExportButtons from '../export-buttons';
+import { useCollections } from '../../hooks/useCollections';
 
 export const Component = () => {
 	useTitle(D.collectionsTitle, D.exportTitle);
