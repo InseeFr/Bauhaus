@@ -1,11 +1,13 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
 	base: 'Bauhaus',
 	trailingSlash: 'always',
 	integrations: [
+		mermaid(),
 		starlight({
 			title: 'Bauhaus',
 
@@ -23,9 +25,18 @@ export default defineConfig({
 					label: 'Developer Guide',
 					items: [
 						// Each item here is one entry in the navigation menu.
+
 						{
 							label: 'Getting Started',
 							link: import.meta.env.BASE_URL + 'guides/getting-started/',
+						},
+						{
+							label: 'Architecture',
+							link: import.meta.env.BASE_URL + 'guides/architecture/',
+						},
+						{
+							label: 'Colectica Integration',
+							link: import.meta.env.BASE_URL + 'guides/colectica/',
 						},
 						{
 							label: 'Conventional Commits',

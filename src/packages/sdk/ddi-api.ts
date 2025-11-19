@@ -23,7 +23,7 @@ const api = {
 		id: string,
 		data: { physicalInstanceLabel: string; dataRelationshipName: string },
 	) => [
-		'physical-instance/' + agencyId + '/' + id,
+		'physical-instancefake/' + agencyId + '/' + id,
 		{
 			method: 'PATCH',
 			headers: {
