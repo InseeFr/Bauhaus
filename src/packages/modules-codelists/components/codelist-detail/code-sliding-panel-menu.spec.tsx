@@ -1,13 +1,27 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { useSelector } from 'react-redux';
 import { Mock, vi } from 'vitest';
 
 import { CodesList } from '@model/CodesList';
 
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
+import { usePrivileges } from '@utils/hooks/users';
 import { CodeSlidingPanelMenu } from './code-sliding-panel-menu';
 
-vi.mock('../../../redux/hooks/usePermission');
+vi.mock('react-redux', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('react-redux')>();
+	return {
+		...actual,
+		useSelector: vi.fn(),
+	};
+});
+
+vi.mock('@utils/hooks/users', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('@utils/hooks/users')>();
+	return {
+		...actual,
+		usePrivileges: vi.fn(),
+	};
+});
 
 describe('CodeSlidingPanelMenu', () => {
 	const mockHandleSubmit = vi.fn();
@@ -19,7 +33,9 @@ describe('CodeSlidingPanelMenu', () => {
 	});
 
 	it('renders the ReturnButton', () => {
-		(usePermission as Mock).mockReturnValue({ roles: [], stamp: '' });
+		(usePrivileges as Mock).mockReturnValue({ privileges: [] });
+		(useSelector as Mock).mockReturnValue({ stamp: '' });
+
 		render(
 			<CodeSlidingPanelMenu
 				codelist={codelist as unknown as CodesList}
@@ -33,8 +49,15 @@ describe('CodeSlidingPanelMenu', () => {
 	});
 
 	it('renders the UpdateButton when not in creation mode and has permission', () => {
-		(usePermission as Mock).mockReturnValue({
-			roles: [CODELIST_CONTRIBUTOR],
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [{ privilege: 'UPDATE', strategy: 'STAMP' }],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({
 			stamp: 'test-contributor',
 		});
 
@@ -51,8 +74,15 @@ describe('CodeSlidingPanelMenu', () => {
 	});
 
 	it('renders the SaveButton when in creation mode and has permission', () => {
-		(usePermission as Mock).mockReturnValue({
-			roles: [CODELIST_CONTRIBUTOR],
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [{ privilege: 'CREATE', strategy: 'STAMP' }],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({
 			stamp: 'test-contributor',
 		});
 
@@ -69,8 +99,15 @@ describe('CodeSlidingPanelMenu', () => {
 	});
 
 	it('does not render UpdateButton or SaveButton when user lacks permissions', () => {
-		(usePermission as Mock).mockReturnValue({
-			roles: [],
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [{ privilege: 'UPDATE', strategy: 'STAMP' }],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({
 			stamp: 'other-contributor',
 		});
 
@@ -84,21 +121,22 @@ describe('CodeSlidingPanelMenu', () => {
 		);
 
 		expect(screen.queryByRole('button', { name: /update/i })).toBeNull();
-
-		render(
-			<CodeSlidingPanelMenu
-				codelist={codelist as unknown as CodesList}
-				handleSubmit={mockHandleSubmit}
-				handleBack={mockHandleBack}
-				creation={false}
-			/>,
-		);
-
 		expect(screen.queryByRole('button', { name: /save/i })).toBeNull();
 	});
 
 	it('renders the UpdateButton and SaveButton for admin users', () => {
-		(usePermission as Mock).mockReturnValue({ roles: [ADMIN], stamp: '' });
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [
+						{ privilege: 'UPDATE', strategy: 'ALL' },
+						{ privilege: 'CREATE', strategy: 'ALL' },
+					],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({ stamp: '' });
 
 		render(
 			<CodeSlidingPanelMenu
@@ -124,7 +162,15 @@ describe('CodeSlidingPanelMenu', () => {
 	});
 
 	it('triggers the appropriate actions on button clicks', () => {
-		(usePermission as Mock).mockReturnValue({ roles: [ADMIN], stamp: '' });
+		(usePrivileges as Mock).mockReturnValue({
+			privileges: [
+				{
+					application: 'CODESLIST_CODESLIST',
+					privileges: [{ privilege: 'UPDATE', strategy: 'ALL' }],
+				},
+			],
+		});
+		(useSelector as Mock).mockReturnValue({ stamp: '' });
 
 		render(
 			<CodeSlidingPanelMenu

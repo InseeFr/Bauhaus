@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import { AdvancedSearchList } from '@components/advanced-search/home';
-import { CreatorsInput } from '@components/creators-input';
+import { CreatorsInput } from '@components/business/creators-input';
 import { DatePicker } from '@components/date-picker';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import { TextInput } from '@components/form/input';
@@ -212,7 +212,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
 						onChange={(value: string) =>
 							handleChange('wasGeneratedIRIs', value)
 						}
-						optionRenderer={(v: any) => {
+						itemTemplate={(v: any) => {
 							if (!v.value.includes('/serie/')) {
 								return <span className="padding">{v.label}</span>;
 							}

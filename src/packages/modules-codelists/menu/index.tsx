@@ -4,18 +4,21 @@ import { MainMenu } from '@components/menu';
 
 import { UIMenuItem } from '@model/Menu';
 
-import { ADMIN } from '../../auth/roles';
-import { usePermission } from '../../redux/hooks/usePermission';
+import { useAuthorizationGuard } from '../../auth/components/auth';
 import D from '../i18n/build-dictionary';
 
 const defaultAttrs = { 'aria-current': 'page' };
 
 const MenuCodelists = () => {
 	const location = useLocation();
-	const permission = usePermission();
 
 	const activePath = location.pathname;
 	if (activePath === '/') return null;
+
+	const canAccessAdministration = useAuthorizationGuard({
+		module: 'CODESLIST_CODESLIST',
+		privilege: 'READ',
+	});
 
 	const paths: UIMenuItem[] = [
 		{
@@ -28,7 +31,7 @@ const MenuCodelists = () => {
 		},
 	];
 
-	if (permission.roles.includes(ADMIN)) {
+	if (canAccessAdministration) {
 		paths.unshift({
 			path: '/codelists/partial',
 			pathKey: 'partial',

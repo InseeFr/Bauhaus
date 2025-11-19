@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import { AdvancedSearchList } from '@components/advanced-search/home';
-import { CreatorsInput } from '@components/creators-input';
+import { CreatorsInput } from '@components/business/creators-input';
 import { TextInput } from '@components/form/input';
 import { Column } from '@components/layout';
 import { Loading } from '@components/loading';

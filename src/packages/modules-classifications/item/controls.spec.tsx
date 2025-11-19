@@ -14,7 +14,7 @@ describe('classification-item-controls', () => {
 
 		const { default: Controls } = await import('./controls');
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<Controls classificationId="nafr2" itemId="A" version={1} />
 			</RBACMock>,
 		);

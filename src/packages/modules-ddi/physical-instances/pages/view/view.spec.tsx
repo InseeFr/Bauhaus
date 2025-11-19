@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 
 const mockUsePhysicalInstancesData = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
+const mockConvertToDDI3 = vi.fn().mockResolvedValue('<ddi3-xml-content></ddi3-xml-content>');
 
 vi.mock('react-i18next', () => ({
 	useTranslation: () => ({
@@ -25,6 +26,18 @@ vi.mock('../../../hooks/usePhysicalInstance', () => ({
 vi.mock('../../../hooks/useUpdatePhysicalInstance', () => ({
 	useUpdatePhysicalInstance: () => mockUpdatePhysicalInstance(),
 }));
+
+// Mock fetch globally to intercept API calls
+global.fetch = vi.fn((url) => {
+	if (typeof url === 'string' && url.includes('/convert/ddi4-to-ddi3')) {
+		return Promise.resolve({
+			ok: true,
+			text: () => mockConvertToDDI3(),
+			json: () => mockConvertToDDI3(),
+		} as Response);
+	}
+	return Promise.reject(new Error(`Unexpected fetch call to ${url}`));
+}) as any;
 
 vi.mock('primereact/progressspinner', () => ({
 	ProgressSpinner: () => <div data-testid="progress-spinner">Loading...</div>,
@@ -64,14 +77,24 @@ vi.mock('primereact/dialog', () => ({
 		) : null,
 }));
 
-// Mock navigator.clipboard
-Object.defineProperty(navigator, 'clipboard', {
-	value: {
-		writeText: vi.fn(() => Promise.resolve()),
-	},
-	writable: true,
-	configurable: true,
-});
+// Mock for file download
+const mockCreateObjectURL = vi.fn();
+const mockRevokeObjectURL = vi.fn();
+const mockClick = vi.fn();
+
+global.URL.createObjectURL = mockCreateObjectURL;
+global.URL.revokeObjectURL = mockRevokeObjectURL;
+
+// Mock document.createElement to track link creation
+const originalCreateElement = document.createElement.bind(document);
+document.createElement = vi.fn((tagName: string) => {
+	const element = originalCreateElement(tagName);
+	if (tagName === 'a') {
+		element.click = mockClick;
+	}
+	return element;
+}) as any;
+
 
 describe('View Component', () => {
 	let queryClient: QueryClient;
@@ -89,9 +112,15 @@ describe('View Component', () => {
 			},
 		});
 		vi.clearAllMocks();
+		mockConvertToDDI3.mockResolvedValue('<ddi3-xml-content></ddi3-xml-content>');
 
 		// Default mock implementation
 		mockUsePhysicalInstancesData.mockReturnValue({
+			data: {
+				PhysicalInstance: [{ Citation: { Title: { String: { '#text': 'Test Physical Instance' } } } }],
+				DataRelationship: [{ DataRelationshipName: { String: { '#text': 'Test Data Relationship' } } }],
+				Variable: [],
+			},
 			variables: [
 				{
 					id: '1',
@@ -412,76 +441,172 @@ describe('View Component', () => {
 	});
 
 	describe('Export functionality', () => {
-		it('should export data to clipboard when export button is clicked', async () => {
+		beforeEach(() => {
+			mockCreateObjectURL.mockReturnValue('blob:mock-url');
+			mockClick.mockClear();
+			mockCreateObjectURL.mockClear();
+			mockRevokeObjectURL.mockClear();
+		});
+
+		it('should download DDI3 file when export button is clicked (default DDI3)', async () => {
+			let capturedLink: HTMLAnchorElement | null = null;
+
+			// Capture the link before it's removed
+			const originalAppendChild = document.body.appendChild;
+			document.body.appendChild = vi.fn((node) => {
+				if (node instanceof HTMLAnchorElement && node.download) {
+					capturedLink = node;
+				}
+				return originalAppendChild.call(document.body, node);
+			}) as any;
+
 			render(<Component />, { wrapper });
 
-			const exportButton = screen.getByLabelText(
+			// SplitButton creates multiple elements with the same aria-label, get the first button
+			const exportButtons = screen.getAllByLabelText(
 				'physicalInstance.view.export',
 			);
-			fireEvent.click(exportButton);
+			const exportButton = exportButtons.find(el => el.tagName === 'BUTTON');
+			fireEvent.click(exportButton!);
 
 			await waitFor(() => {
-				expect(navigator.clipboard.writeText).toHaveBeenCalled();
+				expect(global.fetch).toHaveBeenCalled();
+			});
+
+			await waitFor(() => {
+				expect(mockCreateObjectURL).toHaveBeenCalled();
+				expect(mockClick).toHaveBeenCalled();
+				expect(mockRevokeObjectURL).toHaveBeenCalled();
+			});
+
+			// Check that the link has the correct download attribute
+			expect(capturedLink?.download).toBe('test_physical_instance-ddi3.json');
+
+			// Restore original appendChild
+			document.body.appendChild = originalAppendChild;
+		});
+
+		it('should download DDI4 file when DDI4 option is selected', async () => {
+			render(<Component />, { wrapper });
+
+			// The export button is a SplitButton, get the first button
+			const exportButtons = screen.getAllByLabelText(
+				'physicalInstance.view.export',
+			);
+			const exportButton = exportButtons.find(el => el.tagName === 'BUTTON');
+
+			// Click the button (which defaults to DDI3)
+			fireEvent.click(exportButton!);
+
+			await waitFor(() => {
+				expect(mockCreateObjectURL).toHaveBeenCalled();
+				expect(mockClick).toHaveBeenCalled();
 			});
 		});
 
-		it('should handle export error when clipboard is not available', async () => {
-			const originalClipboard = navigator.clipboard;
-			Object.defineProperty(navigator, 'clipboard', {
-				value: undefined,
-				writable: true,
-				configurable: true,
-			});
+		it('should sanitize title for filename', async () => {
+			let capturedLink: HTMLAnchorElement | null = null;
 
-			render(<Component />, { wrapper });
+			// Capture the link before it's removed
+			const originalAppendChild = document.body.appendChild;
+			document.body.appendChild = vi.fn((node) => {
+				if (node instanceof HTMLAnchorElement && node.download) {
+					capturedLink = node;
+				}
+				return originalAppendChild.call(document.body, node);
+			}) as any;
 
-			const exportButton = screen.getByLabelText(
-				'physicalInstance.view.export',
-			);
-			fireEvent.click(exportButton);
-
-			await waitFor(() => {
-				// Should not throw error
-				expect(navigator.clipboard).toBeUndefined();
-			});
-
-			// Restore clipboard
-			Object.defineProperty(navigator, 'clipboard', {
-				value: originalClipboard,
-				writable: true,
-				configurable: true,
-			});
-		});
-
-		it('should handle export error when writeText fails', async () => {
-			const originalClipboard = navigator.clipboard;
-			const writeTextSpy = vi.fn(() =>
-				Promise.reject(new Error('Write failed')),
-			);
-			Object.defineProperty(navigator, 'clipboard', {
-				value: {
-					writeText: writeTextSpy,
+			mockUsePhysicalInstancesData.mockReturnValue({
+				data: {
+					PhysicalInstance: [{ Citation: { Title: { String: { '#text': 'Test Physical Instance' } } } }],
+					DataRelationship: [{ DataRelationshipName: { String: { '#text': 'Test Data Relationship' } } }],
+					Variable: [],
 				},
-				writable: true,
-				configurable: true,
+				variables: [],
+				title: 'Test @ Physical # Instance!',
+				dataRelationshipName: 'Test Data Relationship',
+				isLoading: false,
+				isError: false,
 			});
 
 			render(<Component />, { wrapper });
 
-			const exportButton = screen.getByLabelText(
+			const exportButtons = screen.getAllByLabelText(
 				'physicalInstance.view.export',
 			);
-			fireEvent.click(exportButton);
+			const exportButton = exportButtons.find(el => el.tagName === 'BUTTON');
+			fireEvent.click(exportButton!);
 
 			await waitFor(() => {
-				expect(writeTextSpy).toHaveBeenCalled();
+				expect(mockClick).toHaveBeenCalled();
 			});
 
-			// Restore clipboard
-			Object.defineProperty(navigator, 'clipboard', {
-				value: originalClipboard,
-				writable: true,
-				configurable: true,
+			expect(capturedLink?.download).toBe('test___physical___instance_-ddi3.json');
+
+			// Restore original appendChild
+			document.body.appendChild = originalAppendChild;
+		});
+
+		it('should call DDIApi.convertToDDI3 with correct data', async () => {
+			const mockData = {
+				PhysicalInstance: [{ Citation: { Title: { String: { '#text': 'Test Physical Instance' } } } }],
+				DataRelationship: [{ DataRelationshipName: { String: { '#text': 'Test Data Relationship' } } }],
+				Variable: [],
+			};
+
+			mockUsePhysicalInstancesData.mockReturnValue({
+				data: mockData,
+				variables: [],
+				title: 'Test Physical Instance',
+				dataRelationshipName: 'Test Data Relationship',
+				isLoading: false,
+				isError: false,
+			});
+
+			render(<Component />, { wrapper });
+
+			const exportButtons = screen.getAllByLabelText(
+				'physicalInstance.view.export',
+			);
+			const exportButton = exportButtons.find(el => el.tagName === 'BUTTON');
+			fireEvent.click(exportButton!);
+
+			await waitFor(() => {
+				expect(global.fetch).toHaveBeenCalledWith(
+					expect.stringContaining('/convert/ddi4-to-ddi3'),
+					expect.objectContaining({
+						method: 'POST',
+						body: JSON.stringify(mockData),
+					})
+				);
+			});
+		});
+
+		it('should handle export error gracefully', async () => {
+			// Make fetch return an error response instead of rejecting
+			(global.fetch as any).mockImplementationOnce(() =>
+				Promise.resolve({
+					ok: false,
+					status: 500,
+					text: () => Promise.resolve('Internal Server Error'),
+				} as Response)
+			);
+
+			render(<Component />, { wrapper });
+
+			const exportButtons = screen.getAllByLabelText(
+				'physicalInstance.view.export',
+			);
+			const exportButton = exportButtons.find(el => el.tagName === 'BUTTON');
+			fireEvent.click(exportButton!);
+
+			await waitFor(() => {
+				expect(global.fetch).toHaveBeenCalled();
+			});
+
+			// Should not create download link on error
+			await waitFor(() => {
+				expect(mockClick).not.toHaveBeenCalled();
 			});
 		});
 	});

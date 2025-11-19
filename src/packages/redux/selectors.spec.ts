@@ -8,7 +8,6 @@ describe('getPermission', () => {
 				auth: {
 					type: 'authType',
 					user: {
-						roles: 'roles',
 						stamp: 'stamp',
 					},
 				},
@@ -17,7 +16,6 @@ describe('getPermission', () => {
 
 		const output = {
 			authType: 'authType',
-			roles: 'roles',
 			stamp: 'stamp',
 		};
 		expect(selector.getPermission(input as unknown as ReduxModel)).toEqual(

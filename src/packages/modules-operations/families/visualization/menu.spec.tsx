@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 
-import { ADMIN } from '../../../auth/roles';
 import { Family } from '../../../model/operations/family';
 import { RBACMock } from '../../../tests/rbac';
 import { mockReactQueryForRbac } from '../../../tests/render';
@@ -24,7 +23,7 @@ describe('Family Home Page Menu', () => {
 		const { Menu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<Menu family={{} as Family} publish={vi.fn()} />
 			</RBACMock>,
 		);
@@ -45,7 +44,7 @@ describe('Family Home Page Menu', () => {
 		const { Menu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<Menu family={{} as Family} publish={vi.fn()} />
 			</RBACMock>,
 		);

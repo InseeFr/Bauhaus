@@ -7,8 +7,7 @@ import {
 
 import { CodesList } from '@model/CodesList';
 
-import { ADMIN, CODELIST_CONTRIBUTOR } from '../../../auth/roles';
-import { usePermission } from '../../../redux/hooks/usePermission';
+import { HasAccess } from '../../../auth/components/auth';
 
 interface CodeSlidingPanelMenuTypes {
 	codelist: CodesList;
@@ -22,22 +21,33 @@ export const CodeSlidingPanelMenu = ({
 	handleBack,
 	creation,
 }: Readonly<CodeSlidingPanelMenuTypes>) => {
-	const permission = usePermission();
-
-	const hasRightsBasedOnStamp =
-		permission?.stamp === codelist?.contributor &&
-		permission?.roles?.includes(CODELIST_CONTRIBUTOR);
-	const isAdmin = permission?.roles?.includes(ADMIN);
-
 	return (
 		<ActionToolbar>
 			<ReturnButton action={handleBack} />
-			{(isAdmin || hasRightsBasedOnStamp) && (
-				<>
-					{!creation && <UpdateButton action={handleSubmit} />}
-					{creation && <SaveButton action={handleSubmit} />}
-				</>
-			)}
+			<>
+				{!creation && (
+					<>
+						<HasAccess
+							module="CODESLIST_CODESLIST"
+							privilege="UPDATE"
+							stamps={[codelist?.contributor]}
+						>
+							<UpdateButton action={handleSubmit} />
+						</HasAccess>
+					</>
+				)}
+				{creation && (
+					<>
+						<HasAccess
+							module="CODESLIST_CODESLIST"
+							privilege="CREATE"
+							stamps={[codelist?.contributor]}
+						>
+							<SaveButton action={handleSubmit} />
+						</HasAccess>
+					</>
+				)}
+			</>
 		</ActionToolbar>
 	);
 };

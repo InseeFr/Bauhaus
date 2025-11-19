@@ -160,7 +160,7 @@ const GlobalInformationTab = ({
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsDataProvider}
 						<Select
-							multi={true}
+							multi
 							value={editingDataset.creators}
 							options={organisationsOptions}
 							onChange={(values) => {
@@ -195,7 +195,7 @@ const GlobalInformationTab = ({
 					<label className="w-100 wilco-label-required">
 						{D1.theme}
 						<Select
-							multi={true}
+							multi
 							value={editingDataset.themes}
 							options={themesOptions}
 							onChange={(values) => {

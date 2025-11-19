@@ -88,15 +88,7 @@ const SimsGeographyPicker = ({
 			<div className="bauhaus-sims-geography-picker">
 				<div className="form-group">
 					<Select
-						value={
-							secondLang
-								? geographiesOptionsLg2.find(
-										({ value: gValue }) => gValue === value,
-									)
-								: geographiesOptions.find(
-										({ value: gValue }) => gValue === value,
-									)
-						}
+						value={value}
 						filterOption={(option, searchValue) => {
 							const search = removeAccents(searchValue.toLowerCase());
 							const label = removeAccents(option?.label.toLowerCase());

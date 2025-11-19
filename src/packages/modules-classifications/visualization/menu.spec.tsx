@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 
 import { Classification } from '@model/Classification';
 
-import { ADMIN } from '../../auth/roles';
 import { RBACMock } from '../../tests/rbac';
 import { mockReactQueryForRbac } from '../../tests/render';
 
@@ -25,7 +24,7 @@ describe('classification-visualization-controls', () => {
 		const { default: Menu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<Menu classification={classification} publish={vi.fn()} />
 			</RBACMock>,
 		);
@@ -34,7 +33,7 @@ describe('classification-visualization-controls', () => {
 		await screen.findByText('View tree');
 	});
 
-	it('should not contains the Validate button if we are not an ADMIN', async () => {
+	it('should not contains the Validate button', async () => {
 		mockReactQueryForRbac([
 			{
 				application: 'CLASSIFICATION_CLASSIFICATION',
@@ -45,7 +44,7 @@ describe('classification-visualization-controls', () => {
 		const { default: Menu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[]}>
+			<RBACMock>
 				<Menu classification={classification} publish={vi.fn()} />
 			</RBACMock>,
 		);
@@ -56,7 +55,7 @@ describe('classification-visualization-controls', () => {
 		expect(updateLink).toBeNull();
 	});
 
-	it('should contains the Update link if we are an ADMIN', async () => {
+	it('should contains the Update link', async () => {
 		mockReactQueryForRbac([
 			{
 				application: 'CLASSIFICATION_CLASSIFICATION',
@@ -67,7 +66,7 @@ describe('classification-visualization-controls', () => {
 		const { default: Menu } = await import('./menu');
 
 		render(
-			<RBACMock roles={[ADMIN]}>
+			<RBACMock>
 				<Menu classification={classification} publish={vi.fn()} />
 			</RBACMock>,
 		);

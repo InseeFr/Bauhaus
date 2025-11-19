@@ -6,7 +6,7 @@ describe('collection-validation', () => {
 		renderWithRouter(
 			<CollectionValidation
 				collections={[]}
-				permission={{ authType: '', roles: [''] }}
+				permission={{ authType: '' }}
 				handleValidateCollectionList={vi.fn()}
 			/>,
 		);
