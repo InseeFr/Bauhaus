@@ -59,8 +59,7 @@
 				"addCodeTooltip": "Add this code",
 				"fillFieldsTooltip": "Fill at least one field to add a code",
 				"createNewList": "Create new list",
-				"reuseList": "Reuse",
-				"importList": "Import"
+				"reuseList": "Reuse"
 			},
 			"delete": "Delete",
 			"editModal": {

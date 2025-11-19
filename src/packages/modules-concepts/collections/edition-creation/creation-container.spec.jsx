@@ -86,7 +86,7 @@ describe('Creation Container Component', () => {
 
 		renderWithQueryClient(<Component />);
 
-		screen.getByTestId('loading');
+		expect(screen.getByTestId('collection-loading')).toBeInTheDocument();
 	});
 
 	it('renders CollectionEditionCreation component after loading', async () => {
@@ -100,7 +100,7 @@ describe('Creation Container Component', () => {
 		renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
-			screen.getByTestId('collection-edition-creation');
+			expect(screen.getByTestId('collection-edition-creation')).toBeInTheDocument();
 		});
 	});
 
@@ -121,11 +121,11 @@ describe('Creation Container Component', () => {
 		const { rerender } = renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
-			screen.getByTestId('collection-edition-creation');
+			expect(screen.getByTestId('collection-edition-creation')).toBeInTheDocument();
 		});
 
 		// Verify the component structure is correct
-		expect(screen.queryByTestId('saving')).toBeNull();
+		expect(screen.queryByTestId('collection-saving')).not.toBeInTheDocument();
 
 		rerender(
 			<QueryClientProvider client={queryClient}>

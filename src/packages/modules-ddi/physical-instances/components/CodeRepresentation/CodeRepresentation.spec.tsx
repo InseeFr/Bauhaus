@@ -21,7 +21,6 @@ vi.mock('react-i18next', () => ({
 					'Remplissez au moins un champ pour ajouter un code',
 				'physicalInstance.view.code.createNewList': 'Créer une nouvelle liste',
 				'physicalInstance.view.code.reuseList': 'Réutiliser',
-				'physicalInstance.view.code.importList': 'Importer',
 			};
 			return translations[key] || key;
 		},
@@ -224,10 +223,9 @@ describe('CodeRepresentation', () => {
 
 		expect(screen.getByText('Créer une nouvelle liste')).toBeInTheDocument();
 		expect(screen.getByText('Réutiliser')).toBeInTheDocument();
-		expect(screen.getByText('Importer')).toBeInTheDocument();
 	});
 
-	it('should display empty row with input fields', () => {
+	it('should display empty row with input fields after clicking create new list', () => {
 		render(
 			<CodeRepresentation
 				representation={mockRepresentation}
@@ -236,6 +234,10 @@ describe('CodeRepresentation', () => {
 				onChange={mockOnChange}
 			/>,
 		);
+
+		// Click on "Créer une nouvelle liste" button to show DataTable
+		const createButton = screen.getByText('Créer une nouvelle liste');
+		fireEvent.click(createButton);
 
 		const inputs = screen.getAllByPlaceholderText(/Valeur|Libellé/);
 		expect(inputs.length).toBeGreaterThan(0);
@@ -250,6 +252,10 @@ describe('CodeRepresentation', () => {
 				onChange={mockOnChange}
 			/>,
 		);
+
+		// Click on "Créer une nouvelle liste" button to show DataTable
+		const createButton = screen.getByText('Créer une nouvelle liste');
+		fireEvent.click(createButton);
 
 		const addButtons = screen.getAllByRole('button');
 		const addButton = addButtons.find(

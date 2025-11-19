@@ -5,11 +5,25 @@ const api = {
 	getPhysicalInstance: (agencyId: string, id: string) => [
 		'physical-instance/' + agencyId + '/' + id,
 	],
+	postPhysicalInstance: (data: {
+		physicalInstanceLabel: string;
+		dataRelationshipName: string;
+	}) => [
+		'physical-instancefake',
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		},
+	],
 	patchPhysicalInstance: (
+		agencyId: string,
 		id: string,
 		data: { physicalInstanceLabel: string; dataRelationshipName: string },
 	) => [
-		'physical-instance/' + id,
+		'physical-instance/' + agencyId + '/' + id,
 		{
 			method: 'PATCH',
 			headers: {

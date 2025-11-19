@@ -7,7 +7,6 @@ vi.mock('react-i18next', () => ({
 		t: (key: string) => {
 			const translations: Record<string, string> = {
 				'physicalInstance.view.globalActions': 'Actions Globales',
-				'physicalInstance.view.import': 'Importer',
 				'physicalInstance.view.export': 'Exporter',
 				'physicalInstance.view.bulkEdit': 'Édition en masse',
 				'physicalInstance.view.publish': 'Publier',
@@ -91,7 +90,6 @@ vi.mock('primereact/column', () => ({
 }));
 
 describe('GlobalActionsCard', () => {
-	const mockOnImport = vi.fn();
 	const mockOnExport = vi.fn();
 
 	const mockVariables = [
@@ -113,7 +111,6 @@ describe('GlobalActionsCard', () => {
 
 	const defaultProps = {
 		variables: mockVariables,
-		onImport: mockOnImport,
 		onExport: mockOnExport,
 	};
 
@@ -130,19 +127,9 @@ describe('GlobalActionsCard', () => {
 	it('should render all action buttons', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
-		expect(screen.getByText('Importer')).toBeInTheDocument();
 		expect(screen.getByText('Exporter')).toBeInTheDocument();
 		expect(screen.getByText('Édition en masse')).toBeInTheDocument();
 		expect(screen.getByText('Publier')).toBeInTheDocument();
-	});
-
-	it('should call onImport when import button is clicked', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
-
-		const importButton = screen.getByText('Importer');
-		fireEvent.click(importButton);
-
-		expect(mockOnImport).toHaveBeenCalledTimes(1);
 	});
 
 	it('should call onExport with DDI3 when export button is clicked', () => {
@@ -212,7 +199,6 @@ describe('GlobalActionsCard', () => {
 	it('should have correct aria-labels for accessibility', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
-		expect(screen.getByLabelText('Importer')).toBeInTheDocument();
 		// SplitButton creates multiple elements with the same aria-label
 		const exportElements = screen.getAllByLabelText('Exporter');
 		expect(exportElements.length).toBeGreaterThan(0);

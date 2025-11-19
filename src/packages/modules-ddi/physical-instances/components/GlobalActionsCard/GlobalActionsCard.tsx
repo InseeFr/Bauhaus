@@ -8,14 +8,12 @@ import type { MenuItem } from 'primereact/menuitem';
 
 interface GlobalActionsCardProps {
 	variables: any[];
-	onImport: () => void;
 	onExport: (format: 'DDI3' | 'DDI4') => void;
 	onRowClick?: (data: any) => void;
 }
 
 export const GlobalActionsCard = ({
 	variables,
-	onImport,
 	onExport,
 	onRowClick,
 }: Readonly<GlobalActionsCardProps>) => {
@@ -37,14 +35,6 @@ export const GlobalActionsCard = ({
 	return (
 		<Card title={t('physicalInstance.view.globalActions')}>
 			<div className="flex gap-2 flex-wrap mb-4">
-				<Button
-					icon="pi pi-upload"
-					label={t('physicalInstance.view.import')}
-					severity="secondary"
-					style={{ background: 'transparent' }}
-					aria-label={t('physicalInstance.view.import')}
-					onClick={onImport}
-				/>
 				<SplitButton
 					icon="pi pi-download"
 					label={t('physicalInstance.view.export')}
