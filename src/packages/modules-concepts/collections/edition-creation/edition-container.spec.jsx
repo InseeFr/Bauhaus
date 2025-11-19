@@ -38,8 +38,8 @@ vi.mock('@utils/hooks/useTitle', () => ({
 }));
 
 vi.mock('@components/loading', () => ({
-	Loading: () => <div data-testid="loading">Loading...</div>,
-	Saving: () => <div data-testid="saving">Saving...</div>,
+	Loading: () => <div data-testid="collection-loading">Loading...</div>,
+	Saving: () => <div data-testid="collection-saving">Saving...</div>,
 }));
 
 vi.mock('./home', () => ({
@@ -87,7 +87,7 @@ describe('Edition Container Component', () => {
 
 		renderWithQueryClient(<Component />);
 
-		screen.getByTestId('loading');
+		expect(screen.getByTestId('collection-loading')).toBeInTheDocument();
 	});
 
 	it('renders Loading component while loading concept list', async () => {
@@ -103,7 +103,7 @@ describe('Edition Container Component', () => {
 		renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
-			screen.getByTestId('loading');
+			expect(screen.getByTestId('collection-loading')).toBeInTheDocument();
 		});
 	});
 
@@ -126,7 +126,7 @@ describe('Edition Container Component', () => {
 		renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
-			screen.getByTestId('collection-edition-creation');
+			expect(screen.getByTestId('collection-edition-creation')).toBeInTheDocument();
 		});
 	});
 
@@ -161,13 +161,13 @@ describe('Edition Container Component', () => {
 		const { rerender } = renderWithQueryClient(<Component />);
 
 		await waitFor(() => {
-			screen.getByTestId('collection-edition-creation');
+			expect(screen.getByTestId('collection-edition-creation')).toBeInTheDocument();
 		});
 
 		// Trigger save by testing the Saving state through props
 		// In a real scenario, you would trigger handleUpdate
 		// For this test, we verify the component structure is correct
-		expect(screen.queryByTestId('saving')).toBeNull();
+		expect(screen.queryByTestId('collection-saving')).not.toBeInTheDocument();
 
 		rerender(
 			<QueryClientProvider client={queryClient}>

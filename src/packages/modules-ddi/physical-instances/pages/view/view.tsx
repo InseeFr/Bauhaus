@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { Toast } from 'primereact/toast';
 import { Message } from 'primereact/message';
 import { EditModal } from '../../components/EditModal/EditModal';
-import { ImportModal } from '../../components/ImportModal/ImportModal';
 import { SearchFilters } from '../../components/SearchFilters/SearchFilters';
 import { GlobalActionsCard } from '../../components/GlobalActionsCard/GlobalActionsCard';
 import { VariableEditForm } from '../../components/VariableEditForm/VariableEditForm';
@@ -174,14 +173,6 @@ export const Component = () => {
 		dispatch(actions.setEditModalVisible(false));
 	}, []);
 
-	const handleOpenImportModal = useCallback(() => {
-		dispatch(actions.setImportModalVisible(true));
-	}, []);
-
-	const handleCloseImportModal = useCallback(() => {
-		dispatch(actions.setImportModalVisible(false));
-	}, []);
-
 	const handleFormDataChange = useCallback(
 		(data: { label: string; name: string }) => {
 			dispatch(actions.setFormData(data));
@@ -189,14 +180,11 @@ export const Component = () => {
 		[],
 	);
 
-	const handleImportDataChange = useCallback((data: string) => {
-		dispatch(actions.setImportData(data));
-	}, []);
-
 	const handleSave = useCallback(async () => {
 		try {
 			await updatePhysicalInstance.mutateAsync({
 				id: id!,
+				agencyId: agencyId!,
 				data: {
 					physicalInstanceLabel: state.formData.label,
 					dataRelationshipName: state.formData.name,
@@ -225,11 +213,6 @@ export const Component = () => {
 			});
 		}
 	}, [state.formData, id, t, updatePhysicalInstance]);
-
-	const handleImport = useCallback(() => {
-		dispatch(actions.setImportModalVisible(false));
-		dispatch(actions.setImportData(''));
-	}, []);
 
 	const handleVariableClick = useCallback((variable: VariableTableData) => {
 		dispatch(
@@ -307,7 +290,6 @@ export const Component = () => {
 
 				<GlobalActionsCard
 					variables={filteredVariables}
-					onImport={handleOpenImportModal}
 					onExport={handleExport}
 					onRowClick={handleVariableClick}
 				/>
@@ -328,14 +310,6 @@ export const Component = () => {
 				formData={state.formData}
 				onFormDataChange={handleFormDataChange}
 				onSave={handleSave}
-			/>
-
-			<ImportModal
-				visible={state.isImportModalVisible}
-				onHide={handleCloseImportModal}
-				importData={state.importData}
-				onImportDataChange={handleImportDataChange}
-				onImport={handleImport}
 			/>
 
 			<Toast ref={toast} />

@@ -323,57 +323,6 @@ describe('View Component', () => {
 		});
 	});
 
-	describe('Import modal', () => {
-		it('should open import modal when import button is clicked', () => {
-			render(<Component />, { wrapper });
-
-			const importButton = screen.getByLabelText(
-				'physicalInstance.view.import',
-			);
-			fireEvent.click(importButton);
-
-			expect(
-				screen.getByText('physicalInstance.view.importModal.title'),
-			).toBeInTheDocument();
-		});
-
-		it('should close import modal when cancel is clicked', async () => {
-			render(<Component />, { wrapper });
-
-			const importButton = screen.getByLabelText(
-				'physicalInstance.view.import',
-			);
-			fireEvent.click(importButton);
-
-			const cancelButton = screen.getByText(
-				'physicalInstance.view.importModal.cancel',
-			);
-			fireEvent.click(cancelButton);
-
-			await waitFor(() => {
-				expect(
-					screen.queryByText('physicalInstance.view.importModal.title'),
-				).not.toBeInTheDocument();
-			});
-		});
-
-		it('should update import data in import modal', () => {
-			render(<Component />, { wrapper });
-
-			const importButton = screen.getByLabelText(
-				'physicalInstance.view.import',
-			);
-			fireEvent.click(importButton);
-
-			const textarea = screen.getByPlaceholderText(
-				'physicalInstance.view.importModal.placeholder',
-			);
-			fireEvent.change(textarea, { target: { value: 'Import data' } });
-
-			expect((textarea as HTMLTextAreaElement).value).toBe('Import data');
-		});
-	});
-
 	describe('Filtering', () => {
 		it('should filter variables by search value', async () => {
 			render(<Component />, { wrapper });

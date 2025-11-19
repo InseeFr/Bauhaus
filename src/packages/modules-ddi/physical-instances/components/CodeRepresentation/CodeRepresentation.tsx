@@ -41,6 +41,7 @@ export const CodeRepresentation = ({
 		codeList?.Label?.Content?.['#text'] || '',
 	);
 	const [codes, setCodes] = useState<CodeTableRow[]>([]);
+	const [showDataTable, setShowDataTable] = useState(false);
 
 	useEffect(() => {
 		setCodeListLabel(codeList?.Label?.Content?.['#text'] || '');
@@ -410,7 +411,7 @@ export const CodeRepresentation = ({
 						icon="pi pi-plus"
 						label={t('physicalInstance.view.code.createNewList')}
 						outlined
-						onClick={() => {}}
+						onClick={() => setShowDataTable(true)}
 					/>
 					<Button
 						icon="pi pi-sync"
@@ -418,37 +419,33 @@ export const CodeRepresentation = ({
 						outlined
 						onClick={() => {}}
 					/>
-					<Button
-						icon="pi pi-upload"
-						label={t('physicalInstance.view.code.importList')}
-						outlined
-						onClick={() => {}}
-					/>
 				</div>
-				<DataTable value={[...codes, emptyRow]} size="small">
-					<Column
-						field="value"
-						header={t('physicalInstance.view.code.value')}
-						body={(rowData) =>
-							rowData.id === '' ? emptyRowValueTemplate() : valueEditor(rowData)
-						}
-					/>
-					<Column
-						field="label"
-						header={t('physicalInstance.view.code.label')}
-						body={(rowData) =>
-							rowData.id === '' ? emptyRowLabelTemplate() : labelEditor(rowData)
-						}
-					/>
-					<Column
-						body={(rowData) =>
-							rowData.id === ''
-								? emptyRowActionTemplate()
-								: actionBodyTemplate(rowData)
-						}
-						style={{ width: '5rem' }}
-					/>
-				</DataTable>
+				{showDataTable && (
+					<DataTable value={[...codes, emptyRow]} size="small">
+						<Column
+							field="value"
+							header={t('physicalInstance.view.code.value')}
+							body={(rowData) =>
+								rowData.id === '' ? emptyRowValueTemplate() : valueEditor(rowData)
+							}
+						/>
+						<Column
+							field="label"
+							header={t('physicalInstance.view.code.label')}
+							body={(rowData) =>
+								rowData.id === '' ? emptyRowLabelTemplate() : labelEditor(rowData)
+							}
+						/>
+						<Column
+							body={(rowData) =>
+								rowData.id === ''
+									? emptyRowActionTemplate()
+									: actionBodyTemplate(rowData)
+							}
+							style={{ width: '5rem' }}
+						/>
+					</DataTable>
+				)}
 			</div>
 		</>
 	);

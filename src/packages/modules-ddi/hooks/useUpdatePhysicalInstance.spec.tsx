@@ -42,6 +42,7 @@ describe('useUpdatePhysicalInstance', () => {
 
 		const testData = {
 			id: 'test-id',
+			agencyId: 'test-agency',
 			data: {
 				physicalInstanceLabel: 'Test Label',
 				dataRelationshipName: 'Test Name',
@@ -50,7 +51,7 @@ describe('useUpdatePhysicalInstance', () => {
 
 		await result.current.mutateAsync(testData);
 
-		expect(mockPatch).toHaveBeenCalledWith('test-id', {
+		expect(mockPatch).toHaveBeenCalledWith('test-agency', 'test-id', {
 			physicalInstanceLabel: 'Test Label',
 			dataRelationshipName: 'Test Name',
 		});
@@ -68,6 +69,7 @@ describe('useUpdatePhysicalInstance', () => {
 
 		const testData = {
 			id: 'test-id-123',
+			agencyId: 'test-agency-456',
 			data: {
 				physicalInstanceLabel: 'Test Label',
 				dataRelationshipName: 'Test Name',
@@ -78,7 +80,7 @@ describe('useUpdatePhysicalInstance', () => {
 
 		await waitFor(() => {
 			expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-				queryKey: ['physicalInstanceById', 'test-id-123'],
+				queryKey: ['physicalInstanceById', 'test-agency-456', 'test-id-123'],
 			});
 		});
 	});
@@ -94,6 +96,7 @@ describe('useUpdatePhysicalInstance', () => {
 
 		const testData = {
 			id: 'test-id',
+			agencyId: 'test-agency',
 			data: {
 				physicalInstanceLabel: 'Test Label',
 				dataRelationshipName: 'Test Name',
@@ -119,6 +122,7 @@ describe('useUpdatePhysicalInstance', () => {
 
 		const testData = {
 			id: 'test-id',
+			agencyId: 'test-agency',
 			data: {
 				physicalInstanceLabel: 'Test Label',
 				dataRelationshipName: 'Test Name',
