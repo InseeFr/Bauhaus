@@ -9,14 +9,12 @@ const transformCollection = (data, lg1 = 'fr') => {
 	const lg2 = lg1.toLowerCase() === 'fr' ? 'en' : 'fr';
 
 	const prefLabelLg1 =
-		data.prefLabels?.find(
-			(label) => label.lang.toLowerCase() === lg1.toLowerCase(),
-		)?.value || '';
+		data.labels?.find((label) => label.lang.toLowerCase() === lg1.toLowerCase())
+			?.value || '';
 
 	const prefLabelLg2 =
-		data.prefLabels?.find(
-			(label) => label.lang.toLowerCase() === lg2.toLowerCase(),
-		)?.value || '';
+		data.labels?.find((label) => label.lang.toLowerCase() === lg2.toLowerCase())
+			?.value || '';
 
 	const descriptionLg1 =
 		data.descriptions?.find(
