@@ -9,7 +9,7 @@ const api = {
 		physicalInstanceLabel: string;
 		dataRelationshipName: string;
 	}) => [
-		'physical-instancefake',
+		'physical-instance',
 		{
 			method: 'POST',
 			headers: {
@@ -23,7 +23,7 @@ const api = {
 		id: string,
 		data: { physicalInstanceLabel: string; dataRelationshipName: string },
 	) => [
-		'physical-instancefake/' + agencyId + '/' + id,
+		'physical-instance/' + agencyId + '/' + id,
 		{
 			method: 'PATCH',
 			headers: {
