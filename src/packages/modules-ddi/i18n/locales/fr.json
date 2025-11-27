@@ -58,7 +58,11 @@
 				"addCodeTooltip": "Ajouter ce code",
 				"fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
 				"createNewList": "Créer une nouvelle liste",
-				"reuseList": "Réutiliser"
+				"reuseList": "Réutiliser",
+				"selectCodeList": "Sélectionnez une liste de codes",
+				"loadingCodesLists": "Chargement des listes de codes...",
+				"errorLoadingCodesLists": "Erreur lors du chargement des listes de codes",
+				"noCodesListsAvailable": "Aucune liste de codes disponible"
 			},
 			"delete": "Supprimer",
 			"editModal": {

@@ -145,14 +145,14 @@ describe('GlobalActionsCard', () => {
 	it('should render export menu with DDI3 and DDI4 options', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
-		expect(screen.getByTestId('menu-item-DDI3')).toBeInTheDocument();
-		expect(screen.getByTestId('menu-item-DDI4')).toBeInTheDocument();
+		expect(screen.getByTestId('menu-item-DDI 3.3')).toBeInTheDocument();
+		expect(screen.getByTestId('menu-item-DDI 3.0/JSON')).toBeInTheDocument();
 	});
 
 	it('should call onExport with DDI3 when DDI3 menu item is clicked', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
-		const ddi3MenuItem = screen.getByTestId('menu-item-DDI3');
+		const ddi3MenuItem = screen.getByTestId('menu-item-DDI 3.3');
 		fireEvent.click(ddi3MenuItem);
 
 		expect(mockOnExport).toHaveBeenCalledTimes(1);
@@ -162,7 +162,7 @@ describe('GlobalActionsCard', () => {
 	it('should call onExport with DDI4 when DDI4 menu item is clicked', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
-		const ddi4MenuItem = screen.getByTestId('menu-item-DDI4');
+		const ddi4MenuItem = screen.getByTestId('menu-item-DDI 3.0/JSON');
 		fireEvent.click(ddi4MenuItem);
 
 		expect(mockOnExport).toHaveBeenCalledTimes(1);
