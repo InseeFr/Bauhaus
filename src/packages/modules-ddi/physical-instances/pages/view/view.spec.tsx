@@ -429,7 +429,7 @@ describe('View Component', () => {
 			});
 
 			// Check that the link has the correct download attribute
-			expect(capturedLink?.download).toBe('test_physical_instance-ddi3.json');
+			expect(capturedLink?.download).toBe('test_physical_instance-ddi3.xml');
 
 			// Restore original appendChild
 			document.body.appendChild = originalAppendChild;
@@ -490,7 +490,9 @@ describe('View Component', () => {
 				expect(mockClick).toHaveBeenCalled();
 			});
 
-			expect(capturedLink?.download).toBe('test___physical___instance_-ddi3.json');
+			expect(capturedLink?.download).toBe(
+				'test___physical___instance_-ddi3.xml',
+			);
 
 			// Restore original appendChild
 			document.body.appendChild = originalAppendChild;

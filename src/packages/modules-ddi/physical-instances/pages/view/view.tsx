@@ -105,15 +105,12 @@ export const Component = () => {
 				if (format === 'DDI3') {
 					// Appel de l'API pour convertir en DDI3
 					const result = await DDIApi.convertToDDI3(data);
-					exportedData =
-						typeof result === 'string'
-							? result
-							: JSON.stringify(result, null, 2);
+					exportedData = result;
 					// Nettoyer le titre pour créer un nom de fichier valide
 					const sanitizedTitle = title
 						.replace(/[^a-z0-9]/gi, '_')
 						.toLowerCase();
-					fileName = `${sanitizedTitle}-ddi3.json`;
+					fileName = `${sanitizedTitle}-ddi3.xml`;
 				} else {
 					// Pour DDI4, on utilise les données telles quelles
 					exportedData = JSON.stringify(data, null, 2);
