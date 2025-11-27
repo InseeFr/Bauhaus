@@ -41,6 +41,7 @@ const api = {
 			},
 			body: JSON.stringify(data),
 		},
+		(res: Response) => res.text(),
 	],
 	getCodesLists: () => ['codes-list'],
 };
