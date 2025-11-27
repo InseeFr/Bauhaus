@@ -42,6 +42,7 @@ const api = {
 			body: JSON.stringify(data),
 		},
 	],
+	getCodesLists: () => ['codes-list'],
 };
 
 export const DDIApi = buildApi('ddi', api) as any;
