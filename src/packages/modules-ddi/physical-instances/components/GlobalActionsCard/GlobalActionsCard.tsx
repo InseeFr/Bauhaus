@@ -21,12 +21,12 @@ export const GlobalActionsCard = ({
 
 	const exportMenuItems: MenuItem[] = [
 		{
-			label: 'DDI3',
+			label: 'DDI 3.3',
 			icon: 'pi pi-file',
 			command: () => onExport('DDI3'),
 		},
 		{
-			label: 'DDI4',
+			label: 'DDI 3.0/JSON',
 			icon: 'pi pi-file',
 			command: () => onExport('DDI4'),
 		},
