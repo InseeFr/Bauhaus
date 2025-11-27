@@ -47,6 +47,9 @@ const InseeOrganisationProvider = ({
 	return <>{children(mappedLabels)}</>;
 };
 
+/**
+ * @deprecated Use `Organisations` from `@components/business/organisations` instead
+ */
 export const InseeOrganisationList = ({
 	organisations,
 }: Readonly<{ organisations?: string | string[] }>) => {
@@ -70,6 +73,9 @@ export const InseeOrganisationList = ({
 	);
 };
 
+/**
+ * @deprecated Use `Organisation` from `@components/business/organisations` instead
+ */
 export const InseeOrganisationText = ({
 	organisations,
 }: Readonly<{ organisations?: string | string[] }>) => {
