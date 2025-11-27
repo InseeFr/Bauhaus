@@ -1,19 +1,19 @@
-import { Organization as OrganizationType } from '../../model/organization';
+import { Organization as OrganizationType } from '../../../model/organization';
 
-interface OrganizationsTypes {
+interface OrganisationsTypes {
 	creators: string[];
 	organizations: OrganizationType[];
 }
-export const Organizations = ({
+export const Organisations = ({
 	creators,
 	organizations,
-}: Readonly<OrganizationsTypes>) => {
+}: Readonly<OrganisationsTypes>) => {
 	return (
 		<ul>
 			{creators?.map((creator) => {
 				return (
 					<li key={creator}>
-						<Organization creator={creator} organizations={organizations} />
+						<Organisation creator={creator} organizations={organizations} />
 					</li>
 				);
 			})}
@@ -21,15 +21,15 @@ export const Organizations = ({
 	);
 };
 
-interface OrganizationTypes {
+interface OrganisationTypes {
 	creator: string;
 	organizations: OrganizationType[];
 }
 
-export const Organization = ({
+export const Organisation = ({
 	creator,
 	organizations,
-}: Readonly<OrganizationTypes>) => {
+}: Readonly<OrganisationTypes>) => {
 	if (!organizations) {
 		return <></>;
 	}

@@ -6,13 +6,13 @@ import { Row } from '@components/layout';
 import { Select } from '@components/select-rmes';
 
 import { withCodesLists } from '@utils/hoc/withCodesLists';
-import { useOrganizations } from '@utils/hooks/organizations';
 
 import { D1, D2 } from '../../../../deprecated-locales';
 import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
 import { D1 as DatasetDictionary } from '../../../i18n';
 import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
 import { useThemes } from '../../useThemes';
+import { OrganisationInput } from '@components/business/stamps-input/stamps-input';
 
 const GlobalInformationTab = ({
 	editingDataset,
@@ -24,11 +24,6 @@ const GlobalInformationTab = ({
 	const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
 
 	const { data: themesOptions = [] } = useThemes();
-
-	const { data: organisations } = useOrganizations();
-
-	const organisationsOptions =
-		organisations?.map(({ iri, label }) => ({ value: iri, label })) ?? [];
 
 	return (
 		<>
@@ -159,10 +154,9 @@ const GlobalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsDataProvider}
-						<Select
+						<OrganisationInput
 							multi
 							value={editingDataset.creators}
-							options={organisationsOptions}
 							onChange={(values) => {
 								setEditingDataset({
 									...editingDataset,
@@ -177,13 +171,12 @@ const GlobalInformationTab = ({
 				<div className="col-md-12 form-group">
 					<label className="w-100 wilco-label-required">
 						{D1.datasetsPublicationProvider}
-						<Select
+						<OrganisationInput
 							value={editingDataset.publisher}
-							options={organisationsOptions}
-							onChange={(value) => {
+							onChange={(values) => {
 								setEditingDataset({
 									...editingDataset,
-									publisher: value,
+									publisher: values,
 								});
 							}}
 						/>
