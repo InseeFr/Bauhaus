@@ -26,16 +26,17 @@ import { D as DatasetDictionary } from '../../i18n';
 import { GlobalInformationBlock } from './GlobalInformationBlock';
 import { StatisticalInformations } from './StatisticalInformations';
 import { ViewMenu } from './menu';
+import { useOrganizations } from '@utils/hooks/organizations';
 import {
-	InseeOrganisationList,
-	InseeOrganisationText,
-} from '@components/business/creators-view';
+	Organisation,
+	Organisations,
+} from '@components/business/organisations/organisations';
 
 const Dataset = (props) => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [archivageUnits, setArchivageUnits] = useState([]);
-
+	const { data: organisationsList } = useOrganizations();
 	useEffect(() => {
 		DatasetsApi.getArchivageUnits().then(setArchivageUnits);
 	}, []);
@@ -155,15 +156,17 @@ const Dataset = (props) => {
 						<ul>
 							<li>
 								{D.creatorTitle} :{' '}
-								<InseeOrganisationText
-									organisations={dataset.catalogRecord?.creator}
+								<Organisation
+									creator={dataset.catalogRecord?.creator}
+									organizations={organisationsList}
 								/>
 							</li>
 							<li>
 								{D.contributorTitle} :{' '}
-								<InseeOrganisationList
-									organisations={dataset.catalogRecord?.contributor}
-								/>
+								<Organisations
+									creators={dataset.catalogRecord?.contributor}
+									organizations={organisationsList}
+								/>{' '}
 							</li>
 
 							<li>
@@ -205,7 +208,7 @@ const Dataset = (props) => {
 				/>
 				{secondLang && (
 					<Note
-						text={<Editor.Markdown source={dataset.descriptionLg1} />}
+						text={<Editor.Markdown source={dataset.descriptionLg2} />}
 						title={D2.descriptionTitle}
 						alone={false}
 						allowEmpty={true}
