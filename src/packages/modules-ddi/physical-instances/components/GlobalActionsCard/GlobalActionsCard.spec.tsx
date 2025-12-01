@@ -8,7 +8,6 @@ vi.mock('react-i18next', () => ({
 			const translations: Record<string, string> = {
 				'physicalInstance.view.globalActions': 'Actions Globales',
 				'physicalInstance.view.export': 'Exporter',
-				'physicalInstance.view.bulkEdit': 'Édition en masse',
 				'physicalInstance.view.publish': 'Publier',
 				'physicalInstance.view.variablesTable': 'Tableau des variables',
 				'physicalInstance.view.columns.name': 'Nom',
@@ -128,7 +127,6 @@ describe('GlobalActionsCard', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
 		expect(screen.getByText('Exporter')).toBeInTheDocument();
-		expect(screen.getByText('Édition en masse')).toBeInTheDocument();
 		expect(screen.getByText('Publier')).toBeInTheDocument();
 	});
 
@@ -202,7 +200,6 @@ describe('GlobalActionsCard', () => {
 		// SplitButton creates multiple elements with the same aria-label
 		const exportElements = screen.getAllByLabelText('Exporter');
 		expect(exportElements.length).toBeGreaterThan(0);
-		expect(screen.getByLabelText('Édition en masse')).toBeInTheDocument();
 		expect(screen.getByLabelText('Publier')).toBeInTheDocument();
 		expect(screen.getByLabelText('Tableau des variables')).toBeInTheDocument();
 	});

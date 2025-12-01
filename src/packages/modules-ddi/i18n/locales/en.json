@@ -3,7 +3,6 @@
 		"creation": {
 			"title": "Create a new physical instance",
 			"label": "Label",
-			"name": "Name",
 			"cancel": "Cancel",
 			"create": "Create"
 		},
@@ -16,7 +15,6 @@
 			"globalActions": "Global Actions",
 			"import": "Import",
 			"export": "Export",
-			"bulkEdit": "Bulk Edit",
 			"publish": "Publish",
 			"variablesTable": "Variables table",
 			"isGeographic": "Is geographic?",
@@ -69,7 +67,6 @@
 			"editModal": {
 				"title": "Edit",
 				"label": "Label",
-				"name": "Name",
 				"cancel": "Cancel",
 				"save": "Save"
 			},
