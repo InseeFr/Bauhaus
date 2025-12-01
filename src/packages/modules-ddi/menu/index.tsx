@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { MainMenu } from '@components/menu';
 
 import { UIMenuItem } from '@model/Menu';
-
+import D from '../../deprecated-locales';
 const ACTIVE = 'active';
 const defaultAttrs = { 'aria-current': 'page' };
 
@@ -17,7 +17,7 @@ const menuItems: RouterConfig = {
 		className: null,
 		attrs: null,
 		order: 2,
-		label: 'Physical Instances',
+		label: D.physicalInstanceTitle,
 	},
 } as const;
 

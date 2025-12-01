@@ -50,13 +50,6 @@ export const GlobalActionsCard = ({
 					onClick={() => onExport('DDI3')}
 				/>
 				<Button
-					icon="pi pi-pencil"
-					label={t('physicalInstance.view.bulkEdit')}
-					severity="secondary"
-					style={{ background: 'transparent' }}
-					aria-label={t('physicalInstance.view.bulkEdit')}
-				/>
-				<Button
 					icon="pi pi-send"
 					label={t('physicalInstance.view.publish')}
 					severity="secondary"
