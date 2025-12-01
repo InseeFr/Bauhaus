@@ -184,7 +184,7 @@ export const Component = () => {
 				agencyId: agencyId!,
 				data: {
 					physicalInstanceLabel: state.formData.label,
-					dataRelationshipName: state.formData.name,
+					dataRelationshipName: 'DataRelationShip Name:' + state.formData.label,
 				},
 			});
 

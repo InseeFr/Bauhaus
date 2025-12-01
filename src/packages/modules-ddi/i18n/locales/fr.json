@@ -2,8 +2,7 @@
 	"physicalInstance": {
 		"creation": {
 			"title": "Créer un nouveau fichier de données",
-			"label": "Label",
-			"name": "Name",
+			"label": "Libellé",
 			"cancel": "Annuler",
 			"create": "Créer"
 		},
@@ -15,7 +14,6 @@
 			"typeFilter": "Filtrer par type",
 			"globalActions": "Actions Globales",
 			"export": "Exporter",
-			"bulkEdit": "Édition en masse",
 			"publish": "Publier",
 			"variablesTable": "Tableau des variables",
 			"isGeographic": "Variable géographique ?",
@@ -67,8 +65,7 @@
 			"delete": "Supprimer",
 			"editModal": {
 				"title": "Modifier",
-				"label": "Label",
-				"name": "Name",
+				"label": "Libellé",
 				"cancel": "Annuler",
 				"save": "Enregistrer"
 			},

@@ -24,7 +24,7 @@ export const PhysicalInstanceCreationDialog = ({
 		const formData = new FormData(e.currentTarget);
 		const data = {
 			label: formData.get('label') as string,
-			name: formData.get('name') as string,
+			name: ('DataRelationShip Name:' + formData.get('label')) as string,
 		};
 		onSubmit(data);
 		formRef.current?.reset();
@@ -50,10 +50,6 @@ export const PhysicalInstanceCreationDialog = ({
 				<div className="flex flex-column gap-2">
 					<label htmlFor="label">{t('physicalInstance.creation.label')}</label>
 					<InputText id="label" name="label" />
-				</div>
-				<div className="flex flex-column gap-2">
-					<label htmlFor="name">{t('physicalInstance.creation.name')}</label>
-					<InputText id="name" name="name" />
 				</div>
 				<div className="dialog-footer">
 					<Button
