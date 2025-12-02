@@ -1,6 +1,6 @@
 import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
-import { InputMultiRmes } from '@components/input-multi-rmes';
+import { InputMulti } from '@components/ui/forms/input-multi';
 import LabelRequired from '@components/label-required';
 import { Row } from '@components/layout';
 import { Select } from '@components/select-rmes';
@@ -201,7 +201,7 @@ const GlobalInformationTab = ({
 					</label>
 				</div>
 			</Row>
-			<InputMultiRmes
+			<InputMulti
 				inputLg1={editingDataset.keywords?.lg1}
 				inputLg2={editingDataset.keywords?.lg2}
 				label={DatasetDictionary.datasets.keywords}
@@ -252,7 +252,7 @@ const GlobalInformationTab = ({
 					/>
 				</div>
 			</Row>
-			<InputMultiRmes
+			<InputMulti
 				inputLg1={editingDataset.linkedDocuments}
 				label={DatasetDictionary.datasets.linkedDocuments}
 				handleChangeLg1={(linkedDocuments) => {
