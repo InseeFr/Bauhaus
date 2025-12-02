@@ -10,6 +10,7 @@ import { isEmpty } from '@utils/value-utils';
 
 import { D1 } from '../../deprecated-locales';
 import { InseeOrganisationList } from '@components/business/creators-view';
+import { SingleOrNestedListItem } from '../../components/ui/single-or-nested-list-item';
 
 interface ConceptAttribute {
 	id?: string;
@@ -49,7 +50,7 @@ type FieldName =
 const renderOrganisationField = (
 	fieldName: 'creator' | 'contributor',
 	label: string,
-	value: string | string[]
+	value: string | string[],
 ): JSX.Element => {
 	return (
 		<li key={fieldName}>
@@ -61,9 +62,9 @@ const renderOrganisationField = (
 const renderArrayField = (
 	fieldName: 'altLabelLg1' | 'altLabelLg2',
 	label: string,
-	value: string[]
+	value: string[],
 ): JSX.Element => {
-	return <li key={fieldName}>{`${label}: ${arrayToString(value)}`}</li>;
+	return <SingleOrNestedListItem key={fieldName} label={label} items={value} />;
 };
 
 const renderDateField = (

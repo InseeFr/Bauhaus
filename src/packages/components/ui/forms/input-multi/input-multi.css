@@ -1,0 +1,8 @@
+.input-multi label {
+	width: 100%;
+}
+
+.input-multi label > div {
+	display: block;
+	width: 100%;
+}
