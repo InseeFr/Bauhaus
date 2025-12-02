@@ -121,7 +121,8 @@ describe('ConceptGeneral', () => {
 			render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
 
 			expect(screen.getByText(/Synonyme \(Fr\)/)).toBeInTheDocument();
-			expect(screen.getByText(/Synonym 1 ; Synonym 2/)).toBeInTheDocument();
+			expect(screen.getByText('Synonym 1')).toBeInTheDocument();
+			expect(screen.getByText('Synonym 2')).toBeInTheDocument();
 		});
 
 		it('should render altLabelLg2 when secondLang is true', () => {
@@ -134,7 +135,8 @@ describe('ConceptGeneral', () => {
 			});
 
 			expect(screen.getByText(/Synonyme \(En\)/)).toBeInTheDocument();
-			expect(screen.getByText(/Alternative 1 ; Alternative 2/)).toBeInTheDocument();
+			expect(screen.getByText('Alternative 1')).toBeInTheDocument();
+			expect(screen.getByText('Alternative 2')).toBeInTheDocument();
 		});
 
 		it('should not render altLabelLg2 when secondLang is false', () => {
