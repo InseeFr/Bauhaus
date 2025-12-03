@@ -88,7 +88,11 @@ vi.mock('primereact/inputtextarea', () => ({
 }));
 
 vi.mock('primereact/tabview', () => ({
-	TabView: ({ children }: any) => <div>{children}</div>,
+	TabView: ({ children, activeIndex, onTabChange }: any) => (
+		<div data-testid="tabview" data-active-index={activeIndex}>
+			{children}
+		</div>
+	),
 	TabPanel: ({ header, children }: any) => (
 		<div>
 			<h3>{header}</h3>
@@ -631,5 +635,76 @@ describe('VariableEditForm', () => {
 		expect(updatedDescriptionInput.value).toBe('Different description');
 		expect(checkbox.checked).toBe(true);
 		expect(screen.getByTestId('date-representation')).toBeInTheDocument();
+	});
+
+	describe('Tab management', () => {
+		it('should initialize with first tab active (activeIndex=0)', () => {
+			render(
+				<VariableEditForm
+					variable={defaultVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			const tabView = screen.getByTestId('tabview');
+			expect(tabView).toHaveAttribute('data-active-index', '0');
+		});
+
+		it('should reset to first tab when variable changes', () => {
+			const { rerender } = render(
+				<VariableEditForm
+					variable={defaultVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			// Vérifier que le premier onglet est actif
+			let tabView = screen.getByTestId('tabview');
+			expect(tabView).toHaveAttribute('data-active-index', '0');
+
+			// Changer de variable
+			const newVariable = {
+				id: 'var-2',
+				label: 'New Variable',
+				name: 'newVar',
+				description: 'New description',
+				type: 'text',
+			};
+
+			rerender(
+				<VariableEditForm
+					variable={newVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			// Le premier onglet devrait toujours être actif après le changement de variable
+			tabView = screen.getByTestId('tabview');
+			expect(tabView).toHaveAttribute('data-active-index', '0');
+		});
+
+		it('should reset to first tab when new variable is clicked', () => {
+			const newVariable = {
+				id: 'new',
+				label: '',
+				name: '',
+				description: '',
+				type: 'text',
+			};
+
+			render(
+				<VariableEditForm
+					variable={newVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			const tabView = screen.getByTestId('tabview');
+			expect(tabView).toHaveAttribute('data-active-index', '0');
+		});
 	});
 });

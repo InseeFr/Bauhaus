@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useEffect } from 'react';
+import { useCallback, useReducer, useEffect, useState } from 'react';
 import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -154,6 +154,7 @@ export const VariableEditForm = ({
 	onSave,
 }: Readonly<VariableEditFormProps>) => {
 	const { t } = useTranslation();
+	const [activeIndex, setActiveIndex] = useState(0);
 
 	const [state, dispatch] = useReducer(formReducer, {
 		label: variable.label,
@@ -172,6 +173,9 @@ export const VariableEditForm = ({
 	});
 
 	useEffect(() => {
+		// Réinitialiser l'onglet actif au premier onglet
+		setActiveIndex(0);
+
 		dispatch({
 			type: 'RESET',
 			payload: {
@@ -190,6 +194,9 @@ export const VariableEditForm = ({
 				},
 			},
 		});
+		// Ne pas inclure codeList et categories dans les dépendances car ils changent
+		// pendant l'édition et on ne veut pas réinitialiser le formulaire à chaque fois
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		variable.id,
 		variable.label,
@@ -201,8 +208,6 @@ export const VariableEditForm = ({
 		variable.dateRepresentation,
 		variable.textRepresentation,
 		variable.codeRepresentation,
-		variable.codeList,
-		variable.categories,
 	]);
 
 	const updateNumericRepresentation = useCallback(
@@ -299,7 +304,10 @@ export const VariableEditForm = ({
 					/>
 				</div>
 
-				<TabView>
+				<TabView
+					activeIndex={activeIndex}
+					onTabChange={(e) => setActiveIndex(e.index)}
+				>
 					<TabPanel header={t('physicalInstance.view.tabs.information')}>
 						<div className="flex flex-column gap-3">
 							<div className="flex flex-column gap-2">
