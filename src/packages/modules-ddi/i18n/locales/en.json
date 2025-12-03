@@ -97,7 +97,15 @@
 			"saveError": "Save error",
 			"saveErrorDetail": "Unable to save physical instance",
 			"loading": "Loading data...",
-			"errorLoading": "Error loading data"
+			"errorLoading": "Error loading data",
+			"variableSaveSuccess": "Variable saved",
+			"variableSaveSuccessDetail": "The variable has been successfully saved",
+			"deleteVariableConfirmTitle": "Confirm deletion",
+			"deleteVariableConfirmMessage": "Are you sure you want to delete the variable \"{{name}}\"? This action cannot be undone.",
+			"deleteVariableSuccess": "Variable deleted",
+			"deleteVariableSuccessDetail": "The variable has been successfully deleted",
+			"confirmDelete": "Delete",
+			"cancelDelete": "Cancel"
 		}
 	}
 }

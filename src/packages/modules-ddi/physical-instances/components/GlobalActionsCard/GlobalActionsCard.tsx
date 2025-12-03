@@ -10,12 +10,14 @@ interface GlobalActionsCardProps {
 	variables: any[];
 	onExport: (format: 'DDI3' | 'DDI4') => void;
 	onRowClick?: (data: any) => void;
+	onDeleteClick?: (data: any) => void;
 }
 
 export const GlobalActionsCard = ({
 	variables,
 	onExport,
 	onRowClick,
+	onDeleteClick,
 }: Readonly<GlobalActionsCardProps>) => {
 	const { t } = useTranslation();
 
@@ -73,6 +75,22 @@ export const GlobalActionsCard = ({
 				<Column
 					field="lastModified"
 					header={t('physicalInstance.view.columns.lastModified')}
+				/>
+				<Column
+					body={(rowData) => (
+						<Button
+							icon="pi pi-trash"
+							rounded
+							text
+							severity="danger"
+							onClick={(e) => {
+								e.stopPropagation();
+								onDeleteClick?.(rowData);
+							}}
+							aria-label={t('physicalInstance.view.delete')}
+						/>
+					)}
+					style={{ width: '5rem' }}
 				/>
 			</DataTable>
 		</Card>

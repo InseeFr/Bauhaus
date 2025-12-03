@@ -96,7 +96,15 @@
 			"saveError": "Erreur lors de l'enregistrement",
 			"saveErrorDetail": "Impossible d'enregistrer l'instance physique",
 			"loading": "Chargement des données en cours...",
-			"errorLoading": "Erreur lors du chargement des données"
+			"errorLoading": "Erreur lors du chargement des données",
+			"variableSaveSuccess": "Variable enregistrée",
+			"variableSaveSuccessDetail": "La variable a été enregistrée avec succès",
+			"deleteVariableConfirmTitle": "Confirmer la suppression",
+			"deleteVariableConfirmMessage": "Êtes-vous sûr de vouloir supprimer la variable \"{{name}}\" ? Cette action est irréversible.",
+			"deleteVariableSuccess": "Variable supprimée",
+			"deleteVariableSuccessDetail": "La variable a été supprimée avec succès",
+			"confirmDelete": "Supprimer",
+			"cancelDelete": "Annuler"
 		}
 	}
 }
