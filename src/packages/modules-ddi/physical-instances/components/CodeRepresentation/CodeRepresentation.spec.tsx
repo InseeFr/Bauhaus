@@ -261,7 +261,7 @@ describe('CodeRepresentation', () => {
 		expect(labelInput.value).toBe('Liste de codes test');
 	});
 
-	it('should call onChange when code list label changes', () => {
+	it('should update code list label without calling onChange immediately', () => {
 		render(
 			<CodeRepresentation
 				representation={mockRepresentation}
@@ -274,18 +274,10 @@ describe('CodeRepresentation', () => {
 		const labelInput = screen.getByLabelText('Libellé de la liste de codes');
 		fireEvent.change(labelInput, { target: { value: 'Nouveau libellé' } });
 
-		expect(mockOnChange).toHaveBeenCalledWith(
-			mockRepresentation,
-			expect.objectContaining({
-				Label: {
-					Content: {
-						'@xml:lang': 'fr-FR',
-						'#text': 'Nouveau libellé',
-					},
-				},
-			}),
-			mockCategories,
-		);
+		// The label should update the input value but not call onChange immediately
+		// onChange will be called when codes are added or modified
+		expect(labelInput).toHaveValue('Nouveau libellé');
+		expect(mockOnChange).not.toHaveBeenCalled();
 	});
 
 	it('should display code action buttons', () => {

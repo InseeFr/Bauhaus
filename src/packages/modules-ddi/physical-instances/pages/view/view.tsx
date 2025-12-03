@@ -4,19 +4,33 @@ import { Button } from 'primereact/button';
 import { useTranslation } from 'react-i18next';
 import { Toast } from 'primereact/toast';
 import { Message } from 'primereact/message';
+import { confirmDialog } from 'primereact/confirmdialog';
+import { ConfirmDialog } from 'primereact/confirmdialog';
+import './view.css';
 import { EditModal } from '../../components/EditModal/EditModal';
 import { SearchFilters } from '../../components/SearchFilters/SearchFilters';
 import { GlobalActionsCard } from '../../components/GlobalActionsCard/GlobalActionsCard';
 import { VariableEditForm } from '../../components/VariableEditForm/VariableEditForm';
 import { usePhysicalInstancesData } from '../../../hooks/usePhysicalInstance';
 import { useUpdatePhysicalInstance } from '../../../hooks/useUpdatePhysicalInstance';
-import { viewReducer, initialState, actions } from './viewReducer';
+import {
+	viewReducer,
+	initialState,
+	actions,
+	type VariableData,
+} from './viewReducer';
 import {
 	FILTER_ALL_TYPES,
 	TOAST_DURATION,
 	VARIABLE_TYPES,
 } from '../../constants';
-import type { VariableTableData } from '../../types/api';
+import type {
+	VariableTableData,
+	Variable,
+	CodeList,
+	Code,
+	Category,
+} from '../../types/api';
 import { Loading } from '../../../../components/loading';
 import { DDIApi } from '../../../../sdk';
 
@@ -73,8 +87,32 @@ export const Component = () => {
 		];
 	}, [variableTypeOptions, t]);
 
+	// Merge variables from API with local modifications
+	const mergedVariables = useMemo(() => {
+		const variableMap = new Map(variables.map((v) => [v.id, v]));
+
+		// Apply local modifications and add new local variables
+		state.localVariables.forEach((localVar) => {
+			if (variableMap.has(localVar.id)) {
+				// Update existing variable
+				variableMap.set(localVar.id, {
+					...variableMap.get(localVar.id),
+					...localVar,
+				});
+			} else {
+				// Add new local variable with lastModified
+				variableMap.set(localVar.id, {
+					...localVar,
+					lastModified: new Date().toISOString(),
+				});
+			}
+		});
+
+		return Array.from(variableMap.values());
+	}, [variables, state.localVariables]);
+
 	const filteredVariables = useMemo(() => {
-		let filtered = variables;
+		let filtered = mergedVariables;
 
 		// Filtre par recherche
 		if (state.searchValue) {
@@ -94,7 +132,7 @@ export const Component = () => {
 		}
 
 		return filtered;
-	}, [variables, state.searchValue, state.typeFilter]);
+	}, [mergedVariables, state.searchValue, state.typeFilter]);
 
 	const handleExport = useCallback(
 		async (format: 'DDI3' | 'DDI4') => {
@@ -209,18 +247,78 @@ export const Component = () => {
 				life: TOAST_DURATION,
 			});
 		}
-	}, [state.formData, id, t, updatePhysicalInstance]);
+	}, [state.formData, id, agencyId, t, updatePhysicalInstance]);
 
-	const handleVariableClick = useCallback((variable: VariableTableData) => {
-		dispatch(
-			actions.setSelectedVariable({
-				id: variable.id,
-				label: variable.label,
-				name: variable.name,
-				type: variable.type,
-			}),
-		);
-	}, []);
+	const handleVariableClick = useCallback(
+		(variable: VariableTableData) => {
+			// Vérifier d'abord si la variable a des modifications locales
+			const localVariable = state.localVariables.find(
+				(v) => v.id === variable.id,
+			);
+
+			if (localVariable) {
+				// Utiliser les données locales si elles existent
+				dispatch(actions.setSelectedVariable(localVariable));
+			} else {
+				// Sinon, trouver la variable complète dans les données brutes
+				const fullVariable = data?.Variable?.find(
+					(v: Variable) => v.ID === variable.id,
+				);
+
+				// Charger les informations complètes de la variable si trouvée
+				const description =
+					fullVariable?.Description?.Content?.['#text'] || undefined;
+				const isGeographic = fullVariable?.['@isGeographic'] === 'true';
+				const textRepresentation =
+					fullVariable?.VariableRepresentation?.TextRepresentation;
+				const numericRepresentation =
+					fullVariable?.VariableRepresentation?.NumericRepresentation;
+				const dateRepresentation =
+					fullVariable?.VariableRepresentation?.DateTimeRepresentation;
+				const codeRepresentation =
+					fullVariable?.VariableRepresentation?.CodeRepresentation;
+
+				// Charger la CodeList et les Categories associées si disponibles
+				let codeList = undefined;
+				let categories = undefined;
+
+				if (codeRepresentation) {
+					const codeListId = codeRepresentation.CodeListReference.ID;
+					codeList = data?.CodeList?.find(
+						(cl: CodeList) => cl.ID === codeListId,
+					);
+
+					if (codeList && codeList.Code) {
+						// Récupérer toutes les catégories liées aux codes
+						const categoryIds = codeList.Code.map(
+							(code: Code) => code.CategoryReference.ID,
+						);
+						categories = data?.Category?.filter((cat: Category) =>
+							categoryIds.includes(cat.ID),
+						);
+					}
+				}
+
+				dispatch(
+					actions.setSelectedVariable({
+						id: variable.id,
+						label: variable.label,
+						name: variable.name,
+						description,
+						type: variable.type,
+						isGeographic,
+						textRepresentation,
+						numericRepresentation,
+						dateRepresentation,
+						codeRepresentation,
+						codeList,
+						categories,
+					}),
+				);
+			}
+		},
+		[data, state.localVariables],
+	);
 
 	const handleNewVariable = useCallback(() => {
 		dispatch(
@@ -234,10 +332,64 @@ export const Component = () => {
 	}, []);
 
 	const handleVariableSave = useCallback(
-		(data: { id: string; label: string; name: string; type: string }) => {
-			console.debug('Save variable:', data);
+		(data: VariableData) => {
+			// Si l'ID est 'new', c'est une nouvelle variable
+			if (data.id === 'new') {
+				const newId = `local-${Date.now()}`;
+				dispatch(
+					actions.addVariable({
+						...data,
+						id: newId,
+					}),
+				);
+			} else {
+				// Mise à jour d'une variable existante
+				dispatch(actions.updateVariable(data));
+			}
+
+			// Fermer le formulaire
+			dispatch(actions.setSelectedVariable(null));
+
+			toast.current?.show({
+				severity: 'success',
+				summary: t('physicalInstance.view.variableSaveSuccess'),
+				detail: t('physicalInstance.view.variableSaveSuccessDetail'),
+				life: TOAST_DURATION,
+			});
 		},
-		[],
+		[t],
+	);
+
+	const handleDeleteVariable = useCallback(
+		(variable: VariableTableData) => {
+			confirmDialog({
+				message: t('physicalInstance.view.deleteVariableConfirmMessage', {
+					name: variable.name,
+				}),
+				header: t('physicalInstance.view.deleteVariableConfirmTitle'),
+				icon: 'pi pi-exclamation-triangle',
+				acceptLabel: t('physicalInstance.view.confirmDelete'),
+				rejectLabel: t('physicalInstance.view.cancelDelete'),
+				acceptClassName: 'p-button-danger',
+				accept: () => {
+					// Supprimer la variable des variables locales
+					dispatch(actions.deleteVariable(variable.id));
+
+					// Fermer le formulaire d'édition si la variable supprimée est sélectionnée
+					if (state.selectedVariable?.id === variable.id) {
+						dispatch(actions.setSelectedVariable(null));
+					}
+
+					toast.current?.show({
+						severity: 'success',
+						summary: t('physicalInstance.view.deleteVariableSuccess'),
+						detail: t('physicalInstance.view.deleteVariableSuccessDetail'),
+						life: TOAST_DURATION,
+					});
+				},
+			});
+		},
+		[t, state.selectedVariable],
 	);
 
 	if (isLoading) {
@@ -261,7 +413,13 @@ export const Component = () => {
 
 	return (
 		<div className="flex" role="main">
-			<div className={state.selectedVariable ? 'col-8' : 'col-12'}>
+			<div
+				className={state.selectedVariable ? 'col-8' : 'col-12'}
+				style={{
+					width: state.selectedVariable ? '66.666%' : '100%',
+					transition: 'width 0.3s ease',
+				}}
+			>
 				<div className="flex align-items-center gap-2 mb-3">
 					<h1 className="m-0">{title}</h1>
 					<Button
@@ -289,6 +447,7 @@ export const Component = () => {
 					variables={filteredVariables}
 					onExport={handleExport}
 					onRowClick={handleVariableClick}
+					onDeleteClick={handleDeleteVariable}
 				/>
 			</div>
 			{state.selectedVariable && (
@@ -309,6 +468,7 @@ export const Component = () => {
 				onSave={handleSave}
 			/>
 
+			<ConfirmDialog />
 			<Toast ref={toast} />
 		</div>
 	);

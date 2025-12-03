@@ -14,6 +14,7 @@ vi.mock('react-i18next', () => ({
 				'physicalInstance.view.columns.label': 'Label',
 				'physicalInstance.view.columns.type': 'Type',
 				'physicalInstance.view.columns.lastModified': 'Dernière Modification',
+				'physicalInstance.view.delete': 'Supprimer',
 			};
 			return translations[key] || key;
 		},
@@ -65,31 +66,46 @@ vi.mock('primereact/card', () => ({
 }));
 
 vi.mock('primereact/datatable', () => ({
-	DataTable: ({ value, children, ...props }: any) => (
-		<table {...props}>
-			<thead>
-				<tr>{children}</tr>
-			</thead>
-			<tbody>
-				{value.map((item: any, index: number) => (
-					<tr key={index}>
-						<td>{item.name}</td>
-						<td>{item.label}</td>
-						<td>{item.type}</td>
-						<td>{item.lastModified}</td>
+	DataTable: ({ value, children, onRowClick, ...props }: any) => {
+		// Convert children to array to handle both single and multiple Column components
+		const columns = Array.isArray(children) ? children : [children];
+
+		return (
+			<table {...props}>
+				<thead>
+					<tr>
+						{columns.map((col: any, idx: number) => (
+							<th key={idx}>{col.props.header}</th>
+						))}
 					</tr>
-				))}
-			</tbody>
-		</table>
-	),
+				</thead>
+				<tbody>
+					{value.map((item: any, index: number) => (
+						<tr
+							key={index}
+							onClick={() => onRowClick?.({ data: item })}
+						>
+							{columns.map((col: any, colIdx: number) => (
+								<td key={colIdx}>
+									{col.props.body ? col.props.body(item) : item[col.props.field]}
+								</td>
+							))}
+						</tr>
+					))}
+				</tbody>
+			</table>
+		);
+	},
 }));
 
 vi.mock('primereact/column', () => ({
-	Column: ({ header }: any) => <th>{header}</th>,
+	Column: ({ header, field, body }: any) => null,
 }));
 
 describe('GlobalActionsCard', () => {
 	const mockOnExport = vi.fn();
+	const mockOnRowClick = vi.fn();
+	const mockOnDeleteClick = vi.fn();
 
 	const mockVariables = [
 		{
@@ -111,6 +127,8 @@ describe('GlobalActionsCard', () => {
 	const defaultProps = {
 		variables: mockVariables,
 		onExport: mockOnExport,
+		onRowClick: mockOnRowClick,
+		onDeleteClick: mockOnDeleteClick,
 	};
 
 	beforeEach(() => {
@@ -202,5 +220,55 @@ describe('GlobalActionsCard', () => {
 		expect(exportElements.length).toBeGreaterThan(0);
 		expect(screen.getByLabelText('Publier')).toBeInTheDocument();
 		expect(screen.getByLabelText('Tableau des variables')).toBeInTheDocument();
+	});
+
+	describe('Delete functionality', () => {
+		it('should render delete buttons for each variable', () => {
+			render(<GlobalActionsCard {...defaultProps} />);
+
+			const deleteButtons = screen.getAllByLabelText('Supprimer');
+			expect(deleteButtons).toHaveLength(mockVariables.length);
+		});
+
+		it('should call onDeleteClick with variable data when delete button is clicked', () => {
+			render(<GlobalActionsCard {...defaultProps} />);
+
+			const deleteButtons = screen.getAllByLabelText('Supprimer');
+			fireEvent.click(deleteButtons[0]);
+
+			expect(mockOnDeleteClick).toHaveBeenCalledTimes(1);
+			expect(mockOnDeleteClick).toHaveBeenCalledWith(mockVariables[0]);
+		});
+
+		it('should not call onRowClick when delete button is clicked', () => {
+			render(<GlobalActionsCard {...defaultProps} />);
+
+			const deleteButtons = screen.getAllByLabelText('Supprimer');
+			fireEvent.click(deleteButtons[0]);
+
+			expect(mockOnDeleteClick).toHaveBeenCalledTimes(1);
+			expect(mockOnRowClick).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('Optional callbacks', () => {
+		it('should render without onRowClick callback', () => {
+			const propsWithoutRowClick = {
+				variables: mockVariables,
+				onExport: mockOnExport,
+			};
+
+			expect(() => render(<GlobalActionsCard {...propsWithoutRowClick} />)).not.toThrow();
+		});
+
+		it('should render without onDeleteClick callback', () => {
+			const propsWithoutDeleteClick = {
+				variables: mockVariables,
+				onExport: mockOnExport,
+				onRowClick: mockOnRowClick,
+			};
+
+			expect(() => render(<GlobalActionsCard {...propsWithoutDeleteClick} />)).not.toThrow();
+		});
 	});
 });

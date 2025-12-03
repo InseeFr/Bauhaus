@@ -56,7 +56,7 @@ export const CodeRepresentation = ({
 	useEffect(() => {
 		setCodeListLabel(codeList?.Label?.Content?.['#text'] || '');
 
-		if (codeList?.Code && categories.length > 0) {
+		if (codeList?.Code) {
 			const tableData: CodeTableRow[] = codeList.Code.map((code) => {
 				const category = categories.find(
 					(cat) => cat.ID === code.CategoryReference.ID,
@@ -69,6 +69,10 @@ export const CodeRepresentation = ({
 				};
 			});
 			setCodes(tableData);
+			// Afficher automatiquement le DataTable si des codes existent
+			if (tableData.length > 0) {
+				setShowDataTable(true);
+			}
 		} else if (!codeList?.Code) {
 			setCodes([]);
 		}
@@ -77,35 +81,23 @@ export const CodeRepresentation = ({
 
 	const handleCodeListLabelChange = (newLabel: string) => {
 		setCodeListLabel(newLabel);
-
-		if (!representation) return;
-
-		const updatedCodeList: CodeList = {
-			...(codeList || {
-				'@isUniversallyUnique': 'true',
-				'@versionDate': new Date().toISOString(),
-				URN: `urn:ddi:fr.insee:${crypto.randomUUID()}:1`,
-				Agency: 'fr.insee',
-				ID: crypto.randomUUID(),
-				Version: '1',
-				Code: [],
-			}),
-			Label: {
-				Content: {
-					'@xml:lang': 'fr-FR',
-					'#text': newLabel,
-				},
-			},
-		};
-
-		onChange(representation, updatedCodeList, categories);
+		// Ne pas appeler onChange ici, le label sera sauvegardé lors de l'ajout/modification de codes
 	};
 
 	const handleDeleteCode = (codeId: string) => {
 		const updatedCodes = codes.filter((code) => code.id !== codeId);
 		setCodes(updatedCodes);
 
-		if (!representation) return;
+		// Create a default representation if it doesn't exist
+		const currentRepresentation: CodeRepresentationType = representation || {
+			'@blankIsMissingValue': 'false',
+			CodeListReference: {
+				Agency: 'fr.insee',
+				ID: crypto.randomUUID(),
+				Version: '1',
+				TypeOfObject: 'CodeList',
+			},
+		};
 
 		const deletedCode = codes.find((c) => c.id === codeId);
 		const updatedCodeList: CodeList = {
@@ -131,7 +123,7 @@ export const CodeRepresentation = ({
 			? categories.filter((cat) => cat.ID !== deletedCode.categoryId)
 			: categories;
 
-		onChange(representation, updatedCodeList, updatedCategories);
+		onChange(currentRepresentation, updatedCodeList, updatedCategories);
 	};
 
 	const handleCellEdit = (
@@ -144,7 +136,16 @@ export const CodeRepresentation = ({
 		);
 		setCodes(updatedCodes);
 
-		if (!representation) return;
+		// Create a default representation if it doesn't exist
+		const currentRepresentation: CodeRepresentationType = representation || {
+			'@blankIsMissingValue': 'false',
+			CodeListReference: {
+				Agency: 'fr.insee',
+				ID: crypto.randomUUID(),
+				Version: '1',
+				TypeOfObject: 'CodeList',
+			},
+		};
 
 		const updatedCode = updatedCodes.find((c) => c.id === rowData.id);
 		if (!updatedCode) return;
@@ -216,7 +217,7 @@ export const CodeRepresentation = ({
 			Code: updatedCodeListCodes,
 		};
 
-		onChange(representation, updatedCodeList, updatedCategories);
+		onChange(currentRepresentation, updatedCodeList, updatedCategories);
 	};
 
 	const valueEditor = (rowData: CodeTableRow) => {
@@ -245,6 +246,7 @@ export const CodeRepresentation = ({
 		return (
 			<div className="flex gap-2">
 				<Button
+					type="button"
 					icon="pi pi-trash"
 					rounded
 					text
@@ -385,6 +387,7 @@ export const CodeRepresentation = ({
 		return (
 			<>
 				<Button
+					type="button"
 					icon="pi pi-plus"
 					rounded
 					text
@@ -419,6 +422,7 @@ export const CodeRepresentation = ({
 			<div className="flex flex-column gap-2">
 				<div className="flex gap-2">
 					<Button
+						type="button"
 						icon="pi pi-plus"
 						label={t('physicalInstance.view.code.createNewList')}
 						outlined
@@ -428,6 +432,7 @@ export const CodeRepresentation = ({
 						}}
 					/>
 					<Button
+						type="button"
 						icon="pi pi-sync"
 						label={t('physicalInstance.view.code.reuseList')}
 						outlined
