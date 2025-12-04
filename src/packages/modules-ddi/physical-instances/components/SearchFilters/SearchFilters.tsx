@@ -12,6 +12,7 @@ interface SearchFiltersProps {
 	onTypeFilterChange: (value: string) => void;
 	typeOptions: { label: string; value: string }[];
 	onNewVariable: () => void;
+	onSaveAll?: () => void;
 }
 
 export const SearchFilters = ({
@@ -21,6 +22,7 @@ export const SearchFilters = ({
 	onTypeFilterChange,
 	typeOptions,
 	onNewVariable,
+	onSaveAll,
 }: Readonly<SearchFiltersProps>) => {
 	const { t } = useTranslation();
 
@@ -43,6 +45,14 @@ export const SearchFilters = ({
 				onChange={(e) => onTypeFilterChange(e.value)}
 				className="flex-1"
 				aria-label={t('physicalInstance.view.typeFilter')}
+			/>
+			<Button
+				icon="pi pi-save"
+				label={t('physicalInstance.view.saveAll')}
+				severity="secondary"
+				style={{ background: 'transparent' }}
+				aria-label={t('physicalInstance.view.saveAll')}
+				onClick={onSaveAll}
 			/>
 			<Button
 				icon="pi pi-plus"

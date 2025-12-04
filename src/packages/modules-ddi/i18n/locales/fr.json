@@ -9,7 +9,8 @@
 		"view": {
 			"search": "Rechercher",
 			"allTypes": "Tous types",
-			"newVariable": "Nouvelle Variable",
+			"newVariable": "Ajoutez une variable",
+			"saveAll": "Sauvegarder",
 			"editTitle": "Modifier le titre",
 			"typeFilter": "Filtrer par type",
 			"globalActions": "Actions Globales",
@@ -79,7 +80,7 @@
 			"selectVariable": "Sélectionnez une variable pour l'éditer",
 			"selectType": "Sélectionnez un type",
 			"cancel": "Annuler",
-			"save": "Enregistrer",
+			"save": "Ajouter",
 			"duplicate": "Dupliquer",
 			"variableTypes": {
 				"text": "Texte",
@@ -99,12 +100,17 @@
 			"errorLoading": "Erreur lors du chargement des données",
 			"variableSaveSuccess": "Variable enregistrée",
 			"variableSaveSuccessDetail": "La variable a été enregistrée avec succès",
+			"variableDuplicateSuccess": "Variable dupliquée",
+			"variableDuplicateSuccessDetail": "La variable a été dupliquée avec succès",
 			"deleteVariableConfirmTitle": "Confirmer la suppression",
 			"deleteVariableConfirmMessage": "Êtes-vous sûr de vouloir supprimer la variable \"{{name}}\" ? Cette action est irréversible.",
 			"deleteVariableSuccess": "Variable supprimée",
 			"deleteVariableSuccessDetail": "La variable a été supprimée avec succès",
 			"confirmDelete": "Supprimer",
-			"cancelDelete": "Annuler"
+			"cancelDelete": "Annuler",
+			"loadingDdi": "Chargement du XML DDI...",
+			"copyXml": "Copier le XML",
+			"noDdiXml": "Aucun XML DDI disponible"
 		}
 	}
 }
