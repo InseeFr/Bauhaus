@@ -9,7 +9,8 @@
 		"view": {
 			"search": "Search",
 			"allTypes": "All types",
-			"newVariable": "New Variable",
+			"newVariable": "Add variable",
+			"saveAll": "Save all",
 			"editTitle": "Edit title",
 			"typeFilter": "Filter by type",
 			"globalActions": "Global Actions",
@@ -80,7 +81,7 @@
 			"selectVariable": "Select a variable to edit",
 			"selectType": "Select a type",
 			"cancel": "Cancel",
-			"save": "Save",
+			"save": "Add",
 			"duplicate": "Duplicate",
 			"variableTypes": {
 				"text": "Text",
@@ -100,12 +101,17 @@
 			"errorLoading": "Error loading data",
 			"variableSaveSuccess": "Variable saved",
 			"variableSaveSuccessDetail": "The variable has been successfully saved",
+			"variableDuplicateSuccess": "Variable duplicated",
+			"variableDuplicateSuccessDetail": "The variable has been successfully duplicated",
 			"deleteVariableConfirmTitle": "Confirm deletion",
 			"deleteVariableConfirmMessage": "Are you sure you want to delete the variable \"{{name}}\"? This action cannot be undone.",
 			"deleteVariableSuccess": "Variable deleted",
 			"deleteVariableSuccessDetail": "The variable has been successfully deleted",
 			"confirmDelete": "Delete",
-			"cancelDelete": "Cancel"
+			"cancelDelete": "Cancel",
+			"loadingDdi": "Loading DDI XML...",
+			"copyXml": "Copy XML",
+			"noDdiXml": "No DDI XML available"
 		}
 	}
 }
