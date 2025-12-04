@@ -87,6 +87,11 @@ export const Component = () => {
 		];
 	}, [variableTypeOptions, t]);
 
+	// Get IDs of unsaved (local) variables
+	const unsavedVariableIds = useMemo(() => {
+		return state.localVariables.map((v) => v.id);
+	}, [state.localVariables]);
+
 	// Merge variables from API with local modifications
 	const mergedVariables = useMemo(() => {
 		const variableMap = new Map(variables.map((v) => [v.id, v]));
@@ -360,6 +365,24 @@ export const Component = () => {
 		[t],
 	);
 
+	const handleVariableDuplicate = useCallback(
+		(data: VariableData) => {
+			// Ajouter la variable dupliquée
+			dispatch(actions.addVariable(data));
+
+			// Garder le formulaire ouvert avec la nouvelle variable
+			dispatch(actions.setSelectedVariable(data));
+
+			toast.current?.show({
+				severity: 'success',
+				summary: t('physicalInstance.view.variableDuplicateSuccess'),
+				detail: t('physicalInstance.view.variableDuplicateSuccessDetail'),
+				life: TOAST_DURATION,
+			});
+		},
+		[t],
+	);
+
 	const handleDeleteVariable = useCallback(
 		(variable: VariableTableData) => {
 			confirmDialog({
@@ -448,6 +471,7 @@ export const Component = () => {
 					onExport={handleExport}
 					onRowClick={handleVariableClick}
 					onDeleteClick={handleDeleteVariable}
+					unsavedVariableIds={unsavedVariableIds}
 				/>
 			</div>
 			{state.selectedVariable && (
@@ -456,6 +480,7 @@ export const Component = () => {
 						variable={state.selectedVariable}
 						typeOptions={variableTypeOptions}
 						onSave={handleVariableSave}
+						onDuplicate={handleVariableDuplicate}
 					/>
 				</div>
 			)}

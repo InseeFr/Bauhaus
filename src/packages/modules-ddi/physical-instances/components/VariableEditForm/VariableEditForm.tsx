@@ -1,10 +1,6 @@
 import { useCallback, useReducer, useEffect, useState } from 'react';
 import { Card } from 'primereact/card';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
-import { Checkbox } from 'primereact/checkbox';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { useTranslation } from 'react-i18next';
 import type {
@@ -15,10 +11,18 @@ import type {
 	CodeList,
 	Category,
 } from '../../types/api';
-import { NumericRepresentation as NumericRepresentationComponent } from '../NumericRepresentation/NumericRepresentation';
-import { DateRepresentation } from '../DateRepresentation/DateRepresentation';
-import { TextRepresentation as TextRepresentationComponent } from '../TextRepresentation/TextRepresentation';
-import { CodeRepresentation as CodeRepresentationComponent } from '../CodeRepresentation/CodeRepresentation';
+import { DdiXmlPreview } from './DdiXmlPreview';
+import { VariableInformationTab } from './VariableInformationTab';
+import { VariableRepresentationTab } from './VariableRepresentationTab';
+
+const VARIABLE_TYPES = {
+	NUMERIC: 'numeric',
+	DATE: 'date',
+	TEXT: 'text',
+	CODE: 'code',
+} as const;
+
+type VariableType = (typeof VARIABLE_TYPES)[keyof typeof VARIABLE_TYPES];
 
 interface VariableRepresentationState {
 	NumericRepresentation?: NumericRepresentation;
@@ -146,12 +150,27 @@ interface VariableEditFormProps {
 		codeList?: CodeList;
 		categories?: Category[];
 	}) => void;
+	onDuplicate?: (data: {
+		id: string;
+		label: string;
+		name: string;
+		description?: string;
+		type: string;
+		isGeographic?: boolean;
+		numericRepresentation?: NumericRepresentation;
+		dateRepresentation?: DateTimeRepresentation;
+		textRepresentation?: TextRepresentation;
+		codeRepresentation?: CodeRepresentation;
+		codeList?: CodeList;
+		categories?: Category[];
+	}) => void;
 }
 
 export const VariableEditForm = ({
 	variable,
 	typeOptions,
 	onSave,
+	onDuplicate,
 }: Readonly<VariableEditFormProps>) => {
 	const { t } = useTranslation();
 	const [activeIndex, setActiveIndex] = useState(0);
@@ -245,45 +264,61 @@ export const VariableEditForm = ({
 		[],
 	);
 
+	const buildSavePayload = useCallback(() => {
+		const basePayload = {
+			id: variable.id,
+			label: state.label,
+			name: state.name,
+			description: state.description,
+			type: state.selectedType,
+			isGeographic: state.isGeographic,
+		};
+
+		switch (state.selectedType as VariableType) {
+			case VARIABLE_TYPES.NUMERIC:
+				return {
+					...basePayload,
+					numericRepresentation: state.representation.NumericRepresentation,
+				};
+			case VARIABLE_TYPES.DATE:
+				return {
+					...basePayload,
+					dateRepresentation: state.representation.DateTimeRepresentation,
+				};
+			case VARIABLE_TYPES.TEXT:
+				return {
+					...basePayload,
+					textRepresentation: state.representation.TextRepresentation,
+				};
+			case VARIABLE_TYPES.CODE:
+				return {
+					...basePayload,
+					codeRepresentation: state.representation.CodeRepresentation,
+					codeList: state.representation.CodeList,
+					categories: state.representation.Category,
+				};
+			default:
+				return basePayload;
+		}
+	}, [variable.id, state]);
+
 	const handleSubmit = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-
-			onSave({
-				id: variable.id,
-				label: state.label,
-				name: state.name,
-				description: state.description,
-				type: state.selectedType,
-				isGeographic: state.isGeographic,
-				numericRepresentation:
-					state.selectedType === 'numeric'
-						? state.representation.NumericRepresentation
-						: undefined,
-				dateRepresentation:
-					state.selectedType === 'date'
-						? state.representation.DateTimeRepresentation
-						: undefined,
-				textRepresentation:
-					state.selectedType === 'text'
-						? state.representation.TextRepresentation
-						: undefined,
-				codeRepresentation:
-					state.selectedType === 'code'
-						? state.representation.CodeRepresentation
-						: undefined,
-				codeList:
-					state.selectedType === 'code'
-						? state.representation.CodeList
-						: undefined,
-				categories:
-					state.selectedType === 'code'
-						? state.representation.Category
-						: undefined,
-			});
+			onSave(buildSavePayload());
 		},
-		[variable.id, state, onSave],
+		[buildSavePayload, onSave],
 	);
+
+	const handleDuplicate = useCallback(() => {
+		const currentData = buildSavePayload();
+		const duplicatedData = {
+			...currentData,
+			id: `local-${Date.now()}`,
+			name: `${currentData.name} (copy)`,
+		};
+		onDuplicate?.(duplicatedData);
+	}, [buildSavePayload, onDuplicate]);
 
 	return (
 		<Card title={t('physicalInstance.view.editVariable')} className="h-full">
@@ -295,6 +330,7 @@ export const VariableEditForm = ({
 						icon="pi pi-copy"
 						outlined
 						severity="secondary"
+					onClick={handleDuplicate}
 					/>
 					<Button
 						type="submit"
@@ -309,128 +345,64 @@ export const VariableEditForm = ({
 					onTabChange={(e) => setActiveIndex(e.index)}
 				>
 					<TabPanel header={t('physicalInstance.view.tabs.information')}>
-						<div className="flex flex-column gap-3">
-							<div className="flex flex-column gap-2">
-								<label htmlFor="variable-name">
-									{t('physicalInstance.view.columns.name')}
-								</label>
-								<InputText
-									id="variable-name"
-									name="name"
-									value={state.name}
-									onChange={(e) =>
-										dispatch({ type: 'SET_NAME', payload: e.target.value })
-									}
-									required
-								/>
-							</div>
-
-							<div className="flex flex-column gap-2">
-								<label htmlFor="variable-label">
-									{t('physicalInstance.view.columns.label')}
-								</label>
-								<InputText
-									id="variable-label"
-									name="label"
-									value={state.label}
-									onChange={(e) =>
-										dispatch({ type: 'SET_LABEL', payload: e.target.value })
-									}
-									required
-								/>
-							</div>
-
-							<div className="flex flex-column gap-2">
-								<label htmlFor="variable-description">
-									{t('physicalInstance.view.columns.description')}
-								</label>
-								<InputTextarea
-									id="variable-description"
-									name="description"
-									value={state.description}
-									onChange={(e) =>
-										dispatch({
-											type: 'SET_DESCRIPTION',
-											payload: e.target.value,
-										})
-									}
-									rows={5}
-								/>
-							</div>
-						</div>
+						<VariableInformationTab
+							name={state.name}
+							label={state.label}
+							description={state.description}
+							onNameChange={(value) =>
+								dispatch({ type: 'SET_NAME', payload: value })
+							}
+							onLabelChange={(value) =>
+								dispatch({ type: 'SET_LABEL', payload: value })
+							}
+							onDescriptionChange={(value) =>
+								dispatch({ type: 'SET_DESCRIPTION', payload: value })
+							}
+						/>
 					</TabPanel>
 
 					<TabPanel header={t('physicalInstance.view.tabs.representation')}>
-						<div className="flex align-items-center gap-2">
-							<Checkbox
-								inputId="variable-isGeographic"
-								name="isGeographic"
-								checked={state.isGeographic}
-								onChange={(e) =>
-									dispatch({
-										type: 'SET_IS_GEOGRAPHIC',
-										payload: e.checked ?? false,
-									})
-								}
-							/>
-							<label htmlFor="variable-isGeographic">
-								{t('physicalInstance.view.isGeographic')}
-							</label>
-						</div>
-
-						<div className="flex flex-column gap-3">
-							<div className="flex flex-column gap-2">
-								<label htmlFor="variable-type">
-									{t('physicalInstance.view.columns.type')}
-								</label>
-								<Dropdown
-									key={`${variable.id}-type`}
-									id="variable-type"
-									name="type"
-									value={state.selectedType}
-									onChange={(e) =>
-										dispatch({ type: 'SET_TYPE', payload: e.value })
-									}
-									options={typeOptions}
-									placeholder={t('physicalInstance.view.selectType')}
-									required
-								/>
-							</div>
-
-							{state.selectedType === 'numeric' && (
-								<NumericRepresentationComponent
-									representation={state.representation.NumericRepresentation}
-									onChange={updateNumericRepresentation}
-								/>
-							)}
-
-							{state.selectedType === 'date' && (
-								<DateRepresentation
-									representation={state.representation.DateTimeRepresentation}
-									onChange={updateDateRepresentation}
-								/>
-							)}
-
-							{state.selectedType === 'text' && (
-								<TextRepresentationComponent
-									representation={state.representation.TextRepresentation}
-									onChange={updateTextRepresentation}
-								/>
-							)}
-
-							{state.selectedType === 'code' && (
-								<CodeRepresentationComponent
-									representation={state.representation.CodeRepresentation}
-									codeList={state.representation.CodeList}
-									categories={state.representation.Category}
-									onChange={updateCodeRepresentation}
-								/>
-							)}
-						</div>
+						<VariableRepresentationTab
+							variableId={variable.id}
+							isGeographic={state.isGeographic}
+							selectedType={state.selectedType}
+							typeOptions={typeOptions}
+							numericRepresentation={state.representation.NumericRepresentation}
+							dateRepresentation={state.representation.DateTimeRepresentation}
+							textRepresentation={state.representation.TextRepresentation}
+							codeRepresentation={state.representation.CodeRepresentation}
+							codeList={state.representation.CodeList}
+							categories={state.representation.Category}
+							onIsGeographicChange={(value) =>
+								dispatch({ type: 'SET_IS_GEOGRAPHIC', payload: value })
+							}
+							onTypeChange={(value) =>
+								dispatch({ type: 'SET_TYPE', payload: value })
+							}
+							onNumericRepresentationChange={updateNumericRepresentation}
+							onDateRepresentationChange={updateDateRepresentation}
+							onTextRepresentationChange={updateTextRepresentation}
+							onCodeRepresentationChange={updateCodeRepresentation}
+						/>
 					</TabPanel>
 
 					<TabPanel header={t('physicalInstance.view.tabs.ddiXml')}>
-						{/* DDI XML content will be added here */}
+						{activeIndex === 2 && (
+							<DdiXmlPreview
+								variableId={variable.id}
+								variableName={state.name}
+								variableLabel={state.label}
+								variableDescription={state.description}
+								variableType={state.selectedType}
+								isGeographic={state.isGeographic}
+								numericRepresentation={state.representation.NumericRepresentation}
+								dateRepresentation={state.representation.DateTimeRepresentation}
+								textRepresentation={state.representation.TextRepresentation}
+								codeRepresentation={state.representation.CodeRepresentation}
+								codeList={state.representation.CodeList}
+								categories={state.representation.Category}
+							/>
+						)}
 					</TabPanel>
 				</TabView>
 			</form>

@@ -11,6 +11,7 @@ interface GlobalActionsCardProps {
 	onExport: (format: 'DDI3' | 'DDI4') => void;
 	onRowClick?: (data: any) => void;
 	onDeleteClick?: (data: any) => void;
+	unsavedVariableIds?: string[];
 }
 
 export const GlobalActionsCard = ({
@@ -18,8 +19,13 @@ export const GlobalActionsCard = ({
 	onExport,
 	onRowClick,
 	onDeleteClick,
+	unsavedVariableIds = [],
 }: Readonly<GlobalActionsCardProps>) => {
 	const { t } = useTranslation();
+
+	const rowClassName = (rowData: any) => {
+		return unsavedVariableIds.includes(rowData.id) ? 'font-italic' : '';
+	};
 
 	const exportMenuItems: MenuItem[] = [
 		{
@@ -65,6 +71,7 @@ export const GlobalActionsCard = ({
 				aria-label={t('physicalInstance.view.variablesTable')}
 				onRowClick={(e) => onRowClick?.(e.data)}
 				selectionMode="single"
+				rowClassName={rowClassName}
 			>
 				<Column field="name" header={t('physicalInstance.view.columns.name')} />
 				<Column
