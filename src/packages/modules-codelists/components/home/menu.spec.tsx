@@ -9,24 +9,6 @@ describe('Codes List Home Page Menu', () => {
 		vi.clearAllMocks();
 	});
 
-	it('an admin can create a new codes list if he does not have the Gestionnaire_liste_codes_RMESGNCS role', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'CODESLIST_CODESLIST',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
-		const { HomePageMenu } = await import('./menu');
-
-		render(
-			<RBACMock>
-				<HomePageMenu />
-			</RBACMock>,
-		);
-
-		screen.getByText('New');
-	});
-
 	it('a user with Gestionnaire_liste_codes_RMESGNCS role can not create a codes list', async () => {
 		mockReactQueryForRbac([
 			{

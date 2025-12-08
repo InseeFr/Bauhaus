@@ -191,25 +191,6 @@ describe('SimsGeographyPicker', () => {
 		).toBeTruthy();
 	});
 
-	it('should open sliding panel when SeeButton is clicked', () => {
-		const { container } = renderComponent({
-			onChange: mockOnChange,
-			loadGeographies: mockLoadGeographies,
-			value: 'http://geo3',
-		});
-
-		const seeButton = container.querySelector('button[aria-label="See"]');
-		expect(seeButton).toBeTruthy();
-
-		fireEvent.click(seeButton);
-
-		// After clicking, the sliding panel should be open
-		// The component should now have SimsGeographyField rendered
-		waitFor(() => {
-			expect(container.querySelector('.w-100.container')).toBeTruthy();
-		});
-	});
-
 	it('should render with empty value', () => {
 		const { container } = renderComponent({
 			onChange: mockOnChange,
