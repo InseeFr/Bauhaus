@@ -66,7 +66,7 @@ describe('Home Component', () => {
 
 		render(<Component />, { wrapper: createWrapper() });
 
-		expect(screen.getByText('Physical Instance - Search')).toBeInTheDocument();
+		expect(screen.getByText('Physical Instances - Search')).toBeInTheDocument();
 		expect(
 			screen.queryByText('Loading in progress...'),
 		).not.toBeInTheDocument();
@@ -83,7 +83,7 @@ describe('Home Component', () => {
 
 		render(<Component />, { wrapper: createWrapper() });
 
-		expect(screen.getByText('Physical Instance - Search')).toBeInTheDocument();
+		expect(screen.getByText('Physical Instances - Search')).toBeInTheDocument();
 		expect(
 			screen.queryByText('Loading in progress...'),
 		).not.toBeInTheDocument();
@@ -100,7 +100,7 @@ describe('Home Component', () => {
 
 		render(<Component />, { wrapper: createWrapper() });
 
-		expect(screen.getByText('Physical Instance - Search')).toBeInTheDocument();
+		expect(screen.getByText('Physical Instances - Search')).toBeInTheDocument();
 		expect(
 			screen.queryByText('Loading in progress...'),
 		).not.toBeInTheDocument();

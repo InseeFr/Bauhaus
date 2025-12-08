@@ -68,7 +68,6 @@ describe('PhysicalInstanceCreationDialog', () => {
 			screen.getByText('Créer une nouvelle instance physique'),
 		).toBeInTheDocument();
 		expect(screen.getByLabelText('Label')).toBeInTheDocument();
-		expect(screen.getByLabelText('Name')).toBeInTheDocument();
 	});
 
 	it('should not render the dialog when visible is false', () => {
@@ -94,17 +93,15 @@ describe('PhysicalInstanceCreationDialog', () => {
 		render(<PhysicalInstanceCreationDialog {...defaultProps} />);
 
 		const labelInput = screen.getByLabelText('Label');
-		const nameInput = screen.getByLabelText('Name');
 		const createButton = screen.getByText('Créer');
 
 		fireEvent.change(labelInput, { target: { value: 'Test Label' } });
-		fireEvent.change(nameInput, { target: { value: 'Test Name' } });
 		fireEvent.click(createButton);
 
 		await waitFor(() => {
 			expect(mockOnSubmit).toHaveBeenCalledWith({
 				label: 'Test Label',
-				name: 'Test Name',
+				name: 'DataRelationShip Name:Test Label',
 			});
 		});
 	});
@@ -115,18 +112,16 @@ describe('PhysicalInstanceCreationDialog', () => {
 		);
 
 		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
-		const nameInput = screen.getByLabelText('Name') as HTMLInputElement;
 		const form = container.querySelector('form') as HTMLFormElement;
 		const resetSpy = vi.spyOn(form, 'reset');
 
 		fireEvent.change(labelInput, { target: { value: 'Test Label' } });
-		fireEvent.change(nameInput, { target: { value: 'Test Name' } });
 		fireEvent.submit(form);
 
 		await waitFor(() => {
 			expect(mockOnSubmit).toHaveBeenCalledWith({
 				label: 'Test Label',
-				name: 'Test Name',
+				name: 'DataRelationShip Name:Test Label',
 			});
 			expect(resetSpy).toHaveBeenCalled();
 		});
@@ -138,13 +133,11 @@ describe('PhysicalInstanceCreationDialog', () => {
 		);
 
 		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
-		const nameInput = screen.getByLabelText('Name') as HTMLInputElement;
 		const cancelButton = screen.getByText('Annuler');
 		const form = container.querySelector('form') as HTMLFormElement;
 		const resetSpy = vi.spyOn(form, 'reset');
 
 		fireEvent.change(labelInput, { target: { value: 'Test Label' } });
-		fireEvent.change(nameInput, { target: { value: 'Test Name' } });
 		fireEvent.click(cancelButton);
 
 		await waitFor(() => {

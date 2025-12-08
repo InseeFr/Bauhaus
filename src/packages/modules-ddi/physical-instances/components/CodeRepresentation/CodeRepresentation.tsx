@@ -3,6 +3,9 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Dropdown } from 'primereact/dropdown';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { Message } from 'primereact/message';
 import { useTranslation } from 'react-i18next';
 import type {
 	CodeRepresentation as CodeRepresentationType,
@@ -10,6 +13,7 @@ import type {
 	Code,
 	Category,
 } from '../../types/api';
+import { useCodesLists } from '../../../hooks/useCodesLists';
 
 interface CodeRepresentationProps {
 	representation?: CodeRepresentationType;
@@ -42,11 +46,17 @@ export const CodeRepresentation = ({
 	);
 	const [codes, setCodes] = useState<CodeTableRow[]>([]);
 	const [showDataTable, setShowDataTable] = useState(false);
+	const [showReuseSelect, setShowReuseSelect] = useState(false);
+	const {
+		data: codesLists = [],
+		isLoading: isLoadingCodesLists,
+		error: codesListsError,
+	} = useCodesLists();
 
 	useEffect(() => {
 		setCodeListLabel(codeList?.Label?.Content?.['#text'] || '');
 
-		if (codeList?.Code && categories) {
+		if (codeList?.Code) {
 			const tableData: CodeTableRow[] = codeList.Code.map((code) => {
 				const category = categories.find(
 					(cat) => cat.ID === code.CategoryReference.ID,
@@ -59,42 +69,35 @@ export const CodeRepresentation = ({
 				};
 			});
 			setCodes(tableData);
-		} else {
+			// Afficher automatiquement le DataTable si des codes existent
+			if (tableData.length > 0) {
+				setShowDataTable(true);
+			}
+		} else if (!codeList?.Code) {
 			setCodes([]);
 		}
-	}, [codeList, categories]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [codeList]);
 
 	const handleCodeListLabelChange = (newLabel: string) => {
 		setCodeListLabel(newLabel);
-
-		if (!representation) return;
-
-		const updatedCodeList: CodeList = {
-			...(codeList || {
-				'@isUniversallyUnique': 'true',
-				'@versionDate': new Date().toISOString(),
-				URN: `urn:ddi:fr.insee:${crypto.randomUUID()}:1`,
-				Agency: 'fr.insee',
-				ID: crypto.randomUUID(),
-				Version: '1',
-				Code: [],
-			}),
-			Label: {
-				Content: {
-					'@xml:lang': 'fr-FR',
-					'#text': newLabel,
-				},
-			},
-		};
-
-		onChange(representation, updatedCodeList, categories);
+		// Ne pas appeler onChange ici, le label sera sauvegardé lors de l'ajout/modification de codes
 	};
 
 	const handleDeleteCode = (codeId: string) => {
 		const updatedCodes = codes.filter((code) => code.id !== codeId);
 		setCodes(updatedCodes);
 
-		if (!representation) return;
+		// Create a default representation if it doesn't exist
+		const currentRepresentation: CodeRepresentationType = representation || {
+			'@blankIsMissingValue': 'false',
+			CodeListReference: {
+				Agency: 'fr.insee',
+				ID: crypto.randomUUID(),
+				Version: '1',
+				TypeOfObject: 'CodeList',
+			},
+		};
 
 		const deletedCode = codes.find((c) => c.id === codeId);
 		const updatedCodeList: CodeList = {
@@ -120,7 +123,7 @@ export const CodeRepresentation = ({
 			? categories.filter((cat) => cat.ID !== deletedCode.categoryId)
 			: categories;
 
-		onChange(representation, updatedCodeList, updatedCategories);
+		onChange(currentRepresentation, updatedCodeList, updatedCategories);
 	};
 
 	const handleCellEdit = (
@@ -133,7 +136,16 @@ export const CodeRepresentation = ({
 		);
 		setCodes(updatedCodes);
 
-		if (!representation) return;
+		// Create a default representation if it doesn't exist
+		const currentRepresentation: CodeRepresentationType = representation || {
+			'@blankIsMissingValue': 'false',
+			CodeListReference: {
+				Agency: 'fr.insee',
+				ID: crypto.randomUUID(),
+				Version: '1',
+				TypeOfObject: 'CodeList',
+			},
+		};
 
 		const updatedCode = updatedCodes.find((c) => c.id === rowData.id);
 		if (!updatedCode) return;
@@ -205,7 +217,7 @@ export const CodeRepresentation = ({
 			Code: updatedCodeListCodes,
 		};
 
-		onChange(representation, updatedCodeList, updatedCategories);
+		onChange(currentRepresentation, updatedCodeList, updatedCategories);
 	};
 
 	const valueEditor = (rowData: CodeTableRow) => {
@@ -234,6 +246,7 @@ export const CodeRepresentation = ({
 		return (
 			<div className="flex gap-2">
 				<Button
+					type="button"
 					icon="pi pi-trash"
 					rounded
 					text
@@ -374,6 +387,7 @@ export const CodeRepresentation = ({
 		return (
 			<>
 				<Button
+					type="button"
 					icon="pi pi-plus"
 					rounded
 					text
@@ -408,32 +422,94 @@ export const CodeRepresentation = ({
 			<div className="flex flex-column gap-2">
 				<div className="flex gap-2">
 					<Button
+						type="button"
 						icon="pi pi-plus"
 						label={t('physicalInstance.view.code.createNewList')}
 						outlined
-						onClick={() => setShowDataTable(true)}
+						onClick={() => {
+							setShowDataTable(true);
+							setShowReuseSelect(false);
+						}}
 					/>
 					<Button
+						type="button"
 						icon="pi pi-sync"
 						label={t('physicalInstance.view.code.reuseList')}
 						outlined
-						onClick={() => {}}
+						onClick={() => {
+							setShowReuseSelect(!showReuseSelect);
+							setShowDataTable(false);
+						}}
 					/>
 				</div>
+				{showReuseSelect && (
+					<>
+						{isLoadingCodesLists && (
+							<div className="flex align-items-center gap-2">
+								<ProgressSpinner
+									style={{ width: '20px', height: '20px' }}
+									strokeWidth="4"
+								/>
+								<span>{t('physicalInstance.view.code.loadingCodesLists')}</span>
+							</div>
+						)}
+						{codesListsError && (
+							<Message
+								severity="error"
+								text={t('physicalInstance.view.code.errorLoadingCodesLists')}
+							/>
+						)}
+						{!isLoadingCodesLists && !codesListsError && (
+							<>
+								{codesLists.length === 0 ? (
+									<Message
+										severity="info"
+										text={t('physicalInstance.view.code.noCodesListsAvailable')}
+									/>
+								) : (
+									<Dropdown
+										filter
+										value={null}
+										options={codesLists.map(
+											(cl: {
+												id: string;
+												label: string;
+												agency: string;
+											}) => ({
+												value: `${cl.agency}-${cl.id}`,
+												label: cl.label,
+											}),
+										)}
+										onChange={(e) => {
+											// TODO: Handle selection
+											console.log('Selected code list:', e.value);
+										}}
+										placeholder={t('physicalInstance.view.code.selectCodeList')}
+										className="w-full"
+									/>
+								)}
+							</>
+						)}
+					</>
+				)}
 				{showDataTable && (
 					<DataTable value={[...codes, emptyRow]} size="small">
 						<Column
 							field="value"
 							header={t('physicalInstance.view.code.value')}
 							body={(rowData) =>
-								rowData.id === '' ? emptyRowValueTemplate() : valueEditor(rowData)
+								rowData.id === ''
+									? emptyRowValueTemplate()
+									: valueEditor(rowData)
 							}
 						/>
 						<Column
 							field="label"
 							header={t('physicalInstance.view.code.label')}
 							body={(rowData) =>
-								rowData.id === '' ? emptyRowLabelTemplate() : labelEditor(rowData)
+								rowData.id === ''
+									? emptyRowLabelTemplate()
+									: labelEditor(rowData)
 							}
 						/>
 						<Column

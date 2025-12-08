@@ -10,23 +10,31 @@ interface GlobalActionsCardProps {
 	variables: any[];
 	onExport: (format: 'DDI3' | 'DDI4') => void;
 	onRowClick?: (data: any) => void;
+	onDeleteClick?: (data: any) => void;
+	unsavedVariableIds?: string[];
 }
 
 export const GlobalActionsCard = ({
 	variables,
 	onExport,
 	onRowClick,
+	onDeleteClick,
+	unsavedVariableIds = [],
 }: Readonly<GlobalActionsCardProps>) => {
 	const { t } = useTranslation();
 
+	const rowClassName = (rowData: any) => {
+		return unsavedVariableIds.includes(rowData.id) ? 'font-italic' : '';
+	};
+
 	const exportMenuItems: MenuItem[] = [
 		{
-			label: 'DDI3',
+			label: 'DDI 3.3',
 			icon: 'pi pi-file',
 			command: () => onExport('DDI3'),
 		},
 		{
-			label: 'DDI4',
+			label: 'DDI 3.0/JSON',
 			icon: 'pi pi-file',
 			command: () => onExport('DDI4'),
 		},
@@ -50,13 +58,6 @@ export const GlobalActionsCard = ({
 					onClick={() => onExport('DDI3')}
 				/>
 				<Button
-					icon="pi pi-pencil"
-					label={t('physicalInstance.view.bulkEdit')}
-					severity="secondary"
-					style={{ background: 'transparent' }}
-					aria-label={t('physicalInstance.view.bulkEdit')}
-				/>
-				<Button
 					icon="pi pi-send"
 					label={t('physicalInstance.view.publish')}
 					severity="secondary"
@@ -70,6 +71,7 @@ export const GlobalActionsCard = ({
 				aria-label={t('physicalInstance.view.variablesTable')}
 				onRowClick={(e) => onRowClick?.(e.data)}
 				selectionMode="single"
+				rowClassName={rowClassName}
 			>
 				<Column field="name" header={t('physicalInstance.view.columns.name')} />
 				<Column
@@ -80,6 +82,22 @@ export const GlobalActionsCard = ({
 				<Column
 					field="lastModified"
 					header={t('physicalInstance.view.columns.lastModified')}
+				/>
+				<Column
+					body={(rowData) => (
+						<Button
+							icon="pi pi-trash"
+							rounded
+							text
+							severity="danger"
+							onClick={(e) => {
+								e.stopPropagation();
+								onDeleteClick?.(rowData);
+							}}
+							aria-label={t('physicalInstance.view.delete')}
+						/>
+					)}
+					style={{ width: '5rem' }}
 				/>
 			</DataTable>
 		</Card>

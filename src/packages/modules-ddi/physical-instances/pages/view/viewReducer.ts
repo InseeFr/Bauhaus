@@ -6,7 +6,35 @@ export const ACTION_TYPES = {
 	SET_FORM_DATA: 'SET_FORM_DATA',
 	SET_IMPORT_DATA: 'SET_IMPORT_DATA',
 	SET_SELECTED_VARIABLE: 'SET_SELECTED_VARIABLE',
+	UPDATE_VARIABLE: 'UPDATE_VARIABLE',
+	ADD_VARIABLE: 'ADD_VARIABLE',
+	DELETE_VARIABLE: 'DELETE_VARIABLE',
 } as const;
+
+import type {
+	NumericRepresentation,
+	DateTimeRepresentation,
+	TextRepresentation,
+	CodeRepresentation,
+	CodeList,
+	Category,
+} from '../../types/api';
+
+// Type réutilisable pour les variables
+export interface VariableData {
+	id: string;
+	label: string;
+	name: string;
+	description?: string;
+	type: string;
+	isGeographic?: boolean;
+	textRepresentation?: TextRepresentation;
+	numericRepresentation?: NumericRepresentation;
+	dateRepresentation?: DateTimeRepresentation;
+	codeRepresentation?: CodeRepresentation;
+	codeList?: CodeList;
+	categories?: Category[];
+}
 
 export interface State {
 	searchValue: string;
@@ -15,12 +43,8 @@ export interface State {
 	isImportModalVisible: boolean;
 	formData: { label: string; name: string };
 	importData: string;
-	selectedVariable: {
-		id: string;
-		label: string;
-		name: string;
-		type: string;
-	} | null;
+	selectedVariable: VariableData | null;
+	localVariables: VariableData[];
 }
 
 export type Action =
@@ -35,7 +59,19 @@ export type Action =
 	| { type: typeof ACTION_TYPES.SET_IMPORT_DATA; payload: string }
 	| {
 			type: typeof ACTION_TYPES.SET_SELECTED_VARIABLE;
-			payload: { id: string; label: string; name: string; type: string } | null;
+			payload: VariableData | null;
+	  }
+	| {
+			type: typeof ACTION_TYPES.UPDATE_VARIABLE;
+			payload: VariableData;
+	  }
+	| {
+			type: typeof ACTION_TYPES.ADD_VARIABLE;
+			payload: VariableData;
+	  }
+	| {
+			type: typeof ACTION_TYPES.DELETE_VARIABLE;
+			payload: string;
 	  };
 
 export const initialState: State = {
@@ -46,6 +82,7 @@ export const initialState: State = {
 	formData: { label: '', name: '' },
 	importData: '',
 	selectedVariable: null,
+	localVariables: [],
 };
 
 export function viewReducer(state: State, action: Action): State {
@@ -64,6 +101,27 @@ export function viewReducer(state: State, action: Action): State {
 			return { ...state, importData: action.payload };
 		case ACTION_TYPES.SET_SELECTED_VARIABLE:
 			return { ...state, selectedVariable: action.payload };
+		case ACTION_TYPES.UPDATE_VARIABLE: {
+			const updatedVariables = state.localVariables.map((variable) =>
+				variable.id === action.payload.id ? action.payload : variable,
+			);
+			return {
+				...state,
+				localVariables: updatedVariables,
+			};
+		}
+		case ACTION_TYPES.ADD_VARIABLE:
+			return {
+				...state,
+				localVariables: [...state.localVariables, action.payload],
+			};
+		case ACTION_TYPES.DELETE_VARIABLE:
+			return {
+				...state,
+				localVariables: state.localVariables.filter(
+					(variable) => variable.id !== action.payload,
+				),
+			};
 		default:
 			return state;
 	}
@@ -95,10 +153,20 @@ export const actions = {
 		type: ACTION_TYPES.SET_IMPORT_DATA,
 		payload,
 	}),
-	setSelectedVariable: (
-		payload: { id: string; label: string; name: string; type: string } | null,
-	): Action => ({
+	setSelectedVariable: (payload: VariableData | null): Action => ({
 		type: ACTION_TYPES.SET_SELECTED_VARIABLE,
+		payload,
+	}),
+	updateVariable: (payload: VariableData): Action => ({
+		type: ACTION_TYPES.UPDATE_VARIABLE,
+		payload,
+	}),
+	addVariable: (payload: VariableData): Action => ({
+		type: ACTION_TYPES.ADD_VARIABLE,
+		payload,
+	}),
+	deleteVariable: (payload: string): Action => ({
+		type: ACTION_TYPES.DELETE_VARIABLE,
 		payload,
 	}),
 };

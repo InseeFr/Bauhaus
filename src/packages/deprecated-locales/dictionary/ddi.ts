@@ -1,8 +1,11 @@
 export const dictionary = {
-	ddiTitle: { fr: 'DDI', en: 'DDI' },
-	physicalInstanceTitle: { fr: 'Physical Instance', en: 'Physical Instance' },
+	ddiTitle: { fr: 'Variables', en: 'Variables' },
+	physicalInstanceTitle: {
+		fr: 'Fichiers de données',
+		en: 'Physical Instances',
+	},
 	physicalInstancSearcheTitle: {
-		fr: 'Physical Instance - Recherche',
-		en: 'Physical Instance - Search',
+		fr: 'Fichiers de données - Recherche',
+		en: 'Physical Instances - Search',
 	},
 };

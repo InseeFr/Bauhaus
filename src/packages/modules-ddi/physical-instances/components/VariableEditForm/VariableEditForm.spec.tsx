@@ -88,7 +88,11 @@ vi.mock('primereact/inputtextarea', () => ({
 }));
 
 vi.mock('primereact/tabview', () => ({
-	TabView: ({ children }: any) => <div>{children}</div>,
+	TabView: ({ children, activeIndex, onTabChange }: any) => (
+		<div data-testid="tabview" data-active-index={activeIndex}>
+			{children}
+		</div>
+	),
 	TabPanel: ({ header, children }: any) => (
 		<div>
 			<h3>{header}</h3>
@@ -123,8 +127,97 @@ vi.mock('../CodeRepresentation/CodeRepresentation', () => ({
 	),
 }));
 
+vi.mock('./VariableInformationTab', () => ({
+	VariableInformationTab: ({
+		name,
+		label,
+		description,
+		onNameChange,
+		onLabelChange,
+		onDescriptionChange,
+	}: any) => (
+		<div data-testid="variable-information-tab">
+			<label htmlFor="variable-name">Nom</label>
+			<input
+				id="variable-name"
+				value={name}
+				onChange={(e) => onNameChange(e.target.value)}
+				required
+			/>
+			<label htmlFor="variable-label">Label</label>
+			<input
+				id="variable-label"
+				value={label}
+				onChange={(e) => onLabelChange(e.target.value)}
+				required
+			/>
+			<label htmlFor="variable-description">Description</label>
+			<textarea
+				id="variable-description"
+				value={description}
+				onChange={(e) => onDescriptionChange(e.target.value)}
+				rows={5}
+			/>
+		</div>
+	),
+}));
+
+vi.mock('./VariableRepresentationTab', () => ({
+	VariableRepresentationTab: ({
+		isGeographic,
+		selectedType,
+		onIsGeographicChange,
+		onTypeChange,
+		typeOptions,
+	}: any) => (
+		<div data-testid="variable-representation-tab">
+			<label htmlFor="variable-isGeographic">Variable géographique</label>
+			<input
+				type="checkbox"
+				id="variable-isGeographic"
+				checked={isGeographic}
+				onChange={(e) => onIsGeographicChange(e.target.checked)}
+			/>
+			<label htmlFor="variable-type">Type</label>
+			<select
+				id="variable-type"
+				value={selectedType}
+				onChange={(e) => onTypeChange(e.target.value)}
+				required
+			>
+				{typeOptions.map((option: any) => (
+					<option key={option.value} value={option.value}>
+						{option.label}
+					</option>
+				))}
+			</select>
+			{selectedType === 'numeric' && (
+				<div data-testid="numeric-representation">
+					Numeric Representation Component
+				</div>
+			)}
+			{selectedType === 'date' && (
+				<div data-testid="date-representation">Date Representation Component</div>
+			)}
+			{selectedType === 'text' && (
+				<div data-testid="text-representation">Text Representation Component</div>
+			)}
+			{selectedType === 'code' && (
+				<div data-testid="code-representation">Code Representation Component</div>
+			)}
+		</div>
+	),
+}));
+
+vi.mock('./DdiXmlPreview', () => ({
+	DdiXmlPreview: () => (
+		<div data-testid="ddi-xml-preview">DDI XML Preview Component</div>
+	),
+}));
+
 describe('VariableEditForm', () => {
 	const mockOnSave = vi.fn();
+	const mockOnDuplicate = vi.fn();
 
 	const typeOptions = [
 		{ label: 'Numérique', value: 'numeric' },
@@ -143,6 +236,7 @@ describe('VariableEditForm', () => {
 
 	beforeEach(() => {
 		vi.clearAllMocks();
+		mockOnDuplicate.mockClear();
 	});
 
 	it('should render the form with title', () => {
@@ -356,14 +450,13 @@ describe('VariableEditForm', () => {
 		const saveButton = screen.getByText('Enregistrer');
 		fireEvent.click(saveButton);
 
-		expect(mockOnSave).toHaveBeenCalledWith(
-			expect.objectContaining({
-				numericRepresentation: expect.any(Object),
-				dateRepresentation: undefined,
-				textRepresentation: undefined,
-				codeRepresentation: undefined,
-			}),
-		);
+		const savedData = mockOnSave.mock.calls[0][0];
+		expect(savedData).toHaveProperty('numericRepresentation');
+		expect(savedData).not.toHaveProperty('dateRepresentation');
+		expect(savedData).not.toHaveProperty('textRepresentation');
+		expect(savedData).not.toHaveProperty('codeRepresentation');
+		expect(savedData).not.toHaveProperty('codeList');
+		expect(savedData).not.toHaveProperty('categories');
 	});
 
 	it('should update when variable prop changes', () => {
@@ -631,5 +724,163 @@ describe('VariableEditForm', () => {
 		expect(updatedDescriptionInput.value).toBe('Different description');
 		expect(checkbox.checked).toBe(true);
 		expect(screen.getByTestId('date-representation')).toBeInTheDocument();
+	});
+
+	describe('Tab management', () => {
+		it('should initialize with first tab active (activeIndex=0)', () => {
+			render(
+				<VariableEditForm
+					variable={defaultVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			const tabView = screen.getByTestId('tabview');
+			expect(tabView).toHaveAttribute('data-active-index', '0');
+		});
+
+		it('should reset to first tab when variable changes', () => {
+			const { rerender } = render(
+				<VariableEditForm
+					variable={defaultVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			// Vérifier que le premier onglet est actif
+			let tabView = screen.getByTestId('tabview');
+			expect(tabView).toHaveAttribute('data-active-index', '0');
+
+			// Changer de variable
+			const newVariable = {
+				id: 'var-2',
+				label: 'New Variable',
+				name: 'newVar',
+				description: 'New description',
+				type: 'text',
+			};
+
+			rerender(
+				<VariableEditForm
+					variable={newVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			// Le premier onglet devrait toujours être actif après le changement de variable
+			tabView = screen.getByTestId('tabview');
+			expect(tabView).toHaveAttribute('data-active-index', '0');
+		});
+
+		it('should reset to first tab when new variable is clicked', () => {
+			const newVariable = {
+				id: 'new',
+				label: '',
+				name: '',
+				description: '',
+				type: 'text',
+			};
+
+			render(
+				<VariableEditForm
+					variable={newVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			const tabView = screen.getByTestId('tabview');
+			expect(tabView).toHaveAttribute('data-active-index', '0');
+		});
+	});
+
+	describe('Duplicate functionality', () => {
+		it('should duplicate variable when duplicate button is clicked', () => {
+			vi.useFakeTimers();
+			const mockTimestamp = 1234567890;
+			vi.setSystemTime(mockTimestamp);
+
+			render(
+				<VariableEditForm
+					variable={defaultVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+					onDuplicate={mockOnDuplicate}
+				/>,
+			);
+
+			const duplicateButton = screen.getByText('Dupliquer');
+			fireEvent.click(duplicateButton);
+
+			expect(mockOnDuplicate).toHaveBeenCalledWith(
+				expect.objectContaining({
+					id: `local-${mockTimestamp}`,
+					name: 'testVar (copy)',
+					label: 'Test Variable',
+					description: 'Test description',
+					type: 'numeric',
+				}),
+			);
+
+			vi.useRealTimers();
+		});
+
+		it('should duplicate variable with representation data', () => {
+			vi.useFakeTimers();
+			const mockTimestamp = 9876543210;
+			vi.setSystemTime(mockTimestamp);
+
+			const variableWithRepresentation = {
+				...defaultVariable,
+				numericRepresentation: {
+					'@decimalPositions': '2',
+					'@type': 'Double',
+				},
+			};
+
+			render(
+				<VariableEditForm
+					variable={variableWithRepresentation}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+					onDuplicate={mockOnDuplicate}
+				/>,
+			);
+
+			const duplicateButton = screen.getByText('Dupliquer');
+			fireEvent.click(duplicateButton);
+
+			expect(mockOnDuplicate).toHaveBeenCalledWith(
+				expect.objectContaining({
+					id: `local-${mockTimestamp}`,
+					name: 'testVar (copy)',
+					numericRepresentation: {
+						'@decimalPositions': '2',
+						'@type': 'Double',
+					},
+				}),
+			);
+
+			vi.useRealTimers();
+		});
+
+		it('should not call onDuplicate if prop is not provided', () => {
+			render(
+				<VariableEditForm
+					variable={defaultVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			const duplicateButton = screen.getByText('Dupliquer');
+			fireEvent.click(duplicateButton);
+
+			// Should not throw an error
+			expect(mockOnDuplicate).not.toHaveBeenCalled();
+		});
 	});
 });

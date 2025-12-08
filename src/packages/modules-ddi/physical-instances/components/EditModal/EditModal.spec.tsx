@@ -67,7 +67,6 @@ describe('EditModal', () => {
 		render(<EditModal {...defaultProps} />);
 
 		expect(screen.getByText('Modifier')).toBeInTheDocument();
-		expect(screen.getByLabelText('Name')).toBeInTheDocument();
 		expect(screen.getByLabelText('Label')).toBeInTheDocument();
 	});
 
@@ -80,10 +79,8 @@ describe('EditModal', () => {
 	it('should display current form data', () => {
 		render(<EditModal {...defaultProps} />);
 
-		const nameInput = screen.getByLabelText('Name') as HTMLInputElement;
 		const labelInput = screen.getByLabelText('Label') as HTMLInputElement;
 
-		expect(nameInput.value).toBe('Test Name');
 		expect(labelInput.value).toBe('Test Label');
 	});
 
@@ -99,17 +96,6 @@ describe('EditModal', () => {
 		});
 	});
 
-	it('should call onFormDataChange when name input changes', () => {
-		render(<EditModal {...defaultProps} />);
-
-		const nameInput = screen.getByLabelText('Name');
-		fireEvent.change(nameInput, { target: { value: 'New Name' } });
-
-		expect(mockOnFormDataChange).toHaveBeenCalledWith({
-			name: 'New Name',
-			label: 'Test Label',
-		});
-	});
 
 	it('should call onHide when cancel button is clicked', () => {
 		render(<EditModal {...defaultProps} />);

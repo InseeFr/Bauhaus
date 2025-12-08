@@ -1,6 +1,9 @@
 import { CodeDisplay } from '@components/code-display';
 import { ConditionalDisplay } from '@components/data/conditional-display';
-import { Organization, Organizations } from '@components/data/creators';
+import {
+	Organisation,
+	Organisations,
+} from '@components/business/organisations/organisations';
 import { Row } from '@components/layout';
 import { List } from '@components/ui/list';
 import { Note } from '@components/note';
@@ -93,7 +96,7 @@ export const GlobalInformationBlock = ({
 						<ConditionalDisplay data={dataset.creators}>
 							<li>
 								{D.datasetsDataProvider} :
-								<Organizations
+								<Organisations
 									creators={dataset.creators!}
 									organizations={organisations}
 								/>
@@ -103,7 +106,7 @@ export const GlobalInformationBlock = ({
 						{dataset.publisher && (
 							<li>
 								{D.datasetsPublicationProvider} :{' '}
-								<Organization
+								<Organisation
 									creator={dataset.publisher}
 									organizations={organisations}
 								/>

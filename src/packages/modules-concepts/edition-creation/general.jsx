@@ -3,7 +3,7 @@ import { DatePicker } from '@components/date-picker';
 import { DisseminationStatusInput } from '@components/dissemination-status/disseminationStatus';
 import { ClientSideError } from '@components/errors-bloc';
 import { TextInput } from '@components/form/input';
-import { InputMultiRmes } from '@components/input-multi-rmes';
+import { InputMulti } from '@components/ui/forms/input-multi';
 import { InputRmes } from '@components/input-rmes';
 import { Row } from '@components/layout';
 import { RequiredIcon } from '@components/required-icon';
@@ -61,7 +61,7 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
 					className="w-100"
 				/>
 			</Row>
-			<InputMultiRmes
+			<InputMulti
 				inputLg1={altLabelLg1}
 				inputLg2={altLabelLg2}
 				label="altLabelTitle"

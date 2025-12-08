@@ -1,17 +1,31 @@
 import { ComponentProps } from 'react';
 import D, { D2 } from '../../i18n';
-import { StampsInput } from '../stamps-input/stamps-input';
+import { OrganisationInput, StampsInput } from '../stamps-input/stamps-input';
 
 export const CreatorsInput = ({
 	lang = 'first',
+	mode = 'stamp',
 	...props
-}: Readonly<ComponentProps<typeof StampsInput>>) => {
-	const Dictionnary = lang === 'first' ? D : D2;
+}: Readonly<
+	ComponentProps<typeof StampsInput> & { mode: 'stamp' | 'organisation' }
+>) => {
+	const Dictionary = lang === 'first' ? D : D2;
+
+	if (mode === 'organisation') {
+		return (
+			<OrganisationInput
+				labelSingle={Dictionary.creatorsInput.creatorTitle}
+				labelMulti={Dictionary.creatorsInput.creatorsTitle}
+				lang={lang}
+				{...props}
+			/>
+		);
+	}
 
 	return (
 		<StampsInput
-			labelSingle={Dictionnary.creatorsInput.creatorTitle}
-			labelMulti={Dictionnary.creatorsInput.creatorsTitle}
+			labelSingle={Dictionary.creatorsInput.creatorTitle}
+			labelMulti={Dictionary.creatorsInput.creatorsTitle}
 			lang={lang}
 			{...props}
 		/>

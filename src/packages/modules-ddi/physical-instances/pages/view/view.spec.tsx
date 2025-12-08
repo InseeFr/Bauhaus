@@ -16,7 +16,7 @@ vi.mock('react-i18next', () => ({
 }));
 
 vi.mock('react-router-dom', () => ({
-	useParams: () => ({ id: 'test-id-123' }),
+	useParams: () => ({ id: 'test-id-123', agencyId: 'test-agency-123' }),
 }));
 
 vi.mock('../../../hooks/usePhysicalInstance', () => ({
@@ -429,7 +429,7 @@ describe('View Component', () => {
 			});
 
 			// Check that the link has the correct download attribute
-			expect(capturedLink?.download).toBe('test_physical_instance-ddi3.json');
+			expect(capturedLink?.download).toBe('test_physical_instance-ddi3.xml');
 
 			// Restore original appendChild
 			document.body.appendChild = originalAppendChild;
@@ -490,7 +490,9 @@ describe('View Component', () => {
 				expect(mockClick).toHaveBeenCalled();
 			});
 
-			expect(capturedLink?.download).toBe('test___physical___instance_-ddi3.json');
+			expect(capturedLink?.download).toBe(
+				'test___physical___instance_-ddi3.xml',
+			);
 
 			// Restore original appendChild
 			document.body.appendChild = originalAppendChild;
@@ -561,7 +563,7 @@ describe('View Component', () => {
 	});
 
 	describe('Save functionality', () => {
-		it('should initialize edit modal with title and dataRelationshipName', () => {
+		it('should initialize edit modal with title', () => {
 			render(<Component />, { wrapper });
 
 			const editButton = screen.getByLabelText(
@@ -572,12 +574,8 @@ describe('View Component', () => {
 			const labelInput = screen.getByLabelText(
 				'physicalInstance.view.editModal.label',
 			) as HTMLInputElement;
-			const nameInput = screen.getByLabelText(
-				'physicalInstance.view.editModal.name',
-			) as HTMLInputElement;
 
 			expect(labelInput.value).toBe('Test Physical Instance');
-			expect(nameInput.value).toBe('Test Data Relationship');
 		});
 
 		it('should call mutation when save button is clicked', async () => {
@@ -609,9 +607,10 @@ describe('View Component', () => {
 			await waitFor(() => {
 				expect(mutateAsyncMock).toHaveBeenCalledWith({
 					id: 'test-id-123',
+					agencyId: 'test-agency-123',
 					data: {
 						physicalInstanceLabel: 'Updated Title',
-						dataRelationshipName: 'Test Data Relationship',
+						dataRelationshipName: 'DataRelationShip Name:Updated Title',
 					},
 				});
 			});

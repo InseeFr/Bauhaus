@@ -8,13 +8,13 @@ vi.mock('react-i18next', () => ({
 			const translations: Record<string, string> = {
 				'physicalInstance.view.globalActions': 'Actions Globales',
 				'physicalInstance.view.export': 'Exporter',
-				'physicalInstance.view.bulkEdit': 'Édition en masse',
 				'physicalInstance.view.publish': 'Publier',
 				'physicalInstance.view.variablesTable': 'Tableau des variables',
 				'physicalInstance.view.columns.name': 'Nom',
 				'physicalInstance.view.columns.label': 'Label',
 				'physicalInstance.view.columns.type': 'Type',
 				'physicalInstance.view.columns.lastModified': 'Dernière Modification',
+				'physicalInstance.view.delete': 'Supprimer',
 			};
 			return translations[key] || key;
 		},
@@ -66,31 +66,46 @@ vi.mock('primereact/card', () => ({
 }));
 
 vi.mock('primereact/datatable', () => ({
-	DataTable: ({ value, children, ...props }: any) => (
-		<table {...props}>
-			<thead>
-				<tr>{children}</tr>
-			</thead>
-			<tbody>
-				{value.map((item: any, index: number) => (
-					<tr key={index}>
-						<td>{item.name}</td>
-						<td>{item.label}</td>
-						<td>{item.type}</td>
-						<td>{item.lastModified}</td>
+	DataTable: ({ value, children, onRowClick, ...props }: any) => {
+		// Convert children to array to handle both single and multiple Column components
+		const columns = Array.isArray(children) ? children : [children];
+
+		return (
+			<table {...props}>
+				<thead>
+					<tr>
+						{columns.map((col: any, idx: number) => (
+							<th key={idx}>{col.props.header}</th>
+						))}
 					</tr>
-				))}
-			</tbody>
-		</table>
-	),
+				</thead>
+				<tbody>
+					{value.map((item: any, index: number) => (
+						<tr
+							key={index}
+							onClick={() => onRowClick?.({ data: item })}
+						>
+							{columns.map((col: any, colIdx: number) => (
+								<td key={colIdx}>
+									{col.props.body ? col.props.body(item) : item[col.props.field]}
+								</td>
+							))}
+						</tr>
+					))}
+				</tbody>
+			</table>
+		);
+	},
 }));
 
 vi.mock('primereact/column', () => ({
-	Column: ({ header }: any) => <th>{header}</th>,
+	Column: ({ header, field, body }: any) => null,
 }));
 
 describe('GlobalActionsCard', () => {
 	const mockOnExport = vi.fn();
+	const mockOnRowClick = vi.fn();
+	const mockOnDeleteClick = vi.fn();
 
 	const mockVariables = [
 		{
@@ -112,6 +127,8 @@ describe('GlobalActionsCard', () => {
 	const defaultProps = {
 		variables: mockVariables,
 		onExport: mockOnExport,
+		onRowClick: mockOnRowClick,
+		onDeleteClick: mockOnDeleteClick,
 	};
 
 	beforeEach(() => {
@@ -128,7 +145,6 @@ describe('GlobalActionsCard', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
 		expect(screen.getByText('Exporter')).toBeInTheDocument();
-		expect(screen.getByText('Édition en masse')).toBeInTheDocument();
 		expect(screen.getByText('Publier')).toBeInTheDocument();
 	});
 
@@ -145,14 +161,14 @@ describe('GlobalActionsCard', () => {
 	it('should render export menu with DDI3 and DDI4 options', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
-		expect(screen.getByTestId('menu-item-DDI3')).toBeInTheDocument();
-		expect(screen.getByTestId('menu-item-DDI4')).toBeInTheDocument();
+		expect(screen.getByTestId('menu-item-DDI 3.3')).toBeInTheDocument();
+		expect(screen.getByTestId('menu-item-DDI 3.0/JSON')).toBeInTheDocument();
 	});
 
 	it('should call onExport with DDI3 when DDI3 menu item is clicked', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
-		const ddi3MenuItem = screen.getByTestId('menu-item-DDI3');
+		const ddi3MenuItem = screen.getByTestId('menu-item-DDI 3.3');
 		fireEvent.click(ddi3MenuItem);
 
 		expect(mockOnExport).toHaveBeenCalledTimes(1);
@@ -162,7 +178,7 @@ describe('GlobalActionsCard', () => {
 	it('should call onExport with DDI4 when DDI4 menu item is clicked', () => {
 		render(<GlobalActionsCard {...defaultProps} />);
 
-		const ddi4MenuItem = screen.getByTestId('menu-item-DDI4');
+		const ddi4MenuItem = screen.getByTestId('menu-item-DDI 3.0/JSON');
 		fireEvent.click(ddi4MenuItem);
 
 		expect(mockOnExport).toHaveBeenCalledTimes(1);
@@ -202,8 +218,57 @@ describe('GlobalActionsCard', () => {
 		// SplitButton creates multiple elements with the same aria-label
 		const exportElements = screen.getAllByLabelText('Exporter');
 		expect(exportElements.length).toBeGreaterThan(0);
-		expect(screen.getByLabelText('Édition en masse')).toBeInTheDocument();
 		expect(screen.getByLabelText('Publier')).toBeInTheDocument();
 		expect(screen.getByLabelText('Tableau des variables')).toBeInTheDocument();
+	});
+
+	describe('Delete functionality', () => {
+		it('should render delete buttons for each variable', () => {
+			render(<GlobalActionsCard {...defaultProps} />);
+
+			const deleteButtons = screen.getAllByLabelText('Supprimer');
+			expect(deleteButtons).toHaveLength(mockVariables.length);
+		});
+
+		it('should call onDeleteClick with variable data when delete button is clicked', () => {
+			render(<GlobalActionsCard {...defaultProps} />);
+
+			const deleteButtons = screen.getAllByLabelText('Supprimer');
+			fireEvent.click(deleteButtons[0]);
+
+			expect(mockOnDeleteClick).toHaveBeenCalledTimes(1);
+			expect(mockOnDeleteClick).toHaveBeenCalledWith(mockVariables[0]);
+		});
+
+		it('should not call onRowClick when delete button is clicked', () => {
+			render(<GlobalActionsCard {...defaultProps} />);
+
+			const deleteButtons = screen.getAllByLabelText('Supprimer');
+			fireEvent.click(deleteButtons[0]);
+
+			expect(mockOnDeleteClick).toHaveBeenCalledTimes(1);
+			expect(mockOnRowClick).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('Optional callbacks', () => {
+		it('should render without onRowClick callback', () => {
+			const propsWithoutRowClick = {
+				variables: mockVariables,
+				onExport: mockOnExport,
+			};
+
+			expect(() => render(<GlobalActionsCard {...propsWithoutRowClick} />)).not.toThrow();
+		});
+
+		it('should render without onDeleteClick callback', () => {
+			const propsWithoutDeleteClick = {
+				variables: mockVariables,
+				onExport: mockOnExport,
+				onRowClick: mockOnRowClick,
+			};
+
+			expect(() => render(<GlobalActionsCard {...propsWithoutDeleteClick} />)).not.toThrow();
+		});
 	});
 });
