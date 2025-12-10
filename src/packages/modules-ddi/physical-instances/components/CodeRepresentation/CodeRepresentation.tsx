@@ -482,7 +482,7 @@ export const CodeRepresentation = ({
 										)}
 										onChange={(e) => {
 											// TODO: Handle selection
-											console.log('Selected code list:', e.value);
+												console.log('Selected code list:', e.value);
 										}}
 										placeholder={t('physicalInstance.view.code.selectCodeList')}
 										className="w-full"

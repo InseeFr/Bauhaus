@@ -120,7 +120,7 @@ test('complete end-to-end test for module Operation', async ({ page }) => {
 
 	await page
 		.locator('[id="S\\.3\\.1"]')
-		.getByRole('button', { name: 'Ajoutez un lien' })
+		.getByRole('button', { name: 'Ajouter un lien' })
 		.first()
 		.click();
 	await page
