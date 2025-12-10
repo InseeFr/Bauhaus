@@ -32,6 +32,19 @@ const api = {
 			body: JSON.stringify(data),
 		},
 	],
+	putPhysicalInstance: (agencyId: string, id: string, data: unknown) => {
+		const stringified = JSON.stringify(data);
+		return [
+			'physical-instance/' + agencyId + '/' + id,
+			{
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: stringified,
+			},
+		];
+	},
 	convertToDDI3: (data: unknown) => [
 		'convert/ddi4-to-ddi3',
 		{

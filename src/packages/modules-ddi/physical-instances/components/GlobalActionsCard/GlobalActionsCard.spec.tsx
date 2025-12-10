@@ -271,4 +271,39 @@ describe('GlobalActionsCard', () => {
 			expect(() => render(<GlobalActionsCard {...propsWithoutDeleteClick} />)).not.toThrow();
 		});
 	});
+
+	describe('Date formatting', () => {
+		it('should format ISO date to DD/MM/YYYY format', () => {
+			const variablesWithISODates = [
+				{
+					id: '1',
+					name: 'Variable1',
+					label: 'Label 1',
+					type: 'Code',
+					lastModified: '2024-03-15T10:30:00.000Z',
+				},
+			];
+
+			render(<GlobalActionsCard {...defaultProps} variables={variablesWithISODates} />);
+
+			expect(screen.getByText('15/03/2024')).toBeInTheDocument();
+		});
+
+		it('should handle empty date string', () => {
+			const variablesWithEmptyDate = [
+				{
+					id: '1',
+					name: 'Variable1',
+					label: 'Label 1',
+					type: 'Code',
+					lastModified: '',
+				},
+			];
+
+			render(<GlobalActionsCard {...defaultProps} variables={variablesWithEmptyDate} />);
+
+			// Should not throw and should render the table
+			expect(screen.getByText('Variable1')).toBeInTheDocument();
+		});
+	});
 });

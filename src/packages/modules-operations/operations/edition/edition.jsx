@@ -53,7 +53,6 @@ class OperationsOperationEdition extends Component {
 	};
 
 	onChange = (e) => {
-		console.log(e);
 		let override = {
 			[e.target.id]: e.target.value,
 		};
