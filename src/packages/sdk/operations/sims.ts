@@ -1,5 +1,6 @@
 import { Sims } from '../../model/Sims';
 import { saveFileFromHttpResponse } from '../../utils/files';
+import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from '../constants';
 
 const hasDocument = (sims: any, withDocument: boolean) => {
 	if (!withDocument) {
@@ -28,7 +29,7 @@ const api = {
 			method: 'GET',
 			mode: 'cors',
 			headers: {
-				Accept: 'application/vnd.oasis.opendocument.text',
+				Accept: OPEN_DOCUMENT_TEXT_MIME_TYPE,
 				'Content-Type': 'text/plain',
 			},
 		},

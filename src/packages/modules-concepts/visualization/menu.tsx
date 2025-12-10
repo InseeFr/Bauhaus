@@ -15,6 +15,7 @@ import { ConceptsApi } from '../../sdk';
 import { saveFileFromHttpResponse } from '../../utils/files';
 import { useGoBack } from '../../utils/hooks/useGoBack';
 import { useLoading } from './loading';
+import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from '../../sdk/constants';
 
 interface ConceptVisualizationControlsTypes {
 	general: any;
@@ -67,7 +68,7 @@ const ConceptVisualizationControls = ({
 						setLoading('exporting');
 						return ConceptsApi.getConceptExport(
 							id,
-							'application/vnd.oasis.opendocument.text',
+							OPEN_DOCUMENT_TEXT_MIME_TYPE,
 						)
 							.then(saveFileFromHttpResponse)
 							.finally(() => setLoading());
