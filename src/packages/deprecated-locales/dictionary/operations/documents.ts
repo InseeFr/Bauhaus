@@ -16,11 +16,11 @@ const messages = {
 	titleUpdatedDate: { fr: 'Date de mise à jour', en: 'Updated date' },
 	file: { fr: 'Fichier', en: 'File' },
 	addDocument: {
-		fr: 'Ajoutez un document',
+		fr: 'Ajouter un document',
 		en: 'Add a document',
 	},
 	addLink: {
-		fr: 'Ajoutez un lien',
+		fr: 'Ajouter un lien',
 		en: 'Add a link',
 	},
 	drag: {

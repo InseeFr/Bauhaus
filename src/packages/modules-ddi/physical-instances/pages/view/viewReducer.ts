@@ -9,6 +9,7 @@ export const ACTION_TYPES = {
 	UPDATE_VARIABLE: 'UPDATE_VARIABLE',
 	ADD_VARIABLE: 'ADD_VARIABLE',
 	DELETE_VARIABLE: 'DELETE_VARIABLE',
+	CLEAR_LOCAL_VARIABLES: 'CLEAR_LOCAL_VARIABLES',
 } as const;
 
 import type {
@@ -45,6 +46,7 @@ export interface State {
 	importData: string;
 	selectedVariable: VariableData | null;
 	localVariables: VariableData[];
+	deletedVariableIds: string[];
 }
 
 export type Action =
@@ -72,7 +74,8 @@ export type Action =
 	| {
 			type: typeof ACTION_TYPES.DELETE_VARIABLE;
 			payload: string;
-	  };
+	  }
+	| { type: typeof ACTION_TYPES.CLEAR_LOCAL_VARIABLES };
 
 export const initialState: State = {
 	searchValue: '',
@@ -83,6 +86,7 @@ export const initialState: State = {
 	importData: '',
 	selectedVariable: null,
 	localVariables: [],
+	deletedVariableIds: [],
 };
 
 export function viewReducer(state: State, action: Action): State {
@@ -121,6 +125,13 @@ export function viewReducer(state: State, action: Action): State {
 				localVariables: state.localVariables.filter(
 					(variable) => variable.id !== action.payload,
 				),
+				deletedVariableIds: [...state.deletedVariableIds, action.payload],
+			};
+		case ACTION_TYPES.CLEAR_LOCAL_VARIABLES:
+			return {
+				...state,
+				localVariables: [],
+				deletedVariableIds: [],
 			};
 		default:
 			return state;
@@ -168,5 +179,8 @@ export const actions = {
 	deleteVariable: (payload: string): Action => ({
 		type: ACTION_TYPES.DELETE_VARIABLE,
 		payload,
+	}),
+	clearLocalVariables: (): Action => ({
+		type: ACTION_TYPES.CLEAR_LOCAL_VARIABLES,
 	}),
 };

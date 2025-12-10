@@ -13,6 +13,7 @@ import { GlobalActionsCard } from '../../components/GlobalActionsCard/GlobalActi
 import { VariableEditForm } from '../../components/VariableEditForm/VariableEditForm';
 import { usePhysicalInstancesData } from '../../../hooks/usePhysicalInstance';
 import { useUpdatePhysicalInstance } from '../../../hooks/useUpdatePhysicalInstance';
+import { usePublishPhysicalInstance } from '../../../hooks/usePublishPhysicalInstance';
 import {
 	viewReducer,
 	initialState,
@@ -49,6 +50,7 @@ export const Component = () => {
 		error,
 	} = usePhysicalInstancesData(agencyId!, id!);
 	const updatePhysicalInstance = useUpdatePhysicalInstance();
+	const savePhysicalInstance = usePublishPhysicalInstance();
 
 	useEffect(() => {
 		if (title || dataRelationshipName) {
@@ -96,6 +98,11 @@ export const Component = () => {
 	const mergedVariables = useMemo(() => {
 		const variableMap = new Map(variables.map((v) => [v.id, v]));
 
+		// Remove deleted variables
+		state.deletedVariableIds.forEach((deletedId) => {
+			variableMap.delete(deletedId);
+		});
+
 		// Apply local modifications and add new local variables
 		state.localVariables.forEach((localVar) => {
 			if (variableMap.has(localVar.id)) {
@@ -114,7 +121,7 @@ export const Component = () => {
 		});
 
 		return Array.from(variableMap.values());
-	}, [variables, state.localVariables]);
+	}, [variables, state.localVariables, state.deletedVariableIds]);
 
 	const filteredVariables = useMemo(() => {
 		let filtered = mergedVariables;
@@ -340,7 +347,7 @@ export const Component = () => {
 		(data: VariableData) => {
 			// Si l'ID est 'new', c'est une nouvelle variable
 			if (data.id === 'new') {
-				const newId = `local-${Date.now()}`;
+				const newId = crypto.randomUUID();
 				dispatch(
 					actions.addVariable({
 						...data,
@@ -415,6 +422,189 @@ export const Component = () => {
 		[t, state.selectedVariable],
 	);
 
+	const handleSaveAll = useCallback(async () => {
+		try {
+			// Fusionner les données avec les variables locales
+			// S'assurer que CodeList et Category ne sont jamais null mais toujours des tableaux
+			const mergedData = {
+				...data,
+				CodeList: data?.CodeList || [],
+				Category: data?.Category || [],
+			};
+
+			// Si on a des variables locales ou des suppressions, mettre à jour les variables
+			if (
+				state.localVariables.length > 0 ||
+				state.deletedVariableIds.length > 0
+			) {
+				const existingVariables = data?.Variable || [];
+				const variableMap = new Map(
+					existingVariables.map((v: Variable) => [v.ID, v]),
+				);
+
+				// Maps pour gérer les CodeLists et Categories
+				const codeListMap = new Map(
+					(data?.CodeList || []).map((cl: any) => [cl.ID, cl]),
+				);
+				const categoryMap = new Map(
+					(data?.Category || []).map((cat: any) => [cat.ID, cat]),
+				);
+
+				// Supprimer les variables marquées comme supprimées
+				state.deletedVariableIds.forEach((deletedId) => {
+					variableMap.delete(deletedId);
+				});
+
+				// Transformer les variables locales au format DDI et les ajouter/mettre à jour
+				state.localVariables.forEach((localVar) => {
+					// Ne pas ajouter les variables qui ont été supprimées
+					if (state.deletedVariableIds.includes(localVar.id)) {
+						return;
+					}
+
+					// Construire la représentation selon le type
+					let variableRepresentation: Variable['VariableRepresentation'];
+					if (localVar.textRepresentation) {
+						variableRepresentation = {
+							TextRepresentation: localVar.textRepresentation,
+						};
+					} else if (localVar.numericRepresentation) {
+						variableRepresentation = {
+							NumericRepresentation: localVar.numericRepresentation,
+						};
+					} else if (localVar.dateRepresentation) {
+						variableRepresentation = {
+							DateTimeRepresentation: localVar.dateRepresentation,
+						};
+					} else if (localVar.codeRepresentation) {
+						// Ajouter la CodeList et les Categories si elles existent
+						if (localVar.codeList) {
+							codeListMap.set(localVar.codeList.ID, localVar.codeList);
+						}
+						if (localVar.categories) {
+							localVar.categories.forEach((cat) => {
+								categoryMap.set(cat.ID, cat);
+							});
+						}
+
+						// S'assurer que la CodeListReference pointe vers le bon ID
+						const codeRepresentation = {
+							...localVar.codeRepresentation,
+							CodeListReference: {
+								...localVar.codeRepresentation.CodeListReference,
+								ID:
+									localVar.codeList?.ID ||
+									localVar.codeRepresentation.CodeListReference.ID,
+							},
+						};
+
+						variableRepresentation = {
+							CodeRepresentation: codeRepresentation,
+						};
+					}
+
+					const ddiVariable: Variable = {
+						'@isUniversallyUnique': 'true',
+						'@versionDate': new Date().toISOString(),
+						URN: `urn:ddi:${agencyId}:${localVar.id}:1`,
+						Agency: agencyId!,
+						ID: localVar.id,
+						Version: '1',
+						VariableName: {
+							String: {
+								'@xml:lang': 'fr-FR',
+								'#text': localVar.name,
+							},
+						},
+						Label: {
+							Content: {
+								'@xml:lang': 'fr-FR',
+								'#text': localVar.label,
+							},
+						},
+						...(localVar.description && {
+							Description: {
+								Content: {
+									'@xml:lang': 'fr-FR',
+									'#text': localVar.description,
+								},
+							},
+						}),
+						...(localVar.isGeographic && {
+							'@isGeographic': 'true',
+						}),
+						...(variableRepresentation && {
+							VariableRepresentation: variableRepresentation,
+						}),
+					};
+
+					variableMap.set(localVar.id, ddiVariable);
+				});
+
+				mergedData.Variable = Array.from(variableMap.values());
+
+				// Mettre à jour CodeList et Category avec les valeurs fusionnées
+				mergedData.CodeList = Array.from(codeListMap.values());
+				mergedData.Category = Array.from(categoryMap.values());
+			}
+
+			// Mettre à jour les références de variables dans LogicalRecord
+			if (
+				mergedData.DataRelationship?.[0]?.LogicalRecord &&
+				mergedData.Variable
+			) {
+				const allVariableIds = mergedData.Variable.map((v: Variable) => v.ID);
+
+				const variableReferences = allVariableIds.map((varId: string) => ({
+					Agency: agencyId!,
+					ID: varId,
+					Version: '1',
+					TypeOfObject: 'Variable',
+				}));
+
+				mergedData.DataRelationship[0].LogicalRecord.VariablesInRecord = {
+					VariableUsedReference: variableReferences,
+				};
+			}
+
+			await savePhysicalInstance.mutateAsync({
+				id: id!,
+				agencyId: agencyId!,
+				data: mergedData,
+			});
+
+			// Nettoyer les variables locales après une sauvegarde réussie
+			dispatch(actions.clearLocalVariables());
+
+			toast.current?.show({
+				severity: 'success',
+				summary: t('physicalInstance.view.saveAllSuccess'),
+				detail: t('physicalInstance.view.saveAllSuccessDetail'),
+				life: TOAST_DURATION,
+			});
+		} catch (err: unknown) {
+			const errorMessage =
+				err && typeof err === 'object' && 'message' in err
+					? String(err.message)
+					: t('physicalInstance.view.saveAllErrorDetail');
+
+			toast.current?.show({
+				severity: 'error',
+				summary: t('physicalInstance.view.saveAllError'),
+				detail: errorMessage,
+				life: TOAST_DURATION,
+			});
+		}
+	}, [
+		id,
+		agencyId,
+		data,
+		state.localVariables,
+		state.deletedVariableIds,
+		savePhysicalInstance,
+		t,
+	]);
+
 	if (isLoading) {
 		return <Loading />;
 	}
@@ -453,9 +643,6 @@ export const Component = () => {
 						onClick={handleOpenEditModal}
 					/>
 				</div>
-				<div className="mb-3">
-					<p className="text-gray-600">{dataRelationshipName}</p>
-				</div>
 
 				<SearchFilters
 					searchValue={state.searchValue}
@@ -464,6 +651,7 @@ export const Component = () => {
 					onTypeFilterChange={handleTypeFilterChange}
 					typeOptions={typeOptions}
 					onNewVariable={handleNewVariable}
+					onSaveAll={handleSaveAll}
 				/>
 
 				<GlobalActionsCard

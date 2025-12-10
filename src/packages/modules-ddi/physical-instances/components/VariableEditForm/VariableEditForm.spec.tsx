@@ -799,9 +799,8 @@ describe('VariableEditForm', () => {
 
 	describe('Duplicate functionality', () => {
 		it('should duplicate variable when duplicate button is clicked', () => {
-			vi.useFakeTimers();
-			const mockTimestamp = 1234567890;
-			vi.setSystemTime(mockTimestamp);
+			const mockUUID = 'test-uuid-1234';
+			vi.spyOn(crypto, 'randomUUID').mockReturnValue(mockUUID);
 
 			render(
 				<VariableEditForm
@@ -817,21 +816,20 @@ describe('VariableEditForm', () => {
 
 			expect(mockOnDuplicate).toHaveBeenCalledWith(
 				expect.objectContaining({
-					id: `local-${mockTimestamp}`,
+					id: mockUUID,
 					name: 'testVar (copy)',
-					label: 'Test Variable',
+					label: 'Test Variable (copy)',
 					description: 'Test description',
 					type: 'numeric',
 				}),
 			);
 
-			vi.useRealTimers();
+			vi.restoreAllMocks();
 		});
 
 		it('should duplicate variable with representation data', () => {
-			vi.useFakeTimers();
-			const mockTimestamp = 9876543210;
-			vi.setSystemTime(mockTimestamp);
+			const mockUUID = 'test-uuid-5678';
+			vi.spyOn(crypto, 'randomUUID').mockReturnValue(mockUUID);
 
 			const variableWithRepresentation = {
 				...defaultVariable,
@@ -855,8 +853,9 @@ describe('VariableEditForm', () => {
 
 			expect(mockOnDuplicate).toHaveBeenCalledWith(
 				expect.objectContaining({
-					id: `local-${mockTimestamp}`,
+					id: mockUUID,
 					name: 'testVar (copy)',
+					label: 'Test Variable (copy)',
 					numericRepresentation: {
 						'@decimalPositions': '2',
 						'@type': 'Double',
@@ -864,7 +863,7 @@ describe('VariableEditForm', () => {
 				}),
 			);
 
-			vi.useRealTimers();
+			vi.restoreAllMocks();
 		});
 
 		it('should not call onDuplicate if prop is not provided', () => {

@@ -314,8 +314,9 @@ export const VariableEditForm = ({
 		const currentData = buildSavePayload();
 		const duplicatedData = {
 			...currentData,
-			id: `local-${Date.now()}`,
+			id: crypto.randomUUID(),
 			name: `${currentData.name} (copy)`,
+			label: `${currentData.label} (copy)`,
 		};
 		onDuplicate?.(duplicatedData);
 	}, [buildSavePayload, onDuplicate]);
@@ -337,6 +338,7 @@ export const VariableEditForm = ({
 						label={t('physicalInstance.view.save')}
 						icon="pi pi-save"
 						outlined
+						aria-label={t('physicalInstance.view.save')}
 					/>
 				</div>
 
