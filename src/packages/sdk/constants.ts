@@ -19,3 +19,6 @@ export const RELATED = 'related';
 export const IS_REPLACED_BY = 'succeededBy';
 export const CLOSE_MATCH = 'closeMatch';
 export const NONE = ''; //local only: to ignore concept not linked
+
+export const OPEN_DOCUMENT_TEXT_MIME_TYPE =
+	'application/vnd.oasis.opendocument.text';

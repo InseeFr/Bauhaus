@@ -7,6 +7,7 @@ import { Row } from '@components/layout';
 
 import D from '../../../deprecated-locales/build-dictionary';
 import './index.css';
+import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from '@sdk/constants';
 
 export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 	const [lang, setLang] = useState('lg1');
@@ -27,7 +28,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 
 	const closeOdt = useCallback(() => {
 		handleOdtExportCollectionListCallback(
-			'application/vnd.oasis.opendocument.text',
+			OPEN_DOCUMENT_TEXT_MIME_TYPE,
 			lang,
 			withConcepts,
 		);
@@ -36,7 +37,7 @@ export const CollectionExportModal = ({ close, ids, exportOdt, exportOds }) => {
 
 	const closeOds = useCallback(() => {
 		handleOdsExportCollectionListCallback(
-			'application/vnd.oasis.opendocument.text',
+			OPEN_DOCUMENT_TEXT_MIME_TYPE,
 			lang,
 			withConcepts,
 		);
