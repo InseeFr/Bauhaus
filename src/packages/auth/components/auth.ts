@@ -1,5 +1,4 @@
 import { PropsWithChildren } from 'react';
-import { useSelector } from 'react-redux';
 
 import {
 	MODULE,
@@ -9,8 +8,7 @@ import {
 } from '@utils/hooks/users';
 
 import { AppName } from '../../application/app-context';
-import { ReduxModel } from '../../redux/model';
-import { getPermission } from '../../redux/selectors';
+import { usePermission } from '../../redux/hooks/usePermission';
 
 export type RoleCheck = string | [string, (value: string) => boolean];
 export type RoleChecks = RoleCheck[];
@@ -63,7 +61,7 @@ export const useAuthorizationGuard = ({
 	const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
 
 	const { privileges } = usePrivileges();
-	const { stamp } = useSelector((state: ReduxModel) => getPermission(state));
+	const { stamp } = usePermission();
 
 	if (!privileges) {
 		return false;
