@@ -74,13 +74,14 @@ src/packages/modules-{module-name}/
 │       ├── fr.json
 │       └── en.json
 ├── pages/               # Page components
-│   └── {page-name}/
-│       ├── page.tsx
-│       └── menu.tsx
+│   └── {object-name}.   # operation, series, indicator, ...
+        ├── {page-name}/ # home, view, edit, search, ...    
+            │       ├── page.tsx
+            │       └── menu.tsx
 ├── routes/              # Routing configuration
 │   ├── index.tsx
 │   └── layout.tsx
-└── menu/                # Module menu
+└── menu/                # Module horizontal menu
 ```
 
 ### Migration Guidelines
