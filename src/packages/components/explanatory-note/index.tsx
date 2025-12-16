@@ -1,4 +1,4 @@
-import { sanitize } from "dompurify";
+import DOMPurify from "dompurify";
 
 import Editor from "@uiw/react-md-editor";
 import { Note } from "../note";
@@ -15,7 +15,7 @@ export const ExplanatoryNote = ({ text, title, alone, md }: Readonly<Explanatory
 
   const newText = text.replace(
     /href="http:\/\/.+?\/codes\/(.+?)\/.+?\/(.+?)"/g,
-    `href="${window.location.origin}/classifications/classification/$1/item/$2"`,
+    `href="${window.location.origin}/classifications/classification/$1/item/$2"`
   );
 
   if (md) {
@@ -28,7 +28,7 @@ export const ExplanatoryNote = ({ text, title, alone, md }: Readonly<Explanatory
       text={
         <div
           dangerouslySetInnerHTML={{
-            __html: sanitize(newText),
+            __html: DOMPurify.sanitize(newText),
           }}
         />
       }
