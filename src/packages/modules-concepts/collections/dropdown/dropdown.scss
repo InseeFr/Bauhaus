@@ -1,84 +1,84 @@
 .dropdown__container {
-	position: relative;
+  position: relative;
 }
 
 .dropdown__btn {
-	all: unset;
-	cursor: pointer;
+  all: unset;
+  cursor: pointer;
 }
 
 .dropdown__btn img {
-	display: inline-block;
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	object-fit: cover;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .dropdown__content {
-	opacity: 0;
-	visibility: hidden;
-	pointer-events: none;
-	transform: translateY(-5px);
-	transition: 0.23s linear;
-	border: 1px solid #dedede;
-	position: absolute;
-	top: 64px;
-	right: 0;
-	font-size: 16px;
-	min-width: 150px;
-	background: #fff;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-	border-radius: 6px;
-	padding: 0;
-	z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition: 0.23s linear;
+  border: 1px solid #dedede;
+  position: absolute;
+  top: 64px;
+  right: 0;
+  font-size: 16px;
+  min-width: 150px;
+  background: #fff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  padding: 0;
+  z-index: 999;
 }
 
 .dropdown__content:after {
-	content: '';
-	position: absolute;
-	top: -5px;
-	right: 17px;
-	width: 0;
-	height: 0;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	border-bottom: 5px solid #fff;
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 17px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #fff;
 }
 
 .dropdown__content.active {
-	opacity: 1;
-	visibility: visible;
-	transform: translateY(0);
-	pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .dropdown__info button {
-	all: unset;
+  all: unset;
 }
 
 .dropdown__info ul {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .dropdown__info ul li {
-	padding: 0;
-	border-bottom: 1px solid #e9edff;
-	font-size: 14px;
-	display: flex;
+  padding: 0;
+  border-bottom: 1px solid #e9edff;
+  font-size: 14px;
+  display: flex;
 }
 .dropdown__info ul button {
-	padding: 10px 0 10px 16px;
-	width: 100%;
+  padding: 10px 0 10px 16px;
+  width: 100%;
 }
 
 .dropdown__info ul button:hover,
 .dropdown__info ul button:focus {
-	background-color: var(--color-1);
+  background-color: var(--color-1);
 }
 
 .dropdown__info ul li:last-child {
-	border: none;
+  border: none;
 }

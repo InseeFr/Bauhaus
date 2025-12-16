@@ -1,12 +1,12 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { VariableEditForm } from './VariableEditForm';
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { VariableEditForm } from "./VariableEditForm";
 import type {
-	NumericRepresentation,
-	CodeRepresentation,
-	CodeList,
-	Category,
-} from '../../types/api';
+  NumericRepresentation,
+  CodeRepresentation,
+  CodeList,
+  Category,
+} from "../../types/api";
 
 vi.mock('react-i18next', () => ({
 	useTranslation: () => ({
@@ -31,189 +31,183 @@ vi.mock('react-i18next', () => ({
 	}),
 }));
 
-vi.mock('primereact/card', () => ({
-	Card: ({ title, children }: any) => (
-		<div>
-			<h2>{title}</h2>
-			{children}
-		</div>
-	),
+vi.mock("primereact/card", () => ({
+  Card: ({ title, children }: any) => (
+    <div>
+      <h2>{title}</h2>
+      {children}
+    </div>
+  ),
 }));
 
-vi.mock('primereact/inputtext', () => ({
-	InputText: ({ id, value, onChange, required }: any) => (
-		<input id={id} value={value} onChange={onChange} required={required} />
-	),
+vi.mock("primereact/inputtext", () => ({
+  InputText: ({ id, value, onChange, required }: any) => (
+    <input id={id} value={value} onChange={onChange} required={required} />
+  ),
 }));
 
-vi.mock('primereact/dropdown', () => ({
-	Dropdown: ({ id, value, onChange, options, required }: any) => (
-		<select
-			id={id}
-			value={value}
-			onChange={(e) => onChange({ value: e.target.value })}
-			required={required}
-		>
-			{options.map((option: any) => (
-				<option key={option.value} value={option.value}>
-					{option.label}
-				</option>
-			))}
-		</select>
-	),
+vi.mock("primereact/dropdown", () => ({
+  Dropdown: ({ id, value, onChange, options, required }: any) => (
+    <select
+      id={id}
+      value={value}
+      onChange={(e) => onChange({ value: e.target.value })}
+      required={required}
+    >
+      {options.map((option: any) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  ),
 }));
 
-vi.mock('primereact/button', () => ({
-	Button: ({ label, onClick, type = 'button' }: any) => (
-		<button type={type} onClick={onClick}>
-			{label}
-		</button>
-	),
+vi.mock("primereact/button", () => ({
+  Button: ({ label, onClick, type = "button" }: any) => (
+    <button type={type} onClick={onClick}>
+      {label}
+    </button>
+  ),
 }));
 
-vi.mock('primereact/checkbox', () => ({
-	Checkbox: ({ inputId, checked, onChange }: any) => (
-		<input
-			type="checkbox"
-			id={inputId}
-			checked={checked}
-			onChange={(e) => onChange({ checked: e.target.checked })}
-		/>
-	),
+vi.mock("primereact/checkbox", () => ({
+  Checkbox: ({ inputId, checked, onChange }: any) => (
+    <input
+      type="checkbox"
+      id={inputId}
+      checked={checked}
+      onChange={(e) => onChange({ checked: e.target.checked })}
+    />
+  ),
 }));
 
-vi.mock('primereact/inputtextarea', () => ({
-	InputTextarea: ({ id, value, onChange, rows }: any) => (
-		<textarea id={id} value={value} onChange={onChange} rows={rows} />
-	),
+vi.mock("primereact/inputtextarea", () => ({
+  InputTextarea: ({ id, value, onChange, rows }: any) => (
+    <textarea id={id} value={value} onChange={onChange} rows={rows} />
+  ),
 }));
 
-vi.mock('primereact/tabview', () => ({
-	TabView: ({ children, activeIndex, onTabChange }: any) => (
-		<div data-testid="tabview" data-active-index={activeIndex}>
-			{children}
-		</div>
-	),
-	TabPanel: ({ header, children }: any) => (
-		<div>
-			<h3>{header}</h3>
-			{children}
-		</div>
-	),
+vi.mock("primereact/tabview", () => ({
+  TabView: ({ children, activeIndex, onTabChange }: any) => (
+    <div data-testid="tabview" data-active-index={activeIndex}>
+      {children}
+    </div>
+  ),
+  TabPanel: ({ header, children }: any) => (
+    <div>
+      <h3>{header}</h3>
+      {children}
+    </div>
+  ),
 }));
 
-vi.mock('../NumericRepresentation/NumericRepresentation', () => ({
-	NumericRepresentation: () => (
-		<div data-testid="numeric-representation">
-			Numeric Representation Component
-		</div>
-	),
+vi.mock("../NumericRepresentation/NumericRepresentation", () => ({
+  NumericRepresentation: () => (
+    <div data-testid="numeric-representation">Numeric Representation Component</div>
+  ),
 }));
 
-vi.mock('../DateRepresentation/DateRepresentation', () => ({
-	DateRepresentation: () => (
-		<div data-testid="date-representation">Date Representation Component</div>
-	),
+vi.mock("../DateRepresentation/DateRepresentation", () => ({
+  DateRepresentation: () => (
+    <div data-testid="date-representation">Date Representation Component</div>
+  ),
 }));
 
-vi.mock('../TextRepresentation/TextRepresentation', () => ({
-	TextRepresentation: () => (
-		<div data-testid="text-representation">Text Representation Component</div>
-	),
+vi.mock("../TextRepresentation/TextRepresentation", () => ({
+  TextRepresentation: () => (
+    <div data-testid="text-representation">Text Representation Component</div>
+  ),
 }));
 
-vi.mock('../CodeRepresentation/CodeRepresentation', () => ({
-	CodeRepresentation: () => (
-		<div data-testid="code-representation">Code Representation Component</div>
-	),
+vi.mock("../CodeRepresentation/CodeRepresentation", () => ({
+  CodeRepresentation: () => (
+    <div data-testid="code-representation">Code Representation Component</div>
+  ),
 }));
 
-vi.mock('./VariableInformationTab', () => ({
-	VariableInformationTab: ({
-		name,
-		label,
-		description,
-		onNameChange,
-		onLabelChange,
-		onDescriptionChange,
-	}: any) => (
-		<div data-testid="variable-information-tab">
-			<label htmlFor="variable-name">Nom</label>
-			<input
-				id="variable-name"
-				value={name}
-				onChange={(e) => onNameChange(e.target.value)}
-				required
-			/>
-			<label htmlFor="variable-label">Label</label>
-			<input
-				id="variable-label"
-				value={label}
-				onChange={(e) => onLabelChange(e.target.value)}
-				required
-			/>
-			<label htmlFor="variable-description">Description</label>
-			<textarea
-				id="variable-description"
-				value={description}
-				onChange={(e) => onDescriptionChange(e.target.value)}
-				rows={5}
-			/>
-		</div>
-	),
+vi.mock("./VariableInformationTab", () => ({
+  VariableInformationTab: ({
+    name,
+    label,
+    description,
+    onNameChange,
+    onLabelChange,
+    onDescriptionChange,
+  }: any) => (
+    <div data-testid="variable-information-tab">
+      <label htmlFor="variable-name">Nom</label>
+      <input
+        id="variable-name"
+        value={name}
+        onChange={(e) => onNameChange(e.target.value)}
+        required
+      />
+      <label htmlFor="variable-label">Label</label>
+      <input
+        id="variable-label"
+        value={label}
+        onChange={(e) => onLabelChange(e.target.value)}
+        required
+      />
+      <label htmlFor="variable-description">Description</label>
+      <textarea
+        id="variable-description"
+        value={description}
+        onChange={(e) => onDescriptionChange(e.target.value)}
+        rows={5}
+      />
+    </div>
+  ),
 }));
 
-vi.mock('./VariableRepresentationTab', () => ({
-	VariableRepresentationTab: ({
-		isGeographic,
-		selectedType,
-		onIsGeographicChange,
-		onTypeChange,
-		typeOptions,
-	}: any) => (
-		<div data-testid="variable-representation-tab">
-			<label htmlFor="variable-isGeographic">Variable géographique</label>
-			<input
-				type="checkbox"
-				id="variable-isGeographic"
-				checked={isGeographic}
-				onChange={(e) => onIsGeographicChange(e.target.checked)}
-			/>
-			<label htmlFor="variable-type">Type</label>
-			<select
-				id="variable-type"
-				value={selectedType}
-				onChange={(e) => onTypeChange(e.target.value)}
-				required
-			>
-				{typeOptions.map((option: any) => (
-					<option key={option.value} value={option.value}>
-						{option.label}
-					</option>
-				))}
-			</select>
-			{selectedType === 'numeric' && (
-				<div data-testid="numeric-representation">
-					Numeric Representation Component
-				</div>
-			)}
-			{selectedType === 'date' && (
-				<div data-testid="date-representation">Date Representation Component</div>
-			)}
-			{selectedType === 'text' && (
-				<div data-testid="text-representation">Text Representation Component</div>
-			)}
-			{selectedType === 'code' && (
-				<div data-testid="code-representation">Code Representation Component</div>
-			)}
-		</div>
-	),
+vi.mock("./VariableRepresentationTab", () => ({
+  VariableRepresentationTab: ({
+    isGeographic,
+    selectedType,
+    onIsGeographicChange,
+    onTypeChange,
+    typeOptions,
+  }: any) => (
+    <div data-testid="variable-representation-tab">
+      <label htmlFor="variable-isGeographic">Variable géographique</label>
+      <input
+        type="checkbox"
+        id="variable-isGeographic"
+        checked={isGeographic}
+        onChange={(e) => onIsGeographicChange(e.target.checked)}
+      />
+      <label htmlFor="variable-type">Type</label>
+      <select
+        id="variable-type"
+        value={selectedType}
+        onChange={(e) => onTypeChange(e.target.value)}
+        required
+      >
+        {typeOptions.map((option: any) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      {selectedType === "numeric" && (
+        <div data-testid="numeric-representation">Numeric Representation Component</div>
+      )}
+      {selectedType === "date" && (
+        <div data-testid="date-representation">Date Representation Component</div>
+      )}
+      {selectedType === "text" && (
+        <div data-testid="text-representation">Text Representation Component</div>
+      )}
+      {selectedType === "code" && (
+        <div data-testid="code-representation">Code Representation Component</div>
+      )}
+    </div>
+  ),
 }));
 
-vi.mock('./DdiXmlPreview', () => ({
-	DdiXmlPreview: () => (
-		<div data-testid="ddi-xml-preview">DDI XML Preview Component</div>
-	),
+vi.mock("./DdiXmlPreview", () => ({
+  DdiXmlPreview: () => <div data-testid="ddi-xml-preview">DDI XML Preview Component</div>,
 }));
 
 describe('VariableEditForm', () => {

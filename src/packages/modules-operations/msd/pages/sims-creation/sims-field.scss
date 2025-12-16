@@ -1,24 +1,24 @@
 .simsField {
-	.rdw-editor-wrapper {
-		background: white;
-		padding: 10px;
-	}
+  .rdw-editor-wrapper {
+    background: white;
+    padding: 10px;
+  }
 }
 
 .bauhaus-document-field {
-	padding-left: 0.5em;
-	padding-right: 0.5em;
-	> .panel-default > .panel-heading {
-		padding: 5px 15px;
-		background-color: var(--color-2);
-		color: white;
-		button:hover,
-		button:focus {
-			color: white;
-		}
-	}
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  > .panel-default > .panel-heading {
+    padding: 5px 15px;
+    background-color: var(--color-2);
+    color: white;
+    button:hover,
+    button:focus {
+      color: white;
+    }
+  }
 }
 
 .without-object input {
-	margin-left: 0.5em;
+  margin-left: 0.5em;
 }

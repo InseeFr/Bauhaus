@@ -1,16 +1,16 @@
 .bauhaus-sims-geography-picker {
-	display: flex;
+  display: flex;
 }
 
 .bauhaus-sims-geography-picker .form-group {
-	flex-grow: 1;
+  flex-grow: 1;
 }
 
-.bauhaus-sims-geography-picker .form-group div[class$='singleValue'] {
-	overflow: visible;
+.bauhaus-sims-geography-picker .form-group div[class$="singleValue"] {
+  overflow: visible;
 }
 
 .bauhaus-sims-geography-picker .btn {
-	margin-left: 1em;
-	height: 38px;
+  margin-left: 1em;
+  height: 38px;
 }

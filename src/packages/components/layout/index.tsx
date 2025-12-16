@@ -1,17 +1,17 @@
-import { ComponentProps, PropsWithChildren } from 'react';
+import { ComponentProps, PropsWithChildren } from "react";
 
-import './index.css';
+import "./index.css";
 
 export const Column = ({ children }: PropsWithChildren<unknown>) => {
-	return <div className="col-md-6">{children}</div>;
+  return <div className="col-md-6">{children}</div>;
 };
 
 export const Row = ({
-	children,
-	className = '',
-	...props
-}: PropsWithChildren<ComponentProps<'div'>>) => (
-	<div className={`row ${className}`} {...props}>
-		{children}
-	</div>
+  children,
+  className = "",
+  ...props
+}: PropsWithChildren<ComponentProps<"div">>) => (
+  <div className={`row ${className}`} {...props}>
+    {children}
+  </div>
 );

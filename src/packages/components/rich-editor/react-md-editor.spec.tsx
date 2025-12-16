@@ -1,8 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, vi, expect } from 'vitest';
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, it, vi, expect } from "vitest";
 
-import { MDEditor } from './react-md-editor';
+import { MDEditor } from "./react-md-editor";
 
 vi.mock('@uiw/react-md-editor', () => {
 	return {
@@ -26,29 +26,29 @@ vi.mock('@uiw/react-md-editor', () => {
 	};
 });
 
-describe('MDEditor component', () => {
-	it('should render the editor with the initial text', () => {
-		const mockHandleChange = vi.fn();
-		const initialText = 'Initial text';
+describe("MDEditor component", () => {
+  it("should render the editor with the initial text", () => {
+    const mockHandleChange = vi.fn();
+    const initialText = "Initial text";
 
-		render(<MDEditor text={initialText} handleChange={mockHandleChange} />);
+    render(<MDEditor text={initialText} handleChange={mockHandleChange} />);
 
-		const editor = screen.getByTestId('editor') as HTMLInputElement;
-		expect(editor).toBeInTheDocument();
-		expect(editor.value).toBe(initialText);
-	});
+    const editor = screen.getByTestId("editor") as HTMLInputElement;
+    expect(editor).toBeInTheDocument();
+    expect(editor.value).toBe(initialText);
+  });
 
-	it('should call handleChange when the text is updated', async () => {
-		const mockHandleChange = vi.fn();
-		const initialText = '';
-		const newText = 'Updated text';
+  it("should call handleChange when the text is updated", async () => {
+    const mockHandleChange = vi.fn();
+    const initialText = "";
+    const newText = "Updated text";
 
-		render(<MDEditor text={initialText} handleChange={mockHandleChange} />);
+    render(<MDEditor text={initialText} handleChange={mockHandleChange} />);
 
-		const editor = screen.getByTestId('editor');
-		await userEvent.clear(editor);
-		await userEvent.type(editor, newText);
+    const editor = screen.getByTestId("editor");
+    await userEvent.clear(editor);
+    await userEvent.type(editor, newText);
 
-		expect(mockHandleChange).toHaveBeenCalledTimes(12);
-	});
+    expect(mockHandleChange).toHaveBeenCalledTimes(12);
+  });
 });

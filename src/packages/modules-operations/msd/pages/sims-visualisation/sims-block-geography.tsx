@@ -1,16 +1,14 @@
-import { Rubric } from '../../../../model/Sims';
+import { Rubric } from "../../../../model/Sims";
 
 interface SimsBlockGeographyTypes {
-	currentSection: Rubric;
-	isSecondLang: boolean;
+  currentSection: Rubric;
+  isSecondLang: boolean;
 }
 
 const SimsBlockGeography = ({
-	currentSection,
-	isSecondLang,
+  currentSection,
+  isSecondLang,
 }: Readonly<SimsBlockGeographyTypes>) => {
-	return (
-		<>{isSecondLang ? currentSection.labelLg2 : currentSection.labelLg1}</>
-	);
+  return <>{isSecondLang ? currentSection.labelLg2 : currentSection.labelLg1}</>;
 };
 export default SimsBlockGeography;

@@ -1,43 +1,40 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 
-import { ClassificationsApi } from '@sdk/classification';
+import { ClassificationsApi } from "@sdk/classification";
 
-import * as A from '../../../../redux/actions/constants';
+import * as A from "../../../../redux/actions/constants";
 
 const fetchClassificationLevelGeneral =
-	(classificationId: string, levelId: string) => (dispatch: Dispatch) => {
-		dispatch({
-			type: A.LOAD_CLASSIFICATION_LEVEL_GENERAL,
-			payload: {
-				classificationId,
-				levelId,
-			},
-		});
-		return ClassificationsApi.getClassificationLevelGeneral(
-			classificationId,
-			levelId,
-		).then(
-			(results: any) => {
-				dispatch({
-					type: A.LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS,
-					payload: {
-						classificationId,
-						levelId,
-						results,
-					},
-				});
-				return results;
-			},
-			(err: any) =>
-				dispatch({
-					type: A.LOAD_CLASSIFICATION_LEVEL_GENERAL_FAILURE,
-					payload: {
-						err,
-						classificationId,
-						levelId,
-					},
-				}),
-		);
-	};
+  (classificationId: string, levelId: string) => (dispatch: Dispatch) => {
+    dispatch({
+      type: A.LOAD_CLASSIFICATION_LEVEL_GENERAL,
+      payload: {
+        classificationId,
+        levelId,
+      },
+    });
+    return ClassificationsApi.getClassificationLevelGeneral(classificationId, levelId).then(
+      (results: any) => {
+        dispatch({
+          type: A.LOAD_CLASSIFICATION_LEVEL_GENERAL_SUCCESS,
+          payload: {
+            classificationId,
+            levelId,
+            results,
+          },
+        });
+        return results;
+      },
+      (err: any) =>
+        dispatch({
+          type: A.LOAD_CLASSIFICATION_LEVEL_GENERAL_FAILURE,
+          payload: {
+            err,
+            classificationId,
+            levelId,
+          },
+        }),
+    );
+  };
 
 export default fetchClassificationLevelGeneral;

@@ -1,7 +1,7 @@
-.dataset-container [role='tabpanel'] {
-	margin-top: 1em;
+.dataset-container [role="tabpanel"] {
+  margin-top: 1em;
 }
 
-.dataset-container [role='tablist'] a {
-	color: var(--color-3);
+.dataset-container [role="tablist"] a {
+  color: var(--color-3);
 }

@@ -1,28 +1,28 @@
 .panel {
-	height: 100%;
+  height: 100%;
 
-	.card-title {
-		padding: 1rem;
-		margin: 0 !important;
-		font-size: 1em;
+  .card-title {
+    padding: 1rem;
+    margin: 0 !important;
+    font-size: 1em;
 
-		button {
-			background: transparent;
-			border: none;
-		}
-	}
+    button {
+      background: transparent;
+      border: none;
+    }
+  }
 
-	.card-header {
-		background: var(--color-2);
-		color: #fff;
-	}
+  .card-header {
+    background: var(--color-2);
+    color: #fff;
+  }
 
-	.card-body {
-		background: white;
-		margin: 1em;
-	}
+  .card-body {
+    background: white;
+    margin: 1em;
+  }
 }
 
 .row .note:nth-child(2) .card-header {
-	background: var(--color-1);
+  background: var(--color-1);
 }

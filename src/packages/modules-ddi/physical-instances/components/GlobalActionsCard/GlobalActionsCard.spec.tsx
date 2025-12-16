@@ -76,9 +76,9 @@ describe("GlobalActionsCard", () => {
 		onDeleteClick: mockOnDeleteClick,
 	};
 
-	beforeEach(() => {
-		vi.clearAllMocks();
-	});
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
 	it("should render card with title", () => {
 		render(<GlobalActionsCard {...defaultProps} />);

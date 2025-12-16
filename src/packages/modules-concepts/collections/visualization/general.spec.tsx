@@ -1,44 +1,44 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import CollectionGeneral from './general';
+import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import CollectionGeneral from "./general";
 
 // Mock des dépendances
-vi.mock('../../../deprecated-locales', () => ({
-	D1: {
-		globalInformationsTitle: 'Informations globales',
-		creatorTitle: 'Créateur',
-		contributorTitle: 'Gestionnaire',
-		isCollectionValidTitle: 'État de la collection',
-		collectionStatusProvisional: 'Provisoire',
-		collectionStatusValid: 'Validé',
-		descriptionTitle: 'Description',
-	},
-	D2: {
-		descriptionTitle: 'Description (en)',
-	},
+vi.mock("../../../deprecated-locales", () => ({
+  D1: {
+    globalInformationsTitle: "Informations globales",
+    creatorTitle: "Créateur",
+    contributorTitle: "Gestionnaire",
+    isCollectionValidTitle: "État de la collection",
+    collectionStatusProvisional: "Provisoire",
+    collectionStatusValid: "Validé",
+    descriptionTitle: "Description",
+  },
+  D2: {
+    descriptionTitle: "Description (en)",
+  },
 }));
 
-vi.mock('../../../utils/hooks/stamps', () => ({
-	useV2StampsMap: () => {
-		return new Map([
-			['DG75-L201', 'INSEE'],
-			['DG75-L202', 'DARES'],
-		]);
-	},
+vi.mock("../../../utils/hooks/stamps", () => ({
+  useV2StampsMap: () => {
+    return new Map([
+      ["DG75-L201", "INSEE"],
+      ["DG75-L202", "DARES"],
+    ]);
+  },
 }));
 
 const createWrapper = () => {
-	const queryClient = new QueryClient({
-		defaultOptions: {
-			queries: {
-				retry: false,
-			},
-		},
-	});
-	return ({ children }: { children: React.ReactNode }) => (
-		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-	);
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 };
 
 describe('CollectionGeneral', () => {

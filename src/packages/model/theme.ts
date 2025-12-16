@@ -1,5 +1,5 @@
 export interface Theme {
-	label: string;
-	idConceptScheme: string;
-	uri: string;
+  label: string;
+  idConceptScheme: string;
+  uri: string;
 }
