@@ -22,7 +22,7 @@
     "prepare": "husky",
     "_format": "oxfmt src",
     "format": "pnpm _format",
-    "format:check": "pnpm _format -- --check",
+    "format:check": "pnpm _format --check",
     "typecheck": "tsc --noEmit"
   },
   "browserslist": [
