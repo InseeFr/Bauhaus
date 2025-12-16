@@ -6,7 +6,7 @@ import {
 	mandatoryAndNotEmptyTextField,
 } from '@utils/validation';
 
-import D, { D1, D2 } from '../../deprecated-locales/build-dictionary';
+import D, { D1, D2 } from '../../../../deprecated-locales/build-dictionary';
 
 const ZodDistribution = z.object({
 	idDataset: mandatoryAndNotEmptySelectField(D.datasetTitle),

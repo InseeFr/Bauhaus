@@ -1,26 +1,22 @@
 import { NumberInput } from '@components/form/input';
 
-import { D1 } from '../../../deprecated-locales';
-import { Distribution } from '../../../model/Dataset';
+import { D1 } from '../../../../../deprecated-locales';
 
 export const ByteSizeInput = ({
 	value,
 	onChange,
 }: Readonly<{
-	value: Distribution;
-	onChange: (distribution: Distribution) => void;
+	value: string;
+	onChange: (value: string) => void;
 }>) => {
 	return (
 		<div className="col-md-12 form-group">
 			<label htmlFor="taille">{D1.tailleTitle}</label>
 			<NumberInput
 				id="taille"
-				value={value.byteSize}
+				value={value}
 				onChange={(e) =>
-					onChange({
-						...value,
-						byteSize: e.target.value,
-					})
+					onChange(e.target.value)
 				}
 			/>
 		</div>

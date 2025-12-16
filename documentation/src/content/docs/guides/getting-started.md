@@ -78,6 +78,8 @@ src/packages/modules-{module-name}/
         ├── {page-name}/ # home, view, edit, search, ...    
             │       ├── page.tsx
             │       └── menu.tsx
+                    └── validation.ts
+                    └── components # components for this current page
 ├── routes/              # Routing configuration
 │   ├── index.tsx
 │   └── layout.tsx
