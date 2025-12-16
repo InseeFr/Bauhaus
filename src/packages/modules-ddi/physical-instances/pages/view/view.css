@@ -1,16 +1,16 @@
 /* Force white text color for danger buttons in confirm dialogs */
 .p-confirm-dialog .p-button-danger {
-	color: white !important;
+  color: white !important;
 }
 
 .p-confirm-dialog .p-button-danger:hover {
-	color: white !important;
+  color: white !important;
 }
 
 .p-confirm-dialog .p-button-danger:focus {
-	color: white !important;
+  color: white !important;
 }
 
 .p-confirm-dialog .p-button-danger:active {
-	color: white !important;
+  color: white !important;
 }

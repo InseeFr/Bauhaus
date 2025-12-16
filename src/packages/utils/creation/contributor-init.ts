@@ -4,15 +4,15 @@
  * the creation of a new object) with the stamp of the user
  */
 export const initializeContributorProperty = (
-	isContributor: boolean,
-	isCreation: boolean,
-	userStamp: string,
+  isContributor: boolean,
+  isCreation: boolean,
+  userStamp: string,
 ): { contributor?: string[] } => {
-	if (isContributor && isCreation) {
-		return {
-			contributor: [userStamp],
-		};
-	}
+  if (isContributor && isCreation) {
+    return {
+      contributor: [userStamp],
+    };
+  }
 
-	return {};
+  return {};
 };

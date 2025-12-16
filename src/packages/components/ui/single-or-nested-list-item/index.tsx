@@ -1,5 +1,5 @@
-import {ComponentProps} from "react";
-import {List} from "../list";
+import { ComponentProps } from "react";
+import { List } from "../list";
 
 /**
  * A component that renders a list item with either a single value or a nested list.
@@ -21,15 +21,19 @@ import {List} from "../list";
  * <SingleOrNestedListItem items={["Value 1", "Value 2", "Value 3"]} label="Field" />
  * // Renders: <li>Field: <List items={["Value 1", "Value 2", "Value 3"]} /></li>
  */
-export const SingleOrNestedListItem = ({ items, label, ...props }: Readonly<ComponentProps<typeof List> & { label: string }>) => {
-        if (items.length === 1) {
-            return <li>{`${label}: ${items[0]}`}</li>;
-        }
+export const SingleOrNestedListItem = ({
+  items,
+  label,
+  ...props
+}: Readonly<ComponentProps<typeof List> & { label: string }>) => {
+  if (items.length === 1) {
+    return <li>{`${label}: ${items[0]}`}</li>;
+  }
 
-        return (
-            <li>
-                {label}:
-                <List {...props} items={items} />
-            </li>
-        );
-}
+  return (
+    <li>
+      {label}:
+      <List {...props} items={items} />
+    </li>
+  );
+};

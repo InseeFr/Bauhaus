@@ -1,62 +1,55 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
-import { CheckSecondLang } from '@components/check-second-lang';
-import { ErrorBloc } from '@components/errors-bloc';
-import { Loading, Publishing } from '@components/loading';
-import { PageTitleBlock } from '@components/page-title-block';
+import { CheckSecondLang } from "@components/check-second-lang";
+import { ErrorBloc } from "@components/errors-bloc";
+import { Loading, Publishing } from "@components/loading";
+import { PageTitleBlock } from "@components/page-title-block";
 
-import { OperationsApi } from '@sdk/operations-api';
+import { OperationsApi } from "@sdk/operations-api";
 
-import { useSecondLang } from '@utils/hooks/second-lang';
+import { useSecondLang } from "@utils/hooks/second-lang";
 
-import D from '../../../deprecated-locales';
-import OperationsOperationVisualization from './home';
-import { Menu } from './menu';
+import D from "../../../deprecated-locales";
+import OperationsOperationVisualization from "./home";
+import { Menu } from "./menu";
 
 export const Component = () => {
-	const { id } = useParams();
-	const [operation, setOperation] = useState({});
-	const [secondLang] = useSecondLang();
-	const [serverSideError, setServerSideError] = useState();
-	const [publishing, setPublishing] = useState(false);
+  const { id } = useParams();
+  const [operation, setOperation] = useState({});
+  const [secondLang] = useSecondLang();
+  const [serverSideError, setServerSideError] = useState();
+  const [publishing, setPublishing] = useState(false);
 
-	useEffect(() => {
-		if (id) {
-			OperationsApi.getOperation(id).then((result) => {
-				setOperation(result);
-			});
-		}
-	}, [id]);
+  useEffect(() => {
+    if (id) {
+      OperationsApi.getOperation(id).then((result) => {
+        setOperation(result);
+      });
+    }
+  }, [id]);
 
-	const publish = useCallback(() => {
-		setPublishing(true);
+  const publish = useCallback(() => {
+    setPublishing(true);
 
-		OperationsApi.publishOperation(operation)
-			.then(() => {
-				return OperationsApi.getOperation(id).then(setOperation);
-			})
-			.catch((error) => setServerSideError(error))
-			.finally(() => setPublishing(false));
-	}, [operation, id]);
+    OperationsApi.publishOperation(operation)
+      .then(() => {
+        return OperationsApi.getOperation(id).then(setOperation);
+      })
+      .catch((error) => setServerSideError(error))
+      .finally(() => setPublishing(false));
+  }, [operation, id]);
 
-	if (!operation.id) return <Loading />;
-	if (publishing) return <Publishing />;
+  if (!operation.id) return <Loading />;
+  if (publishing) return <Publishing />;
 
-	return (
-		<div className="container">
-			<PageTitleBlock
-				titleLg1={operation.prefLabelLg1}
-				titleLg2={operation.prefLabelLg2}
-			/>
-			<Menu operation={operation} onPublish={publish} />
-			<ErrorBloc error={serverSideError} D={D} />
-			<CheckSecondLang />
-			<OperationsOperationVisualization
-				id={id}
-				attr={operation}
-				secondLang={secondLang}
-			/>
-		</div>
-	);
+  return (
+    <div className="container">
+      <PageTitleBlock titleLg1={operation.prefLabelLg1} titleLg2={operation.prefLabelLg2} />
+      <Menu operation={operation} onPublish={publish} />
+      <ErrorBloc error={serverSideError} D={D} />
+      <CheckSecondLang />
+      <OperationsOperationVisualization id={id} attr={operation} secondLang={secondLang} />
+    </div>
+  );
 };

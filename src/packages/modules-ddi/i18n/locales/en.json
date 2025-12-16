@@ -1,117 +1,117 @@
 {
-	"physicalInstance": {
-		"creation": {
-			"title": "Create a new physical instance",
-			"label": "Label",
-			"cancel": "Cancel",
-			"create": "Create"
-		},
-		"view": {
-			"search": "Search",
-			"allTypes": "All types",
-			"newVariable": "Add variable",
-			"saveAll": "Save all",
-			"editTitle": "Edit title",
-			"typeFilter": "Filter by type",
-			"globalActions": "Global Actions",
-			"import": "Import",
-			"export": "Export",
-			"publish": "Publish",
-			"variablesTable": "Variables table",
-			"isGeographic": "Is geographic?",
-			"columns": {
-				"name": "Name",
-				"label": "Label",
-				"description": "Description",
-				"type": "Type",
-				"lastModified": "Last Modified"
-			},
-			"tabs": {
-				"information": "Information",
-				"representation": "Representation",
-				"ddiXml": "DDI XML Preview"
-			},
-			"numeric": {
-				"type": "Numeric type",
-				"selectType": "Select a numeric type",
-				"min": "Min",
-				"max": "Max",
-				"addMinBound": "Add minimum bound",
-				"addMaxBound": "Add maximum bound"
-			},
-			"date": {
-				"type": "Date type",
-				"selectType": "Select a date type"
-			},
-			"text": {
-				"minLength": "Minimum length",
-				"maxLength": "Maximum length",
-				"regExp": "Regular expression"
-			},
-			"code": {
-				"codeListLabel": "Code list label",
-				"codes": "Codes",
-				"addCode": "Add code",
-				"editCode": "Edit code",
-				"value": "Value",
-				"label": "Label",
-				"addCodeTooltip": "Add this code",
-				"fillFieldsTooltip": "Fill at least one field to add a code",
-				"createNewList": "Create new list",
-				"reuseList": "Reuse",
-				"selectCodeList": "Select a code list",
-				"loadingCodesLists": "Loading code lists...",
-				"errorLoadingCodesLists": "Error loading code lists",
-				"noCodesListsAvailable": "No code lists available"
-			},
-			"delete": "Delete",
-			"editModal": {
-				"title": "Edit",
-				"label": "Label",
-				"cancel": "Cancel",
-				"save": "Save"
-			},
-			"importModal": {
-				"title": "Import",
-				"placeholder": "Paste your data here...",
-				"cancel": "Cancel",
-				"import": "Import"
-			},
-			"editVariable": "Edit Variable",
-			"selectVariable": "Select a variable to edit",
-			"selectType": "Select a type",
-			"cancel": "Cancel",
-			"save": "Add",
-			"duplicate": "Duplicate",
-			"variableTypes": {
-				"text": "Text",
-				"code": "Code",
-				"date": "Date",
-				"numeric": "Numeric"
-			},
-			"exportSuccess": "Export successful",
-			"exportSuccessDetail": "File in {{format}} format has been downloaded",
-			"exportError": "Export error",
-			"exportErrorDetail": "Unable to download file",
-			"saveSuccess": "Save successful",
-			"saveSuccessDetail": "Physical instance has been updated",
-			"saveError": "Save error",
-			"saveErrorDetail": "Unable to save physical instance",
-			"loading": "Loading data...",
-			"errorLoading": "Error loading data",
-			"variableSaveSuccess": "Variable saved",
-			"variableSaveSuccessDetail": "The variable has been successfully saved",
-			"variableDuplicateSuccess": "Variable duplicated",
-			"variableDuplicateSuccessDetail": "The variable has been successfully duplicated",
-			"deleteVariableConfirmTitle": "Confirm deletion",
-			"deleteVariableConfirmMessage": "Are you sure you want to delete the variable \"{{name}}\"? This action cannot be undone.",
-			"deleteVariableSuccess": "Variable deleted",
-			"deleteVariableSuccessDetail": "The variable has been successfully deleted",
-			"confirmDelete": "Delete",
-			"cancelDelete": "Cancel",
-			"loadingDdi": "Loading DDI XML...",
-			"copyXml": "Copy XML",
-			"noDdiXml": "No DDI XML available"
-		}
-	}
+  "physicalInstance": {
+    "creation": {
+      "title": "Create a new physical instance",
+      "label": "Label",
+      "cancel": "Cancel",
+      "create": "Create"
+    },
+    "view": {
+      "search": "Search",
+      "allTypes": "All types",
+      "newVariable": "Add variable",
+      "saveAll": "Save all",
+      "editTitle": "Edit title",
+      "typeFilter": "Filter by type",
+      "globalActions": "Global Actions",
+      "import": "Import",
+      "export": "Export",
+      "publish": "Publish",
+      "variablesTable": "Variables table",
+      "isGeographic": "Is geographic?",
+      "columns": {
+        "name": "Name",
+        "label": "Label",
+        "description": "Description",
+        "type": "Type",
+        "lastModified": "Last Modified"
+      },
+      "tabs": {
+        "information": "Information",
+        "representation": "Representation",
+        "ddiXml": "DDI XML Preview"
+      },
+      "numeric": {
+        "type": "Numeric type",
+        "selectType": "Select a numeric type",
+        "min": "Min",
+        "max": "Max",
+        "addMinBound": "Add minimum bound",
+        "addMaxBound": "Add maximum bound"
+      },
+      "date": {
+        "type": "Date type",
+        "selectType": "Select a date type"
+      },
+      "text": {
+        "minLength": "Minimum length",
+        "maxLength": "Maximum length",
+        "regExp": "Regular expression"
+      },
+      "code": {
+        "codeListLabel": "Code list label",
+        "codes": "Codes",
+        "addCode": "Add code",
+        "editCode": "Edit code",
+        "value": "Value",
+        "label": "Label",
+        "addCodeTooltip": "Add this code",
+        "fillFieldsTooltip": "Fill at least one field to add a code",
+        "createNewList": "Create new list",
+        "reuseList": "Reuse",
+        "selectCodeList": "Select a code list",
+        "loadingCodesLists": "Loading code lists...",
+        "errorLoadingCodesLists": "Error loading code lists",
+        "noCodesListsAvailable": "No code lists available"
+      },
+      "delete": "Delete",
+      "editModal": {
+        "title": "Edit",
+        "label": "Label",
+        "cancel": "Cancel",
+        "save": "Save"
+      },
+      "importModal": {
+        "title": "Import",
+        "placeholder": "Paste your data here...",
+        "cancel": "Cancel",
+        "import": "Import"
+      },
+      "editVariable": "Edit Variable",
+      "selectVariable": "Select a variable to edit",
+      "selectType": "Select a type",
+      "cancel": "Cancel",
+      "save": "Add",
+      "duplicate": "Duplicate",
+      "variableTypes": {
+        "text": "Text",
+        "code": "Code",
+        "date": "Date",
+        "numeric": "Numeric"
+      },
+      "exportSuccess": "Export successful",
+      "exportSuccessDetail": "File in {{format}} format has been downloaded",
+      "exportError": "Export error",
+      "exportErrorDetail": "Unable to download file",
+      "saveSuccess": "Save successful",
+      "saveSuccessDetail": "Physical instance has been updated",
+      "saveError": "Save error",
+      "saveErrorDetail": "Unable to save physical instance",
+      "loading": "Loading data...",
+      "errorLoading": "Error loading data",
+      "variableSaveSuccess": "Variable saved",
+      "variableSaveSuccessDetail": "The variable has been successfully saved",
+      "variableDuplicateSuccess": "Variable duplicated",
+      "variableDuplicateSuccessDetail": "The variable has been successfully duplicated",
+      "deleteVariableConfirmTitle": "Confirm deletion",
+      "deleteVariableConfirmMessage": "Are you sure you want to delete the variable \"{{name}}\"? This action cannot be undone.",
+      "deleteVariableSuccess": "Variable deleted",
+      "deleteVariableSuccessDetail": "The variable has been successfully deleted",
+      "confirmDelete": "Delete",
+      "cancelDelete": "Cancel",
+      "loadingDdi": "Loading DDI XML...",
+      "copyXml": "Copy XML",
+      "noDdiXml": "No DDI XML available"
+    }
+  }
 }

@@ -1,313 +1,301 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { Component } from './page';
+import { Component } from "./page";
 
 const mockUseParams = vi.fn();
 
-vi.mock('react-router-dom', () => ({
-	useParams: () => mockUseParams(),
+vi.mock("react-router-dom", () => ({
+  useParams: () => mockUseParams(),
 }));
 
-vi.mock('@utils/hooks/useTitle', () => ({
-	useTitle: vi.fn(),
+vi.mock("@utils/hooks/useTitle", () => ({
+  useTitle: vi.fn(),
 }));
 
-vi.mock('../../../../application/app-context', () => ({
-	useAppContext: () => ({
-		lg1: 'fr',
-		lg2: 'en',
-		secondLang: {
-			value: false,
-			toggle: vi.fn(),
-		},
-	}),
+vi.mock("../../../../application/app-context", () => ({
+  useAppContext: () => ({
+    lg1: "fr",
+    lg2: "en",
+    secondLang: {
+      value: false,
+      toggle: vi.fn(),
+    },
+  }),
 }));
 
-vi.mock('../../../../deprecated-locales', () => ({
-	D1: {
-		title: 'Title',
-		descriptionTitle: 'Description',
-		datasetTitle: 'Dataset',
-		formatTitle: 'Format',
-	},
-	D2: {
-		title: 'Title EN',
-		descriptionTitle: 'Description EN',
-	},
+vi.mock("../../../../deprecated-locales", () => ({
+  D1: {
+    title: "Title",
+    descriptionTitle: "Description",
+    datasetTitle: "Dataset",
+    formatTitle: "Format",
+  },
+  D2: {
+    title: "Title EN",
+    descriptionTitle: "Description EN",
+  },
 }));
 
-vi.mock('../../../../deprecated-locales/build-dictionary', () => ({
-	default: {
-		distributionsTitle: 'Distributions',
-		mediaTypeTitle: 'Media Type',
-		compressFormatTitle: 'Compress Format',
-		accessUrlTitle: 'Access URL',
-		downloadUrlTitle: 'Download URL',
-	},
+vi.mock("../../../../deprecated-locales/build-dictionary", () => ({
+  default: {
+    distributionsTitle: "Distributions",
+    mediaTypeTitle: "Media Type",
+    compressFormatTitle: "Compress Format",
+    accessUrlTitle: "Access URL",
+    downloadUrlTitle: "Download URL",
+  },
 }));
 
 const mockUseDistribution = vi.fn();
 const mockUseCreateOrUpdateDistribution = vi.fn();
 const mockUseDatasetsForDistributions = vi.fn();
 
-vi.mock('../../../datasets', () => ({
-	useDistribution: () => mockUseDistribution(),
-	useCreateOrUpdateDistribution: () => mockUseCreateOrUpdateDistribution(),
-	useDatasetsForDistributions: () => mockUseDatasetsForDistributions(),
+vi.mock("../../../datasets", () => ({
+  useDistribution: () => mockUseDistribution(),
+  useCreateOrUpdateDistribution: () => mockUseCreateOrUpdateDistribution(),
+  useDatasetsForDistributions: () => mockUseDatasetsForDistributions(),
 }));
 
 const mockValidate = vi.fn();
 
-vi.mock('./validation', () => ({
-	validate: () => mockValidate(),
+vi.mock("./validation", () => ({
+  validate: () => mockValidate(),
 }));
 
-vi.mock('@utils/hooks/useGoBack', () => ({
-	useGoBack: vi.fn(() => vi.fn()),
+vi.mock("@utils/hooks/useGoBack", () => ({
+  useGoBack: vi.fn(() => vi.fn()),
 }));
 
-describe('Distribution Edit Page', () => {
-	const mockSave = vi.fn();
+describe("Distribution Edit Page", () => {
+  const mockSave = vi.fn();
 
-	beforeEach(() => {
-		vi.clearAllMocks();
+  beforeEach(() => {
+    vi.clearAllMocks();
 
-		mockUseParams.mockReturnValue({});
-		mockUseDistribution.mockReturnValue({ data: null, status: 'idle' });
-		mockUseCreateOrUpdateDistribution.mockReturnValue({
-			isSaving: false,
-			save: mockSave,
-			serverSideError: null,
-		});
-		mockUseDatasetsForDistributions.mockReturnValue({ data: [] });
-		mockValidate.mockReturnValue({ errorMessage: [] });
-	});
+    mockUseParams.mockReturnValue({});
+    mockUseDistribution.mockReturnValue({ data: null, status: "idle" });
+    mockUseCreateOrUpdateDistribution.mockReturnValue({
+      isSaving: false,
+      save: mockSave,
+      serverSideError: null,
+    });
+    mockUseDatasetsForDistributions.mockReturnValue({ data: [] });
+    mockValidate.mockReturnValue({ errorMessage: [] });
+  });
 
-	describe('Creation mode', () => {
-		it('should render the form in creation mode', () => {
-			mockUseParams.mockReturnValue({});
+  describe("Creation mode", () => {
+    it("should render the form in creation mode", () => {
+      mockUseParams.mockReturnValue({});
 
-			render(<Component />);
+      render(<Component />);
 
-			expect(screen.getByRole('button', { name: /save/i })).not.toBeNull();
-			expect(screen.queryByText('Distributions')).toBeNull(); // No PageTitleBlock in creation
-		});
+      expect(screen.getByRole("button", { name: /save/i })).not.toBeNull();
+      expect(screen.queryByText("Distributions")).toBeNull(); // No PageTitleBlock in creation
+    });
 
-		it('should not disable dataset select in creation mode', () => {
-			mockUseParams.mockReturnValue({});
-			mockUseDatasetsForDistributions.mockReturnValue({
-				data: [
-					{ id: '1', label: 'Dataset 1' },
-					{ id: '2', label: 'Dataset 2' },
-				],
-			});
+    it("should not disable dataset select in creation mode", () => {
+      mockUseParams.mockReturnValue({});
+      mockUseDatasetsForDistributions.mockReturnValue({
+        data: [
+          { id: "1", label: "Dataset 1" },
+          { id: "2", label: "Dataset 2" },
+        ],
+      });
 
-			const { container } = render(<Component />);
+      const { container } = render(<Component />);
 
-			const selectElement = container.querySelector('.p-dropdown');
-			expect(selectElement?.getAttribute('data-p-disabled')).toBe('false');
-		});
-	});
+      const selectElement = container.querySelector(".p-dropdown");
+      expect(selectElement?.getAttribute("data-p-disabled")).toBe("false");
+    });
+  });
 
-	describe('Edit mode', () => {
-		it('should show loading when distribution is not loaded', () => {
+  describe("Edit mode", () => {
+    it("should show loading when distribution is not loaded", () => {
+      mockUseParams.mockReturnValue({ id: "123" });
+      mockUseDistribution.mockReturnValue({ data: null, status: "loading" });
 
-			mockUseParams.mockReturnValue({ id: '123' });
-			mockUseDistribution.mockReturnValue({ data: null, status: 'loading' });
+      render(<Component />);
 
-			render(<Component />);
+      expect(screen.getByText(/loading/i)).not.toBeNull();
+    });
 
-			expect(screen.getByText(/loading/i)).not.toBeNull();
-		});
+    it("should render the form in edit mode with distribution data", () => {
+      const mockDistribution = {
+        id: "123",
+        labelLg1: "Test Distribution",
+        labelLg2: "Test Distribution EN",
+        idDataset: "1",
+      };
 
-		it('should render the form in edit mode with distribution data', () => {
+      mockUseParams.mockReturnValue({ id: "123" });
+      mockUseDistribution.mockReturnValue({
+        data: mockDistribution,
+        status: "success",
+      });
 
-			const mockDistribution = {
-				id: '123',
-				labelLg1: 'Test Distribution',
-				labelLg2: 'Test Distribution EN',
-				idDataset: '1',
-			};
+      render(<Component />);
 
-			mockUseParams.mockReturnValue({ id: '123' });
-			mockUseDistribution.mockReturnValue({
-				data: mockDistribution,
-				status: 'success',
-			});
+      expect(screen.getByRole("button", { name: /save/i })).not.toBeNull();
+    });
 
-			render(<Component />);
+    it("should disable dataset select in edit mode", () => {
+      mockUseParams.mockReturnValue({ id: "123" });
+      mockUseDistribution.mockReturnValue({
+        data: { id: "123", labelLg1: "Test" },
+        status: "success",
+      });
+      mockUseDatasetsForDistributions.mockReturnValue({
+        data: [{ id: "1", label: "Dataset 1" }],
+      });
 
-			expect(screen.getByRole('button', { name: /save/i })).not.toBeNull();
-		});
+      const { container } = render(<Component />);
 
-		it('should disable dataset select in edit mode', () => {
+      const selectElement = container.querySelector(".p-dropdown");
+      expect(selectElement?.getAttribute("data-p-disabled")).toBe("true");
+    });
+  });
 
-			mockUseParams.mockReturnValue({ id: '123' });
-			mockUseDistribution.mockReturnValue({
-				data: { id: '123', labelLg1: 'Test' },
-				status: 'success',
-			});
-			mockUseDatasetsForDistributions.mockReturnValue({
-				data: [{ id: '1', label: 'Dataset 1' }],
-			});
+  describe("Form submission", () => {
+    it("should call save when form is valid", () => {
+      mockUseParams.mockReturnValue({});
+      mockValidate.mockReturnValue({ errorMessage: [] });
 
-			const { container } = render(<Component />);
+      render(<Component />);
 
-			const selectElement = container.querySelector('.p-dropdown');
-			expect(selectElement?.getAttribute('data-p-disabled')).toBe('true');
-		});
-	});
+      const saveButton = screen.getByRole("button", { name: /save/i });
+      fireEvent.click(saveButton);
 
-	describe('Form submission', () => {
-		it('should call save when form is valid', () => {
+      expect(mockSave).toHaveBeenCalledTimes(1);
+    });
 
-			mockUseParams.mockReturnValue({});
-			mockValidate.mockReturnValue({ errorMessage: [] });
+    it("should not call save when form has validation errors", () => {
+      mockUseParams.mockReturnValue({});
+      mockValidate.mockReturnValue({
+        errorMessage: ["Error 1", "Error 2"],
+        fields: { labelLg1: "Required field" },
+      });
 
-			render(<Component />);
+      render(<Component />);
 
-			const saveButton = screen.getByRole('button', { name: /save/i });
-			fireEvent.click(saveButton);
+      const saveButton = screen.getByRole("button", { name: /save/i });
+      fireEvent.click(saveButton);
 
-			expect(mockSave).toHaveBeenCalledTimes(1);
-		});
+      expect(mockSave).not.toHaveBeenCalled();
+    });
 
-		it('should not call save when form has validation errors', () => {
+    it("should disable save button when there are validation errors", () => {
+      mockUseParams.mockReturnValue({});
+      mockValidate.mockReturnValue({
+        errorMessage: ["Error 1"],
+      });
 
-			mockUseParams.mockReturnValue({});
-			mockValidate.mockReturnValue({
-				errorMessage: ['Error 1', 'Error 2'],
-				fields: { labelLg1: 'Required field' },
-			});
+      render(<Component />);
 
-			render(<Component />);
+      const saveButton = screen.getByRole("button", { name: /save/i });
+      fireEvent.click(saveButton);
 
-			const saveButton = screen.getByRole('button', { name: /save/i });
-			fireEvent.click(saveButton);
+      // After click, the button should be disabled due to errors
+      waitFor(() => {
+        expect(saveButton).toBeDisabled();
+      });
+    });
+  });
 
-			expect(mockSave).not.toHaveBeenCalled();
-		});
+  describe("Saving state", () => {
+    it("should show saving indicator when saving", () => {
+      mockUseParams.mockReturnValue({});
+      mockUseCreateOrUpdateDistribution.mockReturnValue({
+        isSaving: true,
+        save: mockSave,
+        serverSideError: null,
+      });
 
-		it('should disable save button when there are validation errors', () => {
+      render(<Component />);
 
-			mockUseParams.mockReturnValue({});
-			mockValidate.mockReturnValue({
-				errorMessage: ['Error 1'],
-			});
+      expect(screen.getByText(/saving/i)).not.toBeNull();
+    });
+  });
 
-			render(<Component />);
+  describe("Form fields", () => {
+    it("should render all form inputs", () => {
+      mockUseParams.mockReturnValue({});
+      mockUseDatasetsForDistributions.mockReturnValue({
+        data: [{ id: "1", label: "Dataset 1" }],
+      });
 
-			const saveButton = screen.getByRole('button', { name: /save/i });
-			fireEvent.click(saveButton);
+      const { container } = render(<Component />);
 
-			// After click, the button should be disabled due to errors
-			waitFor(() => {
-				expect(saveButton).toBeDisabled();
-			});
-		});
-	});
+      // Check for key form fields
+      expect(container.querySelector("#labelLg1")).not.toBeNull();
+      expect(container.querySelector("#format")).not.toBeNull();
+      expect(screen.getByLabelText(/media type/i)).not.toBeNull();
+      expect(container.querySelector("#compressFormat")).not.toBeNull();
+    });
 
-	describe('Saving state', () => {
-		it('should show saving indicator when saving', () => {
+    it("should clear error messages when field value changes", () => {
+      mockUseParams.mockReturnValue({});
 
-			mockUseParams.mockReturnValue({});
-			mockUseCreateOrUpdateDistribution.mockReturnValue({
-				isSaving: true,
-				save: mockSave,
-				serverSideError: null,
-			});
+      const { container } = render(<Component />);
 
-			render(<Component />);
+      const titleInput = container.querySelector("#labelLg1") as HTMLInputElement;
+      fireEvent.change(titleInput, { target: { value: "New Title" } });
 
-			expect(screen.getByText(/saving/i)).not.toBeNull();
-		});
-	});
+      // Error messages should be cleared automatically by updateField
+      expect(titleInput).toHaveValue("New Title");
+    });
 
-	describe('Form fields', () => {
-		it('should render all form inputs', () => {
+    it("should have aria-describedby on inputs with errors", () => {
+      mockUseParams.mockReturnValue({});
+      mockValidate.mockReturnValue({
+        errorMessage: ["Error 1"],
+        fields: {
+          labelLg1: "Required field",
+          labelLg2: "Required field",
+        },
+      });
 
-			mockUseParams.mockReturnValue({});
-			mockUseDatasetsForDistributions.mockReturnValue({
-				data: [{ id: '1', label: 'Dataset 1' }],
-			});
+      render(<Component />);
 
-			const { container } = render(<Component />);
+      const saveButton = screen.getByRole("button", { name: /save/i });
+      fireEvent.click(saveButton);
 
-			// Check for key form fields
-			expect(container.querySelector('#labelLg1')).not.toBeNull();
-			expect(container.querySelector('#format')).not.toBeNull();
-			expect(screen.getByLabelText(/media type/i)).not.toBeNull();
-			expect(container.querySelector('#compressFormat')).not.toBeNull();
-		});
+      waitFor(() => {
+        const labelLg1Input = screen.getByLabelText(/title/i);
+        expect(labelLg1Input.getAttribute("aria-describedby")).toBe("labelLg1-error");
+      });
+    });
+  });
 
-		it('should clear error messages when field value changes', () => {
+  describe("Error display", () => {
+    it("should display global client-side errors when submitting with errors", () => {
+      mockUseParams.mockReturnValue({});
+      mockValidate.mockReturnValue({
+        errorMessage: ["Error 1", "Error 2"],
+      });
 
-			mockUseParams.mockReturnValue({});
+      render(<Component />);
 
-			const { container } = render(<Component />);
+      const saveButton = screen.getByRole("button", { name: /save/i });
+      fireEvent.click(saveButton);
 
-			const titleInput = container.querySelector('#labelLg1') as HTMLInputElement;
-			fireEvent.change(titleInput, { target: { value: 'New Title' } });
+      // Global error bloc should appear after submission
+      waitFor(() => {
+        expect(screen.getByText(/Error 1/i)).not.toBeNull();
+      });
+    });
 
-			// Error messages should be cleared automatically by updateField
-			expect(titleInput).toHaveValue('New Title');
-		});
+    it("should display server-side error when present", () => {
+      mockUseParams.mockReturnValue({});
+      mockUseCreateOrUpdateDistribution.mockReturnValue({
+        isSaving: false,
+        save: mockSave,
+        serverSideError: new Error("Server error"),
+      });
 
-		it('should have aria-describedby on inputs with errors', () => {
+      render(<Component />);
 
-			mockUseParams.mockReturnValue({});
-			mockValidate.mockReturnValue({
-				errorMessage: ['Error 1'],
-				fields: {
-					labelLg1: 'Required field',
-					labelLg2: 'Required field',
-				},
-			});
-
-			render(<Component />);
-
-			const saveButton = screen.getByRole('button', { name: /save/i });
-			fireEvent.click(saveButton);
-
-			waitFor(() => {
-				const labelLg1Input = screen.getByLabelText(/title/i);
-				expect(labelLg1Input.getAttribute('aria-describedby')).toBe('labelLg1-error');
-			});
-		});
-	});
-
-	describe('Error display', () => {
-		it('should display global client-side errors when submitting with errors', () => {
-
-			mockUseParams.mockReturnValue({});
-			mockValidate.mockReturnValue({
-				errorMessage: ['Error 1', 'Error 2'],
-			});
-
-			render(<Component />);
-
-			const saveButton = screen.getByRole('button', { name: /save/i });
-			fireEvent.click(saveButton);
-
-			// Global error bloc should appear after submission
-			waitFor(() => {
-				expect(screen.getByText(/Error 1/i)).not.toBeNull();
-			});
-		});
-
-		it('should display server-side error when present', () => {
-
-			mockUseParams.mockReturnValue({});
-			mockUseCreateOrUpdateDistribution.mockReturnValue({
-				isSaving: false,
-				save: mockSave,
-				serverSideError: new Error('Server error'),
-			});
-
-			render(<Component />);
-
-			expect(screen.getByText(/Server error/i)).not.toBeNull();
-		});
-	});
+      expect(screen.getByText(/Server error/i)).not.toBeNull();
+    });
+  });
 });
