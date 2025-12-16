@@ -1,4 +1,4 @@
-import DOMPurify from "dompurify";
+import { sanitize } from "dompurify";
 
 import Editor from "@uiw/react-md-editor";
 import { Note } from "../note";
@@ -28,7 +28,7 @@ export const ExplanatoryNote = ({ text, title, alone, md }: Readonly<Explanatory
       text={
         <div
           dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(newText),
+            __html: sanitize(newText),
           }}
         />
       }
