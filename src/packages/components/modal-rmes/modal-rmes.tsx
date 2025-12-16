@@ -1,6 +1,6 @@
 //@ts-ignore
 //@ts-ignore
-import DOMPurify from "dompurify";
+import { sanitize } from "dompurify";
 import { ReactNode } from "react";
 import Modal from "react-modal";
 
@@ -58,7 +58,7 @@ export const ModalRmes = ({
           <div className="modal-body">
             <div
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(body),
+                __html: sanitize(body),
               }}
             />
           </div>
@@ -70,7 +70,7 @@ export const ModalRmes = ({
               style={{ textAlign: "left", marginTop: "20px" }}
               className="red"
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(footer),
+                __html: sanitize(footer),
               }}
             />
           )}
