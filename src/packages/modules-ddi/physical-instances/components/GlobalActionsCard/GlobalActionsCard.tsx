@@ -20,7 +20,7 @@ export const GlobalActionsCard = ({
 	onDeleteClick,
 	unsavedVariableIds = [],
 }: Readonly<GlobalActionsCardProps>) => {
-	const { t } = useTranslation();
+  const { t } = useTranslation();
 
 	return (
 		<Card title={t("physicalInstance.view.globalActions")}>

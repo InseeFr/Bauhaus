@@ -1,76 +1,76 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
-import { MainMenu } from '@components/menu';
+import { MainMenu } from "@components/menu";
 
-import { UIMenuItem } from '@model/Menu';
+import { UIMenuItem } from "@model/Menu";
 
-import { useAuthorizationGuard } from '../../auth/components/auth';
-import D from '../../deprecated-locales';
+import { useAuthorizationGuard } from "../../auth/components/auth";
+import D from "../../deprecated-locales";
 
-const defaultAttrs = { 'aria-current': 'page' };
+const defaultAttrs = { "aria-current": "page" };
 
 const MenuConcepts = () => {
-	const location = useLocation();
-	const activePath = location.pathname;
-	if (activePath === '/') return null;
+  const location = useLocation();
+  const activePath = location.pathname;
+  if (activePath === "/") return null;
 
-	const canAccessAdministration = useAuthorizationGuard({
-		module: 'CONCEPT_CONCEPT',
-		privilege: 'ADMINISTRATION',
-	});
+  const canAccessAdministration = useAuthorizationGuard({
+    module: "CONCEPT_CONCEPT",
+    privilege: "ADMINISTRATION",
+  });
 
-	let paths: UIMenuItem[] = [
-		{
-			path: import.meta.env.VITE_CONCEPTS_DOCUMENTATION,
-			pathKey: 'help',
-			className: null,
-			order: 4,
-			attrs: {
-				target: '_blank',
-			},
-			label: D.help,
-			alignToRight: true,
-		},
-		{
-			path: '/concepts/collections',
-			pathKey: 'collection',
-			className: null,
-			attrs: null,
-			order: 2,
-			label: D.collectionsTitle,
-		},
-		{
-			path: '/concepts',
-			pathKey: 'concept',
-			className: null,
-			order: 1,
-			label: D.conceptsTitle,
-		},
-	];
+  let paths: UIMenuItem[] = [
+    {
+      path: import.meta.env.VITE_CONCEPTS_DOCUMENTATION,
+      pathKey: "help",
+      className: null,
+      order: 4,
+      attrs: {
+        target: "_blank",
+      },
+      label: D.help,
+      alignToRight: true,
+    },
+    {
+      path: "/concepts/collections",
+      pathKey: "collection",
+      className: null,
+      attrs: null,
+      order: 2,
+      label: D.collectionsTitle,
+    },
+    {
+      path: "/concepts",
+      pathKey: "concept",
+      className: null,
+      order: 1,
+      label: D.conceptsTitle,
+    },
+  ];
 
-	if (canAccessAdministration) {
-		paths = [
-			{
-				path: '/concepts/administration',
-				pathKey: 'administration',
-				className: null,
-				attrs: null,
-				label: D.administrationTitle,
-				order: 3,
-				alignToRight: true,
-			},
-			...paths,
-		];
-	}
-	const currentPath = paths.find((path) => {
-		return location.pathname.includes(path.pathKey);
-	});
-	if (currentPath) {
-		currentPath.className = 'active';
-		currentPath.attrs = defaultAttrs;
-	}
+  if (canAccessAdministration) {
+    paths = [
+      {
+        path: "/concepts/administration",
+        pathKey: "administration",
+        className: null,
+        attrs: null,
+        label: D.administrationTitle,
+        order: 3,
+        alignToRight: true,
+      },
+      ...paths,
+    ];
+  }
+  const currentPath = paths.find((path) => {
+    return location.pathname.includes(path.pathKey);
+  });
+  if (currentPath) {
+    currentPath.className = "active";
+    currentPath.attrs = defaultAttrs;
+  }
 
-	return <MainMenu paths={paths} />;
+  return <MainMenu paths={paths} />;
 };
 
 export default MenuConcepts;

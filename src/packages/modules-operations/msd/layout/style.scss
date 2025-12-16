@@ -1,112 +1,112 @@
-@use '../../../styles/tools.scss';
+@use "../../../styles/tools.scss";
 .container.msd__container {
-	width: 1300px;
+  width: 1300px;
 }
 
 .msd__container {
-	position: relative;
-	display: block;
-	padding: 0;
-	margin-top: 20px;
+  position: relative;
+  display: block;
+  padding: 0;
+  margin-top: 20px;
 }
 
 .msd__outline {
-	box-sizing: border-box;
-	float: left;
-	width: 40%;
-	margin: 0;
-	overflow: hidden;
-	padding: 70px 20px 20px 20px;
-	border-right: solid var(--color-3) 1px;
+  box-sizing: border-box;
+  float: left;
+  width: 40%;
+  margin: 0;
+  overflow: hidden;
+  padding: 70px 20px 20px 20px;
+  border-right: solid var(--color-3) 1px;
 
-	background-color: transparent;
+  background-color: transparent;
 
-	ul {
-		list-style: none;
-	}
+  ul {
+    list-style: none;
+  }
 
-	&_title {
-		font-size: 28px;
-		font-size: 2.8rem;
-		color: var(--color-3);
-		border: none;
-		border-bottom: solid 2px var(--color-3);
-		padding: 0 0 10px 0;
-		margin: 0 0 15px 0;
-	}
+  &_title {
+    font-size: 28px;
+    font-size: 2.8rem;
+    color: var(--color-3);
+    border: none;
+    border-bottom: solid 2px var(--color-3);
+    padding: 0 0 10px 0;
+    margin: 0 0 15px 0;
+  }
 
-	&-container {
-		border: none;
-		margin: 0;
-		padding: 0;
-	}
-	&-content {
-		background-color: transparent;
-		padding: 0;
-		margin: 0;
-		border: none;
-	}
+  &-container {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+  &-content {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
 }
 
 .msd__content {
-	box-sizing: border-box;
-	float: right;
-	width: 67%;
-	margin: 0;
-	padding: 0;
-	padding: 70px 20px 20px 20px;
-	&_alone {
-		box-sizing: border-box;
-		float: right;
-		width: 60%;
-		margin: 0;
-		padding: 0;
-		padding: 70px 20px 20px 20px;
-		border-left: solid var(--color-3) 1px;
-	}
-	& .panel {
-		background: white;
-		margin-bottom: 30px;
-	}
-	& .panel-body {
-		background: white;
-	}
-	ul {
-		list-style: disc;
-	}
+  box-sizing: border-box;
+  float: right;
+  width: 67%;
+  margin: 0;
+  padding: 0;
+  padding: 70px 20px 20px 20px;
+  &_alone {
+    box-sizing: border-box;
+    float: right;
+    width: 60%;
+    margin: 0;
+    padding: 0;
+    padding: 70px 20px 20px 20px;
+    border-left: solid var(--color-3) 1px;
+  }
+  & .panel {
+    background: white;
+    margin-bottom: 30px;
+  }
+  & .panel-body {
+    background: white;
+  }
+  ul {
+    list-style: disc;
+  }
 }
 
 .msd__panel-trigger {
-	&_right {
-		@include tools.panel-trigger();
-		position: absolute;
-		right: 0;
-		display: block;
-	}
-	&_left {
-		@include tools.panel-trigger();
-	}
-	&_middle {
-		position: absolute;
-		margin-top: 20px;
-		background-color: var(--color-3);
-		color: #fff;
-		text-align: center;
-		text-transform: uppercase;
-		width: 50px;
-		height: 30px;
-		left: calc(30% - 30px);
-		border-radius: 2px;
-		display: table;
+  &_right {
+    @include tools.panel-trigger();
+    position: absolute;
+    right: 0;
+    display: block;
+  }
+  &_left {
+    @include tools.panel-trigger();
+  }
+  &_middle {
+    position: absolute;
+    margin-top: 20px;
+    background-color: var(--color-3);
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    width: 50px;
+    height: 30px;
+    left: calc(30% - 30px);
+    border-radius: 2px;
+    display: table;
 
-		> div {
-			vertical-align: middle;
-			display: table-cell;
+    > div {
+      vertical-align: middle;
+      display: table-cell;
 
-			> button {
-				background: transparent;
-				border: none;
-			}
-		}
-	}
+      > button {
+        background: transparent;
+        border: none;
+      }
+    }
+  }
 }

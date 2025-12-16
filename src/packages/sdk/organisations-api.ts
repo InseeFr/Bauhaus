@@ -1,6 +1,6 @@
-import { buildApi } from './build-api';
+import { buildApi } from "./build-api";
 
 const api = {
-	getOrganisations: () => [''],
+  getOrganisations: () => [""],
 } as const;
-export const OrganisationsApi = buildApi('organizations', api);
+export const OrganisationsApi = buildApi("organizations", api);

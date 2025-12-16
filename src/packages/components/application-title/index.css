@@ -1,29 +1,29 @@
 .application-title {
-	background: #45374e;
-	padding-bottom: 0.5em;
-	padding-top: 0.5em;
+  background: #45374e;
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
 }
 
 .application-title .application-title-container {
-	width: 50%;
-	margin: auto;
+  width: 50%;
+  margin: auto;
 }
 
 .application-title .application-title-wrapper {
-	margin: auto;
+  margin: auto;
 }
 
 .application-title img {
-	width: 25%;
+  width: 25%;
 }
 
 .application-title h1 {
-	color: white;
-	font-size: 15.3pt;
-	float: right;
-	margin: 0;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	flex-grow: 1;
+  color: white;
+  font-size: 15.3pt;
+  float: right;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-grow: 1;
 }

@@ -1,14 +1,14 @@
 .code-list-zone {
-	display: flex;
+  display: flex;
 }
 
 .code-list-zone div:nth-child(1) {
-	flex: 1;
-	margin-bottom: 0;
+  flex: 1;
+  margin-bottom: 0;
 }
 
 .code-list-zone button {
-	padding: 0.5em 2em;
-	margin: 0 0 0 1em;
-	align-self: flex-end;
+  padding: 0.5em 2em;
+  margin: 0 0 0 1em;
+  align-self: flex-end;
 }

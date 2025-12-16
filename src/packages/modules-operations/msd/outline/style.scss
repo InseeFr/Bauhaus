@@ -1,67 +1,67 @@
 .msd__outline-primary-item {
-	padding: 15px 10px;
-	margin-top: 30px;
-	color: white;
-	position: relative;
-	border-color: #d9d9d9 #ccc #b3b3b3;
-	border-radius: 4px;
-	border: 1px solid #ccc;
-	box-shadow: 0 1px 1px hsla(0, 0%, 0%, 0.05);
+  padding: 15px 10px;
+  margin-top: 30px;
+  color: white;
+  position: relative;
+  border-color: #d9d9d9 #ccc #b3b3b3;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 1px hsla(0, 0%, 0%, 0.05);
 
-	a {
-		color: black;
-	}
+  a {
+    color: black;
+  }
 }
 .msd__outline-primary-updown {
-	border: 0px none;
-	padding: 0;
-	text-align: left;
-	background: white;
-	color: black;
-	position: absolute;
-	right: 7px;
-	top: 35%;
-	display: block;
+  border: 0px none;
+  padding: 0;
+  text-align: left;
+  background: white;
+  color: black;
+  position: absolute;
+  right: 7px;
+  top: 35%;
+  display: block;
 }
 
 .msd__item {
-	font-size: 14px;
-	font-size: 1.4rem;
-	padding: 15px 0;
-	margin-bottom: 30px;
-	border: solid #e0e0e0 1px;
-	border-top: none;
-	background-color: #fff;
-	&-secondary {
-		padding: 0;
-		border: none;
-	}
+  font-size: 14px;
+  font-size: 1.4rem;
+  padding: 15px 0;
+  margin-bottom: 30px;
+  border: solid #e0e0e0 1px;
+  border-top: none;
+  background-color: #fff;
+  &-secondary {
+    padding: 0;
+    border: none;
+  }
 
-	li {
-		display: flex;
-		flex-direction: column;
-		text-transform: none;
-		color: #337ab7;
-		border-radius: 0;
+  li {
+    display: flex;
+    flex-direction: column;
+    text-transform: none;
+    color: #337ab7;
+    border-radius: 0;
 
-		.msd__item-buttons {
-			display: flex;
-			flex-direction: row;
-			padding: 0 5px !important;
-			min-width: 0;
-			.btn {
-				padding: 5px 0 !important;
-				font-size: 0.9em;
-			}
-		}
-	}
-	&-updown {
-		display: inline-block;
-		border: 0px none;
-		padding: 0;
-		text-align: left;
-		background-color: transparent;
-		color: black;
-		padding-right: 5px;
-	}
+    .msd__item-buttons {
+      display: flex;
+      flex-direction: row;
+      padding: 0 5px !important;
+      min-width: 0;
+      .btn {
+        padding: 5px 0 !important;
+        font-size: 0.9em;
+      }
+    }
+  }
+  &-updown {
+    display: inline-block;
+    border: 0px none;
+    padding: 0;
+    text-align: left;
+    background-color: transparent;
+    color: black;
+    padding-right: 5px;
+  }
 }

@@ -1,151 +1,151 @@
-@use '../../../styles/tools.scss';
+@use "../../../styles/tools.scss";
 
 .layout_with_lateral_menu {
-	position: relative;
-	display: block;
-	padding: 0;
-	margin-top: 20px;
+  position: relative;
+  display: block;
+  padding: 0;
+  margin-top: 20px;
 
-	ul {
-		list-style: none;
-	}
+  ul {
+    list-style: none;
+  }
 
-	&__outline {
-		box-sizing: border-box;
-		float: left;
-		width: 30%;
-		display: block;
-		margin: 0;
-		overflow: hidden;
-		padding: 0 20px 20px 20px;
-		border-right: solid var(--color-3) 1px;
+  &__outline {
+    box-sizing: border-box;
+    float: left;
+    width: 30%;
+    display: block;
+    margin: 0;
+    overflow: hidden;
+    padding: 0 20px 20px 20px;
+    border-right: solid var(--color-3) 1px;
 
-		background-color: transparent;
+    background-color: transparent;
 
-		nav {
-			border: none;
-			margin: 0;
-			padding: 0;
+    nav {
+      border: none;
+      margin: 0;
+      padding: 0;
 
-			> ul {
-				background-color: transparent;
-				padding: 0;
-				margin: 0;
-				border: none;
-			}
-		}
+      > ul {
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        border: none;
+      }
+    }
 
-		&__main_item {
-			padding: 15px 10px;
-			margin-top: 30px;
-			position: relative;
-			border-color: #d9d9d9 #ccc #b3b3b3;
-			border-radius: 4px;
-			border: 1px solid #ccc;
-			box-shadow: 0 1px 1px hsla(0, 0%, 0%, 0.05);
-			color: white;
-			background: var(--color-3);
-			> button {
-				background: transparent;
-				color: white;
-				border: 0px none;
-				padding: 0;
-				text-align: left;
-				position: absolute;
-				right: 7px;
-				top: 35%;
-				display: block;
-			}
-		}
+    &__main_item {
+      padding: 15px 10px;
+      margin-top: 30px;
+      position: relative;
+      border-color: #d9d9d9 #ccc #b3b3b3;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-shadow: 0 1px 1px hsla(0, 0%, 0%, 0.05);
+      color: white;
+      background: var(--color-3);
+      > button {
+        background: transparent;
+        color: white;
+        border: 0px none;
+        padding: 0;
+        text-align: left;
+        position: absolute;
+        right: 7px;
+        top: 35%;
+        display: block;
+      }
+    }
 
-		.secondary__item {
-			font-size: 1.4rem;
-			padding: 15px 0;
-			margin-bottom: 30px;
-			border: solid #e0e0e0 1px;
-			border-top: none;
-			background-color: #fff;
-			&-secondary {
-				padding: 0;
-				border: none;
-			}
+    .secondary__item {
+      font-size: 1.4rem;
+      padding: 15px 0;
+      margin-bottom: 30px;
+      border: solid #e0e0e0 1px;
+      border-top: none;
+      background-color: #fff;
+      &-secondary {
+        padding: 0;
+        border: none;
+      }
 
-			li {
-				display: flex;
-				flex-direction: column;
-				text-transform: none;
-				color: #337ab7;
-				border-radius: 0;
+      li {
+        display: flex;
+        flex-direction: column;
+        text-transform: none;
+        color: #337ab7;
+        border-radius: 0;
 
-				button {
-					background: transparent;
-					border: none;
-					display: flex;
-					flex-direction: row;
-					min-width: 0;
-					padding: 5px 5px !important;
-					font-size: 0.9em;
+        button {
+          background: transparent;
+          border: none;
+          display: flex;
+          flex-direction: row;
+          min-width: 0;
+          padding: 5px 5px !important;
+          font-size: 0.9em;
 
-					&.selected {
-						text-decoration: underline;
-					}
-				}
-			}
-		}
-	}
+          &.selected {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
 
-	> .content {
-		box-sizing: border-box;
-		float: right;
-		width: 67%;
-		margin: 0;
-		padding: 0;
-		padding: 0 20px 20px 20px;
+  > .content {
+    box-sizing: border-box;
+    float: right;
+    width: 67%;
+    margin: 0;
+    padding: 0;
+    padding: 0 20px 20px 20px;
 
-		& .panel {
-			background: white;
-			margin-bottom: 30px;
-		}
-		& .panel-body {
-			background: white;
-		}
-		ul {
-			list-style: disc;
-		}
-	}
+    & .panel {
+      background: white;
+      margin-bottom: 30px;
+    }
+    & .panel-body {
+      background: white;
+    }
+    ul {
+      list-style: disc;
+    }
+  }
 }
 
 .msd__panel-trigger {
-	&_right {
-		@include tools.panel-trigger();
-		position: absolute;
-		right: 0;
-		display: block;
-	}
-	&_left {
-		@include tools.panel-trigger();
-	}
-	&_middle {
-		position: absolute;
-		margin-top: 20px;
-		background-color: var(--color-3);
-		color: #fff;
-		text-align: center;
-		text-transform: uppercase;
-		width: 50px;
-		height: 30px;
-		left: calc(30% - 30px);
-		border-radius: 2px;
-		display: table;
+  &_right {
+    @include tools.panel-trigger();
+    position: absolute;
+    right: 0;
+    display: block;
+  }
+  &_left {
+    @include tools.panel-trigger();
+  }
+  &_middle {
+    position: absolute;
+    margin-top: 20px;
+    background-color: var(--color-3);
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    width: 50px;
+    height: 30px;
+    left: calc(30% - 30px);
+    border-radius: 2px;
+    display: table;
 
-		> div {
-			vertical-align: middle;
-			display: table-cell;
+    > div {
+      vertical-align: middle;
+      display: table-cell;
 
-			> button {
-				background: transparent;
-				border: none;
-			}
-		}
-	}
+      > button {
+        background: transparent;
+        border: none;
+      }
+    }
+  }
 }

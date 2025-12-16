@@ -1,15 +1,12 @@
-import { ComponentProps, PropsWithChildren } from 'react';
+import { ComponentProps, PropsWithChildren } from "react";
 
-import './index.css';
+import "./index.css";
 
-export default ({
-	children,
-	...props
-}: Readonly<PropsWithChildren<ComponentProps<'label'>>>) => {
-	return (
-		<label {...props} className="label-required">
-			{children}
-			<span className="asterisk">*</span>
-		</label>
-	);
+export default ({ children, ...props }: Readonly<PropsWithChildren<ComponentProps<"label">>>) => {
+  return (
+    <label {...props} className="label-required">
+      {children}
+      <span className="asterisk">*</span>
+    </label>
+  );
 };

@@ -1,6 +1,6 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 
-import { ReduxModel } from '../../../model';
+import { ReduxModel } from "../../../model";
 
 /**
  * This is a factory we use to create actions related to the publish action.
@@ -12,68 +12,65 @@ import { ReduxModel } from '../../../model';
  * @param {*} FAILURE The name of the action if this is an error
  */
 export const getPublishFactory = (
-	remoteCall: (value: unknown) => Promise<unknown>,
-	LOADING: string,
-	SUCCESS: string,
-	FAILURE: string,
+  remoteCall: (value: unknown) => Promise<unknown>,
+  LOADING: string,
+  SUCCESS: string,
+  FAILURE: string,
 ) => {
-	return (
-			object: unknown,
-			callback: (err: null | string, value?: unknown) => void = () => {},
-		) =>
-		(dispatch: Dispatch) => {
-			dispatch({
-				type: LOADING,
-				payload: {},
-			});
+  return (object: unknown, callback: (err: null | string, value?: unknown) => void = () => {}) =>
+    (dispatch: Dispatch) => {
+      dispatch({
+        type: LOADING,
+        payload: {},
+      });
 
-			return remoteCall(object).then(
-				(results) => {
-					dispatch({
-						type: SUCCESS,
-						payload: results,
-					});
-					callback(null, results);
-				},
-				(err: string) => {
-					dispatch({
-						type: FAILURE,
-						payload: { err },
-					});
-					callback(err);
-				},
-			);
-		};
+      return remoteCall(object).then(
+        (results) => {
+          dispatch({
+            type: SUCCESS,
+            payload: results,
+          });
+          callback(null, results);
+        },
+        (err: string) => {
+          dispatch({
+            type: FAILURE,
+            payload: { err },
+          });
+          callback(err);
+        },
+      );
+    };
 };
 
 export const getItemFactory =
-	(
-		remoteCall: (id: string) => Promise<unknown>,
-		LOADING: string,
-		SUCCESS: string,
-		FAILURE: string,
-	) =>
-	(id: string) =>
-	(dispatch: Dispatch, getState: () => ReduxModel) => {
-		if (getState().operationsOperationCurrentStatus === LOADING) {
-			return;
-		}
-		dispatch({
-			type: LOADING,
-			payload: {
-				id,
-			},
-		});
-		return remoteCall(id).then(
-			(results) =>
-				dispatch({
-					type: SUCCESS,
-					payload: results,
-				}),
-			(err: string) =>
-				dispatch({
-					type: FAILURE,
-					payload: { err },
-				}),
-		);
-	};
+  (
+    remoteCall: (id: string) => Promise<unknown>,
+    LOADING: string,
+    SUCCESS: string,
+    FAILURE: string,
+  ) =>
+  (id: string) =>
+  (dispatch: Dispatch, getState: () => ReduxModel) => {
+    if (getState().operationsOperationCurrentStatus === LOADING) {
+      return;
+    }
+    dispatch({
+      type: LOADING,
+      payload: {
+        id,
+      },
+    });
+    return remoteCall(id).then(
+      (results) =>
+        dispatch({
+          type: SUCCESS,
+          payload: results,
+        }),
+      (err: string) =>
+        dispatch({
+          type: FAILURE,
+          payload: { err },
+        }),
+    );
+  };

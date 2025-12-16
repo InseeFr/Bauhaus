@@ -1,60 +1,53 @@
-import { ExternalLink } from '@components/link';
+import { ExternalLink } from "@components/link";
 
-import { Document } from '../../../../model/operations/document';
-import { getLang } from '../../../../utils/dictionnary';
-import { isDocument } from '../../../document/utils';
+import { Document } from "../../../../model/operations/document";
+import { getLang } from "../../../../utils/dictionnary";
+import { isDocument } from "../../../document/utils";
 
-export const DocumentAsideInformation = ({
-	document,
-}: Readonly<{ document: Document }>) => {
-	let updatedDate;
-	if (document.updatedDate) {
-		updatedDate = new Intl.DateTimeFormat(getLang()).format(
-			new Date(document.updatedDate),
-		);
-	}
-	return (
-		<i>({[document.lang, updatedDate].filter((val) => !!val).join('-')})</i>
-	);
+export const DocumentAsideInformation = ({ document }: Readonly<{ document: Document }>) => {
+  let updatedDate;
+  if (document.updatedDate) {
+    updatedDate = new Intl.DateTimeFormat(getLang()).format(new Date(document.updatedDate));
+  }
+  return <i>({[document.lang, updatedDate].filter((val) => !!val).join("-")})</i>;
 };
 
 const validateUri = (uri: string): string => {
-	try {
-		const url = new URL(uri, window.location.origin);
-		if (url.protocol === 'http:' || url.protocol === 'https:') {
-			return url.href;
-		}
-		throw new Error('Invalid protocol');
-	} catch {
-		throw new Error('Invalid baseURI' + uri);
-	}
+  try {
+    const url = new URL(uri, window.location.origin);
+    if (url.protocol === "http:" || url.protocol === "https:") {
+      return url.href;
+    }
+    throw new Error("Invalid protocol");
+  } catch {
+    throw new Error("Invalid baseURI" + uri);
+  }
 };
 
 export const DocumentLink = ({
-	document,
-	localPrefix,
-	baseURI,
+  document,
+  localPrefix,
+  baseURI,
 }: Readonly<{
-	document: Document;
-	localPrefix: 'Lg1' | 'Lg2';
-	baseURI: string;
+  document: Document;
+  localPrefix: "Lg1" | "Lg2";
+  baseURI: string;
 }>) => {
-	if (!document.uri) {
-		return null;
-	}
+  if (!document.uri) {
+    return null;
+  }
 
-	const safeBaseURI = validateUri(baseURI);
+  const safeBaseURI = validateUri(baseURI);
 
-	const id = document.uri.substring(document.uri.lastIndexOf('/') + 1);
-	const uri = isDocument(document)
-		? `${safeBaseURI}/documents/document/${encodeURIComponent(id)}/file`
-		: document.url;
+  const id = document.uri.substring(document.uri.lastIndexOf("/") + 1);
+  const uri = isDocument(document)
+    ? `${safeBaseURI}/documents/document/${encodeURIComponent(id)}/file`
+    : document.url;
 
-	const label =
-		document[`label${localPrefix}`] || document.labelLg1 || document.labelLg2;
-	return (
-		<ExternalLink href={uri} title={document[`description${localPrefix}`]}>
-			{label}
-		</ExternalLink>
-	);
+  const label = document[`label${localPrefix}`] || document.labelLg1 || document.labelLg2;
+  return (
+    <ExternalLink href={uri} title={document[`description${localPrefix}`]}>
+      {label}
+    </ExternalLink>
+  );
 };
