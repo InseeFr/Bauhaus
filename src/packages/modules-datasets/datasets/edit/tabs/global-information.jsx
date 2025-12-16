@@ -11,8 +11,8 @@ import { D1, D2 } from '../../../../deprecated-locales';
 import { CL_FREQ } from '../../../../redux/actions/constants/codeList';
 import { D1 as DatasetDictionary } from '../../../i18n';
 import { convertCodesListsToSelectOption } from '../../../utils/codelist-to-select-options';
-import { useThemes } from '../../useThemes';
 import { OrganisationInput } from '@components/business/stamps-input/stamps-input';
+import { useThemes } from '../../../hooks/useThemes';
 
 const GlobalInformationTab = ({
 	editingDataset,

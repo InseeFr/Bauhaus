@@ -90,10 +90,7 @@ export const useDatasetDeleter = (id: string) => {
 	return { isDeleting, remove, deleteServerSideError };
 };
 
-export const useCreateOrUpdateDistribution = (
-	isEditing: boolean,
-	distribution: Distribution,
-) => {
+export const useCreateOrUpdateDistribution = (isEditing: boolean) => {
 	const queryClient = useQueryClient();
 	const goBack = useGoBack();
 
@@ -102,7 +99,7 @@ export const useCreateOrUpdateDistribution = (
 		mutate: save,
 		error: serverSideError,
 	} = useMutation({
-		mutationFn: () => {
+		mutationFn: (distribution: Partial<Distribution>) => {
 			const promise = isEditing
 				? DistributionApi.putDistribution
 				: DistributionApi.postDistribution;
