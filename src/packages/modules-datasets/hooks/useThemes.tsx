@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { ThemesApi } from '@sdk/index';
+import {Options} from '../../model/SelectOption';
 
-import { Options } from '../../model/SelectOption';
 
 export const useThemes = () =>
 	useQuery<Options>({
