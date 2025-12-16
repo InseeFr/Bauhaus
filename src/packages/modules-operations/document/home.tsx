@@ -1,4 +1,4 @@
-import { sanitize } from "dompurify";
+import DOMPurify from "dompurify";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -28,8 +28,7 @@ const formatter = (content: HomeDocument, label: keyof typeof content) => {
   }
   return (
     <>
-      {content[label]}{" "}
-      <i>{extraInformations.length > 0 ? `(${extraInformations.join("-")})` : ""}</i>
+      {content[label]} <i>{extraInformations.length > 0 ? `(${extraInformations.join("-")})` : ""}</i>
     </>
   );
 };
@@ -60,7 +59,7 @@ const SearchableList = ({
     const searchQuery = new URL(url).searchParams;
 
     if (searchQuery.has("search")) {
-      setSearch(sanitize(searchQuery.get("search")));
+      setSearch(DOMPurify.sanitize(searchQuery.get("search")));
     }
   }, [url]);
 
@@ -115,11 +114,7 @@ function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[] }>) {
   const [filter, setFilter] = useState(queryMode || BOTH);
 
   const filteredDocuments = documents.filter((document: HomeDocument) => {
-    return (
-      filter === BOTH ||
-      (filter === DOCUMENT && isDocument(document)) ||
-      (filter === LINK && isLink(document))
-    );
+    return filter === BOTH || (filter === DOCUMENT && isDocument(document)) || (filter === LINK && isLink(document));
   });
 
   const onFilter = useCallback(
@@ -128,7 +123,7 @@ function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[] }>) {
       setFilter(mode);
       navigate(window.location.pathname + "?page=1", { replace: true });
     },
-    [navigate],
+    [navigate]
   );
 
   return (
