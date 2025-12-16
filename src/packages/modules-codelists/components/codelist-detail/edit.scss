@@ -1,55 +1,55 @@
 .code-zone {
-	.wilco-note {
-		padding: 0;
-	}
-	.panel-body {
-		padding: 0.5em !important;
-	}
+  .wilco-note {
+    padding: 0;
+  }
+  .panel-body {
+    padding: 0.5em !important;
+  }
 
-	.wilco-btn {
-		padding: 5px 8px;
-		font-size: 14px;
-		flex: 1;
-		margin: 0.5em;
-	}
+  .wilco-btn {
+    padding: 5px 8px;
+    font-size: 14px;
+    flex: 1;
+    margin: 0.5em;
+  }
 }
 
 .rst__rowContents {
-	justify-content: left;
-	.rst__rowLabel {
-		order: 2;
-		padding-left: 5px;
-		padding-right: 5px;
-	}
-	.rst__rowToolbar {
-		order: 1;
-	}
+  justify-content: left;
+  .rst__rowLabel {
+    order: 2;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .rst__rowToolbar {
+    order: 1;
+  }
 }
 .wilco-action-toolbar {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	margin-top: 15px;
-	margin-bottom: 15px;
-	flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
 
-	&::before {
-		content: none;
-	}
-	&::after {
-		content: none;
-	}
+  &::before {
+    content: none;
+  }
+  &::after {
+    content: none;
+  }
 
-	> div {
-		flex-grow: 1;
-	}
+  > div {
+    flex-grow: 1;
+  }
 
-	.empty-center {
-		flex-grow: 1;
-	}
-	.wilco-btn {
-		padding: 5px 8px;
-		flex: 1;
-		margin: 0.5em;
-	}
+  .empty-center {
+    flex-grow: 1;
+  }
+  .wilco-btn {
+    padding: 5px 8px;
+    flex: 1;
+    margin: 0.5em;
+  }
 }

@@ -1,9 +1,9 @@
-import { render } from '@testing-library/react';
+import { render } from "@testing-library/react";
 
-import { NoteVisualization } from './';
+import { NoteVisualization } from "./";
 
-describe('note-visualization', () => {
-	it('renders without crashing', () => {
-		render(<NoteVisualization params={[]} secondLang={false} />);
-	});
+describe("note-visualization", () => {
+  it("renders without crashing", () => {
+    render(<NoteVisualization params={[]} secondLang={false} />);
+  });
 });

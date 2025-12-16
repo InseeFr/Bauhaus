@@ -1,10 +1,10 @@
-import { render } from '@testing-library/react';
+import { render } from "@testing-library/react";
 
-import { EditorHTML } from '.';
+import { EditorHTML } from ".";
 
-describe('editor-html', () => {
-	it('renders without crashing', () => {
-		const onChange = () => '';
-		render(<EditorHTML text="text" handleChange={onChange} smart={true} />);
-	});
+describe("editor-html", () => {
+  it("renders without crashing", () => {
+    const onChange = () => "";
+    render(<EditorHTML text="text" handleChange={onChange} smart={true} />);
+  });
 });

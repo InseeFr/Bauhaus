@@ -23,7 +23,7 @@ export const VariableInformationTab = ({
 	nameError = false,
 	labelError = false,
 }: Readonly<VariableInformationTabProps>) => {
-	const { t } = useTranslation();
+  const { t } = useTranslation();
 
 	return (
 		<div className="flex flex-column gap-3">

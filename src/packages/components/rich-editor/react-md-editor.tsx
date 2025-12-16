@@ -7,18 +7,16 @@ import Editor, {
 import { ComponentProps } from 'react';
 
 export const MDEditor = ({
-	text,
-	handleChange,
-	...props
+  text,
+  handleChange,
+  ...props
 }: Readonly<
-	{
-		text?: string;
-		handleChange: (value?: string) => void;
-	} & Omit<
-		ComponentProps<typeof Editor>,
-		'value' | 'onChange' | 'commands' | 'preview'
-	>
+  {
+    text?: string;
+    handleChange: (value?: string) => void;
+  } & Omit<ComponentProps<typeof Editor>, "value" | "onChange" | "commands" | "preview">
 >) => {
+<<<<<<< HEAD
 	return (
 		<Editor
 			{...props}
@@ -28,4 +26,15 @@ export const MDEditor = ({
 			preview="edit"
 		/>
 	);
+=======
+  return (
+    <Editor
+      {...props}
+      value={text}
+      onChange={handleChange}
+      commands={[italic, bold, unorderedListCommand]}
+      preview="edit"
+    />
+  );
+>>>>>>> faaab180 (feat: migrate to oxfmt)
 };

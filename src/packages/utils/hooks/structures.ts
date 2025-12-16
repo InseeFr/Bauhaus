@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { StructureApi } from '@sdk/index';
+import { StructureApi } from "@sdk/index";
 
-import { StructuresList } from '../../model/structures/Structure';
+import { StructuresList } from "../../model/structures/Structure";
 
 export const useStructures = () =>
-	useQuery<StructuresList>({
-		queryKey: ['structures'],
-		queryFn: StructureApi.getStructures,
-	});
+  useQuery<StructuresList>({
+    queryKey: ["structures"],
+    queryFn: StructureApi.getStructures,
+  });

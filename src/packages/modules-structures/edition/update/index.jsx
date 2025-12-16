@@ -1,58 +1,58 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
-import { Loading } from '@components/loading';
+import { Loading } from "@components/loading";
 
-import { StructureApi } from '@sdk/index';
+import { StructureApi } from "@sdk/index";
 
-import { useTitle } from '@utils/hooks/useTitle';
+import { useTitle } from "@utils/hooks/useTitle";
 
-import D from '../../../deprecated-locales';
-import Edition from '../component';
+import D from "../../../deprecated-locales";
+import Edition from "../component";
 
 export const Component = () => {
-	const location = useLocation();
-	const [loading, setLoading] = useState(true);
-	const { structureId } = useParams();
+  const location = useLocation();
+  const [loading, setLoading] = useState(true);
+  const { structureId } = useParams();
 
-	const [structure, setStructure] = useState({});
-	useTitle(D.structuresTitle, structure?.labelLg1);
+  const [structure, setStructure] = useState({});
+  useTitle(D.structuresTitle, structure?.labelLg1);
 
-	useEffect(() => {
-		StructureApi.getStructure(structureId)
-			.then((res) => setStructure(res))
-			.finally(() => {
-				setLoading(false);
-			});
-	}, [structureId]);
-	const duplicate = location.pathname.includes('/duplicate');
+  useEffect(() => {
+    StructureApi.getStructure(structureId)
+      .then((res) => setStructure(res))
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [structureId]);
+  const duplicate = location.pathname.includes("/duplicate");
 
-	if (loading) return <Loading />;
+  if (loading) return <Loading />;
 
-	if (duplicate) {
-		return (
-			<Edition
-				creation={duplicate}
-				initialStructure={{
-					identifiant: structure.identifiant,
-					labelLg1: structure.labelLg1,
-					labelLg2: structure.labelLg2,
-					id: '',
-					creator: structure.creator,
-					contributor: structure.contributor,
-					disseminationStatus: structure.disseminationStatus,
-					componentDefinitions: structure.componentDefinitions.map((cd) => {
-						return {
-							component: cd.component,
-							order: cd.order,
-							required: cd.required,
-							attachment: cd.attachment,
-						};
-					}),
-				}}
-			/>
-		);
-	}
+  if (duplicate) {
+    return (
+      <Edition
+        creation={duplicate}
+        initialStructure={{
+          identifiant: structure.identifiant,
+          labelLg1: structure.labelLg1,
+          labelLg2: structure.labelLg2,
+          id: "",
+          creator: structure.creator,
+          contributor: structure.contributor,
+          disseminationStatus: structure.disseminationStatus,
+          componentDefinitions: structure.componentDefinitions.map((cd) => {
+            return {
+              component: cd.component,
+              order: cd.order,
+              required: cd.required,
+              attachment: cd.attachment,
+            };
+          }),
+        }}
+      />
+    );
+  }
 
-	return <Edition creation={duplicate} initialStructure={structure} />;
+  return <Edition creation={duplicate} initialStructure={structure} />;
 };

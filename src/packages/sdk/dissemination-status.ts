@@ -1,7 +1,7 @@
-import { buildApi } from './build-api';
+import { buildApi } from "./build-api";
 
 export const apiConfig = {
-	getDisseminationStatus: () => [''],
+  getDisseminationStatus: () => [""],
 };
 
-export const DisseminationStatus = buildApi('disseminationStatus', apiConfig);
+export const DisseminationStatus = buildApi("disseminationStatus", apiConfig);

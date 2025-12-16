@@ -1,10 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { DDIApi } from '../../sdk';
+import { DDIApi } from "../../sdk";
 
 export const useCodesLists = () => {
-	return useQuery({
-		queryKey: ['codesLists'],
-		queryFn: () => DDIApi.getCodesLists(),
-	});
+  return useQuery({
+    queryKey: ["codesLists"],
+    queryFn: () => DDIApi.getCodesLists(),
+  });
 };
