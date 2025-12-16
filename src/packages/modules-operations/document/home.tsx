@@ -1,4 +1,4 @@
-import DOMPurify from "dompurify";
+import { sanitize } from "dompurify";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -60,7 +60,7 @@ const SearchableList = ({
     const searchQuery = new URL(url).searchParams;
 
     if (searchQuery.has("search")) {
-      setSearch(DOMPurify.sanitize(searchQuery.get("search")));
+      setSearch(sanitize(searchQuery.get("search")));
     }
   }, [url]);
 
