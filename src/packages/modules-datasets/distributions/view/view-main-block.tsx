@@ -46,7 +46,7 @@ export const ViewMainBlock = ({ distribution }: Readonly<{ distribution: Distrib
                 {D.tailleTitle} : {distribution.byteSize}{" "}
               </li>
               <li>
-                {D.accessUrlTitle} : {distribution.accessUrl}
+                {D.accessUrlTitle} :
                 <ExternalLink href={distribution.accessUrl}>{distribution.accessUrl}</ExternalLink>
               </li>
               <li>
