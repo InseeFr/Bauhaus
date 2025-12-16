@@ -63,6 +63,9 @@ export interface Distribution {
 	byteSize: string;
 	accessUrl: string;
 	url: string;
+	idDataset: string;
+	labelLg1: string;
+	labelLg2: string;
 }
 
 export interface PartialDistribution {

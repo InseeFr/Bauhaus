@@ -21,8 +21,8 @@ import {
 	CL_FREQ,
 } from '../../../redux/actions/constants/codeList';
 import { D as DatasetDictionary, lg1, lg2 } from '../../i18n';
-import { useThemes } from '../useThemes';
 import { WasGeneratedByBlock } from './wasGeneratedByBlock';
+import { useThemes } from '../../hooks/useThemes';
 
 interface GlobalInformationBlockTypes {
 	dataset: Dataset;
