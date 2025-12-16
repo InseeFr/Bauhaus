@@ -21,7 +21,15 @@ export interface ModalRmesTypes {
   closeCancel: VoidFunction;
   modalButtons: ModalButton[];
 }
-export const ModalRmes = ({ id, isOpen, title, body, footer, closeCancel, modalButtons }: ModalRmesTypes) => {
+export const ModalRmes = ({
+  id,
+  isOpen,
+  title,
+  body,
+  footer,
+  closeCancel,
+  modalButtons,
+}: ModalRmesTypes) => {
   const buttons = modalButtons.map((b: ModalButton, i: number) => (
     <button
       key={`${id}-${i}`}

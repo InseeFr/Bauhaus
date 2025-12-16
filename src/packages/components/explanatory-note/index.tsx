@@ -15,7 +15,7 @@ export const ExplanatoryNote = ({ text, title, alone, md }: Readonly<Explanatory
 
   const newText = text.replace(
     /href="http:\/\/.+?\/codes\/(.+?)\/.+?\/(.+?)"/g,
-    `href="${window.location.origin}/classifications/classification/$1/item/$2"`
+    `href="${window.location.origin}/classifications/classification/$1/item/$2"`,
   );
 
   if (md) {
