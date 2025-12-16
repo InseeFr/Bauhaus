@@ -1,6 +1,6 @@
 //@ts-ignore
 //@ts-ignore
-import { sanitize } from "dompurify";
+import DOMPurify from "dompurify";
 import { ReactNode } from "react";
 import Modal from "react-modal";
 
@@ -21,15 +21,7 @@ export interface ModalRmesTypes {
   closeCancel: VoidFunction;
   modalButtons: ModalButton[];
 }
-export const ModalRmes = ({
-  id,
-  isOpen,
-  title,
-  body,
-  footer,
-  closeCancel,
-  modalButtons,
-}: ModalRmesTypes) => {
+export const ModalRmes = ({ id, isOpen, title, body, footer, closeCancel, modalButtons }: ModalRmesTypes) => {
   const buttons = modalButtons.map((b: ModalButton, i: number) => (
     <button
       key={`${id}-${i}`}
@@ -58,7 +50,7 @@ export const ModalRmes = ({
           <div className="modal-body">
             <div
               dangerouslySetInnerHTML={{
-                __html: sanitize(body),
+                __html: DOMPurify.sanitize(body),
               }}
             />
           </div>
@@ -70,7 +62,7 @@ export const ModalRmes = ({
               style={{ textAlign: "left", marginTop: "20px" }}
               className="red"
               dangerouslySetInnerHTML={{
-                __html: sanitize(footer),
+                __html: DOMPurify.sanitize(footer),
               }}
             />
           )}
