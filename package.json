@@ -23,7 +23,8 @@
 		"_format": "prettier --experimental-cli 'src/**/*.{ts,tsx,js,jsx,json,md}'",
 		"format": "pnpm _format -- --write",
 		"format:check": "pnpm _format -- --list-different",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"i18n:check": "i18next-cli status"
 	},
 	"browserslist": [
 		">0.2%",
@@ -68,6 +69,7 @@
 		"esbuild-plugin-react-virtualized": "^1.0.4",
 		"happy-dom": "^15.11.7",
 		"husky": "^9.1.6",
+		"i18next-cli": "^1.32.0",
 		"oxlint": "^1.24.0",
 		"playwright": "^1.55.1",
 		"prettier": "^3.6.1",
