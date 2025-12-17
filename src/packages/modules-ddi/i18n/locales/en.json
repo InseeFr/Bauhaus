@@ -3,11 +3,11 @@
 		"creation": {
 			"cancel": "Cancel",
 			"create": "Create",
-			"errorMessage": "errorMessage",
-			"errorTitle": "errorTitle",
+			"errorMessage": "An error occurred during creation",
+			"errorTitle": "Creation error",
 			"label": "Label",
-			"successMessage": "successMessage",
-			"successTitle": "successTitle",
+			"successMessage": "Your changes have been successfully saved",
+			"successTitle": "Creation successful",
 			"title": "Create a new physical instance"
 		},
 		"view": {
@@ -86,11 +86,12 @@
 				"type": "Numeric type"
 			},
 			"publish": "Publish",
+			"save": "Save",
 			"saveAll": "Save all",
-			"saveAllError": "saveAllError",
-			"saveAllErrorDetail": "saveAllErrorDetail",
-			"saveAllSuccess": "saveAllSuccess",
-			"saveAllSuccessDetail": "saveAllSuccessDetail",
+			"saveAllError": "Save error",
+			"saveAllErrorDetail": "Unable to save all changes",
+			"saveAllSuccess": "Save successful",
+			"saveAllSuccessDetail": "All changes have been saved successfully",
 			"saveError": "Save error",
 			"saveErrorDetail": "Unable to save physical instance",
 			"saveSuccess": "Save successful",
@@ -114,6 +115,7 @@
 			"variableAddSuccessDetail": "Variable successfully added. Remember to save",
 			"variableDuplicateSuccess": "Variable duplicated",
 			"variableDuplicateSuccessDetail": "The variable has been successfully duplicated",
+			"variablesTable": "Variables table",
 			"variableTypes": {
 				"code": "Code",
 				"date": "Date",
@@ -121,8 +123,7 @@
 				"text": "Text"
 			},
 			"variableUpdateSuccess": "Variable updated",
-			"variableUpdateSuccessDetail": "Variable successfully updated. Remember to save",
-			"variablesTable": "Variables table"
+			"variableUpdateSuccessDetail": "Variable successfully updated. Remember to save"
 		}
 	}
 }

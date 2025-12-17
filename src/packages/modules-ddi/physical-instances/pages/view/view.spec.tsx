@@ -100,6 +100,23 @@ document.createElement = vi.fn((tagName: string) => {
 	return element;
 }) as any;
 
+// Helper function to create a test variable and enable the Save All button
+const createTestVariable = (name = 'TestVar', label = 'Test Variable') => {
+	const newVariableButton = screen.getByLabelText(
+		'physicalInstance.view.newVariable',
+	);
+	fireEvent.click(newVariableButton);
+
+	const nameInput = screen.getByLabelText('physicalInstance.view.columns.name');
+	const labelInput = screen.getByLabelText('physicalInstance.view.columns.label');
+	fireEvent.change(nameInput, { target: { value: name } });
+	fireEvent.change(labelInput, { target: { value: label } });
+
+	const saveVariableButton = screen.getByLabelText(
+		'physicalInstance.view.add',
+	);
+	fireEvent.click(saveVariableButton);
+};
 
 describe('View Component', () => {
 	let queryClient: QueryClient;
@@ -733,6 +750,10 @@ describe('View Component', () => {
 
 			render(<Component />, { wrapper });
 
+			// Create a new variable to enable the Save All button
+			createTestVariable();
+
+			// Now click Save All
 			const saveAllButton = screen.getByLabelText(
 				'physicalInstance.view.saveAll',
 			);
@@ -805,7 +826,7 @@ describe('View Component', () => {
 
 			// Save the variable
 			const saveVariableButton = screen.getByLabelText(
-				'physicalInstance.view.save',
+				'physicalInstance.view.add',
 			);
 			fireEvent.click(saveVariableButton);
 
@@ -854,7 +875,7 @@ describe('View Component', () => {
 			fireEvent.change(labelInput, { target: { value: 'Temp Variable' } });
 
 			const saveVariableButton = screen.getByLabelText(
-				'physicalInstance.view.save',
+				'physicalInstance.view.add',
 			);
 			fireEvent.click(saveVariableButton);
 
@@ -902,6 +923,10 @@ describe('View Component', () => {
 
 			render(<Component />, { wrapper });
 
+			// Create a new variable to enable the Save All button
+			createTestVariable();
+
+			// Now click Save All
 			const saveAllButton = screen.getByLabelText(
 				'physicalInstance.view.saveAll',
 			);
@@ -967,7 +992,7 @@ describe('View Component', () => {
 			fireEvent.change(typeDropdown, { target: { value: 'date' } });
 
 			const saveVariableButton = screen.getByLabelText(
-				'physicalInstance.view.save',
+				'physicalInstance.view.add',
 			);
 			fireEvent.click(saveVariableButton);
 
@@ -1015,7 +1040,7 @@ describe('View Component', () => {
 			fireEvent.change(labelInput, { target: { value: 'Text Variable' } });
 
 			const saveVariableButton = screen.getByLabelText(
-				'physicalInstance.view.save',
+				'physicalInstance.view.add',
 			);
 			fireEvent.click(saveVariableButton);
 
@@ -1092,7 +1117,7 @@ describe('View Component', () => {
 			fireEvent.change(typeDropdown, { target: { value: 'code' } });
 
 			const saveVariableButton = screen.getByLabelText(
-				'physicalInstance.view.save',
+				'physicalInstance.view.add',
 			);
 			fireEvent.click(saveVariableButton);
 
@@ -1169,7 +1194,7 @@ describe('View Component', () => {
 			fireEvent.change(typeDropdown, { target: { value: 'code' } });
 
 			const saveVariableButton = screen.getByLabelText(
-				'physicalInstance.view.save',
+				'physicalInstance.view.add',
 			);
 			fireEvent.click(saveVariableButton);
 
@@ -1260,7 +1285,7 @@ describe('View Component', () => {
 			fireEvent.change(labelInput, { target: { value: 'New Variable' } });
 
 			const saveVariableButton = screen.getByLabelText(
-				'physicalInstance.view.save',
+				'physicalInstance.view.add',
 			);
 			fireEvent.click(saveVariableButton);
 
