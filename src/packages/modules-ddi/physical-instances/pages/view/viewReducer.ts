@@ -106,9 +106,22 @@ export function viewReducer(state: State, action: Action): State {
 		case ACTION_TYPES.SET_SELECTED_VARIABLE:
 			return { ...state, selectedVariable: action.payload };
 		case ACTION_TYPES.UPDATE_VARIABLE: {
-			const updatedVariables = state.localVariables.map((variable) =>
-				variable.id === action.payload.id ? action.payload : variable,
+			// Vérifier si la variable existe déjà dans localVariables
+			const existsInLocal = state.localVariables.some(
+				(variable) => variable.id === action.payload.id
 			);
+
+			let updatedVariables;
+			if (existsInLocal) {
+				// Mettre à jour la variable existante
+				updatedVariables = state.localVariables.map((variable) =>
+					variable.id === action.payload.id ? action.payload : variable,
+				);
+			} else {
+				// Ajouter la variable si elle n'existe pas encore
+				updatedVariables = [...state.localVariables, action.payload];
+			}
+
 			return {
 				...state,
 				localVariables: updatedVariables,
