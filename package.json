@@ -18,13 +18,14 @@
 		"start": "pnpm pre-script vite",
 		"build": "pnpm pre-script vite build && pnpm create-zip",
 		"create-zip": "cd build && bestzip build.zip *",
-		"pre-push": "pnpm format:check && pnpm lint && pnpm test:coverage -- --allowOnly false",
+		"pre-push": "pnpm format:check && pnpm lint && pnpm i18n:check && pnpm i18n:lint && pnpm test:coverage -- --allowOnly false",
 		"prepare": "husky",
 		"_format": "prettier --experimental-cli 'src/**/*.{ts,tsx,js,jsx,json,md}'",
 		"format": "pnpm _format -- --write",
 		"format:check": "pnpm _format -- --list-different",
 		"typecheck": "tsc --noEmit",
-		"i18n:check": "i18next-cli status"
+		"i18n:check": "i18next-cli status en",
+		"i18n:lint": "i18next-cli lint"
 	},
 	"browserslist": [
 		">0.2%",
