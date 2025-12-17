@@ -3,11 +3,11 @@
 		"creation": {
 			"cancel": "Annuler",
 			"create": "Créer",
-			"errorMessage": "",
-			"errorTitle": "",
+			"errorMessage": "Une erreur est survenue lors de la création",
+			"errorTitle": "Erreur de création",
 			"label": "Libellé",
-			"successMessage": "",
-			"successTitle": "",
+			"successMessage": "Vos modifications ont été sauvegardées avec succès",
+			"successTitle": "Création réussie",
 			"title": "Créer un nouveau fichier de données"
 		},
 		"view": {
@@ -86,11 +86,12 @@
 				"type": "Type numérique"
 			},
 			"publish": "Publier",
+			"save": "Enregistrer",
 			"saveAll": "Sauvegarder",
-			"saveAllError": "",
-			"saveAllErrorDetail": "",
-			"saveAllSuccess": "",
-			"saveAllSuccessDetail": "",
+			"saveAllError": "Erreur lors de la sauvegarde",
+			"saveAllErrorDetail": "Impossible de sauvegarder toutes les modifications",
+			"saveAllSuccess": "Sauvegarde réussie",
+			"saveAllSuccessDetail": "Toutes les modifications ont été sauvegardées avec succès",
 			"saveError": "Erreur lors de l'enregistrement",
 			"saveErrorDetail": "Impossible d'enregistrer l'instance physique",
 			"saveSuccess": "Enregistrement réussi",
