@@ -13,7 +13,8 @@ vi.mock('react-i18next', () => ({
 		t: (key: string) => {
 			const translations: Record<string, string> = {
 				'physicalInstance.view.editVariable': 'Modifier la variable',
-				'physicalInstance.view.save': 'Enregistrer',
+				'physicalInstance.view.add': 'Ajouter',
+				'physicalInstance.view.update': 'Mettre à jour',
 				'physicalInstance.view.duplicate': 'Dupliquer',
 				'physicalInstance.view.columns.label': 'Label',
 				'physicalInstance.view.columns.name': 'Nom',
@@ -370,7 +371,7 @@ describe('VariableEditForm', () => {
 			/>,
 		);
 
-		const saveButton = screen.getByText('Enregistrer');
+		const saveButton = screen.getByText('Mettre à jour');
 		fireEvent.click(saveButton);
 
 		expect(mockOnSave).toHaveBeenCalledWith(
@@ -396,7 +397,7 @@ describe('VariableEditForm', () => {
 		const labelInput = screen.getByLabelText('Label');
 		fireEvent.change(labelInput, { target: { value: 'Updated Label' } });
 
-		const saveButton = screen.getByText('Enregistrer');
+		const saveButton = screen.getByText('Mettre à jour');
 		fireEvent.click(saveButton);
 
 		expect(mockOnSave).toHaveBeenCalledWith(
@@ -418,7 +419,7 @@ describe('VariableEditForm', () => {
 		const nameInput = screen.getByLabelText('Nom');
 		fireEvent.change(nameInput, { target: { value: 'updatedVar' } });
 
-		const saveButton = screen.getByText('Enregistrer');
+		const saveButton = screen.getByText('Mettre à jour');
 		fireEvent.click(saveButton);
 
 		expect(mockOnSave).toHaveBeenCalledWith(
@@ -447,7 +448,7 @@ describe('VariableEditForm', () => {
 			/>,
 		);
 
-		const saveButton = screen.getByText('Enregistrer');
+		const saveButton = screen.getByText('Mettre à jour');
 		fireEvent.click(saveButton);
 
 		const savedData = mockOnSave.mock.calls[0][0];
@@ -527,7 +528,7 @@ describe('VariableEditForm', () => {
 			/>,
 		);
 
-		const saveButton = screen.getByText('Enregistrer');
+		const saveButton = screen.getByText('Mettre à jour');
 		fireEvent.click(saveButton);
 
 		expect(mockOnSave).toHaveBeenCalledWith(
@@ -590,7 +591,7 @@ describe('VariableEditForm', () => {
 		const checkbox = screen.getByLabelText('Variable géographique');
 		fireEvent.click(checkbox);
 
-		const saveButton = screen.getByText('Enregistrer');
+		const saveButton = screen.getByText('Mettre à jour');
 		fireEvent.click(saveButton);
 
 		expect(mockOnSave).toHaveBeenCalledWith(
@@ -615,7 +616,7 @@ describe('VariableEditForm', () => {
 		fireEvent.change(labelInput, { target: { value: 'New Label' } });
 		expect(labelInput.value).toBe('New Label');
 
-		const saveButton = screen.getByText('Enregistrer');
+		const saveButton = screen.getByText('Mettre à jour');
 		fireEvent.click(saveButton);
 
 		expect(mockOnSave).toHaveBeenCalledWith(
@@ -640,7 +641,7 @@ describe('VariableEditForm', () => {
 		fireEvent.change(nameInput, { target: { value: 'newName' } });
 		expect(nameInput.value).toBe('newName');
 
-		const saveButton = screen.getByText('Enregistrer');
+		const saveButton = screen.getByText('Mettre à jour');
 		fireEvent.click(saveButton);
 
 		expect(mockOnSave).toHaveBeenCalledWith(
@@ -668,7 +669,7 @@ describe('VariableEditForm', () => {
 		expect(typeSelect.value).toBe('text');
 		expect(screen.getByTestId('text-representation')).toBeInTheDocument();
 
-		const saveButton = screen.getByText('Enregistrer');
+		const saveButton = screen.getByText('Mettre à jour');
 		fireEvent.click(saveButton);
 
 		expect(mockOnSave).toHaveBeenCalledWith(
@@ -880,6 +881,88 @@ describe('VariableEditForm', () => {
 
 			// Should not throw an error
 			expect(mockOnDuplicate).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('isNew prop functionality', () => {
+		it('should display "Ajouter" button when isNew is true', () => {
+			const newVariable = {
+				id: 'new',
+				label: '',
+				name: '',
+				description: '',
+				type: 'text',
+			};
+
+			render(
+				<VariableEditForm
+					variable={newVariable}
+					typeOptions={typeOptions}
+					isNew={true}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			expect(screen.getByText('Ajouter')).toBeInTheDocument();
+			expect(screen.queryByText('Mettre à jour')).not.toBeInTheDocument();
+		});
+
+		it('should display "Mettre à jour" button when isNew is false', () => {
+			render(
+				<VariableEditForm
+					variable={defaultVariable}
+					typeOptions={typeOptions}
+					isNew={false}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			expect(screen.getByText('Mettre à jour')).toBeInTheDocument();
+			expect(screen.queryByText('Ajouter')).not.toBeInTheDocument();
+		});
+
+		it('should display "Mettre à jour" button by default when isNew is not provided', () => {
+			render(
+				<VariableEditForm
+					variable={defaultVariable}
+					typeOptions={typeOptions}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			expect(screen.getByText('Mettre à jour')).toBeInTheDocument();
+			expect(screen.queryByText('Ajouter')).not.toBeInTheDocument();
+		});
+
+		it('should call onSave correctly when "Ajouter" button is clicked', () => {
+			const newVariable = {
+				id: 'new',
+				label: 'New Var',
+				name: 'newVar',
+				description: '',
+				type: 'text',
+			};
+
+			render(
+				<VariableEditForm
+					variable={newVariable}
+					typeOptions={typeOptions}
+					isNew={true}
+					onSave={mockOnSave}
+				/>,
+			);
+
+			const addButton = screen.getByText('Ajouter');
+			fireEvent.click(addButton);
+
+			expect(mockOnSave).toHaveBeenCalledWith(
+				expect.objectContaining({
+					id: 'new',
+					label: 'New Var',
+					name: 'newVar',
+					type: 'text',
+				}),
+			);
 		});
 	});
 });

@@ -136,6 +136,7 @@ interface VariableEditFormProps {
 		categories?: Category[];
 	};
 	typeOptions: { label: string; value: string }[];
+	isNew?: boolean;
 	onSave: (data: {
 		id: string;
 		label: string;
@@ -169,6 +170,7 @@ interface VariableEditFormProps {
 export const VariableEditForm = ({
 	variable,
 	typeOptions,
+	isNew = false,
 	onSave,
 	onDuplicate,
 }: Readonly<VariableEditFormProps>) => {
@@ -335,10 +337,18 @@ export const VariableEditForm = ({
 					/>
 					<Button
 						type="submit"
-						label={t('physicalInstance.view.save')}
+						label={
+							isNew
+								? t("physicalInstance.view.add")
+								: t("physicalInstance.view.update")
+						}
 						icon="pi pi-save"
 						outlined
-						aria-label={t('physicalInstance.view.save')}
+						aria-label={
+							isNew
+								? t("physicalInstance.view.add")
+								: t("physicalInstance.view.update")
+						}
 					/>
 				</div>
 
@@ -388,7 +398,15 @@ export const VariableEditForm = ({
 						/>
 					</TabPanel>
 
-					<TabPanel header={t('physicalInstance.view.tabs.ddiXml')}>
+					<TabPanel
+						headerClassName="ml-auto"
+						header={
+							<i
+								className="pi pi-code"
+								aria-label={t("physicalInstance.view.tabs.ddiXml")}
+							/>
+						}
+					>
 						{activeIndex === 2 && (
 							<DdiXmlPreview
 								variableId={variable.id}

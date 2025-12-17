@@ -106,10 +106,11 @@ export const Component = () => {
 		// Apply local modifications and add new local variables
 		state.localVariables.forEach((localVar) => {
 			if (variableMap.has(localVar.id)) {
-				// Update existing variable
+				// Update existing variable with new lastModified
 				variableMap.set(localVar.id, {
 					...variableMap.get(localVar.id),
 					...localVar,
+					lastModified: new Date().toISOString(),
 				});
 			} else {
 				// Add new local variable with lastModified
@@ -345,8 +346,10 @@ export const Component = () => {
 
 	const handleVariableSave = useCallback(
 		(data: VariableData) => {
+			const isNew = data.id === "new";
+
 			// Si l'ID est 'new', c'est une nouvelle variable
-			if (data.id === 'new') {
+			if (isNew) {
 				const newId = crypto.randomUUID();
 				dispatch(
 					actions.addVariable({
@@ -363,9 +366,13 @@ export const Component = () => {
 			dispatch(actions.setSelectedVariable(null));
 
 			toast.current?.show({
-				severity: 'success',
-				summary: t('physicalInstance.view.variableSaveSuccess'),
-				detail: t('physicalInstance.view.variableSaveSuccessDetail'),
+				severity: "success",
+				summary: isNew
+					? t("physicalInstance.view.variableAddSuccess")
+					: t("physicalInstance.view.variableUpdateSuccess"),
+				detail: isNew
+					? t("physicalInstance.view.variableAddSuccessDetail")
+					: t("physicalInstance.view.variableUpdateSuccessDetail"),
 				life: TOAST_DURATION,
 			});
 		},
@@ -652,6 +659,7 @@ export const Component = () => {
 					typeOptions={typeOptions}
 					onNewVariable={handleNewVariable}
 					onSaveAll={handleSaveAll}
+					hasLocalChanges={state.localVariables.length > 0 || state.deletedVariableIds.length > 0}
 				/>
 
 				<GlobalActionsCard
@@ -667,6 +675,7 @@ export const Component = () => {
 					<VariableEditForm
 						variable={state.selectedVariable}
 						typeOptions={variableTypeOptions}
+						isNew={state.selectedVariable.id === "new"}
 						onSave={handleVariableSave}
 						onDuplicate={handleVariableDuplicate}
 					/>

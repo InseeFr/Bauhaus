@@ -13,6 +13,7 @@ interface SearchFiltersProps {
 	typeOptions: { label: string; value: string }[];
 	onNewVariable: () => void;
 	onSaveAll?: () => void;
+	hasLocalChanges?: boolean;
 }
 
 export const SearchFilters = ({
@@ -23,6 +24,7 @@ export const SearchFilters = ({
 	typeOptions,
 	onNewVariable,
 	onSaveAll,
+	hasLocalChanges = false,
 }: Readonly<SearchFiltersProps>) => {
 	const { t } = useTranslation();
 
@@ -53,6 +55,7 @@ export const SearchFilters = ({
 				style={{ background: 'transparent' }}
 				aria-label={t('physicalInstance.view.saveAll')}
 				onClick={onSaveAll}
+				disabled={!hasLocalChanges}
 			/>
 			<Button
 				icon="pi pi-plus"

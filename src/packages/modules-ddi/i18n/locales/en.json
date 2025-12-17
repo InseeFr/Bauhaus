@@ -1,117 +1,128 @@
 {
 	"physicalInstance": {
 		"creation": {
-			"title": "Create a new physical instance",
-			"label": "Label",
 			"cancel": "Cancel",
-			"create": "Create"
+			"create": "Create",
+			"errorMessage": "errorMessage",
+			"errorTitle": "errorTitle",
+			"label": "Label",
+			"successMessage": "successMessage",
+			"successTitle": "successTitle",
+			"title": "Create a new physical instance"
 		},
 		"view": {
-			"search": "Search",
+			"add": "Add",
 			"allTypes": "All types",
-			"newVariable": "Add variable",
-			"saveAll": "Save all",
-			"editTitle": "Edit title",
-			"typeFilter": "Filter by type",
-			"globalActions": "Global Actions",
-			"import": "Import",
-			"export": "Export",
-			"publish": "Publish",
-			"variablesTable": "Variables table",
-			"isGeographic": "Is geographic?",
-			"columns": {
-				"name": "Name",
-				"label": "Label",
-				"description": "Description",
-				"type": "Type",
-				"lastModified": "Last Modified"
-			},
-			"tabs": {
-				"information": "Information",
-				"representation": "Representation",
-				"ddiXml": "DDI XML Preview"
-			},
-			"numeric": {
-				"type": "Numeric type",
-				"selectType": "Select a numeric type",
-				"min": "Min",
-				"max": "Max",
-				"addMinBound": "Add minimum bound",
-				"addMaxBound": "Add maximum bound"
-			},
-			"date": {
-				"type": "Date type",
-				"selectType": "Select a date type"
-			},
-			"text": {
-				"minLength": "Minimum length",
-				"maxLength": "Maximum length",
-				"regExp": "Regular expression"
-			},
+			"cancel": "Cancel",
+			"cancelDelete": "Cancel",
 			"code": {
+				"addCode": "Add code",
+				"addCodeTooltip": "Add this code",
 				"codeListLabel": "Code list label",
 				"codes": "Codes",
-				"addCode": "Add code",
-				"editCode": "Edit code",
-				"value": "Value",
-				"label": "Label",
-				"addCodeTooltip": "Add this code",
-				"fillFieldsTooltip": "Fill at least one field to add a code",
 				"createNewList": "Create new list",
+				"editCode": "Edit code",
+				"errorLoadingCodesLists": "Error loading code lists",
+				"fillFieldsTooltip": "Fill at least one field to add a code",
+				"label": "Label",
+				"loadingCodesLists": "Loading code lists...",
+				"noCodesListsAvailable": "No code lists available",
 				"reuseList": "Reuse",
 				"selectCodeList": "Select a code list",
-				"loadingCodesLists": "Loading code lists...",
-				"errorLoadingCodesLists": "Error loading code lists",
-				"noCodesListsAvailable": "No code lists available"
+				"value": "Value"
+			},
+			"columns": {
+				"description": "Description",
+				"label": "Label",
+				"lastModified": "Last Modified",
+				"name": "Name",
+				"type": "Type"
+			},
+			"confirmDelete": "Delete",
+			"copyXml": "Copy XML",
+			"date": {
+				"selectType": "Select a date type",
+				"type": "Date type"
 			},
 			"delete": "Delete",
-			"editModal": {
-				"title": "Edit",
-				"label": "Label",
-				"cancel": "Cancel",
-				"save": "Save"
-			},
-			"importModal": {
-				"title": "Import",
-				"placeholder": "Paste your data here...",
-				"cancel": "Cancel",
-				"import": "Import"
-			},
-			"editVariable": "Edit Variable",
-			"selectVariable": "Select a variable to edit",
-			"selectType": "Select a type",
-			"cancel": "Cancel",
-			"save": "Add",
-			"duplicate": "Duplicate",
-			"variableTypes": {
-				"text": "Text",
-				"code": "Code",
-				"date": "Date",
-				"numeric": "Numeric"
-			},
-			"exportSuccess": "Export successful",
-			"exportSuccessDetail": "File in {{format}} format has been downloaded",
-			"exportError": "Export error",
-			"exportErrorDetail": "Unable to download file",
-			"saveSuccess": "Save successful",
-			"saveSuccessDetail": "Physical instance has been updated",
-			"saveError": "Save error",
-			"saveErrorDetail": "Unable to save physical instance",
-			"loading": "Loading data...",
-			"errorLoading": "Error loading data",
-			"variableSaveSuccess": "Variable saved",
-			"variableSaveSuccessDetail": "The variable has been successfully saved",
-			"variableDuplicateSuccess": "Variable duplicated",
-			"variableDuplicateSuccessDetail": "The variable has been successfully duplicated",
-			"deleteVariableConfirmTitle": "Confirm deletion",
 			"deleteVariableConfirmMessage": "Are you sure you want to delete the variable \"{{name}}\"? This action cannot be undone.",
+			"deleteVariableConfirmTitle": "Confirm deletion",
 			"deleteVariableSuccess": "Variable deleted",
 			"deleteVariableSuccessDetail": "The variable has been successfully deleted",
-			"confirmDelete": "Delete",
-			"cancelDelete": "Cancel",
+			"duplicate": "Duplicate",
+			"editModal": {
+				"cancel": "Cancel",
+				"label": "Label",
+				"save": "Save",
+				"title": "Edit"
+			},
+			"editTitle": "Edit title",
+			"editVariable": "Edit Variable",
+			"errorLoading": "Error loading data",
+			"export": "Export",
+			"exportError": "Export error",
+			"exportErrorDetail": "Unable to download file",
+			"exportSuccess": "Export successful",
+			"exportSuccessDetail": "File in {{format}} format has been downloaded",
+			"globalActions": "Global Actions",
+			"import": "Import",
+			"importModal": {
+				"cancel": "Cancel",
+				"import": "Import",
+				"placeholder": "Paste your data here...",
+				"title": "Import"
+			},
+			"isGeographic": "Is geographic?",
+			"loading": "Loading data...",
 			"loadingDdi": "Loading DDI XML...",
-			"copyXml": "Copy XML",
-			"noDdiXml": "No DDI XML available"
+			"newVariable": "Add variable",
+			"noDdiXml": "No DDI XML available",
+			"numeric": {
+				"addMaxBound": "Add maximum bound",
+				"addMinBound": "Add minimum bound",
+				"max": "Max",
+				"min": "Min",
+				"selectType": "Select a numeric type",
+				"type": "Numeric type"
+			},
+			"publish": "Publish",
+			"saveAll": "Save all",
+			"saveAllError": "saveAllError",
+			"saveAllErrorDetail": "saveAllErrorDetail",
+			"saveAllSuccess": "saveAllSuccess",
+			"saveAllSuccessDetail": "saveAllSuccessDetail",
+			"saveError": "Save error",
+			"saveErrorDetail": "Unable to save physical instance",
+			"saveSuccess": "Save successful",
+			"saveSuccessDetail": "Physical instance has been updated",
+			"search": "Search",
+			"selectType": "Select a type",
+			"selectVariable": "Select a variable to edit",
+			"tabs": {
+				"ddiXml": "DDI XML Preview",
+				"information": "Information",
+				"representation": "Representation"
+			},
+			"text": {
+				"maxLength": "Maximum length",
+				"minLength": "Minimum length",
+				"regExp": "Regular expression"
+			},
+			"typeFilter": "Filter by type",
+			"update": "Update",
+			"variableAddSuccess": "Variable added",
+			"variableAddSuccessDetail": "Variable successfully added. Remember to save",
+			"variableDuplicateSuccess": "Variable duplicated",
+			"variableDuplicateSuccessDetail": "The variable has been successfully duplicated",
+			"variableTypes": {
+				"code": "Code",
+				"date": "Date",
+				"numeric": "Numeric",
+				"text": "Text"
+			},
+			"variableUpdateSuccess": "Variable updated",
+			"variableUpdateSuccessDetail": "Variable successfully updated. Remember to save",
+			"variablesTable": "Variables table"
 		}
 	}
 }
