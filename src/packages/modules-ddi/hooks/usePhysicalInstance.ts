@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "react-i18next";
 import type {
   PhysicalInstanceResponse,
   VariableTableData,
@@ -8,24 +7,8 @@ import type {
 
 import { DDIApi } from "../../sdk";
 
-function formatDate(dateString: string, locale: string): string {
-  if (!dateString) return "";
-
-  try {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat(locale, {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    }).format(date);
-  } catch {
-    return dateString;
-  }
-}
-
 function transformVariablesToTableData(
   data: PhysicalInstanceResponse,
-  locale: string,
 ): VariableTableData[] {
   if (!data.Variable) {
     return [];
@@ -36,7 +19,7 @@ function transformVariablesToTableData(
     name: variable.VariableName?.String?.["#text"] || "",
     label: variable.Label?.Content?.["#text"] || "",
     type: getVariableType(variable),
-    lastModified: formatDate(variable["@versionDate"] || "", locale),
+    lastModified: variable["@versionDate"] || "",
   }));
 }
 
@@ -54,14 +37,13 @@ function getVariableType(variable: Variable): string {
 }
 
 export function usePhysicalInstancesData(agencyId: string, id: string) {
-  const { i18n } = useTranslation();
   const query = useQuery({
     queryKey: ["physicalInstanceById", agencyId, id],
     queryFn: () => DDIApi.getPhysicalInstance(agencyId, id),
   });
 
   const variables: VariableTableData[] = query.data
-    ? transformVariablesToTableData(query.data, i18n.language)
+    ? transformVariablesToTableData(query.data)
     : [];
 
   const title = query.data?.PhysicalInstance?.[0]?.Citation?.Title?.String?.["#text"] || "";

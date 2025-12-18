@@ -1,10 +1,5 @@
-import Editor, {
-	bold,
-	italic,
-	unorderedListCommand,
-	link,
-} from '@uiw/react-md-editor';
-import { ComponentProps } from 'react';
+import Editor, { bold, italic, unorderedListCommand, link } from "@uiw/react-md-editor";
+import { ComponentProps } from "react";
 
 export const MDEditor = ({
   text,
@@ -16,25 +11,13 @@ export const MDEditor = ({
     handleChange: (value?: string) => void;
   } & Omit<ComponentProps<typeof Editor>, "value" | "onChange" | "commands" | "preview">
 >) => {
-<<<<<<< HEAD
-	return (
-		<Editor
-			{...props}
-			value={text}
-			onChange={handleChange}
-			commands={[italic, bold, unorderedListCommand, link]}
-			preview="edit"
-		/>
-	);
-=======
   return (
     <Editor
       {...props}
       value={text}
       onChange={handleChange}
-      commands={[italic, bold, unorderedListCommand]}
+      commands={[italic, bold, unorderedListCommand, link]}
       preview="edit"
     />
   );
->>>>>>> faaab180 (feat: migrate to oxfmt)
 };
