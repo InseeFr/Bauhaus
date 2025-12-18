@@ -7,9 +7,7 @@ import type {
 
 import { DDIApi } from "../../sdk";
 
-function transformVariablesToTableData(
-  data: PhysicalInstanceResponse,
-): VariableTableData[] {
+function transformVariablesToTableData(data: PhysicalInstanceResponse): VariableTableData[] {
   if (!data.Variable) {
     return [];
   }
