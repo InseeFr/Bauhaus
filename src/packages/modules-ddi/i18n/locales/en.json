@@ -47,9 +47,14 @@
 			"delete": "Delete",
 			"deleteVariableConfirmMessage": "Are you sure you want to delete the variable \"{{name}}\"? This action cannot be undone.",
 			"deleteVariableConfirmTitle": "Confirm deletion",
+			"duplicatePhysicalInstance": "Duplicate",
 			"deleteVariableSuccess": "Variable deleted",
 			"deleteVariableSuccessDetail": "The variable has been successfully deleted",
 			"duplicate": "Duplicate",
+			"duplicateSuccess": "Physical instance duplicated",
+			"duplicateSuccessDetail": "The physical instance has been successfully duplicated",
+			"duplicateError": "Duplication error",
+			"duplicateErrorDetail": "Unable to duplicate the physical instance",
 			"editModal": {
 				"cancel": "Cancel",
 				"label": "Label",
@@ -121,6 +126,9 @@
 				"date": "Date",
 				"numeric": "Numeric",
 				"text": "Text"
+			},
+			"validation": {
+				"required": "This field is required"
 			},
 			"variableUpdateSuccess": "Variable updated",
 			"variableUpdateSuccessDetail": "Variable successfully updated. Remember to save"
