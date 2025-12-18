@@ -1,137 +1,137 @@
 {
-	"physicalInstance": {
-		"creation": {
-			"cancel": "Annuler",
-			"create": "Créer",
-			"errorMessage": "Une erreur est survenue lors de la création",
-			"errorTitle": "Erreur de création",
-			"label": "Libellé",
-			"successMessage": "Vos modifications ont été sauvegardées avec succès",
-			"successTitle": "Création réussie",
-			"title": "Créer un nouveau fichier de données"
-		},
-		"view": {
-			"add": "Ajouter",
-			"allTypes": "Tous types",
-			"cancel": "Annuler",
-			"cancelDelete": "Annuler",
-			"code": {
-				"addCode": "Ajouter un code",
-				"addCodeTooltip": "Ajouter ce code",
-				"codeListLabel": "Libellé de la liste de codes",
-				"codes": "Codes",
-				"createNewList": "Créer une nouvelle liste",
-				"editCode": "Modifier le code",
-				"errorLoadingCodesLists": "Erreur lors du chargement des listes de codes",
-				"fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
-				"label": "Libellé",
-				"loadingCodesLists": "Chargement des listes de codes...",
-				"noCodesListsAvailable": "Aucune liste de codes disponible",
-				"reuseList": "Réutiliser",
-				"selectCodeList": "Sélectionnez une liste de codes",
-				"value": "Valeur"
-			},
-			"columns": {
-				"description": "Description",
-				"label": "Label",
-				"lastModified": "Dernière Modification",
-				"name": "Nom",
-				"type": "Type"
-			},
-			"confirmDelete": "Supprimer",
-			"copyXml": "Copier le XML",
-			"date": {
-				"selectType": "Sélectionnez un type de date",
-				"type": "Type de date"
-			},
-			"delete": "Supprimer",
-			"deleteVariableConfirmMessage": "Êtes-vous sûr de vouloir supprimer la variable \"{{name}}\" ? Cette action est irréversible.",
-			"deleteVariableConfirmTitle": "Confirmer la suppression",
-			"duplicatePhysicalInstance": "Dupliquer",
-			"deleteVariableSuccess": "Variable supprimée",
-			"deleteVariableSuccessDetail": "La variable a été supprimée avec succès",
-			"duplicate": "Dupliquer",
-			"duplicateSuccess": "Instance physique dupliquée",
-			"duplicateSuccessDetail": "L'instance physique a été dupliquée avec succès",
-			"duplicateError": "Erreur de duplication",
-			"duplicateErrorDetail": "Impossible de dupliquer l'instance physique",
-			"editModal": {
-				"cancel": "Annuler",
-				"label": "Libellé",
-				"save": "Enregistrer",
-				"title": "Modifier"
-			},
-			"editTitle": "Modifier le titre",
-			"editVariable": "Modifier la variable",
-			"errorLoading": "Erreur lors du chargement des données",
-			"export": "Exporter",
-			"exportError": "Erreur lors de l'export",
-			"exportErrorDetail": "Impossible de télécharger le fichier",
-			"exportSuccess": "Export réussi",
-			"exportSuccessDetail": "Le fichier au format {{format}} a été téléchargé",
-			"globalActions": "Actions Globales",
-			"import": "Importer",
-			"importModal": {
-				"cancel": "Annuler",
-				"import": "Importer",
-				"placeholder": "Collez vos données ici...",
-				"title": "Importer"
-			},
-			"isGeographic": "Variable géographique ?",
-			"loading": "Chargement des données en cours...",
-			"loadingDdi": "Chargement du XML DDI...",
-			"newVariable": "Ajouter une variable",
-			"noDdiXml": "Aucun XML DDI disponible",
-			"numeric": {
-				"addMaxBound": "Ajouter une borne maximale",
-				"addMinBound": "Ajouter une borne minimale",
-				"max": "Max",
-				"min": "Min",
-				"selectType": "Sélectionnez un type numérique",
-				"type": "Type numérique"
-			},
-			"publish": "Publier",
-			"save": "Enregistrer",
-			"saveAll": "Sauvegarder",
-			"saveAllError": "Erreur lors de la sauvegarde",
-			"saveAllErrorDetail": "Impossible de sauvegarder toutes les modifications",
-			"saveAllSuccess": "Sauvegarde réussie",
-			"saveAllSuccessDetail": "Toutes les modifications ont été sauvegardées avec succès",
-			"saveError": "Erreur lors de l'enregistrement",
-			"saveErrorDetail": "Impossible d'enregistrer l'instance physique",
-			"saveSuccess": "Enregistrement réussi",
-			"saveSuccessDetail": "L'instance physique a été mise à jour",
-			"search": "Rechercher",
-			"selectType": "Sélectionnez un type",
-			"selectVariable": "Sélectionnez une variable pour l'éditer",
-			"tabs": {
-				"ddiXml": "Aperçu DDI XML",
-				"information": "Informations",
-				"representation": "Représentation"
-			},
-			"text": {
-				"maxLength": "Taille maximale",
-				"minLength": "Taille minimale",
-				"regExp": "Expression régulière"
-			},
-			"typeFilter": "Filtrer par type",
-			"update": "Mettre à jour",
-			"variableAddSuccess": "Variable ajoutée",
-			"variableAddSuccessDetail": "Variable ajoutée avec succès. Pensez à sauvegarder",
-			"variableDuplicateSuccess": "Variable dupliquée",
-			"variableDuplicateSuccessDetail": "La variable a été dupliquée avec succès",
-			"variableTypes": {
-				"code": "Code",
-				"date": "Date",
-				"numeric": "Numérique",
-				"text": "Texte"
-			},
-			"validation": {
-				"required": "Ce champ est obligatoire"
-			},
-			"variableUpdateSuccess": "Variable mise à jour",
-			"variableUpdateSuccessDetail": "Variable mise à jour avec succès. Pensez à sauvegarder",
-			"variablesTable": "Tableau des variables"
-		}
-	}
+  "physicalInstance": {
+    "creation": {
+      "cancel": "Annuler",
+      "create": "Créer",
+      "errorMessage": "Une erreur est survenue lors de la création",
+      "errorTitle": "Erreur de création",
+      "label": "Libellé",
+      "successMessage": "Vos modifications ont été sauvegardées avec succès",
+      "successTitle": "Création réussie",
+      "title": "Créer un nouveau fichier de données"
+    },
+    "view": {
+      "add": "Ajouter",
+      "allTypes": "Tous types",
+      "cancel": "Annuler",
+      "cancelDelete": "Annuler",
+      "code": {
+        "addCode": "Ajouter un code",
+        "addCodeTooltip": "Ajouter ce code",
+        "codeListLabel": "Libellé de la liste de codes",
+        "codes": "Codes",
+        "createNewList": "Créer une nouvelle liste",
+        "editCode": "Modifier le code",
+        "errorLoadingCodesLists": "Erreur lors du chargement des listes de codes",
+        "fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
+        "label": "Libellé",
+        "loadingCodesLists": "Chargement des listes de codes...",
+        "noCodesListsAvailable": "Aucune liste de codes disponible",
+        "reuseList": "Réutiliser",
+        "selectCodeList": "Sélectionnez une liste de codes",
+        "value": "Valeur"
+      },
+      "columns": {
+        "description": "Description",
+        "label": "Label",
+        "lastModified": "Dernière Modification",
+        "name": "Nom",
+        "type": "Type"
+      },
+      "confirmDelete": "Supprimer",
+      "copyXml": "Copier le XML",
+      "date": {
+        "selectType": "Sélectionnez un type de date",
+        "type": "Type de date"
+      },
+      "delete": "Supprimer",
+      "deleteVariableConfirmMessage": "Êtes-vous sûr de vouloir supprimer la variable \"{{name}}\" ? Cette action est irréversible.",
+      "deleteVariableConfirmTitle": "Confirmer la suppression",
+      "duplicatePhysicalInstance": "Dupliquer",
+      "deleteVariableSuccess": "Variable supprimée",
+      "deleteVariableSuccessDetail": "La variable a été supprimée avec succès",
+      "duplicate": "Dupliquer",
+      "duplicateSuccess": "Instance physique dupliquée",
+      "duplicateSuccessDetail": "L'instance physique a été dupliquée avec succès",
+      "duplicateError": "Erreur de duplication",
+      "duplicateErrorDetail": "Impossible de dupliquer l'instance physique",
+      "editModal": {
+        "cancel": "Annuler",
+        "label": "Libellé",
+        "save": "Enregistrer",
+        "title": "Modifier"
+      },
+      "editTitle": "Modifier le titre",
+      "editVariable": "Modifier la variable",
+      "errorLoading": "Erreur lors du chargement des données",
+      "export": "Exporter",
+      "exportError": "Erreur lors de l'export",
+      "exportErrorDetail": "Impossible de télécharger le fichier",
+      "exportSuccess": "Export réussi",
+      "exportSuccessDetail": "Le fichier au format {{format}} a été téléchargé",
+      "globalActions": "Actions Globales",
+      "import": "Importer",
+      "importModal": {
+        "cancel": "Annuler",
+        "import": "Importer",
+        "placeholder": "Collez vos données ici...",
+        "title": "Importer"
+      },
+      "isGeographic": "Variable géographique ?",
+      "loading": "Chargement des données en cours...",
+      "loadingDdi": "Chargement du XML DDI...",
+      "newVariable": "Ajouter une variable",
+      "noDdiXml": "Aucun XML DDI disponible",
+      "numeric": {
+        "addMaxBound": "Ajouter une borne maximale",
+        "addMinBound": "Ajouter une borne minimale",
+        "max": "Max",
+        "min": "Min",
+        "selectType": "Sélectionnez un type numérique",
+        "type": "Type numérique"
+      },
+      "publish": "Publier",
+      "save": "Enregistrer",
+      "saveAll": "Sauvegarder",
+      "saveAllError": "Erreur lors de la sauvegarde",
+      "saveAllErrorDetail": "Impossible de sauvegarder toutes les modifications",
+      "saveAllSuccess": "Sauvegarde réussie",
+      "saveAllSuccessDetail": "Toutes les modifications ont été sauvegardées avec succès",
+      "saveError": "Erreur lors de l'enregistrement",
+      "saveErrorDetail": "Impossible d'enregistrer l'instance physique",
+      "saveSuccess": "Enregistrement réussi",
+      "saveSuccessDetail": "L'instance physique a été mise à jour",
+      "search": "Rechercher",
+      "selectType": "Sélectionnez un type",
+      "selectVariable": "Sélectionnez une variable pour l'éditer",
+      "tabs": {
+        "ddiXml": "Aperçu DDI XML",
+        "information": "Informations",
+        "representation": "Représentation"
+      },
+      "text": {
+        "maxLength": "Taille maximale",
+        "minLength": "Taille minimale",
+        "regExp": "Expression régulière"
+      },
+      "typeFilter": "Filtrer par type",
+      "update": "Mettre à jour",
+      "variableAddSuccess": "Variable ajoutée",
+      "variableAddSuccessDetail": "Variable ajoutée avec succès. Pensez à sauvegarder",
+      "variableDuplicateSuccess": "Variable dupliquée",
+      "variableDuplicateSuccessDetail": "La variable a été dupliquée avec succès",
+      "variableTypes": {
+        "code": "Code",
+        "date": "Date",
+        "numeric": "Numérique",
+        "text": "Texte"
+      },
+      "validation": {
+        "required": "Ce champ est obligatoire"
+      },
+      "variableUpdateSuccess": "Variable mise à jour",
+      "variableUpdateSuccessDetail": "Variable mise à jour avec succès. Pensez à sauvegarder",
+      "variablesTable": "Tableau des variables"
+    }
+  }
 }

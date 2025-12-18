@@ -90,65 +90,63 @@ export const initialState: State = {
 };
 
 export function viewReducer(state: State, action: Action): State {
-	switch (action.type) {
-		case ACTION_TYPES.SET_SEARCH_VALUE:
-			return { ...state, searchValue: action.payload };
-		case ACTION_TYPES.SET_TYPE_FILTER:
-			return { ...state, typeFilter: action.payload };
-		case ACTION_TYPES.SET_EDIT_MODAL_VISIBLE:
-			return { ...state, isEditModalVisible: action.payload };
-		case ACTION_TYPES.SET_IMPORT_MODAL_VISIBLE:
-			return { ...state, isImportModalVisible: action.payload };
-		case ACTION_TYPES.SET_FORM_DATA:
-			return { ...state, formData: action.payload };
-		case ACTION_TYPES.SET_IMPORT_DATA:
-			return { ...state, importData: action.payload };
-		case ACTION_TYPES.SET_SELECTED_VARIABLE:
-			return { ...state, selectedVariable: action.payload };
-		case ACTION_TYPES.UPDATE_VARIABLE: {
-			// Vérifier si la variable existe déjà dans localVariables
-			const existsInLocal = state.localVariables.some(
-				(variable) => variable.id === action.payload.id
-			);
+  switch (action.type) {
+    case ACTION_TYPES.SET_SEARCH_VALUE:
+      return { ...state, searchValue: action.payload };
+    case ACTION_TYPES.SET_TYPE_FILTER:
+      return { ...state, typeFilter: action.payload };
+    case ACTION_TYPES.SET_EDIT_MODAL_VISIBLE:
+      return { ...state, isEditModalVisible: action.payload };
+    case ACTION_TYPES.SET_IMPORT_MODAL_VISIBLE:
+      return { ...state, isImportModalVisible: action.payload };
+    case ACTION_TYPES.SET_FORM_DATA:
+      return { ...state, formData: action.payload };
+    case ACTION_TYPES.SET_IMPORT_DATA:
+      return { ...state, importData: action.payload };
+    case ACTION_TYPES.SET_SELECTED_VARIABLE:
+      return { ...state, selectedVariable: action.payload };
+    case ACTION_TYPES.UPDATE_VARIABLE: {
+      // Vérifier si la variable existe déjà dans localVariables
+      const existsInLocal = state.localVariables.some(
+        (variable) => variable.id === action.payload.id,
+      );
 
-			let updatedVariables;
-			if (existsInLocal) {
-				// Mettre à jour la variable existante
-				updatedVariables = state.localVariables.map((variable) =>
-					variable.id === action.payload.id ? action.payload : variable,
-				);
-			} else {
-				// Ajouter la variable si elle n'existe pas encore
-				updatedVariables = [...state.localVariables, action.payload];
-			}
+      let updatedVariables;
+      if (existsInLocal) {
+        // Mettre à jour la variable existante
+        updatedVariables = state.localVariables.map((variable) =>
+          variable.id === action.payload.id ? action.payload : variable,
+        );
+      } else {
+        // Ajouter la variable si elle n'existe pas encore
+        updatedVariables = [...state.localVariables, action.payload];
+      }
 
-			return {
-				...state,
-				localVariables: updatedVariables,
-			};
-		}
-		case ACTION_TYPES.ADD_VARIABLE:
-			return {
-				...state,
-				localVariables: [...state.localVariables, action.payload],
-			};
-		case ACTION_TYPES.DELETE_VARIABLE:
-			return {
-				...state,
-				localVariables: state.localVariables.filter(
-					(variable) => variable.id !== action.payload,
-				),
-				deletedVariableIds: [...state.deletedVariableIds, action.payload],
-			};
-		case ACTION_TYPES.CLEAR_LOCAL_VARIABLES:
-			return {
-				...state,
-				localVariables: [],
-				deletedVariableIds: [],
-			};
-		default:
-			return state;
-	}
+      return {
+        ...state,
+        localVariables: updatedVariables,
+      };
+    }
+    case ACTION_TYPES.ADD_VARIABLE:
+      return {
+        ...state,
+        localVariables: [...state.localVariables, action.payload],
+      };
+    case ACTION_TYPES.DELETE_VARIABLE:
+      return {
+        ...state,
+        localVariables: state.localVariables.filter((variable) => variable.id !== action.payload),
+        deletedVariableIds: [...state.deletedVariableIds, action.payload],
+      };
+    case ACTION_TYPES.CLEAR_LOCAL_VARIABLES:
+      return {
+        ...state,
+        localVariables: [],
+        deletedVariableIds: [],
+      };
+    default:
+      return state;
+  }
 }
 
 // Action creators
