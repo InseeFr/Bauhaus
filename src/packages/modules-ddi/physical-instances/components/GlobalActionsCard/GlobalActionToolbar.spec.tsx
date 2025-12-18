@@ -8,6 +8,7 @@ vi.mock("react-i18next", () => ({
 			const translations: Record<string, string> = {
 				"physicalInstance.view.export": "Exporter",
 				"physicalInstance.view.publish": "Publier",
+				"physicalInstance.view.duplicatePhysicalInstance": "Dupliquer",
 			};
 			return translations[key] || key;
 		},
@@ -51,15 +52,17 @@ vi.mock("primereact/splitbutton", () => ({
 
 describe("GlobalActionToolbar", () => {
 	const mockOnExport = vi.fn();
+	const mockOnDuplicate = vi.fn();
 
 	beforeEach(() => {
 		vi.clearAllMocks();
 	});
 
-	it("should render export and publish buttons", () => {
-		render(<GlobalActionToolbar onExport={mockOnExport} />);
+	it("should render export, duplicate and publish buttons", () => {
+		render(<GlobalActionToolbar onExport={mockOnExport} onDuplicate={mockOnDuplicate} />);
 
 		expect(screen.getByText("Exporter")).toBeInTheDocument();
+		expect(screen.getByText("Dupliquer")).toBeInTheDocument();
 		expect(screen.getByText("Publier")).toBeInTheDocument();
 	});
 
@@ -110,22 +113,47 @@ describe("GlobalActionToolbar", () => {
 	});
 
 	it("should render buttons with correct icons", () => {
-		const { container } = render(<GlobalActionToolbar onExport={mockOnExport} />);
+		const { container } = render(<GlobalActionToolbar onExport={mockOnExport} onDuplicate={mockOnDuplicate} />);
 
 		const downloadIcon = container.querySelector(".pi-download");
+		const copyIcon = container.querySelector(".pi-copy");
 		const sendIcon = container.querySelector(".pi-send");
 
 		expect(downloadIcon).toBeInTheDocument();
+		expect(copyIcon).toBeInTheDocument();
 		expect(sendIcon).toBeInTheDocument();
 	});
 
 	it("should render buttons with secondary severity", () => {
-		render(<GlobalActionToolbar onExport={mockOnExport} />);
+		render(<GlobalActionToolbar onExport={mockOnExport} onDuplicate={mockOnDuplicate} />);
 
 		const splitButton = screen.getByTestId("split-button");
+		const duplicateButton = screen.getByLabelText("Dupliquer");
 		const publishButton = screen.getByLabelText("Publier");
 
 		expect(splitButton).toHaveAttribute("severity", "secondary");
+		expect(duplicateButton).toHaveAttribute("severity", "secondary");
 		expect(publishButton).toHaveAttribute("severity", "secondary");
+	});
+
+	it("should call onDuplicate when duplicate button is clicked", () => {
+		render(<GlobalActionToolbar onExport={mockOnExport} onDuplicate={mockOnDuplicate} />);
+
+		const duplicateButton = screen.getByText("Dupliquer");
+		fireEvent.click(duplicateButton);
+
+		expect(mockOnDuplicate).toHaveBeenCalledTimes(1);
+	});
+
+	it("should render without onDuplicate callback", () => {
+		expect(() => render(<GlobalActionToolbar onExport={mockOnExport} />)).not.toThrow();
+		expect(screen.getByText("Dupliquer")).toBeInTheDocument();
+	});
+
+	it("should have publish button disabled", () => {
+		render(<GlobalActionToolbar onExport={mockOnExport} onDuplicate={mockOnDuplicate} />);
+
+		const publishButton = screen.getByLabelText("Publier");
+		expect(publishButton).toBeDisabled();
 	});
 });

@@ -193,6 +193,9 @@ export const VariableEditForm = ({
 		},
 	});
 
+	// Validation des champs obligatoires
+	const hasValidationErrors = !state.name.trim() || !state.label.trim();
+
 	useEffect(() => {
 		// Réinitialiser l'onglet actif au premier onglet
 		setActiveIndex(0);
@@ -324,7 +327,7 @@ export const VariableEditForm = ({
 	}, [buildSavePayload, onDuplicate]);
 
 	return (
-		<Card title={t('physicalInstance.view.editVariable')} className="h-full">
+		<Card title={isNew ? t('physicalInstance.view.editVariable') : `${t('physicalInstance.view.editVariable')} - ${variable.name}`} className="h-full">
 			<form onSubmit={handleSubmit} className="flex flex-column gap-3">
 				<div className="flex gap-2 justify-content-end">
 					<Button
@@ -344,6 +347,7 @@ export const VariableEditForm = ({
 						}
 						icon="pi pi-save"
 						outlined
+						disabled={hasValidationErrors}
 						aria-label={
 							isNew
 								? t("physicalInstance.view.add")
@@ -356,7 +360,31 @@ export const VariableEditForm = ({
 					activeIndex={activeIndex}
 					onTabChange={(e) => setActiveIndex(e.index)}
 				>
-					<TabPanel header={t('physicalInstance.view.tabs.information')}>
+					<TabPanel
+					header={t('physicalInstance.view.tabs.information')}
+					headerTemplate={(options) => {
+						return (
+							<div className={`${options.className} flex align-items-center gap-2`} onClick={options.onClick}>
+								<span className={hasValidationErrors ? 'text-red-500' : ''}>
+									{t('physicalInstance.view.tabs.information')}
+								</span>
+								{hasValidationErrors && (
+									<span className="inline-flex align-items-center justify-content-center" style={{
+										backgroundColor: '#ef4444',
+										color: 'white',
+										borderRadius: '50%',
+										width: '1.25rem',
+										height: '1.25rem',
+										fontSize: '0.75rem',
+										fontWeight: 'bold'
+									}}>
+										!
+									</span>
+								)}
+							</div>
+						);
+					}}
+				>
 						<VariableInformationTab
 							name={state.name}
 							label={state.label}
@@ -370,6 +398,8 @@ export const VariableEditForm = ({
 							onDescriptionChange={(value) =>
 								dispatch({ type: 'SET_DESCRIPTION', payload: value })
 							}
+						nameError={!state.name.trim()}
+						labelError={!state.label.trim()}
 						/>
 					</TabPanel>
 

@@ -9,6 +9,7 @@ vi.mock('@uiw/react-md-editor', () => {
 		italic: undefined,
 		bold: undefined,
 		unorderedListCommand: undefined,
+		link: undefined,
 		default: ({
 			value,
 			onChange,

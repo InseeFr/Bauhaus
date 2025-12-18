@@ -47,9 +47,14 @@
 			"delete": "Supprimer",
 			"deleteVariableConfirmMessage": "Êtes-vous sûr de vouloir supprimer la variable \"{{name}}\" ? Cette action est irréversible.",
 			"deleteVariableConfirmTitle": "Confirmer la suppression",
+			"duplicatePhysicalInstance": "Dupliquer",
 			"deleteVariableSuccess": "Variable supprimée",
 			"deleteVariableSuccessDetail": "La variable a été supprimée avec succès",
 			"duplicate": "Dupliquer",
+			"duplicateSuccess": "Instance physique dupliquée",
+			"duplicateSuccessDetail": "L'instance physique a été dupliquée avec succès",
+			"duplicateError": "Erreur de duplication",
+			"duplicateErrorDetail": "Impossible de dupliquer l'instance physique",
 			"editModal": {
 				"cancel": "Annuler",
 				"label": "Libellé",
@@ -120,6 +125,9 @@
 				"date": "Date",
 				"numeric": "Numérique",
 				"text": "Texte"
+			},
+			"validation": {
+				"required": "Ce champ est obligatoire"
 			},
 			"variableUpdateSuccess": "Variable mise à jour",
 			"variableUpdateSuccessDetail": "Variable mise à jour avec succès. Pensez à sauvegarder",

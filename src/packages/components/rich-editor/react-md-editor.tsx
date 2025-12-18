@@ -2,6 +2,7 @@ import Editor, {
 	bold,
 	italic,
 	unorderedListCommand,
+	link,
 } from '@uiw/react-md-editor';
 import { ComponentProps } from 'react';
 
@@ -23,7 +24,7 @@ export const MDEditor = ({
 			{...props}
 			value={text}
 			onChange={handleChange}
-			commands={[italic, bold, unorderedListCommand]}
+			commands={[italic, bold, unorderedListCommand, link]}
 			preview="edit"
 		/>
 	);
