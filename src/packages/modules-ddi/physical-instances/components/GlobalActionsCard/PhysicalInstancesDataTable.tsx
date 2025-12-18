@@ -70,7 +70,11 @@ export const PhysicalInstancesDataTable = ({
       <Column field="name" header={t("physicalInstance.view.columns.name")} />
       <Column field="label" header={t("physicalInstance.view.columns.label")} />
       <Column field="type" header={t("physicalInstance.view.columns.type")} />
-      <Column field="lastModified" header={t("physicalInstance.view.columns.lastModified")} body={dateBodyTemplate} />
+      <Column
+        field="lastModified"
+        header={t("physicalInstance.view.columns.lastModified")}
+        body={dateBodyTemplate}
+      />
       <Column body={deleteBodyTemplate} style={{ width: "5rem" }} />
     </DataTable>
   );
