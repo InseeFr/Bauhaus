@@ -23,9 +23,10 @@ vi.mock("primereact/card", () => ({
 }));
 
 vi.mock("./GlobalActionToolbar", () => ({
-	GlobalActionToolbar: ({ onExport }: any) => (
+	GlobalActionToolbar: ({ onExport, onDuplicate }: any) => (
 		<div data-testid="global-action-toolbar">
 			<button onClick={() => onExport("DDI3")}>Export Toolbar</button>
+			{onDuplicate && <button onClick={onDuplicate}>Duplicate Toolbar</button>}
 		</div>
 	),
 }));
@@ -46,6 +47,7 @@ vi.mock("./PhysicalInstancesDataTable", () => ({
 
 describe("GlobalActionsCard", () => {
 	const mockOnExport = vi.fn();
+	const mockOnDuplicate = vi.fn();
 	const mockOnRowClick = vi.fn();
 	const mockOnDeleteClick = vi.fn();
 
@@ -69,6 +71,7 @@ describe("GlobalActionsCard", () => {
 	const defaultProps = {
 		variables: mockVariables,
 		onExport: mockOnExport,
+		onDuplicate: mockOnDuplicate,
 		onRowClick: mockOnRowClick,
 		onDeleteClick: mockOnDeleteClick,
 	};
@@ -146,5 +149,25 @@ describe("GlobalActionsCard", () => {
 		render(<GlobalActionsCard {...propsWithEmptyVariables} />);
 
 		expect(screen.getByText("Variables: 0")).toBeInTheDocument();
+	});
+
+	it("should pass onDuplicate prop to GlobalActionToolbar", () => {
+		render(<GlobalActionsCard {...defaultProps} />);
+
+		const duplicateButton = screen.getByText("Duplicate Toolbar");
+		duplicateButton.click();
+
+		expect(mockOnDuplicate).toHaveBeenCalledTimes(1);
+	});
+
+	it("should render without onDuplicate callback", () => {
+		const propsWithoutDuplicate = {
+			variables: mockVariables,
+			onExport: mockOnExport,
+		};
+
+		expect(() =>
+			render(<GlobalActionsCard {...propsWithoutDuplicate} />),
+		).not.toThrow();
 	});
 });

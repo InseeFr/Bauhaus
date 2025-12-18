@@ -6,6 +6,7 @@ import { PhysicalInstancesDataTable } from "./PhysicalInstancesDataTable";
 interface GlobalActionsCardProps {
 	variables: any[];
 	onExport: (format: "DDI3" | "DDI4") => void;
+	onDuplicate?: () => void;
 	onRowClick?: (data: any) => void;
 	onDeleteClick?: (data: any) => void;
 	unsavedVariableIds?: string[];
@@ -14,6 +15,7 @@ interface GlobalActionsCardProps {
 export const GlobalActionsCard = ({
 	variables,
 	onExport,
+	onDuplicate,
 	onRowClick,
 	onDeleteClick,
 	unsavedVariableIds = [],
@@ -22,7 +24,7 @@ export const GlobalActionsCard = ({
 
 	return (
 		<Card title={t("physicalInstance.view.globalActions")}>
-			<GlobalActionToolbar onExport={onExport} />
+			<GlobalActionToolbar onExport={onExport} onDuplicate={onDuplicate} />
 			<PhysicalInstancesDataTable
 				variables={variables}
 				onRowClick={onRowClick}

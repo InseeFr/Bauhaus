@@ -1,5 +1,5 @@
 import { useReducer, useRef, useMemo, useCallback, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
 import { useTranslation } from 'react-i18next';
 import { Toast } from 'primereact/toast';
@@ -38,6 +38,7 @@ import { DDIApi } from '../../../../sdk';
 export const Component = () => {
 	const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
 	const { t } = useTranslation();
+	const navigate = useNavigate();
 	const toast = useRef<Toast>(null);
 	const [state, dispatch] = useReducer(viewReducer, initialState);
 	const {
@@ -612,6 +613,111 @@ export const Component = () => {
 		t,
 	]);
 
+	const handleDuplicatePhysicalInstance = useCallback(async () => {
+		try {
+			// Générer de nouveaux IDs pour tous les objets sauf CodeList et Category
+			const newAgencyId = agencyId!;
+			const newPhysicalInstanceId = crypto.randomUUID();
+			const newDataRelationshipId = crypto.randomUUID();
+			const newLogicalRecordId = crypto.randomUUID();
+
+			// Créer un mapping des anciens IDs de variables vers les nouveaux
+			const variableIdMap = new Map<string, string>();
+			if (data?.Variable) {
+				data.Variable.forEach((v: Variable) => {
+					variableIdMap.set(v.ID, crypto.randomUUID());
+				});
+			}
+
+			// Dupliquer les données en régénérant les IDs
+			const duplicatedData = {
+				...data,
+				// Garder les mêmes CodeList et Category (pas de régénération d'ID)
+				CodeList: data?.CodeList || [],
+				Category: data?.Category || [],
+				// Dupliquer les variables avec de nouveaux IDs
+				Variable: data?.Variable?.map((variable: Variable) => {
+					const newVariableId = variableIdMap.get(variable.ID)!;
+					return {
+						...variable,
+						ID: newVariableId,
+						URN: `urn:ddi:${newAgencyId}:${newVariableId}:1`,
+						Agency: newAgencyId,
+						'@versionDate': new Date().toISOString(),
+					};
+				}),
+				// Mettre à jour DataRelationship avec nouveaux IDs
+				DataRelationship: data?.DataRelationship?.map((dr: any) => ({
+					...dr,
+					ID: newDataRelationshipId,
+					URN: `urn:ddi:${newAgencyId}:${newDataRelationshipId}:1`,
+					Agency: newAgencyId,
+					'@versionDate': new Date().toISOString(),
+					LogicalRecord: {
+						...dr.LogicalRecord,
+						ID: newLogicalRecordId,
+						URN: `urn:ddi:${newAgencyId}:${newLogicalRecordId}:1`,
+						Agency: newAgencyId,
+						'@versionDate': new Date().toISOString(),
+						VariablesInRecord: {
+							VariableUsedReference: Array.from(variableIdMap.values()).map((newVarId) => ({
+								Agency: newAgencyId,
+								ID: newVarId,
+								Version: '1',
+								TypeOfObject: 'Variable',
+							})),
+						},
+					},
+				})),
+				// Mettre à jour PhysicalInstance avec nouveaux IDs et label
+				PhysicalInstance: data?.PhysicalInstance?.map((pi: any) => ({
+					...pi,
+					ID: newPhysicalInstanceId,
+					URN: `urn:ddi:${newAgencyId}:${newPhysicalInstanceId}:1`,
+					Agency: newAgencyId,
+					'@versionDate': new Date().toISOString(),
+					PhysicalInstanceLabel: {
+						...pi.PhysicalInstanceLabel,
+						Content: {
+							...pi.PhysicalInstanceLabel?.Content,
+							'#text': `${title} (copy)`,
+						},
+					},
+					DataRelationshipReference: {
+						Agency: newAgencyId,
+						ID: newDataRelationshipId,
+						Version: '1',
+						TypeOfObject: 'DataRelationship',
+					},
+				})),
+			};
+
+			// Sauvegarder la nouvelle physical instance via l'API
+			await savePhysicalInstance.mutateAsync({
+				id: newPhysicalInstanceId,
+				agencyId: newAgencyId,
+				data: duplicatedData,
+			});
+
+			// Rediriger vers la page de la nouvelle physical instance
+			navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
+
+			toast.current?.show({
+				severity: 'success',
+				summary: t('physicalInstance.view.duplicateSuccess'),
+				detail: t('physicalInstance.view.duplicateSuccessDetail'),
+				life: TOAST_DURATION,
+			});
+		} catch (err) {
+			toast.current?.show({
+				severity: 'error',
+				summary: t('physicalInstance.view.duplicateError'),
+				detail: err instanceof Error ? err.message : t('physicalInstance.view.duplicateErrorDetail'),
+				life: TOAST_DURATION,
+			});
+		}
+	}, [agencyId, data, title, savePhysicalInstance, navigate, t]);
+
 	if (isLoading) {
 		return <Loading />;
 	}
@@ -665,6 +771,7 @@ export const Component = () => {
 				<GlobalActionsCard
 					variables={filteredVariables}
 					onExport={handleExport}
+					onDuplicate={handleDuplicatePhysicalInstance}
 					onRowClick={handleVariableClick}
 					onDeleteClick={handleDeleteVariable}
 					unsavedVariableIds={unsavedVariableIds}

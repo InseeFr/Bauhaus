@@ -249,7 +249,7 @@ describe('VariableEditForm', () => {
 			/>,
 		);
 
-		expect(screen.getByText('Modifier la variable')).toBeInTheDocument();
+		expect(screen.getByText('Modifier la variable - testVar')).toBeInTheDocument();
 	});
 
 	it('should display variable name, label, description and type', () => {

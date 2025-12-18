@@ -8,6 +8,7 @@ const mockUsePhysicalInstancesData = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
 const mockPublishPhysicalInstance = vi.fn();
 const mockConvertToDDI3 = vi.fn().mockResolvedValue('<ddi3-xml-content></ddi3-xml-content>');
+const mockNavigate = vi.fn();
 
 vi.mock('react-i18next', () => ({
 	useTranslation: () => ({
@@ -18,6 +19,7 @@ vi.mock('react-i18next', () => ({
 
 vi.mock('react-router-dom', () => ({
 	useParams: () => ({ id: 'test-id-123', agencyId: 'test-agency-123' }),
+	useNavigate: () => mockNavigate,
 }));
 
 vi.mock('../../../hooks/usePhysicalInstance', () => ({
@@ -107,8 +109,8 @@ const createTestVariable = (name = 'TestVar', label = 'Test Variable') => {
 	);
 	fireEvent.click(newVariableButton);
 
-	const nameInput = screen.getByLabelText('physicalInstance.view.columns.name');
-	const labelInput = screen.getByLabelText('physicalInstance.view.columns.label');
+	const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+	const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
 	fireEvent.change(nameInput, { target: { value: name } });
 	fireEvent.change(labelInput, { target: { value: label } });
 
@@ -819,8 +821,8 @@ describe('View Component', () => {
 			fireEvent.click(newVariableButton);
 
 			// Fill in the variable form
-			const nameInput = screen.getByLabelText('physicalInstance.view.columns.name');
-			const labelInput = screen.getByLabelText('physicalInstance.view.columns.label');
+			const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+			const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
 			fireEvent.change(nameInput, { target: { value: 'NewVariable' } });
 			fireEvent.change(labelInput, { target: { value: 'New Variable Label' } });
 
@@ -869,8 +871,8 @@ describe('View Component', () => {
 			);
 			fireEvent.click(newVariableButton);
 
-			const nameInput = screen.getByLabelText('physicalInstance.view.columns.name');
-			const labelInput = screen.getByLabelText('physicalInstance.view.columns.label');
+			const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+			const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
 			fireEvent.change(nameInput, { target: { value: 'TempVar' } });
 			fireEvent.change(labelInput, { target: { value: 'Temp Variable' } });
 
@@ -976,8 +978,8 @@ describe('View Component', () => {
 			);
 			fireEvent.click(newVariableButton);
 
-			const nameInput = screen.getByLabelText('physicalInstance.view.columns.name');
-			const labelInput = screen.getByLabelText('physicalInstance.view.columns.label');
+			const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+			const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
 			fireEvent.change(nameInput, { target: { value: 'DateVar' } });
 			fireEvent.change(labelInput, { target: { value: 'Date Variable' } });
 
@@ -1034,8 +1036,8 @@ describe('View Component', () => {
 			);
 			fireEvent.click(newVariableButton);
 
-			const nameInput = screen.getByLabelText('physicalInstance.view.columns.name');
-			const labelInput = screen.getByLabelText('physicalInstance.view.columns.label');
+			const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+			const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
 			fireEvent.change(nameInput, { target: { value: 'TextVar' } });
 			fireEvent.change(labelInput, { target: { value: 'Text Variable' } });
 
@@ -1101,8 +1103,8 @@ describe('View Component', () => {
 			);
 			fireEvent.click(newVariableButton);
 
-			const nameInput = screen.getByLabelText('physicalInstance.view.columns.name');
-			const labelInput = screen.getByLabelText('physicalInstance.view.columns.label');
+			const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+			const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
 			fireEvent.change(nameInput, { target: { value: 'CodeVar' } });
 			fireEvent.change(labelInput, { target: { value: 'Code Variable' } });
 
@@ -1178,8 +1180,8 @@ describe('View Component', () => {
 			);
 			fireEvent.click(newVariableButton);
 
-			const nameInput = screen.getByLabelText('physicalInstance.view.columns.name');
-			const labelInput = screen.getByLabelText('physicalInstance.view.columns.label');
+			const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+			const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
 			fireEvent.change(nameInput, { target: { value: 'CodeVar' } });
 			fireEvent.change(labelInput, { target: { value: 'Code Variable' } });
 
@@ -1279,8 +1281,8 @@ describe('View Component', () => {
 			);
 			fireEvent.click(newVariableButton);
 
-			const nameInput = screen.getByLabelText('physicalInstance.view.columns.name');
-			const labelInput = screen.getByLabelText('physicalInstance.view.columns.label');
+			const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+			const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
 			fireEvent.change(nameInput, { target: { value: 'NewVariable' } });
 			fireEvent.change(labelInput, { target: { value: 'New Variable' } });
 

@@ -5,10 +5,12 @@ import type { MenuItem } from "primereact/menuitem";
 
 interface GlobalActionToolbarProps {
 	onExport: (format: "DDI3" | "DDI4") => void;
+	onDuplicate?: () => void;
 }
 
 export const GlobalActionToolbar = ({
 	onExport,
+	onDuplicate,
 }: Readonly<GlobalActionToolbarProps>) => {
 	const { t } = useTranslation();
 
@@ -42,11 +44,20 @@ export const GlobalActionToolbar = ({
 				onClick={() => onExport("DDI3")}
 			/>
 			<Button
+				icon="pi pi-copy"
+				label={t("physicalInstance.view.duplicatePhysicalInstance")}
+				severity="secondary"
+				style={{ background: "transparent" }}
+				aria-label={t("physicalInstance.view.duplicatePhysicalInstance")}
+				onClick={onDuplicate}
+			/>
+			<Button
 				icon="pi pi-send"
 				label={t("physicalInstance.view.publish")}
 				severity="secondary"
 				style={{ background: "transparent" }}
 				aria-label={t("physicalInstance.view.publish")}
+				disabled={true}
 			/>
 		</div>
 	);
