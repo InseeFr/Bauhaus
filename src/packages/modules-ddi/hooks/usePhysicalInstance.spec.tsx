@@ -221,7 +221,7 @@ describe("usePhysicalInstancesData", () => {
     expect(result.current.isLoading).toBe(true);
   });
 
-  it("should format dates according to locale", async () => {
+  it("should return dates in ISO format", async () => {
     (global.fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => mockApiResponse,
@@ -233,7 +233,7 @@ describe("usePhysicalInstancesData", () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    // Check that the date is formatted (contains slashes or locale-specific formatting)
-    expect(result.current.variables[0].lastModified).toMatch(/\d{2}\/\d{2}\/\d{4}/);
+    // Check that the date is in ISO format (not formatted yet)
+    expect(result.current.variables[0].lastModified).toBe("2024-06-03T14:29:23.4049817Z");
   });
 });

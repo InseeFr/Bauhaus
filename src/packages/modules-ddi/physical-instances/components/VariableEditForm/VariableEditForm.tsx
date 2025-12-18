@@ -121,58 +121,58 @@ function formReducer(state: FormState, action: FormAction): FormState {
 }
 
 interface VariableEditFormProps {
-	variable: {
-		id: string;
-		label: string;
-		name: string;
-		description?: string;
-		type: string;
-		isGeographic?: boolean;
-		numericRepresentation?: NumericRepresentation;
-		dateRepresentation?: DateTimeRepresentation;
-		textRepresentation?: TextRepresentation;
-		codeRepresentation?: CodeRepresentation;
-		codeList?: CodeList;
-		categories?: Category[];
-	};
-	typeOptions: { label: string; value: string }[];
-	isNew?: boolean;
-	onSave: (data: {
-		id: string;
-		label: string;
-		name: string;
-		description?: string;
-		type: string;
-		isGeographic?: boolean;
-		numericRepresentation?: NumericRepresentation;
-		dateRepresentation?: DateTimeRepresentation;
-		textRepresentation?: TextRepresentation;
-		codeRepresentation?: CodeRepresentation;
-		codeList?: CodeList;
-		categories?: Category[];
-	}) => void;
-	onDuplicate?: (data: {
-		id: string;
-		label: string;
-		name: string;
-		description?: string;
-		type: string;
-		isGeographic?: boolean;
-		numericRepresentation?: NumericRepresentation;
-		dateRepresentation?: DateTimeRepresentation;
-		textRepresentation?: TextRepresentation;
-		codeRepresentation?: CodeRepresentation;
-		codeList?: CodeList;
-		categories?: Category[];
-	}) => void;
+  variable: {
+    id: string;
+    label: string;
+    name: string;
+    description?: string;
+    type: string;
+    isGeographic?: boolean;
+    numericRepresentation?: NumericRepresentation;
+    dateRepresentation?: DateTimeRepresentation;
+    textRepresentation?: TextRepresentation;
+    codeRepresentation?: CodeRepresentation;
+    codeList?: CodeList;
+    categories?: Category[];
+  };
+  typeOptions: { label: string; value: string }[];
+  isNew?: boolean;
+  onSave: (data: {
+    id: string;
+    label: string;
+    name: string;
+    description?: string;
+    type: string;
+    isGeographic?: boolean;
+    numericRepresentation?: NumericRepresentation;
+    dateRepresentation?: DateTimeRepresentation;
+    textRepresentation?: TextRepresentation;
+    codeRepresentation?: CodeRepresentation;
+    codeList?: CodeList;
+    categories?: Category[];
+  }) => void;
+  onDuplicate?: (data: {
+    id: string;
+    label: string;
+    name: string;
+    description?: string;
+    type: string;
+    isGeographic?: boolean;
+    numericRepresentation?: NumericRepresentation;
+    dateRepresentation?: DateTimeRepresentation;
+    textRepresentation?: TextRepresentation;
+    codeRepresentation?: CodeRepresentation;
+    codeList?: CodeList;
+    categories?: Category[];
+  }) => void;
 }
 
 export const VariableEditForm = ({
-	variable,
-	typeOptions,
-	isNew = false,
-	onSave,
-	onDuplicate,
+  variable,
+  typeOptions,
+  isNew = false,
+  onSave,
+  onDuplicate,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -193,12 +193,12 @@ export const VariableEditForm = ({
     },
   });
 
-	// Validation des champs obligatoires
-	const hasValidationErrors = !state.name.trim() || !state.label.trim();
+  // Validation des champs obligatoires
+  const hasValidationErrors = !state.name.trim() || !state.label.trim();
 
-	useEffect(() => {
-		// Réinitialiser l'onglet actif au premier onglet
-		setActiveIndex(0);
+  useEffect(() => {
+    // Réinitialiser l'onglet actif au premier onglet
+    setActiveIndex(0);
 
     dispatch({
       type: "RESET",
@@ -316,82 +316,78 @@ export const VariableEditForm = ({
     onDuplicate?.(duplicatedData);
   }, [buildSavePayload, onDuplicate]);
 
-	return (
-		<Card title={isNew ? t('physicalInstance.view.editVariable') : `${t('physicalInstance.view.editVariable')} - ${variable.name}`} className="h-full">
-			<form onSubmit={handleSubmit} className="flex flex-column gap-3">
-				<div className="flex gap-2 justify-content-end">
-					<Button
-						type="button"
-						label={t('physicalInstance.view.duplicate')}
-						icon="pi pi-copy"
-						outlined
-						severity="secondary"
-					onClick={handleDuplicate}
-					/>
-					<Button
-						type="submit"
-						label={
-							isNew
-								? t("physicalInstance.view.add")
-								: t("physicalInstance.view.update")
-						}
-						icon="pi pi-save"
-						outlined
-						disabled={hasValidationErrors}
-						aria-label={
-							isNew
-								? t("physicalInstance.view.add")
-								: t("physicalInstance.view.update")
-						}
-					/>
-				</div>
+  return (
+    <Card
+      title={
+        isNew
+          ? t("physicalInstance.view.editVariable")
+          : `${t("physicalInstance.view.editVariable")} - ${variable.name}`
+      }
+      className="h-full"
+    >
+      <form onSubmit={handleSubmit} className="flex flex-column gap-3">
+        <div className="flex gap-2 justify-content-end">
+          <Button
+            type="button"
+            label={t("physicalInstance.view.duplicate")}
+            icon="pi pi-copy"
+            outlined
+            severity="secondary"
+            onClick={handleDuplicate}
+          />
+          <Button
+            type="submit"
+            label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
+            icon="pi pi-save"
+            outlined
+            disabled={hasValidationErrors}
+            aria-label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
+          />
+        </div>
 
-				<TabView
-					activeIndex={activeIndex}
-					onTabChange={(e) => setActiveIndex(e.index)}
-				>
-					<TabPanel
-					header={t('physicalInstance.view.tabs.information')}
-					headerTemplate={(options) => {
-						return (
-							<div className={`${options.className} flex align-items-center gap-2`} onClick={options.onClick}>
-								<span className={hasValidationErrors ? 'text-red-500' : ''}>
-									{t('physicalInstance.view.tabs.information')}
-								</span>
-								{hasValidationErrors && (
-									<span className="inline-flex align-items-center justify-content-center" style={{
-										backgroundColor: '#ef4444',
-										color: 'white',
-										borderRadius: '50%',
-										width: '1.25rem',
-										height: '1.25rem',
-										fontSize: '0.75rem',
-										fontWeight: 'bold'
-									}}>
-										!
-									</span>
-								)}
-							</div>
-						);
-					}}
-				>
-						<VariableInformationTab
-							name={state.name}
-							label={state.label}
-							description={state.description}
-							onNameChange={(value) =>
-								dispatch({ type: 'SET_NAME', payload: value })
-							}
-							onLabelChange={(value) =>
-								dispatch({ type: 'SET_LABEL', payload: value })
-							}
-							onDescriptionChange={(value) =>
-								dispatch({ type: 'SET_DESCRIPTION', payload: value })
-							}
-						nameError={!state.name.trim()}
-						labelError={!state.label.trim()}
-						/>
-					</TabPanel>
+        <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+          <TabPanel
+            header={t("physicalInstance.view.tabs.information")}
+            headerTemplate={(options) => {
+              return (
+                <div
+                  className={`${options.className} flex align-items-center gap-2`}
+                  onClick={options.onClick}
+                >
+                  <span className={hasValidationErrors ? "text-red-500" : ""}>
+                    {t("physicalInstance.view.tabs.information")}
+                  </span>
+                  {hasValidationErrors && (
+                    <span
+                      className="inline-flex align-items-center justify-content-center"
+                      style={{
+                        backgroundColor: "#ef4444",
+                        color: "white",
+                        borderRadius: "50%",
+                        width: "1.25rem",
+                        height: "1.25rem",
+                        fontSize: "0.75rem",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      !
+                    </span>
+                  )}
+                </div>
+              );
+            }}
+          >
+            <VariableInformationTab
+              name={state.name}
+              label={state.label}
+              description={state.description}
+              onNameChange={(value) => dispatch({ type: "SET_NAME", payload: value })}
+              onLabelChange={(value) => dispatch({ type: "SET_LABEL", payload: value })}
+              onDescriptionChange={(value) => dispatch({ type: "SET_DESCRIPTION", payload: value })}
+              nameError={!state.name.trim()}
+              labelError={!state.label.trim()}
+            />
+          </TabPanel>
 
           <TabPanel header={t("physicalInstance.view.tabs.representation")}>
             <VariableRepresentationTab
@@ -416,34 +412,31 @@ export const VariableEditForm = ({
             />
           </TabPanel>
 
-					<TabPanel
-						headerClassName="ml-auto"
-						header={
-							<i
-								className="pi pi-code"
-								aria-label={t("physicalInstance.view.tabs.ddiXml")}
-							/>
-						}
-					>
-						{activeIndex === 2 && (
-							<DdiXmlPreview
-								variableId={variable.id}
-								variableName={state.name}
-								variableLabel={state.label}
-								variableDescription={state.description}
-								variableType={state.selectedType}
-								isGeographic={state.isGeographic}
-								numericRepresentation={state.representation.NumericRepresentation}
-								dateRepresentation={state.representation.DateTimeRepresentation}
-								textRepresentation={state.representation.TextRepresentation}
-								codeRepresentation={state.representation.CodeRepresentation}
-								codeList={state.representation.CodeList}
-								categories={state.representation.Category}
-							/>
-						)}
-					</TabPanel>
-				</TabView>
-			</form>
-		</Card>
-	);
+          <TabPanel
+            headerClassName="ml-auto"
+            header={
+              <i className="pi pi-code" aria-label={t("physicalInstance.view.tabs.ddiXml")} />
+            }
+          >
+            {activeIndex === 2 && (
+              <DdiXmlPreview
+                variableId={variable.id}
+                variableName={state.name}
+                variableLabel={state.label}
+                variableDescription={state.description}
+                variableType={state.selectedType}
+                isGeographic={state.isGeographic}
+                numericRepresentation={state.representation.NumericRepresentation}
+                dateRepresentation={state.representation.DateTimeRepresentation}
+                textRepresentation={state.representation.TextRepresentation}
+                codeRepresentation={state.representation.CodeRepresentation}
+                codeList={state.representation.CodeList}
+                categories={state.representation.Category}
+              />
+            )}
+          </TabPanel>
+        </TabView>
+      </form>
+    </Card>
+  );
 };

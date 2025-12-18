@@ -6,25 +6,25 @@ import { InputIcon } from "primereact/inputicon";
 import { useTranslation } from "react-i18next";
 
 interface SearchFiltersProps {
-	searchValue: string;
-	onSearchChange: (value: string) => void;
-	typeFilter: string;
-	onTypeFilterChange: (value: string) => void;
-	typeOptions: { label: string; value: string }[];
-	onNewVariable: () => void;
-	onSaveAll?: () => void;
-	hasLocalChanges?: boolean;
+  searchValue: string;
+  onSearchChange: (value: string) => void;
+  typeFilter: string;
+  onTypeFilterChange: (value: string) => void;
+  typeOptions: { label: string; value: string }[];
+  onNewVariable: () => void;
+  onSaveAll?: () => void;
+  hasLocalChanges?: boolean;
 }
 
 export const SearchFilters = ({
-	searchValue,
-	onSearchChange,
-	typeFilter,
-	onTypeFilterChange,
-	typeOptions,
-	onNewVariable,
-	onSaveAll,
-	hasLocalChanges = false,
+  searchValue,
+  onSearchChange,
+  typeFilter,
+  onTypeFilterChange,
+  typeOptions,
+  onNewVariable,
+  onSaveAll,
+  hasLocalChanges = false,
 }: Readonly<SearchFiltersProps>) => {
   const { t } = useTranslation();
 
@@ -41,30 +41,30 @@ export const SearchFilters = ({
         />
       </IconField>
 
-			<Dropdown
-				value={typeFilter}
-				options={typeOptions}
-				onChange={(e) => onTypeFilterChange(e.value)}
-				className="flex-1"
-				aria-label={t('physicalInstance.view.typeFilter')}
-			/>
-			<Button
-				icon="pi pi-save"
-				label={t('physicalInstance.view.saveAll')}
-				severity="secondary"
-				style={{ background: 'transparent' }}
-				aria-label={t('physicalInstance.view.saveAll')}
-				onClick={onSaveAll}
-				disabled={!hasLocalChanges}
-			/>
-			<Button
-				icon="pi pi-plus"
-				label={t('physicalInstance.view.newVariable')}
-				severity="secondary"
-				style={{ background: 'transparent' }}
-				aria-label={t('physicalInstance.view.newVariable')}
-				onClick={onNewVariable}
-			/>
-		</div>
-	);
+      <Dropdown
+        value={typeFilter}
+        options={typeOptions}
+        onChange={(e) => onTypeFilterChange(e.value)}
+        className="flex-1"
+        aria-label={t("physicalInstance.view.typeFilter")}
+      />
+      <Button
+        icon="pi pi-save"
+        label={t("physicalInstance.view.saveAll")}
+        severity="secondary"
+        style={{ background: "transparent" }}
+        aria-label={t("physicalInstance.view.saveAll")}
+        onClick={onSaveAll}
+        disabled={!hasLocalChanges}
+      />
+      <Button
+        icon="pi pi-plus"
+        label={t("physicalInstance.view.newVariable")}
+        severity="secondary"
+        style={{ background: "transparent" }}
+        aria-label={t("physicalInstance.view.newVariable")}
+        onClick={onNewVariable}
+      />
+    </div>
+  );
 };

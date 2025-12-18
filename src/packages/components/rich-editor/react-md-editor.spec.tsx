@@ -4,26 +4,16 @@ import { describe, it, vi, expect } from "vitest";
 
 import { MDEditor } from "./react-md-editor";
 
-vi.mock('@uiw/react-md-editor', () => {
-	return {
-		italic: undefined,
-		bold: undefined,
-		unorderedListCommand: undefined,
-		link: undefined,
-		default: ({
-			value,
-			onChange,
-		}: {
-			value: string;
-			onChange: (value?: string) => void;
-		}) => (
-			<textarea
-				data-testid="editor"
-				value={value}
-				onChange={(e) => onChange(e.target.value)}
-			/>
-		),
-	};
+vi.mock("@uiw/react-md-editor", () => {
+  return {
+    italic: undefined,
+    bold: undefined,
+    unorderedListCommand: undefined,
+    link: undefined,
+    default: ({ value, onChange }: { value: string; onChange: (value?: string) => void }) => (
+      <textarea data-testid="editor" value={value} onChange={(e) => onChange(e.target.value)} />
+    ),
+  };
 });
 
 describe("MDEditor component", () => {
