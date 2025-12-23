@@ -89,7 +89,7 @@ vi.mock("primereact/inputtextarea", () => ({
 }));
 
 vi.mock("primereact/tabview", () => ({
-  TabView: ({ children, activeIndex, onTabChange }: any) => (
+  TabView: ({ children, activeIndex }: any) => (
     <div data-testid="tabview" data-active-index={activeIndex}>
       {children}
     </div>

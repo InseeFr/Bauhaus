@@ -3,7 +3,6 @@ import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
 
-import { arrayToString } from "@utils/array-utils";
 import { stringToDate } from "@utils/date-utils";
 import { useLocales } from "@utils/hooks/useLocales";
 import { isEmpty } from "@utils/value-utils";
