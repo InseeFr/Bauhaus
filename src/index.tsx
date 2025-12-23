@@ -49,10 +49,10 @@ const renderApp = (
   initState: Record<string, string>,
   props?: { home: true },
 ) => {
-  const { authType: type, lg1, lg2, version, ...properties } = initState;
+  const { authType, lg1, lg2, version, ...properties } = initState;
   const store = configureStore({
     app: {
-      auth: { type, user: { stamp: "" } },
+      auth: { user: { stamp: "" } },
     },
   });
 
@@ -65,7 +65,13 @@ const renderApp = (
     <OidcProvider fallback={<>Checking authentication ⌛️</>}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <AppContextProvider lg1={lg1} lg2={lg2} version={version} properties={properties}>
+          <AppContextProvider
+            lg1={lg1}
+            lg2={lg2}
+            version={version}
+            properties={properties}
+            authType={authType}
+          >
             <ApplicationTitle />
             <main>
               <Component {...props} />

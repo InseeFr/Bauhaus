@@ -1,11 +1,11 @@
 import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from "./constants";
 import { useOidc } from "./create-oidc";
 import LoggedInWrapper, { LoginComponent } from "./open-id-connect-auth/use-oidc";
-import { usePermission } from "../redux/hooks/usePermission";
+import { useAppContext } from "../application/app-context";
 
 export const withAuth = (WrappedComponent: () => JSX.Element) => {
   const AuthComponent = () => {
-    const { authType } = usePermission();
+    const { authType } = useAppContext();
     const { isUserLoggedIn } = useOidc();
     if (authType === OPEN_ID_CONNECT_AUTH) {
       if (!isUserLoggedIn) return <LoginComponent />;
