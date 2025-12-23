@@ -1325,4 +1325,404 @@ describe("View Component", () => {
       expect(savedData.Variable).toEqual([]);
     });
   });
+
+  describe("Duplicate Physical Instance", () => {
+    it("should add (copy) suffix to Citation Title and PhysicalInstanceLabel when duplicating", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: {
+          PhysicalInstance: [
+            {
+              ID: "pi-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              Citation: { Title: { String: { "#text": "Original Title" } } },
+              PhysicalInstanceLabel: { Content: { "#text": "Original Label" } },
+            },
+          ],
+          DataRelationship: [
+            {
+              ID: "dr-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              DataRelationshipName: { String: { "#text": "Original DR Name" } },
+              LogicalRecord: {
+                ID: "lr-original-id",
+                VariablesInRecord: { VariableUsedReference: [] },
+              },
+            },
+          ],
+          Variable: [],
+        },
+        variables: [],
+        title: "Original Title",
+        dataRelationshipName: "Original DR Name",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      const duplicateButton = screen.getByLabelText(
+        "physicalInstance.view.duplicatePhysicalInstance",
+      );
+      fireEvent.click(duplicateButton);
+
+      await waitFor(() => {
+        expect(mutateAsyncMock).toHaveBeenCalled();
+      });
+
+      const savedData = mutateAsyncMock.mock.calls[0][0].data;
+
+      // Verify Citation Title has (copy) suffix
+      expect(savedData.PhysicalInstance[0].Citation.Title.String["#text"]).toBe(
+        "Original Title (copy)",
+      );
+
+      // Verify PhysicalInstanceLabel has (copy) suffix
+      expect(savedData.PhysicalInstance[0].PhysicalInstanceLabel.Content["#text"]).toBe(
+        "Original Title (copy)",
+      );
+    });
+
+    it("should add (copy) suffix to DataRelationshipName when duplicating", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: {
+          PhysicalInstance: [
+            {
+              ID: "pi-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              Citation: { Title: { String: { "#text": "Test" } } },
+            },
+          ],
+          DataRelationship: [
+            {
+              ID: "dr-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              DataRelationshipName: { String: { "#text": "Original DR Name" } },
+              LogicalRecord: {
+                ID: "lr-original-id",
+                VariablesInRecord: { VariableUsedReference: [] },
+              },
+            },
+          ],
+          Variable: [],
+        },
+        variables: [],
+        title: "Test",
+        dataRelationshipName: "Original DR Name",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      const duplicateButton = screen.getByLabelText(
+        "physicalInstance.view.duplicatePhysicalInstance",
+      );
+      fireEvent.click(duplicateButton);
+
+      await waitFor(() => {
+        expect(mutateAsyncMock).toHaveBeenCalled();
+      });
+
+      const savedData = mutateAsyncMock.mock.calls[0][0].data;
+
+      // Verify DataRelationshipName has (copy) suffix
+      expect(savedData.DataRelationship[0].DataRelationshipName.String["#text"]).toBe(
+        "Original DR Name (copy)",
+      );
+    });
+
+    it("should add BasedOnObject to PhysicalInstance when duplicating", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: {
+          PhysicalInstance: [
+            {
+              ID: "pi-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              Citation: { Title: { String: { "#text": "Test" } } },
+            },
+          ],
+          DataRelationship: [
+            {
+              ID: "dr-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              DataRelationshipName: { String: { "#text": "DR Name" } },
+              LogicalRecord: {
+                ID: "lr-original-id",
+                VariablesInRecord: { VariableUsedReference: [] },
+              },
+            },
+          ],
+          Variable: [],
+        },
+        variables: [],
+        title: "Test",
+        dataRelationshipName: "DR Name",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      const duplicateButton = screen.getByLabelText(
+        "physicalInstance.view.duplicatePhysicalInstance",
+      );
+      fireEvent.click(duplicateButton);
+
+      await waitFor(() => {
+        expect(mutateAsyncMock).toHaveBeenCalled();
+      });
+
+      const savedData = mutateAsyncMock.mock.calls[0][0].data;
+
+      // Verify BasedOnObject is added to PhysicalInstance
+      expect(savedData.PhysicalInstance[0].BasedOnObject).toEqual({
+        BasedOnReference: {
+          Agency: "test-agency",
+          ID: "pi-original-id",
+          Version: "1",
+          TypeOfObject: "PhysicalInstance",
+        },
+      });
+    });
+
+    it("should add BasedOnObject to DataRelationship when duplicating", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: {
+          PhysicalInstance: [
+            {
+              ID: "pi-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              Citation: { Title: { String: { "#text": "Test" } } },
+            },
+          ],
+          DataRelationship: [
+            {
+              ID: "dr-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              DataRelationshipName: { String: { "#text": "DR Name" } },
+              LogicalRecord: {
+                ID: "lr-original-id",
+                VariablesInRecord: { VariableUsedReference: [] },
+              },
+            },
+          ],
+          Variable: [],
+        },
+        variables: [],
+        title: "Test",
+        dataRelationshipName: "DR Name",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      const duplicateButton = screen.getByLabelText(
+        "physicalInstance.view.duplicatePhysicalInstance",
+      );
+      fireEvent.click(duplicateButton);
+
+      await waitFor(() => {
+        expect(mutateAsyncMock).toHaveBeenCalled();
+      });
+
+      const savedData = mutateAsyncMock.mock.calls[0][0].data;
+
+      // Verify BasedOnObject is added to DataRelationship
+      expect(savedData.DataRelationship[0].BasedOnObject).toEqual({
+        BasedOnReference: {
+          Agency: "test-agency",
+          ID: "dr-original-id",
+          Version: "1",
+          TypeOfObject: "DataRelationship",
+        },
+      });
+    });
+
+    it("should add BasedOnObject to Variables when duplicating", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: {
+          PhysicalInstance: [
+            {
+              ID: "pi-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              Citation: { Title: { String: { "#text": "Test" } } },
+            },
+          ],
+          DataRelationship: [
+            {
+              ID: "dr-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              DataRelationshipName: { String: { "#text": "DR Name" } },
+              LogicalRecord: {
+                ID: "lr-original-id",
+                VariablesInRecord: { VariableUsedReference: [] },
+              },
+            },
+          ],
+          Variable: [
+            {
+              ID: "var-original-id-1",
+              Agency: "test-agency",
+              Version: "1",
+              VariableName: { String: { "#text": "Var1" } },
+              Label: { Content: { "#text": "Variable 1" } },
+            },
+            {
+              ID: "var-original-id-2",
+              Agency: "test-agency",
+              Version: "2",
+              VariableName: { String: { "#text": "Var2" } },
+              Label: { Content: { "#text": "Variable 2" } },
+            },
+          ],
+        },
+        variables: [
+          { id: "var-original-id-1", name: "Var1", label: "Variable 1", type: "text" },
+          { id: "var-original-id-2", name: "Var2", label: "Variable 2", type: "text" },
+        ],
+        title: "Test",
+        dataRelationshipName: "DR Name",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      const duplicateButton = screen.getByLabelText(
+        "physicalInstance.view.duplicatePhysicalInstance",
+      );
+      fireEvent.click(duplicateButton);
+
+      await waitFor(() => {
+        expect(mutateAsyncMock).toHaveBeenCalled();
+      });
+
+      const savedData = mutateAsyncMock.mock.calls[0][0].data;
+
+      // Verify BasedOnObject is added to each Variable
+      expect(savedData.Variable[0].BasedOnObject).toEqual({
+        BasedOnReference: {
+          Agency: "test-agency",
+          ID: "var-original-id-1",
+          Version: "1",
+          TypeOfObject: "Variable",
+        },
+      });
+
+      expect(savedData.Variable[1].BasedOnObject).toEqual({
+        BasedOnReference: {
+          Agency: "test-agency",
+          ID: "var-original-id-2",
+          Version: "2",
+          TypeOfObject: "Variable",
+        },
+      });
+
+      // Verify new IDs are different from original
+      expect(savedData.Variable[0].ID).not.toBe("var-original-id-1");
+      expect(savedData.Variable[1].ID).not.toBe("var-original-id-2");
+    });
+
+    it("should navigate to new Physical Instance after duplication", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: {
+          PhysicalInstance: [
+            {
+              ID: "pi-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              Citation: { Title: { String: { "#text": "Test" } } },
+            },
+          ],
+          DataRelationship: [
+            {
+              ID: "dr-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              DataRelationshipName: { String: { "#text": "DR Name" } },
+              LogicalRecord: {
+                ID: "lr-original-id",
+                VariablesInRecord: { VariableUsedReference: [] },
+              },
+            },
+          ],
+          Variable: [],
+        },
+        variables: [],
+        title: "Test",
+        dataRelationshipName: "DR Name",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      const duplicateButton = screen.getByLabelText(
+        "physicalInstance.view.duplicatePhysicalInstance",
+      );
+      fireEvent.click(duplicateButton);
+
+      await waitFor(() => {
+        expect(mockNavigate).toHaveBeenCalled();
+      });
+
+      // Verify navigation URL contains the new Physical Instance ID
+      const navigatePath = mockNavigate.mock.calls[0][0];
+      expect(navigatePath).toMatch(/^\/ddi\/physical-instances\/test-agency-123\//);
+      expect(navigatePath).not.toContain("pi-original-id");
+    });
+  });
 });
