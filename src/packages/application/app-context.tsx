@@ -19,6 +19,7 @@ interface AppContextTypes {
   lg1: string;
   lg2: string;
   version?: string;
+  authType?: string;
   secondLang: {
     value: boolean;
     toggle: VoidFunction;
@@ -34,7 +35,10 @@ export const AppContextProvider = ({
   version,
   properties,
   children,
-}: PropsWithChildren<Pick<AppContextTypes, "lg1" | "lg2" | "version" | "properties">>) => {
+  authType,
+}: PropsWithChildren<
+  Pick<AppContextTypes, "lg1" | "lg2" | "version" | "properties" | "authType">
+>) => {
   const [secondLang, setSecondLang] = useState(false);
 
   return (
@@ -44,6 +48,7 @@ export const AppContextProvider = ({
         lg2,
         version,
         properties,
+        authType,
         secondLang: {
           value: secondLang,
           toggle: () => setSecondLang((value) => !value),
