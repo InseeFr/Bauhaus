@@ -45,6 +45,7 @@ export const CodeRepresentation = ({
   const [codes, setCodes] = useState<CodeTableRow[]>([]);
   const [showDataTable, setShowDataTable] = useState(false);
   const [showReuseSelect, setShowReuseSelect] = useState(false);
+  const [selectedCodeListId, setSelectedCodeListId] = useState<string | null>(null);
   const {
     data: codesLists = [],
     isLoading: isLoadingCodesLists,
@@ -451,7 +452,7 @@ export const CodeRepresentation = ({
                 ) : (
                   <Dropdown
                     filter
-                    value={null}
+                    value={selectedCodeListId}
                     options={codesLists.map(
                       (cl: { id: string; label: string; agency: string }) => ({
                         value: `${cl.agency}-${cl.id}`,
@@ -459,8 +460,7 @@ export const CodeRepresentation = ({
                       }),
                     )}
                     onChange={(e) => {
-                      // TODO: Handle selection
-                      console.log("Selected code list:", e.value);
+                      setSelectedCodeListId(e.value);
                     }}
                     placeholder={t("physicalInstance.view.code.selectCodeList")}
                     className="w-full"

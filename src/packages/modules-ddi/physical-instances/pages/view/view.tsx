@@ -564,7 +564,7 @@ export const Component = () => {
         // Garder les mêmes CodeList et Category (pas de régénération d'ID)
         CodeList: data?.CodeList || [],
         Category: data?.Category || [],
-        // Dupliquer les variables avec de nouveaux IDs
+        // Dupliquer les variables avec de nouveaux IDs et BasedOnObject
         Variable: data?.Variable?.map((variable: Variable) => {
           const newVariableId = variableIdMap.get(variable.ID)!;
           return {
@@ -573,15 +573,38 @@ export const Component = () => {
             URN: `urn:ddi:${newAgencyId}:${newVariableId}:1`,
             Agency: newAgencyId,
             "@versionDate": new Date().toISOString(),
+            BasedOnObject: {
+              BasedOnReference: {
+                Agency: variable.Agency,
+                ID: variable.ID,
+                Version: variable.Version || "1",
+                TypeOfObject: "Variable",
+              },
+            },
           };
         }),
-        // Mettre à jour DataRelationship avec nouveaux IDs
+        // Mettre à jour DataRelationship avec nouveaux IDs, nom et BasedOnObject
         DataRelationship: data?.DataRelationship?.map((dr: any) => ({
           ...dr,
           ID: newDataRelationshipId,
           URN: `urn:ddi:${newAgencyId}:${newDataRelationshipId}:1`,
           Agency: newAgencyId,
           "@versionDate": new Date().toISOString(),
+          BasedOnObject: {
+            BasedOnReference: {
+              Agency: dr.Agency,
+              ID: dr.ID,
+              Version: dr.Version || "1",
+              TypeOfObject: "DataRelationship",
+            },
+          },
+          DataRelationshipName: {
+            ...dr.DataRelationshipName,
+            String: {
+              ...dr.DataRelationshipName?.String,
+              "#text": `${dr.DataRelationshipName?.String?.["#text"] || ""} (copy)`,
+            },
+          },
           LogicalRecord: {
             ...dr.LogicalRecord,
             ID: newLogicalRecordId,
@@ -598,13 +621,31 @@ export const Component = () => {
             },
           },
         })),
-        // Mettre à jour PhysicalInstance avec nouveaux IDs et label
+        // Mettre à jour PhysicalInstance avec nouveaux IDs, label et BasedOnObject
         PhysicalInstance: data?.PhysicalInstance?.map((pi: any) => ({
           ...pi,
           ID: newPhysicalInstanceId,
           URN: `urn:ddi:${newAgencyId}:${newPhysicalInstanceId}:1`,
           Agency: newAgencyId,
           "@versionDate": new Date().toISOString(),
+          BasedOnObject: {
+            BasedOnReference: {
+              Agency: pi.Agency,
+              ID: pi.ID,
+              Version: pi.Version || "1",
+              TypeOfObject: "PhysicalInstance",
+            },
+          },
+          Citation: {
+            ...pi.Citation,
+            Title: {
+              ...pi.Citation?.Title,
+              String: {
+                ...pi.Citation?.Title?.String,
+                "#text": `${title} (copy)`,
+              },
+            },
+          },
           PhysicalInstanceLabel: {
             ...pi.PhysicalInstanceLabel,
             Content: {
