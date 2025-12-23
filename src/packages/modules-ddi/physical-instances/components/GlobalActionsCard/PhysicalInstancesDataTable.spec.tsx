@@ -61,7 +61,7 @@ vi.mock("primereact/datatable", () => ({
 }));
 
 vi.mock("primereact/column", () => ({
-  Column: ({ header, field, body }: any) => null,
+  Column: () => null,
 }));
 
 describe("PhysicalInstancesDataTable", () => {

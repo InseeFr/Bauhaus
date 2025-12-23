@@ -32,12 +32,7 @@ vi.mock("./GlobalActionToolbar", () => ({
 }));
 
 vi.mock("./PhysicalInstancesDataTable", () => ({
-  PhysicalInstancesDataTable: ({
-    variables,
-    onRowClick,
-    onDeleteClick,
-    unsavedVariableIds,
-  }: any) => (
+  PhysicalInstancesDataTable: ({ variables, unsavedVariableIds }: any) => (
     <div data-testid="physical-instances-data-table">
       <div>Variables: {variables.length}</div>
       <div>Unsaved: {unsavedVariableIds.length}</div>
