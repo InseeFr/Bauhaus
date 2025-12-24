@@ -1,8 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
 import { Family } from "../../../model/operations/family";
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
 describe("Family Home Page Menu", () => {
   afterEach(() => {
@@ -23,9 +22,9 @@ describe("Family Home Page Menu", () => {
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu family={{} as Family} publish={vi.fn()} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Update");
@@ -44,9 +43,9 @@ describe("Family Home Page Menu", () => {
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu family={{} as Family} publish={vi.fn()} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("Update")).toBeNull();

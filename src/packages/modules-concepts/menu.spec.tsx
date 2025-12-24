@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from "../tests/rbac";
-import { mockReactQueryForRbac } from "../tests/render";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
+import { mockReactQueryForRbac, WithRouter } from "../tests/render";
 
 describe("Concepts Home Page Menu", () => {
   afterEach(() => {
@@ -12,17 +13,17 @@ describe("Concepts Home Page Menu", () => {
   it("an admin can create a new concept", async () => {
     mockReactQueryForRbac([
       {
-        application: "CONCEPT_CONCEPT",
-        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+        application: MODULES.CONCEPT_CONCEPT,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("New");
@@ -31,7 +32,7 @@ describe("Concepts Home Page Menu", () => {
   it("a user without Admin role cannot create a concept", async () => {
     mockReactQueryForRbac([
       {
-        application: "CONCEPT_CONCEPT",
+        application: MODULES.CONCEPT_CONCEPT,
         privileges: [],
       },
     ]);
@@ -39,9 +40,9 @@ describe("Concepts Home Page Menu", () => {
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("New")).toBeNull();

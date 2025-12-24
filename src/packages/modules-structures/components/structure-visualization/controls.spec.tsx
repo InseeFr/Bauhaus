@@ -2,11 +2,11 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { StructureApi } from "@sdk/index";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { UNPUBLISHED } from "../../../model/ValidationState";
 import { Structure } from "../../../model/structures/Structure";
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
 vi.mock("@sdk/index", () => ({
   StructureApi: {
@@ -22,8 +22,8 @@ describe("Structure View Menu", () => {
   it("should call handleDelete when DeleteButton is clicked", async () => {
     mockReactQueryForRbac([
       {
-        application: "STRUCTURE_STRUCTURE",
-        privileges: [{ privilege: "DELETE", strategy: "ALL" }],
+        application: MODULES.STRUCTURE_STRUCTURE,
+        privileges: [{ privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
@@ -38,9 +38,9 @@ describe("Structure View Menu", () => {
     StructureApi.deleteStructure.mockReturnValue(Promise.resolve());
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Controls structure={structure} publish={vi.fn()}></Controls>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     const deleteButton = screen.getByRole("button", { name: /delete/i });
@@ -52,7 +52,7 @@ describe("Structure View Menu", () => {
   it("a user can only see the go back button", async () => {
     mockReactQueryForRbac([
       {
-        application: "STRUCTURE_STRUCTURE",
+        application: MODULES.STRUCTURE_STRUCTURE,
         privileges: [],
       },
     ]);
@@ -61,9 +61,9 @@ describe("Structure View Menu", () => {
 
     const structure = { id: "1" } as Structure;
     render(
-      <RBACMock>
+      <WithRouter>
         <Controls structure={structure} publish={vi.fn()}></Controls>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -76,12 +76,12 @@ describe("Structure View Menu", () => {
   it("an admin can goBack, publish, delete and update a structure even if the stamp is not correct", async () => {
     mockReactQueryForRbac([
       {
-        application: "STRUCTURE_STRUCTURE",
+        application: MODULES.STRUCTURE_STRUCTURE,
         privileges: [
-          { privilege: "PUBLISH", strategy: "ALL" },
-          { privilege: "CREATE", strategy: "ALL" },
-          { privilege: "UPDATE", strategy: "ALL" },
-          { privilege: "DELETE", strategy: "ALL" },
+          { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL },
         ],
       },
     ]);
@@ -91,9 +91,9 @@ describe("Structure View Menu", () => {
     const structure = { id: "1" } as Structure;
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Controls structure={structure} publish={vi.fn()}></Controls>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");

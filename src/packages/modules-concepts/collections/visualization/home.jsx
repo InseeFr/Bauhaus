@@ -11,14 +11,7 @@ import CollectionMembers from "../../collections/visualisation/members";
 import CollectionVisualizationControls from "./controls";
 import CollectionGeneral from "./general";
 
-const CollectionVisualization = ({
-  id,
-  permission,
-  general,
-  members,
-  secondLang,
-  validateCollection,
-}) => {
+const CollectionVisualization = ({ id, general, members, secondLang, validateCollection }) => {
   useTitle(D.collectionsTitle, general.prefLabelLg1);
 
   const { isValidated } = general;
@@ -36,7 +29,6 @@ const CollectionVisualization = ({
         {secondLang && general.prefLabelLg2 && <PageSubtitle subTitle={general.prefLabelLg2} />}
         <CollectionVisualizationControls
           id={id}
-          permission={permission}
           isValidated={isValidated === "true"}
           handleValidation={handleClickValid}
           exportCollection={exportCollection}

@@ -1,24 +1,16 @@
 import { render, screen } from "@testing-library/react";
-import { useSelector } from "react-redux";
 import { Mock, vi } from "vitest";
 
 import { UNPUBLISHED } from "../../../model/ValidationState";
-import { usePrivileges } from "@utils/hooks/users";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { ViewMenu } from "./menu";
-
-vi.mock("react-redux", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-redux")>();
-  return {
-    ...actual,
-    useSelector: vi.fn(),
-  };
-});
 
 vi.mock("@utils/hooks/users", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@utils/hooks/users")>();
   return {
     ...actual,
     usePrivileges: vi.fn(),
+    useUserStamps: vi.fn(),
   };
 });
 
@@ -29,7 +21,7 @@ describe("Codes List View Menu", () => {
 
   it("a user can only see the go back button", () => {
     (usePrivileges as Mock).mockReturnValue({ privileges: [] });
-    (useSelector as Mock).mockReturnValue({ stamp: "stamp" });
+    (useUserStamps as Mock).mockReturnValue({ data: [{ stamp: "stamp" }] });
 
     const codesList = { id: "1" };
     render(
@@ -63,8 +55,8 @@ describe("Codes List View Menu", () => {
         },
       ],
     });
-    (useSelector as Mock).mockReturnValue({
-      stamp: "different-stamp",
+    (useUserStamps as Mock).mockReturnValue({
+      data: [{ stamp: "different-stamp" }],
     });
 
     const codesList = { id: "1" };
@@ -100,8 +92,8 @@ describe("Codes List View Menu", () => {
         },
       ],
     });
-    (useSelector as Mock).mockReturnValue({
-      stamp: "INSEE",
+    (useUserStamps as Mock).mockReturnValue({
+      data: [{ stamp: "INSEE" }],
     });
 
     const codesList = {
@@ -141,8 +133,8 @@ describe("Codes List View Menu", () => {
         },
       ],
     });
-    (useSelector as Mock).mockReturnValue({
-      stamp: "INSEE",
+    (useUserStamps as Mock).mockReturnValue({
+      data: [{ stamp: "INSEE" }],
     });
 
     const codesList = {
@@ -182,8 +174,8 @@ describe("Codes List View Menu", () => {
         },
       ],
     });
-    (useSelector as Mock).mockReturnValue({
-      stamp: "XXXXXX",
+    (useUserStamps as Mock).mockReturnValue({
+      data: [{ stamp: "XXXXXX" }],
     });
 
     const codesList = { id: "1", contributor: "INSEE" };

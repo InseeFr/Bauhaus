@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from "../../tests/rbac";
-import { mockReactQueryForRbac } from "../../tests/render";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe("Family Home Page Menu", () => {
+import { mockReactQueryForRbac, WithRouter } from "../../tests/render";
+
+describe("Indicators Home Page Menu", () => {
   afterEach(() => {
     vi.resetModules();
     vi.clearAllMocks();
@@ -11,15 +12,15 @@ describe("Family Home Page Menu", () => {
   it("an admin can update and publish a family", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_INDICATOR",
-        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+        application: MODULES.OPERATION_INDICATOR,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
     const { Menu } = await import("./menu");
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("New");
@@ -28,15 +29,15 @@ describe("Family Home Page Menu", () => {
   it("a user without Admin cannot create or publish a family", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_INDICATOR",
+        application: MODULES.OPERATION_INDICATOR,
         privileges: [],
       },
     ]);
     const { Menu } = await import("./menu");
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("New")).toBeNull();

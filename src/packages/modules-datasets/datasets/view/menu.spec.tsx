@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
 import { UNPUBLISHED } from "@model/ValidationState";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { Dataset } from "../../../model/Dataset";
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
 describe("Dataset View Menu", () => {
   afterEach(() => {
@@ -15,7 +15,7 @@ describe("Dataset View Menu", () => {
   it("a user can only see the go back button", async () => {
     mockReactQueryForRbac([
       {
-        application: "DATASET_DATASET",
+        application: MODULES.DATASET_DATASET,
         privileges: [],
       },
     ]);
@@ -24,9 +24,9 @@ describe("Dataset View Menu", () => {
 
     const dataset = {} as unknown as Dataset;
     render(
-      <RBACMock>
+      <WithRouter>
         <ViewMenu dataset={dataset} onPublish={vi.fn()} onDelete={vi.fn()}></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -38,11 +38,11 @@ describe("Dataset View Menu", () => {
   it("an admin can goBack, publish, delete and update a dataset even if the stamp is not correct", async () => {
     mockReactQueryForRbac([
       {
-        application: "DATASET_DATASET",
+        application: MODULES.DATASET_DATASET,
         privileges: [
-          { privilege: "UPDATE", strategy: "ALL" },
-          { privilege: "DELETE", strategy: "ALL" },
-          { privilege: "PUBLISH", strategy: "ALL" },
+          { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
         ],
       },
     ]);
@@ -51,9 +51,9 @@ describe("Dataset View Menu", () => {
 
     const dataset = {} as unknown as Dataset;
     render(
-      <RBACMock>
+      <WithRouter>
         <ViewMenu dataset={dataset} onPublish={vi.fn()} onDelete={vi.fn()}></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -63,16 +63,19 @@ describe("Dataset View Menu", () => {
   });
 
   it("an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish, delete and update a dataset if the stamp is correct and validationState is unpublished", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "DATASET_DATASET",
-        privileges: [
-          { privilege: "UPDATE", strategy: "STAMP" },
-          { privilege: "DELETE", strategy: "STAMP" },
-          { privilege: "PUBLISH", strategy: "STAMP" },
-        ],
-      },
-    ]);
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.DATASET_DATASET,
+          privileges: [
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.STAMP },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
     const { ViewMenu } = await import("./menu");
 
@@ -81,9 +84,9 @@ describe("Dataset View Menu", () => {
       catalogRecord: { contributor: "INSEE" },
     } as unknown as Dataset;
     render(
-      <RBACMock stamp="INSEE">
+      <WithRouter>
         <ViewMenu dataset={dataset} onPublish={vi.fn()} onDelete={vi.fn()}></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -93,16 +96,19 @@ describe("Dataset View Menu", () => {
   });
 
   it("an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish  and update a dataset if the stamp is correct and validationState is unpublished", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "DATASET_DATASET",
-        privileges: [
-          { privilege: "UPDATE", strategy: "STAMP" },
-          { privilege: "DELETE", strategy: "STAMP" },
-          { privilege: "PUBLISH", strategy: "STAMP" },
-        ],
-      },
-    ]);
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.DATASET_DATASET,
+          privileges: [
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.STAMP },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
     const { ViewMenu } = await import("./menu");
 
@@ -111,9 +117,9 @@ describe("Dataset View Menu", () => {
       catalogRecord: { contributor: ["INSEE"] },
     } as unknown as Dataset;
     render(
-      <RBACMock stamp="INSEE">
+      <WithRouter>
         <ViewMenu dataset={dataset} onPublish={vi.fn()} onDelete={vi.fn()}></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -123,16 +129,19 @@ describe("Dataset View Menu", () => {
   });
 
   it("an Gestionnaire_jeu_donnees_RMESGNCS can only goBack if the stamp not is correct", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "DATASET_DATASET",
-        privileges: [
-          { privilege: "UPDATE", strategy: "STAMP" },
-          { privilege: "DELETE", strategy: "STAMP" },
-          { privilege: "PUBLISH", strategy: "STAMP" },
-        ],
-      },
-    ]);
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.DATASET_DATASET,
+          privileges: [
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.STAMP },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
     const { ViewMenu } = await import("./menu");
 
@@ -141,9 +150,9 @@ describe("Dataset View Menu", () => {
       catalogRecord: { contributor: ["XXXXXX"] },
     } as unknown as Dataset;
     render(
-      <RBACMock stamp="INSEE">
+      <WithRouter>
         <ViewMenu dataset={dataset} onPublish={vi.fn()} onDelete={vi.fn()}></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");

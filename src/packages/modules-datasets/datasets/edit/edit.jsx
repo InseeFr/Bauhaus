@@ -15,7 +15,6 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import D from "../../../deprecated-locales";
-import { usePermission } from "../../../redux/hooks/usePermission";
 import { useDataset } from "../../datasets";
 import "./edit.css";
 import { LayoutWithLateralMenu } from "./layout-with-lateral-menu";
@@ -25,6 +24,7 @@ import { Notes } from "./tabs/notes";
 import { StatisticalInformation } from "./tabs/statistical-information";
 import { validate } from "./validation";
 import { useAuthorizationGuard } from "../../../auth/components/auth";
+import { useUserStamps } from "@utils/hooks/users";
 
 export const Component = () => {
   const { id } = useParams();
@@ -43,9 +43,8 @@ export const Component = () => {
 
   const { data: dataset, status } = useDataset(id);
 
-  const permission = usePermission();
-
-  const stamp = permission?.stamp;
+  const { data: stamps } = useUserStamps();
+  const stamp = stamps[0]?.stamp;
 
   const isContributor = useAuthorizationGuard("DATASET_DATASET", "CREATE");
   useEffect(() => {

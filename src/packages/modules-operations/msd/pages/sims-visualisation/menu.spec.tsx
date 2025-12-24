@@ -1,10 +1,11 @@
 import { render, screen } from "@testing-library/react";
 
-import { Sims } from "../../../../model/Sims";
-import { RBACMock } from "../../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../../tests/render";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe("Family Home Page Menu", () => {
+import { Sims } from "../../../../model/Sims";
+import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
+
+describe("Sims Visualisation Menu", () => {
   afterEach(() => {
     vi.resetModules();
     vi.clearAllMocks();
@@ -13,10 +14,10 @@ describe("Family Home Page Menu", () => {
     it("can see the Back button", async () => {
       mockReactQueryForRbac([
         {
-          application: "OPERATION_SIMS",
+          application: MODULES.OPERATION_SIMS,
           privileges: [
-            { privilege: "PUBLISH", strategy: "ALL" },
-            { privilege: "UPDATE", strategy: "ALL" },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
           ],
         },
       ]);
@@ -24,7 +25,7 @@ describe("Family Home Page Menu", () => {
       const { Menu } = await import("./menu");
 
       render(
-        <RBACMock>
+        <WithRouter>
           <Menu
             sims={{ series: { creators: [] } } as unknown as Sims}
             onPublish={vi.fn()}
@@ -32,7 +33,7 @@ describe("Family Home Page Menu", () => {
             onDelete={vi.fn()}
             owners={[]}
           />
-        </RBACMock>,
+        </WithRouter>,
       );
 
       screen.getByText("Back");
@@ -44,7 +45,7 @@ describe("Family Home Page Menu", () => {
     it("can not see the Sims View button if defined with good stamp but no siblings", async () => {
       mockReactQueryForRbac([
         {
-          application: "OPERATION_SIMS",
+          application: MODULES.OPERATION_SIMS,
           privileges: [],
         },
       ]);
@@ -52,7 +53,7 @@ describe("Family Home Page Menu", () => {
       const { Menu } = await import("./menu");
 
       render(
-        <RBACMock>
+        <WithRouter>
           <Menu
             sims={{} as unknown as Sims}
             onPublish={vi.fn()}
@@ -60,7 +61,7 @@ describe("Family Home Page Menu", () => {
             onDelete={vi.fn()}
             owners={["stamp"]}
           />
-        </RBACMock>,
+        </WithRouter>,
       );
 
       expect(screen.queryByText("Publish")).toBeNull();

@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
 describe("collection-visualization-controls", () => {
   afterEach(() => {
@@ -24,14 +23,14 @@ describe("collection-visualization-controls", () => {
     const { default: CollectionVisualizationControls } = await import("./controls");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <CollectionVisualizationControls
           exportCollection={vi.fn()}
           handleValidation={vi.fn()}
           id={"1"}
           isValidated={false}
         />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -51,14 +50,14 @@ describe("collection-visualization-controls", () => {
     const { default: CollectionVisualizationControls } = await import("./controls");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <CollectionVisualizationControls
           exportCollection={vi.fn()}
           handleValidation={vi.fn()}
           id={"1"}
           isValidated={false}
         />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("Update")).toBeNull();

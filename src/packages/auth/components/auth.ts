@@ -1,9 +1,8 @@
 import { PropsWithChildren } from "react";
 
-import { MODULE, Privilege, PRIVILEGE, usePrivileges } from "@utils/hooks/users";
+import { MODULE, Privilege, PRIVILEGE, usePrivileges, useUserStamps } from "@utils/hooks/users";
 
 import { AppName } from "../../application/app-context";
-import { usePermission } from "../../redux/hooks/usePermission";
 
 export type RoleCheck = string | [string, (value: string) => boolean];
 export type RoleChecks = RoleCheck[];
@@ -43,6 +42,30 @@ export interface AuthorizationGuardOptions {
   check?: (stamp: string) => boolean;
 }
 
+interface UserStamp {
+  stamp: string;
+}
+
+const findPrivilegeForModule = (privileges: Privilege[], module: MODULE, privilege: PRIVILEGE) => {
+  const currentModule = privileges.find((d) => d.application === module);
+  return currentModule?.privileges.find((p) => p.privilege === privilege);
+};
+
+const hasStampAccess = (
+  userStamps: UserStamp[],
+  allowedStamps: string[],
+  complementaryCheck: boolean,
+  check: (stamp: string) => boolean,
+): boolean => {
+  if (allowedStamps.length === 0) {
+    return userStamps.some((userStamp) => complementaryCheck && check(userStamp.stamp));
+  }
+  return userStamps.some(
+    (userStamp) =>
+      allowedStamps.includes(userStamp.stamp) && complementaryCheck && check(userStamp.stamp),
+  );
+};
+
 export const useAuthorizationGuard = ({
   module,
   privilege,
@@ -53,23 +76,23 @@ export const useAuthorizationGuard = ({
   const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
 
   const { privileges } = usePrivileges();
-  const { stamp } = usePermission();
+  const { data: userStamps = [] } = useUserStamps();
 
   if (!privileges) {
     return false;
   }
 
-  const currentModule = privileges.find((d) => d.application === module);
-  const currentPrivilege = currentModule?.privileges.find((p) => p.privilege === privilege);
+  const currentPrivilege = findPrivilegeForModule(privileges, module, privilege);
 
-  const isAuthorized =
-    currentPrivilege?.strategy === "ALL" ||
-    (currentPrivilege?.strategy === "STAMP" &&
-      (stamps.includes(stamp) || stamps.length === 0) &&
-      complementaryCheck &&
-      check(stamp));
+  if (currentPrivilege?.strategy === "ALL") {
+    return true;
+  }
 
-  return isAuthorized;
+  if (currentPrivilege?.strategy === "STAMP") {
+    return hasStampAccess(userStamps, stamps, complementaryCheck, check);
+  }
+
+  return false;
 };
 
 export const HasAccess = ({

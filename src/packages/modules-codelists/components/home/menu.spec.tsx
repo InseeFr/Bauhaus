@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
 describe("Codes List Home Page Menu", () => {
   afterEach(() => {
@@ -19,9 +18,9 @@ describe("Codes List Home Page Menu", () => {
     const { HomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <HomePageMenu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("New");
@@ -37,9 +36,9 @@ describe("Codes List Home Page Menu", () => {
     const { HomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <HomePageMenu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("New")).toBeNull();

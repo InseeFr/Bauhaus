@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe("Distributions Home Page Menu", () => {
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
+
+describe("Datasets Home Page Menu", () => {
   afterEach(() => {
     vi.resetModules();
     vi.clearAllMocks();
@@ -12,17 +13,17 @@ describe("Distributions Home Page Menu", () => {
   it("an admin can create a new dataset if he does not have the Gestionnaire_jeu_donnees_RMESGNCS role", async () => {
     mockReactQueryForRbac([
       {
-        application: "DATASET_DATASET",
-        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+        application: MODULES.DATASET_DATASET,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
     const { HomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <HomePageMenu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("New");
@@ -31,17 +32,17 @@ describe("Distributions Home Page Menu", () => {
   it("a user without Admin or  Gestionnaire_jeu_donnees_RMESGNCS role cannot create a dataset", async () => {
     mockReactQueryForRbac([
       {
-        application: "DATASET_DATASET",
-        privileges: [{ privilege: "CREATE", strategy: "NONE" }],
+        application: MODULES.DATASET_DATASET,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.NONE }],
       },
     ]);
 
     const { HomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <HomePageMenu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("New")).toBeNull();

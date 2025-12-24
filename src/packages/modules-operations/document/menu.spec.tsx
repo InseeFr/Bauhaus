@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from "../../tests/rbac";
-import { mockReactQueryForRbac } from "../../tests/render";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
+import { mockReactQueryForRbac, WithRouter } from "../../tests/render";
 
 describe("Document Home Page Menu", () => {
   afterEach(() => {
@@ -12,17 +13,17 @@ describe("Document Home Page Menu", () => {
   it("an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_DOCUMENT",
-        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+        application: MODULES.OPERATION_DOCUMENT,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("New Link");
@@ -32,7 +33,7 @@ describe("Document Home Page Menu", () => {
   it("a user without Admin or  INDICATOR_CONTRIBUTOR or SERIES_CONTRIBUTOR role cannot create a document", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_DOCUMENT",
+        application: MODULES.OPERATION_DOCUMENT,
         privileges: [],
       },
     ]);
@@ -40,9 +41,9 @@ describe("Document Home Page Menu", () => {
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("New Link")).toBeNull();
