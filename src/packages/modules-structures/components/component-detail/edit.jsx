@@ -17,7 +17,6 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../../application/app-context";
 import { API } from "../../../modules-codelists/apis";
-import { usePermission } from "../../../redux/hooks/usePermission";
 import D, { D1, D2 } from "../../i18n/build-dictionary";
 import {
   IGEO_PAYS_OU_TERRITOIRE,
@@ -37,6 +36,7 @@ import "./edit.scss";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { useAuthorizationGuard } from "../../../auth/components/auth";
+import { useUserStamps } from "@utils/hooks/users";
 
 const linkedAttributeLabelMapping = {
   [XSD_INTEGER]: D.insertIntValue,
@@ -170,8 +170,8 @@ export const DumbComponentDetailEdit = ({
   const { lg1, lg2 } = useAppContext();
   useTitle(D.componentTitle, component?.labelLg1);
 
-  const permission = usePermission();
-  const stamp = permission?.stamp;
+  const { data: stamps } = useUserStamps();
+  const stamp = stamps[0]?.stamp;
   const isContributor = useAuthorizationGuard("STRUCTURE_COMPONENT", "CREATE");
 
   useEffect(() => {

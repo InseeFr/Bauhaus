@@ -1,14 +1,9 @@
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
 
-import { UsersApi } from "@sdk/users-api";
-
-import { saveUserProps } from "../../redux/users";
 import { useOidc } from "../create-oidc";
 
 interface OidcWrapperTypes {
   WrappedComponent: any;
-  saveUserProps: ({ stamp }: { stamp: string }) => void;
 }
 
 export const LoginComponent = () => {
@@ -25,7 +20,7 @@ export const LoginComponent = () => {
   return null;
 };
 
-export const LoggedInWrapper = ({ WrappedComponent, saveUserProps }: OidcWrapperTypes) => {
+export const LoggedInWrapper = ({ WrappedComponent }: OidcWrapperTypes) => {
   const { oidcTokens, renewTokens } = useOidc({
     assertUserLoggedIn: true,
   });
@@ -33,11 +28,8 @@ export const LoggedInWrapper = ({ WrappedComponent, saveUserProps }: OidcWrapper
 
   const syncUserInformation = () => {
     console.debug("Fetching User Informations...");
-    UsersApi.getStamp().then(({ stamp }: { stamp: string }) => {
-      console.debug({ oidcTokens });
-      saveUserProps({ stamp });
-      setUserInformationLoaded(true);
-    });
+    console.debug({ oidcTokens });
+    setUserInformationLoaded(true);
   };
   useEffect(() => {
     syncUserInformation();
@@ -53,8 +45,4 @@ export const LoggedInWrapper = ({ WrappedComponent, saveUserProps }: OidcWrapper
   return <WrappedComponent />;
 };
 
-const mapDispatchToProps = {
-  saveUserProps,
-};
-
-export default connect(undefined, mapDispatchToProps)(LoggedInWrapper);
+export default LoggedInWrapper;

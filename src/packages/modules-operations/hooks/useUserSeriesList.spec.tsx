@@ -1,11 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { ReactNode } from "react";
-import { Provider } from "react-redux";
 import { describe, expect, it, vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
-import configureStore from "../../redux/configure-store";
+import { useUserStamps } from "@utils/hooks/users";
 import { useUserSeriesList } from "./useUserSeriesList";
 
 vi.mock("@sdk/operations-api", () => ({
@@ -14,7 +13,11 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
-const createWrapper = (stamp = "test-stamp") => {
+vi.mock("@utils/hooks/users", () => ({
+  useUserStamps: vi.fn(),
+}));
+
+const createWrapper = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -23,20 +26,8 @@ const createWrapper = (stamp = "test-stamp") => {
     },
   });
 
-  const store = configureStore({
-    app: {
-      auth: {
-        user: {
-          stamp,
-        },
-      },
-    },
-  });
-
   return ({ children }: { children: ReactNode }) => (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 };
 
@@ -44,6 +35,9 @@ describe("useUserSeriesList", () => {
   it("should return placeholder data and then load series", async () => {
     const mockSeries = [{ id: "1", label: "Series 1" }];
 
+    vi.mocked(useUserStamps).mockReturnValue({
+      data: [{ stamp: "test-stamp" }],
+    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries);
 
     const { result } = renderHook(() => useUserSeriesList(), {
@@ -66,10 +60,14 @@ describe("useUserSeriesList", () => {
       { id: "1", label: "Series 1", idSims: null },
       { id: "2", label: "Series 2", idSims: "sims-1" },
     ];
+
+    vi.mocked(useUserStamps).mockReturnValue({
+      data: [{ stamp: "test-stamp" }],
+    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries);
 
     const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper("test-stamp"),
+      wrapper: createWrapper(),
     });
 
     // Initially shows placeholder data
@@ -86,34 +84,13 @@ describe("useUserSeriesList", () => {
   });
 
   it("should not fetch series when stamp is not available", async () => {
-    const queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-      },
-    });
-
-    const store = configureStore({
-      app: {
-        auth: {
-          user: {
-            stamp: "",
-          },
-        },
-      },
-    });
-
-    const wrapper = ({ children }: { children: ReactNode }) => (
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-      </Provider>
-    );
-
+    vi.mocked(useUserStamps).mockReturnValue({
+      data: [],
+    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockClear();
 
     const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper,
+      wrapper: createWrapper(),
     });
 
     await waitFor(() => {
@@ -125,6 +102,9 @@ describe("useUserSeriesList", () => {
   });
 
   it("should use placeholder data when loading", () => {
+    vi.mocked(useUserStamps).mockReturnValue({
+      data: [{ stamp: "test-stamp" }],
+    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockImplementation(
       () =>
         new Promise((resolve) => {
@@ -133,7 +113,7 @@ describe("useUserSeriesList", () => {
     );
 
     const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper("test-stamp"),
+      wrapper: createWrapper(),
     });
 
     expect(result.current.series).toEqual([]);
@@ -141,10 +121,14 @@ describe("useUserSeriesList", () => {
 
   it("should handle API errors gracefully", async () => {
     const error = new Error("API Error");
+
+    vi.mocked(useUserStamps).mockReturnValue({
+      data: [{ stamp: "test-stamp" }],
+    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockRejectedValue(error);
 
     const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper("test-stamp"),
+      wrapper: createWrapper(),
     });
 
     await waitFor(() => {
@@ -157,10 +141,13 @@ describe("useUserSeriesList", () => {
   it("should fetch series with correct stamp", async () => {
     const mockSeries1 = [{ id: "1", label: "Series 1" }];
 
+    vi.mocked(useUserStamps).mockReturnValue({
+      data: [{ stamp: "stamp-1" }],
+    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries1);
 
     const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper("stamp-1"),
+      wrapper: createWrapper(),
     });
 
     await waitFor(

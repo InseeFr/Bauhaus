@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from "../../tests/rbac";
-import { mockReactQueryForRbac } from "../../tests/render";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
+import { mockReactQueryForRbac, WithRouter } from "../../tests/render";
 
 describe("Structures Home Page Menu", () => {
   afterEach(() => {
@@ -12,17 +13,17 @@ describe("Structures Home Page Menu", () => {
   it("an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role", async () => {
     mockReactQueryForRbac([
       {
-        application: "STRUCTURE_STRUCTURE",
-        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+        application: MODULES.STRUCTURE_STRUCTURE,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
     const { HomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <HomePageMenu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("New");
@@ -31,7 +32,7 @@ describe("Structures Home Page Menu", () => {
   it("a user without Admin or  Gestionnaire_structures_RMESGNCS role cannot create a structure", async () => {
     mockReactQueryForRbac([
       {
-        application: "STRUCTURE_STRUCTURE",
+        application: MODULES.STRUCTURE_STRUCTURE,
         privileges: [],
       },
     ]);
@@ -39,9 +40,9 @@ describe("Structures Home Page Menu", () => {
     const { HomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <HomePageMenu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("New")).toBeNull();
@@ -52,9 +53,9 @@ describe("Structures Home Page Menu", () => {
 
     const { DumbHomePageMenu } = await import("./menu");
     render(
-      <RBACMock>
+      <WithRouter>
         <DumbHomePageMenu isLocal={false} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("Import")).toBeNull();
@@ -66,9 +67,9 @@ describe("Structures Home Page Menu", () => {
     const { DumbHomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <DumbHomePageMenu isLocal={true} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Import");
@@ -80,9 +81,9 @@ describe("Structures Home Page Menu", () => {
     const { DumbHomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <DumbHomePageMenu isLocal={false} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("Export")).toBeNull();
@@ -93,9 +94,9 @@ describe("Structures Home Page Menu", () => {
 
     const { DumbHomePageMenu } = await import("./menu");
     render(
-      <RBACMock>
+      <WithRouter>
         <DumbHomePageMenu isLocal={true} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Export");

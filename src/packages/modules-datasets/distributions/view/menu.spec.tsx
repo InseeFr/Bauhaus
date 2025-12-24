@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
 import { Dataset, Distribution } from "../../../model/Dataset";
 import { UNPUBLISHED, VALIDATED } from "../../../model/ValidationState";
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
 describe("Distribution View Menu", () => {
   afterEach(() => {
@@ -14,7 +15,7 @@ describe("Distribution View Menu", () => {
   it("a user can only see the go back button", async () => {
     mockReactQueryForRbac([
       {
-        application: "DATASET_DISTRIBUTION",
+        application: MODULES.DATASET_DISTRIBUTION,
         privileges: [],
       },
     ]);
@@ -24,14 +25,14 @@ describe("Distribution View Menu", () => {
     const dataset = {} as Dataset;
     const distribution = {} as Distribution;
     render(
-      <RBACMock>
+      <WithRouter>
         <ViewMenu
           dataset={dataset}
           distribution={distribution}
           onPublish={vi.fn()}
           onDelete={vi.fn()}
         ></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -43,11 +44,11 @@ describe("Distribution View Menu", () => {
   it("an admin can goBack, publish, delete and update a distribution even if the stamp is not correct", async () => {
     mockReactQueryForRbac([
       {
-        application: "DATASET_DISTRIBUTION",
+        application: MODULES.DATASET_DISTRIBUTION,
         privileges: [
-          { privilege: "UPDATE", strategy: "ALL" },
-          { privilege: "PUBLISH", strategy: "ALL" },
-          { privilege: "DELETE", strategy: "ALL" },
+          { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL },
         ],
       },
     ]);
@@ -57,14 +58,14 @@ describe("Distribution View Menu", () => {
     const distribution = {} as Distribution;
 
     render(
-      <RBACMock>
+      <WithRouter>
         <ViewMenu
           dataset={dataset}
           distribution={distribution}
           onPublish={vi.fn()}
           onDelete={vi.fn()}
         ></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -74,16 +75,19 @@ describe("Distribution View Menu", () => {
   });
 
   it("an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish, delete and update a distribution if the stamp is correct and validationState is unpublished", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "DATASET_DISTRIBUTION",
-        privileges: [
-          { privilege: "UPDATE", strategy: "ALL" },
-          { privilege: "PUBLISH", strategy: "ALL" },
-          { privilege: "DELETE", strategy: "ALL" },
-        ],
-      },
-    ]);
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.DATASET_DISTRIBUTION,
+          privileges: [
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
     const { ViewMenu } = await import("./menu");
 
@@ -94,14 +98,14 @@ describe("Distribution View Menu", () => {
     const distribution = {} as Distribution;
 
     render(
-      <RBACMock stamp="INSEE">
+      <WithRouter>
         <ViewMenu
           dataset={dataset}
           distribution={distribution}
           onPublish={vi.fn()}
           onDelete={vi.fn()}
         ></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -111,16 +115,19 @@ describe("Distribution View Menu", () => {
   });
 
   it("an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish and update a distribution if the stamp is correct and validationState is published", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "DATASET_DISTRIBUTION",
-        privileges: [
-          { privilege: "UPDATE", strategy: "ALL" },
-          { privilege: "PUBLISH", strategy: "ALL" },
-          { privilege: "DELETE", strategy: "STAMP" },
-        ],
-      },
-    ]);
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.DATASET_DISTRIBUTION,
+          privileges: [
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.STAMP },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
     const { ViewMenu } = await import("./menu");
 
@@ -131,14 +138,14 @@ describe("Distribution View Menu", () => {
     const distribution = {} as Distribution;
 
     render(
-      <RBACMock stamp="INSEE">
+      <WithRouter>
         <ViewMenu
           dataset={dataset}
           distribution={distribution}
           onPublish={vi.fn()}
           onDelete={vi.fn()}
         ></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -148,16 +155,19 @@ describe("Distribution View Menu", () => {
   });
 
   it("an Gestionnaire_jeu_donnees_RMESGNCS can only goBack if the stamp not is correct", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "DATASET_DISTRIBUTION",
-        privileges: [
-          { privilege: "UPDATE", strategy: "STAMP" },
-          { privilege: "PUBLISH", strategy: "STAMP" },
-          { privilege: "DELETE", strategy: "STAMP" },
-        ],
-      },
-    ]);
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.DATASET_DISTRIBUTION,
+          privileges: [
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.STAMP },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
     const { ViewMenu } = await import("./menu");
 
@@ -168,14 +178,14 @@ describe("Distribution View Menu", () => {
     const distribution = {} as Distribution;
 
     render(
-      <RBACMock stamp="INSEE">
+      <WithRouter>
         <ViewMenu
           dataset={dataset}
           distribution={distribution}
           onPublish={vi.fn()}
           onDelete={vi.fn()}
         ></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");

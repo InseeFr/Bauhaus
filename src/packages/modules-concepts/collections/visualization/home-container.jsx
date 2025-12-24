@@ -9,13 +9,11 @@ import { useSecondLang } from "@utils/hooks/second-lang";
 
 import CollectionVisualization from "./home";
 import { useCollection } from "../../hooks/useCollection";
-import { usePermission } from "../../../redux/hooks/usePermission";
 
 export const Component = () => {
   const { id } = useParams();
   const [saving, setSaving] = useState(false);
 
-  const permission = usePermission();
   const [secondLang] = useSecondLang();
 
   const { data: collection, isLoading, refetch } = useCollection(id);
@@ -39,7 +37,6 @@ export const Component = () => {
   return (
     <CollectionVisualization
       id={id}
-      permission={permission}
       general={general}
       members={members}
       validateCollection={handleCollectionValidation}

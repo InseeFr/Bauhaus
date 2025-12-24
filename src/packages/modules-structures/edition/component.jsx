@@ -12,7 +12,6 @@ import { StructureApi } from "@sdk/index";
 
 import { useAppContext } from "../../application/app-context";
 import D, { D1, D2 } from "../../deprecated-locales";
-import { usePermission } from "../../redux/hooks/usePermission";
 import { initializeContributorProperty } from "../../utils/creation/contributor-init";
 import { DISSEMINATION_STATUS } from "../utils/constants";
 import Components from "./components";
@@ -21,6 +20,7 @@ import { validate } from "./validation";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { useAuthorizationGuard } from "../../auth/components/auth";
+import { useUserStamps } from "@utils/hooks/users";
 
 const defaultDSD = {
   identifiant: "",
@@ -63,10 +63,9 @@ const Edition = ({ creation, initialStructure }) => {
     contributor,
     disseminationStatus,
   } = structure;
-
-  const permission = usePermission();
-  const stamp = permission?.stamp;
+  const { data: stamps } = useUserStamps();
   const isContributor = useAuthorizationGuard("STRUCTURE_STRUCTURE", "CREATE");
+  const stamp = stamps?.[0].stamp;
 
   useEffect(() => {
     let structure = {

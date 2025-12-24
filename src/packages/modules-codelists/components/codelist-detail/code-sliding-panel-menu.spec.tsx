@@ -1,25 +1,17 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { useSelector } from "react-redux";
 import { Mock, vi } from "vitest";
 
 import { CodesList } from "@model/CodesList";
 
-import { usePrivileges } from "@utils/hooks/users";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { CodeSlidingPanelMenu } from "./code-sliding-panel-menu";
-
-vi.mock("react-redux", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-redux")>();
-  return {
-    ...actual,
-    useSelector: vi.fn(),
-  };
-});
 
 vi.mock("@utils/hooks/users", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@utils/hooks/users")>();
   return {
     ...actual,
     usePrivileges: vi.fn(),
+    useUserStamps: vi.fn(),
   };
 });
 
@@ -34,7 +26,7 @@ describe("CodeSlidingPanelMenu", () => {
 
   it("renders the ReturnButton", () => {
     (usePrivileges as Mock).mockReturnValue({ privileges: [] });
-    (useSelector as Mock).mockReturnValue({ stamp: "" });
+    (useUserStamps as Mock).mockReturnValue({ data: [] });
 
     render(
       <CodeSlidingPanelMenu
@@ -57,8 +49,8 @@ describe("CodeSlidingPanelMenu", () => {
         },
       ],
     });
-    (useSelector as Mock).mockReturnValue({
-      stamp: "test-contributor",
+    (useUserStamps as Mock).mockReturnValue({
+      data: [{ stamp: "test-contributor" }],
     });
 
     render(
@@ -82,8 +74,8 @@ describe("CodeSlidingPanelMenu", () => {
         },
       ],
     });
-    (useSelector as Mock).mockReturnValue({
-      stamp: "test-contributor",
+    (useUserStamps as Mock).mockReturnValue({
+      data: [{ stamp: "test-contributor" }],
     });
 
     render(
@@ -107,8 +99,8 @@ describe("CodeSlidingPanelMenu", () => {
         },
       ],
     });
-    (useSelector as Mock).mockReturnValue({
-      stamp: "other-contributor",
+    (useUserStamps as Mock).mockReturnValue({
+      data: [{ stamp: "other-contributor" }],
     });
 
     render(
@@ -136,7 +128,7 @@ describe("CodeSlidingPanelMenu", () => {
         },
       ],
     });
-    (useSelector as Mock).mockReturnValue({ stamp: "" });
+    (useUserStamps as Mock).mockReturnValue({ data: [] });
 
     render(
       <CodeSlidingPanelMenu
@@ -170,7 +162,7 @@ describe("CodeSlidingPanelMenu", () => {
         },
       ],
     });
-    (useSelector as Mock).mockReturnValue({ stamp: "" });
+    (useUserStamps as Mock).mockReturnValue({ data: [] });
 
     render(
       <CodeSlidingPanelMenu

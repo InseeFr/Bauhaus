@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
 describe("Distributions Home Page Menu", () => {
   afterEach(() => {
@@ -12,17 +13,17 @@ describe("Distributions Home Page Menu", () => {
   it("an admin can create a new distribution if he does not have the Gestionnaire_jeu_donnees_RMESGNCS role", async () => {
     mockReactQueryForRbac([
       {
-        application: "DATASET_DISTRIBUTION",
-        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+        application: MODULES.DATASET_DISTRIBUTION,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
     const { HomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <HomePageMenu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("New");
@@ -31,7 +32,7 @@ describe("Distributions Home Page Menu", () => {
   it("a user without Admin or  Gestionnaire_jeu_donnees_RMESGNCS role cannot create a distribution", async () => {
     mockReactQueryForRbac([
       {
-        application: "DATASET_DISTRIBUTION",
+        application: MODULES.DATASET_DISTRIBUTION,
         privileges: [],
       },
     ]);
@@ -39,9 +40,9 @@ describe("Distributions Home Page Menu", () => {
     const { HomePageMenu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <HomePageMenu />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     expect(screen.queryByText("New")).toBeNull();

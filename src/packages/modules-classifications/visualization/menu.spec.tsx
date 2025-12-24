@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 
 import { Classification } from "@model/Classification";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { RBACMock } from "../../tests/rbac";
-import { mockReactQueryForRbac } from "../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../tests/render";
 
 const classification = { id: "pcs2020" } as unknown as Classification;
 
@@ -16,17 +16,17 @@ describe("classification-visualization-controls", () => {
   it("should contains the Back button", async () => {
     mockReactQueryForRbac([
       {
-        application: "CLASSIFICATION_CLASSIFICATION",
-        privileges: [{ privilege: "PUBLISH", strategy: "ALL" }],
+        application: MODULES.CLASSIFICATION_CLASSIFICATION,
+        privileges: [{ privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL }],
       },
     ]);
 
     const { default: Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu classification={classification} publish={vi.fn()} />
-      </RBACMock>,
+      </WithRouter>,
     );
     await screen.findByText("Back");
     await screen.findByText("Publish");
@@ -36,7 +36,7 @@ describe("classification-visualization-controls", () => {
   it("should not contains the Validate button", async () => {
     mockReactQueryForRbac([
       {
-        application: "CLASSIFICATION_CLASSIFICATION",
+        application: MODULES.CLASSIFICATION_CLASSIFICATION,
         privileges: [],
       },
     ]);
@@ -44,9 +44,9 @@ describe("classification-visualization-controls", () => {
     const { default: Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu classification={classification} publish={vi.fn()} />
-      </RBACMock>,
+      </WithRouter>,
     );
     const publishButton = screen.queryByText("Publish");
     expect(publishButton).toBeNull();
@@ -58,17 +58,17 @@ describe("classification-visualization-controls", () => {
   it("should contains the Update link", async () => {
     mockReactQueryForRbac([
       {
-        application: "CLASSIFICATION_CLASSIFICATION",
-        privileges: [{ privilege: "UPDATE", strategy: "ALL" }],
+        application: MODULES.CLASSIFICATION_CLASSIFICATION,
+        privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
     const { default: Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu classification={classification} publish={vi.fn()} />
-      </RBACMock>,
+      </WithRouter>,
     );
     const link = await screen.findByText("Update");
     expect(link.getAttribute("href")).toEqual("/classifications/classification/pcs2020/modify");

@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { ConceptsApi } from "@sdk/index";
@@ -12,10 +11,6 @@ import { Component } from "./home-container";
 
 vi.mock("react-router-dom", () => ({
   useParams: vi.fn(),
-}));
-
-vi.mock("react-redux", () => ({
-  useSelector: vi.fn(),
 }));
 
 vi.mock("@sdk/index", () => ({
@@ -33,10 +28,6 @@ vi.mock("@sdk/new-collection-api", () => ({
 
 vi.mock("@utils/hooks/second-lang", () => ({
   useSecondLang: vi.fn(),
-}));
-
-vi.mock("../../../redux/selectors", () => ({
-  getPermission: vi.fn(),
 }));
 
 vi.mock("@components/loading", () => ({
@@ -65,10 +56,6 @@ describe("Visualization Container Component", () => {
     });
     vi.clearAllMocks();
     useParams.mockReturnValue({ id: "123" });
-    useSelector.mockReturnValue({
-      roles: ["ADMIN"],
-      stamp: "DG75-L201",
-    });
     useSecondLang.mockReturnValue(["en", vi.fn()]);
   });
 
@@ -131,15 +118,6 @@ describe("Visualization Container Component", () => {
     renderWithQueryClient(<Component />);
 
     expect(useParams).toHaveBeenCalled();
-  });
-
-  it("calls useSelector to get permissions", () => {
-    CollectionApi.getCollectionById.mockResolvedValue({});
-    ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
-
-    renderWithQueryClient(<Component />);
-
-    expect(useSelector).toHaveBeenCalled();
   });
 
   it("calls useSecondLang hook", () => {
