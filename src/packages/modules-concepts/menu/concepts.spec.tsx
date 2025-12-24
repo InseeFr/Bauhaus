@@ -2,6 +2,7 @@ import { screen } from "@testing-library/dom";
 import { Mock, vi } from "vitest";
 
 import { useAuthorizationGuard } from "../../auth/components/auth";
+import { MODULES, PRIVILEGES } from "@utils/hooks/rbac-constants";
 import D from "../../deprecated-locales";
 import { renderWithRouter } from "../../tests/render";
 import MenuConcepts from "./index";
@@ -29,8 +30,8 @@ describe("menu-concepts", () => {
     expect(links).toHaveLength(5);
     expect(links[3].textContent).toBe(D.administrationTitle);
     expect(useAuthorizationGuard).toHaveBeenCalledWith({
-      module: "CONCEPT_CONCEPT",
-      privilege: "ADMINISTRATION",
+      module: MODULES.CONCEPT_CONCEPT,
+      privilege: PRIVILEGES.ADMINISTRATION,
     });
   });
 
@@ -42,8 +43,8 @@ describe("menu-concepts", () => {
     const links = screen.getAllByRole("link");
     expect(links).toHaveLength(4);
     expect(useAuthorizationGuard).toHaveBeenCalledWith({
-      module: "CONCEPT_CONCEPT",
-      privilege: "ADMINISTRATION",
+      module: MODULES.CONCEPT_CONCEPT,
+      privilege: PRIVILEGES.ADMINISTRATION,
     });
   });
 });

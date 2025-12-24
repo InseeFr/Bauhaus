@@ -12,7 +12,6 @@ import { Row } from "@components/layout";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import MainDictionary from "../../../deprecated-locales/build-dictionary";
-import { usePermission } from "../../../redux/hooks/usePermission";
 import D, { D1, D2 } from "../../i18n/build-dictionary";
 import { validateCodelist } from "../../utils";
 import { CodesCollapsiblePanel } from "./codes-panel";
@@ -21,6 +20,7 @@ import { UriInputGroup } from "./components/UriInputGroup";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { useAuthorizationGuard } from "../../../auth/components/auth";
+import { useUserStamps } from "@utils/hooks/users";
 
 const defaultCodelist = {
   created: dayjs(),
@@ -38,8 +38,8 @@ export const DumbCodelistDetailEdit = ({
 
   useTitle(D.codelistsTitle, codelist?.labelLg1);
 
-  const permission = usePermission();
-  const stamp = permission?.stamp;
+  const { datas: stamps } = useUserStamps();
+  const stamp = stamps[0]?.stamp;
   const isContributor = useAuthorizationGuard("CODESLIST_CODESLIST", "CREATE");
 
   useEffect(() => {

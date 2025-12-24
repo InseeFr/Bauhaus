@@ -1,20 +1,24 @@
 import { render } from "@testing-library/react";
-import { useSelector } from "react-redux";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { MODULE, PRIVILEGE, STRATEGY, usePrivileges } from "@utils/hooks/users";
+import {
+  MODULE,
+  MODULES,
+  PRIVILEGE,
+  PRIVILEGES,
+  STRATEGY,
+  STRATEGIES,
+} from "@utils/hooks/rbac-constants";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
 import { hasAccessToModule, HasAccess } from "./auth";
 
-vi.mock("@utils/hooks/users", () => ({
-  usePrivileges: vi.fn(),
-}));
-
-vi.mock("react-redux", async () => {
-  const actual = await vi.importActual<typeof import("react-redux")>("react-redux");
+vi.mock("@utils/hooks/users", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
   return {
     ...actual,
-    useSelector: vi.fn(),
+    usePrivileges: vi.fn(),
+    useUserStamps: vi.fn(),
   };
 });
 
@@ -29,16 +33,16 @@ describe("<HasAccess />", () => {
     (usePrivileges as any).mockReturnValue({
       privileges: [
         {
-          application: "CLASSIFICATION_CLASSIFICATION",
-          privileges: [{ privilege: "READ", strategy: "ALL" }],
+          application: MODULES.CLASSIFICATION_CLASSIFICATION,
+          privileges: [{ privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL }],
         },
       ],
     });
 
-    (useSelector as any).mockReturnValue({ stamp: "STAMP1" });
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
 
     const { container } = render(
-      <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="READ">
+      <HasAccess module={MODULES.CLASSIFICATION_CLASSIFICATION} privilege={PRIVILEGES.READ}>
         {DummyChild}
       </HasAccess>,
     );
@@ -50,18 +54,18 @@ describe("<HasAccess />", () => {
     (usePrivileges as any).mockReturnValue({
       privileges: [
         {
-          application: "CLASSIFICATION_CLASSIFICATION",
-          privileges: [{ privilege: "WRITE", strategy: "STAMP" }],
+          application: MODULES.CLASSIFICATION_CLASSIFICATION,
+          privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
         },
       ],
     });
 
-    (useSelector as any).mockReturnValue({ stamp: "STAMP1" });
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
 
     const { container } = render(
       <HasAccess
-        module="CLASSIFICATION_CLASSIFICATION"
-        privilege="WRITE"
+        module={MODULES.CLASSIFICATION_CLASSIFICATION}
+        privilege={PRIVILEGES.UPDATE}
         stamps={["STAMP1", "STAMP2"]}
         check={() => true}
       >
@@ -76,16 +80,16 @@ describe("<HasAccess />", () => {
     (usePrivileges as any).mockReturnValue({
       privileges: [
         {
-          application: "CLASSIFICATION_CLASSIFICATION",
+          application: MODULES.CLASSIFICATION_CLASSIFICATION,
           privileges: [],
         },
       ],
     });
 
-    (useSelector as any).mockReturnValue({ stamp: "STAMP1" });
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
 
     const { container } = render(
-      <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="DELETE">
+      <HasAccess module={MODULES.CLASSIFICATION_CLASSIFICATION} privilege={PRIVILEGES.DELETE}>
         {DummyChild}
       </HasAccess>,
     );
@@ -97,18 +101,18 @@ describe("<HasAccess />", () => {
     (usePrivileges as any).mockReturnValue({
       privileges: [
         {
-          application: "CLASSIFICATION_CLASSIFICATION",
-          privileges: [{ privilege: "WRITE", strategy: "STAMP" }],
+          application: MODULES.CLASSIFICATION_CLASSIFICATION,
+          privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
         },
       ],
     });
 
-    (useSelector as any).mockReturnValue({ stamp: "STAMP1" });
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
 
     const { container } = render(
       <HasAccess
-        module="CLASSIFICATION_CLASSIFICATION"
-        privilege="WRITE"
+        module={MODULES.CLASSIFICATION_CLASSIFICATION}
+        privilege={PRIVILEGES.UPDATE}
         stamps={["STAMP1"]}
         check={() => false}
       >
@@ -121,10 +125,35 @@ describe("<HasAccess />", () => {
 
   it("does not render children if privileges are undefined", () => {
     (usePrivileges as any).mockReturnValue({ privileges: undefined });
-    (useSelector as any).mockReturnValue({ stamp: "STAMP1" });
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
 
     const { container } = render(
-      <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="READ">
+      <HasAccess module={MODULES.CLASSIFICATION_CLASSIFICATION} privilege={PRIVILEGES.READ}>
+        {DummyChild}
+      </HasAccess>,
+    );
+
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it("does not render children when user stamp is not in allowed stamps", () => {
+    (usePrivileges as any).mockReturnValue({
+      privileges: [
+        {
+          application: MODULES.CLASSIFICATION_CLASSIFICATION,
+          privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
+        },
+      ],
+    });
+
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP3" }] });
+
+    const { container } = render(
+      <HasAccess
+        module={MODULES.CLASSIFICATION_CLASSIFICATION}
+        privilege={PRIVILEGES.UPDATE}
+        stamps={["STAMP1", "STAMP2"]}
+      >
         {DummyChild}
       </HasAccess>,
     );
@@ -154,36 +183,36 @@ describe("hasAccessToModule", () => {
   });
 
   it("returns false if no privilege with strategy !== NONE", () => {
-    const privileges = [makePrivilege("CONCEPT_CONCEPT", "NONE")];
+    const privileges = [makePrivilege(MODULES.CONCEPT_CONCEPT, STRATEGIES.NONE)];
     expect(hasAccessToModule("concepts", privileges)).toBe(false);
   });
 
   it("returns true if at least one privilege has strategy !== NONE", () => {
-    const privileges = [makePrivilege("CONCEPT_CONCEPT", "ALL")];
+    const privileges = [makePrivilege(MODULES.CONCEPT_CONCEPT, STRATEGIES.ALL)];
     expect(hasAccessToModule("concepts", privileges)).toBe(true);
   });
 
   it("returns true if multiple privileges and one matches with non-NONE strategy", () => {
     const privileges = [
-      makePrivilege("CONCEPT_CONCEPT", "NONE"),
-      makePrivilege("CONCEPT_CONCEPT", "ALL"),
+      makePrivilege(MODULES.CONCEPT_CONCEPT, STRATEGIES.NONE),
+      makePrivilege(MODULES.CONCEPT_CONCEPT, STRATEGIES.ALL),
     ];
     expect(hasAccessToModule("concepts", privileges)).toBe(true);
   });
 
   it("returns false for unknown module", () => {
-    const privileges = [makePrivilege("CONCEPT_CONCEPT", "ALL")];
+    const privileges = [makePrivilege(MODULES.CONCEPT_CONCEPT, STRATEGIES.ALL)];
     // @ts-expect-error test invalid input
     expect(hasAccessToModule("unknownModule", privileges)).toBe(false);
   });
 
   it("uses prefix matching", () => {
-    const privileges = [makePrivilege("CONCEPT_CONCEPT", "ALL")];
+    const privileges = [makePrivilege(MODULES.CONCEPT_CONCEPT, STRATEGIES.ALL)];
     expect(hasAccessToModule("concepts", privileges)).toBe(true);
   });
 
   it("returns false if prefix does not match module", () => {
-    const privileges = [makePrivilege("STRUCTURE_STRUCTURE", "ALL")];
+    const privileges = [makePrivilege(MODULES.STRUCTURE_STRUCTURE, STRATEGIES.ALL)];
     expect(hasAccessToModule("concepts", privileges)).toBe(false);
   });
 });

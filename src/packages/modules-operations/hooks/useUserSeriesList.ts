@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+
 import { OperationsApi } from "@sdk/operations-api";
-import { ReduxModel } from "../../redux/model";
+import { useUserStamps } from "@utils/hooks/users";
 
 export const useUserSeriesList = () => {
-  const stamp = useSelector((state: ReduxModel) => state.app!.auth.user.stamp);
+  const { data: userStamps = [] } = useUserStamps();
+  const stamp = userStamps[0]?.stamp;
 
   const { isLoading, data: series } = useQuery({
     queryKey: ["user-series-list", stamp],

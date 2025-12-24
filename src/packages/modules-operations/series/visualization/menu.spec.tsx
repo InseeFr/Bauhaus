@@ -1,8 +1,9 @@
 import { cleanup, render, screen } from "@testing-library/react";
 
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
 import { Series } from "../../../model/operations/series";
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
 describe("Family Home Page Menu", () => {
   afterEach(() => {
@@ -14,17 +15,17 @@ describe("Family Home Page Menu", () => {
   it("can See Create the report", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_SERIES",
+        application: MODULES.OPERATION_SERIES,
         privileges: [
-          { privilege: "CREATE", strategy: "ALL" },
-          { privilege: "READ", strategy: "ALL" },
+          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL },
         ],
       },
       {
-        application: "OPERATION_SIMS",
+        application: MODULES.OPERATION_SIMS,
         privileges: [
-          { privilege: "CREATE", strategy: "ALL" },
-          { privilege: "READ", strategy: "ALL" },
+          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL },
         ],
       },
     ]);
@@ -32,9 +33,9 @@ describe("Family Home Page Menu", () => {
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu series={{ creators: [] } as unknown as Series} onPublish={vi.fn()} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -45,10 +46,10 @@ describe("Family Home Page Menu", () => {
   it("can See Show the report", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_SERIES",
+        application: MODULES.OPERATION_SERIES,
         privileges: [
-          { privilege: "CREATE", strategy: "ALL" },
-          { privilege: "READ", strategy: "ALL" },
+          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL },
         ],
       },
     ]);
@@ -56,9 +57,9 @@ describe("Family Home Page Menu", () => {
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu series={{ creators: [], idSims: "1" } as unknown as Series} onPublish={vi.fn()} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -69,17 +70,17 @@ describe("Family Home Page Menu", () => {
   it("can see the Publish button", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_SERIES",
-        privileges: [{ privilege: "PUBLISH", strategy: "ALL" }],
+        application: MODULES.OPERATION_SERIES,
+        privileges: [{ privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL }],
       },
     ]);
 
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu series={{ creators: [] } as unknown as Series} onPublish={vi.fn()} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Publish");
@@ -88,17 +89,17 @@ describe("Family Home Page Menu", () => {
   it("can see the Update", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_SERIES",
-        privileges: [{ privilege: "UPDATE", strategy: "ALL" }],
+        application: MODULES.OPERATION_SERIES,
+        privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
     const { Menu } = await import("./menu");
 
     render(
-      <RBACMock>
+      <WithRouter>
         <Menu series={{ creators: [] } as unknown as Series} onPublish={vi.fn()} />
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Update");

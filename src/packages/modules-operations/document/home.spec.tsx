@@ -1,6 +1,8 @@
 import { screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
 import { HomeDocument } from "../../model/operations/document";
 import configureStore from "../../redux/configure-store";
 import { mockReactQueryForRbac, renderWithRouter } from "../../tests/render";
@@ -14,8 +16,8 @@ describe("DocumentHome", () => {
   it("should display the PageTitle component", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_DOCUMENT",
-        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+        application: MODULES.OPERATION_DOCUMENT,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
@@ -35,8 +37,8 @@ describe("DocumentHome", () => {
   it("should display the SearchableList component", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_DOCUMENT",
-        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+        application: MODULES.OPERATION_DOCUMENT,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
@@ -72,8 +74,8 @@ describe("DocumentHome", () => {
 
     mockReactQueryForRbac([
       {
-        application: "OPERATION_DOCUMENT",
-        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+        application: MODULES.OPERATION_DOCUMENT,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
@@ -90,7 +92,7 @@ describe("DocumentHome", () => {
   it("should not display any Add button if the user is an the right role,", async () => {
     mockReactQueryForRbac([
       {
-        application: "OPERATION_DOCUMENT",
+        application: MODULES.OPERATION_DOCUMENT,
         privileges: [],
       },
     ]);

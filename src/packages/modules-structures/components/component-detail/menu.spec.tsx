@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 
 import { Component } from "@model/structures/Component";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { RBACMock } from "../../../tests/rbac";
-import { mockReactQueryForRbac } from "../../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
 describe("Component View Menu", () => {
   afterEach(() => {
@@ -13,7 +13,7 @@ describe("Component View Menu", () => {
   it("a user can only see the go back button", async () => {
     mockReactQueryForRbac([
       {
-        application: "STRUCTURE_STRUCTURE",
+        application: MODULES.STRUCTURE_STRUCTURE,
         privileges: [],
       },
     ]);
@@ -21,7 +21,7 @@ describe("Component View Menu", () => {
 
     const component = { id: "1" } as unknown as Component;
     render(
-      <RBACMock>
+      <WithRouter>
         <ViewMenu
           component={component}
           updatable={true}
@@ -30,7 +30,7 @@ describe("Component View Menu", () => {
           handleDelete={vi.fn()}
           handleBack={vi.fn}
         ></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -42,11 +42,11 @@ describe("Component View Menu", () => {
   it("an admin can goBack, publish, delete and update a component even if the stamp is not correct", async () => {
     mockReactQueryForRbac([
       {
-        application: "STRUCTURE_COMPONENT",
+        application: MODULES.STRUCTURE_COMPONENT,
         privileges: [
-          { privilege: "DELETE", strategy: "ALL" },
-          { privilege: "PUBLISH", strategy: "ALL" },
-          { privilege: "UPDATE", strategy: "ALL" },
+          { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
         ],
       },
     ]);
@@ -55,7 +55,7 @@ describe("Component View Menu", () => {
     const component = { id: "1" } as unknown as Component;
 
     render(
-      <RBACMock>
+      <WithRouter>
         <ViewMenu
           component={component}
           updatable={true}
@@ -64,7 +64,7 @@ describe("Component View Menu", () => {
           handleDelete={vi.fn()}
           handleBack={vi.fn}
         ></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");
@@ -74,16 +74,19 @@ describe("Component View Menu", () => {
   });
 
   it("an Gestionnaire_ structures_RMESGNCS can goBack, publish and update a component if the stamp is correct and validationState is published", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "STRUCTURE_COMPONENT",
-        privileges: [
-          { privilege: "DELETE", strategy: "STAMP" },
-          { privilege: "PUBLISH", strategy: "ALL" },
-          { privilege: "UPDATE", strategy: "ALL" },
-        ],
-      },
-    ]);
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.STRUCTURE_COMPONENT,
+          privileges: [
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
     const { ViewMenu } = await import("./menu");
 
@@ -94,7 +97,7 @@ describe("Component View Menu", () => {
     } as unknown as Component;
 
     render(
-      <RBACMock stamp="INSEE">
+      <WithRouter>
         <ViewMenu
           component={component}
           updatable={true}
@@ -103,7 +106,7 @@ describe("Component View Menu", () => {
           handleDelete={vi.fn()}
           handleBack={vi.fn}
         ></ViewMenu>
-      </RBACMock>,
+      </WithRouter>,
     );
 
     screen.getByText("Back");

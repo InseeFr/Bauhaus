@@ -13,7 +13,6 @@ import { Select } from "@components/select-rmes";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import MainDictionary from "../../../deprecated-locales/build-dictionary";
-import { usePermission } from "../../../redux/hooks/usePermission";
 import { CodeListApi } from "../../../sdk";
 import D, { D1, D2 } from "../../i18n/build-dictionary";
 import { validatePartialCodelist, partialInGlobalCodes } from "../../utils";
@@ -23,6 +22,7 @@ import { EMPTY_ARRAY } from "@utils/array-utils";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { useAuthorizationGuard } from "../../../auth/components/auth";
+import { useUserStamps } from "@utils/hooks/users";
 
 const defaultCodelist = {
   created: dayjs(),
@@ -75,8 +75,8 @@ export const DumbCodelistPartialDetailEdit = ({
     [codelist, handleParentCode, globalCodeListOptions],
   );
 
-  const permission = usePermission();
-  const stamp = permission?.stamp;
+  const { datas: stamps } = useUserStamps();
+  const stamp = stamps[0]?.stamp;
   const isContributor = useAuthorizationGuard("CODESLIST_PARTIALCODESLIST", "CREATE");
 
   useEffect(() => {
