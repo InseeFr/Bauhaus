@@ -39,10 +39,10 @@ const renderOrganisationField = (
 const renderValidationField = (
 	fieldName: 'isValidated',
 	label: string,
-	value: string
+	value: boolean
 ): JSX.Element => {
 	const status =
-		value === 'false'
+		value === false
 			? D1.collectionStatusProvisional
 			: D1.collectionStatusValid;
 	return <li key={fieldName}>{`${label}: ${status}`}</li>;
