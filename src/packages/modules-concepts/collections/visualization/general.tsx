@@ -11,7 +11,7 @@ interface CollectionAttribute {
 	modified?: string;
 	creator?: string | string[];
 	contributor?: string | string[];
-	isValidated?: string;
+	isValidated?: boolean;
 	descriptionLg1?: string;
 	descriptionLg2?: string;
 }
@@ -64,7 +64,7 @@ const renderFieldItem = (
 			return renderOrganisationField(fieldName, label, value as string | string[]);
 
 		case 'isValidated':
-			return renderValidationField(fieldName, label, value as string);
+			return renderValidationField(fieldName, label, value as boolean);
 
 		default:
 			// This should never happen due to FieldName type, but TypeScript needs this
