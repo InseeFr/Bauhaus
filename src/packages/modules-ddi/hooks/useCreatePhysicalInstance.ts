@@ -27,7 +27,9 @@ export function useCreatePhysicalInstance() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: CreatePhysicalInstanceParams): Promise<CreatePhysicalInstanceResponse> => {
+    mutationFn: async (
+      data: CreatePhysicalInstanceParams,
+    ): Promise<CreatePhysicalInstanceResponse> => {
       const response: ApiResponse = await DDIApi.postPhysicalInstance(data);
 
       const physicalInstanceRef = response.topLevelReference?.find(

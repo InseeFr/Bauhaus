@@ -573,11 +573,12 @@ export const Component = () => {
 
   const handleDuplicatePhysicalInstance = useCallback(async () => {
     try {
-      const { duplicatedData, newPhysicalInstanceId, newAgencyId } = buildDuplicatedPhysicalInstance({
-        agencyId: agencyId!,
-        data,
-        title,
-      });
+      const { duplicatedData, newPhysicalInstanceId, newAgencyId } =
+        buildDuplicatedPhysicalInstance({
+          agencyId: agencyId!,
+          data,
+          title,
+        });
 
       // Sauvegarder la nouvelle physical instance via l'API
       await savePhysicalInstance.mutateAsync({
