@@ -6,6 +6,7 @@ import { SearchableList } from "@components/searchable-list";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import { useTranslation } from "react-i18next";
 import D from "../../../../deprecated-locales";
@@ -29,6 +30,7 @@ const formatDate = (dateString: string) => {
 export const Component = () => {
   useTitle(D.ddiTitle, D.physicalInstanceTitle);
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { data = [], isLoading } = usePhysicalInstances();
   const createPhysicalInstance = useCreatePhysicalInstance();
   const [visible, setVisible] = useState(false);
@@ -36,19 +38,13 @@ export const Component = () => {
 
   const handleSubmit = async (data: { label: string; name: string }) => {
     try {
-      await createPhysicalInstance.mutateAsync({
+      const result = await createPhysicalInstance.mutateAsync({
         physicalInstanceLabel: data.label,
         dataRelationshipName: data.name,
       });
 
-      toast.current?.show({
-        severity: "success",
-        summary: t("physicalInstance.creation.successTitle"),
-        detail: t("physicalInstance.creation.successMessage"),
-        life: TOAST_DURATION,
-      });
-
       setVisible(false);
+      navigate(`/ddi/physical-instances/${result.agency}/${result.id}`, { replace: true });
     } catch (err: unknown) {
       const errorMessage =
         err && typeof err === "object" && "message" in err

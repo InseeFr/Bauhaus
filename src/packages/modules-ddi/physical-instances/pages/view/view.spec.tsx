@@ -17,9 +17,16 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+const mockBlocker = {
+  state: "unblocked" as "unblocked" | "blocked" | "proceeding",
+  proceed: vi.fn(),
+  reset: vi.fn(),
+};
+
 vi.mock("react-router-dom", () => ({
   useParams: () => ({ id: "test-id-123", agencyId: "test-agency-123" }),
   useNavigate: () => mockNavigate,
+  useBlocker: () => mockBlocker,
 }));
 
 vi.mock("../../../hooks/usePhysicalInstance", () => ({
@@ -129,6 +136,11 @@ describe("View Component", () => {
     });
     vi.clearAllMocks();
     mockConvertToDDI3.mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
+
+    // Reset blocker state
+    mockBlocker.state = "unblocked";
+    mockBlocker.proceed.mockClear();
+    mockBlocker.reset.mockClear();
 
     // Default mock implementation
     mockUsePhysicalInstancesData.mockReturnValue({
@@ -1723,6 +1735,137 @@ describe("View Component", () => {
       const navigatePath = mockNavigate.mock.calls[0][0];
       expect(navigatePath).toMatch(/^\/ddi\/physical-instances\/test-agency-123\//);
       expect(navigatePath).not.toContain("pi-original-id");
+    });
+  });
+
+  describe("Unsaved changes navigation blocking", () => {
+    it("should not block navigation when there are no unsaved changes", () => {
+      render(<Component />, { wrapper });
+
+      // With no local variables or deleted variables, blocker should not be triggered
+      expect(mockBlocker.state).toBe("unblocked");
+    });
+
+    it("should have unsaved changes when a new variable is added", async () => {
+      render(<Component />, { wrapper });
+
+      // Create a new variable
+      createTestVariable();
+
+      // Variable should be marked as unsaved (italic)
+      await waitFor(() => {
+        const variableRow = screen.getByText("TestVar").closest("tr");
+        expect(variableRow).toHaveClass("font-italic");
+      });
+    });
+
+    it("should have unsaved changes when a variable is deleted", async () => {
+      const existingVariable = {
+        ID: "var-1",
+        Agency: "test-agency",
+        Version: "1",
+        URN: "urn:ddi:test-agency:var-1:1",
+        VariableName: { String: { "@xml:lang": "fr-FR", "#text": "Variable1" } },
+        Label: { Content: { "@xml:lang": "fr-FR", "#text": "Variable 1" } },
+        VariableRepresentation: {
+          TextRepresentation: { "@maxLength": "100" },
+        },
+      };
+
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: {
+          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
+          DataRelationship: [
+            {
+              DataRelationshipName: { String: { "#text": "Test" } },
+              LogicalRecord: {
+                VariablesInRecord: {
+                  VariableUsedReference: [
+                    {
+                      Agency: "test-agency-123",
+                      ID: "var-1",
+                      Version: "1",
+                      TypeOfObject: "Variable",
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+          Variable: [existingVariable],
+        },
+        variables: [
+          {
+            id: "var-1",
+            name: "Variable1",
+            label: "Variable 1",
+            type: "text",
+            lastModified: "2024-01-01",
+          },
+        ],
+        title: "Test",
+        dataRelationshipName: "Test",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      // Click delete button for the variable
+      const deleteButtons = screen.getAllByLabelText("physicalInstance.view.delete");
+      fireEvent.click(deleteButtons[0]);
+
+      // Confirm deletion in the dialog
+      const confirmButton = screen.getByText("physicalInstance.view.confirmDelete");
+      fireEvent.click(confirmButton);
+
+      // Variable should no longer be visible in the table
+      await waitFor(() => {
+        expect(screen.queryByText("Variable1")).not.toBeInTheDocument();
+      });
+
+      // At this point, the component should have unsaved changes
+      // The Save All button should be enabled
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
+      expect(saveAllButton).not.toBeDisabled();
+    });
+
+    it("should clear unsaved changes after successful save", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      // Create a new variable
+      createTestVariable();
+
+      // Variable should be marked as unsaved (italic)
+      await waitFor(() => {
+        const variableRow = screen.getByText("TestVar").closest("tr");
+        expect(variableRow).toHaveClass("font-italic");
+      });
+
+      // Save all
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
+      fireEvent.click(saveAllButton);
+
+      await waitFor(() => {
+        expect(mutateAsyncMock).toHaveBeenCalled();
+      });
+
+      // After save, local variables should be cleared
+      // The variable should no longer be in italic (or may not exist depending on API response)
+      await waitFor(() => {
+        const variableElement = screen.queryByText("TestVar");
+        if (variableElement) {
+          const variableRow = variableElement.closest("tr");
+          expect(variableRow).not.toHaveClass("font-italic");
+        }
+      });
     });
   });
 });

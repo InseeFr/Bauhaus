@@ -351,6 +351,13 @@ describe("CodeRepresentation", () => {
       />,
     );
 
+    // When representation and codeList are undefined, only the action buttons should be visible
+    expect(screen.getByText("Créer une nouvelle liste")).toBeInTheDocument();
+    expect(screen.getByText("Réutiliser")).toBeInTheDocument();
+
+    // Click on "Create new list" to show the DataTable and label input
+    fireEvent.click(screen.getByText("Créer une nouvelle liste"));
+
     const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
     expect(labelInput.value).toBe("");
   });

@@ -58,62 +58,62 @@ export const VariableRepresentationTab = ({
   const { t } = useTranslation();
 
   return (
-    <>
-      <div className="flex align-items-center gap-2">
+    <div className="flex flex-column gap-3">
+      <div className="flex align-items-center gap-2 mb-2">
         <Checkbox
           inputId="variable-isGeographic"
           name="isGeographic"
           checked={isGeographic}
           onChange={(e) => onIsGeographicChange(e.checked ?? false)}
         />
-        <label htmlFor="variable-isGeographic">{t("physicalInstance.view.isGeographic")}</label>
+        <label htmlFor="variable-isGeographic" className="mb-0">
+          {t("physicalInstance.view.isGeographic")}
+        </label>
       </div>
 
-      <div className="flex flex-column gap-3">
-        <div className="flex flex-column gap-2">
-          <label htmlFor="variable-type">{t("physicalInstance.view.columns.type")}</label>
-          <Dropdown
-            key={`${variableId}-type`}
-            id="variable-type"
-            name="type"
-            value={selectedType}
-            onChange={(e) => onTypeChange(e.value)}
-            options={typeOptions}
-            placeholder={t("physicalInstance.view.selectType")}
-            required
-          />
-        </div>
-
-        {selectedType === "numeric" && (
-          <NumericRepresentationComponent
-            representation={numericRepresentation}
-            onChange={onNumericRepresentationChange}
-          />
-        )}
-
-        {selectedType === "date" && (
-          <DateRepresentation
-            representation={dateRepresentation}
-            onChange={onDateRepresentationChange}
-          />
-        )}
-
-        {selectedType === "text" && (
-          <TextRepresentationComponent
-            representation={textRepresentation}
-            onChange={onTextRepresentationChange}
-          />
-        )}
-
-        {selectedType === "code" && (
-          <CodeRepresentationComponent
-            representation={codeRepresentation}
-            codeList={codeList}
-            categories={categories}
-            onChange={onCodeRepresentationChange}
-          />
-        )}
+      <div className="flex flex-column gap-2">
+        <label htmlFor="variable-type">{t("physicalInstance.view.columns.type")}</label>
+        <Dropdown
+          key={`${variableId}-type`}
+          id="variable-type"
+          name="type"
+          value={selectedType}
+          onChange={(e) => onTypeChange(e.value)}
+          options={typeOptions}
+          placeholder={t("physicalInstance.view.selectType")}
+          required
+        />
       </div>
-    </>
+
+      {selectedType === "numeric" && (
+        <NumericRepresentationComponent
+          representation={numericRepresentation}
+          onChange={onNumericRepresentationChange}
+        />
+      )}
+
+      {selectedType === "date" && (
+        <DateRepresentation
+          representation={dateRepresentation}
+          onChange={onDateRepresentationChange}
+        />
+      )}
+
+      {selectedType === "text" && (
+        <TextRepresentationComponent
+          representation={textRepresentation}
+          onChange={onTextRepresentationChange}
+        />
+      )}
+
+      {selectedType === "code" && (
+        <CodeRepresentationComponent
+          representation={codeRepresentation}
+          codeList={codeList}
+          categories={categories}
+          onChange={onCodeRepresentationChange}
+        />
+      )}
+    </div>
   );
 };

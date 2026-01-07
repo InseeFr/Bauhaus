@@ -34,8 +34,15 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should call postPhysicalInstance API with correct parameters", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      id: "new-id",
-      agency: "fr.insee",
+      topLevelReference: [
+        {
+          Agency: "fr.insee",
+          ID: "new-id",
+          Version: "1",
+          TypeOfObject: "PhysicalInstance",
+        },
+      ],
+      PhysicalInstance: [{ Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -58,8 +65,15 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should invalidate physicalInstances query cache on successful mutation", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      id: "new-id",
-      agency: "fr.insee",
+      topLevelReference: [
+        {
+          Agency: "fr.insee",
+          ID: "new-id",
+          Version: "1",
+          TypeOfObject: "PhysicalInstance",
+        },
+      ],
+      PhysicalInstance: [{ Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -102,8 +116,15 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should return mutation status correctly", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      id: "new-id",
-      agency: "fr.insee",
+      topLevelReference: [
+        {
+          Agency: "fr.insee",
+          ID: "new-id",
+          Version: "1",
+          TypeOfObject: "PhysicalInstance",
+        },
+      ],
+      PhysicalInstance: [{ Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -129,8 +150,15 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should handle empty label and name", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      id: "new-id",
-      agency: "fr.insee",
+      topLevelReference: [
+        {
+          Agency: "fr.insee",
+          ID: "new-id",
+          Version: "1",
+          TypeOfObject: "PhysicalInstance",
+        },
+      ],
+      PhysicalInstance: [{ Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
