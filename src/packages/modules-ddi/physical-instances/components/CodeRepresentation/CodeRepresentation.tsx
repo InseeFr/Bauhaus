@@ -480,27 +480,27 @@ export const CodeRepresentation = ({
               />
             </div>
             <DataTable value={[...codes, emptyRow]} size="small">
-            <Column
-              field="value"
-              header={t("physicalInstance.view.code.value")}
-              body={(rowData) =>
-                rowData.id === "" ? emptyRowValueTemplate() : valueEditor(rowData)
-              }
-            />
-            <Column
-              field="label"
-              header={t("physicalInstance.view.code.label")}
-              body={(rowData) =>
-                rowData.id === "" ? emptyRowLabelTemplate() : labelEditor(rowData)
-              }
-            />
-            <Column
-              body={(rowData) =>
-                rowData.id === "" ? emptyRowActionTemplate() : actionBodyTemplate(rowData)
-              }
-              style={{ width: "5rem" }}
-            />
-          </DataTable>
+              <Column
+                field="value"
+                header={t("physicalInstance.view.code.value")}
+                body={(rowData) =>
+                  rowData.id === "" ? emptyRowValueTemplate() : valueEditor(rowData)
+                }
+              />
+              <Column
+                field="label"
+                header={t("physicalInstance.view.code.label")}
+                body={(rowData) =>
+                  rowData.id === "" ? emptyRowLabelTemplate() : labelEditor(rowData)
+                }
+              />
+              <Column
+                body={(rowData) =>
+                  rowData.id === "" ? emptyRowActionTemplate() : actionBodyTemplate(rowData)
+                }
+                style={{ width: "5rem" }}
+              />
+            </DataTable>
           </>
         )}
       </div>
