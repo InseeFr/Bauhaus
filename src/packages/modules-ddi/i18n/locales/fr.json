@@ -131,7 +131,12 @@
       },
       "variableUpdateSuccess": "Variable mise à jour",
       "variableUpdateSuccessDetail": "Variable mise à jour avec succès. Pensez à sauvegarder",
-      "variablesTable": "Tableau des variables"
+      "variablesTable": "Tableau des variables",
+      "totalVariables": "Total : {{count}} variable(s)",
+      "unsavedChangesTitle": "Modifications non sauvegardées",
+      "unsavedChangesMessage": "Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir quitter cette page ?",
+      "leaveWithoutSaving": "Quitter sans sauvegarder",
+      "stayOnPage": "Rester sur la page"
     }
   }
 }

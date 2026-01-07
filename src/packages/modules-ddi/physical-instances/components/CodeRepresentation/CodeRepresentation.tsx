@@ -85,25 +85,27 @@ export const CodeRepresentation = ({
     const updatedCodes = codes.filter((code) => code.id !== codeId);
     setCodes(updatedCodes);
 
+    const deletedCode = codes.find((c) => c.id === codeId);
+    const newCodeListId = codeList?.ID || crypto.randomUUID();
+
     // Create a default representation if it doesn't exist
     const currentRepresentation: CodeRepresentationType = representation || {
       "@blankIsMissingValue": "false",
       CodeListReference: {
         Agency: "fr.insee",
-        ID: crypto.randomUUID(),
+        ID: newCodeListId,
         Version: "1",
         TypeOfObject: "CodeList",
       },
     };
 
-    const deletedCode = codes.find((c) => c.id === codeId);
     const updatedCodeList: CodeList = {
       ...(codeList || {
         "@isUniversallyUnique": "true",
         "@versionDate": new Date().toISOString(),
-        URN: `urn:ddi:fr.insee:${crypto.randomUUID()}:1`,
+        URN: `urn:ddi:fr.insee:${newCodeListId}:1`,
         Agency: "fr.insee",
-        ID: crypto.randomUUID(),
+        ID: newCodeListId,
         Version: "1",
         Label: {
           Content: {
@@ -129,19 +131,21 @@ export const CodeRepresentation = ({
     );
     setCodes(updatedCodes);
 
+    const updatedCode = updatedCodes.find((c) => c.id === rowData.id);
+    if (!updatedCode) return;
+
+    const newCodeListId = codeList?.ID || crypto.randomUUID();
+
     // Create a default representation if it doesn't exist
     const currentRepresentation: CodeRepresentationType = representation || {
       "@blankIsMissingValue": "false",
       CodeListReference: {
         Agency: "fr.insee",
-        ID: crypto.randomUUID(),
+        ID: newCodeListId,
         Version: "1",
         TypeOfObject: "CodeList",
       },
     };
-
-    const updatedCode = updatedCodes.find((c) => c.id === rowData.id);
-    if (!updatedCode) return;
 
     const newCategory: Category = {
       "@isUniversallyUnique": "true",
@@ -194,9 +198,9 @@ export const CodeRepresentation = ({
       ...(codeList || {
         "@isUniversallyUnique": "true",
         "@versionDate": new Date().toISOString(),
-        URN: `urn:ddi:fr.insee:${crypto.randomUUID()}:1`,
+        URN: `urn:ddi:fr.insee:${newCodeListId}:1`,
         Agency: "fr.insee",
-        ID: crypto.randomUUID(),
+        ID: newCodeListId,
         Version: "1",
         Label: {
           Content: {
@@ -274,12 +278,14 @@ export const CodeRepresentation = ({
     setEmptyRowValue("");
     setEmptyRowLabel("");
 
+    const newCodeListId = codeList?.ID || crypto.randomUUID();
+
     // Créer une représentation par défaut si elle n'existe pas
     const currentRepresentation: CodeRepresentationType = representation || {
       "@blankIsMissingValue": "false",
       CodeListReference: {
         Agency: "fr.insee",
-        ID: crypto.randomUUID(),
+        ID: newCodeListId,
         Version: "1",
         TypeOfObject: "CodeList",
       },
@@ -319,9 +325,9 @@ export const CodeRepresentation = ({
       ...(codeList || {
         "@isUniversallyUnique": "true",
         "@versionDate": new Date().toISOString(),
-        URN: `urn:ddi:fr.insee:${crypto.randomUUID()}:1`,
+        URN: `urn:ddi:fr.insee:${newCodeListId}:1`,
         Agency: "fr.insee",
-        ID: crypto.randomUUID(),
+        ID: newCodeListId,
         Version: "1",
         Label: {
           Content: {
@@ -396,16 +402,6 @@ export const CodeRepresentation = ({
   return (
     <>
       <div className="flex flex-column gap-2">
-        <label htmlFor="code-list-label">{t("physicalInstance.view.code.codeListLabel")}</label>
-        <InputText
-          id="code-list-label"
-          name="codeListLabel"
-          value={codeListLabel}
-          onChange={(e) => handleCodeListLabelChange(e.target.value)}
-        />
-      </div>
-
-      <div className="flex flex-column gap-2">
         <div className="flex gap-2">
           <Button
             type="button"
@@ -471,7 +467,19 @@ export const CodeRepresentation = ({
           </>
         )}
         {showDataTable && (
-          <DataTable value={[...codes, emptyRow]} size="small">
+          <>
+            <div className="flex flex-column gap-2">
+              <label htmlFor="code-list-label">
+                {t("physicalInstance.view.code.codeListLabel")}
+              </label>
+              <InputText
+                id="code-list-label"
+                name="codeListLabel"
+                value={codeListLabel}
+                onChange={(e) => handleCodeListLabelChange(e.target.value)}
+              />
+            </div>
+            <DataTable value={[...codes, emptyRow]} size="small">
             <Column
               field="value"
               header={t("physicalInstance.view.code.value")}
@@ -493,6 +501,7 @@ export const CodeRepresentation = ({
               style={{ width: "5rem" }}
             />
           </DataTable>
+          </>
         )}
       </div>
     </>

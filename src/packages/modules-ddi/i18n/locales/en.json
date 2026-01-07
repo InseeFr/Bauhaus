@@ -131,7 +131,12 @@
         "required": "This field is required"
       },
       "variableUpdateSuccess": "Variable updated",
-      "variableUpdateSuccessDetail": "Variable successfully updated. Remember to save"
+      "variableUpdateSuccessDetail": "Variable successfully updated. Remember to save",
+      "totalVariables": "Total: {{count}} variable(s)",
+      "unsavedChangesTitle": "Unsaved changes",
+      "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to leave this page?",
+      "leaveWithoutSaving": "Leave without saving",
+      "stayOnPage": "Stay on page"
     }
   }
 }
