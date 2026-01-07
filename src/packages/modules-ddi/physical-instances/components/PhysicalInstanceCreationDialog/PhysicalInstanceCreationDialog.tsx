@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
@@ -8,7 +8,7 @@ import "./PhysicalInstanceCreationDialog.css";
 interface PhysicalInstanceCreationDialogProps {
   visible: boolean;
   onHide: () => void;
-  onSubmit: (data: { label: string; name: string }) => void;
+  onSubmit: (data: { label: string; name: string }) => Promise<void>;
 }
 
 export const PhysicalInstanceCreationDialog = ({
@@ -18,19 +18,27 @@ export const PhysicalInstanceCreationDialog = ({
 }: PhysicalInstanceCreationDialogProps) => {
   const { t } = useTranslation();
   const formRef = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = {
       label: formData.get("label") as string,
       name: ("DataRelationShip Name:" + formData.get("label")) as string,
     };
-    onSubmit(data);
-    formRef.current?.reset();
+
+    setIsSubmitting(true);
+    try {
+      await onSubmit(data);
+      formRef.current?.reset();
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleHide = () => {
+    if (isSubmitting) return;
     formRef.current?.reset();
     onHide();
   };
@@ -53,11 +61,14 @@ export const PhysicalInstanceCreationDialog = ({
             type="button"
             outlined
             onClick={handleHide}
+            disabled={isSubmitting}
           />
           <Button
             label={t("physicalInstance.creation.create")}
             type="submit"
             className="create-button"
+            disabled={isSubmitting}
+            loading={isSubmitting}
           />
         </div>
       </form>

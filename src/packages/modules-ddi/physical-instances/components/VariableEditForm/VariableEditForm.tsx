@@ -389,7 +389,19 @@ export const VariableEditForm = ({
             />
           </TabPanel>
 
-          <TabPanel header={t("physicalInstance.view.tabs.representation")}>
+          <TabPanel
+            header={t("physicalInstance.view.tabs.representation")}
+            headerTemplate={(options) => {
+              return (
+                <div
+                  className={`${options.className} flex align-items-center gap-2`}
+                  onClick={options.onClick}
+                >
+                  <span>{t("physicalInstance.view.tabs.representation")}</span>
+                </div>
+              );
+            }}
+          >
             <VariableRepresentationTab
               variableId={variable.id}
               isGeographic={state.isGeographic}

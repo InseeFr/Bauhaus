@@ -1,5 +1,5 @@
 import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useBlocker } from "react-router-dom";
 import { Button } from "primereact/button";
 import { useTranslation } from "react-i18next";
 import { Toast } from "primereact/toast";
@@ -15,6 +15,7 @@ import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalInstance";
 import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
+import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
 import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
 import { Loading } from "../../../../components/loading";
@@ -70,6 +71,34 @@ export const Component = () => {
   const unsavedVariableIds = useMemo(() => {
     return state.localVariables.map((v) => v.id);
   }, [state.localVariables]);
+
+  // Check if there are unsaved changes
+  const hasUnsavedChanges = useMemo(() => {
+    return state.localVariables.length > 0 || state.deletedVariableIds.length > 0;
+  }, [state.localVariables, state.deletedVariableIds]);
+
+  // Block navigation when there are unsaved changes
+  const blocker = useBlocker(hasUnsavedChanges);
+
+  // Show confirmation dialog when navigation is blocked
+  useEffect(() => {
+    if (blocker.state === "blocked") {
+      confirmDialog({
+        message: t("physicalInstance.view.unsavedChangesMessage"),
+        header: t("physicalInstance.view.unsavedChangesTitle"),
+        icon: "pi pi-exclamation-triangle",
+        acceptLabel: t("physicalInstance.view.leaveWithoutSaving"),
+        rejectLabel: t("physicalInstance.view.stayOnPage"),
+        acceptClassName: "p-button-danger",
+        accept: () => {
+          blocker.proceed();
+        },
+        reject: () => {
+          blocker.reset();
+        },
+      });
+    }
+  }, [blocker, t]);
 
   // Merge variables from API with local modifications
   const mergedVariables = useMemo(() => {
@@ -544,123 +573,11 @@ export const Component = () => {
 
   const handleDuplicatePhysicalInstance = useCallback(async () => {
     try {
-      // Générer de nouveaux IDs pour tous les objets sauf CodeList et Category
-      const newAgencyId = agencyId!;
-      const newPhysicalInstanceId = crypto.randomUUID();
-      const newDataRelationshipId = crypto.randomUUID();
-      const newLogicalRecordId = crypto.randomUUID();
-
-      // Créer un mapping des anciens IDs de variables vers les nouveaux
-      const variableIdMap = new Map<string, string>();
-      if (data?.Variable) {
-        data.Variable.forEach((v: Variable) => {
-          variableIdMap.set(v.ID, crypto.randomUUID());
-        });
-      }
-
-      // Dupliquer les données en régénérant les IDs
-      const duplicatedData = {
-        ...data,
-        // Garder les mêmes CodeList et Category (pas de régénération d'ID)
-        CodeList: data?.CodeList || [],
-        Category: data?.Category || [],
-        // Dupliquer les variables avec de nouveaux IDs et BasedOnObject
-        Variable: data?.Variable?.map((variable: Variable) => {
-          const newVariableId = variableIdMap.get(variable.ID)!;
-          return {
-            ...variable,
-            ID: newVariableId,
-            URN: `urn:ddi:${newAgencyId}:${newVariableId}:1`,
-            Agency: newAgencyId,
-            "@versionDate": new Date().toISOString(),
-            BasedOnObject: {
-              BasedOnReference: {
-                Agency: variable.Agency,
-                ID: variable.ID,
-                Version: variable.Version || "1",
-                TypeOfObject: "Variable",
-              },
-            },
-          };
-        }),
-        // Mettre à jour DataRelationship avec nouveaux IDs, nom et BasedOnObject
-        DataRelationship: data?.DataRelationship?.map((dr: any) => ({
-          ...dr,
-          ID: newDataRelationshipId,
-          URN: `urn:ddi:${newAgencyId}:${newDataRelationshipId}:1`,
-          Agency: newAgencyId,
-          "@versionDate": new Date().toISOString(),
-          BasedOnObject: {
-            BasedOnReference: {
-              Agency: dr.Agency,
-              ID: dr.ID,
-              Version: dr.Version || "1",
-              TypeOfObject: "DataRelationship",
-            },
-          },
-          DataRelationshipName: {
-            ...dr.DataRelationshipName,
-            String: {
-              ...dr.DataRelationshipName?.String,
-              "#text": `${dr.DataRelationshipName?.String?.["#text"] || ""} (copy)`,
-            },
-          },
-          LogicalRecord: {
-            ...dr.LogicalRecord,
-            ID: newLogicalRecordId,
-            URN: `urn:ddi:${newAgencyId}:${newLogicalRecordId}:1`,
-            Agency: newAgencyId,
-            "@versionDate": new Date().toISOString(),
-            VariablesInRecord: {
-              VariableUsedReference: Array.from(variableIdMap.values()).map((newVarId) => ({
-                Agency: newAgencyId,
-                ID: newVarId,
-                Version: "1",
-                TypeOfObject: "Variable",
-              })),
-            },
-          },
-        })),
-        // Mettre à jour PhysicalInstance avec nouveaux IDs, label et BasedOnObject
-        PhysicalInstance: data?.PhysicalInstance?.map((pi: any) => ({
-          ...pi,
-          ID: newPhysicalInstanceId,
-          URN: `urn:ddi:${newAgencyId}:${newPhysicalInstanceId}:1`,
-          Agency: newAgencyId,
-          "@versionDate": new Date().toISOString(),
-          BasedOnObject: {
-            BasedOnReference: {
-              Agency: pi.Agency,
-              ID: pi.ID,
-              Version: pi.Version || "1",
-              TypeOfObject: "PhysicalInstance",
-            },
-          },
-          Citation: {
-            ...pi.Citation,
-            Title: {
-              ...pi.Citation?.Title,
-              String: {
-                ...pi.Citation?.Title?.String,
-                "#text": `${title} (copy)`,
-              },
-            },
-          },
-          PhysicalInstanceLabel: {
-            ...pi.PhysicalInstanceLabel,
-            Content: {
-              ...pi.PhysicalInstanceLabel?.Content,
-              "#text": `${title} (copy)`,
-            },
-          },
-          DataRelationshipReference: {
-            Agency: newAgencyId,
-            ID: newDataRelationshipId,
-            Version: "1",
-            TypeOfObject: "DataRelationship",
-          },
-        })),
-      };
+      const { duplicatedData, newPhysicalInstanceId, newAgencyId } = buildDuplicatedPhysicalInstance({
+        agencyId: agencyId!,
+        data,
+        title,
+      });
 
       // Sauvegarder la nouvelle physical instance via l'API
       await savePhysicalInstance.mutateAsync({
@@ -732,7 +649,7 @@ export const Component = () => {
           typeOptions={typeOptions}
           onNewVariable={handleNewVariable}
           onSaveAll={handleSaveAll}
-          hasLocalChanges={state.localVariables.length > 0 || state.deletedVariableIds.length > 0}
+          hasLocalChanges={hasUnsavedChanges}
         />
 
         <GlobalActionsCard
