@@ -131,7 +131,6 @@ const api = {
 		//do not process response
 		() => {},
 	],
-	getCollectionGeneral: (id: string) => [`collection/${id}`],
 	getCollectionMembersList: (id: string) => [`collection/${id}/members`],
 };
 

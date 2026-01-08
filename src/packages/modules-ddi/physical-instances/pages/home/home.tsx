@@ -5,11 +5,16 @@ import { SearchableList } from '@components/searchable-list';
 
 import { useTitle } from '@utils/hooks/useTitle';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { Toast } from 'primereact/toast';
+import { useTranslation } from 'react-i18next';
 import D from '../../../../deprecated-locales';
 import { usePhysicalInstances } from '../../../hooks/usePhysicalInstances';
+import { useCreatePhysicalInstance } from '../../../hooks/useCreatePhysicalInstance';
 import { HomePageMenu } from './menu';
 import { PhysicalInstanceCreationDialog } from '../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog';
+
+const TOAST_DURATION = 3000;
 
 const formatDate = (dateString: string) => {
 	if (!dateString) return '';
@@ -23,12 +28,40 @@ const formatDate = (dateString: string) => {
 
 export const Component = () => {
 	useTitle(D.ddiTitle, D.physicalInstanceTitle);
+	const { t } = useTranslation();
 	const { data = [], isLoading } = usePhysicalInstances();
+	const createPhysicalInstance = useCreatePhysicalInstance();
 	const [visible, setVisible] = useState(false);
+	const toast = useRef<Toast>(null);
 
-	const handleSubmit = (data: { label: string; name: string }) => {
-		console.debug(data);
-		setVisible(false);
+	const handleSubmit = async (data: { label: string; name: string }) => {
+		try {
+			await createPhysicalInstance.mutateAsync({
+				physicalInstanceLabel: data.label,
+				dataRelationshipName: data.name,
+			});
+
+			toast.current?.show({
+				severity: 'success',
+				summary: t('physicalInstance.creation.successTitle'),
+				detail: t('physicalInstance.creation.successMessage'),
+				life: TOAST_DURATION,
+			});
+
+			setVisible(false);
+		} catch (err: unknown) {
+			const errorMessage =
+				err && typeof err === 'object' && 'message' in err
+					? String(err.message)
+					: t('physicalInstance.creation.errorMessage');
+
+			toast.current?.show({
+				severity: 'error',
+				summary: t('physicalInstance.creation.errorTitle'),
+				detail: errorMessage,
+				life: TOAST_DURATION,
+			});
+		}
 	};
 
 	if (isLoading) return <Loading />;
@@ -45,7 +78,7 @@ export const Component = () => {
 					/>
 					<SearchableList
 						items={data}
-						childPath="ddi/physical-instances"
+						childPath={(data) => 'ddi/physical-instances/' + data.agency}
 						autoFocus
 						itemFormatter={(_content: any, item: any) => {
 							return `${item.label} (${formatDate(item.versionDate)})`;
@@ -59,6 +92,8 @@ export const Component = () => {
 				onHide={() => setVisible(false)}
 				onSubmit={handleSubmit}
 			/>
+
+			<Toast ref={toast} />
 		</div>
 	);
 };

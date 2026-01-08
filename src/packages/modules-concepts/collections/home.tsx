@@ -14,6 +14,7 @@ interface CollectionsHomeTypes {
 
 const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>) => {
 	useTitle(D.conceptsTitle, D.collectionsTitle);
+
 	return (
 		<div className="container">
 			<Row>

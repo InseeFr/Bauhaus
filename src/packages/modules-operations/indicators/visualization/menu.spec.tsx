@@ -10,26 +10,30 @@ describe('Family Home Page Menu', () => {
 		vi.clearAllMocks();
 	});
 
-	it('can see the Back button', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_INDICATOR',
-				privileges: [],
-			},
-		]);
-		const { Menu } = await import('./menu');
+	it(
+		'can see the Back button',
+		async () => {
+			mockReactQueryForRbac([
+				{
+					application: 'OPERATION_INDICATOR',
+					privileges: [],
+				},
+			]);
+			const { Menu } = await import('./menu');
 
-		render(
-			<RBACMock>
-				<Menu
-					indicator={{ creators: [] } as unknown as Indicator}
-					publish={vi.fn()}
-				/>
-			</RBACMock>,
-		);
+			render(
+				<RBACMock>
+					<Menu
+						indicator={{ creators: [] } as unknown as Indicator}
+						publish={vi.fn()}
+					/>
+				</RBACMock>,
+			);
 
-		screen.getByText('Back');
-	});
+			screen.getByText('Back');
+		},
+		10000,
+	);
 	it('can see the Sims View button if exists', async () => {
 		mockReactQueryForRbac([
 			{

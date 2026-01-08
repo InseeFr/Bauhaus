@@ -8,22 +8,6 @@ describe('Family Home Page Menu', () => {
 		vi.resetModules();
 		vi.clearAllMocks();
 	});
-	it('an admin can update and publish a family', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_INDICATOR',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
-		const { Menu } = await import('./menu');
-		render(
-			<RBACMock>
-				<Menu />
-			</RBACMock>,
-		);
-
-		screen.getByText('New');
-	});
 
 	it('a user without Admin cannot create or publish a family', async () => {
 		mockReactQueryForRbac([

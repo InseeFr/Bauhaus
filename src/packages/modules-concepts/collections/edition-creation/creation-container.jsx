@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { Loading, Saving } from '@components/loading';
 
-import { CollectionApi } from '@sdk/collection-api';
 import { ConceptsApi } from '@sdk/index';
 
 import { useTitle } from '@utils/hooks/useTitle';
@@ -13,9 +12,13 @@ import D from '../../../deprecated-locales';
 import emptyCollection from '../../collections/utils/empty-collection';
 import buildPayload from '../utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
+import { useCollections } from '../../hooks/useCollections';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const Component = () => {
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
+
 	const {
 		properties: { defaultContributor },
 	} = useAppContext();
@@ -25,17 +28,13 @@ export const Component = () => {
 	const [saving, setSaving] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 
-	const [collectionList, setCollectionList] = useState([]);
 	const [conceptList, setConceptList] = useState([]);
+	const { data: collectionList } = useCollections();
 
 	useEffect(() => {
-		Promise.all([
-			ConceptsApi.getConceptList(),
-			CollectionApi.getCollectionList(),
-		])
-			.then(([conceptsList, collectionsList]) => {
+		ConceptsApi.getConceptList()
+			.then((conceptsList) => {
 				setConceptList(conceptsList);
-				setCollectionList(collectionsList);
 			})
 			.finally(() => setLoading(false));
 	}, []);
@@ -45,6 +44,7 @@ export const Component = () => {
 			setSaving(true);
 			ConceptsApi.postCollection(buildPayload(data, 'CREATE'))
 				.then((id) => {
+					queryClient.invalidateQueries(['collections']);
 					navigate(`/concepts/collections/${id}`);
 				})
 				.finally(() => setSaving(false));

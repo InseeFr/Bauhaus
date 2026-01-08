@@ -157,7 +157,7 @@ describe('CollectionGeneral', () => {
 
 		it('should render isValidated field as "Provisoire" when false', () => {
 			const attr = {
-				isValidated: 'false',
+				isValidated: false,
 			};
 
 			render(<CollectionGeneral attr={attr} />, { wrapper: createWrapper() });
@@ -168,7 +168,7 @@ describe('CollectionGeneral', () => {
 
 		it('should render isValidated field as "Validé" when true', () => {
 			const attr = {
-				isValidated: 'true',
+				isValidated: true,
 			};
 
 			render(<CollectionGeneral attr={attr} />, { wrapper: createWrapper() });

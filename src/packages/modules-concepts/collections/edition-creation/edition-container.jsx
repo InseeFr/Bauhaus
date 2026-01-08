@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Loading, Saving } from '@components/loading';
 
-import { CollectionApi } from '@sdk/collection-api';
 import { ConceptsApi } from '@sdk/index';
 
 import { useTitle } from '@utils/hooks/useTitle';
@@ -12,39 +11,28 @@ import { cleanId } from '@utils/string-utils';
 import D from '../../../deprecated-locales';
 import buildPayload from '../utils/build-payload/build-payload';
 import CollectionEditionCreation from './home';
+import { useCollections } from '../../hooks/useCollections';
+import { useCollection } from '../../hooks/useCollection';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const Component = () => {
 	const { id } = useParams();
+	const queryClient = useQueryClient();
+
 	const navigate = useNavigate();
 
-	const [loadingCollection, setLoadingCollection] = useState(true);
 	const [loadingExtraData, setLoadingExtraData] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
 
-	const [collection, setCollection] = useState({});
-	const [collectionList, setCollectionList] = useState([]);
+	const { data: collection, isLoading: loadingCollection } = useCollection(id);
+	const { data: collectionList } = useCollections();
 	const [conceptList, setConceptList] = useState([]);
 
 	useEffect(() => {
-		Promise.all([
-			ConceptsApi.getCollectionGeneral(id),
-			ConceptsApi.getCollectionMembersList(id),
-		])
-			.then(([general, members]) => {
-				setCollection({ general, members });
-			})
-			.finally(() => setLoadingCollection(false));
-	}, [id]);
-
-	useEffect(() => {
-		Promise.all([
-			ConceptsApi.getConceptList(),
-			CollectionApi.getCollectionList(),
-		])
-			.then(([conceptsList, collectionsList]) => {
+		ConceptsApi.getConceptList()
+			.then((conceptsList) => {
 				setConceptList(conceptsList);
-				setCollectionList(collectionsList);
 			})
 			.finally(() => setLoadingExtraData(false));
 	}, []);
@@ -54,6 +42,8 @@ export const Component = () => {
 			setSaving(true);
 			ConceptsApi.putCollection(data.general.id, buildPayload(data, 'UPDATE'))
 				.then(() => {
+					queryClient.invalidateQueries(['collection', id]);
+					queryClient.invalidateQueries(['collections']);
 					navigate(`/concepts/collections/${cleanId(id)}`);
 				})
 				.finally(() => setSaving(false));
@@ -61,7 +51,7 @@ export const Component = () => {
 		[navigate, id],
 	);
 
-	const { general, members } = collection;
+	const { general, members } = collection || {};
 	useTitle(D.collectionsTitle, general?.prefLabelLg1);
 
 	if (saving) {

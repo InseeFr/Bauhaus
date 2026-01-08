@@ -353,6 +353,23 @@ export const VariableEditForm = ({
 					</TabPanel>
 
 					<TabPanel header={t('physicalInstance.view.tabs.representation')}>
+						<div className="flex align-items-center gap-2">
+							<Checkbox
+								inputId="variable-isGeographic"
+								name="isGeographic"
+								checked={state.isGeographic}
+								onChange={(e) =>
+									dispatch({
+										type: 'SET_IS_GEOGRAPHIC',
+										payload: e.checked ?? false,
+									})
+								}
+							/>
+							<label htmlFor="variable-isGeographic">
+								{t('physicalInstance.view.isGeographic')}
+							</label>
+						</div>
+
 						<div className="flex flex-column gap-3">
 							<div className="flex flex-column gap-2">
 								<label htmlFor="variable-type">
@@ -370,23 +387,6 @@ export const VariableEditForm = ({
 									placeholder={t('physicalInstance.view.selectType')}
 									required
 								/>
-							</div>
-
-							<div className="flex align-items-center gap-2">
-								<Checkbox
-									inputId="variable-isGeographic"
-									name="isGeographic"
-									checked={state.isGeographic}
-									onChange={(e) =>
-										dispatch({
-											type: 'SET_IS_GEOGRAPHIC',
-											payload: e.checked ?? false,
-										})
-									}
-								/>
-								<label htmlFor="variable-isGeographic">
-									{t('physicalInstance.view.isGeographic')}
-								</label>
 							</div>
 
 							{state.selectedType === 'numeric' && (

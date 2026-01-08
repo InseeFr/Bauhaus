@@ -1,17 +1,10 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 
+
 import { CollectionApi } from '@sdk/collection-api';
 
 import { saveFileFromHttpResponse } from '../files';
 
-export const useCollections = () => {
-	return useQuery({
-		queryKey: ['collections'],
-		queryFn: () => {
-			return CollectionApi.getCollectionList();
-		},
-	});
-};
 
 export const useCollectionExporter = () => {
 	return useMutation({
