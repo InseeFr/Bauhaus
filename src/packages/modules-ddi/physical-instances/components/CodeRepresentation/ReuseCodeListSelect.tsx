@@ -31,20 +31,12 @@ export const ReuseCodeListSelect = ({
 
   if (codesListsError) {
     return (
-      <Message
-        severity="error"
-        text={t("physicalInstance.view.code.errorLoadingCodesLists")}
-      />
+      <Message severity="error" text={t("physicalInstance.view.code.errorLoadingCodesLists")} />
     );
   }
 
   if (codesLists.length === 0) {
-    return (
-      <Message
-        severity="info"
-        text={t("physicalInstance.view.code.noCodesListsAvailable")}
-      />
-    );
+    return <Message severity="info" text={t("physicalInstance.view.code.noCodesListsAvailable")} />;
   }
 
   return (

@@ -8,10 +8,7 @@ import type {
 } from "../../types/api";
 import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
-import {
-  codeRepresentationReducer,
-  initialState,
-} from "./CodeRepresentation.reducer";
+import { codeRepresentationReducer, initialState } from "./CodeRepresentation.reducer";
 import {
   createDefaultRepresentation,
   createDefaultCodeList,
@@ -205,9 +202,7 @@ export const CodeRepresentation = ({
       {showReuseSelect && (
         <ReuseCodeListSelect
           selectedCodeListId={selectedCodeListId}
-          onCodeListSelect={(id) =>
-            dispatch({ type: "SET_SELECTED_CODE_LIST_ID", payload: id })
-          }
+          onCodeListSelect={(id) => dispatch({ type: "SET_SELECTED_CODE_LIST_ID", payload: id })}
         />
       )}
       {showDataTable && (

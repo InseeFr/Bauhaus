@@ -51,13 +51,7 @@ vi.mock("../../../hooks/useCodesLists", () => ({
 
 vi.mock("primereact/inputtext", () => ({
   InputText: ({ id, value, onChange, placeholder, ...props }: any) => (
-    <input
-      id={id}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      {...props}
-    />
+    <input id={id} value={value} onChange={onChange} placeholder={placeholder} {...props} />
   ),
 }));
 
