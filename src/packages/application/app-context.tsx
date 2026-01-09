@@ -14,6 +14,7 @@ export interface AppProperties {
   defaultContributor: string;
   maxLengthScopeNote: string;
   extraMandatoryFields: string;
+  defaultAgencyId: string;
 }
 interface AppContextTypes {
   lg1: string;

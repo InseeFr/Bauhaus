@@ -12,6 +12,13 @@ vi.mock("@utils/hooks/useTitle");
 vi.mock("./menu", () => ({
   HomePageMenu: () => <div data-testid="home-page-menu">Menu</div>,
 }));
+vi.mock("../../../../application/app-context", () => ({
+  useAppContext: () => ({
+    properties: {
+      defaultAgencyId: "fr.insee",
+    },
+  }),
+}));
 vi.mock("../../../deprecated-locales", () => ({
   default: {
     ddiTitle: "DDI Title",

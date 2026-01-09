@@ -11,6 +11,7 @@ import type {
   Category,
 } from "../../types/api";
 import { DDIApi } from "../../../../sdk";
+import { useAppContext } from "../../../../application/app-context";
 
 interface DdiXmlPreviewProps {
   variableId: string;
@@ -42,6 +43,8 @@ export const DdiXmlPreview = ({
   categories,
 }: Readonly<DdiXmlPreviewProps>) => {
   const { t } = useTranslation();
+  const { properties } = useAppContext();
+  const defaultAgencyId = properties.defaultAgencyId;
   const [ddiXml, setDdiXml] = useState<string | null>(null);
   const [isLoadingDdi, setIsLoadingDdi] = useState(false);
 
@@ -80,8 +83,8 @@ export const DdiXmlPreview = ({
     const variableDDI: any = {
       "@isUniversallyUnique": "true",
       "@versionDate": currentDate,
-      URN: `urn:ddi:fr.insee:${variableId}:1`,
-      Agency: "fr.insee",
+      URN: `urn:ddi:${defaultAgencyId}:${variableId}:1`,
+      Agency: defaultAgencyId,
       ID: variableId,
       Version: "1",
       VariableName: {
@@ -147,6 +150,7 @@ export const DdiXmlPreview = ({
 
     return ddi4Data;
   }, [
+    defaultAgencyId,
     variableId,
     variableName,
     variableLabel,
