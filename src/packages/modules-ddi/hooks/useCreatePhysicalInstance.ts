@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DDIApi } from "../../sdk";
+import { useAppContext } from "../../application/app-context";
 
 interface CreatePhysicalInstanceParams {
   physicalInstanceLabel: string;
@@ -25,6 +26,8 @@ export interface CreatePhysicalInstanceResponse {
 
 export function useCreatePhysicalInstance() {
   const queryClient = useQueryClient();
+  const { properties } = useAppContext();
+  const defaultAgencyId = properties.defaultAgencyId;
 
   return useMutation({
     mutationFn: async (
@@ -41,7 +44,7 @@ export function useCreatePhysicalInstance() {
       }
 
       const agency =
-        physicalInstanceRef.Agency || response.PhysicalInstance?.[0]?.Agency || "fr.insee";
+        physicalInstanceRef.Agency || response.PhysicalInstance?.[0]?.Agency || defaultAgencyId;
 
       return {
         id: physicalInstanceRef.ID,

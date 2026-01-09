@@ -17,6 +17,14 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+vi.mock("../../../../application/app-context", () => ({
+  useAppContext: () => ({
+    properties: {
+      defaultAgencyId: "fr.insee",
+    },
+  }),
+}));
+
 const mockBlocker = {
   state: "unblocked" as "unblocked" | "blocked" | "proceeding",
   proceed: vi.fn(),
