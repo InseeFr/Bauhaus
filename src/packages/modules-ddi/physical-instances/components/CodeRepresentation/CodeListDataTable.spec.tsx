@@ -353,11 +353,7 @@ describe("CodeListDataTable", () => {
 
     fireEvent.change(codeValueInput, { target: { value: "updated-value" } });
 
-    expect(mockOnCellEdit).toHaveBeenCalledWith(
-      mockCodes[0],
-      "value",
-      "updated-value",
-    );
+    expect(mockOnCellEdit).toHaveBeenCalledWith(mockCodes[0], "value", "updated-value");
   });
 
   it("should render with empty codes array", () => {

@@ -82,10 +82,7 @@ describe("ReuseCodeListSelect", () => {
 
   it("should render dropdown when data is loaded", () => {
     render(
-      <ReuseCodeListSelect
-        selectedCodeListId={null}
-        onCodeListSelect={mockOnCodeListSelect}
-      />,
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
     );
 
     expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
@@ -99,10 +96,7 @@ describe("ReuseCodeListSelect", () => {
     });
 
     render(
-      <ReuseCodeListSelect
-        selectedCodeListId={null}
-        onCodeListSelect={mockOnCodeListSelect}
-      />,
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
     );
 
     expect(screen.getByTestId("progress-spinner")).toBeInTheDocument();
@@ -118,10 +112,7 @@ describe("ReuseCodeListSelect", () => {
     });
 
     render(
-      <ReuseCodeListSelect
-        selectedCodeListId={null}
-        onCodeListSelect={mockOnCodeListSelect}
-      />,
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
     );
 
     expect(screen.getByTestId("message-error")).toBeInTheDocument();
@@ -137,10 +128,7 @@ describe("ReuseCodeListSelect", () => {
     });
 
     render(
-      <ReuseCodeListSelect
-        selectedCodeListId={null}
-        onCodeListSelect={mockOnCodeListSelect}
-      />,
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
     );
 
     expect(screen.getByTestId("message-info")).toBeInTheDocument();
@@ -150,10 +138,7 @@ describe("ReuseCodeListSelect", () => {
 
   it("should display codes lists options", () => {
     render(
-      <ReuseCodeListSelect
-        selectedCodeListId={null}
-        onCodeListSelect={mockOnCodeListSelect}
-      />,
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
     );
 
     const options = screen.getAllByRole("option");
@@ -165,10 +150,7 @@ describe("ReuseCodeListSelect", () => {
 
   it("should format option value as agency-id", () => {
     render(
-      <ReuseCodeListSelect
-        selectedCodeListId={null}
-        onCodeListSelect={mockOnCodeListSelect}
-      />,
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
     );
 
     const dropdown = screen.getByTestId("codes-list-dropdown");
@@ -182,10 +164,7 @@ describe("ReuseCodeListSelect", () => {
 
   it("should call onCodeListSelect when an option is selected", () => {
     render(
-      <ReuseCodeListSelect
-        selectedCodeListId={null}
-        onCodeListSelect={mockOnCodeListSelect}
-      />,
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
     );
 
     const dropdown = screen.getByTestId("codes-list-dropdown");

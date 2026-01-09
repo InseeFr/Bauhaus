@@ -100,10 +100,7 @@ describe("codeRepresentationReducer", () => {
     it("should not modify other codes", () => {
       const stateWithMultipleCodes: CodeRepresentationState = {
         ...initialState,
-        codes: [
-          mockCode,
-          { id: "code-2", value: "2", label: "Label 2", categoryId: "category-2" },
-        ],
+        codes: [mockCode, { id: "code-2", value: "2", label: "Label 2", categoryId: "category-2" }],
       };
       const action: CodeRepresentationAction = {
         type: "UPDATE_CODE",
