@@ -11,6 +11,14 @@ vi.mock("../../sdk", () => ({
   },
 }));
 
+vi.mock("../../application/app-context", () => ({
+  useAppContext: () => ({
+    properties: {
+      defaultAgencyId: "fr.insee",
+    },
+  }),
+}));
+
 describe("useCreatePhysicalInstance", () => {
   let queryClient: QueryClient;
 

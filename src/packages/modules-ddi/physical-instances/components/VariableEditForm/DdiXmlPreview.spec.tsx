@@ -15,6 +15,14 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+vi.mock("../../../../application/app-context", () => ({
+  useAppContext: () => ({
+    properties: {
+      defaultAgencyId: "fr.insee",
+    },
+  }),
+}));
+
 vi.mock("primereact/button", () => ({
   Button: ({ label, onClick }: any) => <button onClick={onClick}>{label}</button>,
 }));
