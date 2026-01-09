@@ -143,9 +143,7 @@ export const CodeListDataTable = ({
   return (
     <>
       <div className="flex flex-column gap-2">
-        <label htmlFor="code-list-label">
-          {t("physicalInstance.view.code.codeListLabel")}
-        </label>
+        <label htmlFor="code-list-label">{t("physicalInstance.view.code.codeListLabel")}</label>
         <InputText
           id="code-list-label"
           name="codeListLabel"
@@ -157,16 +155,12 @@ export const CodeListDataTable = ({
         <Column
           field="value"
           header={t("physicalInstance.view.code.value")}
-          body={(rowData) =>
-            rowData.id === "" ? emptyRowValueTemplate() : valueEditor(rowData)
-          }
+          body={(rowData) => (rowData.id === "" ? emptyRowValueTemplate() : valueEditor(rowData))}
         />
         <Column
           field="label"
           header={t("physicalInstance.view.code.label")}
-          body={(rowData) =>
-            rowData.id === "" ? emptyRowLabelTemplate() : labelEditor(rowData)
-          }
+          body={(rowData) => (rowData.id === "" ? emptyRowLabelTemplate() : labelEditor(rowData))}
         />
         <Column
           body={(rowData) =>
