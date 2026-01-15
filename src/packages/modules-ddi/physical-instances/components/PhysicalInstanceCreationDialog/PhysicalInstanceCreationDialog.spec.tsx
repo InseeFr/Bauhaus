@@ -1,29 +1,113 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { PhysicalInstanceCreationDialog } from "./PhysicalInstanceCreationDialog";
+import { PhysicalInstanceDialog } from "./PhysicalInstanceCreationDialog";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
-        "physicalInstance.creation.title": "Créer une nouvelle instance physique",
+        "physicalInstance.creation.title": "Create a new physical instance",
         "physicalInstance.creation.label": "Label",
-        "physicalInstance.creation.name": "Name",
-        "physicalInstance.creation.cancel": "Annuler",
-        "physicalInstance.creation.create": "Créer",
+        "physicalInstance.creation.group": "Group",
+        "physicalInstance.creation.studyUnit": "Study Unit",
+        "physicalInstance.creation.selectGroup": "Select a group",
+        "physicalInstance.creation.selectStudyUnit": "Select a study unit",
+        "physicalInstance.creation.cancel": "Cancel",
+        "physicalInstance.creation.create": "Create",
+        "physicalInstance.view.editModal.title": "Edit",
+        "physicalInstance.view.editModal.cancel": "Cancel",
+        "physicalInstance.view.editModal.save": "Save",
       };
       return translations[key] || key;
     },
   }),
 }));
 
+vi.mock("../../../hooks/useGroups", () => ({
+  useGroups: () => ({
+    data: [
+      {
+        id: "group-1",
+        label: "Group 1",
+        agency: "agency-1",
+        versionDate: "2024-01-01",
+      },
+      {
+        id: "group-2",
+        label: "Group 2",
+        agency: "agency-2",
+        versionDate: "2024-01-02",
+      },
+    ],
+    isLoading: false,
+  }),
+}));
+
+vi.mock("../../../hooks/useGroupDetails", () => ({
+  useGroupDetails: (agencyId: string | null, groupId: string | null) => {
+    if (agencyId === "agency-1" && groupId === "group-1") {
+      return {
+        data: {
+          Group: [{ ID: "group-1", Agency: "agency-1", StudyUnitReference: [] }],
+          StudyUnit: [
+            {
+              ID: "study-1",
+              Agency: "agency-1",
+              Version: "1.0",
+              Citation: {
+                Title: {
+                  String: { "@xml:lang": "en", "#text": "Study Unit 1" },
+                },
+              },
+            },
+            {
+              ID: "study-2",
+              Agency: "agency-1",
+              Version: "1.0",
+              Citation: {
+                Title: {
+                  String: { "@xml:lang": "en", "#text": "Study Unit 2" },
+                },
+              },
+            },
+          ],
+        },
+        isLoading: false,
+      };
+    }
+    return { data: null, isLoading: false };
+  },
+}));
+
 vi.mock("primereact/inputtext", () => ({
-  InputText: ({ id, name, ...props }: any) => <input id={id} name={name} {...props} />,
+  InputText: ({ id, value, onChange, ...props }: any) => (
+    <input id={id} value={value} onChange={onChange} {...props} />
+  ),
+}));
+
+vi.mock("primereact/dropdown", () => ({
+  Dropdown: ({ id, value, options, onChange, placeholder, disabled, className }: any) => (
+    <select
+      id={id}
+      value={value || ""}
+      onChange={(e) => onChange({ value: e.target.value || null })}
+      disabled={disabled}
+      className={className}
+      data-testid={`dropdown-${id}`}
+    >
+      <option value="">{placeholder}</option>
+      {options?.map((opt: any) => (
+        <option key={opt.value} value={opt.value}>
+          {opt.label}
+        </option>
+      ))}
+    </select>
+  ),
 }));
 
 vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, type = "button", className }: any) => (
-    <button type={type} onClick={onClick} className={className}>
+  Button: ({ label, onClick, type = "button", className, disabled, loading }: any) => (
+    <button type={type} onClick={onClick} className={className} disabled={disabled || loading}>
       {label}
     </button>
   ),
@@ -35,7 +119,7 @@ vi.mock("primereact/dialog", () => ({
     return (
       <div className={className} data-testid="dialog">
         <h2>{header}</h2>
-        <button type="button" onClick={onHide}>
+        <button type="button" onClick={onHide} data-testid="close-button">
           Close
         </button>
         {children}
@@ -44,108 +128,178 @@ vi.mock("primereact/dialog", () => ({
   },
 }));
 
-describe("PhysicalInstanceCreationDialog", () => {
+describe("PhysicalInstanceDialog", () => {
   const mockOnHide = vi.fn();
-  const mockOnSubmit = vi.fn();
-
-  const defaultProps = {
-    visible: true,
-    onHide: mockOnHide,
-    onSubmit: mockOnSubmit,
-  };
+  const mockOnSubmitCreate = vi.fn();
+  const mockOnSubmitEdit = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it("should render the dialog when visible is true", () => {
-    render(<PhysicalInstanceCreationDialog {...defaultProps} />);
+  describe("Create mode", () => {
+    const defaultCreateProps = {
+      visible: true,
+      onHide: mockOnHide,
+      mode: "create" as const,
+      onSubmitCreate: mockOnSubmitCreate,
+    };
 
-    expect(screen.getByText("Créer une nouvelle instance physique")).toBeInTheDocument();
-    expect(screen.getByLabelText("Label")).toBeInTheDocument();
-  });
+    it("should render the dialog in create mode when visible is true", () => {
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
 
-  it("should not render the dialog when visible is false", () => {
-    render(<PhysicalInstanceCreationDialog {...defaultProps} visible={false} />);
+      expect(screen.getByText("Create a new physical instance")).toBeInTheDocument();
+      expect(screen.getByLabelText("Label")).toBeInTheDocument();
+      expect(screen.getByLabelText("Group")).toBeInTheDocument();
+      expect(screen.getByLabelText("Study Unit")).toBeInTheDocument();
+    });
 
-    expect(screen.queryByText("Créer une nouvelle instance physique")).not.toBeInTheDocument();
-  });
+    it("should not render the dialog when visible is false", () => {
+      render(<PhysicalInstanceDialog {...defaultCreateProps} visible={false} />);
 
-  it("should call onHide when cancel button is clicked", () => {
-    render(<PhysicalInstanceCreationDialog {...defaultProps} />);
+      expect(screen.queryByText("Create a new physical instance")).not.toBeInTheDocument();
+    });
 
-    const cancelButton = screen.getByText("Annuler");
-    fireEvent.click(cancelButton);
+    it("should have create button disabled when form is incomplete", () => {
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
 
-    expect(mockOnHide).toHaveBeenCalledTimes(1);
-  });
+      const createButton = screen.getByText("Create");
+      expect(createButton).toBeDisabled();
+    });
 
-  it("should submit form data when create button is clicked", async () => {
-    render(<PhysicalInstanceCreationDialog {...defaultProps} />);
+    it("should enable create button when all fields are filled", async () => {
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
 
-    const labelInput = screen.getByLabelText("Label");
-    const createButton = screen.getByText("Créer");
+      const labelInput = screen.getByLabelText("Label");
+      fireEvent.change(labelInput, { target: { value: "Test Label" } });
 
-    fireEvent.change(labelInput, { target: { value: "Test Label" } });
-    fireEvent.click(createButton);
+      const groupDropdown = screen.getByTestId("dropdown-group");
+      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
 
-    await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith({
-        label: "Test Label",
-        name: "DataRelationShip Name:Test Label",
+      await waitFor(() => {
+        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+        expect(studyUnitDropdown).not.toBeDisabled();
+      });
+
+      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
+
+      await waitFor(() => {
+        const createButton = screen.getByText("Create");
+        expect(createButton).not.toBeDisabled();
       });
     });
-  });
 
-  it("should call onSubmit and form reset method after submission", async () => {
-    const { container } = render(<PhysicalInstanceCreationDialog {...defaultProps} />);
+    it("should call onSubmitCreate with correct data when form is submitted", async () => {
+      mockOnSubmitCreate.mockResolvedValue(undefined);
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
 
-    const labelInput = screen.getByLabelText("Label") as HTMLInputElement;
-    const form = container.querySelector("form") as HTMLFormElement;
-    const resetSpy = vi.spyOn(form, "reset");
+      const labelInput = screen.getByLabelText("Label");
+      fireEvent.change(labelInput, { target: { value: "Test Label" } });
 
-    fireEvent.change(labelInput, { target: { value: "Test Label" } });
-    fireEvent.submit(form);
+      const groupDropdown = screen.getByTestId("dropdown-group");
+      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
 
-    await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith({
-        label: "Test Label",
-        name: "DataRelationShip Name:Test Label",
+      await waitFor(() => {
+        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+        expect(studyUnitDropdown).not.toBeDisabled();
       });
-      expect(resetSpy).toHaveBeenCalled();
+
+      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
+
+      const createButton = screen.getByText("Create");
+      fireEvent.click(createButton);
+
+      await waitFor(() => {
+        expect(mockOnSubmitCreate).toHaveBeenCalledWith({
+          label: "Test Label",
+          name: "DataRelationShip Name:Test Label",
+          group: { id: "group-1", agency: "agency-1" },
+          studyUnit: { id: "study-1", agency: "agency-1" },
+        });
+      });
+    });
+
+    it("should call onHide when cancel button is clicked", () => {
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
+
+      const cancelButton = screen.getByText("Cancel");
+      fireEvent.click(cancelButton);
+
+      expect(mockOnHide).toHaveBeenCalledTimes(1);
+    });
+
+    it("should disable study unit dropdown when no group is selected", () => {
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
+
+      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+      expect(studyUnitDropdown).toBeDisabled();
+    });
+
+    it("should have correct CSS classes", () => {
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
+
+      const dialog = screen.getByTestId("dialog");
+      expect(dialog).toHaveClass("ddi");
+      expect(dialog).toHaveClass("physical-instance-creation-dialog");
     });
   });
 
-  it("should call form reset method when dialog is hidden", async () => {
-    const { container } = render(<PhysicalInstanceCreationDialog {...defaultProps} />);
+  describe("Edit mode", () => {
+    const defaultEditProps = {
+      visible: true,
+      onHide: mockOnHide,
+      mode: "edit" as const,
+      initialData: { label: "Existing Label" },
+      onSubmitEdit: mockOnSubmitEdit,
+    };
 
-    const labelInput = screen.getByLabelText("Label") as HTMLInputElement;
-    const cancelButton = screen.getByText("Annuler");
-    const form = container.querySelector("form") as HTMLFormElement;
-    const resetSpy = vi.spyOn(form, "reset");
+    it("should render the dialog in edit mode with correct title", () => {
+      render(<PhysicalInstanceDialog {...defaultEditProps} />);
 
-    fireEvent.change(labelInput, { target: { value: "Test Label" } });
-    fireEvent.click(cancelButton);
-
-    await waitFor(() => {
-      expect(resetSpy).toHaveBeenCalled();
+      expect(screen.getByText("Edit")).toBeInTheDocument();
     });
-  });
 
-  it("should have correct button types", () => {
-    render(<PhysicalInstanceCreationDialog {...defaultProps} />);
+    it("should display initial label data", () => {
+      render(<PhysicalInstanceDialog {...defaultEditProps} />);
 
-    const cancelButton = screen.getByText("Annuler");
-    const createButton = screen.getByText("Créer");
+      const labelInput = screen.getByLabelText("Label") as HTMLInputElement;
+      expect(labelInput.value).toBe("Existing Label");
+    });
 
-    expect(cancelButton).toHaveAttribute("type", "button");
-    expect(createButton).toHaveAttribute("type", "submit");
-  });
+    it("should show save button in edit mode", () => {
+      render(<PhysicalInstanceDialog {...defaultEditProps} />);
 
-  it("should have correct CSS classes", () => {
-    render(<PhysicalInstanceCreationDialog {...defaultProps} />);
+      expect(screen.getByText("Save")).toBeInTheDocument();
+    });
 
-    const createButton = screen.getByText("Créer");
-    expect(createButton).toHaveClass("create-button");
+    it("should call onSubmitEdit when form is submitted in edit mode", async () => {
+      mockOnSubmitEdit.mockResolvedValue(undefined);
+      render(<PhysicalInstanceDialog {...defaultEditProps} />);
+
+      const groupDropdown = screen.getByTestId("dropdown-group");
+      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
+
+      await waitFor(() => {
+        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+        expect(studyUnitDropdown).not.toBeDisabled();
+      });
+
+      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
+
+      const saveButton = screen.getByText("Save");
+      fireEvent.click(saveButton);
+
+      await waitFor(() => {
+        expect(mockOnSubmitEdit).toHaveBeenCalledWith({
+          label: "Existing Label",
+          name: "DataRelationShip Name:Existing Label",
+          group: { id: "group-1", agency: "agency-1" },
+          studyUnit: { id: "study-1", agency: "agency-1" },
+        });
+      });
+    });
   });
 });

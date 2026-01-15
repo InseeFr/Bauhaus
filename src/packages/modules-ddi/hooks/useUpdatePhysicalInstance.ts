@@ -7,6 +7,10 @@ interface UpdatePhysicalInstanceParams {
   data: {
     physicalInstanceLabel: string;
     dataRelationshipName: string;
+    groupId: string;
+    groupAgency: string;
+    studyUnitId: string;
+    studyUnitAgency: string;
   };
 }
 

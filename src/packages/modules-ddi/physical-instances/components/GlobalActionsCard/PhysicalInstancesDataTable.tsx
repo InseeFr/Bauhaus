@@ -8,6 +8,7 @@ interface PhysicalInstancesDataTableProps {
   onRowClick?: (data: any) => void;
   onDeleteClick?: (data: any) => void;
   unsavedVariableIds?: string[];
+  selectedVariableId?: string | null;
 }
 
 export const PhysicalInstancesDataTable = ({
@@ -15,11 +16,19 @@ export const PhysicalInstancesDataTable = ({
   onRowClick,
   onDeleteClick,
   unsavedVariableIds = [],
+  selectedVariableId,
 }: Readonly<PhysicalInstancesDataTableProps>) => {
   const { t, i18n } = useTranslation();
 
   const rowClassName = (rowData: any) => {
-    return unsavedVariableIds.includes(rowData.id) ? "font-italic" : "";
+    const classes: string[] = [];
+    if (unsavedVariableIds.includes(rowData.id)) {
+      classes.push("font-italic");
+    }
+    if (rowData.id === selectedVariableId) {
+      classes.push("selected-variable-row");
+    }
+    return classes.join(" ");
   };
 
   const formatDate = (dateString: string) => {
@@ -58,7 +67,9 @@ export const PhysicalInstancesDataTable = ({
     />
   );
 
-  const footer = t("physicalInstance.view.totalVariables", { count: variables.length });
+  const footer = t("physicalInstance.view.totalVariables", {
+    count: variables.length,
+  });
 
   return (
     <DataTable

@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { describe, it, expect, vi } from "vitest";
 
@@ -107,7 +106,9 @@ describe("SimsGeographyPicker", () => {
       loadGeographies: mockLoadGeographies,
     });
 
-    expect(container.querySelector(".bauhaus-sims-geography-picker")).toBeTruthy();
+    expect(
+      container.querySelector(".bauhaus-sims-geography-picker"),
+    ).toBeTruthy();
     expect(container.querySelector(".form-group")).toBeTruthy();
   });
 
@@ -184,7 +185,9 @@ describe("SimsGeographyPicker", () => {
     });
 
     // RightSlidingPanel should be in the DOM but not open
-    expect(container.querySelector(".bauhaus-sims-geography-picker")).toBeTruthy();
+    expect(
+      container.querySelector(".bauhaus-sims-geography-picker"),
+    ).toBeTruthy();
   });
 
   it("should render with empty value", () => {
@@ -194,7 +197,9 @@ describe("SimsGeographyPicker", () => {
       value: "",
     });
 
-    expect(container.querySelector(".bauhaus-sims-geography-picker")).toBeTruthy();
+    expect(
+      container.querySelector(".bauhaus-sims-geography-picker"),
+    ).toBeTruthy();
   });
 
   it("should render with a selected value", () => {
@@ -204,7 +209,9 @@ describe("SimsGeographyPicker", () => {
       value: "http://geo1",
     });
 
-    expect(container.querySelector(".bauhaus-sims-geography-picker")).toBeTruthy();
+    expect(
+      container.querySelector(".bauhaus-sims-geography-picker"),
+    ).toBeTruthy();
   });
 
   it("should have isClearable prop on Select", () => {
@@ -247,7 +254,9 @@ describe("SimsGeographyPicker", () => {
     });
 
     // Component should render without errors with a value
-    expect(container.querySelector(".bauhaus-sims-geography-picker")).toBeTruthy();
+    expect(
+      container.querySelector(".bauhaus-sims-geography-picker"),
+    ).toBeTruthy();
   });
 
   it("should render geography options in the dropdown", () => {
@@ -377,6 +386,8 @@ describe("SimsGeographyPicker - filterOption behavior", () => {
     const label = removeAccents(option.label.toLowerCase());
     const typeTerritory = removeAccents(option.typeTerritory.toLowerCase());
 
-    expect(!searchValue || label.includes(search) || typeTerritory.includes(search)).toBe(false);
+    expect(
+      !searchValue || label.includes(search) || typeTerritory.includes(search),
+    ).toBe(false);
   });
 });
