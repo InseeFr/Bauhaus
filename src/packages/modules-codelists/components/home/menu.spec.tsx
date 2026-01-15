@@ -8,8 +8,6 @@ describe("Codes List Home Page Menu", () => {
     vi.clearAllMocks();
   });
 
-
-
   it("a user with Gestionnaire_liste_codes_RMESGNCS role can not create a codes list", async () => {
     mockReactQueryForRbac([
       {

@@ -7,13 +7,13 @@ import { InseeOrganisationList } from "@components/business/creators-view";
 import { isEmpty } from "@utils/value-utils";
 
 interface CollectionAttribute {
-	created?: string;
-	modified?: string;
-	creator?: string | string[];
-	contributor?: string | string[];
-	isValidated?: boolean;
-	descriptionLg1?: string;
-	descriptionLg2?: string;
+  created?: string;
+  modified?: string;
+  creator?: string | string[];
+  contributor?: string | string[];
+  isValidated?: boolean;
+  descriptionLg1?: string;
+  descriptionLg2?: string;
 }
 
 interface CollectionGeneralProps {
@@ -37,15 +37,12 @@ const renderOrganisationField = (
 };
 
 const renderValidationField = (
-	fieldName: 'isValidated',
-	label: string,
-	value: boolean
+  fieldName: "isValidated",
+  label: string,
+  value: boolean,
 ): JSX.Element => {
-	const status =
-		value === false
-			? D1.collectionStatusProvisional
-			: D1.collectionStatusValid;
-	return <li key={fieldName}>{`${label}: ${status}`}</li>;
+  const status = value === false ? D1.collectionStatusProvisional : D1.collectionStatusValid;
+  return <li key={fieldName}>{`${label}: ${status}`}</li>;
 };
 
 // Main helper function with type guards
@@ -63,8 +60,8 @@ const renderFieldItem = (
     case "contributor":
       return renderOrganisationField(fieldName, label, value as string | string[]);
 
-		case 'isValidated':
-			return renderValidationField(fieldName, label, value as boolean);
+    case "isValidated":
+      return renderValidationField(fieldName, label, value as boolean);
 
     default:
       // This should never happen due to FieldName type, but TypeScript needs this
