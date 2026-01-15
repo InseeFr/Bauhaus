@@ -187,8 +187,8 @@ describe("SimsGeographyPicker", () => {
     expect(container.querySelector(".bauhaus-sims-geography-picker")).toBeTruthy();
   });
 
-	it('should render with empty value', () => {
-		const { container } = renderComponent({
+  it("should render with empty value", () => {
+    const { container } = renderComponent({
       onChange: mockOnChange,
       loadGeographies: mockLoadGeographies,
       value: "",

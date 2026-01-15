@@ -1,13 +1,13 @@
 import { render, screen } from "@testing-library/react";
 
 import { MODULES } from "@utils/hooks/rbac-constants";
-import {mockReactQueryForRbac, WithRouter} from "../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../tests/render";
 
-describe('Family Home Page Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
+describe("Family Home Page Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
 
   it("a user without Admin cannot create or publish a family", async () => {
     mockReactQueryForRbac([
