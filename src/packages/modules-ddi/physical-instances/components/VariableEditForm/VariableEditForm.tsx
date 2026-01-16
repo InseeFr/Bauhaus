@@ -165,6 +165,10 @@ interface VariableEditFormProps {
     codeList?: CodeList;
     categories?: Category[];
   }) => void;
+  onPrevious?: () => void;
+  onNext?: () => void;
+  hasPrevious?: boolean;
+  hasNext?: boolean;
 }
 
 export const VariableEditForm = ({
@@ -173,6 +177,10 @@ export const VariableEditForm = ({
   isNew = false,
   onSave,
   onDuplicate,
+  onPrevious,
+  onNext,
+  hasPrevious = false,
+  hasNext = false,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -197,8 +205,10 @@ export const VariableEditForm = ({
   const hasValidationErrors = !state.name.trim() || !state.label.trim();
 
   useEffect(() => {
-    // Réinitialiser l'onglet actif au premier onglet
-    setActiveIndex(0);
+    // Réinitialiser l'onglet actif au premier onglet uniquement pour une nouvelle variable
+    if (isNew) {
+      setActiveIndex(0);
+    }
 
     dispatch({
       type: "RESET",
@@ -232,6 +242,7 @@ export const VariableEditForm = ({
     variable.dateRepresentation,
     variable.textRepresentation,
     variable.codeRepresentation,
+    isNew,
   ]);
 
   const updateNumericRepresentation = useCallback(
@@ -343,11 +354,28 @@ export const VariableEditForm = ({
             disabled={hasValidationErrors}
             aria-label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
           />
+          <Button
+            type="button"
+            icon="pi pi-chevron-left"
+            outlined
+            severity="secondary"
+            onClick={onPrevious}
+            disabled={!hasPrevious || isNew}
+            aria-label={t("physicalInstance.view.previousVariable")}
+          />
+          <Button
+            type="button"
+            icon="pi pi-chevron-right"
+            outlined
+            severity="secondary"
+            onClick={onNext}
+            disabled={!hasNext || isNew}
+            aria-label={t("physicalInstance.view.nextVariable")}
+          />
         </div>
 
         <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
           <TabPanel
-            header={t("physicalInstance.view.tabs.information")}
             headerTemplate={(options) => {
               return (
                 <div
@@ -390,7 +418,6 @@ export const VariableEditForm = ({
           </TabPanel>
 
           <TabPanel
-            header={t("physicalInstance.view.tabs.representation")}
             headerTemplate={(options) => {
               return (
                 <div
@@ -426,9 +453,20 @@ export const VariableEditForm = ({
 
           <TabPanel
             headerClassName="ml-auto"
-            header={
-              <i className="pi pi-code" aria-label={t("physicalInstance.view.tabs.ddiXml")} />
-            }
+            headerTemplate={(options) => {
+              return (
+                <div
+                  className={`${options.className} flex align-items-center gap-2`}
+                  onClick={options.onClick}
+                >
+                  <i
+                    className="pi pi-code"
+                    style={{ lineHeight: "inherit" }}
+                    aria-label={t("physicalInstance.view.tabs.ddiXml")}
+                  />
+                </div>
+              );
+            }}
           >
             {activeIndex === 2 && (
               <DdiXmlPreview

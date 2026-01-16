@@ -33,7 +33,8 @@ export const VariableInformationTab = ({
         </label>
         <InputText
           id="variable-name"
-          name="name"
+          name="variableName"
+          autoComplete="off"
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
           required
@@ -50,7 +51,8 @@ export const VariableInformationTab = ({
         </label>
         <InputText
           id="variable-label"
-          name="label"
+          name="variableLabel"
+          autoComplete="off"
           value={label}
           onChange={(e) => onLabelChange(e.target.value)}
           required

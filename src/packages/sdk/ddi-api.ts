@@ -1,11 +1,20 @@
 import { buildApi } from "./build-api";
 
 const api = {
+  getGroups: () => ["group"],
+  getGroup: (agencyId: string, id: string) => ["group/" + agencyId + "/" + id],
   getPhysicalInstances: () => ["physical-instance"],
   getPhysicalInstance: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id,
   ],
-  postPhysicalInstance: (data: { physicalInstanceLabel: string; dataRelationshipName: string }) => [
+  postPhysicalInstance: (data: {
+    physicalInstanceLabel: string;
+    dataRelationshipName: string;
+    groupId: string;
+    groupAgency: string;
+    studyUnitId: string;
+    studyUnitAgency: string;
+  }) => [
     "physical-instance",
     {
       method: "POST",
@@ -18,7 +27,14 @@ const api = {
   patchPhysicalInstance: (
     agencyId: string,
     id: string,
-    data: { physicalInstanceLabel: string; dataRelationshipName: string },
+    data: {
+      physicalInstanceLabel: string;
+      dataRelationshipName: string;
+      groupId: string;
+      groupAgency: string;
+      studyUnitId: string;
+      studyUnitAgency: string;
+    },
   ) => [
     "physical-instance/" + agencyId + "/" + id,
     {

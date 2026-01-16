@@ -22,8 +22,8 @@ export const ReuseCodeListSelect = ({
 
   if (isLoadingCodesLists) {
     return (
-      <div className="flex align-items-center gap-2">
-        <ProgressSpinner style={{ width: "20px", height: "20px" }} strokeWidth="4" />
+      <div className="flex gap-2">
+        <ProgressSpinner style={{ width: "20px", height: "20px", margin: "0" }} strokeWidth="4" />
         <span>{t("physicalInstance.view.code.loadingCodesLists")}</span>
       </div>
     );

@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { describe, it, expect, vi } from "vitest";
 

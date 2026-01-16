@@ -7,7 +7,10 @@ import { Message } from "primereact/message";
 import { confirmDialog } from "primereact/confirmdialog";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import "./view.css";
-import { EditModal } from "../../components/EditModal/EditModal";
+import {
+  PhysicalInstanceDialog,
+  PhysicalInstanceUpdateData,
+} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
@@ -220,43 +223,47 @@ export const Component = () => {
     dispatch(actions.setEditModalVisible(false));
   }, []);
 
-  const handleFormDataChange = useCallback((data: { label: string; name: string }) => {
-    dispatch(actions.setFormData(data));
-  }, []);
+  const handleSaveEdit = useCallback(
+    async (data: PhysicalInstanceUpdateData) => {
+      try {
+        await updatePhysicalInstance.mutateAsync({
+          id: id!,
+          agencyId: agencyId!,
+          data: {
+            physicalInstanceLabel: data.label,
+            dataRelationshipName: data.name,
+            groupId: data.group.id,
+            groupAgency: data.group.agency,
+            studyUnitId: data.studyUnit.id,
+            studyUnitAgency: data.studyUnit.agency,
+          },
+        });
 
-  const handleSave = useCallback(async () => {
-    try {
-      await updatePhysicalInstance.mutateAsync({
-        id: id!,
-        agencyId: agencyId!,
-        data: {
-          physicalInstanceLabel: state.formData.label,
-          dataRelationshipName: "DataRelationShip Name:" + state.formData.label,
-        },
-      });
+        toast.current?.show({
+          severity: "success",
+          summary: t("physicalInstance.view.saveSuccess"),
+          detail: t("physicalInstance.view.saveSuccessDetail"),
+          life: TOAST_DURATION,
+        });
 
-      toast.current?.show({
-        severity: "success",
-        summary: t("physicalInstance.view.saveSuccess"),
-        detail: t("physicalInstance.view.saveSuccessDetail"),
-        life: TOAST_DURATION,
-      });
+        dispatch(actions.setFormData({ label: data.label, name: data.name }));
+        dispatch(actions.setEditModalVisible(false));
+      } catch (err: unknown) {
+        const errorMessage =
+          err && typeof err === "object" && "message" in err
+            ? String(err.message)
+            : t("physicalInstance.view.saveErrorDetail");
 
-      dispatch(actions.setEditModalVisible(false));
-    } catch (err: unknown) {
-      const errorMessage =
-        err && typeof err === "object" && "message" in err
-          ? String(err.message)
-          : t("physicalInstance.view.saveErrorDetail");
-
-      toast.current?.show({
-        severity: "error",
-        summary: t("physicalInstance.view.saveError"),
-        detail: errorMessage,
-        life: TOAST_DURATION,
-      });
-    }
-  }, [state.formData, id, agencyId, t, updatePhysicalInstance]);
+        toast.current?.show({
+          severity: "error",
+          summary: t("physicalInstance.view.saveError"),
+          detail: errorMessage,
+          life: TOAST_DURATION,
+        });
+      }
+    },
+    [id, agencyId, t, updatePhysicalInstance],
+  );
 
   const handleVariableClick = useCallback(
     (variable: VariableTableData) => {
@@ -324,6 +331,30 @@ export const Component = () => {
       }),
     );
   }, []);
+
+  // Navigation entre les variables (circulaire)
+  const currentVariableIndex = useMemo(() => {
+    if (!state.selectedVariable || state.selectedVariable.id === "new") return -1;
+    return filteredVariables.findIndex((v) => v.id === state.selectedVariable?.id);
+  }, [filteredVariables, state.selectedVariable]);
+
+  const hasVariablesToNavigate = filteredVariables.length > 1 && currentVariableIndex >= 0;
+
+  const handlePreviousVariable = useCallback(() => {
+    if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
+      const previousIndex =
+        currentVariableIndex === 0 ? filteredVariables.length - 1 : currentVariableIndex - 1;
+      handleVariableClick(filteredVariables[previousIndex]);
+    }
+  }, [currentVariableIndex, filteredVariables, handleVariableClick]);
+
+  const handleNextVariable = useCallback(() => {
+    if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
+      const nextIndex =
+        currentVariableIndex === filteredVariables.length - 1 ? 0 : currentVariableIndex + 1;
+      handleVariableClick(filteredVariables[nextIndex]);
+    }
+  }, [currentVariableIndex, filteredVariables, handleVariableClick]);
 
   const handleVariableSave = useCallback(
     (data: VariableData) => {
@@ -660,6 +691,7 @@ export const Component = () => {
           onRowClick={handleVariableClick}
           onDeleteClick={handleDeleteVariable}
           unsavedVariableIds={unsavedVariableIds}
+          selectedVariableId={state.selectedVariable?.id}
         />
       </div>
       {state.selectedVariable && (
@@ -670,16 +702,20 @@ export const Component = () => {
             isNew={state.selectedVariable.id === "new"}
             onSave={handleVariableSave}
             onDuplicate={handleVariableDuplicate}
+            onPrevious={handlePreviousVariable}
+            onNext={handleNextVariable}
+            hasPrevious={hasVariablesToNavigate}
+            hasNext={hasVariablesToNavigate}
           />
         </div>
       )}
 
-      <EditModal
+      <PhysicalInstanceDialog
         visible={state.isEditModalVisible}
         onHide={handleCloseEditModal}
-        formData={state.formData}
-        onFormDataChange={handleFormDataChange}
-        onSave={handleSave}
+        mode="edit"
+        initialData={{ label: state.formData.label }}
+        onSubmitEdit={handleSaveEdit}
       />
 
       <ConfirmDialog />

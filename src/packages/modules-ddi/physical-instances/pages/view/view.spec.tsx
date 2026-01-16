@@ -49,6 +49,46 @@ vi.mock("../../../hooks/usePublishPhysicalInstance", () => ({
   usePublishPhysicalInstance: () => mockPublishPhysicalInstance(),
 }));
 
+vi.mock("../../../hooks/useGroups", () => ({
+  useGroups: () => ({
+    data: [
+      {
+        id: "group-1",
+        label: "Group 1",
+        agency: "agency-1",
+        versionDate: "2024-01-01",
+      },
+    ],
+    isLoading: false,
+  }),
+}));
+
+vi.mock("../../../hooks/useGroupDetails", () => ({
+  useGroupDetails: (agencyId: string | null, groupId: string | null) => {
+    if (agencyId && groupId) {
+      return {
+        data: {
+          Group: [{ ID: groupId, Agency: agencyId, StudyUnitReference: [] }],
+          StudyUnit: [
+            {
+              ID: "study-1",
+              Agency: agencyId,
+              Version: "1.0",
+              Citation: {
+                Title: {
+                  String: { "@xml:lang": "en", "#text": "Study Unit 1" },
+                },
+              },
+            },
+          ],
+        },
+        isLoading: false,
+      };
+    }
+    return { data: null, isLoading: false };
+  },
+}));
+
 // Mock fetch globally to intercept API calls
 global.fetch = vi.fn((url) => {
   if (typeof url === "string" && url.includes("/convert/ddi4-to-ddi3")) {
@@ -74,8 +114,16 @@ vi.mock("primereact/message", () => ({
 }));
 
 vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ value, options, onChange, ...props }: any) => (
-    <select value={value} onChange={(e) => onChange({ value: e.target.value })} {...props}>
+  Dropdown: ({ id, value, options, onChange, disabled, ...props }: any) => (
+    <select
+      id={id}
+      value={value || ""}
+      onChange={(e) => onChange({ value: e.target.value || null })}
+      disabled={disabled}
+      data-testid={id ? `dropdown-${id}` : undefined}
+      {...props}
+    >
+      <option value="">Select...</option>
       {options?.map((opt: any) => (
         <option key={opt.value} value={opt.value}>
           {opt.label}
@@ -154,11 +202,17 @@ describe("View Component", () => {
     mockUsePhysicalInstancesData.mockReturnValue({
       data: {
         PhysicalInstance: [
-          { Citation: { Title: { String: { "#text": "Test Physical Instance" } } } },
+          {
+            Citation: {
+              Title: { String: { "#text": "Test Physical Instance" } },
+            },
+          },
         ],
         DataRelationship: [
           {
-            DataRelationshipName: { String: { "#text": "Test Data Relationship" } },
+            DataRelationshipName: {
+              String: { "#text": "Test Data Relationship" },
+            },
             LogicalRecord: {
               VariablesInRecord: {
                 VariableUsedReference: [],
@@ -350,7 +404,7 @@ describe("View Component", () => {
       const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
-      const labelInput = screen.getByLabelText("physicalInstance.view.editModal.label");
+      const labelInput = screen.getByLabelText("physicalInstance.creation.label");
       fireEvent.change(labelInput, { target: { value: "New Label" } });
 
       expect((labelInput as HTMLInputElement).value).toBe("New Label");
@@ -494,11 +548,17 @@ describe("View Component", () => {
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
           PhysicalInstance: [
-            { Citation: { Title: { String: { "#text": "Test Physical Instance" } } } },
+            {
+              Citation: {
+                Title: { String: { "#text": "Test Physical Instance" } },
+              },
+            },
           ],
           DataRelationship: [
             {
-              DataRelationshipName: { String: { "#text": "Test Data Relationship" } },
+              DataRelationshipName: {
+                String: { "#text": "Test Data Relationship" },
+              },
               LogicalRecord: {
                 VariablesInRecord: {
                   VariableUsedReference: [],
@@ -534,11 +594,17 @@ describe("View Component", () => {
     it("should call DDIApi.convertToDDI3 with correct data", async () => {
       const mockData = {
         PhysicalInstance: [
-          { Citation: { Title: { String: { "#text": "Test Physical Instance" } } } },
+          {
+            Citation: {
+              Title: { String: { "#text": "Test Physical Instance" } },
+            },
+          },
         ],
         DataRelationship: [
           {
-            DataRelationshipName: { String: { "#text": "Test Data Relationship" } },
+            DataRelationshipName: {
+              String: { "#text": "Test Data Relationship" },
+            },
             LogicalRecord: {
               VariablesInRecord: {
                 VariableUsedReference: [],
@@ -603,6 +669,32 @@ describe("View Component", () => {
   });
 
   describe("Save functionality", () => {
+    // Helper function to fill and submit the edit modal
+    const fillAndSubmitEditModal = async (label = "Updated Title") => {
+      // Fill label
+      const labelInput = screen.getByLabelText("physicalInstance.creation.label");
+      fireEvent.change(labelInput, { target: { value: label } });
+
+      // Select group
+      const groupDropdown = screen.getByTestId("dropdown-group");
+      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
+
+      // Wait for study units to load then select one
+      await waitFor(() => {
+        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+        expect(studyUnitDropdown).not.toBeDisabled();
+      });
+
+      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
+
+      // Submit form
+      const form = screen.getByRole("dialog").querySelector("form");
+      if (form) {
+        fireEvent.submit(form);
+      }
+    };
+
     it("should initialize edit modal with title", () => {
       render(<Component />, { wrapper });
 
@@ -610,7 +702,7 @@ describe("View Component", () => {
       fireEvent.click(editButton);
 
       const labelInput = screen.getByLabelText(
-        "physicalInstance.view.editModal.label",
+        "physicalInstance.creation.label",
       ) as HTMLInputElement;
 
       expect(labelInput.value).toBe("Test Physical Instance");
@@ -629,14 +721,7 @@ describe("View Component", () => {
       const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
-      const labelInput = screen.getByLabelText("physicalInstance.view.editModal.label");
-      fireEvent.change(labelInput, { target: { value: "Updated Title" } });
-
-      // Find and submit the form
-      const form = screen.getByRole("dialog").querySelector("form");
-      if (form) {
-        fireEvent.submit(form);
-      }
+      await fillAndSubmitEditModal("Updated Title");
 
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalledWith({
@@ -645,6 +730,10 @@ describe("View Component", () => {
           data: {
             physicalInstanceLabel: "Updated Title",
             dataRelationshipName: "DataRelationShip Name:Updated Title",
+            groupId: "group-1",
+            groupAgency: "agency-1",
+            studyUnitId: "study-1",
+            studyUnitAgency: "agency-1",
           },
         });
       });
@@ -663,11 +752,7 @@ describe("View Component", () => {
       const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
-      // Find and submit the form
-      const form = screen.getByRole("dialog").querySelector("form");
-      if (form) {
-        fireEvent.submit(form);
-      }
+      await fillAndSubmitEditModal();
 
       await waitFor(() => {
         expect(screen.queryByText("physicalInstance.view.editModal.title")).not.toBeInTheDocument();
@@ -692,11 +777,7 @@ describe("View Component", () => {
         expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
       });
 
-      // Find and submit the form
-      const form = screen.getByRole("dialog").querySelector("form");
-      if (form) {
-        fireEvent.submit(form);
-      }
+      await fillAndSubmitEditModal();
 
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
@@ -1164,7 +1245,9 @@ describe("View Component", () => {
         Agency: "test-agency",
         Version: "1",
         URN: "urn:ddi:test-agency:var-1:1",
-        VariableName: { String: { "@xml:lang": "fr-FR", "#text": "Variable1" } },
+        VariableName: {
+          String: { "@xml:lang": "fr-FR", "#text": "Variable1" },
+        },
         Label: { Content: { "@xml:lang": "fr-FR", "#text": "Variable 1" } },
         VariableRepresentation: {
           TextRepresentation: { "@maxLength": "100" },
@@ -1269,7 +1352,9 @@ describe("View Component", () => {
         Agency: "test-agency",
         Version: "1",
         URN: "urn:ddi:test-agency:var-1:1",
-        VariableName: { String: { "@xml:lang": "fr-FR", "#text": "Variable1" } },
+        VariableName: {
+          String: { "@xml:lang": "fr-FR", "#text": "Variable1" },
+        },
         Label: { Content: { "@xml:lang": "fr-FR", "#text": "Variable 1" } },
         VariableRepresentation: {
           TextRepresentation: { "@maxLength": "100" },
@@ -1643,8 +1728,18 @@ describe("View Component", () => {
           ],
         },
         variables: [
-          { id: "var-original-id-1", name: "Var1", label: "Variable 1", type: "text" },
-          { id: "var-original-id-2", name: "Var2", label: "Variable 2", type: "text" },
+          {
+            id: "var-original-id-1",
+            name: "Var1",
+            label: "Variable 1",
+            type: "text",
+          },
+          {
+            id: "var-original-id-2",
+            name: "Var2",
+            label: "Variable 2",
+            type: "text",
+          },
         ],
         title: "Test",
         dataRelationshipName: "DR Name",
@@ -1773,7 +1868,9 @@ describe("View Component", () => {
         Agency: "test-agency",
         Version: "1",
         URN: "urn:ddi:test-agency:var-1:1",
-        VariableName: { String: { "@xml:lang": "fr-FR", "#text": "Variable1" } },
+        VariableName: {
+          String: { "@xml:lang": "fr-FR", "#text": "Variable1" },
+        },
         Label: { Content: { "@xml:lang": "fr-FR", "#text": "Variable 1" } },
         VariableRepresentation: {
           TextRepresentation: { "@maxLength": "100" },
