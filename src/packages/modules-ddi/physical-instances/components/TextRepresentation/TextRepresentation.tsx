@@ -13,12 +13,8 @@ export const TextRepresentation = ({
   onChange,
 }: Readonly<TextRepresentationProps>) => {
   const { t } = useTranslation();
-  const [minLength, setMinLength] = useState(
-    representation?.["@minLength"] || "",
-  );
-  const [maxLength, setMaxLength] = useState(
-    representation?.["@maxLength"] || "",
-  );
+  const [minLength, setMinLength] = useState(representation?.["@minLength"] || "");
+  const [maxLength, setMaxLength] = useState(representation?.["@maxLength"] || "");
   const [regExp, setRegExp] = useState(representation?.["@regExp"] || "");
 
   useEffect(() => {
@@ -42,17 +38,13 @@ export const TextRepresentation = ({
       newRepresentation["@regExp"] = regExp;
     }
 
-    onChange(
-      Object.keys(newRepresentation).length > 0 ? newRepresentation : undefined,
-    );
+    onChange(Object.keys(newRepresentation).length > 0 ? newRepresentation : undefined);
   }, [minLength, maxLength, regExp, onChange]);
 
   return (
     <>
       <div className="flex flex-column gap-2">
-        <label htmlFor="min-length">
-          {t("physicalInstance.view.text.minLength")}
-        </label>
+        <label htmlFor="min-length">{t("physicalInstance.view.text.minLength")}</label>
         <InputText
           id="min-length"
           name="textMinLength"
@@ -64,9 +56,7 @@ export const TextRepresentation = ({
       </div>
 
       <div className="flex flex-column gap-2">
-        <label htmlFor="max-length">
-          {t("physicalInstance.view.text.maxLength")}
-        </label>
+        <label htmlFor="max-length">{t("physicalInstance.view.text.maxLength")}</label>
         <InputText
           id="max-length"
           name="textMaxLength"
@@ -78,9 +68,7 @@ export const TextRepresentation = ({
       </div>
 
       <div className="flex flex-column gap-2">
-        <label htmlFor="reg-exp">
-          {t("physicalInstance.view.text.regExp")}
-        </label>
+        <label htmlFor="reg-exp">{t("physicalInstance.view.text.regExp")}</label>
         <InputText
           id="reg-exp"
           name="textRegExp"

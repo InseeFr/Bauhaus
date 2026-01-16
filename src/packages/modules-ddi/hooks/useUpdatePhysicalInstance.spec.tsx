@@ -100,9 +100,7 @@ describe("useUpdatePhysicalInstance", () => {
       },
     };
 
-    await expect(result.current.mutateAsync(testData)).rejects.toThrow(
-      "API Error",
-    );
+    await expect(result.current.mutateAsync(testData)).rejects.toThrow("API Error");
   });
 
   it("should return mutation status correctly", async () => {

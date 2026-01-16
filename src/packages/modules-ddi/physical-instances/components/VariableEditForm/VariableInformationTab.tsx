@@ -28,10 +28,7 @@ export const VariableInformationTab = ({
   return (
     <div className="flex flex-column gap-3">
       <div className="flex flex-column gap-2">
-        <label
-          htmlFor="variable-name"
-          className={nameError ? "text-red-500" : ""}
-        >
+        <label htmlFor="variable-name" className={nameError ? "text-red-500" : ""}>
           {t("physicalInstance.view.columns.name")} *
         </label>
         <InputText
@@ -44,17 +41,12 @@ export const VariableInformationTab = ({
           className={nameError ? "p-invalid" : ""}
         />
         {nameError && (
-          <small className="text-red-500">
-            {t("physicalInstance.view.validation.required")}
-          </small>
+          <small className="text-red-500">{t("physicalInstance.view.validation.required")}</small>
         )}
       </div>
 
       <div className="flex flex-column gap-2">
-        <label
-          htmlFor="variable-label"
-          className={labelError ? "text-red-500" : ""}
-        >
+        <label htmlFor="variable-label" className={labelError ? "text-red-500" : ""}>
           {t("physicalInstance.view.columns.label")} *
         </label>
         <InputText
@@ -67,9 +59,7 @@ export const VariableInformationTab = ({
           className={labelError ? "p-invalid" : ""}
         />
         {labelError && (
-          <small className="text-red-500">
-            {t("physicalInstance.view.validation.required")}
-          </small>
+          <small className="text-red-500">{t("physicalInstance.view.validation.required")}</small>
         )}
       </div>
 

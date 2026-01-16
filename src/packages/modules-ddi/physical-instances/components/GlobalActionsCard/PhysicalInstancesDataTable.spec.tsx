@@ -68,9 +68,7 @@ vi.mock("primereact/datatable", () => ({
             <tr key={index} onClick={() => onRowClick?.({ data: item })}>
               {columns.map((col: any, colIdx: number) => (
                 <td key={colIdx}>
-                  {col.props.body
-                    ? col.props.body(item)
-                    : item[col.props.field]}
+                  {col.props.body ? col.props.body(item) : item[col.props.field]}
                 </td>
               ))}
             </tr>
@@ -194,9 +192,7 @@ describe("PhysicalInstancesDataTable", () => {
         variables: mockVariables,
       };
 
-      expect(() =>
-        render(<PhysicalInstancesDataTable {...propsWithoutRowClick} />),
-      ).not.toThrow();
+      expect(() => render(<PhysicalInstancesDataTable {...propsWithoutRowClick} />)).not.toThrow();
     });
 
     it("should render without onDeleteClick callback", () => {
@@ -223,12 +219,7 @@ describe("PhysicalInstancesDataTable", () => {
         },
       ];
 
-      render(
-        <PhysicalInstancesDataTable
-          {...defaultProps}
-          variables={variablesWithISODates}
-        />,
-      );
+      render(<PhysicalInstancesDataTable {...defaultProps} variables={variablesWithISODates} />);
 
       expect(screen.getByText("15/03/2024")).toBeInTheDocument();
     });
@@ -244,12 +235,7 @@ describe("PhysicalInstancesDataTable", () => {
         },
       ];
 
-      render(
-        <PhysicalInstancesDataTable
-          {...defaultProps}
-          variables={variablesWithEmptyDate}
-        />,
-      );
+      render(<PhysicalInstancesDataTable {...defaultProps} variables={variablesWithEmptyDate} />);
 
       // Should not throw and should render the table
       expect(screen.getByText("Variable1")).toBeInTheDocument();
@@ -259,10 +245,7 @@ describe("PhysicalInstancesDataTable", () => {
   describe("Unsaved variables styling", () => {
     it("should apply italic styling to unsaved variables", () => {
       const { container } = render(
-        <PhysicalInstancesDataTable
-          {...defaultProps}
-          unsavedVariableIds={["1"]}
-        />,
+        <PhysicalInstancesDataTable {...defaultProps} unsavedVariableIds={["1"]} />,
       );
 
       // The rowClassName function is called internally by DataTable
@@ -272,10 +255,7 @@ describe("PhysicalInstancesDataTable", () => {
 
     it("should not apply italic styling when no unsaved variables", () => {
       const { container } = render(
-        <PhysicalInstancesDataTable
-          {...defaultProps}
-          unsavedVariableIds={[]}
-        />,
+        <PhysicalInstancesDataTable {...defaultProps} unsavedVariableIds={[]} />,
       );
 
       expect(container).toBeInTheDocument();
@@ -300,13 +280,9 @@ describe("PhysicalInstancesDataTable", () => {
     });
 
     it("should update count when variables change", () => {
-      const { rerender } = render(
-        <PhysicalInstancesDataTable {...defaultProps} />,
-      );
+      const { rerender } = render(<PhysicalInstancesDataTable {...defaultProps} />);
 
-      expect(screen.getByTestId("datatable-header")).toHaveTextContent(
-        "Total: 2 variables",
-      );
+      expect(screen.getByTestId("datatable-header")).toHaveTextContent("Total: 2 variables");
 
       const moreVariables = [
         ...mockVariables,
@@ -319,16 +295,9 @@ describe("PhysicalInstancesDataTable", () => {
         },
       ];
 
-      rerender(
-        <PhysicalInstancesDataTable
-          {...defaultProps}
-          variables={moreVariables}
-        />,
-      );
+      rerender(<PhysicalInstancesDataTable {...defaultProps} variables={moreVariables} />);
 
-      expect(screen.getByTestId("datatable-header")).toHaveTextContent(
-        "Total: 3 variables",
-      );
+      expect(screen.getByTestId("datatable-header")).toHaveTextContent("Total: 3 variables");
     });
   });
 });
