@@ -1,74 +1,74 @@
 .bauhaus-collapsible-panel {
-	.DraftEditor-root {
-		z-index: 0;
-	}
-	> .wilco-note > .panel {
-		> .panel-heading {
-			button {
-				width: 100%;
-				margin: 0;
-				background: transparent;
-				border: 0;
-				text-align: left;
+  .DraftEditor-root {
+    z-index: 0;
+  }
+  > .wilco-note > .panel {
+    > .panel-heading {
+      button {
+        width: 100%;
+        margin: 0;
+        background: transparent;
+        border: 0;
+        text-align: left;
 
-				.glyphicon {
-					float: right;
-				}
-			}
-		}
+        .glyphicon {
+          float: right;
+        }
+      }
+    }
 
-		> .panel-body {
-			padding: 0;
+    > .panel-body {
+      padding: 0;
 
-			.wilco-table {
-				margin: 0;
-				display: block;
-				label {
-					margin: 0;
-				}
-				input {
-					border-radius: 0;
-					width: 100%;
-					margin: 0;
-				}
-				button {
-					border: none;
-					background: transparent;
-				}
-				table {
-					border: 0;
-					margin: 0;
+      .wilco-table {
+        margin: 0;
+        display: block;
+        label {
+          margin: 0;
+        }
+        input {
+          border-radius: 0;
+          width: 100%;
+          margin: 0;
+        }
+        button {
+          border: none;
+          background: transparent;
+        }
+        table {
+          border: 0;
+          margin: 0;
 
-					thead {
-						background: transparent;
-						color: black;
-						font-weight: normal;
-					}
-					td {
-						text-align: left !important;
-					}
+          thead {
+            background: transparent;
+            color: black;
+            font-weight: normal;
+          }
+          td {
+            text-align: left !important;
+          }
 
-					button {
-						padding: 0;
-						width: 2em;
-					}
-				}
-			}
-		}
-	}
+          button {
+            padding: 0;
+            width: 2em;
+          }
+        }
+      }
+    }
+  }
 
-	.wilco-page-title__block {
-		h1 {
-			margin-top: 20px;
-			margin-bottom: 20px;
-		}
-	}
-	.container {
-		width: 100%;
-	}
+  .wilco-page-title__block {
+    h1 {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+  .container {
+    width: 100%;
+  }
 
-	#add-component {
-		display: inline-block;
-		width: auto;
-	}
+  #add-component {
+    display: inline-block;
+    width: auto;
+  }
 }

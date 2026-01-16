@@ -1,33 +1,33 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { describe, it, vi } from 'vitest';
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, it, vi } from "vitest";
 
-import { YearInput } from './year';
+import { YearInput } from "./year";
 
-describe('YearInput Component', () => {
-	it('renders the label and NumberInput inside a Row', () => {
-		const mockOnChange = vi.fn();
+describe("YearInput Component", () => {
+  it("renders the label and NumberInput inside a Row", () => {
+    const mockOnChange = vi.fn();
 
-		render(<YearInput value="2024" onChange={mockOnChange} />);
+    render(<YearInput value="2024" onChange={mockOnChange} />);
 
-		const label = screen.getByText('Year');
-		expect(label.getAttribute('for')).toBe('year');
+    const label = screen.getByText("Year");
+    expect(label.getAttribute("for")).toBe("year");
 
-		const numberInput = screen.getByRole('textbox') as HTMLInputElement;
-		expect(numberInput.getAttribute('id')).toBe('year');
-		expect(numberInput.value).toBe('2024');
-	});
+    const numberInput = screen.getByRole("textbox") as HTMLInputElement;
+    expect(numberInput.getAttribute("id")).toBe("year");
+    expect(numberInput.value).toBe("2024");
+  });
 
-	it('calls onChange when the NumberInput value changes', async () => {
-		const mockOnChange = vi.fn();
-		const user = userEvent.setup();
+  it("calls onChange when the NumberInput value changes", async () => {
+    const mockOnChange = vi.fn();
+    const user = userEvent.setup();
 
-		render(<YearInput value="" onChange={mockOnChange} />);
+    render(<YearInput value="" onChange={mockOnChange} />);
 
-		const numberInput = screen.getByRole('textbox') as HTMLInputElement;
+    const numberInput = screen.getByRole("textbox") as HTMLInputElement;
 
-		await user.type(numberInput, '2025');
+    await user.type(numberInput, "2025");
 
-		expect(mockOnChange).toHaveBeenCalledTimes(4);
-	});
+    expect(mockOnChange).toHaveBeenCalledTimes(4);
+  });
 });

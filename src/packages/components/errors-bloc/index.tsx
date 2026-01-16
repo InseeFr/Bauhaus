@@ -1,6 +1,6 @@
-import NewDictionnary from '../../i18n';
-import D from '../../i18n';
-import './errors-bloc.css';
+import NewDictionnary from "../../i18n";
+import D from "../../i18n";
+import "./errors-bloc.css";
 
 /**
  * Component used next to an form input.
@@ -8,89 +8,76 @@ import './errors-bloc.css';
  * error of the corresponding input.
  */
 export const ClientSideError = ({
-	error,
-	id,
+  error,
+  id,
 }: Readonly<{
-	error?: string;
-	id: string;
+  error?: string;
+  id: string;
 }>) => {
-	if (!error) {
-		return null;
-	}
-	return (
-		<div
-			id={id}
-			className="text-danger"
-			dangerouslySetInnerHTML={{ __html: error }}
-		></div>
-	);
+  if (!error) {
+    return null;
+  }
+  return <div id={id} className="text-danger" dangerouslySetInnerHTML={{ __html: error }}></div>;
 };
 
 export const GlobalClientSideErrorBloc = ({
-	clientSideErrors,
+  clientSideErrors,
 }: Readonly<{
-	clientSideErrors?: string[];
+  clientSideErrors?: string[];
 }>) => {
-	if (!clientSideErrors) {
-		return null;
-	}
-	return clientSideErrors.length > 0 ? (
-		<div className="bauhaus-error-bloc alert alert-danger" role="alert">
-			{(
-				<div
-					dangerouslySetInnerHTML={{
-						__html: D.errors.globalClientSideErrorBloc,
-					}}
-				/>
-			) || <span style={{ whiteSpace: 'pre-wrap' }}> </span>}
-		</div>
-	) : null;
+  if (!clientSideErrors) {
+    return null;
+  }
+  return clientSideErrors.length > 0 ? (
+    <div className="bauhaus-error-bloc alert alert-danger" role="alert">
+      {(
+        <div
+          dangerouslySetInnerHTML={{
+            __html: D.errors.globalClientSideErrorBloc,
+          }}
+        />
+      ) || <span style={{ whiteSpace: "pre-wrap" }}> </span>}
+    </div>
+  ) : null;
 };
 
 export const ErrorBloc = ({ error, D }: { error?: unknown; D?: any }) => {
-	if (!error) {
-		return null;
-	}
+  if (!error) {
+    return null;
+  }
 
-	const errors = Array.isArray(error) ? error : [error];
+  const errors = Array.isArray(error) ? error : [error];
 
-	const formattedErrors = errors
-		.filter((e) => !!e)
-		.map((e) => {
-			let errorMsg;
-			try {
-				const parsedError =
-					e !== null && typeof e === 'object' ? e : JSON.parse(e);
+  const formattedErrors = errors
+    .filter((e) => !!e)
+    .map((e) => {
+      let errorMsg;
+      try {
+        const parsedError = e !== null && typeof e === "object" ? e : JSON.parse(e);
 
-				if (parsedError.code && D.errors[parsedError.code]) {
-					errorMsg = D.errors[parsedError.code](parsedError);
-				} else if (parsedError.message && D.errors[parsedError.message]) {
-					errorMsg = D.errors[parsedError.message](parsedError);
-				} else if (parsedError.status === 500) {
-					errorMsg = NewDictionnary.errors.serversideErrors['500'](
-						parsedError.message,
-					);
-				} else {
-					errorMsg = parsedError.message;
-				}
-			} catch {
-				errorMsg = e;
-			}
-			return errorMsg;
-		});
-	return (
-		<>
-			{formattedErrors.map((e, index) => (
-				<div
-					key={index}
-					className="bauhaus-error-bloc alert alert-danger"
-					role="alert"
-				>
-					{<div dangerouslySetInnerHTML={{ __html: e }} /> || (
-						<span style={{ whiteSpace: 'pre-wrap' }}> </span>
-					)}
-				</div>
-			))}
-		</>
-	);
+        if (parsedError.code && D.errors[parsedError.code]) {
+          errorMsg = D.errors[parsedError.code](parsedError);
+        } else if (parsedError.message && D.errors[parsedError.message]) {
+          errorMsg = D.errors[parsedError.message](parsedError);
+        } else if (parsedError.status === 500) {
+          errorMsg = NewDictionnary.errors.serversideErrors["500"](parsedError.message);
+        } else {
+          errorMsg = parsedError.message;
+        }
+      } catch {
+        errorMsg = e;
+      }
+      return errorMsg;
+    });
+  return (
+    <>
+      {formattedErrors.map((e, index) => (
+        <div key={index} className="bauhaus-error-bloc alert alert-danger" role="alert">
+          {<div dangerouslySetInnerHTML={{ __html: e }} /> || (
+            <span style={{ whiteSpace: "pre-wrap" }}> </span>
+          )}
+        </div>
+      ))}
+    </>
+  );
 };

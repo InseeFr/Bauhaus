@@ -1,116 +1,127 @@
-import { PropsWithChildren } from 'react';
-import { useSelector } from 'react-redux';
+import { PropsWithChildren } from "react";
 
-import {
-	MODULE,
-	Privilege,
-	PRIVILEGE,
-	usePrivileges,
-} from '@utils/hooks/users';
+import { MODULE, Privilege, PRIVILEGE, usePrivileges, useUserStamps } from "@utils/hooks/users";
 
-import { AppName } from '../../application/app-context';
-import { ReduxModel } from '../../redux/model';
-import { getPermission } from '../../redux/selectors';
+import { AppName } from "../../application/app-context";
 
 export type RoleCheck = string | [string, (value: string) => boolean];
 export type RoleChecks = RoleCheck[];
 
-export const hasAccessToModule = (
-	module: AppName,
-	privileges: Privilege[] | undefined,
-) => {
-	if (!privileges || privileges.length === 0) {
-		return false;
-	}
+export const hasAccessToModule = (module: AppName, privileges: Privilege[] | undefined) => {
+  if (!privileges || privileges.length === 0) {
+    return false;
+  }
 
-	const modulePrefixMap: Record<AppName, string> = {
-		concepts: 'CONCEPT',
-		classifications: 'CLASSIFICATION',
-		operations: 'OPERATION',
-		structures: 'STRUCTURE',
-		codelists: 'CODESLIST',
-		datasets: 'DATASET',
-		ddi: 'DDI',
-	};
+  const modulePrefixMap: Record<AppName, string> = {
+    concepts: "CONCEPT",
+    classifications: "CLASSIFICATION",
+    operations: "OPERATION",
+    structures: "STRUCTURE",
+    codelists: "CODESLIST",
+    datasets: "DATASET",
+    ddi: "DDI",
+  };
 
-	const applicationPrefix = modulePrefixMap[module];
-	if (!applicationPrefix) {
-		return false;
-	}
+  const applicationPrefix = modulePrefixMap[module];
+  if (!applicationPrefix) {
+    return false;
+  }
 
-	return privileges.some(
-		(p) =>
-			p.application.startsWith(applicationPrefix) &&
-			p.privileges.some((priv) => priv.strategy !== 'NONE'),
-	);
+  return privileges.some(
+    (p) =>
+      p.application.startsWith(applicationPrefix) &&
+      p.privileges.some((priv) => priv.strategy !== "NONE"),
+  );
 };
 
 export interface AuthorizationGuardOptions {
-	module: MODULE;
-	privilege: PRIVILEGE;
-	stamps?: string[];
-	complementaryCheck?: boolean;
-	check?: (stamp: string) => boolean;
+  module: MODULE;
+  privilege: PRIVILEGE;
+  stamps?: string[];
+  complementaryCheck?: boolean;
+  check?: (stamp: string) => boolean;
 }
 
+interface UserStamp {
+  stamp: string;
+}
+
+const findPrivilegeForModule = (privileges: Privilege[], module: MODULE, privilege: PRIVILEGE) => {
+  const currentModule = privileges.find((d) => d.application === module);
+  return currentModule?.privileges.find((p) => p.privilege === privilege);
+};
+
+const hasStampAccess = (
+  userStamps: UserStamp[],
+  allowedStamps: string[],
+  complementaryCheck: boolean,
+  check: (stamp: string) => boolean,
+): boolean => {
+  if (allowedStamps.length === 0) {
+    return userStamps.some((userStamp) => complementaryCheck && check(userStamp.stamp));
+  }
+  return userStamps.some(
+    (userStamp) =>
+      allowedStamps.includes(userStamp.stamp) && complementaryCheck && check(userStamp.stamp),
+  );
+};
+
 export const useAuthorizationGuard = ({
-	module,
-	privilege,
-	stamps: stampsProps = [],
-	complementaryCheck = true,
-	check = () => true,
+  module,
+  privilege,
+  stamps: stampsProps = [],
+  complementaryCheck = true,
+  check = () => true,
 }: AuthorizationGuardOptions): boolean => {
-	const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
+  const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
 
-	const { privileges } = usePrivileges();
-	const { stamp } = useSelector((state: ReduxModel) => getPermission(state));
+  const { privileges } = usePrivileges();
+  const { data: userStamps = [] } = useUserStamps();
 
-	if (!privileges) {
-		return false;
-	}
+  if (!privileges) {
+    return false;
+  }
 
-	const currentModule = privileges.find((d) => d.application === module);
-	const currentPrivilege = currentModule?.privileges.find(
-		(p) => p.privilege === privilege,
-	);
+  const currentPrivilege = findPrivilegeForModule(privileges, module, privilege);
 
-	const isAuthorized =
-		currentPrivilege?.strategy === 'ALL' ||
-		(currentPrivilege?.strategy === 'STAMP' &&
-			(stamps.includes(stamp) || stamps.length === 0) &&
-			complementaryCheck &&
-			check(stamp));
+  if (currentPrivilege?.strategy === "ALL") {
+    return true;
+  }
 
-	return isAuthorized;
+  if (currentPrivilege?.strategy === "STAMP") {
+    return hasStampAccess(userStamps, stamps, complementaryCheck, check);
+  }
+
+  return false;
 };
 
 export const HasAccess = ({
-	children,
-	module,
-	privilege,
-	stamps = [],
-	complementaryCheck = true,
-	check = () => true,
+  children,
+  module,
+  privilege,
+  stamps = [],
+  complementaryCheck = true,
+  check = () => true,
 }: Readonly<
-	PropsWithChildren<{
-		module: MODULE;
-		privilege: PRIVILEGE;
-		fallback?: any;
-		complementaryCheck?: boolean;
-		stamps?: string[];
-		check?: (stamp: string) => boolean;
-	}>
+  PropsWithChildren<{
+    module: MODULE;
+    privilege: PRIVILEGE;
+    fallback?: any;
+    complementaryCheck?: boolean;
+    stamps?: string[];
+    check?: (stamp: string) => boolean;
+  }>
 >) => {
-	const isAuthorized = useAuthorizationGuard({
-		module,
-		privilege,
-		stamps,
-		complementaryCheck,
-		check,
-	});
+  const isAuthorized = useAuthorizationGuard({
+    module,
+    privilege,
+    stamps,
+    complementaryCheck,
+    check,
+  });
 
-	if (!isAuthorized) {
-		return null;
-	}
-	return children;
+  if (!isAuthorized) {
+    return null;
+  }
+  return children;
 };

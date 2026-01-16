@@ -1,22 +1,22 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export const OutlineButtonWithScroll = ({ id, baseUrl, children }) => {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-	const scrollTo = () => {
-		const url = `${baseUrl}#${id}`;
-		navigate(url, { replace: true });
-		setTimeout(() => {
-			document.getElementById(id).scrollIntoView({
-				behavior: 'smooth',
-				block: 'center',
-			});
-		}, 500);
-	};
+  const scrollTo = () => {
+    const url = `${baseUrl}#${id}`;
+    navigate(url, { replace: true });
+    setTimeout(() => {
+      document.getElementById(id).scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 500);
+  };
 
-	return (
-		<button type="button" className="btn-link btn" onClick={scrollTo}>
-			{children}
-		</button>
-	);
+  return (
+    <button type="button" className="btn-link btn" onClick={scrollTo}>
+      {children}
+    </button>
+  );
 };

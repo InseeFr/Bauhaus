@@ -1,14 +1,14 @@
-import { ValidationState } from '@components/status';
+import { ValidationState } from "@components/status";
 
 export interface Indicator {
-	id: string;
-	idSims: string;
-	validationState: ValidationState;
-	creators: string[];
+  id: string;
+  idSims: string;
+  validationState: ValidationState;
+  creators: string[];
 }
 
 export type IndicatorsList = {
-	altLabel: string;
-	id: string;
-	label: string;
+  altLabel: string;
+  id: string;
+  label: string;
 }[];

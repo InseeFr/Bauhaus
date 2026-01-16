@@ -1,71 +1,71 @@
 @mixin list-item-separator($color) {
-	content: '';
-	height: 60%;
-	width: 1px;
-	position: absolute;
-	right: 0;
-	top: 20%;
-	background-color: $color;
+  content: "";
+  height: 60%;
+  width: 1px;
+  position: absolute;
+  right: 0;
+  top: 20%;
+  background-color: $color;
 }
 
 @media screen and (max-width: 767px) {
-	.navbar-primary {
-		.container-fluid {
-			padding-right: 0;
-			padding-left: 0;
-		}
-	}
-	.navbar-nav {
-		margin: 0;
-	}
+  .navbar-primary {
+    .container-fluid {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+  .navbar-nav {
+    margin: 0;
+  }
 }
 @media screen and (min-width: 767px) {
-	.navbar-primary {
-		.with-separator::after {
-			@include list-item-separator(white);
-		}
-	}
+  .navbar-primary {
+    .with-separator::after {
+      @include list-item-separator(white);
+    }
+  }
 }
 
 .navbar-primary {
-	background: var(--color-3);
-	font-size: 15.3pt;
-	color: #cccfd9;
-	line-height: 20px;
-	margin-bottom: 0;
-	border-radius: 0;
-	border: 0;
+  background: var(--color-3);
+  font-size: 15.3pt;
+  color: #cccfd9;
+  line-height: 20px;
+  margin-bottom: 0;
+  border-radius: 0;
+  border: 0;
 
-	.collapse {
-		display: block;
-	}
+  .collapse {
+    display: block;
+  }
 
-	.navbar-nav {
-		> li {
-			padding: 0 10px;
-			&:hover,
-			&.active {
-				background: var(--color-2);
-				margin-left: -1px;
+  .navbar-nav {
+    > li {
+      padding: 0 10px;
+      &:hover,
+      &.active {
+        background: var(--color-2);
+        margin-left: -1px;
 
-				> a,
-				> button {
-					color: red;
-					background: none;
-					&:focus,
-					&:hover {
-						background: none;
-					}
-				}
-				&::after {
-					@include list-item-separator(transparent);
-				}
-			}
-			a {
-				color: white !important;
-				border: 0;
-				text-decoration: none;
-			}
-		}
-	}
+        > a,
+        > button {
+          color: red;
+          background: none;
+          &:focus,
+          &:hover {
+            background: none;
+          }
+        }
+        &::after {
+          @include list-item-separator(transparent);
+        }
+      }
+      a {
+        color: white !important;
+        border: 0;
+        text-decoration: none;
+      }
+    }
+  }
 }

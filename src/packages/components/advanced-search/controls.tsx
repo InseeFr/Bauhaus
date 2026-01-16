@@ -1,15 +1,15 @@
-import { ActionToolbar } from '../action-toolbar';
-import { ResetButton, ReturnButton } from '../buttons/buttons-with-icons';
+import { ActionToolbar } from "../action-toolbar";
+import { ResetButton, ReturnButton } from "../buttons/buttons-with-icons";
 
 export const AdvancedSearchControls = ({
-	onClickReturn,
-	initializeState,
+  onClickReturn,
+  initializeState,
 }: Readonly<{
-	onClickReturn: any;
-	initializeState: any;
+  onClickReturn: any;
+  initializeState: any;
 }>) => (
-	<ActionToolbar>
-		<ReturnButton action={onClickReturn} />
-		<ResetButton action={initializeState} />
-	</ActionToolbar>
+  <ActionToolbar>
+    <ReturnButton action={onClickReturn} />
+    <ResetButton action={initializeState} />
+  </ActionToolbar>
 );

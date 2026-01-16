@@ -1,30 +1,25 @@
-import {
-	createDictionary,
-	firstLang,
-	getLang,
-	secondLang,
-} from '@utils/dictionnary';
+import { createDictionary, firstLang, getLang, secondLang } from "@utils/dictionnary";
 
-import appD from './dictionary/app';
-import classificationsD from './dictionary/classifications';
-import codelistsD from './dictionary/codelists';
-import conceptsD from './dictionary/concepts';
-import datasets from './dictionary/datasets';
-import DSDsD from './dictionary/dsds';
-import errors from './dictionary/errors';
-import operationsD from './dictionary/operations';
-import { dictionary as DDIDictionary } from './dictionary/ddi';
+import appD from "./dictionary/app";
+import classificationsD from "./dictionary/classifications";
+import codelistsD from "./dictionary/codelists";
+import conceptsD from "./dictionary/concepts";
+import datasets from "./dictionary/datasets";
+import DSDsD from "./dictionary/dsds";
+import errors from "./dictionary/errors";
+import operationsD from "./dictionary/operations";
+import { dictionary as DDIDictionary } from "./dictionary/ddi";
 
 const dictionary = {
-	...appD,
-	...conceptsD,
-	...classificationsD,
-	...operationsD,
-	...DSDsD,
-	...codelistsD,
-	...errors,
-	...datasets,
-	...DDIDictionary,
+  ...appD,
+  ...conceptsD,
+  ...classificationsD,
+  ...operationsD,
+  ...DSDsD,
+  ...codelistsD,
+  ...errors,
+  ...datasets,
+  ...DDIDictionary,
 };
 
 export const D1 = createDictionary(firstLang, dictionary);

@@ -1,2 +1,2 @@
-declare module 'react-modal';
-declare module 'draft-js';
+declare module "react-modal";
+declare module "draft-js";

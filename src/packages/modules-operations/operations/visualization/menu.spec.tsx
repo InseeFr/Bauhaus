@@ -1,158 +1,155 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import { Operation } from '../../../model/Operation';
-import { RBACMock } from '../../../tests/rbac';
-import { mockReactQueryForRbac } from '../../../tests/render';
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe('Family Home Page Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
+import { Operation } from "../../../model/Operation";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
-	it('can see the Back button', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_OPERATION',
-				privileges: [],
-			},
-		]);
-		const { Menu } = await import('./menu');
+describe("Family Home Page Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
 
-		render(
-			<RBACMock>
-				<Menu
-					operation={{ series: { creators: [] } } as unknown as Operation}
-					onPublish={vi.fn()}
-				/>
-			</RBACMock>,
-		);
+  it("can see the Back button", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_OPERATION,
+        privileges: [],
+      },
+    ]);
+    const { Menu } = await import("./menu");
 
-		screen.getByText('Back');
-	});
+    render(
+      <WithRouter>
+        <Menu
+          operation={{ series: { creators: [] } } as unknown as Operation}
+          onPublish={vi.fn()}
+        />
+      </WithRouter>,
+    );
 
-	it('can see the Sims View button if exists', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_OPERATION',
-				privileges: [],
-			},
-		]);
-		const { Menu } = await import('./menu');
+    screen.getByText("Back");
+  });
 
-		render(
-			<RBACMock>
-				<Menu
-					operation={
-						{ series: { creators: [] }, idSims: '1' } as unknown as Operation
-					}
-					onPublish={vi.fn()}
-				/>
-			</RBACMock>,
-		);
+  it("can see the Sims View button if exists", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_OPERATION,
+        privileges: [],
+      },
+    ]);
+    const { Menu } = await import("./menu");
 
-		screen.getByText('Show the report');
-	});
-	it('can not see the Sims View button if undefined', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_OPERATION',
-				privileges: [],
-			},
-		]);
-		const { Menu } = await import('./menu');
-		render(
-			<RBACMock>
-				<Menu
-					operation={{ series: { creators: [] } } as unknown as Operation}
-					onPublish={vi.fn()}
-				/>
-			</RBACMock>,
-		);
+    render(
+      <WithRouter>
+        <Menu
+          operation={{ series: { creators: [] }, idSims: "1" } as unknown as Operation}
+          onPublish={vi.fn()}
+        />
+      </WithRouter>,
+    );
 
-		expect(screen.queryByText('Show the report')).toBeNull();
-	});
-	it('can see the Sims Create button if undefined', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_SIMS',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
-		const { Menu } = await import('./menu');
+    screen.getByText("Show the report");
+  });
+  it("can not see the Sims View button if undefined", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_OPERATION,
+        privileges: [],
+      },
+    ]);
+    const { Menu } = await import("./menu");
+    render(
+      <WithRouter>
+        <Menu
+          operation={{ series: { creators: [] } } as unknown as Operation}
+          onPublish={vi.fn()}
+        />
+      </WithRouter>,
+    );
 
-		render(
-			<RBACMock>
-				<Menu
-					operation={{ series: { creators: [] } } as unknown as Operation}
-					onPublish={vi.fn()}
-				/>
-			</RBACMock>,
-		);
+    expect(screen.queryByText("Show the report")).toBeNull();
+  });
+  it("can see the Sims Create button if undefined", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_SIMS,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+      },
+    ]);
+    const { Menu } = await import("./menu");
 
-		screen.getByText('Create the report');
-	});
-	it('can not see the Sims View button if defined', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_SIMS',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
-		const { Menu } = await import('./menu');
+    render(
+      <WithRouter>
+        <Menu
+          operation={{ series: { creators: [] } } as unknown as Operation}
+          onPublish={vi.fn()}
+        />
+      </WithRouter>,
+    );
 
-		render(
-			<RBACMock>
-				<Menu
-					operation={
-						{ series: { creators: [] }, idSims: '1' } as unknown as Operation
-					}
-					onPublish={vi.fn()}
-				/>
-			</RBACMock>,
-		);
+    screen.getByText("Create the report");
+  });
+  it("can not see the Sims View button if defined", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_SIMS,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+      },
+    ]);
+    const { Menu } = await import("./menu");
 
-		expect(screen.queryByText('Create the report')).toBeNull();
-	});
+    render(
+      <WithRouter>
+        <Menu
+          operation={{ series: { creators: [] }, idSims: "1" } as unknown as Operation}
+          onPublish={vi.fn()}
+        />
+      </WithRouter>,
+    );
 
-	it('can see the Publish button', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_OPERATION',
-				privileges: [{ privilege: 'PUBLISH', strategy: 'ALL' }],
-			},
-		]);
-		const { Menu } = await import('./menu');
-		render(
-			<RBACMock>
-				<Menu
-					operation={{ series: { creators: [] } } as unknown as Operation}
-					onPublish={vi.fn()}
-				/>
-			</RBACMock>,
-		);
+    expect(screen.queryByText("Create the report")).toBeNull();
+  });
 
-		screen.getByText('Publish');
-	});
+  it("can see the Publish button", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_OPERATION,
+        privileges: [{ privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL }],
+      },
+    ]);
+    const { Menu } = await import("./menu");
+    render(
+      <WithRouter>
+        <Menu
+          operation={{ series: { creators: [] } } as unknown as Operation}
+          onPublish={vi.fn()}
+        />
+      </WithRouter>,
+    );
 
-	it('can see the Update', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_OPERATION',
-				privileges: [{ privilege: 'UPDATE', strategy: 'ALL' }],
-			},
-		]);
-		const { Menu } = await import('./menu');
+    screen.getByText("Publish");
+  });
 
-		render(
-			<RBACMock>
-				<Menu
-					operation={{ series: { creators: [] } } as unknown as Operation}
-					onPublish={vi.fn()}
-				/>
-			</RBACMock>,
-		);
+  it("can see the Update", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_OPERATION,
+        privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL }],
+      },
+    ]);
+    const { Menu } = await import("./menu");
 
-		screen.getByText('Update');
-	});
+    render(
+      <WithRouter>
+        <Menu
+          operation={{ series: { creators: [] } } as unknown as Operation}
+          onPublish={vi.fn()}
+        />
+      </WithRouter>,
+    );
+
+    screen.getByText("Update");
+  });
 });

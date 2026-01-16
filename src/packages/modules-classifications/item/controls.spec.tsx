@@ -1,22 +1,23 @@
-import { render } from '@testing-library/react';
+import { render } from "@testing-library/react";
 
-import { RBACMock } from '../../tests/rbac';
-import { mockReactQueryForRbac } from '../../tests/render';
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe('classification-item-controls', () => {
-	it('renders without crashing', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'CONCEPT_CONCEPT',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
+import { mockReactQueryForRbac, WithRouter } from "../../tests/render";
 
-		const { default: Controls } = await import('./controls');
-		render(
-			<RBACMock>
-				<Controls classificationId="nafr2" itemId="A" version={1} />
-			</RBACMock>,
-		);
-	});
+describe("classification-item-controls", () => {
+  it("renders without crashing", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.CONCEPT_CONCEPT,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+      },
+    ]);
+
+    const { default: Controls } = await import("./controls");
+    render(
+      <WithRouter>
+        <Controls classificationId="nafr2" itemId="A" version={1} />
+      </WithRouter>,
+    );
+  });
 });

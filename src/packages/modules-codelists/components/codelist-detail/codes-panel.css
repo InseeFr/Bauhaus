@@ -1,14 +1,14 @@
 #add-code {
-	display: inline-block;
-	width: auto;
+  display: inline-block;
+  width: auto;
 }
 
 #code-edit-panel {
-	margin: auto;
-	width: 95%;
+  margin: auto;
+  width: 95%;
 }
 
 #code-panelbody thead button {
-	border: none;
-	background: transparent;
+  border: none;
+  background: transparent;
 }

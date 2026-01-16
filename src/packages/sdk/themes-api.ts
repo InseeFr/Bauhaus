@@ -1,9 +1,9 @@
-import { Theme } from '../model/theme';
-import { buildApi } from './build-api';
+import { Theme } from "../model/theme";
+import { buildApi } from "./build-api";
 
 interface ThemesApiType {
-	getThemes: () => Promise<Theme[]>;
+  getThemes: () => Promise<Theme[]>;
 }
-export const ThemesApi = buildApi('themes', {
-	getThemes: () => [''],
+export const ThemesApi = buildApi("themes", {
+  getThemes: () => [""],
 }) as unknown as ThemesApiType;

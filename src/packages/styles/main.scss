@@ -2,139 +2,139 @@
 * we tried to respect the ITCSS architecture for our stylessheets
 */
 
-@use 'settings.scss';
-@use 'tools.scss';
-@use 'generic.scss';
-@use 'elements.scss';
-@use 'components.scss';
-@use 'utilities.scss';
+@use "settings.scss";
+@use "tools.scss";
+@use "generic.scss";
+@use "elements.scss";
+@use "components.scss";
+@use "utilities.scss";
 
 .items {
-	display: inline-block;
-	width: 15%;
-	margin-left: 5%;
-	margin-right: 5%;
-	margin-top: 10%;
+  display: inline-block;
+  width: 15%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 10%;
 }
 
 img.img-flag {
-	height: 20px !important;
-	width: auto !important;
-	margin: 0 !important;
+  height: 20px !important;
+  width: auto !important;
+  margin: 0 !important;
 }
 
 @media (max-width: 1000px) {
-	.operations-list {
-		width: 100%;
-	}
+  .operations-list {
+    width: 100%;
+  }
 }
 
 .list-group-item {
-	text-align: left;
+  text-align: left;
 }
 
 .nav-tabs > li {
-	border: 1px solid var(--color-3);
+  border: 1px solid var(--color-3);
 }
 .nav-tabs.nav-justified > li > a {
-	border-bottom: none;
+  border-bottom: none;
 }
 .nav-tabs > li > a:hover {
-	background-color: var(--color-2) !important;
-	color: #fff !important;
+  background-color: var(--color-2) !important;
+  color: #fff !important;
 }
 .nav-tabs > li.active > a {
-	background-color: var(--color-3) !important;
-	color: #fff !important;
+  background-color: var(--color-3) !important;
+  color: #fff !important;
 }
 .nav-tabs > li > a:focus {
-	background-color: var(--color-3) !important;
-	color: #fff;
+  background-color: var(--color-3) !important;
+  color: #fff;
 }
 
 .boldWhite {
-	color: white;
-	font-weight: bold;
-	font-size: 25px;
+  color: white;
+  font-weight: bold;
+  font-size: 25px;
 }
 
 .editor-container {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 .row.flex {
-	display: flex;
-	flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
-.row.flex [class*='col-'] {
-	display: flex;
-	flex-direction: column;
+.row.flex [class*="col-"] {
+  display: flex;
+  flex-direction: column;
 }
 
 footer {
-	p {
-		color: #0b0b55;
-		font-weight: bold;
-	}
+  p {
+    color: #0b0b55;
+    font-weight: bold;
+  }
 }
 
 .dropzone {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 20px;
-	border-width: 2px;
-	border-radius: 2px;
-	border-color: #eee;
-	border-style: dashed;
-	background-color: #fafafa;
-	color: #bdbdbd;
-	outline: none;
-	transition: border 0.24s ease-in-out;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #eee;
+  border-style: dashed;
+  background-color: #fafafa;
+  color: #bdbdbd;
+  outline: none;
+  transition: border 0.24s ease-in-out;
 }
 
 .modal-header {
-	color: white;
-	background: var(--color-3);
-	.close {
-		opacity: 1;
-		color: white;
-	}
+  color: white;
+  background: var(--color-3);
+  .close {
+    opacity: 1;
+    color: white;
+  }
 }
 
 .wilco-action-toolbar {
-	position: -webkit-sticky;
-	position: sticky;
-	top: 0;
-	z-index: 10;
-	display: flex;
-	margin: 1em 0;
-	gap: 1em;
-	justify-content: space-between;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  margin: 1em 0;
+  gap: 1em;
+  justify-content: space-between;
 
-	> * {
-		max-width: 250px;
-	}
+  > * {
+    max-width: 250px;
+  }
 }
 .ReactModal__Overlay {
-	z-index: 20;
+  z-index: 20;
 }
 
 .DraftEditor-root {
-	max-height: 100px;
-	overflow: scroll;
+  max-height: 100px;
+  overflow: scroll;
 }
 
 .sr-only {
-	position: absolute;
-	top: 0;
-	left: -3000px;
+  position: absolute;
+  top: 0;
+  left: -3000px;
 }
 .form-control {
-	font-size: inherit !important;
+  font-size: inherit !important;
 }
 
 .wmde-markdown {
-	font-size: unset !important;
+  font-size: unset !important;
 }

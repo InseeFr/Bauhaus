@@ -1,40 +1,40 @@
 .equivalentLinks {
-	button {
-		padding: 0.5em 2em;
-		margin: 0 0 0 1em;
-		align-self: flex-end;
-	}
-	ul {
-		margin-top: 1em;
-		padding: 0px;
-		li {
-			display: flex;
-			span {
-				flex: 1;
-			}
+  button {
+    padding: 0.5em 2em;
+    margin: 0 0 0 1em;
+    align-self: flex-end;
+  }
+  ul {
+    margin-top: 1em;
+    padding: 0px;
+    li {
+      display: flex;
+      span {
+        flex: 1;
+      }
 
-			button {
-				border: none;
-				margin: 0;
-				padding: 0;
-				width: auto;
-				overflow: visible;
-				background: transparent;
-				color: inherit;
-				font: inherit;
-				line-height: normal;
-				-webkit-font-smoothing: inherit;
-				-moz-osx-font-smoothing: inherit;
-				-webkit-appearance: none;
-				appearance: none;
-			}
-		}
-	}
-	.col-md-12 {
-		display: flex;
-		.form-group {
-			flex: 1;
-			margin-bottom: 0;
-		}
-	}
+      button {
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        overflow: visible;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        line-height: normal;
+        -webkit-font-smoothing: inherit;
+        -moz-osx-font-smoothing: inherit;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+    }
+  }
+  .col-md-12 {
+    display: flex;
+    .form-group {
+      flex: 1;
+      margin-bottom: 0;
+    }
+  }
 }

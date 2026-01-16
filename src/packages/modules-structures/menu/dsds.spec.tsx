@@ -1,8 +1,8 @@
-import MenuDSDs from '.';
-import { renderWithRouter } from '../../tests/render';
+import MenuDSDs from ".";
+import { renderWithRouter } from "../../tests/render";
 
-describe('menu-dsds', () => {
-	it('renders without crashing', () => {
-		renderWithRouter(<MenuDSDs />);
-	});
+describe("menu-dsds", () => {
+  it("renders without crashing", () => {
+    renderWithRouter(<MenuDSDs />);
+  });
 });

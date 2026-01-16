@@ -1,14 +1,14 @@
 .code-list-zone {
-	display: flex;
-	margin-top: 1em;
-	> div {
-		flex: 1;
-		margin-bottom: 0;
-	}
+  display: flex;
+  margin-top: 1em;
+  > div {
+    flex: 1;
+    margin-bottom: 0;
+  }
 
-	button {
-		padding: 0.5em 2em;
-		margin: 0 0 0 1em;
-		align-self: flex-end;
-	}
+  button {
+    padding: 0.5em 2em;
+    margin: 0 0 0 1em;
+    align-self: flex-end;
+  }
 }

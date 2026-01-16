@@ -1,42 +1,42 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { Loading, Publishing } from '@components/loading';
+import { Loading, Publishing } from "@components/loading";
 
-import { ConceptsApi } from '@sdk/index';
+import { ConceptsApi } from "@sdk/index";
 
-import { useTitle } from '@utils/hooks/useTitle';
+import { useTitle } from "@utils/hooks/useTitle";
 
-import D from '../../../deprecated-locales';
-import CollectionsToValidate from './home';
+import D from "../../../deprecated-locales";
+import CollectionsToValidate from "./home";
 
 export const Component = () => {
-	useTitle(D.collectionsTitle, D.btnValid);
+  useTitle(D.collectionsTitle, D.btnValid);
 
-	const [loading, setLoading] = useState(true);
-	const [saving, setSaving] = useState(false);
-	const [collections, setCollections] = useState([]);
-	const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [collections, setCollections] = useState([]);
+  const navigate = useNavigate();
 
-	const handleValidateCollectionList = (ids) => {
-		setSaving(true);
-		ConceptsApi.putCollectionValidList(ids)
-			.then(() => setSaving(false))
-			.finally(() => navigate('/concepts/collections'));
-	};
+  const handleValidateCollectionList = (ids) => {
+    setSaving(true);
+    ConceptsApi.putCollectionValidList(ids)
+      .then(() => setSaving(false))
+      .finally(() => navigate("/concepts/collections"));
+  };
 
-	useEffect(() => {
-		ConceptsApi.getCollectionValidateList()
-			.then(setCollections)
-			.then(() => setLoading(false));
-	}, []);
+  useEffect(() => {
+    ConceptsApi.getCollectionValidateList()
+      .then(setCollections)
+      .then(() => setLoading(false));
+  }, []);
 
-	if (saving) return <Publishing />;
-	if (loading) return <Loading />;
-	return (
-		<CollectionsToValidate
-			collections={collections}
-			handleValidateCollectionList={handleValidateCollectionList}
-		/>
-	);
+  if (saving) return <Publishing />;
+  if (loading) return <Loading />;
+  return (
+    <CollectionsToValidate
+      collections={collections}
+      handleValidateCollectionList={handleValidateCollectionList}
+    />
+  );
 };

@@ -1,16 +1,11 @@
-import {
-	createDictionary,
-	firstLang,
-	getLang,
-	secondLang,
-} from '@utils/dictionnary';
-import { Dictionary } from '@utils/types';
+import { createDictionary, firstLang, getLang, secondLang } from "@utils/dictionnary";
+import { Dictionary } from "@utils/types";
 
 const dictionary = {
-	collectionMembersPanelTitle: {
-		fr: (size: number) => `Concepts membres de la collection (${size})`,
-		en: (size: number) => `Collection concept members (${size})`,
-	},
+  collectionMembersPanelTitle: {
+    fr: (size: number) => `Concepts membres de la collection (${size})`,
+    en: (size: number) => `Collection concept members (${size})`,
+  },
 };
 
 export const D1: Dictionary = createDictionary(firstLang, dictionary);

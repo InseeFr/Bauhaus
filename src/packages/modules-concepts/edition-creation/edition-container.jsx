@@ -1,115 +1,112 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { Loading, Saving } from '@components/loading';
+import { Loading, Saving } from "@components/loading";
 
-import { CLOSE_MATCH } from '@sdk/constants';
+import { CLOSE_MATCH } from "@sdk/constants";
 
-import { useAppContext } from '../../application/app-context';
-import D from '../../deprecated-locales';
-import { ConceptsApi } from '../../sdk';
-import { useTitle } from '../../utils/hooks/useTitle';
-import { rmesHtmlToRawHtml } from '../../utils/html-utils';
-import buildPayloadUpdate from '../utils/build-payload-creation-update/build-payload-update';
-import * as generalUtils from '../utils/general';
-import { mergeWithAllConcepts } from '../utils/links';
-import { emptyNotes } from '../utils/notes';
-import ConceptEditionCreation from './home';
+import { useAppContext } from "../../application/app-context";
+import D from "../../deprecated-locales";
+import { ConceptsApi } from "../../sdk";
+import { useTitle } from "../../utils/hooks/useTitle";
+import { rmesHtmlToRawHtml } from "../../utils/html-utils";
+import buildPayloadUpdate from "../utils/build-payload-creation-update/build-payload-update";
+import * as generalUtils from "../utils/general";
+import { mergeWithAllConcepts } from "../utils/links";
+import { emptyNotes } from "../utils/notes";
+import ConceptEditionCreation from "./home";
 
 const formatNotes = (notes) => {
-	return {
-		...emptyNotes,
-		...Object.keys(notes).reduce((formatted, noteName) => {
-			formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
-			return formatted;
-		}, {}),
-	};
+  return {
+    ...emptyNotes,
+    ...Object.keys(notes).reduce((formatted, noteName) => {
+      formatted[noteName] = rmesHtmlToRawHtml(notes[noteName]);
+      return formatted;
+    }, {}),
+  };
 };
 
 export const Component = () => {
-	const { id } = useParams();
+  const { id } = useParams();
 
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-	const maxLengthScopeNoteString =
-		useAppContext().properties.maxLengthScopeNote;
+  const maxLengthScopeNoteString = useAppContext().properties.maxLengthScopeNote;
 
-	const maxLengthScopeNote = Number(maxLengthScopeNoteString);
+  const maxLengthScopeNote = Number(maxLengthScopeNoteString);
 
-	const [concept, setConcept] = useState({});
-	const [concepts, setConcepts] = useState([]);
+  const [concept, setConcept] = useState({});
+  const [concepts, setConcepts] = useState([]);
 
-	const [loading, setLoading] = useState(true);
-	const [loadingExtraData, setLoadingExtraData] = useState(true);
-	const [saving, setSaving] = useState(false);
-	const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [loadingExtraData, setLoadingExtraData] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-	useEffect(() => {
-		ConceptsApi.getConceptGeneral(id)
-			.then((general) => {
-				const { conceptVersion } = general;
-				return Promise.all([
-					ConceptsApi.getNoteVersionList(id, conceptVersion),
-					ConceptsApi.getConceptLinkList(id),
-				]).then(([notes, links]) => {
-					setConcept({
-						general: {
-							...generalUtils.empty(),
-							...general,
-						},
-						notes: formatNotes(notes),
-						links,
-					});
-				});
-			})
-			.finally(() => setLoading(false));
-	}, [id]);
+  useEffect(() => {
+    ConceptsApi.getConceptGeneral(id)
+      .then((general) => {
+        const { conceptVersion } = general;
+        return Promise.all([
+          ConceptsApi.getNoteVersionList(id, conceptVersion),
+          ConceptsApi.getConceptLinkList(id),
+        ]).then(([notes, links]) => {
+          setConcept({
+            general: {
+              ...generalUtils.empty(),
+              ...general,
+            },
+            notes: formatNotes(notes),
+            links,
+          });
+        });
+      })
+      .finally(() => setLoading(false));
+  }, [id]);
 
-	useEffect(() => {
-		ConceptsApi.getConceptList()
-			.then(setConcepts)
-			.finally(() => setLoadingExtraData(false));
-	}, []);
+  useEffect(() => {
+    ConceptsApi.getConceptList()
+      .then(setConcepts)
+      .finally(() => setLoadingExtraData(false));
+  }, []);
 
-	const handleUpdate = useCallback(
-		(id, versioning, oldData, data) => {
-			setSaving(true);
-			ConceptsApi.putConcept(id, buildPayloadUpdate(versioning, oldData, data))
-				.then(() => navigate(`/concepts/${id}`))
-				.finally(() => setSaving(false));
-		},
-		[navigate],
-	);
+  const handleUpdate = useCallback(
+    (id, versioning, oldData, data) => {
+      setSaving(true);
+      ConceptsApi.putConcept(id, buildPayloadUpdate(versioning, oldData, data))
+        .then(() => navigate(`/concepts/${id}`))
+        .finally(() => setSaving(false));
+    },
+    [navigate],
+  );
 
-	const { general, notes, links } = concept;
+  const { general, notes, links } = concept;
 
-	useTitle(D.conceptsTitle, general?.prefLabelLg1);
+  useTitle(D.conceptsTitle, general?.prefLabelLg1);
 
-	const conceptsWithLinks = mergeWithAllConcepts(concepts, links ?? []);
+  const conceptsWithLinks = mergeWithAllConcepts(concepts, links ?? []);
 
-	if (loading || loadingExtraData) {
-		return <Loading />;
-	}
+  if (loading || loadingExtraData) {
+    return <Loading />;
+  }
 
-	if (saving) {
-		return <Saving />;
-	}
+  if (saving) {
+    return <Saving />;
+  }
 
-	return (
-		<ConceptEditionCreation
-			id={id}
-			title={D.updateConceptTitle}
-			subtitle={general.prefLabelLg1}
-			general={general}
-			notes={notes}
-			equivalentLinks={concept.links.filter(
-				(link) => link.typeOfLink === CLOSE_MATCH,
-			)}
-			conceptsWithLinks={conceptsWithLinks}
-			maxLengthScopeNote={maxLengthScopeNote}
-			save={handleUpdate}
-			submitting={submitting}
-			setSubmitting={setSubmitting}
-		/>
-	);
+  return (
+    <ConceptEditionCreation
+      id={id}
+      title={D.updateConceptTitle}
+      subtitle={general.prefLabelLg1}
+      general={general}
+      notes={notes}
+      equivalentLinks={concept.links.filter((link) => link.typeOfLink === CLOSE_MATCH)}
+      conceptsWithLinks={conceptsWithLinks}
+      maxLengthScopeNote={maxLengthScopeNote}
+      save={handleUpdate}
+      submitting={submitting}
+      setSubmitting={setSubmitting}
+    />
+  );
 };

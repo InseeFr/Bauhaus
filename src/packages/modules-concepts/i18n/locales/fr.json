@@ -1,8 +1,8 @@
 {
-	"concept": {
-		"error": {
-			"title": "Erreur",
-			"notFound": "Impossible de trouver ce concept"
-		}
-	}
+  "concept": {
+    "error": {
+      "title": "Erreur",
+      "notFound": "Impossible de trouver ce concept"
+    }
+  }
 }

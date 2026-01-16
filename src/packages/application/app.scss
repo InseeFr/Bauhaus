@@ -1,72 +1,71 @@
 .home-page-links {
-	list-style: none;
+  list-style: none;
 
-	--content-width: 50vw;
-	--gutter: 40px;
-	--columns: 1;
-	--row-size: calc(
-		(var(--content-width) - (var(--gutter) * (var(--columns) - 1))) /
-			var(--columns)
-	);
+  --content-width: 50vw;
+  --gutter: 40px;
+  --columns: 1;
+  --row-size: calc(
+    (var(--content-width) - (var(--gutter) * (var(--columns) - 1))) / var(--columns)
+  );
 
-	display: grid;
+  display: grid;
 
-	width: 70%;
-	margin: 2em auto 0;
-	max-width: var(--content-width);
+  width: 70%;
+  margin: 2em auto 0;
+  max-width: var(--content-width);
 
-	grid-template-columns: repeat(var(--columns), 1fr);
-	grid-auto-rows: var(--row-size);
+  grid-template-columns: repeat(var(--columns), 1fr);
+  grid-auto-rows: var(--row-size);
 
-	grid-column-gap: var(--gutter);
-	grid-row-gap: var(--gutter);
+  grid-column-gap: var(--gutter);
+  grid-row-gap: var(--gutter);
 
-	> div {
-		text-align: center;
-		background: var(--home-icon-color);
-		border-radius: 15px;
-		box-shadow: 4px 5px 5px grey;
-		padding: 2em 0;
-		h2 {
-			width: 70%;
-			font-size: 22px;
-			margin: 10px auto 0 auto;
-			justify-content: center;
-			align-content: center;
-			display: block;
-		}
-		a {
-			display: block;
-			color: white;
-			text-decoration: none;
-		}
-		img {
-			width: 60%;
-			opacity: 0.4;
-			margin-top: 0.5em;
-		}
-	}
+  > div {
+    text-align: center;
+    background: var(--home-icon-color);
+    border-radius: 15px;
+    box-shadow: 4px 5px 5px grey;
+    padding: 2em 0;
+    h2 {
+      width: 70%;
+      font-size: 22px;
+      margin: 10px auto 0 auto;
+      justify-content: center;
+      align-content: center;
+      display: block;
+    }
+    a {
+      display: block;
+      color: white;
+      text-decoration: none;
+    }
+    img {
+      width: 60%;
+      opacity: 0.4;
+      margin-top: 0.5em;
+    }
+  }
 }
 
 // This declaration will be removed after receiving the icon for this application
 .bauhaus-app img {
-	width: 50% !important;
-	margin-top: 1.5em !important;
+  width: 50% !important;
+  margin-top: 1.5em !important;
 }
 
 @media (min-width: 750px) {
-	.home-page-links {
-		--columns: 2;
-	}
+  .home-page-links {
+    --columns: 2;
+  }
 }
 
 @media (min-width: 900px) {
-	.home-page-links {
-		--columns: 3;
-	}
+  .home-page-links {
+    --columns: 3;
+  }
 }
 
 .ddi .container {
-	width: 95%;
-	margin: 2em auto;
+  width: 95%;
+  margin: 2em auto;
 }

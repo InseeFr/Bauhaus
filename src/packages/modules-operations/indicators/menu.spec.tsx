@@ -1,28 +1,28 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from '../../tests/rbac';
-import { mockReactQueryForRbac } from '../../tests/render';
+import { MODULES } from "@utils/hooks/rbac-constants";
+import { mockReactQueryForRbac, WithRouter } from "../../tests/render";
 
-describe('Family Home Page Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
+describe("Family Home Page Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
 
-	it('a user without Admin cannot create or publish a family', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_INDICATOR',
-				privileges: [],
-			},
-		]);
-		const { Menu } = await import('./menu');
-		render(
-			<RBACMock>
-				<Menu />
-			</RBACMock>,
-		);
+  it("a user without Admin cannot create or publish a family", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_INDICATOR,
+        privileges: [],
+      },
+    ]);
+    const { Menu } = await import("./menu");
+    render(
+      <WithRouter>
+        <Menu />
+      </WithRouter>,
+    );
 
-		expect(screen.queryByText('New')).toBeNull();
-	});
+    expect(screen.queryByText("New")).toBeNull();
+  });
 });

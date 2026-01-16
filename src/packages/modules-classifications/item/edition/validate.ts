@@ -1,31 +1,28 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-import { ItemGeneral } from '@model/Classification';
+import { ItemGeneral } from "@model/Classification";
 
-import {
-	formatValidation,
-	mandatoryAndNotEmptyTextField,
-} from '@utils/validation';
+import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
 
-import { D1, D2 } from '../../../deprecated-locales';
+import { D1, D2 } from "../../../deprecated-locales";
 
 const ZodItem = (altLabelsLength: number) =>
-	z.object({
-		prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
-		prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
-		altLabelsLg1_: z
-			.string()
-			.max(altLabelsLength, {
-				error: D1.classificationItemAltError(altLabelsLength),
-			})
-			.optional(),
-		altLabelsLg2_: z
-			.string()
-			.max(altLabelsLength, {
-				error: D2.classificationItemAltError(altLabelsLength),
-			})
-			.optional(),
-	});
+  z.object({
+    prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
+    prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
+    altLabelsLg1_: z
+      .string()
+      .max(altLabelsLength, {
+        error: D1.classificationItemAltError(altLabelsLength),
+      })
+      .optional(),
+    altLabelsLg2_: z
+      .string()
+      .max(altLabelsLength, {
+        error: D2.classificationItemAltError(altLabelsLength),
+      })
+      .optional(),
+  });
 
 export const validate = (item: ItemGeneral, altLabelsLength: string) =>
-	formatValidation(ZodItem(Number(altLabelsLength)))(item);
+  formatValidation(ZodItem(Number(altLabelsLength)))(item);

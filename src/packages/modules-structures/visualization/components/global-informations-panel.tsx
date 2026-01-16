@@ -1,58 +1,50 @@
-import { CreationUpdateItems } from '@components/creation-update-items';
-import { DisseminationStatusVisualisation } from '@components/dissemination-status/disseminationStatus';
-import { Row } from '@components/layout';
-import { Note } from '@components/note';
-import { PublicationFemale } from '@components/status';
+import { CreationUpdateItems } from "@components/creation-update-items";
+import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
+import { Row } from "@components/layout";
+import { Note } from "@components/note";
+import { PublicationFemale } from "@components/status";
 
-import { D1 } from '../../../deprecated-locales';
-import { Structure } from '../../../model/structures/Structure';
-import D from '../../i18n/build-dictionary';
+import { D1 } from "../../../deprecated-locales";
+import { Structure } from "../../../model/structures/Structure";
+import D from "../../i18n/build-dictionary";
 import {
-	InseeOrganisationList,
-	InseeOrganisationText,
-} from '../../../components/business/creators-view';
+  InseeOrganisationList,
+  InseeOrganisationText,
+} from "../../../components/business/creators-view";
 
 interface GlobalInformationsPanelTypes {
-	structure: Structure;
+  structure: Structure;
 }
 
-export const GlobalInformationsPanel = ({
-	structure,
-}: GlobalInformationsPanelTypes) => {
-	return (
-		<Row>
-			<Note
-				text={
-					<ul>
-						<li>
-							{D1.idTitle} : {structure.identifiant}
-						</li>
-						<CreationUpdateItems
-							creation={structure.created}
-							update={structure.modified}
-						/>
-						<li>
-							{D.componentValididationStatusTitle} :{' '}
-							<PublicationFemale object={structure} />
-						</li>
-						<li>
-							{D.creator} :{' '}
-							<InseeOrganisationText organisations={structure.creator} />
-						</li>
-						<li>
-							{D.contributor} :{' '}
-							<InseeOrganisationList organisations={structure.contributor} />
-						</li>
-						<li>
-							<DisseminationStatusVisualisation
-								disseminationStatus={structure.disseminationStatus}
-							/>
-						</li>
-					</ul>
-				}
-				title={D1.globalInformationsTitle}
-				alone={true}
-			/>
-		</Row>
-	);
+export const GlobalInformationsPanel = ({ structure }: GlobalInformationsPanelTypes) => {
+  return (
+    <Row>
+      <Note
+        text={
+          <ul>
+            <li>
+              {D1.idTitle} : {structure.identifiant}
+            </li>
+            <CreationUpdateItems creation={structure.created} update={structure.modified} />
+            <li>
+              {D.componentValididationStatusTitle} : <PublicationFemale object={structure} />
+            </li>
+            <li>
+              {D.creator} : <InseeOrganisationText organisations={structure.creator} />
+            </li>
+            <li>
+              {D.contributor} : <InseeOrganisationList organisations={structure.contributor} />
+            </li>
+            <li>
+              <DisseminationStatusVisualisation
+                disseminationStatus={structure.disseminationStatus}
+              />
+            </li>
+          </ul>
+        }
+        title={D1.globalInformationsTitle}
+        alone={true}
+      />
+    </Row>
+  );
 };

@@ -1,7 +1,7 @@
-import { buildApi } from './build-api';
+import { buildApi } from "./build-api";
 
 const api = {
-	getDocumentsAndLinksList: () => [''],
+  getDocumentsAndLinksList: () => [""],
 };
 
-export const DocumentsApi = buildApi('documents', api) as any;
+export const DocumentsApi = buildApi("documents", api) as any;

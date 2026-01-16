@@ -1,7 +1,7 @@
-import { buildApi } from './build-api';
+import { buildApi } from "./build-api";
 
 export const api = {
-	getStamps: () => [''],
+  getStamps: () => [""],
 } as const;
 
-export const StampsApi = buildApi('stamps', api);
+export const StampsApi = buildApi("stamps", api);

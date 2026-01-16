@@ -1,24 +1,24 @@
 button.sticky-top {
-	font-size: 1.2rem;
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	text-decoration: none;
-	background-color: #044173;
-	display: none;
-	margin: 0;
-	padding: 10px;
-	width: 60px;
-	line-height: 18px;
-	text-align: center;
-	color: white;
+  font-size: 1.2rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  text-decoration: none;
+  background-color: #044173;
+  display: none;
+  margin: 0;
+  padding: 10px;
+  width: 60px;
+  line-height: 18px;
+  text-align: center;
+  color: white;
 }
 
 button.sticky-top.block {
-	display: block !important;
+  display: block !important;
 }
 
 button.sticky-top span {
-	text-transform: uppercase;
-	font-weight: 700;
+  text-transform: uppercase;
+  font-weight: 700;
 }

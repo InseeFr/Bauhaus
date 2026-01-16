@@ -10,17 +10,17 @@
  * @returns true if the value is empty, false otherwise
  */
 export const isEmpty = (value: unknown): boolean => {
-	if (value === null || value === undefined) {
-		return true;
-	}
+  if (value === null || value === undefined) {
+    return true;
+  }
 
-	if (typeof value === 'string') {
-		return value.trim() === '';
-	}
+  if (typeof value === "string") {
+    return value.trim() === "";
+  }
 
-	if (Array.isArray(value)) {
-		return value.every((item) => isEmpty(item));
-	}
+  if (Array.isArray(value)) {
+    return value.every((item) => isEmpty(item));
+  }
 
-	return false;
+  return false;
 };

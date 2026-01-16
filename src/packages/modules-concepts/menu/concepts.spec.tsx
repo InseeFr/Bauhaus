@@ -1,50 +1,50 @@
-import { screen } from '@testing-library/dom';
-import { Mock, vi } from 'vitest';
+import { screen } from "@testing-library/dom";
+import { Mock, vi } from "vitest";
 
-import { useAuthorizationGuard } from '../../auth/components/auth';
-import D from '../../deprecated-locales';
-import { renderWithRouter } from '../../tests/render';
-import MenuConcepts from './index';
+import { useAuthorizationGuard } from "../../auth/components/auth";
+import { MODULES, PRIVILEGES } from "@utils/hooks/rbac-constants";
+import D from "../../deprecated-locales";
+import { renderWithRouter } from "../../tests/render";
+import MenuConcepts from "./index";
 
-vi.mock('../../auth/components/auth', async (importOriginal) => {
-	const actual =
-		await importOriginal<typeof import('../../auth/components/auth')>();
-	return {
-		...actual,
-		useAuthorizationGuard: vi.fn(),
-	};
+vi.mock("../../auth/components/auth", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../../auth/components/auth")>();
+  return {
+    ...actual,
+    useAuthorizationGuard: vi.fn(),
+  };
 });
 
-describe('menu-concepts', () => {
-	beforeEach(() => {
-		vi.clearAllMocks();
-	});
+describe("menu-concepts", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-	it('should display the administration menu', () => {
-		(useAuthorizationGuard as Mock).mockReturnValue(true);
+  it("should display the administration menu", () => {
+    (useAuthorizationGuard as Mock).mockReturnValue(true);
 
-		renderWithRouter(<MenuConcepts />, ['/concepts']);
+    renderWithRouter(<MenuConcepts />, ["/concepts"]);
 
-		const links = screen.getAllByRole('link');
+    const links = screen.getAllByRole("link");
 
-		expect(links).toHaveLength(5);
-		expect(links[3].textContent).toBe(D.administrationTitle);
-		expect(useAuthorizationGuard).toHaveBeenCalledWith({
-			module: 'CONCEPT_CONCEPT',
-			privilege: 'ADMINISTRATION',
-		});
-	});
+    expect(links).toHaveLength(5);
+    expect(links[3].textContent).toBe(D.administrationTitle);
+    expect(useAuthorizationGuard).toHaveBeenCalledWith({
+      module: MODULES.CONCEPT_CONCEPT,
+      privilege: PRIVILEGES.ADMINISTRATION,
+    });
+  });
 
-	it('should not display the administration menu', () => {
-		(useAuthorizationGuard as Mock).mockReturnValue(false);
+  it("should not display the administration menu", () => {
+    (useAuthorizationGuard as Mock).mockReturnValue(false);
 
-		renderWithRouter(<MenuConcepts />, ['/concepts']);
+    renderWithRouter(<MenuConcepts />, ["/concepts"]);
 
-		const links = screen.getAllByRole('link');
-		expect(links).toHaveLength(4);
-		expect(useAuthorizationGuard).toHaveBeenCalledWith({
-			module: 'CONCEPT_CONCEPT',
-			privilege: 'ADMINISTRATION',
-		});
-	});
+    const links = screen.getAllByRole("link");
+    expect(links).toHaveLength(4);
+    expect(useAuthorizationGuard).toHaveBeenCalledWith({
+      module: MODULES.CONCEPT_CONCEPT,
+      privilege: PRIVILEGES.ADMINISTRATION,
+    });
+  });
 });

@@ -1,85 +1,85 @@
 @mixin rich-text($padding) {
-	box-shadow: 1px 2px #b4b4b4;
-	margin-left: 0;
-	margin-right: 0;
+  box-shadow: 1px 2px #b4b4b4;
+  margin-left: 0;
+  margin-right: 0;
 
-	margin-bottom: 30px;
+  margin-bottom: 30px;
 
-	.wilco-note {
-		margin-bottom: 0;
-		.panel {
-			margin-bottom: 0;
-			border: none;
-			box-shadow: none;
-		}
-		.panel-body {
-			border: none;
-			box-shadow: none;
-		}
-	}
-	.wilco-note:nth-child(1) {
-		padding-right: $padding;
-		padding-left: 0;
-	}
-	.wilco-note:nth-child(2) {
-		padding-right: 0;
-		padding-left: $padding;
-	}
+  .wilco-note {
+    margin-bottom: 0;
+    .panel {
+      margin-bottom: 0;
+      border: none;
+      box-shadow: none;
+    }
+    .panel-body {
+      border: none;
+      box-shadow: none;
+    }
+  }
+  .wilco-note:nth-child(1) {
+    padding-right: $padding;
+    padding-left: 0;
+  }
+  .wilco-note:nth-child(2) {
+    padding-right: 0;
+    padding-left: $padding;
+  }
 }
 
 .bauhaus-sims-field__RICH_TEXT {
-	@include rich-text(0);
+  @include rich-text(0);
 }
 
 .bauhaus-sims-field__RICH_TEXT_2col {
-	@include rich-text(1em);
+  @include rich-text(1em);
 }
 
 .bauhaus-sims-creation {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 .bauhaus-sims-geography-field {
-	display: flex;
+  display: flex;
 
-	.form-group {
-		flex-grow: 1;
-		div[class$='singleValue'] {
-			overflow: visible;
-		}
-	}
-	.btn-group {
-		margin-left: 1em;
+  .form-group {
+    flex-grow: 1;
+    div[class$="singleValue"] {
+      overflow: visible;
+    }
+  }
+  .btn-group {
+    margin-left: 1em;
 
-		.btn {
-			min-height: 38px;
-		}
-	}
+    .btn {
+      min-height: 38px;
+    }
+  }
 }
 
 .bauhaus-sims-field {
-	display: flex;
-	flex-direction: column;
-	.bauhaus-sims-field-form {
-		display: flex;
-		flex-direction: row;
+  display: flex;
+  flex-direction: column;
+  .bauhaus-sims-field-form {
+    display: flex;
+    flex-direction: row;
 
-		.wilco-note {
-			flex: 1;
-		}
+    .wilco-note {
+      flex: 1;
+    }
 
-		.card-body {
-			display: flex;
-    		flex-direction: column;
-		}
-	}
+    .card-body {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 
 .bauhaus-documents-bloc .col-md-6:nth-child(2) .panel-heading {
-	background: var(--color-1);
-	color: #fff;
+  background: var(--color-1);
+  color: #fff;
 }
 
 .bauhaus-sims-duplicate .Select-placeholder {
-	color: black;
+  color: black;
 }

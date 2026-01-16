@@ -1,209 +1,160 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { GlobalActionsCard } from './GlobalActionsCard';
+import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { GlobalActionsCard } from "./GlobalActionsCard";
 
-vi.mock('react-i18next', () => ({
-	useTranslation: () => ({
-		t: (key: string) => {
-			const translations: Record<string, string> = {
-				'physicalInstance.view.globalActions': 'Actions Globales',
-				'physicalInstance.view.export': 'Exporter',
-				'physicalInstance.view.bulkEdit': 'Édition en masse',
-				'physicalInstance.view.publish': 'Publier',
-				'physicalInstance.view.variablesTable': 'Tableau des variables',
-				'physicalInstance.view.columns.name': 'Nom',
-				'physicalInstance.view.columns.label': 'Label',
-				'physicalInstance.view.columns.type': 'Type',
-				'physicalInstance.view.columns.lastModified': 'Dernière Modification',
-			};
-			return translations[key] || key;
-		},
-	}),
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "physicalInstance.view.globalActions": "Actions Globales",
+      };
+      return translations[key] || key;
+    },
+  }),
 }));
 
-vi.mock('primereact/button', () => ({
-	Button: ({ label, onClick, icon, ...props }: any) => (
-		<button type="button" onClick={onClick} {...props}>
-			{icon && <span className={icon} />}
-			{label}
-		</button>
-	),
+vi.mock("primereact/card", () => ({
+  Card: ({ title, children }: any) => (
+    <div data-testid="card">
+      <h3>{title}</h3>
+      {children}
+    </div>
+  ),
 }));
 
-vi.mock('primereact/splitbutton', () => ({
-	SplitButton: ({ label, onClick, model, icon, ...props }: any) => (
-		<div data-testid="split-button" {...props}>
-			<button type="button" onClick={onClick} aria-label={props['aria-label']}>
-				{icon && <span className={icon} />}
-				{label}
-			</button>
-			{model && (
-				<div data-testid="split-button-menu">
-					{model.map((item: any, index: number) => (
-						<button
-							key={index}
-							type="button"
-							onClick={item.command}
-							data-testid={`menu-item-${item.label}`}
-						>
-							{item.icon && <span className={item.icon} />}
-							{item.label}
-						</button>
-					))}
-				</div>
-			)}
-		</div>
-	),
+vi.mock("./GlobalActionToolbar", () => ({
+  GlobalActionToolbar: ({ onExport, onDuplicate }: any) => (
+    <div data-testid="global-action-toolbar">
+      <button onClick={() => onExport("DDI3")}>Export Toolbar</button>
+      {onDuplicate && <button onClick={onDuplicate}>Duplicate Toolbar</button>}
+    </div>
+  ),
 }));
 
-vi.mock('primereact/card', () => ({
-	Card: ({ title, children }: any) => (
-		<div data-testid="card">
-			<h3>{title}</h3>
-			{children}
-		</div>
-	),
+vi.mock("./PhysicalInstancesDataTable", () => ({
+  PhysicalInstancesDataTable: ({ variables, unsavedVariableIds }: any) => (
+    <div data-testid="physical-instances-data-table">
+      <div>Variables: {variables.length}</div>
+      <div>Unsaved: {unsavedVariableIds.length}</div>
+    </div>
+  ),
 }));
 
-vi.mock('primereact/datatable', () => ({
-	DataTable: ({ value, children, ...props }: any) => (
-		<table {...props}>
-			<thead>
-				<tr>{children}</tr>
-			</thead>
-			<tbody>
-				{value.map((item: any, index: number) => (
-					<tr key={index}>
-						<td>{item.name}</td>
-						<td>{item.label}</td>
-						<td>{item.type}</td>
-						<td>{item.lastModified}</td>
-					</tr>
-				))}
-			</tbody>
-		</table>
-	),
-}));
+describe("GlobalActionsCard", () => {
+  const mockOnExport = vi.fn();
+  const mockOnDuplicate = vi.fn();
+  const mockOnRowClick = vi.fn();
+  const mockOnDeleteClick = vi.fn();
 
-vi.mock('primereact/column', () => ({
-	Column: ({ header }: any) => <th>{header}</th>,
-}));
+  const mockVariables = [
+    {
+      id: "1",
+      name: "Variable1",
+      label: "Label 1",
+      type: "Code",
+      lastModified: "2024-01-01",
+    },
+    {
+      id: "2",
+      name: "Variable2",
+      label: "Label 2",
+      type: "Numeric",
+      lastModified: "2024-01-02",
+    },
+  ];
 
-describe('GlobalActionsCard', () => {
-	const mockOnExport = vi.fn();
+  const defaultProps = {
+    variables: mockVariables,
+    onExport: mockOnExport,
+    onDuplicate: mockOnDuplicate,
+    onRowClick: mockOnRowClick,
+    onDeleteClick: mockOnDeleteClick,
+  };
 
-	const mockVariables = [
-		{
-			id: '1',
-			name: 'Variable1',
-			label: 'Label 1',
-			type: 'Code',
-			lastModified: '2024-01-01',
-		},
-		{
-			id: '2',
-			name: 'Variable2',
-			label: 'Label 2',
-			type: 'Numeric',
-			lastModified: '2024-01-02',
-		},
-	];
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-	const defaultProps = {
-		variables: mockVariables,
-		onExport: mockOnExport,
-	};
+  it("should render card with title", () => {
+    render(<GlobalActionsCard {...defaultProps} />);
 
-	beforeEach(() => {
-		vi.clearAllMocks();
-	});
+    expect(screen.getByText("Actions Globales")).toBeInTheDocument();
+  });
 
-	it('should render card with title', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
+  it("should render GlobalActionToolbar component", () => {
+    render(<GlobalActionsCard {...defaultProps} />);
 
-		expect(screen.getByText('Actions Globales')).toBeInTheDocument();
-	});
+    expect(screen.getByTestId("global-action-toolbar")).toBeInTheDocument();
+  });
 
-	it('should render all action buttons', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
+  it("should render PhysicalInstancesDataTable component", () => {
+    render(<GlobalActionsCard {...defaultProps} />);
 
-		expect(screen.getByText('Exporter')).toBeInTheDocument();
-		expect(screen.getByText('Édition en masse')).toBeInTheDocument();
-		expect(screen.getByText('Publier')).toBeInTheDocument();
-	});
+    expect(screen.getByTestId("physical-instances-data-table")).toBeInTheDocument();
+  });
 
-	it('should call onExport with DDI3 when export button is clicked', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
+  it("should pass onExport prop to GlobalActionToolbar", () => {
+    render(<GlobalActionsCard {...defaultProps} />);
 
-		const exportButton = screen.getByText('Exporter');
-		fireEvent.click(exportButton);
+    const exportButton = screen.getByText("Export Toolbar");
+    exportButton.click();
 
-		expect(mockOnExport).toHaveBeenCalledTimes(1);
-		expect(mockOnExport).toHaveBeenCalledWith('DDI3');
-	});
+    expect(mockOnExport).toHaveBeenCalledWith("DDI3");
+  });
 
-	it('should render export menu with DDI3 and DDI4 options', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
+  it("should pass variables to PhysicalInstancesDataTable", () => {
+    render(<GlobalActionsCard {...defaultProps} />);
 
-		expect(screen.getByTestId('menu-item-DDI3')).toBeInTheDocument();
-		expect(screen.getByTestId('menu-item-DDI4')).toBeInTheDocument();
-	});
+    expect(screen.getByText(`Variables: ${mockVariables.length}`)).toBeInTheDocument();
+  });
 
-	it('should call onExport with DDI3 when DDI3 menu item is clicked', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
+  it("should pass unsavedVariableIds to PhysicalInstancesDataTable", () => {
+    render(<GlobalActionsCard {...defaultProps} unsavedVariableIds={["1", "2"]} />);
 
-		const ddi3MenuItem = screen.getByTestId('menu-item-DDI3');
-		fireEvent.click(ddi3MenuItem);
+    expect(screen.getByText("Unsaved: 2")).toBeInTheDocument();
+  });
 
-		expect(mockOnExport).toHaveBeenCalledTimes(1);
-		expect(mockOnExport).toHaveBeenCalledWith('DDI3');
-	});
+  it("should use empty array as default for unsavedVariableIds", () => {
+    render(<GlobalActionsCard {...defaultProps} />);
 
-	it('should call onExport with DDI4 when DDI4 menu item is clicked', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
+    expect(screen.getByText("Unsaved: 0")).toBeInTheDocument();
+  });
 
-		const ddi4MenuItem = screen.getByTestId('menu-item-DDI4');
-		fireEvent.click(ddi4MenuItem);
+  it("should render without optional callbacks", () => {
+    const propsWithoutOptionals = {
+      variables: mockVariables,
+      onExport: mockOnExport,
+    };
 
-		expect(mockOnExport).toHaveBeenCalledTimes(1);
-		expect(mockOnExport).toHaveBeenCalledWith('DDI4');
-	});
+    expect(() => render(<GlobalActionsCard {...propsWithoutOptionals} />)).not.toThrow();
+  });
 
-	it('should render data table with correct columns', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
+  it("should render with empty variables array", () => {
+    const propsWithEmptyVariables = {
+      ...defaultProps,
+      variables: [],
+    };
 
-		expect(screen.getByText('Nom')).toBeInTheDocument();
-		expect(screen.getByText('Label')).toBeInTheDocument();
-		expect(screen.getByText('Type')).toBeInTheDocument();
-		expect(screen.getByText('Dernière Modification')).toBeInTheDocument();
-	});
+    render(<GlobalActionsCard {...propsWithEmptyVariables} />);
 
-	it('should render all variables in the table', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
+    expect(screen.getByText("Variables: 0")).toBeInTheDocument();
+  });
 
-		expect(screen.getByText('Variable1')).toBeInTheDocument();
-		expect(screen.getByText('Label 1')).toBeInTheDocument();
-		expect(screen.getByText('Code')).toBeInTheDocument();
-		expect(screen.getByText('Variable2')).toBeInTheDocument();
-		expect(screen.getByText('Label 2')).toBeInTheDocument();
-		expect(screen.getByText('Numeric')).toBeInTheDocument();
-	});
+  it("should pass onDuplicate prop to GlobalActionToolbar", () => {
+    render(<GlobalActionsCard {...defaultProps} />);
 
-	it('should render empty table when no variables', () => {
-		render(<GlobalActionsCard {...defaultProps} variables={[]} />);
+    const duplicateButton = screen.getByText("Duplicate Toolbar");
+    duplicateButton.click();
 
-		const table = screen.getByLabelText('Tableau des variables');
-		expect(table).toBeInTheDocument();
-	});
+    expect(mockOnDuplicate).toHaveBeenCalledTimes(1);
+  });
 
-	it('should have correct aria-labels for accessibility', () => {
-		render(<GlobalActionsCard {...defaultProps} />);
+  it("should render without onDuplicate callback", () => {
+    const propsWithoutDuplicate = {
+      variables: mockVariables,
+      onExport: mockOnExport,
+    };
 
-		// SplitButton creates multiple elements with the same aria-label
-		const exportElements = screen.getAllByLabelText('Exporter');
-		expect(exportElements.length).toBeGreaterThan(0);
-		expect(screen.getByLabelText('Édition en masse')).toBeInTheDocument();
-		expect(screen.getByLabelText('Publier')).toBeInTheDocument();
-		expect(screen.getByLabelText('Tableau des variables')).toBeInTheDocument();
-	});
+    expect(() => render(<GlobalActionsCard {...propsWithoutDuplicate} />)).not.toThrow();
+  });
 });

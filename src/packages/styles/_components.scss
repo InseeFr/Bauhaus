@@ -1,17 +1,17 @@
 .input-group .form-control {
-	z-index: 0;
+  z-index: 0;
 }
 
 @media (max-width: 600px) {
-	.wilco-action-toolbar {
-		flex-wrap: wrap;
-		> div {
-			flex-grow: 1;
-		}
-	}
+  .wilco-action-toolbar {
+    flex-wrap: wrap;
+    > div {
+      flex-grow: 1;
+    }
+  }
 
-	.wilco-btn {
-		width: 100%;
-		margin-bottom: 0.5em;
-	}
+  .wilco-btn {
+    width: 100%;
+    margin-bottom: 0.5em;
+  }
 }

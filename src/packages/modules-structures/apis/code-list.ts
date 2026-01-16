@@ -1,31 +1,25 @@
-import { CodeListApi } from '@sdk/index';
+import { CodeListApi } from "@sdk/index";
 
-import { sortArray } from '@utils/array-utils';
+import { sortArray } from "@utils/array-utils";
 
-import { CodesList, CodesLists } from '../../model/CodesList';
+import { CodesList, CodesLists } from "../../model/CodesList";
 
-const sortByLabel = sortArray('labelLg1');
+const sortByLabel = sortArray("labelLg1");
 
 export const getCodeList = () =>
-	CodeListApi.getCodesLists().then((response: CodesList[]) =>
-		sortByLabel(response),
-	);
+  CodeListApi.getCodesLists().then((response: CodesList[]) => sortByLabel(response));
 
 export const getPartialCodeLists = () =>
-	CodeListApi.getPartialCodesLists().then((response: CodesList[]) =>
-		sortByLabel(response),
-	);
+  CodeListApi.getPartialCodesLists().then((response: CodesList[]) => sortByLabel(response));
 
 export const getFormattedCodeList = (): Promise<CodesLists> => {
-	return Promise.all([getCodeList(), getPartialCodeLists()]).then(
-		([codelist, partialCodeList]) => {
-			return [...codelist, ...partialCodeList]?.map(({ uri, labelLg1, id }) => {
-				return {
-					id: uri,
-					label: labelLg1,
-					notation: id,
-				};
-			});
-		},
-	);
+  return Promise.all([getCodeList(), getPartialCodeLists()]).then(([codelist, partialCodeList]) => {
+    return [...codelist, ...partialCodeList]?.map(({ uri, labelLg1, id }) => {
+      return {
+        id: uri,
+        label: labelLg1,
+        notation: id,
+      };
+    });
+  });
 };
