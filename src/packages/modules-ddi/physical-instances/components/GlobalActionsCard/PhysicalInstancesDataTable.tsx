@@ -67,7 +67,7 @@ export const PhysicalInstancesDataTable = ({
     />
   );
 
-  const footer = t("physicalInstance.view.totalVariables", {
+  const header = t("physicalInstance.view.totalVariables", {
     count: variables.length,
   });
 
@@ -79,7 +79,7 @@ export const PhysicalInstancesDataTable = ({
       onRowClick={(e) => onRowClick?.(e.data)}
       selectionMode="single"
       rowClassName={rowClassName}
-      footer={footer}
+      header={header}
     >
       <Column field="name" header={t("physicalInstance.view.columns.name")} />
       <Column field="label" header={t("physicalInstance.view.columns.label")} />

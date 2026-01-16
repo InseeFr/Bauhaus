@@ -252,16 +252,26 @@ export const VariableEditForm = ({
     [],
   );
 
-  const updateDateRepresentation = useCallback((dateRep: DateTimeRepresentation | undefined) => {
-    dispatch({ type: "SET_DATE_REPRESENTATION", payload: dateRep });
-  }, []);
+  const updateDateRepresentation = useCallback(
+    (dateRep: DateTimeRepresentation | undefined) => {
+      dispatch({ type: "SET_DATE_REPRESENTATION", payload: dateRep });
+    },
+    [],
+  );
 
-  const updateTextRepresentation = useCallback((textRep: TextRepresentation | undefined) => {
-    dispatch({ type: "SET_TEXT_REPRESENTATION", payload: textRep });
-  }, []);
+  const updateTextRepresentation = useCallback(
+    (textRep: TextRepresentation | undefined) => {
+      dispatch({ type: "SET_TEXT_REPRESENTATION", payload: textRep });
+    },
+    [],
+  );
 
   const updateCodeRepresentation = useCallback(
-    (codeRep: CodeRepresentation | undefined, codeList?: CodeList, categories?: Category[]) => {
+    (
+      codeRep: CodeRepresentation | undefined,
+      codeList?: CodeList,
+      categories?: Category[],
+    ) => {
       dispatch({
         type: "SET_CODE_REPRESENTATION",
         payload: { codeRep, codeList, categories },
@@ -348,11 +358,19 @@ export const VariableEditForm = ({
           />
           <Button
             type="submit"
-            label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
+            label={
+              isNew
+                ? t("physicalInstance.view.add")
+                : t("physicalInstance.view.update")
+            }
             icon="pi pi-save"
             outlined
             disabled={hasValidationErrors}
-            aria-label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
+            aria-label={
+              isNew
+                ? t("physicalInstance.view.add")
+                : t("physicalInstance.view.update")
+            }
           />
           <Button
             type="button"
@@ -374,7 +392,10 @@ export const VariableEditForm = ({
           />
         </div>
 
-        <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+        <TabView
+          activeIndex={activeIndex}
+          onTabChange={(e) => setActiveIndex(e.index)}
+        >
           <TabPanel
             headerTemplate={(options) => {
               return (
@@ -409,9 +430,15 @@ export const VariableEditForm = ({
               name={state.name}
               label={state.label}
               description={state.description}
-              onNameChange={(value) => dispatch({ type: "SET_NAME", payload: value })}
-              onLabelChange={(value) => dispatch({ type: "SET_LABEL", payload: value })}
-              onDescriptionChange={(value) => dispatch({ type: "SET_DESCRIPTION", payload: value })}
+              onNameChange={(value) =>
+                dispatch({ type: "SET_NAME", payload: value })
+              }
+              onLabelChange={(value) =>
+                dispatch({ type: "SET_LABEL", payload: value })
+              }
+              onDescriptionChange={(value) =>
+                dispatch({ type: "SET_DESCRIPTION", payload: value })
+              }
               nameError={!state.name.trim()}
               labelError={!state.label.trim()}
             />
@@ -443,7 +470,9 @@ export const VariableEditForm = ({
               onIsGeographicChange={(value) =>
                 dispatch({ type: "SET_IS_GEOGRAPHIC", payload: value })
               }
-              onTypeChange={(value) => dispatch({ type: "SET_TYPE", payload: value })}
+              onTypeChange={(value) =>
+                dispatch({ type: "SET_TYPE", payload: value })
+              }
               onNumericRepresentationChange={updateNumericRepresentation}
               onDateRepresentationChange={updateDateRepresentation}
               onTextRepresentationChange={updateTextRepresentation}
@@ -459,7 +488,11 @@ export const VariableEditForm = ({
                   className={`${options.className} flex align-items-center gap-2`}
                   onClick={options.onClick}
                 >
-                  <i className="pi pi-code" aria-label={t("physicalInstance.view.tabs.ddiXml")} />
+                  <i
+                    className="pi pi-code"
+                    style={{ lineHeight: "inherit" }}
+                    aria-label={t("physicalInstance.view.tabs.ddiXml")}
+                  />
                 </div>
               );
             }}
@@ -472,7 +505,9 @@ export const VariableEditForm = ({
                 variableDescription={state.description}
                 variableType={state.selectedType}
                 isGeographic={state.isGeographic}
-                numericRepresentation={state.representation.NumericRepresentation}
+                numericRepresentation={
+                  state.representation.NumericRepresentation
+                }
                 dateRepresentation={state.representation.DateTimeRepresentation}
                 textRepresentation={state.representation.TextRepresentation}
                 codeRepresentation={state.representation.CodeRepresentation}

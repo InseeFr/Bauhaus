@@ -29,8 +29,12 @@ export const NumericRepresentation = ({
   const [numericTypeCode, setNumericTypeCode] = useState(
     representation?.NumericTypeCode || "Integer",
   );
-  const [minValue, setMinValue] = useState(representation?.NumberRange?.Low?.["#text"] || "");
-  const [maxValue, setMaxValue] = useState(representation?.NumberRange?.High?.["#text"] || "");
+  const [minValue, setMinValue] = useState(
+    representation?.NumberRange?.Low?.["#text"] || "",
+  );
+  const [maxValue, setMaxValue] = useState(
+    representation?.NumberRange?.High?.["#text"] || "",
+  );
   const [hasMin, setHasMin] = useState(!!representation?.NumberRange?.Low);
   const [hasMax, setHasMax] = useState(!!representation?.NumberRange?.High);
 
@@ -78,7 +82,9 @@ export const NumericRepresentation = ({
   return (
     <>
       <div className="flex flex-column gap-2">
-        <label htmlFor="numeric-type">{t("physicalInstance.view.numeric.type")}</label>
+        <label htmlFor="numeric-type">
+          {t("physicalInstance.view.numeric.type")}
+        </label>
         <Dropdown
           id="numeric-type"
           name="numericType"
@@ -92,12 +98,15 @@ export const NumericRepresentation = ({
       <div className="flex flex-column gap-2">
         {hasMin ? (
           <>
-            <label htmlFor="min-value">{t("physicalInstance.view.numeric.min")}</label>
+            <label htmlFor="min-value">
+              {t("physicalInstance.view.numeric.min")}
+            </label>
             <div className="flex gap-2">
               <InputText
                 id="min-value"
-                name="minValue"
+                name="numericMinValue"
                 type="number"
+                autoComplete="off"
                 value={minValue}
                 onChange={(e) => setMinValue(e.target.value)}
                 className="flex-1"
@@ -129,12 +138,15 @@ export const NumericRepresentation = ({
       <div className="flex flex-column gap-2">
         {hasMax ? (
           <>
-            <label htmlFor="max-value">{t("physicalInstance.view.numeric.max")}</label>
+            <label htmlFor="max-value">
+              {t("physicalInstance.view.numeric.max")}
+            </label>
             <div className="flex gap-2">
               <InputText
                 id="max-value"
-                name="maxValue"
+                name="numericMaxValue"
                 type="number"
+                autoComplete="off"
                 value={maxValue}
                 onChange={(e) => setMaxValue(e.target.value)}
                 className="flex-1"

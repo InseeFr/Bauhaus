@@ -18,6 +18,11 @@ export function usePublishPhysicalInstance() {
       queryClient.invalidateQueries({
         queryKey: ["physicalInstanceById", variables.agencyId, variables.id],
       });
+      // Invalider le cache des code lists pour qu'elles soient disponibles
+      // immédiatement dans le sélecteur "Réutiliser une code list"
+      queryClient.invalidateQueries({
+        queryKey: ["codesLists"],
+      });
     },
   });
 }

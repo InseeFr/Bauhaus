@@ -48,7 +48,9 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
     if (agencyId === "agency-1" && groupId === "group-1") {
       return {
         data: {
-          Group: [{ ID: "group-1", Agency: "agency-1", StudyUnitReference: [] }],
+          Group: [
+            { ID: "group-1", Agency: "agency-1", StudyUnitReference: [] },
+          ],
           StudyUnit: [
             {
               ID: "study-1",
@@ -86,7 +88,15 @@ vi.mock("primereact/inputtext", () => ({
 }));
 
 vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ id, value, options, onChange, placeholder, disabled, className }: any) => (
+  Dropdown: ({
+    id,
+    value,
+    options,
+    onChange,
+    placeholder,
+    disabled,
+    className,
+  }: any) => (
     <select
       id={id}
       value={value || ""}
@@ -106,8 +116,20 @@ vi.mock("primereact/dropdown", () => ({
 }));
 
 vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, type = "button", className, disabled, loading }: any) => (
-    <button type={type} onClick={onClick} className={className} disabled={disabled || loading}>
+  Button: ({
+    label,
+    onClick,
+    type = "button",
+    className,
+    disabled,
+    loading,
+  }: any) => (
+    <button
+      type={type}
+      onClick={onClick}
+      className={className}
+      disabled={disabled || loading}
+    >
       {label}
     </button>
   ),
@@ -148,16 +170,22 @@ describe("PhysicalInstanceDialog", () => {
     it("should render the dialog in create mode when visible is true", () => {
       render(<PhysicalInstanceDialog {...defaultCreateProps} />);
 
-      expect(screen.getByText("Create a new physical instance")).toBeInTheDocument();
+      expect(
+        screen.getByText("Create a new physical instance"),
+      ).toBeInTheDocument();
       expect(screen.getByLabelText("Label")).toBeInTheDocument();
       expect(screen.getByLabelText("Group")).toBeInTheDocument();
       expect(screen.getByLabelText("Study Unit")).toBeInTheDocument();
     });
 
     it("should not render the dialog when visible is false", () => {
-      render(<PhysicalInstanceDialog {...defaultCreateProps} visible={false} />);
+      render(
+        <PhysicalInstanceDialog {...defaultCreateProps} visible={false} />,
+      );
 
-      expect(screen.queryByText("Create a new physical instance")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("Create a new physical instance"),
+      ).not.toBeInTheDocument();
     });
 
     it("should have create button disabled when form is incomplete", () => {
@@ -300,6 +328,92 @@ describe("PhysicalInstanceDialog", () => {
           studyUnit: { id: "study-1", agency: "agency-1" },
         });
       });
+    });
+  });
+
+  describe("Form reset behavior", () => {
+    it("should not reset form after successful creation (to avoid flash of empty form before redirect)", async () => {
+      const mockOnSubmitCreate = vi.fn().mockResolvedValue(undefined);
+      render(
+        <PhysicalInstanceDialog
+          visible={true}
+          onHide={mockOnHide}
+          mode="create"
+          onSubmitCreate={mockOnSubmitCreate}
+        />,
+      );
+
+      // Fill the form
+      const labelInput = screen.getByLabelText("Label");
+      fireEvent.change(labelInput, { target: { value: "Test Label" } });
+
+      const groupDropdown = screen.getByTestId("dropdown-group");
+      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
+
+      await waitFor(() => {
+        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+        expect(studyUnitDropdown).not.toBeDisabled();
+      });
+
+      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
+
+      // Submit the form
+      const createButton = screen.getByText("Create");
+      fireEvent.click(createButton);
+
+      await waitFor(() => {
+        expect(mockOnSubmitCreate).toHaveBeenCalled();
+      });
+
+      // After successful creation, the form should still have its values
+      // (not reset) to avoid flash of empty form before redirect
+      const labelInputAfter = screen.getByLabelText(
+        "Label",
+      ) as HTMLInputElement;
+      expect(labelInputAfter.value).toBe("Test Label");
+    });
+
+    it("should reset form after successful edit", async () => {
+      const mockOnSubmitEdit = vi.fn().mockResolvedValue(undefined);
+      render(
+        <PhysicalInstanceDialog
+          visible={true}
+          onHide={mockOnHide}
+          mode="edit"
+          initialData={{ label: "Existing Label" }}
+          onSubmitEdit={mockOnSubmitEdit}
+        />,
+      );
+
+      // Modify the label
+      const labelInput = screen.getByLabelText("Label");
+      fireEvent.change(labelInput, { target: { value: "Modified Label" } });
+
+      const groupDropdown = screen.getByTestId("dropdown-group");
+      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
+
+      await waitFor(() => {
+        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+        expect(studyUnitDropdown).not.toBeDisabled();
+      });
+
+      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
+
+      // Submit the form
+      const saveButton = screen.getByText("Save");
+      fireEvent.click(saveButton);
+
+      await waitFor(() => {
+        expect(mockOnSubmitEdit).toHaveBeenCalled();
+      });
+
+      // After successful edit, the form should be reset
+      const labelInputAfter = screen.getByLabelText(
+        "Label",
+      ) as HTMLInputElement;
+      expect(labelInputAfter.value).toBe("");
     });
   });
 });

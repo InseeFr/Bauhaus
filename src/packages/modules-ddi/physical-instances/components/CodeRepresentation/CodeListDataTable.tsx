@@ -17,7 +17,11 @@ interface CodeListDataTableProps {
   codeListLabel: string;
   codes: CodeTableRow[];
   onCodeListLabelChange: (label: string) => void;
-  onCellEdit: (rowData: CodeTableRow, field: "value" | "label", newValue: string) => void;
+  onCellEdit: (
+    rowData: CodeTableRow,
+    field: "value" | "label",
+    newValue: string,
+  ) => void;
   onDeleteCode: (codeId: string) => void;
   onAddCode: (value: string, label: string) => void;
 }
@@ -143,10 +147,13 @@ export const CodeListDataTable = ({
   return (
     <>
       <div className="flex flex-column gap-2">
-        <label htmlFor="code-list-label">{t("physicalInstance.view.code.codeListLabel")}</label>
+        <label htmlFor="code-list-label">
+          {t("physicalInstance.view.code.codeListLabel")}
+        </label>
         <InputText
           id="code-list-label"
           name="codeListLabel"
+          autoComplete="off"
           value={codeListLabel}
           onChange={(e) => onCodeListLabelChange(e.target.value)}
         />
@@ -155,16 +162,22 @@ export const CodeListDataTable = ({
         <Column
           field="value"
           header={t("physicalInstance.view.code.value")}
-          body={(rowData) => (rowData.id === "" ? emptyRowValueTemplate() : valueEditor(rowData))}
+          body={(rowData) =>
+            rowData.id === "" ? emptyRowValueTemplate() : valueEditor(rowData)
+          }
         />
         <Column
           field="label"
           header={t("physicalInstance.view.code.label")}
-          body={(rowData) => (rowData.id === "" ? emptyRowLabelTemplate() : labelEditor(rowData))}
+          body={(rowData) =>
+            rowData.id === "" ? emptyRowLabelTemplate() : labelEditor(rowData)
+          }
         />
         <Column
           body={(rowData) =>
-            rowData.id === "" ? emptyRowActionTemplate() : actionBodyTemplate(rowData)
+            rowData.id === ""
+              ? emptyRowActionTemplate()
+              : actionBodyTemplate(rowData)
           }
           style={{ width: "5rem" }}
         />

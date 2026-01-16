@@ -53,7 +53,9 @@ export const PhysicalInstanceDialog = ({
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
-  const [selectedStudyUnitId, setSelectedStudyUnitId] = useState<string | null>(null);
+  const [selectedStudyUnitId, setSelectedStudyUnitId] = useState<string | null>(
+    null,
+  );
   const [label, setLabel] = useState("");
 
   const isCreateMode = mode === "create";
@@ -66,10 +68,8 @@ export const PhysicalInstanceDialog = ({
     return group ? { id: group.id, agency: group.agency } : null;
   }, [selectedGroupId, groups]);
 
-  const { data: groupDetails, isLoading: isLoadingStudyUnits } = useGroupDetails(
-    selectedGroup?.agency ?? null,
-    selectedGroup?.id ?? null,
-  );
+  const { data: groupDetails, isLoading: isLoadingStudyUnits } =
+    useGroupDetails(selectedGroup?.agency ?? null, selectedGroup?.id ?? null);
 
   const groupOptions = useMemo(() => {
     return groups.map((group) => ({
@@ -119,6 +119,8 @@ export const PhysicalInstanceDialog = ({
           studyUnit: selectedStudyUnit!,
         };
         await onSubmitCreate(data);
+        // Ne pas appeler resetForm() ici car la redirection va démonter le composant
+        // et on évite ainsi de voir le formulaire vide pendant un court instant
       } else if (!isCreateMode && onSubmitEdit) {
         const data: PhysicalInstanceUpdateData = {
           label: label,
@@ -127,8 +129,8 @@ export const PhysicalInstanceDialog = ({
           studyUnit: selectedStudyUnit!,
         };
         await onSubmitEdit(data);
+        resetForm();
       }
-      resetForm();
     } finally {
       setIsSubmitting(false);
     }
@@ -166,12 +168,19 @@ export const PhysicalInstanceDialog = ({
       onHide={handleHide}
       className="ddi physical-instance-creation-dialog"
     >
-      <form ref={formRef} onSubmit={handleSubmit} className="flex flex-column gap-3">
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit}
+        className="flex flex-column gap-3"
+      >
         <div className="flex flex-column gap-2">
-          <label htmlFor="label">{t("physicalInstance.creation.label")}</label>
+          <label htmlFor="physicalInstanceLabel">
+            {t("physicalInstance.creation.label")}
+          </label>
           <InputText
-            id="label"
-            name="label"
+            id="physicalInstanceLabel"
+            name="physicalInstanceLabel"
+            autoComplete="off"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
           />
@@ -191,7 +200,9 @@ export const PhysicalInstanceDialog = ({
         </div>
 
         <div className="flex flex-column gap-2">
-          <label htmlFor="studyUnit">{t("physicalInstance.creation.studyUnit")}</label>
+          <label htmlFor="studyUnit">
+            {t("physicalInstance.creation.studyUnit")}
+          </label>
           <Dropdown
             id="studyUnit"
             value={selectedStudyUnitId}

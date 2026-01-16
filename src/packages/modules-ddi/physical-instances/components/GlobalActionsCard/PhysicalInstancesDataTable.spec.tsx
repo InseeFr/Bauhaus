@@ -4,7 +4,7 @@ import { PhysicalInstancesDataTable } from "./PhysicalInstancesDataTable";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string) => {
+    t: (key: string, options?: { count?: number }) => {
       const translations: Record<string, string> = {
         "physicalInstance.view.variablesTable": "Tableau des variables",
         "physicalInstance.view.columns.name": "Nom",
@@ -12,6 +12,7 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.columns.type": "Type",
         "physicalInstance.view.columns.lastModified": "Dernière Modification",
         "physicalInstance.view.delete": "Supprimer",
+        "physicalInstance.view.totalVariables": `Total: ${options?.count ?? 0} variables`,
       };
       return translations[key] || key;
     },
@@ -22,7 +23,15 @@ vi.mock("react-i18next", () => ({
 }));
 
 vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, icon, ...props }: any) => (
+  Button: ({
+    label,
+    onClick,
+    icon,
+    rounded: _rounded,
+    text: _text,
+    severity: _severity,
+    ...props
+  }: any) => (
     <button type="button" onClick={onClick} {...props}>
       {icon && <span className={icon} />}
       {label}
@@ -31,12 +40,22 @@ vi.mock("primereact/button", () => ({
 }));
 
 vi.mock("primereact/datatable", () => ({
-  DataTable: ({ value, children, onRowClick, ...props }: any) => {
+  DataTable: ({
+    value,
+    children,
+    onRowClick,
+    header,
+    stripedRows: _stripedRows,
+    selectionMode: _selectionMode,
+    rowClassName: _rowClassName,
+    ...props
+  }: any) => {
     // Convert children to array to handle both single and multiple Column components
     const columns = Array.isArray(children) ? children : [children];
 
     return (
       <table {...props}>
+        {header && <caption data-testid="datatable-header">{header}</caption>}
         <thead>
           <tr>
             {columns.map((col: any, idx: number) => (
@@ -49,7 +68,9 @@ vi.mock("primereact/datatable", () => ({
             <tr key={index} onClick={() => onRowClick?.({ data: item })}>
               {columns.map((col: any, colIdx: number) => (
                 <td key={colIdx}>
-                  {col.props.body ? col.props.body(item) : item[col.props.field]}
+                  {col.props.body
+                    ? col.props.body(item)
+                    : item[col.props.field]}
                 </td>
               ))}
             </tr>
@@ -173,7 +194,9 @@ describe("PhysicalInstancesDataTable", () => {
         variables: mockVariables,
       };
 
-      expect(() => render(<PhysicalInstancesDataTable {...propsWithoutRowClick} />)).not.toThrow();
+      expect(() =>
+        render(<PhysicalInstancesDataTable {...propsWithoutRowClick} />),
+      ).not.toThrow();
     });
 
     it("should render without onDeleteClick callback", () => {
@@ -200,7 +223,12 @@ describe("PhysicalInstancesDataTable", () => {
         },
       ];
 
-      render(<PhysicalInstancesDataTable {...defaultProps} variables={variablesWithISODates} />);
+      render(
+        <PhysicalInstancesDataTable
+          {...defaultProps}
+          variables={variablesWithISODates}
+        />,
+      );
 
       expect(screen.getByText("15/03/2024")).toBeInTheDocument();
     });
@@ -216,7 +244,12 @@ describe("PhysicalInstancesDataTable", () => {
         },
       ];
 
-      render(<PhysicalInstancesDataTable {...defaultProps} variables={variablesWithEmptyDate} />);
+      render(
+        <PhysicalInstancesDataTable
+          {...defaultProps}
+          variables={variablesWithEmptyDate}
+        />,
+      );
 
       // Should not throw and should render the table
       expect(screen.getByText("Variable1")).toBeInTheDocument();
@@ -226,7 +259,10 @@ describe("PhysicalInstancesDataTable", () => {
   describe("Unsaved variables styling", () => {
     it("should apply italic styling to unsaved variables", () => {
       const { container } = render(
-        <PhysicalInstancesDataTable {...defaultProps} unsavedVariableIds={["1"]} />,
+        <PhysicalInstancesDataTable
+          {...defaultProps}
+          unsavedVariableIds={["1"]}
+        />,
       );
 
       // The rowClassName function is called internally by DataTable
@@ -236,10 +272,63 @@ describe("PhysicalInstancesDataTable", () => {
 
     it("should not apply italic styling when no unsaved variables", () => {
       const { container } = render(
-        <PhysicalInstancesDataTable {...defaultProps} unsavedVariableIds={[]} />,
+        <PhysicalInstancesDataTable
+          {...defaultProps}
+          unsavedVariableIds={[]}
+        />,
       );
 
       expect(container).toBeInTheDocument();
+    });
+  });
+
+  describe("Variables count header", () => {
+    it("should display the total count of variables in the header", () => {
+      render(<PhysicalInstancesDataTable {...defaultProps} />);
+
+      const header = screen.getByTestId("datatable-header");
+      expect(header).toBeInTheDocument();
+      expect(header).toHaveTextContent("Total: 2 variables");
+    });
+
+    it("should display count of 0 when no variables", () => {
+      render(<PhysicalInstancesDataTable {...defaultProps} variables={[]} />);
+
+      const header = screen.getByTestId("datatable-header");
+      expect(header).toBeInTheDocument();
+      expect(header).toHaveTextContent("Total: 0 variables");
+    });
+
+    it("should update count when variables change", () => {
+      const { rerender } = render(
+        <PhysicalInstancesDataTable {...defaultProps} />,
+      );
+
+      expect(screen.getByTestId("datatable-header")).toHaveTextContent(
+        "Total: 2 variables",
+      );
+
+      const moreVariables = [
+        ...mockVariables,
+        {
+          id: "3",
+          name: "Variable3",
+          label: "Label 3",
+          type: "Text",
+          lastModified: "2024-01-03",
+        },
+      ];
+
+      rerender(
+        <PhysicalInstancesDataTable
+          {...defaultProps}
+          variables={moreVariables}
+        />,
+      );
+
+      expect(screen.getByTestId("datatable-header")).toHaveTextContent(
+        "Total: 3 variables",
+      );
     });
   });
 });
