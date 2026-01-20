@@ -18,11 +18,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
 }));
 
 vi.mock("./home", () => ({
-  default: ({
-    collections,
-  }: {
-    collections: { id: string; label: string }[];
-  }) => (
+  default: ({ collections }: { collections: { id: string; label: string }[] }) => (
     <div data-testid="collections-to-export">
       <span data-testid="collections-count">{collections.length}</span>
       <ul>
@@ -97,9 +93,7 @@ describe("Export Collections Home Container", () => {
       renderComponent();
 
       expect(screen.getByText("Export in progress...")).toBeInTheDocument();
-      expect(
-        screen.queryByText("Loading in progress..."),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
     });
 
     it("should hide loading indicator after collections are fetched", () => {
@@ -110,9 +104,7 @@ describe("Export Collections Home Container", () => {
 
       renderComponent();
 
-      expect(
-        screen.queryByText("Loading in progress..."),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
       expect(screen.getByTestId("collections-to-export")).toBeInTheDocument();
     });
   });

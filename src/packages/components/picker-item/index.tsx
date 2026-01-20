@@ -7,13 +7,7 @@ interface PickerItemTypes {
   to?: string;
   handleClick?: (id: string) => void;
 }
-export const PickerItem = ({
-  id,
-  label,
-  logo,
-  to,
-  handleClick,
-}: Readonly<PickerItemTypes>) => {
+export const PickerItem = ({ id, label, logo, to, handleClick }: Readonly<PickerItemTypes>) => {
   if (handleClick) {
     return (
       <li className="list-group-item" onClick={() => handleClick(id)}>

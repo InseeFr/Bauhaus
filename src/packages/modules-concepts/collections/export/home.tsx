@@ -14,9 +14,7 @@ interface CollectionsToExportProps {
   collections: CollectionItem[];
 }
 
-const CollectionsToExport = ({
-  collections,
-}: Readonly<CollectionsToExportProps>) => {
+const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>) => {
   const { mutate: exportCollection } = useCollectionExporter();
 
   return (
@@ -30,11 +28,9 @@ const CollectionsToExport = ({
       ValidationButton={({ selectedIds }) => (
         <ExportButtons
           disabled={selectedIds.length < 1}
-          exportHandler={(
-            type: string,
-            withConcepts: boolean,
-            lang: "lg1" | "lg2" = "lg1",
-          ) => exportCollection({ ids: selectedIds, type, withConcepts, lang })}
+          exportHandler={(type: string, withConcepts: boolean, lang: "lg1" | "lg2" = "lg1") =>
+            exportCollection({ ids: selectedIds, type, withConcepts, lang })
+          }
         />
       )}
     />

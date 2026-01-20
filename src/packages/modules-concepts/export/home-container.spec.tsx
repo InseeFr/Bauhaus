@@ -24,16 +24,10 @@ vi.mock("../collections/export-buttons", () => ({
   }) => (
     <div data-testid="export-buttons">
       <span data-testid="disabled-state">{disabled.toString()}</span>
-      <button
-        data-testid="export-ods"
-        onClick={() => exportHandler("ods", false)}
-      >
+      <button data-testid="export-ods" onClick={() => exportHandler("ods", false)}>
         Export ODS
       </button>
-      <button
-        data-testid="export-odt"
-        onClick={() => exportHandler("odt", false)}
-      >
+      <button data-testid="export-odt" onClick={() => exportHandler("odt", false)}>
         Export ODT
       </button>
     </div>

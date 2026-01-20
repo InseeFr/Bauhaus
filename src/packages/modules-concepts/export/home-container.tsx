@@ -9,8 +9,7 @@ import ExportButtons from "../collections/export-buttons";
 export const Component = () => {
   useTitle(D.conceptsTitle, D.exportTitle);
 
-  const { mutate: exportConcept, isPending: isExporting } =
-    useConceptExporter();
+  const { mutate: exportConcept, isPending: isExporting } = useConceptExporter();
   const { isLoading, data: concepts } = useConcepts();
 
   if (isExporting) {
