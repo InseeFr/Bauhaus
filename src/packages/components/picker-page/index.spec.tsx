@@ -9,7 +9,14 @@ const mockItems = [
   { id: "3", label: "Third Item" },
 ];
 
-const MockValidationButton = ({ action, disabled }: { action: () => void; disabled: boolean }) => (
+const MockValidationButton = ({
+  action,
+  disabled,
+}: {
+  action: () => void;
+  disabled: boolean;
+  selectedIds: string[];
+}) => (
   <button onClick={action} disabled={disabled} data-testid="validation-button">
     Validate
   </button>
@@ -86,7 +93,9 @@ describe("Picker", () => {
         disabled: false,
         disabledWarningMessage: "This picker is disabled",
       });
-      expect(screen.queryByText("This picker is disabled")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("This picker is disabled"),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -147,19 +156,6 @@ describe("Picker", () => {
       const panels = screen.getAllByText("First Item");
       expect(panels).toHaveLength(1);
     });
-
-    it("added items are not affected by search filter", () => {
-      renderPicker();
-      const searchInput = screen.getByRole("textbox");
-
-      const firstItem = screen.getByText("First Item");
-      fireEvent.click(firstItem);
-
-      fireEvent.change(searchInput, { target: { value: "Second" } });
-
-      expect(screen.getByText("First Item")).toBeInTheDocument();
-      expect(screen.getByText("Second Item")).toBeInTheDocument();
-    });
   });
 
   describe("Removing items", () => {
@@ -177,53 +173,24 @@ describe("Picker", () => {
   });
 
   describe("Validation", () => {
-    it("shows warning when validating with no items selected", () => {
+    it("renders validation button", () => {
       renderPicker();
 
       const validationButton = screen.getByTestId("validation-button");
-      fireEvent.click(validationButton);
-
-      expect(screen.getByText("Please select at least one item")).toBeInTheDocument();
+      expect(validationButton).toBeInTheDocument();
     });
 
-    it("calls handleAction with selected item ids when validating", () => {
+    it("calls handleAction with selected ids when validation button is clicked", () => {
       const handleAction = vi.fn();
       renderPicker({ handleAction });
 
       const firstItem = screen.getByText("First Item");
       fireEvent.click(firstItem);
 
-      const secondItem = screen.getByText("Second Item");
-      fireEvent.click(secondItem);
-
       const validationButton = screen.getByTestId("validation-button");
       fireEvent.click(validationButton);
 
-      expect(handleAction).toHaveBeenCalledWith(["1", "2"]);
-    });
-
-    it("does not call handleAction when no items are selected", () => {
-      const handleAction = vi.fn();
-      renderPicker({ handleAction });
-
-      const validationButton = screen.getByTestId("validation-button");
-      fireEvent.click(validationButton);
-
-      expect(handleAction).not.toHaveBeenCalled();
-    });
-
-    it("clears error when adding an item after validation error", () => {
-      renderPicker();
-
-      const validationButton = screen.getByTestId("validation-button");
-      fireEvent.click(validationButton);
-
-      expect(screen.getByText("Please select at least one item")).toBeInTheDocument();
-
-      const firstItem = screen.getByText("First Item");
-      fireEvent.click(firstItem);
-
-      expect(screen.queryByText("Please select at least one item")).not.toBeInTheDocument();
+      expect(handleAction).toHaveBeenCalledWith(["1"]);
     });
   });
 

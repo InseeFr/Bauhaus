@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
@@ -41,6 +42,21 @@ vi.mock("@sdk/index", () => ({
   },
 }));
 
+const createWrapper = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>{children}</MemoryRouter>
+    </QueryClientProvider>
+  );
+};
+
 describe("Collection Validation Home Container", () => {
   const mockCollections = [
     { id: "1", label: "Collection B", creator: "DG75-L201" },
@@ -64,11 +80,7 @@ describe("Collection Validation Home Container", () => {
         ),
       );
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
 
@@ -82,11 +94,7 @@ describe("Collection Validation Home Container", () => {
     it("should hide loading indicator after collections are fetched", async () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(
@@ -100,11 +108,7 @@ describe("Collection Validation Home Container", () => {
     it("should display collections after successful fetch", async () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(
@@ -118,11 +122,7 @@ describe("Collection Validation Home Container", () => {
     it("should display empty list when no collections to validate", async () => {
       mockGetCollectionValidateList.mockResolvedValue([]);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(
@@ -139,11 +139,7 @@ describe("Collection Validation Home Container", () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList.mockResolvedValue({});
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(screen.getByTestId("validate-button")).toBeInTheDocument();
@@ -162,11 +158,7 @@ describe("Collection Validation Home Container", () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList.mockResolvedValue({});
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(screen.getByTestId("validate-button")).toBeInTheDocument();
@@ -188,11 +180,7 @@ describe("Collection Validation Home Container", () => {
       const { useTitle } = await import("@utils/hooks/useTitle");
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(
@@ -208,11 +196,7 @@ describe("Collection Validation Home Container", () => {
     it("should handle empty collection list from API", async () => {
       mockGetCollectionValidateList.mockResolvedValue([]);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(screen.getByTestId("collections-count")).toHaveTextContent("0");
@@ -224,11 +208,7 @@ describe("Collection Validation Home Container", () => {
         { id: "1", label: "Single Collection", creator: "DG75-L201" },
       ]);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(screen.getByTestId("collections-count")).toHaveTextContent("1");
@@ -244,11 +224,7 @@ describe("Collection Validation Home Container", () => {
 
       mockGetCollectionValidateList.mockResolvedValue(largeCollections);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(screen.getByTestId("collections-count")).toHaveTextContent(
@@ -263,11 +239,7 @@ describe("Collection Validation Home Container", () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList.mockResolvedValue({});
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
         expect(

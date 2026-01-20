@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { useState } from "react";
 
 import { ErrorBloc } from "@components/errors-bloc";
@@ -42,6 +41,7 @@ interface PickerTypes {
   ValidationButton: React.ComponentType<{
     action: () => void;
     disabled: boolean;
+    selectedIds: string[];
   }>;
   disabled?: boolean;
   disabledWarningMessage?: string;
@@ -57,7 +57,7 @@ export const Picker = ({
   ValidationButton,
   disabled,
   disabledWarningMessage,
-}: PickerTypes) => {
+}: Readonly<PickerTypes>) => {
   const [search, setSearch] = useState("");
   const [items, setItems] = useState(() => trackItems(itemsProps ?? []));
   const [clientSideErrors, setClientSideErrors] = useState("");
@@ -135,12 +135,15 @@ export const Picker = ({
     />
   ));
 
+  const addedIds = added.map(({ id }) => id);
+
   const controls = (
     <ActionToolbar>
       <ReturnButton action={`/${context}`} />
       <ValidationButton
         action={handleClickValid}
         disabled={!!clientSideErrors}
+        selectedIds={addedIds}
       />
     </ActionToolbar>
   );
