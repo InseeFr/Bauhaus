@@ -33,13 +33,16 @@ const trackItems = (items: Item[]) => {
 };
 
 interface PickerTypes {
-  items: any;
-  handleAction: any;
+  items: Item[];
+  handleAction: (ids: string[]) => void;
   title: string;
   panelTitle: string;
   labelWarning: string;
-  context: any;
-  ValidationButton: () => JSX.Element;
+  context: string;
+  ValidationButton: React.ComponentType<{
+    action: () => void;
+    disabled: boolean;
+  }>;
   disabled?: boolean;
   disabledWarningMessage?: string;
 }
@@ -75,7 +78,6 @@ export const Picker = ({
         return item;
       }),
     );
-    handleUpdateIds();
   };
 
   const removeItem = (id: string) => {
@@ -86,7 +88,6 @@ export const Picker = ({
         return item;
       }),
     );
-    handleUpdateIds();
   };
 
   const handleClickValid = () => {
@@ -115,17 +116,32 @@ export const Picker = ({
   const { toAdd, added } = getItemsByStatus();
 
   const toAddEls = toAdd.map(({ id, label }) => (
-    <PickerItem key={id} id={id} label={label} logo={AddLogo} handleClick={addItem} />
+    <PickerItem
+      key={id}
+      id={id}
+      label={label}
+      logo={<AddLogo />}
+      handleClick={addItem}
+    />
   ));
 
   const addedEls = added.map(({ id, label }) => (
-    <PickerItem key={id} id={id} label={label} logo={DelLogo} handleClick={removeItem} />
+    <PickerItem
+      key={id}
+      id={id}
+      label={label}
+      logo={<DelLogo />}
+      handleClick={removeItem}
+    />
   ));
 
   const controls = (
     <ActionToolbar>
       <ReturnButton action={`/${context}`} />
-      <ValidationButton action={handleClickValid} disabled={!!clientSideErrors} />
+      <ValidationButton
+        action={handleClickValid}
+        disabled={!!clientSideErrors}
+      />
     </ActionToolbar>
   );
 

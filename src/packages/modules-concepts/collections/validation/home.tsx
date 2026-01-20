@@ -1,9 +1,19 @@
 import { PublishButton } from "@components/buttons/buttons-with-icons";
 import { Picker } from "@components/picker-page";
 
+import { UnpublishedCollection } from "@model/concepts/collection";
+
 import D from "../../../deprecated-locales";
 
-const CollectionsToValidate = ({ collections, handleValidateCollectionList }) => {
+interface CollectionsToValidateProps {
+  collections: UnpublishedCollection[];
+  handleValidateCollectionList: (ids: string[]) => void;
+}
+
+const CollectionsToValidate = ({
+  collections,
+  handleValidateCollectionList,
+}: Readonly<CollectionsToValidateProps>) => {
   return (
     <Picker
       items={collections}
