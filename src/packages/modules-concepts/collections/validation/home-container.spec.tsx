@@ -75,9 +75,7 @@ describe("Collection Validation Home Container", () => {
   describe("Loading State", () => {
     it("should display loading indicator while fetching collections", async () => {
       mockGetCollectionValidateList.mockReturnValue(
-        new Promise((resolve) =>
-          setTimeout(() => resolve(mockCollections), 50),
-        ),
+        new Promise((resolve) => setTimeout(() => resolve(mockCollections), 50)),
       );
 
       render(<Component />, { wrapper: createWrapper() });
@@ -85,9 +83,7 @@ describe("Collection Validation Home Container", () => {
       expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
 
       await waitFor(() => {
-        expect(
-          screen.queryByText("Loading in progress..."),
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
       });
     });
 
@@ -97,9 +93,7 @@ describe("Collection Validation Home Container", () => {
       render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
-        expect(
-          screen.queryByText("Loading in progress..."),
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
       });
     });
   });
@@ -111,9 +105,7 @@ describe("Collection Validation Home Container", () => {
       render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
-        expect(
-          screen.getByTestId("collections-to-validate"),
-        ).toBeInTheDocument();
+        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
       });
 
       expect(screen.getByTestId("collections-count")).toHaveTextContent("3");
@@ -125,9 +117,7 @@ describe("Collection Validation Home Container", () => {
       render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
-        expect(
-          screen.getByTestId("collections-to-validate"),
-        ).toBeInTheDocument();
+        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
       });
 
       expect(screen.getByTestId("collections-count")).toHaveTextContent("0");
@@ -183,9 +173,7 @@ describe("Collection Validation Home Container", () => {
       render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
-        expect(
-          screen.getByTestId("collections-to-validate"),
-        ).toBeInTheDocument();
+        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
       });
 
       expect(useTitle).toHaveBeenCalledWith("Collections", "Valider");
@@ -227,9 +215,7 @@ describe("Collection Validation Home Container", () => {
       render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
-        expect(screen.getByTestId("collections-count")).toHaveTextContent(
-          "100",
-        );
+        expect(screen.getByTestId("collections-count")).toHaveTextContent("100");
       });
     });
   });
@@ -242,9 +228,7 @@ describe("Collection Validation Home Container", () => {
       render(<Component />, { wrapper: createWrapper() });
 
       await waitFor(() => {
-        expect(
-          screen.getByTestId("collections-to-validate"),
-        ).toBeInTheDocument();
+        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
       });
 
       await act(async () => {

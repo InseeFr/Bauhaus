@@ -116,23 +116,11 @@ export const Picker = ({
   const { toAdd, added } = getItemsByStatus();
 
   const toAddEls = toAdd.map(({ id, label }) => (
-    <PickerItem
-      key={id}
-      id={id}
-      label={label}
-      logo={<AddLogo />}
-      handleClick={addItem}
-    />
+    <PickerItem key={id} id={id} label={label} logo={<AddLogo />} handleClick={addItem} />
   ));
 
   const addedEls = added.map(({ id, label }) => (
-    <PickerItem
-      key={id}
-      id={id}
-      label={label}
-      logo={<DelLogo />}
-      handleClick={removeItem}
-    />
+    <PickerItem key={id} id={id} label={label} logo={<DelLogo />} handleClick={removeItem} />
   ));
 
   const addedIds = added.map(({ id }) => id);

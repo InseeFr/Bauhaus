@@ -93,9 +93,7 @@ describe("Picker", () => {
         disabled: false,
         disabledWarningMessage: "This picker is disabled",
       });
-      expect(
-        screen.queryByText("This picker is disabled"),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByText("This picker is disabled")).not.toBeInTheDocument();
     });
   });
 

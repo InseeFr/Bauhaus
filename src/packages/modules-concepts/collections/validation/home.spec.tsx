@@ -13,10 +13,7 @@ describe("CollectionsToValidate", () => {
   describe("Rendering", () => {
     it("renders without crashing", () => {
       renderWithRouter(
-        <CollectionsToValidate
-          collections={[]}
-          handleValidateCollectionList={vi.fn()}
-        />,
+        <CollectionsToValidate collections={[]} handleValidateCollectionList={vi.fn()} />,
       );
     });
 
@@ -71,10 +68,7 @@ describe("CollectionsToValidate", () => {
   describe("Empty state", () => {
     it("renders empty list without errors", () => {
       renderWithRouter(
-        <CollectionsToValidate
-          collections={[]}
-          handleValidateCollectionList={vi.fn()}
-        />,
+        <CollectionsToValidate collections={[]} handleValidateCollectionList={vi.fn()} />,
       );
 
       expect(screen.queryByText("Collection A")).not.toBeInTheDocument();
