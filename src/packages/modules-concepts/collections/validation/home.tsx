@@ -20,7 +20,9 @@ const CollectionsToValidate = ({
       title={D.collectionsToValidTitle}
       panelTitle={D.collectionsToValidPanelTitle}
       labelWarning={D.hasNotCollectionToValid}
-      ValidationButton={PublishButton}
+      ValidationButton={({ action, disabled }) => (
+        <PublishButton action={action} disabled={disabled} />
+      )}
       handleAction={handleValidateCollectionList}
       context="collections"
     />
