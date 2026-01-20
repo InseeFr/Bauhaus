@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { Exporting, Loading } from "@components/loading";
 import { Picker } from "@components/picker-page";
 
@@ -10,7 +8,6 @@ import ExportButtons from "../collections/export-buttons";
 
 export const Component = () => {
   useTitle(D.conceptsTitle, D.exportTitle);
-  const [ids, setIds] = useState<string[]>([]);
 
   const { mutate: exportConcept, isPending: isExporting } = useConceptExporter();
   const { isLoading, data: concepts } = useConcepts();
@@ -28,16 +25,14 @@ export const Component = () => {
       title={D.exportTitle}
       panelTitle={D.conceptsExportPanelTitle}
       labelWarning={D.hasNotConceptToExport}
-      handleAction={(value: string[]) => setIds(value)}
+      handleAction={() => {}}
       context="concepts"
-      disabled={ids.length < 1}
-      disabledWarningMessage={D.hasNotConceptToExport}
-      ValidationButton={() => (
+      ValidationButton={({ selectedIds }) => (
         <ExportButtons
           exportHandler={(type, withConcepts, lang = "lg1") =>
-            exportConcept({ ids, type, withConcepts, lang })
+            exportConcept({ ids: selectedIds, type, withConcepts, lang })
           }
-          disabled={ids.length < 1}
+          disabled={selectedIds.length < 1}
         />
       )}
     />

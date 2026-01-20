@@ -50,11 +50,7 @@ const renderApp = (
   props?: { home: true },
 ) => {
   const { authType, lg1, lg2, version, ...properties } = initState;
-  const store = configureStore({
-    app: {
-      auth: { user: { stamp: "" } },
-    },
-  });
+  const store = configureStore({});
 
   document.querySelector("html")!.setAttribute("lang", getLang());
 

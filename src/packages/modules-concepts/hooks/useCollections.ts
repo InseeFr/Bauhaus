@@ -1,12 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { CollectionApi as NewCollectionApi } from "@sdk/new-collection-api";
 
-export const useCollections = () => {
+import { PartialCollection } from "@model/concepts/collection";
+
+export const useCollections = <T = PartialCollection[]>(
+  select?: (data: PartialCollection[]) => T,
+) => {
   return useQuery({
     queryKey: ["collections"],
-    queryFn: () => {
+    queryFn: (): Promise<PartialCollection[]> => {
       return NewCollectionApi.getCollectionList();
     },
-    placeholderData: [],
+    select,
   });
 };

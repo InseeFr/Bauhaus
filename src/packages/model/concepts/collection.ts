@@ -6,5 +6,14 @@ export interface Collection {
 
 export interface PartialCollection {
   id: string;
+  label: {
+    value: string;
+    lang: string;
+  };
+}
+
+export interface UnpublishedCollection {
+  id: string;
   label: string;
+  creator: string;
 }

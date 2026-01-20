@@ -5,12 +5,15 @@ export const cleanId = (id?: string) => {
   return id.replaceAll(" ", "-").toLowerCase();
 };
 export const deburr = (str: string): string => {
+  if (!str || typeof str !== "string") {
+    return "";
+  }
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 };
 
 export const normalize = (str = ""): string => {
   if (!str || typeof str !== "string") {
-    return str;
+    return "";
   }
   return str
     .toLowerCase()
