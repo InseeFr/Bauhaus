@@ -8,3 +8,9 @@ export interface PartialCollection {
   id: string;
   label: string;
 }
+
+export interface UnpublishedCollection {
+  id: string;
+  label: string;
+  creator: string;
+}
