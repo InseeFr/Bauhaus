@@ -1,5 +1,8 @@
 import { ActionToolbar } from "@components/action-toolbar";
-import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
+import {
+  CancelButton,
+  SaveButton,
+} from "@components/buttons/buttons-with-icons";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 
@@ -8,7 +11,10 @@ type MenuProps = {
   isSaveDisabled?: boolean;
 };
 
-export const Menu = ({ onSave, isSaveDisabled = false }: MenuProps) => {
+export const Menu = ({
+  onSave,
+  isSaveDisabled = false,
+}: Readonly<MenuProps>) => {
   const goBack = useGoBack();
 
   return (

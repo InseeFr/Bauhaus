@@ -14,7 +14,11 @@ const LANGUAGE_OPTIONS = [
   { code: "en", labelLg1: "Anglais", labelLg2: "English" },
 ];
 
-export const LanguageSelect = ({ value, onChange, disabled = false }: LanguageSelectProps) => {
+export const LanguageSelect = ({
+  value,
+  onChange,
+  disabled = false,
+}: Readonly<LanguageSelectProps>) => {
   const langSelectOptions = LANGUAGE_OPTIONS.map((lang) => ({
     value: lang.code,
     label: isLang2() ? lang.labelLg2 : lang.labelLg1,
@@ -23,7 +27,12 @@ export const LanguageSelect = ({ value, onChange, disabled = false }: LanguageSe
   return (
     <div className="col-md-12 form-group">
       <label htmlFor="language">{D1.languageTitle}</label>
-      <Select disabled={disabled} value={value} options={langSelectOptions} onChange={onChange} />
+      <Select
+        disabled={disabled}
+        value={value}
+        options={langSelectOptions}
+        onChange={onChange}
+      />
     </div>
   );
 };

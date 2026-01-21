@@ -9,7 +9,10 @@ type FormatInputProps = {
   onChange: (value: string) => void;
 };
 
-export const FormatInput = ({ value, onChange }: FormatInputProps) => {
+export const FormatInput = ({
+  value,
+  onChange,
+}: Readonly<FormatInputProps>) => {
   return (
     <div className="col-md-12 form-group">
       <label htmlFor="format">{D1.formatTitle}</label>
