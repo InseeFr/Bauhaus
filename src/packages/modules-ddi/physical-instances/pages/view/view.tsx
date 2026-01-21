@@ -1,5 +1,5 @@
 import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
-import { useParams, useNavigate, useBlocker } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
 import { useTranslation } from "react-i18next";
 import { Toast } from "primereact/toast";
@@ -23,6 +23,7 @@ import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constant
 import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
 import { Loading } from "../../../../components/loading";
 import { DDIApi } from "../../../../sdk";
+import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
@@ -80,12 +81,9 @@ export const Component = () => {
     return state.localVariables.length > 0 || state.deletedVariableIds.length > 0;
   }, [state.localVariables, state.deletedVariableIds]);
 
-  // Block navigation when there are unsaved changes
-  const blocker = useBlocker(hasUnsavedChanges);
-
-  // Show confirmation dialog when navigation is blocked
-  useEffect(() => {
-    if (blocker.state === "blocked") {
+  // Block navigation when there are unsaved changes (internal + F5/close tab)
+  const handleNavigationBlock = useCallback(
+    (proceed: () => void, reset: () => void) => {
       confirmDialog({
         message: t("physicalInstance.view.unsavedChangesMessage"),
         header: t("physicalInstance.view.unsavedChangesTitle"),
@@ -93,15 +91,17 @@ export const Component = () => {
         acceptLabel: t("physicalInstance.view.leaveWithoutSaving"),
         rejectLabel: t("physicalInstance.view.stayOnPage"),
         acceptClassName: "p-button-danger",
-        accept: () => {
-          blocker.proceed();
-        },
-        reject: () => {
-          blocker.reset();
-        },
+        accept: proceed,
+        reject: reset,
       });
-    }
-  }, [blocker, t]);
+    },
+    [t],
+  );
+
+  useNavigationBlocker({
+    shouldBlock: hasUnsavedChanges,
+    onBlock: handleNavigationBlock,
+  });
 
   // Merge variables from API with local modifications
   const mergedVariables = useMemo(() => {
