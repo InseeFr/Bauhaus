@@ -47,8 +47,9 @@ export const TextRepresentation = ({
         <label htmlFor="min-length">{t("physicalInstance.view.text.minLength")}</label>
         <InputText
           id="min-length"
-          name="minLength"
+          name="textMinLength"
           type="number"
+          autoComplete="off"
           value={minLength}
           onChange={(e) => setMinLength(e.target.value)}
         />
@@ -58,8 +59,9 @@ export const TextRepresentation = ({
         <label htmlFor="max-length">{t("physicalInstance.view.text.maxLength")}</label>
         <InputText
           id="max-length"
-          name="maxLength"
+          name="textMaxLength"
           type="number"
+          autoComplete="off"
           value={maxLength}
           onChange={(e) => setMaxLength(e.target.value)}
         />
@@ -69,7 +71,8 @@ export const TextRepresentation = ({
         <label htmlFor="reg-exp">{t("physicalInstance.view.text.regExp")}</label>
         <InputText
           id="reg-exp"
-          name="regExp"
+          name="textRegExp"
+          autoComplete="off"
           value={regExp}
           onChange={(e) => setRegExp(e.target.value)}
         />

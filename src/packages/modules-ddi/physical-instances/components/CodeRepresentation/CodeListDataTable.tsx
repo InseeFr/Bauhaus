@@ -147,6 +147,7 @@ export const CodeListDataTable = ({
         <InputText
           id="code-list-label"
           name="codeListLabel"
+          autoComplete="off"
           value={codeListLabel}
           onChange={(e) => onCodeListLabelChange(e.target.value)}
         />

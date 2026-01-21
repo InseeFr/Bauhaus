@@ -10,6 +10,7 @@ interface GlobalActionsCardProps {
   onRowClick?: (data: any) => void;
   onDeleteClick?: (data: any) => void;
   unsavedVariableIds?: string[];
+  selectedVariableId?: string | null;
 }
 
 export const GlobalActionsCard = ({
@@ -19,6 +20,7 @@ export const GlobalActionsCard = ({
   onRowClick,
   onDeleteClick,
   unsavedVariableIds = [],
+  selectedVariableId,
 }: Readonly<GlobalActionsCardProps>) => {
   const { t } = useTranslation();
 
@@ -30,6 +32,7 @@ export const GlobalActionsCard = ({
         onRowClick={onRowClick}
         onDeleteClick={onDeleteClick}
         unsavedVariableIds={unsavedVariableIds}
+        selectedVariableId={selectedVariableId}
       />
     </Card>
   );
