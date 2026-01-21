@@ -17,10 +17,25 @@ import { VariableEditForm } from "../../components/VariableEditForm/VariableEdit
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalInstance";
-import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
+import {
+  viewReducer,
+  initialState,
+  actions,
+  type VariableData,
+} from "./viewReducer";
 import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
-import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
-import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
+import {
+  FILTER_ALL_TYPES,
+  TOAST_DURATION,
+  VARIABLE_TYPES,
+} from "../../constants";
+import type {
+  VariableTableData,
+  Variable,
+  CodeList,
+  Code,
+  Category,
+} from "../../types/api";
 import { Loading } from "../../../../components/loading";
 import { DDIApi } from "../../../../sdk";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
@@ -31,14 +46,23 @@ export const Component = () => {
   const navigate = useNavigate();
   const toast = useRef<Toast>(null);
   const [state, dispatch] = useReducer(viewReducer, initialState);
-  const { data, variables, title, dataRelationshipName, isLoading, isError, error } =
-    usePhysicalInstancesData(agencyId!, id!);
+  const {
+    data,
+    variables,
+    title,
+    dataRelationshipName,
+    isLoading,
+    isError,
+    error,
+  } = usePhysicalInstancesData(agencyId!, id!);
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
 
   useEffect(() => {
     if (title || dataRelationshipName) {
-      dispatch(actions.setFormData({ label: title, name: dataRelationshipName }));
+      dispatch(
+        actions.setFormData({ label: title, name: dataRelationshipName }),
+      );
     }
   }, [title, dataRelationshipName]);
 
@@ -78,7 +102,9 @@ export const Component = () => {
 
   // Check if there are unsaved changes
   const hasUnsavedChanges = useMemo(() => {
-    return state.localVariables.length > 0 || state.deletedVariableIds.length > 0;
+    return (
+      state.localVariables.length > 0 || state.deletedVariableIds.length > 0
+    );
   }, [state.localVariables, state.deletedVariableIds]);
 
   // Block navigation when there are unsaved changes (internal + F5/close tab)
@@ -167,12 +193,16 @@ export const Component = () => {
           const result = await DDIApi.convertToDDI3(data);
           exportedData = result;
           // Nettoyer le titre pour créer un nom de fichier valide
-          const sanitizedTitle = title.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+          const sanitizedTitle = title
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
           fileName = `${sanitizedTitle}-ddi3.xml`;
         } else {
           // Pour DDI4, on utilise les données telles quelles
           exportedData = JSON.stringify(data, null, 2);
-          const sanitizedTitle = title.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+          const sanitizedTitle = title
+            .replace(/[^a-z0-9]/gi, "_")
+            .toLowerCase();
           fileName = `${sanitizedTitle}-ddi4.json`;
         }
 
@@ -199,7 +229,10 @@ export const Component = () => {
         toast.current?.show({
           severity: "error",
           summary: t("physicalInstance.view.exportError"),
-          detail: err instanceof Error ? err.message : t("physicalInstance.view.exportErrorDetail"),
+          detail:
+            err instanceof Error
+              ? err.message
+              : t("physicalInstance.view.exportErrorDetail"),
           life: TOAST_DURATION,
         });
       }
@@ -268,22 +301,31 @@ export const Component = () => {
   const handleVariableClick = useCallback(
     (variable: VariableTableData) => {
       // Vérifier d'abord si la variable a des modifications locales
-      const localVariable = state.localVariables.find((v) => v.id === variable.id);
+      const localVariable = state.localVariables.find(
+        (v) => v.id === variable.id,
+      );
 
       if (localVariable) {
         // Utiliser les données locales si elles existent
         dispatch(actions.setSelectedVariable(localVariable));
       } else {
         // Sinon, trouver la variable complète dans les données brutes
-        const fullVariable = data?.Variable?.find((v: Variable) => v.ID === variable.id);
+        const fullVariable = data?.Variable?.find(
+          (v: Variable) => v.ID === variable.id,
+        );
 
         // Charger les informations complètes de la variable si trouvée
-        const description = fullVariable?.Description?.Content?.["#text"] || undefined;
+        const description =
+          fullVariable?.Description?.Content?.["#text"] || undefined;
         const isGeographic = fullVariable?.["@isGeographic"] === "true";
-        const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
-        const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
-        const dateRepresentation = fullVariable?.VariableRepresentation?.DateTimeRepresentation;
-        const codeRepresentation = fullVariable?.VariableRepresentation?.CodeRepresentation;
+        const textRepresentation =
+          fullVariable?.VariableRepresentation?.TextRepresentation;
+        const numericRepresentation =
+          fullVariable?.VariableRepresentation?.NumericRepresentation;
+        const dateRepresentation =
+          fullVariable?.VariableRepresentation?.DateTimeRepresentation;
+        const codeRepresentation =
+          fullVariable?.VariableRepresentation?.CodeRepresentation;
 
         // Charger la CodeList et les Categories associées si disponibles
         let codeList = undefined;
@@ -291,12 +333,18 @@ export const Component = () => {
 
         if (codeRepresentation) {
           const codeListId = codeRepresentation.CodeListReference.ID;
-          codeList = data?.CodeList?.find((cl: CodeList) => cl.ID === codeListId);
+          codeList = data?.CodeList?.find(
+            (cl: CodeList) => cl.ID === codeListId,
+          );
 
           if (codeList && codeList.Code) {
             // Récupérer toutes les catégories liées aux codes
-            const categoryIds = codeList.Code.map((code: Code) => code.CategoryReference.ID);
-            categories = data?.Category?.filter((cat: Category) => categoryIds.includes(cat.ID));
+            const categoryIds = codeList.Code.map(
+              (code: Code) => code.CategoryReference.ID,
+            );
+            categories = data?.Category?.filter((cat: Category) =>
+              categoryIds.includes(cat.ID),
+            );
           }
         }
 
@@ -334,16 +382,22 @@ export const Component = () => {
 
   // Navigation entre les variables (circulaire)
   const currentVariableIndex = useMemo(() => {
-    if (!state.selectedVariable || state.selectedVariable.id === "new") return -1;
-    return filteredVariables.findIndex((v) => v.id === state.selectedVariable?.id);
+    if (!state.selectedVariable || state.selectedVariable.id === "new")
+      return -1;
+    return filteredVariables.findIndex(
+      (v) => v.id === state.selectedVariable?.id,
+    );
   }, [filteredVariables, state.selectedVariable]);
 
-  const hasVariablesToNavigate = filteredVariables.length > 1 && currentVariableIndex >= 0;
+  const hasVariablesToNavigate =
+    filteredVariables.length > 1 && currentVariableIndex >= 0;
 
   const handlePreviousVariable = useCallback(() => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const previousIndex =
-        currentVariableIndex === 0 ? filteredVariables.length - 1 : currentVariableIndex - 1;
+        currentVariableIndex === 0
+          ? filteredVariables.length - 1
+          : currentVariableIndex - 1;
       handleVariableClick(filteredVariables[previousIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
@@ -351,7 +405,9 @@ export const Component = () => {
   const handleNextVariable = useCallback(() => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const nextIndex =
-        currentVariableIndex === filteredVariables.length - 1 ? 0 : currentVariableIndex + 1;
+        currentVariableIndex === filteredVariables.length - 1
+          ? 0
+          : currentVariableIndex + 1;
       handleVariableClick(filteredVariables[nextIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
@@ -452,13 +508,22 @@ export const Component = () => {
       };
 
       // Si on a des variables locales ou des suppressions, mettre à jour les variables
-      if (state.localVariables.length > 0 || state.deletedVariableIds.length > 0) {
+      if (
+        state.localVariables.length > 0 ||
+        state.deletedVariableIds.length > 0
+      ) {
         const existingVariables = data?.Variable || [];
-        const variableMap = new Map(existingVariables.map((v: Variable) => [v.ID, v]));
+        const variableMap = new Map(
+          existingVariables.map((v: Variable) => [v.ID, v]),
+        );
 
         // Maps pour gérer les CodeLists et Categories
-        const codeListMap = new Map((data?.CodeList || []).map((cl: any) => [cl.ID, cl]));
-        const categoryMap = new Map((data?.Category || []).map((cat: any) => [cat.ID, cat]));
+        const codeListMap = new Map(
+          (data?.CodeList || []).map((cl: any) => [cl.ID, cl]),
+        );
+        const categoryMap = new Map(
+          (data?.Category || []).map((cat: any) => [cat.ID, cat]),
+        );
 
         // Supprimer les variables marquées comme supprimées
         state.deletedVariableIds.forEach((deletedId) => {
@@ -502,7 +567,9 @@ export const Component = () => {
               ...localVar.codeRepresentation,
               CodeListReference: {
                 ...localVar.codeRepresentation.CodeListReference,
-                ID: localVar.codeList?.ID || localVar.codeRepresentation.CodeListReference.ID,
+                ID:
+                  localVar.codeList?.ID ||
+                  localVar.codeRepresentation.CodeListReference.ID,
               },
             };
 
@@ -557,7 +624,10 @@ export const Component = () => {
       }
 
       // Mettre à jour les références de variables dans LogicalRecord
-      if (mergedData.DataRelationship?.[0]?.LogicalRecord && mergedData.Variable) {
+      if (
+        mergedData.DataRelationship?.[0]?.LogicalRecord &&
+        mergedData.Variable
+      ) {
         const allVariableIds = mergedData.Variable.map((v: Variable) => v.ID);
 
         const variableReferences = allVariableIds.map((varId: string) => ({
@@ -600,7 +670,15 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     }
-  }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
+  }, [
+    id,
+    agencyId,
+    data,
+    state.localVariables,
+    state.deletedVariableIds,
+    savePhysicalInstance,
+    t,
+  ]);
 
   const handleDuplicatePhysicalInstance = useCallback(async () => {
     try {
@@ -619,7 +697,9 @@ export const Component = () => {
       });
 
       // Rediriger vers la page de la nouvelle physical instance
-      navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
+      navigate(
+        `/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`,
+      );
 
       toast.current?.show({
         severity: "success",
@@ -632,7 +712,9 @@ export const Component = () => {
         severity: "error",
         summary: t("physicalInstance.view.duplicateError"),
         detail:
-          err instanceof Error ? err.message : t("physicalInstance.view.duplicateErrorDetail"),
+          err instanceof Error
+            ? err.message
+            : t("physicalInstance.view.duplicateErrorDetail"),
         life: TOAST_DURATION,
       });
     }
@@ -647,7 +729,11 @@ export const Component = () => {
       <div role="alert" aria-live="assertive">
         <Message
           severity="error"
-          text={error instanceof Error ? error.message : t("physicalInstance.view.errorLoading")}
+          text={
+            error instanceof Error
+              ? error.message
+              : t("physicalInstance.view.errorLoading")
+          }
         />
       </div>
     );
@@ -663,7 +749,7 @@ export const Component = () => {
         }}
       >
         <div className="flex align-items-center gap-2 mb-3">
-          <h1 className="m-0">{title}</h1>
+          <h1 className="m-0">{state.formData.label || title}</h1>
           <Button
             icon="pi pi-pencil"
             text
