@@ -9,10 +9,7 @@ type CompressFormatInputProps = {
   onChange: (value: string) => void;
 };
 
-export const CompressFormatInput = ({
-  value,
-  onChange,
-}: Readonly<CompressFormatInputProps>) => {
+export const CompressFormatInput = ({ value, onChange }: Readonly<CompressFormatInputProps>) => {
   return (
     <div className="col-md-6 form-group">
       <label htmlFor="compressFormat">{D.compressFormatTitle}</label>

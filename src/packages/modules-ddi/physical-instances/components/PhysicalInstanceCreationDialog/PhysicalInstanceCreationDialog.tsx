@@ -50,11 +50,7 @@ export const PhysicalInstanceCreationDialog = ({
       onHide={handleHide}
       className="ddi physical-instance-creation-dialog"
     >
-      <form
-        ref={formRef}
-        onSubmit={handleSubmit}
-        className="flex flex-column gap-2"
-      >
+      <form ref={formRef} onSubmit={handleSubmit} className="flex flex-column gap-2">
         <div className="flex flex-column gap-2">
           <label htmlFor="label">{t("physicalInstance.creation.label")}</label>
           <InputText id="label" name="label" />

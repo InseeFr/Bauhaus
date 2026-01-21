@@ -9,10 +9,7 @@ type MediaTypeInputProps = {
   onChange: (value: string) => void;
 };
 
-export const MediaTypeInput = ({
-  value,
-  onChange,
-}: Readonly<MediaTypeInputProps>) => {
+export const MediaTypeInput = ({ value, onChange }: Readonly<MediaTypeInputProps>) => {
   return (
     <div className="col-md-6 form-group">
       <label htmlFor="mediaType">{D.mediaTypeTitle}</label>

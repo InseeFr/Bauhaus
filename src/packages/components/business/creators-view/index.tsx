@@ -21,16 +21,11 @@ const InseeOrganisationProvider = ({
   const stampsMap = useV2StampsMap();
 
   const mappedLabels = useMemo(() => {
-    if (
-      !organisations ||
-      (Array.isArray(organisations) && organisations.length === 0)
-    ) {
+    if (!organisations || (Array.isArray(organisations) && organisations.length === 0)) {
       return [];
     }
 
-    const orgArray = Array.isArray(organisations)
-      ? organisations
-      : [organisations];
+    const orgArray = Array.isArray(organisations) ? organisations : [organisations];
 
     return orgArray.map((id) => {
       const label = stampsMap.get(id);
@@ -53,21 +48,14 @@ const InseeOrganisationProvider = ({
 export const InseeOrganisationList = ({
   organisations,
 }: Readonly<{ organisations?: string | string[] }>) => {
-  if (
-    !organisations ||
-    (Array.isArray(organisations) && organisations.length === 0)
-  ) {
+  if (!organisations || (Array.isArray(organisations) && organisations.length === 0)) {
     return null;
   }
 
   return (
     <InseeOrganisationProvider organisations={organisations}>
       {(response) => (
-        <List<string>
-          items={response}
-          getContent={(item) => item}
-          getKey={(item) => item}
-        />
+        <List<string> items={response} getContent={(item) => item} getKey={(item) => item} />
       )}
     </InseeOrganisationProvider>
   );
@@ -79,10 +67,7 @@ export const InseeOrganisationList = ({
 export const InseeOrganisationText = ({
   organisations,
 }: Readonly<{ organisations?: string | string[] }>) => {
-  if (
-    !organisations ||
-    (Array.isArray(organisations) && organisations.length === 0)
-  ) {
+  if (!organisations || (Array.isArray(organisations) && organisations.length === 0)) {
     return null;
   }
 
@@ -95,23 +80,11 @@ export const InseeOrganisationText = ({
 export const InseeOrganisationNotes = ({
   organisations,
 }: Readonly<{ organisations?: string | string[] }>) => {
-  if (
-    !organisations ||
-    (Array.isArray(organisations) && organisations.length === 0)
-  ) {
-    return (
-      <Note
-        text={<p></p>}
-        title={D1.creatorTitle}
-        alone={true}
-        allowEmpty={true}
-      />
-    );
+  if (!organisations || (Array.isArray(organisations) && organisations.length === 0)) {
+    return <Note text={<p></p>} title={D1.creatorTitle} alone={true} allowEmpty={true} />;
   }
 
-  const organisationsArray = Array.isArray(organisations)
-    ? organisations
-    : [organisations];
+  const organisationsArray = Array.isArray(organisations) ? organisations : [organisations];
 
   return (
     <InseeOrganisationProvider organisations={organisationsArray}>
@@ -120,21 +93,10 @@ export const InseeOrganisationNotes = ({
           organisationsArray.length === 1 ? (
             <p>{response[0]}</p>
           ) : (
-            <List<string>
-              items={response}
-              getContent={(item) => item}
-              getKey={(item) => item}
-            />
+            <List<string> items={response} getContent={(item) => item} getKey={(item) => item} />
           );
 
-        return (
-          <Note
-            text={text}
-            title={D1.creatorTitle}
-            alone={true}
-            allowEmpty={true}
-          />
-        );
+        return <Note text={text} title={D1.creatorTitle} alone={true} allowEmpty={true} />;
       }}
     </InseeOrganisationProvider>
   );

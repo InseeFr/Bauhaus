@@ -41,8 +41,7 @@ const renderValidationField = (
   label: string,
   value: boolean,
 ): JSX.Element => {
-  const status =
-    value === false ? D1.collectionStatusProvisional : D1.collectionStatusValid;
+  const status = value === false ? D1.collectionStatusProvisional : D1.collectionStatusValid;
   return <li key={fieldName}>{`${label}: ${status}`}</li>;
 };
 
@@ -59,11 +58,7 @@ const renderFieldItem = (
   switch (fieldName) {
     case "creator":
     case "contributor":
-      return renderOrganisationField(
-        fieldName,
-        label,
-        value as string | string[],
-      );
+      return renderOrganisationField(fieldName, label, value as string | string[]);
 
     case "isValidated":
       return renderValidationField(fieldName, label, value as boolean);
@@ -74,10 +69,7 @@ const renderFieldItem = (
   }
 };
 
-function CollectionGeneral({
-  attr,
-  secondLang,
-}: Readonly<CollectionGeneralProps>) {
+function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps>) {
   const fields: readonly { name: FieldName; label: string }[] = [
     { name: "creator", label: D1.creatorTitle },
     { name: "contributor", label: D1.contributorTitle },
@@ -92,30 +84,17 @@ function CollectionGeneral({
           alone={true}
           text={
             <ul>
-              <CreationUpdateItems
-                creation={attr.created}
-                update={attr.modified}
-              />
-              {fields.map(({ name, label }) =>
-                renderFieldItem(name, label, attr),
-              )}
+              <CreationUpdateItems creation={attr.created} update={attr.modified} />
+              {fields.map(({ name, label }) => renderFieldItem(name, label, attr))}
             </ul>
           }
         />
       </Row>
       {attr.descriptionLg1 && (
         <Row>
-          <Note
-            text={attr.descriptionLg1}
-            title={D1.descriptionTitle}
-            alone={!secondLang}
-          />
+          <Note text={attr.descriptionLg1} title={D1.descriptionTitle} alone={!secondLang} />
           {secondLang && (
-            <Note
-              text={attr.descriptionLg2}
-              title={D2.descriptionTitle}
-              alone={false}
-            />
+            <Note text={attr.descriptionLg2} title={D2.descriptionTitle} alone={false} />
           )}
         </Row>
       )}

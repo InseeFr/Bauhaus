@@ -27,12 +27,7 @@ export const LanguageSelect = ({
   return (
     <div className="col-md-12 form-group">
       <label htmlFor="language">{D1.languageTitle}</label>
-      <Select
-        disabled={disabled}
-        value={value}
-        options={langSelectOptions}
-        onChange={onChange}
-      />
+      <Select disabled={disabled} value={value} options={langSelectOptions} onChange={onChange} />
     </div>
   );
 };

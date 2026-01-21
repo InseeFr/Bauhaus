@@ -25,11 +25,7 @@ export const Select = ({
 }: Readonly<SelectProps>) => {
   return (
     <>
-      {required ? (
-        <LabelRequired>{label}</LabelRequired>
-      ) : (
-        <label>{label}</label>
-      )}
+      {required ? <LabelRequired>{label}</LabelRequired> : <label>{label}</label>}
 
       {multi ? (
         <MultiSelect

@@ -87,10 +87,7 @@ const renderLinkField = (
   );
 };
 
-const renderDisseminationField = (
-  fieldName: "disseminationStatus",
-  value: string,
-): JSX.Element => {
+const renderDisseminationField = (fieldName: "disseminationStatus", value: string): JSX.Element => {
   return (
     <li key={fieldName}>
       <DisseminationStatusVisualisation disseminationStatus={value} />
@@ -110,11 +107,7 @@ const renderValidationField = (
   );
 };
 
-const renderSimpleField = (
-  fieldName: FieldName,
-  label: string,
-  value: string,
-): JSX.Element => {
+const renderSimpleField = (fieldName: FieldName, label: string, value: string): JSX.Element => {
   return <li key={fieldName}>{`${label}: ${value}`}</li>;
 };
 
@@ -137,11 +130,7 @@ const renderFieldItem = (
   switch (fieldName) {
     case "creator":
     case "contributor":
-      return renderOrganisationField(
-        fieldName,
-        label,
-        value as string | string[],
-      );
+      return renderOrganisationField(fieldName, label, value as string | string[]);
 
     case "altLabelLg1":
     case "altLabelLg2":
@@ -171,16 +160,11 @@ const renderFieldItem = (
   }
 };
 
-function ConceptGeneral({
-  attr,
-  secondLang = false,
-}: Readonly<ConceptGeneralProps>) {
+function ConceptGeneral({ attr, secondLang = false }: Readonly<ConceptGeneralProps>) {
   const { lg1, lg2 } = useLocales();
 
   // Build fields configuration dynamically based on available data
-  const fields: { name: FieldName; label: string }[] = [
-    { name: "id", label: D1.identifiantTitle },
-  ];
+  const fields: { name: FieldName; label: string }[] = [{ name: "id", label: D1.identifiantTitle }];
 
   if (attr.altLabelLg1 && attr.altLabelLg1.length !== 0) {
     fields.push({ name: "altLabelLg1", label: `${D1.altLabelTitle} (${lg1})` });
@@ -218,11 +202,7 @@ function ConceptGeneral({
     <Row>
       <Note
         text={
-          <ul>
-            {fields.map(({ name, label }) =>
-              renderFieldItem(name, label, attr, secondLang),
-            )}
-          </ul>
+          <ul>{fields.map(({ name, label }) => renderFieldItem(name, label, attr, secondLang))}</ul>
         }
         title={D1.globalInformationsTitle}
         alone={true}
