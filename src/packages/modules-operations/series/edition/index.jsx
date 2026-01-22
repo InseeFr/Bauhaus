@@ -12,7 +12,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../../application/app-context";
 import D from "../../../deprecated-locales";
-import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../redux/actions/constants/codeList";
+import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../constants/code-lists";
 import OperationsSerieEdition from "./edition";
 
 export const Component = (props) => {

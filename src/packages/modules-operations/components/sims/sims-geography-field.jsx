@@ -7,12 +7,12 @@ import { TextInput } from "@components/form/input";
 import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
+import { Loading } from "@components/loading";
 
 import { GeographieApi } from "@sdk/geographie";
 
 import D, { D1, D2 } from "../../i18n/build-dictionary";
 import { useGeographies } from "./hooks";
-import SimsGeographyI18NLabel from "./sims-geography-i18n-label";
 import SimsGeographySelector from "./sims-geography-selector";
 
 const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
@@ -20,7 +20,9 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
   const [nameLg2, setNameLg2] = useState(territory.labelLg2 ?? "");
   const [selectedOption, setSelectedOption] = useState(null);
   const [serverSideError, setServerSideError] = useState("");
-  const [geographies, includes, excludes, setIncludes, setExcludes] = useGeographies(territory);
+  const { isLoading, geographies, includes, excludes, setIncludes, setExcludes } =
+    useGeographies(territory);
+
   const handleSelect = useCallback(
     (value) => {
       const newValue = geographies.find((g) => g.value === value);
@@ -71,6 +73,10 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
       .catch((err) => setServerSideError(JSON.parse(err).message));
   }, [territory, name, nameLg2, includes, excludes, onSave]);
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="w-100 container">
       <ActionToolbar>
@@ -91,14 +97,11 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
       <div className="bauhaus-sims-geography-field">
         <div className="form-group">
           <Select
-            value={geographies.find((option) => option.value === selectedOption?.value) || null}
+            value={selectedOption?.value ?? null}
             options={geographies}
             onChange={(value) => handleSelect(value)}
             placeholder=""
             searchable={true}
-            noResultsText={D.noResult}
-            isClearable={true}
-            formatOptionLabel={formatOptionLabel}
           />
         </div>
         <div className="btn-group" role="group">

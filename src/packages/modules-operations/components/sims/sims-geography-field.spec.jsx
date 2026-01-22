@@ -1,10 +1,8 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { Provider } from "react-redux";
 import { describe, it, expect, vi } from "vitest";
 
 import { GeographieApi } from "@sdk/geographie";
 
-import configureStore from "../../../redux/configure-store";
 import { renderWithRouter } from "../../../tests/render";
 
 import { removeAccents } from "./sims-geography-picker";
@@ -17,39 +15,8 @@ vi.mock("@sdk/geographie", () => ({
   },
 }));
 
-const mockGeographies = [
-  {
-    value: "http://geo1",
-    label: "Geography 1",
-    labelLg2: "Géographie 1",
-    typeTerritory: "TYPE1",
-  },
-  {
-    value: "http://geo2",
-    label: "Geography 2",
-    labelLg2: "Géographie 2",
-    typeTerritory: "TYPE2",
-  },
-  {
-    value: "http://geo3",
-    label: "Geography 3",
-    labelLg2: "Géographie 3",
-    typeTerritory: "TYPE3",
-  },
-];
-
-const store = configureStore({
-  geographies: {
-    results: mockGeographies,
-  },
-});
-
 const renderComponent = (props = {}) => {
-  return renderWithRouter(
-    <Provider store={store}>
-      <SimsGeographyField {...props} />
-    </Provider>,
-  );
+  return renderWithRouter(<SimsGeographyField {...props} />);
 };
 
 describe("SimsGeographyField", () => {

@@ -16,7 +16,7 @@ import { OperationsApi } from "@sdk/operations-api";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import D, { D1, D2 } from "../../../deprecated-locales";
-import { CL_FREQ } from "../../../redux/actions/constants/codeList";
+import { CL_FREQ } from "../../../constants/code-lists";
 import PublishersInput from "../../components/publishers-input";
 import Control from "./control";
 import { validate } from "./validation";

@@ -1,26 +1,8 @@
 import { render } from "@testing-library/react";
-import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { vi } from "vitest";
 
-import configureStore from "../../../../redux/configure-store";
 import { rangeType } from "../../../utils/msd";
-
-/**
- * Creates a Redux store configured for testing with authentication
- */
-export const createTestStore = () =>
-  configureStore({
-    operationsDocuments: {},
-    app: {
-      auth: {
-        type: "NO_AUTH",
-        user: {
-          stamp: "TEST",
-        },
-      },
-    },
-  });
 
 /**
  * Creates a React Query client configured for testing
@@ -35,27 +17,12 @@ export const createTestQueryClient = () =>
   });
 
 /**
- * Renders a component with all necessary providers (Redux + React Query)
- * Use this for components that require both Redux and React Query (like GEOGRAPHY fields)
+ * Renders a component with React Query provider
  */
 export const renderWithProviders = (ui: React.ReactElement) => {
-  const store = createTestStore();
   const queryClient = createTestQueryClient();
 
-  return render(
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>{ui}</Provider>
-    </QueryClientProvider>,
-  );
-};
-
-/**
- * Renders a component with Redux provider only
- * Use this for components that only need Redux (like RICH_TEXT fields)
- */
-export const renderWithRedux = (ui: React.ReactElement) => {
-  const store = createTestStore();
-  return render(<Provider store={store}>{ui}</Provider>);
+  return render(<QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>);
 };
 
 /**

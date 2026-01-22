@@ -1,8 +1,8 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { screen } from "@testing-library/dom";
 import { useLocation } from "react-router-dom";
 import { describe, expect, it, Mock, vi } from "vitest";
 
-import { Sims } from "../../model/Sims";
 import { renderWithRouter } from "../../tests/render";
 import { MenuOperations } from "./index";
 
@@ -11,21 +11,35 @@ vi.mock("react-router-dom", async () => {
   return {
     ...originalModule,
     useLocation: vi.fn(),
+    useParams: vi.fn().mockReturnValue({}),
   };
+});
+
+vi.mock("../hooks/useSims", () => ({
+  useSims: vi.fn().mockReturnValue({
+    isLoading: false,
+    sims: {
+      idOperation: null,
+      idSeries: null,
+      idIndicator: null,
+    },
+  }),
+}));
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
 });
 
 describe("MenuOperations Component", () => {
   const renderComponent = () =>
     renderWithRouter(
-      <MenuOperations
-        sims={
-          {
-            idOperation: null,
-            idSeries: null,
-            idIndicator: null,
-          } as unknown as Sims
-        }
-      />,
+      <QueryClientProvider client={queryClient}>
+        <MenuOperations />
+      </QueryClientProvider>,
     );
 
   it("renders correctly with default state", () => {
