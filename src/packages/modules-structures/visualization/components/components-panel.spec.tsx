@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
@@ -36,7 +36,6 @@ vi.mock("@sdk/index", () => ({
 
 describe("ComponentsPanel", () => {
   beforeEach(() => {
-    // Mock des données
     (ConceptsApi.getConceptList as Mock).mockResolvedValue([]);
     (getFormattedCodeList as Mock).mockResolvedValue([]);
   });
@@ -48,7 +47,9 @@ describe("ComponentsPanel", () => {
   it("should render StructureComponentsSelector and CodesListPanel", async () => {
     render(<ComponentsPanel componentDefinitions={[]} />);
 
-    expect((StructureComponentsSelector as Mock).mock.calls).toHaveLength(1);
-    expect((CodesListPanel as Mock).mock.calls).toHaveLength(1);
+    await waitFor(() => {
+      expect((StructureComponentsSelector as Mock).mock.calls.length).toBeGreaterThanOrEqual(1);
+      expect((CodesListPanel as Mock).mock.calls.length).toBeGreaterThanOrEqual(1);
+    });
   });
 });

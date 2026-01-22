@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from "vitest";
 
 import { GeographieApi } from "@sdk/geographie";
 
-import { renderWithRouter } from "../../../tests/render";
+import { renderWithRouterAndQuery } from "../../../tests/render";
 
 import { removeAccents } from "./sims-geography-picker";
 import SimsGeographyField from "./sims-geography-field";
@@ -16,7 +16,7 @@ vi.mock("@sdk/geographie", () => ({
 }));
 
 const renderComponent = (props = {}) => {
-  return renderWithRouter(<SimsGeographyField {...props} />);
+  return renderWithRouterAndQuery(<SimsGeographyField {...props} />);
 };
 
 describe("SimsGeographyField", () => {

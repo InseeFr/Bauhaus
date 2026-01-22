@@ -52,7 +52,11 @@ export const InseeOrganisationList = ({
   return (
     <InseeOrganisationProvider organisations={organisations}>
       {(response) => (
-        <List<string> items={response} getContent={(item) => item} getKey={(item) => item} />
+        <List<string>
+          items={response}
+          getContent={(item) => item}
+          getKey={(item, index) => item || `org-${index}`}
+        />
       )}
     </InseeOrganisationProvider>
   );
@@ -90,7 +94,11 @@ export const InseeOrganisationNotes = ({
           organisationsArray.length === 1 ? (
             <p>{response[0]}</p>
           ) : (
-            <List<string> items={response} getContent={(item) => item} getKey={(item) => item} />
+            <List<string>
+              items={response}
+              getContent={(item) => item}
+              getKey={(item, index) => item || `org-${index}`}
+            />
           );
 
         return <Note text={text} title={D1.creatorTitle} alone={true} allowEmpty={true} />;

@@ -105,6 +105,10 @@ vi.mock("primereact/progressspinner", () => ({
   ProgressSpinner: () => <div data-testid="progress-spinner">Loading...</div>,
 }));
 
+vi.mock("primereact/toast", () => ({
+  Toast: vi.fn(() => null),
+}));
+
 vi.mock("primereact/message", () => ({
   Message: ({ severity, text }: any) => (
     <div data-testid="message" data-severity={severity}>
@@ -736,6 +740,11 @@ describe("View Component", () => {
             studyUnitAgency: "agency-1",
           },
         });
+      });
+
+      // Wait for modal to close after successful save
+      await waitFor(() => {
+        expect(screen.queryByText("physicalInstance.view.editModal.title")).not.toBeInTheDocument();
       });
     });
 
