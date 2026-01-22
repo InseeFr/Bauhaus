@@ -1,6 +1,6 @@
 const api = {
   getSeriesList: () => ["series/withSims"],
-  getUserSeriesList: (stamp: string) => ["series/seriesWithStamp/" + stamp],
+  getUserSeriesList: () => ["series/seriesWithStamp"],
   getSeriesSearchList: () => ["series/advanced-search"],
   getSerie: (id: string) => [`series/${id}`],
   getSeriesWithReport: (id: string) => [`families/${id}/seriesWithReport`],
