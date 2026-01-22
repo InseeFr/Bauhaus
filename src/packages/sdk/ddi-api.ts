@@ -70,6 +70,10 @@ const api = {
     (res: Response) => res.text(),
   ],
   getCodesLists: () => ["codes-list"],
+  getPhysicalCodesLists: (agencyId: string, physicalInstanceId: string) => [
+    `physical-instance/${agencyId}/${physicalInstanceId}/codeslists`,
+  ],
+  getMutualizedCodesLists: () => ["mutualized-codes-list"],
 };
 
 export const DDIApi = buildApi("ddi", api) as any;

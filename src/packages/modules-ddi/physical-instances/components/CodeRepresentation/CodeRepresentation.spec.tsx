@@ -38,11 +38,18 @@ vi.mock("../../../../application/app-context", () => ({
   }),
 }));
 
-vi.mock("../../../hooks/useCodesLists", () => ({
-  useCodesLists: () => ({
+vi.mock("react-router-dom", () => ({
+  useParams: () => ({
+    id: "test-physical-instance-id",
+    agencyId: "fr.insee",
+  }),
+}));
+
+vi.mock("../../../hooks/useAllCodesLists", () => ({
+  useAllCodesLists: () => ({
     data: [
-      { id: "list-1", label: "Liste 1", agency: "fr.insee" },
-      { id: "list-2", label: "Liste 2", agency: "fr.insee" },
+      { id: "list-1", label: "Liste 1", agencyId: "fr.insee" },
+      { id: "list-2", label: "Liste 2", agencyId: "fr.insee" },
     ],
     isLoading: false,
     error: null,
