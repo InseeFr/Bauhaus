@@ -1,18 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { OperationsApi } from "@sdk/operations-api";
-import { useUserStamps } from "@utils/hooks/users";
 
-export const useUserSeriesList = () => {
-  const { data: userStamps = [] } = useUserStamps();
-  const stamp = userStamps[0]?.stamp;
+interface UserSeries {
+  id: string;
+  label: string;
+  altLabel: string;
+  idSims?: string;
+}
 
-  const { isLoading, data: series } = useQuery({
-    queryKey: ["user-series-list", stamp],
+export const useUserSeriesList = (): {
+  isLoading: boolean;
+  series: UserSeries[];
+} => {
+  const { isLoading, data: series = [] } = useQuery<UserSeries[]>({
+    queryKey: ["user-series-list"],
     queryFn: async () => {
-      return OperationsApi.getUserSeriesList(stamp);
+      return OperationsApi.getUserSeriesList();
     },
-    enabled: !!stamp,
     placeholderData: [],
   });
 

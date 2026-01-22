@@ -4,17 +4,12 @@ import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
-import { useUserStamps } from "@utils/hooks/users";
 import { useUserSeriesList } from "./useUserSeriesList";
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: {
     getUserSeriesList: vi.fn(),
   },
-}));
-
-vi.mock("@utils/hooks/users", () => ({
-  useUserStamps: vi.fn(),
 }));
 
 const createWrapper = () => {
@@ -33,18 +28,14 @@ const createWrapper = () => {
 
 describe("useUserSeriesList", () => {
   it("should return placeholder data and then load series", async () => {
-    const mockSeries = [{ id: "1", label: "Series 1" }];
+    const mockSeries = [{ id: "1", label: "Series 1", altLabel: "" }];
 
-    vi.mocked(useUserStamps).mockReturnValue({
-      data: [{ stamp: "test-stamp" }],
-    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries);
 
     const { result } = renderHook(() => useUserSeriesList(), {
       wrapper: createWrapper(),
     });
 
-    // Initially shows placeholder data
     expect(result.current.series).toEqual([]);
 
     await waitFor(
@@ -57,20 +48,16 @@ describe("useUserSeriesList", () => {
 
   it("should return series data when API call succeeds", async () => {
     const mockSeries = [
-      { id: "1", label: "Series 1", idSims: null },
-      { id: "2", label: "Series 2", idSims: "sims-1" },
+      { id: "1", label: "Series 1", altLabel: "" },
+      { id: "2", label: "Series 2", altLabel: "Alt Series 2" },
     ];
 
-    vi.mocked(useUserStamps).mockReturnValue({
-      data: [{ stamp: "test-stamp" }],
-    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries);
 
     const { result } = renderHook(() => useUserSeriesList(), {
       wrapper: createWrapper(),
     });
 
-    // Initially shows placeholder data
     expect(result.current.series).toEqual([]);
 
     await waitFor(
@@ -80,31 +67,10 @@ describe("useUserSeriesList", () => {
       { timeout: 3000 },
     );
 
-    expect(OperationsApi.getUserSeriesList).toHaveBeenCalledWith("test-stamp");
-  });
-
-  it("should not fetch series when stamp is not available", async () => {
-    vi.mocked(useUserStamps).mockReturnValue({
-      data: [],
-    } as any);
-    vi.mocked(OperationsApi.getUserSeriesList).mockClear();
-
-    const { result } = renderHook(() => useUserSeriesList(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
-
-    expect(result.current.series).toEqual([]);
-    expect(OperationsApi.getUserSeriesList).not.toHaveBeenCalled();
+    expect(OperationsApi.getUserSeriesList).toHaveBeenCalled();
   });
 
   it("should use placeholder data when loading", () => {
-    vi.mocked(useUserStamps).mockReturnValue({
-      data: [{ stamp: "test-stamp" }],
-    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockImplementation(
       () =>
         new Promise((resolve) => {
@@ -116,15 +82,13 @@ describe("useUserSeriesList", () => {
       wrapper: createWrapper(),
     });
 
+    // placeholderData provides an empty array while loading
     expect(result.current.series).toEqual([]);
   });
 
   it("should handle API errors gracefully", async () => {
     const error = new Error("API Error");
 
-    vi.mocked(useUserStamps).mockReturnValue({
-      data: [{ stamp: "test-stamp" }],
-    } as any);
     vi.mocked(OperationsApi.getUserSeriesList).mockRejectedValue(error);
 
     const { result } = renderHook(() => useUserSeriesList(), {
@@ -138,13 +102,10 @@ describe("useUserSeriesList", () => {
     expect(result.current.series).toEqual([]);
   });
 
-  it("should fetch series with correct stamp", async () => {
-    const mockSeries1 = [{ id: "1", label: "Series 1" }];
+  it("should call API without parameters", async () => {
+    const mockSeries = [{ id: "1", label: "Series 1", altLabel: "" }];
 
-    vi.mocked(useUserStamps).mockReturnValue({
-      data: [{ stamp: "stamp-1" }],
-    } as any);
-    vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries1);
+    vi.mocked(OperationsApi.getUserSeriesList).mockResolvedValue(mockSeries);
 
     const { result } = renderHook(() => useUserSeriesList(), {
       wrapper: createWrapper(),
@@ -152,11 +113,11 @@ describe("useUserSeriesList", () => {
 
     await waitFor(
       () => {
-        expect(result.current.series).toEqual(mockSeries1);
+        expect(result.current.series).toEqual(mockSeries);
       },
       { timeout: 3000 },
     );
 
-    expect(OperationsApi.getUserSeriesList).toHaveBeenCalledWith("stamp-1");
+    expect(OperationsApi.getUserSeriesList).toHaveBeenCalledWith();
   });
 });
