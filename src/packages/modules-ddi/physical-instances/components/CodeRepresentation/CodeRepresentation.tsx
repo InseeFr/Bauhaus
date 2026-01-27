@@ -47,6 +47,7 @@ export const CodeRepresentation = ({
 
   useEffect(() => {
     if (codeList) {
+      // Cas où on a une codeList complète (création ou liste existante chargée)
       const tableData: CodeTableRow[] = (codeList.Code || []).map((code) => {
         const category = categories.find((cat) => cat.ID === code.CategoryReference.ID);
         return {
@@ -64,6 +65,15 @@ export const CodeRepresentation = ({
           showDataTable: true,
         },
       });
+    } else if (representation?.CodeListReference) {
+      // Cas où on a une representation qui référence une codeList réutilisée
+      // (pas de codeList car elle n'est pas dupliquée, juste référencée)
+      const ref = representation.CodeListReference;
+      const selectedId = `${ref.Agency}-${ref.ID}`;
+      dispatch({
+        type: "INIT_REUSED_CODE_LIST",
+        payload: { selectedCodeListId: selectedId },
+      });
     } else {
       dispatch({
         type: "INIT_FROM_CODE_LIST",
@@ -74,9 +84,9 @@ export const CodeRepresentation = ({
         },
       });
     }
-    // Only react to changes in codeList ID, not label changes
+    // Only react to changes in codeList ID or representation reference, not label changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [codeList?.ID]);
+  }, [codeList?.ID, representation?.CodeListReference?.ID]);
 
   const handleCodeListLabelChange = (newLabel: string) => {
     dispatch({ type: "SET_CODE_LIST_LABEL", payload: newLabel });
@@ -202,7 +212,20 @@ export const CodeRepresentation = ({
       {showReuseSelect && (
         <ReuseCodeListSelect
           selectedCodeListId={selectedCodeListId}
-          onCodeListSelect={(id) => dispatch({ type: "SET_SELECTED_CODE_LIST_ID", payload: id })}
+          onCodeListSelect={(id) => {
+            dispatch({ type: "SET_SELECTED_CODE_LIST_ID", payload: id });
+
+            // Extraire l'agency et l'ID de la liste de codes depuis la valeur combinée "agency-id"
+            const [agency, ...idParts] = id.split("-");
+            const codeListId = idParts.join("-");
+
+            // Créer la CodeRepresentation qui référence la liste de codes réutilisée
+            const codeRepresentation = createDefaultRepresentation(codeListId, agency);
+
+            // Appeler onChange avec uniquement la CodeRepresentation (pas de codeList ni categories
+            // car on réutilise une liste existante)
+            onChange(codeRepresentation, undefined, undefined);
+          }}
         />
       )}
       {showDataTable && (

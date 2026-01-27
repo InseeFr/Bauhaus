@@ -12,7 +12,10 @@ export type CodeRepresentationAction =
   | { type: "SET_CODE_LIST_LABEL"; payload: string }
   | { type: "SET_CODES"; payload: CodeTableRow[] }
   | { type: "ADD_CODE"; payload: CodeTableRow }
-  | { type: "UPDATE_CODE"; payload: { id: string; field: "value" | "label"; value: string } }
+  | {
+      type: "UPDATE_CODE";
+      payload: { id: string; field: "value" | "label"; value: string };
+    }
   | { type: "DELETE_CODE"; payload: string }
   | { type: "SHOW_DATA_TABLE" }
   | { type: "SHOW_REUSE_SELECT" }
@@ -22,7 +25,8 @@ export type CodeRepresentationAction =
   | {
       type: "INIT_FROM_CODE_LIST";
       payload: { label: string; codes: CodeTableRow[]; showDataTable: boolean };
-    };
+    }
+  | { type: "INIT_REUSED_CODE_LIST"; payload: { selectedCodeListId: string } };
 
 export const initialState: CodeRepresentationState = {
   codeListLabel: "",
@@ -84,6 +88,14 @@ export const codeRepresentationReducer = (
         codeListLabel: action.payload.label,
         codes: action.payload.codes,
         showDataTable: action.payload.showDataTable,
+      };
+
+    case "INIT_REUSED_CODE_LIST":
+      return {
+        ...state,
+        selectedCodeListId: action.payload.selectedCodeListId,
+        showReuseSelect: true,
+        showDataTable: false,
       };
 
     default:

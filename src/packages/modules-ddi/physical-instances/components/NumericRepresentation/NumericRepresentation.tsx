@@ -96,8 +96,9 @@ export const NumericRepresentation = ({
             <div className="flex gap-2">
               <InputText
                 id="min-value"
-                name="minValue"
+                name="numericMinValue"
                 type="number"
+                autoComplete="off"
                 value={minValue}
                 onChange={(e) => setMinValue(e.target.value)}
                 className="flex-1"
@@ -133,8 +134,9 @@ export const NumericRepresentation = ({
             <div className="flex gap-2">
               <InputText
                 id="max-value"
-                name="maxValue"
+                name="numericMaxValue"
                 type="number"
+                autoComplete="off"
                 value={maxValue}
                 onChange={(e) => setMaxValue(e.target.value)}
                 className="flex-1"

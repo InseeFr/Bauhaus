@@ -1,6 +1,5 @@
 .physical-instance-creation-dialog {
   width: 25vw;
-  min-height: 20vh;
   font-size: 1.5rem;
 
   .p-dialog-title {

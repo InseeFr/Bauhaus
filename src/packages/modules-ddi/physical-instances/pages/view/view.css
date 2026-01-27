@@ -14,3 +14,9 @@
 .p-confirm-dialog .p-button-danger:active {
   color: white !important;
 }
+
+/* Style for selected variable row in DataTable */
+.selected-variable-row {
+  outline: 2px solid var(--color-2);
+  outline-offset: -2px;
+}

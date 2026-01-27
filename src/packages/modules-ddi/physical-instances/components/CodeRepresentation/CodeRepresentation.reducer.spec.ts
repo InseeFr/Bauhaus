@@ -100,7 +100,15 @@ describe("codeRepresentationReducer", () => {
     it("should not modify other codes", () => {
       const stateWithMultipleCodes: CodeRepresentationState = {
         ...initialState,
-        codes: [mockCode, { id: "code-2", value: "2", label: "Label 2", categoryId: "category-2" }],
+        codes: [
+          mockCode,
+          {
+            id: "code-2",
+            value: "2",
+            label: "Label 2",
+            categoryId: "category-2",
+          },
+        ],
       };
       const action: CodeRepresentationAction = {
         type: "UPDATE_CODE",
@@ -270,6 +278,49 @@ describe("codeRepresentationReducer", () => {
     });
   });
 
+  describe("INIT_REUSED_CODE_LIST", () => {
+    it("should set selectedCodeListId and show reuse select", () => {
+      const action: CodeRepresentationAction = {
+        type: "INIT_REUSED_CODE_LIST",
+        payload: { selectedCodeListId: "fr.insee-my-code-list" },
+      };
+
+      const result = codeRepresentationReducer(initialState, action);
+
+      expect(result.selectedCodeListId).toBe("fr.insee-my-code-list");
+      expect(result.showReuseSelect).toBe(true);
+      expect(result.showDataTable).toBe(false);
+    });
+
+    it("should hide data table when initializing reused code list", () => {
+      const stateWithDataTable: CodeRepresentationState = {
+        ...initialState,
+        showDataTable: true,
+      };
+      const action: CodeRepresentationAction = {
+        type: "INIT_REUSED_CODE_LIST",
+        payload: { selectedCodeListId: "agency-list-id" },
+      };
+
+      const result = codeRepresentationReducer(stateWithDataTable, action);
+
+      expect(result.showDataTable).toBe(false);
+      expect(result.showReuseSelect).toBe(true);
+    });
+
+    it("should preserve other state properties", () => {
+      const action: CodeRepresentationAction = {
+        type: "INIT_REUSED_CODE_LIST",
+        payload: { selectedCodeListId: "agency-list-id" },
+      };
+
+      const result = codeRepresentationReducer(stateWithCodes, action);
+
+      expect(result.codes).toEqual(stateWithCodes.codes);
+      expect(result.codeListLabel).toBe(stateWithCodes.codeListLabel);
+    });
+  });
+
   describe("initialState", () => {
     it("should have correct default values", () => {
       expect(initialState).toEqual({
@@ -284,7 +335,9 @@ describe("codeRepresentationReducer", () => {
 
   describe("unknown action", () => {
     it("should return current state for unknown action", () => {
-      const action = { type: "UNKNOWN_ACTION" } as unknown as CodeRepresentationAction;
+      const action = {
+        type: "UNKNOWN_ACTION",
+      } as unknown as CodeRepresentationAction;
 
       const result = codeRepresentationReducer(stateWithCodes, action);
 
