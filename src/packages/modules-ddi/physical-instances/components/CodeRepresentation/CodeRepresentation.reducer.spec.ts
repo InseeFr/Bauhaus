@@ -146,6 +146,95 @@ describe("codeRepresentationReducer", () => {
     });
   });
 
+  describe("MOVE_CODE", () => {
+    const stateWithMultipleCodes: CodeRepresentationState = {
+      ...initialState,
+      codes: [
+        {
+          id: "code-1",
+          value: "1",
+          label: "Label 1",
+          categoryId: "category-1",
+        },
+        {
+          id: "code-2",
+          value: "2",
+          label: "Label 2",
+          categoryId: "category-2",
+        },
+        {
+          id: "code-3",
+          value: "3",
+          label: "Label 3",
+          categoryId: "category-3",
+        },
+      ],
+    };
+
+    it("should move a code up", () => {
+      const action: CodeRepresentationAction = {
+        type: "MOVE_CODE",
+        payload: { id: "code-2", direction: "up" },
+      };
+
+      const result = codeRepresentationReducer(stateWithMultipleCodes, action);
+
+      expect(result.codes[0].id).toBe("code-2");
+      expect(result.codes[1].id).toBe("code-1");
+      expect(result.codes[2].id).toBe("code-3");
+    });
+
+    it("should move a code down", () => {
+      const action: CodeRepresentationAction = {
+        type: "MOVE_CODE",
+        payload: { id: "code-2", direction: "down" },
+      };
+
+      const result = codeRepresentationReducer(stateWithMultipleCodes, action);
+
+      expect(result.codes[0].id).toBe("code-1");
+      expect(result.codes[1].id).toBe("code-3");
+      expect(result.codes[2].id).toBe("code-2");
+    });
+
+    it("should not move the first code up", () => {
+      const action: CodeRepresentationAction = {
+        type: "MOVE_CODE",
+        payload: { id: "code-1", direction: "up" },
+      };
+
+      const result = codeRepresentationReducer(stateWithMultipleCodes, action);
+
+      expect(result.codes[0].id).toBe("code-1");
+      expect(result.codes[1].id).toBe("code-2");
+      expect(result.codes[2].id).toBe("code-3");
+    });
+
+    it("should not move the last code down", () => {
+      const action: CodeRepresentationAction = {
+        type: "MOVE_CODE",
+        payload: { id: "code-3", direction: "down" },
+      };
+
+      const result = codeRepresentationReducer(stateWithMultipleCodes, action);
+
+      expect(result.codes[0].id).toBe("code-1");
+      expect(result.codes[1].id).toBe("code-2");
+      expect(result.codes[2].id).toBe("code-3");
+    });
+
+    it("should not move a non-existent code", () => {
+      const action: CodeRepresentationAction = {
+        type: "MOVE_CODE",
+        payload: { id: "non-existent", direction: "up" },
+      };
+
+      const result = codeRepresentationReducer(stateWithMultipleCodes, action);
+
+      expect(result.codes).toEqual(stateWithMultipleCodes.codes);
+    });
+  });
+
   describe("SHOW_DATA_TABLE", () => {
     it("should set showDataTable to true and showReuseSelect to false", () => {
       const stateWithReuseSelect: CodeRepresentationState = {

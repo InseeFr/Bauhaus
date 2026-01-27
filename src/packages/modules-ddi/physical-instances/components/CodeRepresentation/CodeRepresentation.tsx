@@ -8,7 +8,10 @@ import type {
 } from "../../types/api";
 import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
-import { codeRepresentationReducer, initialState } from "./CodeRepresentation.reducer";
+import {
+  codeRepresentationReducer,
+  initialState,
+} from "./CodeRepresentation.reducer";
 import {
   createDefaultRepresentation,
   createDefaultCodeList,
@@ -43,13 +46,21 @@ export const CodeRepresentation = ({
     codeListLabel: codeList?.Label?.Content?.["#text"] || "",
   });
 
-  const { codeListLabel, codes, showDataTable, showReuseSelect, selectedCodeListId } = state;
+  const {
+    codeListLabel,
+    codes,
+    showDataTable,
+    showReuseSelect,
+    selectedCodeListId,
+  } = state;
 
   useEffect(() => {
     if (codeList) {
       // Cas où on a une codeList complète (création ou liste existante chargée)
       const tableData: CodeTableRow[] = (codeList.Code || []).map((code) => {
-        const category = categories.find((cat) => cat.ID === code.CategoryReference.ID);
+        const category = categories.find(
+          (cat) => cat.ID === code.CategoryReference.ID,
+        );
         return {
           id: code.ID,
           value: code.Value,
@@ -93,9 +104,11 @@ export const CodeRepresentation = ({
 
     const newCodeListId = codeList?.ID || crypto.randomUUID();
     const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      representation ||
+      createDefaultRepresentation(newCodeListId, defaultAgencyId);
     const updatedCodeList: CodeList = {
-      ...(codeList || createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId)),
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId)),
       Label: createLabel(newLabel),
     };
 
@@ -108,9 +121,11 @@ export const CodeRepresentation = ({
 
     const newCodeListId = codeList?.ID || crypto.randomUUID();
     const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      representation ||
+      createDefaultRepresentation(newCodeListId, defaultAgencyId);
     const updatedCodeList: CodeList = {
-      ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
       Code: codeList?.Code?.filter((code) => code.ID !== codeId),
     };
 
@@ -121,7 +136,11 @@ export const CodeRepresentation = ({
     onChange(currentRepresentation, updatedCodeList, updatedCategories);
   };
 
-  const handleCellEdit = (rowData: CodeTableRow, field: "value" | "label", newValue: string) => {
+  const handleCellEdit = (
+    rowData: CodeTableRow,
+    field: "value" | "label",
+    newValue: string,
+  ) => {
     dispatch({
       type: "UPDATE_CODE",
       payload: { id: rowData.id, field, value: newValue },
@@ -134,8 +153,13 @@ export const CodeRepresentation = ({
 
     const newCodeListId = codeList?.ID || crypto.randomUUID();
     const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const newCategory = createCategory(updatedCode.categoryId, updatedCode.label, defaultAgencyId);
+      representation ||
+      createDefaultRepresentation(newCodeListId, defaultAgencyId);
+    const newCategory = createCategory(
+      updatedCode.categoryId,
+      updatedCode.label,
+      defaultAgencyId,
+    );
     const newCode = createCode(
       updatedCode.id,
       updatedCode.categoryId,
@@ -149,7 +173,9 @@ export const CodeRepresentation = ({
 
     if (existingCode) {
       updatedCodeListCodes =
-        codeList?.Code?.map((code) => (code.ID === rowData.id ? newCode : code)) || [];
+        codeList?.Code?.map((code) =>
+          code.ID === rowData.id ? newCode : code,
+        ) || [];
       updatedCategories = categories.map((cat) =>
         cat.ID === rowData.categoryId ? newCategory : cat,
       );
@@ -159,7 +185,8 @@ export const CodeRepresentation = ({
     }
 
     const updatedCodeList: CodeList = {
-      ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
       Code: updatedCodeListCodes,
     };
 
@@ -179,16 +206,58 @@ export const CodeRepresentation = ({
 
     const newCodeListId = codeList?.ID || crypto.randomUUID();
     const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const newCategory = createCategory(newRow.categoryId, newRow.label, defaultAgencyId);
-    const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
+      representation ||
+      createDefaultRepresentation(newCodeListId, defaultAgencyId);
+    const newCategory = createCategory(
+      newRow.categoryId,
+      newRow.label,
+      defaultAgencyId,
+    );
+    const newCode = createCode(
+      newRow.id,
+      newRow.categoryId,
+      newRow.value,
+      defaultAgencyId,
+    );
 
     const updatedCodeList: CodeList = {
-      ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
       Code: [...(codeList?.Code || []), newCode],
     };
 
-    onChange(currentRepresentation, updatedCodeList, [...categories, newCategory]);
+    onChange(currentRepresentation, updatedCodeList, [
+      ...categories,
+      newCategory,
+    ]);
+  };
+
+  const handleMoveCode = (codeId: string, direction: "up" | "down") => {
+    dispatch({ type: "MOVE_CODE", payload: { id: codeId, direction } });
+
+    const currentIndex = codes.findIndex((c) => c.id === codeId);
+    if (currentIndex === -1) return;
+
+    const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+    if (newIndex < 0 || newIndex >= codes.length) return;
+
+    const newCodeListId = codeList?.ID || crypto.randomUUID();
+    const currentRepresentation =
+      representation ||
+      createDefaultRepresentation(newCodeListId, defaultAgencyId);
+
+    // Réorganiser les codes dans la codeList
+    const currentCodes = [...(codeList?.Code || [])];
+    const [movedCode] = currentCodes.splice(currentIndex, 1);
+    currentCodes.splice(newIndex, 0, movedCode);
+
+    const updatedCodeList: CodeList = {
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
+      Code: currentCodes,
+    };
+
+    onChange(currentRepresentation, updatedCodeList, categories);
   };
 
   return (
@@ -199,7 +268,13 @@ export const CodeRepresentation = ({
           icon="pi pi-plus"
           label={t("physicalInstance.view.code.createNewList")}
           outlined
-          onClick={() => dispatch({ type: "SHOW_DATA_TABLE" })}
+          onClick={() => {
+            dispatch({ type: "SHOW_DATA_TABLE" });
+            // Ajouter automatiquement une ligne vide si la liste est vide
+            if (codes.length === 0) {
+              handleAddCode("", "");
+            }
+          }}
         />
         <Button
           type="button"
@@ -220,7 +295,10 @@ export const CodeRepresentation = ({
             const codeListId = idParts.join("-");
 
             // Créer la CodeRepresentation qui référence la liste de codes réutilisée
-            const codeRepresentation = createDefaultRepresentation(codeListId, agency);
+            const codeRepresentation = createDefaultRepresentation(
+              codeListId,
+              agency,
+            );
 
             // Appeler onChange avec uniquement la CodeRepresentation (pas de codeList ni categories
             // car on réutilise une liste existante)
@@ -236,6 +314,7 @@ export const CodeRepresentation = ({
           onCellEdit={handleCellEdit}
           onDeleteCode={handleDeleteCode}
           onAddCode={handleAddCode}
+          onMoveCode={handleMoveCode}
         />
       )}
     </div>

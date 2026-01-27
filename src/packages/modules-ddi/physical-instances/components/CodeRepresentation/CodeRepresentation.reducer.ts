@@ -17,6 +17,7 @@ export type CodeRepresentationAction =
       payload: { id: string; field: "value" | "label"; value: string };
     }
   | { type: "DELETE_CODE"; payload: string }
+  | { type: "MOVE_CODE"; payload: { id: string; direction: "up" | "down" } }
   | { type: "SHOW_DATA_TABLE" }
   | { type: "SHOW_REUSE_SELECT" }
   | { type: "TOGGLE_REUSE_SELECT" }
@@ -65,6 +66,21 @@ export const codeRepresentationReducer = (
         ...state,
         codes: state.codes.filter((code) => code.id !== action.payload),
       };
+
+    case "MOVE_CODE": {
+      const { id, direction } = action.payload;
+      const currentIndex = state.codes.findIndex((code) => code.id === id);
+      if (currentIndex === -1) return state;
+
+      const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+      if (newIndex < 0 || newIndex >= state.codes.length) return state;
+
+      const newCodes = [...state.codes];
+      const [movedCode] = newCodes.splice(currentIndex, 1);
+      newCodes.splice(newIndex, 0, movedCode);
+
+      return { ...state, codes: newCodes };
+    }
 
     case "SHOW_DATA_TABLE":
       return { ...state, showDataTable: true, showReuseSelect: false };
