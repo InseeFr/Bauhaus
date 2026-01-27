@@ -6,8 +6,7 @@ vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
-        "physicalInstance.view.code.codeListLabel":
-          "Libellé de la liste de codes",
+        "physicalInstance.view.code.codeListLabel": "Libellé de la liste de codes",
         "physicalInstance.view.code.value": "Valeur",
         "physicalInstance.view.code.label": "Libellé",
         "physicalInstance.view.code.addCode": "Ajouter un code",
@@ -84,11 +83,7 @@ vi.mock("primereact/datatable", () => ({
             <tr key={index} data-testid={`row-${index}`}>
               {columns.map((column: any, colIndex: number) => {
                 if (column?.props?.body) {
-                  return (
-                    <td key={colIndex}>
-                      {column.props.body(row, { rowIndex: index })}
-                    </td>
-                  );
+                  return <td key={colIndex}>{column.props.body(row, { rowIndex: index })}</td>;
                 }
                 return <td key={colIndex}>{row[column?.props?.field]}</td>;
               })}
@@ -133,9 +128,7 @@ describe("CodeListDataTable", () => {
       />,
     );
 
-    expect(
-      screen.getByLabelText("Libellé de la liste de codes"),
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText("Libellé de la liste de codes")).toBeInTheDocument();
   });
 
   it("should display initial code list label", () => {
@@ -151,9 +144,7 @@ describe("CodeListDataTable", () => {
       />,
     );
 
-    const labelInput = screen.getByLabelText(
-      "Libellé de la liste de codes",
-    ) as HTMLInputElement;
+    const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
     expect(labelInput.value).toBe("Test Label");
   });
 
@@ -282,11 +273,7 @@ describe("CodeListDataTable", () => {
 
     fireEvent.change(codeValueInput, { target: { value: "updated-value" } });
 
-    expect(mockOnCellEdit).toHaveBeenCalledWith(
-      mockCodes[0],
-      "value",
-      "updated-value",
-    );
+    expect(mockOnCellEdit).toHaveBeenCalledWith(mockCodes[0], "value", "updated-value");
   });
 
   it("should call onCellEdit when code label is edited", () => {
@@ -310,11 +297,7 @@ describe("CodeListDataTable", () => {
 
     fireEvent.change(codeLabelInput, { target: { value: "Updated Label" } });
 
-    expect(mockOnCellEdit).toHaveBeenCalledWith(
-      mockCodes[0],
-      "label",
-      "Updated Label",
-    );
+    expect(mockOnCellEdit).toHaveBeenCalledWith(mockCodes[0], "label", "Updated Label");
   });
 
   it("should render with empty codes array", () => {

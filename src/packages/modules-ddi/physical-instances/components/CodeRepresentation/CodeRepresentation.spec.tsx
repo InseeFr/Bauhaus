@@ -11,8 +11,7 @@ vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
-        "physicalInstance.view.code.codeListLabel":
-          "Libellé de la liste de codes",
+        "physicalInstance.view.code.codeListLabel": "Libellé de la liste de codes",
         "physicalInstance.view.code.value": "Valeur",
         "physicalInstance.view.code.label": "Libellé",
         "physicalInstance.view.code.addCode": "Ajouter un code",
@@ -21,14 +20,11 @@ vi.mock("react-i18next", () => ({
           "Remplissez au moins un champ pour ajouter un code",
         "physicalInstance.view.code.createNewList": "Créer une nouvelle liste",
         "physicalInstance.view.code.reuseList": "Réutiliser",
-        "physicalInstance.view.code.selectCodeList":
-          "Sélectionnez une liste de codes",
-        "physicalInstance.view.code.loadingCodesLists":
-          "Chargement des listes de codes...",
+        "physicalInstance.view.code.selectCodeList": "Sélectionnez une liste de codes",
+        "physicalInstance.view.code.loadingCodesLists": "Chargement des listes de codes...",
         "physicalInstance.view.code.errorLoadingCodesLists":
           "Erreur lors du chargement des listes de codes",
-        "physicalInstance.view.code.noCodesListsAvailable":
-          "Aucune liste de codes disponible",
+        "physicalInstance.view.code.noCodesListsAvailable": "Aucune liste de codes disponible",
         "physicalInstance.view.code.noCodes": "Aucun code",
         "physicalInstance.view.code.actionsMenu": "Menu des actions",
         "physicalInstance.view.code.moveUp": "Monter",
@@ -68,13 +64,7 @@ vi.mock("../../../hooks/useAllCodesLists", () => ({
 
 vi.mock("primereact/inputtext", () => ({
   InputText: ({ id, value, onChange, placeholder, ...props }: any) => (
-    <input
-      id={id}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      {...props}
-    />
+    <input id={id} value={value} onChange={onChange} placeholder={placeholder} {...props} />
   ),
 }));
 
@@ -95,9 +85,7 @@ vi.mock("primereact/datatable", () => ({
           {value?.map((row: any, index: number) => (
             <tr key={index}>
               {columns.map((column: any, colIndex: number) => (
-                <td key={colIndex}>
-                  {column?.props?.body?.(row, { rowIndex: index })}
-                </td>
+                <td key={colIndex}>{column?.props?.body?.(row, { rowIndex: index })}</td>
               ))}
             </tr>
           ))}
@@ -120,9 +108,7 @@ vi.mock("primereact/progressspinner", () => ({
 }));
 
 vi.mock("primereact/message", () => ({
-  Message: ({ severity, text }: any) => (
-    <div data-testid={`message-${severity}`}>{text}</div>
-  ),
+  Message: ({ severity, text }: any) => <div data-testid={`message-${severity}`}>{text}</div>,
 }));
 
 vi.mock("primereact/dropdown", () => ({
@@ -260,9 +246,7 @@ describe("CodeRepresentation", () => {
         />,
       );
 
-      const labelInput = screen.getByLabelText(
-        "Libellé de la liste de codes",
-      ) as HTMLInputElement;
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
       expect(labelInput.value).toBe("Liste de codes test");
     });
   });
@@ -278,9 +262,7 @@ describe("CodeRepresentation", () => {
         />,
       );
 
-      expect(
-        screen.queryByTestId("codes-list-dropdown"),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
 
       fireEvent.click(screen.getByText("Réutiliser"));
 
@@ -303,9 +285,7 @@ describe("CodeRepresentation", () => {
       expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
 
       fireEvent.click(reuseButton);
-      expect(
-        screen.queryByTestId("codes-list-dropdown"),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
     });
 
     it("should hide ReuseCodeListSelect when create new list is clicked", () => {
@@ -322,9 +302,7 @@ describe("CodeRepresentation", () => {
       expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
 
       fireEvent.click(screen.getByText("Créer une nouvelle liste"));
-      expect(
-        screen.queryByTestId("codes-list-dropdown"),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
       expect(screen.getByTestId("data-table")).toBeInTheDocument();
     });
 
@@ -406,9 +384,7 @@ describe("CodeRepresentation", () => {
         />,
       );
 
-      const labelInput = screen.getByLabelText(
-        "Libellé de la liste de codes",
-      ) as HTMLInputElement;
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
       expect(labelInput.value).toBe("Liste modifiée");
     });
   });

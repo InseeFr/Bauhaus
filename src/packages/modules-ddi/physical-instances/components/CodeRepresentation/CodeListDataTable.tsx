@@ -19,11 +19,7 @@ interface CodeListDataTableProps {
   codeListLabel: string;
   codes: CodeTableRow[];
   onCodeListLabelChange: (label: string) => void;
-  onCellEdit: (
-    rowData: CodeTableRow,
-    field: "value" | "label",
-    newValue: string,
-  ) => void;
+  onCellEdit: (rowData: CodeTableRow, field: "value" | "label", newValue: string) => void;
   onDeleteCode: (codeId: string) => void;
   onAddCode: (value: string, label: string) => void;
   onMoveCode?: (codeId: string, direction: "up" | "down") => void;
@@ -123,10 +119,7 @@ export const CodeListDataTable = ({
     return items;
   };
 
-  const actionBodyTemplate = (
-    rowData: CodeTableRow,
-    options: { rowIndex: number },
-  ) => {
+  const actionBodyTemplate = (rowData: CodeTableRow, options: { rowIndex: number }) => {
     const menuRef = (el: Menu | null) => {
       menuRefs.current.set(rowData.id, el);
     };
@@ -143,11 +136,7 @@ export const CodeListDataTable = ({
 
     return (
       <div className="flex gap-2">
-        <Menu
-          model={getMenuItems(rowData, options.rowIndex)}
-          popup
-          ref={menuRef}
-        />
+        <Menu model={getMenuItems(rowData, options.rowIndex)} popup ref={menuRef} />
         <Button
           type="button"
           icon="pi pi-ellipsis-v"
@@ -164,9 +153,7 @@ export const CodeListDataTable = ({
   return (
     <>
       <div className="flex flex-column gap-2">
-        <label htmlFor="code-list-label">
-          {t("physicalInstance.view.code.codeListLabel")}
-        </label>
+        <label htmlFor="code-list-label">{t("physicalInstance.view.code.codeListLabel")}</label>
         <InputText
           id="code-list-label"
           name="codeListLabel"
@@ -175,11 +162,7 @@ export const CodeListDataTable = ({
           onChange={(e) => onCodeListLabelChange(e.target.value)}
         />
       </div>
-      <DataTable
-        value={codes}
-        size="small"
-        emptyMessage={t("physicalInstance.view.code.noCodes")}
-      >
+      <DataTable value={codes} size="small" emptyMessage={t("physicalInstance.view.code.noCodes")}>
         <Column
           field="value"
           header={t("physicalInstance.view.code.value")}
