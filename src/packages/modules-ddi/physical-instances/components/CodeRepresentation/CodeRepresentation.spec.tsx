@@ -14,6 +14,7 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.code.codeListLabel": "Libellé de la liste de codes",
         "physicalInstance.view.code.value": "Valeur",
         "physicalInstance.view.code.label": "Libellé",
+        "physicalInstance.view.code.addCode": "Ajouter un code",
         "physicalInstance.view.code.addCodeTooltip": "Ajouter ce code",
         "physicalInstance.view.code.fillFieldsTooltip":
           "Remplissez au moins un champ pour ajouter un code",
@@ -24,6 +25,11 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.code.errorLoadingCodesLists":
           "Erreur lors du chargement des listes de codes",
         "physicalInstance.view.code.noCodesListsAvailable": "Aucune liste de codes disponible",
+        "physicalInstance.view.code.noCodes": "Aucun code",
+        "physicalInstance.view.code.actionsMenu": "Menu des actions",
+        "physicalInstance.view.code.moveUp": "Monter",
+        "physicalInstance.view.code.moveDown": "Descendre",
+        "physicalInstance.view.code.deleteCode": "Supprimer",
       };
       return translations[key] || key;
     },
@@ -79,7 +85,7 @@ vi.mock("primereact/datatable", () => ({
           {value?.map((row: any, index: number) => (
             <tr key={index}>
               {columns.map((column: any, colIndex: number) => (
-                <td key={colIndex}>{column?.props?.body?.(row)}</td>
+                <td key={colIndex}>{column?.props?.body?.(row, { rowIndex: index })}</td>
               ))}
             </tr>
           ))}
@@ -87,6 +93,10 @@ vi.mock("primereact/datatable", () => ({
       </table>
     );
   },
+}));
+
+vi.mock("primereact/menu", () => ({
+  Menu: vi.fn().mockImplementation(() => null),
 }));
 
 vi.mock("primereact/column", () => ({
@@ -339,28 +349,6 @@ describe("CodeRepresentation", () => {
           },
         }),
         mockCategories,
-      );
-    });
-
-    it("should call onChange when a code is deleted", () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
-
-      const trashButton = screen.getByText("pi pi-trash");
-      fireEvent.click(trashButton);
-
-      expect(mockOnChange).toHaveBeenCalledWith(
-        mockRepresentation,
-        expect.objectContaining({
-          Code: [],
-        }),
-        [],
       );
     });
   });

@@ -489,12 +489,39 @@ export const Component = () => {
           } else if (localVar.codeRepresentation) {
             // Ajouter la CodeList et les Categories si elles existent
             if (localVar.codeList) {
-              codeListMap.set(localVar.codeList.ID, localVar.codeList);
+              // Filtrer les codes vides (sans valeur ET sans label)
+              const filteredCodeList = {
+                ...localVar.codeList,
+                Code: (localVar.codeList.Code || []).filter((code: Code) => {
+                  const category = localVar.categories?.find(
+                    (cat) => cat.ID === code.CategoryReference?.ID,
+                  );
+                  const label = category?.Label?.Content?.["#text"] || "";
+                  const value = code.Value || "";
+                  return value.trim() !== "" || label.trim() !== "";
+                }),
+              };
+              codeListMap.set(filteredCodeList.ID, filteredCodeList);
             }
             if (localVar.categories) {
-              localVar.categories.forEach((cat) => {
-                categoryMap.set(cat.ID, cat);
-              });
+              // Ne garder que les catégories liées aux codes valides
+              const validCategoryIds = new Set(
+                (localVar.codeList?.Code || [])
+                  .filter((code: Code) => {
+                    const category = localVar.categories?.find(
+                      (cat) => cat.ID === code.CategoryReference?.ID,
+                    );
+                    const label = category?.Label?.Content?.["#text"] || "";
+                    const value = code.Value || "";
+                    return value.trim() !== "" || label.trim() !== "";
+                  })
+                  .map((code: Code) => code.CategoryReference?.ID),
+              );
+              localVar.categories
+                .filter((cat) => validCategoryIds.has(cat.ID))
+                .forEach((cat) => {
+                  categoryMap.set(cat.ID, cat);
+                });
             }
 
             // S'assurer que la CodeListReference pointe vers le bon ID

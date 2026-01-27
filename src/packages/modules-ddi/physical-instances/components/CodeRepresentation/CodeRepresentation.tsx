@@ -190,6 +190,32 @@ export const CodeRepresentation = ({
     onChange(currentRepresentation, updatedCodeList, [...categories, newCategory]);
   };
 
+  const handleMoveCode = (codeId: string, direction: "up" | "down") => {
+    dispatch({ type: "MOVE_CODE", payload: { id: codeId, direction } });
+
+    const currentIndex = codes.findIndex((c) => c.id === codeId);
+    if (currentIndex === -1) return;
+
+    const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+    if (newIndex < 0 || newIndex >= codes.length) return;
+
+    const newCodeListId = codeList?.ID || crypto.randomUUID();
+    const currentRepresentation =
+      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+
+    // Réorganiser les codes dans la codeList
+    const currentCodes = [...(codeList?.Code || [])];
+    const [movedCode] = currentCodes.splice(currentIndex, 1);
+    currentCodes.splice(newIndex, 0, movedCode);
+
+    const updatedCodeList: CodeList = {
+      ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
+      Code: currentCodes,
+    };
+
+    onChange(currentRepresentation, updatedCodeList, categories);
+  };
+
   return (
     <div className="flex flex-column gap-2">
       <div className="flex gap-2">
@@ -198,7 +224,13 @@ export const CodeRepresentation = ({
           icon="pi pi-plus"
           label={t("physicalInstance.view.code.createNewList")}
           outlined
-          onClick={() => dispatch({ type: "SHOW_DATA_TABLE" })}
+          onClick={() => {
+            dispatch({ type: "SHOW_DATA_TABLE" });
+            // Ajouter automatiquement une ligne vide si la liste est vide
+            if (codes.length === 0) {
+              handleAddCode("", "");
+            }
+          }}
         />
         <Button
           type="button"
@@ -235,6 +267,7 @@ export const CodeRepresentation = ({
           onCellEdit={handleCellEdit}
           onDeleteCode={handleDeleteCode}
           onAddCode={handleAddCode}
+          onMoveCode={handleMoveCode}
         />
       )}
     </div>

@@ -296,13 +296,32 @@ export const VariableEditForm = ({
           ...basePayload,
           textRepresentation: state.representation.TextRepresentation,
         };
-      case VARIABLE_TYPES.CODE:
+      case VARIABLE_TYPES.CODE: {
+        const codeList = state.representation.CodeList;
+        const categories = state.representation.Category || [];
+
+        // Filtrer les codes vides (sans valeur ET sans label) et les codes invalides
+        const validCodes = (codeList?.Code || []).filter((code) => {
+          if (!code || !code.CategoryReference) return false;
+          const category = categories.find((cat) => cat?.ID === code.CategoryReference?.ID);
+          const label = category?.Label?.Content?.["#text"] || "";
+          const value = code.Value || "";
+          return value.trim() !== "" || label.trim() !== "";
+        });
+
+        // Ne garder que les catégories liées aux codes valides
+        const validCategoryIds = new Set(validCodes.map((code) => code.CategoryReference?.ID));
+        const validCategories = categories.filter((cat) => cat && validCategoryIds.has(cat.ID));
+
+        const filteredCodeList = codeList ? { ...codeList, Code: validCodes } : undefined;
+
         return {
           ...basePayload,
           codeRepresentation: state.representation.CodeRepresentation,
-          codeList: state.representation.CodeList,
-          categories: state.representation.Category,
+          codeList: filteredCodeList,
+          categories: validCategories,
         };
+      }
       default:
         return basePayload;
     }
