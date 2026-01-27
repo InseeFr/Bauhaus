@@ -276,6 +276,28 @@ describe("codeRepresentationReducer", () => {
       expect(result.showDataTable).toBe(false);
       expect(result.codes).toEqual([]);
     });
+
+    it("should reset showReuseSelect to false when initializing from code list", () => {
+      const stateWithReuseSelect: CodeRepresentationState = {
+        ...initialState,
+        showReuseSelect: true,
+        selectedCodeListId: "some-id",
+      };
+      const action: CodeRepresentationAction = {
+        type: "INIT_FROM_CODE_LIST",
+        payload: {
+          label: "New List",
+          codes: [],
+          showDataTable: true,
+        },
+      };
+
+      const result = codeRepresentationReducer(stateWithReuseSelect, action);
+
+      expect(result.showReuseSelect).toBe(false);
+      expect(result.selectedCodeListId).toBeNull();
+      expect(result.showDataTable).toBe(true);
+    });
   });
 
   describe("INIT_REUSED_CODE_LIST", () => {
@@ -308,7 +330,7 @@ describe("codeRepresentationReducer", () => {
       expect(result.showReuseSelect).toBe(true);
     });
 
-    it("should preserve other state properties", () => {
+    it("should reset state to initial values except for selectedCodeListId and showReuseSelect", () => {
       const action: CodeRepresentationAction = {
         type: "INIT_REUSED_CODE_LIST",
         payload: { selectedCodeListId: "agency-list-id" },
@@ -316,8 +338,8 @@ describe("codeRepresentationReducer", () => {
 
       const result = codeRepresentationReducer(stateWithCodes, action);
 
-      expect(result.codes).toEqual(stateWithCodes.codes);
-      expect(result.codeListLabel).toBe(stateWithCodes.codeListLabel);
+      expect(result.codes).toEqual([]);
+      expect(result.codeListLabel).toBe("");
     });
   });
 

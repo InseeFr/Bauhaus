@@ -84,7 +84,7 @@ export const codeRepresentationReducer = (
 
     case "INIT_FROM_CODE_LIST":
       return {
-        ...state,
+        ...initialState,
         codeListLabel: action.payload.label,
         codes: action.payload.codes,
         showDataTable: action.payload.showDataTable,
@@ -92,10 +92,9 @@ export const codeRepresentationReducer = (
 
     case "INIT_REUSED_CODE_LIST":
       return {
-        ...state,
+        ...initialState,
         selectedCodeListId: action.payload.selectedCodeListId,
         showReuseSelect: true,
-        showDataTable: false,
       };
 
     default:

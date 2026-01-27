@@ -44,7 +44,6 @@ export const CodeRepresentation = ({
   });
 
   const { codeListLabel, codes, showDataTable, showReuseSelect, selectedCodeListId } = state;
-
   useEffect(() => {
     if (codeList) {
       // Cas où on a une codeList complète (création ou liste existante chargée)
