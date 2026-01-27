@@ -14,7 +14,10 @@ interface OrganisationMapperProps {
  * Uses the V2 stamps map to retrieve organisation names.
  * Falls back to displaying the ID if no label is found.
  */
-const InseeOrganisationProvider = ({ organisations, children }: OrganisationMapperProps) => {
+const InseeOrganisationProvider = ({
+  organisations,
+  children,
+}: Readonly<OrganisationMapperProps>) => {
   const stampsMap = useV2StampsMap();
 
   const mappedLabels = useMemo(() => {
