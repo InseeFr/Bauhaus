@@ -11,7 +11,7 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import D from "../../../deprecated-locales";
-import { CL_FREQ } from "../../../redux/actions/constants/codeList";
+import { CL_FREQ } from "../../../constants/code-lists";
 import OperationsIndicatorEdition from "./edition";
 
 export const Component = (props) => {

@@ -1,10 +1,8 @@
 import { screen } from "@testing-library/react";
-import { Provider } from "react-redux";
 
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { HomeDocument } from "../../model/operations/document";
-import configureStore from "../../redux/configure-store";
 import { mockReactQueryForRbac, renderWithRouter } from "../../tests/render";
 
 describe("DocumentHome", () => {
@@ -23,15 +21,7 @@ describe("DocumentHome", () => {
 
     const { default: DocumentHome } = await import("./home");
 
-    const store = configureStore({
-      users: { results: { stamp: "stamp" } },
-      app: { auth: { user: {} } },
-    });
-    const { container } = renderWithRouter(
-      <Provider store={store}>
-        <DocumentHome documents={[]} />
-      </Provider>,
-    );
+    const { container } = renderWithRouter(<DocumentHome documents={[]} />);
     expect(container.querySelectorAll("h1")).toHaveLength(1);
   });
   it("should display the SearchableList component", async () => {
@@ -44,34 +34,23 @@ describe("DocumentHome", () => {
 
     const { default: DocumentHome } = await import("./home");
 
-    const store = configureStore({
-      users: { results: { stamp: "stamp" } },
-      app: { auth: { user: {} } },
-    });
     const { container } = renderWithRouter(
-      <Provider store={store}>
-        <DocumentHome
-          documents={
-            [
-              {
-                id: "1",
-                label: "label",
-              },
-            ] as unknown as HomeDocument[]
-          }
-        />
-      </Provider>,
+      <DocumentHome
+        documents={
+          [
+            {
+              id: "1",
+              label: "label",
+            },
+          ] as unknown as HomeDocument[]
+        }
+      />,
     );
     expect(container.querySelectorAll("ul")).toHaveLength(1);
     expect(container.querySelectorAll("li")).toHaveLength(1);
   });
 
   it("should display two Add buttons", async () => {
-    const store = configureStore({
-      users: { results: { stamp: "stamp" } },
-      app: { auth: { user: {} } },
-    });
-
     mockReactQueryForRbac([
       {
         application: MODULES.OPERATION_DOCUMENT,
@@ -81,11 +60,7 @@ describe("DocumentHome", () => {
 
     const { default: DocumentHome } = await import("./home");
 
-    renderWithRouter(
-      <Provider store={store}>
-        <DocumentHome documents={[]} />
-      </Provider>,
-    );
+    renderWithRouter(<DocumentHome documents={[]} />);
     await screen.findByText("New Document");
     await screen.findByText("New Link");
   });
@@ -97,17 +72,9 @@ describe("DocumentHome", () => {
       },
     ]);
 
-    const store = configureStore({
-      users: { results: { stamp: "stamp" } },
-      app: { auth: { user: {} } },
-    });
     const { default: DocumentHome } = await import("./home");
 
-    renderWithRouter(
-      <Provider store={store}>
-        <DocumentHome documents={[]} />
-      </Provider>,
-    );
+    renderWithRouter(<DocumentHome documents={[]} />);
     expect(screen.queryByText("New Document")).toBeNull();
     expect(screen.queryByText("New Link")).toBeNull();
   });

@@ -103,11 +103,8 @@
     "react-dropzone": "11.0.1",
     "react-i18next": "^16.0.0",
     "react-modal": "^3.14.4",
-    "react-redux": "^7.2.6",
     "react-router-dom": "6.27.0",
     "react-sliding-side-panel": "1.1.8",
-    "redux": "^4.2.0",
-    "redux-thunk": "^2.4.2",
     "typescript": "5.7.3",
     "zod": "^4.0.0"
   }

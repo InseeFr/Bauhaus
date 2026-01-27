@@ -12,11 +12,7 @@ import { useOrganizations } from "@utils/hooks/organizations";
 
 import D, { D1 } from "../../../deprecated-locales/build-dictionary";
 import { Dataset } from "../../../model/Dataset";
-import {
-  CL_ACCESS_RIGHTS,
-  CL_CONF_STATUS,
-  CL_FREQ,
-} from "../../../redux/actions/constants/codeList";
+import { CL_ACCESS_RIGHTS, CL_CONF_STATUS, CL_FREQ } from "../../../constants/code-lists";
 import { D as DatasetDictionary, lg1, lg2 } from "../../i18n";
 import { WasGeneratedByBlock } from "./wasGeneratedByBlock";
 import { useThemes } from "../../hooks/useThemes";

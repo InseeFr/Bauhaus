@@ -1,19 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Provider } from "react-redux";
 import { describe, it, expect, vi } from "vitest";
 
-import configureStore from "../../../redux/configure-store";
 import { renderWithRouter } from "../../../tests/render";
 
 import SimsGeographyPicker, { removeAccents } from "./sims-geography-picker";
-
-vi.mock("../../../redux/geographies.action", async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    loadGeographies: vi.fn(() => () => Promise.resolve()),
-  };
-});
 
 const mockGeographies = [
   {
@@ -54,22 +44,6 @@ const mockGeographies = [
   },
 ];
 
-const createStore = () => {
-  return configureStore({
-    geographies: {
-      results: mockGeographies,
-    },
-    app: {
-      auth: {
-        type: "STAMP",
-        user: {
-          stamp: "test-stamp",
-        },
-      },
-    },
-  });
-};
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -79,7 +53,6 @@ const queryClient = new QueryClient({
 });
 
 const renderComponent = (props = {}) => {
-  const store = createStore();
   const defaultProps = {
     onChange: vi.fn(),
     value: "",
@@ -88,11 +61,9 @@ const renderComponent = (props = {}) => {
   };
 
   return renderWithRouter(
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <SimsGeographyPicker {...defaultProps} />
-      </QueryClientProvider>
-    </Provider>,
+    <QueryClientProvider client={queryClient}>
+      <SimsGeographyPicker {...defaultProps} />
+    </QueryClientProvider>,
   );
 };
 

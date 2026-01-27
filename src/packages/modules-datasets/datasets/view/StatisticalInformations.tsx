@@ -14,7 +14,7 @@ import {
   CL_GEO,
   CL_STAT_UNIT,
   CL_TYPE_GEO,
-} from "../../../redux/actions/constants/codeList";
+} from "../../../constants/code-lists";
 import { DataStructure } from "./statistical-informations/data-structure";
 
 interface StatisticalInformationsTypes {

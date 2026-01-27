@@ -8,7 +8,7 @@ import { Select } from "@components/select-rmes";
 import { withCodesLists } from "@utils/hoc/withCodesLists";
 
 import { D1, D2 } from "../../../../deprecated-locales";
-import { CL_FREQ } from "../../../../redux/actions/constants/codeList";
+import { CL_FREQ } from "../../../../constants/code-lists";
 import { D1 as DatasetDictionary } from "../../../i18n";
 import { convertCodesListsToSelectOption } from "../../../utils/codelist-to-select-options";
 import { OrganisationInput } from "@components/business/stamps-input/stamps-input";

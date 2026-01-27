@@ -1,7 +1,9 @@
 import { act, fireEvent, waitFor } from "@testing-library/react";
+
+import { OperationsApi } from "@sdk/operations-api";
+
 import { renderWithRouter } from "../../tests/render";
 import { Component as OperationsTree } from "./index";
-import { OperationsApi } from "@sdk/operations-api";
 
 const mockGoBack = vi.fn();
 vi.mock("@utils/hooks/useGoBack", () => ({
@@ -38,8 +40,12 @@ describe("OperationsTree", () => {
     ]);
   });
 
-  it("renders without crashing", () => {
+  it("renders without crashing", async () => {
     renderWithRouter(<OperationsTree />);
+
+    await waitFor(() => {
+      expect(vi.mocked(OperationsApi).getAllFamilies).toHaveBeenCalled();
+    });
   });
 
   it("loads families on mount", async () => {
@@ -68,7 +74,7 @@ describe("OperationsTree", () => {
     const familyNode = tree.querySelector('[data-key="family-1"]');
 
     if (familyNode) {
-      act(() => {
+      await act(async () => {
         fireEvent.click(familyNode);
       });
 
@@ -101,7 +107,7 @@ describe("OperationsTree", () => {
     // Expand family first
     const familyNode = tree.querySelector('[data-key="family-1"]');
     if (familyNode) {
-      act(() => {
+      await act(async () => {
         fireEvent.click(familyNode);
       });
 
@@ -112,7 +118,7 @@ describe("OperationsTree", () => {
       // Then expand series
       const seriesNode = tree.querySelector('[data-key="series-s1"]');
       if (seriesNode) {
-        act(() => {
+        await act(async () => {
           fireEvent.click(seriesNode);
         });
 
@@ -142,7 +148,11 @@ describe("OperationsTree", () => {
   it("handles return button click", async () => {
     const { getByRole } = renderWithRouter(<OperationsTree />);
 
-    const returnButton = getByRole("button");
+    await waitFor(() => {
+      expect(vi.mocked(OperationsApi).getAllFamilies).toHaveBeenCalled();
+    });
+
+    const returnButton = getByRole("button", { name: /back/i });
     fireEvent.click(returnButton);
 
     expect(mockGoBack).toHaveBeenCalledWith("/operations");
