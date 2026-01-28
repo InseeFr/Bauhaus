@@ -1,45 +1,41 @@
 /* Force white text color for danger buttons in confirm dialogs */
 .p-confirm-dialog .p-button-danger {
-    color: white !important;
+  color: white !important;
 }
 
 .p-confirm-dialog .p-button-danger:hover {
-    color: white !important;
+  color: white !important;
 }
 
 .p-confirm-dialog .p-button-danger:focus {
-    color: white !important;
+  color: white !important;
 }
 
 .p-confirm-dialog .p-button-danger:active {
-    color: white !important;
+  color: white !important;
 }
 
 /* Style for selected variable row in DataTable */
 .selected-variable-row {
-    outline: 2px solid var(--color-2);
-    outline-offset: -2px;
+  outline: 2px solid var(--color-2);
+  outline-offset: -2px;
 }
 
 /* Sticky sidebar for variable edit form */
 .variable-edit-sidebar {
-    position: sticky;
-    top: 1rem;
-    align-self: flex-start;
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
+  position: sticky;
+  top: 1rem;
+  align-self: flex-start;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
 }
 
 /* Sticky header for search filters */
 .sticky-header {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: linear-gradient(
-        to bottom,
-        var(--surface-ground, #fff) 85%,
-        transparent
-    );
-    padding: 1rem 1rem 1.5rem 1rem;
-    margin: -1rem -1rem 0 -1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(to bottom, var(--surface-ground, #fff) 85%, transparent);
+  padding: 1rem 1rem 1.5rem 1rem;
+  margin: -1rem -1rem 0 -1rem;
 }
