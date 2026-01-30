@@ -6,6 +6,9 @@ on:
   push:
     branches:
       - main
+  schedule:
+    # Tous les lundis à 6h UTC
+    - cron: '0 10 * * 5'
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
   cancel-in-progress: true
