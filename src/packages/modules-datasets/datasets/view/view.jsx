@@ -21,13 +21,16 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import D, { D1, D2 } from "../../../deprecated-locales/build-dictionary";
 import { CL_PROCESS_STEP } from "../../../constants/code-lists";
-import { useDataset } from "../../datasets";
 import { D as DatasetDictionary } from "../../i18n";
 import { GlobalInformationBlock } from "./GlobalInformationBlock";
 import { StatisticalInformations } from "./StatisticalInformations";
 import { ViewMenu } from "./menu";
 import { useOrganizations } from "@utils/hooks/organizations";
-import { Organisation, Organisations } from "@components/business/organisations/organisations";
+import {
+  Organisation,
+  Organisations,
+} from "@components/business/organisations/organisations";
+import { useDatasets } from "../../hooks/useDatasets";
 
 const Dataset = (props) => {
   const { id } = useParams();
@@ -38,7 +41,7 @@ const Dataset = (props) => {
     DatasetsApi.getArchivageUnits().then(setArchivageUnits);
   }, []);
 
-  const { data: dataset, isLoading } = useDataset(id);
+  const { data: dataset, isLoading } = useDatasets(id);
 
   const [secondLang] = useSecondLang();
   const queryClient = useQueryClient();
@@ -83,9 +86,17 @@ const Dataset = (props) => {
     <div className="container">
       <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />
 
-      <ViewMenu dataset={dataset} {...props} onPublish={publish} onDelete={remove} />
+      <ViewMenu
+        dataset={dataset}
+        {...props}
+        onPublish={publish}
+        onDelete={remove}
+      />
       {(serverSideError || publishServerSideError) && (
-        <ErrorBloc error={[serverSideError || publishServerSideError]} D={DatasetDictionary} />
+        <ErrorBloc
+          error={[serverSideError || publishServerSideError]}
+          D={DatasetDictionary}
+        />
       )}
 
       <CheckSecondLang />
@@ -129,7 +140,9 @@ const Dataset = (props) => {
           text={
             <List
               items={dataset.linkedDocuments}
-              getContent={(linkedDocument) => <a href={linkedDocument}>{linkedDocument}</a>}
+              getContent={(linkedDocument) => (
+                <a href={linkedDocument}>{linkedDocument}</a>
+              )}
             ></List>
           }
           title={DatasetDictionary.datasets.linkedDocuments}
@@ -173,7 +186,10 @@ const Dataset = (props) => {
               {dataset.archiveUnit && (
                 <li>
                   {D.datasetsArchiveUnit} :{" "}
-                  {archivageUnits?.find((t) => t.value === dataset.archiveUnit)?.label}
+                  {
+                    archivageUnits?.find((t) => t.value === dataset.archiveUnit)
+                      ?.label
+                  }
                 </li>
               )}
             </ul>

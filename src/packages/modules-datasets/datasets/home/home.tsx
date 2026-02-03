@@ -8,8 +8,8 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import D from "../../../deprecated-locales/build-dictionary";
 import { PartialDataset } from "../../../model/Dataset";
-import { useDatasets } from "../../datasets";
 import { HomePageMenu } from "./menu";
+import { useDatasets } from "../../hooks/useDatasets";
 
 export const Component = () => {
   const { data, isLoading } = useDatasets();
@@ -32,7 +32,9 @@ export const Component = () => {
             advancedSearch
             searchUrl="/datasets/search"
             autoFocus
-            itemFormatter={(_: unknown, dataset: PartialDataset) => dataset.label}
+            itemFormatter={(_: unknown, dataset: PartialDataset) =>
+              dataset.label
+            }
           />
         </div>
       </Row>

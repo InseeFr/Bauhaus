@@ -1,7 +1,11 @@
 import { useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 
-import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import {
+  ClientSideError,
+  ErrorBloc,
+  GlobalClientSideErrorBloc,
+} from "@components/errors-bloc";
 import { TextInput, UrlInputBlock } from "@components/form/input";
 import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
@@ -13,7 +17,6 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { D1, D2 } from "../../../../deprecated-locales";
 import D from "../../../../deprecated-locales/build-dictionary";
-import { useCreateOrUpdateDistribution, useDistribution } from "../../../datasets";
 import { ByteSizeInput } from "./components/byte-size-input";
 import { CompressFormatInput } from "./components/compress-format-input";
 import { DatasetSelect } from "./components/dataset-select";
@@ -23,6 +26,8 @@ import { MediaTypeInput } from "./components/media-type-input";
 import { validate } from "./validation";
 import { Menu } from "./menu";
 import { initialState, reducer } from "./reducer";
+import { useDistribution } from "../../../hooks/useDistribution";
+import { useCreateOrUpdateDistribution } from "../../../hooks/useCreateOrUpdateDistribution";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,9 +43,10 @@ export const Component = () => {
     dispatch({ type: "CLEAR_ERROR_MESSAGES" });
   };
 
-  const updateFieldFromEvent = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateField(field)(e.target.value);
-  };
+  const updateFieldFromEvent =
+    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      updateField(field)(e.target.value);
+    };
 
   const { data: distribution, status } = useDistribution(id);
 
@@ -50,7 +56,8 @@ export const Component = () => {
     }
   }, [status, distribution]);
 
-  const { isSaving, save, serverSideError } = useCreateOrUpdateDistribution(isEditing);
+  const { isSaving, save, serverSideError } =
+    useCreateOrUpdateDistribution(isEditing);
 
   useTitle(D.distributionsTitle, state.editingDistribution?.labelLg1);
 
@@ -75,11 +82,19 @@ export const Component = () => {
   return (
     <div className="container editor-container">
       {isEditing && (
-        <PageTitleBlock titleLg1={distribution.labelLg1} titleLg2={distribution.labelLg2} />
+        <PageTitleBlock
+          titleLg1={distribution.labelLg1}
+          titleLg2={distribution.labelLg2}
+        />
       )}
-      <Menu onSave={onSubmit} isSaveDisabled={state.clientSideErrors.errorMessage?.length > 0} />
+      <Menu
+        onSave={onSubmit}
+        isSaveDisabled={state.clientSideErrors.errorMessage?.length > 0}
+      />
       {state.submitting && state.clientSideErrors && (
-        <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
+        <GlobalClientSideErrorBloc
+          clientSideErrors={state.clientSideErrors.errorMessage}
+        />
       )}
       <ErrorBloc error={serverSideError} D={D} />
       <form>
@@ -143,7 +158,10 @@ export const Component = () => {
           />
         </Row>
         <Row>
-          <FormatInput value={state.editingDistribution.format} onChange={updateField("format")} />
+          <FormatInput
+            value={state.editingDistribution.format}
+            onChange={updateField("format")}
+          />
         </Row>
         <Row>
           <MediaTypeInput

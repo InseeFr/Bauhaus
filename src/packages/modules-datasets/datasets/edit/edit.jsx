@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
+import {
+  CancelButton,
+  SaveButton,
+} from "@components/buttons/buttons-with-icons";
 import { ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
@@ -15,7 +18,6 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import D from "../../../deprecated-locales";
-import { useDataset } from "../../datasets";
 import "./edit.css";
 import { LayoutWithLateralMenu } from "./layout-with-lateral-menu";
 import { GlobalInformation } from "./tabs/global-information";
@@ -25,6 +27,7 @@ import { StatisticalInformation } from "./tabs/statistical-information";
 import { validate } from "./validation";
 import { useAuthorizationGuard } from "../../../auth/components/auth";
 import { useUserStamps } from "@utils/hooks/users";
+import { useDataset } from "../../hooks/useDataset";
 
 export const Component = () => {
   const { id } = useParams();
@@ -101,7 +104,10 @@ export const Component = () => {
           title: D.globalInformationsTitle,
           isInError: hasErrors(["labelLg1", "labelLg2"]),
           content: () => {
-            if (editingDataset?.updated && editingDataset.updated.includes("T")) {
+            if (
+              editingDataset?.updated &&
+              editingDataset.updated.includes("T")
+            ) {
               editingDataset.updated = editingDataset.updated.substring(
                 0,
                 editingDataset.updated.indexOf("T"),
@@ -150,7 +156,10 @@ export const Component = () => {
         notes: {
           title: D.notesTitle,
           content: () => (
-            <Notes editingDataset={editingDataset} setEditingDataset={setEditingDataset} />
+            <Notes
+              editingDataset={editingDataset}
+              setEditingDataset={setEditingDataset}
+            />
           ),
         },
       },
@@ -183,22 +192,35 @@ export const Component = () => {
     }
   };
 
-  const allChildrenItems = Object.values(layoutConfiguration).reduce((acc, configuration) => {
-    return {
-      ...acc,
-      ...configuration.children,
-    };
-  }, {});
+  const allChildrenItems = Object.values(layoutConfiguration).reduce(
+    (acc, configuration) => {
+      return {
+        ...acc,
+        ...configuration.children,
+      };
+    },
+    {},
+  );
 
   return (
     <div className="editor-container dataset-container">
-      {isEditing && <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />}
+      {isEditing && (
+        <PageTitleBlock
+          titleLg1={dataset.labelLg1}
+          titleLg2={dataset.labelLg2}
+        />
+      )}
       <ActionToolbar>
         <CancelButton action={() => goBack("/datasets")} />
-        <SaveButton action={onSubmit} disabled={clientSideErrors.errorMessage?.length > 0} />
+        <SaveButton
+          action={onSubmit}
+          disabled={clientSideErrors.errorMessage?.length > 0}
+        />
       </ActionToolbar>
       {submitting && clientSideErrors && (
-        <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
+        <GlobalClientSideErrorBloc
+          clientSideErrors={clientSideErrors.errorMessage}
+        />
       )}
       <ErrorBloc error={[serverSideError]} D={D} />
       <form>

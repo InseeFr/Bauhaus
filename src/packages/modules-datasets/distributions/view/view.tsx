@@ -8,23 +8,25 @@ import { PageTitleBlock } from "@components/page-title-block";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import D from "../../../deprecated-locales/build-dictionary";
-import {
-  useDataset,
-  useDatasetDeleter,
-  useDatasetPublisher,
-  useDistribution,
-} from "../../datasets";
+
 import { ViewMenu } from "./menu";
 import { ViewMainBlock } from "./view-main-block";
+import { useDistribution } from "../../hooks/useDistribution";
+import { useDataset } from "../../hooks/useDataset";
+import { useDatasetPublisher } from "../../hooks/useDatasetPublisher";
+import { useDatasetDeleter } from "../../hooks/useDatasetDeleter";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
 
   const { data: distribution, isLoading } = useDistribution(id!);
 
-  const { data: dataset, isLoading: isLoadingDataSet } = useDataset(distribution?.idDataset);
+  const { data: dataset, isLoading: isLoadingDataSet } = useDataset(
+    distribution?.idDataset,
+  );
 
-  const { isPublishing, publish, validationServerSideError } = useDatasetPublisher(id!);
+  const { isPublishing, publish, validationServerSideError } =
+    useDatasetPublisher(id!);
 
   const { isDeleting, remove, deleteServerSideError } = useDatasetDeleter(id!);
 
@@ -36,7 +38,10 @@ export const Component = () => {
 
   return (
     <div className="container">
-      <PageTitleBlock titleLg1={distribution.labelLg1} titleLg2={distribution.labelLg2} />
+      <PageTitleBlock
+        titleLg1={distribution.labelLg1}
+        titleLg2={distribution.labelLg2}
+      />
 
       <ViewMenu
         distribution={distribution}
@@ -45,7 +50,10 @@ export const Component = () => {
         onDelete={remove}
       />
 
-      <ErrorBloc error={validationServerSideError || deleteServerSideError} D={D} />
+      <ErrorBloc
+        error={validationServerSideError || deleteServerSideError}
+        D={D}
+      />
 
       <CheckSecondLang />
 

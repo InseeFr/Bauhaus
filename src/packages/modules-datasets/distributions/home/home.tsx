@@ -7,8 +7,8 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import D from "../../../deprecated-locales/build-dictionary";
 import { PartialDistribution } from "../../../model/Dataset";
-import { useDistributions } from "../../datasets";
 import { HomePageMenu } from "./menu";
+import { useDistributions } from "../../hooks/useDistributions";
 
 export const Component = () => {
   const { data, isLoading } = useDistributions();
@@ -30,7 +30,9 @@ export const Component = () => {
             advancedSearch
             searchUrl="/datasets/distributions/search"
             autoFocus
-            itemFormatter={(_: unknown, distribution: PartialDistribution) => distribution.labelLg1}
+            itemFormatter={(_: unknown, distribution: PartialDistribution) =>
+              distribution.labelLg1
+            }
           />
         </div>
       </Row>

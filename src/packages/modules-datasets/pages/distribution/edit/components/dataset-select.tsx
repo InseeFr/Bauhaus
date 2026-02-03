@@ -3,7 +3,7 @@ import LabelRequired from "@components/label-required";
 import { Select } from "@components/select-rmes";
 
 import { D1 } from "../../../../../deprecated-locales";
-import { useDatasetsForDistributions } from "../../../../datasets";
+import { useDatasetsForDistributions } from "../../../../hooks/useDatasetsForDistributions";
 
 type DatasetSelectProps = {
   disabled: boolean;
