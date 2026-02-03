@@ -1,0 +1,75 @@
+{
+  "datasets": {
+    "title": "Dataset",
+    "pluralTitle": "Datasets",
+    "homePageTitle": "Datasets - Search",
+    "searchTitle": "Datasets - Advanced search",
+    "globalInformation": {
+      "title": "Global information",
+      "status": "State of the dataset",
+      "subtitle": "Subtitle",
+      "firstReleaseDate": "Date of first release of data",
+      "modificationDate": "Data modification date",
+      "updateFrequency": "Update frequency",
+      "dataProvider": "Responsible body for providing the data",
+      "publicationProvider": "Responsible body for publishing the data",
+      "theme": "Theme",
+      "keywords": "Keywords",
+      "landingPage": "Landing page",
+      "linkedDocuments": "Linked documents"
+    },
+    "internalManagement": {
+      "title": "Internal management",
+      "altId": "Alternative identifier",
+      "altIdError": "The identifier does not respect authorized characters : a-z, A-Z, 0-9, - and _",
+      "accessRights": "Access rights",
+      "confidentialityStatus": "Confidentiality status",
+      "processStep": "Processes using the data",
+      "archiveUnit": "Archive unit"
+    },
+    "notes": {
+      "title": "Notes",
+      "abstract": "Abstract",
+      "description": "Description",
+      "warning": "Warning"
+    },
+    "statisticalInformation": {
+      "title": "Statistical information",
+      "type": "Data type",
+      "dataStructure": {
+        "title": "Data structure",
+        "chooseStructure": "Choose a structure",
+        "chooseURN": "Type a URN"
+      },
+      "statisticalUnits": "Statistical units",
+      "temporalCoverage": {
+        "title": "Time period covered",
+        "year": "Year",
+        "date": "Date",
+        "startDate": "Start date",
+        "endDate": "End date"
+      },
+      "temporalResolution": "Temporal resolution",
+      "spatialCoverage": "Spatial area covered",
+      "spatialTemporal": "Geographical vintage",
+      "spatialResolution": "Spatial resolution",
+      "numberOfObservations": "Number of observations",
+      "numberOfTimeSeries": "Number of time series"
+    }
+  },
+  "distribution": {
+    "title": "Distribution",
+    "pluralTitle": "Distributions",
+    "homePageTitle": "Distributions - Search",
+    "searchTitle": "Distributions - Advanced search",
+    "status": "State of the distribution",
+    "description": "Description",
+    "language": "Language",
+    "format": "Format",
+    "mediaType": "Media type",
+    "compressFormat": "Compress format",
+    "size": "Size",
+    "accessURL": "Access URL",
+    "downloadURL": "Download URL"
+  }
+}

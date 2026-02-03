@@ -1,0 +1,75 @@
+{
+  "datasets": {
+    "title": "Jeu de données",
+    "pluralTitle": "Jeux de données",
+    "homePageTitle": "Jeux de Données - Recherche",
+    "searchTitle": "Jeux de Données - Recherche avancée",
+    "globalInformation": {
+      "title": "Informations générales",
+      "status": "État du jeu de données",
+      "subtitle": "Sous-titre",
+      "firstReleaseDate": "Date de première diffusion des données",
+      "modificationDate": "Date de modification des données",
+      "updateFrequency": "Fréquence de mise à jour",
+      "dataProvider": "Organisme responsable de la fourniture des données",
+      "publicationProvider": "Organisme responsable de la publication des données",
+      "theme": "Thème",
+      "keywords": "Mots clés",
+      "landingPage": "Page de présentation",
+      "linkedDocuments": "Documents liés"
+    },
+    "internalManagement": {
+      "title": "Gestion interne",
+      "altId": "Identifiant alternatif",
+      "altIdError": "L'identifiant ne respecte pas les caractères autorisés : a-z, A-Z, 0-9, - et _",
+      "accessRights": "Droits d'accès",
+      "confidentialityStatus": "Statut de confidentialité",
+      "processStep": "Processus utilisant les données",
+      "archiveUnit": "Unité d'archivage"
+    },
+    "notes": {
+      "title": "Notes",
+      "abstract": "Résumé",
+      "description": "Description",
+      "warning": "Avertissement"
+    },
+    "statisticalInformation": {
+      "title": "Informations statistiques",
+      "type": "Type de données",
+      "dataStructure": {
+        "title": "Structure de données",
+        "chooseStructure": "Choisir une structure",
+        "chooseURN": "Saisir une URN"
+      },
+      "statisticalUnits": "Unités statistiques",
+      "temporalCoverage": {
+        "title": "Période temporelle couverte",
+        "year": "Année",
+        "date": "Date",
+        "startDate": "Date de début",
+        "endDate": "Date de fin"
+      },
+      "temporalResolution": "Résolution temporelle",
+      "spatialCoverage": "Zone géographique couverte",
+      "spatialTemporal": "Millésime géographique",
+      "spatialResolution": "Résolution géographique",
+      "numberOfObservations": "Nombre d'observations",
+      "numberOfTimeSeries": "Nombre de séries temporelles"
+    }
+  },
+  "distribution": {
+    "title": "Distribution",
+    "pluralTitle": "Distributions",
+    "homePageTitle": "Distributions - Recherche",
+    "searchTitle": "Distributions - Recherche avancée",
+    "status": "État de la distribution",
+    "description": "Description",
+    "language": "Langue",
+    "format": "Format",
+    "mediaType": "Type de média",
+    "compressFormat": "Format de compression",
+    "size": "Taille",
+    "accessURL": "URL d'accès",
+    "downloadURL": "URL de téléchargement"
+  }
+}
