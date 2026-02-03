@@ -30,7 +30,7 @@ import {
   Organisation,
   Organisations,
 } from "@components/business/organisations/organisations";
-import { useDatasets } from "../../hooks/useDatasets";
+import { useDataset } from "../../hooks/useDataset";
 
 const Dataset = (props) => {
   const { id } = useParams();
@@ -41,7 +41,7 @@ const Dataset = (props) => {
     DatasetsApi.getArchivageUnits().then(setArchivageUnits);
   }, []);
 
-  const { data: dataset, isLoading } = useDatasets(id);
+  const { data: dataset, isLoading } = useDataset(id);
 
   const [secondLang] = useSecondLang();
   const queryClient = useQueryClient();
