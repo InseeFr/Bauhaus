@@ -32,7 +32,7 @@ vi.mock("@components/page-title-block", () => ({
   PageTitleBlock: vi.fn(() => <div data-testid="page-title-block" />),
 }));
 
-vi.mock("../../datasets", () => ({
+vi.mock("../../hooks", () => ({
   useDataset: () => ({ data: { idDataset: "dataset-id" }, isLoading: false }),
   useDatasetDeleter: () => ({
     isDeleting: false,

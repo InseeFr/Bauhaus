@@ -51,7 +51,7 @@ const mockUseDistribution = vi.fn();
 const mockUseCreateOrUpdateDistribution = vi.fn();
 const mockUseDatasetsForDistributions = vi.fn();
 
-vi.mock("../../../datasets", () => ({
+vi.mock("../../../hooks", () => ({
   useDistribution: () => mockUseDistribution(),
   useCreateOrUpdateDistribution: () => mockUseCreateOrUpdateDistribution(),
   useDatasetsForDistributions: () => mockUseDatasetsForDistributions(),
@@ -238,7 +238,9 @@ describe("Distribution Edit Page", () => {
 
       const { container } = render(<Component />);
 
-      const titleInput = container.querySelector("#labelLg1") as HTMLInputElement;
+      const titleInput = container.querySelector(
+        "#labelLg1",
+      ) as HTMLInputElement;
       fireEvent.change(titleInput, { target: { value: "New Title" } });
 
       // Error messages should be cleared automatically by updateField
@@ -262,7 +264,9 @@ describe("Distribution Edit Page", () => {
 
       waitFor(() => {
         const labelLg1Input = screen.getByLabelText(/title/i);
-        expect(labelLg1Input.getAttribute("aria-describedby")).toBe("labelLg1-error");
+        expect(labelLg1Input.getAttribute("aria-describedby")).toBe(
+          "labelLg1-error",
+        );
       });
     });
   });
