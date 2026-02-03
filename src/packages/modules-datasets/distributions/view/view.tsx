@@ -21,12 +21,9 @@ export const Component = () => {
 
   const { data: distribution, isLoading } = useDistribution(id!);
 
-  const { data: dataset, isLoading: isLoadingDataSet } = useDataset(
-    distribution?.idDataset,
-  );
+  const { data: dataset, isLoading: isLoadingDataSet } = useDataset(distribution?.idDataset);
 
-  const { isPublishing, publish, validationServerSideError } =
-    useDatasetPublisher(id!);
+  const { isPublishing, publish, validationServerSideError } = useDatasetPublisher(id!);
 
   const { isDeleting, remove, deleteServerSideError } = useDatasetDeleter(id!);
 
@@ -38,10 +35,7 @@ export const Component = () => {
 
   return (
     <div className="container">
-      <PageTitleBlock
-        titleLg1={distribution.labelLg1}
-        titleLg2={distribution.labelLg2}
-      />
+      <PageTitleBlock titleLg1={distribution.labelLg1} titleLg2={distribution.labelLg2} />
 
       <ViewMenu
         distribution={distribution}
@@ -50,10 +44,7 @@ export const Component = () => {
         onDelete={remove}
       />
 
-      <ErrorBloc
-        error={validationServerSideError || deleteServerSideError}
-        D={D}
-      />
+      <ErrorBloc error={validationServerSideError || deleteServerSideError} D={D} />
 
       <CheckSecondLang />
 

@@ -21,9 +21,7 @@ interface StatisticalInformationsTypes {
   dataset: Dataset;
 }
 
-export const StatisticalInformations = ({
-  dataset,
-}: Readonly<StatisticalInformationsTypes>) => {
+export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInformationsTypes>) => {
   const clDataTypes = useCodesList(CL_DATA_TYPES);
   const clStatUnit = useCodesList(CL_STAT_UNIT);
   const clTypeGeo = useCodesList(CL_TYPE_GEO);
@@ -38,10 +36,7 @@ export const StatisticalInformations = ({
             {dataset.type && (
               <li>
                 {D.datasetsType} :{" "}
-                <CodeDisplay
-                  codesList={clDataTypes}
-                  value={dataset.type}
-                ></CodeDisplay>
+                <CodeDisplay codesList={clDataTypes} value={dataset.type}></CodeDisplay>
               </li>
             )}
             <ConditionalDisplay data={dataset.statisticalUnit}>
@@ -50,10 +45,7 @@ export const StatisticalInformations = ({
                 <ul>
                   {dataset.statisticalUnit.map((unit) => (
                     <li key={unit}>
-                      <CodeDisplay
-                        codesList={clStatUnit}
-                        value={unit}
-                      ></CodeDisplay>
+                      <CodeDisplay codesList={clStatUnit} value={unit}></CodeDisplay>
                     </li>
                   ))}
                 </ul>
@@ -66,8 +58,7 @@ export const StatisticalInformations = ({
             )}
             {dataset.temporalCoverageDataType && (
               <li>
-                {D.datasetsTemporalCoverage} :{" "}
-                {stringToDate(dataset.temporalCoverageStartDate)}{" "}
+                {D.datasetsTemporalCoverage} : {stringToDate(dataset.temporalCoverageStartDate)}{" "}
                 {stringToDate(dataset.temporalCoverageEndDate)}
               </li>
             )}
@@ -75,26 +66,19 @@ export const StatisticalInformations = ({
             {dataset.temporalResolution && (
               <li>
                 {D.datasetsTemporalResolution} :{" "}
-                <CodeDisplay
-                  codesList={clFreq}
-                  value={dataset.temporalResolution}
-                ></CodeDisplay>
+                <CodeDisplay codesList={clFreq} value={dataset.temporalResolution}></CodeDisplay>
               </li>
             )}
 
             {dataset.spacialCoverage && (
               <li>
                 {D.datasetsSpacialCoverage} :{" "}
-                <CodeDisplay
-                  codesList={clGeo}
-                  value={dataset.spacialCoverage}
-                ></CodeDisplay>
+                <CodeDisplay codesList={clGeo} value={dataset.spacialCoverage}></CodeDisplay>
               </li>
             )}
             {dataset.spacialTemporal && (
               <li>
-                {D.datasetsSpacialTemporal} :{" "}
-                {stringToDate(dataset.spacialTemporal)}
+                {D.datasetsSpacialTemporal} : {stringToDate(dataset.spacialTemporal)}
               </li>
             )}
 
@@ -105,10 +89,7 @@ export const StatisticalInformations = ({
                   {dataset.spacialResolutions?.map((spacialResolution) => {
                     return (
                       <li key={spacialResolution}>
-                        <CodeDisplay
-                          codesList={clTypeGeo}
-                          value={spacialResolution}
-                        ></CodeDisplay>
+                        <CodeDisplay codesList={clTypeGeo} value={spacialResolution}></CodeDisplay>
                       </li>
                     );
                   })}

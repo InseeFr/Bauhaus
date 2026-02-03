@@ -30,9 +30,7 @@ export const Component = () => {
             advancedSearch
             searchUrl="/datasets/distributions/search"
             autoFocus
-            itemFormatter={(_: unknown, distribution: PartialDistribution) =>
-              distribution.labelLg1
-            }
+            itemFormatter={(_: unknown, distribution: PartialDistribution) => distribution.labelLg1}
           />
         </div>
       </Row>

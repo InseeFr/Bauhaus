@@ -26,10 +26,7 @@ import { GlobalInformationBlock } from "./GlobalInformationBlock";
 import { StatisticalInformations } from "./StatisticalInformations";
 import { ViewMenu } from "./menu";
 import { useOrganizations } from "@utils/hooks/organizations";
-import {
-  Organisation,
-  Organisations,
-} from "@components/business/organisations/organisations";
+import { Organisation, Organisations } from "@components/business/organisations/organisations";
 import { useDataset } from "../../hooks/useDataset";
 
 const Dataset = (props) => {
@@ -86,17 +83,9 @@ const Dataset = (props) => {
     <div className="container">
       <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />
 
-      <ViewMenu
-        dataset={dataset}
-        {...props}
-        onPublish={publish}
-        onDelete={remove}
-      />
+      <ViewMenu dataset={dataset} {...props} onPublish={publish} onDelete={remove} />
       {(serverSideError || publishServerSideError) && (
-        <ErrorBloc
-          error={[serverSideError || publishServerSideError]}
-          D={DatasetDictionary}
-        />
+        <ErrorBloc error={[serverSideError || publishServerSideError]} D={DatasetDictionary} />
       )}
 
       <CheckSecondLang />
@@ -140,9 +129,7 @@ const Dataset = (props) => {
           text={
             <List
               items={dataset.linkedDocuments}
-              getContent={(linkedDocument) => (
-                <a href={linkedDocument}>{linkedDocument}</a>
-              )}
+              getContent={(linkedDocument) => <a href={linkedDocument}>{linkedDocument}</a>}
             ></List>
           }
           title={DatasetDictionary.datasets.linkedDocuments}
@@ -186,10 +173,7 @@ const Dataset = (props) => {
               {dataset.archiveUnit && (
                 <li>
                   {D.datasetsArchiveUnit} :{" "}
-                  {
-                    archivageUnits?.find((t) => t.value === dataset.archiveUnit)
-                      ?.label
-                  }
+                  {archivageUnits?.find((t) => t.value === dataset.archiveUnit)?.label}
                 </li>
               )}
             </ul>

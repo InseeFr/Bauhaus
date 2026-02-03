@@ -32,9 +32,7 @@ export const Component = () => {
             advancedSearch
             searchUrl="/datasets/search"
             autoFocus
-            itemFormatter={(_: unknown, dataset: PartialDataset) =>
-              dataset.label
-            }
+            itemFormatter={(_: unknown, dataset: PartialDataset) => dataset.label}
           />
         </div>
       </Row>
