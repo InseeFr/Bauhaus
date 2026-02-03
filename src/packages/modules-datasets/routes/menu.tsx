@@ -8,33 +8,35 @@ import D from "../../deprecated-locales/build-dictionary";
 
 const defaultAttrs = { "aria-current": "page" };
 
-const DatasetsMenu = () => {
+export const Menu = () => {
   const location = useLocation();
   const activePath = location.pathname;
   if (activePath === "/") return null;
 
   const paths: UIMenuItem[] = [
     {
-      path: "/datasets/distributions",
-      pathKey: "distributions",
-      className: {},
-      attrs: {},
-      label: D.distributionsTitle,
-      order: 2,
-    },
-    {
       path: "/datasets",
       pathKey: "datasets",
-      className: {},
-      attrs: {},
+      className: null,
+      attrs: null,
       label: D.datasetsTitle,
       order: 1,
     },
+    {
+      path: "/datasets/distributions",
+      pathKey: "distributions",
+      className: null,
+      attrs: null,
+      label: D.distributionsTitle,
+      order: 2,
+    },
   ];
 
-  const currentPath = paths.find((path) => {
-    return location.pathname.includes(path.pathKey);
-  });
+  const currentPath = [...paths]
+    .sort((a, b) => b.path.length - a.path.length) // sort the most specific first so it will be found before
+    .find((path) => {
+      return location.pathname.startsWith(path.path);
+    });
 
   if (currentPath) {
     currentPath.className = "active";
@@ -43,5 +45,3 @@ const DatasetsMenu = () => {
 
   return <MainMenu paths={paths} />;
 };
-
-export default DatasetsMenu;
