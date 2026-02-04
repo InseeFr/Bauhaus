@@ -11,7 +11,7 @@ vi.mock("../../../../../deprecated-locales", () => ({
 
 const mockUseDatasetsForDistributions = vi.fn();
 
-vi.mock("../../../../datasets", () => ({
+vi.mock("../../../../hooks/useDatasetsForDistributions", () => ({
   useDatasetsForDistributions: () => mockUseDatasetsForDistributions(),
 }));
 
