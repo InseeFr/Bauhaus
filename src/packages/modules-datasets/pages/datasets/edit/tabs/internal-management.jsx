@@ -11,13 +11,13 @@ import { DatasetsApi } from "@sdk/index";
 
 import { withCodesLists } from "@utils/hoc/withCodesLists";
 
-import { D1 } from "../../../../deprecated-locales";
+import { D1 } from "../../../../../deprecated-locales";
 import {
   CL_ACCESS_RIGHTS,
   CL_CONF_STATUS,
   CL_PROCESS_STEP,
-} from "../../../../constants/code-lists";
-import { convertCodesListsToSelectOption } from "../../../utils/codelist-to-select-options";
+} from "../../../../../constants/code-lists";
+import { convertCodesListsToSelectOption } from "../../../../utils/codelist-to-select-options";
 import { useSeriesOperationsOptions } from "./useSeriesOperationsOptions";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";

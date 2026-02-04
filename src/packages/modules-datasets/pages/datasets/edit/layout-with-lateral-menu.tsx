@@ -1,6 +1,6 @@
 import { MouseEvent, ReactNode, useState } from "react";
 
-import D from "../../../deprecated-locales";
+import D from "../../../../deprecated-locales";
 import "./layout-with-lateral-menu.scss";
 
 const styleContent = {

@@ -14,7 +14,7 @@ import { initializeContributorProperty } from "@utils/creation/contributor-init"
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../deprecated-locales";
+import D from "../../../../deprecated-locales";
 import "./edit.css";
 import { LayoutWithLateralMenu } from "./layout-with-lateral-menu";
 import { GlobalInformation } from "./tabs/global-information";
@@ -22,9 +22,9 @@ import { InternalManagement } from "./tabs/internal-management";
 import { Notes } from "./tabs/notes";
 import { StatisticalInformation } from "./tabs/statistical-information";
 import { validate } from "./validation";
-import { useAuthorizationGuard } from "../../../auth/components/auth";
+import { useAuthorizationGuard } from "../../../../auth/components/auth";
 import { useUserStamps } from "@utils/hooks/users";
-import { useDataset } from "../../hooks/useDataset";
+import { useDataset } from "../../../hooks/useDataset";
 
 export const Component = () => {
   const { id } = useParams();

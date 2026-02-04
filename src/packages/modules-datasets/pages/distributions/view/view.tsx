@@ -7,14 +7,14 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../deprecated-locales/build-dictionary";
+import D from "../../../../deprecated-locales/build-dictionary";
 
 import { ViewMenu } from "./menu";
 import { ViewMainBlock } from "./view-main-block";
-import { useDistribution } from "../../hooks/useDistribution";
-import { useDataset } from "../../hooks/useDataset";
-import { useDatasetPublisher } from "../../hooks/useDatasetPublisher";
-import { useDatasetDeleter } from "../../hooks/useDatasetDeleter";
+import { useDistribution } from "../../../hooks/useDistribution";
+import { useDataset } from "../../../hooks/useDataset";
+import { useDatasetPublisher } from "../../../hooks/useDatasetPublisher";
+import { useDatasetDeleter } from "../../../hooks/useDatasetDeleter";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();

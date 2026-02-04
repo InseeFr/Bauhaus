@@ -3,7 +3,7 @@ import { MDEditor } from "@components/rich-editor/react-md-editor";
 
 import { Dataset } from "@model/Dataset";
 
-import { D1, D2 } from "../../../../deprecated-locales";
+import { D1, D2 } from "../../../../../deprecated-locales";
 
 export const Notes = ({
   editingDataset,

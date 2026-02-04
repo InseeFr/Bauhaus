@@ -4,16 +4,16 @@ import { Select } from "@components/select-rmes";
 
 import { withCodesLists } from "@utils/hoc/withCodesLists";
 
-import { D1 } from "../../../../deprecated-locales";
+import { D1 } from "../../../../../deprecated-locales";
 import {
   CL_DATA_TYPES,
   CL_FREQ,
   CL_GEO,
   CL_STAT_UNIT,
   CL_TYPE_GEO,
-} from "../../../../constants/code-lists";
-import { convertCodesListsToSelectOption } from "../../../utils/codelist-to-select-options";
-import { TemporalField } from "../../components/temporalField";
+} from "../../../../../constants/code-lists";
+import { convertCodesListsToSelectOption } from "../../../../utils/codelist-to-select-options";
+import { TemporalField } from "../components/temporalField";
 import { DataStructure } from "./statistical-information/data-structure";
 
 const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props }) => {

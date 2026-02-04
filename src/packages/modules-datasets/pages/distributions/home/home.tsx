@@ -5,10 +5,10 @@ import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../deprecated-locales/build-dictionary";
-import { PartialDistribution } from "../../../model/Dataset";
+import D from "../../../../deprecated-locales/build-dictionary";
+import { PartialDistribution } from "../../../../model/Dataset";
 import { HomePageMenu } from "./menu";
-import { useDistributions } from "../../hooks/useDistributions";
+import { useDistributions } from "../../../hooks/useDistributions";
 
 export const Component = () => {
   const { data, isLoading } = useDistributions();

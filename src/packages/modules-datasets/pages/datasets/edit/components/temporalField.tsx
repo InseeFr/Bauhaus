@@ -1,7 +1,7 @@
 import { NumberInput } from "@components/form/input";
 import { Select } from "@components/select-rmes";
 
-import D, { D1 } from "../../../deprecated-locales/build-dictionary";
+import D, { D1 } from "../../../../../deprecated-locales/build-dictionary";
 
 const datasetsTemporalCoverageOptions = [
   {
@@ -26,6 +26,7 @@ interface TemporalField {
     temporalCoverageDataType: string;
   }) => void;
 }
+
 export const TemporalField = ({
   temporalCoverageStartDate,
   temporalCoverageEndDate,

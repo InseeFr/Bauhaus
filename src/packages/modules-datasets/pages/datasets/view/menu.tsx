@@ -4,10 +4,10 @@ import { ValidationButton } from "@components/validationButton";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { HasAccess } from "../../../auth/components/auth";
-import { Dataset } from "../../../model/Dataset";
-import { UNPUBLISHED } from "../../../model/ValidationState";
-import { getContributors } from "../../utils/check-stamp-with-contributor";
+import { HasAccess } from "../../../../auth/components/auth";
+import { Dataset } from "../../../../model/Dataset";
+import { UNPUBLISHED } from "../../../../model/ValidationState";
+import { getContributors } from "../../../utils/check-stamp-with-contributor";
 
 interface ViewMenuTypes {
   dataset: Dataset;

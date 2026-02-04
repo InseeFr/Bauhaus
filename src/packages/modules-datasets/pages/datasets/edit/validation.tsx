@@ -7,8 +7,8 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import D, { D1, D2 } from "../../../deprecated-locales";
-import { Dataset } from "../../../model/Dataset";
+import D, { D1, D2 } from "../../../../deprecated-locales";
+import { Dataset } from "../../../../model/Dataset";
 
 const ZodDataset = z.object({
   labelLg1: mandatoryAndNotEmptyTextField(D1.title),

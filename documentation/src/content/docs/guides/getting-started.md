@@ -62,27 +62,28 @@ New modules should follow the architecture demonstrated in the DDI module:
 
 ```
 src/packages/modules-{module-name}/
-├── components/           # Reusable components specific to the module
-│   ├── ComponentName.tsx
-│   ├── ComponentName.spec.tsx
-│   └── ComponentName.css
-├── hooks/               # Custom React hooks
-├── i18n/                # Internationalization
-│   ├── index.ts
-│   └── locales/
-│       ├── fr.json
-│       └── en.json
-├── pages/               # Page components
-│   └── {object-name}.   # operation, series, indicator, ...
-        ├── {page-name}/ # home, view, edit, search, ...
-            │       ├── page.tsx
-            │       └── menu.tsx
-                    └── validation.ts
-                    └── components/ # components for this current page
-├── routes/              # Routing configuration
-│   ├── index.tsx
-│   └── layout.tsx
-└── menu/                # Module horizontal menu
+├── components/                         # Reusable components specific to the module
+│     ├── ComponentName.css
+│     ├── ComponentName.spec.tsx
+│     └── ComponentName.tsx
+├── hooks/                              # Custom React hooks
+├── i18n/                               # Internationalization
+│     ├── locales/
+│     │     ├── en.json
+│     │     └── fr.json
+│     └── index.ts
+├── menu/                               # Module horizontal menu
+├── pages/
+│     └── {object-name}/                # ex: indicators, operations, series, ...
+│           └── {page-name}/            # ex: edit, home, search, view, ...
+│                   ├── components/     # Components for this current page
+│                   ├── page.tsx
+│                   ├── menu.tsx
+│                   └── validation.ts
+├── routes/                             # Routing configuration
+│     ├── index.tsx
+│     └── layout.tsx
+└── utils/                              # Utilitary functions used in the module
 ```
 
 ### Migration Guidelines

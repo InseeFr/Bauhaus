@@ -19,14 +19,14 @@ import { withCodesLists } from "@utils/hoc/withCodesLists";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D, { D1, D2 } from "../../../deprecated-locales/build-dictionary";
-import { CL_PROCESS_STEP } from "../../../constants/code-lists";
+import D, { D1, D2 } from "../../../../deprecated-locales/build-dictionary";
+import { CL_PROCESS_STEP } from "../../../../constants/code-lists";
 import { GlobalInformationBlock } from "./GlobalInformationBlock";
 import { StatisticalInformations } from "./StatisticalInformations";
 import { ViewMenu } from "./menu";
 import { useOrganizations } from "@utils/hooks/organizations";
 import { Organisation, Organisations } from "@components/business/organisations/organisations";
-import { useDataset } from "../../hooks/useDataset";
+import { useDataset } from "../../../hooks/useDataset";
 import { createAllDictionary } from "@utils/dictionnary";
 
 const { D: DatasetDictionary } = createAllDictionary({

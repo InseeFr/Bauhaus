@@ -6,10 +6,10 @@ import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../deprecated-locales/build-dictionary";
-import { PartialDataset } from "../../../model/Dataset";
+import D from "../../../../deprecated-locales/build-dictionary";
+import { PartialDataset } from "../../../../model/Dataset";
 import { HomePageMenu } from "./menu";
-import { useDatasets } from "../../hooks/useDatasets";
+import { useDatasets } from "../../../hooks/useDatasets";
 
 export const Component = () => {
   const { data, isLoading } = useDatasets();

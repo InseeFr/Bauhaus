@@ -1,4 +1,4 @@
-import { renderWithRouter } from "../../../tests/render";
+import { renderWithRouter } from "../../../../tests/render";
 import { AdvancedSearchForm } from "./search";
 
 vi.mock("@tanstack/react-query", () => ({

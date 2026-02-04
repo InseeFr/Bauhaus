@@ -2,9 +2,9 @@ import { render, screen } from "@testing-library/react";
 
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { Dataset, Distribution } from "../../../model/Dataset";
-import { UNPUBLISHED, VALIDATED } from "../../../model/ValidationState";
-import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
+import { Dataset, Distribution } from "../../../../model/Dataset";
+import { UNPUBLISHED, VALIDATED } from "../../../../model/ValidationState";
+import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 describe("Distribution View Menu", () => {
   afterEach(() => {
