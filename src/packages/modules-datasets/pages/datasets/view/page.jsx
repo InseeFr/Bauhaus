@@ -21,8 +21,8 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import D, { D1, D2 } from "../../../../deprecated-locales/build-dictionary";
 import { CL_PROCESS_STEP } from "../../../../constants/code-lists";
-import { GlobalInformationBlock } from "./GlobalInformationBlock";
-import { StatisticalInformations } from "./StatisticalInformations";
+import { GlobalInformationBlock } from "./components/GlobalInformationBlock";
+import { StatisticalInformations } from "./components/StatisticalInformations";
 import { ViewMenu } from "./menu";
 import { useOrganizations } from "@utils/hooks/organizations";
 import { Organisation, Organisations } from "@components/business/organisations/organisations";

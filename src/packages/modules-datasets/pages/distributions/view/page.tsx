@@ -10,7 +10,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import D from "../../../../deprecated-locales/build-dictionary";
 
 import { ViewMenu } from "./menu";
-import { ViewMainBlock } from "./view-main-block";
+import { ViewMainBlock } from "./components/view-main-block";
 import { useDistribution } from "../../../hooks/useDistribution";
 import { useDataset } from "../../../hooks/useDataset";
 import { useDatasetPublisher } from "../../../hooks/useDatasetPublisher";

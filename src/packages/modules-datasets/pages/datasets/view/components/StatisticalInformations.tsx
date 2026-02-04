@@ -6,16 +6,16 @@ import { Note } from "@components/note";
 import { stringToDate } from "@utils/date-utils";
 import { useCodesList } from "@utils/hooks/codeslist";
 
-import D, { D1 } from "../../../../deprecated-locales/build-dictionary";
-import { Dataset } from "../../../../model/Dataset";
+import D, { D1 } from "../../../../../deprecated-locales/build-dictionary";
+import { Dataset } from "../../../../../model/Dataset";
 import {
   CL_DATA_TYPES,
   CL_FREQ,
   CL_GEO,
   CL_STAT_UNIT,
   CL_TYPE_GEO,
-} from "../../../../constants/code-lists";
-import { DataStructure } from "./statistical-informations/data-structure";
+} from "../../../../../constants/code-lists";
+import { DataStructure } from "./data-structure";
 
 interface StatisticalInformationsTypes {
   dataset: Dataset;

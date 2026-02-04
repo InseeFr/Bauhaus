@@ -8,7 +8,7 @@ import { Option } from "@model/SelectOption";
 import { createDictionary, firstLang } from "@utils/dictionnary";
 import { useStructures } from "@utils/hooks/structures";
 
-import { D1 } from "../../../../../../deprecated-locales";
+import { D1 } from "../../../../../deprecated-locales";
 import "./data-structure.css";
 
 const STRUCTURE_MODE = "STRUCTURE_MODE";

@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { PageTitleBlock } from "@components/page-title-block";
 
-import { Component } from "./view";
+import { Component } from "./page";
 
 vi.mock("react-router-dom", () => ({
   useParams: () => ({ id: "test-id" }),
@@ -63,7 +63,7 @@ vi.mock("./menu", () => ({
   ViewMenu: () => <div data-testid="view-menu" />,
 }));
 
-vi.mock("./view-main-block", () => ({
+vi.mock("./components/view-main-block", () => ({
   ViewMainBlock: () => <div data-testid="view-main-block" />,
 }));
 

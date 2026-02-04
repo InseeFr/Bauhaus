@@ -18,7 +18,7 @@ import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
 import D from "../../../../deprecated-locales/build-dictionary";
 import { useSeriesOperationsOptions } from "../../../hooks/useSeriesOperationsOptions";
-import { FieldsForDatasetsAdvancedSearch, SearchDataset } from "../../datasets/search/search";
+import { FieldsForDatasetsAdvancedSearch, SearchDataset } from "../../datasets/search/page";
 
 interface SearchDistribution {
   distributionId: string;

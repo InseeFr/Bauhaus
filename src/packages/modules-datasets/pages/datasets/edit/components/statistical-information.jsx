@@ -13,8 +13,8 @@ import {
   CL_TYPE_GEO,
 } from "../../../../../constants/code-lists";
 import { convertCodesListsToSelectOption } from "../../../../utils/codelist-to-select-options";
-import { TemporalField } from "../components/temporalField";
-import { DataStructure } from "./statistical-information/data-structure";
+import { TemporalField } from "./temporalField";
+import { DataStructure } from "./data-structure";
 
 const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props }) => {
   const clDataTypes = convertCodesListsToSelectOption(props[CL_DATA_TYPES]);

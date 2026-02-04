@@ -1,5 +1,5 @@
 import { renderWithRouter } from "../../../../tests/render";
-import { AdvancedSearchForm, FieldsForDatasetsAdvancedSearch } from "./search";
+import { AdvancedSearchForm, FieldsForDatasetsAdvancedSearch } from "./page";
 
 vi.mock("@tanstack/react-query", () => ({
   useQuery: vi.fn().mockReturnValue({
