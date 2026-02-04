@@ -1,33 +1,28 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 import { TextInput } from "@components/form/input";
 import { Select } from "@components/select-rmes";
 
 import { Option } from "@model/SelectOption";
 
-import { createDictionary, firstLang } from "@utils/dictionnary";
 import { useStructures } from "@utils/hooks/structures";
 
-import { D1 } from "../../../../../deprecated-locales";
 import "./data-structure.css";
 
 const STRUCTURE_MODE = "STRUCTURE_MODE";
 const URN_MODE = "URN_MODE";
 
-const D = createDictionary(firstLang, {
-  chooseUrn: {
-    fr: "Saisir une URN",
-    en: "Type a URN",
-  },
-  chooseStructure: {
-    fr: "Choisir une structure",
-    en: "Choose a structure",
-  },
-});
-
 const firstOptions = [
-  { value: STRUCTURE_MODE, label: D.chooseStructure },
-  { value: URN_MODE, label: D.chooseUrn },
+  {
+    value: STRUCTURE_MODE,
+    label: i18next.t("dataset.statisticalInformation.dataStructure.chooseStructure"),
+  },
+  {
+    value: URN_MODE,
+    label: i18next.t("dataset.statisticalInformation.dataStructure.chooseURN"),
+  },
 ];
 
 export const DataStructure = ({
@@ -37,6 +32,8 @@ export const DataStructure = ({
   value: string;
   onChange: (value: string) => void;
 }>) => {
+  const { t } = useTranslation();
+
   const { data: structures } = useStructures();
   const options: Option[] =
     structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ?? [];
@@ -49,7 +46,7 @@ export const DataStructure = ({
     <>
       <div className="col-md-4 form-group">
         <label className="w-100 wilco-label-required">
-          {D1.datasetsDataStructure}
+          {t("dataset.statisticalInformation.dataStructure.title")}
           <Select
             value={mode}
             options={firstOptions}
@@ -62,7 +59,7 @@ export const DataStructure = ({
       </div>
       {mode === STRUCTURE_MODE && (
         <label className="col-md-8">
-          {D1.datasetsDataStructure}
+          {t("dataset.statisticalInformation.dataStructure.title")}
           <Select
             value={value}
             options={options}
@@ -72,10 +69,9 @@ export const DataStructure = ({
           />
         </label>
       )}
-
       {mode === URN_MODE && (
         <label className="col-md-8">
-          {D1.datasetsDataStructure}
+          {t("dataset.statisticalInformation.dataStructure.title")}
           <TextInput
             aria-describedby="datastructure-error"
             value={value}

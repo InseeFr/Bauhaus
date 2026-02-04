@@ -1,16 +1,17 @@
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+
 import { NumberInput } from "@components/form/input";
 import { Select } from "@components/select-rmes";
-
-import D, { D1 } from "../../../../../deprecated-locales/build-dictionary";
 
 const datasetsTemporalCoverageOptions = [
   {
     value: "http://www.w3.org/2001/XMLSchema#gYear",
-    label: D.datasetsTemporalTypeYear,
+    label: i18next.t("dataset.statisticalInformation.temporalCoverage.year"),
   },
   {
     value: "http://www.w3.org/2001/XMLSchema#date",
-    label: D.datasetsTemporalTypeDate,
+    label: i18next.t("dataset.statisticalInformation.temporalCoverage.date"),
   },
 ];
 
@@ -33,9 +34,12 @@ export const TemporalField = ({
   temporalCoverageDataType,
   updateTemporalCoverage,
 }: Readonly<TemporalField>) => {
+  const { t } = useTranslation();
+
   const getDefaultValueForYearCoverageType = () => {
     return new Date().getFullYear();
   };
+
   const onTemporalCoverageChange = (value: string) => {
     if (value?.endsWith("date")) {
       updateTemporalCoverage({
@@ -56,7 +60,7 @@ export const TemporalField = ({
     <>
       <div className="col-md-4 form-group">
         <label className="w-100 wilco-label-required">
-          {D1.datasetsTemporalCoverage}
+          {t("dataset.statisticalInformation.temporalCoverage.title")}
           <Select
             value={temporalCoverageDataType}
             options={datasetsTemporalCoverageOptions}
@@ -68,7 +72,7 @@ export const TemporalField = ({
         <>
           <div className="col-md-4 form-group">
             <label className="w-100 wilco-label-required">
-              {D1.datasetsTemporalStartDate}
+              {t("dataset.statisticalInformation.temporalCoverage.startDate")}
               <input
                 type="date"
                 className="form-control"
@@ -85,7 +89,7 @@ export const TemporalField = ({
           </div>
           <div className="col-md-4 form-group">
             <label className="w-100 wilco-label-required">
-              {D1.datasetsTemporalEndDate}
+              {t("dataset.statisticalInformation.temporalCoverage.endDate")}
               <input
                 type="date"
                 className="form-control"
@@ -106,7 +110,7 @@ export const TemporalField = ({
         <>
           <div className="col-md-4 form-group">
             <label className="w-100 wilco-label-required">
-              {D1.datasetsTemporalStartDate}
+              {t("dataset.statisticalInformation.temporalCoverage.startDate")}
               <NumberInput
                 value={
                   temporalCoverageStartDate
@@ -125,7 +129,7 @@ export const TemporalField = ({
           </div>
           <div className="col-md-4 form-group">
             <label className="w-100 wilco-label-required">
-              {D1.datasetsTemporalEndDate}
+              {t("dataset.statisticalInformation.temporalCoverage.endDate")}
               <NumberInput
                 value={
                   temporalCoverageEndDate

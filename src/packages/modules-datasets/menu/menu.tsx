@@ -1,14 +1,15 @@
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { MainMenu } from "@components/menu";
 
 import { UIMenuItem } from "@model/Menu";
 
-import D from "../../deprecated-locales/build-dictionary";
-
 const defaultAttrs = { "aria-current": "page" };
 
 export const Menu = () => {
+  const { t } = useTranslation();
+
   const location = useLocation();
   const activePath = location.pathname;
   if (activePath === "/") return null;
@@ -19,7 +20,7 @@ export const Menu = () => {
       pathKey: "datasets",
       className: null,
       attrs: null,
-      label: D.datasetsTitle,
+      label: t("dataset.pluralTitle"),
       order: 1,
     },
     {
@@ -27,7 +28,7 @@ export const Menu = () => {
       pathKey: "distributions",
       className: null,
       attrs: null,
-      label: D.distributionsTitle,
+      label: t("distribution.pluralTitle"),
       order: 2,
     },
   ];
