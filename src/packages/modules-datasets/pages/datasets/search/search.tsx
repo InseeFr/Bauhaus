@@ -20,7 +20,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
 import D from "../../../../deprecated-locales/build-dictionary";
-import { useSeriesOperationsOptions } from "../edit/tabs/useSeriesOperationsOptions";
+import { useSeriesOperationsOptions } from "../../../hooks/useSeriesOperationsOptions";
 
 export interface SearchDataset {
   id: string;

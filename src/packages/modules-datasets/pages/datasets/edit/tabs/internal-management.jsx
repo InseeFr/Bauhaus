@@ -18,7 +18,7 @@ import {
   CL_PROCESS_STEP,
 } from "../../../../../constants/code-lists";
 import { convertCodesListsToSelectOption } from "../../../../utils/codelist-to-select-options";
-import { useSeriesOperationsOptions } from "./useSeriesOperationsOptions";
+import { useSeriesOperationsOptions } from "../../../../hooks/useSeriesOperationsOptions";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 

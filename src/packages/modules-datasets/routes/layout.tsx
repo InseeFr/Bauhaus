@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
 
-import { useTheme } from "../../utils/hooks/useTheme";
+import { useTheme } from "@utils/hooks/useTheme";
 import { Menu } from "../menu/menu";
 import i18n from "../i18n";
 

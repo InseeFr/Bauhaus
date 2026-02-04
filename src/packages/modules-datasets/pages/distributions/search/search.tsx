@@ -17,7 +17,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
 import D from "../../../../deprecated-locales/build-dictionary";
-import { useSeriesOperationsOptions } from "../../datasets/edit/tabs/useSeriesOperationsOptions";
+import { useSeriesOperationsOptions } from "../../../hooks/useSeriesOperationsOptions";
 import { FieldsForDatasetsAdvancedSearch, SearchDataset } from "../../datasets/search/search";
 
 interface SearchDistribution {
