@@ -9,7 +9,7 @@ import { Dataset } from "../../../../model/Dataset";
 import * as useThemesHook from "../../../hooks/useThemes";
 import { GlobalInformationBlock } from "./GlobalInformationBlock";
 
-vi.mock("../../hooks/useThemes");
+vi.mock("../../../hooks/useThemes");
 vi.mock("@utils/hooks/organizations");
 vi.mock("@utils/hooks/codeslist");
 

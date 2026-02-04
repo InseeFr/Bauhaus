@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
+import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 describe("Datasets Home Page Menu", () => {
   afterEach(() => {

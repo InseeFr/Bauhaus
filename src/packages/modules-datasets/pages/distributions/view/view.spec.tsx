@@ -32,11 +32,11 @@ vi.mock("@components/page-title-block", () => ({
   PageTitleBlock: vi.fn(() => <div data-testid="page-title-block" />),
 }));
 
-vi.mock("../../hooks/useDataset", () => ({
+vi.mock("../../../hooks/useDataset", () => ({
   useDataset: () => ({ data: { idDataset: "dataset-id" }, isLoading: false }),
 }));
 
-vi.mock("../../hooks/useDatasetDeleter", () => ({
+vi.mock("../../../hooks/useDatasetDeleter", () => ({
   useDatasetDeleter: () => ({
     isDeleting: false,
     remove: vi.fn(),
@@ -44,7 +44,7 @@ vi.mock("../../hooks/useDatasetDeleter", () => ({
   }),
 }));
 
-vi.mock("../../hooks/useDatasetPublisher", () => ({
+vi.mock("../../../hooks/useDatasetPublisher", () => ({
   useDatasetPublisher: () => ({
     isPublishing: false,
     publish: vi.fn(),
@@ -52,7 +52,7 @@ vi.mock("../../hooks/useDatasetPublisher", () => ({
   }),
 }));
 
-vi.mock("../../hooks/useDistribution", () => ({
+vi.mock("../../../hooks/useDistribution", () => ({
   useDistribution: () => ({
     data: { labelLg1: "Title 1", labelLg2: "Title 2", idDataset: "dataset-id" },
     isLoading: false,
