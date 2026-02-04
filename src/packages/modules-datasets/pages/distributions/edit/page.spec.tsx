@@ -13,7 +13,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
 }));
 
-vi.mock("../../../../../application/app-context", () => ({
+vi.mock("../../../../application/app-context", () => ({
   useAppContext: () => ({
     lg1: "fr",
     lg2: "en",
@@ -24,7 +24,7 @@ vi.mock("../../../../../application/app-context", () => ({
   }),
 }));
 
-vi.mock("../../../../../deprecated-locales", () => ({
+vi.mock("../../../../deprecated-locales", () => ({
   D1: {
     title: "Title",
     descriptionTitle: "Description",
@@ -37,7 +37,7 @@ vi.mock("../../../../../deprecated-locales", () => ({
   },
 }));
 
-vi.mock("../../../../../deprecated-locales/build-dictionary", () => ({
+vi.mock("../../../../deprecated-locales/build-dictionary", () => ({
   default: {
     distributionsTitle: "Distributions",
     mediaTypeTitle: "Media Type",
@@ -49,19 +49,19 @@ vi.mock("../../../../../deprecated-locales/build-dictionary", () => ({
 
 const mockUseDistribution = vi.fn();
 
-vi.mock("../../../../hooks/useDistribution", () => ({
+vi.mock("../../../hooks/useDistribution", () => ({
   useDistribution: () => mockUseDistribution(),
 }));
 
 const mockUseCreateOrUpdateDistribution = vi.fn();
 
-vi.mock("../../../../hooks/useCreateOrUpdateDistribution", () => ({
+vi.mock("../../../hooks/useCreateOrUpdateDistribution", () => ({
   useCreateOrUpdateDistribution: () => mockUseCreateOrUpdateDistribution(),
 }));
 
 const mockUseDatasetsForDistributions = vi.fn();
 
-vi.mock("../../../../hooks/useDatasetsForDistributions", () => ({
+vi.mock("../../../hooks/useDatasetsForDistributions", () => ({
   useDatasetsForDistributions: () => mockUseDatasetsForDistributions(),
 }));
 
