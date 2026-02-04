@@ -9,10 +9,23 @@ import { withCodesLists } from "@utils/hoc/withCodesLists";
 
 import { D1, D2 } from "../../../../deprecated-locales";
 import { CL_FREQ } from "../../../../constants/code-lists";
-import { D1 as DatasetDictionary } from "../../../i18n";
 import { convertCodesListsToSelectOption } from "../../../utils/codelist-to-select-options";
 import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 import { useThemes } from "../../../hooks/useThemes";
+import { createAllDictionary } from "@utils/dictionnary";
+
+const { D1: DatasetDictionary } = createAllDictionary({
+  datasets: {
+    linkedDocuments: {
+      fr: "Documents liés",
+      en: "Linked documents",
+    },
+    keywords: {
+      fr: "Mots clés",
+      en: "Keywords",
+    },
+  },
+});
 
 const GlobalInformationTab = ({
   editingDataset,

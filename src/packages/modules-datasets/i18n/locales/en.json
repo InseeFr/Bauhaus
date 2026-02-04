@@ -7,6 +7,7 @@
     "globalInformation": {
       "title": "Global information",
       "status": "State of the dataset",
+      "mainTitle": "Title",
       "subtitle": "Subtitle",
       "firstReleaseDate": "Date of first release of data",
       "modificationDate": "Data modification date",

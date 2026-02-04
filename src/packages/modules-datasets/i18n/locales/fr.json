@@ -7,6 +7,7 @@
     "globalInformation": {
       "title": "Informations générales",
       "status": "État du jeu de données",
+      "mainTitle": "Intitulé",
       "subtitle": "Sous-titre",
       "firstReleaseDate": "Date de première diffusion des données",
       "modificationDate": "Date de modification des données",
