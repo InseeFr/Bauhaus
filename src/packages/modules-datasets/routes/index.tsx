@@ -33,7 +33,7 @@ export const routes: RouteObject[] = [
   },
   {
     path: "distributions/create",
-    lazy: () => import("../pages/distribution/edit/page"),
+    lazy: () => import("../pages/distributions/edit/page"),
   },
   {
     path: "distributions/:id",
@@ -41,6 +41,6 @@ export const routes: RouteObject[] = [
   },
   {
     path: "distributions/:id/modify",
-    lazy: () => import("../pages/distribution/edit/page"),
+    lazy: () => import("../pages/distributions/edit/page"),
   },
 ];
