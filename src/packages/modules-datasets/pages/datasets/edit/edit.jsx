@@ -101,13 +101,13 @@ export const Component = () => {
           title: D.globalInformationsTitle,
           isInError: hasErrors(["labelLg1", "labelLg2"]),
           content: () => {
-            if (editingDataset?.updated && editingDataset.updated.includes("T")) {
+            if (editingDataset?.updated?.includes("T")) {
               editingDataset.updated = editingDataset.updated.substring(
                 0,
                 editingDataset.updated.indexOf("T"),
               );
             }
-            if (editingDataset?.issued && editingDataset.issued.includes("T")) {
+            if (editingDataset?.issued?.includes("T")) {
               editingDataset.issued = editingDataset.issued.substring(
                 0,
                 editingDataset.issued.indexOf("T"),

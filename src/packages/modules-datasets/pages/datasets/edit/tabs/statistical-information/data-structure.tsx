@@ -61,18 +61,16 @@ export const DataStructure = ({
         </label>
       </div>
       {mode === STRUCTURE_MODE && (
-        <>
-          <label className="col-md-8">
-            {D1.datasetsDataStructure}
-            <Select
-              value={value}
-              options={options}
-              onChange={(value) => {
-                onChange(value);
-              }}
-            />
-          </label>
-        </>
+        <label className="col-md-8">
+          {D1.datasetsDataStructure}
+          <Select
+            value={value}
+            options={options}
+            onChange={(value) => {
+              onChange(value);
+            }}
+          />
+        </label>
       )}
 
       {mode === URN_MODE && (

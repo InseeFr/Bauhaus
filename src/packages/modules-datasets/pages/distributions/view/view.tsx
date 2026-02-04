@@ -19,13 +19,13 @@ import { useDatasetDeleter } from "../../../hooks/useDatasetDeleter";
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { data: distribution, isLoading } = useDistribution(id!);
+  const { data: distribution, isLoading } = useDistribution(id);
 
   const { data: dataset, isLoading: isLoadingDataSet } = useDataset(distribution?.idDataset);
 
-  const { isPublishing, publish, validationServerSideError } = useDatasetPublisher(id!);
+  const { isPublishing, publish, validationServerSideError } = useDatasetPublisher(id);
 
-  const { isDeleting, remove, deleteServerSideError } = useDatasetDeleter(id!);
+  const { isDeleting, remove, deleteServerSideError } = useDatasetDeleter(id);
 
   useTitle(D.distributionsTitle, distribution?.labelLg1);
 

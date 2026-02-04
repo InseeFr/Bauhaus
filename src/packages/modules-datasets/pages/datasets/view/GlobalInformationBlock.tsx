@@ -67,7 +67,7 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
             </li>
             <ConditionalDisplay data={dataset?.issued}>
               <li>
-                {D.datasetsFirstDiffusion} : {stringToDate(dataset.issued!)}{" "}
+                {D.datasetsFirstDiffusion} : {stringToDate(dataset.issued)}{" "}
               </li>
             </ConditionalDisplay>
 
@@ -95,7 +95,7 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
             <ConditionalDisplay data={dataset.creators}>
               <li>
                 {D.datasetsDataProvider} :
-                <Organisations creators={dataset.creators!} organizations={organisations} />
+                <Organisations creators={dataset.creators} organizations={organisations} />
               </li>
             </ConditionalDisplay>
 
