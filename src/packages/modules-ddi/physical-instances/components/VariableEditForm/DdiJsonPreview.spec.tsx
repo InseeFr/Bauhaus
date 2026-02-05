@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { DdiXmlPreview } from "./DdiXmlPreview";
+import { DdiJsonPreview } from "./DdiJsonPreview";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -22,12 +22,12 @@ vi.mock("primereact/button", () => ({
 }));
 
 vi.mock("./useHighlight", () => ({
-  useHighlight: (code: string) => `<span class="hljs-tag">${code}</span>`,
+  useHighlight: (code: string) => `<span class="hljs-attr">${code}</span>`,
 }));
 
 vi.mock("./DdiPreview.css", () => ({}));
 
-describe("DdiXmlPreview", () => {
+describe("DdiJsonPreview", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     Object.defineProperty(navigator, "clipboard", {
@@ -38,17 +38,17 @@ describe("DdiXmlPreview", () => {
   });
 
   it("should render the copy button", () => {
-    render(<DdiXmlPreview code="<root/>" />);
+    render(<DdiJsonPreview code='{"key":"value"}' />);
 
     expect(screen.getByText("Copier le code")).toBeInTheDocument();
   });
 
-  it("should render highlighted XML in a code element", () => {
-    render(<DdiXmlPreview code="<root/>" />);
+  it("should render highlighted JSON in a code element", () => {
+    render(<DdiJsonPreview code='{"key":"value"}' />);
 
-    const codeElement = document.querySelector(".hljs.language-xml");
+    const codeElement = document.querySelector(".hljs.language-json");
     expect(codeElement).toBeInTheDocument();
-    expect(codeElement?.querySelector(".hljs-tag")).toBeInTheDocument();
+    expect(codeElement?.querySelector(".hljs-attr")).toBeInTheDocument();
   });
 
   it("should copy code to clipboard when clicking the copy button", () => {
@@ -58,21 +58,21 @@ describe("DdiXmlPreview", () => {
       writable: true,
       configurable: true,
     });
-    render(<DdiXmlPreview code="<root/>" />);
+    render(<DdiJsonPreview code='{"key":"value"}' />);
 
     fireEvent.click(screen.getByText("Copier le code"));
 
-    expect(writeText).toHaveBeenCalledWith("<root/>");
+    expect(writeText).toHaveBeenCalledWith('{"key":"value"}');
   });
 
   it("should render with ddi-preview-code-container class", () => {
-    const { container } = render(<DdiXmlPreview code="<root/>" />);
+    const { container } = render(<DdiJsonPreview code='{"key":"value"}' />);
 
     expect(container.querySelector(".ddi-preview-code-container")).toBeInTheDocument();
   });
 
   it("should render pre with ddi-preview-code class", () => {
-    const { container } = render(<DdiXmlPreview code="<root/>" />);
+    const { container } = render(<DdiJsonPreview code='{"key":"value"}' />);
 
     expect(container.querySelector("pre.ddi-preview-code")).toBeInTheDocument();
   });

@@ -206,8 +206,8 @@ vi.mock("./VariableRepresentationTab", () => ({
   ),
 }));
 
-vi.mock("./DdiXmlPreview", () => ({
-  DdiXmlPreview: () => <div data-testid="ddi-xml-preview">DDI XML Preview Component</div>,
+vi.mock("./DdiPreview", () => ({
+  DdiPreview: () => <div data-testid="ddi-preview">DDI Preview Component</div>,
 }));
 
 describe("VariableEditForm", () => {

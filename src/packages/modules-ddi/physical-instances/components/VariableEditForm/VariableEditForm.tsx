@@ -11,7 +11,7 @@ import type {
   CodeList,
   Category,
 } from "../../types/api";
-import { DdiXmlPreview } from "./DdiXmlPreview";
+import { DdiPreview } from "./DdiPreview";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
 
@@ -481,14 +481,14 @@ export const VariableEditForm = ({
                   <i
                     className="pi pi-code"
                     style={{ lineHeight: "inherit" }}
-                    aria-label={t("physicalInstance.view.tabs.ddiXml")}
+                    aria-label={t("physicalInstance.view.tabs.ddiPreview")}
                   />
                 </div>
               );
             }}
           >
             {activeIndex === 2 && (
-              <DdiXmlPreview
+              <DdiPreview
                 variableId={variable.id}
                 variableName={state.name}
                 variableLabel={state.label}
