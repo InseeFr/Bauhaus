@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
@@ -19,7 +20,6 @@ import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
-import D from "../../../../deprecated-locales/build-dictionary";
 import { useSeriesOperationsOptions } from "../../../hooks/useSeriesOperationsOptions";
 
 export interface SearchDataset {
@@ -34,7 +34,9 @@ export interface SearchDataset {
 }
 
 export const Component = () => {
-  useTitle(D.datasetsTitle, D.advancedSearch);
+  const { t } = useTranslation();
+
+  useTitle(t("dataset.searchTitle"));
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<SearchDataset[]>([]);
@@ -77,6 +79,8 @@ export const AdvancedSearchForm = ({
   data: SearchDataset[];
   seriesOperationsOptions: Options;
 }) => {
+  const { t } = useTranslation();
+
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const {
@@ -108,7 +112,7 @@ export const AdvancedSearchForm = ({
 
   return (
     <AdvancedSearchList
-      title={D.datasetsSearchTitle}
+      title={t("dataset.searchTitle")}
       data={dataLinks}
       initializeState={reset}
       redirect={<Navigate to="/datasets" />}
@@ -149,11 +153,13 @@ export const FieldsForDatasetsAdvancedSearch = ({
   handleChange: (property: string, stateChange: string) => void;
   seriesOperationsOptions: Options;
 }) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div className="row form-group">
         <div className="col-md-12">
-          <label className="w-100">{D.labelTitle}</label>
+          <label className="w-100">{t("dataset.globalInformation.mainTitle")}</label>
           <TextInput value={labelLg1} onChange={(e) => handleChange("labelLg1", e.target.value)} />
         </div>
       </div>
@@ -173,7 +179,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
           />
         </div>
         <div className="col-md-4">
-          <label className="w-100">{D.validationStatusTitle}</label>
+          <label className="w-100">{t("dataset.globalInformation.validationStatus")}</label>
           <Select
             value={validationStatus}
             options={validateStateOptions}
@@ -183,15 +189,15 @@ export const FieldsForDatasetsAdvancedSearch = ({
       </div>
       <div className="row form-group">
         <div className="col-md-3">
-          <label className="w-100">{D.createdDateTitle}</label>
+          <label className="w-100">{t("dataset.globalInformation.creationDate")}</label>
           <DatePicker value={created} onChange={(value) => handleChange("created", value ?? "")} />
         </div>
         <div className="col-md-3">
-          <label className="w-100">{D.modifiedDateTitle}</label>
+          <label className="w-100">{t("dataset.globalInformation.updatingDate")}</label>
           <DatePicker value={updated} onChange={(value) => handleChange("updated", value ?? "")} />
         </div>
         <Column>
-          <label className="w-100">{D.generatedBy}</label>
+          <label className="w-100">{t("dataset.internalManagement.generatedBy")}</label>
           <Select
             value={wasGeneratedIRIs}
             options={seriesOperationsOptions}

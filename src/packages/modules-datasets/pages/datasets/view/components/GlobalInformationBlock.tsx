@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { CodeDisplay } from "@components/code-display";
 import { ConditionalDisplay } from "@components/data/conditional-display";
 import { Organisation, Organisations } from "@components/business/organisations/organisations";
@@ -10,35 +12,20 @@ import { stringToDate } from "@utils/date-utils";
 import { useCodesList } from "@utils/hooks/codeslist";
 import { useOrganizations } from "@utils/hooks/organizations";
 
-import D, { D1 } from "../../../../../deprecated-locales/build-dictionary";
 import { Dataset } from "../../../../../model/Dataset";
 import { CL_ACCESS_RIGHTS, CL_CONF_STATUS, CL_FREQ } from "../../../../../constants/code-lists";
 import { WasGeneratedByBlock } from "./wasGeneratedByBlock";
 import { useThemes } from "../../../../hooks/useThemes";
-import { createAllDictionary } from "@utils/dictionnary";
-
-const {
-  D: DatasetDictionary,
-  lg1,
-  lg2,
-} = createAllDictionary({
-  datasets: {
-    linkedDocuments: {
-      fr: "Documents liés",
-      en: "Linked documents",
-    },
-    keywords: {
-      fr: "Mots clés",
-      en: "Keywords",
-    },
-  },
-});
 
 interface GlobalInformationBlockTypes {
   dataset: Dataset;
 }
 
 export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBlockTypes>) => {
+  const { i18n } = useTranslation();
+  const tFr = i18n.getFixedT("fr");
+  const tEn = i18n.getFixedT("en");
+
   const { data: themesOptions = [] } = useThemes();
   const { data: organisations } = useOrganizations();
 
@@ -56,36 +43,38 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
         text={
           <ul>
             <li>
-              {D.createdDateTitle} : {stringToDate(dataset.catalogRecord?.created)}{" "}
+              {tFr("dataset.globalInformation.creationDate")} :{" "}
+              {stringToDate(dataset.catalogRecord?.created)}{" "}
             </li>
             <li>
-              {D.modifiedDateTitle} : {stringToDate(dataset.catalogRecord?.updated)}{" "}
+              {tFr("dataset.globalInformation.updatingDate")} :{" "}
+              {stringToDate(dataset.catalogRecord?.updated)}{" "}
             </li>
             <li>
-              {D.datasetStatus} :
+              {tFr("dataset.globalInformation.validationStatus")} :{" "}
               <PublicationMale object={dataset} />
             </li>
             <ConditionalDisplay data={dataset?.issued}>
               <li>
-                {D.datasetsFirstDiffusion} : {stringToDate(dataset.issued)}{" "}
+                {tFr("dataset.globalInformation.firstReleaseDate")} :{" "}
+                {stringToDate(dataset.issued)}{" "}
               </li>
             </ConditionalDisplay>
-
             {dataset.accessRights && (
               <li>
-                {D.datasetsAccessRights} :{" "}
+                {tFr("dataset.internalManagement.accessRights")} :{" "}
                 <CodeDisplay codesList={clAccessRights} value={dataset.accessRights}></CodeDisplay>
               </li>
             )}
             {dataset.accrualPeriodicity && (
               <li>
-                {D.datasetsUpdateFrequency} :{" "}
+                {tFr("dataset.globalInformation.updateFrequency")} :{" "}
                 <CodeDisplay codesList={clFreq} value={dataset.accrualPeriodicity} />
               </li>
             )}
             {dataset.confidentialityStatus && (
               <li>
-                {D.datasetsConfidentialityStatus} :{" "}
+                {tFr("dataset.internalManagement.confidentialityStatus")} :{" "}
                 <CodeDisplay
                   codesList={clConfStatus}
                   value={dataset.confidentialityStatus}
@@ -94,24 +83,23 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
             )}
             <ConditionalDisplay data={dataset.creators}>
               <li>
-                {D.datasetsDataProvider} :
+                {tFr("dataset.globalInformation.dataProvider")} :
                 <Organisations creators={dataset.creators} organizations={organisations} />
               </li>
             </ConditionalDisplay>
-
             {dataset.publisher && (
               <li>
-                {D.datasetsPublicationProvider} :{" "}
+                {tFr("dataset.globalInformation.publicationProvider")} :{" "}
                 <Organisation creator={dataset.publisher} organizations={organisations} />
               </li>
             )}
             <li>
-              {D.generatedBy} :{" "}
+              {tFr("dataset.internalManagement.generatedBy")} :{" "}
               <WasGeneratedByBlock iris={dataset.wasGeneratedIRIs}></WasGeneratedByBlock>
             </li>
             <ConditionalDisplay data={dataset.themes}>
               <li>
-                {D.theme} :{" "}
+                {tFr("dataset.globalInformation.theme")} :{" "}
                 <List
                   items={dataset.themes}
                   getContent={(value) => themesOptions?.find((t) => t.value === value)?.label ?? ""}
@@ -120,19 +108,19 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
             </ConditionalDisplay>
             {dataset.keywords?.lg1?.length > 0 && (
               <li>
-                {DatasetDictionary.datasets.keywords} ({lg1}):{" "}
+                {tFr("dataset.globalInformation.keywords")} (fr) :{" "}
                 <List items={dataset.keywords.lg1}></List>
               </li>
             )}
             {dataset.keywords?.lg2?.length > 0 && (
               <li>
-                {DatasetDictionary.datasets.keywords} ({lg2}):{" "}
+                {tEn("dataset.globalInformation.keywords")} (en) :{" "}
                 <List items={dataset.keywords.lg2}></List>
               </li>
             )}
           </ul>
         }
-        title={D1.globalInformationsTitle}
+        title={tFr("dataset.globalInformation.title")}
         alone={true}
       />
     </Row>

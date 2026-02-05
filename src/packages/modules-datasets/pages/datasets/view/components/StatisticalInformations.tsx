@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { CodeDisplay } from "@components/code-display";
 import { ConditionalDisplay } from "@components/data/conditional-display";
 import { Row } from "@components/layout";
@@ -6,7 +8,6 @@ import { Note } from "@components/note";
 import { stringToDate } from "@utils/date-utils";
 import { useCodesList } from "@utils/hooks/codeslist";
 
-import D, { D1 } from "../../../../../deprecated-locales/build-dictionary";
 import { Dataset } from "../../../../../model/Dataset";
 import {
   CL_DATA_TYPES,
@@ -22,6 +23,8 @@ interface StatisticalInformationsTypes {
 }
 
 export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInformationsTypes>) => {
+  const { t } = useTranslation();
+
   const clDataTypes = useCodesList(CL_DATA_TYPES);
   const clStatUnit = useCodesList(CL_STAT_UNIT);
   const clTypeGeo = useCodesList(CL_TYPE_GEO);
@@ -35,13 +38,13 @@ export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInforma
           <ul>
             {dataset.type && (
               <li>
-                {D.datasetsType} :{" "}
+                {t("dataset.statisticalInformation.type")} :{" "}
                 <CodeDisplay codesList={clDataTypes} value={dataset.type}></CodeDisplay>
               </li>
             )}
             <ConditionalDisplay data={dataset.statisticalUnit}>
               <li>
-                {D.datasetsStatisticalUnits} :{" "}
+                {t("dataset.statisticalInformation.statisticalUnits")} :{" "}
                 <ul>
                   {dataset.statisticalUnit.map((unit) => (
                     <li key={unit}>
@@ -58,33 +61,32 @@ export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInforma
             )}
             {dataset.temporalCoverageDataType && (
               <li>
-                {D.datasetsTemporalCoverage} : {stringToDate(dataset.temporalCoverageStartDate)}{" "}
+                {t("dataset.statisticalInformation.temporalCoverage.title")} :{" "}
+                {stringToDate(dataset.temporalCoverageStartDate)} -{" "}
                 {stringToDate(dataset.temporalCoverageEndDate)}
               </li>
             )}
-
             {dataset.temporalResolution && (
               <li>
-                {D.datasetsTemporalResolution} :{" "}
+                {t("dataset.statisticalInformation.temporalResolution")} :{" "}
                 <CodeDisplay codesList={clFreq} value={dataset.temporalResolution}></CodeDisplay>
               </li>
             )}
-
             {dataset.spacialCoverage && (
               <li>
-                {D.datasetsSpacialCoverage} :{" "}
+                {t("dataset.statisticalInformation.spatialCoverage")} :{" "}
                 <CodeDisplay codesList={clGeo} value={dataset.spacialCoverage}></CodeDisplay>
               </li>
             )}
             {dataset.spacialTemporal && (
               <li>
-                {D.datasetsSpacialTemporal} : {stringToDate(dataset.spacialTemporal)}
+                {t("dataset.statisticalInformation.geographicalVintage")} :{" "}
+                {stringToDate(dataset.spacialTemporal)}
               </li>
             )}
-
             <ConditionalDisplay data={dataset.spacialResolutions}>
               <li>
-                {D.datasetsSpacialResolutions} :{" "}
+                {t("dataset.statisticalInformation.spatialResolution")} :{" "}
                 <ul>
                   {dataset.spacialResolutions?.map((spacialResolution) => {
                     return (
@@ -96,20 +98,21 @@ export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInforma
                 </ul>
               </li>
             </ConditionalDisplay>
-
             {dataset.observationNumber > 0 && (
               <li>
-                {D.datasetsNumberObservations} : {dataset.observationNumber}
+                {t("dataset.statisticalInformation.numberOfObservations")} :{" "}
+                {dataset.observationNumber}
               </li>
             )}
             {dataset.timeSeriesNumber > 0 && (
               <li>
-                {D.datasetsNumberTimeSeries} : {dataset.timeSeriesNumber}
+                {t("dataset.statisticalInformation.numberOfTimeSeries")} :{" "}
+                {dataset.timeSeriesNumber}
               </li>
             )}
           </ul>
         }
-        title={D1.statisticalInformation}
+        title={t("dataset.statisticalInformation.title")}
         alone={true}
       />
     </Row>

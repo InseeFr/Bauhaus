@@ -1,9 +1,9 @@
+import { useTranslation } from "react-i18next";
+
 import { Row } from "@components/layout";
 import { MDEditor } from "@components/rich-editor/react-md-editor";
 
 import { Dataset } from "@model/Dataset";
-
-import { D1, D2 } from "../../../../../deprecated-locales";
 
 export const Notes = ({
   editingDataset,
@@ -12,11 +12,15 @@ export const Notes = ({
   editingDataset: Dataset;
   setEditingDataset: (dataset: Dataset) => void;
 }>) => {
+  const { i18n } = useTranslation();
+  const tFr = i18n.getFixedT("fr");
+  const tEn = i18n.getFixedT("en");
+
   return (
     <>
       <Row>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg1">{D1.datasetsAbstract}</label>
+          <label htmlFor="descriptionLg1">{tFr("dataset.notes.abstract")}</label>
           <MDEditor
             text={editingDataset.abstractLg1}
             handleChange={(value) => {
@@ -28,7 +32,7 @@ export const Notes = ({
           />
         </div>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg2">{D2.datasetsAbstract}</label>
+          <label htmlFor="descriptionLg2">{tEn("dataset.notes.abstract")}</label>
           <MDEditor
             text={editingDataset.abstractLg2}
             handleChange={(value) => {
@@ -42,7 +46,7 @@ export const Notes = ({
       </Row>
       <Row>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
+          <label htmlFor="descriptionLg1">{tFr("dataset.notes.description")}</label>
           <MDEditor
             text={editingDataset.descriptionLg1}
             handleChange={(value) => {
@@ -54,7 +58,7 @@ export const Notes = ({
           />
         </div>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
+          <label htmlFor="descriptionLg2">{tEn("dataset.notes.description")}</label>
           <MDEditor
             text={editingDataset.descriptionLg2}
             handleChange={(value) => {
@@ -69,7 +73,7 @@ export const Notes = ({
 
       <Row>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg1">{D1.datasetsCaution}</label>
+          <label htmlFor="descriptionLg1">{tFr("dataset.notes.warning")}</label>
           <MDEditor
             text={editingDataset.cautionLg1}
             handleChange={(value) => {
@@ -81,7 +85,7 @@ export const Notes = ({
           />
         </div>
         <div className="col-md-6 form-group">
-          <label htmlFor="cautionLg2">{D2.datasetsCaution}</label>
+          <label htmlFor="cautionLg2">{tEn("dataset.notes.warning")}</label>
           <MDEditor
             text={editingDataset.cautionLg2}
             handleChange={(value) => {

@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import {
   CollapsibleTrigger,
-  MenuTabInErrorIndicator,
+  TabWithErrorIndicator,
   LayoutWithLateralMenu,
   LayoutConfiguration,
 } from "./layout-with-lateral-menu";
@@ -25,14 +25,14 @@ describe("CollapsibleTrigger", () => {
   });
 });
 
-describe("MenuTabInErrorIndicator", () => {
-  it('should display a warning icon if "isInError" is true', () => {
-    render(<MenuTabInErrorIndicator isInError={true} />);
+describe("TabWithErrorIndicator", () => {
+  it('should display a warning icon if "hasError" is true', () => {
+    render(<TabWithErrorIndicator hasError={true} />);
     expect(screen.getByText("⚠️")).toBeInTheDocument();
   });
 
-  it('should render nothing if "isInError" is false', () => {
-    const { container } = render(<MenuTabInErrorIndicator isInError={false} />);
+  it('should render nothing if "hasError" is false', () => {
+    const { container } = render(<TabWithErrorIndicator hasError={false} />);
     expect(container.firstChild).toBeNull();
   });
 });
@@ -41,18 +41,18 @@ describe("LayoutWithLateralMenu", () => {
   const mockLayoutConfiguration = {
     main1: {
       children: {
-        sub1: { closed: false, title: "Sub Item 1", isInError: false },
-        sub2: { closed: false, title: "Sub Item 2", isInError: true },
+        sub1: { closed: false, title: "Sub Item 1", hasError: false },
+        sub2: { closed: false, title: "Sub Item 2", hasError: true },
       },
       closed: false,
       title: "Main Item 1",
-      isInError: false,
+      hasError: false,
     },
     main2: {
       children: {},
       closed: true,
       title: "Main Item 2",
-      isInError: false,
+      hasError: false,
     },
   } as unknown as LayoutConfiguration;
 

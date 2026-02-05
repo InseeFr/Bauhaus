@@ -1,10 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 import { NumberInput } from "@components/form/input";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 
 import { withCodesLists } from "@utils/hoc/withCodesLists";
 
-import { D1 } from "../../../../../deprecated-locales";
 import {
   CL_DATA_TYPES,
   CL_FREQ,
@@ -17,6 +18,8 @@ import { TemporalField } from "./temporalField";
 import { DataStructure } from "./data-structure";
 
 const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props }) => {
+  const { t } = useTranslation();
+
   const clDataTypes = convertCodesListsToSelectOption(props[CL_DATA_TYPES]);
 
   const clStatUnit = convertCodesListsToSelectOption(props[CL_STAT_UNIT]);
@@ -32,7 +35,7 @@ const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {D1.datasetsType}
+            {t("dataset.statisticalInformation.type")}
             <Select
               value={editingDataset.type}
               options={clDataTypes}
@@ -60,7 +63,7 @@ const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {D1.datasetsStatisticalUnits}
+            {t("dataset.statisticalInformation.statisticalUnits")}
             <Select
               value={editingDataset.statisticalUnit}
               multi
@@ -91,7 +94,7 @@ const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {D1.datasetsTemporalResolution}
+            {t("dataset.statisticalInformation.temporalResolution")}
             <Select
               value={editingDataset.temporalResolution}
               options={clFreqOptions}
@@ -108,7 +111,7 @@ const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {D1.datasetsSpacialCoverage}
+            {t("dataset.statisticalInformation.spatialCoverage")}
             <Select
               value={editingDataset.spacialCoverage}
               options={clGeo}
@@ -125,7 +128,7 @@ const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {D1.datasetsSpacialTemporal}
+            {t("dataset.statisticalInformation.geographicalVintage")}
             <input
               type="date"
               className="form-control"
@@ -143,7 +146,7 @@ const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {D1.datasetsSpacialResolutions}
+            {t("dataset.statisticalInformation.spatialResolution")}
             <Select
               value={editingDataset.spacialResolutions}
               options={clGeoType}
@@ -160,7 +163,9 @@ const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props
       </Row>
       <Row>
         <div className="col-md-12 from-group ">
-          <label htmlFor="observationNumber">{D1.datasetsNumberObservations}</label>
+          <label htmlFor="observationNumber">
+            {t("dataset.statisticalInformation.numberOfObservations")}
+          </label>
           <NumberInput
             id="observationNumber"
             value={editingDataset.observationNumber}
@@ -175,7 +180,9 @@ const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props
       </Row>
       <Row>
         <div className="col-md-12 from-group ">
-          <label htmlFor="timeSeriesNumber">{D1.datasetsNumberTimeSeries}</label>
+          <label htmlFor="timeSeriesNumber">
+            {t("dataset.statisticalInformation.numberOfTimeSeries")}
+          </label>
           <NumberInput
             id="timeSeriesNumber"
             value={editingDataset.timeSeriesNumber}

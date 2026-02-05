@@ -1,13 +1,15 @@
+import { useTranslation } from "react-i18next";
+
 import { useStructures } from "@utils/hooks/structures";
 
-import D from "../../../../../deprecated-locales/build-dictionary";
-
 export const DataStructure = ({ dataStructure }: Readonly<{ dataStructure: string }>) => {
+  const { t } = useTranslation();
+
   const { data: structures } = useStructures();
 
   return (
     <>
-      {D.datasetsDataStructure} :{" "}
+      {t("dataset.statisticalInformation.dataStructure.title")} :{" "}
       {structures?.find((t) => dataStructure === t.iri)?.labelLg1 ?? dataStructure}
     </>
   );

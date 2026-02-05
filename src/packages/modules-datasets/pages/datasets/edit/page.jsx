@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -12,9 +13,9 @@ import { DatasetsApi } from "@sdk/index";
 
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
 import { useGoBack } from "@utils/hooks/useGoBack";
+import { useUserStamps } from "@utils/hooks/users";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales";
 import "./page.css";
 import { LayoutWithLateralMenu } from "./components/layout-with-lateral-menu";
 import { GlobalInformation } from "./components/global-information";
@@ -23,10 +24,11 @@ import { Notes } from "./components/notes";
 import { StatisticalInformation } from "./components/statistical-information";
 import { validate } from "./validation";
 import { useAuthorizationGuard } from "../../../../auth/components/auth";
-import { useUserStamps } from "@utils/hooks/users";
 import { useDataset } from "../../../hooks/useDataset";
 
 export const Component = () => {
+  const { t } = useTranslation();
+
   const { id } = useParams();
   const isEditing = !!id;
 
@@ -84,22 +86,23 @@ export const Component = () => {
     },
   });
 
-  useTitle(D.datasetsTitle, editingDataset?.labelLg1);
+  useTitle(t("dataset.pluralTitle"), editingDataset?.labelLg1);
 
   if (!editingDataset.id && isEditing) {
     return <Loading />;
   }
+
   if (isSaving) {
     return <Saving />;
   }
 
   const layoutConfiguration = {
     globalInformation: {
-      title: D.globalInformationsTitle,
+      title: t("dataset.globalInformation.title"),
       children: {
         globalInformation: {
-          title: D.globalInformationsTitle,
-          isInError: hasErrors(["labelLg1", "labelLg2"]),
+          title: t("dataset.globalInformation.title"),
+          hasError: hasErrors(["labelLg1", "labelLg2"]),
           content: () => {
             if (editingDataset?.updated?.includes("T")) {
               editingDataset.updated = editingDataset.updated.substring(
@@ -113,7 +116,6 @@ export const Component = () => {
                 editingDataset.issued.indexOf("T"),
               );
             }
-
             return (
               <GlobalInformation
                 editingDataset={editingDataset}
@@ -125,8 +127,8 @@ export const Component = () => {
           },
         },
         internalManagement: {
-          title: D.internalManagementTitle,
-          isInError: hasErrors([
+          title: t("dataset.internalManagement.title"),
+          hasError: hasErrors([
             "contributor",
             "creator",
             "disseminationStatus",
@@ -145,10 +147,10 @@ export const Component = () => {
       },
     },
     notes: {
-      title: D.notesTitle,
+      title: t("dataset.notes.title"),
       children: {
         notes: {
-          title: D.notesTitle,
+          title: t("dataset.notes.title"),
           content: () => (
             <Notes editingDataset={editingDataset} setEditingDataset={setEditingDataset} />
           ),
@@ -156,10 +158,10 @@ export const Component = () => {
       },
     },
     statisticalInformation: {
-      title: D.statisticalInformation,
+      title: t("dataset.statisticalInformation.title"),
       children: {
         statisticalInformation: {
-          title: D.statisticalInformation,
+          title: t("dataset.statisticalInformation.title"),
           content: () => (
             <StatisticalInformation
               editingDataset={editingDataset}
@@ -200,7 +202,7 @@ export const Component = () => {
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={[serverSideError]} D={D} />
+      <ErrorBloc error={[serverSideError]} />
       <form>
         <LayoutWithLateralMenu layoutConfiguration={layoutConfiguration}>
           {(key) => allChildrenItems[key].content()}

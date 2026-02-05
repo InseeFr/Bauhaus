@@ -1,3 +1,5 @@
+import i18next from "i18next";
+
 import { z } from "zod";
 
 import {
@@ -7,21 +9,31 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import D, { D1, D2 } from "../../../../deprecated-locales";
 import { Dataset } from "../../../../model/Dataset";
 
+const tFr = i18next.getFixedT("fr");
+const tEn = i18next.getFixedT("en");
+
 const ZodDataset = z.object({
-  labelLg1: mandatoryAndNotEmptyTextField(D1.title),
-  labelLg2: mandatoryAndNotEmptyTextField(D2.title),
+  labelLg1: mandatoryAndNotEmptyTextField(tFr("dataset.globalInformation.mainTitle")),
+  labelLg2: mandatoryAndNotEmptyTextField(tEn("dataset.globalInformation.mainTitle")),
   altIdentifier: z
     .string()
-    .regex(/^[a-zA-Z0-9-_]+$/, { error: D.altIdError })
+    .regex(/^[a-zA-Z0-9-_]+$/, {
+      error: i18next.t("dataset.internalManagement.altId.error"),
+    })
     .or(z.string().trim().length(0))
     .optional(),
-  creator: mandatoryAndNotEmptySelectField(D.creatorTitle),
-  contributor: mandatoryAndNotEmptyMultiSelectField(D.contributorsTitle),
-  disseminationStatus: mandatoryAndNotEmptySelectField(D.disseminationStatusTitle),
-  wasGeneratedIRIs: mandatoryAndNotEmptyMultiSelectField(D.generatedBy),
+  creator: mandatoryAndNotEmptySelectField(i18next.t("dataset.internalManagement.creator")),
+  contributor: mandatoryAndNotEmptyMultiSelectField(
+    i18next.t("dataset.internalManagement.contributor"),
+  ),
+  disseminationStatus: mandatoryAndNotEmptySelectField(
+    i18next.t("dataset.internalManagement.disseminationStatus"),
+  ),
+  wasGeneratedIRIs: mandatoryAndNotEmptyMultiSelectField(
+    i18next.t("dataset.internalManagement.generatedBy"),
+  ),
 });
 
 export const validate = ({ catalogRecord, ...otherFields }: Dataset) =>

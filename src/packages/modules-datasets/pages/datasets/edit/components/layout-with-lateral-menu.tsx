@@ -1,6 +1,6 @@
 import { MouseEvent, ReactNode, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import D from "../../../../../deprecated-locales";
 import "./layout-with-lateral-menu.scss";
 
 const styleContent = {
@@ -15,30 +15,32 @@ export const CollapsibleTrigger = ({
   opened: boolean;
   onClick: (evt: MouseEvent<HTMLButtonElement>) => void;
 }>) => {
+  const { t } = useTranslation();
+
   return (
-    <button type="button" title={opened ? D.hide : D.display} onClick={onClick}>
-      <span className={` glyphicon glyphicon-chevron-${opened ? "up" : "down"}`} />
+    <button type="button" title={opened ? t("hide") : t("display")} onClick={onClick}>
+      <span className={`glyphicon glyphicon-chevron-${opened ? "up" : "down"}`} />
     </button>
   );
 };
 
-export const MenuTabInErrorIndicator = ({ isInError }: Readonly<{ isInError: boolean }>) => {
-  if (isInError) {
+export const TabWithErrorIndicator = ({ hasError }: Readonly<{ hasError: boolean }>) => {
+  const { t } = useTranslation();
+
+  if (hasError) {
     return (
-      <span aria-label={D.menuTabKo} title={D.menuTabKo}>
+      <span aria-label={t("dataset.tabKO")} title={t("dataset.tabKO")}>
         ⚠️
       </span>
     );
   }
-
-  return <></>;
 };
 
 export interface LayoutItemConfiguration {
   children: LayoutConfiguration;
   closed: boolean;
   title: string;
-  isInError: boolean;
+  hasError: boolean;
 }
 export type LayoutConfiguration = Record<string, LayoutItemConfiguration>;
 
@@ -104,7 +106,7 @@ export const LayoutWithLateralMenu = ({
                                 onClick={() => setCurrentOpenedPanelKey(key2)}
                               >
                                 {configuration2.title}
-                                <MenuTabInErrorIndicator isInError={configuration2.isInError} />
+                                <TabWithErrorIndicator hasError={configuration2.hasError} />
                               </button>
                             </li>
                           );

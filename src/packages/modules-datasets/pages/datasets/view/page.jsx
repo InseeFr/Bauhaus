@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Editor from "@uiw/react-md-editor";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { CodeDisplay } from "@components/code-display";
@@ -19,34 +20,28 @@ import { withCodesLists } from "@utils/hoc/withCodesLists";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D, { D1, D2 } from "../../../../deprecated-locales/build-dictionary";
 import { CL_PROCESS_STEP } from "../../../../constants/code-lists";
 import { GlobalInformationBlock } from "./components/GlobalInformationBlock";
 import { StatisticalInformations } from "./components/StatisticalInformations";
 import { ViewMenu } from "./menu";
 import { useOrganizations } from "@utils/hooks/organizations";
-import { Organisation, Organisations } from "@components/business/organisations/organisations";
 import { useDataset } from "../../../hooks/useDataset";
-import { createAllDictionary } from "@utils/dictionnary";
-
-const { D: DatasetDictionary } = createAllDictionary({
-  datasets: {
-    linkedDocuments: {
-      fr: "Documents liés",
-      en: "Linked documents",
-    },
-    keywords: {
-      fr: "Mots clés",
-      en: "Keywords",
-    },
-  },
-});
+import { CreatorsVisualisation } from "@components/business/creators-visualisation";
+import { ContributorsVisualisation } from "@components/business/contributors-visualisation";
 
 const Dataset = (props) => {
+  const { i18n } = useTranslation();
+  const tFr = i18n.getFixedT("fr");
+  const tEn = i18n.getFixedT("en");
+
   const { id } = useParams();
+
   const navigate = useNavigate();
+
   const [archivageUnits, setArchivageUnits] = useState([]);
+
   const { data: organisationsList } = useOrganizations();
+
   useEffect(() => {
     DatasetsApi.getArchivageUnits().then(setArchivageUnits);
   }, []);
@@ -54,6 +49,7 @@ const Dataset = (props) => {
   const { data: dataset, isLoading } = useDataset(id);
 
   const [secondLang] = useSecondLang();
+
   const queryClient = useQueryClient();
 
   const {
@@ -64,7 +60,6 @@ const Dataset = (props) => {
     mutationFn: () => {
       return DatasetsApi.publish(id);
     },
-
     onSuccess: () => {
       queryClient.invalidateQueries(["datasets", id]);
     },
@@ -86,7 +81,7 @@ const Dataset = (props) => {
     },
   });
 
-  useTitle(D.datasetsTitle, dataset?.labelLg1);
+  useTitle(tFr("dataset.pluralTitle"), dataset?.labelLg1);
 
   if (isLoading) return <Loading />;
   if (isDeleting) return <Deleting />;
@@ -95,27 +90,23 @@ const Dataset = (props) => {
   return (
     <div className="container">
       <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />
-
       <ViewMenu dataset={dataset} {...props} onPublish={publish} onDelete={remove} />
       {(serverSideError || publishServerSideError) && (
-        <ErrorBloc error={[serverSideError || publishServerSideError]} D={DatasetDictionary} />
+        <ErrorBloc error={[serverSideError || publishServerSideError]} />
       )}
-
       <CheckSecondLang />
-
       <GlobalInformationBlock dataset={dataset}></GlobalInformationBlock>
-
       <Row>
         <Note
           text={dataset.subTitleLg1}
-          title={D1.datasetsSubtitle}
+          title={tFr("dataset.globalInformation.subtitle")}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={dataset.subTitleLg2}
-            title={D2.datasetsSubtitle}
+            title={tEn("dataset.globalInformation.subtitle")}
             alone={false}
             allowEmpty={true}
           />
@@ -124,14 +115,14 @@ const Dataset = (props) => {
       <Row>
         <Note
           text={dataset.landingPageLg1}
-          title={D1.datasetsLandingPage}
+          title={tFr("dataset.globalInformation.landingPage")}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={dataset.landingPageLg2}
-            title={D2.datasetsLandingPage}
+            title={tEn("dataset.globalInformation.landingPage")}
             alone={false}
             allowEmpty={true}
           />
@@ -145,7 +136,7 @@ const Dataset = (props) => {
               getContent={(linkedDocument) => <a href={linkedDocument}>{linkedDocument}</a>}
             ></List>
           }
-          title={DatasetDictionary.datasets.linkedDocuments}
+          title={tFr("dataset.globalInformation.linkedDocuments")}
           alone={true}
           allowEmpty={true}
         ></Note>
@@ -155,20 +146,17 @@ const Dataset = (props) => {
           text={
             <ul>
               <li>
-                {D.creatorTitle} :{" "}
-                <Organisation
+                <CreatorsVisualisation
                   creator={dataset.catalogRecord?.creator}
                   organizations={organisationsList}
                 />
               </li>
               <li>
-                {D.contributorTitle} :{" "}
-                <Organisations
+                <ContributorsVisualisation
                   creators={dataset.catalogRecord?.contributor}
                   organizations={organisationsList}
-                />{" "}
+                />
               </li>
-
               <li>
                 <DisseminationStatusVisualisation
                   disseminationStatus={dataset.disseminationStatus}
@@ -176,7 +164,7 @@ const Dataset = (props) => {
               </li>
               {dataset.processStep && (
                 <li>
-                  {D.datasetProcessStep} :{" "}
+                  {tFr("dataset.internalManagement.processStep")} :{" "}
                   <CodeDisplay
                     codesList={props[CL_PROCESS_STEP]}
                     value={dataset.processStep}
@@ -185,28 +173,27 @@ const Dataset = (props) => {
               )}
               {dataset.archiveUnit && (
                 <li>
-                  {D.datasetsArchiveUnit} :{" "}
+                  {tFr("dataset.internalManagement.archiveUnit")} :{" "}
                   {archivageUnits?.find((t) => t.value === dataset.archiveUnit)?.label}
                 </li>
               )}
             </ul>
           }
-          title={D1.internalManagementTitle}
+          title={tFr("dataset.internalManagement.title")}
           alone={true}
         />
       </Row>
-
       <Row>
         <Note
           text={<Editor.Markdown source={dataset.descriptionLg1} />}
-          title={D1.descriptionTitle}
+          title={tFr("dataset.notes.description")}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={<Editor.Markdown source={dataset.descriptionLg2} />}
-            title={D2.descriptionTitle}
+            title={tEn("dataset.notes.description")}
             alone={false}
             allowEmpty={true}
           />
@@ -215,14 +202,14 @@ const Dataset = (props) => {
       <Row>
         <Note
           text={<Editor.Markdown source={dataset.abstractLg1} />}
-          title={D1.datasetsAbstract}
+          title={tFr("dataset.notes.abstract")}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={<Editor.Markdown source={dataset.abstractLg2} />}
-            title={D2.datasetsAbstract}
+            title={tEn("dataset.notes.abstract")}
             alone={false}
             allowEmpty={true}
           />
@@ -231,14 +218,14 @@ const Dataset = (props) => {
       <Row>
         <Note
           text={<Editor.Markdown source={dataset.cautionLg1} />}
-          title={D1.datasetsCaution}
+          title={tFr("dataset.notes.warning")}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={<Editor.Markdown source={dataset.cautionLg2} />}
-            title={D2.datasetsCaution}
+            title={tEn("dataset.notes.warning")}
             alone={false}
             allowEmpty={true}
           />

@@ -6,7 +6,9 @@
     "searchTitle": "Datasets - Advanced search",
     "globalInformation": {
       "title": "Global information",
-      "status": "State of the dataset",
+      "validationStatus": "Publication status",
+      "creationDate": "Creation date",
+      "updatingDate": "Updating date",
       "mainTitle": "Title",
       "subtitle": "Subtitle",
       "firstReleaseDate": "Date of first release of data",
@@ -21,8 +23,14 @@
     },
     "internalManagement": {
       "title": "Internal management",
-      "altId": "Alternative identifier",
-      "altIdError": "The identifier does not respect authorized characters : a-z, A-Z, 0-9, - and _",
+      "altId": {
+        "title": "Alternative identifier",
+        "error": "The identifier does not respect authorized characters : a-z, A-Z, 0-9, - and _"
+      },
+      "creator": "Owner",
+      "contributor": "Contributors",
+      "disseminationStatus": "Dissemination status",
+      "generatedBy": "Produced from",
       "accessRights": "Access rights",
       "confidentialityStatus": "Confidentiality status",
       "processStep": "Processes using the data",
@@ -52,11 +60,12 @@
       },
       "temporalResolution": "Temporal resolution",
       "spatialCoverage": "Spatial area covered",
-      "spatialTemporal": "Geographical vintage",
+      "geographicalVintage": "Geographical vintage",
       "spatialResolution": "Spatial resolution",
       "numberOfObservations": "Number of observations",
       "numberOfTimeSeries": "Number of time series"
-    }
+    },
+    "tabKO": "Errors occur in this tab"
   },
   "distribution": {
     "title": "Distribution",
@@ -72,5 +81,7 @@
     "size": "Size",
     "accessURL": "Access URL",
     "downloadURL": "Download URL"
-  }
+  },
+  "hide": "Hide",
+  "display": "Display"
 }

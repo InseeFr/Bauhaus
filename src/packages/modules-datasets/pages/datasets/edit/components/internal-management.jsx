@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { ClientSideError } from "@components/errors-bloc";
@@ -11,7 +12,6 @@ import { DatasetsApi } from "@sdk/index";
 
 import { withCodesLists } from "@utils/hoc/withCodesLists";
 
-import { D1 } from "../../../../../deprecated-locales";
 import {
   CL_ACCESS_RIGHTS,
   CL_CONF_STATUS,
@@ -29,6 +29,8 @@ const InternalManagementTab = ({
   setClientSideErrors,
   ...props
 }) => {
+  const { t } = useTranslation();
+
   const seriesOperationsOptions = useSeriesOperationsOptions();
 
   const clAccessRightsOptions = convertCodesListsToSelectOption(props[CL_ACCESS_RIGHTS]);
@@ -46,7 +48,7 @@ const InternalManagementTab = ({
     <>
       <Row>
         <div className="col-md-12 form-group">
-          <label htmlFor="altIdentifier">{D1.datasetsAltId}</label>
+          <label htmlFor="altIdentifier">{t("dataset.internalManagement.altId.title")}</label>
           <TextInput
             id="altIdentifier"
             value={editingDataset.altIdentifier}
@@ -83,14 +85,13 @@ const InternalManagementTab = ({
               }));
             }}
           />
-
           <ClientSideError error={clientSideErrors?.fields?.creator}></ClientSideError>
         </div>
       </Row>
       <Row>
         <div className="col-md-12 form-group">
           <ContributorsInput
-            mode="organisation"
+            mode="stamp"
             value={editingDataset.catalogRecord?.contributor}
             onChange={(values) => {
               setEditingDataset({
@@ -107,7 +108,6 @@ const InternalManagementTab = ({
             }}
             multi
           />
-
           <ClientSideError error={clientSideErrors?.fields?.contributor}></ClientSideError>
         </div>
       </Row>
@@ -132,7 +132,7 @@ const InternalManagementTab = ({
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <LabelRequired>{D1.generatedBy}</LabelRequired>
+          <LabelRequired>{t("dataset.internalManagement.generatedBy")}</LabelRequired>
           <Select
             multi
             value={editingDataset.wasGeneratedIRIs}
@@ -159,7 +159,9 @@ const InternalManagementTab = ({
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <label className="w-100 wilco-label-required">{D1.datasetsAccessRights}</label>
+          <label className="w-100 wilco-label-required">
+            {t("dataset.internalManagement.accessRights")}
+          </label>
           <Select
             value={editingDataset.accessRights}
             options={clAccessRightsOptions}
@@ -174,7 +176,9 @@ const InternalManagementTab = ({
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <label className="w-100 wilco-label-required">{D1.datasetsConfidentialityStatus}</label>
+          <label className="w-100 wilco-label-required">
+            {t("dataset.internalManagement.confidentialityStatus")}
+          </label>
           <Select
             value={editingDataset.confidentialityStatus}
             options={clConfStatusOptions}
@@ -189,7 +193,9 @@ const InternalManagementTab = ({
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <label className="w-100 wilco-label-required">{D1.datasetProcessStep}</label>
+          <label className="w-100 wilco-label-required">
+            {t("dataset.internalManagement.processStep")}
+          </label>
           <Select
             value={editingDataset.processStep}
             options={clProcessStep}
@@ -204,7 +210,9 @@ const InternalManagementTab = ({
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <label className="w-100 wilco-label-required">{D1.datasetsArchiveUnit}</label>
+          <label className="w-100 wilco-label-required">
+            {t("dataset.internalManagement.archiveUnit")}
+          </label>
           <Select
             value={editingDataset.archiveUnit}
             options={archivageUnits}
