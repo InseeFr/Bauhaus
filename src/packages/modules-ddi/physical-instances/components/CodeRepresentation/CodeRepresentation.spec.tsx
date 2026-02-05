@@ -1,347 +1,396 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { CodeRepresentation } from './CodeRepresentation';
+import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { CodeRepresentation } from "./CodeRepresentation";
 import type {
-	CodeRepresentation as CodeRepresentationType,
-	CodeList,
-	Category,
-} from '../../types/api';
+  CodeRepresentation as CodeRepresentationType,
+  CodeList,
+  Category,
+} from "../../types/api";
 
-vi.mock('react-i18next', () => ({
-	useTranslation: () => ({
-		t: (key: string) => {
-			const translations: Record<string, string> = {
-				'physicalInstance.view.code.codeListLabel':
-					'Libellé de la liste de codes',
-				'physicalInstance.view.code.codes': 'Codes',
-				'physicalInstance.view.code.value': 'Valeur',
-				'physicalInstance.view.code.label': 'Libellé',
-				'physicalInstance.view.code.addCodeTooltip': 'Ajouter ce code',
-				'physicalInstance.view.code.fillFieldsTooltip':
-					'Remplissez au moins un champ pour ajouter un code',
-				'physicalInstance.view.code.createNewList': 'Créer une nouvelle liste',
-				'physicalInstance.view.code.reuseList': 'Réutiliser',
-			};
-			return translations[key] || key;
-		},
-	}),
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "physicalInstance.view.code.codeListLabel": "Libellé de la liste de codes",
+        "physicalInstance.view.code.value": "Valeur",
+        "physicalInstance.view.code.label": "Libellé",
+        "physicalInstance.view.code.addCodeTooltip": "Ajouter ce code",
+        "physicalInstance.view.code.fillFieldsTooltip":
+          "Remplissez au moins un champ pour ajouter un code",
+        "physicalInstance.view.code.createNewList": "Créer une nouvelle liste",
+        "physicalInstance.view.code.reuseList": "Réutiliser",
+        "physicalInstance.view.code.selectCodeList": "Sélectionnez une liste de codes",
+        "physicalInstance.view.code.loadingCodesLists": "Chargement des listes de codes...",
+        "physicalInstance.view.code.errorLoadingCodesLists":
+          "Erreur lors du chargement des listes de codes",
+        "physicalInstance.view.code.noCodesListsAvailable": "Aucune liste de codes disponible",
+      };
+      return translations[key] || key;
+    },
+  }),
 }));
 
-vi.mock('primereact/inputtext', () => ({
-	InputText: ({
-		id,
-		value,
-		onChange,
-		onBlur,
-		onKeyDown,
-		placeholder,
-		...props
-	}: any) => (
-		<input
-			id={id}
-			value={value}
-			onChange={onChange}
-			onBlur={onBlur}
-			onKeyDown={onKeyDown}
-			placeholder={placeholder}
-			{...props}
-		/>
-	),
+vi.mock("../../../../application/app-context", () => ({
+  useAppContext: () => ({
+    properties: {
+      defaultAgencyId: "fr.insee",
+    },
+  }),
 }));
 
-vi.mock('primereact/button', () => ({
-	Button: ({ icon, label, onClick, disabled, tooltip, children }: any) => (
-		<button type="button" onClick={onClick} disabled={disabled} title={tooltip}>
-			{label || icon || children}
-		</button>
-	),
+vi.mock("../../../hooks/useCodesLists", () => ({
+  useCodesLists: () => ({
+    data: [
+      { id: "list-1", label: "Liste 1", agency: "fr.insee" },
+      { id: "list-2", label: "Liste 2", agency: "fr.insee" },
+    ],
+    isLoading: false,
+    error: null,
+  }),
 }));
 
-vi.mock('primereact/datatable', () => ({
-	DataTable: ({ value, children }: any) => {
-		const columns = Array.isArray(children) ? children : [children];
-
-		return (
-			<table>
-				<tbody>
-					{value?.map((row: any, index: number) => (
-						<tr key={index} data-testid={`row-${index}`}>
-							{columns.map((column: any, colIndex: number) => {
-								if (column?.props?.body) {
-									return <td key={colIndex}>{column.props.body(row)}</td>;
-								}
-								return <td key={colIndex}>{row[column?.props?.field]}</td>;
-							})}
-						</tr>
-					))}
-				</tbody>
-			</table>
-		);
-	},
+vi.mock("primereact/inputtext", () => ({
+  InputText: ({ id, value, onChange, placeholder, ...props }: any) => (
+    <input id={id} value={value} onChange={onChange} placeholder={placeholder} {...props} />
+  ),
 }));
 
-vi.mock('primereact/column', () => ({
-	Column: () => null,
+vi.mock("primereact/button", () => ({
+  Button: ({ icon, label, onClick, disabled, tooltip }: any) => (
+    <button type="button" onClick={onClick} disabled={disabled} title={tooltip}>
+      {label || icon}
+    </button>
+  ),
 }));
 
-vi.mock('primereact/tooltip', () => ({
-	Tooltip: () => null,
+vi.mock("primereact/datatable", () => ({
+  DataTable: ({ value, children }: any) => {
+    const columns = Array.isArray(children) ? children : [children];
+    return (
+      <table data-testid="data-table">
+        <tbody>
+          {value?.map((row: any, index: number) => (
+            <tr key={index}>
+              {columns.map((column: any, colIndex: number) => (
+                <td key={colIndex}>{column?.props?.body?.(row)}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  },
 }));
 
-describe('CodeRepresentation', () => {
-	const mockOnChange = vi.fn();
+vi.mock("primereact/column", () => ({
+  Column: () => null,
+}));
 
-	const mockRepresentation: CodeRepresentationType = {
-		'@blankIsMissingValue': 'false',
-		CodeListReference: {
-			Agency: 'fr.insee',
-			ID: 'codelist-1',
-			Version: '1',
-			TypeOfObject: 'CodeList',
-		},
-	};
+vi.mock("primereact/progressspinner", () => ({
+  ProgressSpinner: () => <div data-testid="progress-spinner">Loading...</div>,
+}));
 
-	const mockCodeList: CodeList = {
-		'@isUniversallyUnique': 'true',
-		'@versionDate': '2024-01-01T00:00:00Z',
-		URN: 'urn:ddi:fr.insee:codelist-1:1',
-		Agency: 'fr.insee',
-		ID: 'codelist-1',
-		Version: '1',
-		Label: {
-			Content: {
-				'@xml:lang': 'fr-FR',
-				'#text': 'Liste de codes test',
-			},
-		},
-		Code: [
-			{
-				'@isUniversallyUnique': 'true',
-				URN: 'urn:ddi:fr.insee:code-1:1',
-				Agency: 'fr.insee',
-				ID: 'code-1',
-				Version: '1',
-				CategoryReference: {
-					Agency: 'fr.insee',
-					ID: 'category-1',
-					Version: '1',
-					TypeOfObject: 'Category',
-				},
-				Value: '1',
-			},
-		],
-	};
+vi.mock("primereact/message", () => ({
+  Message: ({ severity, text }: any) => <div data-testid={`message-${severity}`}>{text}</div>,
+}));
 
-	const mockCategories: Category[] = [
-		{
-			'@isUniversallyUnique': 'true',
-			'@versionDate': '2024-01-01T00:00:00Z',
-			URN: 'urn:ddi:fr.insee:category-1:1',
-			Agency: 'fr.insee',
-			ID: 'category-1',
-			Version: '1',
-			Label: {
-				Content: {
-					'@xml:lang': 'fr-FR',
-					'#text': 'Oui',
-				},
-			},
-		},
-	];
+vi.mock("primereact/dropdown", () => ({
+  Dropdown: ({ value, options, onChange, placeholder }: any) => (
+    <select
+      data-testid="codes-list-dropdown"
+      value={value || ""}
+      onChange={(e) => onChange({ value: e.target.value })}
+    >
+      <option value="" disabled>
+        {placeholder}
+      </option>
+      {options?.map((option: any) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  ),
+}));
 
-	beforeEach(() => {
-		vi.clearAllMocks();
-	});
+describe("CodeRepresentation", () => {
+  const mockOnChange = vi.fn();
 
-	it('should render code list label input', () => {
-		render(
-			<CodeRepresentation
-				representation={mockRepresentation}
-				codeList={mockCodeList}
-				categories={mockCategories}
-				onChange={mockOnChange}
-			/>,
-		);
+  const mockRepresentation: CodeRepresentationType = {
+    "@blankIsMissingValue": "false",
+    CodeListReference: {
+      Agency: "fr.insee",
+      ID: "codelist-1",
+      Version: "1",
+      TypeOfObject: "CodeList",
+    },
+  };
 
-		expect(
-			screen.getByLabelText('Libellé de la liste de codes'),
-		).toBeInTheDocument();
-	});
+  const mockCodeList: CodeList = {
+    "@isUniversallyUnique": "true",
+    "@versionDate": "2024-01-01T00:00:00Z",
+    URN: "urn:ddi:fr.insee:codelist-1:1",
+    Agency: "fr.insee",
+    ID: "codelist-1",
+    Version: "1",
+    Label: {
+      Content: {
+        "@xml:lang": "fr-FR",
+        "#text": "Liste de codes test",
+      },
+    },
+    Code: [
+      {
+        "@isUniversallyUnique": "true",
+        URN: "urn:ddi:fr.insee:code-1:1",
+        Agency: "fr.insee",
+        ID: "code-1",
+        Version: "1",
+        CategoryReference: {
+          Agency: "fr.insee",
+          ID: "category-1",
+          Version: "1",
+          TypeOfObject: "Category",
+        },
+        Value: "1",
+      },
+    ],
+  };
 
-	it('should display initial code list label', () => {
-		render(
-			<CodeRepresentation
-				representation={mockRepresentation}
-				codeList={mockCodeList}
-				categories={mockCategories}
-				onChange={mockOnChange}
-			/>,
-		);
+  const mockCategories: Category[] = [
+    {
+      "@isUniversallyUnique": "true",
+      "@versionDate": "2024-01-01T00:00:00Z",
+      URN: "urn:ddi:fr.insee:category-1:1",
+      Agency: "fr.insee",
+      ID: "category-1",
+      Version: "1",
+      Label: {
+        Content: {
+          "@xml:lang": "fr-FR",
+          "#text": "Oui",
+        },
+      },
+    },
+  ];
 
-		const labelInput = screen.getByLabelText(
-			'Libellé de la liste de codes',
-		) as HTMLInputElement;
-		expect(labelInput.value).toBe('Liste de codes test');
-	});
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-	it('should call onChange when code list label changes', () => {
-		render(
-			<CodeRepresentation
-				representation={mockRepresentation}
-				codeList={mockCodeList}
-				categories={mockCategories}
-				onChange={mockOnChange}
-			/>,
-		);
+  describe("initialization", () => {
+    it("should render action buttons", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
 
-		const labelInput = screen.getByLabelText('Libellé de la liste de codes');
-		fireEvent.change(labelInput, { target: { value: 'Nouveau libellé' } });
+      expect(screen.getByText("Créer une nouvelle liste")).toBeInTheDocument();
+      expect(screen.getByText("Réutiliser")).toBeInTheDocument();
+    });
 
-		expect(mockOnChange).toHaveBeenCalledWith(
-			mockRepresentation,
-			expect.objectContaining({
-				Label: {
-					Content: {
-						'@xml:lang': 'fr-FR',
-						'#text': 'Nouveau libellé',
-					},
-				},
-			}),
-			mockCategories,
-		);
-	});
+    it("should show DataTable when codeList has codes", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
 
-	it('should display code action buttons', () => {
-		render(
-			<CodeRepresentation
-				representation={mockRepresentation}
-				codeList={mockCodeList}
-				categories={mockCategories}
-				onChange={mockOnChange}
-			/>,
-		);
+      expect(screen.getByTestId("data-table")).toBeInTheDocument();
+    });
 
-		expect(screen.getByText('Créer une nouvelle liste')).toBeInTheDocument();
-		expect(screen.getByText('Réutiliser')).toBeInTheDocument();
-	});
+    it("should not show DataTable when codeList is undefined", () => {
+      render(
+        <CodeRepresentation
+          representation={undefined}
+          codeList={undefined}
+          categories={[]}
+          onChange={mockOnChange}
+        />,
+      );
 
-	it('should display empty row with input fields after clicking create new list', () => {
-		render(
-			<CodeRepresentation
-				representation={mockRepresentation}
-				codeList={mockCodeList}
-				categories={mockCategories}
-				onChange={mockOnChange}
-			/>,
-		);
+      expect(screen.queryByTestId("data-table")).not.toBeInTheDocument();
+    });
 
-		// Click on "Créer une nouvelle liste" button to show DataTable
-		const createButton = screen.getByText('Créer une nouvelle liste');
-		fireEvent.click(createButton);
+    it("should initialize label from codeList", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
 
-		const inputs = screen.getAllByPlaceholderText(/Valeur|Libellé/);
-		expect(inputs.length).toBeGreaterThan(0);
-	});
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
+      expect(labelInput.value).toBe("Liste de codes test");
+    });
+  });
 
-	it('should show add button disabled when empty row has no content', () => {
-		render(
-			<CodeRepresentation
-				representation={mockRepresentation}
-				codeList={mockCodeList}
-				categories={mockCategories}
-				onChange={mockOnChange}
-			/>,
-		);
+  describe("toggle between modes", () => {
+    it("should show ReuseCodeListSelect when reuse button is clicked", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
 
-		// Click on "Créer une nouvelle liste" button to show DataTable
-		const createButton = screen.getByText('Créer une nouvelle liste');
-		fireEvent.click(createButton);
+      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
 
-		const addButtons = screen.getAllByRole('button');
-		const addButton = addButtons.find(
-			(btn) => btn.textContent === 'pi pi-plus',
-		);
+      fireEvent.click(screen.getByText("Réutiliser"));
 
-		// Le bouton devrait être désactivé au départ
-		expect(addButton).toBeDefined();
-	});
+      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
+    });
 
-	it('should handle code deletion', () => {
-		render(
-			<CodeRepresentation
-				representation={mockRepresentation}
-				codeList={mockCodeList}
-				categories={mockCategories}
-				onChange={mockOnChange}
-			/>,
-		);
+    it("should toggle ReuseCodeListSelect visibility", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
 
-		const deleteButtons = screen.getAllByRole('button');
-		const trashButton = deleteButtons.find((btn) =>
-			btn.textContent?.includes('pi pi-trash'),
-		);
+      const reuseButton = screen.getByText("Réutiliser");
 
-		if (trashButton) {
-			fireEvent.click(trashButton);
+      fireEvent.click(reuseButton);
+      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
 
-			expect(mockOnChange).toHaveBeenCalledWith(
-				mockRepresentation,
-				expect.objectContaining({
-					Code: [],
-				}),
-				[],
-			);
-		}
-	});
+      fireEvent.click(reuseButton);
+      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
+    });
 
-	it('should handle empty representation and codeList', () => {
-		render(
-			<CodeRepresentation
-				representation={undefined}
-				codeList={undefined}
-				categories={[]}
-				onChange={mockOnChange}
-			/>,
-		);
+    it("should hide ReuseCodeListSelect when create new list is clicked", () => {
+      render(
+        <CodeRepresentation
+          representation={undefined}
+          codeList={undefined}
+          categories={[]}
+          onChange={mockOnChange}
+        />,
+      );
 
-		const labelInput = screen.getByLabelText(
-			'Libellé de la liste de codes',
-		) as HTMLInputElement;
-		expect(labelInput.value).toBe('');
-	});
+      fireEvent.click(screen.getByText("Réutiliser"));
+      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
 
-	it('should update when props change', () => {
-		const { rerender } = render(
-			<CodeRepresentation
-				representation={mockRepresentation}
-				codeList={mockCodeList}
-				categories={mockCategories}
-				onChange={mockOnChange}
-			/>,
-		);
+      fireEvent.click(screen.getByText("Créer une nouvelle liste"));
+      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
+      expect(screen.getByTestId("data-table")).toBeInTheDocument();
+    });
 
-		const newCodeList: CodeList = {
-			...mockCodeList,
-			Label: {
-				Content: {
-					'@xml:lang': 'fr-FR',
-					'#text': 'Liste modifiée',
-				},
-			},
-		};
+    it("should hide DataTable when reuse button is clicked", () => {
+      render(
+        <CodeRepresentation
+          representation={undefined}
+          codeList={undefined}
+          categories={[]}
+          onChange={mockOnChange}
+        />,
+      );
 
-		rerender(
-			<CodeRepresentation
-				representation={mockRepresentation}
-				codeList={newCodeList}
-				categories={mockCategories}
-				onChange={mockOnChange}
-			/>,
-		);
+      fireEvent.click(screen.getByText("Créer une nouvelle liste"));
+      expect(screen.getByTestId("data-table")).toBeInTheDocument();
 
-		const labelInput = screen.getByLabelText(
-			'Libellé de la liste de codes',
-		) as HTMLInputElement;
-		expect(labelInput.value).toBe('Liste modifiée');
-	});
+      fireEvent.click(screen.getByText("Réutiliser"));
+      expect(screen.queryByTestId("data-table")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("onChange callbacks", () => {
+    it("should call onChange when label is updated", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+      fireEvent.change(labelInput, { target: { value: "Nouveau libellé" } });
+
+      expect(mockOnChange).toHaveBeenCalledWith(
+        mockRepresentation,
+        expect.objectContaining({
+          Label: {
+            Content: {
+              "@xml:lang": "fr-FR",
+              "#text": "Nouveau libellé",
+            },
+          },
+        }),
+        mockCategories,
+      );
+    });
+
+    it("should call onChange when a code is deleted", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      const trashButton = screen.getByText("pi pi-trash");
+      fireEvent.click(trashButton);
+
+      expect(mockOnChange).toHaveBeenCalledWith(
+        mockRepresentation,
+        expect.objectContaining({
+          Code: [],
+        }),
+        [],
+      );
+    });
+  });
+
+  describe("props update", () => {
+    it("should update state when a different codeList is loaded", () => {
+      const { rerender } = render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      const newCodeList: CodeList = {
+        ...mockCodeList,
+        ID: "codelist-2",
+        Label: {
+          Content: {
+            "@xml:lang": "fr-FR",
+            "#text": "Liste modifiée",
+          },
+        },
+      };
+
+      rerender(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={newCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
+      expect(labelInput.value).toBe("Liste modifiée");
+    });
+  });
 });

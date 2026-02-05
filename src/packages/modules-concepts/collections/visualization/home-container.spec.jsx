@@ -1,191 +1,149 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { vi } from 'vitest';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, screen, waitFor } from "@testing-library/react";
+import { vi } from "vitest";
+import { useParams } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { ConceptsApi } from '@sdk/index';
-import { CollectionApi } from '@sdk/new-collection-api';
+import { ConceptsApi } from "@sdk/index";
+import { CollectionApi } from "@sdk/new-collection-api";
 
-import { useSecondLang } from '@utils/hooks/second-lang';
-import { Component } from './home-container';
+import { useSecondLang } from "@utils/hooks/second-lang";
+import { Component } from "./home-container";
 
-vi.mock('react-router-dom', () => ({
-	useParams: vi.fn(),
+vi.mock("react-router-dom", () => ({
+  useParams: vi.fn(),
 }));
 
-vi.mock('react-redux', () => ({
-	useSelector: vi.fn(),
+vi.mock("@sdk/index", () => ({
+  ConceptsApi: {
+    getCollectionMembersList: vi.fn(),
+    putCollectionValidList: vi.fn(),
+  },
 }));
 
-vi.mock('@sdk/index', () => ({
-	ConceptsApi: {
-		getCollectionMembersList: vi.fn(),
-		putCollectionValidList: vi.fn(),
-	},
+vi.mock("@sdk/new-collection-api", () => ({
+  CollectionApi: {
+    getCollectionById: vi.fn(),
+  },
 }));
 
-vi.mock('@sdk/new-collection-api', () => ({
-	CollectionApi: {
-		getCollectionById: vi.fn(),
-	},
+vi.mock("@utils/hooks/second-lang", () => ({
+  useSecondLang: vi.fn(),
 }));
 
-vi.mock('@utils/hooks/second-lang', () => ({
-	useSecondLang: vi.fn(),
+vi.mock("@components/loading", () => ({
+  Loading: () => <div data-testid="collection-loading">Loading...</div>,
+  Publishing: () => <div data-testid="collection-publishing">Publishing...</div>,
 }));
 
-vi.mock('../../../redux/selectors', () => ({
-	getPermission: vi.fn(),
+vi.mock("./home", () => ({
+  default: () => <div data-testid="collection-visualization">Visualization</div>,
 }));
 
-vi.mock('@components/loading', () => ({
-	Loading: () => <div data-testid="collection-loading">Loading...</div>,
-	Publishing: () => <div data-testid="collection-publishing">Publishing...</div>,
-}));
+describe("Visualization Container Component", () => {
+  let queryClient;
 
-vi.mock('./home', () => ({
-	default: () => <div data-testid="collection-visualization">Visualization</div>,
-}));
+  const renderWithQueryClient = (component) => {
+    return render(<QueryClientProvider client={queryClient}>{component}</QueryClientProvider>);
+  };
 
-describe('Visualization Container Component', () => {
-	let queryClient;
+  beforeEach(() => {
+    queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+        },
+      },
+    });
+    vi.clearAllMocks();
+    useParams.mockReturnValue({ id: "123" });
+    useSecondLang.mockReturnValue(["en", vi.fn()]);
+  });
 
-	const renderWithQueryClient = (component) => {
-		return render(
-			<QueryClientProvider client={queryClient}>
-				{component}
-			</QueryClientProvider>
-		);
-	};
+  it("renders Loading component while loading collection data", () => {
+    CollectionApi.getCollectionById.mockReturnValue(new Promise(() => {}));
+    ConceptsApi.getCollectionMembersList.mockReturnValue(new Promise(() => {}));
 
-	beforeEach(() => {
-		queryClient = new QueryClient({
-			defaultOptions: {
-				queries: {
-					retry: false,
-				},
-			},
-		});
-		vi.clearAllMocks();
-		useParams.mockReturnValue({ id: '123' });
-		useSelector.mockReturnValue({
-			roles: ['ADMIN'],
-			stamp: 'DG75-L201',
-		});
-		useSecondLang.mockReturnValue(['en', vi.fn()]);
-	});
+    renderWithQueryClient(<Component />);
 
-	it('renders Loading component while loading collection data', () => {
-		CollectionApi.getCollectionById.mockReturnValue(
-			new Promise(() => {}),
-		);
-		ConceptsApi.getCollectionMembersList.mockReturnValue(
-			new Promise(() => {}),
-		);
+    expect(screen.getByTestId("collection-loading")).toBeInTheDocument();
+  });
 
-		renderWithQueryClient(<Component />);
+  it("renders CollectionVisualization component after loading", async () => {
+    const mockCollection = {
+      id: "123",
+      prefLabelLg1: "Test Collection",
+    };
+    const mockMembers = [{ id: "c1", label: "Concept 1" }];
 
-		expect(screen.getByTestId('collection-loading')).toBeInTheDocument();
-	});
+    CollectionApi.getCollectionById.mockResolvedValue(mockCollection);
+    ConceptsApi.getCollectionMembersList.mockResolvedValue(mockMembers);
 
-	it('renders CollectionVisualization component after loading', async () => {
-		const mockCollection = {
-			id: '123',
-			prefLabelLg1: 'Test Collection',
-		};
-		const mockMembers = [{ id: 'c1', label: 'Concept 1' }];
+    renderWithQueryClient(<Component />);
 
-		CollectionApi.getCollectionById.mockResolvedValue(
-			mockCollection,
-		);
-		ConceptsApi.getCollectionMembersList.mockResolvedValue(
-			mockMembers,
-		);
+    await waitFor(() => {
+      expect(screen.getByTestId("collection-visualization")).toBeInTheDocument();
+    });
+  });
 
-		renderWithQueryClient(<Component />);
+  it("renders Publishing component when validating collection", async () => {
+    const mockCollection = {
+      id: "123",
+      prefLabelLg1: "Test Collection",
+    };
 
-		await waitFor(() => {
-			expect(screen.getByTestId('collection-visualization')).toBeInTheDocument();
-		});
-	});
+    CollectionApi.getCollectionById.mockResolvedValue(mockCollection);
+    ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
+    ConceptsApi.putCollectionValidList.mockReturnValue(new Promise(() => {}));
 
-	it('renders Publishing component when validating collection', async () => {
-		const mockCollection = {
-			id: '123',
-			prefLabelLg1: 'Test Collection',
-		};
+    const { rerender } = renderWithQueryClient(<Component />);
 
-		CollectionApi.getCollectionById.mockResolvedValue(
-			mockCollection,
-		);
-		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
-		ConceptsApi.putCollectionValidList.mockReturnValue(
-			new Promise(() => {}),
-		);
+    await waitFor(() => {
+      expect(screen.getByTestId("collection-visualization")).toBeInTheDocument();
+    });
 
-		const { rerender } = renderWithQueryClient(<Component />);
+    // Verify the component structure is correct
+    expect(screen.queryByTestId("collection-publishing")).not.toBeInTheDocument();
 
-		await waitFor(() => {
-			expect(screen.getByTestId('collection-visualization')).toBeInTheDocument();
-		});
+    rerender(
+      <QueryClientProvider client={queryClient}>
+        <Component />
+      </QueryClientProvider>,
+    );
+  });
 
-		// Verify the component structure is correct
-		expect(screen.queryByTestId('collection-publishing')).not.toBeInTheDocument();
+  it("calls useParams to get collection id", () => {
+    CollectionApi.getCollectionById.mockResolvedValue({});
+    ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
 
-		rerender(
-			<QueryClientProvider client={queryClient}>
-				<Component />
-			</QueryClientProvider>
-		);
-	});
+    renderWithQueryClient(<Component />);
 
-	it('calls useParams to get collection id', () => {
-		CollectionApi.getCollectionById.mockResolvedValue({});
-		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
+    expect(useParams).toHaveBeenCalled();
+  });
 
-		renderWithQueryClient(<Component />);
+  it("calls useSecondLang hook", () => {
+    CollectionApi.getCollectionById.mockResolvedValue({});
+    ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
 
-		expect(useParams).toHaveBeenCalled();
-	});
+    renderWithQueryClient(<Component />);
 
-	it('calls useSelector to get permissions', () => {
-		CollectionApi.getCollectionById.mockResolvedValue({});
-		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
+    expect(useSecondLang).toHaveBeenCalled();
+  });
 
-		renderWithQueryClient(<Component />);
+  it("fetches collection and members data on mount", async () => {
+    const mockCollection = {
+      id: "123",
+      prefLabelLg1: "Test Collection",
+    };
+    const mockMembers = [{ id: "c1", label: "Concept 1" }];
 
-		expect(useSelector).toHaveBeenCalled();
-	});
+    CollectionApi.getCollectionById.mockResolvedValue(mockCollection);
+    ConceptsApi.getCollectionMembersList.mockResolvedValue(mockMembers);
 
-	it('calls useSecondLang hook', () => {
-		CollectionApi.getCollectionById.mockResolvedValue({});
-		ConceptsApi.getCollectionMembersList.mockResolvedValue([]);
+    renderWithQueryClient(<Component />);
 
-		renderWithQueryClient(<Component />);
-
-		expect(useSecondLang).toHaveBeenCalled();
-	});
-
-	it('fetches collection and members data on mount', async () => {
-		const mockCollection = {
-			id: '123',
-			prefLabelLg1: 'Test Collection',
-		};
-		const mockMembers = [{ id: 'c1', label: 'Concept 1' }];
-
-		CollectionApi.getCollectionById.mockResolvedValue(
-			mockCollection,
-		);
-		ConceptsApi.getCollectionMembersList.mockResolvedValue(
-			mockMembers,
-		);
-
-		renderWithQueryClient(<Component />);
-
-		await waitFor(() => {
-			expect(CollectionApi.getCollectionById).toHaveBeenCalledWith('123');
-			expect(ConceptsApi.getCollectionMembersList).toHaveBeenCalledWith('123');
-		});
-	});
+    await waitFor(() => {
+      expect(CollectionApi.getCollectionById).toHaveBeenCalledWith("123");
+      expect(ConceptsApi.getCollectionMembersList).toHaveBeenCalledWith("123");
+    });
+  });
 });

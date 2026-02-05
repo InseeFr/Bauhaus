@@ -1,15 +1,14 @@
 .physical-instance-update-dialog {
-	width: 20vw;
-	
+  width: 20vw;
 
-	.create-button {
-		background-color: var(--color-3);
-		border-color: var(--color-3);
-		color: white ;
+  .create-button {
+    background-color: var(--color-3);
+    border-color: var(--color-3);
+    color: white;
 
-		&:hover {
-			background-color: var(--color-2) ;
-			border-color: var(--color-2) ;
-		}
-	}
+    &:hover {
+      background-color: var(--color-2);
+      border-color: var(--color-2);
+    }
+  }
 }

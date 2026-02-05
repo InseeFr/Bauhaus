@@ -1,36 +1,36 @@
-@use '../../../../styles/tools.scss';
+@use "../../../../styles/tools.scss";
 
 .documentsbloc {
-	i {
-		margin-left: 10px;
-	}
+  i {
+    margin-left: 10px;
+  }
 
-	&__btn {
-		@include tools.reset-btn();
-	}
-	&__delete {
-		float: right;
-	}
-	&__filepicker {
-		padding-left: 0;
-	}
+  &__btn {
+    @include tools.reset-btn();
+  }
+  &__delete {
+    float: right;
+  }
+  &__filepicker {
+    padding-left: 0;
+  }
 }
 
 .documentbloc__item {
-	display: flex;
+  display: flex;
 
-	span {
-		flex: 2 1 auto;
-	}
+  span {
+    flex: 2 1 auto;
+  }
 }
 
 .documentblock__picker {
-	.panel-heading {
-		display: flex;
-		justify-content: space-between;
+  .panel-heading {
+    display: flex;
+    justify-content: space-between;
 
-		.btn {
-			background-color: transparent;
-		}
-	}
+    .btn {
+      background-color: transparent;
+    }
+  }
 }

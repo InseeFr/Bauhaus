@@ -1,16 +1,13 @@
-import { Rubric } from '../../../../model/Sims';
+import { Rubric } from "../../../../model/Sims";
 
 interface SimsBlockTextTypes {
-	currentSection: Rubric;
-	isSecondLang: boolean;
+  currentSection: Rubric;
+  isSecondLang: boolean;
 }
 
-const SimsBlockText = ({
-	currentSection,
-	isSecondLang,
-}: Readonly<SimsBlockTextTypes>) => {
-	const content = currentSection[isSecondLang ? 'labelLg2' : 'labelLg1'];
-	return content || '';
+const SimsBlockText = ({ currentSection, isSecondLang }: Readonly<SimsBlockTextTypes>) => {
+  const content = currentSection[isSecondLang ? "labelLg2" : "labelLg1"];
+  return content || "";
 };
 
 export default SimsBlockText;

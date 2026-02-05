@@ -1,56 +1,55 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import { Family } from '../../../model/operations/family';
-import { RBACMock } from '../../../tests/rbac';
-import { mockReactQueryForRbac } from '../../../tests/render';
+import { Family } from "../../../model/operations/family";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
-describe('Family Home Page Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
-	it('an admin can update and publish a family', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_FAMILY',
-				privileges: [
-					{ privilege: 'UPDATE', strategy: 'ALL' },
-					{ privilege: 'PUBLISH', strategy: 'ALL' },
-				],
-			},
-		]);
+describe("Family Home Page Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
+  it("an admin can update and publish a family", async () => {
+    mockReactQueryForRbac([
+      {
+        application: "OPERATION_FAMILY",
+        privileges: [
+          { privilege: "UPDATE", strategy: "ALL" },
+          { privilege: "PUBLISH", strategy: "ALL" },
+        ],
+      },
+    ]);
 
-		const { Menu } = await import('./menu');
+    const { Menu } = await import("./menu");
 
-		render(
-			<RBACMock>
-				<Menu family={{} as Family} publish={vi.fn()} />
-			</RBACMock>,
-		);
+    render(
+      <WithRouter>
+        <Menu family={{} as Family} publish={vi.fn()} />
+      </WithRouter>,
+    );
 
-		screen.getByText('Update');
-		screen.getByText('Publish');
-		screen.getByText('Back');
-	});
+    screen.getByText("Update");
+    screen.getByText("Publish");
+    screen.getByText("Back");
+  });
 
-	it('a user without Admin cannot create or publish a family', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_FAMILY',
-				privileges: [],
-			},
-		]);
+  it("a user without Admin cannot create or publish a family", async () => {
+    mockReactQueryForRbac([
+      {
+        application: "OPERATION_FAMILY",
+        privileges: [],
+      },
+    ]);
 
-		const { Menu } = await import('./menu');
+    const { Menu } = await import("./menu");
 
-		render(
-			<RBACMock>
-				<Menu family={{} as Family} publish={vi.fn()} />
-			</RBACMock>,
-		);
+    render(
+      <WithRouter>
+        <Menu family={{} as Family} publish={vi.fn()} />
+      </WithRouter>,
+    );
 
-		expect(screen.queryByText('Update')).toBeNull();
-		expect(screen.queryByText('Publish')).toBeNull();
-		screen.getByText('Back');
-	});
+    expect(screen.queryByText("Update")).toBeNull();
+    expect(screen.queryByText("Publish")).toBeNull();
+    screen.getByText("Back");
+  });
 });

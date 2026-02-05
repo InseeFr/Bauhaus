@@ -1,49 +1,50 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from '../tests/rbac';
-import { mockReactQueryForRbac } from '../tests/render';
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe('Concepts Home Page Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
+import { mockReactQueryForRbac, WithRouter } from "../tests/render";
 
-	it('an admin can create a new concept', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'CONCEPT_CONCEPT',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
+describe("Concepts Home Page Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
 
-		const { Menu } = await import('./menu');
+  it("an admin can create a new concept", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.CONCEPT_CONCEPT,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+      },
+    ]);
 
-		render(
-			<RBACMock>
-				<Menu />
-			</RBACMock>,
-		);
+    const { Menu } = await import("./menu");
 
-		screen.getByText('New');
-	});
+    render(
+      <WithRouter>
+        <Menu />
+      </WithRouter>,
+    );
 
-	it('a user without Admin role cannot create a concept', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'CONCEPT_CONCEPT',
-				privileges: [],
-			},
-		]);
+    screen.getByText("New");
+  });
 
-		const { Menu } = await import('./menu');
+  it("a user without Admin role cannot create a concept", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.CONCEPT_CONCEPT,
+        privileges: [],
+      },
+    ]);
 
-		render(
-			<RBACMock>
-				<Menu />
-			</RBACMock>,
-		);
+    const { Menu } = await import("./menu");
 
-		expect(screen.queryByText('New')).toBeNull();
-	});
+    render(
+      <WithRouter>
+        <Menu />
+      </WithRouter>,
+    );
+
+    expect(screen.queryByText("New")).toBeNull();
+  });
 });

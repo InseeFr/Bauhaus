@@ -1,49 +1,50 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from '../../../tests/rbac';
-import { mockReactQueryForRbac } from '../../../tests/render';
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe('Distributions Home Page Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
-	it('an admin can create a new dataset if he does not have the Gestionnaire_jeu_donnees_RMESGNCS role', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'DATASET_DATASET',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
+describe("Datasets Home Page Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
 
-		const { HomePageMenu } = await import('./menu');
+  it("an admin can create a new dataset if he does not have the Gestionnaire_jeu_donnees_RMESGNCS role", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.DATASET_DATASET,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+      },
+    ]);
 
-		render(
-			<RBACMock>
-				<HomePageMenu />
-			</RBACMock>,
-		);
+    const { HomePageMenu } = await import("./menu");
 
-		screen.getByText('New');
-	});
+    render(
+      <WithRouter>
+        <HomePageMenu />
+      </WithRouter>,
+    );
 
-	it('a user without Admin or  Gestionnaire_jeu_donnees_RMESGNCS role cannot create a dataset', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'DATASET_DATASET',
-				privileges: [{ privilege: 'CREATE', strategy: 'NONE' }],
-			},
-		]);
+    screen.getByText("New");
+  });
 
-		const { HomePageMenu } = await import('./menu');
+  it("a user without Admin or  Gestionnaire_jeu_donnees_RMESGNCS role cannot create a dataset", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.DATASET_DATASET,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.NONE }],
+      },
+    ]);
 
-		render(
-			<RBACMock>
-				<HomePageMenu />
-			</RBACMock>,
-		);
+    const { HomePageMenu } = await import("./menu");
 
-		expect(screen.queryByText('New')).toBeNull();
-	});
+    render(
+      <WithRouter>
+        <HomePageMenu />
+      </WithRouter>,
+    );
+
+    expect(screen.queryByText("New")).toBeNull();
+  });
 });

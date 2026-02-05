@@ -1,4 +1,4 @@
-import { SeeAlso } from '../../../model/Operation';
+import { SeeAlso } from "../../../model/Operation";
 
 /**
  *
@@ -6,10 +6,10 @@ import { SeeAlso } from '../../../model/Operation';
  * @returns an object corresponding to the array grouped by type of seeAlso
  */
 export function getSeeAlsoByType(seeAlso: SeeAlso[] = []) {
-	return seeAlso.reduce((acc: Record<string, SeeAlso[]>, link: SeeAlso) => {
-		return {
-			...acc,
-			[link.type]: [...(acc[link.type] || []), link],
-		};
-	}, {});
+  return seeAlso.reduce((acc: Record<string, SeeAlso[]>, link: SeeAlso) => {
+    return {
+      ...acc,
+      [link.type]: [...(acc[link.type] || []), link],
+    };
+  }, {});
 }

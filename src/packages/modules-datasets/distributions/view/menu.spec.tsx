@@ -1,186 +1,196 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import { Dataset, Distribution } from '../../../model/Dataset';
-import { UNPUBLISHED, VALIDATED } from '../../../model/ValidationState';
-import { RBACMock } from '../../../tests/rbac';
-import { mockReactQueryForRbac } from '../../../tests/render';
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe('Distribution View Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
+import { Dataset, Distribution } from "../../../model/Dataset";
+import { UNPUBLISHED, VALIDATED } from "../../../model/ValidationState";
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
-	it('a user can only see the go back button', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'DATASET_DISTRIBUTION',
-				privileges: [],
-			},
-		]);
+describe("Distribution View Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
 
-		const { ViewMenu } = await import('./menu');
+  it("a user can only see the go back button", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.DATASET_DISTRIBUTION,
+        privileges: [],
+      },
+    ]);
 
-		const dataset = {} as Dataset;
-		const distribution = {} as Distribution;
-		render(
-			<RBACMock>
-				<ViewMenu
-					dataset={dataset}
-					distribution={distribution}
-					onPublish={vi.fn()}
-					onDelete={vi.fn()}
-				></ViewMenu>
-			</RBACMock>,
-		);
+    const { ViewMenu } = await import("./menu");
 
-		screen.getByText('Back');
-		expect(screen.queryByText('Publish')).toBeNull();
-		expect(screen.queryByText('Delete')).toBeNull();
-		expect(screen.queryByText('Update')).toBeNull();
-	});
+    const dataset = {} as Dataset;
+    const distribution = {} as Distribution;
+    render(
+      <WithRouter>
+        <ViewMenu
+          dataset={dataset}
+          distribution={distribution}
+          onPublish={vi.fn()}
+          onDelete={vi.fn()}
+        ></ViewMenu>
+      </WithRouter>,
+    );
 
-	it('an admin can goBack, publish, delete and update a distribution even if the stamp is not correct', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'DATASET_DISTRIBUTION',
-				privileges: [
-					{ privilege: 'UPDATE', strategy: 'ALL' },
-					{ privilege: 'PUBLISH', strategy: 'ALL' },
-					{ privilege: 'DELETE', strategy: 'ALL' },
-				],
-			},
-		]);
+    screen.getByText("Back");
+    expect(screen.queryByText("Publish")).toBeNull();
+    expect(screen.queryByText("Delete")).toBeNull();
+    expect(screen.queryByText("Update")).toBeNull();
+  });
 
-		const { ViewMenu } = await import('./menu');
-		const dataset = {} as Dataset;
-		const distribution = {} as Distribution;
+  it("an admin can goBack, publish, delete and update a distribution even if the stamp is not correct", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.DATASET_DISTRIBUTION,
+        privileges: [
+          { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL },
+        ],
+      },
+    ]);
 
-		render(
-			<RBACMock>
-				<ViewMenu
-					dataset={dataset}
-					distribution={distribution}
-					onPublish={vi.fn()}
-					onDelete={vi.fn()}
-				></ViewMenu>
-			</RBACMock>,
-		);
+    const { ViewMenu } = await import("./menu");
+    const dataset = {} as Dataset;
+    const distribution = {} as Distribution;
 
-		screen.getByText('Back');
-		screen.getByText('Publish');
-		screen.getByText('Delete');
-		screen.getByText('Update');
-	});
+    render(
+      <WithRouter>
+        <ViewMenu
+          dataset={dataset}
+          distribution={distribution}
+          onPublish={vi.fn()}
+          onDelete={vi.fn()}
+        ></ViewMenu>
+      </WithRouter>,
+    );
 
-	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish, delete and update a distribution if the stamp is correct and validationState is unpublished', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'DATASET_DISTRIBUTION',
-				privileges: [
-					{ privilege: 'UPDATE', strategy: 'ALL' },
-					{ privilege: 'PUBLISH', strategy: 'ALL' },
-					{ privilege: 'DELETE', strategy: 'ALL' },
-				],
-			},
-		]);
+    screen.getByText("Back");
+    screen.getByText("Publish");
+    screen.getByText("Delete");
+    screen.getByText("Update");
+  });
 
-		const { ViewMenu } = await import('./menu');
+  it("an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish, delete and update a distribution if the stamp is correct and validationState is unpublished", async () => {
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.DATASET_DISTRIBUTION,
+          privileges: [
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
-		const dataset = {
-			validationState: UNPUBLISHED,
-			catalogRecord: { contributor: ['INSEE'] },
-		} as unknown as Dataset;
-		const distribution = {} as Distribution;
+    const { ViewMenu } = await import("./menu");
 
-		render(
-			<RBACMock stamp="INSEE">
-				<ViewMenu
-					dataset={dataset}
-					distribution={distribution}
-					onPublish={vi.fn()}
-					onDelete={vi.fn()}
-				></ViewMenu>
-			</RBACMock>,
-		);
+    const dataset = {
+      validationState: UNPUBLISHED,
+      catalogRecord: { contributor: ["INSEE"] },
+    } as unknown as Dataset;
+    const distribution = {} as Distribution;
 
-		screen.getByText('Back');
-		screen.getByText('Publish');
-		screen.getByText('Delete');
-		screen.getByText('Update');
-	});
+    render(
+      <WithRouter>
+        <ViewMenu
+          dataset={dataset}
+          distribution={distribution}
+          onPublish={vi.fn()}
+          onDelete={vi.fn()}
+        ></ViewMenu>
+      </WithRouter>,
+    );
 
-	it('an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish and update a distribution if the stamp is correct and validationState is published', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'DATASET_DISTRIBUTION',
-				privileges: [
-					{ privilege: 'UPDATE', strategy: 'ALL' },
-					{ privilege: 'PUBLISH', strategy: 'ALL' },
-					{ privilege: 'DELETE', strategy: 'STAMP' },
-				],
-			},
-		]);
+    screen.getByText("Back");
+    screen.getByText("Publish");
+    screen.getByText("Delete");
+    screen.getByText("Update");
+  });
 
-		const { ViewMenu } = await import('./menu');
+  it("an Gestionnaire_jeu_donnees_RMESGNCS can goBack, publish and update a distribution if the stamp is correct and validationState is published", async () => {
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.DATASET_DISTRIBUTION,
+          privileges: [
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.STAMP },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
-		const dataset = {
-			validationState: VALIDATED,
-			catalogRecord: { contributor: ['INSEE'] },
-		} as unknown as Dataset;
-		const distribution = {} as Distribution;
+    const { ViewMenu } = await import("./menu");
 
-		render(
-			<RBACMock stamp="INSEE">
-				<ViewMenu
-					dataset={dataset}
-					distribution={distribution}
-					onPublish={vi.fn()}
-					onDelete={vi.fn()}
-				></ViewMenu>
-			</RBACMock>,
-		);
+    const dataset = {
+      validationState: VALIDATED,
+      catalogRecord: { contributor: ["INSEE"] },
+    } as unknown as Dataset;
+    const distribution = {} as Distribution;
 
-		screen.getByText('Back');
-		screen.getByText('Publish');
-		expect(screen.queryByText('Delete')).toBeNull();
-		screen.getByText('Update');
-	});
+    render(
+      <WithRouter>
+        <ViewMenu
+          dataset={dataset}
+          distribution={distribution}
+          onPublish={vi.fn()}
+          onDelete={vi.fn()}
+        ></ViewMenu>
+      </WithRouter>,
+    );
 
-	it('an Gestionnaire_jeu_donnees_RMESGNCS can only goBack if the stamp not is correct', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'DATASET_DISTRIBUTION',
-				privileges: [
-					{ privilege: 'UPDATE', strategy: 'STAMP' },
-					{ privilege: 'PUBLISH', strategy: 'STAMP' },
-					{ privilege: 'DELETE', strategy: 'STAMP' },
-				],
-			},
-		]);
+    screen.getByText("Back");
+    screen.getByText("Publish");
+    expect(screen.queryByText("Delete")).toBeNull();
+    screen.getByText("Update");
+  });
 
-		const { ViewMenu } = await import('./menu');
+  it("an Gestionnaire_jeu_donnees_RMESGNCS can only goBack if the stamp not is correct", async () => {
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.DATASET_DISTRIBUTION,
+          privileges: [
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.STAMP },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
-		const dataset = {
-			validationState: 'Published',
-			catalogRecord: { contributor: ['XXXXXX'] },
-		} as unknown as Dataset;
-		const distribution = {} as Distribution;
+    const { ViewMenu } = await import("./menu");
 
-		render(
-			<RBACMock stamp="INSEE">
-				<ViewMenu
-					dataset={dataset}
-					distribution={distribution}
-					onPublish={vi.fn()}
-					onDelete={vi.fn()}
-				></ViewMenu>
-			</RBACMock>,
-		);
+    const dataset = {
+      validationState: "Published",
+      catalogRecord: { contributor: ["XXXXXX"] },
+    } as unknown as Dataset;
+    const distribution = {} as Distribution;
 
-		screen.getByText('Back');
-		expect(screen.queryByText('Publish')).toBeNull();
-		expect(screen.queryByText('Delete')).toBeNull();
-		expect(screen.queryByText('Update')).toBeNull();
-	});
+    render(
+      <WithRouter>
+        <ViewMenu
+          dataset={dataset}
+          distribution={distribution}
+          onPublish={vi.fn()}
+          onDelete={vi.fn()}
+        ></ViewMenu>
+      </WithRouter>,
+    );
+
+    screen.getByText("Back");
+    expect(screen.queryByText("Publish")).toBeNull();
+    expect(screen.queryByText("Delete")).toBeNull();
+    expect(screen.queryByText("Update")).toBeNull();
+  });
 });

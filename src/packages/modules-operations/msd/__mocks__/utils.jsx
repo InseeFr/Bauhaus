@@ -1,5 +1,5 @@
 export function isOpen(id) {
-	return id === '1';
+  return id === "1";
 }
 
 export function toggleOpen() {}

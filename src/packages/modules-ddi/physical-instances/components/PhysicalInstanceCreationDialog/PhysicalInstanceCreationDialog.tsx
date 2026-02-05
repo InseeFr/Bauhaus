@@ -1,74 +1,77 @@
-import { FormEvent, useRef } from 'react';
-import { Dialog } from 'primereact/dialog';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import { useTranslation } from 'react-i18next';
-import './PhysicalInstanceCreationDialog.css';
+import { FormEvent, useRef, useState } from "react";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import { useTranslation } from "react-i18next";
+import "./PhysicalInstanceCreationDialog.css";
 
 interface PhysicalInstanceCreationDialogProps {
-	visible: boolean;
-	onHide: () => void;
-	onSubmit: (data: { label: string; name: string }) => void;
+  visible: boolean;
+  onHide: () => void;
+  onSubmit: (data: { label: string; name: string }) => Promise<void>;
 }
 
 export const PhysicalInstanceCreationDialog = ({
-	visible,
-	onHide,
-	onSubmit,
+  visible,
+  onHide,
+  onSubmit,
 }: PhysicalInstanceCreationDialogProps) => {
-	const { t } = useTranslation();
-	const formRef = useRef<HTMLFormElement>(null);
+  const { t } = useTranslation();
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		const data = {
-			label: formData.get('label') as string,
-			name: formData.get('name') as string,
-		};
-		onSubmit(data);
-		formRef.current?.reset();
-	};
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      label: formData.get("label") as string,
+      name: ("DataRelationShip Name:" + formData.get("label")) as string,
+    };
 
-	const handleHide = () => {
-		formRef.current?.reset();
-		onHide();
-	};
+    setIsSubmitting(true);
+    try {
+      await onSubmit(data);
+      formRef.current?.reset();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-	return (
-		<Dialog
-			header={t('physicalInstance.creation.title')}
-			visible={visible}
-			onHide={handleHide}
-			className="ddi physical-instance-creation-dialog"
-		>
-			<form
-				ref={formRef}
-				onSubmit={handleSubmit}
-				className="flex flex-column gap-2"
-			>
-				<div className="flex flex-column gap-2">
-					<label htmlFor="label">{t('physicalInstance.creation.label')}</label>
-					<InputText id="label" name="label" />
-				</div>
-				<div className="flex flex-column gap-2">
-					<label htmlFor="name">{t('physicalInstance.creation.name')}</label>
-					<InputText id="name" name="name" />
-				</div>
-				<div className="dialog-footer">
-					<Button
-						label={t('physicalInstance.creation.cancel')}
-						type="button"
-						outlined
-						onClick={handleHide}
-					/>
-					<Button
-						label={t('physicalInstance.creation.create')}
-						type="submit"
-						className="create-button"
-					/>
-				</div>
-			</form>
-		</Dialog>
-	);
+  const handleHide = () => {
+    if (isSubmitting) return;
+    formRef.current?.reset();
+    onHide();
+  };
+
+  return (
+    <Dialog
+      header={t("physicalInstance.creation.title")}
+      visible={visible}
+      onHide={handleHide}
+      className="ddi physical-instance-creation-dialog"
+    >
+      <form ref={formRef} onSubmit={handleSubmit} className="flex flex-column gap-2">
+        <div className="flex flex-column gap-2">
+          <label htmlFor="label">{t("physicalInstance.creation.label")}</label>
+          <InputText id="label" name="label" />
+        </div>
+        <div className="dialog-footer">
+          <Button
+            label={t("physicalInstance.creation.cancel")}
+            type="button"
+            outlined
+            onClick={handleHide}
+            disabled={isSubmitting}
+          />
+          <Button
+            label={t("physicalInstance.creation.create")}
+            type="submit"
+            className="create-button"
+            disabled={isSubmitting}
+            loading={isSubmitting}
+          />
+        </div>
+      </form>
+    </Dialog>
+  );
 };

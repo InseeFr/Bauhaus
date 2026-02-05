@@ -1,103 +1,104 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from '../../tests/rbac';
-import { mockReactQueryForRbac } from '../../tests/render';
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe('Structures Home Page Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
+import { mockReactQueryForRbac, WithRouter } from "../../tests/render";
 
-	it('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'STRUCTURE_STRUCTURE',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
+describe("Structures Home Page Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
 
-		const { HomePageMenu } = await import('./menu');
+  it("an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.STRUCTURE_STRUCTURE,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+      },
+    ]);
 
-		render(
-			<RBACMock>
-				<HomePageMenu />
-			</RBACMock>,
-		);
+    const { HomePageMenu } = await import("./menu");
 
-		screen.getByText('New');
-	});
+    render(
+      <WithRouter>
+        <HomePageMenu />
+      </WithRouter>,
+    );
 
-	it('a user without Admin or  Gestionnaire_structures_RMESGNCS role cannot create a structure', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'STRUCTURE_STRUCTURE',
-				privileges: [],
-			},
-		]);
+    screen.getByText("New");
+  });
 
-		const { HomePageMenu } = await import('./menu');
+  it("a user without Admin or  Gestionnaire_structures_RMESGNCS role cannot create a structure", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.STRUCTURE_STRUCTURE,
+        privileges: [],
+      },
+    ]);
 
-		render(
-			<RBACMock>
-				<HomePageMenu />
-			</RBACMock>,
-		);
+    const { HomePageMenu } = await import("./menu");
 
-		expect(screen.queryByText('New')).toBeNull();
-	});
+    render(
+      <WithRouter>
+        <HomePageMenu />
+      </WithRouter>,
+    );
 
-	it('should not return import button if isLocal is falsy', async () => {
-		mockReactQueryForRbac([]);
+    expect(screen.queryByText("New")).toBeNull();
+  });
 
-		const { DumbHomePageMenu } = await import('./menu');
-		render(
-			<RBACMock>
-				<DumbHomePageMenu isLocal={false} />
-			</RBACMock>,
-		);
+  it("should not return import button if isLocal is falsy", async () => {
+    mockReactQueryForRbac([]);
 
-		expect(screen.queryByText('Import')).toBeNull();
-	});
+    const { DumbHomePageMenu } = await import("./menu");
+    render(
+      <WithRouter>
+        <DumbHomePageMenu isLocal={false} />
+      </WithRouter>,
+    );
 
-	it('should add import button if isLocal is true', async () => {
-		mockReactQueryForRbac([]);
+    expect(screen.queryByText("Import")).toBeNull();
+  });
 
-		const { DumbHomePageMenu } = await import('./menu');
+  it("should add import button if isLocal is true", async () => {
+    mockReactQueryForRbac([]);
 
-		render(
-			<RBACMock>
-				<DumbHomePageMenu isLocal={true} />
-			</RBACMock>,
-		);
+    const { DumbHomePageMenu } = await import("./menu");
 
-		screen.getByText('Import');
-	});
+    render(
+      <WithRouter>
+        <DumbHomePageMenu isLocal={true} />
+      </WithRouter>,
+    );
 
-	it('should not return export button if isLocal is falsy', async () => {
-		mockReactQueryForRbac([]);
+    screen.getByText("Import");
+  });
 
-		const { DumbHomePageMenu } = await import('./menu');
+  it("should not return export button if isLocal is falsy", async () => {
+    mockReactQueryForRbac([]);
 
-		render(
-			<RBACMock>
-				<DumbHomePageMenu isLocal={false} />
-			</RBACMock>,
-		);
+    const { DumbHomePageMenu } = await import("./menu");
 
-		expect(screen.queryByText('Export')).toBeNull();
-	});
+    render(
+      <WithRouter>
+        <DumbHomePageMenu isLocal={false} />
+      </WithRouter>,
+    );
 
-	it('should add export button if isLocal is true', async () => {
-		mockReactQueryForRbac([]);
+    expect(screen.queryByText("Export")).toBeNull();
+  });
 
-		const { DumbHomePageMenu } = await import('./menu');
-		render(
-			<RBACMock>
-				<DumbHomePageMenu isLocal={true} />
-			</RBACMock>,
-		);
+  it("should add export button if isLocal is true", async () => {
+    mockReactQueryForRbac([]);
 
-		screen.getByText('Export');
-	});
+    const { DumbHomePageMenu } = await import("./menu");
+    render(
+      <WithRouter>
+        <DumbHomePageMenu isLocal={true} />
+      </WithRouter>,
+    );
+
+    screen.getByText("Export");
+  });
 });

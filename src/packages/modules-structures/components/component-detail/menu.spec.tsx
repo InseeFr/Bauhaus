@@ -1,114 +1,117 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import { Component } from '@model/structures/Component';
+import { Component } from "@model/structures/Component";
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { RBACMock } from '../../../tests/rbac';
-import { mockReactQueryForRbac } from '../../../tests/render';
+import { mockReactQueryForRbac, WithRouter } from "../../../tests/render";
 
-describe('Component View Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
-	it('a user can only see the go back button', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'STRUCTURE_STRUCTURE',
-				privileges: [],
-			},
-		]);
-		const { ViewMenu } = await import('./menu');
+describe("Component View Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
+  it("a user can only see the go back button", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.STRUCTURE_STRUCTURE,
+        privileges: [],
+      },
+    ]);
+    const { ViewMenu } = await import("./menu");
 
-		const component = { id: '1' } as unknown as Component;
-		render(
-			<RBACMock>
-				<ViewMenu
-					component={component}
-					updatable={true}
-					publish={vi.fn()}
-					handleUpdate={vi.fn()}
-					handleDelete={vi.fn()}
-					handleBack={vi.fn}
-				></ViewMenu>
-			</RBACMock>,
-		);
+    const component = { id: "1" } as unknown as Component;
+    render(
+      <WithRouter>
+        <ViewMenu
+          component={component}
+          updatable={true}
+          publish={vi.fn()}
+          handleUpdate={vi.fn()}
+          handleDelete={vi.fn()}
+          handleBack={vi.fn}
+        ></ViewMenu>
+      </WithRouter>,
+    );
 
-		screen.getByText('Back');
-		expect(screen.queryByText('Publish')).toBeNull();
-		expect(screen.queryByText('Delete')).toBeNull();
-		expect(screen.queryByText('Update')).toBeNull();
-	});
+    screen.getByText("Back");
+    expect(screen.queryByText("Publish")).toBeNull();
+    expect(screen.queryByText("Delete")).toBeNull();
+    expect(screen.queryByText("Update")).toBeNull();
+  });
 
-	it('an admin can goBack, publish, delete and update a component even if the stamp is not correct', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'STRUCTURE_COMPONENT',
-				privileges: [
-					{ privilege: 'DELETE', strategy: 'ALL' },
-					{ privilege: 'PUBLISH', strategy: 'ALL' },
-					{ privilege: 'UPDATE', strategy: 'ALL' },
-				],
-			},
-		]);
+  it("an admin can goBack, publish, delete and update a component even if the stamp is not correct", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.STRUCTURE_COMPONENT,
+        privileges: [
+          { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+          { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+        ],
+      },
+    ]);
 
-		const { ViewMenu } = await import('./menu');
-		const component = { id: '1' } as unknown as Component;
+    const { ViewMenu } = await import("./menu");
+    const component = { id: "1" } as unknown as Component;
 
-		render(
-			<RBACMock>
-				<ViewMenu
-					component={component}
-					updatable={true}
-					publish={vi.fn()}
-					handleUpdate={vi.fn()}
-					handleDelete={vi.fn()}
-					handleBack={vi.fn}
-				></ViewMenu>
-			</RBACMock>,
-		);
+    render(
+      <WithRouter>
+        <ViewMenu
+          component={component}
+          updatable={true}
+          publish={vi.fn()}
+          handleUpdate={vi.fn()}
+          handleDelete={vi.fn()}
+          handleBack={vi.fn}
+        ></ViewMenu>
+      </WithRouter>,
+    );
 
-		screen.getByText('Back');
-		screen.getByText('Publish');
-		screen.getByText('Delete');
-		screen.getByText('Update');
-	});
+    screen.getByText("Back");
+    screen.getByText("Publish");
+    screen.getByText("Delete");
+    screen.getByText("Update");
+  });
 
-	it('an Gestionnaire_ structures_RMESGNCS can goBack, publish and update a component if the stamp is correct and validationState is published', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'STRUCTURE_COMPONENT',
-				privileges: [
-					{ privilege: 'DELETE', strategy: 'STAMP' },
-					{ privilege: 'PUBLISH', strategy: 'ALL' },
-					{ privilege: 'UPDATE', strategy: 'ALL' },
-				],
-			},
-		]);
+  it("an Gestionnaire_ structures_RMESGNCS can goBack, publish and update a component if the stamp is correct and validationState is published", async () => {
+    mockReactQueryForRbac(
+      [
+        {
+          application: MODULES.STRUCTURE_COMPONENT,
+          privileges: [
+            { privilege: PRIVILEGES.DELETE, strategy: STRATEGIES.STAMP },
+            { privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL },
+            { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL },
+          ],
+        },
+      ],
+      [{ stamp: "INSEE" }],
+    );
 
-		const { ViewMenu } = await import('./menu');
+    const { ViewMenu } = await import("./menu");
 
-		const component = {
-			id: '1',
-			contributor: 'INSEE',
-			validationState: 'published',
-		} as unknown as Component;
+    const component = {
+      id: "1",
+      contributor: "INSEE",
+      validationState: "published",
+    } as unknown as Component;
 
-		render(
-			<RBACMock stamp="INSEE">
-				<ViewMenu
-					component={component}
-					updatable={true}
-					publish={vi.fn()}
-					handleUpdate={vi.fn()}
-					handleDelete={vi.fn()}
-					handleBack={vi.fn}
-				></ViewMenu>
-			</RBACMock>,
-		);
+    render(
+      <WithRouter>
+        <ViewMenu
+          component={component}
+          updatable={true}
+          publish={vi.fn()}
+          handleUpdate={vi.fn()}
+          handleDelete={vi.fn()}
+          handleBack={vi.fn}
+        ></ViewMenu>
+      </WithRouter>,
+    );
 
-		screen.getByText('Back');
-		screen.getByText('Publish');
-		expect(screen.queryByText('Delete')).toBeNull();
-		screen.getByText('Update');
-	});
+    screen.getByText("Back");
+    screen.getByText("Publish");
+    expect(screen.queryByText("Delete")).toBeNull();
+    screen.getByText("Update");
+  });
 });

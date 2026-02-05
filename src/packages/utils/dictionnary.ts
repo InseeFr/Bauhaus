@@ -1,14 +1,14 @@
 export const createAllDictionary = (dict: any) => {
-	const D1 = createDictionary(firstLang, dict);
-	const D2 = createDictionary(secondLang, dict);
+  const D1 = createDictionary(firstLang, dict);
+  const D2 = createDictionary(secondLang, dict);
 
-	return {
-		D1,
-		D2,
-		D: getLang() === firstLang ? D1 : D2,
-		lg1: firstLang,
-		lg2: secondLang,
-	};
+  return {
+    D1,
+    D2,
+    D: getLang() === firstLang ? D1 : D2,
+    lg1: firstLang,
+    lg2: secondLang,
+  };
 };
 
 /**
@@ -18,22 +18,17 @@ export const createAllDictionary = (dict: any) => {
  * @param {string} lang the lang of the user
  * @param {any} dict
  */
-export const createDictionary = (
-	lang: string,
-	dict: any,
-): Record<string, any> =>
-	Object.keys(dict).reduce((acc, k) => {
-		const hasChildObject = Object.keys(dict[k]).find(
-			(key) =>
-				dict[k][key] &&
-				typeof dict[k][key] === 'object' &&
-				dict[k][key].constructor === Object,
-		);
-		return {
-			...acc,
-			[k]: !hasChildObject ? dict[k][lang] : createDictionary(lang, dict[k]),
-		};
-	}, {});
+export const createDictionary = (lang: string, dict: any): Record<string, any> =>
+  Object.keys(dict).reduce((acc, k) => {
+    const hasChildObject = Object.keys(dict[k]).find(
+      (key) =>
+        dict[k][key] && typeof dict[k][key] === "object" && dict[k][key].constructor === Object,
+    );
+    return {
+      ...acc,
+      [k]: !hasChildObject ? dict[k][lang] : createDictionary(lang, dict[k]),
+    };
+  }, {});
 
 /**
  * This function will return only the lang part of a locale
@@ -42,8 +37,8 @@ export const createDictionary = (
  * @param {string} lang the lang of the user
  */
 
-export const firstLang = 'fr';
-export const secondLang = 'en';
+export const firstLang = "fr";
+export const secondLang = "en";
 
 /**
  * Return the current lang based of the settings of the browser
@@ -52,6 +47,4 @@ export const secondLang = 'en';
  * @returns {String}
  */
 export const getLang = (defaultLang?: string) =>
-	(defaultLang || navigator.language).split('-')[0] === firstLang
-		? firstLang
-		: secondLang;
+  (defaultLang || navigator.language).split("-")[0] === firstLang ? firstLang : secondLang;

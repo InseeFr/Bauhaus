@@ -1,51 +1,52 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import { RBACMock } from '../../tests/rbac';
-import { mockReactQueryForRbac } from '../../tests/render';
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-describe('Document Home Page Menu', () => {
-	afterEach(() => {
-		vi.resetModules();
-		vi.clearAllMocks();
-	});
+import { mockReactQueryForRbac, WithRouter } from "../../tests/render";
 
-	it('an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_DOCUMENT',
-				privileges: [{ privilege: 'CREATE', strategy: 'ALL' }],
-			},
-		]);
+describe("Document Home Page Menu", () => {
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+  });
 
-		const { Menu } = await import('./menu');
+  it("an admin can create a new structure if he does not have the Gestionnaire_structures_RMESGNCS role", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_DOCUMENT,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+      },
+    ]);
 
-		render(
-			<RBACMock>
-				<Menu />
-			</RBACMock>,
-		);
+    const { Menu } = await import("./menu");
 
-		screen.getByText('New Link');
-		screen.getByText('New Document');
-	});
+    render(
+      <WithRouter>
+        <Menu />
+      </WithRouter>,
+    );
 
-	it('a user without Admin or  INDICATOR_CONTRIBUTOR or SERIES_CONTRIBUTOR role cannot create a document', async () => {
-		mockReactQueryForRbac([
-			{
-				application: 'OPERATION_DOCUMENT',
-				privileges: [],
-			},
-		]);
+    screen.getByText("New Link");
+    screen.getByText("New Document");
+  });
 
-		const { Menu } = await import('./menu');
+  it("a user without Admin or  INDICATOR_CONTRIBUTOR or SERIES_CONTRIBUTOR role cannot create a document", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.OPERATION_DOCUMENT,
+        privileges: [],
+      },
+    ]);
 
-		render(
-			<RBACMock>
-				<Menu />
-			</RBACMock>,
-		);
+    const { Menu } = await import("./menu");
 
-		expect(screen.queryByText('New Link')).toBeNull();
-		expect(screen.queryByText('New Document')).toBeNull();
-	});
+    render(
+      <WithRouter>
+        <Menu />
+      </WithRouter>,
+    );
+
+    expect(screen.queryByText("New Link")).toBeNull();
+    expect(screen.queryByText("New Document")).toBeNull();
+  });
 });

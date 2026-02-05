@@ -1,46 +1,31 @@
-import { useState } from 'react';
+import { useMemo } from "react";
 
-import { Exporting, Loading } from '@components/loading';
-import { Picker } from '@components/picker-page';
+import { Exporting, Loading } from "@components/loading";
 
-import { useCollectionExporter } from '@utils/hooks/collections';
-import { useTitle } from '@utils/hooks/useTitle';
+import { useCollectionExporter } from "@utils/hooks/collections";
+import { useTitle } from "@utils/hooks/useTitle";
 
-import D from '../../../deprecated-locales/build-dictionary';
-import ExportButtons from '../export-buttons';
-import { useCollections } from '../../hooks/useCollections';
+import D from "../../../deprecated-locales/build-dictionary";
+import { useCollections } from "../../hooks/useCollections";
+import CollectionsToExport from "./home";
 
 export const Component = () => {
-	useTitle(D.collectionsTitle, D.exportTitle);
-	const [ids, setIds] = useState<string[]>([]);
+  useTitle(D.collectionsTitle, D.exportTitle);
 
-	const { data: collections, isLoading } = useCollections();
-	const { mutate: exportCollection, isPending: isExporting } =
-		useCollectionExporter();
+  const { data: collectionsData = [], isLoading } = useCollections();
+  const { isPending: isExporting } = useCollectionExporter();
 
-	if (isExporting) return <Exporting />;
-	if (isLoading) return <Loading />;
+  const collections = useMemo(
+    () =>
+      collectionsData.map((collection) => ({
+        id: collection.id,
+        label: collection.label?.value ?? "",
+      })),
+    [collectionsData],
+  );
 
-	return (
-		<Picker
-			items={collections}
-			title={D.exportTitle}
-			panelTitle={D.collectionsExportPanelTitle}
-			labelWarning={D.hasNotCollectionToExport}
-			handleAction={(value: string[]) => setIds(value)}
-			context="concepts/collections"
-			disabled={ids.length < 1}
-			disabledWarningMessage={D.hasNotCollectionToExport}
-			ValidationButton={() => (
-				<ExportButtons
-					disabled={ids.length < 1}
-					exportHandler={(
-						type: string,
-						withConcepts: boolean,
-						lang: 'lg1' | 'lg2' = 'lg1',
-					) => exportCollection({ ids, type, withConcepts, lang })}
-				/>
-			)}
-		/>
-	);
+  if (isExporting) return <Exporting />;
+  if (isLoading) return <Loading />;
+
+  return <CollectionsToExport collections={collections} />;
 };
