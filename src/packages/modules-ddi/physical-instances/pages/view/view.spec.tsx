@@ -9,6 +9,16 @@ const mockUpdatePhysicalInstance = vi.fn();
 const mockPublishPhysicalInstance = vi.fn();
 const mockConvertToDDI3 = vi.fn().mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
 const mockNavigate = vi.fn();
+let mockSearchParams = new URLSearchParams();
+const mockSetSearchParams = vi.fn((updater: any, _options?: any) => {
+  if (typeof updater === "function") {
+    mockSearchParams = new URLSearchParams(updater(mockSearchParams));
+  } else if (updater instanceof URLSearchParams) {
+    mockSearchParams = new URLSearchParams(updater);
+  } else if (typeof updater === "object") {
+    mockSearchParams = new URLSearchParams(updater);
+  }
+});
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -34,6 +44,7 @@ const mockBlocker = {
 vi.mock("react-router-dom", () => ({
   useParams: () => ({ id: "test-id-123", agencyId: "test-agency-123" }),
   useNavigate: () => mockNavigate,
+  useSearchParams: () => [mockSearchParams, mockSetSearchParams],
   useBlocker: () => mockBlocker,
 }));
 
@@ -76,7 +87,7 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Version: "1.0",
               Citation: {
                 Title: {
-                  String: { "@xml:lang": "en", "#text": "Study Unit 1" },
+                  String: { "@xml:lang": "fr-FR", "#text": "Study Unit 1" },
                 },
               },
             },
@@ -147,6 +158,39 @@ vi.mock("primereact/dialog", () => ({
     ) : null,
 }));
 
+vi.mock("primereact/tabview", () => ({
+  TabView: ({ children, activeIndex, onTabChange }: any) => {
+    const panels = Array.isArray(children) ? children : [children];
+    return (
+      <div data-testid="tabview" data-active-index={activeIndex}>
+        <div role="tablist">
+          {panels.map((child: any, index: number) => {
+            const headerContent = child?.props?.headerTemplate
+              ? child.props.headerTemplate({
+                  className: "",
+                  onClick: () => onTabChange?.({ index }),
+                })
+              : child?.props?.header || `Tab ${index}`;
+            return (
+              <div key={index} role="tab" onClick={() => onTabChange?.({ index })}>
+                {headerContent}
+              </div>
+            );
+          })}
+        </div>
+        {panels.map((child: any, index: number) =>
+          activeIndex === index ? (
+            <div key={index} role="tabpanel">
+              {child?.props?.children}
+            </div>
+          ) : null,
+        )}
+      </div>
+    );
+  },
+  TabPanel: ({ children }: any) => <div>{children}</div>,
+}));
+
 // Mock for file download
 const mockCreateObjectURL = vi.fn();
 const mockRevokeObjectURL = vi.fn();
@@ -201,6 +245,8 @@ describe("View Component", () => {
     mockBlocker.state = "unblocked";
     mockBlocker.proceed.mockClear();
     mockBlocker.reset.mockClear();
+    mockSetSearchParams.mockClear();
+    mockSearchParams = new URLSearchParams();
 
     // Default mock implementation
     mockUsePhysicalInstancesData.mockReturnValue({
@@ -1980,6 +2026,133 @@ describe("View Component", () => {
           expect(variableRow).not.toHaveClass("font-italic");
         }
       });
+    });
+  });
+
+  describe("URL search params synchronization", () => {
+    it("should set variableId search param when a variable is clicked", () => {
+      render(<Component />, { wrapper });
+
+      const firstRow = screen.getAllByRole("row")[1];
+      fireEvent.click(firstRow);
+
+      expect(mockSetSearchParams).toHaveBeenCalled();
+      expect(mockSearchParams.get("variableId")).toBe("1");
+    });
+
+    it("should remove variableId and tab search params when variable is deselected", async () => {
+      render(<Component />, { wrapper });
+
+      // Select a variable
+      const firstRow = screen.getAllByRole("row")[1];
+      fireEvent.click(firstRow);
+
+      expect(mockSearchParams.get("variableId")).toBe("1");
+
+      // Create a new variable and save it, which deselects the variable
+      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
+      fireEvent.click(newVariableButton);
+
+      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
+      fireEvent.change(nameInput, { target: { value: "NewVar" } });
+      fireEvent.change(labelInput, { target: { value: "New Variable" } });
+
+      const saveButton = screen.getByLabelText("physicalInstance.view.add");
+      fireEvent.click(saveButton);
+
+      // After saving, the variable is deselected (selectedVariable becomes null)
+      await waitFor(() => {
+        expect(mockSearchParams.has("variableId")).toBe(false);
+        expect(mockSearchParams.has("tab")).toBe(false);
+      });
+    });
+
+    it("should restore selected variable from URL on initial load", () => {
+      mockSearchParams.set("variableId", "1");
+
+      render(<Component />, { wrapper });
+
+      // The variable should be selected and the edit form should be visible
+      expect(screen.getByRole("complementary")).toBeInTheDocument();
+    });
+
+    it("should not restore variable if variableId in URL does not match any variable", () => {
+      mockSearchParams.set("variableId", "non-existent-id");
+
+      render(<Component />, { wrapper });
+
+      // No variable should be selected
+      expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
+    });
+
+    it("should set tab search param when tab is changed", () => {
+      render(<Component />, { wrapper });
+
+      // Select a variable to show the edit form
+      const firstRow = screen.getAllByRole("row")[1];
+      fireEvent.click(firstRow);
+
+      // Click on the representation tab (index 1)
+      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
+      fireEvent.click(representationTab);
+
+      expect(mockSearchParams.get("tab")).toBe("1");
+    });
+
+    it("should not set tab param when tab 0 is selected", () => {
+      render(<Component />, { wrapper });
+
+      // Select a variable
+      const firstRow = screen.getAllByRole("row")[1];
+      fireEvent.click(firstRow);
+
+      // Click on tab 1 then back to tab 0
+      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
+      fireEvent.click(representationTab);
+
+      const informationTab = screen.getByText("physicalInstance.view.tabs.information");
+      fireEvent.click(informationTab);
+
+      expect(mockSearchParams.has("tab")).toBe(false);
+    });
+
+    it("should restore active tab from URL on initial load", () => {
+      mockSearchParams.set("variableId", "1");
+      mockSearchParams.set("tab", "1");
+
+      render(<Component />, { wrapper });
+
+      // The variable should be selected
+      expect(screen.getByRole("complementary")).toBeInTheDocument();
+
+      // The representation tab should be active (index 1)
+      const tabView = screen.getByTestId("tabview");
+      expect(tabView).toHaveAttribute("data-active-index", "1");
+    });
+
+    it("should default to tab 0 for invalid tab values in URL", () => {
+      mockSearchParams.set("variableId", "1");
+      mockSearchParams.set("tab", "abc");
+
+      render(<Component />, { wrapper });
+
+      expect(screen.getByRole("complementary")).toBeInTheDocument();
+
+      const tabView = screen.getByTestId("tabview");
+      expect(tabView).toHaveAttribute("data-active-index", "0");
+    });
+
+    it("should default to tab 0 for out-of-range tab values in URL", () => {
+      mockSearchParams.set("variableId", "1");
+      mockSearchParams.set("tab", "99");
+
+      render(<Component />, { wrapper });
+
+      expect(screen.getByRole("complementary")).toBeInTheDocument();
+
+      const tabView = screen.getByTestId("tabview");
+      expect(tabView).toHaveAttribute("data-active-index", "0");
     });
   });
 });

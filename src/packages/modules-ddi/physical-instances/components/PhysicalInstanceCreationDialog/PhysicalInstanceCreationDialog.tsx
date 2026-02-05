@@ -129,7 +129,6 @@ export const PhysicalInstanceDialog = ({
           studyUnit: selectedStudyUnit!,
         };
         await onSubmitEdit(data);
-        resetForm();
       }
     } finally {
       setIsSubmitting(false);
@@ -177,6 +176,7 @@ export const PhysicalInstanceDialog = ({
             autoComplete="off"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
+            disabled={isSubmitting}
           />
         </div>
 
@@ -189,6 +189,7 @@ export const PhysicalInstanceDialog = ({
             onChange={(e) => handleGroupChange(e.value)}
             placeholder={t("physicalInstance.creation.selectGroup")}
             loading={isLoadingGroups}
+            disabled={isSubmitting}
             className="w-full"
           />
         </div>
@@ -201,7 +202,7 @@ export const PhysicalInstanceDialog = ({
             options={studyUnitOptions}
             onChange={(e) => setSelectedStudyUnitId(e.value)}
             placeholder={t("physicalInstance.creation.selectStudyUnit")}
-            disabled={!selectedGroupId}
+            disabled={!selectedGroupId || isSubmitting}
             loading={isLoadingStudyUnits}
             className="w-full"
           />

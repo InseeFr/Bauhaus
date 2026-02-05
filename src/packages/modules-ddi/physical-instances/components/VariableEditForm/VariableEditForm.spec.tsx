@@ -13,6 +13,7 @@ vi.mock("react-i18next", () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
         "physicalInstance.view.editVariable": "Modifier la variable",
+        "physicalInstance.view.newVariable": "Ajouter une variable",
         "physicalInstance.view.add": "Ajouter",
         "physicalInstance.view.update": "Mettre à jour",
         "physicalInstance.view.duplicate": "Dupliquer",
@@ -763,6 +764,42 @@ describe("VariableEditForm", () => {
   });
 
   describe("isNew prop functionality", () => {
+    it('should display "Ajouter une variable" title when isNew is true', () => {
+      const newVariable = {
+        id: "new",
+        label: "",
+        name: "",
+        description: "",
+        type: "text",
+      };
+
+      render(
+        <VariableEditForm
+          variable={newVariable}
+          typeOptions={typeOptions}
+          isNew={true}
+          onSave={mockOnSave}
+        />,
+      );
+
+      expect(screen.getByText("Ajouter une variable")).toBeInTheDocument();
+      expect(screen.queryByText(/Modifier la variable/)).not.toBeInTheDocument();
+    });
+
+    it('should display "Modifier la variable" title when isNew is false', () => {
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          isNew={false}
+          onSave={mockOnSave}
+        />,
+      );
+
+      expect(screen.getByText("Modifier la variable - testVar")).toBeInTheDocument();
+      expect(screen.queryByText("Ajouter une variable")).not.toBeInTheDocument();
+    });
+
     it('should display "Ajouter" button when isNew is true', () => {
       const newVariable = {
         id: "new",

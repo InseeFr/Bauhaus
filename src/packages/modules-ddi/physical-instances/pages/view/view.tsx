@@ -1,5 +1,5 @@
 import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "primereact/button";
 import { useTranslation } from "react-i18next";
 import { Toast } from "primereact/toast";
@@ -30,17 +30,70 @@ export const Component = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const toast = useRef<Toast>(null);
+  const initialRestoreDone = useRef(false);
   const [state, dispatch] = useReducer(viewReducer, initialState);
   const { data, variables, title, dataRelationshipName, isLoading, isError, error } =
     usePhysicalInstancesData(agencyId!, id!);
+  const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
 
   useEffect(() => {
-    if (title || dataRelationshipName) {
+    if (
+      (title || dataRelationshipName) &&
+      (title !== state.formData.label || dataRelationshipName !== state.formData.name)
+    ) {
       dispatch(actions.setFormData({ label: title, name: dataRelationshipName }));
     }
   }, [title, dataRelationshipName]);
+
+  const tabParam = Number(searchParams.get("tab"));
+  const activeTabIndex = [0, 1, 2].includes(tabParam) ? tabParam : 0;
+
+  const handleTabChange = useCallback(
+    (index: number) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (index === 0) {
+            next.delete("tab");
+          } else {
+            next.set("tab", String(index));
+          }
+          return next;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
+
+  // Sync selected variable ID to URL search params
+  useEffect(() => {
+    const currentVariableId = searchParams.get("variableId");
+    const selectedId = state.selectedVariable?.id ?? null;
+
+    if (selectedId && selectedId !== "new" && selectedId !== currentVariableId) {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.set("variableId", selectedId);
+          return next;
+        },
+        { replace: true },
+      );
+    } else if (!selectedId && currentVariableId && initialRestoreDone.current) {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.delete("variableId");
+          next.delete("tab");
+          return next;
+        },
+        { replace: true },
+      );
+    }
+  }, [state.selectedVariable, searchParams, setSearchParams]);
 
   const variableTypeOptions = useMemo(
     () => [
@@ -225,6 +278,11 @@ export const Component = () => {
 
   const handleSaveEdit = useCallback(
     async (data: PhysicalInstanceUpdateData) => {
+      const previousLabel = state.formData.label;
+      const previousName = state.formData.name;
+
+      dispatch(actions.setFormData({ label: data.label, name: data.name }));
+
       try {
         await updatePhysicalInstance.mutateAsync({
           id: id!,
@@ -239,16 +297,17 @@ export const Component = () => {
           },
         });
 
+        dispatch(actions.setEditModalVisible(false));
+
         toast.current?.show({
           severity: "success",
           summary: t("physicalInstance.view.saveSuccess"),
           detail: t("physicalInstance.view.saveSuccessDetail"),
           life: TOAST_DURATION,
         });
-
-        dispatch(actions.setFormData({ label: data.label, name: data.name }));
-        dispatch(actions.setEditModalVisible(false));
       } catch (err: unknown) {
+        dispatch(actions.setFormData({ label: previousLabel, name: previousName }));
+
         const errorMessage =
           err && typeof err === "object" && "message" in err
             ? String(err.message)
@@ -262,7 +321,7 @@ export const Component = () => {
         });
       }
     },
-    [id, agencyId, t, updatePhysicalInstance],
+    [id, agencyId, t, updatePhysicalInstance, state.formData.label, state.formData.name],
   );
 
   const handleVariableClick = useCallback(
@@ -320,6 +379,22 @@ export const Component = () => {
     },
     [data, state.localVariables],
   );
+
+  // Restore selected variable from URL on initial load
+  useEffect(() => {
+    if (variables.length === 0) return;
+
+    if (!initialRestoreDone.current) {
+      initialRestoreDone.current = true;
+      const variableId = searchParams.get("variableId");
+      if (variableId) {
+        const variable = variables.find((v: VariableTableData) => v.id === variableId);
+        if (variable) {
+          handleVariableClick(variable);
+        }
+      }
+    }
+  }, [variables, handleVariableClick, searchParams]);
 
   const handleNewVariable = useCallback(() => {
     dispatch(
@@ -733,6 +808,8 @@ export const Component = () => {
             onNext={handleNextVariable}
             hasPrevious={hasVariablesToNavigate}
             hasNext={hasVariablesToNavigate}
+            activeTabIndex={activeTabIndex}
+            onTabChange={handleTabChange}
           />
         </div>
       )}

@@ -57,7 +57,7 @@ describe("useUpdatePhysicalInstance", () => {
     });
   });
 
-  it("should not invalidate query cache to preserve local variables", async () => {
+  it("should invalidate physicalInstances query cache on success", async () => {
     const mockPatch = vi.fn().mockResolvedValue({});
     (DDIApi.patchPhysicalInstance as any) = mockPatch;
 
@@ -78,8 +78,9 @@ describe("useUpdatePhysicalInstance", () => {
 
     await result.current.mutateAsync(testData);
 
-    // Le cache ne doit pas être invalidé pour préserver les variables locales non sauvegardées
-    expect(invalidateQueriesSpy).not.toHaveBeenCalled();
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+      queryKey: ["physicalInstances"],
+    });
   });
 
   it("should handle API errors correctly", async () => {
@@ -100,7 +101,9 @@ describe("useUpdatePhysicalInstance", () => {
       },
     };
 
-    await expect(result.current.mutateAsync(testData)).rejects.toThrow("API Error");
+    await expect(result.current.mutateAsync(testData)).rejects.toThrow(
+      "API Error",
+    );
   });
 
   it("should return mutation status correctly", async () => {

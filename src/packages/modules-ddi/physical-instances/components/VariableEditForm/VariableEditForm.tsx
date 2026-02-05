@@ -169,6 +169,8 @@ interface VariableEditFormProps {
   onNext?: () => void;
   hasPrevious?: boolean;
   hasNext?: boolean;
+  activeTabIndex?: number;
+  onTabChange?: (index: number) => void;
 }
 
 export const VariableEditForm = ({
@@ -181,9 +183,22 @@ export const VariableEditForm = ({
   onNext,
   hasPrevious = false,
   hasNext = false,
+  activeTabIndex,
+  onTabChange,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setInternalActiveIndex] = useState(activeTabIndex ?? 0);
+
+  const setActiveIndex = (index: number) => {
+    setInternalActiveIndex(index);
+    onTabChange?.(index);
+  };
+
+  useEffect(() => {
+    if (activeTabIndex !== undefined && activeTabIndex !== activeIndex) {
+      setInternalActiveIndex(activeTabIndex);
+    }
+  }, [activeTabIndex]);
 
   const [state, dispatch] = useReducer(formReducer, {
     label: variable.label,
@@ -350,7 +365,7 @@ export const VariableEditForm = ({
     <Card
       title={
         isNew
-          ? t("physicalInstance.view.editVariable")
+          ? t("physicalInstance.view.newVariable")
           : `${t("physicalInstance.view.editVariable")} - ${variable.name}`
       }
       className="h-full"
