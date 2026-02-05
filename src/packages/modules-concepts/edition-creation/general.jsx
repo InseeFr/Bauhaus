@@ -64,7 +64,8 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
       <InputMulti
         inputLg1={altLabelLg1}
         inputLg2={altLabelLg2}
-        label="altLabelTitle"
+        labelLg1="altLabelTitle"
+        labelLg2="altLabelTitle"
         handleChangeLg1={handlers.altLabelLg1}
         handleChangeLg2={handlers.altLabelLg2}
       />
