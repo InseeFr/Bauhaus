@@ -3,10 +3,15 @@ import { describe, expect, it, vi } from "vitest";
 
 import { CompressFormatInput } from "./compress-format-input";
 
-vi.mock("../../../../../deprecated-locales/build-dictionary", () => ({
-  default: {
-    compressFormatTitle: "Compress Format",
-  },
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "distribution.compressFormat": "Compress format",
+      };
+      return translations[key] || key;
+    },
+  }),
 }));
 
 describe("CompressFormatInput", () => {
@@ -15,7 +20,7 @@ describe("CompressFormatInput", () => {
 
     render(<CompressFormatInput value="" onChange={mockOnChange} />);
 
-    expect(screen.getByText("Compress Format")).not.toBeNull();
+    expect(screen.getByText("Compress format")).not.toBeNull();
   });
 
   it("should render input with correct id", () => {
@@ -23,7 +28,7 @@ describe("CompressFormatInput", () => {
 
     render(<CompressFormatInput value="" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Compress Format");
+    const input = screen.getByLabelText("Compress format");
     expect(input).not.toBeNull();
     expect(input.id).toBe("compressFormat");
   });
@@ -48,7 +53,7 @@ describe("CompressFormatInput", () => {
 
     render(<CompressFormatInput value="ZIP" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Compress Format") as HTMLInputElement;
+    const input = screen.getByLabelText("Compress format") as HTMLInputElement;
     expect(input.value).toBe("ZIP");
   });
 
@@ -57,7 +62,7 @@ describe("CompressFormatInput", () => {
 
     render(<CompressFormatInput value="" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Compress Format");
+    const input = screen.getByLabelText("Compress format");
     fireEvent.change(input, { target: { value: "7Z" } });
 
     expect(mockOnChange).toHaveBeenCalledTimes(1);
@@ -69,7 +74,7 @@ describe("CompressFormatInput", () => {
 
     render(<CompressFormatInput value="" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Compress Format") as HTMLInputElement;
+    const input = screen.getByLabelText("Compress format") as HTMLInputElement;
     expect(input.getAttribute("list")).toBe("compressFormat-list");
   });
 });

@@ -3,6 +3,17 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ByteSizeInput } from "./byte-size-input";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "distribution.byteSize": "Size",
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
+
 describe("ByteSizeInput", () => {
   const mockOnChange = vi.fn();
 

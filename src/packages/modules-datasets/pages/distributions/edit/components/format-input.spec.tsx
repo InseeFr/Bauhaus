@@ -3,11 +3,16 @@ import { describe, expect, it, vi } from "vitest";
 
 import { FormatInput } from "./format-input";
 
-// vi.mock("../../../../../deprecated-locales", () => ({
-//   D1: {
-//     formatTitle: "Format",
-//   },
-// }));
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "distribution.format": "Format",
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
 
 describe("FormatInput", () => {
   it("should render the component with label", () => {

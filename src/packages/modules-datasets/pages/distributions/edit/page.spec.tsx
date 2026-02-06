@@ -24,29 +24,6 @@ vi.mock("../../../../application/app-context", () => ({
   }),
 }));
 
-// vi.mock("../../../../deprecated-locales", () => ({
-//   D1: {
-//     title: "Title",
-//     descriptionTitle: "Description",
-//     datasetTitle: "Dataset",
-//     formatTitle: "Format",
-//   },
-//   D2: {
-//     title: "Title EN",
-//     descriptionTitle: "Description EN",
-//   },
-// }));
-
-// vi.mock("../../../../deprecated-locales/build-dictionary", () => ({
-//   default: {
-//     distributionsTitle: "Distributions",
-//     mediaTypeTitle: "Media Type",
-//     compressFormatTitle: "Compress Format",
-//     accessUrlTitle: "Access URL",
-//     downloadUrlTitle: "Download URL",
-//   },
-// }));
-
 const mockUseDistribution = vi.fn();
 
 vi.mock("../../../hooks/useDistribution", () => ({
@@ -73,6 +50,17 @@ vi.mock("./validation", () => ({
 
 vi.mock("@utils/hooks/useGoBack", () => ({
   useGoBack: vi.fn(() => vi.fn()),
+}));
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "distribution.mediaType": "Media type",
+      };
+      return translations[key] || key;
+    },
+  }),
 }));
 
 describe("Distribution Edit Page", () => {

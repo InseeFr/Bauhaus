@@ -7,6 +7,17 @@ vi.mock("../../../../../i18n", () => ({
   isLang2: vi.fn(() => false),
 }));
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "distribution.language": "Language",
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
+
 describe("LanguageSelect", () => {
   beforeEach(() => {
     vi.clearAllMocks();

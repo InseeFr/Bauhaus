@@ -3,10 +3,21 @@ import { describe, expect, it, vi } from "vitest";
 
 import { MediaTypeInput } from "./media-type-input";
 
-vi.mock("../../../../../deprecated-locales/build-dictionary", () => ({
-  default: {
-    mediaTypeTitle: "Media Type",
-  },
+// vi.mock("../../../../../deprecated-locales/build-dictionary", () => ({
+//   default: {
+//     mediaTypeTitle: "Media Type",
+//   },
+// }));
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "distribution.mediaType": "Media type",
+      };
+      return translations[key] || key;
+    },
+  }),
 }));
 
 describe("MediaTypeInput", () => {
@@ -15,7 +26,7 @@ describe("MediaTypeInput", () => {
 
     render(<MediaTypeInput value="" onChange={mockOnChange} />);
 
-    expect(screen.getByText("Media Type")).not.toBeNull();
+    expect(screen.getByText("Media type")).not.toBeNull();
   });
 
   it("should render input with correct id", () => {
@@ -23,7 +34,7 @@ describe("MediaTypeInput", () => {
 
     render(<MediaTypeInput value="" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Media Type");
+    const input = screen.getByLabelText("Media type");
     expect(input).not.toBeNull();
     expect(input.id).toBe("mediaType");
   });
@@ -48,7 +59,7 @@ describe("MediaTypeInput", () => {
 
     render(<MediaTypeInput value="CSV" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Media Type") as HTMLInputElement;
+    const input = screen.getByLabelText("Media type") as HTMLInputElement;
     expect(input.value).toBe("CSV");
   });
 
@@ -57,7 +68,7 @@ describe("MediaTypeInput", () => {
 
     render(<MediaTypeInput value="" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Media Type");
+    const input = screen.getByLabelText("Media type");
     fireEvent.change(input, { target: { value: "PARQUET" } });
 
     expect(mockOnChange).toHaveBeenCalledTimes(1);
@@ -69,7 +80,7 @@ describe("MediaTypeInput", () => {
 
     render(<MediaTypeInput value="" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Media Type") as HTMLInputElement;
+    const input = screen.getByLabelText("Media type") as HTMLInputElement;
     expect(input.getAttribute("list")).toBe("mediaType-list");
   });
 });

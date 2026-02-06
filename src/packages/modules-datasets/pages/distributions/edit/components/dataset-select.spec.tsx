@@ -3,11 +3,16 @@ import { describe, expect, it, vi } from "vitest";
 
 import { DatasetSelect } from "./dataset-select";
 
-// vi.mock("../../../../../deprecated-locales", () => ({
-//   D1: {
-//     datasetTitle: "Dataset",
-//   },
-// }));
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "dataset.title": "Dataset",
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
 
 const mockUseDatasetsForDistributions = vi.fn();
 
