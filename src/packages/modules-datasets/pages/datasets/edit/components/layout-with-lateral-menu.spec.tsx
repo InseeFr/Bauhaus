@@ -8,6 +8,18 @@ import {
   LayoutConfiguration,
 } from "./layout-with-lateral-menu";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        hide: "Hide",
+        display: "Display",
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
+
 describe("CollapsibleTrigger", () => {
   it('should display the correct title based on the "opened" prop', () => {
     render(<CollapsibleTrigger opened={true} onClick={vi.fn()} />);

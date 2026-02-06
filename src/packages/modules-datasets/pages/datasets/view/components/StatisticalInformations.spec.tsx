@@ -10,6 +10,19 @@ import { StatisticalInformations } from "./StatisticalInformations";
 vi.mock("@utils/hooks/codeslist");
 vi.mock("@utils/hooks/structures");
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "dataset.statisticalInformation.dataStructure.title": "Data structure",
+        "dataset.statisticalInformation.numberOfObservations": "Number of observations",
+        "dataset.statisticalInformation.numberOfTimeSeries": "Number of time series",
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
+
 describe("StatisticalInformations Component", () => {
   const mockDataset = {
     type: "type1",
@@ -37,8 +50,8 @@ describe("StatisticalInformations Component", () => {
     const { getByText } = render(<StatisticalInformations dataset={mockDataset} />);
 
     getByText("Data structure : Structure 1");
-    getByText("Number of observation : 100");
-    getByText("Number of time-series : 10");
+    getByText("Number of observations : 100");
+    getByText("Number of time series : 10");
   });
 
   it("renders datastructure URL if the structure do not exist", () => {
@@ -50,8 +63,8 @@ describe("StatisticalInformations Component", () => {
     const { getByText } = render(<StatisticalInformations dataset={mockDataset} />);
 
     getByText("Data structure : structure1");
-    getByText("Number of observation : 100");
-    getByText("Number of time-series : 10");
+    getByText("Number of observations : 100");
+    getByText("Number of time series : 10");
   });
 
   it("renders conditional fields correctly", () => {

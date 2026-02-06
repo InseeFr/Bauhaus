@@ -1,11 +1,33 @@
 import { CatalogRecord } from "@model/Dataset";
 
+vi.mock("i18next", () => ({
+  default: {
+    t: (key: string, options?: { lng?: string }) => {
+      const translations: Record<string, Record<string, string>> = {
+        fr: {
+          "dataset.globalInformation.mainTitle": "Intitulé",
+        },
+        en: {
+          "dataset.globalInformation.mainTitle": "Title",
+          "dataset.internalManagement.creator": "Owner",
+          "dataset.internalManagement.contributors": "Contributors",
+          "dataset.internalManagement.disseminationStatus": "Dissemination status",
+          "dataset.internalManagement.generatedBy": "Produced from",
+        },
+      };
+      const lng = options?.lng || "en";
+      return translations[lng]?.[key] || key;
+    },
+  },
+}));
+
 import { validate } from "./validation";
 
 const catalogRecord = {
   creator: "creator",
   contributor: ["contributor"],
 } as CatalogRecord;
+
 describe("validation", function () {
   it("should return an error for labelLg1", function () {
     expect(

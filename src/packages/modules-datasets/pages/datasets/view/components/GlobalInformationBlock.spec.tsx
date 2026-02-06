@@ -17,6 +17,19 @@ vi.mock("./wasGeneratedByBlock", () => ({
   WasGeneratedByBlock: () => <div>Mocked WasGeneratedByBlock</div>,
 }));
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "dataset.globalInformation.creationDate": "Creation date",
+        "dataset.globalInformation.updatingDate": "Updating date",
+        "dataset.globalInformation.firstReleaseDate": "Date of first release of data",
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
+
 describe("GlobalInformationBlock", () => {
   const mockDataset = {
     catalogRecord: {
@@ -78,9 +91,9 @@ describe("GlobalInformationBlock", () => {
 
     screen.getByText(/Creation Date/i);
     screen.getByText(/01\/01\/2021/i);
-    screen.getByText(/Modification Date/i);
+    screen.getByText(/Updating Date/i);
     screen.getByText(/01\/01\/2022/i);
-    screen.getByText(/Date of the first diffusion of the data/i);
+    screen.getByText(/Date of first release of data/i);
     screen.getByText(/06\/01\/2021/i);
   });
 

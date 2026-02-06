@@ -11,35 +11,36 @@ import {
 
 import { Dataset } from "../../../../model/Dataset";
 
-const ZodDataset = z.object({
-  labelLg1: mandatoryAndNotEmptyTextField(
-    i18next.t("dataset.globalInformation.mainTitle", { lng: "fr" }),
-  ),
-  labelLg2: mandatoryAndNotEmptyTextField(
-    i18next.t("dataset.globalInformation.mainTitle", { lng: "en" }),
-  ),
-  altIdentifier: z
-    .string()
-    .regex(/^[a-zA-Z0-9-_]+$/, {
-      error: i18next.t("dataset.internalManagement.altId.error"),
-    })
-    .or(z.string().trim().length(0))
-    .optional(),
-  creator: mandatoryAndNotEmptySelectField(i18next.t("dataset.internalManagement.creator")),
-  contributor: mandatoryAndNotEmptyMultiSelectField(
-    i18next.t("dataset.internalManagement.contributors"),
-  ),
-  disseminationStatus: mandatoryAndNotEmptySelectField(
-    i18next.t("dataset.internalManagement.disseminationStatus"),
-  ),
-  wasGeneratedIRIs: mandatoryAndNotEmptyMultiSelectField(
-    i18next.t("dataset.internalManagement.generatedBy"),
-  ),
-});
+export const validate = ({ catalogRecord, ...otherFields }: Dataset) => {
+  const ZodDataset = z.object({
+    labelLg1: mandatoryAndNotEmptyTextField(
+      i18next.t("dataset.globalInformation.mainTitle", { lng: "fr" }),
+    ),
+    labelLg2: mandatoryAndNotEmptyTextField(
+      i18next.t("dataset.globalInformation.mainTitle", { lng: "en" }),
+    ),
+    altIdentifier: z
+      .string()
+      .regex(/^[a-zA-Z0-9-_]+$/, {
+        error: i18next.t("dataset.internalManagement.altId.error"),
+      })
+      .or(z.string().trim().length(0))
+      .optional(),
+    creator: mandatoryAndNotEmptySelectField(i18next.t("dataset.internalManagement.creator")),
+    contributor: mandatoryAndNotEmptyMultiSelectField(
+      i18next.t("dataset.internalManagement.contributors"),
+    ),
+    disseminationStatus: mandatoryAndNotEmptySelectField(
+      i18next.t("dataset.internalManagement.disseminationStatus"),
+    ),
+    wasGeneratedIRIs: mandatoryAndNotEmptyMultiSelectField(
+      i18next.t("dataset.internalManagement.generatedBy"),
+    ),
+  });
 
-export const validate = ({ catalogRecord, ...otherFields }: Dataset) =>
-  formatValidation(ZodDataset)({
+  return formatValidation(ZodDataset)({
     creator: catalogRecord?.creator,
     contributor: catalogRecord?.contributor,
     ...otherFields,
   });
+};

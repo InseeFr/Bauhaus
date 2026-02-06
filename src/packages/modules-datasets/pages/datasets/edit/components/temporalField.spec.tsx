@@ -5,6 +5,18 @@ import { TemporalField } from "./temporalField";
 
 const mockUpdateTemporalCoverage = vi.fn();
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "dataset.statisticalInformation.temporalCoverage.startDate": "Date de début",
+        "dataset.statisticalInformation.temporalCoverage.endDate": "Date de fin",
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
+
 describe("TemporalField Component", () => {
   const defaultProps = {
     temporalCoverageStartDate: "",
