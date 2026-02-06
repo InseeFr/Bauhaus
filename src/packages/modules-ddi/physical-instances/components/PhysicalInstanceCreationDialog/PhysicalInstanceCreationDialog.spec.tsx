@@ -214,7 +214,8 @@ describe("PhysicalInstanceDialog", () => {
       await waitFor(() => {
         expect(mockOnSubmitCreate).toHaveBeenCalledWith({
           label: "Test Label",
-          name: "DataRelationShip Name:Test Label",
+          dataRelationshipLabel: "Structure : Test Label",
+          logicalRecordLabel: "Enregistrement logique : Test Label",
           group: { id: "group-1", agency: "agency-1" },
           studyUnit: { id: "study-1", agency: "agency-1" },
         });
@@ -295,7 +296,8 @@ describe("PhysicalInstanceDialog", () => {
       await waitFor(() => {
         expect(mockOnSubmitEdit).toHaveBeenCalledWith({
           label: "Existing Label",
-          name: "DataRelationShip Name:Existing Label",
+          dataRelationshipLabel: "Structure : Existing Label",
+          logicalRecordLabel: "Enregistrement logique : Existing Label",
           group: { id: "group-1", agency: "agency-1" },
           studyUnit: { id: "study-1", agency: "agency-1" },
         });

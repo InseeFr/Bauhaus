@@ -133,7 +133,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     });
 
     expect(result.duplicatedData.DataRelationship[0].DataRelationshipName.String["#text"]).toBe(
-      "Original DR Name (copy)",
+      "Structure : Test (copy)",
     );
   });
 
@@ -434,7 +434,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
             ID: "original-lr-id",
             VariablesInRecord: {
               VariableUsedReference: [
-                { Agency: "original-agency", ID: "original-var-id-1", Version: "1" },
+                {
+                  Agency: "original-agency",
+                  ID: "original-var-id-1",
+                  Version: "1",
+                },
               ],
             },
           },

@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import { useTranslation } from "react-i18next";
 import { useGroups } from "../../../hooks/useGroups";
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
+import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 import "./PhysicalInstanceCreationDialog.css";
 
 interface SelectedGroup {
@@ -20,14 +21,16 @@ interface SelectedStudyUnit {
 
 export interface PhysicalInstanceCreationData {
   label: string;
-  name: string;
+  dataRelationshipLabel: string;
+  logicalRecordLabel: string;
   group: SelectedGroup;
   studyUnit: SelectedStudyUnit;
 }
 
 export interface PhysicalInstanceUpdateData {
   label: string;
-  name: string;
+  dataRelationshipLabel: string;
+  logicalRecordLabel: string;
   group: SelectedGroup;
   studyUnit: SelectedStudyUnit;
 }
@@ -114,7 +117,8 @@ export const PhysicalInstanceDialog = ({
       if (isCreateMode && onSubmitCreate) {
         const data: PhysicalInstanceCreationData = {
           label: label,
-          name: "DataRelationShip Name:" + label,
+          dataRelationshipLabel: buildDataRelationshipLabel(label),
+          logicalRecordLabel: buildLogicalRecordLabel(label),
           group: selectedGroup!,
           studyUnit: selectedStudyUnit!,
         };
@@ -124,7 +128,8 @@ export const PhysicalInstanceDialog = ({
       } else if (!isCreateMode && onSubmitEdit) {
         const data: PhysicalInstanceUpdateData = {
           label: label,
-          name: "DataRelationShip Name:" + label,
+          dataRelationshipLabel: buildDataRelationshipLabel(label),
+          logicalRecordLabel: buildLogicalRecordLabel(label),
           group: selectedGroup!,
           studyUnit: selectedStudyUnit!,
         };

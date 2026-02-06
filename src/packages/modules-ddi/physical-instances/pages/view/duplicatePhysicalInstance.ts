@@ -1,4 +1,5 @@
 import type { Variable } from "../../types/api";
+import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 
 interface DuplicatePhysicalInstanceParams {
   agencyId: string;
@@ -75,7 +76,7 @@ export function buildDuplicatedPhysicalInstance({
         ...dr.DataRelationshipName,
         String: {
           ...dr.DataRelationshipName?.String,
-          "#text": `${dr.DataRelationshipName?.String?.["#text"] || ""} (copy)`,
+          "#text": buildDataRelationshipLabel(`${title} (copy)`),
         },
       },
       LogicalRecord: {
@@ -84,6 +85,12 @@ export function buildDuplicatedPhysicalInstance({
         URN: `urn:ddi:${newAgencyId}:${newLogicalRecordId}:1`,
         Agency: newAgencyId,
         "@versionDate": new Date().toISOString(),
+        LogicalRecordName: {
+          String: {
+            ...dr.LogicalRecord?.LogicalRecordName?.String,
+            "#text": buildLogicalRecordLabel(`${title} (copy)`),
+          },
+        },
         VariablesInRecord: {
           VariableUsedReference: Array.from(variableIdMap.values()).map((newVarId) => ({
             Agency: newAgencyId,

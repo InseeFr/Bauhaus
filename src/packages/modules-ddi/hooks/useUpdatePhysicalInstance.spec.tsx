@@ -45,7 +45,8 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 
@@ -53,7 +54,8 @@ describe("useUpdatePhysicalInstance", () => {
 
     expect(mockPatch).toHaveBeenCalledWith("test-agency", "test-id", {
       physicalInstanceLabel: "Test Label",
-      dataRelationshipName: "Test Name",
+      dataRelationshipLabel: "Test Label",
+      logicalRecordLabel: "Test Label",
     });
   });
 
@@ -72,7 +74,8 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency-456",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 
@@ -97,13 +100,12 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 
-    await expect(result.current.mutateAsync(testData)).rejects.toThrow(
-      "API Error",
-    );
+    await expect(result.current.mutateAsync(testData)).rejects.toThrow("API Error");
   });
 
   it("should return mutation status correctly", async () => {
@@ -123,7 +125,8 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 

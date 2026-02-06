@@ -6,7 +6,8 @@ interface UpdatePhysicalInstanceParams {
   agencyId: string;
   data: {
     physicalInstanceLabel: string;
-    dataRelationshipName: string;
+    dataRelationshipLabel: string;
+    logicalRecordLabel: string;
     groupId: string;
     groupAgency: string;
     studyUnitId: string;

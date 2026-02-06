@@ -779,7 +779,8 @@ describe("View Component", () => {
           agencyId: "test-agency-123",
           data: {
             physicalInstanceLabel: "Updated Title",
-            dataRelationshipName: "DataRelationShip Name:Updated Title",
+            dataRelationshipLabel: "Structure : Updated Title",
+            logicalRecordLabel: "Enregistrement logique : Updated Title",
             groupId: "group-1",
             groupAgency: "agency-1",
             studyUnitId: "study-1",
@@ -1603,9 +1604,9 @@ describe("View Component", () => {
 
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
-      // Verify DataRelationshipName has (copy) suffix
+      // Verify DataRelationshipName has (copy) suffix with new pattern
       expect(savedData.DataRelationship[0].DataRelationshipName.String["#text"]).toBe(
-        "Original DR Name (copy)",
+        "Structure : Test (copy)",
       );
     });
 

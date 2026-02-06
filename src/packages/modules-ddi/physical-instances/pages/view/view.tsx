@@ -32,20 +32,19 @@ export const Component = () => {
   const toast = useRef<Toast>(null);
   const initialRestoreDone = useRef(false);
   const [state, dispatch] = useReducer(viewReducer, initialState);
-  const { data, variables, title, dataRelationshipName, isLoading, isError, error } =
-    usePhysicalInstancesData(agencyId!, id!);
+  const { data, variables, title, isLoading, isError, error } = usePhysicalInstancesData(
+    agencyId!,
+    id!,
+  );
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
 
   useEffect(() => {
-    if (
-      (title || dataRelationshipName) &&
-      (title !== state.formData.label || dataRelationshipName !== state.formData.name)
-    ) {
-      dispatch(actions.setFormData({ label: title, name: dataRelationshipName }));
+    if (title && title !== state.formData.label) {
+      dispatch(actions.setFormData({ label: title }));
     }
-  }, [title, dataRelationshipName]);
+  }, [title]);
 
   const tabParam = Number(searchParams.get("tab"));
   const activeTabIndex = [0, 1, 2].includes(tabParam) ? tabParam : 0;
@@ -279,9 +278,8 @@ export const Component = () => {
   const handleSaveEdit = useCallback(
     async (data: PhysicalInstanceUpdateData) => {
       const previousLabel = state.formData.label;
-      const previousName = state.formData.name;
 
-      dispatch(actions.setFormData({ label: data.label, name: data.name }));
+      dispatch(actions.setFormData({ label: data.label }));
 
       try {
         await updatePhysicalInstance.mutateAsync({
@@ -289,7 +287,8 @@ export const Component = () => {
           agencyId: agencyId!,
           data: {
             physicalInstanceLabel: data.label,
-            dataRelationshipName: data.name,
+            dataRelationshipLabel: data.dataRelationshipLabel,
+            logicalRecordLabel: data.logicalRecordLabel,
             groupId: data.group.id,
             groupAgency: data.group.agency,
             studyUnitId: data.studyUnit.id,
@@ -306,7 +305,7 @@ export const Component = () => {
           life: TOAST_DURATION,
         });
       } catch (err: unknown) {
-        dispatch(actions.setFormData({ label: previousLabel, name: previousName }));
+        dispatch(actions.setFormData({ label: previousLabel }));
 
         const errorMessage =
           err && typeof err === "object" && "message" in err
@@ -321,7 +320,7 @@ export const Component = () => {
         });
       }
     },
-    [id, agencyId, t, updatePhysicalInstance, state.formData.label, state.formData.name],
+    [id, agencyId, t, updatePhysicalInstance, state.formData.label],
   );
 
   const handleVariableClick = useCallback(
