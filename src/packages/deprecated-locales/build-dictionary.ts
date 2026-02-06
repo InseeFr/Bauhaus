@@ -4,7 +4,6 @@ import appD from "./dictionary/app";
 import classificationsD from "./dictionary/classifications";
 import codelistsD from "./dictionary/codelists";
 import conceptsD from "./dictionary/concepts";
-import datasets from "./dictionary/datasets";
 import DSDsD from "./dictionary/dsds";
 import errors from "./dictionary/errors";
 import operationsD from "./dictionary/operations";
@@ -18,7 +17,6 @@ const dictionary = {
   ...DSDsD,
   ...codelistsD,
   ...errors,
-  ...datasets,
   ...DDIDictionary,
 };
 
