@@ -11,12 +11,13 @@ import {
 
 import { Dataset } from "../../../../model/Dataset";
 
-const tFr = i18next.getFixedT("fr");
-const tEn = i18next.getFixedT("en");
-
 const ZodDataset = z.object({
-  labelLg1: mandatoryAndNotEmptyTextField(tFr("dataset.globalInformation.mainTitle")),
-  labelLg2: mandatoryAndNotEmptyTextField(tEn("dataset.globalInformation.mainTitle")),
+  labelLg1: mandatoryAndNotEmptyTextField(
+    i18next.t("dataset.globalInformation.mainTitle", { lng: "fr" }),
+  ),
+  labelLg2: mandatoryAndNotEmptyTextField(
+    i18next.t("dataset.globalInformation.mainTitle", { lng: "en" }),
+  ),
   altIdentifier: z
     .string()
     .regex(/^[a-zA-Z0-9-_]+$/, {

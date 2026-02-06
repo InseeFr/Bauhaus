@@ -12,15 +12,13 @@ export const Notes = ({
   editingDataset: Dataset;
   setEditingDataset: (dataset: Dataset) => void;
 }>) => {
-  const { i18n } = useTranslation();
-  const tFr = i18n.getFixedT("fr");
-  const tEn = i18n.getFixedT("en");
+  const { t } = useTranslation();
 
   return (
     <>
       <Row>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg1">{tFr("dataset.notes.abstract")}</label>
+          <label htmlFor="descriptionLg1">{t("dataset.notes.abstract", { lng: "fr" })}</label>
           <MDEditor
             text={editingDataset.abstractLg1}
             handleChange={(value) => {
@@ -32,7 +30,7 @@ export const Notes = ({
           />
         </div>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg2">{tEn("dataset.notes.abstract")}</label>
+          <label htmlFor="descriptionLg2">{t("dataset.notes.abstract", { lng: "en" })}</label>
           <MDEditor
             text={editingDataset.abstractLg2}
             handleChange={(value) => {
@@ -46,7 +44,7 @@ export const Notes = ({
       </Row>
       <Row>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg1">{tFr("dataset.notes.description")}</label>
+          <label htmlFor="descriptionLg1">{t("dataset.notes.description", { lng: "fr" })}</label>
           <MDEditor
             text={editingDataset.descriptionLg1}
             handleChange={(value) => {
@@ -58,7 +56,7 @@ export const Notes = ({
           />
         </div>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg2">{tEn("dataset.notes.description")}</label>
+          <label htmlFor="descriptionLg2">{t("dataset.notes.description", { lng: "en" })}</label>
           <MDEditor
             text={editingDataset.descriptionLg2}
             handleChange={(value) => {
@@ -73,7 +71,7 @@ export const Notes = ({
 
       <Row>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg1">{tFr("dataset.notes.warning")}</label>
+          <label htmlFor="descriptionLg1">{t("dataset.notes.warning", { lng: "fr" })}</label>
           <MDEditor
             text={editingDataset.cautionLg1}
             handleChange={(value) => {
@@ -85,7 +83,7 @@ export const Notes = ({
           />
         </div>
         <div className="col-md-6 form-group">
-          <label htmlFor="cautionLg2">{tEn("dataset.notes.warning")}</label>
+          <label htmlFor="cautionLg2">{t("dataset.notes.warning", { lng: "en" })}</label>
           <MDEditor
             text={editingDataset.cautionLg2}
             handleChange={(value) => {

@@ -29,9 +29,7 @@ import { useOrganizations } from "@utils/hooks/organizations";
 import { useDataset } from "../../../hooks/useDataset";
 
 const Dataset = (props) => {
-  const { i18n } = useTranslation();
-  const tFr = i18n.getFixedT("fr");
-  const tEn = i18n.getFixedT("en");
+  const { t } = useTranslation();
 
   const { id } = useParams();
 
@@ -80,7 +78,7 @@ const Dataset = (props) => {
     },
   });
 
-  useTitle(tFr("dataset.pluralTitle"), dataset?.labelLg1);
+  useTitle(t("dataset.pluralTitle"), dataset?.labelLg1);
 
   if (isLoading) return <Loading />;
   if (isDeleting) return <Deleting />;
@@ -98,14 +96,14 @@ const Dataset = (props) => {
       <Row>
         <Note
           text={dataset.subTitleLg1}
-          title={tFr("dataset.globalInformation.subtitle")}
+          title={t("dataset.globalInformation.subtitle", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={dataset.subTitleLg2}
-            title={tEn("dataset.globalInformation.subtitle")}
+            title={t("dataset.globalInformation.subtitle", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />
@@ -114,14 +112,14 @@ const Dataset = (props) => {
       <Row>
         <Note
           text={dataset.landingPageLg1}
-          title={tFr("dataset.globalInformation.landingPage")}
+          title={t("dataset.globalInformation.landingPage", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={dataset.landingPageLg2}
-            title={tEn("dataset.globalInformation.landingPage")}
+            title={t("dataset.globalInformation.landingPage", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />
@@ -135,7 +133,7 @@ const Dataset = (props) => {
               getContent={(linkedDocument) => <a href={linkedDocument}>{linkedDocument}</a>}
             ></List>
           }
-          title={tFr("dataset.globalInformation.linkedDocuments")}
+          title={t("dataset.globalInformation.linkedDocuments", { lng: "fr" })}
           alone={true}
           allowEmpty={true}
         ></Note>
@@ -145,14 +143,14 @@ const Dataset = (props) => {
           text={
             <ul>
               <li>
-                {t("dataset.internalManagement.creator")}
+                {t("dataset.internalManagement.creator")} :{" "}
                 <Organisation
                   creator={dataset.catalogRecord?.creator}
                   organizations={organisationsList}
                 />
               </li>
               <li>
-                {t("dataset.internalManagement.contributors")}
+                {t("dataset.internalManagement.contributors")} :{" "}
                 <Organisations
                   creators={dataset.catalogRecord?.contributor}
                   organizations={organisationsList}
@@ -165,7 +163,7 @@ const Dataset = (props) => {
               </li>
               {dataset.processStep && (
                 <li>
-                  {tFr("dataset.internalManagement.processStep")} :{" "}
+                  {t("dataset.internalManagement.processStep")} :{" "}
                   <CodeDisplay
                     codesList={props[CL_PROCESS_STEP]}
                     value={dataset.processStep}
@@ -174,27 +172,27 @@ const Dataset = (props) => {
               )}
               {dataset.archiveUnit && (
                 <li>
-                  {tFr("dataset.internalManagement.archiveUnit")} :{" "}
+                  {t("dataset.internalManagement.archiveUnit")} :{" "}
                   {archivageUnits?.find((t) => t.value === dataset.archiveUnit)?.label}
                 </li>
               )}
             </ul>
           }
-          title={tFr("dataset.internalManagement.title")}
+          title={t("dataset.internalManagement.title")}
           alone={true}
         />
       </Row>
       <Row>
         <Note
           text={<Editor.Markdown source={dataset.descriptionLg1} />}
-          title={tFr("dataset.notes.description")}
+          title={t("dataset.notes.description", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={<Editor.Markdown source={dataset.descriptionLg2} />}
-            title={tEn("dataset.notes.description")}
+            title={t("dataset.notes.description", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />
@@ -203,14 +201,14 @@ const Dataset = (props) => {
       <Row>
         <Note
           text={<Editor.Markdown source={dataset.abstractLg1} />}
-          title={tFr("dataset.notes.abstract")}
+          title={t("dataset.notes.abstract", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={<Editor.Markdown source={dataset.abstractLg2} />}
-            title={tEn("dataset.notes.abstract")}
+            title={t("dataset.notes.abstract", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />
@@ -219,14 +217,14 @@ const Dataset = (props) => {
       <Row>
         <Note
           text={<Editor.Markdown source={dataset.cautionLg1} />}
-          title={tFr("dataset.notes.warning")}
+          title={t("dataset.notes.warning", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={<Editor.Markdown source={dataset.cautionLg2} />}
-            title={tEn("dataset.notes.warning")}
+            title={t("dataset.notes.warning", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />

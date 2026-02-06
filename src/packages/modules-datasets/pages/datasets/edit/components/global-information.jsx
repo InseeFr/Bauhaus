@@ -21,9 +21,7 @@ const GlobalInformationTab = ({
   setClientSideErrors,
   ...props
 }) => {
-  const { i18n } = useTranslation();
-  const tFr = i18n.getFixedT("fr");
-  const tEn = i18n.getFixedT("en");
+  const { t } = useTranslation();
 
   const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
 
@@ -34,7 +32,7 @@ const GlobalInformationTab = ({
       <Row>
         <div className="col-md-6 form-group">
           <LabelRequired htmlFor="labelLg1">
-            {tFr("dataset.globalInformation.mainTitle")}
+            {t("dataset.globalInformation.mainTitle", { lng: "fr" })}
           </LabelRequired>
           <TextInput
             id="labelLg1"
@@ -54,7 +52,7 @@ const GlobalInformationTab = ({
         </div>
         <div className="col-md-6 form-group">
           <LabelRequired htmlFor="labelLg2">
-            {tEn("dataset.globalInformation.mainTitle")}
+            {t("dataset.globalInformation.mainTitle", { lng: "en" })}
           </LabelRequired>
           <TextInput
             id="labelLg2"
@@ -75,7 +73,9 @@ const GlobalInformationTab = ({
       </Row>
       <Row>
         <div className="col-md-6 form-group">
-          <label htmlFor="subtitleLg1">{tFr("dataset.globalInformation.subtitle")}</label>
+          <label htmlFor="subtitleLg1">
+            {t("dataset.globalInformation.subtitle", { lng: "fr" })}
+          </label>
           <TextInput
             id="subtitleLg1"
             value={editingDataset.subTitleLg1}
@@ -88,7 +88,9 @@ const GlobalInformationTab = ({
           />
         </div>
         <div className="col-md-6 form-group">
-          <label htmlFor="subtitleLg2">{tEn("dataset.globalInformation.subtitle")}</label>
+          <label htmlFor="subtitleLg2">
+            {t("dataset.globalInformation.subtitle", { lng: "en" })}
+          </label>
           <TextInput
             id="subtitleLg2"
             value={editingDataset.subTitleLg2}
@@ -104,7 +106,7 @@ const GlobalInformationTab = ({
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {tFr("dataset.globalInformation.firstReleaseDate")}
+            {t("dataset.globalInformation.firstReleaseDate")}
             <input
               type="date"
               className="form-control"
@@ -122,7 +124,7 @@ const GlobalInformationTab = ({
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {tFr("dataset.globalInformation.modificationDate")}
+            {t("dataset.globalInformation.modificationDate")}
             <input
               type="date"
               className="form-control"
@@ -140,7 +142,7 @@ const GlobalInformationTab = ({
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {tFr("dataset.globalInformation.updateFrequency")}
+            {t("dataset.globalInformation.updateFrequency")}
             <Select
               value={editingDataset.accrualPeriodicity}
               options={clFreqOptions}
@@ -157,7 +159,7 @@ const GlobalInformationTab = ({
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {tFr("dataset.globalInformation.dataProvider")}
+            {t("dataset.globalInformation.dataProvider")}
             <OrganisationInput
               multi
               value={editingDataset.creators}
@@ -174,7 +176,7 @@ const GlobalInformationTab = ({
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {tFr("dataset.globalInformation.publicationProvider")}
+            {t("dataset.globalInformation.publicationProvider")}
             <OrganisationInput
               value={editingDataset.publisher}
               onChange={(values) => {
@@ -190,7 +192,7 @@ const GlobalInformationTab = ({
       <Row>
         <div className="col-md-12 form-group">
           <label className="w-100 wilco-label-required">
-            {tFr("dataset.globalInformation.theme")}
+            {t("dataset.globalInformation.theme")}
             <Select
               multi
               value={editingDataset.themes}
@@ -208,8 +210,8 @@ const GlobalInformationTab = ({
       <InputMulti
         inputLg1={editingDataset.keywords?.lg1}
         inputLg2={editingDataset.keywords?.lg2}
-        labelLg1={tFr("dataset.globalInformation.keywords")}
-        labelLg2={tEn("dataset.globalInformation.keywords")}
+        labelLg1={t("dataset.globalInformation.keywords", { lng: "fr" })}
+        labelLg2={t("dataset.globalInformation.keywords", { lng: "en" })}
         handleChangeLg1={(keywords) => {
           setEditingDataset({
             ...editingDataset,
@@ -231,7 +233,9 @@ const GlobalInformationTab = ({
       />
       <Row>
         <div className="col-md-6 form-group">
-          <label htmlFor="landingPageLg1">{tFr("dataset.globalInformation.landingPage")}</label>
+          <label htmlFor="landingPageLg1">
+            {t("dataset.globalInformation.landingPage", { lng: "fr" })}
+          </label>
           <TextInput
             id="landingPageLg1"
             value={editingDataset.landingPageLg1}
@@ -244,7 +248,9 @@ const GlobalInformationTab = ({
           />
         </div>
         <div className="col-md-6 form-group">
-          <label htmlFor="landingPageLg2">{tEn("dataset.globalInformation.landingPage")}</label>
+          <label htmlFor="landingPageLg2">
+            {t("dataset.globalInformation.landingPage", { lng: "en" })}
+          </label>
           <TextInput
             id="landingPageLg2"
             value={editingDataset.landingPageLg2}
@@ -259,7 +265,7 @@ const GlobalInformationTab = ({
       </Row>
       <InputMulti
         inputLg1={editingDataset.linkedDocuments}
-        labelLg1={tFr("dataset.globalInformation.linkedDocuments")}
+        labelLg1={t("dataset.globalInformation.linkedDocuments", { lng: "fr" })}
         handleChangeLg1={(linkedDocuments) => {
           setEditingDataset({
             ...editingDataset,
