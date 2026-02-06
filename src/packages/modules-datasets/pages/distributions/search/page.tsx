@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { DatePicker } from "@components/date-picker";
@@ -16,7 +17,6 @@ import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
-import D from "../../../../deprecated-locales/build-dictionary";
 import { useSeriesOperationsOptions } from "../../../hooks/useSeriesOperationsOptions";
 import { FieldsForDatasetsAdvancedSearch, SearchDataset } from "../../datasets/search/page";
 
@@ -31,7 +31,9 @@ interface SearchDistribution {
 }
 
 export const Component = () => {
-  useTitle(D.distributionsTitle, D.advancedSearch);
+  const { t } = useTranslation();
+
+  useTitle(t("distribution.searchTitle"));
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<SearchDistribution[]>([]);
@@ -85,6 +87,8 @@ export const AdvancedSearchForm = ({
   data: SearchDistribution[];
   seriesOperationsOptions: Options;
 }) => {
+  const { t } = useTranslation();
+
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const {
@@ -126,16 +130,16 @@ export const AdvancedSearchForm = ({
 
   return (
     <AdvancedSearchList
-      title={D.distributionsSearchTitle}
+      title={t("distribution.searchTitle")}
       data={dataLinks}
       initializeState={reset}
       redirect={<Navigate to="/datasets/distributions" />}
     >
       <fieldset>
-        <legend>{D.distributionTitle}</legend>
+        <legend>{t("distribution.title")}</legend>
         <div className="row form-group">
           <div className="col-md-12">
-            <label className="w-100">{D.labelTitle}</label>
+            <label className="w-100">{t("distribution.mainTitle")}</label>
             <TextInput
               value={distributionLabelLg1}
               onChange={(e) => handleChange("distributionLabelLg1", e.target.value)}
@@ -144,21 +148,21 @@ export const AdvancedSearchForm = ({
         </div>
         <div className="row form-group">
           <div className="col-md-3">
-            <label className="w-100">{D.createdDateTitle}</label>
+            <label className="w-100">{t("distribution.creationDate")}</label>
             <DatePicker
               value={distributionCreated}
               onChange={(value) => handleChange("distributionCreated", value ?? "")}
             />
           </div>
           <div className="col-md-4">
-            <label className="w-100">{D.modifiedDateTitle}</label>
+            <label className="w-100">{t("distribution.updatingDate")}</label>
             <DatePicker
               value={distributionUpdated}
               onChange={(value) => handleChange("distributionUpdated", value ?? "")}
             />
           </div>
           <div className="col-md-4">
-            <label className="w-100">{D.validationStatusTitle}</label>
+            <label className="w-100">{t("distribution.validationStatus")}</label>
             <Select
               value={distributionValidationStatus}
               options={validateStateOptions}
@@ -168,10 +172,10 @@ export const AdvancedSearchForm = ({
         </div>
       </fieldset>
       <fieldset>
-        <legend>{D.datasetTitle}</legend>
+        <legend>{t("dataset.title")}</legend>
         <div className="row form-group">
           <div className="col-md-12">
-            <label className="w-100">{D.datasetsAltId}</label>
+            <label className="w-100">{t("dataset.internalManagement.altId.title")}</label>
             <TextInput
               value={altIdentifier}
               onChange={(e) => handleChange("altIdentifier", e.target.value)}

@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput, UrlInputBlock } from "@components/form/input";
@@ -11,8 +12,6 @@ import { MDEditor } from "@components/rich-editor/react-md-editor";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { D1, D2 } from "../../../../deprecated-locales";
-import D from "../../../../deprecated-locales/build-dictionary";
 import { ByteSizeInput } from "./components/byte-size-input";
 import { CompressFormatInput } from "./components/compress-format-input";
 import { DatasetSelect } from "./components/dataset-select";
@@ -26,6 +25,8 @@ import { useDistribution } from "../../../hooks/useDistribution";
 import { useCreateOrUpdateDistribution } from "../../../hooks/useCreateOrUpdateDistribution";
 
 export const Component = () => {
+  const { t } = useTranslation();
+
   const { id } = useParams<{ id: string }>();
   const isEditing = !!id;
 
@@ -53,7 +54,7 @@ export const Component = () => {
 
   const { isSaving, save, serverSideError } = useCreateOrUpdateDistribution(isEditing);
 
-  useTitle(D.distributionsTitle, state.editingDistribution?.labelLg1);
+  useTitle(t("distribution.title"), state.editingDistribution?.labelLg1);
 
   if (!distribution && isEditing) {
     return <Loading />;
@@ -82,7 +83,7 @@ export const Component = () => {
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={serverSideError} D={D} />
+      <ErrorBloc error={serverSideError} />
       <form>
         <Row>
           <DatasetSelect
@@ -94,7 +95,9 @@ export const Component = () => {
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg1">{D1.title}</LabelRequired>
+            <LabelRequired htmlFor="labelLg1">
+              {t("distribution.mainTitle", { lng: "fr" })}
+            </LabelRequired>
             <TextInput
               id="labelLg1"
               aria-describedby="labelLg1-error"
@@ -107,7 +110,9 @@ export const Component = () => {
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg2">{D2.title}</LabelRequired>
+            <LabelRequired htmlFor="labelLg2">
+              {t("distribution.mainTitle", { lng: "en" })}
+            </LabelRequired>
             <TextInput
               id="labelLg2"
               aria-describedby="labelLg2-error"
@@ -122,14 +127,14 @@ export const Component = () => {
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
+            <label htmlFor="descriptionLg1">{t("distribution.description", { lng: "fr" })}</label>
             <MDEditor
               text={state.editingDistribution.descriptionLg1}
               handleChange={updateField("descriptionLg1")}
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
+            <label htmlFor="descriptionLg2">{t("distribution.description", { lng: "en" })}</label>
             <MDEditor
               text={state.editingDistribution.descriptionLg2}
               handleChange={updateField("descriptionLg2")}
@@ -165,7 +170,7 @@ export const Component = () => {
         <Row>
           <div className="col-md-12 form-group">
             <UrlInputBlock
-              label={D.accessUrlTitle}
+              label={t("distribution.accessURL")}
               value={state.editingDistribution.accessUrl}
               onChange={updateFieldFromEvent("accessUrl")}
               error={state.clientSideErrors?.fields?.accessUrl}
@@ -175,7 +180,7 @@ export const Component = () => {
         <Row>
           <div className="col-md-12 form-group">
             <UrlInputBlock
-              label={D.downloadUrlTitle}
+              label={t("distribution.downloadURL")}
               value={state.editingDistribution.url}
               onChange={updateFieldFromEvent("url")}
               error={state.clientSideErrors?.fields?.url}

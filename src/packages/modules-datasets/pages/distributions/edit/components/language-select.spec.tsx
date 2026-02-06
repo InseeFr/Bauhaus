@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { D1 } from "../../../../../deprecated-locales";
 import { LanguageSelect } from "./language-select";
 
 vi.mock("../../../../../i18n", () => ({
@@ -19,7 +18,7 @@ describe("LanguageSelect", () => {
     const { container } = render(<LanguageSelect onChange={mockOnChange} />);
 
     const label = container.querySelector('label[for="language"]');
-    expect(label?.textContent).toBe(D1.languageTitle);
+    expect(label?.textContent).toBe("Language");
     const selectElement = container.querySelector(".p-dropdown");
     expect(selectElement).not.toBeNull();
   });

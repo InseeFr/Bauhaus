@@ -1,8 +1,9 @@
+import { useTranslation } from "react-i18next";
+
 import { ClientSideError } from "@components/errors-bloc";
 import LabelRequired from "@components/label-required";
 import { Select } from "@components/select-rmes";
 
-import { D1 } from "../../../../../deprecated-locales";
 import { useDatasetsForDistributions } from "../../../../hooks/useDatasetsForDistributions";
 
 type DatasetSelectProps = {
@@ -18,6 +19,8 @@ export const DatasetSelect = ({
   onChange,
   error,
 }: Readonly<DatasetSelectProps>) => {
+  const { t } = useTranslation();
+
   const { data: datasets } = useDatasetsForDistributions();
 
   const datasetsOptions =
@@ -28,10 +31,10 @@ export const DatasetSelect = ({
 
   return (
     <div className="col-md-12 form-group">
-      <LabelRequired htmlFor="idDataset">{D1.datasetTitle}</LabelRequired>
+      <LabelRequired htmlFor="idDataset">{t("dataset.title")}</LabelRequired>
       <Select
         disabled={disabled}
-        placeholder={D1.datasetTitle}
+        placeholder={t("dataset.title")}
         value={value}
         options={datasetsOptions}
         onChange={onChange}

@@ -2,8 +2,8 @@
   "dataset": {
     "title": "Jeu de données",
     "pluralTitle": "Jeux de données",
-    "homePageTitle": "Jeux de Données - Recherche",
-    "searchTitle": "Jeux de Données - Recherche avancée",
+    "homePageTitle": "Jeux de données - Recherche",
+    "searchTitle": "Jeux de données - Recherche avancée",
     "globalInformation": {
       "title": "Informations générales",
       "validationStatus": "Statut de publication",
@@ -65,23 +65,27 @@
       "numberOfObservations": "Nombre d'observations",
       "numberOfTimeSeries": "Nombre de séries temporelles"
     },
-    "tabKO": "Il y a des erreurs dans cet onglet"
+    "tabKO": "Il y a des erreurs dans cet onglet",
+    "hide": "Cacher",
+    "display": "Afficher"
   },
   "distribution": {
     "title": "Distribution",
     "pluralTitle": "Distributions",
     "homePageTitle": "Distributions - Recherche",
     "searchTitle": "Distributions - Recherche avancée",
-    "status": "État de la distribution",
+    "validationStatus": "Statut de publication",
+    "creationDate": "Date de création",
+    "updatingDate": "Date de modification",
+    "mainTitle": "Intitulé",
     "description": "Description",
     "language": "Langue",
     "format": "Format",
     "mediaType": "Type de média",
     "compressFormat": "Format de compression",
-    "size": "Taille",
+    "byteSize": "Taille",
     "accessURL": "URL d'accès",
-    "downloadURL": "URL de téléchargement"
-  },
-  "hide": "Cacher",
-  "display": "Afficher"
+    "downloadURL": "URL de téléchargement",
+    "URLerror": "L'URL n'est pas valide"
+  }
 }

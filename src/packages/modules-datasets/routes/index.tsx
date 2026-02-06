@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 
 export const routes: RouteObject[] = [
-  // Datasets page
+  // Datasets pages
   {
     path: "",
     lazy: () => import("../pages/datasets/home/page"),
@@ -22,7 +22,7 @@ export const routes: RouteObject[] = [
     path: ":id/modify",
     lazy: () => import("../pages/datasets/edit/page"),
   },
-  // Distributions page
+  // Distributions pages
   {
     path: "distributions",
     lazy: () => import("../pages/distributions/home/page"),

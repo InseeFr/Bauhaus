@@ -1,6 +1,6 @@
-import { NumberInput } from "@components/form/input";
+import { useTranslation } from "react-i18next";
 
-import { D1 } from "../../../../../deprecated-locales";
+import { NumberInput } from "@components/form/input";
 
 export const ByteSizeInput = ({
   value,
@@ -9,9 +9,11 @@ export const ByteSizeInput = ({
   value: string;
   onChange: (value: string) => void;
 }>) => {
+  const { t } = useTranslation();
+
   return (
     <div className="col-md-12 form-group">
-      <label htmlFor="taille">{D1.tailleTitle}</label>
+      <label htmlFor="taille">{t("distribution.byteSize")}</label>
       <NumberInput id="taille" value={value} onChange={(e) => onChange(e.target.value)} />
     </div>
   );

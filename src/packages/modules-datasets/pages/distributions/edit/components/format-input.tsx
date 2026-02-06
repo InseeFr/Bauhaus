@@ -1,6 +1,6 @@
-import { TextInput } from "@components/form/input";
+import { useTranslation } from "react-i18next";
 
-import { D1 } from "../../../../../deprecated-locales";
+import { TextInput } from "@components/form/input";
 
 const FORMAT_OPTIONS = ["CSV", "PARQUET"];
 
@@ -10,9 +10,11 @@ type FormatInputProps = {
 };
 
 export const FormatInput = ({ value, onChange }: Readonly<FormatInputProps>) => {
+  const { t } = useTranslation();
+
   return (
     <div className="col-md-12 form-group">
-      <label htmlFor="format">{D1.formatTitle}</label>
+      <label htmlFor="format">{t("distribution.format")}</label>
       <TextInput
         id="format"
         value={value}

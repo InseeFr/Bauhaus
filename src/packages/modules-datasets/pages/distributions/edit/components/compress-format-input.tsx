@@ -1,6 +1,6 @@
-import { TextInput } from "@components/form/input";
+import { useTranslation } from "react-i18next";
 
-import D from "../../../../../deprecated-locales/build-dictionary";
+import { TextInput } from "@components/form/input";
 
 const COMPRESS_FORMAT_OPTIONS = ["7Z", "TAR GZ", "ZIP"];
 
@@ -10,9 +10,11 @@ type CompressFormatInputProps = {
 };
 
 export const CompressFormatInput = ({ value, onChange }: Readonly<CompressFormatInputProps>) => {
+  const { t } = useTranslation();
+
   return (
     <div className="col-md-6 form-group">
-      <label htmlFor="compressFormat">{D.compressFormatTitle}</label>
+      <label htmlFor="compressFormat">{t("distribution.compressFormat")}</label>
       <TextInput
         id="compressFormat"
         value={value}

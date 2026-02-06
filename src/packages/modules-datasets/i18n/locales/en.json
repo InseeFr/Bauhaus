@@ -65,7 +65,9 @@
       "numberOfObservations": "Number of observations",
       "numberOfTimeSeries": "Number of time series"
     },
-    "tabKO": "Errors occur in this tab"
+    "tabKO": "Errors occur in this tab",
+    "hide": "Hide",
+    "display": "Display"
   },
   "distribution": {
     "title": "Distribution",
@@ -73,15 +75,15 @@
     "homePageTitle": "Distributions - Search",
     "searchTitle": "Distributions - Advanced search",
     "status": "State of the distribution",
+    "mainTitle": "Title",
     "description": "Description",
     "language": "Language",
     "format": "Format",
     "mediaType": "Media type",
     "compressFormat": "Compress format",
-    "size": "Size",
+    "byteSize": "Size",
     "accessURL": "Access URL",
-    "downloadURL": "Download URL"
-  },
-  "hide": "Hide",
-  "display": "Display"
+    "downloadURL": "Download URL",
+    "URLerror": "The link is not valid"
+  }
 }

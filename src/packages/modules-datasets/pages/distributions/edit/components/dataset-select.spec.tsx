@@ -3,11 +3,11 @@ import { describe, expect, it, vi } from "vitest";
 
 import { DatasetSelect } from "./dataset-select";
 
-vi.mock("../../../../../deprecated-locales", () => ({
-  D1: {
-    datasetTitle: "Dataset",
-  },
-}));
+// vi.mock("../../../../../deprecated-locales", () => ({
+//   D1: {
+//     datasetTitle: "Dataset",
+//   },
+// }));
 
 const mockUseDatasetsForDistributions = vi.fn();
 

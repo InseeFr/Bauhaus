@@ -18,7 +18,11 @@ export const CollapsibleTrigger = ({
   const { t } = useTranslation();
 
   return (
-    <button type="button" title={opened ? t("hide") : t("display")} onClick={onClick}>
+    <button
+      type="button"
+      title={opened ? t("dataset.hide") : t("dataset.display")}
+      onClick={onClick}
+    >
       <span className={`glyphicon glyphicon-chevron-${opened ? "up" : "down"}`} />
     </button>
   );

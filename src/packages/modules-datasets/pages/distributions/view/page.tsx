@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc } from "@components/errors-bloc";
@@ -6,8 +7,6 @@ import { Deleting, Loading, Publishing } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
 import { useTitle } from "@utils/hooks/useTitle";
-
-import D from "../../../../deprecated-locales/build-dictionary";
 
 import { ViewMenu } from "./menu";
 import { ViewMainBlock } from "./components/view-main-block";
@@ -17,6 +16,8 @@ import { useDatasetPublisher } from "../../../hooks/useDatasetPublisher";
 import { useDatasetDeleter } from "../../../hooks/useDatasetDeleter";
 
 export const Component = () => {
+  const { t } = useTranslation();
+
   const { id } = useParams<{ id: string }>();
 
   const { data: distribution, isLoading } = useDistribution(id);
@@ -27,7 +28,7 @@ export const Component = () => {
 
   const { isDeleting, remove, deleteServerSideError } = useDatasetDeleter(id);
 
-  useTitle(D.distributionsTitle, distribution?.labelLg1);
+  useTitle(t("distribution.pluralTitle"), distribution?.labelLg1);
 
   if (isLoading || isLoadingDataSet) return <Loading />;
   if (isDeleting) return <Deleting />;
@@ -44,7 +45,7 @@ export const Component = () => {
         onDelete={remove}
       />
 
-      <ErrorBloc error={validationServerSideError || deleteServerSideError} D={D} />
+      <ErrorBloc error={validationServerSideError || deleteServerSideError} />
 
       <CheckSecondLang />
 

@@ -3,11 +3,11 @@ import { describe, expect, it, vi } from "vitest";
 
 import { FormatInput } from "./format-input";
 
-vi.mock("../../../../../deprecated-locales", () => ({
-  D1: {
-    formatTitle: "Format",
-  },
-}));
+// vi.mock("../../../../../deprecated-locales", () => ({
+//   D1: {
+//     formatTitle: "Format",
+//   },
+// }));
 
 describe("FormatInput", () => {
   it("should render the component with label", () => {

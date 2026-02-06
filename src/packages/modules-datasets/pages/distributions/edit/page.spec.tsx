@@ -24,28 +24,28 @@ vi.mock("../../../../application/app-context", () => ({
   }),
 }));
 
-vi.mock("../../../../deprecated-locales", () => ({
-  D1: {
-    title: "Title",
-    descriptionTitle: "Description",
-    datasetTitle: "Dataset",
-    formatTitle: "Format",
-  },
-  D2: {
-    title: "Title EN",
-    descriptionTitle: "Description EN",
-  },
-}));
+// vi.mock("../../../../deprecated-locales", () => ({
+//   D1: {
+//     title: "Title",
+//     descriptionTitle: "Description",
+//     datasetTitle: "Dataset",
+//     formatTitle: "Format",
+//   },
+//   D2: {
+//     title: "Title EN",
+//     descriptionTitle: "Description EN",
+//   },
+// }));
 
-vi.mock("../../../../deprecated-locales/build-dictionary", () => ({
-  default: {
-    distributionsTitle: "Distributions",
-    mediaTypeTitle: "Media Type",
-    compressFormatTitle: "Compress Format",
-    accessUrlTitle: "Access URL",
-    downloadUrlTitle: "Download URL",
-  },
-}));
+// vi.mock("../../../../deprecated-locales/build-dictionary", () => ({
+//   default: {
+//     distributionsTitle: "Distributions",
+//     mediaTypeTitle: "Media Type",
+//     compressFormatTitle: "Compress Format",
+//     accessUrlTitle: "Access URL",
+//     downloadUrlTitle: "Download URL",
+//   },
+// }));
 
 const mockUseDistribution = vi.fn();
 

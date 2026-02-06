@@ -1,6 +1,6 @@
-import { TextInput } from "@components/form/input";
+import { useTranslation } from "react-i18next";
 
-import D from "../../../../../deprecated-locales/build-dictionary";
+import { TextInput } from "@components/form/input";
 
 const MEDIA_TYPE_OPTIONS = ["CSV", "PARQUET", "XSLX"];
 
@@ -10,9 +10,11 @@ type MediaTypeInputProps = {
 };
 
 export const MediaTypeInput = ({ value, onChange }: Readonly<MediaTypeInputProps>) => {
+  const { t } = useTranslation();
+
   return (
     <div className="col-md-6 form-group">
-      <label htmlFor="mediaType">{D.mediaTypeTitle}</label>
+      <label htmlFor="mediaType">{t("distribution.mediaType")}</label>
       <TextInput
         id="mediaType"
         value={value}

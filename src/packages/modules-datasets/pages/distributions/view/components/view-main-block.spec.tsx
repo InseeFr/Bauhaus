@@ -3,7 +3,6 @@ import { describe, expect, it, Mock, vi } from "vitest";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import D from "../../../../../deprecated-locales/build-dictionary";
 import { Distribution } from "../../../../../model/Dataset";
 import { ViewMainBlock } from "./view-main-block";
 
@@ -29,7 +28,7 @@ describe("ViewMainBlock", () => {
   it("should render creation, modification, format, size, and URL information", () => {
     render(<ViewMainBlock distribution={mockDistribution} />);
 
-    expect(screen.getByText(D.tailleTitle, { exact: false })).not.toBeNull();
+    expect(screen.getByText("Size", { exact: false })).not.toBeNull();
     expect(screen.getByText(/15MB/, { exact: false })).not.toBeNull();
   });
 });

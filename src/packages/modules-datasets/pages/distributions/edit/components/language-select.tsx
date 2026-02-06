@@ -1,6 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 import { Select } from "@components/select-rmes";
 
-import { D1 } from "../../../../../deprecated-locales";
 import { isLang2 } from "../../../../../i18n";
 
 type LanguageSelectProps = {
@@ -19,6 +20,8 @@ export const LanguageSelect = ({
   onChange,
   disabled = false,
 }: Readonly<LanguageSelectProps>) => {
+  const { t } = useTranslation();
+
   const langSelectOptions = LANGUAGE_OPTIONS.map((lang) => ({
     value: lang.code,
     label: isLang2() ? lang.labelLg2 : lang.labelLg1,
@@ -26,7 +29,7 @@ export const LanguageSelect = ({
 
   return (
     <div className="col-md-12 form-group">
-      <label htmlFor="language">{D1.languageTitle}</label>
+      <label htmlFor="language">{t("distribution.language")}</label>
       <Select disabled={disabled} value={value} options={langSelectOptions} onChange={onChange} />
     </div>
   );

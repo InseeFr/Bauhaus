@@ -1,4 +1,5 @@
 import Editor from "@uiw/react-md-editor";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
@@ -8,10 +9,11 @@ import { PublicationFemale } from "@components/status";
 import { stringToDate } from "@utils/date-utils";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import D, { D1, D2 } from "../../../../../deprecated-locales/build-dictionary";
 import { Distribution } from "../../../../../model/Dataset";
 
 export const ViewMainBlock = ({ distribution }: Readonly<{ distribution: Distribution }>) => {
+  const { t } = useTranslation();
+
   const [secondLang] = useSecondLang();
 
   return (
@@ -21,55 +23,54 @@ export const ViewMainBlock = ({ distribution }: Readonly<{ distribution: Distrib
           text={
             <ul>
               <li>
-                {D.createdDateTitle} : {stringToDate(distribution.created)}{" "}
+                {t("distribution.creationDate")} : {stringToDate(distribution.created)}
               </li>
               <li>
-                {D.modifiedDateTitle} : {stringToDate(distribution.updated)}{" "}
+                {t("distribution.updatingDate")} : {stringToDate(distribution.updated)}
               </li>
               <li>
-                {D.distributionStatus} :
-                <PublicationFemale object={distribution} />
+                {t("distribution.validationStatus")} : <PublicationFemale object={distribution} />
               </li>
               <li>
-                {D.languageTitle} : {distribution.language}{" "}
+                {t("distribution.language")} : {distribution.language}
               </li>
               <li>
-                {D.formatTitle} : {distribution.format}{" "}
+                {t("distribution.format")} : {distribution.format}
               </li>
               <li>
-                {D.mediaTypeTitle} : {distribution.mediaType}{" "}
+                {t("distribution.mediaType")} : {distribution.mediaType}
               </li>
               <li>
-                {D.compressFormatTitle} : {distribution.compressFormat}{" "}
+                {t("distribution.compressFormat")} : {distribution.compressFormat}
               </li>
               <li>
-                {D.tailleTitle} : {distribution.byteSize}{" "}
+                {t("distribution.size")} : {distribution.byteSize}
               </li>
               <li>
-                {D.accessUrlTitle} :
+                {t("distribution.accessURL")} :{" "}
                 <ExternalLink href={distribution.accessUrl}>{distribution.accessUrl}</ExternalLink>
               </li>
               <li>
-                {D.downloadUrlTitle} :{" "}
+                {t("distribution.downloadURL")} :{" "}
                 <ExternalLink href={distribution.url}>{distribution.url}</ExternalLink>
               </li>
             </ul>
           }
-          title={D1.globalInformationsTitle}
+          title={t("dataset.globalInformation.title")}
           alone={true}
         />
       </Row>
       <Row>
         <Note
           text={<Editor.Markdown source={distribution.descriptionLg1} />}
-          title={D1.descriptionTitle}
+          title={t("distribution.description", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={<Editor.Markdown source={distribution.descriptionLg2} />}
-            title={D2.descriptionTitle}
+            title={t("distribution.description", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />
