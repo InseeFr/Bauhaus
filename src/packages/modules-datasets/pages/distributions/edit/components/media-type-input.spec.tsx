@@ -3,12 +3,6 @@ import { describe, expect, it, vi } from "vitest";
 
 import { MediaTypeInput } from "./media-type-input";
 
-// vi.mock("../../../../../deprecated-locales/build-dictionary", () => ({
-//   default: {
-//     mediaTypeTitle: "Media Type",
-//   },
-// }));
-
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {

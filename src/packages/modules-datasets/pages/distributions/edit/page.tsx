@@ -7,6 +7,7 @@ import { TextInput, UrlInputBlock } from "@components/form/input";
 import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
 import { Loading, Saving } from "@components/loading";
+import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 import { MDEditor } from "@components/rich-editor/react-md-editor";
 
@@ -76,8 +77,10 @@ export const Component = () => {
 
   return (
     <div className="container editor-container">
-      {isEditing && (
+      {isEditing ? (
         <PageTitleBlock titleLg1={distribution.labelLg1} titleLg2={distribution.labelLg2} />
+      ) : (
+        <PageTitle title={t("distribution.creationPageTitle")} />
       )}
       <Menu onSave={onSubmit} isSaveDisabled={state.clientSideErrors.errorMessage?.length > 0} />
       {state.submitting && state.clientSideErrors && (

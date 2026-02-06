@@ -2,6 +2,7 @@
   "dataset": {
     "title": "Dataset",
     "pluralTitle": "Datasets",
+    "creationPageTitle": "Create a new dataset",
     "homePageTitle": "Datasets - Search",
     "searchTitle": "Datasets - Advanced search",
     "globalInformation": {
@@ -72,6 +73,7 @@
   "distribution": {
     "title": "Distribution",
     "pluralTitle": "Distributions",
+    "creationPageTitle": "Create a new distribution",
     "homePageTitle": "Distributions - Search",
     "searchTitle": "Distributions - Advanced search",
     "status": "State of the distribution",

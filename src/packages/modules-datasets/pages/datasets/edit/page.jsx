@@ -7,6 +7,7 @@ import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
+import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 
 import { DatasetsApi } from "@sdk/index";
@@ -194,7 +195,11 @@ export const Component = () => {
 
   return (
     <div className="editor-container dataset-container">
-      {isEditing && <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />}
+      {isEditing ? (
+        <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />
+      ) : (
+        <PageTitle title={t("dataset.creationPageTitle")} />
+      )}
       <ActionToolbar>
         <CancelButton action={() => goBack("/datasets")} />
         <SaveButton action={onSubmit} disabled={clientSideErrors.errorMessage?.length > 0} />
