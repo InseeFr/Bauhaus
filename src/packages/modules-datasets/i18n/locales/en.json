@@ -28,7 +28,7 @@
         "error": "The identifier does not respect authorized characters : a-z, A-Z, 0-9, - and _"
       },
       "creator": "Owner",
-      "contributor": "Contributors",
+      "contributors": "Contributors",
       "disseminationStatus": "Dissemination status",
       "generatedBy": "Produced from",
       "accessRights": "Access rights",

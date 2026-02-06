@@ -28,7 +28,7 @@
         "error": "L'identifiant ne respecte pas les caractères autorisés : a-z, A-Z, 0-9, - et _"
       },
       "creator": "Propriétaire",
-      "contributor": "Gestionnaires",
+      "contributors": "Gestionnaires",
       "disseminationStatus": "Statut de diffusion",
       "generatedBy": "Produit de",
       "accessRights": "Droits d'accès",

@@ -26,7 +26,7 @@ const ZodDataset = z.object({
     .optional(),
   creator: mandatoryAndNotEmptySelectField(i18next.t("dataset.internalManagement.creator")),
   contributor: mandatoryAndNotEmptyMultiSelectField(
-    i18next.t("dataset.internalManagement.contributor"),
+    i18next.t("dataset.internalManagement.contributors"),
   ),
   disseminationStatus: mandatoryAndNotEmptySelectField(
     i18next.t("dataset.internalManagement.disseminationStatus"),

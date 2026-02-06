@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { Organisation, Organisations } from "@components/business/organisations/organisations";
 import { CheckSecondLang } from "@components/check-second-lang";
 import { CodeDisplay } from "@components/code-display";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
@@ -26,8 +27,6 @@ import { StatisticalInformations } from "./components/StatisticalInformations";
 import { ViewMenu } from "./menu";
 import { useOrganizations } from "@utils/hooks/organizations";
 import { useDataset } from "../../../hooks/useDataset";
-import { CreatorsVisualisation } from "@components/business/creators-visualisation";
-import { ContributorsVisualisation } from "@components/business/contributors-visualisation";
 
 const Dataset = (props) => {
   const { i18n } = useTranslation();
@@ -146,13 +145,15 @@ const Dataset = (props) => {
           text={
             <ul>
               <li>
-                <CreatorsVisualisation
+                {t("dataset.internalManagement.creator")}
+                <Organisation
                   creator={dataset.catalogRecord?.creator}
                   organizations={organisationsList}
                 />
               </li>
               <li>
-                <ContributorsVisualisation
+                {t("dataset.internalManagement.contributors")}
+                <Organisations
                   creators={dataset.catalogRecord?.contributor}
                   organizations={organisationsList}
                 />
