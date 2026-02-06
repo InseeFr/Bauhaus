@@ -17,6 +17,7 @@ const dictionary = {
   ...DSDsD,
   ...codelistsD,
   ...errors,
+  datasetsTitle: { fr: "Jeux de données", en: "Datasets" },
   ...DDIDictionary,
 };
 
