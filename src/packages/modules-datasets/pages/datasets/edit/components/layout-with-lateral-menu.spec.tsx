@@ -68,9 +68,7 @@ describe("LayoutWithLateralMenu", () => {
     },
   } as unknown as LayoutConfiguration;
 
-  const mockChildren = vi.fn((key: string) => (
-    <div>{`Content for ${key}`}</div>
-  ));
+  const mockChildren = vi.fn((key: string) => <div>{`Content for ${key}`}</div>);
 
   beforeEach(() => {
     mockChildren.mockClear();

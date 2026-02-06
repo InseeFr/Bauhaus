@@ -13,12 +13,12 @@ const ZodDistribution = z.object({
   labelLg2: mandatoryAndNotEmptyTextField(i18next.t("distribution.mainTitle", { lng: "en" })),
   accessUrl: z
     .url({
-      error: i18next.t("distribution.accessURL"),
+      error: i18next.t("distribution.URLerror"),
     })
     .optional(),
   url: z
     .url({
-      error: i18next.t("distribution.downloadURL"),
+      error: i18next.t("distribution.URLerror"),
     })
     .optional(),
 });

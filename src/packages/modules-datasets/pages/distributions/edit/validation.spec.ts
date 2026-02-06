@@ -1,3 +1,22 @@
+vi.mock("i18next", () => ({
+  default: {
+    t: (key: string, options?: { lng?: string }) => {
+      const translations: Record<string, Record<string, string>> = {
+        fr: {
+          "distribution.mainTitle": "Intitulé",
+        },
+        en: {
+          "dataset.title": "Dataset",
+          "distribution.mainTitle": "Title",
+          "distribution.URLerror": "The link is not valid",
+        },
+      };
+      const lng = options?.lng || "en";
+      return translations[lng]?.[key] || key;
+    },
+  },
+}));
+
 import { validate } from "./validation";
 
 describe("validation", function () {
