@@ -42,7 +42,6 @@ docker run  -it -p 8083:80 -e VITE_API_BASE_HOST=http://192.168.1.12:8081/api ba
 
 `http://192.168.1.12:8081/api` is the base URL of the Bauhaus API.
 
-
 ## Target Architecture
 
 The project is currently undergoing a gradual migration towards a modern and standardized technical stack. The DDI module (`src/packages/modules-ddi`) serves as the reference implementation for this target architecture.
@@ -63,27 +62,28 @@ New modules should follow the architecture demonstrated in the DDI module:
 
 ```
 src/packages/modules-{module-name}/
-├── components/           # Reusable components specific to the module
-│   ├── ComponentName.tsx
-│   ├── ComponentName.spec.tsx
-│   └── ComponentName.css
-├── hooks/               # Custom React hooks
-├── i18n/                # Internationalization
-│   ├── index.ts
-│   └── locales/
-│       ├── fr.json
-│       └── en.json
-├── pages/               # Page components
-│   └── {object-name}.   # operation, series, indicator, ...
-        ├── {page-name}/ # home, view, edit, search, ...    
-            │       ├── page.tsx
-            │       └── menu.tsx
-                    └── validation.ts
-                    └── components # components for this current page
-├── routes/              # Routing configuration
-│   ├── index.tsx
-│   └── layout.tsx
-└── menu/                # Module horizontal menu
+├── components/                         # Reusable components specific to the module
+│     ├── ComponentName.css
+│     ├── ComponentName.spec.tsx
+│     └── ComponentName.tsx
+├── hooks/                              # Custom React hooks
+├── i18n/                               # Internationalization
+│     ├── locales/
+│     │     ├── en.json
+│     │     └── fr.json
+│     └── index.ts
+├── menu/                               # Module horizontal menu
+├── pages/
+│     └── {object-name}/                # ex: indicators, operations, series, ...
+│           └── {page-name}/            # ex: edit, home, search, view, ...
+│                   ├── components/     # Components for this current page
+│                   ├── page.tsx
+│                   ├── menu.tsx
+│                   └── validation.ts
+├── routes/                             # Routing configuration
+│     ├── index.tsx
+│     └── layout.tsx
+└── utils/                              # Utilitary functions used in the module
 ```
 
 ### Migration Guidelines
@@ -117,18 +117,18 @@ For new modules, use **react-i18next** with JSON translation files organized by 
 
 ```typescript
 // Module i18n configuration
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import fr from './locales/fr.json';
-import en from './locales/en.json';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import fr from "./locales/fr.json";
+import en from "./locales/en.json";
 
 i18n.use(initReactI18next).init({
   resources: {
     en: { translation: en },
     fr: { translation: fr },
   },
-  lng: 'fr',
-  fallbackLng: 'fr',
+  lng: "fr",
+  fallbackLng: "fr",
 });
 ```
 

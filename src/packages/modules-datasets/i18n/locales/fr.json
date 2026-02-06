@@ -1,0 +1,93 @@
+{
+  "dataset": {
+    "title": "Jeu de données",
+    "pluralTitle": "Jeux de données",
+    "creationPageTitle": "Créer un nouveau jeu de données",
+    "homePageTitle": "Jeux de données - Recherche",
+    "searchTitle": "Jeux de données - Recherche avancée",
+    "globalInformation": {
+      "title": "Informations générales",
+      "validationStatus": "Statut de publication",
+      "creationDate": "Date de création",
+      "updatingDate": "Date de modification",
+      "mainTitle": "Intitulé",
+      "subtitle": "Sous-titre",
+      "firstReleaseDate": "Date de première diffusion des données",
+      "modificationDate": "Date de modification des données",
+      "updateFrequency": "Fréquence de mise à jour",
+      "dataProvider": "Organisme responsable de la fourniture des données",
+      "publicationProvider": "Organisme responsable de la publication des données",
+      "theme": "Thème",
+      "keywords": "Mots clés",
+      "landingPage": "Page de présentation",
+      "linkedDocuments": "Documents liés"
+    },
+    "internalManagement": {
+      "title": "Gestion interne",
+      "altId": {
+        "title": "Identifiant alternatif",
+        "error": "L'identifiant ne respecte pas les caractères autorisés : a-z, A-Z, 0-9, - et _"
+      },
+      "creator": "Propriétaire",
+      "contributors": "Gestionnaires",
+      "disseminationStatus": "Statut de diffusion",
+      "generatedBy": "Produit de",
+      "accessRights": "Droits d'accès",
+      "confidentialityStatus": "Statut de confidentialité",
+      "processStep": "Processus utilisant les données",
+      "archiveUnit": "Unité d'archivage"
+    },
+    "notes": {
+      "title": "Notes",
+      "abstract": "Résumé",
+      "description": "Description",
+      "warning": "Avertissement"
+    },
+    "statisticalInformation": {
+      "title": "Informations statistiques",
+      "type": "Type de données",
+      "dataStructure": {
+        "title": "Structure de données",
+        "chooseStructure": "Choisir une structure",
+        "chooseURN": "Saisir une URN"
+      },
+      "statisticalUnits": "Unités statistiques",
+      "temporalCoverage": {
+        "title": "Période temporelle couverte",
+        "year": "Année",
+        "date": "Date",
+        "startDate": "Date de début",
+        "endDate": "Date de fin"
+      },
+      "temporalResolution": "Résolution temporelle",
+      "spatialCoverage": "Zone géographique couverte",
+      "geographicalVintage": "Millésime géographique",
+      "spatialResolution": "Résolution géographique",
+      "numberOfObservations": "Nombre d'observations",
+      "numberOfTimeSeries": "Nombre de séries temporelles"
+    },
+    "tabKO": "Il y a des erreurs dans cet onglet",
+    "hide": "Cacher",
+    "display": "Afficher"
+  },
+  "distribution": {
+    "title": "Distribution",
+    "pluralTitle": "Distributions",
+    "creationPageTitle": "Créer une nouvelle distribution",
+    "homePageTitle": "Distributions - Recherche",
+    "searchTitle": "Distributions - Recherche avancée",
+    "validationStatus": "Statut de publication",
+    "creationDate": "Date de création",
+    "updatingDate": "Date de modification",
+    "mainTitle": "Intitulé",
+    "description": "Description",
+    "language": "Langue",
+    "format": "Format",
+    "mediaType": "Type de média",
+    "compressFormat": "Format de compression",
+    "byteSize": "Taille",
+    "accessURL": "URL d'accès",
+    "downloadURL": "URL de téléchargement",
+    "URLerror": "L'URL n'est pas valide"
+  }
+}

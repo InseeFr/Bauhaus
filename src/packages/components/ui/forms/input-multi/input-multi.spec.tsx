@@ -45,7 +45,7 @@ describe("InputMultiRmes", () => {
 
   it("should render a single input when handleChangeLg2 is not provided", () => {
     render(
-      <InputMulti inputLg1={["value1"]} label="testLabel" handleChangeLg1={handleChangeLg1} />,
+      <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
     );
 
     expect(screen.getByText("testLabel")).toBeInTheDocument();
@@ -57,7 +57,8 @@ describe("InputMultiRmes", () => {
       <InputMulti
         inputLg1={["value1"]}
         inputLg2={["value2"]}
-        label="altLabelTitle"
+        labelLg1="Libellé alternatif"
+        labelLg2="Alternative label"
         handleChangeLg1={handleChangeLg1}
         handleChangeLg2={handleChangeLg2}
       />,
@@ -70,7 +71,11 @@ describe("InputMultiRmes", () => {
 
   it("should call handleChangeLg1 when the first input changes", () => {
     render(
-      <InputMulti inputLg1={["value1"]} label="altLabelTitle" handleChangeLg1={handleChangeLg1} />,
+      <InputMulti
+        inputLg1={["value1"]}
+        labelLg1="altLabelTitle"
+        handleChangeLg1={handleChangeLg1}
+      />,
     );
 
     const input = screen.getByTestId("chips-input");
@@ -84,7 +89,8 @@ describe("InputMultiRmes", () => {
       <InputMulti
         inputLg1={["value1"]}
         inputLg2={["value2"]}
-        label="altLabelTitle"
+        labelLg1="altLabelTitle"
+        labelLg2="altLabelTitle"
         handleChangeLg1={handleChangeLg1}
         handleChangeLg2={handleChangeLg2}
       />,
@@ -96,22 +102,10 @@ describe("InputMultiRmes", () => {
     expect(handleChangeLg2).toHaveBeenCalledWith(["newValue3", "newValue4"]);
   });
 
-  it("should fallback to the label prop if no translation is available", () => {
-    render(
-      <InputMulti
-        inputLg1={["value1"]}
-        label="untranslatedLabel"
-        handleChangeLg1={handleChangeLg1}
-        handleChangeLg2={handleChangeLg1}
-      />,
-    );
-    expect(screen.getAllByText("untranslatedLabel").length).toBe(2);
-  });
-
   describe("UX improvements", () => {
     it("should render placeholder text for better user guidance", () => {
       render(
-        <InputMulti inputLg1={["value1"]} label="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");
@@ -120,7 +114,7 @@ describe("InputMultiRmes", () => {
 
     it("should render help text explaining how to add values", () => {
       render(
-        <InputMulti inputLg1={["value1"]} label="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       expect(
@@ -133,7 +127,8 @@ describe("InputMultiRmes", () => {
         <InputMulti
           inputLg1={["value1"]}
           inputLg2={["value2"]}
-          label="testLabel"
+          labelLg1="testLabel"
+          labelLg2="testLabel"
           handleChangeLg1={handleChangeLg1}
           handleChangeLg2={handleChangeLg2}
         />,
@@ -147,7 +142,7 @@ describe("InputMultiRmes", () => {
 
     it("should configure Chips with comma separator for better UX", () => {
       render(
-        <InputMulti inputLg1={["value1"]} label="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");
@@ -156,7 +151,7 @@ describe("InputMultiRmes", () => {
 
     it("should prevent duplicate values", () => {
       render(
-        <InputMulti inputLg1={["value1"]} label="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");
@@ -165,7 +160,7 @@ describe("InputMultiRmes", () => {
 
     it("should add value on blur for better UX", () => {
       render(
-        <InputMulti inputLg1={["value1"]} label="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");
@@ -174,27 +169,12 @@ describe("InputMultiRmes", () => {
 
     it("should have accessible aria-label with instructions", () => {
       render(
-        <InputMulti inputLg1={["value1"]} label="testLabel" handleChangeLg1={handleChangeLg1} />,
+        <InputMulti inputLg1={["value1"]} labelLg1="testLabel" handleChangeLg1={handleChangeLg1} />,
       );
 
       const input = screen.getByTestId("chips-input");
       expect(input.getAttribute("aria-label")).toBe(
         "testLabel - Appuyez sur Entrée ou virgule pour ajouter",
-      );
-    });
-
-    it("should have translated aria-label when translation is available", () => {
-      render(
-        <InputMulti
-          inputLg1={["value1"]}
-          label="altLabelTitle"
-          handleChangeLg1={handleChangeLg1}
-        />,
-      );
-
-      const input = screen.getByTestId("chips-input");
-      expect(input.getAttribute("aria-label")).toBe(
-        "Libellé alternatif - Appuyez sur Entrée ou virgule pour ajouter",
       );
     });
   });
