@@ -210,8 +210,8 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       zod:
-        specifier: ^4.3.5
-        version: 4.3.6
+        specifier: ^3.25.76
+        version: 3.25.76
     devDependencies:
       sharp:
         specifier: ^0.34.5
@@ -5433,9 +5433,6 @@ packages:
 
   zod@4.1.12:
     resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
-
-  zod@4.3.6:
-    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
 
   zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
@@ -11602,8 +11599,6 @@ snapshots:
   zod@3.25.76: {}
 
   zod@4.1.12: {}
-
-  zod@4.3.6: {}
 
   zwitch@1.0.5: {}
 
