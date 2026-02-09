@@ -48,7 +48,7 @@ export const PhysicalInstanceDialog = ({
   initialData,
   onSubmitCreate,
   onSubmitEdit,
-}: Readonly<PhysicalInstanceCreationDialogProps>) => {
+}: Readonly<PhysicalInstanceDialogProps>) => {
   const { t } = useTranslation();
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);

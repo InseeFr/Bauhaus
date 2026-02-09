@@ -5,45 +5,6 @@ import { renderWithRouter } from "../../../tests/render";
 
 import SimsGeographyPicker, { removeAccents } from "./sims-geography-picker";
 
-const mockGeographies = [
-  {
-    id: "1",
-    value: "http://geo1",
-    label: "France",
-    labelLg2: "France (EN)",
-    typeTerritory: "Pays",
-    geography: {
-      id: "1",
-      labelLg1: "France",
-      labelLg2: "France (EN)",
-    },
-  },
-  {
-    id: "2",
-    value: "http://geo2",
-    label: "Île-de-France",
-    labelLg2: "Ile-de-France (EN)",
-    typeTerritory: "Région",
-    geography: {
-      id: "2",
-      labelLg1: "Île-de-France",
-      labelLg2: "Ile-de-France (EN)",
-    },
-  },
-  {
-    id: "3",
-    value: "http://geo3",
-    label: "Paris Zone",
-    labelLg2: "Paris Zone (EN)",
-    typeTerritory: "Territoire Statistique",
-    geography: {
-      id: "3",
-      labelLg1: "Paris Zone",
-      labelLg2: "Paris Zone (EN)",
-    },
-  },
-];
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
