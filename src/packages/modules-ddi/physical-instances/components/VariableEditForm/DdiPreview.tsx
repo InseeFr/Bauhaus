@@ -13,11 +13,7 @@ import { DDIApi } from "../../../../sdk";
 import { useAppContext } from "../../../../application/app-context";
 import { DdiXmlPreview } from "./DdiXmlPreview";
 import { DdiJsonPreview } from "./DdiJsonPreview";
-import {
-  ddiPreviewReducer,
-  initialState,
-  type DdiFormat,
-} from "./DdiPreview.reducer";
+import { ddiPreviewReducer, initialState, type DdiFormat } from "./DdiPreview.reducer";
 
 interface DdiPreviewProps {
   variableId: string;
@@ -225,9 +221,7 @@ export const DdiPreview = ({
       )}
 
       {state.format === "DDI3" && !state.isLoading && !state.ddiXml && (
-        <div className="text-center text-gray-500">
-          {t("physicalInstance.view.noDdiXml")}
-        </div>
+        <div className="text-center text-gray-500">{t("physicalInstance.view.noDdiXml")}</div>
       )}
 
       {state.format === "DDI4" && <DdiJsonPreview code={ddiJson} />}
