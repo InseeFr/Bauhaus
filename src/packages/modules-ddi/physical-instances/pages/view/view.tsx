@@ -689,27 +689,29 @@ export const Component = () => {
           transition: "width 0.3s ease",
         }}
       >
-        <div className="flex align-items-center gap-2 mb-3">
-          <h1 className="m-0">{state.formData.label || title}</h1>
-          <Button
-            icon="pi pi-pencil"
-            text
-            rounded
-            aria-label={t("physicalInstance.view.editTitle")}
-            onClick={handleOpenEditModal}
+        <div className="sticky-header">
+          <div className="flex align-items-center gap-2 mb-3">
+            <h1 className="m-0">{state.formData.label || title}</h1>
+            <Button
+              icon="pi pi-pencil"
+              text
+              rounded
+              aria-label={t("physicalInstance.view.editTitle")}
+              onClick={handleOpenEditModal}
+            />
+          </div>
+
+          <SearchFilters
+            searchValue={state.searchValue}
+            onSearchChange={handleSearchChange}
+            typeFilter={state.typeFilter}
+            onTypeFilterChange={handleTypeFilterChange}
+            typeOptions={typeOptions}
+            onNewVariable={handleNewVariable}
+            onSaveAll={handleSaveAll}
+            hasLocalChanges={hasUnsavedChanges}
           />
         </div>
-
-        <SearchFilters
-          searchValue={state.searchValue}
-          onSearchChange={handleSearchChange}
-          typeFilter={state.typeFilter}
-          onTypeFilterChange={handleTypeFilterChange}
-          typeOptions={typeOptions}
-          onNewVariable={handleNewVariable}
-          onSaveAll={handleSaveAll}
-          hasLocalChanges={hasUnsavedChanges}
-        />
 
         <GlobalActionsCard
           variables={filteredVariables}
@@ -722,7 +724,7 @@ export const Component = () => {
         />
       </div>
       {state.selectedVariable && (
-        <div className="col-4" role="complementary">
+        <div className="col-4 variable-edit-sidebar" role="complementary">
           <VariableEditForm
             variable={state.selectedVariable}
             typeOptions={variableTypeOptions}
