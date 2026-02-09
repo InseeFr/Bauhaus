@@ -45,7 +45,8 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 
@@ -53,11 +54,12 @@ describe("useUpdatePhysicalInstance", () => {
 
     expect(mockPatch).toHaveBeenCalledWith("test-agency", "test-id", {
       physicalInstanceLabel: "Test Label",
-      dataRelationshipName: "Test Name",
+      dataRelationshipLabel: "Test Label",
+      logicalRecordLabel: "Test Label",
     });
   });
 
-  it("should not invalidate query cache to preserve local variables", async () => {
+  it("should invalidate physicalInstances query cache on success", async () => {
     const mockPatch = vi.fn().mockResolvedValue({});
     (DDIApi.patchPhysicalInstance as any) = mockPatch;
 
@@ -72,14 +74,16 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency-456",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 
     await result.current.mutateAsync(testData);
 
-    // Le cache ne doit pas être invalidé pour préserver les variables locales non sauvegardées
-    expect(invalidateQueriesSpy).not.toHaveBeenCalled();
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+      queryKey: ["physicalInstances"],
+    });
   });
 
   it("should handle API errors correctly", async () => {
@@ -96,7 +100,8 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 
@@ -120,7 +125,8 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 

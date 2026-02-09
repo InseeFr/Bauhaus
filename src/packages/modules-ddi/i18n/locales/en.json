@@ -48,6 +48,7 @@
         "type": "Type"
       },
       "confirmDelete": "Delete",
+      "copyCode": "Copy code",
       "copyXml": "Copy XML",
       "date": {
         "selectType": "Select a date type",
@@ -114,6 +115,7 @@
       "selectType": "Select a type",
       "selectVariable": "Select a variable to edit",
       "tabs": {
+        "ddiPreview": "DDI Preview",
         "ddiXml": "DDI XML Preview",
         "information": "Information",
         "representation": "Representation"
