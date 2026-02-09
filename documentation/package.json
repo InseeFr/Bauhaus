@@ -10,15 +10,15 @@
 		"astro": "astro"
 	},
 	"dependencies": {
-		"@astrojs/check": "0.9.6",
+		"@astrojs/check": "^0.9.6",
 		"@astrojs/starlight": "0.37.0",
-		"astro": "5.16.4",
-		"astro-mermaid": "1.2.0",
-		"mermaid": "11.12.2",
-		"typescript": "5.7.2",
-		"zod": "3.25.76"
+		"astro": "^5.16.11",
+		"astro-mermaid": "^1.2.0",
+		"mermaid": "^11.12.2",
+		"typescript": "^5.9.3",
+		"zod": "^4.3.5"
 	},
 	"devDependencies": {
-		"sharp": "0.34.5"
+		"sharp": "^0.34.5"
 	}
 }
