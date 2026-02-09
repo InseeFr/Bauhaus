@@ -3,13 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useHighlight } from "./useHighlight";
 import "./DdiPreview.css";
 
-interface DdiXmlPreviewProps {
+interface DdiJsonPreviewProps {
   code: string;
 }
 
-export const DdiXmlPreview = ({ code }: Readonly<DdiXmlPreviewProps>) => {
+export const DdiJsonPreview = ({ code }: Readonly<DdiJsonPreviewProps>) => {
   const { t } = useTranslation();
-  const highlightedHtml = useHighlight(code, "xml");
+  const highlightedHtml = useHighlight(code, "json");
 
   return (
     <div className="ddi-preview-code-container">
@@ -25,7 +25,7 @@ export const DdiXmlPreview = ({ code }: Readonly<DdiXmlPreviewProps>) => {
       />
       <pre className="ddi-preview-code">
         <code
-          className="hljs language-xml"
+          className="hljs language-json"
           dangerouslySetInnerHTML={{
             __html: highlightedHtml ?? code,
           }}
