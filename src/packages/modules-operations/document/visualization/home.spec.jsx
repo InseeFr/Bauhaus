@@ -1,6 +1,11 @@
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 
+import { getBaseURI } from "../../../sdk";
 import OperationsDocumentationVisualization from "./home";
+
+vi.mock("../../../sdk", () => ({
+  getBaseURI: vi.fn().mockResolvedValue("http://base-uri"),
+}));
 
 const document = {
   descriptionLg1: "descriptionLg1",
@@ -10,9 +15,22 @@ const document = {
   updatedDate: "2019/02/01",
   sims: [],
 };
+
+const renderAndWait = async (component) => {
+  const result = render(component);
+  await waitFor(() => {
+    expect(getBaseURI).toHaveBeenCalled();
+  });
+  return result;
+};
+
 describe("OperationsDocumentationVisualization", () => {
-  it("should display by default three notes", () => {
-    const { container } = render(
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should display by default three notes", async () => {
+    const { container } = await renderAndWait(
       <OperationsDocumentationVisualization secondLang={false} attr={document} />,
     );
     const notes = container.querySelectorAll(".note");
@@ -28,8 +46,8 @@ describe("OperationsDocumentationVisualization", () => {
     expect(a.innerHTML).toContain(document.url);
   });
 
-  it("should display a note if the secondLang flag is true", () => {
-    const { container } = render(
+  it("should display a note if the secondLang flag is true", async () => {
+    const { container } = await renderAndWait(
       <OperationsDocumentationVisualization attr={document} secondLang={true} />,
     );
     const notes = container.querySelectorAll(".note");
@@ -39,25 +57,26 @@ describe("OperationsDocumentationVisualization", () => {
     expect(notes[0].innerHTML).toContain(document.descriptionLg1);
     expect(notes[1].innerHTML).toContain(document.descriptionLg2);
   });
-  it("should display a note if the object is a document", () => {
+
+  it("should display a note if the object is a document", async () => {
     const d = {
       ...document,
       uri: "/document/uri",
     };
-    const { container } = render(
+    const { container } = await renderAndWait(
       <OperationsDocumentationVisualization attr={d} secondLang={true} />,
     );
     const notes = container.querySelectorAll(".note");
     expect(notes).toHaveLength(7);
   });
 
-  it("should not display the date if this one is not valid", () => {
+  it("should not display the date if this one is not valid", async () => {
     const d = {
       ...document,
       uri: "/document/page/1",
       updatedDate: undefined,
     };
-    const { container } = render(
+    const { container } = await renderAndWait(
       <OperationsDocumentationVisualization attr={d} secondLang={true} />,
     );
     const date = container.querySelector(".row:nth-child(2) .card-body");

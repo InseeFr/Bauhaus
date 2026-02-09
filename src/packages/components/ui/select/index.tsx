@@ -22,7 +22,7 @@ export const Select = ({
   multi = false,
   required = false,
   filter = false,
-}: SelectProps) => {
+}: Readonly<SelectProps>) => {
   return (
     <>
       {required ? <LabelRequired>{label}</LabelRequired> : <label>{label}</label>}

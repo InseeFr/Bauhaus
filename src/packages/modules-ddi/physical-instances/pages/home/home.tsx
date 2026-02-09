@@ -13,7 +13,10 @@ import D from "../../../../deprecated-locales";
 import { usePhysicalInstances } from "../../../hooks/usePhysicalInstances";
 import { useCreatePhysicalInstance } from "../../../hooks/useCreatePhysicalInstance";
 import { HomePageMenu } from "./menu";
-import { PhysicalInstanceCreationDialog } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import {
+  PhysicalInstanceDialog,
+  PhysicalInstanceCreationData,
+} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 
 const TOAST_DURATION = 3000;
 
@@ -36,15 +39,22 @@ export const Component = () => {
   const [visible, setVisible] = useState(false);
   const toast = useRef<Toast>(null);
 
-  const handleSubmit = async (data: { label: string; name: string }) => {
+  const handleSubmit = async (data: PhysicalInstanceCreationData) => {
     try {
       const result = await createPhysicalInstance.mutateAsync({
         physicalInstanceLabel: data.label,
-        dataRelationshipName: data.name,
+        dataRelationshipLabel: data.dataRelationshipLabel,
+        logicalRecordLabel: data.logicalRecordLabel,
+        groupId: data.group.id,
+        groupAgency: data.group.agency,
+        studyUnitId: data.studyUnit.id,
+        studyUnitAgency: data.studyUnit.agency,
       });
 
       setVisible(false);
-      navigate(`/ddi/physical-instances/${result.agency}/${result.id}`, { replace: true });
+      navigate(`/ddi/physical-instances/${result.agency}/${result.id}`, {
+        replace: true,
+      });
     } catch (err: unknown) {
       const errorMessage =
         err && typeof err === "object" && "message" in err
@@ -79,10 +89,11 @@ export const Component = () => {
         </div>
       </Row>
 
-      <PhysicalInstanceCreationDialog
+      <PhysicalInstanceDialog
         visible={visible}
         onHide={() => setVisible(false)}
-        onSubmit={handleSubmit}
+        mode="create"
+        onSubmitCreate={handleSubmit}
       />
 
       <Toast ref={toast} />

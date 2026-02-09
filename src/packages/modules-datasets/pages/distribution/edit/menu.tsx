@@ -8,7 +8,7 @@ type MenuProps = {
   isSaveDisabled?: boolean;
 };
 
-export const Menu = ({ onSave, isSaveDisabled = false }: MenuProps) => {
+export const Menu = ({ onSave, isSaveDisabled = false }: Readonly<MenuProps>) => {
   const goBack = useGoBack();
 
   return (

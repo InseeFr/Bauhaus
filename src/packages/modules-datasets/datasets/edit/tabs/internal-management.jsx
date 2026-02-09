@@ -16,7 +16,7 @@ import {
   CL_ACCESS_RIGHTS,
   CL_CONF_STATUS,
   CL_PROCESS_STEP,
-} from "../../../../redux/actions/constants/codeList";
+} from "../../../../constants/code-lists";
 import { convertCodesListsToSelectOption } from "../../../utils/codelist-to-select-options";
 import { useSeriesOperationsOptions } from "./useSeriesOperationsOptions";
 import { CreatorsInput } from "@components/business/creators-input";

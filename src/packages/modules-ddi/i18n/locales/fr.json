@@ -5,7 +5,11 @@
       "create": "Créer",
       "errorMessage": "Une erreur est survenue lors de la création",
       "errorTitle": "Erreur de création",
+      "group": "Groupe",
       "label": "Libellé",
+      "selectGroup": "Sélectionnez un groupe",
+      "selectStudyUnit": "Sélectionnez une étude",
+      "studyUnit": "Étude",
       "successMessage": "Vos modifications ont été sauvegardées avec succès",
       "successTitle": "Création réussie",
       "title": "Créer un nouveau fichier de données"
@@ -16,16 +20,21 @@
       "cancel": "Annuler",
       "cancelDelete": "Annuler",
       "code": {
+        "actionsMenu": "Menu des actions",
         "addCode": "Ajouter un code",
         "addCodeTooltip": "Ajouter ce code",
         "codeListLabel": "Libellé de la liste de codes",
         "codes": "Codes",
         "createNewList": "Créer une nouvelle liste",
+        "deleteCode": "Supprimer",
         "editCode": "Modifier le code",
         "errorLoadingCodesLists": "Erreur lors du chargement des listes de codes",
         "fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
         "label": "Libellé",
         "loadingCodesLists": "Chargement des listes de codes...",
+        "moveDown": "Descendre",
+        "moveUp": "Monter",
+        "noCodes": "Aucun code",
         "noCodesListsAvailable": "Aucune liste de codes disponible",
         "reuseList": "Réutiliser",
         "selectCodeList": "Sélectionnez une liste de codes",
@@ -39,6 +48,7 @@
         "type": "Type"
       },
       "confirmDelete": "Supprimer",
+      "copyCode": "Copier le code",
       "copyXml": "Copier le XML",
       "date": {
         "selectType": "Sélectionnez un type de date",
@@ -105,6 +115,7 @@
       "selectType": "Sélectionnez un type",
       "selectVariable": "Sélectionnez une variable pour l'éditer",
       "tabs": {
+        "ddiPreview": "Aperçu DDI",
         "ddiXml": "Aperçu DDI XML",
         "information": "Informations",
         "representation": "Représentation"
@@ -131,6 +142,8 @@
       },
       "variableUpdateSuccess": "Variable mise à jour",
       "variableUpdateSuccessDetail": "Variable mise à jour avec succès. Pensez à sauvegarder",
+      "previousVariable": "Variable précédente",
+      "nextVariable": "Variable suivante",
       "variablesTable": "Tableau des variables",
       "totalVariables": "Total : {{count}} variable(s)",
       "unsavedChangesTitle": "Modifications non sauvegardées",

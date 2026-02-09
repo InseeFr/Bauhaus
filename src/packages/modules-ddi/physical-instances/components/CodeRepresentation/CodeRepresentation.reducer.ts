@@ -12,8 +12,12 @@ export type CodeRepresentationAction =
   | { type: "SET_CODE_LIST_LABEL"; payload: string }
   | { type: "SET_CODES"; payload: CodeTableRow[] }
   | { type: "ADD_CODE"; payload: CodeTableRow }
-  | { type: "UPDATE_CODE"; payload: { id: string; field: "value" | "label"; value: string } }
+  | {
+      type: "UPDATE_CODE";
+      payload: { id: string; field: "value" | "label"; value: string };
+    }
   | { type: "DELETE_CODE"; payload: string }
+  | { type: "MOVE_CODE"; payload: { id: string; direction: "up" | "down" } }
   | { type: "SHOW_DATA_TABLE" }
   | { type: "SHOW_REUSE_SELECT" }
   | { type: "TOGGLE_REUSE_SELECT" }
@@ -22,7 +26,8 @@ export type CodeRepresentationAction =
   | {
       type: "INIT_FROM_CODE_LIST";
       payload: { label: string; codes: CodeTableRow[]; showDataTable: boolean };
-    };
+    }
+  | { type: "INIT_REUSED_CODE_LIST"; payload: { selectedCodeListId: string } };
 
 export const initialState: CodeRepresentationState = {
   codeListLabel: "",
@@ -62,6 +67,21 @@ export const codeRepresentationReducer = (
         codes: state.codes.filter((code) => code.id !== action.payload),
       };
 
+    case "MOVE_CODE": {
+      const { id, direction } = action.payload;
+      const currentIndex = state.codes.findIndex((code) => code.id === id);
+      if (currentIndex === -1) return state;
+
+      const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+      if (newIndex < 0 || newIndex >= state.codes.length) return state;
+
+      const newCodes = [...state.codes];
+      const [movedCode] = newCodes.splice(currentIndex, 1);
+      newCodes.splice(newIndex, 0, movedCode);
+
+      return { ...state, codes: newCodes };
+    }
+
     case "SHOW_DATA_TABLE":
       return { ...state, showDataTable: true, showReuseSelect: false };
 
@@ -80,10 +100,17 @@ export const codeRepresentationReducer = (
 
     case "INIT_FROM_CODE_LIST":
       return {
-        ...state,
+        ...initialState,
         codeListLabel: action.payload.label,
         codes: action.payload.codes,
         showDataTable: action.payload.showDataTable,
+      };
+
+    case "INIT_REUSED_CODE_LIST":
+      return {
+        ...initialState,
+        selectedCodeListId: action.payload.selectedCodeListId,
+        showReuseSelect: true,
       };
 
     default:

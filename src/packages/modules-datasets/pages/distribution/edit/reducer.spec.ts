@@ -250,7 +250,14 @@ describe("Distribution Edit Reducer", () => {
   describe("initialState", () => {
     it("should have correct initial values", () => {
       expect(initialState).toEqual({
-        editingDistribution: {},
+        editingDistribution: {
+          labelLg1: "",
+          labelLg2: "",
+          descriptionLg1: "",
+          descriptionLg2: "",
+          accessUrl: "",
+          url: "",
+        },
         clientSideErrors: {},
         submitting: false,
       });

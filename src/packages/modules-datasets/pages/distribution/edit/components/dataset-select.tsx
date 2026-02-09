@@ -12,7 +12,12 @@ type DatasetSelectProps = {
   error?: string;
 };
 
-export const DatasetSelect = ({ disabled, value, onChange, error }: DatasetSelectProps) => {
+export const DatasetSelect = ({
+  disabled,
+  value,
+  onChange,
+  error,
+}: Readonly<DatasetSelectProps>) => {
   const { data: datasets } = useDatasetsForDistributions();
 
   const datasetsOptions =

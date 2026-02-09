@@ -20,7 +20,7 @@ import { useSecondLang } from "@utils/hooks/second-lang";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import D, { D1, D2 } from "../../../deprecated-locales/build-dictionary";
-import { CL_PROCESS_STEP } from "../../../redux/actions/constants/codeList";
+import { CL_PROCESS_STEP } from "../../../constants/code-lists";
 import { useDataset } from "../../datasets";
 import { D as DatasetDictionary } from "../../i18n";
 import { GlobalInformationBlock } from "./GlobalInformationBlock";

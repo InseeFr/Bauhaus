@@ -11,7 +11,7 @@ import {
   CL_GEO,
   CL_STAT_UNIT,
   CL_TYPE_GEO,
-} from "../../../../redux/actions/constants/codeList";
+} from "../../../../constants/code-lists";
 import { convertCodesListsToSelectOption } from "../../../utils/codelist-to-select-options";
 import { TemporalField } from "../../components/temporalField";
 import { DataStructure } from "./statistical-information/data-structure";

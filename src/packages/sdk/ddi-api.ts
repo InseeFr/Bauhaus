@@ -1,11 +1,21 @@
 import { buildApi } from "./build-api";
 
 const api = {
+  getGroups: () => ["group"],
+  getGroup: (agencyId: string, id: string) => ["group/" + agencyId + "/" + id],
   getPhysicalInstances: () => ["physical-instance"],
   getPhysicalInstance: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id,
   ],
-  postPhysicalInstance: (data: { physicalInstanceLabel: string; dataRelationshipName: string }) => [
+  postPhysicalInstance: (data: {
+    physicalInstanceLabel: string;
+    dataRelationshipLabel: string;
+    logicalRecordLabel: string;
+    groupId: string;
+    groupAgency: string;
+    studyUnitId: string;
+    studyUnitAgency: string;
+  }) => [
     "physical-instance",
     {
       method: "POST",
@@ -18,7 +28,15 @@ const api = {
   patchPhysicalInstance: (
     agencyId: string,
     id: string,
-    data: { physicalInstanceLabel: string; dataRelationshipName: string },
+    data: {
+      physicalInstanceLabel: string;
+      dataRelationshipLabel: string;
+      logicalRecordLabel: string;
+      groupId: string;
+      groupAgency: string;
+      studyUnitId: string;
+      studyUnitAgency: string;
+    },
   ) => [
     "physical-instance/" + agencyId + "/" + id,
     {
@@ -54,6 +72,10 @@ const api = {
     (res: Response) => res.text(),
   ],
   getCodesLists: () => ["codes-list"],
+  getPhysicalCodesLists: (agencyId: string, physicalInstanceId: string) => [
+    `physical-instance/${agencyId}/${physicalInstanceId}/codeslists`,
+  ],
+  getMutualizedCodesLists: () => ["mutualized-codes-list"],
 };
 
 export const DDIApi = buildApi("ddi", api) as any;

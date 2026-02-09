@@ -1,5 +1,5 @@
 import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
-import { useParams, useNavigate, useBlocker } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "primereact/button";
 import { useTranslation } from "react-i18next";
 import { Toast } from "primereact/toast";
@@ -7,7 +7,10 @@ import { Message } from "primereact/message";
 import { confirmDialog } from "primereact/confirmdialog";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import "./view.css";
-import { EditModal } from "../../components/EditModal/EditModal";
+import {
+  PhysicalInstanceDialog,
+  PhysicalInstanceUpdateData,
+} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
@@ -20,23 +23,76 @@ import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constant
 import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
 import { Loading } from "../../../../components/loading";
 import { DDIApi } from "../../../../sdk";
+import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const toast = useRef<Toast>(null);
+  const initialRestoreDone = useRef(false);
   const [state, dispatch] = useReducer(viewReducer, initialState);
-  const { data, variables, title, dataRelationshipName, isLoading, isError, error } =
-    usePhysicalInstancesData(agencyId!, id!);
+  const { data, variables, title, isLoading, isError, error } = usePhysicalInstancesData(
+    agencyId!,
+    id!,
+  );
+  const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
 
   useEffect(() => {
-    if (title || dataRelationshipName) {
-      dispatch(actions.setFormData({ label: title, name: dataRelationshipName }));
+    if (title && title !== state.formData.label) {
+      dispatch(actions.setFormData({ label: title }));
     }
-  }, [title, dataRelationshipName]);
+  }, [title]);
+
+  const tabParam = Number(searchParams.get("tab"));
+  const activeTabIndex = [0, 1, 2].includes(tabParam) ? tabParam : 0;
+
+  const handleTabChange = useCallback(
+    (index: number) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (index === 0) {
+            next.delete("tab");
+          } else {
+            next.set("tab", String(index));
+          }
+          return next;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
+
+  // Sync selected variable ID to URL search params
+  useEffect(() => {
+    const currentVariableId = searchParams.get("variableId");
+    const selectedId = state.selectedVariable?.id ?? null;
+
+    if (selectedId && selectedId !== "new" && selectedId !== currentVariableId) {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.set("variableId", selectedId);
+          return next;
+        },
+        { replace: true },
+      );
+    } else if (!selectedId && currentVariableId && initialRestoreDone.current) {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.delete("variableId");
+          next.delete("tab");
+          return next;
+        },
+        { replace: true },
+      );
+    }
+  }, [state.selectedVariable, searchParams, setSearchParams]);
 
   const variableTypeOptions = useMemo(
     () => [
@@ -77,12 +133,9 @@ export const Component = () => {
     return state.localVariables.length > 0 || state.deletedVariableIds.length > 0;
   }, [state.localVariables, state.deletedVariableIds]);
 
-  // Block navigation when there are unsaved changes
-  const blocker = useBlocker(hasUnsavedChanges);
-
-  // Show confirmation dialog when navigation is blocked
-  useEffect(() => {
-    if (blocker.state === "blocked") {
+  // Block navigation when there are unsaved changes (internal + F5/close tab)
+  const handleNavigationBlock = useCallback(
+    (proceed: () => void, reset: () => void) => {
       confirmDialog({
         message: t("physicalInstance.view.unsavedChangesMessage"),
         header: t("physicalInstance.view.unsavedChangesTitle"),
@@ -90,15 +143,17 @@ export const Component = () => {
         acceptLabel: t("physicalInstance.view.leaveWithoutSaving"),
         rejectLabel: t("physicalInstance.view.stayOnPage"),
         acceptClassName: "p-button-danger",
-        accept: () => {
-          blocker.proceed();
-        },
-        reject: () => {
-          blocker.reset();
-        },
+        accept: proceed,
+        reject: reset,
       });
-    }
-  }, [blocker, t]);
+    },
+    [t],
+  );
+
+  useNavigationBlocker({
+    shouldBlock: hasUnsavedChanges,
+    onBlock: handleNavigationBlock,
+  });
 
   // Merge variables from API with local modifications
   const mergedVariables = useMemo(() => {
@@ -220,43 +275,53 @@ export const Component = () => {
     dispatch(actions.setEditModalVisible(false));
   }, []);
 
-  const handleFormDataChange = useCallback((data: { label: string; name: string }) => {
-    dispatch(actions.setFormData(data));
-  }, []);
+  const handleSaveEdit = useCallback(
+    async (data: PhysicalInstanceUpdateData) => {
+      const previousLabel = state.formData.label;
 
-  const handleSave = useCallback(async () => {
-    try {
-      await updatePhysicalInstance.mutateAsync({
-        id: id!,
-        agencyId: agencyId!,
-        data: {
-          physicalInstanceLabel: state.formData.label,
-          dataRelationshipName: "DataRelationShip Name:" + state.formData.label,
-        },
-      });
+      dispatch(actions.setFormData({ label: data.label }));
 
-      toast.current?.show({
-        severity: "success",
-        summary: t("physicalInstance.view.saveSuccess"),
-        detail: t("physicalInstance.view.saveSuccessDetail"),
-        life: TOAST_DURATION,
-      });
+      try {
+        await updatePhysicalInstance.mutateAsync({
+          id: id!,
+          agencyId: agencyId!,
+          data: {
+            physicalInstanceLabel: data.label,
+            dataRelationshipLabel: data.dataRelationshipLabel,
+            logicalRecordLabel: data.logicalRecordLabel,
+            groupId: data.group.id,
+            groupAgency: data.group.agency,
+            studyUnitId: data.studyUnit.id,
+            studyUnitAgency: data.studyUnit.agency,
+          },
+        });
 
-      dispatch(actions.setEditModalVisible(false));
-    } catch (err: unknown) {
-      const errorMessage =
-        err && typeof err === "object" && "message" in err
-          ? String(err.message)
-          : t("physicalInstance.view.saveErrorDetail");
+        dispatch(actions.setEditModalVisible(false));
 
-      toast.current?.show({
-        severity: "error",
-        summary: t("physicalInstance.view.saveError"),
-        detail: errorMessage,
-        life: TOAST_DURATION,
-      });
-    }
-  }, [state.formData, id, agencyId, t, updatePhysicalInstance]);
+        toast.current?.show({
+          severity: "success",
+          summary: t("physicalInstance.view.saveSuccess"),
+          detail: t("physicalInstance.view.saveSuccessDetail"),
+          life: TOAST_DURATION,
+        });
+      } catch (err: unknown) {
+        dispatch(actions.setFormData({ label: previousLabel }));
+
+        const errorMessage =
+          err && typeof err === "object" && "message" in err
+            ? String(err.message)
+            : t("physicalInstance.view.saveErrorDetail");
+
+        toast.current?.show({
+          severity: "error",
+          summary: t("physicalInstance.view.saveError"),
+          detail: errorMessage,
+          life: TOAST_DURATION,
+        });
+      }
+    },
+    [id, agencyId, t, updatePhysicalInstance, state.formData.label],
+  );
 
   const handleVariableClick = useCallback(
     (variable: VariableTableData) => {
@@ -314,6 +379,22 @@ export const Component = () => {
     [data, state.localVariables],
   );
 
+  // Restore selected variable from URL on initial load
+  useEffect(() => {
+    if (variables.length === 0) return;
+
+    if (!initialRestoreDone.current) {
+      initialRestoreDone.current = true;
+      const variableId = searchParams.get("variableId");
+      if (variableId) {
+        const variable = variables.find((v: VariableTableData) => v.id === variableId);
+        if (variable) {
+          handleVariableClick(variable);
+        }
+      }
+    }
+  }, [variables, handleVariableClick, searchParams]);
+
   const handleNewVariable = useCallback(() => {
     dispatch(
       actions.setSelectedVariable({
@@ -324,6 +405,30 @@ export const Component = () => {
       }),
     );
   }, []);
+
+  // Navigation entre les variables (circulaire)
+  const currentVariableIndex = useMemo(() => {
+    if (!state.selectedVariable || state.selectedVariable.id === "new") return -1;
+    return filteredVariables.findIndex((v) => v.id === state.selectedVariable?.id);
+  }, [filteredVariables, state.selectedVariable]);
+
+  const hasVariablesToNavigate = filteredVariables.length > 1 && currentVariableIndex >= 0;
+
+  const handlePreviousVariable = useCallback(() => {
+    if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
+      const previousIndex =
+        currentVariableIndex === 0 ? filteredVariables.length - 1 : currentVariableIndex - 1;
+      handleVariableClick(filteredVariables[previousIndex]);
+    }
+  }, [currentVariableIndex, filteredVariables, handleVariableClick]);
+
+  const handleNextVariable = useCallback(() => {
+    if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
+      const nextIndex =
+        currentVariableIndex === filteredVariables.length - 1 ? 0 : currentVariableIndex + 1;
+      handleVariableClick(filteredVariables[nextIndex]);
+    }
+  }, [currentVariableIndex, filteredVariables, handleVariableClick]);
 
   const handleVariableSave = useCallback(
     (data: VariableData) => {
@@ -458,12 +563,39 @@ export const Component = () => {
           } else if (localVar.codeRepresentation) {
             // Ajouter la CodeList et les Categories si elles existent
             if (localVar.codeList) {
-              codeListMap.set(localVar.codeList.ID, localVar.codeList);
+              // Filtrer les codes vides (sans valeur ET sans label)
+              const filteredCodeList = {
+                ...localVar.codeList,
+                Code: (localVar.codeList.Code || []).filter((code: Code) => {
+                  const category = localVar.categories?.find(
+                    (cat) => cat.ID === code.CategoryReference?.ID,
+                  );
+                  const label = category?.Label?.Content?.["#text"] || "";
+                  const value = code.Value || "";
+                  return value.trim() !== "" || label.trim() !== "";
+                }),
+              };
+              codeListMap.set(filteredCodeList.ID, filteredCodeList);
             }
             if (localVar.categories) {
-              localVar.categories.forEach((cat) => {
-                categoryMap.set(cat.ID, cat);
-              });
+              // Ne garder que les catégories liées aux codes valides
+              const validCategoryIds = new Set(
+                (localVar.codeList?.Code || [])
+                  .filter((code: Code) => {
+                    const category = localVar.categories?.find(
+                      (cat) => cat.ID === code.CategoryReference?.ID,
+                    );
+                    const label = category?.Label?.Content?.["#text"] || "";
+                    const value = code.Value || "";
+                    return value.trim() !== "" || label.trim() !== "";
+                  })
+                  .map((code: Code) => code.CategoryReference?.ID),
+              );
+              localVar.categories
+                .filter((cat) => validCategoryIds.has(cat.ID))
+                .forEach((cat) => {
+                  categoryMap.set(cat.ID, cat);
+                });
             }
 
             // S'assurer que la CodeListReference pointe vers le bon ID
@@ -631,27 +763,29 @@ export const Component = () => {
           transition: "width 0.3s ease",
         }}
       >
-        <div className="flex align-items-center gap-2 mb-3">
-          <h1 className="m-0">{title}</h1>
-          <Button
-            icon="pi pi-pencil"
-            text
-            rounded
-            aria-label={t("physicalInstance.view.editTitle")}
-            onClick={handleOpenEditModal}
+        <div className="sticky-header">
+          <div className="flex align-items-center gap-2 mb-3">
+            <h1 className="m-0">{state.formData.label || title}</h1>
+            <Button
+              icon="pi pi-pencil"
+              text
+              rounded
+              aria-label={t("physicalInstance.view.editTitle")}
+              onClick={handleOpenEditModal}
+            />
+          </div>
+
+          <SearchFilters
+            searchValue={state.searchValue}
+            onSearchChange={handleSearchChange}
+            typeFilter={state.typeFilter}
+            onTypeFilterChange={handleTypeFilterChange}
+            typeOptions={typeOptions}
+            onNewVariable={handleNewVariable}
+            onSaveAll={handleSaveAll}
+            hasLocalChanges={hasUnsavedChanges}
           />
         </div>
-
-        <SearchFilters
-          searchValue={state.searchValue}
-          onSearchChange={handleSearchChange}
-          typeFilter={state.typeFilter}
-          onTypeFilterChange={handleTypeFilterChange}
-          typeOptions={typeOptions}
-          onNewVariable={handleNewVariable}
-          onSaveAll={handleSaveAll}
-          hasLocalChanges={hasUnsavedChanges}
-        />
 
         <GlobalActionsCard
           variables={filteredVariables}
@@ -660,26 +794,33 @@ export const Component = () => {
           onRowClick={handleVariableClick}
           onDeleteClick={handleDeleteVariable}
           unsavedVariableIds={unsavedVariableIds}
+          selectedVariableId={state.selectedVariable?.id}
         />
       </div>
       {state.selectedVariable && (
-        <div className="col-4" role="complementary">
+        <div className="col-4 variable-edit-sidebar" role="complementary">
           <VariableEditForm
             variable={state.selectedVariable}
             typeOptions={variableTypeOptions}
             isNew={state.selectedVariable.id === "new"}
             onSave={handleVariableSave}
             onDuplicate={handleVariableDuplicate}
+            onPrevious={handlePreviousVariable}
+            onNext={handleNextVariable}
+            hasPrevious={hasVariablesToNavigate}
+            hasNext={hasVariablesToNavigate}
+            activeTabIndex={activeTabIndex}
+            onTabChange={handleTabChange}
           />
         </div>
       )}
 
-      <EditModal
+      <PhysicalInstanceDialog
         visible={state.isEditModalVisible}
         onHide={handleCloseEditModal}
-        formData={state.formData}
-        onFormDataChange={handleFormDataChange}
-        onSave={handleSave}
+        mode="edit"
+        initialData={{ label: state.formData.label }}
+        onSubmitEdit={handleSaveEdit}
       />
 
       <ConfirmDialog />

@@ -1,75 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, waitFor } from "@testing-library/react";
-import { Provider } from "react-redux";
 import { describe, it, expect, vi } from "vitest";
 
-import configureStore from "../../../redux/configure-store";
 import { renderWithRouter } from "../../../tests/render";
 
 import SimsGeographyPicker, { removeAccents } from "./sims-geography-picker";
-
-vi.mock("../../../redux/geographies.action", async (importOriginal) => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    loadGeographies: vi.fn(() => () => Promise.resolve()),
-  };
-});
-
-const mockGeographies = [
-  {
-    id: "1",
-    value: "http://geo1",
-    label: "France",
-    labelLg2: "France (EN)",
-    typeTerritory: "Pays",
-    geography: {
-      id: "1",
-      labelLg1: "France",
-      labelLg2: "France (EN)",
-    },
-  },
-  {
-    id: "2",
-    value: "http://geo2",
-    label: "Île-de-France",
-    labelLg2: "Ile-de-France (EN)",
-    typeTerritory: "Région",
-    geography: {
-      id: "2",
-      labelLg1: "Île-de-France",
-      labelLg2: "Ile-de-France (EN)",
-    },
-  },
-  {
-    id: "3",
-    value: "http://geo3",
-    label: "Paris Zone",
-    labelLg2: "Paris Zone (EN)",
-    typeTerritory: "Territoire Statistique",
-    geography: {
-      id: "3",
-      labelLg1: "Paris Zone",
-      labelLg2: "Paris Zone (EN)",
-    },
-  },
-];
-
-const createStore = () => {
-  return configureStore({
-    geographies: {
-      results: mockGeographies,
-    },
-    app: {
-      auth: {
-        type: "STAMP",
-        user: {
-          stamp: "test-stamp",
-        },
-      },
-    },
-  });
-};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,7 +14,6 @@ const queryClient = new QueryClient({
 });
 
 const renderComponent = (props = {}) => {
-  const store = createStore();
   const defaultProps = {
     onChange: vi.fn(),
     value: "",
@@ -89,11 +22,9 @@ const renderComponent = (props = {}) => {
   };
 
   return renderWithRouter(
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <SimsGeographyPicker {...defaultProps} />
-      </QueryClientProvider>
-    </Provider>,
+    <QueryClientProvider client={queryClient}>
+      <SimsGeographyPicker {...defaultProps} />
+    </QueryClientProvider>,
   );
 };
 

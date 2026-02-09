@@ -160,7 +160,7 @@ const renderFieldItem = (
   }
 };
 
-function ConceptGeneral({ attr, secondLang = false }: ConceptGeneralProps) {
+function ConceptGeneral({ attr, secondLang = false }: Readonly<ConceptGeneralProps>) {
   const { lg1, lg2 } = useLocales();
 
   // Build fields configuration dynamically based on available data
