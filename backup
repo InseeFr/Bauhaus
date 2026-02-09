@@ -1,0 +1,327 @@
+
+POST /movies/_search
+{
+    "query": {
+        "query_string": {
+            "query": "brooks"
+        }
+    }
+}
+
+
+POST /movies/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "genre": "Science-Fiction"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "note": {
+              "gte": 8.5
+            }
+          }
+        },
+        {
+          "range": {
+            "annee": {
+              "gt": 2010
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+POST /movies/_search
+{
+  "size": 0,
+  "query": {
+    "query_string": {
+      "query": "brooks"
+    }
+  },
+  "aggs": {
+    "par_pays": {
+      "terms": {
+        "field": "pays.keyword"
+      },
+      "aggs": {
+        "note_moyenne": {
+          "avg": {
+            "field": "note"
+          }
+        }
+      }
+    }
+  }
+}
+
+GET /movies/_mappings
+
+POST /movies/_analyze
+{
+    "field":  "actors",
+    "text": "Albert Brooks"
+}
+
+POST /movies/_search
+{
+    "query": {
+        "term": {
+          "pays": {
+            "value": "United States"
+          }
+        }
+    }
+}
+
+
+
+PUT /movies-v2
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "pays_synonyms": {
+          "type": "synonym",
+          "synonyms": [
+            "USA, United States, Etats-Unis, États-Unis, US, America",
+            "UK, United Kingdom, Royaume-Uni, Grande-Bretagne, Angleterre",
+            "Corée du Sud, South Korea, Korea"
+          ]
+        }
+      },
+      "analyzer": {
+        "pays_analyzer": {
+          "type": "custom",
+          "tokenizer": "keyword",
+          "filter": [
+            "lowercase",
+            "pays_synonyms"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "pays": {
+        "type": "text",
+        "analyzer": "pays_analyzer",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+POST _reindex
+{
+    "source": {
+        "index": "movies"
+    },
+    "dest": {
+        "index": "movies-v2"
+    }
+}
+
+POST /movies-v2/_analyze
+{
+  "analyzer": "pays_analyzer",
+  "text": "United States"
+}
+
+POST /movies-v2/_search
+{
+    "query": {
+        "match": {
+          "pays": "United States"
+        }
+    }
+}
+
+DELETE /movies_semantic
+DELETE _inference/text_embedding/movies-embeddings
+PUT _inference/text_embedding/movies-embeddings
+{
+  "service": "elasticsearch",
+  "service_settings": {
+    "num_allocations": 1,
+    "num_threads": 1,
+    "model_id": ".multilingual-e5-small"
+  }
+}
+
+PUT _ingest/pipeline/copy_synopsis_to_semantic
+{
+  "processors": [
+    {
+      "set": {
+        "field": "synopsis_semantic",
+        "copy_from": "synopsis"
+      }
+    }
+  ]
+}
+
+PUT /movies_semantic
+{
+  "mappings": {
+    "properties": {
+      "titre": {
+        "type": "text"
+      },
+      "synopsis": {
+        "type": "text"
+      },
+      "synopsis_semantic": {
+        "type": "semantic_text",
+        "inference_id": "movies-embeddings"
+      },
+      "genre": {
+        "type": "keyword"
+      },
+      "realisateur": {
+        "type": "text"
+      },
+      "annee": {
+        "type": "integer"
+      },
+      "note": {
+        "type": "float"
+      },
+      "pays": {
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+POST _reindex
+{
+  "source": {
+    "index": "movies"
+  },
+  "dest": {
+    "index": "movies_semantic",
+    "pipeline": "copy_synopsis_to_semantic"
+  }
+}
+
+
+POST /movies_semantic/_search
+
+POST /movies_semantic/_search
+{
+  "query": {
+    "semantic": {
+      "field": "synopsis_semantic",
+      "query": "a move with cars"
+    }
+  }
+}
+
+POST /movies_semantic/_search
+{
+  "query": {
+    "semantic": {
+      "field": "synopsis_semantic",
+      "query": "conflit entre riches et pauvres"
+    }
+  }
+}
+
+POST /movies_semantic/_search
+{
+  "retriever": {
+    "rrf": {
+      "retrievers": [
+        {
+          "standard": {
+            "query": {
+              "match": {
+                "acteurs": "Gosling"
+              }
+            }
+          }
+        },
+        {
+          "standard": {
+            "query": {
+              "semantic": {
+                "field": "synopsis_semantic",
+                "query": "a movie with cars"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+DELETE _inference/rerank/movies-reranker
+PUT _inference/rerank/movies-reranker
+{
+    "service": "elasticsearch",
+    "service_settings": {
+        "num_allocations": 1,
+        "num_threads": 1,
+        "model_id": ".rerank-v1"
+    }
+}
+
+POST /movies_semantic/_search
+{
+      "retriever": {
+        "rrf": {
+          "retrievers": [
+            {
+              "standard": {
+                "query": {
+                  "match": {
+                    "acteurs": "Gosling"
+                  }
+                }
+              }
+            },
+            {
+              "standard": {
+                "query": {
+                  "semantic": {
+                    "field": "synopsis_semantic",
+                    "query": "a move with cars"
+                  }
+                }
+              }
+            }
+          ],
+          "rank_window_size": 50,
+          "rank_constant": 20
+        
+    }
+  },
+  "size": 5
+}
+
+POST /_query?format=csv
+{
+    "query": """
+        FROM movies_semantic
+        | WHERE match(synopsis_semantic, "a movie with cars")
+        | KEEP titre, synopsis, note, annee
+        | SORT note DESC
+        | LIMIT 5
+    """
+}
