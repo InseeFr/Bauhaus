@@ -17,7 +17,13 @@ export interface UseNavigationBlockerOptions {
  */
 export function useNavigationBlocker({ shouldBlock, onBlock }: UseNavigationBlockerOptions) {
   // Block internal navigation using React Router
-  const blocker = useBlocker(shouldBlock);
+  // Only block if pathname changes, not query parameters or hash
+  const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+    if (!shouldBlock) return false;
+
+    // Allow navigation if only search params or hash changed
+    return currentLocation.pathname !== nextLocation.pathname;
+  });
 
   // Memoize proceed and reset callbacks to avoid unnecessary re-renders
   const proceed = useCallback(() => blocker.proceed(), [blocker]);

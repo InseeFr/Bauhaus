@@ -10,6 +10,7 @@ export interface CodeRepresentationState {
 
 export type CodeRepresentationAction =
   | { type: "SET_CODE_LIST_LABEL"; payload: string }
+  | { type: "SYNC_CODE_LIST_LABEL"; payload: string }
   | { type: "SET_CODES"; payload: CodeTableRow[] }
   | { type: "ADD_CODE"; payload: CodeTableRow }
   | {
@@ -44,6 +45,13 @@ export const codeRepresentationReducer = (
   switch (action.type) {
     case "SET_CODE_LIST_LABEL":
       return { ...state, codeListLabel: action.payload };
+
+    case "SYNC_CODE_LIST_LABEL":
+      // Only sync if current label is empty (to avoid overwriting user edits)
+      if (!state.codeListLabel) {
+        return { ...state, codeListLabel: action.payload };
+      }
+      return state;
 
     case "SET_CODES":
       return { ...state, codes: action.payload };
