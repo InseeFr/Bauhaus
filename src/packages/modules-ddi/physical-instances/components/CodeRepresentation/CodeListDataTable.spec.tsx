@@ -42,8 +42,8 @@ vi.mock("primereact/button", () => ({
   ),
 }));
 
-vi.mock("primereact/menu", () => ({
-  Menu: vi.fn().mockImplementation(() => null),
+vi.mock("primereact/overlaypanel", () => ({
+  OverlayPanel: vi.fn().mockImplementation(() => null),
 }));
 
 vi.mock("primereact/datatable", () => ({
