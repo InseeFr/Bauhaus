@@ -14,10 +14,6 @@ import {
 
 const { RICH_TEXT, TEXT, REPORTED_ATTRIBUTE } = rangeType;
 
-vi.mock("@utils/html-utils", () => ({
-  editorStateFromMd: vi.fn((text) => `EditorState(${text})`),
-}));
-
 describe("isOpen", () => {
   beforeEach(() => {
     localStorage.setItem(
@@ -276,7 +272,7 @@ describe("removeRubricsWhenDuplicate", () => {
     expect(result).toEqual(rubrics);
   });
 
-  it("should transform rich text labels using editorStateFromMd", () => {
+  it("should keep rich text labels unchanged", () => {
     const rubrics = {
       "A.1.1": {
         labelLg1: "Rich Text 1",
@@ -287,8 +283,8 @@ describe("removeRubricsWhenDuplicate", () => {
     const result = removeRubricsWhenDuplicate(CREATE, rubrics);
     expect(result).toEqual({
       "A.1.1": {
-        labelLg1: "EditorState(Rich Text 1)",
-        labelLg2: "EditorState(Rich Text 2)",
+        labelLg1: "Rich Text 1",
+        labelLg2: "Rich Text 2",
         rangeType: "RICH_TEXT",
       },
     });

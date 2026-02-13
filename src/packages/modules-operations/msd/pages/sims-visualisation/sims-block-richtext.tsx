@@ -1,8 +1,7 @@
-import { renderMarkdownElement } from "@utils/html-utils";
-
 import { Rubric } from "../../../../model/Sims";
 import { isLink, isDocument } from "../../../document/utils";
 import DocumentsBloc from "../../documents/documents-bloc";
+import Editor from "@uiw/react-md-editor";
 
 interface SimsBlockRichTextTypes {
   currentSection: Rubric;
@@ -13,7 +12,7 @@ const SimsBlockRichText = ({ currentSection, isSecondLang }: Readonly<SimsBlockR
   const documents = currentSection[("documents" + suffix) as "documentsLg1" | "documentsLg2"];
   return (
     <>
-      {renderMarkdownElement(currentSection[isSecondLang ? "labelLg2" : "labelLg1"])}
+      <Editor.Markdown source={currentSection[isSecondLang ? "labelLg2" : "labelLg1"]} />
       {documents && (
         <div className="sims-documents-block">
           <DocumentsBloc
