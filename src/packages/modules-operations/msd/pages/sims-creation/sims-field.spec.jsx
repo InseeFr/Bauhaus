@@ -363,7 +363,7 @@ describe("Sims Field", () => {
       );
 
       // Should still render without error
-      expect(container.querySelector(".simsField")).toBeInTheDocument();
+      expect(container.querySelector(".sims-field")).toBeInTheDocument();
     });
   });
 
@@ -442,7 +442,7 @@ describe("Sims Field", () => {
       const { container } = renderWithProviders(<Field {...props} />);
 
       // SimsGeographyPicker should be rendered
-      expect(container.querySelector(".simsField")).toBeInTheDocument();
+      expect(container.querySelector(".sims-field")).toBeInTheDocument();
     });
 
     it("should pass secondLang to geography picker", () => {
@@ -469,7 +469,7 @@ describe("Sims Field", () => {
       const { container } = renderWithProviders(<Field {...props} />);
 
       // Geography picker should have onChange handler
-      expect(container.querySelector(".simsField")).toBeInTheDocument();
+      expect(container.querySelector(".sims-field")).toBeInTheDocument();
       expect(handleChange).not.toHaveBeenCalled(); // Initially
     });
   });
@@ -676,7 +676,9 @@ describe("Sims Field", () => {
       // Note component is rendered
       expect(container.querySelector(".note")).toBeInTheDocument();
       // SimsFieldTitle component is rendered in the title - check for heading
-      expect(screen.getByRole("heading", { name: /Field Title/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: /Field Title/i }),
+      ).toBeInTheDocument();
     });
   });
 

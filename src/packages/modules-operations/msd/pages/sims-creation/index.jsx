@@ -1,4 +1,4 @@
-import { Fragment, memo, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useBlocker } from "react-router-dom";
 
@@ -33,7 +33,12 @@ import { getDefaultSims, getSiblingSims } from "./utils/getSims";
 
 const { RICH_TEXT } = rangeType;
 
-export const generateSimsBeforeSubmit = (simsProp, parentType, idParent, rubrics) => {
+export const generateSimsBeforeSubmit = (
+  simsProp,
+  parentType,
+  idParent,
+  rubrics,
+) => {
   return {
     id: simsProp.id,
     labelLg1: simsProp.labelLg1,
@@ -68,7 +73,11 @@ const SimsCreation = ({
   });
 
   const [sims, setSims] = useState(() =>
-    getDefaultSims(mode, simsProp.rubrics || defaultSimsRubrics, metadataStructure),
+    getDefaultSims(
+      mode,
+      simsProp.rubrics || defaultSimsRubrics,
+      metadataStructure,
+    ),
   );
 
   const handleChange = useCallback((e) => {
@@ -86,10 +95,13 @@ const SimsCreation = ({
 
     setChanged(false);
 
-    onSubmit(generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics), (id) => {
-      setSaving(false);
-      goBack(`/operations/sims/${id}`, true);
-    });
+    onSubmit(
+      generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics),
+      (id) => {
+        setSaving(false);
+        goBack(`/operations/sims/${id}`, true);
+      },
+    );
   };
 
   const goBackUrl = sims.id
@@ -115,7 +127,9 @@ const SimsCreation = ({
       label: op.labelLg1,
       value: op.idSims,
     }))
-    .sort((o1, o2) => o1.label.toLowerCase().localeCompare(o2.label.toLowerCase()));
+    .sort((o1, o2) =>
+      o1.label.toLowerCase().localeCompare(o2.label.toLowerCase()),
+    );
 
   const MSDInformations = useCallback(
     (msd, handleChange, firstLevel = false) => {
@@ -183,7 +197,9 @@ const SimsCreation = ({
                 </div>
               )}
           </div>
-          {Object.values(msd.children).map((child) => MSDInformations(child, handleChange))}
+          {Object.values(msd.children).map((child) =>
+            MSDInformations(child, handleChange),
+          )}
         </Fragment>
       );
     },
@@ -257,7 +273,9 @@ const SimsCreation = ({
                 <Select
                   className="bauhaus-sims-duplicate"
                   placeholder={D.createFromAnExistingReport}
-                  value={operationsWithSimsOptions.find(({ value }) => value === idParent)}
+                  value={operationsWithSimsOptions.find(
+                    ({ value }) => value === idParent,
+                  )}
                   options={operationsWithSimsOptions}
                   onChange={onSiblingSimsChange()}
                   disabled={changed}
