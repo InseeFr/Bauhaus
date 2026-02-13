@@ -1,4 +1,11 @@
-import { PureComponent } from "react";
+import {
+  memo,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Editor } from "react-draft-wysiwyg";
 
 import { DatePicker } from "@components/date-picker";
@@ -7,12 +14,7 @@ import { Note } from "@components/note";
 import { Select } from "@components/select-rmes";
 
 import { sortArrayByLabel } from "@utils/array-utils";
-import { getLang } from "@utils/dictionnary";
 
-import {
-  EditorDeleteButton,
-  EditorMarkdownToolbar,
-} from "../../../../components/rich-editor/editor-markdown";
 import D from "../../../../deprecated-locales";
 import SimsGeographyPicker from "../../../components/sims/sims-geography-picker";
 import { rangeType } from "../../../utils/msd";
@@ -20,191 +22,227 @@ import { SimsFieldTitle } from "../../sims-field-title";
 import { SimsCodeListSelect } from "./sims-code-list-select";
 import "./sims-field.css";
 import { SimsWithoutObjectCheckbox } from "./sims-without-object-checkbox";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 
-class SimsField extends PureComponent {
-  _handleChange(override) {
-    this.props.handleChange({
-      id: this.props.msd.idMas,
-      override,
-    });
-  }
-
-  handleWithoutObject = (value) => {
-    if (value) {
-      this._handleChange({ rangeType: rangeType.RUBRIQUE_SANS_OBJECT });
-    } else {
-      this._handleChange({ rangeType: this.props.msd.rangeType });
-    }
-  };
-  handleTextInput = (value) => {
-    this._handleChange({
-      [this.props.secondLang ? "labelLg2" : "labelLg1"]: value,
-    });
-  };
-
-  handleCodeListInput = (value) => {
-    this._handleChange({ codeList: this.props.msd.codeList, value });
-  };
-  handleGeography = (uri) => {
-    this._handleChange({ uri });
-  };
-
-  render() {
-    const {
-      msd,
-      currentSection = {},
-      secondLang,
-      alone,
-      organisationsOptions = [],
-      unbounded,
-    } = this.props;
-    const codesList = this.props.codesLists[msd.codeList] || {};
-    const codes = codesList.codes || [];
-    const codesListOptions = sortArrayByLabel(
-      codes.map((c) => ({
-        label: c.labelLg1,
-        value: c.code,
-      })),
-    );
-    const codesListOptionsLg2 = sortArrayByLabel(
-      codes.map((c) => ({
-        label: c.labelLg2,
-        value: c.code,
-      })),
-    );
-
-    const currentToolbar = {
-      ...EditorMarkdownToolbar,
-      options: ["list", "inline"],
-    };
-
-    let value;
+const SimsFieldComponent = ({
+  msd,
+  currentSection = {},
+  secondLang,
+  alone,
+  organisationsOptions = [],
+  unbounded,
+  codesLists,
+  handleChange,
+}) => {
+  const value = useMemo(() => {
     switch (msd.rangeType) {
       case TEXT:
-        value = currentSection[secondLang ? "labelLg2" : "labelLg1"];
-        break;
+        return currentSection[secondLang ? "labelLg2" : "labelLg1"];
       case ORGANIZATION:
-        value = currentSection.value;
-        break;
+        return currentSection.value;
       case DATE:
-        value = currentSection.value;
-        break;
+        return currentSection.value;
       case RICH_TEXT:
-        value = currentSection[secondLang ? "labelLg2" : "labelLg1"];
-        break;
+        return currentSection[secondLang ? "labelLg2" : "labelLg1"];
       case GEOGRAPHY:
-        value = currentSection.uri;
-        break;
+        return currentSection.uri;
       case CODE_LIST:
-        value = currentSection.value;
-        break;
+        return currentSection.value;
       default:
-        value = currentSection.value;
+        return currentSection.value;
     }
-    return (
-      <Note
-        title={
-          <SimsFieldTitle
-            currentSection={currentSection}
-            msd={msd}
-            secondLang={secondLang}
-          />
-        }
-        alone={alone}
-        text={
-          !msd.isPresentational && (
-            <>
-              {msd.sansObject && (
-                <SimsWithoutObjectCheckbox
-                  checked={
-                    currentSection.rangeType === rangeType.RUBRIQUE_SANS_OBJECT
-                  }
-                  onChange={this.handleWithoutObject}
-                  displayConfirmation={!!value}
-                  secondLang={secondLang}
-                />
-              )}
-              {currentSection.rangeType !== rangeType.RUBRIQUE_SANS_OBJECT && (
-                <span className="simsField">
-                  {msd.rangeType === TEXT && (
-                    <InputRmes
-                      id={msd.idMas}
+  }, [msd.rangeType, currentSection, secondLang]);
+
+  const [localMdValue, setLocalMdValue] = useState(value);
+
+  useEffect(() => {
+    if (msd.rangeType === RICH_TEXT) {
+      setLocalMdValue(value);
+    }
+  }, [value, msd.rangeType]);
+
+  const handleChangeInternal = useCallback(
+    (override) => {
+      handleChange({
+        id: msd.idMas,
+        override,
+      });
+    },
+    [handleChange, msd.idMas],
+  );
+
+  const handleWithoutObject = useCallback(
+    (value) => {
+      if (value) {
+        handleChangeInternal({ rangeType: rangeType.RUBRIQUE_SANS_OBJECT });
+      } else {
+        handleChangeInternal({ rangeType: msd.rangeType });
+      }
+    },
+    [handleChangeInternal, msd.rangeType],
+  );
+
+  const handleTextInput = useCallback(
+    (value) => {
+      handleChangeInternal({
+        [secondLang ? "labelLg2" : "labelLg1"]: value,
+      });
+    },
+    [handleChangeInternal, secondLang],
+  );
+
+  const handleMdChange = useCallback((value) => {
+    setLocalMdValue(value);
+  }, []);
+
+  const handleMdBlur = useCallback(() => {
+    handleChangeInternal({
+      [secondLang ? "labelLg2" : "labelLg1"]: localMdValue,
+    });
+  }, [handleChangeInternal, secondLang, localMdValue]);
+
+  const handleCodeListInput = useCallback(
+    (value) => {
+      handleChangeInternal({ codeList: msd.codeList, value });
+    },
+    [handleChangeInternal, msd.codeList],
+  );
+
+  const handleGeography = useCallback(
+    (uri) => {
+      handleChangeInternal({ uri });
+    },
+    [handleChangeInternal],
+  );
+
+  const codesList = codesLists[msd.codeList] || {};
+  const codes = codesList.codes || [];
+
+  const codesListOptions = useMemo(
+    () =>
+      sortArrayByLabel(
+        codes.map((c) => ({
+          label: c.labelLg1,
+          value: c.code,
+        })),
+      ),
+    [codes],
+  );
+
+  const codesListOptionsLg2 = useMemo(
+    () =>
+      sortArrayByLabel(
+        codes.map((c) => ({
+          label: c.labelLg2,
+          value: c.code,
+        })),
+      ),
+    [codes],
+  );
+
+  return (
+    <Note
+      title={
+        <SimsFieldTitle
+          currentSection={currentSection}
+          msd={msd}
+          secondLang={secondLang}
+        />
+      }
+      alone={alone}
+      text={
+        !msd.isPresentational && (
+          <>
+            {msd.sansObject && (
+              <SimsWithoutObjectCheckbox
+                checked={
+                  currentSection.rangeType === rangeType.RUBRIQUE_SANS_OBJECT
+                }
+                onChange={handleWithoutObject}
+                displayConfirmation={!!value}
+                secondLang={secondLang}
+              />
+            )}
+            {currentSection.rangeType !== rangeType.RUBRIQUE_SANS_OBJECT && (
+              <span className="simsField">
+                {msd.rangeType === TEXT && (
+                  <InputRmes
+                    id={msd.idMas}
+                    value={value}
+                    handleChange={handleTextInput}
+                    arias={{
+                      "aria-label": D.simsValue,
+                    }}
+                    className="w-100"
+                  />
+                )}
+                {msd.rangeType === ORGANIZATION && (
+                  <>
+                    <Select
+                      placeholder=""
                       value={value}
-                      handleChange={this.handleTextInput}
-                      arias={{
-                        "aria-label": D.simsValue,
-                      }}
-                      className="w-100"
+                      options={organisationsOptions}
+                      onChange={handleCodeListInput}
                     />
-                  )}
-                  {msd.rangeType === ORGANIZATION && (
-                    <>
-                      <Select
-                        placeholder=""
-                        value={value}
-                        options={organisationsOptions}
-                        onChange={this.handleCodeListInput}
-                      />
-                    </>
-                  )}
-                  {msd.rangeType === DATE && (
-                    <DatePicker
-                      aria-label={D.simsValue}
-                      id={msd.idMas}
-                      colMd={12}
-                      value={value}
-                      onChange={this.handleCodeListInput}
-                      secondLang={secondLang}
-                    />
-                  )}
+                  </>
+                )}
+                {msd.rangeType === DATE && (
+                  <DatePicker
+                    aria-label={D.simsValue}
+                    id={msd.idMas}
+                    colMd={12}
+                    value={value}
+                    onChange={handleCodeListInput}
+                    secondLang={secondLang}
+                  />
+                )}
 
-                  {msd.rangeType === RICH_TEXT && (
-                    <Editor
-                      editorState={value}
-                      toolbarCustomButtons={[
-                        <EditorDeleteButton key="delete" />,
-                      ]}
-                      toolbar={currentToolbar}
-                      toolbarClassName="home-toolbar"
-                      wrapperClassName="home-wrapper"
-                      editorClassName="home-editor"
-                      onEditorStateChange={this.handleTextInput}
-                      onBlur={this.handleLeave}
-                      localization={{
-                        locale: getLang(),
-                      }}
+                {msd.rangeType === RICH_TEXT && (
+                  <div onBlur={handleMdBlur}>
+                    <MDEditor
+                      text={localMdValue}
+                      handleChange={handleMdChange}
                     />
-                  )}
+                  </div>
+                )}
 
-                  {msd.rangeType === CODE_LIST && codesList && (
-                    <SimsCodeListSelect
-                      aria-label={codesList.codeListLabelLg1}
-                      currentSection={currentSection}
-                      options={
-                        secondLang ? codesListOptionsLg2 : codesListOptions
-                      }
-                      onChange={this.handleCodeListInput}
-                      multi={unbounded}
-                    />
-                  )}
+                {msd.rangeType === CODE_LIST && codesList && (
+                  <SimsCodeListSelect
+                    aria-label={codesList.codeListLabelLg1}
+                    currentSection={currentSection}
+                    options={
+                      secondLang ? codesListOptionsLg2 : codesListOptions
+                    }
+                    onChange={handleCodeListInput}
+                    multi={unbounded}
+                  />
+                )}
 
-                  {msd.rangeType === GEOGRAPHY && (
-                    <SimsGeographyPicker
-                      value={value}
-                      onChange={this.handleGeography}
-                      secondLang={secondLang}
-                    />
-                  )}
-                </span>
-              )}
-            </>
-          )
-        }
-      />
-    );
-  }
-}
+                {msd.rangeType === GEOGRAPHY && (
+                  <SimsGeographyPicker
+                    value={value}
+                    onChange={handleGeography}
+                    secondLang={secondLang}
+                  />
+                )}
+              </span>
+            )}
+          </>
+        )
+      }
+    />
+  );
+};
 
-export default SimsField;
+export const SimsField = memo(SimsFieldComponent, (prevProps, nextProps) => {
+  // Ne re-render que si le currentSection de CE champ a changé
+  return (
+    prevProps.msd.idMas === nextProps.msd.idMas &&
+    prevProps.currentSection === nextProps.currentSection &&
+    prevProps.secondLang === nextProps.secondLang &&
+    prevProps.alone === nextProps.alone &&
+    prevProps.unbounded === nextProps.unbounded
+  );
+});

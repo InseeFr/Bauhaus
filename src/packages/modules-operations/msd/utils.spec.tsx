@@ -14,10 +14,6 @@ import {
 
 const { RICH_TEXT, TEXT, REPORTED_ATTRIBUTE } = rangeType;
 
-vi.mock("@utils/html-utils", () => ({
-  editorStateFromMd: vi.fn((text) => `EditorState(${text})`),
-}));
-
 describe("isOpen", () => {
   beforeEach(() => {
     localStorage.setItem(
@@ -53,28 +49,39 @@ describe("toggleOpen", () => {
 
   it("should toggle the state from false to true when it is not set", () => {
     toggleOpen("test-id");
-    const storedData = JSON.parse(localStorage.getItem("HELP_COLLAPSED") || "{}");
+    const storedData = JSON.parse(
+      localStorage.getItem("HELP_COLLAPSED") || "{}",
+    );
     expect(storedData["test-id"]).toBe(true);
   });
 
   it("should toggle the state from true to false", () => {
     localStorage.setItem("HELP_COLLAPSED", JSON.stringify({ "test-id": true }));
     toggleOpen("test-id");
-    const storedData = JSON.parse(localStorage.getItem("HELP_COLLAPSED") || "{}");
+    const storedData = JSON.parse(
+      localStorage.getItem("HELP_COLLAPSED") || "{}",
+    );
     expect(storedData["test-id"]).toBe(false);
   });
 
   it("should not affect other ids in the storage", () => {
-    localStorage.setItem("HELP_COLLAPSED", JSON.stringify({ "other-id": true }));
+    localStorage.setItem(
+      "HELP_COLLAPSED",
+      JSON.stringify({ "other-id": true }),
+    );
     toggleOpen("test-id");
-    const storedData = JSON.parse(localStorage.getItem("HELP_COLLAPSED") || "{}");
+    const storedData = JSON.parse(
+      localStorage.getItem("HELP_COLLAPSED") || "{}",
+    );
     expect(storedData["other-id"]).toBe(true);
     expect(storedData["test-id"]).toBe(true);
   });
 
   it("should handle empty localStorage gracefully", () => {
     toggleOpen("test-id");
-    const storedData = JSON.parse(localStorage.getItem("HELP_COLLAPSED") || "{}");
+    const storedData = JSON.parse(
+      localStorage.getItem("HELP_COLLAPSED") || "{}",
+    );
     expect(storedData["test-id"]).toBe(true);
   });
 });
@@ -96,13 +103,19 @@ describe("hasLabelLg2", () => {
 
 describe("getParentUri", () => {
   it("should return a uri of an operation", () => {
-    expect(getParentUri({ idOperation: "1" } as unknown as Sims)).toBe(`/operations/operation/1`);
+    expect(getParentUri({ idOperation: "1" } as unknown as Sims)).toBe(
+      `/operations/operation/1`,
+    );
   });
   it("should return a uri of an series", () => {
-    expect(getParentUri({ idSeries: "1" } as unknown as Sims)).toBe(`/operations/series/1`);
+    expect(getParentUri({ idSeries: "1" } as unknown as Sims)).toBe(
+      `/operations/series/1`,
+    );
   });
   it("should return a uri of an indicator", () => {
-    expect(getParentUri({ idIndicator: "1" } as unknown as Sims)).toBe(`/operations/indicator/1`);
+    expect(getParentUri({ idIndicator: "1" } as unknown as Sims)).toBe(
+      `/operations/indicator/1`,
+    );
   });
   it("should return undefined", () => {
     expect(getParentUri({} as unknown as Sims)).toBeUndefined();
@@ -276,7 +289,7 @@ describe("removeRubricsWhenDuplicate", () => {
     expect(result).toEqual(rubrics);
   });
 
-  it("should transform rich text labels using editorStateFromMd", () => {
+  it("should keep rich text labels unchanged", () => {
     const rubrics = {
       "A.1.1": {
         labelLg1: "Rich Text 1",
@@ -287,8 +300,8 @@ describe("removeRubricsWhenDuplicate", () => {
     const result = removeRubricsWhenDuplicate(CREATE, rubrics);
     expect(result).toEqual({
       "A.1.1": {
-        labelLg1: "EditorState(Rich Text 1)",
-        labelLg2: "EditorState(Rich Text 2)",
+        labelLg1: "Rich Text 1",
+        labelLg2: "Rich Text 2",
         rangeType: "RICH_TEXT",
       },
     });

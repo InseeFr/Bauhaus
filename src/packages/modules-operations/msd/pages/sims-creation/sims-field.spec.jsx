@@ -1,7 +1,7 @@
 import { screen, fireEvent, render } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import Field from "./sims-field";
+import { SimsField as Field } from "./sims-field";
 import {
   renderWithProviders,
   createDefaultSimsFieldProps,
@@ -193,13 +193,13 @@ describe("Sims Field", () => {
   });
 
   describe("RICH_TEXT Field", () => {
-    it("should display an EditorMarkdown", () => {
+    it("should display a MDEditor", () => {
       const props = createDefaultSimsFieldProps({
         msd: { masLabelLg2: "masLabelLg2", idMas: "1", rangeType: RICH_TEXT },
       });
       const { container } = renderWithProviders(<Field {...props} />);
 
-      expect(container.querySelectorAll(".rdw-editor-wrapper")).toHaveLength(1);
+      expect(container.querySelectorAll(".w-md-editor")).toHaveLength(1);
     });
 
     it("should configure editor with correct toolbar options", () => {
@@ -208,12 +208,12 @@ describe("Sims Field", () => {
       });
       const { container } = renderWithProviders(<Field {...props} />);
 
-      const editor = container.querySelector(".rdw-editor-wrapper");
+      const editor = container.querySelector(".w-md-editor");
       expect(editor).toBeInTheDocument();
       // Toolbar is configured with 'list' and 'inline' options
     });
 
-    it("should render with Redux Provider for draft-js editor", () => {
+    it("should render with Redux Provider for markdown editor", () => {
       // This test verifies that RICH_TEXT field works with Redux context
       const props = createDefaultSimsFieldProps({
         msd: { masLabelLg2: "masLabelLg2", idMas: "1", rangeType: RICH_TEXT },
@@ -221,7 +221,7 @@ describe("Sims Field", () => {
       const { container } = renderWithProviders(<Field {...props} />);
 
       // Editor should render successfully
-      expect(container.querySelector(".rdw-editor-wrapper")).toBeInTheDocument();
+      expect(container.querySelector(".w-md-editor")).toBeInTheDocument();
     });
   });
 
@@ -676,7 +676,9 @@ describe("Sims Field", () => {
       // Note component is rendered
       expect(container.querySelector(".note")).toBeInTheDocument();
       // SimsFieldTitle component is rendered in the title - check for heading
-      expect(screen.getByRole("heading", { name: /Field Title/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: /Field Title/i }),
+      ).toBeInTheDocument();
     });
   });
 

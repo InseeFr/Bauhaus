@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, memo, useCallback, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useBlocker } from "react-router-dom";
 
@@ -13,7 +13,6 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { EMPTY_ARRAY, sortArrayByLabel } from "@utils/array-utils";
 import { useGoBack } from "@utils/hooks/useGoBack";
-import { mdFromEditorState } from "@utils/html-utils";
 
 import D from "../../../../deprecated-locales";
 import { rangeType } from "../../../utils/msd";
@@ -29,13 +28,17 @@ import { useDocumentsStoreContext } from "./documents-store-context";
 import { Menu } from "./menu";
 import "./sims-creation.scss";
 import SimsDocumentField from "./sims-document-field";
-import Field from "./sims-field";
+import { SimsField as Field } from "./sims-field";
 import { getDefaultSims, getSiblingSims } from "./utils/getSims";
-import { EditorState } from "draft-js";
 
 const { RICH_TEXT } = rangeType;
 
-export const generateSimsBeforeSubmit = (simsProp, parentType, idParent, rubrics) => {
+export const generateSimsBeforeSubmit = (
+  simsProp,
+  parentType,
+  idParent,
+  rubrics,
+) => {
   return {
     id: simsProp.id,
     labelLg1: simsProp.labelLg1,
@@ -43,16 +46,6 @@ export const generateSimsBeforeSubmit = (simsProp, parentType, idParent, rubrics
     [getParentIdName(parentType)]: idParent,
     created: simsProp.created,
     rubrics,
-  };
-};
-
-const convertRubric = (rubric) => {
-  return {
-    ...rubric,
-    labelLg1:
-      rubric.labelLg1 instanceof EditorState ? mdFromEditorState(rubric.labelLg1) : rubric.labelLg1,
-    labelLg2:
-      rubric.labelLg2 instanceof EditorState ? mdFromEditorState(rubric.labelLg2) : rubric.labelLg2,
   };
 };
 
@@ -80,13 +73,17 @@ const SimsCreation = ({
   });
 
   const [sims, setSims] = useState(() =>
-    getDefaultSims(mode, simsProp.rubrics || defaultSimsRubrics, metadataStructure),
+    getDefaultSims(
+      mode,
+      simsProp.rubrics || defaultSimsRubrics,
+      metadataStructure,
+    ),
   );
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     setChanged(true);
     setSims((sims) => ({ ...sims, [e.id]: { ...sims[e.id], ...e.override } }));
-  };
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -94,14 +91,17 @@ const SimsCreation = ({
     setSaving(true);
 
     const idParentToSave = idParent || idParentProp;
-    const rubrics = Object.values(sims).map(convertRubric);
+    const rubrics = Object.values(sims);
 
     setChanged(false);
 
-    onSubmit(generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics), (id) => {
-      setSaving(false);
-      goBack(`/operations/sims/${id}`, true);
-    });
+    onSubmit(
+      generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics),
+      (id) => {
+        setSaving(false);
+        goBack(`/operations/sims/${id}`, true);
+      },
+    );
   };
 
   const goBackUrl = sims.id
@@ -127,77 +127,84 @@ const SimsCreation = ({
       label: op.labelLg1,
       value: op.idSims,
     }))
-    .sort((o1, o2) => o1.label.toLowerCase().localeCompare(o2.label.toLowerCase()));
+    .sort((o1, o2) =>
+      o1.label.toLowerCase().localeCompare(o2.label.toLowerCase()),
+    );
 
-  function MSDInformations(msd, handleChange, firstLevel = false) {
-    return (
-      <Fragment key={msd.idMas}>
-        {firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
-          <h3 className="col-md-12 sims-title">
-            {msd.idMas} - {msd.masLabelBasedOnCurrentLang}
-          </h3>
-        )}
-        <div
-          className={`bauhaus-sims-field row ${
-            !secondLang
-              ? "bauhaus-sims-field__" + msd.rangeType
-              : "bauhaus-sims-field__" + msd.rangeType + "_2col"
-          }`}
-          id={msd.idMas}
-        >
-          <div className="bauhaus-sims-field-form">
-            {!msd.isPresentational && (
-              <Field
-                msd={msd}
-                currentSection={sims[msd.idMas]}
-                handleChange={handleChange}
-                codesLists={codesLists}
-                secondLang={false}
-                alone={!hasLabelLg2(msd) || !secondLang}
-                organisationsOptions={organisationsOptions}
-                unbounded={msd.maxOccurs === "unbounded"}
-              />
-            )}
-            {!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-              <Field
-                msd={msd}
-                currentSection={sims[msd.idMas]}
-                handleChange={handleChange}
-                codesLists={codesLists}
-                secondLang={true}
-                alone={false}
-                organisationsOptions={organisationsOptionsLg2}
-                unbounded={msd.maxOccurs === "unbounded"}
-              />
-            )}
-          </div>
-          {sims[msd.idMas].rangeType !== rangeType.RUBRIQUE_SANS_OBJECT &&
-            msd.rangeType === RICH_TEXT && (
-              <div className="row bauhaus-documents-bloc">
-                <div className={`col-md-${secondLang ? 6 : 12}`}>
-                  <SimsDocumentField
-                    msd={msd}
-                    currentSection={sims[msd.idMas]}
-                    handleChange={handleChange}
-                  />
-                </div>
-                {secondLang && (
-                  <div className="col-md-6">
+  const MSDInformations = useCallback(
+    (msd, handleChange, firstLevel = false) => {
+      return (
+        <Fragment key={msd.idMas}>
+          {firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
+            <h3 className="col-md-12 sims-title">
+              {msd.idMas} - {msd.masLabelBasedOnCurrentLang}
+            </h3>
+          )}
+          <div
+            className={`bauhaus-sims-field row ${
+              !secondLang
+                ? "bauhaus-sims-field__" + msd.rangeType
+                : "bauhaus-sims-field__" + msd.rangeType + "_2col"
+            }`}
+            id={msd.idMas}
+          >
+            <div className="bauhaus-sims-field-form">
+              {!msd.isPresentational && (
+                <Field
+                  msd={msd}
+                  currentSection={sims[msd.idMas]}
+                  handleChange={handleChange}
+                  codesLists={codesLists}
+                  secondLang={false}
+                  alone={!hasLabelLg2(msd) || !secondLang}
+                  organisationsOptions={organisationsOptions}
+                  unbounded={msd.maxOccurs === "unbounded"}
+                />
+              )}
+              {!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
+                <Field
+                  msd={msd}
+                  currentSection={sims[msd.idMas]}
+                  handleChange={handleChange}
+                  codesLists={codesLists}
+                  secondLang={true}
+                  alone={false}
+                  organisationsOptions={organisationsOptionsLg2}
+                  unbounded={msd.maxOccurs === "unbounded"}
+                />
+              )}
+            </div>
+            {sims[msd.idMas].rangeType !== rangeType.RUBRIQUE_SANS_OBJECT &&
+              msd.rangeType === RICH_TEXT && (
+                <div className="row bauhaus-documents-bloc">
+                  <div className={`col-md-${secondLang ? 6 : 12}`}>
                     <SimsDocumentField
                       msd={msd}
                       currentSection={sims[msd.idMas]}
                       handleChange={handleChange}
-                      lang="Lg2"
                     />
                   </div>
-                )}
-              </div>
-            )}
-        </div>
-        {Object.values(msd.children).map((child) => MSDInformations(child, handleChange))}
-      </Fragment>
-    );
-  }
+                  {secondLang && (
+                    <div className="col-md-6">
+                      <SimsDocumentField
+                        msd={msd}
+                        currentSection={sims[msd.idMas]}
+                        handleChange={handleChange}
+                        lang="Lg2"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+          </div>
+          {Object.values(msd.children).map((child) =>
+            MSDInformations(child, handleChange),
+          )}
+        </Fragment>
+      );
+    },
+    [sims, codesLists, organisationsOptions, organisationsOptionsLg2],
+  );
 
   const onSiblingSimsChange = () => {
     return (value) => {
@@ -266,7 +273,9 @@ const SimsCreation = ({
                 <Select
                   className="bauhaus-sims-duplicate"
                   placeholder={D.createFromAnExistingReport}
-                  value={operationsWithSimsOptions.find(({ value }) => value === idParent)}
+                  value={operationsWithSimsOptions.find(
+                    ({ value }) => value === idParent,
+                  )}
                   options={operationsWithSimsOptions}
                   onChange={onSiblingSimsChange()}
                   disabled={changed}
