@@ -26,14 +26,7 @@ export function toggleOpen(id: string) {
  * Return true if the section of a MSD should display its labelLg2
  */
 export function hasLabelLg2(section: Rubric) {
-  const sectionsWhichDisplayLg2 = [
-    TEXT,
-    RICH_TEXT,
-    ORGANIZATION,
-    DATE,
-    GEOGRAPHY,
-    CODE_LIST,
-  ];
+  const sectionsWhichDisplayLg2 = [TEXT, RICH_TEXT, ORGANIZATION, DATE, GEOGRAPHY, CODE_LIST];
   return sectionsWhichDisplayLg2.includes(section.rangeType);
 }
 
@@ -47,9 +40,7 @@ export function getParentUri(sims: Sims) {
   }
 }
 
-export const getParentType = (
-  sims: Sims,
-): "operation" | "series" | "indicator" | undefined => {
+export const getParentType = (sims: Sims): "operation" | "series" | "indicator" | undefined => {
   if (sims.idOperation) {
     return "operation";
   }
@@ -65,9 +56,7 @@ export function getParentId(sims: Sims) {
   return sims.idOperation || sims.idSeries || sims.idIndicator;
 }
 
-export function getParentIdName(
-  parentType: "operation" | "series" | "indicator",
-) {
+export function getParentIdName(parentType: "operation" | "series" | "indicator") {
   if (parentType === "operation") {
     return "idOperation";
   }
@@ -79,10 +68,7 @@ export function getParentIdName(
   }
 }
 
-export function removeRubricsWhenDuplicate(
-  mode: Mode,
-  rubrics: Record<string, Rubric> = {},
-) {
+export function removeRubricsWhenDuplicate(mode: Mode, rubrics: Record<string, Rubric> = {}) {
   /**
    * @type {string[]} name A name to use.
    */
@@ -100,8 +86,5 @@ export function removeRubricsWhenDuplicate(
 }
 
 export function shouldDisplayTitleForPrimaryItem(msd: MetadataStructure) {
-  return (
-    msd.isPresentational ||
-    (!msd.isPresentational && Object.keys(msd.children).length === 0)
-  );
+  return msd.isPresentational || (!msd.isPresentational && Object.keys(msd.children).length === 0);
 }
