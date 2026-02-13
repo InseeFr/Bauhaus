@@ -18,7 +18,7 @@ import SimsGeographyPicker from "../../../components/sims/sims-geography-picker"
 import { rangeType } from "../../../utils/msd";
 import { SimsFieldTitle } from "../../sims-field-title";
 import { SimsCodeListSelect } from "./sims-code-list-select";
-import "./sims-field.scss";
+import "./sims-field.css";
 import { SimsWithoutObjectCheckbox } from "./sims-without-object-checkbox";
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
@@ -105,14 +105,22 @@ class SimsField extends PureComponent {
     }
     return (
       <Note
-        title={<SimsFieldTitle currentSection={currentSection} msd={msd} secondLang={secondLang} />}
+        title={
+          <SimsFieldTitle
+            currentSection={currentSection}
+            msd={msd}
+            secondLang={secondLang}
+          />
+        }
         alone={alone}
         text={
           !msd.isPresentational && (
             <>
               {msd.sansObject && (
                 <SimsWithoutObjectCheckbox
-                  checked={currentSection.rangeType === rangeType.RUBRIQUE_SANS_OBJECT}
+                  checked={
+                    currentSection.rangeType === rangeType.RUBRIQUE_SANS_OBJECT
+                  }
                   onChange={this.handleWithoutObject}
                   displayConfirmation={!!value}
                   secondLang={secondLang}
@@ -155,7 +163,9 @@ class SimsField extends PureComponent {
                   {msd.rangeType === RICH_TEXT && (
                     <Editor
                       editorState={value}
-                      toolbarCustomButtons={[<EditorDeleteButton key="delete" />]}
+                      toolbarCustomButtons={[
+                        <EditorDeleteButton key="delete" />,
+                      ]}
                       toolbar={currentToolbar}
                       toolbarClassName="home-toolbar"
                       wrapperClassName="home-wrapper"
@@ -172,7 +182,9 @@ class SimsField extends PureComponent {
                     <SimsCodeListSelect
                       aria-label={codesList.codeListLabelLg1}
                       currentSection={currentSection}
-                      options={secondLang ? codesListOptionsLg2 : codesListOptions}
+                      options={
+                        secondLang ? codesListOptionsLg2 : codesListOptions
+                      }
                       onChange={this.handleCodeListInput}
                       multi={unbounded}
                     />
