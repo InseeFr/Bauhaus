@@ -676,9 +676,7 @@ describe("Sims Field", () => {
       // Note component is rendered
       expect(container.querySelector(".note")).toBeInTheDocument();
       // SimsFieldTitle component is rendered in the title - check for heading
-      expect(
-        screen.getByRole("heading", { name: /Field Title/i }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole("heading", { name: /Field Title/i })).toBeInTheDocument();
     });
   });
 

@@ -1,11 +1,4 @@
-import {
-  memo,
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { memo, useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 
 import { DatePicker } from "@components/date-picker";
@@ -144,22 +137,14 @@ const SimsFieldComponent = ({
 
   return (
     <Note
-      title={
-        <SimsFieldTitle
-          currentSection={currentSection}
-          msd={msd}
-          secondLang={secondLang}
-        />
-      }
+      title={<SimsFieldTitle currentSection={currentSection} msd={msd} secondLang={secondLang} />}
       alone={alone}
       text={
         !msd.isPresentational && (
           <>
             {msd.sansObject && (
               <SimsWithoutObjectCheckbox
-                checked={
-                  currentSection.rangeType === rangeType.RUBRIQUE_SANS_OBJECT
-                }
+                checked={currentSection.rangeType === rangeType.RUBRIQUE_SANS_OBJECT}
                 onChange={handleWithoutObject}
                 displayConfirmation={!!value}
                 secondLang={secondLang}
@@ -201,10 +186,7 @@ const SimsFieldComponent = ({
 
                 {msd.rangeType === RICH_TEXT && (
                   <div onBlur={handleMdBlur}>
-                    <MDEditor
-                      text={localMdValue}
-                      handleChange={handleMdChange}
-                    />
+                    <MDEditor text={localMdValue} handleChange={handleMdChange} />
                   </div>
                 )}
 
@@ -212,9 +194,7 @@ const SimsFieldComponent = ({
                   <SimsCodeListSelect
                     aria-label={codesList.codeListLabelLg1}
                     currentSection={currentSection}
-                    options={
-                      secondLang ? codesListOptionsLg2 : codesListOptions
-                    }
+                    options={secondLang ? codesListOptionsLg2 : codesListOptions}
                     onChange={handleCodeListInput}
                     multi={unbounded}
                   />
