@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import D from "../../../deprecated-locales";
 import OutlineBlock from "../outline/outline-block";
@@ -12,7 +13,9 @@ const Outline = ({
   baseUrl = "/operations/help/",
   disableSectionAnchor,
 }) => {
-  const [opened, setOpened] = useState(() => storeCollapseState && isOpen(metadataStructure.idMas));
+  const [opened, setOpened] = useState(
+    () => storeCollapseState && isOpen(metadataStructure.idMas),
+  );
 
   const expandOrCollapseItem = () => {
     setOpened(!opened);
@@ -21,6 +24,22 @@ const Outline = ({
     }
   };
 
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) return;
+
+    const id = hash.replace("#", "");
+
+    requestAnimationFrame(() => {
+      const el = document.getElementById(id);
+      el?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    });
+  }, [hash]);
+
   return (
     <li>
       <div className="msd__outline-primary-item">
@@ -28,7 +47,8 @@ const Outline = ({
           id={metadataStructure.idMas}
           baseUrl={`${baseUrl}${disableSectionAnchor ? "" : metadataStructure.idMas}`}
         >
-          {metadataStructure.idMas} - {metadataStructure.masLabelBasedOnCurrentLang}
+          {metadataStructure.idMas} -{" "}
+          {metadataStructure.masLabelBasedOnCurrentLang}
         </OutlineButtonWithScroll>
 
         {Object.keys(metadataStructure.children).length > 0 && (
@@ -38,11 +58,12 @@ const Outline = ({
             title={opened ? D.hide : D.display}
             onClick={expandOrCollapseItem}
           >
-            <span className={` glyphicon glyphicon-chevron-${opened ? "up" : "down"}`} />
+            <span
+              className={` glyphicon glyphicon-chevron-${opened ? "up" : "down"}`}
+            />
           </button>
         )}
       </div>
-
       {opened && (
         <OutlineBlock
           parent={metadataStructure.idMas}
