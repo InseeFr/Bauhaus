@@ -6,7 +6,7 @@ import {
   TabWithErrorIndicator,
   LayoutWithLateralMenu,
   LayoutConfiguration,
-} from "./layout-with-lateral-menu";
+} from "./LayoutWithLateralMenu";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

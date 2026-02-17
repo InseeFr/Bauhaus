@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { CompressFormatInput } from "./compress-format-input";
+import { CompressFormatInput } from "./CompressFormatInput";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

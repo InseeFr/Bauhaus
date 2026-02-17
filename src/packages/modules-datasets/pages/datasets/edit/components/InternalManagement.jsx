@@ -17,7 +17,7 @@ import {
   CL_CONF_STATUS,
   CL_PROCESS_STEP,
 } from "../../../../../constants/code-lists";
-import { convertCodesListsToSelectOption } from "../../../../utils/codelist-to-select-options";
+import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
 import { useSeriesOperationsOptions } from "../../../../hooks/useSeriesOperationsOptions";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
@@ -33,11 +33,11 @@ const InternalManagementTab = ({
 
   const seriesOperationsOptions = useSeriesOperationsOptions();
 
-  const clAccessRightsOptions = convertCodesListsToSelectOption(props[CL_ACCESS_RIGHTS]);
+  const clAccessRightsOptions = convertCodelistToSelectOption(props[CL_ACCESS_RIGHTS]);
 
-  const clConfStatusOptions = convertCodesListsToSelectOption(props[CL_CONF_STATUS]);
+  const clConfStatusOptions = convertCodelistToSelectOption(props[CL_CONF_STATUS]);
 
-  const clProcessStep = convertCodesListsToSelectOption(props[CL_PROCESS_STEP]);
+  const clProcessStep = convertCodelistToSelectOption(props[CL_PROCESS_STEP]);
 
   const [archivageUnits, setArchivageUnits] = useState([]);
   useEffect(() => {

@@ -1,68 +1,67 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { MediaTypeInput } from "./media-type-input";
+import { FormatInput } from "./FormatInput";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
-        "distribution.mediaType": "Media type",
+        "distribution.format": "Format",
       };
       return translations[key] || key;
     },
   }),
 }));
 
-describe("MediaTypeInput", () => {
+describe("FormatInput", () => {
   it("should render the component with label", () => {
     const mockOnChange = vi.fn();
 
-    render(<MediaTypeInput value="" onChange={mockOnChange} />);
+    render(<FormatInput value="" onChange={mockOnChange} />);
 
-    expect(screen.getByText("Media type")).not.toBeNull();
+    expect(screen.getByText("Format")).not.toBeNull();
   });
 
   it("should render input with correct id", () => {
     const mockOnChange = vi.fn();
 
-    render(<MediaTypeInput value="" onChange={mockOnChange} />);
+    render(<FormatInput value="" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Media type");
+    const input = screen.getByLabelText("Format");
     expect(input).not.toBeNull();
-    expect(input.id).toBe("mediaType");
+    expect(input.id).toBe("format");
   });
 
   it("should render datalist with correct options", () => {
     const mockOnChange = vi.fn();
 
-    const { container } = render(<MediaTypeInput value="" onChange={mockOnChange} />);
+    const { container } = render(<FormatInput value="" onChange={mockOnChange} />);
 
-    const datalist = container.querySelector("#mediaType-list");
+    const datalist = container.querySelector("#format-list");
     expect(datalist).not.toBeNull();
 
     const options = datalist?.querySelectorAll("option");
-    expect(options?.length).toBe(3);
+    expect(options?.length).toBe(2);
     expect(options?.[0].value).toBe("CSV");
     expect(options?.[1].value).toBe("PARQUET");
-    expect(options?.[2].value).toBe("XSLX");
   });
 
   it("should display the value", () => {
     const mockOnChange = vi.fn();
 
-    render(<MediaTypeInput value="CSV" onChange={mockOnChange} />);
+    render(<FormatInput value="CSV" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Media type") as HTMLInputElement;
+    const input = screen.getByLabelText("Format") as HTMLInputElement;
     expect(input.value).toBe("CSV");
   });
 
   it("should call onChange when value changes", () => {
     const mockOnChange = vi.fn();
 
-    render(<MediaTypeInput value="" onChange={mockOnChange} />);
+    render(<FormatInput value="" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Media type");
+    const input = screen.getByLabelText("Format");
     fireEvent.change(input, { target: { value: "PARQUET" } });
 
     expect(mockOnChange).toHaveBeenCalledTimes(1);
@@ -72,9 +71,9 @@ describe("MediaTypeInput", () => {
   it("should link input to datalist", () => {
     const mockOnChange = vi.fn();
 
-    render(<MediaTypeInput value="" onChange={mockOnChange} />);
+    render(<FormatInput value="" onChange={mockOnChange} />);
 
-    const input = screen.getByLabelText("Media type") as HTMLInputElement;
-    expect(input.getAttribute("list")).toBe("mediaType-list");
+    const input = screen.getByLabelText("Format") as HTMLInputElement;
+    expect(input.getAttribute("list")).toBe("format-list");
   });
 });

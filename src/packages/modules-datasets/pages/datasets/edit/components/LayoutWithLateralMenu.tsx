@@ -1,7 +1,7 @@
 import { MouseEvent, ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import "./layout-with-lateral-menu.scss";
+import "./LayoutWithLateralMenu.scss";
 
 const styleContent = {
   width: "70%",

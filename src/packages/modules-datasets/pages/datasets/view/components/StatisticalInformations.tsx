@@ -16,7 +16,7 @@ import {
   CL_STAT_UNIT,
   CL_TYPE_GEO,
 } from "../../../../../constants/code-lists";
-import { DataStructure } from "./data-structure";
+import { DataStructure } from "./DataStructure";
 
 interface StatisticalInformationsTypes {
   dataset: Dataset;

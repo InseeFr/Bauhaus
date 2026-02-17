@@ -7,7 +7,7 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { HasAccess } from "../../../../auth/components/auth";
 import { Dataset, Distribution } from "../../../../model/Dataset";
 import { UNPUBLISHED } from "../../../../model/ValidationState";
-import { getContributors } from "../../../utils/check-stamp-with-contributor";
+import { getContributors } from "../../../utils/getContributors";
 
 interface ViewMenuTypes {
   distribution: Distribution;

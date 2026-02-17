@@ -4,7 +4,7 @@ import { describe, expect, it, Mock, vi } from "vitest";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { Distribution } from "../../../../../model/Dataset";
-import { ViewMainBlock } from "./view-main-block";
+import { ViewMainBlock } from "./ViewMainBlock";
 
 vi.mock("@utils/hooks/second-lang", () => ({
   useSecondLang: vi.fn(),

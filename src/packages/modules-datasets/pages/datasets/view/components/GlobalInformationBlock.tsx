@@ -14,7 +14,7 @@ import { useOrganizations } from "@utils/hooks/organizations";
 
 import { Dataset } from "../../../../../model/Dataset";
 import { CL_ACCESS_RIGHTS, CL_CONF_STATUS, CL_FREQ } from "../../../../../constants/code-lists";
-import { WasGeneratedByBlock } from "./wasGeneratedByBlock";
+import { WasGeneratedByBlock } from "./WasGeneratedByBlock";
 import { useThemes } from "../../../../hooks/useThemes";
 
 interface GlobalInformationBlockTypes {

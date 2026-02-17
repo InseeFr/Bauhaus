@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { LanguageSelect } from "./language-select";
+import { LanguageSelect } from "./LanguageSelect";
 
 vi.mock("../../../../../i18n", () => ({
   isLang2: vi.fn(() => false),

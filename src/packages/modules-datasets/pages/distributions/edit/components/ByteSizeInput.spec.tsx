@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { ByteSizeInput } from "./byte-size-input";
+import { ByteSizeInput } from "./ByteSizeInput";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

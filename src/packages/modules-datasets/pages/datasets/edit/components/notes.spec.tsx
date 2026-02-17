@@ -3,7 +3,7 @@ import { vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
 
-import { Notes } from "./notes";
+import { Notes } from "./Notes";
 
 // Mock du composant MDEditor
 vi.mock("@components/rich-editor/react-md-editor", () => ({

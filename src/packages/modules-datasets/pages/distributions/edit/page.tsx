@@ -13,12 +13,12 @@ import { MDEditor } from "@components/rich-editor/react-md-editor";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { ByteSizeInput } from "./components/byte-size-input";
-import { CompressFormatInput } from "./components/compress-format-input";
-import { DatasetSelect } from "./components/dataset-select";
-import { FormatInput } from "./components/format-input";
-import { LanguageSelect } from "./components/language-select";
-import { MediaTypeInput } from "./components/media-type-input";
+import { ByteSizeInput } from "./components/ByteSizeInput";
+import { CompressFormatInput } from "./components/CompressFormatInput";
+import { DatasetSelect } from "./components/DatasetSelect";
+import { FormatInput } from "./components/FormatInput";
+import { LanguageSelect } from "./components/LanguageSelect";
+import { MediaTypeInput } from "./components/MediaTypeInput";
 import { validate } from "./validation";
 import { Menu } from "./menu";
 import { initialState, reducer } from "./reducer";

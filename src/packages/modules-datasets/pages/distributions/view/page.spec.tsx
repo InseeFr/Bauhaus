@@ -63,7 +63,7 @@ vi.mock("./menu", () => ({
   ViewMenu: () => <div data-testid="view-menu" />,
 }));
 
-vi.mock("./components/view-main-block", () => ({
+vi.mock("./components/ViewMainBlock", () => ({
   ViewMainBlock: () => <div data-testid="view-main-block" />,
 }));
 

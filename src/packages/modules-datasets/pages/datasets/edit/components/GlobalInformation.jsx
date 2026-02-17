@@ -11,7 +11,7 @@ import { Select } from "@components/select-rmes";
 import { withCodesLists } from "@utils/hoc/withCodesLists";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
-import { convertCodesListsToSelectOption } from "../../../../utils/codelist-to-select-options";
+import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
 import { useThemes } from "../../../../hooks/useThemes";
 
 const GlobalInformationTab = ({
@@ -23,7 +23,7 @@ const GlobalInformationTab = ({
 }) => {
   const { t } = useTranslation();
 
-  const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
+  const clFreqOptions = convertCodelistToSelectOption(props[CL_FREQ]);
 
   const { data: themesOptions = [] } = useThemes();
 

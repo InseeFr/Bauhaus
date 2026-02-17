@@ -9,7 +9,7 @@ import { PageTitleBlock } from "@components/page-title-block";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { ViewMenu } from "./menu";
-import { ViewMainBlock } from "./components/view-main-block";
+import { ViewMainBlock } from "./components/ViewMainBlock";
 import { useDistribution } from "../../../hooks/useDistribution";
 import { useDataset } from "../../../hooks/useDataset";
 import { useDatasetPublisher } from "../../../hooks/useDatasetPublisher";

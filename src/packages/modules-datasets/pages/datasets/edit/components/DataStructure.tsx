@@ -9,7 +9,7 @@ import { Option } from "@model/SelectOption";
 
 import { useStructures } from "@utils/hooks/structures";
 
-import "./data-structure.css";
+import "./DataStructure.css";
 
 const STRUCTURE_MODE = "STRUCTURE_MODE";
 const URN_MODE = "URN_MODE";

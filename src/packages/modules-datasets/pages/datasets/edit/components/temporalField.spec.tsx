@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, vi } from "vitest";
 
-import { TemporalField } from "./temporalField";
+import { TemporalField } from "./TemporalField";
 
 const mockUpdateTemporalCoverage = vi.fn();
 

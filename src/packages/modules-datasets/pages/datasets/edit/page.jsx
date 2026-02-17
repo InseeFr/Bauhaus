@@ -18,11 +18,11 @@ import { useUserStamps } from "@utils/hooks/users";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import "./page.css";
-import { LayoutWithLateralMenu } from "./components/layout-with-lateral-menu";
-import { GlobalInformation } from "./components/global-information";
-import { InternalManagement } from "./components/internal-management";
-import { Notes } from "./components/notes";
-import { StatisticalInformation } from "./components/statistical-information";
+import { LayoutWithLateralMenu } from "./components/LayoutWithLateralMenu";
+import { GlobalInformation } from "./components/GlobalInformation";
+import { InternalManagement } from "./components/InternalManagement";
+import { Notes } from "./components/Notes";
+import { StatisticalInformation } from "./components/StatisticalInformation";
 import { validate } from "./validation";
 import { useAuthorizationGuard } from "../../../../auth/components/auth";
 import { useDataset } from "../../../hooks/useDataset";

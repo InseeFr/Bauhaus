@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { DatasetSelect } from "./dataset-select";
+import { DatasetSelect } from "./DatasetSelect";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

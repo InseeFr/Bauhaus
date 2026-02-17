@@ -13,22 +13,22 @@ import {
   CL_STAT_UNIT,
   CL_TYPE_GEO,
 } from "../../../../../constants/code-lists";
-import { convertCodesListsToSelectOption } from "../../../../utils/codelist-to-select-options";
-import { TemporalField } from "./temporalField";
-import { DataStructure } from "./data-structure";
+import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
+import { TemporalField } from "./TemporalField";
+import { DataStructure } from "./DataStructure";
 
 const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props }) => {
   const { t } = useTranslation();
 
-  const clDataTypes = convertCodesListsToSelectOption(props[CL_DATA_TYPES]);
+  const clDataTypes = convertCodelistToSelectOption(props[CL_DATA_TYPES]);
 
-  const clStatUnit = convertCodesListsToSelectOption(props[CL_STAT_UNIT]);
+  const clStatUnit = convertCodelistToSelectOption(props[CL_STAT_UNIT]);
 
-  const clFreqOptions = convertCodesListsToSelectOption(props[CL_FREQ]);
+  const clFreqOptions = convertCodelistToSelectOption(props[CL_FREQ]);
 
-  const clGeo = convertCodesListsToSelectOption(props[CL_GEO]);
+  const clGeo = convertCodelistToSelectOption(props[CL_GEO]);
 
-  const clGeoType = convertCodesListsToSelectOption(props[CL_TYPE_GEO]);
+  const clGeoType = convertCodelistToSelectOption(props[CL_TYPE_GEO]);
 
   return (
     <>
