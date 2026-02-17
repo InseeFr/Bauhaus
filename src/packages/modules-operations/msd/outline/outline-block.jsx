@@ -69,9 +69,7 @@ export const OutlineBlock = ({
                   id={child.idMas}
                   onClick={expandOrCollapseItem}
                 >
-                  <span
-                    className={`glyphicon glyphicon-chevron-${child.opened ? "up" : "down"}`}
-                  />
+                  <span className={`glyphicon glyphicon-chevron-${child.opened ? "up" : "down"}`} />
                 </button>
               )}
               <OutlineButtonWithScroll

@@ -13,9 +13,7 @@ const Outline = ({
   baseUrl = "/operations/help/",
   disableSectionAnchor,
 }) => {
-  const [opened, setOpened] = useState(
-    () => storeCollapseState && isOpen(metadataStructure.idMas),
-  );
+  const [opened, setOpened] = useState(() => storeCollapseState && isOpen(metadataStructure.idMas));
 
   const expandOrCollapseItem = () => {
     setOpened(!opened);
@@ -47,8 +45,7 @@ const Outline = ({
           id={metadataStructure.idMas}
           baseUrl={`${baseUrl}${disableSectionAnchor ? "" : metadataStructure.idMas}`}
         >
-          {metadataStructure.idMas} -{" "}
-          {metadataStructure.masLabelBasedOnCurrentLang}
+          {metadataStructure.idMas} - {metadataStructure.masLabelBasedOnCurrentLang}
         </OutlineButtonWithScroll>
 
         {Object.keys(metadataStructure.children).length > 0 && (
@@ -58,9 +55,7 @@ const Outline = ({
             title={opened ? D.hide : D.display}
             onClick={expandOrCollapseItem}
           >
-            <span
-              className={` glyphicon glyphicon-chevron-${opened ? "up" : "down"}`}
-            />
+            <span className={` glyphicon glyphicon-chevron-${opened ? "up" : "down"}`} />
           </button>
         )}
       </div>
