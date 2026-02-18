@@ -84,6 +84,8 @@ src/packages/modules-{module-name}/
 │     ├── index.tsx
 │     └── layout.tsx
 └── utils/                              # Utilitary functions used in the module
+      ├── functionName.spec.ts
+      └── functionName.ts
 ```
 
 ### Migration Guidelines
