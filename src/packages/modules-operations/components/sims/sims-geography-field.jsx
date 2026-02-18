@@ -39,9 +39,6 @@ const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
     setSelectedOption(null);
   };
 
-  const formatOptionLabel = (geography) => {
-    return <SimsGeographyI18NLabel geography={geography} />;
-  };
   const onRemoveExclude = useCallback(
     (geography) => {
       setExcludes(excludes.filter((g) => g.value !== geography.value));

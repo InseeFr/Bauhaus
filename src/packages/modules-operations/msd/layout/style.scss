@@ -5,19 +5,28 @@
 
 .msd__container {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: flex-start;
   padding: 0;
   margin-top: 20px;
 }
 
 .msd__outline {
   box-sizing: border-box;
-  float: left;
-  width: 40%;
+  width: 30%;
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
   padding: 70px 20px 20px 20px;
   border-right: solid var(--color-3) 1px;
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   background-color: transparent;
 
@@ -50,17 +59,13 @@
 
 .msd__content {
   box-sizing: border-box;
-  float: right;
-  width: 67%;
+  width: 70%;
   margin: 0;
-  padding: 0;
   padding: 70px 20px 20px 20px;
   &_alone {
     box-sizing: border-box;
-    float: right;
     width: 60%;
     margin: 0;
-    padding: 0;
     padding: 70px 20px 20px 20px;
     border-left: solid var(--color-3) 1px;
   }

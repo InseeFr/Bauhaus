@@ -43,7 +43,8 @@ export const Component = () => {
     try {
       const result = await createPhysicalInstance.mutateAsync({
         physicalInstanceLabel: data.label,
-        dataRelationshipName: data.name,
+        dataRelationshipLabel: data.dataRelationshipLabel,
+        logicalRecordLabel: data.logicalRecordLabel,
         groupId: data.group.id,
         groupAgency: data.group.agency,
         studyUnitId: data.studyUnit.id,

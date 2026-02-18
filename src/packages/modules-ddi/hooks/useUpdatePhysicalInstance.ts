@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DDIApi } from "../../sdk";
 
 interface UpdatePhysicalInstanceParams {
@@ -6,7 +6,8 @@ interface UpdatePhysicalInstanceParams {
   agencyId: string;
   data: {
     physicalInstanceLabel: string;
-    dataRelationshipName: string;
+    dataRelationshipLabel: string;
+    logicalRecordLabel: string;
     groupId: string;
     groupAgency: string;
     studyUnitId: string;
@@ -15,10 +16,13 @@ interface UpdatePhysicalInstanceParams {
 }
 
 export function useUpdatePhysicalInstance() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ id, agencyId, data }: UpdatePhysicalInstanceParams) =>
       DDIApi.patchPhysicalInstance(agencyId, id, data),
-    // Ne pas invalider le cache ici car cela écraserait les variables locales
-    // non sauvegardées. Le titre est mis à jour localement via le state du composant.
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
+    },
   });
 }

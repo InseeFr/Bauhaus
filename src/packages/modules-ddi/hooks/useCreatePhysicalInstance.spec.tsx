@@ -60,14 +60,16 @@ describe("useCreatePhysicalInstance", () => {
 
     const testData = {
       physicalInstanceLabel: "Test Label",
-      dataRelationshipName: "Test Name",
+      dataRelationshipLabel: "Test Label",
+      logicalRecordLabel: "Test Label",
     };
 
     await result.current.mutateAsync(testData);
 
     expect(mockPost).toHaveBeenCalledWith({
       physicalInstanceLabel: "Test Label",
-      dataRelationshipName: "Test Name",
+      dataRelationshipLabel: "Test Label",
+      logicalRecordLabel: "Test Label",
     });
   });
 
@@ -93,7 +95,8 @@ describe("useCreatePhysicalInstance", () => {
 
     const testData = {
       physicalInstanceLabel: "Test Label",
-      dataRelationshipName: "Test Name",
+      dataRelationshipLabel: "Test Label",
+      logicalRecordLabel: "Test Label",
     };
 
     await result.current.mutateAsync(testData);
@@ -116,7 +119,8 @@ describe("useCreatePhysicalInstance", () => {
 
     const testData = {
       physicalInstanceLabel: "Test Label",
-      dataRelationshipName: "Test Name",
+      dataRelationshipLabel: "Test Label",
+      logicalRecordLabel: "Test Label",
     };
 
     await expect(result.current.mutateAsync(testData)).rejects.toThrow("Creation failed");
@@ -146,7 +150,8 @@ describe("useCreatePhysicalInstance", () => {
 
     const testData = {
       physicalInstanceLabel: "Test Label",
-      dataRelationshipName: "Test Name",
+      dataRelationshipLabel: "Test Label",
+      logicalRecordLabel: "Test Label",
     };
 
     result.current.mutate(testData);
@@ -176,14 +181,16 @@ describe("useCreatePhysicalInstance", () => {
 
     const testData = {
       physicalInstanceLabel: "",
-      dataRelationshipName: "",
+      dataRelationshipLabel: "",
+      logicalRecordLabel: "",
     };
 
     await result.current.mutateAsync(testData);
 
     expect(mockPost).toHaveBeenCalledWith({
       physicalInstanceLabel: "",
-      dataRelationshipName: "",
+      dataRelationshipLabel: "",
+      logicalRecordLabel: "",
     });
   });
 
@@ -200,7 +207,8 @@ describe("useCreatePhysicalInstance", () => {
 
     const testData = {
       physicalInstanceLabel: "Test Label",
-      dataRelationshipName: "Test Name",
+      dataRelationshipLabel: "Test Label",
+      logicalRecordLabel: "Test Label",
     };
 
     try {
