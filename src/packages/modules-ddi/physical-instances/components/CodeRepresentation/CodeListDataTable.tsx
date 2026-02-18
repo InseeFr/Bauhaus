@@ -3,9 +3,8 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { Menu } from "primereact/menu";
+import { OverlayPanel } from "primereact/overlaypanel";
 import { useTranslation } from "react-i18next";
-import type { MenuItem } from "primereact/menuitem";
 
 export interface CodeTableRow {
   id: string;
@@ -35,7 +34,7 @@ export const CodeListDataTable = ({
   onMoveCode,
 }: Readonly<CodeListDataTableProps>) => {
   const { t } = useTranslation();
-  const menuRefs = useRef<Map<string, Menu | null>>(new Map());
+  const overlayRefs = useRef<Map<string, OverlayPanel | null>>(new Map());
   const inputRefs = useRef<Map<string, HTMLInputElement | null>>(new Map());
   const [shouldFocusNewCode, setShouldFocusNewCode] = useState(false);
   const previousCodesLength = useRef(codes.length);
@@ -90,53 +89,70 @@ export const CodeListDataTable = ({
     );
   };
 
-  const getMenuItems = (rowData: CodeTableRow, index: number): MenuItem[] => {
-    const items: MenuItem[] = [];
-
-    if (onMoveCode && index > 0) {
-      items.push({
-        label: t("physicalInstance.view.code.moveUp"),
-        icon: "pi pi-arrow-up",
-        command: () => onMoveCode(rowData.id, "up"),
-      });
-    }
-
-    if (onMoveCode && index < codes.length - 1) {
-      items.push({
-        label: t("physicalInstance.view.code.moveDown"),
-        icon: "pi pi-arrow-down",
-        command: () => onMoveCode(rowData.id, "down"),
-      });
-    }
-
-    items.push({
-      label: t("physicalInstance.view.code.deleteCode"),
-      icon: "pi pi-trash",
-      className: "p-menuitem-danger",
-      command: () => onDeleteCode(rowData.id),
-    });
-
-    return items;
-  };
-
-  const actionBodyTemplate = (rowData: CodeTableRow, options: { rowIndex: number }) => {
-    const menuRef = (el: Menu | null) => {
-      menuRefs.current.set(rowData.id, el);
+  const actionBodyTemplate = (rowData: CodeTableRow) => {
+    const overlayRef = (el: OverlayPanel | null) => {
+      overlayRefs.current.set(rowData.id, el);
     };
 
     const handleMenuToggle = (e: React.MouseEvent) => {
+      e.stopPropagation();
+
       // Fermer tous les autres menus avant d'ouvrir celui-ci
-      menuRefs.current.forEach((menu, id) => {
-        if (id !== rowData.id && menu) {
-          menu.hide(e);
+      overlayRefs.current.forEach((overlay, id) => {
+        if (id !== rowData.id && overlay) {
+          overlay.hide();
         }
       });
-      menuRefs.current.get(rowData.id)?.toggle(e);
+
+      overlayRefs.current.get(rowData.id)?.toggle(e);
     };
+
+    // Always recalculate index from current codes array
+    const currentIndex = codes.findIndex((c) => c.id === rowData.id);
+    const canMoveUp = onMoveCode && currentIndex > 0;
+    const canMoveDown = onMoveCode && currentIndex < codes.length - 1;
 
     return (
       <div className="flex gap-2">
-        <Menu model={getMenuItems(rowData, options.rowIndex)} popup ref={menuRef} />
+        <OverlayPanel ref={overlayRef}>
+          <div className="flex flex-column gap-2" style={{ minWidth: "200px" }}>
+            {canMoveUp && (
+              <Button
+                type="button"
+                label={t("physicalInstance.view.code.moveUp")}
+                icon="pi pi-arrow-up"
+                text
+                onClick={() => {
+                  onMoveCode(rowData.id, "up");
+                  overlayRefs.current.get(rowData.id)?.hide();
+                }}
+              />
+            )}
+            {canMoveDown && (
+              <Button
+                type="button"
+                label={t("physicalInstance.view.code.moveDown")}
+                icon="pi pi-arrow-down"
+                text
+                onClick={() => {
+                  onMoveCode(rowData.id, "down");
+                  overlayRefs.current.get(rowData.id)?.hide();
+                }}
+              />
+            )}
+            <Button
+              type="button"
+              label={t("physicalInstance.view.code.deleteCode")}
+              icon="pi pi-trash"
+              text
+              severity="danger"
+              onClick={() => {
+                onDeleteCode(rowData.id);
+                overlayRefs.current.get(rowData.id)?.hide();
+              }}
+            />
+          </div>
+        </OverlayPanel>
         <Button
           type="button"
           icon="pi pi-ellipsis-v"
@@ -162,7 +178,13 @@ export const CodeListDataTable = ({
           onChange={(e) => onCodeListLabelChange(e.target.value)}
         />
       </div>
-      <DataTable value={codes} size="small" emptyMessage={t("physicalInstance.view.code.noCodes")}>
+      <DataTable
+        value={codes}
+        size="small"
+        emptyMessage={t("physicalInstance.view.code.noCodes")}
+        dataKey="id"
+        key={codes.map((c) => c.id).join("-")}
+      >
         <Column
           field="value"
           header={t("physicalInstance.view.code.value")}

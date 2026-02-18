@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useRef } from "react";
 import { Button } from "primereact/button";
 import { useTranslation } from "react-i18next";
 import type {
@@ -44,7 +44,31 @@ export const CodeRepresentation = ({
   });
 
   const { codeListLabel, codes, showDataTable, showReuseSelect, selectedCodeListId } = state;
+
+  // Track the codeList ID to avoid reinitializing on every codeList change
+  const codeListIdRef = useRef<string | undefined>(codeList?.ID);
+  const hasInitializedRef = useRef(false);
+
   useEffect(() => {
+    // Only reinitialize if the codeList ID actually changed (not just the content)
+    const hasCodeListIdChanged = codeListIdRef.current !== codeList?.ID;
+    const hasRepresentationChanged =
+      representation?.CodeListReference?.ID !== undefined &&
+      representation?.CodeListReference?.ID !== codeListIdRef.current;
+
+    if (hasCodeListIdChanged || hasRepresentationChanged) {
+      // Reset initialization flag when ID changes
+      hasInitializedRef.current = false;
+      codeListIdRef.current = codeList?.ID;
+    }
+
+    if (!hasCodeListIdChanged && !hasRepresentationChanged && hasInitializedRef.current) {
+      // Already initialized this codeList, don't reinitialize
+      return;
+    }
+
+    hasInitializedRef.current = true;
+
     if (codeList) {
       // Cas où on a une codeList complète (création ou liste existante chargée)
       const tableData: CodeTableRow[] = (codeList.Code || []).map((code) => {
@@ -83,8 +107,6 @@ export const CodeRepresentation = ({
         },
       });
     }
-    // Only react to changes in codeList ID or representation reference, not label changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [codeList?.ID, representation?.CodeListReference?.ID]);
 
   const handleCodeListLabelChange = (newLabel: string) => {
@@ -110,6 +132,7 @@ export const CodeRepresentation = ({
       representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
     const updatedCodeList: CodeList = {
       ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
+      Label: createLabel(codeListLabel),
       Code: codeList?.Code?.filter((code) => code.ID !== codeId),
     };
 
@@ -159,6 +182,7 @@ export const CodeRepresentation = ({
 
     const updatedCodeList: CodeList = {
       ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
+      Label: createLabel(codeListLabel),
       Code: updatedCodeListCodes,
     };
 
@@ -184,6 +208,7 @@ export const CodeRepresentation = ({
 
     const updatedCodeList: CodeList = {
       ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
+      Label: createLabel(codeListLabel),
       Code: [...(codeList?.Code || []), newCode],
     };
 
@@ -210,6 +235,7 @@ export const CodeRepresentation = ({
 
     const updatedCodeList: CodeList = {
       ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
+      Label: createLabel(codeListLabel),
       Code: currentCodes,
     };
 

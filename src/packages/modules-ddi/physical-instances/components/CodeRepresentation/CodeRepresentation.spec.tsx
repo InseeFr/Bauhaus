@@ -95,8 +95,8 @@ vi.mock("primereact/datatable", () => ({
   },
 }));
 
-vi.mock("primereact/menu", () => ({
-  Menu: vi.fn().mockImplementation(() => null),
+vi.mock("primereact/overlaypanel", () => ({
+  OverlayPanel: vi.fn().mockImplementation(() => null),
 }));
 
 vi.mock("primereact/column", () => ({
@@ -386,6 +386,130 @@ describe("CodeRepresentation", () => {
 
       const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
       expect(labelInput.value).toBe("Liste modifiée");
+    });
+
+    it("should preserve label when codeList content changes but ID stays the same", () => {
+      const { rerender } = render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      // Modifier le label localement
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+      fireEvent.change(labelInput, {
+        target: { value: "Label modifié par l'utilisateur" },
+      });
+
+      // Simuler une mise à jour du codeList avec le même ID (comme lors de l'ajout d'un code)
+      const updatedCodeList: CodeList = {
+        ...mockCodeList,
+        Code: [
+          ...mockCodeList.Code,
+          {
+            "@isUniversallyUnique": "true",
+            URN: "urn:ddi:fr.insee:code-2:1",
+            Agency: "fr.insee",
+            ID: "code-2",
+            Version: "1",
+            CategoryReference: {
+              Agency: "fr.insee",
+              ID: "category-2",
+              Version: "1",
+              TypeOfObject: "Category",
+            },
+            Value: "2",
+          },
+        ],
+      };
+
+      rerender(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={updatedCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      // Le label devrait être préservé car l'ID n'a pas changé
+      const labelInputAfter = screen.getByLabelText(
+        "Libellé de la liste de codes",
+      ) as HTMLInputElement;
+      expect(labelInputAfter.value).toBe("Label modifié par l'utilisateur");
+    });
+  });
+
+  describe("label preservation during editing", () => {
+    it("should preserve label when adding a code", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      // Modifier le label
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+      fireEvent.change(labelInput, { target: { value: "Mon label" } });
+
+      // Ajouter un code
+      const addButton = screen.getByText("Ajouter un code");
+      fireEvent.click(addButton);
+
+      // Vérifier que onChange a été appelé avec le label préservé
+      expect(mockOnChange).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          Label: {
+            Content: {
+              "@xml:lang": "fr-FR",
+              "#text": "Mon label",
+            },
+          },
+        }),
+        expect.anything(),
+      );
+    });
+
+    it("should preserve label when editing a code value", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      // Modifier le label
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+      fireEvent.change(labelInput, { target: { value: "Mon label" } });
+
+      vi.clearAllMocks();
+
+      // Modifier un code (via l'input dans le tableau)
+      const codeInputs = screen.getAllByPlaceholderText("Valeur");
+      fireEvent.change(codeInputs[0], { target: { value: "10" } });
+
+      // Vérifier que onChange a été appelé avec le label préservé
+      expect(mockOnChange).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          Label: {
+            Content: {
+              "@xml:lang": "fr-FR",
+              "#text": "Mon label",
+            },
+          },
+        }),
+        expect.anything(),
+      );
     });
   });
 });
