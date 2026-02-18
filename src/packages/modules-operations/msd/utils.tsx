@@ -1,5 +1,3 @@
-import { editorStateFromMd } from "@utils/html-utils";
-
 import { MetadataStructure, Rubric, Sims } from "../../model/Sims";
 import { rangeType } from "../utils/msd";
 import { DUPLICATE, Mode } from "./constant";
@@ -82,14 +80,6 @@ export function removeRubricsWhenDuplicate(mode: Mode, rubrics: Record<string, R
       ...acc,
       [rubricKey]: {
         ...rubrics[rubricKey],
-        labelLg1:
-          rubrics[rubricKey].rangeType === "RICH_TEXT"
-            ? editorStateFromMd(rubrics[rubricKey].labelLg1)
-            : rubrics[rubricKey].labelLg1,
-        labelLg2:
-          rubrics[rubricKey].rangeType === "RICH_TEXT"
-            ? editorStateFromMd(rubrics[rubricKey].labelLg2)
-            : rubrics[rubricKey].labelLg2,
       },
     };
   }, {});
