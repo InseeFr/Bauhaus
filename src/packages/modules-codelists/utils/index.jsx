@@ -21,7 +21,7 @@ const ZodCodeList = z.object({
   id: mandatoryAndNotEmptyTextField(D.idTitle),
   labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
   labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
-  creator: mandatoryAndNotEmptySelectField(D.creator),
+  creator: mandatoryAndNotEmptyMultiSelectField(D.creator),
   disseminationStatus: mandatoryAndNotEmptySelectField(MainDictionary.disseminationStatusTitle),
 });
 

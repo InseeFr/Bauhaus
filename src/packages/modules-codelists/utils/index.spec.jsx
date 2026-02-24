@@ -52,7 +52,7 @@ describe("validateCodelist", () => {
       id: "valid_id_123",
       labelLg1: "labelLg1",
       labelLg2: "labelLg2",
-      creator: "creator",
+      creator: ["creator"],
       disseminationStatus: "status",
     };
 
@@ -103,7 +103,7 @@ describe("validatePartialCodelist", () => {
       parentCode: "parentCode",
       labelLg1: "labelLg1",
       labelLg2: "labelLg2",
-      creator: "creator",
+      creator: ["creator"],
       disseminationStatus: "status",
     };
 
@@ -119,7 +119,7 @@ describe("validatePartialCodelist", () => {
       parentCode: "parentCode",
       labelLg1: "labelLg1",
       labelLg2: "labelLg2",
-      creator: "creator",
+      creator: ["creator"],
       disseminationStatus: "status",
     };
 
