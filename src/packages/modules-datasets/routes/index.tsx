@@ -1,44 +1,46 @@
 import { RouteObject } from "react-router-dom";
 
 export const routes: RouteObject[] = [
+  // Datasets pages
   {
     path: "",
-    lazy: () => import("../datasets/home/home"),
+    lazy: () => import("../pages/datasets/home/page"),
   },
   {
     path: "search",
-    lazy: () => import("../datasets/search/search"),
+    lazy: () => import("../pages/datasets/search/page"),
   },
   {
     path: "create",
-    lazy: () => import("../datasets/edit/edit"),
+    lazy: () => import("../pages/datasets/edit/page"),
   },
   {
     path: ":id",
-    lazy: () => import("../datasets/view/view"),
+    lazy: () => import("../pages/datasets/view/page"),
   },
   {
     path: ":id/modify",
-    lazy: () => import("../datasets/edit/edit"),
+    lazy: () => import("../pages/datasets/edit/page"),
   },
+  // Distributions pages
   {
     path: "distributions",
-    lazy: () => import("../distributions/home/home"),
+    lazy: () => import("../pages/distributions/home/page"),
   },
   {
     path: "distributions/search",
-    lazy: () => import("../distributions/search/search"),
+    lazy: () => import("../pages/distributions/search/page"),
   },
   {
     path: "distributions/create",
-    lazy: () => import("../pages/distribution/edit/page"),
+    lazy: () => import("../pages/distributions/edit/page"),
   },
   {
     path: "distributions/:id",
-    lazy: () => import("../distributions/view/view"),
+    lazy: () => import("../pages/distributions/view/page"),
   },
   {
     path: "distributions/:id/modify",
-    lazy: () => import("../pages/distribution/edit/page"),
+    lazy: () => import("../pages/distributions/edit/page"),
   },
 ];
