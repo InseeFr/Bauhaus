@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 
@@ -7,29 +7,11 @@ import { CodeListApi } from "../../../../sdk";
 import { API } from "../../../apis";
 import { formatPartialCodeList } from "../../../utils";
 import { DumbCodelistPartialDetailEdit } from "./components/CodelistPartialEdit";
-
-const useBackOrReplaceHook = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  return useCallback(
-    (defaultRoute, forceRedirect) => {
-      if (forceRedirect) {
-        if (history.length === 1 || location.state) {
-          navigate(defaultRoute);
-        } else {
-          navigate(-1);
-        }
-      } else {
-        navigate(defaultRoute, { replace: true });
-      }
-    },
-    [navigate, location],
-  );
-};
+import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 
 export const Component = (props) => {
   const { id } = useParams();
-  const goBackOrReplace = useBackOrReplaceHook();
+  const goBackOrReplace = useGoBackOrReplace();
   const [loadingList, setLoadingList] = useState(true);
   const [loadingLists, setLoadingLists] = useState(true);
   const [saving, setSaving] = useState(false);

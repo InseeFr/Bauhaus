@@ -52,41 +52,6 @@ export const validateCode = (code, codes, updateMode) => {
   return formatValidation(Code(!updateMode, codes))(code);
 };
 
-const getFlatTree = (rootNodes, parentNode) => {
-  return rootNodes?.reduce((acc, code, i) => {
-    if (code.children)
-      return [
-        ...acc,
-        { ...code, parent: parentNode, position: i },
-        ...getFlatTree(code.children, code.code),
-      ];
-    return [...acc, { ...code, parent: parentNode, position: i }];
-  }, []);
-};
-
-export const recalculatePositions = (codelist, rootNodes) => {
-  const flattenTree = getFlatTree(rootNodes, "");
-
-  return {
-    ...codelist,
-    codes: Object.values(flattenTree).reduce((acc, c) => {
-      return {
-        ...acc,
-        [c.code]: {
-          ...c,
-          parents: flattenTree
-            .filter((treedCode) => treedCode.code === c.code)
-            .map((treedCode) => ({
-              code: treedCode.parent,
-              position: treedCode.position + 1,
-            })),
-          lastCodeUriSegment: codelist.lastCodeUriSegment,
-        },
-      };
-    }, {}),
-  };
-};
-
 export const formatCodeList = (cl) => {
   if (cl.codes) {
     cl.codes = Object.values(cl.codes)

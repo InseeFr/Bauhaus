@@ -1,7 +1,7 @@
 import { CheckSecondLang } from "@components/check-second-lang";
 import { PageTitleBlock } from "@components/page-title-block";
 
-const ComponentTitle = ({
+export const ComponentTitle = ({
   component,
 }: Readonly<{ component: { labelLg1: string; labelLg2: string } }>) => {
   return (
@@ -11,5 +11,3 @@ const ComponentTitle = ({
     </>
   );
 };
-
-export default ComponentTitle;

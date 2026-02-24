@@ -1,17 +1,18 @@
 import { RouteObject } from "react-router-dom";
 
 export const routes: RouteObject[] = [
+  // Codelists pages
   {
     path: "",
     lazy: () => import("../pages/codelists/home/page"),
   },
   {
-    path: "create",
-    lazy: () => import("../pages/codelists/edit/page"),
-  },
-  {
     path: "search",
     lazy: () => import("../pages/codelists/search/page"),
+  },
+  {
+    path: "create",
+    lazy: () => import("../pages/codelists/edit/page"),
   },
   {
     path: ":id",
@@ -21,17 +22,18 @@ export const routes: RouteObject[] = [
     path: ":id/modify",
     lazy: () => import("../pages/codelists/edit/page"),
   },
+  // Partial codelists pages
   {
     path: "partial",
     lazy: () => import("../pages/partial-codelists/home/page"),
   },
   {
-    path: "partial/create",
-    lazy: () => import("../pages/partial-codelists/edit/page"),
-  },
-  {
     path: "partial/search",
     lazy: () => import("../pages/partial-codelists/search/page"),
+  },
+  {
+    path: "partial/create",
+    lazy: () => import("../pages/partial-codelists/edit/page"),
   },
   {
     path: "partial/:id",

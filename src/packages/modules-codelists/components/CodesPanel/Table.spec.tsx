@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { Table, TableTypes } from "./table";
+import { Table, TableTypes } from "./Table";
 
 const mockData = [
   {

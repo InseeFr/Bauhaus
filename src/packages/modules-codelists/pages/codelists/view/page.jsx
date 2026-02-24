@@ -9,7 +9,7 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { API } from "../../../apis";
 import D from "../../../i18n/build-dictionary";
 import { formatCodeList } from "../../../utils";
-import ComponentTitle from "../../../components/ComponentTitle";
+import { ComponentTitle } from "../../../components/ComponentTitle";
 import { CodeListDetailView } from "./components/CodeListDetailView";
 
 export const Component = (props) => {

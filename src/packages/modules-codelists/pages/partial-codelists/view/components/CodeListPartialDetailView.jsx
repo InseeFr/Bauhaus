@@ -16,7 +16,7 @@ import { renderMarkdownElement } from "@utils/html-utils";
 
 import { HasAccess } from "../../../../../auth/components/auth";
 import D, { D1, D2 } from "../../../../i18n/build-dictionary";
-import { CollapsiblePanel } from "../../../../components/collapsible-panel";
+import { CollapsiblePanel } from "../../../../components/CollapsiblePanel";
 import { InseeOrganisationText } from "@components/business/creators-view";
 
 export const CodeListPartialDetailView = ({

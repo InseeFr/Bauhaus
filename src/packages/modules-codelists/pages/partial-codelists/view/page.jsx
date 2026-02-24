@@ -11,7 +11,7 @@ import { CodeListApi } from "../../../../sdk";
 import { API } from "../../../apis";
 import D from "../../../i18n/build-dictionary";
 import { formatPartialCodeList } from "../../../utils";
-import ComponentTitle from "../../../components/ComponentTitle";
+import { ComponentTitle } from "../../../components/ComponentTitle";
 import { CodeListPartialDetailView } from "./components/CodeListPartialDetailView";
 
 export const Component = (props) => {

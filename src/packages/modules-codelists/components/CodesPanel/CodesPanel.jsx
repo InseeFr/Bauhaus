@@ -10,11 +10,11 @@ import { RightSlidingPanel } from "@components/sliding-panel";
 import { API } from "../../apis";
 import D, { D1, D2 } from "../../i18n/build-dictionary";
 import { validateCode } from "../../utils";
-import { CollapsiblePanel } from "../collapsible-panel";
+import { CollapsiblePanel } from "../CollapsiblePanel";
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 import { CodesPanelAddButton } from "./CodesPanelAddButton";
 import "./CodesPanel.css";
-import { Table } from "./codes/table";
+import { Table } from "./Table";
 
 const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation, codelist }) => {
   const [code, setCode] = useState({});
@@ -47,6 +47,7 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
       handleSave(code, creation);
     }
   };
+
   return (
     <>
       <CodeSlidingPanelMenu
@@ -55,7 +56,6 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
         handleBack={handleBack}
         creation={creation}
       />
-
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
@@ -255,7 +255,6 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
                 />
               </div>
             </Row>
-
             <Table
               codesWithActions={codesWithActions}
               loading={loading}
@@ -266,7 +265,6 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
           </>
         }
       />
-
       <RightSlidingPanel isOpen={openPanel} backdropClicked={() => setOpenPanel(false)}>
         <div id="code-edit-panel">
           <CodeSlidingPanel

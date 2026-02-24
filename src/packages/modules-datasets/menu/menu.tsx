@@ -11,8 +11,7 @@ export const Menu = () => {
   const { t } = useTranslation();
 
   const location = useLocation();
-  const activePath = location.pathname;
-  if (activePath === "/") return null;
+  if (location.pathname === "/") return null;
 
   const paths: UIMenuItem[] = [
     {

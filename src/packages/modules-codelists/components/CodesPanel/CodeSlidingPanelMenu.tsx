@@ -11,6 +11,7 @@ interface CodeSlidingPanelMenuTypes {
   handleBack: VoidFunction;
   creation: boolean;
 }
+
 export const CodeSlidingPanelMenu = ({
   codelist,
   handleSubmit,
@@ -22,26 +23,22 @@ export const CodeSlidingPanelMenu = ({
       <ReturnButton action={handleBack} />
       <>
         {!creation && (
-          <>
-            <HasAccess
-              module="CODESLIST_CODESLIST"
-              privilege="UPDATE"
-              stamps={[codelist?.contributor]}
-            >
-              <UpdateButton action={handleSubmit} />
-            </HasAccess>
-          </>
+          <HasAccess
+            module="CODESLIST_CODESLIST"
+            privilege="UPDATE"
+            stamps={[codelist?.contributor]}
+          >
+            <UpdateButton action={handleSubmit} />
+          </HasAccess>
         )}
         {creation && (
-          <>
-            <HasAccess
-              module="CODESLIST_CODESLIST"
-              privilege="CREATE"
-              stamps={[codelist?.contributor]}
-            >
-              <SaveButton action={handleSubmit} />
-            </HasAccess>
-          </>
+          <HasAccess
+            module="CODESLIST_CODESLIST"
+            privilege="CREATE"
+            stamps={[codelist?.contributor]}
+          >
+            <SaveButton action={handleSubmit} />
+          </HasAccess>
         )}
       </>
     </ActionToolbar>

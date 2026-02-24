@@ -5,7 +5,7 @@ import { DataTable } from "@components/datatable";
 
 import { Code } from "@model/CodesList";
 
-import { D1, D2 } from "../../../i18n/build-dictionary";
+import { D1, D2 } from "../../i18n/build-dictionary";
 
 export interface TableTypes {
   loading: boolean;

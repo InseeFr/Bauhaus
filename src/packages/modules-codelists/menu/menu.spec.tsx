@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { MainMenu } from "@components/menu";
 
-import MenuCodelists from ".";
+import { Menu } from "./menu";
 import { useAuthorizationGuard } from "../../auth/components/auth";
 import { renderWithRouter } from "../../tests/render";
 import D from "../i18n/build-dictionary";
@@ -28,7 +28,7 @@ vi.mock("@components/menu", () => ({
   MainMenu: vi.fn(() => <div>MainMenu Mock</div>),
 }));
 
-describe("MenuCodelists", () => {
+describe("Menu", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -37,7 +37,7 @@ describe("MenuCodelists", () => {
     vi.mocked(useLocation).mockReturnValue({ pathname: "/" } as any);
     vi.mocked(useAuthorizationGuard).mockReturnValue(false);
 
-    const { container } = renderWithRouter(<MenuCodelists />);
+    const { container } = renderWithRouter(<Menu />);
 
     expect(container.firstChild).toBeNull();
   });
@@ -46,7 +46,7 @@ describe("MenuCodelists", () => {
     vi.mocked(useLocation).mockReturnValue({ pathname: "/codelists" } as any);
     vi.mocked(useAuthorizationGuard).mockReturnValue(false);
 
-    const { getByText } = renderWithRouter(<MenuCodelists />);
+    const { getByText } = renderWithRouter(<Menu />);
 
     expect(MainMenu).toHaveBeenCalledWith(
       {
@@ -76,7 +76,7 @@ describe("MenuCodelists", () => {
     } as any);
     vi.mocked(useAuthorizationGuard).mockReturnValue(true);
 
-    const { getByText } = renderWithRouter(<MenuCodelists />);
+    const { getByText } = renderWithRouter(<Menu />);
 
     expect(MainMenu).toHaveBeenCalledWith(
       {
@@ -112,7 +112,7 @@ describe("MenuCodelists", () => {
     vi.mocked(useLocation).mockReturnValue({ pathname: "/codelists" } as any);
     vi.mocked(useAuthorizationGuard).mockReturnValue(true);
 
-    renderWithRouter(<MenuCodelists />);
+    renderWithRouter(<Menu />);
 
     expect(MainMenu).toHaveBeenCalledWith(
       {

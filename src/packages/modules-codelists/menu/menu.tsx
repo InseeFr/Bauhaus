@@ -9,16 +9,14 @@ import D from "../i18n/build-dictionary";
 
 const defaultAttrs = { "aria-current": "page" };
 
-const MenuCodelists = () => {
-  const location = useLocation();
-
-  const activePath = location.pathname;
-  if (activePath === "/") return null;
-
+export const Menu = () => {
   const canAccessAdministration = useAuthorizationGuard({
     module: "CODESLIST_CODESLIST",
     privilege: "READ",
   });
+
+  const location = useLocation();
+  if (location.pathname === "/") return null;
 
   const paths: UIMenuItem[] = [
     {
@@ -43,8 +41,12 @@ const MenuCodelists = () => {
   }
 
   const currentPath = paths.find((path) => {
+    if (path.pathKey instanceof RegExp) {
+      return path.pathKey.test(location.pathname);
+    }
     return location.pathname.includes(path.pathKey);
   });
+
   if (currentPath) {
     currentPath.className = "active";
     currentPath.attrs = defaultAttrs;
@@ -52,5 +54,3 @@ const MenuCodelists = () => {
 
   return <MainMenu paths={paths} />;
 };
-
-export default MenuCodelists;
