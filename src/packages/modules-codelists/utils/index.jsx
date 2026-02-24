@@ -4,6 +4,7 @@ import {
   formatValidation,
   mandatoryAndNotEmptySelectField,
   mandatoryAndNotEmptyTextField,
+  mandatoryAndNotEmptyMultiSelectField,
 } from "@utils/validation";
 
 import MainDictionary from "../../deprecated-locales/build-dictionary";
@@ -31,7 +32,7 @@ const ZodPartialCodeList = z.object({
   parentCode: mandatoryAndNotEmptySelectField(D.parentCodelist),
   labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
   labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
-  creator: mandatoryAndNotEmptySelectField(D.creator),
+  creator: mandatoryAndNotEmptyMultiSelectField(D.creator),
   disseminationStatus: mandatoryAndNotEmptySelectField(MainDictionary.disseminationStatusTitle),
 });
 

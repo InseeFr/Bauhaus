@@ -5,6 +5,7 @@ import Menu from "../menu";
 
 export const Component = () => {
   useTheme("codelists");
+
   return (
     <>
       <Menu />
