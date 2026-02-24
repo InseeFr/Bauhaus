@@ -13,7 +13,7 @@ vi.mock("../../../../hooks/useThemes");
 vi.mock("@utils/hooks/organizations");
 vi.mock("@utils/hooks/codeslist");
 
-vi.mock("./wasGeneratedByBlock", () => ({
+vi.mock("./WasGeneratedByBlock", () => ({
   WasGeneratedByBlock: () => <div>Mocked WasGeneratedByBlock</div>,
 }));
 
