@@ -1,5 +1,5 @@
 import NewDictionnary from "../../i18n";
-import D from "../../i18n";
+import OldDictionnary from "../../deprecated-locales";
 import "./errors-bloc.css";
 
 /**
@@ -33,7 +33,7 @@ export const GlobalClientSideErrorBloc = ({
       {(
         <div
           dangerouslySetInnerHTML={{
-            __html: D.errors.globalClientSideErrorBloc,
+            __html: NewDictionnary.errors.globalClientSideErrorBloc,
           }}
         />
       ) || <span style={{ whiteSpace: "pre-wrap" }}> </span>}
@@ -41,7 +41,7 @@ export const GlobalClientSideErrorBloc = ({
   ) : null;
 };
 
-export const ErrorBloc = ({ error, D }: { error?: unknown; D?: any }) => {
+export const ErrorBloc = ({ error, D = OldDictionnary }: { error?: unknown; D?: any }) => {
   if (!error) {
     return null;
   }

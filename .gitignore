@@ -27,3 +27,6 @@ deploy.sh
 .sonar_lock
 .scannerwork
 test-results
+
+.claude/
+CLAUDE.md
