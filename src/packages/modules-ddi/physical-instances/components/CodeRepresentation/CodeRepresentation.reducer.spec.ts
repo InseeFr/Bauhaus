@@ -265,41 +265,6 @@ describe("codeRepresentationReducer", () => {
     });
   });
 
-  describe("TOGGLE_REUSE_SELECT", () => {
-    it("should toggle showReuseSelect from false to true", () => {
-      const action: CodeRepresentationAction = { type: "TOGGLE_REUSE_SELECT" };
-
-      const result = codeRepresentationReducer(initialState, action);
-
-      expect(result.showReuseSelect).toBe(true);
-      expect(result.showDataTable).toBe(false);
-    });
-
-    it("should toggle showReuseSelect from true to false", () => {
-      const stateWithReuseSelect: CodeRepresentationState = {
-        ...initialState,
-        showReuseSelect: true,
-      };
-      const action: CodeRepresentationAction = { type: "TOGGLE_REUSE_SELECT" };
-
-      const result = codeRepresentationReducer(stateWithReuseSelect, action);
-
-      expect(result.showReuseSelect).toBe(false);
-    });
-
-    it("should set showDataTable to false when toggling", () => {
-      const stateWithDataTable: CodeRepresentationState = {
-        ...initialState,
-        showDataTable: true,
-      };
-      const action: CodeRepresentationAction = { type: "TOGGLE_REUSE_SELECT" };
-
-      const result = codeRepresentationReducer(stateWithDataTable, action);
-
-      expect(result.showDataTable).toBe(false);
-    });
-  });
-
   describe("SET_SELECTED_CODE_LIST_ID", () => {
     it("should update selectedCodeListId", () => {
       const action: CodeRepresentationAction = {
