@@ -71,7 +71,7 @@ export const PartialCodelistDetailEdit = ({
       setCodelist({
         ...codelist,
         parentCode: value,
-        iriParent: globalCodeListOptions?.find((parentCL) => parentCL.value === value).iriParent,
+        iriParent: globalCodeListOptions?.find((parentCL) => parentCL.value === value)?.iriParent,
       });
       resetErrorsMessages();
       handleParentCode(value);
@@ -198,7 +198,7 @@ export const PartialCodelistDetailEdit = ({
             <LabelRequired htmlFor="parentCode">{D1.parentCodelist}</LabelRequired>
             <Select
               placeholder={D1.parentCodelistPlaceholder}
-              value={globalCodeListOptions?.find(({ value }) => value === codelist.parentCode)}
+              value={codelist.parentCode}
               options={globalCodeListOptions}
               onChange={handleParent}
               searchable={true}
