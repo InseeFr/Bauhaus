@@ -235,36 +235,33 @@ export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
           </>
         }
         collapsible={false}
-        children={
-          <>
-            <Row>
-              <div className="col-md-6 form-group">
-                <label htmlFor="search-code">{D.codesSearchByCode}</label>
-                <TextInput
-                  id="search-code"
-                  value={searchCode}
-                  onChange={(e) => handleSearch("code", e.target.value, searchLabel)}
-                />
-              </div>
-              <div className="col-md-6 form-group">
-                <label htmlFor="search-label">{D.codesSearchByLabel}</label>
-                <TextInput
-                  id="search-label"
-                  value={searchLabel}
-                  onChange={(e) => handleSearch("label", searchCode, e.target.value)}
-                />
-              </div>
-            </Row>
-            <Table
-              codesWithActions={codesWithActions}
-              loading={loading}
-              onPage={setlazyState}
-              total={codes.total}
-              state={lazyState}
+      >
+        <Row>
+          <div className="col-md-6 form-group">
+            <label htmlFor="search-code">{D.codesSearchByCode}</label>
+            <TextInput
+              id="search-code"
+              value={searchCode}
+              onChange={(e) => handleSearch("code", e.target.value, searchLabel)}
             />
-          </>
-        }
-      />
+          </div>
+          <div className="col-md-6 form-group">
+            <label htmlFor="search-label">{D.codesSearchByLabel}</label>
+            <TextInput
+              id="search-label"
+              value={searchLabel}
+              onChange={(e) => handleSearch("label", searchCode, e.target.value)}
+            />
+          </div>
+        </Row>
+        <Table
+          codesWithActions={codesWithActions}
+          loading={loading}
+          onPage={setlazyState}
+          total={codes.total}
+          state={lazyState}
+        />
+      </CollapsiblePanel>
       <RightSlidingPanel isOpen={openPanel} backdropClicked={() => setOpenPanel(false)}>
         <div id="code-edit-panel">
           <CodeSlidingPanel

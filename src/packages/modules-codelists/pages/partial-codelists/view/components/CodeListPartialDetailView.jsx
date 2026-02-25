@@ -119,12 +119,9 @@ export const CodeListPartialDetailView = ({
       </Row>
       {codelist.codes && (
         <Row>
-          <CollapsiblePanel
-            id="code-array"
-            hidden={hidden}
-            title={D.listElements}
-            children={<></>}
-          />
+          <CollapsiblePanel id="code-array" hidden={hidden} title={D.listElements}>
+            <></>
+          </CollapsiblePanel>
         </Row>
       )}
     </>
