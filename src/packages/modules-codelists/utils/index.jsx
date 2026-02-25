@@ -21,7 +21,7 @@ const ZodCodeList = z.object({
   id: mandatoryAndNotEmptyTextField(D.idTitle),
   labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
   labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
-  creator: mandatoryAndNotEmptyMultiSelectField(D.creator),
+  creator: mandatoryAndNotEmptySelectField(D.creator),
   disseminationStatus: mandatoryAndNotEmptySelectField(MainDictionary.disseminationStatusTitle),
 });
 
@@ -32,7 +32,7 @@ const ZodPartialCodeList = z.object({
   parentCode: mandatoryAndNotEmptySelectField(D.parentCodelist),
   labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
   labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
-  creator: mandatoryAndNotEmptyMultiSelectField(D.creator),
+  creator: mandatoryAndNotEmptySelectField(D.creator),
   disseminationStatus: mandatoryAndNotEmptySelectField(MainDictionary.disseminationStatusTitle),
 });
 

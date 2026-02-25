@@ -179,7 +179,6 @@ export const CodelistDetailEdit = ({
         <div className="form-group">
           <CreatorsInput
             value={codelist.creator}
-            multi
             onChange={(value) => {
               setCodelist({ ...codelist, creator: value });
               setClientSideErrors({

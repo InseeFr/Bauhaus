@@ -244,7 +244,6 @@ export const PartialCodelistDetailEdit = ({
         </Row>
         <div className="form-group">
           <CreatorsInput
-            multi
             value={codelist.creator}
             onChange={(value) => {
               setCodelist({ ...codelist, creator: value });
