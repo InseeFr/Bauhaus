@@ -8,7 +8,7 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { API } from "../../../apis";
 import D from "../../../i18n/build-dictionary";
-import { formatCodeList } from "../../../utils";
+import { formatCodelist } from "../../../utils/formatCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";
 import { CodelistDetailView } from "./components/CodelistDetailView";
 
@@ -36,7 +36,7 @@ export const Component = (props) => {
     API.publishCodelist(id)
       .then(() => {
         return API.getDetailedCodelist(id).then((cl) => {
-          setCodelist(formatCodeList(cl));
+          setCodelist(formatCodelist(cl));
         });
       })
       .catch((error) => {
@@ -63,7 +63,7 @@ export const Component = (props) => {
   useEffect(() => {
     API.getDetailedCodelist(id)
       .then((cl) => {
-        setCodelist(formatCodeList(cl));
+        setCodelist(formatCodelist(cl));
       })
       .finally(() => setLoading(false));
   }, [id]);

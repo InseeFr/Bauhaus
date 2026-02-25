@@ -10,7 +10,7 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { CodeListApi } from "../../../../sdk";
 import { API } from "../../../apis";
 import D from "../../../i18n/build-dictionary";
-import { formatPartialCodeList } from "../../../utils";
+import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";
 import { PartialCodelistDetailView } from "./components/PartialCodelistDetailView";
 
@@ -46,7 +46,7 @@ export const Component = (props) => {
           return;
         }
         return CodeListApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
-          return formatPartialCodeList(cl, codes.items);
+          return formatPartialCodelist(cl, codes.items);
         });
       });
     },

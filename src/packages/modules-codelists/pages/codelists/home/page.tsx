@@ -9,7 +9,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { API } from "../../../apis";
 import D from "../../../i18n/build-dictionary";
-import { formatLabel } from "../../../utils";
+import { formatLabel } from "../../../utils/formatLabel";
 import { HomePageMenu } from "./menu";
 
 export const Component = () => {

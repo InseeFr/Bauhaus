@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Loading, Saving } from "@components/loading";
 
 import { API } from "../../../apis";
-import { formatCodeList } from "../../../utils";
+import { formatCodelist } from "../../../utils/formatCodelist";
 import { CodelistDetailEdit } from "./components/CodelistDetailEdit";
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 
@@ -47,7 +47,7 @@ export const Component = () => {
     if (id) {
       API.getDetailedCodelist(id)
         .then((cl) => {
-          setCodelist(formatCodeList(cl));
+          setCodelist(formatCodelist(cl));
         })
         .finally(() => setLoading(false));
     }

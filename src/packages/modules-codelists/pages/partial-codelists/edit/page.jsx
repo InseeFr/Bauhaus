@@ -5,7 +5,7 @@ import { Loading, Saving } from "@components/loading";
 
 import { CodeListApi } from "../../../../sdk";
 import { API } from "../../../apis";
-import { formatPartialCodeList } from "../../../utils";
+import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { PartialCodelistDetailEdit } from "./components/PartialCodelistDetailEdit";
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 
@@ -84,7 +84,7 @@ export const Component = (props) => {
             (parent) => parent.iriParent === cl.iriParent,
           ).value;
           return CodeListApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
-            setCodelist(formatPartialCodeList(cl, codes.items));
+            setCodelist(formatPartialCodelist(cl, codes.items));
           });
         })
         .finally(() => setLoadingList(false));

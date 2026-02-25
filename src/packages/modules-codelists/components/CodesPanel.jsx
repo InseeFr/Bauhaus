@@ -9,7 +9,7 @@ import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { API } from "../apis";
 import D, { D1, D2 } from "../i18n/build-dictionary";
-import { validateCode } from "../utils";
+import { validateCode } from "../utils/validateCode";
 import { CollapsiblePanel } from "./CollapsiblePanel";
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 import { CodesPanelAddButton } from "./CodesPanelAddButton";

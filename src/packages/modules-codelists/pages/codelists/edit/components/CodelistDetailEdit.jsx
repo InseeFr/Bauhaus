@@ -13,7 +13,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import MainDictionary from "../../../../../deprecated-locales/build-dictionary";
 import D, { D1, D2 } from "../../../../i18n/build-dictionary";
-import { validateCodelist } from "../../../../utils";
+import { validate as validateCodelist } from "../validation";
 import { CodesPanel } from "../../../../components/CodesPanel";
 import "./CodelistDetailEdit.css";
 import { UriInputGroup } from "./UriInputGroup";
