@@ -4,7 +4,8 @@ import { useAppContext } from "../../application/app-context";
 
 interface CreatePhysicalInstanceParams {
   physicalInstanceLabel: string;
-  dataRelationshipName: string;
+  dataRelationshipLabel: string;
+  logicalRecordLabel: string;
   groupId: string;
   groupAgency: string;
   studyUnitId: string;

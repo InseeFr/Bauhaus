@@ -56,7 +56,7 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Version: "1.0",
               Citation: {
                 Title: {
-                  String: { "@xml:lang": "en", "#text": "Study Unit 1" },
+                  String: { "@xml:lang": "fr-FR", "#text": "Study Unit 1" },
                 },
               },
             },
@@ -66,7 +66,7 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Version: "1.0",
               Citation: {
                 Title: {
-                  String: { "@xml:lang": "en", "#text": "Study Unit 2" },
+                  String: { "@xml:lang": "fr-FR", "#text": "Study Unit 2" },
                 },
               },
             },
@@ -214,7 +214,8 @@ describe("PhysicalInstanceDialog", () => {
       await waitFor(() => {
         expect(mockOnSubmitCreate).toHaveBeenCalledWith({
           label: "Test Label",
-          name: "DataRelationShip Name:Test Label",
+          dataRelationshipLabel: "Structure : Test Label",
+          logicalRecordLabel: "Enregistrement logique : Test Label",
           group: { id: "group-1", agency: "agency-1" },
           studyUnit: { id: "study-1", agency: "agency-1" },
         });
@@ -295,7 +296,8 @@ describe("PhysicalInstanceDialog", () => {
       await waitFor(() => {
         expect(mockOnSubmitEdit).toHaveBeenCalledWith({
           label: "Existing Label",
-          name: "DataRelationShip Name:Existing Label",
+          dataRelationshipLabel: "Structure : Existing Label",
+          logicalRecordLabel: "Enregistrement logique : Existing Label",
           group: { id: "group-1", agency: "agency-1" },
           studyUnit: { id: "study-1", agency: "agency-1" },
         });
@@ -344,7 +346,7 @@ describe("PhysicalInstanceDialog", () => {
       expect(labelInputAfter.value).toBe("Test Label");
     });
 
-    it("should reset form after successful edit", async () => {
+    it("should not reset form after edit submission (parent handles closing)", async () => {
       const mockOnSubmitEdit = vi.fn().mockResolvedValue(undefined);
       render(
         <PhysicalInstanceDialog
@@ -379,9 +381,10 @@ describe("PhysicalInstanceDialog", () => {
         expect(mockOnSubmitEdit).toHaveBeenCalled();
       });
 
-      // After successful edit, the form should be reset
+      // The dialog does not reset the form itself in edit mode;
+      // the parent closes the modal which triggers handleHide → resetForm
       const labelInputAfter = screen.getByLabelText("Label") as HTMLInputElement;
-      expect(labelInputAfter.value).toBe("");
+      expect(labelInputAfter.value).toBe("Modified Label");
     });
   });
 });

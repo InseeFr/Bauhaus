@@ -9,7 +9,8 @@ const api = {
   ],
   postPhysicalInstance: (data: {
     physicalInstanceLabel: string;
-    dataRelationshipName: string;
+    dataRelationshipLabel: string;
+    logicalRecordLabel: string;
     groupId: string;
     groupAgency: string;
     studyUnitId: string;
@@ -29,7 +30,8 @@ const api = {
     id: string,
     data: {
       physicalInstanceLabel: string;
-      dataRelationshipName: string;
+      dataRelationshipLabel: string;
+      logicalRecordLabel: string;
       groupId: string;
       groupAgency: string;
       studyUnitId: string;
