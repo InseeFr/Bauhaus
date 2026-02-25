@@ -38,7 +38,7 @@ export const DumbCodelistDetailEdit = ({
 
   useTitle(D.codelistsTitle, codelist?.labelLg1);
 
-  const { datas: stamps } = useUserStamps();
+  const { data: stamps } = useUserStamps();
   const stamp = stamps[0]?.stamp;
   const isContributor = useAuthorizationGuard("CODESLIST_CODESLIST", "CREATE");
 
@@ -179,7 +179,6 @@ export const DumbCodelistDetailEdit = ({
         <div className="form-group">
           <CreatorsInput
             value={codelist.creator}
-            multi
             onChange={(value) => {
               setCodelist({ ...codelist, creator: value });
               setClientSideErrors({
