@@ -16,8 +16,8 @@ import MainDictionary from "../../../../../deprecated-locales/build-dictionary";
 import { CodeListApi } from "../../../../../sdk";
 import D, { D1, D2 } from "../../../../i18n/build-dictionary";
 import { validatePartialCodelist, partialInGlobalCodes } from "../../../../utils";
-import "../../../../pages/codelists/edit/components/CodelistDetailEdit.scss";
-import Picker from "./Picker";
+import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
+import { Picker } from "./Picker";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
@@ -27,7 +27,8 @@ import { useUserStamps } from "@utils/hooks/users";
 const defaultCodelist = {
   created: dayjs(),
 };
-export const DumbCodelistPartialDetailEdit = ({
+
+export const PartialCodelistDetailEdit = ({
   codelist: initialCodelist,
   handleSave,
   handleBack,
@@ -36,8 +37,11 @@ export const DumbCodelistPartialDetailEdit = ({
   serverSideError,
 }) => {
   const [codelist, setCodelist] = useState(defaultCodelist);
+
   const [parentCodes, setParentCodes] = useState([]);
+
   const [clientSideErrors, setClientSideErrors] = useState({});
+
   const [submitting, setSubmitting] = useState(false);
 
   useTitle(D.codelistsPartialTitle, codelist?.labelLg1);
@@ -98,7 +102,6 @@ export const DumbCodelistPartialDetailEdit = ({
     (e) => {
       const { name, value } = e.target;
       resetErrorsMessages();
-
       setCodelist({
         ...codelist,
         [name]: value,
@@ -151,7 +154,6 @@ export const DumbCodelistPartialDetailEdit = ({
 
   const handleSaveClick = useCallback(() => {
     const clientSideErrors = validatePartialCodelist(codelist);
-
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
       setClientSideErrors(clientSideErrors);
@@ -276,7 +278,6 @@ export const DumbCodelistPartialDetailEdit = ({
             }}
             required
           />
-
           <ClientSideError
             id="disseminationStatus-error"
             error={clientSideErrors?.fields?.disseminationStatus}

@@ -10,12 +10,12 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
 import D, { D1, D2 } from "../../../../i18n/build-dictionary";
-import { CodesCollapsiblePanel } from "../../../../components/CodesPanel/CodesPanel";
+import { CodesPanel } from "../../../../components/CodesPanel";
 import { ViewMenu } from "../menu";
-import "./CodeListDetailView.scss";
+import "./CodelistDetailView.css";
 import { InseeOrganisationList, InseeOrganisationText } from "@components/business/creators-view";
 
-export const CodeListDetailView = ({
+export const CodelistDetailView = ({
   codelist,
   handleUpdate,
   handleBack,
@@ -101,7 +101,7 @@ export const CodeListDetailView = ({
           <Note text={descriptionLg2} title={D2.descriptionTitle} alone={false} allowEmpty={true} />
         )}
       </Row>
-      <CodesCollapsiblePanel codelist={codelist} hidden={hidden} editable={false} />
+      <CodesPanel codelist={codelist} hidden={hidden} editable={false} />
     </>
   );
 };

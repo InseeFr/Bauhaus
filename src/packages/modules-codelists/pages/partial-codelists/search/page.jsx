@@ -35,6 +35,7 @@ const defaultFormState = {
 
 const SearchFormPartialList = ({ stampListOptions, data }) => {
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
+
   const { id, labelLg1, creator, validationState, code, codeLabel } = form,
     filteredData = data
       .filter(filterId(id))
@@ -138,7 +139,9 @@ export const Component = () => {
   useTitle(D.codelistsPartialTitle, D.advancedSearch);
 
   const [loading, setLoading] = useState(true);
+
   const [items, setItems] = useState([]);
+
   const stampListOptions = useStampsOptions();
 
   useEffect(() => {

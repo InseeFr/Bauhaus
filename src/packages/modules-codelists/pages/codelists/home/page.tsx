@@ -14,7 +14,9 @@ import { HomePageMenu } from "./menu";
 
 export const Component = () => {
   useTitle(D.codelistsTitle, D.codelistsTitle);
+
   const [items, setItems] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,6 +30,7 @@ export const Component = () => {
   if (loading) {
     return <Loading />;
   }
+
   return (
     <div className="container codelists-list">
       <Row>

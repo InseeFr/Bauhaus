@@ -12,16 +12,23 @@ import { API } from "../../../apis";
 import D from "../../../i18n/build-dictionary";
 import { formatPartialCodeList } from "../../../utils";
 import { ComponentTitle } from "../../../components/ComponentTitle";
-import { CodeListPartialDetailView } from "./components/CodeListPartialDetailView";
+import { PartialCodelistDetailView } from "./components/PartialCodelistDetailView";
 
 export const Component = (props) => {
   const goBack = useGoBack();
+
   const [secondLang] = useSecondLang();
+
   const { id } = useParams();
+
   const [deleting, setDeleting] = useState(false);
+
   const [publishing, setPublishing] = useState(false);
+
   const [codelists, setCodelists] = useState([]);
+
   const [modalOpened, setModalOpened] = useState(false);
+
   const [serverSideError, setServerSideError] = useState("");
 
   const {
@@ -47,7 +54,6 @@ export const Component = (props) => {
 
   const publish = () => {
     setPublishing(true);
-
     API.publishPartialCodelist(id)
       .then(() => {
         return refetch();
@@ -82,13 +88,15 @@ export const Component = (props) => {
   if (isLoading) {
     return <Loading />;
   }
+
   if (deleting) return <Deleting />;
+
   if (publishing) return <Publishing />;
 
   return (
     <>
       <ComponentTitle component={codelist} />
-      <CodeListPartialDetailView
+      <PartialCodelistDetailView
         {...props}
         col={2}
         codelist={codelist}

@@ -7,10 +7,10 @@ import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
-import { API } from "../../apis";
-import D, { D1, D2 } from "../../i18n/build-dictionary";
-import { validateCode } from "../../utils";
-import { CollapsiblePanel } from "../CollapsiblePanel";
+import { API } from "../apis";
+import D, { D1, D2 } from "../i18n/build-dictionary";
+import { validateCode } from "../utils";
+import { CollapsiblePanel } from "./CollapsiblePanel";
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 import { CodesPanelAddButton } from "./CodesPanelAddButton";
 import "./CodesPanel.css";
@@ -130,7 +130,7 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
   );
 };
 
-export const CodesCollapsiblePanel = ({ codelist, hidden, editable }) => {
+export const CodesPanel = ({ codelist, hidden, editable }) => {
   const [codes, setCodes] = useState([]);
 
   const [searchCode, setSearchCode] = useState("");

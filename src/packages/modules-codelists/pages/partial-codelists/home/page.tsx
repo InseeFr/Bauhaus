@@ -16,7 +16,9 @@ import { formatLabel } from "../../../utils";
 
 export const Component = () => {
   useTitle(D.codelistsTitle, D.codelistsPartialTitle);
+
   const [items, setItems] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +32,7 @@ export const Component = () => {
   if (loading) {
     return <Loading />;
   }
+
   return (
     <div className="container codelists-list">
       <Row>

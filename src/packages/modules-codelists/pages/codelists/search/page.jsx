@@ -52,6 +52,7 @@ const SearchFormList = ({ stampListOptions, data }) => {
       <Link to={`/codelists/${codelist.id}`}>{formatLabel(codelist)}</Link>
     </li>
   ));
+
   return (
     <AdvancedSearchList
       title={D.codelistsSearchTitle}
@@ -141,7 +142,9 @@ export const Component = () => {
   useTitle(D.codelistsTitle, D.advancedSearch);
 
   const [loading, setLoading] = useState(true);
+
   const [items, setItems] = useState([]);
+
   const stampListOptions = useStampsOptions();
 
   useEffect(() => {
@@ -151,8 +154,10 @@ export const Component = () => {
       })
       .finally(() => setLoading(false));
   }, []);
+
   if (loading) {
     return <Loading />;
   }
+
   return <SearchFormList data={items} stampListOptions={stampListOptions} />;
 };

@@ -10,24 +10,29 @@ import { API } from "../../../apis";
 import D from "../../../i18n/build-dictionary";
 import { formatCodeList } from "../../../utils";
 import { ComponentTitle } from "../../../components/ComponentTitle";
-import { CodeListDetailView } from "./components/CodeListDetailView";
+import { CodelistDetailView } from "./components/CodelistDetailView";
 
 export const Component = (props) => {
   const goBack = useGoBack();
 
   const [secondLang] = useSecondLang();
+
   const { id } = useParams();
+
   const [loading, setLoading] = useState(true);
+
   const [publishing, setPublishing] = useState(false);
+
   const [codelist, setCodelist] = useState({});
+
   const [modalOpened, setModalOpened] = useState(false);
+
   const [serverSideError, setServerSideError] = useState("");
 
   const handleBack = useCallback(() => goBack("/codelists"), [goBack]);
 
   const publish = () => {
     setPublishing(true);
-
     API.publishCodelist(id)
       .then(() => {
         return API.getDetailedCodelist(id).then((cl) => {
@@ -66,12 +71,13 @@ export const Component = (props) => {
   if (loading) {
     return <Loading />;
   }
+
   if (publishing) return <Publishing />;
 
   return (
     <>
       <ComponentTitle component={codelist} />
-      <CodeListDetailView
+      <CodelistDetailView
         {...props}
         col={2}
         codelist={codelist}

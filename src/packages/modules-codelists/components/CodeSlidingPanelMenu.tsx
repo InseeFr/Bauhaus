@@ -3,7 +3,7 @@ import { ReturnButton, SaveButton, UpdateButton } from "@components/buttons/butt
 
 import { CodesList } from "@model/CodesList";
 
-import { HasAccess } from "../../../auth/components/auth";
+import { HasAccess } from "../../auth/components/auth";
 
 interface CodeSlidingPanelMenuTypes {
   codelist: CodesList;

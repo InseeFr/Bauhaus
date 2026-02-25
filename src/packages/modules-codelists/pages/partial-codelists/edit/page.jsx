@@ -6,17 +6,23 @@ import { Loading, Saving } from "@components/loading";
 import { CodeListApi } from "../../../../sdk";
 import { API } from "../../../apis";
 import { formatPartialCodeList } from "../../../utils";
-import { DumbCodelistPartialDetailEdit } from "./components/CodelistPartialEdit";
+import { PartialCodelistDetailEdit } from "./components/PartialCodelistDetailEdit";
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 
 export const Component = (props) => {
   const { id } = useParams();
+
   const goBackOrReplace = useGoBackOrReplace();
+
   const [loadingList, setLoadingList] = useState(true);
   const [loadingLists, setLoadingLists] = useState(true);
+
   const [saving, setSaving] = useState(false);
+
   const [codelist, setCodelist] = useState({});
+
   const [globalCodeListOptions, setGlobalCodeListOptions] = useState([]);
+
   const [serverSideError, setServerSideError] = useState("");
 
   const handleBack = useCallback(() => {
@@ -91,12 +97,13 @@ export const Component = (props) => {
   if (loadingList || loadingLists) {
     return <Loading />;
   }
+
   if (saving) {
     return <Saving />;
   }
 
   return (
-    <DumbCodelistPartialDetailEdit
+    <PartialCodelistDetailEdit
       {...props}
       col={2}
       codelist={codelist}

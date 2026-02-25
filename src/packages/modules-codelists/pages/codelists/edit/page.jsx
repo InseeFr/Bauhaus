@@ -5,15 +5,20 @@ import { Loading, Saving } from "@components/loading";
 
 import { API } from "../../../apis";
 import { formatCodeList } from "../../../utils";
-import { DumbCodelistDetailEdit } from "./components/CodelistDetailEdit";
+import { CodelistDetailEdit } from "./components/CodelistDetailEdit";
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 
 export const Component = () => {
   const { id } = useParams();
+
   const goBackOrReplace = useGoBackOrReplace();
+
   const [loading, setLoading] = useState(!!id);
+
   const [saving, setSaving] = useState(false);
+
   const [codelist, setCodelist] = useState({});
+
   const [serverSideError, setServerSideError] = useState("");
 
   const handleBack = useCallback(() => {
@@ -24,9 +29,7 @@ export const Component = () => {
     (codelist) => {
       setSaving(true);
       setServerSideError("");
-
       const request = id ? API.putCodelist : API.postCodelist;
-
       request(codelist)
         .then(() => {
           goBackOrReplace(`/codelists/${codelist.id}`, !!id);
@@ -53,12 +56,13 @@ export const Component = () => {
   if (loading) {
     return <Loading />;
   }
+
   if (saving) {
     return <Saving />;
   }
 
   return (
-    <DumbCodelistDetailEdit
+    <CodelistDetailEdit
       col={2}
       codelist={codelist}
       handleBack={handleBack}

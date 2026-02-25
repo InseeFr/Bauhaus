@@ -12,9 +12,9 @@ import { PickerItem } from "@components/picker-item";
 import { filterDeburr } from "@utils/array-utils";
 
 import D from "../../../../i18n/build-dictionary";
-import "../../../../pages/codelists/edit/components/CodelistDetailEdit.scss";
+import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
 
-const Picker = ({ panelTitle, codes, addAll, removeAll, addAction, removeAction }) => {
+export const Picker = ({ panelTitle, codes, addAll, removeAll, addAction, removeAction }) => {
   const [searchLabel, setSearchLabel] = useState("");
 
   const getCodesByStatus = () => {
@@ -30,10 +30,13 @@ const Picker = ({ panelTitle, codes, addAll, removeAll, addAction, removeAction 
       { toSelect: [], selected: [] },
     );
   };
+
   const { toSelect, selected } = getCodesByStatus();
+
   const toAddElements = toSelect.map(({ id, label }) => (
     <PickerItem key={id} id={id} label={label} logo={AddLogo} handleClick={addAction} />
   ));
+
   const addedElements = selected.map(({ id, label }) => (
     <PickerItem key={id} id={id} label={label} logo={DelLogo} handleClick={removeAction} />
   ));
@@ -44,7 +47,6 @@ const Picker = ({ panelTitle, codes, addAll, removeAll, addAction, removeAction 
         <button type="button" className="btn wilco-btn btn-lg col-md-4" onClick={removeAll}>
           {D.removeAll}
         </button>
-
         <button type="button" className="btn wilco-btn btn-lg col-md-4" onClick={addAll}>
           {D.addAll}
         </button>
@@ -65,5 +67,3 @@ const Picker = ({ panelTitle, codes, addAll, removeAll, addAction, removeAction 
     </div>
   );
 };
-
-export default Picker;

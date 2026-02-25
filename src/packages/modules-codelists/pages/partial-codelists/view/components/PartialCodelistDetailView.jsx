@@ -19,7 +19,7 @@ import D, { D1, D2 } from "../../../../i18n/build-dictionary";
 import { CollapsiblePanel } from "../../../../components/CollapsiblePanel";
 import { InseeOrganisationText } from "@components/business/creators-view";
 
-export const CodeListPartialDetailView = ({
+export const PartialCodelistDetailView = ({
   codelist,
   handleUpdate,
   handleDelete,
@@ -59,13 +59,11 @@ export const CodeListPartialDetailView = ({
         <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="PUBLISH">
           <ValidationButton callback={publish} object={codelist} />
         </HasAccess>
-
         {updatable && (
           <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="UPDATE">
             <UpdateButton action={handleUpdate} col={col} />
           </HasAccess>
         )}
-
         {deletable && (
           <HasAccess module="CODESLIST_PARTIALCODESLIST" privilege="DELETE">
             <DeleteButton action={handleDelete} col={col} />

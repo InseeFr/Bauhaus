@@ -14,8 +14,8 @@ import { useTitle } from "@utils/hooks/useTitle";
 import MainDictionary from "../../../../../deprecated-locales/build-dictionary";
 import D, { D1, D2 } from "../../../../i18n/build-dictionary";
 import { validateCodelist } from "../../../../utils";
-import { CodesCollapsiblePanel } from "../../../../components/CodesPanel/CodesPanel";
-import "./CodelistDetailEdit.scss";
+import { CodesPanel } from "../../../../components/CodesPanel";
+import "./CodelistDetailEdit.css";
 import { UriInputGroup } from "./UriInputGroup";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
@@ -25,7 +25,8 @@ import { useUserStamps } from "@utils/hooks/users";
 const defaultCodelist = {
   created: dayjs(),
 };
-export const DumbCodelistDetailEdit = ({
+
+export const CodelistDetailEdit = ({
   codelist: initialCodelist,
   handleSave,
   handleBack,
@@ -33,7 +34,9 @@ export const DumbCodelistDetailEdit = ({
   serverSideError,
 }) => {
   const [codelist, setCodelist] = useState(defaultCodelist);
+
   const [clientSideErrors, setClientSideErrors] = useState({});
+
   const [submitting, setSubmitting] = useState(false);
 
   useTitle(D.codelistsTitle, codelist?.labelLg1);
@@ -44,11 +47,9 @@ export const DumbCodelistDetailEdit = ({
 
   useEffect(() => {
     let codesList = { ...initialCodelist, ...defaultCodelist };
-
     if (!codesList.id) {
       codesList.contributor = isContributor ? [stamp] : ["DG75-L201"];
     }
-
     setCodelist(codesList);
   }, [initialCodelist, isContributor, stamp]);
 
@@ -59,7 +60,6 @@ export const DumbCodelistDetailEdit = ({
         ...clientSideErrors,
         errorMessage: [],
       });
-
       setCodelist({
         ...codelist,
         [name]: value,
@@ -188,7 +188,6 @@ export const DumbCodelistDetailEdit = ({
               });
             }}
           />
-
           <ClientSideError
             id="creator-error"
             error={clientSideErrors?.fields?.creator}
@@ -215,7 +214,6 @@ export const DumbCodelistDetailEdit = ({
             }}
             required
           />
-
           <ClientSideError
             id="disseminationStatus-error"
             error={clientSideErrors?.fields?.disseminationStatus}
@@ -244,7 +242,7 @@ export const DumbCodelistDetailEdit = ({
           </div>
         </Row>
       </form>
-      {updateMode && <CodesCollapsiblePanel codelist={codelist} editable={true} />}
+      {updateMode && <CodesPanel codelist={codelist} editable={true} />}
     </>
   );
 };
