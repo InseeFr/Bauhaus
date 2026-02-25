@@ -81,7 +81,8 @@ describe("CollectionsToExport", () => {
     it("renders return button with correct link", () => {
       renderWithRouter(<CollectionsToExport collections={mockCollections} />);
 
-      const returnButton = screen.getByRole("link");
+      // Use getByText since there are now multiple links (pagination adds links)
+      const returnButton = screen.getByText("Back").closest("a");
       expect(returnButton).toHaveAttribute("href", "/concepts/collections");
     });
   });
@@ -106,7 +107,8 @@ describe("CollectionsToExport", () => {
     it("passes correct context to Picker", () => {
       renderWithRouter(<CollectionsToExport collections={mockCollections} />);
 
-      const returnLink = screen.getByRole("link");
+      // Use getByText since there are now multiple links (pagination adds links)
+      const returnLink = screen.getByText("Back").closest("a");
       expect(returnLink).toHaveAttribute("href", "/concepts/collections");
     });
   });
@@ -132,14 +134,16 @@ describe("CollectionsToExport", () => {
     it("has a search input", () => {
       renderWithRouter(<CollectionsToExport collections={mockCollections} />);
 
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
       expect(searchInput).toBeInTheDocument();
     });
 
     it("allows typing in search input", () => {
       renderWithRouter(<CollectionsToExport collections={mockCollections} />);
 
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
       searchInput.focus();
 
       expect(searchInput).toBeInTheDocument();

@@ -46,8 +46,10 @@ describe("DocumentHome", () => {
         }
       />,
     );
-    expect(container.querySelectorAll("ul")).toHaveLength(1);
-    expect(container.querySelectorAll("li")).toHaveLength(1);
+    // With pagination, there are now 2 <ul>: one for documents, one for pagination
+    expect(container.querySelectorAll("ul")).toHaveLength(2);
+    // Check only list-group items (documents), not pagination items
+    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
   });
 
   it("should display two Add buttons", async () => {
