@@ -65,7 +65,8 @@ describe("Picker", () => {
 
     it("renders search input", () => {
       renderPicker();
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
       expect(searchInput).toBeInTheDocument();
     });
 
@@ -76,7 +77,8 @@ describe("Picker", () => {
 
     it("renders return button with correct link", () => {
       renderPicker();
-      const returnButton = screen.getByRole("link");
+      // Use getByText since there are now multiple links (pagination adds links)
+      const returnButton = screen.getByText("Back").closest("a");
       expect(returnButton).toHaveAttribute("href", "/test-context");
     });
 
@@ -100,7 +102,8 @@ describe("Picker", () => {
   describe("Search functionality", () => {
     it("filters items based on search input", () => {
       renderPicker();
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
 
       fireEvent.change(searchInput, { target: { value: "First" } });
 
@@ -111,7 +114,8 @@ describe("Picker", () => {
 
     it("filters items case insensitively", () => {
       renderPicker();
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
 
       fireEvent.change(searchInput, { target: { value: "first" } });
 
@@ -120,7 +124,8 @@ describe("Picker", () => {
 
     it("shows all items when search is cleared", () => {
       renderPicker();
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
 
       fireEvent.change(searchInput, { target: { value: "First" } });
       fireEvent.change(searchInput, { target: { value: "" } });
@@ -136,7 +141,8 @@ describe("Picker", () => {
         { id: "2", label: "Café" },
       ];
       renderPicker({ items: itemsWithAccents });
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
 
       fireEvent.change(searchInput, { target: { value: "element" } });
 

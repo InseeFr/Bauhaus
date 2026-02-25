@@ -16,10 +16,10 @@ const numberPerPageOptions = [
 ];
 
 interface PaginationProps {
-  readonly itemEls: JSX.Element[];
+  itemEls: JSX.Element[];
 }
 
-export const Pagination = ({ itemEls }: PaginationProps) => {
+export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
   const { t } = useTranslation("translation", { i18n: componentsI18n });
   const navigate = useNavigate();
   const { pathname, search } = useLocation();

@@ -172,7 +172,8 @@ describe("Export Concepts Home Container", () => {
 
       renderComponent();
 
-      const returnLink = screen.getByRole("link");
+      // Use getByText since there are now multiple links (pagination adds links)
+      const returnLink = screen.getByText("Back").closest("a");
       expect(returnLink).toHaveAttribute("href", "/concepts");
     });
   });
@@ -263,7 +264,8 @@ describe("Export Concepts Home Container", () => {
 
       renderComponent();
 
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
       expect(searchInput).toBeInTheDocument();
     });
   });
