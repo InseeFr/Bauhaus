@@ -13,6 +13,7 @@
   margin: 0.5em;
 }
 
+/* stylelint-disable selector-class-pattern */
 .rst__rowContents {
   justify-content: left;
 }
@@ -26,14 +27,14 @@
 .rst__rowContents .rst__rowToolbar {
   order: 1;
 }
+/* stylelint-enable selector-class-pattern */
 
 .wilco-action-toolbar {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: space-between;
   margin-top: 15px;
   margin-bottom: 15px;
-  flex-wrap: wrap;
 }
 
 .wilco-action-toolbar::before {

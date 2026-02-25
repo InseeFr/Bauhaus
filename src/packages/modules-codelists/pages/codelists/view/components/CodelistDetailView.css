@@ -57,8 +57,8 @@
   color: inherit;
   -webkit-font-smoothing: inherit;
   -moz-osx-font-smoothing: inherit;
-  -webkit-appearance: none;
-  background-color: rgba(0, 0, 0, 0) !important;
+  appearance: none;
+  background-color: rgb(0 0 0 / 0%) !important;
 }
 
 .server-side-pagination .wilco-pagination li button:disabled,
