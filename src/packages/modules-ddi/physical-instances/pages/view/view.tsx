@@ -14,6 +14,7 @@ import {
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
+import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalInstance";
@@ -825,6 +826,7 @@ export const Component = () => {
 
       <ConfirmDialog />
       <Toast ref={toast} />
+      <DdiDevTools data={data} />
     </div>
   );
 };
