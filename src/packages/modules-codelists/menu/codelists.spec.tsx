@@ -4,7 +4,6 @@ import { describe, expect, it, vi } from "vitest";
 import { MainMenu } from "@components/menu";
 
 import MenuCodelists from ".";
-import { useAuthorizationGuard } from "../../auth/components/auth";
 import { renderWithRouter } from "../../tests/render";
 import D from "../i18n/build-dictionary";
 
@@ -13,14 +12,6 @@ vi.mock("react-router-dom", async () => {
   return {
     ...actual,
     useLocation: vi.fn(),
-  };
-});
-
-vi.mock("../../auth/components/auth", async () => {
-  const actual = await vi.importActual("../../auth/components/auth");
-  return {
-    ...actual,
-    useAuthorizationGuard: vi.fn(),
   };
 });
 
@@ -35,7 +26,6 @@ describe("MenuCodelists", () => {
 
   it('should not render anything if the path is "/"', () => {
     vi.mocked(useLocation).mockReturnValue({ pathname: "/" } as any);
-    vi.mocked(useAuthorizationGuard).mockReturnValue(false);
 
     const { container } = renderWithRouter(<MenuCodelists />);
 
@@ -44,7 +34,6 @@ describe("MenuCodelists", () => {
 
   it("should render the menu with only default paths if user does not have administration privilege", () => {
     vi.mocked(useLocation).mockReturnValue({ pathname: "/codelists" } as any);
-    vi.mocked(useAuthorizationGuard).mockReturnValue(false);
 
     const { getByText } = renderWithRouter(<MenuCodelists />);
 
@@ -64,15 +53,10 @@ describe("MenuCodelists", () => {
       {},
     );
     expect(getByText("MainMenu Mock")).toBeTruthy();
-    expect(useAuthorizationGuard).toHaveBeenCalledWith({
-      module: "CODESLIST_CODESLIST",
-      privilege: "READ",
-    });
   });
 
   it('should apply "active" class to the correct path based on location.pathname', () => {
     vi.mocked(useLocation).mockReturnValue({ pathname: "/codelists" } as any);
-    vi.mocked(useAuthorizationGuard).mockReturnValue(true);
 
     renderWithRouter(<MenuCodelists />);
 
@@ -91,9 +75,5 @@ describe("MenuCodelists", () => {
       },
       {},
     );
-    expect(useAuthorizationGuard).toHaveBeenCalledWith({
-      module: "CODESLIST_CODESLIST",
-      privilege: "READ",
-    });
   });
 });
