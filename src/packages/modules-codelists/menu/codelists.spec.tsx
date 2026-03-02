@@ -70,44 +70,6 @@ describe("MenuCodelists", () => {
     });
   });
 
-  it("should render the menu with additional paths if user has administration privilege", () => {
-    vi.mocked(useLocation).mockReturnValue({
-      pathname: "/codelists/partial",
-    } as any);
-    vi.mocked(useAuthorizationGuard).mockReturnValue(true);
-
-    const { getByText } = renderWithRouter(<MenuCodelists />);
-
-    expect(MainMenu).toHaveBeenCalledWith(
-      {
-        paths: [
-          {
-            path: "/codelists/partial",
-            pathKey: "partial",
-            className: "active",
-            attrs: { "aria-current": "page" },
-            label: D.codelistsPartialTitle,
-            order: 2,
-          },
-          {
-            path: "/codelists",
-            pathKey: "codelists",
-            className: null,
-            attrs: null,
-            label: D.codelistsTitle,
-            order: 1,
-          },
-        ],
-      },
-      {},
-    );
-    expect(getByText("MainMenu Mock")).toBeTruthy();
-    expect(useAuthorizationGuard).toHaveBeenCalledWith({
-      module: "CODESLIST_CODESLIST",
-      privilege: "READ",
-    });
-  });
-
   it('should apply "active" class to the correct path based on location.pathname', () => {
     vi.mocked(useLocation).mockReturnValue({ pathname: "/codelists" } as any);
     vi.mocked(useAuthorizationGuard).mockReturnValue(true);
@@ -117,14 +79,6 @@ describe("MenuCodelists", () => {
     expect(MainMenu).toHaveBeenCalledWith(
       {
         paths: [
-          {
-            path: "/codelists/partial",
-            pathKey: "partial",
-            className: null,
-            attrs: null,
-            label: D.codelistsPartialTitle,
-            order: 2,
-          },
           {
             path: "/codelists",
             pathKey: "codelists",

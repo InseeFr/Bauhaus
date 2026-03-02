@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { Organisation, Organisations } from "@components/business/organisations/organisations";
+import {
+  InseeOrganisation,
+  InseeOrganisations,
+} from "@components/business/organisations/organisations";
 import { CheckSecondLang } from "@components/check-second-lang";
 import { CodeDisplay } from "@components/code-display";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
@@ -25,7 +28,6 @@ import { CL_PROCESS_STEP } from "../../../../constants/code-lists";
 import { GlobalInformationBlock } from "./components/GlobalInformationBlock";
 import { StatisticalInformations } from "./components/StatisticalInformations";
 import { ViewMenu } from "./menu";
-import { useOrganizations } from "@utils/hooks/organizations";
 import { useDataset } from "../../../hooks/useDataset";
 
 const Dataset = (props) => {
@@ -36,8 +38,6 @@ const Dataset = (props) => {
   const navigate = useNavigate();
 
   const [archivageUnits, setArchivageUnits] = useState([]);
-
-  const { data: organisationsList } = useOrganizations();
 
   useEffect(() => {
     DatasetsApi.getArchivageUnits().then(setArchivageUnits);
@@ -144,17 +144,11 @@ const Dataset = (props) => {
             <ul>
               <li>
                 {t("dataset.internalManagement.creator")} :{" "}
-                <Organisation
-                  creator={dataset.catalogRecord?.creator}
-                  organizations={organisationsList}
-                />
+                <InseeOrganisation creator={dataset.catalogRecord?.creator} />
               </li>
               <li>
                 {t("dataset.internalManagement.contributors")} :{" "}
-                <Organisations
-                  creators={dataset.catalogRecord?.contributor}
-                  organizations={organisationsList}
-                />
+                <InseeOrganisations creators={dataset.catalogRecord?.contributor} />
               </li>
               <li>
                 <DisseminationStatusVisualisation

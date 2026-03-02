@@ -178,6 +178,7 @@ export const DumbCodelistDetailEdit = ({
         </Row>
         <div className="form-group">
           <CreatorsInput
+            mode="organisation"
             value={codelist.creator}
             onChange={(value) => {
               setCodelist({ ...codelist, creator: value });
@@ -196,6 +197,7 @@ export const DumbCodelistDetailEdit = ({
         <div className="form-group">
           <ContributorsInput
             multi
+            mode="organisation"
             value={codelist.contributor}
             onChange={(values) => {
               setCodelist({ ...codelist, contributor: values });
