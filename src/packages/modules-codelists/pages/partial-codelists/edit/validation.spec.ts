@@ -3,7 +3,7 @@ import D, { D1, D2 } from "../../../i18n/build-dictionary";
 import MainDictionary from "./../../../../deprecated-locales/build-dictionary";
 import { validate } from "./validation";
 
-describe("validatePartialCodelist", () => {
+describe("validate", () => {
   it("should return errors for missing mandatory fields", () => {
     const codelist = {};
 
