@@ -14,7 +14,7 @@ import { useSecondLang } from "@utils/hooks/second-lang";
 import { useLocales } from "@utils/hooks/useLocales";
 
 import D from "../../../deprecated-locales";
-import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../redux/actions/constants/codeList";
+import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../constants/code-lists";
 import OperationsSerieVisualization from "./home";
 import { Menu } from "./menu";
 

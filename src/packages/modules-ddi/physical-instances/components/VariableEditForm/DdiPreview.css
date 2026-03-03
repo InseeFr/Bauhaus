@@ -1,0 +1,21 @@
+.ddi-preview-code-container {
+  position: relative;
+}
+
+.ddi-preview-code-container .ddi-preview-copy-btn {
+  position: absolute;
+  top: 1rem;
+  right: 2.5rem;
+  z-index: 1;
+}
+
+.ddi-preview-code {
+  max-height: 500px;
+  overflow: auto;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--surface-border);
+  border-radius: var(--border-radius);
+  background-color: var(--surface-ground);
+  font-size: 0.75rem;
+}

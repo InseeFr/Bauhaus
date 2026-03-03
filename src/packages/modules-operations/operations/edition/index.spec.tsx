@@ -1,12 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { Provider } from "react-redux";
 import { describe, expect, it, vi } from "vitest";
 
 import { AppContextProvider } from "../../../application/app-context";
 import { OperationsApi } from "@sdk/operations-api";
-import configureStore from "../../../redux/configure-store";
 import { Component } from "./index";
 
 vi.mock("@sdk/operations-api", () => ({
@@ -23,29 +21,17 @@ const queryClient = new QueryClient({
   },
 });
 
-const store = configureStore({
-  app: {
-    auth: {
-      user: {
-        stamp: "test-stamp",
-      },
-    },
-  },
-});
-
 const renderWithRouter = (id: string) => {
   return render(
-    <Provider store={store}>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        <QueryClientProvider client={queryClient}>
-          <MemoryRouter initialEntries={[`/operations/operation/${id}`]}>
-            <Routes>
-              <Route path="/operations/operation/:id" element={<Component />} />
-            </Routes>
-          </MemoryRouter>
-        </QueryClientProvider>
-      </AppContextProvider>
-    </Provider>,
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={[`/operations/operation/${id}`]}>
+          <Routes>
+            <Route path="/operations/operation/:id" element={<Component />} />
+          </Routes>
+        </MemoryRouter>
+      </QueryClientProvider>
+    </AppContextProvider>,
   );
 };
 
@@ -106,17 +92,15 @@ describe("Operations Edition Index Component", () => {
     vi.mocked(OperationsApi.getOperation).mockResolvedValue({});
 
     render(
-      <Provider store={store}>
-        <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-          <QueryClientProvider client={queryClient}>
-            <MemoryRouter initialEntries={["/operations/operation/"]}>
-              <Routes>
-                <Route path="/operations/operation/" element={<Component />} />
-              </Routes>
-            </MemoryRouter>
-          </QueryClientProvider>
-        </AppContextProvider>
-      </Provider>,
+      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter initialEntries={["/operations/operation/"]}>
+            <Routes>
+              <Route path="/operations/operation/" element={<Component />} />
+            </Routes>
+          </MemoryRouter>
+        </QueryClientProvider>
+      </AppContextProvider>,
     );
 
     await waitFor(() => {
@@ -156,17 +140,15 @@ describe("Operations Edition Index Component", () => {
 
   it("should handle undefined operation id", () => {
     render(
-      <Provider store={store}>
-        <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-          <QueryClientProvider client={queryClient}>
-            <MemoryRouter initialEntries={["/operations/operation/"]}>
-              <Routes>
-                <Route path="/operations/operation/" element={<Component />} />
-              </Routes>
-            </MemoryRouter>
-          </QueryClientProvider>
-        </AppContextProvider>
-      </Provider>,
+      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter initialEntries={["/operations/operation/"]}>
+            <Routes>
+              <Route path="/operations/operation/" element={<Component />} />
+            </Routes>
+          </MemoryRouter>
+        </QueryClientProvider>
+      </AppContextProvider>,
     );
 
     expect(OperationsApi.getOperation).not.toHaveBeenCalled();

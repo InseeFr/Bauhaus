@@ -42,7 +42,7 @@ export interface State {
   typeFilter: string;
   isEditModalVisible: boolean;
   isImportModalVisible: boolean;
-  formData: { label: string; name: string };
+  formData: { label: string };
   importData: string;
   selectedVariable: VariableData | null;
   localVariables: VariableData[];
@@ -56,7 +56,7 @@ export type Action =
   | { type: typeof ACTION_TYPES.SET_IMPORT_MODAL_VISIBLE; payload: boolean }
   | {
       type: typeof ACTION_TYPES.SET_FORM_DATA;
-      payload: { label: string; name: string };
+      payload: { label: string };
     }
   | { type: typeof ACTION_TYPES.SET_IMPORT_DATA; payload: string }
   | {
@@ -82,7 +82,7 @@ export const initialState: State = {
   typeFilter: "all",
   isEditModalVisible: false,
   isImportModalVisible: false,
-  formData: { label: "", name: "" },
+  formData: { label: "" },
   importData: "",
   selectedVariable: null,
   localVariables: [],
@@ -167,7 +167,7 @@ export const actions = {
     type: ACTION_TYPES.SET_IMPORT_MODAL_VISIBLE,
     payload,
   }),
-  setFormData: (payload: { label: string; name: string }): Action => ({
+  setFormData: (payload: { label: string }): Action => ({
     type: ACTION_TYPES.SET_FORM_DATA,
     payload,
   }),

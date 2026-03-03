@@ -2,7 +2,8 @@ import { Dropdown } from "primereact/dropdown";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Message } from "primereact/message";
 import { useTranslation } from "react-i18next";
-import { useCodesLists } from "../../../hooks/useCodesLists";
+import { useParams } from "react-router-dom";
+import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
 
 interface ReuseCodeListSelectProps {
   selectedCodeListId: string | null;
@@ -14,16 +15,20 @@ export const ReuseCodeListSelect = ({
   onCodeListSelect,
 }: Readonly<ReuseCodeListSelectProps>) => {
   const { t } = useTranslation();
+  const { id: physicalInstanceId = "", agencyId = "" } = useParams<{
+    id: string;
+    agencyId: string;
+  }>();
   const {
     data: codesLists = [],
     isLoading: isLoadingCodesLists,
     error: codesListsError,
-  } = useCodesLists();
+  } = useAllCodesLists(agencyId, physicalInstanceId);
 
   if (isLoadingCodesLists) {
     return (
-      <div className="flex align-items-center gap-2">
-        <ProgressSpinner style={{ width: "20px", height: "20px" }} strokeWidth="4" />
+      <div className="flex gap-2">
+        <ProgressSpinner style={{ width: "20px", height: "20px", margin: "0" }} strokeWidth="4" />
         <span>{t("physicalInstance.view.code.loadingCodesLists")}</span>
       </div>
     );
@@ -43,8 +48,8 @@ export const ReuseCodeListSelect = ({
     <Dropdown
       filter
       value={selectedCodeListId}
-      options={codesLists.map((cl: { id: string; label: string; agency: string }) => ({
-        value: `${cl.agency}-${cl.id}`,
+      options={codesLists.map((cl) => ({
+        value: `${cl.agencyId}-${cl.id}`,
         label: cl.label,
       }))}
       onChange={(e) => {

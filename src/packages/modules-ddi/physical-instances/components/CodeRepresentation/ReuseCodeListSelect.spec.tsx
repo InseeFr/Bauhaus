@@ -17,10 +17,17 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-const mockUseCodesLists = vi.fn();
+vi.mock("react-router-dom", () => ({
+  useParams: () => ({
+    id: "test-physical-instance-id",
+    agencyId: "fr.insee",
+  }),
+}));
 
-vi.mock("../../../hooks/useCodesLists", () => ({
-  useCodesLists: () => mockUseCodesLists(),
+const mockUseAllCodesLists = vi.fn();
+
+vi.mock("../../../hooks/useAllCodesLists", () => ({
+  useAllCodesLists: () => mockUseAllCodesLists(),
 }));
 
 vi.mock("primereact/progressspinner", () => ({
@@ -62,18 +69,18 @@ describe("ReuseCodeListSelect", () => {
     {
       id: "list-1",
       label: "Liste des statuts professionnels",
-      agency: "fr.insee",
+      agencyId: "fr.insee",
     },
     {
       id: "list-2",
       label: "Liste des pays",
-      agency: "fr.insee",
+      agencyId: "fr.insee",
     },
   ];
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockUseCodesLists.mockReturnValue({
+    mockUseAllCodesLists.mockReturnValue({
       data: mockCodesLists,
       isLoading: false,
       error: null,
@@ -89,7 +96,7 @@ describe("ReuseCodeListSelect", () => {
   });
 
   it("should display loading spinner when loading", () => {
-    mockUseCodesLists.mockReturnValue({
+    mockUseAllCodesLists.mockReturnValue({
       data: [],
       isLoading: true,
       error: null,
@@ -105,7 +112,7 @@ describe("ReuseCodeListSelect", () => {
   });
 
   it("should display error message when loading fails", () => {
-    mockUseCodesLists.mockReturnValue({
+    mockUseAllCodesLists.mockReturnValue({
       data: [],
       isLoading: false,
       error: new Error("Network error"),
@@ -121,7 +128,7 @@ describe("ReuseCodeListSelect", () => {
   });
 
   it("should display info message when no codes lists are available", () => {
-    mockUseCodesLists.mockReturnValue({
+    mockUseAllCodesLists.mockReturnValue({
       data: [],
       isLoading: false,
       error: null,

@@ -10,3 +10,11 @@ export const VARIABLE_TYPES = {
   DATE: "date",
   NUMERIC: "numeric",
 } as const;
+
+export function buildDataRelationshipLabel(physicalInstanceLabel: string): string {
+  return "Structure : " + physicalInstanceLabel;
+}
+
+export function buildLogicalRecordLabel(physicalInstanceLabel: string): string {
+  return "Enregistrement logique : " + physicalInstanceLabel;
+}

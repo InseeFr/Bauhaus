@@ -69,7 +69,7 @@ const renderFieldItem = (
   }
 };
 
-function CollectionGeneral({ attr, secondLang }: CollectionGeneralProps) {
+function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps>) {
   const fields: readonly { name: FieldName; label: string }[] = [
     { name: "creator", label: D1.creatorTitle },
     { name: "contributor", label: D1.contributorTitle },

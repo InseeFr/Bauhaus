@@ -149,10 +149,15 @@ describe("ConceptValidation Home Container", () => {
 
   describe("Validation Flow", () => {
     it("should show publishing state when validating concepts", async () => {
-      mockGetConceptValidateList.mockResolvedValue(mockConcepts);
-      mockPutConceptValidList.mockReturnValue(new Promise((resolve) => setTimeout(resolve, 100)));
+      let resolvePromise: () => void;
+      const pendingPromise = new Promise<void>((resolve) => {
+        resolvePromise = resolve;
+      });
 
-      const { rerender } = render(
+      mockGetConceptValidateList.mockResolvedValue(mockConcepts);
+      mockPutConceptValidList.mockReturnValue(pendingPromise);
+
+      render(
         <MemoryRouter>
           <Component />
         </MemoryRouter>,
@@ -165,16 +170,16 @@ describe("ConceptValidation Home Container", () => {
       const validateButton = screen.getByTestId("validate-button");
       validateButton.click();
 
-      // Force re-render to check publishing state
-      rerender(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
-
       await waitFor(() => {
-        // Should show publishing indicator
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
+      });
+
+      // Resolve the promise to complete the validation
+      resolvePromise!();
+
+      // Wait for the redirect to occur
+      await waitFor(() => {
+        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
       });
     });
 
@@ -198,6 +203,11 @@ describe("ConceptValidation Home Container", () => {
       await waitFor(() => {
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
       });
+
+      // Wait for the redirect (component unmounts or changes)
+      await waitFor(() => {
+        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
+      });
     });
 
     it("should call API with correct concept ids", async () => {
@@ -220,6 +230,11 @@ describe("ConceptValidation Home Container", () => {
       await waitFor(() => {
         expect(mockPutConceptValidList).toHaveBeenCalledTimes(1);
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
+      });
+
+      // Wait for the redirect to complete
+      await waitFor(() => {
+        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
       });
     });
   });
@@ -264,9 +279,9 @@ describe("ConceptValidation Home Container", () => {
         expect(mockPutConceptValidList).toHaveBeenCalled();
       });
 
-      // The finally block should still execute, setting state to OK
+      // The finally block should still execute, setting state to OK and triggering redirect
       await waitFor(() => {
-        expect(mockPutConceptValidList).toHaveBeenCalledTimes(1);
+        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
       });
     });
   });
@@ -283,6 +298,11 @@ describe("ConceptValidation Home Container", () => {
       );
 
       expect(useTitle).toHaveBeenCalledWith("Concepts", "Valider");
+
+      // Wait for concepts to load to avoid state updates after unmount
+      await waitFor(() => {
+        expect(screen.getByTestId("concepts-to-validate")).toBeInTheDocument();
+      });
     });
   });
 
@@ -383,7 +403,11 @@ describe("ConceptValidation Home Container", () => {
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
       });
 
-      // Step 4: Verify completion
+      // Step 4: Verify completion and redirect
+      await waitFor(() => {
+        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
+      });
+
       expect(mockGetConceptValidateList).toHaveBeenCalledTimes(1);
       expect(mockPutConceptValidList).toHaveBeenCalledTimes(1);
     });

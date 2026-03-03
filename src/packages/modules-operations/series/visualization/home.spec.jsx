@@ -2,7 +2,7 @@ import { vi } from "vitest";
 
 import * as useOrganizationsHook from "@utils/hooks/organizations";
 
-import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../redux/actions/constants/codeList";
+import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../constants/code-lists";
 import { renderWithRouter } from "../../../tests/render";
 import OperationsSerieVisualization from "./home";
 

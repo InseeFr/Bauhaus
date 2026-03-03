@@ -45,7 +45,8 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 
@@ -53,11 +54,12 @@ describe("useUpdatePhysicalInstance", () => {
 
     expect(mockPatch).toHaveBeenCalledWith("test-agency", "test-id", {
       physicalInstanceLabel: "Test Label",
-      dataRelationshipName: "Test Name",
+      dataRelationshipLabel: "Test Label",
+      logicalRecordLabel: "Test Label",
     });
   });
 
-  it("should invalidate query cache on successful mutation", async () => {
+  it("should invalidate physicalInstances query cache on success", async () => {
     const mockPatch = vi.fn().mockResolvedValue({});
     (DDIApi.patchPhysicalInstance as any) = mockPatch;
 
@@ -72,16 +74,15 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency-456",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 
     await result.current.mutateAsync(testData);
 
-    await waitFor(() => {
-      expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-        queryKey: ["physicalInstanceById", "test-agency-456", "test-id-123"],
-      });
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+      queryKey: ["physicalInstances"],
     });
   });
 
@@ -99,7 +100,8 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 
@@ -123,7 +125,8 @@ describe("useUpdatePhysicalInstance", () => {
       agencyId: "test-agency",
       data: {
         physicalInstanceLabel: "Test Label",
-        dataRelationshipName: "Test Name",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
       },
     };
 

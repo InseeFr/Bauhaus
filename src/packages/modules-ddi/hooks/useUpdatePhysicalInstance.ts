@@ -6,7 +6,12 @@ interface UpdatePhysicalInstanceParams {
   agencyId: string;
   data: {
     physicalInstanceLabel: string;
-    dataRelationshipName: string;
+    dataRelationshipLabel: string;
+    logicalRecordLabel: string;
+    groupId: string;
+    groupAgency: string;
+    studyUnitId: string;
+    studyUnitAgency: string;
   };
 }
 
@@ -16,11 +21,8 @@ export function useUpdatePhysicalInstance() {
   return useMutation({
     mutationFn: ({ id, agencyId, data }: UpdatePhysicalInstanceParams) =>
       DDIApi.patchPhysicalInstance(agencyId, id, data),
-    onSuccess: (_, variables) => {
-      // Invalider le cache pour rafraîchir les données
-      queryClient.invalidateQueries({
-        queryKey: ["physicalInstanceById", variables.agencyId, variables.id],
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
     },
   });
 }

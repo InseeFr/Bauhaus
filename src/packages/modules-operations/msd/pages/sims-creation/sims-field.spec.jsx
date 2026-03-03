@@ -4,7 +4,6 @@ import { describe, it, expect, vi } from "vitest";
 import Field from "./sims-field";
 import {
   renderWithProviders,
-  renderWithRedux,
   createDefaultSimsFieldProps,
   RICH_TEXT,
   TEXT,
@@ -198,7 +197,7 @@ describe("Sims Field", () => {
       const props = createDefaultSimsFieldProps({
         msd: { masLabelLg2: "masLabelLg2", idMas: "1", rangeType: RICH_TEXT },
       });
-      const { container } = renderWithRedux(<Field {...props} />);
+      const { container } = renderWithProviders(<Field {...props} />);
 
       expect(container.querySelectorAll(".rdw-editor-wrapper")).toHaveLength(1);
     });
@@ -207,7 +206,7 @@ describe("Sims Field", () => {
       const props = createDefaultSimsFieldProps({
         msd: { idMas: "rich-1", rangeType: RICH_TEXT },
       });
-      const { container } = renderWithRedux(<Field {...props} />);
+      const { container } = renderWithProviders(<Field {...props} />);
 
       const editor = container.querySelector(".rdw-editor-wrapper");
       expect(editor).toBeInTheDocument();
@@ -219,7 +218,7 @@ describe("Sims Field", () => {
       const props = createDefaultSimsFieldProps({
         msd: { masLabelLg2: "masLabelLg2", idMas: "1", rangeType: RICH_TEXT },
       });
-      const { container } = renderWithRedux(<Field {...props} />);
+      const { container } = renderWithProviders(<Field {...props} />);
 
       // Editor should render successfully
       expect(container.querySelector(".rdw-editor-wrapper")).toBeInTheDocument();

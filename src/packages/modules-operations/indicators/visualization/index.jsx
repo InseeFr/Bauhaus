@@ -12,7 +12,7 @@ import { useCodesList } from "@utils/hooks/codeslist";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import D from "../../../deprecated-locales";
-import { CL_FREQ } from "../../../redux/actions/constants/codeList";
+import { CL_FREQ } from "../../../constants/code-lists";
 import OperationsIndicatorVisualization from "./general";
 import { Menu } from "./menu";
 

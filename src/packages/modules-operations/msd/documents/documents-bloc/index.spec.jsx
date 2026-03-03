@@ -1,4 +1,6 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+
+import { getBaseURI } from "@sdk/build-api";
 
 import { sortArray } from "@utils/array-utils";
 import { getLang } from "@utils/dictionnary";
@@ -6,6 +8,10 @@ import { getLang } from "@utils/dictionnary";
 import D from "../../../../deprecated-locales";
 import { DocumentsStoreProvider } from "../../pages/sims-creation/documents-store-context";
 import { DocumentsBloc } from "./index";
+
+vi.mock("@sdk/build-api", () => ({
+  getBaseURI: vi.fn().mockResolvedValue("http://base-uri"),
+}));
 
 const documents = [
   {
@@ -41,31 +47,40 @@ const documents = [
   },
 ];
 
-export const renderWithStore = (component) => {
-  return render(
+export const renderWithStore = async (component) => {
+  const result = render(
     <DocumentsStoreProvider value={{ documentStores: { lg1: documents, lg2: documents } }}>
       {component}
     </DocumentsStoreProvider>,
   );
+  await waitFor(() => {
+    expect(getBaseURI).toHaveBeenCalled();
+  });
+  return result;
 };
 
 describe("DocumentsBloc", () => {
-  it("should display nothing if the documents props is not defined", () => {
-    const { container } = renderWithStore(<DocumentsBloc />);
-    expect(container.querySelectorAll(".documentsbloc")).toHaveLength(0);
+  beforeEach(() => {
+    vi.clearAllMocks();
   });
-  it("should display nothing if the documents props is an empty array", () => {
-    const { container } = renderWithStore(<DocumentsBloc documents={[]} />);
+
+  it("should display nothing if the documents props is not defined", async () => {
+    const { container } = await renderWithStore(<DocumentsBloc />);
     expect(container.querySelectorAll(".documentsbloc")).toHaveLength(0);
   });
 
-  it("should display three items", () => {
-    const { container } = renderWithStore(<DocumentsBloc documents={documents} />);
+  it("should display nothing if the documents props is an empty array", async () => {
+    const { container } = await renderWithStore(<DocumentsBloc documents={[]} />);
+    expect(container.querySelectorAll(".documentsbloc")).toHaveLength(0);
+  });
+
+  it("should display three items", async () => {
+    const { container } = await renderWithStore(<DocumentsBloc documents={documents} />);
     expect(container.querySelectorAll("li")).toHaveLength(3);
   });
 
-  it("should display the Lg1 label and description ordered by label", () => {
-    const { container } = renderWithStore(<DocumentsBloc documents={documents} />);
+  it("should display the Lg1 label and description ordered by label", async () => {
+    const { container } = await renderWithStore(<DocumentsBloc documents={documents} />);
     const orderedList = sortArray("labelLg1")(documents);
 
     const lis = container.querySelectorAll("li");
@@ -75,8 +90,9 @@ describe("DocumentsBloc", () => {
       );
     }
   });
-  it("should display the Lg2 label and description ordered by label", () => {
-    const { container } = renderWithStore(
+
+  it("should display the Lg2 label and description ordered by label", async () => {
+    const { container } = await renderWithStore(
       <DocumentsBloc documents={documents} localPrefix="Lg2" />,
     );
     const orderedList = sortArray("labelLg2")(documents);
@@ -94,16 +110,16 @@ describe("DocumentsBloc", () => {
     ${"Lg2"} | ${3}         | ${0}
     ${"Lg1"} | ${3}         | ${0}
   `("$a + $b", ({ lang, expectedEdit, expectedView }) => {
-    it("should not display delete buttons", () => {
-      const { container } = renderWithStore(
+    it("should not display delete buttons", async () => {
+      const { container } = await renderWithStore(
         <DocumentsBloc documents={documents} localPrefix={lang} editMode={false} />,
       );
 
       expect(container.querySelectorAll(".documentsbloc__delete")).toHaveLength(expectedView);
     });
 
-    it("should display zero delete buttons", () => {
-      const { container } = renderWithStore(
+    it("should display zero delete buttons", async () => {
+      const { container } = await renderWithStore(
         <DocumentsBloc documents={documents} localPrefix={lang} editMode={true} />,
       );
 
@@ -111,25 +127,26 @@ describe("DocumentsBloc", () => {
     });
   });
 
-  it("should display the Add Document button if there is not more document to add", () => {
-    const { container } = renderWithStore(
-      <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
-    );
-
-    expect(container.querySelectorAll(".documentsbloc__add")).toHaveLength(1);
-  });
-  it("should display the Add Document button if there is more than on document available", () => {
-    const { container } = renderWithStore(
+  it("should display the Add Document button if there is not more document to add", async () => {
+    const { container } = await renderWithStore(
       <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
     );
 
     expect(container.querySelectorAll(".documentsbloc__add")).toHaveLength(1);
   });
 
-  it("should display the Add new Document button", () => {
+  it("should display the Add Document button if there is more than on document available", async () => {
+    const { container } = await renderWithStore(
+      <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
+    );
+
+    expect(container.querySelectorAll(".documentsbloc__add")).toHaveLength(1);
+  });
+
+  it("should display the Add new Document button", async () => {
     const openLateralPanelOpened = vi.fn();
     const setRubricIdForNewDocument = vi.fn();
-    renderWithStore(
+    render(
       <DocumentsStoreProvider
         value={{
           documentStores: { lg1: [], lg2: [] },
@@ -140,6 +157,11 @@ describe("DocumentsBloc", () => {
         <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} idMas="1" />
       </DocumentsStoreProvider>,
     );
+
+    await waitFor(() => {
+      expect(getBaseURI).toHaveBeenCalled();
+    });
+
     const btn = screen.getByLabelText(D.btnAdd);
     fireEvent.click(btn);
     expect(openLateralPanelOpened).toHaveBeenCalledWith("link");
@@ -149,8 +171,8 @@ describe("DocumentsBloc", () => {
     });
   });
 
-  it("should not display the Add Document button for Lg2", () => {
-    const { container } = renderWithStore(
+  it("should not display the Add Document button for Lg2", async () => {
+    const { container } = await renderWithStore(
       <DocumentsBloc documents={documents} localPrefix="Lg2" editMode={false} />,
     );
 

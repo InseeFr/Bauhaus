@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import { PropsWithChildren, ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
@@ -5,6 +6,15 @@ import { MemoryRouter } from "react-router-dom";
 import { MODULE, PRIVILEGE, STRATEGY } from "@utils/hooks/rbac-constants";
 
 import { AppContextProvider } from "../application/app-context";
+
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
 
 export const WithRouter = ({ children }: PropsWithChildren) => {
   return <MemoryRouter>{children}</MemoryRouter>;
@@ -48,6 +58,18 @@ export const mockReactQueryForRbac = (
 
 export const renderWithRouter = (component: ReactNode, initialEntries: string[] = ["/"]) => {
   return render(<MemoryRouter initialEntries={initialEntries}>{component}</MemoryRouter>);
+};
+
+export const renderWithRouterAndQuery = (
+  component: ReactNode,
+  initialEntries: string[] = ["/"],
+) => {
+  const queryClient = createTestQueryClient();
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={initialEntries}>{component}</MemoryRouter>
+    </QueryClientProvider>,
+  );
 };
 
 export const renderWithAppContext = (component: ReactNode, withRouter = true) => {

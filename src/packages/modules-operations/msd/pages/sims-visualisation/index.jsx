@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import Modal from "react-modal";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -20,7 +19,7 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import D from "../../../../deprecated-locales";
-import * as A from "../../../../redux/actions/constants";
+
 import { RubricEssentialMsg } from "../../rubric-essantial-msg";
 import { SimsFieldTitle } from "../../sims-field-title";
 import { hasLabelLg2 } from "../../utils";
@@ -123,13 +122,11 @@ export default function SimsVisualisation({
    * Handle the deletion of a SIMS.
    */
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const handleNo = () => {
     setModalOpened(false);
   };
   const handleYes = () => {
     OperationsApi.deleteSims(sims).finally(() => {
-      dispatch({ type: A.DELETE_SIMS_SUCCESS });
       setModalOpened(false);
       navigate(`/operations/series/${sims.idSeries}`);
     });

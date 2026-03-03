@@ -9,9 +9,12 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.code.codeListLabel": "Libellé de la liste de codes",
         "physicalInstance.view.code.value": "Valeur",
         "physicalInstance.view.code.label": "Libellé",
-        "physicalInstance.view.code.addCodeTooltip": "Ajouter ce code",
-        "physicalInstance.view.code.fillFieldsTooltip":
-          "Remplissez au moins un champ pour ajouter un code",
+        "physicalInstance.view.code.addCode": "Ajouter un code",
+        "physicalInstance.view.code.noCodes": "Aucun code",
+        "physicalInstance.view.code.actionsMenu": "Menu des actions",
+        "physicalInstance.view.code.moveUp": "Monter",
+        "physicalInstance.view.code.moveDown": "Descendre",
+        "physicalInstance.view.code.deleteCode": "Supprimer",
       };
       return translations[key] || key;
     },
@@ -19,12 +22,11 @@ vi.mock("react-i18next", () => ({
 }));
 
 vi.mock("primereact/inputtext", () => ({
-  InputText: ({ id, value, onChange, onKeyDown, placeholder, ...props }: any) => (
+  InputText: ({ id, value, onChange, placeholder, ...props }: any) => (
     <input
       id={id}
       value={value}
       onChange={onChange}
-      onKeyDown={onKeyDown}
       placeholder={placeholder}
       data-testid={id || placeholder}
       {...props}
@@ -33,16 +35,39 @@ vi.mock("primereact/inputtext", () => ({
 }));
 
 vi.mock("primereact/button", () => ({
-  Button: ({ icon, onClick, disabled, tooltip }: any) => (
-    <button type="button" onClick={onClick} disabled={disabled} title={tooltip}>
-      {icon}
+  Button: ({ icon, onClick, label, ...props }: any) => (
+    <button type="button" onClick={onClick} {...props}>
+      {label || icon}
     </button>
   ),
 }));
 
+vi.mock("primereact/menu", () => ({
+  Menu: vi.fn().mockImplementation(() => null),
+}));
+
 vi.mock("primereact/datatable", () => ({
-  DataTable: ({ value, children }: any) => {
+  DataTable: ({ value, children, emptyMessage }: any) => {
     const columns = Array.isArray(children) ? children : [children];
+
+    if (!value || value.length === 0) {
+      return (
+        <table>
+          <thead>
+            <tr>
+              {columns.map((column: any, colIndex: number) => (
+                <th key={colIndex}>{column?.props?.header}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colSpan={columns.length}>{emptyMessage}</td>
+            </tr>
+          </tbody>
+        </table>
+      );
+    }
 
     return (
       <table>
@@ -58,7 +83,7 @@ vi.mock("primereact/datatable", () => ({
             <tr key={index} data-testid={`row-${index}`}>
               {columns.map((column: any, colIndex: number) => {
                 if (column?.props?.body) {
-                  return <td key={colIndex}>{column.props.body(row)}</td>;
+                  return <td key={colIndex}>{column.props.body(row, { rowIndex: index })}</td>;
                 }
                 return <td key={colIndex}>{row[column?.props?.field]}</td>;
               })}
@@ -79,6 +104,7 @@ describe("CodeListDataTable", () => {
   const mockOnCellEdit = vi.fn();
   const mockOnDeleteCode = vi.fn();
   const mockOnAddCode = vi.fn();
+  const mockOnMoveCode = vi.fn();
 
   const mockCodes: CodeTableRow[] = [
     { id: "code-1", value: "1", label: "Label 1", categoryId: "category-1" },
@@ -98,6 +124,7 @@ describe("CodeListDataTable", () => {
         onCellEdit={mockOnCellEdit}
         onDeleteCode={mockOnDeleteCode}
         onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
       />,
     );
 
@@ -113,6 +140,7 @@ describe("CodeListDataTable", () => {
         onCellEdit={mockOnCellEdit}
         onDeleteCode={mockOnDeleteCode}
         onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
       />,
     );
 
@@ -129,6 +157,7 @@ describe("CodeListDataTable", () => {
         onCellEdit={mockOnCellEdit}
         onDeleteCode={mockOnDeleteCode}
         onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
       />,
     );
 
@@ -147,171 +176,15 @@ describe("CodeListDataTable", () => {
         onCellEdit={mockOnCellEdit}
         onDeleteCode={mockOnDeleteCode}
         onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
       />,
     );
 
     expect(screen.getByRole("table")).toBeInTheDocument();
-    // 2 codes + 1 empty row
-    expect(screen.getAllByTestId(/^row-/)).toHaveLength(3);
+    expect(screen.getAllByTestId(/^row-/)).toHaveLength(2);
   });
 
-  it("should render empty row with placeholders", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-      />,
-    );
-
-    expect(screen.getByPlaceholderText("Valeur")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Libellé")).toBeInTheDocument();
-  });
-
-  it("should have disabled add button when empty row has no content", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-      />,
-    );
-
-    const addButton = screen.getByText("pi pi-plus");
-    expect(addButton).toBeDisabled();
-  });
-
-  it("should enable add button when empty row has content", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-      />,
-    );
-
-    const valueInput = screen.getByPlaceholderText("Valeur");
-    fireEvent.change(valueInput, { target: { value: "new-value" } });
-
-    const addButton = screen.getByText("pi pi-plus");
-    expect(addButton).not.toBeDisabled();
-  });
-
-  it("should call onAddCode when add button is clicked", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-      />,
-    );
-
-    const valueInput = screen.getByPlaceholderText("Valeur");
-    const labelInput = screen.getByPlaceholderText("Libellé");
-
-    fireEvent.change(valueInput, { target: { value: "new-value" } });
-    fireEvent.change(labelInput, { target: { value: "new-label" } });
-
-    const addButton = screen.getByText("pi pi-plus");
-    fireEvent.click(addButton);
-
-    expect(mockOnAddCode).toHaveBeenCalledWith("new-value", "new-label");
-  });
-
-  it("should call onAddCode when Enter is pressed in value input", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-      />,
-    );
-
-    const valueInput = screen.getByPlaceholderText("Valeur");
-    fireEvent.change(valueInput, { target: { value: "new-value" } });
-    fireEvent.keyDown(valueInput, { key: "Enter" });
-
-    expect(mockOnAddCode).toHaveBeenCalledWith("new-value", "");
-  });
-
-  it("should call onAddCode when Enter is pressed in label input", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-      />,
-    );
-
-    const labelInput = screen.getByPlaceholderText("Libellé");
-    fireEvent.change(labelInput, { target: { value: "new-label" } });
-    fireEvent.keyDown(labelInput, { key: "Enter" });
-
-    expect(mockOnAddCode).toHaveBeenCalledWith("", "new-label");
-  });
-
-  it("should not call onAddCode when empty row has no content", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-      />,
-    );
-
-    const valueInput = screen.getByPlaceholderText("Valeur");
-    fireEvent.keyDown(valueInput, { key: "Enter" });
-
-    expect(mockOnAddCode).not.toHaveBeenCalled();
-  });
-
-  it("should clear empty row inputs after adding a code", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-      />,
-    );
-
-    const valueInput = screen.getByPlaceholderText("Valeur") as HTMLInputElement;
-    const labelInput = screen.getByPlaceholderText("Libellé") as HTMLInputElement;
-
-    fireEvent.change(valueInput, { target: { value: "new-value" } });
-    fireEvent.change(labelInput, { target: { value: "new-label" } });
-
-    const addButton = screen.getByText("pi pi-plus");
-    fireEvent.click(addButton);
-
-    expect(valueInput.value).toBe("");
-    expect(labelInput.value).toBe("");
-  });
-
-  it("should call onDeleteCode when delete button is clicked", () => {
+  it("should render Add a code button", () => {
     render(
       <CodeListDataTable
         codeListLabel="Test Label"
@@ -320,13 +193,63 @@ describe("CodeListDataTable", () => {
         onCellEdit={mockOnCellEdit}
         onDeleteCode={mockOnDeleteCode}
         onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
       />,
     );
 
-    const deleteButtons = screen.getAllByText("pi pi-trash");
-    fireEvent.click(deleteButtons[0]);
+    expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
+  });
 
-    expect(mockOnDeleteCode).toHaveBeenCalledWith("code-1");
+  it("should call onAddCode when Add a code button is clicked", () => {
+    render(
+      <CodeListDataTable
+        codeListLabel="Test Label"
+        codes={mockCodes}
+        onCodeListLabelChange={mockOnCodeListLabelChange}
+        onCellEdit={mockOnCellEdit}
+        onDeleteCode={mockOnDeleteCode}
+        onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
+      />,
+    );
+
+    const addButton = screen.getByText("Ajouter un code");
+    fireEvent.click(addButton);
+
+    expect(mockOnAddCode).toHaveBeenCalledWith("", "");
+  });
+
+  it("should show empty message when no codes", () => {
+    render(
+      <CodeListDataTable
+        codeListLabel="Test Label"
+        codes={[]}
+        onCodeListLabelChange={mockOnCodeListLabelChange}
+        onCellEdit={mockOnCellEdit}
+        onDeleteCode={mockOnDeleteCode}
+        onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
+      />,
+    );
+
+    expect(screen.getByText("Aucun code")).toBeInTheDocument();
+  });
+
+  it("should render action menu button for each code", () => {
+    render(
+      <CodeListDataTable
+        codeListLabel="Test Label"
+        codes={mockCodes}
+        onCodeListLabelChange={mockOnCodeListLabelChange}
+        onCellEdit={mockOnCellEdit}
+        onDeleteCode={mockOnDeleteCode}
+        onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
+      />,
+    );
+
+    const menuButtons = screen.getAllByText("pi pi-ellipsis-v");
+    expect(menuButtons).toHaveLength(2);
   });
 
   it("should call onCellEdit when code value is edited", () => {
@@ -338,22 +261,43 @@ describe("CodeListDataTable", () => {
         onCellEdit={mockOnCellEdit}
         onDeleteCode={mockOnDeleteCode}
         onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
       />,
     );
 
-    // Find all inputs and filter out placeholders and the label input
     const inputs = screen.getAllByRole("textbox");
-    // The first input is the code list label, then we have value/label pairs for each code, then empty row
-    // mockCodes has 2 codes, so: 1 (label) + 2*2 (codes) + 2 (empty row) = 7 inputs
-    // Code value inputs are at positions 1, 3 (after the label input)
+    // First input is code list label, then value/label pairs for each code
     const codeValueInput = inputs[1] as HTMLInputElement;
 
-    // Verify it's the right input by checking its value
     expect(codeValueInput.value).toBe("1");
 
     fireEvent.change(codeValueInput, { target: { value: "updated-value" } });
 
     expect(mockOnCellEdit).toHaveBeenCalledWith(mockCodes[0], "value", "updated-value");
+  });
+
+  it("should call onCellEdit when code label is edited", () => {
+    render(
+      <CodeListDataTable
+        codeListLabel="Test Label"
+        codes={mockCodes}
+        onCodeListLabelChange={mockOnCodeListLabelChange}
+        onCellEdit={mockOnCellEdit}
+        onDeleteCode={mockOnDeleteCode}
+        onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
+      />,
+    );
+
+    const inputs = screen.getAllByRole("textbox");
+    // First input is code list label, then value/label pairs for each code
+    const codeLabelInput = inputs[2] as HTMLInputElement;
+
+    expect(codeLabelInput.value).toBe("Label 1");
+
+    fireEvent.change(codeLabelInput, { target: { value: "Updated Label" } });
+
+    expect(mockOnCellEdit).toHaveBeenCalledWith(mockCodes[0], "label", "Updated Label");
   });
 
   it("should render with empty codes array", () => {
@@ -365,11 +309,11 @@ describe("CodeListDataTable", () => {
         onCellEdit={mockOnCellEdit}
         onDeleteCode={mockOnDeleteCode}
         onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
       />,
     );
 
     expect(screen.getByRole("table")).toBeInTheDocument();
-    // Only empty row
-    expect(screen.getAllByTestId(/^row-/)).toHaveLength(1);
+    expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
   });
 });

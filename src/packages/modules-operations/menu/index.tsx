@@ -1,14 +1,11 @@
-import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import { MainMenu } from "@components/menu";
 
 import { UIMenuItem } from "@model/Menu";
 
 import D from "../../deprecated-locales";
-import { Sims } from "../../model/Sims";
-import { ReduxModel } from "../../redux/model";
-import { getOperationsSimsCurrent } from "../../redux/selectors";
+import { useSims } from "../hooks/useSims";
 
 const ACTIVE = "active";
 const defaultAttrs = { "aria-current": "page" };
@@ -68,25 +65,37 @@ const defaultPaths: Record<string, UIMenuItem> = {
   },
 };
 
-export const MenuOperations = ({ sims }: Readonly<{ sims: Sims }>) => {
-  const { pathname } = useLocation();
+const extractSimsIdFromPathname = (pathname: string): string | undefined => {
+  const match = pathname.match(/\/operations\/sims\/([^/]+)/);
+  return match ? match[1] : undefined;
+};
 
-  const paths = Object.entries(defaultPaths).reduce((acc, [key, object]) => {
-    let attrs = {};
-    if (object.attrs?.target === "_blank") {
-      attrs = {
-        target: "_blank",
+export const MenuOperations = () => {
+  const { pathname } = useLocation();
+  const params = useParams();
+
+  const simsId = params.id || extractSimsIdFromPathname(pathname);
+  const { sims } = useSims(pathname.includes("sims") ? simsId : undefined);
+
+  const paths = Object.entries(defaultPaths).reduce(
+    (acc, [key, object]) => {
+      let attrs = {};
+      if (object.attrs?.target === "_blank") {
+        attrs = {
+          target: "_blank",
+        };
+      }
+      return {
+        ...acc,
+        [key]: {
+          ...object,
+          className: "",
+          attrs,
+        },
       };
-    }
-    return {
-      ...acc,
-      [key]: {
-        ...object,
-        className: "",
-        attrs,
-      },
-    };
-  }, {}) as typeof defaultPaths;
+    },
+    {} as typeof defaultPaths,
+  );
 
   /**
    * If we are on the SIMS page, we have to check on which parent element we are working on.
@@ -94,13 +103,13 @@ export const MenuOperations = ({ sims }: Readonly<{ sims: Sims }>) => {
    * During the creation phase, we are checking the previous page.
    */
   if (pathname.includes("sims")) {
-    if (sims.idSeries || (paths.series.pathKey as RegExp).test(pathname)) {
+    if (sims?.idSeries || (paths.series.pathKey as RegExp).test(pathname)) {
       paths["series"]["className"] = ACTIVE;
       paths["series"]["attrs"] = defaultAttrs;
-    } else if (sims.idIndicator || (paths.indicators.pathKey as RegExp).test(pathname)) {
+    } else if (sims?.idIndicator || (paths.indicators.pathKey as RegExp).test(pathname)) {
       paths["indicators"]["className"] = ACTIVE;
       paths["indicators"]["attrs"] = defaultAttrs;
-    } else if (sims.idOperation || (paths.operations.pathKey as RegExp).test(pathname)) {
+    } else if (sims?.idOperation || (paths.operations.pathKey as RegExp).test(pathname)) {
       paths["operations"]["className"] = ACTIVE;
       paths["operations"]["attrs"] = defaultAttrs;
     }
@@ -117,6 +126,4 @@ export const MenuOperations = ({ sims }: Readonly<{ sims: Sims }>) => {
   return <MainMenu paths={Object.values(paths)} />;
 };
 
-export default connect((state: ReduxModel) => {
-  return { sims: getOperationsSimsCurrent(state) };
-})(MenuOperations);
+export default MenuOperations;

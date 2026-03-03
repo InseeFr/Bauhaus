@@ -1,16 +1,15 @@
 import { useCallback, useState } from "react";
-import { connect, useSelector } from "react-redux";
 
 import { SeeButton } from "@components/buttons/see";
 import { Select } from "@components/select-rmes";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { HasAccess } from "../../../auth/components/auth";
-import { getAllOptions, loadGeographies } from "../../../redux/geographies.action";
 import D from "../../i18n/build-dictionary";
 import SimsGeographyField from "./sims-geography-field";
 import SimsGeographyI18NLabel from "./sims-geography-i18n-label";
 import "./sims-geography-picker.css";
+import { useGeographiesOptions } from "./hooks";
 
 const accentsMap = new Map([
   ["A", "Á|À|Ã|Â|Ä"],
@@ -35,7 +34,7 @@ export const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
 
 const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLang = false }) => {
   const [territory, setTerritory] = useState();
-  const geographiesOptions = useSelector(getAllOptions);
+  const { geographiesOptions } = useGeographiesOptions();
   const geographiesOptionsLg2 = geographiesOptions.map((g) => ({
     id: g.id,
     label: g.labelLg2 ?? "",
@@ -107,8 +106,5 @@ const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLang = fa
     </>
   );
 };
-const mapDispatchToProps = {
-  loadGeographies: loadGeographies,
-};
 
-export default connect(undefined, mapDispatchToProps)(SimsGeographyPicker);
+export default SimsGeographyPicker;

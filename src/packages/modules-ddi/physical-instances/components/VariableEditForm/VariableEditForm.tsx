@@ -11,7 +11,7 @@ import type {
   CodeList,
   Category,
 } from "../../types/api";
-import { DdiXmlPreview } from "./DdiXmlPreview";
+import { DdiPreview } from "./DdiPreview";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
 
@@ -165,6 +165,12 @@ interface VariableEditFormProps {
     codeList?: CodeList;
     categories?: Category[];
   }) => void;
+  onPrevious?: () => void;
+  onNext?: () => void;
+  hasPrevious?: boolean;
+  hasNext?: boolean;
+  activeTabIndex?: number;
+  onTabChange?: (index: number) => void;
 }
 
 export const VariableEditForm = ({
@@ -173,9 +179,26 @@ export const VariableEditForm = ({
   isNew = false,
   onSave,
   onDuplicate,
+  onPrevious,
+  onNext,
+  hasPrevious = false,
+  hasNext = false,
+  activeTabIndex,
+  onTabChange,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setInternalActiveIndex] = useState(activeTabIndex ?? 0);
+
+  const setActiveIndex = (index: number) => {
+    setInternalActiveIndex(index);
+    onTabChange?.(index);
+  };
+
+  useEffect(() => {
+    if (activeTabIndex !== undefined && activeTabIndex !== activeIndex) {
+      setInternalActiveIndex(activeTabIndex);
+    }
+  }, [activeTabIndex]);
 
   const [state, dispatch] = useReducer(formReducer, {
     label: variable.label,
@@ -197,8 +220,10 @@ export const VariableEditForm = ({
   const hasValidationErrors = !state.name.trim() || !state.label.trim();
 
   useEffect(() => {
-    // Réinitialiser l'onglet actif au premier onglet
-    setActiveIndex(0);
+    // Réinitialiser l'onglet actif au premier onglet uniquement pour une nouvelle variable
+    if (isNew) {
+      setActiveIndex(0);
+    }
 
     dispatch({
       type: "RESET",
@@ -232,6 +257,7 @@ export const VariableEditForm = ({
     variable.dateRepresentation,
     variable.textRepresentation,
     variable.codeRepresentation,
+    isNew,
   ]);
 
   const updateNumericRepresentation = useCallback(
@@ -285,13 +311,32 @@ export const VariableEditForm = ({
           ...basePayload,
           textRepresentation: state.representation.TextRepresentation,
         };
-      case VARIABLE_TYPES.CODE:
+      case VARIABLE_TYPES.CODE: {
+        const codeList = state.representation.CodeList;
+        const categories = state.representation.Category || [];
+
+        // Filtrer les codes vides (sans valeur ET sans label) et les codes invalides
+        const validCodes = (codeList?.Code || []).filter((code) => {
+          if (!code || !code.CategoryReference) return false;
+          const category = categories.find((cat) => cat?.ID === code.CategoryReference?.ID);
+          const label = category?.Label?.Content?.["#text"] || "";
+          const value = code.Value || "";
+          return value.trim() !== "" || label.trim() !== "";
+        });
+
+        // Ne garder que les catégories liées aux codes valides
+        const validCategoryIds = new Set(validCodes.map((code) => code.CategoryReference?.ID));
+        const validCategories = categories.filter((cat) => cat && validCategoryIds.has(cat.ID));
+
+        const filteredCodeList = codeList ? { ...codeList, Code: validCodes } : undefined;
+
         return {
           ...basePayload,
           codeRepresentation: state.representation.CodeRepresentation,
-          codeList: state.representation.CodeList,
-          categories: state.representation.Category,
+          codeList: filteredCodeList,
+          categories: validCategories,
         };
+      }
       default:
         return basePayload;
     }
@@ -320,7 +365,7 @@ export const VariableEditForm = ({
     <Card
       title={
         isNew
-          ? t("physicalInstance.view.editVariable")
+          ? t("physicalInstance.view.newVariable")
           : `${t("physicalInstance.view.editVariable")} - ${variable.name}`
       }
       className="h-full"
@@ -343,11 +388,28 @@ export const VariableEditForm = ({
             disabled={hasValidationErrors}
             aria-label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
           />
+          <Button
+            type="button"
+            icon="pi pi-chevron-left"
+            outlined
+            severity="secondary"
+            onClick={onPrevious}
+            disabled={!hasPrevious || isNew}
+            aria-label={t("physicalInstance.view.previousVariable")}
+          />
+          <Button
+            type="button"
+            icon="pi pi-chevron-right"
+            outlined
+            severity="secondary"
+            onClick={onNext}
+            disabled={!hasNext || isNew}
+            aria-label={t("physicalInstance.view.nextVariable")}
+          />
         </div>
 
         <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
           <TabPanel
-            header={t("physicalInstance.view.tabs.information")}
             headerTemplate={(options) => {
               return (
                 <div
@@ -390,7 +452,6 @@ export const VariableEditForm = ({
           </TabPanel>
 
           <TabPanel
-            header={t("physicalInstance.view.tabs.representation")}
             headerTemplate={(options) => {
               return (
                 <div
@@ -426,12 +487,23 @@ export const VariableEditForm = ({
 
           <TabPanel
             headerClassName="ml-auto"
-            header={
-              <i className="pi pi-code" aria-label={t("physicalInstance.view.tabs.ddiXml")} />
-            }
+            headerTemplate={(options) => {
+              return (
+                <div
+                  className={`${options.className} flex align-items-center gap-2`}
+                  onClick={options.onClick}
+                >
+                  <i
+                    className="pi pi-code"
+                    style={{ lineHeight: "inherit" }}
+                    aria-label={t("physicalInstance.view.tabs.ddiPreview")}
+                  />
+                </div>
+              );
+            }}
           >
             {activeIndex === 2 && (
-              <DdiXmlPreview
+              <DdiPreview
                 variableId={variable.id}
                 variableName={state.name}
                 variableLabel={state.label}

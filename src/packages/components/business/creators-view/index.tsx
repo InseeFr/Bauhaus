@@ -14,7 +14,10 @@ interface OrganisationMapperProps {
  * Uses the V2 stamps map to retrieve organisation names.
  * Falls back to displaying the ID if no label is found.
  */
-const InseeOrganisationProvider = ({ organisations, children }: OrganisationMapperProps) => {
+const InseeOrganisationProvider = ({
+  organisations,
+  children,
+}: Readonly<OrganisationMapperProps>) => {
   const stampsMap = useV2StampsMap();
 
   const mappedLabels = useMemo(() => {
@@ -52,7 +55,11 @@ export const InseeOrganisationList = ({
   return (
     <InseeOrganisationProvider organisations={organisations}>
       {(response) => (
-        <List<string> items={response} getContent={(item) => item} getKey={(item) => item} />
+        <List<string>
+          items={response}
+          getContent={(item) => item}
+          getKey={(item, index) => item || `org-${index}`}
+        />
       )}
     </InseeOrganisationProvider>
   );
@@ -90,7 +97,11 @@ export const InseeOrganisationNotes = ({
           organisationsArray.length === 1 ? (
             <p>{response[0]}</p>
           ) : (
-            <List<string> items={response} getContent={(item) => item} getKey={(item) => item} />
+            <List<string>
+              items={response}
+              getContent={(item) => item}
+              getKey={(item, index) => item || `org-${index}`}
+            />
           );
 
         return <Note text={text} title={D1.creatorTitle} alone={true} allowEmpty={true} />;

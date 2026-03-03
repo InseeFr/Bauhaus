@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
 
 import { ApplicationTitle } from "@components/application-title";
 
@@ -11,7 +10,6 @@ import Root from "./packages/application/router";
 import { OidcProvider } from "./packages/auth/create-oidc";
 import BackToTop from "./packages/components/back-to-top";
 import D from "./packages/deprecated-locales";
-import configureStore from "./packages/redux/configure-store";
 import "./packages/styles/main.scss";
 import { getLang } from "./packages/utils/dictionnary";
 
@@ -50,7 +48,6 @@ const renderApp = (
   props?: { home: true },
 ) => {
   const { authType, lg1, lg2, version, ...properties } = initState;
-  const store = configureStore({});
 
   document.querySelector("html")!.setAttribute("lang", getLang());
 
@@ -60,21 +57,19 @@ const renderApp = (
   root.render(
     <OidcProvider fallback={<>Checking authentication ⌛️</>}>
       <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <AppContextProvider
-            lg1={lg1}
-            lg2={lg2}
-            version={version}
-            properties={properties}
-            authType={authType}
-          >
-            <ApplicationTitle />
-            <main>
-              <Component {...props} />
-              <BackToTop />
-            </main>
-          </AppContextProvider>
-        </Provider>
+        <AppContextProvider
+          lg1={lg1}
+          lg2={lg2}
+          version={version}
+          properties={properties}
+          authType={authType}
+        >
+          <ApplicationTitle />
+          <main>
+            <Component {...props} />
+            <BackToTop />
+          </main>
+        </AppContextProvider>
       </QueryClientProvider>
     </OidcProvider>,
   );
