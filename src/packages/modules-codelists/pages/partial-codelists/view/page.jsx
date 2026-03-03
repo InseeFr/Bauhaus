@@ -7,8 +7,7 @@ import { Deleting, Publishing, Loading } from "@components/loading";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { CodeListApi } from "../../../../sdk";
-import { API } from "../../../apis";
+import { CodelistsApi as API } from "@sdk/index";
 import D from "../../../i18n/build-dictionary";
 import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";
@@ -45,7 +44,7 @@ export const Component = (props) => {
         if (!idParent) {
           return;
         }
-        return CodeListApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
+        return API.getCodesListCodes(idParent, 1, 0).then((codes) => {
           return formatPartialCodelist(cl, codes.items);
         });
       });

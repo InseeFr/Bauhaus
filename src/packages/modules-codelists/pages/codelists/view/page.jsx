@@ -6,7 +6,7 @@ import { Loading, Publishing } from "@components/loading";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { API } from "../../../apis";
+import { CodelistsApi as API } from "@sdk/index";
 import D from "../../../i18n/build-dictionary";
 import { formatCodelist } from "../../../utils/formatCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";

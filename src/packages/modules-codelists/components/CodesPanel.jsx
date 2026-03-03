@@ -7,7 +7,7 @@ import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
-import { API } from "../apis";
+import { CodelistsApi as API } from "@sdk/index";
 import D, { D1, D2 } from "../i18n/build-dictionary";
 import { validateCode } from "../utils/validateCode";
 import { CollapsiblePanel } from "./CollapsiblePanel";

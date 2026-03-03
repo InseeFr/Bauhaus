@@ -1,6 +1,6 @@
 import { buildApi } from "./build-api";
 
-export * from "./codes-list-api";
+export * from "./codelists-api";
 export * from "./concepts-api";
 export * from "./datasets-api";
 export * from "./distributions-api";

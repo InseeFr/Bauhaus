@@ -7,7 +7,7 @@ import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { API } from "../../../apis";
+import { CodelistsApi as API } from "@sdk/index";
 import D from "../../../i18n/build-dictionary";
 import { formatLabel } from "../../../utils/formatLabel";
 import { HomePageMenu } from "./menu";

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 
-import { API } from "../../../apis";
+import { CodelistsApi as API } from "@sdk/index";
 import { formatCodelist } from "../../../utils/formatCodelist";
 import { CodelistDetailEdit } from "./components/CodelistDetailEdit";
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";

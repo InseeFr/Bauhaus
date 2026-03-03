@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 
-import { CodeListApi } from "../../../../sdk";
-import { API } from "../../../apis";
+import { CodelistsApi as API } from "@sdk/index";
 import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { PartialCodelistDetailEdit } from "./components/PartialCodelistDetailEdit";
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
@@ -83,7 +82,7 @@ export const Component = (props) => {
           const idParent = globalCodeListOptions.find(
             (parent) => parent.iriParent === cl.iriParent,
           ).value;
-          return CodeListApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
+          return API.getCodesListCodes(idParent, 1, 0).then((codes) => {
             setCodelist(formatPartialCodelist(cl, codes.items));
           });
         })

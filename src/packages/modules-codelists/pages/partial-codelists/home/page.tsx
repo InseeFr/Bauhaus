@@ -10,7 +10,7 @@ import { VerticalMenu } from "@components/vertical-menu";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { API } from "../../../apis";
+import { CodelistsApi as API } from "@sdk/index";
 import D from "../../../i18n/build-dictionary";
 import { formatLabel } from "../../../utils/formatLabel";
 
