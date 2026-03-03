@@ -20,4 +20,4 @@ const ZodCodeList = z.object({
   disseminationStatus: mandatoryAndNotEmptySelectField(MainDictionary.disseminationStatusTitle),
 });
 
-export const validate = (codelist) => formatValidation(ZodCodeList)(codelist);
+export const validate = formatValidation(ZodCodeList);
