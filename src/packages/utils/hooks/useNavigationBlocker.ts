@@ -15,7 +15,10 @@ export interface UseNavigationBlockerOptions {
  * like "Changes you made may not be saved" for security reasons. Custom messages
  * passed to onBlock are only shown for internal React Router navigation.
  */
-export function useNavigationBlocker({ shouldBlock, onBlock }: UseNavigationBlockerOptions) {
+export function useNavigationBlocker({
+  shouldBlock,
+  onBlock,
+}: UseNavigationBlockerOptions) {
   // Block internal navigation using React Router
   // Only block if pathname changes, not query parameters or hash
   const blocker = useBlocker(({ currentLocation, nextLocation }) => {
