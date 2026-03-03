@@ -51,11 +51,7 @@ export const SimsFieldTitle = ({ msd, secondLang, currentSection }) => {
   );
 };
 
-export const SimsFieldTitleIndicatorBridge = ({
-  msd,
-  currentSection,
-  secondLang,
-}) => {
+export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, secondLang }) => {
   const isEmpty = checkIsEmpty(msd, currentSection, secondLang);
   return <SimsFieldTitleIndicator msd={msd} isEmpty={isEmpty} />;
 };
