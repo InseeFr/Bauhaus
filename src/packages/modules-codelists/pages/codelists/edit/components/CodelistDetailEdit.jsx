@@ -13,7 +13,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import MainDictionary from "../../../../../deprecated-locales/build-dictionary";
 import D, { D1, D2 } from "../../../../i18n/build-dictionary";
-import { validate as validateCodelist } from "../validation";
+import { validate } from "../validation";
 import { CodesPanel } from "../../../../components/CodesPanel";
 import "./CodelistDetailEdit.css";
 import { UriInputGroup } from "./UriInputGroup";
@@ -69,7 +69,7 @@ export const CodelistDetailEdit = ({
   );
 
   const handleSaveClick = useCallback(() => {
-    const clientSideErrors = validateCodelist(codelist);
+    const clientSideErrors = validate(codelist);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
       setClientSideErrors(clientSideErrors);

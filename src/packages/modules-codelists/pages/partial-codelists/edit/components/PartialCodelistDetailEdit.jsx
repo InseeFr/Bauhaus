@@ -15,7 +15,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import MainDictionary from "../../../../../deprecated-locales/build-dictionary";
 import { CodeListApi } from "../../../../../sdk";
 import D, { D1, D2 } from "../../../../i18n/build-dictionary";
-import { validate as validatePartialCodelist } from "../validation";
+import { validate } from "../validation";
 import { partialInGlobalCodes } from "../../../../utils/partialInGlobalCodes";
 import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
 import { Picker } from "./Picker";
@@ -154,7 +154,7 @@ export const PartialCodelistDetailEdit = ({
   );
 
   const handleSaveClick = useCallback(() => {
-    const clientSideErrors = validatePartialCodelist(codelist);
+    const clientSideErrors = validate(codelist);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
       setClientSideErrors(clientSideErrors);
