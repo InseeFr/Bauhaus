@@ -16,6 +16,18 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "codelists.pluralTitle": "Listes de codes",
+        "partial-codelists.pluralTitle": "Listes de codes partielles",
+      };
+      return translations[key] || key;
+    },
+  }),
+}));
+
 vi.mock("../../auth/components/auth", async () => {
   const actual = await vi.importActual("../../auth/components/auth");
   return {
@@ -56,7 +68,7 @@ describe("Menu", () => {
             pathKey: "codelists",
             className: "active",
             attrs: { "aria-current": "page" },
-            label: D.codelistsTitle,
+            label: "Listes de codes",
             order: 1,
           },
         ],
@@ -86,7 +98,7 @@ describe("Menu", () => {
             pathKey: "partial",
             className: "active",
             attrs: { "aria-current": "page" },
-            label: D.codelistsPartialTitle,
+            label: "Listes de codes partielles",
             order: 2,
           },
           {
@@ -94,7 +106,7 @@ describe("Menu", () => {
             pathKey: "codelists",
             className: null,
             attrs: null,
-            label: D.codelistsTitle,
+            label: "Listes de codes",
             order: 1,
           },
         ],
@@ -122,7 +134,7 @@ describe("Menu", () => {
             pathKey: "partial",
             className: null,
             attrs: null,
-            label: D.codelistsPartialTitle,
+            label: "Listes de codes partielles",
             order: 2,
           },
           {
@@ -130,7 +142,7 @@ describe("Menu", () => {
             pathKey: "codelists",
             className: "active",
             attrs: { "aria-current": "page" },
-            label: D.codelistsTitle,
+            label: "Listes de codes",
             order: 1,
           },
         ],
