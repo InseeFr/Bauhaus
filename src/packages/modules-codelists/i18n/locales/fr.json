@@ -37,7 +37,7 @@
     "contributors": "Gestionnaires",
     "disseminationStatus": "Statut de diffusion",
     "description": "Description",
-    "deleteAllCodes": "Supprimer tous les codes",
+    "removeAllCodes": "Retirer tous les codes",
     "addAllCodes": "Ajouter tous les codes",
     "codesPlaceholder": "Entrez le libellé d'un code...",
     "invalidCharactersError": "La valeur renseignée dans ce champ possède des caractères invalides"
@@ -47,8 +47,12 @@
     "pluralTitle": "Codes",
     "label": "Libellé",
     "description": "Description",
-    "duplicateError": "Le code créé existe déjà",
     "searchByCode": "Rechercher sur les codes :",
-    "searchByLabel": "Rechercher sur les libellés :"
+    "searchByLabel": "Rechercher sur les libellés :",
+    "broader": "Parents",
+    "narrower": "Enfants",
+    "closeMatch": "Équivalents",
+    "removeCode": "Retirer le code de la liste",
+    "duplicateError": "Le code créé existe déjà"
   }
 }

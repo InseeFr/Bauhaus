@@ -1,17 +1,16 @@
+import i18next from "i18next";
 import { z } from "zod";
 
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
 
-import D, { D1, D2 } from "../i18n/build-dictionary";
-
 const ZodCode = (shouldCheckDuplicate, codes) =>
   z.object({
-    code: mandatoryAndNotEmptyTextField(D.idTitle).refine(
+    code: mandatoryAndNotEmptyTextField(i18next.t("codes.identifier")).refine(
       (value) => !shouldCheckDuplicate || !codes.some((c) => c.code === value),
-      { error: D.ErrorDoubleCode },
+      { error: i18next.t("codes.duplicateError") },
     ),
-    labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
-    labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
+    labelLg1: mandatoryAndNotEmptyTextField(i18next.t("codes.label", { lng: "fr" })),
+    labelLg2: mandatoryAndNotEmptyTextField(i18next.t("codes.label", { lng: "en" })),
   });
 
 export const validateCode = (code, codes, updateMode) => {

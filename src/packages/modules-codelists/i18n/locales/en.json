@@ -47,8 +47,12 @@
     "pluralTitle": "Codes",
     "label": "Label",
     "description": "Description",
-    "duplicateError": "The created code already exists",
     "searchByCode": "Search on codes :",
-    "searchByLabel": "Search on labels :"
+    "searchByLabel": "Search on labels :",
+    "broader": "Parents",
+    "narrower": "Children",
+    "closeMatch": "Matches",
+    "removeCode": "Remove code from the list",
+    "duplicateError": "The created code already exists"
   }
 }

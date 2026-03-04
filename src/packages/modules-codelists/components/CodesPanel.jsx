@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { SeeButton } from "@components/buttons/see";
 import { ClientSideError, GlobalClientSideErrorBloc } from "@components/errors-bloc";
@@ -8,7 +9,6 @@ import { Row } from "@components/layout";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { CodelistsApi as API } from "@sdk/index";
-import D, { D1, D2 } from "../i18n/build-dictionary";
 import { validateCode } from "../utils/validateCode";
 import { CollapsiblePanel } from "./CollapsiblePanel";
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
@@ -17,8 +17,12 @@ import "./CodesPanel.css";
 import { Table } from "./Table";
 
 const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation, codelist }) => {
+  const { t } = useTranslation();
+
   const [code, setCode] = useState({});
+
   const [clientSideErrors, setClientSideErrors] = useState({});
+
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -61,7 +65,7 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
       )}
       <Row>
         <div className="col-md-12 form-group">
-          <LabelRequired htmlFor="code">{D1.codeTitle}</LabelRequired>
+          <LabelRequired htmlFor="code">{t("codes.title")}</LabelRequired>
           <TextInput
             disabled={!creation}
             id="code"
@@ -76,7 +80,7 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
       </Row>
       <Row>
         <div className="col-md-6 form-group">
-          <LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
+          <LabelRequired htmlFor="labelLg1">{t("codes.label", { lng: "fr" })}</LabelRequired>
           <TextInput
             id="labelLg1"
             name="labelLg1"
@@ -91,7 +95,7 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
           ></ClientSideError>
         </div>
         <div className="col-md-6 form-group">
-          <LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
+          <LabelRequired htmlFor="labelLg2">{t("codes.label", { lng: "en" })}</LabelRequired>
           <TextInput
             id="labelLg2"
             name="labelLg2"
@@ -108,7 +112,7 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
       </Row>
       <Row>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
+          <label htmlFor="descriptionLg1">{t("codes.description", { lng: "fr" })}</label>
           <TextInput
             id="descriptionLg1"
             name="descriptionLg1"
@@ -117,7 +121,7 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
           />
         </div>
         <div className="col-md-6 form-group">
-          <label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
+          <label htmlFor="descriptionLg2">{t("codes.description", { lng: "en" })}</label>
           <TextInput
             id="descriptionLg2"
             name="descriptionLg2"
@@ -131,6 +135,8 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
 };
 
 export const CodesPanel = ({ codelist, hidden, editable }) => {
+  const { t } = useTranslation();
+
   const [codes, setCodes] = useState([]);
 
   const [searchCode, setSearchCode] = useState("");
@@ -211,8 +217,8 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
               onClick={() => {
                 API.deleteCodesDetailedCodelist(codelist.id, code).then(() => fetchCodes());
               }}
-              aria-label={D.remove}
-              title={D.remove}
+              aria-label={t("codes.removeCode")}
+              title={t("codes.removeCode")}
             >
               <span className="glyphicon glyphicon-minus"></span>
             </button>
@@ -229,8 +235,7 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
         hidden={hidden}
         title={
           <>
-            {D.codesTitle}
-
+            {t("codes.pluralTitle")}
             {editable && <CodesPanelAddButton codelist={codelist} onHandlePanel={onHandlePanel} />}
           </>
         }
@@ -238,7 +243,7 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
       >
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="search-code">{D.codesSearchByCode}</label>
+            <label htmlFor="search-code">{t("codes.searchByCode")}</label>
             <TextInput
               id="search-code"
               value={searchCode}
@@ -246,7 +251,7 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="search-label">{D.codesSearchByLabel}</label>
+            <label htmlFor="search-label">{t("codes.searchByLabel")}</label>
             <TextInput
               id="search-label"
               value={searchLabel}
