@@ -75,7 +75,7 @@ export const DumbCodelistPartialDetailEdit = ({
     [codelist, handleParentCode, globalCodeListOptions],
   );
 
-  const { datas: stamps } = useUserStamps();
+  const { data: stamps } = useUserStamps();
   const stamp = stamps[0]?.stamp;
   const isContributor = useAuthorizationGuard("CODESLIST_PARTIALCODESLIST", "CREATE");
 

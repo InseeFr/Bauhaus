@@ -143,7 +143,8 @@ describe("<SearchFormList />", () => {
     useUrlQueryParameters.mockReturnValue({ form });
 
     const { container } = renderWithRouter(<SearchFormList data={data} />);
-    expect(container.querySelectorAll("li")).toHaveLength(6);
+    // Select only list items with class 'list-group-item' to exclude pagination items
+    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(6);
   });
 
   it("should filter by prefLabelLg1", () => {
@@ -151,20 +152,23 @@ describe("<SearchFormList />", () => {
     useUrlQueryParameters.mockReturnValue({ form });
 
     const { container } = renderWithRouter(<SearchFormList data={data} />);
-    expect(container.querySelectorAll("li")).toHaveLength(1);
+    // Select only list items with class 'list-group-item' to exclude pagination items
+    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
   });
   it("should filter by typeCode", () => {
     const form = { typeCode: "S" };
     useUrlQueryParameters.mockReturnValue({ form });
     const { container } = renderWithRouter(<SearchFormList data={data} />);
-    expect(container.querySelectorAll("li")).toHaveLength(3);
+    // Select only list items with class 'list-group-item' to exclude pagination items
+    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(3);
   });
   it("should filter by creators", async () => {
     const form = { creator: "DG57-C003" };
     useUrlQueryParameters.mockReturnValue({ form });
     const { container } = renderWithRouter(<SearchFormList data={data} />);
 
-    expect(container.querySelectorAll("li")).toHaveLength(1);
+    // Select only list items with class 'list-group-item' to exclude pagination items
+    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
   });
 
   it("should filter by publishers", async () => {
@@ -172,7 +176,8 @@ describe("<SearchFormList />", () => {
     useUrlQueryParameters.mockReturnValue({ form });
     const { container } = renderWithRouter(<SearchFormList data={data} />);
 
-    expect(container.querySelectorAll("li")).toHaveLength(1);
+    // Select only list items with class 'list-group-item' to exclude pagination items
+    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
   });
 
   it("should filter by dataCollector", async () => {
@@ -180,6 +185,7 @@ describe("<SearchFormList />", () => {
     useUrlQueryParameters.mockReturnValue({ form });
     const { container } = renderWithRouter(<SearchFormList data={data} />);
 
-    expect(container.querySelectorAll("li")).toHaveLength(1);
+    // Select only list items with class 'list-group-item' to exclude pagination items
+    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
   });
 });

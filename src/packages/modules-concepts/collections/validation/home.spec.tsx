@@ -60,7 +60,8 @@ describe("CollectionsToValidate", () => {
         />,
       );
 
-      const returnButton = screen.getByRole("link");
+      // Use getByText since there are now multiple links (pagination adds links)
+      const returnButton = screen.getByText("Back").closest("a");
       expect(returnButton).toHaveAttribute("href", "/collections");
     });
   });
@@ -128,7 +129,8 @@ describe("CollectionsToValidate", () => {
         />,
       );
 
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
       expect(searchInput).toBeInTheDocument();
     });
 
@@ -140,7 +142,8 @@ describe("CollectionsToValidate", () => {
         />,
       );
 
-      const searchInput = screen.getByRole("textbox");
+      // Use getByPlaceholderText since pagination adds another textbox
+      const searchInput = screen.getByPlaceholderText("Label...");
       fireEvent.change(searchInput, { target: { value: "Collection A" } });
 
       expect(searchInput).toHaveValue("Collection A");
