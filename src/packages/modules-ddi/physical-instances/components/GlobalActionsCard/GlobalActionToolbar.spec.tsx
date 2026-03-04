@@ -15,6 +15,10 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+vi.mock("../../../../auth/components/auth", () => ({
+  HasAccess: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
 vi.mock("primereact/button", () => ({
   Button: ({ label, onClick, icon, ...props }: any) => (
     <button type="button" onClick={onClick} {...props}>

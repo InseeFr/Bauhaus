@@ -2,6 +2,7 @@ import { Row } from "@components/layout";
 import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
+import { AppDevTools } from "@components/devtools/AppDevTools";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -97,6 +98,7 @@ export const Component = () => {
       />
 
       <Toast ref={toast} />
+      <AppDevTools />
     </div>
   );
 };
