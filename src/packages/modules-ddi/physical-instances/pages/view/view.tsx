@@ -22,6 +22,7 @@ import { Loading } from "../../../../components/loading";
 import { DDIApi } from "../../../../sdk";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
 import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
@@ -37,6 +38,7 @@ export const Component = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
+  const defaultLocale = useDefaultLocale();
 
   useEffect(() => {
     if (title && title !== state.formData.label) {
@@ -700,6 +702,7 @@ export const Component = () => {
           agencyId: agencyId!,
           data,
           title,
+          defaultLocale,
         });
 
       // Sauvegarder la nouvelle physical instance via l'API
