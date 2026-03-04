@@ -1,6 +1,24 @@
 import NewDictionary from "../../i18n";
-import D, { D1, D2 } from "../i18n/build-dictionary";
 import { validateCode } from "./validateCode";
+
+vi.mock("i18next", () => ({
+  default: {
+    t: (key: string, options?: { lng?: string }) => {
+      const translations: Record<string, Record<string, string>> = {
+        fr: {
+          "codes.title": "Code",
+          "codes.label": "Libellé",
+          "codes.duplicateError": "Le code créé existe déjà",
+        },
+        en: {
+          "codes.label": "Label",
+        },
+      };
+      const lng = options?.lng || "fr";
+      return translations[lng]?.[key] || key;
+    },
+  },
+}));
 
 describe("validateCode", () => {
   it("should return errors for missing mandatory fields", () => {
@@ -10,13 +28,13 @@ describe("validateCode", () => {
 
     const result = validateCode(code, codes, updateMode);
 
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D.idTitle));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D1.labelTitle));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D2.labelTitle));
+    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty("Code"));
+    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty("Libellé"));
+    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty("Label"));
 
-    expect(result.fields.code).toBe(NewDictionary.errors.mandatoryProperty(D.idTitle));
-    expect(result.fields.labelLg1).toBe(NewDictionary.errors.mandatoryProperty(D1.labelTitle));
-    expect(result.fields.labelLg2).toBe(NewDictionary.errors.mandatoryProperty(D2.labelTitle));
+    expect(result.fields.code).toBe(NewDictionary.errors.mandatoryProperty("Code"));
+    expect(result.fields.labelLg1).toBe(NewDictionary.errors.mandatoryProperty("Libellé"));
+    expect(result.fields.labelLg2).toBe(NewDictionary.errors.mandatoryProperty("Label"));
   });
 
   it("should return error for duplicate code when not in update mode", () => {
@@ -30,8 +48,8 @@ describe("validateCode", () => {
 
     const result = validateCode(code, codes, updateMode);
 
-    expect(result.errorMessage).toContain(D.ErrorDoubleCode);
-    expect(result.fields.code).toBe(D.ErrorDoubleCode);
+    expect(result.errorMessage).toContain("Le code créé existe déjà");
+    expect(result.fields.code).toBe("Le code créé existe déjà");
   });
 
   it("should pass validation for valid code and no duplicate", () => {

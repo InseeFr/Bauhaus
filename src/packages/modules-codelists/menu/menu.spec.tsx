@@ -6,7 +6,6 @@ import { MainMenu } from "@components/menu";
 import { Menu } from "./menu";
 import { useAuthorizationGuard } from "../../auth/components/auth";
 import { renderWithRouter } from "../../tests/render";
-import D from "../i18n/build-dictionary";
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");

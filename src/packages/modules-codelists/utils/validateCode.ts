@@ -5,7 +5,7 @@ import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validati
 
 const ZodCode = (shouldCheckDuplicate, codes) =>
   z.object({
-    code: mandatoryAndNotEmptyTextField(i18next.t("codes.identifier")).refine(
+    code: mandatoryAndNotEmptyTextField(i18next.t("codes.title")).refine(
       (value) => !shouldCheckDuplicate || !codes.some((c) => c.code === value),
       { error: i18next.t("codes.duplicateError") },
     ),
