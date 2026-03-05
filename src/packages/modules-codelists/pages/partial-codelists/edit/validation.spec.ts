@@ -1,7 +1,27 @@
-import NewDictionary from "../../../../i18n";
-import D, { D1, D2 } from "../../../i18n/build-dictionary";
-import MainDictionary from "./../../../../deprecated-locales/build-dictionary";
 import { validate } from "./validation";
+
+vi.mock("i18next", () => ({
+  default: {
+    t: (key: string, options?: { lng?: string }) => {
+      const translations: Record<string, Record<string, string>> = {
+        fr: {
+          "partial-codelists.identifier": "Identifiant",
+          "partial-codelists.invalidCharactersError":
+            "La valeur renseignée dans ce champ contient des caractères invalides",
+          "partial-codelists.parentCodelist": "Liste de codes parent",
+          "partial-codelists.label": "Libellé",
+          "partial-codelists.creator": "Propriétaire",
+          "partial-codelists.disseminationStatus": "Statut de diffusion",
+        },
+        en: {
+          "partial-codelists.label": "Label",
+        },
+      };
+      const lng = options?.lng || "fr";
+      return translations[lng]?.[key] || key;
+    },
+  },
+}));
 
 describe("validate", () => {
   it("should return errors for missing mandatory fields", () => {
@@ -9,22 +29,27 @@ describe("validate", () => {
 
     const result = validate(codelist);
 
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D.idTitle));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D.parentCodelist));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D1.labelTitle));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D2.labelTitle));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D.creator));
+    expect(result.errorMessage).toContain("The property <strong>Identifiant</strong> is required.");
     expect(result.errorMessage).toContain(
-      NewDictionary.errors.mandatoryProperty(MainDictionary.disseminationStatusTitle),
+      "The property <strong>Liste de codes parent</strong> is required.",
     );
-
-    expect(result.fields.id).toBe(NewDictionary.errors.mandatoryProperty(D.idTitle));
-    expect(result.fields.parentCode).toBe(NewDictionary.errors.mandatoryProperty(D.parentCodelist));
-    expect(result.fields.labelLg1).toBe(NewDictionary.errors.mandatoryProperty(D1.labelTitle));
-    expect(result.fields.labelLg2).toBe(NewDictionary.errors.mandatoryProperty(D2.labelTitle));
-    expect(result.fields.creator).toBe(NewDictionary.errors.mandatoryProperty(D.creator));
+    expect(result.errorMessage).toContain("The property <strong>Libellé</strong> is required.");
+    expect(result.errorMessage).toContain("The property <strong>Label</strong> is required.");
+    expect(result.errorMessage).toContain(
+      "The property <strong>Propriétaire</strong> is required.",
+    );
+    expect(result.errorMessage).toContain(
+      "The property <strong>Statut de diffusion</strong> is required.",
+    );
+    expect(result.fields.id).toBe("The property <strong>Identifiant</strong> is required.");
+    expect(result.fields.parentCode).toBe(
+      "The property <strong>Liste de codes parent</strong> is required.",
+    );
+    expect(result.fields.labelLg1).toBe("The property <strong>Libellé</strong> is required.");
+    expect(result.fields.labelLg2).toBe("The property <strong>Label</strong> is required.");
+    expect(result.fields.creator).toBe("The property <strong>Propriétaire</strong> is required.");
     expect(result.fields.disseminationStatus).toBe(
-      NewDictionary.errors.mandatoryProperty(MainDictionary.disseminationStatusTitle),
+      "The property <strong>Statut de diffusion</strong> is required.",
     );
   });
 
@@ -40,8 +65,12 @@ describe("validate", () => {
 
     const result = validate(codelist);
 
-    expect(result.errorMessage).toContain(D.validCharactersProperty(D1.idTitle));
-    expect(result.fields.id).toBe(D.validCharactersProperty(D1.idTitle));
+    expect(result.errorMessage).toContain(
+      "La valeur renseignée dans ce champ contient des caractères invalides",
+    );
+    expect(result.fields.id).toBe(
+      "La valeur renseignée dans ce champ contient des caractères invalides",
+    );
   });
 
   it("should pass validation for valid codelist", () => {

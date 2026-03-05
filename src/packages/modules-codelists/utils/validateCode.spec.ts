@@ -1,4 +1,3 @@
-import NewDictionary from "../../i18n";
 import { validateCode } from "./validateCode";
 
 vi.mock("i18next", () => ({
@@ -28,13 +27,13 @@ describe("validateCode", () => {
 
     const result = validateCode(code, codes, updateMode);
 
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty("Code"));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty("Libellé"));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty("Label"));
+    expect(result.errorMessage).toContain("The property <strong>Code</strong> is required.");
+    expect(result.errorMessage).toContain("The property <strong>Libellé</strong> is required.");
+    expect(result.errorMessage).toContain("The property <strong>Label</strong> is required.");
 
-    expect(result.fields.code).toBe(NewDictionary.errors.mandatoryProperty("Code"));
-    expect(result.fields.labelLg1).toBe(NewDictionary.errors.mandatoryProperty("Libellé"));
-    expect(result.fields.labelLg2).toBe(NewDictionary.errors.mandatoryProperty("Label"));
+    expect(result.fields.code).toBe("The property <strong>Code</strong> is required.");
+    expect(result.fields.labelLg1).toBe("The property <strong>Libellé</strong> is required.");
+    expect(result.fields.labelLg2).toBe("The property <strong>Label</strong> is required.");
   });
 
   it("should return error for duplicate code when not in update mode", () => {
