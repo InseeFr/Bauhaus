@@ -8,7 +8,6 @@ import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { CodelistsApi as API } from "@sdk/index";
-import D from "../../../i18n/build-dictionary";
 import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";
 import { PartialCodelistDetailView } from "./components/PartialCodelistDetailView";
@@ -70,7 +69,7 @@ export const Component = (props) => {
         goBack("/codelists");
       })
       .catch((error) => {
-        setServerSideError(D["errors_" + JSON.parse(error).code]);
+        setServerSideError(error);
       })
       .finally(() => {
         setDeleting(false);

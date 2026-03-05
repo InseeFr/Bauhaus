@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { TextInput } from "@components/form/input";
@@ -11,10 +12,11 @@ import { PickerItem } from "@components/picker-item";
 
 import { filterDeburr } from "@utils/array-utils";
 
-import D from "../../../../i18n/build-dictionary";
 import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
 
 export const Picker = ({ panelTitle, codes, addAll, removeAll, addAction, removeAction }) => {
+  const { t } = useTranslation();
+
   const [searchLabel, setSearchLabel] = useState("");
 
   const getCodesByStatus = () => {
@@ -45,10 +47,10 @@ export const Picker = ({ panelTitle, codes, addAll, removeAll, addAction, remove
     <div className="container">
       <ActionToolbar>
         <button type="button" className="btn wilco-btn btn-lg col-md-4" onClick={removeAll}>
-          {D.removeAll}
+          {t("partial-codelists.removeAllCodes")}
         </button>
         <button type="button" className="btn wilco-btn btn-lg col-md-4" onClick={addAll}>
-          {D.addAll}
+          {t("partial-codelists.addAllCodes")}
         </button>
       </ActionToolbar>
       <Row>
@@ -59,7 +61,7 @@ export const Picker = ({ panelTitle, codes, addAll, removeAll, addAction, remove
           <TextInput
             value={searchLabel}
             onChange={(e) => setSearchLabel(e.target.value)}
-            placeholder={D.searchLabelPlaceholder}
+            placeholder={t("partial-codelists.codesPlaceholder")}
           />
           <Pagination itemEls={toAddElements} />
         </div>

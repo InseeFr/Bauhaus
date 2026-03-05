@@ -40,11 +40,15 @@
     "removeAllCodes": "Retirer tous les codes",
     "addAllCodes": "Ajouter tous les codes",
     "codesPlaceholder": "Entrez le libellé d'un code...",
-    "invalidCharactersError": "La valeur renseignée dans ce champ possède des caractères invalides"
+    "invalidCharactersError": "La valeur renseignée dans ce champ contient des caractères invalides",
+    "deletionConfirmationMessage": "Vous êtes sur le point de supprimer définitivement cette liste de codes partielle. Êtes-vous sûr ?",
+    "globalInformation": "Informations générales",
+    "elements": "Élements"
   },
   "codes": {
     "title": "Code",
     "pluralTitle": "Codes",
+    "identifier": "Identifiant",
     "label": "Libellé",
     "description": "Description",
     "searchByCode": "Rechercher sur les codes :",

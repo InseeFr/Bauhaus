@@ -7,7 +7,6 @@ import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { CodelistsApi as API } from "@sdk/index";
-import D from "../../../i18n/build-dictionary";
 import { formatCodelist } from "../../../utils/formatCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";
 import { CodelistDetailView } from "./components/CodelistDetailView";
@@ -54,7 +53,7 @@ export const Component = (props) => {
         goBack("/codelists");
       })
       .catch((error) => {
-        setServerSideError(D["errors_" + JSON.parse(error).code]);
+        setServerSideError(error);
         setLoading(false);
         setModalOpened(false);
       });

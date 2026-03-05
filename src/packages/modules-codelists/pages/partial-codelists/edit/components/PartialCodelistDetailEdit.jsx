@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { useState, useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -12,9 +13,7 @@ import { Select } from "@components/select-rmes";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import MainDictionary from "../../../../../deprecated-locales/build-dictionary";
 import { CodeListApi } from "../../../../../sdk";
-import D, { D1, D2 } from "../../../../i18n/build-dictionary";
 import { validate } from "../validation";
 import { partialInGlobalCodes } from "../../../../utils/partialInGlobalCodes";
 import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
@@ -37,6 +36,8 @@ export const PartialCodelistDetailEdit = ({
   globalCodeListOptions = EMPTY_ARRAY,
   serverSideError,
 }) => {
+  const { t } = useTranslation();
+
   const [codelist, setCodelist] = useState(defaultCodelist);
 
   const [parentCodes, setParentCodes] = useState([]);
@@ -45,7 +46,7 @@ export const PartialCodelistDetailEdit = ({
 
   const [submitting, setSubmitting] = useState(false);
 
-  useTitle(D.codelistsPartialTitle, codelist?.labelLg1);
+  useTitle(t("partial-codelists.pluralTitle"), codelist?.labelLg1);
 
   const resetErrorsMessages = () =>
     setClientSideErrors({
@@ -177,11 +178,11 @@ export const PartialCodelistDetailEdit = ({
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      {serverSideError && <ErrorBloc error={serverSideError} D={MainDictionary} />}
+      {serverSideError && <ErrorBloc error={serverSideError} />}
       <form>
         <Row>
           <div className="col-md-12 form-group">
-            <LabelRequired htmlFor="id">{D1.idTitle}</LabelRequired>
+            <LabelRequired htmlFor="id">{t("partial-codelists.identifier")}</LabelRequired>
             <TextInput
               id="id"
               name="id"
@@ -196,9 +197,11 @@ export const PartialCodelistDetailEdit = ({
         </Row>
         <Row>
           <div className="col-md-12 form-group">
-            <LabelRequired htmlFor="parentCode">{D1.parentCodelist}</LabelRequired>
+            <LabelRequired htmlFor="parentCode">
+              {t("partial-codelists.parentCodelist")}
+            </LabelRequired>
             <Select
-              placeholder={D1.parentCodelistPlaceholder}
+              placeholder={t("partial-codelists.parentCodelistPlaceholder")}
               value={codelist.parentCode}
               options={globalCodeListOptions}
               onChange={handleParent}
@@ -213,7 +216,9 @@ export const PartialCodelistDetailEdit = ({
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
+            <LabelRequired htmlFor="labelLg1">
+              {t("partial-codelists.label", { lng: "fr" })}
+            </LabelRequired>
             <TextInput
               id="labelLg1"
               name="labelLg1"
@@ -228,7 +233,9 @@ export const PartialCodelistDetailEdit = ({
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
+            <LabelRequired htmlFor="labelLg2">
+              {t("partial-codelists.label", { lng: "en" })}
+            </LabelRequired>
             <TextInput
               id="labelLg2"
               name="labelLg2"
@@ -285,7 +292,9 @@ export const PartialCodelistDetailEdit = ({
         </div>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
+            <label htmlFor="descriptionLg1">
+              {t("partial-codelists.description", { lng: "fr" })}
+            </label>
             <textarea
               value={codelist.descriptionLg1}
               className="form-control"
@@ -295,7 +304,9 @@ export const PartialCodelistDetailEdit = ({
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
+            <label htmlFor="descriptionLg2">
+              {t("partial-codelists.description", { lng: "en" })}
+            </label>
             <textarea
               value={codelist.descriptionLg2}
               className="form-control"
@@ -308,7 +319,7 @@ export const PartialCodelistDetailEdit = ({
         <div>
           {parentCodes && (
             <Picker
-              panelTitle={D.codelistPartialTitle}
+              panelTitle={t("partial-codelists.title")}
               codes={parentCodes}
               addAll={addAllClickHandler}
               removeAll={removeAllClickHandler}

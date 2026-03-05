@@ -40,7 +40,10 @@
     "removeAllCodes": "Remove all the codes",
     "addAllCodes": "Add all codes",
     "codesPlaceholder": "Enter the label of a code...",
-    "invalidCharactersError": "The value in this field has invalid characters"
+    "invalidCharactersError": "The value in this field has invalid characters",
+    "deletionConfirmationMessage": "You are about to permanently delete this partial codelist. Are you sure ?",
+    "globalInformation": "Informations générales",
+    "elements": "Elements"
   },
   "codes": {
     "title": "Code",

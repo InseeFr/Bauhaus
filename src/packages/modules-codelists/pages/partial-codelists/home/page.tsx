@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { Loading } from "@components/loading";
@@ -11,11 +12,12 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { HasAccess } from "../../../../auth/components/auth";
 import { CodelistsApi as API } from "@sdk/index";
-import D from "../../../i18n/build-dictionary";
 import { formatLabel } from "../../../utils/formatLabel";
 
 export const Component = () => {
-  useTitle(D.codelistsTitle, D.codelistsPartialTitle);
+  const { t } = useTranslation();
+
+  useTitle(t("codelists.pluralTitle"), t("partial-codelists.pluralTitle"));
 
   const [items, setItems] = useState([]);
 
@@ -42,7 +44,7 @@ export const Component = () => {
           </HasAccess>
         </VerticalMenu>
         <div className="col-md-8 text-center pull-right">
-          <PageTitle title={D.codelistPartialHomePageTitle} col={12} offset={0} />
+          <PageTitle title={t("partial-codelists.homePageTitle")} col={12} offset={0} />
           <SearchableList
             items={items}
             childPath="codelists/partial"

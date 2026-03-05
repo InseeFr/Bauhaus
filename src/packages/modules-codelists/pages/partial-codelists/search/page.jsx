@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { TextInput } from "@components/form/input";
@@ -14,7 +15,6 @@ import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
 import { validateStateOptions } from "../../../../model/ValidationState";
 import { CodelistsApi as API } from "@sdk/index";
-import D from "../../../i18n/build-dictionary";
 import { formatLabel } from "../../../utils/formatLabel";
 
 const filterId = filterKeyDeburr(["id"]);
@@ -34,6 +34,8 @@ const defaultFormState = {
 };
 
 const SearchFormPartialList = ({ stampListOptions, data }) => {
+  const { t } = useTranslation();
+
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const { id, labelLg1, creator, validationState, code, codeLabel } = form,
@@ -52,17 +54,17 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 
   return (
     <AdvancedSearchList
-      title={D.codelistsPartialSearchTitle}
+      title={t("partial-codelists.searchTitle")}
       data={dataLinks}
       initializeState={reset}
       redirect={<Navigate to="/codelists/partial" push />}
     >
       <fieldset>
-        <legend>{D.codelistTitle}</legend>
+        <legend>{t("codelists.title")}</legend>
         <div className="row form-group">
           <div className="col-md-12">
             <label className="w-100">
-              {D.idTitle}
+              {t("codelists.identifier")}
               <TextInput value={id} onChange={(e) => handleChange("id", e.target.value)} />
             </label>
           </div>
@@ -70,7 +72,7 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
         <div className="row form-group">
           <div className="col-md-12">
             <label className="w-100">
-              {D.labelTitle}
+              {t("codelists.label")}
               <TextInput
                 value={labelLg1}
                 onChange={(e) => handleChange("labelLg1", e.target.value)}
@@ -81,7 +83,7 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
         <div className="row form-group">
           <Column>
             <label className="w-100">
-              {D.creator}
+              {t("codelists.creator")}
               <Select
                 placeholder=""
                 value={stampListOptions.find((option) => option.value === creator) || ""}
@@ -94,7 +96,7 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
           </Column>
           <Column>
             <label className="w-100">
-              {D.codelistValidationStatusTitle}
+              {t("codelists.validationStatus")}
               <Select
                 placeholder=""
                 value={
@@ -110,11 +112,11 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
         </div>
       </fieldset>
       <fieldset>
-        <legend>{D.codeTitle}</legend>
+        <legend>{t("codes.title")}</legend>
         <div className="row form-group">
           <div className="col-md-12">
             <label className="w-100">
-              {D.idTitle}
+              {t("codes.identifier")}
               <TextInput value={code} onChange={(e) => handleChange("code", e.target.value)} />
             </label>
           </div>
@@ -122,7 +124,7 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
         <div className="row form-group">
           <div className="col-md-12">
             <label className="w-100">
-              {D.labelTitle}
+              {t("codes.label")}
               <TextInput
                 value={codeLabel}
                 onChange={(e) => handleChange("codeLabel", e.target.value)}
@@ -136,7 +138,9 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
 };
 
 export const Component = () => {
-  useTitle(D.codelistsPartialTitle, D.advancedSearch);
+  const { t } = useTranslation();
+
+  useTitle(t("partial-codelists.searchTitle"));
 
   const [loading, setLoading] = useState(true);
 
