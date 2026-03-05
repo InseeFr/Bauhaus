@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import { z } from "zod";
 
 import {
@@ -6,18 +7,15 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import MainDictionary from "../../../../deprecated-locales/build-dictionary";
-import D, { D1, D2 } from "../../../i18n/build-dictionary";
-
 const ZodCodeList = z.object({
-  lastListUriSegment: mandatoryAndNotEmptyTextField(D.lastListUriSegmentTitleShort),
-  lastCodeUriSegment: mandatoryAndNotEmptyTextField(D.lastCodeUriSegmentTitleShort),
-  lastClassUriSegment: mandatoryAndNotEmptyTextField(D.lastClassUriSegmentTitleShort),
-  id: mandatoryAndNotEmptyTextField(D.idTitle),
-  labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
-  labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
-  creator: mandatoryAndNotEmptySelectField(D.creator),
-  disseminationStatus: mandatoryAndNotEmptySelectField(MainDictionary.disseminationStatusTitle),
+  lastListUriSegment: mandatoryAndNotEmptyTextField(i18next.t("codelists.codelistURI")),
+  lastCodeUriSegment: mandatoryAndNotEmptyTextField(i18next.t("codelists.codesURI")),
+  lastClassUriSegment: mandatoryAndNotEmptyTextField(i18next.t("codelists.classURI")),
+  id: mandatoryAndNotEmptyTextField(i18next.t("codelists.identifier")),
+  labelLg1: mandatoryAndNotEmptyTextField(i18next.t("codelists.label", { lng: "fr" })),
+  labelLg2: mandatoryAndNotEmptyTextField(i18next.t("codelists.label", { lng: "en" })),
+  creator: mandatoryAndNotEmptySelectField(i18next.t("codelists.creator")),
+  disseminationStatus: mandatoryAndNotEmptySelectField(i18next.t("codelists.disseminationStatus")),
 });
 
 export const validate = formatValidation(ZodCodeList);

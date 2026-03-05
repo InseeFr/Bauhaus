@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { ConfirmationDelete } from "@components/confirmation-delete";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
@@ -9,7 +11,6 @@ import { PublicationFemale } from "@components/status";
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
-import D, { D1, D2 } from "../../../../i18n/build-dictionary";
 import { CodesPanel } from "../../../../components/CodesPanel";
 import { ViewMenu } from "../menu";
 import "./CodelistDetailView.css";
@@ -31,7 +32,9 @@ export const CodelistDetailView = ({
   serverSideError,
   hidden = false,
 }) => {
-  useTitle(D.codelistsTitle, codelist?.labelLg1);
+  const { t } = useTranslation();
+
+  useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
   const descriptionLg1 = renderMarkdownElement(codelist.descriptionLg1);
   const descriptionLg2 = renderMarkdownElement(codelist.descriptionLg2);
@@ -47,7 +50,7 @@ export const CodelistDetailView = ({
           className="codelists"
           handleNo={handleNo}
           handleYes={handleYes}
-          message={D.confirmationCodelistDelete}
+          message={t("codelists.deletionConfirmationMessage")}
         />
       )}
       <ViewMenu
@@ -66,17 +69,19 @@ export const CodelistDetailView = ({
           text={
             <ul>
               <li>
-                {D.idTitle} : {codelist.id}
+                {t("codelists.identifier")}: {codelist.id}
               </li>
               <CreationUpdateItems creation={codelist.created} update={codelist.modified} />
               <li>
-                {D.codelistValidationStatusTitle} : <PublicationFemale object={codelist} />
+                {t("codelists.validationStatus")} : <PublicationFemale object={codelist} />
               </li>
               <li>
-                {D.creator} : <InseeOrganisationText organisations={codelist.creator} />
+                {t("codelists.creator")} :{" "}
+                <InseeOrganisationText organisations={codelist.creator} />
               </li>
               <li>
-                {D.contributor} : <InseeOrganisationList organisations={codelist.contributor} />
+                {t("codelists.contributors")} :{" "}
+                <InseeOrganisationList organisations={codelist.contributor} />
               </li>
               <li>
                 <DisseminationStatusVisualisation
@@ -85,20 +90,25 @@ export const CodelistDetailView = ({
               </li>
             </ul>
           }
-          title={D.globalInformationsTitle}
+          title={t("codelists.globalInformation")}
           alone={true}
         />
       </Row>
       <Row>
         <Note
           text={descriptionLg1}
-          title={D1.descriptionTitle}
+          title={t("codelists.description", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
           md
         />
         {secondLang && (
-          <Note text={descriptionLg2} title={D2.descriptionTitle} alone={false} allowEmpty={true} />
+          <Note
+            text={descriptionLg2}
+            title={t("codelists.description", { lng: "en" })}
+            alone={false}
+            allowEmpty={true}
+          />
         )}
       </Row>
       <CodesPanel codelist={codelist} hidden={hidden} editable={false} />

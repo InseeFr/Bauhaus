@@ -1,7 +1,27 @@
-import NewDictionary from "../../../../i18n";
-import D, { D1, D2 } from "../../../i18n/build-dictionary";
-import MainDictionary from "./../../../../deprecated-locales/build-dictionary";
 import { validate } from "./validation";
+
+vi.mock("i18next", () => ({
+  default: {
+    t: (key: string, options?: { lng?: string }) => {
+      const translations: Record<string, Record<string, string>> = {
+        fr: {
+          "codelists.codelistURI": "URI souhaité pour la liste de codes",
+          "codelists.codesURI": "Modèle souhaité pour les URI des codes",
+          "codelists.classURI": "URI du concept associé",
+          "codelists.identifier": "Identifiant",
+          "codelists.label": "Libellé",
+          "codelists.creator": "Propriétaire",
+          "codelists.disseminationStatus": "Statut de diffusion",
+        },
+        en: {
+          "codelists.label": "Label",
+        },
+      };
+      const lng = options?.lng || "fr";
+      return translations[lng]?.[key] || key;
+    },
+  },
+}));
 
 describe("validate", () => {
   it("should return errors for missing mandatory fields", () => {
@@ -10,37 +30,39 @@ describe("validate", () => {
     const result = validate(codelist);
 
     expect(result.errorMessage).toContain(
-      NewDictionary.errors.mandatoryProperty(D.lastListUriSegmentTitleShort),
+      "The property <strong>URI souhaité pour la liste de codes</strong> is required.",
     );
     expect(result.errorMessage).toContain(
-      NewDictionary.errors.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
+      "The property <strong>Modèle souhaité pour les URI des codes</strong> is required.",
     );
     expect(result.errorMessage).toContain(
-      NewDictionary.errors.mandatoryProperty(D.lastClassUriSegmentTitleShort),
+      "The property <strong>URI du concept associé</strong> is required.",
     );
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D.idTitle));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D1.labelTitle));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D2.labelTitle));
-    expect(result.errorMessage).toContain(NewDictionary.errors.mandatoryProperty(D2.creator));
+    expect(result.errorMessage).toContain("The property <strong>Identifiant</strong> is required.");
+    expect(result.errorMessage).toContain("The property <strong>Libellé</strong> is required.");
+    expect(result.errorMessage).toContain("The property <strong>Label</strong> is required.");
     expect(result.errorMessage).toContain(
-      NewDictionary.errors.mandatoryProperty(MainDictionary.disseminationStatusTitle),
+      "The property <strong>Propriétaire</strong> is required.",
+    );
+    expect(result.errorMessage).toContain(
+      "The property <strong>Statut de diffusion</strong> is required.",
     );
 
     expect(result.fields.lastListUriSegment).toBe(
-      NewDictionary.errors.mandatoryProperty(D.lastListUriSegmentTitleShort),
+      "The property <strong>URI souhaité pour la liste de codes</strong> is required.",
     );
     expect(result.fields.lastCodeUriSegment).toBe(
-      NewDictionary.errors.mandatoryProperty(D.lastCodeUriSegmentTitleShort),
+      "The property <strong>Modèle souhaité pour les URI des codes</strong> is required.",
     );
     expect(result.fields.lastClassUriSegment).toBe(
-      NewDictionary.errors.mandatoryProperty(D.lastClassUriSegmentTitleShort),
+      "The property <strong>URI du concept associé</strong> is required.",
     );
-    expect(result.fields.id).toBe(NewDictionary.errors.mandatoryProperty(D.idTitle));
-    expect(result.fields.labelLg1).toBe(NewDictionary.errors.mandatoryProperty(D1.labelTitle));
-    expect(result.fields.labelLg2).toBe(NewDictionary.errors.mandatoryProperty(D2.labelTitle));
-    expect(result.fields.creator).toBe(NewDictionary.errors.mandatoryProperty(D.creator));
+    expect(result.fields.id).toBe("The property <strong>Identifiant</strong> is required.");
+    expect(result.fields.labelLg1).toBe("The property <strong>Libellé</strong> is required.");
+    expect(result.fields.labelLg2).toBe("The property <strong>Label</strong> is required.");
+    expect(result.fields.creator).toBe("The property <strong>Propriétaire</strong> is required.");
     expect(result.fields.disseminationStatus).toBe(
-      NewDictionary.errors.mandatoryProperty(MainDictionary.disseminationStatusTitle),
+      "The property <strong>Statut de diffusion</strong> is required.",
     );
   });
 

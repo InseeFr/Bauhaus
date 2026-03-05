@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { useState, useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -11,8 +12,6 @@ import { Row } from "@components/layout";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import MainDictionary from "../../../../../deprecated-locales/build-dictionary";
-import D, { D1, D2 } from "../../../../i18n/build-dictionary";
 import { validate } from "../validation";
 import { CodesPanel } from "../../../../components/CodesPanel";
 import "./CodelistDetailEdit.css";
@@ -33,13 +32,15 @@ export const CodelistDetailEdit = ({
   updateMode,
   serverSideError,
 }) => {
+  const { t } = useTranslation();
+
   const [codelist, setCodelist] = useState(defaultCodelist);
 
   const [clientSideErrors, setClientSideErrors] = useState({});
 
   const [submitting, setSubmitting] = useState(false);
 
-  useTitle(D.codelistsTitle, codelist?.labelLg1);
+  useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
   const { data: stamps } = useUserStamps();
   const stamp = stamps[0]?.stamp;
@@ -92,13 +93,13 @@ export const CodelistDetailEdit = ({
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      {serverSideError && <ErrorBloc error={serverSideError} D={MainDictionary} />}
+      {serverSideError && <ErrorBloc error={serverSideError} />}
       <form>
         <Row>
           <UriInputGroup
             id="lastListUriSegment"
             name="lastListUriSegment"
-            label={D1.lastListUriSegmentTitleShort}
+            label={t("codelists.codelistURI")}
             prefix="http://rdf.insee.fr/codes/"
             value={codelist.lastListUriSegment || ""}
             onChange={handleChange}
@@ -110,7 +111,7 @@ export const CodelistDetailEdit = ({
           <UriInputGroup
             id="lastCodeUriSegment"
             name="lastCodeUriSegment"
-            label={D1.lastCodeUriSegmentTitleShort}
+            label={t("codelists.codesURI")}
             prefix="http://rdf.insee.fr/codes/"
             value={codelist.lastCodeUriSegment || ""}
             onChange={handleChange}
@@ -122,7 +123,7 @@ export const CodelistDetailEdit = ({
           <UriInputGroup
             id="lastClassUriSegment"
             name="lastClassUriSegment"
-            label={D1.lastClassUriSegmentTitleShort}
+            label={t("codelists.classURI")}
             prefix="http://rdf.insee.fr/codes/concept/"
             value={codelist.lastClassUriSegment || ""}
             onChange={handleChange}
@@ -132,7 +133,7 @@ export const CodelistDetailEdit = ({
         </Row>
         <Row>
           <div className="col-md-12 form-group">
-            <LabelRequired htmlFor="id">{D1.idTitle}</LabelRequired>
+            <LabelRequired htmlFor="id">{t("codelists.identifier")}</LabelRequired>
             <TextInput
               id="id"
               name="id"
@@ -146,7 +147,7 @@ export const CodelistDetailEdit = ({
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
+            <LabelRequired htmlFor="labelLg1">{t("codelists.label", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="labelLg1"
               name="labelLg1"
@@ -161,7 +162,7 @@ export const CodelistDetailEdit = ({
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg2">{D2.labelTitle}</LabelRequired>
+            <LabelRequired htmlFor="labelLg2">{t("codelists.label", { lng: "en" })}</LabelRequired>
             <TextInput
               id="labelLg2"
               name="labelLg2"
@@ -220,7 +221,7 @@ export const CodelistDetailEdit = ({
         </div>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="descriptionLg1">{D1.descriptionTitle}</label>
+            <label htmlFor="descriptionLg1">{t("codelists.description", { lng: "fr" })}</label>
             <textarea
               value={codelist.descriptionLg1}
               className="form-control"
@@ -230,7 +231,7 @@ export const CodelistDetailEdit = ({
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="descriptionLg2">{D2.descriptionTitle}</label>
+            <label htmlFor="descriptionLg2">{t("codelists.description", { lng: "en" })}</label>
             <textarea
               value={codelist.descriptionLg2}
               className="form-control"
