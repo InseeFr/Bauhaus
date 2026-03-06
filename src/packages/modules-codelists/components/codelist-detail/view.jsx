@@ -5,6 +5,10 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationFemale } from "@components/status";
+import {
+  InseeOrganisation,
+  InseeOrganisations,
+} from "@components/business/organisations/organisations";
 
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
@@ -13,7 +17,6 @@ import D, { D1, D2 } from "../../i18n/build-dictionary";
 import { CodesCollapsiblePanel } from "./codes-panel";
 import { ViewMenu } from "./menu";
 import "./view.scss";
-import { InseeOrganisationList, InseeOrganisationText } from "@components/business/creators-view";
 
 export const CodeListDetailView = ({
   codelist,
@@ -36,10 +39,6 @@ export const CodeListDetailView = ({
   const descriptionLg1 = renderMarkdownElement(codelist.descriptionLg1);
   const descriptionLg2 = renderMarkdownElement(codelist.descriptionLg2);
 
-  const publish = () => {
-    publishComponent();
-  };
-
   return (
     <>
       {modalOpened && (
@@ -56,7 +55,7 @@ export const CodeListDetailView = ({
         handleDelete={handleDelete}
         handleBack={handleBack}
         updatable={updatable}
-        publish={publish}
+        publish={publishComponent}
         codelist={codelist}
         deletable={deletable}
       ></ViewMenu>
@@ -73,10 +72,10 @@ export const CodeListDetailView = ({
                 {D.codelistValidationStatusTitle} : <PublicationFemale object={codelist} />
               </li>
               <li>
-                {D.creator} : <InseeOrganisationText organisations={codelist.creator} />
+                {D.creator} : <InseeOrganisation creator={codelist.creator} />
               </li>
               <li>
-                {D.contributor} : <InseeOrganisationList organisations={codelist.contributor} />
+                {D.contributor} : <InseeOrganisations creators={codelist.contributor} />
               </li>
               <li>
                 <DisseminationStatusVisualisation
