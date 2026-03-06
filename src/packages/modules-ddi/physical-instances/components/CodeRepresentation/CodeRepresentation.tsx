@@ -263,7 +263,7 @@ export const CodeRepresentation = ({
           icon="pi pi-sync"
           label={t("physicalInstance.view.code.reuseList")}
           outlined
-          onClick={() => dispatch({ type: "TOGGLE_REUSE_SELECT" })}
+          onClick={() => dispatch({ type: "SHOW_REUSE_SELECT" })}
         />
       </div>
       {showReuseSelect && (

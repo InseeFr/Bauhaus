@@ -269,7 +269,7 @@ describe("CodeRepresentation", () => {
       expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
     });
 
-    it("should toggle ReuseCodeListSelect visibility", () => {
+    it("should keep ReuseCodeListSelect visible when reuse button is clicked again", () => {
       render(
         <CodeRepresentation
           representation={mockRepresentation}
@@ -285,7 +285,7 @@ describe("CodeRepresentation", () => {
       expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
 
       fireEvent.click(reuseButton);
-      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
+      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
     });
 
     it("should hide ReuseCodeListSelect when create new list is clicked", () => {

@@ -21,7 +21,6 @@ export type CodeRepresentationAction =
   | { type: "MOVE_CODE"; payload: { id: string; direction: "up" | "down" } }
   | { type: "SHOW_DATA_TABLE" }
   | { type: "SHOW_REUSE_SELECT" }
-  | { type: "TOGGLE_REUSE_SELECT" }
   | { type: "SET_SELECTED_CODE_LIST_ID"; payload: string | null }
   | { type: "RESET_EMPTY_ROW" }
   | {
@@ -95,13 +94,6 @@ export const codeRepresentationReducer = (
 
     case "SHOW_REUSE_SELECT":
       return { ...state, showReuseSelect: true, showDataTable: false };
-
-    case "TOGGLE_REUSE_SELECT":
-      return {
-        ...state,
-        showReuseSelect: !state.showReuseSelect,
-        showDataTable: false,
-      };
 
     case "SET_SELECTED_CODE_LIST_ID":
       return { ...state, selectedCodeListId: action.payload };

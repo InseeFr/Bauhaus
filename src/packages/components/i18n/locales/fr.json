@@ -1,0 +1,11 @@
+{
+  "pagination": {
+    "itemPerPagePlaceholder": "Nombre d'éléments par page",
+    "goTo": "Allez à la page",
+    "navigation": "Navigation entre les pages",
+    "firstPage": "Première page",
+    "previousPage": "Page précédente",
+    "nextPage": "Page suivante",
+    "lastPage": "Dernière page"
+  }
+}

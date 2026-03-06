@@ -15,6 +15,7 @@ export interface AppProperties {
   maxLengthScopeNote: string;
   extraMandatoryFields: string;
   defaultAgencyId: string;
+  enableDevTools?: boolean;
 }
 interface AppContextTypes {
   lg1: string;
