@@ -16,7 +16,7 @@ import { convertToArrayIfDefined, EMPTY_ARRAY, sortArray } from "@utils/array-ut
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../../application/app-context";
-import { API } from "../../../modules-codelists/apis";
+import { CodelistsApi as API } from "@sdk/index";
 import D, { D1, D2 } from "../../i18n/build-dictionary";
 import {
   IGEO_PAYS_OU_TERRITOIRE,
