@@ -13,7 +13,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
 import MainDictionary from "../../../deprecated-locales/build-dictionary";
-import { API } from "../../../modules-codelists/apis";
+import { CodelistsApi as API } from "@sdk/index";
 import D, { D1, D2 } from "../../i18n/build-dictionary";
 import { typeUriToLabel, getAllAttachment } from "../../utils";
 import {

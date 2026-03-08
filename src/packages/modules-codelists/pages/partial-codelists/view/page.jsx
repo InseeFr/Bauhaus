@@ -1,0 +1,116 @@
+import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+import { Deleting, Publishing, Loading } from "@components/loading";
+
+import { useSecondLang } from "@utils/hooks/second-lang";
+import { useGoBack } from "@utils/hooks/useGoBack";
+
+import { CodelistsApi as API } from "@sdk/index";
+import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
+import { ComponentTitle } from "../../../components/ComponentTitle";
+import { PartialCodelistDetailView } from "./components/PartialCodelistDetailView";
+
+export const Component = (props) => {
+  const goBack = useGoBack();
+
+  const [secondLang] = useSecondLang();
+
+  const { id } = useParams();
+
+  const [deleting, setDeleting] = useState(false);
+
+  const [publishing, setPublishing] = useState(false);
+
+  const [codelists, setCodelists] = useState([]);
+
+  const [modalOpened, setModalOpened] = useState(false);
+
+  const [serverSideError, setServerSideError] = useState("");
+
+  const {
+    data: codelist,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["partial-codes-list", id],
+    enabled: codelists.length > 0,
+    queryFn: () => {
+      return API.getCodelistPartial(id).then((cl) => {
+        const idParent = codelists.find((codelist) => codelist.uri === cl.iriParent)?.id;
+
+        if (!idParent) {
+          return;
+        }
+        return API.getCodesListCodes(idParent, 1, 0).then((codes) => {
+          return formatPartialCodelist(cl, codes.items);
+        });
+      });
+    },
+  });
+
+  const publish = () => {
+    setPublishing(true);
+    API.publishPartialCodelist(id)
+      .then(() => {
+        return refetch();
+      })
+      .catch((error) => {
+        setServerSideError(error);
+      })
+      .finally(() => setPublishing(false));
+  };
+
+  const handleDelete = () => {
+    setDeleting(true);
+    API.deleteCodelistPartial(id)
+      .then(() => {
+        goBack("/codelists");
+      })
+      .catch((error) => {
+        setServerSideError(error);
+      })
+      .finally(() => {
+        setDeleting(false);
+        setModalOpened(false);
+      });
+  };
+
+  useEffect(() => {
+    API.getCodelists().then((codelists) => {
+      setCodelists(Object.values(codelists));
+    });
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (deleting) return <Deleting />;
+
+  if (publishing) return <Publishing />;
+
+  return (
+    <>
+      <ComponentTitle component={codelist} />
+      <PartialCodelistDetailView
+        {...props}
+        col={2}
+        codelist={codelist}
+        handleBack={() => goBack("/codelists")}
+        handleUpdate={`/codelists/partial/${codelist.id}/modify`}
+        handleDelete={() => setModalOpened(true)}
+        deletable
+        modalOpened={modalOpened}
+        handleYes={handleDelete}
+        handleNo={() => setModalOpened(false)}
+        secondLang={secondLang}
+        mutualized={true}
+        updatable={true}
+        serverSideError={serverSideError}
+        publishComponent={publish}
+      />
+    </>
+  );
+};

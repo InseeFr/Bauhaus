@@ -22,7 +22,7 @@ Unit tests are launched each time a `git push` is executed.
 
 ## Build
 
-To build the application, run `yapnpmrn build`. You can now serve the content of the `dist` folder with the HTTP server of your choice.
+To build the application, run `pnpm build`. You can now serve the content of the `dist` folder with the HTTP server of your choice.
 
 For the deployment needs at INSEE, the CI will need to use the pnpm build command. This command will also create an archive (zip) containing the project in order to deploy it.
 

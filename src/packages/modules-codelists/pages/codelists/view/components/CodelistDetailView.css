@@ -1,0 +1,67 @@
+.server-side-pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.server-side-pagination .wilco-pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 4px;
+  list-style: none;
+}
+
+.server-side-pagination .wilco-pagination li {
+  color: black;
+  float: left;
+  width: 40px;
+  height: 40px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+}
+
+.server-side-pagination .wilco-pagination li:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.server-side-pagination .wilco-pagination li:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.server-side-pagination .wilco-pagination li:hover:not(.active) {
+  background-color: #ddd;
+}
+
+.server-side-pagination .wilco-pagination li.active {
+  background-color: var(--color-3);
+  color: white;
+  border: 1px solid var(--color-3);
+}
+
+.server-side-pagination .wilco-pagination li button,
+.server-side-pagination .wilco-pagination li span {
+  text-decoration: none;
+  position: relative;
+  float: left;
+  border: none;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  line-height: 40px;
+  display: block;
+  overflow: visible;
+  color: inherit;
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+  appearance: none;
+  background-color: rgb(0 0 0 / 0%) !important;
+}
+
+.server-side-pagination .wilco-pagination li button:disabled,
+.server-side-pagination .wilco-pagination li span:disabled {
+  color: lightgrey;
+}

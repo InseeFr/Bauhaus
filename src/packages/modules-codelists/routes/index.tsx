@@ -1,44 +1,46 @@
 import { RouteObject } from "react-router-dom";
 
 export const routes: RouteObject[] = [
+  // Codelists pages
   {
     path: "",
-    lazy: () => import("../components/home/home"),
-  },
-  {
-    path: "create",
-    lazy: () => import("../components/codelist-detail/edit-context"),
+    lazy: () => import("../pages/codelists/home/page"),
   },
   {
     path: "search",
-    lazy: () => import("../components/search/search"),
+    lazy: () => import("../pages/codelists/search/page"),
+  },
+  {
+    path: "create",
+    lazy: () => import("../pages/codelists/edit/page"),
   },
   {
     path: ":id",
-    lazy: () => import("../components/codelist-detail/view-container"),
+    lazy: () => import("../pages/codelists/view/page"),
   },
   {
     path: ":id/modify",
-    lazy: () => import("../components/codelist-detail/edit-context"),
+    lazy: () => import("../pages/codelists/edit/page"),
   },
+  // Partial codelists pages
   {
     path: "partial",
-    lazy: () => import("../components/home/partial-home"),
-  },
-  {
-    path: "partial/create",
-    lazy: () => import("../components/codelist-partial-detail/edit-container"),
+    lazy: () => import("../pages/partial-codelists/home/page"),
   },
   {
     path: "partial/search",
-    lazy: () => import("../components/search/partial-search"),
+    lazy: () => import("../pages/partial-codelists/search/page"),
+  },
+  {
+    path: "partial/create",
+    lazy: () => import("../pages/partial-codelists/edit/page"),
   },
   {
     path: "partial/:id",
-    lazy: () => import("../components/codelist-partial-detail/view-container"),
+    lazy: () => import("../pages/partial-codelists/view/page"),
   },
   {
     path: "partial/:id/modify",
-    lazy: () => import("../components/codelist-partial-detail/edit-container"),
+    lazy: () => import("../pages/partial-codelists/edit/page"),
   },
 ];

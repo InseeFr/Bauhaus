@@ -5,38 +5,49 @@ import { MainMenu } from "@components/menu";
 
 import { UIMenuItem } from "@model/Menu";
 
+import { useAuthorizationGuard } from "../../auth/components/auth";
+
 const defaultAttrs = { "aria-current": "page" };
 
 export const Menu = () => {
   const { t } = useTranslation();
+
+  const canAccessAdministration = useAuthorizationGuard({
+    module: "CODESLIST_CODESLIST",
+    privilege: "READ",
+  });
 
   const location = useLocation();
   if (location.pathname === "/") return null;
 
   const paths: UIMenuItem[] = [
     {
-      path: "/datasets",
-      pathKey: "datasets",
+      path: "/codelists",
+      pathKey: "codelists",
       className: null,
       attrs: null,
-      label: t("dataset.pluralTitle"),
+      label: t("codelists.pluralTitle"),
       order: 1,
-    },
-    {
-      path: "/datasets/distributions",
-      pathKey: "distributions",
-      className: null,
-      attrs: null,
-      label: t("distribution.pluralTitle"),
-      order: 2,
     },
   ];
 
-  const currentPath = [...paths]
-    .sort((a, b) => b.path.length - a.path.length) // sort the most specific first so it will be found before
-    .find((path) => {
-      return location.pathname.startsWith(path.path);
+  if (canAccessAdministration) {
+    paths.unshift({
+      path: "/codelists/partial",
+      pathKey: "partial",
+      className: null,
+      attrs: null,
+      label: t("partial-codelists.pluralTitle"),
+      order: 2,
     });
+  }
+
+  const currentPath = paths.find((path) => {
+    if (path.pathKey instanceof RegExp) {
+      return path.pathKey.test(location.pathname);
+    }
+    return location.pathname.includes(path.pathKey);
+  });
 
   if (currentPath) {
     currentPath.className = "active";
