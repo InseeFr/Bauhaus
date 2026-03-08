@@ -18,7 +18,12 @@ export const createDefaultRepresentation = (
   },
 });
 
-export const createDefaultCodeList = (id: string, label: string, agencyId: string): CodeList => ({
+export const createDefaultCodeList = (
+  id: string,
+  label: string,
+  agencyId: string,
+  locale: string,
+): CodeList => ({
   "@isUniversallyUnique": "true",
   "@versionDate": new Date().toISOString(),
   URN: `urn:ddi:${agencyId}:${id}:1`,
@@ -27,7 +32,7 @@ export const createDefaultCodeList = (id: string, label: string, agencyId: strin
   Version: "1",
   Label: {
     Content: {
-      "@xml:lang": "fr-FR",
+      "@xml:lang": locale,
       "#text": label,
     },
   },
@@ -54,7 +59,12 @@ export const createCode = (
   Value: value,
 });
 
-export const createCategory = (id: string, label: string, agencyId: string): Category => ({
+export const createCategory = (
+  id: string,
+  label: string,
+  agencyId: string,
+  locale: string,
+): Category => ({
   "@isUniversallyUnique": "true",
   "@versionDate": new Date().toISOString(),
   URN: `urn:ddi:${agencyId}:${id}:1`,
@@ -63,15 +73,15 @@ export const createCategory = (id: string, label: string, agencyId: string): Cat
   Version: "1",
   Label: {
     Content: {
-      "@xml:lang": "fr-FR",
+      "@xml:lang": locale,
       "#text": label,
     },
   },
 });
 
-export const createLabel = (text: string) => ({
+export const createLabel = (text: string, locale: string) => ({
   Content: {
-    "@xml:lang": "fr-FR",
+    "@xml:lang": locale,
     "#text": text,
   },
 });

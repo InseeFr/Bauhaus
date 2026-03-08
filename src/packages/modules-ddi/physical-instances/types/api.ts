@@ -53,7 +53,7 @@ export interface DataRelationship {
   Agency: string;
   ID: string;
   Version: string;
-  DataRelationshipName?: LocalizedContent;
+  Label?: LabelContent;
   LogicalRecord: LogicalRecord;
 }
 
@@ -67,7 +67,7 @@ export interface LogicalRecord {
   Agency: string;
   ID: string;
   Version: string;
-  LogicalRecordName?: LocalizedContent;
+  Label?: LabelContent;
   VariablesInRecord: VariablesInRecord;
 }
 
