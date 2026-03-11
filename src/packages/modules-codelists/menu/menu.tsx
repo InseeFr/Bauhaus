@@ -5,17 +5,10 @@ import { MainMenu } from "@components/menu";
 
 import { UIMenuItem } from "@model/Menu";
 
-import { useAuthorizationGuard } from "../../auth/components/auth";
-
 const defaultAttrs = { "aria-current": "page" };
 
 export const Menu = () => {
   const { t } = useTranslation();
-
-  const canAccessAdministration = useAuthorizationGuard({
-    module: "CODESLIST_CODESLIST",
-    privilege: "READ",
-  });
 
   const location = useLocation();
   if (location.pathname === "/") return null;
@@ -30,17 +23,6 @@ export const Menu = () => {
       order: 1,
     },
   ];
-
-  if (canAccessAdministration) {
-    paths.unshift({
-      path: "/codelists/partial",
-      pathKey: "partial",
-      className: null,
-      attrs: null,
-      label: t("partial-codelists.pluralTitle"),
-      order: 2,
-    });
-  }
 
   const currentPath = paths.find((path) => {
     if (path.pathKey instanceof RegExp) {

@@ -7,6 +7,10 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationFemale } from "@components/status";
+import {
+  InseeOrganisation,
+  InseeOrganisations,
+} from "@components/business/organisations/organisations";
 
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
@@ -14,7 +18,6 @@ import { renderMarkdownElement } from "@utils/html-utils";
 import { CodesPanel } from "../../../../components/CodesPanel";
 import { ViewMenu } from "../menu";
 import "./CodelistDetailView.css";
-import { InseeOrganisationList, InseeOrganisationText } from "@components/business/creators-view";
 
 export const CodelistDetailView = ({
   codelist,
@@ -39,10 +42,6 @@ export const CodelistDetailView = ({
   const descriptionLg1 = renderMarkdownElement(codelist.descriptionLg1);
   const descriptionLg2 = renderMarkdownElement(codelist.descriptionLg2);
 
-  const publish = () => {
-    publishComponent();
-  };
-
   return (
     <>
       {modalOpened && (
@@ -59,7 +58,7 @@ export const CodelistDetailView = ({
         handleDelete={handleDelete}
         handleBack={handleBack}
         updatable={updatable}
-        publish={publish}
+        publish={publishComponent}
         codelist={codelist}
         deletable={deletable}
       ></ViewMenu>
@@ -71,17 +70,21 @@ export const CodelistDetailView = ({
               <li>
                 {t("codelists.identifier")}: {codelist.id}
               </li>
-              <CreationUpdateItems creation={codelist.created} update={codelist.modified} />
+              <CreationUpdateItems
+                creation={codelist.created}
+                update={codelist.modified}
+              />
               <li>
-                {t("codelists.validationStatus")} : <PublicationFemale object={codelist} />
+                {t("codelists.validationStatus")} :{" "}
+                <PublicationFemale object={codelist} />
               </li>
               <li>
                 {t("codelists.creator")} :{" "}
-                <InseeOrganisationText organisations={codelist.creator} />
+                <InseeOrganisation creator={codelist.creator} />
               </li>
               <li>
                 {t("codelists.contributors")} :{" "}
-                <InseeOrganisationList organisations={codelist.contributor} />
+                <InseeOrganisations creators={codelist.contributor} />
               </li>
               <li>
                 <DisseminationStatusVisualisation

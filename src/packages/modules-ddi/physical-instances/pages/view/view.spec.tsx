@@ -7,9 +7,7 @@ import type { ReactNode } from "react";
 const mockUsePhysicalInstancesData = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
 const mockPublishPhysicalInstance = vi.fn();
-const mockConvertToDDI3 = vi
-  .fn()
-  .mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
+const mockConvertToDDI3 = vi.fn().mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
 const mockNavigate = vi.fn();
 let mockSearchParams = new URLSearchParams();
 const mockSetSearchParams = vi.fn((updater: any, _options?: any) => {
@@ -178,11 +176,7 @@ vi.mock("primereact/tabview", () => ({
                 })
               : child?.props?.header || `Tab ${index}`;
             return (
-              <div
-                key={index}
-                role="tab"
-                onClick={() => onTabChange?.({ index })}
-              >
+              <div key={index} role="tab" onClick={() => onTabChange?.({ index })}>
                 {headerContent}
               </div>
             );
@@ -221,17 +215,11 @@ document.createElement = vi.fn((tagName: string) => {
 
 // Helper function to create a test variable and enable the Save All button
 const createTestVariable = (name = "TestVar", label = "Test Variable") => {
-  const newVariableButton = screen.getByLabelText(
-    "physicalInstance.view.newVariable",
-  );
+  const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
   fireEvent.click(newVariableButton);
 
-  const nameInput = screen.getByLabelText(
-    /physicalInstance\.view\.columns\.name/,
-  );
-  const labelInput = screen.getByLabelText(
-    /physicalInstance\.view\.columns\.label/,
-  );
+  const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+  const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
   fireEvent.change(nameInput, { target: { value: name } });
   fireEvent.change(labelInput, { target: { value: label } });
 
@@ -255,9 +243,7 @@ describe("View Component", () => {
       },
     });
     vi.clearAllMocks();
-    mockConvertToDDI3.mockResolvedValue(
-      "<ddi3-xml-content></ddi3-xml-content>",
-    );
+    mockConvertToDDI3.mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
 
     // Reset blocker state
     mockBlocker.state = "unblocked";
@@ -337,9 +323,7 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       expect(screen.getByTestId("progress-spinner")).toBeInTheDocument();
-      expect(
-        screen.getByLabelText("Loading in progress..."),
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText("Loading in progress...")).toBeInTheDocument();
     });
 
     it("should have correct accessibility attributes for loading state", () => {
@@ -396,9 +380,7 @@ describe("View Component", () => {
 
       render(<Component />, { wrapper });
 
-      expect(
-        screen.getByText("physicalInstance.view.errorLoading"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("physicalInstance.view.errorLoading")).toBeInTheDocument();
     });
   });
 
@@ -436,17 +418,13 @@ describe("View Component", () => {
     it("should render SearchFilters component", () => {
       render(<Component />, { wrapper });
 
-      expect(
-        screen.getByPlaceholderText("physicalInstance.view.search"),
-      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("physicalInstance.view.search")).toBeInTheDocument();
     });
 
     it("should render GlobalActionsCard component", () => {
       render(<Component />, { wrapper });
 
-      expect(
-        screen.getByText("physicalInstance.view.globalActions"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("physicalInstance.view.globalActions")).toBeInTheDocument();
     });
   });
 
@@ -454,61 +432,43 @@ describe("View Component", () => {
     it("should open edit modal when pencil button is clicked", async () => {
       render(<Component />, { wrapper });
 
-      const editButton = screen.getByLabelText(
-        "physicalInstance.view.editTitle",
-      );
+      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
       await waitFor(() => {
-        expect(
-          screen.getByText("physicalInstance.view.editModal.title"),
-        ).toBeInTheDocument();
+        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
       });
     });
 
     it("should close edit modal when cancel is clicked", async () => {
       render(<Component />, { wrapper });
 
-      const editButton = screen.getByLabelText(
-        "physicalInstance.view.editTitle",
-      );
+      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
       await waitFor(() => {
-        expect(
-          screen.getByText("physicalInstance.view.editModal.title"),
-        ).toBeInTheDocument();
+        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
       });
 
-      const cancelButton = screen.getByText(
-        "physicalInstance.view.editModal.cancel",
-      );
+      const cancelButton = screen.getByText("physicalInstance.view.editModal.cancel");
       fireEvent.click(cancelButton);
 
       await waitFor(() => {
-        expect(
-          screen.queryByText("physicalInstance.view.editModal.title"),
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText("physicalInstance.view.editModal.title")).not.toBeInTheDocument();
       });
     });
 
     it("should update form data in edit modal", async () => {
       render(<Component />, { wrapper });
 
-      const editButton = screen.getByLabelText(
-        "physicalInstance.view.editTitle",
-      );
+      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
       await waitFor(() => {
-        expect(
-          screen.getByText("physicalInstance.view.editModal.title"),
-        ).toBeInTheDocument();
+        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
       });
 
-      const labelInput = screen.getByLabelText(
-        "physicalInstance.creation.label",
-      );
+      const labelInput = screen.getByLabelText("physicalInstance.creation.label");
       fireEvent.change(labelInput, { target: { value: "New Label" } });
 
       expect((labelInput as HTMLInputElement).value).toBe("New Label");
@@ -519,9 +479,7 @@ describe("View Component", () => {
     it("should filter variables by search value", async () => {
       render(<Component />, { wrapper });
 
-      const searchInput = screen.getByPlaceholderText(
-        "physicalInstance.view.search",
-      );
+      const searchInput = screen.getByPlaceholderText("physicalInstance.view.search");
       fireEvent.change(searchInput, { target: { value: "Variable1" } });
 
       await waitFor(() => {
@@ -533,9 +491,7 @@ describe("View Component", () => {
     it("should filter variables by type", async () => {
       render(<Component />, { wrapper });
 
-      const typeDropdown = screen.getByLabelText(
-        "physicalInstance.view.typeFilter",
-      );
+      const typeDropdown = screen.getByLabelText("physicalInstance.view.typeFilter");
       fireEvent.change(typeDropdown, { target: { value: "code" } });
 
       await waitFor(() => {
@@ -604,9 +560,7 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // SplitButton creates multiple elements with the same aria-label, get the first button
-      const exportButtons = screen.getAllByLabelText(
-        "physicalInstance.view.export",
-      );
+      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
       const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
       fireEvent.click(exportButton!);
 
@@ -631,9 +585,7 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // The export button is a SplitButton, get the first button
-      const exportButtons = screen.getAllByLabelText(
-        "physicalInstance.view.export",
-      );
+      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
       const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
 
       // Click the button (which defaults to DDI3)
@@ -689,9 +641,7 @@ describe("View Component", () => {
 
       render(<Component />, { wrapper });
 
-      const exportButtons = screen.getAllByLabelText(
-        "physicalInstance.view.export",
-      );
+      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
       const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
       fireEvent.click(exportButton!);
 
@@ -699,9 +649,7 @@ describe("View Component", () => {
         expect(mockClick).toHaveBeenCalled();
       });
 
-      expect(capturedLink?.download).toBe(
-        "test___physical___instance_-ddi3.xml",
-      );
+      expect(capturedLink?.download).toBe("test___physical___instance_-ddi3.xml");
 
       // Restore original appendChild
       document.body.appendChild = originalAppendChild;
@@ -742,9 +690,7 @@ describe("View Component", () => {
 
       render(<Component />, { wrapper });
 
-      const exportButtons = screen.getAllByLabelText(
-        "physicalInstance.view.export",
-      );
+      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
       const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
       fireEvent.click(exportButton!);
 
@@ -771,9 +717,7 @@ describe("View Component", () => {
 
       render(<Component />, { wrapper });
 
-      const exportButtons = screen.getAllByLabelText(
-        "physicalInstance.view.export",
-      );
+      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
       const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
       fireEvent.click(exportButton!);
 
@@ -792,9 +736,7 @@ describe("View Component", () => {
     // Helper function to fill and submit the edit modal
     const fillAndSubmitEditModal = async (label = "Updated Title") => {
       // Fill label
-      const labelInput = screen.getByLabelText(
-        "physicalInstance.creation.label",
-      );
+      const labelInput = screen.getByLabelText("physicalInstance.creation.label");
       fireEvent.change(labelInput, { target: { value: label } });
 
       // Select group
@@ -820,9 +762,7 @@ describe("View Component", () => {
     it("should initialize edit modal with title", () => {
       render(<Component />, { wrapper });
 
-      const editButton = screen.getByLabelText(
-        "physicalInstance.view.editTitle",
-      );
+      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
       const labelInput = screen.getByLabelText(
@@ -842,9 +782,7 @@ describe("View Component", () => {
 
       render(<Component />, { wrapper });
 
-      const editButton = screen.getByLabelText(
-        "physicalInstance.view.editTitle",
-      );
+      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
       await fillAndSubmitEditModal("Updated Title");
@@ -867,9 +805,7 @@ describe("View Component", () => {
 
       // Wait for modal to close after successful save
       await waitFor(() => {
-        expect(
-          screen.queryByText("physicalInstance.view.editModal.title"),
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText("physicalInstance.view.editModal.title")).not.toBeInTheDocument();
       });
     });
 
@@ -883,24 +819,18 @@ describe("View Component", () => {
 
       render(<Component />, { wrapper });
 
-      const editButton = screen.getByLabelText(
-        "physicalInstance.view.editTitle",
-      );
+      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
       await fillAndSubmitEditModal();
 
       await waitFor(() => {
-        expect(
-          screen.queryByText("physicalInstance.view.editModal.title"),
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText("physicalInstance.view.editModal.title")).not.toBeInTheDocument();
       });
     });
 
     it("should handle save error gracefully", async () => {
-      const mutateAsyncMock = vi
-        .fn()
-        .mockRejectedValue(new Error("Save failed"));
+      const mutateAsyncMock = vi.fn().mockRejectedValue(new Error("Save failed"));
       mockUpdatePhysicalInstance.mockReturnValue({
         mutateAsync: mutateAsyncMock,
         isPending: false,
@@ -909,16 +839,12 @@ describe("View Component", () => {
 
       render(<Component />, { wrapper });
 
-      const editButton = screen.getByLabelText(
-        "physicalInstance.view.editTitle",
-      );
+      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
       // Wait for modal to be visible
       await waitFor(() => {
-        expect(
-          screen.getByText("physicalInstance.view.editModal.title"),
-        ).toBeInTheDocument();
+        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
       });
 
       await fillAndSubmitEditModal();
@@ -929,9 +855,7 @@ describe("View Component", () => {
 
       // Modal should remain open on error
       await waitFor(() => {
-        expect(
-          screen.getByText("physicalInstance.view.editModal.title"),
-        ).toBeInTheDocument();
+        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
       });
     });
   });
@@ -951,9 +875,7 @@ describe("View Component", () => {
       createTestVariable();
 
       // Now click Save All
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       await waitFor(() => {
@@ -978,9 +900,7 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [
-            { Citation: { Title: { String: { "#text": "Test" } } } },
-          ],
+          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
           DataRelationship: [
             {
               DataRelationshipName: { String: { "#text": "Test" } },
@@ -1016,31 +936,21 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // Create a new variable
-      const newVariableButton = screen.getByLabelText(
-        "physicalInstance.view.newVariable",
-      );
+      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
       fireEvent.click(newVariableButton);
 
       // Fill in the variable form
-      const nameInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.name/,
-      );
-      const labelInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.label/,
-      );
+      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
       fireEvent.change(nameInput, { target: { value: "NewVariable" } });
       fireEvent.change(labelInput, { target: { value: "New Variable Label" } });
 
       // Save the variable
-      const saveVariableButton = screen.getByLabelText(
-        "physicalInstance.view.add",
-      );
+      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
       fireEvent.click(saveVariableButton);
 
       // Save all
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       await waitFor(() => {
@@ -1071,23 +981,15 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // Create a new variable
-      const newVariableButton = screen.getByLabelText(
-        "physicalInstance.view.newVariable",
-      );
+      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
       fireEvent.click(newVariableButton);
 
-      const nameInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.name/,
-      );
-      const labelInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.label/,
-      );
+      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
       fireEvent.change(nameInput, { target: { value: "TempVar" } });
       fireEvent.change(labelInput, { target: { value: "Temp Variable" } });
 
-      const saveVariableButton = screen.getByLabelText(
-        "physicalInstance.view.add",
-      );
+      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
       fireEvent.click(saveVariableButton);
 
       // Check that variable is marked as unsaved (italic)
@@ -1097,9 +999,7 @@ describe("View Component", () => {
       });
 
       // Save all
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       await waitFor(() => {
@@ -1123,9 +1023,7 @@ describe("View Component", () => {
     });
 
     it("should handle save all error gracefully", async () => {
-      const mutateAsyncMock = vi
-        .fn()
-        .mockRejectedValue(new Error("Save failed"));
+      const mutateAsyncMock = vi.fn().mockRejectedValue(new Error("Save failed"));
       mockPublishPhysicalInstance.mockReturnValue({
         mutateAsync: mutateAsyncMock,
         isPending: false,
@@ -1138,9 +1036,7 @@ describe("View Component", () => {
       createTestVariable();
 
       // Now click Save All
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       await waitFor(() => {
@@ -1161,9 +1057,7 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [
-            { Citation: { Title: { String: { "#text": "Test" } } } },
-          ],
+          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
           DataRelationship: [
             {
               DataRelationshipName: { String: { "#text": "Test" } },
@@ -1186,41 +1080,27 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // Create a new variable with date type
-      const newVariableButton = screen.getByLabelText(
-        "physicalInstance.view.newVariable",
-      );
+      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
       fireEvent.click(newVariableButton);
 
-      const nameInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.name/,
-      );
-      const labelInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.label/,
-      );
+      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
       fireEvent.change(nameInput, { target: { value: "DateVar" } });
       fireEvent.change(labelInput, { target: { value: "Date Variable" } });
 
       // Switch to representation tab
-      const representationTab = screen.getByText(
-        "physicalInstance.view.tabs.representation",
-      );
+      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
       fireEvent.click(representationTab);
 
       // Select date type
-      const typeDropdown = screen.getByLabelText(
-        "physicalInstance.view.columns.type",
-      );
+      const typeDropdown = screen.getByLabelText("physicalInstance.view.columns.type");
       fireEvent.change(typeDropdown, { target: { value: "date" } });
 
-      const saveVariableButton = screen.getByLabelText(
-        "physicalInstance.view.add",
-      );
+      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
       fireEvent.click(saveVariableButton);
 
       // Save all
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       await waitFor(() => {
@@ -1230,12 +1110,10 @@ describe("View Component", () => {
           (v: any) => v.VariableName?.String?.["#text"] === "DateVar",
         );
         expect(dateVariable).toBeDefined();
-        expect(dateVariable.VariableRepresentation).toHaveProperty(
-          "DateTimeRepresentation",
+        expect(dateVariable.VariableRepresentation).toHaveProperty("DateTimeRepresentation");
+        expect(dateVariable.VariableRepresentation.DateTimeRepresentation).toHaveProperty(
+          "DateTypeCode",
         );
-        expect(
-          dateVariable.VariableRepresentation.DateTimeRepresentation,
-        ).toHaveProperty("DateTypeCode");
       });
     });
 
@@ -1250,29 +1128,19 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // Create a simple text variable
-      const newVariableButton = screen.getByLabelText(
-        "physicalInstance.view.newVariable",
-      );
+      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
       fireEvent.click(newVariableButton);
 
-      const nameInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.name/,
-      );
-      const labelInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.label/,
-      );
+      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
       fireEvent.change(nameInput, { target: { value: "TextVar" } });
       fireEvent.change(labelInput, { target: { value: "Text Variable" } });
 
-      const saveVariableButton = screen.getByLabelText(
-        "physicalInstance.view.add",
-      );
+      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
       fireEvent.click(saveVariableButton);
 
       // Save all
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       await waitFor(() => {
@@ -1298,9 +1166,7 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [
-            { Citation: { Title: { String: { "#text": "Test" } } } },
-          ],
+          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
           DataRelationship: [
             {
               DataRelationshipName: { String: { "#text": "Test" } },
@@ -1325,41 +1191,27 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // Create a new code variable
-      const newVariableButton = screen.getByLabelText(
-        "physicalInstance.view.newVariable",
-      );
+      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
       fireEvent.click(newVariableButton);
 
-      const nameInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.name/,
-      );
-      const labelInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.label/,
-      );
+      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
       fireEvent.change(nameInput, { target: { value: "CodeVar" } });
       fireEvent.change(labelInput, { target: { value: "Code Variable" } });
 
       // Switch to representation tab
-      const representationTab = screen.getByText(
-        "physicalInstance.view.tabs.representation",
-      );
+      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
       fireEvent.click(representationTab);
 
       // Select code type
-      const typeDropdown = screen.getByLabelText(
-        "physicalInstance.view.columns.type",
-      );
+      const typeDropdown = screen.getByLabelText("physicalInstance.view.columns.type");
       fireEvent.change(typeDropdown, { target: { value: "code" } });
 
-      const saveVariableButton = screen.getByLabelText(
-        "physicalInstance.view.add",
-      );
+      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
       fireEvent.click(saveVariableButton);
 
       // Save all
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       await waitFor(() => {
@@ -1385,9 +1237,7 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [
-            { Citation: { Title: { String: { "#text": "Test" } } } },
-          ],
+          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
           DataRelationship: [
             {
               DataRelationshipName: { String: { "#text": "Test" } },
@@ -1412,41 +1262,27 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // Create a new code variable
-      const newVariableButton = screen.getByLabelText(
-        "physicalInstance.view.newVariable",
-      );
+      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
       fireEvent.click(newVariableButton);
 
-      const nameInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.name/,
-      );
-      const labelInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.label/,
-      );
+      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
       fireEvent.change(nameInput, { target: { value: "CodeVar" } });
       fireEvent.change(labelInput, { target: { value: "Code Variable" } });
 
       // Switch to representation tab
-      const representationTab = screen.getByText(
-        "physicalInstance.view.tabs.representation",
-      );
+      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
       fireEvent.click(representationTab);
 
       // Select code type
-      const typeDropdown = screen.getByLabelText(
-        "physicalInstance.view.columns.type",
-      );
+      const typeDropdown = screen.getByLabelText("physicalInstance.view.columns.type");
       fireEvent.change(typeDropdown, { target: { value: "code" } });
 
-      const saveVariableButton = screen.getByLabelText(
-        "physicalInstance.view.add",
-      );
+      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
       fireEvent.click(saveVariableButton);
 
       // Save all
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       await waitFor(() => {
@@ -1459,8 +1295,7 @@ describe("View Component", () => {
         const variable = savedData.Variable[0];
         const codeList = savedData.CodeList[0];
         const codeListRefId =
-          variable.VariableRepresentation?.CodeRepresentation?.CodeListReference
-            ?.ID;
+          variable.VariableRepresentation?.CodeRepresentation?.CodeListReference?.ID;
 
         expect(codeListRefId).toBeDefined();
         expect(codeListRefId).toBe(codeList.ID);
@@ -1491,9 +1326,7 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [
-            { Citation: { Title: { String: { "#text": "Test" } } } },
-          ],
+          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
           DataRelationship: [
             {
               DataRelationshipName: { String: { "#text": "Test" } },
@@ -1531,29 +1364,19 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // Create a new variable
-      const newVariableButton = screen.getByLabelText(
-        "physicalInstance.view.newVariable",
-      );
+      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
       fireEvent.click(newVariableButton);
 
-      const nameInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.name/,
-      );
-      const labelInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.label/,
-      );
+      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
       fireEvent.change(nameInput, { target: { value: "NewVariable" } });
       fireEvent.change(labelInput, { target: { value: "New Variable" } });
 
-      const saveVariableButton = screen.getByLabelText(
-        "physicalInstance.view.add",
-      );
+      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
       fireEvent.click(saveVariableButton);
 
       // Click Save All
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       // Wait for the save to complete
@@ -1563,16 +1386,12 @@ describe("View Component", () => {
 
       // Verify that VariablesInRecord includes references to both variables
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
+      expect(savedData.DataRelationship[0].LogicalRecord.VariablesInRecord).toBeDefined();
       expect(
-        savedData.DataRelationship[0].LogicalRecord.VariablesInRecord,
-      ).toBeDefined();
-      expect(
-        savedData.DataRelationship[0].LogicalRecord.VariablesInRecord
-          .VariableUsedReference,
+        savedData.DataRelationship[0].LogicalRecord.VariablesInRecord.VariableUsedReference,
       ).toHaveLength(2);
       expect(
-        savedData.DataRelationship[0].LogicalRecord.VariablesInRecord
-          .VariableUsedReference,
+        savedData.DataRelationship[0].LogicalRecord.VariablesInRecord.VariableUsedReference,
       ).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
@@ -1614,9 +1433,7 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [
-            { Citation: { Title: { String: { "#text": "Test" } } } },
-          ],
+          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
           DataRelationship: [
             {
               DataRelationshipName: { String: { "#text": "Test" } },
@@ -1657,15 +1474,11 @@ describe("View Component", () => {
       expect(screen.getByText("Variable1")).toBeInTheDocument();
 
       // Click delete button for the variable
-      const deleteButtons = screen.getAllByLabelText(
-        "physicalInstance.view.delete",
-      );
+      const deleteButtons = screen.getAllByLabelText("physicalInstance.view.delete");
       fireEvent.click(deleteButtons[0]);
 
       // Confirm deletion in the dialog
-      const confirmButton = screen.getByText(
-        "physicalInstance.view.confirmDelete",
-      );
+      const confirmButton = screen.getByText("physicalInstance.view.confirmDelete");
       fireEvent.click(confirmButton);
 
       // Variable should no longer be visible in the table
@@ -1674,9 +1487,7 @@ describe("View Component", () => {
       });
 
       // Click Save All
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       // Wait for the save to complete
@@ -1750,9 +1561,9 @@ describe("View Component", () => {
       );
 
       // Verify PhysicalInstanceLabel has (copy) suffix
-      expect(
-        savedData.PhysicalInstance[0].PhysicalInstanceLabel.Content["#text"],
-      ).toBe("Original Title (copy)");
+      expect(savedData.PhysicalInstance[0].PhysicalInstanceLabel.Content["#text"]).toBe(
+        "Original Title (copy)",
+      );
     });
 
     it("should add (copy) suffix to DataRelationshipName when duplicating", async () => {
@@ -1808,9 +1619,7 @@ describe("View Component", () => {
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
       // Verify DataRelationship Label has (copy) suffix with new pattern
-      expect(savedData.DataRelationship[0].Label.Content["#text"]).toBe(
-        "Structure : Test (copy)",
-      );
+      expect(savedData.DataRelationship[0].Label.Content["#text"]).toBe("Structure : Test (copy)");
     });
 
     it("should add BasedOnObject to PhysicalInstance when duplicating", async () => {
@@ -2095,9 +1904,7 @@ describe("View Component", () => {
 
       // Verify navigation URL contains the new Physical Instance ID
       const navigatePath = mockNavigate.mock.calls[0][0];
-      expect(navigatePath).toMatch(
-        /^\/ddi\/physical-instances\/test-agency-123\//,
-      );
+      expect(navigatePath).toMatch(/^\/ddi\/physical-instances\/test-agency-123\//);
       expect(navigatePath).not.toContain("pi-original-id");
     });
   });
@@ -2140,9 +1947,7 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [
-            { Citation: { Title: { String: { "#text": "Test" } } } },
-          ],
+          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
           DataRelationship: [
             {
               DataRelationshipName: { String: { "#text": "Test" } },
@@ -2180,15 +1985,11 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       // Click delete button for the variable
-      const deleteButtons = screen.getAllByLabelText(
-        "physicalInstance.view.delete",
-      );
+      const deleteButtons = screen.getAllByLabelText("physicalInstance.view.delete");
       fireEvent.click(deleteButtons[0]);
 
       // Confirm deletion in the dialog
-      const confirmButton = screen.getByText(
-        "physicalInstance.view.confirmDelete",
-      );
+      const confirmButton = screen.getByText("physicalInstance.view.confirmDelete");
       fireEvent.click(confirmButton);
 
       // Variable should no longer be visible in the table
@@ -2198,9 +1999,7 @@ describe("View Component", () => {
 
       // At this point, the component should have unsaved changes
       // The Save All button should be enabled
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       expect(saveAllButton).not.toBeDisabled();
     });
 
@@ -2224,9 +2023,7 @@ describe("View Component", () => {
       });
 
       // Save all
-      const saveAllButton = screen.getByLabelText(
-        "physicalInstance.view.saveAll",
-      );
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
       fireEvent.click(saveAllButton);
 
       await waitFor(() => {
@@ -2266,17 +2063,11 @@ describe("View Component", () => {
       expect(mockSearchParams.get("variableId")).toBe("1");
 
       // Create a new variable and save it, which deselects the variable
-      const newVariableButton = screen.getByLabelText(
-        "physicalInstance.view.newVariable",
-      );
+      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
       fireEvent.click(newVariableButton);
 
-      const nameInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.name/,
-      );
-      const labelInput = screen.getByLabelText(
-        /physicalInstance\.view\.columns\.label/,
-      );
+      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
+      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
       fireEvent.change(nameInput, { target: { value: "NewVar" } });
       fireEvent.change(labelInput, { target: { value: "New Variable" } });
 
@@ -2316,9 +2107,7 @@ describe("View Component", () => {
       fireEvent.click(firstRow);
 
       // Click on the representation tab (index 1)
-      const representationTab = screen.getByText(
-        "physicalInstance.view.tabs.representation",
-      );
+      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
       fireEvent.click(representationTab);
 
       expect(mockSearchParams.get("tab")).toBe("1");
@@ -2332,14 +2121,10 @@ describe("View Component", () => {
       fireEvent.click(firstRow);
 
       // Click on tab 1 then back to tab 0
-      const representationTab = screen.getByText(
-        "physicalInstance.view.tabs.representation",
-      );
+      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
       fireEvent.click(representationTab);
 
-      const informationTab = screen.getByText(
-        "physicalInstance.view.tabs.information",
-      );
+      const informationTab = screen.getByText("physicalInstance.view.tabs.information");
       fireEvent.click(informationTab);
 
       expect(mockSearchParams.has("tab")).toBe(false);
