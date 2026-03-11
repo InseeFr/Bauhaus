@@ -15,7 +15,6 @@ import {
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
-import "./view.scss";
 import { CodesPanel } from "../../../../components/CodesPanel";
 import { ViewMenu } from "../menu";
 import "./CodelistDetailView.css";
@@ -71,12 +70,17 @@ export const CodelistDetailView = ({
               <li>
                 {t("codelists.identifier")}: {codelist.id}
               </li>
-              <CreationUpdateItems creation={codelist.created} update={codelist.modified} />
+              <CreationUpdateItems
+                creation={codelist.created}
+                update={codelist.modified}
+              />
               <li>
-                {t("codelists.validationStatus")} : <PublicationFemale object={codelist} />
+                {t("codelists.validationStatus")} :{" "}
+                <PublicationFemale object={codelist} />
               </li>
               <li>
-                {t("codelists.creator")} : <InseeOrganisation creator={codelist.creator} />
+                {t("codelists.creator")} :{" "}
+                <InseeOrganisation creator={codelist.creator} />
               </li>
               <li>
                 {t("codelists.contributors")} :{" "}
