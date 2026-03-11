@@ -1,16 +1,12 @@
 import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { Button } from "primereact/button";
 import { useTranslation } from "react-i18next";
 import { Toast } from "primereact/toast";
 import { Message } from "primereact/message";
 import { confirmDialog } from "primereact/confirmdialog";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import "./view.css";
-import {
-  PhysicalInstanceDialog,
-  PhysicalInstanceUpdateData,
-} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
@@ -25,6 +21,8 @@ import type { VariableTableData, Variable, CodeList, Code, Category } from "../.
 import { Loading } from "../../../../components/loading";
 import { DDIApi } from "../../../../sdk";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
+import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
@@ -40,6 +38,7 @@ export const Component = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
+  const defaultLocale = useDefaultLocale();
 
   useEffect(() => {
     if (title && title !== state.formData.label) {
@@ -268,14 +267,6 @@ export const Component = () => {
     dispatch(actions.setTypeFilter(value));
   }, []);
 
-  const handleOpenEditModal = useCallback(() => {
-    dispatch(actions.setEditModalVisible(true));
-  }, []);
-
-  const handleCloseEditModal = useCallback(() => {
-    dispatch(actions.setEditModalVisible(false));
-  }, []);
-
   const handleSaveEdit = useCallback(
     async (data: PhysicalInstanceUpdateData) => {
       const previousLabel = state.formData.label;
@@ -297,8 +288,6 @@ export const Component = () => {
           },
         });
 
-        dispatch(actions.setEditModalVisible(false));
-
         toast.current?.show({
           severity: "success",
           summary: t("physicalInstance.view.saveSuccess"),
@@ -319,6 +308,8 @@ export const Component = () => {
           detail: errorMessage,
           life: TOAST_DURATION,
         });
+
+        throw err;
       }
     },
     [id, agencyId, t, updatePhysicalInstance, state.formData.label],
@@ -711,6 +702,7 @@ export const Component = () => {
           agencyId: agencyId!,
           data,
           title,
+          defaultLocale,
         });
 
       // Sauvegarder la nouvelle physical instance via l'API
@@ -765,16 +757,7 @@ export const Component = () => {
         }}
       >
         <div className="sticky-header">
-          <div className="flex align-items-center gap-2 mb-3">
-            <h1 className="m-0">{state.formData.label || title}</h1>
-            <Button
-              icon="pi pi-pencil"
-              text
-              rounded
-              aria-label={t("physicalInstance.view.editTitle")}
-              onClick={handleOpenEditModal}
-            />
-          </div>
+          <PhysicalInstanceLabel label={state.formData.label || title} onSave={handleSaveEdit} />
 
           <SearchFilters
             searchValue={state.searchValue}
@@ -815,14 +798,6 @@ export const Component = () => {
           />
         </div>
       )}
-
-      <PhysicalInstanceDialog
-        visible={state.isEditModalVisible}
-        onHide={handleCloseEditModal}
-        mode="edit"
-        initialData={{ label: state.formData.label }}
-        onSubmitEdit={handleSaveEdit}
-      />
 
       <ConfirmDialog />
       <Toast ref={toast} />

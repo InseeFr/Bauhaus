@@ -27,6 +27,10 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+vi.mock("../../../../auth/components/auth", () => ({
+  HasAccess: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
 vi.mock("../../../../application/app-context", () => ({
   useAppContext: () => ({
     properties: {
@@ -425,13 +429,15 @@ describe("View Component", () => {
   });
 
   describe("Edit modal", () => {
-    it("should open edit modal when pencil button is clicked", () => {
+    it("should open edit modal when pencil button is clicked", async () => {
       render(<Component />, { wrapper });
 
       const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
 
-      expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
+      await waitFor(() => {
+        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
+      });
     });
 
     it("should close edit modal when cancel is clicked", async () => {
@@ -439,6 +445,10 @@ describe("View Component", () => {
 
       const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
+
+      await waitFor(() => {
+        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
+      });
 
       const cancelButton = screen.getByText("physicalInstance.view.editModal.cancel");
       fireEvent.click(cancelButton);
@@ -448,11 +458,15 @@ describe("View Component", () => {
       });
     });
 
-    it("should update form data in edit modal", () => {
+    it("should update form data in edit modal", async () => {
       render(<Component />, { wrapper });
 
       const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
       fireEvent.click(editButton);
+
+      await waitFor(() => {
+        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
+      });
 
       const labelInput = screen.getByLabelText("physicalInstance.creation.label");
       fireEvent.change(labelInput, { target: { value: "New Label" } });
@@ -1604,10 +1618,8 @@ describe("View Component", () => {
 
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
-      // Verify DataRelationshipName has (copy) suffix with new pattern
-      expect(savedData.DataRelationship[0].DataRelationshipName.String["#text"]).toBe(
-        "Structure : Test (copy)",
-      );
+      // Verify DataRelationship Label has (copy) suffix with new pattern
+      expect(savedData.DataRelationship[0].Label.Content["#text"]).toBe("Structure : Test (copy)");
     });
 
     it("should add BasedOnObject to PhysicalInstance when duplicating", async () => {

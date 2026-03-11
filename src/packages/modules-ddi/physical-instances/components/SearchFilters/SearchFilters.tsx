@@ -4,6 +4,7 @@ import { Dropdown } from "primereact/dropdown";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { useTranslation } from "react-i18next";
+import { HasAccess } from "../../../../auth/components/auth";
 
 interface SearchFiltersProps {
   searchValue: string;
@@ -48,23 +49,27 @@ export const SearchFilters = ({
         className="flex-1"
         aria-label={t("physicalInstance.view.typeFilter")}
       />
-      <Button
-        icon="pi pi-save"
-        label={t("physicalInstance.view.saveAll")}
-        severity="secondary"
-        style={{ background: "transparent" }}
-        aria-label={t("physicalInstance.view.saveAll")}
-        onClick={onSaveAll}
-        disabled={!hasLocalChanges}
-      />
-      <Button
-        icon="pi pi-plus"
-        label={t("physicalInstance.view.newVariable")}
-        severity="secondary"
-        style={{ background: "transparent" }}
-        aria-label={t("physicalInstance.view.newVariable")}
-        onClick={onNewVariable}
-      />
+      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+        <Button
+          icon="pi pi-save"
+          label={t("physicalInstance.view.saveAll")}
+          severity="secondary"
+          style={{ background: "transparent" }}
+          aria-label={t("physicalInstance.view.saveAll")}
+          onClick={onSaveAll}
+          disabled={!hasLocalChanges}
+        />
+      </HasAccess>
+      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+        <Button
+          icon="pi pi-plus"
+          label={t("physicalInstance.view.newVariable")}
+          severity="secondary"
+          style={{ background: "transparent" }}
+          aria-label={t("physicalInstance.view.newVariable")}
+          onClick={onNewVariable}
+        />
+      </HasAccess>
     </div>
   );
 };

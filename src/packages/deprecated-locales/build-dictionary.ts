@@ -2,7 +2,6 @@ import { createDictionary, firstLang, getLang, secondLang } from "@utils/diction
 
 import appD from "./dictionary/app";
 import classificationsD from "./dictionary/classifications";
-import codelistsD from "./dictionary/codelists";
 import conceptsD from "./dictionary/concepts";
 import DSDsD from "./dictionary/dsds";
 import errors from "./dictionary/errors";
@@ -15,10 +14,10 @@ const dictionary = {
   ...classificationsD,
   ...operationsD,
   ...DSDsD,
-  ...codelistsD,
-  ...errors,
+  codelistsTitle: { fr: "Listes de codes", en: "Codelists" },
   datasetsTitle: { fr: "Jeux de données", en: "Datasets" },
   ...DDIDictionary,
+  ...errors,
 };
 
 export const D1 = createDictionary(firstLang, dictionary);

@@ -1,4 +1,3 @@
-import { memo } from "react";
 import D from "../../../deprecated-locales/build-dictionary";
 import { rangeType } from "../../utils/msd";
 
@@ -37,7 +36,7 @@ const checkIsEmpty = (msd, currentSection, secondLang) => {
   }
 };
 
-const SimsFieldTitleComponent = ({ msd, secondLang, currentSection }) => {
+export const SimsFieldTitle = ({ msd, secondLang, currentSection }) => {
   const labelKey = secondLang ? "masLabelLg2" : "masLabelLg1";
 
   return (
@@ -51,8 +50,6 @@ const SimsFieldTitleComponent = ({ msd, secondLang, currentSection }) => {
     </>
   );
 };
-
-export const SimsFieldTitle = memo(SimsFieldTitleComponent);
 
 export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, secondLang }) => {
   const isEmpty = checkIsEmpty(msd, currentSection, secondLang);

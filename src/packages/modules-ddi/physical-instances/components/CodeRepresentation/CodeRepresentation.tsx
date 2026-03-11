@@ -17,6 +17,7 @@ import {
   createLabel,
 } from "./CodeRepresentation.utils";
 import { useAppContext } from "../../../../application/app-context";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 
 interface CodeRepresentationProps {
   representation?: CodeRepresentationType;
@@ -38,6 +39,7 @@ export const CodeRepresentation = ({
   const { t } = useTranslation();
   const { properties } = useAppContext();
   const defaultAgencyId = properties.defaultAgencyId;
+  const defaultLocale = useDefaultLocale();
   const [state, dispatch] = useReducer(codeRepresentationReducer, {
     ...initialState,
     codeListLabel: codeList?.Label?.Content?.["#text"] || "",
@@ -116,8 +118,9 @@ export const CodeRepresentation = ({
     const currentRepresentation =
       representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
     const updatedCodeList: CodeList = {
-      ...(codeList || createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId)),
-      Label: createLabel(newLabel),
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId, defaultLocale)),
+      Label: createLabel(newLabel, defaultLocale),
     };
 
     onChange(currentRepresentation, updatedCodeList, categories);
@@ -131,8 +134,9 @@ export const CodeRepresentation = ({
     const currentRepresentation =
       representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
     const updatedCodeList: CodeList = {
-      ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
-      Label: createLabel(codeListLabel),
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+      Label: createLabel(codeListLabel, defaultLocale),
       Code: codeList?.Code?.filter((code) => code.ID !== codeId),
     };
 
@@ -157,7 +161,12 @@ export const CodeRepresentation = ({
     const newCodeListId = codeList?.ID || crypto.randomUUID();
     const currentRepresentation =
       representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const newCategory = createCategory(updatedCode.categoryId, updatedCode.label, defaultAgencyId);
+    const newCategory = createCategory(
+      updatedCode.categoryId,
+      updatedCode.label,
+      defaultAgencyId,
+      defaultLocale,
+    );
     const newCode = createCode(
       updatedCode.id,
       updatedCode.categoryId,
@@ -181,8 +190,9 @@ export const CodeRepresentation = ({
     }
 
     const updatedCodeList: CodeList = {
-      ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
-      Label: createLabel(codeListLabel),
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+      Label: createLabel(codeListLabel, defaultLocale),
       Code: updatedCodeListCodes,
     };
 
@@ -203,12 +213,18 @@ export const CodeRepresentation = ({
     const newCodeListId = codeList?.ID || crypto.randomUUID();
     const currentRepresentation =
       representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const newCategory = createCategory(newRow.categoryId, newRow.label, defaultAgencyId);
+    const newCategory = createCategory(
+      newRow.categoryId,
+      newRow.label,
+      defaultAgencyId,
+      defaultLocale,
+    );
     const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
 
     const updatedCodeList: CodeList = {
-      ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
-      Label: createLabel(codeListLabel),
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+      Label: createLabel(codeListLabel, defaultLocale),
       Code: [...(codeList?.Code || []), newCode],
     };
 
@@ -234,8 +250,9 @@ export const CodeRepresentation = ({
     currentCodes.splice(newIndex, 0, movedCode);
 
     const updatedCodeList: CodeList = {
-      ...(codeList || createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId)),
-      Label: createLabel(codeListLabel),
+      ...(codeList ||
+        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+      Label: createLabel(codeListLabel, defaultLocale),
       Code: currentCodes,
     };
 

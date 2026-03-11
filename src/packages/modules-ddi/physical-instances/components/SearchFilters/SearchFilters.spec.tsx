@@ -9,10 +9,15 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.search": "Rechercher",
         "physicalInstance.view.typeFilter": "Filtrer par type",
         "physicalInstance.view.newVariable": "Nouvelle Variable",
+        "physicalInstance.view.saveAll": "Tout enregistrer",
       };
       return translations[key] || key;
     },
   }),
+}));
+
+vi.mock("../../../../auth/components/auth", () => ({
+  HasAccess: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
 vi.mock("primereact/inputtext", () => ({
@@ -65,6 +70,7 @@ describe("SearchFilters", () => {
   const mockOnSearchChange = vi.fn();
   const mockOnTypeFilterChange = vi.fn();
   const mockOnNewVariable = vi.fn();
+  const mockOnSaveAll = vi.fn();
 
   const defaultProps = {
     searchValue: "",
@@ -77,6 +83,8 @@ describe("SearchFilters", () => {
       { label: "Numeric", value: "numeric" },
     ],
     onNewVariable: mockOnNewVariable,
+    onSaveAll: mockOnSaveAll,
+    hasLocalChanges: false,
   };
 
   beforeEach(() => {
@@ -146,5 +154,35 @@ describe("SearchFilters", () => {
 
     const dropdown = screen.getByLabelText("Filtrer par type") as HTMLSelectElement;
     expect(dropdown.value).toBe("code");
+  });
+
+  it("should render save all button", () => {
+    render(<SearchFilters {...defaultProps} />);
+
+    const button = screen.getByText("Tout enregistrer");
+    expect(button).toBeInTheDocument();
+  });
+
+  it("should have save all button disabled when hasLocalChanges is false", () => {
+    render(<SearchFilters {...defaultProps} hasLocalChanges={false} />);
+
+    const button = screen.getByText("Tout enregistrer");
+    expect(button).toBeDisabled();
+  });
+
+  it("should have save all button enabled when hasLocalChanges is true", () => {
+    render(<SearchFilters {...defaultProps} hasLocalChanges={true} />);
+
+    const button = screen.getByText("Tout enregistrer");
+    expect(button).not.toBeDisabled();
+  });
+
+  it("should call onSaveAll when save all button is clicked", () => {
+    render(<SearchFilters {...defaultProps} hasLocalChanges={true} />);
+
+    const button = screen.getByText("Tout enregistrer");
+    fireEvent.click(button);
+
+    expect(mockOnSaveAll).toHaveBeenCalledTimes(1);
   });
 });

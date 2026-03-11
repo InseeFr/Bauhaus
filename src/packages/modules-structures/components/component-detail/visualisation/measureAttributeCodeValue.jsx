@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { API } from "../../../../modules-codelists/apis";
+import { CodelistsApi as API } from "@sdk/index";
 
 export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {
   const [codesList, setCodesList] = useState();

@@ -16,6 +16,7 @@ export interface AppProperties {
   extraMandatoryFields: string;
   defaultAgencyId: string;
   enableDevTools?: boolean;
+  colecticaLangs?: string[];
 }
 interface AppContextTypes {
   lg1: string;

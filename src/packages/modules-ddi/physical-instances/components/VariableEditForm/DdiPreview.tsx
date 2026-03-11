@@ -11,6 +11,7 @@ import type {
 } from "../../types/api";
 import { DDIApi } from "../../../../sdk";
 import { useAppContext } from "../../../../application/app-context";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { DdiXmlPreview } from "./DdiXmlPreview";
 import { DdiJsonPreview } from "./DdiJsonPreview";
 import { ddiPreviewReducer, initialState, type DdiFormat } from "./DdiPreview.reducer";
@@ -52,6 +53,7 @@ export const DdiPreview = ({
   const { t } = useTranslation();
   const { properties } = useAppContext();
   const defaultAgencyId = properties.defaultAgencyId;
+  const defaultLocale = useDefaultLocale();
   const [state, dispatch] = useReducer(ddiPreviewReducer, initialState);
   const requestIdRef = useRef(0);
   const versionDateRef = useRef(new Date().toISOString());
@@ -95,13 +97,13 @@ export const DdiPreview = ({
       Version: "1",
       VariableName: {
         String: {
-          "@xml:lang": "fr-FR",
+          "@xml:lang": defaultLocale,
           "#text": variableName,
         },
       },
       Label: {
         Content: {
-          "@xml:lang": "fr-FR",
+          "@xml:lang": defaultLocale,
           "#text": variableLabel,
         },
       },
@@ -110,7 +112,7 @@ export const DdiPreview = ({
     if (variableDescription) {
       variableDDI.Description = {
         Content: {
-          "@xml:lang": "fr-FR",
+          "@xml:lang": defaultLocale,
           "#text": variableDescription,
         },
       };
@@ -157,6 +159,7 @@ export const DdiPreview = ({
     return data;
   }, [
     defaultAgencyId,
+    defaultLocale,
     variableId,
     variableName,
     variableLabel,
