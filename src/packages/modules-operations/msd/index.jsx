@@ -25,6 +25,12 @@ import { useDocumentsList } from "./pages/sims-creation/useDocumentsList";
 import { isEssentialRubricKo } from "./sims-field-title";
 import { getParentId, getParentType } from "./utils";
 
+const apiByParentType = {
+  indicator: OperationsApi.getIndicatorById,
+  operation: OperationsApi.getOperation,
+  series: OperationsApi.getSerie,
+};
+
 const MSDContainer = ({
   mode = HELP,
   baseUrl,
@@ -50,6 +56,7 @@ const MSDContainer = ({
   const [exportPending, setExportPending] = useState(false);
   const [owners, setOwners] = useState([]);
   const [missingDocuments, setMissingDocuments] = useState(new Set());
+  const [serverError, setServerError] = useState(undefined);
 
   const id = params.id;
   let idParent;
@@ -68,17 +75,24 @@ const MSDContainer = ({
   }
 
   const saveSims = useCallback(
-    (simsData, callback) => {
-      saveSimsMutation(simsData).then((resultId) => {
-        callback(resultId);
-      });
+    (simsData, callback, errorCallback) => {
+      saveSimsMutation(simsData)
+        .then((resultId) => {
+          callback(resultId);
+        })
+        .catch((error) => {
+          setServerError(error);
+          errorCallback();
+        });
     },
     [saveSimsMutation],
   );
 
   const publishSims = useCallback(
-    (simsData) => {
-      return publishSimsMutation(simsData);
+    (simsData, errorCallback) => {
+      publishSimsMutation(simsData).catch((error) => {
+        errorCallback?.(error);
+      });
     },
     [publishSimsMutation],
   );
@@ -92,16 +106,9 @@ const MSDContainer = ({
       : sims || {};
 
   useEffect(() => {
-    if (parentType === "indicator") {
-      OperationsApi.getIndicatorById(idParent)
-        .then((payload) => setParent(payload))
-        .finally(() => setParentLoading(false));
-    } else if (parentType === "operation") {
-      OperationsApi.getOperation(idParent)
-        .then((payload) => setParent(payload))
-        .finally(() => setParentLoading(false));
-    } else if (parentType === "series") {
-      OperationsApi.getSerie(idParent)
+    const fetch = apiByParentType[parentType];
+    if (fetch) {
+      fetch(idParent)
         .then((payload) => setParent(payload))
         .finally(() => setParentLoading(false));
     } else {
@@ -231,6 +238,7 @@ const MSDContainer = ({
               mode={mode}
               organisations={organisations}
               parentType={parentType}
+              error={serverError}
             />
           </SimsContextProvider>
         )}
