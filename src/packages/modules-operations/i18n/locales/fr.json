@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "663": "Impossible de créer un Sims pour une <a href=\"/operations/series/{{id}}\" target=\"_blank\">série</a> qui possède déjà des opérations",
+    "804": "Ce rapport qualité ne peut pas être publié avant que sa cible (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) soit publiée."
+  }
+}
