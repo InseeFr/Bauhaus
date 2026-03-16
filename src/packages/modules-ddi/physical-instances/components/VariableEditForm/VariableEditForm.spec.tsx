@@ -32,6 +32,14 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+vi.mock("../../../../auth/components/auth", () => ({
+  HasAccess: ({ children, module, privilege }: any) => (
+    <div data-testid="has-access" data-module={module} data-privilege={privilege}>
+      {children}
+    </div>
+  ),
+}));
+
 vi.mock("primereact/card", () => ({
   Card: ({ title, children }: any) => (
     <div>
@@ -760,6 +768,53 @@ describe("VariableEditForm", () => {
 
       // Should not throw an error
       expect(mockOnDuplicate).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("HasAccess controls", () => {
+    it("should wrap duplicate and save buttons with HasAccess UPDATE privilege", () => {
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+        />,
+      );
+
+      const hasAccessElements = screen.getAllByTestId("has-access");
+      expect(hasAccessElements).toHaveLength(2);
+      hasAccessElements.forEach((el) => {
+        expect(el).toHaveAttribute("data-module", "DDI_PHYSICALINSTANCE");
+        expect(el).toHaveAttribute("data-privilege", "UPDATE");
+      });
+    });
+
+    it("should render duplicate button inside HasAccess", () => {
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+        />,
+      );
+
+      const hasAccessElements = screen.getAllByTestId("has-access");
+      const duplicateButton = screen.getByText("Dupliquer");
+      expect(hasAccessElements[0]).toContainElement(duplicateButton);
+    });
+
+    it("should render save button inside HasAccess", () => {
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+        />,
+      );
+
+      const hasAccessElements = screen.getAllByTestId("has-access");
+      const saveButton = screen.getByText("Mettre à jour");
+      expect(hasAccessElements[1]).toContainElement(saveButton);
     });
   });
 

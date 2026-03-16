@@ -3,6 +3,7 @@ import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { TabView, TabPanel } from "primereact/tabview";
 import { useTranslation } from "react-i18next";
+import { HasAccess } from "../../../../auth/components/auth";
 import type {
   NumericRepresentation,
   DateTimeRepresentation,
@@ -372,22 +373,28 @@ export const VariableEditForm = ({
     >
       <form onSubmit={handleSubmit} className="flex flex-column gap-3">
         <div className="flex gap-2 justify-content-end">
-          <Button
-            type="button"
-            label={t("physicalInstance.view.duplicate")}
-            icon="pi pi-copy"
-            outlined
-            severity="secondary"
-            onClick={handleDuplicate}
-          />
-          <Button
-            type="submit"
-            label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
-            icon="pi pi-save"
-            outlined
-            disabled={hasValidationErrors}
-            aria-label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
-          />
+          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+            <Button
+              type="button"
+              label={t("physicalInstance.view.duplicate")}
+              icon="pi pi-copy"
+              outlined
+              severity="secondary"
+              onClick={handleDuplicate}
+            />
+          </HasAccess>
+          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+            <Button
+              type="submit"
+              label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
+              icon="pi pi-save"
+              outlined
+              disabled={hasValidationErrors}
+              aria-label={
+                isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")
+              }
+            />
+          </HasAccess>
           <Button
             type="button"
             icon="pi pi-chevron-left"
