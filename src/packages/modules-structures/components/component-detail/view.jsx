@@ -27,7 +27,10 @@ import { ViewMenu } from "./menu";
 import "./view.css";
 import { MeasureAttributes } from "./visualisation/measureAttributes";
 import { EMPTY_ARRAY } from "@utils/array-utils";
-import { InseeOrganisationList, InseeOrganisationText } from "@components/business/creators-view";
+import {
+  InseeOrganisation,
+  InseeOrganisations,
+} from "@components/business/organisations/organisations";
 
 export const ComponentDetailView = ({
   component,
@@ -103,12 +106,10 @@ export const ComponentDetailView = ({
                 {D.componentValididationStatusTitle} : <PublicationMale object={component} />
               </li>
               <li>
-                {D.creator} : <InseeOrganisationText organisations={component.creator} />
+                {D.creator} : <InseeOrganisation creator={component.creator} />
               </li>
               <li>
-                <li>
-                  {D.contributor} : <InseeOrganisationList organisations={component.contributor} />
-                </li>
+                {D.contributor} : <InseeOrganisations creators={component.contributor} />
               </li>
               <li>
                 <DisseminationStatusVisualisation
