@@ -1,11 +1,15 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useBlocker } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
+import "../../../i18n";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
 import { CloseIconButton } from "@components/buttons/buttons-with-icons";
 import { CheckSecondLang } from "@components/check-second-lang";
+import { ErrorBloc } from "@components/errors-bloc";
 import { Loading, Saving } from "@components/loading";
 import { Select } from "@components/select-rmes";
 
@@ -25,6 +29,7 @@ import {
 } from "../../utils";
 import { DocumentFormPanel } from "./document-form-panel";
 import { useDocumentsStoreContext } from "./documents-store-context";
+/** @typedef {import("./sims-creation.types").SimsCreationError} SimsCreationError */
 import { Menu } from "./menu";
 import "./sims-creation.scss";
 import SimsDocumentField from "./sims-document-field";
@@ -44,6 +49,9 @@ export const generateSimsBeforeSubmit = (simsProp, parentType, idParent, rubrics
   };
 };
 
+/**
+ * @param {{ error?: SimsCreationError } & Record<string, unknown>} props
+ */
 const SimsCreation = ({
   mode,
   idParent: idParentProp,
@@ -55,8 +63,10 @@ const SimsCreation = ({
   codesLists = {},
   organisations = EMPTY_ARRAY,
   parentWithSims,
+  error,
 }) => {
   const goBack = useGoBack();
+  const { t } = useTranslation();
   const [changed, setChanged] = useState(false);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -86,10 +96,16 @@ const SimsCreation = ({
 
     setChanged(false);
 
-    onSubmit(generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics), (id) => {
-      setSaving(false);
-      goBack(`/operations/sims/${id}`, true);
-    });
+    onSubmit(
+      generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics),
+      (id) => {
+        setSaving(false);
+        goBack(`/operations/sims/${id}`, true);
+      },
+      () => {
+        setSaving(false);
+      },
+    );
   };
 
   const goBackUrl = sims.id
@@ -208,6 +224,8 @@ const SimsCreation = ({
   return (
     <>
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
+
+      {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} D={D} />}
 
       <Modal
         className="Modal__Bootstrap modal-dialog operations structures-specification-modal"

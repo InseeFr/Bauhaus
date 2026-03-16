@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
@@ -22,7 +23,7 @@ import D from "../../../../deprecated-locales";
 
 import { RubricEssentialMsg } from "../../rubric-essantial-msg";
 import { SimsFieldTitle } from "../../sims-field-title";
-import { hasLabelLg2 } from "../../utils";
+import { getParentUri, hasLabelLg2 } from "../../utils";
 import { Menu } from "./menu";
 import SimsBlock from "./sims-block";
 import "./sims-visualisation.scss";
@@ -40,6 +41,7 @@ export default function SimsVisualisation({
   owners = EMPTY_ARRAY,
 }) {
   const [secondLang] = useSecondLang();
+  const { t } = useTranslation();
   const [modalOpened, setModalOpened] = useState(false);
   const [exportModalOpened, setExportModalOpened] = useState(false);
   const [exportConfig, setExportConfig] = useState({
@@ -111,11 +113,14 @@ export default function SimsVisualisation({
     (object) => {
       publishSims(object, (err) => {
         if (err) {
-          setServerSideError(err);
+          const targetMatch = err.details?.match(/Indicator\/Series\/Operation:\s*(\S+)/);
+          const targetId = targetMatch?.[1];
+          const href = getParentUri(object);
+          setServerSideError([t(`errors.${err.code}`, { id: targetId, href })]);
         }
       });
     },
-    [publishSims],
+    [publishSims, t],
   );
 
   /**

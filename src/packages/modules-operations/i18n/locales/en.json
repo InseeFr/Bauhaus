@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "663": "Cannot create Sims for a <a href=\"/operations/series/{{id}}\" target=\"_blank\">series</a> which already has operations",
+    "804": "This metadataReport cannot be published before its target (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) is published."
+  }
+}

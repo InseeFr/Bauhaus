@@ -230,10 +230,6 @@ const messages = {
       fr: () => "La famille référencée n’existe pas.",
       en: () => "The referenced family does not exist.",
     },
-    663: {
-      fr: () => "Une série ne peut avoir à la fois une documentation Sims et des opérations.",
-      en: () => "A series can not have both Sims documentation and operations.",
-    },
     701: {
       fr: () =>
         "Vous ne disposez pas des autorisation requises pour la création d’une opération. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
@@ -281,12 +277,6 @@ const messages = {
         "Vous ne disposez pas des autorisations requises pour la publication d’une documentation Sims. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration.",
       en: () =>
         "You do not have the required permissions for publishing a Sims documentation. For more information, please contact the management team.",
-    },
-    804: {
-      fr: () =>
-        "Vous ne pouvez pas publier cet objet (rapport, opération ou indicateur) sans avoir publié l’objet auquel il est rattaché (opération ou indicateur, série)",
-      en: () =>
-        "You cannot publish this object (report, operation, or indicator) without first publishing the object it is attached to (operation or indicator, series)",
     },
     841: {
       fr: () => "La documentation Sims n’existe pas.",
