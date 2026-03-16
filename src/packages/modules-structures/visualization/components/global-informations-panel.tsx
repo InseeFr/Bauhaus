@@ -7,16 +7,20 @@ import { PublicationFemale } from "@components/status";
 import { D1 } from "../../../deprecated-locales";
 import { Structure } from "../../../model/structures/Structure";
 import D from "../../i18n/build-dictionary";
+
 import {
-  InseeOrganisationList,
-  InseeOrganisationText,
-} from "../../../components/business/creators-view";
+  InseeOrganisation,
+  InseeOrganisations,
+} from "@components/business/organisations/organisations";
 
 interface GlobalInformationsPanelTypes {
   structure: Structure;
 }
 
 export const GlobalInformationsPanel = ({ structure }: GlobalInformationsPanelTypes) => {
+  const creators = Array.isArray(structure.contributor)
+    ? structure.contributor
+    : [structure.contributor];
   return (
     <Row>
       <Note
@@ -30,10 +34,10 @@ export const GlobalInformationsPanel = ({ structure }: GlobalInformationsPanelTy
               {D.componentValididationStatusTitle} : <PublicationFemale object={structure} />
             </li>
             <li>
-              {D.creator} : <InseeOrganisationText organisations={structure.creator} />
+              {D.creator} : <InseeOrganisation creator={structure.creator} />
             </li>
             <li>
-              {D.contributor} : <InseeOrganisationList organisations={structure.contributor} />
+              {D.contributor} : <InseeOrganisations creators={creators} />
             </li>
             <li>
               <DisseminationStatusVisualisation

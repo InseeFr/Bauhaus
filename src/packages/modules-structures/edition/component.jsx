@@ -176,10 +176,15 @@ const Edition = ({ creation, initialStructure }) => {
         </div>
       </Row>
       <div className="form-group">
-        <CreatorsInput value={creator} onChange={onChange("creator")} />
+        <CreatorsInput mode="organisation" value={creator} onChange={onChange("creator")} />
       </div>
       <div className="form-group">
-        <ContributorsInput value={contributor} onChange={onChange("contributor")} multi />
+        <ContributorsInput
+          mode="organisation"
+          value={contributor}
+          onChange={onChange("contributor")}
+          multi
+        />
       </div>
 
       <div className="form-group">

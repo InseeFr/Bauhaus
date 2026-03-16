@@ -487,6 +487,7 @@ export const DumbComponentDetailEdit = ({
           <CreatorsInput
             value={component.creator}
             onChange={(value) => setComponent({ ...component, creator: value })}
+            mode="organisation"
           />
         </div>
         <div className="form-group">
@@ -499,6 +500,7 @@ export const DumbComponentDetailEdit = ({
               })
             }
             multi={true}
+            mode="organisation"
           />
         </div>
         <div className="form-group">
