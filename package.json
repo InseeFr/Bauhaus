@@ -76,7 +76,6 @@
     "stylelint-config-standard": "^36.0.1",
     "vite": "^7.3.0",
     "vite-envs": "^4.6.2",
-    "vite-plugin-csp-guard": "^3.0.0",
     "vite-tsconfig-paths": "^6.0.1",
     "vitest": "^4.0.15"
   },
