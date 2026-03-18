@@ -1,4 +1,4 @@
-import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
+import { useReducer, useRef, useMemo, useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Toast } from "primereact/toast";
@@ -19,10 +19,11 @@ import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
 import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
 import { Loading } from "../../../../components/loading";
-import { DDIApi } from "../../../../sdk";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
-import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
+import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useExport } from "../../../hooks/useExport";
+import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
@@ -39,33 +40,14 @@ export const Component = () => {
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
   const defaultLocale = useDefaultLocale();
+  const dataByLangs = usePhysicalInstanceByLangs(data);
+  const [selectedLanguage, setSelectedLanguage] = useState(defaultLocale);
 
   useEffect(() => {
     if (title && title !== state.formData.label) {
       dispatch(actions.setFormData({ label: title }));
     }
   }, [title]);
-
-  const tabParam = Number(searchParams.get("tab"));
-  const activeTabIndex = [0, 1, 2].includes(tabParam) ? tabParam : 0;
-
-  const handleTabChange = useCallback(
-    (index: number) => {
-      setSearchParams(
-        (prev) => {
-          const next = new URLSearchParams(prev);
-          if (index === 0) {
-            next.delete("tab");
-          } else {
-            next.set("tab", String(index));
-          }
-          return next;
-        },
-        { replace: true },
-      );
-    },
-    [setSearchParams],
-  );
 
   // Sync selected variable ID to URL search params
   useEffect(() => {
@@ -208,56 +190,7 @@ export const Component = () => {
     return filtered;
   }, [mergedVariables, state.searchValue, state.typeFilter]);
 
-  const handleExport = useCallback(
-    async (format: "DDI3" | "DDI4") => {
-      try {
-        let exportedData: string;
-        let fileName: string;
-
-        if (format === "DDI3") {
-          // Appel de l'API pour convertir en DDI3
-          const result = await DDIApi.convertToDDI3(data);
-          exportedData = result;
-          // Nettoyer le titre pour créer un nom de fichier valide
-          const sanitizedTitle = title.replace(/[^a-z0-9]/gi, "_").toLowerCase();
-          fileName = `${sanitizedTitle}-ddi3.xml`;
-        } else {
-          // Pour DDI4, on utilise les données telles quelles
-          exportedData = JSON.stringify(data, null, 2);
-          const sanitizedTitle = title.replace(/[^a-z0-9]/gi, "_").toLowerCase();
-          fileName = `${sanitizedTitle}-ddi4.json`;
-        }
-
-        // Créer un blob et déclencher le téléchargement
-        const blob = new Blob([exportedData], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-
-        // Affichage du toast de succès
-        toast.current?.show({
-          severity: "success",
-          summary: t("physicalInstance.view.exportSuccess"),
-          detail: t("physicalInstance.view.exportSuccessDetail", { format }),
-          life: TOAST_DURATION,
-        });
-      } catch (err) {
-        // Affichage du toast d'erreur
-        toast.current?.show({
-          severity: "error",
-          summary: t("physicalInstance.view.exportError"),
-          detail: err instanceof Error ? err.message : t("physicalInstance.view.exportErrorDetail"),
-          life: TOAST_DURATION,
-        });
-      }
-    },
-    [data, title, t],
-  );
+  const handleExport = useExport(data, title, toast);
 
   const handleSearchChange = useCallback((value: string) => {
     dispatch(actions.setSearchValue(value));
@@ -757,7 +690,11 @@ export const Component = () => {
         }}
       >
         <div className="sticky-header">
-          <PhysicalInstanceLabel label={state.formData.label || title} onSave={handleSaveEdit} />
+          <PhysicalInstanceHeader
+            label={state.formData.label || title}
+            onSave={handleSaveEdit}
+            onLanguageChange={setSelectedLanguage}
+          />
 
           <SearchFilters
             searchValue={state.searchValue}
@@ -793,15 +730,13 @@ export const Component = () => {
             onNext={handleNextVariable}
             hasPrevious={hasVariablesToNavigate}
             hasNext={hasVariablesToNavigate}
-            activeTabIndex={activeTabIndex}
-            onTabChange={handleTabChange}
           />
         </div>
       )}
 
       <ConfirmDialog />
       <Toast ref={toast} />
-      <DdiDevTools data={data} />
+      <DdiDevTools data={data} dataByLangs={dataByLangs} />
     </div>
   );
 };

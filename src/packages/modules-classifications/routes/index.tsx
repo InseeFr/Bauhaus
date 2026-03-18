@@ -19,23 +19,23 @@ export const routes: RouteObject[] = [
   },
   {
     path: "",
-    lazy: () => import("../home-container"),
+    lazy: () => import("../pages/classifications/home/home-container"),
   },
   {
     path: "classification/:id",
-    lazy: () => import("../visualization/home-container"),
+    lazy: () => import("../pages/classifications/view/page"),
   },
   {
     path: "classification/:id/modify",
-    lazy: () => import("../edition"),
+    lazy: () => import("../pages/classifications/edition/page"),
   },
   {
     path: "classification/:id/items",
-    lazy: () => import("../visualization/items/home-container"),
+    lazy: () => import("../pages/classifications/items/page"),
   },
   {
     path: "classification/:id/tree",
-    lazy: () => import("../visualization/tree/home-container"),
+    lazy: () => import("../pages/classifications/tree/page"),
   },
   {
     path: "classification/:classificationId/level/:levelId",
