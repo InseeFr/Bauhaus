@@ -2,9 +2,12 @@ import { CheckSecondLang } from "@components/check-second-lang";
 import { CompareNotes } from "@components/note-compare";
 import { PageTitle } from "@components/page-title";
 
-import { ConceptGeneral as ConceptGeneralType, ConceptNotes } from "../../model/concepts/concept";
+import {
+  ConceptGeneral as ConceptGeneralType,
+  ConceptNotes,
+} from "../../model/concepts/concept";
 import { buildNotes } from "../utils/notes";
-import ConceptGeneral from "../visualization/general";
+import ConceptGeneral from "../pages/concepts/view/components/general";
 import Controls from "./controls";
 
 interface ConceptCompare {
@@ -13,7 +16,11 @@ interface ConceptCompare {
   secondLang: boolean;
 }
 
-const ConceptCompare = ({ conceptGeneral, notes, secondLang }: Readonly<ConceptCompare>) => {
+const ConceptCompare = ({
+  conceptGeneral,
+  notes,
+  secondLang,
+}: Readonly<ConceptCompare>) => {
   const { prefLabelLg1, prefLabelLg2 } = conceptGeneral;
   const version = Number(conceptGeneral.conceptVersion);
   return (
