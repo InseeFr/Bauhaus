@@ -13,7 +13,7 @@ import D from "../../../../deprecated-locales";
 import { getModalMessage } from "../../../utils/build-validation-message";
 import { buildNotes } from "../../../utils/notes";
 import ConceptGeneral from "./components/general";
-import ConceptLinks from "./components/Links";
+import ConceptLinks from "./components/links";
 import ConceptVisualizationControls from "./menu";
 
 const ConceptVisualization = ({
@@ -62,7 +62,10 @@ const ConceptVisualization = ({
   return (
     <>
       <div className="container">
-        <PageTitleBlock titleLg1={general.prefLabelLg1} titleLg2={general.prefLabelLg2} />
+        <PageTitleBlock
+          titleLg1={general.prefLabelLg1}
+          titleLg2={general.prefLabelLg2}
+        />
         <ConceptVisualizationControls
           id={id}
           general={general}
@@ -82,7 +85,9 @@ const ConceptVisualization = ({
         id="validation-concept-modal"
         isOpen={modalValid}
         title="Confirmation de la validation"
-        body={getModalMessage([{ prefLabelLg1: general.prefLabelLg1, valid: general.valid }])}
+        body={getModalMessage([
+          { prefLabelLg1: general.prefLabelLg1, valid: general.valid },
+        ])}
         modalButtons={modalButtons}
         closeCancel={handleCancelValidation}
       />
