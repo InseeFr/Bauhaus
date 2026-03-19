@@ -3,7 +3,7 @@ import { RouteObject } from "react-router-dom";
 export const routes: RouteObject[] = [
   {
     path: "",
-    lazy: () => import("../home"),
+    lazy: () => import("../pages/concepts/home/page"),
   },
   {
     path: "validation",
@@ -19,11 +19,11 @@ export const routes: RouteObject[] = [
   },
   {
     path: "create",
-    lazy: () => import("../edition-creation/creation-container"),
+    lazy: () => import("../pages/concepts/edit/edition-container"),
   },
   {
     path: ":id",
-    lazy: () => import("../visualization/home-container"),
+    lazy: () => import("../pages/concepts/view/home-container"),
   },
   {
     path: ":id/compare",
@@ -31,31 +31,27 @@ export const routes: RouteObject[] = [
   },
   {
     path: ":id/modify",
-    lazy: () => import("../edition-creation/edition-container"),
+    lazy: () => import("../pages/concepts/edit/edition-container"),
   },
   {
     path: "administration",
-    lazy: () => import("../administration/home"),
-  },
-  {
-    path: "administration/dashboard",
-    lazy: () => import("../administration/dashboard/concepts/home-container"),
+    lazy: () => import("../pages/dashboard/home/page"),
   },
   {
     path: "collections",
-    lazy: () => import("../collections/home-container"),
+    lazy: () => import("../pages/collections/home/home-container"),
   },
   {
     path: "collections/create",
-    lazy: () => import("../collections/edition-creation/creation-container"),
+    lazy: () => import("../pages/collections/edit/edition-container"),
   },
   {
     path: "collections/:id",
-    lazy: () => import("../collections/visualization/home-container"),
+    lazy: () => import("../pages/collections/view/home-container"),
   },
   {
     path: "collections/:id/modify",
-    lazy: () => import("../collections/edition-creation/edition-container"),
+    lazy: () => import("../pages/collections/edit/edition-container"),
   },
   {
     path: "collections/validation",

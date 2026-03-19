@@ -3,14 +3,16 @@ import { Calendar } from "primereact/calendar";
 import "./date-picker.scss";
 
 interface DatePickerTypes {
-  value: string;
+  value?: string;
   onChange: (value?: string) => void;
+  inputId?: string;
 }
 
-export const DatePicker = ({ value, onChange }: Readonly<DatePickerTypes>) => {
+export const DatePicker = ({ value, onChange, inputId }: Readonly<DatePickerTypes>) => {
   const date = value ? new Date(value) : undefined;
   return (
     <Calendar
+      inputId={inputId}
       dateFormat="dd/mm/yy"
       value={date}
       onChange={(e) => {

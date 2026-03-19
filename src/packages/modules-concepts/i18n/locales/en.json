@@ -1,8 +1,58 @@
 {
+  "dashboard": {
+    "pageTitle": "Concepts dashboard",
+    "administrationTitle": "Administration",
+    "conceptsTab": "Concepts",
+    "collectionsTab": "Collections",
+    "summaryTab": "Summary",
+    "creationsTab": "Creation list",
+    "modificationsTab": "Modification list",
+    "listPickerTitle": "Concepts {{type}} list since:",
+    "creationsType": "creations",
+    "modificationsType": "modifications",
+    "ownerColumn": "Owner",
+    "createdColumn": "Creation date",
+    "modifiedColumn": "Modification date",
+    "statusColumn": "Publication status",
+    "statusProvisional": "Provisional",
+    "totalColumn": "Total",
+    "provisionalCountLabel": "of which \"provisional\"",
+    "concepts": {
+      "labelColumn": "Concepts",
+      "disseminationColumn": "Dissemination status",
+      "statusValid": "Published",
+      "summary": {
+        "title": "State of the concepts repository at",
+        "conceptsCountLabel": "Number of concepts",
+        "topConceptsCountLabel": "of which \"top concepts\"",
+        "validDateCountLabel": "of which \"having an expiration date\"",
+        "genericColumn": "Public generic",
+        "specificColumn": "Public specific",
+        "privateColumn": "Private",
+        "byOwnerColumn": "Number of concepts by owner"
+      }
+    },
+    "collections": {
+      "labelColumn": "Collections",
+      "membersColumn": "Number of concepts",
+      "statusValid": "Published",
+      "summary": {
+        "title": "State of the collections repository at",
+        "collectionsCountLabel": "Number of collections",
+        "byOwnerColumn": "Number of collections by owner"
+      }
+    }
+  },
+  "collection": {
+    "membersPanelTitle": "Collection concept members ({{size}})"
+  },
   "concept": {
     "error": {
       "title": "Error",
       "notFound": "Unable to find this concept"
-    }
+    },
+    "title": "Concepts",
+    "searchPlaceholder": "Label (or alternative label)...",
+    "advancedSearch": "Concepts - Search"
   }
 }
