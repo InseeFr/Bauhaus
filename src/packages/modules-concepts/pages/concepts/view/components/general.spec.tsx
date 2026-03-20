@@ -4,23 +4,27 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ConceptGeneral from "./general";
 
 // Mock des dépendances
-vi.mock("../../../../../deprecated-locales", () => ({
-  D1: {
-    globalInformationsTitle: "Informations globales",
-    identifiantTitle: "Identifiant",
-    altLabelTitle: "Synonyme",
-    createdDateTitle: "Date de création",
-    modifiedDateTitle: "Date de modification",
-    validDateTitle: "Date de validité",
-    conceptVersionTitle: "Version du concept",
-    creatorTitle: "Créateur",
-    contributorTitle: "Gestionnaire",
-    disseminationStatusTitle: "Statut de diffusion",
-    isConceptValidTitle: "État du concept",
-    conceptStatusProvisional: "Provisoire",
-    conceptStatusValid: "Validé",
-    additionalMaterialTitle: "Document lié",
-  },
+const translations: Record<string, string> = {
+  "concept.general.globalInformationsTitle": "Informations globales",
+  "concept.general.identifiantTitle": "Identifiant",
+  "concept.general.altLabelTitle": "Libellé alternatif",
+  "concept.general.createdDateTitle": "Date de création",
+  "concept.general.modifiedDateTitle": "Date de modification",
+  "concept.general.validDateTitle": "Date de validité",
+  "concept.general.conceptVersionTitle": "Version du concept",
+  "concept.general.creatorTitle": "Créateur",
+  "concept.general.contributorTitle": "Gestionnaire",
+  "concept.general.disseminationStatusTitle": "Statut de diffusion",
+  "concept.general.isConceptValidTitle": "État du concept",
+  "concept.general.conceptStatusProvisional": "Provisoire",
+  "concept.general.conceptStatusValid": "Validé",
+  "concept.general.additionalMaterialTitle": "Document lié",
+};
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => translations[key] ?? key,
+  }),
 }));
 
 vi.mock("@utils/hooks/useLocales", () => ({
@@ -134,7 +138,7 @@ describe("ConceptGeneral", () => {
 
       render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
 
-      expect(screen.getByText(/Synonyme \(Fr\)/)).toBeInTheDocument();
+      expect(screen.getByText(/Libellé alternatif \(Fr\)/)).toBeInTheDocument();
       expect(screen.getByText("Synonym 1")).toBeInTheDocument();
       expect(screen.getByText("Synonym 2")).toBeInTheDocument();
     });
@@ -148,7 +152,7 @@ describe("ConceptGeneral", () => {
         wrapper: createWrapper(),
       });
 
-      expect(screen.getByText(/Synonyme \(En\)/)).toBeInTheDocument();
+      expect(screen.getByText(/Libellé alternatif \(En\)/)).toBeInTheDocument();
       expect(screen.getByText("Alternative 1")).toBeInTheDocument();
       expect(screen.getByText("Alternative 2")).toBeInTheDocument();
     });
@@ -162,7 +166,7 @@ describe("ConceptGeneral", () => {
         wrapper: createWrapper(),
       });
 
-      expect(screen.queryByText(/Synonyme \(En\)/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Libellé alternatif \(En\)/)).not.toBeInTheDocument();
     });
 
     it("should not render altLabel fields when empty arrays", () => {
@@ -173,7 +177,7 @@ describe("ConceptGeneral", () => {
 
       render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
 
-      expect(screen.queryByText(/Synonyme/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Libellé alternatif/)).not.toBeInTheDocument();
     });
   });
 
@@ -402,8 +406,8 @@ describe("ConceptGeneral", () => {
       expect(screen.getByText("Informations globales")).toBeInTheDocument();
       expect(screen.getByText(/Identifiant/)).toBeInTheDocument();
       expect(screen.getByText(/c1234/)).toBeInTheDocument();
-      expect(screen.getByText(/Synonyme \(Fr\)/)).toBeInTheDocument();
-      expect(screen.getByText(/Synonyme \(En\)/)).toBeInTheDocument();
+      expect(screen.getByText(/Libellé alternatif \(Fr\)/)).toBeInTheDocument();
+      expect(screen.getByText(/Libellé alternatif \(En\)/)).toBeInTheDocument();
       expect(screen.getByText(/Date de création/)).toBeInTheDocument();
       expect(screen.getByText(/Date de modification/)).toBeInTheDocument();
       expect(screen.getByText(/Date de validité/)).toBeInTheDocument();
@@ -562,7 +566,7 @@ describe("ConceptGeneral", () => {
       });
 
       // Le composant doit gérer de grands tableaux sans erreur
-      expect(screen.getByText(/Synonyme \(Fr\)/)).toBeInTheDocument();
+      expect(screen.getByText(/Libellé alternatif \(Fr\)/)).toBeInTheDocument();
     });
 
     it("should handle special characters in text fields", () => {

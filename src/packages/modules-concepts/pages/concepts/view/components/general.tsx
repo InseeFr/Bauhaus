@@ -7,7 +7,7 @@ import { stringToDate } from "@utils/date-utils";
 import { useLocales } from "@utils/hooks/useLocales";
 import { isEmpty } from "@utils/value-utils";
 
-import { D1 } from "../../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
 import { SingleOrNestedListItem } from "../../../../../components/ui/single-or-nested-list-item";
 import { InseeOrganisation } from "@components/business/organisations/organisations";
 
@@ -87,7 +87,10 @@ const renderLinkField = (
   );
 };
 
-const renderDisseminationField = (fieldName: "disseminationStatus", value: string): JSX.Element => {
+const renderDisseminationField = (
+  fieldName: "disseminationStatus",
+  value: string,
+): JSX.Element => {
   return (
     <li key={fieldName}>
       <DisseminationStatusVisualisation disseminationStatus={value} />
@@ -99,15 +102,21 @@ const renderValidationField = (
   fieldName: "isValidated",
   label: string,
   value: string,
+  conceptStatusValid: string,
+  conceptStatusProvisional: string,
 ): JSX.Element => {
   return (
     <li key={fieldName}>{`${label}: ${
-      value === "true" ? D1.conceptStatusValid : D1.conceptStatusProvisional
+      value === "true" ? conceptStatusValid : conceptStatusProvisional
     }`}</li>
   );
 };
 
-const renderSimpleField = (fieldName: FieldName, label: string, value: string): JSX.Element => {
+const renderSimpleField = (
+  fieldName: FieldName,
+  label: string,
+  value: string,
+): JSX.Element => {
   return <li key={fieldName}>{`${label}: ${value}`}</li>;
 };
 
@@ -117,6 +126,8 @@ const renderFieldItem = (
   label: string,
   attr: ConceptAttribute,
   secondLang: boolean,
+  conceptStatusValid: string,
+  conceptStatusProvisional: string,
 ): JSX.Element | null => {
   const value = attr[fieldName];
 
@@ -148,7 +159,13 @@ const renderFieldItem = (
       return renderDisseminationField(fieldName, value as string);
 
     case "isValidated":
-      return renderValidationField(fieldName, label, value as string);
+      return renderValidationField(
+        fieldName,
+        label,
+        value as string,
+        conceptStatusValid,
+        conceptStatusProvisional,
+      );
 
     case "id":
     case "conceptVersion":
@@ -160,41 +177,61 @@ const renderFieldItem = (
   }
 };
 
-function ConceptGeneral({ attr, secondLang = false }: Readonly<ConceptGeneralProps>) {
+function ConceptGeneral({
+  attr,
+  secondLang = false,
+}: Readonly<ConceptGeneralProps>) {
   const { lg1, lg2 } = useLocales();
+  const { t } = useTranslation();
+
+  const conceptStatusValid = t("concept.general.conceptStatusValid");
+  const conceptStatusProvisional = t(
+    "concept.general.conceptStatusProvisional",
+  );
 
   // Build fields configuration dynamically based on available data
-  const fields: { name: FieldName; label: string }[] = [{ name: "id", label: D1.identifiantTitle }];
+  const fields: { name: FieldName; label: string }[] = [
+    { name: "id", label: t("concept.general.identifiantTitle") },
+  ];
 
   if (attr.altLabelLg1 && attr.altLabelLg1.length !== 0) {
-    fields.push({ name: "altLabelLg1", label: `${D1.altLabelTitle} (${lg1})` });
+    fields.push({
+      name: "altLabelLg1",
+      label: `${t("concept.general.altLabelTitle")} (${lg1})`,
+    });
   }
 
   if (attr.altLabelLg2 && attr.altLabelLg2.length !== 0) {
-    fields.push({ name: "altLabelLg2", label: `${D1.altLabelTitle} (${lg2})` });
+    fields.push({
+      name: "altLabelLg2",
+      label: `${t("concept.general.altLabelTitle")} (${lg2})`,
+    });
   }
 
   fields.push(
-    { name: "created", label: D1.createdDateTitle },
-    { name: "modified", label: D1.modifiedDateTitle },
+    { name: "created", label: t("concept.general.createdDateTitle") },
+    { name: "modified", label: t("concept.general.modifiedDateTitle") },
   );
 
   if (attr.valid) {
-    fields.push({ name: "valid", label: D1.validDateTitle });
+    fields.push({ name: "valid", label: t("concept.general.validDateTitle") });
   }
 
   fields.push(
-    { name: "conceptVersion", label: D1.conceptVersionTitle },
-    { name: "creator", label: D1.creatorTitle },
-    { name: "contributor", label: D1.contributorTitle },
-    { name: "disseminationStatus", label: D1.disseminationStatusTitle },
-    { name: "isValidated", label: D1.isConceptValidTitle },
+    { name: "conceptVersion", label: t("concept.general.conceptVersionTitle") },
+    { name: "creator", label: t("concept.general.creatorTitle") },
+    { name: "contributor", label: t("concept.general.contributorTitle") },
+    {
+      name: "disseminationStatus",
+      label: t("concept.general.disseminationStatusTitle"),
+    },
+    { name: "isValidated", label: t("concept.general.isConceptValidTitle") },
   );
 
   if (attr.additionalMaterial) {
     fields.push({
       name: "additionalMaterial",
-      label: D1.additionalMaterialTitle,
+      label: t("concept.general.additionalMaterialTitle"),
     });
   }
 
@@ -202,9 +239,20 @@ function ConceptGeneral({ attr, secondLang = false }: Readonly<ConceptGeneralPro
     <Row>
       <Note
         text={
-          <ul>{fields.map(({ name, label }) => renderFieldItem(name, label, attr, secondLang))}</ul>
+          <ul>
+            {fields.map(({ name, label }) =>
+              renderFieldItem(
+                name,
+                label,
+                attr,
+                secondLang,
+                conceptStatusValid,
+                conceptStatusProvisional,
+              ),
+            )}
+          </ul>
         }
-        title={D1.globalInformationsTitle}
+        title={t("concept.general.globalInformationsTitle")}
         alone={true}
       />
     </Row>

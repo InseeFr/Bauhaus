@@ -53,6 +53,26 @@
     },
     "title": "Concepts",
     "searchPlaceholder": "Label (or alternative label)...",
-    "advancedSearch": "Concepts - Search"
+    "advancedSearch": "Concepts - Search",
+    "edit": {
+      "labelTitle": "Label",
+      "requiredFields": "Required fields"
+    },
+    "general": {
+      "globalInformationsTitle": "General information",
+      "identifiantTitle": "Identifier",
+      "altLabelTitle": "Alternative label",
+      "createdDateTitle": "Creation date",
+      "modifiedDateTitle": "Modification date",
+      "validDateTitle": "Expiration date",
+      "conceptVersionTitle": "Concept version",
+      "creatorTitle": "Owner",
+      "contributorTitle": "Contributor",
+      "disseminationStatusTitle": "Dissemination status",
+      "isConceptValidTitle": "Publication status",
+      "conceptStatusValid": "Published",
+      "conceptStatusProvisional": "Provisional",
+      "additionalMaterialTitle": "Additional material"
+    }
   }
 }

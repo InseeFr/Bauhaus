@@ -3,6 +3,16 @@ import { render } from "@testing-library/react";
 import { empty } from "../../../utils/general";
 import ConceptGeneral from "./general";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key) => key,
+  }),
+}));
+
+vi.mock("@utils/hooks/useLocales", () => ({
+  useLocales: () => ({ lg1: "fr", lg2: "en" }),
+}));
+
 vi.mock("@components/business/creators-input", () => ({
   CreatorsInput: () => <></>,
 }));

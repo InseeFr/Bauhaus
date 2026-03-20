@@ -8,7 +8,8 @@ import { InputRmes } from "@components/input-rmes";
 import { Row } from "@components/layout";
 import { RequiredIcon } from "@components/required-icon";
 
-import D, { D1, D2 } from "../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
+import { useLocales } from "@utils/hooks/useLocales";
 import { fields as generalFields } from "../../../utils/general";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 
@@ -31,17 +32,20 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
     valid,
   } = general;
 
+  const { t } = useTranslation();
+  const { lg1, lg2 } = useLocales();
+
   const handlers = handleFieldChange(handleChange);
 
   return (
     <div>
       <h4 className="text-center">
-        ( <RequiredIcon /> : {D.requiredFields})
+        ( <RequiredIcon /> : {t("concept.edit.requiredFields")})
       </h4>
       <Row>
         <InputRmes
           colMd={6}
-          label={D1.labelTitle}
+          label={`${t("concept.edit.labelTitle")} (${lg1})`}
           star
           value={prefLabelLg1}
           handleChange={handlers.prefLabelLg1}
@@ -55,7 +59,7 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
         />
         <InputRmes
           colMd={6}
-          label={D2.labelTitle}
+          label={`${t("concept.edit.labelTitle")} (${lg2})`}
           hiddenStar
           value={prefLabelLg2}
           handleChange={handlers.prefLabelLg2}
@@ -65,8 +69,8 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
       <InputMulti
         inputLg1={altLabelLg1}
         inputLg2={altLabelLg2}
-        labelLg1="altLabelTitle"
-        labelLg2="altLabelTitle"
+        labelLg1={`${t("concept.general.altLabelTitle")} (${lg1})`}
+        labelLg2={`${t("concept.general.altLabelTitle")} (${lg2})`}
         handleChangeLg1={handlers.altLabelLg1}
         handleChangeLg2={handlers.altLabelLg2}
       />
@@ -89,7 +93,7 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
         ></ClientSideError>
       </div>
       <div className="form-group">
-        <label>{D1.additionalMaterialTitle}</label>
+        <label>{t("concept.general.additionalMaterialTitle")}</label>
         <div className="input-group">
           <span className="input-group-addon">http://</span>
           <TextInput
@@ -99,7 +103,7 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
         </div>
       </div>
       <div className="form-group">
-        <label>{D1.validDateTitle}</label>
+        <label>{t("concept.general.validDateTitle")}</label>
         <DatePicker value={valid} onChange={handlers.valid} placement="top" />
       </div>
     </div>

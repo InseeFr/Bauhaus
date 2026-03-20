@@ -53,6 +53,26 @@
     },
     "title": "Concepts",
     "searchPlaceholder": "Libellé (ou libellé alternatif)...",
-    "advancedSearch": "Concepts - Recherche"
+    "advancedSearch": "Concepts - Recherche",
+    "edit": {
+      "labelTitle": "Libellé",
+      "requiredFields": "Champs requis"
+    },
+    "general": {
+      "globalInformationsTitle": "Informations générales",
+      "identifiantTitle": "Identifiant",
+      "altLabelTitle": "Libellé alternatif",
+      "createdDateTitle": "Date de création",
+      "modifiedDateTitle": "Date de modification",
+      "validDateTitle": "Date de fin de validité",
+      "conceptVersionTitle": "Version du concept",
+      "creatorTitle": "Propriétaire",
+      "contributorTitle": "Gestionnaire",
+      "disseminationStatusTitle": "Statut de diffusion",
+      "isConceptValidTitle": "État du concept",
+      "conceptStatusValid": "Publié",
+      "conceptStatusProvisional": "Provisoire",
+      "additionalMaterialTitle": "Document lié"
+    }
   }
 }
