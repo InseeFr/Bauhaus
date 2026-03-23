@@ -1,21 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
+import { ReactNode } from "react";
 
 import { ThemesApi } from "@sdk/index";
-import { Options } from "../../model/SelectOption";
+
+type ThemeOption = { value: string; label: ReactNode };
 
 export const useThemes = () =>
-  useQuery<Options>({
+  useQuery<ThemeOption[]>({
     queryKey: ["themes"],
-    queryFn: () => {
-      return ThemesApi.getThemes().then((themes) =>
-        themes.map((theme) => ({
-          value: theme.uri,
-          label: (
-            <>
-              {theme.label} <i>({theme.idConceptScheme})</i>
-            </>
-          ),
-        })),
-      );
+    queryFn: async () => {
+      const themes = await ThemesApi.getThemes();
+      return themes.map((theme) => ({
+        value: theme.uri,
+        label: (
+          <>
+            {theme.label.value} <i>({theme.idConceptScheme})</i>
+          </>
+        ),
+      }));
     },
   });

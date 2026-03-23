@@ -25,8 +25,8 @@ describe("useThemes Hook", () => {
 
   it("should return formatted themes when the API call is successful", async () => {
     const mockThemes: Theme[] = [
-      { uri: "theme1", label: "Theme 1", idConceptScheme: "Scheme 1" },
-      { uri: "theme2", label: "Theme 2", idConceptScheme: "Scheme 2" },
+      { uri: "theme1", label: { value: "Theme 1", lang: "FR" }, idConceptScheme: "Scheme 1" },
+      { uri: "theme2", label: { value: "Theme 2", lang: "FR" }, idConceptScheme: "Scheme 2" },
     ];
 
     (ThemesApi.getThemes as Mock).mockResolvedValue(mockThemes);
