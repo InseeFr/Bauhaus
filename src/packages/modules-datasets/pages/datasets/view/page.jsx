@@ -29,9 +29,12 @@ import { GlobalInformationBlock } from "./components/GlobalInformationBlock";
 import { StatisticalInformations } from "./components/StatisticalInformations";
 import { ViewMenu } from "./menu";
 import { useDataset } from "../../../hooks/useDataset";
+import { ConfirmationDelete } from "@components/confirmation-delete";
 
 const Dataset = (props) => {
   const { t } = useTranslation();
+
+  const [modalOpened, setModalOpened] = useState(false);
 
   const { id } = useParams();
 
@@ -86,8 +89,21 @@ const Dataset = (props) => {
 
   return (
     <div className="container">
+      {modalOpened && (
+        <ConfirmationDelete
+          className="datasets"
+          handleNo={() => setModalOpened(false)}
+          handleYes={remove}
+          message={t("dataset.deletionConfirmationMessage")}
+        />
+      )}
       <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />
-      <ViewMenu dataset={dataset} {...props} onPublish={publish} onDelete={remove} />
+      <ViewMenu
+        dataset={dataset}
+        {...props}
+        onPublish={publish}
+        onDelete={() => setModalOpened(true)}
+      />
       {(serverSideError || publishServerSideError) && (
         <ErrorBloc error={[serverSideError || publishServerSideError]} />
       )}
