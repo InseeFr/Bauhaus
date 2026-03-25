@@ -24,20 +24,14 @@ const HomePage = () => {
     properties: { modules },
   } = useAppContext();
 
-  const pages = useMemo(() => {
-    return modules.reduce((acc: string[], appName: string) => {
-      return [...acc, appName.trim()];
-    }, []);
-  }, [modules]);
+  const pages = useMemo(() => modules.map((m) => m.identifier), [modules]);
 
   if (!pages) {
     return null;
   }
 
-  const pageNames = Object.keys(pages);
-
-  if (pageNames.length === 1) {
-    return <Navigate to={"/" + pageNames[0]} replace />;
+  if (pages.length === 1) {
+    return <Navigate to={"/" + pages[0]} replace />;
   }
 
   return <App />;
@@ -78,25 +72,16 @@ export const Logout = () => {
 
 export default () => {
   const {
-    properties: { activeModules, modules },
+    properties: { modules },
   } = useAppContext();
 
-  const pages = useMemo(() => {
-    return modules.reduce((acc: string[], appName: string) => {
-      const app = appName.trim();
-      return [...acc, app];
-    }, []);
-  }, [modules]);
+  const pages = useMemo(() => modules.map((m) => m.identifier), [modules]);
 
   const getModuleHomePageRouter = (pageName: string) => {
-    if (!activeModules.includes(pageName)) {
+    const module = modules.find((m) => m.identifier === pageName);
+    if (!module || module.disabled) {
       return {
         element: <UnderMaintenance />,
-      };
-    }
-    if (!pages.includes(pageName.trim())) {
-      return {
-        elemement: <NotFound />,
       };
     }
 

@@ -33,7 +33,7 @@ export const useConceptSave = (id: string | undefined) => {
             () => `/concepts/${id}`,
           ];
 
-      promise.then((result) => navigate(redirect(result))).finally(() => setIsSaving(false));
+      promise.then((result) => navigate(redirect(result))).catch(() => setIsSaving(false));
     },
     [id, isCreation, navigate, queryClient],
   );

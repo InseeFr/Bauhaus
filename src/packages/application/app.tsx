@@ -39,14 +39,13 @@ const App = () => {
   } = useAppContext();
 
   const accessibleModules = useMemo(() => {
-    return modules.filter((app) => hasAccessToModule(app, privileges));
+    return modules
+      .filter((m) => !m.disabled && hasAccessToModule(m.identifier, privileges))
+      .map((m) => m.identifier);
   }, [modules, privileges]);
 
   const appCards = useMemo(() => {
-    return accessibleModules.map((appName) => {
-      const app = appName.trim();
-      return <AppCard key={app} app={app} />;
-    });
+    return accessibleModules.map((app) => <AppCard key={app} app={app} />);
   }, [accessibleModules]);
 
   return <div className="home-page-links home-page-links__grid-3">{appCards}</div>;

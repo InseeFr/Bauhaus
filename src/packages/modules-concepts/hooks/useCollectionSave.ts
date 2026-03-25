@@ -26,7 +26,7 @@ export const useCollectionSave = (id: string | undefined) => {
             navigate(`/concepts/collections/${cleanId(id)}`);
           });
 
-      promise.finally(() => setIsSaving(false));
+      promise.catch(() => setIsSaving(false));
     },
     [id, isCreation, navigate, queryClient],
   );
