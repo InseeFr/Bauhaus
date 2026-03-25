@@ -5,9 +5,12 @@ import { MemoryRouter } from "react-router-dom";
 import D from "../../deprecated-locales";
 import { Component } from "./home-container";
 
-vi.mock("../../utils/hooks/concepts", () => ({
-  useConcepts: vi.fn(),
+vi.mock("../hooks/useConceptExporter", () => ({
   useConceptExporter: vi.fn(),
+}));
+
+vi.mock("../hooks/useConcepts", () => ({
+  useConcepts: vi.fn(),
 }));
 
 vi.mock("../../utils/hooks/useTitle", () => ({
@@ -34,7 +37,8 @@ vi.mock("../collections/export-buttons", () => ({
   ),
 }));
 
-import { useConcepts, useConceptExporter } from "../../utils/hooks/concepts";
+import { useConceptExporter } from "../hooks/useConceptExporter";
+import { useConcepts } from "../hooks/useConcepts";
 import { useTitle } from "../../utils/hooks/useTitle";
 
 const renderComponent = () => {
@@ -55,7 +59,7 @@ describe("Export Concepts Home Container", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (useConcepts as Mock).mockReturnValue({
-      data: [],
+      concepts: [],
       isLoading: false,
     });
     (useConceptExporter as Mock).mockReturnValue({
@@ -67,7 +71,7 @@ describe("Export Concepts Home Container", () => {
   describe("Loading State", () => {
     it("should display loading indicator while fetching concepts", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: [],
+        concepts: [],
         isLoading: true,
       });
 
@@ -89,7 +93,7 @@ describe("Export Concepts Home Container", () => {
 
     it("should prioritize exporting state over loading state", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: [],
+        concepts: [],
         isLoading: true,
       });
       (useConceptExporter as Mock).mockReturnValue({
@@ -105,7 +109,7 @@ describe("Export Concepts Home Container", () => {
 
     it("should hide loading indicator after concepts are fetched", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: mockConcepts,
+        concepts: mockConcepts,
         isLoading: false,
       });
 
@@ -118,7 +122,7 @@ describe("Export Concepts Home Container", () => {
   describe("Concepts Display", () => {
     it("should display concepts after successful fetch", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: mockConcepts,
+        concepts: mockConcepts,
         isLoading: false,
       });
 
@@ -131,7 +135,7 @@ describe("Export Concepts Home Container", () => {
 
     it("should display empty list when no concepts available", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: [],
+        concepts: [],
         isLoading: false,
       });
 
@@ -144,7 +148,7 @@ describe("Export Concepts Home Container", () => {
   describe("Picker integration", () => {
     it("should pass correct title to Picker", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: mockConcepts,
+        concepts: mockConcepts,
         isLoading: false,
       });
 
@@ -155,7 +159,7 @@ describe("Export Concepts Home Container", () => {
 
     it("should pass correct panel title to Picker", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: mockConcepts,
+        concepts: mockConcepts,
         isLoading: false,
       });
 
@@ -166,7 +170,7 @@ describe("Export Concepts Home Container", () => {
 
     it("should pass correct context to Picker", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: mockConcepts,
+        concepts: mockConcepts,
         isLoading: false,
       });
 
@@ -181,7 +185,7 @@ describe("Export Concepts Home Container", () => {
   describe("Export buttons", () => {
     it("should render export buttons", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: mockConcepts,
+        concepts: mockConcepts,
         isLoading: false,
       });
 
@@ -192,7 +196,7 @@ describe("Export Concepts Home Container", () => {
 
     it("should render all export button types", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: mockConcepts,
+        concepts: mockConcepts,
         isLoading: false,
       });
 
@@ -214,7 +218,7 @@ describe("Export Concepts Home Container", () => {
   describe("Edge Cases", () => {
     it("should handle single concept", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: [{ id: "1", label: "Single Concept" }],
+        concepts: [{ id: "1", label: "Single Concept" }],
         isLoading: false,
       });
 
@@ -230,7 +234,7 @@ describe("Export Concepts Home Container", () => {
       }));
 
       (useConcepts as Mock).mockReturnValue({
-        data: largeConcepts,
+        concepts: largeConcepts,
         isLoading: false,
       });
 
@@ -241,7 +245,7 @@ describe("Export Concepts Home Container", () => {
 
     it("should handle concepts with special characters in labels", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: [
+        concepts: [
           { id: "1", label: "Concept <test>" },
           { id: "2", label: "Concept & Co." },
         ],
@@ -258,7 +262,7 @@ describe("Export Concepts Home Container", () => {
   describe("Search functionality", () => {
     it("should have a search input", () => {
       (useConcepts as Mock).mockReturnValue({
-        data: mockConcepts,
+        concepts: mockConcepts,
         isLoading: false,
       });
 

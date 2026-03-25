@@ -19,12 +19,6 @@ export interface Classification {
   validationState: ValidationState;
 }
 
-export interface PartialClassification {
-  id: string;
-  label: string;
-  altLabels: string;
-}
-
 export interface ItemGeneral {
   prefLabelLg1: string;
   prefLabelLg2: string;

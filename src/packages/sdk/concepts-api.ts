@@ -91,8 +91,7 @@ const api = {
     },
   ],
   // Collections
-  getCollectionDashboardList: () => ["collections/dashboard"],
-  getCollectionValidateList: () => ["collections/toValidate"],
+
   postCollection: (collection: unknown) => [
     "collection",
     {
@@ -122,7 +121,6 @@ const api = {
     //do not process response
     () => {},
   ],
-  getCollectionMembersList: (id: string) => [`collection/${id}/members`],
 };
 
 export const ConceptsApi = buildApi("concepts", api) as any;

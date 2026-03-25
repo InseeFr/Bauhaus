@@ -2,15 +2,16 @@ import { Exporting, Loading } from "@components/loading";
 import { Picker } from "@components/picker-page";
 
 import D from "../../deprecated-locales";
-import { useConceptExporter, useConcepts } from "../../utils/hooks/concepts";
+import { useConceptExporter } from "../hooks/useConceptExporter";
 import { useTitle } from "../../utils/hooks/useTitle";
 import ExportButtons from "../collections/export-buttons";
+import { useConcepts } from "../hooks/useConcepts";
 
 export const Component = () => {
   useTitle(D.conceptsTitle, D.exportTitle);
 
   const { mutate: exportConcept, isPending: isExporting } = useConceptExporter();
-  const { isLoading, data: concepts } = useConcepts();
+  const { isLoading, concepts } = useConcepts();
 
   if (isExporting) {
     return <Exporting />;
