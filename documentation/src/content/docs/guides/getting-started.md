@@ -13,6 +13,8 @@ pnpm start
 
 Application needs externals Web services : Bauhaus-Back-Office(https://github.com/InseeFr/Bauhaus-Back-Office).
 
+For a module-specific guide, see [Getting Started with Concepts](./getting-started-concepts).
+
 ## Test
 
 `pnpm test` runs the test watcher in an interactive mode. By default, runs tests related to files changed since the last commit.
