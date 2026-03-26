@@ -2,16 +2,33 @@
 title: Getting started
 ---
 
-Bauhaus is a single page application built with [React](https://facebook.github.io/react/) and [Redux](https://github.com/reactjs/reduxreact). It was bootstraped with [Create React App](https://github.com/facebook/create-react-app) and designed thanks to [Bootstrap](https://github.com/twbs/bootstrap). To run the application in development mode, run the following commands from a shell prompt in the local directory, and then navigate to [http://localhost:3000](http://localhost:3000):
+Bauhaus is a single page application built with [React](https://facebook.github.io/react/). It requires the [Bauhaus-Back-Office](https://github.com/InseeFr/Bauhaus-Back-Office) API.
+
+## Running the application with Docker
+
+Clone both repositories into the same parent directory:
 
 ```shell
-# Download all the dependencies needed by the application
-pnpm install
-# Compiles the code and starts a minimal web server
-pnpm start
+git clone https://github.com/InseeFr/Bauhaus.git
+git clone https://github.com/InseeFr/Bauhaus-Back-Office.git
 ```
 
-Application needs externals Web services : Bauhaus-Back-Office(https://github.com/InseeFr/Bauhaus-Back-Office).
+From the `Bauhaus` directory, run:
+
+```shell
+docker compose up
+```
+
+The application will be available at [http://localhost:3000](http://localhost:3000).
+
+A user is automatically created by Keycloak:
+
+| Field    | Value                     |
+|----------|---------------------------|
+| Username | `admin`                   |
+| Password | `admin123`                |
+| Email    | `admin@bauhaus.fr`        |
+| Role     | `Administrateur_RMESGNCS` |
 
 For a module-specific guide, see [Getting Started with Concepts](./getting-started-concepts).
 

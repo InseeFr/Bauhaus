@@ -1,0 +1,69 @@
+{
+  "realm": "bauhaus",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "roles": {
+    "realm": [
+      { "name": "Administrateur_RMESGNCS" },
+      { "name": "Utilisateur_RMESGNCS" },
+      { "name": "Proprietaire_concept_RMESGNCS" },
+      { "name": "Gestionnaire_concept_RMESGNCS" },
+      { "name": "Gestionnaire_ensemble_concepts_RMESGNCS" },
+      { "name": "Proprietaire_collection_concepts_RMESGNCS" },
+      { "name": "Gestionnaire_structures_RMESGNCS" },
+      { "name": "Gestionnaire_serie_RMESGNCS" },
+      { "name": "Gestionnaire_liste_codes_RMESGNCS" },
+      { "name": "Gestionnaire_indicateur_RMESGNCS" },
+      { "name": "Gestionnaire_jeu_donnees_RMESGNCS" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "bauhaus-client",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": ["http://localhost:3000/*"],
+      "webOrigins": ["http://localhost:3000"],
+      "protocol": "openid-connect",
+      "protocolMappers": [
+        {
+          "name": "stamp-mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "stamp",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "stamp",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "firstName": "Admin",
+      "lastName": "Bauhaus",
+      "email": "admin@bauhaus.fr",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["Administrateur_RMESGNCS"],
+      "attributes": {
+        "stamp": ["DG75-L201"]
+      }
+    }
+  ]
+}

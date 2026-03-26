@@ -1,0 +1,6 @@
+include:
+  - containers/graphdb.yml
+  - containers/minio.yml
+  - containers/keycloak.yml
+  - containers/api.yml
+  - containers/front.yml
