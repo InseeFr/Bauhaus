@@ -63,7 +63,7 @@
     "bestzip": "^2.2.1",
     "cross-env": "^7.0.3",
     "esbuild-plugin-react-virtualized": "^1.0.4",
-    "happy-dom": "^20.7.0",
+    "happy-dom": "^20.8.8",
     "husky": "^9.1.6",
     "oxfmt": "^0.18.0",
     "oxlint": "^1.24.0",
