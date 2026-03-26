@@ -1,0 +1,455 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix insee: <http://rdf.insee.fr/def/base#> .
+@prefix pav: <http://purl.org/pav/> .
+
+# =============================================================================
+# GRAPHE DES ORGANISATIONS
+# URI : http://rdf.insee.fr/graphes/organisations/insee
+# =============================================================================
+
+<http://rdf.insee.fr/graphes/organisations/insee> {
+
+    # Organisation racine
+    <http://bauhaus/organisations/insee/HIE2000001>
+        a org:Organization, org:OrganizationalUnit ;
+        skos:prefLabel "Direction générale de l'INSEE"@fr, "INSEE General Direction"@en ;
+        adms:identifier "HIE2000001" ;
+        dcterms:identifier "DG75-A001" .
+
+    # Division Agriculture et Environnement
+    <http://bauhaus/organisations/insee/HIE2001201>
+        a org:Organization, org:OrganizationalUnit ;
+        skos:prefLabel "Division Agriculture et Environnement"@fr, "Agriculture and Environment Division"@en ;
+        adms:identifier "HIE2001201" ;
+        dcterms:identifier "DG75-L201" ;
+        org:unitOf <http://bauhaus/organisations/insee/HIE2000001> .
+
+    # Division Commerce et Services
+    <http://bauhaus/organisations/insee/HIE2001202>
+        a org:Organization, org:OrganizationalUnit ;
+        skos:prefLabel "Division Commerce et Services"@fr, "Trade and Services Division"@en ;
+        adms:identifier "HIE2001202" ;
+        dcterms:identifier "DG75-L202" ;
+        org:unitOf <http://bauhaus/organisations/insee/HIE2000001> .
+
+    # Division Emploi et Revenus
+    <http://bauhaus/organisations/insee/HIE2001203>
+        a org:Organization, org:OrganizationalUnit ;
+        skos:prefLabel "Division Emploi et Revenus"@fr, "Employment and Income Division"@en ;
+        adms:identifier "HIE2001203" ;
+        dcterms:identifier "DG75-L203" ;
+        org:unitOf <http://bauhaus/organisations/insee/HIE2000001> .
+
+    # Division Démographie
+    <http://bauhaus/organisations/insee/HIE2001204>
+        a org:Organization, org:OrganizationalUnit ;
+        skos:prefLabel "Division Démographie"@fr, "Demography Division"@en ;
+        adms:identifier "HIE2001204" ;
+        dcterms:identifier "DG75-L204" ;
+        org:unitOf <http://bauhaus/organisations/insee/HIE2000001> .
+
+    # Département Méthodes et Référentiels
+    <http://bauhaus/organisations/insee/HIE2001205>
+        a org:Organization, org:OrganizationalUnit ;
+        skos:prefLabel "Département Méthodes et Référentiels"@fr, "Methods and Reference Department"@en ;
+        adms:identifier "HIE2001205" ;
+        dcterms:identifier "DG75-L205" ;
+        org:unitOf <http://bauhaus/organisations/insee/HIE2000001> .
+}
+
+# =============================================================================
+# GRAPHE DES CONCEPTS ET COLLECTIONS
+# URI : http://rdf.insee.fr/graphes/concepts/
+# =============================================================================
+
+<http://rdf.insee.fr/graphes/concepts/definitions> {
+
+    # =========================================================================
+    # COLLECTIONS
+    # =========================================================================
+
+    # Collection c1000 : Agriculture (validée, avec description, avec membres)
+    <http://bauhaus/concepts/definitions/c1000>
+        a skos:Collection ;
+        skos:notation "c1000" ;
+        dcterms:title
+            "Collection Agriculture"@fr ,
+            "Agriculture Collection"@en ;
+        dcterms:description
+            "Concepts relatifs à l'agriculture, l'élevage et les exploitations agricoles."@fr ,
+            "Concepts related to agriculture, livestock and farm holdings."@en ;
+        dcterms:created "2020-01-15T10:00:00"^^xsd:dateTime ;
+        dcterms:modified "2023-06-20T14:30:00"^^xsd:dateTime ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001201> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001201> ;
+        skos:member
+            <http://bauhaus/concepts/definition/c1> ,
+            <http://bauhaus/concepts/definition/c2> ,
+            <http://bauhaus/concepts/definition/c3> .
+
+    # Collection c2000 : Commerce (non validée, avec membres)
+    <http://bauhaus/concepts/definitions/c2000>
+        a skos:Collection ;
+        skos:notation "c2000" ;
+        dcterms:title
+            "Collection Commerce"@fr ,
+            "Trade Collection"@en ;
+        dcterms:created "2021-03-10T09:15:00"^^xsd:dateTime ;
+        dcterms:modified "2023-09-05T11:45:00"^^xsd:dateTime ;
+        insee:isValidated "false"^^xsd:boolean ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001202> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001202> ;
+        skos:member
+            <http://bauhaus/concepts/definition/c4> ,
+            <http://bauhaus/concepts/definition/c5> .
+
+    # Collection c3000 : Emploi et marché du travail (validée, avec description, avec membres)
+    <http://bauhaus/concepts/definitions/c3000>
+        a skos:Collection ;
+        skos:notation "c3000" ;
+        dcterms:title
+            "Collection Emploi et marché du travail"@fr ,
+            "Employment and Labour Market Collection"@en ;
+        dcterms:description
+            "Concepts relatifs à l'emploi, au chômage et au marché du travail."@fr ,
+            "Concepts related to employment, unemployment and the labour market."@en ;
+        dcterms:created "2019-11-22T08:30:00"^^xsd:dateTime ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001203> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001203> ;
+        skos:member
+            <http://bauhaus/concepts/definition/c6> ,
+            <http://bauhaus/concepts/definition/c7> ,
+            <http://bauhaus/concepts/definition/c8> ,
+            <http://bauhaus/concepts/definition/c9> .
+
+    # Collection c4000 : Démographie (non validée, un seul membre)
+    <http://bauhaus/concepts/definitions/c4000>
+        a skos:Collection ;
+        skos:notation "c4000" ;
+        dcterms:title
+            "Collection Démographie"@fr ,
+            "Demographics Collection"@en ;
+        dcterms:created "2024-01-10T13:20:00"^^xsd:dateTime ;
+        insee:isValidated "false"^^xsd:boolean ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001204> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001204> ;
+        skos:member
+            <http://bauhaus/concepts/definition/c10> .
+
+    # Collection c5000 : Vide (validée, sans membre)
+    <http://bauhaus/concepts/definitions/c5000>
+        a skos:Collection ;
+        skos:notation "c5000" ;
+        dcterms:title
+            "Collection Vide"@fr ,
+            "Empty Collection"@en ;
+        dcterms:created "2024-02-01T10:00:00"^^xsd:dateTime ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001205> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001205> .
+
+    # =========================================================================
+    # CONCEPTS
+    # =========================================================================
+
+    # -------------------------------------------------------------------------
+    # c1 : Exploitation agricole (validé, bilingue, avec altLabel, définition + note courte)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c1>
+        a skos:Concept ;
+        skos:notation "c1" ;
+        skos:prefLabel "Exploitation agricole"@fr , "Farm holding"@en ;
+        skos:altLabel "Exploitation"@fr ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001201> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001201> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique> ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dcterms:created "2020-01-15T10:00:00"^^xsd:dateTime ;
+        dcterms:modified "2023-06-20T14:30:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c1/note/def-fr-1> ,
+            <http://bauhaus/concepts/definition/c1/note/def-en-1> ;
+        skos:scopeNote
+            <http://bauhaus/concepts/definition/c1/note/scope-fr-1> .
+
+    <http://bauhaus/concepts/definition/c1/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Unité de production agricole sous une gestion unique, comprenant l'ensemble des terres exploitées et des animaux détenus."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c1/note/def-en-1>
+        dcterms:language "en"^^xsd:language ;
+        rdf:value "An agricultural production unit under single management, comprising all land farmed and livestock kept."@en ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c1/note/scope-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Unité de base du recensement agricole."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    # -------------------------------------------------------------------------
+    # c2 : Surface agricole utilisée (validé, bilingue, avec altLabel)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c2>
+        a skos:Concept ;
+        skos:notation "c2" ;
+        skos:prefLabel "Surface agricole utilisée"@fr , "Utilised agricultural area"@en ;
+        skos:altLabel "SAU"@fr ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001201> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001201> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique> ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dcterms:created "2020-02-10T09:00:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c2/note/def-fr-1> ,
+            <http://bauhaus/concepts/definition/c2/note/def-en-1> .
+
+    <http://bauhaus/concepts/definition/c2/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Superficie des terres labourables, des cultures permanentes et des surfaces toujours en herbe appartenant à une exploitation agricole."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c2/note/def-en-1>
+        dcterms:language "en"^^xsd:language ;
+        rdf:value "Area of arable land, permanent crops and permanent grassland belonging to a farm holding."@en ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    # -------------------------------------------------------------------------
+    # c3 : Production agricole (validé, bilingue, sans altLabel)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c3>
+        a skos:Concept ;
+        skos:notation "c3" ;
+        skos:prefLabel "Production agricole"@fr , "Agricultural production"@en ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001201> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001201> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique> ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dcterms:created "2020-03-05T11:30:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c3/note/def-fr-1> .
+
+    <http://bauhaus/concepts/definition/c3/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Ensemble des biens et services issus de l'activité agricole, destinés à être vendus ou autoconsommés."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    # -------------------------------------------------------------------------
+    # c4 : Commerce de détail (non validé, bilingue, avec altLabel)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c4>
+        a skos:Concept ;
+        skos:notation "c4" ;
+        skos:prefLabel "Commerce de détail"@fr , "Retail trade"@en ;
+        skos:altLabel "Vente au détail"@fr ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001202> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001202> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique> ;
+        insee:isValidated "false"^^xsd:boolean ;
+        dcterms:created "2021-04-01T08:00:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c4/note/def-fr-1> ,
+            <http://bauhaus/concepts/definition/c4/note/def-en-1> .
+
+    <http://bauhaus/concepts/definition/c4/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Activité consistant à revendre des marchandises sans transformation à des consommateurs finaux."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c4/note/def-en-1>
+        dcterms:language "en"^^xsd:language ;
+        rdf:value "Activity of reselling goods without transformation to final consumers."@en ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    # -------------------------------------------------------------------------
+    # c5 : Commerce de gros (non validé, diffusion PublicSpecifique)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c5>
+        a skos:Concept ;
+        skos:notation "c5" ;
+        skos:prefLabel "Commerce de gros"@fr , "Wholesale trade"@en ;
+        skos:altLabel "Vente en gros"@fr ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001202> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001202> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicSpecifique> ;
+        insee:isValidated "false"^^xsd:boolean ;
+        dcterms:created "2021-04-15T10:00:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c5/note/def-fr-1> .
+
+    <http://bauhaus/concepts/definition/c5/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Activité d'achat en grande quantité de marchandises pour les revendre à des détaillants ou à d'autres professionnels."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    # -------------------------------------------------------------------------
+    # c6 : Taux de chômage (validé, bilingue, avec note courte et note éditoriale, modifié)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c6>
+        a skos:Concept ;
+        skos:notation "c6" ;
+        skos:prefLabel "Taux de chômage"@fr , "Unemployment rate"@en ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001203> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001203> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique> ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dcterms:created "2019-12-01T08:00:00"^^xsd:dateTime ;
+        dcterms:modified "2022-03-15T09:30:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c6/note/def-fr-1> ,
+            <http://bauhaus/concepts/definition/c6/note/def-en-1> ;
+        skos:scopeNote
+            <http://bauhaus/concepts/definition/c6/note/scope-fr-1> ;
+        skos:editorialNote
+            <http://bauhaus/concepts/definition/c6/note/editorial-fr-1> .
+
+    <http://bauhaus/concepts/definition/c6/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Rapport entre le nombre de chômeurs et le nombre de personnes actives (en emploi ou au chômage) selon les critères du Bureau international du travail."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c6/note/def-en-1>
+        dcterms:language "en"^^xsd:language ;
+        rdf:value "Ratio of unemployed persons to the total number of economically active persons, according to the International Labour Organization criteria."@en ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c6/note/scope-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Mesuré selon les critères du Bureau international du travail (BIT), en moyenne annuelle ou trimestrielle."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c6/note/editorial-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Indicateur clé du marché du travail, publié trimestriellement par l'INSEE dans le cadre de l'enquête Emploi."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    # -------------------------------------------------------------------------
+    # c7 : Population active (validé, bilingue, avec altLabel)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c7>
+        a skos:Concept ;
+        skos:notation "c7" ;
+        skos:prefLabel "Population active"@fr , "Labour force"@en ;
+        skos:altLabel "Actifs"@fr ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001203> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001203> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique> ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dcterms:created "2019-12-05T09:00:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c7/note/def-fr-1> ,
+            <http://bauhaus/concepts/definition/c7/note/def-en-1> .
+
+    <http://bauhaus/concepts/definition/c7/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Ensemble des personnes en emploi ou au chômage, au sens des définitions du Bureau international du travail."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c7/note/def-en-1>
+        dcterms:language "en"^^xsd:language ;
+        rdf:value "All persons who are employed or unemployed according to the International Labour Organization definitions."@en ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    # -------------------------------------------------------------------------
+    # c8 : Contrat de travail (validé, bilingue, sans altLabel)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c8>
+        a skos:Concept ;
+        skos:notation "c8" ;
+        skos:prefLabel "Contrat de travail"@fr , "Employment contract"@en ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001203> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001203> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique> ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dcterms:created "2020-01-20T10:00:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c8/note/def-fr-1> .
+
+    <http://bauhaus/concepts/definition/c8/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Convention par laquelle une personne physique s'engage à effectuer un travail pour le compte d'un employeur en échange d'une rémunération."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    # -------------------------------------------------------------------------
+    # c9 : SMIC (validé, bilingue, altLabel, diffusion PublicSpecifique, modifié, note courte)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c9>
+        a skos:Concept ;
+        skos:notation "c9" ;
+        skos:prefLabel "Salaire minimum interprofessionnel de croissance"@fr , "National minimum wage"@en ;
+        skos:altLabel "SMIC"@fr ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001203> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001203> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicSpecifique> ;
+        insee:isValidated "true"^^xsd:boolean ;
+        dcterms:created "2020-02-01T08:30:00"^^xsd:dateTime ;
+        dcterms:modified "2023-01-10T09:00:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c9/note/def-fr-1> ,
+            <http://bauhaus/concepts/definition/c9/note/def-en-1> ;
+        skos:scopeNote
+            <http://bauhaus/concepts/definition/c9/note/scope-fr-1> .
+
+    <http://bauhaus/concepts/definition/c9/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Rémunération horaire minimale légale en dessous de laquelle aucun salarié ne peut être rémunéré en France."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c9/note/def-en-1>
+        dcterms:language "en"^^xsd:language ;
+        rdf:value "Minimum hourly wage legally required in France, below which no employee may be remunerated."@en ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    <http://bauhaus/concepts/definition/c9/note/scope-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Réévalué au minimum chaque année au 1er janvier par décret."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+
+    # -------------------------------------------------------------------------
+    # c10 : Population totale (non validé, bilingue)
+    # -------------------------------------------------------------------------
+    <http://bauhaus/concepts/definition/c10>
+        a skos:Concept ;
+        skos:notation "c10" ;
+        skos:prefLabel "Population totale"@fr , "Total population"@en ;
+        dc:creator <http://bauhaus/organisations/insee/HIE2001204> ;
+        dc:contributor <http://bauhaus/organisations/insee/HIE2001204> ;
+        insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique> ;
+        insee:isValidated "false"^^xsd:boolean ;
+        dcterms:created "2024-01-15T10:00:00"^^xsd:dateTime ;
+        skos:definition
+            <http://bauhaus/concepts/definition/c10/note/def-fr-1> .
+
+    <http://bauhaus/concepts/definition/c10/note/def-fr-1>
+        dcterms:language "fr"^^xsd:language ;
+        rdf:value "Ensemble des personnes résidant habituellement sur le territoire national au sens du recensement de la population."@fr ;
+        insee:conceptVersion "1"^^xsd:int ;
+        pav:version "1" .
+}

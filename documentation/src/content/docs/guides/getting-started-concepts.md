@@ -55,7 +55,15 @@ Roles relevant to the Concepts module:
 
 ## Sample Data
 
-<!-- TODO: Provide a TTL/RDF seed file or link to a fixture that can be loaded into GraphDB to start with pre-populated Concepts data. -->
+A sample TriG file containing pre-populated Concepts and Collections is available for download:
+
+**[Download concepts-collections.trig](/Bauhaus/concepts-collections.trig)**
+
+This file can be imported directly into GraphDB to bootstrap a local environment with test data. To do so:
+
+1. Open your GraphDB instance and navigate to **Import → RDF**
+2. Upload the downloaded `.trig` file
+3. Select the repository and confirm the import
 
 ## API Endpoints
 
