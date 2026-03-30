@@ -2,21 +2,16 @@
 title: Getting Started with Concepts
 ---
 
-## Overview
-
-<!-- TODO: Describe the Concepts module purpose, its role in the statistical metadata lifecycle, and the key business objects (Concept, Collection). -->
+By the end of this tutorial, you will have the Concepts module running with sample data, and you will have browsed your first Concept and Collection in Bauhaus.
 
 ## Prerequisites
 
-<!-- TODO: List required tools, versions (Java, Node, pnpm, Docker), and external services (Bauhaus-Back-Office, GraphDB, Keycloak). -->
+- A running Bauhaus instance — follow the [Getting Started](../getting-started/) guide first
+- The admin credentials (`admin` / `admin123`) or a user with the `Administrateur_RMESGNCS` role
 
-Override the `fr.insee.rmes.bauhaus.modules` property in your Spring Boot configuration file to control which modules appear on the home page and their availability:
+## 1. Enable the Concepts module
 
-- Each entry in the list adds a tile on the home page.
-- `disabled: false` (default) — the module is fully accessible.
-- `disabled: true` — the tile is shown but clicking it displays an "under maintenance" message.
-
-To show only the Concepts module on the home page:
+In your Bauhaus Back-Office Spring Boot configuration file, add the Concepts module to the `fr.insee.rmes.bauhaus.modules` list:
 
 ```yaml
 fr.insee.rmes.bauhaus:
@@ -24,55 +19,32 @@ fr.insee.rmes.bauhaus:
     - identifier: concepts
 ```
 
-To show the Concepts module alongside others but mark some as under maintenance:
+Restart the backend. The Concepts tile should now appear on the Bauhaus home page.
 
-```yaml
-fr.insee.rmes.bauhaus:
-  modules:
-    - identifier: concepts
-    - identifier: classifications
-      disabled: true
-```
+See [Configure Module Visibility](./concepts/how-to/configure-module/) for options such as showing multiple modules or marking some as under maintenance.
 
-## Required Roles
+## 2. Import sample data
 
-See the [Roles & Permissions (RBAC)](./rbac) guide for the full role matrix.
-
-Roles relevant to the Concepts module:
-
-| Role | Access level |
-|------|-------------|
-| `Administrateur_RMESGNCS` | Full access on concepts and collections |
-| `Proprietaire_concept_RMESGNCS` | Full CRUD + publish on concepts and collections |
-| `Gestionnaire_concept_RMESGNCS` | Create/update/publish own concepts (STAMP), read all |
-| `Gestionnaire_ensemble_concepts_RMESGNCS` | Same as `Gestionnaire_concept_RMESGNCS` |
-| `Proprietaire_collection_concepts_RMESGNCS` | Manage collections, read/delete concepts |
-| `Utilisateur_RMESGNCS` | Read-only |
-
-## Data Model
-
-<!-- TODO: Describe the RDF data model for Concepts and Collections, the target GraphDB graph (`concepts/definitions`), and the key SPARQL properties. -->
-
-## Sample Data
-
-A sample TriG file containing pre-populated Concepts and Collections is available for download:
+Download the sample TriG file and import it into GraphDB:
 
 **[Download concepts-collections.trig](/Bauhaus/concepts-collections.trig)**
 
-This file can be imported directly into GraphDB to bootstrap a local environment with test data. To do so:
-
 1. Open your GraphDB instance and navigate to **Import → RDF**
-2. Upload the downloaded `.trig` file
+2. Upload the `.trig` file
 3. Select the repository and confirm the import
 
-## API Endpoints
+See [Import Sample Data](./concepts/how-to/import-sample-data/) for details on what the file contains and how to verify the import.
 
-<!-- TODO: List the main REST endpoints exposed by the Concepts module with their expected inputs/outputs. Link to the Swagger/OpenAPI spec once available. -->
+## 3. Browse Concepts and Collections
 
-## Running Locally
+1. Open [http://localhost:3000](http://localhost:3000) and log in
+2. Click the **Concepts** tile on the home page
+3. Browse the list of Concepts — you should see the pre-populated entries from the sample file
+4. Open a Concept to inspect its labels, definition, and relationships
+5. Navigate to **Collections** and open one to see its member Concepts
 
-<!-- TODO: Describe how to start the full stack locally (GraphDB + Bauhaus-Back-Office + Bauhaus front) for the Concepts module. A docker-compose example would go here. -->
+## Next steps
 
-## Running the Tests
-
-<!-- TODO: Explain how to run unit tests and integration tests scoped to the Concepts module, both on the frontend and the backend. -->
+- [Overview](./concepts/explanation/overview/) — understand what Concepts and Collections represent
+- [RDF Data Model](../concepts-rdf-predicates/) — full reference of SKOS/RDF predicates used
+- [Roles & Permissions (RBAC)](../rbac/) — configure user access for the Concepts module

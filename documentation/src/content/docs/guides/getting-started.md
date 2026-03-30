@@ -1,10 +1,16 @@
 ---
-title: Getting started
+title: Getting Started
 ---
 
-Bauhaus is a single page application built with [React](https://facebook.github.io/react/). It requires the [Bauhaus-Back-Office](https://github.com/InseeFr/Bauhaus-Back-Office) API.
+By the end of this tutorial, you will have a fully working Bauhaus instance running locally, with a pre-configured admin user ready to use.
 
-## Running the application with Docker
+## Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) and Docker Compose installed
+- Ports `3000`, `8080`, `8081` available on your machine
+- [Git](https://git-scm.com/)
+
+## 1. Clone the repositories
 
 Clone both repositories into the same parent directory:
 
@@ -13,15 +19,21 @@ git clone https://github.com/InseeFr/Bauhaus.git
 git clone https://github.com/InseeFr/Bauhaus-Back-Office.git
 ```
 
+## 2. Start the stack
+
 From the `Bauhaus` directory, run:
 
 ```shell
 docker compose up
 ```
 
-The application will be available at [http://localhost:3000](http://localhost:3000).
+This starts GraphDB, Bauhaus-Back-Office, Keycloak, and the Bauhaus frontend together.
 
-A user is automatically created by Keycloak:
+## 3. Verify the application is running
+
+Open [http://localhost:3000](http://localhost:3000) in your browser. You should see the Bauhaus login page.
+
+Log in with the default admin account created automatically by Keycloak:
 
 | Field    | Value                     |
 |----------|---------------------------|
@@ -30,131 +42,12 @@ A user is automatically created by Keycloak:
 | Email    | `admin@bauhaus.fr`        |
 | Role     | `Administrateur_RMESGNCS` |
 
-For a module-specific guide, see [Getting Started with Concepts](./getting-started-concepts).
+Once logged in, the home page should display the available modules.
 
-## Test
+## Next steps
 
-`pnpm test` runs the test watcher in an interactive mode. By default, runs tests related to files changed since the last commit.
-An other script, `pnpm test:coverage` allows to generate a complete local report `Bauhaus/coverage/lcov-report/index.html`.
-
-Unit tests are launched each time a `git push` is executed.
-
-## Build
-
-To build the application, run `pnpm build`. You can now serve the content of the `dist` folder with the HTTP server of your choice.
-
-For the deployment needs at INSEE, the CI will need to use the pnpm build command. This command will also create an archive (zip) containing the project in order to deploy it.
-
-### Docker
-
-You can also build a Docker container :
-
-```shell
-docker build . -t bauhaus-front
-```
-
-And run it :
-
-```shell
-docker run  -it -p 8083:80 -e VITE_API_BASE_HOST=http://192.168.1.12:8081/api bauhaus-front
-```
-
-`http://192.168.1.12:8081/api` is the base URL of the Bauhaus API.
-
-## Target Architecture
-
-The project is currently undergoing a gradual migration towards a modern and standardized technical stack. The DDI module (`src/packages/modules-ddi`) serves as the reference implementation for this target architecture.
-
-### Technical Stack
-
-The target stack we are migrating towards includes:
-
-- **TypeScript (.tsx)**: All new code should be written in TypeScript for better type safety and developer experience
-- **PrimeReact**: UI component library for building modern interfaces
-- **react-i18next**: Industry-standard internationalization solution replacing legacy i18n approaches
-- **Vitest**: For unit testing with mocking support for PrimeReact components
-- **FormData API**: For form handling instead of useState when appropriate
-
-### Module Structure
-
-New modules should follow the architecture demonstrated in the DDI module:
-
-```
-src/packages/modules-{module-name}/
-├── components/                         # Reusable components specific to the module
-│     ├── ComponentName.css
-│     ├── ComponentName.spec.tsx
-│     └── ComponentName.tsx
-├── hooks/                              # Custom React hooks
-├── i18n/                               # Internationalization
-│     ├── locales/
-│     │     ├── en.json
-│     │     └── fr.json
-│     └── index.ts
-├── menu/                               # Module horizontal menu
-├── pages/
-│     └── {object-name}/                # ex: indicators, operations, series, ...
-│           └── {page-name}/            # ex: edit, home, search, view, ...
-│                   ├── components/     # Components for this current page
-│                   ├── page.tsx
-│                   ├── menu.tsx
-│                   └── validation.ts
-├── routes/                             # Routing configuration
-│     ├── index.tsx
-│     └── layout.tsx
-└── utils/                              # Utilitary functions used in the module
-      ├── functionName.spec.ts
-      └── functionName.ts
-```
-
-### Migration Guidelines
-
-When working on existing modules:
-
-1. **Gradual Migration**: Migrate files to TypeScript (.tsx) as you work on them
-2. **Component Organization**: Extract reusable components into dedicated files with co-located styles and tests
-3. **I18N**: Use react-i18next for new features, configure at the module level via layout component
-4. **UI Components**: Prefer PrimeReact components over Bootstrap for new features
-5. **Styling**: Use CSS files co-located with components, leverage CSS variables (e.g., `--color-1`, `--color-2`)
-6. **Forms**: Use native HTML forms with FormData API and proper submit buttons
-7. **Testing**: Write unit tests for all new components using Vitest, mock PrimeReact components when needed
-
-The goal is to progressively align the entire codebase with these standards while maintaining backward compatibility during the transition period.
-
-## Project Structure
-
-In this paragraph, we will try to explain the rules we defined and try to follow when talking about the structure of the project.
-
-### I18N
-
-#### Legacy Approach (Deprecated)
-
-In order to avoid big i18n file, we try to split this file in smaller files, based on `page` or `feature`. For example, we have a `src/js/i18n/dictionary/operations/documents.js` file for all messages dedicated to the documents feature.
-This files have to be imported directly or not in the main file `js/i18n/dictionary/app.js`.
-
-#### Modern Approach (Target)
-
-For new modules, use **react-i18next** with JSON translation files organized by module:
-
-```typescript
-// Module i18n configuration
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import fr from "./locales/fr.json";
-import en from "./locales/en.json";
-
-i18n.use(initReactI18next).init({
-  resources: {
-    en: { translation: en },
-    fr: { translation: fr },
-  },
-  lng: "fr",
-  fallbackLng: "fr",
-});
-```
-
-Configure the i18n provider at the module level in your layout component, and use the `useTranslation` hook in your components.
-
-### Form Validation
-
-For validating data defined in a form, we recommend using the open-source library **zod**.
+- [Getting Started with Concepts](../getting-started-concepts/) — load sample data and explore the Concepts module
+- [Architecture](../architecture/) — understand how the stack is structured
+- [Roles & Permissions (RBAC)](../rbac/) — manage user access
+- [How to run tests](../how-to/run-tests/)
+- [How to build](../how-to/build/)

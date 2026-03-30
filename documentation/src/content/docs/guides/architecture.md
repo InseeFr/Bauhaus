@@ -155,8 +155,37 @@ Statistical metadata manager based on the DDI (Data Documentation Initiative) st
 5. Reference returned to the frontend
 
 
+## Frontend Code Architecture
+
+The frontend is undergoing a gradual migration to a modern, standardized stack. The DDI module (`src/packages/modules-ddi`) is the reference implementation.
+
+### Target technical stack
+
+| Concern | Technology |
+|---|---|
+| Language | TypeScript (.tsx) |
+| UI components | PrimeReact |
+| Internationalization | react-i18next |
+| Testing | Vitest |
+| Forms | Native HTML forms with FormData API |
+
+### Migration guidelines
+
+When working on existing modules:
+
+1. **Gradual migration** — migrate files to TypeScript as you touch them
+2. **Component organization** — extract reusable components into dedicated files with co-located styles and tests
+3. **I18N** — use react-i18next for new features, configured at the module level via the layout component
+4. **UI components** — prefer PrimeReact over Bootstrap for new features
+5. **Styling** — use CSS files co-located with components, leverage CSS variables (`--color-1`, `--color-2`, …)
+6. **Forms** — use native HTML forms with FormData API and proper submit buttons
+7. **Testing** — write unit tests for all new components using Vitest; mock PrimeReact components when needed
+
+See [Project Structure](../reference/project-structure/) for the expected module directory layout and I18N setup.
+
 ## Learn More
 
-- [Getting Started](./getting-started) - Developer getting started guide
-- [Colectica Integration](./colectica) - Colectica Repository integration
+- [Getting Started](../getting-started/) - Developer getting started guide
+- [Project Structure](../reference/project-structure/) - Module layout, I18N, and form validation reference
+- [Colectica Integration](../colectica/) - Colectica Repository integration
 - [Bauhaus Back-Office](https://github.com/InseeFr/Bauhaus-Back-Office) - Backend GitHub repository
