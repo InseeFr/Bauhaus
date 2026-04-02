@@ -51,6 +51,10 @@ export default defineConfig({
               link: import.meta.env.BASE_URL + "guides/pr_branch_strategy/",
             },
             {
+              label: "Gitleaks",
+              link: import.meta.env.BASE_URL + "guides/gitleaks/",
+            },
+            {
               label: "Roles & Permissions (RBAC)",
               link: import.meta.env.BASE_URL + "guides/rbac/",
             },
