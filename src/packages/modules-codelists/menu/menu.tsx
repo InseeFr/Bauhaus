@@ -24,12 +24,9 @@ export const Menu = () => {
     },
   ];
 
-  const currentPath = paths.find((path) => {
-    if (path.pathKey instanceof RegExp) {
-      return path.pathKey.test(location.pathname);
-    }
-    return location.pathname.includes(path.pathKey);
-  });
+  const currentPath = paths.find(
+    ({ path }) => location.pathname === path || location.pathname.startsWith(path + "/"),
+  );
 
   if (currentPath) {
     currentPath.className = "active";
