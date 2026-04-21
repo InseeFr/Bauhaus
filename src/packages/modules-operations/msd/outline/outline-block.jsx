@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import D from "../../../deprecated-locales";
 import { isOpen, toggleOpen } from "../utils";
@@ -11,6 +12,22 @@ export const OutlineBlock = ({
   disableSectionAnchor = false,
   children,
 }) => {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) return;
+
+    const id = hash.replace("#", "");
+
+    requestAnimationFrame(() => {
+      const el = document.getElementById(id);
+      el?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    });
+  }, [hash]);
+
   const [childrenDictionary, setChildrenDictionary] = useState(
     Object.keys(children).reduce((acc, childId) => {
       return {
