@@ -84,7 +84,7 @@
     "@textlint/markdown-to-ast": "^15.2.2",
     "@uiw/react-md-editor": "^4.0.11",
     "dayjs": "^1.11.6",
-    "dompurify": "3.3.1",
+    "dompurify": "3.4.0",
     "draft-js": "0.11.7",
     "draft-js-export-html": "1.4.1",
     "draft-js-import-html": "1.2.1",
