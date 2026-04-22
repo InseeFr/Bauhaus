@@ -196,6 +196,7 @@ export const PhysicalInstanceDialog = ({
             loading={isLoadingGroups}
             disabled={isSubmitting}
             className="w-full"
+            appendTo="self"
           />
         </div>
 
@@ -210,6 +211,7 @@ export const PhysicalInstanceDialog = ({
             disabled={!selectedGroupId || isSubmitting}
             loading={isLoadingStudyUnits}
             className="w-full"
+            appendTo="self"
           />
         </div>
 
