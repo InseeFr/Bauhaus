@@ -148,5 +148,4 @@ describe("GlobalActionToolbar", () => {
     expect(() => render(<GlobalActionToolbar onExport={mockOnExport} />)).not.toThrow();
     expect(screen.getByText("Dupliquer")).toBeInTheDocument();
   });
-
 });
