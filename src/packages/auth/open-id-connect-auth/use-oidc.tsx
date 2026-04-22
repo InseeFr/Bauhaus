@@ -44,4 +44,3 @@ export const LoggedInWrapper = ({ WrappedComponent }: OidcWrapperTypes) => {
 
   return <WrappedComponent />;
 };
-

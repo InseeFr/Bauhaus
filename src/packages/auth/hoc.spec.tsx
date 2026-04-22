@@ -15,7 +15,9 @@ vi.mock("../application/app-context", () => ({
 }));
 
 vi.mock("./open-id-connect-auth/use-oidc", () => ({
-  LoggedInWrapper: ({ WrappedComponent }: { WrappedComponent: () => JSX.Element }) => <WrappedComponent />,
+  LoggedInWrapper: ({ WrappedComponent }: { WrappedComponent: () => JSX.Element }) => (
+    <WrappedComponent />
+  ),
   LoginComponent: () => <div>Login Component</div>,
 }));
 
