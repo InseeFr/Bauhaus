@@ -1,4 +1,4 @@
-import { CodeListApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 
 import { sortArray } from "@utils/array-utils";
 
@@ -7,10 +7,10 @@ import { CodesList, CodesLists } from "../../model/CodesList";
 const sortByLabel = sortArray("labelLg1");
 
 export const getCodeList = () =>
-  CodeListApi.getCodesLists().then((response: CodesList[]) => sortByLabel(response));
+  CodelistsApi.getCodesLists().then((response: CodesList[]) => sortByLabel(response));
 
 export const getPartialCodeLists = () =>
-  CodeListApi.getPartialCodesLists().then((response: CodesList[]) => sortByLabel(response));
+  CodelistsApi.getPartialCodesLists().then((response: CodesList[]) => sortByLabel(response));
 
 export const getFormattedCodeList = (): Promise<CodesLists> => {
   return Promise.all([getCodeList(), getPartialCodeLists()]).then(([codelist, partialCodeList]) => {

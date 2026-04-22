@@ -13,7 +13,7 @@ import { Select } from "@components/select-rmes";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { CodeListApi } from "../../../../../sdk";
+import { CodelistsApi } from "../../../../../sdk";
 import { validate } from "../validation";
 import { partialInGlobalCodes } from "../../../../utils/partialInGlobalCodes";
 import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
@@ -56,7 +56,7 @@ export const PartialCodelistDetailEdit = ({
 
   const handleParentCode = useCallback(
     (code) => {
-      CodeListApi.getCodesListCodes(code, 1, 0).then((codes) => {
+      CodelistsApi.getCodesListCodes(code, 1, 0).then((codes) => {
         const globalWithPartialCodes =
           partialInGlobalCodes(
             Object.values(codes.items || {}),

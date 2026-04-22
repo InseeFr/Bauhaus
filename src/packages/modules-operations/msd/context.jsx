@@ -6,4 +6,3 @@ export const SimsContextProvider = SimsContext.Provider;
 
 export const useSimsContext = () => useContext(SimsContext);
 
-export default SimsContext;

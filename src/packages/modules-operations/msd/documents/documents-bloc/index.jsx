@@ -31,9 +31,6 @@ export function DocumentsBloc({
   const { documentStores, openLateralPanelOpened, setRubricIdForNewDocument } =
     useDocumentsStoreContext();
 
-  /**
-   * @param {import('js/types').SimsDocuments} document
-   */
   const defaultBtnBlocFunction = (document) => (
     <button
       type="button"
@@ -66,9 +63,6 @@ export function DocumentsBloc({
 
   const isSecondLang = localPrefix === "Lg2";
 
-  /**
-   * @param {import('js/types').SimsDocuments} document
-   */
   function displayHTMLForDocument(document, btnBlocFunction = defaultBtnBlocFunction) {
     return (
       <li className="list-group-item documentbloc__item" key={document.uri}>
@@ -156,4 +150,3 @@ export function DocumentsBloc({
   );
 }
 
-export default DocumentsBloc;

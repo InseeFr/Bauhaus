@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import D from "../../../deprecated-locales";
-import OutlineBlock from "../outline/outline-block";
+import { OutlineBlock } from "../outline/outline-block";
 import { isOpen, toggleOpen } from "../utils";
 import { OutlineButtonWithScroll } from "./outline-button-with-scroll";
 import "./style.scss";

@@ -96,4 +96,3 @@ export const OutlineBlock = ({
   );
 };
 
-export default OutlineBlock;

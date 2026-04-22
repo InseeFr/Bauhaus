@@ -118,9 +118,6 @@ const api = {
 
 export const CodelistsApi = buildApi("codeList", api) as any;
 
-/** @deprecated Use CodelistsApi */
-export const CodeListApi = CodelistsApi;
-
 export const fetchCodeList = (notation: string) => {
   return Promise.all([
     CodelistsApi.getCodesList(notation),
