@@ -1,7 +1,7 @@
 import { screen, render, fireEvent } from "@testing-library/react";
 
-import { XSD_CODE_LIST, XSD_STRING } from "../../utils/constants";
-import Representation from "./Representation";
+import { XSD_CODE_LIST, XSD_STRING } from "../constants/xsd";
+import { Representation } from "./Representation";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
 const codesLists = [{ id: "id", label: "label" }];

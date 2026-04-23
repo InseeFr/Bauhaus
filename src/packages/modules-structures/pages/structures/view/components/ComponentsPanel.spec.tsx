@@ -7,11 +7,11 @@ import { CodelistPanel } from "../../../../components/CodelistPanel";
 import { StructureComponentsSelector } from "../../../../components/StructureComponentsSelector";
 import { ComponentsPanel } from "./ComponentsPanel";
 
-vi.mock("../../../../components/codes-list-panel/codes-list-panel", () => ({
+vi.mock("../../../../components/CodelistPanel", () => ({
   CodelistPanel: vi.fn(() => <div data-testid="codes-list-panel">CodelistPanel Mock</div>),
 }));
 
-vi.mock("../../../../components/structure-component-selector", () => ({
+vi.mock("../../../../components/StructureComponentsSelector", () => ({
   StructureComponentsSelector: vi.fn(() => (
     <div data-testid="codes-list-panel">Structure Component Selector Mock</div>
   )),
