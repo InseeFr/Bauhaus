@@ -9,7 +9,6 @@
       "project": ["src/**/*.{ts,tsx,js,jsx}"]
     }
   },
-  "ignore": ["documentation/**"],
-  "ignoreBinaries": ["pnpm"],
+  "ignore": ["documentation/**", ".husky/**"],
   "ignoreExportsUsedInFile": true
 }
