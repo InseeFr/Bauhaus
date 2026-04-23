@@ -35,8 +35,6 @@ export const useConcept = (id: string | undefined) => {
       } satisfies Concept;
     },
     enabled: !!id,
-    placeholderData: id
-      ? undefined
-      : (emptyConcept(defaultContributor) as unknown as Concept),
+    placeholderData: id ? undefined : (emptyConcept(defaultContributor) as unknown as Concept),
   });
 };
