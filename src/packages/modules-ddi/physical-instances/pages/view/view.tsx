@@ -41,7 +41,7 @@ export const Component = () => {
   const savePhysicalInstance = usePublishPhysicalInstance();
   const defaultLocale = useDefaultLocale();
   const dataByLangs = usePhysicalInstanceByLangs(data);
-  const [selectedLanguage, setSelectedLanguage] = useState(defaultLocale);
+  const [setSelectedLanguage] = useState(defaultLocale);
 
   useEffect(() => {
     if (title && title !== state.formData.label) {

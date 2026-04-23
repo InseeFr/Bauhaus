@@ -20,20 +20,6 @@ export const WithRouter = ({ children }: PropsWithChildren) => {
   return <MemoryRouter>{children}</MemoryRouter>;
 };
 
-const mockReactQuery = (data: unknown) => {
-  vi.doMock("@tanstack/react-query", async () => {
-    const actual =
-      await vi.importActual<typeof import("@tanstack/react-query")>("@tanstack/react-query");
-    return {
-      ...actual,
-      useQuery: vi.fn().mockReturnValue({
-        isLoading: false,
-        data,
-      }),
-    };
-  });
-};
-
 export const mockReactQueryForRbac = (
   rbac: {
     application: MODULE;

@@ -1,4 +1,4 @@
-import { buildEmpty, buildEmptyWithContributor, buildFields } from "@utils/build-general-proptypes";
+import { buildEmpty, buildEmptyWithContributor } from "@utils/build-general-proptypes";
 
 export const fieldsWithRequired = [
   ["id", false],
@@ -12,8 +12,6 @@ export const fieldsWithRequired = [
   ["contributor", false],
   ["isValidated", false],
 ];
-
-const fields = buildFields(fieldsWithRequired);
 
 export const empty = () => buildEmpty(fieldsWithRequired);
 
