@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import { InputText } from "primereact/inputtext";
 import { useTranslation } from "react-i18next";
 import { MDEditor } from "@components/rich-editor/react-md-editor";
@@ -11,6 +12,7 @@ interface VariableInformationTabProps {
   onDescriptionChange: (value: string) => void;
   nameError?: boolean;
   labelError?: boolean;
+  nameInputRef?: RefObject<HTMLInputElement>;
 }
 
 export const VariableInformationTab = ({
@@ -22,6 +24,7 @@ export const VariableInformationTab = ({
   onDescriptionChange,
   nameError = false,
   labelError = false,
+  nameInputRef,
 }: Readonly<VariableInformationTabProps>) => {
   const { t } = useTranslation();
 
@@ -32,6 +35,7 @@ export const VariableInformationTab = ({
           {t("physicalInstance.view.columns.name")} *
         </label>
         <InputText
+          ref={nameInputRef}
           id="variable-name"
           name="variableName"
           autoComplete="off"

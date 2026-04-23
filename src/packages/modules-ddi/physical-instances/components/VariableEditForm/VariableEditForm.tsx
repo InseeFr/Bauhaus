@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useEffect, useState } from "react";
+import { useCallback, useReducer, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
@@ -185,6 +185,7 @@ export const VariableEditForm = ({
   hasNext = false,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
+  const nameInputRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = Number(searchParams.get("tab"));
   const activeTabIndex = [0, 1, 2].includes(tabParam) ? tabParam : 0;
@@ -238,6 +239,7 @@ export const VariableEditForm = ({
     // Réinitialiser l'onglet actif au premier onglet uniquement pour une nouvelle variable
     if (isNew) {
       setActiveIndex(0);
+      setTimeout(() => nameInputRef.current?.focus(), 0);
     }
 
     dispatch({
@@ -469,6 +471,7 @@ export const VariableEditForm = ({
               onDescriptionChange={(value) => dispatch({ type: "SET_DESCRIPTION", payload: value })}
               nameError={!state.name.trim()}
               labelError={!state.label.trim()}
+              nameInputRef={nameInputRef}
             />
           </TabPanel>
 

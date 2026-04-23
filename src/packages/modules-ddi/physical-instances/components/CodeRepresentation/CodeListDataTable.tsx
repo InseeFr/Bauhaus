@@ -174,6 +174,7 @@ export const CodeListDataTable = ({
           id="code-list-label"
           name="codeListLabel"
           autoComplete="off"
+          autoFocus
           value={codeListLabel}
           onChange={(e) => onCodeListLabelChange(e.target.value)}
         />

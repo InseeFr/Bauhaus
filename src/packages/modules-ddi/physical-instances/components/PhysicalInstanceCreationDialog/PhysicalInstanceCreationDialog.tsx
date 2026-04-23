@@ -54,6 +54,7 @@ export const PhysicalInstanceDialog = ({
 }: Readonly<PhysicalInstanceDialogProps>) => {
   const { t } = useTranslation();
   const formRef = useRef<HTMLFormElement>(null);
+  const labelInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [selectedStudyUnitId, setSelectedStudyUnitId] = useState<string | null>(null);
@@ -98,8 +99,11 @@ export const PhysicalInstanceDialog = ({
   const isFormValid = label.trim() && selectedGroup && selectedStudyUnit;
 
   useEffect(() => {
-    if (visible && initialData) {
-      setLabel(initialData.label);
+    if (visible) {
+      if (initialData) {
+        setLabel(initialData.label);
+      }
+      setTimeout(() => labelInputRef.current?.focus(), 0);
     }
   }, [visible, initialData]);
 
@@ -176,6 +180,7 @@ export const PhysicalInstanceDialog = ({
         <div className="flex flex-column gap-2">
           <label htmlFor="physicalInstanceLabel">{t("physicalInstance.creation.label")}</label>
           <InputText
+            ref={labelInputRef}
             id="physicalInstanceLabel"
             name="physicalInstanceLabel"
             autoComplete="off"
