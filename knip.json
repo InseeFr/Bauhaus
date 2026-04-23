@@ -10,5 +10,6 @@
     }
   },
   "ignore": ["documentation/**"],
+  "ignoreBinaries": ["pnpm"],
   "ignoreExportsUsedInFile": true
 }
