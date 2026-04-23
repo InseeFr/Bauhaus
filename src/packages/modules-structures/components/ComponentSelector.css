@@ -1,7 +1,9 @@
 .bauhaus-collapsible-panel {
+  /* stylelint-disable-next-line selector-class-pattern */
   .DraftEditor-root {
     z-index: 0;
   }
+
   > .wilco-note > .panel {
     > .panel-heading {
       button {
@@ -23,18 +25,22 @@
       .wilco-table {
         margin: 0;
         display: block;
+
         label {
           margin: 0;
         }
+
         input {
           border-radius: 0;
           width: 100%;
           margin: 0;
         }
+
         button {
           border: none;
           background: transparent;
         }
+
         table {
           border: 0;
           margin: 0;
@@ -44,6 +50,7 @@
             color: black;
             font-weight: normal;
           }
+
           td {
             text-align: left !important;
           }
@@ -57,12 +64,14 @@
     }
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   .wilco-page-title__block {
     h1 {
       margin-top: 20px;
       margin-bottom: 20px;
     }
   }
+
   .container {
     width: 100%;
   }
