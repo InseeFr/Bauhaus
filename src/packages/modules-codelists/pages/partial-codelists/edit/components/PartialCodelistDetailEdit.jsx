@@ -167,6 +167,11 @@ export const PartialCodelistDetailEdit = ({
 
   return (
     <>
+      {updateMode ? (
+        <PageTitleBlock titleLg1={codelist.labelLg1} titleLg2={codelist.labelLg2} />
+      ) : (
+        <PageTitle title={t("partial-codelists.creationPageTitle")} />
+      )}
       <ActionToolbar>
         <CancelButton action={handleBack} col={3} />
         <SaveButton
