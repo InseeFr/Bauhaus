@@ -56,14 +56,6 @@ const { D } = createAllDictionary({
   },
 });
 
-export const CloseButton = ({ onClick }: Readonly<{ onClick: VoidFunction }>) => {
-  return (
-    <button type="button" className="btn btn-default btn-lg" onClick={onClick}>
-      {D.btnClose}
-    </button>
-  );
-};
-
 export const CloseIconButton = ({ onClick }: Readonly<{ onClick: VoidFunction }>) => {
   return (
     <button type="button" className="close" onClick={onClick}>
@@ -239,34 +231,6 @@ export const PublishButton = (props: Omit<ComponentProps<typeof AbstractButton>,
       {...props}
     >
       {D.btnValid}
-    </AbstractButton>
-  );
-};
-export const NewButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
-  return (
-    <AbstractButton
-      icon={
-        <svg
-          width="1em"
-          height="1em"
-          viewBox="0 0 16 16"
-          className="bi bi-plus"
-          fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"
-          />
-          <path
-            fillRule="evenodd"
-            d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"
-          />
-        </svg>
-      }
-      {...props}
-    >
-      {D.btnNewMale}
     </AbstractButton>
   );
 };

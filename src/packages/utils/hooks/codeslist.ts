@@ -1,6 +1,6 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 
-import { CodeListApi, fetchCodeList } from "@sdk/index";
+import { CodelistsApi, fetchCodeList } from "@sdk/index";
 
 import { Code, CodesList } from "../../model/CodesList";
 import { sortArray } from "../array-utils";
@@ -28,7 +28,7 @@ export const useAllCodes = (notation: string, enabled: boolean) => {
     enabled: !!notation && enabled,
     queryKey: ["codelist", notation, "codes"],
     queryFn: () =>
-      CodeListApi.getCodesListCodes(notation, 1, 0).then((codes: { items: Code[] }) => {
+      CodelistsApi.getCodesListCodes(notation, 1, 0).then((codes: { items: Code[] }) => {
         return sortArray("labelLg1")(codes?.items || []);
       }),
   });

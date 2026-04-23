@@ -683,9 +683,9 @@ export const Component = () => {
   return (
     <div className="flex" role="main">
       <div
-        className={state.selectedVariable ? "col-8" : "col-12"}
+        className={state.selectedVariable ? "col-6" : "col-12"}
         style={{
-          width: state.selectedVariable ? "66.666%" : "100%",
+          width: state.selectedVariable ? "50%" : "100%",
           transition: "width 0.3s ease",
         }}
       >
@@ -719,7 +719,7 @@ export const Component = () => {
         />
       </div>
       {state.selectedVariable && (
-        <div className="col-4 variable-edit-sidebar" role="complementary">
+        <div className="col-6 variable-edit-sidebar" role="complementary">
           <VariableEditForm
             variable={state.selectedVariable}
             typeOptions={variableTypeOptions}

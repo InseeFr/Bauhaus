@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CodeListApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 
 const CL_SOURCE_CATEGORY = "CL_SOURCE_CATEGORY";
 const CL_FREQ = "CL_FREQ";
@@ -12,8 +12,8 @@ const defaultCodesLists = {
 
 const fetchCodeList = async (notation: string) => {
   const [codesList, codes] = await Promise.all([
-    CodeListApi.getCodesList(notation),
-    CodeListApi.getCodesListCodes(notation, 1, 0),
+    CodelistsApi.getCodesList(notation),
+    CodelistsApi.getCodesListCodes(notation, 1, 0),
   ]);
 
   return {

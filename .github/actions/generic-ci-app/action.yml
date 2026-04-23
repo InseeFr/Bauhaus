@@ -21,6 +21,9 @@ runs:
     - name: 🧪 Running ESLint
       shell: bash
       run: pnpm lint
+    - name: 🧪 Running Knip
+      shell: bash
+      run: pnpm knip
     - name: 🧪 Running unit tests
       shell: bash
       run: pnpm test:coverage

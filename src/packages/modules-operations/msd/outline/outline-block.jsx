@@ -95,5 +95,3 @@ export const OutlineBlock = ({
     </ul>
   );
 };
-
-export default OutlineBlock;
