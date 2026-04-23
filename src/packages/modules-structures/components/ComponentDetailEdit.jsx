@@ -1,17 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import {
-  CancelButton,
-  SaveButton,
-} from "@components/buttons/buttons-with-icons";
+import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { SeeButton } from "@components/buttons/see";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
-import {
-  ClientSideError,
-  ErrorBloc,
-  GlobalClientSideErrorBloc,
-} from "@components/errors-bloc";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { NumberInput, TextInput } from "@components/form/input";
 import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
@@ -21,11 +14,7 @@ import { ContributorsInput } from "@components/business/contributors-input/contr
 
 import { CodelistsApi, StructureApi } from "@sdk/index";
 
-import {
-  convertToArrayIfDefined,
-  EMPTY_ARRAY,
-  sortArray,
-} from "@utils/array-utils";
+import { convertToArrayIfDefined, EMPTY_ARRAY, sortArray } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import { useUserStamps } from "@utils/hooks/users";
 
@@ -59,11 +48,9 @@ const linkedAttributeLabelMapping = {
 };
 
 const CodelistFormInput = ({ component, codesLists, setComponent }) => {
-  const [codesFullListPanelOpened, setFullCodesListPanelOpened] =
-    useState(false);
+  const [codesFullListPanelOpened, setFullCodesListPanelOpened] = useState(false);
 
-  const [codesPartialListPanelOpened, setPartialCodesListPanelOpened] =
-    useState(false);
+  const [codesPartialListPanelOpened, setPartialCodesListPanelOpened] = useState(false);
 
   const [partials, setPartials] = useState([]);
 
@@ -91,9 +78,7 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
       ];
       const list = fullCodeLists.find((list) => list.id === fullCodeListValue);
       if (list) {
-        CodelistsApi.getPartialsByParent(list.notation).then((partials) =>
-          setPartials(partials),
-        );
+        CodelistsApi.getPartialsByParent(list.notation).then((partials) => setPartials(partials));
       }
     }
   }, [fullCodeListValue, codesLists, partialCodesLists]);
@@ -143,9 +128,7 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
               value={partialsOptions.find(
                 (c) => currentCodeList?.toString() === c.value?.toString(),
               )}
-              onChange={(value) =>
-                setComponent({ ...component, codeList: value })
-              }
+              onChange={(value) => setComponent({ ...component, codeList: value })}
             />
             <SeeButton
               disabled={!currentCodeList}
@@ -156,9 +139,7 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
       )}
       <CodelistPanel
         codesList={codesLists.find(
-          (c) =>
-            (fullCodeListValue?.id || fullCodeListValue)?.toString() ===
-            c.id?.toString(),
+          (c) => (fullCodeListValue?.id || fullCodeListValue)?.toString() === c.id?.toString(),
         )}
         isOpen={codesFullListPanelOpened}
         handleBack={() => setFullCodesListPanelOpened(false)}
@@ -166,9 +147,7 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
       <CodelistPanel
         codesList={{
           notation: partials.find((c) =>
-            (currentCodeList?.id || currentCodeList)
-              ?.toString()
-              .includes(c.iri?.toString()),
+            (currentCodeList?.id || currentCodeList)?.toString().includes(c.iri?.toString()),
           )?.id,
         }}
         isOpen={codesPartialListPanelOpened}
@@ -266,18 +245,15 @@ export const ComponentDetailEdit = ({
 
   const onComponentTypeChange = (option) => {
     // Each time we change the type of a component, we remove all linked attributes
-    const newComponentWithoutAttributes = Object.keys(component).reduce(
-      (acc, key) => {
-        if (key.startsWith("attribute_") || key.startsWith("attributeValue_")) {
-          return acc;
-        }
-        return {
-          ...acc,
-          [key]: component[key],
-        };
-      },
-      {},
-    );
+    const newComponentWithoutAttributes = Object.keys(component).reduce((acc, key) => {
+      if (key.startsWith("attribute_") || key.startsWith("attributeValue_")) {
+        return acc;
+      }
+      return {
+        ...acc,
+        [key]: component[key],
+      };
+    }, {});
     resetErrorsMessages();
     setComponent({ ...newComponentWithoutAttributes, type: option });
   };
@@ -293,9 +269,7 @@ export const ComponentDetailEdit = ({
         />
       </ActionToolbar>
       {submitting && clientSideErrors && (
-        <GlobalClientSideErrorBloc
-          clientSideErrors={clientSideErrors.errorMessage}
-        />
+        <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
       <ErrorBloc error={serverSideError} D={D} />
       <form>
@@ -308,11 +282,7 @@ export const ComponentDetailEdit = ({
               value={component.identifiant}
               onChange={handleChange}
               aria-invalid={!!clientSideErrors.fields?.identifiant}
-              aria-describedby={
-                clientSideErrors.fields?.identifiant
-                  ? "identifiant-error"
-                  : null
-              }
+              aria-describedby={clientSideErrors.fields?.identifiant ? "identifiant-error" : null}
             />
             <ClientSideError
               id="identifiant-error"
@@ -331,9 +301,7 @@ export const ComponentDetailEdit = ({
               onChange={handleChange}
               value={component.labelLg1}
               aria-invalid={!!clientSideErrors.fields?.labelLg1}
-              aria-describedby={
-                clientSideErrors.fields?.labelLg1 ? "labelLg1-error" : null
-              }
+              aria-describedby={clientSideErrors.fields?.labelLg1 ? "labelLg1-error" : null}
             />
             <ClientSideError
               id="labelLg1-error"
@@ -350,9 +318,7 @@ export const ComponentDetailEdit = ({
               value={component.labelLg2}
               onChange={handleChange}
               aria-invalid={!!clientSideErrors.fields?.labelLg2}
-              aria-describedby={
-                clientSideErrors.fields?.labelLg2 ? "labelLg2-error" : null
-              }
+              aria-describedby={clientSideErrors.fields?.labelLg2 ? "labelLg2-error" : null}
             />
             <ClientSideError
               id="labelLg2-error"
@@ -389,9 +355,7 @@ export const ComponentDetailEdit = ({
             <LabelRequired>{D1.type}</LabelRequired>
             <Select
               placeholder={D1.type}
-              value={MUTUALIZED_COMPONENT_TYPES.find(
-                (c) => c.value === component.type,
-              )}
+              value={MUTUALIZED_COMPONENT_TYPES.find((c) => c.value === component.type)}
               options={MUTUALIZED_COMPONENT_TYPES}
               onChange={onComponentTypeChange}
               isDisabled={!!component.id}
@@ -408,12 +372,8 @@ export const ComponentDetailEdit = ({
             <Select
               placeholder={D1.conceptTitle}
               options={conceptOptions}
-              value={conceptOptions.find(
-                (c) => c.value === component.concept?.toString(),
-              )}
-              onChange={(value) =>
-                setComponent({ ...component, concept: value })
-              }
+              value={conceptOptions.find((c) => c.value === component.concept?.toString())}
+              onChange={(value) => setComponent({ ...component, concept: value })}
             />
           </div>
         </Row>
@@ -434,8 +394,7 @@ export const ComponentDetailEdit = ({
             />
           </div>
         </Row>
-        {(component.range === XSD_DATE ||
-          component.range === XSD_DATE_TIME) && (
+        {(component.range === XSD_DATE || component.range === XSD_DATE_TIME) && (
           <Row>
             <div className="col-md-offset-1 col-md-11 form-group">
               <label htmlFor="format">{D1.formatTitle}</label>
@@ -545,9 +504,7 @@ export const ComponentDetailEdit = ({
         <div className="form-group">
           <DisseminationStatusInput
             value={component.disseminationStatus}
-            handleChange={(value) =>
-              setComponent({ ...component, disseminationStatus: value })
-            }
+            handleChange={(value) => setComponent({ ...component, disseminationStatus: value })}
           />
         </div>
         <Row>
@@ -623,9 +580,7 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
         </div>
         {!!component["attribute_" + index] && (
           <AttributeValue
-            onChange={(value) =>
-              onChange({ ["attributeValue_" + index]: value })
-            }
+            onChange={(value) => onChange({ ["attributeValue_" + index]: value })}
             value={component["attributeValue_" + index]}
             selectedAttribute={component["attribute_" + index]}
             codesLists={codesLists}
@@ -653,23 +608,13 @@ const AttributeTextValue = ({ onChange, value, label }) => {
 
 const sortByLabel = sortArray("label");
 
-const AttributeCodeList = ({
-  onChange,
-  value,
-  codeListIri,
-  codesLists,
-  label,
-}) => {
+const AttributeCodeList = ({ onChange, value, codeListIri, codesLists, label }) => {
   const [codes, setCodes] = useState();
 
-  const codeListNotation = codesLists.find(
-    (cl) => cl.id === codeListIri,
-  )?.notation;
+  const codeListNotation = codesLists.find((cl) => cl.id === codeListIri)?.notation;
 
   useEffect(() => {
-    CodelistsApi.getCodesListCodes(codeListNotation, 1, 0).then((codes) =>
-      setCodes(codes),
-    );
+    CodelistsApi.getCodesListCodes(codeListNotation, 1, 0).then((codes) => setCodes(codes));
   }, [codeListNotation]);
 
   if (!codes) {
@@ -698,9 +643,7 @@ const AttributeValue = ({ onChange, value, codesLists, attributeId }) => {
   const [attribute, setAttribute] = useState();
 
   useEffect(() => {
-    StructureApi.getMutualizedComponent(attributeId).then((body) =>
-      setAttribute(body),
-    );
+    StructureApi.getMutualizedComponent(attributeId).then((body) => setAttribute(body));
   }, [attributeId]);
 
   if (!attribute) {
