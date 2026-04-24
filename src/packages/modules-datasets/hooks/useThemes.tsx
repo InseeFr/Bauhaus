@@ -10,11 +10,7 @@ export const useThemes = () =>
       return ThemesApi.getThemes().then((themes) =>
         themes.map((theme) => ({
           value: theme.uri,
-          label: (
-            <>
-              {theme.label} <i>({theme.idConceptScheme})</i>
-            </>
-          ),
+          label: <>{theme.label}</>,
         })),
       );
     },
