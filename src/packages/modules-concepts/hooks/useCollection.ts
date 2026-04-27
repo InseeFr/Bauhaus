@@ -49,7 +49,7 @@ export const useCollection = (id: string | undefined) => {
       };
     },
     enabled: !!id,
-    placeholderData: !!id
+    placeholderData: id
       ? undefined
       : (emptyCollection(defaultContributor) as unknown as Collection),
   });

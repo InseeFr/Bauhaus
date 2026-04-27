@@ -4,9 +4,6 @@ import { MODULE, Privilege, PRIVILEGE, usePrivileges, useUserStamps } from "@uti
 
 import { AppName } from "../../application/app-context";
 
-export type RoleCheck = string | [string, (value: string) => boolean];
-type RoleChecks = RoleCheck[];
-
 export const hasAccessToModule = (module: AppName, privileges: Privilege[] | undefined) => {
   if (!privileges || privileges.length === 0) {
     return false;
