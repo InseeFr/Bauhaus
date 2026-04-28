@@ -1,0 +1,28 @@
+.sims-field .rdw-editor-wrapper {
+  background: white;
+  padding: 10px;
+}
+
+.sims-field .p-calendar {
+  width: 100%;
+}
+
+.bauhaus-document-field {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.bauhaus-document-field > .panel-default > .panel-heading {
+  padding: 5px 15px;
+  background-color: var(--color-2);
+  color: white;
+}
+
+.bauhaus-document-field > .panel-default > .panel-heading button:hover,
+.bauhaus-document-field > .panel-default > .panel-heading button:focus {
+  color: white;
+}
+
+.without-object input {
+  margin-left: 0.5em;
+}

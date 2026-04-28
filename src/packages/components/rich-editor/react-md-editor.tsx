@@ -18,6 +18,7 @@ export const MDEditor = ({
       onChange={handleChange}
       commands={[italic, bold, unorderedListCommand, link]}
       preview="edit"
+      data-color-mode="light"
     />
   );
 };

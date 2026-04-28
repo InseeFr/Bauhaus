@@ -10,6 +10,7 @@ export interface CodeRepresentationState {
 
 export type CodeRepresentationAction =
   | { type: "SET_CODE_LIST_LABEL"; payload: string }
+  | { type: "SYNC_CODE_LIST_LABEL"; payload: string }
   | { type: "SET_CODES"; payload: CodeTableRow[] }
   | { type: "ADD_CODE"; payload: CodeTableRow }
   | {
@@ -20,7 +21,6 @@ export type CodeRepresentationAction =
   | { type: "MOVE_CODE"; payload: { id: string; direction: "up" | "down" } }
   | { type: "SHOW_DATA_TABLE" }
   | { type: "SHOW_REUSE_SELECT" }
-  | { type: "TOGGLE_REUSE_SELECT" }
   | { type: "SET_SELECTED_CODE_LIST_ID"; payload: string | null }
   | { type: "RESET_EMPTY_ROW" }
   | {
@@ -44,6 +44,13 @@ export const codeRepresentationReducer = (
   switch (action.type) {
     case "SET_CODE_LIST_LABEL":
       return { ...state, codeListLabel: action.payload };
+
+    case "SYNC_CODE_LIST_LABEL":
+      // Only sync if current label is empty (to avoid overwriting user edits)
+      if (!state.codeListLabel) {
+        return { ...state, codeListLabel: action.payload };
+      }
+      return state;
 
     case "SET_CODES":
       return { ...state, codes: action.payload };
@@ -87,13 +94,6 @@ export const codeRepresentationReducer = (
 
     case "SHOW_REUSE_SELECT":
       return { ...state, showReuseSelect: true, showDataTable: false };
-
-    case "TOGGLE_REUSE_SELECT":
-      return {
-        ...state,
-        showReuseSelect: !state.showReuseSelect,
-        showDataTable: false,
-      };
 
     case "SET_SELECTED_CODE_LIST_ID":
       return { ...state, selectedCodeListId: action.payload };
