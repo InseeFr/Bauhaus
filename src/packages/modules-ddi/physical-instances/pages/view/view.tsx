@@ -7,6 +7,7 @@ import { confirmDialog } from "primereact/confirmdialog";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import "./view.css";
 import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstanceParents";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
@@ -36,6 +37,11 @@ export const Component = () => {
     agencyId!,
     id!,
   );
+
+  const { data: parents } = usePhysicalInstanceParents(agencyId!, id!);
+
+  const currentGroup = parents?.group;
+  const currentStudyUnit = parents?.studyUnit;
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
@@ -694,6 +700,8 @@ export const Component = () => {
             label={state.formData.label || title}
             onSave={handleSaveEdit}
             onLanguageChange={setSelectedLanguage}
+            group={currentGroup}
+            studyUnit={currentStudyUnit}
           />
 
           <SearchFilters

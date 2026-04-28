@@ -9,12 +9,12 @@ import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 import "./PhysicalInstanceCreationDialog.css";
 
-interface SelectedGroup {
+export interface SelectedGroup {
   id: string;
   agency: string;
 }
 
-interface SelectedStudyUnit {
+export interface SelectedStudyUnit {
   id: string;
   agency: string;
 }
@@ -39,7 +39,7 @@ interface PhysicalInstanceDialogProps {
   visible: boolean;
   onHide: () => void;
   mode: "create" | "edit";
-  initialData?: { label: string };
+  initialData?: { label: string; group?: SelectedGroup; studyUnit?: SelectedStudyUnit };
   onSubmitCreate?: (data: PhysicalInstanceCreationData) => Promise<void>;
   onSubmitEdit?: (data: PhysicalInstanceUpdateData) => Promise<void>;
 }
@@ -102,6 +102,8 @@ export const PhysicalInstanceDialog = ({
     if (visible) {
       if (initialData) {
         setLabel(initialData.label);
+        if (initialData.group) setSelectedGroupId(initialData.group.id);
+        if (initialData.studyUnit) setSelectedStudyUnitId(initialData.studyUnit.id);
       }
       setTimeout(() => labelInputRef.current?.focus(), 0);
     }
@@ -199,7 +201,7 @@ export const PhysicalInstanceDialog = ({
             onChange={(e) => handleGroupChange(e.value)}
             placeholder={t("physicalInstance.creation.selectGroup")}
             loading={isLoadingGroups}
-            disabled={isSubmitting}
+            disabled={!isCreateMode || isSubmitting}
             className="w-full"
             appendTo="self"
           />
@@ -213,7 +215,7 @@ export const PhysicalInstanceDialog = ({
             options={studyUnitOptions}
             onChange={(e) => setSelectedStudyUnitId(e.value)}
             placeholder={t("physicalInstance.creation.selectStudyUnit")}
-            disabled={!selectedGroupId || isSubmitting}
+            disabled={!isCreateMode || !selectedGroupId || isSubmitting}
             loading={isLoadingStudyUnits}
             className="w-full"
             appendTo="self"
