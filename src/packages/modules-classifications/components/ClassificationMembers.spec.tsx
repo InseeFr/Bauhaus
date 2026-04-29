@@ -22,7 +22,9 @@ const members = [
   { id: "2", labelLg1: "Libellé FR 2", labelLg2: "Label EN 2" },
 ];
 
-const renderComponent = (overrides: Partial<React.ComponentProps<typeof ClassificationMembers>> = {}) =>
+const renderComponent = (
+  overrides: Partial<React.ComponentProps<typeof ClassificationMembers>> = {},
+) =>
   render(
     <MemoryRouter>
       <ClassificationMembers
