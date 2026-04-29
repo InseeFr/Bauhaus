@@ -1,6 +1,6 @@
 import { buildEmptyNotes } from "@utils/build-empty-notes";
 
-export const versionableNotes = [
+const versionableNotes = [
   "scopeNoteLg1",
   "scopeNoteLg2",
   "definitionLg1",
@@ -13,10 +13,8 @@ export const versionableNotes = [
   "exclusionNoteLg2",
 ];
 
-export const datableNotes = ["changeNoteLg1", "changeNoteLg2"];
+const datableNotes = ["changeNoteLg1", "changeNoteLg2"];
 
 const allNotes = [...versionableNotes, ...datableNotes];
 
-export const fields = allNotes;
-
-export const emptyNotes = buildEmptyNotes(fields);
+export const emptyNotes = buildEmptyNotes(allNotes);

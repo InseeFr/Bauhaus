@@ -34,13 +34,16 @@ export const buildNotes = (n: ConceptNotes) => [
   { lg1: n.changeNoteLg1, lg2: n.changeNoteLg2, title: "conceptsChangeNote" },
 ];
 
-export const processChanges = (
+const processChanges = (
   oldNotes: ConceptNotes,
   notes: ConceptNotes,
   fields: (keyof ConceptNotes)[],
 ) =>
   fields.reduce(
-    (changes: { noteType: string; content: string }[], noteType: keyof ConceptNotes) => {
+    (
+      changes: { noteType: string; content: string }[],
+      noteType: keyof ConceptNotes,
+    ) => {
       const oldContent = oldNotes[noteType];
       const content = notes[noteType];
       if (oldContent !== content)
@@ -55,23 +58,35 @@ export const processChanges = (
     [],
   );
 
-export const processNotes = (notesToKeep: ConceptNotes, fields: (keyof ConceptNotes)[]) =>
-  fields.reduce((notes: { noteType: string; content: string }[], noteType: keyof ConceptNotes) => {
-    const content = notesToKeep[noteType];
-    if (content)
-      notes.push({
-        noteType,
-        //format the note the `rmes` way (with a wrapping div and a
-        //namespace attribte).
-        content: rawHtmlToRmesHtml(content),
-      });
-    return notes;
-  }, []);
+const processNotes = (
+  notesToKeep: ConceptNotes,
+  fields: (keyof ConceptNotes)[],
+) =>
+  fields.reduce(
+    (
+      notes: { noteType: string; content: string }[],
+      noteType: keyof ConceptNotes,
+    ) => {
+      const content = notesToKeep[noteType];
+      if (content)
+        notes.push({
+          noteType,
+          //format the note the `rmes` way (with a wrapping div and a
+          //namespace attribte).
+          content: rawHtmlToRmesHtml(content),
+        });
+      return notes;
+    },
+    [],
+  );
 
-export const processVersionableChanges = (oldNotes: ConceptNotes, notes: ConceptNotes) =>
-  processChanges(oldNotes, notes, versionableNotes);
+export const processVersionableChanges = (
+  oldNotes: ConceptNotes,
+  notes: ConceptNotes,
+) => processChanges(oldNotes, notes, versionableNotes);
 
-export const keepDatableNotes = (notes: ConceptNotes) => processNotes(notes, datableNotes);
+export const keepDatableNotes = (notes: ConceptNotes) =>
+  processNotes(notes, datableNotes);
 
 const versionImpactingNotes: (keyof ConceptNotes)[] = [
   "scopeNoteLg1",
@@ -79,6 +94,9 @@ const versionImpactingNotes: (keyof ConceptNotes)[] = [
   "editorialNoteLg1",
 ];
 
-export const areNotesImpactingVersionChanged = (oldNotes: ConceptNotes, notes: ConceptNotes) => {
+export const areNotesImpactingVersionChanged = (
+  oldNotes: ConceptNotes,
+  notes: ConceptNotes,
+) => {
   return processChanges(oldNotes, notes, versionImpactingNotes).length > 0;
 };
