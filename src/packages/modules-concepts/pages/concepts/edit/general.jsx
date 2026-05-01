@@ -12,6 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useLocales } from "@utils/hooks/useLocales";
 import { fields as generalFields } from "../../../utils/general";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
+import { Select } from "@components/ui/select";
+import { useCollections } from "../../../hooks/useCollections";
 
 const handleFieldChange = (handleChange) =>
   generalFields.reduce((handlers, fieldName) => {
@@ -30,10 +32,12 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
     contributor,
     additionalMaterial,
     valid,
+    collections,
   } = general;
 
   const { t } = useTranslation();
   const { lg1, lg2 } = useLocales();
+  const { data } = useCollections();
 
   const handlers = handleFieldChange(handleChange);
 
@@ -42,6 +46,18 @@ function ConceptGeneralEdition({ general, handleChange, errorMessage }) {
       <h4 className="text-center">
         ( <RequiredIcon /> : {t("concept.edit.requiredFields")})
       </h4>
+      <div className="form-group">
+        <Select
+          label={t("concept.edit.collectionLabel")}
+          options={data.map((c) => ({
+            value: c.id,
+            label: c.label.value,
+          }))}
+          value={collections}
+          multi
+          onChange={handlers.collections}
+        />
+      </div>
       <Row>
         <InputRmes
           colMd={6}

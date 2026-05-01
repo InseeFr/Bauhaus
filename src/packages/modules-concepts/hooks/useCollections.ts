@@ -12,5 +12,6 @@ export const useCollections = <T = PartialCollection[]>(
       return NewCollectionApi.getCollectionList();
     },
     select,
+    placeholderData: [],
   });
 };

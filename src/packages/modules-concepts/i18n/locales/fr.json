@@ -56,7 +56,8 @@
     "advancedSearch": "Concepts - Recherche",
     "edit": {
       "labelTitle": "Libellé",
-      "requiredFields": "Champs requis"
+      "requiredFields": "Champs requis",
+      "collectionLabel": "Collection"
     },
     "general": {
       "globalInformationsTitle": "Informations générales",
@@ -72,7 +73,8 @@
       "isConceptValidTitle": "État du concept",
       "conceptStatusValid": "Publié",
       "conceptStatusProvisional": "Provisoire",
-      "additionalMaterialTitle": "Document lié"
+      "additionalMaterialTitle": "Document lié",
+      "collectionsListTitle": "Collections contenant ce concept ({{size}})"
     }
   }
 }

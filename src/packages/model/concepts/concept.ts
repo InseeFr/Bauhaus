@@ -17,6 +17,7 @@ export interface ConceptGeneral {
   isValidated: string;
   valid: boolean;
   additionalMaterial?: string;
+  collections: string[];
 }
 
 export interface ConceptNotes {

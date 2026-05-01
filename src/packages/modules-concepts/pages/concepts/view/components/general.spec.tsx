@@ -2,6 +2,11 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ConceptGeneral from "./general";
+import type { ConceptGeneral as ConceptGeneralType } from "@model/concepts/concept";
+
+vi.mock("./collections-block", () => ({
+  CollectionsBlock: () => null,
+}));
 
 // Mock des dépendances
 const translations: Record<string, string> = {
@@ -102,7 +107,9 @@ describe("ConceptGeneral", () => {
         id: "c1234",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText("Informations globales")).toBeInTheDocument();
     });
@@ -112,7 +119,9 @@ describe("ConceptGeneral", () => {
         id: "c1234",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Identifiant/)).toBeInTheDocument();
       expect(screen.getByText(/c1234/)).toBeInTheDocument();
@@ -123,7 +132,9 @@ describe("ConceptGeneral", () => {
         conceptVersion: "2",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Version du concept/)).toBeInTheDocument();
       expect(screen.getByText(/Version du concept: 2/)).toBeInTheDocument();
@@ -136,7 +147,9 @@ describe("ConceptGeneral", () => {
         altLabelLg1: ["Synonym 1", "Synonym 2"],
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Libellé alternatif \(Fr\)/)).toBeInTheDocument();
       expect(screen.getByText("Synonym 1")).toBeInTheDocument();
@@ -148,7 +161,7 @@ describe("ConceptGeneral", () => {
         altLabelLg2: ["Alternative 1", "Alternative 2"],
       };
 
-      render(<ConceptGeneral attr={attr} secondLang={true} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} secondLang={true} />, {
         wrapper: createWrapper(),
       });
 
@@ -162,9 +175,12 @@ describe("ConceptGeneral", () => {
         altLabelLg2: ["Alternative 1"],
       };
 
-      render(<ConceptGeneral attr={attr} secondLang={false} />, {
-        wrapper: createWrapper(),
-      });
+      render(
+        <ConceptGeneral concept={attr as unknown as ConceptGeneralType} secondLang={false} />,
+        {
+          wrapper: createWrapper(),
+        },
+      );
 
       expect(screen.queryByText(/Libellé alternatif \(En\)/)).not.toBeInTheDocument();
     });
@@ -175,7 +191,9 @@ describe("ConceptGeneral", () => {
         altLabelLg2: [],
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.queryByText(/Libellé alternatif/)).not.toBeInTheDocument();
     });
@@ -188,7 +206,9 @@ describe("ConceptGeneral", () => {
         modified: "2024-02-20",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Date de création/)).toBeInTheDocument();
       expect(screen.getByText(/15\/01\/2024/)).toBeInTheDocument();
@@ -201,7 +221,9 @@ describe("ConceptGeneral", () => {
         valid: "2024-12-31",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Date de validité/)).toBeInTheDocument();
       expect(screen.getByText(/31\/12\/2024/)).toBeInTheDocument();
@@ -212,7 +234,7 @@ describe("ConceptGeneral", () => {
         created: "2024-01-15",
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -226,7 +248,9 @@ describe("ConceptGeneral", () => {
         creator: "DG75-L201",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Créateur/)).toBeInTheDocument();
       expect(screen.getByText(/INSEE/)).toBeInTheDocument();
@@ -237,7 +261,9 @@ describe("ConceptGeneral", () => {
         contributor: "DG75-L202",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Gestionnaire/)).toBeInTheDocument();
       expect(screen.getByText(/DARES/)).toBeInTheDocument();
@@ -248,7 +274,9 @@ describe("ConceptGeneral", () => {
         creator: ["DG75-L201", "DG75-L202"],
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Créateur/)).toBeInTheDocument();
     });
@@ -258,7 +286,7 @@ describe("ConceptGeneral", () => {
         creator: ["DG75-L201", "DG75-L202"],
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -275,7 +303,7 @@ describe("ConceptGeneral", () => {
         contributor: ["DG75-L201", "DG75-L202"],
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -293,7 +321,7 @@ describe("ConceptGeneral", () => {
         contributor: [],
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -308,7 +336,7 @@ describe("ConceptGeneral", () => {
         creator: "DG75-L201",
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -327,7 +355,9 @@ describe("ConceptGeneral", () => {
         isValidated: "false",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/État du concept/)).toBeInTheDocument();
       expect(screen.getByText(/Provisoire/)).toBeInTheDocument();
@@ -338,7 +368,9 @@ describe("ConceptGeneral", () => {
         isValidated: "true",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/État du concept/)).toBeInTheDocument();
       expect(screen.getByText(/Validé/)).toBeInTheDocument();
@@ -351,7 +383,9 @@ describe("ConceptGeneral", () => {
         disseminationStatus: "Public",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Statut de diffusion : Public/)).toBeInTheDocument();
     });
@@ -363,7 +397,9 @@ describe("ConceptGeneral", () => {
         additionalMaterial: "https://example.com/doc.pdf",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.getByText(/Document lié/)).toBeInTheDocument();
       const link = screen.getByRole("link");
@@ -375,7 +411,9 @@ describe("ConceptGeneral", () => {
         id: "c1234",
       };
 
-      render(<ConceptGeneral attr={attr} />, { wrapper: createWrapper() });
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
 
       expect(screen.queryByText(/Document lié/)).not.toBeInTheDocument();
     });
@@ -398,7 +436,7 @@ describe("ConceptGeneral", () => {
         additionalMaterial: "https://example.com/doc.pdf",
       };
 
-      render(<ConceptGeneral attr={attr} secondLang={true} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} secondLang={true} />, {
         wrapper: createWrapper(),
       });
 
@@ -425,7 +463,7 @@ describe("ConceptGeneral", () => {
     it("should handle minimal data gracefully", () => {
       const attr = {};
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -442,7 +480,7 @@ describe("ConceptGeneral", () => {
         contributor: "DG75-L201",
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -461,7 +499,7 @@ describe("ConceptGeneral", () => {
         additionalMaterial: "https://example.com/document.pdf",
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -479,7 +517,7 @@ describe("ConceptGeneral", () => {
         created: "2024-01-01",
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -499,7 +537,7 @@ describe("ConceptGeneral", () => {
         isValidated: undefined,
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -515,7 +553,7 @@ describe("ConceptGeneral", () => {
         conceptVersion: undefined,
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -530,7 +568,7 @@ describe("ConceptGeneral", () => {
         modified: "2024-13-45", // Date invalide
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -544,7 +582,7 @@ describe("ConceptGeneral", () => {
         additionalMaterial: "not-a-valid-url",
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -561,7 +599,7 @@ describe("ConceptGeneral", () => {
         altLabelLg1: longArray,
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -576,7 +614,7 @@ describe("ConceptGeneral", () => {
         creator: "Org & Co.",
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -592,7 +630,7 @@ describe("ConceptGeneral", () => {
         creator: "   ",
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -608,7 +646,7 @@ describe("ConceptGeneral", () => {
         creator: ["DG75-L201", "", null, undefined, "   ", "DG75-L202"] as any,
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
@@ -623,7 +661,7 @@ describe("ConceptGeneral", () => {
         conceptVersion: longText,
       };
 
-      render(<ConceptGeneral attr={attr} />, {
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 

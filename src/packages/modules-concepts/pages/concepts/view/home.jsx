@@ -74,7 +74,7 @@ const ConceptVisualization = ({
         />
         <ErrorBloc error={serverSideError} D={D} />
         <CheckSecondLang />
-        <ConceptGeneral secondLang={secondLang} attr={general} langs={langs} />
+        <ConceptGeneral secondLang={secondLang} concept={general} langs={langs} />
         <ConceptLinks secondLang={secondLang} links={links} />
         <NoteVisualization params={buildNotes(notes)} secondLang={secondLang} />
       </div>
