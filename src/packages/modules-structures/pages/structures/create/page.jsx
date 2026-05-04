@@ -1,9 +1,19 @@
+import { useTranslation } from "react-i18next";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales";
 import { EditionForm } from "../edit/components/EditionForm";
+import { PageTitle } from "@components/page-title";
 
 export const Component = () => {
-  useTitle(D.structuresTitle, D.structuresCreateTitle);
-  return <EditionForm creation={true} />;
+  const { t } = useTranslation();
+
+  useTitle(t("structure.pluralTitle"), t("structure.creationPageTitle"));
+
+  return (
+    <>
+      <PageTitle title={t("structure.creationPageTitle")} />
+      <EditionForm creation={true} />
+    </>
+  );
 };

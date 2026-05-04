@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Loading } from "@components/loading";
 
@@ -7,10 +8,13 @@ import { StructureApi } from "@sdk/index";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales";
 import { EditionForm } from "./components/EditionForm";
+import { PageTitleBlock } from "@components/page-title-block";
+import { PageTitle } from "@components/page-title";
 
 export const Component = () => {
+  const { t } = useTranslation();
+
   const location = useLocation();
   const duplicate = location.pathname.includes("/duplicate");
 
@@ -20,7 +24,7 @@ export const Component = () => {
 
   const [structure, setStructure] = useState({});
 
-  useTitle(D.structuresTitle, structure?.labelLg1);
+  useTitle(t("structure.pluralTitle"), structure?.labelLg1);
 
   useEffect(() => {
     StructureApi.getStructure(id)
@@ -34,28 +38,36 @@ export const Component = () => {
 
   if (duplicate) {
     return (
-      <EditionForm
-        creation={duplicate}
-        initialStructure={{
-          identifiant: structure.identifiant,
-          labelLg1: structure.labelLg1,
-          labelLg2: structure.labelLg2,
-          id: "",
-          creator: structure.creator,
-          contributor: structure.contributor,
-          disseminationStatus: structure.disseminationStatus,
-          componentDefinitions: structure.componentDefinitions.map((cd) => {
-            return {
-              component: cd.component,
-              order: cd.order,
-              required: cd.required,
-              attachment: cd.attachment,
-            };
-          }),
-        }}
-      />
+      <>
+        <PageTitle title={t("structure.duplicationPageTitle") + `${structure.labelLg1}`} />
+        <EditionForm
+          creation={duplicate}
+          initialStructure={{
+            identifiant: structure.identifiant,
+            labelLg1: structure.labelLg1,
+            labelLg2: structure.labelLg2,
+            id: "",
+            creator: structure.creator,
+            contributor: structure.contributor,
+            disseminationStatus: structure.disseminationStatus,
+            componentDefinitions: structure.componentDefinitions.map((cd) => {
+              return {
+                component: cd.component,
+                order: cd.order,
+                required: cd.required,
+                attachment: cd.attachment,
+              };
+            }),
+          }}
+        />
+      </>
     );
   }
 
-  return <EditionForm creation={duplicate} initialStructure={structure} />;
+  return (
+    <>
+      <PageTitleBlock titleLg1={structure.labelLg1} titleLg2={structure.labelLg2} />
+      <EditionForm creation={duplicate} initialStructure={structure} />
+    </>
+  );
 };

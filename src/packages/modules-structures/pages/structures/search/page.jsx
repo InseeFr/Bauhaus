@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { TextInput } from "@components/form/input";
@@ -16,7 +17,6 @@ import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { validateStateOptions } from "../../../../model/ValidationState";
-import D from "../../../old-i18n/build-dictionary";
 import { COMPONENT_TYPES } from "../../../constants";
 
 const filterLabelLg1 = filterKeyDeburr(["labelLg1"]);
@@ -37,6 +37,8 @@ const defaultFormState = {
 };
 
 const SearchFormList = ({ concepts, stampListOptions, data }) => {
+  const { t } = useTranslation();
+
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const { labelLg1, componentLabelLg1, type, concept, creator, validationState } = form;
@@ -59,7 +61,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
 
   return (
     <AdvancedSearchList
-      title={D.structuresSearchTitle}
+      title={t("structure.searchTitle")}
       data={dataLinks}
       initializeState={reset}
       redirect={<Navigate to="/structures" />}
@@ -67,7 +69,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
       <div className="row form-group">
         <div className="col-md-12">
           <label className="w-100">
-            {D.label}
+            {t("structure.label")}
             <TextInput
               value={labelLg1}
               onChange={(e) => handleChange("labelLg1", e.target.value)}
@@ -78,7 +80,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
       <div className="row form-group">
         <div className="col-md-12">
           <label className="w-100">
-            {D.componentLabel}
+            {t("structure.componentLabel")}
             <TextInput
               value={componentLabelLg1}
               onChange={(e) => handleChange("componentLabelLg1", e.target.value)}
@@ -89,7 +91,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
       <div className="row form-group">
         <Column>
           <label className="w-100">
-            {D.type}
+            {t("component.type.title")}
             <Select
               placeholder=""
               value={COMPONENT_TYPES.find((option) => option.value === type) || ""}
@@ -102,7 +104,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
         </Column>
         <Column>
           <label className="w-100">
-            {D.conceptTitle}
+            {t("component.concept")}
             <Select
               placeholder=""
               value={conceptsOptions.find((option) => option.value === concept) || ""}
@@ -117,7 +119,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
       <div className="row form-group">
         <Column>
           <label className="w-100">
-            {D.creator}
+            {t("structure.creator")}
             <Select
               placeholder=""
               value={stampListOptions.find((option) => option.value === creator) || ""}
@@ -130,7 +132,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
         </Column>
         <Column>
           <label className="w-100">
-            {D.componentValididationStatusTitle}
+            {t("structure.validationStatus")}
             <Select
               placeholder=""
               value={validateStateOptions.find((option) => option.value === validationState) || ""}
@@ -147,7 +149,9 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
 };
 
 export const Component = () => {
-  useTitle(D.structuresTitle, D.structuresAdvancedSearch);
+  const { t } = useTranslation();
+
+  useTitle(t("structure.searchTitle"));
 
   const [loading, setLoading] = useState(true);
 

@@ -3,8 +3,18 @@ import { Mock, vi } from "vitest";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import { D1 } from "../../../../../deprecated-locales";
 import { DescriptionsPanel } from "./DescriptionsPanel";
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "structure.description": "Description",
+      };
+      return translations[key] ?? key;
+    },
+  }),
+}));
 
 vi.mock("@utils/hooks/second-lang", () => ({
   useSecondLang: vi.fn(),
@@ -25,10 +35,10 @@ describe("DescriptionsPanel", () => {
       <DescriptionsPanel descriptionLg1={mockDescriptionLg1} descriptionLg2={mockDescriptionLg2} />,
     );
 
-    const titleLg1 = screen.getByText(D1.descriptionTitle);
+    const titleLg1 = screen.getByText("Description");
     const descriptionLg1 = screen.getByText(mockDescriptionLg1);
 
-    expect(titleLg1.innerHTML).toContain(D1.descriptionTitle);
+    expect(titleLg1.innerHTML).toContain("Description");
     expect(descriptionLg1.innerHTML).toContain(mockDescriptionLg1);
 
     expect(screen.queryByText(mockDescriptionLg2)).toBeNull();

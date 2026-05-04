@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import { z } from "zod";
 
 import {
@@ -6,13 +7,11 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import D, { D1, D2 } from "../../../../deprecated-locales";
-
 const ZodComponent = z.object({
-  identifiant: mandatoryAndNotEmptyTextField(D.idTitle),
-  labelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle),
-  labelLg2: mandatoryAndNotEmptyTextField(D2.labelTitle),
-  type: mandatoryAndNotEmptySelectField(D.type),
+  identifiant: mandatoryAndNotEmptyTextField(i18next.t("component.notation")),
+  labelLg1: mandatoryAndNotEmptyTextField(i18next.t("component.label", { lng: "fr" })),
+  labelLg2: mandatoryAndNotEmptyTextField(i18next.t("component.label", { lng: "en" })),
+  type: mandatoryAndNotEmptySelectField(i18next.t("component.type.title")),
 });
 
 export const validate = formatValidation(ZodComponent);

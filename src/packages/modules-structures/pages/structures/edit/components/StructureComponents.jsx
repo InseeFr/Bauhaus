@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
-import D from "../../../../../deprecated-locales";
 import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
 import { ComponentSelector } from "../../../../components/ComponentSelector";
 import {
@@ -12,6 +12,8 @@ import {
 } from "../../../../constants";
 
 export const StructureComponents = ({ componentDefinitions, onChange, structure = {} }) => {
+  const { t } = useTranslation();
+
   const [concepts, setConcepts] = useState([]);
 
   const { data: codesLists = [] } = useFormattedCodeList();
@@ -28,7 +30,7 @@ export const StructureComponents = ({ componentDefinitions, onChange, structure 
 
   return (
     <>
-      <h2>{D.DimensionPlural}</h2>
+      <h2>{t("component.type.dimension.pluralTitle")}</h2>
       <div className="row text-left">
         <ComponentSelector
           componentDefinitions={componentDefinitions}
@@ -40,7 +42,7 @@ export const StructureComponents = ({ componentDefinitions, onChange, structure 
           structure={structure}
         />
       </div>
-      <h2>{D.MeasurePlural}</h2>
+      <h2>{t("component.type.measure.pluralTitle")}</h2>
       <div className="row text-left">
         <ComponentSelector
           componentDefinitions={componentDefinitions}
@@ -52,7 +54,7 @@ export const StructureComponents = ({ componentDefinitions, onChange, structure 
           structure={structure}
         />
       </div>
-      <h2>{D.AttributePlural}</h2>
+      <h2>{t("component.type.attribute.pluralTitle")}</h2>
       <div className="row text-left">
         <ComponentSelector
           componentDefinitions={componentDefinitions}

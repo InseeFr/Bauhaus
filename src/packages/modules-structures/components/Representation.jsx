@@ -1,8 +1,11 @@
-import D from "../old-i18n/build-dictionary";
+import { useTranslation } from "react-i18next";
+
 import { XSD_TYPES } from "../constants";
 import "./Representation.css";
 
 export const Representation = ({ component, codesLists, handleCodesListDetail }) => {
+  const { t } = useTranslation();
+
   const codeList = codesLists.find(
     ({ id }) => id?.toString() === component.codeList?.toString(),
   )?.label;
@@ -15,8 +18,8 @@ export const Representation = ({ component, codesLists, handleCodesListDetail })
           type="button"
           className="btn btn-default"
           onClick={handleCodesListDetail}
-          aria-label={D.seeCodesListDetails}
-          title={D.seeCodesListDetails}
+          aria-label={t("component.seeCodelistDetails")}
+          title={t("component.seeCodelistDetails")}
         >
           <span className="glyphicon glyphicon-th"></span>
         </button>

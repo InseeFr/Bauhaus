@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import FilterToggleButtons from "@components/filter-toggle-buttons";
 import { Row } from "@components/layout";
@@ -11,7 +12,6 @@ import { StructureApi } from "@sdk/index";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../old-i18n/build-dictionary";
 import { formatLabel } from "../../../utils/formatLabel";
 import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants";
 import "./page.css";
@@ -21,7 +21,9 @@ const ALL = "ALL";
 const sessionStorageKey = "components-displayMode";
 
 export const Component = () => {
-  useTitle(D.structuresTitle, D.componentTitle);
+  const { t } = useTranslation();
+
+  useTitle(t("structure.pluralTitle"), t("component.pluralTitle"));
 
   const navigate = useNavigate();
 
@@ -36,7 +38,6 @@ export const Component = () => {
   const onFilter = useCallback(
     (mode) => {
       navigate(window.location.pathname + "?page=1");
-
       setFilter(mode);
     },
     [navigate],
@@ -69,12 +70,12 @@ export const Component = () => {
       <Row>
         <HomePageMenu filter={filter} />
         <div className="col-md-8 text-center pull-right">
-          <PageTitle title={D.componentHomePageTitle} col={12} offset={0} />
+          <PageTitle title={t("component.homePageTitle")} col={12} offset={0} />
           <FilterToggleButtons
             currentValue={filter}
             handleSelection={onFilter}
             options={[
-              [ALL, D.all],
+              [ALL, t("all")],
               ...MUTUALIZED_COMPONENT_TYPES.map((type) => [type.value, type.labelPlural]),
             ]}
           />

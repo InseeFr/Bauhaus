@@ -1,0 +1,105 @@
+{
+  "structure": {
+    "title": "Structure",
+    "pluralTitle": "Structures",
+    "creationPageTitle": "Créer une nouvelle structure",
+    "duplicationPageTitle": "Dupliquer la structure : ",
+    "homePageTitle": "Structures - Recherche",
+    "searchTitle": "Structures - Recherche avancée",
+    "notation": "Notation",
+    "creationDate": "Date de création",
+    "updatingDate": "Date de modification",
+    "validationStatus": "Statut de publication",
+    "label": "Libellé",
+    "description": "Description",
+    "creator": "Propriétaire",
+    "contributors": "Gestionnaires",
+    "disseminationStatus": "Statut de diffusion",
+    "globalInformation": "Informations générales",
+    "componentLabel": "Libellé du composant"
+  },
+  "component": {
+    "title": "Composant",
+    "pluralTitle": "Composants",
+    "creationPageTitle": "Créer un nouveau composant",
+    "homePageTitle": "Composants - Recherche",
+    "searchTitle": "Composants - Recherche avancée",
+    "notation": "Notation",
+    "creationDate": "Date de création",
+    "updatingDate": "Date de modification",
+    "validationStatus": "Statut de validation",
+    "label": "Libellé",
+    "shortName": "Nom court",
+    "type": {
+      "title": "Type",
+      "attribute": {
+        "title": "Attribut",
+        "pluralTitle": "Attributs",
+        "value": "Valeur"
+      },
+      "dimension": {
+        "title": "Dimension",
+        "pluralTitle": "Dimensions"
+      },
+      "measure": {
+        "title": "Mesure",
+        "pluralTitle": "Mesures"
+      }
+    },
+    "concept": "Concept",
+    "representation": {
+      "title": "Représentation",
+      "date": {
+        "title": "Date",
+        "action": "Saisissez une date"
+      },
+      "dateTime": {
+        "title": "Date et heure",
+        "action": "Saisissez une date"
+      },
+      "float": {
+        "title": "Nombre décimal",
+        "action": "Saisissez un nombre décimal"
+      },
+      "int": {
+        "title": "Nombre entier",
+        "action": "Saisissez un nombre entier"
+      },
+      "codelist": {
+        "title": "Liste de codes",
+        "action": "Saisissez une modalité"
+      },
+      "paysOuTerritoire": {
+        "title": "Pays ou territoire",
+        "action": "Saisissez le code géographique officiel"
+      },
+      "string": { "title": "Texte", "action": "Saisissez du texte" },
+      "format": "Format",
+      "minLength": "Longueur minimale",
+      "maxLength": "Longueur maximale",
+      "minValue": "Valeur minimale",
+      "maxValue": "Valeur maximale"
+    },
+    "creator": "Propriétaire",
+    "contributors": "Gestionnaires",
+    "disseminationStatus": "Statut de diffusion",
+    "description": "Description",
+    "globalInformation": "Informations générales",
+    "stucturesUsingComponent": "Structures utilisant le composant",
+    "componentSpecification": "Spécification du composant",
+    "attachment": "Attachement de l'attribut",
+    "requiredSpecification": "Le composant est-il obligatoire ?",
+    "mutualized": "Publié",
+    "mutualizedComponents": "Composants mutualisés",
+    "seeCodelistDetails": "Voir les codes de cette liste"
+  },
+  "codelist": "Liste de code",
+  "partialCodelist": "Liste de code partielle",
+  "yes": "Oui",
+  "no": "Non",
+  "up": "Monter",
+  "down": "Descendre",
+  "remove": "Retirer",
+  "cancel": "Annuler",
+  "all": "Tous"
+}

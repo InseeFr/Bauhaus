@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { AddButton } from "@components/buttons/add";
 import { SeeButton } from "@components/buttons/see";
@@ -12,7 +13,6 @@ import { CodesList } from "../../model/CodesList";
 import { UNPUBLISHED } from "../../model/ValidationState";
 import { Component, ComponentDefinition } from "../../model/structures/Component";
 import { Structure } from "../../model/structures/Structure";
-import D from "../old-i18n/build-dictionary";
 import { typeUriToLabel } from "../utils/typeUriToLabel";
 import { CollapsiblePanel } from "./CollapsiblePanel";
 import { ComponentDetail } from "./ComponentDetail";
@@ -50,6 +50,8 @@ export const StructureComponentsSelector = ({
   handleCodesListDetail,
   structure,
 }: Readonly<StructureComponentsSelectorTypes>) => {
+  const { t } = useTranslation();
+
   const removeClickHandler = useCallback(
     (e: any) => {
       handleRemove!(e.target.parentElement.dataset.componentId);
@@ -172,7 +174,7 @@ export const StructureComponentsSelector = ({
         type: typeUriToLabel(component.type),
         mutualized:
           !!component.validationState && component.validationState !== UNPUBLISHED ? (
-            <span className="glyphicon glyphicon-ok" aria-label={D.mutualized}></span>
+            <span className="glyphicon glyphicon-ok" aria-label={t("component.mutualized")}></span>
           ) : (
             <></>
           ),
@@ -201,8 +203,8 @@ export const StructureComponentsSelector = ({
               className="btn btn-default"
               data-component-id={component.identifiant}
               onClick={specificationClickHandler}
-              aria-label={D.componentSpecificationTitle}
-              title={D.componentSpecificationTitle}
+              aria-label={t("component.componentSpecification")}
+              title={t("component.componentSpecification")}
             >
               <span className="glyphicon glyphicon-cog"></span>
             </button>
@@ -212,8 +214,8 @@ export const StructureComponentsSelector = ({
                 className="btn btn-default"
                 data-component-id={component.identifiant}
                 onClick={removeClickHandler}
-                aria-label={D.remove}
-                title={D.remove}
+                aria-label={t("remove")}
+                title={t("remove")}
               >
                 <span className="glyphicon glyphicon-minus"></span>
               </button>
@@ -224,8 +226,8 @@ export const StructureComponentsSelector = ({
                 className="btn btn-default"
                 data-component-id={component.identifiant}
                 onClick={goingUp}
-                aria-label={D.up}
-                title={D.up}
+                aria-label={t("up")}
+                title={t("up")}
               >
                 <span className="glyphicon glyphicon-arrow-up"></span>
               </button>
@@ -236,8 +238,8 @@ export const StructureComponentsSelector = ({
                 className="btn btn-default"
                 data-component-id={component.identifiant}
                 onClick={goingDown}
-                aria-label={D.down}
-                title={D.down}
+                aria-label={t("down")}
+                title={t("down")}
               >
                 <span className="glyphicon glyphicon-arrow-down"></span>
               </button>
@@ -254,7 +256,7 @@ export const StructureComponentsSelector = ({
       collapsible={false}
       title={
         <>
-          {D.componentTitle}{" "}
+          {t("component.pluralTitle")}{" "}
           {!readOnly && (
             <HasAccess module="STRUCTURE_COMPONENT" privilege="CREATE">
               <AddButton id="add-component" onClick={handleCreateComponent} />

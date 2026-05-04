@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { AddButton } from "@components/buttons/add";
 import { SeeButton } from "@components/buttons/see";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { UNPUBLISHED } from "../../model/ValidationState";
-import D from "../old-i18n/build-dictionary";
 import { typeUriToLabel } from "../utils/typeUriToLabel";
 import { CollapsiblePanel } from "./CollapsiblePanel";
 import { ComponentDetail } from "./ComponentDetail";
@@ -20,6 +20,8 @@ export const MutualizedComponentsSelector = ({
   codesLists,
   handleCodesListDetail,
 }) => {
+  const { t } = useTranslation();
+
   const [openPanel, setOpenPanel] = useState(false);
 
   const [selectedComponent, setSelectedComponent] = useState(null);
@@ -47,7 +49,7 @@ export const MutualizedComponentsSelector = ({
     type: typeUriToLabel(component.type),
     mutualized:
       !!component.validationState && component.validationState !== UNPUBLISHED ? (
-        <span className="glyphicon glyphicon-ok" aria-label={D.mutualized}></span>
+        <span className="glyphicon glyphicon-ok" aria-label={t("component.mutualized")}></span>
       ) : (
         <></>
       ),
@@ -77,7 +79,7 @@ export const MutualizedComponentsSelector = ({
     <CollapsiblePanel
       id="mutualized-components-picker"
       hidden={hidden}
-      title={D.mutualizedComponentTitle}
+      title={t("component.mutualizedComponents") + " "}
     >
       <ComponentsTable components={componentsWithActions} />
       <RightSlidingPanel isOpen={openPanel} backdropClicked={() => setOpenPanel(false)}>

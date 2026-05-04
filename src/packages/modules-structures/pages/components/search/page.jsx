@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { TextInput } from "@components/form/input";
@@ -16,7 +17,6 @@ import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { validateStateOptions } from "../../../../model/ValidationState";
-import D from "../../../old-i18n/build-dictionary";
 import { formatLabel } from "../../../utils/formatLabel";
 
 const filterLabel = filterKeyDeburr(["labelLg1"]);
@@ -32,6 +32,8 @@ const defaultFormState = {
 };
 
 const SearchFormList = ({ concepts, stampListOptions, data }) => {
+  const { t } = useTranslation();
+
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const { labelLg1, concept, creator, validationState } = form;
@@ -52,7 +54,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
 
   return (
     <AdvancedSearchList
-      title={D.componentsSearchTitle}
+      title={t("component.searchTitle")}
       data={dataLinks}
       initializeState={reset}
       redirect={<Navigate to="/structures/components" />}
@@ -60,7 +62,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
       <div className="row form-group">
         <div className="col-md-12">
           <label className="w-100">
-            {D.label}
+            {t("component.label")}
             <TextInput
               value={labelLg1}
               onChange={(e) => handleChange("labelLg1", e.target.value)}
@@ -71,7 +73,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
       <div className="row form-group">
         <div className="col-md-12">
           <label className="w-100">
-            {D.conceptTitle}
+            {t("component.concept")}
             <Select
               placeholder=""
               value={conceptsOptions.find((option) => option.value === concept) || ""}
@@ -86,7 +88,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
       <div className="row form-group">
         <Column>
           <label className="w-100">
-            {D.creator}
+            {t("component.creator")}
             <Select
               placeholder=""
               value={stampListOptions.find((option) => option.value === creator) || ""}
@@ -99,7 +101,7 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
         </Column>
         <Column>
           <label className="w-100">
-            {D.componentValididationStatusTitle}
+            {t("component.validationStatus")}
             <Select
               placeholder=""
               value={validateStateOptions.find((option) => option.value === validationState) || ""}
@@ -116,7 +118,9 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
 };
 
 export const Component = () => {
-  useTitle(D.componentTitle, D.structuresAdvancedSearch);
+  const { t } = useTranslation();
+
+  useTitle(t("component.searchTitle"));
 
   const [loading, setLoading] = useState(true);
 

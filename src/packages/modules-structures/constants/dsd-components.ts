@@ -1,4 +1,5 @@
-import D from "../old-i18n/build-dictionary";
+import i18next from "i18next";
+
 import { QB } from "./prefixes";
 
 export const MEASURE_TYPE = `${QB}measure`;
@@ -6,9 +7,18 @@ export const DIMENSION_TYPE = `${QB}dimension`;
 export const ATTRIBUTE_TYPE = `${QB}attribute`;
 
 export const COMPONENT_TYPES = [
-  { value: ATTRIBUTE_TYPE, label: D.Attribute },
-  { value: DIMENSION_TYPE, label: D.Dimension },
-  { value: MEASURE_TYPE, label: D.Measure },
+  {
+    value: ATTRIBUTE_TYPE,
+    label: i18next.t("component.type.attribute.title"),
+  },
+  {
+    value: DIMENSION_TYPE,
+    label: i18next.t("component.type.dimension.title"),
+  },
+  {
+    value: MEASURE_TYPE,
+    label: i18next.t("component.type.measure.title"),
+  },
 ];
 
 export const ATTRIBUTE_PROPERTY_TYPE = `${QB}AttributeProperty`;
@@ -18,18 +28,18 @@ export const DIMENSION_PROPERTY_TYPE = `${QB}DimensionProperty`;
 export const MUTUALIZED_COMPONENT_TYPES = [
   {
     value: ATTRIBUTE_PROPERTY_TYPE,
-    label: D.Attribute,
-    labelPlural: D.AttributePlural,
+    label: i18next.t("component.type.attribute.title"),
+    labelPlural: i18next.t("component.type.attribute.pluralTitle"),
   },
   {
     value: `${QB}DimensionProperty`,
-    label: D.Dimension,
-    labelPlural: D.DimensionPlural,
+    label: i18next.t("component.type.dimension.title"),
+    labelPlural: i18next.t("component.type.dimension.pluralTitle"),
   },
   {
     value: MEASURE_PROPERTY_TYPE,
-    label: D.Measure,
-    labelPlural: D.MeasurePlural,
+    label: i18next.t("component.type.measure.title"),
+    labelPlural: i18next.t("component.type.measure.pluralTitle"),
   },
 ];
 

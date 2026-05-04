@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { SeeButton } from "@components/buttons/see";
 import { CreationUpdateItems } from "@components/creation-update-items";
@@ -19,8 +20,6 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
-import MainDictionary from "../../deprecated-locales/build-dictionary";
-import D, { D1, D2 } from "../old-i18n/build-dictionary";
 import { getAllAttachment } from "../utils/getAllAttachment";
 import { typeUriToLabel } from "../utils/typeUriToLabel";
 import { XSD_CODE_LIST, XSD_TYPES, ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from "../constants";
@@ -28,6 +27,7 @@ import { CodelistPanel } from "./CodelistPanel";
 import { ViewMenu } from "../pages/components/view/menu";
 import "./ComponentDetailView.css";
 import { MeasureAttributes } from "./MeasureAttributes";
+import { useAppContext } from "../../application/app-context";
 
 export const ComponentDetailView = ({
   component,
@@ -45,7 +45,11 @@ export const ComponentDetailView = ({
   serverSideError,
   attributes,
 }) => {
-  useTitle(D.componentTitle, component?.labelLg1);
+  const { t } = useTranslation();
+
+  useTitle(t("component.pluralTitle"), component?.labelLg1);
+
+  const { lg1, lg2 } = useAppContext();
 
   const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
 
@@ -95,23 +99,24 @@ export const ComponentDetailView = ({
         updatable={updatable}
         col={col}
       ></ViewMenu>
-      {serverSideError && <ErrorBloc error={serverSideError} D={MainDictionary} />}
+      {serverSideError && <ErrorBloc error={serverSideError} />}
       <Row>
         <Note
           text={
             <ul>
               <li>
-                {D1.idTitle} : {component.identifiant}
+                {t("component.notation")} : {component.identifiant}
               </li>
               <CreationUpdateItems creation={component.created} update={component.modified} />
               <li>
-                {D.componentValididationStatusTitle} : <PublicationMale object={component} />
+                {t("component.validationStatus")} : <PublicationMale object={component} />
               </li>
               <li>
-                {D.creator} : <InseeOrganisation creator={component.creator} />
+                {t("component.creator")} : <InseeOrganisation creator={component.creator} />
               </li>
               <li>
-                {D.contributor} : <InseeOrganisations creators={component.contributor} />
+                {t("component.contributors")} :{" "}
+                <InseeOrganisations creators={component.contributor} />
               </li>
               <li>
                 <DisseminationStatusVisualisation
@@ -120,26 +125,31 @@ export const ComponentDetailView = ({
               </li>
             </ul>
           }
-          title={D.globalInformationsTitle}
+          title={t("component.globalInformation")}
           alone={true}
         />
       </Row>
       <Row>
-        <Note text={typeValue} title={D1.type} alone={true} allowEmpty={true} />
+        <Note text={typeValue} title={t("component.type.title")} alone={true} allowEmpty={true} />
       </Row>
       <Row>
         <Note
           text={component.altLabelLg1}
-          title={D1.altLabel}
+          title={t("component.shortName", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
-          <Note text={component.altLabelLg2} title={D2.altLabel} alone={false} allowEmpty={true} />
+          <Note
+            text={component.altLabelLg2}
+            title={t("component.shortName", { lng: "en" })}
+            alone={false}
+            allowEmpty={true}
+          />
         )}
       </Row>
       <Row>
-        <Note text={conceptValue} title={D1.conceptTitle} alone={true} allowEmpty={true} />
+        <Note text={conceptValue} title={t("component.concept")} alone={true} allowEmpty={true} />
       </Row>
       <Row>
         <Note
@@ -149,33 +159,33 @@ export const ComponentDetailView = ({
               <ul>
                 {component.pattern && (
                   <li>
-                    {D.formatTitle}: {component.pattern}
+                    {t("component.format")}: {component.pattern}
                   </li>
                 )}
                 {component.minLength && (
                   <li>
-                    {D.minLength}: {component.minLength}
+                    {t("component.minLength")}: {component.minLength}
                   </li>
                 )}
                 {component.maxLength && (
                   <li>
-                    {D.maxLength}: {component.maxLength}
+                    {t("component.maxLength")}: {component.maxLength}
                   </li>
                 )}
                 {component.minInclusive && (
                   <li>
-                    {D.minInclusive}: {component.minInclusive}
+                    {t("component.minValue")}: {component.minInclusive}
                   </li>
                 )}
                 {component.maxInclusive && (
                   <li>
-                    {D.maxInclusive}: {component.maxInclusive}
+                    {t("component.maxValue")}: {component.maxInclusive}
                   </li>
                 )}
               </ul>
             </>
           }
-          title={D1.rangeTitle}
+          title={t("component.representation.title")}
           alone={true}
           allowEmpty={true}
         />
@@ -189,7 +199,7 @@ export const ComponentDetailView = ({
                 <SeeButton onClick={() => setCodesListPanelOpened(true)}></SeeButton>
               </div>
             }
-            title={D1.codesListTitle}
+            title={t("component.codelist")}
             alone={true}
             allowEmpty={true}
           />
@@ -198,12 +208,17 @@ export const ComponentDetailView = ({
       <Row>
         <Note
           text={descriptionLg1}
-          title={D1.descriptionTitle}
+          title={t("component.description", { lng: "fr" }) + ` (${lg1})`}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
-          <Note text={descriptionLg2} title={D2.descriptionTitle} alone={false} allowEmpty={true} />
+          <Note
+            text={descriptionLg2}
+            title={t("component.description", { lng: "en" }) + ` (${lg2})`}
+            alone={false}
+            allowEmpty={true}
+          />
         )}
       </Row>
       {component.type === MEASURE_PROPERTY_TYPE && (
@@ -216,7 +231,7 @@ export const ComponentDetailView = ({
                 codesLists={codesLists}
               />
             }
-            title={D1.Attribute}
+            title={t("component.type.attribute.title")}
             alone={true}
             allowEmpty={true}
           />
@@ -236,7 +251,7 @@ export const ComponentDetailView = ({
                 })}
               </ul>
             }
-            title={D1.structuresComponentTitle}
+            title={t("component.stucturesUsingComponent")}
             alone={true}
             allowEmpty={true}
           />
@@ -245,7 +260,7 @@ export const ComponentDetailView = ({
       {component.type === ATTRIBUTE_TYPE && !mutualized && (
         <>
           <hr />
-          <h4>{D1.componentSpecificationTitle}</h4>
+          <h4>{t("component.componentSpecification")}</h4>
           <Row>
             <Note
               text={
@@ -259,15 +274,15 @@ export const ComponentDetailView = ({
                   })}
                 </ul>
               }
-              title={D1.attachmentTitle}
+              title={t("component.attachment")}
               alone={true}
               allowEmpty={true}
             />
           </Row>
           <Row>
             <Note
-              text={component.required ? D.yes : D.no}
-              title={D1.requiredSpecificationTitle}
+              text={component.required ? t("yes") : t("no")}
+              title={t("component.requiredSpecification")}
               alone={true}
               allowEmpty={true}
             />

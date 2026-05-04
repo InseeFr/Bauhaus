@@ -1,11 +1,11 @@
-//@ts-nocheck
+import { useTranslation } from "react-i18next";
+
 import { ActionToolbar } from "@components/action-toolbar";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { useAllCodes } from "@utils/hooks/codeslist";
 
 import { CodesList } from "../../model/CodesList";
-import D from "../old-i18n/build-dictionary";
 import "./CodelistPanel.css";
 
 interface CodelistPanelTypes {
@@ -15,6 +15,8 @@ interface CodelistPanelTypes {
 }
 
 export const CodelistPanel = ({ isOpen, handleBack, codesList }: CodelistPanelTypes) => {
+  const { t } = useTranslation();
+
   const { data: codes } = useAllCodes(codesList?.notation, isOpen);
 
   if (!codes) {
@@ -26,7 +28,7 @@ export const CodelistPanel = ({ isOpen, handleBack, codesList }: CodelistPanelTy
       <ActionToolbar>
         <div className="col-md-12">
           <button type="button" className="btn wilco-btn btn-lg col-md-12" onClick={handleBack}>
-            {D.btnCancel}
+            {t("cancel")}
           </button>
         </div>
       </ActionToolbar>

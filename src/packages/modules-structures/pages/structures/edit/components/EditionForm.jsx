@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
@@ -16,8 +17,6 @@ import { initializeContributorProperty } from "@utils/creation/contributor-init"
 import { useUserStamps } from "@utils/hooks/users";
 
 import { useAppContext } from "../../../../../application/app-context";
-import D, { D1, D2 } from "../../../../../deprecated-locales";
-
 import { DISSEMINATION_STATUS } from "../../../../constants";
 import { StructureComponents } from "./StructureComponents";
 import { Controls } from "./Controls";
@@ -37,6 +36,8 @@ const defaultDSD = {
 };
 
 export const EditionForm = ({ creation, initialStructure }) => {
+  const { t } = useTranslation();
+
   const { lg1, lg2 } = useAppContext();
 
   const [structure, setStructure] = useState(defaultDSD);
@@ -119,8 +120,8 @@ export const EditionForm = ({ creation, initialStructure }) => {
       {submitting && clientSideError && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideError.errorMessage} />
       )}
-      <ErrorBloc error={serverSideError} D={D} />
-      <LabelRequired htmlFor="identifiant">{D1.idTitle}</LabelRequired>
+      <ErrorBloc error={serverSideError} />
+      <LabelRequired htmlFor="identifiant">{t("structure.notation")}</LabelRequired>
       <TextInput
         id="identifiant"
         value={identifiant}
@@ -135,7 +136,7 @@ export const EditionForm = ({ creation, initialStructure }) => {
       ></ClientSideError>
       <Row>
         <div className="col-md-6">
-          <LabelRequired htmlFor="labelLg1">{D1.labelTitle}</LabelRequired>
+          <LabelRequired htmlFor="labelLg1">{t("structure.label", { lng: "fr" })}</LabelRequired>
           <TextInput
             id="labelLg1"
             value={labelLg1}
@@ -149,7 +150,7 @@ export const EditionForm = ({ creation, initialStructure }) => {
           ></ClientSideError>
         </div>
         <div className="col-md-6">
-          <LabelRequired htmlFor="labelLg1">{D2.labelTitle}</LabelRequired>
+          <LabelRequired htmlFor="labelLg1">{t("structure.label", { lng: "en" })}</LabelRequired>
           <TextInput
             id="labelLg2"
             value={labelLg2}
@@ -166,7 +167,7 @@ export const EditionForm = ({ creation, initialStructure }) => {
       <Row>
         <div className="col-md-6">
           <label htmlFor="descriptionLg1">
-            {D1.descriptionTitle} ({lg1})
+            {t("structure.description", { lng: "fr" })} ({lg1})
           </label>
           <TextInput
             id="descriptionLg1"
@@ -176,7 +177,7 @@ export const EditionForm = ({ creation, initialStructure }) => {
         </div>
         <div className="col-md-6">
           <label htmlFor="descriptionLg2">
-            {D1.descriptionTitle} ({lg2})
+            {t("structure.description", { lng: "en" })} ({lg2})
           </label>
           <TextInput
             id="descriptionLg2"

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { TextInput } from "@components/form/input";
 import { Column, Row } from "@components/layout";
@@ -6,7 +7,6 @@ import { Select } from "@components/select-rmes";
 
 import { StructureApi } from "@sdk/index";
 
-import D, { D1, D2 } from "../old-i18n/build-dictionary";
 import { getAllAttachment } from "../utils/getAllAttachment";
 import { ATTRIBUTE_PROPERTY_TYPE, MEASURE_PROPERTY_TYPE } from "../constants";
 import "./ComponentSpecificationForm.css";
@@ -18,6 +18,8 @@ export const ComponentSpecificationForm = ({
   onChange,
   disabled = false,
 }) => {
+  const { t } = useTranslation();
+
   const [attachments, setAttachments] = useState([]);
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export const ComponentSpecificationForm = ({
     <>
       <Row>
         <div className="col-md-12">
-          <label htmlFor="component-specification-notation">{D.idTitle}</label>
+          <label htmlFor="component-specification-notation">{t("component.notation")}</label>
           <TextInput
             value={component.notation}
             name="component-specification-notation"
@@ -51,7 +53,9 @@ export const ComponentSpecificationForm = ({
       </Row>
       <Row>
         <Column>
-          <label htmlFor="component-specification-labelLg1">{D1.label}</label>
+          <label htmlFor="component-specification-labelLg1">
+            {t("component.label", { lng: "fr" })}
+          </label>
           <TextInput
             value={component.labelLg1}
             name="component-specification-labelLg1"
@@ -66,7 +70,9 @@ export const ComponentSpecificationForm = ({
           />
         </Column>
         <Column>
-          <label htmlFor="component-specification-labelLg2">{D2.label}</label>
+          <label htmlFor="component-specification-labelLg2">
+            {t("component.label", { lng: "en" })}
+          </label>
           <TextInput
             value={component.labelLg2}
             name="component-specification-labelLg2"
@@ -85,9 +91,9 @@ export const ComponentSpecificationForm = ({
         <>
           <div className="row bauhaus-component-specification-form">
             <label className="col-md-12">
-              {D.attachmentTitle}
+              {t("component.attachment")}
               <Select
-                placeholder={D.attachmentTitle}
+                placeholder={t("component.attachment")}
                 value={attachments.filter((c) =>
                   component.attachment?.some((a) => a.includes(c.value)),
                 )}
@@ -105,7 +111,7 @@ export const ComponentSpecificationForm = ({
           </div>
           <Row>
             <fieldset className="col-md-12 checkbox ">
-              <legend>{D.requiredSpecificationTitle}</legend>
+              <legend>{t("component.requiredSpecification")}</legend>
               <label className="radio-inline">
                 <input
                   type="radio"
@@ -119,7 +125,7 @@ export const ComponentSpecificationForm = ({
                   }}
                   disabled={disabled}
                 />
-                {D.yes}
+                {t("yes")}
               </label>
               <label className="radio-inline">
                 <input
@@ -134,7 +140,7 @@ export const ComponentSpecificationForm = ({
                   }}
                   disabled={disabled}
                 />
-                {D.no}
+                {t("no")}
               </label>
             </fieldset>
           </Row>

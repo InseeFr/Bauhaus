@@ -1,4 +1,5 @@
-import D from "../old-i18n/build-dictionary";
+import i18next from "i18next";
+
 import { XSD, INSEE, IGEO } from "./prefixes";
 
 export const XSD_DATE = `${XSD}date`;
@@ -10,11 +11,32 @@ export const XSD_CODE_LIST = `${INSEE}codeList`;
 export const IGEO_PAYS_OU_TERRITOIRE = `${IGEO}PaysOuTerritoire`;
 
 export const XSD_TYPES = [
-  { value: XSD_DATE, label: D.dateType },
-  { value: XSD_DATE_TIME, label: D.dateTimeType },
-  { value: XSD_FLOAT, label: D.floatType },
-  { value: XSD_INTEGER, label: D.intType },
-  { value: XSD_CODE_LIST, label: D.codesListTitle },
-  { value: IGEO_PAYS_OU_TERRITOIRE, label: D.paysOuTerritoire },
-  { value: XSD_STRING, label: D.stringType },
+  {
+    value: XSD_DATE,
+    label: i18next.t("component.representation.date.title"),
+  },
+  {
+    value: XSD_DATE_TIME,
+    label: i18next.t("component.representation.dateTime.title"),
+  },
+  {
+    value: XSD_FLOAT,
+    label: i18next.t("component.representation.float.title"),
+  },
+  {
+    value: XSD_INTEGER,
+    label: i18next.t("component.representation.int.title"),
+  },
+  {
+    value: XSD_CODE_LIST,
+    label: i18next.t("component.representation.codelist.title"),
+  },
+  {
+    value: IGEO_PAYS_OU_TERRITOIRE,
+    label: i18next.t("component.representation.paysOuTerritoire.title"),
+  },
+  {
+    value: XSD_STRING,
+    label: i18next.t("component.representation.string.title"),
+  },
 ] as const;

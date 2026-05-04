@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
@@ -8,12 +9,13 @@ import { StructureApi } from "@sdk/index";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales";
 import { PartialStructure, StructuresList } from "../../../../model/structures/Structure";
 import { HomePageMenu } from "./menu";
 
 export const Component = () => {
-  useTitle(D.structuresTitle, D.structuresTitle);
+  const { t } = useTranslation();
+
+  useTitle(t("structure.pluralTitle"), t("structure.pluralTitle"));
 
   const [DSDs, setDSDs] = useState<StructuresList>([]);
 
@@ -28,7 +30,7 @@ export const Component = () => {
       <Row>
         <HomePageMenu />
         <div className="col-md-8 text-center pull-right">
-          <PageTitle title={D.dsdsSearchTitle} col={12} offset={0} />
+          <PageTitle title={t("structure.homePageTitle")} col={12} offset={0} />
           <SearchableList
             items={DSDs}
             childPath="structures"
