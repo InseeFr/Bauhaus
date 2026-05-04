@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
 import { AdvancedSearchList } from "@components/advanced-search/home";
+import { CreatorsInput } from "@components/business/creators-input";
 import { TextInput } from "@components/form/input";
 import { Column } from "@components/layout";
 import { Loading } from "@components/loading";
@@ -10,7 +11,6 @@ import { Select } from "@components/select-rmes";
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
 import { filterKeyDeburr } from "@utils/array-utils";
-import { useStampsOptions } from "@utils/hooks/stamps";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
@@ -36,7 +36,7 @@ const defaultFormState = {
   validationState: "",
 };
 
-export const SearchFormList = ({ concepts, stampListOptions, data }) => {
+export const SearchFormList = ({ concepts, data }) => {
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const { labelLg1, componentLabelLg1, type, concept, creator, validationState } = form;
@@ -115,17 +115,12 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
       </div>
       <div className="row form-group">
         <Column>
-          <label className="w-100">
-            {D.creator}
-            <Select
-              placeholder=""
-              value={stampListOptions.find((option) => option.value === creator) || ""}
-              options={stampListOptions}
-              onChange={(value) => {
-                handleChange("creator", value);
-              }}
-            />
-          </label>
+          <CreatorsInput
+            mode="organisation"
+            value={creator}
+            onChange={(value) => handleChange("creator", value)}
+            required={false}
+          />
         </Column>
         <Column>
           <label className="w-100">
@@ -151,7 +146,6 @@ export const Component = () => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [concepts, setConcepts] = useState([]);
-  const stampListOptions = useStampsOptions();
 
   useEffect(() => {
     Promise.all([StructureApi.getStructuresForSearch(), ConceptsApi.getConceptList()])
@@ -166,5 +160,5 @@ export const Component = () => {
     return <Loading />;
   }
 
-  return <SearchFormList data={items} concepts={concepts} stampListOptions={stampListOptions} />;
+  return <SearchFormList data={items} concepts={concepts} />;
 };

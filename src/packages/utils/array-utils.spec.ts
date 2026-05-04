@@ -81,6 +81,19 @@ describe("filterKeyDeburr", () => {
       ).toBeFalsy();
     });
   });
+  describe("when the search string is empty", () => {
+    it("should return true even if the nested array is empty", () => {
+      expect(
+        A.filterKeyDeburr(["components.label"])("")({
+          components: [],
+        }),
+      ).toBeTruthy();
+    });
+    it("should return true regardless of the item shape", () => {
+      expect(A.filterKeyDeburr(["label"])("")({ label: "anything" })).toBeTruthy();
+      expect(A.filterKeyDeburr(["label"])("")({})).toBeTruthy();
+    });
+  });
 
   describe("arrayToString", () => {
     it("should return an empty string", () => {

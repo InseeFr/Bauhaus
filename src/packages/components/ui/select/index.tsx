@@ -1,6 +1,7 @@
 import { MultiSelect } from "primereact/multiselect";
 import { Dropdown } from "primereact/dropdown";
-import LabelRequired from "../../label-required";
+
+import "../../label-required/index.css";
 
 interface SelectProps {
   label: string;
@@ -25,8 +26,11 @@ export const Select = ({
   ...rest
 }: Readonly<SelectProps>) => {
   return (
-    <>
-      {required ? <LabelRequired>{label}</LabelRequired> : <label>{label}</label>}
+    <label className={`w-100${required ? " label-required" : ""}`}>
+      <span>
+        {label}
+        {required && <span className="asterisk">*</span>}
+      </span>
 
       {multi ? (
         <MultiSelect
@@ -55,6 +59,6 @@ export const Select = ({
           {...rest}
         />
       )}
-    </>
+    </label>
   );
 };
