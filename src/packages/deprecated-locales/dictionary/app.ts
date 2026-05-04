@@ -22,6 +22,14 @@ const dictionary = {
     fr: "Administration",
     en: "Administration",
   },
+  yes: {
+    fr: "Oui",
+    en: "Yes",
+  },
+  no: {
+    fr: "Non",
+    en: "No",
+  },
   confirmation: {
     fr: "Confirmation",
     en: "Confirm",

@@ -1,5 +1,28 @@
 import { screen, render, fireEvent } from "@testing-library/react";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key) => key,
+  }),
+}));
+
+vi.mock("i18next", () => ({
+  default: {
+    t: (key) => {
+      const translations = {
+        "component.representation.date.title": "Date",
+        "component.representation.dateTime.title": "DateTime",
+        "component.representation.float.title": "Float",
+        "component.representation.int.title": "Integer",
+        "component.representation.codelist.title": "Codelist",
+        "component.representation.paysOuTerritoire.title": "Country or territory",
+        "component.representation.string.title": "String",
+      };
+      return translations[key] ?? key;
+    },
+  },
+}));
+
 import { XSD_CODE_LIST, XSD_STRING } from "../constants/xsd";
 import { Representation } from "./Representation";
 import { EMPTY_ARRAY } from "@utils/array-utils";

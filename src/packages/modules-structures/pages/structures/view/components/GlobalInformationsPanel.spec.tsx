@@ -3,6 +3,21 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PropsWithChildren } from "react";
 import { vi } from "vitest";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "structure.notation": "Notation",
+        "structure.validationStatus": "Publication status",
+        "structure.creator": "Owner",
+        "structure.contributors": "Contributors",
+        "structure.globalInformation": "Global information",
+      };
+      return translations[key] ?? key;
+    },
+  }),
+}));
+
 import { Structure } from "../../../../../model/structures/Structure";
 import { GlobalInformationsPanel } from "./GlobalInformationsPanel";
 
@@ -43,8 +58,8 @@ describe("GlobalInformationsPanel", () => {
     screen.getByText(/Creation date : 01\/01\/2022/);
     screen.getByText(/Modification date : 02\/01\/2022/);
     screen.getByText(/Publication status : Temporary, never published/);
-    screen.getByText(/Creator : STAMP CREATOR/);
-    screen.getByText(/Contributor :/);
+    screen.getByText(/Owner : STAMP CREATOR/);
+    screen.getByText(/Contributors :/);
     screen.getByText(/STAMP CONTRIBUTOR/);
     screen.getByText(/Dissemination status : Public generic/);
   });

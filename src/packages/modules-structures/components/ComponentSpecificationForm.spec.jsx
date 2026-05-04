@@ -1,5 +1,24 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key, options) => {
+      const translations = {
+        fr: {
+          "component.notation": "Notation",
+          "component.label": "Libellé",
+        },
+        en: {
+          "component.notation": "Notation",
+          "component.label": "Label",
+        },
+      };
+      const lng = options?.lng ?? "fr";
+      return translations[lng]?.[key] ?? key;
+    },
+  }),
+}));
+
 import { ComponentSpecificationForm } from "./ComponentSpecificationForm";
 
 describe("ComponentSpecificationForm", () => {

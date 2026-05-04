@@ -1,3 +1,24 @@
+vi.mock("i18next", () => ({
+  default: {
+    t: (key: string, options?: { lng?: string }) => {
+      const translations: Record<string, Record<string, string>> = {
+        fr: {
+          "component.notation": "Notation",
+          "component.label": "Libellé",
+          "component.type.title": "Type",
+        },
+        en: {
+          "component.notation": "Notation",
+          "component.label": "Label",
+          "component.type.title": "Type",
+        },
+      };
+      const lng = options?.lng ?? "fr";
+      return translations[lng]?.[key] ?? key;
+    },
+  },
+}));
+
 import { validate } from "./validation";
 
 describe("validation", function () {
