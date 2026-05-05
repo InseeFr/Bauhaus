@@ -1,4 +1,5 @@
 import { useCallback, useReducer, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { TabView, TabPanel } from "primereact/tabview";
@@ -170,8 +171,6 @@ interface VariableEditFormProps {
   onNext?: () => void;
   hasPrevious?: boolean;
   hasNext?: boolean;
-  activeTabIndex?: number;
-  onTabChange?: (index: number) => void;
 }
 
 export const VariableEditForm = ({
@@ -184,19 +183,34 @@ export const VariableEditForm = ({
   onNext,
   hasPrevious = false,
   hasNext = false,
-  activeTabIndex,
-  onTabChange,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
-  const [activeIndex, setInternalActiveIndex] = useState(activeTabIndex ?? 0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam = Number(searchParams.get("tab"));
+  const activeTabIndex = [0, 1, 2].includes(tabParam) ? tabParam : 0;
+  const [activeIndex, setInternalActiveIndex] = useState(activeTabIndex);
 
-  const setActiveIndex = (index: number) => {
-    setInternalActiveIndex(index);
-    onTabChange?.(index);
-  };
+  const setActiveIndex = useCallback(
+    (index: number) => {
+      setInternalActiveIndex(index);
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (index === 0) {
+            next.delete("tab");
+          } else {
+            next.set("tab", String(index));
+          }
+          return next;
+        },
+        { replace: true },
+      );
+    },
+    [setSearchParams],
+  );
 
   useEffect(() => {
-    if (activeTabIndex !== undefined && activeTabIndex !== activeIndex) {
+    if (activeTabIndex !== activeIndex) {
       setInternalActiveIndex(activeTabIndex);
     }
   }, [activeTabIndex]);

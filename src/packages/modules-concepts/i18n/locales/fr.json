@@ -1,8 +1,78 @@
 {
+  "dashboard": {
+    "pageTitle": "Tableau de bord des concepts",
+    "administrationTitle": "Administration",
+    "conceptsTab": "Concepts",
+    "collectionsTab": "Collections",
+    "summaryTab": "Récapitulatif",
+    "creationsTab": "Liste des créations",
+    "modificationsTab": "Liste des modifications",
+    "listPickerTitle": "Liste des {{type}} de concepts depuis le:",
+    "creationsType": "créations",
+    "modificationsType": "modifications",
+    "ownerColumn": "Propriétaire",
+    "createdColumn": "Date de création",
+    "modifiedColumn": "Date de modification",
+    "statusColumn": "État du concept",
+    "statusProvisional": "Provisoire",
+    "totalColumn": "Total",
+    "provisionalCountLabel": "dont « provisoires »",
+    "concepts": {
+      "labelColumn": "Concepts",
+      "disseminationColumn": "Statut de diffusion",
+      "statusValid": "Publié",
+      "summary": {
+        "title": "Etat de la base des concepts au",
+        "conceptsCountLabel": "Nombre de concepts",
+        "topConceptsCountLabel": "dont « top concepts »",
+        "validDateCountLabel": "dont « ayant une date de fin de validité »",
+        "genericColumn": "Public générique",
+        "specificColumn": "Public spécifique",
+        "privateColumn": "Privé",
+        "byOwnerColumn": "Nombre de concepts par propriétaire"
+      }
+    },
+    "collections": {
+      "labelColumn": "Collections",
+      "membersColumn": "Nombre de concepts",
+      "statusValid": "Publiée",
+      "summary": {
+        "title": "Etat de la base des collections au",
+        "collectionsCountLabel": "Nombre de collections",
+        "byOwnerColumn": "Nombre de collections par propriétaire"
+      }
+    }
+  },
+  "collection": {
+    "membersPanelTitle": "Concepts membres de la collection ({{size}})"
+  },
   "concept": {
     "error": {
       "title": "Erreur",
       "notFound": "Impossible de trouver ce concept"
+    },
+    "title": "Concepts",
+    "searchPlaceholder": "Libellé (ou libellé alternatif)...",
+    "advancedSearch": "Concepts - Recherche",
+    "edit": {
+      "labelTitle": "Libellé",
+      "requiredFields": "Champs requis"
+    },
+    "general": {
+      "globalInformationsTitle": "Informations générales",
+      "identifiantTitle": "Identifiant",
+      "altLabelTitle": "Libellé alternatif",
+      "createdDateTitle": "Date de création",
+      "modifiedDateTitle": "Date de modification",
+      "validDateTitle": "Date de fin de validité",
+      "conceptVersionTitle": "Version du concept",
+      "creatorTitle": "Propriétaire",
+      "contributorTitle": "Gestionnaire",
+      "disseminationStatusTitle": "Statut de diffusion",
+      "isConceptValidTitle": "État du concept",
+      "conceptStatusValid": "Publié",
+      "conceptStatusProvisional": "Provisoire",
+      "additionalMaterialTitle": "Document lié"
     }
   }
 }

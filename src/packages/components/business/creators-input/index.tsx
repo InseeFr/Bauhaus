@@ -2,11 +2,14 @@ import { ComponentProps } from "react";
 import D, { D2 } from "../../i18n";
 import { OrganisationInput, StampsInput } from "../stamps-input/stamps-input";
 
-export const CreatorsInput = ({
-  lang = "first",
-  mode = "stamp",
-  ...props
-}: Readonly<ComponentProps<typeof StampsInput> & { mode: "stamp" | "organisation" }>) => {
+type CreatorsInputProps = Readonly<
+  Omit<ComponentProps<typeof StampsInput>, "labelSingle" | "labelMulti" | "lang"> & {
+    lang?: "first" | "default";
+    mode?: "stamp" | "organisation";
+  }
+>;
+
+export const CreatorsInput = ({ lang = "first", mode = "stamp", ...props }: CreatorsInputProps) => {
   const Dictionary = lang === "first" ? D : D2;
 
   if (mode === "organisation") {

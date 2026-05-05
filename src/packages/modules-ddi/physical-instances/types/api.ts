@@ -31,13 +31,15 @@ export interface Citation {
 }
 
 export interface Title {
-  String: LocalizedString;
+  String: MultiLocalizedString;
 }
 
 export interface LocalizedString {
   "@xml:lang": string;
   "#text": string;
 }
+
+export type MultiLocalizedString = LocalizedString | LocalizedString[];
 
 export interface Reference {
   Agency: string;
@@ -58,7 +60,7 @@ export interface DataRelationship {
 }
 
 export interface LocalizedContent {
-  String: LocalizedString;
+  String: MultiLocalizedString;
 }
 
 export interface LogicalRecord {
@@ -90,7 +92,7 @@ export interface Variable {
 }
 
 export interface LabelContent {
-  Content: LocalizedString;
+  Content: MultiLocalizedString;
 }
 
 export interface VariableRepresentation {

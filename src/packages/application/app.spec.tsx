@@ -42,7 +42,11 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({});
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: ["analytics", "admin", "users"],
+        modules: [
+          { identifier: "analytics", disabled: false },
+          { identifier: "admin", disabled: false },
+          { identifier: "users", disabled: false },
+        ],
       },
     });
 
@@ -63,7 +67,11 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({ privileges: ["admin"] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: ["analytics", "admin", "users"],
+        modules: [
+          { identifier: "analytics", disabled: false },
+          { identifier: "admin", disabled: false },
+          { identifier: "users", disabled: false },
+        ],
       },
     });
 

@@ -8,9 +8,13 @@ export type AppName =
   | "codelists"
   | "datasets"
   | "ddi";
+export interface Module {
+  identifier: AppName;
+  disabled: boolean;
+}
+
 export interface AppProperties {
-  modules: AppName[];
-  activeModules: string[];
+  modules: Module[];
   defaultContributor: string;
   maxLengthScopeNote: string;
   extraMandatoryFields: string;

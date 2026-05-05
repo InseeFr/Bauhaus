@@ -1,29 +1,23 @@
 import { takeKeys } from "../../../../utils/take-keys";
 
-const generalFieldsToKeepCreate = [
-  "id",
-  "prefLabelLg1",
-  "prefLabelLg2",
-  "creator",
-  "contributor",
-  "descriptionLg1",
-  "descriptionLg2",
-];
+const generalFieldsToKeepCreate = ["id", "creator", "contributor"];
 
-const generalFieldsToKeepUpdate = [
-  "id",
-  "prefLabelLg1",
-  "prefLabelLg2",
-  "created",
-  "creator",
-  "contributor",
-  "descriptionLg1",
-  "descriptionLg2",
-];
+const generalFieldsToKeepUpdate = ["id", "created", "creator", "contributor"];
 
 function processGeneral(general: any, keys: string[]) {
   const extract = takeKeys(keys);
-  return extract(general);
+  const base = extract(general);
+  return {
+    ...base,
+    labels: [
+      { lang: "fr", value: general.prefLabelLg1 ?? "" },
+      { lang: "en", value: general.prefLabelLg2 ?? "" },
+    ],
+    descriptions: [
+      { lang: "fr", value: general.descriptionLg1 ?? "" },
+      { lang: "en", value: general.descriptionLg2 ?? "" },
+    ],
+  };
 }
 
 function processMembers(members: { id: string }[]) {
@@ -31,13 +25,14 @@ function processMembers(members: { id: string }[]) {
 }
 
 export default function buildPayload(collection: any, action: string) {
-  let general;
-  if (action === "CREATE") general = processGeneral(collection.general, generalFieldsToKeepCreate);
-  else general = processGeneral(collection.general, generalFieldsToKeepUpdate);
-  const members = processMembers(collection.members);
+  const general =
+    action === "CREATE"
+      ? processGeneral(collection.general, generalFieldsToKeepCreate)
+      : processGeneral(collection.general, generalFieldsToKeepUpdate);
+  const conceptsIdentifiers = processMembers(collection.members);
 
   return {
     ...general,
-    members,
+    conceptsIdentifiers,
   };
 }

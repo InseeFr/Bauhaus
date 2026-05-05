@@ -11,7 +11,6 @@ describe("useDefaultLocale", () => {
       properties: {
         colecticaLangs: ["en-GB", "fr-FR"],
         modules: [],
-        activeModules: [],
         defaultContributor: "",
         maxLengthScopeNote: "",
         extraMandatoryFields: "",
@@ -31,7 +30,6 @@ describe("useDefaultLocale", () => {
     vi.mocked(appContext.useAppContext).mockReturnValue({
       properties: {
         modules: [],
-        activeModules: [],
         defaultContributor: "",
         maxLengthScopeNote: "",
         extraMandatoryFields: "",
@@ -52,7 +50,6 @@ describe("useDefaultLocale", () => {
       properties: {
         colecticaLangs: [],
         modules: [],
-        activeModules: [],
         defaultContributor: "",
         maxLengthScopeNote: "",
         extraMandatoryFields: "",
@@ -73,7 +70,6 @@ describe("useDefaultLocale", () => {
       properties: {
         colecticaLangs: ["de-DE", "es-ES", "it-IT"],
         modules: [],
-        activeModules: [],
         defaultContributor: "",
         maxLengthScopeNote: "",
         extraMandatoryFields: "",

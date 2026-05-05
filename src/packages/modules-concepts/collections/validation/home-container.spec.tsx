@@ -35,9 +35,14 @@ vi.mock("./home", () => ({
 const mockGetCollectionValidateList = vi.fn();
 const mockPutCollectionValidList = vi.fn();
 
+vi.mock("@sdk/new-collection-api", () => ({
+  CollectionApi: {
+    getCollectionValidateList: () => mockGetCollectionValidateList(),
+  },
+}));
+
 vi.mock("@sdk/index", () => ({
   ConceptsApi: {
-    getCollectionValidateList: () => mockGetCollectionValidateList(),
     putCollectionValidList: (ids: string[]) => mockPutCollectionValidList(ids),
   },
 }));

@@ -5,7 +5,7 @@ import { Panel } from "../panel";
 export const Tabs = ({
   tabs,
 }: {
-  tabs: { title: string; disabled: boolean; content: unknown }[];
+  tabs: { title: string; disabled?: boolean; content: unknown }[];
 }) => {
   return (
     <TabView>

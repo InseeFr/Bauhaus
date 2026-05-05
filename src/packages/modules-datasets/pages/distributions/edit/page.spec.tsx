@@ -180,7 +180,7 @@ describe("Distribution Edit Page", () => {
       expect(mockSave).not.toHaveBeenCalled();
     });
 
-    it("should disable save button when there are validation errors", () => {
+    it("should disable save button when there are validation errors", async () => {
       mockUseParams.mockReturnValue({});
       mockValidate.mockReturnValue({
         errorMessage: ["Error 1"],
@@ -192,7 +192,7 @@ describe("Distribution Edit Page", () => {
       fireEvent.click(saveButton);
 
       // After click, the button should be disabled due to errors
-      waitFor(() => {
+      await waitFor(() => {
         expect(saveButton).toBeDisabled();
       });
     });
@@ -241,7 +241,7 @@ describe("Distribution Edit Page", () => {
       expect(titleInput).toHaveValue("New Title");
     });
 
-    it("should have aria-describedby on inputs with errors", () => {
+    it("should have aria-describedby on inputs with errors", async () => {
       mockUseParams.mockReturnValue({});
       mockValidate.mockReturnValue({
         errorMessage: ["Error 1"],
@@ -251,20 +251,20 @@ describe("Distribution Edit Page", () => {
         },
       });
 
-      render(<Component />);
+      const { container } = render(<Component />);
 
       const saveButton = screen.getByRole("button", { name: /save/i });
       fireEvent.click(saveButton);
 
-      waitFor(() => {
-        const labelLg1Input = screen.getByLabelText(/title/i);
-        expect(labelLg1Input.getAttribute("aria-describedby")).toBe("labelLg1-error");
+      await waitFor(() => {
+        const labelLg1Input = container.querySelector("#labelLg1");
+        expect(labelLg1Input?.getAttribute("aria-describedby")).toBe("labelLg1-error");
       });
     });
   });
 
   describe("Error display", () => {
-    it("should display global client-side errors when submitting with errors", () => {
+    it("should display global client-side errors when submitting with errors", async () => {
       mockUseParams.mockReturnValue({});
       mockValidate.mockReturnValue({
         errorMessage: ["Error 1", "Error 2"],
@@ -276,8 +276,8 @@ describe("Distribution Edit Page", () => {
       fireEvent.click(saveButton);
 
       // Global error bloc should appear after submission
-      waitFor(() => {
-        expect(screen.getByText(/Error 1/i)).not.toBeNull();
+      await waitFor(() => {
+        expect(screen.getByRole("alert")).not.toBeNull();
       });
     });
 

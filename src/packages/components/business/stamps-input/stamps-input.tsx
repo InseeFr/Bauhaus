@@ -13,6 +13,7 @@ const DefaultStampsInput = ({
   labelSingle,
   labelMulti,
   options,
+  ...rest
 }: Readonly<{
   value: string | string[];
   onChange: (value: string | string[]) => void;
@@ -32,7 +33,6 @@ const DefaultStampsInput = ({
 
   const Dictionnary = lang === "first" ? D1 : D;
   const label = !multi ? labelSingle : labelMulti;
-
   return (
     <Select
       label={label}
@@ -43,6 +43,7 @@ const DefaultStampsInput = ({
       multi={multi}
       required={required}
       filter={true}
+      {...rest}
     />
   );
 };

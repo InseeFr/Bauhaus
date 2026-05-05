@@ -22,6 +22,7 @@ export const Select = ({
   multi = false,
   required = false,
   filter = false,
+  ...rest
 }: Readonly<SelectProps>) => {
   return (
     <>
@@ -39,6 +40,7 @@ export const Select = ({
           filter={filter}
           className="w-full"
           style={{ whiteSpace: "normal" }}
+          {...rest}
         />
       ) : (
         <Dropdown
@@ -50,6 +52,7 @@ export const Select = ({
           }}
           filter={filter}
           className="w-full"
+          {...rest}
         />
       )}
     </>

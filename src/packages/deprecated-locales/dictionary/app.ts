@@ -93,10 +93,6 @@ const dictionary = {
     fr: "Libellé...",
     en: "Label...",
   },
-  searchLabelHomePlaceholder: {
-    fr: "Libellé (ou libellé alternatif)...",
-    en: "Label (or alternative label)...",
-  },
 
   altLabelTitle: {
     fr: "Libellé alternatif",

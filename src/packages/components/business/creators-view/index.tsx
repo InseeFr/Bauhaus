@@ -43,29 +43,6 @@ const InseeOrganisationProvider = ({
 };
 
 /**
- * @deprecated Use `Organisations` from `@components/business/organisations` instead
- */
-export const InseeOrganisationList = ({
-  organisations,
-}: Readonly<{ organisations?: string | string[] }>) => {
-  if (!organisations || (Array.isArray(organisations) && organisations.length === 0)) {
-    return null;
-  }
-
-  return (
-    <InseeOrganisationProvider organisations={organisations}>
-      {(response) => (
-        <List<string>
-          items={response}
-          getContent={(item) => item}
-          getKey={(item, index) => item || `org-${index}`}
-        />
-      )}
-    </InseeOrganisationProvider>
-  );
-};
-
-/**
  * @deprecated Use `Organisation` from `@components/business/organisations` instead
  */
 export const InseeOrganisationText = ({

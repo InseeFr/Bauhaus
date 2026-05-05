@@ -3,7 +3,7 @@ import { rawHtmlToRmesHtml } from "@utils/html-utils";
 
 import { ConceptNotes } from "../../model/concepts/concept";
 
-export const versionableNotes: (keyof ConceptNotes)[] = [
+const versionableNotes: (keyof ConceptNotes)[] = [
   "scopeNoteLg1",
   "scopeNoteLg2",
   "definitionLg1",
@@ -12,11 +12,14 @@ export const versionableNotes: (keyof ConceptNotes)[] = [
   "editorialNoteLg2",
 ];
 
-export const datableNotes: (keyof ConceptNotes)[] = ["changeNoteLg1", "changeNoteLg2"];
+const datableNotes: (keyof ConceptNotes)[] = ["changeNoteLg1", "changeNoteLg2"];
 
-const allNotes = [...versionableNotes, ...datableNotes];
+export const fields = [...versionableNotes, ...datableNotes];
 
-export const fields = allNotes;
+export const capitalizeFirst = (str: string): string => {
+  if (!str) return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
 export const emptyNotes = buildEmptyNotes(fields);
 
@@ -30,8 +33,6 @@ export const buildNotes = (n: ConceptNotes) => [
   },
   { lg1: n.changeNoteLg1, lg2: n.changeNoteLg2, title: "conceptsChangeNote" },
 ];
-
-export const capitalizeFirst = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export const processChanges = (
   oldNotes: ConceptNotes,

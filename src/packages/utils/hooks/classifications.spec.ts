@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { useClassifications } from "./classifications";
+import { useClassificationsItem } from "./classifications";
 
 vi.mock("@tanstack/react-query", () => ({
   useQuery: vi.fn().mockReturnValue({
@@ -10,9 +10,9 @@ vi.mock("@tanstack/react-query", () => ({
   }),
 }));
 
-describe("useClassifications", () => {
+describe("useClassificationsItem", () => {
   it("should call useQuery", () => {
-    const { result } = renderHook(() => useClassifications());
+    const { result } = renderHook(() => useClassificationsItem("coicop2016"));
 
     expect(result.current.isLoading).toBe(true);
     expect(result.current.data).toEqual(["data"]);

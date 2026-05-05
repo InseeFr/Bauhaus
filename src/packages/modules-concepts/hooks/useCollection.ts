@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { CollectionApi as NewCollectionApi } from "@sdk/new-collection-api";
-import { ConceptsApi } from "@sdk/index";
+import emptyCollection from "../collections/utils/empty-collection";
+import { useAppContext } from "../../application/app-context";
+import { Collection } from "@model/concepts/collection";
 
 const transformCollection = (data, lg1 = "fr") => {
   const lg2 = lg1.toLowerCase() === "fr" ? "en" : "fr";
@@ -26,13 +28,17 @@ const transformCollection = (data, lg1 = "fr") => {
   };
 };
 
-export const useCollection = (id: string) => {
+export const useCollection = (id: string | undefined) => {
+  const {
+    properties: { defaultContributor },
+  } = useAppContext();
+
   return useQuery({
     queryKey: ["collection", id],
     queryFn: async () => {
       const [general, members] = await Promise.all([
         NewCollectionApi.getCollectionById(id),
-        ConceptsApi.getCollectionMembersList(id),
+        NewCollectionApi.getCollectionMembersList(id),
       ]);
 
       const transformedGeneral = transformCollection(general);
@@ -43,5 +49,8 @@ export const useCollection = (id: string) => {
       };
     },
     enabled: !!id,
+    placeholderData: !!id
+      ? undefined
+      : (emptyCollection(defaultContributor) as unknown as Collection),
   });
 };

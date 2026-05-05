@@ -16,7 +16,6 @@ const { D } = createAllDictionary({
 
 interface DataTableTypes {
   withPagination?: boolean;
-  globalFilterFields?: boolean;
 }
 export const DataTable = ({
   children,

@@ -1,0 +1,42 @@
+services:
+  api:
+    build:
+      context: ../../Bauhaus-Back-Office
+      dockerfile: Dockerfile.bauhaus
+    ports:
+      - "8080:8080"
+    environment:
+      # Auth
+      FR_INSEE_RMES_BAUHAUS_ENV: prod
+      FR_INSEE_RMES_BAUHAUS_KEYCLOAK_SERVER_URL: http://keycloak:8180
+      FR_INSEE_RMES_BAUHAUS_KEYCLOAK_DEFAULTREALM_NAME: bauhaus
+      FR_INSEE_RMES_BAUHAUS_KEYCLOAK_DEFAULTREALM_CLIENTID: bauhaus-client
+      FR_INSEE_RMES_BAUHAUS_KEYCLOAK_DEFAULTREALM_CLIENTSECRET: bauhaus-secret
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8180/realms/bauhaus/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8180/realms/bauhaus
+      # GraphDB — gestion
+      FR_INSEE_RMES_BAUHAUS_SESAME_GESTION_SESAMESERVER: http://graphdb:7200
+      FR_INSEE_RMES_BAUHAUS_SESAME_GESTION_REPOSITORY: bauhaus
+      FR_INSEE_RMES_BAUHAUS_SESAME_GESTION_BASEURI: http://bauhaus/
+      FR_INSEE_RMES_BAUHAUS_SESAME_GESTION_BASEINTERNALURI: http://bauhaus-proprietes-internes-pour-gestion#
+      # GraphDB — publication
+      FR_INSEE_RMES_BAUHAUS_SESAME_PUBLICATION_SESAMESERVER: http://graphdb:7200
+      FR_INSEE_RMES_BAUHAUS_SESAME_PUBLICATION_REPOSITORY: publication
+      FR_INSEE_RMES_BAUHAUS_SESAME_PUBLICATION_BASEURI: http://id.insee.fr/
+      # MinIO
+      SPRING_PROFILES_ACTIVE: s3
+      MINIO_URL: http://minio:9000
+      MINIO_ACCESSNAME: minioadmin
+      MINIO_SECRETKEY: minioadmin
+      MINIO_BUCKETNAME: bauhaus
+      # CORS
+      FR_INSEE_RMES_BAUHAUS_CORS_ALLOWEDORIGIN: http://localhost:3000
+      FR_INSEE_RMES_BAUHAUS_FORCE_SSL: "false"
+      FR_INSEE_RMES_BAUHAUS_RDF_AUTH: DISABLED
+    depends_on:
+      graphdb:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy

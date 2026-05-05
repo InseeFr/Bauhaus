@@ -16,8 +16,3 @@ export interface FamilyHome {
   id: string;
   label: string;
 }
-
-export interface FamilyAdvancedSearch {
-  id: string;
-  prefLabelLg1: string;
-}

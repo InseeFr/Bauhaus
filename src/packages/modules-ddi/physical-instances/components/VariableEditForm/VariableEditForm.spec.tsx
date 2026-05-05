@@ -8,6 +8,19 @@ import type {
   Category,
 } from "../../types/api";
 
+let mockSearchParams = new URLSearchParams();
+const mockSetSearchParams = vi.fn((updater: any, _options?: any) => {
+  if (typeof updater === "function") {
+    mockSearchParams = new URLSearchParams(updater(mockSearchParams));
+  } else if (updater instanceof URLSearchParams) {
+    mockSearchParams = new URLSearchParams(updater);
+  }
+});
+
+vi.mock("react-router-dom", () => ({
+  useSearchParams: () => [mockSearchParams, mockSetSearchParams],
+}));
+
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
@@ -98,11 +111,21 @@ vi.mock("primereact/inputtextarea", () => ({
 }));
 
 vi.mock("primereact/tabview", () => ({
-  TabView: ({ children, activeIndex }: any) => (
-    <div data-testid="tabview" data-active-index={activeIndex}>
-      {children}
-    </div>
-  ),
+  TabView: ({ children, activeIndex, onTabChange }: any) => {
+    const panels = Array.isArray(children) ? children : [children];
+    return (
+      <div data-testid="tabview" data-active-index={activeIndex}>
+        <div role="tablist">
+          {panels.map((_child: any, index: number) => (
+            <div key={index} role="tab" onClick={() => onTabChange?.({ index })}>
+              {`Tab ${index}`}
+            </div>
+          ))}
+        </div>
+        {children}
+      </div>
+    );
+  },
   TabPanel: ({ header, children }: any) => (
     <div>
       <h3>{header}</h3>
@@ -623,7 +646,12 @@ describe("VariableEditForm", () => {
   });
 
   describe("Tab management", () => {
-    it("should initialize with first tab active (activeIndex=0)", () => {
+    beforeEach(() => {
+      mockSearchParams = new URLSearchParams();
+      mockSetSearchParams.mockClear();
+    });
+
+    it("should initialize with first tab active when no URL param", () => {
       render(
         <VariableEditForm
           variable={defaultVariable}
@@ -636,6 +664,83 @@ describe("VariableEditForm", () => {
       expect(tabView).toHaveAttribute("data-active-index", "0");
     });
 
+    it("should restore active tab from URL on initial load", () => {
+      mockSearchParams.set("tab", "1");
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+        />,
+      );
+
+      const tabView = screen.getByTestId("tabview");
+      expect(tabView).toHaveAttribute("data-active-index", "1");
+    });
+
+    it("should default to tab 0 for invalid tab values in URL", () => {
+      mockSearchParams.set("tab", "abc");
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+        />,
+      );
+
+      const tabView = screen.getByTestId("tabview");
+      expect(tabView).toHaveAttribute("data-active-index", "0");
+    });
+
+    it("should default to tab 0 for out-of-range tab values in URL", () => {
+      mockSearchParams.set("tab", "99");
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+        />,
+      );
+
+      const tabView = screen.getByTestId("tabview");
+      expect(tabView).toHaveAttribute("data-active-index", "0");
+    });
+
+    it("should set tab search param when a non-first tab is clicked", () => {
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+        />,
+      );
+
+      const tabs = screen.getAllByRole("tab");
+      fireEvent.click(tabs[1]);
+
+      expect(mockSearchParams.get("tab")).toBe("1");
+    });
+
+    it("should delete tab search param when first tab is selected", () => {
+      mockSearchParams.set("tab", "1");
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+        />,
+      );
+
+      const tabs = screen.getAllByRole("tab");
+      fireEvent.click(tabs[0]);
+
+      expect(mockSearchParams.has("tab")).toBe(false);
+    });
+
     it("should reset to first tab when variable changes", () => {
       const { rerender } = render(
         <VariableEditForm
@@ -645,11 +750,6 @@ describe("VariableEditForm", () => {
         />,
       );
 
-      // Vérifier que le premier onglet est actif
-      let tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "0");
-
-      // Changer de variable
       const newVariable = {
         id: "var-2",
         label: "New Variable",
@@ -662,12 +762,11 @@ describe("VariableEditForm", () => {
         <VariableEditForm variable={newVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
       );
 
-      // Le premier onglet devrait toujours être actif après le changement de variable
-      tabView = screen.getByTestId("tabview");
+      const tabView = screen.getByTestId("tabview");
       expect(tabView).toHaveAttribute("data-active-index", "0");
     });
 
-    it("should reset to first tab when new variable is clicked", () => {
+    it("should initialize with first tab active for new variable", () => {
       const newVariable = {
         id: "new",
         label: "",
