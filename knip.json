@@ -9,6 +9,6 @@
       "project": ["src/**/*.{ts,tsx,js,jsx}"]
     }
   },
-  "ignore": ["documentation/**"],
+  "ignore": ["documentation/**", ".husky/**"],
   "ignoreExportsUsedInFile": true
 }
