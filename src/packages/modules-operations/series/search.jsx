@@ -3,14 +3,13 @@ import { Link, Navigate } from "react-router-dom";
 
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
+import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 import { TextInput } from "@components/form/input";
 import { Column } from "@components/layout";
 import { Loading } from "@components/loading";
-import { Select } from "@components/select-rmes";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { useOrganizationsOptions } from "@utils/hooks/organizations";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
@@ -33,8 +32,6 @@ export const SearchFormList = ({ data }) => {
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const { prefLabelLg1, typeCode, creator, publisher, dataCollector } = form;
-
-  const organisationsOptions = useOrganizationsOptions();
 
   const filteredData = data
     .filter(filterLabel(prefLabelLg1))
@@ -90,6 +87,7 @@ export const SearchFormList = ({ data }) => {
       <div className="form-group row">
         <div className="col-md-12">
           <CreatorsInput
+            mode="organisation"
             lang="default"
             value={creator}
             required={false}
@@ -101,32 +99,28 @@ export const SearchFormList = ({ data }) => {
       </div>
       <div className="form-group row">
         <Column>
-          <label htmlFor="publisher" className="w-100">
-            {D.organisation}
-
-            <Select
-              placeholder=""
-              value={organisationsOptions.find((code) => code.value === publisher) || ""}
-              options={organisationsOptions}
-              onChange={(value) => {
-                handleChange("publisher", value);
-              }}
-            />
-          </label>
+          <OrganisationInput
+            lang="default"
+            labelSingle={D.organisation}
+            labelMulti={D.organisation}
+            value={publisher}
+            required={false}
+            onChange={(value) => {
+              handleChange("publisher", value);
+            }}
+          />
         </Column>
         <Column>
-          <label htmlFor="dataCollector" className="w-100">
-            {D.dataCollector}
-
-            <Select
-              placeholder=""
-              value={organisationsOptions.find((code) => code.value === dataCollector) || ""}
-              options={organisationsOptions}
-              onChange={(value) => {
-                handleChange("dataCollector", value);
-              }}
-            />
-          </label>
+          <OrganisationInput
+            lang="default"
+            labelSingle={D.dataCollector}
+            labelMulti={D.dataCollector}
+            value={dataCollector}
+            required={false}
+            onChange={(value) => {
+              handleChange("dataCollector", value);
+            }}
+          />
         </Column>
       </div>
     </AdvancedSearchList>

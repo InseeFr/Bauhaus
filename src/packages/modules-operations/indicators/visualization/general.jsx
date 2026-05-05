@@ -3,7 +3,6 @@ import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationMale } from "@components/status";
 
-import { useOrganizations } from "@utils/hooks/organizations";
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
@@ -14,6 +13,20 @@ import { getSeeAlsoByType } from "../../components/links/utils";
 import PublishersView from "../../components/publishers-view";
 import SeeAlso from "../../components/seeAlso";
 import { InseeOrganisationNotes } from "@components/business/creators-view";
+
+const labelOf = (item) => item?.labelLg1 ?? item?.label ?? "";
+
+const OrganisationLinksList = ({ links }) => {
+  const arr = Array.isArray(links) ? links.filter(Boolean) : [];
+  if (arr.length === 0) return null;
+  return (
+    <ul>
+      {arr.map((item, index) => (
+        <li key={item?.id ?? index}>{labelOf(item)}</li>
+      ))}
+    </ul>
+  );
+};
 
 function DisplayMultiLangNote({ value1, value2, title, secondLang, md = false }) {
   const body1 = md ? renderMarkdownElement(value1) : value1;
@@ -31,12 +44,7 @@ function DisplayMultiLangNote({ value1, value2, title, secondLang, md = false })
 function OperationsIndicatorVisualization({ attr, secondLang, frequency = {} }) {
   useTitle(D.indicatorsTitle, attr?.prefLabelLg1);
 
-  const { data: organisations } = useOrganizations();
   const seeAlso = getSeeAlsoByType(attr.seeAlso);
-
-  const contributors = (attr.contributors || []).map(
-    (d) => organisations.find((orga) => orga.id === d.id) || {},
-  );
 
   return (
     <>
@@ -85,13 +93,14 @@ function OperationsIndicatorVisualization({ attr, secondLang, frequency = {} }) 
       <Row>
         <InseeOrganisationNotes organisations={attr.creators} />
       </Row>
-      <DisplayLinks
-        links={contributors}
-        title="stakeholders"
-        secondLang={false}
-        displayLink={false}
-        labelLg1="label"
-      />
+      <Row id="contributors">
+        <Note
+          text={<OrganisationLinksList links={attr.contributors} />}
+          title={D1.stakeholders}
+          alone={true}
+          allowEmpty={true}
+        />
+      </Row>
 
       <DisplayLinks
         links={attr.replaces}

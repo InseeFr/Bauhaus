@@ -1,24 +1,21 @@
 import { Note } from "@components/note";
 
-import { useOrganizations } from "@utils/hooks/organizations";
-
 import { D1 } from "../../i18n/build-dictionary";
 
+const labelOf = (item) => item?.labelLg1 ?? item?.label ?? "";
+
 const PublishersView = ({ publishers, lg1 }) => {
-  const publishersIdArray = Array.isArray(publishers) ? publishers : [publishers];
-  const { data: organisations } = useOrganizations();
-  const publishersArray = publishersIdArray.map(
-    ({ id }) => organisations.find((orga) => orga.id === id) || {},
-  );
+  const publishersArray = Array.isArray(publishers) ? publishers : publishers ? [publishers] : [];
+
   return (
     <Note
       text={
         publishersArray.length === 1 ? (
-          <p>{publishersArray[0].label}</p>
+          <p>{labelOf(publishersArray[0])}</p>
         ) : (
           <ul>
-            {publishersArray.map(({ label }, index) => (
-              <li key={index}>{label}</li>
+            {publishersArray.map((item, index) => (
+              <li key={item?.id ?? index}>{labelOf(item)}</li>
             ))}
           </ul>
         )

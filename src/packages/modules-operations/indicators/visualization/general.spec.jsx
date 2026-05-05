@@ -10,9 +10,10 @@ vi.spyOn(useOrganizationsHook, "useOrganizations").mockReturnValue({
   data: [
     {
       id: "CNAMTS",
+      iri: "CNAMTS",
       label: "Agence centrale des organismes de sécurité sociale",
     },
-    { id: "DG75-F110", label: "Banque Publique d'Investissement" },
+    { id: "DG75-F110", iri: "DG75-F110", label: "Banque Publique d'Investissement" },
   ],
 });
 
@@ -67,6 +68,8 @@ const indicator = {
   contributors: [
     {
       id: "CNAMTS",
+      labelLg1: "Agence centrale des organismes de sécurité sociale",
+      labelLg2: "Agence centrale des organismes de sécurité sociale",
     },
   ],
   historyNoteLg1:
@@ -85,7 +88,8 @@ const indicator = {
 describe("IndicatorInformation", () => {
   it("should renderer all informations for the main lang", () => {
     const { container } = renderWithRouter(<OperationsIndicatorVisualization attr={indicator} />);
-    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(4);
+    // contributors moved out of DisplayLinks; remaining: replaces, replacedBy, wasGeneratedBy
+    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(3);
     expect(container.querySelectorAll(".bauhaus-see-also")).toHaveLength(1);
   });
 
@@ -93,7 +97,7 @@ describe("IndicatorInformation", () => {
     const { container } = renderWithRouter(
       <OperationsIndicatorVisualization attr={indicator} secondLang={true} />,
     );
-    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(4);
+    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(3);
   });
   it("should show the right data in the DisplayLinks component", () => {
     const { container } = renderWithRouter(
@@ -101,19 +105,22 @@ describe("IndicatorInformation", () => {
     );
     const displayLinks = container.querySelectorAll(".bauhaus-display-links");
 
-    const contributor = displayLinks[0];
-    expect(contributor.querySelector("p").innerHTML).toBe(
-      "Agence centrale des organismes de sécurité sociale",
-    );
-
-    const replaces = displayLinks[1];
+    const replaces = displayLinks[0];
     expect(replaces.querySelector("a").href).toContain("/operations/indicator/p1662");
 
-    const replacedBy = displayLinks[2];
+    const replacedBy = displayLinks[1];
     expect(replacedBy.querySelector("a").href).toContain("/operations/indicator/p1662");
 
-    const wasGeneratedBy = displayLinks[3];
+    const wasGeneratedBy = displayLinks[2];
     expect(wasGeneratedBy.querySelector("a").href).toContain("/operations/series/s1353");
+  });
+
+  it("renders contributors using their embedded labels", () => {
+    const { container } = renderWithRouter(<OperationsIndicatorVisualization attr={indicator} />);
+    const contributorsSection = container.querySelector("#contributors");
+    expect(contributorsSection.textContent).toContain(
+      "Agence centrale des organismes de sécurité sociale",
+    );
   });
   it("should show the right number of SeeAlso component", () => {
     const { container } = renderWithRouter(

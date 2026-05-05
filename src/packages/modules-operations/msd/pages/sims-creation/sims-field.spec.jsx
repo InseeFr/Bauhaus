@@ -1,6 +1,10 @@
 import { screen, fireEvent, render } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
+vi.mock("@utils/hooks/organizations", () => ({
+  useOrganizations: () => ({ data: [] }),
+}));
+
 import { SimsField as Field } from "./sims-field";
 import {
   renderWithProviders,

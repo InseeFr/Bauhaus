@@ -3,7 +3,6 @@ import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationFemale } from "@components/status";
 
-import { useOrganizations } from "@utils/hooks/organizations";
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
@@ -16,6 +15,20 @@ import RelationsView from "../../components/relations";
 import SeeAlso from "../../components/seeAlso";
 import { InseeOrganisationNotes } from "@components/business/creators-view";
 
+const labelOf = (item) => item?.labelLg1 ?? item?.label ?? "";
+
+const OrganisationLinksList = ({ links }) => {
+  const arr = Array.isArray(links) ? links.filter(Boolean) : [];
+  if (arr.length === 0) return null;
+  return (
+    <ul>
+      {arr.map((item, index) => (
+        <li key={item?.id ?? index}>{labelOf(item)}</li>
+      ))}
+    </ul>
+  );
+};
+
 function OperationsSerieVisualization({
   attr,
   langs: { lg1 },
@@ -24,15 +37,7 @@ function OperationsSerieVisualization({
   category = {},
 }) {
   useTitle(D.seriesTitle + " - " + D.operationsTitle, attr?.prefLabelLg1);
-  const { data: organisations } = useOrganizations();
   const seeAlso = getSeeAlsoByType(attr.seeAlso);
-
-  const dataCollectors = (attr.dataCollectors || []).map(
-    (d) => organisations.find((orga) => orga.id === d.id) || {},
-  );
-  const contributors = (attr.contributors || []).map(
-    (d) => organisations.find((orga) => orga.id === d.id) || {},
-  );
   return (
     <>
       <Row>
@@ -122,20 +127,24 @@ function OperationsSerieVisualization({
         <PublishersView publishers={attr.publishers} lg1={lg1} />
       </Row>
 
-      <DisplayLinks
-        links={contributors}
-        title="stakeholders"
-        secondLang={false}
-        displayLink={false}
-        labelLg1="label"
-      />
-      <DisplayLinks
-        links={dataCollectors}
-        title="dataCollector"
-        secondLang={false}
-        displayLink={false}
-        labelLg1="label"
-      />
+      <Row id="contributors">
+        <Note
+          text={<OrganisationLinksList links={attr.contributors} />}
+          title={D1.stakeholders}
+          alone={true}
+          allowEmpty={true}
+          lang={lg1}
+        />
+      </Row>
+      <Row id="dataCollectors">
+        <Note
+          text={<OrganisationLinksList links={attr.dataCollectors} />}
+          title={D1.dataCollector}
+          alone={true}
+          allowEmpty={true}
+          lang={lg1}
+        />
+      </Row>
 
       <Row id="creators">
         <InseeOrganisationNotes organisations={attr.creators} />

@@ -1,36 +1,30 @@
 import { render } from "@testing-library/react";
-import { vi } from "vitest";
-
-import * as useOrganizationsHook from "@utils/hooks/organizations";
 
 import PublishersView from "./";
 
-vi.spyOn(useOrganizationsHook, "useOrganizations").mockReturnValue({
-  data: [
-    { id: "id", label: "label" },
-    { id: "id2", label: "label2" },
-  ],
-});
-
 describe("<PublishersView />", () => {
-  it("should return a paragraph of item if the publishers is an object", () => {
-    const publishers = {
-      id: "id",
-    };
-    const { container } = render(<PublishersView publishers={publishers} />);
-    expect(container.querySelector("p").innerHTML).toBe("label");
+  it("renders the labelLg1 of a single OperationsLink publisher", () => {
+    const { container } = render(
+      <PublishersView publishers={[{ id: "X", labelLg1: "label", labelLg2: "label EN" }]} />,
+    );
+    expect(container.textContent).toContain("label");
   });
-  it("should return a list of two items if the publishers is an array", () => {
-    const publishers = [
-      {
-        id: "id",
-      },
-      {
-        id: "id2",
-      },
-    ];
-    const { container } = render(<PublishersView publishers={publishers} />);
-    expect(container.querySelector("li:nth-child(1)").innerHTML).toBe("label");
-    expect(container.querySelector("li:nth-child(2)").innerHTML).toBe("label2");
+
+  it("renders a list of labels when given multiple OperationsLink", () => {
+    const { container } = render(
+      <PublishersView
+        publishers={[
+          { id: "A", labelLg1: "label", labelLg2: "label EN" },
+          { id: "B", labelLg1: "label2", labelLg2: "label2 EN" },
+        ]}
+      />,
+    );
+    expect(container.textContent).toContain("label");
+    expect(container.textContent).toContain("label2");
+  });
+
+  it("falls back to .label when labelLg1 is absent", () => {
+    const { container } = render(<PublishersView publishers={[{ id: "X", label: "fallback" }]} />);
+    expect(container.textContent).toContain("fallback");
   });
 });

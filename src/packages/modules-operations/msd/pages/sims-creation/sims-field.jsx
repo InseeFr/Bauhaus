@@ -6,6 +6,7 @@ import { Note } from "@components/note";
 import { Select } from "@components/select-rmes";
 
 import { sortArrayByLabel } from "@utils/array-utils";
+import { useOrganizations } from "@utils/hooks/organizations";
 
 import D from "../../../../deprecated-locales";
 import SimsGeographyPicker from "../../../components/sims/sims-geography-picker";
@@ -28,6 +29,12 @@ const SimsFieldComponent = ({
   codesLists,
   handleChange,
 }) => {
+  const { data: organisations = [] } = useOrganizations();
+  const organisationsIriOptions = useMemo(
+    () => organisations.map((o) => ({ value: o.iri, label: o.label })),
+    [organisations],
+  );
+
   const value = useMemo(() => {
     switch (msd.rangeType) {
       case TEXT:
@@ -163,14 +170,14 @@ const SimsFieldComponent = ({
                   />
                 )}
                 {msd.rangeType === ORGANIZATION && (
-                  <>
-                    <Select
-                      placeholder=""
-                      value={value}
-                      options={organisationsOptions}
-                      onChange={handleCodeListInput}
-                    />
-                  </>
+                  <Select
+                    placeholder=""
+                    value={
+                      organisations.find((o) => o.iri === value || o.id === value)?.iri ?? value
+                    }
+                    options={organisationsIriOptions}
+                    onChange={handleCodeListInput}
+                  />
                 )}
                 {msd.rangeType === DATE && (
                   <DatePicker

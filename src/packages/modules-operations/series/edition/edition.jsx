@@ -2,7 +2,9 @@ import { Component } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
+import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CreatorsInput } from "@components/business/creators-input";
+import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import LabelRequired from "@components/label-required";
@@ -121,7 +123,7 @@ class OperationsSerieEdition extends Component {
   render() {
     if (this.state.saving) return <Saving />;
 
-    const { frequencies, categories, organisations, indicators, series, goBack } = this.props;
+    const { frequencies, categories, indicators, series, goBack } = this.props;
 
     const serie = {
       ...this.state.serie,
@@ -141,8 +143,6 @@ class OperationsSerieEdition extends Component {
     const family = serie.family || { id: "" };
 
     const isEditing = !!serie.id;
-
-    const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 
     const seriesOptions = ItemToSelectModel.toSelectModel(
       series.filter((s) => s.id !== serie.id),
@@ -340,7 +340,7 @@ class OperationsSerieEdition extends Component {
                 onChange={(value) =>
                   this.onChange({
                     target: {
-                      value,
+                      value: (Array.isArray(value) ? value : []).map((v) => ({ id: v })),
                       id: "publishers",
                     },
                   })
@@ -350,53 +350,44 @@ class OperationsSerieEdition extends Component {
           </Row>
           <Row>
             <div className="form-group col-md-12">
-              <label className="w-100">
-                {D1.stakeholders}
-                <Select
-                  placeholder=""
-                  value={serie.contributors}
-                  options={organisationsOptions}
-                  onChange={(value) =>
-                    this.onChange({
-                      target: {
-                        value: value.map((v) => {
-                          return { id: v };
-                        }),
-                        id: "contributors",
-                      },
-                    })
-                  }
-                  multi
-                />
-              </label>
+              <ContributorsInput
+                mode="organisation"
+                multi
+                value={serie.contributors}
+                onChange={(value) =>
+                  this.onChange({
+                    target: {
+                      value: (Array.isArray(value) ? value : []).map((v) => ({ id: v })),
+                      id: "contributors",
+                    },
+                  })
+                }
+              />
             </div>
           </Row>
           <Row>
             <div className="form-group col-md-12">
-              <label htmlFor="dataCollector" className="w-100">
-                {D1.dataCollector}
-                <Select
-                  placeholder=""
-                  value={serie.dataCollectors}
-                  options={organisationsOptions}
-                  onChange={(value) =>
-                    this.onChange({
-                      target: {
-                        value: value.map((v) => {
-                          return { id: v };
-                        }),
-                        id: "dataCollectors",
-                      },
-                    })
-                  }
-                  multi
-                />
-              </label>
+              <OrganisationInput
+                multi
+                lang="first"
+                labelSingle={D1.dataCollector}
+                labelMulti={D1.dataCollector}
+                value={serie.dataCollectors}
+                onChange={(value) =>
+                  this.onChange({
+                    target: {
+                      value: (Array.isArray(value) ? value : []).map((v) => ({ id: v })),
+                      id: "dataCollectors",
+                    },
+                  })
+                }
+              />
             </div>
           </Row>
           <Row>
             <div className="form-group col-md-12">
               <CreatorsInput
+                mode="organisation"
                 value={serie.creators}
                 onChange={(value) =>
                   this.onChange({

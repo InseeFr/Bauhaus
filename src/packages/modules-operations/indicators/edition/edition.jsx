@@ -1,5 +1,6 @@
 import { Component } from "react";
 
+import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { InputRmes } from "@components/input-rmes";
@@ -276,13 +277,18 @@ class OperationsIndicatorEdition extends Component {
             <div className="form-group col-md-12">
               <PublishersInput
                 value={indicator.publishers}
-                onChange={this.onChange("publishers")}
+                onChange={(value) =>
+                  this.onChange("publishers")(
+                    (Array.isArray(value) ? value : []).map((v) => ({ id: v })),
+                  )
+                }
               />
             </div>
           </Row>
           <Row>
             <div className="form-group col-md-12">
               <CreatorsInput
+                mode="organisation"
                 value={indicator.creators}
                 onChange={this.onChange("creators")}
                 multi
@@ -295,22 +301,16 @@ class OperationsIndicatorEdition extends Component {
           </Row>
           <Row>
             <div className="form-group col-md-12">
-              <label className="w-100">
-                {D1.stakeholders}
-                <Select
-                  value={indicator.contributors}
-                  options={organisationsOptions}
-                  placeholder=""
-                  multi
-                  onChange={(value) =>
-                    this.onChange("contributors")(
-                      value.map((v) => {
-                        return { id: v };
-                      }),
-                    )
-                  }
-                />
-              </label>
+              <ContributorsInput
+                mode="organisation"
+                multi
+                value={indicator.contributors}
+                onChange={(value) =>
+                  this.onChange("contributors")(
+                    (Array.isArray(value) ? value : []).map((v) => ({ id: v })),
+                  )
+                }
+              />
             </div>
           </Row>
           <Row>

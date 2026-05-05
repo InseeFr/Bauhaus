@@ -1,36 +1,21 @@
-import { Select } from "@components/select-rmes";
-
-import { useOrganizationsOptions } from "@utils/hooks/organizations";
-
+import { OrganisationInput } from "../../../components/business/stamps-input/stamps-input";
 import { D1 } from "../../i18n/build-dictionary";
 
-interface PublishersInputTypes {
-  value: string;
-  onChange: (value: string) => void;
+interface PublishersInputProps {
+  value: string[];
+  onChange: (value: string[]) => void;
 }
-const PublishersInput = ({ value, onChange }: Readonly<PublishersInputTypes>) => {
-  const organisationsOptions = useOrganizationsOptions();
 
-  const publishersArray = Array.isArray(value) ? value : [value];
-
+const PublishersInput = ({ value, onChange }: Readonly<PublishersInputProps>) => {
   return (
-    <label className="w-100">
-      {D1.organisation}
-
-      <Select
-        value={publishersArray}
-        options={organisationsOptions}
-        placeholder=""
-        multi
-        onChange={(value) => {
-          onChange(
-            value.map((v: string) => {
-              return { id: v };
-            }),
-          );
-        }}
-      />
-    </label>
+    <OrganisationInput
+      value={value}
+      onChange={onChange as (value: string | string[]) => void}
+      multi
+      lang="first"
+      labelSingle={D1.organisation}
+      labelMulti={D1.organisation}
+    />
   );
 };
 
