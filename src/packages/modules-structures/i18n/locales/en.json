@@ -73,7 +73,7 @@
         "title": "Country or territory",
         "action": "Insert an official geographical code"
       },
-      "string": { "title": "Texte", "action": "Insert text" },
+      "string": { "title": "String", "action": "Insert text" },
       "format": "Format",
       "minLength": "Minimal length",
       "maxLength": "Maximal length",
