@@ -79,13 +79,18 @@ describe("Collection Validation Home Container", () => {
 
   describe("Loading State", () => {
     it("should display loading indicator while fetching collections", async () => {
+      let resolveFetch: (value: typeof mockCollections) => void;
       mockGetCollectionValidateList.mockReturnValue(
-        new Promise((resolve) => setTimeout(() => resolve(mockCollections), 50)),
+        new Promise<typeof mockCollections>((resolve) => {
+          resolveFetch = resolve;
+        }),
       );
 
       render(<Component />, { wrapper: createWrapper() });
 
       expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
+
+      resolveFetch!(mockCollections);
 
       await waitFor(() => {
         expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();

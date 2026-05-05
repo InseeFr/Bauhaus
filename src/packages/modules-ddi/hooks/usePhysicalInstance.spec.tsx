@@ -200,19 +200,7 @@ describe("usePhysicalInstancesData", () => {
   });
 
   it("should return isLoading state initially", () => {
-    (global.fetch as any).mockImplementationOnce(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(
-            () =>
-              resolve({
-                ok: true,
-                json: async () => mockApiResponse,
-              }),
-            100,
-          );
-        }),
-    );
+    (global.fetch as any).mockImplementationOnce(() => new Promise(() => {}));
 
     const { result } = renderHook(() => usePhysicalInstancesData("test-id"), {
       wrapper,

@@ -251,8 +251,12 @@ describe("OperationsFamilyEdition", () => {
 
   describe("Loading State", () => {
     it("should show loading component while saving", async () => {
+      let resolveUpdate: () => void;
       OperationsApi.updateFamily.mockImplementation(
-        () => new Promise((resolve) => setTimeout(resolve, 100)),
+        () =>
+          new Promise<void>((resolve) => {
+            resolveUpdate = resolve;
+          }),
       );
 
       renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
@@ -261,12 +265,11 @@ describe("OperationsFamilyEdition", () => {
 
       expect(screen.getByText(/Saving in progress/i)).toBeInTheDocument();
 
-      await waitFor(
-        () => {
-          expect(screen.queryByText(/Saving in progress/i)).not.toBeInTheDocument();
-        },
-        { timeout: 200 },
-      );
+      resolveUpdate!();
+
+      await waitFor(() => {
+        expect(screen.queryByText(/Saving in progress/i)).not.toBeInTheDocument();
+      });
     });
   });
 

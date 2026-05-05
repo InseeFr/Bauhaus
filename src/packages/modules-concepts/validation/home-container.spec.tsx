@@ -62,8 +62,11 @@ describe("ConceptValidation Home Container", () => {
 
   describe("Loading State", () => {
     it("should display loading indicator while fetching concepts", async () => {
+      let resolveFetch: (value: typeof mockConcepts) => void;
       mockGetConceptValidateList.mockReturnValue(
-        new Promise((resolve) => setTimeout(() => resolve(mockConcepts), 50)),
+        new Promise<typeof mockConcepts>((resolve) => {
+          resolveFetch = resolve;
+        }),
       );
 
       render(
@@ -74,7 +77,8 @@ describe("ConceptValidation Home Container", () => {
 
       expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
 
-      // Wait for the promise to resolve to avoid state updates after unmount
+      resolveFetch!(mockConcepts);
+
       await waitFor(() => {
         expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
       });
@@ -308,8 +312,11 @@ describe("ConceptValidation Home Container", () => {
 
   describe("Component Unmount", () => {
     it("should not update state after unmount", async () => {
+      let resolveFetch: (value: typeof mockConcepts) => void;
       mockGetConceptValidateList.mockReturnValue(
-        new Promise((resolve) => setTimeout(() => resolve(mockConcepts), 100)),
+        new Promise<typeof mockConcepts>((resolve) => {
+          resolveFetch = resolve;
+        }),
       );
 
       const { unmount } = render(
@@ -320,9 +327,10 @@ describe("ConceptValidation Home Container", () => {
 
       unmount();
 
-      // Wait for promise to resolve
+      // Resolve after unmount; this should not cause any errors
+      resolveFetch!(mockConcepts);
+
       await waitFor(() => {
-        // Should not cause any errors
         expect(true).toBe(true);
       });
     });

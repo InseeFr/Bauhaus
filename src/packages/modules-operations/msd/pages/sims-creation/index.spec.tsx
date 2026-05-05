@@ -1,15 +1,13 @@
-import { beforeEach, describe, expect, it, Mock, vi } from "vitest";
+import { describe, expect, it, Mock, vi } from "vitest";
 
 import * as utils from "../../utils";
 import { generateSimsBeforeSubmit } from "./index";
 
-describe("generateSimsBeforeSubmit", () => {
-  beforeEach(() => {
-    vi.mock("../../utils", () => ({
-      getParentIdName: vi.fn(),
-    }));
-  });
+vi.mock("../../utils", () => ({
+  getParentIdName: vi.fn(),
+}));
 
+describe("generateSimsBeforeSubmit", () => {
   it("should generate the correct payload for CREATE mode", () => {
     (utils.getParentIdName as Mock).mockReturnValue("parentId");
 

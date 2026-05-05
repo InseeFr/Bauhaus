@@ -71,12 +71,7 @@ describe("useUserSeriesList", () => {
   });
 
   it("should use placeholder data when loading", () => {
-    vi.mocked(OperationsApi.getUserSeriesList).mockImplementation(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(() => resolve([]), 1000);
-        }),
-    );
+    vi.mocked(OperationsApi.getUserSeriesList).mockImplementation(() => new Promise(() => {}));
 
     const { result } = renderHook(() => useUserSeriesList(), {
       wrapper: createWrapper(),
