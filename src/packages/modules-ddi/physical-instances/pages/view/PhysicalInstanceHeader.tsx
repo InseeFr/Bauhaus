@@ -3,18 +3,26 @@ import { Dropdown } from "primereact/dropdown";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "../../../../application/app-context";
 import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
-import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import type {
+  PhysicalInstanceUpdateData,
+  SelectedGroup,
+  SelectedStudyUnit,
+} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 
 interface PhysicalInstanceHeaderProps {
   label: string;
   onSave: (data: PhysicalInstanceUpdateData) => Promise<void>;
   onLanguageChange: (lang: string) => void;
+  group?: SelectedGroup;
+  studyUnit?: SelectedStudyUnit;
 }
 
 export const PhysicalInstanceHeader = ({
   label,
   onSave,
   onLanguageChange,
+  group,
+  studyUnit,
 }: Readonly<PhysicalInstanceHeaderProps>) => {
   const { t } = useTranslation();
   const { properties } = useAppContext();
@@ -38,7 +46,7 @@ export const PhysicalInstanceHeader = ({
           aria-label={t("physicalInstance.view.selectLanguage")}
         />
       )}
-      <PhysicalInstanceLabel label={label} onSave={onSave} />
+      <PhysicalInstanceLabel label={label} onSave={onSave} group={group} studyUnit={studyUnit} />
     </div>
   );
 };

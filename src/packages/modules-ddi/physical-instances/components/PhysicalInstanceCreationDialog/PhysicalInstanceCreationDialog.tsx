@@ -9,12 +9,12 @@ import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 import "./PhysicalInstanceCreationDialog.css";
 
-interface SelectedGroup {
+export interface SelectedGroup {
   id: string;
   agency: string;
 }
 
-interface SelectedStudyUnit {
+export interface SelectedStudyUnit {
   id: string;
   agency: string;
 }
@@ -39,7 +39,7 @@ interface PhysicalInstanceDialogProps {
   visible: boolean;
   onHide: () => void;
   mode: "create" | "edit";
-  initialData?: { label: string };
+  initialData?: { label: string; group?: SelectedGroup; studyUnit?: SelectedStudyUnit };
   onSubmitCreate?: (data: PhysicalInstanceCreationData) => Promise<void>;
   onSubmitEdit?: (data: PhysicalInstanceUpdateData) => Promise<void>;
 }
@@ -54,6 +54,7 @@ export const PhysicalInstanceDialog = ({
 }: Readonly<PhysicalInstanceDialogProps>) => {
   const { t } = useTranslation();
   const formRef = useRef<HTMLFormElement>(null);
+  const labelInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [selectedStudyUnitId, setSelectedStudyUnitId] = useState<string | null>(null);
@@ -98,8 +99,13 @@ export const PhysicalInstanceDialog = ({
   const isFormValid = label.trim() && selectedGroup && selectedStudyUnit;
 
   useEffect(() => {
-    if (visible && initialData) {
-      setLabel(initialData.label);
+    if (visible) {
+      if (initialData) {
+        setLabel(initialData.label);
+        if (initialData.group) setSelectedGroupId(initialData.group.id);
+        if (initialData.studyUnit) setSelectedStudyUnitId(initialData.studyUnit.id);
+      }
+      setTimeout(() => labelInputRef.current?.focus(), 0);
     }
   }, [visible, initialData]);
 
@@ -176,6 +182,7 @@ export const PhysicalInstanceDialog = ({
         <div className="flex flex-column gap-2">
           <label htmlFor="physicalInstanceLabel">{t("physicalInstance.creation.label")}</label>
           <InputText
+            ref={labelInputRef}
             id="physicalInstanceLabel"
             name="physicalInstanceLabel"
             autoComplete="off"
@@ -194,8 +201,9 @@ export const PhysicalInstanceDialog = ({
             onChange={(e) => handleGroupChange(e.value)}
             placeholder={t("physicalInstance.creation.selectGroup")}
             loading={isLoadingGroups}
-            disabled={isSubmitting}
+            disabled={!isCreateMode || isSubmitting}
             className="w-full"
+            appendTo="self"
           />
         </div>
 
@@ -207,9 +215,10 @@ export const PhysicalInstanceDialog = ({
             options={studyUnitOptions}
             onChange={(e) => setSelectedStudyUnitId(e.value)}
             placeholder={t("physicalInstance.creation.selectStudyUnit")}
-            disabled={!selectedGroupId || isSubmitting}
+            disabled={!isCreateMode || !selectedGroupId || isSubmitting}
             loading={isLoadingStudyUnits}
             className="w-full"
+            appendTo="self"
           />
         </div>
 

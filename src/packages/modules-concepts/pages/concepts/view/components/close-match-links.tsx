@@ -1,6 +1,6 @@
 import { ExternalLink } from "@components/link";
 
-import { Link as LinkType } from "../../../model/concepts/concept";
+import { Link as LinkType } from "@model/concepts/concept";
 
 export const CloseMatchLinks = ({
   links,

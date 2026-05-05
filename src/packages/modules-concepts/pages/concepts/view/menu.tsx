@@ -1,12 +1,17 @@
 import { useState } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import { Button } from "@components/buttons/button";
-import { ExportButton, ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
+import {
+  CompareButton,
+  DeleteButton,
+  ExportButton,
+  PublishButton,
+  ReturnButton,
+  UpdateButton,
+} from "@components/buttons/buttons-with-icons";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import D from "../../../../deprecated-locales";
 import { ConceptsApi } from "../../../../sdk";
 import { saveFileFromHttpResponse } from "../../../../utils/files";
 import { useGoBack } from "../../../../utils/hooks/useGoBack";
@@ -53,7 +58,7 @@ const ConceptVisualizationControls = ({
           privilege="READ"
           complementaryCheck={conceptVersion > 1}
         >
-          <Button action={`/concepts/${id}/compare`} label={D.btnCompare} />
+          <CompareButton action={`/concepts/${id}/compare`} />
         </HasAccess>
         <ExportButton
           action={() => {
@@ -68,7 +73,7 @@ const ConceptVisualizationControls = ({
         </HasAccess>
 
         <HasAccess module="CONCEPT_CONCEPT" privilege="DELETE" stamps={general.creator}>
-          <Button action={() => setModalOpened(true)} label={D.btnDelete} />
+          <DeleteButton action={() => setModalOpened(true)} />
         </HasAccess>
 
         <HasAccess
@@ -77,7 +82,7 @@ const ConceptVisualizationControls = ({
           complementaryCheck={!isValidated}
           stamps={general.creator}
         >
-          <Button action={onValidate} label={D.btnValid} />
+          <PublishButton action={onValidate} />
         </HasAccess>
       </ActionToolbar>
     </>

@@ -15,7 +15,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
 }));
 
 vi.mock("../../../sdk", () => ({
-  CodeListApi: {
+  CodelistsApi: {
     getCodesListCodes: vi.fn(() => Promise.resolve([])),
   },
 }));

@@ -7,6 +7,7 @@ import { confirmDialog } from "primereact/confirmdialog";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import "./view.css";
 import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstanceParents";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
@@ -36,6 +37,11 @@ export const Component = () => {
     agencyId!,
     id!,
   );
+
+  const { data: parents } = usePhysicalInstanceParents(agencyId!, id!);
+
+  const currentGroup = parents?.group;
+  const currentStudyUnit = parents?.studyUnit;
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
@@ -683,9 +689,9 @@ export const Component = () => {
   return (
     <div className="flex" role="main">
       <div
-        className={state.selectedVariable ? "col-8" : "col-12"}
+        className={state.selectedVariable ? "col-6" : "col-12"}
         style={{
-          width: state.selectedVariable ? "66.666%" : "100%",
+          width: state.selectedVariable ? "50%" : "100%",
           transition: "width 0.3s ease",
         }}
       >
@@ -694,6 +700,8 @@ export const Component = () => {
             label={state.formData.label || title}
             onSave={handleSaveEdit}
             onLanguageChange={setSelectedLanguage}
+            group={currentGroup}
+            studyUnit={currentStudyUnit}
           />
 
           <SearchFilters
@@ -719,7 +727,7 @@ export const Component = () => {
         />
       </div>
       {state.selectedVariable && (
-        <div className="col-4 variable-edit-sidebar" role="complementary">
+        <div className="col-6 variable-edit-sidebar" role="complementary">
           <VariableEditForm
             variable={state.selectedVariable}
             typeOptions={variableTypeOptions}

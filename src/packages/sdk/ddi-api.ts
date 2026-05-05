@@ -7,6 +7,9 @@ const api = {
   getPhysicalInstance: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id,
   ],
+  getPhysicalInstanceParents: (agencyId: string, id: string) => [
+    "physical-instance/" + agencyId + "/" + id + "/parents",
+  ],
   postPhysicalInstance: (data: {
     physicalInstanceLabel: string;
     dataRelationshipLabel: string;

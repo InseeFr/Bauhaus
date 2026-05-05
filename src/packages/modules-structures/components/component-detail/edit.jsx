@@ -10,13 +10,12 @@ import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 
-import { CodeListApi, StructureApi } from "@sdk/index";
+import { CodelistsApi as API, StructureApi } from "@sdk/index";
 
 import { convertToArrayIfDefined, EMPTY_ARRAY, sortArray } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../../application/app-context";
-import { CodelistsApi as API } from "@sdk/index";
 import D, { D1, D2 } from "../../i18n/build-dictionary";
 import {
   IGEO_PAYS_OU_TERRITOIRE,

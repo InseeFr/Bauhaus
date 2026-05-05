@@ -13,6 +13,7 @@ const generalFieldsToKeep = [
   "disseminationStatus",
   "additionalMaterial",
   "valid",
+  "collections",
 ];
 
 const extractVersNotes = takeKeys([

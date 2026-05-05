@@ -252,7 +252,11 @@ describe("PhysicalInstanceDialog", () => {
       visible: true,
       onHide: mockOnHide,
       mode: "edit" as const,
-      initialData: { label: "Existing Label" },
+      initialData: {
+        label: "Existing Label",
+        group: { id: "group-1", agency: "agency-1" },
+        studyUnit: { id: "study-1", agency: "agency-1" },
+      },
       onSubmitEdit: mockOnSubmitEdit,
     };
 
@@ -275,22 +279,21 @@ describe("PhysicalInstanceDialog", () => {
       expect(screen.getByText("Save")).toBeInTheDocument();
     });
 
+    it("should disable group and studyUnit dropdowns in edit mode", () => {
+      render(<PhysicalInstanceDialog {...defaultEditProps} />);
+
+      expect(screen.getByTestId("dropdown-group")).toBeDisabled();
+      expect(screen.getByTestId("dropdown-studyUnit")).toBeDisabled();
+    });
+
     it("should call onSubmitEdit when form is submitted in edit mode", async () => {
       mockOnSubmitEdit.mockResolvedValue(undefined);
       render(<PhysicalInstanceDialog {...defaultEditProps} />);
 
-      const groupDropdown = screen.getByTestId("dropdown-group");
-      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
-
-      await waitFor(() => {
-        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-        expect(studyUnitDropdown).not.toBeDisabled();
-      });
-
-      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
-
       const saveButton = screen.getByText("Save");
+      await waitFor(() => {
+        expect(saveButton).not.toBeDisabled();
+      });
       fireEvent.click(saveButton);
 
       await waitFor(() => {
@@ -353,7 +356,11 @@ describe("PhysicalInstanceDialog", () => {
           visible={true}
           onHide={mockOnHide}
           mode="edit"
-          initialData={{ label: "Existing Label" }}
+          initialData={{
+            label: "Existing Label",
+            group: { id: "group-1", agency: "agency-1" },
+            studyUnit: { id: "study-1", agency: "agency-1" },
+          }}
           onSubmitEdit={mockOnSubmitEdit}
         />,
       );
@@ -362,19 +369,11 @@ describe("PhysicalInstanceDialog", () => {
       const labelInput = screen.getByLabelText("Label");
       fireEvent.change(labelInput, { target: { value: "Modified Label" } });
 
-      const groupDropdown = screen.getByTestId("dropdown-group");
-      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
-
-      await waitFor(() => {
-        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-        expect(studyUnitDropdown).not.toBeDisabled();
-      });
-
-      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
-
       // Submit the form
       const saveButton = screen.getByText("Save");
+      await waitFor(() => {
+        expect(saveButton).not.toBeDisabled();
+      });
       fireEvent.click(saveButton);
 
       await waitFor(() => {

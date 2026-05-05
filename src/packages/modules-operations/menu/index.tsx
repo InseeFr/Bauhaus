@@ -125,5 +125,3 @@ export const MenuOperations = () => {
   }
   return <MainMenu paths={Object.values(paths)} />;
 };
-
-export default MenuOperations;

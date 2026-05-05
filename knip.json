@@ -1,0 +1,14 @@
+{
+  "workspaces": {
+    ".": {
+      "entry": [
+        "src/packages/**/routes/layout.tsx",
+        "src/packages/**/i18n/index.ts",
+        "i18next.config.cjs"
+      ],
+      "project": ["src/**/*.{ts,tsx,js,jsx}"]
+    }
+  },
+  "ignore": ["documentation/**"],
+  "ignoreExportsUsedInFile": true
+}

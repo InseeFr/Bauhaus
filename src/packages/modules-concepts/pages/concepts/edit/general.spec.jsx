@@ -23,6 +23,10 @@ vi.mock("@components/dissemination-status/disseminationStatus", () => ({
   DisseminationStatusInput: () => <></>,
 }));
 
+vi.mock("../../../hooks/useCollections", () => ({
+  useCollections: () => ({ data: [] }),
+}));
+
 describe("concept-edition-creation-general", () => {
   it("renders without crashing", () => {
     render(<ConceptGeneral general={empty()} stampList={[]} handleChange={vi.fn()} />);

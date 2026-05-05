@@ -18,18 +18,6 @@ export const filterKeyDate =
     return !item[key] || isDateIn(item[key], start, end);
   };
 
-export const creatSelectList = (max: number) => {
-  const result = [];
-  for (let i = 1; i <= max; i++) {
-    result.push(
-      <option value={i} key={i}>
-        {i}
-      </option>,
-    );
-  }
-  return result;
-};
-
 //Get members of concept
 export const getMembers = (linksArray: any[], typeOfLink: string) => {
   return linksArray

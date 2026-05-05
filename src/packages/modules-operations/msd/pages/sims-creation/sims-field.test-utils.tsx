@@ -63,7 +63,7 @@ export const createDefaultSimsFieldProps = (overrides: any = {}) => {
 /**
  * Creates a mock codes list for CODE_LIST field testing
  */
-export const createMockCodesList = (
+const createMockCodesList = (
   codes: Array<{ code: string; labelLg1: string; labelLg2?: string }>,
 ) => ({
   codeList: {
@@ -79,7 +79,7 @@ export const createMockCodesList = (
 /**
  * Creates mock organisation options for ORGANIZATION field testing
  */
-export const createMockOrganisations = (orgs: Array<{ value: string; label: string }>) => orgs;
+const createMockOrganisations = (orgs: Array<{ value: string; label: string }>) => orgs;
 
 // Re-export rangeType constants for convenience
 export const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;

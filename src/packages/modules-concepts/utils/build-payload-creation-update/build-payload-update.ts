@@ -15,6 +15,7 @@ const generalFieldsToKeep = [
   "disseminationStatus",
   "additionalMaterial",
   "valid",
+  "collections",
 ];
 
 export default function buildPayloadUpdate(versioning: any, oldConcept: any, concept: any) {

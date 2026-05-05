@@ -78,6 +78,16 @@ vi.mock("../../../hooks/useGroups", () => ({
   }),
 }));
 
+vi.mock("../../../hooks/usePhysicalInstanceParents", () => ({
+  usePhysicalInstanceParents: () => ({
+    data: {
+      group: { agency: "agency-1", id: "group-1" },
+      studyUnit: { agency: "agency-1", id: "study-1" },
+    },
+    isLoading: false,
+  }),
+}));
+
 vi.mock("../../../hooks/useGroupDetails", () => ({
   useGroupDetails: (agencyId: string | null, groupId: string | null) => {
     if (agencyId && groupId) {
@@ -734,23 +744,17 @@ describe("View Component", () => {
 
   describe("Save functionality", () => {
     // Helper function to fill and submit the edit modal
+    // Group and studyUnit dropdowns are disabled in edit mode (pre-filled from initialData)
     const fillAndSubmitEditModal = async (label = "Updated Title") => {
       // Fill label
       const labelInput = screen.getByLabelText("physicalInstance.creation.label");
       fireEvent.change(labelInput, { target: { value: label } });
 
-      // Select group
-      const groupDropdown = screen.getByTestId("dropdown-group");
-      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
-
-      // Wait for study units to load then select one
+      // Wait for the save button to be enabled (group and studyUnit are pre-filled from initialData)
       await waitFor(() => {
-        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-        expect(studyUnitDropdown).not.toBeDisabled();
+        const saveButton = screen.getByText("physicalInstance.view.editModal.save");
+        expect(saveButton).not.toBeDisabled();
       });
-
-      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
 
       // Submit form
       const form = screen.getByRole("dialog").querySelector("form");

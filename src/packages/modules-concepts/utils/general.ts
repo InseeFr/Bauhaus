@@ -5,6 +5,7 @@ import {
 } from "../../utils/build-general-proptypes";
 
 export const fieldsWithRequired = [
+  ["collections", false],
   ["prefLabelLg1", false],
   ["prefLabelLg2", false],
   ["altLabelLg1", false, "array"],

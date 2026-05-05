@@ -10,24 +10,11 @@ import { isEmpty } from "@utils/value-utils";
 import { useTranslation } from "react-i18next";
 import { SingleOrNestedListItem } from "../../../../../components/ui/single-or-nested-list-item";
 import { InseeOrganisation } from "@components/business/organisations/organisations";
-
-interface ConceptAttribute {
-  id?: string;
-  altLabelLg1?: string[];
-  altLabelLg2?: string[];
-  created?: string;
-  modified?: string;
-  valid?: string;
-  conceptVersion?: string;
-  creator?: string | string[];
-  contributor?: string | string[];
-  disseminationStatus?: string;
-  isValidated?: string;
-  additionalMaterial?: string;
-}
+import type { ConceptGeneral } from "@model/concepts/concept";
+import { CollectionsBlock } from "./collections-block";
 
 interface ConceptGeneralProps {
-  attr: ConceptAttribute;
+  concept: ConceptGeneral;
   secondLang?: boolean;
 }
 
@@ -45,7 +32,6 @@ type FieldName =
   | "isValidated"
   | "additionalMaterial";
 
-// Helper functions for type-safe field rendering
 const renderOrganisationField = (
   fieldName: "creator" | "contributor",
   label: string,
@@ -113,16 +99,15 @@ const renderSimpleField = (fieldName: FieldName, label: string, value: string): 
   return <li key={fieldName}>{`${label}: ${value}`}</li>;
 };
 
-// Main helper function with type guards using switch
 const renderFieldItem = (
   fieldName: FieldName,
   label: string,
-  attr: ConceptAttribute,
+  concept: ConceptGeneral,
   secondLang: boolean,
   conceptStatusValid: string,
   conceptStatusProvisional: string,
 ): JSX.Element | null => {
-  const value = attr[fieldName];
+  const value = concept[fieldName];
 
   if (isEmpty(value)) return null;
 
@@ -165,31 +150,28 @@ const renderFieldItem = (
       return renderSimpleField(fieldName, label, value as string);
 
     default:
-      // This should never happen due to FieldName type
       return null;
   }
 };
 
-function ConceptGeneral({ attr, secondLang = false }: Readonly<ConceptGeneralProps>) {
+function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneralProps>) {
   const { lg1, lg2 } = useLocales();
   const { t } = useTranslation();
-
   const conceptStatusValid = t("concept.general.conceptStatusValid");
   const conceptStatusProvisional = t("concept.general.conceptStatusProvisional");
 
-  // Build fields configuration dynamically based on available data
   const fields: { name: FieldName; label: string }[] = [
     { name: "id", label: t("concept.general.identifiantTitle") },
   ];
 
-  if (attr.altLabelLg1 && attr.altLabelLg1.length !== 0) {
+  if (concept.altLabelLg1 && concept.altLabelLg1.length !== 0) {
     fields.push({
       name: "altLabelLg1",
       label: `${t("concept.general.altLabelTitle")} (${lg1})`,
     });
   }
 
-  if (attr.altLabelLg2 && attr.altLabelLg2.length !== 0) {
+  if (concept.altLabelLg2 && concept.altLabelLg2.length !== 0) {
     fields.push({
       name: "altLabelLg2",
       label: `${t("concept.general.altLabelTitle")} (${lg2})`,
@@ -201,7 +183,7 @@ function ConceptGeneral({ attr, secondLang = false }: Readonly<ConceptGeneralPro
     { name: "modified", label: t("concept.general.modifiedDateTitle") },
   );
 
-  if (attr.valid) {
+  if (concept.valid) {
     fields.push({ name: "valid", label: t("concept.general.validDateTitle") });
   }
 
@@ -216,7 +198,7 @@ function ConceptGeneral({ attr, secondLang = false }: Readonly<ConceptGeneralPro
     { name: "isValidated", label: t("concept.general.isConceptValidTitle") },
   );
 
-  if (attr.additionalMaterial) {
+  if (concept.additionalMaterial) {
     fields.push({
       name: "additionalMaterial",
       label: t("concept.general.additionalMaterialTitle"),
@@ -224,26 +206,29 @@ function ConceptGeneral({ attr, secondLang = false }: Readonly<ConceptGeneralPro
   }
 
   return (
-    <Row>
-      <Note
-        text={
-          <ul>
-            {fields.map(({ name, label }) =>
-              renderFieldItem(
-                name,
-                label,
-                attr,
-                secondLang,
-                conceptStatusValid,
-                conceptStatusProvisional,
-              ),
-            )}
-          </ul>
-        }
-        title={t("concept.general.globalInformationsTitle")}
-        alone={true}
-      />
-    </Row>
+    <>
+      <Row>
+        <Note
+          text={
+            <ul>
+              {fields.map(({ name, label }) =>
+                renderFieldItem(
+                  name,
+                  label,
+                  concept,
+                  secondLang,
+                  conceptStatusValid,
+                  conceptStatusProvisional,
+                ),
+              )}
+            </ul>
+          }
+          title={t("concept.general.globalInformationsTitle")}
+          alone={true}
+        />
+      </Row>
+      <CollectionsBlock collectionsIds={concept.collections} />
+    </>
   );
 }
 

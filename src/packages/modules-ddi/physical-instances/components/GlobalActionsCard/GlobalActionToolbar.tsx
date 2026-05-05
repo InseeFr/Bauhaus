@@ -54,16 +54,6 @@ export const GlobalActionToolbar = ({
           onClick={onDuplicate}
         />
       </HasAccess>
-      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="PUBLISH">
-        <Button
-          icon="pi pi-send"
-          label={t("physicalInstance.view.publish")}
-          severity="secondary"
-          style={{ background: "transparent" }}
-          aria-label={t("physicalInstance.view.publish")}
-          disabled={true}
-        />
-      </HasAccess>
     </div>
   );
 };

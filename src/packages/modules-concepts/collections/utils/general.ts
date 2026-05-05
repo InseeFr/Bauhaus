@@ -13,7 +13,7 @@ export const fieldsWithRequired = [
   ["isValidated", false],
 ];
 
-export const fields = buildFields(fieldsWithRequired);
+const fields = buildFields(fieldsWithRequired);
 
 export const empty = () => buildEmpty(fieldsWithRequired);
 
