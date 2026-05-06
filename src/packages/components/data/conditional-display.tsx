@@ -18,5 +18,5 @@ export const ConditionalDisplay = ({ data, children }: ConditionalDisplayTypes) 
     return null;
   }
 
-  return <>{children}</>;
+  return children;
 };

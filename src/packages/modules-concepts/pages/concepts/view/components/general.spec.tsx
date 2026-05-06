@@ -56,7 +56,7 @@ vi.mock("@components/business/organisations/organisations", () => ({
       "DG75-L201": "INSEE",
       "DG75-L202": "DARES",
     };
-    return <>{labels[creator] ?? creator}</>;
+    return labels[creator] ?? creator;
   },
   InseeOrganisations: ({ creators }: { creators: string[] }) => {
     const labels: Record<string, string> = {

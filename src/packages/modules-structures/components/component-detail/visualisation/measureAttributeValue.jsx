@@ -7,5 +7,5 @@ export const MeasureAttributeValue = ({ value, attribute, codesLists }) => {
       <MeasureAttributeCodeValue value={value} attribute={attribute} codesLists={codesLists} />
     );
   }
-  return <>{value}</>;
+  return value;
 };

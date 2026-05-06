@@ -15,5 +15,5 @@ export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {
   }
 
   const code = codesList.codes.find((c) => c.iri === value);
-  return <>{code?.labelLg1}</>;
+  return code?.labelLg1;
 };

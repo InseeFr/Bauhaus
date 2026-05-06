@@ -28,7 +28,7 @@ vi.mock("react-i18next", () => ({
 }));
 
 vi.mock("../../../../auth/components/auth", () => ({
-  HasAccess: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  HasAccess: ({ children }: { children: React.ReactNode }) => children,
 }));
 
 vi.mock("../../../../application/app-context", () => ({

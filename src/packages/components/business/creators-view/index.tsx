@@ -6,7 +6,7 @@ import { List } from "../../ui/list";
 
 interface OrganisationMapperProps {
   organisations?: string | string[];
-  children: (mappedLabels: string[]) => React.ReactElement;
+  children: (mappedLabels: string[]) => React.ReactNode;
 }
 
 /**
@@ -39,7 +39,7 @@ const InseeOrganisationProvider = ({
     });
   }, [organisations, stampsMap]);
 
-  return <>{children(mappedLabels)}</>;
+  return children(mappedLabels);
 };
 
 /**
@@ -54,7 +54,7 @@ export const InseeOrganisationText = ({
 
   return (
     <InseeOrganisationProvider organisations={organisations}>
-      {(response) => <>{response[0]}</>}
+      {(response) => response[0]}
     </InseeOrganisationProvider>
   );
 };
