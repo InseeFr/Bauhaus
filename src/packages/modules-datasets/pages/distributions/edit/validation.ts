@@ -15,11 +15,13 @@ const ZodDistribution = z.object({
     .url({
       error: i18next.t("distribution.URLerror"),
     })
+    .or(z.literal(""))
     .optional(),
   url: z
     .url({
       error: i18next.t("distribution.URLerror"),
     })
+    .or(z.literal(""))
     .optional(),
 });
 
