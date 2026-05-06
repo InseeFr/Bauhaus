@@ -68,7 +68,8 @@
     },
     "tabKO": "Errors occur in this tab",
     "hide": "Hide",
-    "display": "Display"
+    "display": "Display",
+    "deletionConfirmationMessage": "You are about to permanently delete this dataset. Are you sure ?"
   },
   "distribution": {
     "title": "Distribution",
