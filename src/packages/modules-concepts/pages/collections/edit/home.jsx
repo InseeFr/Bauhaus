@@ -98,6 +98,7 @@ class CollectionEditionCreation extends Component {
             general={general}
             handleChange={this.handleChangeGeneral}
             errors={errors}
+            creation={this.props.creation}
           />
           <CollectionMembersEdition
             members={members}

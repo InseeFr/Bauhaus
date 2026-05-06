@@ -5,7 +5,9 @@ import { Row } from "@components/layout";
 import { RequiredIcon } from "@components/required-icon";
 
 import D, { D1, D2 } from "../../../../../deprecated-locales";
-import { fields as generalFields } from "../../../../utils/general";
+import { fieldsWithRequired } from "../../../../collections/utils/general";
+
+const generalFields = fieldsWithRequired.map(([name]) => name);
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 
 const handleFieldChange = (handleChange) =>
@@ -14,8 +16,8 @@ const handleFieldChange = (handleChange) =>
     return handlers;
   }, {});
 
-function CollectionGeneralEdition({ general, handleChange, errors }) {
-  const { prefLabelLg1, prefLabelLg2, creator, contributor, descriptionLg1, descriptionLg2 } =
+function CollectionGeneralEdition({ general, handleChange, errors, creation }) {
+  const { id, prefLabelLg1, prefLabelLg2, creator, contributor, descriptionLg1, descriptionLg2 } =
     general;
 
   const handlers = handleFieldChange(handleChange);
@@ -25,6 +27,22 @@ function CollectionGeneralEdition({ general, handleChange, errors }) {
       <h4 className="text-center">
         ( <RequiredIcon /> : {D.requiredFields})
       </h4>
+
+      {creation && (
+        <Row>
+          <InputRmes
+            colMd={12}
+            label={D.identifiantTitle}
+            star
+            value={id ?? ""}
+            handleChange={handlers.id}
+            className="w-100"
+            errorBlock={
+              <ClientSideError id="id-error" error={errors?.fields?.id}></ClientSideError>
+            }
+          />
+        </Row>
+      )}
 
       <Row>
         <InputRmes

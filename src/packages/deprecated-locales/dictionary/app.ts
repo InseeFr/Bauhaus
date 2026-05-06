@@ -194,6 +194,10 @@ const dictionary = {
     fr: "L'identifiant choisi existe déjà",
     en: "This identifier already exists",
   },
+  invalidId: {
+    fr: "Identifiant invalide",
+    en: "Invalid identifier",
+  },
   duplicatedLabel: {
     fr: "Le libellé choisi existe déjà",
     en: "This label already exists",

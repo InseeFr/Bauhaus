@@ -38,6 +38,7 @@ export const Component = () => {
     <CollectionEditionCreation
       title={isCreation ? D.createCollectionTitle : D.updateCollectionTitle}
       subtitle={isCreation ? undefined : general?.prefLabelLg1}
+      creation={isCreation}
       general={general}
       members={members}
       collectionList={collectionList}

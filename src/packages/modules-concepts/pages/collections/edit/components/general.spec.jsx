@@ -6,7 +6,9 @@ import CollectionGeneral from "./general";
 
 vi.mock("@components/form/input", () => ({ TextInput: () => <></> }));
 vi.mock("@components/errors-bloc", () => ({ ClientSideError: () => <></> }));
-vi.mock("@components/input-rmes", () => ({ InputRmes: () => <></> }));
+vi.mock("@components/input-rmes", () => ({
+  InputRmes: ({ label }) => <div data-testid="input-rmes">{label}</div>,
+}));
 vi.mock("@components/business/creators-input", () => ({
   CreatorsInput: () => <></>,
 }));
@@ -25,5 +27,33 @@ describe("collection-edition-creation-general", () => {
         errors={{ errorMessage: [], fields: {} }}
       />,
     );
+  });
+
+  it("shows the identifier input in creation mode", () => {
+    const { queryAllByTestId } = render(
+      <CollectionGeneral
+        general={empty()}
+        handleChange={vi.fn()}
+        langs={locales}
+        errors={{ errorMessage: [], fields: {} }}
+        creation
+      />,
+    );
+    const labels = queryAllByTestId("input-rmes").map((node) => node.textContent);
+    expect(labels).toContain("Identifier");
+  });
+
+  it("hides the identifier input in edition mode", () => {
+    const { queryAllByTestId } = render(
+      <CollectionGeneral
+        general={empty()}
+        handleChange={vi.fn()}
+        langs={locales}
+        errors={{ errorMessage: [], fields: {} }}
+        creation={false}
+      />,
+    );
+    const labels = queryAllByTestId("input-rmes").map((node) => node.textContent);
+    expect(labels).not.toContain("Identifier");
   });
 });

@@ -16,6 +16,7 @@ describe("validation", function () {
     ).toEqual({
       errorMessage: ["The property <strong>Owner</strong> is required."],
       fields: {
+        id: "",
         prefLabelLg1: "",
         creator: "The property <strong>Owner</strong> is required.",
       },
@@ -37,10 +38,53 @@ describe("validation", function () {
     ).toEqual({
       errorMessage: ["This label already exists"],
       fields: {
+        id: "",
         prefLabelLg1: "This label already exists",
         creator: "",
       },
     });
+  });
+
+  it("should return an error when id is missing in creation mode", function () {
+    const result = validate(
+      {
+        id: "",
+        prefLabelLg1: "label",
+        creator: "creator",
+      },
+      [],
+      undefined as unknown as string,
+      "",
+    );
+    expect(result.fields.id).toEqual("The property <strong>Identifier</strong> is required.");
+  });
+
+  it("should return an error when id contains forbidden characters", function () {
+    const result = validate(
+      {
+        id: "café avec espaces",
+        prefLabelLg1: "label",
+        creator: "creator",
+      },
+      [],
+      undefined as unknown as string,
+      "",
+    );
+    expect(result.fields.id).toEqual("Invalid identifier");
+  });
+
+  it("should accept a valid id with alphanumeric and hyphens", function () {
+    const result = validate(
+      {
+        id: "Collection-001",
+        prefLabelLg1: "label",
+        creator: "creator",
+      },
+      [],
+      undefined as unknown as string,
+      "",
+    );
+    expect(result.fields.id).toEqual("");
   });
 
   it("should return no error", function () {
@@ -58,6 +102,7 @@ describe("validation", function () {
     ).toEqual({
       errorMessage: [],
       fields: {
+        id: "",
         prefLabelLg1: "",
         creator: "",
       },

@@ -16,12 +16,18 @@ type CollectionsList = {
   label: string;
 }[];
 
+export const COLLECTION_ID_PATTERN = /^[A-Za-z0-9-]+$/;
+
 const ZodCollection = (
   collectionList: CollectionsList,
   initialId: string,
   initialPrefLabelLg1: string,
 ) =>
   z.object({
+    id: mandatoryAndNotEmptyTextField(D.identifiantTitle).refine(
+      (value) => value.length === 0 || COLLECTION_ID_PATTERN.test(value),
+      { error: D.invalidId },
+    ),
     prefLabelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle).refine(
       (value) =>
         value === initialPrefLabelLg1 ||
