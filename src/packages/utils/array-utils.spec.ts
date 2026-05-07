@@ -20,6 +20,26 @@ describe("sortArray", () => {
     ];
     expect(A.sortArray("id")(array)).toEqual(res);
   });
+
+  it("should sort in descending order when desc is true", () => {
+    const array = [
+      { id: "1", label: "A" },
+      { id: "2", label: "B" },
+    ];
+    const res = [
+      { id: "2", label: "B" },
+      { id: "1", label: "A" },
+    ];
+    expect(A.sortArray("id")(array, true)).toEqual(res);
+  });
+
+  it("should preserve relative order of equal keys", () => {
+    const array = [
+      { id: "1", label: "first" },
+      { id: "1", label: "second" },
+    ];
+    expect(A.sortArray("id")(array)).toEqual(array);
+  });
 });
 
 describe("nbResults", () => {

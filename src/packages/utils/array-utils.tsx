@@ -42,7 +42,9 @@ export const sortArray =
     return arr.sort((a: any, b: any) => {
       const aUp = normalize(a[key]);
       const bUp = normalize(b[key]);
-      return bUp > aUp ? order : bUp === aUp ? 0 : -order;
+      if (bUp > aUp) return order;
+      if (bUp === aUp) return 0;
+      return -order;
     });
   };
 

@@ -27,4 +27,14 @@ describe("<PublishersView />", () => {
     const { container } = render(<PublishersView publishers={[{ id: "X", label: "fallback" }]} />);
     expect(container.textContent).toContain("fallback");
   });
+
+  it("wraps a single non-array publisher object", () => {
+    const { container } = render(<PublishersView publishers={{ id: "X", labelLg1: "solo" }} />);
+    expect(container.textContent).toContain("solo");
+  });
+
+  it("renders empty when publishers is undefined", () => {
+    const { container } = render(<PublishersView />);
+    expect(container.textContent ?? "").not.toContain("undefined");
+  });
 });

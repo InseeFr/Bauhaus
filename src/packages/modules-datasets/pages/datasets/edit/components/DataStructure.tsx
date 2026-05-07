@@ -11,8 +11,17 @@ import { useStructures } from "@utils/hooks/structures";
 
 import "./DataStructure.css";
 
-const STRUCTURE_MODE = "STRUCTURE_MODE";
-const URN_MODE = "URN_MODE";
+export const STRUCTURE_MODE = "STRUCTURE_MODE";
+export const URN_MODE = "URN_MODE";
+
+export const computeInitialMode = (
+  structures: { iri: string }[] | undefined,
+  value: string,
+): typeof STRUCTURE_MODE | typeof URN_MODE | null => {
+  if (structures?.find((s) => s.iri === value)) return STRUCTURE_MODE;
+  if (value) return URN_MODE;
+  return null;
+};
 
 const firstOptions = [
   {
@@ -39,7 +48,7 @@ export const DataStructure = ({
     structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ?? [];
 
   const [mode, setMode] = useState<typeof URN_MODE | typeof STRUCTURE_MODE | null>(
-    structures?.find((s) => s.iri === value) ? STRUCTURE_MODE : value ? URN_MODE : null,
+    computeInitialMode(structures, value),
   );
 
   return (
