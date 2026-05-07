@@ -104,17 +104,22 @@ export const useGeographiesOptions = (): {
   return { isLoading, geographiesOptions };
 };
 
+export const pickGeographiesByUri = (
+  refs: { uri: string }[],
+  allGeographies: GeographyOption[],
+): (GeographyOption | undefined)[] => {
+  const byUri = new Map(allGeographies.map((g) => [g.value, g]));
+  return refs.map(({ uri }) => byUri.get(uri));
+};
+
 export const useGeographies = (territory: any = {}) => {
   const { isLoading, geographiesOptions: allGeographies } = useGeographiesOptions();
 
   const [excludes, setExcludes] = useState(
-    territory?.difference?.map(({ uri }: any) =>
-      allGeographies.find(({ value }) => value === uri),
-    ) ?? [],
+    pickGeographiesByUri(territory?.difference ?? [], allGeographies),
   );
   const [includes, setIncludes] = useState(
-    territory?.unions?.map(({ uri }: any) => allGeographies.find(({ value }) => value === uri)) ??
-      [],
+    pickGeographiesByUri(territory?.unions ?? [], allGeographies),
   );
   const geographies = useMemo(() => {
     const includesValues = includes.map(({ value }: GeographyOption) => value);
