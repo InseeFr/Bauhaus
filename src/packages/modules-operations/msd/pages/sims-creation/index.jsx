@@ -19,7 +19,7 @@ import { EMPTY_ARRAY, sortArrayByLabel } from "@utils/array-utils";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import D from "../../../../deprecated-locales";
-import { rangeType } from "../../../utils/msd";
+import { flattenTree, isAutoUpdatedFromModified, rangeType } from "../../../utils/msd";
 import { RubricEssentialMsg } from "../../rubric-essantial-msg";
 import {
   getParentId,
@@ -38,15 +38,44 @@ import { getDefaultSims, getSiblingSims } from "./utils/getSims";
 
 const { RICH_TEXT } = rangeType;
 
-export const generateSimsBeforeSubmit = (simsProp, parentType, idParent, rubrics) => {
+export const generateSimsBeforeSubmit = (
+  simsProp,
+  parentType,
+  idParent,
+  rubrics,
+  metadataStructure,
+) => {
+  const autoUpdatedIds = collectAutoUpdatedIds(metadataStructure);
+  const finalRubrics =
+    autoUpdatedIds.size === 0
+      ? rubrics
+      : applyAutoUpdatedDate(rubrics, autoUpdatedIds, new Date().toISOString());
+
   return {
     id: simsProp.id,
     labelLg1: simsProp.labelLg1,
     labelLg2: simsProp.labelLg2,
     [getParentIdName(parentType)]: idParent,
     created: simsProp.created,
-    rubrics,
+    rubrics: finalRubrics,
   };
+};
+
+const collectAutoUpdatedIds = (metadataStructure) => {
+  if (!metadataStructure) return new Set();
+  const flat = flattenTree(metadataStructure) || {};
+  return new Set(
+    Object.values(flat)
+      .filter((node) => isAutoUpdatedFromModified(node))
+      .map((node) => node.idMas),
+  );
+};
+
+const applyAutoUpdatedDate = (rubrics, autoUpdatedIds, isoNow) => {
+  const apply = (rubric) =>
+    autoUpdatedIds.has(rubric.idAttribute || rubric.idMas) ? { ...rubric, value: isoNow } : rubric;
+  if (Array.isArray(rubrics)) return rubrics.map(apply);
+  return Object.fromEntries(Object.entries(rubrics).map(([k, v]) => [k, apply(v)]));
 };
 
 /**
@@ -97,7 +126,7 @@ const SimsCreation = ({
     setChanged(false);
 
     onSubmit(
-      generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics),
+      generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics, metadataStructure),
       (id) => {
         setSaving(false);
         goBack(`/operations/sims/${id}`, true);
@@ -161,6 +190,7 @@ const SimsCreation = ({
                   alone={!hasLabelLg2(msd) || !secondLang}
                   organisationsOptions={organisationsOptions}
                   unbounded={msd.maxOccurs === "unbounded"}
+                  simsModified={simsProp.updated}
                 />
               )}
               {!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
@@ -173,6 +203,7 @@ const SimsCreation = ({
                   alone={false}
                   organisationsOptions={organisationsOptionsLg2}
                   unbounded={msd.maxOccurs === "unbounded"}
+                  simsModified={simsProp.updated}
                 />
               )}
             </div>
@@ -203,7 +234,7 @@ const SimsCreation = ({
         </Fragment>
       );
     },
-    [sims, codesLists, organisationsOptions, organisationsOptionsLg2],
+    [sims, codesLists, organisationsOptions, organisationsOptionsLg2, simsProp.updated],
   );
 
   const onSiblingSimsChange = () => {

@@ -10,7 +10,7 @@ import { useOrganizations } from "@utils/hooks/organizations";
 
 import D from "../../../../deprecated-locales";
 import SimsGeographyPicker from "../../../components/sims/sims-geography-picker";
-import { rangeType } from "../../../utils/msd";
+import { isAutoUpdatedFromModified, rangeType } from "../../../utils/msd";
 import { SimsFieldTitle } from "../../sims-field-title";
 import { SimsCodeListSelect } from "./sims-code-list-select";
 import "./sims-field.css";
@@ -28,7 +28,9 @@ const SimsFieldComponent = ({
   unbounded,
   codesLists,
   handleChange,
+  simsModified,
 }) => {
+  const autoUpdatedFromModified = isAutoUpdatedFromModified(msd);
   const { data: organisations = [] } = useOrganizations();
   const organisationsIriOptions = useMemo(
     () => organisations.map((o) => ({ value: o.iri, label: o.label })),
@@ -42,7 +44,7 @@ const SimsFieldComponent = ({
       case ORGANIZATION:
         return currentSection.value;
       case DATE:
-        return currentSection.value;
+        return autoUpdatedFromModified ? simsModified : currentSection.value;
       case RICH_TEXT:
         return currentSection[secondLang ? "labelLg2" : "labelLg1"];
       case GEOGRAPHY:
@@ -52,7 +54,7 @@ const SimsFieldComponent = ({
       default:
         return currentSection.value;
     }
-  }, [msd.rangeType, currentSection, secondLang]);
+  }, [msd.rangeType, currentSection, secondLang, autoUpdatedFromModified, simsModified]);
 
   const [localMdValue, setLocalMdValue] = useState(value);
 
@@ -185,8 +187,9 @@ const SimsFieldComponent = ({
                     id={msd.idMas}
                     colMd={12}
                     value={value}
-                    onChange={handleCodeListInput}
+                    onChange={autoUpdatedFromModified ? undefined : handleCodeListInput}
                     secondLang={secondLang}
+                    disabled={autoUpdatedFromModified}
                   />
                 )}
 
@@ -229,6 +232,7 @@ export const SimsField = memo(SimsFieldComponent, (prevProps, nextProps) => {
     prevProps.currentSection === nextProps.currentSection &&
     prevProps.secondLang === nextProps.secondLang &&
     prevProps.alone === nextProps.alone &&
-    prevProps.unbounded === nextProps.unbounded
+    prevProps.unbounded === nextProps.unbounded &&
+    prevProps.simsModified === nextProps.simsModified
   );
 });

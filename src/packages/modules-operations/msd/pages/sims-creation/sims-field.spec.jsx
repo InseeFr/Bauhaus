@@ -194,6 +194,94 @@ describe("Sims Field", () => {
       // DatePicker onChange is tested via integration
       expect(handleChange).not.toHaveBeenCalled(); // Initially not called
     });
+
+    describe("auto-updated from dcterms:modified", () => {
+      const DCTERMS_MODIFIED = "http://purl.org/dc/terms/modified";
+
+      it("renders the DatePicker as disabled when subPropertyOf is dcterms:modified", () => {
+        const { container } = render(
+          <Field
+            msd={{
+              masLabelLg1: "Auto Date",
+              idMas: "S.2.3",
+              rangeType: DATE,
+              isPresentational: false,
+              subPropertyOf: DCTERMS_MODIFIED,
+            }}
+            codesLists={{}}
+            simsModified="2025-06-06T00:00:00.000Z"
+            alone={true}
+          />,
+        );
+
+        const input = container.querySelector(".p-calendar input");
+        expect(input).toBeInTheDocument();
+        expect(input).toBeDisabled();
+      });
+
+      it("uses simsModified instead of currentSection.value for auto-updated date fields", () => {
+        const { container } = render(
+          <Field
+            msd={{
+              masLabelLg1: "Auto Date",
+              idMas: "S.2.3",
+              rangeType: DATE,
+              isPresentational: false,
+              subPropertyOf: DCTERMS_MODIFIED,
+            }}
+            currentSection={{ value: "2020-01-01T00:00:00.000Z" }}
+            codesLists={{}}
+            simsModified="2025-06-06T00:00:00.000Z"
+            alone={true}
+          />,
+        );
+
+        const input = container.querySelector(".p-calendar input");
+        expect(input.value).toBe("06/06/2025");
+      });
+
+      it("does not call handleChange for auto-updated date fields", () => {
+        const handleChange = vi.fn();
+        const { container } = render(
+          <Field
+            msd={{
+              masLabelLg1: "Auto Date",
+              idMas: "S.2.3",
+              rangeType: DATE,
+              isPresentational: false,
+              subPropertyOf: DCTERMS_MODIFIED,
+            }}
+            codesLists={{}}
+            simsModified="2025-06-06T00:00:00.000Z"
+            handleChange={handleChange}
+            alone={true}
+          />,
+        );
+
+        const input = container.querySelector(".p-calendar input");
+        fireEvent.change(input, { target: { value: "10/10/2030" } });
+        expect(handleChange).not.toHaveBeenCalled();
+      });
+
+      it("keeps the field editable for plain DATE rubrics", () => {
+        const { container } = render(
+          <Field
+            msd={{
+              masLabelLg1: "Plain Date",
+              idMas: "date-2",
+              rangeType: DATE,
+              isPresentational: false,
+            }}
+            currentSection={{ value: "2024-01-15T00:00:00.000Z" }}
+            codesLists={{}}
+            alone={true}
+          />,
+        );
+
+        const input = container.querySelector(".p-calendar input");
+        expect(input).not.toBeDisabled();
+      });
+    });
   });
 
   describe("RICH_TEXT Field", () => {

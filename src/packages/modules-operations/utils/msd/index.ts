@@ -1,5 +1,7 @@
 import { isLang2 } from "../../../i18n";
 
+export const DCTERMS_MODIFIED = "http://purl.org/dc/terms/modified";
+
 /**
  *
  * Take a an array as input, and return a hierarchical tree based on objects
@@ -28,9 +30,14 @@ export function getTree(input: any[], idParent?: string, objectToMerge?: any): a
           codeList: msdToMerge.codeList,
           children: getTree(input, msd.idMas, objectToMerge),
           sansObject: msdToMerge.sansObject,
+          subPropertyOf: msdToMerge.subPropertyOf,
         },
       };
     }, {});
+}
+
+export function isAutoUpdatedFromModified(msd?: { subPropertyOf?: string }): boolean {
+  return msd?.subPropertyOf === DCTERMS_MODIFIED;
 }
 
 /**
