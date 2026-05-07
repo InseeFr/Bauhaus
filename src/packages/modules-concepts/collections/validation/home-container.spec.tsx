@@ -249,8 +249,41 @@ describe("Collection Validation Home Container", () => {
         expect(mockPutCollectionValidList).toHaveBeenCalledWith(["1", "2"]);
       });
 
-      expect(mockGetCollectionValidateList).toHaveBeenCalledTimes(1);
+      // 1 initial fetch + 1 refetch triggered by ['unpublished-collections'] invalidation after publish
+      expect(mockGetCollectionValidateList).toHaveBeenCalledTimes(2);
       expect(mockPutCollectionValidList).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("Cache invalidation after publish", () => {
+    it("should invalidate ['collections'] and ['unpublished-collections'] so the dashboard shows fresh state without F5", async () => {
+      mockGetCollectionValidateList.mockResolvedValue(mockCollections);
+      mockPutCollectionValidList.mockResolvedValue({});
+
+      const queryClient = new QueryClient({
+        defaultOptions: { queries: { retry: false } },
+      });
+      const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
+      const wrapper = ({ children }: { children: React.ReactNode }) => (
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>{children}</MemoryRouter>
+        </QueryClientProvider>
+      );
+
+      render(<Component />, { wrapper });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
+      });
+
+      await act(async () => {
+        screen.getByTestId("validate-button").click();
+      });
+
+      await waitFor(() => {
+        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["collections"] });
+        expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["unpublished-collections"] });
+      });
     });
   });
 });

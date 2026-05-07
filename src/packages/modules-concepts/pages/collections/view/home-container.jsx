@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Loading, Publishing } from "@components/loading";
 
@@ -13,6 +14,7 @@ import { useCollection } from "../../../hooks/useCollection";
 export const Component = () => {
   const { id } = useParams();
   const [saving, setSaving] = useState(false);
+  const queryClient = useQueryClient();
 
   const [secondLang] = useSecondLang();
 
@@ -21,7 +23,10 @@ export const Component = () => {
   const handleCollectionValidation = (id) => {
     setSaving(true);
     ConceptsApi.putCollectionValidList([id])
-      .then(() => refetch())
+      .then(async () => {
+        queryClient.invalidateQueries({ queryKey: ["collections"] });
+        await refetch();
+      })
       .finally(() => setSaving(false));
   };
 

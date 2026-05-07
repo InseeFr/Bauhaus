@@ -29,7 +29,7 @@ const CollectionVisualization = ({ id, general, members, secondLang, validateCol
         {secondLang && general.prefLabelLg2 && <PageSubtitle subTitle={general.prefLabelLg2} />}
         <Menu
           id={id}
-          isValidated={isValidated === "true"}
+          isValidated={Boolean(isValidated)}
           handleValidation={handleClickValid}
           exportCollection={exportCollection}
         />

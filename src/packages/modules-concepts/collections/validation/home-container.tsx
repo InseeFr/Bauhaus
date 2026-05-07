@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Loading, Publishing } from "@components/loading";
 
@@ -16,12 +17,17 @@ export const Component = () => {
 
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { data: collections = [], isLoading } = useUnpublishedCollections();
 
   const handleValidateCollectionList = (ids: string[]) => {
     setSaving(true);
     ConceptsApi.putCollectionValidList(ids)
-      .then(() => setSaving(false))
+      .then(() => {
+        queryClient.invalidateQueries({ queryKey: ["collections"] });
+        queryClient.invalidateQueries({ queryKey: ["unpublished-collections"] });
+        setSaving(false);
+      })
       .finally(() => navigate("/concepts/collections"));
   };
 
