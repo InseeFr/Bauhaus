@@ -42,7 +42,7 @@ describe("GlobalInformationsPanel", () => {
     screen.getByText(/12345/);
     screen.getByText(/Creation date : 01\/01\/2022/);
     screen.getByText(/Modification date : 02\/01\/2022/);
-    screen.getByText(/Publication status : Temporary, never published/);
+    screen.getByText(/Publication status : Provisional/);
     screen.getByText(/Creator : STAMP CREATOR/);
     screen.getByText(/Contributor :/);
     screen.getByText(/STAMP CONTRIBUTOR/);

@@ -33,6 +33,7 @@ class ConceptEditionCreation extends Component {
     this.state = {
       id: this.props.id,
       showModal: false,
+      saveAttempted: false,
       data: {
         general: { ...general },
         notes: { ...notes },
@@ -84,12 +85,25 @@ class ConceptEditionCreation extends Component {
     };
 
     this.handleSave = () => {
+      this.setState({ saveAttempted: true });
+      if (this.computeErrors().errorMessage.length > 0) return;
       if (this.props.creation) {
         this.saveConcept();
       } else {
         //show modal if needed
         this.askToConfirmOrSave();
       }
+    };
+
+    this.computeErrors = () => {
+      const { general, notes, conceptsWithLinks } = this.state.data;
+      return validate(
+        general,
+        notes,
+        this.getOriginalData().general.prefLabelLg1,
+        conceptsWithLinks,
+        this.props.maxLengthScopeNote,
+      );
     };
 
     this.askToConfirmOrSave = () => {
@@ -177,12 +191,13 @@ class ConceptEditionCreation extends Component {
       conceptsWithLinks,
       maxLengthScopeNote,
     );
+    const displayedErrors = this.state.saveAttempted ? errorMessage : undefined;
     return (
       <div>
         <div className="container">
           <PageTitle title={title} subtitle={subtitle} />
           {this.props.general.contributor && (
-            <Menu errors={errorMessage} handleSave={this.handleSave} submitting={submitting} />
+            <Menu errors={displayedErrors} handleSave={this.handleSave} submitting={submitting} />
           )}
           <TabView>
             <TabPanel header={D.globalInformationsTitle}>
@@ -190,7 +205,7 @@ class ConceptEditionCreation extends Component {
                 general={general}
                 handleChange={this.handleChangeGeneral}
                 stampList={stampList}
-                errorMessage={errorMessage}
+                errorMessage={displayedErrors}
               />
             </TabPanel>
             <TabPanel header={D.notesTitle}>
@@ -199,7 +214,7 @@ class ConceptEditionCreation extends Component {
                 handleChange={this.handleChangeNotes}
                 maxLengthScopeNote={maxLengthScopeNote}
                 disseminationStatus={general.disseminationStatus}
-                errorMessage={errorMessage}
+                errorMessage={displayedErrors}
               />
             </TabPanel>
             <TabPanel header={D.linksTitle}>

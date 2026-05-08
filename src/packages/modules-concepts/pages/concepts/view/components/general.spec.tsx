@@ -349,8 +349,12 @@ describe("ConceptGeneral", () => {
     });
   });
 
-  describe("Validation status", () => {
-    it('should render isValidated as "Provisoire" when false', () => {
+  describe("Validation status (#1507 — aligned with series/operations vocabulary)", () => {
+    // Assertions use the English labels because happy-dom defaults navigator.language to "en-US",
+    // which selects D2 inside the shared @components/status helpers. Other tests in this file
+    // mock `t()` so they keep showing French.
+
+    it('renders an unvalidated concept as "Provisional"', () => {
       const attr = {
         isValidated: "false",
       };
@@ -360,10 +364,11 @@ describe("ConceptGeneral", () => {
       });
 
       expect(screen.getByText(/État du concept/)).toBeInTheDocument();
-      expect(screen.getByText(/Provisoire/)).toBeInTheDocument();
+      expect(screen.getByText(/Provisional/)).toBeInTheDocument();
+      expect(screen.queryByText(/never published/i)).not.toBeInTheDocument();
     });
 
-    it('should render isValidated as "Validé" when true', () => {
+    it('renders a validated concept as "Published" (matching séries/opérations)', () => {
       const attr = {
         isValidated: "true",
       };
@@ -373,7 +378,7 @@ describe("ConceptGeneral", () => {
       });
 
       expect(screen.getByText(/État du concept/)).toBeInTheDocument();
-      expect(screen.getByText(/Validé/)).toBeInTheDocument();
+      expect(screen.getByText(/Published/)).toBeInTheDocument();
     });
   });
 
@@ -456,7 +461,7 @@ describe("ConceptGeneral", () => {
       expect(screen.getByText(/DARES/)).toBeInTheDocument();
       expect(screen.getByText(/Statut de diffusion : Public/)).toBeInTheDocument();
       expect(screen.getByText(/État du concept/)).toBeInTheDocument();
-      expect(screen.getByText(/Validé/)).toBeInTheDocument();
+      expect(screen.getByText(/Published/)).toBeInTheDocument();
       expect(screen.getByText(/Document lié/)).toBeInTheDocument();
     });
 
@@ -524,7 +529,7 @@ describe("ConceptGeneral", () => {
       // Vérifie que le texte important est visible et accessible
       expect(screen.getByText("Informations globales")).toBeVisible();
       expect(screen.getByText(/Créateur/)).toBeVisible();
-      expect(screen.getByText(/Validé/)).toBeVisible();
+      expect(screen.getByText(/Published/)).toBeVisible();
       expect(screen.getByText(/Identifiant/)).toBeVisible();
     });
   });

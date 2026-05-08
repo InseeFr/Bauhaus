@@ -2,6 +2,9 @@ import { DisseminationStatusVisualisation } from "@components/dissemination-stat
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
+import { PublicationFemale } from "@components/status";
+
+import { UNPUBLISHED, VALIDATED } from "../../../../../model/ValidationState";
 
 import { stringToDate } from "@utils/date-utils";
 import { useLocales } from "@utils/hooks/useLocales";
@@ -85,13 +88,16 @@ const renderValidationField = (
   fieldName: "isValidated",
   label: string,
   value: string,
-  conceptStatusValid: string,
-  conceptStatusProvisional: string,
 ): JSX.Element => {
+  // Aligned with séries / opérations / indicateurs / sims (#1507).
+  // The MODIFIED state ("Provisoire déjà publié") still requires a back-end
+  // signal that a concept was previously published — falls back to UNPUBLISHED
+  // until that signal is exposed.
+  const validationState = value === "true" ? VALIDATED : UNPUBLISHED;
   return (
-    <li key={fieldName}>{`${label}: ${
-      value === "true" ? conceptStatusValid : conceptStatusProvisional
-    }`}</li>
+    <li key={fieldName}>
+      {label}: <PublicationFemale object={{ validationState }} />
+    </li>
   );
 };
 
@@ -104,8 +110,6 @@ const renderFieldItem = (
   label: string,
   concept: ConceptGeneral,
   secondLang: boolean,
-  conceptStatusValid: string,
-  conceptStatusProvisional: string,
 ): JSX.Element | null => {
   const value = concept[fieldName];
 
@@ -137,13 +141,7 @@ const renderFieldItem = (
       return renderDisseminationField(fieldName, value as string);
 
     case "isValidated":
-      return renderValidationField(
-        fieldName,
-        label,
-        value as string,
-        conceptStatusValid,
-        conceptStatusProvisional,
-      );
+      return renderValidationField(fieldName, label, value as string);
 
     case "id":
     case "conceptVersion":
@@ -157,8 +155,6 @@ const renderFieldItem = (
 function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneralProps>) {
   const { lg1, lg2 } = useLocales();
   const { t } = useTranslation();
-  const conceptStatusValid = t("concept.general.conceptStatusValid");
-  const conceptStatusProvisional = t("concept.general.conceptStatusProvisional");
 
   const fields: { name: FieldName; label: string }[] = [
     { name: "id", label: t("concept.general.identifiantTitle") },
@@ -211,16 +207,7 @@ function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneral
         <Note
           text={
             <ul>
-              {fields.map(({ name, label }) =>
-                renderFieldItem(
-                  name,
-                  label,
-                  concept,
-                  secondLang,
-                  conceptStatusValid,
-                  conceptStatusProvisional,
-                ),
-              )}
+              {fields.map(({ name, label }) => renderFieldItem(name, label, concept, secondLang))}
             </ul>
           }
           title={t("concept.general.globalInformationsTitle")}
