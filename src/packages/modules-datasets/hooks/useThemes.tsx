@@ -12,11 +12,7 @@ export const useThemes = () =>
       const themes = await ThemesApi.getThemes();
       return themes.map((theme) => ({
         value: theme.uri,
-        label: (
-          <>
-            {theme.label.value} <i>({theme.idConceptScheme})</i>
-          </>
-        ),
+        label: <>{theme.label.value}</>,
       }));
     },
   });
