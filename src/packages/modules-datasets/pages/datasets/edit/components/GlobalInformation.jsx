@@ -158,35 +158,31 @@ const GlobalInformationTab = ({
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <label className="w-100 wilco-label-required">
-            {t("dataset.globalInformation.dataProvider")}
-            <OrganisationInput
-              multi
-              value={editingDataset.creators}
-              onChange={(values) => {
-                setEditingDataset({
-                  ...editingDataset,
-                  creators: values,
-                });
-              }}
-            />
-          </label>
+          <OrganisationInput
+            labelMulti={t("dataset.globalInformation.dataProvider")}
+            multi
+            value={editingDataset.creators}
+            onChange={(values) => {
+              setEditingDataset({
+                ...editingDataset,
+                creators: values,
+              });
+            }}
+          />
         </div>
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <label className="w-100 wilco-label-required">
-            {t("dataset.globalInformation.publicationProvider")}
-            <OrganisationInput
-              value={editingDataset.publisher}
-              onChange={(values) => {
-                setEditingDataset({
-                  ...editingDataset,
-                  publisher: values,
-                });
-              }}
-            />
-          </label>
+          <OrganisationInput
+            labelSingle={t("dataset.globalInformation.publicationProvider")}
+            value={editingDataset.publisher}
+            onChange={(values) => {
+              setEditingDataset({
+                ...editingDataset,
+                publisher: values,
+              });
+            }}
+          />
         </div>
       </Row>
       <Row>
