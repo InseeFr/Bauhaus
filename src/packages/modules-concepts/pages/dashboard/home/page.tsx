@@ -6,7 +6,7 @@ import { Loading } from "@components/loading";
 import { ConceptForAdvancedSearch } from "../../../types/concept";
 import { CollectionApi } from "@sdk/new-collection-api";
 import { ConceptsApi } from "@sdk/concepts-api";
-import Dashboard from "./home";
+import Dashboard from "./components/home";
 import { initialState, reducer } from "./page.reducer";
 
 const emptyItem: ConceptForAdvancedSearch = {

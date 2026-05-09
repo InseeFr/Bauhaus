@@ -2,9 +2,17 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { cleanId } from "@utils/string-utils";
-import buildPayload from "../collections/utils/build-payload/build-payload";
 import { CollectionApi } from "@sdk/new-collection-api";
+
+import { cleanId } from "@utils/string-utils";
+
+import { Collection } from "../../model/concepts/collection";
+import buildPayload from "../utils/build-collection-payload";
+
+interface CollectionSaveData {
+  general: Collection;
+  members: { id: string; label: string }[];
+}
 
 export const useCollectionSave = (id: string | undefined) => {
   const isCreation = !id;
@@ -13,7 +21,7 @@ export const useCollectionSave = (id: string | undefined) => {
   const [isSaving, setIsSaving] = useState(false);
 
   const save = useCallback(
-    (data: any) => {
+    (data: CollectionSaveData) => {
       setIsSaving(true);
       const promise = isCreation
         ? CollectionApi.postCollection(buildPayload(data, "CREATE")).then((newId: string) => {
@@ -23,7 +31,7 @@ export const useCollectionSave = (id: string | undefined) => {
         : CollectionApi.putCollection(data.general.id, buildPayload(data, "UPDATE")).then(() => {
             queryClient.invalidateQueries({ queryKey: ["collections"] });
             queryClient.invalidateQueries({ queryKey: ["collection", id] });
-            navigate(`/concepts/collections/${cleanId(id)}`);
+            navigate(`/concepts/collections/${cleanId(id!)}`);
           });
 
       promise.catch(() => setIsSaving(false));

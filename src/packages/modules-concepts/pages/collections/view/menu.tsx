@@ -8,7 +8,7 @@ import {
   UpdateButton,
 } from "@components/buttons/buttons-with-icons";
 
-import ExportButtons from "../../../collections/export-buttons";
+import ExportButtons from "../../../components/CollectionExportButtons";
 import { HasAccess } from "../../../../auth/components/auth";
 
 export const Menu = ({

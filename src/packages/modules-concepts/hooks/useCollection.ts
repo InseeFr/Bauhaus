@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { CollectionApi as NewCollectionApi } from "@sdk/new-collection-api";
-import emptyCollection from "../collections/utils/empty-collection";
+import emptyCollection from "../utils/empty-collection";
 import { useAppContext } from "../../application/app-context";
 import { Collection } from "@model/concepts/collection";
 

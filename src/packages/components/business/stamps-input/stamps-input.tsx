@@ -23,6 +23,7 @@ const DefaultStampsInput = ({
   labelSingle: string;
   labelMulti: string;
   options: { value: string; label: string }[];
+  disabled?: boolean;
 }>) => {
   let creatorsArray;
   if (multi) {

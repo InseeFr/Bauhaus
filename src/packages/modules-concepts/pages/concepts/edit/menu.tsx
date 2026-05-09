@@ -7,6 +7,7 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 type Props = Readonly<{
   errors?: { errorMessage?: string[] };
   handleSave: () => void;
+  submitting?: boolean;
 }>;
 
 export const Menu = ({ errors, handleSave }: Props) => {
@@ -16,7 +17,7 @@ export const Menu = ({ errors, handleSave }: Props) => {
     <>
       <ActionToolbar>
         <CancelButton action={() => goBack("concepts")} />
-        <SaveButton action={handleSave} disabled={errors?.errorMessage?.length > 0} />
+        <SaveButton action={handleSave} disabled={(errors?.errorMessage?.length ?? 0) > 0} />
       </ActionToolbar>
       <GlobalClientSideErrorBloc clientSideErrors={errors?.errorMessage} />
     </>

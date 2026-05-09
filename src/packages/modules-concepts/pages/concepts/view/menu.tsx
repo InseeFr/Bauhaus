@@ -12,14 +12,15 @@ import {
 import { ConfirmationDelete } from "@components/confirmation-delete";
 
 import { HasAccess } from "../../../../auth/components/auth";
+import { ConceptGeneral } from "../../../../model/concepts/concept";
 import { ConceptsApi } from "../../../../sdk";
 import { saveFileFromHttpResponse } from "../../../../utils/files";
 import { useGoBack } from "../../../../utils/hooks/useGoBack";
-import { useLoading } from "./loading";
+import { useLoading } from "./components/loading";
 import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "../../../../sdk/constants";
 
 interface ConceptVisualizationControlsTypes {
-  general: any;
+  general: Pick<ConceptGeneral, "creator">;
   isValidated: boolean;
   conceptVersion: number;
   id: string;
@@ -68,11 +69,11 @@ const ConceptVisualizationControls = ({
               .finally(() => setLoading(undefined));
           }}
         />
-        <HasAccess module="CONCEPT_CONCEPT" privilege="UPDATE" stamps={general.creator}>
+        <HasAccess module="CONCEPT_CONCEPT" privilege="UPDATE" stamps={[general.creator]}>
           <UpdateButton action={`/concepts/${id}/modify`} />
         </HasAccess>
 
-        <HasAccess module="CONCEPT_CONCEPT" privilege="DELETE" stamps={general.creator}>
+        <HasAccess module="CONCEPT_CONCEPT" privilege="DELETE" stamps={[general.creator]}>
           <DeleteButton action={() => setModalOpened(true)} />
         </HasAccess>
 
@@ -80,7 +81,7 @@ const ConceptVisualizationControls = ({
           module="CONCEPT_CONCEPT"
           privilege="PUBLISH"
           complementaryCheck={!isValidated}
-          stamps={general.creator}
+          stamps={[general.creator]}
         >
           <PublishButton action={onValidate} />
         </HasAccess>

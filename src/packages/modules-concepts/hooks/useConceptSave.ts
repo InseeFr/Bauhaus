@@ -2,11 +2,27 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
-import buildPayloadCreation from "../utils/build-payload-creation-update/build-payload-creation";
-import buildPayloadUpdate from "../utils/build-payload-creation-update/build-payload-update";
 import { ConceptsApi } from "@sdk/concepts-api";
 
-type ConceptPayload = { collections: string[] };
+import { ConceptGeneral, ConceptNotes, Link } from "../../model/concepts/concept";
+import buildPayloadCreation from "../utils/build-payload-creation";
+import buildPayloadUpdate from "../utils/build-payload-update";
+
+interface ConceptSaveData {
+  general: ConceptGeneral;
+  notes: ConceptNotes;
+  conceptsWithLinks: { id: string; typeOfLink: string; label?: string }[];
+  equivalentLinks?: (Link & { urn: string })[];
+}
+
+interface ConceptPayload {
+  collections: string[];
+}
+
+type SaveFn = {
+  (data: ConceptSaveData): void;
+  (id: string, versioningType: string, oldData: ConceptSaveData, data: ConceptSaveData): void;
+};
 
 export const useConceptSave = (id: string | undefined) => {
   const isCreation = !id;
@@ -25,30 +41,36 @@ export const useConceptSave = (id: string | undefined) => {
     [queryClient],
   );
 
-  const save = useCallback(
-    (dataOrId: any, versioningType?: any, oldData?: any, data?: any) => {
+  const save = useCallback<SaveFn>(
+    (
+      dataOrId: ConceptSaveData | string,
+      versioningType?: string,
+      oldData?: ConceptSaveData,
+      data?: ConceptSaveData,
+    ) => {
       setIsSaving(true);
       setSaveError(undefined);
 
-      const conceptToSave: ConceptPayload = isCreation
-        ? buildPayloadCreation(dataOrId)
-        : buildPayloadUpdate(versioningType, oldData, data);
+      const conceptToSave = (isCreation
+        ? buildPayloadCreation(dataOrId as ConceptSaveData)
+        : buildPayloadUpdate(versioningType!, oldData!, data!)) as unknown as ConceptPayload;
 
-      const [promise, redirect]: [Promise<any>, (result: any) => string] = isCreation
-        ? [
-            ConceptsApi.postConcept(conceptToSave).then((newId: string) => {
-              invalidateQueries(conceptToSave);
-              return newId;
-            }),
-            (newId: string) => `/concepts/${newId}`,
-          ]
-        : [
-            ConceptsApi.putConcept(id, conceptToSave).then(() => {
-              queryClient.invalidateQueries({ queryKey: ["concept", id] });
-              invalidateQueries(conceptToSave);
-            }),
-            () => `/concepts/${id}`,
-          ];
+      const [promise, redirect]: [Promise<string | void>, (result: string | void) => string] =
+        isCreation
+          ? [
+              ConceptsApi.postConcept(conceptToSave).then((newId: string) => {
+                invalidateQueries(conceptToSave);
+                return newId;
+              }),
+              (newId) => `/concepts/${newId as string}`,
+            ]
+          : [
+              ConceptsApi.putConcept(id, conceptToSave).then(() => {
+                queryClient.invalidateQueries({ queryKey: ["concept", id] });
+                invalidateQueries(conceptToSave);
+              }),
+              () => `/concepts/${id}`,
+            ];
 
       promise
         .then((result) => navigate(redirect(result)))

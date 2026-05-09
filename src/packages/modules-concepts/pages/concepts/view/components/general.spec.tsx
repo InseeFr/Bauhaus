@@ -648,7 +648,7 @@ describe("ConceptGeneral", () => {
     it("should handle arrays with mixed valid and invalid values", () => {
       const attr = {
         id: "c1234",
-        creator: ["DG75-L201", "", null, undefined, "   ", "DG75-L202"] as any,
+        creator: ["DG75-L201", "", null, undefined, "   ", "DG75-L202"] as unknown as string[],
       };
 
       render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {

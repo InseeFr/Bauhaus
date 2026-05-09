@@ -369,7 +369,7 @@ describe("CollectionGeneral", () => {
 
     it("should handle arrays with undefined/null values", () => {
       const attr = {
-        creator: ["DG75-L201", undefined, null, "DG75-L202"] as any,
+        creator: ["DG75-L201", undefined, null, "DG75-L202"] as unknown as string[],
       };
 
       render(<CollectionGeneral attr={attr} />, {
