@@ -133,7 +133,7 @@ export default function SimsVisualisation({
   const handleYes = () => {
     OperationsApi.deleteSims(sims).finally(() => {
       setModalOpened(false);
-      navigate(`/operations/series/${sims.idSeries}`);
+      navigate(getParentUri(sims));
     });
   };
 
