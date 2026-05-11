@@ -1,36 +1,33 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { CollectionApi } from "@sdk/collection-api";
+import { CollectionExportApi, CollectionApi } from "@sdk/collection-api";
+
+import { CollectionExportFormat } from "@model/concepts/collection";
 
 import { saveFileFromHttpResponse } from "../files";
 import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "../../sdk/constants";
 
-export const useCollectionExporter = () => {
-  return useMutation({
-    mutationFn: ({
-      ids,
-      type,
-      lang,
-      withConcepts,
-    }: {
-      ids: string[];
-      type: string;
-      lang: string;
-      withConcepts: boolean;
-    }) => {
-      let promise;
+interface ExportInput {
+  ids: string[];
+  type: CollectionExportFormat;
+  lang: "lg1" | "lg2";
+  withConcepts: boolean;
+}
 
-      if (ids.length > 1) {
-        promise = CollectionApi.getCollectionExportZipByType(ids, type, lang, withConcepts);
-      } else if (ids.length === 1) {
-        promise = CollectionApi.getCollectionExportByType(
-          ids[0],
-          OPEN_DOCUMENT_TEXT_MIME_TYPE,
-          type,
-          lang,
-          withConcepts,
-        );
-      }
+export const useCollectionExporter = () => {
+  return useMutation<unknown, Error, ExportInput>({
+    mutationFn: ({ ids, type, lang, withConcepts }) => {
+      const api: CollectionExportApi = CollectionApi;
+      const promise =
+        ids.length > 1
+          ? api.getCollectionExportZipByType(ids, type, lang, withConcepts)
+          : api.getCollectionExportByType(
+              ids[0],
+              OPEN_DOCUMENT_TEXT_MIME_TYPE,
+              type,
+              lang,
+              withConcepts,
+            );
 
       return promise.then(saveFileFromHttpResponse);
     },

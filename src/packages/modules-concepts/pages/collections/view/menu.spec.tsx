@@ -24,7 +24,12 @@ describe("collection-visualization-controls", () => {
 
     render(
       <WithRouter>
-        <Menu exportCollection={vi.fn()} handleValidation={vi.fn()} id={"1"} isValidated={false} />
+        <Menu
+          exportCollection={vi.fn() as () => void}
+          handleValidation={vi.fn() as () => void}
+          id={"1"}
+          isValidated={false}
+        />
       </WithRouter>,
     );
 
@@ -46,7 +51,12 @@ describe("collection-visualization-controls", () => {
 
     render(
       <WithRouter>
-        <Menu exportCollection={vi.fn()} handleValidation={vi.fn()} id={"1"} isValidated={false} />
+        <Menu
+          exportCollection={vi.fn() as () => void}
+          handleValidation={vi.fn() as () => void}
+          id={"1"}
+          isValidated={false}
+        />
       </WithRouter>,
     );
 

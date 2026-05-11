@@ -1,21 +1,24 @@
-import { buildEmpty, buildEmptyWithContributor, buildFields } from "@utils/build-general-proptypes";
+import { buildEmpty, buildEmptyWithContributor } from "@utils/build-general-proptypes";
 
-export const fieldsWithRequired = [
-  ["id", false],
-  ["prefLabelLg1", false],
-  ["prefLabelLg2", false],
-  ["descriptionLg1", false],
-  ["descriptionLg2", false],
-  ["created", false],
-  ["modified", false],
-  ["creator", false],
-  ["contributor", false],
-  ["isValidated", false],
+import { CollectionGeneral } from "@model/concepts/collection";
+
+const fieldNames: (keyof CollectionGeneral)[] = [
+  "id",
+  "prefLabelLg1",
+  "prefLabelLg2",
+  "descriptionLg1",
+  "descriptionLg2",
+  "created",
+  "modified",
+  "creator",
+  "contributor",
+  "isValidated",
 ];
 
-const fields = buildFields(fieldsWithRequired);
+export const fieldsWithRequired: string[][] = fieldNames.map((name) => [name, ""]);
 
-export const empty = () => buildEmpty(fieldsWithRequired);
+export const empty = (): CollectionGeneral =>
+  buildEmpty(fieldsWithRequired) as unknown as CollectionGeneral;
 
-export const emptyWithContributor = (defaultContributor: string) =>
-  buildEmptyWithContributor(fieldsWithRequired, defaultContributor);
+export const emptyWithContributor = (defaultContributor: string): CollectionGeneral =>
+  buildEmptyWithContributor(fieldsWithRequired, defaultContributor) as unknown as CollectionGeneral;

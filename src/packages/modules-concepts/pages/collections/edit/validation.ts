@@ -9,7 +9,7 @@ import {
 } from "@utils/validation";
 
 import D, { D1 } from "../../../../deprecated-locales";
-import { Collection } from "../../../../model/concepts/collection";
+import { CollectionGeneral } from "../../../../model/concepts/collection";
 
 type CollectionsList = {
   id: string;
@@ -38,7 +38,7 @@ const ZodCollection = (
   });
 
 export const validate = (
-  general: Collection,
+  general: CollectionGeneral,
   collectionList: CollectionsList,
   initialId: string,
   initialPrefLabelLg1: string,

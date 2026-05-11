@@ -2,16 +2,12 @@ import { Component } from "react";
 
 import { PageTitle } from "@components/page-title";
 
-import { Collection, PartialCollection } from "../../../../../model/concepts/collection";
+import { CollectionGeneral, CollectionMember, PartialCollection } from "@model/concepts/collection";
+
 import { Menu } from "../menu";
 import { validate } from "../validation";
 import GeneralEdition from "./general";
 import CollectionMembersEdition from "./members";
-
-interface MemberInput {
-  id: string;
-  prefLabelLg1: string;
-}
 
 interface MemberItem {
   id: string;
@@ -21,7 +17,7 @@ interface MemberItem {
 interface CollectionEditionState {
   id: string;
   data: {
-    general: Collection;
+    general: CollectionGeneral;
     members: MemberItem[];
   };
 }
@@ -30,11 +26,11 @@ interface CollectionEditionCreationProps {
   title: string;
   subtitle?: string;
   creation?: boolean;
-  general: Collection;
-  members: MemberInput[];
+  general: CollectionGeneral;
+  members: CollectionMember[];
   collectionList: PartialCollection[];
   conceptList: { id: string; label: string }[];
-  save: (data: { general: Collection; members: MemberItem[] }) => void;
+  save: (data: { general: CollectionGeneral; members: MemberItem[] }) => void;
   submitting: boolean;
   setSubmitting: (value: boolean) => void;
 }
@@ -56,7 +52,7 @@ class CollectionEditionCreation extends Component<
     };
   }
 
-  handleChangeGeneral = (update: Partial<Collection>) => {
+  handleChangeGeneral = (update: Partial<CollectionGeneral>) => {
     this.props.setSubmitting(true);
     this.setState((state) => ({
       ...state,

@@ -1,9 +1,15 @@
+import { CollectionExportFormat } from "@model/concepts/collection";
+
 import D from "../../../deprecated-locales/build-dictionary";
 import ExportButton from "../CollectionDropdown";
 
 interface ExportButtonsTypes {
   disabled?: boolean;
-  exportHandler: (type: string, withConcepts: boolean, lang?: "lg1" | "lg2") => void;
+  exportHandler: (
+    type: CollectionExportFormat,
+    withConcepts: boolean,
+    lang?: "lg1" | "lg2",
+  ) => void;
 }
 
 const ExportButtons = ({ exportHandler, disabled }: Readonly<ExportButtonsTypes>) => {

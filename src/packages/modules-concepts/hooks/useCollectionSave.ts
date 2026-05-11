@@ -6,12 +6,16 @@ import { CollectionApi } from "@sdk/new-collection-api";
 
 import { cleanId } from "@utils/string-utils";
 
-import { Collection } from "../../model/concepts/collection";
-import buildPayload from "../utils/build-collection-payload";
+import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
-interface CollectionSaveData {
-  general: Collection;
-  members: { id: string; label: string }[];
+import buildPayload, {
+  CollectionMemberInput,
+  CollectionPayloadInput,
+} from "../utils/build-collection-payload";
+
+export interface CollectionSaveData {
+  general: CollectionGeneral;
+  members: CollectionMember[] | CollectionMemberInput[];
 }
 
 export const useCollectionSave = (id: string | undefined) => {
@@ -23,16 +27,22 @@ export const useCollectionSave = (id: string | undefined) => {
   const save = useCallback(
     (data: CollectionSaveData) => {
       setIsSaving(true);
+      const payloadInput: CollectionPayloadInput = {
+        general: data.general,
+        members: data.members.map((m) => ({ id: m.id })),
+      };
       const promise = isCreation
-        ? CollectionApi.postCollection(buildPayload(data, "CREATE")).then((newId: string) => {
+        ? CollectionApi.postCollection(buildPayload(payloadInput, "CREATE")).then((newId) => {
             queryClient.invalidateQueries({ queryKey: ["collections"] });
             navigate(`/concepts/collections/${newId}`);
           })
-        : CollectionApi.putCollection(data.general.id, buildPayload(data, "UPDATE")).then(() => {
-            queryClient.invalidateQueries({ queryKey: ["collections"] });
-            queryClient.invalidateQueries({ queryKey: ["collection", id] });
-            navigate(`/concepts/collections/${cleanId(id!)}`);
-          });
+        : CollectionApi.putCollection(data.general.id, buildPayload(payloadInput, "UPDATE")).then(
+            () => {
+              queryClient.invalidateQueries({ queryKey: ["collections"] });
+              queryClient.invalidateQueries({ queryKey: ["collection", id] });
+              navigate(`/concepts/collections/${cleanId(id!)}`);
+            },
+          );
 
       promise.catch(() => setIsSaving(false));
     },

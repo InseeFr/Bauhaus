@@ -235,7 +235,7 @@ describe("CollectionGeneral", () => {
         modified: "2024-01-15",
         creator: "DG75-L201",
         contributor: "DG75-L202",
-        isValidated: "true",
+        isValidated: true,
         descriptionLg1: "Description complète",
         descriptionLg2: "Complete description",
       };
@@ -291,7 +291,7 @@ describe("CollectionGeneral", () => {
     it("should render text content that is screen reader accessible", () => {
       const attr = {
         creator: "DG75-L201",
-        isValidated: "true",
+        isValidated: true,
         created: "2024-01-01",
       };
 

@@ -1,4 +1,3 @@
-import { Collection } from "../../../../../model/concepts/collection";
 import { renderWithRouterAndQuery } from "../../../../../tests/render";
 import { empty } from "../../../../utils/collection-general";
 import Collection_ from "./home";
@@ -20,7 +19,7 @@ describe("collection-edition-creation", () => {
     renderWithRouterAndQuery(
       <Collection_
         title=""
-        general={empty() as unknown as Collection}
+        general={empty()}
         members={[]}
         collectionList={[]}
         conceptList={[]}

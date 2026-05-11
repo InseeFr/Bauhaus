@@ -1,41 +1,35 @@
+import { CollectionGeneral, CollectionPayload } from "@model/concepts/collection";
+
 import { takeKeys } from "../../utils/take-keys";
 
-interface CollectionGeneralInput {
-  id?: string;
-  prefLabelLg1?: string;
-  prefLabelLg2?: string;
-  descriptionLg1?: string;
-  descriptionLg2?: string;
-  creator?: string;
-  contributor?: string;
-  created?: string;
+export interface CollectionMemberInput {
+  id: string;
 }
 
-interface CollectionInput {
-  general: CollectionGeneralInput;
-  members: { id: string }[];
+export interface CollectionPayloadInput {
+  general: CollectionGeneral;
+  members: CollectionMemberInput[];
 }
 
-const generalFieldsToKeepCreate: (keyof CollectionGeneralInput)[] = [
-  "id",
-  "creator",
-  "contributor",
-];
+const generalFieldsToKeepCreate: (keyof CollectionGeneral)[] = ["id", "creator", "contributor"];
 
-const generalFieldsToKeepUpdate: (keyof CollectionGeneralInput)[] = [
+const generalFieldsToKeepUpdate: (keyof CollectionGeneral)[] = [
   "id",
   "created",
   "creator",
   "contributor",
 ];
 
-function processGeneral(general: CollectionGeneralInput, keys: (keyof CollectionGeneralInput)[]) {
+function processGeneral(
+  general: CollectionGeneral,
+  keys: (keyof CollectionGeneral)[],
+): Omit<CollectionPayload, "conceptsIdentifiers"> {
   const extract = takeKeys(keys as string[]);
-  const base = extract(
-    general as unknown as Record<string, unknown>,
-  ) as Partial<CollectionGeneralInput>;
+  const base = extract(general as unknown as Record<string, unknown>) as Partial<CollectionGeneral>;
   return {
-    ...base,
+    id: base.id ?? "",
+    creator: base.creator ?? "",
+    contributor: base.contributor ?? undefined,
     labels: [
       { lang: "fr", value: general.prefLabelLg1 ?? "" },
       { lang: "en", value: general.prefLabelLg2 ?? "" },
@@ -47,19 +41,20 @@ function processGeneral(general: CollectionGeneralInput, keys: (keyof Collection
   };
 }
 
-function processMembers(members: { id: string }[]): string[] {
+function processMembers(members: CollectionMemberInput[]): string[] {
   return members.map(({ id }) => id);
 }
 
-export default function buildPayload(collection: CollectionInput, action: "CREATE" | "UPDATE") {
+export default function buildPayload(
+  collection: CollectionPayloadInput,
+  action: "CREATE" | "UPDATE",
+): CollectionPayload {
   const general =
     action === "CREATE"
       ? processGeneral(collection.general, generalFieldsToKeepCreate)
       : processGeneral(collection.general, generalFieldsToKeepUpdate);
-  const conceptsIdentifiers = processMembers(collection.members);
-
   return {
     ...general,
-    conceptsIdentifiers,
+    conceptsIdentifiers: processMembers(collection.members),
   };
 }

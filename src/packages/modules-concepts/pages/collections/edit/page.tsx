@@ -5,18 +5,14 @@ import { Loading, Saving } from "@components/loading";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { CollectionWithMembers } from "@model/concepts/collection";
+
 import D from "../../../../deprecated-locales";
-import { Collection } from "../../../../model/concepts/collection";
 import { useCollection } from "../../../hooks/useCollection";
 import { useCollections } from "../../../hooks/useCollections";
 import { useCollectionSave } from "../../../hooks/useCollectionSave";
 import { useConcepts } from "../../../hooks/useConcepts";
 import CollectionEditionCreation from "./components/home";
-
-interface CollectionWithMembers {
-  general: Collection;
-  members: { id: string; prefLabelLg1: string }[];
-}
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();

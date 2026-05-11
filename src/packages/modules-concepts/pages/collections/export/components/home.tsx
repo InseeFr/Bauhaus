@@ -2,6 +2,8 @@ import { Picker } from "@components/picker-page";
 
 import { useCollectionExporter } from "@utils/hooks/collections";
 
+import { CollectionExportFormat } from "@model/concepts/collection";
+
 import D from "../../../../../deprecated-locales/build-dictionary";
 import ExportButtons from "../../../../components/CollectionExportButtons";
 
@@ -28,9 +30,11 @@ const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>
       ValidationButton={({ selectedIds }) => (
         <ExportButtons
           disabled={selectedIds.length < 1}
-          exportHandler={(type: string, withConcepts: boolean, lang: "lg1" | "lg2" = "lg1") =>
-            exportCollection({ ids: selectedIds, type, withConcepts, lang })
-          }
+          exportHandler={(
+            type: CollectionExportFormat,
+            withConcepts: boolean,
+            lang: "lg1" | "lg2" = "lg1",
+          ) => exportCollection({ ids: selectedIds, type, withConcepts, lang })}
         />
       )}
     />

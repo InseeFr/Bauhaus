@@ -8,14 +8,8 @@ import { ConceptsApi } from "@sdk/index";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import { Collection } from "../../../../model/concepts/collection";
 import { useCollection } from "../../../hooks/useCollection";
 import CollectionVisualization from "./components/home";
-
-interface CollectionWithMembers {
-  general: Collection;
-  members: { id: string; prefLabelLg1?: string; prefLabelLg2?: string }[];
-}
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
@@ -43,7 +37,7 @@ export const Component = () => {
   if (saving) {
     return <Publishing />;
   }
-  const { general, members } = collection as unknown as CollectionWithMembers;
+  const { general, members } = collection;
 
   return (
     <CollectionVisualization
