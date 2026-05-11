@@ -31,6 +31,7 @@
         "errorLoadingCodesLists": "Error loading code lists",
         "fillFieldsTooltip": "Fill at least one field to add a code",
         "label": "Label",
+        "loadingCodes": "Loading codes...",
         "loadingCodesLists": "Loading code lists...",
         "moveDown": "Move down",
         "moveUp": "Move up",

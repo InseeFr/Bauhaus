@@ -316,4 +316,61 @@ describe("CodeListDataTable", () => {
     expect(screen.getByRole("table")).toBeInTheDocument();
     expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
   });
+
+  describe("readOnly mode", () => {
+    it("should hide the Add a code button when readOnly", () => {
+      render(
+        <CodeListDataTable
+          codeListLabel="Test Label"
+          codes={mockCodes}
+          onCodeListLabelChange={mockOnCodeListLabelChange}
+          onCellEdit={mockOnCellEdit}
+          onDeleteCode={mockOnDeleteCode}
+          onAddCode={mockOnAddCode}
+          onMoveCode={mockOnMoveCode}
+          readOnly
+        />,
+      );
+
+      expect(screen.queryByText("Ajouter un code")).not.toBeInTheDocument();
+    });
+
+    it("should hide the action menu when readOnly", () => {
+      render(
+        <CodeListDataTable
+          codeListLabel="Test Label"
+          codes={mockCodes}
+          onCodeListLabelChange={mockOnCodeListLabelChange}
+          onCellEdit={mockOnCellEdit}
+          onDeleteCode={mockOnDeleteCode}
+          onAddCode={mockOnAddCode}
+          onMoveCode={mockOnMoveCode}
+          readOnly
+        />,
+      );
+
+      expect(screen.queryByText("pi pi-ellipsis-v")).not.toBeInTheDocument();
+    });
+
+    it("should disable code list label and code inputs when readOnly", () => {
+      render(
+        <CodeListDataTable
+          codeListLabel="Test Label"
+          codes={mockCodes}
+          onCodeListLabelChange={mockOnCodeListLabelChange}
+          onCellEdit={mockOnCellEdit}
+          onDeleteCode={mockOnDeleteCode}
+          onAddCode={mockOnAddCode}
+          onMoveCode={mockOnMoveCode}
+          readOnly
+        />,
+      );
+
+      const inputs = screen.getAllByRole("textbox");
+      expect(inputs.length).toBeGreaterThan(0);
+      inputs.forEach((input) => {
+        expect(input).toHaveAttribute("readOnly");
+      });
+    });
+  });
 });

@@ -39,7 +39,7 @@ describe("useAllCodesLists", () => {
     vi.clearAllMocks();
   });
 
-  it("should combine physical and mutualized codes lists", async () => {
+  it("should combine physical and mutualized codes lists with origin marker", async () => {
     vi.mocked(DDIApi.getPhysicalCodesLists).mockResolvedValue(mockPhysicalCodesLists);
     vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
 
@@ -56,15 +56,17 @@ describe("useAllCodesLists", () => {
       agencyId: "fr.insee",
       id: "physical-1",
       label: "Liste physique 1",
+      mutualized: false,
     });
     expect(result.current.data).toContainEqual({
       agencyId: "fr.insee",
       id: "mutualized-1",
       label: "Liste mutualisée 1",
+      mutualized: true,
     });
   });
 
-  it("should deduplicate by agencyId-id (physical takes precedence)", async () => {
+  it("should deduplicate by agencyId-id (mutualized takes precedence)", async () => {
     vi.mocked(DDIApi.getPhysicalCodesLists).mockResolvedValue(mockPhysicalCodesLists);
     vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
 
@@ -78,7 +80,8 @@ describe("useAllCodesLists", () => {
 
     const commonItems = result.current.data.filter((item) => item.id === "common-1");
     expect(commonItems).toHaveLength(1);
-    expect(commonItems[0].label).toBe("Liste commune");
+    expect(commonItems[0].label).toBe("Liste commune mutualisée");
+    expect(commonItems[0].mutualized).toBe(true);
   });
 
   it("should return empty array when both queries fail", async () => {

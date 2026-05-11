@@ -13,14 +13,11 @@ export const useAllCodesLists = (agencyId: string, physicalInstanceId: string) =
     const uniqueMap = new Map<string, CodeListItem>();
 
     for (const item of physicalLists) {
-      uniqueMap.set(`${item.agencyId}-${item.id}`, item);
+      uniqueMap.set(`${item.agencyId}-${item.id}`, { ...item, mutualized: false });
     }
 
     for (const item of mutualizedLists) {
-      const key = `${item.agencyId}-${item.id}`;
-      if (!uniqueMap.has(key)) {
-        uniqueMap.set(key, item);
-      }
+      uniqueMap.set(`${item.agencyId}-${item.id}`, { ...item, mutualized: true });
     }
 
     return Array.from(uniqueMap.values());

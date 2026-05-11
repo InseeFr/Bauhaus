@@ -1,6 +1,8 @@
 import { useReducer, useEffect, useRef } from "react";
 import { Button } from "primereact/button";
+import { ProgressSpinner } from "primereact/progressspinner";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
@@ -15,9 +17,13 @@ import {
   createCode,
   createCategory,
   createLabel,
+  parseSelectedCodeListId,
+  getLocalizedText,
 } from "./CodeRepresentation.utils";
 import { useAppContext } from "../../../../application/app-context";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
+import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
 
 interface CodeRepresentationProps {
   representation?: CodeRepresentationType;
@@ -40,12 +46,64 @@ export const CodeRepresentation = ({
   const { properties } = useAppContext();
   const defaultAgencyId = properties.defaultAgencyId;
   const defaultLocale = useDefaultLocale();
+  const { id: physicalInstanceId = "", agencyId = "" } = useParams<{
+    id: string;
+    agencyId: string;
+  }>();
+  const { data: allCodesLists = [] } = useAllCodesLists(agencyId, physicalInstanceId);
   const [state, dispatch] = useReducer(codeRepresentationReducer, {
     ...initialState,
     codeListLabel: codeList?.Label?.Content?.["#text"] || "",
   });
 
   const { codeListLabel, codes, showDataTable, showReuseSelect, selectedCodeListId } = state;
+
+  const referencedCodeListAgency = codeList?.Agency ?? representation?.CodeListReference?.Agency;
+  const referencedCodeListId = codeList?.ID ?? representation?.CodeListReference?.ID;
+  const isReferencedListMutualized = Boolean(
+    referencedCodeListAgency &&
+    referencedCodeListId &&
+    allCodesLists.find(
+      (cl) => cl.agencyId === referencedCodeListAgency && cl.id === referencedCodeListId,
+    )?.mutualized,
+  );
+
+  const [selectedAgency, selectedListId] = parseSelectedCodeListId(selectedCodeListId);
+  const isSelectedListMutualized = Boolean(
+    selectedAgency &&
+    selectedListId &&
+    allCodesLists.find((cl) => cl.agencyId === selectedAgency && cl.id === selectedListId)
+      ?.mutualized,
+  );
+  const { data: mutualizedCodes, isLoading: isLoadingMutualizedCodes } = useMutualizedCodesList(
+    isSelectedListMutualized ? selectedAgency : "",
+    isSelectedListMutualized ? selectedListId : "",
+  );
+
+  useEffect(() => {
+    if (!mutualizedCodes || !isSelectedListMutualized) return;
+    const fetchedCodeList = mutualizedCodes.CodeList?.[0];
+    if (!fetchedCodeList) return;
+    const categoryLabelById = new Map(
+      (mutualizedCodes.Category ?? []).map((cat) => [
+        cat.ID,
+        getLocalizedText(cat.Label?.Content) ?? "",
+      ]),
+    );
+    const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
+      id: code.ID,
+      value: code.Value ?? "",
+      label: categoryLabelById.get(code.CategoryReference?.ID) ?? "",
+      categoryId: code.CategoryReference?.ID ?? "",
+    }));
+    dispatch({
+      type: "LOAD_REUSED_CODES",
+      payload: {
+        label: getLocalizedText(fetchedCodeList.Label?.Content) ?? "",
+        codes: rows,
+      },
+    });
+  }, [mutualizedCodes, isSelectedListMutualized]);
 
   // Track the codeList ID to avoid reinitializing on every codeList change
   const codeListIdRef = useRef<string | undefined>(codeList?.ID);
@@ -304,6 +362,12 @@ export const CodeRepresentation = ({
           }}
         />
       )}
+      {isLoadingMutualizedCodes && (
+        <div className="flex gap-2 align-items-center">
+          <ProgressSpinner style={{ width: "20px", height: "20px", margin: "0" }} strokeWidth="4" />
+          <span>{t("physicalInstance.view.code.loadingCodes")}</span>
+        </div>
+      )}
       {showDataTable && (
         <CodeListDataTable
           codeListLabel={codeListLabel}
@@ -313,6 +377,7 @@ export const CodeRepresentation = ({
           onDeleteCode={handleDeleteCode}
           onAddCode={handleAddCode}
           onMoveCode={handleMoveCode}
+          readOnly={isReferencedListMutualized || isSelectedListMutualized}
         />
       )}
     </div>

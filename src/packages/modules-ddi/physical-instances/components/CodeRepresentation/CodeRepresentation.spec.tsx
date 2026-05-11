@@ -51,15 +51,28 @@ vi.mock("react-router-dom", () => ({
   }),
 }));
 
+const mockUseAllCodesLists = vi.fn(() => ({
+  data: [
+    { id: "list-1", label: "Liste 1", agencyId: "fr.insee", mutualized: false },
+    { id: "list-2", label: "Liste 2", agencyId: "fr.insee", mutualized: false },
+  ],
+  isLoading: false,
+  error: null,
+}));
+
 vi.mock("../../../hooks/useAllCodesLists", () => ({
-  useAllCodesLists: () => ({
-    data: [
-      { id: "list-1", label: "Liste 1", agencyId: "fr.insee" },
-      { id: "list-2", label: "Liste 2", agencyId: "fr.insee" },
-    ],
-    isLoading: false,
-    error: null,
-  }),
+  useAllCodesLists: () => mockUseAllCodesLists(),
+}));
+
+const mockUseMutualizedCodesList = vi.fn((_agency: string, _id: string) => ({
+  data: undefined as any,
+  isLoading: false,
+  isSuccess: false,
+  error: null,
+}));
+
+vi.mock("../../../hooks/useMutualizedCodesList", () => ({
+  useMutualizedCodesList: (agency: string, id: string) => mockUseMutualizedCodesList(agency, id),
 }));
 
 vi.mock("primereact/inputtext", () => ({
@@ -193,6 +206,14 @@ describe("CodeRepresentation", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseAllCodesLists.mockReturnValue({
+      data: [
+        { id: "codelist-1", label: "Liste 1", agencyId: "fr.insee", mutualized: false },
+        { id: "list-2", label: "Liste 2", agencyId: "fr.insee", mutualized: false },
+      ],
+      isLoading: false,
+      error: null,
+    });
   });
 
   describe("initialization", () => {
@@ -510,6 +531,158 @@ describe("CodeRepresentation", () => {
         }),
         expect.anything(),
       );
+    });
+  });
+
+  describe("read-only for mutualized lists", () => {
+    it("should make code list inputs read-only when the referenced list is mutualized", () => {
+      mockUseAllCodesLists.mockReturnValue({
+        data: [
+          { id: "codelist-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true },
+        ],
+        isLoading: false,
+        error: null,
+      });
+
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+      expect(labelInput).toHaveAttribute("readOnly");
+      expect(screen.queryByText("Ajouter un code")).not.toBeInTheDocument();
+    });
+
+    it("should keep code list inputs editable when the referenced list is local", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+      expect(labelInput).not.toHaveAttribute("readOnly");
+      expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
+    });
+  });
+
+  describe("selection of a mutualized list", () => {
+    it("should display a spinner while the mutualized codes list is loading", () => {
+      mockUseAllCodesLists.mockReturnValue({
+        data: [{ id: "mut-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true }],
+        isLoading: false,
+        error: null,
+      });
+
+      const loadingResult = {
+        data: undefined as any,
+        isLoading: true,
+        isSuccess: false,
+        error: null,
+      };
+      const idleResult = {
+        data: undefined as any,
+        isLoading: false,
+        isSuccess: false,
+        error: null,
+      };
+      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+        agency === "fr.insee" && id === "mut-1" ? loadingResult : idleResult,
+      );
+
+      render(
+        <CodeRepresentation
+          representation={undefined}
+          codeList={undefined}
+          categories={[]}
+          onChange={mockOnChange}
+        />,
+      );
+
+      fireEvent.click(screen.getByText("Réutiliser"));
+      fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+        target: { value: "fr.insee-mut-1" },
+      });
+
+      expect(screen.getByTestId("progress-spinner")).toBeInTheDocument();
+      expect(screen.queryByTestId("data-table")).not.toBeInTheDocument();
+    });
+
+    it("should fetch and display codes read-only after selecting a mutualized list", () => {
+      mockUseAllCodesLists.mockReturnValue({
+        data: [{ id: "mut-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true }],
+        isLoading: false,
+        error: null,
+      });
+
+      const mutualizedData = {
+        CodeList: [
+          {
+            Agency: "fr.insee",
+            ID: "mut-1",
+            Label: { Content: { "#text": "Liste mutualisée" } },
+            Code: [
+              {
+                ID: "code-1",
+                Value: "01",
+                CategoryReference: { ID: "cat-1" },
+              },
+            ],
+          },
+        ],
+        Category: [
+          {
+            ID: "cat-1",
+            Label: { Content: { "#text": "Agriculture" } },
+          },
+        ],
+      };
+      const idleResult = {
+        data: undefined,
+        isLoading: false,
+        isSuccess: false,
+        error: null,
+      };
+      const successResult = {
+        data: mutualizedData,
+        isLoading: false,
+        isSuccess: true,
+        error: null,
+      };
+      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+        agency === "fr.insee" && id === "mut-1" ? successResult : idleResult,
+      );
+
+      render(
+        <CodeRepresentation
+          representation={undefined}
+          codeList={undefined}
+          categories={[]}
+          onChange={mockOnChange}
+        />,
+      );
+
+      fireEvent.click(screen.getByText("Réutiliser"));
+
+      const dropdown = screen.getByTestId("codes-list-dropdown");
+      fireEvent.change(dropdown, { target: { value: "fr.insee-mut-1" } });
+
+      const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
+      const labelInputs = screen.getAllByPlaceholderText("Libellé") as HTMLInputElement[];
+      expect(valueInputs.some((i) => i.value === "01")).toBe(true);
+      expect(labelInputs.some((i) => i.value === "Agriculture")).toBe(true);
+      // read-only mode: no "Ajouter un code" button
+      expect(screen.queryByText("Ajouter un code")).not.toBeInTheDocument();
+      // dropdown stays visible so the user can change selection
+      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
     });
   });
 });

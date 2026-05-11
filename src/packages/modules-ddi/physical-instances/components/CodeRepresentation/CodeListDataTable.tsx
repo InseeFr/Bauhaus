@@ -22,6 +22,7 @@ interface CodeListDataTableProps {
   onDeleteCode: (codeId: string) => void;
   onAddCode: (value: string, label: string) => void;
   onMoveCode?: (codeId: string, direction: "up" | "down") => void;
+  readOnly?: boolean;
 }
 
 export const CodeListDataTable = ({
@@ -32,6 +33,7 @@ export const CodeListDataTable = ({
   onDeleteCode,
   onAddCode,
   onMoveCode,
+  readOnly = false,
 }: Readonly<CodeListDataTableProps>) => {
   const { t } = useTranslation();
   const overlayRefs = useRef<Map<string, OverlayPanel | null>>(new Map());
@@ -67,6 +69,7 @@ export const CodeListDataTable = ({
         placeholder={t("physicalInstance.view.code.value")}
         className="w-full"
         aria-label={t("physicalInstance.view.code.value")}
+        readOnly={readOnly}
         ref={(el) => {
           if (el) {
             inputRefs.current.set(rowData.id, el);
@@ -85,6 +88,7 @@ export const CodeListDataTable = ({
         placeholder={t("physicalInstance.view.code.label")}
         className="w-full"
         aria-label={t("physicalInstance.view.code.label")}
+        readOnly={readOnly}
       />
     );
   };
@@ -177,6 +181,7 @@ export const CodeListDataTable = ({
           autoFocus
           value={codeListLabel}
           onChange={(e) => onCodeListLabelChange(e.target.value)}
+          readOnly={readOnly}
         />
       </div>
       <DataTable
@@ -196,19 +201,23 @@ export const CodeListDataTable = ({
           header={t("physicalInstance.view.code.label")}
           body={(rowData) => labelEditor(rowData)}
         />
-        <Column
-          body={(rowData, options) => actionBodyTemplate(rowData, options)}
-          style={{ width: "5rem" }}
-        />
+        {!readOnly && (
+          <Column
+            body={(rowData, options) => actionBodyTemplate(rowData, options)}
+            style={{ width: "5rem" }}
+          />
+        )}
       </DataTable>
-      <Button
-        type="button"
-        icon="pi pi-plus"
-        label={t("physicalInstance.view.code.addCode")}
-        outlined
-        onClick={handleAddCode}
-        className="mt-2"
-      />
+      {!readOnly && (
+        <Button
+          type="button"
+          icon="pi pi-plus"
+          label={t("physicalInstance.view.code.addCode")}
+          outlined
+          onClick={handleAddCode}
+          className="mt-2"
+        />
+      )}
     </>
   );
 };

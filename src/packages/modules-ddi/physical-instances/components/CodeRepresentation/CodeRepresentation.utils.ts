@@ -85,3 +85,17 @@ export const createLabel = (text: string, locale: string) => ({
     "#text": text,
   },
 });
+
+export const parseSelectedCodeListId = (selectedId: string | null): [string, string] => {
+  if (!selectedId) return ["", ""];
+  const [agency, ...idParts] = selectedId.split("-");
+  return [agency ?? "", idParts.join("-")];
+};
+
+export const getLocalizedText = (content: unknown): string | undefined => {
+  if (!content) return undefined;
+  if (Array.isArray(content)) {
+    return (content[0] as { "#text"?: string })?.["#text"];
+  }
+  return (content as { "#text"?: string })["#text"];
+};
