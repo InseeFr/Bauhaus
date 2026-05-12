@@ -1,7 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 import { TextInput } from "@components/form/input";
 import { Pagination } from "@components/pagination";
-
-import D from "../../../../../../deprecated-locales";
 
 interface SearchConceptsByLabelTypes {
   searchLabel: string;
@@ -14,12 +14,13 @@ const SearchConceptsByLabel = ({
   handleSearch,
   hitEls,
 }: Readonly<SearchConceptsByLabelTypes>) => {
+  const { t } = useTranslation();
   return (
     <div>
       <TextInput
         value={searchLabel}
         onChange={(e) => handleSearch(e.target.value)}
-        placeholder={D.searchLabelPlaceholder}
+        placeholder={t("common.searchLabelPlaceholder")}
       />
       <Pagination itemEls={hitEls} />
     </div>

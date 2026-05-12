@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Loading, Saving } from "@components/loading";
 
@@ -7,7 +8,6 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { CollectionWithMembers } from "@model/concepts/collection";
 
-import D from "../../../../deprecated-locales";
 import { useCollection } from "../../../hooks/useCollection";
 import { useCollections } from "../../../hooks/useCollections";
 import { useCollectionSave } from "../../../hooks/useCollectionSave";
@@ -15,6 +15,7 @@ import { useConcepts } from "../../../hooks/useConcepts";
 import CollectionEditionCreation from "./components/home";
 
 export const Component = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const isCreation = !id;
 
@@ -27,7 +28,7 @@ export const Component = () => {
 
   const { general, members = [] } = (collection ?? {}) as Partial<CollectionWithMembers>;
 
-  useTitle(D.collectionsTitle, general?.prefLabelLg1);
+  useTitle(t("collection.title"), general?.prefLabelLg1);
 
   if (isSaving) {
     return <Saving />;
@@ -38,7 +39,7 @@ export const Component = () => {
 
   return (
     <CollectionEditionCreation
-      title={isCreation ? D.createCollectionTitle : D.updateCollectionTitle}
+      title={isCreation ? t("collection.create.title") : t("collection.update.title")}
       subtitle={isCreation ? undefined : general?.prefLabelLg1}
       creation={isCreation}
       general={general}

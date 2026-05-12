@@ -6,7 +6,7 @@ import CollectionGeneral from "./general";
 // Mock des dépendances
 vi.mock("../../../../../deprecated-locales", () => ({
   D1: {
-    globalInformationsTitle: "Informations globales",
+    globalInformationsTitle: "Informations générales",
     creatorTitle: "Créateur",
     contributorTitle: "Gestionnaire",
     isCollectionValidTitle: "État de la collection",
@@ -52,7 +52,7 @@ describe("CollectionGeneral", () => {
 
       render(<CollectionGeneral attr={attr} />, { wrapper: createWrapper() });
 
-      expect(screen.getByText("Informations globales")).toBeInTheDocument();
+      expect(screen.getByText("Informations générales")).toBeInTheDocument();
     });
 
     it("should render creation and update dates", () => {
@@ -77,7 +77,7 @@ describe("CollectionGeneral", () => {
 
       render(<CollectionGeneral attr={attr} />, { wrapper: createWrapper() });
 
-      expect(screen.getByText(/Créateur/)).toBeInTheDocument();
+      expect(screen.getByText(/Propriétaire/)).toBeInTheDocument();
       expect(screen.getByText(/INSEE/)).toBeInTheDocument();
     });
 
@@ -99,7 +99,7 @@ describe("CollectionGeneral", () => {
 
       render(<CollectionGeneral attr={attr} />, { wrapper: createWrapper() });
 
-      expect(screen.getByText(/Créateur/)).toBeInTheDocument();
+      expect(screen.getByText(/Propriétaire/)).toBeInTheDocument();
     });
 
     it("should render creators as list items when multiple", () => {
@@ -112,7 +112,7 @@ describe("CollectionGeneral", () => {
       });
 
       // Vérifie que les créateurs sont rendus
-      expect(screen.getByText(/Créateur/)).toBeInTheDocument();
+      expect(screen.getByText(/Propriétaire/)).toBeInTheDocument();
 
       // Vérifie la présence d'une liste (comportement, pas structure DOM)
       const lists = screen.getAllByRole("list");
@@ -146,7 +146,7 @@ describe("CollectionGeneral", () => {
       });
 
       // Les champs vides ne doivent pas être rendus
-      expect(screen.queryByText("Créateur")).not.toBeInTheDocument();
+      expect(screen.queryByText("Propriétaire")).not.toBeInTheDocument();
       expect(screen.queryByText("Gestionnaire")).not.toBeInTheDocument();
     });
 
@@ -169,7 +169,7 @@ describe("CollectionGeneral", () => {
       render(<CollectionGeneral attr={attr} />, { wrapper: createWrapper() });
 
       expect(screen.getByText(/État de la collection/)).toBeInTheDocument();
-      expect(screen.getByText(/Validé/)).toBeInTheDocument();
+      expect(screen.getByText(/Publiée/)).toBeInTheDocument();
     });
 
     it("should not render empty fields", () => {
@@ -245,13 +245,13 @@ describe("CollectionGeneral", () => {
       });
 
       // Vérifier que tous les champs sont présents
-      expect(screen.getByText("Informations globales")).toBeInTheDocument();
-      expect(screen.getByText(/Créateur/)).toBeInTheDocument();
+      expect(screen.getByText("Informations générales")).toBeInTheDocument();
+      expect(screen.getByText(/Propriétaire/)).toBeInTheDocument();
       expect(screen.getByText(/INSEE/)).toBeInTheDocument();
       expect(screen.getByText(/Gestionnaire/)).toBeInTheDocument();
       expect(screen.getByText(/DARES/)).toBeInTheDocument();
       expect(screen.getByText(/État de la collection/)).toBeInTheDocument();
-      expect(screen.getByText(/Validé/)).toBeInTheDocument();
+      expect(screen.getByText(/Publiée/)).toBeInTheDocument();
       expect(screen.getByText("Description complète")).toBeInTheDocument();
       expect(screen.getByText("Complete description")).toBeInTheDocument();
     });
@@ -264,7 +264,7 @@ describe("CollectionGeneral", () => {
       });
 
       // Vérifie que le composant se rend sans erreur
-      expect(screen.getByText("Informations globales")).toBeInTheDocument();
+      expect(screen.getByText("Informations générales")).toBeInTheDocument();
     });
   });
 
@@ -300,9 +300,9 @@ describe("CollectionGeneral", () => {
       });
 
       // Vérifie que le texte important est accessible
-      expect(screen.getByText("Informations globales")).toBeVisible();
-      expect(screen.getByText(/Créateur/)).toBeVisible();
-      expect(screen.getByText(/Validé/)).toBeVisible();
+      expect(screen.getByText("Informations générales")).toBeVisible();
+      expect(screen.getByText(/Propriétaire/)).toBeVisible();
+      expect(screen.getByText(/Publiée/)).toBeVisible();
     });
   });
 
@@ -320,7 +320,7 @@ describe("CollectionGeneral", () => {
       // isValidated undefined ne doit pas être rendu
       expect(screen.queryByText(/État de la collection/)).not.toBeInTheDocument();
       expect(screen.queryByText(/Provisoire/)).not.toBeInTheDocument();
-      expect(screen.queryByText(/Validé/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Publiée/)).not.toBeInTheDocument();
     });
 
     it("should handle very long organization names", () => {
@@ -334,7 +334,7 @@ describe("CollectionGeneral", () => {
       });
 
       // Le composant doit se rendre sans erreur même avec de longs identifiants
-      expect(screen.getByText(/Créateur/)).toBeInTheDocument();
+      expect(screen.getByText(/Propriétaire/)).toBeInTheDocument();
     });
 
     it("should handle special characters in organization IDs", () => {
@@ -348,7 +348,7 @@ describe("CollectionGeneral", () => {
       });
 
       // Les caractères spéciaux doivent être gérés correctement
-      expect(screen.getByText(/Créateur/)).toBeInTheDocument();
+      expect(screen.getByText(/Propriétaire/)).toBeInTheDocument();
       expect(screen.getByText(/Gestionnaire/)).toBeInTheDocument();
     });
 
@@ -363,7 +363,7 @@ describe("CollectionGeneral", () => {
       });
 
       // Les chaînes contenant uniquement des espaces doivent être traitées comme vides
-      expect(screen.queryByText(/Créateur/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Propriétaire/)).not.toBeInTheDocument();
       expect(screen.queryByText(/Gestionnaire/)).not.toBeInTheDocument();
     });
 
@@ -377,7 +377,7 @@ describe("CollectionGeneral", () => {
       });
 
       // Le composant doit gérer les valeurs nulles dans les tableaux
-      expect(screen.getByText(/Créateur/)).toBeInTheDocument();
+      expect(screen.getByText(/Propriétaire/)).toBeInTheDocument();
     });
 
     it("should handle extremely long description text", () => {

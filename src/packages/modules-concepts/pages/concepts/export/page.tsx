@@ -1,14 +1,16 @@
+import { useTranslation } from "react-i18next";
+
 import { Exporting, Loading } from "@components/loading";
 import { Picker } from "@components/picker-page";
 
-import D from "../../../../deprecated-locales";
 import { useConceptExporter } from "../../../hooks/useConceptExporter";
 import { useTitle } from "../../../../utils/hooks/useTitle";
 import ExportButtons from "../../../components/CollectionExportButtons";
 import { useConcepts } from "../../../hooks/useConcepts";
 
 export const Component = () => {
-  useTitle(D.conceptsTitle, D.exportTitle);
+  const { t } = useTranslation();
+  useTitle(t("concept.title"), t("common.exportTitle"));
 
   const { mutate: exportConcept, isPending: isExporting } = useConceptExporter();
   const { isLoading, concepts } = useConcepts();
@@ -23,9 +25,9 @@ export const Component = () => {
   return (
     <Picker
       items={concepts}
-      title={D.exportTitle}
-      panelTitle={D.conceptsExportPanelTitle}
-      labelWarning={D.hasNotConceptToExport}
+      title={t("common.exportTitle")}
+      panelTitle={t("concept.export.panelTitle")}
+      labelWarning={t("concept.export.hasNot")}
       handleAction={() => {}}
       context="concepts"
       ValidationButton={({ selectedIds }) => (

@@ -1,4 +1,36 @@
 {
+  "common": {
+    "help": "Aide",
+    "advancedSearch": "Recherche avancée",
+    "administrationTitle": "Administration",
+    "exportTitle": "Export",
+    "globalInformationsTitle": "Informations générales",
+    "linksTitle": "Liens",
+    "notesTitle": "Notes",
+    "identifiantTitle": "Identifiant",
+    "creatorTitle": "Propriétaire",
+    "disseminationStatusTitle": "Statut de diffusion",
+    "requiredFields": "Champs requis",
+    "invalidId": "Identifiant invalide",
+    "duplicatedLabel": "Le libellé choisi existe déjà",
+    "searchLabelPlaceholder": "Libellé...",
+    "searchAltLabelPlaceholder": "Libellé alternatif...",
+    "searchDefinitionPlaceholder": "Rechercher dans la définition...",
+    "validationStatusPlaceholder": "Sélectionnez le statut de publication...",
+    "stampsPlaceholder": "Sélectionnez un timbre...",
+    "labelTitle": "Libellé",
+    "descriptionTitle": "Description",
+    "btnAdd": "Ajouter",
+    "btnCancel": "Annuler",
+    "btnDelete": "Supprimer",
+    "btnValid": "Publier",
+    "btnMinorVersion": "Ecraser la version",
+    "btnMajorVersion": "Nouvelle version",
+    "btnOdsExporter": "Exporter en ODS",
+    "btnOdtLg1Exporter": "Exporter en ODT (Première langue)",
+    "btnOdtLg2Exporter": "Exporter en ODT (Seconde langue)",
+    "btnCollectionConceptExporter": "Exporter les fiches des concepts de la sélection"
+  },
   "dashboard": {
     "pageTitle": "Tableau de bord des concepts",
     "administrationTitle": "Administration",
@@ -44,20 +76,92 @@
     }
   },
   "collection": {
-    "membersPanelTitle": "Concepts membres de la collection ({{size}})"
+    "title": "Collections",
+    "membersPanelTitle": "Concepts membres de la collection ({{size}})",
+    "general": {
+      "contributorTitle": "Gestionnaire",
+      "isCollectionValidTitle": "État de la collection",
+      "statusValid": "Publiée",
+      "statusProvisional": "Provisoire"
+    },
+    "search": {
+      "title": "Collections - Recherche"
+    },
+    "create": {
+      "title": "Créer une nouvelle collection"
+    },
+    "update": {
+      "title": "Modifier la collection"
+    },
+    "export": {
+      "panelTitle": "Collections à exporter",
+      "hasNot": "Ajouter au moins une collection à exporter"
+    },
+    "validation": {
+      "title": "Publication des collections provisoires",
+      "panelTitle": "Collections à publier",
+      "hasNot": "Ajouter au moins une collection à publier"
+    }
   },
   "concept": {
+    "title": "Concepts",
     "error": {
       "title": "Erreur",
       "notFound": "Impossible de trouver ce concept"
     },
-    "title": "Concepts",
     "searchPlaceholder": "Libellé (ou libellé alternatif)...",
     "advancedSearch": "Concepts - Recherche",
+    "links": {
+      "narrowerTitle": "A pour enfant",
+      "broaderTitle": "A pour parent",
+      "referencesTitle": "Référence",
+      "replacesTitle": "Remplace",
+      "relatedTitle": "Est lié à",
+      "equivalentTitle": "Correspond à",
+      "replacedByMasc": "Est remplacé par"
+    },
+    "search": {
+      "title": "Concepts - Recherche"
+    },
+    "create": {
+      "title": "Créer un nouveau concept"
+    },
+    "update": {
+      "title": "Modifier le concept"
+    },
     "edit": {
       "labelTitle": "Libellé",
       "requiredFields": "Champs requis",
-      "collectionLabel": "Collection"
+      "collectionLabel": "Collection",
+      "btnNewLink": "Nouveau lien"
+    },
+    "notes": {
+      "emptyDefinitionLg1": "Le concept doit nécessairement comporter une définition",
+      "emptyScopeNoteLg1": "Le statut de diffusion étant public, la définition courte française doit être renseignée",
+      "tooLongScopeNote": "La définition courte est limitée à {{max}} caractères",
+      "conceptsScopeNote": "Définition courte",
+      "conceptsDefinition": "Définition",
+      "conceptsEditorialNote": "Note éditoriale",
+      "conceptsChangeNote": "Note de changement"
+    },
+    "export": {
+      "panelTitle": "Concepts à exporter",
+      "hasNot": "Ajouter au moins un concept à exporter"
+    },
+    "validation": {
+      "title": "Publication des concepts provisoires",
+      "panelTitle": "Concepts à publier",
+      "hasNot": "Ajouter au moins un concept à publier"
+    },
+    "versioning": {
+      "title": "Veuillez sélectionner le type de version",
+      "body": "<p>Les notes du concept «<b>{{label}}</b>» ont été modifiées.</p><p>Voulez-vous créer une nouvelle version, ou écraser les données précédentes ?</p>",
+      "footer": "<p>Pour créer une nouvelle version, la note de changement doit être documentée :</p><ul><li><p>La note ne peut être vide</p></li><li><p>La note doit être différente de celle de la version précédente</p></li></ul>"
+    },
+    "dateMessage": {
+      "creation": "Concept créé entre le",
+      "update": "Concept modifié entre le",
+      "transition": "et le"
     },
     "general": {
       "globalInformationsTitle": "Informations générales",

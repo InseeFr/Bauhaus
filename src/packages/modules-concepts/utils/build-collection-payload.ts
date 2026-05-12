@@ -26,7 +26,7 @@ function processGeneral(
 ): Omit<CollectionPayload, "conceptsIdentifiers"> {
   const extract = takeKeys(keys as string[]);
   const base = extract(general as unknown as Record<string, unknown>) as Partial<CollectionGeneral>;
-  return {
+  const payload: Omit<CollectionPayload, "conceptsIdentifiers"> = {
     id: base.id ?? "",
     creator: base.creator ?? "",
     contributor: base.contributor ?? undefined,
@@ -39,6 +39,10 @@ function processGeneral(
       { lang: "en", value: general.descriptionLg2 ?? "" },
     ],
   };
+  if (base.created) {
+    payload.created = base.created;
+  }
+  return payload;
 }
 
 function processMembers(members: CollectionMemberInput[]): string[] {

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { CheckSecondLang } from "@components/check-second-lang";
 import { Exporting } from "@components/loading";
 import { PageSubtitle } from "@components/page-sub-title";
@@ -8,7 +10,6 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
-import D from "../../../../../deprecated-locales";
 import { Menu } from "../menu";
 import CollectionGeneralView from "./general";
 import CollectionMembers from "./members";
@@ -28,7 +29,8 @@ const CollectionVisualization = ({
   secondLang,
   validateCollection,
 }: Readonly<CollectionVisualizationProps>) => {
-  useTitle(D.collectionsTitle, general.prefLabelLg1);
+  const { t } = useTranslation();
+  useTitle(t("collection.title"), general.prefLabelLg1);
 
   const { isValidated } = general;
   const { mutate: exportCollection, isPending: isExporting } = useCollectionExporter();

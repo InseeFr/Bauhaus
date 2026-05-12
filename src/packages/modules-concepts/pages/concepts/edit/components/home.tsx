@@ -1,12 +1,12 @@
 import { TabPanel, TabView } from "primereact/tabview";
 import { Component } from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
 import { PageTitle } from "@components/page-title";
 
 import { VERSIONING, NO_VERSIONING } from "@sdk/constants";
 
-import D from "../../../../../deprecated-locales";
 import { ConceptGeneral, ConceptNotes, Link } from "../../../../../model/concepts/concept";
 import isVersioningPossible from "../../../../utils/is-versioning-possible";
 import { areNotesImpactingVersionChanged } from "../../../../utils/notes";
@@ -37,7 +37,7 @@ type SaveFn = (
   data?: ConceptData,
 ) => void;
 
-interface ConceptEditionCreationProps {
+interface ConceptEditionCreationProps extends WithTranslation {
   id?: string;
   creation?: boolean;
   title: string;
@@ -204,33 +204,41 @@ class ConceptEditionCreation extends Component<
   };
 
   render() {
-    const { maxLengthScopeNote, title, subtitle, creation, submitting } = this.props;
+    const { maxLengthScopeNote, title, subtitle, creation, submitting, t } = this.props;
 
     const {
       showModal,
       data: { general, notes, conceptsWithLinks },
     } = this.state;
 
+    const versioningPossible = this.isVersioningPossible();
     const modalButtons: ModalButton[] = [
       {
-        label: D.btnMinorVersion,
-        action: () => this.closeModal(NO_VERSIONING),
-        style: "primary",
-        disabled: false,
-      },
-      {
-        label: D.btnCancel,
+        label: t("common.btnCancel"),
         action: () => this.closeModal(),
         style: "default",
         disabled: false,
       },
       {
-        label: D.btnMajorVersion,
+        label: t("common.btnMinorVersion"),
+        action: () => this.closeModal(NO_VERSIONING),
+        style: "primary",
+        disabled: false,
+      },
+      {
+        label: t("common.btnMajorVersion"),
         action: () => this.closeModal(VERSIONING),
         style: "primary",
-        disabled: !this.isVersioningPossible(),
+        disabled: !versioningPossible,
       },
     ];
+
+    const modalBody = versioningPossible
+      ? t("concept.versioning.body", { label: general.prefLabelLg1 })
+      : `${t("concept.versioning.body", { label: general.prefLabelLg1 })}` +
+        `<div class="alert alert-warning" style="margin-top: 1em; text-align: left;">` +
+        `${t("concept.versioning.footer")}` +
+        `</div>`;
 
     const errors = validate(
       general,
@@ -248,14 +256,14 @@ class ConceptEditionCreation extends Component<
             <Menu errors={displayedErrors} handleSave={this.handleSave} submitting={submitting} />
           )}
           <TabView>
-            <TabPanel header={D.globalInformationsTitle}>
+            <TabPanel header={t("common.globalInformationsTitle")}>
               <GeneralEdition
                 general={general}
                 handleChange={this.handleChangeGeneral}
                 errorMessage={displayedErrors}
               />
             </TabPanel>
-            <TabPanel header={D.notesTitle}>
+            <TabPanel header={t("common.notesTitle")}>
               <NotesEdition
                 notes={notes}
                 handleChange={this.handleChangeNotes}
@@ -264,7 +272,7 @@ class ConceptEditionCreation extends Component<
                 errorMessage={displayedErrors}
               />
             </TabPanel>
-            <TabPanel header={D.linksTitle}>
+            <TabPanel header={t("common.linksTitle")}>
               <LinksEdition
                 conceptsWithLinks={conceptsWithLinks}
                 currentId={this.state.id}
@@ -280,9 +288,8 @@ class ConceptEditionCreation extends Component<
             <ModalRmes
               id="versioning-modal"
               isOpen={showModal}
-              title={D.conceptVersioningTitle}
-              body={D.conceptVersioningBody(general.prefLabelLg1)}
-              footer={this.isVersioningPossible() ? "" : D.conceptVersioningFooter}
+              title={t("concept.versioning.title")}
+              body={modalBody as unknown as Node}
               modalButtons={modalButtons}
               closeCancel={() => this.closeModal()}
             />
@@ -293,4 +300,4 @@ class ConceptEditionCreation extends Component<
   }
 }
 
-export default ConceptEditionCreation;
+export default withTranslation()(ConceptEditionCreation);

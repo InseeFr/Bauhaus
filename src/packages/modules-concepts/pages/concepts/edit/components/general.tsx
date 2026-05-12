@@ -105,8 +105,8 @@ function ConceptGeneralEdition({
         />
       </Row>
       <InputMulti
-        inputLg1={Array.isArray(altLabelLg1) ? altLabelLg1 : altLabelLg1 ? [altLabelLg1] : []}
-        inputLg2={Array.isArray(altLabelLg2) ? altLabelLg2 : altLabelLg2 ? [altLabelLg2] : []}
+        inputLg1={altLabelLg1 ?? []}
+        inputLg2={altLabelLg2 ?? []}
         labelLg1={`${t("concept.general.altLabelTitle")} (${lg1})`}
         labelLg2={`${t("concept.general.altLabelTitle")} (${lg2})`}
         handleChangeLg1={(value: string[]) => handlers.altLabelLg1?.(value)}

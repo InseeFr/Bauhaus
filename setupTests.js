@@ -1,5 +1,13 @@
 import '@testing-library/jest-dom';
 import { vi, beforeEach } from 'vitest';
+import i18n from './src/packages/modules-concepts/i18n';
+
+// Force language and re-trigger resource binding so react-i18next picks up
+// the modules-concepts namespace, even when other module i18n initializers
+// (modules-datasets/operations/etc.) run later and overwrite the singleton.
+beforeEach(() => {
+  i18n.changeLanguage('en');
+});
 
 // Clear all mocks before each test globally
 beforeEach(() => {

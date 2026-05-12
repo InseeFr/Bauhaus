@@ -192,7 +192,7 @@ describe("Collection Validation Home Container", () => {
         expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
       });
 
-      expect(useTitle).toHaveBeenCalledWith("Collections", "Valider");
+      expect(useTitle).toHaveBeenCalledWith("Collections", "Publish");
     });
   });
 

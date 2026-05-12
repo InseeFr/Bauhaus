@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ClientSideError } from "@components/errors-bloc";
@@ -5,7 +7,6 @@ import { InputRmes } from "@components/input-rmes";
 import { Row } from "@components/layout";
 import { RequiredIcon } from "@components/required-icon";
 
-import D, { D1, D2 } from "../../../../../deprecated-locales";
 import { fieldsWithRequired } from "../../../../utils/collection-general";
 
 interface CollectionGeneral {
@@ -46,6 +47,9 @@ function CollectionGeneralEdition({
   errors,
   creation,
 }: Readonly<CollectionGeneralEditionProps>) {
+  const { t, i18n } = useTranslation();
+  const t1 = i18n.getFixedT("fr");
+  const t2 = i18n.getFixedT("en");
   const { id, prefLabelLg1, prefLabelLg2, creator, contributor, descriptionLg1, descriptionLg2 } =
     general;
 
@@ -54,14 +58,14 @@ function CollectionGeneralEdition({
   return (
     <div>
       <h4 className="text-center">
-        ( <RequiredIcon /> : {D.requiredFields})
+        ( <RequiredIcon /> : {t("common.requiredFields")})
       </h4>
 
       {creation && (
         <Row>
           <InputRmes
             colMd={12}
-            label={D.identifiantTitle}
+            label={t("common.identifiantTitle")}
             star
             value={id ?? ""}
             handleChange={(value: string) => handlers.id?.(value)}
@@ -74,7 +78,7 @@ function CollectionGeneralEdition({
       <Row>
         <InputRmes
           colMd={6}
-          label={D1.labelTitle}
+          label={t1("common.labelTitle")}
           star
           value={prefLabelLg1 ?? ""}
           handleChange={(value: string) => handlers.prefLabelLg1?.(value)}
@@ -83,7 +87,7 @@ function CollectionGeneralEdition({
         />
         <InputRmes
           colMd={6}
-          label={D2.labelTitle}
+          label={t2("common.labelTitle")}
           hiddenStar
           value={prefLabelLg2 ?? ""}
           handleChange={(value: string) => handlers.prefLabelLg2?.(value)}
@@ -110,14 +114,14 @@ function CollectionGeneralEdition({
       <Row>
         <InputRmes
           colMd={6}
-          label={D1.descriptionTitle}
+          label={t1("common.descriptionTitle")}
           value={descriptionLg1 ?? ""}
           handleChange={(value: string) => handlers.descriptionLg1?.(value)}
           className="w-100"
         />
         <InputRmes
           colMd={6}
-          label={D2.descriptionTitle}
+          label={t2("common.descriptionTitle")}
           value={descriptionLg2 ?? ""}
           handleChange={(value: string) => handlers.descriptionLg2?.(value)}
           className="w-100"

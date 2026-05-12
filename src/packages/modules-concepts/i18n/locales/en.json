@@ -1,4 +1,36 @@
 {
+  "common": {
+    "help": "Help",
+    "advancedSearch": "Advanced search",
+    "administrationTitle": "Administration",
+    "exportTitle": "Export",
+    "globalInformationsTitle": "General information",
+    "linksTitle": "Links",
+    "notesTitle": "Notes",
+    "identifiantTitle": "Identifier",
+    "creatorTitle": "Owner",
+    "disseminationStatusTitle": "Dissemination status",
+    "requiredFields": "Required fields",
+    "invalidId": "Invalid identifier",
+    "duplicatedLabel": "This label already exists",
+    "searchLabelPlaceholder": "Label...",
+    "searchAltLabelPlaceholder": "Alternative label...",
+    "searchDefinitionPlaceholder": "Search in the definition ...",
+    "validationStatusPlaceholder": "Select publication status...",
+    "stampsPlaceholder": "Select stamp...",
+    "labelTitle": "Label",
+    "descriptionTitle": "Description",
+    "btnAdd": "Add",
+    "btnCancel": "Cancel",
+    "btnDelete": "Delete",
+    "btnValid": "Publish",
+    "btnMinorVersion": "Overwrite version",
+    "btnMajorVersion": "New version",
+    "btnOdsExporter": "Export as ODS",
+    "btnOdtLg1Exporter": "Export as ODT (First language)",
+    "btnOdtLg2Exporter": "Export as ODT (Second language)",
+    "btnCollectionConceptExporter": "Export the concepts of the selected collections"
+  },
   "dashboard": {
     "pageTitle": "Concepts dashboard",
     "administrationTitle": "Administration",
@@ -44,20 +76,92 @@
     }
   },
   "collection": {
-    "membersPanelTitle": "Collection concept members ({{size}})"
+    "title": "Collections",
+    "membersPanelTitle": "Collection concept members ({{size}})",
+    "general": {
+      "contributorTitle": "Contributor",
+      "isCollectionValidTitle": "Publication status",
+      "statusValid": "Published",
+      "statusProvisional": "Provisional"
+    },
+    "search": {
+      "title": "Collections - Search"
+    },
+    "create": {
+      "title": "Create collection"
+    },
+    "update": {
+      "title": "Update collection"
+    },
+    "export": {
+      "panelTitle": "Collections to export",
+      "hasNot": "Add at least one collection to export"
+    },
+    "validation": {
+      "title": "Publication of the provisional collections",
+      "panelTitle": "Collections to publish",
+      "hasNot": "Add at least one collection to publish"
+    }
   },
   "concept": {
+    "title": "Concepts",
     "error": {
       "title": "Error",
       "notFound": "Unable to find this concept"
     },
-    "title": "Concepts",
     "searchPlaceholder": "Label (or alternative label)...",
     "advancedSearch": "Concepts - Search",
+    "links": {
+      "narrowerTitle": "Has child",
+      "broaderTitle": "Has parent",
+      "referencesTitle": "References",
+      "replacesTitle": "Replaces",
+      "replacedByMasc": "Is replaced by",
+      "relatedTitle": "Is related to",
+      "equivalentTitle": "Matches"
+    },
+    "search": {
+      "title": "Concepts - Search"
+    },
+    "create": {
+      "title": "Create concept"
+    },
+    "update": {
+      "title": "Update concept"
+    },
     "edit": {
       "labelTitle": "Label",
       "requiredFields": "Required fields",
-      "collectionLabel": "Collection"
+      "collectionLabel": "Collection",
+      "btnNewLink": "New link"
+    },
+    "notes": {
+      "emptyDefinitionLg1": "The concept must have a definition",
+      "emptyScopeNoteLg1": "As dissemination status is public, short definition has to be completed",
+      "tooLongScopeNote": "Short definition is limited to {{max}} characters",
+      "conceptsScopeNote": "Short definition",
+      "conceptsDefinition": "Definition",
+      "conceptsEditorialNote": "Editorial note",
+      "conceptsChangeNote": "Change note"
+    },
+    "export": {
+      "panelTitle": "Concepts to export",
+      "hasNot": "Add at least one concept to export"
+    },
+    "validation": {
+      "title": "Publishing of the provisional concepts",
+      "panelTitle": "Concepts to publish",
+      "hasNot": "Add at least one concept to publish"
+    },
+    "versioning": {
+      "title": "Please select versioning type",
+      "body": "<p>Concept “<b>{{label}}</b>” notes have been modified.</p><p>Would you like to create a new version, or update the previous one?</p>",
+      "footer": "<p>To create new version, a change note has to be documented:</p><ul><li><p>Note can't be empty</p></li><li><p>Note has to be different from the previous one</p></li></ul>"
+    },
+    "dateMessage": {
+      "creation": "Concept created between",
+      "update": "Concept modified between",
+      "transition": "and"
     },
     "general": {
       "globalInformationsTitle": "General information",

@@ -1,12 +1,12 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { ConceptsApi } from "@sdk/concepts-api";
+import { ConceptApi } from "@sdk/new-concept-api";
 
 import { useConcepts } from "./useConcepts";
 
-vi.mock("@sdk/concepts-api", () => ({
-  ConceptsApi: {
+vi.mock("@sdk/new-concept-api", () => ({
+  ConceptApi: {
     getConceptList: vi.fn(),
   },
 }));
@@ -15,7 +15,7 @@ vi.mock("@utils/array-utils", () => ({
   sortArrayByLabel: vi.fn((list) => [...list].sort((a, b) => a.label.localeCompare(b.label))),
 }));
 
-const mockGetConceptList = vi.mocked(ConceptsApi.getConceptList);
+const mockGetConceptList = vi.mocked(ConceptApi.getConceptList);
 
 describe("useConcepts", () => {
   beforeEach(() => {

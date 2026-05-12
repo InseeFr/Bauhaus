@@ -7,8 +7,12 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import D, { D1 } from "../../../../deprecated-locales";
+import i18n from "../../../i18n";
 import { ConceptGeneral, ConceptNotes } from "../../../../model/concepts/concept";
+
+const t1 = i18n.getFixedT("fr");
+const t = (key: string, options?: Record<string, unknown>): string =>
+  i18n.t(key, options as never) as unknown as string;
 
 interface Concept {
   id: string;
@@ -24,27 +28,27 @@ const ZodConcept = (
   scopeNoteLg1CanBeEmpty: boolean,
 ) =>
   z.object({
-    prefLabelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle).refine(
+    prefLabelLg1: mandatoryAndNotEmptyTextField(t1("common.labelTitle")).refine(
       (value) =>
         value === oldLabelLg1 ||
         !conceptsWithLinks.map((concept: Concept) => concept.label).includes(value),
-      { error: D.duplicatedLabel },
+      { error: t("common.duplicatedLabel") },
     ),
-    creator: mandatoryAndNotEmptySelectField(D.creatorTitle),
-    disseminationStatus: mandatoryAndNotEmptySelectField(D.disseminationStatusTitle),
+    creator: mandatoryAndNotEmptySelectField(t("common.creatorTitle")),
+    disseminationStatus: mandatoryAndNotEmptySelectField(t("common.disseminationStatusTitle")),
     scopeNoteLg1: z
       .string()
       .refine((value) => htmlLength(value) <= maxLengthScopeNote, {
-        error: D.tooLongScopeNote(maxLengthScopeNote),
+        error: t("concept.notes.tooLongScopeNote", { max: maxLengthScopeNote }),
       })
       .refine((value) => scopeNoteLg1CanBeEmpty || !htmlIsEmpty(value), {
-        error: D.emptyScopeNoteLg1,
+        error: t("concept.notes.emptyScopeNoteLg1"),
       }),
     scopeNoteLg2: z.string().refine((value) => htmlLength(value) <= maxLengthScopeNote, {
-      error: D.tooLongScopeNote(maxLengthScopeNote),
+      error: t("concept.notes.tooLongScopeNote", { max: maxLengthScopeNote }),
     }),
     definitionLg1: z.string().refine((value) => !htmlIsEmpty(value), {
-      error: D.emptyDefinitionLg1,
+      error: t("concept.notes.emptyDefinitionLg1"),
     }),
   });
 

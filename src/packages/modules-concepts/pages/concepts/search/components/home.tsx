@@ -1,5 +1,6 @@
 import { ChangeEvent, ReactElement } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { DatePicker } from "@components/date-picker";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
@@ -13,7 +14,6 @@ import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
-import D from "../../../../../deprecated-locales";
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
 import Controls from "./controls";
 
@@ -50,7 +50,8 @@ const ConceptSearchList = ({
   stampList,
   onExport,
 }: Readonly<ConceptSearchListProps>) => {
-  useTitle(D.conceptsTitle, D.advancedSearch);
+  const { t } = useTranslation();
+  useTitle(t("concept.title"), t("common.advancedSearch"));
 
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
   const navigate = useNavigate();
@@ -84,8 +85,8 @@ const ConceptSearchList = ({
   }));
 
   const validationStatusOptions = [
-    { label: D.conceptStatusValid, value: "true" },
-    { label: D.conceptStatusProvisional, value: "false" },
+    { label: t("concept.general.conceptStatusValid"), value: "true" },
+    { label: t("concept.general.conceptStatusProvisional"), value: "false" },
   ];
 
   const hitEls: ReactElement[] = hits.map(({ id, label }) => (
@@ -97,7 +98,7 @@ const ConceptSearchList = ({
   return (
     <div>
       <div className="container">
-        <PageTitle title={D.conceptSearchTitle} />
+        <PageTitle title={t("concept.search.title")} />
         <Controls
           onClickReturn={() => navigate("/concepts")}
           initializeState={reset}
@@ -109,7 +110,7 @@ const ConceptSearchList = ({
             <TextInput
               value={label}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("label", e.target.value)}
-              placeholder={D.searchLabelPlaceholder}
+              placeholder={t("common.searchLabelPlaceholder")}
             />
           </div>
         </div>
@@ -120,7 +121,7 @@ const ConceptSearchList = ({
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 handleChange("altLabel", e.target.value)
               }
-              placeholder={D.searchAltLabelPlaceholder}
+              placeholder={t("common.searchAltLabelPlaceholder")}
             />
           </div>
         </div>
@@ -131,14 +132,14 @@ const ConceptSearchList = ({
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 handleChange("definition", e.target.value)
               }
-              placeholder={D.searchDefinitionPlaceholder}
+              placeholder={t("common.searchDefinitionPlaceholder")}
             />
           </div>
         </div>
         <div className="row form-group">
           <div className="col-md-4">
             <Select
-              placeholder={D.stampsPlaceholder}
+              placeholder={t("common.stampsPlaceholder")}
               value={stampListOptions.find(({ value }) => value === creator)?.value ?? ""}
               options={stampListOptions}
               onChange={(value: string) => handleChange("creator", value)}
@@ -153,7 +154,7 @@ const ConceptSearchList = ({
           </div>
           <div className="col-md-4">
             <Select
-              placeholder={D.validationStatusPlaceholder}
+              placeholder={t("common.validationStatusPlaceholder")}
               value={
                 validationStatusOptions.find(({ value }) => value === validationStatus)?.value ?? ""
               }
@@ -164,7 +165,7 @@ const ConceptSearchList = ({
         </div>
         <div className="row vertical-center">
           <div className="col-md-3 text-center">
-            <label>{D.conceptsCreationDateMessage}</label>
+            <label>{t("concept.dateMessage.creation")}</label>
           </div>
           <div className="col-md-4">
             <DatePicker
@@ -173,7 +174,7 @@ const ConceptSearchList = ({
             />
           </div>
           <div className="col-md-1 text-center">
-            <label>{D.conceptsTransitionDateMessage}</label>
+            <label>{t("concept.dateMessage.transition")}</label>
           </div>
           <div className="col-md-4">
             <DatePicker
@@ -184,7 +185,7 @@ const ConceptSearchList = ({
         </div>
         <div className="row vertical-center">
           <div className="col-md-3 text-center">
-            <label>{D.conceptsUpdateDateMessage}</label>
+            <label>{t("concept.dateMessage.update")}</label>
           </div>
           <div className="col-md-4">
             <DatePicker
@@ -193,7 +194,7 @@ const ConceptSearchList = ({
             />
           </div>
           <div className="col-md-1 text-center">
-            <label>{D.conceptsTransitionDateMessage}</label>
+            <label>{t("concept.dateMessage.transition")}</label>
           </div>
           <div className="col-md-4">
             <DatePicker

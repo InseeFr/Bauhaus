@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { TextInput } from "@components/form/input";
 import { Row } from "@components/layout";
 
 import { CLOSE_MATCH } from "@sdk/constants";
 
-import D from "../../../../../../deprecated-locales";
 import { Link } from "../../../../../../model/concepts/concept";
 import "./equivalentLinks.scss";
 import { EMPTY_ARRAY } from "@utils/array-utils";
@@ -19,6 +19,7 @@ export const EquivalentLinks = ({
   links = EMPTY_ARRAY,
   updateEquivalentLinks,
 }: Readonly<EquivalentLinksTypes>) => {
+  const { t } = useTranslation();
   const [value, setValue] = useState("");
   return (
     <div className="equivalentLinks">
@@ -26,8 +27,8 @@ export const EquivalentLinks = ({
         <div className="col-md-12">
           <div className="form-group">
             <TextInput
-              placeholder={D.btnNewLink}
-              aria-label={D.btnNewLink}
+              placeholder={t("concept.edit.btnNewLink")}
+              aria-label={t("concept.edit.btnNewLink")}
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
@@ -47,7 +48,7 @@ export const EquivalentLinks = ({
               setValue("");
             }}
           >
-            {D.btnAdd}
+            {t("common.btnAdd")}
           </button>
         </div>
       </Row>
@@ -58,7 +59,7 @@ export const EquivalentLinks = ({
               <span>{link.urn}</span>
               <button
                 type="button"
-                aria-label={D.btnDelete}
+                aria-label={t("common.btnDelete")}
                 onClick={() => {
                   updateEquivalentLinks(links.filter(({ urn }) => urn !== link.urn));
                 }}

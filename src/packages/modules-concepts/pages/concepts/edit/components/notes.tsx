@@ -1,9 +1,9 @@
 import { TabPanel, TabView } from "primereact/tabview";
+import { useTranslation } from "react-i18next";
 
 import { NoteEdition } from "@components/note-edition";
 
 import { ConceptNotes } from "../../../../../model/concepts/concept";
-import { D1 } from "../../../../../deprecated-locales";
 import { htmlIsEmpty, htmlLength } from "../../../../../utils/html-utils";
 
 interface NoteType {
@@ -71,6 +71,8 @@ const NotesEdition = ({
   handleChange,
   errorMessage,
 }: Readonly<NotesEditionProps>) => {
+  const { i18n } = useTranslation();
+  const t1 = i18n.getFixedT("fr");
   const handlers = handleFieldChange(handleChange, maxLengthScopeNote);
 
   return (
@@ -87,7 +89,7 @@ const NotesEdition = ({
             disseminationStatus?.includes("Public")) ||
           (noteLg1Name === "scopeNoteLg1" &&
             (htmlLength(noteLg1) > limit || htmlLength(noteLg2) > limit));
-        const label = D1[rawTitle] as string;
+        const label = t1(`concept.notes.${rawTitle}`);
         const title = highlight ? <div className="red">{label}</div> : label;
 
         return (

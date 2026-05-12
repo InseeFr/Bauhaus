@@ -2,12 +2,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
 import SearchConceptsByLabel from "./search-concepts-by-label";
-
-vi.mock("../../../../../../deprecated-locales", () => ({
-  default: {
-    searchLabelPlaceholder: "Search by label",
-  },
-}));
 vi.mock("@components/form/input", () => ({
   TextInput: ({
     value,
@@ -50,7 +44,7 @@ describe("SearchConceptsByLabel Component", () => {
 
     const textInput = screen.getByTestId("text-input") as HTMLInputElement;
     expect(textInput.value).toBe(searchLabel);
-    expect(textInput.getAttribute("placeholder")).toBe("Search by label");
+    expect(textInput.getAttribute("placeholder")).toBe("Label...");
 
     fireEvent.change(textInput, { target: { value: "New Label" } });
     expect(handleSearch).toHaveBeenCalledWith("New Label");

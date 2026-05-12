@@ -1,10 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 import { Picker } from "@components/picker-page";
 
 import { useCollectionExporter } from "@utils/hooks/collections";
 
 import { CollectionExportFormat } from "@model/concepts/collection";
 
-import D from "../../../../../deprecated-locales/build-dictionary";
 import ExportButtons from "../../../../components/CollectionExportButtons";
 
 interface CollectionItem {
@@ -17,14 +18,15 @@ interface CollectionsToExportProps {
 }
 
 const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>) => {
+  const { t } = useTranslation();
   const { mutate: exportCollection } = useCollectionExporter();
 
   return (
     <Picker
       items={collections}
-      title={D.exportTitle}
-      panelTitle={D.collectionsExportPanelTitle}
-      labelWarning={D.hasNotCollectionToExport}
+      title={t("common.exportTitle")}
+      panelTitle={t("collection.export.panelTitle")}
+      labelWarning={t("collection.export.hasNot")}
       handleAction={() => {}}
       context="concepts/collections"
       ValidationButton={({ selectedIds }) => (

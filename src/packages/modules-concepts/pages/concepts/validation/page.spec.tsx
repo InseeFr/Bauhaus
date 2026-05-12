@@ -308,7 +308,7 @@ describe("ConceptValidation Home Container", () => {
         </MemoryRouter>,
       );
 
-      expect(useTitle).toHaveBeenCalledWith("Concepts", "Valider");
+      expect(useTitle).toHaveBeenCalledWith("Concepts", "Publish");
 
       // Wait for concepts to load to avoid state updates after unmount
       await waitFor(() => {

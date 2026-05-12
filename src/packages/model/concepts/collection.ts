@@ -4,7 +4,7 @@
  */
 
 /** Mirrors `fr.insee.rmes.modules.shared_kernel.domain.model.Lang`. */
-export type Lang = "FR" | "EN";
+type Lang = "FR" | "EN";
 
 /** Mirrors `LocalisedLabelResponse(String value, String lang)`. */
 export interface LocalisedLabel {
@@ -64,6 +64,7 @@ export interface CollectionPayload {
   descriptions: LocalisedLabel[];
   creator: string;
   contributor?: string;
+  created?: string;
   conceptsIdentifiers: string[];
 }
 

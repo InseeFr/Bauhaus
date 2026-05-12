@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
+import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 
-import D from "../../../../deprecated-locales";
+import i18n from "../../../i18n";
 import { Component } from "./page";
 
 vi.mock("../../../hooks/useConceptExporter", () => ({
@@ -43,9 +44,11 @@ import { useTitle } from "../../../../utils/hooks/useTitle";
 
 const renderComponent = () => {
   return render(
-    <MemoryRouter>
-      <Component />
-    </MemoryRouter>,
+    <I18nextProvider i18n={i18n}>
+      <MemoryRouter>
+        <Component />
+      </MemoryRouter>
+    </I18nextProvider>,
   );
 };
 
@@ -154,7 +157,7 @@ describe("Export Concepts Home Container", () => {
 
       renderComponent();
 
-      expect(screen.getByText(D.exportTitle)).toBeInTheDocument();
+      expect(screen.getByText("Export")).toBeInTheDocument();
     });
 
     it("should pass correct panel title to Picker", () => {
@@ -165,7 +168,7 @@ describe("Export Concepts Home Container", () => {
 
       renderComponent();
 
-      expect(screen.getByText(D.conceptsExportPanelTitle)).toBeInTheDocument();
+      expect(screen.getByText("Concepts to export")).toBeInTheDocument();
     });
 
     it("should pass correct context to Picker", () => {
@@ -211,7 +214,7 @@ describe("Export Concepts Home Container", () => {
     it("should set correct page title", () => {
       renderComponent();
 
-      expect(useTitle).toHaveBeenCalledWith(D.conceptsTitle, D.exportTitle);
+      expect(useTitle).toHaveBeenCalledWith("Concepts", "Export");
     });
   });
 

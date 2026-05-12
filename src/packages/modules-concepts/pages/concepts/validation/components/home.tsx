@@ -1,10 +1,10 @@
 import { Component } from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { PublishButton } from "@components/buttons/buttons-with-icons";
 import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
 import { Picker } from "@components/picker-page";
 
-import D from "../../../../../deprecated-locales";
 import { getModalMessage } from "../../../../utils/build-validation-message";
 
 interface ConceptToValidate {
@@ -18,7 +18,7 @@ interface IdWithValid {
   valid: string;
 }
 
-interface ConceptsToValidateProps {
+interface ConceptsToValidateProps extends WithTranslation {
   concepts: ConceptToValidate[];
   handleValidateConceptList: (ids: string[]) => void;
 }
@@ -68,17 +68,17 @@ class ConceptsToValidate extends Component<ConceptsToValidateProps, ConceptsToVa
 
   render() {
     const { modalValid, idWithValid } = this.state;
-    const { concepts } = this.props;
+    const { concepts, t } = this.props;
 
     const modalButtons: ModalButton[] = [
       {
-        label: D.btnCancel,
+        label: t("common.btnCancel"),
         action: this.handleCancelValidation,
         style: "primary",
         disabled: false,
       },
       {
-        label: D.btnValid,
+        label: t("common.btnValid"),
         action: this.handleConfirmValidation,
         style: "primary",
         disabled: false,
@@ -89,9 +89,9 @@ class ConceptsToValidate extends Component<ConceptsToValidateProps, ConceptsToVa
       <div>
         <Picker
           items={concepts}
-          title={D.conceptsToValidTitle}
-          panelTitle={D.conceptsToValidPanelTitle}
-          labelWarning={D.hasNotConceptToValid}
+          title={t("concept.validation.title")}
+          panelTitle={t("concept.validation.panelTitle")}
+          labelWarning={t("concept.validation.hasNot")}
           ValidationButton={PublishButton}
           handleAction={this.handleClickValidation}
           context="concepts"
@@ -109,4 +109,4 @@ class ConceptsToValidate extends Component<ConceptsToValidateProps, ConceptsToVa
   }
 }
 
-export default ConceptsToValidate;
+export default withTranslation()(ConceptsToValidate);

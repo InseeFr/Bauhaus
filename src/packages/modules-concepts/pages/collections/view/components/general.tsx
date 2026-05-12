@@ -1,8 +1,9 @@
+import { useTranslation } from "react-i18next";
+
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
-import { D1, D2 } from "../../../../../deprecated-locales";
 import { isEmpty } from "@utils/value-utils";
 import { InseeOrganisation } from "@components/business/organisations/organisations";
 
@@ -40,9 +41,9 @@ const renderValidationField = (
   fieldName: "isValidated",
   label: string,
   value: boolean,
+  statusLabel: string,
 ): JSX.Element => {
-  const status = value === false ? D1.collectionStatusProvisional : D1.collectionStatusValid;
-  return <li key={fieldName}>{`${label}: ${status}`}</li>;
+  return <li key={fieldName}>{`${label}: ${statusLabel}`}</li>;
 };
 
 // Main helper function with type guards
@@ -50,6 +51,7 @@ const renderFieldItem = (
   fieldName: FieldName,
   label: string,
   attr: CollectionAttribute,
+  validatedStatusLabel: string,
 ): JSX.Element | null => {
   const value = attr[fieldName];
 
@@ -61,7 +63,7 @@ const renderFieldItem = (
       return renderOrganisationField(fieldName, label, value as string);
 
     case "isValidated":
-      return renderValidationField(fieldName, label, value as boolean);
+      return renderValidationField(fieldName, label, value as boolean, validatedStatusLabel);
 
     default:
       // This should never happen due to FieldName type, but TypeScript needs this
@@ -70,31 +72,45 @@ const renderFieldItem = (
 };
 
 function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps>) {
+  const { i18n } = useTranslation();
+  const t1 = i18n.getFixedT("fr");
+  const t2 = i18n.getFixedT("en");
+
+  const validatedStatusLabel = attr.isValidated
+    ? t1("collection.general.statusValid")
+    : t1("collection.general.statusProvisional");
+
   const fields: readonly { name: FieldName; label: string }[] = [
-    { name: "creator", label: D1.creatorTitle },
-    { name: "contributor", label: D1.contributorTitle },
-    { name: "isValidated", label: D1.isCollectionValidTitle },
+    { name: "creator", label: t1("common.creatorTitle") },
+    { name: "contributor", label: t1("collection.general.contributorTitle") },
+    { name: "isValidated", label: t1("collection.general.isCollectionValidTitle") },
   ] as const;
 
   return (
     <>
       <Row>
         <Note
-          title={D1.globalInformationsTitle}
+          title={t1("common.globalInformationsTitle")}
           alone={true}
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              {fields.map(({ name, label }) => renderFieldItem(name, label, attr))}
+              {fields.map(({ name, label }) =>
+                renderFieldItem(name, label, attr, validatedStatusLabel),
+              )}
             </ul>
           }
         />
       </Row>
       {attr.descriptionLg1 && (
         <Row>
-          <Note text={attr.descriptionLg1} title={D1.descriptionTitle} alone={!secondLang} />
+          <Note
+            text={attr.descriptionLg1}
+            title={t1("common.descriptionTitle")}
+            alone={!secondLang}
+          />
           {secondLang && (
-            <Note text={attr.descriptionLg2} title={D2.descriptionTitle} alone={false} />
+            <Note text={attr.descriptionLg2} title={t2("common.descriptionTitle")} alone={false} />
           )}
         </Row>
       )}

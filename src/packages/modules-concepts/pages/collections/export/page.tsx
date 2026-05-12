@@ -1,16 +1,17 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Exporting, Loading } from "@components/loading";
 
 import { useCollectionExporter } from "@utils/hooks/collections";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales/build-dictionary";
 import { useCollections } from "../../../hooks/useCollections";
 import CollectionsToExport from "./components/home";
 
 export const Component = () => {
-  useTitle(D.collectionsTitle, D.exportTitle);
+  const { t } = useTranslation();
+  useTitle(t("collection.title"), t("common.exportTitle"));
 
   const { data: collectionsData = [], isLoading } = useCollections();
   const { isPending: isExporting } = useCollectionExporter();

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Loading, Saving } from "@components/loading";
 
 import { CLOSE_MATCH } from "@sdk/constants";
 
 import { useAppContext } from "../../../../application/app-context";
-import D from "../../../../deprecated-locales";
 import { Link } from "../../../../model/concepts/concept";
 import { useTitle } from "../../../../utils/hooks/useTitle";
 import { useConcept } from "../../../hooks/useConcept";
@@ -17,6 +17,7 @@ import ConceptEditionCreation from "./components/home";
 import { ConceptWithLink } from "./components/links";
 
 export const Component = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const isCreation = !id;
 
@@ -29,7 +30,7 @@ export const Component = () => {
   const { save, isSaving } = useConceptSave(id);
   const [submitting, setSubmitting] = useState(false);
 
-  useTitle(D.conceptsTitle, concept?.general?.prefLabelLg1);
+  useTitle(t("concept.title"), concept?.general?.prefLabelLg1);
 
   if (isLoadingConcept || isLoadingConcepts || !concept) {
     return <Loading />;
@@ -54,7 +55,7 @@ export const Component = () => {
     <ConceptEditionCreation
       id={id}
       creation={isCreation}
-      title={isCreation ? D.createConceptTitle : D.updateConceptTitle}
+      title={isCreation ? t("concept.create.title") : t("concept.update.title")}
       subtitle={general?.prefLabelLg1}
       general={general}
       notes={notes}

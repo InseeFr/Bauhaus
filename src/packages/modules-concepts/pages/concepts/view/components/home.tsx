@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc } from "@components/errors-bloc";
@@ -41,7 +42,8 @@ const ConceptVisualization = ({
   validateConcept,
   deleteConcept,
 }: Readonly<ConceptVisualizationProps>) => {
-  useTitle(D.conceptsTitle, general?.prefLabelLg1);
+  const { t } = useTranslation();
+  useTitle(t("concept.title"), general?.prefLabelLg1);
   const [modalValid, setModalValid] = useState(false);
 
   const handleClickValidation = useCallback(() => {
@@ -62,13 +64,13 @@ const ConceptVisualization = ({
 
   const modalButtons: ModalButton[] = [
     {
-      label: D.btnCancel,
+      label: t("common.btnCancel"),
       action: handleCancelValidation,
       style: "primary",
       disabled: false,
     },
     {
-      label: D.btnValid,
+      label: t("common.btnValid"),
       action: handleConfirmValidation,
       style: "primary",
       disabled: false,
@@ -101,7 +103,7 @@ const ConceptVisualization = ({
           getModalMessage([
             {
               prefLabelLg1: general.prefLabelLg1,
-              valid: general.valid as unknown as string,
+              valid: general.valid ?? "",
             },
           ]) as unknown as Node
         }

@@ -11,7 +11,6 @@ import { PickerItem } from "@components/picker-item";
 
 import { arrayDifferenceByID, filterDeburr } from "@utils/array-utils";
 
-import MainDictonary from "../../../../../deprecated-locales";
 import "../../../../i18n";
 
 interface ConceptItem {
@@ -114,7 +113,7 @@ const CollectionMembersEdition = ({
         <TextInput
           value={searchLabel}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchLabel(e.target.value)}
-          placeholder={MainDictonary.searchLabelPlaceholder}
+          placeholder={t("common.searchLabelPlaceholder")}
         />
         <Pagination itemEls={toAddEls} />
       </Column>

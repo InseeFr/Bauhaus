@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Loading, Publishing } from "@components/loading";
 
 import { OK, PENDING } from "@sdk/constants";
 
-import D from "../../../../deprecated-locales";
 import { ConceptsApi } from "../../../../sdk";
 import { sortArrayByLabel } from "../../../../utils/array-utils";
 import { useTitle } from "../../../../utils/hooks/useTitle";
@@ -21,7 +21,8 @@ interface ConceptValidateItem {
 }
 
 export const Component = () => {
-  useTitle(D.conceptsTitle, D.btnValid);
+  const { t } = useTranslation();
+  useTitle(t("concept.title"), t("common.btnValid"));
   const [loading, setLoading] = useState<boolean>(true);
   const [exporting, setExporting] = useState<ExportingStatus>();
   const [concepts, setConcepts] = useState<ConceptValidateItem[]>([]);

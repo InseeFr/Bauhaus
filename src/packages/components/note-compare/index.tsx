@@ -19,15 +19,16 @@ export const CompareNotes = ({
   version,
   buildNotes,
 }: Readonly<CompareNotesTypes>) => {
-  const [select1, setSelect1] = useState(version - 1);
-  const [select2, setSelect2] = useState(version);
+  const safeVersion = Math.max(1, version);
+  const [select1, setSelect1] = useState(Math.max(1, safeVersion - 1));
+  const [select2, setSelect2] = useState(safeVersion);
   const options = Array.from({ length: version }, (_, index) => ({
     value: `${index + 1}`,
     label: `${index + 1}`,
   }));
 
-  const notesVersion1 = buildNotes(notes[select1]);
-  const notesVersion2 = buildNotes(notes[select2]);
+  const notesVersion1 = buildNotes(notes[select1] ?? {});
+  const notesVersion2 = buildNotes(notes[select2] ?? {});
 
   return (
     <div>

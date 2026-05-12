@@ -8,8 +8,11 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import D, { D1 } from "../../../../deprecated-locales";
+import i18n from "../../../i18n";
 import { CollectionGeneral } from "../../../../model/concepts/collection";
+
+const t1 = i18n.getFixedT("fr");
+const t = (key: string) => i18n.t(key) as string;
 
 type CollectionsList = {
   id: string;
@@ -24,17 +27,17 @@ const ZodCollection = (
   initialPrefLabelLg1: string,
 ) =>
   z.object({
-    id: mandatoryAndNotEmptyTextField(D.identifiantTitle).refine(
+    id: mandatoryAndNotEmptyTextField(t("common.identifiantTitle")).refine(
       (value) => value.length === 0 || COLLECTION_ID_PATTERN.test(value),
-      { error: D.invalidId },
+      { error: t("common.invalidId") },
     ),
-    prefLabelLg1: mandatoryAndNotEmptyTextField(D1.labelTitle).refine(
+    prefLabelLg1: mandatoryAndNotEmptyTextField(t1("common.labelTitle")).refine(
       (value) =>
         value === initialPrefLabelLg1 ||
         !arrayKeepUniqueField(collectionList, "label").includes(normalize(value)),
-      { error: D.duplicatedLabel },
+      { error: t("common.duplicatedLabel") },
     ),
-    creator: mandatoryAndNotEmptySelectField(D.creatorTitle),
+    creator: mandatoryAndNotEmptySelectField(t("common.creatorTitle")),
   });
 
 export const validate = (

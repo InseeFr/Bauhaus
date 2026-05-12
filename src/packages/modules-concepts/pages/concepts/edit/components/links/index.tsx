@@ -1,5 +1,6 @@
 import { TabPanel, TabView, TabViewTabChangeEvent } from "primereact/tabview";
 import { Component, ReactElement } from "react";
+import { withTranslation, WithTranslation } from "react-i18next";
 
 import { AddLogo } from "@components/logo/logo-add";
 import { DelLogo } from "@components/logo/logo-del";
@@ -9,7 +10,6 @@ import { BROADER, CLOSE_MATCH, NARROWER, NONE, REFERENCES, RELATED, SUCCEED } fr
 
 import { filterDeburr } from "@utils/array-utils";
 
-import { D1 } from "../../../../../../deprecated-locales";
 import { Link } from "../../../../../../model/concepts/concept";
 import ConceptToLink from "./concept-to-link";
 import { EquivalentLinks } from "./equivalentLinks";
@@ -22,15 +22,6 @@ interface LinkTypeDefinition {
   memberType: LinkType;
 }
 
-const linkTypes: LinkTypeDefinition[] = [
-  { title: D1.narrowerTitle, memberType: NARROWER },
-  { title: D1.broaderTitle, memberType: BROADER },
-  { title: D1.referencesTitle, memberType: REFERENCES },
-  { title: D1.replacesTitle, memberType: SUCCEED },
-  { title: D1.relatedTitle, memberType: RELATED },
-  { title: D1.equivalentTitle, memberType: CLOSE_MATCH },
-];
-
 export interface ConceptWithLink {
   id: string;
   label: string;
@@ -39,7 +30,7 @@ export interface ConceptWithLink {
   prefLabelLg2?: string;
 }
 
-interface LinksEditionProps {
+interface LinksEditionProps extends WithTranslation {
   conceptsWithLinks: ConceptWithLink[];
   currentId?: string;
   handleChange: (conceptsWithLinks: ConceptWithLink[]) => void;
@@ -108,7 +99,19 @@ class LinksEdition extends Component<LinksEditionProps, LinksEditionState> {
     return { members, hits };
   };
 
-  getActualType = (): LinkType => linkTypes[this.state.activeTab].memberType;
+  getActualType = (): LinkType => this.getLinkTypes()[this.state.activeTab].memberType;
+
+  getLinkTypes = (): LinkTypeDefinition[] => {
+    const t1 = this.props.i18n.getFixedT("fr");
+    return [
+      { title: t1("concept.links.narrowerTitle"), memberType: NARROWER },
+      { title: t1("concept.links.broaderTitle"), memberType: BROADER },
+      { title: t1("concept.links.referencesTitle"), memberType: REFERENCES },
+      { title: t1("concept.links.replacesTitle"), memberType: SUCCEED },
+      { title: t1("concept.links.relatedTitle"), memberType: RELATED },
+      { title: t1("concept.links.equivalentTitle"), memberType: CLOSE_MATCH },
+    ];
+  };
 
   updateEquivalentLinks = (links: (Link | { urn: string })[]) => {
     this.props.handleChangeEquivalentLinks(links);
@@ -118,6 +121,8 @@ class LinksEdition extends Component<LinksEditionProps, LinksEditionState> {
     const { searchLabel, activeTab } = this.state;
     const { members, hits } = this.getMembersAndHits();
     const { addMember, removeMember } = this;
+    const linkTypes = this.getLinkTypes();
+    const equivalentTitle = linkTypes[linkTypes.length - 1].title;
 
     const memberEls: ReactElement[] = members.map(({ id, label }) => (
       <PickerItem key={id} id={id} label={label} logo={<DelLogo />} handleClick={removeMember} />
@@ -136,7 +141,7 @@ class LinksEdition extends Component<LinksEditionProps, LinksEditionState> {
 
     const tabs = linkTypes.map(({ title }) => (
       <TabPanel key={title} header={title}>
-        {title !== D1.equivalentTitle ? (
+        {title !== equivalentTitle ? (
           <ConceptToLink title={title} memberEls={memberEls} searchComponent={searchComponent} />
         ) : (
           <EquivalentLinks
@@ -158,4 +163,4 @@ class LinksEdition extends Component<LinksEditionProps, LinksEditionState> {
   }
 }
 
-export default LinksEdition;
+export default withTranslation()(LinksEdition);
