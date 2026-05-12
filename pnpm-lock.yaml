@@ -132,8 +132,8 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
       happy-dom:
-        specifier: ^20.7.0
-        version: 20.8.9
+        specifier: ^20.9.0
+        version: 20.9.0
       husky:
         specifier: ^9.1.6
         version: 9.1.7
@@ -169,7 +169,7 @@ importers:
         version: 4.6.2
       vitest:
         specifier: ^4.1.0
-        version: 4.1.4(@types/node@22.19.17)(@vitest/coverage-istanbul@4.1.4)(happy-dom@20.8.9)(vite@8.0.8(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.99.0)(yaml@2.8.3))
+        version: 4.1.4(@types/node@22.19.17)(@vitest/coverage-istanbul@4.1.4)(happy-dom@20.9.0)(vite@8.0.8(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.99.0)(yaml@2.8.3))
 
   documentation:
     dependencies:
@@ -3043,8 +3043,8 @@ packages:
   hachure-fill@0.5.2:
     resolution: {integrity: sha512-3GKBOn+m2LX9iq+JC1064cSFprJY4jL1jCXTcpnfER5HYE2l/4EfWSGzkPa/ZDBmYI0ZOEj5VHV/eKnPGkHuOg==}
 
-  happy-dom@20.8.9:
-    resolution: {integrity: sha512-Tz23LR9T9jOGVZm2x1EPdXqwA37G/owYMxRwU0E4miurAtFsPMQ1d2Jc2okUaSjZqAFz2oEn3FLXC5a0a+siyA==}
+  happy-dom@20.9.0:
+    resolution: {integrity: sha512-GZZ9mKe8r646NUAf/zemnGbjYh4Bt8/MqASJY+pSm5ZDtc3YQox+4gsLI7yi1hba6o+eCsGxpHn5+iEVn31/FQ==}
     engines: {node: '>=20.0.0'}
 
   has-flag@4.0.0:
@@ -6822,7 +6822,7 @@ snapshots:
       magicast: 0.5.2
       obug: 2.1.1
       tinyrainbow: 3.1.0
-      vitest: 4.1.4(@types/node@22.19.17)(@vitest/coverage-istanbul@4.1.4)(happy-dom@20.8.9)(vite@8.0.8(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.99.0)(yaml@2.8.3))
+      vitest: 4.1.4(@types/node@22.19.17)(@vitest/coverage-istanbul@4.1.4)(happy-dom@20.9.0)(vite@8.0.8(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.99.0)(yaml@2.8.3))
     transitivePeerDependencies:
       - supports-color
 
@@ -8006,7 +8006,7 @@ snapshots:
 
   hachure-fill@0.5.2: {}
 
-  happy-dom@20.8.9:
+  happy-dom@20.9.0:
     dependencies:
       '@types/node': 22.19.17
       '@types/whatwg-mimetype': 3.0.2
@@ -10569,7 +10569,7 @@ snapshots:
     optionalDependencies:
       vite: 7.3.2(@types/node@24.12.2)(jiti@2.6.1)(lightningcss@1.32.0)(sass@1.99.0)(yaml@2.8.3)
 
-  vitest@4.1.4(@types/node@22.19.17)(@vitest/coverage-istanbul@4.1.4)(happy-dom@20.8.9)(vite@8.0.8(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.99.0)(yaml@2.8.3)):
+  vitest@4.1.4(@types/node@22.19.17)(@vitest/coverage-istanbul@4.1.4)(happy-dom@20.9.0)(vite@8.0.8(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.99.0)(yaml@2.8.3)):
     dependencies:
       '@vitest/expect': 4.1.4
       '@vitest/mocker': 4.1.4(vite@8.0.8(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.99.0)(yaml@2.8.3))
@@ -10594,7 +10594,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.19.17
       '@vitest/coverage-istanbul': 4.1.4(vitest@4.1.4)
-      happy-dom: 20.8.9
+      happy-dom: 20.9.0
     transitivePeerDependencies:
       - msw
 

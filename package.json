@@ -62,7 +62,7 @@
     "@vitest/coverage-istanbul": "^4.1.0",
     "bestzip": "^2.2.1",
     "cross-env": "^7.0.3",
-    "happy-dom": "^20.7.0",
+    "happy-dom": "^20.9.0",
     "husky": "^9.1.6",
     "knip": "^6.5.0",
     "oxfmt": "^0.18.0",
