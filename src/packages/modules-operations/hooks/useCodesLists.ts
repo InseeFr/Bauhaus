@@ -2,12 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 
 import { CodeListApi } from "@sdk/index";
 
-const CL_SOURCE_CATEGORY = "CL_SOURCE_CATEGORY";
-const CL_FREQ = "CL_FREQ";
+type MetadataNode = {
+  codeList?: string;
+  children?: Record<string, MetadataNode>;
+};
 
-const defaultCodesLists = {
-  [CL_SOURCE_CATEGORY]: { codes: [] },
-  [CL_FREQ]: { codes: [] },
+const collectCodeListNotations = (tree: Record<string, MetadataNode> | undefined): string[] => {
+  if (!tree) return [];
+  const notations = new Set<string>();
+  const visit = (node: MetadataNode) => {
+    if (node.codeList) notations.add(node.codeList);
+    if (node.children) Object.values(node.children).forEach(visit);
+  };
+  Object.values(tree).forEach(visit);
+  return [...notations].sort();
 };
 
 const fetchCodeList = async (notation: string) => {
@@ -22,19 +30,20 @@ const fetchCodeList = async (notation: string) => {
   };
 };
 
-export const useCodesLists = () => {
-  const { isLoading, data: codesLists = defaultCodesLists } = useQuery({
-    queryKey: ["operations-codes-lists"],
-    queryFn: async () => {
-      const notations = [CL_SOURCE_CATEGORY, CL_FREQ];
-      const results = await Promise.all(notations.map(fetchCodeList));
+export const useCodesLists = (metadataStructure: Record<string, MetadataNode> | undefined) => {
+  const notations = collectCodeListNotations(metadataStructure);
 
-      return results.reduce(
+  const { isLoading, data: codesLists = {} } = useQuery({
+    queryKey: ["operations-codes-lists", notations],
+    enabled: notations.length > 0,
+    queryFn: async () => {
+      const results = await Promise.all(notations.map(fetchCodeList));
+      return results.reduce<Record<string, Awaited<ReturnType<typeof fetchCodeList>>>>(
         (acc, codeList) => ({
           ...acc,
-          [codeList.notation]: codeList,
+          [(codeList as { notation: string }).notation]: codeList,
         }),
-        defaultCodesLists,
+        {},
       );
     },
   });
