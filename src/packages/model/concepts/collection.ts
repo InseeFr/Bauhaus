@@ -3,9 +3,6 @@
  * `fr.insee.rmes.modules.concepts.collections.webservice`.
  */
 
-/** Mirrors `fr.insee.rmes.modules.shared_kernel.domain.model.Lang`. */
-type Lang = "FR" | "EN";
-
 /** Mirrors `LocalisedLabelResponse(String value, String lang)`. */
 export interface LocalisedLabel {
   value: string;

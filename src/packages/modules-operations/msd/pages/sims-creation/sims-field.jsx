@@ -24,7 +24,6 @@ const SimsFieldComponent = ({
   currentSection = {},
   secondLang,
   alone,
-  organisationsOptions = [],
   unbounded,
   codesLists,
   handleChange,

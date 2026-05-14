@@ -16,7 +16,6 @@ const SimsBlock = ({
   currentSection = {},
   unbounded = false,
   codesLists,
-  organisations,
 }) => {
   if (!msd.masLabelLg1) {
     return null;

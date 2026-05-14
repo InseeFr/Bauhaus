@@ -75,8 +75,6 @@ export default () => {
     properties: { modules },
   } = useAppContext();
 
-  const pages = useMemo(() => modules.map((m) => m.identifier), [modules]);
-
   const getModuleHomePageRouter = (pageName: string) => {
     const module = modules.find((m) => m.identifier === pageName);
     if (!module || module.disabled) {
