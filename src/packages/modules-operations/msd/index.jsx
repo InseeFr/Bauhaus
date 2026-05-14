@@ -19,10 +19,10 @@ import SimsCreation from "../msd/pages/sims-creation";
 import SimsVisualisation from "../msd/pages/sims-visualisation";
 import { CREATE, HELP, UPDATE, VIEW } from "./constant";
 import { SimsContextProvider } from "./context";
+import { computeEssentialRubricContext } from "./essential-rubric-context";
 import "./msd.scss";
 import { DocumentsStoreProvider } from "./pages/sims-creation/documents-store-context";
 import { useDocumentsList } from "./pages/sims-creation/useDocumentsList";
-import { isEssentialRubricKo } from "./sims-field-title";
 import { getParentId, getParentType } from "./utils";
 
 const apiByParentType = {
@@ -139,38 +139,7 @@ const MSDContainer = ({
     if (mode !== VIEW && !isEditMode) {
       return {};
     }
-
-    const makeMetadatastructureFlat = (items) => {
-      if (!items || items.length === 0) {
-        return items;
-      }
-      return [
-        ...items,
-        ...makeMetadatastructureFlat(items.map((item) => Object.values(item.children)).flat()),
-      ];
-    };
-
-    const flatMetadataStructure = makeMetadatastructureFlat(Object.values(metadataStructure));
-
-    return flatMetadataStructure.reduce((acc, msd) => {
-      const msdCopy = { ...msd };
-      if (msdCopy.minOccurs === "1") {
-        msdCopy.essentialRubricKoLg1 = isEssentialRubricKo(
-          msdCopy,
-          currentSims.rubrics?.[msdCopy.idMas],
-          false,
-        );
-        msdCopy.essentialRubricKoLg2 = isEssentialRubricKo(
-          msdCopy,
-          currentSims.rubrics?.[msdCopy.idMas],
-          true,
-        );
-      }
-      return {
-        ...acc,
-        [msdCopy.idMas]: msdCopy,
-      };
-    }, {});
+    return computeEssentialRubricContext(metadataStructure, currentSims.rubrics);
   }, [mode, isEditMode, metadataStructure, currentSims.rubrics]);
 
   const [lateralPanelOpened, setLateralPanelOpened] = useState();

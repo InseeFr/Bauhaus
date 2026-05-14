@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import Modal from "react-modal";
 import { useBlocker } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,8 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 
 import D from "../../../../deprecated-locales";
 import { flattenTree, isAutoUpdatedFromModified, rangeType } from "../../../utils/msd";
+import { SimsContextProvider } from "../../context";
+import { computeEssentialRubricContext } from "../../essential-rubric-context";
 import { RubricEssentialMsg } from "../../rubric-essantial-msg";
 import {
   getParentId,
@@ -108,6 +110,11 @@ const SimsCreation = ({
 
   const [sims, setSims] = useState(() =>
     getDefaultSims(mode, simsProp.rubrics || defaultSimsRubrics, metadataStructure),
+  );
+
+  const essentialRubricContext = useMemo(
+    () => computeEssentialRubricContext(metadataStructure, sims),
+    [metadataStructure, sims],
   );
 
   const handleChange = useCallback((e) => {
@@ -253,7 +260,7 @@ const SimsCreation = ({
   if (saving) return <Saving />;
 
   return (
-    <>
+    <SimsContextProvider value={essentialRubricContext}>
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
 
       {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} D={D} />}
@@ -318,7 +325,7 @@ const SimsCreation = ({
           </div>
         );
       })}
-    </>
+    </SimsContextProvider>
   );
 };
 
