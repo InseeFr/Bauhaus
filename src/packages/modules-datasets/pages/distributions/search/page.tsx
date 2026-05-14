@@ -173,17 +173,9 @@ export const AdvancedSearchForm = ({
       </fieldset>
       <fieldset>
         <legend>{t("dataset.title")}</legend>
-        <div className="row form-group">
-          <div className="col-md-12">
-            <label className="w-100">{t("dataset.internalManagement.altId.title")}</label>
-            <TextInput
-              value={altIdentifier}
-              onChange={(e) => handleChange("altIdentifier", e.target.value)}
-            />
-          </div>
-        </div>
         <FieldsForDatasetsAdvancedSearch
           labelLg1={labelLg1}
+          altIdentifier={altIdentifier}
           creator={creator}
           disseminationStatus={disseminationStatus}
           validationStatus={validationStatus}

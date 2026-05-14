@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -7,7 +7,6 @@ import { CreatorsInput } from "@components/business/creators-input";
 import { DatePicker } from "@components/date-picker";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { TextInput } from "@components/form/input";
-import { Column } from "@components/layout";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
 
@@ -31,6 +30,7 @@ export interface SearchDataset {
   wasGeneratedIRIs: string;
   created: string;
   updated: string;
+  altIdentifier?: string;
 }
 
 export const Component = () => {
@@ -55,6 +55,7 @@ export const Component = () => {
 };
 
 const filterLabel = filterKeyDeburr(["labelLg1"]);
+const filterAltIdentifier = filterKeyDeburr(["altIdentifier"]);
 const filterCreator = filterKeyDeburr(["creator"]);
 const filterDisseminationStatus = filterKeyDeburr(["disseminationStatus"]);
 const filterValidationStatus = filterKeyDeburr(["validationStatus"]);
@@ -64,6 +65,7 @@ const filterUpdatedDate = filterKeyDate("updated");
 
 const defaultFormState = {
   labelLg1: "",
+  altIdentifier: "",
   creator: "",
   disseminationStatus: "",
   validationStatus: "",
@@ -85,6 +87,7 @@ export const AdvancedSearchForm = ({
 
   const {
     labelLg1,
+    altIdentifier,
     creator,
     disseminationStatus,
     validationStatus,
@@ -97,6 +100,7 @@ export const AdvancedSearchForm = ({
 
   const filteredData = data
     .filter(filterLabel(labelLg1))
+    .filter(filterAltIdentifier(altIdentifier))
     .filter(filterCreator(creator))
     .filter(filterDisseminationStatus(disseminationStatus))
     .filter(filterValidationStatus(validationStatus))
@@ -119,6 +123,7 @@ export const AdvancedSearchForm = ({
     >
       <FieldsForDatasetsAdvancedSearch
         labelLg1={labelLg1}
+        altIdentifier={altIdentifier}
         creator={creator}
         disseminationStatus={disseminationStatus}
         validationStatus={validationStatus}
@@ -134,6 +139,7 @@ export const AdvancedSearchForm = ({
 
 export const FieldsForDatasetsAdvancedSearch = ({
   labelLg1,
+  altIdentifier,
   creator,
   disseminationStatus,
   validationStatus,
@@ -144,6 +150,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
   seriesOperationsOptions,
 }: {
   labelLg1: string;
+  altIdentifier: string;
   creator: string;
   disseminationStatus: string;
   validationStatus: string;
@@ -154,13 +161,33 @@ export const FieldsForDatasetsAdvancedSearch = ({
   seriesOperationsOptions: Options;
 }) => {
   const { t } = useTranslation();
+  const createdDateId = useId();
+  const updatedDateId = useId();
+  const validationStatusId = useId();
+  const generatedByIRIsId = useId();
 
   return (
     <>
       <div className="row form-group">
         <div className="col-md-12">
-          <label className="w-100">{t("dataset.globalInformation.mainTitle")}</label>
-          <TextInput value={labelLg1} onChange={(e) => handleChange("labelLg1", e.target.value)} />
+          <label className="w-100">
+            {t("dataset.globalInformation.mainTitle")}
+            <TextInput
+              value={labelLg1}
+              onChange={(e) => handleChange("labelLg1", e.target.value)}
+            />
+          </label>
+        </div>
+      </div>
+      <div className="row form-group">
+        <div className="col-md-12">
+          <label className="w-100">
+            {t("dataset.internalManagement.altId.title")}
+            <TextInput
+              value={altIdentifier}
+              onChange={(e) => handleChange("altIdentifier", e.target.value)}
+            />
+          </label>
         </div>
       </div>
       <div className="row form-group">
@@ -179,8 +206,11 @@ export const FieldsForDatasetsAdvancedSearch = ({
           />
         </div>
         <div className="col-md-4">
-          <label className="w-100">{t("dataset.globalInformation.validationStatus")}</label>
+          <label className="w-100" htmlFor={validationStatusId}>
+            {t("dataset.globalInformation.validationStatus")}
+          </label>
           <Select
+            inputId={validationStatusId}
             value={validationStatus}
             options={validateStateOptions}
             onChange={(value) => handleChange("validationStatus", value)}
@@ -188,17 +218,34 @@ export const FieldsForDatasetsAdvancedSearch = ({
         </div>
       </div>
       <div className="row form-group">
-        <div className="col-md-3">
-          <label className="w-100">{t("dataset.globalInformation.creationDate")}</label>
-          <DatePicker value={created} onChange={(value) => handleChange("created", value ?? "")} />
+        <div className="col-md-4">
+          <label className="w-100" htmlFor={createdDateId}>
+            {t("dataset.globalInformation.creationDate")}
+          </label>
+          <DatePicker
+            className="w-full"
+            inputId={createdDateId}
+            value={created}
+            onChange={(value) => handleChange("created", value ?? "")}
+          />
         </div>
-        <div className="col-md-3">
-          <label className="w-100">{t("dataset.globalInformation.updatingDate")}</label>
-          <DatePicker value={updated} onChange={(value) => handleChange("updated", value ?? "")} />
+        <div className="col-md-4">
+          <label className="w-100" htmlFor={updatedDateId}>
+            {t("dataset.globalInformation.updatingDate")}
+          </label>
+          <DatePicker
+            className="w-full"
+            inputId={updatedDateId}
+            value={updated}
+            onChange={(value) => handleChange("updated", value ?? "")}
+          />
         </div>
-        <Column>
-          <label className="w-100">{t("dataset.internalManagement.generatedBy")}</label>
+        <div className="col-md-4">
+          <label className="w-100" htmlFor={generatedByIRIsId}>
+            {t("dataset.internalManagement.generatedBy")}
+          </label>
           <Select
+            inputId={generatedByIRIsId}
             value={wasGeneratedIRIs}
             options={seriesOperationsOptions}
             onChange={(value: string) => handleChange("wasGeneratedIRIs", value)}
@@ -209,7 +256,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
               return `${v.label}`;
             }}
           />
-        </Column>
+        </div>
       </div>
     </>
   );

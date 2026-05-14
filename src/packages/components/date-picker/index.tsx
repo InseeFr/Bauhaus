@@ -7,12 +7,20 @@ interface DatePickerTypes {
   onChange?: (value?: string) => void;
   inputId?: string;
   disabled?: boolean;
+  className?: string;
 }
 
-export const DatePicker = ({ value, onChange, inputId, disabled }: Readonly<DatePickerTypes>) => {
+export const DatePicker = ({
+  value,
+  onChange,
+  inputId,
+  disabled,
+  className,
+}: Readonly<DatePickerTypes>) => {
   const date = value ? new Date(value) : undefined;
   return (
     <Calendar
+      className={className}
       inputId={inputId}
       dateFormat="dd/mm/yy"
       value={date}
