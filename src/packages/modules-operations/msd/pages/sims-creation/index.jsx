@@ -148,26 +148,38 @@ const SimsCreation = ({
     ? `/operations/sims/${sims.id}`
     : `/operations/${parentType}/${idParent}`;
 
-  const organisationsOptions = sortArrayByLabel(
-    organisations.map((c) => ({
-      label: c.label,
-      value: c.id,
-    })),
+  const organisationsOptions = useMemo(
+    () =>
+      sortArrayByLabel(
+        organisations.map((c) => ({
+          label: c.label,
+          value: c.id,
+        })),
+      ),
+    [organisations],
   );
 
-  const organisationsOptionsLg2 = sortArrayByLabel(
-    organisations.map((c) => ({
-      label: c.labelLg2,
-      value: c.id,
-    })),
+  const organisationsOptionsLg2 = useMemo(
+    () =>
+      sortArrayByLabel(
+        organisations.map((c) => ({
+          label: c.labelLg2,
+          value: c.id,
+        })),
+      ),
+    [organisations],
   );
 
-  const operationsWithSimsOptions = (parentWithSims || [])
-    .map((op) => ({
-      label: op.labelLg1,
-      value: op.idSims,
-    }))
-    .sort((o1, o2) => o1.label.toLowerCase().localeCompare(o2.label.toLowerCase()));
+  const operationsWithSimsOptions = useMemo(
+    () =>
+      (parentWithSims || [])
+        .map((op) => ({
+          label: op.labelLg1,
+          value: op.idSims,
+        }))
+        .sort((o1, o2) => o1.label.toLowerCase().localeCompare(o2.label.toLowerCase())),
+    [parentWithSims],
+  );
 
   const MSDInformations = useCallback(
     (msd, handleChange, firstLevel = false) => {
