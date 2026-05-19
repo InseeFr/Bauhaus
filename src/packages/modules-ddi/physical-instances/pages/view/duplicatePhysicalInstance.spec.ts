@@ -31,8 +31,18 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Original Title" } } },
-          PhysicalInstanceLabel: { Content: { "#text": "Original Label" } },
+          Citation: {
+            Title: {
+              String: [
+                { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original Title" } },
+              ],
+            },
+          },
+          PhysicalInstanceLabel: {
+            Content: [
+              { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original Label" } },
+            ],
+          },
         },
       ],
       DataRelationship: [
@@ -41,7 +51,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: {
-            Content: { "@xml:lang": "fr-FR", "#text": "Original DR Name" },
+            Content: [
+              { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original DR Name" } },
+            ],
           },
           LogicalRecord: {
             ID: "original-lr-id",
@@ -78,8 +90,18 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Original Title" } } },
-          PhysicalInstanceLabel: { Content: { "#text": "Original Label" } },
+          Citation: {
+            Title: {
+              String: [
+                { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original Title" } },
+              ],
+            },
+          },
+          PhysicalInstanceLabel: {
+            Content: [
+              { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original Label" } },
+            ],
+          },
         },
       ],
       DataRelationship: [
@@ -88,7 +110,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: {
-            Content: { "@xml:lang": "fr-FR", "#text": "Original DR Name" },
+            Content: [
+              { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original DR Name" } },
+            ],
           },
           LogicalRecord: {
             ID: "original-lr-id",
@@ -109,12 +133,14 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.PhysicalInstance[0].Citation.Title.String["#text"]).toBe(
-      "Original Title (copy)",
-    );
-    expect(result.duplicatedData.PhysicalInstance[0].PhysicalInstanceLabel.Content["#text"]).toBe(
-      "Original Title (copy)",
-    );
+    expect(
+      result.duplicatedData.PhysicalInstance[0].Citation.Title.String[0].MultilingualStringValue
+        .Value,
+    ).toBe("Original Title (copy)");
+    expect(
+      result.duplicatedData.PhysicalInstance[0].PhysicalInstanceLabel.Content[0]
+        .MultilingualStringValue.Value,
+    ).toBe("Original Title (copy)");
   });
 
   it("should add (copy) suffix to DataRelationship Label", () => {
@@ -124,7 +150,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -133,7 +163,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: {
-            Content: { "@xml:lang": "fr-FR", "#text": "Original DR Name" },
+            Content: [
+              { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original DR Name" } },
+            ],
           },
           LogicalRecord: {
             ID: "original-lr-id",
@@ -154,9 +186,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.DataRelationship[0].Label.Content["#text"]).toBe(
-      "Structure : Test (copy)",
-    );
+    expect(
+      result.duplicatedData.DataRelationship[0].Label.Content[0].MultilingualStringValue.Value,
+    ).toBe("Structure : Test (copy)");
   });
 
   it("should add BasedOnObject to PhysicalInstance", () => {
@@ -166,7 +198,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -174,7 +210,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -211,7 +249,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -219,7 +261,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -257,7 +301,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -265,7 +313,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -280,13 +330,17 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-var-id-1",
           Agency: "original-agency",
           Version: "1",
-          VariableName: { String: { "#text": "Var1" } },
+          VariableName: {
+            String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Var1" } }],
+          },
         },
         {
           ID: "original-var-id-2",
           Agency: "original-agency",
           Version: "2",
-          VariableName: { String: { "#text": "Var2" } },
+          VariableName: {
+            String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Var2" } }],
+          },
         },
       ],
     };
@@ -330,7 +384,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           URN: "urn:ddi:original-agency:original-pi-id:1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -339,7 +397,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           URN: "urn:ddi:original-agency:original-dr-id:1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -375,7 +435,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -383,7 +447,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -415,7 +481,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
           DataRelationshipReference: {
             Agency: "original-agency",
             ID: "original-dr-id",
@@ -429,7 +499,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -465,7 +537,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -473,7 +549,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -496,7 +574,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-var-id-1",
           Agency: "original-agency",
           Version: "1",
-          VariableName: { String: { "#text": "Var1" } },
+          VariableName: {
+            String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Var1" } }],
+          },
         },
       ],
     };
@@ -524,7 +604,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -532,7 +616,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -547,14 +633,18 @@ describe("buildDuplicatedPhysicalInstance", () => {
         {
           ID: "codelist-id",
           Agency: "original-agency",
-          CodeListName: { String: { "#text": "My CodeList" } },
+          CodeListName: {
+            String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "My CodeList" } }],
+          },
         },
       ],
       Category: [
         {
           ID: "category-id",
           Agency: "original-agency",
-          CategoryName: { String: { "#text": "Category 1" } },
+          CategoryName: {
+            String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Category 1" } }],
+          },
         },
       ],
     };
@@ -579,7 +669,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           "@versionDate": "2020-01-01T00:00:00.000Z",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -588,7 +682,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           "@versionDate": "2020-01-01T00:00:00.000Z",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -626,7 +722,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -634,7 +734,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -664,7 +766,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          Citation: { Title: { String: { "#text": "Test" } } },
+          Citation: {
+            Title: {
+              String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+            },
+          },
         },
       ],
       DataRelationship: [
@@ -672,7 +778,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: { Content: { "@xml:lang": "fr-FR", "#text": "DR Name" } },
+          Label: {
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+          },
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -696,17 +804,14 @@ describe("buildDuplicatedPhysicalInstance", () => {
 });
 
 describe("buildDuplicatedLogicalRecord", () => {
-  it("should preserve xml:lang from original", () => {
+  it("should preserve language tag from original", () => {
     const original = {
       ID: "old-id",
       URN: "urn:ddi:old:old-id:1",
       Agency: "old-agency",
       Version: "1",
       Label: {
-        Content: {
-          "@xml:lang": "en-US",
-          "#text": "Original Label",
-        },
+        Content: [{ MultilingualStringValue: { LanguageTag: "en-US", Value: "Original Label" } }],
       },
       VariablesInRecord: { VariableUsedReference: [] },
     };
@@ -720,7 +825,7 @@ describe("buildDuplicatedLogicalRecord", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.Label?.Content?.["@xml:lang"]).toBe("en-US");
+    expect(result.Label?.Content?.[0]?.MultilingualStringValue?.LanguageTag).toBe("en-US");
   });
 
   it("should fallback to defaultLocale when no lang specified", () => {
@@ -741,7 +846,7 @@ describe("buildDuplicatedLogicalRecord", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.Label?.Content?.["@xml:lang"]).toBe("fr-FR");
+    expect(result.Label?.Content?.[0]?.MultilingualStringValue?.LanguageTag).toBe("fr-FR");
   });
 
   it("should generate correct label using buildLogicalRecordLabel", () => {
@@ -762,7 +867,9 @@ describe("buildDuplicatedLogicalRecord", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.Label?.Content?.["#text"]).toBe("Enregistrement logique : MyTitle (copy)");
+    expect(result.Label?.Content?.[0]?.MultilingualStringValue?.Value).toBe(
+      "Enregistrement logique : MyTitle (copy)",
+    );
   });
 
   it("should throw error when originalLogicalRecord is missing", () => {
@@ -836,17 +943,14 @@ describe("buildDuplicatedDataRelationship", () => {
     });
   });
 
-  it("should preserve xml:lang from original DataRelationship", () => {
+  it("should preserve language tag from original DataRelationship", () => {
     const original = {
       ID: "old-dr-id",
       URN: "urn:ddi:old:old-dr-id:1",
       Agency: "old-agency",
       Version: "1",
       Label: {
-        Content: {
-          "@xml:lang": "en-GB",
-          "#text": "Original Label",
-        },
+        Content: [{ MultilingualStringValue: { LanguageTag: "en-GB", Value: "Original Label" } }],
       },
       LogicalRecord: {
         ID: "old-lr-id",
@@ -867,7 +971,7 @@ describe("buildDuplicatedDataRelationship", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.Label?.Content?.["@xml:lang"]).toBe("en-GB");
+    expect(result.Label?.Content?.[0]?.MultilingualStringValue?.LanguageTag).toBe("en-GB");
   });
 
   it("should throw error when originalDataRelationship is missing", () => {

@@ -3,7 +3,9 @@ import type {
   CodeList,
   Code,
   Category,
+  MultilingualStringEntry,
 } from "../../types/api";
+import { pickLang, singletonEntries } from "../../../utils/multilingual";
 
 export const createDefaultRepresentation = (
   codeListId: string,
@@ -31,10 +33,7 @@ export const createDefaultCodeList = (
   ID: id,
   Version: "1",
   Label: {
-    Content: {
-      "@xml:lang": locale,
-      "#text": label,
-    },
+    Content: singletonEntries(locale, label),
   },
   Code: [],
 });
@@ -72,18 +71,12 @@ export const createCategory = (
   ID: id,
   Version: "1",
   Label: {
-    Content: {
-      "@xml:lang": locale,
-      "#text": label,
-    },
+    Content: singletonEntries(locale, label),
   },
 });
 
 export const createLabel = (text: string, locale: string) => ({
-  Content: {
-    "@xml:lang": locale,
-    "#text": text,
-  },
+  Content: singletonEntries(locale, text),
 });
 
 export const parseSelectedCodeListId = (selectedId: string | null): [string, string] => {
@@ -92,10 +85,7 @@ export const parseSelectedCodeListId = (selectedId: string | null): [string, str
   return [agency ?? "", idParts.join("-")];
 };
 
-export const getLocalizedText = (content: unknown): string | undefined => {
-  if (!content) return undefined;
-  if (Array.isArray(content)) {
-    return (content[0] as { "#text"?: string })?.["#text"];
-  }
-  return (content as { "#text"?: string })["#text"];
-};
+export const getLocalizedText = (
+  content: MultilingualStringEntry[] | undefined,
+  lang = "fr-FR",
+): string | undefined => pickLang(content, lang);

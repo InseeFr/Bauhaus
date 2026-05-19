@@ -14,6 +14,7 @@ import type {
   Category,
 } from "../../types/api";
 import { DdiPreview } from "./DdiPreview";
+import { pickLang } from "../../../utils/multilingual";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
 
@@ -336,7 +337,7 @@ export const VariableEditForm = ({
         const validCodes = (codeList?.Code || []).filter((code) => {
           if (!code || !code.CategoryReference) return false;
           const category = categories.find((cat) => cat?.ID === code.CategoryReference?.ID);
-          const label = category?.Label?.Content?.["#text"] || "";
+          const label = pickLang(category?.Label?.Content, "fr-FR") ?? "";
           const value = code.Value || "";
           return value.trim() !== "" || label.trim() !== "";
         });

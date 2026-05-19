@@ -1,5 +1,6 @@
 import type { Variable, LogicalRecord, DataRelationship } from "../../types/api";
 import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
+import { singletonEntries, makeEntry } from "../../../utils/multilingual";
 
 interface DuplicatePhysicalInstanceParams {
   agencyId: string;
@@ -58,10 +59,11 @@ export function buildDuplicatedLogicalRecord({
     Agency: newAgencyId,
     "@versionDate": new Date().toISOString(),
     Label: {
-      Content: {
-        "@xml:lang": originalLogicalRecord?.Label?.Content?.["@xml:lang"] || defaultLocale,
-        "#text": buildLogicalRecordLabel(`${title} (copy)`),
-      },
+      Content: singletonEntries(
+        originalLogicalRecord?.Label?.Content?.[0]?.MultilingualStringValue?.LanguageTag ??
+          defaultLocale,
+        buildLogicalRecordLabel(`${title} (copy)`),
+      ),
     },
     VariablesInRecord: {
       VariableUsedReference: Array.from(variableIdMap.values()).map((newVarId) => ({
@@ -129,10 +131,11 @@ export function buildDuplicatedDataRelationship({
       },
     },
     Label: {
-      Content: {
-        "@xml:lang": originalDataRelationship?.Label?.Content?.["@xml:lang"] || defaultLocale,
-        "#text": buildDataRelationshipLabel(`${title} (copy)`),
-      },
+      Content: singletonEntries(
+        originalDataRelationship?.Label?.Content?.[0]?.MultilingualStringValue?.LanguageTag ??
+          defaultLocale,
+        buildDataRelationshipLabel(`${title} (copy)`),
+      ),
     },
     LogicalRecord: buildDuplicatedLogicalRecord({
       originalLogicalRecord: originalDataRelationship.LogicalRecord,
@@ -232,19 +235,24 @@ export function buildDuplicatedPhysicalInstance({
       Citation: {
         ...pi.Citation,
         Title: {
-          ...pi.Citation?.Title,
-          String: {
-            ...pi.Citation?.Title?.String,
-            "#text": `${title} (copy)`,
-          },
+          String: [
+            makeEntry(
+              pi.Citation?.Title?.String?.[0]?.MultilingualStringValue?.LanguageTag ??
+                defaultLocale,
+              `${title} (copy)`,
+            ),
+          ],
         },
       },
       PhysicalInstanceLabel: {
         ...pi.PhysicalInstanceLabel,
-        Content: {
-          ...pi.PhysicalInstanceLabel?.Content,
-          "#text": `${title} (copy)`,
-        },
+        Content: [
+          makeEntry(
+            pi.PhysicalInstanceLabel?.Content?.[0]?.MultilingualStringValue?.LanguageTag ??
+              defaultLocale,
+            `${title} (copy)`,
+          ),
+        ],
       },
       DataRelationshipReference: {
         Agency: newAgencyId,

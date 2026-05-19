@@ -4,18 +4,22 @@ import type {
   VariableTableData,
   Variable,
 } from "../physical-instances/types/api";
+import { pickLang } from "../utils/multilingual";
 
 import { DDIApi } from "../../sdk";
 
-function transformVariablesToTableData(data: PhysicalInstanceResponse): VariableTableData[] {
+function transformVariablesToTableData(
+  data: PhysicalInstanceResponse,
+  lang: string,
+): VariableTableData[] {
   if (!data.Variable) {
     return [];
   }
 
   return data.Variable.map((variable: Variable) => ({
     id: variable.ID,
-    name: variable.VariableName?.String?.["#text"] || "",
-    label: variable.Label?.Content?.["#text"] || "",
+    name: pickLang(variable.VariableName?.String, lang) ?? "",
+    label: pickLang(variable.Label?.Content, lang) ?? "",
     type: getVariableType(variable),
     lastModified: variable["@versionDate"] || "",
   }));
@@ -34,6 +38,8 @@ function getVariableType(variable: Variable): string {
   return "text";
 }
 
+const DEFAULT_LANG = "fr-FR";
+
 export function usePhysicalInstancesData(agencyId: string, id: string) {
   const query = useQuery({
     queryKey: ["physicalInstanceById", agencyId, id],
@@ -41,12 +47,15 @@ export function usePhysicalInstancesData(agencyId: string, id: string) {
   });
 
   const variables: VariableTableData[] = query.data
-    ? transformVariablesToTableData(query.data)
+    ? transformVariablesToTableData(query.data, DEFAULT_LANG)
     : [];
 
-  const title = query.data?.PhysicalInstance?.[0]?.Citation?.Title?.String?.["#text"] || "";
-  const dataRelationshipName =
-    query.data?.DataRelationship?.[0]?.DataRelationshipName?.String?.["#text"] || "";
+  const title = query.data
+    ? (pickLang(query.data.PhysicalInstance?.[0]?.Citation?.Title?.String, DEFAULT_LANG) ?? "")
+    : "";
+  const dataRelationshipName = query.data
+    ? (pickLang(query.data.DataRelationship?.[0]?.Label?.Content, DEFAULT_LANG) ?? "")
+    : "";
 
   return {
     ...query,

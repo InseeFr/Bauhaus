@@ -101,7 +101,9 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Version: "1.0",
               Citation: {
                 Title: {
-                  String: { "@xml:lang": "fr-FR", "#text": "Study Unit 1" },
+                  String: [
+                    { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Study Unit 1" } },
+                  ],
                 },
               },
             },
@@ -268,14 +270,30 @@ describe("View Component", () => {
         PhysicalInstance: [
           {
             Citation: {
-              Title: { String: { "#text": "Test Physical Instance" } },
+              Title: {
+                String: [
+                  {
+                    MultilingualStringValue: {
+                      LanguageTag: "fr-FR",
+                      Value: "Test Physical Instance",
+                    },
+                  },
+                ],
+              },
             },
           },
         ],
         DataRelationship: [
           {
             DataRelationshipName: {
-              String: { "#text": "Test Data Relationship" },
+              String: [
+                {
+                  MultilingualStringValue: {
+                    LanguageTag: "fr-FR",
+                    Value: "Test Data Relationship",
+                  },
+                },
+              ],
             },
             LogicalRecord: {
               VariablesInRecord: {
@@ -624,14 +642,30 @@ describe("View Component", () => {
           PhysicalInstance: [
             {
               Citation: {
-                Title: { String: { "#text": "Test Physical Instance" } },
+                Title: {
+                  String: [
+                    {
+                      MultilingualStringValue: {
+                        LanguageTag: "fr-FR",
+                        Value: "Test Physical Instance",
+                      },
+                    },
+                  ],
+                },
               },
             },
           ],
           DataRelationship: [
             {
               DataRelationshipName: {
-                String: { "#text": "Test Data Relationship" },
+                String: [
+                  {
+                    MultilingualStringValue: {
+                      LanguageTag: "fr-FR",
+                      Value: "Test Data Relationship",
+                    },
+                  },
+                ],
               },
               LogicalRecord: {
                 VariablesInRecord: {
@@ -670,14 +704,30 @@ describe("View Component", () => {
         PhysicalInstance: [
           {
             Citation: {
-              Title: { String: { "#text": "Test Physical Instance" } },
+              Title: {
+                String: [
+                  {
+                    MultilingualStringValue: {
+                      LanguageTag: "fr-FR",
+                      Value: "Test Physical Instance",
+                    },
+                  },
+                ],
+              },
             },
           },
         ],
         DataRelationship: [
           {
             DataRelationshipName: {
-              String: { "#text": "Test Data Relationship" },
+              String: [
+                {
+                  MultilingualStringValue: {
+                    LanguageTag: "fr-FR",
+                    Value: "Test Data Relationship",
+                  },
+                },
+              ],
             },
             LogicalRecord: {
               VariablesInRecord: {
@@ -904,10 +954,20 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
+          PhysicalInstance: [
+            {
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
+            },
+          ],
           DataRelationship: [
             {
-              DataRelationshipName: { String: { "#text": "Test" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+              },
               LogicalRecord: {
                 VariablesInRecord: {
                   VariableUsedReference: [
@@ -925,8 +985,16 @@ describe("View Component", () => {
           Variable: [
             {
               ID: "existing-var-1",
-              VariableName: { String: { "#text": "ExistingVar" } },
-              Label: { Content: { "#text": "Existing Variable" } },
+              VariableName: {
+                String: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "ExistingVar" } },
+                ],
+              },
+              Label: {
+                Content: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Existing Variable" } },
+                ],
+              },
             },
           ],
         },
@@ -965,9 +1033,11 @@ describe("View Component", () => {
           expect.arrayContaining([
             expect.objectContaining({ ID: "existing-var-1" }),
             expect.objectContaining({
-              VariableName: expect.objectContaining({
-                String: expect.objectContaining({ "#text": "NewVariable" }),
-              }),
+              VariableName: {
+                String: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "NewVariable" } },
+                ],
+              },
             }),
           ]),
         );
@@ -1061,10 +1131,20 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
+          PhysicalInstance: [
+            {
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
+            },
+          ],
           DataRelationship: [
             {
-              DataRelationshipName: { String: { "#text": "Test" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+              },
               LogicalRecord: {
                 VariablesInRecord: {
                   VariableUsedReference: [],
@@ -1111,7 +1191,7 @@ describe("View Component", () => {
         expect(mutateAsyncMock).toHaveBeenCalled();
         const callArgs = mutateAsyncMock.mock.calls[0][0];
         const dateVariable = callArgs.data.Variable.find(
-          (v: any) => v.VariableName?.String?.["#text"] === "DateVar",
+          (v: any) => v.VariableName?.String?.[0]?.MultilingualStringValue?.Value === "DateVar",
         );
         expect(dateVariable).toBeDefined();
         expect(dateVariable.VariableRepresentation).toHaveProperty("DateTimeRepresentation");
@@ -1151,7 +1231,7 @@ describe("View Component", () => {
         expect(mutateAsyncMock).toHaveBeenCalled();
         const callArgs = mutateAsyncMock.mock.calls[0][0];
         const textVariable = callArgs.data.Variable.find(
-          (v: any) => v.VariableName?.String?.["#text"] === "TextVar",
+          (v: any) => v.VariableName?.String?.[0]?.MultilingualStringValue?.Value === "TextVar",
         );
         // Check that variable doesn't have Description if it wasn't set
         expect(textVariable).not.toHaveProperty("Description");
@@ -1170,10 +1250,20 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
+          PhysicalInstance: [
+            {
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
+            },
+          ],
           DataRelationship: [
             {
-              DataRelationshipName: { String: { "#text": "Test" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+              },
               LogicalRecord: {
                 VariablesInRecord: {
                   VariableUsedReference: [],
@@ -1241,10 +1331,20 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
+          PhysicalInstance: [
+            {
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
+            },
+          ],
           DataRelationship: [
             {
-              DataRelationshipName: { String: { "#text": "Test" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+              },
               LogicalRecord: {
                 VariablesInRecord: {
                   VariableUsedReference: [],
@@ -1320,9 +1420,11 @@ describe("View Component", () => {
         Version: "1",
         URN: "urn:ddi:test-agency:var-1:1",
         VariableName: {
-          String: { "@xml:lang": "fr-FR", "#text": "Variable1" },
+          String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Variable1" } }],
         },
-        Label: { Content: { "@xml:lang": "fr-FR", "#text": "Variable 1" } },
+        Label: {
+          Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Variable 1" } }],
+        },
         VariableRepresentation: {
           TextRepresentation: { "@maxLength": "100" },
         },
@@ -1330,10 +1432,20 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
+          PhysicalInstance: [
+            {
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
+            },
+          ],
           DataRelationship: [
             {
-              DataRelationshipName: { String: { "#text": "Test" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+              },
               LogicalRecord: {
                 VariablesInRecord: {
                   VariableUsedReference: [
@@ -1427,9 +1539,11 @@ describe("View Component", () => {
         Version: "1",
         URN: "urn:ddi:test-agency:var-1:1",
         VariableName: {
-          String: { "@xml:lang": "fr-FR", "#text": "Variable1" },
+          String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Variable1" } }],
         },
-        Label: { Content: { "@xml:lang": "fr-FR", "#text": "Variable 1" } },
+        Label: {
+          Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Variable 1" } }],
+        },
         VariableRepresentation: {
           TextRepresentation: { "@maxLength": "100" },
         },
@@ -1437,10 +1551,20 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
+          PhysicalInstance: [
+            {
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
+            },
+          ],
           DataRelationship: [
             {
-              DataRelationshipName: { String: { "#text": "Test" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+              },
               LogicalRecord: {
                 VariablesInRecord: {
                   VariableUsedReference: [
@@ -1521,8 +1645,18 @@ describe("View Component", () => {
               ID: "pi-original-id",
               Agency: "test-agency",
               Version: "1",
-              Citation: { Title: { String: { "#text": "Original Title" } } },
-              PhysicalInstanceLabel: { Content: { "#text": "Original Label" } },
+              Citation: {
+                Title: {
+                  String: [
+                    { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original Title" } },
+                  ],
+                },
+              },
+              PhysicalInstanceLabel: {
+                Content: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original Label" } },
+                ],
+              },
             },
           ],
           DataRelationship: [
@@ -1530,7 +1664,11 @@ describe("View Component", () => {
               ID: "dr-original-id",
               Agency: "test-agency",
               Version: "1",
-              DataRelationshipName: { String: { "#text": "Original DR Name" } },
+              DataRelationshipName: {
+                String: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original DR Name" } },
+                ],
+              },
               LogicalRecord: {
                 ID: "lr-original-id",
                 VariablesInRecord: { VariableUsedReference: [] },
@@ -1560,14 +1698,15 @@ describe("View Component", () => {
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
       // Verify Citation Title has (copy) suffix
-      expect(savedData.PhysicalInstance[0].Citation.Title.String["#text"]).toBe(
-        "Original Title (copy)",
-      );
+      expect(
+        savedData.PhysicalInstance[0].Citation.Title.String[0].MultilingualStringValue.Value,
+      ).toBe("Original Title (copy)");
 
       // Verify PhysicalInstanceLabel has (copy) suffix
-      expect(savedData.PhysicalInstance[0].PhysicalInstanceLabel.Content["#text"]).toBe(
-        "Original Title (copy)",
-      );
+      expect(
+        savedData.PhysicalInstance[0].PhysicalInstanceLabel.Content[0].MultilingualStringValue
+          .Value,
+      ).toBe("Original Title (copy)");
     });
 
     it("should add (copy) suffix to DataRelationshipName when duplicating", async () => {
@@ -1585,7 +1724,11 @@ describe("View Component", () => {
               ID: "pi-original-id",
               Agency: "test-agency",
               Version: "1",
-              Citation: { Title: { String: { "#text": "Test" } } },
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
             },
           ],
           DataRelationship: [
@@ -1593,7 +1736,11 @@ describe("View Component", () => {
               ID: "dr-original-id",
               Agency: "test-agency",
               Version: "1",
-              DataRelationshipName: { String: { "#text": "Original DR Name" } },
+              DataRelationshipName: {
+                String: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Original DR Name" } },
+                ],
+              },
               LogicalRecord: {
                 ID: "lr-original-id",
                 VariablesInRecord: { VariableUsedReference: [] },
@@ -1623,7 +1770,9 @@ describe("View Component", () => {
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
       // Verify DataRelationship Label has (copy) suffix with new pattern
-      expect(savedData.DataRelationship[0].Label.Content["#text"]).toBe("Structure : Test (copy)");
+      expect(savedData.DataRelationship[0].Label.Content[0].MultilingualStringValue.Value).toBe(
+        "Structure : Test (copy)",
+      );
     });
 
     it("should add BasedOnObject to PhysicalInstance when duplicating", async () => {
@@ -1641,7 +1790,11 @@ describe("View Component", () => {
               ID: "pi-original-id",
               Agency: "test-agency",
               Version: "1",
-              Citation: { Title: { String: { "#text": "Test" } } },
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
             },
           ],
           DataRelationship: [
@@ -1649,7 +1802,9 @@ describe("View Component", () => {
               ID: "dr-original-id",
               Agency: "test-agency",
               Version: "1",
-              DataRelationshipName: { String: { "#text": "DR Name" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+              },
               LogicalRecord: {
                 ID: "lr-original-id",
                 VariablesInRecord: { VariableUsedReference: [] },
@@ -1704,7 +1859,11 @@ describe("View Component", () => {
               ID: "pi-original-id",
               Agency: "test-agency",
               Version: "1",
-              Citation: { Title: { String: { "#text": "Test" } } },
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
             },
           ],
           DataRelationship: [
@@ -1712,7 +1871,9 @@ describe("View Component", () => {
               ID: "dr-original-id",
               Agency: "test-agency",
               Version: "1",
-              DataRelationshipName: { String: { "#text": "DR Name" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+              },
               LogicalRecord: {
                 ID: "lr-original-id",
                 VariablesInRecord: { VariableUsedReference: [] },
@@ -1767,7 +1928,11 @@ describe("View Component", () => {
               ID: "pi-original-id",
               Agency: "test-agency",
               Version: "1",
-              Citation: { Title: { String: { "#text": "Test" } } },
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
             },
           ],
           DataRelationship: [
@@ -1775,7 +1940,9 @@ describe("View Component", () => {
               ID: "dr-original-id",
               Agency: "test-agency",
               Version: "1",
-              DataRelationshipName: { String: { "#text": "DR Name" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+              },
               LogicalRecord: {
                 ID: "lr-original-id",
                 VariablesInRecord: { VariableUsedReference: [] },
@@ -1787,15 +1954,27 @@ describe("View Component", () => {
               ID: "var-original-id-1",
               Agency: "test-agency",
               Version: "1",
-              VariableName: { String: { "#text": "Var1" } },
-              Label: { Content: { "#text": "Variable 1" } },
+              VariableName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Var1" } }],
+              },
+              Label: {
+                Content: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Variable 1" } },
+                ],
+              },
             },
             {
               ID: "var-original-id-2",
               Agency: "test-agency",
               Version: "2",
-              VariableName: { String: { "#text": "Var2" } },
-              Label: { Content: { "#text": "Variable 2" } },
+              VariableName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Var2" } }],
+              },
+              Label: {
+                Content: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Variable 2" } },
+                ],
+              },
             },
           ],
         },
@@ -1871,7 +2050,11 @@ describe("View Component", () => {
               ID: "pi-original-id",
               Agency: "test-agency",
               Version: "1",
-              Citation: { Title: { String: { "#text": "Test" } } },
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
             },
           ],
           DataRelationship: [
@@ -1879,7 +2062,9 @@ describe("View Component", () => {
               ID: "dr-original-id",
               Agency: "test-agency",
               Version: "1",
-              DataRelationshipName: { String: { "#text": "DR Name" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "DR Name" } }],
+              },
               LogicalRecord: {
                 ID: "lr-original-id",
                 VariablesInRecord: { VariableUsedReference: [] },
@@ -1941,9 +2126,11 @@ describe("View Component", () => {
         Version: "1",
         URN: "urn:ddi:test-agency:var-1:1",
         VariableName: {
-          String: { "@xml:lang": "fr-FR", "#text": "Variable1" },
+          String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Variable1" } }],
         },
-        Label: { Content: { "@xml:lang": "fr-FR", "#text": "Variable 1" } },
+        Label: {
+          Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Variable 1" } }],
+        },
         VariableRepresentation: {
           TextRepresentation: { "@maxLength": "100" },
         },
@@ -1951,10 +2138,20 @@ describe("View Component", () => {
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: {
-          PhysicalInstance: [{ Citation: { Title: { String: { "#text": "Test" } } } }],
+          PhysicalInstance: [
+            {
+              Citation: {
+                Title: {
+                  String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+                },
+              },
+            },
+          ],
           DataRelationship: [
             {
-              DataRelationshipName: { String: { "#text": "Test" } },
+              DataRelationshipName: {
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test" } }],
+              },
               LogicalRecord: {
                 VariablesInRecord: {
                   VariableUsedReference: [

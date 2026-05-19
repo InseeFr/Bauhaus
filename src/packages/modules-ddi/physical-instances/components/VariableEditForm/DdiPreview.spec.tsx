@@ -137,16 +137,12 @@ describe("DdiPreview", () => {
             expect.objectContaining({
               ID: "var-1",
               VariableName: {
-                String: {
-                  "@xml:lang": "fr-FR",
-                  "#text": "testVar",
-                },
+                String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "testVar" } }],
               },
               Label: {
-                Content: {
-                  "@xml:lang": "fr-FR",
-                  "#text": "Test Variable",
-                },
+                Content: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test Variable" } },
+                ],
               },
             }),
           ]),
@@ -218,10 +214,9 @@ describe("DdiPreview", () => {
           Variable: expect.arrayContaining([
             expect.objectContaining({
               Description: {
-                Content: {
-                  "@xml:lang": "fr-FR",
-                  "#text": "Test description",
-                },
+                Content: [
+                  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Test description" } },
+                ],
               },
             }),
           ]),

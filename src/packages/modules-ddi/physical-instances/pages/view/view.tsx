@@ -25,6 +25,7 @@ import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
+import { pickLang, singletonEntries } from "../../../utils/multilingual";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
@@ -267,7 +268,7 @@ export const Component = () => {
         const fullVariable = data?.Variable?.find((v: Variable) => v.ID === variable.id);
 
         // Charger les informations complètes de la variable si trouvée
-        const description = fullVariable?.Description?.Content?.["#text"] || undefined;
+        const description = pickLang(fullVariable?.Description?.Content, "fr-FR") || undefined;
         const isGeographic = fullVariable?.["@isGeographic"] === "true";
         const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
         const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
@@ -501,7 +502,7 @@ export const Component = () => {
                   const category = localVar.categories?.find(
                     (cat) => cat.ID === code.CategoryReference?.ID,
                   );
-                  const label = category?.Label?.Content?.["#text"] || "";
+                  const label = pickLang(category?.Label?.Content, "fr-FR") ?? "";
                   const value = code.Value || "";
                   return value.trim() !== "" || label.trim() !== "";
                 }),
@@ -516,7 +517,7 @@ export const Component = () => {
                     const category = localVar.categories?.find(
                       (cat) => cat.ID === code.CategoryReference?.ID,
                     );
-                    const label = category?.Label?.Content?.["#text"] || "";
+                    const label = pickLang(category?.Label?.Content, "fr-FR") ?? "";
                     const value = code.Value || "";
                     return value.trim() !== "" || label.trim() !== "";
                   })
@@ -551,23 +552,14 @@ export const Component = () => {
             ID: localVar.id,
             Version: "1",
             VariableName: {
-              String: {
-                "@xml:lang": "fr-FR",
-                "#text": localVar.name,
-              },
+              String: singletonEntries("fr-FR", localVar.name),
             },
             Label: {
-              Content: {
-                "@xml:lang": "fr-FR",
-                "#text": localVar.label,
-              },
+              Content: singletonEntries("fr-FR", localVar.label),
             },
             ...(localVar.description && {
               Description: {
-                Content: {
-                  "@xml:lang": "fr-FR",
-                  "#text": localVar.description,
-                },
+                Content: singletonEntries("fr-FR", localVar.description),
               },
             }),
             ...(localVar.isGeographic && {

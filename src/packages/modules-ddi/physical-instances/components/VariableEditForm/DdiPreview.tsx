@@ -15,6 +15,7 @@ import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { DdiXmlPreview } from "./DdiXmlPreview";
 import { DdiJsonPreview } from "./DdiJsonPreview";
 import { ddiPreviewReducer, initialState, type DdiFormat } from "./DdiPreview.reducer";
+import { singletonEntries } from "../../../utils/multilingual";
 
 interface DdiPreviewProps {
   variableId: string;
@@ -96,25 +97,16 @@ export const DdiPreview = ({
       ID: variableId,
       Version: "1",
       VariableName: {
-        String: {
-          "@xml:lang": defaultLocale,
-          "#text": variableName,
-        },
+        String: singletonEntries(defaultLocale, variableName),
       },
       Label: {
-        Content: {
-          "@xml:lang": defaultLocale,
-          "#text": variableLabel,
-        },
+        Content: singletonEntries(defaultLocale, variableLabel),
       },
     };
 
     if (variableDescription) {
       variableDDI.Description = {
-        Content: {
-          "@xml:lang": defaultLocale,
-          "#text": variableDescription,
-        },
+        Content: singletonEntries(defaultLocale, variableDescription),
       };
     }
 

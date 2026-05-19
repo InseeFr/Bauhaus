@@ -56,7 +56,9 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Version: "1.0",
               Citation: {
                 Title: {
-                  String: { "@xml:lang": "fr-FR", "#text": "Study Unit 1" },
+                  String: [
+                    { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Study Unit 1" } },
+                  ],
                 },
               },
             },
@@ -66,7 +68,9 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Version: "1.0",
               Citation: {
                 Title: {
-                  String: { "@xml:lang": "fr-FR", "#text": "Study Unit 2" },
+                  String: [
+                    { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Study Unit 2" } },
+                  ],
                 },
               },
             },

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useGroups } from "../../../hooks/useGroups";
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
+import { pickLang } from "../../../utils/multilingual";
 import "./PhysicalInstanceCreationDialog.css";
 
 export interface SelectedGroup {
@@ -85,7 +86,7 @@ export const PhysicalInstanceDialog = ({
   const studyUnitOptions = useMemo(() => {
     if (!groupDetails?.StudyUnit) return [];
     return groupDetails.StudyUnit.map((su) => ({
-      label: su.Citation.Title.String["#text"],
+      label: pickLang(su.Citation.Title.String, "fr-FR") ?? "",
       value: su.ID,
     }));
   }, [groupDetails]);

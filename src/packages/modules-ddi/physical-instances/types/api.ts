@@ -1,3 +1,7 @@
+import type { MultilingualStringEntry } from "../../utils/multilingual";
+
+export type { MultilingualStringEntry, MultilingualStringValue } from "../../utils/multilingual";
+
 export interface PhysicalInstanceResponse {
   $schema?: string;
   topLevelReference?: TopLevelReference[];
@@ -31,15 +35,8 @@ export interface Citation {
 }
 
 export interface Title {
-  String: MultiLocalizedString;
+  String: MultilingualStringEntry[];
 }
-
-export interface LocalizedString {
-  "@xml:lang": string;
-  "#text": string;
-}
-
-export type MultiLocalizedString = LocalizedString | LocalizedString[];
 
 export interface Reference {
   Agency: string;
@@ -57,10 +54,6 @@ export interface DataRelationship {
   Version: string;
   Label?: LabelContent;
   LogicalRecord: LogicalRecord;
-}
-
-export interface LocalizedContent {
-  String: MultiLocalizedString;
 }
 
 export interface LogicalRecord {
@@ -85,14 +78,18 @@ export interface Variable {
   Agency: string;
   ID: string;
   Version: string;
-  VariableName: LocalizedContent;
+  VariableName: VariableName;
   Label: LabelContent;
   Description?: LabelContent;
   VariableRepresentation?: VariableRepresentation;
 }
 
+export interface VariableName {
+  String: MultilingualStringEntry[];
+}
+
 export interface LabelContent {
-  Content: MultiLocalizedString;
+  Content: MultilingualStringEntry[];
 }
 
 export interface VariableRepresentation {

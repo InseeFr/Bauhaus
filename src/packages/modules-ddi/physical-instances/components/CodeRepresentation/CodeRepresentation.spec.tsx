@@ -164,10 +164,9 @@ describe("CodeRepresentation", () => {
     ID: "codelist-1",
     Version: "1",
     Label: {
-      Content: {
-        "@xml:lang": "fr-FR",
-        "#text": "Liste de codes test",
-      },
+      Content: [
+        { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Liste de codes test" } },
+      ],
     },
     Code: [
       {
@@ -196,10 +195,7 @@ describe("CodeRepresentation", () => {
       ID: "category-1",
       Version: "1",
       Label: {
-        Content: {
-          "@xml:lang": "fr-FR",
-          "#text": "Oui",
-        },
+        Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Oui" } }],
       },
     },
   ];
@@ -363,10 +359,9 @@ describe("CodeRepresentation", () => {
         mockRepresentation,
         expect.objectContaining({
           Label: {
-            Content: {
-              "@xml:lang": "fr-FR",
-              "#text": "Nouveau libellé",
-            },
+            Content: [
+              { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Nouveau libellé" } },
+            ],
           },
         }),
         mockCategories,
@@ -389,10 +384,7 @@ describe("CodeRepresentation", () => {
         ...mockCodeList,
         ID: "codelist-2",
         Label: {
-          Content: {
-            "@xml:lang": "fr-FR",
-            "#text": "Liste modifiée",
-          },
+          Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Liste modifiée" } }],
         },
       };
 
@@ -488,10 +480,7 @@ describe("CodeRepresentation", () => {
         expect.anything(),
         expect.objectContaining({
           Label: {
-            Content: {
-              "@xml:lang": "fr-FR",
-              "#text": "Mon label",
-            },
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Mon label" } }],
           },
         }),
         expect.anything(),
@@ -523,10 +512,7 @@ describe("CodeRepresentation", () => {
         expect.anything(),
         expect.objectContaining({
           Label: {
-            Content: {
-              "@xml:lang": "fr-FR",
-              "#text": "Mon label",
-            },
+            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Mon label" } }],
           },
         }),
         expect.anything(),
@@ -628,7 +614,11 @@ describe("CodeRepresentation", () => {
           {
             Agency: "fr.insee",
             ID: "mut-1",
-            Label: { Content: { "#text": "Liste mutualisée" } },
+            Label: {
+              Content: [
+                { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Liste mutualisée" } },
+              ],
+            },
             Code: [
               {
                 ID: "code-1",
@@ -641,7 +631,11 @@ describe("CodeRepresentation", () => {
         Category: [
           {
             ID: "cat-1",
-            Label: { Content: { "#text": "Agriculture" } },
+            Label: {
+              Content: [
+                { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Agriculture" } },
+              ],
+            },
           },
         ],
       };

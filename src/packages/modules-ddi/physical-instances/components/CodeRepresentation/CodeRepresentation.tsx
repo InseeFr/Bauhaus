@@ -53,7 +53,7 @@ export const CodeRepresentation = ({
   const { data: allCodesLists = [] } = useAllCodesLists(agencyId, physicalInstanceId);
   const [state, dispatch] = useReducer(codeRepresentationReducer, {
     ...initialState,
-    codeListLabel: codeList?.Label?.Content?.["#text"] || "",
+    codeListLabel: getLocalizedText(codeList?.Label?.Content) ?? "",
   });
 
   const { codeListLabel, codes, showDataTable, showReuseSelect, selectedCodeListId } = state;
@@ -136,14 +136,14 @@ export const CodeRepresentation = ({
         return {
           id: code.ID,
           value: code.Value,
-          label: category?.Label?.Content?.["#text"] || "",
+          label: getLocalizedText(category?.Label?.Content) ?? "",
           categoryId: category?.ID || "",
         };
       });
       dispatch({
         type: "INIT_FROM_CODE_LIST",
         payload: {
-          label: codeList.Label?.Content?.["#text"] || "",
+          label: getLocalizedText(codeList.Label?.Content) ?? "",
           codes: tableData,
           showDataTable: true,
         },

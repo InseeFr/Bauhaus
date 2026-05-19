@@ -1,32 +1,13 @@
 import { useMemo } from "react";
-import type {
-  PhysicalInstanceResponse,
-  LocalizedString,
-  MultiLocalizedString,
-} from "../physical-instances/types/api";
-
-const toArray = (value: MultiLocalizedString | null | undefined): LocalizedString[] => {
-  if (!value) return [];
-  return Array.isArray(value) ? value : [value];
-};
+import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
+import { type MultilingualStringEntry, pickLangEntry, makeEntry } from "../utils/multilingual";
 
 const primaryTag = (lang: string | undefined) => lang?.split("-")[0];
-
-const pickLang = (
-  value: MultiLocalizedString | null | undefined,
-  lang: string,
-): LocalizedString | undefined => {
-  const entries = toArray(value).filter((e) => e["@xml:lang"]);
-  return (
-    entries.find((e) => e["@xml:lang"] === lang) ??
-    entries.find((e) => primaryTag(e["@xml:lang"]) === primaryTag(lang))
-  );
-};
 
 const normalizeLangs = (raw: Set<string>): Set<string> => {
   const best = new Map<string, string>();
   raw.forEach((lang) => {
-    const primary = primaryTag(lang);
+    const primary = primaryTag(lang) ?? lang;
     const existing = best.get(primary);
     if (!existing || lang.length > existing.length) {
       best.set(primary, lang);
@@ -35,37 +16,48 @@ const normalizeLangs = (raw: Set<string>): Set<string> => {
   return new Set(best.values());
 };
 
-const addLang = (raw: Set<string>, s: LocalizedString) => {
-  if (s["@xml:lang"]) raw.add(s["@xml:lang"]);
+const addLangsFrom = (raw: Set<string>, entries: MultilingualStringEntry[] | undefined) => {
+  entries?.forEach((e) => {
+    const tag = e.MultilingualStringValue?.LanguageTag;
+    if (tag) raw.add(tag);
+  });
 };
 
 const collectLangs = (data: PhysicalInstanceResponse): Set<string> => {
   const raw = new Set<string>();
 
   data.PhysicalInstance?.forEach((pi) => {
-    toArray(pi.Citation?.Title?.String).forEach((s) => addLang(raw, s));
+    addLangsFrom(raw, pi.Citation?.Title?.String);
   });
 
   data.DataRelationship?.forEach((dr) => {
-    toArray(dr.Label?.Content).forEach((s) => addLang(raw, s));
-    toArray(dr.LogicalRecord?.Label?.Content).forEach((s) => addLang(raw, s));
+    addLangsFrom(raw, dr.Label?.Content);
+    addLangsFrom(raw, dr.LogicalRecord?.Label?.Content);
   });
 
   data.Variable?.forEach((v) => {
-    toArray(v.VariableName?.String).forEach((s) => addLang(raw, s));
-    toArray(v.Label?.Content).forEach((s) => addLang(raw, s));
-    toArray(v.Description?.Content).forEach((s) => addLang(raw, s));
+    addLangsFrom(raw, v.VariableName?.String);
+    addLangsFrom(raw, v.Label?.Content);
+    addLangsFrom(raw, v.Description?.Content);
   });
 
   data.CodeList?.forEach((cl) => {
-    toArray(cl.Label?.Content).forEach((s) => addLang(raw, s));
+    addLangsFrom(raw, cl.Label?.Content);
   });
 
   data.Category?.forEach((cat) => {
-    toArray(cat.Label?.Content).forEach((s) => addLang(raw, s));
+    addLangsFrom(raw, cat.Label?.Content);
   });
 
   return normalizeLangs(raw);
+};
+
+const pickOrEmpty = (
+  entries: MultilingualStringEntry[] | undefined,
+  lang: string,
+): MultilingualStringEntry[] => {
+  const entry = pickLangEntry(entries, lang);
+  return entry ? [entry] : [makeEntry(lang, "")];
 };
 
 const filterDataByLang = (
@@ -78,77 +70,39 @@ const filterDataByLang = (
     Citation: {
       ...pi.Citation,
       Title: {
-        String: pickLang(pi.Citation?.Title?.String, lang) ?? {
-          "@xml:lang": lang,
-          "#text": "",
-        },
+        String: pickOrEmpty(pi.Citation?.Title?.String, lang),
       },
     },
   })),
   DataRelationship: data.DataRelationship?.map((dr) => ({
     ...dr,
     ...(dr.Label && {
-      Label: {
-        Content: pickLang(dr.Label.Content, lang) ?? {
-          "@xml:lang": lang,
-          "#text": "",
-        },
-      },
+      Label: { Content: pickOrEmpty(dr.Label.Content, lang) },
     }),
     LogicalRecord: {
       ...dr.LogicalRecord,
       ...(dr.LogicalRecord?.Label && {
-        Label: {
-          Content: pickLang(dr.LogicalRecord.Label.Content, lang) ?? {
-            "@xml:lang": lang,
-            "#text": "",
-          },
-        },
+        Label: { Content: pickOrEmpty(dr.LogicalRecord.Label.Content, lang) },
       }),
     },
   })),
   Variable: data.Variable?.map((v) => ({
     ...v,
-    VariableName: {
-      String: pickLang(v.VariableName?.String, lang) ?? {
-        "@xml:lang": lang,
-        "#text": "",
-      },
-    },
-    Label: {
-      Content: pickLang(v.Label?.Content, lang) ?? {
-        "@xml:lang": lang,
-        "#text": "",
-      },
-    },
+    VariableName: { String: pickOrEmpty(v.VariableName?.String, lang) },
+    Label: { Content: pickOrEmpty(v.Label?.Content, lang) },
     ...(v.Description && {
-      Description: {
-        Content: pickLang(v.Description.Content, lang) ?? {
-          "@xml:lang": lang,
-          "#text": "",
-        },
-      },
+      Description: { Content: pickOrEmpty(v.Description.Content, lang) },
     }),
   })),
   CodeList: data.CodeList?.map((cl) => ({
     ...cl,
     ...(cl.Label && {
-      Label: {
-        Content: pickLang(cl.Label.Content, lang) ?? {
-          "@xml:lang": lang,
-          "#text": "",
-        },
-      },
+      Label: { Content: pickOrEmpty(cl.Label.Content, lang) },
     }),
   })),
   Category: data.Category?.map((cat) => ({
     ...cat,
-    Label: {
-      Content: pickLang(cat.Label?.Content, lang) ?? {
-        "@xml:lang": lang,
-        "#text": "",
-      },
-    },
+    Label: { Content: pickOrEmpty(cat.Label?.Content, lang) },
   })),
 });
 
