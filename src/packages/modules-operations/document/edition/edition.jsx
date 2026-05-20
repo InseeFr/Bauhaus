@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useReducer } from "react";
 import Dropzone from "react-dropzone";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -62,6 +62,52 @@ const saveDocument = (document, type, files) => {
   return promise;
 };
 
+function initEditionState(defaultDocument) {
+  return {
+    serverSideError: "",
+    clientSideErrors: {},
+    saving: false,
+    submitting: false,
+    document: defaultDocument,
+    files: defaultDocument.url ? [{ name: defaultDocument.url }] : [],
+    validationModalDisplayed: false,
+    currentDocument: undefined,
+  };
+}
+
+function editionReducer(state, action) {
+  switch (action.type) {
+    case "RESET_ERRORS_AND_SET_FILES":
+      return {
+        ...state,
+        serverSideError: "",
+        clientSideErrors: { ...state.clientSideErrors, errorMessage: [] },
+        files: action.files,
+      };
+    case "RESET_ERRORS_AND_UPDATE_FIELD":
+      return {
+        ...state,
+        serverSideError: "",
+        clientSideErrors: { ...state.clientSideErrors, errorMessage: [] },
+        document: { ...state.document, [action.fieldId]: action.value },
+      };
+    case "SET_VALIDATION_ERRORS":
+      return { ...state, submitting: true, clientSideErrors: action.clientSideErrors };
+    case "SET_SERVER_SIDE_ERROR":
+      return { ...state, serverSideError: action.error };
+    case "SET_SAVING":
+      return { ...state, saving: action.saving };
+    case "SHOW_VALIDATION_MODAL":
+      return { ...state, validationModalDisplayed: true };
+    case "HIDE_VALIDATION_MODAL":
+      return { ...state, validationModalDisplayed: false };
+    case "SET_CURRENT_DOCUMENT":
+      return { ...state, currentDocument: action.currentDocument };
+    default:
+      return state;
+  }
+}
+
 const OperationsDocumentationEdition = (props) => {
   const { document: documentProps, type, langOptions } = props;
 
@@ -76,27 +122,26 @@ const OperationsDocumentationEdition = (props) => {
     };
   }, [documentProps]);
 
-  const [serverSideError, setServerSideError] = useState("");
-
-  const [clientSideErrors, setClientSideErrors] = useState({});
-
-  const [saving, setSaving] = useState(false);
-
-  const [submitting, setSubmitting] = useState(false);
-
-  const [document, setDocument] = useState(defaultDocument);
-
-  const [files, setFiles] = useState(document.url ? [{ name: document.url }] : []);
-
-  const [validationModalDisplayed, setValidationModalDisplayed] = useState(false);
+  const [state, dispatch] = useReducer(editionReducer, defaultDocument, initEditionState);
+  const {
+    serverSideError,
+    clientSideErrors,
+    saving,
+    submitting,
+    document,
+    files,
+    validationModalDisplayed,
+    currentDocument,
+  } = state;
 
   const { data: documentsAndLinksList } = useDocumentsAndLinks();
 
-  const [currentDocument, setCurrentDocument] = useState();
-
   useEffect(() => {
     if (documentsAndLinksList) {
-      setCurrentDocument(documentsAndLinksList.find((doc) => doc.id === document?.id));
+      dispatch({
+        type: "SET_CURRENT_DOCUMENT",
+        currentDocument: documentsAndLinksList.find((doc) => doc.id === document?.id),
+      });
     }
   }, [documentsAndLinksList, document]);
 
@@ -104,37 +149,23 @@ const OperationsDocumentationEdition = (props) => {
   const currentLabelLg2 = currentDocument?.labelLg2;
 
   const uploadFile = (files) => {
-    setServerSideError("");
-    setClientSideErrors({
-      ...clientSideErrors,
-      errorMessage: [],
-    });
-    setFiles(files);
+    dispatch({ type: "RESET_ERRORS_AND_SET_FILES", files });
   };
 
   const removeFile = () => {
-    setServerSideError("");
-    setClientSideErrors({
-      ...clientSideErrors,
-      errorMessage: [],
-    });
-    setFiles([]);
+    dispatch({ type: "RESET_ERRORS_AND_SET_FILES", files: [] });
   };
 
   const onChange = (e) => {
-    setServerSideError("");
-    setClientSideErrors({
-      ...clientSideErrors,
-      errorMessage: [],
-    });
-    setDocument({
-      ...document,
-      [e.target.id]: e.target.value,
+    dispatch({
+      type: "RESET_ERRORS_AND_UPDATE_FIELD",
+      fieldId: e.target.id,
+      value: e.target.value,
     });
   };
 
   const saveDocumentOrLink = () => {
-    setSaving(true);
+    dispatch({ type: "SET_SAVING", saving: true });
     const isCreation = !document.id;
     saveDocument(document, type, files)
       .then(
@@ -146,10 +177,10 @@ const OperationsDocumentationEdition = (props) => {
           }
         },
         (err) => {
-          setServerSideError(err);
+          dispatch({ type: "SET_SERVER_SIDE_ERROR", error: err });
         },
       )
-      .finally(() => setSaving(false));
+      .finally(() => dispatch({ type: "SET_SAVING", saving: false }));
   };
 
   const onSubmit = () => {
@@ -165,10 +196,9 @@ const OperationsDocumentationEdition = (props) => {
       currentLabelLg2,
     );
     if (clientSideErrors.errorMessage?.length > 0) {
-      setSubmitting(true);
-      setClientSideErrors(clientSideErrors);
+      dispatch({ type: "SET_VALIDATION_ERRORS", clientSideErrors });
     } else if (document.sims?.length > 0) {
-      setValidationModalDisplayed(true);
+      dispatch({ type: "SHOW_VALIDATION_MODAL" });
     } else {
       saveDocumentOrLink();
     }
@@ -193,10 +223,10 @@ const OperationsDocumentationEdition = (props) => {
       <ConfirmationModal
         document={document}
         isOpen={validationModalDisplayed}
-        onNo={() => setValidationModalDisplayed(false)}
+        onNo={() => dispatch({ type: "HIDE_VALIDATION_MODAL" })}
         onYes={() => {
           saveDocumentOrLink();
-          setValidationModalDisplayed(false);
+          dispatch({ type: "HIDE_VALIDATION_MODAL" });
         }}
       />
       {isEditing && (

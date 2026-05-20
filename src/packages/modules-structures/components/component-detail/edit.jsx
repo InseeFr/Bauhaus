@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -47,18 +47,38 @@ const linkedAttributeLabelMapping = {
   [XSD_CODE_LIST]: D.insertModalityValue,
 };
 
+const initialCodeListFormState = {
+  codesFullListPanelOpened: false,
+  codesPartialListPanelOpened: false,
+  partials: [],
+  partialCodesLists: [],
+};
+
+function codeListFormReducer(state, action) {
+  switch (action.type) {
+    case "SET_FULL_PANEL_OPENED":
+      return { ...state, codesFullListPanelOpened: action.opened };
+    case "SET_PARTIAL_PANEL_OPENED":
+      return { ...state, codesPartialListPanelOpened: action.opened };
+    case "SET_PARTIALS":
+      return { ...state, partials: action.partials };
+    case "SET_PARTIAL_CODES_LISTS":
+      return { ...state, partialCodesLists: action.partialCodesLists };
+    default:
+      return state;
+  }
+}
+
 const CodeListFormInput = ({ component, codesLists, setComponent }) => {
-  const [codesFullListPanelOpened, setFullCodesListPanelOpened] = useState(false);
-  const [codesPartialListPanelOpened, setPartialCodesListPanelOpened] = useState(false);
-  const [partials, setPartials] = useState([]);
+  const [state, dispatch] = useReducer(codeListFormReducer, initialCodeListFormState);
+  const { codesFullListPanelOpened, codesPartialListPanelOpened, partials, partialCodesLists } =
+    state;
   const fullCodeListValue = component.fullCodeListValue || component.codeList;
   const currentCodeList = component.codeList;
 
-  const [partialCodesLists, setPartialCodesLists] = useState([]);
-
   useEffect(() => {
     API.getCodelistsPartial().then((response) => {
-      setPartialCodesLists(response);
+      dispatch({ type: "SET_PARTIAL_CODES_LISTS", partialCodesLists: response });
     });
   }, []);
 
@@ -74,7 +94,9 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
       ];
       const list = fullCodeLists.find((list) => list.id === fullCodeListValue);
       if (list) {
-        API.getPartialsByParent(list.notation).then((partials) => setPartials(partials));
+        API.getPartialsByParent(list.notation).then((partials) =>
+          dispatch({ type: "SET_PARTIALS", partials }),
+        );
       }
     }
   }, [fullCodeListValue, codesLists, partialCodesLists]);
@@ -109,7 +131,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
           />
           <SeeButton
             disabled={!fullCodeListValue}
-            onClick={() => setFullCodesListPanelOpened(true)}
+            onClick={() => dispatch({ type: "SET_FULL_PANEL_OPENED", opened: true })}
           ></SeeButton>
         </div>
       </Row>
@@ -127,7 +149,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
             />
             <SeeButton
               disabled={!currentCodeList}
-              onClick={() => setPartialCodesListPanelOpened(true)}
+              onClick={() => dispatch({ type: "SET_PARTIAL_PANEL_OPENED", opened: true })}
             ></SeeButton>
           </div>
         </Row>
@@ -137,7 +159,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
           (c) => (fullCodeListValue?.id || fullCodeListValue)?.toString() === c.id?.toString(),
         )}
         isOpen={codesFullListPanelOpened}
-        handleBack={() => setFullCodesListPanelOpened(false)}
+        handleBack={() => dispatch({ type: "SET_FULL_PANEL_OPENED", opened: false })}
       />
       <CodesListPanel
         codesList={{
@@ -146,7 +168,7 @@ const CodeListFormInput = ({ component, codesLists, setComponent }) => {
           )?.id,
         }}
         isOpen={codesPartialListPanelOpened}
-        handleBack={() => setPartialCodesListPanelOpened(false)}
+        handleBack={() => dispatch({ type: "SET_PARTIAL_PANEL_OPENED", opened: false })}
       />
     </>
   );

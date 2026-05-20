@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
@@ -31,6 +31,40 @@ const apiByParentType = {
   series: OperationsApi.getSerie,
 };
 
+const initialMsdState = {
+  parent: undefined,
+  parentLoading: true,
+  rubricIdForNewDocument: undefined,
+  exportPending: false,
+  owners: [],
+  missingDocuments: new Set(),
+  serverError: undefined,
+  lateralPanelOpened: undefined,
+};
+
+function msdReducer(state, action) {
+  switch (action.type) {
+    case "SET_PARENT":
+      return { ...state, parent: action.parent };
+    case "SET_PARENT_LOADING":
+      return { ...state, parentLoading: action.loading };
+    case "SET_OWNERS":
+      return { ...state, owners: action.owners };
+    case "EXPORT_STARTED":
+      return { ...state, exportPending: true, missingDocuments: new Set() };
+    case "EXPORT_FINISHED":
+      return { ...state, exportPending: false, missingDocuments: action.missingDocuments };
+    case "SET_SERVER_ERROR":
+      return { ...state, serverError: action.error };
+    case "SET_RUBRIC_ID_FOR_NEW_DOCUMENT":
+      return { ...state, rubricIdForNewDocument: action.id };
+    case "SET_LATERAL_PANEL_OPENED":
+      return { ...state, lateralPanelOpened: action.panelType };
+    default:
+      return state;
+  }
+}
+
 const MSDContainer = ({
   mode = HELP,
   baseUrl,
@@ -47,16 +81,23 @@ const MSDContainer = ({
   const { mutateAsync: publishSimsMutation } = usePublishSims();
   const simsParentType = sims ? getParentType(sims) : undefined;
   const simsIdParent = sims ? getParentId(sims) : undefined;
-  const [parent, setParent] = useState();
-  const [parentLoading, setParentLoading] = useState(true);
+  const [state, dispatch] = useReducer(msdReducer, initialMsdState);
+  const {
+    parent,
+    parentLoading,
+    rubricIdForNewDocument,
+    exportPending,
+    owners,
+    missingDocuments,
+    serverError,
+    lateralPanelOpened,
+  } = state;
   const { documentStores, setDocumentStores } = useDocumentsList();
-  const [rubricIdForNewDocument, setRubricIdForNewDocument] = useState();
+  const setRubricIdForNewDocument = useCallback(
+    (id) => dispatch({ type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT", id }),
+    [],
+  );
   const goBack = useGoBack();
-
-  const [exportPending, setExportPending] = useState(false);
-  const [owners, setOwners] = useState([]);
-  const [missingDocuments, setMissingDocuments] = useState(new Set());
-  const [serverError, setServerError] = useState(undefined);
 
   const id = params.id;
   let idParent;
@@ -81,7 +122,7 @@ const MSDContainer = ({
           callback(resultId);
         })
         .catch((error) => {
-          setServerError(error);
+          dispatch({ type: "SET_SERVER_ERROR", error });
           errorCallback();
         });
     },
@@ -109,27 +150,25 @@ const MSDContainer = ({
     const fetch = apiByParentType[parentType];
     if (fetch) {
       fetch(idParent)
-        .then((payload) => setParent(payload))
-        .finally(() => setParentLoading(false));
+        .then((payload) => dispatch({ type: "SET_PARENT", parent: payload }))
+        .finally(() => dispatch({ type: "SET_PARENT_LOADING", loading: false }));
     } else {
-      setParentLoading(false);
+      dispatch({ type: "SET_PARENT_LOADING", loading: false });
     }
   }, [idParent, parentType]);
 
   useEffect(() => {
     if (id) {
       OperationsApi.getOwners(id).then((ownersData) => {
-        setOwners(ownersData);
+        dispatch({ type: "SET_OWNERS", owners: ownersData });
       });
     }
   }, [id]);
 
   const exportCallback = useCallback((exportId, config, exportSims) => {
-    setExportPending(true);
-    setMissingDocuments(new Set());
+    dispatch({ type: "EXPORT_STARTED" });
     OperationsApi.exportSims(exportId, config, exportSims).then((missingDocs) => {
-      setExportPending(false);
-      setMissingDocuments(missingDocs);
+      dispatch({ type: "EXPORT_FINISHED", missingDocuments: missingDocs });
     });
   }, []);
 
@@ -141,8 +180,6 @@ const MSDContainer = ({
     }
     return computeEssentialRubricContext(metadataStructure, currentSims.rubrics);
   }, [mode, isEditMode, metadataStructure, currentSims.rubrics]);
-
-  const [lateralPanelOpened, setLateralPanelOpened] = useState();
 
   if (parentLoading) return <Loading />;
 
@@ -157,8 +194,10 @@ const MSDContainer = ({
         documentStores,
         updateDocumentStores: setDocumentStores,
         lateralPanelOpened,
-        onLateralPanelHide: () => setLateralPanelOpened(undefined),
-        openLateralPanelOpened: (type) => setLateralPanelOpened(type),
+        onLateralPanelHide: () =>
+          dispatch({ type: "SET_LATERAL_PANEL_OPENED", panelType: undefined }),
+        openLateralPanelOpened: (type) =>
+          dispatch({ type: "SET_LATERAL_PANEL_OPENED", panelType: type }),
         rubricIdForNewDocument,
         setRubricIdForNewDocument,
       }}

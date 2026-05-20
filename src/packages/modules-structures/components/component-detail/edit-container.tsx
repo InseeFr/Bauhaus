@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useReducer, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
@@ -12,34 +12,86 @@ import { Component as StructureComponent } from "../../../model/structures/Compo
 import { getFormattedCodeList } from "../../apis";
 import { DumbComponentDetailEdit } from "./edit";
 
+type EditContainerState = {
+  loading: boolean;
+  saving: boolean;
+  component: any;
+  concepts: any[];
+  codesLists: CodesLists;
+  serverSideError: string;
+  attributes: any[];
+};
+
+type EditContainerAction =
+  | {
+      type: "LOAD_SUCCESS";
+      component: any;
+      attributes: any[];
+      concepts: any[];
+      codesLists: CodesLists;
+    }
+  | { type: "LOAD_FINISHED" }
+  | { type: "SAVE_STARTED" }
+  | { type: "SAVE_FAILED"; component: any; error: string }
+  | { type: "SAVE_FINISHED" };
+
+const initialState: EditContainerState = {
+  loading: true,
+  saving: false,
+  component: {},
+  concepts: [],
+  codesLists: [],
+  serverSideError: "",
+  attributes: [],
+};
+
+function editContainerReducer(
+  state: EditContainerState,
+  action: EditContainerAction,
+): EditContainerState {
+  switch (action.type) {
+    case "LOAD_SUCCESS":
+      return {
+        ...state,
+        component: action.component,
+        attributes: action.attributes,
+        concepts: action.concepts,
+        codesLists: action.codesLists,
+      };
+    case "LOAD_FINISHED":
+      return { ...state, loading: false };
+    case "SAVE_STARTED":
+      return { ...state, saving: true, serverSideError: "" };
+    case "SAVE_FAILED":
+      return { ...state, component: action.component, serverSideError: action.error };
+    case "SAVE_FINISHED":
+      return { ...state, saving: false };
+    default:
+      return state;
+  }
+}
+
 export const Component = (props: any) => {
   const goBack = useGoBack();
 
   const { id } = useParams<{ id: string }>();
   const urlParams = new URLSearchParams(window.location.search);
   const type = urlParams.get("type");
-  const [loading, setLoading] = useState<boolean>(true);
-  const [saving, setSaving] = useState<boolean>(false);
-  const [component, setComponent] = useState({});
-  const [concepts, setConcepts] = useState([]);
-  const [codesLists, setCodesLists] = useState<CodesLists>([]);
-  const [serverSideError, setServerSideError] = useState<string>("");
-  const [attributes, setAttributes] = useState([]);
+  const [state, dispatch] = useReducer(editContainerReducer, initialState);
+  const { loading, saving, component, concepts, codesLists, serverSideError, attributes } = state;
 
   const handleBack = useCallback(() => goBack("/structures/components"), [goBack]);
 
   const handleSave = useCallback(
     (component: StructureComponent) => {
-      setSaving(true);
-      setServerSideError("");
+      dispatch({ type: "SAVE_STARTED" });
 
       saveComponent(component)
         .then((id = component.id) => goBack(`/structures/components/${id}`, !component.id))
         .catch((error: string) => {
-          setComponent(component);
-          setServerSideError(error);
+          dispatch({ type: "SAVE_FAILED", component, error });
         })
-        .finally(() => setSaving(false));
+        .finally(() => dispatch({ type: "SAVE_FINISHED" }));
     },
     [goBack],
   );
@@ -53,12 +105,9 @@ export const Component = (props: any) => {
       getFormattedCodeList(),
     ])
       .then(([component, attributes, concepts, codesLists]) => {
-        setComponent(component);
-        setAttributes(attributes);
-        setConcepts(concepts);
-        setCodesLists(codesLists);
+        dispatch({ type: "LOAD_SUCCESS", component, attributes, concepts, codesLists });
       })
-      .finally(() => setLoading(false));
+      .finally(() => dispatch({ type: "LOAD_FINISHED" }));
   }, [id]);
 
   if (loading) return <Loading />;
