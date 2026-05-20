@@ -87,7 +87,7 @@ describe("useCreatePhysicalInstance", () => {
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
-    const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
     const { result } = renderHook(() => useCreatePhysicalInstance(), {
       wrapper,
@@ -199,7 +199,7 @@ describe("useCreatePhysicalInstance", () => {
     const mockPost = vi.fn().mockRejectedValue(mockError);
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
-    const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
     const { result } = renderHook(() => useCreatePhysicalInstance(), {
       wrapper,

@@ -98,7 +98,7 @@ describe("GlobalInformationBlock", () => {
   });
 
   it("should return null if organizations data is not available", () => {
-    vi.spyOn(useOrganizationsHook, "useOrganizations").mockReturnValue({
+    using _useOrgsSpy = vi.spyOn(useOrganizationsHook, "useOrganizations").mockReturnValue({
       data: undefined,
     } as any);
 

@@ -269,7 +269,7 @@ describe("Collection Validation Home Container", () => {
       const queryClient = new QueryClient({
         defaultOptions: { queries: { retry: false } },
       });
-      const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
+      using invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <QueryClientProvider client={queryClient}>
           <MemoryRouter>{children}</MemoryRouter>

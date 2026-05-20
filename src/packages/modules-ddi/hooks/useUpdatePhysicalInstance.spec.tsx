@@ -63,7 +63,7 @@ describe("useUpdatePhysicalInstance", () => {
     const mockPatch = vi.fn().mockResolvedValue({});
     (DDIApi.patchPhysicalInstance as any) = mockPatch;
 
-    const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
     const { result } = renderHook(() => useUpdatePhysicalInstance(), {
       wrapper,

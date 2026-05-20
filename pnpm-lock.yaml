@@ -126,8 +126,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.4(vitest@4.1.4)
       bestzip:
-        specifier: ^2.2.1
-        version: 2.2.3
+        specifier: ^2.2.5
+        version: 2.2.5
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -156,7 +156,7 @@ importers:
         specifier: ^1.80.6
         version: 1.99.0
       stylelint:
-        specifier: ^16.11.0
+        specifier: ^16.26.1
         version: 16.26.1(typescript@5.7.3)
       stylelint-config-standard:
         specifier: ^36.0.1
@@ -2257,9 +2257,9 @@ packages:
   bcp-47@2.1.0:
     resolution: {integrity: sha512-9IIS3UPrvIa1Ej+lVDdDwO7zLehjqsaByECw0bu2RRGP73jALm6FYbzI5gWbgHLvNdkvfXB5YrSbocZdOS0c0w==}
 
-  bestzip@2.2.3:
-    resolution: {integrity: sha512-1pIfHm3C8WPI7eI7HMmyeCMsfCDoW9nDRoyFlwV49Ehxf8taRZQOthsPP4vLSBx4JCaz0VfYc5Ctq7C7LLo+2Q==}
-    engines: {node: '>=10'}
+  bestzip@2.2.5:
+    resolution: {integrity: sha512-3c+7j24mW+Si8rNKe9rDQEaCBI/ECRlNIU1rBLlqIt2zjBsakVqHxpLySMToM/JTGmfXfqBpr2okkfBxARkwRw==}
+    engines: {node: '>=20'}
     hasBin: true
 
   boolbase@1.0.0:
@@ -4431,14 +4431,14 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  seroval-plugins@1.5.2:
-    resolution: {integrity: sha512-qpY0Cl+fKYFn4GOf3cMiq6l72CpuVaawb6ILjubOQ+diJ54LfOWaSSPsaswN8DRPIPW4Yq+tE1k5aKd7ILyaFg==}
+  seroval-plugins@1.5.4:
+    resolution: {integrity: sha512-S0xQPhUTefAhNvNWFg0c1J8qJArHt5KdtJ/cFAofo06KD1MVSeFWyl4iiu+ApDIuw0WhjpOfCdgConOfAnLgkw==}
     engines: {node: '>=10'}
     peerDependencies:
       seroval: ^1.0
 
-  seroval@1.5.2:
-    resolution: {integrity: sha512-xcRN39BdsnO9Tf+VzsE7b3JyTJASItIV1FVFewJKCFcW4s4haIKS3e6vj8PGB9qBwC7tnuOywQMdv5N4qkzi7Q==}
+  seroval@1.5.4:
+    resolution: {integrity: sha512-46uFvgrXTVxZcUorgSSRZ4y+ieqLLQRMlG4bnCZKW3qI6BZm7Rg4ntMW4p1mILEEBZWrFlcpp0AyIIlM6jD9iw==}
     engines: {node: '>=10'}
 
   setimmediate@1.0.5:
@@ -7169,7 +7169,7 @@ snapshots:
       is-alphanumerical: 2.0.1
       is-decimal: 2.0.1
 
-  bestzip@2.2.3:
+  bestzip@2.2.5:
     dependencies:
       archiver: 7.0.1
       glob: 13.0.6
@@ -10041,11 +10041,11 @@ snapshots:
 
   semver@7.7.4: {}
 
-  seroval-plugins@1.5.2(seroval@1.5.2):
+  seroval-plugins@1.5.4(seroval@1.5.4):
     dependencies:
-      seroval: 1.5.2
+      seroval: 1.5.4
 
-  seroval@1.5.2: {}
+  seroval@1.5.4: {}
 
   setimmediate@1.0.5: {}
 
@@ -10134,8 +10134,8 @@ snapshots:
   solid-js@1.9.12:
     dependencies:
       csstype: 3.2.3
-      seroval: 1.5.2
-      seroval-plugins: 1.5.2(seroval@1.5.2)
+      seroval: 1.5.4
+      seroval-plugins: 1.5.4(seroval@1.5.4)
 
   source-map-js@1.2.1: {}
 

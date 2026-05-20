@@ -799,7 +799,7 @@ describe("VariableEditForm", () => {
   describe("Duplicate functionality", () => {
     it("should duplicate variable when duplicate button is clicked", () => {
       const mockUUID = "test-uuid-1234";
-      vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
+      using _randomUUIDSpy = vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
 
       render(
         <VariableEditForm
@@ -822,13 +822,11 @@ describe("VariableEditForm", () => {
           type: "numeric",
         }),
       );
-
-      vi.restoreAllMocks();
     });
 
     it("should duplicate variable with representation data", () => {
       const mockUUID = "test-uuid-5678";
-      vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
+      using _randomUUIDSpy = vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
 
       const variableWithRepresentation = {
         ...defaultVariable,
@@ -861,8 +859,6 @@ describe("VariableEditForm", () => {
           },
         }),
       );
-
-      vi.restoreAllMocks();
     });
 
     it("should not call onDuplicate if prop is not provided", () => {
