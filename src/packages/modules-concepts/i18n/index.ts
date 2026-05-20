@@ -15,6 +15,7 @@ i18n.use(initReactI18next).init({
     escapeValue: false,
   },
   initImmediate: false,
+  showSupportNotice: false,
 });
 
 export default i18n;
