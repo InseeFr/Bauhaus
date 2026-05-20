@@ -11,6 +11,8 @@ interface GlobalActionsCardProps {
   onDeleteClick?: (data: any) => void;
   unsavedVariableIds?: string[];
   selectedVariableId?: string | null;
+  /** Stamps de l'instance source — gating STAMP du bouton de duplication. */
+  stamps?: string[];
 }
 
 export const GlobalActionsCard = ({
@@ -21,12 +23,13 @@ export const GlobalActionsCard = ({
   onDeleteClick,
   unsavedVariableIds = [],
   selectedVariableId,
+  stamps,
 }: Readonly<GlobalActionsCardProps>) => {
   const { t } = useTranslation();
 
   return (
     <Card title={t("physicalInstance.view.globalActions")}>
-      <GlobalActionToolbar onExport={onExport} onDuplicate={onDuplicate} />
+      <GlobalActionToolbar onExport={onExport} onDuplicate={onDuplicate} stamps={stamps} />
       <PhysicalInstancesDataTable
         variables={variables}
         onRowClick={onRowClick}

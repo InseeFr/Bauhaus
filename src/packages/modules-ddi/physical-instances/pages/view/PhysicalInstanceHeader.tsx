@@ -15,6 +15,7 @@ interface PhysicalInstanceHeaderProps {
   onLanguageChange: (lang: string) => void;
   group?: SelectedGroup;
   studyUnit?: SelectedStudyUnit;
+  stamps?: string[];
 }
 
 export const PhysicalInstanceHeader = ({
@@ -23,6 +24,7 @@ export const PhysicalInstanceHeader = ({
   onLanguageChange,
   group,
   studyUnit,
+  stamps,
 }: Readonly<PhysicalInstanceHeaderProps>) => {
   const { t } = useTranslation();
   const { properties } = useAppContext();
@@ -46,7 +48,13 @@ export const PhysicalInstanceHeader = ({
           aria-label={t("physicalInstance.view.selectLanguage")}
         />
       )}
-      <PhysicalInstanceLabel label={label} onSave={onSave} group={group} studyUnit={studyUnit} />
+      <PhysicalInstanceLabel
+        label={label}
+        onSave={onSave}
+        group={group}
+        studyUnit={studyUnit}
+        stamps={stamps}
+      />
     </div>
   );
 };

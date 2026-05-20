@@ -19,6 +19,8 @@ interface PhysicalInstanceLabelProps {
   onSave: (data: PhysicalInstanceUpdateData) => Promise<void>;
   group?: SelectedGroup;
   studyUnit?: SelectedStudyUnit;
+  /** Stamps créateurs du groupe parent — gating STAMP du bouton d'édition. */
+  stamps?: string[];
 }
 
 export const PhysicalInstanceLabel = ({
@@ -26,6 +28,7 @@ export const PhysicalInstanceLabel = ({
   onSave,
   group,
   studyUnit,
+  stamps,
 }: Readonly<PhysicalInstanceLabelProps>) => {
   const { t } = useTranslation();
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
@@ -44,7 +47,7 @@ export const PhysicalInstanceLabel = ({
     <>
       <div className="flex align-items-center gap-2 mb-3">
         <h1 className="m-0">{label}</h1>
-        <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+        <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
           <Button
             icon="pi pi-pencil"
             text

@@ -52,14 +52,22 @@ const hasStampAccess = (
   userStamps: UserStamp[],
   allowedStamps: string[],
   complementaryCheck: boolean,
-  check: (stamp: string) => boolean,
+  check?: (stamp: string) => boolean,
 ): boolean => {
   if (allowedStamps.length === 0) {
+    // Stratégie STAMP sans stamps autorisés ni check métier : la stratégie
+    // n'est pas réellement applicable — accès refusé (auparavant : accès
+    // ouvert à tout utilisateur tamponné, à l'inverse du besoin).
+    if (!check) {
+      return false;
+    }
     return userStamps.some((userStamp) => complementaryCheck && check(userStamp.stamp));
   }
   return userStamps.some(
     (userStamp) =>
-      allowedStamps.includes(userStamp.stamp) && complementaryCheck && check(userStamp.stamp),
+      allowedStamps.includes(userStamp.stamp) &&
+      complementaryCheck &&
+      (check ? check(userStamp.stamp) : true),
   );
 };
 
@@ -68,7 +76,7 @@ export const useAuthorizationGuard = ({
   privilege,
   stamps: stampsProps = [],
   complementaryCheck = true,
-  check = () => true,
+  check,
 }: AuthorizationGuardOptions): boolean => {
   const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
 
@@ -98,7 +106,7 @@ export const HasAccess = ({
   privilege,
   stamps = [],
   complementaryCheck = true,
-  check = () => true,
+  check,
 }: Readonly<
   PropsWithChildren<{
     module: MODULE;

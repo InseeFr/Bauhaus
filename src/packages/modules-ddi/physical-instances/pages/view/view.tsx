@@ -43,6 +43,7 @@ export const Component = () => {
 
   const currentGroup = parents?.group;
   const currentStudyUnit = parents?.studyUnit;
+  const currentStamps = parents?.stamps;
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
@@ -694,6 +695,7 @@ export const Component = () => {
             onLanguageChange={setSelectedLanguage}
             group={currentGroup}
             studyUnit={currentStudyUnit}
+            stamps={currentStamps}
           />
 
           <SearchFilters
@@ -705,6 +707,7 @@ export const Component = () => {
             onNewVariable={handleNewVariable}
             onSaveAll={handleSaveAll}
             hasLocalChanges={hasUnsavedChanges}
+            stamps={currentStamps}
           />
         </div>
 
@@ -716,6 +719,7 @@ export const Component = () => {
           onDeleteClick={handleDeleteVariable}
           unsavedVariableIds={unsavedVariableIds}
           selectedVariableId={state.selectedVariable?.id}
+          stamps={currentStamps}
         />
       </div>
       {state.selectedVariable && (
@@ -730,6 +734,7 @@ export const Component = () => {
             onNext={handleNextVariable}
             hasPrevious={hasVariablesToNavigate}
             hasNext={hasVariablesToNavigate}
+            stamps={currentStamps}
           />
         </div>
       )}

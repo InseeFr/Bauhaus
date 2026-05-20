@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { HomePageMenu } from "./menu";
 
 vi.mock("@components/new-button", () => ({
@@ -14,69 +15,80 @@ vi.mock("@components/vertical-menu", () => ({
   VerticalMenu: ({ children }: any) => <div data-testid="vertical-menu">{children}</div>,
 }));
 
-vi.mock("../../../../auth/components/auth", () => ({
-  HasAccess: ({ children, module, privilege }: any) => (
-    <div data-testid="has-access" data-module={module} data-privilege={privilege}>
-      {children}
-    </div>
-  ),
-}));
+// À la création il n'y a pas de ressource : le gating ne dépend pas des
+// stamps mais seulement de la stratégie du privilège CREATE.
+vi.mock("@utils/hooks/users", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
+  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
+});
+
+const ddiCreatePrivileges = (strategy: string) => ({
+  privileges: [
+    {
+      application: "DDI_PHYSICALINSTANCE",
+      privileges: [{ privilege: "CREATE", strategy }],
+    },
+  ],
+});
 
 describe("HomePageMenu", () => {
   const mockOnCreate = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
+    (usePrivileges as any).mockReturnValue(ddiCreatePrivileges("ALL"));
+    (useUserStamps as any).mockReturnValue({ data: [] });
   });
 
-  it("should render the vertical menu", () => {
+  it("rend le menu vertical", () => {
     render(<HomePageMenu onCreate={mockOnCreate} />);
 
     expect(screen.getByTestId("vertical-menu")).toBeInTheDocument();
   });
 
-  it("should render HasAccess with correct module and privilege", () => {
+  it("affiche le bouton de création quand la stratégie CREATE est ALL", () => {
+    (usePrivileges as any).mockReturnValue(ddiCreatePrivileges("ALL"));
+
     render(<HomePageMenu onCreate={mockOnCreate} />);
 
-    const hasAccess = screen.getByTestId("has-access");
-    expect(hasAccess).toHaveAttribute("data-module", "DDI_PHYSICALINSTANCE");
-    expect(hasAccess).toHaveAttribute("data-privilege", "CREATE");
+    expect(screen.queryByText("Nouveau")).toBeInTheDocument();
   });
 
-  it("should render MasculineButton inside HasAccess", () => {
+  it("affiche le bouton de création quand la stratégie CREATE est STAMP (le filtrage STAMP a lieu au choix du groupe)", () => {
+    (usePrivileges as any).mockReturnValue(ddiCreatePrivileges("STAMP"));
+
     render(<HomePageMenu onCreate={mockOnCreate} />);
 
-    const button = screen.getByText("Nouveau");
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveAttribute("data-component", "button");
+    expect(screen.queryByText("Nouveau")).toBeInTheDocument();
   });
 
-  it("should call onCreate when button is clicked", () => {
+  it("masque le bouton de création quand la stratégie CREATE est NONE", () => {
+    (usePrivileges as any).mockReturnValue(ddiCreatePrivileges("NONE"));
+
     render(<HomePageMenu onCreate={mockOnCreate} />);
 
-    const button = screen.getByText("Nouveau");
-    fireEvent.click(button);
+    expect(screen.queryByText("Nouveau")).not.toBeInTheDocument();
+  });
+
+  it("masque le bouton de création en l'absence de privilège CREATE", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [] });
+
+    render(<HomePageMenu onCreate={mockOnCreate} />);
+
+    expect(screen.queryByText("Nouveau")).not.toBeInTheDocument();
+  });
+
+  it("appelle onCreate au clic sur le bouton", () => {
+    render(<HomePageMenu onCreate={mockOnCreate} />);
+
+    fireEvent.click(screen.getByText("Nouveau"));
 
     expect(mockOnCreate).toHaveBeenCalledTimes(1);
   });
 
-  it("should pass onCreate as action prop to MasculineButton", () => {
+  it("passe component='button' à MasculineButton", () => {
     render(<HomePageMenu onCreate={mockOnCreate} />);
 
-    const button = screen.getByText("Nouveau");
-    fireEvent.click(button);
-
-    expect(mockOnCreate).toHaveBeenCalled();
-  });
-
-  it("should have correct component structure", () => {
-    render(<HomePageMenu onCreate={mockOnCreate} />);
-
-    const verticalMenu = screen.getByTestId("vertical-menu");
-    const hasAccess = screen.getByTestId("has-access");
-    const button = screen.getByText("Nouveau");
-
-    expect(verticalMenu).toContainElement(hasAccess);
-    expect(hasAccess).toContainElement(button);
+    expect(screen.getByText("Nouveau")).toHaveAttribute("data-component", "button");
   });
 });

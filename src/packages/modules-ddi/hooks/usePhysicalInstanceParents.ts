@@ -4,6 +4,8 @@ import { DDIApi } from "../../sdk";
 export interface PhysicalInstanceParents {
   studyUnit: { agency: string; id: string };
   group: { agency: string; id: string };
+  /** Stamps créateurs du groupe parent — base du gating STAMP côté affichage. */
+  stamps: string[];
 }
 
 export function usePhysicalInstanceParents(agencyId: string, id: string) {

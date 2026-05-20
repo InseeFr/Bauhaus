@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { VariableEditForm } from "./VariableEditForm";
 import type {
   NumericRepresentation,
@@ -45,13 +46,21 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("../../../../auth/components/auth", () => ({
-  HasAccess: ({ children, module, privilege }: any) => (
-    <div data-testid="has-access" data-module={module} data-privilege={privilege}>
-      {children}
-    </div>
-  ),
-}));
+// On monte le vrai <HasAccess> ; seules les sources de privilèges et de
+// stamps sont mockées.
+vi.mock("@utils/hooks/users", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
+  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
+});
+
+const ddiPrivileges = (strategy: string) => ({
+  privileges: [
+    {
+      application: "DDI_PHYSICALINSTANCE",
+      privileges: [{ privilege: "UPDATE", strategy }],
+    },
+  ],
+});
 
 vi.mock("primereact/card", () => ({
   Card: ({ title, children }: any) => (
@@ -264,6 +273,9 @@ describe("VariableEditForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockOnDuplicate.mockClear();
+    // Par défaut : stratégie ALL → les boutons UPDATE sont rendus.
+    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
   });
 
   it("should render the form with title", () => {
@@ -870,50 +882,39 @@ describe("VariableEditForm", () => {
     });
   });
 
-  describe("HasAccess controls", () => {
-    it("should wrap duplicate and save buttons with HasAccess UPDATE privilege", () => {
+  describe("gating STAMP des boutons UPDATE", () => {
+    it("affiche les boutons dupliquer/enregistrer quand un stamp utilisateur appartient à parents.stamps", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+
       render(
         <VariableEditForm
           variable={defaultVariable}
           typeOptions={typeOptions}
           onSave={mockOnSave}
+          stamps={["STAMP1", "STAMP2"]}
         />,
       );
 
-      const hasAccessElements = screen.getAllByTestId("has-access");
-      expect(hasAccessElements).toHaveLength(2);
-      hasAccessElements.forEach((el) => {
-        expect(el).toHaveAttribute("data-module", "DDI_PHYSICALINSTANCE");
-        expect(el).toHaveAttribute("data-privilege", "UPDATE");
-      });
+      expect(screen.queryByText("Dupliquer")).toBeInTheDocument();
+      expect(screen.queryByText("Mettre à jour")).toBeInTheDocument();
     });
 
-    it("should render duplicate button inside HasAccess", () => {
+    it("masque les boutons dupliquer/enregistrer quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
+
       render(
         <VariableEditForm
           variable={defaultVariable}
           typeOptions={typeOptions}
           onSave={mockOnSave}
+          stamps={["STAMP1", "STAMP2"]}
         />,
       );
 
-      const hasAccessElements = screen.getAllByTestId("has-access");
-      const duplicateButton = screen.getByText("Dupliquer");
-      expect(hasAccessElements[0]).toContainElement(duplicateButton);
-    });
-
-    it("should render save button inside HasAccess", () => {
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
-
-      const hasAccessElements = screen.getAllByTestId("has-access");
-      const saveButton = screen.getByText("Mettre à jour");
-      expect(hasAccessElements[1]).toContainElement(saveButton);
+      expect(screen.queryByText("Dupliquer")).not.toBeInTheDocument();
+      expect(screen.queryByText("Mettre à jour")).not.toBeInTheDocument();
     });
   });
 

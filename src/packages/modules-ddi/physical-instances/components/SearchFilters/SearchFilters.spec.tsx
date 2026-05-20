@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { SearchFilters } from "./SearchFilters";
 
 vi.mock("react-i18next", () => ({
@@ -16,9 +17,21 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("../../../../auth/components/auth", () => ({
-  HasAccess: ({ children }: { children: React.ReactNode }) => children,
-}));
+// On monte le vrai <HasAccess> ; seules les sources de privilèges et de
+// stamps sont mockées.
+vi.mock("@utils/hooks/users", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
+  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
+});
+
+const ddiPrivileges = (strategy: string) => ({
+  privileges: [
+    {
+      application: "DDI_PHYSICALINSTANCE",
+      privileges: [{ privilege: "UPDATE", strategy }],
+    },
+  ],
+});
 
 vi.mock("primereact/inputtext", () => ({
   InputText: ({ value, onChange, placeholder, className, ...props }: any) => (
@@ -89,6 +102,9 @@ describe("SearchFilters", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // Par défaut : stratégie ALL → les boutons UPDATE sont rendus.
+    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
   });
 
   it("should render search input with placeholder", () => {
@@ -184,5 +200,27 @@ describe("SearchFilters", () => {
     fireEvent.click(button);
 
     expect(mockOnSaveAll).toHaveBeenCalledTimes(1);
+  });
+
+  describe("gating STAMP des boutons UPDATE", () => {
+    it("affiche les boutons quand un stamp utilisateur appartient à parents.stamps", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+
+      render(<SearchFilters {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+
+      expect(screen.queryByText("Tout enregistrer")).toBeInTheDocument();
+      expect(screen.queryByText("Nouvelle Variable")).toBeInTheDocument();
+    });
+
+    it("masque les boutons quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
+
+      render(<SearchFilters {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+
+      expect(screen.queryByText("Tout enregistrer")).not.toBeInTheDocument();
+      expect(screen.queryByText("Nouvelle Variable")).not.toBeInTheDocument();
+    });
   });
 });

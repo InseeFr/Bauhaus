@@ -15,6 +15,8 @@ interface SearchFiltersProps {
   onNewVariable: () => void;
   onSaveAll?: () => void;
   hasLocalChanges?: boolean;
+  /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
+  stamps?: string[];
 }
 
 export const SearchFilters = ({
@@ -26,6 +28,7 @@ export const SearchFilters = ({
   onNewVariable,
   onSaveAll,
   hasLocalChanges = false,
+  stamps,
 }: Readonly<SearchFiltersProps>) => {
   const { t } = useTranslation();
 
@@ -49,7 +52,7 @@ export const SearchFilters = ({
         className="flex-1"
         aria-label={t("physicalInstance.view.typeFilter")}
       />
-      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
         <Button
           icon="pi pi-save"
           label={t("physicalInstance.view.saveAll")}
@@ -60,7 +63,7 @@ export const SearchFilters = ({
           disabled={!hasLocalChanges}
         />
       </HasAccess>
-      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
         <Button
           icon="pi pi-plus"
           label={t("physicalInstance.view.newVariable")}

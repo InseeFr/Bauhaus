@@ -172,6 +172,8 @@ interface VariableEditFormProps {
   onNext?: () => void;
   hasPrevious?: boolean;
   hasNext?: boolean;
+  /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
+  stamps?: string[];
 }
 
 export const VariableEditForm = ({
@@ -184,6 +186,7 @@ export const VariableEditForm = ({
   onNext,
   hasPrevious = false,
   hasNext = false,
+  stamps,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -390,7 +393,7 @@ export const VariableEditForm = ({
     >
       <form onSubmit={handleSubmit} className="flex flex-column gap-3">
         <div className="flex gap-2 justify-content-end">
-          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
             <Button
               type="button"
               label={t("physicalInstance.view.duplicate")}
@@ -400,7 +403,7 @@ export const VariableEditForm = ({
               onClick={handleDuplicate}
             />
           </HasAccess>
-          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
             <Button
               type="submit"
               label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}

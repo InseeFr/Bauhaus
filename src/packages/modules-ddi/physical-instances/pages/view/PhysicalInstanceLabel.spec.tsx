@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
 import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 
@@ -9,9 +10,21 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("../../../../auth/components/auth", () => ({
-  HasAccess: ({ children }: { children: React.ReactNode }) => children,
-}));
+// On monte le vrai <HasAccess> / useAuthorizationGuard ; seules les sources
+// de privilèges et de stamps sont mockées.
+vi.mock("@utils/hooks/users", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
+  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
+});
+
+const ddiPrivileges = (strategy: string) => ({
+  privileges: [
+    {
+      application: "DDI_PHYSICALINSTANCE",
+      privileges: [{ privilege: "UPDATE", strategy }],
+    },
+  ],
+});
 
 vi.mock("primereact/button", () => ({
   Button: ({ label, onClick, icon, ...props }: any) => (
@@ -53,6 +66,9 @@ describe("PhysicalInstanceLabel", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // Par défaut : stratégie ALL → le bouton est rendu (non-régression).
+    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
   });
 
   it("should render the label as h1", () => {
@@ -184,5 +200,37 @@ describe("PhysicalInstanceLabel", () => {
 
     const heading = screen.getByRole("heading", { level: 1 });
     expect(heading).toHaveTextContent(specialLabel);
+  });
+
+  describe("gating STAMP du bouton d'édition", () => {
+    it("affiche le bouton quand un stamp utilisateur appartient à parents.stamps", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+
+      render(
+        <PhysicalInstanceLabel
+          label="Test Label"
+          onSave={mockOnSave}
+          stamps={["STAMP1", "STAMP2"]}
+        />,
+      );
+
+      expect(screen.queryByLabelText("physicalInstance.view.editTitle")).toBeInTheDocument();
+    });
+
+    it("masque le bouton quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
+
+      render(
+        <PhysicalInstanceLabel
+          label="Test Label"
+          onSave={mockOnSave}
+          stamps={["STAMP1", "STAMP2"]}
+        />,
+      );
+
+      expect(screen.queryByLabelText("physicalInstance.view.editTitle")).not.toBeInTheDocument();
+    });
   });
 });
