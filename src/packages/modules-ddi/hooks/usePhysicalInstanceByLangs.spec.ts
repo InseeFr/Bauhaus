@@ -80,9 +80,9 @@ const multiLangData: PhysicalInstanceResponse = {
       Version: "1",
       Citation: {
         Title: [
-            { "@language": "fr-FR", "@value": "Titre FR" },
-            { "@language": "en-GB", "@value": "Title EN" },
-          ],
+          { "@language": "fr-FR", "@value": "Titre FR" },
+          { "@language": "en-GB", "@value": "Title EN" },
+        ],
       },
       DataRelationshipReference: baseRef,
     },
@@ -94,18 +94,18 @@ const multiLangData: PhysicalInstanceResponse = {
       ID: "dr-1",
       Version: "1",
       Label: [
-          { "@language": "fr-FR", "@value": "Label DR FR" },
-          { "@language": "en-GB", "@value": "Label DR EN" },
-        ],
+        { "@language": "fr-FR", "@value": "Label DR FR" },
+        { "@language": "en-GB", "@value": "Label DR EN" },
+      ],
       LogicalRecord: {
         URN: "urn:lr:1",
         Agency: "fr.insee",
         ID: "lr-1",
         Version: "1",
         Label: [
-            { "@language": "fr-FR", "@value": "Label LR FR" },
-            { "@language": "en-GB", "@value": "Label LR EN" },
-          ],
+          { "@language": "fr-FR", "@value": "Label LR FR" },
+          { "@language": "en-GB", "@value": "Label LR EN" },
+        ],
         VariablesInRecord: { VariableUsedReference: [] },
       },
     },
@@ -117,17 +117,17 @@ const multiLangData: PhysicalInstanceResponse = {
       ID: "v-1",
       Version: "1",
       VariableName: [
-          { "@language": "fr-FR", "@value": "NomVar FR" },
-          { "@language": "en-GB", "@value": "VarName EN" },
-        ],
+        { "@language": "fr-FR", "@value": "NomVar FR" },
+        { "@language": "en-GB", "@value": "VarName EN" },
+      ],
       Label: [
-          { "@language": "fr-FR", "@value": "Label Var FR" },
-          { "@language": "en-GB", "@value": "Label Var EN" },
-        ],
+        { "@language": "fr-FR", "@value": "Label Var FR" },
+        { "@language": "en-GB", "@value": "Label Var EN" },
+      ],
       Description: [
-          { "@language": "fr-FR", "@value": "Desc FR" },
-          { "@language": "en-GB", "@value": "Desc EN" },
-        ],
+        { "@language": "fr-FR", "@value": "Desc FR" },
+        { "@language": "en-GB", "@value": "Desc EN" },
+      ],
     },
   ],
   CodeList: [
@@ -137,9 +137,9 @@ const multiLangData: PhysicalInstanceResponse = {
       ID: "cl-1",
       Version: "1",
       Label: [
-          { "@language": "fr-FR", "@value": "Label CL FR" },
-          { "@language": "en-GB", "@value": "Label CL EN" },
-        ],
+        { "@language": "fr-FR", "@value": "Label CL FR" },
+        { "@language": "en-GB", "@value": "Label CL EN" },
+      ],
     },
   ],
   Category: [
@@ -149,9 +149,9 @@ const multiLangData: PhysicalInstanceResponse = {
       ID: "cat-1",
       Version: "1",
       Label: [
-          { "@language": "fr-FR", "@value": "Label Cat FR" },
-          { "@language": "en-GB", "@value": "Label Cat EN" },
-        ],
+        { "@language": "fr-FR", "@value": "Label Cat FR" },
+        { "@language": "en-GB", "@value": "Label Cat EN" },
+      ],
     },
   ],
 };
@@ -327,9 +327,7 @@ describe("usePhysicalInstanceByLangs", () => {
           {
             ...singleLangData.Variable![0],
             // Field stored as "fr" instead of "fr-FR"
-            Description: [
-                { "@language": "fr", "@value": "Desc FR subtag" },
-              ],
+            Description: [{ "@language": "fr", "@value": "Desc FR subtag" }],
           },
         ],
       };
@@ -349,9 +347,7 @@ describe("usePhysicalInstanceByLangs", () => {
           {
             ...multiLangData.Variable![0],
             // Description only in en-GB
-            Description: [
-                { "@language": "en-GB", "@value": "Desc EN only" },
-              ],
+            Description: [{ "@language": "en-GB", "@value": "Desc EN only" }],
           },
         ],
       };
@@ -359,9 +355,7 @@ describe("usePhysicalInstanceByLangs", () => {
       const { result } = renderHook(() => usePhysicalInstanceByLangs(mixedData));
 
       const frData = result.current.get("fr-FR")!;
-      expect(frData.Variable![0].Description).toEqual([
-        { "@language": "fr-FR", "@value": "" },
-      ]);
+      expect(frData.Variable![0].Description).toEqual([{ "@language": "fr-FR", "@value": "" }]);
     });
   });
 

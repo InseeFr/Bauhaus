@@ -163,9 +163,7 @@ describe("CodeRepresentation", () => {
     Agency: "fr.insee",
     ID: "codelist-1",
     Version: "1",
-    Label: [
-        { "@language": "fr-FR", "@value": "Liste de codes test" },
-      ],
+    Label: [{ "@language": "fr-FR", "@value": "Liste de codes test" }],
     Code: [
       {
         "@isUniversallyUnique": "true",
@@ -354,9 +352,7 @@ describe("CodeRepresentation", () => {
       expect(mockOnChange).toHaveBeenCalledWith(
         mockRepresentation,
         expect.objectContaining({
-          Label: [
-              { "@language": "fr-FR", "@value": "Nouveau libellé" },
-            ],
+          Label: [{ "@language": "fr-FR", "@value": "Nouveau libellé" }],
         }),
         mockCategories,
       );
@@ -602,9 +598,7 @@ describe("CodeRepresentation", () => {
           {
             Agency: "fr.insee",
             ID: "mut-1",
-            Label: [
-                { "@language": "fr-FR", "@value": "Liste mutualisée" },
-              ],
+            Label: [{ "@language": "fr-FR", "@value": "Liste mutualisée" }],
             Code: [
               {
                 ID: "code-1",
@@ -617,9 +611,7 @@ describe("CodeRepresentation", () => {
         Category: [
           {
             ID: "cat-1",
-            Label: [
-                { "@language": "fr-FR", "@value": "Agriculture" },
-              ],
+            Label: [{ "@language": "fr-FR", "@value": "Agriculture" }],
           },
         ],
       };

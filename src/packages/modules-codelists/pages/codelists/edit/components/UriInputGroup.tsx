@@ -1,4 +1,4 @@
-import React from "react";
+import type { ChangeEvent } from "react";
 import { InputText } from "primereact/inputtext";
 import LabelRequired from "@components/label-required";
 import { ClientSideError } from "@components/errors-bloc";
@@ -9,7 +9,7 @@ interface UriInputGroupProps {
   label: string;
   prefix: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   error?: string;
 }

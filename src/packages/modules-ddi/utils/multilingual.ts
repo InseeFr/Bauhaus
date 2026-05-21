@@ -5,10 +5,7 @@ export interface LangString {
 
 const primaryTag = (lang: string | undefined) => lang?.split("-")[0];
 
-export const pickLang = (
-  entries: LangString[] | undefined,
-  lang: string,
-): string | undefined => {
+export const pickLang = (entries: LangString[] | undefined, lang: string): string | undefined => {
   if (!entries || entries.length === 0) return undefined;
   const exact = entries.find((e) => e["@language"] === lang);
   if (exact) return exact["@value"];

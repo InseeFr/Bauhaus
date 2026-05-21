@@ -85,10 +85,7 @@ export const CodeRepresentation = ({
     const fetchedCodeList = mutualizedCodes.CodeList?.[0];
     if (!fetchedCodeList) return;
     const categoryLabelById = new Map(
-      (mutualizedCodes.Category ?? []).map((cat) => [
-        cat.ID,
-        getLocalizedText(cat.Label) ?? "",
-      ]),
+      (mutualizedCodes.Category ?? []).map((cat) => [cat.ID, getLocalizedText(cat.Label) ?? ""]),
     );
     const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
       id: code.ID,

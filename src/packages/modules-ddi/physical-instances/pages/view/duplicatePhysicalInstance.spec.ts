@@ -32,13 +32,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Citation: {
-            Title: [
-                { "@language": "fr-FR", "@value": "Original Title" },
-              ],
+            Title: [{ "@language": "fr-FR", "@value": "Original Title" }],
           },
-          PhysicalInstanceLabel: [
-              { "@language": "fr-FR", "@value": "Original Label" },
-            ],
+          PhysicalInstanceLabel: [{ "@language": "fr-FR", "@value": "Original Label" }],
         },
       ],
       DataRelationship: [
@@ -46,9 +42,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: [
-              { "@language": "fr-FR", "@value": "Original DR Name" },
-            ],
+          Label: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -85,13 +79,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Citation: {
-            Title: [
-                { "@language": "fr-FR", "@value": "Original Title" },
-              ],
+            Title: [{ "@language": "fr-FR", "@value": "Original Title" }],
           },
-          PhysicalInstanceLabel: [
-              { "@language": "fr-FR", "@value": "Original Label" },
-            ],
+          PhysicalInstanceLabel: [{ "@language": "fr-FR", "@value": "Original Label" }],
         },
       ],
       DataRelationship: [
@@ -99,9 +89,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: [
-              { "@language": "fr-FR", "@value": "Original DR Name" },
-            ],
+          Label: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -121,13 +109,12 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(
-      result.duplicatedData.PhysicalInstance[0].Citation.Title[0]["@value"],
-    ).toBe("Original Title (copy)");
-    expect(
-      result.duplicatedData.PhysicalInstance[0].PhysicalInstanceLabel[0]
-        ["@value"],
-    ).toBe("Original Title (copy)");
+    expect(result.duplicatedData.PhysicalInstance[0].Citation.Title[0]["@value"]).toBe(
+      "Original Title (copy)",
+    );
+    expect(result.duplicatedData.PhysicalInstance[0].PhysicalInstanceLabel[0]["@value"]).toBe(
+      "Original Title (copy)",
+    );
   });
 
   it("should add (copy) suffix to DataRelationship Label", () => {
@@ -147,9 +134,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          Label: [
-              { "@language": "fr-FR", "@value": "Original DR Name" },
-            ],
+          Label: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
@@ -169,9 +154,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(
-      result.duplicatedData.DataRelationship[0].Label[0]["@value"],
-    ).toBe("Structure : Test (copy)");
+    expect(result.duplicatedData.DataRelationship[0].Label[0]["@value"]).toBe(
+      "Structure : Test (copy)",
+    );
   });
 
   it("should add BasedOnObject to PhysicalInstance", () => {
@@ -794,9 +779,7 @@ describe("buildDuplicatedLogicalRecord", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.Label?.[0]?.["@value"]).toBe(
-      "Enregistrement logique : MyTitle (copy)",
-    );
+    expect(result.Label?.[0]?.["@value"]).toBe("Enregistrement logique : MyTitle (copy)");
   });
 
   it("should throw error when originalLogicalRecord is missing", () => {

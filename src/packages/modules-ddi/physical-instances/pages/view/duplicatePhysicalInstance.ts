@@ -229,17 +229,11 @@ export function buildDuplicatedPhysicalInstance({
       Citation: {
         ...pi.Citation,
         Title: [
-          makeEntry(
-            pi.Citation?.Title?.[0]?.["@language"] ?? defaultLocale,
-            `${title} (copy)`,
-          ),
+          makeEntry(pi.Citation?.Title?.[0]?.["@language"] ?? defaultLocale, `${title} (copy)`),
         ],
       },
       PhysicalInstanceLabel: [
-        makeEntry(
-          pi.PhysicalInstanceLabel?.[0]?.["@language"] ?? defaultLocale,
-          `${title} (copy)`,
-        ),
+        makeEntry(pi.PhysicalInstanceLabel?.[0]?.["@language"] ?? defaultLocale, `${title} (copy)`),
       ],
       DataRelationshipReference: {
         Agency: newAgencyId,

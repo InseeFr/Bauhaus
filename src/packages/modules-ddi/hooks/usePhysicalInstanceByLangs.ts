@@ -52,10 +52,7 @@ const collectLangs = (data: PhysicalInstanceResponse): Set<string> => {
   return normalizeLangs(raw);
 };
 
-const pickOrEmpty = (
-  entries: LangString[] | undefined,
-  lang: string,
-): LangString[] => {
+const pickOrEmpty = (entries: LangString[] | undefined, lang: string): LangString[] => {
   const entry = pickLangEntry(entries, lang);
   return entry ? [entry] : [makeEntry(lang, "")];
 };
