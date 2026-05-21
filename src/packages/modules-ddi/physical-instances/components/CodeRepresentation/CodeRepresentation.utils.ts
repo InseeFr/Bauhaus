@@ -3,7 +3,7 @@ import type {
   CodeList,
   Code,
   Category,
-  MultilingualStringEntry,
+  LangString,
 } from "../../types/api";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 
@@ -32,9 +32,7 @@ export const createDefaultCodeList = (
   Agency: agencyId,
   ID: id,
   Version: "1",
-  Label: {
-    Content: singletonEntries(locale, label),
-  },
+  Label: singletonEntries(locale, label),
   Code: [],
 });
 
@@ -70,14 +68,11 @@ export const createCategory = (
   Agency: agencyId,
   ID: id,
   Version: "1",
-  Label: {
-    Content: singletonEntries(locale, label),
-  },
+  Label: singletonEntries(locale, label),
 });
 
-export const createLabel = (text: string, locale: string) => ({
-  Content: singletonEntries(locale, text),
-});
+export const createLabel = (text: string, locale: string): LangString[] =>
+  singletonEntries(locale, text);
 
 export const parseSelectedCodeListId = (selectedId: string | null): [string, string] => {
   if (!selectedId) return ["", ""];
@@ -86,6 +81,6 @@ export const parseSelectedCodeListId = (selectedId: string | null): [string, str
 };
 
 export const getLocalizedText = (
-  content: MultilingualStringEntry[] | undefined,
+  content: LangString[] | undefined,
   lang = "fr-FR",
 ): string | undefined => pickLang(content, lang);

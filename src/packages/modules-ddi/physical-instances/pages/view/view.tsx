@@ -269,7 +269,7 @@ export const Component = () => {
         const fullVariable = data?.Variable?.find((v: Variable) => v.ID === variable.id);
 
         // Charger les informations complètes de la variable si trouvée
-        const description = pickLang(fullVariable?.Description?.Content, "fr-FR") || undefined;
+        const description = pickLang(fullVariable?.Description, "fr-FR") || undefined;
         const isGeographic = fullVariable?.["@isGeographic"] === "true";
         const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
         const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
@@ -503,7 +503,7 @@ export const Component = () => {
                   const category = localVar.categories?.find(
                     (cat) => cat.ID === code.CategoryReference?.ID,
                   );
-                  const label = pickLang(category?.Label?.Content, "fr-FR") ?? "";
+                  const label = pickLang(category?.Label, "fr-FR") ?? "";
                   const value = code.Value || "";
                   return value.trim() !== "" || label.trim() !== "";
                 }),
@@ -518,7 +518,7 @@ export const Component = () => {
                     const category = localVar.categories?.find(
                       (cat) => cat.ID === code.CategoryReference?.ID,
                     );
-                    const label = pickLang(category?.Label?.Content, "fr-FR") ?? "";
+                    const label = pickLang(category?.Label, "fr-FR") ?? "";
                     const value = code.Value || "";
                     return value.trim() !== "" || label.trim() !== "";
                   })
@@ -552,16 +552,10 @@ export const Component = () => {
             Agency: agencyId!,
             ID: localVar.id,
             Version: "1",
-            VariableName: {
-              String: singletonEntries("fr-FR", localVar.name),
-            },
-            Label: {
-              Content: singletonEntries("fr-FR", localVar.label),
-            },
+            VariableName: singletonEntries("fr-FR", localVar.name),
+            Label: singletonEntries("fr-FR", localVar.label),
             ...(localVar.description && {
-              Description: {
-                Content: singletonEntries("fr-FR", localVar.description),
-              },
+              Description: singletonEntries("fr-FR", localVar.description),
             }),
             ...(localVar.isGeographic && {
               "@isGeographic": "true",

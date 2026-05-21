@@ -340,7 +340,7 @@ export const VariableEditForm = ({
         const validCodes = (codeList?.Code || []).filter((code) => {
           if (!code || !code.CategoryReference) return false;
           const category = categories.find((cat) => cat?.ID === code.CategoryReference?.ID);
-          const label = pickLang(category?.Label?.Content, "fr-FR") ?? "";
+          const label = pickLang(category?.Label, "fr-FR") ?? "";
           const value = code.Value || "";
           return value.trim() !== "" || label.trim() !== "";
         });

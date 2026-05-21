@@ -53,7 +53,7 @@ export const CodeRepresentation = ({
   const { data: allCodesLists = [] } = useAllCodesLists(agencyId, physicalInstanceId);
   const [state, dispatch] = useReducer(codeRepresentationReducer, {
     ...initialState,
-    codeListLabel: getLocalizedText(codeList?.Label?.Content) ?? "",
+    codeListLabel: getLocalizedText(codeList?.Label) ?? "",
   });
 
   const { codeListLabel, codes, showDataTable, showReuseSelect, selectedCodeListId } = state;
@@ -87,7 +87,7 @@ export const CodeRepresentation = ({
     const categoryLabelById = new Map(
       (mutualizedCodes.Category ?? []).map((cat) => [
         cat.ID,
-        getLocalizedText(cat.Label?.Content) ?? "",
+        getLocalizedText(cat.Label) ?? "",
       ]),
     );
     const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
@@ -99,7 +99,7 @@ export const CodeRepresentation = ({
     dispatch({
       type: "LOAD_REUSED_CODES",
       payload: {
-        label: getLocalizedText(fetchedCodeList.Label?.Content) ?? "",
+        label: getLocalizedText(fetchedCodeList.Label) ?? "",
         codes: rows,
       },
     });
@@ -136,14 +136,14 @@ export const CodeRepresentation = ({
         return {
           id: code.ID,
           value: code.Value,
-          label: getLocalizedText(category?.Label?.Content) ?? "",
+          label: getLocalizedText(category?.Label) ?? "",
           categoryId: category?.ID || "",
         };
       });
       dispatch({
         type: "INIT_FROM_CODE_LIST",
         payload: {
-          label: getLocalizedText(codeList.Label?.Content) ?? "",
+          label: getLocalizedText(codeList.Label) ?? "",
           codes: tableData,
           showDataTable: true,
         },

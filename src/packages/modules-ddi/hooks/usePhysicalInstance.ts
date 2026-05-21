@@ -18,8 +18,8 @@ function transformVariablesToTableData(
 
   return data.Variable.map((variable: Variable) => ({
     id: variable.ID,
-    name: pickLang(variable.VariableName?.String, lang) ?? "",
-    label: pickLang(variable.Label?.Content, lang) ?? "",
+    name: pickLang(variable.VariableName, lang) ?? "",
+    label: pickLang(variable.Label, lang) ?? "",
     type: getVariableType(variable),
     lastModified: variable["@versionDate"] || "",
   }));
@@ -51,10 +51,10 @@ export function usePhysicalInstancesData(agencyId: string, id: string) {
     : [];
 
   const title = query.data
-    ? (pickLang(query.data.PhysicalInstance?.[0]?.Citation?.Title?.String, DEFAULT_LANG) ?? "")
+    ? (pickLang(query.data.PhysicalInstance?.[0]?.Citation?.Title, DEFAULT_LANG) ?? "")
     : "";
   const dataRelationshipName = query.data
-    ? (pickLang(query.data.DataRelationship?.[0]?.Label?.Content, DEFAULT_LANG) ?? "")
+    ? (pickLang(query.data.DataRelationship?.[0]?.Label, DEFAULT_LANG) ?? "")
     : "";
 
   return {

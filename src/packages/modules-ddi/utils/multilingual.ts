@@ -1,43 +1,38 @@
-export interface MultilingualStringValue {
-  LanguageTag: string;
-  Value: string;
-}
-
-export interface MultilingualStringEntry {
-  MultilingualStringValue: MultilingualStringValue;
+export interface LangString {
+  "@language": string;
+  "@value": string;
 }
 
 const primaryTag = (lang: string | undefined) => lang?.split("-")[0];
 
 export const pickLang = (
-  entries: MultilingualStringEntry[] | undefined,
+  entries: LangString[] | undefined,
   lang: string,
 ): string | undefined => {
   if (!entries || entries.length === 0) return undefined;
-  const exact = entries.find((e) => e.MultilingualStringValue.LanguageTag === lang);
-  if (exact) return exact.MultilingualStringValue.Value;
+  const exact = entries.find((e) => e["@language"] === lang);
+  if (exact) return exact["@value"];
   const target = primaryTag(lang);
-  const fallback = entries.find(
-    (e) => primaryTag(e.MultilingualStringValue.LanguageTag) === target,
-  );
-  return fallback?.MultilingualStringValue.Value;
+  const fallback = entries.find((e) => primaryTag(e["@language"]) === target);
+  return fallback?.["@value"];
 };
 
 export const pickLangEntry = (
-  entries: MultilingualStringEntry[] | undefined,
+  entries: LangString[] | undefined,
   lang: string,
-): MultilingualStringEntry | undefined => {
+): LangString | undefined => {
   if (!entries || entries.length === 0) return undefined;
-  const exact = entries.find((e) => e.MultilingualStringValue.LanguageTag === lang);
+  const exact = entries.find((e) => e["@language"] === lang);
   if (exact) return exact;
   const target = primaryTag(lang);
-  return entries.find((e) => primaryTag(e.MultilingualStringValue.LanguageTag) === target);
+  return entries.find((e) => primaryTag(e["@language"]) === target);
 };
 
-export const makeEntry = (lang: string, value: string): MultilingualStringEntry => ({
-  MultilingualStringValue: { LanguageTag: lang, Value: value },
+export const makeEntry = (lang: string, value: string): LangString => ({
+  "@language": lang,
+  "@value": value,
 });
 
-export const singletonEntries = (lang: string, value: string): MultilingualStringEntry[] => [
+export const singletonEntries = (lang: string, value: string): LangString[] => [
   makeEntry(lang, value),
 ];

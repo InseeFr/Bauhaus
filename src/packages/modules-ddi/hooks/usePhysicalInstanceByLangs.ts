@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
-import { type MultilingualStringEntry, pickLangEntry, makeEntry } from "../utils/multilingual";
+import { type LangString, pickLangEntry, makeEntry } from "../utils/multilingual";
 
 const primaryTag = (lang: string | undefined) => lang?.split("-")[0];
 
@@ -16,9 +16,9 @@ const normalizeLangs = (raw: Set<string>): Set<string> => {
   return new Set(best.values());
 };
 
-const addLangsFrom = (raw: Set<string>, entries: MultilingualStringEntry[] | undefined) => {
+const addLangsFrom = (raw: Set<string>, entries: LangString[] | undefined) => {
   entries?.forEach((e) => {
-    const tag = e.MultilingualStringValue?.LanguageTag;
+    const tag = e["@language"];
     if (tag) raw.add(tag);
   });
 };
@@ -27,35 +27,35 @@ const collectLangs = (data: PhysicalInstanceResponse): Set<string> => {
   const raw = new Set<string>();
 
   data.PhysicalInstance?.forEach((pi) => {
-    addLangsFrom(raw, pi.Citation?.Title?.String);
+    addLangsFrom(raw, pi.Citation?.Title);
   });
 
   data.DataRelationship?.forEach((dr) => {
-    addLangsFrom(raw, dr.Label?.Content);
-    addLangsFrom(raw, dr.LogicalRecord?.Label?.Content);
+    addLangsFrom(raw, dr.Label);
+    addLangsFrom(raw, dr.LogicalRecord?.Label);
   });
 
   data.Variable?.forEach((v) => {
-    addLangsFrom(raw, v.VariableName?.String);
-    addLangsFrom(raw, v.Label?.Content);
-    addLangsFrom(raw, v.Description?.Content);
+    addLangsFrom(raw, v.VariableName);
+    addLangsFrom(raw, v.Label);
+    addLangsFrom(raw, v.Description);
   });
 
   data.CodeList?.forEach((cl) => {
-    addLangsFrom(raw, cl.Label?.Content);
+    addLangsFrom(raw, cl.Label);
   });
 
   data.Category?.forEach((cat) => {
-    addLangsFrom(raw, cat.Label?.Content);
+    addLangsFrom(raw, cat.Label);
   });
 
   return normalizeLangs(raw);
 };
 
 const pickOrEmpty = (
-  entries: MultilingualStringEntry[] | undefined,
+  entries: LangString[] | undefined,
   lang: string,
-): MultilingualStringEntry[] => {
+): LangString[] => {
   const entry = pickLangEntry(entries, lang);
   return entry ? [entry] : [makeEntry(lang, "")];
 };
@@ -69,40 +69,38 @@ const filterDataByLang = (
     ...pi,
     Citation: {
       ...pi.Citation,
-      Title: {
-        String: pickOrEmpty(pi.Citation?.Title?.String, lang),
-      },
+      Title: pickOrEmpty(pi.Citation?.Title, lang),
     },
   })),
   DataRelationship: data.DataRelationship?.map((dr) => ({
     ...dr,
     ...(dr.Label && {
-      Label: { Content: pickOrEmpty(dr.Label.Content, lang) },
+      Label: pickOrEmpty(dr.Label, lang),
     }),
     LogicalRecord: {
       ...dr.LogicalRecord,
       ...(dr.LogicalRecord?.Label && {
-        Label: { Content: pickOrEmpty(dr.LogicalRecord.Label.Content, lang) },
+        Label: pickOrEmpty(dr.LogicalRecord.Label, lang),
       }),
     },
   })),
   Variable: data.Variable?.map((v) => ({
     ...v,
-    VariableName: { String: pickOrEmpty(v.VariableName?.String, lang) },
-    Label: { Content: pickOrEmpty(v.Label?.Content, lang) },
+    VariableName: pickOrEmpty(v.VariableName, lang),
+    Label: pickOrEmpty(v.Label, lang),
     ...(v.Description && {
-      Description: { Content: pickOrEmpty(v.Description.Content, lang) },
+      Description: pickOrEmpty(v.Description, lang),
     }),
   })),
   CodeList: data.CodeList?.map((cl) => ({
     ...cl,
     ...(cl.Label && {
-      Label: { Content: pickOrEmpty(cl.Label.Content, lang) },
+      Label: pickOrEmpty(cl.Label, lang),
     }),
   })),
   Category: data.Category?.map((cat) => ({
     ...cat,
-    Label: { Content: pickOrEmpty(cat.Label?.Content, lang) },
+    Label: pickOrEmpty(cat.Label, lang),
   })),
 });
 

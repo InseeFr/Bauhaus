@@ -55,11 +55,9 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Agency: "agency-1",
               Version: "1.0",
               Citation: {
-                Title: {
-                  String: [
-                    { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Study Unit 1" } },
+                Title: [
+                    { "@language": "fr-FR", "@value": "Study Unit 1" },
                   ],
-                },
               },
             },
             {
@@ -67,11 +65,9 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Agency: "agency-1",
               Version: "1.0",
               Citation: {
-                Title: {
-                  String: [
-                    { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Study Unit 2" } },
+                Title: [
+                    { "@language": "fr-FR", "@value": "Study Unit 2" },
                   ],
-                },
               },
             },
           ],

@@ -1,6 +1,6 @@
-import type { MultilingualStringEntry } from "../../utils/multilingual";
+import type { LangString } from "../../utils/multilingual";
 
-export type { MultilingualStringEntry, MultilingualStringValue } from "../../utils/multilingual";
+export type { LangString } from "../../utils/multilingual";
 
 export interface PhysicalInstanceResponse {
   $schema?: string;
@@ -31,11 +31,7 @@ export interface PhysicalInstance {
 }
 
 export interface Citation {
-  Title: Title;
-}
-
-export interface Title {
-  String: MultilingualStringEntry[];
+  Title: LangString[];
 }
 
 export interface Reference {
@@ -52,7 +48,7 @@ export interface DataRelationship {
   Agency: string;
   ID: string;
   Version: string;
-  Label?: LabelContent;
+  Label?: LangString[];
   LogicalRecord: LogicalRecord;
 }
 
@@ -62,7 +58,7 @@ export interface LogicalRecord {
   Agency: string;
   ID: string;
   Version: string;
-  Label?: LabelContent;
+  Label?: LangString[];
   VariablesInRecord: VariablesInRecord;
 }
 
@@ -78,18 +74,10 @@ export interface Variable {
   Agency: string;
   ID: string;
   Version: string;
-  VariableName: VariableName;
-  Label: LabelContent;
-  Description?: LabelContent;
+  VariableName: LangString[];
+  Label: LangString[];
+  Description?: LangString[];
   VariableRepresentation?: VariableRepresentation;
-}
-
-export interface VariableName {
-  String: MultilingualStringEntry[];
-}
-
-export interface LabelContent {
-  Content: MultilingualStringEntry[];
 }
 
 export interface VariableRepresentation {
@@ -137,7 +125,7 @@ export interface CodeList {
   Agency: string;
   ID: string;
   Version: string;
-  Label?: LabelContent;
+  Label?: LangString[];
   Code?: Code[];
   BasedOnObject?: BasedOnObject;
 }
@@ -159,7 +147,7 @@ export interface Category {
   Agency: string;
   ID: string;
   Version: string;
-  Label: LabelContent;
+  Label: LangString[];
   BasedOnObject?: BasedOnObject;
 }
 

@@ -96,18 +96,12 @@ export const DdiPreview = ({
       Agency: defaultAgencyId,
       ID: variableId,
       Version: "1",
-      VariableName: {
-        String: singletonEntries(defaultLocale, variableName),
-      },
-      Label: {
-        Content: singletonEntries(defaultLocale, variableLabel),
-      },
+      VariableName: singletonEntries(defaultLocale, variableName),
+      Label: singletonEntries(defaultLocale, variableLabel),
     };
 
     if (variableDescription) {
-      variableDDI.Description = {
-        Content: singletonEntries(defaultLocale, variableDescription),
-      };
+      variableDDI.Description = singletonEntries(defaultLocale, variableDescription);
     }
 
     if (isGeographic) {

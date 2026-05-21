@@ -86,7 +86,7 @@ export const PhysicalInstanceDialog = ({
   const studyUnitOptions = useMemo(() => {
     if (!groupDetails?.StudyUnit) return [];
     return groupDetails.StudyUnit.map((su) => ({
-      label: pickLang(su.Citation.Title.String, "fr-FR") ?? "",
+      label: pickLang(su.Citation.Title, "fr-FR") ?? "",
       value: su.ID,
     }));
   }, [groupDetails]);

@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { pickLang, type MultilingualStringEntry } from "./multilingual";
+import { pickLang, makeEntry, type LangString } from "./multilingual";
 
-const entries: MultilingualStringEntry[] = [
-  { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Titre FR" } },
-  { MultilingualStringValue: { LanguageTag: "en-GB", Value: "Title EN" } },
+const entries: LangString[] = [
+  { "@language": "fr-FR", "@value": "Titre FR" },
+  { "@language": "en-GB", "@value": "Title EN" },
 ];
 
 describe("pickLang", () => {
@@ -13,9 +13,7 @@ describe("pickLang", () => {
   });
 
   it("falls back to a primary subtag match when the exact tag is missing", () => {
-    const subtagEntries: MultilingualStringEntry[] = [
-      { MultilingualStringValue: { LanguageTag: "fr", Value: "Titre FR subtag" } },
-    ];
+    const subtagEntries: LangString[] = [{ "@language": "fr", "@value": "Titre FR subtag" }];
     expect(pickLang(subtagEntries, "fr-FR")).toBe("Titre FR subtag");
   });
 
@@ -25,5 +23,11 @@ describe("pickLang", () => {
 
   it("returns undefined when input is undefined", () => {
     expect(pickLang(undefined, "fr-FR")).toBeUndefined();
+  });
+});
+
+describe("makeEntry", () => {
+  it("builds a LangString with @language and @value", () => {
+    expect(makeEntry("fr-FR", "Libellé")).toEqual({ "@language": "fr-FR", "@value": "Libellé" });
   });
 });

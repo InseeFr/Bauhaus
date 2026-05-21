@@ -20,12 +20,8 @@ const mockApiResponse = {
     {
       ID: "1",
       "@versionDate": "2024-06-03T14:29:23.4049817Z",
-      VariableName: {
-        String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "ACTOCCUPE" } }],
-      },
-      Label: {
-        Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Actif occupé" } }],
-      },
+      VariableName: [{ "@language": "fr-FR", "@value": "ACTOCCUPE" }],
+      Label: [{ "@language": "fr-FR", "@value": "Actif occupé" }],
       VariableRepresentation: {
         CodeRepresentation: {
           "@blankIsMissingValue": "false",
@@ -41,12 +37,8 @@ const mockApiResponse = {
     {
       ID: "2",
       "@versionDate": "2024-06-03T13:35:37.9342777Z",
-      VariableName: {
-        String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "AG" } }],
-      },
-      Label: {
-        Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Age" } }],
-      },
+      VariableName: [{ "@language": "fr-FR", "@value": "AG" }],
+      Label: [{ "@language": "fr-FR", "@value": "Age" }],
       VariableRepresentation: {
         NumericRepresentation: {
           NumberRange: {
@@ -60,12 +52,8 @@ const mockApiResponse = {
     {
       ID: "3",
       "@versionDate": "2024-06-03T13:35:37.9342777Z",
-      VariableName: {
-        String: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "UNKNOWN_VAR" } }],
-      },
-      Label: {
-        Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Unknown Variable" } }],
-      },
+      VariableName: [{ "@language": "fr-FR", "@value": "UNKNOWN_VAR" }],
+      Label: [{ "@language": "fr-FR", "@value": "Unknown Variable" }],
       VariableRepresentation: {},
     },
   ],

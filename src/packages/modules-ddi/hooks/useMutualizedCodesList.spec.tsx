@@ -29,18 +29,14 @@ describe("useMutualizedCodesList", () => {
       {
         Agency: "fr.insee",
         ID: "cl-1",
-        Label: {
-          Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "NAF rév. 2" } }],
-        },
+        Label: [{ "@language": "fr-FR", "@value": "NAF rév. 2" }],
         Code: [{ ID: "c-1", Value: "01", CategoryReference: { ID: "cat-1" } }],
       },
     ],
     Category: [
       {
         ID: "cat-1",
-        Label: {
-          Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Agriculture" } }],
-        },
+        Label: [{ "@language": "fr-FR", "@value": "Agriculture" }],
       },
     ],
   };

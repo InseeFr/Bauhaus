@@ -163,11 +163,9 @@ describe("CodeRepresentation", () => {
     Agency: "fr.insee",
     ID: "codelist-1",
     Version: "1",
-    Label: {
-      Content: [
-        { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Liste de codes test" } },
+    Label: [
+        { "@language": "fr-FR", "@value": "Liste de codes test" },
       ],
-    },
     Code: [
       {
         "@isUniversallyUnique": "true",
@@ -194,9 +192,7 @@ describe("CodeRepresentation", () => {
       Agency: "fr.insee",
       ID: "category-1",
       Version: "1",
-      Label: {
-        Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Oui" } }],
-      },
+      Label: [{ "@language": "fr-FR", "@value": "Oui" }],
     },
   ];
 
@@ -358,11 +354,9 @@ describe("CodeRepresentation", () => {
       expect(mockOnChange).toHaveBeenCalledWith(
         mockRepresentation,
         expect.objectContaining({
-          Label: {
-            Content: [
-              { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Nouveau libellé" } },
+          Label: [
+              { "@language": "fr-FR", "@value": "Nouveau libellé" },
             ],
-          },
         }),
         mockCategories,
       );
@@ -383,9 +377,7 @@ describe("CodeRepresentation", () => {
       const newCodeList: CodeList = {
         ...mockCodeList,
         ID: "codelist-2",
-        Label: {
-          Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Liste modifiée" } }],
-        },
+        Label: [{ "@language": "fr-FR", "@value": "Liste modifiée" }],
       };
 
       rerender(
@@ -479,9 +471,7 @@ describe("CodeRepresentation", () => {
       expect(mockOnChange).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({
-          Label: {
-            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Mon label" } }],
-          },
+          Label: [{ "@language": "fr-FR", "@value": "Mon label" }],
         }),
         expect.anything(),
       );
@@ -511,9 +501,7 @@ describe("CodeRepresentation", () => {
       expect(mockOnChange).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({
-          Label: {
-            Content: [{ MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Mon label" } }],
-          },
+          Label: [{ "@language": "fr-FR", "@value": "Mon label" }],
         }),
         expect.anything(),
       );
@@ -614,11 +602,9 @@ describe("CodeRepresentation", () => {
           {
             Agency: "fr.insee",
             ID: "mut-1",
-            Label: {
-              Content: [
-                { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Liste mutualisée" } },
+            Label: [
+                { "@language": "fr-FR", "@value": "Liste mutualisée" },
               ],
-            },
             Code: [
               {
                 ID: "code-1",
@@ -631,11 +617,9 @@ describe("CodeRepresentation", () => {
         Category: [
           {
             ID: "cat-1",
-            Label: {
-              Content: [
-                { MultilingualStringValue: { LanguageTag: "fr-FR", Value: "Agriculture" } },
+            Label: [
+                { "@language": "fr-FR", "@value": "Agriculture" },
               ],
-            },
           },
         ],
       };

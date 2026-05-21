@@ -1,15 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { DDIApi } from "../../sdk";
-import type { MultilingualStringEntry } from "../utils/multilingual";
+import type { LangString } from "../utils/multilingual";
 
 export interface StudyUnit {
   ID: string;
   Agency: string;
   Version: string;
   Citation: {
-    Title: {
-      String: MultilingualStringEntry[];
-    };
+    Title: LangString[];
   };
 }
 
