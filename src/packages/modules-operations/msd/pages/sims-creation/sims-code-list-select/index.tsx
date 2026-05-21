@@ -19,12 +19,16 @@ export const SimsCodeListSelect = ({
 
   if (!multi) {
     value = currentSection.value;
+  } else if (Array.isArray(currentSection.value)) {
+    value = currentSection.value;
+  } else if (
+    currentSection.value === undefined ||
+    currentSection.value === null ||
+    currentSection.value === ""
+  ) {
+    value = [];
   } else {
-    const currentSectionValue = Array.isArray(currentSection.value)
-      ? currentSection.value
-      : [currentSection.value];
-
-    value = currentSectionValue;
+    value = [currentSection.value];
   }
 
   return (
