@@ -36,7 +36,6 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.columns.description": "Description",
         "physicalInstance.view.columns.type": "Type",
         "physicalInstance.view.selectType": "Sélectionnez un type",
-        "physicalInstance.view.isGeographic": "Variable géographique",
         "physicalInstance.view.tabs.information": "Informations",
         "physicalInstance.view.tabs.representation": "Représentation",
         "physicalInstance.view.tabs.ddiXml": "Aperçu DDI XML",
@@ -203,21 +202,8 @@ vi.mock("./VariableInformationTab", () => ({
 }));
 
 vi.mock("./VariableRepresentationTab", () => ({
-  VariableRepresentationTab: ({
-    isGeographic,
-    selectedType,
-    onIsGeographicChange,
-    onTypeChange,
-    typeOptions,
-  }: any) => (
+  VariableRepresentationTab: ({ selectedType, onTypeChange, typeOptions }: any) => (
     <div data-testid="variable-representation-tab">
-      <label htmlFor="variable-isGeographic">Variable géographique</label>
-      <input
-        type="checkbox"
-        id="variable-isGeographic"
-        checked={isGeographic}
-        onChange={(e) => onIsGeographicChange(e.target.checked)}
-      />
       <label htmlFor="variable-type">Type</label>
       <select
         id="variable-type"
@@ -512,20 +498,9 @@ describe("VariableEditForm", () => {
     );
   });
 
-  it("should display and toggle isGeographic checkbox", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    const checkbox = screen.getByLabelText("Variable géographique") as HTMLInputElement;
-    expect(checkbox).toBeInTheDocument();
-    expect(checkbox.checked).toBe(false);
-
-    fireEvent.click(checkbox);
-    expect(checkbox.checked).toBe(true);
-  });
-
-  it("should initialize isGeographic from variable prop", () => {
+  it("should preserve isGeographic from variable prop in onSave payload", () => {
+    // La checkbox isGeographic a été retirée de l'UI : la valeur n'est plus éditable mais reste
+    // portée par la variable et renvoyée telle quelle au save (round-trip DDI préservé).
     const geoVariable = {
       ...defaultVariable,
       isGeographic: true,
@@ -534,18 +509,6 @@ describe("VariableEditForm", () => {
     render(
       <VariableEditForm variable={geoVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
     );
-
-    const checkbox = screen.getByLabelText("Variable géographique") as HTMLInputElement;
-    expect(checkbox.checked).toBe(true);
-  });
-
-  it("should include isGeographic in onSave payload", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    const checkbox = screen.getByLabelText("Variable géographique");
-    fireEvent.click(checkbox);
 
     const saveButton = screen.getByText("Mettre à jour");
     fireEvent.click(saveButton);
@@ -648,12 +611,10 @@ describe("VariableEditForm", () => {
     const updatedNameInput = screen.getByLabelText("Nom") as HTMLInputElement;
     const updatedLabelInput = screen.getByLabelText("Label") as HTMLInputElement;
     const updatedDescriptionInput = screen.getByLabelText("Description") as HTMLTextAreaElement;
-    const checkbox = screen.getByLabelText("Variable géographique") as HTMLInputElement;
 
     expect(updatedNameInput.value).toBe("differentVar");
     expect(updatedLabelInput.value).toBe("Different Variable");
     expect(updatedDescriptionInput.value).toBe("Different description");
-    expect(checkbox.checked).toBe(true);
     expect(screen.getByTestId("date-representation")).toBeInTheDocument();
   });
 

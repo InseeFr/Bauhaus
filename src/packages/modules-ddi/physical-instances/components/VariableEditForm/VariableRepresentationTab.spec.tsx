@@ -8,22 +8,10 @@ vi.mock("react-i18next", () => ({
       const translations: Record<string, string> = {
         "physicalInstance.view.columns.type": "Type",
         "physicalInstance.view.selectType": "Sélectionnez un type",
-        "physicalInstance.view.isGeographic": "Variable géographique",
       };
       return translations[key] || key;
     },
   }),
-}));
-
-vi.mock("primereact/checkbox", () => ({
-  Checkbox: ({ inputId, checked, onChange }: any) => (
-    <input
-      type="checkbox"
-      id={inputId}
-      checked={checked}
-      onChange={(e) => onChange({ checked: e.target.checked })}
-    />
-  ),
 }));
 
 vi.mock("primereact/dropdown", () => ({
@@ -76,7 +64,6 @@ vi.mock("../CodeRepresentation/CodeRepresentation", () => ({
 }));
 
 describe("VariableRepresentationTab", () => {
-  const mockOnIsGeographicChange = vi.fn();
   const mockOnTypeChange = vi.fn();
   const mockOnNumericRepresentationChange = vi.fn();
   const mockOnDateRepresentationChange = vi.fn();
@@ -92,10 +79,8 @@ describe("VariableRepresentationTab", () => {
 
   const defaultProps = {
     variableId: "var-1",
-    isGeographic: false,
     selectedType: "numeric",
     typeOptions,
-    onIsGeographicChange: mockOnIsGeographicChange,
     onTypeChange: mockOnTypeChange,
     onNumericRepresentationChange: mockOnNumericRepresentationChange,
     onDateRepresentationChange: mockOnDateRepresentationChange,
@@ -105,23 +90,6 @@ describe("VariableRepresentationTab", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-  });
-
-  it("should render isGeographic checkbox", () => {
-    render(<VariableRepresentationTab {...defaultProps} />);
-
-    const checkbox = screen.getByLabelText("Variable géographique") as HTMLInputElement;
-    expect(checkbox).toBeInTheDocument();
-    expect(checkbox.checked).toBe(false);
-  });
-
-  it("should call onIsGeographicChange when checkbox is clicked", () => {
-    render(<VariableRepresentationTab {...defaultProps} />);
-
-    const checkbox = screen.getByLabelText("Variable géographique");
-    fireEvent.click(checkbox);
-
-    expect(mockOnIsGeographicChange).toHaveBeenCalledWith(true);
   });
 
   it("should render type dropdown with correct value", () => {

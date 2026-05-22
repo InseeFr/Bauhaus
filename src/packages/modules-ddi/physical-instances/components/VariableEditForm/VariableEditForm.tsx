@@ -50,7 +50,6 @@ type FormAction =
   | { type: "SET_NAME"; payload: string }
   | { type: "SET_DESCRIPTION"; payload: string }
   | { type: "SET_TYPE"; payload: string }
-  | { type: "SET_IS_GEOGRAPHIC"; payload: boolean }
   | {
       type: "SET_NUMERIC_REPRESENTATION";
       payload: NumericRepresentation | undefined;
@@ -80,8 +79,6 @@ function formReducer(state: FormState, action: FormAction): FormState {
       return { ...state, description: action.payload };
     case "SET_TYPE":
       return { ...state, selectedType: action.payload };
-    case "SET_IS_GEOGRAPHIC":
-      return { ...state, isGeographic: action.payload };
     case "SET_NUMERIC_REPRESENTATION":
       return {
         ...state,
@@ -493,7 +490,6 @@ export const VariableEditForm = ({
           >
             <VariableRepresentationTab
               variableId={variable.id}
-              isGeographic={state.isGeographic}
               selectedType={state.selectedType}
               typeOptions={typeOptions}
               numericRepresentation={state.representation.NumericRepresentation}
@@ -502,9 +498,6 @@ export const VariableEditForm = ({
               codeRepresentation={state.representation.CodeRepresentation}
               codeList={state.representation.CodeList}
               categories={state.representation.Category}
-              onIsGeographicChange={(value) =>
-                dispatch({ type: "SET_IS_GEOGRAPHIC", payload: value })
-              }
               onTypeChange={(value) => dispatch({ type: "SET_TYPE", payload: value })}
               onNumericRepresentationChange={updateNumericRepresentation}
               onDateRepresentationChange={updateDateRepresentation}

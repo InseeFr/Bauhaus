@@ -1,4 +1,3 @@
-import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
 import { useTranslation } from "react-i18next";
 import type {
@@ -16,7 +15,6 @@ import { CodeRepresentation as CodeRepresentationComponent } from "../CodeRepres
 
 interface VariableRepresentationTabProps {
   variableId: string;
-  isGeographic: boolean;
   selectedType: string;
   typeOptions: { label: string; value: string }[];
   numericRepresentation?: NumericRepresentation;
@@ -25,7 +23,6 @@ interface VariableRepresentationTabProps {
   codeRepresentation?: CodeRepresentation;
   codeList?: CodeList;
   categories?: Category[];
-  onIsGeographicChange: (value: boolean) => void;
   onTypeChange: (value: string) => void;
   onNumericRepresentationChange: (value: NumericRepresentation | undefined) => void;
   onDateRepresentationChange: (value: DateTimeRepresentation | undefined) => void;
@@ -39,7 +36,6 @@ interface VariableRepresentationTabProps {
 
 export const VariableRepresentationTab = ({
   variableId,
-  isGeographic,
   selectedType,
   typeOptions,
   numericRepresentation,
@@ -48,7 +44,6 @@ export const VariableRepresentationTab = ({
   codeRepresentation,
   codeList,
   categories,
-  onIsGeographicChange,
   onTypeChange,
   onNumericRepresentationChange,
   onDateRepresentationChange,
@@ -59,18 +54,6 @@ export const VariableRepresentationTab = ({
 
   return (
     <div className="flex flex-column gap-3">
-      <div className="flex align-items-center gap-2 mb-2">
-        <Checkbox
-          inputId="variable-isGeographic"
-          name="isGeographic"
-          checked={isGeographic}
-          onChange={(e) => onIsGeographicChange(e.checked ?? false)}
-        />
-        <label htmlFor="variable-isGeographic" className="mb-0">
-          {t("physicalInstance.view.isGeographic")}
-        </label>
-      </div>
-
       <div className="flex flex-column gap-2">
         <label htmlFor="variable-type">{t("physicalInstance.view.columns.type")}</label>
         <Dropdown
