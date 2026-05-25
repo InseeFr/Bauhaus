@@ -1,13 +1,7 @@
 import { renderHook, waitFor, cleanup } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  useStamps,
-  useV2Stamps,
-  useStampsOptions,
-  useV2StampsOptions,
-  useV2StampsMap,
-} from "./stamps";
+import { useStamps, useV2Stamps, useStampsOptions, useV2StampsOptions } from "./stamps";
 import { StampsApi, V2Api } from "../../sdk";
 
 vi.mock("../../sdk", () => ({
@@ -150,61 +144,18 @@ describe("useV2StampsOptions", () => {
 
     await waitFor(() => {
       expect(result.current).toHaveLength(3);
-      expect(result.current).toContainEqual({ value: "DG75-L201", label: "INSEE" });
-      expect(result.current).toContainEqual({ value: "DG75-L202", label: "DARES" });
-      expect(result.current).toContainEqual({ value: "DG75-G001", label: "Direction Générale" });
-    });
-  });
-});
-
-describe("useV2StampsMap", () => {
-  // Note: This test verifies the Map creation logic is working correctly
-  it("should create a map from v2 stamps with stamp as key and label as value", async () => {
-    const mockV2Stamps = [
-      { stamp: "DG75-L201", label: "INSEE" },
-      { stamp: "DG75-L202", label: "DARES" },
-      { stamp: "DG75-G001", label: "Direction Générale" },
-    ];
-    vi.mocked(V2Api.getStamps).mockResolvedValueOnce(mockV2Stamps as any);
-
-    const { result } = renderHook(() => useV2StampsMap(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      const map = result.current;
-      expect(map.size).toBe(3);
-      expect(map.get("DG75-L201")).toBe("INSEE");
-      expect(map.get("DG75-L202")).toBe("DARES");
-      expect(map.get("DG75-G001")).toBe("Direction Générale");
-    });
-  });
-
-  it("should allow retrieval of labels using stamp as key", async () => {
-    const mockV2Stamps = [{ stamp: "DG75-L201", label: "INSEE" }];
-    vi.mocked(V2Api.getStamps).mockResolvedValueOnce(mockV2Stamps as any);
-
-    const { result } = renderHook(() => useV2StampsMap(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      const label = result.current.get("DG75-L201");
-      expect(label).toBe("INSEE");
-    });
-  });
-
-  it("should return undefined for non-existent stamp", async () => {
-    const mockV2Stamps = [{ stamp: "stamp1", label: "Label 1" }];
-    vi.mocked(V2Api.getStamps).mockResolvedValueOnce(mockV2Stamps as any);
-
-    const { result } = renderHook(() => useV2StampsMap(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      const label = result.current.get("nonexistent");
-      expect(label).toBeUndefined();
+      expect(result.current).toContainEqual({
+        value: "DG75-L201",
+        label: "INSEE",
+      });
+      expect(result.current).toContainEqual({
+        value: "DG75-L202",
+        label: "DARES",
+      });
+      expect(result.current).toContainEqual({
+        value: "DG75-G001",
+        label: "Direction Générale",
+      });
     });
   });
 });

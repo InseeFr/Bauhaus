@@ -1,3 +1,4 @@
+import { screen } from "@testing-library/react";
 import { vi } from "vitest";
 
 import * as useOrganizationsHook from "@utils/hooks/organizations";
@@ -135,11 +136,10 @@ describe("SerieInformation", () => {
       ...attr,
       creators: attr.creators[0],
     };
-    const { container } = renderWithRouter(
+    renderWithRouter(
       <OperationsSerieVisualization attr={attr2} secondLang={true} langs={{ lg1: "fr" }} />,
     );
-    const creator = container.querySelector("#creators p");
-    expect(creator.innerHTML).toEqual("Direction Générale");
+    expect(screen.getByText("Direction Générale")).toBeInTheDocument();
   });
   it("should display the publisher label", () => {
     const { container } = renderWithRouter(

@@ -17,7 +17,7 @@ import { renderMarkdownElement } from "@utils/html-utils";
 
 import { HasAccess } from "../../../../../auth/components/auth";
 import { CollapsiblePanel } from "../../../../components/CollapsiblePanel";
-import { InseeOrganisationText } from "@components/business/creators-view";
+import { InseeOrganisation } from "@components/business/organisations/organisations";
 
 export const PartialCodelistDetailView = ({
   codelist,
@@ -89,12 +89,11 @@ export const PartialCodelistDetailView = ({
                 {t("partial-codelists.validationStatus")} : <PublicationFemale object={codelist} />
               </li>
               <li>
-                {t("partial-codelists.creator")} :{" "}
-                <InseeOrganisationText organisations={codelist.creator} />
+                {t("partial-codelists.creator")} : <InseeOrganisation creator={codelist.creator} />
               </li>
               <li>
                 {t("partial-codelists.contributors")} :{" "}
-                <InseeOrganisationText organisations={codelist.contributor} />
+                <InseeOrganisation creator={codelist.contributor} />
               </li>
               <li>
                 <DisseminationStatusVisualisation
