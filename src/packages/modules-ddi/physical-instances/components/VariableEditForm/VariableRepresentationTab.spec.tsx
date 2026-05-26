@@ -50,7 +50,7 @@ vi.mock("../DateRepresentation/DateRepresentation", () => ({
 vi.mock("../TextRepresentation/TextRepresentation", () => ({
   TextRepresentation: ({ onChange }: any) => (
     <div data-testid="text-representation">
-      <button onClick={() => onChange({ "@maxLength": "100" })}>Set Text</button>
+      <button onClick={() => onChange({ MaxLength: 100 })}>Set Text</button>
     </div>
   ),
 }));
@@ -58,7 +58,7 @@ vi.mock("../TextRepresentation/TextRepresentation", () => ({
 vi.mock("../CodeRepresentation/CodeRepresentation", () => ({
   CodeRepresentation: ({ onChange }: any) => (
     <div data-testid="code-representation">
-      <button onClick={() => onChange({ "@blankIsMissingValue": "false" })}>Set Code</button>
+      <button onClick={() => onChange({ BlankIsMissingValue: false })}>Set Code</button>
     </div>
   ),
 }));
@@ -169,7 +169,7 @@ describe("VariableRepresentationTab", () => {
     fireEvent.click(button);
 
     expect(mockOnTextRepresentationChange).toHaveBeenCalledWith({
-      "@maxLength": "100",
+      MaxLength: 100,
     });
   });
 
@@ -180,7 +180,7 @@ describe("VariableRepresentationTab", () => {
     fireEvent.click(button);
 
     expect(mockOnCodeRepresentationChange).toHaveBeenCalledWith({
-      "@blankIsMissingValue": "false",
+      BlankIsMissingValue: false,
     });
   });
 });

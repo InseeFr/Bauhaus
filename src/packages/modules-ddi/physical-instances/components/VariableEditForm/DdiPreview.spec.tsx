@@ -226,7 +226,7 @@ describe("DdiPreview", () => {
         expect.objectContaining({
           Variable: expect.arrayContaining([
             expect.objectContaining({
-              "@isGeographic": "true",
+              IsGeographic: true,
             }),
           ]),
         }),
@@ -238,7 +238,7 @@ describe("DdiPreview", () => {
     const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
-    const textRepresentation = { "@maxLength": "100" };
+    const textRepresentation = { $type: "TextRepresentationBaseType" as const, MaxLength: 100 };
 
     render(
       <DdiPreview {...defaultProps} variableType="text" textRepresentation={textRepresentation} />,

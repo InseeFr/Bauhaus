@@ -6,18 +6,24 @@ import {
 } from "./duplicatePhysicalInstance";
 
 // Mock crypto.randomUUID
-const mockUUIDs = [
-  "new-physical-instance-id",
-  "new-data-relationship-id",
-  "new-logical-record-id",
-  "new-variable-id-1",
-  "new-variable-id-2",
+const mockUUIDs: `${string}-${string}-${string}-${string}-${string}`[] = [
+  "00000000-0000-0000-0000-000000000001",
+  "00000000-0000-0000-0000-000000000002",
+  "00000000-0000-0000-0000-000000000003",
+  "00000000-0000-0000-0000-000000000004",
+  "00000000-0000-0000-0000-000000000005",
 ];
 let uuidIndex = 0;
 
 vi.stubGlobal("crypto", {
-  randomUUID: () => mockUUIDs[uuidIndex++] || `uuid-${uuidIndex}`,
+  randomUUID: (): `${string}-${string}-${string}-${string}-${string}` =>
+    mockUUIDs[uuidIndex++] ||
+    (`00000000-0000-0000-0000-${String(uuidIndex).padStart(12, "0")}` as `${string}-${string}-${string}-${string}-${string}`),
 });
+
+const NEW_PHYSICAL_INSTANCE_ID = mockUUIDs[0];
+const NEW_DATA_RELATIONSHIP_ID = mockUUIDs[1];
+const NEW_LOGICAL_RECORD_ID = mockUUIDs[2];
 
 describe("buildDuplicatedPhysicalInstance", () => {
   beforeEach(() => {
@@ -62,12 +68,12 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.newPhysicalInstanceId).toBe("new-physical-instance-id");
+    expect(result.newPhysicalInstanceId).toBe(NEW_PHYSICAL_INSTANCE_ID);
     expect(result.newAgencyId).toBe("test-agency");
-    expect(result.duplicatedData.PhysicalInstance[0].ID).toBe("new-physical-instance-id");
-    expect(result.duplicatedData.DataRelationship[0].ID).toBe("new-data-relationship-id");
+    expect(result.duplicatedData.PhysicalInstance[0].ID).toBe(NEW_PHYSICAL_INSTANCE_ID);
+    expect(result.duplicatedData.DataRelationship[0].ID).toBe(NEW_DATA_RELATIONSHIP_ID);
     expect(result.duplicatedData.DataRelationship[0].LogicalRecord.ID).toBe(
-      "new-logical-record-id",
+      NEW_LOGICAL_RECORD_ID,
     );
   });
 
@@ -112,8 +118,9 @@ describe("buildDuplicatedPhysicalInstance", () => {
     expect(result.duplicatedData.PhysicalInstance[0].Citation.Title[0]["@value"]).toBe(
       "Original Title (copy)",
     );
+    // PhysicalInstanceLabel is preserved as-is (not modified by the duplication)
     expect(result.duplicatedData.PhysicalInstance[0].PhysicalInstanceLabel[0]["@value"]).toBe(
-      "Original Title (copy)",
+      "Original Label",
     );
   });
 
@@ -197,12 +204,16 @@ describe("buildDuplicatedPhysicalInstance", () => {
     });
 
     expect(result.duplicatedData.PhysicalInstance[0].BasedOnObject).toEqual({
-      BasedOnReference: {
-        Agency: "original-agency",
-        ID: "original-pi-id",
-        Version: "1",
-        TypeOfObject: "PhysicalInstance",
-      },
+      $type: "BasedOnObjectType",
+      BasedOnReference: [
+        {
+          $type: "PhysicalInstance",
+          URN: "urn:ddi:original-agency:original-pi-id:1",
+          Agency: "original-agency",
+          ID: "original-pi-id",
+          Version: "1",
+        },
+      ],
     });
   });
 
@@ -244,12 +255,16 @@ describe("buildDuplicatedPhysicalInstance", () => {
     });
 
     expect(result.duplicatedData.DataRelationship[0].BasedOnObject).toEqual({
-      BasedOnReference: {
-        Agency: "original-agency",
-        ID: "original-dr-id",
-        Version: "1",
-        TypeOfObject: "DataRelationship",
-      },
+      $type: "BasedOnObjectType",
+      BasedOnReference: [
+        {
+          $type: "DataRelationship",
+          URN: "urn:ddi:original-agency:original-dr-id:1",
+          Agency: "original-agency",
+          ID: "original-dr-id",
+          Version: "1",
+        },
+      ],
     });
   });
 
@@ -310,21 +325,29 @@ describe("buildDuplicatedPhysicalInstance", () => {
 
     // Variables should have BasedOnObject
     expect(result.duplicatedData.Variable[0].BasedOnObject).toEqual({
-      BasedOnReference: {
-        Agency: "original-agency",
-        ID: "original-var-id-1",
-        Version: "1",
-        TypeOfObject: "Variable",
-      },
+      $type: "BasedOnObjectType",
+      BasedOnReference: [
+        {
+          $type: "Variable",
+          URN: "urn:ddi:original-agency:original-var-id-1:1",
+          Agency: "original-agency",
+          ID: "original-var-id-1",
+          Version: "1",
+        },
+      ],
     });
 
     expect(result.duplicatedData.Variable[1].BasedOnObject).toEqual({
-      BasedOnReference: {
-        Agency: "original-agency",
-        ID: "original-var-id-2",
-        Version: "2",
-        TypeOfObject: "Variable",
-      },
+      $type: "BasedOnObjectType",
+      BasedOnReference: [
+        {
+          $type: "Variable",
+          URN: "urn:ddi:original-agency:original-var-id-2:2",
+          Agency: "original-agency",
+          ID: "original-var-id-2",
+          Version: "2",
+        },
+      ],
     });
   });
 
@@ -461,10 +484,10 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.PhysicalInstance[0].DataRelationshipReference.ID).toBe(
-      "new-data-relationship-id",
+    expect(result.duplicatedData.PhysicalInstance[0].DataRelationshipReference[0].ID).toBe(
+      NEW_DATA_RELATIONSHIP_ID,
     );
-    expect(result.duplicatedData.PhysicalInstance[0].DataRelationshipReference.Agency).toBe(
+    expect(result.duplicatedData.PhysicalInstance[0].DataRelationshipReference[0].Agency).toBe(
       "test-agency",
     );
   });
@@ -587,14 +610,14 @@ describe("buildDuplicatedPhysicalInstance", () => {
     expect(result.duplicatedData.Category).toEqual(data.Category);
   });
 
-  it("should set @versionDate to current date for all modified objects", () => {
+  it("should set VersionDate.DateTime to current date for all modified objects", () => {
     const data = {
       PhysicalInstance: [
         {
           ID: "original-pi-id",
           Agency: "original-agency",
           Version: "1",
-          "@versionDate": "2020-01-01T00:00:00.000Z",
+          VersionDate: { DateTime: "2020-01-01T00:00:00.000Z" },
           Citation: {
             Title: [{ "@language": "fr-FR", "@value": "Test" }],
           },
@@ -605,14 +628,14 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ID: "original-dr-id",
           Agency: "original-agency",
           Version: "1",
-          "@versionDate": "2020-01-01T00:00:00.000Z",
+          VersionDate: { DateTime: "2020-01-01T00:00:00.000Z" },
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
           LogicalRecord: {
             ID: "original-lr-id",
             URN: "urn:ddi:original-agency:original-lr-id:1",
             Agency: "original-agency",
             Version: "1",
-            "@versionDate": "2020-01-01T00:00:00.000Z",
+            VersionDate: { DateTime: "2020-01-01T00:00:00.000Z" },
             VariablesInRecord: { VariableUsedReference: [] },
           },
         },
@@ -628,13 +651,13 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    // Check that @versionDate is updated to today
-    expect(result.duplicatedData.PhysicalInstance[0]["@versionDate"].substring(0, 10)).toBe(
-      beforeTest,
-    );
-    expect(result.duplicatedData.DataRelationship[0]["@versionDate"].substring(0, 10)).toBe(
-      beforeTest,
-    );
+    // Check that VersionDate.DateTime is updated to today
+    expect(
+      result.duplicatedData.PhysicalInstance[0].VersionDate?.DateTime.substring(0, 10),
+    ).toBe(beforeTest);
+    expect(
+      result.duplicatedData.DataRelationship[0].VersionDate?.DateTime.substring(0, 10),
+    ).toBe(beforeTest);
   });
 
   it("should handle empty Variable array", () => {
@@ -720,6 +743,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
 describe("buildDuplicatedLogicalRecord", () => {
   it("should preserve language tag from original", () => {
     const original = {
+      $type: "LogicalRecordType" as const,
       ID: "old-id",
       URN: "urn:ddi:old:old-id:1",
       Agency: "old-agency",
@@ -742,6 +766,7 @@ describe("buildDuplicatedLogicalRecord", () => {
 
   it("should fallback to defaultLocale when no lang specified", () => {
     const original = {
+      $type: "LogicalRecordType" as const,
       ID: "old-id",
       URN: "urn:ddi:old:old-id:1",
       Agency: "old-agency",
@@ -763,6 +788,7 @@ describe("buildDuplicatedLogicalRecord", () => {
 
   it("should generate correct label using buildLogicalRecordLabel", () => {
     const original = {
+      $type: "LogicalRecordType" as const,
       ID: "old-id",
       URN: "urn:ddi:old:old-id:1",
       Agency: "old-agency",
@@ -797,6 +823,7 @@ describe("buildDuplicatedLogicalRecord", () => {
 
   it("should throw error when newLogicalRecordId is empty", () => {
     const original = {
+      $type: "LogicalRecordType" as const,
       ID: "old-id",
       URN: "urn:ddi:old:old-id:1",
       Agency: "old-agency",
@@ -820,11 +847,13 @@ describe("buildDuplicatedLogicalRecord", () => {
 describe("buildDuplicatedDataRelationship", () => {
   it("should create proper BasedOnObject", () => {
     const original = {
+      $type: "DataRelationship" as const,
       ID: "old-dr-id",
       URN: "urn:ddi:old:old-dr-id:1",
       Agency: "old-agency",
       Version: "2",
       LogicalRecord: {
+        $type: "LogicalRecordType" as const,
         ID: "old-lr-id",
         URN: "urn:ddi:old:old-lr-id:1",
         Agency: "old-agency",
@@ -844,23 +873,29 @@ describe("buildDuplicatedDataRelationship", () => {
     });
 
     expect(result.BasedOnObject).toEqual({
-      BasedOnReference: {
-        Agency: "old-agency",
-        ID: "old-dr-id",
-        Version: "2",
-        TypeOfObject: "DataRelationship",
-      },
+      $type: "BasedOnObjectType",
+      BasedOnReference: [
+        {
+          $type: "DataRelationship",
+          URN: "urn:ddi:old-agency:old-dr-id:2",
+          Agency: "old-agency",
+          ID: "old-dr-id",
+          Version: "2",
+        },
+      ],
     });
   });
 
   it("should preserve language tag from original DataRelationship", () => {
     const original = {
+      $type: "DataRelationship" as const,
       ID: "old-dr-id",
       URN: "urn:ddi:old:old-dr-id:1",
       Agency: "old-agency",
       Version: "1",
       Label: [{ "@language": "en-GB", "@value": "Original Label" }],
       LogicalRecord: {
+        $type: "LogicalRecordType" as const,
         ID: "old-lr-id",
         URN: "urn:ddi:old:old-lr-id:1",
         Agency: "old-agency",
@@ -898,11 +933,13 @@ describe("buildDuplicatedDataRelationship", () => {
 
   it("should throw error when required IDs are empty", () => {
     const original = {
+      $type: "DataRelationship" as const,
       ID: "old-dr-id",
       URN: "urn:ddi:old:old-dr-id:1",
       Agency: "old-agency",
       Version: "1",
       LogicalRecord: {
+        $type: "LogicalRecordType" as const,
         ID: "old-lr-id",
         URN: "urn:ddi:old:old-lr-id:1",
         Agency: "old-agency",

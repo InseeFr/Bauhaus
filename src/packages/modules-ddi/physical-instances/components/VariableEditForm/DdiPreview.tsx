@@ -90,7 +90,7 @@ export const DdiPreview = ({
 
   const ddi4Data = useMemo(() => {
     const variableDDI: any = {
-      "@isUniversallyUnique": "true",
+      
       "@versionDate": versionDateRef.current,
       URN: `urn:ddi:${defaultAgencyId}:${variableId}:1`,
       Agency: defaultAgencyId,
@@ -105,7 +105,7 @@ export const DdiPreview = ({
     }
 
     if (isGeographic) {
-      variableDDI["@isGeographic"] = "true";
+      variableDDI.IsGeographic = true;
     }
 
     if (variableType === "numeric" && numericRepresentation) {

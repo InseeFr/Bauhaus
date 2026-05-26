@@ -546,8 +546,8 @@ export const Component = () => {
           }
 
           const ddiVariable: Variable = {
-            "@isUniversallyUnique": "true",
-            "@versionDate": new Date().toISOString(),
+            $type: "Variable",
+            VersionDate: { DateTime: new Date().toISOString() },
             URN: `urn:ddi:${agencyId}:${localVar.id}:1`,
             Agency: agencyId!,
             ID: localVar.id,
@@ -558,7 +558,7 @@ export const Component = () => {
               Description: singletonEntries("fr-FR", localVar.description),
             }),
             ...(localVar.isGeographic && {
-              "@isGeographic": "true",
+              IsGeographic: true,
             }),
             ...(variableRepresentation && {
               VariableRepresentation: variableRepresentation,

@@ -26,50 +26,43 @@ export const NumericRepresentation = ({
   onChange,
 }: Readonly<NumericRepresentationProps>) => {
   const { t } = useTranslation();
+  const formatNumber = (n: number | undefined): string =>
+    n === undefined || n === null ? "" : String(n);
+
   const [numericTypeCode, setNumericTypeCode] = useState(
     representation?.NumericTypeCode || "Integer",
   );
-  const [minValue, setMinValue] = useState(representation?.NumberRange?.Low?.["#text"] || "");
-  const [maxValue, setMaxValue] = useState(representation?.NumberRange?.High?.["#text"] || "");
+  const [minValue, setMinValue] = useState(formatNumber(representation?.NumberRange?.Low?.value));
+  const [maxValue, setMaxValue] = useState(formatNumber(representation?.NumberRange?.High?.value));
   const [hasMin, setHasMin] = useState(!!representation?.NumberRange?.Low);
   const [hasMax, setHasMax] = useState(!!representation?.NumberRange?.High);
 
   useEffect(() => {
     setNumericTypeCode(representation?.NumericTypeCode || "Integer");
-    setMinValue(representation?.NumberRange?.Low?.["#text"] || "");
-    setMaxValue(representation?.NumberRange?.High?.["#text"] || "");
+    setMinValue(formatNumber(representation?.NumberRange?.Low?.value));
+    setMaxValue(formatNumber(representation?.NumberRange?.High?.value));
     setHasMin(!!representation?.NumberRange?.Low);
     setHasMax(!!representation?.NumberRange?.High);
   }, [representation]);
 
   useEffect(() => {
     const numberRange: {
-      Low?: { "@isInclusive": string; "#text": string };
-      High?: { "@isInclusive": string; "#text": string };
+      Low?: { IsInclusive: boolean; value: number };
+      High?: { IsInclusive: boolean; value: number };
     } = {};
 
-    if (hasMin) {
-      numberRange.Low = {
-        "@isInclusive": "true",
-        "#text": minValue,
-      };
+    if (hasMin && minValue !== "") {
+      numberRange.Low = { IsInclusive: true, value: Number(minValue) };
     }
 
-    if (hasMax) {
-      numberRange.High = {
-        "@isInclusive": "true",
-        "#text": maxValue,
-      };
+    if (hasMax && maxValue !== "") {
+      numberRange.High = { IsInclusive: true, value: Number(maxValue) };
     }
 
     const newRepresentation: NumericRepresentationType = {
+      $type: "NumericRepresentationBaseType",
       NumericTypeCode: numericTypeCode,
-      ...(Object.keys(numberRange).length > 0 && {
-        NumberRange: numberRange as {
-          Low: { "@isInclusive": string; "#text": string };
-          High: { "@isInclusive": string; "#text": string };
-        },
-      }),
+      ...(Object.keys(numberRange).length > 0 && { NumberRange: numberRange }),
     };
 
     onChange(newRepresentation);

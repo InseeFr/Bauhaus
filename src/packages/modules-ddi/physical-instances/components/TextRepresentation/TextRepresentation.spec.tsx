@@ -39,9 +39,10 @@ describe("TextRepresentation", () => {
 
   it("should display initial values from representation", () => {
     const representation: TextRepresentationType = {
-      "@minLength": "5",
-      "@maxLength": "100",
-      "@regExp": "^[A-Z]+$",
+      $type: "TextRepresentationBaseType",
+      MinLength: 5,
+      MaxLength: 100,
+      RegExp: "^[A-Z]+$",
     };
 
     render(<TextRepresentation representation={representation} onChange={mockOnChange} />);
@@ -62,7 +63,8 @@ describe("TextRepresentation", () => {
     fireEvent.change(minLengthInput, { target: { value: "10" } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
-      "@minLength": "10",
+      $type: "TextRepresentationBaseType",
+      MinLength: 10,
     });
   });
 
@@ -73,7 +75,8 @@ describe("TextRepresentation", () => {
     fireEvent.change(maxLengthInput, { target: { value: "50" } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
-      "@maxLength": "50",
+      $type: "TextRepresentationBaseType",
+      MaxLength: 50,
     });
   });
 
@@ -84,7 +87,8 @@ describe("TextRepresentation", () => {
     fireEvent.change(regExpInput, { target: { value: "^[0-9]+$" } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
-      "@regExp": "^[0-9]+$",
+      $type: "TextRepresentationBaseType",
+      RegExp: "^[0-9]+$",
     });
   });
 
@@ -100,17 +104,19 @@ describe("TextRepresentation", () => {
     fireEvent.change(regExpInput, { target: { value: ".*" } });
 
     expect(mockOnChange).toHaveBeenLastCalledWith({
-      "@minLength": "1",
-      "@maxLength": "255",
-      "@regExp": ".*",
+      $type: "TextRepresentationBaseType",
+      MinLength: 1,
+      MaxLength: 255,
+      RegExp: ".*",
     });
   });
 
   it("should return undefined when all fields are empty", () => {
     const representation: TextRepresentationType = {
-      "@minLength": "5",
-      "@maxLength": "100",
-      "@regExp": "^[A-Z]+$",
+      $type: "TextRepresentationBaseType",
+      MinLength: 5,
+      MaxLength: 100,
+      RegExp: "^[A-Z]+$",
     };
 
     render(<TextRepresentation representation={representation} onChange={mockOnChange} />);
@@ -132,8 +138,9 @@ describe("TextRepresentation", () => {
     );
 
     const newRepresentation: TextRepresentationType = {
-      "@minLength": "20",
-      "@maxLength": "200",
+      $type: "TextRepresentationBaseType",
+      MinLength: 20,
+      MaxLength: 200,
     };
 
     rerender(<TextRepresentation representation={newRepresentation} onChange={mockOnChange} />);

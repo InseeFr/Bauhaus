@@ -1336,7 +1336,7 @@ describe("View Component", () => {
         VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
         Label: [{ "@language": "fr-FR", "@value": "Variable 1" }],
         VariableRepresentation: {
-          TextRepresentation: { "@maxLength": "100" },
+          TextRepresentation: { MaxLength: 100 },
         },
       };
 
@@ -1447,7 +1447,7 @@ describe("View Component", () => {
         VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
         Label: [{ "@language": "fr-FR", "@value": "Variable 1" }],
         VariableRepresentation: {
-          TextRepresentation: { "@maxLength": "100" },
+          TextRepresentation: { MaxLength: 100 },
         },
       };
 
@@ -1588,9 +1588,9 @@ describe("View Component", () => {
         "Original Title (copy)",
       );
 
-      // Verify PhysicalInstanceLabel has (copy) suffix
+      // PhysicalInstanceLabel is preserved as-is (not modified by the duplication)
       expect(savedData.PhysicalInstance[0].PhysicalInstanceLabel[0]["@value"]).toBe(
-        "Original Title (copy)",
+        "Original Label",
       );
     });
 
@@ -1708,12 +1708,16 @@ describe("View Component", () => {
 
       // Verify BasedOnObject is added to PhysicalInstance
       expect(savedData.PhysicalInstance[0].BasedOnObject).toEqual({
-        BasedOnReference: {
-          Agency: "test-agency",
-          ID: "pi-original-id",
-          Version: "1",
-          TypeOfObject: "PhysicalInstance",
-        },
+        $type: "BasedOnObjectType",
+        BasedOnReference: [
+          {
+            $type: "PhysicalInstance",
+            URN: "urn:ddi:test-agency:pi-original-id:1",
+            Agency: "test-agency",
+            ID: "pi-original-id",
+            Version: "1",
+          },
+        ],
       });
     });
 
@@ -1773,12 +1777,16 @@ describe("View Component", () => {
 
       // Verify BasedOnObject is added to DataRelationship
       expect(savedData.DataRelationship[0].BasedOnObject).toEqual({
-        BasedOnReference: {
-          Agency: "test-agency",
-          ID: "dr-original-id",
-          Version: "1",
-          TypeOfObject: "DataRelationship",
-        },
+        $type: "BasedOnObjectType",
+        BasedOnReference: [
+          {
+            $type: "DataRelationship",
+            URN: "urn:ddi:test-agency:dr-original-id:1",
+            Agency: "test-agency",
+            ID: "dr-original-id",
+            Version: "1",
+          },
+        ],
       });
     });
 
@@ -1866,21 +1874,29 @@ describe("View Component", () => {
 
       // Verify BasedOnObject is added to each Variable
       expect(savedData.Variable[0].BasedOnObject).toEqual({
-        BasedOnReference: {
-          Agency: "test-agency",
-          ID: "var-original-id-1",
-          Version: "1",
-          TypeOfObject: "Variable",
-        },
+        $type: "BasedOnObjectType",
+        BasedOnReference: [
+          {
+            $type: "Variable",
+            URN: "urn:ddi:test-agency:var-original-id-1:1",
+            Agency: "test-agency",
+            ID: "var-original-id-1",
+            Version: "1",
+          },
+        ],
       });
 
       expect(savedData.Variable[1].BasedOnObject).toEqual({
-        BasedOnReference: {
-          Agency: "test-agency",
-          ID: "var-original-id-2",
-          Version: "2",
-          TypeOfObject: "Variable",
-        },
+        $type: "BasedOnObjectType",
+        BasedOnReference: [
+          {
+            $type: "Variable",
+            URN: "urn:ddi:test-agency:var-original-id-2:2",
+            Agency: "test-agency",
+            ID: "var-original-id-2",
+            Version: "2",
+          },
+        ],
       });
 
       // Verify new IDs are different from original
@@ -1977,7 +1993,7 @@ describe("View Component", () => {
         VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
         Label: [{ "@language": "fr-FR", "@value": "Variable 1" }],
         VariableRepresentation: {
-          TextRepresentation: { "@maxLength": "100" },
+          TextRepresentation: { MaxLength: 100 },
         },
       };
 

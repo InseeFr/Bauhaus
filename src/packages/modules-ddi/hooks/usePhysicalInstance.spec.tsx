@@ -19,12 +19,12 @@ const mockApiResponse = {
   Variable: [
     {
       ID: "1",
-      "@versionDate": "2024-06-03T14:29:23.4049817Z",
+      VersionDate: { DateTime: "2024-06-03T14:29:23.4049817Z" },
       VariableName: [{ "@language": "fr-FR", "@value": "ACTOCCUPE" }],
       Label: [{ "@language": "fr-FR", "@value": "Actif occupé" }],
       VariableRepresentation: {
         CodeRepresentation: {
-          "@blankIsMissingValue": "false",
+          BlankIsMissingValue: false,
           CodeListReference: {
             Agency: "fr.insee",
             ID: "2a22ba00-a977-4a61-a582-99025c6b0582",
@@ -36,14 +36,14 @@ const mockApiResponse = {
     },
     {
       ID: "2",
-      "@versionDate": "2024-06-03T13:35:37.9342777Z",
+      VersionDate: { DateTime: "2024-06-03T13:35:37.9342777Z" },
       VariableName: [{ "@language": "fr-FR", "@value": "AG" }],
       Label: [{ "@language": "fr-FR", "@value": "Age" }],
       VariableRepresentation: {
         NumericRepresentation: {
           NumberRange: {
-            Low: { "@isInclusive": "false", "#text": "0" },
-            High: { "@isInclusive": "false", "#text": "100" },
+            Low: { IsInclusive: false, value: 0 },
+            High: { IsInclusive: false, value: 100 },
           },
           NumericTypeCode: "Integer",
         },
@@ -51,7 +51,7 @@ const mockApiResponse = {
     },
     {
       ID: "3",
-      "@versionDate": "2024-06-03T13:35:37.9342777Z",
+      VersionDate: { DateTime: "2024-06-03T13:35:37.9342777Z" },
       VariableName: [{ "@language": "fr-FR", "@value": "UNKNOWN_VAR" }],
       Label: [{ "@language": "fr-FR", "@value": "Unknown Variable" }],
       VariableRepresentation: {},

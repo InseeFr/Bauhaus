@@ -8,37 +8,38 @@ interface TextRepresentationProps {
   onChange: (representation: TextRepresentationType | undefined) => void;
 }
 
+const toInputValue = (n: number | undefined): string =>
+  n === undefined || n === null ? "" : String(n);
+
 export const TextRepresentation = ({
   representation,
   onChange,
 }: Readonly<TextRepresentationProps>) => {
   const { t } = useTranslation();
-  const [minLength, setMinLength] = useState(representation?.["@minLength"] || "");
-  const [maxLength, setMaxLength] = useState(representation?.["@maxLength"] || "");
-  const [regExp, setRegExp] = useState(representation?.["@regExp"] || "");
+  const [minLength, setMinLength] = useState(toInputValue(representation?.MinLength));
+  const [maxLength, setMaxLength] = useState(toInputValue(representation?.MaxLength));
+  const [regExp, setRegExp] = useState(representation?.RegExp || "");
 
   useEffect(() => {
-    setMinLength(representation?.["@minLength"] || "");
-    setMaxLength(representation?.["@maxLength"] || "");
-    setRegExp(representation?.["@regExp"] || "");
+    setMinLength(toInputValue(representation?.MinLength));
+    setMaxLength(toInputValue(representation?.MaxLength));
+    setRegExp(representation?.RegExp || "");
   }, [representation]);
 
   useEffect(() => {
-    const newRepresentation: TextRepresentationType = {};
+    const newRepresentation: TextRepresentationType = {
+      $type: "TextRepresentationBaseType",
+    };
 
-    if (minLength) {
-      newRepresentation["@minLength"] = minLength;
-    }
+    if (minLength) newRepresentation.MinLength = Number(minLength);
+    if (maxLength) newRepresentation.MaxLength = Number(maxLength);
+    if (regExp) newRepresentation.RegExp = regExp;
 
-    if (maxLength) {
-      newRepresentation["@maxLength"] = maxLength;
-    }
-
-    if (regExp) {
-      newRepresentation["@regExp"] = regExp;
-    }
-
-    onChange(Object.keys(newRepresentation).length > 0 ? newRepresentation : undefined);
+    const hasContent =
+      newRepresentation.MinLength !== undefined ||
+      newRepresentation.MaxLength !== undefined ||
+      newRepresentation.RegExp !== undefined;
+    onChange(hasContent ? newRepresentation : undefined);
   }, [minLength, maxLength, regExp, onChange]);
 
   return (

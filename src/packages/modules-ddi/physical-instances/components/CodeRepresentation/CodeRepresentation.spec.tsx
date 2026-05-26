@@ -147,18 +147,20 @@ describe("CodeRepresentation", () => {
   const mockOnChange = vi.fn();
 
   const mockRepresentation: CodeRepresentationType = {
-    "@blankIsMissingValue": "false",
+    $type: "CodeRepresentationBaseType",
+    BlankIsMissingValue: false,
     CodeListReference: {
+      $type: "CodeList",
+      URN: "urn:ddi:fr.insee:codelist-1:1",
       Agency: "fr.insee",
       ID: "codelist-1",
       Version: "1",
-      TypeOfObject: "CodeList",
     },
   };
 
   const mockCodeList: CodeList = {
-    "@isUniversallyUnique": "true",
-    "@versionDate": "2024-01-01T00:00:00Z",
+    $type: "CodeList",
+    VersionDate: { DateTime: "2024-01-01T00:00:00Z" },
     URN: "urn:ddi:fr.insee:codelist-1:1",
     Agency: "fr.insee",
     ID: "codelist-1",
@@ -166,16 +168,17 @@ describe("CodeRepresentation", () => {
     Label: [{ "@language": "fr-FR", "@value": "Liste de codes test" }],
     Code: [
       {
-        "@isUniversallyUnique": "true",
+        $type: "CodeType",
         URN: "urn:ddi:fr.insee:code-1:1",
         Agency: "fr.insee",
         ID: "code-1",
         Version: "1",
         CategoryReference: {
+          $type: "Category",
+          URN: "urn:ddi:fr.insee:category-1:1",
           Agency: "fr.insee",
           ID: "category-1",
           Version: "1",
-          TypeOfObject: "Category",
         },
         Value: "1",
       },
@@ -184,8 +187,8 @@ describe("CodeRepresentation", () => {
 
   const mockCategories: Category[] = [
     {
-      "@isUniversallyUnique": "true",
-      "@versionDate": "2024-01-01T00:00:00Z",
+      $type: "Category",
+      VersionDate: { DateTime: "2024-01-01T00:00:00Z" },
       URN: "urn:ddi:fr.insee:category-1:1",
       Agency: "fr.insee",
       ID: "category-1",
@@ -411,16 +414,17 @@ describe("CodeRepresentation", () => {
         Code: [
           ...mockCodeList.Code,
           {
-            "@isUniversallyUnique": "true",
+            $type: "CodeType",
             URN: "urn:ddi:fr.insee:code-2:1",
             Agency: "fr.insee",
             ID: "code-2",
             Version: "1",
             CategoryReference: {
+              $type: "Category",
+              URN: "urn:ddi:fr.insee:category-2:1",
               Agency: "fr.insee",
               ID: "category-2",
               Version: "1",
-              TypeOfObject: "Category",
             },
             Value: "2",
           },

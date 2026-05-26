@@ -11,12 +11,14 @@ export const createDefaultRepresentation = (
   codeListId: string,
   agencyId: string,
 ): CodeRepresentationType => ({
-  "@blankIsMissingValue": "false",
+  $type: "CodeRepresentationBaseType",
+  BlankIsMissingValue: false,
   CodeListReference: {
+    $type: "CodeList",
+    URN: `urn:ddi:${agencyId}:${codeListId}:1`,
     Agency: agencyId,
     ID: codeListId,
     Version: "1",
-    TypeOfObject: "CodeList",
   },
 });
 
@@ -26,8 +28,8 @@ export const createDefaultCodeList = (
   agencyId: string,
   locale: string,
 ): CodeList => ({
-  "@isUniversallyUnique": "true",
-  "@versionDate": new Date().toISOString(),
+  $type: "CodeList",
+  VersionDate: { DateTime: new Date().toISOString() },
   URN: `urn:ddi:${agencyId}:${id}:1`,
   Agency: agencyId,
   ID: id,
@@ -42,16 +44,17 @@ export const createCode = (
   value: string,
   agencyId: string,
 ): Code => ({
-  "@isUniversallyUnique": "true",
+  $type: "CodeType",
   URN: `urn:ddi:${agencyId}:${id}:1`,
   Agency: agencyId,
   ID: id,
   Version: "1",
   CategoryReference: {
+    $type: "Category",
+    URN: `urn:ddi:${agencyId}:${categoryId}:1`,
     Agency: agencyId,
     ID: categoryId,
     Version: "1",
-    TypeOfObject: "Category",
   },
   Value: value,
 });
@@ -62,8 +65,8 @@ export const createCategory = (
   agencyId: string,
   locale: string,
 ): Category => ({
-  "@isUniversallyUnique": "true",
-  "@versionDate": new Date().toISOString(),
+  $type: "Category",
+  VersionDate: { DateTime: new Date().toISOString() },
   URN: `urn:ddi:${agencyId}:${id}:1`,
   Agency: agencyId,
   ID: id,

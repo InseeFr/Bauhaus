@@ -464,12 +464,14 @@ describe("VariableEditForm", () => {
       ...defaultVariable,
       type: "code",
       codeRepresentation: {
-        "@blankIsMissingValue": "false",
+        $type: "CodeRepresentationBaseType",
+        BlankIsMissingValue: false,
         CodeListReference: {
+          $type: "CodeList",
+          URN: "urn:ddi:fr.insee:codelist-1:1",
           Agency: "fr.insee",
           ID: "codelist-1",
           Version: "1",
-          TypeOfObject: "CodeList",
         },
       } as CodeRepresentation,
       codeList: {
@@ -759,7 +761,7 @@ describe("VariableEditForm", () => {
 
   describe("Duplicate functionality", () => {
     it("should duplicate variable when duplicate button is clicked", () => {
-      const mockUUID = "test-uuid-1234";
+      const mockUUID = "11111111-1111-1111-1111-111111111111" as const;
       using _randomUUIDSpy = vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
 
       render(
@@ -786,14 +788,14 @@ describe("VariableEditForm", () => {
     });
 
     it("should duplicate variable with representation data", () => {
-      const mockUUID = "test-uuid-5678";
+      const mockUUID = "22222222-2222-2222-2222-222222222222" as const;
       using _randomUUIDSpy = vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
 
       const variableWithRepresentation = {
         ...defaultVariable,
         numericRepresentation: {
-          "@decimalPositions": "2",
-          "@type": "Double",
+          $type: "NumericRepresentationBaseType" as const,
+          NumericTypeCode: "Double",
         },
       };
 
@@ -815,8 +817,8 @@ describe("VariableEditForm", () => {
           name: "testVar (copy)",
           label: "Test Variable (copy)",
           numericRepresentation: {
-            "@decimalPositions": "2",
-            "@type": "Double",
+            $type: "NumericRepresentationBaseType",
+            NumericTypeCode: "Double",
           },
         }),
       );

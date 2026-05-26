@@ -1,28 +1,17 @@
-// ────────────────────────────────────────────────────────────────────────────
-// Front-end view of the DDI Physical Instance REST contract.
+// Front-end view of the DDI 4 Physical Instance REST contract.
 //
-// IMPORTANT: these interfaces describe what the back-office currently returns
-// over HTTP, NOT the pure DDI 4 schema. The back internally uses the
-// DDI Lifecycle 4.0 RC1 model (see `generated/ddi.ts`) but serialises to a
-// DDI 3-flavoured JSON via the `additionalProperties` bridge, which preserves
-// legacy XML attributes (`@isUniversallyUnique`, `@versionDate`, `#text`, …)
-// and the `TypeOfObject` discriminator instead of the `$type` field.
-//
-// Once the back-office migrates its REST shape to pure DDI 4 JSON, every
-// interface marked with `TODO(back-migration)` below can be replaced by a
-// direct alias to the corresponding `components["schemas"][…]` entry of
-// `generated/ddi.ts`. See `PLAN-DDI-CLEANUP.md` §1.6 for the broader plan.
-// ────────────────────────────────────────────────────────────────────────────
+// Most interfaces alias the generated `components["schemas"][...]` type from
+// `generated/ddi.ts`. A handful stay local because the back diverges from the
+// schema on purpose — see comments by each local declaration.
 
-import type { LangString } from "../../utils/multilingual";
+import type { components } from "./generated/ddi";
 
 export type { LangString } from "../../utils/multilingual";
 
-// API wrapper — not a DDI 4 type; bundles the fragments returned by the
-// back-office for a single physical instance.
+// Wire envelope; not a DDI 4 type.
 export interface PhysicalInstanceResponse {
   $schema?: string;
-  topLevelReference?: TopLevelReference[];
+  TopLevelReference?: Reference[];
   PhysicalInstance?: PhysicalInstance[];
   DataRelationship?: DataRelationship[];
   Variable?: Variable[];
@@ -30,90 +19,33 @@ export interface PhysicalInstanceResponse {
   Category?: Category[];
 }
 
-// TODO(back-migration): align with `components["schemas"]["reference"]` once
-// the back returns `$type`/`URN` instead of `TypeOfObject`.
-export interface TopLevelReference {
-  Agency: string;
-  ID: string;
-  Version: string;
-  TypeOfObject: string;
-}
+export type Reference = components["schemas"]["reference"];
+export type Citation = components["schemas"]["CitationType"];
+export type BasedOnObject = components["schemas"]["BasedOnObjectType"];
 
-// TODO(back-migration): alias to `components["schemas"]["PhysicalInstance"]`
-// once DDI 3 XML attributes (`@isUniversallyUnique`, `@versionDate`) are gone
-// and `DataRelationshipReference` matches the DDI 4 cardinality.
-export interface PhysicalInstance {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Citation: Citation;
-  DataRelationshipReference: Reference;
-}
+export type PhysicalInstance = components["schemas"]["PhysicalInstance"];
 
-// TODO(back-migration): alias to `components["schemas"]["CitationType"]` once
-// DDI 4 contract is in place (Title will become optional).
-export interface Citation {
-  Title: LangString[];
-}
+// DataRelationship: override LogicalRecord since the back sends a single
+// object where the schema declares LogicalRecord[] (array).
+export type DataRelationship = Omit<
+  components["schemas"]["DataRelationship"],
+  "LogicalRecord"
+> & {
+  LogicalRecord?: LogicalRecord;
+};
+export type LogicalRecord = components["schemas"]["LogicalRecordType"];
+export type VariablesInRecord = components["schemas"]["VariablesInRecordType"];
+export type Category = components["schemas"]["Category"];
 
-// TODO(back-migration): align with `components["schemas"]["reference"]` once
-// the back returns `$type`/`URN` instead of `TypeOfObject`.
-export interface Reference {
-  Agency: string;
-  ID: string;
-  Version: string;
-  TypeOfObject: string;
-}
-
-// TODO(back-migration): alias to `components["schemas"]["DataRelationship"]`.
-export interface DataRelationship {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Label?: LangString[];
-  LogicalRecord: LogicalRecord;
-}
-
-// TODO(back-migration): alias to `components["schemas"]["LogicalRecordType"]`.
-export interface LogicalRecord {
-  "@isUniversallyUnique"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Label?: LangString[];
-  VariablesInRecord: VariablesInRecord;
-}
-
-export interface VariablesInRecord {
-  VariableUsedReference: Reference[];
-}
-
-// TODO(back-migration): alias to `components["schemas"]["Variable"]` once
-// `@isGeographic`/`@versionDate` are gone.
-export interface Variable {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  "@isGeographic"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  VariableName: LangString[];
-  Label: LangString[];
-  Description?: LangString[];
+// Variable: override VariableRepresentation since the back flattens the
+// schema's polymorphic ValueRepresentation into one field per kind.
+export type Variable = Omit<
+  components["schemas"]["Variable"],
+  "VariableRepresentation"
+> & {
   VariableRepresentation?: VariableRepresentation;
-}
+};
 
-// Wrapper around DDI 4 *RepresentationBaseType variants. No direct DDI 4
-// equivalent: the back flattens the polymorphic union into one optional field
-// per representation kind.
 export interface VariableRepresentation {
   VariableRole?: string;
   CodeRepresentation?: CodeRepresentation;
@@ -122,82 +54,55 @@ export interface VariableRepresentation {
   TextRepresentation?: TextRepresentation;
 }
 
-// Distinct from `components["schemas"]["CodeRepresentationBaseType"]`:
-// `@blankIsMissingValue` is a DDI 3 XML attribute and `CodeListReference`
-// uses the DDI 3-style `Reference` shape.
-export interface CodeRepresentation {
-  "@blankIsMissingValue": string;
-  CodeListReference: Reference;
-}
+export type CodeRepresentation =
+  components["schemas"]["CodeRepresentationBaseType"];
+export type TextRepresentation =
+  components["schemas"]["TextRepresentationBaseType"];
 
+// NumericRepresentation/DateTimeRepresentation diverge from the schema:
+//   - schema's NumericTypeCode / DateTypeCode are CodeValueType objects; the
+//     back sends plain strings.
+//   - schema's NumberRange is an array; the back sends a single object.
+// Kept local until the back closes that gap.
 export interface NumericRepresentation {
-  NumericTypeCode: string;
+  $type?: "NumericRepresentationBaseType";
+  NumericTypeCode?: string;
   NumberRange?: NumberRange;
+  BlankIsMissingValue?: boolean;
 }
 
 export interface DateTimeRepresentation {
-  DateTypeCode: string;
-}
-
-// DDI 3 XML attribute carryovers — no direct DDI 4 equivalent.
-export interface TextRepresentation {
-  "@minLength"?: string;
-  "@maxLength"?: string;
-  "@regExp"?: string;
+  $type?: "DateTimeRepresentationBaseType";
+  DateTypeCode?: string;
+  DateFieldFormat?: string;
 }
 
 export interface NumberRange {
-  Low: RangeValue;
-  High: RangeValue;
+  Low?: RangeValue;
+  High?: RangeValue;
 }
 
-// `@isInclusive` + `#text` are pure DDI 3 XML serialisation; the DDI 4
-// `RangeValueType` uses typed fields (`isInclusive: boolean`, `value: number`).
+// Schema spells the numeric value `DecimalValue`; the back currently emits
+// `value`. Kept local until the back closes that gap.
 export interface RangeValue {
-  "@isInclusive": string;
-  "#text": string;
+  IsInclusive?: boolean;
+  value?: number;
 }
 
-// TODO(back-migration): alias to `components["schemas"]["CodeList"]`.
-export interface CodeList {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Label?: LangString[];
+// CodeList/Code: the schema's CodeType.Value is a ValueType object; the back
+// emits a plain string. Kept local until the back closes that gap.
+export type CodeList = Omit<components["schemas"]["CodeList"], "Code"> & {
   Code?: Code[];
-  BasedOnObject?: BasedOnObject;
-}
+};
 
-// TODO(back-migration): alias to `components["schemas"]["Code"]`.
 export interface Code {
-  "@isUniversallyUnique"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  CategoryReference: Reference;
-  Value: string;
-}
-
-// TODO(back-migration): alias to `components["schemas"]["Category"]`.
-export interface Category {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Label: LangString[];
-  BasedOnObject?: BasedOnObject;
-}
-
-// TODO(back-migration): alias to `components["schemas"]["BasedOnObjectType"]`.
-export interface BasedOnObject {
-  BasedOnReference: Reference;
-  BasedOnRationaleCode: string;
+  $type?: "CodeType";
+  URN?: string;
+  Agency?: string;
+  ID?: string;
+  Version?: string;
+  CategoryReference?: Reference;
+  Value?: string;
 }
 
 // UI-only row model used by the variables table; not a DDI type.

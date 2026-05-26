@@ -3,16 +3,20 @@ import { renderHook } from "@testing-library/react";
 import { usePhysicalInstanceByLangs } from "./usePhysicalInstanceByLangs";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 
-const baseRef = {
-  Agency: "fr.insee",
-  ID: "ref-1",
-  Version: "1",
-  TypeOfObject: "Variable",
-};
+const baseRef = [
+  {
+    $type: "Variable" as const,
+    URN: "urn:ddi:fr.insee:ref-1:1",
+    Agency: "fr.insee",
+    ID: "ref-1",
+    Version: "1",
+  },
+];
 
 const singleLangData: PhysicalInstanceResponse = {
   PhysicalInstance: [
     {
+      $type: "PhysicalInstance",
       URN: "urn:pi:1",
       Agency: "fr.insee",
       ID: "pi-1",
@@ -25,12 +29,14 @@ const singleLangData: PhysicalInstanceResponse = {
   ],
   DataRelationship: [
     {
+      $type: "DataRelationship",
       URN: "urn:dr:1",
       Agency: "fr.insee",
       ID: "dr-1",
       Version: "1",
       Label: [{ "@language": "fr-FR", "@value": "Label DR FR" }],
       LogicalRecord: {
+        $type: "LogicalRecordType",
         URN: "urn:lr:1",
         Agency: "fr.insee",
         ID: "lr-1",
@@ -42,6 +48,7 @@ const singleLangData: PhysicalInstanceResponse = {
   ],
   Variable: [
     {
+      $type: "Variable",
       URN: "urn:v:1",
       Agency: "fr.insee",
       ID: "v-1",
@@ -53,6 +60,7 @@ const singleLangData: PhysicalInstanceResponse = {
   ],
   CodeList: [
     {
+      $type: "CodeList",
       URN: "urn:cl:1",
       Agency: "fr.insee",
       ID: "cl-1",
@@ -62,6 +70,7 @@ const singleLangData: PhysicalInstanceResponse = {
   ],
   Category: [
     {
+      $type: "Category",
       URN: "urn:cat:1",
       Agency: "fr.insee",
       ID: "cat-1",
@@ -74,6 +83,7 @@ const singleLangData: PhysicalInstanceResponse = {
 const multiLangData: PhysicalInstanceResponse = {
   PhysicalInstance: [
     {
+      $type: "PhysicalInstance",
       URN: "urn:pi:1",
       Agency: "fr.insee",
       ID: "pi-1",
@@ -89,6 +99,7 @@ const multiLangData: PhysicalInstanceResponse = {
   ],
   DataRelationship: [
     {
+      $type: "DataRelationship",
       URN: "urn:dr:1",
       Agency: "fr.insee",
       ID: "dr-1",
@@ -98,6 +109,7 @@ const multiLangData: PhysicalInstanceResponse = {
         { "@language": "en-GB", "@value": "Label DR EN" },
       ],
       LogicalRecord: {
+        $type: "LogicalRecordType",
         URN: "urn:lr:1",
         Agency: "fr.insee",
         ID: "lr-1",
@@ -112,6 +124,7 @@ const multiLangData: PhysicalInstanceResponse = {
   ],
   Variable: [
     {
+      $type: "Variable",
       URN: "urn:v:1",
       Agency: "fr.insee",
       ID: "v-1",
@@ -132,6 +145,7 @@ const multiLangData: PhysicalInstanceResponse = {
   ],
   CodeList: [
     {
+      $type: "CodeList",
       URN: "urn:cl:1",
       Agency: "fr.insee",
       ID: "cl-1",
@@ -144,6 +158,7 @@ const multiLangData: PhysicalInstanceResponse = {
   ],
   Category: [
     {
+      $type: "Category",
       URN: "urn:cat:1",
       Agency: "fr.insee",
       ID: "cat-1",

@@ -1,4 +1,4 @@
-import type { Variable, LogicalRecord, DataRelationship } from "../../types/api";
+import type { Variable, LogicalRecord, DataRelationship, Reference } from "../../types/api";
 import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 import { singletonEntries, makeEntry } from "../../../utils/multilingual";
 
@@ -24,18 +24,24 @@ interface BuildDuplicatedLogicalRecordParams {
   defaultLocale: string;
 }
 
+const refTo = (
+  agency: string,
+  id: string,
+  version: string,
+  type: Reference["$type"],
+): Reference => ({
+  $type: type,
+  URN: `urn:ddi:${agency}:${id}:${version}`,
+  Agency: agency,
+  ID: id,
+  Version: version,
+});
+
+const nowVersionDate = () => ({ DateTime: new Date().toISOString() });
+
 /**
  * Builds a duplicated LogicalRecord with new IDs and metadata.
  * Preserves the original language if available, otherwise uses the provided defaultLocale.
- *
- * @param params - Duplication parameters
- * @param params.originalLogicalRecord - Source LogicalRecord to duplicate
- * @param params.newLogicalRecordId - New UUID identifier for the LogicalRecord
- * @param params.newAgencyId - New owner agency
- * @param params.title - Base title to build the label
- * @param params.variableIdMap - Mapping from old variable IDs to new ones
- * @param params.defaultLocale - Default locale to use if no language is specified
- * @returns A new LogicalRecord with regenerated IDs and updated references
  */
 export function buildDuplicatedLogicalRecord({
   originalLogicalRecord,
@@ -57,18 +63,14 @@ export function buildDuplicatedLogicalRecord({
     ID: newLogicalRecordId,
     URN: `urn:ddi:${newAgencyId}:${newLogicalRecordId}:1`,
     Agency: newAgencyId,
-    "@versionDate": new Date().toISOString(),
     Label: singletonEntries(
       originalLogicalRecord?.Label?.[0]?.["@language"] ?? defaultLocale,
       buildLogicalRecordLabel(`${title} (copy)`),
     ),
     VariablesInRecord: {
-      VariableUsedReference: Array.from(variableIdMap.values()).map((newVarId) => ({
-        Agency: newAgencyId,
-        ID: newVarId,
-        Version: "1",
-        TypeOfObject: "Variable",
-      })),
+      VariableUsedReference: Array.from(variableIdMap.values()).map((newVarId) =>
+        refTo(newAgencyId, newVarId, "1", "Variable"),
+      ),
     },
   };
 }
@@ -86,16 +88,6 @@ interface BuildDuplicatedDataRelationshipParams {
 /**
  * Builds a duplicated DataRelationship with new IDs and a BasedOnObject.
  * Also creates a new nested LogicalRecord via buildDuplicatedLogicalRecord.
- *
- * @param params - Duplication parameters
- * @param params.originalDataRelationship - Source DataRelationship to duplicate
- * @param params.newDataRelationshipId - New UUID identifier for the DataRelationship
- * @param params.newAgencyId - New owner agency
- * @param params.title - Base title to build the label
- * @param params.newLogicalRecordId - New UUID identifier for the nested LogicalRecord
- * @param params.variableIdMap - Mapping from old variable IDs to new ones
- * @param params.defaultLocale - Default locale to use if no language is specified
- * @returns A new DataRelationship with regenerated IDs, BasedOnObject and nested LogicalRecord
  */
 export function buildDuplicatedDataRelationship({
   originalDataRelationship,
@@ -118,27 +110,32 @@ export function buildDuplicatedDataRelationship({
     ID: newDataRelationshipId,
     URN: `urn:ddi:${newAgencyId}:${newDataRelationshipId}:1`,
     Agency: newAgencyId,
-    "@versionDate": new Date().toISOString(),
+    VersionDate: nowVersionDate(),
     BasedOnObject: {
-      BasedOnReference: {
-        Agency: originalDataRelationship.Agency,
-        ID: originalDataRelationship.ID,
-        Version: originalDataRelationship.Version || "1",
-        TypeOfObject: "DataRelationship",
-      },
+      $type: "BasedOnObjectType",
+      BasedOnReference: [
+        refTo(
+          originalDataRelationship.Agency,
+          originalDataRelationship.ID,
+          originalDataRelationship.Version || "1",
+          "DataRelationship",
+        ),
+      ],
     },
     Label: singletonEntries(
       originalDataRelationship?.Label?.[0]?.["@language"] ?? defaultLocale,
       buildDataRelationshipLabel(`${title} (copy)`),
     ),
-    LogicalRecord: buildDuplicatedLogicalRecord({
-      originalLogicalRecord: originalDataRelationship.LogicalRecord,
-      newLogicalRecordId,
-      newAgencyId,
-      title,
-      variableIdMap,
-      defaultLocale,
-    }),
+    LogicalRecord: originalDataRelationship.LogicalRecord
+      ? buildDuplicatedLogicalRecord({
+          originalLogicalRecord: originalDataRelationship.LogicalRecord,
+          newLogicalRecordId,
+          newAgencyId,
+          title,
+          variableIdMap,
+          defaultLocale,
+        })
+      : undefined,
   };
 }
 
@@ -146,13 +143,6 @@ export function buildDuplicatedDataRelationship({
  * Duplicates a complete PhysicalInstance with all its relationships and metadata.
  * Generates new IDs for PhysicalInstance, DataRelationship, LogicalRecord and Variables.
  * Preserves CodeList and Category without modification.
- *
- * @param params - Duplication parameters
- * @param params.agencyId - Owner agency ID
- * @param params.data - Source PhysicalInstance data to duplicate
- * @param params.title - PhysicalInstance title (will be suffixed with " (copy)")
- * @param params.defaultLocale - Default locale to use if no language is specified in source data
- * @returns Object containing duplicated data and new identifiers
  */
 export function buildDuplicatedPhysicalInstance({
   agencyId,
@@ -160,13 +150,11 @@ export function buildDuplicatedPhysicalInstance({
   title,
   defaultLocale,
 }: DuplicatePhysicalInstanceParams): DuplicatePhysicalInstanceResult {
-  // Générer de nouveaux IDs pour tous les objets sauf CodeList et Category
   const newAgencyId = agencyId;
   const newPhysicalInstanceId = crypto.randomUUID();
   const newDataRelationshipId = crypto.randomUUID();
   const newLogicalRecordId = crypto.randomUUID();
 
-  // Créer un mapping des anciens IDs de variables vers les nouveaux
   const variableIdMap = new Map<string, string>();
   if (data?.Variable) {
     data.Variable.forEach((v: Variable) => {
@@ -174,13 +162,10 @@ export function buildDuplicatedPhysicalInstance({
     });
   }
 
-  // Dupliquer les données en régénérant les IDs
   const duplicatedData = {
     ...data,
-    // Garder les mêmes CodeList et Category (pas de régénération d'ID)
     CodeList: data?.CodeList || [],
     Category: data?.Category || [],
-    // Dupliquer les variables avec de nouveaux IDs et BasedOnObject
     Variable: data?.Variable?.map((variable: Variable) => {
       const newVariableId = variableIdMap.get(variable.ID)!;
       return {
@@ -188,18 +173,15 @@ export function buildDuplicatedPhysicalInstance({
         ID: newVariableId,
         URN: `urn:ddi:${newAgencyId}:${newVariableId}:1`,
         Agency: newAgencyId,
-        "@versionDate": new Date().toISOString(),
+        VersionDate: nowVersionDate(),
         BasedOnObject: {
-          BasedOnReference: {
-            Agency: variable.Agency,
-            ID: variable.ID,
-            Version: variable.Version || "1",
-            TypeOfObject: "Variable",
-          },
+          $type: "BasedOnObjectType",
+          BasedOnReference: [
+            refTo(variable.Agency, variable.ID, variable.Version || "1", "Variable"),
+          ],
         },
       };
     }),
-    // Mettre à jour DataRelationship avec nouveaux IDs, nom et BasedOnObject
     DataRelationship: data?.DataRelationship?.map((dr: any) =>
       buildDuplicatedDataRelationship({
         originalDataRelationship: dr,
@@ -211,20 +193,15 @@ export function buildDuplicatedPhysicalInstance({
         defaultLocale,
       }),
     ),
-    // Mettre à jour PhysicalInstance avec nouveaux IDs, label et BasedOnObject
     PhysicalInstance: data?.PhysicalInstance?.map((pi: any) => ({
       ...pi,
       ID: newPhysicalInstanceId,
       URN: `urn:ddi:${newAgencyId}:${newPhysicalInstanceId}:1`,
       Agency: newAgencyId,
-      "@versionDate": new Date().toISOString(),
+      VersionDate: nowVersionDate(),
       BasedOnObject: {
-        BasedOnReference: {
-          Agency: pi.Agency,
-          ID: pi.ID,
-          Version: pi.Version || "1",
-          TypeOfObject: "PhysicalInstance",
-        },
+        $type: "BasedOnObjectType",
+        BasedOnReference: [refTo(pi.Agency, pi.ID, pi.Version || "1", "PhysicalInstance")],
       },
       Citation: {
         ...pi.Citation,
@@ -232,15 +209,9 @@ export function buildDuplicatedPhysicalInstance({
           makeEntry(pi.Citation?.Title?.[0]?.["@language"] ?? defaultLocale, `${title} (copy)`),
         ],
       },
-      PhysicalInstanceLabel: [
-        makeEntry(pi.PhysicalInstanceLabel?.[0]?.["@language"] ?? defaultLocale, `${title} (copy)`),
+      DataRelationshipReference: [
+        refTo(newAgencyId, newDataRelationshipId, "1", "DataRelationship"),
       ],
-      DataRelationshipReference: {
-        Agency: newAgencyId,
-        ID: newDataRelationshipId,
-        Version: "1",
-        TypeOfObject: "DataRelationship",
-      },
     })),
   };
 

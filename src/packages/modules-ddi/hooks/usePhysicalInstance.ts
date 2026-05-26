@@ -21,7 +21,7 @@ function transformVariablesToTableData(
     name: pickLang(variable.VariableName, lang) ?? "",
     label: pickLang(variable.Label, lang) ?? "",
     type: getVariableType(variable),
-    lastModified: variable["@versionDate"] || "",
+    lastModified: variable.VersionDate?.DateTime || "",
   }));
 }
 

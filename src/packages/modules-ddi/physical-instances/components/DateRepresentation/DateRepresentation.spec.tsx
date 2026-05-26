@@ -91,6 +91,7 @@ describe("DateRepresentation", () => {
     fireEvent.change(dropdown, { target: { value: "Year" } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
+      $type: "DateTimeRepresentationBaseType",
       DateTypeCode: "Year",
     });
   });
@@ -99,6 +100,7 @@ describe("DateRepresentation", () => {
     render(<DateRepresentation representation={undefined} onChange={mockOnChange} />);
 
     expect(mockOnChange).toHaveBeenCalledWith({
+      $type: "DateTimeRepresentationBaseType",
       DateTypeCode: "Date",
     });
   });
@@ -139,6 +141,7 @@ describe("DateRepresentation", () => {
     dateTypes.forEach((type) => {
       fireEvent.change(dropdown, { target: { value: type } });
       expect(mockOnChange).toHaveBeenCalledWith({
+        $type: "DateTimeRepresentationBaseType",
         DateTypeCode: type,
       });
     });
