@@ -89,7 +89,7 @@ export const CodeRepresentation = ({
     );
     const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
       id: code.ID,
-      value: code.Value ?? "",
+      value: code.Value?.StringValue ?? "",
       label: categoryLabelById.get(code.CategoryReference?.ID) ?? "",
       categoryId: code.CategoryReference?.ID ?? "",
     }));
@@ -129,10 +129,10 @@ export const CodeRepresentation = ({
     if (codeList) {
       // Cas où on a une codeList complète (création ou liste existante chargée)
       const tableData: CodeTableRow[] = (codeList.Code || []).map((code) => {
-        const category = categories.find((cat) => cat.ID === code.CategoryReference.ID);
+        const category = categories.find((cat) => cat.ID === code.CategoryReference?.ID);
         return {
           id: code.ID,
-          value: code.Value,
+          value: code.Value?.StringValue ?? "",
           label: getLocalizedText(category?.Label) ?? "",
           categoryId: category?.ID || "",
         };

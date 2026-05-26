@@ -81,21 +81,8 @@ export interface RangeValue {
   value?: number;
 }
 
-// CodeList/Code: the schema's CodeType.Value is a ValueType object; the back
-// emits a plain string. Kept local until the back closes that gap.
-export type CodeList = Omit<components["schemas"]["CodeList"], "Code"> & {
-  Code?: Code[];
-};
-
-export interface Code {
-  $type?: "CodeType";
-  URN?: string;
-  Agency?: string;
-  ID?: string;
-  Version?: string;
-  CategoryReference?: Reference;
-  Value?: string;
-}
+export type CodeList = components["schemas"]["CodeList"];
+export type Code = components["schemas"]["CodeType"];
 
 // UI-only row model used by the variables table; not a DDI type.
 export interface VariableTableData {

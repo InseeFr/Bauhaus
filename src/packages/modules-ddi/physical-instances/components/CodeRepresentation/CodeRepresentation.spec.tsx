@@ -180,7 +180,7 @@ describe("CodeRepresentation", () => {
           ID: "category-1",
           Version: "1",
         },
-        Value: "1",
+        Value: { StringValue: "1" },
       },
     ],
   };
@@ -426,7 +426,7 @@ describe("CodeRepresentation", () => {
               ID: "category-2",
               Version: "1",
             },
-            Value: "2",
+            Value: { StringValue: "2" },
           },
         ],
       };
@@ -606,7 +606,7 @@ describe("CodeRepresentation", () => {
             Code: [
               {
                 ID: "code-1",
-                Value: "01",
+                Value: { StringValue: "01" },
                 CategoryReference: { ID: "cat-1" },
               },
             ],

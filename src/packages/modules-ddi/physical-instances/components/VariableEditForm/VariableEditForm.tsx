@@ -338,7 +338,7 @@ export const VariableEditForm = ({
           if (!code || !code.CategoryReference) return false;
           const category = categories.find((cat) => cat?.ID === code.CategoryReference?.ID);
           const label = pickLang(category?.Label, "fr-FR") ?? "";
-          const value = code.Value || "";
+          const value = code.Value?.StringValue ?? "";
           return value.trim() !== "" || label.trim() !== "";
         });
 

@@ -56,7 +56,7 @@ export const createCode = (
     ID: categoryId,
     Version: "1",
   },
-  Value: value,
+  Value: { StringValue: value },
 });
 
 export const createCategory = (

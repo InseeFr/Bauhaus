@@ -504,7 +504,7 @@ export const Component = () => {
                     (cat) => cat.ID === code.CategoryReference?.ID,
                   );
                   const label = pickLang(category?.Label, "fr-FR") ?? "";
-                  const value = code.Value || "";
+                  const value = code.Value?.StringValue ?? "";
                   return value.trim() !== "" || label.trim() !== "";
                 }),
               };
@@ -519,7 +519,7 @@ export const Component = () => {
                       (cat) => cat.ID === code.CategoryReference?.ID,
                     );
                     const label = pickLang(category?.Label, "fr-FR") ?? "";
-                    const value = code.Value || "";
+                    const value = code.Value?.StringValue ?? "";
                     return value.trim() !== "" || label.trim() !== "";
                   })
                   .map((code: Code) => code.CategoryReference?.ID),
