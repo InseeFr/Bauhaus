@@ -1,7 +1,6 @@
-export interface LangString {
-  "@language": string;
-  "@value": string;
-}
+import type { components } from "../physical-instances/types/generated/ddi";
+
+export type LangString = components["schemas"]["langString"];
 
 const primaryTag = (lang: string | undefined) => lang?.split("-")[0];
 
