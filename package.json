@@ -65,6 +65,7 @@
     "happy-dom": "^20.9.0",
     "husky": "^9.1.6",
     "knip": "^6.5.0",
+    "openapi-typescript": "^7.9.1",
     "oxfmt": "^0.18.0",
     "oxlint": "^1.24.0",
     "playwright": "^1.55.1",
