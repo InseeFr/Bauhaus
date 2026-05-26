@@ -273,11 +273,13 @@ describe("View Component", () => {
         DataRelationship: [
           {
             DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test Data Relationship" }],
-            LogicalRecord: {
-              VariablesInRecord: {
-                VariableUsedReference: [],
-              },
-            },
+            LogicalRecord: [
+              {
+                VariablesInRecord: {
+                  VariableUsedReference: [],
+                },
+              }
+            ],
           },
         ],
         Variable: [],
@@ -627,11 +629,13 @@ describe("View Component", () => {
           DataRelationship: [
             {
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test Data Relationship" }],
-              LogicalRecord: {
-                VariablesInRecord: {
-                  VariableUsedReference: [],
-                },
-              },
+              LogicalRecord: [
+                {
+                  VariablesInRecord: {
+                    VariableUsedReference: [],
+                  },
+                }
+              ],
             },
           ],
           Variable: [],
@@ -671,11 +675,13 @@ describe("View Component", () => {
         DataRelationship: [
           {
             DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test Data Relationship" }],
-            LogicalRecord: {
-              VariablesInRecord: {
-                VariableUsedReference: [],
-              },
-            },
+            LogicalRecord: [
+              {
+                VariablesInRecord: {
+                  VariableUsedReference: [],
+                },
+              }
+            ],
           },
         ],
         Variable: [],
@@ -906,18 +912,20 @@ describe("View Component", () => {
           DataRelationship: [
             {
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: {
-                VariablesInRecord: {
-                  VariableUsedReference: [
-                    {
-                      Agency: "test-agency-123",
-                      ID: "existing-var-1",
-                      Version: "1",
-                      TypeOfObject: "Variable",
-                    },
-                  ],
-                },
-              },
+              LogicalRecord: [
+                {
+                  VariablesInRecord: {
+                    VariableUsedReference: [
+                      {
+                        Agency: "test-agency-123",
+                        ID: "existing-var-1",
+                        Version: "1",
+                        TypeOfObject: "Variable",
+                      },
+                    ],
+                  },
+                }
+              ],
             },
           ],
           Variable: [
@@ -1067,11 +1075,13 @@ describe("View Component", () => {
           DataRelationship: [
             {
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: {
-                VariablesInRecord: {
-                  VariableUsedReference: [],
-                },
-              },
+              LogicalRecord: [
+                {
+                  VariablesInRecord: {
+                    VariableUsedReference: [],
+                  },
+                }
+              ],
             },
           ],
           Variable: [],
@@ -1182,11 +1192,13 @@ describe("View Component", () => {
           DataRelationship: [
             {
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: {
-                VariablesInRecord: {
-                  VariableUsedReference: [],
-                },
-              },
+              LogicalRecord: [
+                {
+                  VariablesInRecord: {
+                    VariableUsedReference: [],
+                  },
+                }
+              ],
             },
           ],
           Variable: [],
@@ -1259,11 +1271,13 @@ describe("View Component", () => {
           DataRelationship: [
             {
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: {
-                VariablesInRecord: {
-                  VariableUsedReference: [],
-                },
-              },
+              LogicalRecord: [
+                {
+                  VariablesInRecord: {
+                    VariableUsedReference: [],
+                  },
+                }
+              ],
             },
           ],
           Variable: [],
@@ -1352,18 +1366,20 @@ describe("View Component", () => {
           DataRelationship: [
             {
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: {
-                VariablesInRecord: {
-                  VariableUsedReference: [
-                    {
-                      Agency: "test-agency-123",
-                      ID: "var-1",
-                      Version: "1",
-                      TypeOfObject: "Variable",
-                    },
-                  ],
-                },
-              },
+              LogicalRecord: [
+                {
+                  VariablesInRecord: {
+                    VariableUsedReference: [
+                      {
+                        Agency: "test-agency-123",
+                        ID: "var-1",
+                        Version: "1",
+                        TypeOfObject: "Variable",
+                      },
+                    ],
+                  },
+                }
+              ],
             },
           ],
           Variable: [existingVariable],
@@ -1408,24 +1424,24 @@ describe("View Component", () => {
 
       // Verify that VariablesInRecord includes references to both variables
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
-      expect(savedData.DataRelationship[0].LogicalRecord.VariablesInRecord).toBeDefined();
+      expect(savedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord).toBeDefined();
       expect(
-        savedData.DataRelationship[0].LogicalRecord.VariablesInRecord.VariableUsedReference,
+        savedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord.VariableUsedReference,
       ).toHaveLength(2);
       expect(
-        savedData.DataRelationship[0].LogicalRecord.VariablesInRecord.VariableUsedReference,
+        savedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord.VariableUsedReference,
       ).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
+            $type: "Variable",
             Agency: "test-agency-123",
             ID: "var-1",
             Version: "1",
-            TypeOfObject: "Variable",
           }),
           expect.objectContaining({
+            $type: "Variable",
             Agency: "test-agency-123",
             Version: "1",
-            TypeOfObject: "Variable",
           }),
         ]),
       );
@@ -1463,18 +1479,20 @@ describe("View Component", () => {
           DataRelationship: [
             {
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: {
-                VariablesInRecord: {
-                  VariableUsedReference: [
-                    {
-                      Agency: "test-agency-123",
-                      ID: "var-1",
-                      Version: "1",
-                      TypeOfObject: "Variable",
-                    },
-                  ],
-                },
-              },
+              LogicalRecord: [
+                {
+                  VariablesInRecord: {
+                    VariableUsedReference: [
+                      {
+                        Agency: "test-agency-123",
+                        ID: "var-1",
+                        Version: "1",
+                        TypeOfObject: "Variable",
+                      },
+                    ],
+                  },
+                }
+              ],
             },
           ],
           Variable: [existingVariable],
@@ -1555,10 +1573,12 @@ describe("View Component", () => {
               Agency: "test-agency",
               Version: "1",
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
-              LogicalRecord: {
-                ID: "lr-original-id",
-                VariablesInRecord: { VariableUsedReference: [] },
-              },
+              LogicalRecord: [
+                {
+                  ID: "lr-original-id",
+                  VariablesInRecord: { VariableUsedReference: [] },
+                }
+              ],
             },
           ],
           Variable: [],
@@ -1620,10 +1640,12 @@ describe("View Component", () => {
               Agency: "test-agency",
               Version: "1",
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
-              LogicalRecord: {
-                ID: "lr-original-id",
-                VariablesInRecord: { VariableUsedReference: [] },
-              },
+              LogicalRecord: [
+                {
+                  ID: "lr-original-id",
+                  VariablesInRecord: { VariableUsedReference: [] },
+                }
+              ],
             },
           ],
           Variable: [],
@@ -1678,10 +1700,12 @@ describe("View Component", () => {
               Agency: "test-agency",
               Version: "1",
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: {
-                ID: "lr-original-id",
-                VariablesInRecord: { VariableUsedReference: [] },
-              },
+              LogicalRecord: [
+                {
+                  ID: "lr-original-id",
+                  VariablesInRecord: { VariableUsedReference: [] },
+                }
+              ],
             },
           ],
           Variable: [],
@@ -1747,10 +1771,12 @@ describe("View Component", () => {
               Agency: "test-agency",
               Version: "1",
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: {
-                ID: "lr-original-id",
-                VariablesInRecord: { VariableUsedReference: [] },
-              },
+              LogicalRecord: [
+                {
+                  ID: "lr-original-id",
+                  VariablesInRecord: { VariableUsedReference: [] },
+                }
+              ],
             },
           ],
           Variable: [],
@@ -1816,10 +1842,12 @@ describe("View Component", () => {
               Agency: "test-agency",
               Version: "1",
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: {
-                ID: "lr-original-id",
-                VariablesInRecord: { VariableUsedReference: [] },
-              },
+              LogicalRecord: [
+                {
+                  ID: "lr-original-id",
+                  VariablesInRecord: { VariableUsedReference: [] },
+                }
+              ],
             },
           ],
           Variable: [
@@ -1930,10 +1958,12 @@ describe("View Component", () => {
               Agency: "test-agency",
               Version: "1",
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: {
-                ID: "lr-original-id",
-                VariablesInRecord: { VariableUsedReference: [] },
-              },
+              LogicalRecord: [
+                {
+                  ID: "lr-original-id",
+                  VariablesInRecord: { VariableUsedReference: [] },
+                }
+              ],
             },
           ],
           Variable: [],
@@ -2009,18 +2039,20 @@ describe("View Component", () => {
           DataRelationship: [
             {
               DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: {
-                VariablesInRecord: {
-                  VariableUsedReference: [
-                    {
-                      Agency: "test-agency-123",
-                      ID: "var-1",
-                      Version: "1",
-                      TypeOfObject: "Variable",
-                    },
-                  ],
-                },
-              },
+              LogicalRecord: [
+                {
+                  VariablesInRecord: {
+                    VariableUsedReference: [
+                      {
+                        Agency: "test-agency-123",
+                        ID: "var-1",
+                        Version: "1",
+                        TypeOfObject: "Variable",
+                      },
+                    ],
+                  },
+                }
+              ],
             },
           ],
           Variable: [existingVariable],

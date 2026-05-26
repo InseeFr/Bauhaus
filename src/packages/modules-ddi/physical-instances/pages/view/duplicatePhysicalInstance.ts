@@ -126,15 +126,17 @@ export function buildDuplicatedDataRelationship({
       originalDataRelationship?.Label?.[0]?.["@language"] ?? defaultLocale,
       buildDataRelationshipLabel(`${title} (copy)`),
     ),
-    LogicalRecord: originalDataRelationship.LogicalRecord
-      ? buildDuplicatedLogicalRecord({
-          originalLogicalRecord: originalDataRelationship.LogicalRecord,
-          newLogicalRecordId,
-          newAgencyId,
-          title,
-          variableIdMap,
-          defaultLocale,
-        })
+    LogicalRecord: originalDataRelationship.LogicalRecord?.[0]
+      ? [
+          buildDuplicatedLogicalRecord({
+            originalLogicalRecord: originalDataRelationship.LogicalRecord[0],
+            newLogicalRecordId,
+            newAgencyId,
+            title,
+            variableIdMap,
+            defaultLocale,
+          }),
+        ]
       : undefined,
   };
 }

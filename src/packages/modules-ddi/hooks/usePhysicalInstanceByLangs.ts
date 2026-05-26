@@ -32,7 +32,7 @@ const collectLangs = (data: PhysicalInstanceResponse): Set<string> => {
 
   data.DataRelationship?.forEach((dr) => {
     addLangsFrom(raw, dr.Label);
-    addLangsFrom(raw, dr.LogicalRecord?.Label);
+    dr.LogicalRecord?.forEach((lr) => addLangsFrom(raw, lr.Label));
   });
 
   data.Variable?.forEach((v) => {
@@ -74,12 +74,12 @@ const filterDataByLang = (
     ...(dr.Label && {
       Label: pickOrEmpty(dr.Label, lang),
     }),
-    LogicalRecord: {
-      ...dr.LogicalRecord,
-      ...(dr.LogicalRecord?.Label && {
-        Label: pickOrEmpty(dr.LogicalRecord.Label, lang),
-      }),
-    },
+    ...(dr.LogicalRecord && {
+      LogicalRecord: dr.LogicalRecord.map((lr) => ({
+        ...lr,
+        ...(lr.Label && { Label: pickOrEmpty(lr.Label, lang) }),
+      })),
+    }),
   })),
   Variable: data.Variable?.map((v) => ({
     ...v,

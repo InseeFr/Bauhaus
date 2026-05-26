@@ -576,17 +576,18 @@ export const Component = () => {
       }
 
       // Mettre à jour les références de variables dans LogicalRecord
-      if (mergedData.DataRelationship?.[0]?.LogicalRecord && mergedData.Variable) {
+      if (mergedData.DataRelationship?.[0]?.LogicalRecord?.[0] && mergedData.Variable) {
         const allVariableIds = mergedData.Variable.map((v: Variable) => v.ID);
 
         const variableReferences = allVariableIds.map((varId: string) => ({
+          $type: "Variable" as const,
+          URN: `urn:ddi:${agencyId}:${varId}:1`,
           Agency: agencyId!,
           ID: varId,
           Version: "1",
-          TypeOfObject: "Variable",
         }));
 
-        mergedData.DataRelationship[0].LogicalRecord.VariablesInRecord = {
+        mergedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord = {
           VariableUsedReference: variableReferences,
         };
       }

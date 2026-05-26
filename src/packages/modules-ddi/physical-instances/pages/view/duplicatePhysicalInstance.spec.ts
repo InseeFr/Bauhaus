@@ -49,13 +49,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -72,7 +74,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     expect(result.newAgencyId).toBe("test-agency");
     expect(result.duplicatedData.PhysicalInstance[0].ID).toBe(NEW_PHYSICAL_INSTANCE_ID);
     expect(result.duplicatedData.DataRelationship[0].ID).toBe(NEW_DATA_RELATIONSHIP_ID);
-    expect(result.duplicatedData.DataRelationship[0].LogicalRecord.ID).toBe(
+    expect(result.duplicatedData.DataRelationship[0].LogicalRecord![0].ID).toBe(
       NEW_LOGICAL_RECORD_ID,
     );
   });
@@ -96,13 +98,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -142,13 +146,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -184,13 +190,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -235,13 +243,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -287,13 +297,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [
@@ -371,13 +383,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Version: "1",
           URN: "urn:ddi:original-agency:original-dr-id:1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -394,7 +408,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
       `urn:ddi:test-agency:${result.newPhysicalInstanceId}:1`,
     );
     expect(result.duplicatedData.DataRelationship[0].URN).toContain("urn:ddi:test-agency:");
-    expect(result.duplicatedData.DataRelationship[0].LogicalRecord.URN).toContain(
+    expect(result.duplicatedData.DataRelationship[0].LogicalRecord![0].URN).toContain(
       "urn:ddi:test-agency:",
     );
   });
@@ -417,13 +431,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -438,7 +454,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
 
     expect(result.duplicatedData.PhysicalInstance[0].Agency).toBe("test-agency");
     expect(result.duplicatedData.DataRelationship[0].Agency).toBe("test-agency");
-    expect(result.duplicatedData.DataRelationship[0].LogicalRecord.Agency).toBe("test-agency");
+    expect(result.duplicatedData.DataRelationship[0].LogicalRecord![0].Agency).toBe("test-agency");
   });
 
   it("should update DataRelationshipReference in PhysicalInstance", () => {
@@ -465,13 +481,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -511,21 +529,23 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: {
-              VariableUsedReference: [
-                {
-                  Agency: "original-agency",
-                  ID: "original-var-id-1",
-                  Version: "1",
-                },
-              ],
-            },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: {
+                VariableUsedReference: [
+                  {
+                    Agency: "original-agency",
+                    ID: "original-var-id-1",
+                    Version: "1",
+                  },
+                ],
+              },
+            }
+          ],
         },
       ],
       Variable: [
@@ -546,7 +566,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     });
 
     const variableRefs =
-      result.duplicatedData.DataRelationship[0].LogicalRecord.VariablesInRecord
+      result.duplicatedData.DataRelationship[0].LogicalRecord![0].VariablesInRecord
         .VariableUsedReference;
 
     expect(variableRefs).toHaveLength(1);
@@ -572,13 +592,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -630,14 +652,16 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Version: "1",
           VersionDate: { DateTime: "2020-01-01T00:00:00.000Z" },
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VersionDate: { DateTime: "2020-01-01T00:00:00.000Z" },
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VersionDate: { DateTime: "2020-01-01T00:00:00.000Z" },
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -678,13 +702,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
       Variable: [],
@@ -718,13 +744,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
           Agency: "original-agency",
           Version: "1",
           Label: [{ "@language": "fr-FR", "@value": "DR Name" }],
-          LogicalRecord: {
-            ID: "original-lr-id",
-            URN: "urn:ddi:original-agency:original-lr-id:1",
-            Agency: "original-agency",
-            Version: "1",
-            VariablesInRecord: { VariableUsedReference: [] },
-          },
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            }
+          ],
         },
       ],
     };
@@ -852,14 +880,16 @@ describe("buildDuplicatedDataRelationship", () => {
       URN: "urn:ddi:old:old-dr-id:1",
       Agency: "old-agency",
       Version: "2",
-      LogicalRecord: {
-        $type: "LogicalRecordType" as const,
-        ID: "old-lr-id",
-        URN: "urn:ddi:old:old-lr-id:1",
-        Agency: "old-agency",
-        Version: "1",
-        VariablesInRecord: { VariableUsedReference: [] },
-      },
+      LogicalRecord: [
+        {
+          $type: "LogicalRecordType" as const,
+          ID: "old-lr-id",
+          URN: "urn:ddi:old:old-lr-id:1",
+          Agency: "old-agency",
+          Version: "1",
+          VariablesInRecord: { VariableUsedReference: [] },
+        }
+      ],
     };
 
     const result = buildDuplicatedDataRelationship({
@@ -894,14 +924,16 @@ describe("buildDuplicatedDataRelationship", () => {
       Agency: "old-agency",
       Version: "1",
       Label: [{ "@language": "en-GB", "@value": "Original Label" }],
-      LogicalRecord: {
-        $type: "LogicalRecordType" as const,
-        ID: "old-lr-id",
-        URN: "urn:ddi:old:old-lr-id:1",
-        Agency: "old-agency",
-        Version: "1",
-        VariablesInRecord: { VariableUsedReference: [] },
-      },
+      LogicalRecord: [
+        {
+          $type: "LogicalRecordType" as const,
+          ID: "old-lr-id",
+          URN: "urn:ddi:old:old-lr-id:1",
+          Agency: "old-agency",
+          Version: "1",
+          VariablesInRecord: { VariableUsedReference: [] },
+        }
+      ],
     };
 
     const result = buildDuplicatedDataRelationship({
@@ -938,14 +970,16 @@ describe("buildDuplicatedDataRelationship", () => {
       URN: "urn:ddi:old:old-dr-id:1",
       Agency: "old-agency",
       Version: "1",
-      LogicalRecord: {
-        $type: "LogicalRecordType" as const,
-        ID: "old-lr-id",
-        URN: "urn:ddi:old:old-lr-id:1",
-        Agency: "old-agency",
-        Version: "1",
-        VariablesInRecord: { VariableUsedReference: [] },
-      },
+      LogicalRecord: [
+        {
+          $type: "LogicalRecordType" as const,
+          ID: "old-lr-id",
+          URN: "urn:ddi:old:old-lr-id:1",
+          Agency: "old-agency",
+          Version: "1",
+          VariablesInRecord: { VariableUsedReference: [] },
+        }
+      ],
     };
 
     expect(() => {

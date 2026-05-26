@@ -35,15 +35,17 @@ const singleLangData: PhysicalInstanceResponse = {
       ID: "dr-1",
       Version: "1",
       Label: [{ "@language": "fr-FR", "@value": "Label DR FR" }],
-      LogicalRecord: {
-        $type: "LogicalRecordType",
-        URN: "urn:lr:1",
-        Agency: "fr.insee",
-        ID: "lr-1",
-        Version: "1",
-        Label: [{ "@language": "fr-FR", "@value": "Label LR FR" }],
-        VariablesInRecord: { VariableUsedReference: [] },
-      },
+      LogicalRecord: [
+        {
+          $type: "LogicalRecordType",
+          URN: "urn:lr:1",
+          Agency: "fr.insee",
+          ID: "lr-1",
+          Version: "1",
+          Label: [{ "@language": "fr-FR", "@value": "Label LR FR" }],
+          VariablesInRecord: { VariableUsedReference: [] },
+        },
+      ],
     },
   ],
   Variable: [
@@ -108,18 +110,20 @@ const multiLangData: PhysicalInstanceResponse = {
         { "@language": "fr-FR", "@value": "Label DR FR" },
         { "@language": "en-GB", "@value": "Label DR EN" },
       ],
-      LogicalRecord: {
-        $type: "LogicalRecordType",
-        URN: "urn:lr:1",
-        Agency: "fr.insee",
-        ID: "lr-1",
-        Version: "1",
-        Label: [
-          { "@language": "fr-FR", "@value": "Label LR FR" },
-          { "@language": "en-GB", "@value": "Label LR EN" },
-        ],
-        VariablesInRecord: { VariableUsedReference: [] },
-      },
+      LogicalRecord: [
+        {
+          $type: "LogicalRecordType",
+          URN: "urn:lr:1",
+          Agency: "fr.insee",
+          ID: "lr-1",
+          Version: "1",
+          Label: [
+            { "@language": "fr-FR", "@value": "Label LR FR" },
+            { "@language": "en-GB", "@value": "Label LR EN" },
+          ],
+          VariablesInRecord: { VariableUsedReference: [] },
+        },
+      ],
     },
   ],
   Variable: [
@@ -227,10 +231,10 @@ describe("usePhysicalInstanceByLangs", () => {
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(frData.DataRelationship![0].LogicalRecord.Label).toEqual([
+      expect(frData.DataRelationship![0].LogicalRecord![0].Label).toEqual([
         { "@language": "fr-FR", "@value": "Label LR FR" },
       ]);
-      expect(enData.DataRelationship![0].LogicalRecord.Label).toEqual([
+      expect(enData.DataRelationship![0].LogicalRecord![0].Label).toEqual([
         { "@language": "en-GB", "@value": "Label LR EN" },
       ]);
     });
@@ -389,7 +393,7 @@ describe("usePhysicalInstanceByLangs", () => {
       const { result } = renderHook(() => usePhysicalInstanceByLangs(singleLangData));
 
       const frData = result.current.get("fr-FR")!;
-      expect(frData.DataRelationship![0].LogicalRecord.VariablesInRecord).toEqual({
+      expect(frData.DataRelationship![0].LogicalRecord![0].VariablesInRecord).toEqual({
         VariableUsedReference: [],
       });
     });

@@ -24,15 +24,7 @@ export type Citation = components["schemas"]["CitationType"];
 export type BasedOnObject = components["schemas"]["BasedOnObjectType"];
 
 export type PhysicalInstance = components["schemas"]["PhysicalInstance"];
-
-// DataRelationship: override LogicalRecord since the back sends a single
-// object where the schema declares LogicalRecord[] (array).
-export type DataRelationship = Omit<
-  components["schemas"]["DataRelationship"],
-  "LogicalRecord"
-> & {
-  LogicalRecord?: LogicalRecord;
-};
+export type DataRelationship = components["schemas"]["DataRelationship"];
 export type LogicalRecord = components["schemas"]["LogicalRecordType"];
 export type VariablesInRecord = components["schemas"]["VariablesInRecordType"];
 export type Category = components["schemas"]["Category"];
