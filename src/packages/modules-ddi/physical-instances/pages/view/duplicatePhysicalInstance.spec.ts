@@ -56,7 +56,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -105,7 +105,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -153,7 +153,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -197,7 +197,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -250,7 +250,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -304,7 +304,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -390,7 +390,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -438,7 +438,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -488,7 +488,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -544,7 +544,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
                   },
                 ],
               },
-            }
+            },
           ],
         },
       ],
@@ -599,7 +599,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -660,7 +660,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Version: "1",
               VersionDate: { DateTime: "2020-01-01T00:00:00.000Z" },
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -676,12 +676,12 @@ describe("buildDuplicatedPhysicalInstance", () => {
     });
 
     // Check that VersionDate.DateTime is updated to today
-    expect(
-      result.duplicatedData.PhysicalInstance[0].VersionDate?.DateTime.substring(0, 10),
-    ).toBe(beforeTest);
-    expect(
-      result.duplicatedData.DataRelationship[0].VersionDate?.DateTime.substring(0, 10),
-    ).toBe(beforeTest);
+    expect(result.duplicatedData.PhysicalInstance[0].VersionDate?.DateTime.substring(0, 10)).toBe(
+      beforeTest,
+    );
+    expect(result.duplicatedData.DataRelationship[0].VersionDate?.DateTime.substring(0, 10)).toBe(
+      beforeTest,
+    );
   });
 
   it("should handle empty Variable array", () => {
@@ -709,7 +709,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -751,7 +751,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
               Agency: "original-agency",
               Version: "1",
               VariablesInRecord: { VariableUsedReference: [] },
-            }
+            },
           ],
         },
       ],
@@ -888,7 +888,7 @@ describe("buildDuplicatedDataRelationship", () => {
           Agency: "old-agency",
           Version: "1",
           VariablesInRecord: { VariableUsedReference: [] },
-        }
+        },
       ],
     };
 
@@ -932,7 +932,7 @@ describe("buildDuplicatedDataRelationship", () => {
           Agency: "old-agency",
           Version: "1",
           VariablesInRecord: { VariableUsedReference: [] },
-        }
+        },
       ],
     };
 
@@ -978,7 +978,7 @@ describe("buildDuplicatedDataRelationship", () => {
           Agency: "old-agency",
           Version: "1",
           VariablesInRecord: { VariableUsedReference: [] },
-        }
+        },
       ],
     };
 

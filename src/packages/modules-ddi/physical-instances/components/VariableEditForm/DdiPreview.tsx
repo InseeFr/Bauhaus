@@ -90,7 +90,6 @@ export const DdiPreview = ({
 
   const ddi4Data = useMemo(() => {
     const variableDDI: any = {
-      
       "@versionDate": versionDateRef.current,
       URN: `urn:ddi:${defaultAgencyId}:${variableId}:1`,
       Agency: defaultAgencyId,

@@ -31,10 +31,7 @@ export type Category = components["schemas"]["Category"];
 
 // Variable: override VariableRepresentation since the back flattens the
 // schema's polymorphic ValueRepresentation into one field per kind.
-export type Variable = Omit<
-  components["schemas"]["Variable"],
-  "VariableRepresentation"
-> & {
+export type Variable = Omit<components["schemas"]["Variable"], "VariableRepresentation"> & {
   VariableRepresentation?: VariableRepresentation;
 };
 
@@ -46,10 +43,8 @@ export interface VariableRepresentation {
   TextRepresentation?: TextRepresentation;
 }
 
-export type CodeRepresentation =
-  components["schemas"]["CodeRepresentationBaseType"];
-export type TextRepresentation =
-  components["schemas"]["TextRepresentationBaseType"];
+export type CodeRepresentation = components["schemas"]["CodeRepresentationBaseType"];
+export type TextRepresentation = components["schemas"]["TextRepresentationBaseType"];
 
 // NumericRepresentation/DateTimeRepresentation diverge from the schema:
 //   - schema's NumericTypeCode / DateTypeCode are CodeValueType objects; the

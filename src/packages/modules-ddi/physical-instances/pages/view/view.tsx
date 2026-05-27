@@ -1,6 +1,7 @@
 import { useReducer, useRef, useMemo, useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import { Toast } from "primereact/toast";
 import { Message } from "primereact/message";
 import { confirmDialog } from "primereact/confirmdialog";
@@ -26,6 +27,7 @@ import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
+import { loadCodeListForVariable } from "./loadCodeListForVariable";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
@@ -34,6 +36,7 @@ export const Component = () => {
   const toast = useRef<Toast>(null);
   const initialRestoreDone = useRef(false);
   const [state, dispatch] = useReducer(viewReducer, initialState);
+  const queryClient = useQueryClient();
   const { data, variables, title, isLoading, isError, error } = usePhysicalInstancesData(
     agencyId!,
     id!,
@@ -257,59 +260,55 @@ export const Component = () => {
   );
 
   const handleVariableClick = useCallback(
-    (variable: VariableTableData) => {
+    async (variable: VariableTableData) => {
       // Vérifier d'abord si la variable a des modifications locales
       const localVariable = state.localVariables.find((v) => v.id === variable.id);
 
       if (localVariable) {
         // Utiliser les données locales si elles existent
         dispatch(actions.setSelectedVariable(localVariable));
-      } else {
-        // Sinon, trouver la variable complète dans les données brutes
-        const fullVariable = data?.Variable?.find((v: Variable) => v.ID === variable.id);
-
-        // Charger les informations complètes de la variable si trouvée
-        const description = pickLang(fullVariable?.Description, "fr-FR") || undefined;
-        const isGeographic = fullVariable?.["@isGeographic"] === "true";
-        const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
-        const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
-        const dateRepresentation = fullVariable?.VariableRepresentation?.DateTimeRepresentation;
-        const codeRepresentation = fullVariable?.VariableRepresentation?.CodeRepresentation;
-
-        // Charger la CodeList et les Categories associées si disponibles
-        let codeList = undefined;
-        let categories = undefined;
-
-        if (codeRepresentation) {
-          const codeListId = codeRepresentation.CodeListReference.ID;
-          codeList = data?.CodeList?.find((cl: CodeList) => cl.ID === codeListId);
-
-          if (codeList && codeList.Code) {
-            // Récupérer toutes les catégories liées aux codes
-            const categoryIds = codeList.Code.map((code: Code) => code.CategoryReference.ID);
-            categories = data?.Category?.filter((cat: Category) => categoryIds.includes(cat.ID));
-          }
-        }
-
-        dispatch(
-          actions.setSelectedVariable({
-            id: variable.id,
-            label: variable.label,
-            name: variable.name,
-            description,
-            type: variable.type,
-            isGeographic,
-            textRepresentation,
-            numericRepresentation,
-            dateRepresentation,
-            codeRepresentation,
-            codeList,
-            categories,
-          }),
-        );
+        return;
       }
+
+      // Sinon, trouver la variable complète dans les données brutes
+      const fullVariable = data?.Variable?.find((v: Variable) => v.ID === variable.id);
+
+      // Charger les informations complètes de la variable si trouvée
+      const description = pickLang(fullVariable?.Description, "fr-FR") || undefined;
+      const isGeographic = fullVariable?.["@isGeographic"] === "true";
+      const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
+      const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
+      const dateRepresentation = fullVariable?.VariableRepresentation?.DateTimeRepresentation;
+      const codeRepresentation = fullVariable?.VariableRepresentation?.CodeRepresentation;
+
+      // Les CodeList et Category ne sont plus dans la GET PI : on les charge à la
+      // demande quand l'utilisateur ouvre une variable Code (cache via react-query).
+      let codeList: CodeList | undefined;
+      let categories: Category[] | undefined;
+      if (codeRepresentation) {
+        const loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
+        codeList = loaded.codeList;
+        categories = loaded.categories;
+      }
+
+      dispatch(
+        actions.setSelectedVariable({
+          id: variable.id,
+          label: variable.label,
+          name: variable.name,
+          description,
+          type: variable.type,
+          isGeographic,
+          textRepresentation,
+          numericRepresentation,
+          dateRepresentation,
+          codeRepresentation,
+          codeList,
+          categories,
+        }),
+      );
     },
-    [data, state.localVariables],
+    [data, state.localVariables, queryClient],
   );
 
   // Restore selected variable from URL on initial load

@@ -3791,10 +3791,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DistributionDomainType",
-            "DistributionRepresentationBaseType"
-          ]
+          "enum": ["DistributionDomainType", "DistributionRepresentationBaseType"]
         },
         "DistributionValue": {
           "type": "number",
@@ -9473,11 +9470,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CoordinatePairsType",
-            "TextDomainType",
-            "TextRepresentationBaseType"
-          ]
+          "enum": ["CoordinatePairsType", "TextDomainType", "TextRepresentationBaseType"]
         },
         "MaxLength": {
           "type": "integer",

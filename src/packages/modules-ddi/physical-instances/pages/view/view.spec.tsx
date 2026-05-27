@@ -278,7 +278,7 @@ describe("View Component", () => {
                 VariablesInRecord: {
                   VariableUsedReference: [],
                 },
-              }
+              },
             ],
           },
         ],
@@ -634,7 +634,7 @@ describe("View Component", () => {
                   VariablesInRecord: {
                     VariableUsedReference: [],
                   },
-                }
+                },
               ],
             },
           ],
@@ -680,7 +680,7 @@ describe("View Component", () => {
                 VariablesInRecord: {
                   VariableUsedReference: [],
                 },
-              }
+              },
             ],
           },
         ],
@@ -924,7 +924,7 @@ describe("View Component", () => {
                       },
                     ],
                   },
-                }
+                },
               ],
             },
           ],
@@ -1080,7 +1080,7 @@ describe("View Component", () => {
                   VariablesInRecord: {
                     VariableUsedReference: [],
                   },
-                }
+                },
               ],
             },
           ],
@@ -1197,7 +1197,7 @@ describe("View Component", () => {
                   VariablesInRecord: {
                     VariableUsedReference: [],
                   },
-                }
+                },
               ],
             },
           ],
@@ -1276,7 +1276,7 @@ describe("View Component", () => {
                   VariablesInRecord: {
                     VariableUsedReference: [],
                   },
-                }
+                },
               ],
             },
           ],
@@ -1378,7 +1378,7 @@ describe("View Component", () => {
                       },
                     ],
                   },
-                }
+                },
               ],
             },
           ],
@@ -1491,7 +1491,7 @@ describe("View Component", () => {
                       },
                     ],
                   },
-                }
+                },
               ],
             },
           ],
@@ -1577,7 +1577,7 @@ describe("View Component", () => {
                 {
                   ID: "lr-original-id",
                   VariablesInRecord: { VariableUsedReference: [] },
-                }
+                },
               ],
             },
           ],
@@ -1644,7 +1644,7 @@ describe("View Component", () => {
                 {
                   ID: "lr-original-id",
                   VariablesInRecord: { VariableUsedReference: [] },
-                }
+                },
               ],
             },
           ],
@@ -1704,7 +1704,7 @@ describe("View Component", () => {
                 {
                   ID: "lr-original-id",
                   VariablesInRecord: { VariableUsedReference: [] },
-                }
+                },
               ],
             },
           ],
@@ -1775,7 +1775,7 @@ describe("View Component", () => {
                 {
                   ID: "lr-original-id",
                   VariablesInRecord: { VariableUsedReference: [] },
-                }
+                },
               ],
             },
           ],
@@ -1846,7 +1846,7 @@ describe("View Component", () => {
                 {
                   ID: "lr-original-id",
                   VariablesInRecord: { VariableUsedReference: [] },
-                }
+                },
               ],
             },
           ],
@@ -1962,7 +1962,7 @@ describe("View Component", () => {
                 {
                   ID: "lr-original-id",
                   VariablesInRecord: { VariableUsedReference: [] },
-                }
+                },
               ],
             },
           ],
@@ -2051,7 +2051,7 @@ describe("View Component", () => {
                       },
                     ],
                   },
-                }
+                },
               ],
             },
           ],
