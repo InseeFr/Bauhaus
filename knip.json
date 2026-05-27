@@ -6,7 +6,7 @@
         "src/packages/**/i18n/index.ts",
         "i18next.config.cjs"
       ],
-      "project": ["src/**/*.{ts,tsx,js,jsx}"]
+      "project": ["src/**/*.{ts,tsx,js,jsx}", "scripts/**/*.{ts,tsx,js,jsx}"]
     }
   },
   "ignore": ["documentation/**", ".husky/**"],

@@ -20,13 +20,10 @@ export interface PhysicalInstanceResponse {
 }
 
 export type Reference = components["schemas"]["reference"];
-export type Citation = components["schemas"]["CitationType"];
-export type BasedOnObject = components["schemas"]["BasedOnObjectType"];
 
 export type PhysicalInstance = components["schemas"]["PhysicalInstance"];
 export type DataRelationship = components["schemas"]["DataRelationship"];
 export type LogicalRecord = components["schemas"]["LogicalRecordType"];
-export type VariablesInRecord = components["schemas"]["VariablesInRecordType"];
 export type Category = components["schemas"]["Category"];
 
 // Variable: override VariableRepresentation since the back flattens the

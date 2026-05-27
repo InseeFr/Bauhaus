@@ -52,6 +52,9 @@ importers:
       oidc-spa:
         specifier: ^5.3.0
         version: 5.7.0
+      openapi-typescript:
+        specifier: ^7.13.0
+        version: 7.13.0(typescript@5.7.3)
       primeflex:
         specifier: ^4.0.0
         version: 4.0.0
@@ -140,9 +143,6 @@ importers:
       knip:
         specifier: ^6.5.0
         version: 6.6.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
-      openapi-typescript:
-        specifier: ^7.9.1
-        version: 7.13.0(typescript@5.7.3)
       oxfmt:
         specifier: ^0.18.0
         version: 0.18.0
@@ -1376,8 +1376,8 @@ packages:
   '@redocly/config@0.22.0':
     resolution: {integrity: sha512-gAy93Ddo01Z3bHuVdPWfCwzgfaYgMdaZPcfL7JZ7hWJoK9V0lXDbigTWkhiPFAaLWzbOJ+kbUQG1+XwIm0KRGQ==}
 
-  '@redocly/openapi-core@1.34.14':
-    resolution: {integrity: sha512-y+xFx+Zz54Xhr8jUdnLENYnt7Y7GEDL6Q03ga7rTtX8DVwefX9H+hQEPgJp1nda7vdH+wJ9/HBVvyfBuW9x6rA==}
+  '@redocly/openapi-core@1.34.15':
+    resolution: {integrity: sha512-HAwCnNyKcs5XGQqms+9t7OdAPM/5TDstmhF+0i7tdCFato2QKuYIlyWETwkXd8c5zbltr1oB+6y9NTeQLr2d6Q==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
   '@remix-run/router@1.20.0':
@@ -6276,7 +6276,7 @@ snapshots:
 
   '@redocly/config@0.22.0': {}
 
-  '@redocly/openapi-core@1.34.14(supports-color@10.2.2)':
+  '@redocly/openapi-core@1.34.15(supports-color@10.2.2)':
     dependencies:
       '@redocly/ajv': 8.11.2
       '@redocly/config': 0.22.0
@@ -9366,7 +9366,7 @@ snapshots:
 
   openapi-typescript@7.13.0(typescript@5.7.3):
     dependencies:
-      '@redocly/openapi-core': 1.34.14(supports-color@10.2.2)
+      '@redocly/openapi-core': 1.34.15(supports-color@10.2.2)
       ansi-colors: 4.1.3
       change-case: 5.4.4
       parse-json: 8.3.0
