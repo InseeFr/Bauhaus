@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
+import { UNPUBLISHED } from "@model/ValidationState";
 
 describe("collection-visualization-controls", () => {
   afterEach(() => {
@@ -28,7 +29,7 @@ describe("collection-visualization-controls", () => {
           exportCollection={vi.fn() as () => void}
           handleValidation={vi.fn() as () => void}
           id={"1"}
-          isValidated={false}
+          validationState={UNPUBLISHED}
         />
       </WithRouter>,
     );
@@ -55,7 +56,7 @@ describe("collection-visualization-controls", () => {
           exportCollection={vi.fn() as () => void}
           handleValidation={vi.fn() as () => void}
           id={"1"}
-          isValidated={false}
+          validationState={UNPUBLISHED}
         />
       </WithRouter>,
     );

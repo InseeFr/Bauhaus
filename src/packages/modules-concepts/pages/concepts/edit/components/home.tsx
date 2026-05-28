@@ -8,6 +8,7 @@ import { PageTitle } from "@components/page-title";
 import { VERSIONING, NO_VERSIONING } from "@sdk/constants";
 
 import { ConceptGeneral, ConceptNotes, Link } from "../../../../../model/concepts/concept";
+import { UNPUBLISHED } from "@model/ValidationState";
 import isVersioningPossible from "../../../../utils/is-versioning-possible";
 import { areNotesImpactingVersionChanged } from "../../../../utils/notes";
 import { Menu } from "../menu";
@@ -158,7 +159,7 @@ class ConceptEditionCreation extends Component<
   };
 
   askToConfirmOrSave = () => {
-    const isValidated = this.props.general.isValidated === "true";
+    const isValidated = this.props.general.validationState !== UNPUBLISHED;
     if (isValidated) {
       if (!this.areNotesChanged()) return this.saveConcept(NO_VERSIONING);
       this.openModal();

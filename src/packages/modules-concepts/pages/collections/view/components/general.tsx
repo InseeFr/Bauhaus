@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
+import { PublicationFemale } from "@components/status";
+import type { ValidationState } from "@components/status";
 
 import { isEmpty } from "@utils/value-utils";
 import { InseeOrganisation } from "@components/business/organisations/organisations";
@@ -12,7 +14,7 @@ interface CollectionAttribute {
   modified?: string;
   creator?: string | string[];
   contributor?: string | string[];
-  isValidated?: boolean;
+  validationState?: ValidationState;
   descriptionLg1?: string;
   descriptionLg2?: string;
 }
@@ -22,7 +24,7 @@ interface CollectionGeneralProps {
   secondLang?: boolean;
 }
 
-type FieldName = "creator" | "contributor" | "isValidated";
+type FieldName = "creator" | "contributor" | "validationState";
 
 // Helper functions to render specific field types with type safety
 const renderOrganisationField = (
@@ -38,12 +40,15 @@ const renderOrganisationField = (
 };
 
 const renderValidationField = (
-  fieldName: "isValidated",
+  fieldName: "validationState",
   label: string,
-  value: boolean,
-  statusLabel: string,
+  value: ValidationState,
 ): JSX.Element => {
-  return <li key={fieldName}>{`${label}: ${statusLabel}`}</li>;
+  return (
+    <li key={fieldName}>
+      {label}: <PublicationFemale object={{ validationState: value }} />
+    </li>
+  );
 };
 
 // Main helper function with type guards
@@ -51,7 +56,6 @@ const renderFieldItem = (
   fieldName: FieldName,
   label: string,
   attr: CollectionAttribute,
-  validatedStatusLabel: string,
 ): JSX.Element | null => {
   const value = attr[fieldName];
 
@@ -62,8 +66,8 @@ const renderFieldItem = (
     case "contributor":
       return renderOrganisationField(fieldName, label, value as string);
 
-    case "isValidated":
-      return renderValidationField(fieldName, label, value as boolean, validatedStatusLabel);
+    case "validationState":
+      return renderValidationField(fieldName, label, value as ValidationState);
 
     default:
       // This should never happen due to FieldName type, but TypeScript needs this
@@ -76,14 +80,10 @@ function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps
   const t1 = i18n.getFixedT("fr");
   const t2 = i18n.getFixedT("en");
 
-  const validatedStatusLabel = attr.isValidated
-    ? t1("collection.general.statusValid")
-    : t1("collection.general.statusProvisional");
-
   const fields: readonly { name: FieldName; label: string }[] = [
     { name: "creator", label: t1("common.creatorTitle") },
     { name: "contributor", label: t1("collection.general.contributorTitle") },
-    { name: "isValidated", label: t1("collection.general.isCollectionValidTitle") },
+    { name: "validationState", label: t1("collection.general.isCollectionValidTitle") },
   ] as const;
 
   return (
@@ -95,9 +95,7 @@ function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              {fields.map(({ name, label }) =>
-                renderFieldItem(name, label, attr, validatedStatusLabel),
-              )}
+              {fields.map(({ name, label }) => renderFieldItem(name, label, attr))}
             </ul>
           }
         />

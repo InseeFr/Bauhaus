@@ -9,13 +9,15 @@ export type Concept = {
   };
 };
 
+import type { ValidationState } from "@components/status";
+
 export type ConceptForAdvancedSearch = {
   id: string;
   label: string;
   created: string;
   modified: string;
   disseminationStatus: string;
-  validationStatus: string;
+  validationState: ValidationState;
   definition: string;
   creator: string;
   isTopConceptOf: string;

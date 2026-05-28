@@ -15,7 +15,7 @@ export const fieldsWithRequired = [
   ["valid", false],
   ["creator", false],
   ["contributor", false],
-  ["isValidated", false],
+  ["validationState", false],
   ["conceptVersion", true],
   ["created", false],
 ];

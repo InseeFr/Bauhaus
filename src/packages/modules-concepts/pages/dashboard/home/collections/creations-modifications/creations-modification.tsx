@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { DateItem } from "@components/creation-update-items";
 import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { PublicationFemale } from "@components/status";
 
 import "../../../../../../i18n";
 import { Collection } from "../../../../../types/collection";
@@ -26,7 +27,7 @@ const CollectionsCreationsModifications = ({ collectionsData, type }: Readonly<P
       data={collectionsData}
       dateField={dateField}
       typeByLang={typeByLang}
-      globalFilterFields={["label", "nbMembers", "creator", dateField, "isValidated"]}
+      globalFilterFields={["label", "nbMembers", "creator", dateField, "validationState"]}
       onRowClick={(collection) => navigate(`/concepts/collections/${collection.id}`)}
     >
       <Column field="label" header={t("dashboard.collections.labelColumn")} />
@@ -44,13 +45,11 @@ const CollectionsCreationsModifications = ({ collectionsData, type }: Readonly<P
         )}
       />
       <Column
-        field="isValidated"
+        field="validationState"
         header={t("dashboard.statusColumn")}
-        body={(item: Collection) =>
-          item.isValidated
-            ? t("dashboard.collections.statusValid")
-            : t("dashboard.statusProvisional")
-        }
+        body={(item: Collection) => (
+          <PublicationFemale object={{ validationState: item.validationState }} />
+        )}
       />
     </DateFilteredTable>
   );

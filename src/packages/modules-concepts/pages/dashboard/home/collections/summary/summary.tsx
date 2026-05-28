@@ -8,6 +8,7 @@ import { InseeOrganisation } from "@components/business/organisations/organisati
 import { today } from "@utils/date-utils";
 
 import "../../../../../../i18n";
+import { VALIDATED } from "@model/ValidationState";
 import { Collection } from "../../../../../types/collection";
 
 type CollectionSummaryRow = {
@@ -42,7 +43,7 @@ function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Col
     {
       id: 2,
       type: t("dashboard.provisionalCountLabel"),
-      total: collectionsData.filter((c) => !c.isValidated).length,
+      total: collectionsData.filter((c) => c.validationState !== VALIDATED).length,
     },
   ];
   const dataStamps = buildDataStamps(collectionsData);

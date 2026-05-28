@@ -14,6 +14,7 @@ import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
+import { validateStateOptions } from "@model/ValidationState";
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
 import Controls from "./controls";
 
@@ -22,7 +23,7 @@ const filterAltLabel = filterKeyDeburr(["altLabel"]);
 const filterDefinition = filterKeyDeburr(["definition"]);
 const filterCreator = filterKeyDeburr(["creator"]);
 const filterDisseminationStatus = filterKeyDeburr(["disseminationStatus"]);
-const filterValidationStatus = filterKeyDeburr(["validationStatus"]);
+const filterValidationStatus = filterKeyDeburr(["validationState"]);
 const filterCreatedDate = filterKeyDate("created");
 const filterModifiedDate = filterKeyDate("modified");
 
@@ -83,11 +84,6 @@ const ConceptSearchList = ({
     label: stamp,
     value: stamp,
   }));
-
-  const validationStatusOptions = [
-    { label: t("concept.general.conceptStatusValid"), value: "true" },
-    { label: t("concept.general.conceptStatusProvisional"), value: "false" },
-  ];
 
   const hitEls: ReactElement[] = hits.map(({ id, label }) => (
     <li key={id} className="list-group-item">
@@ -156,9 +152,9 @@ const ConceptSearchList = ({
             <Select
               placeholder={t("common.validationStatusPlaceholder")}
               value={
-                validationStatusOptions.find(({ value }) => value === validationStatus)?.value ?? ""
+                validateStateOptions.find(({ value }) => value === validationStatus)?.value ?? ""
               }
-              options={validationStatusOptions}
+              options={validateStateOptions}
               onChange={(value: string) => handleChange("validationStatus", value)}
             />
           </div>

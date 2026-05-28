@@ -4,6 +4,7 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
 import { ConceptForAdvancedSearch } from "../../../types/concept";
+import { UNPUBLISHED } from "@model/ValidationState";
 import { CollectionApi } from "@sdk/new-collection-api";
 import { ConceptsApi } from "@sdk/concepts-api";
 import Dashboard from "./components/home";
@@ -15,7 +16,7 @@ const emptyItem: ConceptForAdvancedSearch = {
   created: "",
   modified: "",
   disseminationStatus: "",
-  validationStatus: "",
+  validationState: UNPUBLISHED,
   definition: "",
   creator: "",
   isTopConceptOf: "",

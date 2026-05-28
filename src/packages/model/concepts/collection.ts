@@ -3,6 +3,8 @@
  * `fr.insee.rmes.modules.concepts.collections.webservice`.
  */
 
+import type { ValidationState } from "@components/status";
+
 /** Mirrors `LocalisedLabelResponse(String value, String lang)`. */
 export interface LocalisedLabel {
   value: string;
@@ -24,7 +26,7 @@ export interface Collection {
   /** ISO-8601 datetime emitted by Jackson for `LocalDateTime`. */
   created: string;
   modified: string | null;
-  isValidated: boolean;
+  validationState: ValidationState;
   creator: string;
   contributor: string | null;
 }
@@ -35,7 +37,7 @@ export interface CollectionDashboardItem {
   label: string;
   created: string;
   modified: string | null;
-  isValidated: boolean;
+  validationState: ValidationState;
   creator: string | null;
   nbMembers: number;
 }
@@ -83,7 +85,7 @@ export interface CollectionGeneral {
   contributor?: string | null;
   created?: string;
   modified?: string | null;
-  isValidated?: boolean;
+  validationState?: ValidationState;
   labels?: LocalisedLabel[];
   descriptions?: LocalisedLabel[];
 }

@@ -150,26 +150,26 @@ describe("CollectionGeneral", () => {
       expect(screen.queryByText("Gestionnaire")).not.toBeInTheDocument();
     });
 
-    it('should render isValidated field as "Provisoire" when false', () => {
+    it('should render validationState field as "Provisional" when Unpublished', () => {
       const attr = {
-        isValidated: false,
+        validationState: "Unpublished",
       };
 
       render(<CollectionGeneral attr={attr} />, { wrapper: createWrapper() });
 
       expect(screen.getByText(/État de la collection/)).toBeInTheDocument();
-      expect(screen.getByText(/Provisoire/)).toBeInTheDocument();
+      expect(screen.getByText(/Provisional/)).toBeInTheDocument();
     });
 
-    it('should render isValidated field as "Validé" when true', () => {
+    it('should render validationState field as "Published" when Validated', () => {
       const attr = {
-        isValidated: true,
+        validationState: "Validated",
       };
 
       render(<CollectionGeneral attr={attr} />, { wrapper: createWrapper() });
 
       expect(screen.getByText(/État de la collection/)).toBeInTheDocument();
-      expect(screen.getByText(/Publiée/)).toBeInTheDocument();
+      expect(screen.getByText(/Published/)).toBeInTheDocument();
     });
 
     it("should not render empty fields", () => {
@@ -235,7 +235,7 @@ describe("CollectionGeneral", () => {
         modified: "2024-01-15",
         creator: "DG75-L201",
         contributor: "DG75-L202",
-        isValidated: true,
+        validationState: "Validated",
         descriptionLg1: "Description complète",
         descriptionLg2: "Complete description",
       };
@@ -251,7 +251,7 @@ describe("CollectionGeneral", () => {
       expect(screen.getByText(/Gestionnaire/)).toBeInTheDocument();
       expect(screen.getByText(/DARES/)).toBeInTheDocument();
       expect(screen.getByText(/État de la collection/)).toBeInTheDocument();
-      expect(screen.getByText(/Publiée/)).toBeInTheDocument();
+      expect(screen.getByText(/Published/)).toBeInTheDocument();
       expect(screen.getByText("Description complète")).toBeInTheDocument();
       expect(screen.getByText("Complete description")).toBeInTheDocument();
     });
@@ -291,7 +291,7 @@ describe("CollectionGeneral", () => {
     it("should render text content that is screen reader accessible", () => {
       const attr = {
         creator: "DG75-L201",
-        isValidated: true,
+        validationState: "Validated",
         created: "2024-01-01",
       };
 
@@ -302,22 +302,22 @@ describe("CollectionGeneral", () => {
       // Vérifie que le texte important est accessible
       expect(screen.getByText("Informations générales")).toBeVisible();
       expect(screen.getByText(/Propriétaire/)).toBeVisible();
-      expect(screen.getByText(/Publiée/)).toBeVisible();
+      expect(screen.getByText(/Published/)).toBeVisible();
     });
   });
 
   describe("Edge cases", () => {
-    it("should handle isValidated as undefined", () => {
+    it("should handle validationState as undefined", () => {
       const attr = {
         creator: "DG75-L201",
-        isValidated: undefined,
+        validationState: undefined,
       };
 
       render(<CollectionGeneral attr={attr} />, {
         wrapper: createWrapper(),
       });
 
-      // isValidated undefined ne doit pas être rendu
+      // validationState undefined ne doit pas être rendu
       expect(screen.queryByText(/État de la collection/)).not.toBeInTheDocument();
       expect(screen.queryByText(/Provisoire/)).not.toBeInTheDocument();
       expect(screen.queryByText(/Publiée/)).not.toBeInTheDocument();

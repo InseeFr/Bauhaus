@@ -356,7 +356,7 @@ describe("ConceptGeneral", () => {
 
     it('renders an unvalidated concept as "Provisional"', () => {
       const attr = {
-        isValidated: "false",
+        validationState: "Unpublished",
       };
 
       render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
@@ -370,7 +370,7 @@ describe("ConceptGeneral", () => {
 
     it('renders a validated concept as "Published" (matching séries/opérations)', () => {
       const attr = {
-        isValidated: "true",
+        validationState: "Validated",
       };
 
       render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
@@ -379,6 +379,19 @@ describe("ConceptGeneral", () => {
 
       expect(screen.getByText(/État du concept/)).toBeInTheDocument();
       expect(screen.getByText(/Published/)).toBeInTheDocument();
+    });
+
+    it('renders a modified concept as "Provisional, already published"', () => {
+      const attr = {
+        validationState: "Modified",
+      };
+
+      render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
+        wrapper: createWrapper(),
+      });
+
+      expect(screen.getByText(/État du concept/)).toBeInTheDocument();
+      expect(screen.getByText(/Provisional, already published/)).toBeInTheDocument();
     });
   });
 
@@ -437,7 +450,7 @@ describe("ConceptGeneral", () => {
         creator: "DG75-L201",
         contributor: "DG75-L202",
         disseminationStatus: "Public",
-        isValidated: "true",
+        validationState: "Validated",
         additionalMaterial: "https://example.com/doc.pdf",
       };
 
@@ -518,7 +531,7 @@ describe("ConceptGeneral", () => {
       const attr = {
         id: "c1234",
         creator: "DG75-L201",
-        isValidated: "true",
+        validationState: "Validated",
         created: "2024-01-01",
       };
 
@@ -535,18 +548,18 @@ describe("ConceptGeneral", () => {
   });
 
   describe("Edge cases", () => {
-    it("should handle isValidated as undefined", () => {
+    it("should handle validationState as undefined", () => {
       const attr = {
         id: "c1234",
         creator: "DG75-L201",
-        isValidated: undefined,
+        validationState: undefined,
       };
 
       render(<ConceptGeneral concept={attr as unknown as ConceptGeneralType} />, {
         wrapper: createWrapper(),
       });
 
-      // isValidated undefined ne doit pas être rendu
+      // validationState undefined ne doit pas être rendu
       expect(screen.queryByText(/État du concept/)).not.toBeInTheDocument();
       expect(screen.queryByText(/Provisoire/)).not.toBeInTheDocument();
       expect(screen.queryByText(/Validé/)).not.toBeInTheDocument();

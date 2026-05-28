@@ -12,7 +12,7 @@ const fieldNames: (keyof CollectionGeneral)[] = [
   "modified",
   "creator",
   "contributor",
-  "isValidated",
+  "validationState",
 ];
 
 export const fieldsWithRequired: string[][] = fieldNames.map((name) => [name, ""]);

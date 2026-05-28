@@ -3,8 +3,7 @@ import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
 import { PublicationFemale } from "@components/status";
-
-import { UNPUBLISHED, VALIDATED } from "../../../../../model/ValidationState";
+import type { ValidationState } from "@components/status";
 
 import { stringToDate } from "@utils/date-utils";
 import { useLocales } from "@utils/hooks/useLocales";
@@ -32,7 +31,7 @@ type FieldName =
   | "creator"
   | "contributor"
   | "disseminationStatus"
-  | "isValidated"
+  | "validationState"
   | "additionalMaterial";
 
 const renderOrganisationField = (
@@ -85,18 +84,13 @@ const renderDisseminationField = (fieldName: "disseminationStatus", value: strin
 };
 
 const renderValidationField = (
-  fieldName: "isValidated",
+  fieldName: "validationState",
   label: string,
   value: string,
 ): JSX.Element => {
-  // Aligned with séries / opérations / indicateurs / sims (#1507).
-  // The MODIFIED state ("Provisoire déjà publié") still requires a back-end
-  // signal that a concept was previously published — falls back to UNPUBLISHED
-  // until that signal is exposed.
-  const validationState = value === "true" ? VALIDATED : UNPUBLISHED;
   return (
     <li key={fieldName}>
-      {label}: <PublicationFemale object={{ validationState }} />
+      {label}: <PublicationFemale object={{ validationState: value as ValidationState }} />
     </li>
   );
 };
@@ -140,7 +134,7 @@ const renderFieldItem = (
     case "disseminationStatus":
       return renderDisseminationField(fieldName, value as string);
 
-    case "isValidated":
+    case "validationState":
       return renderValidationField(fieldName, label, value as string);
 
     case "id":
@@ -191,7 +185,7 @@ function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneral
       name: "disseminationStatus",
       label: t("concept.general.disseminationStatusTitle"),
     },
-    { name: "isValidated", label: t("concept.general.isConceptValidTitle") },
+    { name: "validationState", label: t("concept.general.isConceptValidTitle") },
   );
 
   if (concept.additionalMaterial) {

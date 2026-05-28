@@ -2,6 +2,8 @@ import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
 import CollectionVisualization from "./home";
+import type { ValidationState } from "@components/status";
+import { UNPUBLISHED, VALIDATED } from "@model/ValidationState";
 
 vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
@@ -32,30 +34,30 @@ vi.mock("./members", () => ({
 }));
 
 vi.mock("../menu", () => ({
-  Menu: ({ isValidated }: { isValidated: boolean }) => (
-    <div data-testid="menu" data-validated={String(isValidated)} />
+  Menu: ({ validationState }: { validationState?: string }) => (
+    <div data-testid="menu" data-validationstate={String(validationState)} />
   ),
 }));
 
-describe("CollectionVisualization — isValidated prop forwarded to Menu", () => {
-  const renderWith = (isValidated: boolean) =>
+describe("CollectionVisualization — validationState prop forwarded to Menu", () => {
+  const renderWith = (validationState: ValidationState) =>
     render(
       <CollectionVisualization
         id="1"
-        general={{ id: "1", prefLabelLg1: "label", creator: "", isValidated }}
+        general={{ id: "1", prefLabelLg1: "label", creator: "", validationState }}
         members={[]}
         validateCollection={vi.fn()}
         secondLang={false}
       />,
     );
 
-  it("forwards true when general.isValidated is the boolean true", () => {
-    renderWith(true);
-    expect(screen.getByTestId("menu").dataset.validated).toBe("true");
+  it("forwards Validated when general.validationState is Validated", () => {
+    renderWith(VALIDATED);
+    expect(screen.getByTestId("menu").dataset.validationstate).toBe("Validated");
   });
 
-  it("forwards false when general.isValidated is the boolean false", () => {
-    renderWith(false);
-    expect(screen.getByTestId("menu").dataset.validated).toBe("false");
+  it("forwards Unpublished when general.validationState is Unpublished", () => {
+    renderWith(UNPUBLISHED);
+    expect(screen.getByTestId("menu").dataset.validationstate).toBe("Unpublished");
   });
 });

@@ -10,7 +10,7 @@ describe("emptyCollection", () => {
         descriptionLg1: "",
         descriptionLg2: "",
         id: "",
-        isValidated: "",
+        validationState: "",
         modified: "",
         prefLabelLg1: "",
         prefLabelLg2: "",

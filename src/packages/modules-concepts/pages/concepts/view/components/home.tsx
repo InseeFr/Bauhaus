@@ -84,7 +84,7 @@ const ConceptVisualization = ({
         <ConceptVisualizationControls
           id={id}
           general={general}
-          isValidated={general.isValidated === "true"}
+          validationState={general.validationState}
           conceptVersion={Number(general.conceptVersion)}
           onValidate={handleClickValidation}
           onDelete={handleClickDeletion}

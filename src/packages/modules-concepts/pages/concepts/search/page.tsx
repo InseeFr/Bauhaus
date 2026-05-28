@@ -8,6 +8,7 @@ import { saveFileFromHttpResponse } from "@utils/files";
 import { useStamps } from "@utils/hooks/stamps";
 
 import { ConceptForAdvancedSearch } from "../../../types/concept";
+import { UNPUBLISHED } from "@model/ValidationState";
 import ConceptSearchList from "./components/home";
 
 const emptyItem: ConceptForAdvancedSearch = {
@@ -16,7 +17,7 @@ const emptyItem: ConceptForAdvancedSearch = {
   created: "",
   modified: "",
   disseminationStatus: "",
-  validationStatus: "",
+  validationState: UNPUBLISHED,
   definition: "",
   creator: "",
   isTopConceptOf: "",

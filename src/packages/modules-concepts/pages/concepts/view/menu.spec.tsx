@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
+import { UNPUBLISHED, VALIDATED } from "@model/ValidationState";
 
 describe("concept-visualization-controls", () => {
   afterEach(() => {
@@ -17,7 +18,7 @@ describe("concept-visualization-controls", () => {
         <ConceptVisualizationControls
           id="c1"
           general={{ creator: "DG75-L201" }}
-          isValidated={false}
+          validationState={UNPUBLISHED}
           conceptVersion={1}
           onValidate={vi.fn()}
           onDelete={vi.fn()}
@@ -48,7 +49,7 @@ describe("concept-visualization-controls", () => {
         <ConceptVisualizationControls
           id="c1"
           general={{ creator: "DG75-L201" }}
-          isValidated={false}
+          validationState={UNPUBLISHED}
           conceptVersion={2}
           onValidate={vi.fn()}
           onDelete={vi.fn()}
@@ -69,7 +70,7 @@ describe("concept-visualization-controls", () => {
         <ConceptVisualizationControls
           id="c1"
           general={{ creator: "DG75-L201" }}
-          isValidated={false}
+          validationState={UNPUBLISHED}
           conceptVersion={2}
           onValidate={vi.fn()}
           onDelete={vi.fn()}
@@ -101,7 +102,7 @@ describe("concept-visualization-controls", () => {
         <ConceptVisualizationControls
           id="c1"
           general={{ creator: "DG75-L201" }}
-          isValidated={false}
+          validationState={UNPUBLISHED}
           conceptVersion={1}
           onValidate={vi.fn()}
           onDelete={vi.fn()}
@@ -131,7 +132,7 @@ describe("concept-visualization-controls", () => {
         <ConceptVisualizationControls
           id="c1"
           general={{ creator: "DG75-L201" }}
-          isValidated={false}
+          validationState={UNPUBLISHED}
           conceptVersion={1}
           onValidate={vi.fn()}
           onDelete={vi.fn()}
@@ -160,7 +161,7 @@ describe("concept-visualization-controls", () => {
         <ConceptVisualizationControls
           id="c1"
           general={{ creator: "DG75-L201" }}
-          isValidated={true}
+          validationState={VALIDATED}
           conceptVersion={1}
           onValidate={vi.fn()}
           onDelete={vi.fn()}
@@ -194,7 +195,7 @@ describe("concept-visualization-controls", () => {
         <ConceptVisualizationControls
           id="c1"
           general={{ creator: "DG75-L201" }}
-          isValidated={false}
+          validationState={UNPUBLISHED}
           conceptVersion={2}
           onValidate={vi.fn()}
           onDelete={vi.fn()}

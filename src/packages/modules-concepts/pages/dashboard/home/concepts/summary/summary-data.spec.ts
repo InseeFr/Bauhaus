@@ -1,4 +1,5 @@
 import { buildData } from "./summary";
+import { MODIFIED, UNPUBLISHED, VALIDATED } from "@model/ValidationState";
 import { ConceptForAdvancedSearch } from "../../../../../types/concept";
 
 const makeConcept = (
@@ -9,7 +10,7 @@ const makeConcept = (
   created: "",
   modified: "",
   disseminationStatus: "http://id.insee.fr/interop/niveauDeDiffusion/PublicGenerique",
-  validationStatus: "true",
+  validationState: VALIDATED,
   definition: "",
   creator: "DG75-L201",
   isTopConceptOf: "false",
@@ -62,13 +63,14 @@ describe("buildData", () => {
     expect(rows[1].total).toBe(1);
   });
 
-  it("counts provisional concepts (validationStatus false)", () => {
+  it("counts provisional concepts (validationState not Validated, incl. Modified)", () => {
     const concepts = [
-      makeConcept({ validationStatus: "false" }),
-      makeConcept({ id: "2", validationStatus: "true" }),
+      makeConcept({ validationState: UNPUBLISHED }),
+      makeConcept({ id: "2", validationState: MODIFIED }),
+      makeConcept({ id: "3", validationState: VALIDATED }),
     ];
     const rows = buildData(concepts);
-    expect(rows[2].total).toBe(1);
+    expect(rows[2].total).toBe(2);
   });
 
   it("counts valid-date concepts when valid is set", () => {

@@ -1,5 +1,6 @@
 import { BROADER, IS_REPLACED_BY, NARROWER, REFERENCES, RELATED, SUCCEED } from "@sdk/constants";
 
+import type { ValidationState } from "@components/status";
 import { linkTypes } from "../../modules-concepts/utils/links";
 
 export interface PartialConcept {
@@ -29,7 +30,7 @@ export interface ConceptGeneral {
   disseminationStatus: string;
   created: string;
   modified?: string;
-  isValidated: string;
+  validationState: ValidationState;
   valid?: string;
   additionalMaterial?: string;
   collections: string[];

@@ -32,7 +32,7 @@ const CollectionVisualization = ({
   const { t } = useTranslation();
   useTitle(t("collection.title"), general.prefLabelLg1);
 
-  const { isValidated } = general;
+  const { validationState } = general;
   const { mutate: exportCollection, isPending: isExporting } = useCollectionExporter();
   const handleClickValid = () => {
     validateCollection(id);
@@ -47,7 +47,7 @@ const CollectionVisualization = ({
         {secondLang && general.prefLabelLg2 && <PageSubtitle subTitle={general.prefLabelLg2} />}
         <Menu
           id={id}
-          isValidated={Boolean(isValidated)}
+          validationState={validationState}
           handleValidation={handleClickValid}
           exportCollection={exportCollection}
         />
