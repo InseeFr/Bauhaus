@@ -76,6 +76,31 @@ describe("<HasAccess />", () => {
     expect(container).toHaveTextContent("Authorized content");
   });
 
+  it("renders children when an allowed stamp is a URI ending with the user stamp", () => {
+    (usePrivileges as any).mockReturnValue({
+      privileges: [
+        {
+          application: MODULES.CLASSIFICATION_CLASSIFICATION,
+          privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
+        },
+      ],
+    });
+
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "DG75-L201" }] });
+
+    const { container } = render(
+      <HasAccess
+        module={MODULES.CLASSIFICATION_CLASSIFICATION}
+        privilege={PRIVILEGES.UPDATE}
+        stamps={["http://bauhaus.insee.fr/organisations/insee/DG75-L201"]}
+      >
+        {DummyChild}
+      </HasAccess>,
+    );
+
+    expect(container).toHaveTextContent("Authorized content");
+  });
+
   it("does not render children when no privilege found", () => {
     (usePrivileges as any).mockReturnValue({
       privileges: [

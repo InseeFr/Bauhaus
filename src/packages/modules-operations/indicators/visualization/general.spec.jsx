@@ -65,13 +65,7 @@ const indicator = {
     "In application of Decree 2014-114 of 7 February 2014 and of circular of 16 May 2014 (BOAC 60 September-October 2014) the responsibility of building (BT), public works (TP) and various construction (ID) indices is transferred to INSEE. The building (BT), public works (TP) and various construction (ID) indices were announced in the Official Journal of December 20, 2014 and published on January 16th, 2015 in base 2010 since January 2010 until October 2014.\nThe base change means a change of reference period (average  2010 = 100), but also an update of weights and methodological conventions.\nThese indices are used for escalation and update of construction contracts.",
   historyNoteLg2:
     "BOAC 60 de septembre-octobre 2014\nBefore Decree 2014-114 of 7 February 2014 and circular of 16 May 2014 (BOAC 60 September-October 2014), the Building (BT), Public Works (TP) and various construction indices were compiled and disseminated under the responsibility of Ministry of Ecology, Sustainable Development and Energy, since 1974 for most Building indices, 1975 for most Public Works indices, 1973 or diverse dates after 2000 for various ndices.",
-  contributors: [
-    {
-      id: "CNAMTS",
-      labelLg1: "Agence centrale des organismes de sécurité sociale",
-      labelLg2: "Agence centrale des organismes de sécurité sociale",
-    },
-  ],
+  contributors: ["CNAMTS"],
   historyNoteLg1:
     "En application du décret 2014-114 du 7 février 2014 et de la circulaire du 16 mai 2014 (BOAC 60 de septembre-octobre 2014  la maîtrise d'ouvrage des index nationaux Bâtiment, Travaux publics et divers de la construction des index est transférée à l'Insee.",
   accrualPeriodicityCode: "M",
@@ -115,7 +109,7 @@ describe("IndicatorInformation", () => {
     expect(wasGeneratedBy.querySelector("a").href).toContain("/operations/series/s1353");
   });
 
-  it("renders contributors using their embedded labels", () => {
+  it("renders contributors as IRIs resolved through the organisation list", () => {
     const { container } = renderWithRouter(<OperationsIndicatorVisualization attr={indicator} />);
     const contributorsSection = container.querySelector("#contributors");
     expect(contributorsSection.textContent).toContain(

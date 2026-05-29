@@ -65,7 +65,9 @@ const hasStampAccess = (
   }
   return userStamps.some(
     (userStamp) =>
-      allowedStamps.includes(userStamp.stamp) &&
+      // allowedStamps peut contenir soit le stamp court, soit une URI se
+      // terminant par ce stamp (ex. .../organisations/insee/DG75-L201).
+      allowedStamps.some((allowed) => allowed.endsWith(userStamp.stamp)) &&
       complementaryCheck &&
       (check ? check(userStamp.stamp) : true),
   );
@@ -82,7 +84,6 @@ export const useAuthorizationGuard = ({
 
   const { privileges } = usePrivileges();
   const { data: userStamps = [] } = useUserStamps();
-
   if (!privileges) {
     return false;
   }

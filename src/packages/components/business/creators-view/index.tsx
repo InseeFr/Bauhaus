@@ -4,9 +4,10 @@ import { InseeOrganisation, InseeOrganisations } from "../organisations/organisa
 
 export const InseeOrganisationNotes = ({
   organisations,
-}: Readonly<{ organisations?: string | string[] }>) => {
+  title = D1.creatorTitle,
+}: Readonly<{ organisations?: string | string[]; title?: string }>) => {
   if (!organisations || (Array.isArray(organisations) && organisations.length === 0)) {
-    return <Note text={<p></p>} title={D1.creatorTitle} alone={true} allowEmpty={true} />;
+    return <Note text={<p></p>} title={title} alone={true} allowEmpty={true} />;
   }
 
   const organisationsArray = Array.isArray(organisations) ? organisations : [organisations];
@@ -15,7 +16,7 @@ export const InseeOrganisationNotes = ({
     return (
       <Note
         text={<InseeOrganisation creator={organisationsArray[0]}></InseeOrganisation>}
-        title={D1.creatorTitle}
+        title={title}
         alone={true}
         allowEmpty={true}
       />
@@ -25,7 +26,7 @@ export const InseeOrganisationNotes = ({
   return (
     <Note
       text={<InseeOrganisations creators={organisationsArray} />}
-      title={D1.creatorTitle}
+      title={title}
       alone={true}
       allowEmpty={true}
     />

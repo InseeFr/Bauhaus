@@ -10,23 +10,8 @@ import { D1, D2 } from "../../../deprecated-locales";
 import D from "../../../deprecated-locales/build-dictionary";
 import DisplayLinks from "../../components/links";
 import { getSeeAlsoByType } from "../../components/links/utils";
-import PublishersView from "../../components/publishers-view";
 import SeeAlso from "../../components/seeAlso";
 import { InseeOrganisationNotes } from "@components/business/creators-view";
-
-const labelOf = (item) => item?.labelLg1 ?? item?.label ?? "";
-
-const OrganisationLinksList = ({ links }) => {
-  const arr = Array.isArray(links) ? links.filter(Boolean) : [];
-  if (arr.length === 0) return null;
-  return (
-    <ul>
-      {arr.map((item, index) => (
-        <li key={item?.id ?? index}>{labelOf(item)}</li>
-      ))}
-    </ul>
-  );
-};
 
 function DisplayMultiLangNote({ value1, value2, title, secondLang, md = false }) {
   const body1 = md ? renderMarkdownElement(value1) : value1;
@@ -88,18 +73,13 @@ function OperationsIndicatorVisualization({ attr, secondLang, frequency = {} }) 
         secondLang={secondLang}
       />
       <Row>
-        <PublishersView publishers={attr.publishers} />
+        <InseeOrganisationNotes organisations={attr.publishers} title={D1.organisation} />
       </Row>
       <Row>
         <InseeOrganisationNotes organisations={attr.creators} />
       </Row>
       <Row id="contributors">
-        <Note
-          text={<OrganisationLinksList links={attr.contributors} />}
-          title={D1.stakeholders}
-          alone={true}
-          allowEmpty={true}
-        />
+        <InseeOrganisationNotes organisations={attr.contributors} title={D1.stakeholders} />
       </Row>
 
       <DisplayLinks
