@@ -6,6 +6,8 @@ import { Column } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { useTranslation } from "react-i18next";
 
+import "./CodeListDataTable.css";
+
 export interface CodeTableRow {
   id: string;
   value: string;
@@ -36,6 +38,8 @@ export const CodeListDataTable = ({
   readOnly = false,
 }: Readonly<CodeListDataTableProps>) => {
   const { t } = useTranslation();
+  // Grise les champs d'une liste réutilisée (mutualisée) pour signaler qu'ils ne sont pas éditables.
+  const readOnlyClassName = readOnly ? "code-list-readonly-input" : "";
   const overlayRefs = useRef<Map<string, OverlayPanel | null>>(new Map());
   const inputRefs = useRef<Map<string, HTMLInputElement | null>>(new Map());
   const [shouldFocusNewCode, setShouldFocusNewCode] = useState(false);
@@ -67,7 +71,7 @@ export const CodeListDataTable = ({
         value={rowData.value}
         onChange={(e) => onCellEdit(rowData, "value", e.target.value)}
         placeholder={t("physicalInstance.view.code.value")}
-        className="w-full"
+        className={`w-full ${readOnlyClassName}`.trim()}
         aria-label={t("physicalInstance.view.code.value")}
         readOnly={readOnly}
         ref={(el) => {
@@ -86,7 +90,7 @@ export const CodeListDataTable = ({
         value={rowData.label}
         onChange={(e) => onCellEdit(rowData, "label", e.target.value)}
         placeholder={t("physicalInstance.view.code.label")}
-        className="w-full"
+        className={`w-full ${readOnlyClassName}`.trim()}
         aria-label={t("physicalInstance.view.code.label")}
         readOnly={readOnly}
       />
@@ -182,6 +186,7 @@ export const CodeListDataTable = ({
           value={codeListLabel}
           onChange={(e) => onCodeListLabelChange(e.target.value)}
           readOnly={readOnly}
+          className={readOnlyClassName || undefined}
         />
       </div>
       <DataTable

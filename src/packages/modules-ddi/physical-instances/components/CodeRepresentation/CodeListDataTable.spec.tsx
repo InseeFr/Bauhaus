@@ -372,5 +372,46 @@ describe("CodeListDataTable", () => {
         expect(input).toHaveAttribute("readOnly");
       });
     });
+
+    it("should grey out the code list label and code inputs when readOnly", () => {
+      render(
+        <CodeListDataTable
+          codeListLabel="Test Label"
+          codes={mockCodes}
+          onCodeListLabelChange={mockOnCodeListLabelChange}
+          onCellEdit={mockOnCellEdit}
+          onDeleteCode={mockOnDeleteCode}
+          onAddCode={mockOnAddCode}
+          onMoveCode={mockOnMoveCode}
+          readOnly
+        />,
+      );
+
+      const inputs = screen.getAllByRole("textbox");
+      expect(inputs.length).toBeGreaterThan(0);
+      inputs.forEach((input) => {
+        expect(input).toHaveClass("code-list-readonly-input");
+      });
+    });
+
+    it("should not grey out the inputs when editable", () => {
+      render(
+        <CodeListDataTable
+          codeListLabel="Test Label"
+          codes={mockCodes}
+          onCodeListLabelChange={mockOnCodeListLabelChange}
+          onCellEdit={mockOnCellEdit}
+          onDeleteCode={mockOnDeleteCode}
+          onAddCode={mockOnAddCode}
+          onMoveCode={mockOnMoveCode}
+        />,
+      );
+
+      const inputs = screen.getAllByRole("textbox");
+      expect(inputs.length).toBeGreaterThan(0);
+      inputs.forEach((input) => {
+        expect(input).not.toHaveClass("code-list-readonly-input");
+      });
+    });
   });
 });
