@@ -177,6 +177,7 @@ export const PhysicalInstanceDialog = ({
       header={dialogTitle}
       visible={visible}
       onHide={handleHide}
+      blockScroll
       className="ddi physical-instance-creation-dialog"
     >
       <form ref={formRef} onSubmit={handleSubmit} className="flex flex-column gap-3">
