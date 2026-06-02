@@ -2,7 +2,6 @@ import { Component } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
-import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
@@ -337,6 +336,7 @@ class OperationsSerieEdition extends Component {
             <div className="form-group col-md-12">
               <PublishersInput
                 value={serie.publishers}
+                required={false}
                 onChange={(value) =>
                   this.onChange({
                     target: {
@@ -350,9 +350,12 @@ class OperationsSerieEdition extends Component {
           </Row>
           <Row>
             <div className="form-group col-md-12">
-              <ContributorsInput
-                mode="organisation"
+              <OrganisationInput
                 multi
+                required={false}
+                lang="first"
+                labelSingle={D1.stakeholders}
+                labelMulti={D1.stakeholders}
                 value={serie.contributors}
                 onChange={(value) =>
                   this.onChange({
@@ -369,6 +372,7 @@ class OperationsSerieEdition extends Component {
             <div className="form-group col-md-12">
               <OrganisationInput
                 multi
+                required={false}
                 lang="first"
                 labelSingle={D1.dataCollector}
                 labelMulti={D1.dataCollector}

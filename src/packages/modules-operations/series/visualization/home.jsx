@@ -10,32 +10,11 @@ import { D1, D2 } from "../../../deprecated-locales";
 import D from "../../../deprecated-locales/build-dictionary";
 import DisplayLinks from "../../components/links/";
 import { getSeeAlsoByType } from "../../components/links/utils";
-import PublishersView from "../../components/publishers-view";
 import RelationsView from "../../components/relations";
 import SeeAlso from "../../components/seeAlso";
 import { InseeOrganisationNotes } from "@components/business/creators-view";
 
-const labelOf = (item) => item?.labelLg1 ?? item?.label ?? "";
-
-const OrganisationLinksList = ({ links }) => {
-  const arr = Array.isArray(links) ? links.filter(Boolean) : [];
-  if (arr.length === 0) return null;
-  return (
-    <ul>
-      {arr.map((item, index) => (
-        <li key={item?.id ?? index}>{labelOf(item)}</li>
-      ))}
-    </ul>
-  );
-};
-
-function OperationsSerieVisualization({
-  attr,
-  langs: { lg1 },
-  secondLang,
-  frequency = {},
-  category = {},
-}) {
+function OperationsSerieVisualization({ attr, secondLang, frequency = {}, category = {} }) {
   useTitle(D.seriesTitle + " - " + D.operationsTitle, attr?.prefLabelLg1);
   const seeAlso = getSeeAlsoByType(attr.seeAlso);
   return (
@@ -124,25 +103,22 @@ function OperationsSerieVisualization({
       </Row>
 
       <Row id="publishers">
-        <PublishersView publishers={attr.publishers} lg1={lg1} />
+        <InseeOrganisationNotes
+          organisations={attr.publishers?.map((p) => p?.id ?? p)}
+          title={D1.organisation}
+        />
       </Row>
 
       <Row id="contributors">
-        <Note
-          text={<OrganisationLinksList links={attr.contributors} />}
+        <InseeOrganisationNotes
+          organisations={attr.contributors?.map((c) => c?.id ?? c)}
           title={D1.stakeholders}
-          alone={true}
-          allowEmpty={true}
-          lang={lg1}
         />
       </Row>
       <Row id="dataCollectors">
-        <Note
-          text={<OrganisationLinksList links={attr.dataCollectors} />}
+        <InseeOrganisationNotes
+          organisations={attr.dataCollectors?.map((c) => c?.id ?? c)}
           title={D1.dataCollector}
-          alone={true}
-          allowEmpty={true}
-          lang={lg1}
         />
       </Row>
 

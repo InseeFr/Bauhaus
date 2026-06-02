@@ -11,7 +11,7 @@ const organisations = [
   {
     id: "GF3C",
     iri: "GF3C",
-    label: "GF3C",
+    label: "Groupe des fournisseurs (GF3C)",
   },
   {
     id: "DG75-G001",
@@ -21,12 +21,12 @@ const organisations = [
   {
     id: "CNAMTS",
     iri: "CNAMTS",
-    label: "CNAMTS",
+    label: "Caisse nationale de l'assurance maladie (CNAMTS)",
   },
   {
     id: "DG75-F110",
     iri: "DG75-F110",
-    label: "DG75-F110",
+    label: "Sous-direction F110 (DG75-F110)",
   },
 ];
 
@@ -146,16 +146,24 @@ describe("SerieInformation", () => {
       <OperationsSerieVisualization attr={attr} secondLang={true} langs={{ lg1: "fr" }} />,
     );
     const publisherSection = container.querySelector("#publishers");
-    expect(publisherSection.textContent).toContain("GF3C");
+    expect(publisherSection.textContent).toContain("Groupe des fournisseurs (GF3C)");
   });
 
-  it("should display contributors and dataCollectors with their embedded labels", () => {
+  it("should display contributors and dataCollectors with the organisation label including the acronym", () => {
     const { container } = renderWithRouter(
       <OperationsSerieVisualization attr={attr} secondLang={false} langs={{ lg1: "fr" }} />,
     );
-    expect(container.querySelector("#contributors").textContent).toContain("CNAMTS");
-    expect(container.querySelector("#contributors").textContent).toContain("DG75-F110");
-    expect(container.querySelector("#dataCollectors").textContent).toContain("CNAMTS");
-    expect(container.querySelector("#dataCollectors").textContent).toContain("DG75-F110");
+    expect(container.querySelector("#contributors").textContent).toContain(
+      "Caisse nationale de l'assurance maladie (CNAMTS)",
+    );
+    expect(container.querySelector("#contributors").textContent).toContain(
+      "Sous-direction F110 (DG75-F110)",
+    );
+    expect(container.querySelector("#dataCollectors").textContent).toContain(
+      "Caisse nationale de l'assurance maladie (CNAMTS)",
+    );
+    expect(container.querySelector("#dataCollectors").textContent).toContain(
+      "Sous-direction F110 (DG75-F110)",
+    );
   });
 });
