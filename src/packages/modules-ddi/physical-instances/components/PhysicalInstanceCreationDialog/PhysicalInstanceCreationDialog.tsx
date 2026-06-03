@@ -100,15 +100,20 @@ export const PhysicalInstanceDialog = ({
   const isFormValid = label.trim() && selectedGroup && selectedStudyUnit;
 
   useEffect(() => {
-    if (visible) {
-      if (initialData) {
-        setLabel(initialData.label);
-        if (initialData.group) setSelectedGroupId(initialData.group.id);
-        if (initialData.studyUnit) setSelectedStudyUnitId(initialData.studyUnit.id);
-      }
-      setTimeout(() => labelInputRef.current?.focus(), 0);
+    if (visible && initialData) {
+      setLabel(initialData.label);
+      if (initialData.group) setSelectedGroupId(initialData.group.id);
+      if (initialData.studyUnit) setSelectedStudyUnitId(initialData.studyUnit.id);
     }
   }, [visible, initialData]);
+
+  // Le focus initial est posé via le callback onShow de la Dialog (cf. plus bas)
+  // plutôt qu'avec un setTimeout : PrimeReact, en fin d'animation d'ouverture,
+  // appelle onShow() PUIS, si rien n'est focalisé dans la modale, pose le focus
+  // sur la croix de fermeture. En focalisant l'input dans onShow on précède ce
+  // repli de manière déterministe (sinon course de timing → focus aléatoire sur
+  // la croix selon la machine).
+  const handleShow = () => labelInputRef.current?.focus();
 
   const handleGroupChange = (value: string | null) => {
     setSelectedGroupId(value);
@@ -177,6 +182,7 @@ export const PhysicalInstanceDialog = ({
       header={dialogTitle}
       visible={visible}
       onHide={handleHide}
+      onShow={handleShow}
       blockScroll
       className="ddi physical-instance-creation-dialog"
     >

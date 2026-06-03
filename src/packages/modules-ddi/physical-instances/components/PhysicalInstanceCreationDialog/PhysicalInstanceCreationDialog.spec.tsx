@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { forwardRef, useEffect, useRef } from "react";
 import { PhysicalInstanceDialog } from "./PhysicalInstanceCreationDialog";
 
 vi.mock("react-i18next", () => ({
@@ -76,9 +77,9 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
 }));
 
 vi.mock("primereact/inputtext", () => ({
-  InputText: ({ id, value, onChange, ...props }: any) => (
-    <input id={id} value={value} onChange={onChange} {...props} />
-  ),
+  InputText: forwardRef<HTMLInputElement, any>(({ id, value, onChange, ...props }, ref) => (
+    <input ref={ref} id={id} value={value} onChange={onChange} {...props} />
+  )),
 }));
 
 vi.mock("primereact/dropdown", () => ({
@@ -109,13 +110,27 @@ vi.mock("primereact/button", () => ({
   ),
 }));
 
+// Mock fidèle au comportement de focus de PrimeReact : à l'ouverture (onEntered),
+// la Dialog appelle d'abord onShow() puis, si le focus n'est PAS déjà à l'intérieur
+// de la modale, le pose sur le bouton de fermeture (cf. dialog.esm.js `focus()`).
 vi.mock("primereact/dialog", () => ({
-  Dialog: ({ header, visible, children, onHide, className }: any) => {
+  Dialog: ({ header, visible, children, onHide, onShow, className }: any) => {
+    const dialogRef = useRef<HTMLDivElement>(null);
+    const closeRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+      if (!visible) return;
+      onShow?.();
+      if (!dialogRef.current?.contains(document.activeElement)) {
+        closeRef.current?.focus();
+      }
+    }, [visible]);
+
     if (!visible) return null;
     return (
-      <div className={className} data-testid="dialog">
+      <div ref={dialogRef} className={className} data-testid="dialog">
         <h2>{header}</h2>
-        <button type="button" onClick={onHide} data-testid="close-button">
+        <button ref={closeRef} type="button" onClick={onHide} data-testid="close-button">
           Close
         </button>
         {children}
@@ -240,6 +255,13 @@ describe("PhysicalInstanceDialog", () => {
       const dialog = screen.getByTestId("dialog");
       expect(dialog).toHaveClass("ddi");
       expect(dialog).toHaveClass("physical-instance-creation-dialog");
+    });
+
+    it("should focus the label input when the dialog is shown, not the close button", () => {
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
+
+      expect(screen.getByLabelText("Label")).toHaveFocus();
+      expect(screen.getByTestId("close-button")).not.toHaveFocus();
     });
   });
 
