@@ -11,6 +11,16 @@
   &__delete {
     float: right;
   }
+  &__drag-handle {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    cursor: grab;
+    touch-action: none;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
   &__filepicker {
     padding-left: 0;
   }

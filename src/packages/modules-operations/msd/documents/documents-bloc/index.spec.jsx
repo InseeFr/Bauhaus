@@ -2,7 +2,6 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import { getBaseURI } from "@sdk/build-api";
 
-import { sortArray } from "@utils/array-utils";
 import { getLang } from "@utils/dictionnary";
 
 import D from "../../../../deprecated-locales";
@@ -79,29 +78,60 @@ describe("DocumentsBloc", () => {
     expect(container.querySelectorAll("li")).toHaveLength(3);
   });
 
-  it("should display the Lg1 label and description ordered by label", async () => {
-    const { container } = await renderWithStore(<DocumentsBloc documents={documents} />);
-    const orderedList = sortArray("labelLg1")(documents);
+  // Explicit literals in a deliberately non-alphabetical order (Z before A) so
+  // the test cannot be fooled by the shared `documents` array being mutated in
+  // place by a previous render. The component must honour the back-defined order
+  // and NOT re-sort alphabetically.
+  const backOrdered = [
+    {
+      uri: "http://z.fr",
+      url: "http://z",
+      labelLg1: "Z first",
+      labelLg2: "Z first lg2",
+      descriptionLg1: "descZ1",
+      descriptionLg2: "descZ2",
+      lang: "fr",
+      aside: "fr",
+    },
+    {
+      uri: "http://a.fr",
+      url: "http://a",
+      labelLg1: "A second",
+      labelLg2: "A second lg2",
+      descriptionLg1: "descA1",
+      descriptionLg2: "descA2",
+      lang: "fr",
+      aside: "fr",
+    },
+  ];
+
+  it("should display the Lg1 labels in the given array order (back-defined order), not alphabetically", async () => {
+    const expected = backOrdered.map(
+      (doc) =>
+        `<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg1}">${doc.labelLg1}</a><i>(${doc.aside})</i></span></li>`,
+    );
+
+    const { container } = await renderWithStore(<DocumentsBloc documents={backOrdered} />);
 
     const lis = container.querySelectorAll("li");
     for (let i = 0; i < lis.length; i++) {
-      expect(lis[i].outerHTML).toEqual(
-        `<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg1}">${orderedList[i].labelLg1}</a><i>(${orderedList[i].aside})</i></span></li>`,
-      );
+      expect(lis[i].outerHTML).toEqual(expected[i]);
     }
   });
 
-  it("should display the Lg2 label and description ordered by label", async () => {
-    const { container } = await renderWithStore(
-      <DocumentsBloc documents={documents} localPrefix="Lg2" />,
+  it("should display the Lg2 labels in the given array order (back-defined order), not alphabetically", async () => {
+    const expected = backOrdered.map(
+      (doc) =>
+        `<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg2}">${doc.labelLg2}</a><i>(${doc.aside})</i></span></li>`,
     );
-    const orderedList = sortArray("labelLg2")(documents);
+
+    const { container } = await renderWithStore(
+      <DocumentsBloc documents={backOrdered} localPrefix="Lg2" />,
+    );
 
     const lis = container.querySelectorAll("li");
     for (let i = 0; i < lis.length; i++) {
-      expect(lis[i].outerHTML).toEqual(
-        `<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${orderedList[i].url}" title="${orderedList[i].descriptionLg2}">${orderedList[i].labelLg2}</a><i>(${orderedList[i].aside})</i></span></li>`,
-      );
+      expect(lis[i].outerHTML).toEqual(expected[i]);
     }
   });
 
@@ -177,5 +207,51 @@ describe("DocumentsBloc", () => {
     );
 
     expect(container.querySelectorAll(".documentsbloc__add")).toHaveLength(0);
+  });
+
+  describe("sortable mode (onReorder provided)", () => {
+    it("should render the documents in array order, not sorted by label", async () => {
+      // Fresh array: sortArray mutates in place, so a shared array could already
+      // be alphabetically ordered by previous tests.
+      const unordered = [
+        { uri: "http://uri-b.fr", url: "http://b", labelLg1: "B labelLg1-0", lang: "fr" },
+        { uri: "http://uri-a.fr", url: "http://a", labelLg1: "A labelLg1-1", lang: "fr" },
+        { uri: "http://uri-z.fr", url: "http://z", labelLg1: "Z labelLg1-2", lang: "fr" },
+      ];
+      const { container } = await renderWithStore(
+        <DocumentsBloc
+          documents={unordered}
+          localPrefix="Lg1"
+          editMode={true}
+          onReorder={vi.fn()}
+        />,
+      );
+
+      const labels = [...container.querySelectorAll("li a")].map((a) => a.textContent);
+      expect(labels).toEqual(["B labelLg1-0", "A labelLg1-1", "Z labelLg1-2"]);
+    });
+
+    it("should display a drag handle for each document", async () => {
+      const { container } = await renderWithStore(
+        <DocumentsBloc
+          documents={documents}
+          localPrefix="Lg1"
+          editMode={true}
+          onReorder={vi.fn()}
+        />,
+      );
+
+      expect(container.querySelectorAll(".documentsbloc__drag-handle")).toHaveLength(
+        documents.length,
+      );
+    });
+
+    it("should not display drag handles when onReorder is not provided", async () => {
+      const { container } = await renderWithStore(
+        <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
+      );
+
+      expect(container.querySelectorAll(".documentsbloc__drag-handle")).toHaveLength(0);
+    });
   });
 });

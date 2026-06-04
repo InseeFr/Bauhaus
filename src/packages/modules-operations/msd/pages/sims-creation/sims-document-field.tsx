@@ -1,7 +1,9 @@
 import { memo, useCallback } from "react";
 
+import { Document } from "../../../../model/operations/document";
 import { isDocument, isLink } from "../../../document/utils";
 import { DocumentsBloc } from "../../documents/documents-bloc";
+import { reorderDocuments } from "../../documents/documents-bloc/reorder";
 
 interface SimsDocumentFieldTypes {
   handleChange: any;
@@ -42,6 +44,19 @@ export const SimsDocumentField = ({
     [handleChange, msd.idMas, currentSection, lang],
   );
 
+  const handleReorder = useCallback(
+    (belongsToSubset: (doc: Document) => boolean) => (activeUri: string, overUri: string) => {
+      const objects: Document[] = currentSection["documents" + lang] || [];
+      handleChange({
+        id: msd.idMas,
+        override: {
+          ["documents" + lang]: reorderDocuments(objects, belongsToSubset, activeUri, overUri),
+        },
+      });
+    },
+    [handleChange, msd.idMas, currentSection, lang],
+  );
+
   return (
     <>
       <div className="bauhaus-document-field">
@@ -51,6 +66,7 @@ export const SimsDocumentField = ({
           editMode={true}
           deleteHandler={handleDeleteDocument}
           addHandler={handleAddDocument}
+          onReorder={handleReorder(isDocument)}
           objectType="documents"
           idMas={msd.idMas}
         />
@@ -62,6 +78,7 @@ export const SimsDocumentField = ({
           editMode={true}
           deleteHandler={handleDeleteDocument}
           addHandler={handleAddDocument}
+          onReorder={handleReorder(isLink)}
           objectType="links"
           idMas={msd.idMas}
         />

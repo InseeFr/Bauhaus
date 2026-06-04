@@ -27,6 +27,10 @@ const messages = {
     fr: "Glisser un fichier ici, ou cliquez ici pour en sélectionner",
     en: "Drag n drop some files here, or click to select files",
   },
+  reorderDocument: {
+    fr: "Déplacer pour réordonner",
+    en: "Drag to reorder",
+  },
   documentsSearchTitle: {
     fr: "Document/Lien - Recherche",
     en: "Document/Link - Search",

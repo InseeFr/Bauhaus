@@ -1,3 +1,16 @@
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
 
 import { TextInput } from "@components/form/input";
@@ -5,12 +18,11 @@ import { AddLogo } from "@components/logo/logo-add";
 
 import { getBaseURI } from "@sdk/build-api";
 
-import { sortArray } from "@utils/array-utils";
-
 import D, { D1, D2 } from "../../../../deprecated-locales";
 import { DOCUMENT, isDocument, isLink, LINK } from "../../../document/utils";
 import { useDocumentsStoreContext } from "../../pages/sims-creation/documents-store-context";
 import { DocumentAsideInformation, DocumentLink } from "./document-list-item";
+import { SortableDocumentItem } from "./sortable-document-item";
 import "./style.scss";
 
 /**
@@ -25,11 +37,26 @@ export function DocumentsBloc({
   editMode = false,
   deleteHandler,
   addHandler,
+  onReorder,
   objectType,
   idMas,
 }) {
   const { documentStores, openLateralPanelOpened, setRubricIdForNewDocument } =
     useDocumentsStoreContext();
+
+  const sortable = editMode && !!onReorder;
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      onReorder(active.id, over.id);
+    }
+  };
 
   const defaultBtnBlocFunction = (document) => (
     <button
@@ -50,7 +77,10 @@ export function DocumentsBloc({
     getBaseURI().then((uri) => setBaseURI(uri));
   });
 
-  const currentDocuments = sortArray(`label` + localPrefix)(documents);
+  // The array order is the source of truth: chosen by drag-and-drop in edit
+  // mode, and provided already ordered by the back in visualisation. We never
+  // re-sort alphabetically, otherwise the back-defined order would be lost.
+  const currentDocuments = documents;
   const currentDocumentsIds = currentDocuments.map((doc) => doc.uri);
 
   const otherDocuments = documentStores[localPrefix.toLowerCase()]
@@ -81,7 +111,24 @@ export function DocumentsBloc({
   return (
     <>
       {(documents.length > 0 || editMode) && <h4>{title}</h4>}
-      {documents && documents.length > 0 && (
+      {documents && documents.length > 0 && sortable && (
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={currentDocumentsIds} strategy={verticalListSortingStrategy}>
+            <ul className="documentsbloc list-group">
+              {currentDocuments.map((document) => (
+                <SortableDocumentItem
+                  key={document.uri}
+                  document={document}
+                  localPrefix={localPrefix}
+                  baseURI={baseURI}
+                  deleteHandler={deleteHandler}
+                />
+              ))}
+            </ul>
+          </SortableContext>
+        </DndContext>
+      )}
+      {documents && documents.length > 0 && !sortable && (
         <ul className="documentsbloc list-group">
           {currentDocuments.map((document) => displayHTMLForDocument(document))}
         </ul>
