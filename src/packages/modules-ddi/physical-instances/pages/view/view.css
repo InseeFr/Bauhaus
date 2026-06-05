@@ -61,8 +61,7 @@
   top: 1rem;
   align-self: start;
   max-height: calc(100vh - 2rem);
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden auto;
 }
 
 /* Sticky header for search filters */
