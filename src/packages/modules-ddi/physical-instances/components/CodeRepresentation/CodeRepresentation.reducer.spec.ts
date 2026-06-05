@@ -397,6 +397,27 @@ describe("codeRepresentationReducer", () => {
     });
   });
 
+  describe("RESET_NEW_CODE_LIST", () => {
+    it("should reset to a fresh list with the provided codes and show the data table", () => {
+      const newRow: CodeTableRow = { id: "new", value: "", label: "", categoryId: "cat" };
+      const action: CodeRepresentationAction = {
+        type: "RESET_NEW_CODE_LIST",
+        payload: { codes: [newRow] },
+      };
+
+      const result = codeRepresentationReducer(
+        { ...stateWithCodes, selectedCodeListId: "agency-list-id", showReuseSelect: true },
+        action,
+      );
+
+      expect(result.codes).toEqual([newRow]);
+      expect(result.codeListLabel).toBe("");
+      expect(result.showDataTable).toBe(true);
+      expect(result.showReuseSelect).toBe(false);
+      expect(result.selectedCodeListId).toBeNull();
+    });
+  });
+
   describe("initialState", () => {
     it("should have correct default values", () => {
       expect(initialState).toEqual({

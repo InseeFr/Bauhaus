@@ -1,4 +1,4 @@
-import { useReducer, useRef, useMemo, useCallback, useEffect, useState } from "react";
+import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
@@ -52,7 +52,6 @@ export const Component = () => {
   const savePhysicalInstance = usePublishPhysicalInstance();
   const defaultLocale = useDefaultLocale();
   const dataByLangs = usePhysicalInstanceByLangs(data);
-  const [selectedLanguage, setSelectedLanguage] = useState(defaultLocale);
 
   useEffect(() => {
     if (title && title !== state.formData.label) {
@@ -86,6 +85,18 @@ export const Component = () => {
       );
     }
   }, [state.selectedVariable, searchParams, setSearchParams]);
+
+  // Fermer le panneau latéral d'édition avec la touche Échap
+  useEffect(() => {
+    if (!state.selectedVariable) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        dispatch(actions.setSelectedVariable(null));
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [state.selectedVariable]);
 
   const variableTypeOptions = useMemo(
     () => [
@@ -674,68 +685,65 @@ export const Component = () => {
   }
 
   return (
-    <div className="flex" role="main">
-      <div
-        className={state.selectedVariable ? "col-6" : "col-12"}
-        style={{
-          width: state.selectedVariable ? "50%" : "100%",
-          transition: "width 0.3s ease",
-        }}
-      >
-        <div className="sticky-header">
-          <PhysicalInstanceHeader
-            label={state.formData.label || title}
-            onSave={handleSaveEdit}
-            onLanguageChange={setSelectedLanguage}
-            group={currentGroup}
-            studyUnit={currentStudyUnit}
-            stamps={currentStamps}
-          />
+    <>
+      <div className={`pi-layout${state.selectedVariable ? " pi-open" : ""}`} role="main">
+        <div className="pi-col-main">
+          <div className="sticky-header">
+            <PhysicalInstanceHeader
+              label={state.formData.label || title}
+              onSave={handleSaveEdit}
+              group={currentGroup}
+              studyUnit={currentStudyUnit}
+              stamps={currentStamps}
+            />
 
-          <SearchFilters
-            searchValue={state.searchValue}
-            onSearchChange={handleSearchChange}
-            typeFilter={state.typeFilter}
-            onTypeFilterChange={handleTypeFilterChange}
-            typeOptions={typeOptions}
-            onNewVariable={handleNewVariable}
-            onSaveAll={handleSaveAll}
-            hasLocalChanges={hasUnsavedChanges}
+            <SearchFilters
+              searchValue={state.searchValue}
+              onSearchChange={handleSearchChange}
+              typeFilter={state.typeFilter}
+              onTypeFilterChange={handleTypeFilterChange}
+              typeOptions={typeOptions}
+              onNewVariable={handleNewVariable}
+              onSaveAll={handleSaveAll}
+              hasLocalChanges={hasUnsavedChanges}
+              stamps={currentStamps}
+            />
+          </div>
+
+          <GlobalActionsCard
+            variables={filteredVariables}
+            onExport={handleExport}
+            onDuplicate={handleDuplicatePhysicalInstance}
+            onRowClick={handleVariableClick}
+            onDeleteClick={handleDeleteVariable}
+            unsavedVariableIds={unsavedVariableIds}
+            selectedVariableId={state.selectedVariable?.id}
             stamps={currentStamps}
           />
         </div>
-
-        <GlobalActionsCard
-          variables={filteredVariables}
-          onExport={handleExport}
-          onDuplicate={handleDuplicatePhysicalInstance}
-          onRowClick={handleVariableClick}
-          onDeleteClick={handleDeleteVariable}
-          unsavedVariableIds={unsavedVariableIds}
-          selectedVariableId={state.selectedVariable?.id}
-          stamps={currentStamps}
-        />
+        <div className="pi-col-side">
+          {state.selectedVariable && (
+            <div className="variable-edit-sidebar" role="complementary">
+              <VariableEditForm
+                variable={state.selectedVariable}
+                typeOptions={variableTypeOptions}
+                isNew={state.selectedVariable.id === "new"}
+                onSave={handleVariableSave}
+                onDuplicate={handleVariableDuplicate}
+                onPrevious={handlePreviousVariable}
+                onNext={handleNextVariable}
+                hasPrevious={hasVariablesToNavigate}
+                hasNext={hasVariablesToNavigate}
+                stamps={currentStamps}
+              />
+            </div>
+          )}
+        </div>
       </div>
-      {state.selectedVariable && (
-        <div className="col-6 variable-edit-sidebar" role="complementary">
-          <VariableEditForm
-            variable={state.selectedVariable}
-            typeOptions={variableTypeOptions}
-            isNew={state.selectedVariable.id === "new"}
-            onSave={handleVariableSave}
-            onDuplicate={handleVariableDuplicate}
-            onPrevious={handlePreviousVariable}
-            onNext={handleNextVariable}
-            hasPrevious={hasVariablesToNavigate}
-            hasNext={hasVariablesToNavigate}
-            stamps={currentStamps}
-          />
-        </div>
-      )}
 
       <ConfirmDialog />
       <Toast ref={toast} />
       <DdiDevTools data={data} dataByLangs={dataByLangs} />
-    </div>
+    </>
   );
 };

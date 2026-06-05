@@ -77,6 +77,9 @@ const api = {
   getPhysicalCodesLists: (agencyId: string, physicalInstanceId: string) => [
     `physical-instance/${agencyId}/${physicalInstanceId}/codeslists`,
   ],
+  getGroupCodesLists: (agencyId: string, groupId: string) => [
+    `groups/${agencyId}/${groupId}/codes-list`,
+  ],
   getMutualizedCodesLists: () => ["mutualized-codes-list"],
   getMutualizedCodesList: (agencyId: string, id: string) => [
     `mutualized-codes-list/${agencyId}/${id}`,

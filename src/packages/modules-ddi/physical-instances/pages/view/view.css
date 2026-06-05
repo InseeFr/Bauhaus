@@ -21,12 +21,47 @@
   outline-offset: -2px;
 }
 
-/* Sticky sidebar for variable edit form */
+/* Split layout: main content + variable edit side panel.
+   Driven by grid track sizing so the columns always sum to 100% of the row.
+   Opening the panel animates the side track 0fr -> 1fr instead of animating a
+   fixed width inside a non-shrinking flex row, which used to overflow during
+   the transition (horizontal scrollbar flash + content shifting left/right). */
+.pi-layout {
+  display: grid;
+  grid-template-columns: 1fr 0fr;
+  transition: grid-template-columns 0.3s ease;
+}
+
+.pi-layout.pi-open {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Allow both tracks to shrink below their content's intrinsic width so the
+   1fr/1fr split is honoured (and the DataTable doesn't force the track wider). */
+.pi-col-main,
+.pi-col-side {
+  min-width: 0;
+}
+
+/* Padding lives on the main track (always wide enough, so it can't overflow)
+   and the panel's own card. The side track carries NO fixed horizontal size:
+   while it animates from 0fr, any non-shrinkable padding/border would spill
+   into the page and bring back the very scrollbar flash we're removing. */
+.pi-col-main {
+  padding: 0.5rem;
+}
+
+/* Sticky variable edit panel.
+   overflow-x: hidden clips the panel's content as the track grows from 0fr,
+   so nothing spills out during the open animation. The clip is on the sticky
+   element itself (its own overflow), which keeps `position: sticky` working —
+   only an *ancestor*'s overflow would break it. */
 .variable-edit-sidebar {
   position: sticky;
   top: 1rem;
-  align-self: flex-start;
+  align-self: start;
   max-height: calc(100vh - 2rem);
+  overflow-x: hidden;
   overflow-y: auto;
 }
 

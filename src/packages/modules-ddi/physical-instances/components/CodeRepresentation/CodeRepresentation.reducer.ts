@@ -28,6 +28,7 @@ export type CodeRepresentationAction =
       payload: { label: string; codes: CodeTableRow[]; showDataTable: boolean };
     }
   | { type: "INIT_REUSED_CODE_LIST"; payload: { selectedCodeListId: string } }
+  | { type: "RESET_NEW_CODE_LIST"; payload: { codes: CodeTableRow[] } }
   | { type: "LOAD_REUSED_CODES"; payload: { label: string; codes: CodeTableRow[] } };
 
 export const initialState: CodeRepresentationState = {
@@ -112,6 +113,13 @@ export const codeRepresentationReducer = (
         ...initialState,
         selectedCodeListId: action.payload.selectedCodeListId,
         showReuseSelect: true,
+      };
+
+    case "RESET_NEW_CODE_LIST":
+      return {
+        ...initialState,
+        codes: action.payload.codes,
+        showDataTable: true,
       };
 
     case "LOAD_REUSED_CODES":

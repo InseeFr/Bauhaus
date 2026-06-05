@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { useState } from "react";
 import { CodeRepresentation } from "./CodeRepresentation";
 import type {
   CodeRepresentation as CodeRepresentationType,
@@ -125,7 +126,16 @@ vi.mock("primereact/message", () => ({
 }));
 
 vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ value, options, onChange, placeholder }: any) => (
+  Dropdown: ({
+    value,
+    options,
+    onChange,
+    placeholder,
+    optionGroupLabel,
+    optionGroupChildren,
+    optionLabel,
+    optionValue,
+  }: any) => (
     <select
       data-testid="codes-list-dropdown"
       value={value || ""}
@@ -134,10 +144,14 @@ vi.mock("primereact/dropdown", () => ({
       <option value="" disabled>
         {placeholder}
       </option>
-      {options?.map((option: any) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
+      {options?.map((group: any) => (
+        <optgroup key={group[optionGroupLabel]} label={group[optionGroupLabel]}>
+          {group[optionGroupChildren].map((option: any) => (
+            <option key={option[optionValue]} value={option[optionValue]}>
+              {option[optionLabel]}
+            </option>
+          ))}
+        </optgroup>
       ))}
     </select>
   ),
@@ -657,6 +671,278 @@ describe("CodeRepresentation", () => {
       expect(screen.queryByText("Ajouter un code")).not.toBeInTheDocument();
       // dropdown stays visible so the user can change selection
       expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
+    });
+  });
+
+  describe("reset when create new list is clicked", () => {
+    it("should reset to an empty new code list when create new list is clicked after reusing a list", () => {
+      mockUseAllCodesLists.mockReturnValue({
+        data: [{ id: "grp-1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
+        isLoading: false,
+        error: null,
+      });
+
+      const groupData = {
+        CodeList: [
+          {
+            Agency: "fr.insee",
+            ID: "grp-1",
+            Label: [{ "@language": "fr-FR", "@value": "Liste groupe" }],
+            Code: [
+              { ID: "code-1", Value: { StringValue: "01" }, CategoryReference: { ID: "cat-1" } },
+            ],
+          },
+        ],
+        Category: [{ ID: "cat-1", Label: [{ "@language": "fr-FR", "@value": "Agriculture" }] }],
+      };
+      const idleResult = { data: undefined, isLoading: false, isSuccess: false, error: null };
+      const successResult = { data: groupData, isLoading: false, isSuccess: true, error: null };
+      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+        agency === "fr.insee" && id === "grp-1" ? successResult : idleResult,
+      );
+
+      render(
+        <CodeRepresentation
+          representation={undefined}
+          codeList={undefined}
+          categories={[]}
+          onChange={mockOnChange}
+        />,
+      );
+
+      fireEvent.click(screen.getByText("Réutiliser"));
+      fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+        target: { value: "fr.insee-grp-1" },
+      });
+
+      // The reused list is now displayed with its codes
+      expect(
+        (screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[]).some(
+          (i) => i.value === "01",
+        ),
+      ).toBe(true);
+
+      mockOnChange.mockClear();
+
+      // Clicking "Créer une nouvelle liste" should wipe the reused list and start fresh
+      fireEvent.click(screen.getByText("Créer une nouvelle liste"));
+
+      // The reuse dropdown is gone and the reused code is no longer present
+      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
+      const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
+      expect(valueInputs.some((i) => i.value === "01")).toBe(false);
+      expect(valueInputs.every((i) => i.value === "")).toBe(true);
+
+      // The label is reset and onChange notifies the parent with a brand new empty code list
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
+      expect(labelInput.value).toBe("");
+
+      const lastCall = mockOnChange.mock.calls.at(-1);
+      const [newRepresentation, newCodeList] = lastCall as [
+        CodeRepresentationType,
+        CodeList,
+        Category[],
+      ];
+      expect(newRepresentation.CodeListReference?.ID).not.toBe("grp-1");
+      expect(newCodeList.Code?.every((c) => c.Value?.StringValue === "")).toBe(true);
+    });
+
+    it("should reset codes when create new list is clicked while already editing a list", () => {
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          onChange={mockOnChange}
+        />,
+      );
+
+      // The existing list shows its code with value "1"
+      expect(
+        (screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[]).some(
+          (i) => i.value === "1",
+        ),
+      ).toBe(true);
+
+      fireEvent.click(screen.getByText("Créer une nouvelle liste"));
+
+      const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
+      expect(valueInputs.some((i) => i.value === "1")).toBe(false);
+      expect(valueInputs.every((i) => i.value === "")).toBe(true);
+    });
+  });
+
+  describe("re-selection of an already loaded list", () => {
+    it("should display the codes again when re-selecting a previously selected list", () => {
+      mockUseAllCodesLists.mockReturnValue({
+        data: [
+          { id: "mut-1", label: "Liste 1", agencyId: "fr.insee", mutualized: true },
+          { id: "mut-2", label: "Liste 2", agencyId: "fr.insee", mutualized: true },
+        ],
+        isLoading: false,
+        error: null,
+      });
+
+      const codesByList: Record<string, { value: string; label: string }> = {
+        "mut-1": { value: "01", label: "Agriculture" },
+        "mut-2": { value: "02", label: "Industrie" },
+      };
+      const idleResult = { data: undefined, isLoading: false, isSuccess: false, error: null };
+      // Références mémoïsées par liste : react-query renvoie un objet stable depuis son cache.
+      // Sans cela, un nouvel objet à chaque rendu ferait boucler l'effet de chargement.
+      const successCache: Record<string, any> = {};
+      const buildSuccess = (id: string) => {
+        if (!successCache[id]) {
+          successCache[id] = {
+            data: {
+              CodeList: [
+                {
+                  Agency: "fr.insee",
+                  ID: id,
+                  Label: [{ "@language": "fr-FR", "@value": id }],
+                  Code: [
+                    {
+                      ID: `code-${id}`,
+                      Value: { StringValue: codesByList[id].value },
+                      CategoryReference: { ID: `cat-${id}` },
+                    },
+                  ],
+                },
+              ],
+              Category: [
+                {
+                  ID: `cat-${id}`,
+                  Label: [{ "@language": "fr-FR", "@value": codesByList[id].label }],
+                },
+              ],
+            },
+            isLoading: false,
+            isSuccess: true,
+            error: null,
+          };
+        }
+        return successCache[id];
+      };
+
+      // Simule le cache de react-query : tant qu'une liste n'a pas été "chargée", le hook
+      // renvoie un état de chargement ; une fois chargée, il renvoie les données en synchrone
+      // (comme un cache hit lors d'une re-sélection).
+      const loadedKeys = new Set<string>();
+      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) => {
+        if (!agency || !id) return idleResult;
+        if (loadedKeys.has(`${agency}-${id}`)) return buildSuccess(id);
+        return { data: undefined, isLoading: true, isSuccess: false, error: null };
+      });
+
+      const StatefulHarness = () => {
+        const [rep, setRep] = useState<CodeRepresentationType | undefined>(undefined);
+        return (
+          <CodeRepresentation
+            representation={rep}
+            codeList={undefined}
+            categories={[]}
+            onChange={(r) => setRep(r)}
+          />
+        );
+      };
+
+      const { rerender } = render(<StatefulHarness />);
+
+      fireEvent.click(screen.getByText("Réutiliser"));
+
+      const select = (id: string) => {
+        fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+          target: { value: `fr.insee-${id}` },
+        });
+        // Simule la résolution du fetch (puis cache hit pour les sélections suivantes)
+        loadedKeys.add(`fr.insee-${id}`);
+        rerender(<StatefulHarness />);
+      };
+
+      const hasValue = (v: string) =>
+        (screen.queryAllByPlaceholderText("Valeur") as HTMLInputElement[]).some(
+          (i) => i.value === v,
+        );
+
+      select("mut-1");
+      expect(hasValue("01")).toBe(true);
+
+      select("mut-2");
+      expect(hasValue("02")).toBe(true);
+
+      // Re-sélection d'une liste déjà chargée : les codes doivent réapparaître
+      select("mut-1");
+      expect(hasValue("01")).toBe(true);
+    });
+  });
+
+  describe("selection of a group list", () => {
+    it("should fetch and display codes editable after selecting a group (non-mutualized) list", () => {
+      mockUseAllCodesLists.mockReturnValue({
+        data: [{ id: "grp-1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
+        isLoading: false,
+        error: null,
+      });
+
+      const groupData = {
+        CodeList: [
+          {
+            Agency: "fr.insee",
+            ID: "grp-1",
+            Label: [{ "@language": "fr-FR", "@value": "Liste groupe" }],
+            Code: [
+              {
+                ID: "code-1",
+                Value: { StringValue: "01" },
+                CategoryReference: { ID: "cat-1" },
+              },
+            ],
+          },
+        ],
+        Category: [
+          {
+            ID: "cat-1",
+            Label: [{ "@language": "fr-FR", "@value": "Agriculture" }],
+          },
+        ],
+      };
+      const idleResult = {
+        data: undefined,
+        isLoading: false,
+        isSuccess: false,
+        error: null,
+      };
+      const successResult = {
+        data: groupData,
+        isLoading: false,
+        isSuccess: true,
+        error: null,
+      };
+      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+        agency === "fr.insee" && id === "grp-1" ? successResult : idleResult,
+      );
+
+      render(
+        <CodeRepresentation
+          representation={undefined}
+          codeList={undefined}
+          categories={[]}
+          onChange={mockOnChange}
+        />,
+      );
+
+      fireEvent.click(screen.getByText("Réutiliser"));
+      fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+        target: { value: "fr.insee-grp-1" },
+      });
+
+      const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
+      const labelInputs = screen.getAllByPlaceholderText("Libellé") as HTMLInputElement[];
+      expect(valueInputs.some((i) => i.value === "01")).toBe(true);
+      expect(labelInputs.some((i) => i.value === "Agriculture")).toBe(true);
+      // editable mode: "Ajouter un code" button is present and inputs are not read-only
+      expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
+      expect(valueInputs.every((i) => !i.hasAttribute("readOnly"))).toBe(true);
     });
   });
 });

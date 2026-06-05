@@ -10,6 +10,12 @@ interface ReuseCodeListSelectProps {
   onCodeListSelect: (value: string) => void;
 }
 
+interface CodeListOption {
+  value: string;
+  label: string;
+  mutualized: boolean;
+}
+
 export const ReuseCodeListSelect = ({
   selectedCodeListId,
   onCodeListSelect,
@@ -44,14 +50,46 @@ export const ReuseCodeListSelect = ({
     return <Message severity="info" text={t("physicalInstance.view.code.noCodesListsAvailable")} />;
   }
 
+  const toOption = (cl: (typeof codesLists)[number]): CodeListOption => ({
+    value: `${cl.agencyId}-${cl.id}`,
+    label: cl.label,
+    mutualized: Boolean(cl.mutualized),
+  });
+
+  const groupedOptions = [
+    {
+      label: t("physicalInstance.view.code.groupCodesListsSection"),
+      items: codesLists.filter((cl) => !cl.mutualized).map(toOption),
+    },
+    {
+      label: t("physicalInstance.view.code.mutualizedCodesListsSection"),
+      items: codesLists.filter((cl) => cl.mutualized).map(toOption),
+    },
+  ].filter((group) => group.items.length > 0);
+
+  const itemTemplate = (option: CodeListOption) => (
+    <div className="flex align-items-center justify-content-between gap-2">
+      <span>{option.label}</span>
+      {option.mutualized && (
+        <i
+          className="pi pi-lock"
+          data-testid="mutualized-lock"
+          title={t("physicalInstance.view.code.mutualizedReadOnly")}
+        />
+      )}
+    </div>
+  );
+
   return (
     <Dropdown
       filter
       value={selectedCodeListId}
-      options={codesLists.map((cl) => ({
-        value: `${cl.agencyId}-${cl.id}`,
-        label: cl.label,
-      }))}
+      options={groupedOptions}
+      optionLabel="label"
+      optionValue="value"
+      optionGroupLabel="label"
+      optionGroupChildren="items"
+      itemTemplate={itemTemplate}
       onChange={(e) => {
         onCodeListSelect(e.value);
       }}

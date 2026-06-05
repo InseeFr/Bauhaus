@@ -75,32 +75,14 @@ export const CodeRepresentation = ({
     allCodesLists.find((cl) => cl.agencyId === selectedAgency && cl.id === selectedListId)
       ?.mutualized,
   );
-  const { data: mutualizedCodes, isLoading: isLoadingMutualizedCodes } = useMutualizedCodesList(
-    isSelectedListMutualized ? selectedAgency : "",
-    isSelectedListMutualized ? selectedListId : "",
+  // Contenu (codes + catégories) de la liste sélectionnée, récupéré par agency/id.
+  // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back (il délègue à
+  // getCodeList) : il sert donc aussi bien aux listes mutualisées qu'aux listes du groupe.
+  // On charge le contenu dès qu'une liste est sélectionnée, quel que soit son type.
+  const { data: selectedListCodes, isLoading: isLoadingSelectedListCodes } = useMutualizedCodesList(
+    selectedAgency,
+    selectedListId,
   );
-
-  useEffect(() => {
-    if (!mutualizedCodes || !isSelectedListMutualized) return;
-    const fetchedCodeList = mutualizedCodes.CodeList?.[0];
-    if (!fetchedCodeList) return;
-    const categoryLabelById = new Map(
-      (mutualizedCodes.Category ?? []).map((cat) => [cat.ID, getLocalizedText(cat.Label) ?? ""]),
-    );
-    const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
-      id: code.ID,
-      value: code.Value?.StringValue ?? "",
-      label: categoryLabelById.get(code.CategoryReference?.ID) ?? "",
-      categoryId: code.CategoryReference?.ID ?? "",
-    }));
-    dispatch({
-      type: "LOAD_REUSED_CODES",
-      payload: {
-        label: getLocalizedText(fetchedCodeList.Label) ?? "",
-        codes: rows,
-      },
-    });
-  }, [mutualizedCodes, isSelectedListMutualized]);
 
   // Track the codeList ID to avoid reinitializing on every codeList change
   const codeListIdRef = useRef<string | undefined>(codeList?.ID);
@@ -165,6 +147,34 @@ export const CodeRepresentation = ({
       });
     }
   }, [codeList?.ID, representation?.CodeListReference?.ID]);
+
+  // Charge le contenu d'une liste réutilisée sélectionnée.
+  // IMPORTANT : cet effet doit être déclaré APRÈS l'effet d'initialisation ci-dessus.
+  // Lors d'une re-sélection d'une liste déjà en cache, les données reviennent en synchrone :
+  // les deux effets se déclenchent dans le même commit et React les exécute dans l'ordre de
+  // déclaration. L'initialisation (qui repart de l'état vide) doit donc s'exécuter d'abord,
+  // puis ce chargement, sinon il écraserait les codes tout juste affichés.
+  useEffect(() => {
+    if (!selectedListCodes) return;
+    const fetchedCodeList = selectedListCodes.CodeList?.[0];
+    if (!fetchedCodeList) return;
+    const categoryLabelById = new Map(
+      (selectedListCodes.Category ?? []).map((cat) => [cat.ID, getLocalizedText(cat.Label) ?? ""]),
+    );
+    const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
+      id: code.ID,
+      value: code.Value?.StringValue ?? "",
+      label: categoryLabelById.get(code.CategoryReference?.ID) ?? "",
+      categoryId: code.CategoryReference?.ID ?? "",
+    }));
+    dispatch({
+      type: "LOAD_REUSED_CODES",
+      payload: {
+        label: getLocalizedText(fetchedCodeList.Label) ?? "",
+        codes: rows,
+      },
+    });
+  }, [selectedListCodes]);
 
   const handleCodeListLabelChange = (newLabel: string) => {
     dispatch({ type: "SET_CODE_LIST_LABEL", payload: newLabel });
@@ -286,6 +296,37 @@ export const CodeRepresentation = ({
     onChange(currentRepresentation, updatedCodeList, [...categories, newCategory]);
   };
 
+  const handleCreateNewList = () => {
+    // Réinitialise complètement la liste de codes de la variable en cours d'édition :
+    // on repart d'une liste neuve (nouvel ID) avec une seule ligne vide, en oubliant
+    // toute liste réutilisée ou en cours de création.
+    const newCodeListId = crypto.randomUUID();
+    const newRow: CodeTableRow = {
+      id: crypto.randomUUID(),
+      value: "",
+      label: "",
+      categoryId: crypto.randomUUID(),
+      isNew: true,
+    };
+
+    dispatch({ type: "RESET_NEW_CODE_LIST", payload: { codes: [newRow] } });
+
+    const newRepresentation = createDefaultRepresentation(newCodeListId, defaultAgencyId);
+    const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
+    const newCategory = createCategory(
+      newRow.categoryId,
+      newRow.label,
+      defaultAgencyId,
+      defaultLocale,
+    );
+    const newCodeList: CodeList = {
+      ...createDefaultCodeList(newCodeListId, "", defaultAgencyId, defaultLocale),
+      Code: [newCode],
+    };
+
+    onChange(newRepresentation, newCodeList, [newCategory]);
+  };
+
   const handleMoveCode = (codeId: string, direction: "up" | "down") => {
     dispatch({ type: "MOVE_CODE", payload: { id: codeId, direction } });
 
@@ -322,13 +363,7 @@ export const CodeRepresentation = ({
           icon="pi pi-plus"
           label={t("physicalInstance.view.code.createNewList")}
           outlined
-          onClick={() => {
-            dispatch({ type: "SHOW_DATA_TABLE" });
-            // Ajouter automatiquement une ligne vide si la liste est vide
-            if (codes.length === 0) {
-              handleAddCode("", "");
-            }
-          }}
+          onClick={handleCreateNewList}
         />
         <Button
           type="button"
@@ -359,7 +394,7 @@ export const CodeRepresentation = ({
           }}
         />
       )}
-      {isLoadingMutualizedCodes && (
+      {isLoadingSelectedListCodes && (
         <div className="flex gap-2 align-items-center">
           <ProgressSpinner style={{ width: "20px", height: "20px", margin: "0" }} strokeWidth="4" />
           <span>{t("physicalInstance.view.code.loadingCodes")}</span>

@@ -423,6 +423,18 @@ describe("View Component", () => {
       expect(screen.getByRole("complementary")).toBeInTheDocument();
     });
 
+    it("should close the side panel when Escape is pressed", () => {
+      render(<Component />, { wrapper });
+
+      const firstRow = screen.getAllByRole("row")[1];
+      fireEvent.click(firstRow);
+      expect(screen.getByRole("complementary")).toBeInTheDocument();
+
+      fireEvent.keyDown(document, { key: "Escape" });
+
+      expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
+    });
+
     it("should render SearchFilters component", () => {
       render(<Component />, { wrapper });
 
