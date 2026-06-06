@@ -28,7 +28,7 @@ const createWrapper = () => {
 describe("useAllCodesLists", () => {
   const mockParents = {
     studyUnit: { agency: "fr.insee", id: "su-1" },
-    group: { agency: "fr.insee", id: "group-1" },
+    group: { agency: "fr.insee", id: "group-1", label: "Base permanente des équipements" },
     stamps: [],
   };
 
@@ -85,6 +85,21 @@ describe("useAllCodesLists", () => {
       label: "Liste mutualisée 1",
       mutualized: true,
     });
+  });
+
+  it("should expose the parent group label", async () => {
+    vi.mocked(DDIApi.getGroupCodesLists).mockResolvedValue(mockGroupCodesLists);
+    vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
+
+    const { result } = renderHook(() => useAllCodesLists("fr.insee", "pi-123"), {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.groupLabel).toBe("Base permanente des équipements");
   });
 
   it("should fetch group codes lists from the physical instance parent group", async () => {

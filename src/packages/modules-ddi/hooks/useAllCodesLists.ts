@@ -35,6 +35,9 @@ export const useAllCodesLists = (agencyId: string, physicalInstanceId: string) =
 
   return {
     data,
+    // Libellé du groupe parent de la PI : sert d'en-tête à la section « groupe » du sélecteur.
+    // Les listes mutualisées ne sont rattachées à aucun groupe → pas de libellé pour leur section.
+    groupLabel: group?.label,
     isLoading,
     error,
   };

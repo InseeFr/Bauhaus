@@ -31,6 +31,7 @@
         "errorLoadingCodesLists": "Erreur lors du chargement des listes de codes",
         "fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
         "groupCodesListsSection": "Listes du groupe",
+        "groupCodesListsSectionNamed": "Groupe : {{group}}",
         "label": "Libellé",
         "loadingCodes": "Chargement des codes...",
         "loadingCodesLists": "Chargement des listes de codes...",

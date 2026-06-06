@@ -4,7 +4,7 @@ import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string) => {
+    t: (key: string, options?: Record<string, string>) => {
       const translations: Record<string, string> = {
         "physicalInstance.view.code.selectCodeList": "Sélectionnez une liste de codes",
         "physicalInstance.view.code.loadingCodesLists": "Chargement des listes de codes...",
@@ -12,10 +12,17 @@ vi.mock("react-i18next", () => ({
           "Erreur lors du chargement des listes de codes",
         "physicalInstance.view.code.noCodesListsAvailable": "Aucune liste de codes disponible",
         "physicalInstance.view.code.groupCodesListsSection": "Listes du groupe",
+        "physicalInstance.view.code.groupCodesListsSectionNamed": "Groupe : {{group}}",
         "physicalInstance.view.code.mutualizedCodesListsSection": "Listes mutualisées",
         "physicalInstance.view.code.mutualizedReadOnly": "Liste mutualisée (lecture seule)",
       };
-      return translations[key] || key;
+      let value = translations[key] || key;
+      if (options) {
+        for (const [name, replacement] of Object.entries(options)) {
+          value = value.replace(`{{${name}}}`, replacement);
+        }
+      }
+      return value;
     },
   }),
 }));
@@ -102,6 +109,7 @@ describe("ReuseCodeListSelect", () => {
     vi.clearAllMocks();
     mockUseAllCodesLists.mockReturnValue({
       data: mockCodesLists,
+      groupLabel: "Base permanente des équipements",
       isLoading: false,
       error: null,
     });
@@ -212,22 +220,44 @@ describe("ReuseCodeListSelect", () => {
     expect(dropdown.value).toBe("fr.insee-list-2");
   });
 
-  it("should split options into a group section and a mutualized section", () => {
+  it("should split options into a group section labelled with the group and a mutualized section", () => {
     render(
       <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
     );
 
     const dropdown = screen.getByTestId("codes-list-dropdown");
     const groups = dropdown.querySelectorAll("optgroup");
+    // L'en-tête de la section « groupe » porte le libellé du groupe parent de la PI, préfixé.
+    expect(Array.from(groups).map((g) => g.getAttribute("label"))).toEqual([
+      "Groupe : Base permanente des équipements",
+      "Listes mutualisées",
+    ]);
+
+    const groupSection = dropdown.querySelector(
+      'optgroup[label="Groupe : Base permanente des équipements"]',
+    );
+    const mutualizedSection = dropdown.querySelector('optgroup[label="Listes mutualisées"]');
+    expect(groupSection?.querySelector('option[value="fr.insee-list-1"]')).not.toBeNull();
+    expect(mutualizedSection?.querySelector('option[value="fr.insee-list-2"]')).not.toBeNull();
+  });
+
+  it("should fall back to the generic group section label when no group label is available", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: mockCodesLists,
+      groupLabel: undefined,
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const groups = screen.getByTestId("codes-list-dropdown").querySelectorAll("optgroup");
     expect(Array.from(groups).map((g) => g.getAttribute("label"))).toEqual([
       "Listes du groupe",
       "Listes mutualisées",
     ]);
-
-    const groupSection = dropdown.querySelector('optgroup[label="Listes du groupe"]');
-    const mutualizedSection = dropdown.querySelector('optgroup[label="Listes mutualisées"]');
-    expect(groupSection?.querySelector('option[value="fr.insee-list-1"]')).not.toBeNull();
-    expect(mutualizedSection?.querySelector('option[value="fr.insee-list-2"]')).not.toBeNull();
   });
 
   it("should show a read-only lock on mutualized options only", () => {

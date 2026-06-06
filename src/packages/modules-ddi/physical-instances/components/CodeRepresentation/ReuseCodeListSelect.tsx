@@ -27,6 +27,7 @@ export const ReuseCodeListSelect = ({
   }>();
   const {
     data: codesLists = [],
+    groupLabel,
     isLoading: isLoadingCodesLists,
     error: codesListsError,
   } = useAllCodesLists(agencyId, physicalInstanceId);
@@ -58,7 +59,11 @@ export const ReuseCodeListSelect = ({
 
   const groupedOptions = [
     {
-      label: t("physicalInstance.view.code.groupCodesListsSection"),
+      // En-tête de la section « groupe » = libellé du groupe parent de la PI, préfixé
+      // par « Groupe : » ; repli sur l'intitulé générique si le libellé n'est pas disponible.
+      label: groupLabel
+        ? t("physicalInstance.view.code.groupCodesListsSectionNamed", { group: groupLabel })
+        : t("physicalInstance.view.code.groupCodesListsSection"),
       items: codesLists.filter((cl) => !cl.mutualized).map(toOption),
     },
     {
