@@ -4,8 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { CollectionApi } from "@sdk/new-collection-api";
 
-import { cleanId } from "@utils/string-utils";
-
 import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
 import buildPayload, {
@@ -40,7 +38,7 @@ export const useCollectionSave = (id: string | undefined) => {
             () => {
               queryClient.invalidateQueries({ queryKey: ["collections"] });
               queryClient.invalidateQueries({ queryKey: ["collection", id] });
-              navigate(`/concepts/collections/${cleanId(id!)}`);
+              navigate(`/concepts/collections/${data.general.id}`);
             },
           );
 
