@@ -5,7 +5,6 @@ import { Exporting, Loading } from "@components/loading";
 import { ConceptsApi } from "@sdk/index";
 
 import { saveFileFromHttpResponse } from "@utils/files";
-import { useStamps } from "@utils/hooks/stamps";
 
 import { ConceptForAdvancedSearch } from "../../../types/concept";
 import { UNPUBLISHED } from "@model/ValidationState";
@@ -29,7 +28,6 @@ export const Component = () => {
   const [loading, setLoading] = useState(true);
   const [conceptSearchList, setConceptSearchList] = useState<ConceptForAdvancedSearch[]>([]);
   const [exporting, setExporting] = useState(false);
-  const { data: stampList = [] } = useStamps();
 
   useEffect(() => {
     ConceptsApi.getConceptSearchList()
@@ -59,11 +57,5 @@ export const Component = () => {
     return <Exporting />;
   }
 
-  return (
-    <ConceptSearchList
-      conceptSearchList={conceptSearchList}
-      stampList={stampList}
-      onExport={exportHandler}
-    />
-  );
+  return <ConceptSearchList conceptSearchList={conceptSearchList} onExport={exportHandler} />;
 };

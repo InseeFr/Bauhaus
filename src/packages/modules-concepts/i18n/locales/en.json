@@ -17,6 +17,7 @@
     "searchAltLabelPlaceholder": "Alternative label...",
     "searchDefinitionPlaceholder": "Search in the definition ...",
     "validationStatusPlaceholder": "Select publication status...",
+    "validationStatusTitle": "Publication status",
     "stampsPlaceholder": "Select stamp...",
     "labelTitle": "Label",
     "descriptionTitle": "Description",

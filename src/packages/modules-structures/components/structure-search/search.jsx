@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
-import { TextInput } from "@components/form/input";
-import { Column } from "@components/layout";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
@@ -63,33 +63,21 @@ export const SearchFormList = ({ concepts, data }) => {
       initializeState={reset}
       redirect={<Navigate to="/structures" />}
     >
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {D.label}
-            <TextInput
-              value={labelLg1}
-              onChange={(e) => handleChange("labelLg1", e.target.value)}
-            />
-          </label>
-        </div>
-      </div>
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {D.componentLabel}
-            <TextInput
-              value={componentLabelLg1}
-              onChange={(e) => handleChange("componentLabelLg1", e.target.value)}
-            />
-          </label>
-        </div>
-      </div>
-      <div className="row form-group">
-        <Column>
-          <label className="w-100">
-            {D.type}
+      <AdvancedSearchCard className="structure-search-form">
+        <SearchTextField
+          label={D.label}
+          value={labelLg1}
+          onChange={(value) => handleChange("labelLg1", value)}
+        />
+        <SearchTextField
+          label={D.componentLabel}
+          value={componentLabelLg1}
+          onChange={(value) => handleChange("componentLabelLg1", value)}
+        />
+        <SearchField label={D.type} col="col-12 md:col-6">
+          {(id) => (
             <Select
+              inputId={id}
               placeholder=""
               value={COMPONENT_TYPES.find((option) => option.value === type) || ""}
               options={COMPONENT_TYPES}
@@ -97,12 +85,12 @@ export const SearchFormList = ({ concepts, data }) => {
                 handleChange("type", value);
               }}
             />
-          </label>
-        </Column>
-        <Column>
-          <label className="w-100">
-            {D.conceptTitle}
+          )}
+        </SearchField>
+        <SearchField label={D.conceptTitle} col="col-12 md:col-6">
+          {(id) => (
             <Select
+              inputId={id}
               placeholder=""
               value={conceptsOptions.find((option) => option.value === concept) || ""}
               options={conceptsOptions}
@@ -110,22 +98,20 @@ export const SearchFormList = ({ concepts, data }) => {
                 handleChange("concept", value);
               }}
             />
-          </label>
-        </Column>
-      </div>
-      <div className="row form-group">
-        <Column>
+          )}
+        </SearchField>
+        <div className="field col-12 md:col-6">
           <CreatorsInput
             mode="organisation"
             value={creator}
             onChange={(value) => handleChange("creator", value)}
             required={false}
           />
-        </Column>
-        <Column>
-          <label className="w-100">
-            {D.componentValididationStatusTitle}
+        </div>
+        <SearchField label={D.componentValididationStatusTitle} col="col-12 md:col-6">
+          {(id) => (
             <Select
+              inputId={id}
               placeholder=""
               value={validateStateOptions.find((option) => option.value === validationState) || ""}
               options={validateStateOptions}
@@ -133,9 +119,9 @@ export const SearchFormList = ({ concepts, data }) => {
                 handleChange("validationState", value);
               }}
             />
-          </label>
-        </Column>
-      </div>
+          )}
+        </SearchField>
+      </AdvancedSearchCard>
     </AdvancedSearchList>
   );
 };

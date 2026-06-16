@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
-import { TextInput } from "@components/form/input";
-import { Column } from "@components/layout";
 import { Loading } from "@components/loading";
+import { SearchTextField } from "@components/ui/search-field";
 
 import { OperationsApi } from "@sdk/operations-api";
 
@@ -68,24 +68,17 @@ export const SearchFormList = ({ data }) => {
       initializeState={reset}
       redirect={<Navigate to="/operations/series" />}
     >
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {D.labelTitle}
-            <TextInput
-              value={prefLabelLg1}
-              onChange={(e) => handleChange("prefLabelLg1", e.target.value)}
-            />
-          </label>
-        </div>
-      </div>
-      <div className="form-group row">
-        <div className="col-md-12">
+      <AdvancedSearchCard className="series-search-form">
+        <SearchTextField
+          label={D.labelTitle}
+          value={prefLabelLg1}
+          onChange={(value) => handleChange("prefLabelLg1", value)}
+          placeholder={D.searchLabelPlaceholder}
+        />
+        <div className="field col-12 md:col-6">
           <TypeCodeInput value={typeCode} onChange={(value) => handleChange("typeCode", value)} />
         </div>
-      </div>
-      <div className="form-group row">
-        <div className="col-md-12">
+        <div className="field col-12 md:col-6">
           <CreatorsInput
             mode="organisation"
             lang="default"
@@ -96,9 +89,7 @@ export const SearchFormList = ({ data }) => {
             }}
           />
         </div>
-      </div>
-      <div className="form-group row">
-        <Column>
+        <div className="field col-12 md:col-6">
           <OrganisationInput
             lang="default"
             labelSingle={D.organisation}
@@ -109,8 +100,8 @@ export const SearchFormList = ({ data }) => {
               handleChange("publisher", value);
             }}
           />
-        </Column>
-        <Column>
+        </div>
+        <div className="field col-12 md:col-6">
           <OrganisationInput
             lang="default"
             labelSingle={D.dataCollector}
@@ -121,8 +112,8 @@ export const SearchFormList = ({ data }) => {
               handleChange("dataCollector", value);
             }}
           />
-        </Column>
-      </div>
+        </div>
+      </AdvancedSearchCard>
     </AdvancedSearchList>
   );
 };

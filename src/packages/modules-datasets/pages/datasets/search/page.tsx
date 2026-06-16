@@ -1,14 +1,15 @@
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
 import { DatePicker } from "@components/date-picker";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
-import { TextInput } from "@components/form/input";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { Options } from "@model/SelectOption";
 import { validateStateOptions } from "@model/ValidationState";
@@ -121,18 +122,20 @@ export const AdvancedSearchForm = ({
       initializeState={reset}
       redirect={<Navigate to="/datasets" />}
     >
-      <FieldsForDatasetsAdvancedSearch
-        labelLg1={labelLg1}
-        altIdentifier={altIdentifier}
-        creator={creator}
-        disseminationStatus={disseminationStatus}
-        validationStatus={validationStatus}
-        wasGeneratedIRIs={wasGeneratedIRIs}
-        created={created}
-        updated={updated}
-        handleChange={handleChange}
-        seriesOperationsOptions={seriesOperationsOptions}
-      />
+      <AdvancedSearchCard className="dataset-search-form">
+        <FieldsForDatasetsAdvancedSearch
+          labelLg1={labelLg1}
+          altIdentifier={altIdentifier}
+          creator={creator}
+          disseminationStatus={disseminationStatus}
+          validationStatus={validationStatus}
+          wasGeneratedIRIs={wasGeneratedIRIs}
+          created={created}
+          updated={updated}
+          handleChange={handleChange}
+          seriesOperationsOptions={seriesOperationsOptions}
+        />
+      </AdvancedSearchCard>
     </AdvancedSearchList>
   );
 };
@@ -161,91 +164,68 @@ export const FieldsForDatasetsAdvancedSearch = ({
   seriesOperationsOptions: Options;
 }) => {
   const { t } = useTranslation();
-  const createdDateId = useId();
-  const updatedDateId = useId();
-  const validationStatusId = useId();
-  const generatedByIRIsId = useId();
 
   return (
     <>
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {t("dataset.globalInformation.mainTitle")}
-            <TextInput
-              value={labelLg1}
-              onChange={(e) => handleChange("labelLg1", e.target.value)}
-            />
-          </label>
-        </div>
+      <SearchTextField
+        label={t("dataset.globalInformation.mainTitle")}
+        value={labelLg1}
+        onChange={(value) => handleChange("labelLg1", value)}
+      />
+      <SearchTextField
+        label={t("dataset.internalManagement.altId.title")}
+        value={altIdentifier}
+        onChange={(value) => handleChange("altIdentifier", value)}
+      />
+      <div className="field col-12 md:col-4">
+        <CreatorsInput
+          mode="organisation"
+          lang="default"
+          value={creator}
+          onChange={(value: any) => handleChange("creator", value)}
+          required={false}
+        />
       </div>
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {t("dataset.internalManagement.altId.title")}
-            <TextInput
-              value={altIdentifier}
-              onChange={(e) => handleChange("altIdentifier", e.target.value)}
-            />
-          </label>
-        </div>
+      <div className="field col-12 md:col-4">
+        <DisseminationStatusInput
+          value={disseminationStatus}
+          handleChange={(value) => handleChange("disseminationStatus", value)}
+        />
       </div>
-      <div className="row form-group">
-        <div className="col-md-4">
-          <CreatorsInput
-            lang="default"
-            value={creator}
-            onChange={(value: any) => handleChange("creator", value)}
-            required={false}
-          />
-        </div>
-        <div className="col-md-4">
-          <DisseminationStatusInput
-            value={disseminationStatus}
-            handleChange={(value) => handleChange("disseminationStatus", value)}
-          />
-        </div>
-        <div className="col-md-4">
-          <label className="w-100" htmlFor={validationStatusId}>
-            {t("dataset.globalInformation.validationStatus")}
-          </label>
+      <SearchField label={t("dataset.globalInformation.validationStatus")} col="col-12 md:col-4">
+        {(id) => (
           <Select
-            inputId={validationStatusId}
+            inputId={id}
             value={validationStatus}
             options={validateStateOptions}
             onChange={(value) => handleChange("validationStatus", value)}
           />
-        </div>
-      </div>
-      <div className="row form-group">
-        <div className="col-md-4">
-          <label className="w-100" htmlFor={createdDateId}>
-            {t("dataset.globalInformation.creationDate")}
-          </label>
+        )}
+      </SearchField>
+      <SearchField label={t("dataset.globalInformation.creationDate")} col="col-12 md:col-4">
+        {(id) => (
           <DatePicker
             className="w-full"
-            inputId={createdDateId}
+            inputId={id}
             value={created}
             onChange={(value) => handleChange("created", value ?? "")}
           />
-        </div>
-        <div className="col-md-4">
-          <label className="w-100" htmlFor={updatedDateId}>
-            {t("dataset.globalInformation.updatingDate")}
-          </label>
+        )}
+      </SearchField>
+      <SearchField label={t("dataset.globalInformation.updatingDate")} col="col-12 md:col-4">
+        {(id) => (
           <DatePicker
             className="w-full"
-            inputId={updatedDateId}
+            inputId={id}
             value={updated}
             onChange={(value) => handleChange("updated", value ?? "")}
           />
-        </div>
-        <div className="col-md-4">
-          <label className="w-100" htmlFor={generatedByIRIsId}>
-            {t("dataset.internalManagement.generatedBy")}
-          </label>
+        )}
+      </SearchField>
+      <SearchField label={t("dataset.internalManagement.generatedBy")} col="col-12 md:col-4">
+        {(id) => (
           <Select
-            inputId={generatedByIRIsId}
+            inputId={id}
             value={wasGeneratedIRIs}
             options={seriesOperationsOptions}
             onChange={(value: string) => handleChange("wasGeneratedIRIs", value)}
@@ -256,8 +236,8 @@ export const FieldsForDatasetsAdvancedSearch = ({
               return `${v.label}`;
             }}
           />
-        </div>
-      </div>
+        )}
+      </SearchField>
     </>
   );
 };

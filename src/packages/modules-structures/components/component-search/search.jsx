@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
-import { TextInput } from "@components/form/input";
-import { Column } from "@components/layout";
+import { CreatorsInput } from "@components/business/creators-input";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
 import { filterKeyDeburr } from "@utils/array-utils";
-import { useStampsOptions } from "@utils/hooks/stamps";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
@@ -31,7 +31,7 @@ const defaultFormState = {
   validationState: "",
 };
 
-export const SearchFormList = ({ concepts, stampListOptions, data }) => {
+export const SearchFormList = ({ concepts, data }) => {
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const { labelLg1, concept, creator, validationState } = form;
@@ -55,23 +55,16 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
       initializeState={reset}
       redirect={<Navigate to="/structures/components" />}
     >
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {D.label}
-            <TextInput
-              value={labelLg1}
-              onChange={(e) => handleChange("labelLg1", e.target.value)}
-            />
-          </label>
-        </div>
-      </div>
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {D.conceptTitle}
-
+      <AdvancedSearchCard className="component-search-form">
+        <SearchTextField
+          label={D.label}
+          value={labelLg1}
+          onChange={(value) => handleChange("labelLg1", value)}
+        />
+        <SearchField label={D.conceptTitle} col="col-12">
+          {(id) => (
             <Select
+              inputId={id}
               placeholder=""
               value={conceptsOptions.find((option) => option.value === concept) || ""}
               options={conceptsOptions}
@@ -79,27 +72,20 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
                 handleChange("concept", value);
               }}
             />
-          </label>
+          )}
+        </SearchField>
+        <div className="field col-12 md:col-6">
+          <CreatorsInput
+            mode="organisation"
+            value={creator}
+            onChange={(value) => handleChange("creator", value)}
+            required={false}
+          />
         </div>
-      </div>
-      <div className="row form-group">
-        <Column>
-          <label className="w-100">
-            {D.creator}
+        <SearchField label={D.componentValididationStatusTitle} col="col-12 md:col-6">
+          {(id) => (
             <Select
-              placeholder=""
-              value={stampListOptions.find((option) => option.value === creator) || ""}
-              options={stampListOptions}
-              onChange={(value) => {
-                handleChange("creator", value);
-              }}
-            />
-          </label>
-        </Column>
-        <Column>
-          <label className="w-100">
-            {D.componentValididationStatusTitle}
-            <Select
+              inputId={id}
               placeholder=""
               value={validateStateOptions.find((option) => option.value === validationState) || ""}
               options={validateStateOptions}
@@ -107,9 +93,9 @@ export const SearchFormList = ({ concepts, stampListOptions, data }) => {
                 handleChange("validationState", value);
               }}
             />
-          </label>
-        </Column>
-      </div>
+          )}
+        </SearchField>
+      </AdvancedSearchCard>
     </AdvancedSearchList>
   );
 };
@@ -120,7 +106,6 @@ export const Component = () => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [concepts, setConcepts] = useState([]);
-  const stampListOptions = useStampsOptions();
   useEffect(() => {
     Promise.all([StructureApi.getMutualizedComponentsForSearch(), ConceptsApi.getConceptList()])
       .then(([components, concepts]) => {
@@ -132,5 +117,5 @@ export const Component = () => {
   if (loading) {
     return <Loading />;
   }
-  return <SearchFormList data={items} concepts={concepts} stampListOptions={stampListOptions} />;
+  return <SearchFormList data={items} concepts={concepts} />;
 };

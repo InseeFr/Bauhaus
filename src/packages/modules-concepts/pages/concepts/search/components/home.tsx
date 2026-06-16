@@ -1,14 +1,16 @@
-import { ChangeEvent, ReactElement } from "react";
+import { ReactElement } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
+import { CreatorsInput } from "@components/business/creators-input";
 import { DatePicker } from "@components/date-picker";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
-import { TextInput } from "@components/form/input";
 import { NumberResults } from "@components/number-results";
 import { PageTitle } from "@components/page-title";
 import { Pagination } from "@components/pagination";
 import { Select } from "@components/select-rmes";
+import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
@@ -42,15 +44,10 @@ const defaultFormState = {
 
 interface ConceptSearchListProps {
   conceptSearchList: ConceptForAdvancedSearch[];
-  stampList: string[];
   onExport: (ids: string[], type: string, withConcepts: boolean, lang?: "lg1" | "lg2") => void;
 }
 
-const ConceptSearchList = ({
-  conceptSearchList,
-  stampList,
-  onExport,
-}: Readonly<ConceptSearchListProps>) => {
+const ConceptSearchList = ({ conceptSearchList, onExport }: Readonly<ConceptSearchListProps>) => {
   const { t } = useTranslation();
   useTitle(t("concept.title"), t("common.advancedSearch"));
 
@@ -80,11 +77,6 @@ const ConceptSearchList = ({
     .filter(filterCreatedDate(dateCreatedStart, dateCreatedEnd))
     .filter(filterModifiedDate(dateModifiedStart, dateModifiedEnd));
 
-  const stampListOptions = stampList.map((stamp) => ({
-    label: stamp,
-    value: stamp,
-  }));
-
   const hitEls: ReactElement[] = hits.map(({ id, label }) => (
     <li key={id} className="list-group-item">
       <Link to={`/concepts/${id}`}>{label}</Link>
@@ -92,64 +84,51 @@ const ConceptSearchList = ({
   ));
 
   return (
-    <div>
-      <div className="container">
-        <PageTitle title={t("concept.search.title")} />
-        <Controls
-          onClickReturn={() => navigate("/concepts")}
-          initializeState={reset}
-          onExport={onExport}
-          conceptsList={hits}
+    <div className="container">
+      <PageTitle title={t("concept.search.title")} />
+      <Controls
+        onClickReturn={() => navigate("/concepts")}
+        initializeState={reset}
+        onExport={onExport}
+        conceptsList={hits}
+      />
+      <AdvancedSearchCard className="concept-search-form">
+        <SearchTextField
+          label={t("common.labelTitle")}
+          value={label}
+          onChange={(value) => handleChange("label", value)}
+          placeholder={t("common.searchLabelPlaceholder")}
         />
-        <div className="row form-group">
-          <div className="col-md-12">
-            <TextInput
-              value={label}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("label", e.target.value)}
-              placeholder={t("common.searchLabelPlaceholder")}
-            />
-          </div>
+        <SearchTextField
+          label={t("concept.general.altLabelTitle")}
+          value={altLabel}
+          onChange={(value) => handleChange("altLabel", value)}
+          placeholder={t("common.searchAltLabelPlaceholder")}
+        />
+        <SearchTextField
+          label={t("concept.notes.conceptsDefinition")}
+          value={definition}
+          onChange={(value) => handleChange("definition", value)}
+          placeholder={t("common.searchDefinitionPlaceholder")}
+        />
+        <div className="field col-12 md:col-4">
+          <CreatorsInput
+            mode="organisation"
+            value={creator}
+            onChange={(value: string | string[]) => handleChange("creator", value as string)}
+            required={false}
+          />
         </div>
-        <div className="row form-group">
-          <div className="col-md-12">
-            <TextInput
-              value={altLabel}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleChange("altLabel", e.target.value)
-              }
-              placeholder={t("common.searchAltLabelPlaceholder")}
-            />
-          </div>
+        <div className="field col-12 md:col-4">
+          <DisseminationStatusInput
+            value={disseminationStatus}
+            handleChange={(option) => handleChange("disseminationStatus", option ?? "")}
+          />
         </div>
-        <div className="row form-group">
-          <div className="col-md-12">
-            <TextInput
-              value={definition}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleChange("definition", e.target.value)
-              }
-              placeholder={t("common.searchDefinitionPlaceholder")}
-            />
-          </div>
-        </div>
-        <div className="row form-group">
-          <div className="col-md-4">
+        <SearchField label={t("common.validationStatusTitle")} col="col-12 md:col-4">
+          {(id) => (
             <Select
-              placeholder={t("common.stampsPlaceholder")}
-              value={stampListOptions.find(({ value }) => value === creator)?.value ?? ""}
-              options={stampListOptions}
-              onChange={(value: string) => handleChange("creator", value)}
-            />
-          </div>
-          <div className="col-md-4">
-            <DisseminationStatusInput
-              value={disseminationStatus}
-              withLabel={false}
-              handleChange={(option) => handleChange("disseminationStatus", option ?? "")}
-            />
-          </div>
-          <div className="col-md-4">
-            <Select
+              inputId={id}
               placeholder={t("common.validationStatusPlaceholder")}
               value={
                 validateStateOptions.find(({ value }) => value === validationStatus)?.value ?? ""
@@ -157,58 +136,46 @@ const ConceptSearchList = ({
               options={validateStateOptions}
               onChange={(value: string) => handleChange("validationStatus", value)}
             />
-          </div>
-        </div>
-        <div className="row vertical-center">
-          <div className="col-md-3 text-center">
-            <label>{t("concept.dateMessage.creation")}</label>
-          </div>
-          <div className="col-md-4">
+          )}
+        </SearchField>
+        <div className="field col-12 md:col-6">
+          <label>{t("concept.dateMessage.creation")}</label>
+          <div className="flex align-items-center gap-2">
             <DatePicker
+              className="flex-1"
               value={dateCreatedStart}
               onChange={(value?: string) => handleChange("dateCreatedStart", value ?? "")}
             />
-          </div>
-          <div className="col-md-1 text-center">
-            <label>{t("concept.dateMessage.transition")}</label>
-          </div>
-          <div className="col-md-4">
+            <span className="white-space-nowrap">{t("concept.dateMessage.transition")}</span>
             <DatePicker
+              className="flex-1"
               value={dateCreatedEnd}
               onChange={(value?: string) => handleChange("dateCreatedEnd", value ?? "")}
             />
           </div>
         </div>
-        <div className="row vertical-center">
-          <div className="col-md-3 text-center">
-            <label>{t("concept.dateMessage.update")}</label>
-          </div>
-          <div className="col-md-4">
+        <div className="field col-12 md:col-6">
+          <label>{t("concept.dateMessage.update")}</label>
+          <div className="flex align-items-center gap-2">
             <DatePicker
+              className="flex-1"
               value={dateModifiedStart}
               onChange={(value?: string) => handleChange("dateModifiedStart", value ?? "")}
             />
-          </div>
-          <div className="col-md-1 text-center">
-            <label>{t("concept.dateMessage.transition")}</label>
-          </div>
-          <div className="col-md-4">
+            <span className="white-space-nowrap">{t("concept.dateMessage.transition")}</span>
             <DatePicker
+              className="flex-1"
               value={dateModifiedEnd}
               onChange={(value?: string) => handleChange("dateModifiedEnd", value ?? "")}
             />
           </div>
         </div>
-        <div className="text-center">
-          <div>
-            <h4>
-              <NumberResults results={hitEls} />
-            </h4>
-          </div>
-          <div>
-            <Pagination itemEls={hitEls} />
-          </div>
-        </div>
+      </AdvancedSearchCard>
+      <div className="text-center">
+        <h4>
+          <NumberResults results={hitEls} />
+        </h4>
+        <Pagination itemEls={hitEls} />
       </div>
     </div>
   );

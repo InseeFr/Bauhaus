@@ -11,7 +11,35 @@ vi.mock("@tanstack/react-query", () => ({
   }),
 }));
 
+let lastCreatorsInputProps: Record<string, unknown> | undefined;
+
+vi.mock("@components/business/creators-input", () => ({
+  CreatorsInput: (props: Record<string, unknown>) => {
+    lastCreatorsInputProps = props;
+    return <div data-testid="creators-input" />;
+  },
+}));
+
 describe("advanced search component", () => {
+  it("filters creators by organisation (HIE) and not by stamp", () => {
+    renderWithRouter(
+      <FieldsForDatasetsAdvancedSearch
+        labelLg1=""
+        altIdentifier=""
+        creator=""
+        disseminationStatus=""
+        validationStatus=""
+        wasGeneratedIRIs=""
+        created=""
+        updated=""
+        handleChange={vi.fn()}
+        seriesOperationsOptions={[]}
+      />,
+    );
+
+    expect(lastCreatorsInputProps?.mode).toBe("organisation");
+  });
+
   it("AdvancedSearchForm renders without crashing", () => {
     renderWithRouter(<AdvancedSearchForm data={[]} seriesOperationsOptions={[]} />);
   });
