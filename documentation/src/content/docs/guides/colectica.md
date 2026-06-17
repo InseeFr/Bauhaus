@@ -6,6 +6,8 @@ This page documents the API calls exchanged between the Bauhaus Back-Office and 
 
 See [Overview](./variables/explanation/overview/) for context on why Colectica is used, and [Configure the Mock Server](./variables/how-to/configure-mock-server/) to run without a real Colectica instance.
 
+The mutualized code lists returned by `GET /ddi/mutualized-codes-list` are cached in-process — see [Mutualized Code Lists Cache](./variables/explanation/mutualized-codes-cache/) for the TTL, what is cached, and how to force a refresh.
+
 ## Physical Instance Operations
 
 ### List all physical instances
