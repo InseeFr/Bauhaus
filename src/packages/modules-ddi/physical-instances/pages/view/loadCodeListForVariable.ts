@@ -11,6 +11,12 @@ import { DDIApi } from "../../../../sdk";
 export interface CodeListAndCategories {
   codeList?: CodeList;
   categories?: Category[];
+  /**
+   * `true` quand la variable référence une liste de codes (Agency + ID présents) qui
+   * n'existe pas / n'a pas pu être résolue. Permet à l'appelant d'afficher une erreur
+   * explicite plutôt que de présenter silencieusement une liste vide.
+   */
+  missing?: boolean;
 }
 
 export async function loadCodeListForVariable(
@@ -28,8 +34,12 @@ export async function loadCodeListForVariable(
   });
 
   const codeList = data?.CodeList?.find((cl) => cl.ID === id);
-  if (!codeList?.Code) {
-    return codeList ? { codeList } : {};
+  if (!codeList) {
+    // La référence pointe vers une liste de codes (agency + id) introuvable.
+    return { missing: true };
+  }
+  if (!codeList.Code) {
+    return { codeList };
   }
 
   const categoryIds = new Set(

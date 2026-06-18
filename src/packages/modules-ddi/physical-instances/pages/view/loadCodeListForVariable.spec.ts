@@ -54,4 +54,18 @@ describe("loadCodeListForVariable", () => {
     expect(result).toEqual({});
     expect(DDIApi.getMutualizedCodesList).not.toHaveBeenCalled();
   });
+
+  it("flags `missing` when the referenced CodeList does not exist", async () => {
+    // Le back renvoie 200 + corps null (ou une réponse sans la CL demandée)
+    // quand la liste de codes référencée n'existe pas.
+    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue(null as any);
+
+    const result = await loadCodeListForVariable(newQueryClient(), {
+      CodeListReference: { Agency: "fr.insee", ID: "cl-absente", Version: "1" },
+    } as any);
+
+    expect(DDIApi.getMutualizedCodesList).toHaveBeenCalledWith("fr.insee", "cl-absente");
+    expect(result.codeList).toBeUndefined();
+    expect(result.missing).toBe(true);
+  });
 });

@@ -83,6 +83,14 @@ const api = {
   getMutualizedCodesLists: () => ["mutualized-codes-list"],
   getMutualizedCodesList: (agencyId: string, id: string) => [
     `mutualized-codes-list/${agencyId}/${id}`,
+    {},
+    // Le back renvoie 200 + corps VIDE quand la liste de codes n'existe pas
+    // (ResponseEntity.ok().body(null)). On évite que res.json() échoue sur un corps
+    // vide ("Unexpected end of JSON input") en renvoyant null dans ce cas.
+    async (res: Response) => {
+      const text = await res.text();
+      return text ? JSON.parse(text) : null;
+    },
   ],
 };
 
