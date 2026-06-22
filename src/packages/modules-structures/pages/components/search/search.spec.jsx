@@ -1,7 +1,7 @@
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
-import { renderWithRouter } from "../../../tests/render";
-import { SearchFormList } from "./search";
+import { renderWithRouter } from "../../../../tests/render";
+import { SearchFormList } from "./page";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
 
