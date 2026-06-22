@@ -20,6 +20,7 @@ type SelectRmesTypes = {
   value?: any;
   options?: Option[];
   itemTemplate?: MultiSelect["props"]["itemTemplate"];
+  inputId?: string;
 } & {};
 
 export const Select = ({
@@ -28,11 +29,13 @@ export const Select = ({
   multi = false,
   searchable = true,
   disabled = false,
+  inputId,
   ...props
 }: SelectRmesTypes) => {
   if (multi) {
     return (
       <MultiSelect
+        inputId={inputId}
         placeholder={props.placeholder}
         value={props.value}
         options={props.options}
@@ -52,6 +55,7 @@ export const Select = ({
 
   return (
     <Dropdown
+      inputId={inputId}
       placeholder={props.placeholder}
       value={props.value}
       options={props.options}

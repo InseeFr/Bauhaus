@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import Modal from "react-modal";
 import { useBlocker } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -19,7 +19,9 @@ import { EMPTY_ARRAY, sortArrayByLabel } from "@utils/array-utils";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import D from "../../../../deprecated-locales";
-import { rangeType } from "../../../utils/msd";
+import { flattenTree, isAutoUpdatedFromModified, rangeType } from "../../../utils/msd";
+import { SimsContextProvider } from "../../context";
+import { computeEssentialRubricContext } from "../../essential-rubric-context";
 import { RubricEssentialMsg } from "../../rubric-essantial-msg";
 import {
   getParentId,
@@ -38,15 +40,44 @@ import { getDefaultSims, getSiblingSims } from "./utils/getSims";
 
 const { RICH_TEXT } = rangeType;
 
-export const generateSimsBeforeSubmit = (simsProp, parentType, idParent, rubrics) => {
+export const generateSimsBeforeSubmit = (
+  simsProp,
+  parentType,
+  idParent,
+  rubrics,
+  metadataStructure,
+) => {
+  const autoUpdatedIds = collectAutoUpdatedIds(metadataStructure);
+  const finalRubrics =
+    autoUpdatedIds.size === 0
+      ? rubrics
+      : applyAutoUpdatedDate(rubrics, autoUpdatedIds, new Date().toISOString());
+
   return {
     id: simsProp.id,
     labelLg1: simsProp.labelLg1,
     labelLg2: simsProp.labelLg2,
     [getParentIdName(parentType)]: idParent,
     created: simsProp.created,
-    rubrics,
+    rubrics: finalRubrics,
   };
+};
+
+const collectAutoUpdatedIds = (metadataStructure) => {
+  if (!metadataStructure) return new Set();
+  const flat = flattenTree(metadataStructure) || {};
+  return new Set(
+    Object.values(flat)
+      .filter((node) => isAutoUpdatedFromModified(node))
+      .map((node) => node.idMas),
+  );
+};
+
+const applyAutoUpdatedDate = (rubrics, autoUpdatedIds, isoNow) => {
+  const apply = (rubric) =>
+    autoUpdatedIds.has(rubric.idAttribute || rubric.idMas) ? { ...rubric, value: isoNow } : rubric;
+  if (Array.isArray(rubrics)) return rubrics.map(apply);
+  return Object.fromEntries(Object.entries(rubrics).map(([k, v]) => [k, apply(v)]));
 };
 
 /**
@@ -81,6 +112,11 @@ const SimsCreation = ({
     getDefaultSims(mode, simsProp.rubrics || defaultSimsRubrics, metadataStructure),
   );
 
+  const essentialRubricContext = useMemo(
+    () => computeEssentialRubricContext(metadataStructure, sims),
+    [metadataStructure, sims],
+  );
+
   const handleChange = useCallback((e) => {
     setChanged(true);
     setSims((sims) => ({ ...sims, [e.id]: { ...sims[e.id], ...e.override } }));
@@ -97,7 +133,7 @@ const SimsCreation = ({
     setChanged(false);
 
     onSubmit(
-      generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics),
+      generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics, metadataStructure),
       (id) => {
         setSaving(false);
         goBack(`/operations/sims/${id}`, true);
@@ -112,26 +148,38 @@ const SimsCreation = ({
     ? `/operations/sims/${sims.id}`
     : `/operations/${parentType}/${idParent}`;
 
-  const organisationsOptions = sortArrayByLabel(
-    organisations.map((c) => ({
-      label: c.label,
-      value: c.id,
-    })),
+  const organisationsOptions = useMemo(
+    () =>
+      sortArrayByLabel(
+        organisations.map((c) => ({
+          label: c.label,
+          value: c.id,
+        })),
+      ),
+    [organisations],
   );
 
-  const organisationsOptionsLg2 = sortArrayByLabel(
-    organisations.map((c) => ({
-      label: c.labelLg2,
-      value: c.id,
-    })),
+  const organisationsOptionsLg2 = useMemo(
+    () =>
+      sortArrayByLabel(
+        organisations.map((c) => ({
+          label: c.labelLg2,
+          value: c.id,
+        })),
+      ),
+    [organisations],
   );
 
-  const operationsWithSimsOptions = (parentWithSims || [])
-    .map((op) => ({
-      label: op.labelLg1,
-      value: op.idSims,
-    }))
-    .sort((o1, o2) => o1.label.toLowerCase().localeCompare(o2.label.toLowerCase()));
+  const operationsWithSimsOptions = useMemo(
+    () =>
+      (parentWithSims || [])
+        .map((op) => ({
+          label: op.labelLg1,
+          value: op.idSims,
+        }))
+        .sort((o1, o2) => o1.label.toLowerCase().localeCompare(o2.label.toLowerCase())),
+    [parentWithSims],
+  );
 
   const MSDInformations = useCallback(
     (msd, handleChange, firstLevel = false) => {
@@ -161,6 +209,7 @@ const SimsCreation = ({
                   alone={!hasLabelLg2(msd) || !secondLang}
                   organisationsOptions={organisationsOptions}
                   unbounded={msd.maxOccurs === "unbounded"}
+                  simsModified={simsProp.updated}
                 />
               )}
               {!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
@@ -173,6 +222,7 @@ const SimsCreation = ({
                   alone={false}
                   organisationsOptions={organisationsOptionsLg2}
                   unbounded={msd.maxOccurs === "unbounded"}
+                  simsModified={simsProp.updated}
                 />
               )}
             </div>
@@ -203,7 +253,7 @@ const SimsCreation = ({
         </Fragment>
       );
     },
-    [sims, codesLists, organisationsOptions, organisationsOptionsLg2],
+    [sims, codesLists, organisationsOptions, organisationsOptionsLg2, simsProp.updated],
   );
 
   const onSiblingSimsChange = () => {
@@ -222,7 +272,7 @@ const SimsCreation = ({
   if (saving) return <Saving />;
 
   return (
-    <>
+    <SimsContextProvider value={essentialRubricContext}>
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
 
       {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} D={D} />}
@@ -287,7 +337,7 @@ const SimsCreation = ({
           </div>
         );
       })}
-    </>
+    </SimsContextProvider>
   );
 };
 

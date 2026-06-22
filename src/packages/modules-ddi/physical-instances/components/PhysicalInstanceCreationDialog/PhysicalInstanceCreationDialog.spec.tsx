@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { forwardRef, useEffect, useRef } from "react";
 import { PhysicalInstanceDialog } from "./PhysicalInstanceCreationDialog";
 
 vi.mock("react-i18next", () => ({
@@ -55,9 +56,7 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Agency: "agency-1",
               Version: "1.0",
               Citation: {
-                Title: {
-                  String: { "@xml:lang": "fr-FR", "#text": "Study Unit 1" },
-                },
+                Title: [{ "@language": "fr-FR", "@value": "Study Unit 1" }],
               },
             },
             {
@@ -65,9 +64,7 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               Agency: "agency-1",
               Version: "1.0",
               Citation: {
-                Title: {
-                  String: { "@xml:lang": "fr-FR", "#text": "Study Unit 2" },
-                },
+                Title: [{ "@language": "fr-FR", "@value": "Study Unit 2" }],
               },
             },
           ],
@@ -80,9 +77,9 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
 }));
 
 vi.mock("primereact/inputtext", () => ({
-  InputText: ({ id, value, onChange, ...props }: any) => (
-    <input id={id} value={value} onChange={onChange} {...props} />
-  ),
+  InputText: forwardRef<HTMLInputElement, any>(({ id, value, onChange, ...props }, ref) => (
+    <input ref={ref} id={id} value={value} onChange={onChange} {...props} />
+  )),
 }));
 
 vi.mock("primereact/dropdown", () => ({
@@ -113,13 +110,27 @@ vi.mock("primereact/button", () => ({
   ),
 }));
 
+// Mock fidèle au comportement de focus de PrimeReact : à l'ouverture (onEntered),
+// la Dialog appelle d'abord onShow() puis, si le focus n'est PAS déjà à l'intérieur
+// de la modale, le pose sur le bouton de fermeture (cf. dialog.esm.js `focus()`).
 vi.mock("primereact/dialog", () => ({
-  Dialog: ({ header, visible, children, onHide, className }: any) => {
+  Dialog: ({ header, visible, children, onHide, onShow, className }: any) => {
+    const dialogRef = useRef<HTMLDivElement>(null);
+    const closeRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+      if (!visible) return;
+      onShow?.();
+      if (!dialogRef.current?.contains(document.activeElement)) {
+        closeRef.current?.focus();
+      }
+    }, [visible]);
+
     if (!visible) return null;
     return (
-      <div className={className} data-testid="dialog">
+      <div ref={dialogRef} className={className} data-testid="dialog">
         <h2>{header}</h2>
-        <button type="button" onClick={onHide} data-testid="close-button">
+        <button ref={closeRef} type="button" onClick={onHide} data-testid="close-button">
           Close
         </button>
         {children}
@@ -245,6 +256,13 @@ describe("PhysicalInstanceDialog", () => {
       expect(dialog).toHaveClass("ddi");
       expect(dialog).toHaveClass("physical-instance-creation-dialog");
     });
+
+    it("should focus the label input when the dialog is shown, not the close button", () => {
+      render(<PhysicalInstanceDialog {...defaultCreateProps} />);
+
+      expect(screen.getByLabelText("Label")).toHaveFocus();
+      expect(screen.getByTestId("close-button")).not.toHaveFocus();
+    });
   });
 
   describe("Edit mode", () => {
@@ -252,7 +270,11 @@ describe("PhysicalInstanceDialog", () => {
       visible: true,
       onHide: mockOnHide,
       mode: "edit" as const,
-      initialData: { label: "Existing Label" },
+      initialData: {
+        label: "Existing Label",
+        group: { id: "group-1", agency: "agency-1" },
+        studyUnit: { id: "study-1", agency: "agency-1" },
+      },
       onSubmitEdit: mockOnSubmitEdit,
     };
 
@@ -275,22 +297,21 @@ describe("PhysicalInstanceDialog", () => {
       expect(screen.getByText("Save")).toBeInTheDocument();
     });
 
+    it("should disable group and studyUnit dropdowns in edit mode", () => {
+      render(<PhysicalInstanceDialog {...defaultEditProps} />);
+
+      expect(screen.getByTestId("dropdown-group")).toBeDisabled();
+      expect(screen.getByTestId("dropdown-studyUnit")).toBeDisabled();
+    });
+
     it("should call onSubmitEdit when form is submitted in edit mode", async () => {
       mockOnSubmitEdit.mockResolvedValue(undefined);
       render(<PhysicalInstanceDialog {...defaultEditProps} />);
 
-      const groupDropdown = screen.getByTestId("dropdown-group");
-      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
-
-      await waitFor(() => {
-        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-        expect(studyUnitDropdown).not.toBeDisabled();
-      });
-
-      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
-
       const saveButton = screen.getByText("Save");
+      await waitFor(() => {
+        expect(saveButton).not.toBeDisabled();
+      });
       fireEvent.click(saveButton);
 
       await waitFor(() => {
@@ -353,7 +374,11 @@ describe("PhysicalInstanceDialog", () => {
           visible={true}
           onHide={mockOnHide}
           mode="edit"
-          initialData={{ label: "Existing Label" }}
+          initialData={{
+            label: "Existing Label",
+            group: { id: "group-1", agency: "agency-1" },
+            studyUnit: { id: "study-1", agency: "agency-1" },
+          }}
           onSubmitEdit={mockOnSubmitEdit}
         />,
       );
@@ -362,19 +387,11 @@ describe("PhysicalInstanceDialog", () => {
       const labelInput = screen.getByLabelText("Label");
       fireEvent.change(labelInput, { target: { value: "Modified Label" } });
 
-      const groupDropdown = screen.getByTestId("dropdown-group");
-      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
-
-      await waitFor(() => {
-        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-        expect(studyUnitDropdown).not.toBeDisabled();
-      });
-
-      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
-
       // Submit the form
       const saveButton = screen.getByText("Save");
+      await waitFor(() => {
+        expect(saveButton).not.toBeDisabled();
+      });
       fireEvent.click(saveButton);
 
       await waitFor(() => {

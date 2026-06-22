@@ -3,18 +3,22 @@ import type {
   CodeList,
   Code,
   Category,
+  LangString,
 } from "../../types/api";
+import { pickLang, singletonEntries } from "../../../utils/multilingual";
 
 export const createDefaultRepresentation = (
   codeListId: string,
   agencyId: string,
 ): CodeRepresentationType => ({
-  "@blankIsMissingValue": "false",
+  $type: "CodeRepresentationBaseType",
+  BlankIsMissingValue: false,
   CodeListReference: {
+    $type: "CodeList",
+    URN: `urn:ddi:${agencyId}:${codeListId}:1`,
     Agency: agencyId,
     ID: codeListId,
     Version: "1",
-    TypeOfObject: "CodeList",
   },
 });
 
@@ -24,18 +28,13 @@ export const createDefaultCodeList = (
   agencyId: string,
   locale: string,
 ): CodeList => ({
-  "@isUniversallyUnique": "true",
-  "@versionDate": new Date().toISOString(),
+  $type: "CodeList",
+  VersionDate: { DateTime: new Date().toISOString() },
   URN: `urn:ddi:${agencyId}:${id}:1`,
   Agency: agencyId,
   ID: id,
   Version: "1",
-  Label: {
-    Content: {
-      "@xml:lang": locale,
-      "#text": label,
-    },
-  },
+  Label: singletonEntries(locale, label),
   Code: [],
 });
 
@@ -45,18 +44,19 @@ export const createCode = (
   value: string,
   agencyId: string,
 ): Code => ({
-  "@isUniversallyUnique": "true",
+  $type: "CodeType",
   URN: `urn:ddi:${agencyId}:${id}:1`,
   Agency: agencyId,
   ID: id,
   Version: "1",
   CategoryReference: {
+    $type: "Category",
+    URN: `urn:ddi:${agencyId}:${categoryId}:1`,
     Agency: agencyId,
     ID: categoryId,
     Version: "1",
-    TypeOfObject: "Category",
   },
-  Value: value,
+  Value: { StringValue: value },
 });
 
 export const createCategory = (
@@ -65,23 +65,25 @@ export const createCategory = (
   agencyId: string,
   locale: string,
 ): Category => ({
-  "@isUniversallyUnique": "true",
-  "@versionDate": new Date().toISOString(),
+  $type: "Category",
+  VersionDate: { DateTime: new Date().toISOString() },
   URN: `urn:ddi:${agencyId}:${id}:1`,
   Agency: agencyId,
   ID: id,
   Version: "1",
-  Label: {
-    Content: {
-      "@xml:lang": locale,
-      "#text": label,
-    },
-  },
+  Label: singletonEntries(locale, label),
 });
 
-export const createLabel = (text: string, locale: string) => ({
-  Content: {
-    "@xml:lang": locale,
-    "#text": text,
-  },
-});
+export const createLabel = (text: string, locale: string): LangString[] =>
+  singletonEntries(locale, text);
+
+export const parseSelectedCodeListId = (selectedId: string | null): [string, string] => {
+  if (!selectedId) return ["", ""];
+  const [agency, ...idParts] = selectedId.split("-");
+  return [agency ?? "", idParts.join("-")];
+};
+
+export const getLocalizedText = (
+  content: LangString[] | undefined,
+  lang = "fr-FR",
+): string | undefined => pickLang(content, lang);

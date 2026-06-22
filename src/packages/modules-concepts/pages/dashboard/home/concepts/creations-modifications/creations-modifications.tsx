@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { DateItem } from "@components/creation-update-items";
 import { getDisseminationStatus } from "@components/dissemination-status/disseminationStatus";
 import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { PublicationMale } from "@components/status";
 
 import "../../../../../../i18n";
 import { ConceptForAdvancedSearch } from "../../../../../types/concept";
@@ -27,13 +28,7 @@ const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>)
       data={conceptsData}
       dateField={dateField}
       typeByLang={typeByLang}
-      globalFilterFields={[
-        "label",
-        "creator",
-        "disseminationStatus",
-        dateField,
-        "validationStatus",
-      ]}
+      globalFilterFields={["label", "creator", "disseminationStatus", dateField, "validationState"]}
       onRowClick={(concept) => navigate(`/concepts/${concept.id}`)}
     >
       <Column field="label" header={t("dashboard.concepts.labelColumn")} />
@@ -55,13 +50,11 @@ const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>)
         )}
       />
       <Column
-        field="validationStatus"
+        field="validationState"
         header={t("dashboard.statusColumn")}
-        body={(item: ConceptForAdvancedSearch) =>
-          item.validationStatus === "true"
-            ? t("dashboard.concepts.statusValid")
-            : t("dashboard.statusProvisional")
-        }
+        body={(item: ConceptForAdvancedSearch) => (
+          <PublicationMale object={{ validationState: item.validationState }} />
+        )}
       />
     </DateFilteredTable>
   );

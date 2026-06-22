@@ -55,7 +55,7 @@ const renderApp = (
   const root = createRoot(container!);
 
   root.render(
-    <OidcProvider fallback={<>Checking authentication ⌛️</>}>
+    <OidcProvider fallback="Checking authentication ⌛️">
       <QueryClientProvider client={queryClient}>
         <AppContextProvider
           lg1={lg1}

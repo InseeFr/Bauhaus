@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
-import { TextInput } from "@components/form/input";
-import { Column } from "@components/layout";
+import { CreatorsInput } from "@components/business/creators-input";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
 import { filterKeyDeburr } from "@utils/array-utils";
-import { useStampsOptions } from "@utils/hooks/stamps";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
@@ -31,7 +31,7 @@ const defaultFormState = {
   validationState: "",
 };
 
-const SearchFormList = ({ concepts, stampListOptions, data }) => {
+const SearchFormList = ({ concepts, data }) => {
   const { t } = useTranslation();
 
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
@@ -48,7 +48,9 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
 
   const dataLinks = filteredData.map((component) => (
     <li key={component.id} className="list-group-item text-left">
-      <Link to={`/structures/components/${component.id}`}>{formatLabel(component)}</Link>
+      <Link to={`/structures/components/${component.id}`}>
+        {formatLabel(component)}
+      </Link>
     </li>
   ));
 
@@ -59,60 +61,56 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
       initializeState={reset}
       redirect={<Navigate to="/structures/components" />}
     >
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {t("component.label")}
-            <TextInput
-              value={labelLg1}
-              onChange={(e) => handleChange("labelLg1", e.target.value)}
-            />
-          </label>
-        </div>
-      </div>
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {t("component.concept")}
+      <AdvancedSearchCard className="component-search-form">
+        <SearchTextField
+          label={t("component.label")}
+          value={labelLg1}
+          onChange={(value) => handleChange("labelLg1", value)}
+        />
+        <SearchField label={t("component.concept")} col="col-12">
+          {(id) => (
             <Select
+              inputId={id}
               placeholder=""
-              value={conceptsOptions.find((option) => option.value === concept) || ""}
+              value={
+                conceptsOptions.find((option) => option.value === concept) || ""
+              }
               options={conceptsOptions}
               onChange={(value) => {
                 handleChange("concept", value);
               }}
             />
-          </label>
+          )}
+        </SearchField>
+        <div className="field col-12 md:col-6">
+          <CreatorsInput
+            mode="organisation"
+            value={creator}
+            onChange={(value) => handleChange("creator", value)}
+            required={false}
+          />
         </div>
-      </div>
-      <div className="row form-group">
-        <Column>
-          <label className="w-100">
-            {t("component.creator")}
+        <SearchField
+          label={t("component.validationStatus")}
+          col="col-12 md:col-6"
+        >
+          {(id) => (
             <Select
+              inputId={id}
               placeholder=""
-              value={stampListOptions.find((option) => option.value === creator) || ""}
-              options={stampListOptions}
-              onChange={(value) => {
-                handleChange("creator", value);
-              }}
-            />
-          </label>
-        </Column>
-        <Column>
-          <label className="w-100">
-            {t("component.validationStatus")}
-            <Select
-              placeholder=""
-              value={validateStateOptions.find((option) => option.value === validationState) || ""}
+              value={
+                validateStateOptions.find(
+                  (option) => option.value === validationState,
+                ) || ""
+              }
               options={validateStateOptions}
               onChange={(value) => {
                 handleChange("validationState", value);
               }}
             />
-          </label>
-        </Column>
-      </div>
+          )}
+        </SearchField>
+      </AdvancedSearchCard>
     </AdvancedSearchList>
   );
 };
@@ -128,10 +126,11 @@ export const Component = () => {
 
   const [concepts, setConcepts] = useState([]);
 
-  const stampListOptions = useStampsOptions();
-
   useEffect(() => {
-    Promise.all([StructureApi.getMutualizedComponentsForSearch(), ConceptsApi.getConceptList()])
+    Promise.all([
+      StructureApi.getMutualizedComponentsForSearch(),
+      ConceptsApi.getConceptList(),
+    ])
       .then(([components, concepts]) => {
         setItems(components);
         setConcepts(concepts);
@@ -143,5 +142,5 @@ export const Component = () => {
     return <Loading />;
   }
 
-  return <SearchFormList data={items} concepts={concepts} stampListOptions={stampListOptions} />;
+  return <SearchFormList data={items} concepts={concepts} />;
 };

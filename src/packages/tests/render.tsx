@@ -1,11 +1,13 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import { PropsWithChildren, ReactNode } from "react";
+import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 
 import { MODULE, PRIVILEGE, STRATEGY } from "@utils/hooks/rbac-constants";
 
 import { AppContextProvider } from "../application/app-context";
+import i18n from "../modules-concepts/i18n";
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -43,7 +45,11 @@ export const mockReactQueryForRbac = (
 };
 
 export const renderWithRouter = (component: ReactNode, initialEntries: string[] = ["/"]) => {
-  return render(<MemoryRouter initialEntries={initialEntries}>{component}</MemoryRouter>);
+  return render(
+    <I18nextProvider i18n={i18n}>
+      <MemoryRouter initialEntries={initialEntries}>{component}</MemoryRouter>
+    </I18nextProvider>,
+  );
 };
 
 export const renderWithRouterAndQuery = (

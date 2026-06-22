@@ -41,7 +41,7 @@ export const Organisation = ({ creator, organizations }: Readonly<OrganisationTy
     return null;
   }
 
-  return <>{organization.label}</>;
+  return organization.label;
 };
 
 export const withInseeOrganisations = <P extends { organizations?: OrganizationType[] }>(

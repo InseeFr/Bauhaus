@@ -1,21 +1,30 @@
 import { useState } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import { Button } from "@components/buttons/button";
-import { ExportButton, ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
+import {
+  CompareButton,
+  DeleteButton,
+  ExportButton,
+  PublishButton,
+  ReturnButton,
+  UpdateButton,
+} from "@components/buttons/buttons-with-icons";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 
+import type { ValidationState } from "@components/status";
+
 import { HasAccess } from "../../../../auth/components/auth";
-import D from "../../../../deprecated-locales";
+import { ConceptGeneral } from "../../../../model/concepts/concept";
+import { VALIDATED } from "@model/ValidationState";
 import { ConceptsApi } from "../../../../sdk";
 import { saveFileFromHttpResponse } from "../../../../utils/files";
 import { useGoBack } from "../../../../utils/hooks/useGoBack";
-import { useLoading } from "./loading";
+import { useLoading } from "./components/loading";
 import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "../../../../sdk/constants";
 
 interface ConceptVisualizationControlsTypes {
-  general: any;
-  isValidated: boolean;
+  general: Pick<ConceptGeneral, "creator">;
+  validationState: ValidationState;
   conceptVersion: number;
   id: string;
   onValidate: () => void;
@@ -24,7 +33,7 @@ interface ConceptVisualizationControlsTypes {
 
 const ConceptVisualizationControls = ({
   general,
-  isValidated,
+  validationState,
   conceptVersion,
   id,
   onValidate,
@@ -53,7 +62,7 @@ const ConceptVisualizationControls = ({
           privilege="READ"
           complementaryCheck={conceptVersion > 1}
         >
-          <Button action={`/concepts/${id}/compare`} label={D.btnCompare} />
+          <CompareButton action={`/concepts/${id}/compare`} />
         </HasAccess>
         <ExportButton
           action={() => {
@@ -63,21 +72,21 @@ const ConceptVisualizationControls = ({
               .finally(() => setLoading(undefined));
           }}
         />
-        <HasAccess module="CONCEPT_CONCEPT" privilege="UPDATE" stamps={general.creator}>
+        <HasAccess module="CONCEPT_CONCEPT" privilege="UPDATE" stamps={[general.creator]}>
           <UpdateButton action={`/concepts/${id}/modify`} />
         </HasAccess>
 
-        <HasAccess module="CONCEPT_CONCEPT" privilege="DELETE" stamps={general.creator}>
-          <Button action={() => setModalOpened(true)} label={D.btnDelete} />
+        <HasAccess module="CONCEPT_CONCEPT" privilege="DELETE" stamps={[general.creator]}>
+          <DeleteButton action={() => setModalOpened(true)} />
         </HasAccess>
 
         <HasAccess
           module="CONCEPT_CONCEPT"
           privilege="PUBLISH"
-          complementaryCheck={!isValidated}
-          stamps={general.creator}
+          complementaryCheck={validationState !== VALIDATED}
+          stamps={[general.creator]}
         >
-          <Button action={onValidate} label={D.btnValid} />
+          <PublishButton action={onValidate} />
         </HasAccess>
       </ActionToolbar>
     </>

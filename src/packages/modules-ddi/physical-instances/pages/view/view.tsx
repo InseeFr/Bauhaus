@@ -1,12 +1,14 @@
-import { useReducer, useRef, useMemo, useCallback, useEffect, useState } from "react";
+import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import { Toast } from "primereact/toast";
 import { Message } from "primereact/message";
 import { confirmDialog } from "primereact/confirmdialog";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import "./view.css";
 import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstanceParents";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
@@ -14,16 +16,33 @@ import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalInstance";
-import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
+import {
+  viewReducer,
+  initialState,
+  actions,
+  type VariableData,
+} from "./viewReducer";
 import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
-import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
-import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
+import {
+  FILTER_ALL_TYPES,
+  TOAST_DURATION,
+  VARIABLE_TYPES,
+} from "../../constants";
+import type {
+  VariableTableData,
+  Variable,
+  CodeList,
+  Code,
+  Category,
+} from "../../types/api";
 import { Loading } from "../../../../components/loading";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
 import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
+import { pickLang, singletonEntries } from "../../../utils/multilingual";
+import { loadCodeListForVariable } from "./loadCodeListForVariable";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
@@ -32,16 +51,20 @@ export const Component = () => {
   const toast = useRef<Toast>(null);
   const initialRestoreDone = useRef(false);
   const [state, dispatch] = useReducer(viewReducer, initialState);
-  const { data, variables, title, isLoading, isError, error } = usePhysicalInstancesData(
-    agencyId!,
-    id!,
-  );
+  const queryClient = useQueryClient();
+  const { data, variables, title, isLoading, isError, error } =
+    usePhysicalInstancesData(agencyId!, id!);
+
+  const { data: parents } = usePhysicalInstanceParents(agencyId!, id!);
+
+  const currentGroup = parents?.group;
+  const currentStudyUnit = parents?.studyUnit;
+  const currentStamps = parents?.stamps;
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
   const defaultLocale = useDefaultLocale();
   const dataByLangs = usePhysicalInstanceByLangs(data);
-  const [setSelectedLanguage] = useState(defaultLocale);
 
   useEffect(() => {
     if (title && title !== state.formData.label) {
@@ -54,7 +77,11 @@ export const Component = () => {
     const currentVariableId = searchParams.get("variableId");
     const selectedId = state.selectedVariable?.id ?? null;
 
-    if (selectedId && selectedId !== "new" && selectedId !== currentVariableId) {
+    if (
+      selectedId &&
+      selectedId !== "new" &&
+      selectedId !== currentVariableId
+    ) {
       setSearchParams(
         (prev) => {
           const next = new URLSearchParams(prev);
@@ -75,6 +102,18 @@ export const Component = () => {
       );
     }
   }, [state.selectedVariable, searchParams, setSearchParams]);
+
+  // Fermer le panneau latéral d'édition avec la touche Échap
+  useEffect(() => {
+    if (!state.selectedVariable) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        dispatch(actions.setSelectedVariable(null));
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [state.selectedVariable]);
 
   const variableTypeOptions = useMemo(
     () => [
@@ -112,7 +151,9 @@ export const Component = () => {
 
   // Check if there are unsaved changes
   const hasUnsavedChanges = useMemo(() => {
-    return state.localVariables.length > 0 || state.deletedVariableIds.length > 0;
+    return (
+      state.localVariables.length > 0 || state.deletedVariableIds.length > 0
+    );
   }, [state.localVariables, state.deletedVariableIds]);
 
   // Block navigation when there are unsaved changes (internal + F5/close tab)
@@ -249,59 +290,67 @@ export const Component = () => {
   );
 
   const handleVariableClick = useCallback(
-    (variable: VariableTableData) => {
+    async (variable: VariableTableData) => {
       // Vérifier d'abord si la variable a des modifications locales
-      const localVariable = state.localVariables.find((v) => v.id === variable.id);
+      const localVariable = state.localVariables.find(
+        (v) => v.id === variable.id,
+      );
 
       if (localVariable) {
         // Utiliser les données locales si elles existent
         dispatch(actions.setSelectedVariable(localVariable));
-      } else {
-        // Sinon, trouver la variable complète dans les données brutes
-        const fullVariable = data?.Variable?.find((v: Variable) => v.ID === variable.id);
-
-        // Charger les informations complètes de la variable si trouvée
-        const description = fullVariable?.Description?.Content?.["#text"] || undefined;
-        const isGeographic = fullVariable?.["@isGeographic"] === "true";
-        const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
-        const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
-        const dateRepresentation = fullVariable?.VariableRepresentation?.DateTimeRepresentation;
-        const codeRepresentation = fullVariable?.VariableRepresentation?.CodeRepresentation;
-
-        // Charger la CodeList et les Categories associées si disponibles
-        let codeList = undefined;
-        let categories = undefined;
-
-        if (codeRepresentation) {
-          const codeListId = codeRepresentation.CodeListReference.ID;
-          codeList = data?.CodeList?.find((cl: CodeList) => cl.ID === codeListId);
-
-          if (codeList && codeList.Code) {
-            // Récupérer toutes les catégories liées aux codes
-            const categoryIds = codeList.Code.map((code: Code) => code.CategoryReference.ID);
-            categories = data?.Category?.filter((cat: Category) => categoryIds.includes(cat.ID));
-          }
-        }
-
-        dispatch(
-          actions.setSelectedVariable({
-            id: variable.id,
-            label: variable.label,
-            name: variable.name,
-            description,
-            type: variable.type,
-            isGeographic,
-            textRepresentation,
-            numericRepresentation,
-            dateRepresentation,
-            codeRepresentation,
-            codeList,
-            categories,
-          }),
-        );
+        return;
       }
+
+      // Sinon, trouver la variable complète dans les données brutes
+      const fullVariable = data?.Variable?.find(
+        (v: Variable) => v.ID === variable.id,
+      );
+
+      // Charger les informations complètes de la variable si trouvée
+      const description =
+        pickLang(fullVariable?.Description, "fr-FR") || undefined;
+      const isGeographic = fullVariable?.["@isGeographic"] === "true";
+      const textRepresentation =
+        fullVariable?.VariableRepresentation?.TextRepresentation;
+      const numericRepresentation =
+        fullVariable?.VariableRepresentation?.NumericRepresentation;
+      const dateRepresentation =
+        fullVariable?.VariableRepresentation?.DateTimeRepresentation;
+      const codeRepresentation =
+        fullVariable?.VariableRepresentation?.CodeRepresentation;
+
+      // Les CodeList et Category ne sont plus dans la GET PI : on les charge à la
+      // demande quand l'utilisateur ouvre une variable Code (cache via react-query).
+      let codeList: CodeList | undefined;
+      let categories: Category[] | undefined;
+      if (codeRepresentation) {
+        const loaded = await loadCodeListForVariable(
+          queryClient,
+          codeRepresentation,
+        );
+        codeList = loaded.codeList;
+        categories = loaded.categories;
+      }
+
+      dispatch(
+        actions.setSelectedVariable({
+          id: variable.id,
+          label: variable.label,
+          name: variable.name,
+          description,
+          type: variable.type,
+          isGeographic,
+          textRepresentation,
+          numericRepresentation,
+          dateRepresentation,
+          codeRepresentation,
+          codeList,
+          categories,
+        }),
+      );
     },
-    [data, state.localVariables],
+    [data, state.localVariables, queryClient],
   );
 
   // Restore selected variable from URL on initial load
@@ -312,7 +361,9 @@ export const Component = () => {
       initialRestoreDone.current = true;
       const variableId = searchParams.get("variableId");
       if (variableId) {
-        const variable = variables.find((v: VariableTableData) => v.id === variableId);
+        const variable = variables.find(
+          (v: VariableTableData) => v.id === variableId,
+        );
         if (variable) {
           handleVariableClick(variable);
         }
@@ -333,16 +384,22 @@ export const Component = () => {
 
   // Navigation entre les variables (circulaire)
   const currentVariableIndex = useMemo(() => {
-    if (!state.selectedVariable || state.selectedVariable.id === "new") return -1;
-    return filteredVariables.findIndex((v) => v.id === state.selectedVariable?.id);
+    if (!state.selectedVariable || state.selectedVariable.id === "new")
+      return -1;
+    return filteredVariables.findIndex(
+      (v) => v.id === state.selectedVariable?.id,
+    );
   }, [filteredVariables, state.selectedVariable]);
 
-  const hasVariablesToNavigate = filteredVariables.length > 1 && currentVariableIndex >= 0;
+  const hasVariablesToNavigate =
+    filteredVariables.length > 1 && currentVariableIndex >= 0;
 
   const handlePreviousVariable = useCallback(() => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const previousIndex =
-        currentVariableIndex === 0 ? filteredVariables.length - 1 : currentVariableIndex - 1;
+        currentVariableIndex === 0
+          ? filteredVariables.length - 1
+          : currentVariableIndex - 1;
       handleVariableClick(filteredVariables[previousIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
@@ -350,7 +407,9 @@ export const Component = () => {
   const handleNextVariable = useCallback(() => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const nextIndex =
-        currentVariableIndex === filteredVariables.length - 1 ? 0 : currentVariableIndex + 1;
+        currentVariableIndex === filteredVariables.length - 1
+          ? 0
+          : currentVariableIndex + 1;
       handleVariableClick(filteredVariables[nextIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
@@ -451,13 +510,22 @@ export const Component = () => {
       };
 
       // Si on a des variables locales ou des suppressions, mettre à jour les variables
-      if (state.localVariables.length > 0 || state.deletedVariableIds.length > 0) {
+      if (
+        state.localVariables.length > 0 ||
+        state.deletedVariableIds.length > 0
+      ) {
         const existingVariables = data?.Variable || [];
-        const variableMap = new Map(existingVariables.map((v: Variable) => [v.ID, v]));
+        const variableMap = new Map(
+          existingVariables.map((v: Variable) => [v.ID, v]),
+        );
 
         // Maps pour gérer les CodeLists et Categories
-        const codeListMap = new Map((data?.CodeList || []).map((cl: any) => [cl.ID, cl]));
-        const categoryMap = new Map((data?.Category || []).map((cat: any) => [cat.ID, cat]));
+        const codeListMap = new Map(
+          (data?.CodeList || []).map((cl: any) => [cl.ID, cl]),
+        );
+        const categoryMap = new Map(
+          (data?.Category || []).map((cat: any) => [cat.ID, cat]),
+        );
 
         // Supprimer les variables marquées comme supprimées
         state.deletedVariableIds.forEach((deletedId) => {
@@ -495,8 +563,8 @@ export const Component = () => {
                   const category = localVar.categories?.find(
                     (cat) => cat.ID === code.CategoryReference?.ID,
                   );
-                  const label = category?.Label?.Content?.["#text"] || "";
-                  const value = code.Value || "";
+                  const label = pickLang(category?.Label, "fr-FR") ?? "";
+                  const value = code.Value?.StringValue ?? "";
                   return value.trim() !== "" || label.trim() !== "";
                 }),
               };
@@ -510,8 +578,8 @@ export const Component = () => {
                     const category = localVar.categories?.find(
                       (cat) => cat.ID === code.CategoryReference?.ID,
                     );
-                    const label = category?.Label?.Content?.["#text"] || "";
-                    const value = code.Value || "";
+                    const label = pickLang(category?.Label, "fr-FR") ?? "";
+                    const value = code.Value?.StringValue ?? "";
                     return value.trim() !== "" || label.trim() !== "";
                   })
                   .map((code: Code) => code.CategoryReference?.ID),
@@ -528,7 +596,9 @@ export const Component = () => {
               ...localVar.codeRepresentation,
               CodeListReference: {
                 ...localVar.codeRepresentation.CodeListReference,
-                ID: localVar.codeList?.ID || localVar.codeRepresentation.CodeListReference.ID,
+                ID:
+                  localVar.codeList?.ID ||
+                  localVar.codeRepresentation.CodeListReference.ID,
               },
             };
 
@@ -538,34 +608,19 @@ export const Component = () => {
           }
 
           const ddiVariable: Variable = {
-            "@isUniversallyUnique": "true",
-            "@versionDate": new Date().toISOString(),
+            $type: "Variable",
+            VersionDate: { DateTime: new Date().toISOString() },
             URN: `urn:ddi:${agencyId}:${localVar.id}:1`,
             Agency: agencyId!,
             ID: localVar.id,
             Version: "1",
-            VariableName: {
-              String: {
-                "@xml:lang": "fr-FR",
-                "#text": localVar.name,
-              },
-            },
-            Label: {
-              Content: {
-                "@xml:lang": "fr-FR",
-                "#text": localVar.label,
-              },
-            },
+            VariableName: singletonEntries("fr-FR", localVar.name),
+            Label: singletonEntries("fr-FR", localVar.label),
             ...(localVar.description && {
-              Description: {
-                Content: {
-                  "@xml:lang": "fr-FR",
-                  "#text": localVar.description,
-                },
-              },
+              Description: singletonEntries("fr-FR", localVar.description),
             }),
             ...(localVar.isGeographic && {
-              "@isGeographic": "true",
+              IsGeographic: true,
             }),
             ...(variableRepresentation && {
               VariableRepresentation: variableRepresentation,
@@ -583,17 +638,21 @@ export const Component = () => {
       }
 
       // Mettre à jour les références de variables dans LogicalRecord
-      if (mergedData.DataRelationship?.[0]?.LogicalRecord && mergedData.Variable) {
+      if (
+        mergedData.DataRelationship?.[0]?.LogicalRecord?.[0] &&
+        mergedData.Variable
+      ) {
         const allVariableIds = mergedData.Variable.map((v: Variable) => v.ID);
 
         const variableReferences = allVariableIds.map((varId: string) => ({
+          $type: "Variable" as const,
+          URN: `urn:ddi:${agencyId}:${varId}:1`,
           Agency: agencyId!,
           ID: varId,
           Version: "1",
-          TypeOfObject: "Variable",
         }));
 
-        mergedData.DataRelationship[0].LogicalRecord.VariablesInRecord = {
+        mergedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord = {
           VariableUsedReference: variableReferences,
         };
       }
@@ -626,7 +685,15 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     }
-  }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
+  }, [
+    id,
+    agencyId,
+    data,
+    state.localVariables,
+    state.deletedVariableIds,
+    savePhysicalInstance,
+    t,
+  ]);
 
   const handleDuplicatePhysicalInstance = useCallback(async () => {
     try {
@@ -646,7 +713,9 @@ export const Component = () => {
       });
 
       // Rediriger vers la page de la nouvelle physical instance
-      navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
+      navigate(
+        `/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`,
+      );
 
       toast.current?.show({
         severity: "success",
@@ -659,7 +728,9 @@ export const Component = () => {
         severity: "error",
         summary: t("physicalInstance.view.duplicateError"),
         detail:
-          err instanceof Error ? err.message : t("physicalInstance.view.duplicateErrorDetail"),
+          err instanceof Error
+            ? err.message
+            : t("physicalInstance.view.duplicateErrorDetail"),
         life: TOAST_DURATION,
       });
     }
@@ -674,69 +745,79 @@ export const Component = () => {
       <div role="alert" aria-live="assertive">
         <Message
           severity="error"
-          text={error instanceof Error ? error.message : t("physicalInstance.view.errorLoading")}
+          text={
+            error instanceof Error
+              ? error.message
+              : t("physicalInstance.view.errorLoading")
+          }
         />
       </div>
     );
   }
 
   return (
-    <div className="flex" role="main">
+    <>
       <div
-        className={state.selectedVariable ? "col-6" : "col-12"}
-        style={{
-          width: state.selectedVariable ? "50%" : "100%",
-          transition: "width 0.3s ease",
-        }}
+        className={`pi-layout${state.selectedVariable ? " pi-open" : ""}`}
+        role="main"
       >
-        <div className="sticky-header">
-          <PhysicalInstanceHeader
-            label={state.formData.label || title}
-            onSave={handleSaveEdit}
-            onLanguageChange={setSelectedLanguage}
-          />
+        <div className="pi-col-main">
+          <div className="sticky-header">
+            <PhysicalInstanceHeader
+              label={state.formData.label || title}
+              onSave={handleSaveEdit}
+              group={currentGroup}
+              studyUnit={currentStudyUnit}
+              stamps={currentStamps}
+            />
 
-          <SearchFilters
-            searchValue={state.searchValue}
-            onSearchChange={handleSearchChange}
-            typeFilter={state.typeFilter}
-            onTypeFilterChange={handleTypeFilterChange}
-            typeOptions={typeOptions}
-            onNewVariable={handleNewVariable}
-            onSaveAll={handleSaveAll}
-            hasLocalChanges={hasUnsavedChanges}
+            <SearchFilters
+              searchValue={state.searchValue}
+              onSearchChange={handleSearchChange}
+              typeFilter={state.typeFilter}
+              onTypeFilterChange={handleTypeFilterChange}
+              typeOptions={typeOptions}
+              onNewVariable={handleNewVariable}
+              onSaveAll={handleSaveAll}
+              hasLocalChanges={hasUnsavedChanges}
+              stamps={currentStamps}
+            />
+          </div>
+
+          <GlobalActionsCard
+            variables={filteredVariables}
+            onExport={handleExport}
+            onDuplicate={handleDuplicatePhysicalInstance}
+            onRowClick={handleVariableClick}
+            onDeleteClick={handleDeleteVariable}
+            unsavedVariableIds={unsavedVariableIds}
+            selectedVariableId={state.selectedVariable?.id}
+            stamps={currentStamps}
           />
         </div>
-
-        <GlobalActionsCard
-          variables={filteredVariables}
-          onExport={handleExport}
-          onDuplicate={handleDuplicatePhysicalInstance}
-          onRowClick={handleVariableClick}
-          onDeleteClick={handleDeleteVariable}
-          unsavedVariableIds={unsavedVariableIds}
-          selectedVariableId={state.selectedVariable?.id}
-        />
+        <div className="pi-col-side">
+          {state.selectedVariable && (
+            <div className="variable-edit-sidebar" role="complementary">
+              <VariableEditForm
+                variable={state.selectedVariable}
+                typeOptions={variableTypeOptions}
+                isNew={state.selectedVariable.id === "new"}
+                onSave={handleVariableSave}
+                onDuplicate={handleVariableDuplicate}
+                onPrevious={handlePreviousVariable}
+                onNext={handleNextVariable}
+                hasPrevious={hasVariablesToNavigate}
+                hasNext={hasVariablesToNavigate}
+                stamps={currentStamps}
+              />
+            </div>
+          )}
+        </div>
       </div>
-      {state.selectedVariable && (
-        <div className="col-6 variable-edit-sidebar" role="complementary">
-          <VariableEditForm
-            variable={state.selectedVariable}
-            typeOptions={variableTypeOptions}
-            isNew={state.selectedVariable.id === "new"}
-            onSave={handleVariableSave}
-            onDuplicate={handleVariableDuplicate}
-            onPrevious={handlePreviousVariable}
-            onNext={handleNextVariable}
-            hasPrevious={hasVariablesToNavigate}
-            hasNext={hasVariablesToNavigate}
-          />
-        </div>
-      )}
 
       <ConfirmDialog />
       <Toast ref={toast} />
       <DdiDevTools data={data} dataByLangs={dataByLangs} />
-    </div>
+    </>
   );
 };

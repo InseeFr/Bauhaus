@@ -1,6 +1,17 @@
+// Front-end view of the DDI 4 Physical Instance REST contract.
+//
+// Most interfaces alias the generated `components["schemas"][...]` type from
+// `generated/ddi.ts`. A handful stay local because the back diverges from the
+// schema on purpose — see comments by each local declaration.
+
+import type { components } from "./generated/ddi";
+
+export type { LangString } from "../../utils/multilingual";
+
+// Wire envelope; not a DDI 4 type.
 export interface PhysicalInstanceResponse {
   $schema?: string;
-  topLevelReference?: TopLevelReference[];
+  TopLevelReference?: Reference[];
   PhysicalInstance?: PhysicalInstance[];
   DataRelationship?: DataRelationship[];
   Variable?: Variable[];
@@ -8,92 +19,18 @@ export interface PhysicalInstanceResponse {
   Category?: Category[];
 }
 
-export interface TopLevelReference {
-  Agency: string;
-  ID: string;
-  Version: string;
-  TypeOfObject: string;
-}
+export type Reference = components["schemas"]["reference"];
 
-export interface PhysicalInstance {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Citation: Citation;
-  DataRelationshipReference: Reference;
-}
+export type PhysicalInstance = components["schemas"]["PhysicalInstance"];
+export type DataRelationship = components["schemas"]["DataRelationship"];
+export type LogicalRecord = components["schemas"]["LogicalRecordType"];
+export type Category = components["schemas"]["Category"];
 
-export interface Citation {
-  Title: Title;
-}
-
-export interface Title {
-  String: MultiLocalizedString;
-}
-
-export interface LocalizedString {
-  "@xml:lang": string;
-  "#text": string;
-}
-
-export type MultiLocalizedString = LocalizedString | LocalizedString[];
-
-export interface Reference {
-  Agency: string;
-  ID: string;
-  Version: string;
-  TypeOfObject: string;
-}
-
-export interface DataRelationship {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Label?: LabelContent;
-  LogicalRecord: LogicalRecord;
-}
-
-export interface LocalizedContent {
-  String: MultiLocalizedString;
-}
-
-export interface LogicalRecord {
-  "@isUniversallyUnique"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Label?: LabelContent;
-  VariablesInRecord: VariablesInRecord;
-}
-
-export interface VariablesInRecord {
-  VariableUsedReference: Reference[];
-}
-
-export interface Variable {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  "@isGeographic"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  VariableName: LocalizedContent;
-  Label: LabelContent;
-  Description?: LabelContent;
+// Variable: override VariableRepresentation since the back flattens the
+// schema's polymorphic ValueRepresentation into one field per kind.
+export type Variable = Omit<components["schemas"]["Variable"], "VariableRepresentation"> & {
   VariableRepresentation?: VariableRepresentation;
-}
-
-export interface LabelContent {
-  Content: MultiLocalizedString;
-}
+};
 
 export interface VariableRepresentation {
   VariableRole?: string;
@@ -103,75 +40,43 @@ export interface VariableRepresentation {
   TextRepresentation?: TextRepresentation;
 }
 
-export interface CodeRepresentation {
-  "@blankIsMissingValue": string;
-  CodeListReference: Reference;
-}
+export type CodeRepresentation = components["schemas"]["CodeRepresentationBaseType"];
+export type TextRepresentation = components["schemas"]["TextRepresentationBaseType"];
 
+// NumericRepresentation/DateTimeRepresentation diverge from the schema:
+//   - schema's NumericTypeCode / DateTypeCode are CodeValueType objects; the
+//     back sends plain strings.
+//   - schema's NumberRange is an array; the back sends a single object.
+// Kept local until the back closes that gap.
 export interface NumericRepresentation {
-  NumericTypeCode: string;
+  $type?: "NumericRepresentationBaseType";
+  NumericTypeCode?: string;
   NumberRange?: NumberRange;
+  BlankIsMissingValue?: boolean;
 }
 
 export interface DateTimeRepresentation {
-  DateTypeCode: string;
-}
-
-export interface TextRepresentation {
-  "@minLength"?: string;
-  "@maxLength"?: string;
-  "@regExp"?: string;
+  $type?: "DateTimeRepresentationBaseType";
+  DateTypeCode?: string;
+  DateFieldFormat?: string;
 }
 
 export interface NumberRange {
-  Low: RangeValue;
-  High: RangeValue;
+  Low?: RangeValue;
+  High?: RangeValue;
 }
 
+// Schema spells the numeric value `DecimalValue`; the back currently emits
+// `value`. Kept local until the back closes that gap.
 export interface RangeValue {
-  "@isInclusive": string;
-  "#text": string;
+  IsInclusive?: boolean;
+  value?: number;
 }
 
-export interface CodeList {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Label?: LabelContent;
-  Code?: Code[];
-  BasedOnObject?: BasedOnObject;
-}
+export type CodeList = components["schemas"]["CodeList"];
+export type Code = components["schemas"]["CodeType"];
 
-export interface Code {
-  "@isUniversallyUnique"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  CategoryReference: Reference;
-  Value: string;
-}
-
-export interface Category {
-  "@isUniversallyUnique"?: string;
-  "@versionDate"?: string;
-  URN: string;
-  Agency: string;
-  ID: string;
-  Version: string;
-  Label: LabelContent;
-  BasedOnObject?: BasedOnObject;
-}
-
-export interface BasedOnObject {
-  BasedOnReference: Reference;
-  BasedOnRationaleCode: string;
-}
-
-// Type pour les données transformées affichées dans le tableau
+// UI-only row model used by the variables table; not a DDI type.
 export interface VariableTableData {
   id: string;
   name: string;

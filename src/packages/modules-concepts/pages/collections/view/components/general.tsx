@@ -1,8 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
+import { PublicationFemale } from "@components/status";
+import type { ValidationState } from "@components/status";
 
-import { D1, D2 } from "../../../../../deprecated-locales";
 import { isEmpty } from "@utils/value-utils";
 import { InseeOrganisation } from "@components/business/organisations/organisations";
 
@@ -11,7 +14,7 @@ interface CollectionAttribute {
   modified?: string;
   creator?: string | string[];
   contributor?: string | string[];
-  isValidated?: boolean;
+  validationState?: ValidationState;
   descriptionLg1?: string;
   descriptionLg2?: string;
 }
@@ -21,7 +24,7 @@ interface CollectionGeneralProps {
   secondLang?: boolean;
 }
 
-type FieldName = "creator" | "contributor" | "isValidated";
+type FieldName = "creator" | "contributor" | "validationState";
 
 // Helper functions to render specific field types with type safety
 const renderOrganisationField = (
@@ -37,12 +40,15 @@ const renderOrganisationField = (
 };
 
 const renderValidationField = (
-  fieldName: "isValidated",
+  fieldName: "validationState",
   label: string,
-  value: boolean,
+  value: ValidationState,
 ): JSX.Element => {
-  const status = value === false ? D1.collectionStatusProvisional : D1.collectionStatusValid;
-  return <li key={fieldName}>{`${label}: ${status}`}</li>;
+  return (
+    <li key={fieldName}>
+      {label}: <PublicationFemale object={{ validationState: value }} />
+    </li>
+  );
 };
 
 // Main helper function with type guards
@@ -60,8 +66,8 @@ const renderFieldItem = (
     case "contributor":
       return renderOrganisationField(fieldName, label, value as string);
 
-    case "isValidated":
-      return renderValidationField(fieldName, label, value as boolean);
+    case "validationState":
+      return renderValidationField(fieldName, label, value as ValidationState);
 
     default:
       // This should never happen due to FieldName type, but TypeScript needs this
@@ -70,17 +76,21 @@ const renderFieldItem = (
 };
 
 function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps>) {
+  const { i18n } = useTranslation();
+  const t1 = i18n.getFixedT("fr");
+  const t2 = i18n.getFixedT("en");
+
   const fields: readonly { name: FieldName; label: string }[] = [
-    { name: "creator", label: D1.creatorTitle },
-    { name: "contributor", label: D1.contributorTitle },
-    { name: "isValidated", label: D1.isCollectionValidTitle },
+    { name: "creator", label: t1("common.creatorTitle") },
+    { name: "contributor", label: t1("collection.general.contributorTitle") },
+    { name: "validationState", label: t1("collection.general.isCollectionValidTitle") },
   ] as const;
 
   return (
     <>
       <Row>
         <Note
-          title={D1.globalInformationsTitle}
+          title={t1("common.globalInformationsTitle")}
           alone={true}
           text={
             <ul>
@@ -92,9 +102,13 @@ function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps
       </Row>
       {attr.descriptionLg1 && (
         <Row>
-          <Note text={attr.descriptionLg1} title={D1.descriptionTitle} alone={!secondLang} />
+          <Note
+            text={attr.descriptionLg1}
+            title={t1("common.descriptionTitle")}
+            alone={!secondLang}
+          />
           {secondLang && (
-            <Note text={attr.descriptionLg2} title={D2.descriptionTitle} alone={false} />
+            <Note text={attr.descriptionLg2} title={t2("common.descriptionTitle")} alone={false} />
           )}
         </Row>
       )}

@@ -6,6 +6,8 @@ import { Column } from "primereact/column";
 import { OverlayPanel } from "primereact/overlaypanel";
 import { useTranslation } from "react-i18next";
 
+import "./CodeListDataTable.css";
+
 export interface CodeTableRow {
   id: string;
   value: string;
@@ -22,6 +24,7 @@ interface CodeListDataTableProps {
   onDeleteCode: (codeId: string) => void;
   onAddCode: (value: string, label: string) => void;
   onMoveCode?: (codeId: string, direction: "up" | "down") => void;
+  readOnly?: boolean;
 }
 
 export const CodeListDataTable = ({
@@ -32,8 +35,11 @@ export const CodeListDataTable = ({
   onDeleteCode,
   onAddCode,
   onMoveCode,
+  readOnly = false,
 }: Readonly<CodeListDataTableProps>) => {
   const { t } = useTranslation();
+  // Grise les champs d'une liste réutilisée (mutualisée) pour signaler qu'ils ne sont pas éditables.
+  const readOnlyClassName = readOnly ? "code-list-readonly-input" : "";
   const overlayRefs = useRef<Map<string, OverlayPanel | null>>(new Map());
   const inputRefs = useRef<Map<string, HTMLInputElement | null>>(new Map());
   const [shouldFocusNewCode, setShouldFocusNewCode] = useState(false);
@@ -65,8 +71,9 @@ export const CodeListDataTable = ({
         value={rowData.value}
         onChange={(e) => onCellEdit(rowData, "value", e.target.value)}
         placeholder={t("physicalInstance.view.code.value")}
-        className="w-full"
+        className={`w-full ${readOnlyClassName}`.trim()}
         aria-label={t("physicalInstance.view.code.value")}
+        readOnly={readOnly}
         ref={(el) => {
           if (el) {
             inputRefs.current.set(rowData.id, el);
@@ -83,8 +90,9 @@ export const CodeListDataTable = ({
         value={rowData.label}
         onChange={(e) => onCellEdit(rowData, "label", e.target.value)}
         placeholder={t("physicalInstance.view.code.label")}
-        className="w-full"
+        className={`w-full ${readOnlyClassName}`.trim()}
         aria-label={t("physicalInstance.view.code.label")}
+        readOnly={readOnly}
       />
     );
   };
@@ -174,8 +182,11 @@ export const CodeListDataTable = ({
           id="code-list-label"
           name="codeListLabel"
           autoComplete="off"
+          autoFocus
           value={codeListLabel}
           onChange={(e) => onCodeListLabelChange(e.target.value)}
+          readOnly={readOnly}
+          className={readOnlyClassName || undefined}
         />
       </div>
       <DataTable
@@ -195,19 +206,23 @@ export const CodeListDataTable = ({
           header={t("physicalInstance.view.code.label")}
           body={(rowData) => labelEditor(rowData)}
         />
-        <Column
-          body={(rowData, options) => actionBodyTemplate(rowData, options)}
-          style={{ width: "5rem" }}
-        />
+        {!readOnly && (
+          <Column
+            body={(rowData, options) => actionBodyTemplate(rowData, options)}
+            style={{ width: "5rem" }}
+          />
+        )}
       </DataTable>
-      <Button
-        type="button"
-        icon="pi pi-plus"
-        label={t("physicalInstance.view.code.addCode")}
-        outlined
-        onClick={handleAddCode}
-        className="mt-2"
-      />
+      {!readOnly && (
+        <Button
+          type="button"
+          icon="pi pi-plus"
+          label={t("physicalInstance.view.code.addCode")}
+          outlined
+          onClick={handleAddCode}
+          className="mt-2"
+        />
+      )}
     </>
   );
 };

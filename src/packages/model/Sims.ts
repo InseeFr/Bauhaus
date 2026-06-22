@@ -18,6 +18,8 @@ export interface Sims {
   validationState: ValidationState;
   parentsWithoutSims: any[];
   rubrics: Rubric[];
+  updated?: string;
+  created?: string;
 }
 
 export interface MetadataStructure {

@@ -135,6 +135,12 @@ vi.mock("../../utils/hooks/organizations", () => ({
   useOrganizationsOptions: () => {
     return organisations;
   },
+  useOrganizations: () => ({
+    data: [
+      { iri: "Acoss", id: "Acoss", label: "Acoss" },
+      { iri: "DG75-A040", id: "DG75-A040", label: "DG75-A040" },
+    ],
+  }),
 }));
 
 describe("<SearchFormList />", () => {

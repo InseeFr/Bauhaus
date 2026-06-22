@@ -7,6 +7,9 @@ const api = {
   getPhysicalInstance: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id,
   ],
+  getPhysicalInstanceParents: (agencyId: string, id: string) => [
+    "physical-instance/" + agencyId + "/" + id + "/parents",
+  ],
   postPhysicalInstance: (data: {
     physicalInstanceLabel: string;
     dataRelationshipLabel: string;
@@ -71,11 +74,16 @@ const api = {
     },
     (res: Response) => res.text(),
   ],
-  getCodesLists: () => ["codes-list"],
   getPhysicalCodesLists: (agencyId: string, physicalInstanceId: string) => [
     `physical-instance/${agencyId}/${physicalInstanceId}/codeslists`,
   ],
+  getGroupCodesLists: (agencyId: string, groupId: string) => [
+    `groups/${agencyId}/${groupId}/codes-list`,
+  ],
   getMutualizedCodesLists: () => ["mutualized-codes-list"],
+  getMutualizedCodesList: (agencyId: string, id: string) => [
+    `mutualized-codes-list/${agencyId}/${id}`,
+  ],
 };
 
 export const DDIApi = buildApi("ddi", api) as any;

@@ -1,2 +1,5 @@
-export const prefixWithHttp = (str: string) =>
-  str ? (/^http(s?):\/\//.test(str) ? str : `http://${str}`) : "";
+export const prefixWithHttp = (str: string) => {
+  if (!str) return "";
+  if (/^http(s?):\/\//.test(str)) return str;
+  return `http://${str}`;
+};

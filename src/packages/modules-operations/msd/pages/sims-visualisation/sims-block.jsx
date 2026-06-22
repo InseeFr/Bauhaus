@@ -16,7 +16,6 @@ const SimsBlock = ({
   currentSection = {},
   unbounded = false,
   codesLists,
-  organisations,
 }) => {
   if (!msd.masLabelLg1) {
     return null;
@@ -42,11 +41,7 @@ const SimsBlock = ({
           />
         )}
         {currentSection.rangeType === ORGANIZATION && (
-          <SimsBlockOrganisation
-            organisations={organisations}
-            currentSection={currentSection}
-            isSecondLang={isSecondLang}
-          />
+          <SimsBlockOrganisation currentSection={currentSection} />
         )}
         {currentSection.rangeType === GEOGRAPHY && (
           <SimsBlockGeography currentSection={currentSection} isSecondLang={isSecondLang} />

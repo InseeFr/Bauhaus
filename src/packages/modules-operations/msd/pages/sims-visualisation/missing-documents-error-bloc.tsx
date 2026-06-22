@@ -28,10 +28,12 @@ export const MissingDocumentsErrorBloc = ({
   if (!missingDocuments || missingDocuments?.size === 0) return null;
   if (documentStores.length === 0) return null;
 
+  const documentStoresById = new Map(documentStores.map((d) => [d.id, d]));
+
   return (
     <ErrorBloc
       error={D.missingDocumentWhenExportingSims(
-        Array.from(missingDocuments).map((id) => documentStores.find((d) => d.id === id)?.labelLg1),
+        Array.from(missingDocuments).map((id) => documentStoresById.get(id)?.labelLg1),
       )}
       D={D}
     />

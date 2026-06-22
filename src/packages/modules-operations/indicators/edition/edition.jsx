@@ -1,6 +1,7 @@
 import { Component } from "react";
 
 import { CreatorsInput } from "@components/business/creators-input";
+import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { InputRmes } from "@components/input-rmes";
 import LabelRequired from "@components/label-required";
@@ -129,8 +130,6 @@ class OperationsIndicatorEdition extends Component {
     const indicator = {
       ...this.state.indicator,
       seeAlso: (this.state.indicator.seeAlso || []).map((link) => link.id),
-      contributors: (this.state.indicator.contributors || []).map((link) => link.id),
-      publishers: (this.state.indicator.publishers || []).map((link) => link.id),
       wasGeneratedBy: (this.state.indicator.wasGeneratedBy || []).map((link) => link.id),
       replaces: (this.state.indicator.replaces || []).map((link) => link.id),
       replacedBy: (this.state.indicator.isReplacedBy || []).map((link) => link.id),
@@ -277,12 +276,14 @@ class OperationsIndicatorEdition extends Component {
               <PublishersInput
                 value={indicator.publishers}
                 onChange={this.onChange("publishers")}
+                required={false}
               />
             </div>
           </Row>
           <Row>
             <div className="form-group col-md-12">
               <CreatorsInput
+                mode="organisation"
                 value={indicator.creators}
                 onChange={this.onChange("creators")}
                 multi
@@ -295,22 +296,15 @@ class OperationsIndicatorEdition extends Component {
           </Row>
           <Row>
             <div className="form-group col-md-12">
-              <label className="w-100">
-                {D1.stakeholders}
-                <Select
-                  value={indicator.contributors}
-                  options={organisationsOptions}
-                  placeholder=""
-                  multi
-                  onChange={(value) =>
-                    this.onChange("contributors")(
-                      value.map((v) => {
-                        return { id: v };
-                      }),
-                    )
-                  }
-                />
-              </label>
+              <OrganisationInput
+                multi
+                required={false}
+                lang="first"
+                labelSingle={D1.stakeholders}
+                labelMulti={D1.stakeholders}
+                value={indicator.contributors}
+                onChange={this.onChange("contributors")}
+              />
             </div>
           </Row>
           <Row>

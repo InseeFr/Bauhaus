@@ -8,22 +8,10 @@ vi.mock("react-i18next", () => ({
       const translations: Record<string, string> = {
         "physicalInstance.view.columns.type": "Type",
         "physicalInstance.view.selectType": "Sélectionnez un type",
-        "physicalInstance.view.isGeographic": "Variable géographique",
       };
       return translations[key] || key;
     },
   }),
-}));
-
-vi.mock("primereact/checkbox", () => ({
-  Checkbox: ({ inputId, checked, onChange }: any) => (
-    <input
-      type="checkbox"
-      id={inputId}
-      checked={checked}
-      onChange={(e) => onChange({ checked: e.target.checked })}
-    />
-  ),
 }));
 
 vi.mock("primereact/dropdown", () => ({
@@ -62,7 +50,7 @@ vi.mock("../DateRepresentation/DateRepresentation", () => ({
 vi.mock("../TextRepresentation/TextRepresentation", () => ({
   TextRepresentation: ({ onChange }: any) => (
     <div data-testid="text-representation">
-      <button onClick={() => onChange({ "@maxLength": "100" })}>Set Text</button>
+      <button onClick={() => onChange({ MaxLength: 100 })}>Set Text</button>
     </div>
   ),
 }));
@@ -70,13 +58,12 @@ vi.mock("../TextRepresentation/TextRepresentation", () => ({
 vi.mock("../CodeRepresentation/CodeRepresentation", () => ({
   CodeRepresentation: ({ onChange }: any) => (
     <div data-testid="code-representation">
-      <button onClick={() => onChange({ "@blankIsMissingValue": "false" })}>Set Code</button>
+      <button onClick={() => onChange({ BlankIsMissingValue: false })}>Set Code</button>
     </div>
   ),
 }));
 
 describe("VariableRepresentationTab", () => {
-  const mockOnIsGeographicChange = vi.fn();
   const mockOnTypeChange = vi.fn();
   const mockOnNumericRepresentationChange = vi.fn();
   const mockOnDateRepresentationChange = vi.fn();
@@ -92,10 +79,8 @@ describe("VariableRepresentationTab", () => {
 
   const defaultProps = {
     variableId: "var-1",
-    isGeographic: false,
     selectedType: "numeric",
     typeOptions,
-    onIsGeographicChange: mockOnIsGeographicChange,
     onTypeChange: mockOnTypeChange,
     onNumericRepresentationChange: mockOnNumericRepresentationChange,
     onDateRepresentationChange: mockOnDateRepresentationChange,
@@ -105,23 +90,6 @@ describe("VariableRepresentationTab", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-  });
-
-  it("should render isGeographic checkbox", () => {
-    render(<VariableRepresentationTab {...defaultProps} />);
-
-    const checkbox = screen.getByLabelText("Variable géographique") as HTMLInputElement;
-    expect(checkbox).toBeInTheDocument();
-    expect(checkbox.checked).toBe(false);
-  });
-
-  it("should call onIsGeographicChange when checkbox is clicked", () => {
-    render(<VariableRepresentationTab {...defaultProps} />);
-
-    const checkbox = screen.getByLabelText("Variable géographique");
-    fireEvent.click(checkbox);
-
-    expect(mockOnIsGeographicChange).toHaveBeenCalledWith(true);
   });
 
   it("should render type dropdown with correct value", () => {
@@ -201,7 +169,7 @@ describe("VariableRepresentationTab", () => {
     fireEvent.click(button);
 
     expect(mockOnTextRepresentationChange).toHaveBeenCalledWith({
-      "@maxLength": "100",
+      MaxLength: 100,
     });
   });
 
@@ -212,7 +180,7 @@ describe("VariableRepresentationTab", () => {
     fireEvent.click(button);
 
     expect(mockOnCodeRepresentationChange).toHaveBeenCalledWith({
-      "@blankIsMissingValue": "false",
+      BlankIsMissingValue: false,
     });
   });
 });

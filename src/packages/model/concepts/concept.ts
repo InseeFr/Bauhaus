@@ -1,22 +1,39 @@
 import { BROADER, IS_REPLACED_BY, NARROWER, REFERENCES, RELATED, SUCCEED } from "@sdk/constants";
 
+import type { ValidationState } from "@components/status";
 import { linkTypes } from "../../modules-concepts/utils/links";
+
+export interface PartialConcept {
+  id: string;
+  label: string;
+  altLabel: string | null;
+  _links: {
+    self: { href: string };
+  };
+}
+
+export interface UnpublishedConcept {
+  id: string;
+  label: string;
+  creator: string;
+}
 
 export interface ConceptGeneral {
   id: string;
   prefLabelLg1: string;
-  prefLabelLg2: string;
-  altLabelLg1?: string[] | string;
-  altLabelLg2?: string[] | string;
+  prefLabelLg2?: string;
+  altLabelLg1?: string[];
+  altLabelLg2?: string[];
   conceptVersion: string;
   creator: string;
-  contributor: string;
+  contributor?: string;
   disseminationStatus: string;
   created: string;
-  modified: string;
-  isValidated: string;
-  valid: boolean;
+  modified?: string;
+  validationState: ValidationState;
+  valid?: string;
   additionalMaterial?: string;
+  collections: string[];
 }
 
 export interface ConceptNotes {

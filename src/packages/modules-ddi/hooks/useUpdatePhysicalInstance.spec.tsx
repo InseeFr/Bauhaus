@@ -63,7 +63,7 @@ describe("useUpdatePhysicalInstance", () => {
     const mockPatch = vi.fn().mockResolvedValue({});
     (DDIApi.patchPhysicalInstance as any) = mockPatch;
 
-    const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
     const { result } = renderHook(() => useUpdatePhysicalInstance(), {
       wrapper,
@@ -83,6 +83,33 @@ describe("useUpdatePhysicalInstance", () => {
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
       queryKey: ["physicalInstances"],
+    });
+  });
+
+  it("should invalidate the edited physical instance detail cache on success", async () => {
+    const mockPatch = vi.fn().mockResolvedValue({});
+    (DDIApi.patchPhysicalInstance as any) = mockPatch;
+
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    const { result } = renderHook(() => useUpdatePhysicalInstance(), {
+      wrapper,
+    });
+
+    const testData = {
+      id: "test-id-123",
+      agencyId: "test-agency-456",
+      data: {
+        physicalInstanceLabel: "Test Label",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
+      },
+    };
+
+    await result.current.mutateAsync(testData);
+
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+      queryKey: ["physicalInstanceById", "test-agency-456", "test-id-123"],
     });
   });
 

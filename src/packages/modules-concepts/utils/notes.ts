@@ -34,7 +34,7 @@ export const buildNotes = (n: ConceptNotes) => [
   { lg1: n.changeNoteLg1, lg2: n.changeNoteLg2, title: "conceptsChangeNote" },
 ];
 
-export const processChanges = (
+const processChanges = (
   oldNotes: ConceptNotes,
   notes: ConceptNotes,
   fields: (keyof ConceptNotes)[],
@@ -55,7 +55,7 @@ export const processChanges = (
     [],
   );
 
-export const processNotes = (notesToKeep: ConceptNotes, fields: (keyof ConceptNotes)[]) =>
+const processNotes = (notesToKeep: ConceptNotes, fields: (keyof ConceptNotes)[]) =>
   fields.reduce((notes: { noteType: string; content: string }[], noteType: keyof ConceptNotes) => {
     const content = notesToKeep[noteType];
     if (content)

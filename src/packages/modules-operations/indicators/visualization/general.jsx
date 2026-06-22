@@ -3,7 +3,6 @@ import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationMale } from "@components/status";
 
-import { useOrganizations } from "@utils/hooks/organizations";
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
@@ -11,7 +10,6 @@ import { D1, D2 } from "../../../deprecated-locales";
 import D from "../../../deprecated-locales/build-dictionary";
 import DisplayLinks from "../../components/links";
 import { getSeeAlsoByType } from "../../components/links/utils";
-import PublishersView from "../../components/publishers-view";
 import SeeAlso from "../../components/seeAlso";
 import { InseeOrganisationNotes } from "@components/business/creators-view";
 
@@ -31,12 +29,7 @@ function DisplayMultiLangNote({ value1, value2, title, secondLang, md = false })
 function OperationsIndicatorVisualization({ attr, secondLang, frequency = {} }) {
   useTitle(D.indicatorsTitle, attr?.prefLabelLg1);
 
-  const { data: organisations } = useOrganizations();
   const seeAlso = getSeeAlsoByType(attr.seeAlso);
-
-  const contributors = (attr.contributors || []).map(
-    (d) => organisations.find((orga) => orga.id === d.id) || {},
-  );
 
   return (
     <>
@@ -80,18 +73,14 @@ function OperationsIndicatorVisualization({ attr, secondLang, frequency = {} }) 
         secondLang={secondLang}
       />
       <Row>
-        <PublishersView publishers={attr.publishers} />
+        <InseeOrganisationNotes organisations={attr.publishers} title={D1.organisation} />
       </Row>
       <Row>
         <InseeOrganisationNotes organisations={attr.creators} />
       </Row>
-      <DisplayLinks
-        links={contributors}
-        title="stakeholders"
-        secondLang={false}
-        displayLink={false}
-        labelLg1="label"
-      />
+      <Row id="contributors">
+        <InseeOrganisationNotes organisations={attr.contributors} title={D1.stakeholders} />
+      </Row>
 
       <DisplayLinks
         links={attr.replaces}

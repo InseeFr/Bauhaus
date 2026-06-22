@@ -10,22 +10,22 @@ vi.mock("file-saver", () => ({
 }));
 
 describe("saveFileFromHttpResponse", () => {
-  beforeEach(() => {
-    vi.spyOn(console, "error").mockImplementation(() => {});
-  });
-
   it("should reject if Content-Disposition header is missing", async () => {
+    using consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
     const response = new Response(null, {
       headers: new Headers({}),
     });
 
     await expect(saveFileFromHttpResponse(response)).rejects.toBeUndefined();
-    expect(console.error).toHaveBeenCalledWith(
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
       "Unable to download the File due to a missing Content-Disposition header",
     );
   });
 
   it("should reject if Content-Disposition header is invalid", async () => {
+    using consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
     const response = new Response(null, {
       headers: new Headers({
         "Content-Disposition": "invalid-header",
@@ -33,7 +33,7 @@ describe("saveFileFromHttpResponse", () => {
     });
 
     await expect(saveFileFromHttpResponse(response)).rejects.toBeUndefined();
-    expect(console.error).toHaveBeenCalledWith("Unable to parse the Content-Disposition header");
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Unable to parse the Content-Disposition header");
   });
 
   it("should save file with correct file name from Content-Disposition header", async () => {

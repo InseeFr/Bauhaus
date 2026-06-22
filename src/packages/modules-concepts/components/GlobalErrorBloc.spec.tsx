@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from "vitest";
 import { GlobalErrorBloc } from "./GlobalErrorBloc";
 
 vi.mock("primereact/card", () => ({
-  Card: ({ title, children }: any) => (
+  Card: ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div data-testid="card">
       <h2>{title}</h2>
       {children}

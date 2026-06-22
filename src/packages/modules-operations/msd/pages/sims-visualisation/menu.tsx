@@ -34,7 +34,9 @@ export const Menu = ({ sims, owners, onExport, onDelete, onPublish }: Readonly<M
       <HasAccess module="OPERATION_SIMS" privilege="UPDATE" stamps={owners}>
         <UpdateButton action={`/operations/sims/${sims.id}/modify`} />
       </HasAccess>
-      <ExportButton action={onExport} />
+      <HasAccess module="OPERATION_SIMS" privilege="READ">
+        <ExportButton action={onExport} />
+      </HasAccess>
     </ActionToolbar>
   );
 };

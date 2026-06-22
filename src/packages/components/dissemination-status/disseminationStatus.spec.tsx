@@ -70,6 +70,21 @@ describe("DisseminationStatusInput", () => {
     expect(screen.getByText(D.disseminationStatus.title)).toBeInTheDocument();
   });
 
+  it("associates the label with the select control", () => {
+    (useDisseminationStatusOptions as Mock).mockReturnValue([
+      { value: "PublicGenerique", label: "Public" },
+    ]);
+
+    const { container } = render(
+      <DisseminationStatusInput value="PublicGenerique" handleChange={() => {}} withLabel />,
+    );
+
+    const label = container.querySelector("label[for]");
+    const forId = label?.getAttribute("for");
+    expect(forId).toBeTruthy();
+    expect(container.querySelector(`[id="${forId}"]`)).not.toBeNull();
+  });
+
   it("passes value prop to Select component", () => {
     (useDisseminationStatusOptions as Mock).mockReturnValue([
       { value: "PublicGenerique", label: "Public Generique" },

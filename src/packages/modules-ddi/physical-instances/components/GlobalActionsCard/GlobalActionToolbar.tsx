@@ -7,11 +7,14 @@ import { HasAccess } from "../../../../auth/components/auth";
 interface GlobalActionToolbarProps {
   onExport: (format: "DDI3" | "DDI4") => void;
   onDuplicate?: () => void;
+  /** Stamps de l'instance source — gating STAMP du bouton de duplication. */
+  stamps?: string[];
 }
 
 export const GlobalActionToolbar = ({
   onExport,
   onDuplicate,
+  stamps,
 }: Readonly<GlobalActionToolbarProps>) => {
   const { t } = useTranslation();
 
@@ -44,7 +47,7 @@ export const GlobalActionToolbar = ({
         aria-label={t("physicalInstance.view.export")}
         onClick={() => onExport("DDI3")}
       />
-      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="CREATE">
+      <HasAccess module="DDI_PHYSICALINSTANCE" privilege="CREATE" stamps={stamps}>
         <Button
           icon="pi pi-copy"
           label={t("physicalInstance.view.duplicatePhysicalInstance")}

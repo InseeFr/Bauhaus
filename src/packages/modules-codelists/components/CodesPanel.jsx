@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { SeeButton } from "@components/buttons/see";
@@ -134,62 +134,80 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
   );
 };
 
+const initialCodesPanelState = {
+  codes: [],
+  searchCode: "",
+  searchLabel: "",
+  lazyState: { first: 0, rows: 10, page: 0, sortField: null, sortOrder: null },
+  loading: true,
+  openPanel: false,
+  selectedCode: {},
+};
+
+function codesPanelReducer(state, action) {
+  switch (action.type) {
+    case "SET_CODES":
+      return { ...state, codes: action.codes };
+    case "SET_SEARCH_CODE":
+      return { ...state, searchCode: action.value };
+    case "SET_SEARCH_LABEL":
+      return { ...state, searchLabel: action.value };
+    case "SET_LAZY_STATE":
+      return { ...state, lazyState: action.lazyState };
+    case "SET_LOADING":
+      return { ...state, loading: action.loading };
+    case "OPEN_CREATION_PANEL":
+      return { ...state, openPanel: true };
+    case "OPEN_EDIT_PANEL":
+      return { ...state, selectedCode: action.code, openPanel: true };
+    case "CLOSE_PANEL":
+      return { ...state, selectedCode: {}, openPanel: false };
+    default:
+      return state;
+  }
+}
+
 export const CodesPanel = ({ codelist, hidden, editable }) => {
   const { t } = useTranslation();
 
-  const [codes, setCodes] = useState([]);
-
-  const [searchCode, setSearchCode] = useState("");
-  const [searchLabel, setSearchLabel] = useState("");
+  const [state, dispatch] = useReducer(codesPanelReducer, initialCodesPanelState);
+  const { codes, searchCode, searchLabel, lazyState, loading, openPanel, selectedCode } = state;
 
   const handleSearch = (type, valueCode, valueLabel) => {
-    const [handledValue, otherValue, setSearch, getCodesBySearch] =
+    const [handledValue, otherValue, searchActionType, getCodesBySearch] =
       type === "code"
-        ? [valueCode, searchLabel, setSearchCode, API.getCodesByCode]
-        : [valueLabel, searchCode, setSearchLabel, API.getCodesByLabel];
+        ? [valueCode, searchLabel, "SET_SEARCH_CODE", API.getCodesByCode]
+        : [valueLabel, searchCode, "SET_SEARCH_LABEL", API.getCodesByLabel];
 
-    setSearch(handledValue);
+    dispatch({ type: searchActionType, value: handledValue });
     if (otherValue) {
       API.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then((cl) => {
-        setCodes(cl ?? {});
+        dispatch({ type: "SET_CODES", codes: cl ?? {} });
       });
     } else {
       getCodesBySearch(codelist.id, handledValue).then((cl) => {
-        setCodes(cl ?? {});
+        dispatch({ type: "SET_CODES", codes: cl ?? {} });
       });
     }
   };
 
-  const [lazyState, setlazyState] = useState({
-    first: 0,
-    rows: 10,
-    page: 0,
-    sortField: null,
-    sortOrder: null,
-  });
-
-  const [loading, setLoading] = useState(true);
-
   const fetchCodes = () => {
-    setLoading(true);
+    dispatch({ type: "SET_LOADING", loading: true });
 
     API.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1)
       .then((cl) => {
-        setCodes(cl ?? {});
+        dispatch({ type: "SET_CODES", codes: cl ?? {} });
       })
-      .finally(() => setLoading(false));
+      .finally(() => dispatch({ type: "SET_LOADING", loading: false }));
   };
 
   useEffect(() => {
     fetchCodes();
   }, [codelist.id, lazyState.page]);
 
-  const [openPanel, setOpenPanel] = useState(false);
-  const [selectedCode, setSelectedCode] = useState({});
-
   const onHandlePanel = (e) => {
     e.stopPropagation();
-    setOpenPanel(true);
+    dispatch({ type: "OPEN_CREATION_PANEL" });
   };
 
   const codesWithActions = (codes.items ?? []).map((code) => {
@@ -204,8 +222,7 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
             <SeeButton
               data-component-id={code.code}
               onClick={() => {
-                setSelectedCode(code);
-                setOpenPanel(true);
+                dispatch({ type: "OPEN_EDIT_PANEL", code });
               }}
             ></SeeButton>
           )}
@@ -262,21 +279,21 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
         <Table
           codesWithActions={codesWithActions}
           loading={loading}
-          onPage={setlazyState}
+          onPage={(newLazyState) => dispatch({ type: "SET_LAZY_STATE", lazyState: newLazyState })}
           total={codes.total}
           state={lazyState}
         />
       </CollapsiblePanel>
-      <RightSlidingPanel isOpen={openPanel} backdropClicked={() => setOpenPanel(false)}>
+      <RightSlidingPanel
+        isOpen={openPanel}
+        backdropClicked={() => dispatch({ type: "CLOSE_PANEL" })}
+      >
         <div id="code-edit-panel">
           <CodeSlidingPanel
             code={selectedCode}
             codelist={codelist}
             creation={!selectedCode.code}
-            handleBack={() => {
-              setSelectedCode({});
-              setOpenPanel(false);
-            }}
+            handleBack={() => dispatch({ type: "CLOSE_PANEL" })}
             handleSave={(code, creation) => {
               let promise;
               if (creation) {
@@ -288,8 +305,7 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
               promise(codelist.id, code)
                 .then(() => fetchCodes())
                 .then(() => {
-                  setSelectedCode({});
-                  setOpenPanel(false);
+                  dispatch({ type: "CLOSE_PANEL" });
                 });
             }}
           ></CodeSlidingPanel>

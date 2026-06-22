@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { useNavigationBlocker } from "./useNavigationBlocker";
@@ -19,20 +19,10 @@ vi.mock("react-router-dom", async () => {
 });
 
 describe("useNavigationBlocker", () => {
-  let addEventListenerSpy: ReturnType<typeof vi.spyOn>;
-  let removeEventListenerSpy: ReturnType<typeof vi.spyOn>;
-
   beforeEach(() => {
-    addEventListenerSpy = vi.spyOn(window, "addEventListener");
-    removeEventListenerSpy = vi.spyOn(window, "removeEventListener");
     mockBlocker.state = "unblocked";
     mockBlocker.proceed.mockClear();
     mockBlocker.reset.mockClear();
-  });
-
-  afterEach(() => {
-    addEventListenerSpy.mockRestore();
-    removeEventListenerSpy.mockRestore();
   });
 
   const wrapper = ({ children }: { children: React.ReactNode }) => (
@@ -40,6 +30,8 @@ describe("useNavigationBlocker", () => {
   );
 
   it("should not add beforeunload listener when shouldBlock is false", () => {
+    using addEventListenerSpy = vi.spyOn(window, "addEventListener");
+
     renderHook(
       () =>
         useNavigationBlocker({
@@ -52,6 +44,8 @@ describe("useNavigationBlocker", () => {
   });
 
   it("should add beforeunload listener when shouldBlock is true", () => {
+    using addEventListenerSpy = vi.spyOn(window, "addEventListener");
+
     renderHook(
       () =>
         useNavigationBlocker({
@@ -64,6 +58,8 @@ describe("useNavigationBlocker", () => {
   });
 
   it("should remove beforeunload listener on unmount", () => {
+    using removeEventListenerSpy = vi.spyOn(window, "removeEventListener");
+
     const { unmount } = renderHook(
       () =>
         useNavigationBlocker({
@@ -122,6 +118,8 @@ describe("useNavigationBlocker", () => {
   });
 
   it("should set event.returnValue in beforeunload handler", () => {
+    using addEventListenerSpy = vi.spyOn(window, "addEventListener");
+
     renderHook(
       () =>
         useNavigationBlocker({
@@ -137,7 +135,7 @@ describe("useNavigationBlocker", () => {
     expect(beforeUnloadHandler).toBeDefined();
 
     const event = new Event("beforeunload") as BeforeUnloadEvent;
-    const preventDefaultSpy = vi.spyOn(event, "preventDefault");
+    using preventDefaultSpy = vi.spyOn(event, "preventDefault");
 
     beforeUnloadHandler(event);
 
@@ -146,6 +144,9 @@ describe("useNavigationBlocker", () => {
   });
 
   it("should remove beforeunload listener when shouldBlock changes from true to false", () => {
+    using addEventListenerSpy = vi.spyOn(window, "addEventListener");
+    using removeEventListenerSpy = vi.spyOn(window, "removeEventListener");
+
     const { rerender } = renderHook(
       ({ shouldBlock }) =>
         useNavigationBlocker({

@@ -1,4 +1,4 @@
-import { getTree, flattenTree } from "./index";
+import { DCTERMS_MODIFIED, getTree, flattenTree, isAutoUpdatedFromModified } from "./index";
 
 describe("flattenTree", () => {
   it("should return the right flat array", () => {
@@ -224,5 +224,33 @@ describe("getTree", () => {
       },
     };
     expect(getTree(input, undefined, {})).toEqual(output);
+  });
+
+  it("should propagate subPropertyOf from metadata attributes onto each node", () => {
+    const input = [{ idMas: "S.2.3" }];
+    const objectToMerge = {
+      "S.2.3": { subPropertyOf: DCTERMS_MODIFIED },
+    };
+
+    const tree = getTree(input, undefined, objectToMerge);
+
+    expect(tree["S.2.3"].subPropertyOf).toBe(DCTERMS_MODIFIED);
+  });
+});
+
+describe("isAutoUpdatedFromModified", () => {
+  it("returns true when subPropertyOf points to dcterms:modified", () => {
+    expect(isAutoUpdatedFromModified({ subPropertyOf: DCTERMS_MODIFIED })).toBe(true);
+  });
+
+  it("returns false for any other subPropertyOf value", () => {
+    expect(isAutoUpdatedFromModified({ subPropertyOf: "http://purl.org/dc/terms/created" })).toBe(
+      false,
+    );
+  });
+
+  it("returns false when subPropertyOf is missing", () => {
+    expect(isAutoUpdatedFromModified({})).toBe(false);
+    expect(isAutoUpdatedFromModified(undefined)).toBe(false);
   });
 });

@@ -1,3 +1,4 @@
+import { screen } from "@testing-library/react";
 import { vi } from "vitest";
 
 import * as useOrganizationsHook from "@utils/hooks/organizations";
@@ -9,10 +10,23 @@ import OperationsSerieVisualization from "./home";
 const organisations = [
   {
     id: "GF3C",
-    label: "GF3C",
+    iri: "GF3C",
+    label: "Groupe des fournisseurs (GF3C)",
   },
   {
     id: "DG75-G001",
+    iri: "DG75-G001",
+    label: "Direction Générale",
+  },
+  {
+    id: "CNAMTS",
+    iri: "CNAMTS",
+    label: "Caisse nationale de l'assurance maladie (CNAMTS)",
+  },
+  {
+    id: "DG75-F110",
+    iri: "DG75-F110",
+    label: "Sous-direction F110 (DG75-F110)",
   },
 ];
 
@@ -21,7 +35,7 @@ vi.spyOn(useOrganizationsHook, "useOrganizations").mockReturnValue({
 });
 
 const attr = {
-  publishers: [{ id: "GF3C" }],
+  publishers: [{ id: "GF3C", labelLg1: "GF3C", labelLg2: "GF3C" }],
   creators: ["DG75-G001"],
   prefLabelLg1: "Comptes nationaux trimestriels",
   prefLabelLg2: "Quarterly national accounts",
@@ -42,12 +56,8 @@ const attr = {
     },
   ],
   dataCollectors: [
-    {
-      id: "CNAMTS",
-    },
-    {
-      id: "DG75-F110",
-    },
+    { id: "CNAMTS", labelLg1: "CNAMTS", labelLg2: "CNAMTS" },
+    { id: "DG75-F110", labelLg1: "DG75-F110", labelLg2: "DG75-F110" },
   ],
   accrualPeriodicityList: CL_FREQ,
   seeAlso: [
@@ -65,12 +75,8 @@ const attr = {
   abstractLg2:
     "1- Purpose of the quarterly accounts\n\n- Breaking down the previous annual accounts into quarterly accounts:\n\nThe first objective of the quarterly accounts in France is to use monthly or quarterly economic indicators in order to break down annual accounts of the past into quarterly accounts. The aim is to build quarterly series which can be integrated into the national accounts framework. These series refine the diagnostic of economic cycles and give an understanding of the timeframes between events.\n\n- Rapidly provide a macroeconomic description of the present:\n\nBreaking down annual accounts requires that these accounts are known. However, the annual accounts estimates come fairly late: they provide an initial idea of the macroeconomic situation of a given year with the provisional account, published approximately four months after the end of the year in question.\n\nIn the meantime, a large number of short-term indicators are available and start to give an idea of the macroeconomic trends of the recent period. Quarterly national accounts built on these sub-annual data to build the quarterly accounts before the previsional account.\n\nFor example, the industrial production index is the main source of information on the monthly output trends in industry. The quarterisation of past annual output thus relies heavily on this indicator.\n\nLastly, these two characteristics of short-term indicators - quick availability and sources of information on sub-annual dynamics - have given the quarterly accounts a further objective: that of rapidly providing a macroeconomic description of the present (or more accurately, the recent past).\n\nThe method used to quarterise the past accounts is then extended to immediately include the available short-term data and to anticipate the forthcoming annual accounts as best as possible.\n\n2- Use\n\n- Macroeconomic analysis:\n\nThe quarterly accounts have become very useful to economists. Most French macro-econometric models are estimated using the quarterly accounts. Similarly, more specific analyses of economic dynamics, for example the dynamic between prices and wages or between household income and consumption, are often carried out on quarterly accounts data.\n\nUsers should not forget, however, that the quarterisation of the annual accounts is itself a construction which brings multiple data sources into play, as well as numerous statistical tools such as calibrating/benchmarking and seasonal and calendar adjustment. These tools are not always neutral in their effect on the econometric results that may be obtained with these series.\n\n- Short-term analysis:\n\nThe quarterly accounts very quickly became a central feature of short-term analysis. Indeed, there are many short-term economic indicators which are sometimes difficult to interpret. Some of them cover the same scope but may differ for reasons of specific field and data collection type.\n\nIn the field of industrial production, for example, the first information is qualitative and comes from the business surveys. The industrial output index is published a little later and gives quantitative information. Then the turnover indices are published, also giving a quantitative evaluation of monthly industrial activity.\n\nWWhen the indicators do not cover the same scope, the differences may be difficult to disentangle in order to understand short-term trends. For example, in certain months the consumption of non-energy industrial goods rises sharply while the industrial output index shows stability and the customs statistics indicate a drop in exports.\n\nIt is ultimately quite difficult to synthesize all this information. The quarterly accounts unify this information in the framework of the national accounts, and synthesize it in the form of aggregates such as gross domestic product (GDP), gross operating surplus of enterprises, and gross disposable income of households.Quarterly national accounts also provide all the elements of supply and uses for 17 aggregated products (including production, imports, exports, final consumption, investment) and elements of institutional sectors accounts (households, non-financial and financial corporations, general government).\n\n- Forecasts:\n\nThe quarterly accounts often serve as a starting point for forecasting. On the one hand, the purpose of short-term forecasts is precisely to anticipate the forthcoming publications of the quarterly accounts. The INSEE's Conjoncture in France relies on a simplified accounts framework to give figures covering two or three quarters. On the other hand, longer-term forecasts are made using macro-econometric models, most of which are estimated from quarterly data.",
   contributors: [
-    {
-      id: "CNAMTS",
-    },
-    {
-      id: "DG75-F110",
-    },
+    { id: "CNAMTS", labelLg1: "CNAMTS", labelLg2: "CNAMTS" },
+    { id: "DG75-F110", labelLg1: "DG75-F110", labelLg2: "DG75-F110" },
   ],
   accrualPeriodicityCode: "M",
   id: "s1185",
@@ -121,7 +127,8 @@ describe("SerieInformation", () => {
         langs={{ lg1: "fr" }}
       />,
     );
-    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(5);
+    // contributors and dataCollectors moved out of DisplayLinks; remaining: replaces, isReplacedBy, generate
+    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(3);
   });
 
   it("should display the creator", () => {
@@ -129,17 +136,34 @@ describe("SerieInformation", () => {
       ...attr,
       creators: attr.creators[0],
     };
-    const { container } = renderWithRouter(
+    renderWithRouter(
       <OperationsSerieVisualization attr={attr2} secondLang={true} langs={{ lg1: "fr" }} />,
     );
-    const creator = container.querySelector("#creators p");
-    expect(creator.innerHTML).toEqual("Direction Générale");
+    expect(screen.getByText("Direction Générale")).toBeInTheDocument();
   });
-  it("should display the publisher", () => {
+  it("should display the publisher label", () => {
     const { container } = renderWithRouter(
       <OperationsSerieVisualization attr={attr} secondLang={true} langs={{ lg1: "fr" }} />,
     );
-    const publisher = container.querySelector("#publishers p");
-    expect(publisher.innerHTML).toEqual("GF3C");
+    const publisherSection = container.querySelector("#publishers");
+    expect(publisherSection.textContent).toContain("Groupe des fournisseurs (GF3C)");
+  });
+
+  it("should display contributors and dataCollectors with the organisation label including the acronym", () => {
+    const { container } = renderWithRouter(
+      <OperationsSerieVisualization attr={attr} secondLang={false} langs={{ lg1: "fr" }} />,
+    );
+    expect(container.querySelector("#contributors").textContent).toContain(
+      "Caisse nationale de l'assurance maladie (CNAMTS)",
+    );
+    expect(container.querySelector("#contributors").textContent).toContain(
+      "Sous-direction F110 (DG75-F110)",
+    );
+    expect(container.querySelector("#dataCollectors").textContent).toContain(
+      "Caisse nationale de l'assurance maladie (CNAMTS)",
+    );
+    expect(container.querySelector("#dataCollectors").textContent).toContain(
+      "Sous-direction F110 (DG75-F110)",
+    );
   });
 });

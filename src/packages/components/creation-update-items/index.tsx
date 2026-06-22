@@ -15,7 +15,7 @@ export const DateItem = ({ date }: Readonly<{ date: string }>) => {
   if (!date || date === "") {
     return <></>;
   }
-  return <>{stringToDate(date)}</>;
+  return stringToDate(date);
 };
 
 export const CreationUpdateItems = ({

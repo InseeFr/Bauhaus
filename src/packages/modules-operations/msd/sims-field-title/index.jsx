@@ -4,6 +4,7 @@ import { rangeType } from "../../utils/msd";
 const { RICH_TEXT, TEXT, CODE_LIST, ORGANIZATION, GEOGRAPHY, DATE } = rangeType;
 
 const getLabelKey = (secondLang) => (secondLang ? "labelLg2" : "labelLg1");
+const getDocumentsKey = (secondLang) => (secondLang ? "documentsLg2" : "documentsLg1");
 
 const checkRichText = (richText) => {
   if (richText?.getCurrentContent) {
@@ -11,6 +12,9 @@ const checkRichText = (richText) => {
   }
   return !richText;
 };
+
+const hasDocuments = (currentSection, secondLang) =>
+  currentSection?.[getDocumentsKey(secondLang)]?.length > 0;
 
 const checkIsEmpty = (msd, currentSection, secondLang) => {
   if (!currentSection) {
@@ -23,6 +27,9 @@ const checkIsEmpty = (msd, currentSection, secondLang) => {
     case TEXT:
       return !currentSection[labelKey];
     case RICH_TEXT:
+      if (hasDocuments(currentSection, secondLang)) {
+        return false;
+      }
       return checkRichText(currentSection[labelKey]);
     case ORGANIZATION:
     case DATE:
@@ -66,6 +73,9 @@ export const isEssentialRubricKo = (msd, currentSection, secondLang) => {
       case TEXT:
         return !currentSection.labelLg2;
       case RICH_TEXT:
+        if (hasDocuments(currentSection, true)) {
+          return false;
+        }
         return checkRichText(currentSection.labelLg2);
       default:
         return false;

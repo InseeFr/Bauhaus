@@ -9,6 +9,8 @@
 		"strict": false,
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
 		"module": "esnext",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,

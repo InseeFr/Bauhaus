@@ -23,7 +23,7 @@ vi.mock("@components/errors-bloc", () => ({
   ErrorBloc: ({ error }: { error: unknown }) => <div data-testid="error">{String(error)}</div>,
 }));
 
-vi.mock("./home", () => ({
+vi.mock("./components/home", () => ({
   default: () => <div data-testid="dashboard">Dashboard</div>,
 }));
 

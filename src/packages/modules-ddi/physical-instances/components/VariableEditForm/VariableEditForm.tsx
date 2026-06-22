@@ -1,4 +1,4 @@
-import { useCallback, useReducer, useEffect, useState } from "react";
+import { useCallback, useReducer, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
@@ -14,6 +14,7 @@ import type {
   Category,
 } from "../../types/api";
 import { DdiPreview } from "./DdiPreview";
+import { pickLang } from "../../../utils/multilingual";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
 
@@ -49,7 +50,6 @@ type FormAction =
   | { type: "SET_NAME"; payload: string }
   | { type: "SET_DESCRIPTION"; payload: string }
   | { type: "SET_TYPE"; payload: string }
-  | { type: "SET_IS_GEOGRAPHIC"; payload: boolean }
   | {
       type: "SET_NUMERIC_REPRESENTATION";
       payload: NumericRepresentation | undefined;
@@ -79,8 +79,6 @@ function formReducer(state: FormState, action: FormAction): FormState {
       return { ...state, description: action.payload };
     case "SET_TYPE":
       return { ...state, selectedType: action.payload };
-    case "SET_IS_GEOGRAPHIC":
-      return { ...state, isGeographic: action.payload };
     case "SET_NUMERIC_REPRESENTATION":
       return {
         ...state,
@@ -171,6 +169,8 @@ interface VariableEditFormProps {
   onNext?: () => void;
   hasPrevious?: boolean;
   hasNext?: boolean;
+  /** Stamps créateurs du groupe parent — gating STAMP des boutons UPDATE. */
+  stamps?: string[];
 }
 
 export const VariableEditForm = ({
@@ -183,8 +183,10 @@ export const VariableEditForm = ({
   onNext,
   hasPrevious = false,
   hasNext = false,
+  stamps,
 }: Readonly<VariableEditFormProps>) => {
   const { t } = useTranslation();
+  const nameInputRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const tabParam = Number(searchParams.get("tab"));
   const activeTabIndex = [0, 1, 2].includes(tabParam) ? tabParam : 0;
@@ -238,6 +240,7 @@ export const VariableEditForm = ({
     // Réinitialiser l'onglet actif au premier onglet uniquement pour une nouvelle variable
     if (isNew) {
       setActiveIndex(0);
+      setTimeout(() => nameInputRef.current?.focus(), 0);
     }
 
     dispatch({
@@ -334,8 +337,8 @@ export const VariableEditForm = ({
         const validCodes = (codeList?.Code || []).filter((code) => {
           if (!code || !code.CategoryReference) return false;
           const category = categories.find((cat) => cat?.ID === code.CategoryReference?.ID);
-          const label = category?.Label?.Content?.["#text"] || "";
-          const value = code.Value || "";
+          const label = pickLang(category?.Label, "fr-FR") ?? "";
+          const value = code.Value?.StringValue ?? "";
           return value.trim() !== "" || label.trim() !== "";
         });
 
@@ -387,7 +390,7 @@ export const VariableEditForm = ({
     >
       <form onSubmit={handleSubmit} className="flex flex-column gap-3">
         <div className="flex gap-2 justify-content-end">
-          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
             <Button
               type="button"
               label={t("physicalInstance.view.duplicate")}
@@ -397,7 +400,7 @@ export const VariableEditForm = ({
               onClick={handleDuplicate}
             />
           </HasAccess>
-          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+          <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
             <Button
               type="submit"
               label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
@@ -469,6 +472,7 @@ export const VariableEditForm = ({
               onDescriptionChange={(value) => dispatch({ type: "SET_DESCRIPTION", payload: value })}
               nameError={!state.name.trim()}
               labelError={!state.label.trim()}
+              nameInputRef={nameInputRef}
             />
           </TabPanel>
 
@@ -486,7 +490,6 @@ export const VariableEditForm = ({
           >
             <VariableRepresentationTab
               variableId={variable.id}
-              isGeographic={state.isGeographic}
               selectedType={state.selectedType}
               typeOptions={typeOptions}
               numericRepresentation={state.representation.NumericRepresentation}
@@ -495,9 +498,6 @@ export const VariableEditForm = ({
               codeRepresentation={state.representation.CodeRepresentation}
               codeList={state.representation.CodeList}
               categories={state.representation.Category}
-              onIsGeographicChange={(value) =>
-                dispatch({ type: "SET_IS_GEOGRAPHIC", payload: value })
-              }
               onTypeChange={(value) => dispatch({ type: "SET_TYPE", payload: value })}
               onNumericRepresentationChange={updateNumericRepresentation}
               onDateRepresentationChange={updateDateRepresentation}

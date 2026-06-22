@@ -3,7 +3,6 @@ import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationFemale } from "@components/status";
 
-import { useOrganizations } from "@utils/hooks/organizations";
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
@@ -11,28 +10,13 @@ import { D1, D2 } from "../../../deprecated-locales";
 import D from "../../../deprecated-locales/build-dictionary";
 import DisplayLinks from "../../components/links/";
 import { getSeeAlsoByType } from "../../components/links/utils";
-import PublishersView from "../../components/publishers-view";
 import RelationsView from "../../components/relations";
 import SeeAlso from "../../components/seeAlso";
 import { InseeOrganisationNotes } from "@components/business/creators-view";
 
-function OperationsSerieVisualization({
-  attr,
-  langs: { lg1 },
-  secondLang,
-  frequency = {},
-  category = {},
-}) {
+function OperationsSerieVisualization({ attr, secondLang, frequency = {}, category = {} }) {
   useTitle(D.seriesTitle + " - " + D.operationsTitle, attr?.prefLabelLg1);
-  const { data: organisations } = useOrganizations();
   const seeAlso = getSeeAlsoByType(attr.seeAlso);
-
-  const dataCollectors = (attr.dataCollectors || []).map(
-    (d) => organisations.find((orga) => orga.id === d.id) || {},
-  );
-  const contributors = (attr.contributors || []).map(
-    (d) => organisations.find((orga) => orga.id === d.id) || {},
-  );
   return (
     <>
       <Row>
@@ -119,23 +103,24 @@ function OperationsSerieVisualization({
       </Row>
 
       <Row id="publishers">
-        <PublishersView publishers={attr.publishers} lg1={lg1} />
+        <InseeOrganisationNotes
+          organisations={attr.publishers?.map((p) => p?.id ?? p)}
+          title={D1.organisation}
+        />
       </Row>
 
-      <DisplayLinks
-        links={contributors}
-        title="stakeholders"
-        secondLang={false}
-        displayLink={false}
-        labelLg1="label"
-      />
-      <DisplayLinks
-        links={dataCollectors}
-        title="dataCollector"
-        secondLang={false}
-        displayLink={false}
-        labelLg1="label"
-      />
+      <Row id="contributors">
+        <InseeOrganisationNotes
+          organisations={attr.contributors?.map((c) => c?.id ?? c)}
+          title={D1.stakeholders}
+        />
+      </Row>
+      <Row id="dataCollectors">
+        <InseeOrganisationNotes
+          organisations={attr.dataCollectors?.map((c) => c?.id ?? c)}
+          title={D1.dataCollector}
+        />
+      </Row>
 
       <Row id="creators">
         <InseeOrganisationNotes organisations={attr.creators} />

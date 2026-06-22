@@ -4,15 +4,25 @@ import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string) => {
+    t: (key: string, options?: Record<string, string>) => {
       const translations: Record<string, string> = {
         "physicalInstance.view.code.selectCodeList": "Sélectionnez une liste de codes",
         "physicalInstance.view.code.loadingCodesLists": "Chargement des listes de codes...",
         "physicalInstance.view.code.errorLoadingCodesLists":
           "Erreur lors du chargement des listes de codes",
         "physicalInstance.view.code.noCodesListsAvailable": "Aucune liste de codes disponible",
+        "physicalInstance.view.code.groupCodesListsSection": "Listes du groupe",
+        "physicalInstance.view.code.groupCodesListsSectionNamed": "Groupe : {{group}}",
+        "physicalInstance.view.code.mutualizedCodesListsSection": "Listes mutualisées",
+        "physicalInstance.view.code.mutualizedReadOnly": "Liste mutualisée (lecture seule)",
       };
-      return translations[key] || key;
+      let value = translations[key] || key;
+      if (options) {
+        for (const [name, replacement] of Object.entries(options)) {
+          value = value.replace(`{{${name}}}`, replacement);
+        }
+      }
+      return value;
     },
   }),
 }));
@@ -43,7 +53,18 @@ vi.mock("primereact/message", () => ({
 }));
 
 vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ value, options, onChange, placeholder, className }: any) => (
+  Dropdown: ({
+    value,
+    options,
+    onChange,
+    placeholder,
+    className,
+    optionGroupLabel,
+    optionGroupChildren,
+    optionLabel,
+    optionValue,
+    itemTemplate,
+  }: any) => (
     <select
       data-testid="codes-list-dropdown"
       value={value || ""}
@@ -53,10 +74,14 @@ vi.mock("primereact/dropdown", () => ({
       <option value="" disabled>
         {placeholder}
       </option>
-      {options?.map((option: any) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
+      {options?.map((group: any) => (
+        <optgroup key={group[optionGroupLabel]} label={group[optionGroupLabel]}>
+          {group[optionGroupChildren].map((option: any) => (
+            <option key={option[optionValue]} value={option[optionValue]}>
+              {itemTemplate ? itemTemplate(option) : option[optionLabel]}
+            </option>
+          ))}
+        </optgroup>
       ))}
     </select>
   ),
@@ -70,11 +95,13 @@ describe("ReuseCodeListSelect", () => {
       id: "list-1",
       label: "Liste des statuts professionnels",
       agencyId: "fr.insee",
+      mutualized: false,
     },
     {
       id: "list-2",
       label: "Liste des pays",
       agencyId: "fr.insee",
+      mutualized: true,
     },
   ];
 
@@ -82,6 +109,7 @@ describe("ReuseCodeListSelect", () => {
     vi.clearAllMocks();
     mockUseAllCodesLists.mockReturnValue({
       data: mockCodesLists,
+      groupLabel: "Base permanente des équipements",
       isLoading: false,
       error: null,
     });
@@ -190,5 +218,72 @@ describe("ReuseCodeListSelect", () => {
 
     const dropdown = screen.getByTestId("codes-list-dropdown") as HTMLSelectElement;
     expect(dropdown.value).toBe("fr.insee-list-2");
+  });
+
+  it("should split options into a group section labelled with the group and a mutualized section", () => {
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const dropdown = screen.getByTestId("codes-list-dropdown");
+    const groups = dropdown.querySelectorAll("optgroup");
+    // L'en-tête de la section « groupe » porte le libellé du groupe parent de la PI, préfixé.
+    expect(Array.from(groups).map((g) => g.getAttribute("label"))).toEqual([
+      "Groupe : Base permanente des équipements",
+      "Listes mutualisées",
+    ]);
+
+    const groupSection = dropdown.querySelector(
+      'optgroup[label="Groupe : Base permanente des équipements"]',
+    );
+    const mutualizedSection = dropdown.querySelector('optgroup[label="Listes mutualisées"]');
+    expect(groupSection?.querySelector('option[value="fr.insee-list-1"]')).not.toBeNull();
+    expect(mutualizedSection?.querySelector('option[value="fr.insee-list-2"]')).not.toBeNull();
+  });
+
+  it("should fall back to the generic group section label when no group label is available", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: mockCodesLists,
+      groupLabel: undefined,
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const groups = screen.getByTestId("codes-list-dropdown").querySelectorAll("optgroup");
+    expect(Array.from(groups).map((g) => g.getAttribute("label"))).toEqual([
+      "Listes du groupe",
+      "Listes mutualisées",
+    ]);
+  });
+
+  it("should show a read-only lock on mutualized options only", () => {
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const dropdown = screen.getByTestId("codes-list-dropdown");
+    const groupOption = dropdown.querySelector('option[value="fr.insee-list-1"]');
+    const mutualizedOption = dropdown.querySelector('option[value="fr.insee-list-2"]');
+    expect(groupOption?.querySelector('[data-testid="mutualized-lock"]')).toBeNull();
+    expect(mutualizedOption?.querySelector('[data-testid="mutualized-lock"]')).not.toBeNull();
+  });
+
+  it("should not render a section that has no code list", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: [{ id: "g1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const groups = screen.getByTestId("codes-list-dropdown").querySelectorAll("optgroup");
+    expect(Array.from(groups).map((g) => g.getAttribute("label"))).toEqual(["Listes du groupe"]);
   });
 });

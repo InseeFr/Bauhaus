@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { VariableEditForm } from "./VariableEditForm";
 import type {
   NumericRepresentation,
@@ -35,7 +36,6 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.columns.description": "Description",
         "physicalInstance.view.columns.type": "Type",
         "physicalInstance.view.selectType": "Sélectionnez un type",
-        "physicalInstance.view.isGeographic": "Variable géographique",
         "physicalInstance.view.tabs.information": "Informations",
         "physicalInstance.view.tabs.representation": "Représentation",
         "physicalInstance.view.tabs.ddiXml": "Aperçu DDI XML",
@@ -45,13 +45,21 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("../../../../auth/components/auth", () => ({
-  HasAccess: ({ children, module, privilege }: any) => (
-    <div data-testid="has-access" data-module={module} data-privilege={privilege}>
-      {children}
-    </div>
-  ),
-}));
+// On monte le vrai <HasAccess> ; seules les sources de privilèges et de
+// stamps sont mockées.
+vi.mock("@utils/hooks/users", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
+  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
+});
+
+const ddiPrivileges = (strategy: string) => ({
+  privileges: [
+    {
+      application: "DDI_PHYSICALINSTANCE",
+      privileges: [{ privilege: "UPDATE", strategy }],
+    },
+  ],
+});
 
 vi.mock("primereact/card", () => ({
   Card: ({ title, children }: any) => (
@@ -194,21 +202,8 @@ vi.mock("./VariableInformationTab", () => ({
 }));
 
 vi.mock("./VariableRepresentationTab", () => ({
-  VariableRepresentationTab: ({
-    isGeographic,
-    selectedType,
-    onIsGeographicChange,
-    onTypeChange,
-    typeOptions,
-  }: any) => (
+  VariableRepresentationTab: ({ selectedType, onTypeChange, typeOptions }: any) => (
     <div data-testid="variable-representation-tab">
-      <label htmlFor="variable-isGeographic">Variable géographique</label>
-      <input
-        type="checkbox"
-        id="variable-isGeographic"
-        checked={isGeographic}
-        onChange={(e) => onIsGeographicChange(e.target.checked)}
-      />
       <label htmlFor="variable-type">Type</label>
       <select
         id="variable-type"
@@ -264,6 +259,9 @@ describe("VariableEditForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockOnDuplicate.mockClear();
+    // Par défaut : stratégie ALL → les boutons UPDATE sont rendus.
+    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
   });
 
   it("should render the form with title", () => {
@@ -466,12 +464,14 @@ describe("VariableEditForm", () => {
       ...defaultVariable,
       type: "code",
       codeRepresentation: {
-        "@blankIsMissingValue": "false",
+        $type: "CodeRepresentationBaseType",
+        BlankIsMissingValue: false,
         CodeListReference: {
+          $type: "CodeList",
+          URN: "urn:ddi:fr.insee:codelist-1:1",
           Agency: "fr.insee",
           ID: "codelist-1",
           Version: "1",
-          TypeOfObject: "CodeList",
         },
       } as CodeRepresentation,
       codeList: {
@@ -500,20 +500,9 @@ describe("VariableEditForm", () => {
     );
   });
 
-  it("should display and toggle isGeographic checkbox", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    const checkbox = screen.getByLabelText("Variable géographique") as HTMLInputElement;
-    expect(checkbox).toBeInTheDocument();
-    expect(checkbox.checked).toBe(false);
-
-    fireEvent.click(checkbox);
-    expect(checkbox.checked).toBe(true);
-  });
-
-  it("should initialize isGeographic from variable prop", () => {
+  it("should preserve isGeographic from variable prop in onSave payload", () => {
+    // La checkbox isGeographic a été retirée de l'UI : la valeur n'est plus éditable mais reste
+    // portée par la variable et renvoyée telle quelle au save (round-trip DDI préservé).
     const geoVariable = {
       ...defaultVariable,
       isGeographic: true,
@@ -522,18 +511,6 @@ describe("VariableEditForm", () => {
     render(
       <VariableEditForm variable={geoVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
     );
-
-    const checkbox = screen.getByLabelText("Variable géographique") as HTMLInputElement;
-    expect(checkbox.checked).toBe(true);
-  });
-
-  it("should include isGeographic in onSave payload", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    const checkbox = screen.getByLabelText("Variable géographique");
-    fireEvent.click(checkbox);
 
     const saveButton = screen.getByText("Mettre à jour");
     fireEvent.click(saveButton);
@@ -636,12 +613,10 @@ describe("VariableEditForm", () => {
     const updatedNameInput = screen.getByLabelText("Nom") as HTMLInputElement;
     const updatedLabelInput = screen.getByLabelText("Label") as HTMLInputElement;
     const updatedDescriptionInput = screen.getByLabelText("Description") as HTMLTextAreaElement;
-    const checkbox = screen.getByLabelText("Variable géographique") as HTMLInputElement;
 
     expect(updatedNameInput.value).toBe("differentVar");
     expect(updatedLabelInput.value).toBe("Different Variable");
     expect(updatedDescriptionInput.value).toBe("Different description");
-    expect(checkbox.checked).toBe(true);
     expect(screen.getByTestId("date-representation")).toBeInTheDocument();
   });
 
@@ -786,8 +761,8 @@ describe("VariableEditForm", () => {
 
   describe("Duplicate functionality", () => {
     it("should duplicate variable when duplicate button is clicked", () => {
-      const mockUUID = "test-uuid-1234";
-      vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
+      const mockUUID = "11111111-1111-1111-1111-111111111111" as const;
+      using _randomUUIDSpy = vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
 
       render(
         <VariableEditForm
@@ -810,19 +785,17 @@ describe("VariableEditForm", () => {
           type: "numeric",
         }),
       );
-
-      vi.restoreAllMocks();
     });
 
     it("should duplicate variable with representation data", () => {
-      const mockUUID = "test-uuid-5678";
-      vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
+      const mockUUID = "22222222-2222-2222-2222-222222222222" as const;
+      using _randomUUIDSpy = vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
 
       const variableWithRepresentation = {
         ...defaultVariable,
         numericRepresentation: {
-          "@decimalPositions": "2",
-          "@type": "Double",
+          $type: "NumericRepresentationBaseType" as const,
+          NumericTypeCode: "Double",
         },
       };
 
@@ -844,13 +817,11 @@ describe("VariableEditForm", () => {
           name: "testVar (copy)",
           label: "Test Variable (copy)",
           numericRepresentation: {
-            "@decimalPositions": "2",
-            "@type": "Double",
+            $type: "NumericRepresentationBaseType",
+            NumericTypeCode: "Double",
           },
         }),
       );
-
-      vi.restoreAllMocks();
     });
 
     it("should not call onDuplicate if prop is not provided", () => {
@@ -870,50 +841,39 @@ describe("VariableEditForm", () => {
     });
   });
 
-  describe("HasAccess controls", () => {
-    it("should wrap duplicate and save buttons with HasAccess UPDATE privilege", () => {
+  describe("gating STAMP des boutons UPDATE", () => {
+    it("affiche les boutons dupliquer/enregistrer quand un stamp utilisateur appartient à parents.stamps", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+
       render(
         <VariableEditForm
           variable={defaultVariable}
           typeOptions={typeOptions}
           onSave={mockOnSave}
+          stamps={["STAMP1", "STAMP2"]}
         />,
       );
 
-      const hasAccessElements = screen.getAllByTestId("has-access");
-      expect(hasAccessElements).toHaveLength(2);
-      hasAccessElements.forEach((el) => {
-        expect(el).toHaveAttribute("data-module", "DDI_PHYSICALINSTANCE");
-        expect(el).toHaveAttribute("data-privilege", "UPDATE");
-      });
+      expect(screen.queryByText("Dupliquer")).toBeInTheDocument();
+      expect(screen.queryByText("Mettre à jour")).toBeInTheDocument();
     });
 
-    it("should render duplicate button inside HasAccess", () => {
+    it("masque les boutons dupliquer/enregistrer quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
+
       render(
         <VariableEditForm
           variable={defaultVariable}
           typeOptions={typeOptions}
           onSave={mockOnSave}
+          stamps={["STAMP1", "STAMP2"]}
         />,
       );
 
-      const hasAccessElements = screen.getAllByTestId("has-access");
-      const duplicateButton = screen.getByText("Dupliquer");
-      expect(hasAccessElements[0]).toContainElement(duplicateButton);
-    });
-
-    it("should render save button inside HasAccess", () => {
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
-
-      const hasAccessElements = screen.getAllByTestId("has-access");
-      const saveButton = screen.getByText("Mettre à jour");
-      expect(hasAccessElements[1]).toContainElement(saveButton);
+      expect(screen.queryByText("Dupliquer")).not.toBeInTheDocument();
+      expect(screen.queryByText("Mettre à jour")).not.toBeInTheDocument();
     });
   });
 

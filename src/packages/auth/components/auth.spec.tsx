@@ -76,6 +76,31 @@ describe("<HasAccess />", () => {
     expect(container).toHaveTextContent("Authorized content");
   });
 
+  it("renders children when an allowed stamp is a URI ending with the user stamp", () => {
+    (usePrivileges as any).mockReturnValue({
+      privileges: [
+        {
+          application: MODULES.CLASSIFICATION_CLASSIFICATION,
+          privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
+        },
+      ],
+    });
+
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "DG75-L201" }] });
+
+    const { container } = render(
+      <HasAccess
+        module={MODULES.CLASSIFICATION_CLASSIFICATION}
+        privilege={PRIVILEGES.UPDATE}
+        stamps={["http://bauhaus.insee.fr/organisations/insee/DG75-L201"]}
+      >
+        {DummyChild}
+      </HasAccess>,
+    );
+
+    expect(container).toHaveTextContent("Authorized content");
+  });
+
   it("does not render children when no privilege found", () => {
     (usePrivileges as any).mockReturnValue({
       privileges: [
@@ -154,6 +179,70 @@ describe("<HasAccess />", () => {
         privilege={PRIVILEGES.UPDATE}
         stamps={["STAMP1", "STAMP2"]}
       >
+        {DummyChild}
+      </HasAccess>,
+    );
+
+    expect(container).toBeEmptyDOMElement();
+  });
+});
+
+describe("<HasAccess /> — stratégie STAMP sans prop stamps", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  const stampUpdatePrivilege = {
+    application: MODULES.CLASSIFICATION_CLASSIFICATION,
+    privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
+  };
+
+  // Non-régression : un module peut câbler son gating STAMP via un `check`
+  // métier sans passer `stamps` (cf. modules-operations/document). Ce cas
+  // doit continuer de fonctionner après le correctif.
+  it("non-régression : rend les enfants avec un check passant et sans prop stamps", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [stampUpdatePrivilege] });
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+
+    const { container } = render(
+      <HasAccess
+        module={MODULES.CLASSIFICATION_CLASSIFICATION}
+        privilege={PRIVILEGES.UPDATE}
+        check={() => true}
+      >
+        {DummyChild}
+      </HasAccess>,
+    );
+
+    expect(container).toHaveTextContent("Authorized content");
+  });
+
+  it("non-régression : masque les enfants avec un check rejetant et sans prop stamps", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [stampUpdatePrivilege] });
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+
+    const { container } = render(
+      <HasAccess
+        module={MODULES.CLASSIFICATION_CLASSIFICATION}
+        privilege={PRIVILEGES.UPDATE}
+        check={() => false}
+      >
+        {DummyChild}
+      </HasAccess>,
+    );
+
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  // Comportement corrigé : sans `stamps` ni `check`, la stratégie STAMP
+  // n'est pas réellement appliquée — on masque plutôt que d'ouvrir l'accès
+  // à tout utilisateur tamponné.
+  it("masque les enfants en stratégie STAMP sans stamps ni check, même pour un utilisateur tamponné", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [stampUpdatePrivilege] });
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+
+    const { container } = render(
+      <HasAccess module={MODULES.CLASSIFICATION_CLASSIFICATION} privilege={PRIVILEGES.UPDATE}>
         {DummyChild}
       </HasAccess>,
     );

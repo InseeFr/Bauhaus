@@ -1,13 +1,14 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("react-modal", () => ({
   default: ({ children, isOpen }: { children: React.ReactNode; isOpen: boolean }) =>
     isOpen ? <div>{children}</div> : null,
 }));
 
+const navigateMock = vi.fn();
 vi.mock("react-router-dom", () => ({
-  useNavigate: () => vi.fn(),
+  useNavigate: () => navigateMock,
 }));
 
 vi.mock("react-i18next", () => ({
@@ -22,15 +23,25 @@ vi.mock("@utils/hooks/second-lang", () => ({
 }));
 
 vi.mock("../../utils", () => ({
-  getParentUri: vi.fn((sims) => `/operations/series/${sims.idSeries}`),
+  getParentUri: vi.fn((sims) => {
+    if (sims.idOperation) return `/operations/operation/${sims.idOperation}`;
+    if (sims.idSeries) return `/operations/series/${sims.idSeries}`;
+    if (sims.idIndicator) return `/operations/indicator/${sims.idIndicator}`;
+    return undefined;
+  }),
   hasLabelLg2: vi.fn(() => false),
 }));
 
 vi.mock("./menu", () => ({
-  Menu: ({ onPublish }: { onPublish: () => void }) => (
-    <button data-testid="publish-btn" onClick={onPublish}>
-      Publish
-    </button>
+  Menu: ({ onPublish, onDelete }: { onPublish: () => void; onDelete: () => void }) => (
+    <>
+      <button data-testid="publish-btn" onClick={onPublish}>
+        Publish
+      </button>
+      <button data-testid="delete-btn" onClick={onDelete}>
+        Delete
+      </button>
+    </>
   ),
 }));
 
@@ -53,7 +64,13 @@ vi.mock("@components/buttons/buttons-with-icons", () => ({
   CloseIconButton: () => null,
 }));
 vi.mock("@components/check-second-lang", () => ({ CheckSecondLang: () => null }));
-vi.mock("@components/confirmation-delete", () => ({ ConfirmationDelete: () => null }));
+vi.mock("@components/confirmation-delete", () => ({
+  ConfirmationDelete: ({ handleYes }: { handleYes: () => void }) => (
+    <button data-testid="confirm-delete-btn" onClick={handleYes}>
+      Confirm
+    </button>
+  ),
+}));
 vi.mock("@components/creation-update-items", () => ({ CreationUpdateItems: () => null }));
 vi.mock("@components/layout", () => ({
   Row: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -61,7 +78,9 @@ vi.mock("@components/layout", () => ({
 vi.mock("@components/note", () => ({ Note: () => null }));
 vi.mock("@components/panel", () => ({ Panel: () => null }));
 vi.mock("@components/status", () => ({ PublicationFemale: () => null }));
-vi.mock("@sdk/operations-api", () => ({ OperationsApi: { deleteSims: vi.fn() } }));
+vi.mock("@sdk/operations-api", () => ({
+  OperationsApi: { deleteSims: vi.fn(() => Promise.resolve()) },
+}));
 vi.mock("../../rubric-essantial-msg", () => ({ RubricEssentialMsg: () => null }));
 vi.mock("../../sims-field-title", () => ({ SimsFieldTitle: () => null }));
 vi.mock("./sims-block", () => ({ default: () => null }));
@@ -76,10 +95,13 @@ const mockSims = {
   rubrics: {},
 };
 
-const renderComponent = (publishSims: ReturnType<typeof vi.fn>) => {
+const renderComponent = (
+  publishSims: ReturnType<typeof vi.fn>,
+  sims: Record<string, unknown> = mockSims,
+) => {
   return render(
     <SimsVisualisation
-      sims={mockSims as any}
+      sims={sims as any}
       metadataStructure={{}}
       codesLists={{}}
       organisations={[]}
@@ -90,6 +112,10 @@ const renderComponent = (publishSims: ReturnType<typeof vi.fn>) => {
     />,
   );
 };
+
+beforeEach(() => {
+  navigateMock.mockClear();
+});
 
 describe("SimsVisualisation - publish error handling", () => {
   it("should show error 804 with parsed target id and parent href when publish fails", () => {
@@ -138,5 +164,40 @@ describe("SimsVisualisation - publish error handling", () => {
     expect(screen.getByTestId("error-bloc")).toHaveTextContent(
       "errors.804[id=undefined,href=/operations/series/s1034]",
     );
+  });
+});
+
+describe("SimsVisualisation - delete redirection", () => {
+  it("should navigate to the parent series after deleting a SIMS that documents a series", async () => {
+    renderComponent(vi.fn(), { id: "1", idSeries: "s42", rubrics: {} });
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/operations/series/s42");
+    });
+  });
+
+  it("should navigate to the parent operation after deleting a SIMS that documents an operation", async () => {
+    renderComponent(vi.fn(), { id: "2", idOperation: "op42", rubrics: {} });
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/operations/operation/op42");
+    });
+  });
+
+  it("should navigate to the parent indicator after deleting a SIMS that documents an indicator", async () => {
+    renderComponent(vi.fn(), { id: "3", idIndicator: "ind42", rubrics: {} });
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/operations/indicator/ind42");
+    });
   });
 });

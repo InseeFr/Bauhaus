@@ -16,11 +16,11 @@ interface TopLevelReference {
   Agency: string | null;
   ID: string;
   Version: string;
-  TypeOfObject: string;
+  $type: string;
 }
 
 interface ApiResponse {
-  topLevelReference: TopLevelReference[];
+  TopLevelReference: TopLevelReference[];
   PhysicalInstance: Array<{ Agency: string }>;
 }
 
@@ -40,8 +40,8 @@ export function useCreatePhysicalInstance() {
     ): Promise<CreatePhysicalInstanceResponse> => {
       const response: ApiResponse = await DDIApi.postPhysicalInstance(data);
 
-      const physicalInstanceRef = response.topLevelReference?.find(
-        (ref) => ref.TypeOfObject === "PhysicalInstance",
+      const physicalInstanceRef = response.TopLevelReference?.find(
+        (ref) => ref.$type === "PhysicalInstance",
       );
 
       if (!physicalInstanceRef) {

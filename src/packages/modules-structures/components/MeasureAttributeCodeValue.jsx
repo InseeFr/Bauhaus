@@ -5,7 +5,9 @@ import { CodelistsApi as API } from "@sdk/index";
 export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {
   const [codesList, setCodesList] = useState();
 
-  const codeListNotation = codesLists.find((cl) => cl.id === attribute.codeList)?.notation;
+  const codeListNotation = codesLists.find(
+    (cl) => cl.id === attribute.codeList,
+  )?.notation;
 
   useEffect(() => {
     API.getCodelist(codeListNotation).then((cl) => setCodesList(cl));
@@ -17,5 +19,5 @@ export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {
 
   const code = codesList.codes.find((c) => c.iri === value);
 
-  return <>{code?.labelLg1}</>;
+  return code?.labelLg1;
 };

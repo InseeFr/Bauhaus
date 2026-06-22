@@ -19,22 +19,12 @@ const mockApiResponse = {
   Variable: [
     {
       ID: "1",
-      "@versionDate": "2024-06-03T14:29:23.4049817Z",
-      VariableName: {
-        String: {
-          "@xml:lang": "fr-FR",
-          "#text": "ACTOCCUPE",
-        },
-      },
-      Label: {
-        Content: {
-          "@xml:lang": "fr-FR",
-          "#text": "Actif occupé",
-        },
-      },
+      VersionDate: { DateTime: "2024-06-03T14:29:23.4049817Z" },
+      VariableName: [{ "@language": "fr-FR", "@value": "ACTOCCUPE" }],
+      Label: [{ "@language": "fr-FR", "@value": "Actif occupé" }],
       VariableRepresentation: {
         CodeRepresentation: {
-          "@blankIsMissingValue": "false",
+          BlankIsMissingValue: false,
           CodeListReference: {
             Agency: "fr.insee",
             ID: "2a22ba00-a977-4a61-a582-99025c6b0582",
@@ -46,24 +36,14 @@ const mockApiResponse = {
     },
     {
       ID: "2",
-      "@versionDate": "2024-06-03T13:35:37.9342777Z",
-      VariableName: {
-        String: {
-          "@xml:lang": "fr-FR",
-          "#text": "AG",
-        },
-      },
-      Label: {
-        Content: {
-          "@xml:lang": "fr-FR",
-          "#text": "Age",
-        },
-      },
+      VersionDate: { DateTime: "2024-06-03T13:35:37.9342777Z" },
+      VariableName: [{ "@language": "fr-FR", "@value": "AG" }],
+      Label: [{ "@language": "fr-FR", "@value": "Age" }],
       VariableRepresentation: {
         NumericRepresentation: {
           NumberRange: {
-            Low: { "@isInclusive": "false", "#text": "0" },
-            High: { "@isInclusive": "false", "#text": "100" },
+            Low: { IsInclusive: false, value: 0 },
+            High: { IsInclusive: false, value: 100 },
           },
           NumericTypeCode: "Integer",
         },
@@ -71,19 +51,9 @@ const mockApiResponse = {
     },
     {
       ID: "3",
-      "@versionDate": "2024-06-03T13:35:37.9342777Z",
-      VariableName: {
-        String: {
-          "@xml:lang": "fr-FR",
-          "#text": "UNKNOWN_VAR",
-        },
-      },
-      Label: {
-        Content: {
-          "@xml:lang": "fr-FR",
-          "#text": "Unknown Variable",
-        },
-      },
+      VersionDate: { DateTime: "2024-06-03T13:35:37.9342777Z" },
+      VariableName: [{ "@language": "fr-FR", "@value": "UNKNOWN_VAR" }],
+      Label: [{ "@language": "fr-FR", "@value": "Unknown Variable" }],
       VariableRepresentation: {},
     },
   ],
@@ -200,19 +170,7 @@ describe("usePhysicalInstancesData", () => {
   });
 
   it("should return isLoading state initially", () => {
-    (global.fetch as any).mockImplementationOnce(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(
-            () =>
-              resolve({
-                ok: true,
-                json: async () => mockApiResponse,
-              }),
-            100,
-          );
-        }),
-    );
+    (global.fetch as any).mockImplementationOnce(() => new Promise(() => {}));
 
     const { result } = renderHook(() => usePhysicalInstancesData("test-id"), {
       wrapper,

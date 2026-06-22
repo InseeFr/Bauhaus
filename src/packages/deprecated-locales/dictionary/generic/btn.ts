@@ -39,6 +39,10 @@ const messages = {
     fr: "Supprimer",
     en: "Delete",
   },
+  btnCancel: {
+    fr: "Annuler",
+    en: "Cancel",
+  },
 };
 
 export default messages;

@@ -38,7 +38,7 @@ describe("useClassificationParentLevels", () => {
   });
 
   it("does not call fetchingPreviousLevels if item.general is undefined", async () => {
-    const spy = vi.spyOn(clientModule, "fetchingPreviousLevels");
+    using spy = vi.spyOn(clientModule, "fetchingPreviousLevels");
 
     const item = {}; // item.general is undefined
     const { result } = renderHook(() => useClassificationParentLevels("class1", "item1", item), {

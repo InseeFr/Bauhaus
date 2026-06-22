@@ -4,18 +4,29 @@ import "./date-picker.scss";
 
 interface DatePickerTypes {
   value?: string;
-  onChange: (value?: string) => void;
+  onChange?: (value?: string) => void;
   inputId?: string;
+  disabled?: boolean;
+  className?: string;
 }
 
-export const DatePicker = ({ value, onChange, inputId }: Readonly<DatePickerTypes>) => {
+export const DatePicker = ({
+  value,
+  onChange,
+  inputId,
+  disabled,
+  className,
+}: Readonly<DatePickerTypes>) => {
   const date = value ? new Date(value) : undefined;
   return (
     <Calendar
+      className={className}
       inputId={inputId}
       dateFormat="dd/mm/yy"
       value={date}
+      disabled={disabled}
       onChange={(e) => {
+        if (!onChange) return;
         if (!e.value) {
           onChange();
           return;

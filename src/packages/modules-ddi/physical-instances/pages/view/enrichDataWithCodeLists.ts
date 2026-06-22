@@ -1,0 +1,45 @@
+import type { QueryClient } from "@tanstack/react-query";
+import type { Category, CodeList, PhysicalInstanceResponse, Variable } from "../../types/api";
+import { loadCodeListForVariable } from "./loadCodeListForVariable";
+
+/**
+ * Le GET PhysicalInstance ne renvoie plus les CodeList/Category (chargées à la
+ * demande par variable). Avant un export (DDI3 ou DDI4), on réinjecte donc dans
+ * `data` toutes les listes de codes référencées par ses variables Code, afin que
+ * l'export reste autoportant.
+ */
+export async function enrichDataWithCodeLists(
+  queryClient: QueryClient,
+  data: PhysicalInstanceResponse,
+): Promise<PhysicalInstanceResponse> {
+  const variables: Variable[] = data?.Variable ?? [];
+  const codeRepresentations = variables
+    .map((variable) => variable.VariableRepresentation?.CodeRepresentation)
+    .filter((rep): rep is NonNullable<typeof rep> => Boolean(rep));
+
+  if (codeRepresentations.length === 0) {
+    return data;
+  }
+
+  const codeListMap = new Map<string, CodeList>((data?.CodeList ?? []).map((cl) => [cl.ID, cl]));
+  const categoryMap = new Map<string, Category>(
+    (data?.Category ?? []).map((cat) => [cat.ID!, cat]),
+  );
+
+  const loaded = await Promise.all(
+    codeRepresentations.map((rep) => loadCodeListForVariable(queryClient, rep)),
+  );
+
+  for (const { codeList, categories } of loaded) {
+    if (codeList) {
+      codeListMap.set(codeList.ID, codeList);
+    }
+    categories?.forEach((category) => categoryMap.set(category.ID!, category));
+  }
+
+  return {
+    ...data,
+    CodeList: Array.from(codeListMap.values()),
+    Category: Array.from(categoryMap.values()),
+  };
+}

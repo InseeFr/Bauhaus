@@ -25,22 +25,22 @@ const dictionary = {
     },
     modified: {
       m: {
-        fr: "Provisoire, déjà publié",
-        en: "Temporary, already published",
+        fr: "Provisoire déjà publié",
+        en: "Provisional, already published",
       },
       f: {
-        fr: "Provisoire, déjà publiée",
-        en: "Temporary, already published",
+        fr: "Provisoire déjà publiée",
+        en: "Provisional, already published",
       },
     },
     unpublished: {
       m: {
-        fr: "Provisoire, jamais publié",
-        en: "Temporary, never published",
+        fr: "Provisoire",
+        en: "Provisional",
       },
       f: {
-        fr: "Provisoire, jamais publiée",
-        en: "Temporary, never published",
+        fr: "Provisoire",
+        en: "Provisional",
       },
     },
   },

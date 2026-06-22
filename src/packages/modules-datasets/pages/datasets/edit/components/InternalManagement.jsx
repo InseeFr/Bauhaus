@@ -91,7 +91,7 @@ const InternalManagementTab = ({
       <Row>
         <div className="col-md-12 form-group">
           <ContributorsInput
-            mode="stamp"
+            mode="organisation"
             value={editingDataset.catalogRecord?.contributor}
             onChange={(values) => {
               setEditingDataset({

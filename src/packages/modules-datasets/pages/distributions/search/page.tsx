@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { DatePicker } from "@components/date-picker";
-import { TextInput } from "@components/form/input";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { Options } from "@model/SelectOption";
 import { validateStateOptions } from "@model/ValidationState";
@@ -135,55 +136,47 @@ export const AdvancedSearchForm = ({
       initializeState={reset}
       redirect={<Navigate to="/datasets/distributions" />}
     >
-      <fieldset>
-        <legend>{t("distribution.title")}</legend>
-        <div className="row form-group">
-          <div className="col-md-12">
-            <label className="w-100">{t("distribution.mainTitle")}</label>
-            <TextInput
-              value={distributionLabelLg1}
-              onChange={(e) => handleChange("distributionLabelLg1", e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="row form-group">
-          <div className="col-md-3">
-            <label className="w-100">{t("distribution.creationDate")}</label>
+      <AdvancedSearchCard title={t("distribution.title")} className="distribution-search-form">
+        <SearchTextField
+          label={t("distribution.mainTitle")}
+          value={distributionLabelLg1}
+          onChange={(value) => handleChange("distributionLabelLg1", value)}
+        />
+        <SearchField label={t("distribution.creationDate")} col="col-12 md:col-4">
+          {(id) => (
             <DatePicker
+              className="w-full"
+              inputId={id}
               value={distributionCreated}
               onChange={(value) => handleChange("distributionCreated", value ?? "")}
             />
-          </div>
-          <div className="col-md-4">
-            <label className="w-100">{t("distribution.updatingDate")}</label>
+          )}
+        </SearchField>
+        <SearchField label={t("distribution.updatingDate")} col="col-12 md:col-4">
+          {(id) => (
             <DatePicker
+              className="w-full"
+              inputId={id}
               value={distributionUpdated}
               onChange={(value) => handleChange("distributionUpdated", value ?? "")}
             />
-          </div>
-          <div className="col-md-4">
-            <label className="w-100">{t("distribution.validationStatus")}</label>
+          )}
+        </SearchField>
+        <SearchField label={t("distribution.validationStatus")} col="col-12 md:col-4">
+          {(id) => (
             <Select
+              inputId={id}
               value={distributionValidationStatus}
               options={validateStateOptions}
               onChange={(value) => handleChange("distributionValidationStatus", value)}
             />
-          </div>
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend>{t("dataset.title")}</legend>
-        <div className="row form-group">
-          <div className="col-md-12">
-            <label className="w-100">{t("dataset.internalManagement.altId.title")}</label>
-            <TextInput
-              value={altIdentifier}
-              onChange={(e) => handleChange("altIdentifier", e.target.value)}
-            />
-          </div>
-        </div>
+          )}
+        </SearchField>
+      </AdvancedSearchCard>
+      <AdvancedSearchCard title={t("dataset.title")} className="dataset-search-form">
         <FieldsForDatasetsAdvancedSearch
           labelLg1={labelLg1}
+          altIdentifier={altIdentifier}
           creator={creator}
           disseminationStatus={disseminationStatus}
           validationStatus={validationStatus}
@@ -193,7 +186,7 @@ export const AdvancedSearchForm = ({
           handleChange={handleChange}
           seriesOperationsOptions={seriesOperationsOptions}
         />
-      </fieldset>
+      </AdvancedSearchCard>
     </AdvancedSearchList>
   );
 };

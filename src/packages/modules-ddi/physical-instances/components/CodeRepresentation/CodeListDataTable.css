@@ -1,0 +1,10 @@
+/* Champs d'une liste de codes réutilisée (mutualisée) : non éditables, donc fond gris.
+   !important pour passer devant la règle .p-inputtext de PrimeReact, avec une couleur de
+   secours en dur car l'utilitaire PrimeFlex surface-* est inopérant avec PrimeReact 10.
+   Le dernier sélecteur, plus spécifique, garantit l'application aussi pour les inputs
+   situés dans le DataTable des codes. */
+.code-list-readonly-input.p-inputtext,
+.code-list-readonly-input,
+.p-datatable-tbody > tr > td .code-list-readonly-input.p-inputtext {
+  background-color: var(--surface-300, #d1d5db) !important;
+}

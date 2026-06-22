@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { GlobalActionToolbar } from "./GlobalActionToolbar";
 
 vi.mock("react-i18next", () => ({
@@ -14,9 +15,21 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("../../../../auth/components/auth", () => ({
-  HasAccess: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}));
+// On monte le vrai <HasAccess> ; seules les sources de privilèges et de
+// stamps sont mockées.
+vi.mock("@utils/hooks/users", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
+  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
+});
+
+const ddiPrivileges = (strategy: string) => ({
+  privileges: [
+    {
+      application: "DDI_PHYSICALINSTANCE",
+      privileges: [{ privilege: "CREATE", strategy }],
+    },
+  ],
+});
 
 vi.mock("primereact/button", () => ({
   Button: ({ label, onClick, icon, ...props }: any) => (
@@ -59,6 +72,9 @@ describe("GlobalActionToolbar", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // Par défaut : stratégie ALL → le bouton de duplication est rendu.
+    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
   });
 
   it("should render export and duplicate buttons", () => {
@@ -147,5 +163,37 @@ describe("GlobalActionToolbar", () => {
   it("should render without onDuplicate callback", () => {
     expect(() => render(<GlobalActionToolbar onExport={mockOnExport} />)).not.toThrow();
     expect(screen.getByText("Dupliquer")).toBeInTheDocument();
+  });
+
+  describe("gating STAMP du bouton de duplication", () => {
+    it("affiche le bouton de duplication quand un stamp utilisateur appartient aux stamps de l'instance source", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+
+      render(
+        <GlobalActionToolbar
+          onExport={mockOnExport}
+          onDuplicate={mockOnDuplicate}
+          stamps={["STAMP1", "STAMP2"]}
+        />,
+      );
+
+      expect(screen.queryByText("Dupliquer")).toBeInTheDocument();
+    });
+
+    it("masque le bouton de duplication quand aucun stamp utilisateur n'appartient aux stamps de l'instance source", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
+
+      render(
+        <GlobalActionToolbar
+          onExport={mockOnExport}
+          onDuplicate={mockOnDuplicate}
+          stamps={["STAMP1", "STAMP2"]}
+        />,
+      );
+
+      expect(screen.queryByText("Dupliquer")).not.toBeInTheDocument();
+    });
   });
 });

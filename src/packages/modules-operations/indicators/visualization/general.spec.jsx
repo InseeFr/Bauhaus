@@ -10,9 +10,10 @@ vi.spyOn(useOrganizationsHook, "useOrganizations").mockReturnValue({
   data: [
     {
       id: "CNAMTS",
+      iri: "CNAMTS",
       label: "Agence centrale des organismes de sécurité sociale",
     },
-    { id: "DG75-F110", label: "Banque Publique d'Investissement" },
+    { id: "DG75-F110", iri: "DG75-F110", label: "Banque Publique d'Investissement" },
   ],
 });
 
@@ -64,11 +65,7 @@ const indicator = {
     "In application of Decree 2014-114 of 7 February 2014 and of circular of 16 May 2014 (BOAC 60 September-October 2014) the responsibility of building (BT), public works (TP) and various construction (ID) indices is transferred to INSEE. The building (BT), public works (TP) and various construction (ID) indices were announced in the Official Journal of December 20, 2014 and published on January 16th, 2015 in base 2010 since January 2010 until October 2014.\nThe base change means a change of reference period (average  2010 = 100), but also an update of weights and methodological conventions.\nThese indices are used for escalation and update of construction contracts.",
   historyNoteLg2:
     "BOAC 60 de septembre-octobre 2014\nBefore Decree 2014-114 of 7 February 2014 and circular of 16 May 2014 (BOAC 60 September-October 2014), the Building (BT), Public Works (TP) and various construction indices were compiled and disseminated under the responsibility of Ministry of Ecology, Sustainable Development and Energy, since 1974 for most Building indices, 1975 for most Public Works indices, 1973 or diverse dates after 2000 for various ndices.",
-  contributors: [
-    {
-      id: "CNAMTS",
-    },
-  ],
+  contributors: ["CNAMTS"],
   historyNoteLg1:
     "En application du décret 2014-114 du 7 février 2014 et de la circulaire du 16 mai 2014 (BOAC 60 de septembre-octobre 2014  la maîtrise d'ouvrage des index nationaux Bâtiment, Travaux publics et divers de la construction des index est transférée à l'Insee.",
   accrualPeriodicityCode: "M",
@@ -85,7 +82,8 @@ const indicator = {
 describe("IndicatorInformation", () => {
   it("should renderer all informations for the main lang", () => {
     const { container } = renderWithRouter(<OperationsIndicatorVisualization attr={indicator} />);
-    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(4);
+    // contributors moved out of DisplayLinks; remaining: replaces, replacedBy, wasGeneratedBy
+    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(3);
     expect(container.querySelectorAll(".bauhaus-see-also")).toHaveLength(1);
   });
 
@@ -93,7 +91,7 @@ describe("IndicatorInformation", () => {
     const { container } = renderWithRouter(
       <OperationsIndicatorVisualization attr={indicator} secondLang={true} />,
     );
-    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(4);
+    expect(container.querySelectorAll(".bauhaus-display-links")).toHaveLength(3);
   });
   it("should show the right data in the DisplayLinks component", () => {
     const { container } = renderWithRouter(
@@ -101,19 +99,22 @@ describe("IndicatorInformation", () => {
     );
     const displayLinks = container.querySelectorAll(".bauhaus-display-links");
 
-    const contributor = displayLinks[0];
-    expect(contributor.querySelector("p").innerHTML).toBe(
-      "Agence centrale des organismes de sécurité sociale",
-    );
-
-    const replaces = displayLinks[1];
+    const replaces = displayLinks[0];
     expect(replaces.querySelector("a").href).toContain("/operations/indicator/p1662");
 
-    const replacedBy = displayLinks[2];
+    const replacedBy = displayLinks[1];
     expect(replacedBy.querySelector("a").href).toContain("/operations/indicator/p1662");
 
-    const wasGeneratedBy = displayLinks[3];
+    const wasGeneratedBy = displayLinks[2];
     expect(wasGeneratedBy.querySelector("a").href).toContain("/operations/series/s1353");
+  });
+
+  it("renders contributors as IRIs resolved through the organisation list", () => {
+    const { container } = renderWithRouter(<OperationsIndicatorVisualization attr={indicator} />);
+    const contributorsSection = container.querySelector("#contributors");
+    expect(contributorsSection.textContent).toContain(
+      "Agence centrale des organismes de sécurité sociale",
+    );
   });
   it("should show the right number of SeeAlso component", () => {
     const { container } = renderWithRouter(

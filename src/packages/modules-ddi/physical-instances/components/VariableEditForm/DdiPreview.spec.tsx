@@ -136,18 +136,8 @@ describe("DdiPreview", () => {
           Variable: expect.arrayContaining([
             expect.objectContaining({
               ID: "var-1",
-              VariableName: {
-                String: {
-                  "@xml:lang": "fr-FR",
-                  "#text": "testVar",
-                },
-              },
-              Label: {
-                Content: {
-                  "@xml:lang": "fr-FR",
-                  "#text": "Test Variable",
-                },
-              },
+              VariableName: [{ "@language": "fr-FR", "@value": "testVar" }],
+              Label: [{ "@language": "fr-FR", "@value": "Test Variable" }],
             }),
           ]),
         }),
@@ -217,12 +207,7 @@ describe("DdiPreview", () => {
         expect.objectContaining({
           Variable: expect.arrayContaining([
             expect.objectContaining({
-              Description: {
-                Content: {
-                  "@xml:lang": "fr-FR",
-                  "#text": "Test description",
-                },
-              },
+              Description: [{ "@language": "fr-FR", "@value": "Test description" }],
             }),
           ]),
         }),
@@ -241,7 +226,7 @@ describe("DdiPreview", () => {
         expect.objectContaining({
           Variable: expect.arrayContaining([
             expect.objectContaining({
-              "@isGeographic": "true",
+              IsGeographic: true,
             }),
           ]),
         }),
@@ -253,7 +238,7 @@ describe("DdiPreview", () => {
     const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
-    const textRepresentation = { "@maxLength": "100" };
+    const textRepresentation = { $type: "TextRepresentationBaseType" as const, MaxLength: 100 };
 
     render(
       <DdiPreview {...defaultProps} variableType="text" textRepresentation={textRepresentation} />,

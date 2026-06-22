@@ -6,5 +6,5 @@ interface CodeDisplayTypes {
 }
 
 export const CodeDisplay = ({ codesList, value }: Readonly<CodeDisplayTypes>) => {
-  return <>{codesList?.codes?.find((t) => t.iri === value)?.labelLg1}</>;
+  return codesList?.codes?.find((t) => t.iri === value)?.labelLg1;
 };

@@ -7,14 +7,15 @@ import { useTranslation } from "react-i18next";
 import { useGroups } from "../../../hooks/useGroups";
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
+import { pickLang } from "../../../utils/multilingual";
 import "./PhysicalInstanceCreationDialog.css";
 
-interface SelectedGroup {
+export interface SelectedGroup {
   id: string;
   agency: string;
 }
 
-interface SelectedStudyUnit {
+export interface SelectedStudyUnit {
   id: string;
   agency: string;
 }
@@ -39,7 +40,7 @@ interface PhysicalInstanceDialogProps {
   visible: boolean;
   onHide: () => void;
   mode: "create" | "edit";
-  initialData?: { label: string };
+  initialData?: { label: string; group?: SelectedGroup; studyUnit?: SelectedStudyUnit };
   onSubmitCreate?: (data: PhysicalInstanceCreationData) => Promise<void>;
   onSubmitEdit?: (data: PhysicalInstanceUpdateData) => Promise<void>;
 }
@@ -54,6 +55,7 @@ export const PhysicalInstanceDialog = ({
 }: Readonly<PhysicalInstanceDialogProps>) => {
   const { t } = useTranslation();
   const formRef = useRef<HTMLFormElement>(null);
+  const labelInputRef = useRef<HTMLInputElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [selectedStudyUnitId, setSelectedStudyUnitId] = useState<string | null>(null);
@@ -84,7 +86,7 @@ export const PhysicalInstanceDialog = ({
   const studyUnitOptions = useMemo(() => {
     if (!groupDetails?.StudyUnit) return [];
     return groupDetails.StudyUnit.map((su) => ({
-      label: su.Citation.Title.String["#text"],
+      label: pickLang(su.Citation.Title, "fr-FR") ?? "",
       value: su.ID,
     }));
   }, [groupDetails]);
@@ -100,8 +102,18 @@ export const PhysicalInstanceDialog = ({
   useEffect(() => {
     if (visible && initialData) {
       setLabel(initialData.label);
+      if (initialData.group) setSelectedGroupId(initialData.group.id);
+      if (initialData.studyUnit) setSelectedStudyUnitId(initialData.studyUnit.id);
     }
   }, [visible, initialData]);
+
+  // Le focus initial est posé via le callback onShow de la Dialog (cf. plus bas)
+  // plutôt qu'avec un setTimeout : PrimeReact, en fin d'animation d'ouverture,
+  // appelle onShow() PUIS, si rien n'est focalisé dans la modale, pose le focus
+  // sur la croix de fermeture. En focalisant l'input dans onShow on précède ce
+  // repli de manière déterministe (sinon course de timing → focus aléatoire sur
+  // la croix selon la machine).
+  const handleShow = () => labelInputRef.current?.focus();
 
   const handleGroupChange = (value: string | null) => {
     setSelectedGroupId(value);
@@ -170,12 +182,15 @@ export const PhysicalInstanceDialog = ({
       header={dialogTitle}
       visible={visible}
       onHide={handleHide}
+      onShow={handleShow}
+      blockScroll
       className="ddi physical-instance-creation-dialog"
     >
       <form ref={formRef} onSubmit={handleSubmit} className="flex flex-column gap-3">
         <div className="flex flex-column gap-2">
           <label htmlFor="physicalInstanceLabel">{t("physicalInstance.creation.label")}</label>
           <InputText
+            ref={labelInputRef}
             id="physicalInstanceLabel"
             name="physicalInstanceLabel"
             autoComplete="off"
@@ -194,9 +209,8 @@ export const PhysicalInstanceDialog = ({
             onChange={(e) => handleGroupChange(e.value)}
             placeholder={t("physicalInstance.creation.selectGroup")}
             loading={isLoadingGroups}
-            disabled={isSubmitting}
+            disabled={!isCreateMode || isSubmitting}
             className="w-full"
-            appendTo="self"
           />
         </div>
 
@@ -208,10 +222,9 @@ export const PhysicalInstanceDialog = ({
             options={studyUnitOptions}
             onChange={(e) => setSelectedStudyUnitId(e.value)}
             placeholder={t("physicalInstance.creation.selectStudyUnit")}
-            disabled={!selectedGroupId || isSubmitting}
+            disabled={!isCreateMode || !selectedGroupId || isSubmitting}
             loading={isLoadingStudyUnits}
             className="w-full"
-            appendTo="self"
           />
         </div>
 

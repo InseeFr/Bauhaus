@@ -8,6 +8,7 @@ import { InseeOrganisation } from "@components/business/organisations/organisati
 import { today } from "@utils/date-utils";
 
 import "../../../../../../i18n";
+import { VALIDATED } from "@model/ValidationState";
 import { ConceptForAdvancedSearch } from "../../../../../types/concept";
 
 type ConceptSummaryRow = {
@@ -46,7 +47,7 @@ export const buildData = (
 
     increment(all);
     if (concept.isTopConceptOf === "true") increment(top);
-    if (concept.validationStatus === "false") increment(provisional);
+    if (concept.validationState !== VALIDATED) increment(provisional);
     if (concept.valid) increment(validDate);
   }
 

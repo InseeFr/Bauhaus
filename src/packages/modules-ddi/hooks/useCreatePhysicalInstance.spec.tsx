@@ -40,14 +40,43 @@ describe("useCreatePhysicalInstance", () => {
     vi.clearAllMocks();
   });
 
+  it("should resolve id and agency from the real backend response shape (TopLevelReference / $type)", async () => {
+    const mockPost = vi.fn().mockResolvedValue({
+      $schema: "ddi:4.0",
+      TopLevelReference: [
+        {
+          $type: "PhysicalInstance",
+          URN: "urn:ddi:fr.insee:236b9453:1",
+          Agency: "fr.insee",
+          ID: "236b9453",
+          Version: "1",
+        },
+      ],
+      PhysicalInstance: [{ Agency: "fr.insee" }],
+    });
+    (DDIApi.postPhysicalInstance as any) = mockPost;
+
+    const { result } = renderHook(() => useCreatePhysicalInstance(), {
+      wrapper,
+    });
+
+    const created = await result.current.mutateAsync({
+      physicalInstanceLabel: "manu",
+      dataRelationshipLabel: "manu",
+      logicalRecordLabel: "manu",
+    });
+
+    expect(created).toEqual({ id: "236b9453", agency: "fr.insee" });
+  });
+
   it("should call postPhysicalInstance API with correct parameters", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      topLevelReference: [
+      TopLevelReference: [
         {
           Agency: "fr.insee",
           ID: "new-id",
           Version: "1",
-          TypeOfObject: "PhysicalInstance",
+          $type: "PhysicalInstance",
         },
       ],
       PhysicalInstance: [{ Agency: "fr.insee" }],
@@ -75,19 +104,19 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should invalidate physicalInstances query cache on successful mutation", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      topLevelReference: [
+      TopLevelReference: [
         {
           Agency: "fr.insee",
           ID: "new-id",
           Version: "1",
-          TypeOfObject: "PhysicalInstance",
+          $type: "PhysicalInstance",
         },
       ],
       PhysicalInstance: [{ Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
-    const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
     const { result } = renderHook(() => useCreatePhysicalInstance(), {
       wrapper,
@@ -128,12 +157,12 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should return mutation status correctly", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      topLevelReference: [
+      TopLevelReference: [
         {
           Agency: "fr.insee",
           ID: "new-id",
           Version: "1",
-          TypeOfObject: "PhysicalInstance",
+          $type: "PhysicalInstance",
         },
       ],
       PhysicalInstance: [{ Agency: "fr.insee" }],
@@ -163,12 +192,12 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should handle empty label and name", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      topLevelReference: [
+      TopLevelReference: [
         {
           Agency: "fr.insee",
           ID: "new-id",
           Version: "1",
-          TypeOfObject: "PhysicalInstance",
+          $type: "PhysicalInstance",
         },
       ],
       PhysicalInstance: [{ Agency: "fr.insee" }],
@@ -199,7 +228,7 @@ describe("useCreatePhysicalInstance", () => {
     const mockPost = vi.fn().mockRejectedValue(mockError);
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
-    const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
     const { result } = renderHook(() => useCreatePhysicalInstance(), {
       wrapper,

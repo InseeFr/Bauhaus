@@ -1,17 +1,17 @@
 // relations.test.tsx
 import { render, screen } from "@testing-library/react";
-import React from "react";
+import type { ReactNode } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { vi } from "vitest";
 
 import RelationsView from "./";
 
 vi.mock("@components/layout", () => ({
-  Row: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  Row: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
 
 vi.mock("@components/note", () => ({
-  Note: ({ text, title }: { text: React.ReactNode; title: string }) => (
+  Note: ({ text, title }: { text: ReactNode; title: string }) => (
     <div>
       <h2>{title}</h2>
       <div>{text}</div>

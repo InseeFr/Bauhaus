@@ -3,70 +3,81 @@ import { renderHook } from "@testing-library/react";
 import { usePhysicalInstanceByLangs } from "./usePhysicalInstanceByLangs";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 
-const baseRef = {
-  Agency: "fr.insee",
-  ID: "ref-1",
-  Version: "1",
-  TypeOfObject: "Variable",
-};
+const baseRef = [
+  {
+    $type: "Variable" as const,
+    URN: "urn:ddi:fr.insee:ref-1:1",
+    Agency: "fr.insee",
+    ID: "ref-1",
+    Version: "1",
+  },
+];
 
 const singleLangData: PhysicalInstanceResponse = {
   PhysicalInstance: [
     {
+      $type: "PhysicalInstance",
       URN: "urn:pi:1",
       Agency: "fr.insee",
       ID: "pi-1",
       Version: "1",
       Citation: {
-        Title: { String: { "@xml:lang": "fr-FR", "#text": "Titre FR" } },
+        Title: [{ "@language": "fr-FR", "@value": "Titre FR" }],
       },
       DataRelationshipReference: baseRef,
     },
   ],
   DataRelationship: [
     {
+      $type: "DataRelationship",
       URN: "urn:dr:1",
       Agency: "fr.insee",
       ID: "dr-1",
       Version: "1",
-      Label: { Content: { "@xml:lang": "fr-FR", "#text": "Label DR FR" } },
-      LogicalRecord: {
-        URN: "urn:lr:1",
-        Agency: "fr.insee",
-        ID: "lr-1",
-        Version: "1",
-        Label: { Content: { "@xml:lang": "fr-FR", "#text": "Label LR FR" } },
-        VariablesInRecord: { VariableUsedReference: [] },
-      },
+      Label: [{ "@language": "fr-FR", "@value": "Label DR FR" }],
+      LogicalRecord: [
+        {
+          $type: "LogicalRecordType",
+          URN: "urn:lr:1",
+          Agency: "fr.insee",
+          ID: "lr-1",
+          Version: "1",
+          Label: [{ "@language": "fr-FR", "@value": "Label LR FR" }],
+          VariablesInRecord: { VariableUsedReference: [] },
+        },
+      ],
     },
   ],
   Variable: [
     {
+      $type: "Variable",
       URN: "urn:v:1",
       Agency: "fr.insee",
       ID: "v-1",
       Version: "1",
-      VariableName: { String: { "@xml:lang": "fr-FR", "#text": "NomVar FR" } },
-      Label: { Content: { "@xml:lang": "fr-FR", "#text": "Label Var FR" } },
-      Description: { Content: { "@xml:lang": "fr-FR", "#text": "Desc FR" } },
+      VariableName: [{ "@language": "fr-FR", "@value": "NomVar FR" }],
+      Label: [{ "@language": "fr-FR", "@value": "Label Var FR" }],
+      Description: [{ "@language": "fr-FR", "@value": "Desc FR" }],
     },
   ],
   CodeList: [
     {
+      $type: "CodeList",
       URN: "urn:cl:1",
       Agency: "fr.insee",
       ID: "cl-1",
       Version: "1",
-      Label: { Content: { "@xml:lang": "fr-FR", "#text": "Label CL FR" } },
+      Label: [{ "@language": "fr-FR", "@value": "Label CL FR" }],
     },
   ],
   Category: [
     {
+      $type: "Category",
       URN: "urn:cat:1",
       Agency: "fr.insee",
       ID: "cat-1",
       Version: "1",
-      Label: { Content: { "@xml:lang": "fr-FR", "#text": "Label Cat FR" } },
+      Label: [{ "@language": "fr-FR", "@value": "Label Cat FR" }],
     },
   ],
 };
@@ -74,100 +85,92 @@ const singleLangData: PhysicalInstanceResponse = {
 const multiLangData: PhysicalInstanceResponse = {
   PhysicalInstance: [
     {
+      $type: "PhysicalInstance",
       URN: "urn:pi:1",
       Agency: "fr.insee",
       ID: "pi-1",
       Version: "1",
       Citation: {
-        Title: {
-          String: [
-            { "@xml:lang": "fr-FR", "#text": "Titre FR" },
-            { "@xml:lang": "en-GB", "#text": "Title EN" },
-          ],
-        },
+        Title: [
+          { "@language": "fr-FR", "@value": "Titre FR" },
+          { "@language": "en-GB", "@value": "Title EN" },
+        ],
       },
       DataRelationshipReference: baseRef,
     },
   ],
   DataRelationship: [
     {
+      $type: "DataRelationship",
       URN: "urn:dr:1",
       Agency: "fr.insee",
       ID: "dr-1",
       Version: "1",
-      Label: {
-        Content: [
-          { "@xml:lang": "fr-FR", "#text": "Label DR FR" },
-          { "@xml:lang": "en-GB", "#text": "Label DR EN" },
-        ],
-      },
-      LogicalRecord: {
-        URN: "urn:lr:1",
-        Agency: "fr.insee",
-        ID: "lr-1",
-        Version: "1",
-        Label: {
-          Content: [
-            { "@xml:lang": "fr-FR", "#text": "Label LR FR" },
-            { "@xml:lang": "en-GB", "#text": "Label LR EN" },
+      Label: [
+        { "@language": "fr-FR", "@value": "Label DR FR" },
+        { "@language": "en-GB", "@value": "Label DR EN" },
+      ],
+      LogicalRecord: [
+        {
+          $type: "LogicalRecordType",
+          URN: "urn:lr:1",
+          Agency: "fr.insee",
+          ID: "lr-1",
+          Version: "1",
+          Label: [
+            { "@language": "fr-FR", "@value": "Label LR FR" },
+            { "@language": "en-GB", "@value": "Label LR EN" },
           ],
+          VariablesInRecord: { VariableUsedReference: [] },
         },
-        VariablesInRecord: { VariableUsedReference: [] },
-      },
+      ],
     },
   ],
   Variable: [
     {
+      $type: "Variable",
       URN: "urn:v:1",
       Agency: "fr.insee",
       ID: "v-1",
       Version: "1",
-      VariableName: {
-        String: [
-          { "@xml:lang": "fr-FR", "#text": "NomVar FR" },
-          { "@xml:lang": "en-GB", "#text": "VarName EN" },
-        ],
-      },
-      Label: {
-        Content: [
-          { "@xml:lang": "fr-FR", "#text": "Label Var FR" },
-          { "@xml:lang": "en-GB", "#text": "Label Var EN" },
-        ],
-      },
-      Description: {
-        Content: [
-          { "@xml:lang": "fr-FR", "#text": "Desc FR" },
-          { "@xml:lang": "en-GB", "#text": "Desc EN" },
-        ],
-      },
+      VariableName: [
+        { "@language": "fr-FR", "@value": "NomVar FR" },
+        { "@language": "en-GB", "@value": "VarName EN" },
+      ],
+      Label: [
+        { "@language": "fr-FR", "@value": "Label Var FR" },
+        { "@language": "en-GB", "@value": "Label Var EN" },
+      ],
+      Description: [
+        { "@language": "fr-FR", "@value": "Desc FR" },
+        { "@language": "en-GB", "@value": "Desc EN" },
+      ],
     },
   ],
   CodeList: [
     {
+      $type: "CodeList",
       URN: "urn:cl:1",
       Agency: "fr.insee",
       ID: "cl-1",
       Version: "1",
-      Label: {
-        Content: [
-          { "@xml:lang": "fr-FR", "#text": "Label CL FR" },
-          { "@xml:lang": "en-GB", "#text": "Label CL EN" },
-        ],
-      },
+      Label: [
+        { "@language": "fr-FR", "@value": "Label CL FR" },
+        { "@language": "en-GB", "@value": "Label CL EN" },
+      ],
     },
   ],
   Category: [
     {
+      $type: "Category",
       URN: "urn:cat:1",
       Agency: "fr.insee",
       ID: "cat-1",
       Version: "1",
-      Label: {
-        Content: [
-          { "@xml:lang": "fr-FR", "#text": "Label Cat FR" },
-          { "@xml:lang": "en-GB", "#text": "Label Cat EN" },
-        ],
-      },
+      Label: [
+        { "@language": "fr-FR", "@value": "Label Cat FR" },
+        { "@language": "en-GB", "@value": "Label Cat EN" },
+      ],
     },
   ],
 };
@@ -192,20 +195,18 @@ describe("usePhysicalInstanceByLangs", () => {
   });
 
   describe("PhysicalInstance", () => {
-    it("should filter Citation.Title.String to the correct language", () => {
+    it("should filter Citation.Title to the correct language", () => {
       const { result } = renderHook(() => usePhysicalInstanceByLangs(multiLangData));
 
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(frData.PhysicalInstance![0].Citation.Title.String).toEqual({
-        "@xml:lang": "fr-FR",
-        "#text": "Titre FR",
-      });
-      expect(enData.PhysicalInstance![0].Citation.Title.String).toEqual({
-        "@xml:lang": "en-GB",
-        "#text": "Title EN",
-      });
+      expect(frData.PhysicalInstance![0].Citation.Title).toEqual([
+        { "@language": "fr-FR", "@value": "Titre FR" },
+      ]);
+      expect(enData.PhysicalInstance![0].Citation.Title).toEqual([
+        { "@language": "en-GB", "@value": "Title EN" },
+      ]);
     });
   });
 
@@ -216,30 +217,26 @@ describe("usePhysicalInstanceByLangs", () => {
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(frData.DataRelationship![0].Label!.Content).toEqual({
-        "@xml:lang": "fr-FR",
-        "#text": "Label DR FR",
-      });
-      expect(enData.DataRelationship![0].Label!.Content).toEqual({
-        "@xml:lang": "en-GB",
-        "#text": "Label DR EN",
-      });
+      expect(frData.DataRelationship![0].Label).toEqual([
+        { "@language": "fr-FR", "@value": "Label DR FR" },
+      ]);
+      expect(enData.DataRelationship![0].Label).toEqual([
+        { "@language": "en-GB", "@value": "Label DR EN" },
+      ]);
     });
 
-    it("should filter LogicalRecord.Label.Content to the correct language", () => {
+    it("should filter LogicalRecord.Label to the correct language", () => {
       const { result } = renderHook(() => usePhysicalInstanceByLangs(multiLangData));
 
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(frData.DataRelationship![0].LogicalRecord.Label!.Content).toEqual({
-        "@xml:lang": "fr-FR",
-        "#text": "Label LR FR",
-      });
-      expect(enData.DataRelationship![0].LogicalRecord.Label!.Content).toEqual({
-        "@xml:lang": "en-GB",
-        "#text": "Label LR EN",
-      });
+      expect(frData.DataRelationship![0].LogicalRecord![0].Label).toEqual([
+        { "@language": "fr-FR", "@value": "Label LR FR" },
+      ]);
+      expect(enData.DataRelationship![0].LogicalRecord![0].Label).toEqual([
+        { "@language": "en-GB", "@value": "Label LR EN" },
+      ]);
     });
   });
 
@@ -250,14 +247,12 @@ describe("usePhysicalInstanceByLangs", () => {
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(frData.Variable![0].VariableName.String).toEqual({
-        "@xml:lang": "fr-FR",
-        "#text": "NomVar FR",
-      });
-      expect(enData.Variable![0].VariableName.String).toEqual({
-        "@xml:lang": "en-GB",
-        "#text": "VarName EN",
-      });
+      expect(frData.Variable![0].VariableName).toEqual([
+        { "@language": "fr-FR", "@value": "NomVar FR" },
+      ]);
+      expect(enData.Variable![0].VariableName).toEqual([
+        { "@language": "en-GB", "@value": "VarName EN" },
+      ]);
     });
 
     it("should filter Label.Content to the correct language", () => {
@@ -266,14 +261,12 @@ describe("usePhysicalInstanceByLangs", () => {
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(frData.Variable![0].Label.Content).toEqual({
-        "@xml:lang": "fr-FR",
-        "#text": "Label Var FR",
-      });
-      expect(enData.Variable![0].Label.Content).toEqual({
-        "@xml:lang": "en-GB",
-        "#text": "Label Var EN",
-      });
+      expect(frData.Variable![0].Label).toEqual([
+        { "@language": "fr-FR", "@value": "Label Var FR" },
+      ]);
+      expect(enData.Variable![0].Label).toEqual([
+        { "@language": "en-GB", "@value": "Label Var EN" },
+      ]);
     });
 
     it("should filter Description.Content to the correct language", () => {
@@ -282,14 +275,12 @@ describe("usePhysicalInstanceByLangs", () => {
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(frData.Variable![0].Description!.Content).toEqual({
-        "@xml:lang": "fr-FR",
-        "#text": "Desc FR",
-      });
-      expect(enData.Variable![0].Description!.Content).toEqual({
-        "@xml:lang": "en-GB",
-        "#text": "Desc EN",
-      });
+      expect(frData.Variable![0].Description).toEqual([
+        { "@language": "fr-FR", "@value": "Desc FR" },
+      ]);
+      expect(enData.Variable![0].Description).toEqual([
+        { "@language": "en-GB", "@value": "Desc EN" },
+      ]);
     });
 
     it("should not include Description when it is absent from the original", () => {
@@ -311,14 +302,12 @@ describe("usePhysicalInstanceByLangs", () => {
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(frData.CodeList![0].Label!.Content).toEqual({
-        "@xml:lang": "fr-FR",
-        "#text": "Label CL FR",
-      });
-      expect(enData.CodeList![0].Label!.Content).toEqual({
-        "@xml:lang": "en-GB",
-        "#text": "Label CL EN",
-      });
+      expect(frData.CodeList![0].Label).toEqual([
+        { "@language": "fr-FR", "@value": "Label CL FR" },
+      ]);
+      expect(enData.CodeList![0].Label).toEqual([
+        { "@language": "en-GB", "@value": "Label CL EN" },
+      ]);
     });
 
     it("should not include Label when it is absent from the original", () => {
@@ -340,14 +329,12 @@ describe("usePhysicalInstanceByLangs", () => {
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(frData.Category![0].Label.Content).toEqual({
-        "@xml:lang": "fr-FR",
-        "#text": "Label Cat FR",
-      });
-      expect(enData.Category![0].Label.Content).toEqual({
-        "@xml:lang": "en-GB",
-        "#text": "Label Cat EN",
-      });
+      expect(frData.Category![0].Label).toEqual([
+        { "@language": "fr-FR", "@value": "Label Cat FR" },
+      ]);
+      expect(enData.Category![0].Label).toEqual([
+        { "@language": "en-GB", "@value": "Label Cat EN" },
+      ]);
     });
   });
 
@@ -359,7 +346,7 @@ describe("usePhysicalInstanceByLangs", () => {
           {
             ...singleLangData.Variable![0],
             // Field stored as "fr" instead of "fr-FR"
-            Description: { Content: { "@xml:lang": "fr", "#text": "Desc FR subtag" } },
+            Description: [{ "@language": "fr", "@value": "Desc FR subtag" }],
           },
         ],
       };
@@ -367,10 +354,9 @@ describe("usePhysicalInstanceByLangs", () => {
       const { result } = renderHook(() => usePhysicalInstanceByLangs(mixedData));
 
       const frData = result.current.get("fr-FR")!;
-      expect(frData.Variable![0].Description!.Content).toEqual({
-        "@xml:lang": "fr",
-        "#text": "Desc FR subtag",
-      });
+      expect(frData.Variable![0].Description).toEqual([
+        { "@language": "fr", "@value": "Desc FR subtag" },
+      ]);
     });
 
     it("should use empty string when no entry matches the requested language", () => {
@@ -380,7 +366,7 @@ describe("usePhysicalInstanceByLangs", () => {
           {
             ...multiLangData.Variable![0],
             // Description only in en-GB
-            Description: { Content: { "@xml:lang": "en-GB", "#text": "Desc EN only" } },
+            Description: [{ "@language": "en-GB", "@value": "Desc EN only" }],
           },
         ],
       };
@@ -388,10 +374,7 @@ describe("usePhysicalInstanceByLangs", () => {
       const { result } = renderHook(() => usePhysicalInstanceByLangs(mixedData));
 
       const frData = result.current.get("fr-FR")!;
-      expect(frData.Variable![0].Description!.Content).toEqual({
-        "@xml:lang": "fr-FR",
-        "#text": "",
-      });
+      expect(frData.Variable![0].Description).toEqual([{ "@language": "fr-FR", "@value": "" }]);
     });
   });
 
@@ -410,7 +393,7 @@ describe("usePhysicalInstanceByLangs", () => {
       const { result } = renderHook(() => usePhysicalInstanceByLangs(singleLangData));
 
       const frData = result.current.get("fr-FR")!;
-      expect(frData.DataRelationship![0].LogicalRecord.VariablesInRecord).toEqual({
+      expect(frData.DataRelationship![0].LogicalRecord![0].VariablesInRecord).toEqual({
         VariableUsedReference: [],
       });
     });

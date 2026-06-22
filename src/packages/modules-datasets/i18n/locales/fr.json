@@ -68,7 +68,8 @@
     },
     "tabKO": "Il y a des erreurs dans cet onglet",
     "hide": "Cacher",
-    "display": "Afficher"
+    "display": "Afficher",
+    "deletionConfirmationMessage": "Vous êtes sur le point de supprimer définitivement ce jeu de données. Êtes-vous sûr ?"
   },
   "distribution": {
     "title": "Distribution",

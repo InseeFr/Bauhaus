@@ -2,7 +2,11 @@ import { useState, lazy, Suspense } from "react";
 import { Button } from "primereact/button";
 import { useTranslation } from "react-i18next";
 import { HasAccess } from "../../../../auth/components/auth";
-import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import type {
+  PhysicalInstanceUpdateData,
+  SelectedGroup,
+  SelectedStudyUnit,
+} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 
 const PhysicalInstanceDialog = lazy(() =>
   import("../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog").then(
@@ -13,9 +17,19 @@ const PhysicalInstanceDialog = lazy(() =>
 interface PhysicalInstanceLabelProps {
   label: string;
   onSave: (data: PhysicalInstanceUpdateData) => Promise<void>;
+  group?: SelectedGroup;
+  studyUnit?: SelectedStudyUnit;
+  /** Stamps créateurs du groupe parent — gating STAMP du bouton d'édition. */
+  stamps?: string[];
 }
 
-export const PhysicalInstanceLabel = ({ label, onSave }: Readonly<PhysicalInstanceLabelProps>) => {
+export const PhysicalInstanceLabel = ({
+  label,
+  onSave,
+  group,
+  studyUnit,
+  stamps,
+}: Readonly<PhysicalInstanceLabelProps>) => {
   const { t } = useTranslation();
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
@@ -33,7 +47,7 @@ export const PhysicalInstanceLabel = ({ label, onSave }: Readonly<PhysicalInstan
     <>
       <div className="flex align-items-center gap-2 mb-3">
         <h1 className="m-0">{label}</h1>
-        <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE">
+        <HasAccess module="DDI_PHYSICALINSTANCE" privilege="UPDATE" stamps={stamps}>
           <Button
             icon="pi pi-pencil"
             text
@@ -50,7 +64,7 @@ export const PhysicalInstanceLabel = ({ label, onSave }: Readonly<PhysicalInstan
             visible={isEditModalVisible}
             onHide={() => setIsEditModalVisible(false)}
             mode="edit"
-            initialData={{ label }}
+            initialData={{ label, group, studyUnit }}
             onSubmitEdit={handleSaveEdit}
           />
         </Suspense>

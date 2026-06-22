@@ -1,6 +1,27 @@
 import react from "@vitejs/plugin-react";
-import { defineConfig /*, loadEnv*/ } from "vite";
+import { defineConfig, type Plugin /*, loadEnv*/ } from "vite";
 import { viteEnvs } from "vite-envs";
+import {
+  generateDdiTypes,
+  SCHEMA_PATH as DDI_SCHEMA_PATH,
+} from "./scripts/generate-ddi-types";
+
+function ddiTypesPlugin(): Plugin {
+  return {
+    name: "ddi-types-generator",
+    async buildStart() {
+      await generateDdiTypes();
+    },
+    configureServer(server) {
+      server.watcher.add(DDI_SCHEMA_PATH);
+      server.watcher.on("change", async (file) => {
+        if (file === DDI_SCHEMA_PATH) {
+          await generateDdiTypes();
+        }
+      });
+    },
+  };
+}
 
 export default defineConfig((/*{ mode }*/) => {
   //const env = loadEnv(mode, process.cwd(), '');
@@ -24,6 +45,7 @@ export default defineConfig((/*{ mode }*/) => {
       port: 3000,
     },
     plugins: [
+      ddiTypesPlugin(),
       react(),
       //			csp({
       //				dev: {

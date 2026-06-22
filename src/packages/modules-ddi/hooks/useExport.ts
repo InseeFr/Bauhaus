@@ -1,10 +1,12 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import type { RefObject } from "react";
 import type { Toast } from "primereact/toast";
 import { DDIApi } from "../../sdk";
 import { TOAST_DURATION } from "../physical-instances/constants";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
+import { enrichDataWithCodeLists } from "../physical-instances/pages/view/enrichDataWithCodeLists";
 
 export const useExport = (
   data: PhysicalInstanceResponse,
@@ -12,6 +14,7 @@ export const useExport = (
   toast: RefObject<Toast>,
 ) => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
 
   const handleExport = useCallback(
     async (format: "DDI3" | "DDI4") => {
@@ -20,12 +23,16 @@ export const useExport = (
         let fileName: string;
         const sanitizedTitle = title.replace(/[^a-z0-9]/gi, "_").toLowerCase();
 
+        // Le GET PI ne contient plus les listes de codes : on les réinjecte pour
+        // que l'export (DDI3 comme DDI4) soit autoportant.
+        const enrichedData = await enrichDataWithCodeLists(queryClient, data);
+
         if (format === "DDI3") {
-          const result = await DDIApi.convertToDDI3(data);
+          const result = await DDIApi.convertToDDI3(enrichedData);
           exportedData = result;
           fileName = `${sanitizedTitle}-ddi3.xml`;
         } else {
-          exportedData = JSON.stringify(data, null, 2);
+          exportedData = JSON.stringify(enrichedData, null, 2);
           fileName = `${sanitizedTitle}-ddi4.json`;
         }
 
@@ -54,7 +61,7 @@ export const useExport = (
         });
       }
     },
-    [data, title, t, toast],
+    [data, title, t, toast, queryClient],
   );
 
   return handleExport;

@@ -8,35 +8,47 @@ import {
   UpdateButton,
 } from "@components/buttons/buttons-with-icons";
 
-import ExportButtons from "../../../collections/export-buttons";
+import type { ValidationState } from "@components/status";
+import { CollectionExportFormat } from "@model/concepts/collection";
+import { VALIDATED } from "@model/ValidationState";
+
+import ExportButtons from "../../../components/CollectionExportButtons";
 import { HasAccess } from "../../../../auth/components/auth";
 
-export const Menu = ({
-  isValidated,
-  id,
-  handleValidation,
-  exportCollection,
-}: Readonly<{
-  isValidated: boolean;
+interface MenuProps {
+  validationState?: ValidationState;
   id: string;
   handleValidation: ComponentProps<typeof AbstractButton>["action"];
   exportCollection: (value: {
     ids: string[];
-    type: string;
+    type: CollectionExportFormat;
     withConcepts: boolean;
-    lang: string;
+    lang: "lg1" | "lg2";
   }) => void;
-}>) => {
+}
+
+export const Menu = ({
+  validationState,
+  id,
+  handleValidation,
+  exportCollection,
+}: Readonly<MenuProps>) => {
   return (
     <ActionToolbar>
       <ReturnButton action="/concepts/collections" />
       <ExportButtons
-        exportHandler={(type, withConcepts, lang = "lg1") =>
-          exportCollection({ ids: [id], type, withConcepts, lang })
-        }
+        exportHandler={(
+          type: CollectionExportFormat,
+          withConcepts: boolean,
+          lang: "lg1" | "lg2" = "lg1",
+        ) => exportCollection({ ids: [id], type, withConcepts, lang })}
       />
 
-      <HasAccess module="CONCEPT_COLLECTION" privilege="PUBLISH" complementaryCheck={!isValidated}>
+      <HasAccess
+        module="CONCEPT_COLLECTION"
+        privilege="PUBLISH"
+        complementaryCheck={validationState !== VALIDATED}
+      >
         <PublishButton action={handleValidation} />
       </HasAccess>
 

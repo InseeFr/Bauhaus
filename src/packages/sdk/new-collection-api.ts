@@ -1,12 +1,21 @@
+import {
+  Collection,
+  CollectionDashboardItem,
+  CollectionMember,
+  CollectionPayload,
+  PartialCollection,
+  UnpublishedCollection,
+} from "@model/concepts/collection";
+
 import { buildApi } from "./build-api";
 
 const api = {
-  getCollectionList: () => [""],
-  getCollectionById: (id: string) => [id],
-  getCollectionMembersList: (id: string) => [`${id}/members`],
-  getCollectionDashboardList: () => ["dashboard"],
-  getCollectionValidateList: () => ["toValidate"],
-  postCollection: (collection: unknown) => [
+  getCollectionList: (): [string] => [""],
+  getCollectionById: (id: string): [string] => [id],
+  getCollectionMembersList: (id: string): [string] => [`${id}/members`],
+  getCollectionDashboardList: (): [string] => ["dashboard"],
+  getCollectionValidateList: (): [string] => ["toValidate"],
+  postCollection: (collection: CollectionPayload) => [
     "",
     {
       headers: {
@@ -17,7 +26,7 @@ const api = {
     },
     (res: Response) => res.text(),
   ],
-  putCollection: (id: string, collection: unknown) => [
+  putCollection: (id: string, collection: CollectionPayload) => [
     id,
     {
       headers: {
@@ -29,4 +38,14 @@ const api = {
   ],
 };
 
-export const CollectionApi = buildApi("concepts/collections", api) as any;
+export interface NewCollectionApi {
+  getCollectionList(): Promise<PartialCollection[]>;
+  getCollectionById(id: string): Promise<Collection>;
+  getCollectionMembersList(id: string): Promise<CollectionMember[]>;
+  getCollectionDashboardList(): Promise<CollectionDashboardItem[]>;
+  getCollectionValidateList(): Promise<UnpublishedCollection[]>;
+  postCollection(collection: CollectionPayload): Promise<string>;
+  putCollection(id: string, collection: CollectionPayload): Promise<string>;
+}
+
+export const CollectionApi = buildApi("concepts/collections", api) as unknown as NewCollectionApi;

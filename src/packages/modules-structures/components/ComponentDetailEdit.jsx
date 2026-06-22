@@ -1,12 +1,19 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
+import {
+  CancelButton,
+  SaveButton,
+} from "@components/buttons/buttons-with-icons";
 import { SeeButton } from "@components/buttons/see";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
-import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import {
+  ClientSideError,
+  ErrorBloc,
+  GlobalClientSideErrorBloc,
+} from "@components/errors-bloc";
 import { NumberInput, TextInput } from "@components/form/input";
 import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
@@ -16,7 +23,11 @@ import { ContributorsInput } from "@components/business/contributors-input/contr
 
 import { CodelistsApi, StructureApi } from "@sdk/index";
 
-import { convertToArrayIfDefined, EMPTY_ARRAY, sortArray } from "@utils/array-utils";
+import {
+  convertToArrayIfDefined,
+  EMPTY_ARRAY,
+  sortArray,
+} from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import { useUserStamps } from "@utils/hooks/users";
 
@@ -44,28 +55,59 @@ const linkedAttributeLabelMapping = {
   [XSD_DATE]: i18next.t("component.representation.date.action"),
   [XSD_DATE_TIME]: i18next.t("component.representation.dateTime.action"),
   [XSD_STRING]: i18next.t("component.representation.string.action"),
-  [IGEO_PAYS_OU_TERRITOIRE]: i18next.t("component.representation.paysOuTerritoire.action"),
+  [IGEO_PAYS_OU_TERRITOIRE]: i18next.t(
+    "component.representation.paysOuTerritoire.action",
+  ),
   [XSD_CODE_LIST]: i18next.t("component.representation.codelist.action"),
 };
+
+const initialCodeListFormState = {
+  codesFullListPanelOpened: false,
+  codesPartialListPanelOpened: false,
+  partials: [],
+  partialCodesLists: [],
+};
+
+function codeListFormReducer(state, action) {
+  switch (action.type) {
+    case "SET_FULL_PANEL_OPENED":
+      return { ...state, codesFullListPanelOpened: action.opened };
+    case "SET_PARTIAL_PANEL_OPENED":
+      return { ...state, codesPartialListPanelOpened: action.opened };
+    case "SET_PARTIALS":
+      return { ...state, partials: action.partials };
+    case "SET_PARTIAL_CODES_LISTS":
+      return { ...state, partialCodesLists: action.partialCodesLists };
+    default:
+      return state;
+  }
+}
 
 const CodelistFormInput = ({ component, codesLists, setComponent }) => {
   const { t } = useTranslation();
 
-  const [codesFullListPanelOpened, setFullCodesListPanelOpened] = useState(false);
+  const [state, dispatch] = useReducer(
+    codeListFormReducer,
+    initialCodeListFormState,
+  );
 
-  const [codesPartialListPanelOpened, setPartialCodesListPanelOpened] = useState(false);
-
-  const [partials, setPartials] = useState([]);
+  const {
+    codesFullListPanelOpened,
+    codesPartialListPanelOpened,
+    partials,
+    partialCodesLists,
+  } = state;
 
   const fullCodeListValue = component.fullCodeListValue || component.codeList;
 
   const currentCodeList = component.codeList;
 
-  const [partialCodesLists, setPartialCodesLists] = useState([]);
-
   useEffect(() => {
     CodelistsApi.getCodelistsPartial().then((response) => {
-      setPartialCodesLists(response);
+      dispatch({
+        type: "SET_PARTIAL_CODES_LISTS",
+        partialCodesLists: response,
+      });
     });
   }, []);
 
@@ -81,7 +123,9 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
       ];
       const list = fullCodeLists.find((list) => list.id === fullCodeListValue);
       if (list) {
-        CodelistsApi.getPartialsByParent(list.notation).then((partials) => setPartials(partials));
+        CodelistsApi.getPartialsByParent(list.notation).then((partials) =>
+          dispatch({ type: "SET_PARTIALS", partials }),
+        );
       }
     }
   }, [fullCodeListValue, codesLists, partialCodesLists]);
@@ -117,7 +161,9 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
           />
           <SeeButton
             disabled={!fullCodeListValue}
-            onClick={() => setFullCodesListPanelOpened(true)}
+            onClick={() =>
+              dispatch({ type: "SET_FULL_PANEL_OPENED", opened: true })
+            }
           ></SeeButton>
         </div>
       </Row>
@@ -131,30 +177,42 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
               value={partialsOptions.find(
                 (c) => currentCodeList?.toString() === c.value?.toString(),
               )}
-              onChange={(value) => setComponent({ ...component, codeList: value })}
+              onChange={(value) =>
+                setComponent({ ...component, codeList: value })
+              }
             />
             <SeeButton
               disabled={!currentCodeList}
-              onClick={() => setPartialCodesListPanelOpened(true)}
+              onClick={() =>
+                dispatch({ type: "SET_PARTIAL_PANEL_OPENED", opened: true })
+              }
             ></SeeButton>
           </div>
         </Row>
       )}
       <CodelistPanel
         codesList={codesLists.find(
-          (c) => (fullCodeListValue?.id || fullCodeListValue)?.toString() === c.id?.toString(),
+          (c) =>
+            (fullCodeListValue?.id || fullCodeListValue)?.toString() ===
+            c.id?.toString(),
         )}
         isOpen={codesFullListPanelOpened}
-        handleBack={() => setFullCodesListPanelOpened(false)}
+        handleBack={() =>
+          dispatch({ type: "SET_FULL_PANEL_OPENED", opened: false })
+        }
       />
       <CodelistPanel
         codesList={{
           notation: partials.find((c) =>
-            (currentCodeList?.id || currentCodeList)?.toString().includes(c.iri?.toString()),
+            (currentCodeList?.id || currentCodeList)
+              ?.toString()
+              .includes(c.iri?.toString()),
           )?.id,
         }}
         isOpen={codesPartialListPanelOpened}
-        handleBack={() => setPartialCodesListPanelOpened(false)}
+        handleBack={() =>
+          dispatch({ type: "SET_PARTIAL_PANEL_OPENED", opened: false })
+        }
       />
     </>
   );
@@ -180,7 +238,10 @@ export const ComponentDetailEdit = ({
 
   const { lg1, lg2 } = useAppContext();
 
-  useTitle(t("component.pluralTitle"), component?.labelLg1 || t("component.creationPageTitle"));
+  useTitle(
+    t("component.pluralTitle"),
+    component?.labelLg1 || t("component.creationPageTitle"),
+  );
 
   const { data: stamps } = useUserStamps();
   const stamp = stamps[0]?.stamp;
@@ -250,15 +311,18 @@ export const ComponentDetailEdit = ({
 
   const onComponentTypeChange = (option) => {
     // Each time we change the type of a component, we remove all linked attributes
-    const newComponentWithoutAttributes = Object.keys(component).reduce((acc, key) => {
-      if (key.startsWith("attribute_") || key.startsWith("attributeValue_")) {
-        return acc;
-      }
-      return {
-        ...acc,
-        [key]: component[key],
-      };
-    }, {});
+    const newComponentWithoutAttributes = Object.keys(component).reduce(
+      (acc, key) => {
+        if (key.startsWith("attribute_") || key.startsWith("attributeValue_")) {
+          return acc;
+        }
+        return {
+          ...acc,
+          [key]: component[key],
+        };
+      },
+      {},
+    );
     resetErrorsMessages();
     setComponent({ ...newComponentWithoutAttributes, type: option });
   };
@@ -274,20 +338,28 @@ export const ComponentDetailEdit = ({
         />
       </ActionToolbar>
       {submitting && clientSideErrors && (
-        <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
+        <GlobalClientSideErrorBloc
+          clientSideErrors={clientSideErrors.errorMessage}
+        />
       )}
       <ErrorBloc error={serverSideError} />
       <form>
         <Row>
           <div className="col-md-12 form-group">
-            <LabelRequired htmlFor="identifiant">{t("component.notation")}</LabelRequired>
+            <LabelRequired htmlFor="identifiant">
+              {t("component.notation")}
+            </LabelRequired>
             <TextInput
               id="identifiant"
               name="identifiant"
               value={component.identifiant}
               onChange={handleChange}
               aria-invalid={!!clientSideErrors.fields?.identifiant}
-              aria-describedby={clientSideErrors.fields?.identifiant ? "identifiant-error" : null}
+              aria-describedby={
+                clientSideErrors.fields?.identifiant
+                  ? "identifiant-error"
+                  : null
+              }
             />
             <ClientSideError
               id="identifiant-error"
@@ -297,14 +369,18 @@ export const ComponentDetailEdit = ({
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg1">{t("component.label", { lng: "fr" })}</LabelRequired>
+            <LabelRequired htmlFor="labelLg1">
+              {t("component.label", { lng: "fr" })}
+            </LabelRequired>
             <TextInput
               id="labelLg1"
               name="labelLg1"
               onChange={handleChange}
               value={component.labelLg1}
               aria-invalid={!!clientSideErrors.fields?.labelLg1}
-              aria-describedby={clientSideErrors.fields?.labelLg1 ? "labelLg1-error" : null}
+              aria-describedby={
+                clientSideErrors.fields?.labelLg1 ? "labelLg1-error" : null
+              }
             />
             <ClientSideError
               id="labelLg1-error"
@@ -312,14 +388,18 @@ export const ComponentDetailEdit = ({
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg2">{t("component.label", { lng: "en" })}</LabelRequired>
+            <LabelRequired htmlFor="labelLg2">
+              {t("component.label", { lng: "en" })}
+            </LabelRequired>
             <TextInput
               id="labelLg2"
               name="labelLg2"
               value={component.labelLg2}
               onChange={handleChange}
               aria-invalid={!!clientSideErrors.fields?.labelLg2}
-              aria-describedby={clientSideErrors.fields?.labelLg2 ? "labelLg2-error" : null}
+              aria-describedby={
+                clientSideErrors.fields?.labelLg2 ? "labelLg2-error" : null
+              }
             />
             <ClientSideError
               id="labelLg2-error"
@@ -329,7 +409,9 @@ export const ComponentDetailEdit = ({
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="altLabelLg1">{t("component.shortName", { lng: "fr" })}</label>
+            <label htmlFor="altLabelLg1">
+              {t("component.shortName", { lng: "fr" })}
+            </label>
             <TextInput
               id="altLabelLg1"
               name="altLabelLg1"
@@ -338,7 +420,9 @@ export const ComponentDetailEdit = ({
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="altLabelLg2">{t("component.shortName", { lng: "en" })}</label>
+            <label htmlFor="altLabelLg2">
+              {t("component.shortName", { lng: "en" })}
+            </label>
             <TextInput
               id="altLabelLg2"
               name="altLabelLg2"
@@ -352,7 +436,9 @@ export const ComponentDetailEdit = ({
             <LabelRequired>{t("component.type.title")}</LabelRequired>
             <Select
               placeholder={t("component.type.title")}
-              value={MUTUALIZED_COMPONENT_TYPES.find((c) => c.value === component.type)}
+              value={MUTUALIZED_COMPONENT_TYPES.find(
+                (c) => c.value === component.type,
+              )}
               options={MUTUALIZED_COMPONENT_TYPES}
               onChange={onComponentTypeChange}
               isDisabled={!!component.id}
@@ -369,8 +455,12 @@ export const ComponentDetailEdit = ({
             <Select
               placeholder={t("component.concept")}
               options={conceptOptions}
-              value={conceptOptions.find((c) => c.value === component.concept?.toString())}
-              onChange={(value) => setComponent({ ...component, concept: value })}
+              value={conceptOptions.find(
+                (c) => c.value === component.concept?.toString(),
+              )}
+              onChange={(value) =>
+                setComponent({ ...component, concept: value })
+              }
             />
           </div>
         </Row>
@@ -391,10 +481,13 @@ export const ComponentDetailEdit = ({
             />
           </div>
         </Row>
-        {(component.range === XSD_DATE || component.range === XSD_DATE_TIME) && (
+        {(component.range === XSD_DATE ||
+          component.range === XSD_DATE_TIME) && (
           <Row>
             <div className="col-md-offset-1 col-md-11 form-group">
-              <label htmlFor="format">{t("component.representation.format")}</label>
+              <label htmlFor="format">
+                {t("component.representation.format")}
+              </label>
               <TextInput
                 value={component.pattern}
                 id="pattern"
@@ -410,7 +503,9 @@ export const ComponentDetailEdit = ({
           <>
             <Row>
               <div className="col-md-offset-1 col-md-11 form-group">
-                <label htmlFor="minLength">{t("component.representation.minLength")}</label>
+                <label htmlFor="minLength">
+                  {t("component.representation.minLength")}
+                </label>
                 <NumberInput
                   value={component.minLength}
                   id="minLength"
@@ -421,7 +516,9 @@ export const ComponentDetailEdit = ({
             </Row>
             <Row>
               <div className="col-md-offset-1 col-md-11 form-group">
-                <label htmlFor="maxLength">{t("component.representation.maxLength")}</label>
+                <label htmlFor="maxLength">
+                  {t("component.representation.maxLength")}
+                </label>
                 <NumberInput
                   value={component.maxLength}
                   id="maxLength"
@@ -435,7 +532,9 @@ export const ComponentDetailEdit = ({
         {component.range === XSD_STRING && (
           <Row>
             <div className="col-md-offset-1 col-md-11 form-group">
-              <label htmlFor="format">{t("component.representation.format")}</label>
+              <label htmlFor="format">
+                {t("component.representation.format")}
+              </label>
               <TextInput
                 value={component.pattern}
                 id="pattern"
@@ -449,7 +548,9 @@ export const ComponentDetailEdit = ({
           <>
             <Row>
               <div className="col-md-offset-1 col-md-11 form-group">
-                <label htmlFor="minInclusive">{t("component.representation.minValue")}</label>
+                <label htmlFor="minInclusive">
+                  {t("component.representation.minValue")}
+                </label>
                 <NumberInput
                   value={component.minInclusive}
                   id="minInclusive"
@@ -460,7 +561,9 @@ export const ComponentDetailEdit = ({
             </Row>
             <Row>
               <div className="col-md-offset-1 col-md-11 form-group">
-                <label htmlFor="maxInclusive">{t("component.representation.maxValue")}</label>
+                <label htmlFor="maxInclusive">
+                  {t("component.representation.maxValue")}
+                </label>
                 <NumberInput
                   value={component.maxInclusive}
                   id="maxInclusive"
@@ -501,7 +604,9 @@ export const ComponentDetailEdit = ({
         <div className="form-group">
           <DisseminationStatusInput
             value={component.disseminationStatus}
-            handleChange={(value) => setComponent({ ...component, disseminationStatus: value })}
+            handleChange={(value) =>
+              setComponent({ ...component, disseminationStatus: value })
+            }
           />
         </div>
         <Row>
@@ -566,7 +671,9 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
     return (
       <Row key={index}>
         <div className="col-md-6 form-group">
-          <label htmlFor="attribute">{t("component.type.attribute.title")}</label>
+          <label htmlFor="attribute">
+            {t("component.type.attribute.title")}
+          </label>
           <Select
             placeholder={t("component.type.attribute.title")}
             value={attributesListOptions.find(
@@ -579,7 +686,9 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
         </div>
         {!!component["attribute_" + index] && (
           <AttributeValue
-            onChange={(value) => onChange({ ["attributeValue_" + index]: value })}
+            onChange={(value) =>
+              onChange({ ["attributeValue_" + index]: value })
+            }
             value={component["attributeValue_" + index]}
             selectedAttribute={component["attribute_" + index]}
             codesLists={codesLists}
@@ -596,7 +705,9 @@ const AttributeTextValue = ({ onChange, value, label }) => {
 
   return (
     <div className="col-md-6 form-group">
-      <label htmlFor="attributeValue">{label ?? t("component.type.attribute.value")}</label>
+      <label htmlFor="attributeValue">
+        {label ?? t("component.type.attribute.value")}
+      </label>
       <TextInput
         value={value}
         id="attributeValue"
@@ -609,15 +720,25 @@ const AttributeTextValue = ({ onChange, value, label }) => {
 
 const sortByLabel = sortArray("label");
 
-const AttributeCodeList = ({ onChange, value, codeListIri, codesLists, label }) => {
+const AttributeCodeList = ({
+  onChange,
+  value,
+  codeListIri,
+  codesLists,
+  label,
+}) => {
   const { t } = useTranslation();
 
   const [codes, setCodes] = useState();
 
-  const codeListNotation = codesLists.find((cl) => cl.id === codeListIri)?.notation;
+  const codeListNotation = codesLists.find(
+    (cl) => cl.id === codeListIri,
+  )?.notation;
 
   useEffect(() => {
-    CodelistsApi.getCodesListCodes(codeListNotation, 1, 0).then((codes) => setCodes(codes));
+    CodelistsApi.getCodesListCodes(codeListNotation, 1, 0).then((codes) =>
+      setCodes(codes),
+    );
   }, [codeListNotation]);
 
   if (!codes) {
@@ -630,7 +751,9 @@ const AttributeCodeList = ({ onChange, value, codeListIri, codesLists, label }) 
 
   return (
     <div className="col-md-6 form-group">
-      <label htmlFor="attributeValue">{label ?? t("component.type.attribute.value")}</label>
+      <label htmlFor="attributeValue">
+        {label ?? t("component.type.attribute.value")}
+      </label>
       <Select
         placeholder={t("component.type.attribute.value")}
         value={codesOptions.find((option) => option.value === value)}
@@ -646,7 +769,9 @@ const AttributeValue = ({ onChange, value, codesLists, attributeId }) => {
   const [attribute, setAttribute] = useState();
 
   useEffect(() => {
-    StructureApi.getMutualizedComponent(attributeId).then((body) => setAttribute(body));
+    StructureApi.getMutualizedComponent(attributeId).then((body) =>
+      setAttribute(body),
+    );
   }, [attributeId]);
 
   if (!attribute) {

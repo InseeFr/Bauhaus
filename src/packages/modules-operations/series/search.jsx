@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
-import { TextInput } from "@components/form/input";
-import { Column } from "@components/layout";
+import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 import { Loading } from "@components/loading";
-import { Select } from "@components/select-rmes";
+import { SearchTextField } from "@components/ui/search-field";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { useOrganizationsOptions } from "@utils/hooks/organizations";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
@@ -33,8 +32,6 @@ export const SearchFormList = ({ data }) => {
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const { prefLabelLg1, typeCode, creator, publisher, dataCollector } = form;
-
-  const organisationsOptions = useOrganizationsOptions();
 
   const filteredData = data
     .filter(filterLabel(prefLabelLg1))
@@ -71,25 +68,19 @@ export const SearchFormList = ({ data }) => {
       initializeState={reset}
       redirect={<Navigate to="/operations/series" />}
     >
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {D.labelTitle}
-            <TextInput
-              value={prefLabelLg1}
-              onChange={(e) => handleChange("prefLabelLg1", e.target.value)}
-            />
-          </label>
-        </div>
-      </div>
-      <div className="form-group row">
-        <div className="col-md-12">
+      <AdvancedSearchCard className="series-search-form">
+        <SearchTextField
+          label={D.labelTitle}
+          value={prefLabelLg1}
+          onChange={(value) => handleChange("prefLabelLg1", value)}
+          placeholder={D.searchLabelPlaceholder}
+        />
+        <div className="field col-12 md:col-6">
           <TypeCodeInput value={typeCode} onChange={(value) => handleChange("typeCode", value)} />
         </div>
-      </div>
-      <div className="form-group row">
-        <div className="col-md-12">
+        <div className="field col-12 md:col-6">
           <CreatorsInput
+            mode="organisation"
             lang="default"
             value={creator}
             required={false}
@@ -98,37 +89,31 @@ export const SearchFormList = ({ data }) => {
             }}
           />
         </div>
-      </div>
-      <div className="form-group row">
-        <Column>
-          <label htmlFor="publisher" className="w-100">
-            {D.organisation}
-
-            <Select
-              placeholder=""
-              value={organisationsOptions.find((code) => code.value === publisher) || ""}
-              options={organisationsOptions}
-              onChange={(value) => {
-                handleChange("publisher", value);
-              }}
-            />
-          </label>
-        </Column>
-        <Column>
-          <label htmlFor="dataCollector" className="w-100">
-            {D.dataCollector}
-
-            <Select
-              placeholder=""
-              value={organisationsOptions.find((code) => code.value === dataCollector) || ""}
-              options={organisationsOptions}
-              onChange={(value) => {
-                handleChange("dataCollector", value);
-              }}
-            />
-          </label>
-        </Column>
-      </div>
+        <div className="field col-12 md:col-6">
+          <OrganisationInput
+            lang="default"
+            labelSingle={D.organisation}
+            labelMulti={D.organisation}
+            value={publisher}
+            required={false}
+            onChange={(value) => {
+              handleChange("publisher", value);
+            }}
+          />
+        </div>
+        <div className="field col-12 md:col-6">
+          <OrganisationInput
+            lang="default"
+            labelSingle={D.dataCollector}
+            labelMulti={D.dataCollector}
+            value={dataCollector}
+            required={false}
+            onChange={(value) => {
+              handleChange("dataCollector", value);
+            }}
+          />
+        </div>
+      </AdvancedSearchCard>
     </AdvancedSearchList>
   );
 };

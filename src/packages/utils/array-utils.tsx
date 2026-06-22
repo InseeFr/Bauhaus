@@ -42,7 +42,9 @@ export const sortArray =
     return arr.sort((a: any, b: any) => {
       const aUp = normalize(a[key]);
       const bUp = normalize(b[key]);
-      return bUp > aUp ? order : bUp === aUp ? 0 : -order;
+      if (bUp > aUp) return order;
+      if (bUp === aUp) return 0;
+      return -order;
     });
   };
 
@@ -52,6 +54,11 @@ export const nbResults = (array: unknown[], many?: string, one?: string) =>
   `${array.length} ${array.length > 1 ? many : one}`;
 
 export const filterKeyDeburr = (keys?: any[]) => (rawStr: string) => {
+  const str = normalize(rawStr);
+  if (!str) {
+    return () => true;
+  }
+
   function getValue(item: any, key: string): any {
     if (!key.includes(".")) {
       if (Array.isArray(item)) {
@@ -63,28 +70,19 @@ export const filterKeyDeburr = (keys?: any[]) => (rawStr: string) => {
     return getValue(item[first], rest.join("."));
   }
 
-  const str = normalize(rawStr);
   return (item: any) => {
-    let isIn = false;
-
     const keysToCheck = keys
       ? keys
       : Object.keys(item).filter((k) => k !== "id" && !k.startsWith("_"));
 
     for (const key of keysToCheck) {
       const value = getValue(item, key);
-
       const formattedValue = Array.isArray(value) ? value.join(",") : value;
-
-      if (!value && !str) {
-        isIn = true;
-      }
       if (formattedValue && normalize(formattedValue).includes(str)) {
-        isIn = true;
-        break;
+        return true;
       }
     }
-    return isIn;
+    return false;
   };
 };
 

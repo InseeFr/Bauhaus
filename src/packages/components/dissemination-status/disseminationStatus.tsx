@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import { useDisseminationStatusOptions } from "../../utils/hooks/disseminationStatus";
 import D from "../i18n";
 import LabelRequired from "../label-required";
@@ -43,15 +45,17 @@ export const DisseminationStatusInput = ({
   withLabel = true,
 }: Readonly<DisseminationStatusInputTypes>) => {
   const disseminationStatusListOptions = useDisseminationStatusOptions();
+  const inputId = useId();
   return (
     <>
       {withLabel &&
         (required ? (
-          <LabelRequired>{D.disseminationStatus.title}</LabelRequired>
+          <LabelRequired htmlFor={inputId}>{D.disseminationStatus.title}</LabelRequired>
         ) : (
-          <label>{D.disseminationStatus.title}</label>
+          <label htmlFor={inputId}>{D.disseminationStatus.title}</label>
         ))}
       <Select
+        inputId={inputId}
         placeholder={D.disseminationStatus.placeholder}
         value={value}
         options={disseminationStatusListOptions}

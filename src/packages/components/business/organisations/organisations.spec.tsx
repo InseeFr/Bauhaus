@@ -94,7 +94,7 @@ describe("InseeOrganisations component", () => {
   );
 
   it("renders organizations by calling useOrganizations hook", () => {
-    vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
+    using _useOrgsSpy = vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
       data: organizations,
       isLoading: false,
       error: null,
@@ -110,7 +110,7 @@ describe("InseeOrganisations component", () => {
   });
 
   it("renders nothing when organizations data is empty", () => {
-    vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
+    using _useOrgsSpy = vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
       data: [],
       isLoading: false,
       error: null,
@@ -139,7 +139,7 @@ describe("InseeOrganisation component", () => {
   );
 
   it("renders organization by calling useOrganizations hook", () => {
-    vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
+    using _useOrgsSpy = vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
       data: organizations,
       isLoading: false,
       error: null,
@@ -153,7 +153,7 @@ describe("InseeOrganisation component", () => {
   });
 
   it("renders nothing when organization is not found", () => {
-    vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
+    using _useOrgsSpy = vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
       data: organizations,
       isLoading: false,
       error: null,

@@ -1,15 +1,16 @@
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { MainMenu } from "@components/menu";
 
 import { UIMenuItem } from "@model/Menu";
 
 import { useAuthorizationGuard } from "../../auth/components/auth";
-import D from "../../deprecated-locales";
 
 const defaultAttrs = { "aria-current": "page" };
 
 const MenuConcepts = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const activePath = location.pathname;
   if (activePath === "/") return null;
@@ -28,7 +29,7 @@ const MenuConcepts = () => {
       attrs: {
         target: "_blank",
       },
-      label: D.help,
+      label: t("common.help"),
       alignToRight: true,
     },
     {
@@ -37,14 +38,14 @@ const MenuConcepts = () => {
       className: null,
       attrs: null,
       order: 2,
-      label: D.collectionsTitle,
+      label: t("collection.title"),
     },
     {
       path: "/concepts",
       pathKey: "concept",
       className: null,
       order: 1,
-      label: D.conceptsTitle,
+      label: t("concept.title"),
     },
   ];
 
@@ -55,7 +56,7 @@ const MenuConcepts = () => {
         pathKey: "administration",
         className: null,
         attrs: null,
-        label: D.administrationTitle,
+        label: t("common.administrationTitle"),
         order: 3,
         alignToRight: true,
       },

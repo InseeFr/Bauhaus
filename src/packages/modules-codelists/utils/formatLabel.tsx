@@ -1,3 +1,3 @@
 export const formatLabel = (component) => {
-  return <>{component.labelLg1}</>;
+  return component.labelLg1;
 };

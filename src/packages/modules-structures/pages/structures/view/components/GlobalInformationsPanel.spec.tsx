@@ -46,7 +46,8 @@ describe("GlobalInformationsPanel", () => {
     modified: "2022-02-01",
     creator: "STAMP CREATOR",
     contributor: ["STAMP CONTRIBUTOR"],
-    disseminationStatus: "http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
+    disseminationStatus:
+      "http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
   } as Structure;
 
   it("should render the structure information correctly", () => {
@@ -57,7 +58,7 @@ describe("GlobalInformationsPanel", () => {
     screen.getByText(/12345/);
     screen.getByText(/Creation date : 01\/01\/2022/);
     screen.getByText(/Modification date : 02\/01\/2022/);
-    screen.getByText(/Publication status : Temporary, never published/);
+    screen.getByText(/Publication status : Provisional/);
     screen.getByText(/Owner : STAMP CREATOR/);
     screen.getByText(/Contributors :/);
     screen.getByText(/STAMP CONTRIBUTOR/);

@@ -33,8 +33,3 @@ export const useV2StampsOptions = () => {
     label: label,
   }));
 };
-
-export const useV2StampsMap = () => {
-  const { data = [] } = useV2Stamps();
-  return new Map(data.map(({ stamp, label }: { stamp: string; label: string }) => [stamp, label]));
-};

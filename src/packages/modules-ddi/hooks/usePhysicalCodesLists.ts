@@ -6,6 +6,7 @@ export interface CodeListItem {
   agencyId: string;
   id: string;
   label: string;
+  mutualized?: boolean;
 }
 
 export const usePhysicalCodesLists = (agencyId: string, physicalInstanceId: string) => {

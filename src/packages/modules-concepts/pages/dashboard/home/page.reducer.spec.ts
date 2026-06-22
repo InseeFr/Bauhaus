@@ -1,3 +1,5 @@
+import { Collection } from "../../../types/collection";
+import { ConceptForAdvancedSearch } from "../../../types/concept";
 import { initialState, reducer } from "./page.reducer";
 
 describe("page.reducer", () => {
@@ -12,8 +14,8 @@ describe("page.reducer", () => {
 
   describe("FETCH_SUCCESS", () => {
     it("updates concepts and collections", () => {
-      const concepts = [{ id: "1", label: "Concept A" }] as any;
-      const collections = [{ id: "2", label: "Collection A" }] as any;
+      const concepts = [{ id: "1", label: "Concept A" }] as unknown as ConceptForAdvancedSearch[];
+      const collections = [{ id: "2", label: "Collection A" }] as unknown as Collection[];
 
       const state = reducer(initialState, { type: "FETCH_SUCCESS", concepts, collections });
 

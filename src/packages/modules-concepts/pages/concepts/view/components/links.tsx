@@ -8,7 +8,6 @@ import {
   SUCCEED,
 } from "@sdk/constants";
 
-import { D2 } from "../../../../../deprecated-locales";
 import { Links, Link as LinkType } from "../../../../../model/concepts/concept";
 import { LinksList } from "./link-list";
 import "./links.css";
@@ -42,10 +41,8 @@ const ConceptLinks = ({
 
   return (
     <div className="row concept-links">
-      <LinksList links={linksGroupByType} alone={!secondLang} lang="lg1" />
-      {secondLang && (
-        <LinksList links={linksGroupByType} alone={false} lang="lg2" Dictionnary={D2} />
-      )}
+      <LinksList links={linksGroupByType} alone={!secondLang} lang="lg1" language="fr" />
+      {secondLang && <LinksList links={linksGroupByType} alone={false} lang="lg2" language="en" />}
     </div>
   );
 };

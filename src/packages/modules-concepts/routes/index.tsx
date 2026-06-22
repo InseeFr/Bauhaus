@@ -7,31 +7,31 @@ export const routes: RouteObject[] = [
   },
   {
     path: "validation",
-    lazy: () => import("../validation/home-container"),
+    lazy: () => import("../pages/concepts/validation/page"),
   },
   {
     path: "search",
-    lazy: () => import("../advanced-search/home-container"),
+    lazy: () => import("../pages/concepts/search/page"),
   },
   {
     path: "export",
-    lazy: () => import("../export/home-container"),
+    lazy: () => import("../pages/concepts/export/page"),
   },
   {
     path: "create",
-    lazy: () => import("../pages/concepts/edit/edition-container"),
+    lazy: () => import("../pages/concepts/edit/page"),
   },
   {
     path: ":id",
-    lazy: () => import("../pages/concepts/view/home-container"),
+    lazy: () => import("../pages/concepts/view/page"),
   },
   {
     path: ":id/compare",
-    lazy: () => import("../compare/home-container"),
+    lazy: () => import("../pages/concepts/compare/page"),
   },
   {
     path: ":id/modify",
-    lazy: () => import("../pages/concepts/edit/edition-container"),
+    lazy: () => import("../pages/concepts/edit/page"),
   },
   {
     path: "administration",
@@ -39,26 +39,26 @@ export const routes: RouteObject[] = [
   },
   {
     path: "collections",
-    lazy: () => import("../pages/collections/home/home-container"),
+    lazy: () => import("../pages/collections/home/page"),
   },
   {
     path: "collections/create",
-    lazy: () => import("../pages/collections/edit/edition-container"),
+    lazy: () => import("../pages/collections/edit/page"),
   },
   {
     path: "collections/:id",
-    lazy: () => import("../pages/collections/view/home-container"),
+    lazy: () => import("../pages/collections/view/page"),
   },
   {
     path: "collections/:id/modify",
-    lazy: () => import("../pages/collections/edit/edition-container"),
+    lazy: () => import("../pages/collections/edit/page"),
   },
   {
     path: "collections/validation",
-    lazy: () => import("../collections/validation/home-container"),
+    lazy: () => import("../pages/collections/validation/page"),
   },
   {
     path: "collections/export",
-    lazy: () => import("../collections/export/home-container"),
+    lazy: () => import("../pages/collections/export/page"),
   },
 ];

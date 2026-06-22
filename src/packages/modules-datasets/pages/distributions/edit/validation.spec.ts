@@ -109,4 +109,44 @@ describe("validation", function () {
       },
     });
   });
+  it("should accept empty strings for accessUrl and url", function () {
+    expect(
+      validate({
+        idDataset: "id",
+        labelLg1: "labelLg1",
+        labelLg2: "labelLg2",
+        accessUrl: "",
+        url: "",
+      }),
+    ).toEqual({
+      errorMessage: [],
+      fields: {
+        idDataset: "",
+        labelLg1: "",
+        labelLg2: "",
+        accessUrl: "",
+        url: "",
+      },
+    });
+  });
+  it("should accept valid URLs for accessUrl and url", function () {
+    expect(
+      validate({
+        idDataset: "id",
+        labelLg1: "labelLg1",
+        labelLg2: "labelLg2",
+        accessUrl: "https://example.com/access",
+        url: "https://example.com/data",
+      }),
+    ).toEqual({
+      errorMessage: [],
+      fields: {
+        idDataset: "",
+        labelLg1: "",
+        labelLg2: "",
+        accessUrl: "",
+        url: "",
+      },
+    });
+  });
 });

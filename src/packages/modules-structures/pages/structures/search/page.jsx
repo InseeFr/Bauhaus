@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
-import { TextInput } from "@components/form/input";
-import { Column } from "@components/layout";
+import { CreatorsInput } from "@components/business/creators-input";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
 import { filterKeyDeburr } from "@utils/array-utils";
-import { useStampsOptions } from "@utils/hooks/stamps";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
@@ -36,12 +36,19 @@ const defaultFormState = {
   validationState: "",
 };
 
-const SearchFormList = ({ concepts, stampListOptions, data }) => {
+const SearchFormList = ({ concepts, data }) => {
   const { t } = useTranslation();
 
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
-  const { labelLg1, componentLabelLg1, type, concept, creator, validationState } = form;
+  const {
+    labelLg1,
+    componentLabelLg1,
+    type,
+    concept,
+    creator,
+    validationState,
+  } = form;
 
   const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
 
@@ -66,84 +73,76 @@ const SearchFormList = ({ concepts, stampListOptions, data }) => {
       initializeState={reset}
       redirect={<Navigate to="/structures" />}
     >
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {t("structure.label")}
-            <TextInput
-              value={labelLg1}
-              onChange={(e) => handleChange("labelLg1", e.target.value)}
-            />
-          </label>
-        </div>
-      </div>
-      <div className="row form-group">
-        <div className="col-md-12">
-          <label className="w-100">
-            {t("structure.componentLabel")}
-            <TextInput
-              value={componentLabelLg1}
-              onChange={(e) => handleChange("componentLabelLg1", e.target.value)}
-            />
-          </label>
-        </div>
-      </div>
-      <div className="row form-group">
-        <Column>
-          <label className="w-100">
-            {t("component.type.title")}
+      <AdvancedSearchCard className="structure-search-form">
+        <SearchTextField
+          label={t("structure.label")}
+          value={labelLg1}
+          onChange={(value) => handleChange("labelLg1", value)}
+        />
+        <SearchTextField
+          label={t("structure.componentLabel")}
+          value={componentLabelLg1}
+          onChange={(value) => handleChange("componentLabelLg1", value)}
+        />
+        <SearchField label={t("component.type.title")} col="col-12 md:col-6">
+          {(id) => (
             <Select
+              inputId={id}
               placeholder=""
-              value={COMPONENT_TYPES.find((option) => option.value === type) || ""}
+              value={
+                COMPONENT_TYPES.find((option) => option.value === type) || ""
+              }
               options={COMPONENT_TYPES}
               onChange={(value) => {
                 handleChange("type", value);
               }}
             />
-          </label>
-        </Column>
-        <Column>
-          <label className="w-100">
-            {t("component.concept")}
+          )}
+        </SearchField>
+        <SearchField label={t("component.concept")} col="col-12 md:col-6">
+          {(id) => (
             <Select
+              inputId={id}
               placeholder=""
-              value={conceptsOptions.find((option) => option.value === concept) || ""}
+              value={
+                conceptsOptions.find((option) => option.value === concept) || ""
+              }
               options={conceptsOptions}
               onChange={(value) => {
                 handleChange("concept", value);
               }}
             />
-          </label>
-        </Column>
-      </div>
-      <div className="row form-group">
-        <Column>
-          <label className="w-100">
-            {t("structure.creator")}
+          )}
+        </SearchField>
+        <div className="field col-12 md:col-6">
+          <CreatorsInput
+            mode="organisation"
+            value={creator}
+            onChange={(value) => handleChange("creator", value)}
+            required={false}
+          />
+        </div>
+        <SearchField
+          label={t("structure.validationStatus")}
+          col="col-12 md:col-6"
+        >
+          {(id) => (
             <Select
+              inputId={id}
               placeholder=""
-              value={stampListOptions.find((option) => option.value === creator) || ""}
-              options={stampListOptions}
-              onChange={(value) => {
-                handleChange("creator", value);
-              }}
-            />
-          </label>
-        </Column>
-        <Column>
-          <label className="w-100">
-            {t("structure.validationStatus")}
-            <Select
-              placeholder=""
-              value={validateStateOptions.find((option) => option.value === validationState) || ""}
+              value={
+                validateStateOptions.find(
+                  (option) => option.value === validationState,
+                ) || ""
+              }
               options={validateStateOptions}
               onChange={(value) => {
                 handleChange("validationState", value);
               }}
             />
-          </label>
-        </Column>
-      </div>
+          )}
+        </SearchField>
+      </AdvancedSearchCard>
     </AdvancedSearchList>
   );
 };
@@ -159,10 +158,11 @@ export const Component = () => {
 
   const [concepts, setConcepts] = useState([]);
 
-  const stampListOptions = useStampsOptions();
-
   useEffect(() => {
-    Promise.all([StructureApi.getStructuresForSearch(), ConceptsApi.getConceptList()])
+    Promise.all([
+      StructureApi.getStructuresForSearch(),
+      ConceptsApi.getConceptList(),
+    ])
       .then(([structures, concepts]) => {
         setItems(structures);
         setConcepts(concepts);
@@ -174,5 +174,5 @@ export const Component = () => {
     return <Loading />;
   }
 
-  return <SearchFormList data={items} concepts={concepts} stampListOptions={stampListOptions} />;
+  return <SearchFormList data={items} concepts={concepts} />;
 };

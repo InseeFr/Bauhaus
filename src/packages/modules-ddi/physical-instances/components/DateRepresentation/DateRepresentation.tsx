@@ -34,6 +34,7 @@ export const DateRepresentation = ({
 
   useEffect(() => {
     const newRepresentation: DateTimeRepresentation = {
+      $type: "DateTimeRepresentationBaseType",
       DateTypeCode: dateTypeCode,
     };
 

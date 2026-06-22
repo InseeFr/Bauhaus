@@ -1,5 +1,9 @@
+.label-required > span:not(.asterisk) {
+  display: block;
+}
+
 .label-required .asterisk {
   color: red;
   font-weight: bold;
-  font-size: 25px;
+  margin-left: 0.25em;
 }

@@ -36,6 +36,5 @@ function PublicationStatus({
   },
   object: { validationState = UNPUBLISHED },
 }: Readonly<PublicationStatusType>) {
-  const status = dictionary[validationState];
-  return <>{status}</>;
+  return dictionary[validationState];
 }

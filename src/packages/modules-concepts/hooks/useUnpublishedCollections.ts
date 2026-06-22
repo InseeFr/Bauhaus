@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { UnpublishedCollection } from "@model/concepts/collection";
-
 import { CollectionApi } from "@sdk/new-collection-api";
+
+import { UnpublishedCollection } from "@model/concepts/collection";
 
 export const useUnpublishedCollections = () => {
   return useQuery<UnpublishedCollection[]>({
