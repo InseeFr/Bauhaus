@@ -46,8 +46,7 @@ describe("GlobalInformationsPanel", () => {
     modified: "2022-02-01",
     creator: "STAMP CREATOR",
     contributor: ["STAMP CONTRIBUTOR"],
-    disseminationStatus:
-      "http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
+    disseminationStatus: "http:/id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
   } as Structure;
 
   it("should render the structure information correctly", () => {

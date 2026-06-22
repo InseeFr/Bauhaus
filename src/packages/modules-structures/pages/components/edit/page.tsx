@@ -88,21 +88,15 @@ export const Component = (props: any) => {
   const { data: codesLists = [] } = useFormattedCodeList();
 
   const [state, dispatch] = useReducer(editContainerReducer, initialState);
-  const { loading, saving, component, concepts, serverSideError, attributes } =
-    state;
+  const { loading, saving, component, concepts, serverSideError, attributes } = state;
 
-  const handleBack = useCallback(
-    () => goBack("/structures/components"),
-    [goBack],
-  );
+  const handleBack = useCallback(() => goBack("/structures/components"), [goBack]);
 
   const handleSave = useCallback(
     (component: StructureComponent) => {
       dispatch({ type: "SAVE_STARTED" });
       saveComponent(component)
-        .then((id = component.id) =>
-          goBack(`/structures/components/${id}`, !component.id),
-        )
+        .then((id = component.id) => goBack(`/structures/components/${id}`, !component.id))
         .catch((error: string) => {
           dispatch({ type: "SAVE_FAILED", component, error });
         })
@@ -112,9 +106,7 @@ export const Component = (props: any) => {
   );
 
   useEffect(() => {
-    const getComponent = id
-      ? StructureApi.getMutualizedComponent(id)
-      : Promise.resolve({});
+    const getComponent = id ? StructureApi.getMutualizedComponent(id) : Promise.resolve({});
     Promise.all([
       getComponent,
       StructureApi.getMutualizedAttributes(),
@@ -133,10 +125,7 @@ export const Component = (props: any) => {
   return (
     <>
       {isEditing ? (
-        <PageTitleBlock
-          titleLg1={component.labelLg1}
-          titleLg2={component.labelLg2}
-        />
+        <PageTitleBlock titleLg1={component.labelLg1} titleLg2={component.labelLg2} />
       ) : (
         <PageTitle title={t("component.creationPageTitle")} />
       )}

@@ -12,29 +12,20 @@ import {
 import { useAppContext } from "../../application/app-context";
 import emptyCollection from "../utils/empty-collection";
 
-const transformCollection = (
-  data: Collection,
-  lg1 = "fr",
-): CollectionGeneral => {
+const transformCollection = (data: Collection, lg1 = "fr"): CollectionGeneral => {
   const lg2 = lg1.toLowerCase() === "fr" ? "en" : "fr";
 
   const prefLabelLg1 =
-    data.labels?.find((label) => label.lang.toLowerCase() === lg1.toLowerCase())
-      ?.value ?? "";
+    data.labels?.find((label) => label.lang.toLowerCase() === lg1.toLowerCase())?.value ?? "";
 
   const prefLabelLg2 =
-    data.labels?.find((label) => label.lang.toLowerCase() === lg2.toLowerCase())
-      ?.value ?? "";
+    data.labels?.find((label) => label.lang.toLowerCase() === lg2.toLowerCase())?.value ?? "";
 
   const descriptionLg1 =
-    data.descriptions?.find(
-      (desc) => desc.lang.toLowerCase() === lg1.toLowerCase(),
-    )?.value ?? "";
+    data.descriptions?.find((desc) => desc.lang.toLowerCase() === lg1.toLowerCase())?.value ?? "";
 
   const descriptionLg2 =
-    data.descriptions?.find(
-      (desc) => desc.lang.toLowerCase() === lg2.toLowerCase(),
-    )?.value ?? "";
+    data.descriptions?.find((desc) => desc.lang.toLowerCase() === lg2.toLowerCase())?.value ?? "";
 
   return {
     ...data,

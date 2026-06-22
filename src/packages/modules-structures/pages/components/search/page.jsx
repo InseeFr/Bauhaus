@@ -48,9 +48,7 @@ const SearchFormList = ({ concepts, data }) => {
 
   const dataLinks = filteredData.map((component) => (
     <li key={component.id} className="list-group-item text-left">
-      <Link to={`/structures/components/${component.id}`}>
-        {formatLabel(component)}
-      </Link>
+      <Link to={`/structures/components/${component.id}`}>{formatLabel(component)}</Link>
     </li>
   ));
 
@@ -72,9 +70,7 @@ const SearchFormList = ({ concepts, data }) => {
             <Select
               inputId={id}
               placeholder=""
-              value={
-                conceptsOptions.find((option) => option.value === concept) || ""
-              }
+              value={conceptsOptions.find((option) => option.value === concept) || ""}
               options={conceptsOptions}
               onChange={(value) => {
                 handleChange("concept", value);
@@ -90,19 +86,12 @@ const SearchFormList = ({ concepts, data }) => {
             required={false}
           />
         </div>
-        <SearchField
-          label={t("component.validationStatus")}
-          col="col-12 md:col-6"
-        >
+        <SearchField label={t("component.validationStatus")} col="col-12 md:col-6">
           {(id) => (
             <Select
               inputId={id}
               placeholder=""
-              value={
-                validateStateOptions.find(
-                  (option) => option.value === validationState,
-                ) || ""
-              }
+              value={validateStateOptions.find((option) => option.value === validationState) || ""}
               options={validateStateOptions}
               onChange={(value) => {
                 handleChange("validationState", value);
@@ -127,10 +116,7 @@ export const Component = () => {
   const [concepts, setConcepts] = useState([]);
 
   useEffect(() => {
-    Promise.all([
-      StructureApi.getMutualizedComponentsForSearch(),
-      ConceptsApi.getConceptList(),
-    ])
+    Promise.all([StructureApi.getMutualizedComponentsForSearch(), ConceptsApi.getConceptList()])
       .then(([components, concepts]) => {
         setItems(components);
         setConcepts(concepts);

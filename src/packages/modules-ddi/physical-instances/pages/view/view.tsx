@@ -16,25 +16,10 @@ import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalInstance";
-import {
-  viewReducer,
-  initialState,
-  actions,
-  type VariableData,
-} from "./viewReducer";
+import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
 import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
-import {
-  FILTER_ALL_TYPES,
-  TOAST_DURATION,
-  VARIABLE_TYPES,
-} from "../../constants";
-import type {
-  VariableTableData,
-  Variable,
-  CodeList,
-  Code,
-  Category,
-} from "../../types/api";
+import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
+import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
 import { Loading } from "../../../../components/loading";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
 import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
@@ -52,8 +37,10 @@ export const Component = () => {
   const initialRestoreDone = useRef(false);
   const [state, dispatch] = useReducer(viewReducer, initialState);
   const queryClient = useQueryClient();
-  const { data, variables, title, isLoading, isError, error } =
-    usePhysicalInstancesData(agencyId!, id!);
+  const { data, variables, title, isLoading, isError, error } = usePhysicalInstancesData(
+    agencyId!,
+    id!,
+  );
 
   const { data: parents } = usePhysicalInstanceParents(agencyId!, id!);
 
@@ -77,11 +64,7 @@ export const Component = () => {
     const currentVariableId = searchParams.get("variableId");
     const selectedId = state.selectedVariable?.id ?? null;
 
-    if (
-      selectedId &&
-      selectedId !== "new" &&
-      selectedId !== currentVariableId
-    ) {
+    if (selectedId && selectedId !== "new" && selectedId !== currentVariableId) {
       setSearchParams(
         (prev) => {
           const next = new URLSearchParams(prev);
@@ -151,9 +134,7 @@ export const Component = () => {
 
   // Check if there are unsaved changes
   const hasUnsavedChanges = useMemo(() => {
-    return (
-      state.localVariables.length > 0 || state.deletedVariableIds.length > 0
-    );
+    return state.localVariables.length > 0 || state.deletedVariableIds.length > 0;
   }, [state.localVariables, state.deletedVariableIds]);
 
   // Block navigation when there are unsaved changes (internal + F5/close tab)
@@ -292,9 +273,7 @@ export const Component = () => {
   const handleVariableClick = useCallback(
     async (variable: VariableTableData) => {
       // Vérifier d'abord si la variable a des modifications locales
-      const localVariable = state.localVariables.find(
-        (v) => v.id === variable.id,
-      );
+      const localVariable = state.localVariables.find((v) => v.id === variable.id);
 
       if (localVariable) {
         // Utiliser les données locales si elles existent
@@ -303,32 +282,22 @@ export const Component = () => {
       }
 
       // Sinon, trouver la variable complète dans les données brutes
-      const fullVariable = data?.Variable?.find(
-        (v: Variable) => v.ID === variable.id,
-      );
+      const fullVariable = data?.Variable?.find((v: Variable) => v.ID === variable.id);
 
       // Charger les informations complètes de la variable si trouvée
-      const description =
-        pickLang(fullVariable?.Description, "fr-FR") || undefined;
+      const description = pickLang(fullVariable?.Description, "fr-FR") || undefined;
       const isGeographic = fullVariable?.["@isGeographic"] === "true";
-      const textRepresentation =
-        fullVariable?.VariableRepresentation?.TextRepresentation;
-      const numericRepresentation =
-        fullVariable?.VariableRepresentation?.NumericRepresentation;
-      const dateRepresentation =
-        fullVariable?.VariableRepresentation?.DateTimeRepresentation;
-      const codeRepresentation =
-        fullVariable?.VariableRepresentation?.CodeRepresentation;
+      const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
+      const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
+      const dateRepresentation = fullVariable?.VariableRepresentation?.DateTimeRepresentation;
+      const codeRepresentation = fullVariable?.VariableRepresentation?.CodeRepresentation;
 
       // Les CodeList et Category ne sont plus dans la GET PI : on les charge à la
       // demande quand l'utilisateur ouvre une variable Code (cache via react-query).
       let codeList: CodeList | undefined;
       let categories: Category[] | undefined;
       if (codeRepresentation) {
-        const loaded = await loadCodeListForVariable(
-          queryClient,
-          codeRepresentation,
-        );
+        const loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
         codeList = loaded.codeList;
         categories = loaded.categories;
       }
@@ -361,9 +330,7 @@ export const Component = () => {
       initialRestoreDone.current = true;
       const variableId = searchParams.get("variableId");
       if (variableId) {
-        const variable = variables.find(
-          (v: VariableTableData) => v.id === variableId,
-        );
+        const variable = variables.find((v: VariableTableData) => v.id === variableId);
         if (variable) {
           handleVariableClick(variable);
         }
@@ -384,22 +351,16 @@ export const Component = () => {
 
   // Navigation entre les variables (circulaire)
   const currentVariableIndex = useMemo(() => {
-    if (!state.selectedVariable || state.selectedVariable.id === "new")
-      return -1;
-    return filteredVariables.findIndex(
-      (v) => v.id === state.selectedVariable?.id,
-    );
+    if (!state.selectedVariable || state.selectedVariable.id === "new") return -1;
+    return filteredVariables.findIndex((v) => v.id === state.selectedVariable?.id);
   }, [filteredVariables, state.selectedVariable]);
 
-  const hasVariablesToNavigate =
-    filteredVariables.length > 1 && currentVariableIndex >= 0;
+  const hasVariablesToNavigate = filteredVariables.length > 1 && currentVariableIndex >= 0;
 
   const handlePreviousVariable = useCallback(() => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const previousIndex =
-        currentVariableIndex === 0
-          ? filteredVariables.length - 1
-          : currentVariableIndex - 1;
+        currentVariableIndex === 0 ? filteredVariables.length - 1 : currentVariableIndex - 1;
       handleVariableClick(filteredVariables[previousIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
@@ -407,9 +368,7 @@ export const Component = () => {
   const handleNextVariable = useCallback(() => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const nextIndex =
-        currentVariableIndex === filteredVariables.length - 1
-          ? 0
-          : currentVariableIndex + 1;
+        currentVariableIndex === filteredVariables.length - 1 ? 0 : currentVariableIndex + 1;
       handleVariableClick(filteredVariables[nextIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
@@ -510,22 +469,13 @@ export const Component = () => {
       };
 
       // Si on a des variables locales ou des suppressions, mettre à jour les variables
-      if (
-        state.localVariables.length > 0 ||
-        state.deletedVariableIds.length > 0
-      ) {
+      if (state.localVariables.length > 0 || state.deletedVariableIds.length > 0) {
         const existingVariables = data?.Variable || [];
-        const variableMap = new Map(
-          existingVariables.map((v: Variable) => [v.ID, v]),
-        );
+        const variableMap = new Map(existingVariables.map((v: Variable) => [v.ID, v]));
 
         // Maps pour gérer les CodeLists et Categories
-        const codeListMap = new Map(
-          (data?.CodeList || []).map((cl: any) => [cl.ID, cl]),
-        );
-        const categoryMap = new Map(
-          (data?.Category || []).map((cat: any) => [cat.ID, cat]),
-        );
+        const codeListMap = new Map((data?.CodeList || []).map((cl: any) => [cl.ID, cl]));
+        const categoryMap = new Map((data?.Category || []).map((cat: any) => [cat.ID, cat]));
 
         // Supprimer les variables marquées comme supprimées
         state.deletedVariableIds.forEach((deletedId) => {
@@ -596,9 +546,7 @@ export const Component = () => {
               ...localVar.codeRepresentation,
               CodeListReference: {
                 ...localVar.codeRepresentation.CodeListReference,
-                ID:
-                  localVar.codeList?.ID ||
-                  localVar.codeRepresentation.CodeListReference.ID,
+                ID: localVar.codeList?.ID || localVar.codeRepresentation.CodeListReference.ID,
               },
             };
 
@@ -638,10 +586,7 @@ export const Component = () => {
       }
 
       // Mettre à jour les références de variables dans LogicalRecord
-      if (
-        mergedData.DataRelationship?.[0]?.LogicalRecord?.[0] &&
-        mergedData.Variable
-      ) {
+      if (mergedData.DataRelationship?.[0]?.LogicalRecord?.[0] && mergedData.Variable) {
         const allVariableIds = mergedData.Variable.map((v: Variable) => v.ID);
 
         const variableReferences = allVariableIds.map((varId: string) => ({
@@ -685,15 +630,7 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     }
-  }, [
-    id,
-    agencyId,
-    data,
-    state.localVariables,
-    state.deletedVariableIds,
-    savePhysicalInstance,
-    t,
-  ]);
+  }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
 
   const handleDuplicatePhysicalInstance = useCallback(async () => {
     try {
@@ -713,9 +650,7 @@ export const Component = () => {
       });
 
       // Rediriger vers la page de la nouvelle physical instance
-      navigate(
-        `/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`,
-      );
+      navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
 
       toast.current?.show({
         severity: "success",
@@ -728,9 +663,7 @@ export const Component = () => {
         severity: "error",
         summary: t("physicalInstance.view.duplicateError"),
         detail:
-          err instanceof Error
-            ? err.message
-            : t("physicalInstance.view.duplicateErrorDetail"),
+          err instanceof Error ? err.message : t("physicalInstance.view.duplicateErrorDetail"),
         life: TOAST_DURATION,
       });
     }
@@ -745,11 +678,7 @@ export const Component = () => {
       <div role="alert" aria-live="assertive">
         <Message
           severity="error"
-          text={
-            error instanceof Error
-              ? error.message
-              : t("physicalInstance.view.errorLoading")
-          }
+          text={error instanceof Error ? error.message : t("physicalInstance.view.errorLoading")}
         />
       </div>
     );
@@ -757,10 +686,7 @@ export const Component = () => {
 
   return (
     <>
-      <div
-        className={`pi-layout${state.selectedVariable ? " pi-open" : ""}`}
-        role="main"
-      >
+      <div className={`pi-layout${state.selectedVariable ? " pi-open" : ""}`} role="main">
         <div className="pi-col-main">
           <div className="sticky-header">
             <PhysicalInstanceHeader

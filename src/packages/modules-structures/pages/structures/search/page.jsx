@@ -41,14 +41,7 @@ const SearchFormList = ({ concepts, data }) => {
 
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
-  const {
-    labelLg1,
-    componentLabelLg1,
-    type,
-    concept,
-    creator,
-    validationState,
-  } = form;
+  const { labelLg1, componentLabelLg1, type, concept, creator, validationState } = form;
 
   const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
 
@@ -89,9 +82,7 @@ const SearchFormList = ({ concepts, data }) => {
             <Select
               inputId={id}
               placeholder=""
-              value={
-                COMPONENT_TYPES.find((option) => option.value === type) || ""
-              }
+              value={COMPONENT_TYPES.find((option) => option.value === type) || ""}
               options={COMPONENT_TYPES}
               onChange={(value) => {
                 handleChange("type", value);
@@ -104,9 +95,7 @@ const SearchFormList = ({ concepts, data }) => {
             <Select
               inputId={id}
               placeholder=""
-              value={
-                conceptsOptions.find((option) => option.value === concept) || ""
-              }
+              value={conceptsOptions.find((option) => option.value === concept) || ""}
               options={conceptsOptions}
               onChange={(value) => {
                 handleChange("concept", value);
@@ -122,19 +111,12 @@ const SearchFormList = ({ concepts, data }) => {
             required={false}
           />
         </div>
-        <SearchField
-          label={t("structure.validationStatus")}
-          col="col-12 md:col-6"
-        >
+        <SearchField label={t("structure.validationStatus")} col="col-12 md:col-6">
           {(id) => (
             <Select
               inputId={id}
               placeholder=""
-              value={
-                validateStateOptions.find(
-                  (option) => option.value === validationState,
-                ) || ""
-              }
+              value={validateStateOptions.find((option) => option.value === validationState) || ""}
               options={validateStateOptions}
               onChange={(value) => {
                 handleChange("validationState", value);
@@ -159,10 +141,7 @@ export const Component = () => {
   const [concepts, setConcepts] = useState([]);
 
   useEffect(() => {
-    Promise.all([
-      StructureApi.getStructuresForSearch(),
-      ConceptsApi.getConceptList(),
-    ])
+    Promise.all([StructureApi.getStructuresForSearch(), ConceptsApi.getConceptList()])
       .then(([structures, concepts]) => {
         setItems(structures);
         setConcepts(concepts);
