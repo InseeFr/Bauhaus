@@ -152,13 +152,13 @@ const dictionary = {
     fr: "Version du poste",
     en: "Item version",
   },
+  classificationValidationStateTitle: {
+    fr: "Statut de publication",
+    en: "Publication status",
+  },
   isClassificationItemValidTitle: {
     fr: "État du poste",
     en: "State of the item",
-  },
-  classificationItemIsValidated: {
-    fr: (bool: boolean) => `${bool ? "Validé" : "Provisoire"}`,
-    en: (bool: boolean) => `${bool ? "Validated" : "Provisional"}`,
   },
   classificationTreeTitle: {
     fr: "Arbre de la nomenclature",

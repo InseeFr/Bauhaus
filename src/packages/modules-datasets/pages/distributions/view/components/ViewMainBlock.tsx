@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 
 import { stringToDate } from "@utils/date-utils";
 import { useSecondLang } from "@utils/hooks/second-lang";
@@ -28,9 +28,11 @@ export const ViewMainBlock = ({ distribution }: Readonly<{ distribution: Distrib
               <li>
                 {t("distribution.updatingDate")} : {stringToDate(distribution.updated)}
               </li>
-              <li>
-                {t("distribution.validationStatus")} : <PublicationFemale object={distribution} />
-              </li>
+              <PublicationStatusItem
+                label={t("distribution.validationStatus")}
+                object={distribution}
+                gender="female"
+              />
               <li>
                 {t("distribution.language")} : {distribution.language}
               </li>

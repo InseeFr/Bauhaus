@@ -7,7 +7,7 @@ import { DisseminationStatusVisualisation } from "@components/dissemination-stat
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationMale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
@@ -102,9 +102,10 @@ export const ComponentDetailView = ({
                 {D1.idTitle} : {component.identifiant}
               </li>
               <CreationUpdateItems creation={component.created} update={component.modified} />
-              <li>
-                {D.componentValididationStatusTitle} : <PublicationMale object={component} />
-              </li>
+              <PublicationStatusItem
+                label={D.componentValididationStatusTitle}
+                object={component}
+              />
               <li>
                 {D.creator} : <InseeOrganisation creator={component.creator} />
               </li>

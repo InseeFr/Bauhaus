@@ -2,7 +2,7 @@ import { CreationUpdateItems } from "@components/creation-update-items";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 
 import { D1 } from "../../../deprecated-locales";
 import { Structure } from "../../../model/structures/Structure";
@@ -30,9 +30,11 @@ export const GlobalInformationsPanel = ({ structure }: GlobalInformationsPanelTy
               {D1.idTitle} : {structure.identifiant}
             </li>
             <CreationUpdateItems creation={structure.created} update={structure.modified} />
-            <li>
-              {D.componentValididationStatusTitle} : <PublicationFemale object={structure} />
-            </li>
+            <PublicationStatusItem
+              label={D.componentValididationStatusTitle}
+              object={structure}
+              gender="female"
+            />
             <li>
               {D.creator} : <InseeOrganisation creator={structure.creator} />
             </li>

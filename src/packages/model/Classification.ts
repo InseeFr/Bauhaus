@@ -10,6 +10,7 @@ export interface ClassificationGeneral {
   changeNoteLg2: string;
   descriptionLg1: string;
   descriptionLg2: string;
+  validationState?: ValidationState;
 }
 
 export interface Classification {

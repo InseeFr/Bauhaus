@@ -92,6 +92,20 @@ describe("<General />", () => {
     expect(screen.queryByText(/Label EN/)).toBeNull();
   });
 
+  it("affiche le statut de publication 'Published' quand validationState est Validated", () => {
+    renderGeneral({ validationState: "Validated" });
+    expect(screen.getAllByTestId("note-content")[0]).toHaveTextContent(
+      "Publication status : Published",
+    );
+  });
+
+  it("affiche le statut de publication 'Provisional' quand validationState est Unpublished", () => {
+    renderGeneral({ validationState: "Unpublished" });
+    expect(screen.getAllByTestId("note-content")[0]).toHaveTextContent(
+      "Publication status : Provisional",
+    );
+  });
+
   it("affiche un lien externe pour additionalMaterial", () => {
     renderGeneral({ additionalMaterial: "https://example.com/material" });
     const link = screen.getByRole("link", {

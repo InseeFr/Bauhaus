@@ -77,7 +77,10 @@ vi.mock("@components/layout", () => ({
 }));
 vi.mock("@components/note", () => ({ Note: () => null }));
 vi.mock("@components/panel", () => ({ Panel: () => null }));
-vi.mock("@components/status", () => ({ PublicationFemale: () => null }));
+vi.mock("@components/status", () => ({
+  PublicationFemale: () => null,
+  PublicationStatusItem: () => null,
+}));
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { deleteSims: vi.fn(() => Promise.resolve()) },
 }));

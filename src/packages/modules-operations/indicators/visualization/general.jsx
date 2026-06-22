@@ -1,7 +1,7 @@
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationMale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
@@ -38,9 +38,7 @@ function OperationsIndicatorVisualization({ attr, secondLang, frequency = {} }) 
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              <li>
-                {D1.indicatorStatus} : <PublicationMale object={attr} />
-              </li>
+              <PublicationStatusItem label={D1.indicatorStatus} object={attr} />
             </ul>
           }
           title={D1.globalInformationsTitle}

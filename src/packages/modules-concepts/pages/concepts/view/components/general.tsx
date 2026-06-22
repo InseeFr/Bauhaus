@@ -2,7 +2,7 @@ import { DisseminationStatusVisualisation } from "@components/dissemination-stat
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 import type { ValidationState } from "@components/status";
 
 import { stringToDate } from "@utils/date-utils";
@@ -89,9 +89,12 @@ const renderValidationField = (
   value: string,
 ): JSX.Element => {
   return (
-    <li key={fieldName}>
-      {label}: <PublicationFemale object={{ validationState: value as ValidationState }} />
-    </li>
+    <PublicationStatusItem
+      key={fieldName}
+      label={label}
+      object={{ validationState: value as ValidationState }}
+      gender="female"
+    />
   );
 };
 
