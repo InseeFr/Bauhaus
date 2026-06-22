@@ -1,6 +1,6 @@
 {
   "name": "bauhaus",
-  "version": "4.20.0-rc16",
+  "version": "4.20.0-rc18",
   "type": "module",
   "description": "Web application for the management of concepts, classifications and other statistical objects",
   "repository": {
