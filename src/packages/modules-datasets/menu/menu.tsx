@@ -34,9 +34,7 @@ export const Menu = () => {
 
   const currentPath = [...paths]
     .sort((a, b) => b.path.length - a.path.length) // sort the most specific first so it will be found before
-    .find((path) => {
-      return location.pathname.startsWith(path.path);
-    });
+    .find(({ path }) => location.pathname === path || location.pathname.startsWith(path + "/"));
 
   if (currentPath) {
     currentPath.className = "active";

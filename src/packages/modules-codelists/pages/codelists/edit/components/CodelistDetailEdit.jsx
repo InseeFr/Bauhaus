@@ -9,6 +9,8 @@ import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@componen
 import { TextInput } from "@components/form/input";
 import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
+import { PageTitleBlock } from "@components/page-title-block";
+import { PageTitle } from "@components/page-title";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -44,6 +46,7 @@ export const CodelistDetailEdit = ({
 
   const { data: stamps } = useUserStamps();
   const stamp = stamps[0]?.stamp;
+
   const isContributor = useAuthorizationGuard("CODESLIST_CODESLIST", "CREATE");
 
   useEffect(() => {
@@ -82,6 +85,11 @@ export const CodelistDetailEdit = ({
 
   return (
     <>
+      {updateMode ? (
+        <PageTitleBlock titleLg1={codelist.labelLg1} titleLg2={codelist.labelLg2} />
+      ) : (
+        <PageTitle title={t("codelists.creationPageTitle")} />
+      )}
       <ActionToolbar>
         <CancelButton action={handleBack} col={3} />
         <SaveButton

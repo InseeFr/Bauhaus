@@ -3,7 +3,6 @@ import { createDictionary, firstLang, getLang, secondLang } from "@utils/diction
 import appD from "./dictionary/app";
 import classificationsD from "./dictionary/classifications";
 import conceptsD from "./dictionary/concepts";
-import DSDsD from "./dictionary/dsds";
 import errors from "./dictionary/errors";
 import operationsD from "./dictionary/operations";
 import { dictionary as DDIDictionary } from "./dictionary/ddi";
@@ -13,7 +12,7 @@ const dictionary = {
   ...conceptsD,
   ...classificationsD,
   ...operationsD,
-  ...DSDsD,
+  structuresTitle: { fr: "Structures", en: "Structures" },
   codelistsTitle: { fr: "Listes de codes", en: "Codelists" },
   datasetsTitle: { fr: "Jeux de données", en: "Datasets" },
   ...DDIDictionary,

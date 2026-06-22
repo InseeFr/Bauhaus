@@ -54,6 +54,6 @@ export const useCollection = (id: string | undefined) => {
       };
     },
     enabled: !!id,
-    placeholderData: !!id ? undefined : emptyCollection(defaultContributor),
+    placeholderData: id ? undefined : emptyCollection(defaultContributor),
   });
 };

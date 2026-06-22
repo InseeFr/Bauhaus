@@ -39,10 +39,7 @@ const api = {
   ],
 
   getStructure: (id: string) => [`structure/${id}`],
-  deleteStructure: (structureId: string) => [
-    `structure/${structureId}`,
-    (res: Response) => res.text(),
-  ],
+  deleteStructure: (id: string) => [`structure/${id}`, (res: Response) => res.text()],
   publishStructure: (structure: Structure) => [
     `structure/${structure.id}/validate`,
     {

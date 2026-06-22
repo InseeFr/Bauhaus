@@ -46,6 +46,7 @@ export interface LayoutItemConfiguration {
   title: string;
   hasError: boolean;
 }
+
 export type LayoutConfiguration = Record<string, LayoutItemConfiguration>;
 
 export const LayoutWithLateralMenu = ({
@@ -97,7 +98,6 @@ export const LayoutWithLateralMenu = ({
                       onClick={() => openMainMenu(key)}
                     ></CollapsibleTrigger>
                   </div>
-
                   {opened && (
                     <ul className="secondary__item">
                       {Object.entries(configuration.children ?? {}).map(
