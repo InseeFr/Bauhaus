@@ -300,6 +300,24 @@ export const Component = () => {
         const loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
         codeList = loaded.codeList;
         categories = loaded.categories;
+
+        // La variable référence une liste de codes qui n'existe pas : on le signale
+        // explicitement (agency + id de la variable ET de la liste) au lieu d'afficher
+        // une liste vide silencieuse.
+        if (loaded.missing) {
+          const ref = codeRepresentation.CodeListReference;
+          toast.current?.show({
+            severity: "error",
+            summary: t("physicalInstance.view.code.missingCodeListTitle"),
+            detail: t("physicalInstance.view.code.missingCodeListDetail", {
+              variableAgency: fullVariable?.Agency ?? agencyId,
+              variableId: variable.id,
+              codeListAgency: ref?.Agency,
+              codeListId: ref?.ID,
+            }),
+            sticky: true,
+          });
+        }
       }
 
       dispatch(
@@ -319,7 +337,7 @@ export const Component = () => {
         }),
       );
     },
-    [data, state.localVariables, queryClient],
+    [data, state.localVariables, queryClient, t, agencyId],
   );
 
   // Restore selected variable from URL on initial load

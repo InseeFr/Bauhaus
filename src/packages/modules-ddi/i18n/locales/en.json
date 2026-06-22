@@ -35,6 +35,8 @@
         "label": "Label",
         "loadingCodes": "Loading codes...",
         "loadingCodesLists": "Loading code lists...",
+        "missingCodeListDetail": "Variable {{variableAgency}}/{{variableId}} references code list {{codeListAgency}}/{{codeListId}}, which does not exist.",
+        "missingCodeListTitle": "Code list not found",
         "moveDown": "Move down",
         "moveUp": "Move up",
         "mutualizedCodesListsSection": "Mutualized code lists",

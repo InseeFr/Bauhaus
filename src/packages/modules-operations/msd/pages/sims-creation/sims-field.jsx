@@ -225,13 +225,14 @@ const SimsFieldComponent = ({
 };
 
 export const SimsField = memo(SimsFieldComponent, (prevProps, nextProps) => {
-  // Ne re-render que si le currentSection de CE champ a changé
   return (
     prevProps.msd.idMas === nextProps.msd.idMas &&
     prevProps.currentSection === nextProps.currentSection &&
     prevProps.secondLang === nextProps.secondLang &&
     prevProps.alone === nextProps.alone &&
     prevProps.unbounded === nextProps.unbounded &&
-    prevProps.simsModified === nextProps.simsModified
+    prevProps.simsModified === nextProps.simsModified &&
+    prevProps.codesLists === nextProps.codesLists &&
+    prevProps.organisationsOptions === nextProps.organisationsOptions
   );
 });

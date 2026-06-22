@@ -13,6 +13,34 @@ Each role grants a set of permissions on resources. Permissions are evaluated at
 |-------|---------|
 | `ALL` | Action allowed on all objects regardless of ownership |
 | `STAMP` | Action allowed only on objects owned by the authenticated user (stamped) |
+| `NONE` | Action denied. This is also the **implicit default** — see [Default behaviour](#default-behaviour-omitted-permissions) |
+
+> **`ALL` still requires a stamp for write actions.** For `create`, `update`, `delete`, `publish` and `administration`, a user whose token carries no stamp is denied even when the strategy is `ALL`. `read` with `ALL` never requires a stamp.
+
+## Default behaviour (omitted permissions)
+
+The configuration is **secure by default**: anything not explicitly granted is denied.
+
+- If a **privilege** is omitted for a module (e.g. no `publish` under `structure_structure`), that action is treated as `NONE`.
+- If an entire **module** is omitted for a role (e.g. no `geography` block), every action on that module is treated as `NONE`.
+
+As a result, writing `create: NONE` explicitly is **equivalent to omitting the line**. A role that should only have access to one module needs to list that module alone:
+
+```yaml
+rbac:
+  config:
+    Betatest_OeDDIp_RMESGNCS:
+      ddi_physicalinstance:        # only granted module — everything else defaults to NONE
+        create: ALL
+        read: ALL
+        update: ALL
+        delete: ALL
+        publish: ALL
+```
+
+Keep at least one module entry under a role so the role key itself is recognised.
+
+> **INSEE source exception.** When the authenticated user comes from the INSEE source, `read: ALL` is added on **every** module on top of the configured strategies. Read access is therefore never restricted for INSEE users, regardless of `rbac.yml`.
 
 ## Resources
 
@@ -138,16 +166,19 @@ The valid module keys and action names are defined as Java enums in the back-off
 
 - **Modules** (`RBAC.Module`): `concept_concept`, `concept_collection`, `structure_structure`, `structure_component`, `operation_family`, `operation_series`, `operation_operation`, `operation_indicator`, `operation_sims`, `operation_document`, `classification_classification`, `classification_family`, `classification_series`, `dataset_dataset`, `dataset_distribution`, `codeslist_codeslist`, `codeslist_partialcodeslist`, `geography`, `ddi_physicalinstance`
 - **Actions** (`RBAC.Privilege`): `create`, `read`, `update`, `delete`, `publish`, `administration`
-- **Strategies** (`RBAC.Strategy`): `ALL`, `STAMP`
+- **Strategies** (`RBAC.Strategy`): `ALL`, `STAMP`, `NONE`
 
 > Using an unknown module key or action will cause a binding error at application startup.
 
 ### Multi-role behaviour
 
-When a user has multiple Keycloak roles, the **most restrictive strategy wins**:
-`ALL` < `STAMP` < *(no permission)*
+RBAC is **additive**: when a user has multiple Keycloak roles, the **most permissive strategy wins**. Strategies are ordered by their enum ordinal and the minimum is kept:
 
-For example, if a user has both `Proprietaire_concept_RMESGNCS` (`delete: ALL`) and a hypothetical role with `delete: STAMP` on `concept_concept`, the effective strategy will be `STAMP`.
+`ALL` (most permissive) → `STAMP` → `NONE` (most restrictive)
+
+For example, if a user has both `Proprietaire_concept_RMESGNCS` (`delete: ALL`) and another role with `delete: STAMP` on `concept_concept`, the effective strategy is **`ALL`**. Granting an extra role can only widen access, never narrow it.
+
+> This resolution happens in `PropertiesRbacFetcher.computePrivileges` (back-office), which merges each privilege across roles with `Collections.min(..., comparingInt(Enum::ordinal))`.
 
 ### Overriding for a specific environment
 

@@ -148,6 +148,28 @@ describe("useAllCodesLists", () => {
     expect(result.current.data).toEqual([]);
   });
 
+  it("should expose mutualized codes lists when the group query fails", async () => {
+    vi.mocked(DDIApi.getGroupCodesLists).mockRejectedValue(new Error("group boom"));
+    vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
+
+    const { result } = renderHook(() => useAllCodesLists("fr.insee", "pi-123"), {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    // L'échec de la liste du groupe ne doit pas masquer les listes mutualisées.
+    expect(result.current.error).toBeFalsy();
+    expect(result.current.data).toContainEqual({
+      agencyId: "fr.insee",
+      id: "mutualized-1",
+      label: "Liste mutualisée 1",
+      mutualized: true,
+    });
+  });
+
   it("should show loading when either query is loading", async () => {
     vi.mocked(DDIApi.getGroupCodesLists).mockImplementation(() => new Promise(() => {}));
     vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);

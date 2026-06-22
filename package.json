@@ -1,6 +1,6 @@
 {
   "name": "bauhaus",
-  "version": "4.20.0-rc16",
+  "version": "4.20.0-rc18",
   "type": "module",
   "description": "Web application for the management of concepts, classifications and other statistical objects",
   "repository": {
@@ -72,9 +72,9 @@
     "sass": "^1.80.6",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^36.0.1",
-    "vite": "^8.0.0",
+    "vite": "^8.0.16",
     "vite-envs": "^4.6.2",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

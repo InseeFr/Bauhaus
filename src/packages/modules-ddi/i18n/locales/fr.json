@@ -35,6 +35,8 @@
         "label": "Libellé",
         "loadingCodes": "Chargement des codes...",
         "loadingCodesLists": "Chargement des listes de codes...",
+        "missingCodeListDetail": "La variable {{variableAgency}}/{{variableId}} référence la liste de codes {{codeListAgency}}/{{codeListId}} qui n'existe pas.",
+        "missingCodeListTitle": "Liste de codes introuvable",
         "moveDown": "Descendre",
         "moveUp": "Monter",
         "mutualizedCodesListsSection": "Listes mutualisées",

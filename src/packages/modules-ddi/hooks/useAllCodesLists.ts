@@ -31,7 +31,12 @@ export const useAllCodesLists = (agencyId: string, physicalInstanceId: string) =
   }, [groupQuery.data, mutualizedQuery.data]);
 
   const isLoading = parentsQuery.isLoading || groupQuery.isLoading || mutualizedQuery.isLoading;
-  const error = parentsQuery.error || groupQuery.error || mutualizedQuery.error;
+
+  // Dégradation gracieuse : on ne remonte une erreur dure que si AUCUNE des deux sources
+  // n'est exploitable. L'échec de la liste du groupe (ou de la résolution du groupe parent)
+  // ne doit pas masquer les listes mutualisées chargées avec succès, et inversement.
+  const groupSideError = parentsQuery.error ?? groupQuery.error;
+  const error = groupSideError && mutualizedQuery.error ? mutualizedQuery.error : undefined;
 
   return {
     data,

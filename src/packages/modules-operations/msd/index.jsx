@@ -74,7 +74,7 @@ const MSDContainer = ({
 }) => {
   const { data: organisations } = useOrganizations();
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
-  const { codesLists } = useCodesLists();
+  const { codesLists } = useCodesLists(metadataStructure);
   const simsId = mode === VIEW || mode === UPDATE ? params.id : undefined;
   const { isLoading: simsLoading, sims } = useSims(simsId);
   const { mutateAsync: saveSimsMutation } = useSaveSims();
