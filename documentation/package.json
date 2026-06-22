@@ -1,24 +1,24 @@
 {
-	"name": "documentation",
-	"type": "module",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "astro dev",
-		"start": "astro dev",
-		"build": "astro check && astro build",
-		"preview": "astro preview",
-		"astro": "astro"
-	},
-	"dependencies": {
-		"@astrojs/check": "^0.9.8",
-		"@astrojs/starlight": "0.39.3",
-		"astro": "^6.1.9",
-		"astro-mermaid": "^2.0.1",
-		"mermaid": "^11.14.0",
-		"typescript": "^6.0.3",
-		"zod": "^4.3.6"
-	},
-	"devDependencies": {
-		"sharp": "^0.34.5"
-	}
+  "name": "documentation",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/starlight": "0.40.0",
+    "astro": "^6.4.8",
+    "astro-mermaid": "^2.0.4",
+    "mermaid": "^11.15.0",
+    "typescript": "^6.0.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.2"
+  }
 }
