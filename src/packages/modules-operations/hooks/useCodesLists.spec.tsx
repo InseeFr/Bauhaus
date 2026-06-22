@@ -3,12 +3,12 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
-import { CodeListApi } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 
 import { useCodesLists } from "./useCodesLists";
 
 vi.mock("@sdk/index", () => ({
-  CodeListApi: {
+  CodelistsApi: {
     getCodesList: vi.fn(),
     getCodesListCodes: vi.fn(),
   },
@@ -35,10 +35,10 @@ const makeNode = (idMas: string, codeList: string | undefined, children = {}) =>
 
 describe("useCodesLists", () => {
   it("fetches every code list referenced by metadataStructure, traversing children", async () => {
-    vi.mocked(CodeListApi.getCodesList).mockImplementation((notation: string) =>
+    vi.mocked(CodelistsApi.getCodesList).mockImplementation((notation: string) =>
       Promise.resolve({ notation, codeListLabelLg1: `label ${notation}` }),
     );
-    vi.mocked(CodeListApi.getCodesListCodes).mockResolvedValue({
+    vi.mocked(CodelistsApi.getCodesListCodes).mockResolvedValue({
       items: [{ code: "c1", labelLg1: "Code 1", labelLg2: "Code 1 EN" }],
     });
 
@@ -60,7 +60,7 @@ describe("useCodesLists", () => {
     });
 
     const notationsFetched = vi
-      .mocked(CodeListApi.getCodesList)
+      .mocked(CodelistsApi.getCodesList)
       .mock.calls.map(([n]) => n)
       .sort();
     expect(notationsFetched).toEqual(["CL_BAR", "CL_BAZ", "CL_FOO"]);
@@ -73,10 +73,10 @@ describe("useCodesLists", () => {
   });
 
   it("does not duplicate fetches when the same code list is referenced twice", async () => {
-    vi.mocked(CodeListApi.getCodesList).mockImplementation((notation: string) =>
+    vi.mocked(CodelistsApi.getCodesList).mockImplementation((notation: string) =>
       Promise.resolve({ notation }),
     );
-    vi.mocked(CodeListApi.getCodesListCodes).mockResolvedValue({ items: [] });
+    vi.mocked(CodelistsApi.getCodesListCodes).mockResolvedValue({ items: [] });
 
     const metadataStructure = {
       A: makeNode("A", "CL_FOO", {
@@ -92,7 +92,9 @@ describe("useCodesLists", () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    const fooCalls = vi.mocked(CodeListApi.getCodesList).mock.calls.filter(([n]) => n === "CL_FOO");
+    const fooCalls = vi
+      .mocked(CodelistsApi.getCodesList)
+      .mock.calls.filter(([n]) => n === "CL_FOO");
     expect(fooCalls).toHaveLength(1);
   });
 
@@ -109,7 +111,7 @@ describe("useCodesLists", () => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    expect(vi.mocked(CodeListApi.getCodesList)).not.toHaveBeenCalled();
+    expect(vi.mocked(CodelistsApi.getCodesList)).not.toHaveBeenCalled();
     expect(result.current.codesLists).toEqual({});
   });
 });

@@ -1,7 +1,21 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
+import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { SimsField } from "./sims-field";
+
+const createWrapper = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+    },
+  });
+
+  return ({ children }: { children: ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
+};
 
 const selectSpy = vi.fn();
 
@@ -49,6 +63,7 @@ describe("SimsField - memo and codesLists", () => {
         unbounded={false}
         organisationsOptions={[]}
       />,
+      { wrapper: createWrapper() },
     );
 
     expect(lastOptions()).toEqual([]);
