@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from "vitest";
 
 import { MissingDocumentsErrorBloc } from "./missing-documents-error-bloc";
 import { DocumentsStoreProvider } from "../sims-creation/documents-store-context";
+import D from "../../../../deprecated-locales";
 
 vi.mock("@components/errors-bloc", () => ({
   ErrorBloc: ({ error }: { error: string }) => <div data-testid="error-bloc">{error}</div>,
@@ -12,6 +13,8 @@ vi.mock("../../../../deprecated-locales", () => ({
   default: {
     missingDocumentWhenExportingSims: (labels: (string | undefined)[]) =>
       `Missing documents: ${labels.filter(Boolean).join(", ")}`,
+    missingDocumentWhenPublishingSims: (labels: (string | undefined)[]) =>
+      `Cannot publish, missing: ${labels.filter(Boolean).join(", ")}`,
   },
 }));
 
@@ -42,6 +45,20 @@ describe("MissingDocumentsErrorBloc", () => {
 
     const errorBloc = screen.getByTestId("error-bloc");
     expect(errorBloc).toHaveTextContent("Missing documents: Document 1, Document 2");
+  });
+
+  it("uses the provided buildMessage to render the publication-specific wording", () => {
+    const missingDocuments = new Set(["1", "2"]);
+
+    renderWithContext(
+      <MissingDocumentsErrorBloc
+        missingDocuments={missingDocuments}
+        buildMessage={D.missingDocumentWhenPublishingSims}
+      />,
+    );
+
+    const errorBloc = screen.getByTestId("error-bloc");
+    expect(errorBloc).toHaveTextContent("Cannot publish, missing: Document 1, Document 2");
   });
 
   it("returns null when there are no missing documents", () => {

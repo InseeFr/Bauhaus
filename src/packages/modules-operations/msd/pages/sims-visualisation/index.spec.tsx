@@ -84,7 +84,12 @@ vi.mock("@sdk/operations-api", () => ({
 vi.mock("../../rubric-essantial-msg", () => ({ RubricEssentialMsg: () => null }));
 vi.mock("../../sims-field-title", () => ({ SimsFieldTitle: () => null }));
 vi.mock("./sims-block", () => ({ default: () => null }));
-vi.mock("./missing-documents-error-bloc", () => ({ MissingDocumentsErrorBloc: () => null }));
+vi.mock("./missing-documents-error-bloc", () => ({
+  MissingDocumentsErrorBloc: ({ missingDocuments }: { missingDocuments: Set<string> }) =>
+    missingDocuments && missingDocuments.size > 0 ? (
+      <div data-testid="missing-documents-bloc">{Array.from(missingDocuments).join(",")}</div>
+    ) : null,
+}));
 vi.mock("../../../../deprecated-locales", () => ({ default: {} }));
 
 import SimsVisualisation from "./index";
@@ -133,6 +138,23 @@ describe("SimsVisualisation - publish error handling", () => {
     expect(screen.getByTestId("error-bloc")).toHaveTextContent(
       "errors.804[id=s1034,href=/operations/series/s1034]",
     );
+  });
+
+  it("should display the missing documents bloc when publish fails because documents are missing", () => {
+    const publishSims = vi.fn((object, errorCallback) => {
+      errorCallback({
+        code: 862,
+        details: '["1","3"]',
+        message: "Some documents referenced by this metadataReport are missing from storage",
+      });
+    });
+
+    renderComponent(publishSims);
+    fireEvent.click(screen.getByTestId("publish-btn"));
+
+    expect(screen.getByTestId("missing-documents-bloc")).toHaveTextContent("1,3");
+    // the generic error bloc must stay empty in that case
+    expect(screen.getByTestId("error-bloc")).toBeEmptyDOMElement();
   });
 
   it("should call publishSims with the sims object", () => {

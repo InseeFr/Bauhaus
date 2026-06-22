@@ -19,8 +19,10 @@ import D from "../../../../deprecated-locales";
  */
 export const MissingDocumentsErrorBloc = ({
   missingDocuments,
+  buildMessage = D.missingDocumentWhenExportingSims,
 }: Readonly<{
   missingDocuments: Set<string>;
+  buildMessage?: (documentNames: (string | undefined)[]) => string;
 }>) => {
   const { documentStores: documentStoresObject } = useDocumentsStoreContext();
   const documentStores = documentStoresObject ? Object.values(documentStoresObject).flat() : [];
@@ -32,7 +34,7 @@ export const MissingDocumentsErrorBloc = ({
 
   return (
     <ErrorBloc
-      error={D.missingDocumentWhenExportingSims(
+      error={buildMessage(
         Array.from(missingDocuments).map((id) => documentStoresById.get(id)?.labelLg1),
       )}
       D={D}
