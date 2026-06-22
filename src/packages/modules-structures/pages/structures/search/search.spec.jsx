@@ -1,9 +1,20 @@
+import { waitFor } from "@testing-library/react";
+import { ConceptsApi, StructureApi } from "@sdk/index";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
 import { renderWithRouter } from "../../../../tests/render";
-import { SearchFormList } from "./page";
+import { Component } from "./page";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
+
+vi.mock("@sdk/index", () => ({
+  StructureApi: {
+    getStructuresForSearch: vi.fn(),
+  },
+  ConceptsApi: {
+    getConceptList: vi.fn(),
+  },
+}));
 
 vi.mock("@components/business/creators-input", () => ({
   CreatorsInput: ({ value, onChange }) => (
@@ -41,48 +52,57 @@ const data = [
   },
 ];
 
-const renderForm = (form = {}) => {
+const renderPage = async (form = {}) => {
   useUrlQueryParameters.mockReturnValue({
     form,
     reset: vi.fn(),
     handleChange: vi.fn(),
   });
-  return renderWithRouter(<SearchFormList data={data} concepts={[]} />);
+  const result = renderWithRouter(<Component />);
+  await waitFor(() => {
+    expect(result.container.querySelector(".structure-search-form")).not.toBeNull();
+  });
+  return result;
 };
 
 describe("<SearchFormList /> structure-search", () => {
-  it("returns all data when the form is empty (including structures with no components)", () => {
-    const { container } = renderForm({});
+  beforeEach(() => {
+    StructureApi.getStructuresForSearch.mockResolvedValue(data);
+    ConceptsApi.getConceptList.mockResolvedValue([]);
+  });
+
+  it("returns all data when the form is empty (including structures with no components)", async () => {
+    const { container } = await renderPage({});
     expect(container.querySelectorAll("li.list-group-item")).toHaveLength(3);
   });
 
-  it("filters by labelLg1", () => {
-    const { container } = renderForm({ labelLg1: "test" });
+  it("filters by labelLg1", async () => {
+    const { container } = await renderPage({ labelLg1: "test" });
     expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
   });
 
-  it("filters by creator (organisation IRI)", () => {
-    const { container } = renderForm({ creator: ORGANISATION_IRI });
+  it("filters by creator (organisation IRI)", async () => {
+    const { container } = await renderPage({ creator: ORGANISATION_IRI });
     expect(container.querySelectorAll("li.list-group-item")).toHaveLength(2);
   });
 
-  it("filters by validation state", () => {
-    const { container } = renderForm({ validationState: "Unpublished" });
+  it("filters by validation state", async () => {
+    const { container } = await renderPage({ validationState: "Unpublished" });
     expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
   });
 
-  it("filters by component label", () => {
-    const { container } = renderForm({ componentLabelLg1: "foo" });
+  it("filters by component label", async () => {
+    const { container } = await renderPage({ componentLabelLg1: "foo" });
     expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
   });
 
-  it("filters by component type", () => {
-    const { container } = renderForm({ type: "MEASURE" });
+  it("filters by component type", async () => {
+    const { container } = await renderPage({ type: "MEASURE" });
     expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
   });
 
-  it("renders the CreatorsInput (not a stamp dropdown) for the creator filter", () => {
-    const { getByTestId } = renderForm({ creator: ORGANISATION_IRI });
+  it("renders the CreatorsInput (not a stamp dropdown) for the creator filter", async () => {
+    const { getByTestId } = await renderPage({ creator: ORGANISATION_IRI });
     expect(getByTestId("creators-input")).toHaveValue(ORGANISATION_IRI);
   });
 });
