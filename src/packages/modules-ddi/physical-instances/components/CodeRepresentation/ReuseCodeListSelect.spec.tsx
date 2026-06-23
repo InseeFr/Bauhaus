@@ -272,6 +272,58 @@ describe("ReuseCodeListSelect", () => {
     expect(mutualizedOption?.querySelector('[data-testid="mutualized-lock"]')).not.toBeNull();
   });
 
+  it("should sort mutualized code lists alphabetically (ascending) by label", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: [
+        { id: "m1", label: "Zèbre", agencyId: "fr.insee", mutualized: true },
+        { id: "m2", label: "Abeille", agencyId: "fr.insee", mutualized: true },
+        { id: "m3", label: "Mouton", agencyId: "fr.insee", mutualized: true },
+      ],
+      groupLabel: undefined,
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const mutualizedSection = screen
+      .getByTestId("codes-list-dropdown")
+      .querySelector('optgroup[label="Listes mutualisées"]');
+    const labels = Array.from(mutualizedSection!.querySelectorAll("option")).map(
+      (o) => o.textContent,
+    );
+    expect(labels).toEqual(["Abeille", "Mouton", "Zèbre"]);
+  });
+
+  it("should display the label only, not the technical name", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: [
+        {
+          id: "m1",
+          label: "Libellé lisible",
+          name: "CL_NOM_TECHNIQUE",
+          agencyId: "fr.insee",
+          mutualized: true,
+        },
+      ],
+      groupLabel: undefined,
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const option = screen
+      .getByTestId("codes-list-dropdown")
+      .querySelector('option[value="fr.insee-m1"]');
+    expect(option?.textContent).toContain("Libellé lisible");
+    expect(option?.textContent).not.toContain("CL_NOM_TECHNIQUE");
+  });
+
   it("should not render a section that has no code list", () => {
     mockUseAllCodesLists.mockReturnValue({
       data: [{ id: "g1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],

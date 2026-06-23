@@ -6,6 +6,8 @@ export interface CodeListItem {
   agencyId: string;
   id: string;
   label: string;
+  /** Nom technique (itemName) renvoyé uniquement pour les listes mutualisées : sert à la recherche. */
+  name?: string;
   mutualized?: boolean;
 }
 

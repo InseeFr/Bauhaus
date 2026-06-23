@@ -13,6 +13,8 @@ interface ReuseCodeListSelectProps {
 interface CodeListOption {
   value: string;
   label: string;
+  /** Nom technique : recherchable mais non affiché (sauf affichage de debug temporaire). */
+  name?: string;
   mutualized: boolean;
 }
 
@@ -54,8 +56,12 @@ export const ReuseCodeListSelect = ({
   const toOption = (cl: (typeof codesLists)[number]): CodeListOption => ({
     value: `${cl.agencyId}-${cl.id}`,
     label: cl.label,
+    name: cl.name,
     mutualized: Boolean(cl.mutualized),
   });
+
+  const byLabelAsc = (a: CodeListOption, b: CodeListOption) =>
+    a.label.localeCompare(b.label, "fr", { sensitivity: "base" });
 
   const groupedOptions = [
     {
@@ -68,7 +74,11 @@ export const ReuseCodeListSelect = ({
     },
     {
       label: t("physicalInstance.view.code.mutualizedCodesListsSection"),
-      items: codesLists.filter((cl) => cl.mutualized).map(toOption),
+      // Les listes mutualisées sont triées par libellé, ordre alphabétique croissant.
+      items: codesLists
+        .filter((cl) => cl.mutualized)
+        .map(toOption)
+        .sort(byLabelAsc),
     },
   ].filter((group) => group.items.length > 0);
 
@@ -88,6 +98,8 @@ export const ReuseCodeListSelect = ({
   return (
     <Dropdown
       filter
+      // Recherche sur le libellé ET le nom technique ; seul le libellé est affiché (optionLabel).
+      filterBy="label,name"
       value={selectedCodeListId}
       options={groupedOptions}
       optionLabel="label"
