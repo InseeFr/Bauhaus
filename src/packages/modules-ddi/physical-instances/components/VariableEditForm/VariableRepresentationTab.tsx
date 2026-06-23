@@ -94,6 +94,7 @@ export const VariableRepresentationTab = ({
           representation={codeRepresentation}
           codeList={codeList}
           categories={categories}
+          currentVariableId={variableId}
           onChange={onCodeRepresentationChange}
         />
       )}

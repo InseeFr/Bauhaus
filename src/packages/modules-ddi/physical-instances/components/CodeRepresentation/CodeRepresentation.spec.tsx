@@ -76,6 +76,16 @@ vi.mock("../../../hooks/useMutualizedCodesList", () => ({
   useMutualizedCodesList: (agency: string, id: string) => mockUseMutualizedCodesList(agency, id),
 }));
 
+const mockUseCodeListUsers = vi.fn(() => ({
+  data: [] as any[],
+  isLoading: false,
+  isError: false,
+}));
+
+vi.mock("../../../hooks/useCodeListUsers", () => ({
+  useCodeListUsers: () => mockUseCodeListUsers(),
+}));
+
 vi.mock("primereact/inputtext", () => ({
   InputText: ({ id, value, onChange, placeholder, ...props }: any) => (
     <input id={id} value={value} onChange={onChange} placeholder={placeholder} {...props} />

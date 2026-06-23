@@ -10,6 +10,7 @@ import type {
 } from "../../types/api";
 import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
+import { CodeListUsersPanel } from "./CodeListUsersPanel";
 import { codeRepresentationReducer, initialState } from "./CodeRepresentation.reducer";
 import {
   createDefaultRepresentation,
@@ -29,6 +30,7 @@ interface CodeRepresentationProps {
   representation?: CodeRepresentationType;
   codeList?: CodeList;
   categories?: Category[];
+  currentVariableId?: string;
   onChange: (
     representation: CodeRepresentationType | undefined,
     codeList?: CodeList,
@@ -40,6 +42,7 @@ export const CodeRepresentation = ({
   representation,
   codeList,
   categories = [],
+  currentVariableId,
   onChange,
 }: Readonly<CodeRepresentationProps>) => {
   const { t } = useTranslation();
@@ -75,6 +78,13 @@ export const CodeRepresentation = ({
     allCodesLists.find((cl) => cl.agencyId === selectedAgency && cl.id === selectedListId)
       ?.mutualized,
   );
+
+  // Liste de codes actuellement attachée à la variable (référencée ou en cours de sélection).
+  // Le panneau des utilisations s'affiche dès qu'une liste est identifiable, y compris pour les
+  // listes mutualisées.
+  const codeListUsersAgency = referencedCodeListAgency ?? selectedAgency;
+  const codeListUsersId = referencedCodeListId ?? selectedListId;
+  const showUsersPanel = Boolean(codeListUsersAgency && codeListUsersId);
   // Contenu (codes + catégories) de la liste sélectionnée, récupéré par agency/id.
   // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back (il délègue à
   // getCodeList) : il sert donc aussi bien aux listes mutualisées qu'aux listes du groupe.
@@ -410,6 +420,13 @@ export const CodeRepresentation = ({
           onAddCode={handleAddCode}
           onMoveCode={handleMoveCode}
           readOnly={isReferencedListMutualized || isSelectedListMutualized}
+        />
+      )}
+      {showUsersPanel && (
+        <CodeListUsersPanel
+          agencyId={codeListUsersAgency!}
+          id={codeListUsersId!}
+          currentVariableId={currentVariableId}
         />
       )}
     </div>

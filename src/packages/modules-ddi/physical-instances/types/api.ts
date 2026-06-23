@@ -76,6 +76,22 @@ export interface RangeValue {
 export type CodeList = components["schemas"]["CodeList"];
 export type Code = components["schemas"]["CodeType"];
 
+// Flat usage row returned by `GET /ddi/codes-list/{agency}/{id}/users`: a Variable that
+// references the code list, the PhysicalInstance it belongs to, and the StudyUnit that owns the
+// PhysicalInstance. Each item carries its resolved label. StudyUnit fields may be null when no
+// owning StudyUnit can be resolved. The UI groups these rows into a StudyUnit / PI / Variable tree.
+export interface CodeListUsage {
+  studyUnitAgencyId: string | null;
+  studyUnitId: string | null;
+  studyUnitLabel: string | null;
+  physicalInstanceAgencyId: string;
+  physicalInstanceId: string;
+  physicalInstanceLabel: string | null;
+  variableAgencyId: string;
+  variableId: string;
+  variableLabel: string | null;
+}
+
 // UI-only row model used by the variables table; not a DDI type.
 export interface VariableTableData {
   id: string;

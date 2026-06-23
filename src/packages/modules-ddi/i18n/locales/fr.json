@@ -45,7 +45,12 @@
         "noCodesListsAvailable": "Aucune liste de codes disponible",
         "reuseList": "Réutiliser",
         "selectCodeList": "Sélectionnez une liste de codes",
-        "value": "Valeur"
+        "value": "Valeur",
+        "usersPanel": {
+          "title": "Utilisations de cette liste de codes",
+          "help": "Variables et instances physiques qui réutilisent cette même liste de codes, regroupées par unité d'enquête (Study Unit) puis par instance physique.",
+          "unknownStudyUnit": "Unité d'enquête inconnue"
+        }
       },
       "columns": {
         "description": "Description",

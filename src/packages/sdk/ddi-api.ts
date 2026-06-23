@@ -80,6 +80,7 @@ const api = {
   getGroupCodesLists: (agencyId: string, groupId: string) => [
     `groups/${agencyId}/${groupId}/codes-list`,
   ],
+  getCodeListUsers: (agencyId: string, id: string) => [`codes-list/${agencyId}/${id}/users`],
   getMutualizedCodesLists: () => ["mutualized-codes-list"],
   getMutualizedCodesList: (agencyId: string, id: string) => [
     `mutualized-codes-list/${agencyId}/${id}`,

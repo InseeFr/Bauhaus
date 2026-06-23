@@ -45,7 +45,12 @@
         "noCodesListsAvailable": "No code lists available",
         "reuseList": "Reuse",
         "selectCodeList": "Select a code list",
-        "value": "Value"
+        "value": "Value",
+        "usersPanel": {
+          "title": "Usages of this code list",
+          "help": "Variables and physical instances that reuse this same code list, grouped by study unit then by physical instance.",
+          "unknownStudyUnit": "Unknown study unit"
+        }
       },
       "columns": {
         "description": "Description",
