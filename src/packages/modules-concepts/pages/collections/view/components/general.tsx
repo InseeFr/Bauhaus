@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 import type { ValidationState } from "@components/status";
 
 import { isEmpty } from "@utils/value-utils";
@@ -45,9 +45,12 @@ const renderValidationField = (
   value: ValidationState,
 ): JSX.Element => {
   return (
-    <li key={fieldName}>
-      {label}: <PublicationFemale object={{ validationState: value }} />
-    </li>
+    <PublicationStatusItem
+      key={fieldName}
+      label={label}
+      object={{ validationState: value }}
+      gender="female"
+    />
   );
 };
 

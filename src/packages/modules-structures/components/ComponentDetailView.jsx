@@ -8,7 +8,7 @@ import { DisseminationStatusVisualisation } from "@components/dissemination-stat
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationMale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 import {
   InseeOrganisation,
   InseeOrganisations,
@@ -108,9 +108,7 @@ export const ComponentDetailView = ({
                 {t("component.notation")} : {component.identifiant}
               </li>
               <CreationUpdateItems creation={component.created} update={component.modified} />
-              <li>
-                {t("component.validationStatus")} : <PublicationMale object={component} />
-              </li>
+              <PublicationStatusItem label={t("component.validationStatus")} object={component} />
               <li>
                 {t("component.creator")} : <InseeOrganisation creator={component.creator} />
               </li>

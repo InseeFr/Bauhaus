@@ -1,7 +1,7 @@
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
@@ -28,9 +28,7 @@ function OperationsFamilyVisualization({
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              <li>
-                {D1.familyStatus} : <PublicationFemale object={attr} />
-              </li>
+              <PublicationStatusItem label={D1.familyStatus} object={attr} gender="female" />
             </ul>
           }
           title={D1.globalInformationsTitle}

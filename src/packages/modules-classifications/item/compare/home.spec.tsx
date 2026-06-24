@@ -9,7 +9,7 @@ describe("concepts-compare", () => {
         itemId="itemId"
         general={{
           prefLabelLg1: "prefLabelLg1",
-          isValidated: "true",
+          validationState: "Validated",
           conceptVersion: "2",
         }}
         notes={{ 1: {}, 2: {} }}

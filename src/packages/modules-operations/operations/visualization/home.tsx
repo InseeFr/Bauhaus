@@ -1,7 +1,7 @@
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -27,9 +27,7 @@ function OperationsOperationVisualization({
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              <li>
-                {D.operationStatus} : <PublicationFemale object={attr} />
-              </li>
+              <PublicationStatusItem label={D.operationStatus} object={attr} gender="female" />
               <li>
                 {D.year} : {attr.year}
               </li>

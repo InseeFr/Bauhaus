@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
+import { PublicationStatusItem } from "@components/status";
 
 import D from "../../deprecated-locales";
 
@@ -12,7 +13,7 @@ const General = ({ general, classificationId, secondLang }) => {
     altLabelLg1: D.altLabelTitle,
     altLabelLg2: D.altLabelTitle,
     altLabels: (length) => D.classificationItemAltLabels(length),
-    isValidated: D.isClassificationItemValidTitle,
+    validationState: D.isClassificationItemValidTitle,
     conceptVersion: D.classificationConceptVersionTitle,
   };
 
@@ -59,11 +60,13 @@ const General = ({ general, classificationId, secondLang }) => {
                     </li>
                   ));
                 }
-                if (fieldName === "isValidated") {
+                if (fieldName === "validationState") {
                   return (
-                    <li key={fieldName}>{`${mapping[fieldName]} : ${D.classificationItemIsValidated(
-                      general[fieldName] === "true",
-                    )}`}</li>
+                    <PublicationStatusItem
+                      key={fieldName}
+                      label={mapping[fieldName]}
+                      object={{ validationState: general[fieldName] }}
+                    />
                   );
                 }
                 if (fieldName === "altLabelLg1") {

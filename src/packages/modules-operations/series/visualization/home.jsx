@@ -1,7 +1,7 @@
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
@@ -24,9 +24,7 @@ function OperationsSerieVisualization({ attr, secondLang, frequency = {}, catego
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              <li>
-                {D1.seriesStatus} : <PublicationFemale object={attr} />
-              </li>
+              <PublicationStatusItem label={D1.seriesStatus} object={attr} gender="female" />
             </ul>
           }
           title={D1.globalInformationsTitle}

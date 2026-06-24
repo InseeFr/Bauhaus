@@ -13,7 +13,7 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { Panel } from "@components/panel";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 
 import { OperationsApi } from "@sdk/operations-api";
 
@@ -283,9 +283,7 @@ export default function SimsVisualisation({
             text={
               <ul>
                 <CreationUpdateItems creation={sims.created} update={sims.updated} />
-                <li>
-                  {D.simsStatus} : <PublicationFemale object={sims} />
-                </li>
+                <PublicationStatusItem label={D.simsStatus} object={sims} gender="female" />
               </ul>
             }
             title={D.globalInformationsTitle}

@@ -4,6 +4,7 @@ import { getDisseminationStatus } from "@components/dissemination-status/dissemi
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
+import { PublicationStatusItem } from "@components/status";
 
 import { stringToDate } from "@utils/date-utils";
 import { renderMarkdownElement } from "@utils/html-utils";
@@ -40,6 +41,7 @@ const General = ({ general, secondLang }) => {
     creator: D.creatorTitle,
     contributor: D.contributorTitle,
     disseminationStatus: D.disseminationStatusTitle,
+    validationState: D.classificationValidationStateTitle,
     rights: D.rightsTitle,
     additionalMaterial: D.additionalMaterialTitle,
     legalMaterial: D.legalMaterialTitle,
@@ -146,6 +148,16 @@ const General = ({ general, secondLang }) => {
                       <li key={fieldName}>
                         {`${mapping[fieldName]} : ${getDisseminationStatus(general[fieldName])}`}
                       </li>
+                    );
+                  }
+                  if (fieldName === "validationState") {
+                    return (
+                      <PublicationStatusItem
+                        key={fieldName}
+                        label={mapping[fieldName]}
+                        object={{ validationState: general[fieldName] }}
+                        gender="female"
+                      />
                     );
                   }
                   if (fieldName === "altLabelLg2" && !secondLang) {

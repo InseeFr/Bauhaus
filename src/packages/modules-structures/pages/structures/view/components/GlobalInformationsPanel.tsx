@@ -4,7 +4,7 @@ import { CreationUpdateItems } from "@components/creation-update-items";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 import {
   InseeOrganisation,
   InseeOrganisations,
@@ -32,9 +32,11 @@ export const GlobalInformationsPanel = ({ structure }: GlobalInformationsPanelTy
               {t("structure.notation")} : {structure.identifiant}
             </li>
             <CreationUpdateItems creation={structure.created} update={structure.modified} />
-            <li>
-              {t("structure.validationStatus")} : <PublicationFemale object={structure} />
-            </li>
+            <PublicationStatusItem
+              label={t("structure.validationStatus")}
+              object={structure}
+              gender="female"
+            />
             <li>
               {t("structure.creator")} : <InseeOrganisation creator={structure.creator} />
             </li>
