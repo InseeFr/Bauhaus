@@ -77,6 +77,11 @@
       "duplicateSuccessDetail": "L'instance physique a été dupliquée avec succès",
       "duplicateError": "Erreur de duplication",
       "duplicateErrorDetail": "Impossible de dupliquer l'instance physique",
+      "duplicateModal": {
+        "cancel": "Annuler",
+        "confirm": "Dupliquer",
+        "title": "Dupliquer le fichier de données"
+      },
       "editModal": {
         "cancel": "Annuler",
         "label": "Libellé",

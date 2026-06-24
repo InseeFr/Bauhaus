@@ -77,6 +77,11 @@
       "duplicateSuccessDetail": "The physical instance has been successfully duplicated",
       "duplicateError": "Duplication error",
       "duplicateErrorDetail": "Unable to duplicate the physical instance",
+      "duplicateModal": {
+        "cancel": "Cancel",
+        "confirm": "Duplicate",
+        "title": "Duplicate the physical instance"
+      },
       "editModal": {
         "cancel": "Cancel",
         "label": "Label",

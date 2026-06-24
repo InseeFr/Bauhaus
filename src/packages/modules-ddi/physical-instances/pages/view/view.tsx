@@ -1,4 +1,13 @@
-import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
+import {
+  useReducer,
+  useRef,
+  useMemo,
+  useCallback,
+  useEffect,
+  useState,
+  lazy,
+  Suspense,
+} from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,7 +16,16 @@ import { Message } from "primereact/message";
 import { confirmDialog } from "primereact/confirmdialog";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import "./view.css";
-import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import type {
+  PhysicalInstanceUpdateData,
+  PhysicalInstanceCreationData,
+} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+
+const PhysicalInstanceDialog = lazy(() =>
+  import("../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog").then(
+    (module) => ({ default: module.PhysicalInstanceDialog }),
+  ),
+);
 import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstanceParents";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
@@ -47,6 +65,7 @@ export const Component = () => {
   const currentGroup = parents?.group;
   const currentStudyUnit = parents?.studyUnit;
   const currentStamps = parents?.stamps;
+  const [duplicateDialogVisible, setDuplicateDialogVisible] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
@@ -650,42 +669,77 @@ export const Component = () => {
     }
   }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
 
-  const handleDuplicatePhysicalInstance = useCallback(async () => {
-    try {
-      const { duplicatedData, newPhysicalInstanceId, newAgencyId } =
-        buildDuplicatedPhysicalInstance({
-          agencyId: agencyId!,
-          data,
-          title,
-          defaultLocale,
+  // Ouvre la modale de duplication (la duplication n'est plus immédiate, cf. #1555).
+  const handleDuplicatePhysicalInstance = useCallback(() => {
+    setDuplicateDialogVisible(true);
+  }, []);
+
+  // Libellé pré-rempli = libellé courant + suffixe « (copy) » ; Groupe/Étude pré-remplis
+  // depuis les parents de la PI courante (le Groupe sera verrouillé, l'Étude modifiable).
+  const duplicateInitialData = useMemo(
+    () => ({
+      label: `${title} (copy)`,
+      group: currentGroup,
+      studyUnit: currentStudyUnit,
+    }),
+    [title, currentGroup, currentStudyUnit],
+  );
+
+  const handleConfirmDuplicate = useCallback(
+    async (formData: PhysicalInstanceCreationData) => {
+      try {
+        const { duplicatedData, newPhysicalInstanceId, newAgencyId } =
+          buildDuplicatedPhysicalInstance({
+            agencyId: agencyId!,
+            data,
+            label: formData.label,
+            defaultLocale,
+          });
+
+        // 1) Publier le DDI dupliqué (PUT brut : ne porte ni Groupe ni Étude).
+        await savePhysicalInstance.mutateAsync({
+          id: newPhysicalInstanceId,
+          agencyId: newAgencyId,
+          data: duplicatedData,
         });
 
-      // Sauvegarder la nouvelle physical instance via l'API
-      await savePhysicalInstance.mutateAsync({
-        id: newPhysicalInstanceId,
-        agencyId: newAgencyId,
-        data: duplicatedData,
-      });
+        // 2) Rattacher la PI dupliquée au Groupe verrouillé et à l'Étude choisie via
+        // l'endpoint dédié (le PUT brut ne sait pas faire ce rattachement, cf. #1555).
+        await updatePhysicalInstance.mutateAsync({
+          id: newPhysicalInstanceId,
+          agencyId: newAgencyId,
+          data: {
+            physicalInstanceLabel: formData.label,
+            dataRelationshipLabel: formData.dataRelationshipLabel,
+            logicalRecordLabel: formData.logicalRecordLabel,
+            groupId: formData.group.id,
+            groupAgency: formData.group.agency,
+            studyUnitId: formData.studyUnit.id,
+            studyUnitAgency: formData.studyUnit.agency,
+          },
+        });
 
-      // Rediriger vers la page de la nouvelle physical instance
-      navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
+        setDuplicateDialogVisible(false);
+        navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
 
-      toast.current?.show({
-        severity: "success",
-        summary: t("physicalInstance.view.duplicateSuccess"),
-        detail: t("physicalInstance.view.duplicateSuccessDetail"),
-        life: TOAST_DURATION,
-      });
-    } catch (err) {
-      toast.current?.show({
-        severity: "error",
-        summary: t("physicalInstance.view.duplicateError"),
-        detail:
-          err instanceof Error ? err.message : t("physicalInstance.view.duplicateErrorDetail"),
-        life: TOAST_DURATION,
-      });
-    }
-  }, [agencyId, data, title, savePhysicalInstance, navigate, t]);
+        toast.current?.show({
+          severity: "success",
+          summary: t("physicalInstance.view.duplicateSuccess"),
+          detail: t("physicalInstance.view.duplicateSuccessDetail"),
+          life: TOAST_DURATION,
+        });
+      } catch (err) {
+        toast.current?.show({
+          severity: "error",
+          summary: t("physicalInstance.view.duplicateError"),
+          detail:
+            err instanceof Error ? err.message : t("physicalInstance.view.duplicateErrorDetail"),
+          life: TOAST_DURATION,
+        });
+      }
+    },
+    [agencyId, data, defaultLocale, savePhysicalInstance, updatePhysicalInstance, navigate, t],
+  );
 
   if (isLoading) {
     return <Loading />;
@@ -758,6 +812,18 @@ export const Component = () => {
           )}
         </div>
       </div>
+
+      {duplicateDialogVisible && (
+        <Suspense fallback={null}>
+          <PhysicalInstanceDialog
+            visible={duplicateDialogVisible}
+            onHide={() => setDuplicateDialogVisible(false)}
+            mode="duplicate"
+            initialData={duplicateInitialData}
+            onSubmitDuplicate={handleConfirmDuplicate}
+          />
+        </Suspense>
+      )}
 
       <ConfirmDialog />
       <Toast ref={toast} />

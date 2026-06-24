@@ -66,7 +66,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Original Title",
+      label: "Original Title",
       defaultLocale: "fr-FR",
     });
 
@@ -79,7 +79,58 @@ describe("buildDuplicatedPhysicalInstance", () => {
     );
   });
 
-  it("should add (copy) suffix to Citation Title and PhysicalInstanceLabel", () => {
+  it("should use the provided label as-is without adding a (copy) suffix (caller owns the suffix)", () => {
+    const data = {
+      PhysicalInstance: [
+        {
+          ID: "original-pi-id",
+          Agency: "original-agency",
+          Version: "1",
+          Citation: {
+            Title: [{ "@language": "fr-FR", "@value": "Original Title" }],
+          },
+        },
+      ],
+      DataRelationship: [
+        {
+          ID: "original-dr-id",
+          Agency: "original-agency",
+          Version: "1",
+          Label: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
+          LogicalRecord: [
+            {
+              ID: "original-lr-id",
+              URN: "urn:ddi:original-agency:original-lr-id:1",
+              Agency: "original-agency",
+              Version: "1",
+              VariablesInRecord: { VariableUsedReference: [] },
+            },
+          ],
+        },
+      ],
+      Variable: [],
+    };
+
+    const result = buildDuplicatedPhysicalInstance({
+      agencyId: "test-agency",
+      data,
+      label: "Original Title (copy)",
+      defaultLocale: "fr-FR",
+    });
+
+    // Pas de double suffixe : le libellé fourni est utilisé tel quel.
+    expect(result.duplicatedData.PhysicalInstance[0].Citation.Title[0]["@value"]).toBe(
+      "Original Title (copy)",
+    );
+    expect(result.duplicatedData.DataRelationship[0].Label[0]["@value"]).toBe(
+      "Structure : Original Title (copy)",
+    );
+    expect(result.duplicatedData.DataRelationship[0].LogicalRecord![0].Label[0]["@value"]).toBe(
+      "Enregistrement logique : Original Title (copy)",
+    );
+  });
+
+  it("should set Citation Title to the provided label and preserve PhysicalInstanceLabel", () => {
     const data = {
       PhysicalInstance: [
         {
@@ -115,12 +166,12 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Original Title",
+      label: "Original Title",
       defaultLocale: "fr-FR",
     });
 
     expect(result.duplicatedData.PhysicalInstance[0].Citation.Title[0]["@value"]).toBe(
-      "Original Title (copy)",
+      "Original Title",
     );
     // PhysicalInstanceLabel is preserved as-is (not modified by the duplication)
     expect(result.duplicatedData.PhysicalInstance[0].PhysicalInstanceLabel[0]["@value"]).toBe(
@@ -128,7 +179,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     );
   });
 
-  it("should add (copy) suffix to DataRelationship Label", () => {
+  it("should derive DataRelationship Label from the provided label", () => {
     const data = {
       PhysicalInstance: [
         {
@@ -163,13 +214,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.DataRelationship[0].Label[0]["@value"]).toBe(
-      "Structure : Test (copy)",
-    );
+    expect(result.duplicatedData.DataRelationship[0].Label[0]["@value"]).toBe("Structure : Test");
   });
 
   it("should add BasedOnObject to PhysicalInstance", () => {
@@ -207,7 +256,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -260,7 +309,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -327,7 +376,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -400,7 +449,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -448,7 +497,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -498,7 +547,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -561,7 +610,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -623,7 +672,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -671,7 +720,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -719,7 +768,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -760,7 +809,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
       data,
-      title: "Test",
+      label: "Test",
       defaultLocale: "fr-FR",
     });
 
@@ -784,7 +833,7 @@ describe("buildDuplicatedLogicalRecord", () => {
       originalLogicalRecord: original,
       newLogicalRecordId: "new-id",
       newAgencyId: "new-agency",
-      title: "Test",
+      label: "Test",
       variableIdMap: new Map(),
       defaultLocale: "fr-FR",
     });
@@ -806,7 +855,7 @@ describe("buildDuplicatedLogicalRecord", () => {
       originalLogicalRecord: original,
       newLogicalRecordId: "new-id",
       newAgencyId: "new-agency",
-      title: "Test",
+      label: "Test",
       variableIdMap: new Map(),
       defaultLocale: "fr-FR",
     });
@@ -828,12 +877,12 @@ describe("buildDuplicatedLogicalRecord", () => {
       originalLogicalRecord: original,
       newLogicalRecordId: "new-id",
       newAgencyId: "new-agency",
-      title: "MyTitle",
+      label: "MyTitle",
       variableIdMap: new Map(),
       defaultLocale: "fr-FR",
     });
 
-    expect(result.Label?.[0]?.["@value"]).toBe("Enregistrement logique : MyTitle (copy)");
+    expect(result.Label?.[0]?.["@value"]).toBe("Enregistrement logique : MyTitle");
   });
 
   it("should throw error when originalLogicalRecord is missing", () => {
@@ -842,7 +891,7 @@ describe("buildDuplicatedLogicalRecord", () => {
         originalLogicalRecord: null as any,
         newLogicalRecordId: "id",
         newAgencyId: "agency",
-        title: "Test",
+        label: "Test",
         variableIdMap: new Map(),
         defaultLocale: "fr-FR",
       });
@@ -864,7 +913,7 @@ describe("buildDuplicatedLogicalRecord", () => {
         originalLogicalRecord: original,
         newLogicalRecordId: "",
         newAgencyId: "agency",
-        title: "Test",
+        label: "Test",
         variableIdMap: new Map(),
         defaultLocale: "fr-FR",
       });
@@ -896,7 +945,7 @@ describe("buildDuplicatedDataRelationship", () => {
       originalDataRelationship: original,
       newDataRelationshipId: "new-dr-id",
       newAgencyId: "new-agency",
-      title: "Test",
+      label: "Test",
       newLogicalRecordId: "new-lr-id",
       variableIdMap: new Map(),
       defaultLocale: "fr-FR",
@@ -940,7 +989,7 @@ describe("buildDuplicatedDataRelationship", () => {
       originalDataRelationship: original,
       newDataRelationshipId: "new-dr-id",
       newAgencyId: "new-agency",
-      title: "Test",
+      label: "Test",
       newLogicalRecordId: "new-lr-id",
       variableIdMap: new Map(),
       defaultLocale: "fr-FR",
@@ -955,7 +1004,7 @@ describe("buildDuplicatedDataRelationship", () => {
         originalDataRelationship: null as any,
         newDataRelationshipId: "new-dr-id",
         newAgencyId: "new-agency",
-        title: "Test",
+        label: "Test",
         newLogicalRecordId: "new-lr-id",
         variableIdMap: new Map(),
         defaultLocale: "fr-FR",
@@ -987,7 +1036,7 @@ describe("buildDuplicatedDataRelationship", () => {
         originalDataRelationship: original,
         newDataRelationshipId: "",
         newAgencyId: "new-agency",
-        title: "Test",
+        label: "Test",
         newLogicalRecordId: "new-lr-id",
         variableIdMap: new Map(),
         defaultLocale: "fr-FR",

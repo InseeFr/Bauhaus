@@ -1558,6 +1558,66 @@ describe("View Component", () => {
   });
 
   describe("Duplicate Physical Instance", () => {
+    it("should open the duplication modal instead of duplicating immediately, pre-filled with <title> (copy)", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: {
+          PhysicalInstance: [
+            {
+              ID: "pi-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              Citation: { Title: [{ "@language": "fr-FR", "@value": "Original Title" }] },
+            },
+          ],
+          DataRelationship: [
+            {
+              ID: "dr-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
+              LogicalRecord: [
+                { ID: "lr-original-id", VariablesInRecord: { VariableUsedReference: [] } },
+              ],
+            },
+          ],
+          Variable: [],
+        },
+        variables: [],
+        title: "Original Title",
+        dataRelationshipName: "DR Name",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      const duplicateButton = screen.getByLabelText(
+        "physicalInstance.view.duplicatePhysicalInstance",
+      );
+      fireEvent.click(duplicateButton);
+
+      // La modale s'ouvre…
+      expect(
+        await screen.findByText("physicalInstance.view.duplicateModal.title"),
+      ).toBeInTheDocument();
+
+      // …le libellé est pré-rempli avec le suffixe (copy)…
+      const labelInput = screen.getByLabelText(
+        "physicalInstance.creation.label",
+      ) as HTMLInputElement;
+      expect(labelInput.value).toBe("Original Title (copy)");
+
+      // …et rien n'a encore été publié (duplication non immédiate).
+      expect(mutateAsyncMock).not.toHaveBeenCalled();
+    });
+
     it("should add (copy) suffix to Citation Title and PhysicalInstanceLabel when duplicating", async () => {
       const mutateAsyncMock = vi.fn().mockResolvedValue({});
       mockPublishPhysicalInstance.mockReturnValue({
@@ -1608,6 +1668,11 @@ describe("View Component", () => {
         "physicalInstance.view.duplicatePhysicalInstance",
       );
       fireEvent.click(duplicateButton);
+
+      // La duplication n'est plus immédiate : on confirme dans la modale.
+      await screen.findByText("physicalInstance.view.duplicateModal.title");
+      const duplicateForm = screen.getByRole("dialog").querySelector("form");
+      fireEvent.submit(duplicateForm!);
 
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
@@ -1676,6 +1741,11 @@ describe("View Component", () => {
       );
       fireEvent.click(duplicateButton);
 
+      // La duplication n'est plus immédiate : on confirme dans la modale.
+      await screen.findByText("physicalInstance.view.duplicateModal.title");
+      const duplicateForm = screen.getByRole("dialog").querySelector("form");
+      fireEvent.submit(duplicateForm!);
+
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
       });
@@ -1735,6 +1805,11 @@ describe("View Component", () => {
         "physicalInstance.view.duplicatePhysicalInstance",
       );
       fireEvent.click(duplicateButton);
+
+      // La duplication n'est plus immédiate : on confirme dans la modale.
+      await screen.findByText("physicalInstance.view.duplicateModal.title");
+      const duplicateForm = screen.getByRole("dialog").querySelector("form");
+      fireEvent.submit(duplicateForm!);
 
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
@@ -1806,6 +1881,11 @@ describe("View Component", () => {
         "physicalInstance.view.duplicatePhysicalInstance",
       );
       fireEvent.click(duplicateButton);
+
+      // La duplication n'est plus immédiate : on confirme dans la modale.
+      await screen.findByText("physicalInstance.view.duplicateModal.title");
+      const duplicateForm = screen.getByRole("dialog").querySelector("form");
+      fireEvent.submit(duplicateForm!);
 
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
@@ -1906,6 +1986,11 @@ describe("View Component", () => {
       );
       fireEvent.click(duplicateButton);
 
+      // La duplication n'est plus immédiate : on confirme dans la modale.
+      await screen.findByText("physicalInstance.view.duplicateModal.title");
+      const duplicateForm = screen.getByRole("dialog").querySelector("form");
+      fireEvent.submit(duplicateForm!);
+
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
       });
@@ -1993,6 +2078,11 @@ describe("View Component", () => {
         "physicalInstance.view.duplicatePhysicalInstance",
       );
       fireEvent.click(duplicateButton);
+
+      // La duplication n'est plus immédiate : on confirme dans la modale.
+      await screen.findByText("physicalInstance.view.duplicateModal.title");
+      const duplicateForm = screen.getByRole("dialog").querySelector("form");
+      fireEvent.submit(duplicateForm!);
 
       await waitFor(() => {
         expect(mockNavigate).toHaveBeenCalled();

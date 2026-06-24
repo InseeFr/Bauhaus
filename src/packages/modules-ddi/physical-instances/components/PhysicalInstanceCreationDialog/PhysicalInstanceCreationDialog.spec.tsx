@@ -18,6 +18,9 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.editModal.title": "Edit",
         "physicalInstance.view.editModal.cancel": "Cancel",
         "physicalInstance.view.editModal.save": "Save",
+        "physicalInstance.view.duplicateModal.title": "Duplicate the physical instance",
+        "physicalInstance.view.duplicateModal.cancel": "Cancel",
+        "physicalInstance.view.duplicateModal.confirm": "Duplicate",
       };
       return translations[key] || key;
     },
@@ -321,6 +324,75 @@ describe("PhysicalInstanceDialog", () => {
           logicalRecordLabel: "Enregistrement logique : Existing Label",
           group: { id: "group-1", agency: "agency-1" },
           studyUnit: { id: "study-1", agency: "agency-1" },
+        });
+      });
+    });
+  });
+
+  describe("Duplicate mode", () => {
+    const mockOnSubmitDuplicate = vi.fn();
+    const defaultDuplicateProps = {
+      visible: true,
+      onHide: mockOnHide,
+      mode: "duplicate" as const,
+      initialData: {
+        label: "Existing Label (copy)",
+        group: { id: "group-1", agency: "agency-1" },
+        studyUnit: { id: "study-1", agency: "agency-1" },
+      },
+      onSubmitDuplicate: mockOnSubmitDuplicate,
+    };
+
+    it("should render the dialog in duplicate mode with correct title and confirm button", () => {
+      render(<PhysicalInstanceDialog {...defaultDuplicateProps} />);
+
+      expect(screen.getByText("Duplicate the physical instance")).toBeInTheDocument();
+      expect(screen.getByText("Duplicate")).toBeInTheDocument();
+    });
+
+    it("should pre-fill the label with the provided initial label", () => {
+      render(<PhysicalInstanceDialog {...defaultDuplicateProps} />);
+
+      const labelInput = screen.getByLabelText("Label") as HTMLInputElement;
+      expect(labelInput.value).toBe("Existing Label (copy)");
+    });
+
+    it("should disable the group dropdown but keep the study unit dropdown enabled", () => {
+      render(<PhysicalInstanceDialog {...defaultDuplicateProps} />);
+
+      expect(screen.getByTestId("dropdown-group")).toBeDisabled();
+      expect(screen.getByTestId("dropdown-studyUnit")).not.toBeDisabled();
+    });
+
+    it("should allow changing the study unit before duplicating", async () => {
+      render(<PhysicalInstanceDialog {...defaultDuplicateProps} />);
+
+      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+      fireEvent.change(studyUnitDropdown, { target: { value: "study-2" } });
+
+      expect((studyUnitDropdown as HTMLSelectElement).value).toBe("study-2");
+    });
+
+    it("should call onSubmitDuplicate with the entered label and chosen study unit", async () => {
+      mockOnSubmitDuplicate.mockResolvedValue(undefined);
+      render(<PhysicalInstanceDialog {...defaultDuplicateProps} />);
+
+      const labelInput = screen.getByLabelText("Label");
+      fireEvent.change(labelInput, { target: { value: "My Duplicate" } });
+
+      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
+      fireEvent.change(studyUnitDropdown, { target: { value: "study-2" } });
+
+      const confirmButton = screen.getByText("Duplicate");
+      fireEvent.click(confirmButton);
+
+      await waitFor(() => {
+        expect(mockOnSubmitDuplicate).toHaveBeenCalledWith({
+          label: "My Duplicate",
+          dataRelationshipLabel: "Structure : My Duplicate",
+          logicalRecordLabel: "Enregistrement logique : My Duplicate",
+          group: { id: "group-1", agency: "agency-1" },
+          studyUnit: { id: "study-2", agency: "agency-1" },
         });
       });
     });

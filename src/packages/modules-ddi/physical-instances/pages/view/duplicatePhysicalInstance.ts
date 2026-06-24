@@ -5,7 +5,8 @@ import { singletonEntries, makeEntry } from "../../../utils/multilingual";
 interface DuplicatePhysicalInstanceParams {
   agencyId: string;
   data: any;
-  title: string;
+  /** Libellé final de la PI dupliquée (le suffixe « (copy) » éventuel est posé par l'appelant). */
+  label: string;
   defaultLocale: string;
 }
 
@@ -19,7 +20,7 @@ interface BuildDuplicatedLogicalRecordParams {
   originalLogicalRecord: LogicalRecord;
   newLogicalRecordId: string;
   newAgencyId: string;
-  title: string;
+  label: string;
   variableIdMap: Map<string, string>;
   defaultLocale: string;
 }
@@ -47,7 +48,7 @@ export function buildDuplicatedLogicalRecord({
   originalLogicalRecord,
   newLogicalRecordId,
   newAgencyId,
-  title,
+  label,
   variableIdMap,
   defaultLocale,
 }: BuildDuplicatedLogicalRecordParams): LogicalRecord {
@@ -65,7 +66,7 @@ export function buildDuplicatedLogicalRecord({
     Agency: newAgencyId,
     Label: singletonEntries(
       originalLogicalRecord?.Label?.[0]?.["@language"] ?? defaultLocale,
-      buildLogicalRecordLabel(`${title} (copy)`),
+      buildLogicalRecordLabel(label),
     ),
     VariablesInRecord: {
       VariableUsedReference: Array.from(variableIdMap.values()).map((newVarId) =>
@@ -79,7 +80,7 @@ interface BuildDuplicatedDataRelationshipParams {
   originalDataRelationship: DataRelationship;
   newDataRelationshipId: string;
   newAgencyId: string;
-  title: string;
+  label: string;
   newLogicalRecordId: string;
   variableIdMap: Map<string, string>;
   defaultLocale: string;
@@ -93,7 +94,7 @@ export function buildDuplicatedDataRelationship({
   originalDataRelationship,
   newDataRelationshipId,
   newAgencyId,
-  title,
+  label,
   newLogicalRecordId,
   variableIdMap,
   defaultLocale,
@@ -124,7 +125,7 @@ export function buildDuplicatedDataRelationship({
     },
     Label: singletonEntries(
       originalDataRelationship?.Label?.[0]?.["@language"] ?? defaultLocale,
-      buildDataRelationshipLabel(`${title} (copy)`),
+      buildDataRelationshipLabel(label),
     ),
     LogicalRecord: originalDataRelationship.LogicalRecord?.[0]
       ? [
@@ -132,7 +133,7 @@ export function buildDuplicatedDataRelationship({
             originalLogicalRecord: originalDataRelationship.LogicalRecord[0],
             newLogicalRecordId,
             newAgencyId,
-            title,
+            label,
             variableIdMap,
             defaultLocale,
           }),
@@ -149,7 +150,7 @@ export function buildDuplicatedDataRelationship({
 export function buildDuplicatedPhysicalInstance({
   agencyId,
   data,
-  title,
+  label,
   defaultLocale,
 }: DuplicatePhysicalInstanceParams): DuplicatePhysicalInstanceResult {
   const newAgencyId = agencyId;
@@ -189,7 +190,7 @@ export function buildDuplicatedPhysicalInstance({
         originalDataRelationship: dr,
         newDataRelationshipId,
         newAgencyId,
-        title,
+        label,
         newLogicalRecordId,
         variableIdMap,
         defaultLocale,
@@ -207,9 +208,7 @@ export function buildDuplicatedPhysicalInstance({
       },
       Citation: {
         ...pi.Citation,
-        Title: [
-          makeEntry(pi.Citation?.Title?.[0]?.["@language"] ?? defaultLocale, `${title} (copy)`),
-        ],
+        Title: [makeEntry(pi.Citation?.Title?.[0]?.["@language"] ?? defaultLocale, label)],
       },
       DataRelationshipReference: [
         refTo(newAgencyId, newDataRelationshipId, "1", "DataRelationship"),

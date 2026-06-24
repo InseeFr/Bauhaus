@@ -39,10 +39,11 @@ export interface PhysicalInstanceUpdateData {
 interface PhysicalInstanceDialogProps {
   visible: boolean;
   onHide: () => void;
-  mode: "create" | "edit";
+  mode: "create" | "edit" | "duplicate";
   initialData?: { label: string; group?: SelectedGroup; studyUnit?: SelectedStudyUnit };
   onSubmitCreate?: (data: PhysicalInstanceCreationData) => Promise<void>;
   onSubmitEdit?: (data: PhysicalInstanceUpdateData) => Promise<void>;
+  onSubmitDuplicate?: (data: PhysicalInstanceCreationData) => Promise<void>;
 }
 
 export const PhysicalInstanceDialog = ({
@@ -52,6 +53,7 @@ export const PhysicalInstanceDialog = ({
   initialData,
   onSubmitCreate,
   onSubmitEdit,
+  onSubmitDuplicate,
 }: Readonly<PhysicalInstanceDialogProps>) => {
   const { t } = useTranslation();
   const formRef = useRef<HTMLFormElement>(null);
@@ -61,7 +63,11 @@ export const PhysicalInstanceDialog = ({
   const [selectedStudyUnitId, setSelectedStudyUnitId] = useState<string | null>(null);
   const [label, setLabel] = useState("");
 
-  const isCreateMode = mode === "create";
+  // Le Groupe n'est modifiable qu'à la création ; en édition comme en duplication
+  // il est verrouillé (la PI reste rattachée à son groupe).
+  const groupDisabled = mode !== "create";
+  // La SU est modifiable à la création ET à la duplication ; seule l'édition la fige.
+  const suDisabled = mode === "edit";
 
   const { data: groups = [], isLoading: isLoadingGroups } = useGroups();
 
@@ -126,26 +132,21 @@ export const PhysicalInstanceDialog = ({
 
     setIsSubmitting(true);
     try {
-      if (isCreateMode && onSubmitCreate) {
-        const data: PhysicalInstanceCreationData = {
-          label: label,
-          dataRelationshipLabel: buildDataRelationshipLabel(label),
-          logicalRecordLabel: buildLogicalRecordLabel(label),
-          group: selectedGroup!,
-          studyUnit: selectedStudyUnit!,
-        };
-        await onSubmitCreate(data);
+      const data: PhysicalInstanceCreationData = {
+        label: label,
+        dataRelationshipLabel: buildDataRelationshipLabel(label),
+        logicalRecordLabel: buildLogicalRecordLabel(label),
+        group: selectedGroup!,
+        studyUnit: selectedStudyUnit!,
+      };
+      if (mode === "create") {
         // Ne pas appeler resetForm() ici car la redirection va démonter le composant
         // et on évite ainsi de voir le formulaire vide pendant un court instant
-      } else if (!isCreateMode && onSubmitEdit) {
-        const data: PhysicalInstanceUpdateData = {
-          label: label,
-          dataRelationshipLabel: buildDataRelationshipLabel(label),
-          logicalRecordLabel: buildLogicalRecordLabel(label),
-          group: selectedGroup!,
-          studyUnit: selectedStudyUnit!,
-        };
-        await onSubmitEdit(data);
+        await onSubmitCreate?.(data);
+      } else if (mode === "duplicate") {
+        await onSubmitDuplicate?.(data);
+      } else {
+        await onSubmitEdit?.(data);
       }
     } finally {
       setIsSubmitting(false);
@@ -165,17 +166,25 @@ export const PhysicalInstanceDialog = ({
     onHide();
   };
 
-  const dialogTitle = isCreateMode
-    ? t("physicalInstance.creation.title")
-    : t("physicalInstance.view.editModal.title");
+  const titleKeyByMode = {
+    create: "physicalInstance.creation.title",
+    edit: "physicalInstance.view.editModal.title",
+    duplicate: "physicalInstance.view.duplicateModal.title",
+  } as const;
+  const submitKeyByMode = {
+    create: "physicalInstance.creation.create",
+    edit: "physicalInstance.view.editModal.save",
+    duplicate: "physicalInstance.view.duplicateModal.confirm",
+  } as const;
+  const cancelKeyByMode = {
+    create: "physicalInstance.creation.cancel",
+    edit: "physicalInstance.view.editModal.cancel",
+    duplicate: "physicalInstance.view.duplicateModal.cancel",
+  } as const;
 
-  const submitLabel = isCreateMode
-    ? t("physicalInstance.creation.create")
-    : t("physicalInstance.view.editModal.save");
-
-  const cancelLabel = isCreateMode
-    ? t("physicalInstance.creation.cancel")
-    : t("physicalInstance.view.editModal.cancel");
+  const dialogTitle = t(titleKeyByMode[mode]);
+  const submitLabel = t(submitKeyByMode[mode]);
+  const cancelLabel = t(cancelKeyByMode[mode]);
 
   return (
     <Dialog
@@ -209,7 +218,7 @@ export const PhysicalInstanceDialog = ({
             onChange={(e) => handleGroupChange(e.value)}
             placeholder={t("physicalInstance.creation.selectGroup")}
             loading={isLoadingGroups}
-            disabled={!isCreateMode || isSubmitting}
+            disabled={groupDisabled || isSubmitting}
             className="w-full"
           />
         </div>
@@ -222,7 +231,7 @@ export const PhysicalInstanceDialog = ({
             options={studyUnitOptions}
             onChange={(e) => setSelectedStudyUnitId(e.value)}
             placeholder={t("physicalInstance.creation.selectStudyUnit")}
-            disabled={!isCreateMode || !selectedGroupId || isSubmitting}
+            disabled={suDisabled || !selectedGroupId || isSubmitting}
             loading={isLoadingStudyUnits}
             className="w-full"
           />
