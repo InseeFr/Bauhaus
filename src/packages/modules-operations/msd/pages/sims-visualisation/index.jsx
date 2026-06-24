@@ -30,6 +30,19 @@ import "./sims-visualisation.scss";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 import { MissingDocumentsErrorBloc } from "./missing-documents-error-bloc";
 
+// Mirror of ErrorCodes.SIMS_PUBLICATION_MISSING_DOCUMENTS on the back-end : a SIMS
+// publication blocked because some referenced documents are missing from storage.
+const SIMS_PUBLICATION_MISSING_DOCUMENTS = 862;
+const EMPTY_SET = new Set();
+
+const parseMissingDocuments = (details) => {
+  try {
+    return new Set(JSON.parse(details));
+  } catch {
+    return EMPTY_SET;
+  }
+};
+
 export default function SimsVisualisation({
   metadataStructure,
   codesLists,
@@ -109,10 +122,17 @@ export default function SimsVisualisation({
   }
 
   const [serverSideError, setServerSideError] = useState();
+  const [publishMissingDocuments, setPublishMissingDocuments] = useState(EMPTY_SET);
   const publish = useCallback(
     (object) => {
+      setServerSideError(undefined);
+      setPublishMissingDocuments(EMPTY_SET);
       publishSims(object, (err) => {
         if (err) {
+          if (err.code === SIMS_PUBLICATION_MISSING_DOCUMENTS) {
+            setPublishMissingDocuments(parseMissingDocuments(err.details));
+            return;
+          }
           const targetMatch = err.details?.match(/Indicator\/Series\/Operation:\s*(\S+)/);
           const targetId = targetMatch?.[1];
           const href = getParentUri(object);
@@ -251,6 +271,10 @@ export default function SimsVisualisation({
       />
       <Row>
         <MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
+        <MissingDocumentsErrorBloc
+          missingDocuments={publishMissingDocuments}
+          buildMessage={D.missingDocumentWhenPublishingSims}
+        />
         <ErrorBloc error={serverSideError} D={D} />
         <CheckSecondLang />
         <RubricEssentialMsg secondLang={secondLang} />

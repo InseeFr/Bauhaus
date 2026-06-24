@@ -9,6 +9,16 @@ const messages = {
       documentNames?.join("</li><li>") +
       "</ul>",
   },
+  missingDocumentWhenPublishingSims: {
+    fr: (documentNames: string[]) =>
+      "La publication du rapport est impossible : les documents suivants sont absents du stockage : <ul><li>" +
+      documentNames?.join("</li><li>") +
+      "</ul>",
+    en: (documentNames: string[]) =>
+      "This report cannot be published: the following documents are missing from storage: <ul><li>" +
+      documentNames?.join("</li><li>") +
+      "</ul>",
+  },
   document: { fr: "Document", en: "Document" },
   link: { fr: "Lien", en: "Link" },
   titleDocument: { fr: "Document", en: "Document" },
