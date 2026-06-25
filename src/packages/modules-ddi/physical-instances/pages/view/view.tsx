@@ -209,26 +209,28 @@ export const Component = () => {
   }, [variables, state.localVariables, state.deletedVariableIds]);
 
   const filteredVariables = useMemo(() => {
-    let filtered = mergedVariables;
+    const searchLower = state.searchValue ? state.searchValue.toLowerCase() : null;
+    const typeLower = state.typeFilter === FILTER_ALL_TYPES ? null : state.typeFilter.toLowerCase();
 
-    // Filtre par recherche
-    if (state.searchValue) {
-      const searchLower = state.searchValue.toLowerCase();
-      filtered = filtered.filter((variable: VariableTableData) => {
-        const nameMatch = variable.name.toLowerCase().includes(searchLower);
-        const labelMatch = variable.label.toLowerCase().includes(searchLower);
-        return nameMatch || labelMatch;
-      });
-    }
-    // Filtre par type
-    if (state.typeFilter !== FILTER_ALL_TYPES) {
-      filtered = filtered.filter(
-        (variable: VariableTableData) =>
-          variable.type.toLowerCase() === state.typeFilter.toLowerCase(),
-      );
+    // Aucun filtre actif : on renvoie la référence telle quelle (pas de copie)
+    if (searchLower === null && typeLower === null) {
+      return mergedVariables;
     }
 
-    return filtered;
+    // Une seule passe combinant recherche et type
+    return mergedVariables.filter((variable: VariableTableData) => {
+      if (
+        searchLower !== null &&
+        !variable.name.toLowerCase().includes(searchLower) &&
+        !variable.label.toLowerCase().includes(searchLower)
+      ) {
+        return false;
+      }
+      if (typeLower !== null && variable.type.toLowerCase() !== typeLower) {
+        return false;
+      }
+      return true;
+    });
   }, [mergedVariables, state.searchValue, state.typeFilter]);
 
   const handleExport = useExport(data, title, toast);
