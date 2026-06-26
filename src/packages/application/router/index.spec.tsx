@@ -51,7 +51,8 @@ describe("RBACLink Component", () => {
 
     screen.getByText("Child Component");
     screen.getByText("TestApp - IHM 1.0.0 - API 2.0.0");
-    screen.getByAltText("application logo");
+    screen.getByAltText("logo insee");
+    screen.getByAltText("logo CASD");
   });
 
   it("should call logout and remove token when logout button is clicked", () => {
