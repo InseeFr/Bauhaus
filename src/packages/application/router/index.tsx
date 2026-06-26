@@ -32,7 +32,7 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
         <div>
           <div id="bauhausVersion">
             <p class="text-left">
-            {/* 
+              {/*
             
 background-color: #F2F2F2;
 display: grid;
@@ -42,19 +42,19 @@ align-items: center;
 padding-left: 30px;
 
             */}
-            {footer}          
+              {footer}
             </p>
           </div>
           <div>
-          <a href="https://www.insee.fr">
-            <img  src="/img/insee_logo_bas_de_page-01.svg" alt="logo insee" />
-          </a>
-          <a href="https://www.casd.eu/">
-            <img  src="/img/casd_logo_bas_de_page-01.svg" alt="logo CASD" />
-          </a>          
+            <a href="https://www.insee.fr">
+              <img src="/img/insee_logo_bas_de_page-01.svg" alt="logo insee" />
+            </a>
+            <a href="https://www.casd.eu/">
+              <img src="/img/casd_logo_bas_de_page-01.svg" alt="logo CASD" />
+            </a>
           </div>
-          <div/>         
-        </div>       
+          <div />
+        </div>
       </footer>
     </>
   );

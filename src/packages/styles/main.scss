@@ -82,11 +82,11 @@ footer {
   }
 
   > div {
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    
+
     > #bauhausVersion {
       padding-left: 30px;
     }

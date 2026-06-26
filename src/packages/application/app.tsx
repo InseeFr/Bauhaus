@@ -24,8 +24,12 @@ const AppCard = ({ app }: { app: string }) => {
     <div className={app}>
       <Link to={`/${app}`}>
         <h2 className="items page-title page-title-link">{getAppTitle(app)}</h2>
-        <div className="arrow"><img src={`/img/fleche-01.svg`} alt="" loading="lazy" /></div>
-        <div className="logo"><img src={`/img/${app}-01.svg`} alt="" loading="lazy" /></div>
+        <div className="arrow">
+          <img src={`/img/fleche-01.svg`} alt="" loading="lazy" />
+        </div>
+        <div className="logo">
+          <img src={`/img/${app}-01.svg`} alt="" loading="lazy" />
+        </div>
       </Link>
     </div>
   );
