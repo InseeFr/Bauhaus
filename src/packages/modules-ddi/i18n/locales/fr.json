@@ -50,6 +50,12 @@
           "title": "Utilisations de cette liste de codes",
           "help": "Variables et instances physiques qui réutilisent cette même liste de codes, regroupées par unité d'enquête (Study Unit) puis par instance physique.",
           "unknownStudyUnit": "Unité d'enquête inconnue"
+        },
+        "overrideShared": {
+          "title": "Liste de codes partagée",
+          "message": "Cette liste de codes est utilisée par {{count}} autre(s) variable(s). La modifier mettra à jour la liste pour toutes ces variables.",
+          "confirm": "Surcharger",
+          "cancel": "Annuler"
         }
       },
       "columns": {

@@ -3,6 +3,7 @@ import type {
   CodeList,
   Code,
   Category,
+  CodeListUsage,
   LangString,
 } from "../../types/api";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
@@ -87,3 +88,20 @@ export const getLocalizedText = (
   content: LangString[] | undefined,
   lang = "fr-FR",
 ): string | undefined => pickLang(content, lang);
+
+/**
+ * Nombre de variables, autres que celle en cours d'édition, qui réutilisent la même liste de codes.
+ */
+export const countOtherUsers = (
+  usages: CodeListUsage[],
+  currentVariableId: string | undefined,
+): number => usages.filter((usage) => usage.variableId !== currentVariableId).length;
+
+/**
+ * Vrai si la liste de codes est référencée par au moins une autre variable que celle en cours
+ * d'édition : modifier ses codes/son label impacterait alors toutes ces variables.
+ */
+export const isCodeListSharedWithOthers = (
+  usages: CodeListUsage[],
+  currentVariableId: string | undefined,
+): boolean => countOtherUsers(usages, currentVariableId) > 0;

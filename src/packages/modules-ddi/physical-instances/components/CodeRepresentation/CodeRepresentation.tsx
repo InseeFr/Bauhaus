@@ -1,6 +1,7 @@
 import { useReducer, useEffect, useRef } from "react";
 import { Button } from "primereact/button";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { confirmDialog } from "primereact/confirmdialog";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import type {
@@ -20,11 +21,14 @@ import {
   createLabel,
   parseSelectedCodeListId,
   getLocalizedText,
+  isCodeListSharedWithOthers,
+  countOtherUsers,
 } from "./CodeRepresentation.utils";
 import { useAppContext } from "../../../../application/app-context";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
 import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
+import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
 
 interface CodeRepresentationProps {
   representation?: CodeRepresentationType;
@@ -85,6 +89,22 @@ export const CodeRepresentation = ({
   const codeListUsersAgency = referencedCodeListAgency ?? selectedAgency;
   const codeListUsersId = referencedCodeListId ?? selectedListId;
   const showUsersPanel = Boolean(codeListUsersAgency && codeListUsersId);
+
+  // Les listes mutualisées sont en lecture seule : aucune édition (donc aucune surcharge) possible.
+  const readOnly = isReferencedListMutualized || isSelectedListMutualized;
+
+  // Variables (autres que celle en cours d'édition) qui réutilisent cette même liste de codes.
+  // On réutilise la même queryKey que CodeListUsersPanel : la requête est mutualisée en cache.
+  const { data: codeListUsages = [] } = useCodeListUsers(
+    codeListUsersAgency ?? "",
+    codeListUsersId ?? "",
+    showUsersPanel,
+  );
+  const sharedWithOthers = isCodeListSharedWithOthers(codeListUsages, currentVariableId);
+
+  // Vrai une fois que l'utilisateur a confirmé « Surcharger » : la confirmation ne s'affiche
+  // qu'une seule fois par session d'édition d'une liste donnée (réinitialisée si l'ID change).
+  const overrideAcknowledgedRef = useRef(false);
   // Contenu (codes + catégories) de la liste sélectionnée, récupéré par agency/id.
   // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back (il délègue à
   // getCodeList) : il sert donc aussi bien aux listes mutualisées qu'aux listes du groupe.
@@ -109,6 +129,8 @@ export const CodeRepresentation = ({
       // Reset initialization flag when ID changes
       hasInitializedRef.current = false;
       codeListIdRef.current = codeList?.ID;
+      // On change de liste/variable : la confirmation de surcharge pourra réapparaître.
+      overrideAcknowledgedRef.current = false;
     }
 
     if (!hasCodeListIdChanged && !hasRepresentationChanged && hasInitializedRef.current) {
@@ -184,127 +206,168 @@ export const CodeRepresentation = ({
         codes: rows,
       },
     });
+
+    // Liste de groupe (éditable) réutilisée : on matérialise le codeList complet dans la variable,
+    // SOUS L'ID DE LA LISTE PARTAGÉE. Sans cela, le codeList parent reste `undefined` et la première
+    // édition repartirait d'un nouvel ID aléatoire (liste forkée) en perdant les codes existants :
+    // la surcharge ne s'appliquerait alors pas aux autres variables référençant cette liste.
+    // Les listes mutualisées (lecture seule) restent de simples références, non matérialisées.
+    if (!readOnly && codeList?.ID !== fetchedCodeList.ID) {
+      const materializedRepresentation =
+        representation ??
+        createDefaultRepresentation(fetchedCodeList.ID, fetchedCodeList.Agency ?? defaultAgencyId);
+      onChange(materializedRepresentation, fetchedCodeList, selectedListCodes.Category ?? []);
+    }
   }, [selectedListCodes]);
 
-  const handleCodeListLabelChange = (newLabel: string) => {
-    dispatch({ type: "SET_CODE_LIST_LABEL", payload: newLabel });
-
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(newLabel, defaultLocale),
-    };
-
-    onChange(currentRepresentation, updatedCodeList, categories);
+  // Garde toute mutation de la liste : si la liste est partagée par d'autres variables (et éditable),
+  // on demande confirmation avant d'appliquer le changement. « Surcharger » applique et mémorise
+  // l'accord pour le reste de la session ; « Annuler » n'applique rien.
+  const withOverrideGuard = (apply: () => void) => {
+    const needsConfirm = sharedWithOthers && !readOnly && !overrideAcknowledgedRef.current;
+    if (!needsConfirm) {
+      apply();
+      return;
+    }
+    confirmDialog({
+      header: t("physicalInstance.view.code.overrideShared.title"),
+      message: t("physicalInstance.view.code.overrideShared.message", {
+        count: countOtherUsers(codeListUsages, currentVariableId),
+      }),
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: t("physicalInstance.view.code.overrideShared.confirm"),
+      rejectLabel: t("physicalInstance.view.code.overrideShared.cancel"),
+      acceptClassName: "p-button-warning",
+      accept: () => {
+        overrideAcknowledgedRef.current = true;
+        apply();
+      },
+    });
   };
 
-  const handleDeleteCode = (codeId: string) => {
-    const deletedCode = codes.find((c) => c.id === codeId);
-    dispatch({ type: "DELETE_CODE", payload: codeId });
+  const handleCodeListLabelChange = (newLabel: string) =>
+    withOverrideGuard(() => {
+      dispatch({ type: "SET_CODE_LIST_LABEL", payload: newLabel });
 
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(codeListLabel, defaultLocale),
-      Code: codeList?.Code?.filter((code) => code.ID !== codeId),
-    };
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(newLabel, defaultLocale),
+      };
 
-    const updatedCategories = deletedCode
-      ? categories.filter((cat) => cat.ID !== deletedCode.categoryId)
-      : categories;
-
-    onChange(currentRepresentation, updatedCodeList, updatedCategories);
-  };
-
-  const handleCellEdit = (rowData: CodeTableRow, field: "value" | "label", newValue: string) => {
-    dispatch({
-      type: "UPDATE_CODE",
-      payload: { id: rowData.id, field, value: newValue },
+      onChange(currentRepresentation, updatedCodeList, categories);
     });
 
-    const updatedCode = {
-      ...rowData,
-      [field]: newValue,
-    };
+  const handleDeleteCode = (codeId: string) =>
+    withOverrideGuard(() => {
+      const deletedCode = codes.find((c) => c.id === codeId);
+      dispatch({ type: "DELETE_CODE", payload: codeId });
 
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const newCategory = createCategory(
-      updatedCode.categoryId,
-      updatedCode.label,
-      defaultAgencyId,
-      defaultLocale,
-    );
-    const newCode = createCode(
-      updatedCode.id,
-      updatedCode.categoryId,
-      updatedCode.value,
-      defaultAgencyId,
-    );
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(codeListLabel, defaultLocale),
+        Code: codeList?.Code?.filter((code) => code.ID !== codeId),
+      };
 
-    const existingCode = codeList?.Code?.find((c) => c.ID === rowData.id);
-    let updatedCodeListCodes;
-    let updatedCategories: Category[];
+      const updatedCategories = deletedCode
+        ? categories.filter((cat) => cat.ID !== deletedCode.categoryId)
+        : categories;
 
-    if (existingCode) {
-      updatedCodeListCodes =
-        codeList?.Code?.map((code) => (code.ID === rowData.id ? newCode : code)) || [];
-      updatedCategories = categories.map((cat) =>
-        cat.ID === rowData.categoryId ? newCategory : cat,
+      onChange(currentRepresentation, updatedCodeList, updatedCategories);
+    });
+
+  const handleCellEdit = (rowData: CodeTableRow, field: "value" | "label", newValue: string) =>
+    withOverrideGuard(() => {
+      dispatch({
+        type: "UPDATE_CODE",
+        payload: { id: rowData.id, field, value: newValue },
+      });
+
+      const updatedCode = {
+        ...rowData,
+        [field]: newValue,
+      };
+
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      const newCategory = createCategory(
+        updatedCode.categoryId,
+        updatedCode.label,
+        defaultAgencyId,
+        defaultLocale,
       );
-    } else {
-      updatedCodeListCodes = [...(codeList?.Code || []), newCode];
-      updatedCategories = [...categories, newCategory];
-    }
+      const newCode = createCode(
+        updatedCode.id,
+        updatedCode.categoryId,
+        updatedCode.value,
+        defaultAgencyId,
+      );
 
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(codeListLabel, defaultLocale),
-      Code: updatedCodeListCodes,
-    };
+      const existingCode = codeList?.Code?.find((c) => c.ID === rowData.id);
+      let updatedCodeListCodes;
+      let updatedCategories: Category[];
 
-    onChange(currentRepresentation, updatedCodeList, updatedCategories);
-  };
+      if (existingCode) {
+        updatedCodeListCodes =
+          codeList?.Code?.map((code) => (code.ID === rowData.id ? newCode : code)) || [];
+        updatedCategories = categories.map((cat) =>
+          cat.ID === rowData.categoryId ? newCategory : cat,
+        );
+      } else {
+        updatedCodeListCodes = [...(codeList?.Code || []), newCode];
+        updatedCategories = [...categories, newCategory];
+      }
 
-  const handleAddCode = (value: string, label: string) => {
-    const newRow: CodeTableRow = {
-      id: crypto.randomUUID(),
-      value,
-      label,
-      categoryId: crypto.randomUUID(),
-      isNew: true,
-    };
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(codeListLabel, defaultLocale),
+        Code: updatedCodeListCodes,
+      };
 
-    dispatch({ type: "ADD_CODE", payload: newRow });
+      onChange(currentRepresentation, updatedCodeList, updatedCategories);
+    });
 
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const newCategory = createCategory(
-      newRow.categoryId,
-      newRow.label,
-      defaultAgencyId,
-      defaultLocale,
-    );
-    const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
+  const handleAddCode = (value: string, label: string) =>
+    withOverrideGuard(() => {
+      const newRow: CodeTableRow = {
+        id: crypto.randomUUID(),
+        value,
+        label,
+        categoryId: crypto.randomUUID(),
+        isNew: true,
+      };
 
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(codeListLabel, defaultLocale),
-      Code: [...(codeList?.Code || []), newCode],
-    };
+      dispatch({ type: "ADD_CODE", payload: newRow });
 
-    onChange(currentRepresentation, updatedCodeList, [...categories, newCategory]);
-  };
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      const newCategory = createCategory(
+        newRow.categoryId,
+        newRow.label,
+        defaultAgencyId,
+        defaultLocale,
+      );
+      const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
+
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(codeListLabel, defaultLocale),
+        Code: [...(codeList?.Code || []), newCode],
+      };
+
+      onChange(currentRepresentation, updatedCodeList, [...categories, newCategory]);
+    });
 
   const handleCreateNewList = () => {
     // Réinitialise complètement la liste de codes de la variable en cours d'édition :
@@ -337,33 +400,34 @@ export const CodeRepresentation = ({
     onChange(newRepresentation, newCodeList, [newCategory]);
   };
 
-  const handleMoveCode = (codeId: string, direction: "up" | "down") => {
-    dispatch({ type: "MOVE_CODE", payload: { id: codeId, direction } });
+  const handleMoveCode = (codeId: string, direction: "up" | "down") =>
+    withOverrideGuard(() => {
+      const currentIndex = codes.findIndex((c) => c.id === codeId);
+      if (currentIndex === -1) return;
 
-    const currentIndex = codes.findIndex((c) => c.id === codeId);
-    if (currentIndex === -1) return;
+      const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+      if (newIndex < 0 || newIndex >= codes.length) return;
 
-    const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
-    if (newIndex < 0 || newIndex >= codes.length) return;
+      dispatch({ type: "MOVE_CODE", payload: { id: codeId, direction } });
 
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
 
-    // Réorganiser les codes dans la codeList
-    const currentCodes = [...(codeList?.Code || [])];
-    const [movedCode] = currentCodes.splice(currentIndex, 1);
-    currentCodes.splice(newIndex, 0, movedCode);
+      // Réorganiser les codes dans la codeList
+      const currentCodes = [...(codeList?.Code || [])];
+      const [movedCode] = currentCodes.splice(currentIndex, 1);
+      currentCodes.splice(newIndex, 0, movedCode);
 
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(codeListLabel, defaultLocale),
-      Code: currentCodes,
-    };
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(codeListLabel, defaultLocale),
+        Code: currentCodes,
+      };
 
-    onChange(currentRepresentation, updatedCodeList, categories);
-  };
+      onChange(currentRepresentation, updatedCodeList, categories);
+    });
 
   return (
     <div className="flex flex-column gap-2">
@@ -419,7 +483,7 @@ export const CodeRepresentation = ({
           onDeleteCode={handleDeleteCode}
           onAddCode={handleAddCode}
           onMoveCode={handleMoveCode}
-          readOnly={isReferencedListMutualized || isSelectedListMutualized}
+          readOnly={readOnly}
         />
       )}
       {showUsersPanel && (

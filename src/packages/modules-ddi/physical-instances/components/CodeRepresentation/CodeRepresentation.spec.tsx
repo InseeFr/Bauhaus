@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useState } from "react";
 import { CodeRepresentation } from "./CodeRepresentation";
@@ -6,6 +6,7 @@ import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
   Category,
+  CodeListUsage,
 } from "../../types/api";
 
 vi.mock("react-i18next", () => ({
@@ -84,6 +85,12 @@ const mockUseCodeListUsers = vi.fn(() => ({
 
 vi.mock("../../../hooks/useCodeListUsers", () => ({
   useCodeListUsers: () => mockUseCodeListUsers(),
+}));
+
+const confirmDialogMock = vi.fn();
+vi.mock("primereact/confirmdialog", () => ({
+  confirmDialog: (options: any) => confirmDialogMock(options),
+  ConfirmDialog: () => null,
 }));
 
 vi.mock("primereact/inputtext", () => ({
@@ -953,6 +960,202 @@ describe("CodeRepresentation", () => {
       // editable mode: "Ajouter un code" button is present and inputs are not read-only
       expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
       expect(valueInputs.every((i) => !i.hasAttribute("readOnly"))).toBe(true);
+    });
+
+    it("keeps the referenced ID and existing codes when editing the label of a reused group list", () => {
+      mockUseAllCodesLists.mockReturnValue({
+        data: [{ id: "grp-1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
+        isLoading: false,
+        error: null,
+      });
+      const groupData = {
+        CodeList: [
+          {
+            Agency: "fr.insee",
+            ID: "grp-1",
+            Label: [{ "@language": "fr-FR", "@value": "Liste groupe" }],
+            Code: [
+              { ID: "code-1", Value: { StringValue: "01" }, CategoryReference: { ID: "cat-1" } },
+              { ID: "code-2", Value: { StringValue: "02" }, CategoryReference: { ID: "cat-2" } },
+            ],
+          },
+        ],
+        Category: [
+          { ID: "cat-1", Label: [{ "@language": "fr-FR", "@value": "Agriculture" }] },
+          { ID: "cat-2", Label: [{ "@language": "fr-FR", "@value": "Industrie" }] },
+        ],
+      };
+      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+        agency === "fr.insee" && id === "grp-1"
+          ? { data: groupData, isLoading: false, isSuccess: true, error: null }
+          : { data: undefined, isLoading: false, isSuccess: false, error: null },
+      );
+
+      // Harnais qui re-injecte les résultats de onChange comme props, comme le fait le vrai
+      // VariableEditForm. Sans cela, l'édition d'une liste réutilisée part d'un codeList
+      // toujours `undefined`.
+      let last: [CodeRepresentationType | undefined, CodeList | undefined, Category[] | undefined] =
+        [undefined, undefined, []];
+      const Harness = () => {
+        const [rep, setRep] = useState<CodeRepresentationType | undefined>(undefined);
+        const [cl, setCl] = useState<CodeList | undefined>(undefined);
+        const [cats, setCats] = useState<Category[] | undefined>([]);
+        return (
+          <CodeRepresentation
+            representation={rep}
+            codeList={cl}
+            categories={cats}
+            onChange={(r, c, k) => {
+              last = [r, c, k];
+              setRep(r);
+              setCl(c);
+              setCats(k);
+            }}
+          />
+        );
+      };
+      render(<Harness />);
+
+      fireEvent.click(screen.getByText("Réutiliser"));
+      fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+        target: { value: "fr.insee-grp-1" },
+      });
+
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+      fireEvent.change(labelInput, { target: { value: "Libellé surchargé" } });
+
+      const [rep, cl] = last;
+      // La représentation ET la liste de codes doivent rester sur l'ID de la liste partagée…
+      expect(rep?.CodeListReference?.ID).toBe("grp-1");
+      expect(cl?.ID).toBe("grp-1");
+      // …le nouveau libellé est appliqué…
+      expect(cl?.Label?.[0]?.["@value"]).toBe("Libellé surchargé");
+      // …et les codes existants ne sont pas perdus.
+      expect(cl?.Code?.map((c) => c.Value?.StringValue)).toEqual(["01", "02"]);
+    });
+  });
+
+  describe("confirmation before overriding a shared code list", () => {
+    const otherVariableUsage: CodeListUsage = {
+      studyUnitAgencyId: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitLabel: "Recensement",
+      physicalInstanceAgencyId: "fr.insee",
+      physicalInstanceId: "pi-1",
+      physicalInstanceLabel: "Fichier détail",
+      variableAgencyId: "fr.insee",
+      variableId: "other-variable",
+      variableLabel: "Autre variable",
+    };
+
+    const markListAsShared = () =>
+      mockUseCodeListUsers.mockReturnValue({
+        data: [otherVariableUsage],
+        isLoading: false,
+        isError: false,
+      });
+
+    const renderShared = (currentVariableId = "current-variable") =>
+      render(
+        <CodeRepresentation
+          representation={mockRepresentation}
+          codeList={mockCodeList}
+          categories={mockCategories}
+          currentVariableId={currentVariableId}
+          onChange={mockOnChange}
+        />,
+      );
+
+    it("asks for confirmation and defers the change when editing a code of a shared list", () => {
+      markListAsShared();
+      renderShared();
+
+      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
+      fireEvent.change(valueInput, { target: { value: "10" } });
+
+      expect(confirmDialogMock).toHaveBeenCalledTimes(1);
+      expect(confirmDialogMock.mock.calls[0][0]).toMatchObject({
+        header: "physicalInstance.view.code.overrideShared.title",
+        acceptLabel: "physicalInstance.view.code.overrideShared.confirm",
+        rejectLabel: "physicalInstance.view.code.overrideShared.cancel",
+      });
+      // L'édition n'est pas encore appliquée tant que l'utilisateur n'a pas confirmé.
+      expect(mockOnChange).not.toHaveBeenCalled();
+    });
+
+    it("applies the change once the user confirms (Surcharger)", () => {
+      markListAsShared();
+      renderShared();
+
+      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
+      fireEvent.change(valueInput, { target: { value: "10" } });
+
+      act(() => confirmDialogMock.mock.calls[0][0].accept());
+
+      expect(mockOnChange).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          Code: expect.arrayContaining([expect.objectContaining({ Value: { StringValue: "10" } })]),
+        }),
+        expect.anything(),
+      );
+    });
+
+    it("does not ask again after the first confirmation in the same editing session", () => {
+      markListAsShared();
+      renderShared();
+
+      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
+      fireEvent.change(valueInput, { target: { value: "10" } });
+      act(() => confirmDialogMock.mock.calls[0][0].accept());
+
+      mockOnChange.mockClear();
+      fireEvent.change(valueInput, { target: { value: "11" } });
+
+      // Toujours un seul appel à confirmDialog, et la 2e édition passe directement.
+      expect(confirmDialogMock).toHaveBeenCalledTimes(1);
+      expect(mockOnChange).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not apply the change when the user cancels (no accept callback fired)", () => {
+      markListAsShared();
+      renderShared();
+
+      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
+      fireEvent.change(valueInput, { target: { value: "10" } });
+
+      // L'utilisateur clique « Annuler » : accept n'est jamais appelé.
+      expect(mockOnChange).not.toHaveBeenCalled();
+    });
+
+    it("does not ask for confirmation when the list is not shared with other variables", () => {
+      mockUseCodeListUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
+      renderShared();
+
+      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
+      fireEvent.change(valueInput, { target: { value: "10" } });
+
+      expect(confirmDialogMock).not.toHaveBeenCalled();
+      expect(mockOnChange).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not ask for confirmation when the shared list is mutualized (read-only)", () => {
+      markListAsShared();
+      mockUseAllCodesLists.mockReturnValue({
+        data: [
+          { id: "codelist-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true },
+        ],
+        isLoading: false,
+        error: null,
+      });
+
+      renderShared();
+
+      // Liste mutualisée → lecture seule : un changement de label ne déclenche pas de confirmation.
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+      fireEvent.change(labelInput, { target: { value: "Tentative" } });
+
+      expect(confirmDialogMock).not.toHaveBeenCalled();
     });
   });
 });

@@ -50,6 +50,12 @@
           "title": "Usages of this code list",
           "help": "Variables and physical instances that reuse this same code list, grouped by study unit then by physical instance.",
           "unknownStudyUnit": "Unknown study unit"
+        },
+        "overrideShared": {
+          "title": "Shared code list",
+          "message": "This code list is used by {{count}} other variable(s). Editing it will update the list for all of them.",
+          "confirm": "Override",
+          "cancel": "Cancel"
         }
       },
       "columns": {

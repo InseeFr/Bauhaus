@@ -46,6 +46,7 @@ import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
+import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
@@ -318,6 +319,32 @@ export const Component = () => {
       let codeList: CodeList | undefined;
       let categories: Category[] | undefined;
       if (codeRepresentation) {
+        // Si une autre variable a déjà surchargé cette liste localement (non encore enregistrée),
+        // on affiche la version surchargée plutôt que celle (périmée) rechargée du back-office.
+        const localOverride = findLocalCodeListOverride(
+          state.localVariables,
+          codeRepresentation.CodeListReference?.ID,
+        );
+        if (localOverride) {
+          dispatch(
+            actions.setSelectedVariable({
+              id: variable.id,
+              label: variable.label,
+              name: variable.name,
+              description,
+              type: variable.type,
+              isGeographic,
+              textRepresentation,
+              numericRepresentation,
+              dateRepresentation,
+              codeRepresentation,
+              codeList: localOverride.codeList,
+              categories: localOverride.categories,
+            }),
+          );
+          return;
+        }
+
         const loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
         codeList = loaded.codeList;
         categories = loaded.categories;
