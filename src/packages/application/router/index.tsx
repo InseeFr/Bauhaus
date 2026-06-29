@@ -26,24 +26,16 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
       <div id="root-app">{children}</div>
 
       <footer className="text-center">
-        <button type="button" onClick={logoutAndRemoveFromStorage} className="btn btn-primary">
+        <button
+          type="button"
+          onClick={logoutAndRemoveFromStorage}
+          className="btn btn-primary"
+        >
           {D.authentication.logout}
         </button>
         <div>
           <div id="bauhausVersion">
-            <p class="text-left">
-              {/*
-            
-background-color: #F2F2F2;
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-align-items: center;
-            
-padding-left: 30px;
-
-            */}
-              {footer}
-            </p>
+            <p className="text-left">{footer}</p>
           </div>
           <div>
             <a href="https://www.insee.fr">
