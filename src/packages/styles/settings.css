@@ -44,24 +44,31 @@ body {
   body {
     --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
   }
+
   .operations {
     --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
   }
+
   .concepts {
     --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
   }
+
   .classifications {
     --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
   }
+
   .structures {
     --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
   }
+
   .codelists {
     --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
   }
+
   .datasets {
     --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
   }
+
   .ddi {
     --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
   }

@@ -1,12 +1,12 @@
 .home-page-links {
   list-style: none;
+
   --content-width: 60vw;
   --gutter: 20px;
 
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: var(--gutter);
-
   width: 70%;
   margin: 2em auto 0;
 
@@ -14,7 +14,6 @@
     aspect-ratio: 1;
     container-type: inline-size;
     display: grid;
-
     background: var(--primary-color);
     border-radius: 6px;
     box-shadow: 4px 12px 24px grey;
@@ -28,13 +27,8 @@
        logo aligné en bas à droite quelle que soit la hauteur du titre. */
     a {
       display: grid;
-      grid-template-columns: 1fr auto;
-      grid-template-rows: auto 1fr;
-      grid-template-areas:
-        "title title"
-        "arrow logo";
+      grid-template: "title title" auto "arrow logo" 1fr / 1fr auto;
       row-gap: 1.5em;
-
       padding: 2em;
       color: white;
       text-decoration: none;
@@ -44,6 +38,7 @@
       grid-area: title;
       margin: 0;
       width: 100%;
+
       /* Police relative à la largeur de la carte (cqi) + nowrap :
                le titre tient sur une seule ligne à tous les breakpoints. */
       font-size: clamp(1.7rem, 10cqi, 2.6rem);
@@ -64,8 +59,7 @@
 
     .logo {
       grid-area: logo;
-      align-self: end;
-      justify-self: end;
+      place-self: end end;
 
       img {
         display: block;
@@ -76,18 +70,19 @@
 }
 
 /* This declaration will be removed after receiving the icon for this application */
+/* stylelint-disable-next-line no-descending-specificity */
 .bauhaus-app img {
   width: 50% !important;
   margin-top: 1.5em !important;
 }
 
-@media (min-width: 750px) {
+@media (width >= 750px) {
   .home-page-links {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (min-width: 1100px) {
+@media (width >= 1100px) {
   .home-page-links {
     grid-template-columns: repeat(6, 1fr);
   }
@@ -121,7 +116,7 @@
   }
 }
 
-@media (min-width: 1500px) {
+@media (width >= 1500px) {
   .home-page-links {
     grid-template-columns: repeat(8, 1fr);
   }
