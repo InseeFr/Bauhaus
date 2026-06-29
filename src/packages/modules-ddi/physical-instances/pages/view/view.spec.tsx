@@ -1609,10 +1609,14 @@ describe("View Component", () => {
       ).toBeInTheDocument();
 
       // …le libellé est pré-rempli avec le suffixe (copy)…
+      // La valeur est posée par un useEffect après le montage de la modale
+      // (composant lazy/Suspense + animation d'ouverture de la Dialog) : on
+      // attend qu'elle soit appliquée plutôt que de la lire de façon synchrone,
+      // sinon course de timing sous charge (échec aléatoire en CI).
       const labelInput = screen.getByLabelText(
         "physicalInstance.creation.label",
       ) as HTMLInputElement;
-      expect(labelInput.value).toBe("Original Title (copy)");
+      await waitFor(() => expect(labelInput.value).toBe("Original Title (copy)"));
 
       // …et rien n'a encore été publié (duplication non immédiate).
       expect(mutateAsyncMock).not.toHaveBeenCalled();
