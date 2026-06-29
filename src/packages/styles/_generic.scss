@@ -2,7 +2,29 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Barlow", sans-serif;
-  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Sticky footer. Structure réelle :
+     #root > header.application-title + main
+     main  > #root-app (contenu) + footer
+   #root empile header puis main ; main occupe la hauteur restante et
+   #root-app (flex: 1) pousse le footer en bas tant que le contenu ne
+   remplit pas le viewport. Le header garde sa hauteur naturelle. */
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root > main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#root-app {
+  flex: 1;
 }
 
 .w-100 {

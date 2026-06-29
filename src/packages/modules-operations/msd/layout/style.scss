@@ -17,7 +17,7 @@
   margin: 0;
   overflow-x: hidden;
   padding: 70px 20px 20px 20px;
-  border-right: solid var(--color-3) 1px;
+  border-right: solid var(--primary-color) 1px;
   position: sticky;
   top: 0;
   max-height: 100vh;
@@ -37,9 +37,9 @@
   &_title {
     font-size: 28px;
     font-size: 2.8rem;
-    color: var(--color-3);
+    color: var(--primary-color);
     border: none;
-    border-bottom: solid 2px var(--color-3);
+    border-bottom: solid 2px var(--primary-color);
     padding: 0 0 10px 0;
     margin: 0 0 15px 0;
   }
@@ -67,7 +67,7 @@
     width: 60%;
     margin: 0;
     padding: 70px 20px 20px 20px;
-    border-left: solid var(--color-3) 1px;
+    border-left: solid var(--primary-color) 1px;
   }
   & .panel {
     background: white;
@@ -94,7 +94,7 @@
   &_middle {
     position: absolute;
     margin-top: 20px;
-    background-color: var(--color-3);
+    background-color: var(--primary-color);
     color: #fff;
     text-align: center;
     text-transform: uppercase;

@@ -28,7 +28,7 @@
 }
 
 .navbar-primary {
-  background: var(--color-3);
+  background: var(--primary-color);
   font-size: 15.3pt;
   color: #cccfd9;
   line-height: 20px;
@@ -45,7 +45,7 @@
       padding: 0 10px;
       &:hover,
       &.active {
-        background: var(--color-2);
+        background: var(--secondary-color);
         margin-left: -1px;
 
         > a,

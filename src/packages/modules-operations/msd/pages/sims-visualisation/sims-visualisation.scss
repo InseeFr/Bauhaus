@@ -12,7 +12,7 @@
 
     &:nth-child(2) .panel-heading,
     &:nth-child(2) .panel-title {
-      background: var(--color-1);
+      background: var(--primary-color);
     }
     &:nth-child(1) + div {
       margin-left: 2em;
@@ -20,7 +20,7 @@
 
     .panel-heading,
     .panel-title {
-      background: var(--color-2);
+      background: var(--secondary-color);
       color: #fff;
     }
 

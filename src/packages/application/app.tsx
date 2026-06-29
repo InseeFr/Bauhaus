@@ -12,7 +12,7 @@ import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 
 import { useAppContext } from "./app-context";
-import "./app.scss";
+import "./app.css";
 
 const AppCard = ({ app }: { app: string }) => {
   const getAppTitle = (appKey: string): string => {
