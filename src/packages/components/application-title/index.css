@@ -1,7 +1,6 @@
 .application-title {
   background: #45374e;
-  padding-bottom: 0.5em;
-  padding-top: 0.5em;
+  padding: 3em 0;
 }
 
 .application-title .application-title-container {
@@ -9,21 +8,38 @@
   margin: auto;
 }
 
+/* Le wrapper centre verticalement le titre dans la bande du header. */
 .application-title .application-title-wrapper {
-  margin: auto;
-}
-
-.application-title img {
-  width: 25%;
+  display: flex;
+  align-items: center;
 }
 
 .application-title h1 {
-  color: white;
-  font-size: 15.3pt;
-  float: right;
-  margin: 0;
-  justify-content: center;
+  display: flex;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+  gap: 0.75em;
+
   flex-grow: 1;
+  margin: 0;
+
+  color: white;
+  font-size: 18pt;
+  text-align: center;
+}
+
+.application-title img {
+  height: 4.5rem;
+  width: auto;
+}
+
+/* Mobile : on ne garde que le logo (texte masqué), agrandi pour occuper la bande. */
+@media (max-width: 768px) {
+  .application-title .application-title-text {
+    display: none;
+  }
+
+  .application-title img {
+    height: 6.5rem;
+  }
 }

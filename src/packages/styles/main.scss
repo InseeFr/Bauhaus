@@ -2,12 +2,13 @@
 * we tried to respect the ITCSS architecture for our stylessheets
 */
 
-@use "settings.scss";
 @use "tools.scss";
 @use "generic.scss";
 @use "elements.scss";
 @use "components.scss";
 @use "utilities.scss";
+
+@import "settings.css";
 
 .items {
   display: inline-block;
@@ -34,21 +35,21 @@ img.img-flag {
 }
 
 .nav-tabs > li {
-  border: 1px solid var(--color-3);
+  border: 1px solid var(--primary-color);
 }
 .nav-tabs.nav-justified > li > a {
   border-bottom: none;
 }
 .nav-tabs > li > a:hover {
-  background-color: var(--color-2) !important;
+  background-color: var(--secondary-color) !important;
   color: #fff !important;
 }
 .nav-tabs > li.active > a {
-  background-color: var(--color-3) !important;
+  background-color: var(--primary-color) !important;
   color: #fff !important;
 }
 .nav-tabs > li > a:focus {
-  background-color: var(--color-3) !important;
+  background-color: var(--primary-color) !important;
   color: #fff;
 }
 
@@ -72,9 +73,53 @@ img.img-flag {
 }
 
 footer {
+  > button.btn {
+    margin-bottom: 50px;
+    background-color: #585e76;
+    border-color: #585e76;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #474c61;
+      border-color: #474c61;
+    }
+  }
+
   p {
     color: #0b0b55;
     font-weight: bold;
+  }
+
+  > div {
+    background-color: #f2f2f2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    min-height: 160px;
+
+    > #bauhausVersion {
+      padding-left: 30px;
+
+      p {
+        color: #82848b;
+      }
+    }
+  }
+
+  a:first-child {
+    border-right-color: #82848b;
+    border-right-style: solid;
+    border-right-width: 2px;
+    padding-right: 20px;
+  }
+
+  a:nth-of-type(2) {
+    padding-left: 20px;
+  }
+
+  a > img {
+    width: 20%;
   }
 }
 
@@ -96,7 +141,7 @@ footer {
 
 .modal-header {
   color: white;
-  background: var(--color-3);
+  background: var(--primary-color);
   .close {
     opacity: 1;
     color: white;

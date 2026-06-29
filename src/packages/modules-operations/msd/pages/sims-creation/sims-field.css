@@ -14,7 +14,7 @@
 
 .bauhaus-document-field > .panel-default > .panel-heading {
   padding: 5px 15px;
-  background-color: var(--color-2);
+  background-color: var(--secondary-color);
   color: white;
 }
 

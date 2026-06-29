@@ -25,14 +25,36 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
     <>
       <div id="root-app">{children}</div>
 
-      <footer className="text-center" style={{ marginTop: "50px" }}>
-        <p>
-          <img width="100" src="/img/logo_noir.svg" alt="application logo" />
-          {footer}
-        </p>
+      <footer className="text-center">
         <button type="button" onClick={logoutAndRemoveFromStorage} className="btn btn-primary">
           {D.authentication.logout}
         </button>
+        <div>
+          <div id="bauhausVersion">
+            <p class="text-left">
+              {/*
+            
+background-color: #F2F2F2;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+align-items: center;
+            
+padding-left: 30px;
+
+            */}
+              {footer}
+            </p>
+          </div>
+          <div>
+            <a href="https://www.insee.fr">
+              <img src="/img/insee_logo_bas_de_page-01.svg" alt="logo insee" />
+            </a>
+            <a href="https://www.casd.eu/">
+              <img src="/img/casd_logo_bas_de_page-01.svg" alt="logo CASD" />
+            </a>
+          </div>
+          <div />
+        </div>
       </footer>
     </>
   );

@@ -12,7 +12,7 @@ import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 
 import { useAppContext } from "./app-context";
-import "./app.scss";
+import "./app.css";
 
 const AppCard = ({ app }: { app: string }) => {
   const getAppTitle = (appKey: string): string => {
@@ -24,7 +24,12 @@ const AppCard = ({ app }: { app: string }) => {
     <div className={app}>
       <Link to={`/${app}`}>
         <h2 className="items page-title page-title-link">{getAppTitle(app)}</h2>
-        <img src={`/img/${app}_blanc.svg`} alt="" loading="lazy" />
+        <div className="arrow">
+          <img src={`/img/fleche-01.svg`} alt="" loading="lazy" />
+        </div>
+        <div className="logo">
+          <img src={`/img/${app}-01.svg`} alt="" loading="lazy" />
+        </div>
       </Link>
     </div>
   );

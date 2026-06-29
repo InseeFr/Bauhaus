@@ -26,13 +26,13 @@
   }
 
   .create-button {
-    background-color: var(--color-3);
-    border-color: var(--color-3);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
     color: white;
 
     &:hover {
-      background-color: var(--color-2);
-      border-color: var(--color-2);
+      background-color: var(--secondary-color);
+      border-color: var(--secondary-color);
     }
   }
 }

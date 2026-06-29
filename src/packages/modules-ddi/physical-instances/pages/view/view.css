@@ -17,7 +17,7 @@
 
 /* Style for selected variable row in DataTable */
 .selected-variable-row {
-  outline: 2px solid var(--color-2);
+  outline: 2px solid var(--secondary-color);
   outline-offset: -2px;
 }
 
