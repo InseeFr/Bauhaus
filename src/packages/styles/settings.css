@@ -1,87 +1,87 @@
 @property --primary-color {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: #91b5d0;
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #91b5d0;
 }
 
 @property --secondary-color {
-    syntax: "<color>";
-    inherits: true;
-    initial-value: #7396b0;
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #7396b0;
 }
 
 body {
-    --primary-color: #91b5d0;
-    --secondary-color: #7396b0;
+  --primary-color: #91b5d0;
+  --secondary-color: #7396b0;
 }
 
 .operations {
-    --primary-color: #580d3f;
-    --secondary-color: #3a0025;
+  --primary-color: #580d3f;
+  --secondary-color: #3a0025;
 }
 
 .concepts {
-    --primary-color: #49586a;
-    --secondary-color: #2f3d4e;
+  --primary-color: #49586a;
+  --secondary-color: #2f3d4e;
 }
 
 .classifications {
-    --primary-color: #7f763f;
-    --secondary-color: #625922;
+  --primary-color: #7f763f;
+  --secondary-color: #625922;
 }
 
 .structures {
-    --primary-color: #77514c;
-    --secondary-color: #5a3632;
+  --primary-color: #77514c;
+  --secondary-color: #5a3632;
 }
 
 .codelists {
-    --primary-color: #9a9577;
-    --secondary-color: #7c775a;
+  --primary-color: #9a9577;
+  --secondary-color: #7c775a;
 }
 
 .datasets {
-    --primary-color: #955249;
-    --secondary-color: #76362e;
+  --primary-color: #955249;
+  --secondary-color: #76362e;
 }
 
 .ddi {
-    --primary-color: #c17974;
-    --secondary-color: #a05c57;
+  --primary-color: #c17974;
+  --secondary-color: #a05c57;
 }
 
 /* Navigateurs modernes : --secondary-color est dérivée du primary
    (même teinte h et saturation c, luminance abaissée de 0.1). */
 @supports (color: oklch(from red l c h)) {
-    body {
-        --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
-    }
+  body {
+    --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
+  }
 
-    .operations {
-        --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
-    }
+  .operations {
+    --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
+  }
 
-    .concepts {
-        --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
-    }
+  .concepts {
+    --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
+  }
 
-    .classifications {
-        --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
-    }
+  .classifications {
+    --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
+  }
 
-    .structures {
-        --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
-    }
+  .structures {
+    --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
+  }
 
-    .codelists {
-        --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
-    }
+  .codelists {
+    --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
+  }
 
-    .datasets {
-        --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
-    }
+  .datasets {
+    --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
+  }
 
-    .ddi {
-        --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
-    }
+  .ddi {
+    --secondary-color: oklch(from var(--primary-color) calc(l - 0.1) c h);
+  }
 }
