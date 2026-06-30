@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import { useTranslation } from "react-i18next";
 import D from "../../../../deprecated-locales";
+import { formatDate } from "../../../utils/formatDate";
 import { usePhysicalInstances } from "../../../hooks/usePhysicalInstances";
 import { useCreatePhysicalInstance } from "../../../hooks/useCreatePhysicalInstance";
 import { HomePageMenu } from "./menu";
@@ -20,16 +21,6 @@ import {
 } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
 
 const TOAST_DURATION = 3000;
-
-const formatDate = (dateString: string) => {
-  if (!dateString) return "";
-  try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("fr-FR");
-  } catch {
-    return dateString;
-  }
-};
 
 export const Component = () => {
   useTitle(D.ddiTitle, D.physicalInstanceTitle);

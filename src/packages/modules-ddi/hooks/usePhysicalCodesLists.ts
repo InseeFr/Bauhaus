@@ -8,6 +8,8 @@ export interface CodeListItem {
   label: string;
   /** Nom technique (itemName) renvoyé uniquement pour les listes mutualisées : sert à la recherche. */
   name?: string;
+  /** Date de version (ISO), renvoyée pour les listes mutualisées : affichée entre parenthèses dans le sélecteur. */
+  versionDate?: string;
   mutualized?: boolean;
 }
 

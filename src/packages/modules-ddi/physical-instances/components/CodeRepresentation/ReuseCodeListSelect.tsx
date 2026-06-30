@@ -4,6 +4,7 @@ import { Message } from "primereact/message";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
+import { formatDate } from "../../../utils/formatDate";
 
 interface ReuseCodeListSelectProps {
   selectedCodeListId: string | null;
@@ -53,15 +54,35 @@ export const ReuseCodeListSelect = ({
     return <Message severity="info" text={t("physicalInstance.view.code.noCodesListsAvailable")} />;
   }
 
-  const toOption = (cl: (typeof codesLists)[number]): CodeListOption => ({
-    value: `${cl.agencyId}-${cl.id}`,
-    label: cl.label,
-    name: cl.name,
-    mutualized: Boolean(cl.mutualized),
-  });
+  const toOption = (cl: (typeof codesLists)[number]): CodeListOption => {
+    const formattedDate = formatDate(cl.versionDate);
+    return {
+      // La date de version (mutualisées) est ajoutée entre parenthèses au libellé affiché.
+      value: `${cl.agencyId}-${cl.id}`,
+      label: formattedDate ? `${cl.label} (${formattedDate})` : cl.label,
+      name: cl.name,
+      mutualized: Boolean(cl.mutualized),
+    };
+  };
 
-  const byLabelAsc = (a: CodeListOption, b: CodeListOption) =>
-    a.label.localeCompare(b.label, "fr", { sensitivity: "base" });
+  const versionDateTime = (date?: string) => {
+    if (!date) return Number.NEGATIVE_INFINITY;
+    const time = new Date(date).getTime();
+    return Number.isNaN(time) ? Number.NEGATIVE_INFINITY : time;
+  };
+
+  // Tri des listes mutualisées : libellé par ordre alphabétique croissant ; à libellé égal,
+  // la version la plus récente (versionDate) d'abord. Trie sur le libellé/date bruts (et non
+  // sur le libellé déjà suffixé par la date) pour que le tie-break reste chronologique.
+  const byLabelThenMostRecent = (
+    a: (typeof codesLists)[number],
+    b: (typeof codesLists)[number],
+  ) => {
+    const byLabel = a.label.localeCompare(b.label, "fr", { sensitivity: "base" });
+    return byLabel !== 0
+      ? byLabel
+      : versionDateTime(b.versionDate) - versionDateTime(a.versionDate);
+  };
 
   const groupedOptions = [
     {
@@ -70,15 +91,20 @@ export const ReuseCodeListSelect = ({
       label: groupLabel
         ? t("physicalInstance.view.code.groupCodesListsSectionNamed", { group: groupLabel })
         : t("physicalInstance.view.code.groupCodesListsSection"),
-      items: codesLists.filter((cl) => !cl.mutualized).map(toOption),
+      // Même tri que les mutualisées : libellé asc, puis version la plus récente d'abord.
+      items: codesLists
+        .filter((cl) => !cl.mutualized)
+        .sort(byLabelThenMostRecent)
+        .map(toOption),
     },
     {
       label: t("physicalInstance.view.code.mutualizedCodesListsSection"),
-      // Les listes mutualisées sont triées par libellé, ordre alphabétique croissant.
+      // Tri alphabétique par libellé ; à libellé égal, version la plus récente d'abord.
+      // (Tri sur les données brutes avant la transformation en option.)
       items: codesLists
         .filter((cl) => cl.mutualized)
-        .map(toOption)
-        .sort(byLabelAsc),
+        .sort(byLabelThenMostRecent)
+        .map(toOption),
     },
   ].filter((group) => group.items.length > 0);
 
