@@ -795,6 +795,9 @@ export const Component = () => {
               onSave={handleSaveEdit}
               group={currentGroup}
               studyUnit={currentStudyUnit}
+              groupLabel={currentGroup?.label}
+              studyUnitLabel={currentStudyUnit?.label}
+              physicalInstance={{ agency: agencyId!, id: id! }}
               stamps={currentStamps}
             />
 

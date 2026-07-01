@@ -81,8 +81,8 @@ export const PhysicalInstancesDataTable = ({
       rowClassName={rowClassName}
       header={header}
     >
-      <Column field="name" header={t("physicalInstance.view.columns.name")} />
-      <Column field="label" header={t("physicalInstance.view.columns.label")} />
+      <Column field="name" header={t("physicalInstance.view.columns.name")} sortable />
+      <Column field="label" header={t("physicalInstance.view.columns.label")} sortable />
       <Column field="type" header={t("physicalInstance.view.columns.type")} />
       <Column
         field="lastModified"

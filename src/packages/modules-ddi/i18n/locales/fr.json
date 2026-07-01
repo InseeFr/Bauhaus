@@ -14,6 +14,21 @@
       "successTitle": "Création réussie",
       "title": "Créer un nouveau fichier de données"
     },
+    "search": {
+      "title": "Recherche avancée de fichiers de données",
+      "backToList": "Retour à la liste",
+      "labelFilter": "Libellé du fichier de données",
+      "labelPlaceholder": "Libellé...",
+      "studyUnitFilter": "Étude",
+      "studyUnitPlaceholder": "Sélectionnez une étude",
+      "groupFilter": "Groupe",
+      "groupPlaceholder": "Sélectionnez un groupe",
+      "columns": {
+        "label": "Fichier de données",
+        "studyUnit": "Étude",
+        "group": "Groupe"
+      }
+    },
     "view": {
       "add": "Ajouter",
       "allTypes": "Tous types",
@@ -172,7 +187,11 @@
       "unsavedChangesTitle": "Modifications non sauvegardées",
       "unsavedChangesMessage": "Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir quitter cette page ?",
       "leaveWithoutSaving": "Quitter sans sauvegarder",
-      "stayOnPage": "Rester sur la page"
+      "stayOnPage": "Rester sur la page",
+      "groupTag": "Groupe : {{label}}",
+      "studyUnitTag": "Étude : {{label}}",
+      "studyUnitSelectPlaceholder": "Aller vers un fichier de données de l'étude…",
+      "studyUnitSelectEmpty": "Aucun fichier de données"
     }
   }
 }

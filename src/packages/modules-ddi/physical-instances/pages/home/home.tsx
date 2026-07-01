@@ -72,6 +72,8 @@ export const Component = () => {
           <PageTitle title={D.physicalInstancSearcheTitle} col={12} offset={0} />
           <SearchableList
             items={data}
+            advancedSearch
+            searchUrl="/ddi/physical-instances/search"
             childPath={(data) => "ddi/physical-instances/" + data.agency}
             autoFocus
             itemFormatter={(_content: any, item: any) => {

@@ -4,6 +4,7 @@ const api = {
   getGroups: () => ["group"],
   getGroup: (agencyId: string, id: string) => ["group/" + agencyId + "/" + id],
   getPhysicalInstances: () => ["physical-instance"],
+  getPhysicalInstancesForAdvancedSearch: () => ["physical-instance/search"],
   getPhysicalInstance: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id,
   ],

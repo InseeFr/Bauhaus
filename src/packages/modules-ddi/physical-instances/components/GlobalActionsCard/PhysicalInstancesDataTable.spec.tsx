@@ -59,7 +59,9 @@ vi.mock("primereact/datatable", () => ({
         <thead>
           <tr>
             {columns.map((col: any, idx: number) => (
-              <th key={idx}>{col.props.header}</th>
+              <th key={idx} data-sortable={String(Boolean(col.props.sortable))}>
+                {col.props.header}
+              </th>
             ))}
           </tr>
         </thead>
@@ -121,6 +123,18 @@ describe("PhysicalInstancesDataTable", () => {
     expect(screen.getByText("Label")).toBeInTheDocument();
     expect(screen.getByText("Type")).toBeInTheDocument();
     expect(screen.getByText("Dernière Modification")).toBeInTheDocument();
+  });
+
+  it("rend les colonnes Nom et Label triables (et pas les autres)", () => {
+    render(<PhysicalInstancesDataTable {...defaultProps} />);
+
+    const sortableOf = (headerText: string) =>
+      screen.getByText(headerText).closest("th")?.getAttribute("data-sortable");
+
+    expect(sortableOf("Nom")).toBe("true");
+    expect(sortableOf("Label")).toBe("true");
+    expect(sortableOf("Type")).toBe("false");
+    expect(sortableOf("Dernière Modification")).toBe("false");
   });
 
   it("should render all variables in the table", () => {

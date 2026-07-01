@@ -14,6 +14,21 @@
       "successTitle": "Creation successful",
       "title": "Create a new physical instance"
     },
+    "search": {
+      "title": "Advanced search of physical instances",
+      "backToList": "Back to the list",
+      "labelFilter": "Physical instance label",
+      "labelPlaceholder": "Label...",
+      "studyUnitFilter": "Study unit",
+      "studyUnitPlaceholder": "Select a study unit",
+      "groupFilter": "Group",
+      "groupPlaceholder": "Select a group",
+      "columns": {
+        "label": "Physical instance",
+        "studyUnit": "Study unit",
+        "group": "Group"
+      }
+    },
     "view": {
       "add": "Add",
       "allTypes": "All types",
@@ -172,7 +187,11 @@
       "unsavedChangesTitle": "Unsaved changes",
       "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to leave this page?",
       "leaveWithoutSaving": "Leave without saving",
-      "stayOnPage": "Stay on page"
+      "stayOnPage": "Stay on page",
+      "groupTag": "Group: {{label}}",
+      "studyUnitTag": "Study unit: {{label}}",
+      "studyUnitSelectPlaceholder": "Go to a data file of the study unit…",
+      "studyUnitSelectEmpty": "No data file"
     }
   }
 }
