@@ -53,7 +53,8 @@ export const PhysicalInstanceHeader = ({
         studyUnit={studyUnit}
         stamps={stamps}
       />
-      {(groupLabel || studyUnitLabel) && (
+      {/* Tags parents « groupe » / « étude » masqués temporairement. */}
+      {false && (groupLabel || studyUnitLabel) && (
         <div className="flex align-items-center gap-2 flex-wrap">
           {groupLabel && (
             <Tag
