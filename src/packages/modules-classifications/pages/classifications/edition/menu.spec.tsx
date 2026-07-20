@@ -25,7 +25,13 @@ vi.mock("@components/buttons/buttons-with-icons", () => ({
       Annuler
     </button>
   ),
-  SaveButton: ({ disabled, type }: { disabled?: boolean; type?: string }) => (
+  SaveButton: ({
+    disabled,
+    type,
+  }: {
+    disabled?: boolean;
+    type?: "button" | "reset" | "submit";
+  }) => (
     <button data-testid="save-button" type={type} disabled={disabled}>
       Sauvegarder
     </button>

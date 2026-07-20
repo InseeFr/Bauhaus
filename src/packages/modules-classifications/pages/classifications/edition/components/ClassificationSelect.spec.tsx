@@ -8,7 +8,7 @@ const mockClassifications = [
   { id: "naf2008", prefLabelLg1: "NAF 2008", label: "NAF 2008" },
 ];
 
-vi.mock("../../../../hooks", () => ({
+vi.mock("../../../../hooks/useClassifications", () => ({
   useClassifications: vi.fn(),
 }));
 
@@ -24,13 +24,13 @@ vi.mock("@components/select-rmes", () => ({
   ),
 }));
 
-import * as hooks from "../../../../hooks";
+import * as hooks from "../../../../hooks/useClassifications";
 
 describe("ClassificationSelect", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (hooks.useClassifications as any).mockReturnValue({
-      classifications: mockClassifications,
+      data: mockClassifications,
     });
   });
 
@@ -63,7 +63,7 @@ describe("ClassificationSelect", () => {
   });
 
   it("renders with empty options when classifications is undefined", () => {
-    (hooks.useClassifications as any).mockReturnValue({ classifications: undefined });
+    (hooks.useClassifications as any).mockReturnValue({ data: undefined });
     render(<ClassificationSelect value={undefined} onChange={vi.fn()} />);
     expect(screen.queryAllByRole("option")).toHaveLength(0);
   });

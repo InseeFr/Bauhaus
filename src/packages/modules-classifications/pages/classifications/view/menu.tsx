@@ -7,7 +7,7 @@ import { ValidationButton } from "@components/validationButton";
 
 import { HasAccess } from "../../../../auth/components/auth";
 import D from "../../../../deprecated-locales";
-import { Classification } from "../../../../model/Classification";
+import { Classification } from "../../../types";
 import { useGoBack } from "../../../../utils/hooks/useGoBack";
 
 interface ClassificationControlsTypes {

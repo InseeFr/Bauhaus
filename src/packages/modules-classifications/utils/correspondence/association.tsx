@@ -1,6 +1,6 @@
 import { buildEmpty } from "@utils/build-general-proptypes";
 
-export const fieldsWithRequired = [
+export const fieldsWithRequired: [string, boolean][] = [
   ["correspondenceId", true],
   ["associationId", true],
   ["labelLg1", true],

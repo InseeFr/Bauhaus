@@ -4,9 +4,15 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Component } from "./page";
 
-vi.mock("../../../hooks", () => ({
+vi.mock("../../../hooks/useClassification", () => ({
   useClassification: vi.fn(),
-  useSeries: vi.fn(),
+}));
+
+vi.mock("../../../hooks/useClassificationSeries", () => ({
+  useClassificationSeries: vi.fn(),
+}));
+
+vi.mock("../../../hooks/useUpdateClassification", () => ({
   useUpdateClassification: vi.fn(),
 }));
 
@@ -90,7 +96,9 @@ vi.mock("./validation", () => ({
   validate: vi.fn(),
 }));
 
-import * as hooks from "../../../hooks";
+import * as classificationHook from "../../../hooks/useClassification";
+import * as classificationSeriesHook from "../../../hooks/useClassificationSeries";
+import * as updateClassificationHook from "../../../hooks/useUpdateClassification";
 import * as validation from "./validation";
 
 const mockClassification = {
@@ -131,8 +139,8 @@ const renderComponent = (id = "coicop2016") => {
 describe("<Component />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (hooks.useSeries as any).mockReturnValue({ series: [] });
-    (hooks.useUpdateClassification as any).mockReturnValue({
+    (classificationSeriesHook.useClassificationSeries as any).mockReturnValue({ series: [] });
+    (updateClassificationHook.useUpdateClassification as any).mockReturnValue({
       save: vi.fn(),
       isSavingSuccess: false,
       isSaving: false,
@@ -140,7 +148,7 @@ describe("<Component />", () => {
   });
 
   it("affiche Loading quand isLoading est true", () => {
-    (hooks.useClassification as any).mockReturnValue({
+    (classificationHook.useClassification as any).mockReturnValue({
       isLoading: true,
       classification: undefined,
       status: "loading",
@@ -150,12 +158,12 @@ describe("<Component />", () => {
   });
 
   it("affiche Saving quand isSaving est true", () => {
-    (hooks.useClassification as any).mockReturnValue({
+    (classificationHook.useClassification as any).mockReturnValue({
       isLoading: false,
       classification: mockClassification,
       status: "success",
     });
-    (hooks.useUpdateClassification as any).mockReturnValue({
+    (updateClassificationHook.useUpdateClassification as any).mockReturnValue({
       save: vi.fn(),
       isSavingSuccess: false,
       isSaving: true,
@@ -165,12 +173,12 @@ describe("<Component />", () => {
   });
 
   it("redirige vers la page de visualisation quand isSavingSuccess est true", () => {
-    (hooks.useClassification as any).mockReturnValue({
+    (classificationHook.useClassification as any).mockReturnValue({
       isLoading: false,
       classification: mockClassification,
       status: "success",
     });
-    (hooks.useUpdateClassification as any).mockReturnValue({
+    (updateClassificationHook.useUpdateClassification as any).mockReturnValue({
       save: vi.fn(),
       isSavingSuccess: true,
       isSaving: false,
@@ -180,7 +188,7 @@ describe("<Component />", () => {
   });
 
   it("affiche le formulaire avec les valeurs de la classification", () => {
-    (hooks.useClassification as any).mockReturnValue({
+    (classificationHook.useClassification as any).mockReturnValue({
       isLoading: false,
       classification: mockClassification,
       status: "success",
@@ -192,7 +200,7 @@ describe("<Component />", () => {
   });
 
   it("affiche le titre de la page", () => {
-    (hooks.useClassification as any).mockReturnValue({
+    (classificationHook.useClassification as any).mockReturnValue({
       isLoading: false,
       classification: mockClassification,
       status: "success",
@@ -202,7 +210,7 @@ describe("<Component />", () => {
   });
 
   it("affiche les erreurs de validation quand le formulaire est soumis avec des données invalides", () => {
-    (hooks.useClassification as any).mockReturnValue({
+    (classificationHook.useClassification as any).mockReturnValue({
       isLoading: false,
       classification: mockClassification,
       status: "success",
@@ -220,12 +228,12 @@ describe("<Component />", () => {
 
   it("appelle save quand le formulaire est soumis avec des données valides", () => {
     const save = vi.fn();
-    (hooks.useClassification as any).mockReturnValue({
+    (classificationHook.useClassification as any).mockReturnValue({
       isLoading: false,
       classification: mockClassification,
       status: "success",
     });
-    (hooks.useUpdateClassification as any).mockReturnValue({
+    (updateClassificationHook.useUpdateClassification as any).mockReturnValue({
       save,
       isSavingSuccess: false,
       isSaving: false,
@@ -244,7 +252,7 @@ describe("<Component />", () => {
   });
 
   it("ne rend rien si value.general est absent", () => {
-    (hooks.useClassification as any).mockReturnValue({
+    (classificationHook.useClassification as any).mockReturnValue({
       isLoading: false,
       classification: undefined,
       status: "idle",

@@ -3,23 +3,23 @@ import { RouteObject } from "react-router-dom";
 export const routes: RouteObject[] = [
   {
     path: "families",
-    lazy: () => import("../families/home-container"),
+    lazy: () => import("../pages/families/home/page"),
   },
   {
     path: "family/:id",
-    lazy: () => import("../families/visualization/home-container"),
+    lazy: () => import("../pages/families/view/page"),
   },
   {
     path: "series",
-    lazy: () => import("../series/home-container"),
+    lazy: () => import("../pages/series/home/page"),
   },
   {
     path: "series/:id",
-    lazy: () => import("../series/visualization/home-container"),
+    lazy: () => import("../pages/series/view/page"),
   },
   {
     path: "",
-    lazy: () => import("../pages/classifications/home/home-container"),
+    lazy: () => import("../pages/classifications/home/page"),
   },
   {
     path: "classification/:id",
@@ -39,30 +39,30 @@ export const routes: RouteObject[] = [
   },
   {
     path: "classification/:classificationId/level/:levelId",
-    lazy: () => import("../level/home-container"),
+    lazy: () => import("../pages/level/view/page"),
   },
   {
     path: "classification/:classificationId/item/:itemId",
-    lazy: () => import("../item/home-container"),
+    lazy: () => import("../pages/item/view/page"),
   },
   {
     path: "classification/:classificationId/item/:itemId/modify",
-    lazy: () => import("../item/edition"),
+    lazy: () => import("../pages/item/edition/page"),
   },
   {
     path: "classification/:classificationId/item/:itemId/compare",
-    lazy: () => import("../item/compare/home-container"),
+    lazy: () => import("../pages/item/compare/page"),
   },
   {
     path: "correspondences",
-    lazy: () => import("../correspondences/home-container"),
+    lazy: () => import("../pages/correspondences/home/page"),
   },
   {
     path: "correspondence/:id",
-    lazy: () => import("../correspondences/visualization/home-container"),
+    lazy: () => import("../pages/correspondences/view/page"),
   },
   {
     path: "correspondence/:correspondenceId/association/:associationId",
-    lazy: () => import("../correspondences/association/home-container"),
+    lazy: () => import("../pages/correspondences/association/page"),
   },
 ];

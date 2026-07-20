@@ -14,7 +14,9 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { MDEditor } from "@components/rich-editor/react-md-editor";
 import D, { D1, D2 } from "../../../../deprecated-locales";
 import { transformModelToSelectOptions } from "../../../../utils/transformer";
-import { useClassification, useSeries, useUpdateClassification } from "../../../hooks";
+import { useClassification } from "../../../hooks/useClassification";
+import { useClassificationSeries } from "../../../hooks/useClassificationSeries";
+import { useUpdateClassification } from "../../../hooks/useUpdateClassification";
 import { ClassificationSelect } from "./components/ClassificationSelect";
 import { Menu } from "./menu";
 import { validate } from "./validation";
@@ -27,7 +29,7 @@ import { CreatorsInput } from "@components/business/creators-input";
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
   const { isLoading, classification, status } = useClassification(id);
-  const { series } = useSeries();
+  const { series } = useClassificationSeries();
 
   const [{ clientSideErrors, submitting, value }, dispatch] = useReducer(reducer, initialState);
 

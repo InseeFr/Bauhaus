@@ -1,6 +1,5 @@
 import { Select } from "@components/select-rmes";
-import { useClassifications } from "../../../../hooks";
-import { Classification } from "../../../../types";
+import { useClassifications } from "../../../../hooks/useClassifications";
 
 type Props = Readonly<{
   excludeId?: string;
@@ -9,12 +8,12 @@ type Props = Readonly<{
 }>;
 
 export const ClassificationSelect = ({ excludeId, value, onChange }: Props) => {
-  const { classifications } = useClassifications();
+  const { data: classifications } = useClassifications();
 
   const options =
-    (classifications as Classification[] | undefined)
+    classifications
       ?.filter((c) => c.id !== excludeId)
-      ?.map((c) => ({ value: c.id, label: (c as any).label })) ?? [];
+      ?.map((c) => ({ value: c.id, label: c.label })) ?? [];
 
   return <Select value={value} options={options} onChange={onChange} />;
 };

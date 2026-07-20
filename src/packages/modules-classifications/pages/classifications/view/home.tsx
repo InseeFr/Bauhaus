@@ -9,14 +9,14 @@ import { PageTitle } from "@components/page-title";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import D from "../../../../deprecated-locales";
-import { Classification } from "../../../../model/Classification";
-import General from "./general";
-import Levels from "./levels";
+import { ClassificationWithLevels } from "../../../types";
+import General from "./components/General";
+import Levels from "./components/Levels";
+import Notes from "./components/Notes";
 import Menu from "./menu";
-import Notes from "./notes";
 
 interface ClassificationVisualizationTypes {
-  classification: Classification;
+  classification: ClassificationWithLevels;
   classificationId: string;
   secondLang?: boolean;
   publish: VoidFunction;
