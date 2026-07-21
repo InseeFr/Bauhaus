@@ -2,7 +2,7 @@ import { CheckSecondLang } from "@components/check-second-lang";
 import { CompareNotes } from "@components/note-compare";
 import { PageTitle } from "@components/page-title";
 
-import { buildNotes } from "../../../utils/classification/notes";
+import { buildNotes } from "../../../utils/buildNotes";
 import General from "../components/General";
 import Controls from "./components/Controls";
 

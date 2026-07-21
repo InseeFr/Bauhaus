@@ -1,6 +1,7 @@
 import { RouteObject } from "react-router-dom";
 
 export const routes: RouteObject[] = [
+  // Families pages
   {
     path: "families",
     lazy: () => import("../pages/families/home/page"),
@@ -9,6 +10,7 @@ export const routes: RouteObject[] = [
     path: "family/:id",
     lazy: () => import("../pages/families/view/page"),
   },
+  // Series pages
   {
     path: "series",
     lazy: () => import("../pages/series/home/page"),
@@ -17,6 +19,7 @@ export const routes: RouteObject[] = [
     path: "series/:id",
     lazy: () => import("../pages/series/view/page"),
   },
+  // Classifications pages
   {
     path: "",
     lazy: () => import("../pages/classifications/home/page"),
@@ -27,7 +30,7 @@ export const routes: RouteObject[] = [
   },
   {
     path: "classification/:id/modify",
-    lazy: () => import("../pages/classifications/edition/page"),
+    lazy: () => import("../pages/classifications/edit/page"),
   },
   {
     path: "classification/:id/items",
@@ -47,12 +50,13 @@ export const routes: RouteObject[] = [
   },
   {
     path: "classification/:classificationId/item/:itemId/modify",
-    lazy: () => import("../pages/item/edition/page"),
+    lazy: () => import("../pages/item/edit/page"),
   },
   {
     path: "classification/:classificationId/item/:itemId/compare",
     lazy: () => import("../pages/item/compare/page"),
   },
+  // Correspondences pages
   {
     path: "correspondences",
     lazy: () => import("../pages/correspondences/home/page"),

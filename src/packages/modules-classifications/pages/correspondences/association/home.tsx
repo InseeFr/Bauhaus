@@ -6,7 +6,7 @@ import { PageTitle } from "@components/page-title";
 
 import { D2, D1 } from "../../../../deprecated-locales";
 import CorrespondenceControls from "./components/Controls";
-import { generalFields } from "./utils/generalFields";
+import { buildAssociationItemLinks } from "../../../utils/buildAssociationItemLinks";
 
 const Home = ({ association, secondLang }: { association: any; secondLang: boolean }) => {
   const { labelLg1, labelLg2, correspondenceId, associationId, scopeNoteLg1, scopeNoteLg2 } =
@@ -22,7 +22,7 @@ const Home = ({ association, secondLang }: { association: any; secondLang: boole
       <Row>
         {(!secondLang || (secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
           <Note
-            text={generalFields(association, secondLang)}
+            text={buildAssociationItemLinks(association, secondLang)}
             title={D1.globalInformationsTitle}
             alone={true}
             allowEmpty={true}

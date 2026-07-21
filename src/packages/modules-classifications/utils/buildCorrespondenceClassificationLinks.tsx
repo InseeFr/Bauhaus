@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
 
-import D from "../../../../../deprecated-locales";
+import D from "../../deprecated-locales";
 
-export const generalFields = (correspondence: any, secondLang: boolean) => {
+/**
+ * Builds the list of links to the source and target classifications
+ * mapped by a correspondence, shown in its "general information" block.
+ */
+export const buildCorrespondenceClassificationLinks = (
+  correspondence: any,
+  secondLang: boolean,
+) => {
   const mapping = {
     firstClassLabelLg1: D.sourceClassificationTitle,
     secondClassLabelLg1: D.targetClassificationTitle,

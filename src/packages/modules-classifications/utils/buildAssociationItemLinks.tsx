@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import D from "../../../../../deprecated-locales";
+import D from "../../deprecated-locales";
 
 const mapping = {
   sourceItemLabelLg1: D.sourceItemTitle,
@@ -42,7 +42,12 @@ const SourceItemLabel = ({
     </li>
   );
 };
-export const generalFields = (association: any, secondLang: boolean) => {
+
+/**
+ * Builds the list of links to the source and target items paired by
+ * an association, shown in its "general information" block.
+ */
+export const buildAssociationItemLinks = (association: any, secondLang: boolean) => {
   const {
     sourceClassId,
     targetClassId,

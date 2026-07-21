@@ -4,7 +4,7 @@ import { stringToDate } from "@utils/date-utils";
 import { delPTags } from "@utils/html-utils";
 
 import D, { D2 } from "../../../../../deprecated-locales";
-import { buildNotes } from "../../../../utils/classification/notes";
+import { buildNotes } from "../../../../utils/buildNotes";
 
 function ClassificationNotes({ secondLang, notes }: any) {
   const noteValues = buildNotes(notes).map((note: any) => {

@@ -1,4 +1,4 @@
-import { buildNotes } from "./notes";
+import { buildNotes } from "./buildNotes";
 
 describe("classification-notes-utils", () => {
   it("should return an array", () => {

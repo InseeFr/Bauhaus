@@ -8,7 +8,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { D1, D2 } from "../../../../../deprecated-locales";
 import D from "../../../../../deprecated-locales/build-dictionary";
-import { generalFields } from "../utils/generalFields";
+import { buildCorrespondenceClassificationLinks } from "../../../../utils/buildCorrespondenceClassificationLinks";
 import CorrespondenceControls from "./Controls";
 
 const HomeGeneral = ({
@@ -31,7 +31,7 @@ const HomeGeneral = ({
       <Row>
         {(!secondLang || (secondLang && (firstClassLabelLg2 || secondClassLabelLg2))) && (
           <Note
-            text={generalFields(correspondence, secondLang)}
+            text={buildCorrespondenceClassificationLinks(correspondence, secondLang)}
             title={D1.globalInformationsTitle}
             alone={true}
             allowEmpty={true}

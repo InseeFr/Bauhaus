@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ClassificationsApi } from "@sdk/classification";
 import { range } from "@utils/array-utils";
 
-import { emptyNotes } from "../utils/item/notes";
+import { emptyNotes } from "../utils/emptyNotes";
 import { fetchingPreviousLevels } from "./useClassificationItemClient";
 
 const useClassificationItem = (classificationId: string, itemId: string, current?: boolean) => {
