@@ -56,10 +56,7 @@ const classification = { id: "pcs2020" } as any;
 const renderMenu = (pathname = "/classifications/classification/pcs2020") =>
   render(
     <MemoryRouter initialEntries={[pathname]}>
-      <ClassificationControls
-        classification={classification}
-        publish={vi.fn()}
-      />
+      <ClassificationControls classification={classification} publish={vi.fn()} />
     </MemoryRouter>,
   );
 
@@ -91,10 +88,7 @@ describe("<Menu />", () => {
     renderMenu();
     const updateLink = screen.getByTestId("update-button");
     expect(updateLink).toBeInTheDocument();
-    expect(updateLink).toHaveAttribute(
-      "href",
-      "/classifications/classification/pcs2020/modify",
-    );
+    expect(updateLink).toHaveAttribute("href", "/classifications/classification/pcs2020/modify");
   });
 
   it("n'affiche pas Publier ni Modifier sans droits", () => {
@@ -113,13 +107,8 @@ describe("<Menu />", () => {
   it("appelle publish au clic sur le bouton Publier", () => {
     const publish = vi.fn();
     render(
-      <MemoryRouter
-        initialEntries={["/classifications/classification/pcs2020"]}
-      >
-        <ClassificationControls
-          classification={classification}
-          publish={publish}
-        />
+      <MemoryRouter initialEntries={["/classifications/classification/pcs2020"]}>
+        <ClassificationControls classification={classification} publish={publish} />
       </MemoryRouter>,
     );
     fireEvent.click(screen.getByTestId("publish-button"));
