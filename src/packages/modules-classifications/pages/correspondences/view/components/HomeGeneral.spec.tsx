@@ -1,5 +1,5 @@
 import { renderWithAppContext } from "../../../../../tests/render";
-import HomeGeneral from "./HomeGeneral";
+import { HomeGeneral } from "./HomeGeneral";
 
 const correspondence = {
   id: "1",

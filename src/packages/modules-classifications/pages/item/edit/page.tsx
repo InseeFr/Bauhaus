@@ -13,7 +13,8 @@ import { Select } from "@components/select-rmes";
 import { ClassificationsApi } from "@sdk/classification";
 
 import D, { D1, D2 } from "../../../../deprecated-locales/build-dictionary";
-import useClassificationItem, {
+import {
+  useClassificationItem,
   useClassificationParentLevels,
 } from "../../../hooks/useClassificationItem";
 import { NotesInputs } from "./components/NotesInputs";
@@ -22,7 +23,11 @@ import { validate } from "./validation";
 
 export const Component = () => {
   const queryClient = useQueryClient();
-  const { classificationId, itemId } = useParams<{ classificationId: string; itemId: string }>();
+
+  const { classificationId, itemId } = useParams<{
+    classificationId: string;
+    itemId: string;
+  }>();
 
   const {
     isPending: isSaving,
@@ -32,9 +37,10 @@ export const Component = () => {
     mutationFn: (general: any) => {
       return ClassificationsApi.putClassificationItemGeneral(classificationId, itemId, general);
     },
-
     onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: ["classifications-item", classificationId, itemId] });
+      queryClient.refetchQueries({
+        queryKey: ["classifications-item", classificationId, itemId],
+      });
     },
   });
 
@@ -59,6 +65,7 @@ export const Component = () => {
   }, [status, item]);
 
   const [clientSideErrors, setClientSideErrors] = useState<any>({});
+
   const [submitting, setSubmitting] = useState(false);
 
   if (isLoading || isPreviousLevelsLoading) return <Loading />;
@@ -80,7 +87,6 @@ export const Component = () => {
       }
       return newAltLabel;
     });
-
     Object.entries(value).forEach(([key]) => {
       if (key.startsWith("altLabelsLg1_") || key.startsWith("altLabelsLg2_")) {
         delete value[key];
@@ -96,7 +102,6 @@ export const Component = () => {
   const onSubmit = (e: React.FormEvent) => {
     e.stopPropagation();
     e.preventDefault();
-
     const clientSideErrors = validate(value.general, value.general.altLabels?.length);
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
@@ -115,6 +120,7 @@ export const Component = () => {
       />
     );
   }
+
   if (!value?.general) {
     return;
   }
@@ -253,7 +259,6 @@ export const Component = () => {
             </Row>
           );
         })}
-
         <NotesInputs
           value={notes}
           onChange={(v) => {

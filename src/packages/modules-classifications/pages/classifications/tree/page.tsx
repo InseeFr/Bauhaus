@@ -8,7 +8,7 @@ import { ClassificationsApi } from "@sdk/classification";
 import { useClassificationsItem } from "@utils/hooks/classifications";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import ClassificationTree from "./components/Home";
+import { ClassificationTree } from "./components/ClassificationTree";
 
 interface ClassificationGeneral {
   prefLabelLg1: string;
@@ -18,7 +18,9 @@ interface ClassificationGeneral {
 
 export const Component = () => {
   const [secondLang] = useSecondLang();
+
   const { id } = useParams<{ id: string }>();
+
   const [general, setGeneral] = useState<ClassificationGeneral>();
 
   const { isLoading, data: flatTree } = useClassificationsItem(id);

@@ -22,38 +22,44 @@ type Props = Readonly<{
   secondLang: boolean;
 }>;
 
-const General = ({ general, secondLang }: Props) => {
+export const General = ({ general, secondLang }: Props) => {
   let mapping: Record<string, string> = {};
+
   if (general.familyLg1) {
     mapping = {
       ...mapping,
       familyLg1: `${D.motherFamily}`,
     };
   }
+
   if (general.altLabelLg1) {
     mapping = {
       ...mapping,
       altLabelLg1: `${D.altLabelTitle}`,
     };
   }
+
   if (general.altLabelLg2) {
     mapping = {
       ...mapping,
       altLabelLg2: `${D.altLabelTitle}`,
     };
   }
+
   if (general.subject) {
     mapping = {
       ...mapping,
       subject: `${D.classificationsSubjectTitle}`,
     };
   }
+
   if (general.covers) {
     mapping = {
       ...mapping,
       covers: `${D.classificationsCoversTitle}`,
     };
   }
+
   if (general.publisher) {
     mapping = {
       ...mapping,
@@ -81,7 +87,6 @@ const General = ({ general, secondLang }: Props) => {
       if (fieldName === "altLabelLg2" && !secondLang) {
         return null;
       }
-
       if (fieldName.includes("altLabel")) {
         return (
           <li key={fieldName}>
@@ -93,11 +98,10 @@ const General = ({ general, secondLang }: Props) => {
       }
     } else return null;
   });
+
   return (
     <Row>
       <Note title={D.globalInformationsTitle} alone={true} text={<ul>{lis}</ul>}></Note>
     </Row>
   );
 };
-
-export default General;

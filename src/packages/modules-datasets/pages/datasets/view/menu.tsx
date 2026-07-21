@@ -14,6 +14,7 @@ interface ViewMenuTypes {
   onPublish: VoidFunction;
   onDelete: VoidFunction;
 }
+
 export const ViewMenu = ({ dataset, onPublish, onDelete }: Readonly<ViewMenuTypes>) => {
   const goBack = useGoBack();
 

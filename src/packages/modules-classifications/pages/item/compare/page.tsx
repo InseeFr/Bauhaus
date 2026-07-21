@@ -4,8 +4,8 @@ import { Loading } from "@components/loading";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import useClassificationItem from "../../../hooks/useClassificationItem";
-import Compare from "./home";
+import { useClassificationItem } from "../../../hooks/useClassificationItem";
+import { Compare } from "./components/Compare";
 
 export const Component = () => {
   const { classificationId, itemId } = useParams<{ classificationId: string; itemId: string }>();

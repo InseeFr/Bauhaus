@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import General from "./General";
+import { General } from "./General";
 
 const general = {};
 

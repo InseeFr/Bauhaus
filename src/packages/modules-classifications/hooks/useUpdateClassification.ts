@@ -16,10 +16,10 @@ export const useUpdateClassification = (id: string) => {
     mutationFn: (classification: ClassificationWithLevels) => {
       return ClassificationsApi.putClassification(classification.general);
     },
-
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["classifications", id] });
     },
   });
+
   return { isSaving, save, error, isSavingSuccess, status };
 };

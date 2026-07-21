@@ -7,7 +7,7 @@ import { ClassificationsApi } from "@sdk/classification";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import SeriesVisualization from "./home";
+import { SeriesVisualization } from "./components/SeriesVisualization";
 
 interface SeriesGeneral {
   prefLabelLg1: string;
@@ -23,7 +23,11 @@ interface SeriesMember {
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
-  const [series, setSeries] = useState<{ general: SeriesGeneral; members: SeriesMember[] }>();
+
+  const [series, setSeries] = useState<{
+    general: SeriesGeneral;
+    members: SeriesMember[];
+  }>();
 
   const [secondLang] = useSecondLang();
   useEffect(() => {
@@ -39,5 +43,6 @@ export const Component = () => {
   }, [id]);
 
   if (!series) return <Loading />;
+
   return <SeriesVisualization series={series} secondLang={secondLang} />;
 };

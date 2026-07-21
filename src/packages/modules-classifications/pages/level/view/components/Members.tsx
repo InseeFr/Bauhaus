@@ -16,11 +16,12 @@ type Props = Readonly<{
   secondLang: boolean;
 }>;
 
-const Members = ({ members, classificationId, secondLang }: Props) => {
+export const Members = ({ members, classificationId, secondLang }: Props) => {
   const membersLg1 = members.map(({ id, labelLg1 }) => ({
     id,
     label: `${id} - ${labelLg1}`,
   }));
+
   let membersLg2: { id: string; label: string }[] = [];
   if (secondLang && members[0].labelLg2 !== undefined) {
     membersLg2 = members.map(({ id, labelLg2 }) => ({
@@ -28,6 +29,7 @@ const Members = ({ members, classificationId, secondLang }: Props) => {
       label: `${id} - ${labelLg2}`,
     }));
   }
+
   return (
     <div className="row text-center">
       <Note
@@ -59,5 +61,3 @@ const Members = ({ members, classificationId, secondLang }: Props) => {
     </div>
   );
 };
-
-export default Members;

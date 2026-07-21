@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
 import { renderWithRouter } from "../../../../../tests/render";
-import Controls from "./Controls";
+import { Controls } from "./Controls";
 
 describe("classification-item-compare-controls", () => {
   it("renders without crashing", () => {

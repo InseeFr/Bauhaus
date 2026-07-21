@@ -14,9 +14,11 @@ export const buildCorrespondenceClassificationLinks = (
     firstClassLabelLg1: D.sourceClassificationTitle,
     secondClassLabelLg1: D.targetClassificationTitle,
   };
+
   const content = Object.keys(mapping).map((fieldName) => {
     const { firstClassLabelLg1, firstClassLabelLg2, secondClassLabelLg1, secondClassLabelLg2 } =
       correspondence;
+
     if (fieldName === "firstClassLabelLg1" && correspondence[fieldName]) {
       return (
         <li key={fieldName}>
@@ -27,6 +29,7 @@ export const buildCorrespondenceClassificationLinks = (
         </li>
       );
     }
+
     if (fieldName === "secondClassLabelLg1" && correspondence[fieldName]) {
       return (
         <li key={fieldName}>

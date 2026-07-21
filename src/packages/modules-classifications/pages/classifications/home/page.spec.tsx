@@ -13,7 +13,7 @@ vi.mock("@components/loading", () => ({
   Loading: () => <div data-testid="loading">Loading...</div>,
 }));
 
-vi.mock("./home", () => ({
+vi.mock("./components/ClassificationsHome", () => ({
   default: ({ classifications }: { classifications: any[] }) => (
     <div data-testid="classifications-home">{JSON.stringify(classifications)}</div>
   ),

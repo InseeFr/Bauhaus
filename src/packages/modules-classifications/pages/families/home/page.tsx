@@ -4,7 +4,7 @@ import { Loading } from "@components/loading";
 
 import { ClassificationsApi } from "@sdk/classification";
 
-import FamiliesHome from "./home";
+import { FamiliesHome } from "./components/FamiliesHome";
 
 interface Family {
   id: string;
@@ -14,6 +14,7 @@ interface Family {
 
 export const Component = () => {
   const [families, setFamilies] = useState<Family[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

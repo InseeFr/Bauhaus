@@ -18,8 +18,9 @@ type Props = Readonly<{
   secondLang: boolean;
 }>;
 
-const General = ({ general, secondLang }: Props) => {
+export const General = ({ general, secondLang }: Props) => {
   let mapping: Record<string, any> = {};
+
   mapping = {
     ...mapping,
     seriesLg1: D.motherSeries,
@@ -27,18 +28,21 @@ const General = ({ general, secondLang }: Props) => {
     beforeLg1: D.classificationsBeforeTitle,
     variantLg1: D.classificationsVariantTitle,
   };
+
   if (general.altLabelLg1) {
     mapping = {
       ...mapping,
       altLabelLg1: `${D.altLabelTitle}`,
     };
   }
+
   if (general.altLabelLg2) {
     mapping = {
       ...mapping,
       altLabelLg2: `${D.altLabelTitle}`,
     };
   }
+
   mapping = {
     ...mapping,
     issued: D.issuedDateTitle,
@@ -53,6 +57,7 @@ const General = ({ general, secondLang }: Props) => {
     legalMaterial: D.legalMaterialTitle,
     homepage: D.homepageTitle,
   };
+
   return (
     <>
       <Row>
@@ -161,7 +166,9 @@ const General = ({ general, secondLang }: Props) => {
                       <PublicationStatusItem
                         key={fieldName}
                         label={mapping[fieldName]}
-                        object={{ validationState: (general as any)[fieldName] as ValidationState }}
+                        object={{
+                          validationState: (general as any)[fieldName] as ValidationState,
+                        }}
                         gender="female"
                       />
                     );
@@ -221,5 +228,3 @@ const General = ({ general, secondLang }: Props) => {
     </>
   );
 };
-
-export default General;

@@ -17,7 +17,7 @@ type Props = Readonly<{
   secondLang: boolean;
 }>;
 
-const Narrowers = ({ narrowers, classificationId, secondLang }: Props) => {
+export const Narrowers = ({ narrowers, classificationId, secondLang }: Props) => {
   if (!narrowers || narrowers?.length === 0) {
     return null;
   }
@@ -29,6 +29,7 @@ const Narrowers = ({ narrowers, classificationId, secondLang }: Props) => {
       </Link>
     </li>
   ));
+
   let narrowersLg2: (JSX.Element | null)[] = [];
   if (secondLang)
     narrowersLg2 = narrowers?.map((n, i) =>
@@ -40,7 +41,9 @@ const Narrowers = ({ narrowers, classificationId, secondLang }: Props) => {
         </li>
       ) : null,
     );
+
   const isMembersLg2 = narrowersLg2.filter((m) => m !== null).length !== 0;
+
   return (
     <Row>
       <Note
@@ -60,5 +63,3 @@ const Narrowers = ({ narrowers, classificationId, secondLang }: Props) => {
     </Row>
   );
 };
-
-export default Narrowers;

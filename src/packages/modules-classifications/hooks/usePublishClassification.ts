@@ -12,10 +12,10 @@ export const usePublishClassification = (id: string) => {
     mutationFn: () => {
       return ClassificationsApi.publishClassification(id);
     },
-
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["classifications", id] });
     },
   });
+
   return { isPublishing, publish, error };
 };

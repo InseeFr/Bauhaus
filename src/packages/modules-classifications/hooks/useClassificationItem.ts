@@ -6,7 +6,11 @@ import { range } from "@utils/array-utils";
 import { emptyNotes } from "../utils/emptyNotes";
 import { fetchingPreviousLevels } from "./useClassificationItemClient";
 
-const useClassificationItem = (classificationId: string, itemId: string, current?: boolean) => {
+export const useClassificationItem = (
+  classificationId: string,
+  itemId: string,
+  current?: boolean,
+) => {
   const {
     isLoading,
     data: item,
@@ -37,10 +41,12 @@ const useClassificationItem = (classificationId: string, itemId: string, current
           }),
         );
       }
+
       const formattedNotes = notes.reduce(
         (acc, note) => ({ ...acc, [note.version as string]: note }),
         {} as Record<string, unknown>,
       );
+
       return { general, notes: formattedNotes, narrowers };
     },
   });
@@ -56,6 +62,7 @@ const useClassificationItem = (classificationId: string, itemId: string, current
       },
     };
   }
+
   return { isLoading, item, status };
 };
 
@@ -72,5 +79,3 @@ export const useClassificationParentLevels = (
     enabled: !!item?.general,
   });
 };
-
-export default useClassificationItem;

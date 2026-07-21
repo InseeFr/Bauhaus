@@ -15,6 +15,7 @@ export const fetchingPreviousLevels = (
     general.broaderURI.indexOf(classificationId) + classificationId.length + 1,
     general.broaderURI.lastIndexOf("/"),
   );
+
   const previousLevel = levels[levels.findIndex((level) => level.startsWith(currentLevel))];
 
   if (previousLevel) {

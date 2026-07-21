@@ -72,9 +72,11 @@ describe("<Component />", () => {
   });
 
   it("displays loading state when data is loading", () => {
-    using _classificationHookSpy = vi.spyOn(classificationHook, "default").mockReturnValue({
-      isLoading: true,
-    } as any);
+    using _classificationHookSpy = vi
+      .spyOn(classificationHook, "useClassificationItem")
+      .mockReturnValue({
+        isLoading: true,
+      } as any);
     using _fetchSpy = vi.spyOn(clientModule, "fetchingPreviousLevels").mockResolvedValue([]);
 
     renderComponent();
@@ -83,13 +85,15 @@ describe("<Component />", () => {
   });
 
   it("displays form", () => {
-    using _classificationHookSpy = vi.spyOn(classificationHook, "default").mockReturnValue({
-      isLoading: false,
-      item: {
-        general: {},
-        notes: [],
-      },
-    } as any);
+    using _classificationHookSpy = vi
+      .spyOn(classificationHook, "useClassificationItem")
+      .mockReturnValue({
+        isLoading: false,
+        item: {
+          general: {},
+          notes: [],
+        },
+      } as any);
 
     using _parentLevelsSpy = vi
       .spyOn(classificationHook, "useClassificationParentLevels")

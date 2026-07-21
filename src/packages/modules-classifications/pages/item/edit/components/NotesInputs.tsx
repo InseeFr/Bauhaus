@@ -3,6 +3,7 @@ import { MDEditor } from "@components/rich-editor/react-md-editor";
 import { D1, D2 } from "../../../../../deprecated-locales/build-dictionary";
 
 type Key = `${string}Lg1` | `${string}Lg2`;
+
 const titleMapping: Record<string, string> = {
   definition: "classificationsDefinition",
   scopeNote: "classificationsScopeNote",

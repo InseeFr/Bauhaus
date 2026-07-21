@@ -4,7 +4,7 @@ import { Loading } from "@components/loading";
 
 import { ClassificationsApi } from "@sdk/classification";
 
-import CorrespondencesHome from "./home";
+import { CorrespondencesHome } from "./components/CorrespondencesHome";
 
 interface Correspondence {
   id: string;
@@ -20,5 +20,6 @@ export const Component = () => {
   }, []);
 
   if (!correspondences) return <Loading />;
+
   return <CorrespondencesHome correspondences={correspondences} />;
 };

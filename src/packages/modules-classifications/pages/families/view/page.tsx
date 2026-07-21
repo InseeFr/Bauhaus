@@ -7,7 +7,7 @@ import { ClassificationsApi } from "@sdk/classification";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import FamilyVisualization from "./home";
+import { FamilyVisualization } from "./components/FamilyVisualization";
 
 interface FamilyGeneral {
   prefLabelLg1: string;
@@ -23,8 +23,14 @@ interface FamilyMember {
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const [secondLang] = useSecondLang();
-  const [family, setFamily] = useState<{ general: FamilyGeneral; members: FamilyMember[] }>();
+
+  const [family, setFamily] = useState<{
+    general: FamilyGeneral;
+    members: FamilyMember[];
+  }>();
+
   useEffect(() => {
     Promise.all([
       ClassificationsApi.getFamilyGeneral(id),
@@ -38,5 +44,6 @@ export const Component = () => {
   }, [id]);
 
   if (!family) return <Loading />;
+
   return <FamilyVisualization family={family} secondLang={secondLang} />;
 };

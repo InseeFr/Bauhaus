@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import Notes from "./Notes";
+import { Notes } from "./Notes";
 
 vi.mock("@components/layout", () => ({
   Row: ({ children }: any) => <div>{children}</div>,

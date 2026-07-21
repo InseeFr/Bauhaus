@@ -6,7 +6,7 @@ vi.mock("@components/loading", () => ({
   Loading: () => <div data-testid="loading">loading…</div>,
 }));
 
-vi.mock("./home", () => ({
+vi.mock("./components/SeriesHome", () => ({
   __esModule: true,
   default: ({ series }: { series: unknown[] | undefined }) => (
     <div

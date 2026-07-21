@@ -17,6 +17,7 @@ interface SourceItemLabelTypes {
   classAltLabelLg1: string;
   classAltLabelLg2: string;
 }
+
 const SourceItemLabel = ({
   label,
   classId,
@@ -62,6 +63,7 @@ export const buildAssociationItemLinks = (association: any, secondLang: boolean)
     targetClassAltLabelLg1,
     targetClassAltLabelLg2,
   } = association;
+
   const content = Object.keys(mapping).map((fieldName) => {
     if (fieldName === "sourceItemLabelLg1" && association[fieldName]) {
       return (
@@ -78,6 +80,7 @@ export const buildAssociationItemLinks = (association: any, secondLang: boolean)
         />
       );
     }
+
     if (fieldName === "targetItemLabelLg1" && association[fieldName]) {
       return (
         <SourceItemLabel

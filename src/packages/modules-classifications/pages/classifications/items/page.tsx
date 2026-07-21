@@ -7,7 +7,7 @@ import { ClassificationsApi } from "@sdk/classification";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import ClassificationItems from "./components/Home";
+import { ClassificationItems } from "./components/ClassificationItems";
 
 interface Item {
   id: string;
@@ -24,8 +24,11 @@ interface ClassificationGeneral {
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const [items, setItems] = useState<Item[]>();
+
   const [general, setGeneral] = useState<ClassificationGeneral>();
+
   const [secondLang] = useSecondLang();
 
   useEffect(() => {
@@ -37,12 +40,15 @@ export const Component = () => {
       setGeneral(general);
     });
   }, [id]);
+
   if (!general || !items) {
     return <Loading />;
   }
 
   const { prefLabelLg1, prefLabelLg2 } = general;
+
   const label = secondLang ? "labelLg2" : "labelLg1";
+
   const data =
     (items.length !== 0 &&
       items[0][label] &&

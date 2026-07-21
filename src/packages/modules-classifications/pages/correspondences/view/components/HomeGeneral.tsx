@@ -9,9 +9,9 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { D1, D2 } from "../../../../../deprecated-locales";
 import D from "../../../../../deprecated-locales/build-dictionary";
 import { buildCorrespondenceClassificationLinks } from "../../../../utils/buildCorrespondenceClassificationLinks";
-import CorrespondenceControls from "./Controls";
+import { CorrespondenceControls } from "./CorrespondenceControls";
 
-const HomeGeneral = ({
+export const HomeGeneral = ({
   correspondence,
   secondLang,
 }: {
@@ -19,6 +19,7 @@ const HomeGeneral = ({
   secondLang: boolean;
 }) => {
   const { labelLg1, labelLg2, firstClassLabelLg2, secondClassLabelLg2 } = correspondence;
+
   const title = secondLang ? labelLg2 : labelLg1;
 
   useTitle(D.correspondencesTitle, labelLg1);
@@ -59,5 +60,3 @@ const HomeGeneral = ({
     </div>
   );
 };
-
-export default HomeGeneral;

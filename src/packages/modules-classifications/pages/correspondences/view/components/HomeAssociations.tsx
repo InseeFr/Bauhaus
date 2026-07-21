@@ -11,7 +11,7 @@ import D, { D1 } from "../../../../../deprecated-locales";
 
 const sortById = sortArray("id");
 
-const HomeAssociations = ({
+export const HomeAssociations = ({
   id,
   associations,
   correspondence,
@@ -23,10 +23,12 @@ const HomeAssociations = ({
   secondLang: boolean;
 }) => {
   const navigate = useNavigate();
+
   const { firstAltLabelLg1, firstAltLabelLg2, secondAltLabelLg1, secondAltLabelLg2 } =
     correspondence;
 
   const { sourceLabelLg2, targetLabelLg2 } = associations[0];
+
   if (secondLang && !sourceLabelLg2 && !targetLabelLg2) return null;
 
   const data = sortById(associations).map((a: any) => {
@@ -37,6 +39,7 @@ const HomeAssociations = ({
       id: a.id,
     };
   });
+
   const sourceLabel = secondLang ? firstAltLabelLg2 : firstAltLabelLg1;
   const targetLabel = secondLang ? secondAltLabelLg2 : secondAltLabelLg1;
 
@@ -68,5 +71,3 @@ const HomeAssociations = ({
     </Row>
   );
 };
-
-export default HomeAssociations;

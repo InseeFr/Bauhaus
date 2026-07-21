@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import Notes from "./Notes";
+import { Notes } from "./Notes";
 
 const notes = {};
 

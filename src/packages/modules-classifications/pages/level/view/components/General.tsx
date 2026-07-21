@@ -24,7 +24,7 @@ type Props = Readonly<{
   secondLang: boolean;
 }>;
 
-const General = ({ general, classificationId, secondLang }: Props) => {
+export const General = ({ general, classificationId, secondLang }: Props) => {
   const mapping: Record<string, string> = {
     broaderLg1: D.classificationsBroaderLevel,
     narrowerLg1: D.classificationsNarrowerLevel,
@@ -32,6 +32,7 @@ const General = ({ general, classificationId, secondLang }: Props) => {
     depth: D.classificationsDepthTitle,
     notationPattern: D.classificationsNotationPatternTitle,
   };
+
   return (
     <Row>
       <Note
@@ -98,5 +99,3 @@ const General = ({ general, classificationId, secondLang }: Props) => {
     </Row>
   );
 };
-
-export default General;

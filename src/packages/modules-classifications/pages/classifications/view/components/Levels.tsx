@@ -12,7 +12,7 @@ type Props = Readonly<{
   secondLang: boolean;
 }>;
 
-const Levels = ({ levels, classificationId, secondLang }: Props) => {
+export const Levels = ({ levels, classificationId, secondLang }: Props) => {
   const levelsLg1 = levels.map((m, i) => (
     <li key={i}>
       <Link to={`/classifications/classification/${classificationId}/level/${m.id}`}>
@@ -20,6 +20,7 @@ const Levels = ({ levels, classificationId, secondLang }: Props) => {
       </Link>
     </li>
   ));
+
   let levelsLg2: (JSX.Element | null)[] = [];
   if (secondLang)
     levelsLg2 = levels.map((m, i) =>
@@ -31,7 +32,9 @@ const Levels = ({ levels, classificationId, secondLang }: Props) => {
         </li>
       ) : null,
     );
+
   const isMembersLg2 = levelsLg2.filter((m) => m !== null).length !== 0;
+
   return (
     <Row>
       <Note
@@ -45,5 +48,3 @@ const Levels = ({ levels, classificationId, secondLang }: Props) => {
     </Row>
   );
 };
-
-export default Levels;

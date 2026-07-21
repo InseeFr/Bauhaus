@@ -17,7 +17,7 @@ type Props = Readonly<{
   secondLang: boolean;
 }>;
 
-const Notes = ({
+export const Notes = ({
   notes: {
     scopeNoteLg1,
     scopeNoteLg2,
@@ -91,5 +91,3 @@ const Notes = ({
     </span>
   </div>
 );
-
-export default Notes;

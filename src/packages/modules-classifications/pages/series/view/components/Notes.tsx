@@ -13,7 +13,7 @@ type Props = Readonly<{
   secondLang: boolean;
 }>;
 
-const Notes = ({ notes: { scopeNoteLg1, scopeNoteLg2 }, secondLang }: Props) => (
+export const Notes = ({ notes: { scopeNoteLg1, scopeNoteLg2 }, secondLang }: Props) => (
   <div>
     {scopeNoteLg1 && (
       <Row>
@@ -29,5 +29,3 @@ const Notes = ({ notes: { scopeNoteLg1, scopeNoteLg2 }, secondLang }: Props) => 
     )}
   </div>
 );
-
-export default Notes;

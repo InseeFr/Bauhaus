@@ -13,7 +13,7 @@ type Props = Readonly<{
   secondLang: boolean;
 }>;
 
-const Members = ({ members, secondLang }: Props) => (
+export const Members = ({ members, secondLang }: Props) => (
   <ClassificationMembers
     members={members}
     secondLang={secondLang}
@@ -22,5 +22,3 @@ const Members = ({ members, secondLang }: Props) => (
     titleD2={D2.childrenSeries}
   />
 );
-
-export default Members;

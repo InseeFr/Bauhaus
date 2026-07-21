@@ -28,7 +28,9 @@ import { CreatorsInput } from "@components/business/creators-input";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const { isLoading, classification, status } = useClassification(id);
+
   const { series } = useClassificationSeries();
 
   const [{ clientSideErrors, submitting, value }, dispatch] = useReducer(reducer, initialState);
@@ -46,10 +48,13 @@ export const Component = () => {
   }, [status, classification]);
 
   if (isLoading) return <Loading />;
+
   if (isSaving) return <Saving />;
+
   if (isSavingSuccess) {
     return <Navigate to={"/classifications/classification/" + id} replace />;
   }
+
   if (!value?.general) return null;
 
   const general = value.general;
@@ -65,7 +70,6 @@ export const Component = () => {
         titleLg1={classification?.general?.prefLabelLg1}
         titleLg2={classification?.general?.prefLabelLg2}
       />
-
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -83,11 +87,9 @@ export const Component = () => {
         }}
       >
         <Menu disabled={(clientSideErrors.errorMessage?.length ?? 0) > 0} />
-
         {submitting && clientSideErrors && (
           <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
         )}
-
         <Row>
           <div className="col-md-6 form-group">
             <TextInputBlock

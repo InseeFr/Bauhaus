@@ -7,15 +7,17 @@ import { ClassificationsApi } from "@sdk/classification";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import HomeAssociations from "./components/HomeAssociations";
-import HomeGeneral from "./components/HomeGeneral";
+import { HomeAssociations } from "./components/HomeAssociations";
+import { HomeGeneral } from "./components/HomeGeneral";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const { data: correspondence, isLoading } = useQuery({
     queryKey: ["correspondance-general", id],
     queryFn: () => ClassificationsApi.getCorrespondenceGeneral(id),
   });
+
   const { data: associations } = useQuery({
     queryKey: ["correspondance-associations", id],
     queryFn: () => ClassificationsApi.getCorrespondenceAssociations(id),
