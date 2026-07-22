@@ -87,6 +87,7 @@
     grid-template-columns: repeat(8, 1fr);
   }
 
+  /* Settings to cover cases where we have 5, 6 or 7 cards to display */
   .pos05,
   .pos06,
   .pos07 {
@@ -108,9 +109,11 @@
   .pos35 {
     grid-column: 3/5;
   }
+
   .pos36 {
     grid-column: 2/4;
   }
+
   .pos37 {
     grid-column: 1/3;
   }
@@ -118,9 +121,11 @@
   .pos45 {
     grid-column: 5/7;
   }
+
   .pos46 {
     grid-column: 4/6;
   }
+
   .pos47 {
     grid-column: 3/5;
   }
@@ -128,6 +133,7 @@
   .pos56 {
     grid-column: 6/8;
   }
+  
   .pos57 {
     grid-column: 5/7;
   }
