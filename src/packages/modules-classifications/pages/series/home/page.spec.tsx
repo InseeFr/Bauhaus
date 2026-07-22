@@ -7,8 +7,7 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/SeriesHome", () => ({
-  __esModule: true,
-  default: ({ series }: { series: unknown[] | undefined }) => (
+  SeriesHome: ({ series }: { series: unknown[] | undefined }) => (
     <div
       data-testid="series-home"
       data-series-len={Array.isArray(series) ? series.length : -1}

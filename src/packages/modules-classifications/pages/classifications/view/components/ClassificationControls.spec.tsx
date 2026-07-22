@@ -44,7 +44,7 @@ vi.mock("@components/validationButton", () => ({
   ),
 }));
 
-vi.mock("../../../../auth/components/auth", () => ({
+vi.mock("../../../../../auth/components/auth", () => ({
   HasAccess: ({ children }: { children: React.ReactNode }) =>
     mockHasAccessRender ? children : null,
 }));

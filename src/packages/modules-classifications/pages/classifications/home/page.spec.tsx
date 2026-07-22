@@ -14,7 +14,7 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/ClassificationsHome", () => ({
-  default: ({ classifications }: { classifications: any[] }) => (
+  ClassificationsHome: ({ classifications }: { classifications: any[] }) => (
     <div data-testid="classifications-home">{JSON.stringify(classifications)}</div>
   ),
 }));
