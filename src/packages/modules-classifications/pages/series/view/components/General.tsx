@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-
-import D from "../../../../../deprecated-locales";
 
 interface SeriesGeneral {
   familyLg1?: string;
@@ -23,47 +22,49 @@ type Props = Readonly<{
 }>;
 
 export const General = ({ general, secondLang }: Props) => {
+  const { t } = useTranslation();
+
   let mapping: Record<string, string> = {};
 
   if (general.familyLg1) {
     mapping = {
       ...mapping,
-      familyLg1: `${D.motherFamily}`,
+      familyLg1: `${t("serie.motherFamily")}`,
     };
   }
 
   if (general.altLabelLg1) {
     mapping = {
       ...mapping,
-      altLabelLg1: `${D.altLabelTitle}`,
+      altLabelLg1: `${t("serie.altLabelTitle")}`,
     };
   }
 
   if (general.altLabelLg2) {
     mapping = {
       ...mapping,
-      altLabelLg2: `${D.altLabelTitle}`,
+      altLabelLg2: `${t("serie.altLabelTitle")}`,
     };
   }
 
   if (general.subject) {
     mapping = {
       ...mapping,
-      subject: `${D.classificationsSubjectTitle}`,
+      subject: `${t("serie.subject")}`,
     };
   }
 
   if (general.covers) {
     mapping = {
       ...mapping,
-      covers: `${D.classificationsCoversTitle}`,
+      covers: `${t("serie.covers")}`,
     };
   }
 
   if (general.publisher) {
     mapping = {
       ...mapping,
-      publisher: `${D.classificationsPublisherTitle}`,
+      publisher: `${t("serie.publisher")}`,
     };
   }
 
@@ -101,7 +102,7 @@ export const General = ({ general, secondLang }: Props) => {
 
   return (
     <Row>
-      <Note title={D.globalInformationsTitle} alone={true} text={<ul>{lis}</ul>}></Note>
+      <Note title={t("serie.globalInformation")} alone={true} text={<ul>{lis}</ul>}></Note>
     </Row>
   );
 };

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
 import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
@@ -5,7 +7,6 @@ import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-ico
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { HasAccess } from "../../../../../auth/components/auth";
-import D from "../../../../../deprecated-locales";
 
 interface ItemControls {
   classificationId: string;
@@ -14,6 +15,8 @@ interface ItemControls {
 }
 
 export const ItemControls = ({ classificationId, itemId, version }: Readonly<ItemControls>) => {
+  const { t } = useTranslation();
+
   const goBack = useGoBack();
 
   return (
@@ -28,7 +31,7 @@ export const ItemControls = ({ classificationId, itemId, version }: Readonly<Ite
       >
         <Button
           action={`/classifications/classification/${classificationId}/item/${itemId}/compare`}
-          label={D.btnCompare}
+          label={t("item.compare")}
         />
       </HasAccess>
       <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="UPDATE">

@@ -1,16 +1,17 @@
+import i18next from "i18next";
+
 import { Row } from "@components/layout";
 import { MDEditor } from "@components/rich-editor/react-md-editor";
-import { D1, D2 } from "../../../../../deprecated-locales/build-dictionary";
 
 type Key = `${string}Lg1` | `${string}Lg2`;
 
 const titleMapping: Record<string, string> = {
-  definition: "classificationsDefinition",
-  scopeNote: "classificationsScopeNote",
-  coreContentNote: "classificationsCoreContentNote",
-  additionalContentNote: "classificationsAdditionalContentNote",
-  exclusionNote: "classificationsExclusionNote",
-  changeNote: "classificationsChangeNote",
+  definition: "item.definition",
+  scopeNote: "item.scopeNote",
+  coreContentNote: "item.coreContentNote",
+  additionalContentNote: "item.additionalContentNote",
+  exclusionNote: "item.exclusionNote",
+  changeNote: "item.changeNoteLabel",
 };
 
 const NoteLangInput = ({
@@ -50,7 +51,7 @@ const NoteInput = ({
   return (
     <Row>
       <NoteLangInput
-        label={D1[titleMapping[dictionaryKey]]}
+        label={i18next.t(titleMapping[dictionaryKey], { lng: "fr" })}
         id={firstNoteKey}
         value={firstNodeValue}
         onChange={(value) =>
@@ -61,7 +62,7 @@ const NoteInput = ({
         }
       />
       <NoteLangInput
-        label={D2[titleMapping[dictionaryKey]]}
+        label={i18next.t(titleMapping[dictionaryKey], { lng: "en" })}
         id={secondNoteKey}
         value={secondNoteValue}
         onChange={(value) =>

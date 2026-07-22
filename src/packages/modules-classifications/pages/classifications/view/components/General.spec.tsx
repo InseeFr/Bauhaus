@@ -3,6 +3,34 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi } from "vitest";
 import { General } from "./General";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "classification.motherSeries": "Mother series",
+        "classification.previousClassification": "Previous classification",
+        "classification.followingClassification": "Following classification",
+        "classification.variant": "Variant",
+        "classification.altLabelTitle": "Alternative label",
+        "classification.issuedDate": "Legal start date",
+        "classification.validDate": "Expiration date",
+        "classification.lastRefreshedOnDate": "Last update",
+        "classification.creator": "Owner",
+        "classification.contributor": "Contributor",
+        "classification.disseminationStatus": "Dissemination status",
+        "classification.validationStatus": "Publication status",
+        "classification.rights": "Copyright",
+        "classification.additionalMaterial": "Additional material",
+        "classification.legalMaterial": "Legal material",
+        "classification.homepage": "Classification diffusion Url",
+        "classification.globalInformation": "General information",
+        "classification.descriptionTitle": "Description",
+      };
+      return translations[key] ?? key;
+    },
+  }),
+}));
+
 vi.mock("@components/layout", () => ({
   Row: ({ children }: any) => <div>{children}</div>,
 }));

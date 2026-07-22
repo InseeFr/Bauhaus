@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-
-import { D1, D2 } from "../../../../../deprecated-locales";
 
 interface Narrower {
   id: string;
@@ -18,6 +17,8 @@ type Props = Readonly<{
 }>;
 
 export const Narrowers = ({ narrowers, classificationId, secondLang }: Props) => {
+  const { t } = useTranslation();
+
   if (!narrowers || narrowers?.length === 0) {
     return null;
   }
@@ -48,14 +49,14 @@ export const Narrowers = ({ narrowers, classificationId, secondLang }: Props) =>
     <Row>
       <Note
         text={<ul>{narrowersLg1}</ul>}
-        title={D1.classificationsNarrowerItems}
+        title={t("item.narrowerItems", { lng: "fr" })}
         alone={!(secondLang && isMembersLg2)}
         allowEmpty={true}
       />
       {secondLang && isMembersLg2 && (
         <Note
           text={<ul>{narrowersLg2}</ul>}
-          title={D2.classificationsNarrowerItems}
+          title={t("item.narrowerItems", { lng: "en" })}
           alone={false}
           allowEmpty={true}
         />

@@ -13,22 +13,30 @@ vi.mock("@components/rich-editor/react-md-editor", () => ({
   ),
 }));
 
-vi.mock("../../../../../deprecated-locales/build-dictionary", () => ({
-  D1: {
-    classificationsDefinition: "Definition (FR)",
-    classificationsScopeNote: "Scope Note (FR)",
-    classificationsCoreContentNote: "Core Content (FR)",
-    classificationsAdditionalContentNote: "Additional Content (FR)",
-    classificationsExclusionNote: "Exclusion Note (FR)",
-    classificationsChangeNote: "Change Note (FR)",
-  },
-  D2: {
-    classificationsDefinition: "Definition (EN)",
-    classificationsScopeNote: "Scope Note (EN)",
-    classificationsCoreContentNote: "Core Content (EN)",
-    classificationsAdditionalContentNote: "Additional Content (EN)",
-    classificationsExclusionNote: "Exclusion Note (EN)",
-    classificationsChangeNote: "Change Note (EN)",
+vi.mock("i18next", () => ({
+  default: {
+    t: (key: string, options?: { lng?: string }) => {
+      const translations: Record<string, Record<string, string>> = {
+        fr: {
+          "item.definition": "Definition (FR)",
+          "item.scopeNote": "Scope Note (FR)",
+          "item.coreContentNote": "Core Content (FR)",
+          "item.additionalContentNote": "Additional Content (FR)",
+          "item.exclusionNote": "Exclusion Note (FR)",
+          "item.changeNoteLabel": "Change Note (FR)",
+        },
+        en: {
+          "item.definition": "Definition (EN)",
+          "item.scopeNote": "Scope Note (EN)",
+          "item.coreContentNote": "Core Content (EN)",
+          "item.additionalContentNote": "Additional Content (EN)",
+          "item.exclusionNote": "Exclusion Note (EN)",
+          "item.changeNoteLabel": "Change Note (EN)",
+        },
+      };
+      const lng = options?.lng ?? "fr";
+      return translations[lng]?.[key] ?? key;
+    },
   },
 }));
 

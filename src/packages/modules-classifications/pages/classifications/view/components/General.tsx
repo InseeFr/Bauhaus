@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { getDisseminationStatus } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
@@ -9,7 +10,6 @@ import { PublicationStatusItem, ValidationState } from "@components/status";
 import { stringToDate } from "@utils/date-utils";
 import { renderMarkdownElement } from "@utils/html-utils";
 
-import D, { D1, D2 } from "../../../../../deprecated-locales";
 import { InseeOrganisation } from "@components/business/organisations/organisations";
 import { Classification } from "../../../../types";
 
@@ -19,50 +19,52 @@ type Props = Readonly<{
 }>;
 
 export const General = ({ general, secondLang }: Props) => {
+  const { t } = useTranslation();
+
   let mapping: Record<string, any> = {};
 
   mapping = {
     ...mapping,
-    seriesLg1: D.motherSeries,
-    afterLg1: D.classificationsAfterTitle,
-    beforeLg1: D.classificationsBeforeTitle,
-    variantLg1: D.classificationsVariantTitle,
+    seriesLg1: t("classification.motherSeries"),
+    afterLg1: t("classification.previousClassification"),
+    beforeLg1: t("classification.followingClassification"),
+    variantLg1: t("classification.variant"),
   };
 
   if (general.altLabelLg1) {
     mapping = {
       ...mapping,
-      altLabelLg1: `${D.altLabelTitle}`,
+      altLabelLg1: `${t("classification.altLabelTitle")}`,
     };
   }
 
   if (general.altLabelLg2) {
     mapping = {
       ...mapping,
-      altLabelLg2: `${D.altLabelTitle}`,
+      altLabelLg2: `${t("classification.altLabelTitle")}`,
     };
   }
 
   mapping = {
     ...mapping,
-    issued: D.issuedDateTitle,
-    valid: D.validDateTitle,
-    lastRefreshedOn: D.lastRefreshedOnDateTitle,
-    creator: D.creatorTitle,
-    contributor: D.contributorTitle,
-    disseminationStatus: D.disseminationStatusTitle,
-    validationState: D.classificationValidationStateTitle,
-    rights: D.rightsTitle,
-    additionalMaterial: D.additionalMaterialTitle,
-    legalMaterial: D.legalMaterialTitle,
-    homepage: D.homepageTitle,
+    issued: t("classification.issuedDate"),
+    valid: t("classification.validDate"),
+    lastRefreshedOn: t("classification.lastRefreshedOnDate"),
+    creator: t("classification.creator"),
+    contributor: t("classification.contributor"),
+    disseminationStatus: t("classification.disseminationStatus"),
+    validationState: t("classification.validationStatus"),
+    rights: t("classification.rights"),
+    additionalMaterial: t("classification.additionalMaterial"),
+    legalMaterial: t("classification.legalMaterial"),
+    homepage: t("classification.homepage"),
   };
 
   return (
     <>
       <Row>
         <Note
-          title={D.globalInformationsTitle}
+          title={t("classification.globalInformation")}
           alone={true}
           text={
             <ul>
@@ -211,14 +213,14 @@ export const General = ({ general, secondLang }: Props) => {
       </Row>
       <Row>
         <Note
-          title={D1.descriptionTitle}
+          title={t("classification.descriptionTitle", { lng: "fr" })}
           text={renderMarkdownElement(general.descriptionLg1)}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
-            title={D2.descriptionTitle}
+            title={t("classification.descriptionTitle", { lng: "en" })}
             text={renderMarkdownElement(general.descriptionLg2)}
             alone={false}
             allowEmpty={true}

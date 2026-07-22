@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-
-import D from "../../../../../deprecated-locales";
 
 interface LevelGeneral {
   broaderLg1?: string;
@@ -25,12 +24,14 @@ type Props = Readonly<{
 }>;
 
 export const General = ({ general, classificationId, secondLang }: Props) => {
+  const { t } = useTranslation();
+
   const mapping: Record<string, string> = {
-    broaderLg1: D.classificationsBroaderLevel,
-    narrowerLg1: D.classificationsNarrowerLevel,
-    notation: D.classificationsNotationTitle,
-    depth: D.classificationsDepthTitle,
-    notationPattern: D.classificationsNotationPatternTitle,
+    broaderLg1: t("level.broaderLevel"),
+    narrowerLg1: t("level.narrowerLevel"),
+    notation: t("level.notation"),
+    depth: t("level.depth"),
+    notationPattern: t("level.notationPattern"),
   };
 
   return (
@@ -92,7 +93,7 @@ export const General = ({ general, classificationId, secondLang }: Props) => {
             })}
           </ul>
         }
-        title={D.globalInformationsTitle}
+        title={t("level.globalInformation")}
         alone={true}
         allowEmpty={true}
       />

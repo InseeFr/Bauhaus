@@ -3,11 +3,22 @@ import { describe, it, expect, vi } from "vitest";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../../deprecated-locales";
 import { ClassificationsHome } from "./ClassificationsHome";
 
 vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
+}));
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "classification.pluralTitle": "Nomenclatures",
+        "classification.searchTitle": "Nomenclatures - Recherche",
+      };
+      return translations[key] ?? key;
+    },
+  }),
 }));
 
 vi.mock("@components/layout", () => ({
@@ -36,12 +47,12 @@ describe("ClassificationsHome Component", () => {
 
   it("should call useTitle hook with correct arguments", () => {
     render(<ClassificationsHome classifications={[]} />);
-    expect(useTitle).toHaveBeenCalledWith(D.classificationsTitle, D.classificationsTitle);
+    expect(useTitle).toHaveBeenCalledWith("Nomenclatures", "Nomenclatures");
   });
 
   it("should display the PageTitle component with the correct title", () => {
     render(<ClassificationsHome classifications={[]} />);
-    expect(screen.getByTestId("page-title")).toHaveTextContent(D.classificationsSearchTitle);
+    expect(screen.getByTestId("page-title")).toHaveTextContent("Nomenclatures - Recherche");
   });
 
   it("should render the SearchableList component", () => {

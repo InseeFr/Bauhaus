@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { Navigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInputBlock, UrlInputBlock } from "@components/form/input";
@@ -12,7 +13,6 @@ import { Select } from "@components/select-rmes";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { MDEditor } from "@components/rich-editor/react-md-editor";
-import D, { D1, D2 } from "../../../../deprecated-locales";
 import { transformModelToSelectOptions } from "../../../../utils/transformer";
 import { useClassification } from "../../../hooks/useClassification";
 import { useClassificationSeries } from "../../../hooks/useClassificationSeries";
@@ -27,6 +27,8 @@ import { reducer, initialState } from "./page.reducer";
 import { CreatorsInput } from "@components/business/creators-input";
 
 export const Component = () => {
+  const { t } = useTranslation();
+
   const { id } = useParams<{ id: string }>();
 
   const { isLoading, classification, status } = useClassification(id);
@@ -35,7 +37,7 @@ export const Component = () => {
 
   const [{ clientSideErrors, submitting, value }, dispatch] = useReducer(reducer, initialState);
 
-  useTitle(D.classificationsTitle, classification?.general?.prefLabelLg1);
+  useTitle(t("classification.pluralTitle"), classification?.general?.prefLabelLg1);
 
   const { save, isSavingSuccess, isSaving } = useUpdateClassification(id);
 
@@ -94,7 +96,7 @@ export const Component = () => {
           <div className="col-md-6 form-group">
             <TextInputBlock
               required
-              label={D1.title}
+              label={t("classification.title", { lng: "fr" })}
               error={clientSideErrors?.fields?.prefLabelLg1}
               value={general.prefLabelLg1}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +108,7 @@ export const Component = () => {
           <div className="col-md-6 form-group">
             <TextInputBlock
               required
-              label={D2.title}
+              label={t("classification.title", { lng: "en" })}
               error={clientSideErrors?.fields?.prefLabelLg2}
               value={general.prefLabelLg2}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,7 +121,7 @@ export const Component = () => {
         <Row>
           <div className="form-group col-md-6">
             <TextInputBlock
-              label={D1.altLabel}
+              label={t("classification.altLabel", { lng: "fr" })}
               value={general.altLabelLg1}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setGeneral({ altLabelLg1: e.target.value })
@@ -128,7 +130,7 @@ export const Component = () => {
           </div>
           <div className="form-group col-md-6">
             <TextInputBlock
-              label={D2.altLabel}
+              label={t("classification.altLabel", { lng: "en" })}
               value={general.altLabelLg2}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setGeneral({ altLabelLg2: e.target.value })
@@ -138,14 +140,14 @@ export const Component = () => {
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="descriptionLg1">{D1.summary}</label>
+            <label htmlFor="descriptionLg1">{t("classification.summary", { lng: "fr" })}</label>
             <MDEditor
               text={general.descriptionLg1}
               handleChange={(v: string) => setGeneral({ descriptionLg1: v })}
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="descriptionLg2">{D2.summary}</label>
+            <label htmlFor="descriptionLg2">{t("classification.summary", { lng: "en" })}</label>
             <MDEditor
               text={general.descriptionLg2}
               handleChange={(v: string) => setGeneral({ descriptionLg2: v })}
@@ -153,7 +155,7 @@ export const Component = () => {
           </div>
         </Row>
         <div className="form-group">
-          <label>{D1.motherSeries}</label>
+          <label>{t("classification.motherSeries", { lng: "fr" })}</label>
           <Select
             value={general.idSeries}
             options={seriesOptions}
@@ -161,7 +163,7 @@ export const Component = () => {
           />
         </div>
         <div className="form-group">
-          <label>{D1.classificationsBeforeTitle}</label>
+          <label>{t("classification.followingClassification", { lng: "fr" })}</label>
           <ClassificationSelect
             excludeId={id}
             value={general.idBefore}
@@ -169,7 +171,7 @@ export const Component = () => {
           />
         </div>
         <div className="form-group">
-          <label>{D1.classificationsAfterTitle}</label>
+          <label>{t("classification.previousClassification", { lng: "fr" })}</label>
           <ClassificationSelect
             excludeId={id}
             value={general.idAfter}
@@ -177,7 +179,7 @@ export const Component = () => {
           />
         </div>
         <div className="form-group">
-          <label>{D1.classificationsVariantTitle}</label>
+          <label>{t("classification.variant", { lng: "fr" })}</label>
           <ClassificationSelect
             excludeId={id}
             value={general.idVariant}
@@ -199,7 +201,7 @@ export const Component = () => {
           />
         </div>
         <div className="form-group">
-          <label>{D1.disseminationStatusTitle}</label>
+          <label>{t("classification.disseminationStatus", { lng: "fr" })}</label>
           <DisseminationStatusInput
             withLabel={false}
             value={general.disseminationStatus}
@@ -208,7 +210,7 @@ export const Component = () => {
         </div>
         <div className="form-group">
           <UrlInputBlock
-            label={D1.additionalMaterialTitle}
+            label={t("classification.additionalMaterial", { lng: "fr" })}
             error={clientSideErrors?.fields?.additionalMaterial}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setGeneral({ additionalMaterial: e.target.value })
@@ -218,7 +220,7 @@ export const Component = () => {
         </div>
         <div className="form-group">
           <UrlInputBlock
-            label={D1.legalMaterialTitle}
+            label={t("classification.legalMaterial", { lng: "fr" })}
             error={clientSideErrors?.fields?.legalMaterial}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setGeneral({ legalMaterial: e.target.value })
@@ -228,7 +230,7 @@ export const Component = () => {
         </div>
         <div className="form-group">
           <UrlInputBlock
-            label={D1.homepageTitle}
+            label={t("classification.homepage", { lng: "fr" })}
             error={clientSideErrors?.fields?.homepage}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setGeneral({ homepage: e.target.value })
@@ -242,7 +244,7 @@ export const Component = () => {
               {classification.general.scopeNoteUriLg1 && (
                 <>
                   <LabelRequired htmlFor="scopeNoteLg1">
-                    {D1.classificationsScopeNote}
+                    {t("classification.scopeNote", { lng: "fr" })}
                   </LabelRequired>
                   <MDEditor
                     text={general.scopeNoteLg1}
@@ -255,7 +257,7 @@ export const Component = () => {
               {classification.general.scopeNoteUriLg2 && (
                 <>
                   <LabelRequired htmlFor="scopeNoteLg2">
-                    {D2.classificationsScopeNote}
+                    {t("classification.scopeNote", { lng: "en" })}
                   </LabelRequired>
                   <MDEditor
                     text={general.scopeNoteLg2}
@@ -272,7 +274,7 @@ export const Component = () => {
               {classification.general.changeNoteUriLg1 && (
                 <>
                   <LabelRequired htmlFor="changeNoteLg1">
-                    {D1.classificationsChangeNote()}
+                    {t("classification.changeNote", { lng: "fr" })}
                   </LabelRequired>
                   <MDEditor
                     text={general.changeNoteLg1}
@@ -285,7 +287,7 @@ export const Component = () => {
               {classification.general.changeNoteUriLg2 && (
                 <>
                   <LabelRequired htmlFor="changeNoteLg2">
-                    {D2.classificationsChangeNote()}
+                    {t("classification.changeNote", { lng: "en" })}
                   </LabelRequired>
                   <MDEditor
                     text={general.changeNoteLg2}

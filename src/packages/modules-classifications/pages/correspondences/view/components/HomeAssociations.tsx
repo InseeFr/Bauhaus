@@ -1,13 +1,12 @@
 import { Column } from "primereact/column";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { DataTable } from "@components/datatable";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
 import { sortArray } from "@utils/array-utils";
-
-import D, { D1 } from "../../../../../deprecated-locales";
 
 const sortById = sortArray("id");
 
@@ -22,6 +21,8 @@ export const HomeAssociations = ({
   correspondence: any;
   secondLang: boolean;
 }) => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const { firstAltLabelLg1, firstAltLabelLg2, secondAltLabelLg1, secondAltLabelLg2 } =
@@ -56,15 +57,15 @@ export const HomeAssociations = ({
           >
             <Column
               field="source"
-              header={`${D.sourceClassificationTitle}${sourceLabel && ` : ${sourceLabel}`}`}
+              header={`${t("correspondence.sourceClassification")}${sourceLabel && ` : ${sourceLabel}`}`}
             ></Column>
             <Column
               field="target"
-              header={`${D.targetClassificationTitle}${sourceLabel && ` : ${targetLabel}`}`}
+              header={`${t("correspondence.targetClassification")}${sourceLabel && ` : ${targetLabel}`}`}
             ></Column>
           </DataTable>
         }
-        title={D1.associationsTitle}
+        title={t("correspondence.associationList")}
         alone={true}
         allowEmpty={true}
       />

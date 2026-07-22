@@ -1,3 +1,22 @@
+vi.mock("i18next", () => ({
+  default: {
+    t: (key: string, options?: { lng?: string; length?: number }) => {
+      const translations: Record<string, Record<string, string>> = {
+        fr: {
+          "item.title": "Intitulé",
+          "item.altLabelError": `Le titre abrégé (${options?.length}) doit contenir maximum ${options?.length} caractères`,
+        },
+        en: {
+          "item.title": "Title",
+          "item.altLabelError": `The short title (${options?.length}) should contain ${options?.length} characters max`,
+        },
+      };
+      const lng = options?.lng ?? "fr";
+      return translations[lng]?.[key] ?? key;
+    },
+  },
+}));
+
 import { validate } from "./validation";
 
 describe("validation", function () {

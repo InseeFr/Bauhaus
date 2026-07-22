@@ -1,7 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 import { Note } from "@components/note";
 import { SearchableList } from "@components/searchable-list";
-
-import { D1, D2 } from "../../../../../deprecated-locales";
 
 interface LevelMember {
   id: string;
@@ -17,6 +17,8 @@ type Props = Readonly<{
 }>;
 
 export const Members = ({ members, classificationId, secondLang }: Props) => {
+  const { t } = useTranslation();
+
   const membersLg1 = members.map(({ id, labelLg1 }) => ({
     id,
     label: `${id} - ${labelLg1}`,
@@ -39,7 +41,7 @@ export const Members = ({ members, classificationId, secondLang }: Props) => {
             childPath={`classifications/classification/${classificationId}/item`}
           />
         }
-        title={D1.childrenClassificationItems}
+        title={t("level.childrenItems", { lng: "fr" })}
         alone={!secondLang}
         allowEmpty={true}
       />
@@ -53,7 +55,7 @@ export const Members = ({ members, classificationId, secondLang }: Props) => {
               colOff={0}
             />
           }
-          title={D2.childrenClassificationItems}
+          title={t("level.childrenItems", { lng: "en" })}
           alone={!secondLang}
           allowEmpty={true}
         />

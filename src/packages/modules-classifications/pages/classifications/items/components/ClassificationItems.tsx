@@ -1,9 +1,10 @@
+import { useTranslation } from "react-i18next";
+
 import { CheckSecondLang } from "@components/check-second-lang";
 import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
-import D from "../../../../../deprecated-locales";
 import { Menu } from "../menu";
 
 interface ClassificationItem {
@@ -18,10 +19,12 @@ type Props = Readonly<{
 }>;
 
 export const ClassificationItems = ({ items, subtitle, classificationId }: Props) => {
+  const { t } = useTranslation();
+
   return (
     <div>
       <div className="container">
-        <PageTitle title={D.classificationAllItemsTitle} subtitle={subtitle} />
+        <PageTitle title={t("classification.allItemsTitle")} subtitle={subtitle} />
         <Menu />
         <CheckSecondLang />
         {items.length !== 0 && (

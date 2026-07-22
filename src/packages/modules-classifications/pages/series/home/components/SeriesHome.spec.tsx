@@ -33,12 +33,17 @@ vi.mock("@components/searchable-list", () => ({
   ),
 }));
 
-vi.mock("../../../../../deprecated-locales", () => ({
-  default: {
-    classificationsTitle: "Classifications",
-    seriesTitle: "Series",
-    seriesSearchTitle: "Search in series",
-  },
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "classification.pluralTitle": "Classifications",
+        "serie.pluralTitle": "Series",
+        "serie.searchTitle": "Search in series",
+      };
+      return translations[key] ?? key;
+    },
+  }),
 }));
 
 const useTitleSpy = vi.fn();

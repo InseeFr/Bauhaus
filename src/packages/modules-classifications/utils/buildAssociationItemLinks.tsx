@@ -1,11 +1,5 @@
+import i18next from "i18next";
 import { Link } from "react-router-dom";
-
-import D from "../../deprecated-locales";
-
-const mapping = {
-  sourceItemLabelLg1: D.sourceItemTitle,
-  targetItemLabelLg1: D.targetItemTitle,
-};
 
 interface SourceItemLabelTypes {
   label: string;
@@ -63,6 +57,11 @@ export const buildAssociationItemLinks = (association: any, secondLang: boolean)
     targetClassAltLabelLg1,
     targetClassAltLabelLg2,
   } = association;
+
+  const mapping = {
+    sourceItemLabelLg1: i18next.t("correspondence.sourceItem"),
+    targetItemLabelLg1: i18next.t("correspondence.targetItem"),
+  };
 
   const content = Object.keys(mapping).map((fieldName) => {
     if (fieldName === "sourceItemLabelLg1" && association[fieldName]) {

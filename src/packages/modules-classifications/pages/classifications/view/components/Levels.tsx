@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
-import { D1, D2 } from "../../../../../deprecated-locales";
 import { Level } from "../../../../types";
 
 type Props = Readonly<{
@@ -13,6 +13,8 @@ type Props = Readonly<{
 }>;
 
 export const Levels = ({ levels, classificationId, secondLang }: Props) => {
+  const { t } = useTranslation();
+
   const levelsLg1 = levels.map((m, i) => (
     <li key={i}>
       <Link to={`/classifications/classification/${classificationId}/level/${m.id}`}>
@@ -39,11 +41,15 @@ export const Levels = ({ levels, classificationId, secondLang }: Props) => {
     <Row>
       <Note
         alone={!(secondLang && isMembersLg2)}
-        title={D1.classificationLevelsTitle}
+        title={t("classification.levelsTitle", { lng: "fr" })}
         text={levelsLg1}
       ></Note>
       {secondLang && isMembersLg2 && (
-        <Note alone={false} title={D2.classificationLevelsTitle} text={levelsLg2}></Note>
+        <Note
+          alone={false}
+          title={t("classification.levelsTitle", { lng: "en" })}
+          text={levelsLg2}
+        ></Note>
       )}
     </Row>
   );

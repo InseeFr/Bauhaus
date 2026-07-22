@@ -1,7 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 import { ExplanatoryNote } from "@components/explanatory-note";
 import { Row } from "@components/layout";
-
-import { D1, D2 } from "../../../../../deprecated-locales";
 
 interface ClassificationNotes {
   scopeNoteLg1?: string;
@@ -27,67 +27,71 @@ export const Notes = ({
     descriptionLg2,
   },
   secondLang,
-}: Props) => (
-  <div>
-    <span>
-      {descriptionLg1 && (
-        <Row>
-          <ExplanatoryNote
-            text={descriptionLg1}
-            title={D1.classificationsDescription}
-            alone={!secondLang}
-            md
-          />
-          {secondLang && (
+}: Props) => {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      <span>
+        {descriptionLg1 && (
+          <Row>
             <ExplanatoryNote
-              text={descriptionLg2}
-              title={D2.classificationsDescription}
-              alone={false}
+              text={descriptionLg1}
+              title={t("classification.description", { lng: "fr" })}
+              alone={!secondLang}
               md
             />
-          )}
-        </Row>
-      )}
-    </span>
-    <span>
-      {scopeNoteLg1 && (
-        <Row>
-          <ExplanatoryNote
-            text={scopeNoteLg1}
-            title={D1.classificationsScopeNote}
-            alone={!secondLang}
-            md
-          />
-          {secondLang && (
+            {secondLang && (
+              <ExplanatoryNote
+                text={descriptionLg2}
+                title={t("classification.description", { lng: "en" })}
+                alone={false}
+                md
+              />
+            )}
+          </Row>
+        )}
+      </span>
+      <span>
+        {scopeNoteLg1 && (
+          <Row>
             <ExplanatoryNote
-              text={scopeNoteLg2}
-              title={D2.classificationsScopeNote}
-              alone={false}
+              text={scopeNoteLg1}
+              title={t("classification.scopeNote", { lng: "fr" })}
+              alone={!secondLang}
               md
             />
-          )}
-        </Row>
-      )}
-    </span>
-    <span>
-      {changeNoteLg1 && (
-        <Row>
-          <ExplanatoryNote
-            text={changeNoteLg1}
-            title={D1.classificationsChangeNote()}
-            alone={!secondLang}
-            md
-          />
-          {secondLang && (
+            {secondLang && (
+              <ExplanatoryNote
+                text={scopeNoteLg2}
+                title={t("classification.scopeNote", { lng: "en" })}
+                alone={false}
+                md
+              />
+            )}
+          </Row>
+        )}
+      </span>
+      <span>
+        {changeNoteLg1 && (
+          <Row>
             <ExplanatoryNote
-              text={changeNoteLg2}
-              title={D2.classificationsChangeNote()}
-              alone={false}
+              text={changeNoteLg1}
+              title={t("classification.changeNote", { lng: "fr" })}
+              alone={!secondLang}
               md
             />
-          )}
-        </Row>
-      )}
-    </span>
-  </div>
-);
+            {secondLang && (
+              <ExplanatoryNote
+                text={changeNoteLg2}
+                title={t("classification.changeNote", { lng: "en" })}
+                alone={false}
+                md
+              />
+            )}
+          </Row>
+        )}
+      </span>
+    </div>
+  );
+};

@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
@@ -6,7 +7,6 @@ import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-ico
 import { ValidationButton } from "@components/validationButton";
 
 import { HasAccess } from "../../../../../auth/components/auth";
-import D from "../../../../../deprecated-locales";
 import { Classification } from "../../../../types";
 import { useGoBack } from "../../../../../utils/hooks/useGoBack";
 
@@ -19,11 +19,15 @@ export const ClassificationControls = ({
   classification,
   publish,
 }: Readonly<ClassificationControlsTypes>) => {
+  const { t } = useTranslation();
+
   const goBack = useGoBack();
 
   const location = useLocation();
 
   const treeLocation = `${location.pathname}/tree`;
+
+  const viewTreeLabel = t("classification.viewTree");
 
   return (
     <ActionToolbar>
@@ -34,7 +38,7 @@ export const ClassificationControls = ({
       <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="UPDATE">
         <UpdateButton action={`/classifications/classification/${classification.id}/modify`} />
       </HasAccess>
-      <Button key={D.btnTree} action={treeLocation} label={D.btnTree} />
+      <Button key={viewTreeLabel} action={treeLocation} label={viewTreeLabel} />
     </ActionToolbar>
   );
 };

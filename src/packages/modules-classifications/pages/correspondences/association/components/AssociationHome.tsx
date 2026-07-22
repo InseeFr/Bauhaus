@@ -1,10 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ExplanatoryNote } from "@components/explanatory-note";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PageTitle } from "@components/page-title";
 
-import { D2, D1 } from "../../../../../deprecated-locales";
 import { CorrespondenceControls } from "./CorrespondenceControls";
 import { buildAssociationItemLinks } from "../../../../utils/buildAssociationItemLinks";
 
@@ -15,6 +16,8 @@ export const AssociationHome = ({
   association: any;
   secondLang: boolean;
 }) => {
+  const { t } = useTranslation();
+
   const {
     labelLg1,
     labelLg2,
@@ -37,7 +40,7 @@ export const AssociationHome = ({
         {(!secondLang || (secondLang && sourceItemLabelLg2 && targetItemLabelLg2)) && (
           <Note
             text={buildAssociationItemLinks(association, secondLang)}
-            title={D1.globalInformationsTitle}
+            title={t("correspondence.globalInformation")}
             alone={true}
             allowEmpty={true}
           />
@@ -48,13 +51,13 @@ export const AssociationHome = ({
           <Row>
             <ExplanatoryNote
               text={scopeNoteLg1}
-              title={D1.classificationsDescription}
+              title={t("correspondence.description", { lng: "fr" })}
               alone={!secondLang}
             />
             {secondLang && (
               <ExplanatoryNote
                 text={scopeNoteLg2}
-                title={D2.classificationsDescription}
+                title={t("correspondence.description", { lng: "en" })}
                 alone={false}
               />
             )}

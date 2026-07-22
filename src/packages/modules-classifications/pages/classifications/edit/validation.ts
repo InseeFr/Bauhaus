@@ -1,12 +1,11 @@
+import i18next from "i18next";
 import { z } from "zod";
 
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
 
-import { D1, D2 } from "../../../../deprecated-locales";
-
 const ZodClassification = z.object({
-  prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
-  prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
+  prefLabelLg1: mandatoryAndNotEmptyTextField(i18next.t("classification.title", { lng: "fr" })),
+  prefLabelLg2: mandatoryAndNotEmptyTextField(i18next.t("classification.title", { lng: "en" })),
   additionalMaterial: z.url().optional(),
   legalMaterial: z.url().optional(),
   homepage: z.url().optional(),

@@ -5,8 +5,21 @@ import { describe, expect, it, vi } from "vitest";
 
 import { MainMenu } from "@components/menu";
 
-import D from "../../deprecated-locales";
 import { Menu } from "./menu";
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "family.pluralTitle": "Familles",
+        "serie.pluralTitle": "Séries",
+        "correspondence.pluralTitle": "Tables de correspondances",
+        "classification.pluralTitle": "Nomenclatures",
+      };
+      return translations[key] ?? key;
+    },
+  }),
+}));
 
 const renderWithRouter = (ui: React.ReactElement, pathname = "/") =>
   render(<MemoryRouter initialEntries={[pathname]}>{ui}</MemoryRouter>);
@@ -51,7 +64,7 @@ describe("Menu", () => {
             pathKey: "classifications/famil",
             className: "active",
             attrs: { "aria-current": "page" },
-            label: D.familiesTitle,
+            label: "Familles",
             order: 0,
           },
           {
@@ -59,7 +72,7 @@ describe("Menu", () => {
             pathKey: "classifications/series",
             className: null,
             attrs: null,
-            label: D.seriesTitle,
+            label: "Séries",
             order: 1,
           },
           {
@@ -67,7 +80,7 @@ describe("Menu", () => {
             pathKey: "classifications/correspondence",
             className: null,
             attrs: null,
-            label: D.correspondencesTitle,
+            label: "Tables de correspondances",
             order: 3,
           },
           {
@@ -75,7 +88,7 @@ describe("Menu", () => {
             pathKey: "classification",
             className: null,
             attrs: null,
-            label: D.classificationsTitle,
+            label: "Nomenclatures",
             order: 2,
           },
         ],
@@ -99,7 +112,7 @@ describe("Menu", () => {
             pathKey: "classifications/famil",
             className: null,
             attrs: null,
-            label: D.familiesTitle,
+            label: "Familles",
             order: 0,
           },
           {
@@ -107,7 +120,7 @@ describe("Menu", () => {
             pathKey: "classifications/series",
             className: "active",
             attrs: { "aria-current": "page" },
-            label: D.seriesTitle,
+            label: "Séries",
             order: 1,
           },
           {
@@ -115,7 +128,7 @@ describe("Menu", () => {
             pathKey: "classifications/correspondence",
             className: null,
             attrs: null,
-            label: D.correspondencesTitle,
+            label: "Tables de correspondances",
             order: 3,
           },
           {
@@ -123,7 +136,7 @@ describe("Menu", () => {
             pathKey: "classification",
             className: null,
             attrs: null,
-            label: D.classificationsTitle,
+            label: "Nomenclatures",
             order: 2,
           },
         ],
@@ -147,7 +160,7 @@ describe("Menu", () => {
             pathKey: "classifications/famil",
             className: null,
             attrs: null,
-            label: D.familiesTitle,
+            label: "Familles",
             order: 0,
           },
           {
@@ -155,7 +168,7 @@ describe("Menu", () => {
             pathKey: "classifications/series",
             className: null,
             attrs: null,
-            label: D.seriesTitle,
+            label: "Séries",
             order: 1,
           },
           {
@@ -163,7 +176,7 @@ describe("Menu", () => {
             pathKey: "classifications/correspondence",
             className: null,
             attrs: null,
-            label: D.correspondencesTitle,
+            label: "Tables de correspondances",
             order: 3,
           },
           {
@@ -171,7 +184,7 @@ describe("Menu", () => {
             pathKey: "classification",
             className: "active",
             attrs: { "aria-current": "page" },
-            label: D.classificationsTitle,
+            label: "Nomenclatures",
             order: 2,
           },
         ],

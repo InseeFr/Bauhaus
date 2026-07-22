@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc } from "@components/errors-bloc";
@@ -8,7 +9,6 @@ import { PageTitle } from "@components/page-title";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../../deprecated-locales";
 import { ClassificationWithLevels } from "../../../../types";
 import { General } from "./General";
 import { Levels } from "./Levels";
@@ -29,7 +29,9 @@ export const ClassificationVisualization = ({
   publish,
   serverSideError,
 }: ClassificationVisualizationTypes) => {
-  useTitle(D.classificationsTitle, general?.prefLabelLg1);
+  const { t } = useTranslation();
+
+  useTitle(t("classification.pluralTitle"), general?.prefLabelLg1);
 
   const notes = {
     scopeNoteLg1: general.scopeNoteLg1,
@@ -49,14 +51,14 @@ export const ClassificationVisualization = ({
           <Link to={`/classifications/classification/${classificationId}/items`}>
             <h3>
               <span className="glyphicon glyphicon-zoom-in mr-1"></span>
-              {D.classificationAllItemsTitle}
+              {t("classification.allItemsTitle")}
             </h3>
           </Link>
         </div>
       </Row>
       <ClassificationControls classification={general} publish={publish} />
       <CheckSecondLang />
-      <ErrorBloc error={serverSideError} D={D} />
+      <ErrorBloc error={serverSideError} />
       <General general={general} secondLang={secondLang} />
       {notes.scopeNoteLg1 && <Notes notes={notes} secondLang={secondLang} />}
       {levels.length !== 0 && (

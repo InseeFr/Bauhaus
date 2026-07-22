@@ -1,9 +1,10 @@
+import { useTranslation } from "react-i18next";
+
 import { CheckSecondLang } from "@components/check-second-lang";
 import { PageTitle } from "@components/page-title";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../../deprecated-locales/build-dictionary";
 import { FamilyControls } from "./FamilyControls";
 import { Members } from "./Members";
 
@@ -31,7 +32,9 @@ export const FamilyVisualization = ({
   },
   secondLang,
 }: Props) => {
-  useTitle(D.familiesTitle + " - " + D.classificationsTitle, prefLabelLg1);
+  const { t } = useTranslation();
+
+  useTitle(t("family.pluralTitle") + " - " + t("classification.pluralTitle"), prefLabelLg1);
 
   return (
     <div className="container">

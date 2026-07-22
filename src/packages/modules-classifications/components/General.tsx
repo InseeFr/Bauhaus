@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationStatusItem, ValidationState } from "@components/status";
-
-import D from "../../deprecated-locales";
 
 interface ItemAltLabel {
   length: number;
@@ -32,14 +31,16 @@ type Props = Readonly<{
 }>;
 
 export const General = ({ general, classificationId, secondLang }: Props) => {
+  const { t } = useTranslation();
+
   const mapping: Record<string, any> = {
-    broaderLg1: D.classificationsBroaderLevel,
-    itemId: D.classificationsNotationTitle,
-    altLabelLg1: D.altLabelTitle,
-    altLabelLg2: D.altLabelTitle,
-    altLabels: (length: number) => D.classificationItemAltLabels(length),
-    validationState: D.isClassificationItemValidTitle,
-    conceptVersion: D.classificationConceptVersionTitle,
+    broaderLg1: t("item.broaderLevel"),
+    itemId: t("item.notation"),
+    altLabelLg1: t("item.altLabelTitle"),
+    altLabelLg2: t("item.altLabelTitle"),
+    altLabels: (length: number) => t("item.altLabelWithLength", { length }),
+    validationState: t("item.validationState"),
+    conceptVersion: t("item.conceptVersion"),
   };
 
   return (
@@ -114,7 +115,7 @@ export const General = ({ general, classificationId, secondLang }: Props) => {
             })}
           </ul>
         }
-        title={D.globalInformationsTitle}
+        title={t("item.globalInformation")}
         alone={true}
         allowEmpty={true}
       />

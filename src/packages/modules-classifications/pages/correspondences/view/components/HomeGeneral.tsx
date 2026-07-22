@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ExplanatoryNote } from "@components/explanatory-note";
 import { Row } from "@components/layout";
@@ -6,8 +8,6 @@ import { PageTitle } from "@components/page-title";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { D1, D2 } from "../../../../../deprecated-locales";
-import D from "../../../../../deprecated-locales/build-dictionary";
 import { buildCorrespondenceClassificationLinks } from "../../../../utils/buildCorrespondenceClassificationLinks";
 import { CorrespondenceControls } from "./CorrespondenceControls";
 
@@ -18,11 +18,13 @@ export const HomeGeneral = ({
   correspondence: any;
   secondLang: boolean;
 }) => {
+  const { t } = useTranslation();
+
   const { labelLg1, labelLg2, firstClassLabelLg2, secondClassLabelLg2 } = correspondence;
 
   const title = secondLang ? labelLg2 : labelLg1;
 
-  useTitle(D.correspondencesTitle, labelLg1);
+  useTitle(t("correspondence.pluralTitle"), labelLg1);
 
   return (
     <div>
@@ -33,7 +35,7 @@ export const HomeGeneral = ({
         {(!secondLang || (secondLang && (firstClassLabelLg2 || secondClassLabelLg2))) && (
           <Note
             text={buildCorrespondenceClassificationLinks(correspondence, secondLang)}
-            title={D1.globalInformationsTitle}
+            title={t("correspondence.globalInformation")}
             alone={true}
             allowEmpty={true}
           />
@@ -44,13 +46,13 @@ export const HomeGeneral = ({
           <Row>
             <ExplanatoryNote
               text={correspondence.descriptionLg1}
-              title={D1.classificationsDescription}
+              title={t("correspondence.description", { lng: "fr" })}
               alone={!secondLang}
             />
             {secondLang && (
               <ExplanatoryNote
                 text={correspondence.descriptionLg2}
-                title={D2.classificationsDescription}
+                title={t("correspondence.description", { lng: "en" })}
                 alone={false}
               />
             )}

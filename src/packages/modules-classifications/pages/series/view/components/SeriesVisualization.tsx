@@ -1,10 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 import { CheckSecondLang } from "@components/check-second-lang";
 import { PageSubtitle } from "@components/page-sub-title";
 import { PageTitle } from "@components/page-title";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../../deprecated-locales/build-dictionary";
 import { SeriesControls } from "./SeriesControls";
 import { General } from "./General";
 import { Members } from "./Members";
@@ -31,7 +32,9 @@ type Props = Readonly<{
 }>;
 
 export const SeriesVisualization = ({ series: { general, members }, secondLang }: Props) => {
-  useTitle(D.seriesTitle + " - " + D.classificationsTitle, general?.prefLabelLg1);
+  const { t } = useTranslation();
+
+  useTitle(t("serie.pluralTitle") + " - " + t("classification.pluralTitle"), general?.prefLabelLg1);
 
   const notes = {
     scopeNoteLg1: general.scopeNoteLg1,

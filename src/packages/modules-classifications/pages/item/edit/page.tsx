@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { ClientSideError, ErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
@@ -12,7 +13,6 @@ import { Select } from "@components/select-rmes";
 
 import { ClassificationsApi } from "@sdk/classification";
 
-import D, { D1, D2 } from "../../../../deprecated-locales/build-dictionary";
 import {
   useClassificationItem,
   useClassificationParentLevels,
@@ -22,6 +22,8 @@ import { Menu } from "./menu";
 import { validate } from "./validation";
 
 export const Component = () => {
+  const { t } = useTranslation();
+
   const queryClient = useQueryClient();
 
   const { classificationId, itemId } = useParams<{
@@ -133,7 +135,7 @@ export const Component = () => {
         {submitting && clientSideErrors && <ErrorBloc error={clientSideErrors.errorMessage} />}
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg1">{t("item.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
               value={general.prefLabelLg1}
@@ -154,7 +156,7 @@ export const Component = () => {
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg2">{t("item.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
               value={general.prefLabelLg2}
@@ -177,7 +179,7 @@ export const Component = () => {
         </Row>
         <Row>
           <div className="form-group col-md-6">
-            <label htmlFor="altLabelLg1">{D1.altLabel}</label>
+            <label htmlFor="altLabelLg1">{t("item.altLabel", { lng: "fr" })}</label>
             <TextInput
               id="altLabelLg1"
               value={general.altLabelLg1}
@@ -190,7 +192,7 @@ export const Component = () => {
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="altLabelLg2">{D2.altLabel}</label>
+            <label htmlFor="altLabelLg2">{t("item.altLabel", { lng: "en" })}</label>
             <TextInput
               id="altLabelLg2"
               value={general.altLabelLg2}
@@ -204,7 +206,7 @@ export const Component = () => {
           </div>
         </Row>
         <div className="form-group">
-          <label>{D.classificationsBroaderLevel}</label>
+          <label>{t("item.broaderLevel")}</label>
           <Select
             value={general.broaderURI}
             options={previousLevelsOptions}
@@ -222,7 +224,7 @@ export const Component = () => {
             <Row key={index}>
               <div className="form-group col-md-6">
                 <label htmlFor={"altLabelsLg1_" + length}>
-                  {D1.classificationItemAltLabels(length)}
+                  {t("item.altLabelWithLength", { length, lng: "fr" })}
                 </label>
                 <TextInput
                   id={"altLabelsLg1_" + length}
@@ -240,7 +242,7 @@ export const Component = () => {
               </div>
               <div className="form-group col-md-6">
                 <label htmlFor={"altLabelsLg2_" + length}>
-                  {D2.classificationItemAltLabels(length)}
+                  {t("item.altLabelWithLength", { length, lng: "en" })}
                 </label>
                 <TextInput
                   id={"altLabelsLg2_" + length}

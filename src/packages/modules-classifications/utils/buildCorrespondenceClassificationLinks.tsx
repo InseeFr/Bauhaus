@@ -1,6 +1,5 @@
+import i18next from "i18next";
 import { Link } from "react-router-dom";
-
-import D from "../../deprecated-locales";
 
 /**
  * Builds the list of links to the source and target classifications
@@ -11,8 +10,8 @@ export const buildCorrespondenceClassificationLinks = (
   secondLang: boolean,
 ) => {
   const mapping = {
-    firstClassLabelLg1: D.sourceClassificationTitle,
-    secondClassLabelLg1: D.targetClassificationTitle,
+    firstClassLabelLg1: i18next.t("correspondence.sourceClassification"),
+    secondClassLabelLg1: i18next.t("correspondence.targetClassification"),
   };
 
   const content = Object.keys(mapping).map((fieldName) => {

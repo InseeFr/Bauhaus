@@ -1,5 +1,6 @@
+import i18next from "i18next";
+
 import { ClassificationMembers } from "../../../../components/ClassificationMembers";
-import { D1, D2 } from "../../../../../deprecated-locales";
 
 interface FamilyMember {
   id: string;
@@ -18,7 +19,7 @@ export const Members = ({ members, secondLang }: Props) => (
     members={members}
     secondLang={secondLang}
     linkBasePath="/classifications/series"
-    titleD1={D1.childrenSeries}
-    titleD2={D2.childrenSeries}
+    titleD1={i18next.t("family.childrenSeries", { lng: "fr" })}
+    titleD2={i18next.t("family.childrenSeries", { lng: "en" })}
   />
 );

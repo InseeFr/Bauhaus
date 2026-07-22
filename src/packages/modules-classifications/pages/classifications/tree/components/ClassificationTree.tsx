@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { Row } from "@components/layout";
@@ -7,7 +8,6 @@ import { Tree } from "primereact/tree";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../../deprecated-locales";
 import { Menu } from "../menu";
 import { TreeNode } from "primereact/treenode";
 
@@ -90,9 +90,11 @@ export const ClassificationTree = ({
   prefLabel: string;
   secondLang: boolean;
 }>) => {
+  const { t } = useTranslation();
+
   const { id } = useParams();
 
-  useTitle(D.classificationsTitle, D.classificationTreeTitle + ": " + prefLabel);
+  useTitle(t("classification.pluralTitle"), t("classification.treeTitle") + ": " + prefLabel);
 
   const treeData = convertToTreeNodes(data, secondLang);
 
@@ -110,7 +112,7 @@ export const ClassificationTree = ({
   return (
     <div>
       <div className="container">
-        <PageTitle title={D.classificationTreeTitle} subtitle={prefLabel} />
+        <PageTitle title={t("classification.treeTitle")} subtitle={prefLabel} />
         <Menu />
         <CheckSecondLang />
         {data.length !== 0 && (

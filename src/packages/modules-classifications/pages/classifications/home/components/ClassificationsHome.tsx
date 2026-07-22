@@ -1,10 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../../deprecated-locales";
 import { PartialClassification } from "../../../../types";
 
 interface ClassificationsHomeTypes {
@@ -12,13 +13,15 @@ interface ClassificationsHomeTypes {
 }
 
 export const ClassificationsHome = ({ classifications }: Readonly<ClassificationsHomeTypes>) => {
-  useTitle(D.classificationsTitle, D.classificationsTitle);
+  const { t } = useTranslation();
+
+  useTitle(t("classification.pluralTitle"), t("classification.pluralTitle"));
 
   return (
     <div className="container">
       <Row>
         <div className="col-md-8 col-md-offset-2 text-center">
-          <PageTitle title={D.classificationsSearchTitle} col={12} offset={0} />
+          <PageTitle title={t("classification.searchTitle")} col={12} offset={0} />
           <SearchableList
             items={classifications}
             childPath="classifications/classification"
