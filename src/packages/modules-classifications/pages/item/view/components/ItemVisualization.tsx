@@ -2,7 +2,7 @@ import { CheckSecondLang } from "@components/check-second-lang";
 import { PageSubtitle } from "@components/page-sub-title";
 import { PageTitle } from "@components/page-title";
 
-import { General } from "../../components/General";
+import { General } from "../../../../components/General";
 import { ItemControls } from "./ItemControls";
 import { Narrowers } from "./Narrowers";
 import { ClassificationNotes } from "./ClassificationNotes";

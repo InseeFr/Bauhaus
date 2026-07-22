@@ -4,7 +4,7 @@ import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationStatusItem, ValidationState } from "@components/status";
 
-import D from "../../../../deprecated-locales";
+import D from "../../deprecated-locales";
 
 interface ItemAltLabel {
   length: number;

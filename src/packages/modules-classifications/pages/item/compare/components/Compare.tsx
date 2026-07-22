@@ -3,7 +3,7 @@ import { CompareNotes } from "@components/note-compare";
 import { PageTitle } from "@components/page-title";
 
 import { buildNotes } from "../../../../utils/buildNotes";
-import { General } from "../../components/General";
+import { General } from "../../../../components/General";
 import { Controls } from "./Controls";
 
 export const Compare = ({ classificationId, general, notes, secondLang }: any) => {
