@@ -1,6 +1,6 @@
 .application-title {
   background: #45374e;
-  padding: 3em 0;
+  padding: 1em 0;
 }
 
 .application-title .application-title-container {
@@ -27,7 +27,7 @@
 }
 
 .application-title img {
-  height: 4.5rem;
+  height: 10rem;
   width: auto;
 }
 

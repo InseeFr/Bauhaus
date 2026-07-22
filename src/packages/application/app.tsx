@@ -14,14 +14,14 @@ import "primeicons/primeicons.css";
 import { useAppContext } from "./app-context";
 import "./app.css";
 
-const AppCard = ({ app }: { app: string }) => {
+const AppCard = ({ app, index }: { app: string; index: string }) => {
   const getAppTitle = (appKey: string): string => {
     const titleKey = `${appKey}Title`;
     return D[titleKey as keyof typeof D] || appKey;
   };
 
   return (
-    <div className={app}>
+    <div className={app + " pos" + index}>
       <Link to={`/${app}`}>
         <h2 className="items page-title page-title-link">{getAppTitle(app)}</h2>
         <div className="arrow">
@@ -50,10 +50,12 @@ const App = () => {
   }, [modules, privileges]);
 
   const appCards = useMemo(() => {
-    return accessibleModules.map((app) => <AppCard key={app} app={app} />);
+    return accessibleModules.map((app, index, letableau) => (
+      <AppCard key={app} app={app} index={String(index) + String(letableau.length)} />
+    ));
   }, [accessibleModules]);
 
-  return <div className="home-page-links home-page-links__grid-3">{appCards}</div>;
+  return <div className={"home-page-links home-page-links__grid-3"}>{appCards}</div>;
 };
 
 export default App;

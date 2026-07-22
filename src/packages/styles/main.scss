@@ -97,7 +97,7 @@ footer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    min-height: 160px;
+    min-height: 100px;
 
     > #bauhausVersion {
       padding-left: 30px;

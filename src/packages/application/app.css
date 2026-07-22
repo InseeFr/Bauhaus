@@ -7,7 +7,7 @@
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: var(--gutter);
-  width: 70%;
+  width: 58%;
   margin: 2em auto 0;
 
   > div {
@@ -82,36 +82,57 @@
   }
 }
 
-@media (width >= 1100px) {
+@media (width >= 1400px) {
   .home-page-links {
     grid-template-columns: repeat(8, 1fr);
   }
 
-  .concepts {
+  .pos05,
+  .pos06,
+  .pos07 {
     grid-column: 2/4;
   }
 
-  .classifications {
+  .pos15,
+  .pos16,
+  .pos17 {
     grid-column: 4/6;
   }
 
-  .operations {
+  .pos25,
+  .pos26,
+  .pos27 {
     grid-column: 6/8;
   }
 
-  .structures {
+  .pos35 {
+    grid-column: 3/5;
+  }
+  .pos36 {
+    grid-column: 2/4;
+  }
+  .pos37 {
     grid-column: 1/3;
   }
 
-  .codelists {
+  .pos45 {
+    grid-column: 5/7;
+  }
+  .pos46 {
+    grid-column: 4/6;
+  }
+  .pos47 {
     grid-column: 3/5;
   }
 
-  .datasets {
+  .pos56 {
+    grid-column: 6/8;
+  }
+  .pos57 {
     grid-column: 5/7;
   }
 
-  .ddi {
+  .pos67 {
     grid-column: 7/9;
   }
 }
