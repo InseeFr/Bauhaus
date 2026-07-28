@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Component } from "./view";
@@ -128,9 +128,18 @@ vi.mock("primereact/progressspinner", () => ({
   ProgressSpinner: () => <div data-testid="progress-spinner">Loading...</div>,
 }));
 
-vi.mock("primereact/toast", () => ({
-  Toast: vi.fn(() => null),
-}));
+// La vue pilote le toast par ref (`toast.current?.show(...)`) : le mock doit accepter
+// une ref, sinon React avertit « Function components cannot be given refs ».
+vi.mock("primereact/toast", async () => {
+  const { forwardRef, useImperativeHandle } =
+    await vi.importActual<typeof import("react")>("react");
+  return {
+    Toast: forwardRef((_props, ref) => {
+      useImperativeHandle(ref, () => ({ show: vi.fn(), clear: vi.fn(), replace: vi.fn() }));
+      return null;
+    }),
+  };
+});
 
 vi.mock("primereact/message", () => ({
   Message: ({ severity, text }: any) => (
@@ -141,7 +150,28 @@ vi.mock("primereact/message", () => ({
 }));
 
 vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ id, value, options, onChange, disabled, ...props }: any) => (
+  // Les props propres à PrimeReact sont écartées avant le spread : `<select>` ne les
+  // comprend pas et React avertit (ex. `loading={false}` sur un attribut non booléen).
+  Dropdown: ({
+    id,
+    value,
+    options,
+    onChange,
+    disabled,
+    loading: _loading,
+    filter: _filter,
+    filterBy: _filterBy,
+    showClear: _showClear,
+    appendTo: _appendTo,
+    panelStyle: _panelStyle,
+    emptyMessage: _emptyMessage,
+    itemTemplate: _itemTemplate,
+    optionLabel: _optionLabel,
+    optionValue: _optionValue,
+    optionGroupLabel: _optionGroupLabel,
+    optionGroupChildren: _optionGroupChildren,
+    ...props
+  }: any) => (
     <select
       id={id}
       value={value || ""}
@@ -766,10 +796,13 @@ describe("View Component", () => {
         expect(saveButton).not.toBeDisabled();
       });
 
-      // Submit form
+      // Submit form — la sauvegarde est asynchrone et remet à jour l'état (rollback du
+      // libellé en cas d'erreur) : `act` englobe le flush de ces mises à jour.
       const form = screen.getByRole("dialog").querySelector("form");
       if (form) {
-        fireEvent.submit(form);
+        await act(async () => {
+          fireEvent.submit(form);
+        });
       }
     };
 
