@@ -24,6 +24,11 @@ export function usePublishPhysicalInstance() {
       queryClient.invalidateQueries({
         queryKey: ["physicalCodesLists", variables.agencyId, variables.id],
       });
+      // L'enregistrement crée/supprime des variables qui référencent des listes de codes : les
+      // utilisations de N'IMPORTE QUELLE liste ont pu changer, on évince donc tout le préfixe.
+      // Sans cela (staleTime: Infinity), `useCodeListUsers` resterait sur son résultat périmé et la
+      // confirmation de surcharge d'une liste devenue partagée n'apparaîtrait qu'après un F5.
+      queryClient.invalidateQueries({ queryKey: ["codeListUsers"] });
       // Une nouvelle liste de codes est rattachée au LogicalProduct du groupe parent :
       // invalider les listes du groupe (et non les mutualisées) pour les voir sans hard refresh.
       // Le groupe parent est déjà en cache via usePhysicalInstanceParents.

@@ -61,6 +61,19 @@ describe("usePublishPhysicalInstance", () => {
     });
   });
 
+  it("should invalidate the code list users cache on success", async () => {
+    // L'enregistrement ajoute/retire des variables référençant des listes de codes : sans cette
+    // éviction, `useCodeListUsers` (staleTime: Infinity) resterait sur un résultat périmé et la
+    // confirmation de surcharge d'une liste partagée n'apparaîtrait qu'après un F5.
+    seedParents();
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
+    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["codeListUsers"] });
+  });
+
   it("should still invalidate the physical instance's own code lists cache on success", async () => {
     seedParents();
     using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
