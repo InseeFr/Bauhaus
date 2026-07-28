@@ -24,7 +24,9 @@ vi.mock("./StudyUnitTag", () => ({
 const noop = vi.fn();
 
 describe("PhysicalInstanceHeader", () => {
-  it("affiche un tag avec le libellé du groupe et un tag avec le libellé de l'étude", () => {
+  // Les tags parents sont masqués temporairement dans PhysicalInstanceHeader
+  // (`{false && (groupLabel || studyUnitLabel)}`). À réactiver en même temps que ce flag.
+  it.skip("affiche un tag avec le libellé du groupe et un tag avec le libellé de l'étude", () => {
     render(
       <PhysicalInstanceHeader
         label="Ma PI"
