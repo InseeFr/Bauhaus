@@ -12,6 +12,7 @@ import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 
 import { useAppContext } from "./app-context";
+import type { AppName } from "./app-context";
 import "./app.css";
 
 const AppCard = ({ app }: { app: string }) => {
@@ -21,7 +22,7 @@ const AppCard = ({ app }: { app: string }) => {
   };
 
   return (
-    <div className={app}>
+    <li className={app}>
       <Link to={`/${app}`}>
         <h2 className="items page-title page-title-link">{getAppTitle(app)}</h2>
         <div className="arrow">
@@ -31,9 +32,14 @@ const AppCard = ({ app }: { app: string }) => {
           <img src={`/img/${app}-01.svg`} alt="" loading="lazy" />
         </div>
       </Link>
-    </div>
+    </li>
   );
 };
+
+/* La première ligne est réservée à ces modules. Quand l'un d'eux est désactivé ou
+   inaccessible, la ligne se réduit au lieu d'être complétée par les modules
+   suivants, qui restent sur la seconde ligne. */
+const FIRST_ROW_MODULES: AppName[] = ["concepts", "classifications", "operations"];
 
 const App = () => {
   useTitle();
@@ -49,11 +55,28 @@ const App = () => {
       .map((m) => m.identifier);
   }, [modules, privileges]);
 
-  const appCards = useMemo(() => {
-    return accessibleModules.map((app) => <AppCard key={app} app={app} />);
+  const rows = useMemo(() => {
+    const isOnFirstRow = (app: AppName) => FIRST_ROW_MODULES.includes(app);
+    return [
+      accessibleModules.filter(isOnFirstRow),
+      accessibleModules.filter((app) => !isOnFirstRow(app)),
+    ].filter((row) => row.length > 0);
   }, [accessibleModules]);
 
-  return <div className="home-page-links home-page-links__grid-3">{appCards}</div>;
+  /* Les tuiles sont la navigation principale de l'application : un landmark nommé
+     permet de l'atteindre directement au lecteur d'écran. Le découpage en lignes
+     n'étant que visuel, les `ul` restent des détails de présentation. */
+  return (
+    <nav className="home-page-links" aria-label={D.modulesNavigationTitle}>
+      {rows.map((row) => (
+        <ul key={row[0]} className="home-page-links-row">
+          {row.map((app) => (
+            <AppCard key={app} app={app} />
+          ))}
+        </ul>
+      ))}
+    </nav>
+  );
 };
 
 export default App;

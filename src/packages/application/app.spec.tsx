@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
@@ -30,6 +30,7 @@ vi.mock("../deprecated-locales", () => ({
   default: {
     analyticsTitle: "Analytics",
     adminTitle: "Administration",
+    modulesNavigationTitle: "Modules",
   },
 }));
 
@@ -92,5 +93,119 @@ describe("<App />", () => {
 
     expect(screen.getByRole("link", { name: /analytics/i })).toHaveAttribute("href", "/analytics");
     expect(screen.getByRole("link", { name: /administration/i })).toHaveAttribute("href", "/admin");
+  });
+
+  it("groups the tiles in a navigation landmark named after the modules", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [] });
+    (useAppContext as any).mockReturnValue({
+      properties: {
+        modules: [
+          { identifier: "concepts", disabled: false },
+          { identifier: "structures", disabled: false },
+        ],
+      },
+    });
+
+    (hasAccessToModule as any).mockImplementation(() => true);
+
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const navigation = screen.getByRole("navigation", { name: "Modules" });
+
+    expect(within(navigation).getAllByRole("link")).toHaveLength(2);
+  });
+
+  it("displays concepts, classifications and operations on the first row and the remaining ones on the second row", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [] });
+    (useAppContext as any).mockReturnValue({
+      properties: {
+        modules: ["concepts", "classifications", "operations", "structures", "codelists"].map(
+          (identifier) => ({ identifier, disabled: false }),
+        ),
+      },
+    });
+
+    (hasAccessToModule as any).mockImplementation(() => true);
+
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const [firstRow, secondRow] = screen.getAllByRole("list");
+
+    expect(
+      within(firstRow)
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual(["/concepts", "/classifications", "/operations"]);
+    expect(
+      within(secondRow)
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual(["/structures", "/codelists"]);
+  });
+
+  it("does not fill the first row with other modules when one of its modules is disabled", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [] });
+    (useAppContext as any).mockReturnValue({
+      properties: {
+        modules: [
+          { identifier: "concepts", disabled: true },
+          { identifier: "classifications", disabled: false },
+          { identifier: "operations", disabled: false },
+          { identifier: "structures", disabled: false },
+          { identifier: "codelists", disabled: false },
+        ],
+      },
+    });
+
+    (hasAccessToModule as any).mockImplementation(() => true);
+
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const [firstRow, secondRow] = screen.getAllByRole("list");
+
+    expect(
+      within(firstRow)
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual(["/classifications", "/operations"]);
+    expect(
+      within(secondRow)
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual(["/structures", "/codelists"]);
+  });
+
+  it("does not display a second row when three modules or less are accessible", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [] });
+    (useAppContext as any).mockReturnValue({
+      properties: {
+        modules: [
+          { identifier: "concepts", disabled: false },
+          { identifier: "classifications", disabled: false },
+        ],
+      },
+    });
+
+    (hasAccessToModule as any).mockImplementation(() => true);
+
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getAllByRole("list")).toHaveLength(1);
   });
 });

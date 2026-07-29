@@ -33,7 +33,7 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
           <div id="bauhausVersion">
             <p className="text-left">{footer}</p>
           </div>
-          <div>
+          <div className="footer-logos">
             <a href="https://www.insee.fr">
               <img src="/img/insee_logo_bas_de_page-01.svg" alt="logo insee" />
             </a>
@@ -41,7 +41,6 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
               <img src="/img/casd_logo_bas_de_page-01.svg" alt="logo CASD" />
             </a>
           </div>
-          <div />
         </div>
       </footer>
     </>

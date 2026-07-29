@@ -1,16 +1,31 @@
 .home-page-links {
-  list-style: none;
-
-  --content-width: 60vw;
   --gutter: 20px;
 
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  /* Largeur d'une tuile : toujours celle d'une ligne pleine de 4, quel que soit
+     le nombre de tuiles réellement affichées sur la ligne. */
+  --per-row: 1;
+
+  display: flex;
+  flex-direction: column;
   gap: var(--gutter);
-  width: 70%;
+  width: 55%;
+  max-width: 800px;
   margin: 2em auto 0;
 
-  > div {
+  /* Le nombre de tuiles varie selon les modules accessibles :
+     `justify-content: center` centre chaque ligne, même incomplète. */
+  .home-page-links-row {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--gutter);
+  }
+
+  li {
+    flex: 0 0 calc((100% - (var(--per-row) - 1) * var(--gutter)) / var(--per-row));
     aspect-ratio: 1;
     container-type: inline-size;
     display: grid;
@@ -78,41 +93,13 @@
 
 @media (width >= 750px) {
   .home-page-links {
-    grid-template-columns: repeat(2, 1fr);
+    --per-row: 2;
   }
 }
 
 @media (width >= 1100px) {
   .home-page-links {
-    grid-template-columns: repeat(8, 1fr);
-  }
-
-  .concepts {
-    grid-column: 2/4;
-  }
-
-  .classifications {
-    grid-column: 4/6;
-  }
-
-  .operations {
-    grid-column: 6/8;
-  }
-
-  .structures {
-    grid-column: 1/3;
-  }
-
-  .codelists {
-    grid-column: 3/5;
-  }
-
-  .datasets {
-    grid-column: 5/7;
-  }
-
-  .ddi {
-    grid-column: 7/9;
+    --per-row: 4;
   }
 }
 

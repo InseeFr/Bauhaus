@@ -22,6 +22,10 @@ const dictionary = {
     fr: "Administration",
     en: "Administration",
   },
+  modulesNavigationTitle: {
+    fr: "Modules",
+    en: "Modules",
+  },
   yes: {
     fr: "Oui",
     en: "Yes",
