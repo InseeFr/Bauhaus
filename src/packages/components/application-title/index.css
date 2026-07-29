@@ -37,7 +37,14 @@
     display: none;
   }
 
+  /* Le conteneur a 50% bride le logo : sur 360px il ne reste que 180px de large, alors que
+     le logo fait 282px a sa taille naturelle. On elargit puisque seul le logo occupe la bande. */
+  .application-title .application-title-container {
+    width: 90%;
+  }
+
+  /* Taille intrinseque du SVG (282x119). */
   .application-title img {
-    height: 6.5rem;
+    height: auto;
   }
 }
