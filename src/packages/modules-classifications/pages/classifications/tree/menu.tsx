@@ -7,7 +7,9 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 
 export const Menu = () => {
   const location = useLocation();
+
   const goBack = useGoBack();
+
   const nextLocation = location.pathname.replace("/tree", "");
 
   return (

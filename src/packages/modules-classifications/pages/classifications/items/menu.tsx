@@ -7,7 +7,9 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 
 export const Menu = () => {
   const goBack = useGoBack();
+
   const location = useLocation();
+
   const nextLocation = location.pathname.replace("/items", "");
 
   return (

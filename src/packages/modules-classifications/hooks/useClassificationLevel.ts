@@ -38,6 +38,7 @@ export const useClassificationLevel = (
   });
 
   const isLoading = isLoadingGeneral || isLoadingMembers;
+
   const level = general && members ? { general, members } : undefined;
 
   return { isLoading, level };
