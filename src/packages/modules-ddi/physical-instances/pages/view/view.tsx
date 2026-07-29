@@ -857,7 +857,9 @@ export const Component = () => {
         </Suspense>
       )}
 
-      <ConfirmDialog />
+      {/* resizable={false} : PrimeReact rend les Dialog redimensionnables par défaut,
+          ce qui n'a pas de sens pour une simple confirmation. */}
+      <ConfirmDialog resizable={false} />
       <Toast ref={toast} />
       <DdiDevTools data={data} dataByLangs={dataByLangs} />
     </>

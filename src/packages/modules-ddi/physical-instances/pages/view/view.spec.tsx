@@ -2271,6 +2271,19 @@ describe("View Component", () => {
     });
   });
 
+  describe("Confirmation dialog", () => {
+    it("should not offer a resize handle on the confirmation dialog", async () => {
+      render(<Component />, { wrapper });
+
+      const deleteButtons = screen.getAllByLabelText("physicalInstance.view.delete");
+      fireEvent.click(deleteButtons[0]);
+
+      await screen.findByText("physicalInstance.view.confirmDelete");
+
+      expect(document.querySelector(".p-dialog .p-resizable-handle")).toBeNull();
+    });
+  });
+
   describe("URL search params synchronization", () => {
     it("should set variableId search param when a variable is clicked", () => {
       render(<Component />, { wrapper });
