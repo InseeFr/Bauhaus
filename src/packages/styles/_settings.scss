@@ -3,6 +3,7 @@ body {
   --color-2: #425d84;
   --color-3: #5f7a96;
 }
+
 .operations {
   --color-1: #a96d88;
   --color-2: #7e375b;
@@ -10,7 +11,12 @@ body {
   --menu-active-page: var(--color-3);
   --sub-title: var(--color-3);
   --home-icon-color: var(--color-3);
+  transition: background-color 1s;
 }
+div.home-page-links div.operations:hover {
+  background-color: red; /* couleur a modifier */
+}
+
 .concepts {
   --color-1: #91b5d0;
   --color-2: #2d3c4b;
@@ -18,7 +24,12 @@ body {
   --menu-active-page: var(--color-2);
   --sub-title: var(--color-2);
   --home-icon-color: var(--color-3);
+  transition: background-color 1s;
 }
+div.home-page-links div.concepts:hover {
+  background-color: red; /* couleur a modifier */
+}
+
 .classifications {
   --color-1: #a59643;
   --color-2: #5d5425;
@@ -26,7 +37,12 @@ body {
   --menu-active-page: var(--color-3);
   --sub-title: var(--color-3);
   --home-icon-color: var(--color-3);
+  transition: background-color 1s;
 }
+div.home-page-links div.classifications:hover {
+  background-color: red; /* couleur a modifier */
+}
+
 .structures {
   --color-1: #917674;
   --color-2: #603d39;
@@ -34,6 +50,10 @@ body {
   --menu-active-page: var(--color-3);
   --sub-title: var(--color-3);
   --home-icon-color: var(--color-3);
+  transition: background-color 1s;
+}
+div.home-page-links div.structures:hover {
+  background-color: red; /* couleur a modifier */
 }
 
 .codelists {
@@ -43,6 +63,10 @@ body {
   --menu-active-page: var(--color-3);
   --sub-title: var(--color-3);
   --home-icon-color: var(--color-3);
+  transition: background-color 1s;
+}
+div.home-page-links div.codelists:hover {
+  background-color: red; /* couleur a modifier */
 }
 
 .datasets {
@@ -52,6 +76,10 @@ body {
   --menu-active-page: var(--color-3);
   --sub-title: var(--color-3);
   --home-icon-color: var(--color-3);
+  transition: background-color 1s;
+}
+div.home-page-links div.datasets:hover {
+  background-color: red; /* couleur a modifier */
 }
 
 .ddi {
@@ -61,4 +89,8 @@ body {
   --menu-active-page: var(--color-3);
   --sub-title: var(--color-3);
   --home-icon-color: var(--color-3);
+  transition: background-color 1s;
+}
+div.home-page-links div.ddi:hover {
+  background-color: red; /* couleur a modifier */
 }

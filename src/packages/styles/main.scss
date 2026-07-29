@@ -72,9 +72,39 @@ img.img-flag {
 }
 
 footer {
+  > button.btn {
+    margin-bottom: 50px;
+  }
+
   p {
     color: #0b0b55;
     font-weight: bold;
+  }
+
+  > div {
+    background-color: #f2f2f2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+
+    > #bauhausVersion {
+      padding-left: 30px;
+    }
+  }
+
+  a:first-child {
+    border-right-color: #82848b;
+    border-right-style: solid;
+    border-right-width: inherit;
+    padding-right: 20px;
+  }
+
+  a:nth-of-type(2) {
+    padding-left: 20px;
+  }
+
+  a > img {
+    width: 20%;
   }
 }
 
