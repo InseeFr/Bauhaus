@@ -9,6 +9,7 @@ const mockUpdatePhysicalInstance = vi.fn();
 const mockPublishPhysicalInstance = vi.fn();
 const mockConvertToDDI3 = vi.fn().mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
 const mockNavigate = vi.fn();
+const mockToastShow = vi.fn();
 let mockSearchParams = new URLSearchParams();
 const mockSetSearchParams = vi.fn((updater: any, _options?: any) => {
   if (typeof updater === "function") {
@@ -135,7 +136,7 @@ vi.mock("primereact/toast", async () => {
     await vi.importActual<typeof import("react")>("react");
   return {
     Toast: forwardRef((_props, ref) => {
-      useImperativeHandle(ref, () => ({ show: vi.fn(), clear: vi.fn(), replace: vi.fn() }));
+      useImperativeHandle(ref, () => ({ show: mockToastShow, clear: vi.fn(), replace: vi.fn() }));
       return null;
     }),
   };
@@ -1653,6 +1654,69 @@ describe("View Component", () => {
 
       // …et rien n'a encore été publié (duplication non immédiate).
       expect(mutateAsyncMock).not.toHaveBeenCalled();
+    });
+
+    it("should show the backend error message in the toast when duplication fails because no study unit was found", async () => {
+      // Le SDK (build-api) rejette un objet nu { message, status }, jamais une Error.
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: vi.fn().mockRejectedValue({
+          message: "No study unit found for physical instance fr.insee/pi-111",
+          status: 404,
+        }),
+        isPending: false,
+        isError: false,
+      });
+
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: {
+          PhysicalInstance: [
+            {
+              ID: "pi-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              Citation: { Title: [{ "@language": "fr-FR", "@value": "Original Title" }] },
+            },
+          ],
+          DataRelationship: [
+            {
+              ID: "dr-original-id",
+              Agency: "test-agency",
+              Version: "1",
+              DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
+              LogicalRecord: [
+                { ID: "lr-original-id", VariablesInRecord: { VariableUsedReference: [] } },
+              ],
+            },
+          ],
+          Variable: [],
+        },
+        variables: [],
+        title: "Original Title",
+        dataRelationshipName: "DR Name",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      const duplicateButton = screen.getByLabelText(
+        "physicalInstance.view.duplicatePhysicalInstance",
+      );
+      fireEvent.click(duplicateButton);
+
+      await screen.findByText("physicalInstance.view.duplicateModal.title");
+      const duplicateForm = screen.getByRole("dialog").querySelector("form");
+      fireEvent.submit(duplicateForm!);
+
+      await waitFor(() => {
+        expect(mockToastShow).toHaveBeenCalledWith(
+          expect.objectContaining({
+            severity: "error",
+            summary: "physicalInstance.view.duplicateError",
+            detail: "No study unit found for physical instance fr.insee/pi-111",
+          }),
+        );
+      });
     });
 
     it("should add (copy) suffix to Citation Title and PhysicalInstanceLabel when duplicating", async () => {

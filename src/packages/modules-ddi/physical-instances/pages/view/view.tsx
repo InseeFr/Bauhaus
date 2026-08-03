@@ -48,6 +48,10 @@ import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
 import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
 
+// Le SDK (build-api) rejette un objet nu { message, status }, jamais une Error.
+const getApiErrorMessage = (err: unknown, fallback: string) =>
+  err && typeof err === "object" && "message" in err ? String(err.message) : fallback;
+
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
   const { t } = useTranslation();
@@ -274,10 +278,7 @@ export const Component = () => {
       } catch (err: unknown) {
         dispatch(actions.setFormData({ label: previousLabel }));
 
-        const errorMessage =
-          err && typeof err === "object" && "message" in err
-            ? String(err.message)
-            : t("physicalInstance.view.saveErrorDetail");
+        const errorMessage = getApiErrorMessage(err, t("physicalInstance.view.saveErrorDetail"));
 
         toast.current?.show({
           severity: "error",
@@ -684,10 +685,7 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     } catch (err: unknown) {
-      const errorMessage =
-        err && typeof err === "object" && "message" in err
-          ? String(err.message)
-          : t("physicalInstance.view.saveAllErrorDetail");
+      const errorMessage = getApiErrorMessage(err, t("physicalInstance.view.saveAllErrorDetail"));
 
       toast.current?.show({
         severity: "error",
@@ -758,11 +756,15 @@ export const Component = () => {
           life: TOAST_DURATION,
         });
       } catch (err) {
+        const errorMessage = getApiErrorMessage(
+          err,
+          t("physicalInstance.view.duplicateErrorDetail"),
+        );
+
         toast.current?.show({
           severity: "error",
           summary: t("physicalInstance.view.duplicateError"),
-          detail:
-            err instanceof Error ? err.message : t("physicalInstance.view.duplicateErrorDetail"),
+          detail: errorMessage,
           life: TOAST_DURATION,
         });
       }
