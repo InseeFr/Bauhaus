@@ -19,6 +19,11 @@ export function usePublishPhysicalInstance() {
       queryClient.invalidateQueries({
         queryKey: ["physicalInstanceById", variables.agencyId, variables.id],
       });
+      // Le PUT stampe un nouveau versionDate, affiché par la liste de la home et la
+      // recherche avancée : sans éviction (staleTime: Infinity), elles resteraient
+      // périmées jusqu'au F5.
+      queryClient.invalidateQueries({ queryKey: ["physicalInstances"] });
+      queryClient.invalidateQueries({ queryKey: ["physicalInstancesSearch"] });
       // Invalider le cache des code lists pour qu'elles soient disponibles
       // immédiatement dans le sélecteur "Réutiliser une code list"
       queryClient.invalidateQueries({

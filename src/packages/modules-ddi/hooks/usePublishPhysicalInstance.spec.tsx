@@ -74,6 +74,32 @@ describe("usePublishPhysicalInstance", () => {
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["codeListUsers"] });
   });
 
+  it("should invalidate the physical instances list cache on success", async () => {
+    // Le PUT stampe un nouveau versionDate : sans éviction, la liste de la home
+    // (staleTime: Infinity) afficherait une date périmée jusqu'au F5.
+    seedParents();
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
+    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+      queryKey: ["physicalInstances"],
+    });
+  });
+
+  it("should invalidate the advanced search cache on success", async () => {
+    seedParents();
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
+    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+      queryKey: ["physicalInstancesSearch"],
+    });
+  });
+
   it("should still invalidate the physical instance's own code lists cache on success", async () => {
     seedParents();
     using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");

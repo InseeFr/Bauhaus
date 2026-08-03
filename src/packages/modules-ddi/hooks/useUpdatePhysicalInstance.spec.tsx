@@ -86,6 +86,33 @@ describe("useUpdatePhysicalInstance", () => {
     });
   });
 
+  it("should invalidate the advanced search cache on success", async () => {
+    // La recherche avancée affiche le label et les parents : après un renommage ou un
+    // re-rattachement, elle resterait périmée (staleTime: Infinity) sans cette éviction.
+    const mockPatch = vi.fn().mockResolvedValue({});
+    (DDIApi.patchPhysicalInstance as any) = mockPatch;
+
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    const { result } = renderHook(() => useUpdatePhysicalInstance(), {
+      wrapper,
+    });
+
+    await result.current.mutateAsync({
+      id: "test-id-123",
+      agencyId: "test-agency-456",
+      data: {
+        physicalInstanceLabel: "Test Label",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
+      },
+    });
+
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+      queryKey: ["physicalInstancesSearch"],
+    });
+  });
+
   it("should invalidate the edited physical instance detail cache on success", async () => {
     const mockPatch = vi.fn().mockResolvedValue({});
     (DDIApi.patchPhysicalInstance as any) = mockPatch;
