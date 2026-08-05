@@ -55,6 +55,10 @@ vi.mock("../TextRepresentation/TextRepresentation", () => ({
   ),
 }));
 
+vi.mock("../SentinelValues/SentinelValues", () => ({
+  SentinelValues: () => <div data-testid="sentinel-values" />,
+}));
+
 vi.mock("../CodeRepresentation/CodeRepresentation", () => ({
   CodeRepresentation: ({ onChange }: any) => (
     <div data-testid="code-representation">
@@ -69,6 +73,7 @@ describe("VariableRepresentationTab", () => {
   const mockOnDateRepresentationChange = vi.fn();
   const mockOnTextRepresentationChange = vi.fn();
   const mockOnCodeRepresentationChange = vi.fn();
+  const mockOnSentinelValuesChange = vi.fn();
 
   const typeOptions = [
     { label: "Numérique", value: "numeric" },
@@ -86,6 +91,7 @@ describe("VariableRepresentationTab", () => {
     onDateRepresentationChange: mockOnDateRepresentationChange,
     onTextRepresentationChange: mockOnTextRepresentationChange,
     onCodeRepresentationChange: mockOnCodeRepresentationChange,
+    onSentinelValuesChange: mockOnSentinelValuesChange,
   };
 
   beforeEach(() => {

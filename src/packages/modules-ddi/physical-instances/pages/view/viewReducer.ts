@@ -19,6 +19,8 @@ import type {
   CodeRepresentation,
   CodeList,
   Category,
+  ManagedMissingValuesRepresentation,
+  Reference,
 } from "../../types/api";
 
 // Type réutilisable pour les variables
@@ -35,6 +37,13 @@ export interface VariableData {
   codeRepresentation?: CodeRepresentation;
   codeList?: CodeList;
   categories?: Category[];
+  // Valeurs sentinelles (#1566) : référence vers la MMVR du groupe posée sur la variable, et —
+  // quand la variable est seule utilisatrice et l'a modifiée — la MMVR matérialisée, sa CodeList
+  // de sentinelles et ses catégories à embarquer au save (mêmes IDs, modification en place).
+  missingValuesReference?: Reference;
+  sentinelMmvr?: ManagedMissingValuesRepresentation;
+  sentinelCodeList?: CodeList;
+  sentinelCategories?: Category[];
 }
 
 export interface State {

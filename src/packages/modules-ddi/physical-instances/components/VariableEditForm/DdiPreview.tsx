@@ -8,6 +8,8 @@ import type {
   CodeRepresentation,
   CodeList,
   Category,
+  ManagedMissingValuesRepresentation,
+  Reference,
 } from "../../types/api";
 import { DDIApi } from "../../../../sdk";
 import { useAppContext } from "../../../../application/app-context";
@@ -30,6 +32,10 @@ interface DdiPreviewProps {
   codeRepresentation?: CodeRepresentation;
   codeList?: CodeList;
   categories?: Category[];
+  missingValuesReference?: Reference;
+  sentinelMmvr?: ManagedMissingValuesRepresentation;
+  sentinelCodeList?: CodeList;
+  sentinelCategories?: Category[];
 }
 
 const FORMAT_LABELS: Record<DdiFormat, string> = {
@@ -50,6 +56,10 @@ export const DdiPreview = ({
   codeRepresentation,
   codeList,
   categories,
+  missingValuesReference,
+  sentinelMmvr,
+  sentinelCodeList,
+  sentinelCategories,
 }: Readonly<DdiPreviewProps>) => {
   const { t } = useTranslation();
   const { properties } = useAppContext();
@@ -129,6 +139,15 @@ export const DdiPreview = ({
       };
     }
 
+    // Valeurs sentinelles (#1566) : la référence MMVR est portée par le wrapper
+    // VariableRepresentation, quel que soit le type de représentation.
+    if (missingValuesReference) {
+      variableDDI.VariableRepresentation = {
+        ...(variableDDI.VariableRepresentation ?? { VariableRole: "Mesure" }),
+        MissingValuesReference: missingValuesReference,
+      };
+    }
+
     const data: any = {
       Variable: [variableDDI],
     };
@@ -139,6 +158,18 @@ export const DdiPreview = ({
 
     if (variableType === "code" && categories) {
       data.Category = categories;
+    }
+
+    // MMVR modifiée localement (variable seule utilisatrice) : embarquée avec sa CodeList de
+    // sentinelles pour visualiser le XML DDI 3 réellement produit au save.
+    if (sentinelMmvr) {
+      data.ManagedMissingValuesRepresentation = [sentinelMmvr];
+    }
+    if (sentinelCodeList) {
+      data.CodeList = [...(data.CodeList ?? []), sentinelCodeList];
+    }
+    if (sentinelCategories?.length) {
+      data.Category = [...(data.Category ?? []), ...sentinelCategories];
     }
 
     return data;
@@ -157,6 +188,10 @@ export const DdiPreview = ({
     codeRepresentation,
     codeList,
     categories,
+    missingValuesReference,
+    sentinelMmvr,
+    sentinelCodeList,
+    sentinelCategories,
   ]);
 
   const ddiJson = useMemo(() => JSON.stringify(ddi4Data, null, 2), [ddi4Data]);

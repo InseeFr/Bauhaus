@@ -259,4 +259,77 @@ describe("DdiPreview", () => {
       );
     });
   });
+
+  it("should include the MissingValuesReference in the conversion payload (#1566)", async () => {
+    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+    mockConvertToDDI3.mockResolvedValue(mockXml);
+
+    const missingValuesReference = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      URN: "urn:ddi:fr.insee:mmvr-1:1",
+      Agency: "fr.insee",
+      ID: "mmvr-1",
+      Version: "1",
+    };
+
+    render(<DdiPreview {...defaultProps} missingValuesReference={missingValuesReference} />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          Variable: expect.arrayContaining([
+            expect.objectContaining({
+              VariableRepresentation: expect.objectContaining({
+                MissingValuesReference: missingValuesReference,
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+  });
+
+  it("should include the locally edited MMVR and its sentinel code list (#1566)", async () => {
+    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+    mockConvertToDDI3.mockResolvedValue(mockXml);
+
+    const missingValuesReference = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      URN: "urn:ddi:fr.insee:mmvr-1:1",
+      Agency: "fr.insee",
+      ID: "mmvr-1",
+      Version: "1",
+    };
+    const sentinelMmvr = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      ID: "mmvr-1",
+      Agency: "fr.insee",
+      Version: "1",
+    };
+    const sentinelCodeList = {
+      $type: "CodeList" as const,
+      URN: "urn:ddi:fr.insee:cl-sent:1",
+      Agency: "fr.insee",
+      ID: "cl-sent",
+      Version: "1",
+    } as any;
+
+    render(
+      <DdiPreview
+        {...defaultProps}
+        missingValuesReference={missingValuesReference}
+        sentinelMmvr={sentinelMmvr}
+        sentinelCodeList={sentinelCodeList}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ManagedMissingValuesRepresentation: [sentinelMmvr],
+          CodeList: expect.arrayContaining([sentinelCodeList]),
+        }),
+      );
+    });
+  });
 });

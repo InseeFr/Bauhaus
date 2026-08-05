@@ -94,8 +94,8 @@ vi.mock("primereact/dropdown", () => ({
 }));
 
 vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, type = "button" }: any) => (
-    <button type={type} onClick={onClick}>
+  Button: ({ label, onClick, type = "button", disabled }: any) => (
+    <button type={type} onClick={onClick} disabled={disabled}>
       {label}
     </button>
   ),
@@ -365,6 +365,67 @@ describe("VariableEditForm", () => {
         type: "numeric",
       }),
     );
+  });
+
+  it("should keep the sentinel values reference in the save payload, whatever the type (#1566)", () => {
+    const missingValuesReference = {
+      $type: "ManagedMissingValuesRepresentation",
+      URN: "urn:ddi:fr.insee:mmvr-1:1",
+      Agency: "fr.insee",
+      ID: "mmvr-1",
+      Version: "1",
+    } as const;
+    const numericVariableWithSentinel = {
+      ...defaultVariable,
+      missingValuesReference,
+    };
+
+    render(
+      <VariableEditForm
+        variable={numericVariableWithSentinel}
+        typeOptions={typeOptions}
+        onSave={mockOnSave}
+      />,
+    );
+
+    fireEvent.click(screen.getByText("Mettre à jour"));
+
+    expect(mockOnSave).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: "numeric",
+        missingValuesReference,
+      }),
+    );
+  });
+
+  it("should disable save while the sentinel MMVR has no label (#1566)", () => {
+    const variableWithUnlabeledSentinel = {
+      ...defaultVariable,
+      missingValuesReference: {
+        $type: "ManagedMissingValuesRepresentation",
+        URN: "urn:ddi:fr.insee:mmvr-1:1",
+        Agency: "fr.insee",
+        ID: "mmvr-1",
+        Version: "1",
+      } as const,
+      sentinelMmvr: {
+        $type: "ManagedMissingValuesRepresentation",
+        ID: "mmvr-1",
+        Agency: "fr.insee",
+        Version: "1",
+        Label: [{ "@language": "fr-FR", "@value": "" }],
+      } as any,
+    };
+
+    render(
+      <VariableEditForm
+        variable={variableWithUnlabeledSentinel}
+        typeOptions={typeOptions}
+        onSave={mockOnSave}
+      />,
+    );
+
+    expect(screen.getByText("Mettre à jour").closest("button")).toBeDisabled();
   });
 
   it("should update label and call onSave with new value", () => {

@@ -81,6 +81,22 @@ const api = {
   getGroupCodesLists: (agencyId: string, groupId: string) => [
     `groups/${agencyId}/${groupId}/codes-list`,
   ],
+  // Valeurs sentinelles (#1566)
+  getGroupMissingCodesLists: (agencyId: string, groupId: string) => [
+    `groups/${agencyId}/${groupId}/missing-codes-list`,
+  ],
+  getGroupMissingValuesRepresentations: (agencyId: string, groupId: string) => [
+    `groups/${agencyId}/${groupId}/missing-values-representations`,
+  ],
+  getMissingValuesRepresentationUsers: (agencyId: string, id: string) => [
+    `missing-values-representations/${agencyId}/${id}/users`,
+  ],
+  deleteMissingValuesRepresentation: (agencyId: string, id: string) => [
+    `missing-values-representations/${agencyId}/${id}`,
+    { method: "DELETE" },
+    // 204 sans corps : ne pas tenter de parser du JSON.
+    (res: Response) => res.text(),
+  ],
   getCodeListUsers: (agencyId: string, id: string) => [`codes-list/${agencyId}/${id}/users`],
   getMutualizedCodesLists: () => ["mutualized-codes-list"],
   getMutualizedCodesList: (agencyId: string, id: string) => [

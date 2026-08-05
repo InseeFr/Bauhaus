@@ -5,6 +5,7 @@
 // schema on purpose — see comments by each local declaration.
 
 import type { components } from "./generated/ddi";
+import type { LangString } from "../../utils/multilingual";
 
 export type { LangString } from "../../utils/multilingual";
 
@@ -17,6 +18,7 @@ export interface PhysicalInstanceResponse {
   Variable?: Variable[];
   CodeList?: CodeList[];
   Category?: Category[];
+  ManagedMissingValuesRepresentation?: ManagedMissingValuesRepresentation[];
 }
 
 export type Reference = components["schemas"]["reference"];
@@ -38,6 +40,35 @@ export interface VariableRepresentation {
   NumericRepresentation?: NumericRepresentation;
   DateTimeRepresentation?: DateTimeRepresentation;
   TextRepresentation?: TextRepresentation;
+  // Valeurs sentinelles (#1566) : référence vers une ManagedMissingValuesRepresentation,
+  // commune aux quatre types de représentation.
+  MissingValuesReference?: Reference;
+}
+
+// ManagedMissingValuesRepresentation (valeurs sentinelles, #1566) : forme aplatie du back —
+// l'identité (URN/Agency/ID/Version) est portée par l'item, contrairement au schéma où elle
+// vient du ManagedRepresentation de base. Périmètre V1 : Label + MissingCodeRepresentation.
+export interface ManagedMissingValuesRepresentation {
+  $type?: "ManagedMissingValuesRepresentation";
+  VersionDate?: { DateTime?: string };
+  URN?: string;
+  Agency?: string;
+  ID: string;
+  Version?: string;
+  Label?: LangString[];
+  MissingCodeRepresentation?: CodeRepresentation[];
+}
+
+// Ligne renvoyée par `GET /ddi/groups/{agency}/{id}/missing-values-representations` : une MMVR
+// réutilisable du groupe, avec libellé et aperçu des valeurs de codes de sa CodeList de
+// sentinelles. Alimente le sélecteur de réutilisation.
+export interface PartialMissingValuesRepresentation {
+  id: string;
+  agency: string;
+  version: string;
+  label: string | null;
+  codeListId: string | null;
+  codeValues: string[];
 }
 
 export type CodeRepresentation = components["schemas"]["CodeRepresentationBaseType"];

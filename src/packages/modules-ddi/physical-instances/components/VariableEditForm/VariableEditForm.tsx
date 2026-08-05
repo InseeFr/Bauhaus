@@ -12,6 +12,8 @@ import type {
   CodeRepresentation,
   CodeList,
   Category,
+  ManagedMissingValuesRepresentation,
+  Reference,
 } from "../../types/api";
 import { DdiPreview } from "./DdiPreview";
 import { pickLang } from "../../../utils/multilingual";
@@ -34,6 +36,12 @@ interface VariableRepresentationState {
   CodeRepresentation?: CodeRepresentation;
   CodeList?: CodeList;
   Category?: Category[];
+  // Valeurs sentinelles (#1566), communes aux quatre types : référence + modifications locales
+  // matérialisées (MMVR/CodeList/Categories) quand la variable est seule utilisatrice.
+  MissingValuesReference?: Reference;
+  SentinelMmvr?: ManagedMissingValuesRepresentation;
+  SentinelCodeList?: CodeList;
+  SentinelCategories?: Category[];
 }
 
 interface FormState {
@@ -65,6 +73,15 @@ type FormAction =
         codeRep: CodeRepresentation | undefined;
         codeList?: CodeList;
         categories?: Category[];
+      };
+    }
+  | {
+      type: "SET_SENTINEL_VALUES";
+      payload: {
+        missingValuesReference: Reference | undefined;
+        mmvr?: ManagedMissingValuesRepresentation;
+        sentinelCodeList?: CodeList;
+        sentinelCategories?: Category[];
       };
     }
   | { type: "RESET"; payload: FormState };
@@ -113,6 +130,17 @@ function formReducer(state: FormState, action: FormAction): FormState {
           Category: action.payload.categories,
         },
       };
+    case "SET_SENTINEL_VALUES":
+      return {
+        ...state,
+        representation: {
+          ...state.representation,
+          MissingValuesReference: action.payload.missingValuesReference,
+          SentinelMmvr: action.payload.mmvr,
+          SentinelCodeList: action.payload.sentinelCodeList,
+          SentinelCategories: action.payload.sentinelCategories,
+        },
+      };
     case "RESET":
       return action.payload;
     default:
@@ -120,51 +148,33 @@ function formReducer(state: FormState, action: FormAction): FormState {
   }
 }
 
+interface VariableFormData {
+  id: string;
+  label: string;
+  name: string;
+  description?: string;
+  type: string;
+  isGeographic?: boolean;
+  numericRepresentation?: NumericRepresentation;
+  dateRepresentation?: DateTimeRepresentation;
+  textRepresentation?: TextRepresentation;
+  codeRepresentation?: CodeRepresentation;
+  codeList?: CodeList;
+  categories?: Category[];
+  missingValuesReference?: Reference;
+  sentinelMmvr?: ManagedMissingValuesRepresentation;
+  sentinelCodeList?: CodeList;
+  sentinelCategories?: Category[];
+}
+
 interface VariableEditFormProps {
-  variable: {
-    id: string;
-    label: string;
-    name: string;
-    description?: string;
-    type: string;
-    isGeographic?: boolean;
-    numericRepresentation?: NumericRepresentation;
-    dateRepresentation?: DateTimeRepresentation;
-    textRepresentation?: TextRepresentation;
-    codeRepresentation?: CodeRepresentation;
-    codeList?: CodeList;
-    categories?: Category[];
-  };
+  variable: VariableFormData;
   typeOptions: { label: string; value: string }[];
+  /** MMVR référencées par les autres variables locales non sauvegardées (règle RO/RW sentinelles). */
+  locallyUsedMmvrIds?: string[];
   isNew?: boolean;
-  onSave: (data: {
-    id: string;
-    label: string;
-    name: string;
-    description?: string;
-    type: string;
-    isGeographic?: boolean;
-    numericRepresentation?: NumericRepresentation;
-    dateRepresentation?: DateTimeRepresentation;
-    textRepresentation?: TextRepresentation;
-    codeRepresentation?: CodeRepresentation;
-    codeList?: CodeList;
-    categories?: Category[];
-  }) => void;
-  onDuplicate?: (data: {
-    id: string;
-    label: string;
-    name: string;
-    description?: string;
-    type: string;
-    isGeographic?: boolean;
-    numericRepresentation?: NumericRepresentation;
-    dateRepresentation?: DateTimeRepresentation;
-    textRepresentation?: TextRepresentation;
-    codeRepresentation?: CodeRepresentation;
-    codeList?: CodeList;
-    categories?: Category[];
-  }) => void;
+  onSave: (data: VariableFormData) => void;
+  onDuplicate?: (data: VariableFormData) => void;
   onPrevious?: () => void;
   onNext?: () => void;
   hasPrevious?: boolean;
@@ -176,6 +186,7 @@ interface VariableEditFormProps {
 export const VariableEditForm = ({
   variable,
   typeOptions,
+  locallyUsedMmvrIds,
   isNew = false,
   onSave,
   onDuplicate,
@@ -230,11 +241,20 @@ export const VariableEditForm = ({
       CodeRepresentation: variable.codeRepresentation,
       CodeList: variable.codeList,
       Category: variable.categories,
+      MissingValuesReference: variable.missingValuesReference,
+      SentinelMmvr: variable.sentinelMmvr,
+      SentinelCodeList: variable.sentinelCodeList,
+      SentinelCategories: variable.sentinelCategories,
     },
   });
 
-  // Validation des champs obligatoires
-  const hasValidationErrors = !state.name.trim() || !state.label.trim();
+  // Validation des champs obligatoires. Valeurs sentinelles (#1566) : le libellé de la MMVR en
+  // cours de création/modification est obligatoire (le back rejette sinon le save en 400).
+  const sentinelLabelMissing = Boolean(
+    state.representation.SentinelMmvr &&
+    !state.representation.SentinelMmvr.Label?.some((entry) => entry["@value"]?.trim()),
+  );
+  const hasValidationErrors = !state.name.trim() || !state.label.trim() || sentinelLabelMissing;
 
   useEffect(() => {
     // Réinitialiser l'onglet actif au premier onglet uniquement pour une nouvelle variable
@@ -258,6 +278,10 @@ export const VariableEditForm = ({
           CodeRepresentation: variable.codeRepresentation,
           CodeList: variable.codeList,
           Category: variable.categories,
+          MissingValuesReference: variable.missingValuesReference,
+          SentinelMmvr: variable.sentinelMmvr,
+          SentinelCodeList: variable.sentinelCodeList,
+          SentinelCategories: variable.sentinelCategories,
         },
       },
     });
@@ -303,7 +327,23 @@ export const VariableEditForm = ({
     [],
   );
 
+  const updateSentinelValues = useCallback(
+    (
+      missingValuesReference: Reference | undefined,
+      mmvr?: ManagedMissingValuesRepresentation,
+      sentinelCodeList?: CodeList,
+      sentinelCategories?: Category[],
+    ) => {
+      dispatch({
+        type: "SET_SENTINEL_VALUES",
+        payload: { missingValuesReference, mmvr, sentinelCodeList, sentinelCategories },
+      });
+    },
+    [],
+  );
+
   const buildSavePayload = useCallback(() => {
+    // Valeurs sentinelles (#1566) : communes aux quatre types de représentation.
     const basePayload = {
       id: variable.id,
       label: state.label,
@@ -311,6 +351,10 @@ export const VariableEditForm = ({
       description: state.description,
       type: state.selectedType,
       isGeographic: state.isGeographic,
+      missingValuesReference: state.representation.MissingValuesReference,
+      sentinelMmvr: state.representation.SentinelMmvr,
+      sentinelCodeList: state.representation.SentinelCodeList,
+      sentinelCategories: state.representation.SentinelCategories,
     };
 
     switch (state.selectedType as VariableType) {
@@ -498,11 +542,17 @@ export const VariableEditForm = ({
               codeRepresentation={state.representation.CodeRepresentation}
               codeList={state.representation.CodeList}
               categories={state.representation.Category}
+              missingValuesReference={state.representation.MissingValuesReference}
+              sentinelMmvr={state.representation.SentinelMmvr}
+              sentinelCodeList={state.representation.SentinelCodeList}
+              sentinelCategories={state.representation.SentinelCategories}
+              locallyUsedMmvrIds={locallyUsedMmvrIds}
               onTypeChange={(value) => dispatch({ type: "SET_TYPE", payload: value })}
               onNumericRepresentationChange={updateNumericRepresentation}
               onDateRepresentationChange={updateDateRepresentation}
               onTextRepresentationChange={updateTextRepresentation}
               onCodeRepresentationChange={updateCodeRepresentation}
+              onSentinelValuesChange={updateSentinelValues}
             />
           </TabPanel>
 
@@ -537,6 +587,10 @@ export const VariableEditForm = ({
                 codeRepresentation={state.representation.CodeRepresentation}
                 codeList={state.representation.CodeList}
                 categories={state.representation.Category}
+                missingValuesReference={state.representation.MissingValuesReference}
+                sentinelMmvr={state.representation.SentinelMmvr}
+                sentinelCodeList={state.representation.SentinelCodeList}
+                sentinelCategories={state.representation.SentinelCategories}
               />
             )}
           </TabPanel>

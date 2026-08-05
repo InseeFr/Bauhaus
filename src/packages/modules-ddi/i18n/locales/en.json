@@ -73,6 +73,31 @@
           "cancel": "Cancel"
         }
       },
+      "sentinel": {
+        "title": "Sentinel values",
+        "createNewList": "Create a new sentinel list",
+        "remove": "Remove sentinel values",
+        "select": "Select sentinel values",
+        "loading": "Loading sentinel values...",
+        "errorLoading": "Error while loading sentinel values",
+        "deleteFromGroup": "Delete from group",
+        "deleteConfirm": {
+          "title": "Delete sentinel values",
+          "message": "This sentinel values list (and its code list) will be deleted from the group. This cannot be undone. Continue?",
+          "confirm": "Delete",
+          "cancel": "Cancel"
+        },
+        "usersPanel": {
+          "title": "Usages of these sentinel values",
+          "help": "Variables and data files reusing these sentinel values, grouped by study unit then data file."
+        },
+        "discardEdits": {
+          "title": "Unsaved changes",
+          "message": "The pending changes of the sentinel list will be lost. Continue?",
+          "confirm": "Continue",
+          "cancel": "Cancel"
+        }
+      },
       "columns": {
         "description": "Description",
         "label": "Label",

@@ -38,7 +38,7 @@ import { viewReducer, initialState, actions, type VariableData } from "./viewRed
 import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
 import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
-import { Loading } from "../../../../components/loading";
+import { LoadingOverlay } from "../../../../components/loading-overlay";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
 import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
@@ -155,6 +155,21 @@ export const Component = () => {
   const unsavedVariableIds = useMemo(() => {
     return state.localVariables.map((v) => v.id);
   }, [state.localVariables]);
+
+  // Valeurs sentinelles (#1566) : MMVR référencées par les AUTRES variables locales non
+  // sauvegardées — le back ne les connaît pas encore, ce décompte complète le sien pour la règle
+  // lecture seule/écriture de la section sentinelles.
+  const locallyUsedMmvrIds = useMemo(() => {
+    const currentId = state.selectedVariable?.id;
+    return Array.from(
+      new Set(
+        state.localVariables
+          .filter((localVar) => localVar.id !== currentId)
+          .map((localVar) => localVar.missingValuesReference?.ID)
+          .filter((mmvrId): mmvrId is string => Boolean(mmvrId)),
+      ),
+    );
+  }, [state.localVariables, state.selectedVariable?.id]);
 
   // Check if there are unsaved changes
   const hasUnsavedChanges = useMemo(() => {
@@ -314,6 +329,9 @@ export const Component = () => {
       const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
       const dateRepresentation = fullVariable?.VariableRepresentation?.DateTimeRepresentation;
       const codeRepresentation = fullVariable?.VariableRepresentation?.CodeRepresentation;
+      // Valeurs sentinelles (#1566) : une variable relue porte au plus la référence — la MMVR
+      // elle-même vit dans le groupe (réutilisation, lecture seule côté formulaire).
+      const missingValuesReference = fullVariable?.VariableRepresentation?.MissingValuesReference;
 
       // Les CodeList et Category ne sont plus dans la GET PI : on les charge à la
       // demande quand l'utilisateur ouvre une variable Code (cache via react-query).
@@ -341,6 +359,7 @@ export const Component = () => {
               codeRepresentation,
               codeList: localOverride.codeList,
               categories: localOverride.categories,
+              missingValuesReference,
             }),
           );
           return;
@@ -383,6 +402,7 @@ export const Component = () => {
           codeRepresentation,
           codeList,
           categories,
+          missingValuesReference,
         }),
       );
     },
@@ -533,6 +553,7 @@ export const Component = () => {
         ...data,
         CodeList: data?.CodeList || [],
         Category: data?.Category || [],
+        ManagedMissingValuesRepresentation: data?.ManagedMissingValuesRepresentation || [],
       };
 
       // Si on a des variables locales ou des suppressions, mettre à jour les variables
@@ -540,9 +561,12 @@ export const Component = () => {
         const existingVariables = data?.Variable || [];
         const variableMap = new Map(existingVariables.map((v: Variable) => [v.ID, v]));
 
-        // Maps pour gérer les CodeLists et Categories
+        // Maps pour gérer les CodeLists, Categories et MMVR (valeurs sentinelles, #1566)
         const codeListMap = new Map((data?.CodeList || []).map((cl: any) => [cl.ID, cl]));
         const categoryMap = new Map((data?.Category || []).map((cat: any) => [cat.ID, cat]));
+        const mmvrMap = new Map(
+          (data?.ManagedMissingValuesRepresentation || []).map((mmvr: any) => [mmvr.ID, mmvr]),
+        );
 
         // Supprimer les variables marquées comme supprimées
         state.deletedVariableIds.forEach((deletedId) => {
@@ -622,6 +646,26 @@ export const Component = () => {
             };
           }
 
+          // Valeurs sentinelles (#1566) : la référence vers la MMVR du groupe est portée par le
+          // wrapper VariableRepresentation, quel que soit le type ; une MMVR modifiée localement
+          // (variable seule utilisatrice) embarque aussi l'item, sa CodeList et ses catégories —
+          // mêmes IDs, modification en place.
+          if (localVar.missingValuesReference) {
+            variableRepresentation = {
+              ...(variableRepresentation ?? {}),
+              MissingValuesReference: localVar.missingValuesReference,
+            };
+            if (localVar.sentinelMmvr) {
+              mmvrMap.set(localVar.sentinelMmvr.ID, localVar.sentinelMmvr);
+            }
+            if (localVar.sentinelCodeList) {
+              codeListMap.set(localVar.sentinelCodeList.ID, localVar.sentinelCodeList);
+            }
+            localVar.sentinelCategories?.forEach((cat) => {
+              categoryMap.set(cat.ID, cat);
+            });
+          }
+
           const ddiVariable: Variable = {
             $type: "Variable",
             VersionDate: { DateTime: new Date().toISOString() },
@@ -647,9 +691,10 @@ export const Component = () => {
 
         mergedData.Variable = Array.from(variableMap.values());
 
-        // Mettre à jour CodeList et Category avec les valeurs fusionnées
+        // Mettre à jour CodeList, Category et MMVR avec les valeurs fusionnées
         mergedData.CodeList = Array.from(codeListMap.values());
         mergedData.Category = Array.from(categoryMap.values());
+        mergedData.ManagedMissingValuesRepresentation = Array.from(mmvrMap.values());
       }
 
       // Mettre à jour les références de variables dans LogicalRecord
@@ -677,6 +722,12 @@ export const Component = () => {
 
       // Nettoyer les variables locales après une sauvegarde réussie
       dispatch(actions.clearLocalVariables());
+
+      // Valeurs sentinelles (#1566) : la sauvegarde peut avoir modifié une MMVR / sa CodeList ou
+      // changé ses usages — invalider les caches correspondants pour relire l'état réel.
+      queryClient.invalidateQueries({ queryKey: ["mmvrUsers"] });
+      queryClient.invalidateQueries({ queryKey: ["groupMissingValuesRepresentations"] });
+      queryClient.invalidateQueries({ queryKey: ["mutualizedCodesList"] });
 
       toast.current?.show({
         severity: "success",
@@ -773,7 +824,7 @@ export const Component = () => {
   );
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingOverlay textType="loading" />;
   }
 
   if (isError) {
@@ -833,6 +884,7 @@ export const Component = () => {
               <VariableEditForm
                 variable={state.selectedVariable}
                 typeOptions={variableTypeOptions}
+                locallyUsedMmvrIds={locallyUsedMmvrIds}
                 isNew={state.selectedVariable.id === "new"}
                 onSave={handleVariableSave}
                 onDuplicate={handleVariableDuplicate}
@@ -858,6 +910,8 @@ export const Component = () => {
           />
         </Suspense>
       )}
+
+      {savePhysicalInstance.isPending && <LoadingOverlay textType="saving" />}
 
       {/* resizable={false} : PrimeReact rend les Dialog redimensionnables par défaut,
           ce qui n'a pas de sens pour une simple confirmation. */}

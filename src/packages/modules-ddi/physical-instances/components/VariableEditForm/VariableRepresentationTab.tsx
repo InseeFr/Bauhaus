@@ -7,11 +7,14 @@ import type {
   CodeRepresentation,
   CodeList,
   Category,
+  ManagedMissingValuesRepresentation,
+  Reference,
 } from "../../types/api";
 import { NumericRepresentation as NumericRepresentationComponent } from "../NumericRepresentation/NumericRepresentation";
 import { DateRepresentation } from "../DateRepresentation/DateRepresentation";
 import { TextRepresentation as TextRepresentationComponent } from "../TextRepresentation/TextRepresentation";
 import { CodeRepresentation as CodeRepresentationComponent } from "../CodeRepresentation/CodeRepresentation";
+import { SentinelValues } from "../SentinelValues/SentinelValues";
 
 interface VariableRepresentationTabProps {
   variableId: string;
@@ -23,6 +26,12 @@ interface VariableRepresentationTabProps {
   codeRepresentation?: CodeRepresentation;
   codeList?: CodeList;
   categories?: Category[];
+  missingValuesReference?: Reference;
+  sentinelMmvr?: ManagedMissingValuesRepresentation;
+  sentinelCodeList?: CodeList;
+  sentinelCategories?: Category[];
+  /** MMVR référencées par les autres variables locales non sauvegardées (règle RO/RW sentinelles). */
+  locallyUsedMmvrIds?: string[];
   onTypeChange: (value: string) => void;
   onNumericRepresentationChange: (value: NumericRepresentation | undefined) => void;
   onDateRepresentationChange: (value: DateTimeRepresentation | undefined) => void;
@@ -31,6 +40,12 @@ interface VariableRepresentationTabProps {
     codeRep: CodeRepresentation | undefined,
     codeList?: CodeList,
     categories?: Category[],
+  ) => void;
+  onSentinelValuesChange: (
+    missingValuesReference: Reference | undefined,
+    mmvr?: ManagedMissingValuesRepresentation,
+    sentinelCodeList?: CodeList,
+    sentinelCategories?: Category[],
   ) => void;
 }
 
@@ -44,11 +59,17 @@ export const VariableRepresentationTab = ({
   codeRepresentation,
   codeList,
   categories,
+  missingValuesReference,
+  sentinelMmvr,
+  sentinelCodeList,
+  sentinelCategories,
+  locallyUsedMmvrIds,
   onTypeChange,
   onNumericRepresentationChange,
   onDateRepresentationChange,
   onTextRepresentationChange,
   onCodeRepresentationChange,
+  onSentinelValuesChange,
 }: Readonly<VariableRepresentationTabProps>) => {
   const { t } = useTranslation();
 
@@ -96,6 +117,20 @@ export const VariableRepresentationTab = ({
           categories={categories}
           currentVariableId={variableId}
           onChange={onCodeRepresentationChange}
+        />
+      )}
+
+      {/* Valeurs sentinelles (#1566) : section repliable commune aux quatre types. */}
+      {selectedType && (
+        <SentinelValues
+          key={`${variableId}-sentinel`}
+          missingValuesReference={missingValuesReference}
+          mmvr={sentinelMmvr}
+          sentinelCodeList={sentinelCodeList}
+          sentinelCategories={sentinelCategories}
+          currentVariableId={variableId}
+          locallyUsedMmvrIds={locallyUsedMmvrIds}
+          onChange={onSentinelValuesChange}
         />
       )}
     </div>

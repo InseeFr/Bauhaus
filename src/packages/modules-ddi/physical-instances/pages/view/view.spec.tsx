@@ -89,6 +89,25 @@ vi.mock("../../../hooks/usePhysicalInstanceParents", () => ({
   }),
 }));
 
+// Hooks de la section « Valeurs sentinelles » (#1566) : pas de fetch réel dans ces tests.
+vi.mock("../../../hooks/useAllMissingValuesRepresentations", () => ({
+  useAllMissingValuesRepresentations: () => ({
+    data: [],
+    groupLabel: "Groupe",
+    isLoading: false,
+    error: undefined,
+  }),
+}));
+vi.mock("../../../hooks/useMmvrUsers", () => ({
+  useMmvrUsers: () => ({ data: [], isLoading: false }),
+}));
+vi.mock("../../../hooks/useDeleteMmvr", () => ({
+  useDeleteMmvr: () => ({ mutate: vi.fn(), isPending: false }),
+}));
+vi.mock("../../../hooks/useMutualizedCodesList", () => ({
+  useMutualizedCodesList: () => ({ data: undefined, isLoading: false }),
+}));
+
 vi.mock("../../../hooks/useGroupDetails", () => ({
   useGroupDetails: (agencyId: string | null, groupId: string | null) => {
     if (agencyId && groupId) {
@@ -352,7 +371,7 @@ describe("View Component", () => {
   });
 
   describe("Loading state", () => {
-    it("should render loading spinner when data is loading", () => {
+    it("should render a full-screen loading overlay when data is loading", () => {
       mockUsePhysicalInstancesData.mockReturnValue({
         variables: [],
         isLoading: true,
@@ -362,7 +381,9 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       expect(screen.getByTestId("progress-spinner")).toBeInTheDocument();
-      expect(screen.getByLabelText("Loading in progress...")).toBeInTheDocument();
+      const overlay = screen.getByLabelText("Loading in progress...");
+      expect(overlay).toHaveClass("loading-overlay");
+      expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
     });
 
     it("should have correct accessibility attributes for loading state", () => {
@@ -909,6 +930,81 @@ describe("View Component", () => {
   });
 
   describe("Save All functionality", () => {
+    it("should display a full-screen saving overlay while the save is pending", () => {
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: vi.fn().mockResolvedValue({}),
+        isPending: true,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      const overlay = screen.getByLabelText("Saving in progress...");
+      expect(overlay).toHaveClass("loading-overlay");
+      expect(screen.getByText("Saving in progress...")).toBeInTheDocument();
+    });
+
+    it("should not display the saving overlay when no save is pending", () => {
+      render(<Component />, { wrapper });
+
+      expect(screen.queryByText("Saving in progress...")).not.toBeInTheDocument();
+    });
+
+    it("should ship the created sentinel MMVR, its code list and the variable reference (#1566)", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      // Nouvelle variable numérique.
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.newVariable"));
+      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.name/), {
+        target: { value: "VarSentinelle" },
+      });
+      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
+        target: { value: "Variable à sentinelles" },
+      });
+
+      // Onglet Représentation (le TabView mocké ne rend que l'onglet actif).
+      fireEvent.click(screen.getByText("physicalInstance.view.tabs.representation"));
+      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.type/), {
+        target: { value: "numeric" },
+      });
+
+      // Création d'une valeur sentinelle à la volée : déplier la section, créer, nommer la liste.
+      fireEvent.click(screen.getByText("physicalInstance.view.sentinel.title"));
+      fireEvent.click(screen.getByText("physicalInstance.view.sentinel.createNewList"));
+      fireEvent.change(screen.getByLabelText("physicalInstance.view.code.codeListLabel"), {
+        target: { value: "Sentinelles âge" },
+      });
+
+      // « Ajouter » la variable puis « Sauvegarder » le fichier.
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.add"));
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+
+      await waitFor(() => {
+        expect(mutateAsyncMock).toHaveBeenCalled();
+      });
+      const payload = mutateAsyncMock.mock.calls[0][0].data;
+
+      // La MMVR créée est embarquée, avec son label...
+      expect(payload.ManagedMissingValuesRepresentation).toHaveLength(1);
+      const mmvr = payload.ManagedMissingValuesRepresentation[0];
+      expect(mmvr.Label).toEqual([{ "@language": "fr-FR", "@value": "Sentinelles âge" }]);
+      // ...la variable porte la référence vers cette MMVR...
+      const savedVariable = payload.Variable.find(
+        (variable: any) => variable.VariableRepresentation?.MissingValuesReference,
+      );
+      expect(savedVariable.VariableRepresentation.MissingValuesReference.ID).toBe(mmvr.ID);
+      // ...et la CodeList de sentinelles référencée par la MMVR est dans le payload.
+      const sentinelCodeListId = mmvr.MissingCodeRepresentation[0].CodeListReference.ID;
+      expect(payload.CodeList.map((cl: any) => cl.ID)).toContain(sentinelCodeListId);
+    });
+
     it("should call savePhysicalInstance mutation when Save All button is clicked", async () => {
       const mutateAsyncMock = vi.fn().mockResolvedValue({});
       mockPublishPhysicalInstance.mockReturnValue({

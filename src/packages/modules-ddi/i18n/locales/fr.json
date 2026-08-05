@@ -73,6 +73,31 @@
           "cancel": "Annuler"
         }
       },
+      "sentinel": {
+        "title": "Valeurs sentinelles",
+        "createNewList": "Créer une nouvelle liste de sentinelles",
+        "remove": "Retirer les valeurs sentinelles",
+        "select": "Sélectionnez des valeurs sentinelles",
+        "loading": "Chargement des valeurs sentinelles...",
+        "errorLoading": "Erreur lors du chargement des valeurs sentinelles",
+        "deleteFromGroup": "Supprimer du groupe",
+        "deleteConfirm": {
+          "title": "Supprimer les valeurs sentinelles",
+          "message": "Cette liste de valeurs sentinelles (et sa liste de codes) sera supprimée du groupe. Cette action est irréversible. Continuer ?",
+          "confirm": "Supprimer",
+          "cancel": "Annuler"
+        },
+        "usersPanel": {
+          "title": "Utilisations de ces valeurs sentinelles",
+          "help": "Variables et fichiers de données qui réutilisent ces valeurs sentinelles, regroupés par unité d'enquête puis par fichier."
+        },
+        "discardEdits": {
+          "title": "Modifications non sauvegardées",
+          "message": "Les modifications en cours de la liste de sentinelles seront perdues. Continuer ?",
+          "confirm": "Continuer",
+          "cancel": "Annuler"
+        }
+      },
       "columns": {
         "description": "Description",
         "label": "Label",
