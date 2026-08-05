@@ -13,6 +13,12 @@ runs:
     - name: 🏗️ Generate Astro Documentation
       shell: bash
       run: ./scripts/documentation-build.sh
+    - name: 🏗️ Installing Application Dependencies
+      shell: bash
+      run: pnpm install
+    - name: 🏗️ Build Storybook
+      shell: bash
+      run: pnpm build-storybook
     - name: 📁 Generate WebSite folder before deploying
       shell: bash
       run: ./scripts/documentation-deploy.sh

@@ -33,3 +33,6 @@ CLAUDE.md
 
 # generated DDI types (regenerated from src/schemas/ddi-schema.json by vite)
 src/packages/modules-ddi/physical-instances/types/generated/
+
+*storybook.log
+storybook-static
