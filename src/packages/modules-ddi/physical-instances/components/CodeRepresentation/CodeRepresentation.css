@@ -1,0 +1,7 @@
+/* Dialog de surcharge d'une liste partagée : le message de la ConfirmDialog PrimeReact est un
+   span dans un conteneur flex, qui ne s'étire pas par défaut — le panneau des utilisations ne
+   prenait donc que la largeur de son contenu. flex: 1 le fait occuper toute la largeur. */
+.override-shared-dialog .p-confirm-dialog-message {
+  flex: 1;
+  min-width: 0;
+}

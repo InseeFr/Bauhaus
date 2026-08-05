@@ -534,6 +534,7 @@ export const VariableEditForm = ({
           >
             <VariableRepresentationTab
               variableId={variable.id}
+              variableName={state.name}
               selectedType={state.selectedType}
               typeOptions={typeOptions}
               numericRepresentation={state.representation.NumericRepresentation}

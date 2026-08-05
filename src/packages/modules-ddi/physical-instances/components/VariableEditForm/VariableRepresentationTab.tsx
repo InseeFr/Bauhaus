@@ -18,6 +18,8 @@ import { SentinelValues } from "../SentinelValues/SentinelValues";
 
 interface VariableRepresentationTabProps {
   variableId: string;
+  /** Nom de la variable en cours d'édition, cité dans la popup de surcharge de liste partagée. */
+  variableName?: string;
   selectedType: string;
   typeOptions: { label: string; value: string }[];
   numericRepresentation?: NumericRepresentation;
@@ -51,6 +53,7 @@ interface VariableRepresentationTabProps {
 
 export const VariableRepresentationTab = ({
   variableId,
+  variableName,
   selectedType,
   typeOptions,
   numericRepresentation,
@@ -116,6 +119,7 @@ export const VariableRepresentationTab = ({
           codeList={codeList}
           categories={categories}
           currentVariableId={variableId}
+          currentVariableName={variableName}
           onChange={onCodeRepresentationChange}
         />
       )}

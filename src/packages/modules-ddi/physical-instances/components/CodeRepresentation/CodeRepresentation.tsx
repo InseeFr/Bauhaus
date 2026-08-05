@@ -12,6 +12,7 @@ import type {
 import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
 import { CodeListUsersPanel } from "./CodeListUsersPanel";
+import { UsersPanel } from "./UsersPanel";
 import { codeRepresentationReducer, initialState } from "./CodeRepresentation.reducer";
 import {
   createDefaultRepresentation,
@@ -22,19 +23,21 @@ import {
   parseSelectedCodeListId,
   getLocalizedText,
   isCodeListSharedWithOthers,
-  countOtherUsers,
 } from "./CodeRepresentation.utils";
 import { useAppContext } from "../../../../application/app-context";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
 import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
 import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
+import "./CodeRepresentation.css";
 
 interface CodeRepresentationProps {
   representation?: CodeRepresentationType;
   codeList?: CodeList;
   categories?: Category[];
   currentVariableId?: string;
+  /** Nom de la variable en cours d'édition, cité dans la popup de confirmation de surcharge. */
+  currentVariableName?: string;
   onChange: (
     representation: CodeRepresentationType | undefined,
     codeList?: CodeList,
@@ -47,6 +50,7 @@ export const CodeRepresentation = ({
   codeList,
   categories = [],
   currentVariableId,
+  currentVariableName,
   onChange,
 }: Readonly<CodeRepresentationProps>) => {
   const { t } = useTranslation();
@@ -229,12 +233,44 @@ export const CodeRepresentation = ({
       apply();
       return;
     }
+    const usersCount = codeListUsages.length;
     confirmDialog({
       header: t("physicalInstance.view.code.overrideShared.title"),
-      message: t("physicalInstance.view.code.overrideShared.message", {
-        count: countOtherUsers(codeListUsages, currentVariableId),
-      }),
-      icon: "pi pi-exclamation-triangle",
+      // Largeur figée : déplier le panneau des utilisations ne doit pas élargir la dialog.
+      style: { width: "60rem", maxWidth: "95vw" },
+      className: "override-shared-dialog",
+      // Même bloc « Utilisée par » que dans la page : l'utilisateur peut consulter les
+      // variables impactées avant de choisir entre écraser la liste et créer une variante.
+      message: (
+        <div className="flex flex-column gap-3">
+          <span>
+            {t("physicalInstance.view.code.overrideShared.message", {
+              label: codeListLabel,
+              count: usersCount,
+            })}
+          </span>
+          <span>{t("physicalInstance.view.code.overrideShared.consequencesIntro")}</span>
+          <ul className="m-0 pl-4 flex flex-column gap-2">
+            <li>
+              {t("physicalInstance.view.code.overrideShared.overwriteOption", {
+                count: usersCount,
+              })}
+            </li>
+            <li>
+              {t("physicalInstance.view.code.overrideShared.variantOption", {
+                variable: currentVariableName,
+              })}
+            </li>
+          </ul>
+          <UsersPanel
+            usages={codeListUsages}
+            currentVariableId={currentVariableId}
+            title={t("physicalInstance.view.code.usersPanel.title")}
+            help={t("physicalInstance.view.code.usersPanel.help")}
+            tooltipTargetId={`cl-users-help-override-${codeListUsersAgency}-${codeListUsersId}`}
+          />
+        </div>
+      ),
       acceptLabel: t("physicalInstance.view.code.overrideShared.confirm"),
       rejectLabel: t("physicalInstance.view.code.overrideShared.cancel"),
       acceptClassName: "p-button-warning",

@@ -68,8 +68,11 @@
         },
         "overrideShared": {
           "title": "Shared code list",
-          "message": "This code list is used by {{count}} other variable(s). Editing it will update the list for all of them.",
-          "confirm": "Override",
+          "message": "The code list \"{{label}}\" is used by {{count}} variable(s).",
+          "consequencesIntro": "The changes you are about to make can:",
+          "overwriteOption": "Overwrite the shared list and update the {{count}} variable(s) that use it.",
+          "variantOption": "Create a variant of this list that will only be used by the variable {{variable}}.",
+          "confirm": "Overwrite",
           "cancel": "Cancel"
         }
       },

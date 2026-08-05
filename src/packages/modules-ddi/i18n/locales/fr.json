@@ -68,8 +68,11 @@
         },
         "overrideShared": {
           "title": "Liste de codes partagée",
-          "message": "Cette liste de codes est utilisée par {{count}} autre(s) variable(s). La modifier mettra à jour la liste pour toutes ces variables.",
-          "confirm": "Surcharger",
+          "message": "La liste de codes \"{{label}}\" est utilisée par {{count}} variable(s).",
+          "consequencesIntro": "Les modifications que vous allez effectuer peuvent :",
+          "overwriteOption": "Écraser la liste partagée et mettre à jour les {{count}} variable(s) qui l'utilisent.",
+          "variantOption": "Créer une variante de cette liste qui sera utilisée uniquement par la variable {{variable}}.",
+          "confirm": "Écraser",
           "cancel": "Annuler"
         }
       },

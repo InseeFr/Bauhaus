@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act, within, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useState } from "react";
 import { CodeRepresentation } from "./CodeRepresentation";
@@ -11,7 +11,11 @@ import type {
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string) => {
+    // Les clés avec interpolation renvoient `clé|{options}` pour pouvoir vérifier les valeurs.
+    t: (key: string, options?: Record<string, unknown>) => {
+      if (options) {
+        return `${key}|${JSON.stringify(options)}`;
+      }
       const translations: Record<string, string> = {
         "physicalInstance.view.code.codeListLabel": "Libellé de la liste de codes",
         "physicalInstance.view.code.value": "Valeur",
@@ -51,6 +55,11 @@ vi.mock("react-router-dom", () => ({
     id: "test-physical-instance-id",
     agencyId: "fr.insee",
   }),
+  Link: ({ to, children, ...props }: any) => (
+    <a href={typeof to === "string" ? to : ""} {...props}>
+      {children}
+    </a>
+  ),
 }));
 
 const mockUseAllCodesLists = vi.fn(() => ({
@@ -1062,6 +1071,7 @@ describe("CodeRepresentation", () => {
           codeList={mockCodeList}
           categories={mockCategories}
           currentVariableId={currentVariableId}
+          currentVariableName="Client"
           onChange={mockOnChange}
         />,
       );
@@ -1099,6 +1109,52 @@ describe("CodeRepresentation", () => {
         }),
         expect.anything(),
       );
+    });
+
+    it("shows the code list users block, collapsed, inside the confirmation dialog", async () => {
+      markListAsShared();
+      renderShared();
+
+      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
+      fireEvent.change(valueInput, { target: { value: "10" } });
+
+      // Pas d'icône d'avertissement à gauche du message.
+      expect(confirmDialogMock.mock.calls[0][0].icon).toBeUndefined();
+
+      const { message } = confirmDialogMock.mock.calls[0][0];
+      render(<div data-testid="override-dialog-message">{message}</div>);
+      const dialogMessage = within(screen.getByTestId("override-dialog-message"));
+
+      // Le message cite le libellé de la liste et le nombre de variables qui l'utilisent…
+      expect(
+        dialogMessage.getByText(
+          'physicalInstance.view.code.overrideShared.message|{"label":"Liste de codes test","count":1}',
+        ),
+      ).toBeInTheDocument();
+      // …puis détaille les deux issues possibles : écraser la liste partagée, ou créer
+      // une variante propre à la variable en cours d'édition.
+      expect(
+        dialogMessage.getByText("physicalInstance.view.code.overrideShared.consequencesIntro"),
+      ).toBeInTheDocument();
+      expect(
+        dialogMessage.getByText(
+          'physicalInstance.view.code.overrideShared.overwriteOption|{"count":1}',
+        ),
+      ).toBeInTheDocument();
+      expect(
+        dialogMessage.getByText(
+          'physicalInstance.view.code.overrideShared.variantOption|{"variable":"Client"}',
+        ),
+      ).toBeInTheDocument();
+      // Le même bloc « Utilisée par » y figure toujours, replié par défaut : les autres
+      // utilisations ne sont visibles qu'après avoir déplié le panneau.
+      const panelHeader = dialogMessage.getByText("physicalInstance.view.code.usersPanel.title");
+      expect(dialogMessage.queryByRole("link", { name: "Autre variable" })).not.toBeInTheDocument();
+
+      fireEvent.click(panelHeader);
+      await waitFor(() => {
+        expect(dialogMessage.getByRole("link", { name: "Autre variable" })).toBeInTheDocument();
+      });
     });
 
     it("does not ask again after the first confirmation in the same editing session", () => {
