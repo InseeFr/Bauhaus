@@ -111,4 +111,35 @@ describe("usePublishPhysicalInstance", () => {
       queryKey: ["physicalCodesLists", "fr.insee", "pi-1"],
     });
   });
+
+  it("should invalidate the code list contents cache on success", async () => {
+    // Le contenu d'une liste attachee a une variable est charge par
+    // `loadCodeListForVariable` sous la cle ["codeListById", agency, id]. Sans eviction
+    // (staleTime: Infinity), rouvrir la variable apres la sauvegarde reservirait la version
+    // d'avant le PUT : la modification semblait perdue jusqu'au F5.
+    seedParents();
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
+    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+
+    // Prefixe entier : une sauvegarde peut toucher plusieurs listes (edition + variante creee).
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+      queryKey: ["codeListById"],
+    });
+  });
+
+  it("should invalidate the category users cache on success", async () => {
+    // Les usages d'une categorie decident de l'affichage de la popup « categorie partagee ».
+    // Apres la creation d'une variante, la categorie d'origine n'est plus referencee par cette
+    // variable : sans eviction, la garde continuerait de la croire partagee pendant tout le
+    // staleTime, et la popup reapparaitrait a tort.
+    seedParents();
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
+    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["categoryUsers"] });
+  });
 });

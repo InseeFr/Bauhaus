@@ -1,7 +1,6 @@
-import { useReducer, useEffect, useRef } from "react";
+import { useReducer, useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { confirmDialog } from "primereact/confirmdialog";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import type {
@@ -12,7 +11,10 @@ import type {
 import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
 import { CodeListUsersPanel } from "./CodeListUsersPanel";
-import { UsersPanel } from "./UsersPanel";
+import { CategoryUsageDialog } from "./CategoryUsageDialog";
+import { OverrideDialog } from "./OverrideDialog";
+import { SharedCodeListNotice } from "./SharedCodeListNotice";
+import { useSharedEditGuard, type ApplyEdit } from "./useSharedEditGuard";
 import { codeRepresentationReducer, initialState } from "./CodeRepresentation.reducer";
 import {
   createDefaultRepresentation,
@@ -22,7 +24,7 @@ import {
   createLabel,
   parseSelectedCodeListId,
   getLocalizedText,
-  isCodeListSharedWithOthers,
+  otherVariableNames,
 } from "./CodeRepresentation.utils";
 import { useAppContext } from "../../../../application/app-context";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
@@ -104,11 +106,24 @@ export const CodeRepresentation = ({
     codeListUsersId ?? "",
     showUsersPanel,
   );
-  const sharedWithOthers = isCodeListSharedWithOthers(codeListUsages, currentVariableId);
 
-  // Vrai une fois que l'utilisateur a confirmé « Surcharger » : la confirmation ne s'affiche
-  // qu'une seule fois par session d'édition d'une liste donnée (réinitialisée si l'ID change).
-  const overrideAcknowledgedRef = useRef(false);
+  // Décision et application des éditions portant sur des éléments partagés (liste et/ou
+  // catégorie) : voir useSharedEditGuard.
+  const { withOverrideGuard, withCategoryOverrideGuard, resetAcknowledgements, dialog } =
+    useSharedEditGuard({
+      readOnly,
+      codeListUsersAgency,
+      codeListUsersId,
+      referencedCodeListId,
+      currentVariableId,
+      categories,
+      defaultAgencyId,
+      renderedCodeListUsages: codeListUsages,
+      onChange,
+      onCategoryReplaced: (rowId, categoryId) =>
+        dispatch({ type: "REPLACE_CODE_CATEGORY", payload: { id: rowId, categoryId } }),
+    });
+
   // Contenu (codes + catégories) de la liste sélectionnée, récupéré par agency/id.
   // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back (il délègue à
   // getCodeList) : il sert donc aussi bien aux listes mutualisées qu'aux listes du groupe.
@@ -117,6 +132,14 @@ export const CodeRepresentation = ({
     selectedAgency,
     selectedListId,
   );
+
+  // Ligne dont le menu « Utilisation » est ouvert : la popup reste montée après fermeture pour
+  // laisser jouer l'animation, mais ne charge plus rien (le hook est désactivé avec `visible`).
+  const [categoryUsageRow, setCategoryUsageRow] = useState<CodeTableRow | null>(null);
+  const [categoryUsageVisible, setCategoryUsageVisible] = useState(false);
+  const categoryUsageAgency = categoryUsageRow
+    ? (categories.find((cat) => cat.ID === categoryUsageRow.categoryId)?.Agency ?? defaultAgencyId)
+    : "";
 
   // Track the codeList ID to avoid reinitializing on every codeList change
   const codeListIdRef = useRef<string | undefined>(codeList?.ID);
@@ -133,8 +156,7 @@ export const CodeRepresentation = ({
       // Reset initialization flag when ID changes
       hasInitializedRef.current = false;
       codeListIdRef.current = codeList?.ID;
-      // On change de liste/variable : la confirmation de surcharge pourra réapparaître.
-      overrideAcknowledgedRef.current = false;
+      resetAcknowledgements();
     }
 
     if (!hasCodeListIdChanged && !hasRepresentationChanged && hasInitializedRef.current) {
@@ -224,65 +246,13 @@ export const CodeRepresentation = ({
     }
   }, [selectedListCodes]);
 
-  // Garde toute mutation de la liste : si la liste est partagée par d'autres variables (et éditable),
-  // on demande confirmation avant d'appliquer le changement. « Surcharger » applique et mémorise
-  // l'accord pour le reste de la session ; « Annuler » n'applique rien.
-  const withOverrideGuard = (apply: () => void) => {
-    const needsConfirm = sharedWithOthers && !readOnly && !overrideAcknowledgedRef.current;
-    if (!needsConfirm) {
-      apply();
-      return;
-    }
-    const usersCount = codeListUsages.length;
-    confirmDialog({
-      header: t("physicalInstance.view.code.overrideShared.title"),
-      // Largeur figée : déplier le panneau des utilisations ne doit pas élargir la dialog.
-      style: { width: "60rem", maxWidth: "95vw" },
-      className: "override-shared-dialog",
-      // Même bloc « Utilisée par » que dans la page : l'utilisateur peut consulter les
-      // variables impactées avant de choisir entre écraser la liste et créer une variante.
-      message: (
-        <div className="flex flex-column gap-3">
-          <span>
-            {t("physicalInstance.view.code.overrideShared.message", {
-              label: codeListLabel,
-              count: usersCount,
-            })}
-          </span>
-          <span>{t("physicalInstance.view.code.overrideShared.consequencesIntro")}</span>
-          <ul className="m-0 pl-4 flex flex-column gap-2">
-            <li>
-              {t("physicalInstance.view.code.overrideShared.overwriteOption", {
-                count: usersCount,
-              })}
-            </li>
-            <li>
-              {t("physicalInstance.view.code.overrideShared.variantOption", {
-                variable: currentVariableName,
-              })}
-            </li>
-          </ul>
-          <UsersPanel
-            usages={codeListUsages}
-            currentVariableId={currentVariableId}
-            title={t("physicalInstance.view.code.usersPanel.title")}
-            help={t("physicalInstance.view.code.usersPanel.help")}
-            tooltipTargetId={`cl-users-help-override-${codeListUsersAgency}-${codeListUsersId}`}
-          />
-        </div>
-      ),
-      acceptLabel: t("physicalInstance.view.code.overrideShared.confirm"),
-      rejectLabel: t("physicalInstance.view.code.overrideShared.cancel"),
-      acceptClassName: "p-button-warning",
-      accept: () => {
-        overrideAcknowledgedRef.current = true;
-        apply();
-      },
-    });
-  };
-
-  const handleCodeListLabelChange = (newLabel: string) =>
-    withOverrideGuard(() => {
+  /**
+   * Frappe dans le libellé de la liste : appliquée telle quelle. La décision est demandée dans la
+   * foulée ({@link handleCodeListLabelCommit}), sur une modification DÉJÀ appliquée — d'où le
+   * caractère qui s'affiche normalement et le focus rendu au champ après le choix.
+   */
+  const applyCodeListLabel = (newLabel: string): ApplyEdit => {
+    return (commit) => {
       dispatch({ type: "SET_CODE_LIST_LABEL", payload: newLabel });
 
       const newCodeListId = codeList?.ID || crypto.randomUUID();
@@ -294,11 +264,25 @@ export const CodeRepresentation = ({
         Label: createLabel(newLabel, defaultLocale),
       };
 
-      onChange(currentRepresentation, updatedCodeList, categories);
+      commit(currentRepresentation, updatedCodeList, categories);
+    };
+  };
+
+  const handleCodeListLabelChange = (newLabel: string) => applyCodeListLabel(newLabel)(onChange);
+
+  const handleCodeListLabelCommit = ({
+    value,
+    previousValue,
+  }: {
+    value: string;
+    previousValue: string;
+  }) =>
+    withOverrideGuard(applyCodeListLabel(value), {
+      undo: () => applyCodeListLabel(previousValue)(onChange),
     });
 
   const handleDeleteCode = (codeId: string) =>
-    withOverrideGuard(() => {
+    withOverrideGuard((commit) => {
       const deletedCode = codes.find((c) => c.id === codeId);
       dispatch({ type: "DELETE_CODE", payload: codeId });
 
@@ -316,11 +300,15 @@ export const CodeRepresentation = ({
         ? categories.filter((cat) => cat.ID !== deletedCode.categoryId)
         : categories;
 
-      onChange(currentRepresentation, updatedCodeList, updatedCategories);
+      commit(currentRepresentation, updatedCodeList, updatedCategories);
     });
 
-  const handleCellEdit = (rowData: CodeTableRow, field: "value" | "label", newValue: string) =>
-    withOverrideGuard(() => {
+  const applyCellEdit = (
+    rowData: CodeTableRow,
+    field: "value" | "label",
+    newValue: string,
+  ): ApplyEdit => {
+    return (commit) => {
       dispatch({
         type: "UPDATE_CODE",
         payload: { id: rowData.id, field, value: newValue },
@@ -334,12 +322,13 @@ export const CodeRepresentation = ({
       const newCodeListId = codeList?.ID || crypto.randomUUID();
       const currentRepresentation =
         representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-      const newCategory = createCategory(
-        updatedCode.categoryId,
-        updatedCode.label,
-        defaultAgencyId,
-        defaultLocale,
-      );
+      // On repart de la catégorie existante quand il y en a une, pour ne pas perdre les champs
+      // qu'elle porte au-delà du libellé — notamment le BasedOnObject d'une variante fraîchement
+      // créée, qui serait effacé par une reconstruction de zéro.
+      const existingCategory = categories.find((cat) => cat.ID === updatedCode.categoryId);
+      const newCategory: Category = existingCategory
+        ? { ...existingCategory, Label: createLabel(updatedCode.label, defaultLocale) }
+        : createCategory(updatedCode.categoryId, updatedCode.label, defaultAgencyId, defaultLocale);
       const newCode = createCode(
         updatedCode.id,
         updatedCode.categoryId,
@@ -369,11 +358,34 @@ export const CodeRepresentation = ({
         Code: updatedCodeListCodes,
       };
 
-      onChange(currentRepresentation, updatedCodeList, updatedCategories);
-    });
+      commit(currentRepresentation, updatedCodeList, updatedCategories);
+    };
+  };
+
+  /** Frappe dans une cellule : appliquée immédiatement (cf. la garde, déclenchée dans la foulée). */
+  const handleCellEdit = (rowData: CodeTableRow, field: "value" | "label", newValue: string) =>
+    applyCellEdit(rowData, field, newValue)(onChange);
+
+  /**
+   * Garde d'une cellule éditée, sur une modification déjà appliquée. « Modifier » la confirme,
+   * « Créer » la reporte sur une variante, « Annuler » réapplique la valeur d'avant l'édition.
+   */
+  const handleCellCommit = (
+    rowData: CodeTableRow,
+    field: "value" | "label",
+    { value, previousValue }: { value: string; previousValue: string },
+  ) => {
+    const apply = applyCellEdit(rowData, field, value);
+    const undo = () => applyCellEdit(rowData, field, previousValue)(onChange);
+    return field === "label"
+      ? // Éditer le libellé d'un code, c'est éditer sa catégorie : garde spécifique (cas 2 et 3).
+        // La popup cite la catégorie sous son ancien nom, celui que les autres listes connaissent.
+        withCategoryOverrideGuard(rowData, apply, { undo, categoryLabel: previousValue })
+      : withOverrideGuard(apply, { undo });
+  };
 
   const handleAddCode = (value: string, label: string) =>
-    withOverrideGuard(() => {
+    withOverrideGuard((commit) => {
       const newRow: CodeTableRow = {
         id: crypto.randomUUID(),
         value,
@@ -402,7 +414,7 @@ export const CodeRepresentation = ({
         Code: [...(codeList?.Code || []), newCode],
       };
 
-      onChange(currentRepresentation, updatedCodeList, [...categories, newCategory]);
+      commit(currentRepresentation, updatedCodeList, [...categories, newCategory]);
     });
 
   const handleCreateNewList = () => {
@@ -437,7 +449,7 @@ export const CodeRepresentation = ({
   };
 
   const handleMoveCode = (codeId: string, direction: "up" | "down") =>
-    withOverrideGuard(() => {
+    withOverrideGuard((commit) => {
       const currentIndex = codes.findIndex((c) => c.id === codeId);
       if (currentIndex === -1) return;
 
@@ -462,7 +474,7 @@ export const CodeRepresentation = ({
         Code: currentCodes,
       };
 
-      onChange(currentRepresentation, updatedCodeList, categories);
+      commit(currentRepresentation, updatedCodeList, categories);
     });
 
   return (
@@ -510,18 +522,49 @@ export const CodeRepresentation = ({
           <span>{t("physicalInstance.view.code.loadingCodes")}</span>
         </div>
       )}
+      {showDataTable && !readOnly && (
+        <SharedCodeListNotice
+          otherVariableNames={otherVariableNames(codeListUsages, currentVariableId)}
+        />
+      )}
       {showDataTable && (
         <CodeListDataTable
           codeListLabel={codeListLabel}
           codes={codes}
           onCodeListLabelChange={handleCodeListLabelChange}
+          onCodeListLabelCommit={handleCodeListLabelCommit}
           onCellEdit={handleCellEdit}
+          onCellCommit={handleCellCommit}
           onDeleteCode={handleDeleteCode}
           onAddCode={handleAddCode}
           onMoveCode={handleMoveCode}
+          onShowCategoryUsage={(row) => {
+            setCategoryUsageRow(row);
+            setCategoryUsageVisible(true);
+          }}
           readOnly={readOnly}
         />
       )}
+      <OverrideDialog
+        dialogCase={dialog?.dialogCase ?? null}
+        listUsages={dialog?.listUsages ?? []}
+        categoryUsages={dialog?.categoryUsages ?? []}
+        codeListLabel={codeListLabel}
+        categoryLabel={dialog?.categoryLabel}
+        currentVariableId={currentVariableId}
+        currentVariableName={currentVariableName}
+        currentCodeListId={referencedCodeListId}
+        onCancel={() => dialog?.onCancel()}
+        onVariant={() => dialog?.onVariant()}
+        onConfirm={() => dialog?.onConfirm()}
+      />
+      <CategoryUsageDialog
+        visible={categoryUsageVisible}
+        onHide={() => setCategoryUsageVisible(false)}
+        agencyId={categoryUsageAgency}
+        categoryId={categoryUsageRow?.categoryId ?? ""}
+        categoryLabel={categoryUsageRow?.label ?? ""}
+      />
       {showUsersPanel && (
         <CodeListUsersPanel
           agencyId={codeListUsersAgency!}

@@ -47,6 +47,7 @@ import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceBy
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
 import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
+import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
 
 // Le SDK (build-api) rejette un objet nu { message, status }, jamais une Error.
 const getApiErrorMessage = (err: unknown, fallback: string) =>
@@ -367,7 +368,11 @@ export const Component = () => {
 
         const loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
         codeList = loaded.codeList;
-        categories = loaded.categories;
+        // Une catégorie peut être partagée par des listes DIFFÉRENTES : si une autre variable
+        // locale l'a déjà surchargée, on affiche sa version plutôt que celle (périmée) du back.
+        // Sans cela, valider cette variable réinjecterait l'ancienne valeur au moment de la
+        // sauvegarde et annulerait silencieusement la modification.
+        categories = findLocalCategoryOverrides(state.localVariables, loaded.categories);
 
         // La variable référence une liste de codes qui n'existe pas : on le signale
         // explicitement (agency + id de la variable ET de la liste) au lieu d'afficher

@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useCodeListUsers } from "./useCodeListUsers";
+import { useCodeListUsers, useFetchCodeListUsers } from "./useCodeListUsers";
 import { DDIApi } from "../../sdk";
 
 vi.mock("../../sdk", () => ({
@@ -73,5 +73,23 @@ describe("useCodeListUsers", () => {
 
     expect(result.current.fetchStatus).toBe("idle");
     expect(DDIApi.getCodeListUsers).not.toHaveBeenCalled();
+  });
+
+  describe("useFetchCodeListUsers", () => {
+    it("serves subsequent calls for the same code list from the query cache", async () => {
+      // La garde d'édition appelle ce fetcher à chaque modification : sans staleTime, chaque
+      // édition paierait la marche relationnelle Colectica alors que la réponse vient d'arriver.
+      vi.mocked(DDIApi.getCodeListUsers).mockResolvedValue(mockResponse);
+
+      const { result } = renderHook(() => useFetchCodeListUsers(), {
+        wrapper: createWrapper(),
+      });
+
+      await result.current("fr.insee", "cl-1");
+      const second = await result.current("fr.insee", "cl-1");
+
+      expect(second).toEqual(mockResponse);
+      expect(DDIApi.getCodeListUsers).toHaveBeenCalledTimes(1);
+    });
   });
 });

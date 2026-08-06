@@ -66,14 +66,58 @@
           "help": "Variables et instances physiques qui réutilisent cette même liste de codes, regroupées par unité d'enquête (Study Unit) puis par instance physique.",
           "unknownStudyUnit": "Unité d'enquête inconnue"
         },
+        "categoryUsage": {
+          "menuEntry": "Utilisation",
+          "title": "Utilisations de la catégorie « {{label}} »",
+          "loading": "Chargement des utilisations...",
+          "empty": "Cette catégorie n'est utilisée par aucune liste de codes enregistrée.",
+          "error": "Impossible de charger les utilisations de cette catégorie."
+        },
+        "categoryUsersPanel": {
+          "title": "Utilisations de cette catégorie",
+          "help": "Listes de codes qui réutilisent cette même catégorie, regroupées par groupe, unité d'enquête (Study Unit) puis variable.",
+          "unknownGroup": "Groupe inconnu"
+        },
         "overrideShared": {
-          "title": "Liste de codes partagée",
-          "message": "La liste de codes \"{{label}}\" est utilisée par {{count}} variable(s).",
-          "consequencesIntro": "Les modifications que vous allez effectuer peuvent :",
-          "overwriteOption": "Écraser la liste partagée et mettre à jour les {{count}} variable(s) qui l'utilisent.",
-          "variantOption": "Créer une variante de cette liste qui sera utilisée uniquement par la variable {{variable}}.",
-          "confirm": "Écraser",
-          "cancel": "Annuler"
+          "title": "Liste de codes partagée : que faire de votre modification ?",
+          "message_one": "La liste de codes « {{label}} » est aussi utilisée par la variable « {{firstOther}} ».",
+          "message_other": "La liste de codes « {{label}} » est aussi utilisée par {{count}} autres variables.",
+          "variantLabel": "Créer une variante de la liste",
+          "variantDescription": "Une copie de la liste, utilisée uniquement par « {{variable}} ». Les autres variables ne changent pas.",
+          "overwriteLabel": "Modifier la liste partagée",
+          "overwriteDescription_one": "La variable « {{firstOther}} » sera modifiée elle aussi.",
+          "overwriteDescription_other": "Les {{count}} autres variables qui utilisent cette liste seront modifiées elles aussi."
+        },
+        "overrideSharedCategory": {
+          "title": "Liste de codes et catégorie partagées : que faire de votre modification ?",
+          "categoryMessage_one": "La catégorie « {{label}} » est aussi utilisée par la liste de codes « {{firstOther}} ».",
+          "categoryMessage_other": "La catégorie « {{label}} » est aussi utilisée par {{count}} autres listes de codes.",
+          "variantLabel": "Créer une variante de la liste et de la catégorie",
+          "variantDescription": "Une copie de la liste et de la catégorie, utilisées uniquement par « {{variable}} ». Rien d'autre ne change.",
+          "overwriteLabel": "Modifier la liste et la catégorie partagées",
+          "overwriteDescription": "Toutes les autres variables et listes de codes qui les utilisent seront modifiées elles aussi."
+        },
+        "overrideCategory": {
+          "title": "Catégorie partagée : que faire de votre modification ?",
+          "ownListMessage": "Cette liste de codes n'est utilisée que par la variable « {{variable}} ».",
+          "categoryMessage_one": "En revanche, la catégorie « {{label}} » est aussi utilisée par la liste de codes « {{firstOther}} ».",
+          "categoryMessage_other": "En revanche, la catégorie « {{label}} » est aussi utilisée par {{count}} autres listes de codes.",
+          "variantLabel": "Créer une variante de la catégorie",
+          "variantDescription": "Une copie de la catégorie, utilisée uniquement par cette liste. Les autres listes ne changent pas.",
+          "overwriteLabel": "Modifier la catégorie partagée",
+          "overwriteDescription_one": "La liste de codes « {{firstOther}} » sera modifiée elle aussi.",
+          "overwriteDescription_other": "Les {{count}} autres listes de codes qui utilisent cette catégorie seront modifiées elles aussi."
+        },
+        "override": {
+          "question": "Souhaitez-vous :",
+          "cancel": "Annuler",
+          "editedVariable": "en cours d'édition",
+          "andMore_one": "{{names}} et 1 autre",
+          "andMore_other": "{{names}} et {{count}} autres"
+        },
+        "sharedNotice": {
+          "message_one": "Liste de codes partagée : vos modifications s'appliqueront aussi à la variable « {{firstOther}} ».",
+          "message_other": "Liste de codes partagée : vos modifications s'appliqueront aussi à {{count}} autres variables."
         }
       },
       "sentinel": {

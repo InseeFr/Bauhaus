@@ -17,6 +17,11 @@ export type CodeRepresentationAction =
       type: "UPDATE_CODE";
       payload: { id: string; field: "value" | "label"; value: string };
     }
+  | {
+      /** Rattache une ligne à une nouvelle catégorie (création d'une variante de catégorie). */
+      type: "REPLACE_CODE_CATEGORY";
+      payload: { id: string; categoryId: string };
+    }
   | { type: "DELETE_CODE"; payload: string }
   | { type: "MOVE_CODE"; payload: { id: string; direction: "up" | "down" } }
   | { type: "SHOW_DATA_TABLE" }
@@ -67,6 +72,14 @@ export const codeRepresentationReducer = (
           code.id === action.payload.id
             ? { ...code, [action.payload.field]: action.payload.value }
             : code,
+        ),
+      };
+
+    case "REPLACE_CODE_CATEGORY":
+      return {
+        ...state,
+        codes: state.codes.map((code) =>
+          code.id === action.payload.id ? { ...code, categoryId: action.payload.categoryId } : code,
         ),
       };
 

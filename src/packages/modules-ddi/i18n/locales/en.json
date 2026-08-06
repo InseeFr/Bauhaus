@@ -66,14 +66,58 @@
           "help": "Variables and physical instances that reuse this same code list, grouped by study unit then by physical instance.",
           "unknownStudyUnit": "Unknown study unit"
         },
+        "categoryUsage": {
+          "menuEntry": "Usage",
+          "title": "Usages of category \"{{label}}\"",
+          "loading": "Loading usages...",
+          "empty": "This category is not used by any saved code list.",
+          "error": "Could not load the usages of this category."
+        },
+        "categoryUsersPanel": {
+          "title": "Usages of this category",
+          "help": "Code lists that reuse this same category, grouped by group, study unit and variable.",
+          "unknownGroup": "Unknown group"
+        },
         "overrideShared": {
-          "title": "Shared code list",
-          "message": "The code list \"{{label}}\" is used by {{count}} variable(s).",
-          "consequencesIntro": "The changes you are about to make can:",
-          "overwriteOption": "Overwrite the shared list and update the {{count}} variable(s) that use it.",
-          "variantOption": "Create a variant of this list that will only be used by the variable {{variable}}.",
-          "confirm": "Overwrite",
-          "cancel": "Cancel"
+          "title": "Shared code list: what should happen to your change?",
+          "message_one": "The code list “{{label}}” is also used by the variable “{{firstOther}}”.",
+          "message_other": "The code list “{{label}}” is also used by {{count}} other variables.",
+          "variantLabel": "Create a variant of the list",
+          "variantDescription": "A copy of the list, used only by “{{variable}}”. The other variables stay unchanged.",
+          "overwriteLabel": "Change the shared list",
+          "overwriteDescription_one": "The variable “{{firstOther}}” will be changed too.",
+          "overwriteDescription_other": "The {{count}} other variables using this list will be changed too."
+        },
+        "overrideSharedCategory": {
+          "title": "Shared code list and category: what should happen to your change?",
+          "categoryMessage_one": "The category “{{label}}” is also used by the code list “{{firstOther}}”.",
+          "categoryMessage_other": "The category “{{label}}” is also used by {{count}} other code lists.",
+          "variantLabel": "Create a variant of the list and the category",
+          "variantDescription": "A copy of the list and the category, used only by “{{variable}}”. Nothing else changes.",
+          "overwriteLabel": "Change the shared list and category",
+          "overwriteDescription": "Every other variable and code list using them will be changed too."
+        },
+        "overrideCategory": {
+          "title": "Shared category: what should happen to your change?",
+          "ownListMessage": "This code list is only used by the variable “{{variable}}”.",
+          "categoryMessage_one": "However, the category “{{label}}” is also used by the code list “{{firstOther}}”.",
+          "categoryMessage_other": "However, the category “{{label}}” is also used by {{count}} other code lists.",
+          "variantLabel": "Create a variant of the category",
+          "variantDescription": "A copy of the category, used only by this list. The other lists stay unchanged.",
+          "overwriteLabel": "Change the shared category",
+          "overwriteDescription_one": "The code list “{{firstOther}}” will be changed too.",
+          "overwriteDescription_other": "The {{count}} other code lists using this category will be changed too."
+        },
+        "override": {
+          "question": "Would you like to:",
+          "cancel": "Cancel",
+          "editedVariable": "being edited",
+          "andMore_one": "{{names}} and 1 more",
+          "andMore_other": "{{names}} and {{count}} more"
+        },
+        "sharedNotice": {
+          "message_one": "Shared code list: your changes will also apply to the variable “{{firstOther}}”.",
+          "message_other": "Shared code list: your changes will also apply to {{count}} other variables."
         }
       },
       "sentinel": {

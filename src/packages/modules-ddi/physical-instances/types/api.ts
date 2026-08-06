@@ -107,6 +107,27 @@ export interface RangeValue {
 export type CodeList = components["schemas"]["CodeList"];
 export type Code = components["schemas"]["CodeType"];
 
+// Un item DDI cité dans une réponse d'usage : son identité et son libellé déjà résolu par le back.
+export interface UsageItem {
+  agencyId: string;
+  id: string;
+  label: string | null;
+}
+
+// Flat usage row returned by `GET /ddi/category/{agency}/{id}/users`: a CodeList whose codes
+// reference the category, joined to one Variable using this code list and to its
+// PhysicalInstance / StudyUnit / Group parents (one row per CodeList × Variable). The UI groups
+// these rows into a Group / StudyUnit / Variable / CodeList tree.
+export interface CategoryUsage {
+  // Les niveaux parents sont absents quand aucune variable n'utilise la liste, ou quand le back
+  // n'a pas su les résoudre. Seule `codeList` est toujours présente.
+  group: UsageItem | null;
+  studyUnit: UsageItem | null;
+  physicalInstance: UsageItem | null;
+  variable: UsageItem | null;
+  codeList: UsageItem;
+}
+
 // Flat usage row returned by `GET /ddi/codes-list/{agency}/{id}/users`: a Variable that
 // references the code list, the PhysicalInstance it belongs to, and the StudyUnit that owns the
 // PhysicalInstance. Each item carries its resolved label. StudyUnit fields may be null when no
