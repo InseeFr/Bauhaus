@@ -190,6 +190,7 @@
       "exportSuccess": "Export réussi",
       "exportSuccessDetail": "Le fichier au format {{format}} a été téléchargé",
       "validateDdi4": "Valider le DDI4",
+      "validateDdi4InProgress": "Validation DDI4 en cours...",
       "validateDdi4Success": "DDI4 valide",
       "validateDdi4SuccessDetail": "Le fichier de données est conforme au schéma DDI 4.0",
       "validateDdi4Error": "DDI4 non valide",

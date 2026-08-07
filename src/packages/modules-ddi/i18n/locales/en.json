@@ -190,6 +190,7 @@
       "exportSuccess": "Export successful",
       "exportSuccessDetail": "File in {{format}} format has been downloaded",
       "validateDdi4": "Validate DDI4",
+      "validateDdi4InProgress": "DDI4 validation in progress...",
       "validateDdi4Success": "Valid DDI4",
       "validateDdi4SuccessDetail": "The physical instance complies with the DDI 4.0 schema",
       "validateDdi4Error": "Invalid DDI4",

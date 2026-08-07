@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useValidateDdi4 } from "./useValidateDdi4";
@@ -35,8 +35,15 @@ describe("useValidateDdi4", () => {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 
-  const renderValidate = () =>
-    renderHook(() => useValidateDdi4(data, toast), { wrapper }).result.current;
+  const renderValidate = () => renderHook(() => useValidateDdi4(data, toast), { wrapper }).result;
+
+  const runValidate = async () => {
+    const result = renderValidate();
+    await act(async () => {
+      await result.current.validate();
+    });
+    return result;
+  };
 
   beforeEach(() => {
     queryClient = new QueryClient({
@@ -47,10 +54,42 @@ describe("useValidateDdi4", () => {
     toast = { current: { show } } as unknown as RefObject<Toast>;
   });
 
+  it("signale la validation en cours tant que le back n'a pas répondu", async () => {
+    let resolveValidation!: (value: unknown) => void;
+    (DDIApi.postValidateDdi4 as any).mockReturnValue(
+      new Promise((resolve) => {
+        resolveValidation = resolve;
+      }),
+    );
+
+    const result = renderValidate();
+    expect(result.current.isValidating).toBe(false);
+
+    let pending!: Promise<void>;
+    await act(async () => {
+      pending = result.current.validate();
+    });
+    expect(result.current.isValidating).toBe(true);
+
+    await act(async () => {
+      resolveValidation({ valid: true, errors: [] });
+      await pending;
+    });
+    expect(result.current.isValidating).toBe(false);
+  });
+
+  it("retombe sur un état stable même quand la validation échoue", async () => {
+    (DDIApi.postValidateDdi4 as any).mockRejectedValue({ message: "Boom", status: 500 });
+
+    const result = await runValidate();
+
+    expect(result.current.isValidating).toBe(false);
+  });
+
   it("envoie la PI au endpoint de validation du back", async () => {
     (DDIApi.postValidateDdi4 as any).mockResolvedValue({ valid: true, errors: [] });
 
-    await renderValidate()();
+    await runValidate();
 
     expect(DDIApi.postValidateDdi4).toHaveBeenCalledWith(data);
   });
@@ -58,7 +97,7 @@ describe("useValidateDdi4", () => {
   it("affiche un toast de succès quand le DDI4 est conforme au schéma", async () => {
     (DDIApi.postValidateDdi4 as any).mockResolvedValue({ valid: true, errors: [] });
 
-    await renderValidate()();
+    await runValidate();
 
     expect(show).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -75,7 +114,7 @@ describe("useValidateDdi4", () => {
       status: 400,
     });
 
-    await renderValidate()();
+    await runValidate();
 
     expect(show).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -92,7 +131,7 @@ describe("useValidateDdi4", () => {
     const errors = Array.from({ length: 13 }, (_, index) => `erreur-${index}`);
     (DDIApi.postValidateDdi4 as any).mockRejectedValue({ valid: false, errors, status: 400 });
 
-    await renderValidate()();
+    await runValidate();
 
     const { detail } = show.mock.calls[0][0];
     expect(detail).toContain("erreur-9");
@@ -105,7 +144,7 @@ describe("useValidateDdi4", () => {
   it("affiche un message générique quand l'appel échoue sans corps de validation", async () => {
     (DDIApi.postValidateDdi4 as any).mockRejectedValue({ message: "Boom", status: 500 });
 
-    await renderValidate()();
+    await runValidate();
 
     expect(show).toHaveBeenCalledWith(
       expect.objectContaining({

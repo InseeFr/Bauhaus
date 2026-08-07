@@ -9,6 +9,7 @@ import { envelope } from "../../types/ddi4Items.testing";
 const mockUsePhysicalInstancesData = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
 const mockPublishPhysicalInstance = vi.fn();
+const mockValidateDdi4 = vi.fn();
 const mockConvertToDDI3 = vi.fn().mockResolvedValue("<ddi3-xml-content></ddi3-xml-content>");
 const mockNavigate = vi.fn();
 const mockToastShow = vi.fn();
@@ -65,6 +66,10 @@ vi.mock("../../../hooks/useUpdatePhysicalInstance", () => ({
 
 vi.mock("../../../hooks/usePublishPhysicalInstance", () => ({
   usePublishPhysicalInstance: () => mockPublishPhysicalInstance(),
+}));
+
+vi.mock("../../../hooks/useValidateDdi4", () => ({
+  useValidateDdi4: () => mockValidateDdi4(),
 }));
 
 vi.mock("../../../hooks/useGroups", () => ({
@@ -370,6 +375,11 @@ describe("View Component", () => {
       mutateAsync: vi.fn().mockResolvedValue({}),
       isPending: false,
       isError: false,
+    });
+
+    mockValidateDdi4.mockReturnValue({
+      validate: vi.fn().mockResolvedValue(undefined),
+      isValidating: false,
     });
   });
 
@@ -951,6 +961,24 @@ describe("View Component", () => {
       render(<Component />, { wrapper });
 
       expect(screen.queryByText("Saving in progress...")).not.toBeInTheDocument();
+    });
+
+    it("should display a full-screen overlay while the DDI4 validation is running", () => {
+      mockValidateDdi4.mockReturnValue({ validate: vi.fn(), isValidating: true });
+
+      render(<Component />, { wrapper });
+
+      const overlay = screen.getByLabelText("physicalInstance.view.validateDdi4InProgress");
+      expect(overlay).toHaveClass("loading-overlay");
+      expect(screen.getByText("physicalInstance.view.validateDdi4InProgress")).toBeInTheDocument();
+    });
+
+    it("should not display the validation overlay when no validation is running", () => {
+      render(<Component />, { wrapper });
+
+      expect(
+        screen.queryByText("physicalInstance.view.validateDdi4InProgress"),
+      ).not.toBeInTheDocument();
     });
 
     it("should ship the created sentinel MMVR, its code list and the variable reference (#1566)", async () => {

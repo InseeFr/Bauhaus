@@ -257,7 +257,7 @@ export const Component = () => {
   }, [mergedVariables, state.searchValue, state.typeFilter]);
 
   const handleExport = useExport(data, title, toast);
-  const handleValidateDdi4 = useValidateDdi4(data, toast);
+  const { validate: handleValidateDdi4, isValidating } = useValidateDdi4(data, toast);
 
   const handleSearchChange = useCallback((value: string) => {
     dispatch(actions.setSearchValue(value));
@@ -926,6 +926,8 @@ export const Component = () => {
       )}
 
       {savePhysicalInstance.isPending && <LoadingOverlay textType="saving" />}
+
+      {isValidating && <LoadingOverlay text={t("physicalInstance.view.validateDdi4InProgress")} />}
 
       {/* resizable={false} : PrimeReact rend les Dialog redimensionnables par défaut,
           ce qui n'a pas de sens pour une simple confirmation. */}

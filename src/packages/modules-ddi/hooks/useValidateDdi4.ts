@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import type { RefObject } from "react";
@@ -30,8 +30,10 @@ const extractMessage = (err: unknown, fallback: string) => {
 export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject<Toast>) => {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const [isValidating, setIsValidating] = useState(false);
 
-  return useCallback(async () => {
+  const validate = useCallback(async () => {
+    setIsValidating(true);
     try {
       // Même charge utile que l'export DDI4 : les listes de codes ne sont plus
       // dans le GET, or le schéma les attend.
@@ -74,6 +76,10 @@ export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject
         detail,
         sticky: true,
       });
+    } finally {
+      setIsValidating(false);
     }
   }, [data, t, toast, queryClient]);
+
+  return { validate, isValidating };
 };
