@@ -8,6 +8,7 @@ import type {
   CodeList,
   Category,
 } from "../../types/api";
+import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
 import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
 import { CodeListUsersPanel } from "./CodeListUsersPanel";
@@ -214,10 +215,13 @@ export const CodeRepresentation = ({
   // puis ce chargement, sinon il écraserait les codes tout juste affichés.
   useEffect(() => {
     if (!selectedListCodes) return;
-    const fetchedCodeList = selectedListCodes.CodeList?.[0];
+    const fetchedCodeList = singleItemOfType(selectedListCodes, "CodeList");
     if (!fetchedCodeList) return;
     const categoryLabelById = new Map(
-      (selectedListCodes.Category ?? []).map((cat) => [cat.ID, getLocalizedText(cat.Label) ?? ""]),
+      itemsOfType(selectedListCodes, "Category").map((cat) => [
+        cat.ID,
+        getLocalizedText(cat.Label) ?? "",
+      ]),
     );
     const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
       id: code.ID,
@@ -242,7 +246,11 @@ export const CodeRepresentation = ({
       const materializedRepresentation =
         representation ??
         createDefaultRepresentation(fetchedCodeList.ID, fetchedCodeList.Agency ?? defaultAgencyId);
-      onChange(materializedRepresentation, fetchedCodeList, selectedListCodes.Category ?? []);
+      onChange(
+        materializedRepresentation,
+        fetchedCodeList,
+        itemsOfType(selectedListCodes, "Category"),
+      );
     }
   }, [selectedListCodes]);
 

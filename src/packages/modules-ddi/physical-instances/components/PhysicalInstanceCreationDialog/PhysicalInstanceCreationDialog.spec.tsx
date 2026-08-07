@@ -52,9 +52,10 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
     if (agencyId === "agency-1" && groupId === "group-1") {
       return {
         data: {
-          Group: [{ ID: "group-1", Agency: "agency-1", StudyUnitReference: [] }],
-          StudyUnit: [
+          items: [
+            { $type: "Group", ID: "group-1", Agency: "agency-1", StudyUnitReference: [] },
             {
+              $type: "StudyUnit",
               ID: "study-1",
               Agency: "agency-1",
               Version: "1.0",
@@ -63,6 +64,7 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
               },
             },
             {
+              $type: "StudyUnit",
               ID: "study-2",
               Agency: "agency-1",
               Version: "1.0",

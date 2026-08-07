@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { usePhysicalInstancesData } from "./usePhysicalInstance";
 import type { ReactNode } from "react";
+import { envelope } from "../physical-instances/types/ddi4Items.testing";
 
 // Mock fetch globally
 global.fetch = vi.fn();
@@ -15,7 +16,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-const mockApiResponse = {
+const mockApiResponse = envelope({
   Variable: [
     {
       ID: "1",
@@ -57,7 +58,7 @@ const mockApiResponse = {
       VariableRepresentation: {},
     },
   ],
-};
+});
 
 describe("usePhysicalInstancesData", () => {
   let queryClient: QueryClient;

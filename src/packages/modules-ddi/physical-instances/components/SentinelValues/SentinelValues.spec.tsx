@@ -2,6 +2,8 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { SentinelValues } from "./SentinelValues";
 import type { Reference } from "../../types/api";
+import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
+import { envelope } from "../../types/ddi4Items.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -98,7 +100,7 @@ const groupMmvrs = [
   },
 ];
 
-const sentinelCodeListContent = {
+const sentinelCodeListContent = envelope({
   CodeList: [
     {
       $type: "CodeList",
@@ -123,7 +125,7 @@ const sentinelCodeListContent = {
       Label: [{ "@language": "fr-FR", "@value": "Ne sait pas" }],
     },
   ],
-};
+});
 
 const usage = (variableId: string) => ({
   studyUnitAgencyId: "fr.insee",
@@ -279,8 +281,8 @@ describe("SentinelValues", () => {
             Label: [{ "@language": "fr-FR", "@value": "Sentinelles" }],
           } as any
         }
-        sentinelCodeList={sentinelCodeListContent.CodeList[0] as any}
-        sentinelCategories={sentinelCodeListContent.Category as any}
+        sentinelCodeList={singleItemOfType(sentinelCodeListContent, "CodeList") as any}
+        sentinelCategories={itemsOfType(sentinelCodeListContent, "Category") as any}
         onChange={vi.fn()}
       />,
     );
@@ -343,8 +345,8 @@ describe("SentinelValues", () => {
             Label: [{ "@language": "fr-FR", "@value": "Sentinelles" }],
           } as any
         }
-        sentinelCodeList={sentinelCodeListContent.CodeList[0] as any}
-        sentinelCategories={sentinelCodeListContent.Category as any}
+        sentinelCodeList={singleItemOfType(sentinelCodeListContent, "CodeList") as any}
+        sentinelCategories={itemsOfType(sentinelCodeListContent, "Category") as any}
         onChange={vi.fn()}
       />,
     );
@@ -444,8 +446,8 @@ describe("SentinelValues", () => {
             Label: [{ "@language": "fr-FR", "@value": "Sentinelles" }],
           } as any
         }
-        sentinelCodeList={sentinelCodeListContent.CodeList[0] as any}
-        sentinelCategories={sentinelCodeListContent.Category as any}
+        sentinelCodeList={singleItemOfType(sentinelCodeListContent, "CodeList") as any}
+        sentinelCategories={itemsOfType(sentinelCodeListContent, "Category") as any}
         onChange={onChange}
       />,
     );
@@ -492,8 +494,8 @@ describe("SentinelValues", () => {
             Label: [{ "@language": "fr-FR", "@value": "Sentinelles" }],
           } as any
         }
-        sentinelCodeList={sentinelCodeListContent.CodeList[0] as any}
-        sentinelCategories={sentinelCodeListContent.Category as any}
+        sentinelCodeList={singleItemOfType(sentinelCodeListContent, "CodeList") as any}
+        sentinelCategories={itemsOfType(sentinelCodeListContent, "Category") as any}
         onChange={onChange}
       />,
     );

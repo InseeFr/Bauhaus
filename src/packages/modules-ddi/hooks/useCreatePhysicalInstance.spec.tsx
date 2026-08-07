@@ -42,8 +42,7 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should resolve id and agency from the real backend response shape (TopLevelReference / $type)", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      $schema: "ddi:4.0",
-      TopLevelReference: [
+      topLevelReferences: [
         {
           $type: "PhysicalInstance",
           URN: "urn:ddi:fr.insee:236b9453:1",
@@ -52,7 +51,7 @@ describe("useCreatePhysicalInstance", () => {
           Version: "1",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -71,7 +70,7 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should call postPhysicalInstance API with correct parameters", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      TopLevelReference: [
+      topLevelReferences: [
         {
           Agency: "fr.insee",
           ID: "new-id",
@@ -79,7 +78,7 @@ describe("useCreatePhysicalInstance", () => {
           $type: "PhysicalInstance",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -104,7 +103,7 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should invalidate physicalInstances query cache on successful mutation", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      TopLevelReference: [
+      topLevelReferences: [
         {
           Agency: "fr.insee",
           ID: "new-id",
@@ -112,7 +111,7 @@ describe("useCreatePhysicalInstance", () => {
           $type: "PhysicalInstance",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -157,7 +156,7 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should return mutation status correctly", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      TopLevelReference: [
+      topLevelReferences: [
         {
           Agency: "fr.insee",
           ID: "new-id",
@@ -165,7 +164,7 @@ describe("useCreatePhysicalInstance", () => {
           $type: "PhysicalInstance",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -192,7 +191,7 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should handle empty label and name", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      TopLevelReference: [
+      topLevelReferences: [
         {
           Agency: "fr.insee",
           ID: "new-id",
@@ -200,7 +199,7 @@ describe("useCreatePhysicalInstance", () => {
           $type: "PhysicalInstance",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 

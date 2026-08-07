@@ -1,5 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 import type { Category, CodeList, PhysicalInstanceResponse, Variable } from "../../types/api";
+import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
 
 /**
@@ -12,7 +13,7 @@ export async function enrichDataWithCodeLists(
   queryClient: QueryClient,
   data: PhysicalInstanceResponse,
 ): Promise<PhysicalInstanceResponse> {
-  const variables: Variable[] = data?.Variable ?? [];
+  const variables: Variable[] = itemsOfType(data, "Variable");
   const codeRepresentations = variables
     .map((variable) => variable.VariableRepresentation?.CodeRepresentation)
     .filter((rep): rep is NonNullable<typeof rep> => Boolean(rep));
@@ -21,9 +22,11 @@ export async function enrichDataWithCodeLists(
     return data;
   }
 
-  const codeListMap = new Map<string, CodeList>((data?.CodeList ?? []).map((cl) => [cl.ID, cl]));
+  const codeListMap = new Map<string, CodeList>(
+    itemsOfType(data, "CodeList").map((cl) => [cl.ID, cl]),
+  );
   const categoryMap = new Map<string, Category>(
-    (data?.Category ?? []).map((cat) => [cat.ID!, cat]),
+    itemsOfType(data, "Category").map((cat) => [cat.ID!, cat]),
   );
 
   const loaded = await Promise.all(
@@ -37,9 +40,6 @@ export async function enrichDataWithCodeLists(
     categories?.forEach((category) => categoryMap.set(category.ID!, category));
   }
 
-  return {
-    ...data,
-    CodeList: Array.from(codeListMap.values()),
-    Category: Array.from(categoryMap.values()),
-  };
+  const withCodeLists = replaceItemsOfType(data, "CodeList", Array.from(codeListMap.values()));
+  return replaceItemsOfType(withCodeLists, "Category", Array.from(categoryMap.values()));
 }

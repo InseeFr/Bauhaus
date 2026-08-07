@@ -9,6 +9,7 @@ import type {
   CategoryUsage,
   CodeListUsage,
 } from "../../types/api";
+import { envelope } from "../../types/ddi4Items.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -712,7 +713,7 @@ describe("CodeRepresentation", () => {
         error: null,
       });
 
-      const mutualizedData = {
+      const mutualizedData = envelope({
         CodeList: [
           {
             Agency: "fr.insee",
@@ -733,7 +734,7 @@ describe("CodeRepresentation", () => {
             Label: [{ "@language": "fr-FR", "@value": "Agriculture" }],
           },
         ],
-      };
+      });
       const idleResult = {
         data: undefined,
         isLoading: false,
@@ -783,7 +784,7 @@ describe("CodeRepresentation", () => {
         error: null,
       });
 
-      const groupData = {
+      const groupData = envelope({
         CodeList: [
           {
             Agency: "fr.insee",
@@ -795,7 +796,7 @@ describe("CodeRepresentation", () => {
           },
         ],
         Category: [{ ID: "cat-1", Label: [{ "@language": "fr-FR", "@value": "Agriculture" }] }],
-      };
+      });
       const idleResult = { data: undefined, isLoading: false, isSuccess: false, error: null };
       const successResult = { data: groupData, isLoading: false, isSuccess: true, error: null };
       mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
@@ -895,7 +896,7 @@ describe("CodeRepresentation", () => {
       const buildSuccess = (id: string) => {
         if (!successCache[id]) {
           successCache[id] = {
-            data: {
+            data: envelope({
               CodeList: [
                 {
                   Agency: "fr.insee",
@@ -916,7 +917,7 @@ describe("CodeRepresentation", () => {
                   Label: [{ "@language": "fr-FR", "@value": codesByList[id].label }],
                 },
               ],
-            },
+            }),
             isLoading: false,
             isSuccess: true,
             error: null,
@@ -985,7 +986,7 @@ describe("CodeRepresentation", () => {
         error: null,
       });
 
-      const groupData = {
+      const groupData = envelope({
         CodeList: [
           {
             Agency: "fr.insee",
@@ -1006,7 +1007,7 @@ describe("CodeRepresentation", () => {
             Label: [{ "@language": "fr-FR", "@value": "Agriculture" }],
           },
         ],
-      };
+      });
       const idleResult = {
         data: undefined,
         isLoading: false,
@@ -1052,7 +1053,7 @@ describe("CodeRepresentation", () => {
         isLoading: false,
         error: null,
       });
-      const groupData = {
+      const groupData = envelope({
         CodeList: [
           {
             Agency: "fr.insee",
@@ -1068,7 +1069,7 @@ describe("CodeRepresentation", () => {
           { ID: "cat-1", Label: [{ "@language": "fr-FR", "@value": "Agriculture" }] },
           { ID: "cat-2", Label: [{ "@language": "fr-FR", "@value": "Industrie" }] },
         ],
-      };
+      });
       mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
         agency === "fr.insee" && id === "grp-1"
           ? { data: groupData, isLoading: false, isSuccess: true, error: null }

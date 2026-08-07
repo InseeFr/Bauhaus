@@ -3,10 +3,13 @@ import { SplitButton } from "primereact/splitbutton";
 import { useTranslation } from "react-i18next";
 import type { MenuItem } from "primereact/menuitem";
 import { HasAccess } from "../../../../auth/components/auth";
+import { isLocalhost } from "@utils/is-localhost";
 
 interface GlobalActionToolbarProps {
   onExport: (format: "DDI3" | "DDI4") => void;
   onDuplicate?: () => void;
+  /** Outil de mise au point : le bouton n'est rendu qu'en local. */
+  onValidateDdi4?: () => void;
   /** Stamps de l'instance source — gating STAMP du bouton de duplication. */
   stamps?: string[];
 }
@@ -14,6 +17,7 @@ interface GlobalActionToolbarProps {
 export const GlobalActionToolbar = ({
   onExport,
   onDuplicate,
+  onValidateDdi4,
   stamps,
 }: Readonly<GlobalActionToolbarProps>) => {
   const { t } = useTranslation();
@@ -57,6 +61,17 @@ export const GlobalActionToolbar = ({
           onClick={onDuplicate}
         />
       </HasAccess>
+      {onValidateDdi4 && isLocalhost() && (
+        <Button
+          icon="pi pi-check-circle"
+          label={t("physicalInstance.view.validateDdi4")}
+          severity="secondary"
+          outlined
+          style={{ background: "transparent" }}
+          aria-label={t("physicalInstance.view.validateDdi4")}
+          onClick={onValidateDdi4}
+        />
+      )}
     </div>
   );
 };

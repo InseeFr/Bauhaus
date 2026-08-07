@@ -8,6 +8,7 @@ import { useGroups } from "../../../hooks/useGroups";
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
 import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 import { pickLang } from "../../../utils/multilingual";
+import { itemsOfType } from "../../types/ddi4Items";
 import "./PhysicalInstanceCreationDialog.css";
 
 export interface SelectedGroup {
@@ -90,16 +91,15 @@ export const PhysicalInstanceDialog = ({
   }, [groups]);
 
   const studyUnitOptions = useMemo(() => {
-    if (!groupDetails?.StudyUnit) return [];
-    return groupDetails.StudyUnit.map((su) => ({
+    return itemsOfType(groupDetails, "StudyUnit").map((su) => ({
       label: pickLang(su.Citation.Title, "fr-FR") ?? "",
       value: su.ID,
     }));
   }, [groupDetails]);
 
   const selectedStudyUnit = useMemo(() => {
-    if (!selectedStudyUnitId || !groupDetails?.StudyUnit) return null;
-    const su = groupDetails.StudyUnit.find((s) => s.ID === selectedStudyUnitId);
+    if (!selectedStudyUnitId) return null;
+    const su = itemsOfType(groupDetails, "StudyUnit").find((s) => s.ID === selectedStudyUnitId);
     return su ? { id: su.ID, agency: su.Agency } : null;
   }, [selectedStudyUnitId, groupDetails]);
 

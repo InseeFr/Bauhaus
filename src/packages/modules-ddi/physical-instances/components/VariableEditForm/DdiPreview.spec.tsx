@@ -1,6 +1,7 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { DdiPreview } from "./DdiPreview";
+import { envelope } from "../../types/ddi4Items.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -133,7 +134,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               ID: "var-1",
               VariableName: [{ "@language": "fr-FR", "@value": "testVar" }],
@@ -205,7 +206,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               Description: [{ "@language": "fr-FR", "@value": "Test description" }],
             }),
@@ -224,7 +225,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               IsGeographic: true,
             }),
@@ -247,7 +248,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               VariableRepresentation: expect.objectContaining({
                 VariableRole: "Mesure",
@@ -277,7 +278,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               VariableRepresentation: expect.objectContaining({
                 MissingValuesReference: missingValuesReference,
@@ -326,8 +327,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          ManagedMissingValuesRepresentation: [sentinelMmvr],
-          CodeList: expect.arrayContaining([sentinelCodeList]),
+          items: expect.arrayContaining([sentinelMmvr, sentinelCodeList]),
         }),
       );
     });

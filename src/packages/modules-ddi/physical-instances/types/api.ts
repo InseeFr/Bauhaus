@@ -9,17 +9,24 @@ import type { LangString } from "../../utils/multilingual";
 
 export type { LangString } from "../../utils/multilingual";
 
-// Wire envelope; not a DDI 4 type.
+// Enveloppe de fil, telle que la définit le `ddi-schema.json` : exactement
+// `topLevelReferences` et `items`, ce dernier étant le tableau à plat de tous les objets,
+// discriminés par leur `$type`. Le schéma déclare ces deux seules propriétés à la racine avec
+// `additionalProperties: false` — d'où l'absence de `$schema` et des clés groupées par type.
+// Utiliser les accesseurs de `./ddi4Items` plutôt que de filtrer `items` à la main.
 export interface PhysicalInstanceResponse {
-  $schema?: string;
-  TopLevelReference?: Reference[];
-  PhysicalInstance?: PhysicalInstance[];
-  DataRelationship?: DataRelationship[];
-  Variable?: Variable[];
-  CodeList?: CodeList[];
-  Category?: Category[];
-  ManagedMissingValuesRepresentation?: ManagedMissingValuesRepresentation[];
+  topLevelReferences?: Reference[];
+  items?: Ddi4Item[];
 }
+
+// Union discriminée par `$type` de tout ce qui peut apparaître dans `items`.
+export type Ddi4Item =
+  | PhysicalInstance
+  | DataRelationship
+  | Variable
+  | CodeList
+  | Category
+  | ManagedMissingValuesRepresentation;
 
 export type Reference = components["schemas"]["reference"];
 
@@ -49,7 +56,8 @@ export interface VariableRepresentation {
 // l'identité (URN/Agency/ID/Version) est portée par l'item, contrairement au schéma où elle
 // vient du ManagedRepresentation de base. Périmètre V1 : Label + MissingCodeRepresentation.
 export interface ManagedMissingValuesRepresentation {
-  $type?: "ManagedMissingValuesRepresentation";
+  // Requis (et non optionnel comme les autres champs) : c'est le discriminant de `Ddi4Item`.
+  $type: "ManagedMissingValuesRepresentation";
   VersionDate?: { DateTime?: string };
   URN?: string;
   Agency?: string;

@@ -1,4 +1,5 @@
 import type { Variable, LogicalRecord, DataRelationship, Reference } from "../../types/api";
+import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
 import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 import { singletonEntries, makeEntry } from "../../../utils/multilingual";
 
@@ -113,7 +114,7 @@ export function buildDuplicatedDataRelationship({
     Agency: newAgencyId,
     VersionDate: nowVersionDate(),
     BasedOnObject: {
-      $type: "BasedOnObjectType",
+      $type: "BasedOnObjectType" as const,
       BasedOnReference: [
         refTo(
           originalDataRelationship.Agency,
@@ -159,62 +160,68 @@ export function buildDuplicatedPhysicalInstance({
   const newLogicalRecordId = crypto.randomUUID();
 
   const variableIdMap = new Map<string, string>();
-  if (data?.Variable) {
-    data.Variable.forEach((v: Variable) => {
-      variableIdMap.set(v.ID, crypto.randomUUID());
-    });
-  }
+  itemsOfType(data, "Variable").forEach((v: Variable) => {
+    variableIdMap.set(v.ID, crypto.randomUUID());
+  });
 
-  const duplicatedData = {
-    ...data,
-    CodeList: data?.CodeList || [],
-    Category: data?.Category || [],
-    Variable: data?.Variable?.map((variable: Variable) => {
-      const newVariableId = variableIdMap.get(variable.ID)!;
-      return {
-        ...variable,
-        ID: newVariableId,
-        URN: `urn:ddi:${newAgencyId}:${newVariableId}:1`,
-        Agency: newAgencyId,
-        VersionDate: nowVersionDate(),
-        BasedOnObject: {
-          $type: "BasedOnObjectType",
-          BasedOnReference: [
-            refTo(variable.Agency, variable.ID, variable.Version || "1", "Variable"),
-          ],
-        },
-      };
-    }),
-    DataRelationship: data?.DataRelationship?.map((dr: any) =>
-      buildDuplicatedDataRelationship({
-        originalDataRelationship: dr,
-        newDataRelationshipId,
-        newAgencyId,
-        label,
-        newLogicalRecordId,
-        variableIdMap,
-        defaultLocale,
-      }),
-    ),
-    PhysicalInstance: data?.PhysicalInstance?.map((pi: any) => ({
-      ...pi,
-      ID: newPhysicalInstanceId,
-      URN: `urn:ddi:${newAgencyId}:${newPhysicalInstanceId}:1`,
+  const duplicatedVariables = itemsOfType(data, "Variable").map((variable: Variable) => {
+    const newVariableId = variableIdMap.get(variable.ID)!;
+    return {
+      ...variable,
+      ID: newVariableId,
+      URN: `urn:ddi:${newAgencyId}:${newVariableId}:1`,
       Agency: newAgencyId,
       VersionDate: nowVersionDate(),
       BasedOnObject: {
-        $type: "BasedOnObjectType",
-        BasedOnReference: [refTo(pi.Agency, pi.ID, pi.Version || "1", "PhysicalInstance")],
+        $type: "BasedOnObjectType" as const,
+        BasedOnReference: [
+          refTo(variable.Agency, variable.ID, variable.Version || "1", "Variable"),
+        ],
       },
-      Citation: {
-        ...pi.Citation,
-        Title: [makeEntry(pi.Citation?.Title?.[0]?.["@language"] ?? defaultLocale, label)],
-      },
-      DataRelationshipReference: [
-        refTo(newAgencyId, newDataRelationshipId, "1", "DataRelationship"),
-      ],
-    })),
-  };
+    };
+  });
+
+  const duplicatedDataRelationships = itemsOfType(data, "DataRelationship").map((dr) =>
+    buildDuplicatedDataRelationship({
+      originalDataRelationship: dr,
+      newDataRelationshipId,
+      newAgencyId,
+      label,
+      newLogicalRecordId,
+      variableIdMap,
+      defaultLocale,
+    }),
+  );
+
+  const duplicatedPhysicalInstances = itemsOfType(data, "PhysicalInstance").map((pi) => ({
+    ...pi,
+    ID: newPhysicalInstanceId,
+    URN: `urn:ddi:${newAgencyId}:${newPhysicalInstanceId}:1`,
+    Agency: newAgencyId,
+    VersionDate: nowVersionDate(),
+    BasedOnObject: {
+      $type: "BasedOnObjectType" as const,
+      BasedOnReference: [refTo(pi.Agency, pi.ID, pi.Version || "1", "PhysicalInstance")],
+    },
+    Citation: {
+      ...pi.Citation,
+      Title: [makeEntry(pi.Citation?.Title?.[0]?.["@language"] ?? defaultLocale, label)],
+    },
+    DataRelationshipReference: [refTo(newAgencyId, newDataRelationshipId, "1", "DataRelationship")],
+  }));
+
+  // Réassemblage de l'enveloppe : les CodeList/Category d'origine sont conservées telles quelles.
+  let duplicatedData = replaceItemsOfType(data ?? {}, "Variable", duplicatedVariables);
+  duplicatedData = replaceItemsOfType(
+    duplicatedData,
+    "DataRelationship",
+    duplicatedDataRelationships,
+  );
+  duplicatedData = replaceItemsOfType(
+    duplicatedData,
+    "PhysicalInstance",
+    duplicatedPhysicalInstances,
+  );
 
   return {
     duplicatedData,

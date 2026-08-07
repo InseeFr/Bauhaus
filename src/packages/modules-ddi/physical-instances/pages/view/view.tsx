@@ -38,11 +38,13 @@ import { viewReducer, initialState, actions, type VariableData } from "./viewRed
 import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
 import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
+import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
 import { LoadingOverlay } from "../../../../components/loading-overlay";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
 import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useExport } from "../../../hooks/useExport";
+import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
@@ -255,6 +257,7 @@ export const Component = () => {
   }, [mergedVariables, state.searchValue, state.typeFilter]);
 
   const handleExport = useExport(data, title, toast);
+  const handleValidateDdi4 = useValidateDdi4(data, toast);
 
   const handleSearchChange = useCallback((value: string) => {
     dispatch(actions.setSearchValue(value));
@@ -321,7 +324,9 @@ export const Component = () => {
       }
 
       // Sinon, trouver la variable complète dans les données brutes
-      const fullVariable = data?.Variable?.find((v: Variable) => v.ID === variable.id);
+      const fullVariable = itemsOfType(data, "Variable").find(
+        (v: Variable) => v.ID === variable.id,
+      );
 
       // Charger les informations complètes de la variable si trouvée
       const description = pickLang(fullVariable?.Description, "fr-FR") || undefined;
@@ -552,26 +557,19 @@ export const Component = () => {
 
   const handleSaveAll = useCallback(async () => {
     try {
-      // Fusionner les données avec les variables locales
-      // S'assurer que CodeList et Category ne sont jamais null mais toujours des tableaux
-      const mergedData = {
-        ...data,
-        CodeList: data?.CodeList || [],
-        Category: data?.Category || [],
-        ManagedMissingValuesRepresentation: data?.ManagedMissingValuesRepresentation || [],
-      };
+      // L'enveloppe DDI 4 ne porte qu'un tableau `items` à plat : on travaille ici sur des
+      // listes par type, réassemblées en `items` juste avant l'envoi.
+      let variables = itemsOfType(data, "Variable");
+      const codeListMap = new Map(itemsOfType(data, "CodeList").map((cl) => [cl.ID, cl]));
+      const categoryMap = new Map(itemsOfType(data, "Category").map((cat) => [cat.ID, cat]));
+      // MMVR : valeurs sentinelles, #1566
+      const mmvrMap = new Map(
+        itemsOfType(data, "ManagedMissingValuesRepresentation").map((mmvr) => [mmvr.ID, mmvr]),
+      );
 
       // Si on a des variables locales ou des suppressions, mettre à jour les variables
       if (state.localVariables.length > 0 || state.deletedVariableIds.length > 0) {
-        const existingVariables = data?.Variable || [];
-        const variableMap = new Map(existingVariables.map((v: Variable) => [v.ID, v]));
-
-        // Maps pour gérer les CodeLists, Categories et MMVR (valeurs sentinelles, #1566)
-        const codeListMap = new Map((data?.CodeList || []).map((cl: any) => [cl.ID, cl]));
-        const categoryMap = new Map((data?.Category || []).map((cat: any) => [cat.ID, cat]));
-        const mmvrMap = new Map(
-          (data?.ManagedMissingValuesRepresentation || []).map((mmvr: any) => [mmvr.ID, mmvr]),
-        );
+        const variableMap = new Map(variables.map((v: Variable) => [v.ID, v]));
 
         // Supprimer les variables marquées comme supprimées
         state.deletedVariableIds.forEach((deletedId) => {
@@ -694,30 +692,40 @@ export const Component = () => {
           variableMap.set(localVar.id, ddiVariable);
         });
 
-        mergedData.Variable = Array.from(variableMap.values());
-
-        // Mettre à jour CodeList, Category et MMVR avec les valeurs fusionnées
-        mergedData.CodeList = Array.from(codeListMap.values());
-        mergedData.Category = Array.from(categoryMap.values());
-        mergedData.ManagedMissingValuesRepresentation = Array.from(mmvrMap.values());
+        variables = Array.from(variableMap.values());
       }
 
-      // Mettre à jour les références de variables dans LogicalRecord
-      if (mergedData.DataRelationship?.[0]?.LogicalRecord?.[0] && mergedData.Variable) {
-        const allVariableIds = mergedData.Variable.map((v: Variable) => v.ID);
+      // Mettre à jour les références de variables dans le premier LogicalRecord
+      const dataRelationships = itemsOfType(data, "DataRelationship").map((dr, index) => {
+        if (index !== 0 || !dr.LogicalRecord?.[0]) return dr;
 
-        const variableReferences = allVariableIds.map((varId: string) => ({
+        const variableReferences = variables.map((v: Variable) => ({
           $type: "Variable" as const,
-          URN: `urn:ddi:${agencyId}:${varId}:1`,
+          URN: `urn:ddi:${agencyId}:${v.ID}:1`,
           Agency: agencyId!,
-          ID: varId,
+          ID: v.ID,
           Version: "1",
         }));
 
-        mergedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord = {
-          VariableUsedReference: variableReferences,
+        return {
+          ...dr,
+          LogicalRecord: dr.LogicalRecord.map((lr, lrIndex) =>
+            lrIndex === 0
+              ? { ...lr, VariablesInRecord: { VariableUsedReference: variableReferences } }
+              : lr,
+          ),
         };
-      }
+      });
+
+      let mergedData = replaceItemsOfType(data ?? {}, "Variable", variables);
+      mergedData = replaceItemsOfType(mergedData, "CodeList", Array.from(codeListMap.values()));
+      mergedData = replaceItemsOfType(mergedData, "Category", Array.from(categoryMap.values()));
+      mergedData = replaceItemsOfType(
+        mergedData,
+        "ManagedMissingValuesRepresentation",
+        Array.from(mmvrMap.values()),
+      );
+      mergedData = replaceItemsOfType(mergedData, "DataRelationship", dataRelationships);
 
       await savePhysicalInstance.mutateAsync({
         id: id!,
@@ -876,6 +884,7 @@ export const Component = () => {
             variables={filteredVariables}
             onExport={handleExport}
             onDuplicate={handleDuplicatePhysicalInstance}
+            onValidateDdi4={handleValidateDdi4}
             onRowClick={handleVariableClick}
             onDeleteClick={handleDeleteVariable}
             unsavedVariableIds={unsavedVariableIds}

@@ -189,6 +189,12 @@
       "exportErrorDetail": "Impossible de télécharger le fichier",
       "exportSuccess": "Export réussi",
       "exportSuccessDetail": "Le fichier au format {{format}} a été téléchargé",
+      "validateDdi4": "Valider le DDI4",
+      "validateDdi4Success": "DDI4 valide",
+      "validateDdi4SuccessDetail": "Le fichier de données est conforme au schéma DDI 4.0",
+      "validateDdi4Error": "DDI4 non valide",
+      "validateDdi4ErrorDetail": "Impossible de valider le fichier de données",
+      "validateDdi4MoreErrors": "… et {{count}} autre(s) erreur(s) (détail dans la console)",
       "globalActions": "Actions Globales",
       "import": "Importer",
       "importModal": {

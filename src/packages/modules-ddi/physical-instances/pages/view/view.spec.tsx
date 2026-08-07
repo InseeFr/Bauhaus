@@ -3,6 +3,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Component } from "./view";
 import type { ReactNode } from "react";
+import { itemsOfType } from "../../types/ddi4Items";
+import { envelope } from "../../types/ddi4Items.testing";
 
 const mockUsePhysicalInstancesData = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
@@ -113,9 +115,10 @@ vi.mock("../../../hooks/useGroupDetails", () => ({
     if (agencyId && groupId) {
       return {
         data: {
-          Group: [{ ID: groupId, Agency: agencyId, StudyUnitReference: [] }],
-          StudyUnit: [
+          items: [
+            { $type: "Group", ID: groupId, Agency: agencyId, StudyUnitReference: [] },
             {
+              $type: "StudyUnit",
               ID: "study-1",
               Agency: agencyId,
               Version: "1.0",
@@ -312,7 +315,7 @@ describe("View Component", () => {
 
     // Default mock implementation
     mockUsePhysicalInstancesData.mockReturnValue({
-      data: {
+      data: envelope({
         PhysicalInstance: [
           {
             Citation: {
@@ -333,7 +336,7 @@ describe("View Component", () => {
           },
         ],
         Variable: [],
-      },
+      }),
       variables: [
         {
           id: "1",
@@ -682,7 +685,7 @@ describe("View Component", () => {
       }) as any;
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               Citation: {
@@ -703,7 +706,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [],
-        },
+        }),
         variables: [],
         title: "Test @ Physical # Instance!",
         dataRelationshipName: "Test Data Relationship",
@@ -728,7 +731,7 @@ describe("View Component", () => {
     });
 
     it("should call DDIApi.convertToDDI3 with correct data", async () => {
-      const mockData = {
+      const mockData = envelope({
         PhysicalInstance: [
           {
             Citation: {
@@ -749,7 +752,7 @@ describe("View Component", () => {
           },
         ],
         Variable: [],
-      };
+      });
 
       mockUsePhysicalInstancesData.mockReturnValue({
         data: mockData,
@@ -992,17 +995,19 @@ describe("View Component", () => {
       const payload = mutateAsyncMock.mock.calls[0][0].data;
 
       // La MMVR créée est embarquée, avec son label...
-      expect(payload.ManagedMissingValuesRepresentation).toHaveLength(1);
-      const mmvr = payload.ManagedMissingValuesRepresentation[0];
+      expect(itemsOfType(payload, "ManagedMissingValuesRepresentation")).toHaveLength(1);
+      const mmvr = itemsOfType(payload, "ManagedMissingValuesRepresentation")[0];
       expect(mmvr.Label).toEqual([{ "@language": "fr-FR", "@value": "Sentinelles âge" }]);
       // ...la variable porte la référence vers cette MMVR...
-      const savedVariable = payload.Variable.find(
+      const savedVariable = itemsOfType(payload, "Variable").find(
         (variable: any) => variable.VariableRepresentation?.MissingValuesReference,
       );
       expect(savedVariable.VariableRepresentation.MissingValuesReference.ID).toBe(mmvr.ID);
       // ...et la CodeList de sentinelles référencée par la MMVR est dans le payload.
       const sentinelCodeListId = mmvr.MissingCodeRepresentation[0].CodeListReference.ID;
-      expect(payload.CodeList.map((cl: any) => cl.ID)).toContain(sentinelCodeListId);
+      expect(itemsOfType(payload, "CodeList").map((cl: any) => cl.ID)).toContain(
+        sentinelCodeListId,
+      );
     });
 
     it("should call savePhysicalInstance mutation when Save All button is clicked", async () => {
@@ -1027,8 +1032,7 @@ describe("View Component", () => {
           id: "test-id-123",
           agencyId: "test-agency-123",
           data: expect.objectContaining({
-            PhysicalInstance: expect.any(Array),
-            DataRelationship: expect.any(Array),
+            items: expect.any(Array),
           }),
         });
       });
@@ -1043,7 +1047,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               Citation: {
@@ -1077,7 +1081,7 @@ describe("View Component", () => {
               Label: [{ "@language": "fr-FR", "@value": "Existing Variable" }],
             },
           ],
-        },
+        }),
         variables: [],
         title: "Test Physical Instance",
         dataRelationshipName: "Test Data Relationship",
@@ -1108,8 +1112,8 @@ describe("View Component", () => {
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
         const callArgs = mutateAsyncMock.mock.calls[0][0];
-        expect(callArgs.data.Variable).toHaveLength(2);
-        expect(callArgs.data.Variable).toEqual(
+        expect(itemsOfType(callArgs.data, "Variable")).toHaveLength(2);
+        expect(itemsOfType(callArgs.data, "Variable")).toEqual(
           expect.arrayContaining([
             expect.objectContaining({ ID: "existing-var-1" }),
             expect.objectContaining({
@@ -1206,7 +1210,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               Citation: {
@@ -1227,7 +1231,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [],
-        },
+        }),
         variables: [],
         title: "Test",
         dataRelationshipName: "Test",
@@ -1264,7 +1268,7 @@ describe("View Component", () => {
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
         const callArgs = mutateAsyncMock.mock.calls[0][0];
-        const dateVariable = callArgs.data.Variable.find(
+        const dateVariable = itemsOfType(callArgs.data, "Variable").find(
           (v: any) => v.VariableName?.[0]?.["@value"] === "DateVar",
         );
         expect(dateVariable).toBeDefined();
@@ -1304,7 +1308,7 @@ describe("View Component", () => {
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
         const callArgs = mutateAsyncMock.mock.calls[0][0];
-        const textVariable = callArgs.data.Variable.find(
+        const textVariable = itemsOfType(callArgs.data, "Variable").find(
           (v: any) => v.VariableName?.[0]?.["@value"] === "TextVar",
         );
         // Check that variable doesn't have Description if it wasn't set
@@ -1323,7 +1327,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               Citation: {
@@ -1346,7 +1350,7 @@ describe("View Component", () => {
           Variable: [],
           CodeList: [],
           Category: [],
-        },
+        }),
         variables: [],
         title: "Test",
         dataRelationshipName: "Test",
@@ -1386,11 +1390,11 @@ describe("View Component", () => {
 
       // Verify that CodeList and Category are included
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
-      expect(savedData.CodeList).toBeDefined();
-      expect(savedData.Category).toBeDefined();
+      expect(itemsOfType(savedData, "CodeList")).toBeDefined();
+      expect(itemsOfType(savedData, "Category")).toBeDefined();
       // CodeList and Category should be arrays (not null)
-      expect(Array.isArray(savedData.CodeList)).toBe(true);
-      expect(Array.isArray(savedData.Category)).toBe(true);
+      expect(Array.isArray(itemsOfType(savedData, "CodeList"))).toBe(true);
+      expect(Array.isArray(itemsOfType(savedData, "Category"))).toBe(true);
     });
 
     it("should ensure CodeListReference ID matches CodeList ID", async () => {
@@ -1402,7 +1406,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               Citation: {
@@ -1425,7 +1429,7 @@ describe("View Component", () => {
           Variable: [],
           CodeList: [],
           Category: [],
-        },
+        }),
         variables: [],
         title: "Test",
         dataRelationshipName: "Test",
@@ -1465,9 +1469,12 @@ describe("View Component", () => {
 
       // Verify that CodeListReference.ID matches the CodeList.ID
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
-      if (savedData.Variable.length > 0 && savedData.CodeList.length > 0) {
-        const variable = savedData.Variable[0];
-        const codeList = savedData.CodeList[0];
+      if (
+        itemsOfType(savedData, "Variable").length > 0 &&
+        itemsOfType(savedData, "CodeList").length > 0
+      ) {
+        const variable = itemsOfType(savedData, "Variable")[0];
+        const codeList = itemsOfType(savedData, "CodeList")[0];
         const codeListRefId =
           variable.VariableRepresentation?.CodeRepresentation?.CodeListReference?.ID;
 
@@ -1497,7 +1504,7 @@ describe("View Component", () => {
       };
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               Citation: {
@@ -1525,7 +1532,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [existingVariable],
-        },
+        }),
         variables: [
           {
             id: "var-1",
@@ -1566,12 +1573,16 @@ describe("View Component", () => {
 
       // Verify that VariablesInRecord includes references to both variables
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
-      expect(savedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord).toBeDefined();
       expect(
-        savedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord.VariableUsedReference,
+        itemsOfType(savedData, "DataRelationship")[0].LogicalRecord[0].VariablesInRecord,
+      ).toBeDefined();
+      expect(
+        itemsOfType(savedData, "DataRelationship")[0].LogicalRecord[0].VariablesInRecord
+          .VariableUsedReference,
       ).toHaveLength(2);
       expect(
-        savedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord.VariableUsedReference,
+        itemsOfType(savedData, "DataRelationship")[0].LogicalRecord[0].VariablesInRecord
+          .VariableUsedReference,
       ).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
@@ -1610,7 +1621,7 @@ describe("View Component", () => {
       };
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               Citation: {
@@ -1638,7 +1649,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [existingVariable],
-        },
+        }),
         variables: [
           {
             id: "var-1",
@@ -1683,7 +1694,7 @@ describe("View Component", () => {
 
       // Verify that the saved data does not include the deleted variable
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
-      expect(savedData.Variable).toEqual([]);
+      expect(itemsOfType(savedData, "Variable")).toEqual([]);
     });
   });
 
@@ -1697,7 +1708,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               ID: "pi-original-id",
@@ -1718,7 +1729,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [],
-        },
+        }),
         variables: [],
         title: "Original Title",
         dataRelationshipName: "DR Name",
@@ -1764,7 +1775,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               ID: "pi-original-id",
@@ -1785,7 +1796,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [],
-        },
+        }),
         variables: [],
         title: "Original Title",
         dataRelationshipName: "DR Name",
@@ -1824,7 +1835,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               ID: "pi-original-id",
@@ -1851,7 +1862,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [],
-        },
+        }),
         variables: [],
         title: "Original Title",
         dataRelationshipName: "Original DR Name",
@@ -1878,14 +1889,15 @@ describe("View Component", () => {
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
       // Verify Citation Title has (copy) suffix
-      expect(savedData.PhysicalInstance[0].Citation.Title[0]["@value"]).toBe(
+      expect(itemsOfType(savedData, "PhysicalInstance")[0].Citation.Title[0]["@value"]).toBe(
         "Original Title (copy)",
       );
 
       // PhysicalInstanceLabel is preserved as-is (not modified by the duplication)
-      expect(savedData.PhysicalInstance[0].PhysicalInstanceLabel[0]["@value"]).toBe(
-        "Original Label",
-      );
+      expect(
+        (itemsOfType(savedData, "PhysicalInstance")[0] as Record<string, any>)
+          .PhysicalInstanceLabel[0]["@value"],
+      ).toBe("Original Label");
     });
 
     it("should add (copy) suffix to DataRelationshipName when duplicating", async () => {
@@ -1897,7 +1909,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               ID: "pi-original-id",
@@ -1923,7 +1935,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [],
-        },
+        }),
         variables: [],
         title: "Test",
         dataRelationshipName: "Original DR Name",
@@ -1950,7 +1962,9 @@ describe("View Component", () => {
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
       // Verify DataRelationship Label has (copy) suffix with new pattern
-      expect(savedData.DataRelationship[0].Label[0]["@value"]).toBe("Structure : Test (copy)");
+      expect(itemsOfType(savedData, "DataRelationship")[0].Label[0]["@value"]).toBe(
+        "Structure : Test (copy)",
+      );
     });
 
     it("should add BasedOnObject to PhysicalInstance when duplicating", async () => {
@@ -1962,7 +1976,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               ID: "pi-original-id",
@@ -1988,7 +2002,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [],
-        },
+        }),
         variables: [],
         title: "Test",
         dataRelationshipName: "DR Name",
@@ -2015,7 +2029,7 @@ describe("View Component", () => {
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
       // Verify BasedOnObject is added to PhysicalInstance
-      expect(savedData.PhysicalInstance[0].BasedOnObject).toEqual({
+      expect(itemsOfType(savedData, "PhysicalInstance")[0].BasedOnObject).toEqual({
         $type: "BasedOnObjectType",
         BasedOnReference: [
           {
@@ -2038,7 +2052,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               ID: "pi-original-id",
@@ -2064,7 +2078,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [],
-        },
+        }),
         variables: [],
         title: "Test",
         dataRelationshipName: "DR Name",
@@ -2091,7 +2105,7 @@ describe("View Component", () => {
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
       // Verify BasedOnObject is added to DataRelationship
-      expect(savedData.DataRelationship[0].BasedOnObject).toEqual({
+      expect(itemsOfType(savedData, "DataRelationship")[0].BasedOnObject).toEqual({
         $type: "BasedOnObjectType",
         BasedOnReference: [
           {
@@ -2114,7 +2128,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               ID: "pi-original-id",
@@ -2155,7 +2169,7 @@ describe("View Component", () => {
               Label: [{ "@language": "fr-FR", "@value": "Variable 2" }],
             },
           ],
-        },
+        }),
         variables: [
           {
             id: "var-original-id-1",
@@ -2195,7 +2209,7 @@ describe("View Component", () => {
       const savedData = mutateAsyncMock.mock.calls[0][0].data;
 
       // Verify BasedOnObject is added to each Variable
-      expect(savedData.Variable[0].BasedOnObject).toEqual({
+      expect(itemsOfType(savedData, "Variable")[0].BasedOnObject).toEqual({
         $type: "BasedOnObjectType",
         BasedOnReference: [
           {
@@ -2208,7 +2222,7 @@ describe("View Component", () => {
         ],
       });
 
-      expect(savedData.Variable[1].BasedOnObject).toEqual({
+      expect(itemsOfType(savedData, "Variable")[1].BasedOnObject).toEqual({
         $type: "BasedOnObjectType",
         BasedOnReference: [
           {
@@ -2222,8 +2236,8 @@ describe("View Component", () => {
       });
 
       // Verify new IDs are different from original
-      expect(savedData.Variable[0].ID).not.toBe("var-original-id-1");
-      expect(savedData.Variable[1].ID).not.toBe("var-original-id-2");
+      expect(itemsOfType(savedData, "Variable")[0].ID).not.toBe("var-original-id-1");
+      expect(itemsOfType(savedData, "Variable")[1].ID).not.toBe("var-original-id-2");
     });
 
     it("should navigate to new Physical Instance after duplication", async () => {
@@ -2235,7 +2249,7 @@ describe("View Component", () => {
       });
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               ID: "pi-original-id",
@@ -2261,7 +2275,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [],
-        },
+        }),
         variables: [],
         title: "Test",
         dataRelationshipName: "DR Name",
@@ -2327,7 +2341,7 @@ describe("View Component", () => {
       };
 
       mockUsePhysicalInstancesData.mockReturnValue({
-        data: {
+        data: envelope({
           PhysicalInstance: [
             {
               Citation: {
@@ -2355,7 +2369,7 @@ describe("View Component", () => {
             },
           ],
           Variable: [existingVariable],
-        },
+        }),
         variables: [
           {
             id: "var-1",

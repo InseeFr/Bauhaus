@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { GlobalActionToolbar } from "./GlobalActionToolbar";
 
@@ -9,6 +9,7 @@ vi.mock("react-i18next", () => ({
       const translations: Record<string, string> = {
         "physicalInstance.view.export": "Exporter",
         "physicalInstance.view.duplicatePhysicalInstance": "Dupliquer",
+        "physicalInstance.view.validateDdi4": "Valider le DDI4",
       };
       return translations[key] || key;
     },
@@ -163,6 +164,47 @@ describe("GlobalActionToolbar", () => {
   it("should render without onDuplicate callback", () => {
     expect(() => render(<GlobalActionToolbar onExport={mockOnExport} />)).not.toThrow();
     expect(screen.getByText("Dupliquer")).toBeInTheDocument();
+  });
+
+  describe("bouton de validation DDI4 (localhost uniquement)", () => {
+    const mockOnValidateDdi4 = vi.fn();
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    it("affiche le bouton quand le front est servi depuis localhost", () => {
+      vi.stubGlobal("location", { hostname: "localhost" });
+
+      render(<GlobalActionToolbar onExport={mockOnExport} onValidateDdi4={mockOnValidateDdi4} />);
+
+      expect(screen.getByText("Valider le DDI4")).toBeInTheDocument();
+    });
+
+    it("masque le bouton quand le front est servi depuis un autre hôte", () => {
+      vi.stubGlobal("location", { hostname: "bauhaus.insee.fr" });
+
+      render(<GlobalActionToolbar onExport={mockOnExport} onValidateDdi4={mockOnValidateDdi4} />);
+
+      expect(screen.queryByText("Valider le DDI4")).not.toBeInTheDocument();
+    });
+
+    it("appelle onValidateDdi4 au clic", () => {
+      vi.stubGlobal("location", { hostname: "localhost" });
+
+      render(<GlobalActionToolbar onExport={mockOnExport} onValidateDdi4={mockOnValidateDdi4} />);
+      fireEvent.click(screen.getByText("Valider le DDI4"));
+
+      expect(mockOnValidateDdi4).toHaveBeenCalledTimes(1);
+    });
+
+    it("n'affiche pas le bouton en localhost quand aucun callback n'est fourni", () => {
+      vi.stubGlobal("location", { hostname: "localhost" });
+
+      render(<GlobalActionToolbar onExport={mockOnExport} />);
+
+      expect(screen.queryByText("Valider le DDI4")).not.toBeInTheDocument();
+    });
   });
 
   describe("gating STAMP du bouton de duplication", () => {

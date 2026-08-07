@@ -4,6 +4,8 @@ import {
   buildDuplicatedLogicalRecord,
   buildDuplicatedDataRelationship,
 } from "./duplicatePhysicalInstance";
+import { itemsOfType } from "../../types/ddi4Items";
+import { envelope } from "../../types/ddi4Items.testing";
 
 // Mock crypto.randomUUID
 const mockUUIDs: `${string}-${string}-${string}-${string}-${string}`[] = [
@@ -31,7 +33,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
   });
 
   it("should generate new IDs for PhysicalInstance, DataRelationship, and LogicalRecord", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -61,7 +63,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -72,15 +74,19 @@ describe("buildDuplicatedPhysicalInstance", () => {
 
     expect(result.newPhysicalInstanceId).toBe(NEW_PHYSICAL_INSTANCE_ID);
     expect(result.newAgencyId).toBe("test-agency");
-    expect(result.duplicatedData.PhysicalInstance[0].ID).toBe(NEW_PHYSICAL_INSTANCE_ID);
-    expect(result.duplicatedData.DataRelationship[0].ID).toBe(NEW_DATA_RELATIONSHIP_ID);
-    expect(result.duplicatedData.DataRelationship[0].LogicalRecord![0].ID).toBe(
+    expect(itemsOfType(result.duplicatedData, "PhysicalInstance")[0].ID).toBe(
+      NEW_PHYSICAL_INSTANCE_ID,
+    );
+    expect(itemsOfType(result.duplicatedData, "DataRelationship")[0].ID).toBe(
+      NEW_DATA_RELATIONSHIP_ID,
+    );
+    expect(itemsOfType(result.duplicatedData, "DataRelationship")[0].LogicalRecord![0].ID).toBe(
       NEW_LOGICAL_RECORD_ID,
     );
   });
 
   it("should use the provided label as-is without adding a (copy) suffix (caller owns the suffix)", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -109,7 +115,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -119,19 +125,21 @@ describe("buildDuplicatedPhysicalInstance", () => {
     });
 
     // Pas de double suffixe : le libellé fourni est utilisé tel quel.
-    expect(result.duplicatedData.PhysicalInstance[0].Citation.Title[0]["@value"]).toBe(
-      "Original Title (copy)",
-    );
-    expect(result.duplicatedData.DataRelationship[0].Label[0]["@value"]).toBe(
+    expect(
+      itemsOfType(result.duplicatedData, "PhysicalInstance")[0].Citation.Title[0]["@value"],
+    ).toBe("Original Title (copy)");
+    expect(itemsOfType(result.duplicatedData, "DataRelationship")[0].Label[0]["@value"]).toBe(
       "Structure : Original Title (copy)",
     );
-    expect(result.duplicatedData.DataRelationship[0].LogicalRecord![0].Label[0]["@value"]).toBe(
-      "Enregistrement logique : Original Title (copy)",
-    );
+    expect(
+      itemsOfType(result.duplicatedData, "DataRelationship")[0].LogicalRecord![0].Label[0][
+        "@value"
+      ],
+    ).toBe("Enregistrement logique : Original Title (copy)");
   });
 
   it("should set Citation Title to the provided label and preserve PhysicalInstanceLabel", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -161,7 +169,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -170,17 +178,18 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.PhysicalInstance[0].Citation.Title[0]["@value"]).toBe(
-      "Original Title",
-    );
+    expect(
+      itemsOfType(result.duplicatedData, "PhysicalInstance")[0].Citation.Title[0]["@value"],
+    ).toBe("Original Title");
     // PhysicalInstanceLabel is preserved as-is (not modified by the duplication)
-    expect(result.duplicatedData.PhysicalInstance[0].PhysicalInstanceLabel[0]["@value"]).toBe(
-      "Original Label",
-    );
+    expect(
+      (itemsOfType(result.duplicatedData, "PhysicalInstance")[0] as Record<string, any>)
+        .PhysicalInstanceLabel[0]["@value"],
+    ).toBe("Original Label");
   });
 
   it("should derive DataRelationship Label from the provided label", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -209,7 +218,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -218,11 +227,13 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.DataRelationship[0].Label[0]["@value"]).toBe("Structure : Test");
+    expect(itemsOfType(result.duplicatedData, "DataRelationship")[0].Label[0]["@value"]).toBe(
+      "Structure : Test",
+    );
   });
 
   it("should add BasedOnObject to PhysicalInstance", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -251,7 +262,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -260,7 +271,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.PhysicalInstance[0].BasedOnObject).toEqual({
+    expect(itemsOfType(result.duplicatedData, "PhysicalInstance")[0].BasedOnObject).toEqual({
       $type: "BasedOnObjectType",
       BasedOnReference: [
         {
@@ -275,7 +286,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
   });
 
   it("should add BasedOnObject to DataRelationship", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -304,7 +315,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -313,7 +324,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.DataRelationship[0].BasedOnObject).toEqual({
+    expect(itemsOfType(result.duplicatedData, "DataRelationship")[0].BasedOnObject).toEqual({
       $type: "BasedOnObjectType",
       BasedOnReference: [
         {
@@ -329,7 +340,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
 
   it("should generate new IDs for Variables and add BasedOnObject", () => {
     uuidIndex = 0;
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -371,7 +382,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
           VariableName: [{ "@language": "fr-FR", "@value": "Var2" }],
         },
       ],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -381,11 +392,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
     });
 
     // Variables should have new IDs
-    expect(result.duplicatedData.Variable[0].ID).not.toBe("original-var-id-1");
-    expect(result.duplicatedData.Variable[1].ID).not.toBe("original-var-id-2");
+    expect(itemsOfType(result.duplicatedData, "Variable")[0].ID).not.toBe("original-var-id-1");
+    expect(itemsOfType(result.duplicatedData, "Variable")[1].ID).not.toBe("original-var-id-2");
 
     // Variables should have BasedOnObject
-    expect(result.duplicatedData.Variable[0].BasedOnObject).toEqual({
+    expect(itemsOfType(result.duplicatedData, "Variable")[0].BasedOnObject).toEqual({
       $type: "BasedOnObjectType",
       BasedOnReference: [
         {
@@ -398,7 +409,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
       ],
     });
 
-    expect(result.duplicatedData.Variable[1].BasedOnObject).toEqual({
+    expect(itemsOfType(result.duplicatedData, "Variable")[1].BasedOnObject).toEqual({
       $type: "BasedOnObjectType",
       BasedOnReference: [
         {
@@ -413,7 +424,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
   });
 
   it("should update URN for all objects", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -444,7 +455,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -453,17 +464,19 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.PhysicalInstance[0].URN).toBe(
+    expect(itemsOfType(result.duplicatedData, "PhysicalInstance")[0].URN).toBe(
       `urn:ddi:test-agency:${result.newPhysicalInstanceId}:1`,
     );
-    expect(result.duplicatedData.DataRelationship[0].URN).toContain("urn:ddi:test-agency:");
-    expect(result.duplicatedData.DataRelationship[0].LogicalRecord![0].URN).toContain(
+    expect(itemsOfType(result.duplicatedData, "DataRelationship")[0].URN).toContain(
       "urn:ddi:test-agency:",
     );
+    expect(
+      itemsOfType(result.duplicatedData, "DataRelationship")[0].LogicalRecord![0].URN,
+    ).toContain("urn:ddi:test-agency:");
   });
 
   it("should update Agency for all objects", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -492,7 +505,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -501,13 +514,15 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.PhysicalInstance[0].Agency).toBe("test-agency");
-    expect(result.duplicatedData.DataRelationship[0].Agency).toBe("test-agency");
-    expect(result.duplicatedData.DataRelationship[0].LogicalRecord![0].Agency).toBe("test-agency");
+    expect(itemsOfType(result.duplicatedData, "PhysicalInstance")[0].Agency).toBe("test-agency");
+    expect(itemsOfType(result.duplicatedData, "DataRelationship")[0].Agency).toBe("test-agency");
+    expect(itemsOfType(result.duplicatedData, "DataRelationship")[0].LogicalRecord![0].Agency).toBe(
+      "test-agency",
+    );
   });
 
   it("should update DataRelationshipReference in PhysicalInstance", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -542,7 +557,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -551,17 +566,17 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.PhysicalInstance[0].DataRelationshipReference[0].ID).toBe(
-      NEW_DATA_RELATIONSHIP_ID,
-    );
-    expect(result.duplicatedData.PhysicalInstance[0].DataRelationshipReference[0].Agency).toBe(
-      "test-agency",
-    );
+    expect(
+      itemsOfType(result.duplicatedData, "PhysicalInstance")[0].DataRelationshipReference[0].ID,
+    ).toBe(NEW_DATA_RELATIONSHIP_ID);
+    expect(
+      itemsOfType(result.duplicatedData, "PhysicalInstance")[0].DataRelationshipReference[0].Agency,
+    ).toBe("test-agency");
   });
 
   it("should update VariablesInRecord with new variable IDs", () => {
     uuidIndex = 0;
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -605,7 +620,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
           VariableName: [{ "@language": "fr-FR", "@value": "Var1" }],
         },
       ],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -614,9 +629,8 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    const variableRefs =
-      result.duplicatedData.DataRelationship[0].LogicalRecord![0].VariablesInRecord
-        .VariableUsedReference;
+    const variableRefs = itemsOfType(result.duplicatedData, "DataRelationship")[0].LogicalRecord![0]
+      .VariablesInRecord.VariableUsedReference;
 
     expect(variableRefs).toHaveLength(1);
     expect(variableRefs[0].Agency).toBe("test-agency");
@@ -624,7 +638,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
   });
 
   it("should preserve CodeList and Category without regenerating IDs", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -667,7 +681,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
           CategoryName: [{ "@language": "fr-FR", "@value": "Category 1" }],
         },
       ],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -677,12 +691,12 @@ describe("buildDuplicatedPhysicalInstance", () => {
     });
 
     // CodeList and Category should be preserved as-is
-    expect(result.duplicatedData.CodeList).toEqual(data.CodeList);
-    expect(result.duplicatedData.Category).toEqual(data.Category);
+    expect(itemsOfType(result.duplicatedData, "CodeList")).toEqual(itemsOfType(data, "CodeList"));
+    expect(itemsOfType(result.duplicatedData, "Category")).toEqual(itemsOfType(data, "Category"));
   });
 
   it("should set VersionDate.DateTime to current date for all modified objects", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -714,7 +728,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const beforeTest = new Date().toISOString().substring(0, 10);
     const result = buildDuplicatedPhysicalInstance({
@@ -725,16 +739,22 @@ describe("buildDuplicatedPhysicalInstance", () => {
     });
 
     // Check that VersionDate.DateTime is updated to today
-    expect(result.duplicatedData.PhysicalInstance[0].VersionDate?.DateTime.substring(0, 10)).toBe(
-      beforeTest,
-    );
-    expect(result.duplicatedData.DataRelationship[0].VersionDate?.DateTime.substring(0, 10)).toBe(
-      beforeTest,
-    );
+    expect(
+      itemsOfType(result.duplicatedData, "PhysicalInstance")[0].VersionDate?.DateTime.substring(
+        0,
+        10,
+      ),
+    ).toBe(beforeTest);
+    expect(
+      itemsOfType(result.duplicatedData, "DataRelationship")[0].VersionDate?.DateTime.substring(
+        0,
+        10,
+      ),
+    ).toBe(beforeTest);
   });
 
   it("should handle empty Variable array", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -763,7 +783,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
         },
       ],
       Variable: [],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -772,11 +792,11 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.Variable).toEqual([]);
+    expect(itemsOfType(result.duplicatedData, "Variable")).toEqual([]);
   });
 
   it("should handle undefined Variable", () => {
-    const data = {
+    const data = envelope({
       PhysicalInstance: [
         {
           ID: "original-pi-id",
@@ -804,7 +824,7 @@ describe("buildDuplicatedPhysicalInstance", () => {
           ],
         },
       ],
-    };
+    });
 
     const result = buildDuplicatedPhysicalInstance({
       agencyId: "test-agency",
@@ -813,7 +833,8 @@ describe("buildDuplicatedPhysicalInstance", () => {
       defaultLocale: "fr-FR",
     });
 
-    expect(result.duplicatedData.Variable).toBeUndefined();
+    // Sans variable d'origine, l'enveloppe dupliquée n'en porte simplement aucune.
+    expect(itemsOfType(result.duplicatedData, "Variable")).toEqual([]);
   });
 });
 

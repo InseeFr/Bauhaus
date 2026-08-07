@@ -10,6 +10,8 @@ import type {
   Category,
   ManagedMissingValuesRepresentation,
   Reference,
+  Ddi4Item,
+  PhysicalInstanceResponse,
 } from "../../types/api";
 import { DDIApi } from "../../../../sdk";
 import { useAppContext } from "../../../../application/app-context";
@@ -148,31 +150,30 @@ export const DdiPreview = ({
       };
     }
 
-    const data: any = {
-      Variable: [variableDDI],
-    };
+    // Enveloppe DDI 4 : un seul tableau `items`, chaque objet portant son `$type`.
+    const items: Ddi4Item[] = [variableDDI];
 
     if (variableType === "code" && codeList) {
-      data.CodeList = [codeList];
+      items.push(codeList);
     }
 
     if (variableType === "code" && categories) {
-      data.Category = categories;
+      items.push(...categories);
     }
 
     // MMVR modifiée localement (variable seule utilisatrice) : embarquée avec sa CodeList de
     // sentinelles pour visualiser le XML DDI 3 réellement produit au save.
     if (sentinelMmvr) {
-      data.ManagedMissingValuesRepresentation = [sentinelMmvr];
+      items.push(sentinelMmvr);
     }
     if (sentinelCodeList) {
-      data.CodeList = [...(data.CodeList ?? []), sentinelCodeList];
+      items.push(sentinelCodeList);
     }
     if (sentinelCategories?.length) {
-      data.Category = [...(data.Category ?? []), ...sentinelCategories];
+      items.push(...sentinelCategories);
     }
 
-    return data;
+    return { items } satisfies PhysicalInstanceResponse;
   }, [
     defaultAgencyId,
     defaultLocale,

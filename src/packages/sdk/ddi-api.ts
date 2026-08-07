@@ -75,6 +75,19 @@ const api = {
     },
     (res: Response) => res.text(),
   ],
+  // Validation du DDI4 contre ddi-schema.json (côté back). Répond 400 + le corps
+  // `{valid, errors}` quand la PI n'est pas conforme : `buildCall` rejette alors
+  // avec ce corps, c'est là que se trouvent les erreurs de schéma.
+  postValidateDdi4: (data: unknown) => [
+    "validate",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  ],
   getPhysicalCodesLists: (agencyId: string, physicalInstanceId: string) => [
     `physical-instance/${agencyId}/${physicalInstanceId}/codeslists`,
   ],

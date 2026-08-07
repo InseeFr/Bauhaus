@@ -189,6 +189,12 @@
       "exportErrorDetail": "Unable to download file",
       "exportSuccess": "Export successful",
       "exportSuccessDetail": "File in {{format}} format has been downloaded",
+      "validateDdi4": "Validate DDI4",
+      "validateDdi4Success": "Valid DDI4",
+      "validateDdi4SuccessDetail": "The physical instance complies with the DDI 4.0 schema",
+      "validateDdi4Error": "Invalid DDI4",
+      "validateDdi4ErrorDetail": "Unable to validate the physical instance",
+      "validateDdi4MoreErrors": "… and {{count}} more error(s) (see console for details)",
       "globalActions": "Global Actions",
       "import": "Import",
       "importModal": {

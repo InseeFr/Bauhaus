@@ -13,6 +13,7 @@ import type {
   ManagedMissingValuesRepresentation,
   Reference,
 } from "../../types/api";
+import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
 import { CodeListDataTable, CodeTableRow } from "../CodeRepresentation/CodeListDataTable";
 import { UsersPanel } from "../CodeRepresentation/UsersPanel";
 import {
@@ -151,9 +152,12 @@ export const SentinelValues = ({
     !hasLocalEdits ? (selectedMmvr?.agency ?? "") : "",
     !hasLocalEdits ? (selectedMmvr?.codeListId ?? "") : "",
   );
-  const loadedCodeList = codeListContent?.CodeList?.[0];
+  const loadedCodeList = singleItemOfType(codeListContent, "CodeList");
   const loadedCategoryLabelById = new Map(
-    (codeListContent?.Category ?? []).map((cat) => [cat.ID, getLocalizedText(cat.Label) ?? ""]),
+    itemsOfType(codeListContent, "Category").map((cat) => [
+      cat.ID,
+      getLocalizedText(cat.Label) ?? "",
+    ]),
   );
   const loadedRows: CodeTableRow[] = (loadedCodeList?.Code ?? []).map((code) => ({
     id: code.ID,
