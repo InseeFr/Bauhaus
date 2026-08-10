@@ -63,6 +63,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "manu",
       dataRelationshipLabel: "manu",
       logicalRecordLabel: "manu",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     });
 
     expect(created).toEqual({ id: "236b9453", agency: "fr.insee" });
@@ -90,15 +94,15 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     await result.current.mutateAsync(testData);
 
-    expect(mockPost).toHaveBeenCalledWith({
-      physicalInstanceLabel: "Test Label",
-      dataRelationshipLabel: "Test Label",
-      logicalRecordLabel: "Test Label",
-    });
+    expect(mockPost).toHaveBeenCalledWith(testData);
   });
 
   it("should invalidate physicalInstances query cache on successful mutation", async () => {
@@ -125,6 +129,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     await result.current.mutateAsync(testData);
@@ -149,6 +157,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     await expect(result.current.mutateAsync(testData)).rejects.toThrow("Creation failed");
@@ -180,6 +192,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     result.current.mutate(testData);
@@ -211,15 +227,15 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "",
       dataRelationshipLabel: "",
       logicalRecordLabel: "",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     await result.current.mutateAsync(testData);
 
-    expect(mockPost).toHaveBeenCalledWith({
-      physicalInstanceLabel: "",
-      dataRelationshipLabel: "",
-      logicalRecordLabel: "",
-    });
+    expect(mockPost).toHaveBeenCalledWith(testData);
   });
 
   it("should not invalidate cache if mutation fails", async () => {
@@ -237,6 +253,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     try {

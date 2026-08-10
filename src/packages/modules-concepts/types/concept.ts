@@ -1,14 +1,3 @@
-export type Concept = {
-  id: string;
-  label: string;
-  altLabel: string | null;
-  _links: {
-    self: {
-      href: string;
-    };
-  };
-};
-
 import type { ValidationState } from "@components/status";
 
 export type ConceptForAdvancedSearch = {

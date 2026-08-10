@@ -1,4 +1,8 @@
-import { buildEmpty, buildEmptyWithContributor } from "@utils/build-general-proptypes";
+import {
+  buildEmpty,
+  buildEmptyWithContributor,
+  type FieldSpec,
+} from "@utils/build-general-proptypes";
 
 import { CollectionGeneral } from "@model/concepts/collection";
 
@@ -15,7 +19,7 @@ const fieldNames: (keyof CollectionGeneral)[] = [
   "validationState",
 ];
 
-export const fieldsWithRequired: string[][] = fieldNames.map((name) => [name, ""]);
+export const fieldsWithRequired: FieldSpec[] = fieldNames.map((name) => [name, false]);
 
 export const empty = (): CollectionGeneral =>
   buildEmpty(fieldsWithRequired) as unknown as CollectionGeneral;

@@ -47,16 +47,16 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 
     await result.current.mutateAsync(testData);
 
-    expect(mockPatch).toHaveBeenCalledWith("test-agency", "test-id", {
-      physicalInstanceLabel: "Test Label",
-      dataRelationshipLabel: "Test Label",
-      logicalRecordLabel: "Test Label",
-    });
+    expect(mockPatch).toHaveBeenCalledWith("test-agency", "test-id", testData.data);
   });
 
   it("should invalidate physicalInstances query cache on success", async () => {
@@ -76,6 +76,10 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 
@@ -105,6 +109,10 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     });
 
@@ -130,6 +138,10 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 
@@ -156,6 +168,10 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 
@@ -181,6 +197,10 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 

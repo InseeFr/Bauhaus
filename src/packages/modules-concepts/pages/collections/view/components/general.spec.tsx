@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import CollectionGeneral from "./general";
+import CollectionGeneral, { type CollectionAttribute } from "./general";
 
 // Mock des dépendances
 vi.mock("../../../../../deprecated-locales", () => ({
@@ -45,7 +45,7 @@ const createWrapper = () => {
 describe("CollectionGeneral", () => {
   describe("Rendering", () => {
     it("should render global information title", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         created: "2024-01-01",
         modified: "2024-01-15",
       };
@@ -56,7 +56,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should render creation and update dates", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         created: "2024-01-01",
         modified: "2024-01-15",
       };
@@ -71,7 +71,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should render creator field with mapped label", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: "DG75-L201",
       };
 
@@ -82,7 +82,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should render contributor field with mapped label", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         contributor: "DG75-L202",
       };
 
@@ -93,7 +93,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should render multiple creators with mapped labels", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: ["DG75-L201", "DG75-L202"],
       };
 
@@ -103,7 +103,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should render creators as list items when multiple", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: ["DG75-L201", "DG75-L202"],
       };
 
@@ -120,7 +120,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should render contributor as list with mapped label", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         contributor: ["DG75-L201", "DG75-L202"],
       };
 
@@ -136,7 +136,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should handle empty creator/contributor arrays", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: [],
         contributor: [],
       };
@@ -151,7 +151,7 @@ describe("CollectionGeneral", () => {
     });
 
     it('should render validationState field as "Provisional" when Unpublished', () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         validationState: "Unpublished",
       };
 
@@ -162,7 +162,7 @@ describe("CollectionGeneral", () => {
     });
 
     it('should render validationState field as "Published" when Validated', () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         validationState: "Validated",
       };
 
@@ -173,7 +173,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should not render empty fields", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: "",
         contributor: "",
       };
@@ -190,7 +190,7 @@ describe("CollectionGeneral", () => {
 
   describe("Description rendering", () => {
     it("should render description in first language only when secondLang is false", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         descriptionLg1: "Description en français",
         descriptionLg2: "Description in English",
       };
@@ -204,7 +204,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should render description in both languages when secondLang is true", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         descriptionLg1: "Description en français",
         descriptionLg2: "Description in English",
       };
@@ -218,7 +218,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should not render description section when descriptionLg1 is empty", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         created: "2024-01-01",
       };
 
@@ -230,7 +230,7 @@ describe("CollectionGeneral", () => {
 
   describe("Complete rendering", () => {
     it("should render all fields when all data is provided", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         created: "2024-01-01",
         modified: "2024-01-15",
         creator: "DG75-L201",
@@ -257,7 +257,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should handle minimal data gracefully", () => {
-      const attr = {};
+      const attr: CollectionAttribute = {};
 
       render(<CollectionGeneral attr={attr} />, {
         wrapper: createWrapper(),
@@ -270,7 +270,7 @@ describe("CollectionGeneral", () => {
 
   describe("Accessibility", () => {
     it("should render lists with proper ARIA roles", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: ["DG75-L201", "DG75-L202"],
         contributor: "DG75-L201",
       };
@@ -289,7 +289,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should render text content that is screen reader accessible", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: "DG75-L201",
         validationState: "Validated",
         created: "2024-01-01",
@@ -308,7 +308,7 @@ describe("CollectionGeneral", () => {
 
   describe("Edge cases", () => {
     it("should handle validationState as undefined", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: "DG75-L201",
         validationState: undefined,
       };
@@ -325,7 +325,7 @@ describe("CollectionGeneral", () => {
 
     it("should handle very long organization names", () => {
       const longOrgId = "DG75-L201-VERY-LONG-ORGANIZATION-ID-THAT-MIGHT-BREAK-LAYOUT";
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: longOrgId,
       };
 
@@ -338,7 +338,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should handle special characters in organization IDs", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: "DG75-L201",
         contributor: "Special-Org-#123",
       };
@@ -353,7 +353,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should handle whitespace-only strings as empty", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: "   ",
         contributor: "\t\n",
       };
@@ -368,7 +368,7 @@ describe("CollectionGeneral", () => {
     });
 
     it("should handle arrays with undefined/null values", () => {
-      const attr = {
+      const attr: CollectionAttribute = {
         creator: ["DG75-L201", undefined, null, "DG75-L202"] as unknown as string[],
       };
 
@@ -382,7 +382,7 @@ describe("CollectionGeneral", () => {
 
     it("should handle extremely long description text", () => {
       const longText = "A".repeat(1000);
-      const attr = {
+      const attr: CollectionAttribute = {
         descriptionLg1: longText,
       };
 

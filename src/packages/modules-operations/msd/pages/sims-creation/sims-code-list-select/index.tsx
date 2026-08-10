@@ -7,6 +7,9 @@ interface SimsCodeListSelectTypes {
   currentSection: any;
   options: Option[];
   onChange: any;
+  /** Transmises telles quelles au Select sous-jacent via `...rest`. */
+  disabled?: boolean;
+  className?: string;
 }
 export const SimsCodeListSelect = ({
   multi,

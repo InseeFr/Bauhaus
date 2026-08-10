@@ -50,7 +50,8 @@ describe("useHighlight", () => {
 
   it("should update when language changes", async () => {
     const { result, rerender } = renderHook(({ code, lang }) => useHighlight(code, lang), {
-      initialProps: { code: '{"a":1}', lang: "json" as const },
+      // Le test change de langage en cours de route : le type doit couvrir les deux.
+      initialProps: { code: '{"a":1}', lang: "json" as "json" | "xml" },
     });
 
     await waitFor(() => {

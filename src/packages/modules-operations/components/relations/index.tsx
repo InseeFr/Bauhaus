@@ -3,16 +3,23 @@ import { Link } from "react-router-dom";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
+import { RelatedItem } from "../../../model/operations/related-item";
+
 import { D1, D2 } from "../../../deprecated-locales";
 import "./relations.css";
 
+/**
+ * Un appelant ne renseigne qu'un côté de la relation : une famille affiche ses
+ * séries filles, une opération affiche sa série parente. `langSuffix` est posé
+ * par `RelationsView`, jamais par l'appelant.
+ */
 export interface RelationsViewPerLgContentTypes {
-  children: { id: string; labelLg1: string; labelLg2: string }[];
-  childrenTitle: string;
-  childrenPath: string;
-  parent: { id: string; labelLg1: string; labelLg2: string };
-  parentTitle: string;
-  parentPath: string;
+  children?: RelatedItem[];
+  childrenTitle?: string;
+  childrenPath?: string;
+  parent?: RelatedItem;
+  parentTitle?: string;
+  parentPath?: string;
   langSuffix: "Lg1" | "Lg2";
 }
 export const RelationsViewPerLgContent = ({
@@ -27,13 +34,13 @@ export const RelationsViewPerLgContent = ({
   const Dictionnary = langSuffix === "Lg1" ? D1 : D2;
   return (
     <>
-      {parent && (
+      {parent && parentTitle && (
         <p>
           <span className="links-title">{Dictionnary[parentTitle]}</span>
           <Link to={`/operations/${parentPath}/${parent.id}`}>{parent[`label${langSuffix}`]}</Link>
         </p>
       )}
-      {children && (
+      {children && childrenTitle && (
         <>
           <p>
             <span className="links-title">{Dictionnary[childrenTitle]}</span>
@@ -77,7 +84,9 @@ export function RelationsViewPerLg({
 }
 
 function RelationsView(
-  props: Readonly<{ title: string; secondLang: boolean } & RelationsViewPerLgContentTypes>,
+  props: Readonly<
+    { title: string; secondLang: boolean } & Omit<RelationsViewPerLgContentTypes, "langSuffix">
+  >,
 ) {
   return (
     <Row>

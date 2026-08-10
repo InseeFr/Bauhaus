@@ -292,10 +292,7 @@ export const CodeListDataTable = ({
           body={(rowData) => labelEditor(rowData)}
         />
         {!readOnly && (
-          <Column
-            body={(rowData, options) => actionBodyTemplate(rowData, options)}
-            style={{ width: "5rem" }}
-          />
+          <Column body={(rowData) => actionBodyTemplate(rowData)} style={{ width: "5rem" }} />
         )}
       </DataTable>
       {!readOnly && (

@@ -4,14 +4,14 @@ import { Loading } from "@components/loading";
 
 import { GeneralApi } from "@sdk/general-api";
 
-import { Document } from "../../model/operations/document";
+import { Document, HomeDocument } from "../../model/operations/document";
 import { sortArray } from "../../utils/array-utils";
 import DocumentHome from "./home";
 
 const sortByLabel = sortArray("label");
 
 export const Component = () => {
-  const [documents, setDocuments] = useState<Document[]>([]);
+  const [documents, setDocuments] = useState<HomeDocument[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

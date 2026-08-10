@@ -2,9 +2,10 @@ import {
   buildEmpty,
   buildEmptyWithContributor,
   buildFields,
+  type FieldSpec,
 } from "../../utils/build-general-proptypes";
 
-export const fieldsWithRequired = [
+export const fieldsWithRequired: FieldSpec[] = [
   ["collections", false, "array"],
   ["prefLabelLg1", false],
   ["prefLabelLg2", false],

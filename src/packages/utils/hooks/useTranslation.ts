@@ -16,5 +16,7 @@ export const useTranslation = (
   const result = useI18nextTranslation(ns, options);
   const secondLangCode = i18next.language === "fr" ? "en" : "fr";
   const t2 = i18next.getFixedT(secondLangCode, ns ?? null);
-  return { ...result, t2 };
+  // `UseTranslationResponse` est à la fois un tuple et un objet : le diffuser
+  // ({...result}) perdrait les index numériques. On enrichit donc l'objet en place.
+  return Object.assign(result, { t2 });
 };

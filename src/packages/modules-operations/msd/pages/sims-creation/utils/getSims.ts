@@ -9,7 +9,7 @@ export type MsdMode = typeof HELP | typeof CREATE | typeof VIEW | typeof UPDATE 
 
 export const getDefaultSims = (
   mode: MsdMode,
-  rubrics: Rubric[],
+  rubrics: Record<string, Rubric>,
   metadataStructure: any,
 ): Record<string, Rubric> => {
   const flattenStructure = flattenTree(metadataStructure);

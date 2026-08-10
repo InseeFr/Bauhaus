@@ -1,4 +1,4 @@
-import { CatalogRecord } from "@model/Dataset";
+import { CatalogRecord, Dataset } from "@model/Dataset";
 
 vi.mock("i18next", () => ({
   default: {
@@ -28,15 +28,24 @@ const catalogRecord = {
   contributor: ["contributor"],
 } as CatalogRecord;
 
+/**
+ * `validate` ne lit qu'une poignée de champs : les fixtures sont volontairement
+ * partielles, et l'une d'elles passe `contributor` à la racine pour couvrir la
+ * précédence sur `catalogRecord`. Cette conversion évite de recopier tout le modèle.
+ */
+const asDataset = (fields: Record<string, unknown>) => fields as unknown as Dataset;
+
 describe("validation", function () {
   it("should return an error for labelLg1", function () {
     expect(
-      validate({
-        labelLg2: "labelLg2",
-        catalogRecord,
-        disseminationStatus: "status",
-        wasGeneratedIRIs: ["id"],
-      }),
+      validate(
+        asDataset({
+          labelLg2: "labelLg2",
+          catalogRecord,
+          disseminationStatus: "status",
+          wasGeneratedIRIs: ["id"],
+        }),
+      ),
     ).toEqual({
       errorMessage: ["The property <strong>Intitulé</strong> is required."],
       fields: {
@@ -52,12 +61,14 @@ describe("validation", function () {
   });
   it("should return an error for labelLg2", function () {
     expect(
-      validate({
-        labelLg1: "labelLg1",
-        catalogRecord,
-        disseminationStatus: "status",
-        wasGeneratedIRIs: ["id"],
-      }),
+      validate(
+        asDataset({
+          labelLg1: "labelLg1",
+          catalogRecord,
+          disseminationStatus: "status",
+          wasGeneratedIRIs: ["id"],
+        }),
+      ),
     ).toEqual({
       errorMessage: ["The property <strong>Title</strong> is required."],
       fields: {
@@ -73,12 +84,14 @@ describe("validation", function () {
   });
   it("should return an error for creator, contributor, disseminationStatus and wasGeneratedIRIs", function () {
     expect(
-      validate({
-        labelLg1: "labelLg2",
-        labelLg2: "labelLg2",
-        contributor: [],
-        wasGeneratedIRIs: [],
-      }),
+      validate(
+        asDataset({
+          labelLg1: "labelLg2",
+          labelLg2: "labelLg2",
+          contributor: [],
+          wasGeneratedIRIs: [],
+        }),
+      ),
     ).toEqual({
       errorMessage: [
         "The property <strong>Owner</strong> is required.",
@@ -99,13 +112,15 @@ describe("validation", function () {
   });
   it("should return an error if wasGeneratedIRIs is an empty array", function () {
     expect(
-      validate({
-        labelLg1: "labelLg2",
-        labelLg2: "labelLg2",
-        catalogRecord,
-        disseminationStatus: "status",
-        wasGeneratedIRIs: [],
-      }),
+      validate(
+        asDataset({
+          labelLg1: "labelLg2",
+          labelLg2: "labelLg2",
+          catalogRecord,
+          disseminationStatus: "status",
+          wasGeneratedIRIs: [],
+        }),
+      ),
     ).toEqual({
       errorMessage: ["The property <strong>Produced from</strong> is required."],
       fields: {
@@ -122,14 +137,16 @@ describe("validation", function () {
 
   it("should return no error", function () {
     expect(
-      validate({
-        labelLg1: "labelLg2",
-        labelLg2: "labelLg2",
-        catalogRecord,
-        disseminationStatus: "status",
-        wasGeneratedIRIs: ["id"],
-        dataStructure: "http://dataset",
-      }),
+      validate(
+        asDataset({
+          labelLg1: "labelLg2",
+          labelLg2: "labelLg2",
+          catalogRecord,
+          disseminationStatus: "status",
+          wasGeneratedIRIs: ["id"],
+          dataStructure: "http://dataset",
+        }),
+      ),
     ).toEqual({
       errorMessage: [],
       fields: {
@@ -145,13 +162,15 @@ describe("validation", function () {
   });
   it("should return no error if datastructure is undefined", function () {
     expect(
-      validate({
-        labelLg1: "labelLg2",
-        labelLg2: "labelLg2",
-        catalogRecord,
-        disseminationStatus: "status",
-        wasGeneratedIRIs: ["id"],
-      }),
+      validate(
+        asDataset({
+          labelLg1: "labelLg2",
+          labelLg2: "labelLg2",
+          catalogRecord,
+          disseminationStatus: "status",
+          wasGeneratedIRIs: ["id"],
+        }),
+      ),
     ).toEqual({
       errorMessage: [],
       fields: {

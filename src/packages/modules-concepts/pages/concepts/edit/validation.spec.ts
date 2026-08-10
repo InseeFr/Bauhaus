@@ -1,3 +1,5 @@
+import { ConceptGeneral } from "@model/concepts/concept";
+
 import { validate } from "./validation";
 
 describe("validation", function () {
@@ -6,7 +8,8 @@ describe("validation", function () {
       prefLabelLg1: "prefLabelLg1",
       creator: "",
       disseminationStatus: "Privé",
-    };
+      // `validate` ne lit que disseminationStatus, le reste est transmis tel quel au schéma.
+    } as ConceptGeneral;
 
     const notes = {
       scopeNoteLg1: "scopeNote1",
@@ -38,7 +41,8 @@ describe("validation", function () {
       prefLabelLg1: "prefLabelLg1",
       creator: "creator",
       disseminationStatus: "Privé",
-    };
+      // `validate` ne lit que disseminationStatus, le reste est transmis tel quel au schéma.
+    } as ConceptGeneral;
 
     const notes = {
       scopeNoteLg1: "scopeNote1",
@@ -70,7 +74,8 @@ describe("validation", function () {
       prefLabelLg1: "prefLabelLg1",
       creator: "creator",
       disseminationStatus: "Privé",
-    };
+      // `validate` ne lit que disseminationStatus, le reste est transmis tel quel au schéma.
+    } as ConceptGeneral;
 
     const notes = {
       scopeNoteLg1: "x".repeat(351),
@@ -105,7 +110,8 @@ describe("validation", function () {
       prefLabelLg1: "prefLabelLg1",
       creator: "creator",
       disseminationStatus: "Public",
-    };
+      // `validate` ne lit que disseminationStatus, le reste est transmis tel quel au schéma.
+    } as ConceptGeneral;
 
     const notes = {
       scopeNoteLg1: "",
@@ -137,7 +143,8 @@ describe("validation", function () {
       prefLabelLg1: "prefLabelLg1",
       creator: "creator",
       disseminationStatus: "Privé",
-    };
+      // `validate` ne lit que disseminationStatus, le reste est transmis tel quel au schéma.
+    } as ConceptGeneral;
 
     const notes = {
       scopeNoteLg1: "scopeNote1",

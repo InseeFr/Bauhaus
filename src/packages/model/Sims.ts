@@ -1,11 +1,13 @@
 import { ValidationState } from "@components/status";
 
+import { Document } from "./operations/document";
+
 export interface Rubric {
   idAttribute: string;
   labelLg1: string;
   labelLg2: string;
-  documentsLg1?: string[];
-  documentsLg2?: string[];
+  documentsLg1?: Document[];
+  documentsLg2?: Document[];
   rangeType: string;
 }
 
