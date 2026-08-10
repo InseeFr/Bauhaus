@@ -7,11 +7,12 @@ vi.mock("@components/layout", () => ({
   Row: ({ children }: any) => <div>{children}</div>,
 }));
 
+// Le vrai Note rend `text` directement dans le corps du Panel, sans wrapper de liste.
 vi.mock("@components/note", () => ({
   Note: ({ title, text }: any) => (
     <div>
       <div data-testid="note-title">{title}</div>
-      <ul>{text}</ul>
+      <div>{text}</div>
     </div>
   ),
 }));
@@ -77,5 +78,23 @@ describe("<Levels />", () => {
       </MemoryRouter>,
     );
     expect(screen.queryAllByRole("link")).toHaveLength(0);
+  });
+
+  it("rend les niveaux comme une liste, un élément par niveau", () => {
+    renderLevels();
+    expect(screen.getByRole("list")).toBeInTheDocument();
+    expect(screen.getAllByRole("listitem")).toHaveLength(2);
+  });
+
+  it("conserve l'ordre des niveaux fourni", () => {
+    renderLevels();
+    const labels = screen.getAllByRole("link").map((link) => link.textContent);
+    expect(labels).toEqual(["Divisions", "Groupes"]);
+  });
+
+  it("n'ajoute ni champ de recherche ni pagination autour de la liste", () => {
+    renderLevels();
+    expect(screen.queryByRole("textbox")).toBeNull();
+    expect(screen.queryByRole("navigation")).toBeNull();
   });
 });

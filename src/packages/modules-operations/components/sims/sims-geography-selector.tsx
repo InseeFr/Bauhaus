@@ -1,4 +1,5 @@
 import { Row } from "@components/layout";
+import { List } from "@components/ui/list-group";
 
 import D from "../../i18n/build-dictionary";
 import SimsGeographyI18NLabel from "./sims-geography-i18n-label";
@@ -22,7 +23,7 @@ const SimsGeographySelector = ({
   onRemoveInclude,
 }: Readonly<SimsGeographySelectorTypes>) => {
   const excludedItems = excludes.map((geography) => (
-    <li className="list-group-item" key={geography.value}>
+    <List.Item key={geography.value}>
       <SimsGeographyI18NLabel geography={geography} />
 
       <button
@@ -33,11 +34,11 @@ const SimsGeographySelector = ({
       >
         <span className="glyphicon glyphicon-trash" aria-hidden="true" />
       </button>
-    </li>
+    </List.Item>
   ));
 
   const includedItems = includes.map((geography) => (
-    <li className="list-group-item" key={geography.value}>
+    <List.Item key={geography.value}>
       <SimsGeographyI18NLabel geography={geography} />
 
       <button
@@ -48,7 +49,7 @@ const SimsGeographySelector = ({
       >
         <span className="glyphicon glyphicon-trash" aria-hidden="true" />
       </button>
-    </li>
+    </List.Item>
   ));
   return (
     <Row>

@@ -6,6 +6,7 @@ import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 import { Loading } from "@components/loading";
+import { List } from "@components/ui/list-group";
 import { SearchTextField } from "@components/ui/search-field";
 
 import { OperationsApi } from "@sdk/operations-api";
@@ -57,9 +58,9 @@ export const SearchFormList = ({ data }) => {
     });
 
   const dataLinks = filteredData.map(({ id, prefLabelLg1 }) => (
-    <li key={id} className="list-group-item">
+    <List.Item key={id}>
       <Link to={`/operations/series/${id}`}>{prefLabelLg1}</Link>
-    </li>
+    </List.Item>
   ));
   return (
     <AdvancedSearchList

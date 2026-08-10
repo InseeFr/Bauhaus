@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 
 import { TextInput } from "@components/form/input";
 import { AddLogo } from "@components/logo/logo-add";
+import { List } from "@components/ui/list-group";
 
 import { getBaseURI } from "@sdk/build-api";
 
@@ -95,14 +96,14 @@ export function DocumentsBloc({
 
   function displayHTMLForDocument(document, btnBlocFunction = defaultBtnBlocFunction) {
     return (
-      <li className="list-group-item documentbloc__item" key={document.uri}>
+      <List.Item className="documentbloc__item" key={document.uri}>
         <span>
           <DocumentLink document={document} localPrefix={localPrefix} baseURI={baseURI} />
 
           <DocumentAsideInformation document={document} />
         </span>
         {editMode && btnBlocFunction(document)}
-      </li>
+      </List.Item>
     );
   }
   const Dictionary = isSecondLang ? D2 : D1;
@@ -114,7 +115,7 @@ export function DocumentsBloc({
       {documents && documents.length > 0 && sortable && (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={currentDocumentsIds} strategy={verticalListSortingStrategy}>
-            <ul className="documentsbloc list-group">
+            <List.Container className="documentsbloc">
               {currentDocuments.map((document) => (
                 <SortableDocumentItem
                   key={document.uri}
@@ -124,14 +125,14 @@ export function DocumentsBloc({
                   deleteHandler={deleteHandler}
                 />
               ))}
-            </ul>
+            </List.Container>
           </SortableContext>
         </DndContext>
       )}
       {documents && documents.length > 0 && !sortable && (
-        <ul className="documentsbloc list-group">
+        <List.Container className="documentsbloc">
           {currentDocuments.map((document) => displayHTMLForDocument(document))}
-        </ul>
+        </List.Container>
       )}
       {editMode && (
         <div className="documentblock__picker panel panel-default">

@@ -1,5 +1,6 @@
 import D from "../../../deprecated-locales";
 import { rangeType } from "../../utils/msd";
+import { List } from "@components/ui/list-group";
 
 const { CODE_LIST, ORGANIZATION } = rangeType;
 
@@ -26,22 +27,18 @@ export default function HelpInformation({ msd, codesLists, organisations }) {
           : `${D[`help${msd.rangeType}`]}`}
 
         {msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
-          <ul className="list-group">
+          <List.Container>
             {codesLists[msd.codeList]?.codes.map((code) => (
-              <li className="list-group-item" key={code.code}>
-                {code.labelLg1}
-              </li>
+              <List.Item key={code.code}>{code.labelLg1}</List.Item>
             ))}
-          </ul>
+          </List.Container>
         )}
         {msd.rangeType === ORGANIZATION && (
-          <ul className="list-group">
+          <List.Container>
             {organisations.map((orga) => (
-              <li className="list-group-item" key={orga.id}>
-                {orga.label}
-              </li>
+              <List.Item key={orga.id}>{orga.label}</List.Item>
             ))}
-          </ul>
+          </List.Container>
         )}
       </dd>
     </dl>

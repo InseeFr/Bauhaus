@@ -7,6 +7,7 @@ import { TextInput } from "@components/form/input";
 import { Column } from "@components/layout";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { List } from "@components/ui/list-group";
 
 import { filterKeyDeburr } from "@utils/array-utils";
 import { useStampsOptions } from "@utils/hooks/stamps";
@@ -47,9 +48,9 @@ const SearchFormPartialList = ({ stampListOptions, data }) => {
       .filter(filterCreator(creator))
       .filter(filterValidationState(validationState)),
     dataLinks = filteredData.map((codelist) => (
-      <li key={codelist.id} className="list-group-item text-left">
+      <List.Item key={codelist.id} className="text-left">
         <Link to={`/codelists/partial/${codelist.id}`}>{formatLabel(codelist)}</Link>
-      </li>
+      </List.Item>
     ));
 
   return (

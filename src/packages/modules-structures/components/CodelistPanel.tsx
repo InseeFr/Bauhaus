@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { RightSlidingPanel } from "@components/sliding-panel";
+import { List } from "@components/ui/list-group";
 
 import { useAllCodes } from "@utils/hooks/codeslist";
 
@@ -32,15 +33,15 @@ export const CodelistPanel = ({ isOpen, handleBack, codesList }: CodelistPanelTy
           </button>
         </div>
       </ActionToolbar>
-      <ul className="list-group">
+      <List.Container>
         {codes.map(({ code, labelLg1 }) => {
           return (
-            <li className="list-group-item" key={code}>
+            <List.Item key={code}>
               {code} - {labelLg1}
-            </li>
+            </List.Item>
           );
         })}
-      </ul>
+      </List.Container>
     </RightSlidingPanel>
   );
 };

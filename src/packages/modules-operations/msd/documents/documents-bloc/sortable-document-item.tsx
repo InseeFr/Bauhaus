@@ -4,6 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { Document } from "../../../../model/operations/document";
 import D from "../../../../deprecated-locales";
 import { DocumentAsideInformation, DocumentLink } from "./document-list-item";
+import { List } from "@components/ui/list-group";
 
 interface SortableDocumentItemProps {
   document: Document;
@@ -36,10 +37,10 @@ export const SortableDocumentItem = ({
   };
 
   return (
-    <li
+    <List.Item
       ref={setNodeRef}
       style={style}
-      className="list-group-item documentbloc__item documentbloc__item--sortable"
+      className="documentbloc__item documentbloc__item--sortable"
     >
       <button
         type="button"
@@ -62,6 +63,6 @@ export const SortableDocumentItem = ({
       >
         <span className="glyphicon glyphicon-trash" aria-hidden="true" />
       </button>
-    </li>
+    </List.Item>
   );
 };
