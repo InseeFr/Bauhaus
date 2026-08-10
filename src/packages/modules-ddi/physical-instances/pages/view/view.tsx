@@ -50,6 +50,7 @@ import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
 import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
 import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
+import { cx } from "@utils/cx";
 
 // Le SDK (build-api) rejette un objet nu { message, status }, jamais une Error.
 const getApiErrorMessage = (err: unknown, fallback: string) =>
@@ -853,7 +854,7 @@ export const Component = () => {
 
   return (
     <>
-      <div className={`pi-layout${state.selectedVariable ? " pi-open" : ""}`} role="main">
+      <div className={cx("pi-layout", state.selectedVariable && "pi-open")} role="main">
         <div className="pi-col-main">
           <div className="sticky-header">
             <PhysicalInstanceHeader

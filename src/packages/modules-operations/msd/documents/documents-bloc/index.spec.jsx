@@ -7,6 +7,7 @@ import { getLang } from "@utils/dictionnary";
 import D from "../../../../deprecated-locales";
 import { DocumentsStoreProvider } from "../../pages/sims-creation/documents-store-context";
 import { DocumentsBloc } from "./index";
+import { getListItems } from "@components/ui/list-group/testing";
 
 vi.mock("@sdk/build-api", () => ({
   getBaseURI: vi.fn().mockResolvedValue("http://base-uri"),
@@ -106,33 +107,19 @@ describe("DocumentsBloc", () => {
   ];
 
   it("should display the Lg1 labels in the given array order (back-defined order), not alphabetically", async () => {
-    const expected = backOrdered.map(
-      (doc) =>
-        `<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg1}">${doc.labelLg1}</a><i>(${doc.aside})</i></span></li>`,
-    );
-
     const { container } = await renderWithStore(<DocumentsBloc documents={backOrdered} />);
 
-    const lis = container.querySelectorAll("li");
-    for (let i = 0; i < lis.length; i++) {
-      expect(lis[i].outerHTML).toEqual(expected[i]);
-    }
+    const labels = getListItems(container).map((item) => item.querySelector("a").textContent);
+    expect(labels).toEqual(backOrdered.map((doc) => doc.labelLg1));
   });
 
   it("should display the Lg2 labels in the given array order (back-defined order), not alphabetically", async () => {
-    const expected = backOrdered.map(
-      (doc) =>
-        `<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg2}">${doc.labelLg2}</a><i>(${doc.aside})</i></span></li>`,
-    );
-
     const { container } = await renderWithStore(
       <DocumentsBloc documents={backOrdered} localPrefix="Lg2" />,
     );
 
-    const lis = container.querySelectorAll("li");
-    for (let i = 0; i < lis.length; i++) {
-      expect(lis[i].outerHTML).toEqual(expected[i]);
-    }
+    const labels = getListItems(container).map((item) => item.querySelector("a").textContent);
+    expect(labels).toEqual(backOrdered.map((doc) => doc.labelLg2));
   });
 
   describe.each`

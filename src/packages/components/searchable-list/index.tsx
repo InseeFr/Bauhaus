@@ -4,6 +4,7 @@ import { Row } from "@components/layout";
 import { Pagination } from "@components/pagination";
 
 import { filterKeyDeburr, nbResults } from "@utils/array-utils";
+import { cx } from "@utils/cx";
 import { createAllDictionary } from "@utils/dictionnary";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 import { IconField } from "primereact/iconfield";
@@ -84,7 +85,7 @@ export const SearchableList = ({
   const colOffset = colOff ? `col-md-offset-${colOff}` : "";
 
   return (
-    <div className={`${colSize} ${colOffset}`}>
+    <div className={cx(colSize, colOffset)}>
       <div className="row form-group">
         <div className="col-md-12">
           <IconField iconPosition="left" className="flex-1">

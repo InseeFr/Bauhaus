@@ -16,6 +16,7 @@ import { Select } from "@components/select-rmes";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { EMPTY_ARRAY, sortArrayByLabel } from "@utils/array-utils";
+import { cx } from "@utils/cx";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import D from "../../../../deprecated-locales";
@@ -191,11 +192,12 @@ const SimsCreation = ({
             </h3>
           )}
           <div
-            className={`bauhaus-sims-field row ${
+            className={cx(
+              "bauhaus-sims-field row",
               !secondLang
                 ? "bauhaus-sims-field__" + msd.rangeType
-                : "bauhaus-sims-field__" + msd.rangeType + "_2col"
-            }`}
+                : "bauhaus-sims-field__" + msd.rangeType + "_2col",
+            )}
             id={msd.idMas}
           >
             <div className="bauhaus-sims-field-form">

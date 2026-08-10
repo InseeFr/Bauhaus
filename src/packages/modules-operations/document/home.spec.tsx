@@ -4,6 +4,7 @@ import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { HomeDocument } from "../../model/operations/document";
 import { mockReactQueryForRbac, renderWithRouter } from "../../tests/render";
+import { getListItems } from "@components/ui/list-group/testing";
 
 describe("DocumentHome", () => {
   afterEach(() => {
@@ -48,8 +49,7 @@ describe("DocumentHome", () => {
     );
     // With pagination, there are now 2 <ul>: one for documents, one for pagination
     expect(container.querySelectorAll("ul")).toHaveLength(2);
-    // Check only list-group items (documents), not pagination items
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("should display two Add buttons", async () => {

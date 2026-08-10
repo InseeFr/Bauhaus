@@ -1,4 +1,5 @@
 import { ComponentPropsWithoutRef, forwardRef } from "react";
+import { cx } from "@utils/cx";
 
 /**
  * Liste et éléments de liste de l'application.
@@ -15,10 +16,8 @@ import { ComponentPropsWithoutRef, forwardRef } from "react";
  * </List.Container>
  */
 
-const withClass = (base: string, className?: string) => (className ? `${base} ${className}` : base);
-
 const Container = ({ className, children, ...props }: ComponentPropsWithoutRef<"ul">) => (
-  <ul className={withClass("list-group", className)} {...props}>
+  <ul className={cx("list-group", className)} {...props}>
     {children}
   </ul>
 );
@@ -26,7 +25,7 @@ Container.displayName = "List.Container";
 
 const Item = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<"li">>(
   ({ className, children, ...props }, ref) => (
-    <li ref={ref} className={withClass("list-group-item", className)} {...props}>
+    <li ref={ref} className={cx("list-group-item", className)} {...props}>
       {children}
     </li>
   ),

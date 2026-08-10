@@ -6,6 +6,7 @@ import { OutlineBlock } from "../outline/outline-block";
 import { isOpen, toggleOpen } from "../utils";
 import { OutlineButtonWithScroll } from "./outline-button-with-scroll";
 import "./style.scss";
+import { cx } from "@utils/cx";
 
 const Outline = ({
   storeCollapseState,
@@ -55,7 +56,7 @@ const Outline = ({
             title={opened ? D.hide : D.display}
             onClick={expandOrCollapseItem}
           >
-            <span className={` glyphicon glyphicon-chevron-${opened ? "up" : "down"}`} />
+            <span className={cx("glyphicon", `glyphicon-chevron-${opened ? "up" : "down"}`)} />
           </button>
         )}
       </div>

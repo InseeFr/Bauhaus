@@ -25,6 +25,7 @@ import { useDocumentsStoreContext } from "../../pages/sims-creation/documents-st
 import { DocumentAsideInformation, DocumentLink } from "./document-list-item";
 import { SortableDocumentItem } from "./sortable-document-item";
 import "./style.scss";
+import { cx } from "@utils/cx";
 
 /**
  * This component will display a list of documents associated
@@ -144,7 +145,7 @@ export function DocumentsBloc({
               onClick={() => setPanelStatus(!panelStatus)}
             >
               <span
-                className={`glyphicon glyphicon-menu-${panelStatus ? "down" : "right"}`}
+                className={cx("glyphicon", `glyphicon-menu-${panelStatus ? "down" : "right"}`)}
                 aria-hidden="true"
               />
               {addTitle} <span className="badge">{otherDocuments.length}</span>

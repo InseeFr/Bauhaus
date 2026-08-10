@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import D from "../../../deprecated-locales";
 import { isOpen, toggleOpen } from "../utils";
 import { OutlineButtonWithScroll } from "./outline-button-with-scroll";
+import { cx } from "@utils/cx";
 
 export const OutlineBlock = ({
   secondary,
@@ -69,7 +70,9 @@ export const OutlineBlock = ({
                   id={child.idMas}
                   onClick={expandOrCollapseItem}
                 >
-                  <span className={`glyphicon glyphicon-chevron-${child.opened ? "up" : "down"}`} />
+                  <span
+                    className={cx("glyphicon", `glyphicon-chevron-${child.opened ? "up" : "down"}`)}
+                  />
                 </button>
               )}
               <OutlineButtonWithScroll

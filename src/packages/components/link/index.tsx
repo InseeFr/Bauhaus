@@ -1,5 +1,6 @@
 import { ComponentProps, ComponentPropsWithoutRef, PropsWithChildren } from "react";
 import { Link as ReactLink } from "react-router-dom";
+import { cx } from "@utils/cx";
 
 type LinkTypes = {
   disabled?: boolean;
@@ -13,7 +14,7 @@ export const Link = ({
   ...rest
 }: Readonly<PropsWithChildren<LinkTypes>>) => {
   if (disabled) {
-    return <span className={className + " disabled"}>{children}</span>;
+    return <span className={cx(className, "disabled")}>{children}</span>;
   }
   return (
     <ReactLink className={className} {...rest}>

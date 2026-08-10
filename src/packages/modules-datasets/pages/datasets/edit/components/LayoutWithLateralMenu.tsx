@@ -2,6 +2,7 @@ import { MouseEvent, ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import "./LayoutWithLateralMenu.scss";
+import { cx } from "@utils/cx";
 
 const styleContent = {
   width: "70%",
@@ -23,7 +24,7 @@ export const CollapsibleTrigger = ({
       title={opened ? t("dataset.hide") : t("dataset.display")}
       onClick={onClick}
     >
-      <span className={`glyphicon glyphicon-chevron-${opened ? "up" : "down"}`} />
+      <span className={cx("glyphicon", `glyphicon-chevron-${opened ? "up" : "down"}`)} />
     </button>
   );
 };

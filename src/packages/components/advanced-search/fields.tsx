@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { Card } from "primereact/card";
+import { cx } from "@utils/cx";
 
 /**
  * A titled card wrapping a primeflex form grid, used as the visual container of
@@ -15,7 +16,7 @@ export const AdvancedSearchCard = ({
   className?: string;
   children: ReactNode;
 }>) => (
-  <Card title={title} className={className ? `${className} mb-4` : "mb-4"}>
+  <Card title={title} className={cx(className, "mb-4")}>
     <div className="grid formgrid">{children}</div>
   </Card>
 );

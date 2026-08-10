@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 import { List } from "./index";
+import { getListItems } from "./testing";
 
 describe("<List.Container />", () => {
   it("rend un ul portant la classe de liste", () => {
@@ -63,5 +64,39 @@ describe("<List.Item />", () => {
     render(<List.Item ref={ref}>Déplaçable</List.Item>);
 
     expect(ref.current).toBeInstanceOf(HTMLLIElement);
+  });
+});
+
+describe("getListItems", () => {
+  it("retourne les éléments de liste dans l'ordre du rendu", () => {
+    const { container } = render(
+      <List.Container>
+        <List.Item>Premier</List.Item>
+        <List.Item>Deuxième</List.Item>
+      </List.Container>,
+    );
+
+    expect(getListItems(container).map((item) => item.textContent)).toEqual([
+      "Premier",
+      "Deuxième",
+    ]);
+  });
+
+  it("ignore les li qui ne viennent pas de List.Item, comme ceux d'une pagination", () => {
+    const { container } = render(
+      <>
+        <List.Container>
+          <List.Item>Résultat</List.Item>
+        </List.Container>
+        <nav>
+          <ul>
+            <li>1</li>
+            <li>2</li>
+          </ul>
+        </nav>
+      </>,
+    );
+
+    expect(getListItems(container).map((item) => item.textContent)).toEqual(["Résultat"]);
   });
 });
