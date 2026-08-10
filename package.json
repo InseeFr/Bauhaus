@@ -18,7 +18,7 @@
     "build": "vite build && pnpm create-zip",
     "create-zip": "cd build && bestzip build.zip *",
     "knip": "knip",
-    "pre-push": "pnpm format:check && pnpm lint && pnpm knip && pnpm test:coverage -- --allowOnly false",
+    "pre-push": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm test:coverage -- --allowOnly false",
     "prepare": "husky",
     "_format": "oxfmt src",
     "format": "pnpm _format",

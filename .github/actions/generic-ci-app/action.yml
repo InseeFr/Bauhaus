@@ -21,6 +21,9 @@ runs:
     - name: 🧪 Running ESLint
       shell: bash
       run: pnpm lint
+    - name: 🧪 Running TypeScript
+      shell: bash
+      run: pnpm typecheck
     - name: 🧪 Running Knip
       shell: bash
       run: pnpm knip
