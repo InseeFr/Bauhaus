@@ -2,7 +2,7 @@ import { Navigate, RouteObject } from "react-router-dom";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { CREATE, UPDATE, VIEW } from "../msd/constant";
+import { CREATE, UPDATE, VIEW } from "../pages/msd/constant";
 
 export const routes: RouteObject[] = [
   {
@@ -11,7 +11,7 @@ export const routes: RouteObject[] = [
   },
   {
     path: "families",
-    lazy: () => import("../families/"),
+    lazy: () => import("../pages/families/home/page"),
     loader: () => OperationsApi.getAllFamilies(),
     shouldRevalidate: ({ currentUrl, nextUrl }) => {
       return currentUrl.pathname !== nextUrl.pathname;
@@ -19,103 +19,103 @@ export const routes: RouteObject[] = [
   },
   {
     path: "families/create",
-    lazy: () => import("../families/edition"),
+    lazy: () => import("../pages/families/edit/page"),
   },
   {
     path: "family/:id",
-    lazy: () => import("../families/visualization/"),
+    lazy: () => import("../pages/families/view/page"),
   },
   {
     path: "family/:id/modify",
-    lazy: () => import("../families/edition"),
+    lazy: () => import("../pages/families/edit/page"),
   },
   {
     path: "series",
-    lazy: () => import("../series/"),
+    lazy: () => import("../pages/series/home/page"),
   },
   {
     path: "series/search",
-    lazy: () => import("../series/search"),
+    lazy: () => import("../pages/series/search/page"),
   },
   {
     path: "series/create",
-    lazy: () => import("../series/edition"),
+    lazy: () => import("../pages/series/edit/page"),
   },
   {
     path: "series/:id",
-    lazy: () => import("../series/visualization/"),
+    lazy: () => import("../pages/series/view/page"),
   },
   {
     path: "series/:id/modify",
-    lazy: () => import("../series/edition"),
+    lazy: () => import("../pages/series/edit/page"),
   },
   {
     path: "operations",
-    lazy: () => import("../operations/"),
+    lazy: () => import("../pages/operations/home/page"),
   },
   {
     path: "operation/create",
-    lazy: () => import("../operations/edition"),
+    lazy: () => import("../pages/operations/edit/page"),
   },
   {
     path: "operation/:id",
-    lazy: () => import("../operations/visualization/"),
+    lazy: () => import("../pages/operations/view/page"),
   },
   {
     path: "operation/:id/modify",
-    lazy: () => import("../operations/edition"),
+    lazy: () => import("../pages/operations/edit/page"),
   },
   {
     path: "indicators",
-    lazy: () => import("../indicators/"),
+    lazy: () => import("../pages/indicators/home/page"),
   },
   {
     path: "indicator/create",
-    lazy: () => import("../indicators/edition"),
+    lazy: () => import("../pages/indicators/edit/page"),
   },
   {
     path: "indicator/:id",
-    lazy: () => import("../indicators/visualization/"),
+    lazy: () => import("../pages/indicators/view/page"),
   },
   {
     path: "indicator/:id/modify",
-    lazy: () => import("../indicators/edition"),
+    lazy: () => import("../pages/indicators/edit/page"),
   },
   {
     path: "documents",
-    lazy: () => import("../document/"),
+    lazy: () => import("../pages/documents/home/page"),
   },
   {
     path: "link/create",
-    lazy: () => import("../document/edition"),
+    lazy: () => import("../pages/documents/edit/page"),
   },
   {
     path: "document/create",
-    lazy: () => import("../document/edition"),
+    lazy: () => import("../pages/documents/edit/page"),
   },
   {
     path: "link/:id",
-    lazy: () => import("../document/visualization"),
+    lazy: () => import("../pages/documents/view/page"),
   },
   {
     path: "document/:id",
-    lazy: () => import("../document/visualization"),
+    lazy: () => import("../pages/documents/view/page"),
   },
   {
     path: "link/:id/modify",
-    lazy: () => import("../document/edition"),
+    lazy: () => import("../pages/documents/edit/page"),
   },
   {
     path: "document/:id/modify",
-    lazy: () => import("../document/edition"),
+    lazy: () => import("../pages/documents/edit/page"),
   },
   {
     path: "msd",
-    lazy: () => import("../msd/"),
+    lazy: () => import("../pages/msd/page"),
   },
   {
     path: "help/:idSection",
-    lazy: () => import("../msd/"),
+    lazy: () => import("../pages/msd/page"),
   },
   {
     path: "operation/:idParent/sims/create",
@@ -127,7 +127,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/operation/${params.idParent}/sims/create`,
       };
     },
-    lazy: () => import("../msd/"),
+    lazy: () => import("../pages/msd/page"),
   },
   {
     path: "series/:idParent/sims/create",
@@ -139,7 +139,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/series/${params.idParent}/sims/create`,
       };
     },
-    lazy: () => import("../msd/"),
+    lazy: () => import("../pages/msd/page"),
   },
   {
     path: "indicator/:idParent/sims/create",
@@ -151,7 +151,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/indicator/${params.idParent}/sims/create`,
       };
     },
-    lazy: () => import("../msd/"),
+    lazy: () => import("../pages/msd/page"),
   },
   {
     path: "sims/:id",
@@ -161,7 +161,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/sims/${params.id}/section/`,
       };
     },
-    lazy: () => import("../msd/"),
+    lazy: () => import("../pages/msd/page"),
   },
   {
     path: "sims/:id/modify",
@@ -172,7 +172,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/sims/${params.id}/modify`,
       };
     },
-    lazy: () => import("../msd/"),
+    lazy: () => import("../pages/msd/page"),
   },
   {
     path: "sims/:id/section/:idSection",
@@ -182,10 +182,10 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/sims/${params.id}/section/`,
       };
     },
-    lazy: () => import("../msd/"),
+    lazy: () => import("../pages/msd/page"),
   },
   {
     path: "tree",
-    lazy: () => import("../tree"),
+    lazy: () => import("../pages/tree/home/page"),
   },
 ];

@@ -1,4 +1,4 @@
-import { BOTH, DOCUMENT, LINK } from "../../modules-operations/document/utils";
+import { BOTH, DOCUMENT, LINK } from "../../modules-operations/pages/documents/utils";
 import "./filter-toggle-buttons.css";
 
 interface FilterToggleButtonsTypes {
