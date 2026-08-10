@@ -21,11 +21,11 @@ import { List } from "../list";
  * <SingleOrNestedListItem items={["Value 1", "Value 2", "Value 3"]} label="Field" />
  * // Renders: <li>Field: <List items={["Value 1", "Value 2", "Value 3"]} /></li>
  */
-export const SingleOrNestedListItem = ({
+export const SingleOrNestedListItem = <T,>({
   items,
   label,
   ...props
-}: Readonly<ComponentProps<typeof List> & { label: string }>) => {
+}: Readonly<ComponentProps<typeof List<T>> & { label: string }>) => {
   if (items.length === 1) {
     return <li>{`${label}: ${items[0]}`}</li>;
   }

@@ -14,7 +14,7 @@ import { getDocumentsList } from "./useDocumentsList";
 interface DocumentFormPanelTypes {
   opened: boolean;
   onHide: VoidFunction;
-  onAdd: (rubric?: string, lang?: string, documentId?: string) => void;
+  onAdd: (rubric?: string, lang?: string, document?: Document) => void;
 }
 export const DocumentFormPanel = ({ opened, onHide, onAdd }: Readonly<DocumentFormPanelTypes>) => {
   const langOptions = useCodesList("ISO-639");

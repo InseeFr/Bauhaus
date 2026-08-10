@@ -2,7 +2,7 @@ import react from "@vitejs/plugin-react";
 import { defineConfig, type Plugin } from "vite";
 import { viteEnvs } from "vite-envs";
 import csp from "vite-plugin-csp-guard";
-import { generateDdiTypes, SCHEMA_PATH as DDI_SCHEMA_PATH } from "./scripts/generate-ddi-types";
+import { generateDdiTypes, SCHEMA_PATH as DDI_SCHEMA_PATH } from "@bauhaus/ddi-codegen";
 
 function ddiTypesPlugin(): Plugin {
   return {

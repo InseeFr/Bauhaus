@@ -6,7 +6,15 @@
 		"skipLibCheck": true,
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
+		// Mode strict activé drapeau par drapeau : `"strict": true` d'un bloc laisse
+		// aujourd'hui ~150 erreurs, dues à `noImplicitAny` (~150) et `strictNullChecks`
+		// (~110), qui restent à traiter. Les drapeaux ci-dessous sont déjà respectés.
 		"strict": false,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"noImplicitThis": true,
+		"useUnknownInCatchVariables": true,
+		"alwaysStrict": true,
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
 		"allowUnreachableCode": false,

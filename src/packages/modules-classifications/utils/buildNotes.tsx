@@ -1,4 +1,4 @@
-export const buildNotes = (n) => [
+export const buildNotes = (n: Record<string, string | undefined>) => [
   {
     lg1: n.definitionLg1,
     lg2: n.definitionLg2,

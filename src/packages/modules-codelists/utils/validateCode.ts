@@ -3,7 +3,14 @@ import { z } from "zod";
 
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
 
-const ZodCode = (shouldCheckDuplicate, codes) =>
+/** Valeurs saisies dans le formulaire d'un code, avant validation. */
+interface CodeFormValues {
+  code?: string;
+  labelLg1?: string;
+  labelLg2?: string;
+}
+
+const ZodCode = (shouldCheckDuplicate: boolean, codes: CodeFormValues[]) =>
   z.object({
     code: mandatoryAndNotEmptyTextField(i18next.t("codes.title")).refine(
       (value) => !shouldCheckDuplicate || !codes.some((c) => c.code === value),
@@ -13,6 +20,10 @@ const ZodCode = (shouldCheckDuplicate, codes) =>
     labelLg2: mandatoryAndNotEmptyTextField(i18next.t("codes.label", { lng: "en" })),
   });
 
-export const validateCode = (code, codes, updateMode) => {
+export const validateCode = (
+  code: CodeFormValues,
+  codes: CodeFormValues[],
+  updateMode: boolean,
+) => {
   return formatValidation(ZodCode(!updateMode, codes))(code);
 };
