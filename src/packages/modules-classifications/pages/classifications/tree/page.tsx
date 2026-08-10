@@ -19,14 +19,16 @@ interface ClassificationGeneral {
 export const Component = () => {
   const [secondLang] = useSecondLang();
 
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
 
   const [general, setGeneral] = useState<ClassificationGeneral>();
 
   const { isLoading, data: flatTree } = useClassificationsItem(id);
 
   useEffect(() => {
-    ClassificationsApi.getClassificationGeneral(id).then((response) => setGeneral(response));
+    ClassificationsApi.getClassificationGeneral(id).then((response: ClassificationGeneral) =>
+      setGeneral(response),
+    );
   }, [id]);
 
   if (isLoading || !general) return <Loading />;
@@ -35,7 +37,7 @@ export const Component = () => {
 
   return (
     <ClassificationTree
-      prefLabel={secondLang ? prefLabelLg2 : prefLabelLg1}
+      prefLabel={(secondLang ? prefLabelLg2 : prefLabelLg1) ?? ""}
       data={flatTree}
       secondLang={secondLang}
     />

@@ -7,6 +7,8 @@ vi.mock("../../utils", () => ({
   getParentIdName: vi.fn(),
 }));
 
+type Rubric = { idAttribute: string; value: string };
+
 describe("generateSimsBeforeSubmit", () => {
   it("should generate the correct payload for CREATE mode", () => {
     (utils.getParentIdName as Mock).mockReturnValue("parentId");
@@ -48,7 +50,8 @@ describe("generateSimsBeforeSubmit", () => {
       { rubric3: "value3" },
     );
 
-    expect(result.idOperation).toBe("parent789");
+    // Le nom de la clé parente est calculé (`[getParentIdName(...)]`) : invisible du typage.
+    expect((result as { idOperation?: string }).idOperation).toBe("parent789");
     expect(utils.getParentIdName).toHaveBeenCalledWith("indicator");
   });
 
@@ -95,10 +98,10 @@ describe("generateSimsBeforeSubmit", () => {
         metadataStructure,
       );
 
-      const updated = result.rubrics.find((r) => r.idAttribute === "S.2.3");
+      const updated = result.rubrics.find((r: Rubric) => r.idAttribute === "S.2.3");
       expect(updated.value).toBe("2026-05-07T10:00:00.000Z");
 
-      const untouched = result.rubrics.find((r) => r.idAttribute === "S.2.4");
+      const untouched = result.rubrics.find((r: Rubric) => r.idAttribute === "S.2.4");
       expect(untouched.value).toBe("manual");
     });
 

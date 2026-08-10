@@ -11,9 +11,9 @@ import { InseeOrganisation } from "@components/business/organisations/organisati
 
 export interface CollectionAttribute {
   created?: string;
-  modified?: string;
+  modified?: string | null;
   creator?: string | string[];
-  contributor?: string | string[];
+  contributor?: string | string[] | null;
   validationState?: ValidationState;
   descriptionLg1?: string;
   descriptionLg2?: string;

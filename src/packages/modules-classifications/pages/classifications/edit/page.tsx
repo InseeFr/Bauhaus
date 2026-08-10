@@ -29,7 +29,7 @@ import { CreatorsInput } from "@components/business/creators-input";
 export const Component = () => {
   const { t } = useTranslation();
 
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
 
   const { isLoading, classification, status } = useClassification(id);
 
@@ -44,7 +44,7 @@ export const Component = () => {
   const seriesOptions = transformModelToSelectOptions(series ?? []);
 
   useEffect(() => {
-    if (status === "success" && !value?.general) {
+    if (status === "success" && classification && !value?.general) {
       dispatch({ type: "SET_VALUE", payload: classification });
     }
   }, [status, classification]);
@@ -57,7 +57,7 @@ export const Component = () => {
     return <Navigate to={"/classifications/classification/" + id} replace />;
   }
 
-  if (!value?.general) return null;
+  if (!classification || !value?.general) return null;
 
   const general = value.general;
 
@@ -143,14 +143,14 @@ export const Component = () => {
             <label htmlFor="descriptionLg1">{t("classification.summary", { lng: "fr" })}</label>
             <MDEditor
               text={general.descriptionLg1}
-              handleChange={(v: string) => setGeneral({ descriptionLg1: v })}
+              handleChange={(v) => setGeneral({ descriptionLg1: v })}
             />
           </div>
           <div className="col-md-6 form-group">
             <label htmlFor="descriptionLg2">{t("classification.summary", { lng: "en" })}</label>
             <MDEditor
               text={general.descriptionLg2}
-              handleChange={(v: string) => setGeneral({ descriptionLg2: v })}
+              handleChange={(v) => setGeneral({ descriptionLg2: v })}
             />
           </div>
         </Row>
@@ -205,7 +205,7 @@ export const Component = () => {
           <DisseminationStatusInput
             withLabel={false}
             value={general.disseminationStatus}
-            handleChange={(v: string) => setGeneral({ disseminationStatus: v })}
+            handleChange={(v) => setGeneral({ disseminationStatus: v })}
           />
         </div>
         <div className="form-group">
@@ -248,7 +248,7 @@ export const Component = () => {
                   </LabelRequired>
                   <MDEditor
                     text={general.scopeNoteLg1}
-                    handleChange={(v: string) => setGeneral({ scopeNoteLg1: v })}
+                    handleChange={(v) => setGeneral({ scopeNoteLg1: v })}
                   />
                 </>
               )}
@@ -261,7 +261,7 @@ export const Component = () => {
                   </LabelRequired>
                   <MDEditor
                     text={general.scopeNoteLg2}
-                    handleChange={(v: string) => setGeneral({ scopeNoteLg2: v })}
+                    handleChange={(v) => setGeneral({ scopeNoteLg2: v })}
                   />
                 </>
               )}
@@ -278,7 +278,7 @@ export const Component = () => {
                   </LabelRequired>
                   <MDEditor
                     text={general.changeNoteLg1}
-                    handleChange={(v: string) => setGeneral({ changeNoteLg1: v })}
+                    handleChange={(v) => setGeneral({ changeNoteLg1: v })}
                   />
                 </>
               )}
@@ -291,7 +291,7 @@ export const Component = () => {
                   </LabelRequired>
                   <MDEditor
                     text={general.changeNoteLg2}
-                    handleChange={(v: string) => setGeneral({ changeNoteLg2: v })}
+                    handleChange={(v) => setGeneral({ changeNoteLg2: v })}
                   />
                 </>
               )}

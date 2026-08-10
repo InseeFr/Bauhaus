@@ -1,4 +1,4 @@
-import { validateCode } from "./validateCode";
+import { CodeFormValues, validateCode } from "./validateCode";
 
 vi.mock("i18next", () => ({
   default: {
@@ -22,7 +22,7 @@ vi.mock("i18next", () => ({
 describe("validateCode", () => {
   it("should return errors for missing mandatory fields", () => {
     const code = {};
-    const codes = [];
+    const codes: CodeFormValues[] = [];
     const updateMode = false;
 
     const result = validateCode(code, codes, updateMode);

@@ -61,7 +61,7 @@ const SearchableList = ({
     const searchQuery = new URL(url).searchParams;
 
     if (searchQuery.has("search")) {
-      setSearch(DOMPurify.sanitize(searchQuery.get("search")));
+      setSearch(DOMPurify.sanitize(searchQuery.get("search") ?? ""));
     }
   }, [url]);
 

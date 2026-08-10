@@ -71,7 +71,7 @@ export const VariableInformationTab = ({
         <label htmlFor="variable-description">
           {t("physicalInstance.view.columns.description")}
         </label>
-        <MDEditor text={description} handleChange={onDescriptionChange} />
+        <MDEditor text={description} handleChange={(value) => onDescriptionChange(value ?? "")} />
       </div>
     </div>
   );

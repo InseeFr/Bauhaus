@@ -25,7 +25,8 @@ const defaultFamily: Partial<Family> = {
 };
 
 interface OperationsFamilyEditionProps {
-  id: string;
+  /** Absent en création : la page compare `id` à celui de la famille chargée. */
+  id?: string;
   family: Family;
   goBack: (url: string, replace?: boolean) => void;
 }

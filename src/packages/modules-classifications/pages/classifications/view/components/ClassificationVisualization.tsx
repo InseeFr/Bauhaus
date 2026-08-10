@@ -18,7 +18,7 @@ import { ClassificationControls } from "./ClassificationControls";
 interface ClassificationVisualizationTypes {
   classification: ClassificationWithLevels;
   classificationId: string;
-  secondLang?: boolean;
+  secondLang: boolean;
   publish: VoidFunction;
   serverSideError?: any;
 }

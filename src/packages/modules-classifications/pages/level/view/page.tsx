@@ -8,7 +8,7 @@ import { useClassificationLevel } from "../../../hooks/useClassificationLevel";
 import { LevelVisualization } from "./components/LevelVisualization";
 
 export const Component = () => {
-  const { classificationId, levelId } = useParams<{
+  const { classificationId = "", levelId = "" } = useParams<{
     classificationId: string;
     levelId: string;
   }>();

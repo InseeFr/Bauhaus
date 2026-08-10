@@ -19,7 +19,7 @@ export const Component = () => {
 
   useEffect(() => {
     ClassificationsApi.getFamiliesList()
-      .then((result) => setFamilies(result))
+      .then((result: Family[]) => setFamilies(result))
       .finally(() => setLoading(false));
   }, []);
 

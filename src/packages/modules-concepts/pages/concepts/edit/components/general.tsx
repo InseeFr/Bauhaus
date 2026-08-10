@@ -99,7 +99,7 @@ function ConceptGeneralEdition({
           colMd={6}
           label={`${t("concept.edit.labelTitle")} (${lg2})`}
           hiddenStar
-          value={prefLabelLg2}
+          value={prefLabelLg2 ?? ""}
           handleChange={(value: string) => handlers.prefLabelLg2?.(value)}
           className="w-100"
         />
@@ -121,7 +121,12 @@ function ConceptGeneralEdition({
         <ClientSideError id="creator-error" error={errorMessage?.fields?.creator} />
       </div>
       <div className="form-group">
-        <ContributorsInput disabled value={contributor} onChange={() => {}} mode="organisation" />
+        <ContributorsInput
+          disabled
+          value={contributor ?? ""}
+          onChange={() => {}}
+          mode="organisation"
+        />
       </div>
       <div className="form-group">
         <DisseminationStatusInput
@@ -148,7 +153,7 @@ function ConceptGeneralEdition({
         <label>{t("concept.general.validDateTitle")}</label>
         <DatePicker
           value={typeof valid === "string" ? valid : ""}
-          onChange={(value: string) => handlers.valid?.(value)}
+          onChange={(value) => handlers.valid?.(value ?? "")}
         />
       </div>
     </div>

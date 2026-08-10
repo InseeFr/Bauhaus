@@ -4,7 +4,7 @@ import { z } from "zod";
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
 
 /** Valeurs saisies dans le formulaire d'un code, avant validation. */
-interface CodeFormValues {
+export interface CodeFormValues {
   code?: string;
   labelLg1?: string;
   labelLg2?: string;

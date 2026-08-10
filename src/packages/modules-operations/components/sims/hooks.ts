@@ -122,8 +122,8 @@ export const useGeographies = (territory: any = {}) => {
     pickGeographiesByUri(territory?.unions ?? [], allGeographies),
   );
   const geographies = useMemo(() => {
-    const includesValues = includes.map(({ value }: GeographyOption) => value);
-    const excludesValues = excludes.map(({ value }: GeographyOption) => value);
+    const includesValues = includes.map((geography) => geography?.value);
+    const excludesValues = excludes.map((geography) => geography?.value);
     const values = [...includesValues, ...excludesValues];
     return allGeographies.filter(({ value }) => !values.includes(value));
   }, [includes, excludes, allGeographies]);

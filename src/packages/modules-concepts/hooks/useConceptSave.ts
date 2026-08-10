@@ -21,7 +21,12 @@ interface ConceptPayload {
 
 export type SaveFn = {
   (data: ConceptSaveData): void;
-  (id: string, versioningType: string, oldData: ConceptSaveData, data: ConceptSaveData): void;
+  (
+    id: string,
+    versioningType: string | undefined,
+    oldData: ConceptSaveData,
+    data: ConceptSaveData,
+  ): void;
 };
 
 export const useConceptSave = (id: string | undefined) => {

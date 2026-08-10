@@ -24,7 +24,8 @@ export const Menu = ({ sims, owners, onExport, onDelete, onPublish }: Readonly<M
 
   return (
     <ActionToolbar>
-      <ReturnButton action={() => goBack(getParentUri(sims))} />
+      {/* Une SIMS est toujours rattachée à une opération, une série ou un indicateur. */}
+      <ReturnButton action={() => goBack(getParentUri(sims)!)} />
       <HasAccess module="OPERATION_SIMS" privilege="DELETE" complementaryCheck={!!sims.idSeries}>
         <DeleteButton action={onDelete} />
       </HasAccess>

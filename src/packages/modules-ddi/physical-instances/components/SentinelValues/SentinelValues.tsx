@@ -162,7 +162,7 @@ export const SentinelValues = ({
   const loadedRows: CodeTableRow[] = (loadedCodeList?.Code ?? []).map((code) => ({
     id: code.ID,
     value: code.Value?.StringValue ?? "",
-    label: loadedCategoryLabelById.get(code.CategoryReference?.ID) ?? "",
+    label: loadedCategoryLabelById.get(code.CategoryReference?.ID ?? "") ?? "",
     categoryId: code.CategoryReference?.ID ?? "",
   }));
 

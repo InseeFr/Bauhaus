@@ -37,7 +37,14 @@ import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalIns
 import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
 import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
-import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
+import type {
+  VariableTableData,
+  Variable,
+  CodeList,
+  Code,
+  Category,
+  LogicalRecord,
+} from "../../types/api";
 import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
 import { LoadingOverlay } from "../../../../components/loading-overlay";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
@@ -636,12 +643,15 @@ export const Component = () => {
                 });
             }
 
-            // S'assurer que la CodeListReference pointe vers le bon ID
+            // S'assurer que la CodeListReference pointe vers le bon ID. Elle est optionnelle au
+            // schéma mais toujours posée par `createDefaultRepresentation` : une représentation
+            // code n'a pas de sens sans elle.
+            const codeListReference = localVar.codeRepresentation.CodeListReference!;
             const codeRepresentation = {
               ...localVar.codeRepresentation,
               CodeListReference: {
-                ...localVar.codeRepresentation.CodeListReference,
-                ID: localVar.codeList?.ID || localVar.codeRepresentation.CodeListReference.ID,
+                ...codeListReference,
+                ID: localVar.codeList?.ID || codeListReference.ID,
               },
             };
 
@@ -710,7 +720,7 @@ export const Component = () => {
 
         return {
           ...dr,
-          LogicalRecord: dr.LogicalRecord.map((lr, lrIndex) =>
+          LogicalRecord: dr.LogicalRecord?.map((lr: LogicalRecord, lrIndex: number) =>
             lrIndex === 0
               ? { ...lr, VariablesInRecord: { VariableUsedReference: variableReferences } }
               : lr,

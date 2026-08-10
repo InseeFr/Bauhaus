@@ -160,7 +160,7 @@ export const useSharedEditGuard = ({
     (row: CodeTableRow, alsoForkList: boolean): CommitEdit =>
     (representation, editedCodeList, editedCategories) => {
       const source = editedCategories?.find((cat) => cat.ID === row.categoryId);
-      if (!source || !editedCodeList) {
+      if (!source || !editedCategories || !editedCodeList) {
         onChange(representation, editedCodeList, editedCategories);
         return;
       }
@@ -181,8 +181,8 @@ export const useSharedEditGuard = ({
                   ID: variantCategory.ID,
                   Version: variantCategory.Version,
                   // L'URN de la variante n'existe pas encore : c'est le back qui la synthétise
-                  // à partir de l'identité, à l'écriture.
-                  URN: undefined,
+                  // à partir de l'identité, à l'écriture. Le schéma généré la déclare requise.
+                  URN: undefined as unknown as string,
                 },
               }
             : code,

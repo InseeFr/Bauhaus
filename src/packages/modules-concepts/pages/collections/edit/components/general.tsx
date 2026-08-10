@@ -14,7 +14,7 @@ interface CollectionGeneral {
   prefLabelLg1?: string;
   prefLabelLg2?: string;
   creator?: string;
-  contributor?: string;
+  contributor?: string | null;
   descriptionLg1?: string;
   descriptionLg2?: string;
 }

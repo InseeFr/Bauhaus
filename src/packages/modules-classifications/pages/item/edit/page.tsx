@@ -26,7 +26,7 @@ export const Component = () => {
 
   const queryClient = useQueryClient();
 
-  const { classificationId, itemId } = useParams<{
+  const { classificationId = "", itemId = "" } = useParams<{
     classificationId: string;
     itemId: string;
   }>();

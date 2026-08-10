@@ -27,7 +27,7 @@ export const isOutOfDate = (end: Date | string) => dayjs().isAfter(end);
 
 export const today = () => dayjs().locale(getLang()).format("L");
 
-export const stringToDate = (string: string, lang?: string) => {
+export const stringToDate = (string: string | undefined, lang?: string) => {
   if (!string) {
     return "";
   }

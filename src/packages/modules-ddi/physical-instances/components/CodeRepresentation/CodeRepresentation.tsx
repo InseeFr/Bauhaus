@@ -226,7 +226,7 @@ export const CodeRepresentation = ({
     const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
       id: code.ID,
       value: code.Value?.StringValue ?? "",
-      label: categoryLabelById.get(code.CategoryReference?.ID) ?? "",
+      label: categoryLabelById.get(code.CategoryReference?.ID ?? "") ?? "",
       categoryId: code.CategoryReference?.ID ?? "",
     }));
     dispatch({

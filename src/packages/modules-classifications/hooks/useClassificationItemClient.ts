@@ -20,7 +20,7 @@ export const fetchingPreviousLevels = (
 
   if (previousLevel) {
     return ClassificationsApi.getClassificationLevelMembers(classificationId, previousLevel).then(
-      (data) => sortArray("labelLg1")(data),
+      (data: Record<string, unknown>[]) => sortArray("labelLg1")(data),
     );
   }
 

@@ -18,7 +18,7 @@ type CollectionSummaryRow = {
 };
 
 export type CollectionStampRow = {
-  stamp: string;
+  stamp: string | null;
   total: number;
 };
 

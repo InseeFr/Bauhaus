@@ -12,7 +12,7 @@ import { ItemVisualization } from "./components/ItemVisualization";
 export const Component = () => {
   const queryClient = useQueryClient();
 
-  const { classificationId, itemId } = useParams<{
+  const { classificationId = "", itemId = "" } = useParams<{
     classificationId: string;
     itemId: string;
   }>();
@@ -21,7 +21,7 @@ export const Component = () => {
 
   const { isLoading, item } = useClassificationItem(classificationId, itemId, true);
 
-  if (isLoading || !item.general) return <Loading />;
+  if (isLoading || !item?.general) return <Loading />;
 
   queryClient.prefetchQuery({
     queryKey: ["classification-parent-levels", classificationId, itemId],

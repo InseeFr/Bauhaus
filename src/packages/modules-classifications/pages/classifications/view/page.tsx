@@ -8,7 +8,7 @@ import { usePublishClassification } from "../../../hooks/usePublishClassificatio
 import { ClassificationVisualization } from "./components/ClassificationVisualization";
 
 export const Component = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
 
   const [secondLang] = useSecondLang();
 

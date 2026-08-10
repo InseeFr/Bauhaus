@@ -145,10 +145,13 @@ export const isCodeListSharedWithOthers = (
  * appartiennent au back, qui les (re)produit à la sauvegarde. Les recopier de la source serait de
  * surcroît faux pour la variante, qui a une autre identité. Les champs sont donc explicitement
  * remis à `undefined`, l'objet source étant repris par étalement.
+ *
+ * Le schéma généré déclare `URN` requise sur tout Versionable : le `as string` assume ce trou,
+ * comblé par le back à la sauvegarde.
  */
 const freshIdentity = () => ({
   VersionDate: undefined,
-  URN: undefined,
+  URN: undefined as unknown as string,
   ID: crypto.randomUUID(),
   Version: "1",
 });
@@ -166,7 +169,8 @@ const basedOn = (
   BasedOnReference: [
     {
       $type: type,
-      URN: source.URN,
+      // Requise par le schéma généré, mais absente d'une source pas encore sauvegardée.
+      URN: source.URN as string,
       Agency: agency,
       ID: source.ID,
       Version: source.Version ?? "1",

@@ -21,10 +21,10 @@ export const Component = () => {
           (results as Document[]).map((document) => {
             return {
               label: (document.labelLg1 || document.labelLg2).trim(),
-              uri: document.uri,
+              uri: document.uri ?? "",
               lang: document.lang,
-              updatedDate: document.updatedDate,
-              id: document.uri?.substr(document.uri.lastIndexOf("/") + 1),
+              updatedDate: document.updatedDate ?? "",
+              id: document.uri?.substr(document.uri.lastIndexOf("/") + 1) ?? "",
             };
           }),
         );

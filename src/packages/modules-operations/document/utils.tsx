@@ -4,10 +4,10 @@ export const BOTH = "BOTH";
 export const DOCUMENT = "document";
 export const LINK = "link";
 
-export function isLink(document: Document | HomeDocument) {
-  return document?.uri?.includes("/page/");
+export function isLink(document: Document | HomeDocument): boolean {
+  return document?.uri?.includes("/page/") ?? false;
 }
 
-export function isDocument(document: Document | HomeDocument) {
-  return document?.uri?.includes("/document/");
+export function isDocument(document: Document | HomeDocument): boolean {
+  return document?.uri?.includes("/document/") ?? false;
 }

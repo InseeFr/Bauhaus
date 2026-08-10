@@ -72,8 +72,8 @@ const renderApp = (
     <OidcProvider fallback="Checking authentication ⌛️">
       <QueryClientProvider client={queryClient}>
         <AppContextProvider
-          lg1={lg1}
-          lg2={lg2}
+          lg1={lg1 ?? ""}
+          lg2={lg2 ?? ""}
           version={version}
           properties={properties as AppProperties}
           authType={authType}

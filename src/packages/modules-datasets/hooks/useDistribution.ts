@@ -1,7 +1,7 @@
 import { DistributionApi } from "@sdk/distributions-api";
 import { useQuery } from "@tanstack/react-query";
 
-export const useDistribution = (id: string) => {
+export const useDistribution = (id: string | undefined) => {
   return useQuery({
     enabled: !!id,
     queryKey: ["distributions", id],

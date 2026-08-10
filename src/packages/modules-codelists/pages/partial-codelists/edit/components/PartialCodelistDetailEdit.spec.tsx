@@ -46,10 +46,10 @@ describe("CodelistPartialDetailEdit - Hook integration tests", () => {
       });
 
       const { data } = useUserStamps();
-      const firstStamp = data[0]?.stamp;
+      const firstStamp = data?.[0]?.stamp;
 
       expect(firstStamp).toBe("FIRST-STAMP");
-      expect(data[1].stamp).toBe("SECOND-STAMP");
+      expect(data![1].stamp).toBe("SECOND-STAMP");
     });
 
     it("should handle empty stamps array gracefully", () => {
@@ -58,7 +58,7 @@ describe("CodelistPartialDetailEdit - Hook integration tests", () => {
       });
 
       const { data } = useUserStamps();
-      const stamp = data[0]?.stamp;
+      const stamp = data?.[0]?.stamp;
 
       expect(data).toEqual([]);
       expect(stamp).toBeUndefined();
@@ -73,7 +73,7 @@ describe("CodelistPartialDetailEdit - Hook integration tests", () => {
       const { data } = useUserStamps();
 
       expect(Array.isArray(data)).toBe(true);
-      expect(data[0]).toHaveProperty("stamp");
+      expect(data![0]).toHaveProperty("stamp");
     });
   });
 
@@ -147,7 +147,7 @@ describe("CodelistPartialDetailEdit - Hook integration tests", () => {
       (useAuthorizationGuard as Mock).mockReturnValue(true);
 
       const { data: stamps } = useUserStamps();
-      const stamp = stamps[0]?.stamp;
+      const stamp = stamps?.[0]?.stamp;
       const isContributor = useAuthorizationGuard({
         module: "CODESLIST_CODESLIST",
         privilege: "CREATE",
@@ -170,7 +170,7 @@ describe("CodelistPartialDetailEdit - Hook integration tests", () => {
       (useAuthorizationGuard as Mock).mockReturnValue(false);
 
       const { data: stamps } = useUserStamps();
-      const stamp = stamps[0]?.stamp;
+      const stamp = stamps?.[0]?.stamp;
       const isContributor = useAuthorizationGuard({
         module: "CODESLIST_CODESLIST",
         privilege: "CREATE",
@@ -204,7 +204,7 @@ describe("CodelistPartialDetailEdit - Hook integration tests", () => {
 
   describe("Global codelist options", () => {
     it("should handle empty globalCodeListOptions", () => {
-      const emptyOptions = [];
+      const emptyOptions: unknown[] = [];
 
       expect(emptyOptions).toHaveLength(0);
       expect(Array.isArray(emptyOptions)).toBe(true);

@@ -11,7 +11,7 @@ const { D } = createAllDictionary({
     en: "Modification date",
   },
 });
-export const DateItem = ({ date }: Readonly<{ date: string }>) => {
+export const DateItem = ({ date }: Readonly<{ date?: string | null }>) => {
   if (!date || date === "") {
     return <></>;
   }
@@ -22,8 +22,8 @@ export const CreationUpdateItems = ({
   creation,
   update,
 }: Readonly<{
-  creation: string;
-  update: string;
+  creation?: string | null;
+  update?: string | null;
 }>) => {
   return (
     <>

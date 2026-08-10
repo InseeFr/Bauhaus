@@ -10,7 +10,7 @@ export const Component = () => {
     return <Loading />;
   }
 
-  const formattedCollections = collections.map((c) => ({
+  const formattedCollections = (collections ?? []).map((c) => ({
     id: c.id,
     label: c.label.value,
   }));
