@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 
 import D from "../../../../deprecated-locales";
 import { MetadataStructure } from "../../../../model/Sims";
-import { Status, useLayout } from "../../../useLayout";
+import { Status, useLayout } from "../../../hooks/useLayout";
 import Outline from "../outline";
 import "./style.scss";
 
