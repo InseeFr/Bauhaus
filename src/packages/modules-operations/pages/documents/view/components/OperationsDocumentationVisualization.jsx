@@ -125,4 +125,3 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
     </>
   );
 }
-

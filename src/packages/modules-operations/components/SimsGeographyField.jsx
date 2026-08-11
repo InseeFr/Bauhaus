@@ -129,4 +129,3 @@ export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
     </div>
   );
 };
-

@@ -163,4 +163,3 @@ export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[]
     </div>
   );
 }
-

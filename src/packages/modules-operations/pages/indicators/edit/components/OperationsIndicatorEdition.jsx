@@ -406,4 +406,3 @@ export class OperationsIndicatorEdition extends Component {
     );
   }
 }
-

@@ -106,4 +106,3 @@ export const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLa
     </>
   );
 };
-

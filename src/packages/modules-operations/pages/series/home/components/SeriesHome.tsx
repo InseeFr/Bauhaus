@@ -36,4 +36,3 @@ export function SeriesHome({ series }: Readonly<{ series: Series[] }>) {
     </div>
   );
 }
-

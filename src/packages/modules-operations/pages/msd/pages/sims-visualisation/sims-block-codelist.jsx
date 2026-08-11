@@ -24,4 +24,3 @@ export const SimsBlockCodeList = ({ codesLists, currentSection, multi = false, i
   const foundCode = codes.find((code) => code.code === currentSection.value);
   return isSecondLang ? foundCode?.labelLg2 : foundCode?.labelLg1;
 };
-

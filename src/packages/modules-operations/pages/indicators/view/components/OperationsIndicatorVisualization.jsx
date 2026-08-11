@@ -103,4 +103,3 @@ export function OperationsIndicatorVisualization({ attr, secondLang, frequency =
     </>
   );
 }
-

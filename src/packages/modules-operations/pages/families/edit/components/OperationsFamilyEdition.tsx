@@ -236,4 +236,3 @@ export const OperationsFamilyEdition = ({
     </div>
   );
 };
-

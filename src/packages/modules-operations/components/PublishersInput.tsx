@@ -7,7 +7,11 @@ interface PublishersInputProps {
   required?: boolean;
 }
 
-export const PublishersInput = ({ value, onChange, required = true }: Readonly<PublishersInputProps>) => {
+export const PublishersInput = ({
+  value,
+  onChange,
+  required = true,
+}: Readonly<PublishersInputProps>) => {
   return (
     <OrganisationInput
       value={value}
@@ -20,4 +24,3 @@ export const PublishersInput = ({ value, onChange, required = true }: Readonly<P
     />
   );
 };
-

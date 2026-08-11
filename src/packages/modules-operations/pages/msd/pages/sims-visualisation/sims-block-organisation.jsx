@@ -8,4 +8,3 @@ export const SimsBlockOrganisation = ({ currentSection }) => {
   const organisation = organisations.find((o) => o.iri === value || o.id === value);
   return <span>{organisation?.label ?? ""}</span>;
 };
-

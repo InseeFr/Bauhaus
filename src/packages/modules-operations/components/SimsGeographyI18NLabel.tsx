@@ -10,4 +10,3 @@ export const SimsGeographyI18NLabel = ({ geography }: { geography: Geography }) 
     </>
   );
 };
-

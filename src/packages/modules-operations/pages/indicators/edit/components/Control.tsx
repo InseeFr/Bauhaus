@@ -18,4 +18,3 @@ export function Control({ onSubmit, disabled }: Readonly<ControlTypes>) {
     </ActionToolbar>
   );
 }
-

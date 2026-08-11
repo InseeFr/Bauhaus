@@ -38,4 +38,3 @@ export function OperationsHome({ operations }) {
     </div>
   );
 }
-
