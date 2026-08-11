@@ -1,9 +1,9 @@
 import D from "../../../../deprecated-locales";
-import { rangeType } from "../../../utils/msd";
+import { rangeType } from "../../../utils/rangeType";
 
 const { CODE_LIST, ORGANIZATION } = rangeType;
 
-export default function HelpInformation({ msd, codesLists, organisations }) {
+export function HelpInformation({ msd, codesLists, organisations }) {
   if (!msd.masLabelLg1) {
     return null;
   }

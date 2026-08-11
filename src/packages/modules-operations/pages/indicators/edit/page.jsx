@@ -12,7 +12,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import D from "../../../../deprecated-locales";
 import { CL_FREQ } from "../../../../constants/code-lists";
-import OperationsIndicatorEdition from "./components/edition";
+import { OperationsIndicatorEdition } from "./components/OperationsIndicatorEdition";
 
 export const Component = (props) => {
   const { id } = useParams();

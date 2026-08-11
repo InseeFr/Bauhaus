@@ -6,7 +6,7 @@ import { RightSlidingPanel } from "@components/sliding-panel";
 import { useCodesList } from "@utils/hooks/codeslist";
 
 import { Document } from "../../../../../model/operations/document";
-import OperationsDocumentationEdition from "../../../../pages/documents/edit/components/edition";
+import { OperationsDocumentationEdition } from "../../../../pages/documents/edit/components/OperationsDocumentationEdition";
 import "./document-form-panel.css";
 import { useDocumentsStoreContext } from "./documents-store-context";
 import { getDocumentsList } from "./useDocumentsList";

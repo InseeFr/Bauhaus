@@ -7,7 +7,7 @@ import { GeneralApi } from "@sdk/general-api";
 
 import { useCodesList } from "@utils/hooks/codeslist";
 
-import DocumentationEdition from "./components/edition";
+import DocumentationEdition from "./components/OperationsDocumentationEdition";
 
 export const Component = (props) => {
   const { id } = useParams();

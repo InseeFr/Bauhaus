@@ -15,7 +15,7 @@ import { useLocales } from "@utils/hooks/useLocales";
 
 import D from "../../../../deprecated-locales";
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
-import OperationsSerieVisualization from "./components/home";
+import { OperationsSerieVisualization } from "./components/OperationsSerieVisualization";
 import { Menu } from "./menu";
 
 export const Component = () => {

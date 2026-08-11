@@ -11,7 +11,7 @@ import { useCodesList } from "@utils/hooks/codeslist";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { Menu } from "./menu";
-import OperationsDocumentVisualization from "./components/home";
+import { OperationsDocumentationVisualization as OperationsDocumentVisualization } from "./components/OperationsDocumentationVisualization";
 
 function getPath(path) {
   return path.includes("document") ? "document" : "link";

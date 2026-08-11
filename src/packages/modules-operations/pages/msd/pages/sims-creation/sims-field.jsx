@@ -9,8 +9,9 @@ import { sortArrayByLabel } from "@utils/array-utils";
 import { useOrganizations } from "@utils/hooks/organizations";
 
 import D from "../../../../../deprecated-locales";
-import SimsGeographyPicker from "../../../../components/sims/sims-geography-picker";
-import { isAutoUpdatedFromModified, rangeType } from "../../../../utils/msd";
+import { SimsGeographyPicker } from "../../../../components/SimsGeographyPicker";
+import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
+import { rangeType } from "../../../../utils/rangeType";
 import { SimsFieldTitle } from "../../sims-field-title";
 import { SimsCodeListSelect } from "./sims-code-list-select";
 import "./sims-field.css";

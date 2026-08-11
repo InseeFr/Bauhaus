@@ -15,7 +15,7 @@ import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
 import D from "../../../../deprecated-locales";
 import { filterKeyDeburr } from "../../../../utils/array-utils";
-import { TypeCodeInput } from "./components/typeCodeInput";
+import { TypeCodeInput } from "./components/TypeCodeInput";
 
 const filterLabel = filterKeyDeburr(["prefLabelLg1"]);
 const filterTypeCode = filterKeyDeburr(["typeCode"]);

@@ -11,7 +11,7 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import D from "../../../../deprecated-locales";
-import OperationsOperationVisualization from "./components/home";
+import { OperationsOperationVisualization } from "./components/OperationsOperationVisualization";
 import { Menu } from "./menu";
 
 export const Component = () => {

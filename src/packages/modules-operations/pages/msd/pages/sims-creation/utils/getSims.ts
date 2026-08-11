@@ -1,7 +1,7 @@
 import { OperationsApi } from "@sdk/operations-api";
 
 import { Rubric } from "../../../../../../model/Sims";
-import { flattenTree } from "../../../../../utils/msd";
+import { flattenTree } from "../../../../../utils/flattenTree";
 import { CREATE, DUPLICATE, HELP, UPDATE, VIEW } from "../../../constant";
 import { removeRubricsWhenDuplicate } from "../../../utils";
 

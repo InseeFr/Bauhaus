@@ -1,5 +1,5 @@
 import { Rubric, Sims } from "../../../model/Sims";
-import { rangeType } from "../../utils/msd";
+import { rangeType } from "../../utils/rangeType";
 import { CREATE, DUPLICATE } from "./constant";
 import {
   getParentId,

@@ -6,7 +6,7 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { sortArray } from "@utils/array-utils";
 
-import OperationsHome from "./components/home";
+import { OperationsHome } from "./components/OperationsHome";
 
 export const Component = () => {
   const [operations, setOperations] = useState([]);

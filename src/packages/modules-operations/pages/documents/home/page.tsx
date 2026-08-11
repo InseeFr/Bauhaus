@@ -6,7 +6,7 @@ import { GeneralApi } from "@sdk/general-api";
 
 import { Document } from "../../../../model/operations/document";
 import { sortArray } from "../../../../utils/array-utils";
-import DocumentHome from "./components/home";
+import { DocumentHome } from "./components/DocumentHome";
 
 const sortByLabel = sortArray("label");
 

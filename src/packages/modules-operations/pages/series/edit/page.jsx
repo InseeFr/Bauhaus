@@ -13,7 +13,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { useAppContext } from "../../../../application/app-context";
 import D from "../../../../deprecated-locales";
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
-import OperationsSerieEdition from "./components/edition";
+import { OperationsSerieEdition } from "./components/OperationsSerieEdition";
 
 export const Component = (props) => {
   const { id } = useParams();

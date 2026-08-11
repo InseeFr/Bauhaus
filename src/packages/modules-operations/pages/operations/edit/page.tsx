@@ -10,7 +10,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import D from "../../../../deprecated-locales";
 import { Operation } from "../../../../model/Operation";
-import OperationsOperationEdition from "./components/edition";
+import { OperationsOperationEdition } from "./components/OperationsOperationEdition";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();

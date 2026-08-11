@@ -13,7 +13,7 @@ import { useSecondLang } from "@utils/hooks/second-lang";
 
 import D from "../../../../deprecated-locales";
 import { CL_FREQ } from "../../../../constants/code-lists";
-import OperationsIndicatorVisualization from "./components/general";
+import { OperationsIndicatorVisualization } from "./components/OperationsIndicatorVisualization";
 import { Menu } from "./menu";
 
 export const Component = () => {

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { getTree } from "../utils/msd";
+import { getTree } from "../utils/getTree";
 
 export const useMetadataStructure = () => {
   const { isLoading, data: metadataStructure = {} } = useQuery({
