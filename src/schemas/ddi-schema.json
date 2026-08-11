@@ -36,10 +36,7 @@
           "pattern": "^(Z)|((\\\u002B|\\-)(00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]))$"
         }
       },
-      "required": [
-        "Year",
-        "Month"
-      ],
+      "required": ["Year", "Month"],
       "additionalProperties": false
     },
     "gYear": {
@@ -53,9 +50,7 @@
           "pattern": "^(Z)|((\\\u002B|\\-)(00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]))$"
         }
       },
-      "required": [
-        "Year"
-      ],
+      "required": ["Year"],
       "additionalProperties": false
     },
     "gMonthDay": {
@@ -72,10 +67,7 @@
           "pattern": "^(Z)|((\\\u002B|\\-)(00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]))$"
         }
       },
-      "required": [
-        "Month",
-        "Day"
-      ],
+      "required": ["Month", "Day"],
       "additionalProperties": false
     },
     "gDay": {
@@ -89,9 +81,7 @@
           "pattern": "^(Z)|((\\\u002B|\\-)(00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]))$"
         }
       },
-      "required": [
-        "Day"
-      ],
+      "required": ["Day"],
       "additionalProperties": false
     },
     "gMonth": {
@@ -105,9 +95,7 @@
           "pattern": "^(Z)|((\\\u002B|\\-)(00|0[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]))$"
         }
       },
-      "required": [
-        "Month"
-      ],
+      "required": ["Month"],
       "additionalProperties": false
     },
     "anyURI": {
@@ -148,10 +136,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "@language",
-        "@value"
-      ],
+      "required": ["@language", "@value"],
       "additionalProperties": false
     },
     "reference": {
@@ -344,13 +329,7 @@
           "description": ""
         }
       },
-      "required": [
-        "$type",
-        "URN",
-        "Agency",
-        "ID",
-        "Version"
-      ],
+      "required": ["$type", "URN", "Agency", "ID", "Version"],
       "additionalProperties": false
     },
     "AccessRestrictionDateType": {
@@ -392,9 +371,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "AccessType"
-          ]
+          "enum": ["AccessType"]
         },
         "TypeOfAccess": {
           "$ref": "#/$defs/CodeValueType",
@@ -493,9 +470,7 @@
           "description": "A reference to an organization or individual to contact for further information regarding the metadata or data."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ActionToMinimizeLossesType": {
       "type": "object",
@@ -508,9 +483,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ActionToMinimizeLossesType"
-          ]
+          "enum": ["ActionToMinimizeLossesType"]
         },
         "TypeOfActionToMinimizeLosses": {
           "$ref": "#/$defs/CodeValueType",
@@ -525,9 +498,7 @@
           "description": "Full description of the action taken to minimize loss of data."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ActionType": {
       "type": "object",
@@ -683,9 +654,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "AggregationVariablesType"
-          ]
+          "enum": ["AggregationVariablesType"]
         },
         "IndependentVariableReference": {
           "type": "array",
@@ -704,9 +673,7 @@
           "description": "A reference to a variable, for which the aggregate measure is computed like average of income."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "AnchorType": {
       "type": "object",
@@ -962,9 +929,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "AttributeType"
-          ]
+          "enum": ["AttributeType"]
         },
         "VariableReference": {
           "$ref": "#/$defs/reference",
@@ -999,9 +964,7 @@
           "description": "Describes the attachment level of the attribute as Cube, CoordinateRegion, Dimension, Measurement, or MeasurementValue."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "AudioType": {
       "type": "object",
@@ -1083,9 +1046,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "AuthorizedSourceType"
-          ]
+          "enum": ["AuthorizedSourceType"]
         },
         "OtherMaterialReference": {
           "$ref": "#/$defs/reference",
@@ -1096,9 +1057,7 @@
           "description": "Provides structural information for parsing the identification code structure of the Authorized Source into its separate parts."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "BasedOnObjectType": {
       "type": "object",
@@ -1106,9 +1065,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "BasedOnObjectType"
-          ]
+          "enum": ["BasedOnObjectType"]
         },
         "BasedOnReference": {
           "type": "array",
@@ -1131,9 +1088,7 @@
           "description": "RationaleCode is primarily for internal processing flags within an organization or system. Supports the use of an external controlled vocabulary."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "BasicIncrementType": {
       "type": "object",
@@ -1312,9 +1267,7 @@
           "description": "The variables required to provide a unique identification when the conditional variable contains the stated value."
         }
       },
-      "required": [
-        "VariableReference"
-      ]
+      "required": ["VariableReference"]
     },
     "CategoryDomainType": {
       "type": "object",
@@ -1327,9 +1280,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CategoryDomainType"
-          ]
+          "enum": ["CategoryDomainType"]
         },
         "Label": {
           "type": "array",
@@ -1360,9 +1311,7 @@
           "description": "Identifies the difference between the date applied to the data as a whole and this specific item such as previous year\u0027s income or residence 5 years ago."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CategoryRepresentationBaseType": {
       "type": "object",
@@ -1375,19 +1324,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CategoryDomainType",
-            "CategoryRepresentationBaseType"
-          ]
+          "enum": ["CategoryDomainType", "CategoryRepresentationBaseType"]
         },
         "CategorySchemeReference": {
           "$ref": "#/$defs/reference",
           "description": "A reference to a CategoryScheme containing the required categories using the SchemeReference structure. Use Exclude in the SchemeReference to designate any categories NOT to include in this representation."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CategoryStatisticType": {
       "type": "object",
@@ -2072,9 +2016,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CodeDomainType"
-          ]
+          "enum": ["CodeDomainType"]
         },
         "Label": {
           "type": "array",
@@ -2109,9 +2051,7 @@
           "description": "If set to \u0022true\u0022 (default value) the code value associated with the category label will be displayed. Set to \u0022false\u0022 if only the category label should not be displayed."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CodeRepresentationBaseType": {
       "type": "object",
@@ -2124,10 +2064,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CodeDomainType",
-            "CodeRepresentationBaseType"
-          ]
+          "enum": ["CodeDomainType", "CodeRepresentationBaseType"]
         },
         "CodeListReference": {
           "$ref": "#/$defs/reference",
@@ -2142,9 +2079,7 @@
           "description": "Allows further specification of the codes to use from the CodeList by defining the level or only the most discrete codes of a hierarchical CodeList, the range of codes to use, or an itemized sub-set."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CodeSubsetInformationType": {
       "type": "object",
@@ -2180,9 +2115,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CodeType"
-          ]
+          "enum": ["CodeType"]
         },
         "CategoryReference": {
           "$ref": "#/$defs/reference",
@@ -2217,9 +2150,7 @@
           "description": "This expresses a total whether or not isComprehensive is true. If isComprehensive = \u0022true\u0022 then if addition is supported by the measure type, the contained categories can be aggregated to calculate the total. If isComprehensive = \u0022false\u0022 or \u0022unknown\u0022 the content of this field cannot be calculated if the value is not provided in the data."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CodeValueType": {
       "type": "object",
@@ -2281,9 +2212,7 @@
           "description": "Identify the dimension being described by its rank value within the NCube description."
         }
       },
-      "required": [
-        "Rank"
-      ]
+      "required": ["Rank"]
     },
     "CollectionEventType": {
       "type": "object",
@@ -2296,9 +2225,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CollectionEventType"
-          ]
+          "enum": ["CollectionEventType"]
         },
         "CollectionEventName": {
           "type": "array",
@@ -2401,9 +2328,7 @@
           "description": "References the Sample used by this CollectionEvent. TypeOfObject should be Sample."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CollectionSituationType": {
       "type": "object",
@@ -2416,9 +2341,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CollectionSituationType"
-          ]
+          "enum": ["CollectionSituationType"]
         },
         "TypeOfCollectionSituation": {
           "$ref": "#/$defs/CodeValueType",
@@ -2433,9 +2356,7 @@
           "description": "Full description of the collection situation."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CollectionType": {
       "type": "object",
@@ -2700,9 +2621,7 @@
           "description": "Identifies the variables whose values are concatenated to form the concatenated variable. Note that the order of these variables determines the order of concatenation."
         }
       },
-      "required": [
-        "VariableReference"
-      ]
+      "required": ["VariableReference"]
     },
     "ConditionalIdentifierType": {
       "type": "object",
@@ -2749,9 +2668,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ConditionalTextType"
-          ]
+          "enum": ["ConditionalTextType"]
         },
         "Expression": {
           "$ref": "#/$defs/CommandCodeType",
@@ -2766,9 +2683,7 @@
           "description": "This allows for the simple insert of a piece of information from another specified parameter. For example, if the text of the item using conditional text included the respondent\u2019s name use SourceParameterReference to reference the InParameter of the question that is bound to the OutParameter of the question: \u0022What is your name?\u0022"
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ContactInformationType": {
       "type": "object",
@@ -2906,9 +2821,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CoordinatePairsType"
-          ]
+          "enum": ["CoordinatePairsType"]
         },
         "MaxArray": {
           "type": "integer",
@@ -2919,9 +2832,7 @@
           "description": "The character used to separate arrays, if present. If not given a value, and if the maxArray attribute has a value greater than one, the separator is assumed to be whitespace."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CoordinateRegionType": {
       "type": "object",
@@ -2934,9 +2845,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CoordinateRegionType"
-          ]
+          "enum": ["CoordinateRegionType"]
         },
         "Label": {
           "type": "array",
@@ -2971,9 +2880,7 @@
           "description": "Defines the included set of values needed to describe the coordinate region of the NCube on a Dimension by Dimension basis."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CorrespondenceType": {
       "type": "object",
@@ -3185,9 +3092,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DataCollectionMethodologyType"
-          ]
+          "enum": ["DataCollectionMethodologyType"]
         },
         "TypeOfDataCollectionMethodology": {
           "$ref": "#/$defs/CodeValueType",
@@ -3202,9 +3107,7 @@
           "description": "Full description of the data collection methodology."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DataExistenceType": {
       "type": "object",
@@ -3277,9 +3180,7 @@
           "description": "Date of version using the union set BaseDateType. Duration should not be used in this field, even though allowed by the ISO format enforced by the parser."
         }
       },
-      "required": [
-        "VersionNumber"
-      ]
+      "required": ["VersionNumber"]
     },
     "DataFingerprintType": {
       "type": "object",
@@ -3302,9 +3203,7 @@
           "description": "Brief identification of the type of data fingerprint used. The data fingerprint may be for the data file (storage format specific) or data (format neutral)."
         }
       },
-      "required": [
-        "Type"
-      ]
+      "required": ["Type"]
     },
     "DataItemAddressType": {
       "type": "object",
@@ -3514,9 +3413,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DateTimeDomainType"
-          ]
+          "enum": ["DateTimeDomainType"]
         },
         "Label": {
           "type": "array",
@@ -3547,9 +3444,7 @@
           "description": "Identifies the difference between the date applied to the data as a whole and this specific item such as previous year\u0027s income or residence 5 years ago."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DateTimeRepresentationBaseType": {
       "type": "object",
@@ -3562,10 +3457,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DateTimeDomainType",
-            "DateTimeRepresentationBaseType"
-          ]
+          "enum": ["DateTimeDomainType", "DateTimeRepresentationBaseType"]
         },
         "DateFieldFormat": {
           "$ref": "#/$defs/CodeValueType",
@@ -3588,9 +3480,7 @@
           "description": "The regular expression allows for further description of the allowable content of the data."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DateType": {
       "type": "object",
@@ -3644,9 +3534,7 @@
           "description": "The date when this agency ID was registered or become active."
         }
       },
-      "required": [
-        "RegistryID"
-      ]
+      "required": ["RegistryID"]
     },
     "DebriefingProcessType": {
       "type": "object",
@@ -3714,9 +3602,7 @@
           "description": ""
         }
       },
-      "required": [
-        "DelimiterTypeValue"
-      ]
+      "required": ["DelimiterTypeValue"]
     },
     "DevelopmentObjectType": {
       "type": "object",
@@ -3776,9 +3662,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DeviationFromSampleDesignType"
-          ]
+          "enum": ["DeviationFromSampleDesignType"]
         },
         "TypeOfDeviationFromSampleDesign": {
           "$ref": "#/$defs/CodeValueType",
@@ -3793,9 +3677,7 @@
           "description": "Full description of deviation from the sample design."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DimensionIntersectType": {
       "type": "object",
@@ -3837,9 +3719,7 @@
           "description": "Enter the rank (placement) order in which the value from this dimension appears in the coordinate address of any cell in the NCube matrix."
         }
       },
-      "required": [
-        "Rank"
-      ]
+      "required": ["Rank"]
     },
     "DimensionType": {
       "type": "object",
@@ -3854,9 +3734,7 @@
           "description": "The rank order of this dimension (the order in which the value for this dimension will appear in the cell address)denoted with a 1-based indexing. Provides coordinate order (1,2,n) for the intersect point of this dimension within the cell address. For example, if the rank of this dimension is 2, the intersect point on this dimension will be the second value listed in the cell address."
         }
       },
-      "required": [
-        "Rank"
-      ]
+      "required": ["Rank"]
     },
     "DistributionDomainType": {
       "type": "object",
@@ -3869,9 +3747,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DistributionDomainType"
-          ]
+          "enum": ["DistributionDomainType"]
         },
         "Label": {
           "type": "array",
@@ -3902,9 +3778,7 @@
           "description": "Identifies the difference between the date applied to the data as a whole and this specific item such as previous year\u0027s income or residence 5 years ago."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DistributionRepresentationBaseType": {
       "type": "object",
@@ -3917,10 +3791,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DistributionDomainType",
-            "DistributionRepresentationBaseType"
-          ]
+          "enum": ["DistributionDomainType", "DistributionRepresentationBaseType"]
         },
         "DistributionValue": {
           "type": "number",
@@ -3931,9 +3802,7 @@
           "description": "Identifies the number of decimal points allowed for the expression of a response."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DomainSpecificValueType": {
       "type": "object",
@@ -4060,9 +3929,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "EmbargoType"
-          ]
+          "enum": ["EmbargoType"]
         },
         "EmbargoName": {
           "type": "array",
@@ -4113,9 +3980,7 @@
           "description": "Reference to an organization or individual, defined in the organization scheme, responsible for enforcing the embargo."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "EmptyType": {
       "type": "object",
@@ -4207,9 +4072,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ExternalCategoryRepresentationBaseType"
-          ]
+          "enum": ["ExternalCategoryRepresentationBaseType"]
         },
         "ExternalCategoryReference": {
           "$ref": "#/$defs/anyURI",
@@ -4224,9 +4087,7 @@
           "description": "A description of the use of the external category file."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ExternalInformationType": {
       "type": "object",
@@ -4501,9 +4362,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicCoverageType"
-          ]
+          "enum": ["GeographicCoverageType"]
         },
         "BoundingBox": {
           "$ref": "#/$defs/BoundingBoxType",
@@ -4582,9 +4441,7 @@
           "description": "Reference to the bottom or lowest GeographicLevel."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicDomainType": {
       "type": "object",
@@ -4597,9 +4454,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicDomainType"
-          ]
+          "enum": ["GeographicDomainType"]
         },
         "Label": {
           "type": "array",
@@ -4618,9 +4473,7 @@
           "description": "A description of the content and purpose of the domain."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicLevelType": {
       "type": "object",
@@ -4633,9 +4486,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicLevelType"
-          ]
+          "enum": ["GeographicLevelType"]
         },
         "GeographicLevelName": {
           "type": "array",
@@ -4698,9 +4549,7 @@
           "description": "Use for geographic polygons that are the result of layering two or more geographic hierarchies where the polygon being described is the intersect of the layers. For example: State - County - County Subdivision - Place/Remainder - Tract [The portion of a tract that is within a single place (or non-place area) and a single county subdivision] This polygon is made by overlaying the following three geographic hierarchies: 1) State - Place, 2) State - County - Tract, and 3) State - County - Subdivision. The three GeographicLayerBase elements would point to Tract, Place, and County Subdivision."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicLocationCodeDomainType": {
       "type": "object",
@@ -4713,9 +4562,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicLocationCodeDomainType"
-          ]
+          "enum": ["GeographicLocationCodeDomainType"]
         },
         "Label": {
           "type": "array",
@@ -4750,9 +4597,7 @@
           "description": "If set to \u0022true\u0022 (default value) the code value associated with the category label will be displayed. Set to \u0022false\u0022 if only the category label should not be displayed."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicLocationCodeRepresentationBaseType": {
       "type": "object",
@@ -4779,9 +4624,7 @@
           "description": "When the code is a concatenation this structure allows you to limit the portion of the concatenated code that this object captures."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicLocationIdentifierType": {
       "type": "object",
@@ -4809,10 +4652,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicDomainType",
-            "GeographicRepresentationBaseType"
-          ]
+          "enum": ["GeographicDomainType", "GeographicRepresentationBaseType"]
         },
         "Datum": {
           "$ref": "#/$defs/CodeValueType",
@@ -4875,11 +4715,7 @@
           "description": "Indicates the spatial primitive object which the point references."
         }
       },
-      "required": [
-        "$type",
-        "PointFormat",
-        "SpatialPrimitive"
-      ]
+      "required": ["$type", "PointFormat", "SpatialPrimitive"]
     },
     "GeographicStructureCodeDomainType": {
       "type": "object",
@@ -4892,9 +4728,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicStructureCodeDomainType"
-          ]
+          "enum": ["GeographicStructureCodeDomainType"]
         },
         "Label": {
           "type": "array",
@@ -4929,9 +4763,7 @@
           "description": "If set to \u0022true\u0022 (default value) the code value associated with the category label will be displayed. Set to \u0022false\u0022 if only the category label should not be displayed."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicStructureCodeRepresentationBaseType": {
       "type": "object",
@@ -4954,9 +4786,7 @@
           "description": "Identifies the Geographic Structure codes included by the Authorized source of the code, the Geographic Structure being used and the Structures to exclude."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GridAttachmentType": {
       "type": "object",
@@ -5014,9 +4844,7 @@
           "description": "If set to \u0022true\u0022 (default value) the label of the CodeList will be displayed. Set to \u0022false\u0022 to suppress this display."
         }
       },
-      "required": [
-        "Rank"
-      ]
+      "required": ["Rank"]
     },
     "GridResponseDomainInMixedType": {
       "type": "object",
@@ -5145,9 +4973,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GrossFileStructureType"
-          ]
+          "enum": ["GrossFileStructureType"]
         },
         "PlaceOfProduction": {
           "type": "string",
@@ -5178,9 +5004,7 @@
           "description": "Overall record count in the data file. Caution in using optional checksums is recommended. Conflict between checksums and the items being counted can cause problems with warning flags during processing. If using checksum to capture information for internal processing purposes, the use of automatically generated check sums is strongly urged."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GrossRecordStructureType": {
       "type": "object",
@@ -5193,9 +5017,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GrossRecordStructureType"
-          ]
+          "enum": ["GrossRecordStructureType"]
         },
         "LogicalRecordReference": {
           "$ref": "#/$defs/LogicalRecordType",
@@ -5214,9 +5036,7 @@
           "description": "Number of physical records segments each logical record (case) is divided into. Express as an integer. Caution in using checksums is recommended. Conflict between checksums and the items being counted can cause problems with warning flags during processing. If using checksum to capture information for internal processing purposes, the use of automatically generated check sums is strongly urged."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "HistoricalDateType": {
       "type": "object",
@@ -5314,13 +5134,7 @@
           "description": "A system specific user defined property of the object expressed as a key/value pair. As this is specific to an individual system the use of controlled vocabularies for the key is strongly recommended."
         }
       },
-      "required": [
-        "$type",
-        "URN",
-        "Agency",
-        "ID",
-        "Version"
-      ]
+      "required": ["$type", "URN", "Agency", "ID", "Version"]
     },
     "IdentificationPortionType": {
       "type": "object",
@@ -5650,18 +5464,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "InParameterType"
-          ]
+          "enum": ["InParameterType"]
         },
         "LimitArrayIndex": {
           "type": "string",
           "description": "When the InParameter represents an array of items, this attribute specifies the index identification of the items within the zero-based array which should be treated as input parameters. If not specified, the full array is treated as the input parameter."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "InstantMessagingType": {
       "type": "object",
@@ -5786,9 +5596,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ItemMapType"
-          ]
+          "enum": ["ItemMapType"]
         },
         "SourceItemReference": {
           "$ref": "#/$defs/reference",
@@ -5819,9 +5627,7 @@
           "description": "Allows for an alias to be assigned to the correspondence between two items, so that it can be referred to with a single name, that would include both related items."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ItemSetType": {
       "type": "object",
@@ -6046,9 +5852,7 @@
           "description": "Designated identifier for the level; generally increases as the level of indention for nesting increases."
         }
       },
-      "required": [
-        "LevelNumber"
-      ]
+      "required": ["LevelNumber"]
     },
     "LifecycleEventType": {
       "type": "object",
@@ -6061,9 +5865,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "LifecycleEventType"
-          ]
+          "enum": ["LifecycleEventType"]
         },
         "Label": {
           "type": "array",
@@ -6106,9 +5908,7 @@
           "description": "Allows linking a lifecycle event to one or more sections of metadata. If no relationship is noted the lifecycle event relates to its full parent StudyUnit, Group, or Resource Package."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "LifecycleInformationType": {
       "type": "object",
@@ -6409,9 +6209,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "LiteralTextType"
-          ]
+          "enum": ["LiteralTextType"]
         },
         "Text": {
           "type": "array",
@@ -6422,9 +6220,7 @@
           "description": "The value of the static text string."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "LocalAddedContentType": {
       "type": "object",
@@ -6472,9 +6268,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "LocationDomainType"
-          ]
+          "enum": ["LocationDomainType"]
         },
         "Label": {
           "type": "array",
@@ -6505,9 +6299,7 @@
           "description": "Identifies the difference between the date applied to the data as a whole and this specific item such as previous year\u0027s income or residence 5 years ago."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "LocationRepresentationBaseType": {
       "type": "object",
@@ -6520,10 +6312,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "LocationDomainType",
-            "LocationRepresentationBaseType"
-          ]
+          "enum": ["LocationDomainType", "LocationRepresentationBaseType"]
         },
         "Object": {
           "$ref": "#/$defs/CodeValueType",
@@ -6538,9 +6327,7 @@
           "description": "Describes the region of an image, recording, or text where an action where a specified action is performed and the type of action taken (i.e., Mark an \u0022X\u0022 where the actor should be standing on the picture of the stage.)."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "LocationValueBundleType": {
       "type": "object",
@@ -6572,9 +6359,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "LocationValueType"
-          ]
+          "enum": ["LocationValueType"]
         },
         "LocationValueName": {
           "type": "array",
@@ -6661,9 +6446,7 @@
           "description": "Provides a reference to the LocationValue or Values that the current LocationValue immediately precedes partially. For example, if the LocationValue was the Dakota Territory (1861-1889) preceded the State of North Dakota and the State of South Dakota as defined in 1890. The Dakota Territory provided \u0022part\u0022 of its area in the creation of each new LocationValue."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "LogicalRecordType": {
       "type": "object",
@@ -6676,9 +6459,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "LogicalRecordType"
-          ]
+          "enum": ["LogicalRecordType"]
         },
         "LogicalRecordName": {
           "type": "array",
@@ -6741,9 +6522,7 @@
           "description": "Number of variables in the logical record. Caution in using optional checksums is recommended. Conflict between checksums and the items being counted can cause problems with warning flags during processing. If using checksum to capture information for internal processing purposes, the use of automatically generated check sums is strongly urged."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "MaintainableObjectType": {
       "type": "object",
@@ -6776,9 +6555,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "MeasureDefinitionType"
-          ]
+          "enum": ["MeasureDefinitionType"]
         },
         "VariableReference": {
           "$ref": "#/$defs/reference",
@@ -6789,9 +6566,7 @@
           "description": "Identifies the independent (denominator) and dependent (numerator) dimensions for calculating aggregate measures such as percent. When two or more independent or dependent dimensions are listed here, the value is defined as the intersection of the listed dimensions."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "MeasureDimensionType": {
       "type": "object",
@@ -6941,9 +6716,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ModeOfCollectionType"
-          ]
+          "enum": ["ModeOfCollectionType"]
         },
         "TypeOfModeOfCollection": {
           "$ref": "#/$defs/CodeValueType",
@@ -6958,9 +6731,7 @@
           "description": "Full description of the mode of collection."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ModeOfPretestCollectionType": {
       "type": "object",
@@ -7039,9 +6810,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NominalDomainType"
-          ]
+          "enum": ["NominalDomainType"]
         },
         "Label": {
           "type": "array",
@@ -7072,9 +6841,7 @@
           "description": "Identifies the difference between the date applied to the data as a whole and this specific item such as previous year\u0027s income or residence 5 years ago."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "NominalRepresentationBaseType": {
       "type": "object",
@@ -7087,19 +6854,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NominalDomainType",
-            "NominalRepresentationBaseType"
-          ]
+          "enum": ["NominalDomainType", "NominalRepresentationBaseType"]
         },
         "RegExp": {
           "type": "string",
           "description": "The regular expression allows for further description of the allowable content of the data."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "NoteType": {
       "type": "object",
@@ -7165,9 +6927,7 @@
           "description": "Contains an XPath which points to an element or attribute in DDI instances which is not used by the profile. All subelements of an unused element are assumed to be included unless explicitly addressed by the profile. The number of supported repetitions may be included in the XPath expression."
         }
       },
-      "required": [
-        "Xpath"
-      ]
+      "required": ["Xpath"]
     },
     "NumberRangeType": {
       "type": "object",
@@ -7246,9 +7006,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NumericDomainType"
-          ]
+          "enum": ["NumericDomainType"]
         },
         "Label": {
           "type": "array",
@@ -7279,9 +7037,7 @@
           "description": "Identifies the difference between the date applied to the data as a whole and this specific item such as previous year\u0027s income or residence 5 years ago."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "NumericRepresentationBaseType": {
       "type": "object",
@@ -7294,10 +7050,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NumericDomainType",
-            "NumericRepresentationBaseType"
-          ]
+          "enum": ["NumericDomainType", "NumericRepresentationBaseType"]
         },
         "NumberRange": {
           "type": "array",
@@ -7332,9 +7085,7 @@
           "description": "The level to which a number is considered to be accurate. Expressed as a decimal. "
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "OperationType": {
       "type": "object",
@@ -7459,10 +7210,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "InParameterType",
-            "ParameterType"
-          ]
+          "enum": ["InParameterType", "ParameterType"]
         },
         "ParameterName": {
           "type": "array",
@@ -7586,9 +7334,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the parameter is a delimited array rather than a single object and should be processed as such."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "PhysicalLocationType": {
       "type": "object",
@@ -7656,9 +7402,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "PhysicalRecordSegmentType"
-          ]
+          "enum": ["PhysicalRecordSegmentType"]
         },
         "KeyVariableReference": {
           "$ref": "#/$defs/reference",
@@ -7681,9 +7425,7 @@
           "description": "Set to true if there is a variable identifying the segment order. If true a segment key should be declared in a KeyVariableReference. Set to false if there are multiple segments and the identification of a particular segment is based on the order of the records within the file."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "PhysicalTableLocationType": {
       "type": "object",
@@ -7965,9 +7707,7 @@
           "description": "Set to \u0022true\u0022 if the value is included in the range."
         }
       },
-      "required": [
-        "Included"
-      ]
+      "required": ["Included"]
     },
     "RankingDomainType": {
       "type": "object",
@@ -7980,9 +7720,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RankingDomainType"
-          ]
+          "enum": ["RankingDomainType"]
         },
         "Label": {
           "type": "array",
@@ -8013,9 +7751,7 @@
           "description": "Identifies the difference between the date applied to the data as a whole and this specific item such as previous year\u0027s income or residence 5 years ago."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RankingRangeType": {
       "type": "object",
@@ -8044,19 +7780,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RankingDomainType",
-            "RankingRepresentationBaseType"
-          ]
+          "enum": ["RankingDomainType", "RankingRepresentationBaseType"]
         },
         "RankingRange": {
           "$ref": "#/$defs/RankingRangeType",
           "description": "The allowed values expressed using Range (allows for non-numeric values). In addition, defines the number of times a value may be used in expressing a ranking."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RecommendedStaffRequirementsType": {
       "type": "object",
@@ -8096,9 +7827,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RecordRelationshipType"
-          ]
+          "enum": ["RecordRelationshipType"]
         },
         "RecordRelationshipName": {
           "type": "array",
@@ -8145,9 +7874,7 @@
           "description": "Indicates the relationship of the source to the target. The value describes the role of the source in the relationship. This is a restricted list of Parent, Child, Sibling, Unknown."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RecordSetType": {
       "type": "object",
@@ -8406,9 +8133,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RequiredResourcePackagesType": {
       "type": "object",
@@ -8820,10 +8545,7 @@
           "description": "The maximum number of rows or columns allowed expressed as an integer. Leaving this attribute with no value implies that the maximum allowed is unbounded."
         }
       },
-      "required": [
-        "BaseCodeValue",
-        "CodeIterationValue"
-      ]
+      "required": ["BaseCodeValue", "CodeIterationValue"]
     },
     "SamplingProcedureType": {
       "type": "object",
@@ -8836,9 +8558,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "SamplingProcedureType"
-          ]
+          "enum": ["SamplingProcedureType"]
         },
         "TypeOfSamplingProcedure": {
           "$ref": "#/$defs/CodeValueType",
@@ -8861,9 +8581,7 @@
           "description": "Reference to sample created using sampling procedure. TypeOfObject should be Sample."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ScaleDimensionType": {
       "type": "object",
@@ -8923,9 +8641,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ScaleDomainType"
-          ]
+          "enum": ["ScaleDomainType"]
         },
         "Label": {
           "type": "array",
@@ -8956,9 +8672,7 @@
           "description": "Identifies the difference between the date applied to the data as a whole and this specific item such as previous year\u0027s income or residence 5 years ago."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ScaleRepresentationBaseType": {
       "type": "object",
@@ -8971,10 +8685,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ScaleDomainType",
-            "ScaleRepresentationBaseType"
-          ]
+          "enum": ["ScaleDomainType", "ScaleRepresentationBaseType"]
         },
         "ScaleDimension": {
           "type": "array",
@@ -8997,9 +8708,7 @@
           "description": "Defines they layout such as containing a drawn scale line, a list of values only, an outline (the boundaries of the area defined by 2 or more intersecting scales such as a diamond of opposites), or some other layout design. Allows for the use of a controlled vocabulary."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "SegmentType": {
       "type": "object",
@@ -9073,9 +8782,7 @@
           "description": "The inclusive maximum value of the range. Use when the values or subset of values are ordered and contiguous and may be expressed as a range."
         }
       },
-      "required": [
-        "Rank"
-      ]
+      "required": ["Rank"]
     },
     "SeriesStatementType": {
       "type": "object",
@@ -9275,9 +8982,7 @@
           "description": "Identifies the type of point coordinate system using a controlled vocabulary. Point formats include decimal degree, degrees minutes seconds, decimal minutes, meters, and feet."
         }
       },
-      "required": [
-        "CoordinateType"
-      ]
+      "required": ["CoordinateType"]
     },
     "SpecificSequenceType": {
       "type": "object",
@@ -9331,18 +9036,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "StandardWeightType"
-          ]
+          "enum": ["StandardWeightType"]
         },
         "StandardWeightValue": {
           "type": "number",
           "description": "Provides the standard weight used for weighted analysis of data expressed as an xs:float. This element is referenced by the variable and/or statistics calculated using the standard weight."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "StatisticalDataLocationType": {
       "type": "object",
@@ -9357,9 +9058,7 @@
           "description": "Set to \u0022true\u0022 if the summary/category statistics are found inline in the referenced physical instance. Set to \u0022false\u0022 if they are in the data file associated with the physical instance."
         }
       },
-      "required": [
-        "IsInline"
-      ]
+      "required": ["IsInline"]
     },
     "StatisticalSummaryType": {
       "type": "object",
@@ -9477,9 +9176,7 @@
           "description": "Assign a number to the strata being described"
         }
       },
-      "required": [
-        "StrataNumber"
-      ]
+      "required": ["StrataNumber"]
     },
     "StructuredCommandType": {
       "type": "object",
@@ -9489,9 +9186,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "StructuredMixedGridResponseDomainType": {
       "type": "object",
@@ -9688,9 +9383,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "TemporalCoverageType"
-          ]
+          "enum": ["TemporalCoverageType"]
         },
         "ReferenceDate": {
           "type": "array",
@@ -9701,9 +9394,7 @@
           "description": "The time period to which the data refer. This item reflects the time period covered by the data, not dates in the life cycle of a study or collection."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "TextContentType": {
       "type": "object",
@@ -9711,10 +9402,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ConditionalTextType",
-            "LiteralTextType"
-          ]
+          "enum": ["ConditionalTextType", "LiteralTextType"]
         },
         "Description": {
           "type": "array",
@@ -9725,9 +9413,7 @@
           "description": "A description of the content and purpose of the text segment."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "TextDomainType": {
       "type": "object",
@@ -9740,10 +9426,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CoordinatePairsType",
-            "TextDomainType"
-          ]
+          "enum": ["CoordinatePairsType", "TextDomainType"]
         },
         "Label": {
           "type": "array",
@@ -9774,9 +9457,7 @@
           "description": "Identifies the difference between the date applied to the data as a whole and this specific item such as previous year\u0027s income or residence 5 years ago."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "TextRepresentationBaseType": {
       "type": "object",
@@ -9789,11 +9470,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CoordinatePairsType",
-            "TextDomainType",
-            "TextRepresentationBaseType"
-          ]
+          "enum": ["CoordinatePairsType", "TextDomainType", "TextRepresentationBaseType"]
         },
         "MaxLength": {
           "type": "integer",
@@ -9808,9 +9485,7 @@
           "description": "A regular expression limiting the allowed characters or character order of the content."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "TextualType": {
       "type": "object",
@@ -9846,9 +9521,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "TimeMethodType"
-          ]
+          "enum": ["TimeMethodType"]
         },
         "TypeOfTimeMethod": {
           "$ref": "#/$defs/CodeValueType",
@@ -9863,9 +9536,7 @@
           "description": "Full description of the data time method used."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "TopicalCoverageType": {
       "type": "object",
@@ -9878,9 +9549,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "TopicalCoverageType"
-          ]
+          "enum": ["TopicalCoverageType"]
         },
         "Subject": {
           "type": "array",
@@ -9899,9 +9568,7 @@
           "description": "A keyword that indicates the topical coverage of the data described in a particular module/section. Uses and InternationalCodeValue and may indicate the language of the code used."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "TopLeftTableAnchorType": {
       "type": "object",
@@ -9916,10 +9583,7 @@
           "description": "The row number expressed as an integer."
         }
       },
-      "required": [
-        "Column",
-        "Row"
-      ]
+      "required": ["Column", "Row"]
     },
     "TranslationAidResourceType": {
       "type": "object",
@@ -10203,9 +9867,7 @@
           "description": "This field, if set to true, provides an indication that the default value supplied in the fixedValue attribute is the only one which is allowed for the profile - other values will be overridden with the default (a warning should be issued to the creator of the instance); the value must be a valid one per the DDI schemas."
         }
       },
-      "required": [
-        "Xpath"
-      ]
+      "required": ["Xpath"]
     },
     "UserIDType": {
       "type": "object",
@@ -10228,9 +9890,7 @@
           "description": "This is the name of the versioning scheme as defined by the user\u0027s system, in cases where the user\u0027s system employs more than one versioning scheme. It is specific to the system identified by the typeOfUserID attribute"
         }
       },
-      "required": [
-        "TypeOfUserID"
-      ]
+      "required": ["TypeOfUserID"]
     },
     "ValueType": {
       "type": "object",
@@ -10701,9 +10361,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ApprovalReview"
-          ]
+          "enum": ["ApprovalReview"]
         },
         "TypeOfApprovalReview": {
           "type": "array",
@@ -10766,9 +10424,7 @@
           "description": "Period for which the approval is valid. This may be a start date, and end date, or range specified as a start and end date."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Archive": {
       "type": "object",
@@ -10781,9 +10437,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Archive"
-          ]
+          "enum": ["Archive"]
         },
         "ArchiveModuleName": {
           "type": "array",
@@ -10830,9 +10484,7 @@
           "description": "LifecycleInformation contains the description of a set of events in the life cycle of the data. It may be extended by specific users."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "BaseLogicalProduct": {
       "type": "object",
@@ -10921,9 +10573,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Category"
-          ]
+          "enum": ["Category"]
         },
         "CategoryName": {
           "type": "array",
@@ -10970,9 +10620,7 @@
           "description": "If the category is describing a classification of \u0022missing data\u0022 set the value of isMissing to \u0022true\u0022."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CategoryGroup": {
       "type": "object",
@@ -10985,9 +10633,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CategoryGroup"
-          ]
+          "enum": ["CategoryGroup"]
         },
         "TypeOfCategoryGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -11070,9 +10716,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CategoryScheme": {
       "type": "object",
@@ -11085,9 +10729,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CategoryScheme"
-          ]
+          "enum": ["CategoryScheme"]
         },
         "CategorySchemeName": {
           "type": "array",
@@ -11138,9 +10780,7 @@
           "description": "Allows categories to be grouped with or without hierarchical structure."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ClassificationCorrespondenceTable": {
       "type": "object",
@@ -11153,9 +10793,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ClassificationCorrespondenceTable"
-          ]
+          "enum": ["ClassificationCorrespondenceTable"]
         },
         "OwnerReference": {
           "type": "array",
@@ -11226,9 +10864,7 @@
           "description": "If the source and/or target Statistical Classifications of a Correspondence Table are floating Statistical Classifications, the date of the Correspondence Table must be noted. The Correspondence Table expresses the relationships between the two Statistical Classifications as they existed on the date specified in the Correspondence Table."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ClassificationFamily": {
       "type": "object",
@@ -11241,9 +10877,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ClassificationFamily"
-          ]
+          "enum": ["ClassificationFamily"]
         },
         "Name": {
           "type": "array",
@@ -11278,9 +10912,7 @@
           "description": "A Classification Family may refer to a number of Classification Series. Allows for in-line entry of a Classification Series."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ClassificationIndex": {
       "type": "object",
@@ -11293,9 +10925,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ClassificationIndex"
-          ]
+          "enum": ["ClassificationIndex"]
         },
         "ReleaseDate": {
           "$ref": "#/$defs/cogsDate",
@@ -11358,9 +10988,7 @@
           "description": "An ordered list (alphabetical, in code order etc.) of Classification Index Entries."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ClassificationItem": {
       "type": "object",
@@ -11373,9 +11001,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ClassificationItem"
-          ]
+          "enum": ["ClassificationItem"]
         },
         "ItemCode": {
           "type": "string",
@@ -11482,9 +11108,7 @@
           "description": "Refers to one or more case law rulings related to the Classification Item."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ClassificationLevel": {
       "type": "object",
@@ -11497,9 +11121,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ClassificationLevel"
-          ]
+          "enum": ["ClassificationLevel"]
         },
         "LevelCodeType": {
           "$ref": "#/$defs/CodeValueType",
@@ -11526,9 +11148,7 @@
           "description": "A concept which describes the level. TypeOfObject should be set to Concept."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ClassificationSeries": {
       "type": "object",
@@ -11541,9 +11161,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ClassificationSeries"
-          ]
+          "enum": ["ClassificationSeries"]
         },
         "SeriesContext": {
           "$ref": "#/$defs/CodeValueType",
@@ -11590,9 +11208,7 @@
           "description": "If there are several Statistical Classifications related to a Classification Series, one Statistical Classification may be assigned as the currently valid Statistical Classification. TypeOfObject should be set to StatisticalClassification."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CodeList": {
       "type": "object",
@@ -11605,9 +11221,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CodeList"
-          ]
+          "enum": ["CodeList"]
         },
         "CodeListName": {
           "type": "array",
@@ -11674,9 +11288,7 @@
           "description": "If \u0022true\u0022 contents are used to represent system specific missing values. The default value is \u0022false\u0022."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CodeListGroup": {
       "type": "object",
@@ -11689,9 +11301,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CodeListGroup"
-          ]
+          "enum": ["CodeListGroup"]
         },
         "TypeOfCodeListGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -11770,9 +11380,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CodeListScheme": {
       "type": "object",
@@ -11785,9 +11393,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CodeListScheme"
-          ]
+          "enum": ["CodeListScheme"]
         },
         "CodeListSchemeName": {
           "type": "array",
@@ -11838,9 +11444,7 @@
           "description": "In-line description of a group of CodeLists for conceptual, administrative or other purposes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CognitiveExpertReviewActivity": {
       "type": "object",
@@ -11853,18 +11457,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CognitiveExpertReviewActivity"
-          ]
+          "enum": ["CognitiveExpertReviewActivity"]
         },
         "TypeOfCognitiveExpertReview": {
           "$ref": "#/$defs/CodeValueType",
           "description": "Identifies the specific type of Cognitive Expert Interview. Supports the use of a controlled vocabulary which is strongly recommended."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "CognitiveInterviewActivity": {
       "type": "object",
@@ -11877,18 +11477,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "CognitiveInterviewActivity"
-          ]
+          "enum": ["CognitiveInterviewActivity"]
         },
         "TypeOfCognitiveInterview": {
           "$ref": "#/$defs/CodeValueType",
           "description": "Identifies the specific type of Cognitive Interview. Supports the use of a controlled vocabulary which is strongly recommended."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Comparison": {
       "type": "object",
@@ -11901,9 +11497,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Comparison"
-          ]
+          "enum": ["Comparison"]
         },
         "ComparisonName": {
           "type": "array",
@@ -11986,9 +11580,7 @@
           "description": "Maps the items managed within different schemes of objects of the same type providing detail for the comparable items within those two schemes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ComputationItem": {
       "type": "object",
@@ -12001,9 +11593,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ComputationItem"
-          ]
+          "enum": ["ComputationItem"]
         },
         "TypeOfComputationItem": {
           "$ref": "#/$defs/CodeValueType",
@@ -12018,9 +11608,7 @@
           "description": "A reference to a variable to which the associated value in the Code element is assigned."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Concept": {
       "type": "object",
@@ -12033,9 +11621,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Concept"
-          ]
+          "enum": ["Concept"]
         },
         "ConceptName": {
           "type": "array",
@@ -12122,9 +11708,7 @@
           "description": "Reference to a Concept that has a associative relationship this Concept."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ConceptGroup": {
       "type": "object",
@@ -12137,9 +11721,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ConceptGroup"
-          ]
+          "enum": ["ConceptGroup"]
         },
         "TypeOfConceptGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -12226,9 +11808,7 @@
           "description": "A value of true indicates that there is a concept which defines the group, and which is comprised of the concepts contained in the group. A group can be conceptual in purpose (that is, have a value of \u0022concept\u0022 for the purpose attribute), but not itself have a defining concept."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ConceptScheme": {
       "type": "object",
@@ -12241,9 +11821,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ConceptScheme"
-          ]
+          "enum": ["ConceptScheme"]
         },
         "ConceptSchemeName": {
           "type": "array",
@@ -12298,9 +11876,7 @@
           "description": "Allows for grouping of concepts for administrative or conceptual purposes; groups may have a hierarchical structure."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ConceptualComponent": {
       "type": "object",
@@ -12313,9 +11889,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ConceptualComponent"
-          ]
+          "enum": ["ConceptualComponent"]
         },
         "ConceptualComponentModuleName": {
           "type": "array",
@@ -12394,9 +11968,7 @@
           "description": "Contains a collection of unit types."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ConceptualVariable": {
       "type": "object",
@@ -12409,9 +11981,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ConceptualVariable"
-          ]
+          "enum": ["ConceptualVariable"]
         },
         "ConceptualVariableName": {
           "type": "array",
@@ -12450,9 +12020,7 @@
           "description": "Reference to a previously created category scheme that represents the conceptual variable\u0027s enumerated conceptual domain."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ConceptualVariableGroup": {
       "type": "object",
@@ -12465,9 +12033,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ConceptualVariableGroup"
-          ]
+          "enum": ["ConceptualVariableGroup"]
         },
         "TypeOfConceptualVariableGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -12546,9 +12112,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ConceptualVariableScheme": {
       "type": "object",
@@ -12561,9 +12125,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ConceptualVariableScheme"
-          ]
+          "enum": ["ConceptualVariableScheme"]
         },
         "ConceptualVariableSchemeName": {
           "type": "array",
@@ -12614,9 +12176,7 @@
           "description": "Allows for grouping of ConceptualVariables for administrative or conceptual purposes; groups may have a hierarchical structure."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ContentReviewActivity": {
       "type": "object",
@@ -12629,18 +12189,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ContentReviewActivity"
-          ]
+          "enum": ["ContentReviewActivity"]
         },
         "TypeOfContentReview": {
           "$ref": "#/$defs/CodeValueType",
           "description": "Identifies the specific type of content review not done as part of a Focus Group, Cognitive Expert Review, or Cognitive Interview. Supports the use of a controlled vocabulary which is strongly recommended."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ControlConstruct": {
       "type": "object",
@@ -12745,9 +12301,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ControlConstructGroup"
-          ]
+          "enum": ["ControlConstructGroup"]
         },
         "TypeOfControlConstructGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -12826,9 +12380,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ControlConstructScheme": {
       "type": "object",
@@ -12841,9 +12393,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ControlConstructScheme"
-          ]
+          "enum": ["ControlConstructScheme"]
         },
         "ControlConstructSchemeName": {
           "type": "array",
@@ -12894,9 +12444,7 @@
           "description": "In-line description of a group of ControlConstructs."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DataCaptureDevelopment": {
       "type": "object",
@@ -12909,9 +12457,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DataCaptureDevelopment"
-          ]
+          "enum": ["DataCaptureDevelopment"]
         },
         "DataCaptureDevelopmentName": {
           "type": "array",
@@ -12962,9 +12508,7 @@
           "description": "Separates the capture of development implementation results from the process plan and general activities. Allows for capture of the overall results, details of individual steps, or separate iterations of that step."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DataCollection": {
       "type": "object",
@@ -12977,9 +12521,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DataCollection"
-          ]
+          "enum": ["DataCollection"]
         },
         "DataCollectionModuleName": {
           "type": "array",
@@ -13106,9 +12648,7 @@
           "description": "A set of development activities maintained by an agency, and used in the development, review, or creation of a question, measurement, data capture flow (control construct), or instrument."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DataRelationship": {
       "type": "object",
@@ -13121,9 +12661,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DataRelationship"
-          ]
+          "enum": ["DataRelationship"]
         },
         "DataRelationshipName": {
           "type": "array",
@@ -13166,9 +12704,7 @@
           "description": "Describes the relationship between records of different types or of the same type within a longitudinal study. Identifies the key and linking value relationships. All relationships are pairwise. Multiple pairwise relationships maybe needed to clarify all record relationships within a logical product or data set."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DataSet": {
       "type": "object",
@@ -13181,9 +12717,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DataSet"
-          ]
+          "enum": ["DataSet"]
         },
         "ArrayBase": {
           "type": "integer",
@@ -13218,9 +12752,7 @@
           "description": "Storage format arranged variable by variable. Item values are listed in record order with the assumption that each record will occupy the position in each array."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DDIInstance": {
       "type": "object",
@@ -13233,9 +12765,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DDIInstance"
-          ]
+          "enum": ["DDIInstance"]
         },
         "Citation": {
           "$ref": "#/$defs/CitationType",
@@ -13290,9 +12820,7 @@
           "description": "TranslationInformation contains information about the translation of the content of the DDI Instance. This includes human-readable information about which language(s) are involved in the translation."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DDIProfile": {
       "type": "object",
@@ -13305,9 +12833,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DDIProfile"
-          ]
+          "enum": ["DDIProfile"]
         },
         "DDIProfileName": {
           "type": "array",
@@ -13382,9 +12908,7 @@
           "description": "Indicates an element in the DDI which is not used by the profile expressed as an XPath. You cannot list anything which is required in the DDI schemas, as this would produce invalid XML instances."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Describable": {
       "type": "object",
@@ -13505,9 +13029,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DevelopmentActivityGroup"
-          ]
+          "enum": ["DevelopmentActivityGroup"]
         },
         "TypeOfDevelopmentActivityGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -13586,9 +13108,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DevelopmentActivityScheme": {
       "type": "object",
@@ -13601,9 +13121,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DevelopmentActivityScheme"
-          ]
+          "enum": ["DevelopmentActivityScheme"]
         },
         "DevelopmentActivitySchemeName": {
           "type": "array",
@@ -13654,9 +13172,7 @@
           "description": "A description of a group of DevelopmentActivity for administrative or conceptual purposes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DevelopmentImplementation": {
       "type": "object",
@@ -13669,9 +13185,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DevelopmentImplementation"
-          ]
+          "enum": ["DevelopmentImplementation"]
         },
         "DevelopmentImplementationName": {
           "type": "array",
@@ -13730,9 +13244,7 @@
           "description": "A set of DevelopmentSteps (control construct sub-type) that detail the implementation. May be organized using other control constructs to define sequencing, flow logic, sub-testing, etc. TypeOfObject should be any sub-type of a control construct."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DevelopmentPlan": {
       "type": "object",
@@ -13745,9 +13257,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DevelopmentPlan"
-          ]
+          "enum": ["DevelopmentPlan"]
         },
         "DevelopmentPlanName": {
           "type": "array",
@@ -13806,9 +13316,7 @@
           "description": "Reference to one or more Development Activities used by the Development Plan. DevelopmentActivity is a substitution base for a number of types of activities described with appropriate content. TypeOfObject should be ContentReviewActivity, TranslationActivity, or PretestActivity."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DevelopmentResults": {
       "type": "object",
@@ -13821,9 +13329,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DevelopmentResults"
-          ]
+          "enum": ["DevelopmentResults"]
         },
         "DevelopmentResultsName": {
           "type": "array",
@@ -13870,9 +13376,7 @@
           "description": "Details of specific results of the development plan and process. May refer to specific development activities or DevelopmentSteps within a DevelopmentProcess."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "DevelopmentStep": {
       "type": "object",
@@ -13885,9 +13389,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "DevelopmentStep"
-          ]
+          "enum": ["DevelopmentStep"]
         },
         "DevelopmentObject": {
           "type": "array",
@@ -13934,9 +13436,7 @@
           "description": "The date or date range of activity in this step."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "FocusGroupActivity": {
       "type": "object",
@@ -13949,18 +13449,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "FocusGroupActivity"
-          ]
+          "enum": ["FocusGroupActivity"]
         },
         "TypeOfFocusGroup": {
           "$ref": "#/$defs/CodeValueType",
           "description": "Identifies the specific type of Focus Group. Supports the use of a controlled vocabulary which is strongly recommended."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeneralInstruction": {
       "type": "object",
@@ -13973,9 +13469,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeneralInstruction"
-          ]
+          "enum": ["GeneralInstruction"]
         },
         "CommandCode": {
           "type": "array",
@@ -13994,9 +13488,7 @@
           "description": "If set to \u0022true\u0022, indicates that this coding instruction overrides a more generally used process."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GenerationInstruction": {
       "type": "object",
@@ -14009,9 +13501,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GenerationInstruction"
-          ]
+          "enum": ["GenerationInstruction"]
         },
         "InputQuestionReference": {
           "type": "array",
@@ -14070,9 +13560,7 @@
           "description": "Default setting is \u0022true\u0022, the instruction describes a derivation. If the instruction is a simple recode, set to \u0022false\u0022."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GenericMap": {
       "type": "object",
@@ -14085,9 +13573,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GenericMap"
-          ]
+          "enum": ["GenericMap"]
         },
         "TypeOfMappedItem": {
           "$ref": "#/$defs/CodeValueType",
@@ -14138,9 +13624,7 @@
           "description": "Contains the mappings for individual items within the Source and Target schemes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicLocation": {
       "type": "object",
@@ -14153,9 +13637,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicLocation"
-          ]
+          "enum": ["GeographicLocation"]
         },
         "GeographicLocationName": {
           "type": "array",
@@ -14210,9 +13692,7 @@
           "description": "A location of the specified geographic level providing information on its name, identification codes, temporal and spatial coverage."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicLocationGroup": {
       "type": "object",
@@ -14225,9 +13705,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicLocationGroup"
-          ]
+          "enum": ["GeographicLocationGroup"]
         },
         "TypeOfGeographicLocationGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -14306,9 +13784,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicLocationScheme": {
       "type": "object",
@@ -14321,9 +13797,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicLocationScheme"
-          ]
+          "enum": ["GeographicLocationScheme"]
         },
         "GeographicLocationSchemeName": {
           "type": "array",
@@ -14374,9 +13848,7 @@
           "description": "In-line description of a group of GeographicLocation."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicStructure": {
       "type": "object",
@@ -14389,9 +13861,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicStructure"
-          ]
+          "enum": ["GeographicStructure"]
         },
         "GeographicStructureName": {
           "type": "array",
@@ -14442,9 +13912,7 @@
           "description": "Inclusion of an existing GeographicLevel description by reference."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicStructureGroup": {
       "type": "object",
@@ -14457,9 +13925,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicStructureGroup"
-          ]
+          "enum": ["GeographicStructureGroup"]
         },
         "TypeOfGeographicStructureGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -14538,9 +14004,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "GeographicStructureScheme": {
       "type": "object",
@@ -14553,9 +14017,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "GeographicStructureScheme"
-          ]
+          "enum": ["GeographicStructureScheme"]
         },
         "GeographicStructureSchemeName": {
           "type": "array",
@@ -14606,9 +14068,7 @@
           "description": "In-line description of a group of GeographicStructure."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Group": {
       "type": "object",
@@ -14621,9 +14081,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Group"
-          ]
+          "enum": ["Group"]
         },
         "TypeOfGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -14914,9 +14372,7 @@
           "description": "Default is true, and allows for inheritance of all properties and modules, and the use of lower-level over-rides. If set to false, inheritance is switched off for specific groups."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "IfThenElse": {
       "type": "object",
@@ -14929,9 +14385,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "IfThenElse"
-          ]
+          "enum": ["IfThenElse"]
         },
         "TypeOfIfThenElse": {
           "$ref": "#/$defs/CodeValueType",
@@ -14958,9 +14412,7 @@
           "description": "Reference to the control construct which is triggered if the associated condition is not met."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Individual": {
       "type": "object",
@@ -14973,9 +14425,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Individual"
-          ]
+          "enum": ["Individual"]
         },
         "IndividualIdentification": {
           "$ref": "#/$defs/IndividualIdentificationType",
@@ -15034,9 +14484,7 @@
           "description": "A basic set of privacy codes for the parent element. These may be stricter than the general access restrictions for the overall metadata. If available codes are insufficient this may also contain any string."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "InformationClassification": {
       "type": "object",
@@ -15049,9 +14497,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "InformationClassification"
-          ]
+          "enum": ["InformationClassification"]
         },
         "TypeOfInformationClassification": {
           "$ref": "#/$defs/CodeValueType",
@@ -15114,9 +14560,7 @@
           "description": "Description and link to the Information Classification policy using the DDI Other Material structure."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "InLineNCubeRecordLayout": {
       "type": "object",
@@ -15129,9 +14573,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "InLineNCubeRecordLayout"
-          ]
+          "enum": ["InLineNCubeRecordLayout"]
         },
         "ArrayBase": {
           "type": "integer",
@@ -15146,9 +14588,7 @@
           "description": "A container for defining an instance of an NCube, indicating the matrix address of each cell and capturing the data for each measure within a cell of the NCube is stored. Allows specifying the values of the attributes attached to a NCube."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Instruction": {
       "type": "object",
@@ -15161,9 +14601,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Instruction"
-          ]
+          "enum": ["Instruction"]
         },
         "InstructionName": {
           "type": "array",
@@ -15214,9 +14652,7 @@
           "description": "The content of the Instruction text provided using DynamicText. Note that when using Dynamic Text, the full InstructionText must be repeated for multi-language versions of the content. The InstructionText may also be repeated to provide a dynamic and plain text version of the instruction. This allows for accurate rendering of the instruction in a non-dynamic environment like print."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "InstructionGroup": {
       "type": "object",
@@ -15229,9 +14665,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "InstructionGroup"
-          ]
+          "enum": ["InstructionGroup"]
         },
         "TypeOfInstructionGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -15310,9 +14744,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Instrument": {
       "type": "object",
@@ -15325,9 +14757,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Instrument"
-          ]
+          "enum": ["Instrument"]
         },
         "InstrumentName": {
           "type": "array",
@@ -15386,9 +14816,7 @@
           "description": "Reference to the development implementation results which gave rise to this version of the object. TypeOfObject should be DevelopmentResults."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "InstrumentGroup": {
       "type": "object",
@@ -15401,9 +14829,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "InstrumentGroup"
-          ]
+          "enum": ["InstrumentGroup"]
         },
         "TypeOfInstrumentGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -15482,9 +14908,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "InstrumentScheme": {
       "type": "object",
@@ -15497,9 +14921,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "InstrumentScheme"
-          ]
+          "enum": ["InstrumentScheme"]
         },
         "InstrumentSchemeName": {
           "type": "array",
@@ -15550,9 +14972,7 @@
           "description": "Describes a group of instruments as in instrument group within an instrument scheme."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "InterviewerInstructionScheme": {
       "type": "object",
@@ -15565,9 +14985,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "InterviewerInstructionScheme"
-          ]
+          "enum": ["InterviewerInstructionScheme"]
         },
         "InterviewerInstructionSchemeName": {
           "type": "array",
@@ -15618,9 +15036,7 @@
           "description": "In-line description of a group of Instructions."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "LocalHoldingPackage": {
       "type": "object",
@@ -15633,9 +15049,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "LocalHoldingPackage"
-          ]
+          "enum": ["LocalHoldingPackage"]
         },
         "DepositoryStudyUnitReference": {
           "type": "array",
@@ -15670,9 +15084,7 @@
           "description": "A reference to the ResourcePackage as deposited."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "LogicalProduct": {
       "type": "object",
@@ -15685,9 +15097,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "LogicalProduct"
-          ]
+          "enum": ["LogicalProduct"]
         },
         "CategorySchemeReference": {
           "type": "array",
@@ -15738,9 +15148,7 @@
           "description": "Contains a collection of NCubes and NCube groups."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Loop": {
       "type": "object",
@@ -15753,9 +15161,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Loop"
-          ]
+          "enum": ["Loop"]
         },
         "LoopVariableReference": {
           "$ref": "#/$defs/ParameterType",
@@ -15778,9 +15184,7 @@
           "description": "A reference to the ControlConstruct to implement until the LoopWhile condition is met. This could be a single ControlConstruct or a set of ControlConstructs within a Sequence."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Maintainable": {
       "type": "object",
@@ -15837,9 +15241,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedCategoryRepresentation"
-          ]
+          "enum": ["ManagedCategoryRepresentation"]
         },
         "RecommendedDataType": {
           "$ref": "#/$defs/CodeValueType",
@@ -15862,9 +15264,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedCodeRepresentation": {
       "type": "object",
@@ -15877,9 +15277,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedCodeRepresentation"
-          ]
+          "enum": ["ManagedCodeRepresentation"]
         },
         "RecommendedDataType": {
           "$ref": "#/$defs/CodeValueType",
@@ -15910,9 +15308,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedDateTimeRepresentation": {
       "type": "object",
@@ -15925,9 +15321,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedDateTimeRepresentation"
-          ]
+          "enum": ["ManagedDateTimeRepresentation"]
         },
         "ManagedDateTimeRepresentationName": {
           "type": "array",
@@ -15990,9 +15384,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedDistributionRepresentation": {
       "type": "object",
@@ -16005,9 +15397,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedDistributionRepresentation"
-          ]
+          "enum": ["ManagedDistributionRepresentation"]
         },
         "ManagedDistributionRepresentationName": {
           "type": "array",
@@ -16058,9 +15448,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedExternalCategoryRepresentation": {
       "type": "object",
@@ -16073,9 +15461,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedExternalCategoryRepresentation"
-          ]
+          "enum": ["ManagedExternalCategoryRepresentation"]
         },
         "RecommendedDataType": {
           "$ref": "#/$defs/CodeValueType",
@@ -16106,9 +15492,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedGeographicLocationCodeRepresentation": {
       "type": "object",
@@ -16121,9 +15505,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedGeographicLocationCodeRepresentation"
-          ]
+          "enum": ["ManagedGeographicLocationCodeRepresentation"]
         },
         "ManagedGeographicLocationCodeRepresentationName": {
           "type": "array",
@@ -16174,9 +15556,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedGeographicRepresentation": {
       "type": "object",
@@ -16189,9 +15569,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedGeographicRepresentation"
-          ]
+          "enum": ["ManagedGeographicRepresentation"]
         },
         "ManagedGeographicRepresentationName": {
           "type": "array",
@@ -16294,11 +15672,7 @@
           "description": "Indicates the spatial primitive object which the point references."
         }
       },
-      "required": [
-        "$type",
-        "PointFormat",
-        "SpatialPrimitive"
-      ]
+      "required": ["$type", "PointFormat", "SpatialPrimitive"]
     },
     "ManagedGeographicStructureCodeRepresentation": {
       "type": "object",
@@ -16311,9 +15685,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedGeographicStructureCodeRepresentation"
-          ]
+          "enum": ["ManagedGeographicStructureCodeRepresentation"]
         },
         "ManagedGeographicStructureCodeRepresentationName": {
           "type": "array",
@@ -16360,9 +15732,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedLocationRepresentation": {
       "type": "object",
@@ -16375,9 +15745,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedLocationRepresentation"
-          ]
+          "enum": ["ManagedLocationRepresentation"]
         },
         "ManagedLocationRepresentationName": {
           "type": "array",
@@ -16432,9 +15800,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedMissingValuesRepresentation": {
       "type": "object",
@@ -16447,9 +15813,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedMissingValuesRepresentation"
-          ]
+          "enum": ["ManagedMissingValuesRepresentation"]
         },
         "ManagedMissingValuesRepresentationName": {
           "type": "array",
@@ -16508,9 +15872,7 @@
           "description": "Designates no response (white space, null) to be treated as a missing value."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedNominalRepresentation": {
       "type": "object",
@@ -16523,9 +15885,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedNominalRepresentation"
-          ]
+          "enum": ["ManagedNominalRepresentation"]
         },
         "ManagedNominalRepresentationName": {
           "type": "array",
@@ -16572,9 +15932,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedNumericRepresentation": {
       "type": "object",
@@ -16587,9 +15945,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedNumericRepresentation"
-          ]
+          "enum": ["ManagedNumericRepresentation"]
         },
         "ManagedNumericRepresentationName": {
           "type": "array",
@@ -16664,9 +16020,7 @@
           "description": "The level to which a number is considered to be accurate. Expressed as a decimal. "
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedRankingRepresentation": {
       "type": "object",
@@ -16679,9 +16033,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedRankingRepresentation"
-          ]
+          "enum": ["ManagedRankingRepresentation"]
         },
         "ManagedRankingRepresentationName": {
           "type": "array",
@@ -16728,9 +16080,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedRepresentation": {
       "type": "object",
@@ -16754,9 +16104,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedRepresentationGroup"
-          ]
+          "enum": ["ManagedRepresentationGroup"]
         },
         "TypeOfManagedRepresentationGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -16835,9 +16183,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedRepresentationScheme": {
       "type": "object",
@@ -16850,9 +16196,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedRepresentationScheme"
-          ]
+          "enum": ["ManagedRepresentationScheme"]
         },
         "ManagedRepresentationSchemeName": {
           "type": "array",
@@ -16903,9 +16247,7 @@
           "description": "A grouping of ManagedRepresentations for conceptual, administrative or other reasons."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedScaleRepresentation": {
       "type": "object",
@@ -16918,9 +16260,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedScaleRepresentation"
-          ]
+          "enum": ["ManagedScaleRepresentation"]
         },
         "ManagedScaleRepresentationName": {
           "type": "array",
@@ -16983,9 +16323,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ManagedTextRepresentation": {
       "type": "object",
@@ -16998,9 +16336,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ManagedTextRepresentation"
-          ]
+          "enum": ["ManagedTextRepresentation"]
         },
         "ManagedTextRepresentationName": {
           "type": "array",
@@ -17055,9 +16391,7 @@
           "description": "Indicates the type of relationship, nominal, ordinal, interval, ratio, or continuous. Use where appropriate for the representation type."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "MeasurementConstruct": {
       "type": "object",
@@ -17070,9 +16404,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "MeasurementConstruct"
-          ]
+          "enum": ["MeasurementConstruct"]
         },
         "MeasurementReference": {
           "$ref": "#/$defs/reference",
@@ -17103,9 +16435,7 @@
           "description": "The estimated amount of time required to perform the data capture expressed in seconds. Decimal values should be used to define fractions of seconds. At the measurement construct level it refers to the estimated time within the context of is use in a data capture process."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "MeasurementGroup": {
       "type": "object",
@@ -17118,9 +16448,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "MeasurementGroup"
-          ]
+          "enum": ["MeasurementGroup"]
         },
         "TypeOfMeasurementGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -17199,9 +16527,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "MeasurementItem": {
       "type": "object",
@@ -17214,9 +16540,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "MeasurementItem"
-          ]
+          "enum": ["MeasurementItem"]
         },
         "MeasurementItemName": {
           "type": "array",
@@ -17436,9 +16760,7 @@
           "description": "The estimated amount of time required to perform the measurement expressed in seconds. Decimal values should be used to define fractions of seconds."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "MeasurementScheme": {
       "type": "object",
@@ -17451,9 +16773,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "MeasurementScheme"
-          ]
+          "enum": ["MeasurementScheme"]
         },
         "MeasurementSchemeName": {
           "type": "array",
@@ -17504,9 +16824,7 @@
           "description": "Contains a group of MeasurementItems, which may be ordered or hierarchical."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Methodology": {
       "type": "object",
@@ -17519,9 +16837,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Methodology"
-          ]
+          "enum": ["Methodology"]
         },
         "MethodologyName": {
           "type": "array",
@@ -17604,9 +16920,7 @@
           "description": "A reference to a Quality Statement pertaining to the quality of the study methodology, metadata, or data to which it is associated. Quality statements may be related to external quality standards."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "NCube": {
       "type": "object",
@@ -17619,9 +16933,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NCube"
-          ]
+          "enum": ["NCube"]
         },
         "NCubeName": {
           "type": "array",
@@ -17720,9 +17032,7 @@
           "description": "A value of \u0022true\u0022 indicates that all cells have the potential for content values. If set to \u0022false\u0022 Attribute and CoordinateRegion should be used to define the sparse areas of the NCube, those that have no content by definition. For example a cross-tabulation between Household Type (Family, Non-Family) and Number of persons in Household (1,2,3,4,5,6,7\u002B) would need an attribute for Family/1 Person as this will always be empty due to the definition of Family as two or more related persons."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "NCubeGroup": {
       "type": "object",
@@ -17735,9 +17045,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NCubeGroup"
-          ]
+          "enum": ["NCubeGroup"]
         },
         "TypeOfNCubeGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -17816,9 +17124,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "NCubeInstance": {
       "type": "object",
@@ -17831,9 +17137,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NCubeInstance"
-          ]
+          "enum": ["NCubeInstance"]
         },
         "NCubeReference": {
           "$ref": "#/$defs/reference",
@@ -17884,9 +17188,7 @@
           "description": "Total number of cases represented by the contents of the NCube. This is normally the sum of the cell contents when the NCube contains counts and sub-totals are not included."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "NCubeInstanceI": {
       "type": "object",
@@ -17899,9 +17201,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NCubeInstanceI"
-          ]
+          "enum": ["NCubeInstanceI"]
         },
         "NCubeReference": {
           "$ref": "#/$defs/reference",
@@ -17952,9 +17252,7 @@
           "description": "Total number of cases represented by the contents of the NCube. This is normally the sum of the cell contents when the NCube contains counts and sub-totals are not included."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "NCubeInstanceT": {
       "type": "object",
@@ -17967,9 +17265,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NCubeInstanceT"
-          ]
+          "enum": ["NCubeInstanceT"]
         },
         "NCubeReference": {
           "$ref": "#/$defs/reference",
@@ -18020,9 +17316,7 @@
           "description": "Total number of cases represented by the contents of the NCube. This is normally the sum of the cell contents when the NCube contains counts and sub-totals are not included."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "NCubeScheme": {
       "type": "object",
@@ -18035,9 +17329,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "NCubeScheme"
-          ]
+          "enum": ["NCubeScheme"]
         },
         "NCubeSchemeName": {
           "type": "array",
@@ -18088,9 +17380,7 @@
           "description": "Allows for inclusion of other NCube schemes by reference."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Organization": {
       "type": "object",
@@ -18103,9 +17393,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Organization"
-          ]
+          "enum": ["Organization"]
         },
         "OrganizationIdentification": {
           "$ref": "#/$defs/OrganizationIdentificationType",
@@ -18164,9 +17452,7 @@
           "description": "A basic set of privacy codes for the parent element. These may be stricter than the general access restrictions for the overall metadata. If available codes are insufficient this may also contain any string."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "OrganizationGroup": {
       "type": "object",
@@ -18179,9 +17465,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "OrganizationGroup"
-          ]
+          "enum": ["OrganizationGroup"]
         },
         "TypeOfOrganizationGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -18276,9 +17560,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "OrganizationScheme": {
       "type": "object",
@@ -18291,9 +17573,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "OrganizationScheme"
-          ]
+          "enum": ["OrganizationScheme"]
         },
         "OrganizationSchemeName": {
           "type": "array",
@@ -18360,9 +17640,7 @@
           "description": "In-line description of a group of Organizations, Individuals, and/or Relations."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "OtherMaterial": {
       "type": "object",
@@ -18375,9 +17653,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "OtherMaterial"
-          ]
+          "enum": ["OtherMaterial"]
         },
         "TypeOfMaterial": {
           "$ref": "#/$defs/CodeValueType",
@@ -18436,9 +17712,7 @@
           "description": "Language of the metadata describing the other material."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "OtherMaterialGroup": {
       "type": "object",
@@ -18451,9 +17725,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "OtherMaterialGroup"
-          ]
+          "enum": ["OtherMaterialGroup"]
         },
         "TypeOfOtherMaterialGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -18532,9 +17804,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "OtherMaterialScheme": {
       "type": "object",
@@ -18547,9 +17817,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "OtherMaterialScheme"
-          ]
+          "enum": ["OtherMaterialScheme"]
         },
         "OtherMaterialSchemeName": {
           "type": "array",
@@ -18600,9 +17868,7 @@
           "description": "In-line description of a group of OtherMaterials."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "PhysicalDataProduct": {
       "type": "object",
@@ -18615,9 +17881,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "PhysicalDataProduct"
-          ]
+          "enum": ["PhysicalDataProduct"]
         },
         "PhysicalDataProductName": {
           "type": "array",
@@ -18660,9 +17924,7 @@
           "description": "A scheme containing a set of RecordLayouts describing the location of individual data items within the physical record and how to address them (locate and retrieve). RecordLayouts provide a link to the PhysicalStructure description and to individual variables or NCubes describing the data items."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "PhysicalInstance": {
       "type": "object",
@@ -18675,9 +17937,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "PhysicalInstance"
-          ]
+          "enum": ["PhysicalInstance"]
         },
         "Citation": {
           "$ref": "#/$defs/CitationType",
@@ -18784,9 +18044,7 @@
           "description": "Contains a term from a controlled vocabulary indicating the byte ordering."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "PhysicalInstanceGroup": {
       "type": "object",
@@ -18799,9 +18057,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "PhysicalInstanceGroup"
-          ]
+          "enum": ["PhysicalInstanceGroup"]
         },
         "TypeOfPhysicalInstanceGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -18880,9 +18136,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "PhysicalStructure": {
       "type": "object",
@@ -18895,9 +18149,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "PhysicalStructure"
-          ]
+          "enum": ["PhysicalStructure"]
         },
         "PhysicalStructureName": {
           "type": "array",
@@ -18956,9 +18208,7 @@
           "description": "The gross or macro level structures of the record structure including the link to the LogicalRecord and information on the number and ordering of each Physical Segment of the LogicalRecord as stored in the data file."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "PhysicalStructureGroup": {
       "type": "object",
@@ -18971,9 +18221,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "PhysicalStructureGroup"
-          ]
+          "enum": ["PhysicalStructureGroup"]
         },
         "TypeOfPhysicalStructureGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -19052,9 +18300,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "PhysicalStructureScheme": {
       "type": "object",
@@ -19067,9 +18313,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "PhysicalStructureScheme"
-          ]
+          "enum": ["PhysicalStructureScheme"]
         },
         "PhysicalStructureSchemeName": {
           "type": "array",
@@ -19120,9 +18364,7 @@
           "description": "A group of PhysicalStructure descriptions for administrative or conceptual purposes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "PretestActivity": {
       "type": "object",
@@ -19135,9 +18377,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "PretestActivity"
-          ]
+          "enum": ["PretestActivity"]
         },
         "SampleFrameReference": {
           "$ref": "#/$defs/reference",
@@ -19156,9 +18396,7 @@
           "description": "Description of the method and mode of data collection in administering the pretest. Notes any additional data collected in the administration of the pretest."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ProcessingEvent": {
       "type": "object",
@@ -19171,9 +18409,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ProcessingEvent"
-          ]
+          "enum": ["ProcessingEvent"]
         },
         "ProcessingEventName": {
           "type": "array",
@@ -19248,9 +18484,7 @@
           "description": "Reference to a quality statement relating to the processing event."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ProcessingEventGroup": {
       "type": "object",
@@ -19263,9 +18497,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ProcessingEventGroup"
-          ]
+          "enum": ["ProcessingEventGroup"]
         },
         "TypeOfProcessingEventGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -19344,9 +18576,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ProcessingEventScheme": {
       "type": "object",
@@ -19359,9 +18589,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ProcessingEventScheme"
-          ]
+          "enum": ["ProcessingEventScheme"]
         },
         "ProcessingEventSchemeName": {
           "type": "array",
@@ -19412,9 +18640,7 @@
           "description": "A description of a group of ProcessingEvent for administrative or conceptual purposes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ProcessingInstruction": {
       "type": "object",
@@ -19447,9 +18673,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ProcessingInstructionGroup"
-          ]
+          "enum": ["ProcessingInstructionGroup"]
         },
         "TypeOfProcessingInstructionGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -19536,9 +18760,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ProcessingInstructionScheme": {
       "type": "object",
@@ -19551,9 +18773,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ProcessingInstructionScheme"
-          ]
+          "enum": ["ProcessingInstructionScheme"]
         },
         "ProcessingInstructionSchemeName": {
           "type": "array",
@@ -19612,9 +18832,7 @@
           "description": "A description of a group of ProcessingInstructions for administrative or conceptual purposes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ProprietaryRecordLayout": {
       "type": "object",
@@ -19627,9 +18845,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ProprietaryRecordLayout"
-          ]
+          "enum": ["ProprietaryRecordLayout"]
         },
         "CharacterSet": {
           "$ref": "#/$defs/CodeValueType",
@@ -19684,9 +18900,7 @@
           "description": "Describes a single data item within the file including its variable reference, information on the data type, and any item specific proprietary information."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QualityScheme": {
       "type": "object",
@@ -19699,9 +18913,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QualityScheme"
-          ]
+          "enum": ["QualityScheme"]
         },
         "QualitySchemeName": {
           "type": "array",
@@ -19768,9 +18980,7 @@
           "description": "In-line description of a group of QualityStandards."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QualityStandard": {
       "type": "object",
@@ -19783,9 +18993,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QualityStandard"
-          ]
+          "enum": ["QualityStandard"]
         },
         "QualityStandardName": {
           "type": "array",
@@ -19824,9 +19032,7 @@
           "description": "Provides a list of quality concepts in the quality standard."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QualityStandardGroup": {
       "type": "object",
@@ -19839,9 +19045,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QualityStandardGroup"
-          ]
+          "enum": ["QualityStandardGroup"]
         },
         "TypeOfQualityStandardGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -19920,9 +19124,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QualityStatement": {
       "type": "object",
@@ -19935,9 +19137,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QualityStatement"
-          ]
+          "enum": ["QualityStatement"]
         },
         "QualityStatementName": {
           "type": "array",
@@ -19992,9 +19192,7 @@
           "description": "Allows for a quality statement based on frameworks to be described using itemized properties. A reference to a concept, a coded value, or both can be used to specify the property from the standard framework identified in StandardUsed. ComplianceDescription can provide further details or a general description of compliance with a standard."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QualityStatementGroup": {
       "type": "object",
@@ -20007,9 +19205,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QualityStatementGroup"
-          ]
+          "enum": ["QualityStatementGroup"]
         },
         "TypeOfQualityStatementGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -20088,9 +19284,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Question": {
       "type": "object",
@@ -20123,9 +19317,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QuestionBlock"
-          ]
+          "enum": ["QuestionBlock"]
         },
         "QuestionBlockName": {
           "type": "array",
@@ -20252,9 +19444,7 @@
           "description": "The estimated amount of time required to answer a question expressed in seconds. Decimal values should be used to define fractions of seconds."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QuestionConstruct": {
       "type": "object",
@@ -20267,9 +19457,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QuestionConstruct"
-          ]
+          "enum": ["QuestionConstruct"]
         },
         "QuestionReference": {
           "$ref": "#/$defs/reference",
@@ -20308,9 +19496,7 @@
           "description": "The estimated amount of time required to answer a question expressed in seconds. Decimal values should be used to define fractions of seconds. At the question construct level it refers to the estimated time within the context of is use in a questionnaire."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QuestionGrid": {
       "type": "object",
@@ -20323,9 +19509,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QuestionGrid"
-          ]
+          "enum": ["QuestionGrid"]
         },
         "QuestionGridName": {
           "type": "array",
@@ -20557,9 +19741,7 @@
           "description": "The estimated amount of time required to answer a question expressed in seconds. Decimal values should be used to define fractions of seconds."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QuestionGroup": {
       "type": "object",
@@ -20572,9 +19754,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QuestionGroup"
-          ]
+          "enum": ["QuestionGroup"]
         },
         "TypeOfQuestionGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -20669,9 +19849,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QuestionItem": {
       "type": "object",
@@ -20684,9 +19862,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QuestionItem"
-          ]
+          "enum": ["QuestionItem"]
         },
         "QuestionItemName": {
           "type": "array",
@@ -20898,9 +20074,7 @@
           "description": "The estimated amount of time required to answer a question expressed in seconds. Decimal values should be used to define fractions of seconds."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "QuestionScheme": {
       "type": "object",
@@ -20913,9 +20087,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "QuestionScheme"
-          ]
+          "enum": ["QuestionScheme"]
         },
         "QuestionSchemeName": {
           "type": "array",
@@ -20982,9 +20154,7 @@
           "description": "Contains a group of Questions, which may be ordered or hierarchical."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RecordLayout": {
       "type": "object",
@@ -20997,9 +20167,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RecordLayout"
-          ]
+          "enum": ["RecordLayout"]
         },
         "CharacterSet": {
           "$ref": "#/$defs/CodeValueType",
@@ -21034,9 +20202,7 @@
           "description": "Set this item to \u0022true\u0022 if the first row of the file contains the names of the variables (data items)."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RecordLayoutGroup": {
       "type": "object",
@@ -21049,9 +20215,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RecordLayoutGroup"
-          ]
+          "enum": ["RecordLayoutGroup"]
         },
         "TypeOfRecordLayoutGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -21154,9 +20318,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RecordLayoutScheme": {
       "type": "object",
@@ -21169,9 +20331,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RecordLayoutScheme"
-          ]
+          "enum": ["RecordLayoutScheme"]
         },
         "RecordLayoutSchemeName": {
           "type": "array",
@@ -21230,9 +20390,7 @@
           "description": "Describes a group of RecordLayout descriptions for administrative or conceptual purposes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Relation": {
       "type": "object",
@@ -21245,9 +20403,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Relation"
-          ]
+          "enum": ["Relation"]
         },
         "SourceObject": {
           "$ref": "#/$defs/SourceObjectType",
@@ -21294,9 +20450,7 @@
           "description": "A basic set of privacy codes for the parent element. These may be stricter than the general access restrictions for the overall metadata. If available codes are insufficient this may also contain any string."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RepeatUntil": {
       "type": "object",
@@ -21309,9 +20463,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RepeatUntil"
-          ]
+          "enum": ["RepeatUntil"]
         },
         "UntilCondition": {
           "$ref": "#/$defs/CommandCodeType",
@@ -21322,9 +20474,7 @@
           "description": "A reference to the ControlConstruct to implement until the UntilCondition is met. This could be a single ControlConstruct or a set of ControlConstructs within a Sequence."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RepeatWhile": {
       "type": "object",
@@ -21337,9 +20487,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RepeatWhile"
-          ]
+          "enum": ["RepeatWhile"]
         },
         "WhileCondition": {
           "$ref": "#/$defs/CommandCodeType",
@@ -21350,9 +20498,7 @@
           "description": "A reference to the ControlConstruct to implement until the WhileCondition is met. This could be a single ControlConstruct or a set of ControlConstructs within a Sequence."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RepresentationMap": {
       "type": "object",
@@ -21365,9 +20511,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RepresentationMap"
-          ]
+          "enum": ["RepresentationMap"]
         },
         "RepresentationMapName": {
           "type": "array",
@@ -21414,9 +20558,7 @@
           "description": "Set to \u0022true\u0022 when a Concept has been identified in the SourceRepresentation."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RepresentedVariable": {
       "type": "object",
@@ -21429,9 +20571,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RepresentedVariable"
-          ]
+          "enum": ["RepresentedVariable"]
         },
         "RepresentedVariableName": {
           "type": "array",
@@ -21571,9 +20711,7 @@
           "description": "Reference to an existing MissingValuesRepresentation using the Reference structure. If this content conflicts with content provided in the ValueRepresentation regarding Missing Values the content of the MissingValuesRepresentation overrides. TypeOfObject will be MissingValuesRepresentation"
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RepresentedVariableGroup": {
       "type": "object",
@@ -21586,9 +20724,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RepresentedVariableGroup"
-          ]
+          "enum": ["RepresentedVariableGroup"]
         },
         "TypeOfRepresentedVariableGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -21667,9 +20803,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "RepresentedVariableScheme": {
       "type": "object",
@@ -21682,9 +20816,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "RepresentedVariableScheme"
-          ]
+          "enum": ["RepresentedVariableScheme"]
         },
         "RepresentedVariableSchemeName": {
           "type": "array",
@@ -21735,9 +20867,7 @@
           "description": "In-line description of a group of RepresentedVariables. RepresentedVariables may be grouped for a wide range of reasons including conceptual or universe grouping, usage, subject or keyword relationships, or other grouping reason that will assist in the management of a group of RepresentedVariables."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "ResourcePackage": {
       "type": "object",
@@ -21750,9 +20880,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "ResourcePackage"
-          ]
+          "enum": ["ResourcePackage"]
         },
         "Citation": {
           "$ref": "#/$defs/CitationType",
@@ -22155,9 +21283,7 @@
           "description": "A set of development activities maintained by an agency, and used in the development, review, or creation of a question, measurement, data capture flow (control construct), or instrument."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Sample": {
       "type": "object",
@@ -22170,9 +21296,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Sample"
-          ]
+          "enum": ["Sample"]
         },
         "TypeOfSample": {
           "$ref": "#/$defs/CodeValueType",
@@ -22271,9 +21395,7 @@
           "description": "A reference to a previously created sample that was used as a component of the current sample. Target object should be Sample."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "SampleFrame": {
       "type": "object",
@@ -22286,9 +21408,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "SampleFrame"
-          ]
+          "enum": ["SampleFrame"]
         },
         "SampleFrameName": {
           "type": "array",
@@ -22375,9 +21495,7 @@
           "description": "A reference to a frame that this frame was derived from."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "SampleStep": {
       "type": "object",
@@ -22390,9 +21508,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "SampleStep"
-          ]
+          "enum": ["SampleStep"]
         },
         "ConditionForAcceptance": {
           "type": "array",
@@ -22411,9 +21527,7 @@
           "description": "A distinct \u0022strata\u0022 within a population used to define a group to be sampled within that population, for example an Income Level or Postal Code."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "SamplingInformationGroup": {
       "type": "object",
@@ -22426,9 +21540,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "SamplingInformationGroup"
-          ]
+          "enum": ["SamplingInformationGroup"]
         },
         "TypeOfSamplingInformationGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -22507,9 +21619,7 @@
           "description": "Indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "SamplingInformationScheme": {
       "type": "object",
@@ -22522,9 +21632,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "SamplingInformationScheme"
-          ]
+          "enum": ["SamplingInformationScheme"]
         },
         "SamplingInformationSchemeName": {
           "type": "array",
@@ -22591,9 +21699,7 @@
           "description": "An item (that is, a sampling information group) belonging to the sampling information Scheme."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "SamplingPlan": {
       "type": "object",
@@ -22606,9 +21712,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "SamplingPlan"
-          ]
+          "enum": ["SamplingPlan"]
         },
         "TypeOfSamplingPlan": {
           "$ref": "#/$defs/CodeValueType",
@@ -22663,9 +21767,7 @@
           "description": "Describe the purpose for stratifying the sampling process."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "SamplingStage": {
       "type": "object",
@@ -22678,9 +21780,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "SamplingStage"
-          ]
+          "enum": ["SamplingStage"]
         },
         "TypeOfSequence": {
           "type": "array",
@@ -22739,9 +21839,7 @@
           "description": "If known and available, provide the selection probability for each sampling unit.  This is one number for equal probability sampling, such as SRS.  For PPS, a description of the size criterion is needed.  For other unequal designs, a description of of how the probabilities are assigned is needed."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Sequence": {
       "type": "object",
@@ -22754,9 +21852,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Sequence"
-          ]
+          "enum": ["Sequence"]
         },
         "TypeOfSequence": {
           "type": "array",
@@ -22779,9 +21875,7 @@
           "description": "Describes alternate ordering for different cases using the SpecificSequence structure. If you set the sequence to anything other than order of appearance the only allowable children are QuestionConstruct or Sequence. Contents must be randomizable."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Split": {
       "type": "object",
@@ -22794,9 +21888,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Split"
-          ]
+          "enum": ["Split"]
         },
         "TypeOfSequence": {
           "type": "array",
@@ -22815,9 +21907,7 @@
           "description": "References control constructs that can be executed concurrently."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "SplitJoin": {
       "type": "object",
@@ -22830,9 +21920,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "SplitJoin"
-          ]
+          "enum": ["SplitJoin"]
         },
         "TypeOfSequence": {
           "type": "array",
@@ -22851,9 +21939,7 @@
           "description": "References control constructs that can be executed concurrently."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "StatementItem": {
       "type": "object",
@@ -22866,9 +21952,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "StatementItem"
-          ]
+          "enum": ["StatementItem"]
         },
         "DisplayText": {
           "type": "array",
@@ -22879,9 +21963,7 @@
           "description": "Text to be displayed by the instrument. Supports the use of DynamicText. Note that when using Dynamic Text, the full DisplayText must be repeated for multi-language versions of the content. Different languages may handle the dynamic portions in different locations and/or with different content. Therefore languages cannot be mixed within a dynamic text except when the full text itself has multiple language sections, for example, a foreign language term in a text. The DisplayText may also be repeated to provide a dynamic and plain text version of the display. This allows for accurate rendering of the display in a non-dynamic environment like print."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "StatisticalClassification": {
       "type": "object",
@@ -22894,9 +21976,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "StatisticalClassification"
-          ]
+          "enum": ["StatisticalClassification"]
         },
         "ReleaseDate": {
           "$ref": "#/$defs/cogsDate",
@@ -23043,9 +22123,7 @@
           "description": "If the Statistical Classification is a variant, notes the specific purpose for which it was developed."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "StudyUnit": {
       "type": "object",
@@ -23058,9 +22136,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "StudyUnit"
-          ]
+          "enum": ["StudyUnit"]
         },
         "TypeOfStudyUnit": {
           "$ref": "#/$defs/CodeValueType",
@@ -23291,9 +22367,7 @@
           "description": "Contains a DDI Profile which is used by the study unit."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "SubUniverseClass": {
       "type": "object",
@@ -23306,9 +22380,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "SubUniverseClass"
-          ]
+          "enum": ["SubUniverseClass"]
         },
         "SubUniverseClassName": {
           "type": "array",
@@ -23359,9 +22431,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "TabularNCubeRecordLayout": {
       "type": "object",
@@ -23374,9 +22444,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "TabularNCubeRecordLayout"
-          ]
+          "enum": ["TabularNCubeRecordLayout"]
         },
         "CharacterSet": {
           "$ref": "#/$defs/CodeValueType",
@@ -23399,9 +22467,7 @@
           "description": "Notes the column and row position of the top left corner of the data table in the spreadsheet."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "TranslationActivity": {
       "type": "object",
@@ -23414,9 +22480,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "TranslationActivity"
-          ]
+          "enum": ["TranslationActivity"]
         },
         "TranslationMethod": {
           "type": "array",
@@ -23463,9 +22527,7 @@
           "description": "List the language or language codes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "UnitType": {
       "type": "object",
@@ -23478,18 +22540,14 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "UnitType"
-          ]
+          "enum": ["UnitType"]
         },
         "ConceptReference": {
           "$ref": "#/$defs/reference",
           "description": "Reference to the Concept that defines the UnitType. TypeOfObject should be set to Concept."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "UnitTypeGroup": {
       "type": "object",
@@ -23502,9 +22560,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "UnitTypeGroup"
-          ]
+          "enum": ["UnitTypeGroup"]
         },
         "TypeOfUnitTypeGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -23583,9 +22639,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "UnitTypeScheme": {
       "type": "object",
@@ -23598,9 +22652,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "UnitTypeScheme"
-          ]
+          "enum": ["UnitTypeScheme"]
         },
         "UnitTypeSchemeName": {
           "type": "array",
@@ -23651,9 +22703,7 @@
           "description": "In-line description of a group of UnitTypes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Universe": {
       "type": "object",
@@ -23666,9 +22716,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Universe"
-          ]
+          "enum": ["Universe"]
         },
         "UniverseName": {
           "type": "array",
@@ -23751,9 +22799,7 @@
           "description": "The default value is \u0022true\u0022. The description statement of a Universe is generally stated in inclusive terms such as \u0022All persons residing in Europe\u0022. Occasionally a Universe is defined by what it excludes, i.e., \u0022All persons residing in Europe except for those residing on U.S. Military bases\u0022. In this case the value would be changed to \u0022false\u0022."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "UniverseGroup": {
       "type": "object",
@@ -23766,9 +22812,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "UniverseGroup"
-          ]
+          "enum": ["UniverseGroup"]
         },
         "TypeOfUniverseGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -23847,9 +22891,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "UniverseScheme": {
       "type": "object",
@@ -23862,9 +22904,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "UniverseScheme"
-          ]
+          "enum": ["UniverseScheme"]
         },
         "UniverseSchemeName": {
           "type": "array",
@@ -23915,9 +22955,7 @@
           "description": "Describes a group of universes (populations, objects) for administrative purposes."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Variable": {
       "type": "object",
@@ -23930,9 +22968,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Variable"
-          ]
+          "enum": ["Variable"]
         },
         "VariableName": {
           "type": "array",
@@ -24051,9 +23087,7 @@
           "description": "Set to \u0022true\u0022 if the variable is used a weight when analyzing data within the data set. If set to true provide a reference to the Applied Usage of the appropriate Processing Event Weight using WeightingAppliedUsage."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "VariableGroup": {
       "type": "object",
@@ -24066,9 +23100,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "VariableGroup"
-          ]
+          "enum": ["VariableGroup"]
         },
         "TypeOfVariableGroup": {
           "$ref": "#/$defs/CodeValueType",
@@ -24147,9 +23179,7 @@
           "description": "If set to \u0022true\u0022 indicates that the content of the group is ordered."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "VariableScheme": {
       "type": "object",
@@ -24162,9 +23192,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "VariableScheme"
-          ]
+          "enum": ["VariableScheme"]
         },
         "VariableSchemeName": {
           "type": "array",
@@ -24215,9 +23243,7 @@
           "description": "Contains a group of Variables, which may be ordered or hierarchical."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "VariableStatistics": {
       "type": "object",
@@ -24230,9 +23256,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "VariableStatistics"
-          ]
+          "enum": ["VariableStatistics"]
         },
         "VariableReference": {
           "$ref": "#/$defs/reference",
@@ -24279,9 +23303,7 @@
           "description": "Includes category-level statistic for the referenced variable using another variable to filter the categories through. For example, the Eurobarometer may filter its category statistics by country as represented in a variable \u0022CountryCode\u0022."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "Versionable": {
       "type": "object",
@@ -24356,12 +23378,7 @@
           "description": "Indicates that the maintainable will not be changed without versioning, and is a stable target for referencing."
         }
       },
-      "required": [
-        "URN",
-        "Agency",
-        "ID",
-        "Version"
-      ]
+      "required": ["URN", "Agency", "ID", "Version"]
     },
     "Weighting": {
       "type": "object",
@@ -24374,9 +23391,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "Weighting"
-          ]
+          "enum": ["Weighting"]
         },
         "TypeOfWeighting": {
           "$ref": "#/$defs/CodeValueType",
@@ -24423,9 +23438,7 @@
           "description": "The sample that was the basis for the weighting. TypeOfObject should be Sample."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     },
     "WeightingMethodology": {
       "type": "object",
@@ -24438,9 +23451,7 @@
       "properties": {
         "$type": {
           "type": "string",
-          "enum": [
-            "WeightingMethodology"
-          ]
+          "enum": ["WeightingMethodology"]
         },
         "TypeOfWeightingMethodology": {
           "$ref": "#/$defs/CodeValueType",
@@ -24455,9 +23466,7 @@
           "description": "Full description of the weighting methodology."
         }
       },
-      "required": [
-        "$type"
-      ]
+      "required": ["$type"]
     }
   },
   "type": "object",
@@ -24961,8 +23970,6 @@
       "minItems": 0
     }
   },
-  "required": [
-    "items"
-  ],
+  "required": ["items"],
   "additionalProperties": false
 }
