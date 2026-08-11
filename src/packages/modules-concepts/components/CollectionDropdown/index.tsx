@@ -2,7 +2,7 @@ import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
 
 import { ExportButton } from "@components/buttons/buttons-with-icons";
 
-import "./dropdown.scss";
+import "./dropdown.css";
 import { cx } from "@utils/cx";
 
 const useOutsideClick = (

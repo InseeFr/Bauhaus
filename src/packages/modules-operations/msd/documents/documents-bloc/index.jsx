@@ -24,7 +24,7 @@ import { DOCUMENT, isDocument, isLink, LINK } from "../../../document/utils";
 import { useDocumentsStoreContext } from "../../pages/sims-creation/documents-store-context";
 import { DocumentAsideInformation, DocumentLink } from "./document-list-item";
 import { SortableDocumentItem } from "./sortable-document-item";
-import "./style.scss";
+import "./style.css";
 import { cx } from "@utils/cx";
 
 /**

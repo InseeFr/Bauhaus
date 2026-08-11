@@ -1,5 +1,5 @@
 import { Row } from "../layout";
-import "./index.scss";
+import "./index.css";
 
 export const PageSubtitle = ({ subTitle }: Readonly<{ subTitle: string }>) => {
   return (

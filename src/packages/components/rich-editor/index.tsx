@@ -4,7 +4,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import { editorStateFromHtml, htmlFromEditorState } from "../../utils/html-utils";
-import "./editor-html.scss";
+import "./editor-html.css";
 import { EditorDeleteButton } from "./editor-markdown";
 
 const toolbar = {

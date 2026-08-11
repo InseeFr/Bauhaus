@@ -20,7 +20,7 @@ import SimsVisualisation from "../msd/pages/sims-visualisation";
 import { CREATE, HELP, UPDATE, VIEW } from "./constant";
 import { SimsContextProvider } from "./context";
 import { computeEssentialRubricContext } from "./essential-rubric-context";
-import "./msd.scss";
+import "./msd.css";
 import { DocumentsStoreProvider } from "./pages/sims-creation/documents-store-context";
 import { useDocumentsList } from "./pages/sims-creation/useDocumentsList";
 import { getParentId, getParentType } from "./utils";

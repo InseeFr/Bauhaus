@@ -9,7 +9,7 @@ import { getLang } from "@utils/dictionnary";
 import { mdFromEditorState, editorStateFromMd } from "@utils/html-utils";
 
 import "../note-edition";
-import "./editor-html.scss";
+import "./editor-html.css";
 
 // draft-js est importé sans types (@ts-ignore ci-dessus) : `EditorState` n'existe que
 // comme valeur, pas comme type. L'état est donc opaque pour l'appelant.

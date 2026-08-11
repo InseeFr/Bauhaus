@@ -26,7 +26,7 @@ import { SimsFieldTitle } from "../../sims-field-title";
 import { getParentUri, hasLabelLg2 } from "../../utils";
 import { Menu } from "./menu";
 import SimsBlock from "./sims-block";
-import "./sims-visualisation.scss";
+import "./sims-visualisation.css";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 import { MissingDocumentsErrorBloc } from "./missing-documents-error-bloc";
 

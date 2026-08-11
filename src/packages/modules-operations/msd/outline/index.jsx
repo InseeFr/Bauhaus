@@ -5,7 +5,7 @@ import D from "../../../deprecated-locales";
 import { OutlineBlock } from "../outline/outline-block";
 import { isOpen, toggleOpen } from "../utils";
 import { OutlineButtonWithScroll } from "./outline-button-with-scroll";
-import "./style.scss";
+import "./style.css";
 import { cx } from "@utils/cx";
 
 const Outline = ({

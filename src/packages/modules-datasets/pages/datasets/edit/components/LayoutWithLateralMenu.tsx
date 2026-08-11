@@ -1,7 +1,8 @@
 import { MouseEvent, ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import "./LayoutWithLateralMenu.scss";
+import "../../../../../components/panel-trigger/panel-trigger.css";
+import "./LayoutWithLateralMenu.css";
 import { cx } from "@utils/cx";
 
 const styleContent = {

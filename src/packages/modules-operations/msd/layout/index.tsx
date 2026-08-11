@@ -4,7 +4,8 @@ import D from "../../../deprecated-locales";
 import { MetadataStructure } from "../../../model/Sims";
 import { Status, useLayout } from "../../useLayout";
 import Outline from "../outline";
-import "./style.scss";
+import "../../../components/panel-trigger/panel-trigger.css";
+import "./style.css";
 
 interface MSDComponentTypes {
   baseUrl: string;

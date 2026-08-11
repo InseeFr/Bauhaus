@@ -34,7 +34,7 @@ import { DocumentFormPanel } from "./document-form-panel";
 import { useDocumentsStoreContext } from "./documents-store-context";
 /** @typedef {import("./sims-creation.types").SimsCreationError} SimsCreationError */
 import { Menu } from "./menu";
-import "./sims-creation.scss";
+import "./sims-creation.css";
 import SimsDocumentField from "./sims-document-field";
 import { SimsField as Field } from "./sims-field";
 import { getDefaultSims, getSiblingSims } from "./utils/getSims";

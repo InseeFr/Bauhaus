@@ -35,13 +35,6 @@ export default defineConfig(() => {
       tsconfigPaths: true,
     },
 
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: "modern-compiler" as const,
-        },
-      },
-    },
     build: {
       outDir: "build",
     },

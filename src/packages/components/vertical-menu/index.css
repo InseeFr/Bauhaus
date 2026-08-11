@@ -1,7 +1,7 @@
 .btn-group-vertical {
   margin-top: 50px;
 
-  @media (min-width: 1000px) {
+  @media (width >= 1000px) {
     margin-top: 200px;
   }
 

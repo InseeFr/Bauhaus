@@ -10,18 +10,21 @@
     flex-direction: column;
     flex: 1;
 
-    &:nth-child(2) .panel-heading,
-    &:nth-child(2) .panel-title {
-      background: var(--primary-color);
-    }
-    &:nth-child(1) + div {
-      margin-left: 2em;
-    }
-
     .panel-heading,
     .panel-title {
       background: var(--secondary-color);
       color: #fff;
+    }
+
+    /* Plus spécifique que la règle générique ci-dessus : le 2e panneau garde
+       la couleur primaire quel que soit l'ordre de déclaration. */
+    &:nth-child(2) .panel-heading,
+    &:nth-child(2) .panel-title {
+      background: var(--primary-color);
+    }
+
+    &:nth-child(1) + div {
+      margin-left: 2em;
     }
 
     .panel-body {

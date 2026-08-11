@@ -1,53 +1,85 @@
-@mixin rich-text($padding) {
+/* Ces deux blocs provenaient d'un mixin Sass `rich-text($padding)`, appelé avec
+   0 puis 1em. Seuls les paddings des .wilco-note diffèrent entre les deux. */
+.bauhaus-sims-field__RICH_TEXT {
   box-shadow: 1px 2px #b4b4b4;
   margin-left: 0;
   margin-right: 0;
-
   margin-bottom: 30px;
 
   .wilco-note {
     margin-bottom: 0;
+
     .panel {
       margin-bottom: 0;
       border: none;
       box-shadow: none;
     }
+
     .panel-body {
       border: none;
       box-shadow: none;
     }
   }
+
   .wilco-note:nth-child(1) {
-    padding-right: $padding;
+    padding-right: 0;
     padding-left: 0;
   }
+
   .wilco-note:nth-child(2) {
     padding-right: 0;
-    padding-left: $padding;
+    padding-left: 0;
   }
-}
-
-.bauhaus-sims-field__RICH_TEXT {
-  @include rich-text(0);
 }
 
 .bauhaus-sims-field__RICH_TEXT_2col {
-  @include rich-text(1em);
+  box-shadow: 1px 2px #b4b4b4;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 30px;
+
+  .wilco-note {
+    margin-bottom: 0;
+
+    .panel {
+      margin-bottom: 0;
+      border: none;
+      box-shadow: none;
+    }
+
+    .panel-body {
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  .wilco-note:nth-child(1) {
+    padding-right: 1em;
+    padding-left: 0;
+  }
+
+  .wilco-note:nth-child(2) {
+    padding-right: 0;
+    padding-left: 1em;
+  }
 }
 
 .bauhaus-sims-creation {
   display: flex;
   flex-direction: column;
 }
+
 .bauhaus-sims-geography-field {
   display: flex;
 
   .form-group {
     flex-grow: 1;
+
     div[class$="singleValue"] {
       overflow: visible;
     }
   }
+
   .btn-group {
     margin-left: 1em;
 
@@ -60,6 +92,7 @@
 .bauhaus-sims-field {
   display: flex;
   flex-direction: column;
+
   .bauhaus-sims-field-form {
     display: flex;
     flex-direction: row;
