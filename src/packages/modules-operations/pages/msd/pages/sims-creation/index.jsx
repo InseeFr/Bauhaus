@@ -3,8 +3,6 @@ import Modal from "react-modal";
 import { useBlocker } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import "../../../i18n";
-
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
 import { CloseIconButton } from "@components/buttons/buttons-with-icons";

@@ -19,7 +19,7 @@ import { AddLogo } from "@components/logo/logo-add";
 import { getBaseURI } from "@sdk/build-api";
 
 import D, { D1, D2 } from "../../../../../deprecated-locales";
-import { DOCUMENT, isDocument, isLink, LINK } from "../../../../document/utils";
+import { DOCUMENT, isDocument, isLink, LINK } from "../../../documents/utils";
 import { useDocumentsStoreContext } from "../../pages/sims-creation/documents-store-context";
 import { DocumentAsideInformation, DocumentLink } from "./document-list-item";
 import { SortableDocumentItem } from "./sortable-document-item";
@@ -48,7 +48,9 @@ export function DocumentsBloc({
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   const handleDragEnd = (event) => {
