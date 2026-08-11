@@ -3,8 +3,8 @@ import { PropsWithChildren } from "react";
 import D from "../../../../deprecated-locales";
 import { MetadataStructure } from "../../../../model/Sims";
 import { Status, useLayout } from "../../../hooks/useLayout";
-import Outline from "../outline";
-import "./style.scss";
+import { Outline } from "../outline";
+import "./style.css";
 
 interface MSDComponentTypes {
   baseUrl: string;
@@ -12,7 +12,7 @@ interface MSDComponentTypes {
   storeCollapseState: boolean;
   metadataStructure: Record<string, MetadataStructure>;
 }
-const MSDComponent = ({
+export const MSDComponent = ({
   storeCollapseState,
   metadataStructure,
   children,
@@ -35,11 +35,11 @@ const MSDComponent = ({
   };
 
   return (
-    <div id="consulter-sommaire" className="container msd__container">
-      <section className="msd__outline" style={styleSummary}>
-        <div className="msd__outline_title">{D.helpSummary}</div>
-        <nav className="msd__outline-container">
-          <ul className="msd__outline-content">
+    <div id="consulter-sommaire" className="container msd-container">
+      <section className="msd-outline" style={styleSummary}>
+        <div className="msd-outline-title">{D.helpSummary}</div>
+        <nav className="msd-outline-container">
+          <ul className="msd-outline-content">
             {Object.values(metadataStructure).map((metadata) => (
               <Outline
                 key={metadata.idMas}
@@ -54,13 +54,13 @@ const MSDComponent = ({
       </section>
 
       {status === Status.CONTENT && (
-        <button type="button" className="msd__panel-trigger_left" onClick={changeStatusToBoth}>
+        <button type="button" className="msd-panel-trigger-left" onClick={changeStatusToBoth}>
           {D.helpSummary}
           <span className="glyphicon glyphicon-chevron-right" />
         </button>
       )}
       {status === Status.BOTH && (
-        <div className="msd__panel-trigger_middle">
+        <div className="msd-panel-trigger-middle">
           <div>
             <button type="button" onClick={changeStatusToContent} title="open content">
               <span className="glyphicon glyphicon-chevron-left" />
@@ -74,14 +74,14 @@ const MSDComponent = ({
         </div>
       )}
       {status === Status.SUMMARY && (
-        <button type="button" className="msd__panel-trigger_right" onClick={changeStatusToBoth}>
+        <button type="button" className="msd-panel-trigger-right" onClick={changeStatusToBoth}>
           <span className="glyphicon glyphicon-chevron-left" />
           {D.helpContent}
         </button>
       )}
       <section
         style={styleContent}
-        className={status === Status.CONTENT ? "msd__content_alone" : "msd__content"}
+        className={status === Status.CONTENT ? "msd-content-alone" : "msd-content"}
       >
         {children}
       </section>
@@ -89,4 +89,3 @@ const MSDComponent = ({
   );
 };
 
-export default MSDComponent;

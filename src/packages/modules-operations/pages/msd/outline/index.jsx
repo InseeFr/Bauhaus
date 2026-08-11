@@ -5,9 +5,9 @@ import D from "../../../../deprecated-locales";
 import { OutlineBlock } from "../outline/outline-block";
 import { isOpen, toggleOpen } from "../utils";
 import { OutlineButtonWithScroll } from "./outline-button-with-scroll";
-import "./style.scss";
+import "./style.css";
 
-const Outline = ({
+export const Outline = ({
   storeCollapseState,
   metadataStructure,
   baseUrl = "/operations/help/",
@@ -40,7 +40,7 @@ const Outline = ({
 
   return (
     <li>
-      <div className="msd__outline-primary-item">
+      <div className="msd-outline-primary-item">
         <OutlineButtonWithScroll
           id={metadataStructure.idMas}
           baseUrl={`${baseUrl}${disableSectionAnchor ? "" : metadataStructure.idMas}`}
@@ -51,7 +51,7 @@ const Outline = ({
         {Object.keys(metadataStructure.children).length > 0 && (
           <button
             type="button"
-            className="msd__outline-primary-updown"
+            className="msd-outline-primary-updown"
             title={opened ? D.hide : D.display}
             onClick={expandOrCollapseItem}
           >
@@ -73,4 +73,3 @@ const Outline = ({
   );
 };
 
-export default Outline;

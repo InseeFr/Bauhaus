@@ -17,7 +17,9 @@ import { EMPTY_ARRAY, sortArrayByLabel } from "@utils/array-utils";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import D from "../../../../../deprecated-locales";
-import { flattenTree, isAutoUpdatedFromModified, rangeType } from "../../../../utils/msd";
+import { flattenTree } from "../../../../utils/flattenTree";
+import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
+import { rangeType } from "../../../../utils/rangeType";
 import { SimsContextProvider } from "../../context";
 import { computeEssentialRubricContext } from "../../essential-rubric-context";
 import { RubricEssentialMsg } from "../../rubric-essantial-msg";
@@ -31,8 +33,8 @@ import { DocumentFormPanel } from "./document-form-panel";
 import { useDocumentsStoreContext } from "./documents-store-context";
 /** @typedef {import("./sims-creation.types").SimsCreationError} SimsCreationError */
 import { Menu } from "./menu";
-import "./sims-creation.scss";
-import SimsDocumentField from "./sims-document-field";
+import "./sims-creation.css";
+import { SimsDocumentFieldMemo as SimsDocumentField } from "./sims-document-field";
 import { SimsField as Field } from "./sims-field";
 import { getDefaultSims, getSiblingSims } from "./utils/getSims";
 
@@ -364,5 +366,4 @@ const withParentWithSims = (Component) => {
   };
 };
 
-const AdvancedSimsCreation = withParentWithSims(SimsCreation);
-export default AdvancedSimsCreation;
+export const AdvancedSimsCreation = withParentWithSims(SimsCreation);

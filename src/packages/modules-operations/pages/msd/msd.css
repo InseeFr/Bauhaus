@@ -6,8 +6,6 @@
   color: var(--secondary-color);
 }
 
-.export-modal-body {
-  input {
-    margin-right: 1em;
-  }
+.export-modal-body input {
+  margin-right: 1em;
 }

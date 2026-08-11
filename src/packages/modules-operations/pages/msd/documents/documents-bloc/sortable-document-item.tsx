@@ -39,11 +39,11 @@ export const SortableDocumentItem = ({
     <li
       ref={setNodeRef}
       style={style}
-      className="list-group-item documentbloc__item documentbloc__item--sortable"
+      className="list-group-item documentbloc-item documentbloc-item--sortable"
     >
       <button
         type="button"
-        className="documentsbloc__drag-handle documentsbloc__btn"
+        className="documentsbloc-drag-handle documentsbloc-btn"
         aria-label={D.reorderDocument}
         {...attributes}
         {...listeners}
@@ -56,7 +56,7 @@ export const SortableDocumentItem = ({
       </span>
       <button
         type="button"
-        className="documentsbloc__delete documentsbloc__btn"
+        className="documentsbloc-delete documentsbloc-btn"
         aria-label={D.btnDelete}
         onClick={() => deleteHandler(document.uri)}
       >

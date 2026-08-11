@@ -108,7 +108,7 @@ describe("DocumentsBloc", () => {
   it("should display the Lg1 labels in the given array order (back-defined order), not alphabetically", async () => {
     const expected = backOrdered.map(
       (doc) =>
-        `<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg1}">${doc.labelLg1}</a><i>(${doc.aside})</i></span></li>`,
+        `<li class="list-group-item documentbloc-item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg1}">${doc.labelLg1}</a><i>(${doc.aside})</i></span></li>`,
     );
 
     const { container } = await renderWithStore(<DocumentsBloc documents={backOrdered} />);
@@ -122,7 +122,7 @@ describe("DocumentsBloc", () => {
   it("should display the Lg2 labels in the given array order (back-defined order), not alphabetically", async () => {
     const expected = backOrdered.map(
       (doc) =>
-        `<li class="list-group-item documentbloc__item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg2}">${doc.labelLg2}</a><i>(${doc.aside})</i></span></li>`,
+        `<li class="list-group-item documentbloc-item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg2}">${doc.labelLg2}</a><i>(${doc.aside})</i></span></li>`,
     );
 
     const { container } = await renderWithStore(
@@ -145,7 +145,7 @@ describe("DocumentsBloc", () => {
         <DocumentsBloc documents={documents} localPrefix={lang} editMode={false} />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc__delete")).toHaveLength(expectedView);
+      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(expectedView);
     });
 
     it("should display zero delete buttons", async () => {
@@ -153,7 +153,7 @@ describe("DocumentsBloc", () => {
         <DocumentsBloc documents={documents} localPrefix={lang} editMode={true} />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc__delete")).toHaveLength(expectedEdit);
+      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(expectedEdit);
     });
   });
 
@@ -162,7 +162,7 @@ describe("DocumentsBloc", () => {
       <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
     );
 
-    expect(container.querySelectorAll(".documentsbloc__add")).toHaveLength(1);
+    expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(1);
   });
 
   it("should display the Add Document button if there is more than on document available", async () => {
@@ -170,7 +170,7 @@ describe("DocumentsBloc", () => {
       <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
     );
 
-    expect(container.querySelectorAll(".documentsbloc__add")).toHaveLength(1);
+    expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(1);
   });
 
   it("should display the Add new Document button", async () => {
@@ -206,7 +206,7 @@ describe("DocumentsBloc", () => {
       <DocumentsBloc documents={documents} localPrefix="Lg2" editMode={false} />,
     );
 
-    expect(container.querySelectorAll(".documentsbloc__add")).toHaveLength(0);
+    expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(0);
   });
 
   describe("sortable mode (onReorder provided)", () => {
@@ -241,7 +241,7 @@ describe("DocumentsBloc", () => {
         />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc__drag-handle")).toHaveLength(
+      expect(container.querySelectorAll(".documentsbloc-drag-handle")).toHaveLength(
         documents.length,
       );
     });
@@ -251,7 +251,7 @@ describe("DocumentsBloc", () => {
         <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc__drag-handle")).toHaveLength(0);
+      expect(container.querySelectorAll(".documentsbloc-drag-handle")).toHaveLength(0);
     });
   });
 });

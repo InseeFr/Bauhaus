@@ -86,7 +86,7 @@ vi.mock("@sdk/operations-api", () => ({
 }));
 vi.mock("../../rubric-essantial-msg", () => ({ RubricEssentialMsg: () => null }));
 vi.mock("../../sims-field-title", () => ({ SimsFieldTitle: () => null }));
-vi.mock("./sims-block", () => ({ default: () => null }));
+vi.mock("./sims-block", () => ({ SimsBlock: () => null }));
 vi.mock("./missing-documents-error-bloc", () => ({
   MissingDocumentsErrorBloc: ({ missingDocuments }: { missingDocuments: Set<string> }) =>
     missingDocuments && missingDocuments.size > 0 ? (
@@ -95,7 +95,7 @@ vi.mock("./missing-documents-error-bloc", () => ({
 }));
 vi.mock("../../../../../deprecated-locales", () => ({ default: {} }));
 
-import SimsVisualisation from "./index";
+import { SimsVisualisation } from "./index";
 
 const mockSims = {
   id: "2253",

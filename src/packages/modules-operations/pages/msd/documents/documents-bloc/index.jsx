@@ -23,7 +23,7 @@ import { DOCUMENT, isDocument, isLink, LINK } from "../../../documents/utils";
 import { useDocumentsStoreContext } from "../../pages/sims-creation/documents-store-context";
 import { DocumentAsideInformation, DocumentLink } from "./document-list-item";
 import { SortableDocumentItem } from "./sortable-document-item";
-import "./style.scss";
+import "./style.css";
 
 /**
  * This component will display a list of documents associated
@@ -63,7 +63,7 @@ export function DocumentsBloc({
   const defaultBtnBlocFunction = (document) => (
     <button
       type="button"
-      className="documentsbloc__delete documentsbloc__btn"
+      className="documentsbloc-delete documentsbloc-btn"
       aria-label={D.btnDelete}
       onClick={() => deleteHandler(document.uri)}
     >
@@ -97,7 +97,7 @@ export function DocumentsBloc({
 
   function displayHTMLForDocument(document, btnBlocFunction = defaultBtnBlocFunction) {
     return (
-      <li className="list-group-item documentbloc__item" key={document.uri}>
+      <li className="list-group-item documentbloc-item" key={document.uri}>
         <span>
           <DocumentLink document={document} localPrefix={localPrefix} baseURI={baseURI} />
 
@@ -136,11 +136,11 @@ export function DocumentsBloc({
         </ul>
       )}
       {editMode && (
-        <div className="documentblock__picker panel panel-default">
+        <div className="documentblock-picker panel panel-default">
           <div className="panel-heading">
             <button
               type="button"
-              className="btn documentsbloc__add documentsbloc__btn"
+              className="btn documentsbloc-add documentsbloc-btn"
               aria-label={addTitle}
               onClick={() => setPanelStatus(!panelStatus)}
             >
@@ -175,14 +175,14 @@ export function DocumentsBloc({
                   onChange={(e) => setFilter(e.target.value)}
                 />
               </div>
-              <ul className="documentsbloc__filepicker">
+              <ul className="documentsbloc-filepicker">
                 {otherDocuments
                   .filter((_, index) => index < 100)
                   .map((document) => {
                     return displayHTMLForDocument(document, (document) => (
                       <button
                         type="button"
-                        className="documentsbloc__delete documentsbloc__btn"
+                        className="documentsbloc-delete documentsbloc-btn"
                         aria-label={D.btnAdd}
                         onClick={() => addHandler(document)}
                       >

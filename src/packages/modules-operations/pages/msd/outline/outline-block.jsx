@@ -56,15 +56,15 @@ export const OutlineBlock = ({
   const childrenArray = Object.values(childrenDictionary);
 
   return (
-    <ul className={secondary ? "msd__item-secondary" : "msd__item"}>
+    <ul className={secondary ? "msd-item-secondary" : "msd-item"}>
       {childrenArray.map((child) => {
         return (
           <li key={child.idMas} className="help-item">
-            <div className="msd__item-buttons">
+            <div className="msd-item-buttons">
               {Object.keys(child.children).length > 0 && (
                 <button
                   type="button"
-                  className="msd__item-updown"
+                  className="msd-item-updown"
                   title={child.opened ? D.hide : D.display}
                   id={child.idMas}
                   onClick={expandOrCollapseItem}
