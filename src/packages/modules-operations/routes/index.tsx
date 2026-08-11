@@ -9,6 +9,7 @@ export const routes: RouteObject[] = [
     path: "",
     element: <Navigate to="/operations/series" replace />,
   },
+  // Families pages
   {
     path: "families",
     lazy: () => import("../pages/families/home/page"),
@@ -29,6 +30,7 @@ export const routes: RouteObject[] = [
     path: "family/:id/modify",
     lazy: () => import("../pages/families/edit/page"),
   },
+  // Series pages
   {
     path: "series",
     lazy: () => import("../pages/series/home/page"),
@@ -49,6 +51,7 @@ export const routes: RouteObject[] = [
     path: "series/:id/modify",
     lazy: () => import("../pages/series/edit/page"),
   },
+  // Operations pages
   {
     path: "operations",
     lazy: () => import("../pages/operations/home/page"),
@@ -65,6 +68,7 @@ export const routes: RouteObject[] = [
     path: "operation/:id/modify",
     lazy: () => import("../pages/operations/edit/page"),
   },
+  // Indicators pages
   {
     path: "indicators",
     lazy: () => import("../pages/indicators/home/page"),
@@ -81,52 +85,47 @@ export const routes: RouteObject[] = [
     path: "indicator/:id/modify",
     lazy: () => import("../pages/indicators/edit/page"),
   },
+  // Documents and links pages
   {
     path: "documents",
     lazy: () => import("../pages/documents/home/page"),
-  },
-  {
-    path: "link/create",
-    lazy: () => import("../pages/documents/edit/page"),
   },
   {
     path: "document/create",
     lazy: () => import("../pages/documents/edit/page"),
   },
   {
-    path: "link/:id",
-    lazy: () => import("../pages/documents/view/page"),
+    path: "link/create",
+    lazy: () => import("../pages/documents/edit/page"),
   },
   {
     path: "document/:id",
     lazy: () => import("../pages/documents/view/page"),
   },
   {
-    path: "link/:id/modify",
-    lazy: () => import("../pages/documents/edit/page"),
+    path: "link/:id",
+    lazy: () => import("../pages/documents/view/page"),
   },
   {
     path: "document/:id/modify",
     lazy: () => import("../pages/documents/edit/page"),
   },
   {
+    path: "link/:id/modify",
+    lazy: () => import("../pages/documents/edit/page"),
+  },
+  // Tree page
+  {
+    path: "tree",
+    lazy: () => import("../pages/tree/home/page"),
+  },
+  // MSD pages
+  {
     path: "msd",
     lazy: () => import("../pages/msd/page"),
   },
   {
     path: "help/:idSection",
-    lazy: () => import("../pages/msd/page"),
-  },
-  {
-    path: "operation/:idParent/sims/create",
-    loader: ({ params }) => {
-      return {
-        mode: CREATE,
-        disableSectionAnchor: true,
-        parentType: "operation",
-        baseUrl: `/operations/operation/${params.idParent}/sims/create`,
-      };
-    },
     lazy: () => import("../pages/msd/page"),
   },
   {
@@ -137,6 +136,18 @@ export const routes: RouteObject[] = [
         disableSectionAnchor: true,
         parentType: "series",
         baseUrl: `/operations/series/${params.idParent}/sims/create`,
+      };
+    },
+    lazy: () => import("../pages/msd/page"),
+  },
+  {
+    path: "operation/:idParent/sims/create",
+    loader: ({ params }) => {
+      return {
+        mode: CREATE,
+        disableSectionAnchor: true,
+        parentType: "operation",
+        baseUrl: `/operations/operation/${params.idParent}/sims/create`,
       };
     },
     lazy: () => import("../pages/msd/page"),
@@ -183,9 +194,5 @@ export const routes: RouteObject[] = [
       };
     },
     lazy: () => import("../pages/msd/page"),
-  },
-  {
-    path: "tree",
-    lazy: () => import("../pages/tree/home/page"),
   },
 ];
