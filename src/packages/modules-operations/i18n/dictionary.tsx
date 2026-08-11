@@ -1,4 +1,4 @@
-const dictionary = {
+export const dictionary = {
   errors: {
     847: {
       fr: "Ce nom existe déjà",
@@ -50,4 +50,3 @@ const dictionary = {
     en: "Exclude",
   },
 };
-export default dictionary;

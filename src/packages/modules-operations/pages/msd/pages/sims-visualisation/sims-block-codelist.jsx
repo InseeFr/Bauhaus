@@ -1,4 +1,4 @@
-const SimsBlockCodeList = ({ codesLists, currentSection, multi = false, isSecondLang }) => {
+export const SimsBlockCodeList = ({ codesLists, currentSection, multi = false, isSecondLang }) => {
   const codes = codesLists[currentSection.codeList].codes;
 
   if (multi) {
@@ -25,4 +25,3 @@ const SimsBlockCodeList = ({ codesLists, currentSection, multi = false, isSecond
   return isSecondLang ? foundCode?.labelLg2 : foundCode?.labelLg1;
 };
 
-export default SimsBlockCodeList;

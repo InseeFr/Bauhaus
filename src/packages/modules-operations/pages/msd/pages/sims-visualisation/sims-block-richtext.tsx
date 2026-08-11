@@ -7,7 +7,10 @@ interface SimsBlockRichTextTypes {
   currentSection: Rubric;
   isSecondLang: boolean;
 }
-const SimsBlockRichText = ({ currentSection, isSecondLang }: Readonly<SimsBlockRichTextTypes>) => {
+export const SimsBlockRichText = ({
+  currentSection,
+  isSecondLang,
+}: Readonly<SimsBlockRichTextTypes>) => {
   const suffix: "Lg1" | "Lg2" = isSecondLang ? "Lg2" : "Lg1";
   const documents = currentSection[("documents" + suffix) as "documentsLg1" | "documentsLg2"];
   return (
@@ -31,4 +34,3 @@ const SimsBlockRichText = ({ currentSection, isSecondLang }: Readonly<SimsBlockR
   );
 };
 
-export default SimsBlockRichText;

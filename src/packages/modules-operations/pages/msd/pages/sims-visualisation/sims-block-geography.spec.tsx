@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 
 import { Rubric } from "../../../../../model/Sims";
-import SimsBlockGeography from "./sims-block-geography";
+import { SimsBlockGeography } from "./sims-block-geography";
 
 describe("SimsBlockGeography", () => {
   it("should display the labelLg1 when isSecondLang is false", () => {

@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
-import HelpInformation from "../../help-information";
+import { HelpInformation } from "../../help-information";
 
-export default function MSDHelp({ metadataStructure, codesLists, organisations }) {
+export function MSDHelp({ metadataStructure, codesLists, organisations }) {
   const { idSection } = useParams();
   function MSDInformations({ msd }) {
     return (

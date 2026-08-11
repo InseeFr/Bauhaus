@@ -5,10 +5,9 @@ interface SimsBlockGeographyTypes {
   isSecondLang: boolean;
 }
 
-const SimsBlockGeography = ({
+export const SimsBlockGeography = ({
   currentSection,
   isSecondLang,
 }: Readonly<SimsBlockGeographyTypes>) => {
   return isSecondLang ? currentSection.labelLg2 : currentSection.labelLg1;
 };
-export default SimsBlockGeography;

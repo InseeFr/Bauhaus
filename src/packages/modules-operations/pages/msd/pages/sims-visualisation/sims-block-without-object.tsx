@@ -1,7 +1,6 @@
 import D from "../../../../../deprecated-locales";
 
-const SimsBlockWithoutObject = () => {
+export const SimsBlockWithoutObject = () => {
   return <p>{D.simsWithoutObject}</p>;
 };
 
-export default SimsBlockWithoutObject;

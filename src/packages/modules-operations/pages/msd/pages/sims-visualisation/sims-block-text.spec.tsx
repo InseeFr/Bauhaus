@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 
 import { Rubric } from "../../../../../model/Sims";
-import SimsBlockText from "./sims-block-text";
+import { SimsBlockText } from "./sims-block-text";
 
 describe("SimsBlockText", () => {
   it("should display the labelLg1 when isSecondLang is false", () => {

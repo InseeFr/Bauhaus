@@ -1,6 +1,6 @@
 import { useOrganizations } from "@utils/hooks/organizations";
 
-const SimsBlockOrganisation = ({ currentSection }) => {
+export const SimsBlockOrganisation = ({ currentSection }) => {
   const { data: organisations = [] } = useOrganizations();
   const value = currentSection?.value;
   if (!value) return null;
@@ -9,4 +9,3 @@ const SimsBlockOrganisation = ({ currentSection }) => {
   return <span>{organisation?.label ?? ""}</span>;
 };
 
-export default SimsBlockOrganisation;

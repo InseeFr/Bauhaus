@@ -87,7 +87,7 @@ export const SimsDocumentField = ({
   );
 };
 
-export default memo(
+export const SimsDocumentFieldMemo = memo(
   SimsDocumentField,
   (prevProps, nextProps) => prevProps.currentSection === nextProps.currentSection,
 );

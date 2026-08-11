@@ -1,16 +1,16 @@
-import { rangeType } from "../../../../utils/msd";
-import SimsBlockCodeList from "./sims-block-codelist";
-import SimsBlockDate from "./sims-block-date";
-import SimsBlockGeography from "./sims-block-geography";
-import SimsBlockOrganisation from "./sims-block-organisation";
-import SimsBlockRichText from "./sims-block-richtext";
-import SimsBlockText from "./sims-block-text";
-import SimsBlockWithoutObject from "./sims-block-without-object";
+import { rangeType } from "../../../../utils/rangeType";
+import { SimsBlockCodeList } from "./sims-block-codelist";
+import { SimsBlockDate } from "./sims-block-date";
+import { SimsBlockGeography } from "./sims-block-geography";
+import { SimsBlockOrganisation } from "./sims-block-organisation";
+import { SimsBlockRichText } from "./sims-block-richtext";
+import { SimsBlockText } from "./sims-block-text";
+import { SimsBlockWithoutObject } from "./sims-block-without-object";
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY, RUBRIQUE_SANS_OBJECT } =
   rangeType;
 
-const SimsBlock = ({
+export const SimsBlock = ({
   msd,
   isSecondLang = false,
   currentSection = {},
@@ -52,4 +52,3 @@ const SimsBlock = ({
   );
 };
 
-export default SimsBlock;
