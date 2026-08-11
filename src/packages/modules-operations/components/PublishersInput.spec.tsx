@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import PublishersInput from "./index";
+import { PublishersInput } from "./PublishersInput";
 
 vi.mock("../../i18n/build-dictionary", () => ({
   D1: {
@@ -8,7 +8,7 @@ vi.mock("../../i18n/build-dictionary", () => ({
   },
 }));
 
-vi.mock("../../../components/business/stamps-input/stamps-input", () => ({
+vi.mock("../../components/business/stamps-input/stamps-input", () => ({
   OrganisationInput: ({ value, onChange, multi, labelSingle, labelMulti }: any) => (
     <div data-testid="organisation-input">
       <div data-testid="value">{JSON.stringify(value)}</div>
