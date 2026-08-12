@@ -2,7 +2,7 @@ import { Navigate, RouteObject } from "react-router-dom";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { CREATE, UPDATE, VIEW } from "../pages/msd/constant";
+import { CREATE, UPDATE, VIEW } from "../pages/sims/constants";
 
 export const routes: RouteObject[] = [
   {
@@ -122,11 +122,11 @@ export const routes: RouteObject[] = [
   // MSD pages
   {
     path: "msd",
-    lazy: () => import("../pages/msd/page"),
+    lazy: () => import("../pages/sims/help/page"),
   },
   {
     path: "help/:idSection",
-    lazy: () => import("../pages/msd/page"),
+    lazy: () => import("../pages/sims/help/page"),
   },
   {
     path: "series/:idParent/sims/create",
@@ -138,7 +138,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/series/${params.idParent}/sims/create`,
       };
     },
-    lazy: () => import("../pages/msd/page"),
+    lazy: () => import("../pages/sims/create/page"),
   },
   {
     path: "operation/:idParent/sims/create",
@@ -150,7 +150,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/operation/${params.idParent}/sims/create`,
       };
     },
-    lazy: () => import("../pages/msd/page"),
+    lazy: () => import("../pages/sims/create/page"),
   },
   {
     path: "indicator/:idParent/sims/create",
@@ -162,7 +162,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/indicator/${params.idParent}/sims/create`,
       };
     },
-    lazy: () => import("../pages/msd/page"),
+    lazy: () => import("../pages/sims/create/page"),
   },
   {
     path: "sims/:id",
@@ -172,7 +172,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/sims/${params.id}/section/`,
       };
     },
-    lazy: () => import("../pages/msd/page"),
+    lazy: () => import("../pages/sims/view/page"),
   },
   {
     path: "sims/:id/modify",
@@ -183,7 +183,7 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/sims/${params.id}/modify`,
       };
     },
-    lazy: () => import("../pages/msd/page"),
+    lazy: () => import("../pages/sims/create/page"),
   },
   {
     path: "sims/:id/section/:idSection",
@@ -193,6 +193,6 @@ export const routes: RouteObject[] = [
         baseUrl: `/operations/sims/${params.id}/section/`,
       };
     },
-    lazy: () => import("../pages/msd/page"),
+    lazy: () => import("../pages/sims/view/page"),
   },
 ];
