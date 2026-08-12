@@ -111,8 +111,14 @@ describe("isEssentialRubricKo — characterization", () => {
       );
     });
 
-    it("returns false on secondLang regardless of value (current behavior)", () => {
-      expect(isEssentialRubricKo({ rangeType: ORGANIZATION }, { value: "" }, true)).toBe(false);
+    it("returns true on secondLang when value is falsy (value is shared across languages)", () => {
+      expect(isEssentialRubricKo({ rangeType: ORGANIZATION }, { value: "" }, true)).toBe(true);
+    });
+
+    it("returns false on secondLang when value is truthy (value is shared across languages)", () => {
+      expect(isEssentialRubricKo({ rangeType: ORGANIZATION }, { value: "INSEE" }, true)).toBe(
+        false,
+      );
     });
   });
 

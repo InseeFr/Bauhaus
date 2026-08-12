@@ -68,21 +68,7 @@ export const isEssentialRubricKo = (msd, currentSection, secondLang) => {
     return true;
   }
 
-  if (secondLang) {
-    switch (msd.rangeType) {
-      case TEXT:
-        return !currentSection.labelLg2;
-      case RICH_TEXT:
-        if (hasDocuments(currentSection, true)) {
-          return false;
-        }
-        return checkRichText(currentSection.labelLg2);
-      default:
-        return false;
-    }
-  }
-
-  return checkIsEmpty(msd, currentSection, false);
+  return checkIsEmpty(msd, currentSection, secondLang);
 };
 
 export const SimsFieldTitleIndicator = ({ msd, isEmpty }) => {
