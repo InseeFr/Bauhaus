@@ -175,6 +175,16 @@ export const routes: RouteObject[] = [
     lazy: () => import("../pages/sims/view/page"),
   },
   {
+    path: "sims/:id/section/:idSection",
+    loader: ({ params }) => {
+      return {
+        mode: VIEW,
+        baseUrl: `/operations/sims/${params.id}/section/`,
+      };
+    },
+    lazy: () => import("../pages/sims/view/page"),
+  },
+  {
     path: "sims/:id/modify",
     loader: ({ params }) => {
       return {
@@ -184,15 +194,5 @@ export const routes: RouteObject[] = [
       };
     },
     lazy: () => import("../pages/sims/create/page"),
-  },
-  {
-    path: "sims/:id/section/:idSection",
-    loader: ({ params }) => {
-      return {
-        mode: VIEW,
-        baseUrl: `/operations/sims/${params.id}/section/`,
-      };
-    },
-    lazy: () => import("../pages/sims/view/page"),
   },
 ];
