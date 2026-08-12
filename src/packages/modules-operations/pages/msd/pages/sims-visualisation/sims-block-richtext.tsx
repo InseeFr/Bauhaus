@@ -1,5 +1,6 @@
 import { Rubric } from "../../../../../model/Sims";
-import { isLink, isDocument } from "../../../../pages/documents/utils";
+import { isDocument } from "../../../../utils/isDocument";
+import { isLink } from "../../../../utils/isLink";
 import { DocumentsBloc } from "../../documents/documents-bloc";
 import Editor from "@uiw/react-md-editor";
 

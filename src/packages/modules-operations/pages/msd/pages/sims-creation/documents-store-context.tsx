@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 
 import { Document } from "../../../../../model/operations/document";
-import { DOCUMENT, LINK } from "../../../../pages/documents/utils";
+import { DOCUMENT, LINK } from "../../../../constants/documentType";
 
 export interface DocumentsStoreObject {
   lg1: Document[];

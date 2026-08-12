@@ -1,7 +1,8 @@
 import { memo, useCallback } from "react";
 
 import { Document } from "../../../../../model/operations/document";
-import { isDocument, isLink } from "../../../../pages/documents/utils";
+import { isDocument } from "../../../../utils/isDocument";
+import { isLink } from "../../../../utils/isLink";
 import { DocumentsBloc } from "../../documents/documents-bloc";
 import { reorderDocuments } from "../../documents/documents-bloc/reorder";
 

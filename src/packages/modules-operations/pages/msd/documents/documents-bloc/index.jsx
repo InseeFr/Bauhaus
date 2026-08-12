@@ -19,7 +19,9 @@ import { AddLogo } from "@components/logo/logo-add";
 import { getBaseURI } from "@sdk/build-api";
 
 import D, { D1, D2 } from "../../../../../deprecated-locales";
-import { DOCUMENT, isDocument, isLink, LINK } from "../../../documents/utils";
+import { DOCUMENT, LINK } from "../../../../constants/documentType";
+import { isDocument } from "../../../../utils/isDocument";
+import { isLink } from "../../../../utils/isLink";
 import { useDocumentsStoreContext } from "../../pages/sims-creation/documents-store-context";
 import { DocumentAsideInformation, DocumentLink } from "./document-list-item";
 import { SortableDocumentItem } from "./sortable-document-item";

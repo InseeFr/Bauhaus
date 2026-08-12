@@ -20,7 +20,7 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import D, { D1, D2 } from "../../../../../deprecated-locales";
-import { DOCUMENT, LINK } from "../../utils";
+import { DOCUMENT, LINK } from "../../../../constants/documentType";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { validate } from "../validation";
 

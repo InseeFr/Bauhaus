@@ -2,7 +2,7 @@ import { ExternalLink } from "@components/link";
 
 import { Document } from "../../../../../model/operations/document";
 import { getLang } from "../../../../../utils/dictionnary";
-import { isDocument } from "../../../../pages/documents/utils";
+import { isDocument } from "../../../../utils/isDocument";
 
 export const DocumentAsideInformation = ({ document }: Readonly<{ document: Document }>) => {
   let updatedDate;

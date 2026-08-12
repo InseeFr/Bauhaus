@@ -1,5 +1,6 @@
 import { Document } from "../../../../../model/operations/document";
-import { isDocument, isLink } from "../../../../pages/documents/utils";
+import { isDocument } from "../../../../utils/isDocument";
+import { isLink } from "../../../../utils/isLink";
 import { reorderDocuments } from "./reorder";
 
 const doc = (n: number): Document =>

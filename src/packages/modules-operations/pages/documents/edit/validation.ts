@@ -9,7 +9,7 @@ import {
 import D, { D1, D2 } from "../../../../deprecated-locales";
 import NewDictionary from "../../../../i18n";
 import { Document } from "../../../../model/operations/document";
-import { LINK } from "../utils";
+import { LINK } from "../../../constants/documentType";
 
 const Base = (
   documentsAndLinksList: Document[],
