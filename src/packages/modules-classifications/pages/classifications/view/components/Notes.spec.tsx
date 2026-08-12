@@ -15,7 +15,7 @@ vi.mock("@components/explanatory-note", () => ({
   ),
 }));
 
-vi.mock("@uiw/react-md-editor", () => ({
+vi.mock("@uiw/react-md-editor/nohighlight", () => ({
   default: {
     Markdown: ({ source }: any) => <div data-testid="markdown">{source}</div>,
   },

@@ -1,4 +1,4 @@
-import Editor from "@uiw/react-md-editor";
+import Editor from "@uiw/react-md-editor/nohighlight";
 import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";

@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-import "react-app-polyfill/stable";
 
 import { useOidc } from "../../auth/create-oidc";
 import D from "../../i18n";

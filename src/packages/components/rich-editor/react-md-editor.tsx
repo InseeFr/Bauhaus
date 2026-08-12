@@ -1,4 +1,4 @@
-import Editor, { bold, italic, unorderedListCommand, link } from "@uiw/react-md-editor";
+import Editor, { bold, italic, unorderedListCommand, link } from "@uiw/react-md-editor/nohighlight";
 import { ComponentProps } from "react";
 
 export const MDEditor = ({

@@ -1,7 +1,7 @@
 import { Rubric } from "../../../../model/Sims";
 import { isLink, isDocument } from "../../../document/utils";
 import { DocumentsBloc } from "../../documents/documents-bloc";
-import Editor from "@uiw/react-md-editor";
+import Editor from "@uiw/react-md-editor/nohighlight";
 
 interface SimsBlockRichTextTypes {
   currentSection: Rubric;
