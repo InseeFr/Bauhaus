@@ -143,7 +143,6 @@ export const OperationsFamilyEdition = ({
     } else {
       dispatch({ type: "SET_SAVING", payload: true });
       const isCreation = !state.family.id;
-
       const method = isCreation ? "createFamily" : "updateFamily";
       return OperationsApi[method](state.family)
         .then(
@@ -170,17 +169,14 @@ export const OperationsFamilyEdition = ({
           titleLg2={initialFamily.prefLabelLg2}
         />
       )}
-
       <ActionToolbar>
         <CancelButton action={() => goBack("/operations/families")} />
         <SaveButton action={onSubmit} disabled={state.clientSideErrors.errorMessage.length > 0} />
       </ActionToolbar>
-
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
       <ErrorBloc error={[state.serverSideError]} D={D} />
-
       <form>
         <Row>
           <div className="col-md-6 form-group">

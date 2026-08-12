@@ -79,7 +79,6 @@ export function OperationsIndicatorVisualization({ attr, secondLang, frequency =
       <Row id="contributors">
         <InseeOrganisationNotes organisations={attr.contributors} title={D1.stakeholders} />
       </Row>
-
       <DisplayLinks
         links={attr.replaces}
         path="/operations/indicator/"
@@ -98,7 +97,6 @@ export function OperationsIndicatorVisualization({ attr, secondLang, frequency =
         title="generatedBy"
         secondLang={secondLang}
       />
-
       <SeeAlso links={seeAlso} secondLang={secondLang} />
     </>
   );

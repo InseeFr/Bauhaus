@@ -13,6 +13,7 @@ interface ConfirmationModalTypes {
   onYes: VoidFunction;
   onNo: VoidFunction;
 }
+
 export const ConfirmationModal = ({
   document,
   isOpen,

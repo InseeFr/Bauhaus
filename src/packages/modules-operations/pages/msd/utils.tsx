@@ -1,5 +1,5 @@
 import { MetadataStructure, Rubric, Sims } from "../../../model/Sims";
-import { rangeType } from "../../utils/rangeType";
+import { rangeType } from "../../constants/rangeType";
 import { DUPLICATE, Mode } from "./constant";
 import { getItem, setItem } from "@utils/localStorage";
 

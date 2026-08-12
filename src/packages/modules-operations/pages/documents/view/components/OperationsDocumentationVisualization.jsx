@@ -40,6 +40,7 @@ function formatSims(sims) {
     };
   });
 }
+
 /**
  * @typedef OperationsDocumentationVisualizationProps
  * @property {any} attr
@@ -50,11 +51,15 @@ function formatSims(sims) {
  */
 export function OperationsDocumentationVisualization({ id, attr, secondLang, langOptions, type }) {
   useTitle(type === LINK ? D.titleLink : D.titleDocument, attr.labelLg1);
+
   const sims = formatSims(attr.sims);
+
   const [baseURI, setBaseURI] = useState("");
+
   useEffect(() => {
     getBaseURI().then((uri) => setBaseURI(uri));
   });
+
   return (
     <>
       <Row>

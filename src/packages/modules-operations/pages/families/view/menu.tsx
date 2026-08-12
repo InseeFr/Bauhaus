@@ -25,7 +25,6 @@ export const Menu = ({ family, publish }: Readonly<MenuTypes>) => {
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/operations/families")} />
-
       <HasAccess module="OPERATION_FAMILY" privilege="PUBLISH">
         <ValidationButton object={family} callback={publish} disabled={publicationDisabled} />
       </HasAccess>

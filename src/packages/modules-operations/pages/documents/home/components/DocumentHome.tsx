@@ -19,13 +19,16 @@ import { BOTH, DOCUMENT, LINK, isDocument, isLink } from "../../utils";
 
 const formatter = (content: HomeDocument, label: keyof typeof content) => {
   const extraInformations = [];
+
   if (content.lang) {
     extraInformations.push(content.lang);
   }
+
   if (content.updatedDate) {
     const [year, month, day] = content.updatedDate.split("-");
     extraInformations.push(`${day}/${month}/${year}`);
   }
+
   return (
     <>
       {content[label]}{" "}
@@ -35,6 +38,7 @@ const formatter = (content: HomeDocument, label: keyof typeof content) => {
 };
 
 const sessionStorageKey = "documents-displayMode";
+
 const SearchableList = ({
   items = EMPTY_ARRAY,
   placeholder,
@@ -51,14 +55,15 @@ const SearchableList = ({
   childPath: (document: HomeDocument) => string;
 }>) => {
   const navigate = useNavigate();
+
   const location = useLocation();
 
   const [search, setSearch] = useState(searchValue);
 
   const url = document.URL;
+
   useEffect(() => {
     const searchQuery = new URL(url).searchParams;
-
     if (searchQuery.has("search")) {
       setSearch(DOMPurify.sanitize(searchQuery.get("search")));
     }
@@ -73,6 +78,7 @@ const SearchableList = ({
   };
 
   const filter = filterKeyDeburr(["label"]);
+
   const hits = items.filter(filter(search));
 
   const hitEls = hits.map((item) => (
@@ -97,7 +103,6 @@ const SearchableList = ({
           />
         </div>
       </div>
-
       <p className="text-center" aria-live="assertive">
         <NumberResults results={hits} />
       </p>
@@ -110,6 +115,7 @@ export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[]
   useTitle(D.operationsTitle, D.documentsTitle);
 
   const navigate = useNavigate();
+
   const queryMode = sessionStorage.getItem(sessionStorageKey);
 
   const [filter, setFilter] = useState(queryMode || BOTH);
@@ -135,7 +141,6 @@ export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[]
     <div className="container documents-home">
       <Row>
         <Menu></Menu>
-
         <div className="col-md-8 text-center pull-right operations-list">
           <PageTitle title={D.documentsSearchTitle} col={12} offset={0} />
           <FilterToggleButtons

@@ -19,7 +19,7 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import D from "../../../../../deprecated-locales";
 import { flattenTree } from "../../../../utils/flattenTree";
 import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
-import { rangeType } from "../../../../utils/rangeType";
+import { rangeType } from "../../../../constants/rangeType";
 import { SimsContextProvider } from "../../context";
 import { computeEssentialRubricContext } from "../../essential-rubric-context";
 import { RubricEssentialMsg } from "../../rubric-essantial-msg";

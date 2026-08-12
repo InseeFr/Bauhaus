@@ -17,9 +17,13 @@ import { SimsGeographySelector } from "./SimsGeographySelector";
 
 export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
   const [name, setName] = useState(territory.labelLg1 ?? "");
+
   const [nameLg2, setNameLg2] = useState(territory.labelLg2 ?? "");
+
   const [selectedOption, setSelectedOption] = useState(null);
+
   const [serverSideError, setServerSideError] = useState("");
+
   const { isLoading, geographies, includes, excludes, setIncludes, setExcludes } =
     useGeographies(territory);
 
@@ -30,10 +34,12 @@ export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
     },
     [geographies],
   );
+
   const include = () => {
     setIncludes([...includes, selectedOption]);
     setSelectedOption(null);
   };
+
   const exclude = () => {
     setExcludes([...excludes, selectedOption]);
     setSelectedOption(null);
@@ -45,6 +51,7 @@ export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
     },
     [excludes, setExcludes],
   );
+
   const onRemoveInclude = useCallback(
     (geography) => {
       setIncludes(includes.filter((g) => g.value !== geography.value));

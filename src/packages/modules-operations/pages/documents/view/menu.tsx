@@ -40,7 +40,6 @@ export const Menu = ({ document, type }: Readonly<MenuTypes>) => {
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/operations/documents")} />
-
       <HasAccess
         module="OPERATION_DOCUMENT"
         privilege="UPDATE"

@@ -62,7 +62,6 @@ export const useGeographiesOptions = (): {
     const geographiesSorted = geographies
       .filter(({ labelLg1 }) => labelLg1)
       .sort((g1, g2) => g1.labelLg1.toLowerCase().localeCompare(g2.labelLg1.toLowerCase()));
-
     return geographiesSorted.map((geography) => ({
       label: formatLabel(geography.labelLg1, geography, geographiesSorted, D1),
       labelLg2: formatLabel(geography.labelLg2, geography, geographiesSorted, D2),

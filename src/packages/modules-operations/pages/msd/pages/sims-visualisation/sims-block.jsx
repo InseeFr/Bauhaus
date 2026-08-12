@@ -1,4 +1,4 @@
-import { rangeType } from "../../../../utils/rangeType";
+import { rangeType } from "../../../../constants/rangeType";
 import { SimsBlockCodeList } from "./sims-block-codelist";
 import { SimsBlockDate } from "./sims-block-date";
 import { SimsBlockGeography } from "./sims-block-geography";

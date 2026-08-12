@@ -48,6 +48,7 @@ export const Component = () => {
   useTitle(D.operationsTitle, D.operationsTreeTitle);
 
   const [treeData, setTreeData] = useState([]);
+
   const [loadingNodes, setLoadingNodes] = useState(() => new Set());
 
   const goBack = useGoBack();
@@ -61,13 +62,10 @@ export const Component = () => {
   const onExpand = (event) => {
     const node = event.node;
     const nodeData = node.data;
-
     if (node.children && node.children.length > 0) {
       return;
     }
-
     setLoadingNodes((prev) => new Set(prev).add(node.key));
-
     if (nodeData.type === "family") {
       OperationsApi.getFamilyById(nodeData.id).then(({ series = [] }) => {
         const updatedTreeData = [...treeData];
@@ -115,7 +113,6 @@ export const Component = () => {
   const nodeTemplate = (node) => {
     const nodeData = node.data;
     let linkPath = "";
-
     switch (nodeData.type) {
       case "family":
         linkPath = `/operations/family/${nodeData.id}`;
@@ -129,7 +126,6 @@ export const Component = () => {
       default:
         return <span>{node.label}</span>;
     }
-
     return (
       <Link to={linkPath} style={{ textDecoration: "none", color: "inherit" }}>
         {node.label}

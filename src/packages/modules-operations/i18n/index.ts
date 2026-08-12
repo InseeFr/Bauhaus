@@ -17,4 +17,4 @@ i18n.use(initReactI18next).init({
   showSupportNotice: false,
 });
 
-export { i18n };
+export default i18n;

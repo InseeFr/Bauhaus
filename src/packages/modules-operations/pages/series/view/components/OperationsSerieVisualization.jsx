@@ -16,7 +16,9 @@ import { InseeOrganisationNotes } from "@components/business/creators-view";
 
 export function OperationsSerieVisualization({ attr, secondLang, frequency = {}, category = {} }) {
   useTitle(D.seriesTitle + " - " + D.operationsTitle, attr?.prefLabelLg1);
+
   const seeAlso = getSeeAlsoByType(attr.seeAlso);
+
   return (
     <>
       <Row>
@@ -53,7 +55,6 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
           />
         )}
       </Row>
-
       <Row>
         <Note
           text={renderMarkdownElement(attr.historyNoteLg1)}
@@ -70,7 +71,6 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
           />
         )}
       </Row>
-
       <Row>
         <Note
           text={category.labelLg1}
@@ -82,7 +82,6 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
           <Note text={category.labelLg2} title={D2.operationType} alone={false} allowEmpty={true} />
         )}
       </Row>
-
       <Row>
         <Note
           text={frequency.labelLg1}
@@ -99,14 +98,12 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
           />
         )}
       </Row>
-
       <Row id="publishers">
         <InseeOrganisationNotes
           organisations={attr.publishers?.map((p) => p?.id ?? p)}
           title={D1.organisation}
         />
       </Row>
-
       <Row id="contributors">
         <InseeOrganisationNotes
           organisations={attr.contributors?.map((c) => c?.id ?? c)}
@@ -119,7 +116,6 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
           title={D1.dataCollector}
         />
       </Row>
-
       <Row id="creators">
         <InseeOrganisationNotes organisations={attr.creators} />
       </Row>
@@ -141,9 +137,7 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
         title="indicators"
         secondLang={secondLang}
       />
-
       <SeeAlso links={seeAlso} secondLang={secondLang} />
-
       <RelationsView
         children={attr.operations}
         childrenTitle="childrenOperations"

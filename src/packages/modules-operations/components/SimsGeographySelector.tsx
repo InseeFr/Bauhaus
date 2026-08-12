@@ -9,12 +9,14 @@ export interface Geography {
   labelLg2: string;
   typeTerritory: string;
 }
+
 interface SimsGeographySelectorTypes {
   excludes: Geography[];
   includes: Geography[];
   onRemoveExclude: (value: Geography) => void;
   onRemoveInclude: (value: Geography) => void;
 }
+
 export const SimsGeographySelector = ({
   includes,
   excludes,
@@ -24,7 +26,6 @@ export const SimsGeographySelector = ({
   const excludedItems = excludes.map((geography) => (
     <li className="list-group-item" key={geography.value}>
       <SimsGeographyI18NLabel geography={geography} />
-
       <button
         type="button"
         className="documentsbloc-delete documentsbloc-btn"
@@ -39,7 +40,6 @@ export const SimsGeographySelector = ({
   const includedItems = includes.map((geography) => (
     <li className="list-group-item" key={geography.value}>
       <SimsGeographyI18NLabel geography={geography} />
-
       <button
         type="button"
         className="documentsbloc-delete documentsbloc-btn"
@@ -50,6 +50,7 @@ export const SimsGeographySelector = ({
       </button>
     </li>
   ));
+
   return (
     <Row>
       <div className="col-md-6">

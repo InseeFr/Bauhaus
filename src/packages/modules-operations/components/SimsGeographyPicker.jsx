@@ -34,14 +34,18 @@ export const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
 
 export const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLang = false }) => {
   const [territory, setTerritory] = useState();
+
   const { geographiesOptions } = useGeographiesOptions();
+
   const geographiesOptionsLg2 = geographiesOptions.map((g) => ({
     id: g.id,
     label: g.labelLg2 ?? "",
     value: g.value,
     typeTerritory: g.typeTerritory,
   }));
+
   const [slidingModal, setSlidingModal] = useState(false);
+
   const openNewPanel = useCallback(() => {
     setSlidingModal(true);
   }, []);
@@ -64,6 +68,7 @@ export const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLa
     setTerritory(undefined);
     setSlidingModal(false);
   }, []);
+
   const formatOptionLabel = (geography) => {
     return <SimsGeographyI18NLabel geography={geography} />;
   };
@@ -71,6 +76,7 @@ export const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLa
   const shouldSeeViewButton =
     geographiesOptions?.find(({ value: v }) => v === value)?.typeTerritory ===
     "Territoire Statistique";
+
   return (
     <>
       <div className="bauhaus-sims-geography-picker">
@@ -92,7 +98,6 @@ export const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLa
             formatOptionLabel={formatOptionLabel}
           />
         </div>
-
         <HasAccess module="GEOGRAPHY" privilege="CREATE">
           <button type="button" className="btn btn-default" onClick={openNewPanel}>
             {D.btnNew}

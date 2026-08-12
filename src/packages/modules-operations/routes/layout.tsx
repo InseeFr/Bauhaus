@@ -1,13 +1,13 @@
 import { Outlet, useNavigation } from "react-router-dom";
 
 import { Loading } from "@components/loading";
-
 import { useTheme } from "@utils/hooks/useTheme";
 
 import { MenuOperations as Menu } from "../menu/menu";
 
 export const Component = () => {
   useTheme("operations");
+
   const navigation = useNavigation();
 
   return (

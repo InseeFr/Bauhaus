@@ -14,6 +14,7 @@ import { OperationsFamilyEdition } from "./components/OperationsFamilyEdition";
 
 export const Component = () => {
   const { id } = useParams();
+
   const goBack = useGoBack();
 
   const [family, setFamily] = useState<Family>({} as Family);
@@ -27,5 +28,6 @@ export const Component = () => {
   useTitle(D.familiesTitle + " - " + D.operationsTitle, family?.prefLabelLg1);
 
   if (!family.id && id) return <Loading />;
+
   return <OperationsFamilyEdition id={id} family={family} goBack={goBack} />;
 };

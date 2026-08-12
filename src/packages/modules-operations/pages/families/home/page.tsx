@@ -15,6 +15,7 @@ import { FamilyHome } from "../../../../model/operations/family";
 
 export const Component = () => {
   const families = useLoaderData() as FamilyHome[];
+
   useTitle(D.operationsTitle, D.familiesTitle);
 
   return (

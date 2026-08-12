@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { getItem, setItem } from "@utils/localStorage";
+
 export const Status = {
   BOTH: "BOTH",
   SUMMARY: "SUMMARY",
   CONTENT: "CONTENT",
 } as const;
+
 export type Status = (typeof Status)[keyof typeof Status];
 
 export const useLayout = (): [layoutMode: Status, changeLayoutMode: (mode: Status) => void] => {

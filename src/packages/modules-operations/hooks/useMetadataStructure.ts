@@ -12,7 +12,6 @@ export const useMetadataStructure = () => {
         OperationsApi.getMetadataStructureList(),
         OperationsApi.getMetadataAttributesList(),
       ]);
-
       const metadataAttributesObject = metadataAttributes.reduce(
         (acc: Record<string, unknown>, attr: { id: string }) => {
           return {
@@ -24,7 +23,6 @@ export const useMetadataStructure = () => {
         },
         {},
       );
-
       return getTree(metaDataStructure, undefined, metadataAttributesObject);
     },
   });

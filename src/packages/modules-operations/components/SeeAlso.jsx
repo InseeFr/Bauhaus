@@ -31,6 +31,7 @@ export function SeeAlso({ links, secondLang }) {
       </ul>
     );
   }
+
   return (
     <div className="row bauhaus-see-also">
       <Note

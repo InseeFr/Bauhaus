@@ -20,13 +20,17 @@ export const Component = () => {
   const { id } = useParams();
 
   const [secondLang] = useSecondLang();
+
   const frequencies = useCodesList(CL_FREQ);
+
   const [indicator, setIndicator] = useState({});
 
   const [serverSideError, setServerSideError] = useState();
+
   const [publishing, setPublishing] = useState(false);
 
   const frequency = frequencies?.codes.find((c) => c.code === indicator?.accrualPeriodicityCode);
+
   const publish = useCallback(() => {
     setPublishing(true);
     OperationsApi.publishIndicator(indicator)
@@ -42,6 +46,7 @@ export const Component = () => {
   }, [id]);
 
   if (!indicator.id) return <Loading />;
+
   if (publishing) return <Publishing />;
 
   return (

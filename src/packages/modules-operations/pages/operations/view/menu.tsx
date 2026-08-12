@@ -13,13 +13,13 @@ interface MenuTypes {
   operation: Operation;
   onPublish: VoidFunction;
 }
+
 export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
   const goBack = useGoBack();
 
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/operations/operations")} />
-
       {operation.idSims && (
         <Button action={`/operations/sims/${operation.idSims}`} label={D.btnSimsVisu} />
       )}

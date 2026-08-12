@@ -8,6 +8,7 @@ const routes = [
   ["/operations/document/create", D.document],
   ["/operations/link/create", D.link],
 ];
+
 export const Menu = () => {
   return (
     <HasAccess module="OPERATION_DOCUMENT" privilege="CREATE">

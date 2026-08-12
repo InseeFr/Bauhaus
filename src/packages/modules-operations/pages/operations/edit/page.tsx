@@ -14,7 +14,9 @@ import { OperationsOperationEdition } from "./components/OperationsOperationEdit
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const [operation, setOperation] = useState<Operation | undefined>(undefined);
+
   const goBack = useGoBack();
 
   useEffect(() => {
@@ -30,5 +32,6 @@ export const Component = () => {
   if (!operation?.id && id) return <Loading />;
 
   const editingOperation = operation ?? {};
+
   return <OperationsOperationEdition id={id} operation={editingOperation} goBack={goBack} />;
 };

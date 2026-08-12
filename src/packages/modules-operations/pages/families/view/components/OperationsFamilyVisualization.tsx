@@ -15,6 +15,7 @@ interface OperationsFamilyVisualizationTypes {
   attr: Family;
   secondLang: boolean;
 }
+
 export function OperationsFamilyVisualization({
   attr,
   secondLang,

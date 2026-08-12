@@ -10,8 +10,10 @@ interface TypeCodeInputTypes {
   value: string;
   onChange: (value: string) => void;
 }
+
 export const TypeCodeInput = ({ value, onChange }: Readonly<TypeCodeInputTypes>) => {
   const categories = useCodesList(CL_SOURCE_CATEGORY);
+
   const options: Option[] = categories?.codes?.map((cat) => {
     return { value: cat.code, label: cat.labelLg1 };
   });
@@ -19,7 +21,6 @@ export const TypeCodeInput = ({ value, onChange }: Readonly<TypeCodeInputTypes>)
   return (
     <label className="w-100">
       {D.operationType}
-
       <Select placeholder="" value={value} options={options} onChange={onChange} />
     </label>
   );

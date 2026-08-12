@@ -10,9 +10,11 @@ export const useGeographies = (territory: any = {}) => {
   const [excludes, setExcludes] = useState(
     pickGeographiesByUri(territory?.difference ?? [], allGeographies),
   );
+
   const [includes, setIncludes] = useState(
     pickGeographiesByUri(territory?.unions ?? [], allGeographies),
   );
+
   const geographies = useMemo(() => {
     const includesValues = includes.map(({ value }: GeographyOption) => value);
     const excludesValues = excludes.map(({ value }: GeographyOption) => value);

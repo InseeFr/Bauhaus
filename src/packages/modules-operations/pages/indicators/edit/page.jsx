@@ -18,10 +18,13 @@ export const Component = (props) => {
   const { id } = useParams();
 
   const frequencies = useCodesList(CL_FREQ);
+
   const { data: organisations } = useOrganizations();
+
   const goBack = useGoBack();
 
   const [indicator, setIndicator] = useState({});
+
   const [series, setSeries] = useState([]);
 
   useEffect(() => {

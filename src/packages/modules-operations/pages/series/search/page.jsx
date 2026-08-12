@@ -18,6 +18,7 @@ import { filterKeyDeburr } from "../../../../utils/array-utils";
 import { TypeCodeInput } from "./components/TypeCodeInput";
 
 const filterLabel = filterKeyDeburr(["prefLabelLg1"]);
+
 const filterTypeCode = filterKeyDeburr(["typeCode"]);
 
 const defaultFormState = {
@@ -39,13 +40,11 @@ export const SearchFormList = ({ data }) => {
     .filter((series) => {
       const creators = series.creators || [];
       const formattedCreators = Array.isArray(creators) ? creators : [creators];
-
       return !creator || formattedCreators.includes(creator);
     })
     .filter((series) => {
       const publishers = series.publishers || [];
       const formattedPublishers = Array.isArray(publishers) ? publishers : [publishers];
-
       return !publisher || formattedPublishers.map(({ id }) => id).includes(publisher);
     })
     .filter((series) => {
@@ -61,6 +60,7 @@ export const SearchFormList = ({ data }) => {
       <Link to={`/operations/series/${id}`}>{prefLabelLg1}</Link>
     </li>
   ));
+
   return (
     <AdvancedSearchList
       title={D.seriesSearchTitle}
@@ -120,6 +120,7 @@ export const SearchFormList = ({ data }) => {
 
 export const Component = () => {
   useTitle(D.seriesTitle + " - " + D.operationsTitle, D.advancedSearch);
+
   const [data, setData] = useState();
 
   useEffect(() => {
@@ -127,5 +128,6 @@ export const Component = () => {
   }, []);
 
   if (!data) return <Loading />;
+
   return <SearchFormList data={data} />;
 };

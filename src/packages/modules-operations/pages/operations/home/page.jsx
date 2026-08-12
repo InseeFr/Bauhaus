@@ -10,6 +10,7 @@ import { OperationsHome } from "./components/OperationsHome";
 
 export const Component = () => {
   const [operations, setOperations] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,5 +20,6 @@ export const Component = () => {
   }, []);
 
   if (loading) return <Loading />;
+
   return <OperationsHome operations={operations} />;
 };

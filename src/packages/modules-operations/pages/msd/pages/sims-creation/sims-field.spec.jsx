@@ -16,7 +16,7 @@ import {
   ORGANIZATION,
   GEOGRAPHY,
 } from "./sims-field.test-utils";
-import { rangeType } from "../../../../utils/rangeType";
+import { rangeType } from "../../../../constants/rangeType";
 
 describe("Sims Field", () => {
   describe("Presentational Fields", () => {

@@ -17,10 +17,13 @@ import { OperationsFamilyVisualization } from "./components/OperationsFamilyVisu
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const [secondLang] = useSecondLang();
 
   const [family, setFamily] = useState<Family>();
+
   const [serverSideError, setServerSideError] = useState();
+
   const [publishing, setPublishing] = useState(false);
 
   useEffect(() => {
@@ -29,7 +32,6 @@ export const Component = () => {
 
   const publish = useCallback(() => {
     setPublishing(true);
-
     OperationsApi.publishFamily(family)
       .then(() => {
         return OperationsApi.getFamilyById(id).then(setFamily);
@@ -39,6 +41,7 @@ export const Component = () => {
   }, [family, id]);
 
   if (!family) return <Loading />;
+
   if (publishing) return <Publishing />;
 
   return (
@@ -46,7 +49,6 @@ export const Component = () => {
       <PageTitleBlock titleLg1={family.prefLabelLg1} titleLg2={family.prefLabelLg2} />
       <Menu family={family} publish={publish} />
       <ErrorBloc error={serverSideError} D={D} />
-
       <CheckSecondLang />
       <OperationsFamilyVisualization secondLang={secondLang} attr={family} />
     </div>

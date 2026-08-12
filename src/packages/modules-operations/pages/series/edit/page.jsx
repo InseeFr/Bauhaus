@@ -17,14 +17,19 @@ import { OperationsSerieEdition } from "./components/OperationsSerieEdition";
 
 export const Component = (props) => {
   const { id } = useParams();
+
   const [serie, setSerie] = useState({});
 
   const [families, setFamilies] = useState([]);
+
   const [indicators, setIndicators] = useState([]);
+
   const [series, setSeries] = useState([]);
 
   const frequencies = useCodesList(CL_FREQ);
+
   const categories = useCodesList(CL_SOURCE_CATEGORY);
+
   const { data: organisations } = useOrganizations();
 
   const goBack = useGoBack();

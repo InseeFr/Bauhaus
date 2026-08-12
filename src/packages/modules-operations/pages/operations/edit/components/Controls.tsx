@@ -5,6 +5,7 @@ interface ControlsTypes {
   onSubmit: VoidFunction;
   disabled: boolean;
 }
+
 export const Controls = ({ onSubmit, disabled }: Readonly<ControlsTypes>) => {
   return (
     <ActionToolbar>

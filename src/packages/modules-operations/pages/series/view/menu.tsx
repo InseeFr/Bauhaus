@@ -14,6 +14,7 @@ interface MenuTypes {
   series: Series;
   onPublish: VoidFunction;
 }
+
 export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
   const goBack = useGoBack();
 
@@ -22,12 +23,12 @@ export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
    * have unsupported styles like STRIKETHROUGH, color or background color
    */
   const publicationDisabled = containUnsupportedStyles(series);
+
   const ableToCreateASimsForThisSeries = (series.operations || []).length === 0;
 
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/operations/series")} />
-
       {series.idSims && (
         <Button action={`/operations/sims/${series.idSims}`} label={D.btnSimsVisu} />
       )}

@@ -102,7 +102,6 @@ export class OperationsSerieEdition extends Component {
     } else {
       this.setState({ saving: true });
       const isCreation = !this.state.serie.id;
-
       const method = isCreation ? "postSeries" : "putSeries";
       return OperationsApi[method](this.state.serie)
         .then(
@@ -340,7 +339,9 @@ export class OperationsSerieEdition extends Component {
                 onChange={(value) =>
                   this.onChange({
                     target: {
-                      value: (Array.isArray(value) ? value : []).map((v) => ({ id: v })),
+                      value: (Array.isArray(value) ? value : []).map((v) => ({
+                        id: v,
+                      })),
                       id: "publishers",
                     },
                   })
@@ -360,7 +361,9 @@ export class OperationsSerieEdition extends Component {
                 onChange={(value) =>
                   this.onChange({
                     target: {
-                      value: (Array.isArray(value) ? value : []).map((v) => ({ id: v })),
+                      value: (Array.isArray(value) ? value : []).map((v) => ({
+                        id: v,
+                      })),
                       id: "contributors",
                     },
                   })
@@ -380,7 +383,9 @@ export class OperationsSerieEdition extends Component {
                 onChange={(value) =>
                   this.onChange({
                     target: {
-                      value: (Array.isArray(value) ? value : []).map((v) => ({ id: v })),
+                      value: (Array.isArray(value) ? value : []).map((v) => ({
+                        id: v,
+                      })),
                       id: "dataCollectors",
                     },
                   })

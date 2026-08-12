@@ -14,6 +14,7 @@ interface OperationsOperationVisualizationTypes {
   attr: Operation;
   secondLang: boolean;
 }
+
 export function OperationsOperationVisualization({
   attr,
   secondLang,

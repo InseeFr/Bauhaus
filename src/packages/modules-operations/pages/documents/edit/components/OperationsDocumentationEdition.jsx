@@ -37,6 +37,7 @@ const saveDocument = (document, type, files) => {
   const method = (document.id ? "put" : "post") + (type === LINK ? "Link" : "Document");
 
   let body = document;
+
   /**
    * If the document has no id, this is a creation
    * We have to send FormData kind of HTTP request.
@@ -92,7 +93,11 @@ function editionReducer(state, action) {
         document: { ...state.document, [action.fieldId]: action.value },
       };
     case "SET_VALIDATION_ERRORS":
-      return { ...state, submitting: true, clientSideErrors: action.clientSideErrors };
+      return {
+        ...state,
+        submitting: true,
+        clientSideErrors: action.clientSideErrors,
+      };
     case "SET_SERVER_SIDE_ERROR":
       return { ...state, serverSideError: action.error };
     case "SET_SAVING":
@@ -123,6 +128,7 @@ export const OperationsDocumentationEdition = (props) => {
   }, [documentProps]);
 
   const [state, dispatch] = useReducer(editionReducer, defaultDocument, initEditionState);
+
   const {
     serverSideError,
     clientSideErrors,
@@ -146,6 +152,7 @@ export const OperationsDocumentationEdition = (props) => {
   }, [documentsAndLinksList, document]);
 
   const currentLabelLg1 = currentDocument?.labelLg1;
+
   const currentLabelLg2 = currentDocument?.labelLg2;
 
   const uploadFile = (files) => {

@@ -14,6 +14,7 @@ interface DisplayLinksTypes {
   labelLg1?: string;
   labelLg2?: string;
 }
+
 export function DisplayLinks({
   links = EMPTY_ARRAY,
   path,
@@ -39,9 +40,11 @@ export function DisplayLinks({
       </ul>
     );
   }
+
   function displayItem(label: string) {
     return displayBlock(links[0], label);
   }
+
   return (
     <div className="row bauhaus-display-links">
       <Note

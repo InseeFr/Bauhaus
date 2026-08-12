@@ -67,14 +67,17 @@ const defaultPaths: Record<string, UIMenuItem> = {
 
 const extractSimsIdFromPathname = (pathname: string): string | undefined => {
   const match = pathname.match(/\/operations\/sims\/([^/]+)/);
+
   return match ? match[1] : undefined;
 };
 
 export const MenuOperations = () => {
   const { pathname } = useLocation();
+
   const params = useParams();
 
   const simsId = params.id || extractSimsIdFromPathname(pathname);
+
   const { sims } = useSims(pathname.includes("sims") ? simsId : undefined);
 
   const paths = Object.entries(defaultPaths).reduce(
@@ -123,5 +126,6 @@ export const MenuOperations = () => {
       }
     }
   }
+
   return <MainMenu paths={Object.values(paths)} />;
 };

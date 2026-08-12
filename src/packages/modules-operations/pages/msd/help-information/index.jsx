@@ -1,5 +1,5 @@
 import D from "../../../../deprecated-locales";
-import { rangeType } from "../../../utils/rangeType";
+import { rangeType } from "../../../constants/rangeType";
 
 const { CODE_LIST, ORGANIZATION } = rangeType;
 

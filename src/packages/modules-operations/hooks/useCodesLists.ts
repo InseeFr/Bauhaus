@@ -9,12 +9,16 @@ type MetadataNode = {
 
 const collectCodeListNotations = (tree: Record<string, MetadataNode> | undefined): string[] => {
   if (!tree) return [];
+
   const notations = new Set<string>();
+
   const visit = (node: MetadataNode) => {
     if (node.codeList) notations.add(node.codeList);
     if (node.children) Object.values(node.children).forEach(visit);
   };
+
   Object.values(tree).forEach(visit);
+
   return [...notations].sort();
 };
 

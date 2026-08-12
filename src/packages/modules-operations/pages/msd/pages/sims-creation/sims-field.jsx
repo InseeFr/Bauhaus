@@ -11,7 +11,7 @@ import { useOrganizations } from "@utils/hooks/organizations";
 import D from "../../../../../deprecated-locales";
 import { SimsGeographyPicker } from "../../../../components/SimsGeographyPicker";
 import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
-import { rangeType } from "../../../../utils/rangeType";
+import { rangeType } from "../../../../constants/rangeType";
 import { SimsFieldTitle } from "../../sims-field-title";
 import { SimsCodeListSelect } from "./sims-code-list-select";
 import "./sims-field.css";

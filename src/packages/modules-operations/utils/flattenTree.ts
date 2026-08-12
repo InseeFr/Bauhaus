@@ -7,6 +7,7 @@ export function flattenTree(tree: any): any {
   if (!tree) {
     return null;
   }
+
   return Object.keys(tree).reduce((acc, key) => {
     return {
       ...acc,

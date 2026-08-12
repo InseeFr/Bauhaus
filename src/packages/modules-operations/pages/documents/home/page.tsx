@@ -12,6 +12,7 @@ const sortByLabel = sortArray("label");
 
 export const Component = () => {
   const [documents, setDocuments] = useState<Document[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,5 +35,6 @@ export const Component = () => {
   }, []);
 
   if (loading) return <Loading />;
+
   return <DocumentHome documents={documents} />;
 };

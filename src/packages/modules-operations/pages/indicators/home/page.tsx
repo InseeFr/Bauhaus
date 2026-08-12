@@ -15,7 +15,9 @@ import { Menu } from "./menu";
 
 export const Component = () => {
   useTitle(D.operationsTitle, D.indicatorsTitle);
+
   const [loading, setLoading] = useState(true);
+
   const [indicators, setIndicators] = useState<IndicatorsList>([]);
 
   useEffect(() => {

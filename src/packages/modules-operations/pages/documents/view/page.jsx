@@ -19,9 +19,13 @@ function getPath(path) {
 
 export const Component = () => {
   const { id } = useParams();
+
   const { pathname } = useLocation();
+
   const type = getPath(pathname);
+
   const [secondLang] = useSecondLang();
+
   const langOptions = useCodesList("ISO-639");
 
   const [document, setDocument] = useState({});
@@ -42,10 +46,8 @@ export const Component = () => {
         titleLg1={document.labelLg1 || document.labelLg2}
         titleLg2={document.labelLg2}
       />
-
       <Menu document={document} type={type} />
       <CheckSecondLang />
-
       <OperationsDocumentVisualization
         id={id}
         attr={document}

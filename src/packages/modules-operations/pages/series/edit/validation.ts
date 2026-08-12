@@ -55,5 +55,6 @@ export const validate = (extraMandatoryFields: string[]) => {
   if (!extraMandatoryFields) return formatValidation(ZodSerie);
 
   const ZodEnhancedSerie = addFieldsToObject(extraMandatoryFields, ZodSerie);
+
   return formatValidation(ZodEnhancedSerie);
 };

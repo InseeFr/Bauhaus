@@ -1,5 +1,5 @@
 import D from "../../../../deprecated-locales/build-dictionary";
-import { rangeType } from "../../../utils/rangeType";
+import { rangeType } from "../../../constants/rangeType";
 
 const { RICH_TEXT, TEXT, CODE_LIST, ORGANIZATION, GEOGRAPHY, DATE } = rangeType;
 

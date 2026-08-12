@@ -15,6 +15,7 @@ export interface RelationsViewPerLgContentTypes {
   parentPath: string;
   langSuffix: "Lg1" | "Lg2";
 }
+
 export const RelationsViewPerLgContent = ({
   children,
   childrenTitle,
@@ -25,6 +26,7 @@ export const RelationsViewPerLgContent = ({
   langSuffix,
 }: Readonly<RelationsViewPerLgContentTypes>) => {
   const Dictionnary = langSuffix === "Lg1" ? D1 : D2;
+
   return (
     <>
       {parent && (

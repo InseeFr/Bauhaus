@@ -25,6 +25,7 @@ const getParentsWithoutSims = async (idOperation?: string) => {
     const operation = await OperationsApi.getOperation(idOperation);
     return OperationsApi.getOperationsWithoutReport(operation.series.id);
   }
+
   return [];
 };
 
@@ -34,7 +35,6 @@ export const useSims = (id?: string) => {
     queryFn: async () => {
       const results = await OperationsApi.getSims(id);
       const parentsWithoutSims = await getParentsWithoutSims(results.idOperation);
-
       return {
         ...results,
         parentsWithoutSims,
@@ -60,14 +60,17 @@ const getFetchLabelsPromise = async (sims: any) => {
     const parent = await OperationsApi.getOperation(sims.idOperation);
     return mergeLabels(sims, parent);
   }
+
   if (sims.idSeries) {
     const parent = await OperationsApi.getSerie(sims.idSeries);
     return mergeLabels(sims, parent);
   }
+
   if (sims.idIndicator) {
     const parent = await OperationsApi.getIndicatorById(sims.idIndicator);
     return mergeLabels(sims, parent);
   }
+
   return sims;
 };
 
@@ -77,14 +80,11 @@ export const useSaveSims = () => {
   return useMutation({
     mutationFn: async (sims: any) => {
       let simsToSave = sims;
-
       if (!sims.labelLg1) {
         simsToSave = await getFetchLabelsPromise(sims);
       }
-
       const method = sims.id ? "putSims" : "postSims";
       const result = await OperationsApi[method](simsToSave);
-
       return result || sims.id;
     },
     onSuccess: (_data, variables) => {

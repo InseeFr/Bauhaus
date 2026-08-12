@@ -16,9 +16,13 @@ import { Menu } from "./menu";
 
 export const Component = () => {
   const { id } = useParams();
+
   const [operation, setOperation] = useState({});
+
   const [secondLang] = useSecondLang();
+
   const [serverSideError, setServerSideError] = useState();
+
   const [publishing, setPublishing] = useState(false);
 
   useEffect(() => {
@@ -31,7 +35,6 @@ export const Component = () => {
 
   const publish = useCallback(() => {
     setPublishing(true);
-
     OperationsApi.publishOperation(operation)
       .then(() => {
         return OperationsApi.getOperation(id).then(setOperation);
@@ -41,6 +44,7 @@ export const Component = () => {
   }, [operation, id]);
 
   if (!operation.id) return <Loading />;
+
   if (publishing) return <Publishing />;
 
   return (

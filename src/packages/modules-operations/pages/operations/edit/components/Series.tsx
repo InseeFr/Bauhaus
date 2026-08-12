@@ -10,13 +10,16 @@ interface SeriesProps {
   onChange: (value: string) => void;
   errorMessage?: string;
 }
+
 export const Series = ({ label, errorMessage, value, onChange }: Readonly<SeriesProps>) => {
   const { series } = useUserSeriesList();
+
   const seriesOptions = series
     .filter((series) => !series.idSims)
     .map(({ id, label }) => {
       return { value: id, label: label };
     });
+
   return (
     <Row className="bauhaus-row">
       <div className="form-group">

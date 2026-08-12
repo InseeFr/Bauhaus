@@ -11,12 +11,16 @@ import { SeriesHome } from "./components/SeriesHome";
 
 export const Component = () => {
   const [series, setSeries] = useState<Series[]>([]);
+
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     OperationsApi.getSeriesList()
       .then((result: Series[]) => setSeries(sortArray("label")(result)))
       .finally(() => setLoading(false));
   }, []);
+
   if (loading) return <Loading />;
+
   return <SeriesHome series={series} />;
 };
