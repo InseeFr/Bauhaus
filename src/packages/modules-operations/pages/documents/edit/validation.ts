@@ -54,7 +54,9 @@ const ZodLink = (
   });
 
 const File = z.object({
-  name: z.string().regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { error: i18next.t("validation.wrongFileName") }),
+  name: z
+    .string()
+    .regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { error: i18next.t("validation.wrongFileName") }),
 });
 
 const ZodDocument = (

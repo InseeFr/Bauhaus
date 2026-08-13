@@ -27,7 +27,8 @@ const ZodSerie: ZodObject<any> = z.object({
     },
     {
       error: (issue) =>
-        issue.input === undefined && NewDictionary.errors.mandatoryProperty(i18next.t("common.familyTitle")),
+        issue.input === undefined &&
+        NewDictionary.errors.mandatoryProperty(i18next.t("common.familyTitle")),
     },
   ),
   prefLabelLg1: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "fr" })),

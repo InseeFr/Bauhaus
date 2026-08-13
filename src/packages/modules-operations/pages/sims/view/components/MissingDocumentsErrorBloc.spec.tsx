@@ -10,7 +10,8 @@ vi.mock("@components/errors-bloc", () => ({
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string, params: Record<string, string>) => `${key}[documentNames=${params?.documentNames}]`,
+    t: (key: string, params: Record<string, string>) =>
+      `${key}[documentNames=${params?.documentNames}]`,
   }),
 }));
 

@@ -9,7 +9,8 @@ vi.mock("i18next", () => ({
         en: {
           "common.title": "Title",
           "common.serieTitle": "Serie",
-          "app.numberProperty": "The property <strong>{{propertyName}}</strong> must be an integer.",
+          "app.numberProperty":
+            "The property <strong>{{propertyName}}</strong> must be an integer.",
         },
       };
       const lng = options?.lng || "en";

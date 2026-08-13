@@ -40,7 +40,10 @@ export function OperationsIndicatorVisualization({ attr, secondLang, frequency =
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              <PublicationStatusItem label={t("common.indicatorStatus", { lng: "fr" })} object={attr} />
+              <PublicationStatusItem
+                label={t("common.indicatorStatus", { lng: "fr" })}
+                object={attr}
+              />
             </ul>
           }
           title={t("app.globalInformationsTitle", { lng: "fr" })}
@@ -77,13 +80,19 @@ export function OperationsIndicatorVisualization({ attr, secondLang, frequency =
         secondLang={secondLang}
       />
       <Row>
-        <InseeOrganisationNotes organisations={attr.publishers} title={t("common.organisation", { lng: "fr" })} />
+        <InseeOrganisationNotes
+          organisations={attr.publishers}
+          title={t("common.organisation", { lng: "fr" })}
+        />
       </Row>
       <Row>
         <InseeOrganisationNotes organisations={attr.creators} />
       </Row>
       <Row id="contributors">
-        <InseeOrganisationNotes organisations={attr.contributors} title={t("common.stakeholders", { lng: "fr" })} />
+        <InseeOrganisationNotes
+          organisations={attr.contributors}
+          title={t("common.stakeholders", { lng: "fr" })}
+        />
       </Row>
       <DisplayLinks
         links={attr.replaces}

@@ -355,7 +355,9 @@ export class OperationsIndicatorEdition extends Component {
           </Row>
           <Row>
             <div className="form-group col-md-12">
-              <LabelRequired className="w-100">{i18next.t("common.generatedBy", { lng: "fr" })}</LabelRequired>
+              <LabelRequired className="w-100">
+                {i18next.t("common.generatedBy", { lng: "fr" })}
+              </LabelRequired>
               <Select
                 value={indicator.wasGeneratedBy}
                 options={seriesOptions}

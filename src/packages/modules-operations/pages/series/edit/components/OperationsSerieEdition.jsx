@@ -201,7 +201,9 @@ export class OperationsSerieEdition extends Component {
           )}
           <Row>
             <div className="form-group col-md-6">
-              <LabelRequired htmlFor="prefLabelLg1">{i18next.t("common.title", { lng: "fr" })}</LabelRequired>
+              <LabelRequired htmlFor="prefLabelLg1">
+                {i18next.t("common.title", { lng: "fr" })}
+              </LabelRequired>
               <TextInput
                 id="prefLabelLg1"
                 value={serie.prefLabelLg1}
@@ -217,7 +219,9 @@ export class OperationsSerieEdition extends Component {
               ></ClientSideError>
             </div>
             <div className="form-group col-md-6">
-              <LabelRequired htmlFor="prefLabelLg2">{i18next.t("common.title", { lng: "en" })}</LabelRequired>
+              <LabelRequired htmlFor="prefLabelLg2">
+                {i18next.t("common.title", { lng: "en" })}
+              </LabelRequired>
               <TextInput
                 id="prefLabelLg2"
                 value={serie.prefLabelLg2}
@@ -278,7 +282,9 @@ export class OperationsSerieEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               {isMandatoryField("typeCode") ? (
-                <LabelRequired htmlFor="typeCode">{i18next.t("common.operationType", { lng: "fr" })}</LabelRequired>
+                <LabelRequired htmlFor="typeCode">
+                  {i18next.t("common.operationType", { lng: "fr" })}
+                </LabelRequired>
               ) : (
                 <label htmlFor="typeCode" className="w-100">
                   {i18next.t("common.operationType", { lng: "fr" })}

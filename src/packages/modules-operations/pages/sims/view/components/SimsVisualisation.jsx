@@ -19,7 +19,6 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-
 import { RubricEssentialMsg } from "../../components/RubricEssentialMsg";
 import { SimsFieldTitle } from "../../components/SimsFieldTitle";
 import { getParentUri } from "../utils/getParentUri";
@@ -284,7 +283,11 @@ export function SimsVisualisation({
             text={
               <ul>
                 <CreationUpdateItems creation={sims.created} update={sims.updated} />
-                <PublicationStatusItem label={t("common.simsStatus")} object={sims} gender="female" />
+                <PublicationStatusItem
+                  label={t("common.simsStatus")}
+                  object={sims}
+                  gender="female"
+                />
               </ul>
             }
             title={t("app.globalInformationsTitle")}

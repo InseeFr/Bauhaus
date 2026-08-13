@@ -88,7 +88,11 @@ export function RelationsView(
     <Row>
       <RelationsViewPerLg {...props} title={t("app.linksTitle", { lng: "fr" })} langSuffix="Lg1" />
       {props.secondLang && (
-        <RelationsViewPerLg {...props} title={t("app.linksTitle", { lng: "en" })} langSuffix="Lg2" />
+        <RelationsViewPerLg
+          {...props}
+          title={t("app.linksTitle", { lng: "en" })}
+          langSuffix="Lg2"
+        />
       )}
     </Row>
   );

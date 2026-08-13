@@ -1,9 +1,4 @@
-import {
-  createDictionary,
-  firstLang,
-  getLang,
-  secondLang,
-} from "@utils/dictionnary";
+import { createDictionary, firstLang, getLang, secondLang } from "@utils/dictionnary";
 
 import appD from "./dictionary/app";
 import classificationsD from "./dictionary/classifications";

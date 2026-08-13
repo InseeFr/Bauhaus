@@ -139,7 +139,9 @@ export class OperationsOperationEdition extends Component {
           )}
           <Row className="bauhaus-row">
             <div className="form-group">
-              <LabelRequired htmlFor="prefLabelLg1">{i18next.t("common.title", { lng: "fr" })}</LabelRequired>
+              <LabelRequired htmlFor="prefLabelLg1">
+                {i18next.t("common.title", { lng: "fr" })}
+              </LabelRequired>
               <TextInput
                 id="prefLabelLg1"
                 value={operation.prefLabelLg1}
@@ -155,7 +157,9 @@ export class OperationsOperationEdition extends Component {
               ></ClientSideError>
             </div>
             <div className="form-group">
-              <LabelRequired htmlFor="prefLabelLg2">{i18next.t("common.title", { lng: "en" })}</LabelRequired>
+              <LabelRequired htmlFor="prefLabelLg2">
+                {i18next.t("common.title", { lng: "en" })}
+              </LabelRequired>
               <TextInput
                 id="prefLabelLg2"
                 value={operation.prefLabelLg2}

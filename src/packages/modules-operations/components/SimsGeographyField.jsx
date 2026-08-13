@@ -92,11 +92,15 @@ export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
       <ErrorBloc error={serverSideError} />
       <Row>
         <div className="form-group col-md-6">
-          <LabelRequired className="form-label w-100">{t("geography.zoneName", { lng: "fr" })}</LabelRequired>
+          <LabelRequired className="form-label w-100">
+            {t("geography.zoneName", { lng: "fr" })}
+          </LabelRequired>
           <TextInput value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div className="form-group col-md-6">
-          <LabelRequired className="form-label w-100">{t("geography.zoneName", { lng: "en" })}</LabelRequired>
+          <LabelRequired className="form-label w-100">
+            {t("geography.zoneName", { lng: "en" })}
+          </LabelRequired>
           <TextInput value={nameLg2} onChange={(e) => setNameLg2(e.target.value)} />
         </div>
       </Row>

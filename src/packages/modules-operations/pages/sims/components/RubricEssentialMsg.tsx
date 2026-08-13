@@ -21,9 +21,13 @@ export const RubricEssentialMsg = ({ secondLang }) => {
   const numberOfEssantialRubricsOKLg2 = numberOfEssantialRubrics - numberOfEssantialRubricsKOLg2;
 
   const essentialRubricKeyLg1 =
-    numberOfEssantialRubricsOKLg1 === 1 ? "sims.essentialRubricMsg" : "sims.essentialRubricMsgPlural";
+    numberOfEssantialRubricsOKLg1 === 1
+      ? "sims.essentialRubricMsg"
+      : "sims.essentialRubricMsgPlural";
   const essentialRubricKeyLg2 =
-    numberOfEssantialRubricsOKLg2 === 1 ? "sims.essentialRubricMsg" : "sims.essentialRubricMsgPlural";
+    numberOfEssantialRubricsOKLg2 === 1
+      ? "sims.essentialRubricMsg"
+      : "sims.essentialRubricMsgPlural";
   return (
     <Row>
       <Note

@@ -28,7 +28,11 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              <PublicationStatusItem label={t("common.seriesStatus", { lng: "fr" })} object={attr} gender="female" />
+              <PublicationStatusItem
+                label={t("common.seriesStatus", { lng: "fr" })}
+                object={attr}
+                gender="female"
+              />
             </ul>
           }
           title={t("app.globalInformationsTitle", { lng: "fr" })}
@@ -43,7 +47,12 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
           allowEmpty={true}
         />
         {secondLang && (
-          <Note text={attr.altLabelLg2} title={t("app.altLabel", { lng: "en" })} alone={false} allowEmpty={true} />
+          <Note
+            text={attr.altLabelLg2}
+            title={t("app.altLabel", { lng: "en" })}
+            alone={false}
+            allowEmpty={true}
+          />
         )}
       </Row>
       <Row>

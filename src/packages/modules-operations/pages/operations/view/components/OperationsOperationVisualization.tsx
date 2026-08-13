@@ -52,7 +52,12 @@ export function OperationsOperationVisualization({
           allowEmpty={true}
         />
         {secondLang && (
-          <Note text={attr.altLabelLg2} title={t("app.altLabel", { lng: "en" })} alone={false} allowEmpty={true} />
+          <Note
+            text={attr.altLabelLg2}
+            title={t("app.altLabel", { lng: "en" })}
+            alone={false}
+            allowEmpty={true}
+          />
         )}
       </Row>
       <RelationsView

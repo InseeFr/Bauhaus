@@ -31,7 +31,11 @@ export function OperationsFamilyVisualization({
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              <PublicationStatusItem label={t("common.familyStatus", { lng: "fr" })} object={attr} gender="female" />
+              <PublicationStatusItem
+                label={t("common.familyStatus", { lng: "fr" })}
+                object={attr}
+                gender="female"
+              />
             </ul>
           }
           title={t("app.globalInformationsTitle", { lng: "fr" })}
