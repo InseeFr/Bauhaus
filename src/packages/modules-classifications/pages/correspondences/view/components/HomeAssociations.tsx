@@ -25,12 +25,8 @@ export const HomeAssociations = ({
 
   const navigate = useNavigate();
 
-  const {
-    firstAltLabelLg1,
-    firstAltLabelLg2,
-    secondAltLabelLg1,
-    secondAltLabelLg2,
-  } = correspondence;
+  const { firstAltLabelLg1, firstAltLabelLg2, secondAltLabelLg1, secondAltLabelLg2 } =
+    correspondence;
 
   const { sourceLabelLg2, targetLabelLg2 } = associations[0];
 
