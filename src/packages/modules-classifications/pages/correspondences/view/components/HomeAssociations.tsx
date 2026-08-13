@@ -25,8 +25,12 @@ export const HomeAssociations = ({
 
   const navigate = useNavigate();
 
-  const { firstAltLabelLg1, firstAltLabelLg2, secondAltLabelLg1, secondAltLabelLg2 } =
-    correspondence;
+  const {
+    firstAltLabelLg1,
+    firstAltLabelLg2,
+    secondAltLabelLg1,
+    secondAltLabelLg2,
+  } = correspondence;
 
   const { sourceLabelLg2, targetLabelLg2 } = associations[0];
 
@@ -52,7 +56,7 @@ export const HomeAssociations = ({
             globalFilterFields={["source", "target"]}
             value={data}
             onRowSelect={(e: any) => {
-              navigate(`${id}/association/${e.data.id}`);
+              navigate(`association/${e.data.id}`);
             }}
           >
             <Column
