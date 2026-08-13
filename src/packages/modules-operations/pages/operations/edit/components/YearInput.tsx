@@ -2,7 +2,7 @@ import { ClientSideError } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { Row } from "@components/layout";
 
-import D from "../../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
 
 interface YearInputTypes {
   value: string;
@@ -11,10 +11,12 @@ interface YearInputTypes {
 }
 
 export const YearInput = ({ value, onChange, error }: Readonly<YearInputTypes>) => {
+  const { t } = useTranslation();
+
   return (
     <Row className="bauhaus-row">
       <div className="form-group">
-        <label htmlFor="year">{D.year}</label>
+        <label htmlFor="year">{t("common.year")}</label>
         <TextInput
           id="year"
           value={value}

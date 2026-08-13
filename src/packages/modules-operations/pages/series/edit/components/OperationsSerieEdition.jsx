@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import { Component } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -17,7 +18,6 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
-import D, { D1, D2 } from "../../../../../deprecated-locales";
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
 import { validate } from "../validation";
@@ -176,14 +176,14 @@ export class OperationsSerieEdition extends Component {
         {this.state.submitting && this.state.clientSideErrors && (
           <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} />
         )}
-        <ErrorBloc error={[serverSideError]} D={D} />
+        <ErrorBloc error={[serverSideError]} />
         <form>
           {!isEditing && (
             <Row>
               <div className="form-group col-md-12">
-                <LabelRequired>{D.familyTitle}</LabelRequired>
+                <LabelRequired>{i18next.t("common.familyTitle")}</LabelRequired>
                 <Select
-                  placeholder={D.familiesTitle}
+                  placeholder={i18next.t("common.familiesTitle")}
                   value={family.id}
                   options={familiesOptions}
                   onChange={(value) =>
@@ -201,7 +201,7 @@ export class OperationsSerieEdition extends Component {
           )}
           <Row>
             <div className="form-group col-md-6">
-              <LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
+              <LabelRequired htmlFor="prefLabelLg1">{i18next.t("common.title", { lng: "fr" })}</LabelRequired>
               <TextInput
                 id="prefLabelLg1"
                 value={serie.prefLabelLg1}
@@ -217,7 +217,7 @@ export class OperationsSerieEdition extends Component {
               ></ClientSideError>
             </div>
             <div className="form-group col-md-6">
-              <LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
+              <LabelRequired htmlFor="prefLabelLg2">{i18next.t("common.title", { lng: "en" })}</LabelRequired>
               <TextInput
                 id="prefLabelLg2"
                 value={serie.prefLabelLg2}
@@ -235,24 +235,24 @@ export class OperationsSerieEdition extends Component {
           </Row>
           <Row>
             <div className="form-group col-md-6">
-              <label htmlFor="altLabelLg1">{D1.altLabel}</label>
+              <label htmlFor="altLabelLg1">{i18next.t("app.altLabel", { lng: "fr" })}</label>
               <TextInput id="altLabelLg1" value={serie.altLabelLg1} onChange={this.onChange} />
             </div>
             <div className="form-group col-md-6">
-              <label htmlFor="altLabel2">{D2.altLabel}</label>
+              <label htmlFor="altLabel2">{i18next.t("app.altLabel", { lng: "en" })}</label>
               <TextInput id="altLabelLg2" value={serie.altLabelLg2} onChange={this.onChange} />
             </div>
           </Row>
           <Row>
             <div className="form-group col-md-6">
-              <label htmlFor="abstractLg1">{D1.summary}</label>
+              <label htmlFor="abstractLg1">{i18next.t("common.summary", { lng: "fr" })}</label>
               <EditorMarkdown
                 text={serie.abstractLg1}
                 handleChange={(value) => this.onChange({ target: { value, id: "abstractLg1" } })}
               />
             </div>
             <div className="form-group col-md-6">
-              <label htmlFor="abstractLg2">{D2.summary}</label>
+              <label htmlFor="abstractLg2">{i18next.t("common.summary", { lng: "en" })}</label>
               <EditorMarkdown
                 text={serie.abstractLg2}
                 handleChange={(value) => this.onChange({ target: { value, id: "abstractLg2" } })}
@@ -261,14 +261,14 @@ export class OperationsSerieEdition extends Component {
           </Row>
           <Row>
             <div className="form-group col-md-6">
-              <label htmlFor="historyNoteLg1">{D1.history}</label>
+              <label htmlFor="historyNoteLg1">{i18next.t("common.history", { lng: "fr" })}</label>
               <EditorMarkdown
                 text={serie.historyNoteLg1}
                 handleChange={(value) => this.onChange({ target: { value, id: "historyNoteLg1" } })}
               />
             </div>
             <div className="form-group col-md-6">
-              <label htmlFor="historyNoteLg2">{D2.history}</label>
+              <label htmlFor="historyNoteLg2">{i18next.t("common.history", { lng: "en" })}</label>
               <EditorMarkdown
                 text={serie.historyNoteLg2}
                 handleChange={(value) => this.onChange({ target: { value, id: "historyNoteLg2" } })}
@@ -278,10 +278,10 @@ export class OperationsSerieEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               {isMandatoryField("typeCode") ? (
-                <LabelRequired htmlFor="typeCode">{D1.operationType}</LabelRequired>
+                <LabelRequired htmlFor="typeCode">{i18next.t("common.operationType", { lng: "fr" })}</LabelRequired>
               ) : (
                 <label htmlFor="typeCode" className="w-100">
-                  {D1.operationType}
+                  {i18next.t("common.operationType", { lng: "fr" })}
                 </label>
               )}
               <Select
@@ -306,11 +306,11 @@ export class OperationsSerieEdition extends Component {
             <div className="form-group col-md-12">
               {isMandatoryField("accrualPeriodicityCode") ? (
                 <LabelRequired htmlFor="accrualPeriodicityCode">
-                  {D1.dataCollectFrequency}
+                  {i18next.t("common.dataCollectFrequency", { lng: "fr" })}
                 </LabelRequired>
               ) : (
                 <label htmlFor="accrualPeriodicityCode" className="w-100">
-                  {D1.dataCollectFrequency}
+                  {i18next.t("common.dataCollectFrequency", { lng: "fr" })}
                 </label>
               )}
               <Select
@@ -355,8 +355,8 @@ export class OperationsSerieEdition extends Component {
                 multi
                 required={false}
                 lang="first"
-                labelSingle={D1.stakeholders}
-                labelMulti={D1.stakeholders}
+                labelSingle={i18next.t("common.stakeholders", { lng: "fr" })}
+                labelMulti={i18next.t("common.stakeholders", { lng: "fr" })}
                 value={serie.contributors}
                 onChange={(value) =>
                   this.onChange({
@@ -377,8 +377,8 @@ export class OperationsSerieEdition extends Component {
                 multi
                 required={false}
                 lang="first"
-                labelSingle={D1.dataCollector}
-                labelMulti={D1.dataCollector}
+                labelSingle={i18next.t("common.dataCollector", { lng: "fr" })}
+                labelMulti={i18next.t("common.dataCollector", { lng: "fr" })}
                 value={serie.dataCollectors}
                 onChange={(value) =>
                   this.onChange({
@@ -417,7 +417,7 @@ export class OperationsSerieEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               <label htmlFor="replaces" className="w-100">
-                {D1.replaces}
+                {i18next.t("common.replaces", { lng: "fr" })}
                 <Select
                   placeholder=""
                   value={serie.replaces}
@@ -440,7 +440,7 @@ export class OperationsSerieEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               <label htmlFor="replacedBy" className="w-100">
-                {D1.replacedBy}
+                {i18next.t("common.replacedBy", { lng: "fr" })}
                 <Select
                   placeholder=""
                   value={serie.replacedBy}
@@ -463,7 +463,7 @@ export class OperationsSerieEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               <label htmlFor="seeAlso" className="w-100">
-                {D1.seeAlso}
+                {i18next.t("common.seeAlso", { lng: "fr" })}
                 <Select
                   placeholder=""
                   value={serie.seeAlso}

@@ -6,8 +6,9 @@ import { ValidationButton } from "@components/validationButton";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { containUnsupportedStyles } from "@utils/html-utils";
 
+import { useTranslation } from "react-i18next";
+
 import { HasAccess } from "../../../../auth/components/auth";
-import D from "../../../../deprecated-locales/build-dictionary";
 import { Indicator } from "../../../../model/operations/indicator";
 
 interface MenuTypes {
@@ -17,6 +18,8 @@ interface MenuTypes {
 
 export const Menu = ({ indicator, publish }: Readonly<MenuTypes>) => {
   const goBack = useGoBack();
+
+  const { t } = useTranslation();
 
   /*
    * The publication button should be enabled only if RICH_TEXT value do not
@@ -28,13 +31,13 @@ export const Menu = ({ indicator, publish }: Readonly<MenuTypes>) => {
     <ActionToolbar>
       <ReturnButton action={() => goBack("/operations/indicators")} />
       {indicator.idSims && (
-        <Button action={`/operations/sims/${indicator.idSims}`} label={D.btnSimsVisu} />
+        <Button action={`/operations/sims/${indicator.idSims}`} label={t("sims.btnSimsVisu")} />
       )}
       {!indicator.idSims && (
         <HasAccess module="OPERATION_SIMS" privilege="CREATE" stamps={indicator.creators}>
           <Button
             action={`/operations/indicator/${indicator.id}/sims/create`}
-            label={D.btnSimsCreate}
+            label={t("sims.btnSimsCreate")}
           />
         </HasAccess>
       )}

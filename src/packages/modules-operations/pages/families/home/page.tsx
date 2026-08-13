@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useLoaderData } from "react-router-dom";
 
 import { Button } from "@components/buttons/button";
@@ -10,13 +11,14 @@ import { VerticalMenu } from "@components/vertical-menu";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import D from "../../../../deprecated-locales/build-dictionary";
 import { FamilyHome } from "../../../../model/operations/family";
 
 export const Component = () => {
+  const { t } = useTranslation();
+
   const families = useLoaderData() as FamilyHome[];
 
-  useTitle(D.operationsTitle, D.familiesTitle);
+  useTitle(t("common.operationsTitle"), t("common.familiesTitle"));
 
   return (
     <div className="container">
@@ -26,11 +28,11 @@ export const Component = () => {
             <FeminineButton action="/operations/families/create" />
           </HasAccess>
           <Button wrapper={false} action="/operations/tree">
-            {D.btnTree}
+            {t("app.btnTree")}
           </Button>
         </VerticalMenu>
         <div className="col-md-8 text-center pull-right operations-list">
-          <PageTitle title={D.familiesSearchTitle} col={12} offset={0} />
+          <PageTitle title={t("families.searchTitle")} col={12} offset={0} />
           <SearchableList
             items={families}
             childPath="operations/family"

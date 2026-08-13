@@ -22,13 +22,6 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
-vi.mock("../../../../deprecated-locales", () => ({
-  default: {
-    operationsTitle: "Operations",
-    operationsTreeTitle: "Operations Tree",
-  },
-}));
-
 vi.mock("./tree.css", () => ({}));
 
 describe("OperationsTree", () => {

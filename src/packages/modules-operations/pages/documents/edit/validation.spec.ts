@@ -1,3 +1,23 @@
+vi.mock("i18next", () => ({
+  default: {
+    t: (key: string, options?: { lng?: string }) => {
+      const translations: Record<string, Record<string, string>> = {
+        en: {
+          "app.duplicatedTitle": "This title already exists",
+          "common.title": "Title",
+          "app.langTitle": "Language",
+          "validation.badUrl": "The link is not valid",
+          "validation.requiredUpdatedDate": "The update date is required",
+          "validation.wrongFileName":
+            "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols",
+        },
+      };
+      const lng = options?.lng || "en";
+      return translations[lng]?.[key] || key;
+    },
+  },
+}));
+
 import { validate } from "./validation";
 
 describe("validation", function () {

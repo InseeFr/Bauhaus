@@ -7,7 +7,8 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import D, { D1, D2 } from "../../../../deprecated-locales";
+import i18next from "i18next";
+
 import NewDictionary from "../../../../i18n";
 
 const ZodSerie: ZodObject<any> = z.object({
@@ -16,26 +17,27 @@ const ZodSerie: ZodObject<any> = z.object({
       id: z
         .string({
           error: (issue) =>
-            issue.input === undefined && NewDictionary.errors.mandatoryProperty(D.familyTitle),
+            issue.input === undefined &&
+            NewDictionary.errors.mandatoryProperty(i18next.t("common.familyTitle")),
         })
         .trim()
         .min(1, {
-          error: NewDictionary.errors.mandatoryProperty(D.familyTitle),
+          error: NewDictionary.errors.mandatoryProperty(i18next.t("common.familyTitle")),
         }),
     },
     {
       error: (issue) =>
-        issue.input === undefined && NewDictionary.errors.mandatoryProperty(D.familyTitle),
+        issue.input === undefined && NewDictionary.errors.mandatoryProperty(i18next.t("common.familyTitle")),
     },
   ),
-  prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
-  prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
-  creators: mandatoryAndNotEmptyMultiSelectField(D.creatorsTitle),
+  prefLabelLg1: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "fr" })),
+  prefLabelLg2: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "en" })),
+  creators: mandatoryAndNotEmptyMultiSelectField(i18next.t("app.creatorsTitle")),
 });
 
 const fieldToTitleMapping: Record<string, string> = {
-  typeCode: D.operationType,
-  accrualPeriodicityCode: D.dataCollectFrequency,
+  typeCode: i18next.t("common.operationType"),
+  accrualPeriodicityCode: i18next.t("common.dataCollectFrequency"),
 };
 
 const addFieldsToObject = (listOfFields: string[], baseObject: ZodObject<any>) => {

@@ -7,11 +7,14 @@ import { VerticalMenu } from "@components/vertical-menu";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { useTranslation } from "react-i18next";
+
 import { HasAccess } from "../../../../../auth/components/auth";
-import D from "../../../../../deprecated-locales";
 
 export function OperationsHome({ operations }) {
-  useTitle(D.operationsTitle, D.operationsTitle);
+  const { t } = useTranslation();
+
+  useTitle(t("common.operationsTitle"), t("common.operationsTitle"));
 
   return (
     <div className="container">
@@ -21,11 +24,11 @@ export function OperationsHome({ operations }) {
             <FeminineButton action="/operations/operation/create" />
           </HasAccess>
           <Button wrapper={false} action="/operations/tree">
-            {D.btnTree}
+            {t("app.btnTree")}
           </Button>
         </VerticalMenu>
         <div className="col-md-8 text-center pull-right operations-list">
-          <PageTitle title={D.operationsSearchTitle} col={12} offset={0} />
+          <PageTitle title={t("operations.searchTitle")} col={12} offset={0} />
           <SearchableList
             items={operations}
             childPath={"operations/operation"}

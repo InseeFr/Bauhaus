@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
 import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
@@ -7,7 +9,6 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { containUnsupportedStyles } from "@utils/html-utils";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import D from "../../../../deprecated-locales/build-dictionary";
 import { Series } from "../../../../model/operations/series";
 
 interface MenuTypes {
@@ -16,6 +17,8 @@ interface MenuTypes {
 }
 
 export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
+  const { t } = useTranslation();
+
   const goBack = useGoBack();
 
   /*
@@ -30,7 +33,7 @@ export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
     <ActionToolbar>
       <ReturnButton action={() => goBack("/operations/series")} />
       {series.idSims && (
-        <Button action={`/operations/sims/${series.idSims}`} label={D.btnSimsVisu} />
+        <Button action={`/operations/sims/${series.idSims}`} label={t("sims.btnSimsVisu")} />
       )}
       {!series.idSims && (
         <HasAccess
@@ -39,7 +42,10 @@ export const Menu = ({ series, onPublish }: Readonly<MenuTypes>) => {
           stamps={series.creators}
           complementaryCheck={ableToCreateASimsForThisSeries}
         >
-          <Button action={`/operations/series/${series.id}/sims/create`} label={D.btnSimsCreate} />
+          <Button
+            action={`/operations/series/${series.id}/sims/create`}
+            label={t("sims.btnSimsCreate")}
+          />
         </HasAccess>
       )}
       <HasAccess module="OPERATION_SERIES" privilege="PUBLISH" stamps={series.creators}>

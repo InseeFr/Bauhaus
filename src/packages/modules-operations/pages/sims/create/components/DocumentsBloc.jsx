@@ -12,13 +12,13 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { TextInput } from "@components/form/input";
 import { AddLogo } from "@components/logo/logo-add";
 
 import { getBaseURI } from "@sdk/build-api";
 
-import D, { D1, D2 } from "../../../../../deprecated-locales";
 import { DOCUMENT, LINK } from "../../../../constants/documentType";
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
@@ -43,6 +43,7 @@ export function DocumentsBloc({
   objectType,
   idMas,
 }) {
+  const { t } = useTranslation();
   const { documentStores, openLateralPanelOpened, setRubricIdForNewDocument } =
     useDocumentsStoreContext();
 
@@ -66,7 +67,7 @@ export function DocumentsBloc({
     <button
       type="button"
       className="documentsbloc-delete documentsbloc-btn"
-      aria-label={D.btnDelete}
+      aria-label={t("app.btnDelete")}
       onClick={() => deleteHandler(document.uri)}
     >
       <span className="glyphicon glyphicon-trash" aria-hidden="true" />
@@ -109,9 +110,10 @@ export function DocumentsBloc({
       </li>
     );
   }
-  const Dictionary = isSecondLang ? D2 : D1;
-  const addTitle = objectType === "documents" ? Dictionary.addDocument : Dictionary.addLink;
-  const title = objectType === "documents" ? D.titleDocument : D.titleLink;
+  const addTitle = t(objectType === "documents" ? "documents.addDocument" : "documents.addLink", {
+    lng: isSecondLang ? "en" : "fr",
+  });
+  const title = t(objectType === "documents" ? "documents.titleDocument" : "documents.titleLink");
   return (
     <>
       {(documents.length > 0 || editMode) && <h4>{title}</h4>}
@@ -155,7 +157,7 @@ export function DocumentsBloc({
             <button
               type="button"
               className="btn"
-              aria-label={D.btnAdd}
+              aria-label={t("app.btnAdd")}
               onClick={() => {
                 openLateralPanelOpened(objectType === "documents" ? DOCUMENT : LINK);
                 setRubricIdForNewDocument({ rubric: idMas, lang: localPrefix });
@@ -168,11 +170,11 @@ export function DocumentsBloc({
             <div className="panel-body">
               <div className="form-group">
                 <label className="sr-only" htmlFor="documentFilter">
-                  {D.search}
+                  {t("app.search")}
                 </label>
                 <TextInput
                   id="documentFilter"
-                  placeholder={D.search}
+                  placeholder={t("app.search")}
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
                 />
@@ -185,7 +187,7 @@ export function DocumentsBloc({
                       <button
                         type="button"
                         className="documentsbloc-delete documentsbloc-btn"
-                        aria-label={D.btnAdd}
+                        aria-label={t("app.btnAdd")}
                         onClick={() => addHandler(document)}
                       >
                         <AddLogo />

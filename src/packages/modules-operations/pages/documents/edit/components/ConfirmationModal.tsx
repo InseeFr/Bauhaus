@@ -1,10 +1,10 @@
 import Modal from "react-modal";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
 import { CloseIconButton } from "@components/buttons/buttons-with-icons";
 
-import D from "../../../../../deprecated-locales";
 import { isDocument } from "../../../../utils/isDocument";
 
 interface ConfirmationModalTypes {
@@ -20,13 +20,14 @@ export const ConfirmationModal = ({
   onYes,
   onNo,
 }: Readonly<ConfirmationModalTypes>) => {
+  const { t } = useTranslation();
   const modalButtons = [
     {
-      label: D.no,
+      label: t("app.no"),
       action: onNo,
     },
     {
-      label: D.yes,
+      label: t("app.yes"),
       action: onYes,
     },
   ];
@@ -48,18 +49,20 @@ export const ConfirmationModal = ({
       <div className="modal-content">
         <div className="modal-header">
           <CloseIconButton onClick={onNo} />
-          <h4 className="modal-title">{D.confirmation}</h4>
+          <h4 className="modal-title">{t("app.confirmation")}</h4>
         </div>
         <div className="modal-body">
           <p>
-            {isDocument(document) ? D.warningDocumentWithSimsPrefix : D.warningLinkWithSimsPrefix}
+            {isDocument(document)
+              ? t("app.warningDocumentWithSimsPrefix")
+              : t("app.warningLinkWithSimsPrefix")}
           </p>
           <ul>
             {document.sims?.map((sims: any) => (
               <li key={sims.id}>{sims.labelLg1}</li>
             ))}
           </ul>
-          <p>{D.warningDocumentLinksWithSimsSuffix}</p>
+          <p>{t("app.warningDocumentLinksWithSimsSuffix")}</p>
         </div>
         <div className="modal-footer">
           <ActionToolbar>{buttons}</ActionToolbar>

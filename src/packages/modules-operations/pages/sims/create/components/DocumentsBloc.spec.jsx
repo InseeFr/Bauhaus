@@ -4,12 +4,25 @@ import { getBaseURI } from "@sdk/build-api";
 
 import { getLang } from "@utils/dictionnary";
 
-import D from "../../../../../deprecated-locales";
 import { DocumentsStoreProvider } from "../../hooks/useDocumentsStoreContext";
 import { DocumentsBloc } from "./DocumentsBloc";
 
 vi.mock("@sdk/build-api", () => ({
   getBaseURI: vi.fn().mockResolvedValue("http://base-uri"),
+}));
+
+const translations = {
+  "documents.addDocument": "Add a document",
+  "documents.addLink": "Add a link",
+  "documents.titleDocument": "Document",
+  "documents.titleLink": "Link",
+  "app.btnAdd": "Add",
+};
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key) => translations[key] ?? key,
+  }),
 }));
 
 const documents = [
@@ -192,7 +205,7 @@ describe("DocumentsBloc", () => {
       expect(getBaseURI).toHaveBeenCalled();
     });
 
-    const btn = screen.getByLabelText(D.btnAdd);
+    const btn = screen.getByLabelText(translations["app.btnAdd"]);
     fireEvent.click(btn);
     expect(openLateralPanelOpened).toHaveBeenCalledWith("link");
     expect(setRubricIdForNewDocument).toHaveBeenCalledWith({

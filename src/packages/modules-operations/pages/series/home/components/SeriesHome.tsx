@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { Row } from "@components/layout";
 import { FeminineButton } from "@components/new-button";
 import { PageTitle } from "@components/page-title";
@@ -7,11 +9,12 @@ import { VerticalMenu } from "@components/vertical-menu";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { HasAccess } from "../../../../../auth/components/auth";
-import D from "../../../../../deprecated-locales";
 import { Series } from "../../../../../model/Series";
 
 export function SeriesHome({ series }: Readonly<{ series: Series[] }>) {
-  useTitle(D.operationsTitle, D.seriesTitle);
+  const { t } = useTranslation();
+
+  useTitle(t("common.operationsTitle"), t("common.seriesTitle"));
 
   return (
     <div className="container">
@@ -22,7 +25,7 @@ export function SeriesHome({ series }: Readonly<{ series: Series[] }>) {
           </HasAccess>
         </VerticalMenu>
         <div className="col-md-8 text-center pull-right operations-list">
-          <PageTitle title={D.seriesSearchTitle} col={12} offset={0} />
+          <PageTitle title={t("series.searchTitle")} col={12} offset={0} />
           <SearchableList
             items={series}
             childPath="operations/series"

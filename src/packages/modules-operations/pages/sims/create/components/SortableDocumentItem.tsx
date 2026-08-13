@@ -1,8 +1,8 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useTranslation } from "react-i18next";
 
 import { Document } from "../../../../../model/operations/document";
-import D from "../../../../../deprecated-locales";
 import { DocumentAsideInformation, DocumentLink } from "./DocumentListItem";
 import "./SortableDocumentItem.css";
 
@@ -24,6 +24,7 @@ export const SortableDocumentItem = ({
   baseURI,
   deleteHandler,
 }: Readonly<SortableDocumentItemProps>) => {
+  const { t } = useTranslation();
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: document.uri as string,
   });
@@ -45,7 +46,7 @@ export const SortableDocumentItem = ({
       <button
         type="button"
         className="documentsbloc-drag-handle documentsbloc-btn"
-        aria-label={D.reorderDocument}
+        aria-label={t("documents.reorderDocument")}
         {...attributes}
         {...listeners}
       >
@@ -58,7 +59,7 @@ export const SortableDocumentItem = ({
       <button
         type="button"
         className="documentsbloc-delete documentsbloc-btn"
-        aria-label={D.btnDelete}
+        aria-label={t("app.btnDelete")}
         onClick={() => deleteHandler(document.uri)}
       >
         <span className="glyphicon glyphicon-trash" aria-hidden="true" />

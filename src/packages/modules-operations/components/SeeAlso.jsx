@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Note } from "@components/note";
 
-import D, { D1, D2 } from "../../deprecated-locales";
-
 export function SeeAlso({ links, secondLang }) {
+  const { t } = useTranslation();
+
   function displaySeeAlsos(label) {
     function displaySeeAlso(seeAlso, title, path) {
       return (
@@ -24,10 +25,10 @@ export function SeeAlso({ links, secondLang }) {
     }
     return (
       <ul>
-        {displaySeeAlso(links.indicator, D.indicatorsTitle, "/operations/indicator")}
-        {displaySeeAlso(links.operation, D.operationsTitle, "/operations/operation")}
-        {displaySeeAlso(links.series, D.seriesTitle, "/operations/series")}
-        {displaySeeAlso(links.family, D.familiesTitle, "/operations/family")}
+        {displaySeeAlso(links.indicator, t("common.indicatorsTitle"), "/operations/indicator")}
+        {displaySeeAlso(links.operation, t("common.operationsTitle"), "/operations/operation")}
+        {displaySeeAlso(links.series, t("common.seriesTitle"), "/operations/series")}
+        {displaySeeAlso(links.family, t("common.familiesTitle"), "/operations/family")}
       </ul>
     );
   }
@@ -36,14 +37,14 @@ export function SeeAlso({ links, secondLang }) {
     <div className="row bauhaus-see-also">
       <Note
         text={displaySeeAlsos("labelLg1")}
-        title={D1.seeAlso}
+        title={t("common.seeAlso", { lng: "fr" })}
         alone={!secondLang}
         allowEmpty={true}
       />
       {secondLang && (
         <Note
           text={displaySeeAlsos("labelLg2")}
-          title={D2.seeAlso}
+          title={t("common.seeAlso", { lng: "en" })}
           alone={false}
           allowEmpty={true}
         />

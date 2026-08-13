@@ -1,29 +1,31 @@
-import D from "../../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
+
 import { rangeType } from "../../../../constants/rangeType";
 
 const { CODE_LIST, ORGANIZATION } = rangeType;
 
 export function HelpInformation({ msd, codesLists, organisations }) {
+  const { t } = useTranslation();
   if (!msd.masLabelLg1) {
     return null;
   }
   return (
     <dl>
-      <dt>{D.labelTitle}:</dt>
+      <dt>{t("app.labelTitle")}:</dt>
       <dd>{msd.masLabelLg2}</dd>
-      <dt>{D.helpPresentational}:</dt>
+      <dt>{t("sims.helpPresentational")}:</dt>
       <dd>{msd.isPresentational.toString()}</dd>
       {msd.maxOccurs && (
         <>
-          <dt>{D.helpMaxOccurs}:</dt>
+          <dt>{t("sims.helpMaxOccurs")}:</dt>
           <dd>{msd.maxOccurs}</dd>
         </>
       )}
-      <dt>{D.helpRange}:</dt>
+      <dt>{t("sims.helpRange")}:</dt>
       <dd>
         {msd.rangeType === CODE_LIST && codesLists[msd.codeList]
-          ? `${D[`help${msd.rangeType}`]} - ${codesLists[msd.codeList].codeListLabelLg1}`
-          : `${D[`help${msd.rangeType}`]}`}
+          ? `${t(`sims.help${msd.rangeType}`)} - ${codesLists[msd.codeList].codeListLabelLg1}`
+          : `${t(`sims.help${msd.rangeType}`)}`}
 
         {msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
           <ul className="list-group">

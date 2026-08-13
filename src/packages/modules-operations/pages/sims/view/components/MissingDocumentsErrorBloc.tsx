@@ -1,6 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 import { ErrorBloc } from "@components/errors-bloc";
 import { useDocumentsStoreContext } from "../../hooks/useDocumentsStoreContext";
-import D from "../../../../../deprecated-locales";
 
 /**
  * Component that displays an error bloc when there are missing documents during SIMS export.
@@ -19,11 +20,12 @@ import D from "../../../../../deprecated-locales";
  */
 export const MissingDocumentsErrorBloc = ({
   missingDocuments,
-  buildMessage = D.missingDocumentWhenExportingSims,
+  translationKey = "documents.missingDocumentWhenExportingSims",
 }: Readonly<{
   missingDocuments: Set<string>;
-  buildMessage?: (documentNames: (string | undefined)[]) => string;
+  translationKey?: string;
 }>) => {
+  const { t } = useTranslation();
   const { documentStores: documentStoresObject } = useDocumentsStoreContext();
   const documentStores = documentStoresObject ? Object.values(documentStoresObject).flat() : [];
 
@@ -31,13 +33,11 @@ export const MissingDocumentsErrorBloc = ({
   if (documentStores.length === 0) return null;
 
   const documentStoresById = new Map(documentStores.map((d) => [d.id, d]));
+  const documentNames = Array.from(missingDocuments).map(
+    (id) => documentStoresById.get(id)?.labelLg1,
+  );
 
   return (
-    <ErrorBloc
-      error={buildMessage(
-        Array.from(missingDocuments).map((id) => documentStoresById.get(id)?.labelLg1),
-      )}
-      D={D}
-    />
+    <ErrorBloc error={t(translationKey, { documentNames: documentNames.join("</li><li>") })} />
   );
 };

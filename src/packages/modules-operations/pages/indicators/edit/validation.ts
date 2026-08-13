@@ -6,7 +6,8 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import D, { D1, D2 } from "../../../../deprecated-locales";
+import i18next from "i18next";
+
 import NewDictionary from "../../../../i18n";
 
 const Serie = z.object({
@@ -15,11 +16,11 @@ const Serie = z.object({
 });
 
 const ZodIndicator = z.object({
-  prefLabelLg1: mandatoryAndNotEmptyTextField(D1.title),
-  prefLabelLg2: mandatoryAndNotEmptyTextField(D2.title),
-  creators: mandatoryAndNotEmptyMultiSelectField(D.creatorsTitle),
+  prefLabelLg1: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "fr" })),
+  prefLabelLg2: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "en" })),
+  creators: mandatoryAndNotEmptyMultiSelectField(i18next.t("app.creatorsTitle")),
   wasGeneratedBy: z.array(Serie).nonempty({
-    error: NewDictionary.errors.mandatoryProperty(D.generatedBy),
+    error: NewDictionary.errors.mandatoryProperty(i18next.t("common.generatedBy")),
   }),
 });
 

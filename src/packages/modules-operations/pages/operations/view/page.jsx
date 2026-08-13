@@ -10,7 +10,6 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import D from "../../../../deprecated-locales";
 import { OperationsOperationVisualization } from "./components/OperationsOperationVisualization";
 import { Menu } from "./menu";
 
@@ -51,7 +50,7 @@ export const Component = () => {
     <div className="container">
       <PageTitleBlock titleLg1={operation.prefLabelLg1} titleLg2={operation.prefLabelLg2} />
       <Menu operation={operation} onPublish={publish} />
-      <ErrorBloc error={serverSideError} D={D} />
+      <ErrorBloc error={serverSideError} />
       <CheckSecondLang />
       <OperationsOperationVisualization id={id} attr={operation} secondLang={secondLang} />
     </div>

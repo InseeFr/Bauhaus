@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import { Component } from "react";
 
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
@@ -9,7 +10,6 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import D, { D1, D2 } from "../../../../../deprecated-locales";
 import { Controls } from "./Controls";
 import { YearInput } from "./YearInput";
 import { validate } from "../validation";
@@ -124,11 +124,11 @@ export class OperationsOperationEdition extends Component {
         {this.state.submitting && this.state.clientSideErrors && (
           <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} />
         )}
-        <ErrorBloc error={serverSideError} D={D} />
+        <ErrorBloc error={serverSideError} />
         <form>
           {!isEditing && (
             <Series
-              label={D.seriesTitle}
+              label={i18next.t("common.seriesTitle")}
               value={series.id}
               onChange={(value) =>
                 this.onChange({
@@ -139,7 +139,7 @@ export class OperationsOperationEdition extends Component {
           )}
           <Row className="bauhaus-row">
             <div className="form-group">
-              <LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
+              <LabelRequired htmlFor="prefLabelLg1">{i18next.t("common.title", { lng: "fr" })}</LabelRequired>
               <TextInput
                 id="prefLabelLg1"
                 value={operation.prefLabelLg1}
@@ -155,7 +155,7 @@ export class OperationsOperationEdition extends Component {
               ></ClientSideError>
             </div>
             <div className="form-group">
-              <LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
+              <LabelRequired htmlFor="prefLabelLg2">{i18next.t("common.title", { lng: "en" })}</LabelRequired>
               <TextInput
                 id="prefLabelLg2"
                 value={operation.prefLabelLg2}
@@ -173,11 +173,11 @@ export class OperationsOperationEdition extends Component {
           </Row>
           <Row className="bauhaus-row">
             <div className="form-group">
-              <label htmlFor="altLabelLg1">{D1.altLabel}</label>
+              <label htmlFor="altLabelLg1">{i18next.t("app.altLabel", { lng: "fr" })}</label>
               <TextInput id="altLabelLg1" value={operation.altLabelLg1} onChange={this.onChange} />
             </div>
             <div className="form-group">
-              <label htmlFor="altLabelLg2">{D2.altLabel}</label>
+              <label htmlFor="altLabelLg2">{i18next.t("app.altLabel", { lng: "en" })}</label>
               <TextInput id="altLabelLg2" value={operation.altLabelLg2} onChange={this.onChange} />
             </div>
           </Row>

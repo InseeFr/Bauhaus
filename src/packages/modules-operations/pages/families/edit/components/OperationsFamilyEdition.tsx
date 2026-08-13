@@ -1,4 +1,5 @@
 import { useReducer, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -12,8 +13,6 @@ import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { D1, D2 } from "../../../../../deprecated-locales";
-import D from "../../../../../deprecated-locales/build-dictionary";
 import { Family } from "../../../../../model/operations/family";
 import { validate } from "../validation";
 
@@ -108,6 +107,7 @@ export const OperationsFamilyEdition = ({
   family: initialFamily,
   goBack,
 }: Readonly<OperationsFamilyEditionProps>) => {
+  const { t } = useTranslation();
   const [state, dispatch] = useReducer(reducer, {
     family: {
       ...defaultFamily,
@@ -176,11 +176,11 @@ export const OperationsFamilyEdition = ({
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={[state.serverSideError]} D={D} />
+      <ErrorBloc error={[state.serverSideError]} />
       <form>
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
               value={state.family.prefLabelLg1}
@@ -196,7 +196,7 @@ export const OperationsFamilyEdition = ({
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
               value={state.family.prefLabelLg2}
@@ -214,14 +214,14 @@ export const OperationsFamilyEdition = ({
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="abstractLg1">{D1.summary}</label>
+            <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
             <EditorMarkdown
               text={state.family.abstractLg1}
               handleChange={onChange("abstractLg1")}
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="abstractLg2">{D2.summary}</label>
+            <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
             <EditorMarkdown
               text={state.family.abstractLg2}
               handleChange={onChange("abstractLg2")}

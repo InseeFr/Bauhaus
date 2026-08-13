@@ -1,4 +1,5 @@
-import D from "../../../../deprecated-locales/build-dictionary";
+import { useTranslation } from "react-i18next";
+
 import { isEssentialRubricKo } from "../hooks/useEssentialRubricContext";
 
 export const SimsFieldTitle = ({ msd, secondLang, currentSection }) => {
@@ -22,20 +23,21 @@ export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, secondLang 
 };
 
 export const SimsFieldTitleIndicator = ({ msd, isEmpty }) => {
+  const { t } = useTranslation();
   if (msd.minOccurs !== "1") {
     return null;
   }
 
   if (isEmpty) {
     return (
-      <span aria-label={D.essentialRubricKo} title={D.essentialRubricKo}>
+      <span aria-label={t("sims.essentialRubricKo")} title={t("sims.essentialRubricKo")}>
         ⚠️
       </span>
     );
   }
 
   return (
-    <span aria-label={D.essentialRubricOk} title={D.essentialRubricOk}>
+    <span aria-label={t("sims.essentialRubricOk")} title={t("sims.essentialRubricOk")}>
       ✅
     </span>
   );

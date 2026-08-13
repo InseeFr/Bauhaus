@@ -15,6 +15,21 @@ vi.mock("@sdk/geographie", () => ({
   },
 }));
 
+// renderWithRouterAndQuery does not wrap components in an I18nextProvider, so useTranslation()
+// falls back to whichever i18next singleton happens to be initialized in this test file's module
+// graph (none, here). Mock it directly with the real operations translations this component needs.
+vi.mock("react-i18next", () => ({
+  useTranslation: () => {
+    const translations = {
+      "geography.include": "Include",
+      "geography.exclude": "Exclude",
+      "geography.zoneName": "Zone name",
+    };
+    const t = (key) => translations[key] ?? key;
+    return { t };
+  },
+}));
+
 const renderComponent = (props = {}) => {
   return renderWithRouterAndQuery(<SimsGeographyField {...props} />);
 };

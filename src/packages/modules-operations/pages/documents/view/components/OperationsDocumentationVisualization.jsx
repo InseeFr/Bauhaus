@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
@@ -6,7 +7,6 @@ import { Note } from "@components/note";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D, { D1, D2 } from "../../../../../deprecated-locales";
 import { getBaseURI } from "../../../../../sdk";
 import { RelationsView } from "../../../../components/RelationsView";
 import { LINK } from "../../../../constants/documentType";
@@ -52,7 +52,9 @@ function formatSims(sims) {
  * @param {OperationsDocumentationVisualizationProps} props
  */
 export function OperationsDocumentationVisualization({ id, attr, secondLang, langOptions, type }) {
-  useTitle(type === LINK ? D.titleLink : D.titleDocument, attr.labelLg1);
+  const { t } = useTranslation();
+
+  useTitle(type === LINK ? t("documents.titleLink") : t("documents.titleDocument"), attr.labelLg1);
 
   const sims = formatSims(attr.sims);
 
@@ -67,14 +69,14 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
       <Row>
         <Note
           text={attr.descriptionLg1}
-          title={D1.descriptionTitle}
+          title={t("app.descriptionTitle", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={attr.descriptionLg2}
-            title={D2.descriptionTitle}
+            title={t("app.descriptionTitle", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />
@@ -84,7 +86,7 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
         <Row>
           <Note
             text={attr.updatedDate && new Date(attr.updatedDate).toLocaleDateString()}
-            title={D1.titleUpdatedDate}
+            title={t("documents.titleUpdatedDate")}
             alone={true}
             allowEmpty={true}
           />
@@ -98,7 +100,7 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
                 {attr.labelLg1}
               </ExternalLink>
             }
-            title={D1.titleDocument}
+            title={t("documents.titleDocument")}
             alone={true}
             allowEmpty={true}
           />
@@ -108,7 +110,7 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
         <Row>
           <Note
             text={<ExternalLink href={attr.url}>{attr.url}</ExternalLink>}
-            title={D1.titleLink}
+            title={t("documents.titleLink")}
             alone={true}
             allowEmpty={true}
           />
@@ -117,7 +119,7 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
       <Row>
         <Note
           text={langOptions?.codes?.find((option) => option.code === attr.lang)?.labelLg1}
-          title={D1.langTitle}
+          title={t("app.langTitle", { lng: "fr" })}
           alone={true}
           allowEmpty={true}
         />
@@ -126,7 +128,6 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
         children={sims}
         childrenTitle="linkedSims"
         childrenPath="sims"
-        title="linksTitle"
         secondLang={secondLang}
       />
     </>

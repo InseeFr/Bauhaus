@@ -19,7 +19,6 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import D from "../../../../../deprecated-locales";
 
 import { RubricEssentialMsg } from "../../components/RubricEssentialMsg";
 import { SimsFieldTitle } from "../../components/SimsFieldTitle";
@@ -166,7 +165,7 @@ export function SimsVisualisation({
           className="operations"
           handleNo={handleNo}
           handleYes={handleYes}
-          message={D.confirmationDocumentationDelete}
+          message={t("documents.confirmationDelete")}
         />
       )}
       {exportModalOpened && (
@@ -178,12 +177,12 @@ export function SimsVisualisation({
           <div className="modal-content">
             <div className="modal-header">
               <CloseIconButton onClick={() => setExportModalOpened(false)} />
-              <h4 className="modal-title">{D.btnExport}</h4>
+              <h4 className="modal-title">{t("app.btnExport")}</h4>
             </div>
 
             <div className="modal-body export-modal-body">
               <Row>
-                <p className="col-md-offset-1">{D.exportSimsTips}</p>
+                <p className="col-md-offset-1">{t("sims.exportSimsTips")}</p>
               </Row>
               <Row>
                 <label className="col-md-offset-1">
@@ -197,7 +196,7 @@ export function SimsVisualisation({
                       })
                     }
                   />
-                  {D.exportSimsIncludeEmptyMas}
+                  {t("sims.exportSimsIncludeEmptyMas")}
                 </label>
               </Row>
               <Row>
@@ -212,7 +211,7 @@ export function SimsVisualisation({
                       })
                     }
                   />
-                  {D.exportSimsIncludeLg1}
+                  {t("sims.exportSimsIncludeLg1")}
                 </label>
               </Row>
               <Row>
@@ -227,7 +226,7 @@ export function SimsVisualisation({
                       })
                     }
                   />
-                  {D.exportSimsIncludeLg2}
+                  {t("sims.exportSimsIncludeLg2")}
                 </label>
               </Row>
               <Row>
@@ -242,7 +241,7 @@ export function SimsVisualisation({
                       })
                     }
                   />
-                  {D.exportDocument}
+                  {t("sims.exportDocument")}
                 </label>
               </Row>
             </div>
@@ -256,7 +255,7 @@ export function SimsVisualisation({
                     setExportModalOpened(false);
                   }}
                 >
-                  {D.btnExportValidate}
+                  {t("app.btnExportValidate")}
                 </Button>
               </ActionToolbar>
             </div>
@@ -275,9 +274,9 @@ export function SimsVisualisation({
         <MissingDocumentsErrorBloc missingDocuments={missingDocuments} />
         <MissingDocumentsErrorBloc
           missingDocuments={publishMissingDocuments}
-          buildMessage={D.missingDocumentWhenPublishingSims}
+          translationKey="documents.missingDocumentWhenPublishingSims"
         />
-        <ErrorBloc error={serverSideError} D={D} />
+        <ErrorBloc error={serverSideError} />
         <CheckSecondLang />
         <RubricEssentialMsg secondLang={secondLang} />
         <Row>
@@ -285,10 +284,10 @@ export function SimsVisualisation({
             text={
               <ul>
                 <CreationUpdateItems creation={sims.created} update={sims.updated} />
-                <PublicationStatusItem label={D.simsStatus} object={sims} gender="female" />
+                <PublicationStatusItem label={t("common.simsStatus")} object={sims} gender="female" />
               </ul>
             }
-            title={D.globalInformationsTitle}
+            title={t("app.globalInformationsTitle")}
             alone={true}
           />
         </Row>

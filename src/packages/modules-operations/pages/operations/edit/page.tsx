@@ -8,7 +8,8 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
+
 import { Operation } from "../../../../model/Operation";
 import { OperationsOperationEdition } from "./components/OperationsOperationEdition";
 
@@ -19,6 +20,8 @@ export const Component = () => {
 
   const goBack = useGoBack();
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (id) {
       OperationsApi.getOperation(id).then((result: Operation) => {
@@ -27,7 +30,7 @@ export const Component = () => {
     }
   }, [id]);
 
-  useTitle(D.operationsTitle, operation?.prefLabelLg1);
+  useTitle(t("common.operationsTitle"), operation?.prefLabelLg1);
 
   if (!operation?.id && id) return <Loading />;
 

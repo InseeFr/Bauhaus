@@ -16,7 +16,6 @@ import { OperationsApi } from "@sdk/operations-api";
 import { EMPTY_ARRAY, sortArrayByLabel } from "@utils/array-utils";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import D from "../../../../../deprecated-locales";
 import { flattenTree } from "../../../../utils/flattenTree";
 import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
 import { rangeType } from "../../../../constants/rangeType";
@@ -276,7 +275,7 @@ const SimsCreation = ({
     <EssentialRubricContextProvider value={essentialRubricContext}>
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
 
-      {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} D={D} />}
+      {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} />}
 
       <Modal
         className="Modal__Bootstrap modal-dialog operations structures-specification-modal"
@@ -286,14 +285,14 @@ const SimsCreation = ({
         <div className="modal-content">
           <div className="modal-header">
             <CloseIconButton onClick={() => blocker.reset()} />
-            <h4 className="modal-title">{D.deleteTitle}</h4>
+            <h4 className="modal-title">{t("app.deleteTitle")}</h4>
           </div>
 
-          <div className="modal-body">{D.quitWithoutSaving}</div>
+          <div className="modal-body">{t("app.quitWithoutSaving")}</div>
           <div className="modal-footer text-right">
             <ActionToolbar>
-              <Button action={() => blocker.reset()}>{D.no}</Button>
-              <Button action={() => blocker.proceed()}>{D.yes}</Button>
+              <Button action={() => blocker.reset()}>{t("app.no")}</Button>
+              <Button action={() => blocker.proceed()}>{t("app.yes")}</Button>
             </ActionToolbar>
           </div>
         </div>
@@ -325,7 +324,7 @@ const SimsCreation = ({
 
                 <Select
                   className="bauhaus-sims-duplicate"
-                  placeholder={D.createFromAnExistingReport}
+                  placeholder={t("sims.createFromAnExistingReport")}
                   value={operationsWithSimsOptions.find(({ value }) => value === idParent)}
                   options={operationsWithSimsOptions}
                   onChange={onSiblingSimsChange()}

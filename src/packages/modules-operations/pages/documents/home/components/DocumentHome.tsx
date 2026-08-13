@@ -1,5 +1,6 @@
 import DOMPurify from "dompurify";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import FilterToggleButtons from "@components/filter-toggle-buttons";
@@ -12,7 +13,6 @@ import { Pagination } from "@components/pagination";
 import { EMPTY_ARRAY, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../../deprecated-locales";
 import { HomeDocument } from "../../../../../model/operations/document";
 import { Menu } from "../menu";
 import { BOTH, DOCUMENT, LINK } from "../../../../constants/documentType";
@@ -56,6 +56,8 @@ const SearchableList = ({
   label: keyof HomeDocument;
   childPath: (document: HomeDocument) => string;
 }>) => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -99,8 +101,8 @@ const SearchableList = ({
               handleSearch(e.target.value);
               setSearch(e.target.value);
             }}
-            placeholder={D.searchLabelPlaceholder || placeholder}
-            aria-label={D.search}
+            placeholder={t("app.searchLabelPlaceholder") || placeholder}
+            aria-label={t("app.search")}
             autoFocus={autoFocus}
           />
         </div>
@@ -114,7 +116,9 @@ const SearchableList = ({
 };
 
 export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[] }>) {
-  useTitle(D.operationsTitle, D.documentsTitle);
+  const { t } = useTranslation();
+
+  useTitle(t("common.operationsTitle"), t("documents.title"));
 
   const navigate = useNavigate();
 
@@ -144,14 +148,14 @@ export function DocumentHome({ documents }: Readonly<{ documents: HomeDocument[]
       <Row>
         <Menu></Menu>
         <div className="col-md-8 text-center pull-right operations-list">
-          <PageTitle title={D.documentsSearchTitle} col={12} offset={0} />
+          <PageTitle title={t("documents.searchTitle")} col={12} offset={0} />
           <FilterToggleButtons
             currentValue={filter}
             handleSelection={onFilter}
             options={[
-              [DOCUMENT, D.document],
-              [BOTH, `${D.document} / ${D.titleLink}`],
-              [LINK, D.titleLink],
+              [DOCUMENT, t("documents.document")],
+              [BOTH, `${t("documents.document")} / ${t("documents.titleLink")}`],
+              [LINK, t("documents.titleLink")],
             ]}
           />
           <SearchableList

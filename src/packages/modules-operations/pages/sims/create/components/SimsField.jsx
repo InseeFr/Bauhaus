@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { DatePicker } from "@components/date-picker";
 import { InputRmes } from "@components/input-rmes";
@@ -8,7 +9,6 @@ import { Select } from "@components/select-rmes";
 import { sortArrayByLabel } from "@utils/array-utils";
 import { useOrganizations } from "@utils/hooks/organizations";
 
-import D from "../../../../../deprecated-locales";
 import { SimsGeographyPicker } from "../../../../components/SimsGeographyPicker";
 import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
 import { rangeType } from "../../../../constants/rangeType";
@@ -30,6 +30,7 @@ const SimsFieldComponent = ({
   handleChange,
   simsModified,
 }) => {
+  const { t } = useTranslation();
   const autoUpdatedFromModified = isAutoUpdatedFromModified(msd);
   const { data: organisations = [] } = useOrganizations();
   const organisationsIriOptions = useMemo(
@@ -166,7 +167,7 @@ const SimsFieldComponent = ({
                     value={value}
                     handleChange={handleTextInput}
                     arias={{
-                      "aria-label": D.simsValue,
+                      "aria-label": t("sims.simsValue"),
                     }}
                     className="w-100"
                   />
@@ -183,7 +184,7 @@ const SimsFieldComponent = ({
                 )}
                 {msd.rangeType === DATE && (
                   <DatePicker
-                    aria-label={D.simsValue}
+                    aria-label={t("sims.simsValue")}
                     id={msd.idMas}
                     colMd={12}
                     value={value}

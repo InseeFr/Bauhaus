@@ -1,5 +1,170 @@
 {
   "errors": {
-    "804": "Ce rapport qualité ne peut pas être publié avant que sa cible (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) soit publiée."
+    "804": "Ce rapport qualité ne peut pas être publié avant que sa cible (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) soit publiée.",
+    "847": "Ce nom existe déjà"
+  },
+  "creators": {
+    "title": "Propriétaires",
+    "singularTitle": "Propriétaire"
+  },
+  "geography": {
+    "zoneName": "Nom de la zone",
+    "includedZone": "Zones géographiques incluses",
+    "excludedZone": "Zones géographiques exclues",
+    "include": "Inclure",
+    "exclude": "Exclure",
+    "noResult": "Aucun résultat",
+    "btnNew": "Nouveau",
+    "btnDelete": "Supprimer"
+  },
+  "common": {
+    "operationsTitle": "Opérations",
+    "familyTitle": "Famille",
+    "familiesTitle": "Familles",
+    "serieTitle": "Série",
+    "seriesTitle": "Séries",
+    "indicatorsTitle": "Indicateurs",
+    "childrenSeries": "Séries filles :",
+    "linkedSims": "Sims associés :",
+    "childrenOperations": "Opérations filles :",
+    "parentFamily": "Famille parente :",
+    "parentSeries": "Série parente :",
+    "title": "Intitulé",
+    "theme": "Thème",
+    "summary": "Résumé",
+    "history": "Historique",
+    "year": "Millésime",
+    "dataCollector": "Services collecteurs",
+    "stakeholders": "Partenaires",
+    "organisation": "Organismes responsables",
+    "indicatorDataCollectFrequency": "Fréquence de diffusion",
+    "dataCollectFrequency": "Fréquence de collecte des données",
+    "operationType": "Type d'opération",
+    "replaces": "Succède à",
+    "replacedBy": "Est remplacée par",
+    "replacedByMasc": "Est remplacé par",
+    "indicators": "Indicateurs produits",
+    "seeAlso": "Séries ou Indicateurs liés",
+    "generatedBy": "Produit de",
+    "familyStatus": "État de la famille",
+    "seriesStatus": "État de la série",
+    "operationStatus": "État de l'opération",
+    "indicatorStatus": "État de l'indicateur",
+    "simsStatus": "État du SIMS"
+  },
+  "families": {
+    "createTitle": "Créer une nouvelle famille",
+    "searchTitle": "Familles - Recherche"
+  },
+  "series": {
+    "createTitle": "Créer une nouvelle série",
+    "searchTitle": "Séries - Recherche"
+  },
+  "operations": {
+    "createTitle": "Créer une nouvelle opération",
+    "searchTitle": "Opérations - Recherche"
+  },
+  "indicators": {
+    "createTitle": "Créer un nouvel indicateur",
+    "searchTitle": "Indicateurs - Recherche"
+  },
+  "tree": {
+    "title": "Arbre des Opérations"
+  },
+  "documents": {
+    "createTitle": "Créer un nouveau document",
+    "linksCreateTitle": "Créer un nouveau lien",
+    "searchTitle": "Document/Lien - Recherche",
+    "title": "Document/Lien",
+    "confirmationDelete": "Vous êtes sur le point de supprimer définitivement cette documentation. Êtes-vous sûr ?",
+    "missingDocumentWhenExportingSims": "L’exportation du rapport avec tous les documents inclus est incomplète. Il vous manque les documents suivants : <ul><li>{{documentNames}}</ul>",
+    "missingDocumentWhenPublishingSims": "La publication du rapport est impossible : les documents suivants sont absents du stockage : <ul><li>{{documentNames}}</ul>",
+    "document": "Document",
+    "link": "Lien",
+    "titleDocument": "Document",
+    "titleLink": "Lien",
+    "titleUpdatedDate": "Date de mise à jour",
+    "file": "Fichier",
+    "addDocument": "Ajouter un document",
+    "addLink": "Ajouter un lien",
+    "drag": "Glisser un fichier ici, ou cliquez ici pour en sélectionner",
+    "reorderDocument": "Déplacer pour réordonner"
+  },
+  "sims": {
+    "createFromAnExistingReport": "Créer à partir d'un rapport qualité existant",
+    "helpContent": "Contenu",
+    "helpSummary": "Sommaire",
+    "helpMaxOccurs": "Maximum d'occurence",
+    "helpRange": "Portée",
+    "simsValue": "Valeur",
+    "essentialRubric": "Rubriques essentielles",
+    "essentialRubricMsgPlural": "Vous avez rempli {{nb}} rubriques essentielles sur {{total}}.",
+    "essentialRubricMsg": "Vous avez rempli 1 rubrique essentielle sur {{total}}",
+    "essentialRubricKo": "Cette rubrique est une rubrique essentielle. Vous devriez lui définir une valeur",
+    "essentialRubricOk": "Cette rubrique est une rubrique essentielle",
+    "helpPresentational": "Attribut présentationnel",
+    "helpRICH_TEXT": "Texte riche + URI",
+    "helpTEXT": "Texte",
+    "helpDATE": "Date",
+    "helpCODE_LIST": "Liste de codes",
+    "helpORGANIZATION": "Organisation",
+    "btnSimsVisu": "Voir le rapport",
+    "btnSimsCreate": "Créer le rapport",
+    "simsTitle": "Rapport qualité : ",
+    "exportSimsTips": "Veuillez sélectionner les options d'export",
+    "exportSimsIncludeLg1": "Inclure la première langue",
+    "exportSimsIncludeLg2": "Inclure la seconde langue",
+    "exportLgTitle": "Selectionnez la langue ",
+    "exportLg1": "Première langue",
+    "exportLg2": "Seconde langue",
+    "exportConcepts": "Exporter les concepts",
+    "exportDocument": "Exporter les documents",
+    "exportSimsIncludeEmptyMas": "Inclure les rubriques vides",
+    "simsWithoutObject": "Sans Objet",
+    "simsConfirmationMessage": "Vous êtes sur le point de supprimer les données de cette rubrique. Souhaitez-vous confirmer ?"
+  },
+  "app": {
+    "help": "Aide",
+    "display": "Afficher",
+    "hide": "Cacher",
+    "yes": "Oui",
+    "no": "Non",
+    "confirmation": "Confirmation",
+    "warningDocumentWithSimsPrefix": "Ce document est déjà utilisé dans les Sims suivants",
+    "warningLinkWithSimsPrefix": "Ce lien est déjà utilisé dans les Sims suivants",
+    "warningDocumentLinksWithSimsSuffix": "Si vous cliquez sur \"Oui\", il sera définitivement modifié dans tous les Sims associés. Voulez-vous continuer ?",
+    "requiredFields": "Champs requis",
+    "langTitle": "Langue",
+    "labelTitle": "Libellé",
+    "search": "Recherchez...",
+    "searchLabelPlaceholder": "Libellé...",
+    "altLabel": "Nom court",
+    "descriptionTitle": "Description",
+    "creatorsTitle": "Propriétaires",
+    "duplicatedTitle": "L'intitulé choisi existe déjà",
+    "globalInformationsTitle": "Informations générales",
+    "quitWithoutSaving": "Vous êtes sur le point de quitter cette page sans sauvegarder vos modifications. Souhaitez-vous continuer ?",
+    "deleteTitle": "Quitter sans enregistrer",
+    "btnExport": "Options d'export",
+    "btnExportValidate": "Exporter en odt",
+    "btnTree": "Voir l'arborescence",
+    "btnAdd": "Ajouter",
+    "btnDelete": "Supprimer",
+    "advancedSearch": "Recherche avancée",
+    "numberProperty": "La propriété <strong>{{propertyName}}</strong> doit être un entier.",
+    "linksTitle": "Liens"
+  },
+  "validation": {
+    "requiredPrefLabel": "L'intitulé est obligatoire",
+    "requiredLang": "La langue est obligatoire",
+    "badUrl": "L'URL n'est pas valide",
+    "requiredFile": "Le fichier est obligatoire",
+    "requiredUpdatedDate": "La date de mise à jour est obligatoire",
+    "wrongFileName": "Le nom du fichier est incorrect. Il peut contenir des caractères alphanumériques (hors caractères accentués), des tirets et des tirets bas.",
+    "documents": {
+      "serverSideErrors": {
+        "304": "Vous ne pouvez pas modifier le fichier si le document est attaché à un rapport qualité. Pour modifier le fichier, veuillez tout d'abord le retirer du rapport qualité. Pour plus d’informations, merci de vous rapprocher de l’équipe d’administration."
+      }
+    }
   }
 }

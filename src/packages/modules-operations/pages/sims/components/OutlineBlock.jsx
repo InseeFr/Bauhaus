@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import D from "../../../../deprecated-locales";
 import { isOpen } from "../utils/isOpen";
 import { toggleOpen } from "../utils/toggleOpen";
 import { OutlineButtonWithScroll } from "./OutlineButtonWithScroll";
@@ -14,6 +14,7 @@ export const OutlineBlock = ({
   disableSectionAnchor = false,
   children,
 }) => {
+  const { t } = useTranslation();
   const { hash } = useLocation();
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export const OutlineBlock = ({
                 <button
                   type="button"
                   className="msd-item-updown"
-                  title={child.opened ? D.hide : D.display}
+                  title={child.opened ? t("app.hide") : t("app.display")}
                   id={child.idMas}
                   onClick={expandOrCollapseItem}
                 >

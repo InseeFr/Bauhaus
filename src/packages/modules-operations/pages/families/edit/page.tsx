@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
@@ -8,11 +9,12 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales/build-dictionary";
 import { Family } from "../../../../model/operations/family";
 import { OperationsFamilyEdition } from "./components/OperationsFamilyEdition";
 
 export const Component = () => {
+  const { t } = useTranslation();
+
   const { id } = useParams();
 
   const goBack = useGoBack();
@@ -25,7 +27,7 @@ export const Component = () => {
     }
   }, [id]);
 
-  useTitle(D.familiesTitle + " - " + D.operationsTitle, family?.prefLabelLg1);
+  useTitle(t("common.familiesTitle") + " - " + t("common.operationsTitle"), family?.prefLabelLg1);
 
   if (!family.id && id) return <Loading />;
 

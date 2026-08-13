@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import D from "../../../../deprecated-locales";
 import { OutlineBlock } from "./OutlineBlock";
 import { isOpen } from "../utils/isOpen";
 import { toggleOpen } from "../utils/toggleOpen";
@@ -14,6 +14,7 @@ export const Outline = ({
   baseUrl = "/operations/help/",
   disableSectionAnchor,
 }) => {
+  const { t } = useTranslation();
   const [opened, setOpened] = useState(() => storeCollapseState && isOpen(metadataStructure.idMas));
 
   const expandOrCollapseItem = () => {
@@ -53,7 +54,7 @@ export const Outline = ({
           <button
             type="button"
             className="msd-outline-primary-updown"
-            title={opened ? D.hide : D.display}
+            title={opened ? t("app.hide") : t("app.display")}
             onClick={expandOrCollapseItem}
           >
             <span className={` glyphicon glyphicon-chevron-${opened ? "up" : "down"}`} />

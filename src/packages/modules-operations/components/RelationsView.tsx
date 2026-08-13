@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
-import { D1, D2 } from "../../deprecated-locales";
 import "./RelationsView.css";
 
 export interface RelationsViewPerLgContentTypes {
@@ -25,20 +25,21 @@ export const RelationsViewPerLgContent = ({
   parentPath,
   langSuffix,
 }: Readonly<RelationsViewPerLgContentTypes>) => {
-  const Dictionnary = langSuffix === "Lg1" ? D1 : D2;
+  const { t } = useTranslation();
+  const lng = langSuffix === "Lg1" ? "fr" : "en";
 
   return (
     <>
       {parent && (
         <p>
-          <span className="links-title">{Dictionnary[parentTitle]}</span>
+          <span className="links-title">{t(`common.${parentTitle}`, { lng })}</span>
           <Link to={`/operations/${parentPath}/${parent.id}`}>{parent[`label${langSuffix}`]}</Link>
         </p>
       )}
       {children && (
         <>
           <p>
-            <span className="links-title">{Dictionnary[childrenTitle]}</span>
+            <span className="links-title">{t(`common.${childrenTitle}`, { lng })}</span>
           </p>
           <ul>
             {children
@@ -79,13 +80,15 @@ export function RelationsViewPerLg({
 }
 
 export function RelationsView(
-  props: Readonly<{ title: string; secondLang: boolean } & RelationsViewPerLgContentTypes>,
+  props: Readonly<{ secondLang: boolean } & RelationsViewPerLgContentTypes>,
 ) {
+  const { t } = useTranslation();
+
   return (
     <Row>
-      <RelationsViewPerLg {...props} title={D1[props.title]} langSuffix="Lg1" />
+      <RelationsViewPerLg {...props} title={t("app.linksTitle", { lng: "fr" })} langSuffix="Lg1" />
       {props.secondLang && (
-        <RelationsViewPerLg {...props} title={D2[props.title]} langSuffix="Lg2" />
+        <RelationsViewPerLg {...props} title={t("app.linksTitle", { lng: "en" })} langSuffix="Lg2" />
       )}
     </Row>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useReducer } from "react";
 import Dropzone from "react-dropzone";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -19,7 +20,6 @@ import { useDocumentsAndLinks } from "@utils/hooks/documents";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D, { D1, D2 } from "../../../../../deprecated-locales";
 import { DOCUMENT, LINK } from "../../../../constants/documentType";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { validate } from "../validation";
@@ -116,7 +116,12 @@ function editionReducer(state, action) {
 export const OperationsDocumentationEdition = (props) => {
   const { document: documentProps, type, langOptions } = props;
 
-  useTitle(type === LINK ? D.titleLink : D.titleDocument, props.document.labelLg1);
+  const { t } = useTranslation();
+
+  useTitle(
+    type === LINK ? t("documents.titleLink") : t("documents.titleDocument"),
+    props.document.labelLg1,
+  );
 
   const goBack = useGoBack();
 
@@ -248,11 +253,11 @@ export const OperationsDocumentationEdition = (props) => {
       {submitting && clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={serverSideError} D={D} />
+      <ErrorBloc error={serverSideError} />
       <form>
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg1">{D1.title}</LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="labelLg1"
               value={document.labelLg1}
@@ -266,7 +271,7 @@ export const OperationsDocumentationEdition = (props) => {
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg2">{D2.title}</LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="labelLg2"
               value={document.labelLg2}
@@ -282,14 +287,14 @@ export const OperationsDocumentationEdition = (props) => {
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="abstractLg1">{D1.descriptionTitle}</label>
+            <label htmlFor="abstractLg1">{t("app.descriptionTitle", { lng: "fr" })}</label>
             <EditorMarkdown
               text={document.descriptionLg1}
               handleChange={(value) => onChange({ target: { value, id: "descriptionLg1" } })}
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="abstractLg2">{D2.descriptionTitle}</label>
+            <label htmlFor="abstractLg2">{t("app.descriptionTitle", { lng: "en" })}</label>
             <EditorMarkdown
               text={document.descriptionLg2}
               handleChange={(value) => onChange({ target: { value, id: "descriptionLg2" } })}
@@ -299,7 +304,7 @@ export const OperationsDocumentationEdition = (props) => {
         {type === LINK && (
           <Row>
             <div className="col-md-12 form-group">
-              <LabelRequired htmlFor="url">{D1.titleLink}</LabelRequired>
+              <LabelRequired htmlFor="url">{t("documents.titleLink")}</LabelRequired>
               <TextInput
                 id="url"
                 value={document.url}
@@ -317,7 +322,7 @@ export const OperationsDocumentationEdition = (props) => {
         {type === DOCUMENT && (
           <Row>
             <div className="col-md-12 form-group">
-              <LabelRequired>{D1.titleUpdatedDate}</LabelRequired>
+              <LabelRequired>{t("documents.titleUpdatedDate")}</LabelRequired>
               <DatePicker
                 value={updatedDate}
                 onChange={(date) => {
@@ -336,7 +341,7 @@ export const OperationsDocumentationEdition = (props) => {
         {type === DOCUMENT && files.length === 0 && (
           <Row>
             <div className="col-md-12 form-group">
-              <LabelRequired>{D.file}</LabelRequired>
+              <LabelRequired>{t("documents.file")}</LabelRequired>
               <Dropzone onDrop={uploadFile} multiple={false}>
                 {({ getRootProps, getInputProps }) => (
                   <div
@@ -349,7 +354,7 @@ export const OperationsDocumentationEdition = (props) => {
                       aria-invalid={!!clientSideErrors.fields?.files}
                       aria-describedby={clientSideErrors.fields?.files ? "file-error" : null}
                     />
-                    <p>{D.drag}</p>
+                    <p>{t("documents.drag")}</p>
                   </div>
                 )}
               </Dropzone>
@@ -362,7 +367,7 @@ export const OperationsDocumentationEdition = (props) => {
         )}
         {type === DOCUMENT && files.length > 0 && (
           <div>
-            <LabelRequired>{D.file}</LabelRequired>
+            <LabelRequired>{t("documents.file")}</LabelRequired>
             <div className="panel panel-default">
               {files.map((file) => (
                 <div className="panel-body" key={file.name}>
@@ -381,7 +386,7 @@ export const OperationsDocumentationEdition = (props) => {
         )}
         <Row>
           <div className="col-md-12 form-group">
-            <LabelRequired htmlFor="lang">{D1.langTitle}</LabelRequired>
+            <LabelRequired htmlFor="lang">{t("app.langTitle", { lng: "fr" })}</LabelRequired>
             <Select
               placeholder=""
               value={document.lang}

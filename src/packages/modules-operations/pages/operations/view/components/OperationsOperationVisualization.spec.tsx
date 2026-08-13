@@ -3,6 +3,18 @@ import { render, screen } from "@testing-library/react";
 import { Operation } from "../../../../../model/Operation";
 import { OperationsOperationVisualization } from "./OperationsOperationVisualization";
 
+vi.mock("react-i18next", () => {
+  const translations: Record<string, string> = {
+    "common.operationsTitle": "Operations",
+    "common.operationStatus": "Operation status",
+    "common.year": "Year",
+  };
+  const t = (key: string) => translations[key] ?? key;
+  return {
+    useTranslation: () => ({ t }),
+  };
+});
+
 describe("OperationVisualization", () => {
   it("should renderer all informations for the main lang", () => {
     const attr = {

@@ -8,6 +8,29 @@ import { OperationsApi } from "@sdk/operations-api";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsFamilyEdition } from "./OperationsFamilyEdition";
 
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string, options?: { lng?: string }) => {
+        const translations: Record<string, Record<string, string>> = {
+          fr: {
+            "common.title": "Intitulé",
+            "common.summary": "Résumé",
+          },
+          en: {
+            "common.title": "Title",
+            "common.summary": "Summary",
+          },
+        };
+        const lng = options?.lng || "en";
+        return translations[lng]?.[key] || key;
+      },
+    }),
+  };
+});
+
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: {
     createFamily: vi.fn(),

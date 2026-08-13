@@ -1,6 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 import { Row } from "@components/layout";
 
-import { D } from "../i18n/build-dictionary";
 import { SimsGeographyI18NLabel } from "./SimsGeographyI18NLabel";
 
 export interface Geography {
@@ -23,13 +24,15 @@ export const SimsGeographySelector = ({
   onRemoveExclude,
   onRemoveInclude,
 }: Readonly<SimsGeographySelectorTypes>) => {
+  const { t } = useTranslation();
+
   const excludedItems = excludes.map((geography) => (
     <li className="list-group-item" key={geography.value}>
       <SimsGeographyI18NLabel geography={geography} />
       <button
         type="button"
         className="documentsbloc-delete documentsbloc-btn"
-        aria-label={D.btnDelete}
+        aria-label={t("geography.btnDelete")}
         onClick={() => onRemoveExclude(geography)}
       >
         <span className="glyphicon glyphicon-trash" aria-hidden="true" />
@@ -43,7 +46,7 @@ export const SimsGeographySelector = ({
       <button
         type="button"
         className="documentsbloc-delete documentsbloc-btn"
-        aria-label={D.btnDelete}
+        aria-label={t("geography.btnDelete")}
         onClick={() => onRemoveInclude(geography)}
       >
         <span className="glyphicon glyphicon-trash" aria-hidden="true" />
@@ -54,11 +57,11 @@ export const SimsGeographySelector = ({
   return (
     <Row>
       <div className="col-md-6">
-        <h4>{D.includedZone}</h4>
+        <h4>{t("geography.includedZone")}</h4>
         {includedItems}
       </div>
       <div className="col-md-6">
-        <h4>{D.excludedZone}</h4>
+        <h4>{t("geography.excludedZone")}</h4>
         {excludedItems}
       </div>
     </Row>

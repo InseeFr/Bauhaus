@@ -9,12 +9,15 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
+
 import { IndicatorsList } from "../../../../model/operations/indicator";
 import { Menu } from "./menu";
 
 export const Component = () => {
-  useTitle(D.operationsTitle, D.indicatorsTitle);
+  const { t } = useTranslation();
+
+  useTitle(t("common.operationsTitle"), t("common.indicatorsTitle"));
 
   const [loading, setLoading] = useState(true);
 
@@ -33,7 +36,7 @@ export const Component = () => {
       <Row>
         <Menu></Menu>
         <div className="col-md-8 text-center pull-right operations-list">
-          <PageTitle title={D.indicatorsSearchTitle} col={12} offset={0} />
+          <PageTitle title={t("indicators.searchTitle")} col={12} offset={0} />
           <SearchableList items={indicators} childPath="operations/indicator" autoFocus />
         </div>
       </Row>

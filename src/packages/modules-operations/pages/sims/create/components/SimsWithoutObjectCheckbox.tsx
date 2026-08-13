@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { D1, D2 } from "../../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 
 export const SimsWithoutObjectCheckbox = ({
@@ -13,7 +13,7 @@ export const SimsWithoutObjectCheckbox = ({
   onChange: (checked: boolean) => void;
   secondLang: boolean;
 }>) => {
-  const dictionary = secondLang ? D2 : D1;
+  const { t } = useTranslation();
   const [modalDisplay, setModalDisplayMode] = useState<boolean>(false);
   const input = useRef<HTMLInputElement>(null);
 
@@ -27,11 +27,11 @@ export const SimsWithoutObjectCheckbox = ({
             setModalDisplayMode(false);
             onChange(true);
           }}
-          message={D1.simsConfirmationMessage}
+          message={t("sims.simsConfirmationMessage", { lng: "fr" })}
         />
       )}
       <label>
-        {dictionary.simsWithoutObject}
+        {t("sims.simsWithoutObject", { lng: secondLang ? "en" : "fr" })}
         <input
           ref={input}
           type="checkbox"

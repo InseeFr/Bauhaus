@@ -5,6 +5,18 @@ import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 import { Indicator } from "../../../../model/operations/indicator";
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "sims.btnSimsVisu": "Show the report",
+        "sims.btnSimsCreate": "Create the report",
+      };
+      return translations[key] ?? key;
+    },
+  }),
+}));
+
 describe("Family Home Page Menu", () => {
   afterEach(() => {
     vi.resetModules();

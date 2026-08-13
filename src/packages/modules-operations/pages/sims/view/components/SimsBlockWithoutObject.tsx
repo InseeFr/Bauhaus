@@ -1,5 +1,6 @@
-import D from "../../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
 
 export const SimsBlockWithoutObject = () => {
-  return <p>{D.simsWithoutObject}</p>;
+  const { t } = useTranslation();
+  return <p>{t("sims.simsWithoutObject")}</p>;
 };

@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -11,11 +12,12 @@ import { Loading } from "@components/loading";
 
 import { GeographieApi } from "@sdk/geographie";
 
-import { D, D1, D2 } from "../i18n/build-dictionary";
 import { useGeographies } from "../hooks/useGeographies";
 import { SimsGeographySelector } from "./SimsGeographySelector";
 
 export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
+  const { t } = useTranslation();
+
   const [name, setName] = useState(territory.labelLg1 ?? "");
 
   const [nameLg2, setNameLg2] = useState(territory.labelLg2 ?? "");
@@ -90,11 +92,11 @@ export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
       <ErrorBloc error={serverSideError} />
       <Row>
         <div className="form-group col-md-6">
-          <LabelRequired className="form-label w-100">{D1.simsGeographyZoneName}</LabelRequired>
+          <LabelRequired className="form-label w-100">{t("geography.zoneName", { lng: "fr" })}</LabelRequired>
           <TextInput value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div className="form-group col-md-6">
-          <LabelRequired className="form-label w-100">{D2.simsGeographyZoneName}</LabelRequired>
+          <LabelRequired className="form-label w-100">{t("geography.zoneName", { lng: "en" })}</LabelRequired>
           <TextInput value={nameLg2} onChange={(e) => setNameLg2(e.target.value)} />
         </div>
       </Row>
@@ -115,7 +117,7 @@ export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
             disabled={!selectedOption}
             onClick={include}
           >
-            {D.include}
+            {t("geography.include")}
           </button>
           <button
             type="button"
@@ -123,7 +125,7 @@ export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
             disabled={!selectedOption}
             onClick={exclude}
           >
-            {D.exclude}
+            {t("geography.exclude")}
           </button>
         </div>
       </div>

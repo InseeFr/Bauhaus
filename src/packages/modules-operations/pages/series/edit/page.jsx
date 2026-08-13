@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
@@ -11,11 +12,12 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../../../application/app-context";
-import D from "../../../../deprecated-locales";
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
 import { OperationsSerieEdition } from "./components/OperationsSerieEdition";
 
 export const Component = (props) => {
+  const { t } = useTranslation();
+
   const { id } = useParams();
 
   const [serie, setSerie] = useState({});
@@ -52,7 +54,7 @@ export const Component = (props) => {
     OperationsApi.getSeriesList().then((results) => setSeries(results));
   }, []);
 
-  useTitle(D.seriesTitle + " - " + D.operationsTitle, serie?.prefLabelLg1);
+  useTitle(t("common.seriesTitle") + " - " + t("common.operationsTitle"), serie?.prefLabelLg1);
 
   const {
     properties: { extraMandatoryFields },

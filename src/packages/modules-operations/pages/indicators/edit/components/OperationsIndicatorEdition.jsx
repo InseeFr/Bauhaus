@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import { Component } from "react";
 
 import { CreatorsInput } from "@components/business/creators-input";
@@ -16,7 +17,6 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
-import D, { D1, D2 } from "../../../../../deprecated-locales";
 import { CL_FREQ } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
 import { Control } from "./Control";
@@ -161,16 +161,16 @@ export class OperationsIndicatorEdition extends Component {
         {this.state.submitting && this.state.clientSideErrors && (
           <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} />
         )}
-        {this.state.serverSideError && <ErrorBloc error={this.state.serverSideError} D={D} />}
+        {this.state.serverSideError && <ErrorBloc error={this.state.serverSideError} />}
         <form>
           <h4 className="text-center">
-            ( <RequiredIcon /> : {D.requiredFields})
+            ( <RequiredIcon /> : {i18next.t("app.requiredFields", { lng: "fr" })})
           </h4>
           <Row>
             <InputRmes
               colMd={6}
               value={indicator.prefLabelLg1}
-              label={D1.title}
+              label={i18next.t("common.title", { lng: "fr" })}
               star
               handleChange={this.onChanges.prefLabelLg1}
               arias={{
@@ -190,7 +190,7 @@ export class OperationsIndicatorEdition extends Component {
             <InputRmes
               colMd={6}
               value={indicator.prefLabelLg2}
-              label={D2.title}
+              label={i18next.t("common.title", { lng: "en" })}
               star
               handleChange={this.onChanges.prefLabelLg2}
               arias={{
@@ -212,28 +212,28 @@ export class OperationsIndicatorEdition extends Component {
             <InputRmes
               colMd={6}
               value={indicator.altLabelLg1}
-              label={D1.altLabel}
+              label={i18next.t("app.altLabel", { lng: "fr" })}
               handleChange={this.onChanges.altLabelLg1}
               className="w-100"
             />
             <InputRmes
               colMd={6}
               value={indicator.altLabelLg2}
-              label={D2.altLabel}
+              label={i18next.t("app.altLabel", { lng: "en" })}
               handleChange={this.onChanges.altLabelLg2}
               className="w-100"
             />
           </Row>
           <Row>
             <div className="form-group col-md-6">
-              <label htmlFor="abstractLg1">{D1.summary}</label>
+              <label htmlFor="abstractLg1">{i18next.t("common.summary", { lng: "fr" })}</label>
               <EditorMarkdown
                 text={indicator.abstractLg1}
                 handleChange={this.onChanges.abstractLg1}
               />
             </div>
             <div className="form-group col-md-6">
-              <label htmlFor="abstractLg2">{D2.summary}</label>
+              <label htmlFor="abstractLg2">{i18next.t("common.summary", { lng: "en" })}</label>
               <EditorMarkdown
                 text={indicator.abstractLg2}
                 handleChange={this.onChanges.abstractLg2}
@@ -242,14 +242,14 @@ export class OperationsIndicatorEdition extends Component {
           </Row>
           <Row>
             <div className="form-group col-md-6">
-              <label htmlFor="historyNoteLg1">{D1.history}</label>
+              <label htmlFor="historyNoteLg1">{i18next.t("common.history", { lng: "fr" })}</label>
               <EditorMarkdown
                 text={indicator.historyNoteLg1}
                 handleChange={this.onChanges.historyNoteLg1}
               />
             </div>
             <div className="form-group col-md-6">
-              <label htmlFor="historyNoteLg2">{D2.history}</label>
+              <label htmlFor="historyNoteLg2">{i18next.t("common.history", { lng: "en" })}</label>
               <EditorMarkdown
                 text={indicator.historyNoteLg2}
                 handleChange={this.onChanges.historyNoteLg2}
@@ -259,7 +259,7 @@ export class OperationsIndicatorEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               <label htmlFor="accrualPeriodicity" className="w-100">
-                {D1.indicatorDataCollectFrequency}
+                {i18next.t("common.indicatorDataCollectFrequency", { lng: "fr" })}
                 <Select
                   placeholder=""
                   value={indicator.accrualPeriodicityCode}
@@ -300,8 +300,8 @@ export class OperationsIndicatorEdition extends Component {
                 multi
                 required={false}
                 lang="first"
-                labelSingle={D1.stakeholders}
-                labelMulti={D1.stakeholders}
+                labelSingle={i18next.t("common.stakeholders", { lng: "fr" })}
+                labelMulti={i18next.t("common.stakeholders", { lng: "fr" })}
                 value={indicator.contributors}
                 onChange={this.onChange("contributors")}
               />
@@ -310,7 +310,7 @@ export class OperationsIndicatorEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               <label className="w-100">
-                {D1.replaces}
+                {i18next.t("common.replaces", { lng: "fr" })}
                 <Select
                   value={indicator.replaces}
                   options={indicatorsOptions}
@@ -333,7 +333,7 @@ export class OperationsIndicatorEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               <label className="w-100">
-                {D1.replacedByMasc}
+                {i18next.t("common.replacedByMasc", { lng: "fr" })}
                 <Select
                   value={indicator.replacedBy}
                   options={indicatorsOptions}
@@ -355,7 +355,7 @@ export class OperationsIndicatorEdition extends Component {
           </Row>
           <Row>
             <div className="form-group col-md-12">
-              <LabelRequired className="w-100">{D1.generatedBy}</LabelRequired>
+              <LabelRequired className="w-100">{i18next.t("common.generatedBy", { lng: "fr" })}</LabelRequired>
               <Select
                 value={indicator.wasGeneratedBy}
                 options={seriesOptions}
@@ -381,7 +381,7 @@ export class OperationsIndicatorEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               <label htmlFor="seeAlso" className="w-100">
-                {D1.seeAlso}
+                {i18next.t("common.seeAlso", { lng: "fr" })}
                 <Select
                   value={indicator.seeAlso}
                   options={seriesAndIndicatorsOptions}

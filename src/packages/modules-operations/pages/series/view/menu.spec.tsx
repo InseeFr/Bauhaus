@@ -5,6 +5,22 @@ import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 import { Series } from "../../../../model/operations/series";
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          "sims.btnSimsVisu": "Show the report",
+          "sims.btnSimsCreate": "Create the report",
+        };
+        return translations[key] || key;
+      },
+    }),
+  };
+});
+
 describe("Family Home Page Menu", () => {
   afterEach(() => {
     cleanup();

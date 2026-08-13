@@ -4,6 +4,24 @@ import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsFamilyVisualization } from "./OperationsFamilyVisualization";
 import { ValidationState } from "../../../../../components/status";
 
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string, options?: { lng?: string }) => {
+        const translations: Record<string, Record<string, string>> = {
+          fr: {
+            "common.familyStatus": "État de la famille",
+          },
+        };
+        const lng = options?.lng || "en";
+        return translations[lng]?.[key] || key;
+      },
+    }),
+  };
+});
+
 const mockFamily = {
   id: "1",
   prefLabelLg1: "Family Label LG1",

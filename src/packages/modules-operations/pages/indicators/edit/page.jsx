@@ -10,7 +10,8 @@ import { useOrganizations } from "@utils/hooks/organizations";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
+
 import { CL_FREQ } from "../../../../constants/code-lists";
 import { OperationsIndicatorEdition } from "./components/OperationsIndicatorEdition";
 
@@ -22,6 +23,8 @@ export const Component = (props) => {
   const { data: organisations } = useOrganizations();
 
   const goBack = useGoBack();
+
+  const { t } = useTranslation();
 
   const [indicator, setIndicator] = useState({});
 
@@ -43,7 +46,7 @@ export const Component = (props) => {
     OperationsApi.getSeriesList().then((payload) => setSeries(payload));
   }, []);
 
-  useTitle(D.indicatorsTitle, indicator?.prefLabelLg1);
+  useTitle(t("common.indicatorsTitle"), indicator?.prefLabelLg1);
 
   if (!indicator.id && id) return <Loading />;
 

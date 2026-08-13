@@ -1,10 +1,12 @@
+import { useTranslation } from "react-i18next";
+
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
-import D, { D2 } from "../../../../deprecated-locales/build-dictionary";
 import { useEssentialRubricContext } from "../hooks/useEssentialRubricContext";
 
 export const RubricEssentialMsg = ({ secondLang }) => {
+  const { t } = useTranslation();
   const essentialRubricContext = useEssentialRubricContext();
   const numberOfEssantialRubricsKOLg1 = Object.values(essentialRubricContext).filter(
     (rubric: any) => rubric.essentialRubricKoLg1,
@@ -18,21 +20,28 @@ export const RubricEssentialMsg = ({ secondLang }) => {
   const numberOfEssantialRubricsOKLg1 = numberOfEssantialRubrics - numberOfEssantialRubricsKOLg1;
   const numberOfEssantialRubricsOKLg2 = numberOfEssantialRubrics - numberOfEssantialRubricsKOLg2;
 
-  const i18nkeyLg1 =
-    numberOfEssantialRubricsOKLg1 === 1 ? D.essentialRubricMsg : D.essentialRubricMsgPlural;
-  const i18nkeyLg2 =
-    numberOfEssantialRubricsOKLg2 === 1 ? D2.essentialRubricMsg : D2.essentialRubricMsgPlural;
+  const essentialRubricKeyLg1 =
+    numberOfEssantialRubricsOKLg1 === 1 ? "sims.essentialRubricMsg" : "sims.essentialRubricMsgPlural";
+  const essentialRubricKeyLg2 =
+    numberOfEssantialRubricsOKLg2 === 1 ? "sims.essentialRubricMsg" : "sims.essentialRubricMsgPlural";
   return (
     <Row>
       <Note
-        text={i18nkeyLg1(numberOfEssantialRubricsOKLg1, numberOfEssantialRubrics)}
-        title={D.essentialRubric}
+        text={t(essentialRubricKeyLg1, {
+          nb: numberOfEssantialRubricsOKLg1,
+          total: numberOfEssantialRubrics,
+        })}
+        title={t("sims.essentialRubric")}
         alone={!secondLang}
       />
       {secondLang && (
         <Note
-          text={i18nkeyLg2(numberOfEssantialRubricsOKLg2, numberOfEssantialRubrics)}
-          title={D2.essentialRubric}
+          text={t(essentialRubricKeyLg2, {
+            nb: numberOfEssantialRubricsOKLg2,
+            total: numberOfEssantialRubrics,
+            lng: "en",
+          })}
+          title={t("sims.essentialRubric", { lng: "en" })}
           alone={!secondLang}
         />
       )}

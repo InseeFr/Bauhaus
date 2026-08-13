@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { Note } from "@components/note";
 
-import { D1, D2 } from "../../deprecated-locales";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
 interface DisplayLinksTypes {
@@ -24,6 +24,8 @@ export function DisplayLinks({
   labelLg1 = "labelLg1",
   labelLg2 = "labelLg2",
 }: Readonly<DisplayLinksTypes>) {
+  const { t } = useTranslation();
+
   function displayBlock(link: Record<string, string>, label: string) {
     if (displayLink) {
       return <Link to={`${path}${link.id}`}>{link[label]}</Link>;
@@ -49,14 +51,14 @@ export function DisplayLinks({
     <div className="row bauhaus-display-links">
       <Note
         text={links.length === 1 ? displayItem(labelLg1) : displayList(labelLg1)}
-        title={D1[title]}
+        title={t(`common.${title}`, { lng: "fr" })}
         alone={!secondLang}
         allowEmpty={true}
       />
       {secondLang && (
         <Note
           text={links.length === 1 ? displayItem(labelLg2) : displayList(labelLg2)}
-          title={D2[title]}
+          title={t(`common.${title}`, { lng: "en" })}
           alone={false}
           allowEmpty={true}
         />

@@ -11,7 +11,6 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useCodesList } from "@utils/hooks/codeslist";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import D from "../../../../deprecated-locales";
 import { CL_FREQ } from "../../../../constants/code-lists";
 import { OperationsIndicatorVisualization } from "./components/OperationsIndicatorVisualization";
 import { Menu } from "./menu";
@@ -53,7 +52,7 @@ export const Component = () => {
     <div className="container">
       <PageTitleBlock titleLg1={indicator.prefLabelLg1} titleLg2={indicator.prefLabelLg2} />
       <Menu indicator={indicator} publish={publish} />
-      <ErrorBloc error={serverSideError} D={D} />
+      <ErrorBloc error={serverSideError} />
       <CheckSecondLang />
       <OperationsIndicatorVisualization
         secondLang={secondLang}

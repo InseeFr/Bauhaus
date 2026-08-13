@@ -6,7 +6,8 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import D, { D1, D2 } from "../../../../deprecated-locales";
+import i18next from "i18next";
+
 import NewDictionary from "../../../../i18n";
 import { Document } from "../../../../model/operations/document";
 import { LINK } from "../../../constants/documentType";
@@ -17,21 +18,21 @@ const Base = (
   currentLabelLg2: string,
 ) =>
   z.object({
-    labelLg1: mandatoryAndNotEmptyTextField(D1.title).refine(
+    labelLg1: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "fr" })).refine(
       (value) =>
         value === currentLabelLg1 ||
         !documentsAndLinksList.map((document: Document) => document.labelLg1).includes(value),
 
-      { error: D.duplicatedTitle },
+      { error: i18next.t("app.duplicatedTitle") },
     ),
-    labelLg2: mandatoryAndNotEmptyTextField(D2.title).refine(
+    labelLg2: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "en" })).refine(
       (value) =>
         value === currentLabelLg2 ||
         !documentsAndLinksList.map((document: Document) => document.labelLg2).includes(value),
 
-      { error: D.duplicatedTitle },
+      { error: i18next.t("app.duplicatedTitle") },
     ),
-    lang: mandatoryAndNotEmptySelectField(D.langTitle),
+    lang: mandatoryAndNotEmptySelectField(i18next.t("app.langTitle")),
   });
 
 const ZodLink = (
@@ -45,15 +46,15 @@ const ZodLink = (
         protocol: /^https?$/,
         error: (issue) =>
           issue.input === undefined
-            ? NewDictionary.errors.mandatoryProperty(D.titleLink)
-            : D.badUrl,
+            ? NewDictionary.errors.mandatoryProperty(i18next.t("documents.titleLink"))
+            : i18next.t("validation.badUrl"),
       })
       .trim()
-      .min(1, { error: NewDictionary.errors.mandatoryProperty(D.titleLink) }),
+      .min(1, { error: NewDictionary.errors.mandatoryProperty(i18next.t("documents.titleLink")) }),
   });
 
 const File = z.object({
-  name: z.string().regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { error: D.wrongFileName }),
+  name: z.string().regex(/^(.+\/)?[a-zA-Z0-9-_.]+$/, { error: i18next.t("validation.wrongFileName") }),
 });
 
 const ZodDocument = (
@@ -64,13 +65,13 @@ const ZodDocument = (
   Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
     updatedDate: z
       .string({
-        error: (issue) => issue.input === undefined && D.requiredUpdatedDate,
+        error: (issue) => issue.input === undefined && i18next.t("validation.requiredUpdatedDate"),
       })
-      .min(1, { error: D.requiredUpdatedDate })
+      .min(1, { error: i18next.t("validation.requiredUpdatedDate") })
       .nullable()
-      .refine((value) => value !== null, { error: D.requiredUpdatedDate }),
+      .refine((value) => value !== null, { error: i18next.t("validation.requiredUpdatedDate") }),
     files: z.array(File).nonempty({
-      error: D.requiredFile,
+      error: i18next.t("validation.requiredFile"),
     }),
   });
 

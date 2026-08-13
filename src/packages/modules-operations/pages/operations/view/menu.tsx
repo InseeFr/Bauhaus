@@ -5,8 +5,9 @@ import { ValidationButton } from "@components/validationButton";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 
+import { useTranslation } from "react-i18next";
+
 import { HasAccess } from "../../../../auth/components/auth";
-import D from "../../../../deprecated-locales/build-dictionary";
 import { Operation } from "../../../../model/Operation";
 
 interface MenuTypes {
@@ -17,17 +18,19 @@ interface MenuTypes {
 export const Menu = ({ operation, onPublish }: Readonly<MenuTypes>) => {
   const goBack = useGoBack();
 
+  const { t } = useTranslation();
+
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/operations/operations")} />
       {operation.idSims && (
-        <Button action={`/operations/sims/${operation.idSims}`} label={D.btnSimsVisu} />
+        <Button action={`/operations/sims/${operation.idSims}`} label={t("sims.btnSimsVisu")} />
       )}
       {!operation.idSims && (
         <HasAccess module="OPERATION_SIMS" privilege="CREATE" stamps={operation.series.creators}>
           <Button
             action={`/operations/operation/${operation.id}/sims/create`}
-            label={D.btnSimsCreate}
+            label={t("sims.btnSimsCreate")}
           />
         </HasAccess>
       )}

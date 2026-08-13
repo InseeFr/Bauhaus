@@ -1,8 +1,9 @@
+import { useTranslation } from "react-i18next";
+
 import { Select } from "@components/select-rmes";
 
 import { useCodesList } from "@utils/hooks/codeslist";
 
-import D from "../../../../../deprecated-locales";
 import { Option } from "../../../../../model/SelectOption";
 import { CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
 
@@ -12,6 +13,8 @@ interface TypeCodeInputTypes {
 }
 
 export const TypeCodeInput = ({ value, onChange }: Readonly<TypeCodeInputTypes>) => {
+  const { t } = useTranslation();
+
   const categories = useCodesList(CL_SOURCE_CATEGORY);
 
   const options: Option[] = categories?.codes?.map((cat) => {
@@ -20,7 +23,7 @@ export const TypeCodeInput = ({ value, onChange }: Readonly<TypeCodeInputTypes>)
 
   return (
     <label className="w-100">
-      {D.operationType}
+      {t("common.operationType")}
       <Select placeholder="" value={value} options={options} onChange={onChange} />
     </label>
   );

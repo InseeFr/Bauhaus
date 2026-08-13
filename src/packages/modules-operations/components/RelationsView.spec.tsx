@@ -6,6 +6,23 @@ import { vi } from "vitest";
 
 import { RelationsView } from "./RelationsView";
 
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string, options?: { lng?: string }) => {
+        const translations: Record<string, Record<string, string>> = {
+          fr: { "app.linksTitle": "Liens" },
+          en: { "app.linksTitle": "Links" },
+        };
+        const lng = options?.lng || "en";
+        return translations[lng]?.[key] || key;
+      },
+    }),
+  };
+});
+
 vi.mock("@components/layout", () => ({
   Row: ({ children }: { children: ReactNode }) => <div>{children}</div>,
 }));
@@ -45,7 +62,6 @@ describe("RelationsView Component", () => {
     children,
     childrenTitle: "childrenTitle",
     childrenPath: "childrenPath",
-    title: "title",
     secondLang: true,
     langSuffix: "Lg1",
   } as unknown as any;
@@ -63,7 +79,7 @@ describe("RelationsView Component", () => {
     screen.getByText("Libellé Enfant 1 Lg2");
     screen.getByText("Libellé Enfant 2 Lg1");
     screen.getByText("Libellé Enfant 2 Lg2");
-    screen.getByText("Intitulé");
-    screen.getByText("Title");
+    screen.getByText("Liens");
+    screen.getByText("Links");
   });
 });

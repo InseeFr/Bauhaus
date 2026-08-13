@@ -13,7 +13,6 @@ import { useOrganizations } from "@utils/hooks/organizations";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useLocales } from "@utils/hooks/useLocales";
 
-import D from "../../../../deprecated-locales";
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
 import { OperationsSerieVisualization } from "./components/OperationsSerieVisualization";
 import { Menu } from "./menu";
@@ -63,7 +62,7 @@ export const Component = () => {
     <div className="container">
       <PageTitleBlock titleLg1={series.prefLabelLg1} titleLg2={series.prefLabelLg2} />
       <Menu series={series} onPublish={publish} />
-      <ErrorBloc error={serverSideError} D={D} />
+      <ErrorBloc error={serverSideError} />
       <CheckSecondLang />
       <OperationsSerieVisualization
         secondLang={secondLang}

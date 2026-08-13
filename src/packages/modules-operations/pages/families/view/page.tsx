@@ -10,7 +10,6 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import D from "../../../../deprecated-locales";
 import { Family } from "../../../../model/operations/family";
 import { Menu } from "./menu";
 import { OperationsFamilyVisualization } from "./components/OperationsFamilyVisualization";
@@ -48,7 +47,7 @@ export const Component = () => {
     <div className="container">
       <PageTitleBlock titleLg1={family.prefLabelLg1} titleLg2={family.prefLabelLg2} />
       <Menu family={family} publish={publish} />
-      <ErrorBloc error={serverSideError} D={D} />
+      <ErrorBloc error={serverSideError} />
       <CheckSecondLang />
       <OperationsFamilyVisualization secondLang={secondLang} attr={family} />
     </div>

@@ -12,7 +12,8 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../deprecated-locales";
+import { useTranslation } from "react-i18next";
+
 import "./tree.css";
 
 const formatFamily = (family) => {
@@ -45,7 +46,9 @@ const formatOperation = (operation, seriesId) => {
 };
 
 export const Component = () => {
-  useTitle(D.operationsTitle, D.operationsTreeTitle);
+  const { t } = useTranslation();
+
+  useTitle(t("common.operationsTitle"), t("tree.title"));
 
   const [treeData, setTreeData] = useState([]);
 
@@ -135,7 +138,7 @@ export const Component = () => {
 
   return (
     <div className="container">
-      <PageTitle title={D.operationsTreeTitle} col={12} offset={0} />
+      <PageTitle title={t("tree.title")} col={12} offset={0} />
       <ActionToolbar>
         <ReturnButton action={() => goBack("/operations")} />
       </ActionToolbar>

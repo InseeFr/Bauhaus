@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, Navigate } from "react-router-dom";
 
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
@@ -13,7 +14,6 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useTitle } from "@utils/hooks/useTitle";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
-import D from "../../../../deprecated-locales";
 import { filterKeyDeburr } from "../../../../utils/array-utils";
 import { TypeCodeInput } from "./components/TypeCodeInput";
 
@@ -30,6 +30,8 @@ const defaultFormState = {
 };
 
 export const SearchFormList = ({ data }) => {
+  const { t } = useTranslation();
+
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
 
   const { prefLabelLg1, typeCode, creator, publisher, dataCollector } = form;
@@ -63,17 +65,17 @@ export const SearchFormList = ({ data }) => {
 
   return (
     <AdvancedSearchList
-      title={D.seriesSearchTitle}
+      title={t("series.searchTitle")}
       data={dataLinks}
       initializeState={reset}
       redirect={<Navigate to="/operations/series" />}
     >
       <AdvancedSearchCard className="series-search-form">
         <SearchTextField
-          label={D.labelTitle}
+          label={t("app.labelTitle")}
           value={prefLabelLg1}
           onChange={(value) => handleChange("prefLabelLg1", value)}
-          placeholder={D.searchLabelPlaceholder}
+          placeholder={t("app.searchLabelPlaceholder")}
         />
         <div className="field col-12 md:col-6">
           <TypeCodeInput value={typeCode} onChange={(value) => handleChange("typeCode", value)} />
@@ -92,8 +94,8 @@ export const SearchFormList = ({ data }) => {
         <div className="field col-12 md:col-6">
           <OrganisationInput
             lang="default"
-            labelSingle={D.organisation}
-            labelMulti={D.organisation}
+            labelSingle={t("common.organisation")}
+            labelMulti={t("common.organisation")}
             value={publisher}
             required={false}
             onChange={(value) => {
@@ -104,8 +106,8 @@ export const SearchFormList = ({ data }) => {
         <div className="field col-12 md:col-6">
           <OrganisationInput
             lang="default"
-            labelSingle={D.dataCollector}
-            labelMulti={D.dataCollector}
+            labelSingle={t("common.dataCollector")}
+            labelMulti={t("common.dataCollector")}
             value={dataCollector}
             required={false}
             onChange={(value) => {
@@ -119,7 +121,9 @@ export const SearchFormList = ({ data }) => {
 };
 
 export const Component = () => {
-  useTitle(D.seriesTitle + " - " + D.operationsTitle, D.advancedSearch);
+  const { t } = useTranslation();
+
+  useTitle(t("common.seriesTitle") + " - " + t("common.operationsTitle"), t("app.advancedSearch"));
 
   const [data, setData] = useState();
 

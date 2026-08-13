@@ -4,6 +4,17 @@ import { describe, it, vi } from "vitest";
 
 import { YearInput } from "./YearInput";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "common.year": "Year",
+      };
+      return translations[key] ?? key;
+    },
+  }),
+}));
+
 describe("YearInput Component", () => {
   it("renders the label and NumberInput inside a Row", () => {
     const mockOnChange = vi.fn();

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -9,7 +11,6 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useOrganizations } from "@utils/hooks/organizations";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { D1, D2 } from "../../../../deprecated-locales";
 import { useCodesLists } from "../../../hooks/useCodesLists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { useSaveSims, useSims } from "../../../hooks/useSims";
@@ -57,6 +58,7 @@ function reducer(state, action) {
 }
 
 export const Component = () => {
+  const { t } = useTranslation();
   const { baseUrl, mode, disableSectionAnchor, parentType: parentTypeProp } = useLoaderData() ?? {};
   const params = useParams();
   const { data: organisations } = useOrganizations();
@@ -94,8 +96,8 @@ export const Component = () => {
   const currentSims =
     mode === CREATE
       ? {
-          labelLg1: D1.simsTitle + parent?.prefLabelLg1,
-          labelLg2: D2.simsTitle + parent?.prefLabelLg2,
+          labelLg1: t("sims.simsTitle", { lng: "fr" }) + parent?.prefLabelLg1,
+          labelLg2: t("sims.simsTitle", { lng: "en" }) + parent?.prefLabelLg2,
         }
       : sims || {};
 

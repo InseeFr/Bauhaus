@@ -2,10 +2,15 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { PublishersInput } from "./PublishersInput";
 
-vi.mock("../../i18n/build-dictionary", () => ({
-  D1: {
-    organisation: "Organisation publiante",
-  },
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "common.organisation": "Organisation publiante",
+      };
+      return translations[key] ?? key;
+    },
+  }),
 }));
 
 vi.mock("../../components/business/stamps-input/stamps-input", () => ({

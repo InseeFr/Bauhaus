@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -6,8 +8,6 @@ import { PublicationStatusItem } from "@components/status";
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
-import { D1, D2 } from "../../../../../deprecated-locales";
-import D from "../../../../../deprecated-locales/build-dictionary";
 import { DisplayLinks } from "../../../../components/DisplayLinks";
 import { getSeeAlsoByType } from "../../../../utils/getSeeAlsoByType";
 import { RelationsView } from "../../../../components/RelationsView";
@@ -15,7 +15,9 @@ import { SeeAlso } from "../../../../components/SeeAlso";
 import { InseeOrganisationNotes } from "@components/business/creators-view";
 
 export function OperationsSerieVisualization({ attr, secondLang, frequency = {}, category = {} }) {
-  useTitle(D.seriesTitle + " - " + D.operationsTitle, attr?.prefLabelLg1);
+  const { t } = useTranslation();
+
+  useTitle(t("common.seriesTitle") + " - " + t("common.operationsTitle"), attr?.prefLabelLg1);
 
   const seeAlso = getSeeAlsoByType(attr.seeAlso);
 
@@ -26,30 +28,35 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
           text={
             <ul>
               <CreationUpdateItems creation={attr.created} update={attr.modified} />
-              <PublicationStatusItem label={D1.seriesStatus} object={attr} gender="female" />
+              <PublicationStatusItem label={t("common.seriesStatus", { lng: "fr" })} object={attr} gender="female" />
             </ul>
           }
-          title={D1.globalInformationsTitle}
+          title={t("app.globalInformationsTitle", { lng: "fr" })}
           alone={true}
         />
       </Row>
       <Row>
-        <Note text={attr.altLabelLg1} title={D1.altLabel} alone={!secondLang} allowEmpty={true} />
+        <Note
+          text={attr.altLabelLg1}
+          title={t("app.altLabel", { lng: "fr" })}
+          alone={!secondLang}
+          allowEmpty={true}
+        />
         {secondLang && (
-          <Note text={attr.altLabelLg2} title={D2.altLabel} alone={false} allowEmpty={true} />
+          <Note text={attr.altLabelLg2} title={t("app.altLabel", { lng: "en" })} alone={false} allowEmpty={true} />
         )}
       </Row>
       <Row>
         <Note
           text={renderMarkdownElement(attr.abstractLg1)}
-          title={D1.summary}
+          title={t("common.summary", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={renderMarkdownElement(attr.abstractLg2)}
-            title={D2.summary}
+            title={t("common.summary", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />
@@ -58,14 +65,14 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
       <Row>
         <Note
           text={renderMarkdownElement(attr.historyNoteLg1)}
-          title={D1.history}
+          title={t("common.history", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={renderMarkdownElement(attr.historyNoteLg2)}
-            title={D2.history}
+            title={t("common.history", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />
@@ -74,25 +81,30 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
       <Row>
         <Note
           text={category.labelLg1}
-          title={D1.operationType}
+          title={t("common.operationType", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
-          <Note text={category.labelLg2} title={D2.operationType} alone={false} allowEmpty={true} />
+          <Note
+            text={category.labelLg2}
+            title={t("common.operationType", { lng: "en" })}
+            alone={false}
+            allowEmpty={true}
+          />
         )}
       </Row>
       <Row>
         <Note
           text={frequency.labelLg1}
-          title={D1.dataCollectFrequency}
+          title={t("common.dataCollectFrequency", { lng: "fr" })}
           alone={!secondLang}
           allowEmpty={true}
         />
         {secondLang && (
           <Note
             text={frequency.labelLg2}
-            title={D2.dataCollectFrequency}
+            title={t("common.dataCollectFrequency", { lng: "en" })}
             alone={false}
             allowEmpty={true}
           />
@@ -101,19 +113,19 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
       <Row id="publishers">
         <InseeOrganisationNotes
           organisations={attr.publishers?.map((p) => p?.id ?? p)}
-          title={D1.organisation}
+          title={t("common.organisation", { lng: "fr" })}
         />
       </Row>
       <Row id="contributors">
         <InseeOrganisationNotes
           organisations={attr.contributors?.map((c) => c?.id ?? c)}
-          title={D1.stakeholders}
+          title={t("common.stakeholders", { lng: "fr" })}
         />
       </Row>
       <Row id="dataCollectors">
         <InseeOrganisationNotes
           organisations={attr.dataCollectors?.map((c) => c?.id ?? c)}
-          title={D1.dataCollector}
+          title={t("common.dataCollector", { lng: "fr" })}
         />
       </Row>
       <Row id="creators">
@@ -143,9 +155,8 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
         childrenTitle="childrenOperations"
         childrenPath="operation"
         parent={attr.family}
-        parentTitle="parentFamilly"
+        parentTitle="parentFamily"
         parentPath="family"
-        title="linksTitle"
         secondLang={secondLang}
       />
     </>

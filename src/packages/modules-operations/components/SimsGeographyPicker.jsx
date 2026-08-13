@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { SeeButton } from "@components/buttons/see";
 import { Select } from "@components/select-rmes";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { HasAccess } from "../../auth/components/auth";
-import { D } from "../i18n/build-dictionary";
 import { SimsGeographyField } from "./SimsGeographyField";
 import { SimsGeographyI18NLabel } from "./SimsGeographyI18NLabel";
 import "./SimsGeographyPicker.css";
@@ -33,6 +33,7 @@ const reducer = (acc, [key]) => acc.replace(new RegExp(accentsMap.get(key), "g")
 export const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
 
 export const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLang = false }) => {
+  const { t } = useTranslation();
   const [territory, setTerritory] = useState();
 
   const { geographiesOptions } = useGeographiesOptions();
@@ -93,14 +94,14 @@ export const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLa
             onChange={(value) => onChange(value)}
             placeholder=""
             isSearchable={true}
-            noResultsText={D.noResult}
+            noResultsText={t("geography.noResult")}
             isClearable={true}
             formatOptionLabel={formatOptionLabel}
           />
         </div>
         <HasAccess module="GEOGRAPHY" privilege="CREATE">
           <button type="button" className="btn btn-default" onClick={openNewPanel}>
-            {D.btnNew}
+            {t("geography.btnNew")}
           </button>
         </HasAccess>
         <SeeButton disabled={!shouldSeeViewButton} onClick={openViewPanel}></SeeButton>

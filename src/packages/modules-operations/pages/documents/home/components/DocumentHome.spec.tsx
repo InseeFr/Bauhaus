@@ -5,6 +5,22 @@ import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 import { HomeDocument } from "../../../../../model/operations/document";
 import { mockReactQueryForRbac, renderWithRouter } from "../../../../../tests/render";
 
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          "documents.document": "Document",
+          "documents.link": "Link",
+        };
+        return translations[key] || key;
+      },
+    }),
+  };
+});
+
 describe("DocumentHome", () => {
   afterEach(() => {
     vi.resetModules();

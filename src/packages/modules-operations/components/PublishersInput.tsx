@@ -1,5 +1,6 @@
+import { useTranslation } from "react-i18next";
+
 import { OrganisationInput } from "../../components/business/stamps-input/stamps-input";
-import { D1 } from "../i18n/build-dictionary";
 
 interface PublishersInputProps {
   value: string[];
@@ -12,6 +13,9 @@ export const PublishersInput = ({
   onChange,
   required = true,
 }: Readonly<PublishersInputProps>) => {
+  const { t } = useTranslation();
+  const label = t("common.organisation", { lng: "fr" });
+
   return (
     <OrganisationInput
       value={value}
@@ -19,8 +23,8 @@ export const PublishersInput = ({
       multi
       required={required}
       lang="first"
-      labelSingle={D1.organisation}
-      labelMulti={D1.organisation}
+      labelSingle={label}
+      labelMulti={label}
     />
   );
 };

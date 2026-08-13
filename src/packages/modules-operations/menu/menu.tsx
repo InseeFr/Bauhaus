@@ -1,10 +1,10 @@
+import i18next from "i18next";
 import { useLocation, useParams } from "react-router-dom";
 
 import { MainMenu } from "@components/menu";
 
 import { UIMenuItem } from "@model/Menu";
 
-import D from "../../deprecated-locales";
 import { useSims } from "../hooks/useSims";
 
 const ACTIVE = "active";
@@ -17,7 +17,7 @@ const defaultPaths: Record<string, UIMenuItem> = {
     className: null,
     attrs: null,
     order: 1,
-    label: D.familiesTitle,
+    label: i18next.t("common.familiesTitle"),
   },
   series: {
     path: "/operations/series",
@@ -25,7 +25,7 @@ const defaultPaths: Record<string, UIMenuItem> = {
     className: null,
     attrs: null,
     order: 2,
-    label: D.seriesTitle,
+    label: i18next.t("common.seriesTitle"),
   },
   indicators: {
     path: "/operations/indicators",
@@ -33,7 +33,7 @@ const defaultPaths: Record<string, UIMenuItem> = {
     className: null,
     attrs: null,
     order: 4,
-    label: D.indicatorsTitle,
+    label: i18next.t("common.indicatorsTitle"),
   },
   help: {
     path: import.meta.env.VITE_OPERATIONS_DOCUMENTATION,
@@ -44,7 +44,7 @@ const defaultPaths: Record<string, UIMenuItem> = {
     className: null,
     alignToRight: true,
     order: 6,
-    label: D.help,
+    label: i18next.t("app.help"),
   },
   document: {
     path: "/operations/documents",
@@ -53,7 +53,7 @@ const defaultPaths: Record<string, UIMenuItem> = {
     attrs: null,
     alignToRight: true,
     order: 5,
-    label: `${D.document} / ${D.titleLink}`,
+    label: `${i18next.t("documents.document")} / ${i18next.t("documents.titleLink")}`,
   },
   operations: {
     path: "/operations/operations",
@@ -61,7 +61,7 @@ const defaultPaths: Record<string, UIMenuItem> = {
     className: "active",
     attrs: defaultAttrs,
     order: 3,
-    label: D.operationsTitle,
+    label: i18next.t("common.operationsTitle"),
   },
 };
 
