@@ -4,7 +4,7 @@ import { describe, it, expect, vi } from "vitest";
 import * as organizationsHook from "../../../utils/hooks/organizations";
 import { InseeOrganisationNotes } from "./";
 
-vi.mock("../../../modules-operations/i18n/build-dictionary", () => ({
+vi.mock("../../../i18n", () => ({
   D1: {
     creatorTitle: "Créateur",
   },
