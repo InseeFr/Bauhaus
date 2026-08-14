@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 import { uniqueId, uniqueLabel } from '../helpers/data';
-import { clearChips, selectFirstMany, selectFirstOne, selectOne } from '../helpers/prime';
+import { selectFirstOne, selectOne } from '../helpers/prime';
 
 /**
  * Parcours critique n°3 (consultation) : depuis la liste des listes de codes,
@@ -45,11 +45,6 @@ test('crée une liste de codes et lui ajoute un code', async ({ page }) => {
 	await page.getByLabel('Label*', { exact: true }).fill(`${labelLg1} EN`);
 	await selectFirstOne(page, 'Owner');
 	await selectOne(page, 'Dissemination status', 'Privé');
-
-	// Le contributeur pré-rempli est un timbre, que le back refuse
-	// (cf. le test `fixme` de structures/components.spec.ts).
-	await clearChips(page, 'Contributors');
-	await selectFirstMany(page, 'Contributors');
 
 	await page.getByRole('button', { name: 'Save' }).click();
 

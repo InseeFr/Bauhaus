@@ -30,6 +30,36 @@ for (const { tile, url, heading } of MODULES) {
 }
 
 /**
+ * Les formulaires de création montent et affichent leur bouton d'enregistrement.
+ * Ils partagent des briques transverses (résolution du contributeur par défaut,
+ * sélecteurs d'organisations) : une régression sur l'une d'elles les casse tous
+ * à la fois.
+ */
+const CREATION_FORMS = [
+	'/operations/series/create',
+	'/operations/families/create',
+	'/operations/operation/create',
+	'/concepts/create',
+	'/codelists/create',
+	'/codelists/partial/create',
+	'/datasets/create',
+	'/structures/create',
+	'/structures/components/create',
+];
+
+for (const url of CREATION_FORMS) {
+	test(`le formulaire ${url} s'ouvre`, async ({ page }) => {
+		const errors: string[] = [];
+		page.on('pageerror', (error) => errors.push(error.message));
+
+		await page.goto(url);
+
+		await expect(page.getByRole('button', { name: 'Save' })).toBeVisible();
+		expect(errors, `erreurs JS non gérées sur ${url}`).toEqual([]);
+	});
+}
+
+/**
  * Le module DDI (Variables) interroge Colectica : sans identifiants, l'API
  * répond 401 et la liste reste vide. On vérifie donc uniquement que le module
  * se monte — le parcours métier DDI demande un environnement Colectica.

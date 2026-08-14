@@ -8,13 +8,13 @@ Testing Library reste dans `src/**/*.spec.tsx`.
 
 | Fichier                                   | Parcours                                                            |
 | ----------------------------------------- | ------------------------------------------------------------------- |
-| `smoke/modules.spec.ts`                   | Les 7 modules s'ouvrent depuis l'accueil et chargent leurs données   |
+| `smoke/modules.spec.ts`                   | Les 7 modules et les 9 formulaires de création s'ouvrent sans erreur |
 | `operations/series.spec.ts`               | Créer une série → la retrouver → la publier (+ validation client)    |
 | `operations/operations.spec.ts`           | Créer une opération → la publier → initialiser son rapport SIMS      |
 | `operations/families.spec.ts`             | Créer une famille → affichage bilingue → la retrouver                |
 | `concepts/concepts.spec.ts`               | Créer un concept (onglets, éditeur riche) → le publier               |
 | `codelists/codelists.spec.ts`             | Consulter et filtrer une liste de codes ; créer une liste + un code  |
-| `datasets/datasets.spec.ts`               | Créer un jeu de données (formulaire multi-sections)                  |
+| `datasets/datasets.spec.ts`               | Lister sans doublon ; créer un jeu de données (multi-sections)       |
 | `structures/components.spec.ts`           | Créer une composante mutualisée                                      |
 | `classifications/classifications.spec.ts` | Naviguer nomenclature → postes → poste, et afficher l'arbre          |
 | `a11y/a11y.spec.ts`                       | Aucune nouvelle violation axe sur les écrans d'accueil des modules   |
@@ -55,18 +55,25 @@ Options utiles : `npx playwright test --ui`, `--headed`, `--debug`,
 - **Langue figée** à `en-US` dans la configuration : l'IHM choisit sa langue
   via `navigator.language`, les libellés attendus doivent être déterministes.
 - **Un seul worker.** Les tests écrivent dans le même dépôt RDF.
-- `test.fixme` documente un parcours réel bloqué par une anomalie applicative,
-  avec la cause en commentaire. C'est une dette visible, pas un test supprimé.
+- **Les formulaires sont enregistrés tels qu'ils sont proposés.** Contourner un
+  champ mal pré-rempli pour faire passer un test masque précisément le défaut
+  que le test devrait attraper. Si un parcours est bloqué par une anomalie, le
+  marquer `test.fixme` avec la cause en commentaire : c'est une dette visible,
+  pas un test supprimé.
 
 ## Limites connues
 
-- **Contributeur pré-rempli refusé par le back.** Les formulaires de création de
-  liste de codes et de composante pré-remplissent « Contributeurs » avec le
-  timbre de l'utilisateur ; `POST` échoue alors sur
-  `IllegalArgumentException: Not a valid (absolute) IRI: DG75-…`. Les tests
-  contournent en remplaçant la valeur par une organisation du référentiel ; le
-  parcours sans contournement est marqué `test.fixme` dans
-  `structures/components.spec.ts`.
+- **Le back accepte encore mal un timbre en contributeur.** L'IHM ne pré-remplit
+  plus « Contributeurs » qu'avec une IRI d'organisation, mais un client qui
+  posterait un timbre déclencherait toujours
+  `IllegalArgumentException: Not a valid (absolute) IRI` (500 avec pile Java) sur
+  les listes de codes, les composantes et les structures. Le module Datasets, lui,
+  résout le timbre côté back (`DatasetServiceImpl.resolveOrganisationIri`).
+- **Jeux de données stockés sous deux IRI.** La mise à jour d'un jeu hérité
+  (IRI `catalogues/jeuDeDonnees/…`) est écrite sous l'IRI dérivée de la
+  configuration (`datasets/…`) : elle crée un second nœud au lieu de mettre à
+  jour le premier. La liste ne les affiche plus qu'une fois (`SELECT DISTINCT`),
+  mais les nœuds en double restent à traiter côté données.
 - **Dette d'accessibilité.** `a11y/a11y.spec.ts` tolère trois règles axe déjà
   violées partout (`color-contrast`, `label`, `select-name`). Toute nouvelle
   règle violée fait échouer le test.

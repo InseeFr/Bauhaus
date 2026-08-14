@@ -4,6 +4,30 @@ import { uniqueLabel } from '../helpers/data';
 import { selectFirstMany, selectFirstOne, selectOne } from '../helpers/prime';
 
 /**
+ * Non-régression : la liste ne doit pas afficher deux fois le même jeu de
+ * données. Un identifiant porté par deux IRI (ce que produit la mise à jour
+ * d'un jeu hérité) remontait deux lignes, et React signalait deux enfants avec
+ * la même clé.
+ */
+test('liste les jeux de données sans doublon', async ({ page }) => {
+	const duplicateKeyErrors: string[] = [];
+	page.on('console', (message) => {
+		if (message.type() === 'error' && /same key|duplicate key/i.test(message.text())) {
+			duplicateKeyErrors.push(message.text());
+		}
+	});
+
+	await page.goto('/datasets');
+	await expect(page.getByRole('heading', { name: 'Datasets - Search' })).toBeVisible();
+
+	const links = page.getByRole('listitem').getByRole('link');
+	const labels = await links.allInnerTexts();
+	expect(labels.length).toBeGreaterThan(0);
+	expect(new Set(labels).size, `libellés dupliqués : ${labels}`).toBe(labels.length);
+	expect(duplicateKeyErrors).toEqual([]);
+});
+
+/**
  * Parcours critique n°4 : créer un jeu de données. Le formulaire est découpé
  * en sections navigables et la validation porte sur des champs répartis dans
  * deux d'entre elles — un cas que seuls les tests de bout en bout couvrent.
