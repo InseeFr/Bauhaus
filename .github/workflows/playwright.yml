@@ -4,14 +4,14 @@ on:
     branches: [main, master]
 jobs:
   playwright:
-    timeout-minutes: 60
+    timeout-minutes: 45
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Checkout BackOffice
         uses: actions/checkout@v4
         with:
-          repository: inseefr/bauhaus-back-office
+          repository: InseeFr/Bauhaus-Back-Office
           path: ./bauhaus-back-office
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -21,19 +21,42 @@ jobs:
         with:
           node-version: 24
           cache: "pnpm"
-      - name: Install dependencies
+
+      # Le serveur de dev de l'IHM est démarré par Playwright (webServer) :
+      # ses dépendances doivent donc être installées à la racine du dépôt.
+      - name: Install app dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install e2e dependencies
         working-directory: ./e2e
-        run: pnpm install
-      - name: Install Playwright Browsers
+        run: npm ci
+      - name: Install Playwright browsers
         working-directory: ./e2e
-        run: npx playwright install --with-deps
-      - uses: adambirds/docker-compose-action@v1.5.0
-        with:
-          compose-file: './bauhaus-back-office/compose.yml'
-          test-command: 'chmod 777 ./playwright/db/init.sh && ./playwright/db/init.sh && cd ./e2e && npx playwright test'
+        run: npx playwright install --with-deps chromium
+
+      - name: Start GraphDB and the Back-Office
+        run: |
+          docker compose -f ./bauhaus-back-office/module-bauhaus-bo/compose.yaml up -d
+          timeout 300 bash -c 'until curl -sf http://localhost:7200/rest/repositories > /dev/null; do sleep 5; done'
+
+      - name: Load test data
+        working-directory: ./e2e
+        env:
+          BACK_OFFICE_HOME: ../bauhaus-back-office
+        run: |
+          ./playwright/db/init.sh
+          timeout 300 bash -c 'until curl -sf http://localhost:8080/api/init > /dev/null; do sleep 5; done'
+
+      - name: Run Playwright tests
+        working-directory: ./e2e
+        env:
+          CI: "true"
+          VITE_API_BASE_HOST: http://localhost:8080/api
+        run: npx playwright test
+
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: playwright-report/
+          path: e2e/playwright-report/
           retention-days: 30
