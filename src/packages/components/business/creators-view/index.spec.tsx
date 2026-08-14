@@ -4,9 +4,11 @@ import { describe, it, expect, vi } from "vitest";
 import * as organizationsHook from "../../../utils/hooks/organizations";
 import { InseeOrganisationNotes } from "./";
 
-vi.mock("../../../i18n", () => ({
+vi.mock("../../i18n", () => ({
   D1: {
-    creatorTitle: "Créateur",
+    creatorsInput: {
+      creatorTitle: "Créateur",
+    },
   },
 }));
 
