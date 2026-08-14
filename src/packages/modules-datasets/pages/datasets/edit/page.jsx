@@ -13,8 +13,8 @@ import { PageTitleBlock } from "@components/page-title-block";
 import { DatasetsApi } from "@sdk/index";
 
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 import { useGoBack } from "@utils/hooks/useGoBack";
-import { useUserStamps } from "@utils/hooks/users";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import "./page.css";
@@ -46,21 +46,19 @@ export const Component = () => {
 
   const { data: dataset, status } = useDataset(id);
 
-  const { data: stamps } = useUserStamps();
-  const stamp = stamps[0]?.stamp;
-
   const isContributor = useAuthorizationGuard("DATASET_DATASET", "CREATE");
+  const defaultContributor = useDefaultContributor(isContributor);
   useEffect(() => {
     if (status === "success") {
       setEditingDataset(dataset);
     } else if (isContributor && !id) {
       setEditingDataset({
         catalogRecord: {
-          ...initializeContributorProperty(isContributor, !id, stamp),
+          ...initializeContributorProperty(isContributor, !id, defaultContributor),
         },
       });
     }
-  }, [status, dataset, id, isContributor, stamp]);
+  }, [status, dataset, id, isContributor, defaultContributor]);
 
   const queryClient = useQueryClient();
 

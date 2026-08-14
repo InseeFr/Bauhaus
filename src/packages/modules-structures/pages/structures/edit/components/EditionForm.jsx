@@ -14,7 +14,7 @@ import { ContributorsInput } from "@components/business/contributors-input/contr
 import { StructureApi } from "@sdk/index";
 
 import { initializeContributorProperty } from "@utils/creation/contributor-init";
-import { useUserStamps } from "@utils/hooks/users";
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
 import { useAppContext } from "../../../../../application/app-context";
 import { DISSEMINATION_STATUS } from "../../../../constants";
@@ -30,7 +30,7 @@ const defaultDSD = {
   descriptionLg1: "",
   descriptionLg2: "",
   disseminationStatus: DISSEMINATION_STATUS.PUBLIC_GENERIC,
-  contributor: ["DG75-H250"],
+  contributor: [],
   componentDefinitions: [],
   isRequiredBy: "",
 };
@@ -74,18 +74,17 @@ export const EditionForm = ({ creation, initialStructure }) => {
 
   const isContributor = useAuthorizationGuard("STRUCTURE_STRUCTURE", "CREATE");
 
-  const { data: stamps } = useUserStamps();
-  const stamp = stamps?.[0].stamp;
+  const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {
     let structure = {
       ...defaultDSD,
       ...initialStructure,
-      ...initializeContributorProperty(isContributor, creation, stamp),
+      ...initializeContributorProperty(isContributor, creation, defaultContributor),
     };
 
     setStructure(structure);
-  }, [initialStructure, isContributor, stamp, creation]);
+  }, [initialStructure, isContributor, defaultContributor, creation]);
 
   if (redirectId) return <Navigate to={`/structures/${redirectId}`} replace />;
 

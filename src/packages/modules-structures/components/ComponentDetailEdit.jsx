@@ -18,7 +18,7 @@ import { CodelistsApi, StructureApi } from "@sdk/index";
 
 import { convertToArrayIfDefined, EMPTY_ARRAY, sortArray } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
-import { useUserStamps } from "@utils/hooks/users";
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
 import { useAppContext } from "../../application/app-context";
 import {
@@ -206,20 +206,18 @@ export const ComponentDetailEdit = ({
 
   useTitle(t("component.pluralTitle"), component?.labelLg1 || t("component.creationPageTitle"));
 
-  const { data: stamps } = useUserStamps();
-  const stamp = stamps[0]?.stamp;
-
   const isContributor = useAuthorizationGuard("STRUCTURE_COMPONENT", "CREATE");
+  const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {
     let component = { ...initialComponent };
     if (!component.id) {
-      component.contributor = isContributor ? [stamp] : ["DG75-H250"];
+      component.contributor = defaultContributor ? [defaultContributor] : [];
     } else {
       component.contributor = convertToArrayIfDefined(component.contributor);
     }
     setComponent(component);
-  }, [initialComponent, isContributor, stamp]);
+  }, [initialComponent, defaultContributor]);
 
   useEffect(() => {
     if (!component.type && type) {

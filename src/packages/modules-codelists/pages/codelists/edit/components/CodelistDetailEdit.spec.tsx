@@ -149,50 +149,30 @@ describe("CodelistDetailEdit - Hook integration tests", () => {
   });
 
   describe("Contributor initialization logic", () => {
-    it("should use user stamp when authorized and no existing id", () => {
-      (useUserStamps as Mock).mockReturnValue({
-        data: [{ stamp: "USER-STAMP" }],
-      });
-      (useAuthorizationGuard as Mock).mockReturnValue(true);
-
-      const { data: stamps } = useUserStamps();
-      const stamp = stamps?.[0]?.stamp;
-      const isContributor = useAuthorizationGuard({
-        module: "CODESLIST_CODESLIST",
-        privilege: "CREATE",
-      });
-
-      const codelist: { id?: string } = {};
-      let contributor;
+    // Le contributeur d'une liste de codes est une IRI d'organisation : la
+    // résolution du timbre vit dans `resolveContributorIri`, testée dans
+    // `utils/creation/contributor-init.spec.ts`. Le formulaire se contente de
+    // pré-remplir la valeur résolue, ou rien si elle ne l'est pas.
+    it("pré-remplit le contributeur résolu à la création", () => {
+      const codelist: { id?: string; contributor?: string[] } = {};
+      const defaultContributor = "http://bauhaus/organisations/insee/HIE2001201";
 
       if (!codelist.id) {
-        contributor = isContributor ? [stamp] : ["DG75-L201"];
+        codelist.contributor = defaultContributor ? [defaultContributor] : [];
       }
 
-      expect(contributor).toEqual(["USER-STAMP"]);
+      expect(codelist.contributor).toEqual([defaultContributor]);
     });
 
-    it("should use default contributor when not authorized", () => {
-      (useUserStamps as Mock).mockReturnValue({
-        data: [{ stamp: "USER-STAMP" }],
-      });
-      (useAuthorizationGuard as Mock).mockReturnValue(false);
-
-      const { data: stamps } = useUserStamps();
-      const stamp = stamps?.[0]?.stamp;
-      const isContributor = useAuthorizationGuard({
-        module: "CODESLIST_CODESLIST",
-        privilege: "CREATE",
-      });
-
-      const codelist: { id?: string } = {};
-      let contributor;
+    it("laisse le contributeur vide quand aucune organisation n'est résolue", () => {
+      const codelist: { id?: string; contributor?: string[] } = {};
+      const defaultContributor = undefined;
 
       if (!codelist.id) {
-        contributor = isContributor ? [stamp] : ["DG75-L201"];
+        codelist.contributor = defaultContributor ? [defaultContributor] : [];
       }
 
-      expect(contributor).toEqual(["DG75-L201"]);
+      expect(codelist.contributor).toEqual([]);
     });
   });
 
