@@ -9,7 +9,6 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../../deprecated-locales";
 import {
   ConceptGeneral,
   ConceptNotes,
@@ -89,7 +88,7 @@ const ConceptVisualization = ({
           onValidate={handleClickValidation}
           onDelete={handleClickDeletion}
         />
-        <ErrorBloc error={serverSideError} D={D} />
+        <ErrorBloc error={serverSideError} />
         <CheckSecondLang />
         <ConceptGeneral_ secondLang={secondLang} concept={general} />
         <ConceptLinks secondLang={secondLang} links={links} />

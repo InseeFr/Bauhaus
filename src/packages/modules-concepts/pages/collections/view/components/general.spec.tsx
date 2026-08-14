@@ -4,19 +4,25 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CollectionGeneral from "./general";
 
 // Mock des dépendances
-vi.mock("../../../../../deprecated-locales", () => ({
-  D1: {
-    globalInformationsTitle: "Informations générales",
-    creatorTitle: "Créateur",
-    contributorTitle: "Gestionnaire",
-    isCollectionValidTitle: "État de la collection",
-    collectionStatusProvisional: "Provisoire",
-    collectionStatusValid: "Validé",
-    descriptionTitle: "Description",
+const translations: Record<"fr" | "en", Record<string, string>> = {
+  fr: {
+    "common.globalInformationsTitle": "Informations générales",
+    "common.creatorTitle": "Propriétaire",
+    "collection.general.contributorTitle": "Gestionnaire",
+    "collection.general.isCollectionValidTitle": "État de la collection",
+    "common.descriptionTitle": "Description",
   },
-  D2: {
-    descriptionTitle: "Description (en)",
+  en: {
+    "common.descriptionTitle": "Description (en)",
   },
+};
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    i18n: {
+      getFixedT: (lng: "fr" | "en") => (key: string) => translations[lng][key] ?? key,
+    },
+  }),
 }));
 
 vi.mock("@components/business/organisations/organisations", () => ({

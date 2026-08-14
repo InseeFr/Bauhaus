@@ -2,8 +2,18 @@ import { render, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 
-import D from "../../../../deprecated-locales/build-dictionary";
 import { Component } from "./page";
+
+const translations: Record<string, string> = {
+  "collection.title": "Collections",
+  "common.exportTitle": "Export",
+};
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => translations[key] ?? key,
+  }),
+}));
 
 vi.mock("../../../hooks/useCollections", () => ({
   useCollections: vi.fn(),
@@ -198,7 +208,10 @@ describe("Export Collections Home Container", () => {
     it("should set correct page title", () => {
       renderComponent();
 
-      expect(useTitle).toHaveBeenCalledWith(D.collectionsTitle, D.exportTitle);
+      expect(useTitle).toHaveBeenCalledWith(
+        translations["collection.title"],
+        translations["common.exportTitle"],
+      );
     });
   });
 

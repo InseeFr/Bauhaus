@@ -3,9 +3,10 @@ import { Mock, vi } from "vitest";
 
 import { useAuthorizationGuard } from "../../auth/components/auth";
 import { MODULES, PRIVILEGES } from "@utils/hooks/rbac-constants";
-import D from "../../deprecated-locales";
 import { renderWithRouter } from "../../tests/render";
 import MenuConcepts from "./index";
+
+const administrationTitle = "Administration";
 
 vi.mock("../../auth/components/auth", async (importOriginal) => {
   const actual = await importOriginal<typeof import("../../auth/components/auth")>();
@@ -28,7 +29,7 @@ describe("menu-concepts", () => {
     const links = screen.getAllByRole("link");
 
     expect(links).toHaveLength(5);
-    expect(links[3].textContent).toBe(D.administrationTitle);
+    expect(links[3].textContent).toBe(administrationTitle);
     expect(useAuthorizationGuard).toHaveBeenCalledWith({
       module: MODULES.CONCEPT_CONCEPT,
       privilege: PRIVILEGES.ADMINISTRATION,

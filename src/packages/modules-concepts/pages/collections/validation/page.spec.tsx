@@ -4,14 +4,15 @@ import { MemoryRouter } from "react-router-dom";
 
 import { Component } from "./page";
 
-vi.mock("../../../../deprecated-locales", () => ({
-  default: {
-    collectionsTitle: "Collections",
-    btnValid: "Valider",
-    collectionsToValidTitle: "Collections à valider",
-    collectionsToValidPanelTitle: "Panneau de validation",
-    hasNotCollectionToValid: "Aucune collection à valider",
-  },
+const translations: Record<string, string> = {
+  "collection.title": "Collections",
+  "common.btnValid": "Publier",
+};
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => translations[key] ?? key,
+  }),
 }));
 
 vi.mock("@utils/hooks/useTitle", () => ({
@@ -192,7 +193,10 @@ describe("Collection Validation Home Container", () => {
         expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
       });
 
-      expect(useTitle).toHaveBeenCalledWith("Collections", "Publish");
+      expect(useTitle).toHaveBeenCalledWith(
+        translations["collection.title"],
+        translations["common.btnValid"],
+      );
     });
   });
 

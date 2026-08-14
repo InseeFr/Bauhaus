@@ -5,8 +5,19 @@ import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import D from "../../../../../deprecated-locales";
 import CollectionsHome from "./home";
+
+const translations: Record<string, string> = {
+  "concept.title": "Concepts",
+  "collection.title": "Collections",
+  "collection.search.title": "Collections - Recherche",
+};
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => translations[key] ?? key,
+  }),
+}));
 
 vi.mock("@components/page-title", () => ({
   PageTitle: vi.fn(() => <div>PageTitle</div>),
@@ -33,7 +44,10 @@ describe("CollectionsHome", () => {
   it("should render the page title and the searchable list with correct data", () => {
     render(<CollectionsHome collections={collectionsMock} />);
 
-    expect(useTitle).toHaveBeenCalledWith(D.conceptsTitle, D.collectionsTitle);
+    expect(useTitle).toHaveBeenCalledWith(
+      translations["concept.title"],
+      translations["collection.title"],
+    );
 
     screen.getByText("PageTitle");
     screen.getByText("SearchableList");
