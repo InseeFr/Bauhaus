@@ -1,10 +1,9 @@
-import { render, waitFor } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
-import { getBaseURI } from "../../../sdk";
 import OperationsDocumentationVisualization from "./home";
 
 vi.mock("../../../sdk", () => ({
-  getBaseURI: vi.fn().mockResolvedValue("http://base-uri"),
+  getBaseURI: vi.fn().mockReturnValue("http://base-uri"),
 }));
 
 const document = {
@@ -16,21 +15,13 @@ const document = {
   sims: [],
 };
 
-const renderAndWait = async (component) => {
-  const result = render(component);
-  await waitFor(() => {
-    expect(getBaseURI).toHaveBeenCalled();
-  });
-  return result;
-};
-
 describe("OperationsDocumentationVisualization", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("should display by default three notes", async () => {
-    const { container } = await renderAndWait(
+    const { container } = render(
       <OperationsDocumentationVisualization secondLang={false} attr={document} />,
     );
     const notes = container.querySelectorAll(".note");
@@ -47,7 +38,7 @@ describe("OperationsDocumentationVisualization", () => {
   });
 
   it("should display a note if the secondLang flag is true", async () => {
-    const { container } = await renderAndWait(
+    const { container } = render(
       <OperationsDocumentationVisualization attr={document} secondLang={true} />,
     );
     const notes = container.querySelectorAll(".note");
@@ -63,7 +54,7 @@ describe("OperationsDocumentationVisualization", () => {
       ...document,
       uri: "/document/uri",
     };
-    const { container } = await renderAndWait(
+    const { container } = render(
       <OperationsDocumentationVisualization attr={d} secondLang={true} />,
     );
     const notes = container.querySelectorAll(".note");
@@ -76,7 +67,7 @@ describe("OperationsDocumentationVisualization", () => {
       uri: "/document/page/1",
       updatedDate: undefined,
     };
-    const { container } = await renderAndWait(
+    const { container } = render(
       <OperationsDocumentationVisualization attr={d} secondLang={true} />,
     );
     const date = container.querySelector(".row:nth-child(2) .card-body");

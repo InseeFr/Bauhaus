@@ -91,14 +91,7 @@ export const computeDscr = async (fn: any, [...args]) => {
   return [url, options, thenHandler];
 };
 
-let saveApiURL = "";
-export const getBaseURI = () => {
-  if (saveApiURL) return Promise.resolve(saveApiURL);
-  return Promise.resolve(import.meta.env.VITE_API_BASE_HOST).then((u) => {
-    saveApiURL = u;
-    return u;
-  });
-};
+export const getBaseURI = () => import.meta.env.VITE_API_BASE_HOST;
 
 export const buildCall = (context: string, resource: string, fn: any) => {
   return async (...args: any[]) => {
@@ -107,7 +100,7 @@ export const buildCall = (context: string, resource: string, fn: any) => {
       options.method = guessMethod(resource);
     }
 
-    const baseURI = await getBaseURI();
+    const baseURI = getBaseURI();
     const baseHost = removeTrailingSlash(`${baseURI}${context ? `/${context}` : ""}`);
 
     const url = path !== "" ? `${baseHost}/${path}` : baseHost;

@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
@@ -51,10 +49,7 @@ function formatSims(sims) {
 function OperationsDocumentationVisualization({ id, attr, secondLang, langOptions, type }) {
   useTitle(type === LINK ? D.titleLink : D.titleDocument, attr.labelLg1);
   const sims = formatSims(attr.sims);
-  const [baseURI, setBaseURI] = useState("");
-  useEffect(() => {
-    getBaseURI().then((uri) => setBaseURI(uri));
-  });
+  const baseURI = getBaseURI();
   return (
     <>
       <Row>

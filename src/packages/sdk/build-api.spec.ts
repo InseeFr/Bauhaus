@@ -1,10 +1,29 @@
 import { vi } from "vitest";
 
-import { buildApi, computeDscr, guessMethod, buildCall } from "./build-api";
+import { buildApi, computeDscr, guessMethod, buildCall, getBaseURI } from "./build-api";
 
 vi.mock("../auth/create-oidc", () => ({
   getOidc: vi.fn(() => Promise.resolve(null)),
 }));
+
+describe("get base URI", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("returns the configured API base host", () => {
+    vi.stubEnv("VITE_API_BASE_HOST", "http://first-host");
+    expect(getBaseURI()).toEqual("http://first-host");
+  });
+
+  it("reflects the current configuration instead of a previously read value", () => {
+    vi.stubEnv("VITE_API_BASE_HOST", "http://first-host");
+    getBaseURI();
+
+    vi.stubEnv("VITE_API_BASE_HOST", "http://second-host");
+    expect(getBaseURI()).toEqual("http://second-host");
+  });
+});
 
 describe("guess method from end point", () => {
   it("should return GET", () => {

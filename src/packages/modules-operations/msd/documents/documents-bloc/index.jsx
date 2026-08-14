@@ -11,7 +11,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { TextInput } from "@components/form/input";
 import { AddLogo } from "@components/logo/logo-add";
@@ -74,10 +74,7 @@ export function DocumentsBloc({
   const [panelStatus, setPanelStatus] = useState(false);
   const [filter, setFilter] = useState("");
 
-  const [baseURI, setBaseURI] = useState("");
-  useEffect(() => {
-    getBaseURI().then((uri) => setBaseURI(uri));
-  });
+  const baseURI = getBaseURI();
 
   // The array order is the source of truth: chosen by drag-and-drop in edit
   // mode, and provided already ordered by the back in visualisation. We never

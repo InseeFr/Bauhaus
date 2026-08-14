@@ -1,6 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-
-import { getBaseURI } from "@sdk/build-api";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import { getLang } from "@utils/dictionnary";
 
@@ -10,7 +8,7 @@ import { DocumentsBloc } from "./index";
 import { getListItems } from "@components/ui/list-group/testing";
 
 vi.mock("@sdk/build-api", () => ({
-  getBaseURI: vi.fn().mockResolvedValue("http://base-uri"),
+  getBaseURI: vi.fn().mockReturnValue("http://base-uri"),
 }));
 
 const documents = [
@@ -47,17 +45,12 @@ const documents = [
   },
 ];
 
-export const renderWithStore = async (component) => {
-  const result = render(
+export const renderWithStore = async (component) =>
+  render(
     <DocumentsStoreProvider value={{ documentStores: { lg1: documents, lg2: documents } }}>
       {component}
     </DocumentsStoreProvider>,
   );
-  await waitFor(() => {
-    expect(getBaseURI).toHaveBeenCalled();
-  });
-  return result;
-};
 
 describe("DocumentsBloc", () => {
   beforeEach(() => {
@@ -174,10 +167,6 @@ describe("DocumentsBloc", () => {
         <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} idMas="1" />
       </DocumentsStoreProvider>,
     );
-
-    await waitFor(() => {
-      expect(getBaseURI).toHaveBeenCalled();
-    });
 
     const btn = screen.getByLabelText(D.btnAdd);
     fireEvent.click(btn);
