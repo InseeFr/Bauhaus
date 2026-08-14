@@ -1,4 +1,3 @@
-//@ts-ignore
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import { Options, stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";

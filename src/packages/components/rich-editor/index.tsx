@@ -1,5 +1,4 @@
 import { Component } from "react";
-//@ts-ignore
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -23,7 +22,6 @@ interface EditorHTMLTypes {
   handleChange: (value: string) => void;
   smart: boolean;
   ariaLabel?: string;
-  id?: string;
   text: string;
 }
 interface EditorHTMLState {
@@ -63,7 +61,6 @@ export class EditorHTML extends Component<EditorHTMLTypes, EditorHTMLState> {
         toolbarCustomButtons={[<EditorDeleteButton key="delete" />]}
         ariaLabel={this.props.ariaLabel}
         editorState={this.state.editorState}
-        id={this.props.id}
         toolbar={toolbar}
         toolbarClassName="home-toolbar"
         wrapperClassName="home-wrapper"

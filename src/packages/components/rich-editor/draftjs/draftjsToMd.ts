@@ -6,7 +6,7 @@ const defaultMarkdownDict = {
 
 const RGB_REGEXP = /((bg)?color)-rgb\((.*)\)/;
 
-const blockStyleDict = {
+const blockStyleDict: Record<string, string> = {
   "unordered-list-item": "- ",
   "header-one": "# ",
   "header-two": "## ",
@@ -17,7 +17,7 @@ const blockStyleDict = {
   blockquote: "> ",
 };
 
-const wrappingBlockStyleDict = {
+const wrappingBlockStyleDict: Record<string, string> = {
   "code-block": "```",
 };
 
@@ -32,13 +32,11 @@ const getBlockStyle = (currentStyle: string, appliedBlockStyles: string[]) => {
     return `${counter}. `;
   }
 
-  //@ts-ignore
   return blockStyleDict[currentStyle] || "";
 };
 
 const applyWrappingBlockStyle = (currentStyle: string, content: string) => {
   if (currentStyle in wrappingBlockStyleDict) {
-    //@ts-ignore
     const wrappingSymbol = wrappingBlockStyleDict[currentStyle];
     return `${wrappingSymbol}\n${content}\n${wrappingSymbol}`;
   }
