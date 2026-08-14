@@ -15,7 +15,9 @@
     "exclude": "Exclude",
     "noResult": "No results",
     "btnNew": "New",
-    "btnDelete": "Delete"
+    "btnDelete": "Delete",
+    "labelWithStartDate": "{{label}} [since {{startDate}}]",
+    "labelWithStartDateAndEndDate": "{{label}} [since {{startDate}} until {{endDate}}]"
   },
   "common": {
     "operationsTitle": "Operations",
