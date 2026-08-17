@@ -1,15 +1,27 @@
 import { getOidc } from "../auth/create-oidc";
 
-export const generateGenericApiEndpoints = (pluralPrefix = "", singularPrefix = "") => {
+/**
+ * @param advancedSearch `false` pour les entités dont le back n'expose pas
+ *   `<entités>/advanced-search`, afin de ne pas générer un appel vers un endpoint inexistant.
+ */
+export const generateGenericApiEndpoints = (
+  pluralPrefix = "",
+  singularPrefix = "",
+  { advancedSearch = true }: { advancedSearch?: boolean } = {},
+) => {
   const capitalizedPluralPrefix = pluralPrefix.charAt(0).toUpperCase() + pluralPrefix.slice(1);
   const capitalizedSingularPrefix =
     singularPrefix.charAt(0).toUpperCase() + singularPrefix.slice(1);
 
   return {
     [`getAll${capitalizedPluralPrefix}`]: () => [pluralPrefix],
-    [`getAll${capitalizedPluralPrefix}ForAdvancedSearch`]: () => [
-      `${pluralPrefix}/advanced-search`,
-    ],
+    ...(advancedSearch
+      ? {
+          [`getAll${capitalizedPluralPrefix}ForAdvancedSearch`]: () => [
+            `${pluralPrefix}/advanced-search`,
+          ],
+        }
+      : {}),
     [`get${capitalizedSingularPrefix}ById`]: (id: string) => [`${singularPrefix}/${id}`],
     [`create${capitalizedSingularPrefix}`]: (object: unknown) => [
       singularPrefix,
