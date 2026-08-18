@@ -90,29 +90,18 @@ export function DocumentsBloc({
   const otherDocuments = documentStores[localPrefix.toLowerCase()]
     .filter((document) => !currentDocumentsIds.includes(document.uri))
     .filter((document) => !!document["label" + localPrefix])
+    .filter((document) => (objectType === "documents" ? isDocument(document) : isLink(document)))
     .filter((document) =>
-      objectType === "documents" ? isDocument(document) : isLink(document),
-    )
-    .filter((document) =>
-      document["label" + localPrefix]
-        .toLowerCase()
-        .includes(filter.toLowerCase()),
+      document["label" + localPrefix].toLowerCase().includes(filter.toLowerCase()),
     );
 
   const isSecondLang = localPrefix === "Lg2";
 
-  function displayHTMLForDocument(
-    document,
-    btnBlocFunction = defaultBtnBlocFunction,
-  ) {
+  function displayHTMLForDocument(document, btnBlocFunction = defaultBtnBlocFunction) {
     return (
       <List.Item className="documentbloc-item" key={document.uri}>
         <span>
-          <DocumentLink
-            document={document}
-            localPrefix={localPrefix}
-            baseURI={baseURI}
-          />
+          <DocumentLink document={document} localPrefix={localPrefix} baseURI={baseURI} />
 
           <DocumentAsideInformation document={document} />
         </span>
@@ -120,30 +109,16 @@ export function DocumentsBloc({
       </List.Item>
     );
   }
-  const addTitle = t(
-    objectType === "documents" ? "documents.addDocument" : "documents.addLink",
-    {
-      lng: isSecondLang ? "en" : "fr",
-    },
-  );
-  const title = t(
-    objectType === "documents"
-      ? "documents.titleDocument"
-      : "documents.titleLink",
-  );
+  const addTitle = t(objectType === "documents" ? "documents.addDocument" : "documents.addLink", {
+    lng: isSecondLang ? "en" : "fr",
+  });
+  const title = t(objectType === "documents" ? "documents.titleDocument" : "documents.titleLink");
   return (
     <>
       {(documents.length > 0 || editMode) && <h4>{title}</h4>}
       {documents && documents.length > 0 && sortable && (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={currentDocumentsIds}
-            strategy={verticalListSortingStrategy}
-          >
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={currentDocumentsIds} strategy={verticalListSortingStrategy}>
             <List.Container className="documentsbloc">
               {currentDocuments.map((document) => (
                 <SortableDocumentItem
@@ -173,10 +148,7 @@ export function DocumentsBloc({
               onClick={() => setPanelStatus(!panelStatus)}
             >
               <span
-                className={cx(
-                  "glyphicon",
-                  `glyphicon-menu-${panelStatus ? "down" : "right"}`,
-                )}
+                className={cx("glyphicon", `glyphicon-menu-${panelStatus ? "down" : "right"}`)}
                 aria-hidden="true"
               />
               {addTitle} <span className="badge">{otherDocuments.length}</span>
@@ -186,9 +158,7 @@ export function DocumentsBloc({
               className="btn"
               aria-label={t("app.btnAdd")}
               onClick={() => {
-                openLateralPanelOpened(
-                  objectType === "documents" ? DOCUMENT : LINK,
-                );
+                openLateralPanelOpened(objectType === "documents" ? DOCUMENT : LINK);
                 setRubricIdForNewDocument({ rubric: idMas, lang: localPrefix });
               }}
             >

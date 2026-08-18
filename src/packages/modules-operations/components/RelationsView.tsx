@@ -39,27 +39,19 @@ export const RelationsViewPerLgContent = ({
     <>
       {parent && parentTitle && (
         <p>
-          <span className="links-title">
-            {t(`common.${parentTitle}`, { lng })}
-          </span>
-          <Link to={`/operations/${parentPath}/${parent.id}`}>
-            {parent[`label${langSuffix}`]}
-          </Link>
+          <span className="links-title">{t(`common.${parentTitle}`, { lng })}</span>
+          <Link to={`/operations/${parentPath}/${parent.id}`}>{parent[`label${langSuffix}`]}</Link>
         </p>
       )}
       {children && childrenTitle && (
         <>
           <p>
-            <span className="links-title">
-              {t(`common.${childrenTitle}`, { lng })}
-            </span>
+            <span className="links-title">{t(`common.${childrenTitle}`, { lng })}</span>
           </p>
           <ul>
             {children
               .sort(function (a, b) {
-                return a[`label${langSuffix}`].localeCompare(
-                  b[`label${langSuffix}`],
-                );
+                return a[`label${langSuffix}`].localeCompare(b[`label${langSuffix}`]);
               })
               .map((item) => (
                 <li key={item.id}>
@@ -96,21 +88,14 @@ export function RelationsViewPerLg({
 
 export function RelationsView(
   props: Readonly<
-    { title: string; secondLang: boolean } & Omit<
-      RelationsViewPerLgContentTypes,
-      "langSuffix"
-    >
+    { title: string; secondLang: boolean } & Omit<RelationsViewPerLgContentTypes, "langSuffix">
   >,
 ) {
   const { t } = useTranslation();
 
   return (
     <Row>
-      <RelationsViewPerLg
-        {...props}
-        title={t("app.linksTitle", { lng: "fr" })}
-        langSuffix="Lg1"
-      />
+      <RelationsViewPerLg {...props} title={t("app.linksTitle", { lng: "fr" })} langSuffix="Lg1" />
       {props.secondLang && (
         <RelationsViewPerLg
           {...props}

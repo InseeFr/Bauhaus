@@ -56,11 +56,7 @@ export const MSDComponent = ({
       </section>
 
       {status === Status.CONTENT && (
-        <button
-          type="button"
-          className="msd-panel-trigger-left"
-          onClick={changeStatusToBoth}
-        >
+        <button type="button" className="msd-panel-trigger-left" onClick={changeStatusToBoth}>
           {t("sims.helpSummary")}
           <span className="glyphicon glyphicon-chevron-right" />
         </button>
@@ -68,40 +64,26 @@ export const MSDComponent = ({
       {status === Status.BOTH && (
         <div className="msd-panel-trigger-middle">
           <div>
-            <button
-              type="button"
-              onClick={changeStatusToContent}
-              title="open content"
-            >
+            <button type="button" onClick={changeStatusToContent} title="open content">
               <span className="glyphicon glyphicon-chevron-left" />
             </button>
           </div>
           <div>
-            <button
-              type="button"
-              onClick={changeStatusToSummary}
-              title="open summary"
-            >
+            <button type="button" onClick={changeStatusToSummary} title="open summary">
               <span className="glyphicon glyphicon-chevron-right" />
             </button>
           </div>
         </div>
       )}
       {status === Status.SUMMARY && (
-        <button
-          type="button"
-          className="msd-panel-trigger-right"
-          onClick={changeStatusToBoth}
-        >
+        <button type="button" className="msd-panel-trigger-right" onClick={changeStatusToBoth}>
           <span className="glyphicon glyphicon-chevron-left" />
           {t("sims.helpContent")}
         </button>
       )}
       <section
         style={styleContent}
-        className={
-          status === Status.CONTENT ? "msd-content-alone" : "msd-content"
-        }
+        className={status === Status.CONTENT ? "msd-content-alone" : "msd-content"}
       >
         {children}
       </section>

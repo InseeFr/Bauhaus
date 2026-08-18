@@ -5,10 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
-import {
-  CancelButton,
-  CloseIconButton,
-} from "@components/buttons/buttons-with-icons";
+import { CancelButton, CloseIconButton } from "@components/buttons/buttons-with-icons";
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 import { CreationUpdateItems } from "@components/creation-update-items";
@@ -125,8 +122,7 @@ export function SimsVisualisation({
   }
 
   const [serverSideError, setServerSideError] = useState();
-  const [publishMissingDocuments, setPublishMissingDocuments] =
-    useState(EMPTY_SET);
+  const [publishMissingDocuments, setPublishMissingDocuments] = useState(EMPTY_SET);
   const publish = useCallback(
     (object) => {
       setServerSideError(undefined);
@@ -137,9 +133,7 @@ export function SimsVisualisation({
             setPublishMissingDocuments(parseMissingDocuments(err.details));
             return;
           }
-          const targetMatch = err.details?.match(
-            /Indicator\/Series\/Operation:\s*(\S+)/,
-          );
+          const targetMatch = err.details?.match(/Indicator\/Series\/Operation:\s*(\S+)/);
           const targetId = targetMatch?.[1];
           const href = getParentUri(object);
           setServerSideError([t(`errors.${err.code}`, { id: targetId, href })]);
@@ -288,10 +282,7 @@ export function SimsVisualisation({
           <Note
             text={
               <ul>
-                <CreationUpdateItems
-                  creation={sims.created}
-                  update={sims.updated}
-                />
+                <CreationUpdateItems creation={sims.created} update={sims.updated} />
                 <PublicationStatusItem
                   label={t("common.simsStatus")}
                   object={sims}
@@ -304,9 +295,7 @@ export function SimsVisualisation({
           />
         </Row>
         {Object.values(metadataStructure).map((msd) => {
-          return (
-            <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />
-          );
+          return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
         })}
       </Row>
     </>

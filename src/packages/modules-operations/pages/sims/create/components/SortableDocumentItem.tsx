@@ -26,14 +26,7 @@ export const SortableDocumentItem = ({
   deleteHandler,
 }: Readonly<SortableDocumentItemProps>) => {
   const { t } = useTranslation();
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: document.uri as string,
   });
 
@@ -58,17 +51,10 @@ export const SortableDocumentItem = ({
         {...attributes}
         {...listeners}
       >
-        <span
-          className="glyphicon glyphicon-menu-hamburger"
-          aria-hidden="true"
-        />
+        <span className="glyphicon glyphicon-menu-hamburger" aria-hidden="true" />
       </button>
       <span>
-        <DocumentLink
-          document={document}
-          localPrefix={localPrefix}
-          baseURI={baseURI}
-        />
+        <DocumentLink document={document} localPrefix={localPrefix} baseURI={baseURI} />
         <DocumentAsideInformation document={document} />
       </span>
       <button

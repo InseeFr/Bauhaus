@@ -51,9 +51,7 @@ const ExportButtonWithDropdown = ({
   };
   useEffect(() => {
     if (open) {
-      (
-        dropdownRef.current?.querySelector("li *") as HTMLElement | null
-      )?.focus();
+      (dropdownRef.current?.querySelector("li *") as HTMLElement | null)?.focus();
     }
   }, [open]);
 

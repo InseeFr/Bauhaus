@@ -22,10 +22,7 @@ describe("OperationsDocumentationVisualization", () => {
 
   it("should display by default three notes", async () => {
     const { container } = render(
-      <OperationsDocumentationVisualization
-        secondLang={false}
-        attr={document}
-      />,
+      <OperationsDocumentationVisualization secondLang={false} attr={document} />,
     );
     const notes = container.querySelectorAll(".note");
     expect(notes).toHaveLength(4);
@@ -42,10 +39,7 @@ describe("OperationsDocumentationVisualization", () => {
 
   it("should display a note if the secondLang flag is true", async () => {
     const { container } = render(
-      <OperationsDocumentationVisualization
-        attr={document}
-        secondLang={true}
-      />,
+      <OperationsDocumentationVisualization attr={document} secondLang={true} />,
     );
     const notes = container.querySelectorAll(".note");
 

@@ -61,9 +61,7 @@ const documents = [
 
 export const renderWithStore = async (component) =>
   render(
-    <DocumentsStoreProvider
-      value={{ documentStores: { lg1: documents, lg2: documents } }}
-    >
+    <DocumentsStoreProvider value={{ documentStores: { lg1: documents, lg2: documents } }}>
       {component}
     </DocumentsStoreProvider>,
   );
@@ -79,16 +77,12 @@ describe("DocumentsBloc", () => {
   });
 
   it("should display nothing if the documents props is an empty array", async () => {
-    const { container } = await renderWithStore(
-      <DocumentsBloc documents={[]} />,
-    );
+    const { container } = await renderWithStore(<DocumentsBloc documents={[]} />);
     expect(container.querySelectorAll(".documentsbloc")).toHaveLength(0);
   });
 
   it("should display three items", async () => {
-    const { container } = await renderWithStore(
-      <DocumentsBloc documents={documents} />,
-    );
+    const { container } = await renderWithStore(<DocumentsBloc documents={documents} />);
     expect(container.querySelectorAll("li")).toHaveLength(3);
   });
 
@@ -120,13 +114,9 @@ describe("DocumentsBloc", () => {
   ];
 
   it("should display the Lg1 labels in the given array order (back-defined order), not alphabetically", async () => {
-    const { container } = await renderWithStore(
-      <DocumentsBloc documents={backOrdered} />,
-    );
+    const { container } = await renderWithStore(<DocumentsBloc documents={backOrdered} />);
 
-    const labels = getListItems(container).map(
-      (item) => item.querySelector("a").textContent,
-    );
+    const labels = getListItems(container).map((item) => item.querySelector("a").textContent);
     expect(labels).toEqual(backOrdered.map((doc) => doc.labelLg1));
   });
 
@@ -135,9 +125,7 @@ describe("DocumentsBloc", () => {
       <DocumentsBloc documents={backOrdered} localPrefix="Lg2" />,
     );
 
-    const labels = getListItems(container).map(
-      (item) => item.querySelector("a").textContent,
-    );
+    const labels = getListItems(container).map((item) => item.querySelector("a").textContent);
     expect(labels).toEqual(backOrdered.map((doc) => doc.labelLg2));
   });
 
@@ -148,30 +136,18 @@ describe("DocumentsBloc", () => {
   `("$a + $b", ({ lang, expectedEdit, expectedView }) => {
     it("should not display delete buttons", async () => {
       const { container } = await renderWithStore(
-        <DocumentsBloc
-          documents={documents}
-          localPrefix={lang}
-          editMode={false}
-        />,
+        <DocumentsBloc documents={documents} localPrefix={lang} editMode={false} />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(
-        expectedView,
-      );
+      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(expectedView);
     });
 
     it("should display zero delete buttons", async () => {
       const { container } = await renderWithStore(
-        <DocumentsBloc
-          documents={documents}
-          localPrefix={lang}
-          editMode={true}
-        />,
+        <DocumentsBloc documents={documents} localPrefix={lang} editMode={true} />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(
-        expectedEdit,
-      );
+      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(expectedEdit);
     });
   });
 
@@ -202,12 +178,7 @@ describe("DocumentsBloc", () => {
           setRubricIdForNewDocument,
         }}
       >
-        <DocumentsBloc
-          documents={documents}
-          localPrefix="Lg1"
-          editMode={true}
-          idMas="1"
-        />
+        <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} idMas="1" />
       </DocumentsStoreProvider>,
     );
 
@@ -222,11 +193,7 @@ describe("DocumentsBloc", () => {
 
   it("should not display the Add Document button for Lg2", async () => {
     const { container } = await renderWithStore(
-      <DocumentsBloc
-        documents={documents}
-        localPrefix="Lg2"
-        editMode={false}
-      />,
+      <DocumentsBloc documents={documents} localPrefix="Lg2" editMode={false} />,
     );
 
     expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(0);
@@ -265,9 +232,7 @@ describe("DocumentsBloc", () => {
         />,
       );
 
-      const labels = [...container.querySelectorAll("li a")].map(
-        (a) => a.textContent,
-      );
+      const labels = [...container.querySelectorAll("li a")].map((a) => a.textContent);
       expect(labels).toEqual(["B labelLg1-0", "A labelLg1-1", "Z labelLg1-2"]);
     });
 
@@ -281,23 +246,17 @@ describe("DocumentsBloc", () => {
         />,
       );
 
-      expect(
-        container.querySelectorAll(".documentsbloc-drag-handle"),
-      ).toHaveLength(documents.length);
+      expect(container.querySelectorAll(".documentsbloc-drag-handle")).toHaveLength(
+        documents.length,
+      );
     });
 
     it("should not display drag handles when onReorder is not provided", async () => {
       const { container } = await renderWithStore(
-        <DocumentsBloc
-          documents={documents}
-          localPrefix="Lg1"
-          editMode={true}
-        />,
+        <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
       );
 
-      expect(
-        container.querySelectorAll(".documentsbloc-drag-handle"),
-      ).toHaveLength(0);
+      expect(container.querySelectorAll(".documentsbloc-drag-handle")).toHaveLength(0);
     });
   });
 });

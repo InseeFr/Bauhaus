@@ -5,10 +5,7 @@ import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 import { getListItems } from "@components/ui/list-group/testing";
 
 import { HomeDocument } from "../../../../../model/operations/document";
-import {
-  mockReactQueryForRbac,
-  renderWithRouter,
-} from "../../../../../tests/render";
+import { mockReactQueryForRbac, renderWithRouter } from "../../../../../tests/render";
 
 vi.mock("react-i18next", async (importOriginal) => {
   const actual = await importOriginal<typeof import("react-i18next")>();
@@ -36,9 +33,7 @@ describe("DocumentHome", () => {
     mockReactQueryForRbac([
       {
         application: MODULES.OPERATION_DOCUMENT,
-        privileges: [
-          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
-        ],
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
@@ -51,9 +46,7 @@ describe("DocumentHome", () => {
     mockReactQueryForRbac([
       {
         application: MODULES.OPERATION_DOCUMENT,
-        privileges: [
-          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
-        ],
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 
@@ -80,9 +73,7 @@ describe("DocumentHome", () => {
     mockReactQueryForRbac([
       {
         application: MODULES.OPERATION_DOCUMENT,
-        privileges: [
-          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
-        ],
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
       },
     ]);
 

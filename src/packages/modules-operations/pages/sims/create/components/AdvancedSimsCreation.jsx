@@ -75,13 +75,9 @@ const collectAutoUpdatedIds = (metadataStructure) => {
 
 const applyAutoUpdatedDate = (rubrics, autoUpdatedIds, isoNow) => {
   const apply = (rubric) =>
-    autoUpdatedIds.has(rubric.idAttribute || rubric.idMas)
-      ? { ...rubric, value: isoNow }
-      : rubric;
+    autoUpdatedIds.has(rubric.idAttribute || rubric.idMas) ? { ...rubric, value: isoNow } : rubric;
   if (Array.isArray(rubrics)) return rubrics.map(apply);
-  return Object.fromEntries(
-    Object.entries(rubrics).map(([k, v]) => [k, apply(v)]),
-  );
+  return Object.fromEntries(Object.entries(rubrics).map(([k, v]) => [k, apply(v)]));
 };
 
 /**
@@ -114,11 +110,7 @@ const SimsCreation = ({
   });
 
   const [sims, setSims] = useState(() =>
-    getDefaultSims(
-      mode,
-      simsProp.rubrics || defaultSimsRubrics,
-      metadataStructure,
-    ),
+    getDefaultSims(mode, simsProp.rubrics || defaultSimsRubrics, metadataStructure),
   );
 
   const essentialRubricContext = useMemo(
@@ -142,13 +134,7 @@ const SimsCreation = ({
     setChanged(false);
 
     onSubmit(
-      generateSimsBeforeSubmit(
-        simsProp,
-        parentType,
-        idParentToSave,
-        rubrics,
-        metadataStructure,
-      ),
+      generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics, metadataStructure),
       (id) => {
         setSaving(false);
         goBack(`/operations/sims/${id}`, true);
@@ -192,9 +178,7 @@ const SimsCreation = ({
           label: op.labelLg1,
           value: op.idSims,
         }))
-        .sort((o1, o2) =>
-          o1.label.toLowerCase().localeCompare(o2.label.toLowerCase()),
-        ),
+        .sort((o1, o2) => o1.label.toLowerCase().localeCompare(o2.label.toLowerCase())),
     [parentWithSims],
   );
 
@@ -267,19 +251,11 @@ const SimsCreation = ({
                 </div>
               )}
           </div>
-          {Object.values(msd.children).map((child) =>
-            MSDInformations(child, handleChange),
-          )}
+          {Object.values(msd.children).map((child) => MSDInformations(child, handleChange))}
         </Fragment>
       );
     },
-    [
-      sims,
-      codesLists,
-      organisationsOptions,
-      organisationsOptionsLg2,
-      simsProp.updated,
-    ],
+    [sims, codesLists, organisationsOptions, organisationsOptionsLg2, simsProp.updated],
   );
 
   const onSiblingSimsChange = () => {
@@ -301,9 +277,7 @@ const SimsCreation = ({
     <EssentialRubricContextProvider value={essentialRubricContext}>
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
 
-      {error && (
-        <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} />
-      )}
+      {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} />}
 
       <Modal
         className="Modal__Bootstrap modal-dialog operations structures-specification-modal"
@@ -353,9 +327,7 @@ const SimsCreation = ({
                 <Select
                   className="bauhaus-sims-duplicate"
                   placeholder={t("sims.createFromAnExistingReport")}
-                  value={operationsWithSimsOptions.find(
-                    ({ value }) => value === idParent,
-                  )}
+                  value={operationsWithSimsOptions.find(({ value }) => value === idParent)}
                   options={operationsWithSimsOptions}
                   onChange={onSiblingSimsChange()}
                   disabled={changed}

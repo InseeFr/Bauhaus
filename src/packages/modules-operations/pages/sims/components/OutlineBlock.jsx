@@ -74,10 +74,7 @@ export const OutlineBlock = ({
                   onClick={expandOrCollapseItem}
                 >
                   <span
-                    className={cx(
-                      "glyphicon",
-                      `glyphicon-chevron-${child.opened ? "up" : "down"}`,
-                    )}
+                    className={cx("glyphicon", `glyphicon-chevron-${child.opened ? "up" : "down"}`)}
                   />
                 </button>
               )}
