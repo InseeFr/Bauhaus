@@ -3,22 +3,26 @@ import { screen } from "@testing-library/dom";
 import { useLocation } from "react-router-dom";
 import { describe, expect, it, Mock, vi } from "vitest";
 
-vi.mock("i18next", () => ({
-  default: {
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "common.familiesTitle": "Families",
-        "common.seriesTitle": "Series",
-        "common.operationsTitle": "Operations",
-        "common.indicatorsTitle": "Indicators",
-        "app.help": "Help",
-        "documents.document": "Document",
-        "documents.titleLink": "Link",
-      };
-      return translations[key] ?? key;
-    },
-  },
-}));
+vi.mock("react-i18next", async () => {
+  const originalModule = await vi.importActual("react-i18next");
+  return {
+    ...originalModule,
+    useTranslation: () => ({
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          "common.familiesTitle": "Families",
+          "common.seriesTitle": "Series",
+          "common.operationsTitle": "Operations",
+          "common.indicatorsTitle": "Indicators",
+          "app.help": "Help",
+          "documents.document": "Document",
+          "documents.titleLink": "Link",
+        };
+        return translations[key] ?? key;
+      },
+    }),
+  };
+});
 
 import { renderWithRouter } from "../../tests/render";
 import { MenuOperations } from "./menu";
