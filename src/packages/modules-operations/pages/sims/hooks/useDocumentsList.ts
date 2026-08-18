@@ -5,7 +5,7 @@ import { GeneralApi } from "@sdk/general-api";
 import { sortArray } from "@utils/array-utils";
 
 import { Document } from "../../../../model/operations/document";
-import { DocumentsStoreObject } from "./documents-store-context";
+import { DocumentsStoreObject } from "./useDocumentsStoreContext";
 
 export const useDocumentsList = () => {
   const [documentStores, setDocumentStores] = useState<DocumentsStoreObject>({
