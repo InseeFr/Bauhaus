@@ -2,8 +2,13 @@ import { screen } from "@testing-library/react";
 
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
+import { getListItems } from "@components/ui/list-group/testing";
+
 import { HomeDocument } from "../../../../../model/operations/document";
-import { mockReactQueryForRbac, renderWithRouter } from "../../../../../tests/render";
+import {
+  mockReactQueryForRbac,
+  renderWithRouter,
+} from "../../../../../tests/render";
 
 vi.mock("react-i18next", async (importOriginal) => {
   const actual = await importOriginal<typeof import("react-i18next")>();
@@ -31,7 +36,9 @@ describe("DocumentHome", () => {
     mockReactQueryForRbac([
       {
         application: MODULES.OPERATION_DOCUMENT,
-        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+        privileges: [
+          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
+        ],
       },
     ]);
 
@@ -44,7 +51,9 @@ describe("DocumentHome", () => {
     mockReactQueryForRbac([
       {
         application: MODULES.OPERATION_DOCUMENT,
-        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+        privileges: [
+          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
+        ],
       },
     ]);
 
@@ -64,15 +73,16 @@ describe("DocumentHome", () => {
     );
     // With pagination, there are now 2 <ul>: one for documents, one for pagination
     expect(container.querySelectorAll("ul")).toHaveLength(2);
-    // Check only list-group items (documents), not pagination items
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("should display two Add buttons", async () => {
     mockReactQueryForRbac([
       {
         application: MODULES.OPERATION_DOCUMENT,
-        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+        privileges: [
+          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
+        ],
       },
     ]);
 

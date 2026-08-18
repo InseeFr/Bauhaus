@@ -21,7 +21,7 @@ import { UriInputGroup } from "./UriInputGroup";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
-import { useUserStamps } from "@utils/hooks/users";
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
 const defaultCodelist = {
   created: dayjs(),
@@ -44,18 +44,16 @@ export const CodelistDetailEdit = ({
 
   useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
-  const { data: stamps } = useUserStamps();
-  const stamp = stamps[0]?.stamp;
-
   const isContributor = useAuthorizationGuard("CODESLIST_CODESLIST", "CREATE");
+  const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {
     let codesList = { ...initialCodelist, ...defaultCodelist };
     if (!codesList.id) {
-      codesList.contributor = isContributor ? [stamp] : ["DG75-L201"];
+      codesList.contributor = defaultContributor ? [defaultContributor] : [];
     }
     setCodelist(codesList);
-  }, [initialCodelist, isContributor, stamp]);
+  }, [initialCodelist, defaultContributor]);
 
   const handleChange = useCallback(
     (e) => {

@@ -6,6 +6,7 @@ import { Link } from "../link";
 import { Select } from "../select-rmes";
 import "./pagination.css";
 import componentsI18n from "../i18n/index";
+import { List } from "../ui/list-group";
 
 const PAGE_WINDOW_SIZE = 3;
 
@@ -99,7 +100,7 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
 
   return (
     <>
-      <ul className="list-group">{paginationData.currentItems}</ul>
+      <List.Container>{paginationData.currentItems}</List.Container>
       <div>
         <div className="col-md-3 pull-left wilco-pagination">
           <label htmlFor="items-per-page" className="sr-only">

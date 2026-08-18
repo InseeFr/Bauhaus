@@ -6,6 +6,7 @@ import { isOpen } from "../utils/isOpen";
 import { toggleOpen } from "../utils/toggleOpen";
 import { OutlineButtonWithScroll } from "./OutlineButtonWithScroll";
 import "./OutlineBlock.css";
+import { cx } from "@utils/cx";
 
 export const OutlineBlock = ({
   secondary,
@@ -72,7 +73,12 @@ export const OutlineBlock = ({
                   id={child.idMas}
                   onClick={expandOrCollapseItem}
                 >
-                  <span className={`glyphicon glyphicon-chevron-${child.opened ? "up" : "down"}`} />
+                  <span
+                    className={cx(
+                      "glyphicon",
+                      `glyphicon-chevron-${child.opened ? "up" : "down"}`,
+                    )}
+                  />
                 </button>
               )}
               <OutlineButtonWithScroll

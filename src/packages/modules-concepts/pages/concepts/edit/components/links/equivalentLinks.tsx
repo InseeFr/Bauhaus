@@ -3,11 +3,12 @@ import { useTranslation } from "react-i18next";
 
 import { TextInput } from "@components/form/input";
 import { Row } from "@components/layout";
+import { List } from "@components/ui/list-group";
 
 import { CLOSE_MATCH } from "@sdk/constants";
 
 import { Link } from "../../../../../../model/concepts/concept";
-import "./equivalentLinks.scss";
+import "./equivalentLinks.css";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
 interface EquivalentLinksTypes {
@@ -22,7 +23,7 @@ export const EquivalentLinks = ({
   const { t } = useTranslation();
   const [value, setValue] = useState("");
   return (
-    <div className="equivalentLinks">
+    <div className="equivalent-links">
       <Row>
         <div className="col-md-12">
           <div className="form-group">
@@ -55,7 +56,7 @@ export const EquivalentLinks = ({
       <ul>
         {links.map((link) => {
           return (
-            <li key={link.urn} className="list-group-item">
+            <List.Item key={link.urn}>
               <span>{link.urn}</span>
               <button
                 type="button"
@@ -66,7 +67,7 @@ export const EquivalentLinks = ({
               >
                 <span className="glyphicon glyphicon-trash" aria-hidden="true" />
               </button>
-            </li>
+            </List.Item>
           );
         })}
       </ul>

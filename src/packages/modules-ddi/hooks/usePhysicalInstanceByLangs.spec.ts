@@ -207,10 +207,10 @@ describe("usePhysicalInstanceByLangs", () => {
       const frData = result.current.get("fr-FR")!;
       const enData = result.current.get("en-GB")!;
 
-      expect(singleItemOfType(frData, "PhysicalInstance")!.Citation.Title).toEqual([
+      expect(singleItemOfType(frData, "PhysicalInstance")!.Citation!.Title).toEqual([
         { "@language": "fr-FR", "@value": "Titre FR" },
       ]);
-      expect(singleItemOfType(enData, "PhysicalInstance")!.Citation.Title).toEqual([
+      expect(singleItemOfType(enData, "PhysicalInstance")!.Citation!.Title).toEqual([
         { "@language": "en-GB", "@value": "Title EN" },
       ]);
     });

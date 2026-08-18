@@ -22,7 +22,7 @@ const ConceptCompare = ({ conceptGeneral, notes, secondLang }: Readonly<ConceptC
   return (
     <div>
       <div className="container">
-        <PageTitle title={secondLang ? prefLabelLg2 : prefLabelLg1} />
+        <PageTitle title={(secondLang ? prefLabelLg2 : prefLabelLg1) ?? ""} />
         <Controls />
         <CheckSecondLang />
 

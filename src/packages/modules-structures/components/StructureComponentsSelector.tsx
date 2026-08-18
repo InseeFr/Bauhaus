@@ -152,9 +152,11 @@ export const StructureComponentsSelector = ({
   const handleCreateComponent = useCallback(
     (e: any) => {
       e.stopPropagation();
+      // Le contributeur par défaut est résolu par le formulaire de la
+      // composante (organisation de l'utilisateur ou contributeur par défaut
+      // de l'instance) : il ne doit pas être figé ici.
       setSelectedComponent({
         disseminationStatus: structure?.disseminationStatus,
-        contributor: "DG75-H250",
       });
       setOpenPanel(true);
     },

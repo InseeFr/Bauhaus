@@ -8,7 +8,7 @@ import { useDatasetsForDistributions } from "../../../../hooks/useDatasetsForDis
 
 type DatasetSelectProps = {
   disabled: boolean;
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
   error?: string;
 };
@@ -24,7 +24,7 @@ export const DatasetSelect = ({
   const { data: datasets } = useDatasetsForDistributions();
 
   const datasetsOptions =
-    datasets?.map((dataset) => ({
+    datasets?.map((dataset: { id: string; label: string }) => ({
       value: dataset.id,
       label: dataset.label,
     })) ?? [];

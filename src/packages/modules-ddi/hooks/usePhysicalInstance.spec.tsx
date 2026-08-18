@@ -84,7 +84,7 @@ describe("usePhysicalInstancesData", () => {
       json: async () => mockApiResponse,
     });
 
-    const { result } = renderHook(() => usePhysicalInstancesData("test-id"), {
+    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
       wrapper,
     });
 
@@ -120,7 +120,7 @@ describe("usePhysicalInstancesData", () => {
       json: async () => ({ Variable: [] }),
     });
 
-    const { result } = renderHook(() => usePhysicalInstancesData("test-id"), {
+    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
       wrapper,
     });
 
@@ -135,7 +135,7 @@ describe("usePhysicalInstancesData", () => {
       json: async () => ({}),
     });
 
-    const { result } = renderHook(() => usePhysicalInstancesData("test-id"), {
+    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
       wrapper,
     });
 
@@ -149,7 +149,7 @@ describe("usePhysicalInstancesData", () => {
       ok: false,
     });
 
-    const { result } = renderHook(() => usePhysicalInstancesData("test-id"), {
+    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
       wrapper,
     });
 
@@ -161,7 +161,7 @@ describe("usePhysicalInstancesData", () => {
   it("should handle network error", async () => {
     (global.fetch as any).mockRejectedValueOnce(new Error("Network error"));
 
-    const { result } = renderHook(() => usePhysicalInstancesData("test-id"), {
+    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
       wrapper,
     });
 
@@ -173,7 +173,7 @@ describe("usePhysicalInstancesData", () => {
   it("should return isLoading state initially", () => {
     (global.fetch as any).mockImplementationOnce(() => new Promise(() => {}));
 
-    const { result } = renderHook(() => usePhysicalInstancesData("test-id"), {
+    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
       wrapper,
     });
 
@@ -186,7 +186,7 @@ describe("usePhysicalInstancesData", () => {
       json: async () => mockApiResponse,
     });
 
-    const { result } = renderHook(() => usePhysicalInstancesData("test-id"), {
+    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
       wrapper,
     });
 

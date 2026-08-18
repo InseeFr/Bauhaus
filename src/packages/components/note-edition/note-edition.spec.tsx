@@ -11,8 +11,8 @@ describe("note-edition", () => {
           scopeNoteLg2: "scopeNote2",
           definitionLg1: "definitionLg1",
         }}
-        noteLg1Name="noteLg1Name"
-        noteLg2Name="noteLg2Name"
+        noteLg1Name="scopeNoteLg1"
+        noteLg2Name="scopeNoteLg2"
         handleChangeLg1={vi.fn()}
         handleChangeLg2={vi.fn()}
         maxLength={0}

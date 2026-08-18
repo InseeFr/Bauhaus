@@ -8,7 +8,10 @@ import { useClassificationItem } from "../../../hooks/useClassificationItem";
 import { Compare } from "./components/Compare";
 
 export const Component = () => {
-  const { classificationId, itemId } = useParams<{ classificationId: string; itemId: string }>();
+  const { classificationId = "", itemId = "" } = useParams<{
+    classificationId: string;
+    itemId: string;
+  }>();
 
   const [secondLang] = useSecondLang();
 

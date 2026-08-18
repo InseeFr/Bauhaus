@@ -1,4 +1,3 @@
-//@ts-ignore
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import { Options, stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";
@@ -6,9 +5,17 @@ import { stateFromHTML } from "draft-js-import-html";
 import { draftjsToMd } from "@components/rich-editor/draftjs/draftjsToMd";
 import { mdToDraftjs, REGEXPS } from "@components/rich-editor/draftjs/mdToDraftjs";
 
-export const containUnsupportedStyles = (attr: Record<string, string> = {}) => {
-  return !!REGEXPS.map((r) => r.regexp).find(
-    (regexp) => !!Object.keys(attr).find((key) => regexp.test(attr[key])),
+/**
+ * Cherche un style non supporté dans les valeurs de `attr`.
+ *
+ * Les appelants passent des objets métier entiers (`Family`, `Series`,
+ * `Indicator`), dont toutes les valeurs ne sont pas des chaînes : d'où `object`
+ * plutôt qu'un `Record<string, string>` qu'aucune interface ne satisfait, et la
+ * conversion explicite que `RegExp.test` faisait déjà implicitement.
+ */
+export const containUnsupportedStyles = (attr: object = {}) => {
+  return REGEXPS.some(({ regexp }: { regexp: RegExp }) =>
+    Object.values(attr).some((value) => regexp.test(String(value))),
   );
 };
 export const htmlToRawText = (html: string) => {

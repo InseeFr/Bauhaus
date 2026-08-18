@@ -9,11 +9,11 @@ import type { ValidationState } from "@components/status";
 import { isEmpty } from "@utils/value-utils";
 import { InseeOrganisation } from "@components/business/organisations/organisations";
 
-interface CollectionAttribute {
+export interface CollectionAttribute {
   created?: string;
-  modified?: string;
+  modified?: string | null;
   creator?: string | string[];
-  contributor?: string | string[];
+  contributor?: string | string[] | null;
   validationState?: ValidationState;
   descriptionLg1?: string;
   descriptionLg2?: string;

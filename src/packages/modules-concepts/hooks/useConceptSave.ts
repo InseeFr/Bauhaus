@@ -8,7 +8,7 @@ import { ConceptGeneral, ConceptNotes, Link } from "../../model/concepts/concept
 import { buildPayloadCreation } from "../utils/buildPayloadCreation";
 import { buildPayloadUpdate } from "../utils/buildPayloadUpdate";
 
-interface ConceptSaveData {
+export interface ConceptSaveData {
   general: ConceptGeneral;
   notes: ConceptNotes;
   conceptsWithLinks: { id: string; typeOfLink: string; label?: string }[];
@@ -19,9 +19,14 @@ interface ConceptPayload {
   collections: string[];
 }
 
-type SaveFn = {
+export type SaveFn = {
   (data: ConceptSaveData): void;
-  (id: string, versioningType: string, oldData: ConceptSaveData, data: ConceptSaveData): void;
+  (
+    id: string,
+    versioningType: string | undefined,
+    oldData: ConceptSaveData,
+    data: ConceptSaveData,
+  ): void;
 };
 
 export const useConceptSave = (id: string | undefined) => {

@@ -2,6 +2,7 @@ import { ReactNode, useId } from "react";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
+import { cx } from "@utils/cx";
 
 /**
  * A labelled cell of a form grid.
@@ -21,7 +22,7 @@ export const SearchField = ({
 }>) => {
   const id = useId();
   return (
-    <div className={`field ${col}`}>
+    <div className={cx("field", col)}>
       <label htmlFor={id}>{label}</label>
       {children(id)}
     </div>

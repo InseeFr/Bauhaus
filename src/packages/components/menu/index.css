@@ -1,28 +1,26 @@
-@mixin list-item-separator($color) {
-  content: "";
-  height: 60%;
-  width: 1px;
-  position: absolute;
-  right: 0;
-  top: 20%;
-  background-color: $color;
-}
-
-@media screen and (max-width: 767px) {
+@media screen and (width <= 767px) {
   .navbar-primary {
     .container-fluid {
       padding-right: 0;
       padding-left: 0;
     }
   }
+
   .navbar-nav {
     margin: 0;
   }
 }
-@media screen and (min-width: 767px) {
+
+@media screen and (width >= 767px) {
   .navbar-primary {
     .with-separator::after {
-      @include list-item-separator(white);
+      content: "";
+      height: 60%;
+      width: 1px;
+      position: absolute;
+      right: 0;
+      top: 20%;
+      background-color: white;
     }
   }
 }
@@ -43,6 +41,7 @@
   .navbar-nav {
     > li {
       padding: 0 10px;
+
       &:hover,
       &.active {
         background: var(--secondary-color);
@@ -52,15 +51,24 @@
         > button {
           color: red;
           background: none;
+
           &:focus,
           &:hover {
             background: none;
           }
         }
+
         &::after {
-          @include list-item-separator(transparent);
+          content: "";
+          height: 60%;
+          width: 1px;
+          position: absolute;
+          right: 0;
+          top: 20%;
+          background-color: transparent;
         }
       }
+
       a {
         color: white !important;
         border: 0;

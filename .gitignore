@@ -36,3 +36,6 @@ src/packages/modules-ddi/physical-instances/types/generated/
 
 *storybook.log
 storybook-static
+
+# playwright
+e2e/playwright-report

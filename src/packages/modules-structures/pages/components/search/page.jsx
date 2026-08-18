@@ -7,6 +7,7 @@ import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { List } from "@components/ui/list-group";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
@@ -47,9 +48,9 @@ const SearchFormList = ({ concepts, data }) => {
   const conceptsOptions = ItemToSelectModel.toSelectModel(concepts);
 
   const dataLinks = filteredData.map((component) => (
-    <li key={component.id} className="list-group-item text-left">
+    <List.Item key={component.id} className="text-left">
       <Link to={`/structures/components/${component.id}`}>{formatLabel(component)}</Link>
-    </li>
+    </List.Item>
   ));
 
   return (

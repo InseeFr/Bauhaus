@@ -4,14 +4,14 @@ import { Loading } from "@components/loading";
 
 import { GeneralApi } from "@sdk/general-api";
 
-import { Document } from "../../../../model/operations/document";
+import { Document, HomeDocument } from "../../../../model/operations/document";
 import { sortArray } from "../../../../utils/array-utils";
 import { DocumentHome } from "./components/DocumentHome";
 
 const sortByLabel = sortArray("label");
 
 export const Component = () => {
-  const [documents, setDocuments] = useState<Document[]>([]);
+  const [documents, setDocuments] = useState<HomeDocument[]>([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -22,10 +22,10 @@ export const Component = () => {
           (results as Document[]).map((document) => {
             return {
               label: (document.labelLg1 || document.labelLg2).trim(),
-              uri: document.uri,
+              uri: document.uri ?? "",
               lang: document.lang,
-              updatedDate: document.updatedDate,
-              id: document.uri?.substr(document.uri.lastIndexOf("/") + 1),
+              updatedDate: document.updatedDate ?? "",
+              id: document.uri?.substr(document.uri.lastIndexOf("/") + 1) ?? "",
             };
           }),
         );

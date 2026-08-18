@@ -1,14 +1,17 @@
-.equivalentLinks {
+.equivalent-links {
   button {
     padding: 0.5em 2em;
     margin: 0 0 0 1em;
     align-self: flex-end;
   }
+
   ul {
     margin-top: 1em;
-    padding: 0px;
+    padding: 0;
+
     li {
       display: flex;
+
       span {
         flex: 1;
       }
@@ -25,13 +28,14 @@
         line-height: normal;
         -webkit-font-smoothing: inherit;
         -moz-osx-font-smoothing: inherit;
-        -webkit-appearance: none;
         appearance: none;
       }
     }
   }
+
   .col-md-12 {
     display: flex;
+
     .form-group {
       flex: 1;
       margin-bottom: 0;

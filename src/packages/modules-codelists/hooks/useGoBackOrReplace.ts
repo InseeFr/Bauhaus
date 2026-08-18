@@ -5,7 +5,7 @@ export const useGoBackOrReplace = () => {
   const navigate = useNavigate();
   const location = useLocation();
   return useCallback(
-    (defaultRoute, forceRedirect) => {
+    (defaultRoute: string, forceRedirect?: boolean) => {
       if (forceRedirect) {
         if (history.length === 1 || location.state) {
           navigate(defaultRoute);

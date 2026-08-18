@@ -1,0 +1,3 @@
+# Bootstrap 3.4.1 compilé, recopié tel quel depuis la distribution amont.
+# Code vendor : on ne le lint pas, on ne le corrige pas à la main.
+/src/packages/styles/bootstrap.css

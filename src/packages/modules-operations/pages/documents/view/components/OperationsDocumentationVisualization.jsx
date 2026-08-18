@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
@@ -51,18 +50,23 @@ function formatSims(sims) {
  *
  * @param {OperationsDocumentationVisualizationProps} props
  */
-export function OperationsDocumentationVisualization({ id, attr, secondLang, langOptions, type }) {
+export function OperationsDocumentationVisualization({
+  id,
+  attr,
+  secondLang,
+  langOptions,
+  type,
+}) {
   const { t } = useTranslation();
 
-  useTitle(type === LINK ? t("documents.titleLink") : t("documents.titleDocument"), attr.labelLg1);
+  useTitle(
+    type === LINK ? t("documents.titleLink") : t("documents.titleDocument"),
+    attr.labelLg1,
+  );
 
   const sims = formatSims(attr.sims);
 
-  const [baseURI, setBaseURI] = useState("");
-
-  useEffect(() => {
-    getBaseURI().then((uri) => setBaseURI(uri));
-  });
+  const baseURI = getBaseURI();
 
   return (
     <>
@@ -85,7 +89,10 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
       {isDocument(attr) && (
         <Row>
           <Note
-            text={attr.updatedDate && new Date(attr.updatedDate).toLocaleDateString()}
+            text={
+              attr.updatedDate &&
+              new Date(attr.updatedDate).toLocaleDateString()
+            }
             title={t("documents.titleUpdatedDate")}
             alone={true}
             allowEmpty={true}
@@ -118,7 +125,10 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
       )}
       <Row>
         <Note
-          text={langOptions?.codes?.find((option) => option.code === attr.lang)?.labelLg1}
+          text={
+            langOptions?.codes?.find((option) => option.code === attr.lang)
+              ?.labelLg1
+          }
           title={t("app.langTitle", { lng: "fr" })}
           alone={true}
           allowEmpty={true}

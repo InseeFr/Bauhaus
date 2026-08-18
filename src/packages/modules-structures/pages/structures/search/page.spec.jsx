@@ -4,6 +4,7 @@ import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
 import { renderWithRouter } from "../../../../tests/render";
 import { Component } from "./page";
+import { getListItems } from "@components/ui/list-group/testing";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
 
@@ -73,32 +74,32 @@ describe("<SearchFormList /> structure-search", () => {
 
   it("returns all data when the form is empty (including structures with no components)", async () => {
     const { container } = await renderPage({});
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(3);
+    expect(getListItems(container)).toHaveLength(3);
   });
 
   it("filters by labelLg1", async () => {
     const { container } = await renderPage({ labelLg1: "test" });
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("filters by creator (organisation IRI)", async () => {
     const { container } = await renderPage({ creator: ORGANISATION_IRI });
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(2);
+    expect(getListItems(container)).toHaveLength(2);
   });
 
   it("filters by validation state", async () => {
     const { container } = await renderPage({ validationState: "Unpublished" });
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("filters by component label", async () => {
     const { container } = await renderPage({ componentLabelLg1: "foo" });
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("filters by component type", async () => {
     const { container } = await renderPage({ type: "MEASURE" });
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("renders the CreatorsInput (not a stamp dropdown) for the creator filter", async () => {

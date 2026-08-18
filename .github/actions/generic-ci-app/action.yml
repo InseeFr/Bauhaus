@@ -13,7 +13,7 @@ runs:
         version: 10
     - uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: 24
         cache: "pnpm"
     - name: 🏗️ Installing Dependencies
       shell: bash
@@ -21,6 +21,9 @@ runs:
     - name: 🧪 Running ESLint
       shell: bash
       run: pnpm lint
+    - name: 🧪 Running TypeScript
+      shell: bash
+      run: pnpm typecheck
     - name: 🧪 Running Knip
       shell: bash
       run: pnpm knip

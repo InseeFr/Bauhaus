@@ -5,7 +5,7 @@ import ExportButton from "./ExportButtonWithDropdown";
 describe("DropDown", () => {
   it("should be closed by default", () => {
     const { container } = render(<ExportButton actions={[]} />);
-    expect(container.querySelector(".dropdown__content").classList).toContain("inactive");
+    expect(container.querySelector(".dropdown__content")!.classList).toContain("inactive");
   });
   it("should be opened after clicking on the trigger button", () => {
     const { container } = render(
@@ -17,19 +17,19 @@ describe("DropDown", () => {
         ]}
       />,
     );
-    fireEvent.click(container.querySelector("button"));
-    expect(container.querySelector(".dropdown__content").classList).toContain("active");
+    fireEvent.click(container.querySelector("button")!);
+    expect(container.querySelector(".dropdown__content")!.classList).toContain("active");
   });
   it("should be closed when pressing the Escape key", () => {
     const { container } = render(<ExportButton actions={[]} />);
-    fireEvent.click(container.querySelector("button"));
-    fireEvent.keyDown(container.querySelector(".dropdown"), {
+    fireEvent.click(container.querySelector("button")!);
+    fireEvent.keyDown(container.querySelector(".dropdown")!, {
       key: "Escape",
       code: "Escape",
       keyCode: 27,
       charCode: 27,
     });
-    expect(container.querySelector(".dropdown__content").classList).toContain("inactive");
+    expect(container.querySelector(".dropdown__content")!.classList).toContain("inactive");
   });
   it("should display the actions props", () => {
     const { container } = render(
@@ -41,6 +41,6 @@ describe("DropDown", () => {
         ]}
       />,
     );
-    expect(container.querySelector("li button").innerHTML).toContain("Action 1");
+    expect(container.querySelector("li button")!.innerHTML).toContain("Action 1");
   });
 });

@@ -4,25 +4,28 @@ import { GeneralApi } from "@sdk/general-api";
 
 import { sortArray } from "@utils/array-utils";
 
+import { Document } from "../../../../model/operations/document";
+import { DocumentsStoreObject } from "./documents-store-context";
+
 export const useDocumentsList = () => {
-  const [documentStores, setDocumentStores] = useState({
+  const [documentStores, setDocumentStores] = useState<DocumentsStoreObject>({
     lg1: [],
     lg2: [],
   });
 
   useEffect(() => {
-    getDocumentsList().then((result: any) => setDocumentStores(result));
+    getDocumentsList().then(setDocumentStores);
   }, []);
 
   return { documentStores, setDocumentStores };
 };
 
-export const getDocumentsList = () => {
+export const getDocumentsList = (): Promise<DocumentsStoreObject> => {
   return GeneralApi.getDocumentsList().then((results: any) => {
-    const unSortedDocuments = results.map((document: any) => {
+    const unSortedDocuments: Document[] = results.map((document: Document) => {
       return {
         ...document,
-        id: document.uri.substr(document.uri.lastIndexOf("/") + 1),
+        id: document.uri!.substr(document.uri!.lastIndexOf("/") + 1),
       };
     });
     return {

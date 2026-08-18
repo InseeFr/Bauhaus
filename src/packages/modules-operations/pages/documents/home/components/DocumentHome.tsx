@@ -9,6 +9,7 @@ import { Row } from "@components/layout";
 import { NumberResults } from "@components/number-results";
 import { PageTitle } from "@components/page-title";
 import { Pagination } from "@components/pagination";
+import { List } from "@components/ui/list-group";
 
 import { EMPTY_ARRAY, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
@@ -69,7 +70,7 @@ const SearchableList = ({
   useEffect(() => {
     const searchQuery = new URL(url).searchParams;
     if (searchQuery.has("search")) {
-      setSearch(DOMPurify.sanitize(searchQuery.get("search")));
+      setSearch(DOMPurify.sanitize(searchQuery.get("search") ?? ""));
     }
   }, [url]);
 
@@ -86,9 +87,9 @@ const SearchableList = ({
   const hits = items.filter(filter(search));
 
   const hitEls = hits.map((item) => (
-    <li key={item.id} className="list-group-item">
+    <List.Item key={item.id}>
       <Link to={`/${childPath(item)}/${item.id}`}>{formatter(item, label)}</Link>
-    </li>
+    </List.Item>
   ));
 
   return (

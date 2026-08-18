@@ -4,11 +4,13 @@ import { Row } from "@components/layout";
 import { Pagination } from "@components/pagination";
 
 import { filterKeyDeburr, nbResults } from "@utils/array-utils";
+import { cx } from "@utils/cx";
 import { createAllDictionary } from "@utils/dictionnary";
 import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
+import { List } from "../ui/list-group";
 
 const { D } = createAllDictionary({
   searchLabelPlaceholder: {
@@ -73,9 +75,9 @@ export const SearchableList = ({
   const hitEls = hits.map((item: any) => {
     const path = typeof childPath === "function" ? childPath(item) : childPath;
     return (
-      <li key={item.id} className="list-group-item">
+      <List.Item key={item.id}>
         <Link to={`/${path}/${item.id}`}>{itemFormatter(item[label], item)}</Link>
-      </li>
+      </List.Item>
     );
   });
 
@@ -83,7 +85,7 @@ export const SearchableList = ({
   const colOffset = colOff ? `col-md-offset-${colOff}` : "";
 
   return (
-    <div className={`${colSize} ${colOffset}`}>
+    <div className={cx(colSize, colOffset)}>
       <div className="row form-group">
         <div className="col-md-12">
           <IconField iconPosition="left" className="flex-1">

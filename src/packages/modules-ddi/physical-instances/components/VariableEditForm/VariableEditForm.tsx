@@ -19,6 +19,7 @@ import { DdiPreview } from "./DdiPreview";
 import { pickLang } from "../../../utils/multilingual";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
+import { cx } from "@utils/cx";
 
 const VARIABLE_TYPES = {
   NUMERIC: "numeric",
@@ -481,7 +482,7 @@ export const VariableEditForm = ({
             headerTemplate={(options) => {
               return (
                 <div
-                  className={`${options.className} flex align-items-center gap-2`}
+                  className={cx(options.className, "flex align-items-center gap-2")}
                   onClick={options.onClick}
                 >
                   <span className={hasValidationErrors ? "text-red-500" : ""}>
@@ -524,7 +525,7 @@ export const VariableEditForm = ({
             headerTemplate={(options) => {
               return (
                 <div
-                  className={`${options.className} flex align-items-center gap-2`}
+                  className={cx(options.className, "flex align-items-center gap-2")}
                   onClick={options.onClick}
                 >
                   <span>{t("physicalInstance.view.tabs.representation")}</span>
@@ -562,7 +563,7 @@ export const VariableEditForm = ({
             headerTemplate={(options) => {
               return (
                 <div
-                  className={`${options.className} flex align-items-center gap-2`}
+                  className={cx(options.className, "flex align-items-center gap-2")}
                   onClick={options.onClick}
                 >
                   <i

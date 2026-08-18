@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 import type { CodeListUsage } from "../../types/api";
 import { buildCodeListUsersTree, type CodeListUsersNodeData } from "./codeListUsersTree";
+import { cx } from "@utils/cx";
 
 const PHYSICAL_INSTANCE_PATH = "/ddi/physical-instances";
 const linkStyle = { textDecoration: "none", color: "inherit" } as const;
@@ -61,11 +62,11 @@ export const UsersPanel = ({
   // En-tête personnalisé : pas de bouton "+/−" par défaut, l'ouverture/fermeture se fait en cliquant
   // sur l'en-tête, et l'icône "?" porte l'explication (tooltip au survol).
   const headerTemplate = (options: PanelHeaderTemplateOptions) => (
-    <div className={`${options.className} cursor-pointer`} onClick={options.onTogglerClick}>
+    <div className={cx(options.className, "cursor-pointer")} onClick={options.onTogglerClick}>
       <Tooltip target={`.${helpTooltipTarget}`} position="left" />
       <span className={options.titleClassName}>{title}</span>
       <i
-        className={`pi pi-question-circle ${helpTooltipTarget}`}
+        className={cx("pi pi-question-circle", helpTooltipTarget)}
         data-pr-tooltip={help}
         style={{ cursor: "help" }}
         aria-label={help}

@@ -29,6 +29,8 @@ const SimsFieldComponent = ({
   codesLists,
   handleChange,
   simsModified,
+  // Uniquement lu par le comparateur de `memo` en bas de fichier.
+  organisationsOptions: _organisationsOptions,
 }) => {
   const { t } = useTranslation();
   const autoUpdatedFromModified = isAutoUpdatedFromModified(msd);

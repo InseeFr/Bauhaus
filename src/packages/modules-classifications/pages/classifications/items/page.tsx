@@ -23,7 +23,7 @@ interface ClassificationGeneral {
 }
 
 export const Component = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
 
   const [items, setItems] = useState<Item[]>();
 

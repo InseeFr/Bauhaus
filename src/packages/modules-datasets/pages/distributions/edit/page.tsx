@@ -82,7 +82,10 @@ export const Component = () => {
       ) : (
         <PageTitle title={t("distribution.creationPageTitle")} />
       )}
-      <Menu onSave={onSubmit} isSaveDisabled={state.clientSideErrors.errorMessage?.length > 0} />
+      <Menu
+        onSave={onSubmit}
+        isSaveDisabled={(state.clientSideErrors.errorMessage?.length ?? 0) > 0}
+      />
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}

@@ -2,6 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useTranslation } from "react-i18next";
 
+import { List } from "@components/ui/list-group";
 import { Document } from "../../../../../model/operations/document";
 import { DocumentAsideInformation, DocumentLink } from "./DocumentListItem";
 import "./SortableDocumentItem.css";
@@ -25,7 +26,14 @@ export const SortableDocumentItem = ({
   deleteHandler,
 }: Readonly<SortableDocumentItemProps>) => {
   const { t } = useTranslation();
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id: document.uri as string,
   });
 
@@ -38,10 +46,10 @@ export const SortableDocumentItem = ({
   };
 
   return (
-    <li
+    <List.Item
       ref={setNodeRef}
       style={style}
-      className="list-group-item documentbloc-item documentbloc-item--sortable"
+      className="documentbloc-item documentbloc-item--sortable"
     >
       <button
         type="button"
@@ -50,10 +58,17 @@ export const SortableDocumentItem = ({
         {...attributes}
         {...listeners}
       >
-        <span className="glyphicon glyphicon-menu-hamburger" aria-hidden="true" />
+        <span
+          className="glyphicon glyphicon-menu-hamburger"
+          aria-hidden="true"
+        />
       </button>
       <span>
-        <DocumentLink document={document} localPrefix={localPrefix} baseURI={baseURI} />
+        <DocumentLink
+          document={document}
+          localPrefix={localPrefix}
+          baseURI={baseURI}
+        />
         <DocumentAsideInformation document={document} />
       </span>
       <button
@@ -64,6 +79,6 @@ export const SortableDocumentItem = ({
       >
         <span className="glyphicon glyphicon-trash" aria-hidden="true" />
       </button>
-    </li>
+    </List.Item>
   );
 };

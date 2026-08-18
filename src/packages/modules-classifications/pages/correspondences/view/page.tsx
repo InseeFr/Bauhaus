@@ -11,7 +11,7 @@ import { HomeAssociations } from "./components/HomeAssociations";
 import { HomeGeneral } from "./components/HomeGeneral";
 
 export const Component = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
 
   const { data: correspondence, isLoading } = useQuery({
     queryKey: ["correspondance-general", id],

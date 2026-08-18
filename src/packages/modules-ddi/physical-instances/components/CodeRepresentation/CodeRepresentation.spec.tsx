@@ -524,7 +524,7 @@ describe("CodeRepresentation", () => {
       const updatedCodeList: CodeList = {
         ...mockCodeList,
         Code: [
-          ...mockCodeList.Code,
+          ...(mockCodeList.Code ?? []),
           {
             $type: "CodeType",
             URN: "urn:ddi:fr.insee:code-2:1",

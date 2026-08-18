@@ -15,6 +15,7 @@ import { Menu } from "../menu";
 import { validate } from "../validation";
 import GeneralEdition from "./general";
 import LinksEdition, { ConceptWithLink } from "./links";
+import type { SaveFn } from "../../../../hooks/useConceptSave";
 import NotesEdition from "./notes";
 
 type VersioningType = typeof VERSIONING | typeof NO_VERSIONING;
@@ -31,12 +32,9 @@ export interface ConceptData {
   equivalentLinks: (Link & { urn: string })[];
 }
 
-type SaveFn = (
-  idOrData: string | ConceptData,
-  versioningType?: VersioningType,
-  oldData?: ConceptData,
-  data?: ConceptData,
-) => void;
+// Le type vit avec la fonction qui le produit : deux déclarations homonymes mais
+// structurellement différentes rendaient `save` non transmissible d'un module à l'autre.
+export type { SaveFn };
 
 interface ConceptEditionCreationProps extends WithTranslation {
   id?: string;

@@ -5,7 +5,7 @@ import { TextInput } from "@components/form/input";
 const MEDIA_TYPE_OPTIONS = ["CSV", "PARQUET", "XSLX"];
 
 type MediaTypeInputProps = {
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
 };
 

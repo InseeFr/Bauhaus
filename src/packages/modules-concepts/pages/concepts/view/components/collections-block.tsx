@@ -15,7 +15,7 @@ export const CollectionsBlock = ({
   const { data } = useCollections();
   const { t } = useTranslation();
 
-  const collectionsMap = useMemo(() => new Map(data.map((c) => [c.id, c])), [data]);
+  const collectionsMap = useMemo(() => new Map((data ?? []).map((c) => [c.id, c])), [data]);
 
   const collections = collectionsIds
     .map((id) => collectionsMap.get(id))

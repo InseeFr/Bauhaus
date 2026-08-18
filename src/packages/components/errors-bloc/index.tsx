@@ -30,13 +30,11 @@ export const GlobalClientSideErrorBloc = ({
   }
   return clientSideErrors.length > 0 ? (
     <div className="bauhaus-error-bloc alert alert-danger" role="alert">
-      {(
-        <div
-          dangerouslySetInnerHTML={{
-            __html: NewDictionnary.errors.globalClientSideErrorBloc,
-          }}
-        />
-      ) || <span style={{ whiteSpace: "pre-wrap" }}> </span>}
+      <div
+        dangerouslySetInnerHTML={{
+          __html: NewDictionnary.errors.globalClientSideErrorBloc,
+        }}
+      />
     </div>
   ) : null;
 };
@@ -71,9 +69,7 @@ export const ErrorBloc = ({ error, D = OldDictionnary }: { error?: unknown; D?: 
     });
   return formattedErrors.map((e, index) => (
     <div key={index} className="bauhaus-error-bloc alert alert-danger" role="alert">
-      {<div dangerouslySetInnerHTML={{ __html: e }} /> || (
-        <span style={{ whiteSpace: "pre-wrap" }}> </span>
-      )}
+      <div dangerouslySetInnerHTML={{ __html: e }} />
     </div>
   ));
 };

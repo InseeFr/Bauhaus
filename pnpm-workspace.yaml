@@ -2,3 +2,4 @@ minimumReleaseAge: 1440
 packages:
   - "src/*"
   - "documentation"
+  - "scripts"

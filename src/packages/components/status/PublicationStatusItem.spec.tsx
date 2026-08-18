@@ -1,8 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
+import { ComponentProps } from "react";
+
 import { PublicationStatusItem } from "./PublicationStatusItem";
 
-const renderItem = (props) =>
+const renderItem = (props: ComponentProps<typeof PublicationStatusItem>) =>
   render(
     <ul>
       <PublicationStatusItem {...props} />

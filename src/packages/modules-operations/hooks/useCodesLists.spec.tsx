@@ -61,7 +61,7 @@ describe("useCodesLists", () => {
 
     const notationsFetched = vi
       .mocked(CodelistsApi.getCodesList)
-      .mock.calls.map(([n]) => n)
+      .mock.calls.map(([n]: [string]) => n)
       .sort();
     expect(notationsFetched).toEqual(["CL_BAR", "CL_BAZ", "CL_FOO"]);
 
@@ -94,7 +94,7 @@ describe("useCodesLists", () => {
 
     const fooCalls = vi
       .mocked(CodelistsApi.getCodesList)
-      .mock.calls.filter(([n]) => n === "CL_FOO");
+      .mock.calls.filter(([n]: [string]) => n === "CL_FOO");
     expect(fooCalls).toHaveLength(1);
   });
 

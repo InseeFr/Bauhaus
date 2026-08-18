@@ -5,11 +5,11 @@ import CollectionMembers from "./members";
 
 vi.mock("@utils/hooks/useTranslation", () => ({
   useTranslation: () => ({
-    t: (key, opts) =>
+    t: (key: string, opts?: { size?: number }) =>
       key === "collection.membersPanelTitle"
         ? `Concepts membres de la collection (${opts?.size})`
         : key,
-    t2: (key, opts) =>
+    t2: (key: string, opts?: { size?: number }) =>
       key === "collection.membersPanelTitle" ? `Collection concept members (${opts?.size})` : key,
   }),
 }));

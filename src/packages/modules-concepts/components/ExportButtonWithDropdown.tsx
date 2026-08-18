@@ -2,6 +2,8 @@ import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
 
 import { ExportButton } from "@components/buttons/buttons-with-icons";
 
+import { cx } from "@utils/cx";
+
 import "./ExportButtonWithDropdown.scss";
 
 const useOutsideClick = (
@@ -49,14 +51,16 @@ const ExportButtonWithDropdown = ({
   };
   useEffect(() => {
     if (open) {
-      (dropdownRef.current?.querySelector("li *") as HTMLElement | null)?.focus();
+      (
+        dropdownRef.current?.querySelector("li *") as HTMLElement | null
+      )?.focus();
     }
   }, [open]);
 
   return (
     <div className="dropdown col-md-2" ref={dropdownRef} onKeyDown={onKeyDown}>
       <ExportButton disabled={disabled} action={() => setOpen(!open)} />
-      <div className={`dropdown__content ${open ? "active" : "inactive"}`}>
+      <div className={cx("dropdown__content", open ? "active" : "inactive")}>
         <div className="dropdown__info">
           <ul>
             {actions.map((action, i) => (

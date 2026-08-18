@@ -2,13 +2,13 @@
 * we tried to respect the ITCSS architecture for our stylessheets
 */
 
-@use "tools.scss";
-@use "generic.scss";
-@use "elements.scss";
-@use "components.scss";
-@use "utilities.scss";
-
-@import "settings.css";
+/* Ordre repris tel quel de la version Sass : `@import "settings.css"` y était
+   remonté en tête par le compilateur, avant les partials agrégés par `@use`. */
+@import url("settings.css");
+@import url("generic.css");
+@import url("elements.css");
+@import url("components.css");
+@import url("utilities.css");
 
 .items {
   display: inline-block;
@@ -18,13 +18,7 @@
   margin-top: 10%;
 }
 
-img.img-flag {
-  height: 20px !important;
-  width: auto !important;
-  margin: 0 !important;
-}
-
-@media (max-width: 1000px) {
+@media (width <= 1000px) {
   .operations-list {
     width: 100%;
   }
@@ -37,17 +31,21 @@ img.img-flag {
 .nav-tabs > li {
   border: 1px solid var(--primary-color);
 }
+
 .nav-tabs.nav-justified > li > a {
   border-bottom: none;
 }
+
 .nav-tabs > li > a:hover {
   background-color: var(--secondary-color) !important;
   color: #fff !important;
 }
+
 .nav-tabs > li.active > a {
   background-color: var(--primary-color) !important;
   color: #fff !important;
 }
+
 .nav-tabs > li > a:focus {
   background-color: var(--primary-color) !important;
   color: #fff;
@@ -67,6 +65,7 @@ img.img-flag {
   display: flex;
   flex-wrap: wrap;
 }
+
 .row.flex [class*="col-"] {
   display: flex;
   flex-direction: column;
@@ -109,9 +108,7 @@ footer {
   }
 
   a:first-child {
-    border-right-color: #82848b;
-    border-right-style: solid;
-    border-right-width: 2px;
+    border-right: 2px solid #82848b;
     padding-right: 20px;
   }
 
@@ -192,6 +189,7 @@ footer {
 .modal-header {
   color: white;
   background: var(--primary-color);
+
   .close {
     opacity: 1;
     color: white;
@@ -199,7 +197,6 @@ footer {
 }
 
 .wilco-action-toolbar {
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -212,20 +209,16 @@ footer {
     max-width: 250px;
   }
 }
+
 .ReactModal__Overlay {
   z-index: 20;
 }
 
 .DraftEditor-root {
   max-height: 100px;
-  overflow: scroll;
+  overflow: auto;
 }
 
-.sr-only {
-  position: absolute;
-  top: 0;
-  left: -3000px;
-}
 .form-control {
   font-size: inherit !important;
 }

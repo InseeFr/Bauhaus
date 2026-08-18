@@ -1,10 +1,7 @@
-//@ts-ignore
 import dayjs from "dayjs";
 import "dayjs/locale/en";
 import "dayjs/locale/fr";
-//@ts-ignore
 import isBetween from "dayjs/plugin/isBetween";
-//@ts-ignore
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 
 import { getLang } from "./dictionnary";
@@ -27,7 +24,7 @@ export const isOutOfDate = (end: Date | string) => dayjs().isAfter(end);
 
 export const today = () => dayjs().locale(getLang()).format("L");
 
-export const stringToDate = (string: string, lang?: string) => {
+export const stringToDate = (string: string | undefined, lang?: string) => {
   if (!string) {
     return "";
   }

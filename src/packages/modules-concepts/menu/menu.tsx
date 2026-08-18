@@ -64,7 +64,7 @@ export const Menu = () => {
     ];
   }
   const currentPath = paths.find((path) => {
-    return location.pathname.includes(path.pathKey);
+    return location.pathname.includes(path.pathKey as string);
   });
   if (currentPath) {
     currentPath.className = "active";

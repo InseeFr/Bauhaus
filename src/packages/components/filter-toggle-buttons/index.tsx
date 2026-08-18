@@ -1,5 +1,6 @@
 import { BOTH, DOCUMENT, LINK } from "../../modules-operations/constants/documentType";
 import "./filter-toggle-buttons.css";
+import { cx } from "@utils/cx";
 
 interface FilterToggleButtonsTypes {
   options: [typeof BOTH | typeof DOCUMENT | typeof LINK, string][];
@@ -19,9 +20,10 @@ const FilterToggleButtons = ({
           <div className="btn-group" role="group" key={value}>
             <button
               type="button"
-              className={`btn btn-default ${
-                currentValue === value ? "bauhaus-filter-toggle-buttons-btn-active" : ""
-              }`}
+              className={cx(
+                "btn btn-default",
+                currentValue === value && "bauhaus-filter-toggle-buttons-btn-active",
+              )}
               onClick={() => handleSelection(value)}
             >
               {title}

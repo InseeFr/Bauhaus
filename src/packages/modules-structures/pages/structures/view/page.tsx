@@ -20,7 +20,7 @@ import { EMPTY_ARRAY } from "@utils/array-utils";
 
 interface StructureViewTypes {
   structure: Structure;
-  publish: (id: string) => void;
+  publish: VoidFunction;
   serverSideError?: string;
 }
 

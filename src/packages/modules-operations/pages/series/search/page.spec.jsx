@@ -5,6 +5,7 @@ import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
 import { renderWithRouter } from "../../../../tests/render";
 import * as useStampsHook from "../../../../utils/hooks/stamps";
 import { SearchFormList } from "./page";
+import { getListItems } from "@components/ui/list-group/testing";
 
 const data = [
   {
@@ -19,8 +20,10 @@ const data = [
     typeList: CL_SOURCE_CATEGORY,
     abstractLg2:
       "<p>The objective of the self-employed database is to study annually the employment and earned incomes of self-employed (including micro-entrepreneurs).<br />\nThe self-employed database enables to measure the number of non-salaried employees and their earned incomes, by sector of activity (according to the French classification of economic activities (NAF rev. 2)) and at a sub-national level (the municipality where the activity is located being known).</p>",
-    historyNoteLg2: "<p>The self-employed database has been available since 2006.</p>",
-    historyNoteLg1: "<p>La base non-salariés est disponible depuis l'année 2006.</p>",
+    historyNoteLg2:
+      "<p>The self-employed database has been available since 2006.</p>",
+    historyNoteLg1:
+      "<p>La base non-salariés est disponible depuis l'année 2006.</p>",
     publishers: { id: "Acoss" },
     accrualPeriodicityCode: "A",
     id: "s1037",
@@ -49,10 +52,12 @@ const data = [
     abstractLg1:
       "<p>L'enqu&ecirc;te de fr&eacute;quentation dans les h&eacute;bergements touristiques a pour objectif l'observation conjoncturelle de la fr&eacute;quentation et l'&eacute;tude de la structure de la client&egrave;le, notamment de son origine g&eacute;ographique.<br />Elle couvre trois types d&rsquo;&eacute;tablissements&nbsp;: les h&ocirc;tels, les campings et les autres h&eacute;bergements collectifs de tourisme (auberges de jeunesse, centres internationaux de s&eacute;jour, centres sportifs, r&eacute;sidences de tourisme et r&eacute;sidences h&ocirc;teli&egrave;res, maisons familiales de vacances et villages de vacances).</p>\r\n<p>Les informations sont produites au plan national, r&eacute;gional, voire infra-r&eacute;gional.</p>",
     typeList: CL_SOURCE_CATEGORY,
-    prefLabelLg1: "Enquête mensuelle de fréquentation dans les hébergements collectifs de tourisme",
+    prefLabelLg1:
+      "Enquête mensuelle de fréquentation dans les hébergements collectifs de tourisme",
     abstractLg2:
       "<p>The visitor survey in tourist accommodation aims at the cyclical observation of attendance and the study of the structure of the clientele, including its geographical origin.<br />It covers three types of establishments: hotels, campings and other collective tourist accommodation (youth hostels, international centers of residence, sports centers, tourist residences and residential hotels, family holiday homes and holiday villages).</p>\r\n<p>The information is produced at the national, regional or even sub-regional levels.</p>",
-    prefLabelLg2: "Monthly attendance survey in collective tourist accommodation",
+    prefLabelLg2:
+      "Monthly attendance survey in collective tourist accommodation",
     historyNoteLg2:
       "<p>In 2019, the three survey segments (hotels, campsites and other collective tourist accommodation) were grouped together in a single operation.</p>",
     creators: [],
@@ -66,7 +71,8 @@ const data = [
     abstractLg1:
       "<p>Le syst&egrave;me d&rsquo;information LIFI d&eacute;crit les liaisons financi&egrave;res entre soci&eacute;t&eacute;s. Il permet d&rsquo;identifier et de caract&eacute;riser les groupes de soci&eacute;t&eacute;s op&eacute;rant en France et de d&eacute;terminer leur contour sur le territoire national. LIFI constitue ainsi le r&eacute;pertoire fran&ccedil;ais des groupes de soci&eacute;t&eacute;s. Il est un &eacute;l&eacute;ment du syst&egrave;me de r&eacute;pertoire d&rsquo;entreprises fran&ccedil;ais (SIRUS) et alimente chaque ann&eacute;e le r&eacute;pertoire europ&eacute;en des groupes (EGR) pour les groupes internationaux pr&eacute;sents en France et leurs filiales.<br />LIFI est bas&eacute; sur la connaissance la plus compl&egrave;te possible des liens de d&eacute;tention capitalistique entre soci&eacute;t&eacute;s (ou liaisons financi&egrave;res).<br />Il est aliment&eacute; par de multiples sources&nbsp; : les donn&eacute;es de la Banque de France collect&eacute;es dans le cadre de la cotation bancaire des entreprises (alimentation du Fichier Bancaire des Entreprises &ndash; FIBEN), la source fiscale (DGFIP), les donn&eacute;es commerciales (ORBIS-BvD) et les informations disponibles dans les rapports d&rsquo;activit&eacute; diffus&eacute;s par les groupes.<br />La d&eacute;tention par une soci&eacute;t&eacute; &laquo;&nbsp;m&egrave;re&nbsp;&raquo; de tout ou une partie des actions (droits de vote) d&rsquo;une soci&eacute;t&eacute; &laquo;&nbsp;fille&nbsp;&raquo; caract&eacute;rise la relation de contr&ocirc;le entre soci&eacute;t&eacute;s.<br />A partir de ces liens financiers, un algorithme de calcul d&eacute;termine les t&ecirc;tes de groupe (GGH= Global Group Head) et leur contour. Un travail d&rsquo;expertise manuel affine ensuite la d&eacute;limitation du contour et d&eacute;termine le centre de d&eacute;cision du groupe (GDC = global decision center) qui peut &ecirc;tre diff&eacute;rent de la t&ecirc;te de groupe.<br />Plusieurs notions de contour sont g&eacute;r&eacute;es : le noyau dur pour les filiales d&eacute;tenues ou contr&ocirc;l&eacute;es majoritairement (directement ou indirectement &agrave; plus de 50&nbsp;% par une t&ecirc;te de groupe), le contour &eacute;largi et la mouvance des groupes pour les filiales d&eacute;tenues ou contr&ocirc;l&eacute;es minoritairement.<br />Le groupe est trait&eacute; comme une unit&eacute; statistique &agrave; part enti&egrave;re, avec ses caract&eacute;ristiques propres (effectifs, activit&eacute; principale, nationalit&eacute;, filiales, GGH, GDC) et peut &ecirc;tre suivi dans le temps par un identifiant unique en cas de continuit&eacute; d&rsquo;une ann&eacute;e sur l&rsquo;autre.</p>",
     typeList: CL_SOURCE_CATEGORY,
-    prefLabelLg1: "Liaisons financières, le répertoire français sur les groupes",
+    prefLabelLg1:
+      "Liaisons financières, le répertoire français sur les groupes",
     creators: [],
     historyNoteLg1:
       "<p>Le syst&egrave;me d'information sur les groupes existe depuis 1979. Jusqu&rsquo;en 2011, LIFI reposait principalement sur une enqu&ecirc;te annuelle interrogeant des unit&eacute;s l&eacute;gales sur leurs actionnaires et participations. Depuis 2012, l'enqu&ecirc;te est remplac&eacute;e par l'exploitation de donn&eacute;es administratives et priv&eacute;es. L&rsquo;introduction de nouvelles sources de donn&eacute;es s&rsquo;est accompagn&eacute;e d&rsquo;une refonte du syst&egrave;me d&rsquo;information LIFI. <br />LIFI s&rsquo;est ainsi dot&eacute; d&rsquo;un nouvel applicatif et de nouveaut&eacute;s conceptuelles. Depuis le mill&eacute;sime LIFI 2015, les concepts, sources et processus sont pour l&rsquo;essentiel stabilis&eacute;s. Le nombre de groupes&nbsp;a augment&eacute; de fa&ccedil;on significative (de 53 000 en 2011 &agrave; 123 000 en 2015) traduisant un effet qualit&eacute; de la r&eacute;novation men&eacute;e, et refl&eacute;tant aussi la tendance actuelle des entreprises &agrave; s&rsquo;organiser en groupes.</p>",
@@ -149,8 +155,7 @@ describe("<SearchFormList />", () => {
     useUrlQueryParameters.mockReturnValue({ form });
 
     const { container } = renderWithRouter(<SearchFormList data={data} />);
-    // Select only list items with class 'list-group-item' to exclude pagination items
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(6);
+    expect(getListItems(container)).toHaveLength(6);
   });
 
   it("should filter by prefLabelLg1", () => {
@@ -158,23 +163,20 @@ describe("<SearchFormList />", () => {
     useUrlQueryParameters.mockReturnValue({ form });
 
     const { container } = renderWithRouter(<SearchFormList data={data} />);
-    // Select only list items with class 'list-group-item' to exclude pagination items
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
   it("should filter by typeCode", () => {
     const form = { typeCode: "S" };
     useUrlQueryParameters.mockReturnValue({ form });
     const { container } = renderWithRouter(<SearchFormList data={data} />);
-    // Select only list items with class 'list-group-item' to exclude pagination items
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(3);
+    expect(getListItems(container)).toHaveLength(3);
   });
   it("should filter by creators", async () => {
     const form = { creator: "DG57-C003" };
     useUrlQueryParameters.mockReturnValue({ form });
     const { container } = renderWithRouter(<SearchFormList data={data} />);
 
-    // Select only list items with class 'list-group-item' to exclude pagination items
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("should filter by publishers", async () => {
@@ -182,8 +184,7 @@ describe("<SearchFormList />", () => {
     useUrlQueryParameters.mockReturnValue({ form });
     const { container } = renderWithRouter(<SearchFormList data={data} />);
 
-    // Select only list items with class 'list-group-item' to exclude pagination items
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("should filter by dataCollector", async () => {
@@ -191,7 +192,6 @@ describe("<SearchFormList />", () => {
     useUrlQueryParameters.mockReturnValue({ form });
     const { container } = renderWithRouter(<SearchFormList data={data} />);
 
-    // Select only list items with class 'list-group-item' to exclude pagination items
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 });

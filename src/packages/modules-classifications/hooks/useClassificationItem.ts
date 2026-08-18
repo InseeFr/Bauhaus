@@ -31,7 +31,7 @@ export const useClassificationItem = (
               classificationId,
               itemId,
               version,
-            ).then((note) => {
+            ).then((note: Record<string, unknown>) => {
               return {
                 version,
                 ...emptyNotes,
@@ -69,11 +69,12 @@ export const useClassificationItem = (
 export const useClassificationParentLevels = (
   classificationId: string,
   itemId: string,
-  item: { general?: { broaderURI?: string; [key: string]: unknown } },
+  item: { general?: { broaderURI?: string; [key: string]: unknown } } | undefined,
 ) => {
   return useQuery({
     queryKey: ["classification-parent-levels", classificationId, itemId],
     queryFn: () => {
+      if (!item?.general) return Promise.resolve([]);
       return fetchingPreviousLevels(classificationId, item.general);
     },
     enabled: !!item?.general,

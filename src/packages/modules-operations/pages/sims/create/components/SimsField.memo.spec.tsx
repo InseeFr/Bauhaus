@@ -62,6 +62,7 @@ describe("SimsField - memo and codesLists", () => {
         secondLang={false}
         unbounded={false}
         organisationsOptions={[]}
+        simsModified="2024-01-01T00:00:00.000Z"
       />,
       { wrapper: createWrapper() },
     );
@@ -86,6 +87,7 @@ describe("SimsField - memo and codesLists", () => {
         secondLang={false}
         unbounded={false}
         organisationsOptions={[]}
+        simsModified="2024-01-01T00:00:00.000Z"
       />,
     );
 

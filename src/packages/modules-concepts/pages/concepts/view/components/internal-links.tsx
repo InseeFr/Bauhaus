@@ -11,7 +11,7 @@ export const InternalLinks = ({
 }: Readonly<{
   links: LinkType[];
   title: string;
-  labelProperty: string;
+  labelProperty: "prefLabelLg1" | "prefLabelLg2";
 }>) => {
   return (
     links.length > 0 && (

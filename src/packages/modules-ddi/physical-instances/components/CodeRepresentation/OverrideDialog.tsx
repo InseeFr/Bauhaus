@@ -13,6 +13,8 @@ import {
   type OverrideDialogChoice,
 } from "./overrideDialogTexts";
 
+import { cx } from "@utils/cx";
+
 export interface OverrideDialogProps {
   /** `null` quand aucune édition n'est en attente de confirmation : rien n'est rendu. */
   dialogCase: OverrideDialogCase | null;
@@ -59,9 +61,9 @@ const ChoiceCard = ({
     <button
       type="button"
       onClick={onClick}
-      className={`override-dialog-choice override-dialog-choice-${variantModifier}`}
+      className={cx("override-dialog-choice", `override-dialog-choice-${variantModifier}`)}
     >
-      <i className={`pi ${icon}`} aria-hidden="true" />
+      <i className={cx("pi", icon)} aria-hidden="true" />
       <span className="override-dialog-choice-text">
         <span className="override-dialog-choice-label">{label}</span>
         <span className="override-dialog-choice-description">{description}</span>

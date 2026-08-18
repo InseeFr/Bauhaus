@@ -1,14 +1,14 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-
-import { getBaseURI } from "@sdk/build-api";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import { getLang } from "@utils/dictionnary";
+
+import { getListItems } from "@components/ui/list-group/testing";
 
 import { DocumentsStoreProvider } from "../../hooks/useDocumentsStoreContext";
 import { DocumentsBloc } from "./DocumentsBloc";
 
 vi.mock("@sdk/build-api", () => ({
-  getBaseURI: vi.fn().mockResolvedValue("http://base-uri"),
+  getBaseURI: vi.fn().mockReturnValue("http://base-uri"),
 }));
 
 const translations = {
@@ -59,17 +59,14 @@ const documents = [
   },
 ];
 
-export const renderWithStore = async (component) => {
-  const result = render(
-    <DocumentsStoreProvider value={{ documentStores: { lg1: documents, lg2: documents } }}>
+export const renderWithStore = async (component) =>
+  render(
+    <DocumentsStoreProvider
+      value={{ documentStores: { lg1: documents, lg2: documents } }}
+    >
       {component}
     </DocumentsStoreProvider>,
   );
-  await waitFor(() => {
-    expect(getBaseURI).toHaveBeenCalled();
-  });
-  return result;
-};
 
 describe("DocumentsBloc", () => {
   beforeEach(() => {
@@ -82,12 +79,16 @@ describe("DocumentsBloc", () => {
   });
 
   it("should display nothing if the documents props is an empty array", async () => {
-    const { container } = await renderWithStore(<DocumentsBloc documents={[]} />);
+    const { container } = await renderWithStore(
+      <DocumentsBloc documents={[]} />,
+    );
     expect(container.querySelectorAll(".documentsbloc")).toHaveLength(0);
   });
 
   it("should display three items", async () => {
-    const { container } = await renderWithStore(<DocumentsBloc documents={documents} />);
+    const { container } = await renderWithStore(
+      <DocumentsBloc documents={documents} />,
+    );
     expect(container.querySelectorAll("li")).toHaveLength(3);
   });
 
@@ -119,33 +120,25 @@ describe("DocumentsBloc", () => {
   ];
 
   it("should display the Lg1 labels in the given array order (back-defined order), not alphabetically", async () => {
-    const expected = backOrdered.map(
-      (doc) =>
-        `<li class="list-group-item documentbloc-item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg1}">${doc.labelLg1}</a><i>(${doc.aside})</i></span></li>`,
+    const { container } = await renderWithStore(
+      <DocumentsBloc documents={backOrdered} />,
     );
 
-    const { container } = await renderWithStore(<DocumentsBloc documents={backOrdered} />);
-
-    const lis = container.querySelectorAll("li");
-    for (let i = 0; i < lis.length; i++) {
-      expect(lis[i].outerHTML).toEqual(expected[i]);
-    }
+    const labels = getListItems(container).map(
+      (item) => item.querySelector("a").textContent,
+    );
+    expect(labels).toEqual(backOrdered.map((doc) => doc.labelLg1));
   });
 
   it("should display the Lg2 labels in the given array order (back-defined order), not alphabetically", async () => {
-    const expected = backOrdered.map(
-      (doc) =>
-        `<li class="list-group-item documentbloc-item"><span><a target="_blank" rel="noreferrer noopener" href="${doc.url}" title="${doc.descriptionLg2}">${doc.labelLg2}</a><i>(${doc.aside})</i></span></li>`,
-    );
-
     const { container } = await renderWithStore(
       <DocumentsBloc documents={backOrdered} localPrefix="Lg2" />,
     );
 
-    const lis = container.querySelectorAll("li");
-    for (let i = 0; i < lis.length; i++) {
-      expect(lis[i].outerHTML).toEqual(expected[i]);
-    }
+    const labels = getListItems(container).map(
+      (item) => item.querySelector("a").textContent,
+    );
+    expect(labels).toEqual(backOrdered.map((doc) => doc.labelLg2));
   });
 
   describe.each`
@@ -155,18 +148,30 @@ describe("DocumentsBloc", () => {
   `("$a + $b", ({ lang, expectedEdit, expectedView }) => {
     it("should not display delete buttons", async () => {
       const { container } = await renderWithStore(
-        <DocumentsBloc documents={documents} localPrefix={lang} editMode={false} />,
+        <DocumentsBloc
+          documents={documents}
+          localPrefix={lang}
+          editMode={false}
+        />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(expectedView);
+      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(
+        expectedView,
+      );
     });
 
     it("should display zero delete buttons", async () => {
       const { container } = await renderWithStore(
-        <DocumentsBloc documents={documents} localPrefix={lang} editMode={true} />,
+        <DocumentsBloc
+          documents={documents}
+          localPrefix={lang}
+          editMode={true}
+        />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(expectedEdit);
+      expect(container.querySelectorAll(".documentsbloc-delete")).toHaveLength(
+        expectedEdit,
+      );
     });
   });
 
@@ -197,13 +202,14 @@ describe("DocumentsBloc", () => {
           setRubricIdForNewDocument,
         }}
       >
-        <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} idMas="1" />
+        <DocumentsBloc
+          documents={documents}
+          localPrefix="Lg1"
+          editMode={true}
+          idMas="1"
+        />
       </DocumentsStoreProvider>,
     );
-
-    await waitFor(() => {
-      expect(getBaseURI).toHaveBeenCalled();
-    });
 
     const btn = screen.getByLabelText(translations["app.btnAdd"]);
     fireEvent.click(btn);
@@ -216,7 +222,11 @@ describe("DocumentsBloc", () => {
 
   it("should not display the Add Document button for Lg2", async () => {
     const { container } = await renderWithStore(
-      <DocumentsBloc documents={documents} localPrefix="Lg2" editMode={false} />,
+      <DocumentsBloc
+        documents={documents}
+        localPrefix="Lg2"
+        editMode={false}
+      />,
     );
 
     expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(0);
@@ -227,9 +237,24 @@ describe("DocumentsBloc", () => {
       // Fresh array: sortArray mutates in place, so a shared array could already
       // be alphabetically ordered by previous tests.
       const unordered = [
-        { uri: "http://uri-b.fr", url: "http://b", labelLg1: "B labelLg1-0", lang: "fr" },
-        { uri: "http://uri-a.fr", url: "http://a", labelLg1: "A labelLg1-1", lang: "fr" },
-        { uri: "http://uri-z.fr", url: "http://z", labelLg1: "Z labelLg1-2", lang: "fr" },
+        {
+          uri: "http://uri-b.fr",
+          url: "http://b",
+          labelLg1: "B labelLg1-0",
+          lang: "fr",
+        },
+        {
+          uri: "http://uri-a.fr",
+          url: "http://a",
+          labelLg1: "A labelLg1-1",
+          lang: "fr",
+        },
+        {
+          uri: "http://uri-z.fr",
+          url: "http://z",
+          labelLg1: "Z labelLg1-2",
+          lang: "fr",
+        },
       ];
       const { container } = await renderWithStore(
         <DocumentsBloc
@@ -240,7 +265,9 @@ describe("DocumentsBloc", () => {
         />,
       );
 
-      const labels = [...container.querySelectorAll("li a")].map((a) => a.textContent);
+      const labels = [...container.querySelectorAll("li a")].map(
+        (a) => a.textContent,
+      );
       expect(labels).toEqual(["B labelLg1-0", "A labelLg1-1", "Z labelLg1-2"]);
     });
 
@@ -254,17 +281,23 @@ describe("DocumentsBloc", () => {
         />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc-drag-handle")).toHaveLength(
-        documents.length,
-      );
+      expect(
+        container.querySelectorAll(".documentsbloc-drag-handle"),
+      ).toHaveLength(documents.length);
     });
 
     it("should not display drag handles when onReorder is not provided", async () => {
       const { container } = await renderWithStore(
-        <DocumentsBloc documents={documents} localPrefix="Lg1" editMode={true} />,
+        <DocumentsBloc
+          documents={documents}
+          localPrefix="Lg1"
+          editMode={true}
+        />,
       );
 
-      expect(container.querySelectorAll(".documentsbloc-drag-handle")).toHaveLength(0);
+      expect(
+        container.querySelectorAll(".documentsbloc-drag-handle"),
+      ).toHaveLength(0);
     });
   });
 });

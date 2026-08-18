@@ -1,6 +1,6 @@
 import DOMPurify from "dompurify";
 
-import Editor from "@uiw/react-md-editor";
+import Editor from "@uiw/react-md-editor/nohighlight";
 import { Note } from "../note";
 
 interface ExplanatoryNoteTypes {

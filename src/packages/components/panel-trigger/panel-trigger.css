@@ -1,0 +1,45 @@
+/* Poignées d'ouverture/fermeture des panneaux latéraux.
+   Partagé par la mise en page MSD (modules-operations) et par celle des
+   datasets : les deux fichiers en portaient auparavant une copie identique. */
+
+.msd__panel-trigger_left,
+.msd__panel-trigger_right {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  padding: 6px 5px 2px;
+  position: absolute;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.msd__panel-trigger_right {
+  right: 0;
+  display: block;
+}
+
+.msd__panel-trigger_middle {
+  position: absolute;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  width: 50px;
+  height: 30px;
+  left: calc(30% - 30px);
+  border-radius: 2px;
+  display: table;
+
+  > div {
+    vertical-align: middle;
+    display: table-cell;
+
+    > button {
+      background: transparent;
+      border: none;
+    }
+  }
+}

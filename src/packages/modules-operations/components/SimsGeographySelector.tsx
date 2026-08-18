@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
+import { List } from "@components/ui/list-group";
 
 import { SimsGeographyI18NLabel } from "./SimsGeographyI18NLabel";
 
@@ -27,7 +28,7 @@ export const SimsGeographySelector = ({
   const { t } = useTranslation();
 
   const excludedItems = excludes.map((geography) => (
-    <li className="list-group-item" key={geography.value}>
+    <List.Item key={geography.value}>
       <SimsGeographyI18NLabel geography={geography} />
       <button
         type="button"
@@ -37,11 +38,11 @@ export const SimsGeographySelector = ({
       >
         <span className="glyphicon glyphicon-trash" aria-hidden="true" />
       </button>
-    </li>
+    </List.Item>
   ));
 
   const includedItems = includes.map((geography) => (
-    <li className="list-group-item" key={geography.value}>
+    <List.Item key={geography.value}>
       <SimsGeographyI18NLabel geography={geography} />
       <button
         type="button"
@@ -51,7 +52,7 @@ export const SimsGeographySelector = ({
       >
         <span className="glyphicon glyphicon-trash" aria-hidden="true" />
       </button>
-    </li>
+    </List.Item>
   ));
 
   return (

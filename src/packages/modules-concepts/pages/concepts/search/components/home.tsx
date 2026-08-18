@@ -10,6 +10,7 @@ import { NumberResults } from "@components/number-results";
 import { PageTitle } from "@components/page-title";
 import { Pagination } from "@components/pagination";
 import { Select } from "@components/select-rmes";
+import { List } from "@components/ui/list-group";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
@@ -78,9 +79,9 @@ const ConceptSearchList = ({ conceptSearchList, onExport }: Readonly<ConceptSear
     .filter(filterModifiedDate(dateModifiedStart, dateModifiedEnd));
 
   const hitEls: ReactElement[] = hits.map(({ id, label }) => (
-    <li key={id} className="list-group-item">
+    <List.Item key={id}>
       <Link to={`/concepts/${id}`}>{label}</Link>
-    </li>
+    </List.Item>
   ));
 
   return (

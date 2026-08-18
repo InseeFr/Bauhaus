@@ -3,16 +3,11 @@ import { Link } from "react-router-dom";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
+import type { CollectionMember } from "@model/concepts/collection";
 import { sortArray } from "@utils/array-utils";
 import { useTranslation } from "@utils/hooks/useTranslation";
 
 import "../../../../i18n";
-
-interface CollectionMember {
-  id: string;
-  prefLabelLg1?: string;
-  prefLabelLg2?: string;
-}
 
 const sortByLabelLg1 = sortArray("prefLabelLg1");
 

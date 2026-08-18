@@ -11,11 +11,12 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { TextInput } from "@components/form/input";
 import { AddLogo } from "@components/logo/logo-add";
+import { List } from "@components/ui/list-group";
 
 import { getBaseURI } from "@sdk/build-api";
 
@@ -26,6 +27,7 @@ import { useDocumentsStoreContext } from "../../hooks/useDocumentsStoreContext";
 import { DocumentAsideInformation, DocumentLink } from "./DocumentListItem";
 import { SortableDocumentItem } from "./SortableDocumentItem";
 import "./DocumentsBloc.css";
+import { cx } from "@utils/cx";
 
 /**
  * This component will display a list of documents associated
@@ -77,10 +79,7 @@ export function DocumentsBloc({
   const [panelStatus, setPanelStatus] = useState(false);
   const [filter, setFilter] = useState("");
 
-  const [baseURI, setBaseURI] = useState("");
-  useEffect(() => {
-    getBaseURI().then((uri) => setBaseURI(uri));
-  });
+  const baseURI = getBaseURI();
 
   // The array order is the source of truth: chosen by drag-and-drop in edit
   // mode, and provided already ordered by the back in visualisation. We never
@@ -91,36 +90,61 @@ export function DocumentsBloc({
   const otherDocuments = documentStores[localPrefix.toLowerCase()]
     .filter((document) => !currentDocumentsIds.includes(document.uri))
     .filter((document) => !!document["label" + localPrefix])
-    .filter((document) => (objectType === "documents" ? isDocument(document) : isLink(document)))
     .filter((document) =>
-      document["label" + localPrefix].toLowerCase().includes(filter.toLowerCase()),
+      objectType === "documents" ? isDocument(document) : isLink(document),
+    )
+    .filter((document) =>
+      document["label" + localPrefix]
+        .toLowerCase()
+        .includes(filter.toLowerCase()),
     );
 
   const isSecondLang = localPrefix === "Lg2";
 
-  function displayHTMLForDocument(document, btnBlocFunction = defaultBtnBlocFunction) {
+  function displayHTMLForDocument(
+    document,
+    btnBlocFunction = defaultBtnBlocFunction,
+  ) {
     return (
-      <li className="list-group-item documentbloc-item" key={document.uri}>
+      <List.Item className="documentbloc-item" key={document.uri}>
         <span>
-          <DocumentLink document={document} localPrefix={localPrefix} baseURI={baseURI} />
+          <DocumentLink
+            document={document}
+            localPrefix={localPrefix}
+            baseURI={baseURI}
+          />
 
           <DocumentAsideInformation document={document} />
         </span>
         {editMode && btnBlocFunction(document)}
-      </li>
+      </List.Item>
     );
   }
-  const addTitle = t(objectType === "documents" ? "documents.addDocument" : "documents.addLink", {
-    lng: isSecondLang ? "en" : "fr",
-  });
-  const title = t(objectType === "documents" ? "documents.titleDocument" : "documents.titleLink");
+  const addTitle = t(
+    objectType === "documents" ? "documents.addDocument" : "documents.addLink",
+    {
+      lng: isSecondLang ? "en" : "fr",
+    },
+  );
+  const title = t(
+    objectType === "documents"
+      ? "documents.titleDocument"
+      : "documents.titleLink",
+  );
   return (
     <>
       {(documents.length > 0 || editMode) && <h4>{title}</h4>}
       {documents && documents.length > 0 && sortable && (
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={currentDocumentsIds} strategy={verticalListSortingStrategy}>
-            <ul className="documentsbloc list-group">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={currentDocumentsIds}
+            strategy={verticalListSortingStrategy}
+          >
+            <List.Container className="documentsbloc">
               {currentDocuments.map((document) => (
                 <SortableDocumentItem
                   key={document.uri}
@@ -130,14 +154,14 @@ export function DocumentsBloc({
                   deleteHandler={deleteHandler}
                 />
               ))}
-            </ul>
+            </List.Container>
           </SortableContext>
         </DndContext>
       )}
       {documents && documents.length > 0 && !sortable && (
-        <ul className="documentsbloc list-group">
+        <List.Container className="documentsbloc">
           {currentDocuments.map((document) => displayHTMLForDocument(document))}
-        </ul>
+        </List.Container>
       )}
       {editMode && (
         <div className="documentblock-picker panel panel-default">
@@ -149,7 +173,10 @@ export function DocumentsBloc({
               onClick={() => setPanelStatus(!panelStatus)}
             >
               <span
-                className={`glyphicon glyphicon-menu-${panelStatus ? "down" : "right"}`}
+                className={cx(
+                  "glyphicon",
+                  `glyphicon-menu-${panelStatus ? "down" : "right"}`,
+                )}
                 aria-hidden="true"
               />
               {addTitle} <span className="badge">{otherDocuments.length}</span>
@@ -159,7 +186,9 @@ export function DocumentsBloc({
               className="btn"
               aria-label={t("app.btnAdd")}
               onClick={() => {
-                openLateralPanelOpened(objectType === "documents" ? DOCUMENT : LINK);
+                openLateralPanelOpened(
+                  objectType === "documents" ? DOCUMENT : LINK,
+                );
                 setRubricIdForNewDocument({ rubric: idMas, lang: localPrefix });
               }}
             >
