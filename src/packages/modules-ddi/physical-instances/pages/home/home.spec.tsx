@@ -19,12 +19,17 @@ vi.mock("../../../../application/app-context", () => ({
     },
   }),
 }));
-vi.mock("../../../deprecated-locales", () => ({
-  default: {
-    ddiTitle: "DDI Title",
-    physicalInstanceTitle: "Physical Instance Title",
-    physicalInstancSearcheTitle: "Physical Instance Search Title",
-  },
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "ddi.title": "Variables",
+        "physicalInstance.pluralTitle": "Physical Instances",
+        "physicalInstance.homePageTitle": "Physical Instances - Search",
+      };
+      return translations[key] ?? key;
+    },
+  }),
 }));
 
 const createWrapper = () => {

@@ -1,5 +1,10 @@
 {
+  "ddi": {
+    "title": "Variables"
+  },
   "physicalInstance": {
+    "pluralTitle": "Physical Instances",
+    "homePageTitle": "Physical Instances - Search",
     "creation": {
       "cancel": "Cancel",
       "create": "Create",

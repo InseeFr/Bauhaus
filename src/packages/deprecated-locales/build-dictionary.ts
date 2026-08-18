@@ -2,7 +2,6 @@ import { createDictionary, firstLang, getLang, secondLang } from "@utils/diction
 
 import appD from "./dictionary/app";
 import errors from "./dictionary/errors";
-import { dictionary as DDIDictionary } from "./dictionary/ddi";
 
 const dictionary = {
   ...appD,
@@ -12,7 +11,7 @@ const dictionary = {
   structuresTitle: { fr: "Structures", en: "Structures" },
   codelistsTitle: { fr: "Listes de codes", en: "Codelists" },
   datasetsTitle: { fr: "Jeux de données", en: "Datasets" },
-  ...DDIDictionary,
+  ddiTitle: { fr: "Variables", en: "Variables" },
   ...errors,
 };
 
