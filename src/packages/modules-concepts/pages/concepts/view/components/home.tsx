@@ -14,8 +14,8 @@ import {
   ConceptNotes,
   Link as ConceptLink,
 } from "../../../../../model/concepts/concept";
-import { getModalMessage } from "../../../../utils/build-validation-message";
-import { buildNotes } from "../../../../utils/notes";
+import { buildNotes } from "../../../../utils/buildNotes";
+import { getModalMessage } from "../../../../utils/getModalMessage";
 import ConceptGeneral_ from "./general";
 import ConceptLinks from "./links";
 import ConceptVisualizationControls from "../menu";

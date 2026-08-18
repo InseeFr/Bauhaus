@@ -1,14 +1,14 @@
 import { render } from "@testing-library/react";
 
 import { ConceptNotes as ConceptNotesType } from "../../../../../model/concepts/concept";
-import { emptyNotes } from "../../../../utils/notes";
+import { emptyConceptNotes } from "../../../../utils/emptyConceptNotes";
 import ConceptNotes from "./notes";
 
 describe("concept-edition-creation-notes", () => {
   it("renders without crashing", () => {
     render(
       <ConceptNotes
-        notes={emptyNotes as unknown as ConceptNotesType}
+        notes={emptyConceptNotes as unknown as ConceptNotesType}
         disseminationStatus=""
         handleChange={vi.fn()}
         maxLengthScopeNote={1000}

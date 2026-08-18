@@ -6,7 +6,7 @@ import { useCollectionExporter } from "@utils/hooks/collections";
 
 import { CollectionExportFormat } from "@model/concepts/collection";
 
-import ExportButtons from "../../../../components/CollectionExportButtons";
+import ExportButtons from "../../../../components/ExportButtons";
 
 interface CollectionItem {
   id: string;

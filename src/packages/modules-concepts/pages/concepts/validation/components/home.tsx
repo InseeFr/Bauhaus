@@ -5,7 +5,7 @@ import { PublishButton } from "@components/buttons/buttons-with-icons";
 import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
 import { Picker } from "@components/picker-page";
 
-import { getModalMessage } from "../../../../utils/build-validation-message";
+import { getModalMessage } from "../../../../utils/getModalMessage";
 
 interface ConceptToValidate {
   id: string;

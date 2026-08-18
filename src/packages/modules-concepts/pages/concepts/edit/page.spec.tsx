@@ -43,7 +43,7 @@ vi.mock("../../../hooks/useConceptSave", () => ({
   useConceptSave: vi.fn(),
 }));
 
-vi.mock("../../../utils/links", () => ({
+vi.mock("../../../utils/mergeWithAllConcepts", () => ({
   mergeWithAllConcepts: vi.fn(() => []),
 }));
 

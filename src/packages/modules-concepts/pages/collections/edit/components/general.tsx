@@ -7,7 +7,7 @@ import { InputRmes } from "@components/input-rmes";
 import { Row } from "@components/layout";
 import { RequiredIcon } from "@components/required-icon";
 
-import { fieldsWithRequired } from "../../../../utils/collection-general";
+import { collectionGeneralFields } from "../../../../utils/collectionGeneralFields";
 
 interface CollectionGeneral {
   id?: string;
@@ -23,7 +23,7 @@ type GeneralFieldName = keyof CollectionGeneral;
 type GeneralValue = string | string[];
 type FieldHandlers = Partial<Record<GeneralFieldName, (value: GeneralValue) => void>>;
 
-const generalFields = fieldsWithRequired.map(([name]) => name as GeneralFieldName);
+const generalFields = collectionGeneralFields.map(([name]) => name as GeneralFieldName);
 
 const handleFieldChange = (
   handleChange: (update: Partial<CollectionGeneral>) => void,

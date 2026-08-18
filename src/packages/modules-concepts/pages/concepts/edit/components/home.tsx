@@ -9,8 +9,8 @@ import { VERSIONING, NO_VERSIONING } from "@sdk/constants";
 
 import { ConceptGeneral, ConceptNotes, Link } from "../../../../../model/concepts/concept";
 import { UNPUBLISHED } from "@model/ValidationState";
-import isVersioningPossible from "../../../../utils/is-versioning-possible";
-import { areNotesImpactingVersionChanged } from "../../../../utils/notes";
+import { areNotesImpactingVersionChanged } from "../../../../utils/areNotesImpactingVersionChanged";
+import { isVersioningPossible } from "../../../../utils/isVersioningPossible";
 import { Menu } from "../menu";
 import { validate } from "../validation";
 import GeneralEdition from "./general";

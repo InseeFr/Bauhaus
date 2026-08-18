@@ -16,7 +16,7 @@ import { useLocales } from "@utils/hooks/useLocales";
 
 import { ConceptGeneral } from "../../../../../model/concepts/concept";
 import { useCollections } from "../../../../hooks/useCollections";
-import { fields as generalFields } from "../../../../utils/general";
+import { conceptGeneralFields as generalFields } from "../../../../utils/conceptGeneralFields";
 
 type GeneralFieldName = keyof ConceptGeneral;
 

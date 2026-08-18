@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 
 import { ConceptGeneral as ConceptGeneralType } from "../../../../../model/concepts/concept";
-import { empty } from "../../../../utils/general";
+import { emptyConceptGeneral } from "../../../../utils/emptyConceptGeneral";
 import ConceptGeneral from "./general";
 
 vi.mock("react-i18next", () => ({
@@ -32,7 +32,7 @@ describe("concept-edition-creation-general", () => {
   it("renders without crashing", () => {
     render(
       <ConceptGeneral
-        general={empty() as unknown as ConceptGeneralType}
+        general={emptyConceptGeneral() as unknown as ConceptGeneralType}
         stampList={[]}
         handleChange={vi.fn()}
       />,

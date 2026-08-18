@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import { empty } from "../../../../utils/collection-general";
+import { emptyCollectionGeneral } from "../../../../utils/emptyCollectionGeneral";
 import CollectionGeneral from "./general";
 
 vi.mock("@components/form/input", () => ({ TextInput: () => <></> }));
@@ -20,7 +20,7 @@ describe("collection-edition-creation-general", () => {
   it("renders without crashing", () => {
     render(
       <CollectionGeneral
-        general={empty()}
+        general={emptyCollectionGeneral()}
         handleChange={vi.fn()}
         errors={{ errorMessage: [], fields: {} }}
       />,
@@ -30,7 +30,7 @@ describe("collection-edition-creation-general", () => {
   it("shows the identifier input in creation mode", () => {
     const { queryAllByTestId } = render(
       <CollectionGeneral
-        general={empty()}
+        general={emptyCollectionGeneral()}
         handleChange={vi.fn()}
         errors={{ errorMessage: [], fields: {} }}
         creation
@@ -43,7 +43,7 @@ describe("collection-edition-creation-general", () => {
   it("hides the identifier input in edition mode", () => {
     const { queryAllByTestId } = render(
       <CollectionGeneral
-        general={empty()}
+        general={emptyCollectionGeneral()}
         handleChange={vi.fn()}
         errors={{ errorMessage: [], fields: {} }}
         creation={false}

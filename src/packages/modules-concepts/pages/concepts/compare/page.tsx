@@ -8,7 +8,7 @@ import { ConceptsApi } from "../../../../sdk";
 import { range } from "../../../../utils/array-utils";
 import { useSecondLang } from "../../../../utils/hooks/second-lang";
 import { rmesHtmlToRawHtml } from "../../../../utils/html-utils";
-import { emptyNotes } from "../../../utils/notes";
+import { emptyConceptNotes } from "../../../utils/emptyConceptNotes";
 import ConceptCompare from "./components/home";
 
 type VersionedNotes = Record<number, ConceptNotes>;
@@ -51,7 +51,7 @@ export const Component = () => {
                 return {
                   ...acc,
                   [version]: {
-                    ...(emptyNotes as unknown as ConceptNotes),
+                    ...(emptyConceptNotes as unknown as ConceptNotes),
                     ...formatted,
                   },
                 };

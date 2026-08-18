@@ -2,7 +2,7 @@ import { fireEvent, screen } from "@testing-library/react";
 
 import { ConceptGeneral, ConceptNotes } from "../../../../../model/concepts/concept";
 import { renderWithRouter } from "../../../../../tests/render";
-import { empty } from "../../../../utils/general";
+import { emptyConceptGeneral } from "../../../../utils/emptyConceptGeneral";
 import ConceptEditionCreation, { onGeneralInformationChange } from "./home";
 
 vi.mock("./general");
@@ -38,7 +38,7 @@ describe("concept-edition-creation", () => {
     id: "id",
     creation: true,
     title: "title",
-    general: { ...empty(), contributor: "DG75-L201" } as unknown as ConceptGeneral,
+    general: { ...emptyConceptGeneral(), contributor: "DG75-L201" } as unknown as ConceptGeneral,
     notes: {} as ConceptNotes,
     conceptsWithLinks: [],
     stampList: [],

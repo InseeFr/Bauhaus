@@ -18,7 +18,7 @@ vi.mock("../../../../utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
 }));
 
-vi.mock("../../../components/CollectionExportButtons", () => ({
+vi.mock("../../../components/ExportButtons", () => ({
   default: ({
     disabled,
     exportHandler,

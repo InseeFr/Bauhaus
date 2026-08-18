@@ -6,7 +6,7 @@ import {
   ConceptGeneral as ConceptGeneralType,
   ConceptNotes,
 } from "../../../../../model/concepts/concept";
-import { buildNotes } from "../../../../utils/notes";
+import { buildNotes } from "../../../../utils/buildNotes";
 import ConceptGeneral from "../../view/components/general";
 import Controls from "./controls";
 

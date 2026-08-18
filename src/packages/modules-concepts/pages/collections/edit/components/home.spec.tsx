@@ -1,5 +1,5 @@
 import { renderWithRouterAndQuery } from "../../../../../tests/render";
-import { empty } from "../../../../utils/collection-general";
+import { emptyCollectionGeneral } from "../../../../utils/emptyCollectionGeneral";
 import Collection_ from "./home";
 
 vi.mock("./general", () => {
@@ -19,7 +19,7 @@ describe("collection-edition-creation", () => {
     renderWithRouterAndQuery(
       <Collection_
         title=""
-        general={empty()}
+        general={emptyCollectionGeneral()}
         members={[]}
         collectionList={[]}
         conceptList={[]}
