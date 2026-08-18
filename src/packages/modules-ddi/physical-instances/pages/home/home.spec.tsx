@@ -19,18 +19,22 @@ vi.mock("../../../../application/app-context", () => ({
     },
   }),
 }));
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "ddi.title": "Variables",
-        "physicalInstance.pluralTitle": "Physical Instances",
-        "physicalInstance.homePageTitle": "Physical Instances - Search",
-      };
-      return translations[key] ?? key;
-    },
-  }),
-}));
+vi.mock("react-i18next", async () => {
+  const originalModule = await vi.importActual("react-i18next");
+  return {
+    ...originalModule,
+    useTranslation: () => ({
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          "ddi.title": "Variables",
+          "physicalInstance.pluralTitle": "Physical Instances",
+          "physicalInstance.homePageTitle": "Physical Instances - Search",
+        };
+        return translations[key] ?? key;
+      },
+    }),
+  };
+});
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
