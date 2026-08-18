@@ -4,7 +4,7 @@ import { ExportButton } from "@components/buttons/buttons-with-icons";
 
 import { cx } from "@utils/cx";
 
-import "./ExportButtonWithDropdown.scss";
+import "./ExportButtonWithDropdown.css";
 
 const useOutsideClick = (
   el: RefObject<HTMLElement | null>,
