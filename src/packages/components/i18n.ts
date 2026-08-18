@@ -84,6 +84,10 @@ const dictionary = {
       en: "Select stamp...",
     },
   },
+  searchLabelPlaceholder: {
+    fr: "Libellé...",
+    en: "Label...",
+  },
   version: {
     fr: "Version",
     en: "Version",
