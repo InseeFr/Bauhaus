@@ -5,8 +5,7 @@ import { pickGeographiesByUri } from "../utils/pickGeographiesByUri";
 import { useGeographiesOptions } from "./useGeographiesOptions";
 
 export const useGeographies = (territory: any = {}) => {
-  const { isLoading, geographiesOptions: allGeographies } =
-    useGeographiesOptions();
+  const { isLoading, geographiesOptions: allGeographies } = useGeographiesOptions();
 
   const [excludes, setExcludes] = useState(
     pickGeographiesByUri(territory?.difference ?? [], allGeographies),
