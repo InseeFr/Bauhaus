@@ -46,8 +46,10 @@ vi.mock("./menu", () => ({
 }));
 
 vi.mock("@components/errors-bloc", () => ({
-  ErrorBloc: ({ error }: { error: string[] }) => (
-    <div data-testid="error-bloc">{error?.join(", ")}</div>
+  ErrorBloc: ({ error }: { error?: (string | { message?: string })[] }) => (
+    <div data-testid="error-bloc">
+      {error?.map((e) => (typeof e === "string" ? e : e?.message)).join(", ")}
+    </div>
   ),
 }));
 
@@ -94,6 +96,8 @@ vi.mock("./missing-documents-error-bloc", () => ({
     ) : null,
 }));
 vi.mock("../../../../deprecated-locales", () => ({ default: {} }));
+
+import { OperationsApi } from "@sdk/operations-api";
 
 import SimsVisualisation from "./index";
 
@@ -224,5 +228,24 @@ describe("SimsVisualisation - delete redirection", () => {
     await waitFor(() => {
       expect(navigateMock).toHaveBeenCalledWith("/operations/indicator/ind42");
     });
+  });
+});
+
+describe("SimsVisualisation - delete error handling", () => {
+  it("should stay on the page and show the error when the deletion fails", async () => {
+    vi.mocked(OperationsApi.deleteSims).mockRejectedValueOnce({
+      message: "Documentation not found",
+      status: 404,
+    });
+
+    renderComponent(vi.fn(), { id: "4", idSeries: "s42", rubrics: {} });
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("error-bloc")).toHaveTextContent("Documentation not found");
+    });
+    expect(navigateMock).not.toHaveBeenCalled();
   });
 });
