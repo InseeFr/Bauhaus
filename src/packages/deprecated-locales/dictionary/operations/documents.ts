@@ -37,6 +37,14 @@ const messages = {
     fr: "Glisser un fichier ici, ou cliquez ici pour en sélectionner",
     en: "Drag n drop some files here, or click to select files",
   },
+  chooseFile: {
+    fr: "Choisir un fichier",
+    en: "Choose a file",
+  },
+  removeFile: {
+    fr: "Retirer le fichier",
+    en: "Remove the file",
+  },
   reorderDocument: {
     fr: "Déplacer pour réordonner",
     en: "Drag to reorder",

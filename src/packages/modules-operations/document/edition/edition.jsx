@@ -1,5 +1,8 @@
+import { Button } from "primereact/button";
+import { FileUpload } from "primereact/fileupload";
+import { Tag } from "primereact/tag";
+import { Tooltip } from "primereact/tooltip";
 import { useEffect, useMemo, useReducer } from "react";
-import Dropzone from "react-dropzone";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -23,6 +26,40 @@ import D, { D1, D2 } from "../../../deprecated-locales";
 import { DOCUMENT, LINK } from "../utils";
 import { ConfirmationModal } from "./confirmation-modal";
 import { validate } from "./validation";
+
+/**
+ * Le fichier n'est pas envoyé par le FileUpload : il est gardé en state puis posté
+ * avec le reste du formulaire. On neutralise donc l'upload, et l'en-tête ne garde
+ * que le bouton de sélection.
+ */
+const noUpload = () => {};
+
+const chooseOptions = {
+  icon: "pi pi-fw pi-file",
+  iconOnly: true,
+  className: "choose-file-btn p-button-rounded p-button-outlined",
+};
+
+const dropzoneHeader = ({ className, chooseButton }) => (
+  <div className={className} style={{ backgroundColor: "transparent", display: "flex" }}>
+    {chooseButton}
+  </div>
+);
+
+const dropzonePlaceholder = (
+  <div className="dropzone-placeholder">
+    <i className="pi pi-file-arrow-up" />
+    <span>{D.drag}</span>
+  </div>
+);
+
+const KILOBYTE = 1024;
+const SIZE_UNITS = ["B", "KB", "MB", "GB"];
+
+const formatFileSize = (bytes) => {
+  const unit = bytes > 0 ? Math.floor(Math.log(bytes) / Math.log(KILOBYTE)) : 0;
+  return `${parseFloat((bytes / KILOBYTE ** unit).toFixed(1))} ${SIZE_UNITS[unit]}`;
+};
 
 const initDocument = {
   labelLg1: "",
@@ -330,22 +367,27 @@ const OperationsDocumentationEdition = (props) => {
           <Row>
             <div className="col-md-12 form-group">
               <LabelRequired>{D.file}</LabelRequired>
-              <Dropzone onDrop={uploadFile} multiple={false}>
-                {({ getRootProps, getInputProps }) => (
-                  <div
-                    {...getRootProps({
-                      className: "dropzone",
-                    })}
-                  >
-                    <input
-                      {...getInputProps()}
-                      aria-invalid={!!clientSideErrors.fields?.files}
-                      aria-describedby={clientSideErrors.fields?.files ? "file-error" : null}
-                    />
-                    <p>{D.drag}</p>
-                  </div>
-                )}
-              </Dropzone>
+              <Tooltip target=".choose-file-btn" content={D.chooseFile} position="bottom" />
+              <FileUpload
+                className="dropzone"
+                multiple={false}
+                auto={false}
+                customUpload
+                uploadHandler={noUpload}
+                onSelect={(event) => uploadFile(event.files)}
+                chooseOptions={chooseOptions}
+                headerTemplate={dropzoneHeader}
+                emptyTemplate={dropzonePlaceholder}
+                pt={{
+                  // PrimeReact rend le bouton de sélection comme un span focusable,
+                  // sans rôle ni intitulé une fois passé en `iconOnly`.
+                  chooseButton: { role: "button", "aria-label": D.chooseFile },
+                  input: {
+                    "aria-invalid": !!clientSideErrors.fields?.files,
+                    "aria-describedby": clientSideErrors.fields?.files ? "file-error" : null,
+                  },
+                }}
+              />
               <ClientSideError
                 id="file-error"
                 error={clientSideErrors?.fields?.files}
@@ -354,23 +396,33 @@ const OperationsDocumentationEdition = (props) => {
           </Row>
         )}
         {type === DOCUMENT && files.length > 0 && (
-          <div>
-            <LabelRequired>{D.file}</LabelRequired>
-            <div className="panel panel-default">
-              {files.map((file) => (
-                <div className="panel-body" key={file.name}>
-                  {file.name}
-                  <button onClick={removeFile} type="button" className="close" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              ))}
+          <Row>
+            <div className="col-md-12 form-group">
+              <LabelRequired>{D.file}</LabelRequired>
+              <ul className="attached-files">
+                {files.map((file) => (
+                  <li className="attached-file" key={file.name}>
+                    <i className="pi pi-file" aria-hidden="true" />
+                    <span className="attached-file-name">{file.name}</span>
+                    {file.size ? (
+                      <Tag value={formatFileSize(file.size)} severity="warning" />
+                    ) : null}
+                    <Button
+                      type="button"
+                      icon="pi pi-times"
+                      aria-label={D.removeFile}
+                      className="p-button-outlined p-button-rounded p-button-danger"
+                      onClick={removeFile}
+                    />
+                  </li>
+                ))}
+              </ul>
+              <ClientSideError
+                id="file-error"
+                error={clientSideErrors?.fields?.files}
+              ></ClientSideError>
             </div>
-            <ClientSideError
-              id="file-error"
-              error={clientSideErrors?.fields?.files}
-            ></ClientSideError>
-          </div>
+          </Row>
         )}
         <Row>
           <div className="col-md-12 form-group">
