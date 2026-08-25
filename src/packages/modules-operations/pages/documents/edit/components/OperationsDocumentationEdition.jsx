@@ -62,40 +62,6 @@ const formatFileSize = (bytes) => {
   return `${parseFloat((bytes / KILOBYTE ** unit).toFixed(1))} ${SIZE_UNITS[unit]}`;
 };
 
-/**
- * Le fichier n'est pas envoyé par le FileUpload : il est gardé en state puis posté
- * avec le reste du formulaire. On neutralise donc l'upload, et l'en-tête ne garde
- * que le bouton de sélection.
- */
-const noUpload = () => {};
-
-const chooseOptions = {
-  icon: "pi pi-fw pi-file",
-  iconOnly: true,
-  className: "choose-file-btn p-button-rounded p-button-outlined",
-};
-
-const dropzoneHeader = ({ className, chooseButton }) => (
-  <div className={className} style={{ backgroundColor: "transparent", display: "flex" }}>
-    {chooseButton}
-  </div>
-);
-
-const dropzonePlaceholder = (
-  <div className="dropzone-placeholder">
-    <i className="pi pi-file-arrow-up" />
-    <span>{D.drag}</span>
-  </div>
-);
-
-const KILOBYTE = 1024;
-const SIZE_UNITS = ["B", "KB", "MB", "GB"];
-
-const formatFileSize = (bytes) => {
-  const unit = bytes > 0 ? Math.floor(Math.log(bytes) / Math.log(KILOBYTE)) : 0;
-  return `${parseFloat((bytes / KILOBYTE ** unit).toFixed(1))} ${SIZE_UNITS[unit]}`;
-};
-
 const initDocument = {
   labelLg1: "",
   labelLg2: "",
