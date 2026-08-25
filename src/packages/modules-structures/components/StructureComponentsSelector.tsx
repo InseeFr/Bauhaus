@@ -268,7 +268,7 @@ export const StructureComponentsSelector = ({
       }
     >
       <ComponentsTable components={componentsWithActions} />
-      <RightSlidingPanel isOpen={openPanel} backdropClicked={() => setOpenPanel(false)}>
+      <RightSlidingPanel isOpen={openPanel} onHide={() => setOpenPanel(false)}>
         <ComponentDetail
           component={selectedComponent}
           codesLists={codesLists}

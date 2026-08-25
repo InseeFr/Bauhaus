@@ -82,7 +82,7 @@ export const MutualizedComponentsSelector = ({
       title={t("component.mutualizedComponents") + " "}
     >
       <ComponentsTable components={componentsWithActions} />
-      <RightSlidingPanel isOpen={openPanel} backdropClicked={() => setOpenPanel(false)}>
+      <RightSlidingPanel isOpen={openPanel} onHide={() => setOpenPanel(false)}>
         <ComponentDetail
           component={selectedComponent}
           codesLists={codesLists}

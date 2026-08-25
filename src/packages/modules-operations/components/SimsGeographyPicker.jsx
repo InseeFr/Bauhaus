@@ -106,7 +106,7 @@ export const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLa
         </HasAccess>
         <SeeButton disabled={!shouldSeeViewButton} onClick={openViewPanel}></SeeButton>
       </div>
-      <RightSlidingPanel isOpen={slidingModal} backdropClicked={() => setSlidingModal(false)}>
+      <RightSlidingPanel isOpen={slidingModal} onHide={() => setSlidingModal(false)}>
         <SimsGeographyField onCancel={onCancel} onSave={onSave} territory={territory} />
       </RightSlidingPanel>
     </>

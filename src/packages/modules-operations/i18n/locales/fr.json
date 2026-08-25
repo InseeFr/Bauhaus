@@ -90,6 +90,8 @@
     "addDocument": "Ajouter un document",
     "addLink": "Ajouter un lien",
     "drag": "Glisser un fichier ici, ou cliquez ici pour en sélectionner",
+    "chooseFile": "Choisir un fichier",
+    "removeFile": "Retirer le fichier",
     "reorderDocument": "Déplacer pour réordonner"
   },
   "sims": {
