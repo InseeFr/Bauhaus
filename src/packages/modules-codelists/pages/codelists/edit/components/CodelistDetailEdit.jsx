@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -24,7 +23,7 @@ import { useAuthorizationGuard } from "../../../../../auth/components/auth";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
 const defaultCodelist = {
-  created: dayjs(),
+  created: new Date(),
 };
 
 export const CodelistDetailEdit = ({
