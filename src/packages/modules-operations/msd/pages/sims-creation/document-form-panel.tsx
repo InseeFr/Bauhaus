@@ -44,11 +44,7 @@ export const DocumentFormPanel = ({ opened, onHide, onAdd }: Readonly<DocumentFo
   };
 
   return (
-    <RightSlidingPanel
-      isOpen={opened}
-      backdropClicked={onHide}
-      panelClassName="documents-form-panel"
-    >
+    <RightSlidingPanel isOpen={opened} onHide={onHide} panelClassName="documents-form-panel">
       {saving ? (
         <Saving />
       ) : (
