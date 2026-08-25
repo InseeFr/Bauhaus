@@ -83,11 +83,12 @@ export const PhysicalInstancesDataTable = ({
     >
       <Column field="name" header={t("physicalInstance.view.columns.name")} sortable />
       <Column field="label" header={t("physicalInstance.view.columns.label")} sortable />
-      <Column field="type" header={t("physicalInstance.view.columns.type")} />
+      <Column field="type" header={t("physicalInstance.view.columns.type")} sortable />
       <Column
         field="lastModified"
         header={t("physicalInstance.view.columns.lastModified")}
         body={dateBodyTemplate}
+        sortable
       />
       <Column body={deleteBodyTemplate} style={{ width: "5rem" }} />
     </DataTable>

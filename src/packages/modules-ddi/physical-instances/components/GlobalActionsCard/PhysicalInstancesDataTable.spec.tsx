@@ -125,7 +125,7 @@ describe("PhysicalInstancesDataTable", () => {
     expect(screen.getByText("Dernière Modification")).toBeInTheDocument();
   });
 
-  it("rend les colonnes Nom et Label triables (et pas les autres)", () => {
+  it("rend les colonnes Nom, Label, Type et Dernière Modification triables", () => {
     render(<PhysicalInstancesDataTable {...defaultProps} />);
 
     const sortableOf = (headerText: string) =>
@@ -133,8 +133,8 @@ describe("PhysicalInstancesDataTable", () => {
 
     expect(sortableOf("Nom")).toBe("true");
     expect(sortableOf("Label")).toBe("true");
-    expect(sortableOf("Type")).toBe("false");
-    expect(sortableOf("Dernière Modification")).toBe("false");
+    expect(sortableOf("Type")).toBe("true");
+    expect(sortableOf("Dernière Modification")).toBe("true");
   });
 
   it("should render all variables in the table", () => {
