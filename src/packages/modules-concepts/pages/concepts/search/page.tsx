@@ -8,7 +8,7 @@ import { saveFileFromHttpResponse } from "@utils/files";
 
 import { ConceptForAdvancedSearch } from "../../../types/concept";
 import { UNPUBLISHED } from "@model/ValidationState";
-import ConceptSearchList from "./components/home";
+import ConceptSearchList from "./components/ConceptSearchList";
 
 const emptyItem: ConceptForAdvancedSearch = {
   id: "",

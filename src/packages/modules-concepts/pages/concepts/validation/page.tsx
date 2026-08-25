@@ -9,7 +9,7 @@ import { OK, PENDING } from "@sdk/constants";
 import { ConceptsApi } from "../../../../sdk";
 import { sortArrayByLabel } from "../../../../utils/array-utils";
 import { useTitle } from "../../../../utils/hooks/useTitle";
-import ConceptsToValidate from "./components/home";
+import ConceptsToValidate from "./components/ConceptsToValidate";
 
 type ExportingStatus = typeof OK | typeof PENDING | undefined;
 

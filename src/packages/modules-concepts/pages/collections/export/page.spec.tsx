@@ -27,7 +27,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
 }));
 
-vi.mock("./components/home", () => ({
+vi.mock("./components/CollectionsToExport", () => ({
   default: ({ collections }: { collections: { id: string; label: string }[] }) => (
     <div data-testid="collections-to-export">
       <span data-testid="collections-count">{collections.length}</span>

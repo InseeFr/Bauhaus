@@ -19,7 +19,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
 }));
 
-vi.mock("./components/home", () => ({
+vi.mock("./components/CollectionsToValidate", () => ({
   default: ({
     collections,
     handleValidateCollectionList,
