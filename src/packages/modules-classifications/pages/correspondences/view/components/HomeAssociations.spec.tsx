@@ -24,7 +24,6 @@ describe("correspondence-home-associations", () => {
   it("renders without crashing", () => {
     renderWithRouter(
       <HomeAssociations
-        id="id"
         associations={associations}
         correspondence={correspondence}
         secondLang={false}
