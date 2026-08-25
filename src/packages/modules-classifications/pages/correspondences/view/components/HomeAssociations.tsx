@@ -11,12 +11,10 @@ import { sortArray } from "@utils/array-utils";
 const sortById = sortArray("id");
 
 export const HomeAssociations = ({
-  id,
   associations,
   correspondence,
   secondLang,
 }: {
-  id: string;
   associations: any;
   correspondence: any;
   secondLang: boolean;

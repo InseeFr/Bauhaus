@@ -1,5 +1,7 @@
 import { CollectionGeneral } from "@model/concepts/collection";
 
+import type { FieldSpec } from "@utils/build-general-proptypes";
+
 const fieldNames: (keyof CollectionGeneral)[] = [
   "id",
   "prefLabelLg1",
@@ -13,4 +15,4 @@ const fieldNames: (keyof CollectionGeneral)[] = [
   "validationState",
 ];
 
-export const collectionGeneralFields: string[][] = fieldNames.map((name) => [name, ""]);
+export const collectionGeneralFields: FieldSpec[] = fieldNames.map((name) => [name, false]);
