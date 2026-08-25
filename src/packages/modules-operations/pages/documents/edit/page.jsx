@@ -5,7 +5,7 @@ import { Loading } from "@components/loading";
 import { GeneralApi } from "@sdk/general-api";
 import { useCodesList } from "@utils/hooks/codeslist";
 
-import DocumentationEdition from "./components/OperationsDocumentationEdition";
+import { OperationsDocumentationEdition } from "./components/OperationsDocumentationEdition";
 
 export const Component = (props) => {
   const { id } = useParams();
@@ -32,7 +32,7 @@ export const Component = (props) => {
   if (!document.id && id) return <Loading />;
 
   return (
-    <DocumentationEdition
+    <OperationsDocumentationEdition
       document={document}
       langOptions={langOptions}
       id={id}
