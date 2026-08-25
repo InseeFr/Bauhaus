@@ -4,20 +4,20 @@ import { rangeType } from "../../../constants/rangeType";
 
 const { RICH_TEXT, TEXT, ORGANIZATION, DATE, GEOGRAPHY, CODE_LIST } = rangeType;
 
-const getLabelKey = (secondLang) => (secondLang ? "labelLg2" : "labelLg1");
-const getDocumentsKey = (secondLang) => (secondLang ? "documentsLg2" : "documentsLg1");
+const getLabelKey = (secondLang: boolean) => (secondLang ? "labelLg2" : "labelLg1");
+const getDocumentsKey = (secondLang: boolean) => (secondLang ? "documentsLg2" : "documentsLg1");
 
-const checkRichText = (richText) => {
+const checkRichText = (richText: any) => {
   if (richText?.getCurrentContent) {
     return !richText.getCurrentContent().hasText();
   }
   return !richText;
 };
 
-const hasDocuments = (currentSection, secondLang) =>
+const hasDocuments = (currentSection: any, secondLang: boolean) =>
   currentSection?.[getDocumentsKey(secondLang)]?.length > 0;
 
-const checkIsEmpty = (msd, currentSection, secondLang) => {
+const checkIsEmpty = (msd: any, currentSection: any, secondLang: boolean) => {
   if (!currentSection) {
     return true;
   }
@@ -44,7 +44,7 @@ const checkIsEmpty = (msd, currentSection, secondLang) => {
   }
 };
 
-export const isEssentialRubricKo = (msd, currentSection, secondLang) => {
+export const isEssentialRubricKo = (msd: any, currentSection: any, secondLang: boolean) => {
   if (!currentSection) {
     return true;
   }
@@ -52,18 +52,18 @@ export const isEssentialRubricKo = (msd, currentSection, secondLang) => {
   return checkIsEmpty(msd, currentSection, secondLang);
 };
 
-const flatten = (items) => {
+const flatten = (items: any[]): any[] => {
   if (!items || items.length === 0) {
     return items || [];
   }
-  return [...items, ...flatten(items.flatMap((item) => Object.values(item.children || {})))];
+  return [...items, ...flatten(items.flatMap((item: any) => Object.values(item.children || {})))];
 };
 
-export const computeEssentialRubricContext = (metadataStructure, rubricsByIdMas) => {
+export const computeEssentialRubricContext = (metadataStructure: any, rubricsByIdMas: any) => {
   const flat = flatten(Object.values(metadataStructure || {}));
   const rubrics = rubricsByIdMas || {};
 
-  return flat.reduce((acc, msd) => {
+  return flat.reduce((acc: any, msd: any) => {
     const msdCopy = { ...msd };
     if (msdCopy.minOccurs === "1") {
       msdCopy.essentialRubricKoLg1 = isEssentialRubricKo(msdCopy, rubrics[msdCopy.idMas], false);

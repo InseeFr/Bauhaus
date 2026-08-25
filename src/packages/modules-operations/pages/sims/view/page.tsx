@@ -11,6 +11,7 @@ import { useOrganizations } from "@utils/hooks/organizations";
 import { useCodesLists } from "../../../hooks/useCodesLists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { usePublishSims, useSims } from "../../../hooks/useSims";
+import { SimsLoaderData } from "../../../types/sims";
 import { MSDComponent as MSDLayout } from "../components/MSDComponent";
 import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
 import { useDocumentsList } from "../hooks/useDocumentsList";
@@ -20,13 +21,24 @@ import {
 } from "../hooks/useEssentialRubricContext";
 import { SimsVisualisation } from "./components/SimsVisualisation";
 
-const initialState = {
+interface State {
+  owners: any[];
+  exportPending: boolean;
+  missingDocuments: Set<any>;
+}
+
+const initialState: State = {
   owners: [],
   exportPending: false,
   missingDocuments: new Set(),
 };
 
-function reducer(state, action) {
+type Action =
+  | { type: "SET_OWNERS"; owners: any[] }
+  | { type: "EXPORT_STARTED" }
+  | { type: "EXPORT_FINISHED"; missingDocuments: Set<any> };
+
+function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_OWNERS":
       return { ...state, owners: action.owners };
@@ -40,7 +52,7 @@ function reducer(state, action) {
 }
 
 export const Component = () => {
-  const { baseUrl, disableSectionAnchor } = useLoaderData() ?? {};
+  const { baseUrl, disableSectionAnchor } = (useLoaderData() as SimsLoaderData) ?? {};
   const { id } = useParams();
   const { data: organisations } = useOrganizations();
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
@@ -53,14 +65,14 @@ export const Component = () => {
 
   useEffect(() => {
     if (id) {
-      OperationsApi.getOwners(id).then((ownersData) => {
+      OperationsApi.getOwners(id).then((ownersData: any) => {
         dispatch({ type: "SET_OWNERS", owners: ownersData });
       });
     }
   }, [id]);
 
   const publishSims = useCallback(
-    (simsData, errorCallback) => {
+    (simsData: any, errorCallback: (error: unknown) => void) => {
       publishSimsMutation(simsData).catch((error) => {
         errorCallback?.(error);
       });
@@ -68,9 +80,9 @@ export const Component = () => {
     [publishSimsMutation],
   );
 
-  const exportCallback = useCallback((exportId, config, exportSims) => {
+  const exportCallback = useCallback((exportId: any, config: any, exportSims: any) => {
     dispatch({ type: "EXPORT_STARTED" });
-    OperationsApi.exportSims(exportId, config, exportSims).then((missingDocs) => {
+    OperationsApi.exportSims(exportId, config, exportSims).then((missingDocs: any) => {
       dispatch({ type: "EXPORT_FINISHED", missingDocuments: missingDocs });
     });
   }, []);
@@ -97,8 +109,8 @@ export const Component = () => {
       <MSDLayout
         metadataStructure={metadataStructure}
         storeCollapseState={false}
-        baseUrl={baseUrl}
-        disableSectionAnchor={disableSectionAnchor}
+        baseUrl={baseUrl ?? ""}
+        disableSectionAnchor={disableSectionAnchor ?? false}
       >
         <PageTitleBlock titleLg1={currentSims.labelLg1} titleLg2={currentSims.labelLg2} />
         <EssentialRubricContextProvider value={essentialRubricContext}>

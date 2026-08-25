@@ -67,7 +67,8 @@ const ZodDocument = (
   Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
     updatedDate: z
       .string({
-        error: (issue) => issue.input === undefined && i18next.t("validation.requiredUpdatedDate"),
+        error: (issue) =>
+          issue.input === undefined ? i18next.t("validation.requiredUpdatedDate") : undefined,
       })
       .min(1, { error: i18next.t("validation.requiredUpdatedDate") })
       .nullable()

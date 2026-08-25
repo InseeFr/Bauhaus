@@ -1,6 +1,6 @@
 import { computeEssentialRubricContext, isEssentialRubricKo } from "./useEssentialRubricContext";
 
-const essential = (idMas, rangeType = "TEXT", extra = {}) => ({
+const essential = (idMas: string, rangeType = "TEXT", extra = {}) => ({
   idMas,
   rangeType,
   minOccurs: "1",
@@ -8,7 +8,7 @@ const essential = (idMas, rangeType = "TEXT", extra = {}) => ({
   ...extra,
 });
 
-const optional = (idMas, rangeType = "TEXT", extra = {}) => ({
+const optional = (idMas: string, rangeType = "TEXT", extra = {}) => ({
   idMas,
   rangeType,
   minOccurs: "0",

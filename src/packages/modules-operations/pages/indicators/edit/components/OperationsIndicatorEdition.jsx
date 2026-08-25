@@ -123,7 +123,7 @@ export class OperationsIndicatorEdition extends Component {
   render() {
     if (this.state.saving) return <Saving />;
 
-    const { frequencies, organisations, indicators, series } = this.props;
+    const { frequencies, indicators, series } = this.props;
 
     const isUpdate = !!this.state.indicator.id;
 
@@ -134,8 +134,6 @@ export class OperationsIndicatorEdition extends Component {
       replaces: (this.state.indicator.replaces || []).map((link) => link.id),
       replacedBy: (this.state.indicator.isReplacedBy || []).map((link) => link.id),
     };
-
-    const organisationsOptions = ItemToSelectModel.toSelectModel(organisations);
 
     const seriesOptions = ItemToSelectModel.toSelectModel(series, "series");
 
@@ -259,7 +257,9 @@ export class OperationsIndicatorEdition extends Component {
           <Row>
             <div className="form-group col-md-12">
               <label htmlFor="accrualPeriodicity" className="w-100">
-                {i18next.t("common.indicatorDataCollectFrequency", { lng: "fr" })}
+                {i18next.t("common.indicatorDataCollectFrequency", {
+                  lng: "fr",
+                })}
                 <Select
                   placeholder=""
                   value={indicator.accrualPeriodicityCode}

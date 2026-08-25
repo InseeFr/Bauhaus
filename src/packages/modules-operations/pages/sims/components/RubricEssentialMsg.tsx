@@ -5,7 +5,7 @@ import { Note } from "@components/note";
 
 import { useEssentialRubricContext } from "../hooks/useEssentialRubricContext";
 
-export const RubricEssentialMsg = ({ secondLang }) => {
+export const RubricEssentialMsg = ({ secondLang }: Readonly<{ secondLang: boolean }>) => {
   const { t } = useTranslation();
   const essentialRubricContext = useEssentialRubricContext();
   const numberOfEssantialRubricsKOLg1 = Object.values(essentialRubricContext).filter(

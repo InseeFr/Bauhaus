@@ -11,9 +11,11 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useOrganizations } from "@utils/hooks/organizations";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
+import { DOCUMENT, LINK } from "../../../constants/documentType";
 import { useCodesLists } from "../../../hooks/useCodesLists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { useSaveSims, useSims } from "../../../hooks/useSims";
+import { SimsLoaderData } from "../../../types/sims";
 import { MSDComponent as MSDLayout } from "../components/MSDComponent";
 import { CREATE, UPDATE } from "../constants";
 import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
@@ -26,21 +28,36 @@ import { getParentId } from "./utils/getParentId";
 import { getParentType } from "./utils/getParentType";
 import { AdvancedSimsCreation as SimsCreation } from "./components/AdvancedSimsCreation";
 
-const apiByParentType = {
+const apiByParentType: Record<string, (id: string) => Promise<any>> = {
   indicator: OperationsApi.getIndicatorById,
   operation: OperationsApi.getOperation,
   series: OperationsApi.getSerie,
 };
 
-const initialState = {
+interface State {
+  parent: any;
+  parentLoading: boolean;
+  rubricIdForNewDocument: { rubric: string; lang: string } | null;
+  serverError: unknown;
+  lateralPanelOpened: typeof DOCUMENT | typeof LINK | undefined;
+}
+
+const initialState: State = {
   parent: undefined,
   parentLoading: true,
-  rubricIdForNewDocument: undefined,
+  rubricIdForNewDocument: null,
   serverError: undefined,
   lateralPanelOpened: undefined,
 };
 
-function reducer(state, action) {
+type Action =
+  | { type: "SET_PARENT"; parent: any }
+  | { type: "SET_PARENT_LOADING"; loading: boolean }
+  | { type: "SET_SERVER_ERROR"; error: unknown }
+  | { type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT"; id: { rubric: string; lang: string } | null }
+  | { type: "SET_LATERAL_PANEL_OPENED"; panelType: typeof DOCUMENT | typeof LINK | undefined };
+
+function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_PARENT":
       return { ...state, parent: action.parent };
@@ -59,7 +76,12 @@ function reducer(state, action) {
 
 export const Component = () => {
   const { t } = useTranslation();
-  const { baseUrl, mode, disableSectionAnchor, parentType: parentTypeProp } = useLoaderData() ?? {};
+  const {
+    baseUrl,
+    mode,
+    disableSectionAnchor,
+    parentType: parentTypeProp,
+  } = (useLoaderData() as SimsLoaderData) ?? {};
   const params = useParams();
   const { data: organisations } = useOrganizations();
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
@@ -71,7 +93,8 @@ export const Component = () => {
   const { parent, parentLoading, rubricIdForNewDocument, serverError, lateralPanelOpened } = state;
   const { documentStores, setDocumentStores } = useDocumentsList();
   const setRubricIdForNewDocument = useCallback(
-    (id) => dispatch({ type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT", id }),
+    (id: { rubric: string; lang: string } | null) =>
+      dispatch({ type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT", id }),
     [],
   );
   const goBack = useGoBack();
@@ -80,7 +103,7 @@ export const Component = () => {
   const parentType = mode === CREATE ? parentTypeProp : sims && getParentType(sims);
 
   const saveSims = useCallback(
-    (simsData, callback, errorCallback) => {
+    (simsData: any, callback: (resultId: any) => void, errorCallback: () => void) => {
       saveSimsMutation(simsData)
         .then((resultId) => {
           callback(resultId);
@@ -138,8 +161,8 @@ export const Component = () => {
       <MSDLayout
         metadataStructure={metadataStructure}
         storeCollapseState={false}
-        baseUrl={baseUrl}
-        disableSectionAnchor={disableSectionAnchor}
+        baseUrl={baseUrl ?? ""}
+        disableSectionAnchor={disableSectionAnchor ?? false}
       >
         <PageTitleBlock titleLg1={currentSims.labelLg1} titleLg2={currentSims.labelLg2} />
         <EssentialRubricContextProvider value={essentialRubricContext}>

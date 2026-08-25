@@ -20,8 +20,6 @@ export const Component = (props) => {
 
   const frequencies = useCodesList(CL_FREQ);
 
-  const { data: organisations } = useOrganizations();
-
   const goBack = useGoBack();
 
   const { t } = useTranslation();
@@ -54,7 +52,6 @@ export const Component = (props) => {
     <OperationsIndicatorEdition
       series={series}
       indicators={indicators}
-      organisations={organisations}
       frequencies={frequencies}
       indicator={indicator}
       goBack={goBack}

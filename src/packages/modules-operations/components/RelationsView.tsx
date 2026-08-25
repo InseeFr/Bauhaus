@@ -87,9 +87,7 @@ export function RelationsViewPerLg({
 }
 
 export function RelationsView(
-  props: Readonly<
-    { title: string; secondLang: boolean } & Omit<RelationsViewPerLgContentTypes, "langSuffix">
-  >,
+  props: Readonly<{ secondLang: boolean } & Omit<RelationsViewPerLgContentTypes, "langSuffix">>,
 ) {
   const { t } = useTranslation();
 
