@@ -64,6 +64,7 @@ export const Component = (props) => {
       .then((cl) => {
         setCodelist(formatCodelist(cl));
       })
+      .catch((error) => setServerSideError(error))
       .finally(() => setLoading(false));
   }, [id]);
 

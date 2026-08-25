@@ -30,9 +30,10 @@ export const Component = (props) => {
   const [serverSideError, setServerSideError] = useState("");
 
   const {
-    data: codelist,
+    data: codelist = {},
     isLoading,
     refetch,
+    error: loadingError,
   } = useQuery({
     queryKey: ["partial-codes-list", id],
     enabled: codelists.length > 0,
@@ -108,7 +109,7 @@ export const Component = (props) => {
         secondLang={secondLang}
         mutualized={true}
         updatable={true}
-        serverSideError={serverSideError}
+        serverSideError={serverSideError || loadingError}
         publishComponent={publish}
       />
     </>

@@ -48,8 +48,10 @@ vi.mock("../menu", () => ({
 }));
 
 vi.mock("@components/errors-bloc", () => ({
-  ErrorBloc: ({ error }: { error: string[] }) => (
-    <div data-testid="error-bloc">{error?.join(", ")}</div>
+  ErrorBloc: ({ error }: { error?: (string | { message?: string })[] }) => (
+    <div data-testid="error-bloc">
+      {error?.map((e) => (typeof e === "string" ? e : e?.message)).join(", ")}
+    </div>
   ),
 }));
 
@@ -65,7 +67,9 @@ vi.mock("@components/buttons/buttons-with-icons", () => ({
   CancelButton: () => null,
   CloseIconButton: () => null,
 }));
-vi.mock("@components/check-second-lang", () => ({ CheckSecondLang: () => null }));
+vi.mock("@components/check-second-lang", () => ({
+  CheckSecondLang: () => null,
+}));
 vi.mock("@components/confirmation-delete", () => ({
   ConfirmationDelete: ({ handleYes }: { handleYes: () => void }) => (
     <button data-testid="confirm-delete-btn" onClick={handleYes}>
@@ -73,7 +77,9 @@ vi.mock("@components/confirmation-delete", () => ({
     </button>
   ),
 }));
-vi.mock("@components/creation-update-items", () => ({ CreationUpdateItems: () => null }));
+vi.mock("@components/creation-update-items", () => ({
+  CreationUpdateItems: () => null,
+}));
 vi.mock("@components/layout", () => ({
   Row: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
@@ -86,8 +92,12 @@ vi.mock("@components/status", () => ({
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { deleteSims: vi.fn(() => Promise.resolve()) },
 }));
-vi.mock("../../components/RubricEssentialMsg", () => ({ RubricEssentialMsg: () => null }));
-vi.mock("../../components/SimsFieldTitle", () => ({ SimsFieldTitle: () => null }));
+vi.mock("../../components/RubricEssentialMsg", () => ({
+  RubricEssentialMsg: () => null,
+}));
+vi.mock("../../components/SimsFieldTitle", () => ({
+  SimsFieldTitle: () => null,
+}));
 vi.mock("./SimsBlock", () => ({ SimsBlock: () => null }));
 vi.mock("./MissingDocumentsErrorBloc", () => ({
   MissingDocumentsErrorBloc: ({ missingDocuments }: { missingDocuments: Set<string> }) =>
@@ -96,6 +106,8 @@ vi.mock("./MissingDocumentsErrorBloc", () => ({
     ) : null,
 }));
 vi.mock("../../../../../deprecated-locales", () => ({ default: {} }));
+
+import { OperationsApi } from "@sdk/operations-api";
 
 import { SimsVisualisation } from "./SimsVisualisation";
 
@@ -226,5 +238,24 @@ describe("SimsVisualisation - delete redirection", () => {
     await waitFor(() => {
       expect(navigateMock).toHaveBeenCalledWith("/operations/indicator/ind42");
     });
+  });
+});
+
+describe("SimsVisualisation - delete error handling", () => {
+  it("should stay on the page and show the error when the deletion fails", async () => {
+    vi.mocked(OperationsApi.deleteSims).mockRejectedValueOnce({
+      message: "Documentation not found",
+      status: 404,
+    });
+
+    renderComponent(vi.fn(), { id: "4", idSeries: "s42", rubrics: {} });
+
+    fireEvent.click(screen.getByTestId("delete-btn"));
+    fireEvent.click(screen.getByTestId("confirm-delete-btn"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("error-bloc")).toHaveTextContent("Documentation not found");
+    });
+    expect(navigateMock).not.toHaveBeenCalled();
   });
 });

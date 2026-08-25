@@ -151,10 +151,17 @@ export function SimsVisualisation({
     setModalOpened(false);
   };
   const handleYes = () => {
-    OperationsApi.deleteSims(sims).finally(() => {
-      setModalOpened(false);
-      navigate(getParentUri(sims));
-    });
+    setServerSideError(undefined);
+    OperationsApi.deleteSims(sims)
+      .then(() => {
+        setModalOpened(false);
+        navigate(getParentUri(sims));
+      })
+      .catch((err) => {
+        // Le SDK rejette l'objet d'erreur nu { message, status } : ErrorBloc sait le rendre.
+        setModalOpened(false);
+        setServerSideError([err]);
+      });
   };
 
   return (
