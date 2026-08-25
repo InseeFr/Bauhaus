@@ -465,5 +465,3 @@ export const OperationsDocumentationEdition = (props) => {
     </div>
   );
 };
-
-export default OperationsDocumentationEdition;
