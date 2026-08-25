@@ -6,7 +6,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { AppContextProvider } from "../../../../../application/app-context";
 import { DOCUMENT } from "../../../../constants/documentType";
-import OperationsDocumentationEdition from "./OperationsDocumentationEdition";
+import { OperationsDocumentationEdition } from "./OperationsDocumentationEdition";
 
 // Référence stable : la liste est une dépendance d'effet dans le composant.
 const documentsAndLinks = [];
@@ -67,7 +67,9 @@ describe("OperationsDocumentationEdition, file field", () => {
     renderEdition();
 
     screen.getByText(mockTranslations["documents.drag"]);
-    screen.getByRole("button", { name: mockTranslations["documents.chooseFile"] });
+    screen.getByRole("button", {
+      name: mockTranslations["documents.chooseFile"],
+    });
   });
 
   it("replaces the drop zone by the file name once a file is selected", () => {
@@ -84,7 +86,9 @@ describe("OperationsDocumentationEdition, file field", () => {
 
     selectFile(container, new File(["content"], "rapport.pdf", { type: "application/pdf" }));
     await userEvent.click(
-      screen.getByRole("button", { name: mockTranslations["documents.removeFile"] }),
+      screen.getByRole("button", {
+        name: mockTranslations["documents.removeFile"],
+      }),
     );
 
     screen.getByText(mockTranslations["documents.drag"]);
