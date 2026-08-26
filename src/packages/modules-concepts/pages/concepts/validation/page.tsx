@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { Loading, Publishing } from "@components/loading";
-
-import { OK, PENDING } from "@sdk/constants";
 
 import { ConceptsApi } from "../../../../sdk";
 import { sortArrayByLabel } from "../../../../utils/array-utils";
 import { useTitle } from "../../../../utils/hooks/useTitle";
 import ConceptsToValidate from "./components/ConceptsToValidate";
-
-type ExportingStatus = typeof OK | typeof PENDING | undefined;
 
 interface ConceptValidateItem {
   id: string;
@@ -24,27 +19,29 @@ export const Component = () => {
   const { t } = useTranslation();
   useTitle(t("concept.title"), t("common.btnValid"));
   const [loading, setLoading] = useState<boolean>(true);
-  const [exporting, setExporting] = useState<ExportingStatus>();
+  const [publishing, setPublishing] = useState<boolean>(false);
   const [concepts, setConcepts] = useState<ConceptValidateItem[]>([]);
 
+  const loadConcepts = () =>
+    ConceptsApi.getConceptValidateList().then((body: ConceptValidateItem[]) => {
+      setConcepts(sortArrayByLabel(body));
+    });
+
   const handleValidateConceptList = (ids: string[]): void => {
-    setExporting(PENDING);
-    ConceptsApi.putConceptValidList(ids).finally(() => setExporting(OK));
+    setPublishing(true);
+    // On reste sur la page : la liste est rechargée pour n'y laisser que les
+    // concepts encore provisoires.
+    ConceptsApi.putConceptValidList(ids)
+      .finally(loadConcepts)
+      .finally(() => setPublishing(false));
   };
 
   useEffect(() => {
-    ConceptsApi.getConceptValidateList()
-      .then((body: ConceptValidateItem[]) => {
-        setConcepts(sortArrayByLabel(body));
-      })
-      .finally(() => setLoading(false));
+    loadConcepts().finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (exporting === OK) {
-    return <Navigate to="/concepts" replace />;
-  }
-
-  if (exporting === PENDING) {
+  if (publishing) {
     return <Publishing />;
   }
 

@@ -185,16 +185,18 @@ describe("ConceptValidation Home Container", () => {
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
       });
 
+      expect(screen.getByText("Publish in progress ...")).toBeInTheDocument();
+      expect(screen.queryByTestId("concepts-to-validate")).not.toBeInTheDocument();
+
       // Resolve the promise to complete the validation
       resolvePromise!();
 
-      // Wait for the redirect to occur
       await waitFor(() => {
-        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
+        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
       });
     });
 
-    it("should redirect to concepts list after successful validation", async () => {
+    it("reste sur la page de publication une fois la publication terminée", async () => {
       mockGetConceptValidateList.mockResolvedValue(mockConcepts);
       mockPutConceptValidList.mockResolvedValue({});
 
@@ -208,17 +210,39 @@ describe("ConceptValidation Home Container", () => {
         expect(screen.getByTestId("validate-button")).toBeInTheDocument();
       });
 
-      const validateButton = screen.getByTestId("validate-button");
-      validateButton.click();
+      screen.getByTestId("validate-button").click();
 
       await waitFor(() => {
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
       });
 
-      // Wait for the redirect (component unmounts or changes)
       await waitFor(() => {
-        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
+        expect(screen.getByTestId("concepts-to-validate")).toBeInTheDocument();
       });
+    });
+
+    it("recharge les concepts restant à publier une fois la publication terminée", async () => {
+      mockGetConceptValidateList
+        .mockResolvedValueOnce(mockConcepts)
+        .mockResolvedValueOnce([{ id: "3", label: "Concept C" }]);
+      mockPutConceptValidList.mockResolvedValue({});
+
+      render(
+        <MemoryRouter>
+          <Component />
+        </MemoryRouter>,
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId("concepts-count")).toHaveTextContent("3");
+      });
+
+      screen.getByTestId("validate-button").click();
+
+      await waitFor(() => {
+        expect(screen.getByTestId("concepts-count")).toHaveTextContent("1");
+      });
+      expect(mockGetConceptValidateList).toHaveBeenCalledTimes(2);
     });
 
     it("should call API with correct concept ids", async () => {
@@ -243,9 +267,8 @@ describe("ConceptValidation Home Container", () => {
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
       });
 
-      // Wait for the redirect to complete
       await waitFor(() => {
-        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
+        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
       });
     });
   });
@@ -290,10 +313,11 @@ describe("ConceptValidation Home Container", () => {
         expect(mockPutConceptValidList).toHaveBeenCalled();
       });
 
-      // The finally block should still execute, setting state to OK and triggering redirect
+      // The finally block should still execute, reloading the list in place
       await waitFor(() => {
-        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
+        expect(mockGetConceptValidateList).toHaveBeenCalledTimes(2);
       });
+      expect(screen.getByTestId("validate-button")).toBeInTheDocument();
     });
   });
 
@@ -421,12 +445,12 @@ describe("ConceptValidation Home Container", () => {
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
       });
 
-      // Step 4: Verify completion and redirect
+      // Step 4: Verify completion, staying on the page with a reloaded list
       await waitFor(() => {
-        expect(screen.queryByTestId("validate-button")).not.toBeInTheDocument();
+        expect(mockGetConceptValidateList).toHaveBeenCalledTimes(2);
       });
 
-      expect(mockGetConceptValidateList).toHaveBeenCalledTimes(1);
+      expect(screen.getByTestId("concepts-to-validate")).toBeInTheDocument();
       expect(mockPutConceptValidList).toHaveBeenCalledTimes(1);
     });
   });
