@@ -35,6 +35,18 @@ export default defineConfig(() => {
       tsconfigPaths: true,
     },
 
+    // highlight.js n'est chargé qu'en import dynamique (aperçu DDI). Sans pré-bundling,
+    // Vite ne le découvre qu'au premier rendu de l'aperçu, ré-optimise ses dépendances et
+    // invalide le `browserHash` : l'import en vol échoue alors avec
+    // « Failed to fetch dynamically imported module: .../deps/highlight__js_lib_core.js ».
+    optimizeDeps: {
+      include: [
+        "highlight.js/lib/core",
+        "highlight.js/lib/languages/xml",
+        "highlight.js/lib/languages/json",
+      ],
+    },
+
     build: {
       outDir: "build",
     },

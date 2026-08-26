@@ -1,5 +1,5 @@
 import { renderHook, waitFor } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { useHighlight } from "./useHighlight";
 
 describe("useHighlight", () => {
@@ -46,6 +46,25 @@ describe("useHighlight", () => {
     });
 
     expect(result.current).toContain("different-tag");
+  });
+
+  it("should degrade to no highlighting when the highlight chunk fails to load", async () => {
+    vi.resetModules();
+    vi.doMock("highlight.js/lib/core", () => {
+      throw new Error("Failed to fetch dynamically imported module");
+    });
+    using warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const { useHighlight: useHighlightWithBrokenChunk } = await import("./useHighlight");
+    const { result } = renderHook(() => useHighlightWithBrokenChunk("<root/>", "xml"));
+
+    await waitFor(() => {
+      expect(warn).toHaveBeenCalled();
+    });
+    expect(result.current).toBeNull();
+
+    vi.doUnmock("highlight.js/lib/core");
+    vi.resetModules();
   });
 
   it("should update when language changes", async () => {
