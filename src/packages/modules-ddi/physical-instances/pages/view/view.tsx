@@ -58,10 +58,7 @@ import { loadCodeListForVariable } from "./loadCodeListForVariable";
 import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
 import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
 import { cx } from "@utils/cx";
-
-// Le SDK (build-api) rejette un objet nu { message, status }, jamais une Error.
-const getApiErrorMessage = (err: unknown, fallback: string) =>
-  err && typeof err === "object" && "message" in err ? String(err.message) : fallback;
+import { getApiErrorMessage } from "@utils/api-errors";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();

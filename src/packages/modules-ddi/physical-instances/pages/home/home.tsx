@@ -5,6 +5,7 @@ import { SearchableList } from "@components/searchable-list";
 import { AppDevTools } from "@components/devtools/AppDevTools";
 
 import { useTitle } from "@utils/hooks/useTitle";
+import { getApiErrorMessage } from "@utils/api-errors";
 
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -47,10 +48,7 @@ export const Component = () => {
         replace: true,
       });
     } catch (err: unknown) {
-      const errorMessage =
-        err && typeof err === "object" && "message" in err
-          ? String(err.message)
-          : t("physicalInstance.creation.errorMessage");
+      const errorMessage = getApiErrorMessage(err, t("physicalInstance.creation.errorMessage"));
 
       toast.current?.show({
         severity: "error",
