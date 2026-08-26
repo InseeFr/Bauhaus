@@ -1,5 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { useState } from "react";
 import { SentinelValues } from "./SentinelValues";
 import type { Reference } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
@@ -192,6 +194,50 @@ describe("SentinelValues", () => {
     // Une ligne vide initiale : un code + sa catégorie.
     expect(codeList.Code).toHaveLength(1);
     expect(categories).toHaveLength(1);
+  });
+
+  // Câblage réel : le parent renvoie en props les items émis, comme VariableEditForm.
+  const ControlledSentinelValues = ({ initialReference }: { initialReference?: Reference }) => {
+    const [props, setProps] = useState<any>({ missingValuesReference: initialReference });
+    return (
+      <SentinelValues
+        key="var-1-sentinel"
+        currentVariableId="var-1"
+        {...props}
+        onChange={(missingValuesReference, mmvr, sentinelCodeList, sentinelCategories) =>
+          setProps({ missingValuesReference, mmvr, sentinelCodeList, sentinelCategories })
+        }
+      />
+    );
+  };
+
+  const lastValueInput = () => {
+    const inputs = screen.getAllByLabelText("Valeur");
+    return inputs[inputs.length - 1];
+  };
+
+  it("laisse saisir plusieurs caractères dans un code ajouté à une nouvelle liste", async () => {
+    const user = userEvent.setup();
+    render(<ControlledSentinelValues />);
+
+    await user.click(screen.getByText("Valeurs sentinelles"));
+    await user.click(screen.getByText("Créer"));
+    await user.click(screen.getByText("Ajouter un code"));
+    await user.type(lastValueInput(), "NSP");
+
+    expect(lastValueInput()).toHaveValue("NSP");
+  });
+
+  it("laisse saisir plusieurs caractères dans un code ajouté à une liste existante", async () => {
+    mockUseMutualizedCodesList.mockReturnValue({ data: sentinelCodeListContent, isLoading: false });
+    const user = userEvent.setup();
+    render(<ControlledSentinelValues initialReference={reference} />);
+
+    await user.click(screen.getByText("Valeurs sentinelles"));
+    await user.click(screen.getByText("Ajouter un code"));
+    await user.type(lastValueInput(), "REF");
+
+    expect(lastValueInput()).toHaveValue("REF");
   });
 
   it("emits a reference to the selected MMVR", () => {

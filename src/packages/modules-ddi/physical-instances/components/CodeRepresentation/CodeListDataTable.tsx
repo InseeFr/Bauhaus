@@ -111,9 +111,15 @@ export const CodeListDataTable = ({
       return;
     }
     guardedFields.current.add(key);
+    const decision = ask();
+    // Sans garde câblée, il n'y a aucune décision à attendre : geler la saisie ferait perdre les
+    // caractères tapés avant que le gel ne soit levé.
+    if (!decision) {
+      return;
+    }
     setFieldAwaitingDecision(key);
     try {
-      if (await ask()) {
+      if (await decision) {
         element.focus();
         // Décision prise : une prochaine édition de ce champ repart d'une base neuve.
         guardedFields.current.delete(key);
@@ -280,6 +286,11 @@ export const CodeListDataTable = ({
         emptyMessage={t("physicalInstance.view.code.noCodes")}
         dataKey="id"
         key={codes.map((c) => c.id).join("-")}
+        // Les cellules de PrimeReact sont mémoïsées sur la seule ligne de données : un état du
+        // tableau (le gel de la saisie pendant la garde) n'atteindrait pas les champs tant que la
+        // ligne ne change pas — la cellule resterait gelée après la décision. Le tableau tient
+        // quelques codes : rien à gagner à la mémoïsation.
+        cellMemo={false}
       >
         <Column
           field="value"

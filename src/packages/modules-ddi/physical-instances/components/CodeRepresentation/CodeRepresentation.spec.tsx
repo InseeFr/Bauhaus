@@ -1552,6 +1552,31 @@ describe("CodeRepresentation", () => {
       expect(dialog.queryByText(/overrideSharedCategory\.categoryMessage/)).not.toBeInTheDocument();
     });
 
+    it("lets the user edit the category again after cancelling (case 3)", async () => {
+      // Régression : après « Annuler », le champ restait gelé et plus aucune frappe n'était prise
+      // en compte — renoncer à UNE édition ne doit pas fermer l'édition de la catégorie.
+      markListAsNotShared();
+      markCategoryAsShared();
+      renderShared();
+
+      editCategoryLabel("Europe modifiée");
+      await waitForDialog(OVERRIDE_CATEGORY);
+      clickDialogAction(OVERRIDE_CATEGORY, "cancel");
+      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+
+      const labelInput = screen.getAllByPlaceholderText("Libellé")[0];
+      expect(labelInput).toHaveValue("Oui");
+      expect(labelInput).not.toHaveAttribute("readonly");
+
+      // Nouvelle tentative : la popup revient, et confirmer applique bien l'édition.
+      editCategoryLabel("Europe modifiée");
+      await waitForDialog(OVERRIDE_CATEGORY);
+      clickDialogAction(OVERRIDE_CATEGORY, "confirm");
+
+      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      expect(lastChange()[2][0].Label[0]["@value"]).toBe("Europe modifiée");
+    });
+
     it("creates a variant of the category when choosing Créer (case 3)", async () => {
       markListAsNotShared();
       markCategoryAsShared();
