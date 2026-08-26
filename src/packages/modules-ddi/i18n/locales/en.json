@@ -122,8 +122,8 @@
       },
       "sentinel": {
         "title": "Sentinel values",
-        "createNewList": "Create a new sentinel list",
-        "remove": "Remove sentinel values",
+        "createNewList": "Create",
+        "remove": "Remove",
         "select": "Select sentinel values",
         "loading": "Loading sentinel values...",
         "errorLoading": "Error while loading sentinel values",

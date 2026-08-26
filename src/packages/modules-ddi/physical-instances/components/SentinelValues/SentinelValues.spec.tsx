@@ -10,8 +10,8 @@ vi.mock("react-i18next", () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
         "physicalInstance.view.sentinel.title": "Valeurs sentinelles",
-        "physicalInstance.view.sentinel.createNewList": "Créer une nouvelle liste de sentinelles",
-        "physicalInstance.view.sentinel.remove": "Retirer les valeurs sentinelles",
+        "physicalInstance.view.sentinel.createNewList": "Créer",
+        "physicalInstance.view.sentinel.remove": "Retirer",
         "physicalInstance.view.sentinel.select": "Sélectionnez des valeurs sentinelles",
         "physicalInstance.view.sentinel.loading": "Chargement des valeurs sentinelles...",
         "physicalInstance.view.sentinel.errorLoading":
@@ -173,7 +173,7 @@ describe("SentinelValues", () => {
     fireEvent.click(screen.getByText("Valeurs sentinelles"));
 
     expect(screen.getByRole("combobox")).toBeInTheDocument();
-    expect(screen.getByText("Créer une nouvelle liste de sentinelles")).toBeInTheDocument();
+    expect(screen.getByText("Créer")).toBeInTheDocument();
   });
 
   it("creates a new MMVR and its sentinel code list on the fly", () => {
@@ -181,7 +181,7 @@ describe("SentinelValues", () => {
     render(<SentinelValues currentVariableId="var-1" onChange={onChange} />);
 
     fireEvent.click(screen.getByText("Valeurs sentinelles"));
-    fireEvent.click(screen.getByText("Créer une nouvelle liste de sentinelles"));
+    fireEvent.click(screen.getByText("Créer"));
 
     expect(onChange).toHaveBeenCalledTimes(1);
     const [reference, mmvr, codeList, categories] = onChange.mock.calls[0];
@@ -424,7 +424,7 @@ describe("SentinelValues", () => {
       />,
     );
 
-    fireEvent.click(screen.getByText("Retirer les valeurs sentinelles"));
+    fireEvent.click(screen.getByText("Retirer"));
 
     // Pas de modifications locales en cours : aucun garde-fou, retrait immédiat.
     expect(confirmDialogMock).not.toHaveBeenCalled();
@@ -452,7 +452,7 @@ describe("SentinelValues", () => {
       />,
     );
 
-    fireEvent.click(screen.getByText("Retirer les valeurs sentinelles"));
+    fireEvent.click(screen.getByText("Retirer"));
 
     // Modifications locales en cours : garde-fou ; rien n'est appliqué avant l'acceptation.
     expect(confirmDialogMock).toHaveBeenCalledTimes(1);

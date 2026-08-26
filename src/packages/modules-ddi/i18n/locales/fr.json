@@ -122,8 +122,8 @@
       },
       "sentinel": {
         "title": "Valeurs sentinelles",
-        "createNewList": "Créer une nouvelle liste de sentinelles",
-        "remove": "Retirer les valeurs sentinelles",
+        "createNewList": "Créer",
+        "remove": "Retirer",
         "select": "Sélectionnez des valeurs sentinelles",
         "loading": "Chargement des valeurs sentinelles...",
         "errorLoading": "Erreur lors du chargement des valeurs sentinelles",

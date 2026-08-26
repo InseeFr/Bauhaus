@@ -408,6 +408,7 @@ export const SentinelValues = ({
                 icon="pi pi-plus"
                 label={t("physicalInstance.view.sentinel.createNewList")}
                 outlined
+                size="small"
                 onClick={handleCreateNewList}
               />
               {missingValuesReference && (
@@ -416,6 +417,7 @@ export const SentinelValues = ({
                   icon="pi pi-times"
                   label={t("physicalInstance.view.sentinel.remove")}
                   outlined
+                  size="small"
                   severity="danger"
                   onClick={handleRemove}
                 />
@@ -426,6 +428,7 @@ export const SentinelValues = ({
                   icon="pi pi-trash"
                   label={t("physicalInstance.view.sentinel.deleteFromGroup")}
                   outlined
+                  size="small"
                   severity="danger"
                   loading={deleteMmvr.isPending}
                   onClick={handleDeleteFromGroup}

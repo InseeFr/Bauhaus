@@ -449,7 +449,7 @@ export const VariableEditForm = ({
             <Button
               type="submit"
               label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
-              icon="pi pi-save"
+              icon="pi pi-check"
               outlined
               disabled={hasValidationErrors}
               aria-label={
