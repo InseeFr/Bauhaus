@@ -218,7 +218,8 @@ export const Component = () => {
       variableMap.delete(deletedId);
     });
 
-    // Apply local modifications and add new local variables
+    // Apply local modifications to existing variables, keeping them in place
+    const newLocalVariables: VariableData[] = [];
     state.localVariables.forEach((localVar) => {
       if (variableMap.has(localVar.id)) {
         // Update existing variable with new lastModified
@@ -228,16 +229,29 @@ export const Component = () => {
           lastModified: new Date().toISOString(),
         });
       } else {
-        // Add new local variable with lastModified
-        variableMap.set(localVar.id, {
-          ...localVar,
-          lastModified: new Date().toISOString(),
-        });
+        newLocalVariables.push(localVar);
       }
     });
 
-    return Array.from(variableMap.values());
-  }, [variables, state.localVariables, state.deletedVariableIds]);
+    // Add new local variables: right after the variable they originate from when there is one
+    // (duplication), at the end of the table otherwise (creation).
+    const merged = Array.from(variableMap.values());
+    newLocalVariables.forEach((localVar) => {
+      const newVariable = {
+        ...localVar,
+        lastModified: new Date().toISOString(),
+      };
+      const anchorId = state.newVariableAnchors[localVar.id];
+      const anchorIndex = anchorId ? merged.findIndex((v) => v.id === anchorId) : -1;
+      if (anchorIndex === -1) {
+        merged.push(newVariable);
+      } else {
+        merged.splice(anchorIndex + 1, 0, newVariable);
+      }
+    });
+
+    return merged;
+  }, [variables, state.localVariables, state.deletedVariableIds, state.newVariableAnchors]);
 
   const filteredVariables = useMemo(() => {
     const searchLower = state.searchValue ? state.searchValue.toLowerCase() : null;
@@ -515,8 +529,8 @@ export const Component = () => {
 
   const handleVariableDuplicate = useCallback(
     (data: VariableData) => {
-      // Ajouter la variable dupliquée
-      dispatch(actions.addVariable(data));
+      // Ajouter la variable dupliquée, ancrée juste après la variable dont elle est issue
+      dispatch(actions.addVariable(data, state.selectedVariable?.id));
 
       // Garder le formulaire ouvert avec la nouvelle variable
       dispatch(actions.setSelectedVariable(data));
@@ -528,7 +542,7 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     },
-    [t],
+    [t, state.selectedVariable?.id],
   );
 
   const handleDeleteVariable = useCallback(

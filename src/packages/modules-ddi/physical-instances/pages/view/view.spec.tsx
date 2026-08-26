@@ -2616,4 +2616,22 @@ describe("View Component", () => {
       expect(tabView).toHaveAttribute("data-active-index", "0");
     });
   });
+
+  describe("Variable duplication", () => {
+    const variableNamesInTable = () =>
+      screen
+        .getAllByRole("row")
+        .slice(1)
+        .map((row) => row.querySelectorAll("td")[0]?.textContent);
+
+    it("should insert the duplicated variable right after the source variable", () => {
+      render(<Component />, { wrapper });
+
+      // Variable1 est la première ligne du tableau (aucun tri de colonne actif).
+      fireEvent.click(screen.getAllByRole("row")[1]);
+      fireEvent.click(screen.getByText("physicalInstance.view.duplicate"));
+
+      expect(variableNamesInTable()).toEqual(["Variable1", "Variable1 (copy)", "Variable2"]);
+    });
+  });
 });
