@@ -152,7 +152,8 @@
     },
     "validation": {
       "title": "Publication des concepts provisoires",
-      "panelTitle": "Concepts à publier",
+      "availablePanelTitle": "Concepts provisoires ({{size}})",
+      "panelTitle": "Concepts à publier ({{size}})",
       "hasNot": "Ajouter au moins un concept à publier"
     },
     "versioning": {

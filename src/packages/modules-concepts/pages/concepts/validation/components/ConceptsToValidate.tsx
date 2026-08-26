@@ -1,9 +1,13 @@
-import { Component } from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import { PublishButton } from "@components/buttons/buttons-with-icons";
+import { PickList } from "primereact/picklist";
+
+import { ActionToolbar } from "@components/action-toolbar";
+import { PublishButton, ReturnButton } from "@components/buttons/buttons-with-icons";
+import { ErrorBloc } from "@components/errors-bloc";
 import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
-import { Picker } from "@components/picker-page";
+import { PageTitle } from "@components/page-title";
 
 import { getModalMessage } from "../../../../utils/getModalMessage";
 
@@ -18,95 +22,109 @@ interface IdWithValid {
   valid: string;
 }
 
-interface ConceptsToValidateProps extends WithTranslation {
+interface ConceptsToValidateProps {
   concepts: ConceptToValidate[];
   handleValidateConceptList: (ids: string[]) => void;
 }
 
-interface ConceptsToValidateState {
-  modalValid: boolean;
-  idWithValid: IdWithValid[];
-  ids?: string[];
-}
+const toIdWithValid = (concepts: ConceptToValidate[]): IdWithValid[] =>
+  concepts.reduce<IdWithValid[]>((acc, { label: prefLabelLg1, valid }) => {
+    if (valid) acc.push({ prefLabelLg1, valid });
+    return acc;
+  }, []);
 
-class ConceptsToValidate extends Component<ConceptsToValidateProps, ConceptsToValidateState> {
-  constructor(props: ConceptsToValidateProps) {
-    super(props);
-    this.state = {
-      modalValid: false,
-      idWithValid: [],
-    };
-  }
+const ConceptsToValidate = ({
+  concepts,
+  handleValidateConceptList,
+}: Readonly<ConceptsToValidateProps>) => {
+  const { t } = useTranslation();
+  const [availableConcepts, setAvailableConcepts] = useState<ConceptToValidate[]>(() => concepts);
+  const [conceptsToPublish, setConceptsToPublish] = useState<ConceptToValidate[]>([]);
+  const [idWithValid, setIdWithValid] = useState<IdWithValid[]>([]);
+  const [clientSideError, setClientSideError] = useState("");
 
-  handleValidateConceptList = (ids: string[]) => {
-    this.props.handleValidateConceptList(ids);
-  };
+  const publish = (toPublish: ConceptToValidate[]) =>
+    handleValidateConceptList(toPublish.map(({ id }) => id));
 
-  handleClickValidation = (ids: string[]) => {
-    this.setState({ ids });
-    const idWithValid = ids.reduce<IdWithValid[]>((acc, id) => {
-      const concept = this.props.concepts.find((c) => c.id === id);
-      if (!concept) return acc;
-      const { label: prefLabelLg1, valid } = concept;
-      if (valid) acc.push({ prefLabelLg1, valid });
-      return acc;
-    }, []);
-
-    if (idWithValid.length === 0) {
-      this.handleValidateConceptList(ids);
+  const handleClickValidation = () => {
+    if (conceptsToPublish.length === 0) {
+      setClientSideError(t("concept.validation.hasNot"));
+      return;
+    }
+    const withValid = toIdWithValid(conceptsToPublish);
+    if (withValid.length === 0) {
+      publish(conceptsToPublish);
     } else {
-      this.setState({ idWithValid, modalValid: true });
+      setIdWithValid(withValid);
     }
   };
 
-  handleCancelValidation = () => this.setState({ modalValid: false });
+  const handleCancelValidation = () => setIdWithValid([]);
 
-  handleConfirmValidation = () => {
-    this.handleCancelValidation();
-    if (this.state.ids) this.handleValidateConceptList(this.state.ids);
+  const handleConfirmValidation = () => {
+    handleCancelValidation();
+    publish(conceptsToPublish);
   };
 
-  render() {
-    const { modalValid, idWithValid } = this.state;
-    const { concepts, t } = this.props;
+  const modalButtons: ModalButton[] = [
+    {
+      label: t("common.btnCancel"),
+      action: handleCancelValidation,
+      style: "primary",
+      disabled: false,
+    },
+    {
+      label: t("common.btnValid"),
+      action: handleConfirmValidation,
+      style: "primary",
+      disabled: false,
+    },
+  ];
 
-    const modalButtons: ModalButton[] = [
-      {
-        label: t("common.btnCancel"),
-        action: this.handleCancelValidation,
-        style: "primary",
-        disabled: false,
-      },
-      {
-        label: t("common.btnValid"),
-        action: this.handleConfirmValidation,
-        style: "primary",
-        disabled: false,
-      },
-    ];
-
-    return (
-      <div>
-        <Picker
-          items={concepts}
-          title={t("concept.validation.title")}
-          panelTitle={t("concept.validation.panelTitle")}
-          labelWarning={t("concept.validation.hasNot")}
-          ValidationButton={PublishButton}
-          handleAction={this.handleClickValidation}
-          context="concepts"
-        />
-        <ModalRmes
-          id="validation-concept-modal"
-          isOpen={modalValid}
-          title="Confirmation de la validation"
-          body={getModalMessage(idWithValid) as unknown as Node}
-          modalButtons={modalButtons}
-          closeCancel={this.handleCancelValidation}
+  return (
+    <div>
+      <div className="container">
+        <PageTitle title={t("concept.validation.title")} />
+        <ActionToolbar>
+          <ReturnButton action="/concepts" />
+          <PublishButton action={handleClickValidation} />
+        </ActionToolbar>
+        <ErrorBloc error={clientSideError} />
+        <PickList
+          dataKey="id"
+          source={availableConcepts}
+          target={conceptsToPublish}
+          onChange={(event) => {
+            // PrimeReact type les deux listes en `any` : on rétablit le type au passage.
+            setAvailableConcepts(event.source as ConceptToValidate[]);
+            setConceptsToPublish(event.target as ConceptToValidate[]);
+            setClientSideError("");
+          }}
+          itemTemplate={(concept: ConceptToValidate) => concept.label}
+          sourceHeader={t("concept.validation.availablePanelTitle", {
+            size: availableConcepts.length,
+          })}
+          targetHeader={t("concept.validation.panelTitle", { size: conceptsToPublish.length })}
+          filter
+          filterBy="label"
+          sourceFilterPlaceholder={t("common.searchLabelPlaceholder")}
+          targetFilterPlaceholder={t("common.searchLabelPlaceholder")}
+          showSourceControls={false}
+          showTargetControls={false}
+          sourceStyle={{ height: "20rem" }}
+          targetStyle={{ height: "20rem" }}
         />
       </div>
-    );
-  }
-}
+      <ModalRmes
+        id="validation-concept-modal"
+        isOpen={idWithValid.length > 0}
+        title="Confirmation de la validation"
+        body={getModalMessage(idWithValid) as unknown as Node}
+        modalButtons={modalButtons}
+        closeCancel={handleCancelValidation}
+      />
+    </div>
+  );
+};
 
-export default withTranslation()(ConceptsToValidate);
+export default ConceptsToValidate;

@@ -152,7 +152,8 @@
     },
     "validation": {
       "title": "Publishing of the provisional concepts",
-      "panelTitle": "Concepts to publish",
+      "availablePanelTitle": "Provisional concepts ({{size}})",
+      "panelTitle": "Concepts to publish ({{size}})",
       "hasNot": "Add at least one concept to publish"
     },
     "versioning": {
