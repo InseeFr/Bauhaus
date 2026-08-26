@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useState } from "react";
 
 import { PageTitle } from "@components/page-title";
 
@@ -14,14 +14,6 @@ interface MemberItem {
   label: string;
 }
 
-interface CollectionEditionState {
-  id: string;
-  data: {
-    general: CollectionGeneral;
-    members: MemberItem[];
-  };
-}
-
 interface CollectionEditionCreationProps {
   title: string;
   subtitle?: string;
@@ -35,94 +27,64 @@ interface CollectionEditionCreationProps {
   setSubmitting: (value: boolean) => void;
 }
 
-class CollectionEditionCreation extends Component<
-  CollectionEditionCreationProps,
-  CollectionEditionState
-> {
-  constructor(props: CollectionEditionCreationProps) {
-    super(props);
-    const { general, members } = props;
+const toMemberItems = (members: CollectionMember[]): MemberItem[] =>
+  members.map(({ id, prefLabelLg1 }) => ({ id, label: prefLabelLg1 }));
 
-    this.state = {
-      id: general.id,
-      data: {
-        general: { ...general },
-        members: members.map(({ id, prefLabelLg1 }) => ({ id, label: prefLabelLg1 })),
-      },
-    };
-  }
+const CollectionEditionCreation = ({
+  title,
+  subtitle,
+  creation,
+  general: initialGeneral,
+  members: initialMembers,
+  collectionList,
+  conceptList,
+  save,
+  setSubmitting,
+}: Readonly<CollectionEditionCreationProps>) => {
+  const [general, setGeneral] = useState<CollectionGeneral>(() => ({ ...initialGeneral }));
+  const [members, setMembers] = useState<MemberItem[]>(() => toMemberItems(initialMembers));
 
-  handleChangeGeneral = (update: Partial<CollectionGeneral>) => {
-    this.props.setSubmitting(true);
-    this.setState((state) => ({
-      ...state,
-      data: {
-        ...state.data,
-        general: { ...state.data.general, ...update },
-      },
-    }));
+  const handleChangeGeneral = (update: Partial<CollectionGeneral>) => {
+    setSubmitting(true);
+    setGeneral((current) => ({ ...current, ...update }));
   };
 
-  handleChangeMembers = (newMembers: MemberItem[]) => {
-    this.props.setSubmitting(true);
-    this.setState((state) => ({
-      ...state,
-      data: {
-        ...state.data,
-        members: newMembers,
-      },
-    }));
+  const handleChangeMembers = (newMembers: MemberItem[]) => {
+    setSubmitting(true);
+    setMembers(newMembers);
   };
 
-  handleSave = () => {
-    this.saveCollection();
-  };
+  const handleSave = () => save({ general, members });
 
-  redirectCancel = (): string =>
-    this.props.creation
-      ? `/concepts/collections`
-      : `/concepts/collections/${this.props.general.id}`;
+  const redirectCancel = () =>
+    creation ? `/concepts/collections` : `/concepts/collections/${initialGeneral.id}`;
 
-  saveCollection = () => {
-    this.props.save(this.state.data);
-  };
+  const errors = validate(
+    general,
+    collectionList.map((c) => ({ id: c.id, label: c.label?.value ?? "" })),
+    initialGeneral.id,
+    initialGeneral.prefLabelLg1,
+  );
 
-  render() {
-    const { title, subtitle, collectionList, conceptList } = this.props;
-
-    const {
-      data: { general, members },
-    } = this.state;
-
-    const { id: initialId, prefLabelLg1: initialPrefLabelLg1 } = this.props.general;
-
-    const errors = validate(
-      general,
-      collectionList.map((c) => ({ id: c.id, label: c.label?.value ?? "" })),
-      initialId,
-      initialPrefLabelLg1,
-    );
-
-    return (
-      <div>
-        <div className="container">
-          <PageTitle title={title} subtitle={subtitle} />
-          <Menu handleSave={this.handleSave} redirectCancel={this.redirectCancel} errors={errors} />
-          <GeneralEdition
-            general={general}
-            handleChange={this.handleChangeGeneral}
-            errors={errors}
-            creation={this.props.creation}
-          />
-          <CollectionMembersEdition
-            members={members}
-            conceptList={conceptList}
-            handleChange={this.handleChangeMembers}
-          />
-        </div>
+  return (
+    <div>
+      <div className="container">
+        <PageTitle title={title} subtitle={subtitle} />
+        <Menu handleSave={handleSave} redirectCancel={redirectCancel} errors={errors} />
+        <GeneralEdition
+          general={general}
+          handleChange={handleChangeGeneral}
+          errors={errors}
+          creation={creation}
+        />
+        <CollectionMembersEdition
+          members={members}
+          conceptList={conceptList}
+          handleChange={handleChangeMembers}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default CollectionEditionCreation;
