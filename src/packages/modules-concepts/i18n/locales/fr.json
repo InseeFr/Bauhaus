@@ -120,6 +120,7 @@
       "replacesTitle": "Remplace",
       "relatedTitle": "Est lié à",
       "equivalentTitle": "Correspond à",
+      "availablePanelTitle": "Concepts disponibles ({{size}})",
       "replacedByMasc": "Est remplacé par"
     },
     "search": {

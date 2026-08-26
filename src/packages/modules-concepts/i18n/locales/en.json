@@ -120,7 +120,8 @@
       "replacesTitle": "Replaces",
       "replacedByMasc": "Is replaced by",
       "relatedTitle": "Is related to",
-      "equivalentTitle": "Matches"
+      "equivalentTitle": "Matches",
+      "availablePanelTitle": "Available concepts ({{size}})"
     },
     "search": {
       "title": "Concepts - Search"

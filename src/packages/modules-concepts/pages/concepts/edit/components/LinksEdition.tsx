@@ -1,19 +1,12 @@
+import { PickList } from "primereact/picklist";
 import { TabPanel, TabView, TabViewTabChangeEvent } from "primereact/tabview";
-import { Component, ReactElement } from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
-
-import { AddLogo } from "@components/logo/logo-add";
-import { DelLogo } from "@components/logo/logo-del";
-import { PickerItem } from "@components/picker-item";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { BROADER, CLOSE_MATCH, NARROWER, NONE, REFERENCES, RELATED, SUCCEED } from "@sdk/constants";
 
-import { filterDeburr } from "@utils/array-utils";
-
 import { Link } from "../../../../../model/concepts/concept";
-import ConceptToLink from "./ConceptToLink";
 import { EquivalentLinks } from "./EquivalentLinks";
-import SearchConceptsByLabel from "./SearchConceptsByLabel";
 
 type LinkType = string;
 
@@ -30,7 +23,7 @@ export interface ConceptWithLink {
   prefLabelLg2?: string;
 }
 
-interface LinksEditionProps extends WithTranslation {
+interface LinksEditionProps {
   conceptsWithLinks: ConceptWithLink[];
   currentId?: string;
   handleChange: (conceptsWithLinks: ConceptWithLink[]) => void;
@@ -38,129 +31,112 @@ interface LinksEditionProps extends WithTranslation {
   handleChangeEquivalentLinks: (links: (Link | { urn: string })[]) => void;
 }
 
-interface LinksEditionState {
-  searchLabel: string;
-  activeTab: number;
-  conceptsWithLinks: ConceptWithLink[];
-}
+// Les intitulés des onglets restent en français quelle que soit la langue de
+// l'utilisateur : ce sont les termes du thésaurus.
+const LINK_TYPES: { titleKey: string; memberType: LinkType }[] = [
+  { titleKey: "concept.links.narrowerTitle", memberType: NARROWER },
+  { titleKey: "concept.links.broaderTitle", memberType: BROADER },
+  { titleKey: "concept.links.referencesTitle", memberType: REFERENCES },
+  { titleKey: "concept.links.replacesTitle", memberType: SUCCEED },
+  { titleKey: "concept.links.relatedTitle", memberType: RELATED },
+  { titleKey: "concept.links.equivalentTitle", memberType: CLOSE_MATCH },
+];
 
-class LinksEdition extends Component<LinksEditionProps, LinksEditionState> {
-  constructor(props: LinksEditionProps) {
-    super(props);
-    const { conceptsWithLinks, currentId } = props;
-    this.state = {
-      searchLabel: "",
-      activeTab: 0,
-      conceptsWithLinks: conceptsWithLinks
-        .filter((c) => c.id !== currentId)
-        .map(({ id, label, typeOfLink }) => ({ id, label, typeOfLink })),
-    };
-  }
+const linkableConcepts = (
+  conceptsWithLinks: ConceptWithLink[],
+  currentId?: string,
+): ConceptWithLink[] =>
+  conceptsWithLinks
+    .filter((c) => c.id !== currentId)
+    .map(({ id, label, typeOfLink }) => ({ id, label, typeOfLink }));
 
-  handleSearch = (label: string) => {
-    this.setState({ searchLabel: label });
-  };
+const splitByLink = (conceptsWithLinks: ConceptWithLink[], memberType: LinkType) => {
+  const linked: ConceptWithLink[] = [];
+  const available: ConceptWithLink[] = [];
+  conceptsWithLinks.forEach((concept) => {
+    if (concept.typeOfLink === memberType) linked.push(concept);
+    else if (concept.typeOfLink === NONE) available.push(concept);
+  });
+  return { linked, available };
+};
 
-  handleSelectTab = (activeTab: number) => {
-    this.setState({ activeTab });
-  };
+const LinksEdition = ({
+  conceptsWithLinks: initialConceptsWithLinks,
+  currentId,
+  handleChange,
+  equivalentLinks,
+  handleChangeEquivalentLinks,
+}: Readonly<LinksEditionProps>) => {
+  const { t, i18n } = useTranslation();
+  const [activeTab, setActiveTab] = useState(0);
+  const [conceptsWithLinks, setConceptsWithLinks] = useState<ConceptWithLink[]>(() =>
+    linkableConcepts(initialConceptsWithLinks, currentId),
+  );
 
-  addMember = (id: string) => {
-    this.updateConceptsWithLinks(
-      this.state.conceptsWithLinks.map((concept) =>
-        concept.id === id ? { ...concept, typeOfLink: this.getActualType() } : concept,
-      ),
-    );
-  };
+  const linkTypes: LinkTypeDefinition[] = useMemo(() => {
+    const t1 = i18n.getFixedT("fr");
+    return LINK_TYPES.map(({ titleKey, memberType }) => ({ title: t1(titleKey), memberType }));
+  }, [i18n]);
 
-  removeMember = (id: string) => {
-    this.updateConceptsWithLinks(
-      this.state.conceptsWithLinks.map((concept) =>
-        concept.id === id ? { ...concept, typeOfLink: NONE } : concept,
-      ),
-    );
-  };
+  const { title, memberType } = linkTypes[activeTab];
+  const { linked, available } = splitByLink(conceptsWithLinks, memberType);
 
-  updateConceptsWithLinks = (conceptsWithLinks: ConceptWithLink[]) => {
-    this.setState({ conceptsWithLinks });
-    this.props.handleChange(conceptsWithLinks);
-  };
-
-  getMembersAndHits = () => {
-    const members: ConceptWithLink[] = [];
-    const hits: ConceptWithLink[] = [];
-    const actualType = this.getActualType();
-    const check = filterDeburr(this.state.searchLabel);
-    this.state.conceptsWithLinks.forEach((concept) => {
-      const { typeOfLink, label } = concept;
-      if (typeOfLink === actualType) members.push(concept);
-      else if (typeOfLink === NONE && check(label)) hits.push(concept);
+  // La PickList ne connaît que l'onglet courant : les concepts liés par un autre
+  // type n'y figurent pas et doivent rester tels quels.
+  const relink = (nowLinked: ConceptWithLink[]) => {
+    const linkedIds = new Set(nowLinked.map(({ id }) => id));
+    const updated = conceptsWithLinks.map((concept) => {
+      if (linkedIds.has(concept.id)) return { ...concept, typeOfLink: memberType };
+      if (concept.typeOfLink === memberType) return { ...concept, typeOfLink: NONE };
+      return concept;
     });
-    return { members, hits };
+    setConceptsWithLinks(updated);
+    handleChange(updated);
   };
 
-  getActualType = (): LinkType => this.getLinkTypes()[this.state.activeTab].memberType;
+  const isEquivalentTab = memberType === CLOSE_MATCH;
 
-  getLinkTypes = (): LinkTypeDefinition[] => {
-    const t1 = this.props.i18n.getFixedT("fr");
-    return [
-      { title: t1("concept.links.narrowerTitle"), memberType: NARROWER },
-      { title: t1("concept.links.broaderTitle"), memberType: BROADER },
-      { title: t1("concept.links.referencesTitle"), memberType: REFERENCES },
-      { title: t1("concept.links.replacesTitle"), memberType: SUCCEED },
-      { title: t1("concept.links.relatedTitle"), memberType: RELATED },
-      { title: t1("concept.links.equivalentTitle"), memberType: CLOSE_MATCH },
-    ];
-  };
+  return (
+    <TabView
+      activeIndex={activeTab}
+      onTabChange={(e: TabViewTabChangeEvent) => setActiveTab(e.index)}
+    >
+      {linkTypes.map(({ title: tabTitle }) => (
+        <TabPanel key={tabTitle} header={tabTitle}>
+          {isEquivalentTab ? (
+            <EquivalentLinks
+              links={equivalentLinks}
+              updateEquivalentLinks={handleChangeEquivalentLinks}
+            />
+          ) : (
+            <PickList
+              // Remonte la PickList à chaque onglet : sa sélection interne ne doit
+              // pas survivre au changement de type de lien.
+              key={memberType}
+              dataKey="id"
+              source={available}
+              target={linked}
+              onChange={(event) => {
+                // PrimeReact type les deux listes en `any` : on rétablit le type au passage.
+                relink(event.target as ConceptWithLink[]);
+              }}
+              itemTemplate={(concept: ConceptWithLink) => concept.label}
+              sourceHeader={t("concept.links.availablePanelTitle", { size: available.length })}
+              targetHeader={`${title} (${linked.length})`}
+              filter
+              filterBy="label"
+              sourceFilterPlaceholder={t("common.searchLabelPlaceholder")}
+              targetFilterPlaceholder={t("common.searchLabelPlaceholder")}
+              showSourceControls={false}
+              showTargetControls={false}
+              sourceStyle={{ height: "20rem" }}
+              targetStyle={{ height: "20rem" }}
+            />
+          )}
+        </TabPanel>
+      ))}
+    </TabView>
+  );
+};
 
-  updateEquivalentLinks = (links: (Link | { urn: string })[]) => {
-    this.props.handleChangeEquivalentLinks(links);
-  };
-
-  render() {
-    const { searchLabel, activeTab } = this.state;
-    const { members, hits } = this.getMembersAndHits();
-    const { addMember, removeMember } = this;
-    const linkTypes = this.getLinkTypes();
-    const equivalentTitle = linkTypes[linkTypes.length - 1].title;
-
-    const memberEls: ReactElement[] = members.map(({ id, label }) => (
-      <PickerItem key={id} id={id} label={label} logo={<DelLogo />} handleClick={removeMember} />
-    ));
-    const hitEls: ReactElement[] = hits.map(({ id, label }) => (
-      <PickerItem key={id} id={id} label={label} logo={<AddLogo />} handleClick={addMember} />
-    ));
-
-    const searchComponent = (
-      <SearchConceptsByLabel
-        searchLabel={searchLabel}
-        handleSearch={this.handleSearch}
-        hitEls={hitEls}
-      />
-    );
-
-    const tabs = linkTypes.map(({ title }) => (
-      <TabPanel key={title} header={title}>
-        {title !== equivalentTitle ? (
-          <ConceptToLink title={title} memberEls={memberEls} searchComponent={searchComponent} />
-        ) : (
-          <EquivalentLinks
-            links={this.props.equivalentLinks}
-            updateEquivalentLinks={this.updateEquivalentLinks}
-          />
-        )}
-      </TabPanel>
-    ));
-
-    return (
-      <TabView
-        activeIndex={activeTab}
-        onTabChange={(e: TabViewTabChangeEvent) => this.setState({ activeTab: e.index })}
-      >
-        {tabs}
-      </TabView>
-    );
-  }
-}
-
-export default withTranslation()(LinksEdition);
+export default LinksEdition;

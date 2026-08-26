@@ -36,6 +36,7 @@ export const EquivalentLinks = ({
           </div>
           <button
             type="button"
+            disabled={!value.trim()}
             onClick={() => {
               updateEquivalentLinks([
                 ...links,
