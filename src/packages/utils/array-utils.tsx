@@ -32,14 +32,16 @@ export const sortArray =
    *
    * If `desc` is set to true, descending order will be used
    *
+   * The input array is left untouched: a sorted copy is returned.
+   *
    * @param   {array}      arr  array of objects with the key given key
    * @param   {boolean}    desc true if descending order required
-   * @returns {array}           the array sorted by the given key
+   * @returns {array}           a new array sorted by the given key
    */
 
   <T,>(arr: T[], desc = false): T[] => {
     const order = desc ? 1 : -1;
-    return arr.sort((a: any, b: any) => {
+    return [...arr].sort((a: any, b: any) => {
       const aUp = normalize(a[key]);
       const bUp = normalize(b[key]);
       if (bUp > aUp) return order;
