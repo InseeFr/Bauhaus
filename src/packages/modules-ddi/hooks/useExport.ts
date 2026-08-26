@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import type { RefObject } from "react";
 import type { Toast } from "primereact/toast";
+import { getApiErrorMessage } from "@utils/api-errors";
+
 import { DDIApi } from "../../sdk";
 import { TOAST_DURATION } from "../physical-instances/constants";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
@@ -56,7 +58,7 @@ export const useExport = (
         toast.current?.show({
           severity: "error",
           summary: t("physicalInstance.view.exportError"),
-          detail: err instanceof Error ? err.message : t("physicalInstance.view.exportErrorDetail"),
+          detail: getApiErrorMessage(err, t("physicalInstance.view.exportErrorDetail")),
           life: TOAST_DURATION,
         });
       }
