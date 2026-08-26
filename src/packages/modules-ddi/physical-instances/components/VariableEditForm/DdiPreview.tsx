@@ -102,7 +102,10 @@ export const DdiPreview = ({
 
   const ddi4Data = useMemo(() => {
     const variableDDI: any = {
-      "@versionDate": versionDateRef.current,
+      // `$type` discrimine l'item dans le tableau `items` de l'enveloppe : sans lui, le back
+      // ne sait pas quelle classe désérialiser et répond 400 « Failed to read request ».
+      $type: "Variable",
+      VersionDate: { DateTime: versionDateRef.current },
       URN: `urn:ddi:${defaultAgencyId}:${variableId}:1`,
       Agency: defaultAgencyId,
       ID: variableId,

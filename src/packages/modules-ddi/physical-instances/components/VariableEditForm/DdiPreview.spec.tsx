@@ -146,6 +146,24 @@ describe("DdiPreview", () => {
     });
   });
 
+  it("should tag the variable item with its $type and a schema-shaped VersionDate", async () => {
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+
+    render(<DdiPreview {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalled();
+    });
+
+    const [payload] = mockConvertToDDI3.mock.calls[0];
+    expect(payload.items[0]).toMatchObject({
+      $type: "Variable",
+      ID: "var-1",
+      VersionDate: { DateTime: expect.any(String) },
+    });
+    expect(payload.items[0]).not.toHaveProperty("@versionDate");
+  });
+
   it("should display XML content after loading in DDI3 mode", async () => {
     const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
