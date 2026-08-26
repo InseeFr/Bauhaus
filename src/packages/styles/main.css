@@ -235,6 +235,31 @@ footer {
   margin-left: auto;
 }
 
+/*
+ * Boutons de transfert de la PickList. PrimeReact les rend dans le bleu de son
+ * thème ; on les repasse dans la couleur du module, comme `.bauhaus-btn`.
+ * Le thème vit dans `@layer primereact` : une règle non calquée l'emporte,
+ * quelle que soit sa spécificité — pas besoin de `!important`.
+ */
+.p-picklist-buttons .p-button {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.p-picklist-buttons .p-button:not(:disabled):hover,
+.p-picklist-buttons .p-button:not(:disabled):active {
+  background: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: white;
+}
+
+.p-picklist-buttons .p-button:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
 .modal-header {
   color: white;
   background: var(--primary-color);
