@@ -102,17 +102,6 @@ export const range = (start: number, end: number) =>
     .fill(0)
     .map((_, i) => i + start);
 
-export const arrayDifferenceByID = (array1: { id: number }[], array2: { id: number }[]) => {
-  const idsArray1 = array1.map((item) => item.id);
-  const idsArray2 = array2.map((item) => item.id);
-
-  const diff = idsArray1.filter((id) => !idsArray2.includes(id));
-
-  const result = array1.filter((obj) => diff.includes(obj.id));
-
-  return result;
-};
-
 export const filterDeburr = (rawStr: string) => {
   const str = deburr(rawStr).toLocaleLowerCase();
   return (item: string) => deburr(item).toLocaleLowerCase().includes(str);

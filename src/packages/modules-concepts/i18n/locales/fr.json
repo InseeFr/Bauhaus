@@ -79,6 +79,7 @@
   "collection": {
     "title": "Collections",
     "membersPanelTitle": "Concepts membres de la collection ({{size}})",
+    "availableConceptsPanelTitle": "Concepts disponibles ({{size}})",
     "general": {
       "contributorTitle": "Gestionnaire",
       "isCollectionValidTitle": "État de la collection",

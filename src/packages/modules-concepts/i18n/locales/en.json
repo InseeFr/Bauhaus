@@ -79,6 +79,7 @@
   "collection": {
     "title": "Collections",
     "membersPanelTitle": "Collection concept members ({{size}})",
+    "availableConceptsPanelTitle": "Available concepts ({{size}})",
     "general": {
       "contributorTitle": "Contributor",
       "isCollectionValidTitle": "Publication status",
