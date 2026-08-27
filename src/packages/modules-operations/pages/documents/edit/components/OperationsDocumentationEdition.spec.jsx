@@ -1,12 +1,21 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+import { GeneralApi } from "@sdk/general-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
 import { DOCUMENT } from "../../../../constants/documentType";
 import { OperationsDocumentationEdition } from "./OperationsDocumentationEdition";
+
+vi.mock("@sdk/general-api", () => ({
+  GeneralApi: {
+    putDocument: vi.fn(),
+    putDocumentFile: vi.fn(),
+  },
+}));
 
 // Référence stable : la liste est une dépendance d'effet dans le composant.
 const documentsAndLinks = [];
@@ -47,7 +56,7 @@ const selectFile = (container, file) =>
     target: { files: [file] },
   });
 
-const renderEdition = (document = {}) =>
+const renderEdition = (document = {}, props = {}) =>
   render(
     <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{}}>
       <QueryClientProvider client={new QueryClient()}>
@@ -56,6 +65,7 @@ const renderEdition = (document = {}) =>
             document={document}
             type={DOCUMENT}
             langOptions={{ codes: [] }}
+            {...props}
           />
         </MemoryRouter>
       </QueryClientProvider>
@@ -100,5 +110,91 @@ describe("OperationsDocumentationEdition, file field", () => {
 
     screen.getByText("http://bauhaus/document/rapport.pdf");
     expect(screen.queryByText(mockTranslations["documents.drag"])).toBeNull();
+  });
+});
+
+describe("OperationsDocumentationEdition, replacing the attached file", () => {
+  const existingDocument = {
+    id: "d1",
+    labelLg1: "Rapport",
+    labelLg2: "Report",
+    lang: "fr",
+    updatedDate: "2026-01-01",
+    url: "file:///documents/rapport.pdf",
+    sims: [],
+  };
+
+  const replaceFile = async (container, file) => {
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: mockTranslations["documents.removeFile"],
+      }),
+    );
+    selectFile(container, file);
+    await userEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
+  };
+
+  beforeEach(() => {
+    vi.mocked(GeneralApi.putDocument).mockResolvedValue("d1");
+    vi.mocked(GeneralApi.putDocumentFile).mockResolvedValue("");
+  });
+
+  afterEach(() => {
+    vi.mocked(GeneralApi.putDocument).mockReset();
+    vi.mocked(GeneralApi.putDocumentFile).mockReset();
+  });
+
+  it("saves the metadata only once the new file has been uploaded", async () => {
+    let uploaded;
+    vi.mocked(GeneralApi.putDocumentFile).mockReturnValue(
+      new Promise((resolve) => (uploaded = resolve)),
+    );
+    const { container } = renderEdition(existingDocument, { onSave: vi.fn() });
+
+    await replaceFile(container, new File(["v2"], "rapport-v2.pdf", { type: "application/pdf" }));
+
+    await waitFor(() => expect(GeneralApi.putDocumentFile).toHaveBeenCalled());
+    expect(GeneralApi.putDocument).not.toHaveBeenCalled();
+
+    uploaded("file:///documents/rapport-v2.pdf");
+    await waitFor(() => expect(GeneralApi.putDocument).toHaveBeenCalled());
+  });
+
+  it("saves the document with the URL returned by the upload", async () => {
+    vi.mocked(GeneralApi.putDocumentFile).mockResolvedValue("file:///documents/rapport-v2.pdf");
+    const { container } = renderEdition(existingDocument, { onSave: vi.fn() });
+
+    await replaceFile(container, new File(["v2"], "rapport-v2.pdf", { type: "application/pdf" }));
+
+    await waitFor(() =>
+      expect(GeneralApi.putDocument).toHaveBeenCalledWith(
+        expect.objectContaining({ url: "file:///documents/rapport-v2.pdf" }),
+      ),
+    );
+  });
+
+  it("keeps the current URL when the new file reuses the same name", async () => {
+    vi.mocked(GeneralApi.putDocumentFile).mockResolvedValue("");
+    const { container } = renderEdition(existingDocument, { onSave: vi.fn() });
+
+    await replaceFile(container, new File(["v2"], "rapport.pdf", { type: "application/pdf" }));
+
+    await waitFor(() =>
+      expect(GeneralApi.putDocument).toHaveBeenCalledWith(
+        expect.objectContaining({ url: "file:///documents/rapport.pdf" }),
+      ),
+    );
+  });
+
+  it("does not save the metadata when the upload fails", async () => {
+    vi.mocked(GeneralApi.putDocumentFile).mockRejectedValue({ message: "boom" });
+    const onSave = vi.fn();
+    const { container } = renderEdition(existingDocument, { onSave });
+
+    await replaceFile(container, new File(["v2"], "rapport-v2.pdf", { type: "application/pdf" }));
+
+    await waitFor(() => expect(GeneralApi.putDocumentFile).toHaveBeenCalled());
+    expect(GeneralApi.putDocument).not.toHaveBeenCalled();
+    expect(onSave).not.toHaveBeenCalled();
   });
 });

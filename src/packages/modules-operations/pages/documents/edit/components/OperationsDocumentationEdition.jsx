@@ -71,11 +71,7 @@ const initDocument = {
   lang: "",
 };
 
-const saveDocument = (document, type, files) => {
-  const method = (document.id ? "put" : "post") + (type === LINK ? "Link" : "Document");
-
-  let body = document;
-
+const saveDocument = async (document, type, files) => {
   /**
    * If the document has no id, this is a creation
    * We have to send FormData kind of HTTP request.
@@ -87,18 +83,28 @@ const saveDocument = (document, type, files) => {
     if (type === DOCUMENT && files[0]) {
       formData.append("file", files[0], files[0].name);
     }
-    body = formData;
+    return GeneralApi[type === LINK ? "postLink" : "postDocument"](formData);
   }
 
-  let promise;
-  if (type === DOCUMENT && document.id && files[0] && files[0].size) {
+  /**
+   * Le nouveau fichier doit être déposé — et sa nouvelle URL connue — AVANT d'écrire
+   * les métadonnées : celles-ci portent l'`url` du document. Envoyer les deux en
+   * parallèle laissait le PUT des métadonnées réécrire l'ancienne URL par-dessus la
+   * nouvelle, et rendait la main avant la fin du dépôt : le document continuait de
+   * servir la version précédente du fichier.
+   */
+  let documentToSave = document;
+  if (type === DOCUMENT && files[0]?.size) {
     const formData = new FormData();
     formData.append("file", files[0], files[0].name);
-    promise = (GeneralApi.putDocumentFile(document, formData), GeneralApi[method](body));
-  } else {
-    promise = GeneralApi[method](body);
+    // Le back ne renvoie une URL que si le nom du fichier a changé.
+    const newUrl = await GeneralApi.putDocumentFile(document, formData);
+    if (newUrl) {
+      documentToSave = { ...document, url: newUrl };
+    }
   }
-  return promise;
+
+  return GeneralApi[type === LINK ? "putLink" : "putDocument"](documentToSave);
 };
 
 function initEditionState(defaultDocument) {
