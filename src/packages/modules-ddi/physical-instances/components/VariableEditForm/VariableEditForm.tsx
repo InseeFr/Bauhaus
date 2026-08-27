@@ -168,6 +168,28 @@ interface VariableFormData {
   sentinelCategories?: Category[];
 }
 
+function buildFormState(variable: VariableFormData): FormState {
+  return {
+    label: variable.label,
+    name: variable.name,
+    description: variable.description || "",
+    selectedType: variable.type,
+    isGeographic: variable.isGeographic || false,
+    representation: {
+      NumericRepresentation: variable.numericRepresentation,
+      DateTimeRepresentation: variable.dateRepresentation,
+      TextRepresentation: variable.textRepresentation,
+      CodeRepresentation: variable.codeRepresentation,
+      CodeList: variable.codeList,
+      Category: variable.categories,
+      MissingValuesReference: variable.missingValuesReference,
+      SentinelMmvr: variable.sentinelMmvr,
+      SentinelCodeList: variable.sentinelCodeList,
+      SentinelCategories: variable.sentinelCategories,
+    },
+  };
+}
+
 interface VariableEditFormProps {
   variable: VariableFormData;
   typeOptions: { label: string; value: string }[];
@@ -175,6 +197,11 @@ interface VariableEditFormProps {
   locallyUsedMmvrIds?: string[];
   isNew?: boolean;
   onSave: (data: VariableFormData) => void;
+  /**
+   * Notifie le parent des modifications non sauvegardées du formulaire, pour qu'il puisse
+   * confirmer avant une action globale (sauvegarde de la page) qui les perdrait.
+   */
+  onDirtyChange?: (isDirty: boolean) => void;
   onDuplicate?: (data: VariableFormData) => void;
   onPrevious?: () => void;
   onNext?: () => void;
@@ -190,6 +217,7 @@ export const VariableEditForm = ({
   locallyUsedMmvrIds,
   isNew = false,
   onSave,
+  onDirtyChange,
   onDuplicate,
   onPrevious,
   onNext,
@@ -229,25 +257,7 @@ export const VariableEditForm = ({
     }
   }, [activeTabIndex]);
 
-  const [state, dispatch] = useReducer(formReducer, {
-    label: variable.label,
-    name: variable.name,
-    description: variable.description || "",
-    selectedType: variable.type,
-    isGeographic: variable.isGeographic || false,
-    representation: {
-      NumericRepresentation: variable.numericRepresentation,
-      DateTimeRepresentation: variable.dateRepresentation,
-      TextRepresentation: variable.textRepresentation,
-      CodeRepresentation: variable.codeRepresentation,
-      CodeList: variable.codeList,
-      Category: variable.categories,
-      MissingValuesReference: variable.missingValuesReference,
-      SentinelMmvr: variable.sentinelMmvr,
-      SentinelCodeList: variable.sentinelCodeList,
-      SentinelCategories: variable.sentinelCategories,
-    },
-  });
+  const [state, dispatch] = useReducer(formReducer, variable, buildFormState);
 
   // Validation des champs obligatoires. Valeurs sentinelles (#1566) : le libellé de la MMVR en
   // cours de création/modification est obligatoire (le back rejette sinon le save en 400).
@@ -257,6 +267,25 @@ export const VariableEditForm = ({
   );
   const hasValidationErrors = !state.name.trim() || !state.label.trim() || sentinelLabelMissing;
 
+  // Modifications non sauvegardées du panneau : l'état courant du formulaire comparé à
+  // l'état initial dérivé de `variable`. Une variable en cours de création est toujours
+  // considérée comme modifiée — la fermer sans « Ajouter » perd toute la saisie.
+  const isDirty = isNew || JSON.stringify(state) !== JSON.stringify(buildFormState(variable));
+
+  // Le callback du parent est lu via une ref pour que la notification ne dépende pas de la
+  // stabilité de son identité (sinon le nettoyage de démontage se déclencherait à chaque rendu).
+  const onDirtyChangeRef = useRef(onDirtyChange);
+  useEffect(() => {
+    onDirtyChangeRef.current = onDirtyChange;
+  });
+
+  useEffect(() => {
+    onDirtyChangeRef.current?.(isDirty);
+  }, [isDirty]);
+
+  // Le panneau fermé, il n'y a plus rien à confirmer.
+  useEffect(() => () => onDirtyChangeRef.current?.(false), []);
+
   useEffect(() => {
     // Réinitialiser l'onglet actif au premier onglet uniquement pour une nouvelle variable
     if (isNew) {
@@ -264,28 +293,7 @@ export const VariableEditForm = ({
       setTimeout(() => nameInputRef.current?.focus(), 0);
     }
 
-    dispatch({
-      type: "RESET",
-      payload: {
-        label: variable.label,
-        name: variable.name,
-        description: variable.description || "",
-        selectedType: variable.type,
-        isGeographic: variable.isGeographic || false,
-        representation: {
-          NumericRepresentation: variable.numericRepresentation,
-          DateTimeRepresentation: variable.dateRepresentation,
-          TextRepresentation: variable.textRepresentation,
-          CodeRepresentation: variable.codeRepresentation,
-          CodeList: variable.codeList,
-          Category: variable.categories,
-          MissingValuesReference: variable.missingValuesReference,
-          SentinelMmvr: variable.sentinelMmvr,
-          SentinelCodeList: variable.sentinelCodeList,
-          SentinelCategories: variable.sentinelCategories,
-        },
-      },
-    });
+    dispatch({ type: "RESET", payload: buildFormState(variable) });
     // Ne pas inclure codeList et categories dans les dépendances car ils changent
     // pendant l'édition et on ne veut pas réinitialiser le formulaire à chaque fois
     // eslint-disable-next-line react-hooks/exhaustive-deps

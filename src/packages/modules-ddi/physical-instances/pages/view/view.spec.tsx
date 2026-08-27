@@ -2338,6 +2338,107 @@ describe("View Component", () => {
     });
   });
 
+  describe("Global save with a variable being edited", () => {
+    const publishMock = () => {
+      const mutateAsync = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync,
+        isPending: false,
+        isError: false,
+      });
+      return mutateAsync;
+    };
+
+    it("should save straight away when no variable is being edited", async () => {
+      const mutateAsync = publishMock();
+      render(<Component />, { wrapper });
+
+      createTestVariable();
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+
+      await waitFor(() => expect(mutateAsync).toHaveBeenCalled());
+      expect(
+        screen.queryByText("physicalInstance.view.pendingVariableEdit.title"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("should save straight away when the edited variable has no pending change", async () => {
+      const mutateAsync = publishMock();
+      render(<Component />, { wrapper });
+
+      createTestVariable();
+      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
+      await screen.findByLabelText("physicalInstance.view.update");
+
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+
+      await waitFor(() => expect(mutateAsync).toHaveBeenCalled());
+      expect(
+        screen.queryByText("physicalInstance.view.pendingVariableEdit.title"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("should ask for confirmation when the edited variable has pending changes", async () => {
+      const mutateAsync = publishMock();
+      render(<Component />, { wrapper });
+
+      createTestVariable();
+      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
+      await screen.findByLabelText("physicalInstance.view.update");
+      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
+        target: { value: "Libellé modifié" },
+      });
+
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+
+      await screen.findByText("physicalInstance.view.pendingVariableEdit.title");
+      expect(mutateAsync).not.toHaveBeenCalled();
+    });
+
+    it("should not save when the confirmation is rejected", async () => {
+      const mutateAsync = publishMock();
+      render(<Component />, { wrapper });
+
+      createTestVariable();
+      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
+      await screen.findByLabelText("physicalInstance.view.update");
+      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
+        target: { value: "Libellé modifié" },
+      });
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+
+      fireEvent.click(await screen.findByText("physicalInstance.view.pendingVariableEdit.cancel"));
+
+      await waitFor(() =>
+        expect(
+          screen.queryByText("physicalInstance.view.pendingVariableEdit.title"),
+        ).not.toBeInTheDocument(),
+      );
+      expect(mutateAsync).not.toHaveBeenCalled();
+    });
+
+    it("should save without the pending change when the confirmation is accepted", async () => {
+      const mutateAsync = publishMock();
+      render(<Component />, { wrapper });
+
+      createTestVariable();
+      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
+      await screen.findByLabelText("physicalInstance.view.update");
+      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
+        target: { value: "Libellé modifié" },
+      });
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+
+      fireEvent.click(await screen.findByText("physicalInstance.view.pendingVariableEdit.confirm"));
+
+      await waitFor(() => expect(mutateAsync).toHaveBeenCalled());
+      const saved = itemsOfType(mutateAsync.mock.calls[0][0].data, "Variable");
+      expect(saved.map((variable: any) => variable.Label[0]["@value"])).toEqual([
+        "Test Variable",
+      ]);
+    });
+  });
+
   describe("Unsaved changes navigation blocking", () => {
     it("should not block navigation when there are no unsaved changes", () => {
       render(<Component />, { wrapper });

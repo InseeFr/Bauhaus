@@ -1055,4 +1055,95 @@ describe("VariableEditForm", () => {
       );
     });
   });
+
+  describe("onDirtyChange", () => {
+    it("should report a pristine form when nothing has been edited", () => {
+      const onDirtyChange = vi.fn();
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(false);
+    });
+
+    it("should report a dirty form once a field has been edited", () => {
+      const onDirtyChange = vi.fn();
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      fireEvent.change(screen.getByLabelText("Label"), {
+        target: { value: "Nouveau libellé" },
+      });
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(true);
+    });
+
+    it("should report a pristine form again when the edit is reverted", () => {
+      const onDirtyChange = vi.fn();
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      const labelInput = screen.getByLabelText("Label");
+      fireEvent.change(labelInput, { target: { value: "Nouveau libellé" } });
+      fireEvent.change(labelInput, { target: { value: "Test Variable" } });
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(false);
+    });
+
+    it("should always report a new variable as dirty", () => {
+      const onDirtyChange = vi.fn();
+
+      render(
+        <VariableEditForm
+          variable={{ id: "new", label: "", name: "", description: "", type: "text" }}
+          typeOptions={typeOptions}
+          isNew={true}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(true);
+    });
+
+    it("should report a pristine form when it is unmounted", () => {
+      const onDirtyChange = vi.fn();
+
+      const { unmount } = render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      fireEvent.change(screen.getByLabelText("Label"), {
+        target: { value: "Nouveau libellé" },
+      });
+      unmount();
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(false);
+    });
+  });
 });

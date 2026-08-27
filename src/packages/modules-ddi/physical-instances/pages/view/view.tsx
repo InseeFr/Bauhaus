@@ -79,6 +79,8 @@ export const Component = () => {
   const currentStudyUnit = parents?.studyUnit;
   const currentStamps = parents?.stamps;
   const [duplicateDialogVisible, setDuplicateDialogVisible] = useState(false);
+  // Modifications en cours dans le panneau d'édition, non validées par « Mettre à jour ».
+  const [isEditedVariableDirty, setEditedVariableDirty] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
@@ -574,7 +576,7 @@ export const Component = () => {
     [t, state.selectedVariable],
   );
 
-  const handleSaveAll = useCallback(async () => {
+  const saveAll = useCallback(async () => {
     try {
       // L'enveloppe DDI 4 ne porte qu'un tableau `items` à plat : on travaille ici sur des
       // listes par type, réassemblées en `items` juste avant l'envoi.
@@ -782,6 +784,27 @@ export const Component = () => {
     }
   }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
 
+  // Sauvegarde globale : la variable ouverte dans le panneau latéral peut porter des
+  // modifications non validées par « Mettre à jour » — elles ne sont pas dans `localVariables`
+  // et seraient donc perdues sans avertissement. On confirme avant de sauvegarder sans elles.
+  const handleSaveAll = useCallback(() => {
+    if (!isEditedVariableDirty) {
+      return saveAll();
+    }
+
+    confirmDialog({
+      message: t("physicalInstance.view.pendingVariableEdit.message"),
+      header: t("physicalInstance.view.pendingVariableEdit.title"),
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: t("physicalInstance.view.pendingVariableEdit.confirm"),
+      rejectLabel: t("physicalInstance.view.pendingVariableEdit.cancel"),
+      acceptClassName: "p-button-warning",
+      accept: () => {
+        void saveAll();
+      },
+    });
+  }, [isEditedVariableDirty, saveAll, t]);
+
   // Ouvre la modale de duplication (la duplication n'est plus immédiate, cf. #1555).
   const handleDuplicatePhysicalInstance = useCallback(() => {
     setDuplicateDialogVisible(true);
@@ -923,6 +946,7 @@ export const Component = () => {
                 locallyUsedMmvrIds={locallyUsedMmvrIds}
                 isNew={state.selectedVariable.id === "new"}
                 onSave={handleVariableSave}
+                onDirtyChange={setEditedVariableDirty}
                 onDuplicate={handleVariableDuplicate}
                 onPrevious={handlePreviousVariable}
                 onNext={handleNextVariable}
