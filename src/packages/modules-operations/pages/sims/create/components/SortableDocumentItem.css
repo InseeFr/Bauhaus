@@ -1,0 +1,10 @@
+.documentsbloc-drag-handle {
+  flex: 0 0 auto;
+  margin-right: 10px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.documentsbloc-drag-handle:active {
+  cursor: grabbing;
+}

@@ -5,8 +5,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ConceptsApi } from "@sdk/concepts-api";
 
 import { ConceptGeneral, ConceptNotes, Link } from "../../model/concepts/concept";
-import buildPayloadCreation from "../utils/build-payload-creation";
-import buildPayloadUpdate from "../utils/build-payload-update";
+import { buildPayloadCreation } from "../utils/buildPayloadCreation";
+import { buildPayloadUpdate } from "../utils/buildPayloadUpdate";
 
 export interface ConceptSaveData {
   general: ConceptGeneral;

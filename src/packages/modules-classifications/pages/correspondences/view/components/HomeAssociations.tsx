@@ -11,12 +11,10 @@ import { sortArray } from "@utils/array-utils";
 const sortById = sortArray("id");
 
 export const HomeAssociations = ({
-  id,
   associations,
   correspondence,
   secondLang,
 }: {
-  id: string;
   associations: any;
   correspondence: any;
   secondLang: boolean;
@@ -52,7 +50,7 @@ export const HomeAssociations = ({
             globalFilterFields={["source", "target"]}
             value={data}
             onRowSelect={(e: any) => {
-              navigate(`${id}/association/${e.data.id}`);
+              navigate(`association/${e.data.id}`);
             }}
           >
             <Column

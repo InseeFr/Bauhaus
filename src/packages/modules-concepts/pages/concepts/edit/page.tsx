@@ -12,9 +12,9 @@ import { useTitle } from "../../../../utils/hooks/useTitle";
 import { useConcept } from "../../../hooks/useConcept";
 import { useConcepts } from "../../../hooks/useConcepts";
 import { useConceptSave } from "../../../hooks/useConceptSave";
-import { mergeWithAllConcepts } from "../../../utils/links";
-import ConceptEditionCreation from "./components/home";
-import { ConceptWithLink } from "./components/links";
+import { mergeWithAllConcepts } from "../../../utils/mergeWithAllConcepts";
+import ConceptEditionCreation from "./components/ConceptEditionCreation";
+import { ConceptWithLink } from "./components/LinksEdition";
 
 export const Component = () => {
   const { t } = useTranslation();

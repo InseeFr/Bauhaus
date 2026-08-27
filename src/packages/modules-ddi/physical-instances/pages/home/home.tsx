@@ -10,7 +10,6 @@ import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import { useTranslation } from "react-i18next";
-import D from "../../../../deprecated-locales";
 import { formatDate } from "../../../utils/formatDate";
 import { usePhysicalInstances } from "../../../hooks/usePhysicalInstances";
 import { useCreatePhysicalInstance } from "../../../hooks/useCreatePhysicalInstance";
@@ -23,8 +22,8 @@ import {
 const TOAST_DURATION = 3000;
 
 export const Component = () => {
-  useTitle(D.ddiTitle, D.physicalInstanceTitle);
   const { t } = useTranslation();
+  useTitle(t("ddi.title"), t("physicalInstance.pluralTitle"));
   const navigate = useNavigate();
   const { data = [], isLoading } = usePhysicalInstances();
   const createPhysicalInstance = useCreatePhysicalInstance();
@@ -69,7 +68,7 @@ export const Component = () => {
       <Row>
         <HomePageMenu onCreate={() => setVisible(true)} />
         <div className="col-md-8 text-center pull-right">
-          <PageTitle title={D.physicalInstancSearcheTitle} col={12} offset={0} />
+          <PageTitle title={t("physicalInstance.homePageTitle")} col={12} offset={0} />
           <SearchableList
             items={data}
             advancedSearch

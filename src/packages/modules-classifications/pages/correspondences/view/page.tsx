@@ -34,7 +34,6 @@ export const Component = () => {
         <Loading />
       ) : (
         <HomeAssociations
-          id={id}
           associations={associations}
           correspondence={correspondence}
           secondLang={secondLang}

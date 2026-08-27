@@ -84,6 +84,54 @@ const dictionary = {
       en: "Select stamp...",
     },
   },
+  searchLabelPlaceholder: {
+    fr: "Libellé...",
+    en: "Label...",
+  },
+  version: {
+    fr: "Version",
+    en: "Version",
+  },
+  conceptsScopeNote: {
+    fr: "Définition courte",
+    en: "Short definition",
+  },
+  conceptsDefinition: {
+    fr: "Définition",
+    en: "Definition",
+  },
+  conceptsEditorialNote: {
+    fr: "Note éditoriale",
+    en: "Editorial note",
+  },
+  conceptsChangeNote: {
+    fr: "Note de changement",
+    en: "Change note",
+  },
+  classificationsDefinition: {
+    fr: "Note générale",
+    en: "General note",
+  },
+  classificationsScopeNote: {
+    fr: "Remarque",
+    en: "Remark",
+  },
+  classificationsCoreContentNote: {
+    fr: "Contenu central",
+    en: "Main content",
+  },
+  classificationsAdditionalContentNote: {
+    fr: "Contenu limite",
+    en: "Additional content",
+  },
+  classificationsExclusionNote: {
+    fr: "Note d'exclusions",
+    en: "Exclusion note",
+  },
+  classificationsChangeNote: {
+    fr: (d: string) => (d ? `Note de changement - ${d}` : `Note de changement`),
+    en: (d: string) => (d ? `Change note - ${d}` : `Change note`),
+  },
 };
 
 export const D1: Dictionary = createDictionary(firstLang, dictionary);

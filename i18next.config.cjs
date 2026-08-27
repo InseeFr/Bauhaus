@@ -12,6 +12,7 @@ const migratedModules = [
   "modules-structures",
   "modules-concepts",
   "modules-classifications",
+  "modules-operations",
 ];
 
 module.exports = {

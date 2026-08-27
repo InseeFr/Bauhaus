@@ -4,22 +4,22 @@ import { MemoryRouter } from "react-router-dom";
 import { Component } from "./page";
 
 // Mock des dépendances
-vi.mock("../../../../deprecated-locales", () => ({
-  default: {
-    conceptsTitle: "Concepts",
-    btnValid: "Valider",
-    conceptsToValidTitle: "Concepts à valider",
-    conceptsToValidPanelTitle: "Panneau de validation",
-    hasNotConceptToValid: "Aucun concept à valider",
-    btnCancel: "Annuler",
-  },
+const translations: Record<string, string> = {
+  "concept.title": "Concepts",
+  "common.btnValid": "Publier",
+};
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => translations[key] ?? key,
+  }),
 }));
 
 vi.mock("../../../../utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
 }));
 
-vi.mock("./components/home", () => ({
+vi.mock("./components/ConceptsToValidate", () => ({
   default: ({
     concepts,
     handleValidateConceptList,
@@ -308,7 +308,10 @@ describe("ConceptValidation Home Container", () => {
         </MemoryRouter>,
       );
 
-      expect(useTitle).toHaveBeenCalledWith("Concepts", "Publish");
+      expect(useTitle).toHaveBeenCalledWith(
+        translations["concept.title"],
+        translations["common.btnValid"],
+      );
 
       // Wait for concepts to load to avoid state updates after unmount
       await waitFor(() => {

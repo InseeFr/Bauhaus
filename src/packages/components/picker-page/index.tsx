@@ -8,7 +8,7 @@ import { Pagination } from "@components/pagination";
 
 import { filterDeburr } from "@utils/array-utils";
 
-import D from "../../deprecated-locales";
+import D from "../i18n";
 import { ActionToolbar } from "../action-toolbar";
 import { ReturnButton } from "../buttons/buttons-with-icons";
 import { AddLogo } from "../logo/logo-add";

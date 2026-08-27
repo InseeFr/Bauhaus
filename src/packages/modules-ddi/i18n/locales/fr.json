@@ -1,5 +1,10 @@
 {
+  "ddi": {
+    "title": "Variables"
+  },
   "physicalInstance": {
+    "pluralTitle": "Fichiers de données",
+    "homePageTitle": "Fichiers de données - Recherche",
     "creation": {
       "cancel": "Annuler",
       "create": "Créer",

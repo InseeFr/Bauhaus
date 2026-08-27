@@ -10,7 +10,7 @@ import {
 } from "@model/concepts/collection";
 
 import { useAppContext } from "../../application/app-context";
-import emptyCollection from "../utils/empty-collection";
+import { emptyCollection } from "../utils/emptyCollection";
 
 const transformCollection = (data: Collection, lg1 = "fr"): CollectionGeneral => {
   const lg2 = lg1.toLowerCase() === "fr" ? "en" : "fr";

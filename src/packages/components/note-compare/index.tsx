@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Select } from "@components/select-rmes";
 
-import D from "../../deprecated-locales";
+import D from "../i18n";
 import { ExplanatoryNote } from "../explanatory-note";
 import { Row } from "../layout";
 

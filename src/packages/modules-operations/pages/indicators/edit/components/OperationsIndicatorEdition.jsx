@@ -1,0 +1,410 @@
+import i18next from "i18next";
+import { Component } from "react";
+
+import { CreatorsInput } from "@components/business/creators-input";
+import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
+import { InputRmes } from "@components/input-rmes";
+import LabelRequired from "@components/label-required";
+import { Row } from "@components/layout";
+import { Saving } from "@components/loading";
+import { PageTitleBlock } from "@components/page-title-block";
+import { RequiredIcon } from "@components/required-icon";
+import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
+import { Select } from "@components/select-rmes";
+
+import { OperationsApi } from "@sdk/operations-api";
+
+import * as ItemToSelectModel from "@utils/item-to-select-model";
+
+import { CL_FREQ } from "../../../../../constants/code-lists";
+import { PublishersInput } from "../../../../components/PublishersInput";
+import { Control } from "./Control";
+import { validate } from "../validation";
+
+const defaultIndicator = {
+  prefLabelLg1: "",
+  prefLabelLg2: "",
+  altLabelLg1: "",
+  altLabelLg2: "",
+  abstractLg1: "",
+  abstractLg2: "",
+  historyNoteLg1: "",
+  historyNoteLg2: "",
+  accrualPeriodicityList: CL_FREQ,
+  wasGeneratedBy: [],
+};
+
+export class OperationsIndicatorEdition extends Component {
+  constructor(props) {
+    super(props);
+    this.state = this.setInitialState(props);
+    this.onChanges = [
+      "prefLabelLg1",
+      "prefLabelLg2",
+      "altLabelLg1",
+      "altLabelLg2",
+      "abstractLg1",
+      "abstractLg2",
+      "historyNoteLg1",
+      "historyNoteLg2",
+      "accrualPeriodicityCode",
+    ].reduce(
+      (acc, selector) => ({
+        ...acc,
+        [selector]: this.onChange(selector),
+      }),
+      {},
+    );
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.indicator.id !== this.props.indicator.id) {
+      this.setState(this.setInitialState(nextProps));
+    }
+  }
+
+  setInitialState = (props) => {
+    return {
+      serverSideError: "",
+      clientSideErrors: {},
+      submitting: false,
+      saving: false,
+      indicator: {
+        ...defaultIndicator,
+        ...props.indicator,
+      },
+    };
+  };
+
+  onChange = (selector) => {
+    return (value) => {
+      this.setState((state) => ({
+        serverSideError: "",
+        submitting: true,
+        clientSideErrors: {
+          ...state.clientSideErrors,
+          errorMessage: [],
+        },
+        indicator: {
+          ...state.indicator,
+          [selector]: value,
+        },
+      }));
+    };
+  };
+
+  onSubmit = () => {
+    const clientSideErrors = validate(this.state.indicator);
+    if (clientSideErrors.errorMessage?.length > 0) {
+      this.setState({
+        submitting: true,
+        clientSideErrors,
+      });
+    } else {
+      this.setState({ saving: true });
+      const isCreation = !this.state.indicator.id;
+      const method = isCreation ? "createIndicator" : "updateIndicator";
+      return OperationsApi[method](this.state.indicator)
+        .then(
+          (id = this.state.indicator.id) => {
+            this.props.goBack(`/operations/indicator/${id}`, isCreation);
+          },
+          (err) => {
+            this.setState({
+              serverSideError: err,
+            });
+          },
+        )
+        .finally(() => this.setState({ saving: false }));
+    }
+  };
+
+  render() {
+    if (this.state.saving) return <Saving />;
+
+    const { frequencies, indicators, series } = this.props;
+
+    const isUpdate = !!this.state.indicator.id;
+
+    const indicator = {
+      ...this.state.indicator,
+      seeAlso: (this.state.indicator.seeAlso || []).map((link) => link.id),
+      wasGeneratedBy: (this.state.indicator.wasGeneratedBy || []).map((link) => link.id),
+      replaces: (this.state.indicator.replaces || []).map((link) => link.id),
+      replacedBy: (this.state.indicator.isReplacedBy || []).map((link) => link.id),
+    };
+
+    const seriesOptions = ItemToSelectModel.toSelectModel(series, "series");
+
+    const indicatorsOptions = ItemToSelectModel.toSelectModel(
+      indicators.filter((s) => s.id !== indicator.id),
+      "indicator",
+    );
+
+    const seriesAndIndicatorsOptions = ItemToSelectModel.mergedItemsToSelectModels(
+      indicatorsOptions,
+      seriesOptions,
+    );
+
+    return (
+      <div className="container editor-container">
+        {isUpdate && (
+          <PageTitleBlock titleLg1={indicator.prefLabelLg1} titleLg2={indicator.prefLabelLg2} />
+        )}
+        <Control
+          onSubmit={this.onSubmit}
+          disabled={this.state.clientSideErrors.errorMessage?.length > 0}
+        />
+        {this.state.submitting && this.state.clientSideErrors && (
+          <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} />
+        )}
+        {this.state.serverSideError && <ErrorBloc error={this.state.serverSideError} />}
+        <form>
+          <h4 className="text-center">
+            ( <RequiredIcon /> : {i18next.t("app.requiredFields", { lng: "fr" })})
+          </h4>
+          <Row>
+            <InputRmes
+              colMd={6}
+              value={indicator.prefLabelLg1}
+              label={i18next.t("common.title", { lng: "fr" })}
+              star
+              handleChange={this.onChanges.prefLabelLg1}
+              arias={{
+                "aria-invalid": !!this.state.clientSideErrors.fields?.prefLabelLg1,
+                "aria-describedby": this.state.clientSideErrors.fields?.prefLabelLg1
+                  ? "prefLabelLg1-error"
+                  : null,
+              }}
+              className="w-100"
+              errorBlock={
+                <ClientSideError
+                  id="prefLabelLg1-error"
+                  error={this.state.clientSideErrors?.fields?.prefLabelLg1}
+                ></ClientSideError>
+              }
+            />
+            <InputRmes
+              colMd={6}
+              value={indicator.prefLabelLg2}
+              label={i18next.t("common.title", { lng: "en" })}
+              star
+              handleChange={this.onChanges.prefLabelLg2}
+              arias={{
+                "aria-invalid": !!this.state.clientSideErrors.fields?.prefLabelLg2,
+                "aria-describedby": this.state.clientSideErrors.fields?.prefLabelLg2
+                  ? "prefLabelLg2-error"
+                  : null,
+              }}
+              className="w-100"
+              errorBlock={
+                <ClientSideError
+                  id="prefLabelLg2-error"
+                  error={this.state.clientSideErrors?.fields?.prefLabelLg2}
+                ></ClientSideError>
+              }
+            />
+          </Row>
+          <Row>
+            <InputRmes
+              colMd={6}
+              value={indicator.altLabelLg1}
+              label={i18next.t("app.altLabel", { lng: "fr" })}
+              handleChange={this.onChanges.altLabelLg1}
+              className="w-100"
+            />
+            <InputRmes
+              colMd={6}
+              value={indicator.altLabelLg2}
+              label={i18next.t("app.altLabel", { lng: "en" })}
+              handleChange={this.onChanges.altLabelLg2}
+              className="w-100"
+            />
+          </Row>
+          <Row>
+            <div className="form-group col-md-6">
+              <label htmlFor="abstractLg1">{i18next.t("common.summary", { lng: "fr" })}</label>
+              <EditorMarkdown
+                text={indicator.abstractLg1}
+                handleChange={this.onChanges.abstractLg1}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="abstractLg2">{i18next.t("common.summary", { lng: "en" })}</label>
+              <EditorMarkdown
+                text={indicator.abstractLg2}
+                handleChange={this.onChanges.abstractLg2}
+              />
+            </div>
+          </Row>
+          <Row>
+            <div className="form-group col-md-6">
+              <label htmlFor="historyNoteLg1">{i18next.t("common.history", { lng: "fr" })}</label>
+              <EditorMarkdown
+                text={indicator.historyNoteLg1}
+                handleChange={this.onChanges.historyNoteLg1}
+              />
+            </div>
+            <div className="form-group col-md-6">
+              <label htmlFor="historyNoteLg2">{i18next.t("common.history", { lng: "en" })}</label>
+              <EditorMarkdown
+                text={indicator.historyNoteLg2}
+                handleChange={this.onChanges.historyNoteLg2}
+              />
+            </div>
+          </Row>
+          <Row>
+            <div className="form-group col-md-12">
+              <label htmlFor="accrualPeriodicity" className="w-100">
+                {i18next.t("common.indicatorDataCollectFrequency", {
+                  lng: "fr",
+                })}
+                <Select
+                  placeholder=""
+                  value={indicator.accrualPeriodicityCode}
+                  options={frequencies?.codes?.map((cat) => {
+                    return { value: cat.code, label: cat.labelLg1 };
+                  })}
+                  onChange={this.onChange("accrualPeriodicityCode")}
+                />
+              </label>
+            </div>
+          </Row>
+          <Row>
+            <div className="form-group col-md-12">
+              <PublishersInput
+                value={indicator.publishers}
+                onChange={this.onChange("publishers")}
+                required={false}
+              />
+            </div>
+          </Row>
+          <Row>
+            <div className="form-group col-md-12">
+              <CreatorsInput
+                mode="organisation"
+                value={indicator.creators}
+                onChange={this.onChange("creators")}
+                multi
+              />
+              <ClientSideError
+                id="creators-error"
+                error={this.state.clientSideErrors?.fields?.creators}
+              ></ClientSideError>
+            </div>
+          </Row>
+          <Row>
+            <div className="form-group col-md-12">
+              <OrganisationInput
+                multi
+                required={false}
+                lang="first"
+                labelSingle={i18next.t("common.stakeholders", { lng: "fr" })}
+                labelMulti={i18next.t("common.stakeholders", { lng: "fr" })}
+                value={indicator.contributors}
+                onChange={this.onChange("contributors")}
+              />
+            </div>
+          </Row>
+          <Row>
+            <div className="form-group col-md-12">
+              <label className="w-100">
+                {i18next.t("common.replaces", { lng: "fr" })}
+                <Select
+                  value={indicator.replaces}
+                  options={indicatorsOptions}
+                  placeholder=""
+                  onChange={(value) =>
+                    this.onChange("replaces")(
+                      value.map((v) => {
+                        return {
+                          id: v,
+                          type: "indicator",
+                        };
+                      }),
+                    )
+                  }
+                  multi
+                />
+              </label>
+            </div>
+          </Row>
+          <Row>
+            <div className="form-group col-md-12">
+              <label className="w-100">
+                {i18next.t("common.replacedByMasc", { lng: "fr" })}
+                <Select
+                  value={indicator.replacedBy}
+                  options={indicatorsOptions}
+                  placeholder=""
+                  onChange={(value) =>
+                    this.onChange("isReplacedBy")(
+                      value.map((v) => {
+                        return {
+                          id: v,
+                          type: "indicator",
+                        };
+                      }),
+                    )
+                  }
+                  multi
+                />
+              </label>
+            </div>
+          </Row>
+          <Row>
+            <div className="form-group col-md-12">
+              <LabelRequired className="w-100">
+                {i18next.t("common.generatedBy", { lng: "fr" })}
+              </LabelRequired>
+              <Select
+                value={indicator.wasGeneratedBy}
+                options={seriesOptions}
+                multi
+                placeholder=""
+                onChange={(value) =>
+                  this.onChange("wasGeneratedBy")(
+                    value.map((v) => {
+                      return {
+                        id: v,
+                        type: "series",
+                      };
+                    }),
+                  )
+                }
+              />
+              <ClientSideError
+                id="generated-by-error"
+                error={this.state.clientSideErrors?.fields?.wasGeneratedBy}
+              ></ClientSideError>
+            </div>
+          </Row>
+          <Row>
+            <div className="form-group col-md-12">
+              <label htmlFor="seeAlso" className="w-100">
+                {i18next.t("common.seeAlso", { lng: "fr" })}
+                <Select
+                  value={indicator.seeAlso}
+                  options={seriesAndIndicatorsOptions}
+                  placeholder=""
+                  onChange={(value) =>
+                    this.onChange("seeAlso")(
+                      value.map((v) => {
+                        return {
+                          id: v,
+                          type: value.startsWith("indicator") ? "indicator" : "series",
+                        };
+                      }),
+                    )
+                  }
+                  multi
+                />
+              </label>
+            </div>
+          </Row>
+        </form>
+      </div>
+    );
+  }
+}

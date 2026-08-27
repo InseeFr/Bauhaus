@@ -12,7 +12,7 @@ vi.mock("@components/loading", () => ({
   Loading: () => <div data-testid="loading">Loading...</div>,
 }));
 
-vi.mock("./components/home", () => ({
+vi.mock("./components/CollectionsHome", () => ({
   default: ({ collections }: { collections: { id: string; label: string }[] }) => (
     <div data-testid="collections-home">{JSON.stringify(collections)}</div>
   ),

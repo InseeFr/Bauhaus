@@ -43,7 +43,7 @@ vi.mock("../../../hooks/useConceptSave", () => ({
   useConceptSave: vi.fn(),
 }));
 
-vi.mock("../../../utils/links", () => ({
+vi.mock("../../../utils/mergeWithAllConcepts", () => ({
   mergeWithAllConcepts: vi.fn(() => []),
 }));
 
@@ -52,7 +52,7 @@ vi.mock("@components/loading", () => ({
   Saving: () => <div data-testid="saving">Saving...</div>,
 }));
 
-vi.mock("./components/home", () => ({
+vi.mock("./components/ConceptEditionCreation", () => ({
   default: ({ creation, title }: { creation: boolean; title: string }) => (
     <div data-testid="concept-edition-creation">
       <span data-testid="is-creation">{String(creation)}</span>
