@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 
 import { DataTable } from "@components/datatable";
 import { DatePicker } from "@components/date-picker";
-import { Row } from "@components/layout";
 import { NumberResults } from "@components/number-results";
 import { Panel } from "@components/panel";
 
 import { filterFromDate } from "../utils/filterFromDate";
 
+import "./DateFilteredTable.css";
 import "../../i18n";
 
 type Props<T extends object> = {
@@ -36,17 +36,15 @@ export function DateFilteredTable<T extends object>({
 
   return (
     <div>
-      <Row style={{ marginTop: "2%" }}>
-        <div className="form-group col-md-4 col-md-offset-4 text-center">
-          <label htmlFor={pickerId}>{t("dashboard.listPickerTitle", { type: typeByLang })}</label>
-          <DatePicker
-            inputId={pickerId}
-            value={dateFilter}
-            onChange={(value) => setDateFilter(value)}
-          />
-        </div>
-      </Row>
-      <p className="row text-center">
+      <div className="date-filtered-table__filter form-group">
+        <label htmlFor={pickerId}>{t("dashboard.listPickerTitle", { type: typeByLang })}</label>
+        <DatePicker
+          inputId={pickerId}
+          value={dateFilter}
+          onChange={(value) => setDateFilter(value)}
+        />
+      </div>
+      <p className="date-filtered-table__results">
         <NumberResults results={filteredData} />
       </p>
       <Panel>
