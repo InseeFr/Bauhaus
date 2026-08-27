@@ -78,7 +78,7 @@ describe("CollectionsToValidate", () => {
 
       // Use getByText since there are now multiple links (pagination adds links)
       const returnButton = screen.getByText("Back").closest("a");
-      expect(returnButton).toHaveAttribute("href", "/collections");
+      expect(returnButton).toHaveAttribute("href", "/concepts/collections");
     });
   });
 

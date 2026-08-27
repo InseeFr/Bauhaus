@@ -26,7 +26,7 @@ const CollectionsToValidate = ({
         <PublishButton action={action} disabled={disabled} />
       )}
       handleAction={handleValidateCollectionList}
-      context="collections"
+      context="concepts/collections"
     />
   );
 };
