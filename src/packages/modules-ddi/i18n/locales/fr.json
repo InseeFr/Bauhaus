@@ -10,11 +10,11 @@
       "create": "Créer",
       "errorMessage": "Une erreur est survenue lors de la création",
       "errorTitle": "Erreur de création",
-      "group": "Groupe",
+      "group": "Série",
       "label": "Libellé",
-      "selectGroup": "Sélectionnez un groupe",
-      "selectStudyUnit": "Sélectionnez une étude",
-      "studyUnit": "Étude",
+      "selectGroup": "Sélectionnez une série",
+      "selectStudyUnit": "Sélectionnez une opération",
+      "studyUnit": "Opération",
       "successMessage": "Vos modifications ont été sauvegardées avec succès",
       "successTitle": "Création réussie",
       "title": "Créer un nouveau fichier de données"
@@ -24,14 +24,14 @@
       "backToList": "Retour à la liste",
       "labelFilter": "Libellé du fichier de données",
       "labelPlaceholder": "Libellé...",
-      "studyUnitFilter": "Étude",
-      "studyUnitPlaceholder": "Sélectionnez une étude",
-      "groupFilter": "Groupe",
-      "groupPlaceholder": "Sélectionnez un groupe",
+      "studyUnitFilter": "Opération",
+      "studyUnitPlaceholder": "Sélectionnez une opération",
+      "groupFilter": "Série",
+      "groupPlaceholder": "Sélectionnez une série",
       "columns": {
         "label": "Fichier de données",
-        "studyUnit": "Étude",
-        "group": "Groupe"
+        "studyUnit": "Opération",
+        "group": "Série"
       }
     },
     "view": {
@@ -50,8 +50,8 @@
         "editCode": "Modifier le code",
         "errorLoadingCodesLists": "Erreur lors du chargement des listes de codes",
         "fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
-        "groupCodesListsSection": "Listes du groupe",
-        "groupCodesListsSectionNamed": "Groupe : {{group}}",
+        "groupCodesListsSection": "Listes de la série",
+        "groupCodesListsSectionNamed": "Série : {{group}}",
         "label": "Libellé",
         "loadingCodes": "Chargement des codes...",
         "loadingCodesLists": "Chargement des listes de codes...",
@@ -68,8 +68,8 @@
         "value": "Valeur",
         "usersPanel": {
           "title": "Utilisations de cette liste de codes",
-          "help": "Variables et instances physiques qui réutilisent cette même liste de codes, regroupées par unité d'enquête (Study Unit) puis par instance physique.",
-          "unknownStudyUnit": "Unité d'enquête inconnue"
+          "help": "Variables et instances physiques qui réutilisent cette même liste de codes, regroupées par opération puis par instance physique.",
+          "unknownStudyUnit": "Opération inconnue"
         },
         "categoryUsage": {
           "menuEntry": "Utilisation",
@@ -80,8 +80,8 @@
         },
         "categoryUsersPanel": {
           "title": "Utilisations de cette catégorie",
-          "help": "Listes de codes qui réutilisent cette même catégorie, regroupées par groupe, unité d'enquête (Study Unit) puis variable.",
-          "unknownGroup": "Groupe inconnu"
+          "help": "Listes de codes qui réutilisent cette même catégorie, regroupées par série, opération puis variable.",
+          "unknownGroup": "Série inconnue"
         },
         "overrideShared": {
           "title": "Liste de codes partagée : que faire de votre modification ?",
@@ -132,16 +132,16 @@
         "select": "Sélectionnez des valeurs sentinelles",
         "loading": "Chargement des valeurs sentinelles...",
         "errorLoading": "Erreur lors du chargement des valeurs sentinelles",
-        "deleteFromGroup": "Supprimer du groupe",
+        "deleteFromGroup": "Supprimer de la série",
         "deleteConfirm": {
           "title": "Supprimer les valeurs sentinelles",
-          "message": "Cette liste de valeurs sentinelles (et sa liste de codes) sera supprimée du groupe. Cette action est irréversible. Continuer ?",
+          "message": "Cette liste de valeurs sentinelles (et sa liste de codes) sera supprimée de la série. Cette action est irréversible. Continuer ?",
           "confirm": "Supprimer",
           "cancel": "Annuler"
         },
         "usersPanel": {
           "title": "Utilisations de ces valeurs sentinelles",
-          "help": "Variables et fichiers de données qui réutilisent ces valeurs sentinelles, regroupés par unité d'enquête puis par fichier."
+          "help": "Variables et fichiers de données qui réutilisent ces valeurs sentinelles, regroupés par opération puis par fichier."
         },
         "discardEdits": {
           "title": "Modifications non sauvegardées",
@@ -272,9 +272,9 @@
       "unsavedChangesMessage": "Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir quitter cette page ?",
       "leaveWithoutSaving": "Quitter sans sauvegarder",
       "stayOnPage": "Rester sur la page",
-      "groupTag": "Groupe : {{label}}",
-      "studyUnitTag": "Étude : {{label}}",
-      "studyUnitSelectPlaceholder": "Aller vers un fichier de données de l'étude…",
+      "groupTag": "Série : {{label}}",
+      "studyUnitTag": "Opération : {{label}}",
+      "studyUnitSelectPlaceholder": "Aller vers un fichier de données de l'opération…",
       "studyUnitSelectEmpty": "Aucun fichier de données"
     }
   }
