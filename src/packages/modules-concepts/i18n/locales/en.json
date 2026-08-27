@@ -121,7 +121,8 @@
       "replacedByMasc": "Is replaced by",
       "relatedTitle": "Is related to",
       "equivalentTitle": "Matches",
-      "availablePanelTitle": "Available concepts ({{size}})"
+      "availablePanelTitle": "Available concepts ({{size}})",
+      "invalidUri": "Enter a valid URI, for instance https://…"
     },
     "search": {
       "title": "Concepts - Search"
@@ -145,7 +146,11 @@
       "conceptsScopeNote": "Short definition",
       "conceptsDefinition": "Definition",
       "conceptsEditorialNote": "Editorial note",
-      "conceptsChangeNote": "Change note"
+      "conceptsChangeNote": "Change note",
+      "statusEmpty": "Empty",
+      "statusMissingTranslation": "Missing translation",
+      "statusToFix": "To fix",
+      "maxLengthReminder": "{{max}} characters maximum"
     },
     "export": {
       "panelTitle": "Concepts to export",

@@ -69,7 +69,9 @@
     "tabKO": "Il y a des erreurs dans cet onglet",
     "hide": "Cacher",
     "display": "Afficher",
-    "deletionConfirmationMessage": "Vous êtes sur le point de supprimer définitivement ce jeu de données. Êtes-vous sûr ?"
+    "deletionConfirmationMessage": "Vous êtes sur le point de supprimer définitivement ce jeu de données. Êtes-vous sûr ?",
+    "toFix": "À corriger",
+    "summary": "Sommaire"
   },
   "distribution": {
     "title": "Distribution",

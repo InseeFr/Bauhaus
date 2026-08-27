@@ -1,111 +1,26 @@
 .layout_with_lateral_menu {
-  position: relative;
-  display: block;
-  padding: 0;
+  display: grid;
+  grid-template-columns: 18em minmax(0, 1fr);
+  gap: 2em;
+  align-items: start;
   margin-top: 20px;
-
-  ul {
-    list-style: none;
-  }
 }
 
-.layout_with_lateral_menu__outline {
-  box-sizing: border-box;
-  float: left;
-  width: 30%;
-  display: block;
-  margin: 0;
-  overflow: hidden;
-  padding: 0 20px 20px;
-  border-right: solid var(--primary-color) 1px;
-  background-color: transparent;
-
-  nav {
-    border: none;
-    margin: 0;
-    padding: 0;
-
-    > ul {
-      background-color: transparent;
-      padding: 0;
-      margin: 0;
-      border: none;
-    }
-  }
+.layout_with_lateral_menu__content > h2 {
+  margin-top: 0;
 }
 
-.layout_with_lateral_menu__outline__main_item {
-  padding: 15px 10px;
-  margin-top: 30px;
-  position: relative;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  box-shadow: 0 1px 1px hsl(0deg 0% 0% / 5%);
-  color: white;
-  background: var(--primary-color);
-
-  > button {
-    background: transparent;
-    color: white;
-    border: 0 none;
-    padding: 0;
-    text-align: left;
-    position: absolute;
-    right: 7px;
-    top: 35%;
-    display: block;
-  }
+.layout_with_lateral_menu__content .panel,
+.layout_with_lateral_menu__content .panel-body {
+  background: white;
 }
 
-.layout_with_lateral_menu__outline .secondary__item {
-  font-size: 1.4rem;
-  padding: 15px 0;
-  margin-bottom: 30px;
-  border: solid #e0e0e0 1px;
-  border-top: none;
-  background-color: #fff;
-}
-
-.layout_with_lateral_menu__outline .secondary__item li {
-  display: flex;
-  flex-direction: column;
-  text-transform: none;
-  color: #337ab7;
-  border-radius: 0;
-
-  button {
-    background: transparent;
-    border: none;
-    display: flex;
-    flex-direction: row;
-    min-width: 0;
-    padding: 5px !important;
-    font-size: 0.9em;
-
-    &.selected {
-      text-decoration: underline;
-    }
-  }
-}
-
-.layout_with_lateral_menu > .content {
-  box-sizing: border-box;
-  float: right;
-  width: 67%;
-  margin: 0;
-  padding: 0;
-  padding: 0 20px 20px;
-
-  & .panel {
-    background: white;
-    margin-bottom: 30px;
+@media (width <= 768px) {
+  .layout_with_lateral_menu {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  & .panel-body {
-    background: white;
-  }
-
-  ul {
-    list-style: disc;
+  .layout_with_lateral_menu .summary-nav {
+    position: static;
   }
 }

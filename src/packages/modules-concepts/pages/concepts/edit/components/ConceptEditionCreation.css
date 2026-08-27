@@ -1,0 +1,20 @@
+.concept-edition {
+  display: grid;
+  grid-template-columns: 18em minmax(0, 1fr);
+  gap: 2em;
+  align-items: start;
+}
+
+.concept-edition__section > h3 {
+  margin-top: 0;
+}
+
+@media (width <= 768px) {
+  .concept-edition {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .concept-edition .concept-summary {
+    position: static;
+  }
+}

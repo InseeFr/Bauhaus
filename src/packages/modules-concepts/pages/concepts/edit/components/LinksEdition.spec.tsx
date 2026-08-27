@@ -1,6 +1,6 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 
-import { BROADER, NARROWER, NONE, RELATED } from "@sdk/constants";
+import { BROADER, CLOSE_MATCH, NARROWER, NONE, RELATED } from "@sdk/constants";
 
 import { renderWithRouter } from "../../../../../tests/render";
 import ConceptLinks from "./LinksEdition";
@@ -23,13 +23,12 @@ const renderComponent = (props: Partial<React.ComponentProps<typeof ConceptLinks
       handleChange={handleChange}
       equivalentLinks={[]}
       handleChangeEquivalentLinks={handleChangeEquivalentLinks}
+      activeLinkType={NARROWER}
       {...props}
     />,
   );
   return { handleChange, handleChangeEquivalentLinks, container };
 };
-
-const openTab = (title: string) => fireEvent.click(screen.getByRole("tab", { name: title }));
 
 const availableList = () => screen.getAllByRole("listbox")[0];
 const linkedList = () => screen.getAllByRole("listbox")[1];
@@ -53,29 +52,20 @@ const filterAvailable = (label: string) =>
   fireEvent.input(screen.getAllByPlaceholderText("Label...")[0], { target: { value: label } });
 
 describe("concept-edition-creation-links", () => {
-  it("affiche un onglet par type de lien", () => {
+  it("n'imbrique plus la saisie des liens dans des onglets", () => {
     renderComponent();
 
-    expect(screen.getAllByRole("tab").map((tab) => tab.textContent)).toEqual([
-      "A pour enfant",
-      "A pour parent",
-      "Référence",
-      "Remplace",
-      "Est lié à",
-      "Correspond à",
-    ]);
+    expect(screen.queryAllByRole("tab")).toHaveLength(0);
   });
 
-  it("liste à droite les concepts déjà liés du type de l'onglet courant", () => {
+  it("liste à droite les concepts déjà liés du type demandé", () => {
     renderComponent();
 
     expect(optionLabels(linkedList())).toEqual(["Enfant"]);
   });
 
-  it("change de liste de liens quand on change d'onglet", () => {
-    renderComponent();
-
-    openTab("A pour parent");
+  it("change de liste de liens quand le type demandé change", () => {
+    renderComponent({ activeLinkType: BROADER });
 
     expect(optionLabels(linkedList())).toEqual(["Parent"]);
   });
@@ -112,7 +102,7 @@ describe("concept-edition-creation-links", () => {
     expect(optionLabels(availableList())).toEqual(["Élève"]);
   });
 
-  it("lie un concept avec le type de l'onglet courant", () => {
+  it("lie un concept avec le type demandé", () => {
     const { handleChange } = renderComponent();
 
     link("Libre");
@@ -125,10 +115,9 @@ describe("concept-edition-creation-links", () => {
     ]);
   });
 
-  it("lie un concept avec le type de l'onglet sélectionné", () => {
-    const { handleChange } = renderComponent();
+  it("lie un concept avec le type sélectionné dans le sommaire", () => {
+    const { handleChange } = renderComponent({ activeLinkType: RELATED });
 
-    openTab("Est lié à");
     link("Libre");
 
     expect(handleChange).toHaveBeenCalledWith(
@@ -167,7 +156,7 @@ describe("concept-edition-creation-links", () => {
     expect(optionLabels(availableList())).toEqual(["Enfant", "Libre", "Élève"]);
   });
 
-  it("laisse intacts les liens d'un autre type quand on délie tout un onglet", () => {
+  it("laisse intacts les liens d'un autre type quand on délie tout", () => {
     const { handleChange } = renderComponent();
 
     fireEvent.click(screen.getByRole("button", { name: "Move All to Source" }));
@@ -177,36 +166,28 @@ describe("concept-edition-creation-links", () => {
     );
   });
 
-  it("affiche la saisie des liens équivalents dans le dernier onglet", () => {
-    renderComponent();
-
-    openTab("Correspond à");
+  it("affiche la saisie des liens équivalents quand ce type est demandé", () => {
+    renderComponent({ activeLinkType: CLOSE_MATCH });
 
     expect(screen.getByPlaceholderText("New link")).toBeInTheDocument();
     expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
   it("n'autorise pas l'ajout d'un lien équivalent tant que la saisie est vide", () => {
-    renderComponent();
-
-    openTab("Correspond à");
+    renderComponent({ activeLinkType: CLOSE_MATCH });
 
     expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 
   it("n'autorise pas l'ajout d'un lien équivalent réduit à des espaces", () => {
-    renderComponent();
-
-    openTab("Correspond à");
+    renderComponent({ activeLinkType: CLOSE_MATCH });
     fireEvent.change(screen.getByPlaceholderText("New link"), { target: { value: "   " } });
 
     expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 
   it("autorise l'ajout dès qu'un lien équivalent est saisi", () => {
-    renderComponent();
-
-    openTab("Correspond à");
+    renderComponent({ activeLinkType: CLOSE_MATCH });
     fireEvent.change(screen.getByPlaceholderText("New link"), {
       target: { value: "urn:concept:42" },
     });
@@ -215,9 +196,7 @@ describe("concept-edition-creation-links", () => {
   });
 
   it("réinterdit l'ajout une fois le lien équivalent ajouté", () => {
-    renderComponent();
-
-    openTab("Correspond à");
+    renderComponent({ activeLinkType: CLOSE_MATCH });
     fireEvent.change(screen.getByPlaceholderText("New link"), {
       target: { value: "urn:concept:42" },
     });
@@ -227,9 +206,7 @@ describe("concept-edition-creation-links", () => {
   });
 
   it("remonte l'ajout d'un lien équivalent", () => {
-    const { handleChangeEquivalentLinks } = renderComponent();
-
-    openTab("Correspond à");
+    const { handleChangeEquivalentLinks } = renderComponent({ activeLinkType: CLOSE_MATCH });
     fireEvent.change(screen.getByPlaceholderText("New link"), {
       target: { value: "urn:concept:42" },
     });
@@ -241,9 +218,10 @@ describe("concept-edition-creation-links", () => {
   });
 
   it("affiche les liens équivalents existants", () => {
-    renderComponent({ equivalentLinks: [{ urn: "urn:concept:7" } as never] });
-
-    openTab("Correspond à");
+    renderComponent({
+      activeLinkType: CLOSE_MATCH,
+      equivalentLinks: [{ urn: "urn:concept:7" } as never],
+    });
 
     expect(screen.getByText("urn:concept:7")).toBeInTheDocument();
   });

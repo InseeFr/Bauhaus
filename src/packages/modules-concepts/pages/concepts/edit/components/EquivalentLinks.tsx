@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { ClientSideError } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { Row } from "@components/layout";
 import { List } from "@components/ui/list-group";
@@ -10,6 +11,7 @@ import { CLOSE_MATCH } from "@sdk/constants";
 import { Link } from "../../../../../model/concepts/concept";
 import "./EquivalentLinks.css";
 import { EMPTY_ARRAY } from "@utils/array-utils";
+import { isAbsoluteUri } from "@utils/uri";
 
 interface EquivalentLinksTypes {
   links: (Link & { urn: string })[];
@@ -22,6 +24,11 @@ export const EquivalentLinks = ({
 }: Readonly<EquivalentLinksTypes>) => {
   const { t } = useTranslation();
   const [value, setValue] = useState("");
+
+  const uri = value.trim();
+  const isValid = isAbsoluteUri(uri);
+  // Rien à reprocher à un champ encore vide.
+  const error = uri && !isValid ? t("concept.links.invalidUri") : undefined;
   return (
     <div className="equivalent-links">
       <Row>
@@ -33,17 +40,18 @@ export const EquivalentLinks = ({
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
+            <ClientSideError id="equivalent-link-error" error={error} />
           </div>
           <button
             type="button"
-            disabled={!value.trim()}
+            disabled={!isValid}
             onClick={() => {
               updateEquivalentLinks([
                 ...links,
                 {
-                  urn: value,
-                  prefLabelLg1: value,
-                  prefLabelLg2: value,
+                  urn: uri,
+                  prefLabelLg1: uri,
+                  prefLabelLg2: uri,
                   typeOfLink: CLOSE_MATCH,
                 },
               ]);

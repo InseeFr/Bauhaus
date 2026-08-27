@@ -69,7 +69,9 @@
     "tabKO": "Errors occur in this tab",
     "hide": "Hide",
     "display": "Display",
-    "deletionConfirmationMessage": "You are about to permanently delete this dataset. Are you sure ?"
+    "deletionConfirmationMessage": "You are about to permanently delete this dataset. Are you sure ?",
+    "toFix": "To fix",
+    "summary": "Summary"
   },
   "distribution": {
     "title": "Distribution",

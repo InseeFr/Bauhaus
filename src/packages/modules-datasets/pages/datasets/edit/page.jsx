@@ -98,78 +98,63 @@ export const Component = () => {
   const layoutConfiguration = {
     globalInformation: {
       title: t("dataset.globalInformation.title"),
-      children: {
-        globalInformation: {
-          title: t("dataset.globalInformation.title"),
-          hasError: hasErrors(["labelLg1", "labelLg2"]),
-          content: () => {
-            if (editingDataset?.updated?.includes("T")) {
-              editingDataset.updated = editingDataset.updated.substring(
-                0,
-                editingDataset.updated.indexOf("T"),
-              );
-            }
-            if (editingDataset?.issued?.includes("T")) {
-              editingDataset.issued = editingDataset.issued.substring(
-                0,
-                editingDataset.issued.indexOf("T"),
-              );
-            }
-            return (
-              <GlobalInformation
-                editingDataset={editingDataset}
-                setEditingDataset={setEditingDataset}
-                clientSideErrors={clientSideErrors}
-                setClientSideErrors={setClientSideErrors}
-              />
-            );
-          },
-        },
-        internalManagement: {
-          title: t("dataset.internalManagement.title"),
-          hasError: hasErrors([
-            "contributor",
-            "creator",
-            "disseminationStatus",
-            "idSerie",
-            "altIdentifier",
-          ]),
-          content: () => (
-            <InternalManagement
-              editingDataset={editingDataset}
-              setEditingDataset={setEditingDataset}
-              clientSideErrors={clientSideErrors}
-              setClientSideErrors={setClientSideErrors}
-            />
-          ),
-        },
+      hasError: hasErrors(["labelLg1", "labelLg2"]),
+      content: () => {
+        if (editingDataset?.updated?.includes("T")) {
+          editingDataset.updated = editingDataset.updated.substring(
+            0,
+            editingDataset.updated.indexOf("T"),
+          );
+        }
+        if (editingDataset?.issued?.includes("T")) {
+          editingDataset.issued = editingDataset.issued.substring(
+            0,
+            editingDataset.issued.indexOf("T"),
+          );
+        }
+        return (
+          <GlobalInformation
+            editingDataset={editingDataset}
+            setEditingDataset={setEditingDataset}
+            clientSideErrors={clientSideErrors}
+            setClientSideErrors={setClientSideErrors}
+          />
+        );
       },
+    },
+    internalManagement: {
+      title: t("dataset.internalManagement.title"),
+      hasError: hasErrors([
+        "contributor",
+        "creator",
+        "disseminationStatus",
+        "idSerie",
+        "altIdentifier",
+      ]),
+      content: () => (
+        <InternalManagement
+          editingDataset={editingDataset}
+          setEditingDataset={setEditingDataset}
+          clientSideErrors={clientSideErrors}
+          setClientSideErrors={setClientSideErrors}
+        />
+      ),
     },
     notes: {
       title: t("dataset.notes.title"),
-      children: {
-        notes: {
-          title: t("dataset.notes.title"),
-          content: () => (
-            <Notes editingDataset={editingDataset} setEditingDataset={setEditingDataset} />
-          ),
-        },
-      },
+      content: () => (
+        <Notes editingDataset={editingDataset} setEditingDataset={setEditingDataset} />
+      ),
     },
     statisticalInformation: {
       title: t("dataset.statisticalInformation.title"),
-      children: {
-        statisticalInformation: {
-          title: t("dataset.statisticalInformation.title"),
-          content: () => (
-            <StatisticalInformation
-              editingDataset={editingDataset}
-              setEditingDataset={setEditingDataset}
-              clientSideErrors={clientSideErrors}
-            />
-          ),
-        },
-      },
+      content: () => (
+        <StatisticalInformation
+          editingDataset={editingDataset}
+          setEditingDataset={setEditingDataset}
+          clientSideErrors={clientSideErrors}
+        />
+      ),
     },
   };
 
@@ -184,15 +169,8 @@ export const Component = () => {
     }
   };
 
-  const allChildrenItems = Object.values(layoutConfiguration).reduce((acc, configuration) => {
-    return {
-      ...acc,
-      ...configuration.children,
-    };
-  }, {});
-
   return (
-    <div className="editor-container dataset-container">
+    <div className="container editor-container dataset-container">
       {isEditing ? (
         <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />
       ) : (
@@ -208,7 +186,7 @@ export const Component = () => {
       <ErrorBloc error={[serverSideError]} />
       <form>
         <LayoutWithLateralMenu layoutConfiguration={layoutConfiguration}>
-          {(key) => allChildrenItems[key].content()}
+          {(key) => layoutConfiguration[key].content()}
         </LayoutWithLateralMenu>
       </form>
     </div>

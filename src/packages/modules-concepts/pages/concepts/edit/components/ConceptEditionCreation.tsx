@@ -1,4 +1,3 @@
-import { TabPanel, TabView } from "primereact/tabview";
 import { Component } from "react";
 import { withTranslation, WithTranslation } from "react-i18next";
 
@@ -11,6 +10,11 @@ import { ConceptGeneral, ConceptNotes, Link } from "../../../../../model/concept
 import { UNPUBLISHED } from "@model/ValidationState";
 import { areNotesImpactingVersionChanged } from "../../../../utils/areNotesImpactingVersionChanged";
 import { isVersioningPossible } from "../../../../utils/isVersioningPossible";
+import { resolveConceptSection } from "../../../../utils/conceptSection";
+import { LINK_TYPES } from "../../../../utils/linkTypes";
+import { NoteRawTitle } from "../../../../utils/noteStatus";
+import { ConceptSection, ConceptSummary } from "./ConceptSummary";
+import "./ConceptEditionCreation.css";
 import { Menu } from "../menu";
 import { validate } from "../validation";
 import GeneralEdition from "./ConceptGeneralEdition";
@@ -50,6 +54,10 @@ interface ConceptEditionCreationProps extends WithTranslation {
   save: SaveFn;
   submitting: boolean;
   setSubmitting: (value: boolean) => void;
+  /** Partie à ouvrir au chargement, telle que retenue dans l'URL. */
+  section?: string;
+  /** Appelé avec la clé de la partie choisie, pour la retenir dans l'URL. */
+  onSectionChange?: (section: string) => void;
 }
 
 interface ConceptEditionCreationState {
@@ -57,6 +65,9 @@ interface ConceptEditionCreationState {
   showModal: boolean;
   saveAttempted: boolean;
   actionRequested?: boolean;
+  activeSection: ConceptSection;
+  activeNote: NoteRawTitle;
+  activeLinkType: string;
   data: ConceptData;
 }
 
@@ -81,10 +92,14 @@ class ConceptEditionCreation extends Component<
   constructor(props: ConceptEditionCreationProps) {
     super(props);
     const { general, notes, conceptsWithLinks, equivalentLinks = [] } = props;
+    const initialSection = resolveConceptSection(props.section);
     this.state = {
       id: this.props.id,
       showModal: false,
       saveAttempted: false,
+      activeSection: initialSection.section,
+      activeNote: initialSection.note,
+      activeLinkType: initialSection.linkType,
       data: {
         general: { ...general },
         notes: { ...notes },
@@ -93,6 +108,20 @@ class ConceptEditionCreation extends Component<
       },
     };
   }
+
+  // La cible désigne ce qu'il faut afficher dans la section : une note, ou un
+  // type de lien. Sans cible, on ouvre le premier de la liste.
+  handleSelectSection = (section: ConceptSection, target?: string) => {
+    // La clé retenue dans l'URL est la plus précise : la note ou le type de lien
+    // s'il y en a un, la section sinon.
+    this.props.onSectionChange?.(target ?? section);
+    const resolved = resolveConceptSection(target ?? section);
+    this.setState({
+      activeSection: resolved.section,
+      activeNote: resolved.note,
+      activeLinkType: resolved.linkType,
+    });
+  };
 
   handleChangeGeneral = (update: Partial<ConceptGeneral>) => {
     this.props.setSubmitting(true);
@@ -207,6 +236,9 @@ class ConceptEditionCreation extends Component<
 
     const {
       showModal,
+      activeSection,
+      activeNote,
+      activeLinkType,
       data: { general, notes, conceptsWithLinks },
     } = this.state;
 
@@ -254,33 +286,58 @@ class ConceptEditionCreation extends Component<
           {this.props.general.contributor && (
             <Menu errors={displayedErrors} handleSave={this.handleSave} submitting={submitting} />
           )}
-          <TabView>
-            <TabPanel header={t("common.globalInformationsTitle")}>
-              <GeneralEdition
-                general={general}
-                handleChange={this.handleChangeGeneral}
-                errorMessage={displayedErrors}
-              />
-            </TabPanel>
-            <TabPanel header={t("common.notesTitle")}>
-              <NotesEdition
-                notes={notes}
-                handleChange={this.handleChangeNotes}
-                maxLengthScopeNote={maxLengthScopeNote}
-                disseminationStatus={general.disseminationStatus}
-                errorMessage={displayedErrors}
-              />
-            </TabPanel>
-            <TabPanel header={t("common.linksTitle")}>
-              <LinksEdition
-                conceptsWithLinks={conceptsWithLinks}
-                currentId={this.state.id}
-                handleChange={this.handleChangeLinks}
-                equivalentLinks={this.state.data.equivalentLinks}
-                handleChangeEquivalentLinks={this.handleChangeEquivalentLinks}
-              />
-            </TabPanel>
-          </TabView>
+          <div className="concept-edition">
+            <ConceptSummary
+              notes={notes}
+              disseminationStatus={general.disseminationStatus}
+              maxLengthScopeNote={maxLengthScopeNote}
+              conceptsWithLinks={conceptsWithLinks}
+              equivalentLinks={this.state.data.equivalentLinks}
+              errorFields={displayedErrors?.fields}
+              activeSection={activeSection}
+              activeNote={activeNote}
+              activeLinkType={activeLinkType}
+              onSelect={this.handleSelectSection}
+            />
+            <div className="concept-edition__sections">
+              {activeSection === "general" && (
+                <section id="concept-general" className="concept-edition__section">
+                  <h3>{t("common.globalInformationsTitle")}</h3>
+                  <GeneralEdition
+                    general={general}
+                    handleChange={this.handleChangeGeneral}
+                    errorMessage={displayedErrors}
+                  />
+                </section>
+              )}
+              {activeSection === "notes" && (
+                <section id="concept-notes" className="concept-edition__section">
+                  <h3>{t("common.notesTitle")}</h3>
+                  <NotesEdition
+                    notes={notes}
+                    handleChange={this.handleChangeNotes}
+                    maxLengthScopeNote={maxLengthScopeNote}
+                    disseminationStatus={general.disseminationStatus}
+                    errorMessage={displayedErrors}
+                    activeNote={activeNote}
+                  />
+                </section>
+              )}
+              {activeSection === "links" && (
+                <section id="concept-links" className="concept-edition__section">
+                  <h3>{t("common.linksTitle")}</h3>
+                  <LinksEdition
+                    conceptsWithLinks={conceptsWithLinks}
+                    currentId={this.state.id}
+                    handleChange={this.handleChangeLinks}
+                    equivalentLinks={this.state.data.equivalentLinks}
+                    handleChangeEquivalentLinks={this.handleChangeEquivalentLinks}
+                    activeLinkType={activeLinkType}
+                  />
+                </section>
+              )}
+            </div>
+          </div>
         </div>
         <div>
           {!creation && (

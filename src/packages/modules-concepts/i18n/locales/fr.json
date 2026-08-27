@@ -121,7 +121,8 @@
       "relatedTitle": "Est lié à",
       "equivalentTitle": "Correspond à",
       "availablePanelTitle": "Concepts disponibles ({{size}})",
-      "replacedByMasc": "Est remplacé par"
+      "replacedByMasc": "Est remplacé par",
+      "invalidUri": "Saisissez une URI valide, par exemple https://…"
     },
     "search": {
       "title": "Concepts - Recherche"
@@ -145,7 +146,11 @@
       "conceptsScopeNote": "Définition courte",
       "conceptsDefinition": "Définition",
       "conceptsEditorialNote": "Note éditoriale",
-      "conceptsChangeNote": "Note de changement"
+      "conceptsChangeNote": "Note de changement",
+      "statusEmpty": "Vide",
+      "statusMissingTranslation": "Traduction manquante",
+      "statusToFix": "À corriger",
+      "maxLengthReminder": "{{max}} caractères maximum"
     },
     "export": {
       "panelTitle": "Concepts à exporter",
