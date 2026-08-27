@@ -25,11 +25,20 @@ const formatFieldError = ({ field, message }: FieldError) =>
     ? `${field} : ${String(message)}`
     : String(message);
 
-/** Message court d'un échec d'appel, pour un toast ou un bandeau. */
+const firstNonEmptyString = (...candidates: unknown[]): string | undefined =>
+  candidates.find((candidate): candidate is string => typeof candidate === "string" && !!candidate);
+
+/**
+ * Message court d'un échec d'appel, pour un toast ou un bandeau.
+ *
+ * Les contrôleurs qui lèvent une `ResponseStatusException` répondent en
+ * `application/problem+json` (RFC 7807) : le message y est porté par `detail`, pas par
+ * `message`.
+ */
 export const getApiErrorMessage = (err: unknown, fallback: string): string => {
   if (err instanceof Error) return err.message || fallback;
-  const message = (err as { message?: unknown })?.message;
-  return typeof message === "string" && message ? message : fallback;
+  const { message, detail } = (err ?? {}) as { message?: unknown; detail?: unknown };
+  return firstNonEmptyString(message, detail) ?? fallback;
 };
 
 /**

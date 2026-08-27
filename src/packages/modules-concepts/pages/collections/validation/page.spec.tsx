@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 
 import { Component } from "./page";
 
@@ -23,12 +23,15 @@ vi.mock("./components/CollectionsToValidate", () => ({
   default: ({
     collections,
     handleValidateCollectionList,
+    serverSideError,
   }: {
     collections: { id: string; label: string }[];
     handleValidateCollectionList: (ids: string[]) => void;
+    serverSideError?: string;
   }) => (
     <div data-testid="collections-to-validate">
       <span data-testid="collections-count">{collections.length}</span>
+      <span data-testid="server-side-error">{serverSideError}</span>
       <button
         data-testid="validate-button"
         onClick={() => handleValidateCollectionList(["1", "2"])}
@@ -54,6 +57,10 @@ vi.mock("@sdk/index", () => ({
   },
 }));
 
+const VALIDATION_ROUTE = "/concepts/collections/validation";
+
+const LocationProbe = () => <span data-testid="location">{useLocation().pathname}</span>;
+
 const createWrapper = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -64,7 +71,10 @@ const createWrapper = () => {
   });
   return ({ children }: { children: React.ReactNode }) => (
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter>{children}</MemoryRouter>
+      <MemoryRouter initialEntries={[VALIDATION_ROUTE]}>
+        {children}
+        <LocationProbe />
+      </MemoryRouter>
     </QueryClientProvider>
   );
 };
@@ -262,6 +272,121 @@ describe("Collection Validation Home Container", () => {
       // 1 initial fetch + 1 refetch triggered by ['unpublished-collections'] invalidation after publish
       expect(mockGetCollectionValidateList).toHaveBeenCalledTimes(2);
       expect(mockPutCollectionValidList).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("After publish", () => {
+    it("should stay on the validation page", async () => {
+      mockGetCollectionValidateList.mockResolvedValue(mockCollections);
+      mockPutCollectionValidList.mockResolvedValue({});
+
+      render(<Component />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
+      });
+
+      await act(async () => {
+        screen.getByTestId("validate-button").click();
+      });
+
+      await waitFor(() => {
+        expect(mockPutCollectionValidList).toHaveBeenCalled();
+      });
+      expect(screen.getByTestId("location")).toHaveTextContent(VALIDATION_ROUTE);
+    });
+
+    it("should show the refreshed list of collections still to publish", async () => {
+      mockGetCollectionValidateList
+        .mockResolvedValueOnce(mockCollections)
+        .mockResolvedValue([mockCollections[2]]);
+      mockPutCollectionValidList.mockResolvedValue({});
+
+      render(<Component />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("collections-count")).toHaveTextContent("3");
+      });
+
+      await act(async () => {
+        screen.getByTestId("validate-button").click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("collections-count")).toHaveTextContent("1");
+      });
+    });
+
+    it("should report the message returned by the back-office when the publication fails", async () => {
+      mockGetCollectionValidateList.mockResolvedValue(mockCollections);
+      mockPutCollectionValidList.mockRejectedValue({
+        detail: "Collections already published: c1000",
+        status: 400,
+      });
+
+      render(<Component />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
+      });
+
+      await act(async () => {
+        screen.getByTestId("validate-button").click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("server-side-error")).toHaveTextContent(
+          "Collections already published: c1000",
+        );
+      });
+    });
+
+    it("should clear a previous failure when the publication succeeds", async () => {
+      mockGetCollectionValidateList.mockResolvedValue(mockCollections);
+      mockPutCollectionValidList
+        .mockRejectedValueOnce({ detail: "Collections already published: c1000", status: 400 })
+        .mockResolvedValue({});
+
+      render(<Component />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
+      });
+
+      await act(async () => {
+        screen.getByTestId("validate-button").click();
+      });
+      await waitFor(() => {
+        expect(screen.getByTestId("server-side-error")).not.toBeEmptyDOMElement();
+      });
+
+      await act(async () => {
+        screen.getByTestId("validate-button").click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("server-side-error")).toBeEmptyDOMElement();
+      });
+    });
+
+    it("should leave the publishing state even when the API call fails", async () => {
+      mockGetCollectionValidateList.mockResolvedValue(mockCollections);
+      mockPutCollectionValidList.mockRejectedValue(new Error("400"));
+
+      render(<Component />, { wrapper: createWrapper() });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
+      });
+
+      await act(async () => {
+        screen.getByTestId("validate-button").click();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
+      });
+      expect(screen.queryByText("Publishing in progress...")).not.toBeInTheDocument();
     });
   });
 

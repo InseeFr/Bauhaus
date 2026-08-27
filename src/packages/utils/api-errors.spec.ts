@@ -23,6 +23,19 @@ describe("getApiErrorMessage", () => {
   });
 });
 
+it("lit le champ `detail` d'une réponse RFC 7807 du back", () => {
+  expect(
+    getApiErrorMessage(
+      { detail: "Collections already published: c1000", title: "Bad Request", status: 400 },
+      "repli",
+    ),
+  ).toBe("Collections already published: c1000");
+});
+
+it("privilégie `message` sur `detail`", () => {
+  expect(getApiErrorMessage({ message: "message", detail: "detail" }, "repli")).toBe("message");
+});
+
 describe("getApiErrors", () => {
   it("lit les erreurs de champ du contrat de validation", () => {
     const errors = getApiErrors({
