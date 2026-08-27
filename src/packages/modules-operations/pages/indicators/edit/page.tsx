@@ -6,17 +6,18 @@ import { Loading } from "@components/loading";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { useCodesList } from "@utils/hooks/codeslist";
-import { useOrganizations } from "@utils/hooks/organizations";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useTranslation } from "react-i18next";
 
 import { CL_FREQ } from "../../../../constants/code-lists";
+import { Series } from "../../../../model/Series";
+import { Indicator, IndicatorsList } from "../../../../model/operations/indicator";
 import { OperationsIndicatorEdition } from "./components/OperationsIndicatorEdition";
 
-export const Component = (props) => {
-  const { id } = useParams();
+export const Component = () => {
+  const { id } = useParams<{ id: string }>();
 
   const frequencies = useCodesList(CL_FREQ);
 
@@ -24,27 +25,29 @@ export const Component = (props) => {
 
   const { t } = useTranslation();
 
-  const [indicator, setIndicator] = useState({});
+  // En création, le formulaire part d'un indicateur vide qu'il complète avec ses
+  // propres valeurs par défaut : aucun appel au back n'est fait.
+  const [indicator, setIndicator] = useState<Indicator>({} as Indicator);
 
-  const [series, setSeries] = useState([]);
+  const [series, setSeries] = useState<Series[]>([]);
 
   useEffect(() => {
     if (id) {
-      OperationsApi.getIndicatorById(id).then((payload) => setIndicator(payload));
+      OperationsApi.getIndicatorById(id).then(setIndicator);
     }
   }, [id]);
 
-  const [indicators, setIndicators] = useState([]);
+  const [indicators, setIndicators] = useState<IndicatorsList>([]);
 
   useEffect(() => {
-    OperationsApi.getAllIndicators().then((payload) => setIndicators(payload));
+    OperationsApi.getAllIndicators().then(setIndicators);
   }, []);
 
   useEffect(() => {
-    OperationsApi.getSeriesList().then((payload) => setSeries(payload));
+    OperationsApi.getSeriesList().then(setSeries);
   }, []);
 
-  useTitle(t("common.indicatorsTitle"), indicator?.prefLabelLg1);
+  useTitle(t("common.indicatorsTitle"), indicator.prefLabelLg1);
 
   if (!indicator.id && id) return <Loading />;
 
@@ -55,7 +58,6 @@ export const Component = (props) => {
       frequencies={frequencies}
       indicator={indicator}
       goBack={goBack}
-      {...props}
     />
   );
 };
