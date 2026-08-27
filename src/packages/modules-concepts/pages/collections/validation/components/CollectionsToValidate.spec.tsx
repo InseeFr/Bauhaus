@@ -139,6 +139,32 @@ describe("CollectionsToValidate", () => {
     });
   });
 
+  describe("Server-side error", () => {
+    it("displays the error reported by the back-office", () => {
+      renderWithRouter(
+        <CollectionsToValidate
+          collections={mockCollections}
+          handleValidateCollectionList={vi.fn()}
+          serverSideError="The publication failed"
+        />,
+      );
+
+      expect(screen.getByRole("alert")).toHaveTextContent("The publication failed");
+    });
+
+    it("displays no error when the back-office reported none", () => {
+      renderWithRouter(
+        <CollectionsToValidate
+          collections={mockCollections}
+          handleValidateCollectionList={vi.fn()}
+          serverSideError=""
+        />,
+      );
+
+      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    });
+  });
+
   describe("Validation", () => {
     it("renders publish button", () => {
       renderWithRouter(

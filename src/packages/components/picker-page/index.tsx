@@ -42,6 +42,7 @@ interface PickerTypes {
   }>;
   disabled?: boolean;
   disabledWarningMessage?: string;
+  serverSideError?: string;
 }
 
 export const Picker = ({
@@ -55,6 +56,7 @@ export const Picker = ({
   ValidationButton,
   disabled,
   disabledWarningMessage,
+  serverSideError,
 }: Readonly<PickerTypes>) => {
   const [availableItems, setAvailableItems] = useState<Item[]>(() => withSafeLabels(itemsProps));
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
@@ -83,6 +85,7 @@ export const Picker = ({
           />
         </ActionToolbar>
         <ErrorBloc error={clientSideErrors} />
+        <ErrorBloc error={serverSideError} />
         {disabled && <ErrorBloc error={disabledWarningMessage} />}
         <PickList
           dataKey="id"

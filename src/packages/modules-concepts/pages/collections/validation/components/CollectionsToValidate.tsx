@@ -8,11 +8,13 @@ import { UnpublishedCollection } from "@model/concepts/collection";
 interface CollectionsToValidateProps {
   collections: UnpublishedCollection[];
   handleValidateCollectionList: (ids: string[]) => void;
+  serverSideError?: string;
 }
 
 const CollectionsToValidate = ({
   collections,
   handleValidateCollectionList,
+  serverSideError,
 }: Readonly<CollectionsToValidateProps>) => {
   const { t } = useTranslation();
   return (
@@ -26,6 +28,7 @@ const CollectionsToValidate = ({
         <PublishButton action={action} disabled={disabled} />
       )}
       handleAction={handleValidateCollectionList}
+      serverSideError={serverSideError}
       context="concepts/collections"
     />
   );
