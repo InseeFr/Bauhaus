@@ -88,6 +88,10 @@ const dictionary = {
     fr: "Libellé...",
     en: "Label...",
   },
+  availableItemsPanelTitle: {
+    fr: "Éléments disponibles",
+    en: "Available items",
+  },
   version: {
     fr: "Version",
     en: "Version",

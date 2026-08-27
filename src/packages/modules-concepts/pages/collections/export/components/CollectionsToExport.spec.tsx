@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 
@@ -78,10 +78,11 @@ describe("CollectionsToExport", () => {
       expect(screen.getByText("Export")).toBeInTheDocument();
     });
 
-    it("renders the panel title", () => {
+    it("renders the panel titles", () => {
       renderWithRouter(<CollectionsToExport collections={mockCollections} />);
 
-      expect(screen.getByText("Collections to export")).toBeInTheDocument();
+      expect(screen.getByText("Available collections (3)")).toBeInTheDocument();
+      expect(screen.getByText("Collections to export (0)")).toBeInTheDocument();
     });
 
     it("renders return button with correct link", () => {
@@ -137,22 +138,21 @@ describe("CollectionsToExport", () => {
   });
 
   describe("Search functionality", () => {
-    it("has a search input", () => {
+    it("has a filter input on each panel", () => {
       renderWithRouter(<CollectionsToExport collections={mockCollections} />);
 
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
-      expect(searchInput).toBeInTheDocument();
+      expect(screen.getAllByPlaceholderText("Label...")).toHaveLength(2);
     });
 
-    it("allows typing in search input", () => {
+    it("filters the available collections on their label", () => {
       renderWithRouter(<CollectionsToExport collections={mockCollections} />);
 
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
-      searchInput.focus();
+      fireEvent.input(screen.getAllByPlaceholderText("Label...")[0], {
+        target: { value: "Collection A" },
+      });
 
-      expect(searchInput).toBeInTheDocument();
+      expect(screen.getByText("Collection A")).toBeInTheDocument();
+      expect(screen.queryByText("Collection B")).not.toBeInTheDocument();
     });
   });
 });

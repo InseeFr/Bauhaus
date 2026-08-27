@@ -160,7 +160,7 @@ describe("Export Concepts Home Container", () => {
       expect(screen.getByText("Export")).toBeInTheDocument();
     });
 
-    it("should pass correct panel title to Picker", () => {
+    it("should pass correct panel titles to Picker", () => {
       (useConcepts as Mock).mockReturnValue({
         concepts: mockConcepts,
         isLoading: false,
@@ -168,7 +168,8 @@ describe("Export Concepts Home Container", () => {
 
       renderComponent();
 
-      expect(screen.getByText("Concepts to export")).toBeInTheDocument();
+      expect(screen.getByText("Available concepts (3)")).toBeInTheDocument();
+      expect(screen.getByText("Concepts to export (0)")).toBeInTheDocument();
     });
 
     it("should pass correct context to Picker", () => {
@@ -271,9 +272,8 @@ describe("Export Concepts Home Container", () => {
 
       renderComponent();
 
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
-      expect(searchInput).toBeInTheDocument();
+      // Une par panneau de la PickList : concepts disponibles et concepts à exporter.
+      expect(screen.getAllByPlaceholderText("Label...")).toHaveLength(2);
     });
   });
 });

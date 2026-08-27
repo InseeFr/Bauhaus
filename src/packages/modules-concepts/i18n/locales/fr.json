@@ -96,12 +96,14 @@
       "title": "Modifier la collection"
     },
     "export": {
-      "panelTitle": "Collections à exporter",
+      "availablePanelTitle": "Collections disponibles ({{size}})",
+      "panelTitle": "Collections à exporter ({{size}})",
       "hasNot": "Ajouter au moins une collection à exporter"
     },
     "validation": {
       "title": "Publication des collections provisoires",
-      "panelTitle": "Collections à publier",
+      "availablePanelTitle": "Collections provisoires ({{size}})",
+      "panelTitle": "Collections à publier ({{size}})",
       "hasNot": "Ajouter au moins une collection à publier"
     }
   },
@@ -153,7 +155,8 @@
       "maxLengthReminder": "{{max}} caractères maximum"
     },
     "export": {
-      "panelTitle": "Concepts à exporter",
+      "availablePanelTitle": "Concepts disponibles ({{size}})",
+      "panelTitle": "Concepts à exporter ({{size}})",
       "hasNot": "Ajouter au moins un concept à exporter"
     },
     "validation": {

@@ -96,12 +96,14 @@
       "title": "Update collection"
     },
     "export": {
-      "panelTitle": "Collections to export",
+      "availablePanelTitle": "Available collections ({{size}})",
+      "panelTitle": "Collections to export ({{size}})",
       "hasNot": "Add at least one collection to export"
     },
     "validation": {
       "title": "Publication of the provisional collections",
-      "panelTitle": "Collections to publish",
+      "availablePanelTitle": "Provisional collections ({{size}})",
+      "panelTitle": "Collections to publish ({{size}})",
       "hasNot": "Add at least one collection to publish"
     }
   },
@@ -153,7 +155,8 @@
       "maxLengthReminder": "{{max}} characters maximum"
     },
     "export": {
-      "panelTitle": "Concepts to export",
+      "availablePanelTitle": "Available concepts ({{size}})",
+      "panelTitle": "Concepts to export ({{size}})",
       "hasNot": "Add at least one concept to export"
     },
     "validation": {

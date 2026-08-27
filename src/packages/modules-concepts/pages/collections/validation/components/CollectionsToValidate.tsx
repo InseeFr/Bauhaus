@@ -19,7 +19,8 @@ const CollectionsToValidate = ({
     <Picker
       items={collections}
       title={t("collection.validation.title")}
-      panelTitle={t("collection.validation.panelTitle")}
+      panelTitle={(size) => t("collection.validation.panelTitle", { size })}
+      availablePanelTitle={(size) => t("collection.validation.availablePanelTitle", { size })}
       labelWarning={t("collection.validation.hasNot")}
       ValidationButton={({ action, disabled }) => (
         <PublishButton action={action} disabled={disabled} />

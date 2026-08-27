@@ -1,4 +1,4 @@
-import { fireEvent, screen } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 
 import { renderWithRouter } from "../../../../../tests/render";
 import CollectionsToValidate from "./CollectionsToValidate";
@@ -8,6 +8,19 @@ const mockCollections = [
   { id: "2", label: "Collection B", creator: "DG75-F170" },
   { id: "3", label: "Collection C", creator: "DG75-H320" },
 ];
+
+const availableList = () => screen.getAllByRole("listbox")[0];
+const toPublishList = () => screen.getAllByRole("listbox")[1];
+
+const optionLabels = (list: HTMLElement) =>
+  within(list)
+    .queryAllByRole("option")
+    .map((option) => option.textContent);
+
+const pick = (label: string) => {
+  fireEvent.click(within(availableList()).getByRole("option", { name: label }));
+  fireEvent.click(screen.getByRole("button", { name: "Move to Target" }));
+};
 
 describe("CollectionsToValidate", () => {
   describe("Rendering", () => {
@@ -38,10 +51,12 @@ describe("CollectionsToValidate", () => {
         />,
       );
 
-      expect(screen.getByText("Collections to publish")).toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+        "Publication of the provisional collections",
+      );
     });
 
-    it("renders the panel title", () => {
+    it("renders the panel titles", () => {
       renderWithRouter(
         <CollectionsToValidate
           collections={mockCollections}
@@ -49,7 +64,8 @@ describe("CollectionsToValidate", () => {
         />,
       );
 
-      expect(screen.getByText("Collections to publish")).toBeInTheDocument();
+      expect(screen.getByText("Provisional collections (3)")).toBeInTheDocument();
+      expect(screen.getByText("Collections to publish (0)")).toBeInTheDocument();
     });
 
     it("renders return button with correct link", () => {
@@ -77,7 +93,7 @@ describe("CollectionsToValidate", () => {
   });
 
   describe("Item selection", () => {
-    it("allows selecting a collection", () => {
+    it("moves a collection to the panel of collections to publish", () => {
       renderWithRouter(
         <CollectionsToValidate
           collections={mockCollections}
@@ -85,25 +101,41 @@ describe("CollectionsToValidate", () => {
         />,
       );
 
-      const collectionItem = screen.getByText("Collection A");
-      fireEvent.click(collectionItem);
+      pick("Collection A");
 
-      expect(screen.getByText("Collection A")).toBeInTheDocument();
+      expect(optionLabels(toPublishList())).toEqual(["Collection A"]);
+      expect(optionLabels(availableList())).toEqual(["Collection B", "Collection C"]);
     });
 
-    it("allows selecting multiple collections", () => {
+    it("publishes every selected collection", () => {
+      const handleValidateCollectionList = vi.fn();
       renderWithRouter(
         <CollectionsToValidate
           collections={mockCollections}
-          handleValidateCollectionList={vi.fn()}
+          handleValidateCollectionList={handleValidateCollectionList}
         />,
       );
 
-      fireEvent.click(screen.getByText("Collection A"));
-      fireEvent.click(screen.getByText("Collection B"));
+      pick("Collection A");
+      pick("Collection B");
+      fireEvent.click(screen.getByRole("button", { name: "Publish" }));
 
-      expect(screen.getByText("Collection A")).toBeInTheDocument();
-      expect(screen.getByText("Collection B")).toBeInTheDocument();
+      expect(handleValidateCollectionList).toHaveBeenCalledWith(["1", "2"]);
+    });
+
+    it("warns when no collection is selected", () => {
+      const handleValidateCollectionList = vi.fn();
+      renderWithRouter(
+        <CollectionsToValidate
+          collections={mockCollections}
+          handleValidateCollectionList={handleValidateCollectionList}
+        />,
+      );
+
+      fireEvent.click(screen.getByRole("button", { name: "Publish" }));
+
+      expect(screen.getByText("Add at least one collection to publish")).toBeInTheDocument();
+      expect(handleValidateCollectionList).not.toHaveBeenCalled();
     });
   });
 
@@ -121,7 +153,7 @@ describe("CollectionsToValidate", () => {
   });
 
   describe("Search functionality", () => {
-    it("has a search input", () => {
+    it("has a filter input on each panel", () => {
       renderWithRouter(
         <CollectionsToValidate
           collections={mockCollections}
@@ -129,12 +161,10 @@ describe("CollectionsToValidate", () => {
         />,
       );
 
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
-      expect(searchInput).toBeInTheDocument();
+      expect(screen.getAllByPlaceholderText("Label...")).toHaveLength(2);
     });
 
-    it("allows typing in search input", () => {
+    it("filters the available collections on their label", () => {
       renderWithRouter(
         <CollectionsToValidate
           collections={mockCollections}
@@ -142,11 +172,11 @@ describe("CollectionsToValidate", () => {
         />,
       );
 
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
-      fireEvent.change(searchInput, { target: { value: "Collection A" } });
+      fireEvent.input(screen.getAllByPlaceholderText("Label...")[0], {
+        target: { value: "Collection A" },
+      });
 
-      expect(searchInput).toHaveValue("Collection A");
+      expect(optionLabels(availableList())).toEqual(["Collection A"]);
     });
   });
 });

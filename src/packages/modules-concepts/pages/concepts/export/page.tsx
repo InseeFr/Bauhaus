@@ -26,7 +26,8 @@ export const Component = () => {
     <Picker
       items={concepts}
       title={t("common.exportTitle")}
-      panelTitle={t("concept.export.panelTitle")}
+      panelTitle={(size) => t("concept.export.panelTitle", { size })}
+      availablePanelTitle={(size) => t("concept.export.availablePanelTitle", { size })}
       labelWarning={t("concept.export.hasNot")}
       handleAction={() => {}}
       context="concepts"

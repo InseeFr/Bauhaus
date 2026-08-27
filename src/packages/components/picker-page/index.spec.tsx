@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
 import { Picker } from "./index";
@@ -12,13 +12,14 @@ const mockItems = [
 const MockValidationButton = ({
   action,
   disabled,
+  selectedIds,
 }: {
   action: () => void;
   disabled: boolean;
   selectedIds: string[];
 }) => (
   <button onClick={action} disabled={disabled} data-testid="validation-button">
-    Validate
+    Validate ({selectedIds.join(",")})
   </button>
 );
 
@@ -27,6 +28,7 @@ const defaultProps = {
   handleAction: vi.fn(),
   title: "Test Title",
   panelTitle: "Selected Items",
+  availablePanelTitle: "Available Items",
   labelWarning: "Please select at least one item",
   context: "test-context",
   ValidationButton: MockValidationButton,
@@ -40,6 +42,24 @@ const renderPicker = (props = {}) => {
   );
 };
 
+const availableList = () => screen.getAllByRole("listbox")[0];
+const selectedList = () => screen.getAllByRole("listbox")[1];
+
+const optionLabels = (list: HTMLElement) =>
+  within(list)
+    .queryAllByRole("option")
+    .map((option) => option.textContent);
+
+const pick = (label: string) => {
+  fireEvent.click(within(availableList()).getByRole("option", { name: label }));
+  fireEvent.click(screen.getByRole("button", { name: "Move to Target" }));
+};
+
+const unpick = (label: string) => {
+  fireEvent.click(within(selectedList()).getByRole("option", { name: label }));
+  fireEvent.click(screen.getByRole("button", { name: "Move to Source" }));
+};
+
 describe("Picker", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -48,26 +68,38 @@ describe("Picker", () => {
   describe("Rendering", () => {
     it("renders the page title", () => {
       renderPicker();
-      expect(screen.getByText("Test Title")).toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Test Title");
     });
 
-    it("renders the panel title", () => {
+    it("renders the header of both panels", () => {
       renderPicker();
+      expect(screen.getByText("Available Items")).toBeInTheDocument();
       expect(screen.getByText("Selected Items")).toBeInTheDocument();
     });
 
-    it("renders all items in the list to add", () => {
-      renderPicker();
-      expect(screen.getByText("First Item")).toBeInTheDocument();
-      expect(screen.getByText("Second Item")).toBeInTheDocument();
-      expect(screen.getByText("Third Item")).toBeInTheDocument();
+    it("resolves the panel headers with the size of each list", () => {
+      renderPicker({
+        availablePanelTitle: (size: number) => `Available (${size})`,
+        panelTitle: (size: number) => `Selected (${size})`,
+      });
+
+      expect(screen.getByText("Available (3)")).toBeInTheDocument();
+      expect(screen.getByText("Selected (0)")).toBeInTheDocument();
     });
 
-    it("renders search input", () => {
+    it("renders all items in the available list", () => {
       renderPicker();
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
-      expect(searchInput).toBeInTheDocument();
+      expect(optionLabels(availableList())).toEqual(["First Item", "Second Item", "Third Item"]);
+    });
+
+    it("starts with an empty selection", () => {
+      renderPicker();
+      expect(optionLabels(selectedList())).toEqual([]);
+    });
+
+    it("renders a filter input on each panel", () => {
+      renderPicker();
+      expect(screen.getAllByPlaceholderText("Label...")).toHaveLength(2);
     });
 
     it("renders validation button", () => {
@@ -77,9 +109,7 @@ describe("Picker", () => {
 
     it("renders return button with correct link", () => {
       renderPicker();
-      // Use getByText since there are now multiple links (pagination adds links)
-      const returnButton = screen.getByText("Back").closest("a");
-      expect(returnButton).toHaveAttribute("href", "/test-context");
+      expect(screen.getByText("Back").closest("a")).toHaveAttribute("href", "/test-context");
     });
 
     it("renders disabled warning message when disabled", () => {
@@ -99,100 +129,83 @@ describe("Picker", () => {
     });
   });
 
-  describe("Search functionality", () => {
-    it("filters items based on search input", () => {
+  describe("Filtering", () => {
+    it("filters available items on their label", () => {
       renderPicker();
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
 
-      fireEvent.change(searchInput, { target: { value: "First" } });
+      fireEvent.input(screen.getAllByPlaceholderText("Label...")[0], {
+        target: { value: "First" },
+      });
 
-      expect(screen.getByText("First Item")).toBeInTheDocument();
-      expect(screen.queryByText("Second Item")).not.toBeInTheDocument();
-      expect(screen.queryByText("Third Item")).not.toBeInTheDocument();
+      expect(optionLabels(availableList())).toEqual(["First Item"]);
     });
 
-    it("filters items case insensitively", () => {
+    it("shows every item again when the filter is cleared", () => {
       renderPicker();
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
 
-      fireEvent.change(searchInput, { target: { value: "first" } });
+      const filter = screen.getAllByPlaceholderText("Label...")[0];
+      fireEvent.input(filter, { target: { value: "First" } });
+      fireEvent.input(filter, { target: { value: "" } });
 
-      expect(screen.getByText("First Item")).toBeInTheDocument();
-    });
-
-    it("shows all items when search is cleared", () => {
-      renderPicker();
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
-
-      fireEvent.change(searchInput, { target: { value: "First" } });
-      fireEvent.change(searchInput, { target: { value: "" } });
-
-      expect(screen.getByText("First Item")).toBeInTheDocument();
-      expect(screen.getByText("Second Item")).toBeInTheDocument();
-      expect(screen.getByText("Third Item")).toBeInTheDocument();
-    });
-
-    it("handles items with accented characters", () => {
-      const itemsWithAccents = [
-        { id: "1", label: "Élément" },
-        { id: "2", label: "Café" },
-      ];
-      renderPicker({ items: itemsWithAccents });
-      // Use getByPlaceholderText since pagination adds another textbox
-      const searchInput = screen.getByPlaceholderText("Label...");
-
-      fireEvent.change(searchInput, { target: { value: "element" } });
-
-      expect(screen.getByText("Élément")).toBeInTheDocument();
+      expect(optionLabels(availableList())).toEqual(["First Item", "Second Item", "Third Item"]);
     });
   });
 
-  describe("Adding items", () => {
-    it("moves item to added panel when clicked", () => {
+  describe("Selecting items", () => {
+    it("moves an item to the selected panel", () => {
       renderPicker();
 
-      const firstItem = screen.getByText("First Item");
-      fireEvent.click(firstItem);
+      pick("First Item");
 
-      const panels = screen.getAllByText("First Item");
-      expect(panels).toHaveLength(1);
+      expect(optionLabels(selectedList())).toEqual(["First Item"]);
+      expect(optionLabels(availableList())).toEqual(["Second Item", "Third Item"]);
     });
-  });
 
-  describe("Removing items", () => {
-    it("moves item back to available list when removed", () => {
+    it("moves an item back to the available panel", () => {
       renderPicker();
 
-      const firstItem = screen.getByText("First Item");
-      fireEvent.click(firstItem);
+      pick("First Item");
+      unpick("First Item");
 
-      const addedItem = screen.getByText("First Item");
-      fireEvent.click(addedItem);
+      expect(optionLabels(selectedList())).toEqual([]);
+      expect(optionLabels(availableList())).toContain("First Item");
+    });
 
-      expect(screen.getByText("First Item")).toBeInTheDocument();
+    it("exposes the selected ids to the validation button", () => {
+      renderPicker();
+
+      pick("Second Item");
+
+      expect(screen.getByTestId("validation-button")).toHaveTextContent("Validate (2)");
     });
   });
 
   describe("Validation", () => {
-    it("renders validation button", () => {
+    it("warns when nothing is selected", () => {
+      const handleAction = vi.fn();
+      renderPicker({ handleAction });
+
+      fireEvent.click(screen.getByTestId("validation-button"));
+
+      expect(screen.getByText("Please select at least one item")).toBeInTheDocument();
+      expect(handleAction).not.toHaveBeenCalled();
+    });
+
+    it("clears the warning as soon as an item is selected", () => {
       renderPicker();
 
-      const validationButton = screen.getByTestId("validation-button");
-      expect(validationButton).toBeInTheDocument();
+      fireEvent.click(screen.getByTestId("validation-button"));
+      pick("First Item");
+
+      expect(screen.queryByText("Please select at least one item")).not.toBeInTheDocument();
     });
 
     it("calls handleAction with selected ids when validation button is clicked", () => {
       const handleAction = vi.fn();
       renderPicker({ handleAction });
 
-      const firstItem = screen.getByText("First Item");
-      fireEvent.click(firstItem);
-
-      const validationButton = screen.getByTestId("validation-button");
-      fireEvent.click(validationButton);
+      pick("First Item");
+      fireEvent.click(screen.getByTestId("validation-button"));
 
       expect(handleAction).toHaveBeenCalledWith(["1"]);
     });
@@ -201,17 +214,17 @@ describe("Picker", () => {
   describe("Edge cases", () => {
     it("handles empty items array", () => {
       renderPicker({ items: [] });
-      expect(screen.getByText("Test Title")).toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Test Title");
     });
 
     it("handles undefined items", () => {
       renderPicker({ items: undefined });
-      expect(screen.getByText("Test Title")).toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Test Title");
     });
 
     it("handles null items", () => {
       renderPicker({ items: null });
-      expect(screen.getByText("Test Title")).toBeInTheDocument();
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Test Title");
     });
 
     it("handles items with undefined labels", () => {

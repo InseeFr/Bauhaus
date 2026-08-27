@@ -25,7 +25,8 @@ const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>
     <Picker
       items={collections}
       title={t("common.exportTitle")}
-      panelTitle={t("collection.export.panelTitle")}
+      panelTitle={(size) => t("collection.export.panelTitle", { size })}
+      availablePanelTitle={(size) => t("collection.export.availablePanelTitle", { size })}
       labelWarning={t("collection.export.hasNot")}
       handleAction={() => {}}
       context="concepts/collections"

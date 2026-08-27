@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { PickList } from "primereact/picklist";
-
-import { ActionToolbar } from "@components/action-toolbar";
-import { PublishButton, ReturnButton } from "@components/buttons/buttons-with-icons";
-import { ErrorBloc } from "@components/errors-bloc";
+import { PublishButton } from "@components/buttons/buttons-with-icons";
 import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
-import { PageTitle } from "@components/page-title";
+import { Picker } from "@components/picker-page";
 
 import { getModalMessage } from "../../../../utils/getModalMessage";
 
@@ -38,32 +34,26 @@ const ConceptsToValidate = ({
   handleValidateConceptList,
 }: Readonly<ConceptsToValidateProps>) => {
   const { t } = useTranslation();
-  const [availableConcepts, setAvailableConcepts] = useState<ConceptToValidate[]>(() => concepts);
-  const [conceptsToPublish, setConceptsToPublish] = useState<ConceptToValidate[]>([]);
+  const [idsToPublish, setIdsToPublish] = useState<string[]>([]);
   const [idWithValid, setIdWithValid] = useState<IdWithValid[]>([]);
-  const [clientSideError, setClientSideError] = useState("");
 
-  const publish = (toPublish: ConceptToValidate[]) =>
-    handleValidateConceptList(toPublish.map(({ id }) => id));
-
-  const handleClickValidation = () => {
-    if (conceptsToPublish.length === 0) {
-      setClientSideError(t("concept.validation.hasNot"));
+  // Les concepts ayant une date de fin de validité demandent une confirmation :
+  // une fois publiés, ils ne seront plus modifiables.
+  const handleAction = (ids: string[]) => {
+    const withValid = toIdWithValid(concepts.filter(({ id }) => ids.includes(id)));
+    if (withValid.length === 0) {
+      handleValidateConceptList(ids);
       return;
     }
-    const withValid = toIdWithValid(conceptsToPublish);
-    if (withValid.length === 0) {
-      publish(conceptsToPublish);
-    } else {
-      setIdWithValid(withValid);
-    }
+    setIdsToPublish(ids);
+    setIdWithValid(withValid);
   };
 
   const handleCancelValidation = () => setIdWithValid([]);
 
   const handleConfirmValidation = () => {
     handleCancelValidation();
-    publish(conceptsToPublish);
+    handleValidateConceptList(idsToPublish);
   };
 
   const modalButtons: ModalButton[] = [
@@ -83,38 +73,18 @@ const ConceptsToValidate = ({
 
   return (
     <div>
-      <div className="container">
-        <PageTitle title={t("concept.validation.title")} />
-        <ActionToolbar>
-          <ReturnButton action="/concepts" />
-          <PublishButton action={handleClickValidation} />
-        </ActionToolbar>
-        <ErrorBloc error={clientSideError} />
-        <PickList
-          dataKey="id"
-          source={availableConcepts}
-          target={conceptsToPublish}
-          onChange={(event) => {
-            // PrimeReact type les deux listes en `any` : on rétablit le type au passage.
-            setAvailableConcepts(event.source as ConceptToValidate[]);
-            setConceptsToPublish(event.target as ConceptToValidate[]);
-            setClientSideError("");
-          }}
-          itemTemplate={(concept: ConceptToValidate) => concept.label}
-          sourceHeader={t("concept.validation.availablePanelTitle", {
-            size: availableConcepts.length,
-          })}
-          targetHeader={t("concept.validation.panelTitle", { size: conceptsToPublish.length })}
-          filter
-          filterBy="label"
-          sourceFilterPlaceholder={t("common.searchLabelPlaceholder")}
-          targetFilterPlaceholder={t("common.searchLabelPlaceholder")}
-          showSourceControls={false}
-          showTargetControls={false}
-          sourceStyle={{ height: "20rem" }}
-          targetStyle={{ height: "20rem" }}
-        />
-      </div>
+      <Picker
+        items={concepts}
+        title={t("concept.validation.title")}
+        panelTitle={(size) => t("concept.validation.panelTitle", { size })}
+        availablePanelTitle={(size) => t("concept.validation.availablePanelTitle", { size })}
+        labelWarning={t("concept.validation.hasNot")}
+        handleAction={handleAction}
+        context="concepts"
+        ValidationButton={({ action, disabled }) => (
+          <PublishButton action={action} disabled={disabled} />
+        )}
+      />
       <ModalRmes
         id="validation-concept-modal"
         isOpen={idWithValid.length > 0}
