@@ -1,5 +1,10 @@
 import { ActionToolbar } from "@components/action-toolbar";
-import { DeleteButton, ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
+import {
+  DeleteButton,
+  DuplicateButton,
+  ReturnButton,
+  UpdateButton,
+} from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
@@ -26,6 +31,9 @@ export const ViewMenu = ({ dataset, onPublish, onDelete }: Readonly<ViewMenuType
 
       <HasAccess module="DATASET_DATASET" privilege="PUBLISH" stamps={contributors}>
         <ValidationButton object={dataset} callback={onPublish} disabled={false} />
+      </HasAccess>
+      <HasAccess module="DATASET_DATASET" privilege="CREATE" stamps={contributors}>
+        <DuplicateButton action={`/datasets/${dataset.id}/duplicate`} />
       </HasAccess>
       <HasAccess
         module="DATASET_DATASET"

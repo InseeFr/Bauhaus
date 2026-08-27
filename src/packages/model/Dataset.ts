@@ -38,6 +38,7 @@ export interface Dataset {
   statisticalUnit: string[];
   dataStructure: string;
   issued?: string;
+  updated?: string;
   type: string;
 
   abstractLg1?: string;

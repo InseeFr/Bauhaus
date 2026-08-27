@@ -3,6 +3,7 @@
     "title": "Dataset",
     "pluralTitle": "Datasets",
     "creationPageTitle": "Create a new dataset",
+    "duplicationPageTitle": "Duplicate dataset: ",
     "homePageTitle": "Datasets - Search",
     "searchTitle": "Datasets - Advanced search",
     "globalInformation": {

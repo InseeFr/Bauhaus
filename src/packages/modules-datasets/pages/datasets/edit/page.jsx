@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -23,6 +23,7 @@ import { GlobalInformation } from "./components/GlobalInformation";
 import { InternalManagement } from "./components/InternalManagement";
 import { Notes } from "./components/Notes";
 import { StatisticalInformation } from "./components/StatisticalInformation";
+import { buildDuplicatedDataset } from "./buildDuplicatedDataset";
 import { validate } from "./validation";
 import { useAuthorizationGuard } from "../../../../auth/components/auth";
 import { useDataset } from "../../../hooks/useDataset";
@@ -31,7 +32,8 @@ export const Component = () => {
   const { t } = useTranslation();
 
   const { id } = useParams();
-  const isEditing = !!id;
+  const isDuplicating = useLocation().pathname.endsWith("/duplicate");
+  const isEditing = !!id && !isDuplicating;
 
   const goBack = useGoBack();
 
@@ -50,7 +52,7 @@ export const Component = () => {
   const defaultContributor = useDefaultContributor(isContributor);
   useEffect(() => {
     if (status === "success") {
-      setEditingDataset(dataset);
+      setEditingDataset(isDuplicating ? buildDuplicatedDataset(dataset) : dataset);
     } else if (isContributor && !id) {
       setEditingDataset({
         catalogRecord: {
@@ -58,7 +60,7 @@ export const Component = () => {
         },
       });
     }
-  }, [status, dataset, id, isContributor, defaultContributor]);
+  }, [status, dataset, id, isDuplicating, isContributor, defaultContributor]);
 
   const queryClient = useQueryClient();
 
@@ -87,7 +89,7 @@ export const Component = () => {
 
   useTitle(t("dataset.pluralTitle"), editingDataset?.labelLg1);
 
-  if (!editingDataset.id && isEditing) {
+  if ((!editingDataset.id && isEditing) || (isDuplicating && status !== "success")) {
     return <Loading />;
   }
 
@@ -171,11 +173,9 @@ export const Component = () => {
 
   return (
     <div className="container editor-container dataset-container">
-      {isEditing ? (
-        <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />
-      ) : (
-        <PageTitle title={t("dataset.creationPageTitle")} />
-      )}
+      {isEditing && <PageTitleBlock titleLg1={dataset.labelLg1} titleLg2={dataset.labelLg2} />}
+      {isDuplicating && <PageTitle title={t("dataset.duplicationPageTitle") + dataset.labelLg1} />}
+      {!isEditing && !isDuplicating && <PageTitle title={t("dataset.creationPageTitle")} />}
       <ActionToolbar>
         <CancelButton action={() => goBack("/datasets")} />
         <SaveButton action={onSubmit} disabled={clientSideErrors.errorMessage?.length > 0} />
