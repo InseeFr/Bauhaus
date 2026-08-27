@@ -8,6 +8,7 @@ import {
   PublishButton,
   ReturnButton,
   ExportButton,
+  TreeButton,
 } from "./buttons-with-icons";
 
 const withRouter = (ui: React.ReactElement) => <MemoryRouter>{ui}</MemoryRouter>;
@@ -87,6 +88,25 @@ describe("ExportButton", () => {
 
   it("renders an SVG icon", () => {
     const { container } = render(withRouter(<ExportButton action={vi.fn<() => void>()} />));
+    expect(container.querySelector("svg")).not.toBeNull();
+  });
+});
+
+describe("TreeButton", () => {
+  it("renders with the default label", () => {
+    render(withRouter(<TreeButton action={vi.fn<() => void>()} />));
+    expect(screen.getByText("View tree")).toBeInTheDocument();
+  });
+
+  it("renders with a custom label when provided", () => {
+    render(
+      withRouter(<TreeButton label="View the classification tree" action={vi.fn<() => void>()} />),
+    );
+    expect(screen.getByText("View the classification tree")).toBeInTheDocument();
+  });
+
+  it("renders an SVG icon", () => {
+    const { container } = render(withRouter(<TreeButton action={vi.fn<() => void>()} />));
     expect(container.querySelector("svg")).not.toBeNull();
   });
 });

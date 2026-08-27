@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useLoaderData } from "react-router-dom";
 
-import { Button } from "@components/buttons/button";
+import { TreeButton } from "@components/buttons/buttons-with-icons";
 import { Row } from "@components/layout";
 import { FeminineButton } from "@components/new-button";
 import { PageTitle } from "@components/page-title";
@@ -27,9 +27,7 @@ export const Component = () => {
           <HasAccess module="OPERATION_FAMILY" privilege="CREATE">
             <FeminineButton action="/operations/families/create" />
           </HasAccess>
-          <Button wrapper={false} action="/operations/tree">
-            {t("app.btnTree")}
-          </Button>
+          <TreeButton wrapper={false} action="/operations/tree" label={t("app.btnTree")} />
         </VerticalMenu>
         <div className="col-md-8 text-center pull-right operations-list">
           <PageTitle title={t("families.searchTitle")} col={12} offset={0} />

@@ -1,4 +1,4 @@
-import { Button } from "@components/buttons/button";
+import { TreeButton } from "@components/buttons/buttons-with-icons";
 import { Row } from "@components/layout";
 import { FeminineButton } from "@components/new-button";
 import { PageTitle } from "@components/page-title";
@@ -23,9 +23,7 @@ export function OperationsHome({ operations }) {
           <HasAccess module="OPERATION_OPERATION" privilege="CREATE">
             <FeminineButton action="/operations/operation/create" />
           </HasAccess>
-          <Button wrapper={false} action="/operations/tree">
-            {t("app.btnTree")}
-          </Button>
+          <TreeButton wrapper={false} action="/operations/tree" label={t("app.btnTree")} />
         </VerticalMenu>
         <div className="col-md-8 text-center pull-right operations-list">
           <PageTitle title={t("operations.searchTitle")} col={12} offset={0} />

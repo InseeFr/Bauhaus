@@ -16,3 +16,31 @@
     margin-bottom: 0.5em;
   }
 }
+
+/* Tous les boutons alignent leur contenu sur la gauche : dans une pile de boutons,
+   les icônes se retrouvent ainsi sur la même verticale, à la même distance du
+   libellé. Le sélecteur est qualifié par le nom de l'élément pour passer devant le
+   `.btn` de Bootstrap (`text-align: center`) quel que soit l'ordre d'injection des
+   feuilles de style. `inline-flex` conserve le flux en ligne de `.btn`, sans quoi
+   les boutons d'une barre d'outils s'empileraient. */
+button.btn,
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
+  text-align: left;
+}
+
+/* L'icône garde sa taille quel que soit le libellé. */
+.btn > svg,
+.btn > .glyphicon {
+  flex: none;
+}
+
+/* Exception : dans une bascule segmentée, chaque bouton reste centré sur son segment. */
+.btn-group > button.btn,
+.btn-group > a.btn {
+  justify-content: center;
+  text-align: center;
+}

@@ -2,8 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import { Button } from "@components/buttons/button";
-import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
+import { ReturnButton, TreeButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
 import { HasAccess } from "../../../../../auth/components/auth";
@@ -38,7 +37,7 @@ export const ClassificationControls = ({
       <HasAccess module="CLASSIFICATION_CLASSIFICATION" privilege="UPDATE">
         <UpdateButton action={`/classifications/classification/${classification.id}/modify`} />
       </HasAccess>
-      <Button key={viewTreeLabel} action={treeLocation} label={viewTreeLabel} />
+      <TreeButton key={viewTreeLabel} action={treeLocation} label={viewTreeLabel} />
     </ActionToolbar>
   );
 };

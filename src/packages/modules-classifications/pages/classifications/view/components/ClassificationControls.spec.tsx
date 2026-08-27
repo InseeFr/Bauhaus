@@ -26,10 +26,7 @@ vi.mock("@components/buttons/buttons-with-icons", () => ({
       Update
     </a>
   ),
-}));
-
-vi.mock("@components/buttons/button", () => ({
-  Button: ({ action, label }: { action: string; label: string }) => (
+  TreeButton: ({ action, label }: { action: string; label: string }) => (
     <a data-testid="tree-button" href={action}>
       {label}
     </a>
