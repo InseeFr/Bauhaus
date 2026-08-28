@@ -2433,9 +2433,7 @@ describe("View Component", () => {
 
       await waitFor(() => expect(mutateAsync).toHaveBeenCalled());
       const saved = itemsOfType(mutateAsync.mock.calls[0][0].data, "Variable");
-      expect(saved.map((variable: any) => variable.Label[0]["@value"])).toEqual([
-        "Test Variable",
-      ]);
+      expect(saved.map((variable: any) => variable.Label[0]["@value"])).toEqual(["Test Variable"]);
     });
   });
 
