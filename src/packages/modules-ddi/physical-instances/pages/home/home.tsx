@@ -7,7 +7,7 @@ import { AppDevTools } from "@components/devtools/AppDevTools";
 import { useTitle } from "@utils/hooks/useTitle";
 import { getApiErrorMessage } from "@utils/api-errors";
 
-import { useState, useRef } from "react";
+import { useMemo, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import { useTranslation } from "react-i18next";
@@ -30,6 +30,14 @@ export const Component = () => {
   const createPhysicalInstance = useCreatePhysicalInstance();
   const [visible, setVisible] = useState(false);
   const toast = useRef<Toast>(null);
+
+  // SearchableList filtre sur les valeurs brutes des items, avant tout formatage : la versionDate
+  // ISO ne permet donc pas de chercher une date au format affiché. On expose la date déjà formatée
+  // pour que « 01/02/2026 » soit une recherche possible.
+  const items = useMemo(
+    () => data.map((item) => ({ ...item, formattedVersionDate: formatDate(item.versionDate) })),
+    [data],
+  );
 
   const handleSubmit = async (data: PhysicalInstanceCreationData) => {
     try {
@@ -68,13 +76,13 @@ export const Component = () => {
         <div className="col-md-8 text-center pull-right">
           <PageTitle title={t("physicalInstance.homePageTitle")} col={12} offset={0} />
           <SearchableList
-            items={data}
+            items={items}
             advancedSearch
             searchUrl="/ddi/physical-instances/search"
             childPath={(item: { agency: string }) => "ddi/physical-instances/" + item.agency}
             autoFocus
             itemFormatter={(_content: any, item: any) => {
-              return `${item.label} (${formatDate(item.versionDate)})`;
+              return `${item.label} (${item.formattedVersionDate})`;
             }}
           />
         </div>
