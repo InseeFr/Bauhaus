@@ -27,7 +27,6 @@ import {
 import { useAppContext } from "../../../../application/app-context";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
-import { useDeleteMmvr } from "../../../hooks/useDeleteMmvr";
 import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
 import { useMmvrUsers } from "../../../hooks/useMmvrUsers";
 
@@ -135,15 +134,6 @@ export const SentinelValues = ({
     mmvrUsers.some((user) => user.variableId !== currentVariableId) ||
     Boolean(missingValuesReference && locallyUsedMmvrIds.includes(missingValuesReference.ID));
 
-  const deleteMmvr = useDeleteMmvr();
-  // MMVR orpheline (aucun usage sauvegardé, pas de référence d'une autre variable locale) : on
-  // propose sa suppression du groupe — le back re-vérifie et refuse (409) en cas de course.
-  const isOrphan =
-    Boolean(missingValuesReference) &&
-    !hasLocalEdits &&
-    !isLoadingUsers &&
-    mmvrUsers.length === 0 &&
-    !locallyUsedMmvrIds.includes(missingValuesReference?.ID ?? "");
   const isEditable = hasLocalEdits || (Boolean(missingValuesReference) && !sharedWithOthers);
 
   // Contenu de la CodeList de sentinelles (endpoint générique). Inutile quand les modifications
@@ -297,30 +287,6 @@ export const SentinelValues = ({
     });
   };
 
-  const handleDeleteFromGroup = () => {
-    const reference = missingValuesReference;
-    if (!reference?.Agency || !reference.ID) return;
-    confirmDialog({
-      header: t("physicalInstance.view.sentinel.deleteConfirm.title"),
-      message: t("physicalInstance.view.sentinel.deleteConfirm.message"),
-      icon: "pi pi-exclamation-triangle",
-      acceptLabel: t("physicalInstance.view.sentinel.deleteConfirm.confirm"),
-      rejectLabel: t("physicalInstance.view.sentinel.deleteConfirm.cancel"),
-      acceptClassName: "p-button-danger",
-      accept: () => {
-        deleteMmvr.mutate(
-          { agencyId: reference.Agency, id: reference.ID },
-          {
-            onSuccess: () => {
-              // La MMVR n'existe plus : la variable ne peut plus la référencer.
-              onChange(undefined, undefined, undefined, undefined);
-            },
-          },
-        );
-      },
-    });
-  };
-
   const handleLabelChange = (label: string) => {
     setEditLabel(label);
     emitEdit(label, editRows);
@@ -420,18 +386,6 @@ export const SentinelValues = ({
                   size="small"
                   severity="danger"
                   onClick={handleRemove}
-                />
-              )}
-              {isOrphan && (
-                <Button
-                  type="button"
-                  icon="pi pi-trash"
-                  label={t("physicalInstance.view.sentinel.deleteFromGroup")}
-                  outlined
-                  size="small"
-                  severity="danger"
-                  loading={deleteMmvr.isPending}
-                  onClick={handleDeleteFromGroup}
                 />
               )}
             </div>

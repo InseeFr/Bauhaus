@@ -108,9 +108,6 @@ vi.mock("../../../hooks/useAllMissingValuesRepresentations", () => ({
 vi.mock("../../../hooks/useMmvrUsers", () => ({
   useMmvrUsers: () => ({ data: [], isLoading: false }),
 }));
-vi.mock("../../../hooks/useDeleteMmvr", () => ({
-  useDeleteMmvr: () => ({ mutate: vi.fn(), isPending: false }),
-}));
 vi.mock("../../../hooks/useMutualizedCodesList", () => ({
   useMutualizedCodesList: () => ({ data: undefined, isLoading: false }),
 }));

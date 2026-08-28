@@ -132,13 +132,6 @@
         "select": "Sélectionnez des valeurs sentinelles",
         "loading": "Chargement des valeurs sentinelles...",
         "errorLoading": "Erreur lors du chargement des valeurs sentinelles",
-        "deleteFromGroup": "Supprimer de la série",
-        "deleteConfirm": {
-          "title": "Supprimer les valeurs sentinelles",
-          "message": "Cette liste de valeurs sentinelles (et sa liste de codes) sera supprimée de la série. Cette action est irréversible. Continuer ?",
-          "confirm": "Supprimer",
-          "cancel": "Annuler"
-        },
         "usersPanel": {
           "title": "Utilisations de ces valeurs sentinelles",
           "help": "Variables et fichiers de données qui réutilisent ces valeurs sentinelles, regroupés par opération puis par fichier."

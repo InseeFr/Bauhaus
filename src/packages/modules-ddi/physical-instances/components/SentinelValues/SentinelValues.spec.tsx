@@ -36,7 +36,6 @@ vi.mock("react-i18next", () => ({
           "Utilisations de ces valeurs sentinelles",
         "physicalInstance.view.sentinel.usersPanel.help":
           "Variables qui réutilisent ces valeurs sentinelles",
-        "physicalInstance.view.sentinel.deleteFromGroup": "Supprimer du groupe",
       };
       return translations[key] || key;
     },
@@ -84,11 +83,6 @@ const confirmDialogMock = vi.fn();
 vi.mock("primereact/confirmdialog", () => ({
   confirmDialog: (options: any) => confirmDialogMock(options),
   ConfirmDialog: () => null,
-}));
-
-const mockDeleteMmvr = vi.fn();
-vi.mock("../../../hooks/useDeleteMmvr", () => ({
-  useDeleteMmvr: () => ({ mutate: mockDeleteMmvr, isPending: false }),
 }));
 
 const groupMmvrs = [
@@ -416,48 +410,6 @@ describe("SentinelValues", () => {
 
     expect(screen.getByDisplayValue("NSP")).toHaveAttribute("readonly");
     expect(screen.queryByText("Ajouter un code")).not.toBeInTheDocument();
-  });
-
-  it("offers to delete an orphan MMVR from the group (aucun usage sauvegardé)", () => {
-    const onChange = vi.fn();
-    mockUseMutualizedCodesList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
-    // Aucun usage sauvegardé : la MMVR est orpheline, la suppression est proposée.
-    mockUseMmvrUsers.mockReturnValue({ data: [], isLoading: false });
-
-    render(
-      <SentinelValues
-        currentVariableId="var-1"
-        missingValuesReference={reference}
-        onChange={onChange}
-      />,
-    );
-
-    fireEvent.click(screen.getByText("Supprimer du groupe"));
-
-    // Confirmation d'abord ; l'acceptation déclenche la suppression back et retire la référence.
-    expect(confirmDialogMock).toHaveBeenCalledTimes(1);
-    expect(mockDeleteMmvr).not.toHaveBeenCalled();
-    confirmDialogMock.mock.calls[0][0].accept();
-
-    expect(mockDeleteMmvr).toHaveBeenCalledWith(
-      { agencyId: "fr.insee", id: "mmvr-1" },
-      expect.anything(),
-    );
-  });
-
-  it("does not offer deletion when the MMVR has saved usages", () => {
-    mockUseMutualizedCodesList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
-    mockUseMmvrUsers.mockReturnValue({ data: [usage("var-1")], isLoading: false });
-
-    render(
-      <SentinelValues
-        currentVariableId="var-1"
-        missingValuesReference={reference}
-        onChange={vi.fn()}
-      />,
-    );
-
-    expect(screen.queryByText("Supprimer du groupe")).not.toBeInTheDocument();
   });
 
   it("clears everything when removing the sentinel values", () => {
