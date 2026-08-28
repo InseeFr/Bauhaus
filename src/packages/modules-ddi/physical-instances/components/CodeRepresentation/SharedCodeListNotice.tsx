@@ -35,20 +35,16 @@ export const SharedCodeListNotice = ({
         <span>
           {t("physicalInstance.view.code.sharedNotice.message", {
             count: otherVariableNames.length,
-            firstOther: otherVariableNames[0],
           })}
         </span>
-        {/* À une seule variable, elle est déjà nommée dans la phrase ci-dessus. */}
-        {otherVariableNames.length > 1 && (
-          <span className="shared-code-list-notice-impacted">
-            {remaining > 0
-              ? t("physicalInstance.view.code.override.andMore", {
-                  names: listed,
-                  count: remaining,
-                })
-              : listed}
-          </span>
-        )}
+        <span className="shared-code-list-notice-impacted">
+          {remaining > 0
+            ? t("physicalInstance.view.code.override.andMore", {
+                names: listed,
+                count: remaining,
+              })
+            : listed}
+        </span>
       </span>
     </div>
   );

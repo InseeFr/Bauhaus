@@ -21,19 +21,16 @@ describe("SharedCodeListNotice", () => {
     render(<SharedCodeListNotice otherVariableNames={["Âge"]} />);
 
     expect(
-      screen.getByText(
-        'physicalInstance.view.code.sharedNotice.message|{"count":1,"firstOther":"Âge"}',
-      ),
+      screen.getByText('physicalInstance.view.code.sharedNotice.message|{"count":1}'),
     ).toBeInTheDocument();
+    expect(screen.getByText("Âge")).toBeInTheDocument();
   });
 
   it("counts and enumerates the impacted variables when there are several", () => {
     render(<SharedCodeListNotice otherVariableNames={["Sexe", "Âge"]} />);
 
     expect(
-      screen.getByText(
-        'physicalInstance.view.code.sharedNotice.message|{"count":2,"firstOther":"Sexe"}',
-      ),
+      screen.getByText('physicalInstance.view.code.sharedNotice.message|{"count":2}'),
     ).toBeInTheDocument();
     expect(screen.getByText("Sexe, Âge")).toBeInTheDocument();
   });

@@ -121,8 +121,8 @@
           "andMore_other": "{{names}} et {{count}} autres"
         },
         "sharedNotice": {
-          "message_one": "Liste de codes partagée : vos modifications s'appliqueront aussi à la variable « {{firstOther}} ».",
-          "message_other": "Liste de codes partagée : vos modifications s'appliqueront aussi à {{count}} autres variables."
+          "message_one": "Liste de codes partagée avec 1 autre variable",
+          "message_other": "Liste de codes partagée avec {{count}} autres variables"
         }
       },
       "sentinel": {

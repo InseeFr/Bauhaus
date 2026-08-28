@@ -1302,8 +1302,7 @@ describe("CodeRepresentation", () => {
       markListAsShared();
       renderShared();
 
-      const notice =
-        'physicalInstance.view.code.sharedNotice.message|{"count":1,"firstOther":"Autre variable"}';
+      const notice = 'physicalInstance.view.code.sharedNotice.message|{"count":1}';
       expect(screen.getByText(notice)).toBeInTheDocument();
 
       const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
