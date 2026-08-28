@@ -201,36 +201,45 @@ vi.mock("./VariableInformationTab", () => ({
   ),
 }));
 
+// Chaque rendu de l'onglet est enregistré : c'est le seul moyen d'observer un rendu intermédiaire
+// où l'identité de la variable et sa représentation ne se correspondent pas.
+const { representationTabRenders } = vi.hoisted(() => ({
+  representationTabRenders: [] as { variableId: string; selectedType: string }[],
+}));
+
 vi.mock("./VariableRepresentationTab", () => ({
-  VariableRepresentationTab: ({ selectedType, onTypeChange, typeOptions }: any) => (
-    <div data-testid="variable-representation-tab">
-      <label htmlFor="variable-type">Type</label>
-      <select
-        id="variable-type"
-        value={selectedType}
-        onChange={(e) => onTypeChange(e.target.value)}
-        required
-      >
-        {typeOptions.map((option: any) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      {selectedType === "numeric" && (
-        <div data-testid="numeric-representation">Numeric Representation Component</div>
-      )}
-      {selectedType === "date" && (
-        <div data-testid="date-representation">Date Representation Component</div>
-      )}
-      {selectedType === "text" && (
-        <div data-testid="text-representation">Text Representation Component</div>
-      )}
-      {selectedType === "code" && (
-        <div data-testid="code-representation">Code Representation Component</div>
-      )}
-    </div>
-  ),
+  VariableRepresentationTab: ({ variableId, selectedType, onTypeChange, typeOptions }: any) => {
+    representationTabRenders.push({ variableId, selectedType });
+    return (
+      <div data-testid="variable-representation-tab">
+        <label htmlFor="variable-type">Type</label>
+        <select
+          id="variable-type"
+          value={selectedType}
+          onChange={(e) => onTypeChange(e.target.value)}
+          required
+        >
+          {typeOptions.map((option: any) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        {selectedType === "numeric" && (
+          <div data-testid="numeric-representation">Numeric Representation Component</div>
+        )}
+        {selectedType === "date" && (
+          <div data-testid="date-representation">Date Representation Component</div>
+        )}
+        {selectedType === "text" && (
+          <div data-testid="text-representation">Text Representation Component</div>
+        )}
+        {selectedType === "code" && (
+          <div data-testid="code-representation">Code Representation Component</div>
+        )}
+      </div>
+    );
+  },
 }));
 
 vi.mock("./DdiPreview", () => ({
@@ -263,6 +272,7 @@ describe("VariableEditForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockOnDuplicate.mockClear();
+    representationTabRenders.length = 0;
     // Par défaut : stratégie ALL → les boutons UPDATE sont rendus.
     (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
     (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
@@ -336,6 +346,24 @@ describe("VariableEditForm", () => {
 
     expect(screen.getByTestId("code-representation")).toBeInTheDocument();
     expect(screen.queryByTestId("numeric-representation")).not.toBeInTheDocument();
+  });
+
+  it("should never render the representation of the previous variable under the new variable id", () => {
+    const codeVariable = { ...defaultVariable, id: "var-code", type: "code" };
+    const textVariable = { ...defaultVariable, id: "var-text", type: "text" };
+
+    const { rerender } = render(
+      <VariableEditForm variable={codeVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
+    );
+
+    rerender(
+      <VariableEditForm variable={textVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
+    );
+
+    expect(representationTabRenders).not.toContainEqual({
+      variableId: "var-text",
+      selectedType: "code",
+    });
   });
 
   it("should update representation component when type changes", () => {

@@ -46,6 +46,13 @@ interface VariableRepresentationState {
 }
 
 interface FormState {
+  /**
+   * Identité de la variable dont cet état est la photo. Portée par l'état (et non lue sur la prop
+   * `variable`) pour que l'id et la représentation soient toujours ceux d'une même variable : la
+   * prop change un rendu avant la réinitialisation de l'état, et les enfants verraient sinon le
+   * nouvel id sur l'ancienne représentation.
+   */
+  id: string;
   label: string;
   name: string;
   description: string;
@@ -172,6 +179,7 @@ interface VariableFormData {
 
 function buildFormState(variable: VariableFormData): FormState {
   return {
+    id: variable.id,
     label: variable.label,
     name: variable.name,
     description: variable.description || "",
@@ -544,7 +552,7 @@ export const VariableEditForm = ({
             }}
           >
             <VariableRepresentationTab
-              variableId={variable.id}
+              variableId={state.id}
               variableName={state.name}
               selectedType={state.selectedType}
               typeOptions={typeOptions}
@@ -587,7 +595,7 @@ export const VariableEditForm = ({
           >
             {activeIndex === 2 && (
               <DdiPreview
-                variableId={variable.id}
+                variableId={state.id}
                 variableName={state.name}
                 variableLabel={state.label}
                 variableDescription={state.description}
