@@ -2735,4 +2735,60 @@ describe("View Component", () => {
       expect(variableNamesInTable()).toEqual(["Variable1", "Variable1 (copy)", "Variable2"]);
     });
   });
+  describe("view — versionDate d'une variable existante", () => {
+    it("should preview the stored VersionDate of an existing variable instead of the current date", async () => {
+      mockUsePhysicalInstancesData.mockReturnValue({
+        data: envelope({
+          PhysicalInstance: [
+            {
+              Citation: { Title: [{ "@language": "fr-FR", "@value": "Test Physical Instance" }] },
+            },
+          ],
+          DataRelationship: [
+            {
+              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test Data Relationship" }],
+              LogicalRecord: [{ VariablesInRecord: { VariableUsedReference: [] } }],
+            },
+          ],
+          Variable: [
+            {
+              ID: "var-1",
+              Agency: "fr.insee",
+              Version: "1",
+              VersionDate: { DateTime: "2026-01-15T09:30:00+01:00" },
+              VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
+              Label: [{ "@language": "fr-FR", "@value": "Label 1" }],
+              VariableRepresentation: { TextRepresentation: {} },
+            },
+          ],
+        }),
+        variables: [
+          {
+            id: "var-1",
+            name: "Variable1",
+            label: "Label 1",
+            type: "text",
+            lastModified: "2026-01-15T09:30:00+01:00",
+          },
+        ],
+        title: "Test Physical Instance",
+        dataRelationshipName: "Test Data Relationship",
+        isLoading: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      fireEvent.click(screen.getByText("Variable1"));
+
+      await screen.findByText("physicalInstance.view.tabs.information");
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.tabs.ddiPreview"));
+
+      await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+
+      const [, init] = (global.fetch as any).mock.calls.at(-1);
+      const previewed = JSON.parse(init.body).items.find((i: any) => i.ID === "var-1");
+      expect(previewed.VersionDate).toEqual({ DateTime: "2026-01-15T09:30:00+01:00" });
+    });
+  });
 });

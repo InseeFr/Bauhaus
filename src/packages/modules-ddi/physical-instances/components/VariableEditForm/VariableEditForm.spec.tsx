@@ -234,7 +234,11 @@ vi.mock("./VariableRepresentationTab", () => ({
 }));
 
 vi.mock("./DdiPreview", () => ({
-  DdiPreview: () => <div data-testid="ddi-preview">DDI Preview Component</div>,
+  DdiPreview: (props: any) => (
+    <div data-testid="ddi-preview" data-version-date={props.variableVersionDate}>
+      DDI Preview Component
+    </div>
+  ),
 }));
 
 describe("VariableEditForm", () => {
@@ -1145,5 +1149,30 @@ describe("VariableEditForm", () => {
 
       expect(onDirtyChange).toHaveBeenLastCalledWith(false);
     });
+  });
+});
+
+describe("VariableEditForm DDI preview", () => {
+  it("should forward the stored versionDate of the variable to the DDI preview", () => {
+    render(
+      <VariableEditForm
+        variable={{
+          id: "var-1",
+          label: "Test Variable",
+          name: "testVar",
+          type: "numeric",
+          versionDate: "2026-01-15T09:30:00+01:00",
+        }}
+        typeOptions={[{ label: "Numérique", value: "numeric" }]}
+        onSave={vi.fn()}
+      />,
+    );
+
+    fireEvent.click(screen.getAllByRole("tab")[2]);
+
+    expect(screen.getByTestId("ddi-preview")).toHaveAttribute(
+      "data-version-date",
+      "2026-01-15T09:30:00+01:00",
+    );
   });
 });

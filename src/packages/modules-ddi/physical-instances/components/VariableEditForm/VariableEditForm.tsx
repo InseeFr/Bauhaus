@@ -153,6 +153,8 @@ interface VariableFormData {
   id: string;
   label: string;
   name: string;
+  /** VersionDate stockée ; absente pour une variable créée localement et pas encore enregistrée. */
+  versionDate?: string;
   description?: string;
   type: string;
   isGeographic?: boolean;
@@ -601,6 +603,7 @@ export const VariableEditForm = ({
                 sentinelMmvr={state.representation.SentinelMmvr}
                 sentinelCodeList={state.representation.SentinelCodeList}
                 sentinelCategories={state.representation.SentinelCategories}
+                variableVersionDate={variable.versionDate}
               />
             )}
           </TabPanel>

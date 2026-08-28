@@ -350,6 +350,9 @@ export const Component = () => {
       );
 
       // Charger les informations complètes de la variable si trouvée
+      // VersionDate enregistrée : l'aperçu DDI doit refléter la donnée stockée, pas un
+      // horodatage recalculé à chaque ouverture (qui divergeait du XML exporté).
+      const storedVersionDate = fullVariable?.VersionDate?.DateTime;
       const description = pickLang(fullVariable?.Description, "fr-FR") || undefined;
       const isGeographic = fullVariable?.["@isGeographic"] === "true";
       const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
@@ -377,6 +380,7 @@ export const Component = () => {
               id: variable.id,
               label: variable.label,
               name: variable.name,
+              versionDate: storedVersionDate,
               description,
               type: variable.type,
               isGeographic,
@@ -424,6 +428,7 @@ export const Component = () => {
           id: variable.id,
           label: variable.label,
           name: variable.name,
+          versionDate: storedVersionDate,
           description,
           type: variable.type,
           isGeographic,

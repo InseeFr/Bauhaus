@@ -38,6 +38,12 @@ interface DdiPreviewProps {
   sentinelMmvr?: ManagedMissingValuesRepresentation;
   sentinelCodeList?: CodeList;
   sentinelCategories?: Category[];
+  /**
+   * VersionDate stockée de la variable. L'aperçu doit refléter la donnée enregistrée : sans elle,
+   * il afficherait un horodatage recalculé à chaque montage, différent du XML réellement exporté.
+   * Absente uniquement pour une variable jamais enregistrée, dont la date sera stampée à l'écriture.
+   */
+  variableVersionDate?: string;
 }
 
 const FORMAT_LABELS: Record<DdiFormat, string> = {
@@ -62,6 +68,7 @@ export const DdiPreview = ({
   sentinelMmvr,
   sentinelCodeList,
   sentinelCategories,
+  variableVersionDate,
 }: Readonly<DdiPreviewProps>) => {
   const { t } = useTranslation();
   const { properties } = useAppContext();
@@ -69,7 +76,8 @@ export const DdiPreview = ({
   const defaultLocale = useDefaultLocale();
   const [state, dispatch] = useReducer(ddiPreviewReducer, initialState);
   const requestIdRef = useRef(0);
-  const versionDateRef = useRef(new Date().toISOString());
+  const newVariableVersionDateRef = useRef(new Date().toISOString());
+  const versionDate = variableVersionDate ?? newVariableVersionDateRef.current;
 
   const formatXml = useCallback((xml: string): string => {
     const PADDING = "  ";
@@ -105,7 +113,7 @@ export const DdiPreview = ({
       // `$type` discrimine l'item dans le tableau `items` de l'enveloppe : sans lui, le back
       // ne sait pas quelle classe désérialiser et répond 400 « Failed to read request ».
       $type: "Variable",
-      VersionDate: { DateTime: versionDateRef.current },
+      VersionDate: { DateTime: versionDate },
       URN: `urn:ddi:${defaultAgencyId}:${variableId}:1`,
       Agency: defaultAgencyId,
       ID: variableId,
@@ -180,6 +188,7 @@ export const DdiPreview = ({
   }, [
     defaultAgencyId,
     defaultLocale,
+    versionDate,
     variableId,
     variableName,
     variableLabel,

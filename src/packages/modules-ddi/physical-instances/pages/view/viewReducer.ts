@@ -28,6 +28,8 @@ export interface VariableData {
   id: string;
   label: string;
   name: string;
+  /** VersionDate stockée ; absente pour une variable créée localement et pas encore enregistrée. */
+  versionDate?: string;
   description?: string;
   type: string;
   isGeographic?: boolean;

@@ -351,3 +351,46 @@ describe("DdiPreview", () => {
     });
   });
 });
+
+describe("DdiPreview VersionDate", () => {
+  const baseProps = {
+    variableId: "var-1",
+    variableName: "testVar",
+    variableLabel: "Test Variable",
+    variableType: "text",
+    isGeographic: false,
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should preview the stored VersionDate of an existing variable", async () => {
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+
+    render(<DdiPreview {...baseProps} variableVersionDate="2026-01-15T09:30:00+01:00" />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([
+            expect.objectContaining({
+              ID: "var-1",
+              VersionDate: { DateTime: "2026-01-15T09:30:00+01:00" },
+            }),
+          ]),
+        }),
+      );
+    });
+  });
+
+  it("should stamp the current date only for a variable that has never been saved", async () => {
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+
+    render(<DdiPreview {...baseProps} />);
+
+    await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalled());
+    const { VersionDate } = mockConvertToDDI3.mock.calls[0][0].items[0];
+    expect(Date.parse(VersionDate.DateTime)).toBeGreaterThan(0);
+  });
+});
