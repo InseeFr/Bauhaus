@@ -111,7 +111,7 @@ describe("TextRepresentation", () => {
     });
   });
 
-  it("should return undefined when all fields are empty", () => {
+  it("should keep the representation with only $type when all fields are empty (#1592)", () => {
     const representation: TextRepresentationType = {
       $type: "TextRepresentationBaseType",
       MinLength: 5,
@@ -129,7 +129,9 @@ describe("TextRepresentation", () => {
     fireEvent.change(maxLengthInput, { target: { value: "" } });
     fireEvent.change(regExpInput, { target: { value: "" } });
 
-    expect(mockOnChange).toHaveBeenLastCalledWith(undefined);
+    expect(mockOnChange).toHaveBeenLastCalledWith({
+      $type: "TextRepresentationBaseType",
+    });
   });
 
   it("should update when representation prop changes", () => {

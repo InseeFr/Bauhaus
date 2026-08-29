@@ -140,10 +140,11 @@ export const DdiPreview = ({
         VariableRole: "Mesure",
         DateTimeRepresentation: dateRepresentation,
       };
-    } else if (variableType === "text" && textRepresentation) {
+    } else if (variableType === "text") {
       variableDDI.VariableRepresentation = {
         VariableRole: "Mesure",
-        TextRepresentation: textRepresentation,
+        // #1592 : même sans attribut saisi, le type Text doit apparaître dans le DDI.
+        TextRepresentation: textRepresentation ?? { $type: "TextRepresentationBaseType" },
       };
     } else if (variableType === "code" && codeRepresentation) {
       variableDDI.VariableRepresentation = {

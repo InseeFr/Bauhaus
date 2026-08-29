@@ -1308,6 +1308,36 @@ describe("View Component", () => {
       });
     });
 
+    // #1592 : une variable Text sans aucun attribut (ni min, ni max, ni regexp) doit quand même
+    // porter une TextRepresentation, sinon le DDI exporté n'a qu'un <VariableRepresentation/> vide
+    // et le type Text est perdu.
+    it("should keep an empty TextRepresentation for a text variable without attributes", async () => {
+      const mutateAsyncMock = vi.fn().mockResolvedValue({});
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: mutateAsyncMock,
+        isPending: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      createTestVariable("EmptyTextVar", "Empty Text Variable");
+
+      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
+      fireEvent.click(saveAllButton);
+
+      await waitFor(() => {
+        expect(mutateAsyncMock).toHaveBeenCalled();
+        const callArgs = mutateAsyncMock.mock.calls[0][0];
+        const textVariable = itemsOfType(callArgs.data, "Variable").find(
+          (v: any) => v.VariableName?.[0]?.["@value"] === "EmptyTextVar",
+        );
+        expect(textVariable.VariableRepresentation.TextRepresentation).toEqual({
+          $type: "TextRepresentationBaseType",
+        });
+      });
+    });
+
     it("should not include null values in transformed variables", async () => {
       const mutateAsyncMock = vi.fn().mockResolvedValue({});
       mockPublishPhysicalInstance.mockReturnValue({

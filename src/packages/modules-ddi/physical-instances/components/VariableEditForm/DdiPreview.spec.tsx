@@ -279,6 +279,28 @@ describe("DdiPreview", () => {
     });
   });
 
+  it("should include an empty TextRepresentation when type is text without attributes (#1592)", async () => {
+    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+    mockConvertToDDI3.mockResolvedValue(mockXml);
+
+    render(<DdiPreview {...defaultProps} variableType="text" textRepresentation={undefined} />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([
+            expect.objectContaining({
+              VariableRepresentation: expect.objectContaining({
+                VariableRole: "Mesure",
+                TextRepresentation: { $type: "TextRepresentationBaseType" },
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+  });
+
   it("should include the MissingValuesReference in the conversion payload (#1566)", async () => {
     const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);

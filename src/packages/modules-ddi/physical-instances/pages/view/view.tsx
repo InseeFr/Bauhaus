@@ -611,9 +611,13 @@ export const Component = () => {
 
           // Construire la représentation selon le type
           let variableRepresentation: Variable["VariableRepresentation"];
-          if (localVar.textRepresentation) {
+          if (localVar.type === VARIABLE_TYPES.TEXT || localVar.textRepresentation) {
+            // #1592 : le type Text doit rester explicite dans le DDI, même quand l'utilisateur
+            // n'a saisi ni longueur ni expression régulière.
             variableRepresentation = {
-              TextRepresentation: localVar.textRepresentation,
+              TextRepresentation: localVar.textRepresentation ?? {
+                $type: "TextRepresentationBaseType",
+              },
             };
           } else if (localVar.numericRepresentation) {
             variableRepresentation = {
