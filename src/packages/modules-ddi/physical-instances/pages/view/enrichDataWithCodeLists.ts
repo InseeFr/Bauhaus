@@ -8,15 +8,24 @@ import { loadCodeListForVariable } from "./loadCodeListForVariable";
  * demande par variable). Avant un export (DDI3 ou DDI4), on réinjecte donc dans
  * `data` toutes les listes de codes référencées par ses variables Code, afin que
  * l'export reste autoportant.
+ *
+ * Les listes de sentinelles (#1590) sont dans le même cas : elles sont référencées
+ * par les `MissingCodeRepresentation` des ManagedMissingValuesRepresentation, pas par
+ * la représentation d'une variable, et manquaient donc à l'export.
  */
 export async function enrichDataWithCodeLists(
   queryClient: QueryClient,
   data: PhysicalInstanceResponse,
 ): Promise<PhysicalInstanceResponse> {
   const variables: Variable[] = itemsOfType(data, "Variable");
-  const codeRepresentations = variables
-    .map((variable) => variable.VariableRepresentation?.CodeRepresentation)
-    .filter((rep): rep is NonNullable<typeof rep> => Boolean(rep));
+  const codeRepresentations = [
+    ...variables
+      .map((variable) => variable.VariableRepresentation?.CodeRepresentation)
+      .filter((rep): rep is NonNullable<typeof rep> => Boolean(rep)),
+    ...itemsOfType(data, "ManagedMissingValuesRepresentation").flatMap(
+      (mmvr) => mmvr.MissingCodeRepresentation ?? [],
+    ),
+  ];
 
   if (codeRepresentations.length === 0) {
     return data;

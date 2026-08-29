@@ -23,6 +23,36 @@ const codeVariable = (codeListId: string, agency = "fr.insee") => ({
   },
 });
 
+const sentinelVariable = (mmvrId: string, agency = "fr.insee") => ({
+  $type: "Variable",
+  ID: `var-${mmvrId}`,
+  VariableRepresentation: {
+    MissingValuesReference: { Agency: agency, ID: mmvrId, Version: "1" },
+  },
+});
+
+const missingValuesRepresentation = (mmvrId: string, codeListId: string, agency = "fr.insee") => ({
+  ID: mmvrId,
+  MissingCodeRepresentation: [
+    { CodeListReference: { Agency: agency, ID: codeListId, Version: "1" } },
+  ],
+});
+
+const codeListEnvelope = (codeListId: string, categoryId: string) =>
+  envelope({
+    CodeList: [
+      {
+        $type: "CodeList",
+        Agency: "fr.insee",
+        ID: codeListId,
+        Code: [{ ID: `c-${codeListId}`, CategoryReference: { ID: categoryId } }],
+      },
+    ],
+    Category: [
+      { $type: "Category", ID: categoryId, Label: [{ "@language": "fr-FR", "@value": "A" }] },
+    ],
+  } as any) as any;
+
 describe("enrichDataWithCodeLists", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -79,5 +109,49 @@ describe("enrichDataWithCodeLists", () => {
     const result = await enrichDataWithCodeLists(newQueryClient(), data);
 
     expect(itemsOfType(result, "CodeList")).toHaveLength(1);
+  });
+  it("injects the sentinel CodeList and Category referenced by a ManagedMissingValuesRepresentation", async () => {
+    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue(
+      codeListEnvelope("cl-sentinelles", "cat-refus"),
+    );
+
+    const data = envelope({
+      Variable: [sentinelVariable("mmvr-1")],
+      ManagedMissingValuesRepresentation: [missingValuesRepresentation("mmvr-1", "cl-sentinelles")],
+    } as any);
+
+    const result = await enrichDataWithCodeLists(newQueryClient(), data);
+
+    expect(DDIApi.getMutualizedCodesList).toHaveBeenCalledWith("fr.insee", "cl-sentinelles");
+    expect(itemsOfType(result, "CodeList").map((cl) => cl.ID)).toEqual(["cl-sentinelles"]);
+    expect(itemsOfType(result, "Category").map((c) => c.ID)).toEqual(["cat-refus"]);
+  });
+
+  it("injects both the representation CodeList and the sentinel one", async () => {
+    vi.mocked(DDIApi.getMutualizedCodesList).mockImplementation((_agency: string, id: string) =>
+      Promise.resolve(
+        id === "cl-1"
+          ? codeListEnvelope("cl-1", "cat-1")
+          : codeListEnvelope("cl-sentinelles", "cat-refus"),
+      ),
+    );
+
+    const data = envelope({
+      Variable: [codeVariable("cl-1"), sentinelVariable("mmvr-1")],
+      ManagedMissingValuesRepresentation: [missingValuesRepresentation("mmvr-1", "cl-sentinelles")],
+    } as any);
+
+    const result = await enrichDataWithCodeLists(newQueryClient(), data);
+
+    expect(
+      itemsOfType(result, "CodeList")
+        .map((cl) => cl.ID)
+        .sort(),
+    ).toEqual(["cl-1", "cl-sentinelles"]);
+    expect(
+      itemsOfType(result, "Category")
+        .map((c) => c.ID)
+        .sort(),
+    ).toEqual(["cat-1", "cat-refus"]);
   });
 });
