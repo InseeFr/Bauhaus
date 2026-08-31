@@ -189,9 +189,7 @@ export const OperationsSerieEdition = ({ indicators = [], series = [], ...props 
         )}
         <Row>
           <div className="form-group col-md-6">
-            <LabelRequired htmlFor="prefLabelLg1">
-              {t("common.title", { lng: "fr" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
               value={serie.prefLabelLg1}
@@ -207,9 +205,7 @@ export const OperationsSerieEdition = ({ indicators = [], series = [], ...props 
             ></ClientSideError>
           </div>
           <div className="form-group col-md-6">
-            <LabelRequired htmlFor="prefLabelLg2">
-              {t("common.title", { lng: "en" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
               value={serie.prefLabelLg2}
@@ -253,18 +249,14 @@ export const OperationsSerieEdition = ({ indicators = [], series = [], ...props 
         </Row>
         <Row>
           <div className="form-group col-md-6">
-            <label htmlFor="historyNoteLg1">
-              {t("common.history", { lng: "fr" })}
-            </label>
+            <label htmlFor="historyNoteLg1">{t("common.history", { lng: "fr" })}</label>
             <EditorMarkdown
               text={serie.historyNoteLg1}
               handleChange={(value) => onChange({ target: { value, id: "historyNoteLg1" } })}
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="historyNoteLg2">
-              {t("common.history", { lng: "en" })}
-            </label>
+            <label htmlFor="historyNoteLg2">{t("common.history", { lng: "en" })}</label>
             <EditorMarkdown
               text={serie.historyNoteLg2}
               handleChange={(value) => onChange({ target: { value, id: "historyNoteLg2" } })}

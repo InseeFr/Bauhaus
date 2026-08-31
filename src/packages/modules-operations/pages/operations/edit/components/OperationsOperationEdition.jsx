@@ -136,9 +136,7 @@ export const OperationsOperationEdition = (props) => {
         )}
         <Row className="bauhaus-row">
           <div className="form-group">
-            <LabelRequired htmlFor="prefLabelLg1">
-              {t("common.title", { lng: "fr" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
               value={operation.prefLabelLg1}
@@ -154,9 +152,7 @@ export const OperationsOperationEdition = (props) => {
             ></ClientSideError>
           </div>
           <div className="form-group">
-            <LabelRequired htmlFor="prefLabelLg2">
-              {t("common.title", { lng: "en" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
               value={operation.prefLabelLg2}
