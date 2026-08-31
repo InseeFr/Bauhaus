@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
+import datasetsI18n from "../../../../i18n";
 
 import { TextInput } from "@components/form/input";
 import { Select } from "@components/select-rmes";
@@ -26,11 +26,11 @@ export const computeInitialMode = (
 const firstOptions = [
   {
     value: STRUCTURE_MODE,
-    label: i18next.t("dataset.statisticalInformation.dataStructure.chooseStructure"),
+    label: datasetsI18n.t("dataset.statisticalInformation.dataStructure.chooseStructure"),
   },
   {
     value: URN_MODE,
-    label: i18next.t("dataset.statisticalInformation.dataStructure.chooseURN"),
+    label: datasetsI18n.t("dataset.statisticalInformation.dataStructure.chooseURN"),
   },
 ];
 
