@@ -4,7 +4,7 @@ import { Note } from "@components/note";
 import { useCollections } from "../../../../hooks/useCollections";
 import { List } from "@components/ui/list";
 import { Link } from "@components/link";
-import { useTranslation } from "@utils/hooks/useTranslation";
+import { useTranslation } from "react-i18next";
 import { PartialCollection } from "@model/concepts/collection";
 
 export const CollectionsBlock = ({
