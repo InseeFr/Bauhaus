@@ -76,8 +76,8 @@ describe("advanced search component", () => {
         seriesOperationsOptions={[]}
       />,
     );
-    expect(screen.getByLabelText("dataset.globalInformation.mainTitle")).toBeInTheDocument();
-    expect(screen.getByLabelText("dataset.internalManagement.altId.title")).toBeInTheDocument();
+    expect(screen.getByLabelText("Title")).toBeInTheDocument();
+    expect(screen.getByLabelText("Alternative identifier")).toBeInTheDocument();
   });
 
   it("AdvancedSearchForm filters datasets by altIdentifier", async () => {
@@ -112,7 +112,7 @@ describe("advanced search component", () => {
     expect(screen.getByText("Dataset One")).toBeInTheDocument();
     expect(screen.getByText("Dataset Two")).toBeInTheDocument();
 
-    const altIdInput = screen.getByLabelText("dataset.internalManagement.altId.title");
+    const altIdInput = screen.getByLabelText("Alternative identifier");
     await user.type(altIdInput, "XYZ");
 
     expect(screen.getByText("Dataset One")).toBeInTheDocument();
