@@ -3,16 +3,20 @@ import { screen } from "@testing-library/react";
 import { renderWithRouter } from "../../../../../tests/render";
 import { CollectionMembers } from "./CollectionMembers";
 
-vi.mock("@utils/hooks/useTranslation", () => ({
-  useTranslation: () => ({
-    t: (key: string, opts?: { size?: number }) =>
-      key === "collection.membersPanelTitle"
-        ? `Concepts membres de la collection (${opts?.size})`
-        : key,
-    t2: (key: string, opts?: { size?: number }) =>
-      key === "collection.membersPanelTitle" ? `Collection concept members (${opts?.size})` : key,
-  }),
-}));
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: () => ({
+      t: (key: string, opts?: { size?: number; lng?: string }) => {
+        if (key !== "collection.membersPanelTitle") return key;
+        return opts?.lng === "en"
+          ? `Collection concept members (${opts?.size})`
+          : `Concepts membres de la collection (${opts?.size})`;
+      },
+    }),
+  };
+});
 
 const members = [
   {

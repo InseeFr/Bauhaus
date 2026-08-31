@@ -5,7 +5,7 @@ import { Note } from "@components/note";
 
 import type { CollectionMember } from "@model/concepts/collection";
 import { sortArray } from "@utils/array-utils";
-import { useTranslation } from "@utils/hooks/useTranslation";
+import { useTranslation } from "react-i18next";
 
 import "../../../../i18n";
 
@@ -27,7 +27,7 @@ interface CollectionMembersProps {
 }
 
 export function CollectionMembers({ members, secondLang }: Readonly<CollectionMembersProps>) {
-  const { t, t2 } = useTranslation();
+  const { t } = useTranslation();
   const sortedMembers = sortByLabelLg1(members) as CollectionMember[];
 
   const memberListLg1 = renderMemberList(sortedMembers, "prefLabelLg1");
@@ -43,7 +43,7 @@ export function CollectionMembers({ members, secondLang }: Readonly<CollectionMe
       {secondLang && (
         <Note
           text={memberListLg2}
-          title={t2("collection.membersPanelTitle", { size: memberListLg2.length })}
+          title={t("collection.membersPanelTitle", { size: memberListLg2.length, lng: "en" })}
           alone={false}
         />
       )}
