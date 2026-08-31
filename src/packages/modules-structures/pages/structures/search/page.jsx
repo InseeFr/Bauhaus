@@ -14,7 +14,7 @@ import { ConceptsApi, StructureApi } from "@sdk/index";
 
 import { filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { validateStateOptions } from "../../../../model/ValidationState";

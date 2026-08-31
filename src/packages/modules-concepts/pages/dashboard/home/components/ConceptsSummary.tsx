@@ -80,7 +80,9 @@ export const buildDataStamps = (d: ConceptForAdvancedSearch[]): ConceptStampRow[
     return acc;
   }, []);
 
-function ConceptsSummary({ conceptsData }: Readonly<{ conceptsData: ConceptForAdvancedSearch[] }>) {
+export function ConceptsSummary({
+  conceptsData,
+}: Readonly<{ conceptsData: ConceptForAdvancedSearch[] }>) {
   const { t } = useTranslation();
 
   const data = buildData(conceptsData, [
@@ -123,5 +125,3 @@ function ConceptsSummary({ conceptsData }: Readonly<{ conceptsData: ConceptForAd
     </div>
   );
 }
-
-export default ConceptsSummary;

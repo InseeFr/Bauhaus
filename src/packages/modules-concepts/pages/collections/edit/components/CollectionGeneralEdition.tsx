@@ -41,7 +41,7 @@ interface CollectionGeneralEditionProps {
   creation?: boolean;
 }
 
-function CollectionGeneralEdition({
+export function CollectionGeneralEdition({
   general,
   handleChange,
   errors,
@@ -130,5 +130,3 @@ function CollectionGeneralEdition({
     </div>
   );
 }
-
-export default CollectionGeneralEdition;

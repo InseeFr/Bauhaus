@@ -6,7 +6,7 @@ import { Loading, Publishing } from "@components/loading";
 import { ConceptsApi } from "../../../../sdk";
 import { sortArrayByLabel } from "../../../../utils/array-utils";
 import { useTitle } from "../../../../utils/hooks/useTitle";
-import ConceptsToValidate from "./components/ConceptsToValidate";
+import { ConceptsToValidate } from "./components/ConceptsToValidate";
 
 interface ConceptValidateItem {
   id: string;

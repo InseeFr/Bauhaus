@@ -6,7 +6,7 @@ import { Pagination } from "@components/pagination";
 import { filterKeyDeburr, nbResults } from "@utils/array-utils";
 import { cx } from "@utils/cx";
 import { createAllDictionary } from "@utils/dictionnary";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";

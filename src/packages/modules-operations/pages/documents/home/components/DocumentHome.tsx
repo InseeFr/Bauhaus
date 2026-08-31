@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import FilterToggleButtons from "@components/filter-toggle-buttons";
+import { FilterToggleButtons } from "@components/filter-toggle-buttons";
 import { TextInput } from "@components/form/input";
 import { Row } from "@components/layout";
 import { NumberResults } from "@components/number-results";

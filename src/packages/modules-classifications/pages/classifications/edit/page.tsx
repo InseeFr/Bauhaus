@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInputBlock, UrlInputBlock } from "@components/form/input";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Loading, Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";

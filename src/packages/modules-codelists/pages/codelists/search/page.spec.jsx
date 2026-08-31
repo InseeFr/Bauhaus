@@ -1,4 +1,4 @@
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { renderWithRouter } from "../../../../tests/render";
 import { SearchFormList } from "./page";

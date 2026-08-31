@@ -7,8 +7,8 @@ import {
   ConceptNotes,
 } from "../../../../../model/concepts/concept";
 import { buildNotes } from "../../../../utils/buildNotes";
-import ConceptGeneral from "../../view/components/ConceptGeneral";
-import Controls from "./Controls";
+import { ConceptGeneral } from "../../view/components/ConceptGeneral";
+import { Controls } from "./Controls";
 
 interface ConceptCompare {
   conceptGeneral: ConceptGeneralType;
@@ -16,7 +16,7 @@ interface ConceptCompare {
   secondLang: boolean;
 }
 
-const ConceptCompare = ({ conceptGeneral, notes, secondLang }: Readonly<ConceptCompare>) => {
+export const ConceptCompare = ({ conceptGeneral, notes, secondLang }: Readonly<ConceptCompare>) => {
   const { prefLabelLg1, prefLabelLg2 } = conceptGeneral;
   const version = Number(conceptGeneral.conceptVersion);
   return (
@@ -37,5 +37,3 @@ const ConceptCompare = ({ conceptGeneral, notes, secondLang }: Readonly<ConceptC
     </div>
   );
 };
-
-export default ConceptCompare;

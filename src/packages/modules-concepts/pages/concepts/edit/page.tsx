@@ -14,7 +14,7 @@ import { useConcept } from "../../../hooks/useConcept";
 import { useConcepts } from "../../../hooks/useConcepts";
 import { useConceptSave } from "../../../hooks/useConceptSave";
 import { mergeWithAllConcepts } from "../../../utils/mergeWithAllConcepts";
-import ConceptEditionCreation from "./components/ConceptEditionCreation";
+import { ConceptEditionCreation } from "./components/ConceptEditionCreation";
 import { ConceptWithLink } from "./components/LinksEdition";
 
 export const Component = () => {

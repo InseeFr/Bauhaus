@@ -9,7 +9,7 @@ import { range } from "../../../../utils/array-utils";
 import { useSecondLang } from "../../../../utils/hooks/second-lang";
 import { rmesHtmlToRawHtml } from "../../../../utils/html-utils";
 import { emptyConceptNotes } from "../../../utils/emptyConceptNotes";
-import ConceptCompare from "./components/ConceptCompare";
+import { ConceptCompare } from "./components/ConceptCompare";
 
 type VersionedNotes = Record<number, ConceptNotes>;
 

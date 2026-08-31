@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import FilterToggleButtons from "@components/filter-toggle-buttons";
+import { FilterToggleButtons } from "@components/filter-toggle-buttons";
 import { Row } from "@components/layout";
 import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";

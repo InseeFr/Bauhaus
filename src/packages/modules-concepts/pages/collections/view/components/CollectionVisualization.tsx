@@ -11,8 +11,8 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
 import { Menu } from "../menu";
-import CollectionGeneralView from "./CollectionGeneral";
-import CollectionMembers from "./CollectionMembers";
+import { CollectionGeneral as CollectionGeneralView } from "./CollectionGeneral";
+import { CollectionMembers } from "./CollectionMembers";
 
 interface CollectionVisualizationProps {
   id: string;
@@ -22,7 +22,7 @@ interface CollectionVisualizationProps {
   validateCollection: (id: string) => void;
 }
 
-const CollectionVisualization = ({
+export const CollectionVisualization = ({
   id,
   general,
   members,
@@ -58,5 +58,3 @@ const CollectionVisualization = ({
     </div>
   );
 };
-
-export default CollectionVisualization;

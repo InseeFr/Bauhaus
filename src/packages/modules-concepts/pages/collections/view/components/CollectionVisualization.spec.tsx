@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
-import CollectionVisualization from "./CollectionVisualization";
+import { CollectionVisualization } from "./CollectionVisualization";
 import type { ValidationState } from "@components/status";
 import { UNPUBLISHED, VALIDATED } from "@model/ValidationState";
 
@@ -26,11 +26,11 @@ vi.mock("@components/page-sub-title", () => ({
 }));
 
 vi.mock("./CollectionGeneral", () => ({
-  default: () => null,
+  CollectionGeneral: () => null,
 }));
 
 vi.mock("./CollectionMembers", () => ({
-  default: () => null,
+  CollectionMembers: () => null,
 }));
 
 vi.mock("../menu", () => ({

@@ -1,5 +1,5 @@
 import * as useCodesListHook from "@utils/hooks/codeslist";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
 import { renderWithRouter } from "../../../../tests/render";

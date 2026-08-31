@@ -15,11 +15,11 @@ import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { validateStateOptions } from "@model/ValidationState";
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
-import Controls from "./Controls";
+import { Controls } from "./Controls";
 
 const filterLabel = filterKeyDeburr(["label"]);
 const filterAltLabel = filterKeyDeburr(["altLabel"]);
@@ -48,7 +48,10 @@ interface ConceptSearchListProps {
   onExport: (ids: string[], type: string, withConcepts: boolean, lang?: "lg1" | "lg2") => void;
 }
 
-const ConceptSearchList = ({ conceptSearchList, onExport }: Readonly<ConceptSearchListProps>) => {
+export const ConceptSearchList = ({
+  conceptSearchList,
+  onExport,
+}: Readonly<ConceptSearchListProps>) => {
   const { t } = useTranslation();
   useTitle(t("concept.title"), t("common.advancedSearch"));
 
@@ -181,5 +184,3 @@ const ConceptSearchList = ({ conceptSearchList, onExport }: Readonly<ConceptSear
     </div>
   );
 };
-
-export default ConceptSearchList;

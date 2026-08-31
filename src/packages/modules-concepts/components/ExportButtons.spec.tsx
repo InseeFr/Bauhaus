@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi } from "vitest";
 
-import ExportButtons from "./ExportButtons";
+import { ExportButtons } from "./ExportButtons";
 
 const translations: Record<string, string> = {
   "common.btnOdsExporter": "Exporter en ODS",

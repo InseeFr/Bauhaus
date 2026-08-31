@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 
 import { renderWithRouter } from "../../../../../tests/render";
-import CollectionMembers from "./CollectionMembers";
+import { CollectionMembers } from "./CollectionMembers";
 
 vi.mock("@utils/hooks/useTranslation", () => ({
   useTranslation: () => ({

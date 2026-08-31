@@ -59,7 +59,7 @@ const AppCard = ({ app, disabled }: { app: string; disabled: boolean }) => {
    suivants, qui restent sur la seconde ligne. */
 const FIRST_ROW_MODULES: AppName[] = ["concepts", "classifications", "operations", "ddi"];
 
-const App = () => {
+export const App = () => {
   useTitle();
 
   const { privileges = [] } = usePrivileges();
@@ -97,5 +97,3 @@ const App = () => {
     </nav>
   );
 };
-
-export default App;

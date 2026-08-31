@@ -41,7 +41,7 @@ interface ConceptGeneralEditionProps {
   stampList?: { value: string; label: string }[];
 }
 
-function ConceptGeneralEdition({
+export function ConceptGeneralEdition({
   general,
   handleChange,
   errorMessage,
@@ -159,5 +159,3 @@ function ConceptGeneralEdition({
     </div>
   );
 }
-
-export default ConceptGeneralEdition;

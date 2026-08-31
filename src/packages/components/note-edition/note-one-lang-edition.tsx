@@ -1,7 +1,7 @@
 import { htmlLength } from "../../utils/html-utils";
-import ModifyNotes from "./modify-notes";
+import { ModifyNotes } from "./modify-notes";
 
-function NoteOneLangEdition({
+export function NoteOneLangEdition({
   note,
   handleChange,
   maxLength,
@@ -25,5 +25,3 @@ function NoteOneLangEdition({
     </div>
   );
 }
-
-export default NoteOneLangEdition;

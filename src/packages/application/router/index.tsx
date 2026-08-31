@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 import { useOidc } from "../../auth/create-oidc";
 import D from "../../i18n";
 import { useAppContext } from "../app-context";
-import Routes from "./routes";
+import { Routes } from "./routes";
 
 export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
   const { isUserLoggedIn, logout } = useOidc();
@@ -45,8 +45,6 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
     </>
   );
 };
-const Root = () => {
+export const Root = () => {
   return <Routes />;
 };
-
-export default Root;

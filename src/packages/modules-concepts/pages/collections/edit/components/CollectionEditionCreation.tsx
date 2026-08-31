@@ -6,8 +6,8 @@ import { CollectionGeneral, CollectionMember, PartialCollection } from "@model/c
 
 import { Menu } from "../menu";
 import { validate } from "../validation";
-import GeneralEdition from "./CollectionGeneralEdition";
-import CollectionMembersEdition from "./CollectionMembersEdition";
+import { CollectionGeneralEdition as GeneralEdition } from "./CollectionGeneralEdition";
+import { CollectionMembersEdition } from "./CollectionMembersEdition";
 
 interface MemberItem {
   id: string;
@@ -30,7 +30,7 @@ interface CollectionEditionCreationProps {
 const toMemberItems = (members: CollectionMember[]): MemberItem[] =>
   members.map(({ id, prefLabelLg1 }) => ({ id, label: prefLabelLg1 }));
 
-const CollectionEditionCreation = ({
+export const CollectionEditionCreation = ({
   title,
   subtitle,
   creation,
@@ -86,5 +86,3 @@ const CollectionEditionCreation = ({
     </div>
   );
 };
-
-export default CollectionEditionCreation;

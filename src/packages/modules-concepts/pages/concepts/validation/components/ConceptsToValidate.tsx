@@ -29,7 +29,7 @@ const toIdWithValid = (concepts: ConceptToValidate[]): IdWithValid[] =>
     return acc;
   }, []);
 
-const ConceptsToValidate = ({
+export const ConceptsToValidate = ({
   concepts,
   handleValidateConceptList,
 }: Readonly<ConceptsToValidateProps>) => {
@@ -96,5 +96,3 @@ const ConceptsToValidate = ({
     </div>
   );
 };
-
-export default ConceptsToValidate;

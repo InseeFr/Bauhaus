@@ -53,7 +53,7 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/ConceptEditionCreation", () => ({
-  default: ({ creation, title }: { creation: boolean; title: string }) => (
+  ConceptEditionCreation: ({ creation, title }: { creation: boolean; title: string }) => (
     <div data-testid="concept-edition-creation">
       <span data-testid="is-creation">{String(creation)}</span>
       <span data-testid="title">{title}</span>

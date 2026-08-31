@@ -1,6 +1,6 @@
 import { Loading } from "@components/loading";
 
-import CollectionsHome from "./components/CollectionsHome";
+import { CollectionsHome } from "./components/CollectionsHome";
 import { useCollections } from "../../../hooks/useCollections";
 
 export const Component = () => {

@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { CollectionExportFormat } from "@model/concepts/collection";
 
-import ExportButton from "./ExportButtonWithDropdown";
+import { ExportButtonWithDropdown as ExportButton } from "./ExportButtonWithDropdown";
 
 interface ExportButtonsTypes {
   disabled?: boolean;
@@ -13,7 +13,7 @@ interface ExportButtonsTypes {
   ) => void;
 }
 
-const ExportButtons = ({ exportHandler, disabled }: Readonly<ExportButtonsTypes>) => {
+export const ExportButtons = ({ exportHandler, disabled }: Readonly<ExportButtonsTypes>) => {
   const { t } = useTranslation();
   return (
     <ExportButton
@@ -39,4 +39,3 @@ const ExportButtons = ({ exportHandler, disabled }: Readonly<ExportButtonsTypes>
     ></ExportButton>
   );
 };
-export default ExportButtons;

@@ -5,7 +5,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { usePrivileges } from "@utils/hooks/users";
 
 import { hasAccessToModule } from "../auth/components/auth";
-import App from "./app";
+import { App } from "./app";
 import { useAppContext } from "./app-context";
 
 // Mocks

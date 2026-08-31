@@ -15,10 +15,10 @@ import {
   dashboardSectionKey,
   resolveDashboardSection,
 } from "../../../../utils/dashboardSection";
-import CollectionsCreationsModifications from "./CollectionsCreationsModifications";
-import CollectionsSummary from "./CollectionsSummary";
-import ConceptsCreationsModifications from "./ConceptsCreationsModifications";
-import ConceptsSummary from "./ConceptsSummary";
+import { CollectionsCreationsModifications } from "./CollectionsCreationsModifications";
+import { CollectionsSummary } from "./CollectionsSummary";
+import { ConceptsCreationsModifications } from "./ConceptsCreationsModifications";
+import { ConceptsSummary } from "./ConceptsSummary";
 import "./ConceptsDashboard.css";
 import "../../../../i18n";
 
@@ -27,7 +27,7 @@ type Props = {
   collectionsData: Collection[];
 };
 
-function ConceptsDashboard({ conceptsData, collectionsData }: Readonly<Props>) {
+export function ConceptsDashboard({ conceptsData, collectionsData }: Readonly<Props>) {
   const { t } = useTranslation();
   useTitle(t("dashboard.conceptsTab"), t("dashboard.administrationTitle"));
 
@@ -84,5 +84,3 @@ function ConceptsDashboard({ conceptsData, collectionsData }: Readonly<Props>) {
     </div>
   );
 }
-
-export default ConceptsDashboard;

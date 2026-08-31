@@ -17,7 +17,7 @@ const hasDocument = (sims: any, withDocument: boolean) => {
   return hasDocument;
 };
 
-const api = {
+export const simsApi = {
   getSims: (id: string) => [`metadataReport/${id}`],
   getDefaultSims: () => ["metadataReport/default"],
   getOwners: (id: string) => [`metadataReport/Owner/${id}`],
@@ -69,5 +69,3 @@ const api = {
     (res: Response) => res.text().then((id) => id),
   ],
 } as any;
-
-export default api;

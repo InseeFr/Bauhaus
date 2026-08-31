@@ -12,7 +12,7 @@ import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { validateStateOptions } from "../../../../model/ValidationState";
 import { CodelistsApi as API } from "@sdk/index";

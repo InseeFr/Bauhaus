@@ -3,7 +3,7 @@ import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 
 import i18n from "../../../../i18n";
-import CollectionsToExport from "./CollectionsToExport";
+import { CollectionsToExport } from "./CollectionsToExport";
 
 const mockExportCollection = vi.fn();
 
@@ -15,7 +15,7 @@ vi.mock("@utils/hooks/collections", () => ({
 }));
 
 vi.mock("../../../../components/ExportButtons", () => ({
-  default: ({
+  ExportButtons: ({
     disabled,
     exportHandler,
   }: {

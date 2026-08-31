@@ -1,7 +1,7 @@
 import { vi } from "vitest";
 
 import { buildCall } from "../build-api";
-import simsApi from "./sims";
+import { simsApi } from "./sims";
 import type { Sims } from "../../model/Sims";
 
 vi.mock("../../auth/create-oidc", () => ({

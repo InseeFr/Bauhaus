@@ -16,9 +16,9 @@ import {
 } from "../../../../../model/concepts/concept";
 import { buildNotes } from "../../../../utils/buildNotes";
 import { getModalMessage } from "../../../../utils/getModalMessage";
-import ConceptGeneral_ from "./ConceptGeneral";
-import ConceptLinks from "./ConceptLinks";
-import ConceptVisualizationControls from "../menu";
+import { ConceptGeneral as ConceptGeneral_ } from "./ConceptGeneral";
+import { ConceptLinks } from "./ConceptLinks";
+import { ConceptVisualizationControls } from "../menu";
 
 interface ConceptVisualizationProps {
   id: string;
@@ -31,7 +31,7 @@ interface ConceptVisualizationProps {
   deleteConcept: (id: string) => void;
 }
 
-const ConceptVisualization = ({
+export const ConceptVisualization = ({
   id,
   links,
   notes,
@@ -112,5 +112,3 @@ const ConceptVisualization = ({
     </>
   );
 };
-
-export default ConceptVisualization;

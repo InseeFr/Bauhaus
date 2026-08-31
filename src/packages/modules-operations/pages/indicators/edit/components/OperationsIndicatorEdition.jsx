@@ -9,7 +9,7 @@ import {
   GlobalClientSideErrorBloc,
 } from "@components/errors-bloc";
 import { InputRmes } from "@components/input-rmes";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";

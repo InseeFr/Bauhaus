@@ -31,9 +31,13 @@ export const buildDataStamps = (d: Collection[]): CollectionStampRow[] =>
     return acc;
   }, []);
 
-const stampBody = (row: CollectionStampRow) => <InseeOrganisation creator={row.stamp} />;
+const stampBody = (row: CollectionStampRow) => (
+  <InseeOrganisation creator={row.stamp} />
+);
 
-function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Collection[] }>) {
+export function CollectionsSummary({
+  collectionsData,
+}: Readonly<{ collectionsData: Collection[] }>) {
   const { t } = useTranslation();
 
   const data: CollectionSummaryRow[] = [
@@ -45,7 +49,8 @@ function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Col
     {
       id: 2,
       type: t("dashboard.provisionalCountLabel"),
-      total: collectionsData.filter((c) => c.validationState !== VALIDATED).length,
+      total: collectionsData.filter((c) => c.validationState !== VALIDATED)
+        .length,
     },
   ];
   const dataStamps = buildDataStamps(collectionsData);
@@ -76,5 +81,3 @@ function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Col
     </div>
   );
 }
-
-export default CollectionsSummary;

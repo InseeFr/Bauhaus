@@ -21,7 +21,7 @@ interface CollectionMembersEditionProps {
   handleChange: (members: ConceptItem[]) => void;
 }
 
-const CollectionMembersEdition = ({
+export const CollectionMembersEdition = ({
   conceptList,
   members,
   handleChange,
@@ -59,5 +59,3 @@ const CollectionMembersEdition = ({
     />
   );
 };
-
-export default CollectionMembersEdition;

@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 
 import { renderWithRouter } from "../../../../../tests/render";
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
-import AdvancedSearch from "./ConceptSearchList";
+import { ConceptSearchList as AdvancedSearch } from "./ConceptSearchList";
 
 let lastCreatorsInputProps: Record<string, unknown> | undefined;
 

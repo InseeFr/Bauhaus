@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 
-import CollectionsSummary from "./CollectionsSummary";
+import { CollectionsSummary } from "./CollectionsSummary";
 
 describe("dashboard-collections-summary", () => {
   it("renders without crashing", () => {

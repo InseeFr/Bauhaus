@@ -12,7 +12,7 @@ import { Links, Link as LinkType } from "../../../../../model/concepts/concept";
 import { LinksList } from "./LinksList";
 import "./ConceptLinks.css";
 
-const ConceptLinks = ({
+export const ConceptLinks = ({
   secondLang,
   links,
 }: Readonly<{ secondLang: boolean; links: LinkType[] }>) => {
@@ -46,5 +46,3 @@ const ConceptLinks = ({
     </div>
   );
 };
-
-export default ConceptLinks;

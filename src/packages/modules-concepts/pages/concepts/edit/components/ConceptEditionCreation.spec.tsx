@@ -2,11 +2,17 @@ import { fireEvent, screen, within } from "@testing-library/react";
 
 import { BROADER, NARROWER } from "@sdk/constants";
 
-import { ConceptGeneral, ConceptNotes } from "../../../../../model/concepts/concept";
+import {
+  ConceptGeneral,
+  ConceptNotes,
+} from "../../../../../model/concepts/concept";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { emptyConceptGeneral } from "../../../../utils/emptyConceptGeneral";
 import { emptyConceptNotes } from "../../../../utils/emptyConceptNotes";
-import ConceptEditionCreation, { onGeneralInformationChange } from "./ConceptEditionCreation";
+import {
+  ConceptEditionCreation,
+  onGeneralInformationChange,
+} from "./ConceptEditionCreation";
 
 vi.mock("./ConceptGeneralEdition");
 
@@ -44,7 +50,10 @@ describe("concept-edition-creation", () => {
     id: "id",
     creation: true,
     title: "title",
-    general: { ...emptyConceptGeneral(), contributor: "DG75-L201" } as unknown as ConceptGeneral,
+    general: {
+      ...emptyConceptGeneral(),
+      contributor: "DG75-L201",
+    } as unknown as ConceptGeneral,
     notes: {} as ConceptNotes,
     conceptsWithLinks: [],
     stampList: [],
@@ -71,20 +80,31 @@ describe("concept-edition-creation", () => {
       expect(
         screen.getByRole("heading", { name: "General information", level: 3 }),
       ).toBeInTheDocument();
-      expect(screen.queryByRole("heading", { name: "Notes", level: 3 })).not.toBeInTheDocument();
-      expect(screen.queryByRole("heading", { name: "Links", level: 3 })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("heading", { name: "Notes", level: 3 }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("heading", { name: "Links", level: 3 }),
+      ).not.toBeInTheDocument();
     });
 
     it("affiche la section choisie dans le sommaire", () => {
       renderWithAppContext(<ConceptEditionCreation {...buildBaseProps()} />);
 
       fireEvent.click(
-        within(screen.getByRole("navigation")).getByRole("button", { name: /Links/ }),
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /Links/,
+        }),
       );
 
-      expect(screen.getByRole("heading", { name: "Links", level: 3 })).toBeInTheDocument();
       expect(
-        screen.queryByRole("heading", { name: "General information", level: 3 }),
+        screen.getByRole("heading", { name: "Links", level: 3 }),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByRole("heading", {
+          name: "General information",
+          level: 3,
+        }),
       ).not.toBeInTheDocument();
     });
 
@@ -92,37 +112,51 @@ describe("concept-edition-creation", () => {
       renderWithAppContext(<ConceptEditionCreation {...buildBaseProps()} />);
 
       fireEvent.click(
-        within(screen.getByRole("navigation")).getByRole("button", { name: /Note éditoriale/ }),
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /Note éditoriale/,
+        }),
       );
 
-      expect(screen.getByRole("heading", { name: "Notes", level: 3 })).toBeInTheDocument();
-      expect(screen.getByRole("region", { name: "Note éditoriale" })).toBeInTheDocument();
-      expect(screen.queryByRole("region", { name: "Définition courte" })).not.toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Notes", level: 3 }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("region", { name: "Note éditoriale" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByRole("region", { name: "Définition courte" }),
+      ).not.toBeInTheDocument();
     });
 
     it("affiche la première note quand on choisit la section entière", () => {
       renderWithAppContext(<ConceptEditionCreation {...buildBaseProps()} />);
 
       fireEvent.click(
-        within(screen.getByRole("navigation")).getByRole("button", { name: "Notes" }),
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: "Notes",
+        }),
       );
 
-      expect(screen.getByRole("region", { name: "Définition courte" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("region", { name: "Définition courte" }),
+      ).toBeInTheDocument();
     });
 
     it("signale dans le sommaire la section à corriger après une tentative de sauvegarde", () => {
       renderWithAppContext(<ConceptEditionCreation {...buildBaseProps()} />);
 
       expect(
-        within(screen.getByRole("navigation")).getByRole("button", { name: /General information/ })
-          .textContent,
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /General information/,
+        }).textContent,
       ).toBe("General information");
 
       fireEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
 
       expect(
-        within(screen.getByRole("navigation")).getByRole("button", { name: /General information/ })
-          .textContent,
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /General information/,
+        }).textContent,
       ).toContain("To fix");
     });
 
@@ -130,11 +164,18 @@ describe("concept-edition-creation", () => {
       renderWithAppContext(
         <ConceptEditionCreation
           {...buildBaseProps()}
-          notes={{ ...emptyConceptNotes, scopeNoteLg1: "<p>Courte</p>" } as unknown as ConceptNotes}
+          notes={
+            {
+              ...emptyConceptNotes,
+              scopeNoteLg1: "<p>Courte</p>",
+            } as unknown as ConceptNotes
+          }
           section="conceptsScopeNote"
         />,
       );
-      expect(screen.getByRole("region", { name: "Définition courte" })).toHaveTextContent("Courte");
+      expect(
+        screen.getByRole("region", { name: "Définition courte" }),
+      ).toHaveTextContent("Courte");
 
       fireEvent.click(
         within(screen.getByRole("navigation")).getByRole("button", {
@@ -142,17 +183,23 @@ describe("concept-edition-creation", () => {
         }),
       );
 
-      expect(screen.getByRole("region", { name: "Définition" })).not.toHaveTextContent("Courte");
+      expect(
+        screen.getByRole("region", { name: "Définition" }),
+      ).not.toHaveTextContent("Courte");
     });
 
     it("affiche le type de lien choisi dans le sommaire", () => {
       renderWithAppContext(<ConceptEditionCreation {...buildBaseProps()} />);
 
       fireEvent.click(
-        within(screen.getByRole("navigation")).getByRole("button", { name: /A pour parent/ }),
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /A pour parent/,
+        }),
       );
 
-      expect(screen.getByRole("heading", { name: "Links", level: 3 })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Links", level: 3 }),
+      ).toBeInTheDocument();
       expect(screen.getByText("A pour parent (0)")).toBeInTheDocument();
     });
 
@@ -160,7 +207,9 @@ describe("concept-edition-creation", () => {
       renderWithAppContext(<ConceptEditionCreation {...buildBaseProps()} />);
 
       fireEvent.click(
-        within(screen.getByRole("navigation")).getByRole("button", { name: /Links/ }),
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /Links/,
+        }),
       );
 
       expect(screen.getByText("A pour enfant (0)")).toBeInTheDocument();
@@ -168,20 +217,30 @@ describe("concept-edition-creation", () => {
 
     it("ouvre la partie indiquée au chargement", () => {
       renderWithAppContext(
-        <ConceptEditionCreation {...buildBaseProps()} section="conceptsEditorialNote" />,
+        <ConceptEditionCreation
+          {...buildBaseProps()}
+          section="conceptsEditorialNote"
+        />,
       );
 
-      expect(screen.getByRole("region", { name: "Note éditoriale" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("region", { name: "Note éditoriale" }),
+      ).toBeInTheDocument();
     });
 
     it("remonte la partie choisie pour qu'elle soit retenue", () => {
       const onSectionChange = vi.fn();
       renderWithAppContext(
-        <ConceptEditionCreation {...buildBaseProps()} onSectionChange={onSectionChange} />,
+        <ConceptEditionCreation
+          {...buildBaseProps()}
+          onSectionChange={onSectionChange}
+        />,
       );
 
       fireEvent.click(
-        within(screen.getByRole("navigation")).getByRole("button", { name: /A pour parent/ }),
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /A pour parent/,
+        }),
       );
 
       expect(onSectionChange).toHaveBeenCalledWith(BROADER);
@@ -190,11 +249,16 @@ describe("concept-edition-creation", () => {
     it("remonte aussi le choix d'une section entière", () => {
       const onSectionChange = vi.fn();
       renderWithAppContext(
-        <ConceptEditionCreation {...buildBaseProps()} onSectionChange={onSectionChange} />,
+        <ConceptEditionCreation
+          {...buildBaseProps()}
+          onSectionChange={onSectionChange}
+        />,
       );
 
       fireEvent.click(
-        within(screen.getByRole("navigation")).getByRole("button", { name: "Notes" }),
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: "Notes",
+        }),
       );
 
       expect(onSectionChange).toHaveBeenCalledWith("notes");
@@ -214,7 +278,9 @@ describe("concept-edition-creation", () => {
     });
 
     it("shows the global error message only after a save attempt on an invalid form", () => {
-      renderWithAppContext(<ConceptEditionCreation {...buildBaseProps()} save={vi.fn()} />);
+      renderWithAppContext(
+        <ConceptEditionCreation {...buildBaseProps()} save={vi.fn()} />,
+      );
       expect(screen.queryByRole("alert")).not.toBeInTheDocument();
 
       fireEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
@@ -224,7 +290,9 @@ describe("concept-edition-creation", () => {
 
     it("does not call save when the user clicks save on an invalid form", () => {
       const save = vi.fn();
-      renderWithAppContext(<ConceptEditionCreation {...buildBaseProps()} save={save} />);
+      renderWithAppContext(
+        <ConceptEditionCreation {...buildBaseProps()} save={save} />,
+      );
 
       fireEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
 

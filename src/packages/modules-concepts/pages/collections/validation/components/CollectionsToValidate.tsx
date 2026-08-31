@@ -11,7 +11,7 @@ interface CollectionsToValidateProps {
   serverSideError?: string;
 }
 
-const CollectionsToValidate = ({
+export const CollectionsToValidate = ({
   collections,
   handleValidateCollectionList,
   serverSideError,
@@ -33,5 +33,3 @@ const CollectionsToValidate = ({
     />
   );
 };
-
-export default CollectionsToValidate;

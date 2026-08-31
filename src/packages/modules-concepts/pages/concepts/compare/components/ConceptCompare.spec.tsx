@@ -2,7 +2,7 @@ import { ConceptGeneral, ConceptNotes } from "../../../../../model/concepts/conc
 import { renderWithAppContext } from "../../../../../tests/render";
 
 vi.mock("./ConceptCompare", () => ({
-  default: () => <div data-testid="compare-component">Compare</div>,
+  ConceptCompare: () => <div data-testid="compare-component">Compare</div>,
 }));
 
 vi.mock("../visualization/general", () => ({
@@ -11,7 +11,7 @@ vi.mock("../visualization/general", () => ({
 
 describe("concepts-compare", () => {
   it("renders without crashing", async () => {
-    const Compare = (await import("./ConceptCompare")).default;
+    const Compare = (await import("./ConceptCompare")).ConceptCompare;
     renderWithAppContext(
       <Compare
         conceptGeneral={{ conceptVersion: "2" } as ConceptGeneral}

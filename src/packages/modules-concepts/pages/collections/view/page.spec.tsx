@@ -42,7 +42,7 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/CollectionVisualization", () => ({
-  default: () => <div data-testid="collection-visualization">Visualization</div>,
+  CollectionVisualization: () => <div data-testid="collection-visualization">Visualization</div>,
 }));
 
 describe("Visualization Container Component", () => {

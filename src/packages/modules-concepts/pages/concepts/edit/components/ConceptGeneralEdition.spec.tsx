@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 
 import { ConceptGeneral as ConceptGeneralType } from "../../../../../model/concepts/concept";
 import { emptyConceptGeneral } from "../../../../utils/emptyConceptGeneral";
-import ConceptGeneral from "./ConceptGeneralEdition";
+import { ConceptGeneralEdition as ConceptGeneral } from "./ConceptGeneralEdition";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
