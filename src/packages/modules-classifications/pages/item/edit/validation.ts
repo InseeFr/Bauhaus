@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import classificationsI18n from "../../../i18n";
 import { z } from "zod";
 
 import { ItemGeneral } from "@model/Classification";
@@ -7,18 +7,24 @@ import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validati
 
 const ZodItem = (altLabelsLength: number) =>
   z.object({
-    prefLabelLg1: mandatoryAndNotEmptyTextField(i18next.t("item.title", { lng: "fr" })),
-    prefLabelLg2: mandatoryAndNotEmptyTextField(i18next.t("item.title", { lng: "en" })),
+    prefLabelLg1: mandatoryAndNotEmptyTextField(classificationsI18n.t("item.title", { lng: "fr" })),
+    prefLabelLg2: mandatoryAndNotEmptyTextField(classificationsI18n.t("item.title", { lng: "en" })),
     altLabelsLg1_: z
       .string()
       .max(altLabelsLength, {
-        error: i18next.t("item.altLabelError", { length: altLabelsLength, lng: "fr" }),
+        error: classificationsI18n.t("item.altLabelError", {
+          length: altLabelsLength,
+          lng: "fr",
+        }),
       })
       .optional(),
     altLabelsLg2_: z
       .string()
       .max(altLabelsLength, {
-        error: i18next.t("item.altLabelError", { length: altLabelsLength, lng: "en" }),
+        error: classificationsI18n.t("item.altLabelError", {
+          length: altLabelsLength,
+          lng: "en",
+        }),
       })
       .optional(),
   });

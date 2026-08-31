@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import classificationsI18n from "../../../../i18n";
 
 import { Row } from "@components/layout";
 import { MDEditor } from "@components/rich-editor/react-md-editor";
@@ -51,7 +51,9 @@ const NoteInput = ({
   return (
     <Row>
       <NoteLangInput
-        label={i18next.t(titleMapping[dictionaryKey], { lng: "fr" })}
+        label={classificationsI18n.t(titleMapping[dictionaryKey], {
+          lng: "fr",
+        })}
         id={firstNoteKey}
         value={firstNodeValue}
         onChange={(value) =>
@@ -62,7 +64,9 @@ const NoteInput = ({
         }
       />
       <NoteLangInput
-        label={i18next.t(titleMapping[dictionaryKey], { lng: "en" })}
+        label={classificationsI18n.t(titleMapping[dictionaryKey], {
+          lng: "en",
+        })}
         id={secondNoteKey}
         value={secondNoteValue}
         onChange={(value) =>
