@@ -1,4 +1,4 @@
-import i18next from "../i18n";
+import structuresI18n from "../i18n";
 
 import { QB } from "./prefixes";
 
@@ -9,15 +9,15 @@ export const ATTRIBUTE_TYPE = `${QB}attribute`;
 export const COMPONENT_TYPES = [
   {
     value: ATTRIBUTE_TYPE,
-    label: i18next.t("component.type.attribute.title"),
+    label: structuresI18n.t("component.type.attribute.title"),
   },
   {
     value: DIMENSION_TYPE,
-    label: i18next.t("component.type.dimension.title"),
+    label: structuresI18n.t("component.type.dimension.title"),
   },
   {
     value: MEASURE_TYPE,
-    label: i18next.t("component.type.measure.title"),
+    label: structuresI18n.t("component.type.measure.title"),
   },
 ];
 
@@ -28,21 +28,22 @@ export const DIMENSION_PROPERTY_TYPE = `${QB}DimensionProperty`;
 export const MUTUALIZED_COMPONENT_TYPES = [
   {
     value: ATTRIBUTE_PROPERTY_TYPE,
-    label: i18next.t("component.type.attribute.title"),
-    labelPlural: i18next.t("component.type.attribute.pluralTitle"),
+    label: structuresI18n.t("component.type.attribute.title"),
+    labelPlural: structuresI18n.t("component.type.attribute.pluralTitle"),
   },
   {
     value: `${QB}DimensionProperty`,
-    label: i18next.t("component.type.dimension.title"),
-    labelPlural: i18next.t("component.type.dimension.pluralTitle"),
+    label: structuresI18n.t("component.type.dimension.title"),
+    labelPlural: structuresI18n.t("component.type.dimension.pluralTitle"),
   },
   {
     value: MEASURE_PROPERTY_TYPE,
-    label: i18next.t("component.type.measure.title"),
-    labelPlural: i18next.t("component.type.measure.pluralTitle"),
+    label: structuresI18n.t("component.type.measure.title"),
+    labelPlural: structuresI18n.t("component.type.measure.pluralTitle"),
   },
 ];
 
 export const DISSEMINATION_STATUS = {
-  PUBLIC_GENERIC: "http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
+  PUBLIC_GENERIC:
+    "http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
 };
