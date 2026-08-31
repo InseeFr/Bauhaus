@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { ClientSideError } from "@components/errors-bloc";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { Select } from "@components/select-rmes";
 
 import { useDatasetsForDistributions } from "../../../../hooks/useDatasetsForDistributions";

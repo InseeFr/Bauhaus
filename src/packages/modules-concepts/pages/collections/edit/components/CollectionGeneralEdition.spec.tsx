@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 
 import { emptyCollectionGeneral } from "../../../../utils/emptyCollectionGeneral";
-import CollectionGeneral from "./CollectionGeneralEdition";
+import { CollectionGeneralEdition as CollectionGeneral } from "./CollectionGeneralEdition";
 
 vi.mock("@components/form/input", () => ({ TextInput: () => <></> }));
 vi.mock("@components/errors-bloc", () => ({ ClientSideError: () => <></> }));

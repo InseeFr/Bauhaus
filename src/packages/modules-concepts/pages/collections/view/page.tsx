@@ -9,7 +9,7 @@ import { ConceptsApi } from "@sdk/index";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { useCollection } from "../../../hooks/useCollection";
-import CollectionVisualization from "./components/CollectionVisualization";
+import { CollectionVisualization } from "./components/CollectionVisualization";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();

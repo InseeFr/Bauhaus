@@ -2,7 +2,7 @@ import { useId } from "react";
 
 import { useDisseminationStatusOptions } from "../../utils/hooks/disseminationStatus";
 import D from "../i18n";
-import LabelRequired from "../label-required";
+import { LabelRequired } from "../label-required";
 import { Select } from "../select-rmes";
 
 export const getDisseminationStatus = (disseminationStatus: string): string => {

@@ -20,7 +20,7 @@ vi.mock("../../../../utils/hooks/useTitle", () => ({
 }));
 
 vi.mock("./components/ConceptsToValidate", () => ({
-  default: ({
+  ConceptsToValidate: ({
     concepts,
     handleValidateConceptList,
   }: {

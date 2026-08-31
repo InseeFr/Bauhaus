@@ -27,7 +27,7 @@ vi.mock("@components/form/input", () => ({
   ),
 }));
 vi.mock("@components/label-required", () => ({
-  default: (props: any) => <label>{props.children}</label>,
+  LabelRequired: (props: any) => <label>{props.children}</label>,
 }));
 vi.mock("@components/layout", () => ({
   Row: (props: any) => <div>{props.children}</div>,

@@ -12,7 +12,7 @@ import type { ValidationState } from "@components/status";
 import { CollectionExportFormat } from "@model/concepts/collection";
 import { VALIDATED } from "@model/ValidationState";
 
-import ExportButtons from "../../../components/ExportButtons";
+import { ExportButtons } from "../../../components/ExportButtons";
 import { HasAccess } from "../../../../auth/components/auth";
 
 interface MenuProps {

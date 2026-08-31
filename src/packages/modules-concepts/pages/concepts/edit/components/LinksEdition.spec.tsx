@@ -3,7 +3,7 @@ import { fireEvent, screen, within } from "@testing-library/react";
 import { BROADER, CLOSE_MATCH, NARROWER, NONE, RELATED } from "@sdk/constants";
 
 import { renderWithRouter } from "../../../../../tests/render";
-import ConceptLinks from "./LinksEdition";
+import { LinksEdition as ConceptLinks } from "./LinksEdition";
 
 const conceptsWithLinks = [
   { id: "c1", label: "Enfant", typeOfLink: NARROWER },

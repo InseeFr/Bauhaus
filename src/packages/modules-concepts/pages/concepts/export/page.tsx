@@ -5,7 +5,7 @@ import { Picker } from "@components/picker-page";
 
 import { useConceptExporter } from "../../../hooks/useConceptExporter";
 import { useTitle } from "../../../../utils/hooks/useTitle";
-import ExportButtons from "../../../components/ExportButtons";
+import { ExportButtons } from "../../../components/ExportButtons";
 import { useConcepts } from "../../../hooks/useConcepts";
 
 export const Component = () => {

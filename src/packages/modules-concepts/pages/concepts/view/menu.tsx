@@ -31,7 +31,7 @@ interface ConceptVisualizationControlsTypes {
   onDelete: () => void;
 }
 
-const ConceptVisualizationControls = ({
+export const ConceptVisualizationControls = ({
   general,
   validationState,
   conceptVersion,
@@ -92,5 +92,3 @@ const ConceptVisualizationControls = ({
     </>
   );
 };
-
-export default ConceptVisualizationControls;

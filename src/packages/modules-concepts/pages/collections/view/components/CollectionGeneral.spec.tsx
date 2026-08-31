@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import CollectionGeneral, { type CollectionAttribute } from "./CollectionGeneral";
+import { CollectionGeneral, type CollectionAttribute } from "./CollectionGeneral";
 
 // Mock des dépendances
 const translations: Record<"fr" | "en", Record<string, string>> = {

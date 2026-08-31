@@ -11,7 +11,7 @@ describe("concept-visualization-controls", () => {
   it("renders Back and Export buttons for any user", async () => {
     mockReactQueryForRbac([{ application: "CONCEPT_CONCEPT", privileges: [] }]);
 
-    const { default: ConceptVisualizationControls } = await import("./menu");
+    const { ConceptVisualizationControls } = await import("./menu");
 
     render(
       <WithRouter>
@@ -42,7 +42,7 @@ describe("concept-visualization-controls", () => {
       },
     ]);
 
-    const { default: ConceptVisualizationControls } = await import("./menu");
+    const { ConceptVisualizationControls } = await import("./menu");
 
     render(
       <WithRouter>
@@ -63,7 +63,7 @@ describe("concept-visualization-controls", () => {
   it("does not render Compare button when user has no READ privilege", async () => {
     mockReactQueryForRbac([{ application: "CONCEPT_CONCEPT", privileges: [] }]);
 
-    const { default: ConceptVisualizationControls } = await import("./menu");
+    const { ConceptVisualizationControls } = await import("./menu");
 
     render(
       <WithRouter>
@@ -95,7 +95,7 @@ describe("concept-visualization-controls", () => {
       [{ stamp: "DG75-L201" }],
     );
 
-    const { default: ConceptVisualizationControls } = await import("./menu");
+    const { ConceptVisualizationControls } = await import("./menu");
 
     render(
       <WithRouter>
@@ -125,7 +125,7 @@ describe("concept-visualization-controls", () => {
       [{ stamp: "DG75-L201" }],
     );
 
-    const { default: ConceptVisualizationControls } = await import("./menu");
+    const { ConceptVisualizationControls } = await import("./menu");
 
     render(
       <WithRouter>
@@ -154,7 +154,7 @@ describe("concept-visualization-controls", () => {
       [{ stamp: "DG75-L201" }],
     );
 
-    const { default: ConceptVisualizationControls } = await import("./menu");
+    const { ConceptVisualizationControls } = await import("./menu");
 
     render(
       <WithRouter>
@@ -188,7 +188,7 @@ describe("concept-visualization-controls", () => {
       [{ stamp: "DG75-L201" }],
     );
 
-    const { default: ConceptVisualizationControls } = await import("./menu");
+    const { ConceptVisualizationControls } = await import("./menu");
 
     const { container } = render(
       <WithRouter>

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { SeeButton } from "@components/buttons/see";
 import { ClientSideError, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { RightSlidingPanel } from "@components/sliding-panel";
 

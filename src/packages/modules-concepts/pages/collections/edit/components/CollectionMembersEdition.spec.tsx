@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 
-import CollectionMembers from "./CollectionMembersEdition";
+import { CollectionMembersEdition as CollectionMembers } from "./CollectionMembersEdition";
 
 const conceptList = [
   { id: "c1", label: "Concept 1" },

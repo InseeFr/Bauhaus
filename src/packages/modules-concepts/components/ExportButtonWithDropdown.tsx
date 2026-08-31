@@ -36,7 +36,7 @@ interface ExportButtonWithDropdownProps {
   disabled?: boolean;
 }
 
-const ExportButtonWithDropdown = ({
+export const ExportButtonWithDropdown = ({
   actions,
   disabled = false,
 }: Readonly<ExportButtonWithDropdownProps>) => {
@@ -70,5 +70,3 @@ const ExportButtonWithDropdown = ({
     </div>
   );
 };
-
-export default ExportButtonWithDropdown;

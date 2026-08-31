@@ -41,7 +41,7 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/CollectionEditionCreation", () => ({
-  default: () => <div data-testid="collection-edition-creation">Form</div>,
+  CollectionEditionCreation: () => <div data-testid="collection-edition-creation">Form</div>,
 }));
 
 describe("Edition Container Component", () => {

@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
 import { InputText } from "primereact/inputtext";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { ClientSideError } from "@components/errors-bloc";
 
 interface UriInputGroupProps {

@@ -3,7 +3,7 @@ import { screen, within } from "@testing-library/react";
 import { ConceptNotes as ConceptNotesType } from "../../../../../model/concepts/concept";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { emptyConceptNotes } from "../../../../utils/emptyConceptNotes";
-import ConceptNotes from "./NotesEdition";
+import { NotesEdition as ConceptNotes } from "./NotesEdition";
 
 const renderNotes = (
   notes: Partial<ConceptNotesType> = {},

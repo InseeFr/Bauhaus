@@ -5,7 +5,7 @@ import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { ErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 import { Loading } from "@components/loading";

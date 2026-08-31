@@ -5,7 +5,7 @@ import { BROADER, NARROWER } from "@sdk/constants";
 import { ConceptGeneral, ConceptNotes } from "../../../../../model/concepts/concept";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { emptyConceptGeneral } from "../../../../utils/emptyConceptGeneral";
-import ConceptEditionCreation, { onGeneralInformationChange } from "./ConceptEditionCreation";
+import { ConceptEditionCreation, onGeneralInformationChange } from "./ConceptEditionCreation";
 
 vi.mock("./ConceptGeneralEdition");
 

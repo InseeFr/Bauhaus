@@ -19,7 +19,7 @@ vi.mock("../../../../utils/hooks/useTitle", () => ({
 }));
 
 vi.mock("../../../components/ExportButtons", () => ({
-  default: ({
+  ExportButtons: ({
     disabled,
     exportHandler,
   }: {

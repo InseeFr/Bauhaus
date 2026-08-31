@@ -1,7 +1,7 @@
 import { ComponentProps, useId } from "react";
 
 import { ClientSideError } from "@components/errors-bloc";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 
 type BlockTypes = {
   label: string;

@@ -6,7 +6,7 @@ import { useCollectionExporter } from "@utils/hooks/collections";
 
 import { CollectionExportFormat } from "@model/concepts/collection";
 
-import ExportButtons from "../../../../components/ExportButtons";
+import { ExportButtons } from "../../../../components/ExportButtons";
 
 interface CollectionItem {
   id: string;
@@ -17,7 +17,7 @@ interface CollectionsToExportProps {
   collections: CollectionItem[];
 }
 
-const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>) => {
+export const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>) => {
   const { t } = useTranslation();
   const { mutate: exportCollection } = useCollectionExporter();
 
@@ -43,5 +43,3 @@ const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>
     />
   );
 };
-
-export default CollectionsToExport;

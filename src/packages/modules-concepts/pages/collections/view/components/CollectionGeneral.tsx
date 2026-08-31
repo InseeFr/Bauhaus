@@ -78,7 +78,7 @@ const renderFieldItem = (
   }
 };
 
-function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps>) {
+export function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps>) {
   const { i18n } = useTranslation();
   const t1 = i18n.getFixedT("fr");
   const t2 = i18n.getFixedT("en");
@@ -118,5 +118,3 @@ function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps
     </>
   );
 }
-
-export default CollectionGeneral;

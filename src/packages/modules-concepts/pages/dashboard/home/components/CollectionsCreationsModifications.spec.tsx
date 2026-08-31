@@ -1,5 +1,5 @@
 import { renderWithRouter } from "../../../../../tests/render";
-import CollectionsCreationsModifications from "./CollectionsCreationsModifications";
+import { CollectionsCreationsModifications } from "./CollectionsCreationsModifications";
 
 describe("dashboard-collections-edition", () => {
   it("renders without crashing for creations", () => {

@@ -7,9 +7,9 @@ import { ApplicationTitle } from "@components/application-title";
 import { GeneralApi } from "@sdk/general-api";
 
 import { AppContextProvider, type AppProperties } from "./packages/application/app-context";
-import Root from "./packages/application/router";
+import { Root } from "./packages/application/router";
 import { OidcProvider } from "./packages/auth/create-oidc";
-import BackToTop from "./packages/components/back-to-top";
+import { BackToTop } from "./packages/components/back-to-top";
 import D from "./packages/deprecated-locales";
 import "./packages/styles/main.css";
 import { getLang } from "./packages/utils/dictionnary";

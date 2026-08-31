@@ -13,7 +13,7 @@ import { SearchTextField } from "@components/ui/search-field";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { useTitle } from "@utils/hooks/useTitle";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { filterKeyDeburr } from "../../../../utils/array-utils";
 import { TypeCodeInput } from "./components/TypeCodeInput";

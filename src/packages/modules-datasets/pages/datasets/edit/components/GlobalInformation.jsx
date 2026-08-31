@@ -4,7 +4,7 @@ import { OrganisationInput } from "@components/business/stamps-input/stamps-inpu
 import { ClientSideError } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { InputMulti } from "@components/ui/forms/input-multi";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 

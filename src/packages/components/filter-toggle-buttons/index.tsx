@@ -8,7 +8,7 @@ interface FilterToggleButtonsTypes {
   handleSelection: (value: typeof BOTH | typeof DOCUMENT | typeof LINK) => void;
 }
 
-const FilterToggleButtons = ({
+export const FilterToggleButtons = ({
   options,
   currentValue,
   handleSelection,
@@ -34,5 +34,3 @@ const FilterToggleButtons = ({
     </div>
   );
 };
-
-export default FilterToggleButtons;

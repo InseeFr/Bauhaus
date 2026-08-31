@@ -12,7 +12,7 @@ import { useCollection } from "../../../hooks/useCollection";
 import { useCollections } from "../../../hooks/useCollections";
 import { useCollectionSave } from "../../../hooks/useCollectionSave";
 import { useConcepts } from "../../../hooks/useConcepts";
-import CollectionEditionCreation from "./components/CollectionEditionCreation";
+import { CollectionEditionCreation } from "./components/CollectionEditionCreation";
 
 export const Component = () => {
   const { t } = useTranslation();

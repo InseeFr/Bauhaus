@@ -5,7 +5,7 @@ import { CreatorsInput } from "@components/business/creators-input";
 import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { InputRmes } from "@components/input-rmes";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";

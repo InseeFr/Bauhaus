@@ -46,7 +46,7 @@ const splitByLink = (conceptsWithLinks: ConceptWithLink[], memberType: LinkType)
   return { linked, available };
 };
 
-const LinksEdition = ({
+export const LinksEdition = ({
   conceptsWithLinks: initialConceptsWithLinks,
   currentId,
   handleChange,
@@ -115,5 +115,3 @@ const LinksEdition = ({
     />
   );
 };
-
-export default LinksEdition;

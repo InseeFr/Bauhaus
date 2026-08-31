@@ -16,10 +16,10 @@ import { ConceptSection, ConceptSummary } from "./ConceptSummary";
 import "./ConceptEditionCreation.css";
 import { Menu } from "../menu";
 import { validate } from "../validation";
-import GeneralEdition from "./ConceptGeneralEdition";
-import LinksEdition, { ConceptWithLink } from "./LinksEdition";
+import { ConceptGeneralEdition as GeneralEdition } from "./ConceptGeneralEdition";
+import { LinksEdition, ConceptWithLink } from "./LinksEdition";
 import type { SaveFn } from "../../../../hooks/useConceptSave";
-import NotesEdition from "./NotesEdition";
+import { NotesEdition } from "./NotesEdition";
 
 type VersioningType = typeof VERSIONING | typeof NO_VERSIONING;
 
@@ -84,7 +84,7 @@ export const onGeneralInformationChange = (
   },
 });
 
-const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
+export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
   const {
     id,
     creation,
@@ -364,5 +364,3 @@ const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
     </div>
   );
 };
-
-export default ConceptEditionCreation;

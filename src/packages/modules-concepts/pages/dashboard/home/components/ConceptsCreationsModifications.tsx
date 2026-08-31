@@ -16,7 +16,7 @@ type Props = {
   type: "creations" | "modifications";
 };
 
-const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>) => {
+export const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dateField = type === "creations" ? "created" : "modified";
@@ -59,5 +59,3 @@ const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>)
     </DateFilteredTable>
   );
 };
-
-export default ConceptsCreationsModifications;

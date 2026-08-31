@@ -19,7 +19,7 @@ import { DatasetsApi } from "@sdk/datasets-api";
 
 import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { useSeriesOperationsOptions } from "../../../hooks/useSeriesOperationsOptions";
 

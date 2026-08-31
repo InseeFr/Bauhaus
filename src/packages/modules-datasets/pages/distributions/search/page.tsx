@@ -17,7 +17,7 @@ import { DistributionApi } from "@sdk/distributions-api";
 
 import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { useSeriesOperationsOptions } from "../../../hooks/useSeriesOperationsOptions";
 import { FieldsForDatasetsAdvancedSearch, SearchDataset } from "../../datasets/search/page";

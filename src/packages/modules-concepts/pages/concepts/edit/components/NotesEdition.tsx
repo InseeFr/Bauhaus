@@ -16,7 +16,7 @@ interface NotesEditionProps {
   activeNote: NoteRawTitle;
 }
 
-const NotesEdition = ({
+export const NotesEdition = ({
   notes,
   maxLengthScopeNote,
   handleChange,
@@ -55,5 +55,3 @@ const NotesEdition = ({
     </section>
   );
 };
-
-export default NotesEdition;

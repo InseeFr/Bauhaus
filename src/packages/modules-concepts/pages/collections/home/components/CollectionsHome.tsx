@@ -12,7 +12,7 @@ interface CollectionsHomeTypes {
   collections: { id: string; label: string }[];
 }
 
-const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>) => {
+export const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>) => {
   const { t } = useTranslation();
   useTitle(t("concept.title"), t("collection.title"));
 
@@ -28,5 +28,3 @@ const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>) => {
     </div>
   );
 };
-
-export default CollectionsHome;

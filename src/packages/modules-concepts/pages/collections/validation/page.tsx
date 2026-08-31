@@ -9,7 +9,7 @@ import { ConceptsApi } from "@sdk/index";
 import { getApiErrorMessage } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import CollectionsToValidate from "./components/CollectionsToValidate";
+import { CollectionsToValidate } from "./components/CollectionsToValidate";
 import { useUnpublishedCollections } from "../../../hooks/useUnpublishedCollections";
 
 export const Component = () => {

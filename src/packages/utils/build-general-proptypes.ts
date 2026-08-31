@@ -1,5 +1,5 @@
 /* eslint  @typescript-eslint/no-unused-vars: 0 */
-import objectFromKeys from "./object-from-keys";
+import { objectFromKeys } from "./object-from-keys";
 
 /**
  * Description d'un champ : son nom, un indicateur `required` conservé pour la

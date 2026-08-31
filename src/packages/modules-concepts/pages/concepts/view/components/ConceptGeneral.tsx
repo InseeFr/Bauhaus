@@ -149,7 +149,7 @@ const renderFieldItem = (
   }
 };
 
-function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneralProps>) {
+export function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneralProps>) {
   const { lg1, lg2 } = useLocales();
   const { t } = useTranslation();
 
@@ -215,5 +215,3 @@ function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneral
     </>
   );
 }
-
-export default ConceptGeneral;

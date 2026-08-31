@@ -26,7 +26,7 @@ interface CollectionMembersProps {
   secondLang?: boolean;
 }
 
-function CollectionMembers({ members, secondLang }: Readonly<CollectionMembersProps>) {
+export function CollectionMembers({ members, secondLang }: Readonly<CollectionMembersProps>) {
   const { t, t2 } = useTranslation();
   const sortedMembers = sortByLabelLg1(members) as CollectionMember[];
 
@@ -50,5 +50,3 @@ function CollectionMembers({ members, secondLang }: Readonly<CollectionMembersPr
     </Row>
   );
 }
-
-export default CollectionMembers;

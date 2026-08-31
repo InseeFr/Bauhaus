@@ -31,7 +31,9 @@ export const buildDataStamps = (d: Collection[]): CollectionStampRow[] =>
     return acc;
   }, []);
 
-function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Collection[] }>) {
+export function CollectionsSummary({
+  collectionsData,
+}: Readonly<{ collectionsData: Collection[] }>) {
   const { t } = useTranslation();
 
   const data: CollectionSummaryRow[] = [
@@ -74,5 +76,3 @@ function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Col
     </div>
   );
 }
-
-export default CollectionsSummary;

@@ -15,7 +15,7 @@ type Props = {
   type: "creations" | "modifications";
 };
 
-const CollectionsCreationsModifications = ({ collectionsData, type }: Readonly<Props>) => {
+export const CollectionsCreationsModifications = ({ collectionsData, type }: Readonly<Props>) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dateField = type === "creations" ? "created" : "modified";
@@ -54,5 +54,3 @@ const CollectionsCreationsModifications = ({ collectionsData, type }: Readonly<P
     </DateFilteredTable>
   );
 };
-
-export default CollectionsCreationsModifications;

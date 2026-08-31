@@ -5,7 +5,7 @@ import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import CollectionsHome from "./CollectionsHome";
+import { CollectionsHome } from "./CollectionsHome";
 
 const translations: Record<string, string> = {
   "concept.title": "Concepts",
