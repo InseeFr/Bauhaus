@@ -41,8 +41,8 @@ vi.mock("react-i18next", () => ({
 // init, changeLanguage...) du singleton réel intact.
 vi.mock("../../../../i18n", async (importOriginal) => {
   const actual = await importOriginal();
-  const originalT = actual.default.t.bind(actual.default);
-  actual.default.t = (key, ...args) => mockTranslations[key] ?? originalT(key, ...args);
+  const originalT = actual.operationsI18n.t.bind(actual.operationsI18n);
+  actual.operationsI18n.t = (key, ...args) => mockTranslations[key] ?? originalT(key, ...args);
   return actual;
 });
 

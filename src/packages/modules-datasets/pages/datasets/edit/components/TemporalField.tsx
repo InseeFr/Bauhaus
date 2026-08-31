@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import datasetsI18n from "../../../../i18n";
+import { datasetsI18n } from "../../../../i18n";
 
 import { NumberInput } from "@components/form/input";
 import { Select } from "@components/select-rmes";

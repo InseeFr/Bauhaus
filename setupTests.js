@@ -1,13 +1,13 @@
 import '@testing-library/jest-dom';
 import { vi, beforeEach } from 'vitest';
 import { testsI18n } from './src/packages/tests/i18n';
-import classificationsI18n from './src/packages/modules-classifications/i18n';
-import codelistsI18n from './src/packages/modules-codelists/i18n';
-import conceptsI18n from './src/packages/modules-concepts/i18n';
-import datasetsI18n from './src/packages/modules-datasets/i18n';
-import ddiI18n from './src/packages/modules-ddi/i18n';
-import operationsI18n from './src/packages/modules-operations/i18n';
-import structuresI18n from './src/packages/modules-structures/i18n';
+import { classificationsI18n } from './src/packages/modules-classifications/i18n';
+import { codelistsI18n } from './src/packages/modules-codelists/i18n';
+import { conceptsI18n } from './src/packages/modules-concepts/i18n';
+import { datasetsI18n } from './src/packages/modules-datasets/i18n';
+import { ddiI18n } from './src/packages/modules-ddi/i18n';
+import { operationsI18n } from './src/packages/modules-operations/i18n';
+import { structuresI18n } from './src/packages/modules-structures/i18n';
 
 // Each module owns an isolated i18n instance (see modules-*/i18n/index.ts), so
 // forcing the test language means forcing it on every one of them individually,

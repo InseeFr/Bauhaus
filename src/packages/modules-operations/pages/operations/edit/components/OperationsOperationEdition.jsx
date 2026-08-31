@@ -1,4 +1,4 @@
-import operationsI18n from "../../../../i18n";
+import { operationsI18n } from "../../../../i18n";
 import { useEffect, useRef, useState } from "react";
 
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";

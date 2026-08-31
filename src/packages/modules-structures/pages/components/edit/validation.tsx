@@ -1,4 +1,4 @@
-import structuresI18n from "../../../i18n";
+import { structuresI18n } from "../../../i18n";
 import { z } from "zod";
 
 import {

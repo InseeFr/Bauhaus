@@ -4,7 +4,7 @@ import en from "./locales/en.json";
 import fr from "./locales/fr.json";
 import { getLang } from "../../utils/dictionnary";
 
-const conceptsI18n = i18next.createInstance();
+export const conceptsI18n = i18next.createInstance();
 
 conceptsI18n.use(initReactI18next).init({
   resources: {
@@ -19,5 +19,3 @@ conceptsI18n.use(initReactI18next).init({
   initImmediate: false,
   showSupportNotice: false,
 });
-
-export default conceptsI18n;

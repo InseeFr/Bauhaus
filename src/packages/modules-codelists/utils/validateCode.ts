@@ -1,4 +1,4 @@
-import codelistsI18n from "../i18n";
+import { codelistsI18n } from "../i18n";
 import { z } from "zod";
 
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
