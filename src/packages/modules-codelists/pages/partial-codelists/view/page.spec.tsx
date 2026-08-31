@@ -8,7 +8,7 @@ import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
 import { CodelistsApi } from "@sdk/index";
 import { AppContextProvider } from "../../../../application/app-context";
-import i18n from "../../../../modules-concepts/i18n";
+import { testsI18n as i18n } from "../../../../tests/i18n";
 import { Component } from "./page";
 
 vi.mock("@sdk/index", async (importOriginal) => {

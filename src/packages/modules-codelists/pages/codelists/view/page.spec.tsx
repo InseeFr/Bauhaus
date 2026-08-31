@@ -5,7 +5,7 @@ import { MemoryRouter } from "react-router-dom";
 import { Mock, vi } from "vitest";
 
 import { AppContextProvider } from "../../../../application/app-context";
-import i18n from "../../../../modules-concepts/i18n";
+import { testsI18n as i18n } from "../../../../tests/i18n";
 
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 

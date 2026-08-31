@@ -7,7 +7,7 @@ import { MemoryRouter } from "react-router-dom";
 import { MODULE, PRIVILEGE, STRATEGY } from "@utils/hooks/rbac-constants";
 
 import { AppContextProvider } from "../application/app-context";
-import i18n from "../modules-concepts/i18n";
+import { testsI18n } from "./i18n";
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -44,12 +44,25 @@ export const mockReactQueryForRbac = (
   });
 };
 
+// Un `wrapper` (plutôt qu'un simple JSX autour de `component`) est nécessaire :
+// le `rerender` renvoyé par `render()` réapplique automatiquement un `wrapper`
+// à chaque appel, alors qu'un JSX englobant écrit une fois pour toutes serait
+// perdu si un test appelle `rerender(<AutreComposant />)` sans le réenvelopper.
+const RouterWrapper = ({
+  children,
+  initialEntries,
+}: PropsWithChildren<{ initialEntries: string[] }>) => (
+  <I18nextProvider i18n={testsI18n}>
+    <MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>
+  </I18nextProvider>
+);
+
 export const renderWithRouter = (component: ReactNode, initialEntries: string[] = ["/"]) => {
-  return render(
-    <I18nextProvider i18n={i18n}>
-      <MemoryRouter initialEntries={initialEntries}>{component}</MemoryRouter>
-    </I18nextProvider>,
-  );
+  return render(component, {
+    wrapper: ({ children }) => (
+      <RouterWrapper initialEntries={initialEntries}>{children}</RouterWrapper>
+    ),
+  });
 };
 
 export const renderWithRouterAndQuery = (
@@ -64,17 +77,27 @@ export const renderWithRouterAndQuery = (
   );
 };
 
+const AppContextProviderWrapper = ({ children }: PropsWithChildren) => (
+  <AppContextProvider lg1="fr" lg2="lg2" version="2.0.0" properties={{} as any}>
+    {children}
+  </AppContextProvider>
+);
+
 export const renderWithAppContext = (component: ReactNode, withRouter = true) => {
   if (!withRouter) {
-    return render(
-      <AppContextProvider lg1="fr" lg2="lg2" version="2.0.0" properties={{} as any}>
-        {component}
-      </AppContextProvider>,
-    );
+    return render(component, {
+      wrapper: ({ children }) => (
+        <I18nextProvider i18n={testsI18n}>
+          <AppContextProviderWrapper>{children}</AppContextProviderWrapper>
+        </I18nextProvider>
+      ),
+    });
   }
-  return renderWithRouter(
-    <AppContextProvider lg1="fr" lg2="lg2" version="2.0.0" properties={{} as any}>
-      {component}
-    </AppContextProvider>,
-  );
+  return render(component, {
+    wrapper: ({ children }) => (
+      <RouterWrapper initialEntries={["/"]}>
+        <AppContextProviderWrapper>{children}</AppContextProviderWrapper>
+      </RouterWrapper>
+    ),
+  });
 };
