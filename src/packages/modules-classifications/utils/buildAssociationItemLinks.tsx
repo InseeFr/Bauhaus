@@ -1,4 +1,4 @@
-import i18next from "../i18n";
+import classificationsI18n from "../i18n";
 import { Link } from "react-router-dom";
 
 interface SourceItemLabelTypes {
@@ -42,7 +42,10 @@ const SourceItemLabel = ({
  * Builds the list of links to the source and target items paired by
  * an association, shown in its "general information" block.
  */
-export const buildAssociationItemLinks = (association: any, secondLang: boolean) => {
+export const buildAssociationItemLinks = (
+  association: any,
+  secondLang: boolean,
+) => {
   const {
     sourceClassId,
     targetClassId,
@@ -59,8 +62,8 @@ export const buildAssociationItemLinks = (association: any, secondLang: boolean)
   } = association;
 
   const mapping = {
-    sourceItemLabelLg1: i18next.t("correspondence.sourceItem"),
-    targetItemLabelLg1: i18next.t("correspondence.targetItem"),
+    sourceItemLabelLg1: classificationsI18n.t("correspondence.sourceItem"),
+    targetItemLabelLg1: classificationsI18n.t("correspondence.targetItem"),
   };
 
   const content = Object.keys(mapping).map((fieldName) => {
