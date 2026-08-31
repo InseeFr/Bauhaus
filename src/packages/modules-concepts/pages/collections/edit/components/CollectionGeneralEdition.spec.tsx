@@ -1,6 +1,5 @@
-import { render } from "@testing-library/react";
-
 import { emptyCollectionGeneral } from "../../../../utils/emptyCollectionGeneral";
+import { renderWithRouter } from "../../../../../tests/render";
 import { CollectionGeneralEdition as CollectionGeneral } from "./CollectionGeneralEdition";
 
 vi.mock("@components/form/input", () => ({ TextInput: () => <></> }));
@@ -18,7 +17,7 @@ vi.mock("@components/required-icon", () => ({ RequiredIcon: () => <></> }));
 
 describe("collection-edition-creation-general", () => {
   it("renders without crashing", () => {
-    render(
+    renderWithRouter(
       <CollectionGeneral
         general={emptyCollectionGeneral()}
         handleChange={vi.fn()}
@@ -28,7 +27,7 @@ describe("collection-edition-creation-general", () => {
   });
 
   it("shows the identifier input in creation mode", () => {
-    const { queryAllByTestId } = render(
+    const { queryAllByTestId } = renderWithRouter(
       <CollectionGeneral
         general={emptyCollectionGeneral()}
         handleChange={vi.fn()}
@@ -41,7 +40,7 @@ describe("collection-edition-creation-general", () => {
   });
 
   it("hides the identifier input in edition mode", () => {
-    const { queryAllByTestId } = render(
+    const { queryAllByTestId } = renderWithRouter(
       <CollectionGeneral
         general={emptyCollectionGeneral()}
         handleChange={vi.fn()}
