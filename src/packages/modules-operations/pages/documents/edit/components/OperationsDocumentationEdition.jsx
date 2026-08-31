@@ -24,7 +24,7 @@ import { useDocumentsAndLinks } from "@utils/hooks/documents";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { DOCUMENT, LINK } from "../../../../constants/documentType";
+import { DOCUMENT, LINK } from "../../../../../constants/documentType";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { validate } from "../validation";
 

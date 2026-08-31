@@ -7,7 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GeneralApi } from "@sdk/general-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
-import { DOCUMENT } from "../../../../constants/documentType";
+import { DOCUMENT } from "../../../../../constants/documentType";
 import { OperationsDocumentationEdition } from "./OperationsDocumentationEdition";
 
 vi.mock("@sdk/general-api", () => ({

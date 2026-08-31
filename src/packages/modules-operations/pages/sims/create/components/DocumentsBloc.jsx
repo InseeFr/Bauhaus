@@ -20,7 +20,7 @@ import { List } from "@components/ui/list-group";
 
 import { getBaseURI } from "@sdk/build-api";
 
-import { DOCUMENT, LINK } from "../../../../constants/documentType";
+import { DOCUMENT, LINK } from "../../../../../constants/documentType";
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
 import { useDocumentsStoreContext } from "../../hooks/useDocumentsStoreContext";

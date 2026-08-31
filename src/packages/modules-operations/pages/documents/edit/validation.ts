@@ -10,7 +10,7 @@ import i18next from "i18next";
 
 import NewDictionary from "../../../../i18n";
 import { Document } from "../../../../model/operations/document";
-import { LINK } from "../../../constants/documentType";
+import { LINK } from "../../../../constants/documentType";
 
 const Base = (
   documentsAndLinksList: Document[],
