@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import codelistsI18n from "../../../i18n";
 import { z } from "zod";
 
 import {
@@ -8,16 +8,20 @@ import {
 } from "@utils/validation";
 
 const ZodPartialCodeList = z.object({
-  id: mandatoryAndNotEmptyTextField(i18next.t("partial-codelists.identifier")).regex(
+  id: mandatoryAndNotEmptyTextField(codelistsI18n.t("partial-codelists.identifier")).regex(
     /^\w*$/,
-    i18next.t("partial-codelists.invalidCharactersError"),
+    codelistsI18n.t("partial-codelists.invalidCharactersError"),
   ),
-  parentCode: mandatoryAndNotEmptySelectField(i18next.t("partial-codelists.parentCodelist")),
-  labelLg1: mandatoryAndNotEmptyTextField(i18next.t("partial-codelists.label", { lng: "fr" })),
-  labelLg2: mandatoryAndNotEmptyTextField(i18next.t("partial-codelists.label", { lng: "en" })),
-  creator: mandatoryAndNotEmptySelectField(i18next.t("partial-codelists.creator")),
+  parentCode: mandatoryAndNotEmptySelectField(codelistsI18n.t("partial-codelists.parentCodelist")),
+  labelLg1: mandatoryAndNotEmptyTextField(
+    codelistsI18n.t("partial-codelists.label", { lng: "fr" }),
+  ),
+  labelLg2: mandatoryAndNotEmptyTextField(
+    codelistsI18n.t("partial-codelists.label", { lng: "en" }),
+  ),
+  creator: mandatoryAndNotEmptySelectField(codelistsI18n.t("partial-codelists.creator")),
   disseminationStatus: mandatoryAndNotEmptySelectField(
-    i18next.t("partial-codelists.disseminationStatus"),
+    codelistsI18n.t("partial-codelists.disseminationStatus"),
   ),
 });
 
