@@ -1,5 +1,5 @@
-import { operationsI18n } from "../../../../i18n";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   ClientSideError,
@@ -39,6 +39,7 @@ const setInitialState = (props) => ({
 });
 
 export const OperationsOperationEdition = (props) => {
+  const { t } = useTranslation();
   const [state, setState] = useState(() => setInitialState(props));
   const isFirstRender = useRef(true);
 
@@ -133,7 +134,7 @@ export const OperationsOperationEdition = (props) => {
       <form>
         {!isEditing && (
           <Series
-            label={operationsI18n.t("common.seriesTitle")}
+            label={t("common.seriesTitle")}
             value={series.id}
             onChange={(value) =>
               onChange({
@@ -145,7 +146,7 @@ export const OperationsOperationEdition = (props) => {
         <Row className="bauhaus-row">
           <div className="form-group">
             <LabelRequired htmlFor="prefLabelLg1">
-              {operationsI18n.t("common.title", { lng: "fr" })}
+              {t("common.title", { lng: "fr" })}
             </LabelRequired>
             <TextInput
               id="prefLabelLg1"
@@ -165,7 +166,7 @@ export const OperationsOperationEdition = (props) => {
           </div>
           <div className="form-group">
             <LabelRequired htmlFor="prefLabelLg2">
-              {operationsI18n.t("common.title", { lng: "en" })}
+              {t("common.title", { lng: "en" })}
             </LabelRequired>
             <TextInput
               id="prefLabelLg2"
@@ -187,7 +188,7 @@ export const OperationsOperationEdition = (props) => {
         <Row className="bauhaus-row">
           <div className="form-group">
             <label htmlFor="altLabelLg1">
-              {operationsI18n.t("app.altLabel", { lng: "fr" })}
+              {t("app.altLabel", { lng: "fr" })}
             </label>
             <TextInput
               id="altLabelLg1"
@@ -197,7 +198,7 @@ export const OperationsOperationEdition = (props) => {
           </div>
           <div className="form-group">
             <label htmlFor="altLabelLg2">
-              {operationsI18n.t("app.altLabel", { lng: "en" })}
+              {t("app.altLabel", { lng: "en" })}
             </label>
             <TextInput
               id="altLabelLg2"
