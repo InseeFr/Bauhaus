@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import operationsI18n from "../../../../i18n";
 import { useEffect, useRef, useState } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";
@@ -195,9 +195,11 @@ export const OperationsSerieEdition = ({
         {!isEditing && (
           <Row>
             <div className="form-group col-md-12">
-              <LabelRequired>{i18next.t("common.familyTitle")}</LabelRequired>
+              <LabelRequired>
+                {operationsI18n.t("common.familyTitle")}
+              </LabelRequired>
               <Select
-                placeholder={i18next.t("common.familiesTitle")}
+                placeholder={operationsI18n.t("common.familiesTitle")}
                 value={family.id}
                 options={familiesOptions}
                 onChange={(value) =>
@@ -216,7 +218,7 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-6">
             <LabelRequired htmlFor="prefLabelLg1">
-              {i18next.t("common.title", { lng: "fr" })}
+              {operationsI18n.t("common.title", { lng: "fr" })}
             </LabelRequired>
             <TextInput
               id="prefLabelLg1"
@@ -236,7 +238,7 @@ export const OperationsSerieEdition = ({
           </div>
           <div className="form-group col-md-6">
             <LabelRequired htmlFor="prefLabelLg2">
-              {i18next.t("common.title", { lng: "en" })}
+              {operationsI18n.t("common.title", { lng: "en" })}
             </LabelRequired>
             <TextInput
               id="prefLabelLg2"
@@ -258,7 +260,7 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="altLabelLg1">
-              {i18next.t("app.altLabel", { lng: "fr" })}
+              {operationsI18n.t("app.altLabel", { lng: "fr" })}
             </label>
             <TextInput
               id="altLabelLg1"
@@ -268,7 +270,7 @@ export const OperationsSerieEdition = ({
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="altLabel2">
-              {i18next.t("app.altLabel", { lng: "en" })}
+              {operationsI18n.t("app.altLabel", { lng: "en" })}
             </label>
             <TextInput
               id="altLabelLg2"
@@ -280,7 +282,7 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg1">
-              {i18next.t("common.summary", { lng: "fr" })}
+              {operationsI18n.t("common.summary", { lng: "fr" })}
             </label>
             <EditorMarkdown
               text={serie.abstractLg1}
@@ -291,7 +293,7 @@ export const OperationsSerieEdition = ({
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="abstractLg2">
-              {i18next.t("common.summary", { lng: "en" })}
+              {operationsI18n.t("common.summary", { lng: "en" })}
             </label>
             <EditorMarkdown
               text={serie.abstractLg2}
@@ -304,7 +306,7 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg1">
-              {i18next.t("common.history", { lng: "fr" })}
+              {operationsI18n.t("common.history", { lng: "fr" })}
             </label>
             <EditorMarkdown
               text={serie.historyNoteLg1}
@@ -315,7 +317,7 @@ export const OperationsSerieEdition = ({
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="historyNoteLg2">
-              {i18next.t("common.history", { lng: "en" })}
+              {operationsI18n.t("common.history", { lng: "en" })}
             </label>
             <EditorMarkdown
               text={serie.historyNoteLg2}
@@ -329,11 +331,11 @@ export const OperationsSerieEdition = ({
           <div className="form-group col-md-12">
             {isMandatoryField("typeCode") ? (
               <LabelRequired htmlFor="typeCode">
-                {i18next.t("common.operationType", { lng: "fr" })}
+                {operationsI18n.t("common.operationType", { lng: "fr" })}
               </LabelRequired>
             ) : (
               <label htmlFor="typeCode" className="w-100">
-                {i18next.t("common.operationType", { lng: "fr" })}
+                {operationsI18n.t("common.operationType", { lng: "fr" })}
               </label>
             )}
             <Select
@@ -358,11 +360,11 @@ export const OperationsSerieEdition = ({
           <div className="form-group col-md-12">
             {isMandatoryField("accrualPeriodicityCode") ? (
               <LabelRequired htmlFor="accrualPeriodicityCode">
-                {i18next.t("common.dataCollectFrequency", { lng: "fr" })}
+                {operationsI18n.t("common.dataCollectFrequency", { lng: "fr" })}
               </LabelRequired>
             ) : (
               <label htmlFor="accrualPeriodicityCode" className="w-100">
-                {i18next.t("common.dataCollectFrequency", { lng: "fr" })}
+                {operationsI18n.t("common.dataCollectFrequency", { lng: "fr" })}
               </label>
             )}
             <Select
@@ -407,8 +409,12 @@ export const OperationsSerieEdition = ({
               multi
               required={false}
               lang="first"
-              labelSingle={i18next.t("common.stakeholders", { lng: "fr" })}
-              labelMulti={i18next.t("common.stakeholders", { lng: "fr" })}
+              labelSingle={operationsI18n.t("common.stakeholders", {
+                lng: "fr",
+              })}
+              labelMulti={operationsI18n.t("common.stakeholders", {
+                lng: "fr",
+              })}
               value={serie.contributors}
               onChange={(value) =>
                 onChange({
@@ -429,8 +435,12 @@ export const OperationsSerieEdition = ({
               multi
               required={false}
               lang="first"
-              labelSingle={i18next.t("common.dataCollector", { lng: "fr" })}
-              labelMulti={i18next.t("common.dataCollector", { lng: "fr" })}
+              labelSingle={operationsI18n.t("common.dataCollector", {
+                lng: "fr",
+              })}
+              labelMulti={operationsI18n.t("common.dataCollector", {
+                lng: "fr",
+              })}
               value={serie.dataCollectors}
               onChange={(value) =>
                 onChange({
@@ -469,7 +479,7 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-12">
             <label htmlFor="replaces" className="w-100">
-              {i18next.t("common.replaces", { lng: "fr" })}
+              {operationsI18n.t("common.replaces", { lng: "fr" })}
               <Select
                 placeholder=""
                 value={serie.replaces}
@@ -492,7 +502,7 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-12">
             <label htmlFor="replacedBy" className="w-100">
-              {i18next.t("common.replacedBy", { lng: "fr" })}
+              {operationsI18n.t("common.replacedBy", { lng: "fr" })}
               <Select
                 placeholder=""
                 value={serie.replacedBy}
@@ -515,7 +525,7 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-12">
             <label htmlFor="seeAlso" className="w-100">
-              {i18next.t("common.seeAlso", { lng: "fr" })}
+              {operationsI18n.t("common.seeAlso", { lng: "fr" })}
               <Select
                 placeholder=""
                 value={serie.seeAlso}

@@ -1,4 +1,4 @@
-import i18next from "../i18n";
+import operationsI18n from "../i18n";
 import { useMemo } from "react";
 
 import { Geography, useAllGeographies } from "./useAllGeographies";
@@ -24,14 +24,14 @@ const formatLabel = (
 
   if (numberOfGeographiesWithTheSameName > 1) {
     if (geography.dateSuppression && geography.dateCreation) {
-      return i18next.t("geography.labelWithStartDateAndEndDate", {
+      return operationsI18n.t("geography.labelWithStartDateAndEndDate", {
         lng,
         label,
         startDate: geography.dateCreation,
         endDate: geography.dateSuppression,
       });
     } else if (geography.dateCreation) {
-      return i18next.t("geography.labelWithStartDate", {
+      return operationsI18n.t("geography.labelWithStartDate", {
         lng,
         label,
         startDate: geography.dateCreation,
@@ -50,10 +50,22 @@ export const useGeographiesOptions = (): {
   const geographiesOptions = useMemo(() => {
     const geographiesSorted = geographies
       .filter(({ labelLg1 }) => labelLg1)
-      .sort((g1, g2) => g1.labelLg1.toLowerCase().localeCompare(g2.labelLg1.toLowerCase()));
+      .sort((g1, g2) =>
+        g1.labelLg1.toLowerCase().localeCompare(g2.labelLg1.toLowerCase()),
+      );
     return geographiesSorted.map((geography) => ({
-      label: formatLabel(geography.labelLg1, geography, geographiesSorted, "fr"),
-      labelLg2: formatLabel(geography.labelLg2, geography, geographiesSorted, "en"),
+      label: formatLabel(
+        geography.labelLg1,
+        geography,
+        geographiesSorted,
+        "fr",
+      ),
+      labelLg2: formatLabel(
+        geography.labelLg2,
+        geography,
+        geographiesSorted,
+        "en",
+      ),
       value: geography.uri,
       typeTerritory: geography.typeTerritory,
       id: geography.id,
