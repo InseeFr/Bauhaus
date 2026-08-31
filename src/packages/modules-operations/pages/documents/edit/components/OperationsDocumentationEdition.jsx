@@ -4,7 +4,7 @@ import { Tag } from "primereact/tag";
 import { Tooltip } from "primereact/tooltip";
 import { useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
+import operationsI18n from "../../../../i18n";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -50,7 +50,7 @@ const dropzoneHeader = ({ className, chooseButton }) => (
 const dropzonePlaceholder = (
   <div className="dropzone-placeholder">
     <i className="pi pi-file-arrow-up" />
-    <span>{i18next.t("documents.drag")}</span>
+    <span>{operationsI18n.t("documents.drag")}</span>
   </div>
 );
 

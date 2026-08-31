@@ -39,7 +39,7 @@ vi.mock("react-i18next", () => ({
 // module, avant que l'init des ressources i18n n'ait forcément eu lieu dans
 // l'environnement de test. On ne patche que `t`, en gardant le reste (use,
 // init, changeLanguage...) du singleton réel intact.
-vi.mock("i18next", async (importOriginal) => {
+vi.mock("../../../../i18n", async (importOriginal) => {
   const actual = await importOriginal();
   const originalT = actual.default.t.bind(actual.default);
   actual.default.t = (key, ...args) => mockTranslations[key] ?? originalT(key, ...args);

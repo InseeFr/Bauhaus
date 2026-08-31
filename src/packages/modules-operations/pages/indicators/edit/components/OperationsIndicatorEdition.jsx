@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import i18next from "../../../../i18n";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CreatorsInput } from "@components/business/creators-input";

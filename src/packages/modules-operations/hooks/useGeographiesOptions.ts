@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import operationsI18n from "../i18n";
 import { useMemo } from "react";
 
 import { Geography, useAllGeographies } from "./useAllGeographies";
@@ -24,14 +24,14 @@ const formatLabel = (
 
   if (numberOfGeographiesWithTheSameName > 1) {
     if (geography.dateSuppression && geography.dateCreation) {
-      return i18next.t("geography.labelWithStartDateAndEndDate", {
+      return operationsI18n.t("geography.labelWithStartDateAndEndDate", {
         lng,
         label,
         startDate: geography.dateCreation,
         endDate: geography.dateSuppression,
       });
     } else if (geography.dateCreation) {
-      return i18next.t("geography.labelWithStartDate", {
+      return operationsI18n.t("geography.labelWithStartDate", {
         lng,
         label,
         startDate: geography.dateCreation,

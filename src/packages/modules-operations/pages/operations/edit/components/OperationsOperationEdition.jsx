@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import operationsI18n from "../../../../i18n";
 import { useEffect, useRef, useState } from "react";
 
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
@@ -124,7 +124,7 @@ export const OperationsOperationEdition = (props) => {
       <form>
         {!isEditing && (
           <Series
-            label={i18next.t("common.seriesTitle")}
+            label={operationsI18n.t("common.seriesTitle")}
             value={series.id}
             onChange={(value) =>
               onChange({
@@ -136,7 +136,7 @@ export const OperationsOperationEdition = (props) => {
         <Row className="bauhaus-row">
           <div className="form-group">
             <LabelRequired htmlFor="prefLabelLg1">
-              {i18next.t("common.title", { lng: "fr" })}
+              {operationsI18n.t("common.title", { lng: "fr" })}
             </LabelRequired>
             <TextInput
               id="prefLabelLg1"
@@ -154,7 +154,7 @@ export const OperationsOperationEdition = (props) => {
           </div>
           <div className="form-group">
             <LabelRequired htmlFor="prefLabelLg2">
-              {i18next.t("common.title", { lng: "en" })}
+              {operationsI18n.t("common.title", { lng: "en" })}
             </LabelRequired>
             <TextInput
               id="prefLabelLg2"
@@ -173,11 +173,11 @@ export const OperationsOperationEdition = (props) => {
         </Row>
         <Row className="bauhaus-row">
           <div className="form-group">
-            <label htmlFor="altLabelLg1">{i18next.t("app.altLabel", { lng: "fr" })}</label>
+            <label htmlFor="altLabelLg1">{operationsI18n.t("app.altLabel", { lng: "fr" })}</label>
             <TextInput id="altLabelLg1" value={operation.altLabelLg1} onChange={onChange} />
           </div>
           <div className="form-group">
-            <label htmlFor="altLabelLg2">{i18next.t("app.altLabel", { lng: "en" })}</label>
+            <label htmlFor="altLabelLg2">{operationsI18n.t("app.altLabel", { lng: "en" })}</label>
             <TextInput id="altLabelLg2" value={operation.altLabelLg2} onChange={onChange} />
           </div>
         </Row>
