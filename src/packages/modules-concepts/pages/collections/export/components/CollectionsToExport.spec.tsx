@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 
-import i18n from "../../../../i18n";
+import conceptsI18n from "../../../../i18n";
 import { CollectionsToExport } from "./CollectionsToExport";
 
 const mockExportCollection = vi.fn();
@@ -48,7 +48,7 @@ const mockCollections = [
 
 const renderWithRouter = (component: React.ReactNode) => {
   return render(
-    <I18nextProvider i18n={i18n}>
+    <I18nextProvider i18n={conceptsI18n}>
       <MemoryRouter>{component}</MemoryRouter>
     </I18nextProvider>,
   );

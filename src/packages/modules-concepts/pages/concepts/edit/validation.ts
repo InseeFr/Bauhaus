@@ -7,12 +7,12 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import i18n from "../../../i18n";
+import conceptsI18n from "../../../i18n";
 import { ConceptGeneral, ConceptNotes } from "../../../../model/concepts/concept";
 
-const t1 = i18n.getFixedT("fr");
+const t1 = conceptsI18n.getFixedT("fr");
 const t = (key: string, options?: Record<string, unknown>): string =>
-  i18n.t(key, options as never) as unknown as string;
+  conceptsI18n.t(key, options as never) as unknown as string;
 
 interface Concept {
   id: string;

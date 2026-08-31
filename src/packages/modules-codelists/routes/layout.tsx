@@ -3,13 +3,13 @@ import { I18nextProvider } from "react-i18next";
 
 import { useTheme } from "@utils/hooks/useTheme";
 import { Menu } from "../menu/menu";
-import i18n from "../i18n";
+import codelistsI18n from "../i18n";
 
 export const Component = () => {
   useTheme("codelists");
 
   return (
-    <I18nextProvider i18n={i18n}>
+    <I18nextProvider i18n={codelistsI18n}>
       <Menu />
       <div className="container">
         <Outlet />

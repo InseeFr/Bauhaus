@@ -8,11 +8,11 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import i18n from "../../../i18n";
+import conceptsI18n from "../../../i18n";
 import { CollectionGeneral } from "../../../../model/concepts/collection";
 
-const t1 = i18n.getFixedT("fr");
-const t = (key: string) => i18n.t(key) as string;
+const t1 = conceptsI18n.getFixedT("fr");
+const t = (key: string) => conceptsI18n.t(key) as string;
 
 type CollectionsList = {
   id: string;
