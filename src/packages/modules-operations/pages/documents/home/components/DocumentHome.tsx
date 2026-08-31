@@ -16,7 +16,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { HomeDocument } from "../../../../../model/operations/document";
 import { Menu } from "../menu";
-import { BOTH, DOCUMENT, LINK } from "../../../../constants/documentType";
+import { BOTH, DOCUMENT, LINK } from "../../../../../constants/documentType";
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
 

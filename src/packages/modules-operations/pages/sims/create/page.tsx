@@ -11,7 +11,7 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useOrganizations } from "@utils/hooks/organizations";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { DOCUMENT, LINK } from "../../../constants/documentType";
+import { DOCUMENT, LINK } from "../../../../constants/documentType";
 import { useCodesLists } from "../../../hooks/useCodesLists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { useSaveSims, useSims } from "../../../hooks/useSims";

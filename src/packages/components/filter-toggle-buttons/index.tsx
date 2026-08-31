@@ -1,4 +1,4 @@
-import { BOTH, DOCUMENT, LINK } from "../../modules-operations/constants/documentType";
+import { BOTH, DOCUMENT, LINK } from "../../constants/documentType";
 import "./filter-toggle-buttons.css";
 import { cx } from "@utils/cx";
 

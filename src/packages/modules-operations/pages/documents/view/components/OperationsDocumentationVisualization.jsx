@@ -8,7 +8,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { getBaseURI } from "../../../../../sdk";
 import { RelationsView } from "../../../../components/RelationsView";
-import { LINK } from "../../../../constants/documentType";
+import { LINK } from "../../../../../constants/documentType";
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
 
