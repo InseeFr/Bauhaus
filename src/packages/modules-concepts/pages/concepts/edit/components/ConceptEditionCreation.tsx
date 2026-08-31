@@ -1,5 +1,5 @@
-import { Component } from "react";
-import { withTranslation, WithTranslation } from "react-i18next";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
 import { PageTitle } from "@components/page-title";
@@ -11,7 +11,6 @@ import { UNPUBLISHED } from "@model/ValidationState";
 import { areNotesImpactingVersionChanged } from "../../../../utils/areNotesImpactingVersionChanged";
 import { isVersioningPossible } from "../../../../utils/isVersioningPossible";
 import { resolveConceptSection } from "../../../../utils/conceptSection";
-import { LINK_TYPES } from "../../../../utils/linkTypes";
 import { NoteRawTitle } from "../../../../utils/noteStatus";
 import { ConceptSection, ConceptSummary } from "./ConceptSummary";
 import "./ConceptEditionCreation.css";
@@ -40,7 +39,7 @@ export interface ConceptData {
 // structurellement différentes rendaient `save` non transmissible d'un module à l'autre.
 export type { SaveFn };
 
-interface ConceptEditionCreationProps extends WithTranslation {
+interface ConceptEditionCreationProps {
   id?: string;
   creation?: boolean;
   title: string;
@@ -85,16 +84,30 @@ export const onGeneralInformationChange = (
   },
 });
 
-class ConceptEditionCreation extends Component<
-  ConceptEditionCreationProps,
-  ConceptEditionCreationState
-> {
-  constructor(props: ConceptEditionCreationProps) {
-    super(props);
-    const { general, notes, conceptsWithLinks, equivalentLinks = [] } = props;
-    const initialSection = resolveConceptSection(props.section);
-    this.state = {
-      id: this.props.id,
+const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
+  const {
+    id,
+    creation,
+    title,
+    subtitle,
+    general,
+    notes,
+    conceptsWithLinks,
+    equivalentLinks = [],
+    maxLengthScopeNote,
+    save,
+    submitting,
+    setSubmitting,
+    section,
+    onSectionChange,
+  } = props;
+
+  const { t } = useTranslation();
+
+  const [state, setState] = useState<ConceptEditionCreationState>(() => {
+    const initialSection = resolveConceptSection(section);
+    return {
+      id,
       showModal: false,
       saveAttempted: false,
       activeSection: initialSection.section,
@@ -107,30 +120,31 @@ class ConceptEditionCreation extends Component<
         equivalentLinks,
       },
     };
-  }
+  });
 
   // La cible désigne ce qu'il faut afficher dans la section : une note, ou un
   // type de lien. Sans cible, on ouvre le premier de la liste.
-  handleSelectSection = (section: ConceptSection, target?: string) => {
+  const handleSelectSection = (section: ConceptSection, target?: string) => {
     // La clé retenue dans l'URL est la plus précise : la note ou le type de lien
     // s'il y en a un, la section sinon.
-    this.props.onSectionChange?.(target ?? section);
+    onSectionChange?.(target ?? section);
     const resolved = resolveConceptSection(target ?? section);
-    this.setState({
+    setState((state) => ({
+      ...state,
       activeSection: resolved.section,
       activeNote: resolved.note,
       activeLinkType: resolved.linkType,
-    });
+    }));
   };
 
-  handleChangeGeneral = (update: Partial<ConceptGeneral>) => {
-    this.props.setSubmitting(true);
-    this.setState((state) => onGeneralInformationChange(state, update));
+  const handleChangeGeneral = (update: Partial<ConceptGeneral>) => {
+    setSubmitting(true);
+    setState((state) => onGeneralInformationChange(state, update));
   };
 
-  handleChangeNotes = (update: Partial<ConceptNotes>) => {
-    this.props.setSubmitting(true);
-    this.setState((state) => ({
+  const handleChangeNotes = (update: Partial<ConceptNotes>) => {
+    setSubmitting(true);
+    setState((state) => ({
       ...state,
       data: {
         ...state.data,
@@ -142,9 +156,9 @@ class ConceptEditionCreation extends Component<
     }));
   };
 
-  handleChangeLinks = (newLinks: ConceptWithLink[]) => {
-    this.props.setSubmitting(true);
-    this.setState((state) => ({
+  const handleChangeLinks = (newLinks: ConceptWithLink[]) => {
+    setSubmitting(true);
+    setState((state) => ({
       ...state,
       data: {
         ...state.data,
@@ -153,9 +167,9 @@ class ConceptEditionCreation extends Component<
     }));
   };
 
-  handleChangeEquivalentLinks = (newLinks: (Link | { urn: string })[]) => {
-    this.props.setSubmitting(true);
-    this.setState((state) => ({
+  const handleChangeEquivalentLinks = (newLinks: (Link | { urn: string })[]) => {
+    setSubmitting(true);
+    setState((state) => ({
       ...state,
       data: {
         ...state.data,
@@ -164,196 +178,191 @@ class ConceptEditionCreation extends Component<
     }));
   };
 
-  handleSave = () => {
-    this.setState({ saveAttempted: true });
-    if (this.computeErrors().errorMessage.length > 0) return;
-    if (this.props.creation) {
-      this.saveConcept();
+  const handleSave = () => {
+    setState((state) => ({ ...state, saveAttempted: true }));
+    if (computeErrors().errorMessage.length > 0) return;
+    if (creation) {
+      saveConcept();
     } else {
-      this.askToConfirmOrSave();
+      askToConfirmOrSave();
     }
   };
 
-  computeErrors = (): ValidationResult => {
-    const { general, notes, conceptsWithLinks } = this.state.data;
+  const computeErrors = (): ValidationResult => {
+    const { general, notes, conceptsWithLinks } = state.data;
     return validate(
       general,
       notes,
-      this.getOriginalData().general.prefLabelLg1,
-      conceptsWithLinks,
-      this.props.maxLengthScopeNote,
-    );
-  };
-
-  askToConfirmOrSave = () => {
-    const isValidated = this.props.general.validationState !== UNPUBLISHED;
-    if (isValidated) {
-      if (!this.areNotesChanged()) return this.saveConcept(NO_VERSIONING);
-      this.openModal();
-    } else {
-      this.saveConcept(NO_VERSIONING);
-    }
-  };
-
-  openModal = () => {
-    this.setState({ showModal: true });
-  };
-
-  saveConcept = (versioningType?: VersioningType) => {
-    if (this.props.creation) {
-      this.props.save(this.state.data);
-    } else {
-      this.props.save(this.props.id!, versioningType, this.getOriginalData(), this.state.data);
-    }
-  };
-
-  closeModal = (versioningType?: VersioningType) => {
-    this.setState({ showModal: false });
-    if (versioningType) {
-      this.setState({ actionRequested: true });
-      this.saveConcept(versioningType);
-    }
-  };
-
-  getOriginalData = (): ConceptData => ({
-    general: this.props.general,
-    notes: this.props.notes,
-    conceptsWithLinks: this.props.conceptsWithLinks,
-    equivalentLinks: this.props.equivalentLinks ?? [],
-  });
-
-  isVersioningPossible = (): boolean =>
-    isVersioningPossible(this.props.notes, this.state.data.notes);
-
-  areNotesChanged = (): boolean => {
-    const oldNotes = this.getOriginalData().notes;
-    const newNotes = this.state.data.notes;
-    return areNotesImpactingVersionChanged(oldNotes, newNotes);
-  };
-
-  render() {
-    const { maxLengthScopeNote, title, subtitle, creation, submitting, t } = this.props;
-
-    const {
-      showModal,
-      activeSection,
-      activeNote,
-      activeLinkType,
-      data: { general, notes, conceptsWithLinks },
-    } = this.state;
-
-    const versioningPossible = this.isVersioningPossible();
-    const modalButtons: ModalButton[] = [
-      {
-        label: t("common.btnCancel"),
-        action: () => this.closeModal(),
-        style: "default",
-        disabled: false,
-      },
-      {
-        label: t("common.btnMinorVersion"),
-        action: () => this.closeModal(NO_VERSIONING),
-        style: "primary",
-        disabled: false,
-      },
-      {
-        label: t("common.btnMajorVersion"),
-        action: () => this.closeModal(VERSIONING),
-        style: "primary",
-        disabled: !versioningPossible,
-      },
-    ];
-
-    const modalBody = versioningPossible
-      ? t("concept.versioning.body", { label: general.prefLabelLg1 })
-      : `${t("concept.versioning.body", { label: general.prefLabelLg1 })}` +
-        `<div class="alert alert-warning" style="margin-top: 1em; text-align: left;">` +
-        `${t("concept.versioning.footer")}` +
-        `</div>`;
-
-    const errors = validate(
-      general,
-      notes,
-      this.getOriginalData().general.prefLabelLg1,
+      getOriginalData().general.prefLabelLg1,
       conceptsWithLinks,
       maxLengthScopeNote,
     );
-    const displayedErrors = this.state.saveAttempted ? errors : undefined;
-    return (
-      <div>
-        <div className="container">
-          <PageTitle title={title} subtitle={subtitle} />
-          {this.props.general.contributor && (
-            <Menu errors={displayedErrors} handleSave={this.handleSave} submitting={submitting} />
-          )}
-          <div className="concept-edition">
-            <ConceptSummary
-              notes={notes}
-              disseminationStatus={general.disseminationStatus}
-              maxLengthScopeNote={maxLengthScopeNote}
-              conceptsWithLinks={conceptsWithLinks}
-              equivalentLinks={this.state.data.equivalentLinks}
-              errorFields={displayedErrors?.fields}
-              activeSection={activeSection}
-              activeNote={activeNote}
-              activeLinkType={activeLinkType}
-              onSelect={this.handleSelectSection}
-            />
-            <div className="concept-edition__sections">
-              {activeSection === "general" && (
-                <section id="concept-general" className="concept-edition__section">
-                  <h3>{t("common.globalInformationsTitle")}</h3>
-                  <GeneralEdition
-                    general={general}
-                    handleChange={this.handleChangeGeneral}
-                    errorMessage={displayedErrors}
-                  />
-                </section>
-              )}
-              {activeSection === "notes" && (
-                <section id="concept-notes" className="concept-edition__section">
-                  <h3>{t("common.notesTitle")}</h3>
-                  <NotesEdition
-                    notes={notes}
-                    handleChange={this.handleChangeNotes}
-                    maxLengthScopeNote={maxLengthScopeNote}
-                    disseminationStatus={general.disseminationStatus}
-                    errorMessage={displayedErrors}
-                    activeNote={activeNote}
-                  />
-                </section>
-              )}
-              {activeSection === "links" && (
-                <section id="concept-links" className="concept-edition__section">
-                  <h3>{t("common.linksTitle")}</h3>
-                  <LinksEdition
-                    conceptsWithLinks={conceptsWithLinks}
-                    currentId={this.state.id}
-                    handleChange={this.handleChangeLinks}
-                    equivalentLinks={this.state.data.equivalentLinks}
-                    handleChangeEquivalentLinks={this.handleChangeEquivalentLinks}
-                    activeLinkType={activeLinkType}
-                  />
-                </section>
-              )}
-            </div>
+  };
+
+  const askToConfirmOrSave = () => {
+    const isValidated = general.validationState !== UNPUBLISHED;
+    if (isValidated) {
+      if (!areNotesChanged()) return saveConcept(NO_VERSIONING);
+      openModal();
+    } else {
+      saveConcept(NO_VERSIONING);
+    }
+  };
+
+  const openModal = () => {
+    setState((state) => ({ ...state, showModal: true }));
+  };
+
+  const saveConcept = (versioningType?: VersioningType) => {
+    if (creation) {
+      save(state.data);
+    } else {
+      save(id!, versioningType, getOriginalData(), state.data);
+    }
+  };
+
+  const closeModal = (versioningType?: VersioningType) => {
+    setState((state) => ({ ...state, showModal: false }));
+    if (versioningType) {
+      setState((state) => ({ ...state, actionRequested: true }));
+      saveConcept(versioningType);
+    }
+  };
+
+  const getOriginalData = (): ConceptData => ({
+    general,
+    notes,
+    conceptsWithLinks,
+    equivalentLinks: equivalentLinks ?? [],
+  });
+
+  const isVersioningPossibleFn = (): boolean => isVersioningPossible(notes, state.data.notes);
+
+  const areNotesChanged = (): boolean => {
+    const oldNotes = getOriginalData().notes;
+    const newNotes = state.data.notes;
+    return areNotesImpactingVersionChanged(oldNotes, newNotes);
+  };
+
+  const {
+    showModal,
+    activeSection,
+    activeNote,
+    activeLinkType,
+    data: { general: dataGeneral, notes: dataNotes, conceptsWithLinks: dataConceptsWithLinks },
+  } = state;
+
+  const versioningPossible = isVersioningPossibleFn();
+  const modalButtons: ModalButton[] = [
+    {
+      label: t("common.btnCancel"),
+      action: () => closeModal(),
+      style: "default",
+      disabled: false,
+    },
+    {
+      label: t("common.btnMinorVersion"),
+      action: () => closeModal(NO_VERSIONING),
+      style: "primary",
+      disabled: false,
+    },
+    {
+      label: t("common.btnMajorVersion"),
+      action: () => closeModal(VERSIONING),
+      style: "primary",
+      disabled: !versioningPossible,
+    },
+  ];
+
+  const modalBody = versioningPossible
+    ? t("concept.versioning.body", { label: dataGeneral.prefLabelLg1 })
+    : `${t("concept.versioning.body", { label: dataGeneral.prefLabelLg1 })}` +
+      `<div class="alert alert-warning" style="margin-top: 1em; text-align: left;">` +
+      `${t("concept.versioning.footer")}` +
+      `</div>`;
+
+  const errors = validate(
+    dataGeneral,
+    dataNotes,
+    getOriginalData().general.prefLabelLg1,
+    dataConceptsWithLinks,
+    maxLengthScopeNote,
+  );
+  const displayedErrors = state.saveAttempted ? errors : undefined;
+  return (
+    <div>
+      <div className="container">
+        <PageTitle title={title} subtitle={subtitle} />
+        {general.contributor && (
+          <Menu errors={displayedErrors} handleSave={handleSave} submitting={submitting} />
+        )}
+        <div className="concept-edition">
+          <ConceptSummary
+            notes={dataNotes}
+            disseminationStatus={dataGeneral.disseminationStatus}
+            maxLengthScopeNote={maxLengthScopeNote}
+            conceptsWithLinks={dataConceptsWithLinks}
+            equivalentLinks={state.data.equivalentLinks}
+            errorFields={displayedErrors?.fields}
+            activeSection={activeSection}
+            activeNote={activeNote}
+            activeLinkType={activeLinkType}
+            onSelect={handleSelectSection}
+          />
+          <div className="concept-edition__sections">
+            {activeSection === "general" && (
+              <section id="concept-general" className="concept-edition__section">
+                <h3>{t("common.globalInformationsTitle")}</h3>
+                <GeneralEdition
+                  general={dataGeneral}
+                  handleChange={handleChangeGeneral}
+                  errorMessage={displayedErrors}
+                />
+              </section>
+            )}
+            {activeSection === "notes" && (
+              <section id="concept-notes" className="concept-edition__section">
+                <h3>{t("common.notesTitle")}</h3>
+                <NotesEdition
+                  notes={dataNotes}
+                  handleChange={handleChangeNotes}
+                  maxLengthScopeNote={maxLengthScopeNote}
+                  disseminationStatus={dataGeneral.disseminationStatus}
+                  errorMessage={displayedErrors}
+                  activeNote={activeNote}
+                />
+              </section>
+            )}
+            {activeSection === "links" && (
+              <section id="concept-links" className="concept-edition__section">
+                <h3>{t("common.linksTitle")}</h3>
+                <LinksEdition
+                  conceptsWithLinks={dataConceptsWithLinks}
+                  currentId={state.id}
+                  handleChange={handleChangeLinks}
+                  equivalentLinks={state.data.equivalentLinks}
+                  handleChangeEquivalentLinks={handleChangeEquivalentLinks}
+                  activeLinkType={activeLinkType}
+                />
+              </section>
+            )}
           </div>
         </div>
-        <div>
-          {!creation && (
-            <ModalRmes
-              id="versioning-modal"
-              isOpen={showModal}
-              title={t("concept.versioning.title")}
-              body={modalBody as unknown as Node}
-              modalButtons={modalButtons}
-              closeCancel={() => this.closeModal()}
-            />
-          )}
-        </div>
       </div>
-    );
-  }
-}
+      <div>
+        {!creation && (
+          <ModalRmes
+            id="versioning-modal"
+            isOpen={showModal}
+            title={t("concept.versioning.title")}
+            body={modalBody as unknown as Node}
+            modalButtons={modalButtons}
+            closeCancel={() => closeModal()}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
 
-export default withTranslation()(ConceptEditionCreation);
+export default ConceptEditionCreation;

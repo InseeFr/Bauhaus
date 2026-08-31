@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import { Component } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
@@ -23,32 +23,30 @@ const defaultOperation = {
   year: undefined,
 };
 
-export class OperationsOperationEdition extends Component {
-  constructor(props) {
-    super(props);
-    this.state = this.setInitialState(props);
-  }
+const setInitialState = (props) => ({
+  serverSideError: "",
+  clientSideErrors: {},
+  saving: false,
+  submitting: false,
+  operation: {
+    ...defaultOperation,
+    ...props.operation,
+  },
+});
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.operation.id !== this.props.operation.id) {
-      this.setState(this.setInitialState(nextProps));
+export const OperationsOperationEdition = (props) => {
+  const [state, setState] = useState(() => setInitialState(props));
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
     }
-  }
+    setState(setInitialState(props));
+  }, [props.operation.id]);
 
-  setInitialState = (props) => {
-    return {
-      serverSideError: "",
-      clientSideErrors: {},
-      saving: false,
-      submitting: false,
-      operation: {
-        ...defaultOperation,
-        ...props.operation,
-      },
-    };
-  };
-
-  onChange = (e) => {
+  const onChange = (e) => {
     let override = {
       [e.target.id]: e.target.value,
     };
@@ -59,7 +57,7 @@ export class OperationsOperationEdition extends Component {
         },
       };
     }
-    this.setState((state) => ({
+    setState((state) => ({
       serverSideError: "",
       submitting: true,
       clientSideErrors: {
@@ -73,129 +71,126 @@ export class OperationsOperationEdition extends Component {
     }));
   };
 
-  onSubmit = () => {
-    const clientSideErrors = validate(this.state.operation);
+  const onSubmit = () => {
+    const clientSideErrors = validate(state.operation);
     if (clientSideErrors.errorMessage?.length > 0) {
-      this.setState({
+      setState((state) => ({
+        ...state,
         submitting: true,
         clientSideErrors,
-      });
+      }));
     } else {
-      this.setState({ saving: true });
-      const isCreation = !this.state.operation.id;
+      setState((state) => ({ ...state, saving: true }));
+      const isCreation = !state.operation.id;
 
       const method = isCreation ? "postOperation" : "putOperation";
-      return OperationsApi[method](this.state.operation)
+      return OperationsApi[method](state.operation)
         .then(
-          (id = this.state.operation.id) => {
-            this.props.goBack(`/operations/operation/${id}`, isCreation);
+          (id = state.operation.id) => {
+            props.goBack(`/operations/operation/${id}`, isCreation);
           },
           (err) => {
-            this.setState({
+            setState((state) => ({
+              ...state,
               serverSideError: err,
-            });
+            }));
           },
         )
-        .finally(() => this.setState({ saving: false }));
+        .finally(() => setState((state) => ({ ...state, saving: false })));
     }
   };
 
-  render() {
-    if (this.state.saving) return <Saving />;
+  if (state.saving) return <Saving />;
 
-    const { operation, serverSideError } = this.state;
+  const { operation, serverSideError } = state;
 
-    const series = operation.series || { id: "" };
+  const series = operation.series || { id: "" };
 
-    const isEditing = !!operation.id;
+  const isEditing = !!operation.id;
 
-    return (
-      <div className="container editor-container">
-        {isEditing && (
-          <PageTitleBlock
-            titleLg1={this.props.operation.prefLabelLg1}
-            titleLg2={this.props.operation.prefLabelLg2}
-          />
-        )}
-        <Controls
-          onSubmit={this.onSubmit}
-          disabled={this.state.clientSideErrors.errorMessage?.length > 0}
+  return (
+    <div className="container editor-container">
+      {isEditing && (
+        <PageTitleBlock
+          titleLg1={props.operation.prefLabelLg1}
+          titleLg2={props.operation.prefLabelLg2}
         />
-        {this.state.submitting && this.state.clientSideErrors && (
-          <GlobalClientSideErrorBloc clientSideErrors={this.state.clientSideErrors.errorMessage} />
+      )}
+      <Controls onSubmit={onSubmit} disabled={state.clientSideErrors.errorMessage?.length > 0} />
+      {state.submitting && state.clientSideErrors && (
+        <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
+      )}
+      <ErrorBloc error={serverSideError} />
+      <form>
+        {!isEditing && (
+          <Series
+            label={i18next.t("common.seriesTitle")}
+            value={series.id}
+            onChange={(value) =>
+              onChange({
+                target: { value, id: "idSeries" },
+              })
+            }
+          ></Series>
         )}
-        <ErrorBloc error={serverSideError} />
-        <form>
-          {!isEditing && (
-            <Series
-              label={i18next.t("common.seriesTitle")}
-              value={series.id}
-              onChange={(value) =>
-                this.onChange({
-                  target: { value, id: "idSeries" },
-                })
+        <Row className="bauhaus-row">
+          <div className="form-group">
+            <LabelRequired htmlFor="prefLabelLg1">
+              {i18next.t("common.title", { lng: "fr" })}
+            </LabelRequired>
+            <TextInput
+              id="prefLabelLg1"
+              value={operation.prefLabelLg1}
+              onChange={onChange}
+              aria-invalid={!!state.clientSideErrors.fields?.prefLabelLg1}
+              aria-describedby={
+                state.clientSideErrors.fields?.prefLabelLg1 ? "prefLabelLg1-error" : null
               }
-            ></Series>
-          )}
-          <Row className="bauhaus-row">
-            <div className="form-group">
-              <LabelRequired htmlFor="prefLabelLg1">
-                {i18next.t("common.title", { lng: "fr" })}
-              </LabelRequired>
-              <TextInput
-                id="prefLabelLg1"
-                value={operation.prefLabelLg1}
-                onChange={this.onChange}
-                aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg1}
-                aria-describedby={
-                  this.state.clientSideErrors.fields?.prefLabelLg1 ? "prefLabelLg1-error" : null
-                }
-              />
-              <ClientSideError
-                id="prefLabelLg1-error"
-                error={this.state.clientSideErrors?.fields?.prefLabelLg1}
-              ></ClientSideError>
-            </div>
-            <div className="form-group">
-              <LabelRequired htmlFor="prefLabelLg2">
-                {i18next.t("common.title", { lng: "en" })}
-              </LabelRequired>
-              <TextInput
-                id="prefLabelLg2"
-                value={operation.prefLabelLg2}
-                onChange={this.onChange}
-                aria-invalid={!!this.state.clientSideErrors.fields?.prefLabelLg2}
-                aria-describedby={
-                  this.state.clientSideErrors.fields?.prefLabelLg2 ? "prefLabelLg2-error" : null
-                }
-              />
-              <ClientSideError
-                id="prefLabelLg2-error"
-                error={this.state.clientSideErrors?.fields?.prefLabelLg2}
-              ></ClientSideError>
-            </div>
-          </Row>
-          <Row className="bauhaus-row">
-            <div className="form-group">
-              <label htmlFor="altLabelLg1">{i18next.t("app.altLabel", { lng: "fr" })}</label>
-              <TextInput id="altLabelLg1" value={operation.altLabelLg1} onChange={this.onChange} />
-            </div>
-            <div className="form-group">
-              <label htmlFor="altLabelLg2">{i18next.t("app.altLabel", { lng: "en" })}</label>
-              <TextInput id="altLabelLg2" value={operation.altLabelLg2} onChange={this.onChange} />
-            </div>
-          </Row>
-          <YearInput
-            value={operation.year}
-            onChange={(value) => {
-              this.onChange({
-                target: { value, id: "year" },
-              });
-            }}
-            error={this.state.clientSideErrors?.fields?.year}
-          />
-        </form>
-      </div>
-    );
-  }
-}
+            />
+            <ClientSideError
+              id="prefLabelLg1-error"
+              error={state.clientSideErrors?.fields?.prefLabelLg1}
+            ></ClientSideError>
+          </div>
+          <div className="form-group">
+            <LabelRequired htmlFor="prefLabelLg2">
+              {i18next.t("common.title", { lng: "en" })}
+            </LabelRequired>
+            <TextInput
+              id="prefLabelLg2"
+              value={operation.prefLabelLg2}
+              onChange={onChange}
+              aria-invalid={!!state.clientSideErrors.fields?.prefLabelLg2}
+              aria-describedby={
+                state.clientSideErrors.fields?.prefLabelLg2 ? "prefLabelLg2-error" : null
+              }
+            />
+            <ClientSideError
+              id="prefLabelLg2-error"
+              error={state.clientSideErrors?.fields?.prefLabelLg2}
+            ></ClientSideError>
+          </div>
+        </Row>
+        <Row className="bauhaus-row">
+          <div className="form-group">
+            <label htmlFor="altLabelLg1">{i18next.t("app.altLabel", { lng: "fr" })}</label>
+            <TextInput id="altLabelLg1" value={operation.altLabelLg1} onChange={onChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="altLabelLg2">{i18next.t("app.altLabel", { lng: "en" })}</label>
+            <TextInput id="altLabelLg2" value={operation.altLabelLg2} onChange={onChange} />
+          </div>
+        </Row>
+        <YearInput
+          value={operation.year}
+          onChange={(value) => {
+            onChange({
+              target: { value, id: "year" },
+            });
+          }}
+          error={state.clientSideErrors?.fields?.year}
+        />
+      </form>
+    </div>
+  );
+};
