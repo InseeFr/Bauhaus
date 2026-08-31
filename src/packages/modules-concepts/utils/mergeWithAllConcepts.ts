@@ -1,7 +1,7 @@
 import { NONE } from "@sdk/constants";
 
 import { Link } from "../../model/concepts/concept";
-import { linkTypes } from "./linkTypes";
+import { linkTypes } from "@model/concepts/concept";
 
 const getType = (typeOfLink: keyof typeof linkTypes) => {
   const type: string = linkTypes[typeOfLink];
