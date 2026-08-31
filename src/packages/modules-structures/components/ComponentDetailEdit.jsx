@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
+import structuresI18n from "../i18n";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -39,13 +39,13 @@ import "./ComponentDetailEdit.css";
 import { useAuthorizationGuard } from "../../auth/components/auth";
 
 const linkedAttributeLabelMapping = {
-  [XSD_INTEGER]: i18next.t("component.representation.int.action"),
-  [XSD_FLOAT]: i18next.t("component.representation.float.action"),
-  [XSD_DATE]: i18next.t("component.representation.date.action"),
-  [XSD_DATE_TIME]: i18next.t("component.representation.dateTime.action"),
-  [XSD_STRING]: i18next.t("component.representation.string.action"),
-  [IGEO_PAYS_OU_TERRITOIRE]: i18next.t("component.representation.paysOuTerritoire.action"),
-  [XSD_CODE_LIST]: i18next.t("component.representation.codelist.action"),
+  [XSD_INTEGER]: structuresI18n.t("component.representation.int.action"),
+  [XSD_FLOAT]: structuresI18n.t("component.representation.float.action"),
+  [XSD_DATE]: structuresI18n.t("component.representation.date.action"),
+  [XSD_DATE_TIME]: structuresI18n.t("component.representation.dateTime.action"),
+  [XSD_STRING]: structuresI18n.t("component.representation.string.action"),
+  [IGEO_PAYS_OU_TERRITOIRE]: structuresI18n.t("component.representation.paysOuTerritoire.action"),
+  [XSD_CODE_LIST]: structuresI18n.t("component.representation.codelist.action"),
 };
 
 const initialCodeListFormState = {

@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import structuresI18n from "../../../i18n";
 import { z } from "zod";
 
 import {
@@ -8,10 +8,10 @@ import {
 } from "@utils/validation";
 
 const ZodComponent = z.object({
-  identifiant: mandatoryAndNotEmptyTextField(i18next.t("component.notation")),
-  labelLg1: mandatoryAndNotEmptyTextField(i18next.t("component.label", { lng: "fr" })),
-  labelLg2: mandatoryAndNotEmptyTextField(i18next.t("component.label", { lng: "en" })),
-  type: mandatoryAndNotEmptySelectField(i18next.t("component.type.title")),
+  identifiant: mandatoryAndNotEmptyTextField(structuresI18n.t("component.notation")),
+  labelLg1: mandatoryAndNotEmptyTextField(structuresI18n.t("component.label", { lng: "fr" })),
+  labelLg2: mandatoryAndNotEmptyTextField(structuresI18n.t("component.label", { lng: "en" })),
+  type: mandatoryAndNotEmptySelectField(structuresI18n.t("component.type.title")),
 });
 
 export const validate = formatValidation(ZodComponent);
