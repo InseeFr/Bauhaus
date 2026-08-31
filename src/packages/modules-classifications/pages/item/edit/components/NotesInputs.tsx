@@ -1,4 +1,4 @@
-import classificationsI18n from "../../../../i18n";
+import { classificationsI18n } from "../../../../i18n";
 
 import { Row } from "@components/layout";
 import { MDEditor } from "@components/rich-editor/react-md-editor";

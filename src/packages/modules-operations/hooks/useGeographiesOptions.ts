@@ -1,4 +1,4 @@
-import operationsI18n from "../i18n";
+import { operationsI18n } from "../i18n";
 import { useMemo } from "react";
 
 import { Geography, useAllGeographies } from "./useAllGeographies";

@@ -1,4 +1,4 @@
-import classificationsI18n from "../i18n";
+import { classificationsI18n } from "../i18n";
 import { Link } from "react-router-dom";
 
 interface SourceItemLabelTypes {

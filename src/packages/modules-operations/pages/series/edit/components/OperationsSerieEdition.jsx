@@ -1,4 +1,4 @@
-import operationsI18n from "../../../../i18n";
+import { operationsI18n } from "../../../../i18n";
 import { useEffect, useRef, useState } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";

@@ -8,7 +8,7 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import conceptsI18n from "../../../i18n";
+import { conceptsI18n } from "../../../i18n";
 import { CollectionGeneral } from "../../../../model/concepts/collection";
 
 const t1 = conceptsI18n.getFixedT("fr");

@@ -5,7 +5,7 @@ import { Loading } from "@components/loading";
 import { useTheme } from "@utils/hooks/useTheme";
 
 import { MenuOperations as Menu } from "../menu/menu";
-import operationsI18n from "../i18n";
+import { operationsI18n } from "../i18n";
 
 export const Component = () => {
   useTheme("operations");

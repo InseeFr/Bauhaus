@@ -4,7 +4,7 @@ import en from "./locales/en.json";
 import fr from "./locales/fr.json";
 import { getLang } from "../../utils/dictionnary";
 
-const codelistsI18n = i18next.createInstance();
+export const codelistsI18n = i18next.createInstance();
 
 codelistsI18n.use(initReactI18next).init({
   resources: {
@@ -18,5 +18,3 @@ codelistsI18n.use(initReactI18next).init({
   },
   showSupportNotice: false,
 });
-
-export default codelistsI18n;

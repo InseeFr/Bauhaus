@@ -3,7 +3,7 @@ import { I18nextProvider } from "react-i18next";
 
 import { useTheme } from "../../utils/hooks/useTheme";
 import { Menu } from "../menu/menu";
-import structuresI18n from "../i18n";
+import { structuresI18n } from "../i18n";
 
 export const Component = () => {
   useTheme("structures");

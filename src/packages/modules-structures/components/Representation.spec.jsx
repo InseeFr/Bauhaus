@@ -7,7 +7,7 @@ vi.mock("react-i18next", () => ({
 }));
 
 vi.mock("../i18n", () => ({
-  default: {
+  structuresI18n: {
     t: (key) => {
       const translations = {
         "component.representation.date.title": "Date",

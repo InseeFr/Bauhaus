@@ -3,7 +3,7 @@ import { Mock, vi } from "vitest";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 
-import conceptsI18n from "../../../i18n";
+import { conceptsI18n } from "../../../i18n";
 import { Component } from "./page";
 
 vi.mock("../../../hooks/useConceptExporter", () => ({
