@@ -25,7 +25,7 @@ vi.mock("react-i18next", async () => {
 });
 
 import { renderWithRouter } from "../../tests/render";
-import { MenuOperations } from "./menu";
+import { Menu } from "./menu";
 
 vi.mock("react-router-dom", async () => {
   const originalModule = await vi.importActual("react-router-dom");
@@ -59,7 +59,7 @@ describe("MenuOperations Component", () => {
   const renderComponent = () =>
     renderWithRouter(
       <QueryClientProvider client={queryClient}>
-        <MenuOperations />
+        <Menu />
       </QueryClientProvider>,
     );
 

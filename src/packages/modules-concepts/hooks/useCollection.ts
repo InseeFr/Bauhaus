@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CollectionApi as NewCollectionApi } from "@sdk/new-collection-api";
+import { CollectionApi } from "@sdk/new-collection-api";
 
 import {
   Collection,
@@ -45,8 +45,8 @@ export const useCollection = (id: string | undefined) => {
     queryKey: ["collection", id],
     queryFn: async () => {
       const [general, members] = await Promise.all([
-        NewCollectionApi.getCollectionById(id!),
-        NewCollectionApi.getCollectionMembersList(id!),
+        CollectionApi.getCollectionById(id!),
+        CollectionApi.getCollectionMembersList(id!),
       ]);
       return {
         general: transformCollection(general),

@@ -11,7 +11,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
 import { Menu } from "../menu";
-import { CollectionGeneral as CollectionGeneralView } from "./CollectionGeneral";
+import { CollectionGeneral as CollectionGeneralComponent } from "./CollectionGeneral";
 import { CollectionMembers } from "./CollectionMembers";
 
 interface CollectionVisualizationProps {
@@ -55,7 +55,7 @@ export const CollectionVisualization = ({
           exportCollection={exportCollection}
         />
         <CheckSecondLang />
-        <CollectionGeneralView attr={general} secondLang={secondLang} />
+        <CollectionGeneralComponent attr={general} secondLang={secondLang} />
         <CollectionMembers members={members} secondLang={secondLang} />
       </div>
     </div>

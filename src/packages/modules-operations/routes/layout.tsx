@@ -4,7 +4,7 @@ import { I18nextProvider } from "react-i18next";
 import { Loading } from "@components/loading";
 import { useTheme } from "@utils/hooks/useTheme";
 
-import { MenuOperations as Menu } from "../menu/menu";
+import { Menu } from "../menu/menu";
 import { operationsI18n } from "../i18n";
 
 export const Component = () => {

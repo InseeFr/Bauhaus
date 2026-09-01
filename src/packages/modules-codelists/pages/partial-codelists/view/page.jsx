@@ -7,7 +7,7 @@ import { Deleting, Publishing, Loading } from "@components/loading";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { CodelistsApi as API } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";
 import { PartialCodelistDetailView } from "./components/PartialCodelistDetailView";
@@ -38,12 +38,12 @@ export const Component = (props) => {
     queryKey: ["partial-codes-list", id],
     enabled: codelists.length > 0,
     queryFn: () => {
-      return API.getCodelistPartial(id).then((cl) => {
+      return CodelistsApi.getCodelistPartial(id).then((cl) => {
         const idParent = codelists.find((codelist) => codelist.uri === cl.iriParent)?.id;
         if (!idParent) {
           return;
         }
-        return API.getCodesListCodes(idParent, 1, 0).then((codes) => {
+        return CodelistsApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
           return formatPartialCodelist(cl, codes.items);
         });
       });
@@ -52,7 +52,7 @@ export const Component = (props) => {
 
   const publish = () => {
     setPublishing(true);
-    API.publishPartialCodelist(id)
+    CodelistsApi.publishPartialCodelist(id)
       .then(() => {
         return refetch();
       })
@@ -64,7 +64,7 @@ export const Component = (props) => {
 
   const handleDelete = () => {
     setDeleting(true);
-    API.deleteCodelistPartial(id)
+    CodelistsApi.deleteCodelistPartial(id)
       .then(() => {
         goBack("/codelists");
       })
@@ -78,7 +78,7 @@ export const Component = (props) => {
   };
 
   useEffect(() => {
-    API.getCodelists().then((codelists) => {
+    CodelistsApi.getCodelists().then((codelists) => {
       setCodelists(Object.values(codelists));
     });
   }, []);

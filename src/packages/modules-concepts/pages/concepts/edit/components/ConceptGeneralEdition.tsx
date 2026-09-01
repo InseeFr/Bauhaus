@@ -16,7 +16,7 @@ import { useLocales } from "@utils/hooks/useLocales";
 
 import { ConceptGeneral } from "../../../../../model/concepts/concept";
 import { useCollections } from "../../../../hooks/useCollections";
-import { conceptGeneralFields as generalFields } from "../../../../utils/conceptGeneralFields";
+import { conceptGeneralFields } from "../../../../utils/conceptGeneralFields";
 
 type GeneralFieldName = keyof ConceptGeneral;
 
@@ -27,7 +27,7 @@ type FieldHandlers = Partial<Record<GeneralFieldName, (value: GeneralValue) => v
 const handleFieldChange = (
   handleChange: (update: Partial<ConceptGeneral>) => void,
 ): FieldHandlers =>
-  generalFields.reduce<FieldHandlers>((handlers, fieldName) => {
+  conceptGeneralFields.reduce<FieldHandlers>((handlers, fieldName) => {
     const key = fieldName as GeneralFieldName;
     handlers[key] = (value: GeneralValue) =>
       handleChange({ [key]: value } as Partial<ConceptGeneral>);

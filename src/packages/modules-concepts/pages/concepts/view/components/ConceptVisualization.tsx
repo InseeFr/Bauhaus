@@ -16,7 +16,7 @@ import {
 } from "../../../../../model/concepts/concept";
 import { buildNotes } from "../../../../utils/buildNotes";
 import { getModalMessage } from "../../../../utils/getModalMessage";
-import { ConceptGeneral as ConceptGeneral_ } from "./ConceptGeneral";
+import { ConceptGeneral as ConceptGeneralComponent } from "./ConceptGeneral";
 import { ConceptLinks } from "./ConceptLinks";
 import { ConceptVisualizationControls } from "../menu";
 
@@ -94,7 +94,7 @@ export const ConceptVisualization = ({
         />
         <ErrorBloc error={serverSideError} />
         <CheckSecondLang />
-        <ConceptGeneral_ secondLang={secondLang} concept={general} />
+        <ConceptGeneralComponent secondLang={secondLang} concept={general} />
         <ConceptLinks secondLang={secondLang} links={links} />
         <NoteVisualization params={buildNotes(notes)} secondLang={secondLang} />
       </div>

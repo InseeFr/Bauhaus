@@ -1,11 +1,11 @@
 import { ExternalLink } from "@components/link";
 
-import { Link as LinkType } from "@model/concepts/concept";
+import { Link } from "@model/concepts/concept";
 
 export const CloseMatchLinks = ({
   links,
   Dictionnary,
-}: Readonly<{ links: LinkType[]; Dictionnary: Record<string, string> }>) => {
+}: Readonly<{ links: Link[]; Dictionnary: Record<string, string> }>) => {
   return (
     links.length > 0 && (
       <li>

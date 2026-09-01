@@ -15,7 +15,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { validateStateOptions } from "../../../../model/ValidationState";
-import { CodelistsApi as API } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 import { formatLabel } from "../../../utils/formatLabel";
 
 const filterId = filterKeyDeburr(["id"]);
@@ -122,7 +122,7 @@ export const Component = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    API.getCodelistsForSearch()
+    CodelistsApi.getCodelistsForSearch()
       .then((codelists) => {
         setItems(codelists);
       })

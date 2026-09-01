@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 
-import { CodelistsApi as API } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { PartialCodelistDetailEdit } from "./components/PartialCodelistDetailEdit";
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
@@ -45,7 +45,7 @@ export const Component = (props) => {
             };
           }, {}),
       };
-      const request = id ? API.putCodelistPartial : API.postCodelistPartial;
+      const request = id ? CodelistsApi.putCodelistPartial : CodelistsApi.postCodelistPartial;
       request(payload)
         .then(() => {
           goBackOrReplace(`${codelist.id}`, !!id);
@@ -60,7 +60,7 @@ export const Component = (props) => {
   );
 
   useEffect(() => {
-    API.getCodelists()
+    CodelistsApi.getCodelists()
       .then((codelists) => {
         setGlobalCodeListOptions(
           Object.values(codelists).map((cl) => {
@@ -77,12 +77,12 @@ export const Component = (props) => {
 
   useEffect(() => {
     if (id && globalCodeListOptions && globalCodeListOptions[0]) {
-      API.getCodelistPartial(id)
+      CodelistsApi.getCodelistPartial(id)
         .then((cl) => {
           const idParent = globalCodeListOptions.find(
             (parent) => parent.iriParent === cl.iriParent,
           ).value;
-          return API.getCodesListCodes(idParent, 1, 0).then((codes) => {
+          return CodelistsApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
             setCodelist(formatPartialCodelist(cl, codes.items));
           });
         })

@@ -33,8 +33,8 @@ import { shouldDisplayTitleForPrimaryItem } from "../../utils/shouldDisplayTitle
 import { DocumentFormPanel } from "./DocumentFormPanel";
 import { Menu } from "../menu";
 import "./AdvancedSimsCreation.css";
-import { SimsDocumentFieldMemo as SimsDocumentField } from "./SimsDocumentField";
-import { SimsField as Field } from "./SimsField";
+import { SimsDocumentFieldMemo } from "./SimsDocumentField";
+import { SimsField } from "./SimsField";
 import { getDefaultSims } from "../utils/getDefaultSims";
 import { getSiblingSims } from "../utils/getSiblingSims";
 
@@ -206,7 +206,7 @@ const SimsCreation = ({
           >
             <div className="bauhaus-sims-field-form">
               {!msd.isPresentational && (
-                <Field
+                <SimsField
                   msd={msd}
                   currentSection={sims[msd.idMas]}
                   handleChange={handleChange}
@@ -219,7 +219,7 @@ const SimsCreation = ({
                 />
               )}
               {!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-                <Field
+                <SimsField
                   msd={msd}
                   currentSection={sims[msd.idMas]}
                   handleChange={handleChange}
@@ -236,7 +236,7 @@ const SimsCreation = ({
               msd.rangeType === RICH_TEXT && (
                 <div className="row bauhaus-documents-bloc">
                   <div className={`col-md-${secondLang ? 6 : 12}`}>
-                    <SimsDocumentField
+                    <SimsDocumentFieldMemo
                       msd={msd}
                       currentSection={sims[msd.idMas]}
                       handleChange={handleChange}
@@ -244,7 +244,7 @@ const SimsCreation = ({
                   </div>
                   {secondLang && (
                     <div className="col-md-6">
-                      <SimsDocumentField
+                      <SimsDocumentFieldMemo
                         msd={msd}
                         currentSection={sims[msd.idMas]}
                         handleChange={handleChange}

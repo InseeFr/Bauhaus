@@ -6,7 +6,7 @@ import { CollectionGeneral, CollectionMember, PartialCollection } from "@model/c
 
 import { Menu } from "../menu";
 import { validate } from "../validation";
-import { CollectionGeneralEdition as GeneralEdition } from "./CollectionGeneralEdition";
+import { CollectionGeneralEdition } from "./CollectionGeneralEdition";
 import { CollectionMembersEdition } from "./CollectionMembersEdition";
 
 interface MemberItem {
@@ -73,7 +73,7 @@ export const CollectionEditionCreation = ({
       <div className="container">
         <PageTitle title={title} subtitle={subtitle} />
         <Menu handleSave={handleSave} redirectCancel={redirectCancel} errors={errors} />
-        <GeneralEdition
+        <CollectionGeneralEdition
           general={general}
           handleChange={handleChangeGeneral}
           errors={errors}

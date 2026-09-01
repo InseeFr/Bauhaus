@@ -8,7 +8,7 @@ import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
-import { CodelistsApi as API } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 import { validateCode } from "../utils/validateCode";
 import { CollapsiblePanel } from "./CollapsiblePanel";
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
@@ -178,11 +178,11 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
   const handleSearch = (type, valueCode, valueLabel) => {
     const [handledValue, otherValue, searchActionType, getCodesBySearch] =
       type === "code"
-        ? [valueCode, searchLabel, "SET_SEARCH_CODE", API.getCodesByCode]
-        : [valueLabel, searchCode, "SET_SEARCH_LABEL", API.getCodesByLabel];
+        ? [valueCode, searchLabel, "SET_SEARCH_CODE", CodelistsApi.getCodesByCode]
+        : [valueLabel, searchCode, "SET_SEARCH_LABEL", CodelistsApi.getCodesByLabel];
     dispatch({ type: searchActionType, value: handledValue });
     if (otherValue) {
-      API.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then((cl) => {
+      CodelistsApi.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then((cl) => {
         dispatch({ type: "SET_CODES", codes: cl ?? {} });
       });
     } else {
@@ -194,7 +194,7 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
 
   const fetchCodes = () => {
     dispatch({ type: "SET_LOADING", loading: true });
-    API.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1)
+    CodelistsApi.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1)
       .then((cl) => {
         dispatch({ type: "SET_CODES", codes: cl ?? {} });
       })
@@ -232,7 +232,9 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
               className="btn btn-default"
               data-component-id={code.code}
               onClick={() => {
-                API.deleteCodesDetailedCodelist(codelist.id, code).then(() => fetchCodes());
+                CodelistsApi.deleteCodesDetailedCodelist(codelist.id, code).then(() =>
+                  fetchCodes(),
+                );
               }}
               aria-label={t("codes.removeCode")}
               title={t("codes.removeCode")}
@@ -294,11 +296,10 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
             handleSave={(code, creation) => {
               let promise;
               if (creation) {
-                promise = API.postCodesDetailedCodelist;
+                promise = CodelistsApi.postCodesDetailedCodelist;
               } else {
-                promise = API.putCodesDetailedCodelist;
+                promise = CodelistsApi.putCodesDetailedCodelist;
               }
-
               promise(codelist.id, code)
                 .then(() => fetchCodes())
                 .then(() => {

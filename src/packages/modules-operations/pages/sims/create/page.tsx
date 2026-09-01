@@ -16,7 +16,7 @@ import { useCodesLists } from "../../../hooks/useCodesLists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { useSaveSims, useSims } from "../../../hooks/useSims";
 import { SimsLoaderData } from "../../../types/sims";
-import { MSDComponent as MSDLayout } from "../components/MSDComponent";
+import { MSDLayout } from "../components/MSDLayout";
 import { CREATE, UPDATE } from "../constants";
 import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
 import { useDocumentsList } from "../hooks/useDocumentsList";
@@ -26,7 +26,7 @@ import {
 } from "../hooks/useEssentialRubricContext";
 import { getParentId } from "./utils/getParentId";
 import { getParentType } from "./utils/getParentType";
-import { AdvancedSimsCreation as SimsCreation } from "./components/AdvancedSimsCreation";
+import { AdvancedSimsCreation } from "./components/AdvancedSimsCreation";
 
 const apiByParentType: Record<string, (id: string) => Promise<any>> = {
   indicator: OperationsApi.getIndicatorById,
@@ -186,7 +186,7 @@ export const Component = () => {
       >
         <PageTitleBlock titleLg1={currentSims.labelLg1} titleLg2={currentSims.labelLg2} />
         <EssentialRubricContextProvider value={essentialRubricContext}>
-          <SimsCreation
+          <AdvancedSimsCreation
             parent={parent}
             sims={currentSims}
             metadataStructure={metadataStructure}
