@@ -14,7 +14,7 @@ interface MSDComponentTypes {
   metadataStructure: Record<string, MetadataStructure>;
 }
 
-export const MSDComponent = ({
+export const MSDLayout = ({
   storeCollapseState,
   metadataStructure,
   children,

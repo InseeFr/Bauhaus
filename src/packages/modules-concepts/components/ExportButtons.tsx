@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { CollectionExportFormat } from "@model/concepts/collection";
 
-import { ExportButtonWithDropdown as ExportButton } from "./ExportButtonWithDropdown";
+import { ExportButtonWithDropdown } from "./ExportButtonWithDropdown";
 
 interface ExportButtonsTypes {
   disabled?: boolean;
@@ -17,7 +17,7 @@ export const ExportButtons = ({ exportHandler, disabled }: Readonly<ExportButton
   const { t } = useTranslation();
 
   return (
-    <ExportButton
+    <ExportButtonWithDropdown
       disabled={disabled}
       actions={[
         <button key="ods-export" type="button" onClick={() => exportHandler("ods", false)}>
@@ -37,6 +37,6 @@ export const ExportButtons = ({ exportHandler, disabled }: Readonly<ExportButton
           {t("common.btnCollectionConceptExporter")}
         </button>,
       ]}
-    ></ExportButton>
+    ></ExportButtonWithDropdown>
   );
 };

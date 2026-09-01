@@ -11,7 +11,7 @@ import { VerticalMenu } from "@components/vertical-menu";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { CodelistsApi as API } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 import { formatLabel } from "../../../utils/formatLabel";
 
 export const Component = () => {
@@ -24,7 +24,7 @@ export const Component = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    API.getCodelistsPartial()
+    CodelistsApi.getCodelistsPartial()
       .then((codelists: any) => {
         setItems(codelists);
       })

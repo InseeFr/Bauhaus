@@ -14,7 +14,7 @@ import {
   InseeOrganisations,
 } from "@components/business/organisations/organisations";
 
-import { CodelistsApi as API } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
@@ -56,7 +56,7 @@ export const ComponentDetailView = ({
   const [partialCodesLists, setPartialCodesLists] = useState([]);
 
   useEffect(() => {
-    API.getCodelistsPartial().then((response) => {
+    CodelistsApi.getCodelistsPartial().then((response) => {
       setPartialCodesLists(response);
     });
   }, []);

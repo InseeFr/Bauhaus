@@ -7,7 +7,7 @@ import { ConceptForAdvancedSearch } from "../../../types/concept";
 import { UNPUBLISHED } from "@model/ValidationState";
 import { CollectionApi } from "@sdk/new-collection-api";
 import { ConceptsApi } from "@sdk/concepts-api";
-import { ConceptsDashboard as Dashboard } from "./components/ConceptsDashboard";
+import { ConceptsDashboard } from "./components/ConceptsDashboard";
 import { initialState, reducer } from "./page.reducer";
 
 const emptyItem: ConceptForAdvancedSearch = {
@@ -47,5 +47,5 @@ export const Component = () => {
 
   if (error) return <ErrorBloc error={error} />;
 
-  return <Dashboard conceptsData={concepts} collectionsData={collections} />;
+  return <ConceptsDashboard conceptsData={concepts} collectionsData={collections} />;
 };

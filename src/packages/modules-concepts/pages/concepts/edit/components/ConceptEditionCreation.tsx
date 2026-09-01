@@ -20,7 +20,7 @@ import { ConceptSection, ConceptSummary } from "./ConceptSummary";
 import "./ConceptEditionCreation.css";
 import { Menu } from "../menu";
 import { validate } from "../validation";
-import { ConceptGeneralEdition as GeneralEdition } from "./ConceptGeneralEdition";
+import { ConceptGeneralEdition } from "./ConceptGeneralEdition";
 import { LinksEdition, ConceptWithLink } from "./LinksEdition";
 import type { SaveFn } from "../../../../hooks/useConceptSave";
 import { NotesEdition } from "./NotesEdition";
@@ -333,7 +333,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
                 className="concept-edition__section"
               >
                 <h3>{t("common.globalInformationsTitle")}</h3>
-                <GeneralEdition
+                <ConceptGeneralEdition
                   general={dataGeneral}
                   handleChange={handleChangeGeneral}
                   errorMessage={displayedErrors}

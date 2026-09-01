@@ -8,7 +8,7 @@ import { SearchableList } from "@components/searchable-list";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { CodelistsApi as API } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 import { formatLabel } from "../../../utils/formatLabel";
 import { HomePageMenu } from "./menu";
 
@@ -22,7 +22,7 @@ export const Component = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    API.getCodelists()
+    CodelistsApi.getCodelists()
       .then((codelists: any) => {
         setItems(codelists);
       })

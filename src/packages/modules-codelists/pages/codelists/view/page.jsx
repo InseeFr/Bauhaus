@@ -6,7 +6,7 @@ import { Loading, Publishing } from "@components/loading";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { CodelistsApi as API } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 import { formatCodelist } from "../../../utils/formatCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";
 import { CodelistDetailView } from "./components/CodelistDetailView";
@@ -32,9 +32,9 @@ export const Component = (props) => {
 
   const publish = () => {
     setPublishing(true);
-    API.publishCodelist(id)
+    CodelistsApi.publishCodelist(id)
       .then(() => {
-        return API.getDetailedCodelist(id).then((cl) => {
+        return CodelistsApi.getDetailedCodelist(id).then((cl) => {
           setCodelist(formatCodelist(cl));
         });
       })
@@ -46,7 +46,7 @@ export const Component = (props) => {
 
   const handleDelete = useCallback(() => {
     setLoading(true);
-    API.deleteCodelist(id)
+    CodelistsApi.deleteCodelist(id)
       .then(() => {
         setLoading(false);
         setModalOpened(false);
@@ -60,7 +60,7 @@ export const Component = (props) => {
   }, [id, goBack]);
 
   useEffect(() => {
-    API.getDetailedCodelist(id)
+    CodelistsApi.getDetailedCodelist(id)
       .then((cl) => {
         setCodelist(formatCodelist(cl));
       })

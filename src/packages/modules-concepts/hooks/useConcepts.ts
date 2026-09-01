@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { ConceptApi as NewConceptApi } from "@sdk/new-concept-api";
+import { ConceptApi } from "@sdk/new-concept-api";
 
 import { PartialConcept } from "@model/concepts/concept";
 
@@ -12,7 +12,7 @@ export const useConcepts = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    NewConceptApi.getConceptList()
+    ConceptApi.getConceptList()
       .then((list) => setConcepts(sortArrayByLabel(list)))
       .finally(() => setIsLoading(false));
   }, []);

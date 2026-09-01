@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 
-import { CodelistsApi as API } from "@sdk/index";
+import { CodelistsApi } from "@sdk/index";
 import { formatCodelist } from "../../../utils/formatCodelist";
 import { CodelistDetailEdit } from "./components/CodelistDetailEdit";
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
@@ -29,7 +29,7 @@ export const Component = () => {
     (codelist) => {
       setSaving(true);
       setServerSideError("");
-      const request = id ? API.putCodelist : API.postCodelist;
+      const request = id ? CodelistsApi.putCodelist : CodelistsApi.postCodelist;
       request(codelist)
         .then(() => {
           goBackOrReplace(`/codelists/${codelist.id}`, !!id);
@@ -45,7 +45,7 @@ export const Component = () => {
 
   useEffect(() => {
     if (id) {
-      API.getDetailedCodelist(id)
+      CodelistsApi.getDetailedCodelist(id)
         .then((cl) => {
           setCodelist(formatCodelist(cl));
         })

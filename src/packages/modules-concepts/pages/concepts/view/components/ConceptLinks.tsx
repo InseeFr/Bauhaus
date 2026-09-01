@@ -8,14 +8,14 @@ import {
   SUCCEED,
 } from "@sdk/constants";
 
-import { Links, Link as LinkType } from "../../../../../model/concepts/concept";
+import { Links, Link } from "../../../../../model/concepts/concept";
 import { LinksList } from "./LinksList";
 import "./ConceptLinks.css";
 
 export const ConceptLinks = ({
   secondLang,
   links,
-}: Readonly<{ secondLang: boolean; links: LinkType[] }>) => {
+}: Readonly<{ secondLang: boolean; links: Link[] }>) => {
   const linksGroupByType: Links = links.reduce(
     (acc, link) => {
       if (!Array.isArray(acc[link.typeOfLink])) {

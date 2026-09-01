@@ -1,9 +1,9 @@
 import { ComponentType } from "react";
-import { Organization as OrganizationType } from "../../../model/organization";
+import { Organization } from "../../../model/organization";
 import { useOrganizations } from "../../../utils/hooks/organizations";
 
 interface BaseOrganizationProps {
-  organizations: OrganizationType[];
+  organizations: Organization[];
 }
 
 interface OrganisationsTypes extends BaseOrganizationProps {
@@ -44,7 +44,7 @@ export const Organisation = ({ creator, organizations }: Readonly<OrganisationTy
   return organization.label;
 };
 
-export const withInseeOrganisations = <P extends { organizations?: OrganizationType[] }>(
+export const withInseeOrganisations = <P extends { organizations?: Organization[] }>(
   Component: ComponentType<P>,
 ) => {
   const WrappedComponent = (props: Omit<P, "organizations">) => {
