@@ -4,6 +4,7 @@
 export function objectFromKeys<T>(keys: string[], defaultValue: T): Record<string, T> {
   return keys.reduce((obj: Record<string, T>, key: string) => {
     obj[key] = defaultValue;
+
     return obj;
   }, {});
 }

@@ -21,12 +21,16 @@ export const LinksList = ({
   language?: "fr" | "en";
 }>) => {
   const { i18n } = useTranslation();
+
   const t = i18n.getFixedT(language);
+
   const labelProperty = lang === "lg1" ? "prefLabelLg1" : "prefLabelLg2";
+
   const dictionnary: Record<string, string> = {
     closeMatchTitle: t("concept.links.equivalentTitle"),
     linksTitle: t("common.linksTitle"),
   };
+
   return (
     <Note
       text={

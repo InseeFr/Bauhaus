@@ -44,10 +44,13 @@ export function buildPayloadUpdate(
   concept: ConceptInput,
 ) {
   const { notes: oldNotes } = oldConcept;
+
   const { general: rawGeneral, notes, conceptsWithLinks } = concept;
 
   const general = processGeneral(rawGeneral, generalFieldsToKeep);
+
   const links: LinkEntry[] = [...processLinks(conceptsWithLinks)];
+
   if (concept.equivalentLinks && concept.equivalentLinks.length > 0) {
     links.push(
       concept.equivalentLinks.reduce<UrnLink>(

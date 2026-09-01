@@ -31,24 +31,22 @@ export const Component = () => {
   useTitle(t("distribution.pluralTitle"), distribution?.labelLg1);
 
   if (isLoading || isLoadingDataSet) return <Loading />;
+
   if (isDeleting) return <Deleting />;
+
   if (isPublishing) return <Publishing />;
 
   return (
     <div className="container">
       <PageTitleBlock titleLg1={distribution.labelLg1} titleLg2={distribution.labelLg2} />
-
       <ViewMenu
         distribution={distribution}
         dataset={dataset}
         onPublish={publish}
         onDelete={remove}
       />
-
       <ErrorBloc error={validationServerSideError || deleteServerSideError} />
-
       <CheckSecondLang />
-
       <ViewMainBlock distribution={distribution} />
     </div>
   );

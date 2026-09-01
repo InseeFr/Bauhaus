@@ -40,7 +40,9 @@ const setInitialState = (props) => ({
 
 export const OperationsOperationEdition = (props) => {
   const { t } = useTranslation();
+
   const [state, setState] = useState(() => setInitialState(props));
+
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -87,7 +89,6 @@ export const OperationsOperationEdition = (props) => {
     } else {
       setState((state) => ({ ...state, saving: true }));
       const isCreation = !state.operation.id;
-
       const method = isCreation ? "postOperation" : "putOperation";
       return OperationsApi[method](state.operation)
         .then(

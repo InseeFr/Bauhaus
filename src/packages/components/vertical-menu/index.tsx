@@ -4,6 +4,7 @@ import "./index.css";
 
 export const VerticalMenu = ({ children = EMPTY_ARRAY }: Readonly<{ children: unknown }>) => {
   const buttons = Array.isArray(children) ? children : [children];
+
   return (
     <div className="col-md-3 btn-group-vertical">
       {buttons.map((child, index) => (

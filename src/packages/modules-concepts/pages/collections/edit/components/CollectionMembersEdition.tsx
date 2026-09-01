@@ -12,6 +12,7 @@ interface ConceptItem {
 
 const notMembers = (conceptList: ConceptItem[], members: ConceptItem[]): ConceptItem[] => {
   const memberIds = new Set(members.map(({ id }) => id));
+
   return conceptList.filter(({ id }) => !memberIds.has(id));
 };
 
@@ -27,9 +28,11 @@ export const CollectionMembersEdition = ({
   handleChange,
 }: Readonly<CollectionMembersEditionProps>) => {
   const { t } = useTranslation();
+
   const [availableConcepts, setAvailableConcepts] = useState<ConceptItem[]>(() =>
     notMembers(conceptList, members),
   );
+
   const [selectedConcepts, setSelectedConcepts] = useState<ConceptItem[]>(() => members);
 
   return (
@@ -46,8 +49,12 @@ export const CollectionMembersEdition = ({
         handleChange(selected);
       }}
       itemTemplate={(concept: ConceptItem) => concept.label}
-      sourceHeader={t("collection.availableConceptsPanelTitle", { size: availableConcepts.length })}
-      targetHeader={t("collection.membersPanelTitle", { size: selectedConcepts.length })}
+      sourceHeader={t("collection.availableConceptsPanelTitle", {
+        size: availableConcepts.length,
+      })}
+      targetHeader={t("collection.membersPanelTitle", {
+        size: selectedConcepts.length,
+      })}
       filter
       filterBy="label"
       sourceFilterPlaceholder={t("common.searchLabelPlaceholder")}

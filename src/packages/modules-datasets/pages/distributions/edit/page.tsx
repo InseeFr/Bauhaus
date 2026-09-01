@@ -60,6 +60,7 @@ export const Component = () => {
   if (!distribution && isEditing) {
     return <Loading />;
   }
+
   if (isSaving) {
     return <Saving />;
   }

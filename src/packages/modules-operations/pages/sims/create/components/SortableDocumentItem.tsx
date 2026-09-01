@@ -26,6 +26,7 @@ export const SortableDocumentItem = ({
   deleteHandler,
 }: Readonly<SortableDocumentItemProps>) => {
   const { t } = useTranslation();
+
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: document.uri as string,
   });

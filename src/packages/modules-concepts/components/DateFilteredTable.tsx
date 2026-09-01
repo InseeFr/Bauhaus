@@ -29,7 +29,9 @@ export function DateFilteredTable<T extends object>({
   children,
 }: Readonly<Props<T>>) {
   const { t } = useTranslation();
+
   const [dateFilter, setDateFilter] = useState<string | undefined>(undefined);
+
   const pickerId = useId();
 
   const filteredData = filterFromDate(data, dateField, dateFilter);

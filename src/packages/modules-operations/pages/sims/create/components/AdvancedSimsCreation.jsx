@@ -48,6 +48,7 @@ export const generateSimsBeforeSubmit = (
   metadataStructure,
 ) => {
   const autoUpdatedIds = collectAutoUpdatedIds(metadataStructure);
+
   const finalRubrics =
     autoUpdatedIds.size === 0
       ? rubrics
@@ -98,11 +99,17 @@ const SimsCreation = ({
   error,
 }) => {
   const goBack = useGoBack();
+
   const { t } = useTranslation();
+
   const [changed, setChanged] = useState(false);
+
   const [saving, setSaving] = useState(false);
+
   const [loading, setLoading] = useState(false);
+
   const secondLang = true;
+
   const idParent = idParentProp || getParentId(simsProp);
 
   const blocker = useBlocker(({ currentLocation, nextLocation }) => {
@@ -127,12 +134,9 @@ const SimsCreation = ({
     e.preventDefault();
     e.stopPropagation();
     setSaving(true);
-
     const idParentToSave = idParent || idParentProp;
     const rubrics = Object.values(sims);
-
     setChanged(false);
-
     onSubmit(
       generateSimsBeforeSubmit(simsProp, parentType, idParentToSave, rubrics, metadataStructure),
       (id) => {
@@ -271,14 +275,13 @@ const SimsCreation = ({
   const { lateralPanelOpened, onLateralPanelHide } = useDocumentsStoreContext();
 
   if (loading) return <Loading />;
+
   if (saving) return <Saving />;
 
   return (
     <EssentialRubricContextProvider value={essentialRubricContext}>
       <Menu goBackUrl={goBackUrl} handleSubmit={handleSubmit} />
-
       {error && <ErrorBloc error={[t(`errors.${error.code}`, { id: error.details })]} />}
-
       <Modal
         className="Modal__Bootstrap modal-dialog operations structures-specification-modal"
         isOpen={blocker.state === "blocked"}
@@ -299,9 +302,7 @@ const SimsCreation = ({
           </div>
         </div>
       </Modal>
-
       <RubricEssentialMsg secondLang={secondLang} />
-
       <DocumentFormPanel
         opened={lateralPanelOpened}
         onHide={onLateralPanelHide}
@@ -316,7 +317,6 @@ const SimsCreation = ({
           });
         }}
       />
-
       {Object.values(metadataStructure).map((msd, index) => {
         return (
           <div key={msd.idMas} className="bauhaus-sims-creation">
@@ -346,9 +346,13 @@ const SimsCreation = ({
 const withParentWithSims = (Component) => {
   return (props) => {
     const [parentWithSims, setParentWithSims] = useState([]);
+
     const parentType = props.parentType;
+
     const seriesId = props.parent?.series?.id;
+
     const familyId = props.parent?.family?.id;
+
     useEffect(() => {
       if (parentType === "operation" && seriesId) {
         OperationsApi.getOperationsWithReport(seriesId).then((result) => {

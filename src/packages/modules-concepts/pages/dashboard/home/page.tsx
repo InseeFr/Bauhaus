@@ -44,6 +44,7 @@ export const Component = () => {
   }, []);
 
   if (loading) return <Loading />;
+
   if (error) return <ErrorBloc error={error} />;
 
   return <Dashboard conceptsData={concepts} collectionsData={collections} />;

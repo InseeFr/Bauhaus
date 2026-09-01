@@ -11,6 +11,7 @@ interface SimsCodeListSelectTypes {
   disabled?: boolean;
   className?: string;
 }
+
 export const SimsCodeListSelect = ({
   multi,
   currentSection,

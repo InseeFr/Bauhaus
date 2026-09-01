@@ -4,11 +4,13 @@ import { MODIFIED, UNPUBLISHED, VALIDATED } from "../../model/ValidationState";
 export type ValidationState = typeof MODIFIED | typeof UNPUBLISHED | typeof VALIDATED;
 
 export { PublicationStatusItem } from "./PublicationStatusItem";
+
 interface PublicationType {
   object: {
     validationState: ValidationState;
   };
 }
+
 export function PublicationMale({ object }: Readonly<PublicationType>) {
   return <PublicationStatus object={object} />;
 }

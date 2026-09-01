@@ -263,6 +263,7 @@ export const PublishButton = (props: Omit<ComponentProps<typeof AbstractButton>,
     </AbstractButton>
   );
 };
+
 export const CancelButton = ({
   action,
   ...props
@@ -305,6 +306,7 @@ export const CancelButton = ({
     </AbstractButton>
   );
 };
+
 export const SaveButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
   return (
     <AbstractButton

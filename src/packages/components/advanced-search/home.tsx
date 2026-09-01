@@ -12,6 +12,7 @@ interface AdvancedSearchListTypes {
   initializeState?: unknown;
   redirect?: JSX.Element;
 }
+
 export const AdvancedSearchList = ({
   title,
   children,

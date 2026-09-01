@@ -40,6 +40,7 @@ export const HomeAssociations = ({
   });
 
   const sourceLabel = secondLang ? firstAltLabelLg2 : firstAltLabelLg1;
+
   const targetLabel = secondLang ? secondAltLabelLg2 : secondAltLabelLg1;
 
   return (

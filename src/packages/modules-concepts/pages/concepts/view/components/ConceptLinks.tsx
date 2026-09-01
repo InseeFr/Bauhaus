@@ -36,7 +36,9 @@ export const ConceptLinks = ({
       [IS_REPLACED_BY]: [],
     },
   );
+
   const numberOfLinks = Object.values(linksGroupByType).flat().length;
+
   if (numberOfLinks === 0) return null;
 
   return (

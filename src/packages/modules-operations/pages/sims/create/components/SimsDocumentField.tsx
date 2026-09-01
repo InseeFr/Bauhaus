@@ -12,6 +12,7 @@ interface SimsDocumentFieldTypes {
   currentSection: any;
   lang?: string;
 }
+
 export const SimsDocumentField = ({
   handleChange,
   msd,
@@ -34,7 +35,6 @@ export const SimsDocumentField = ({
   const handleAddDocument = useCallback(
     (newObject: unknown) => {
       const objects = currentSection["documents" + lang] || [];
-
       handleChange({
         id: msd.idMas,
         override: {

@@ -8,6 +8,7 @@ export const extractDatableConceptNotes = (
 ) =>
   fields.reduce((notes: { noteType: string; content: string }[], noteType: keyof ConceptNotes) => {
     const content = notesToKeep[noteType];
+
     if (content)
       notes.push({
         noteType,
@@ -15,5 +16,6 @@ export const extractDatableConceptNotes = (
         //namespace attribte).
         content: rawHtmlToRmesHtml(content),
       });
+
     return notes;
   }, []);

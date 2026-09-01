@@ -28,7 +28,6 @@ export const ViewMenu = ({ dataset, onPublish, onDelete }: Readonly<ViewMenuType
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/datasets")} />
-
       <HasAccess module="DATASET_DATASET" privilege="PUBLISH" stamps={contributors}>
         <ValidationButton object={dataset} callback={onPublish} disabled={false} />
       </HasAccess>
@@ -43,7 +42,6 @@ export const ViewMenu = ({ dataset, onPublish, onDelete }: Readonly<ViewMenuType
       >
         <DeleteButton action={onDelete} />
       </HasAccess>
-
       <HasAccess module="DATASET_DATASET" privilege="UPDATE" stamps={contributors}>
         <UpdateButton action={`/datasets/${dataset.id}/modify`} />
       </HasAccess>

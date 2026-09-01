@@ -43,7 +43,6 @@ export const Menu = ({
           lang: "lg1" | "lg2" = "lg1",
         ) => exportCollection({ ids: [id], type, withConcepts, lang })}
       />
-
       <HasAccess
         module="CONCEPT_COLLECTION"
         privilege="PUBLISH"
@@ -51,7 +50,6 @@ export const Menu = ({
       >
         <PublishButton action={handleValidation} />
       </HasAccess>
-
       <HasAccess module="CONCEPT_COLLECTION" privilege="UPDATE">
         <UpdateButton action={`/concepts/collections/${id}/modify`} />
       </HasAccess>

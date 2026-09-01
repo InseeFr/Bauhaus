@@ -40,11 +40,13 @@ export const DocumentLink = ({
   const safeBaseURI = validateUri(baseURI);
 
   const id = document.uri.substring(document.uri.lastIndexOf("/") + 1);
+
   const uri = isDocument(document)
     ? `${safeBaseURI}/documents/document/${encodeURIComponent(id)}/file`
     : document.url;
 
   const label = document[`label${localPrefix}`] || document.labelLg1 || document.labelLg2;
+
   return (
     <ExternalLink href={uri} title={document[`description${localPrefix}`]}>
       {label}

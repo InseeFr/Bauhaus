@@ -76,7 +76,9 @@ const getFetchLabelsPromise = async (sims: any, simsTitleLg1: string, simsTitleL
 
 export const useSaveSims = () => {
   const queryClient = useQueryClient();
+
   const { t } = useTranslation();
+
   const simsTitleLg1 = t("sims.simsTitle", { lng: "fr" });
   const simsTitleLg2 = t("sims.simsTitle", { lng: "en" });
 

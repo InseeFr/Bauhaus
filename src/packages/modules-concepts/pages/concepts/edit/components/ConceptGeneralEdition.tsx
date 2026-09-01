@@ -60,7 +60,9 @@ export function ConceptGeneralEdition({
   } = general;
 
   const { t } = useTranslation();
+
   const { lg1, lg2 } = useLocales();
+
   const { data = [] } = useCollections();
 
   const handlers = handleFieldChange(handleChange);

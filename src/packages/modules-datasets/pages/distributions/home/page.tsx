@@ -21,6 +21,7 @@ export const Component = () => {
   if (isLoading) {
     return <Loading />;
   }
+
   return (
     <div className="container">
       <Row>

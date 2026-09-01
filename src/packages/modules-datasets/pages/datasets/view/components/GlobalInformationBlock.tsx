@@ -25,6 +25,7 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
   const { t } = useTranslation();
 
   const { data: themesOptions = [] } = useThemes();
+
   const { data: organisations } = useOrganizations();
 
   const clAccessRights = useCodesList(CL_ACCESS_RIGHTS);

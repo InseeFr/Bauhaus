@@ -5,7 +5,9 @@ import { linkTypes } from "@model/concepts/concept";
 
 const getType = (typeOfLink: keyof typeof linkTypes) => {
   const type: string = linkTypes[typeOfLink];
+
   if (type) return type;
+
   throw new TypeError(`The type of a link was not recognized: \`${typeOfLink}\``);
 };
 

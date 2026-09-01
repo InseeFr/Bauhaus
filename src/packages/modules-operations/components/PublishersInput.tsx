@@ -14,6 +14,7 @@ export const PublishersInput = ({
   required = true,
 }: Readonly<PublishersInputProps>) => {
   const { t } = useTranslation();
+
   const label = t("common.organisation", { lng: "fr" });
 
   return (

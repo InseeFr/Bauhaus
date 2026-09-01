@@ -10,14 +10,17 @@ import { useConcepts } from "../../../hooks/useConcepts";
 
 export const Component = () => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), t("common.exportTitle"));
 
   const { mutate: exportConcept, isPending: isExporting } = useConceptExporter();
+
   const { isLoading, concepts } = useConcepts();
 
   if (isExporting) {
     return <Exporting />;
   }
+
   if (isLoading) {
     return <Loading />;
   }

@@ -45,7 +45,11 @@ function reducer(state: State, action: Action): State {
     case "EXPORT_STARTED":
       return { ...state, exportPending: true, missingDocuments: new Set() };
     case "EXPORT_FINISHED":
-      return { ...state, exportPending: false, missingDocuments: action.missingDocuments };
+      return {
+        ...state,
+        exportPending: false,
+        missingDocuments: action.missingDocuments,
+      };
     default:
       return state;
   }
@@ -53,14 +57,23 @@ function reducer(state: State, action: Action): State {
 
 export const Component = () => {
   const { baseUrl, disableSectionAnchor } = (useLoaderData() as SimsLoaderData) ?? {};
+
   const { id } = useParams();
+
   const { data: organisations } = useOrganizations();
+
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
+
   const { codesLists } = useCodesLists(metadataStructure);
+
   const { isLoading: simsLoading, sims } = useSims(id);
+
   const { mutateAsync: publishSimsMutation } = usePublishSims();
+
   const { documentStores, setDocumentStores } = useDocumentsList();
+
   const [state, dispatch] = useReducer(reducer, initialState);
+
   const { owners, exportPending, missingDocuments } = state;
 
   useEffect(() => {
@@ -95,6 +108,7 @@ export const Component = () => {
   );
 
   if (metadataStructureLoading || simsLoading) return <Loading />;
+
   if (exportPending) return <Loading />;
 
   return (

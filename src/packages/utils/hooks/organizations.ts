@@ -18,5 +18,6 @@ export const useOrganizations = () => {
 
 export const useOrganizationsOptions = (): Options => {
   const { data = [] } = useOrganizations();
+
   return transformModelToSelectOptions(data);
 };

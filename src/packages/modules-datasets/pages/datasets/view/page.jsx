@@ -84,7 +84,9 @@ const Dataset = (props) => {
   useTitle(t("dataset.pluralTitle"), dataset?.labelLg1);
 
   if (isLoading) return <Loading />;
+
   if (isDeleting) return <Deleting />;
+
   if (isPublishing) return <Publishing />;
 
   return (

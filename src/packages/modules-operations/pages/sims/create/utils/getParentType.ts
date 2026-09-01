@@ -4,9 +4,11 @@ export const getParentType = (sims: Sims): "operation" | "series" | "indicator" 
   if (sims.idOperation) {
     return "operation";
   }
+
   if (sims.idSeries) {
     return "series";
   }
+
   if (sims.idIndicator) {
     return "indicator";
   }

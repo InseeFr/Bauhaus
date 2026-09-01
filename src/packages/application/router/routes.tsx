@@ -49,6 +49,7 @@ export const Logout = () => {
   const { login } = useOidc({
     assertUserLoggedIn: false,
   });
+
   return (
     <div id="login" className="flex">
       <button
@@ -82,11 +83,11 @@ export const Routes = () => {
         element: <UnderMaintenance />,
       };
     }
-
     return {
       lazy: () => import(`../../modules-${pageName}/routes/layout.tsx`),
     };
   };
+
   const router = createBrowserRouter([
     {
       path: "logout",

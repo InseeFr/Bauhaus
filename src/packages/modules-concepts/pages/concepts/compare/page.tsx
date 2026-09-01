@@ -17,10 +17,13 @@ const EMPTY_GENERAL = {} as ConceptGeneral;
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const [secondLang] = useSecondLang();
+
   const [loading, setLoading] = useState(true);
 
   const [general, setGeneral] = useState<ConceptGeneral>(EMPTY_GENERAL);
+
   const [notes, setNotes] = useState<VersionedNotes>({});
 
   useEffect(() => {

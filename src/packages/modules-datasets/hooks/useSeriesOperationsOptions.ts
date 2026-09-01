@@ -21,11 +21,13 @@ const generateOperationsOptionsBasedOnSeries = (
 
 export const useSeriesOperationsOptions = () => {
   const { data: series = [], isLoading: isSeriesLoading } = useSeries();
+
   const { data: operations = [], isLoading: isOperationsLoading } = useOperations();
 
   if (isSeriesLoading || isOperationsLoading) {
     return [];
   }
+
   return series.reduce((options: Options, serie: Series) => {
     return [
       ...options,

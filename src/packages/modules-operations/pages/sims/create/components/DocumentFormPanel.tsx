@@ -16,10 +16,13 @@ interface DocumentFormPanelTypes {
   onHide: VoidFunction;
   onAdd: (rubric?: string, lang?: string, document?: Document) => void;
 }
+
 export const DocumentFormPanel = ({ opened, onHide, onAdd }: Readonly<DocumentFormPanelTypes>) => {
   const langOptions = useCodesList("ISO-639");
+
   const { lateralPanelOpened, onLateralPanelHide, updateDocumentStores, rubricIdForNewDocument } =
     useDocumentsStoreContext();
+
   const [saving, setSaving] = useState(false);
 
   const onSave = (id: string) => {

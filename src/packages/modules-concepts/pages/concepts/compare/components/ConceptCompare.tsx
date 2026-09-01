@@ -18,14 +18,15 @@ interface ConceptCompare {
 
 export const ConceptCompare = ({ conceptGeneral, notes, secondLang }: Readonly<ConceptCompare>) => {
   const { prefLabelLg1, prefLabelLg2 } = conceptGeneral;
+
   const version = Number(conceptGeneral.conceptVersion);
+
   return (
     <div>
       <div className="container">
         <PageTitle title={(secondLang ? prefLabelLg2 : prefLabelLg1) ?? ""} />
         <Controls />
         <CheckSecondLang />
-
         <ConceptGeneral concept={conceptGeneral} secondLang={secondLang} />
         <CompareNotes
           secondLang={secondLang}

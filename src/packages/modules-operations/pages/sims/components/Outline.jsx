@@ -16,6 +16,7 @@ export const Outline = ({
   disableSectionAnchor,
 }) => {
   const { t } = useTranslation();
+
   const [opened, setOpened] = useState(() => storeCollapseState && isOpen(metadataStructure.idMas));
 
   const expandOrCollapseItem = () => {
@@ -29,9 +30,7 @@ export const Outline = ({
 
   useEffect(() => {
     if (!hash) return;
-
     const id = hash.replace("#", "");
-
     requestAnimationFrame(() => {
       const el = document.getElementById(id);
       el?.scrollIntoView({
@@ -50,7 +49,6 @@ export const Outline = ({
         >
           {metadataStructure.idMas} - {metadataStructure.masLabelBasedOnCurrentLang}
         </OutlineButtonWithScroll>
-
         {Object.keys(metadataStructure.children).length > 0 && (
           <button
             type="button"

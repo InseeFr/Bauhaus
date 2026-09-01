@@ -38,6 +38,7 @@ export const Component = () => {
   useTitle(t("distribution.searchTitle"));
 
   const [loading, setLoading] = useState(true);
+
   const [data, setData] = useState<SearchDistribution[]>([]);
 
   useEffect(() => {
@@ -57,7 +58,6 @@ const filterDistributionLabel = filterKeyDeburr(["distributionLabelLg1"]);
 const filterDistributionValidationStatus = filterKeyDeburr(["distributionValidationStatus"]);
 const filterDistributionCreatedDate = filterKeyDate("distributionCreated");
 const filterDistributionUpdatedDate = filterKeyDate("distributionUpdated");
-
 const filterLabel = filterKeyDeburr(["labelLg1"]);
 const filterAltId = filterKeyDeburr(["altIdentifier"]);
 const filterCreator = filterKeyDeburr(["creator"]);

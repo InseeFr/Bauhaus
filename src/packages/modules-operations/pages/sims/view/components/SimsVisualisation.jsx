@@ -54,9 +54,13 @@ export function SimsVisualisation({
   owners = EMPTY_ARRAY,
 }) {
   const [secondLang] = useSecondLang();
+
   const { t } = useTranslation();
+
   const [modalOpened, setModalOpened] = useState(false);
+
   const [exportModalOpened, setExportModalOpened] = useState(false);
+
   const [exportConfig, setExportConfig] = useState({
     emptyMas: true,
     lg1: true,
@@ -122,7 +126,9 @@ export function SimsVisualisation({
   }
 
   const [serverSideError, setServerSideError] = useState();
+
   const [publishMissingDocuments, setPublishMissingDocuments] = useState(EMPTY_SET);
+
   const publish = useCallback(
     (object) => {
       setServerSideError(undefined);
@@ -147,9 +153,11 @@ export function SimsVisualisation({
    * Handle the deletion of a SIMS.
    */
   const navigate = useNavigate();
+
   const handleNo = () => {
     setModalOpened(false);
   };
+
   const handleYes = () => {
     setServerSideError(undefined);
     OperationsApi.deleteSims(sims)
@@ -185,7 +193,6 @@ export function SimsVisualisation({
               <CloseIconButton onClick={() => setExportModalOpened(false)} />
               <h4 className="modal-title">{t("app.btnExport")}</h4>
             </div>
-
             <div className="modal-body export-modal-body">
               <Row>
                 <p className="col-md-offset-1">{t("sims.exportSimsTips")}</p>
@@ -268,7 +275,6 @@ export function SimsVisualisation({
           </div>
         </Modal>
       )}
-
       <Menu
         sims={sims}
         owners={owners}

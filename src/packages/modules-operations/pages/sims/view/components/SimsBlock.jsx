@@ -20,6 +20,7 @@ export const SimsBlock = ({
   if (!msd.masLabelLg1) {
     return null;
   }
+
   return (
     !msd.isPresentational && (
       <>

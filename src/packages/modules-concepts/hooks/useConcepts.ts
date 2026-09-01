@@ -8,6 +8,7 @@ import { sortArrayByLabel } from "@utils/array-utils";
 
 export const useConcepts = () => {
   const [concepts, setConcepts] = useState<PartialConcept[]>([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

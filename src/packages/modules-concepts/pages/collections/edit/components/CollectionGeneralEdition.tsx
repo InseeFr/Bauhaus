@@ -50,6 +50,7 @@ export function CollectionGeneralEdition({
   const { t, i18n } = useTranslation();
   const t1 = i18n.getFixedT("fr");
   const t2 = i18n.getFixedT("en");
+
   const { id, prefLabelLg1, prefLabelLg2, creator, contributor, descriptionLg1, descriptionLg2 } =
     general;
 
@@ -60,7 +61,6 @@ export function CollectionGeneralEdition({
       <h4 className="text-center">
         ( <RequiredIcon /> : {t("common.requiredFields")})
       </h4>
-
       {creation && (
         <Row>
           <InputRmes
@@ -74,7 +74,6 @@ export function CollectionGeneralEdition({
           />
         </Row>
       )}
-
       <Row>
         <InputRmes
           colMd={6}
@@ -94,7 +93,6 @@ export function CollectionGeneralEdition({
           className="w-100"
         />
       </Row>
-
       <div className="form-group">
         <CreatorsInput
           mode="organisation"

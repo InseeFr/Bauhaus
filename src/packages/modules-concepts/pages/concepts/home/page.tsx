@@ -11,7 +11,9 @@ import { useTranslation } from "react-i18next";
 
 export const Component = () => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), t("concept.title"));
+
   const { concepts, isLoading } = useConcepts();
 
   if (isLoading) return <Loading />;

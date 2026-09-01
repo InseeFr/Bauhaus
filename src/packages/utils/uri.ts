@@ -5,7 +5,9 @@
  */
 export const isAbsoluteUri = (value: string): boolean => {
   const trimmed = value.trim();
+
   if (!trimmed || /\s/.test(trimmed)) return false;
+
   try {
     const { protocol, href } = new URL(trimmed);
     // `new URL("urn:")` passe : il faut vérifier qu'il reste une partie utile.

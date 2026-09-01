@@ -68,10 +68,8 @@ const renderFieldItem = (
     case "creator":
     case "contributor":
       return renderOrganisationField(fieldName, label, value as string);
-
     case "validationState":
       return renderValidationField(fieldName, label, value as ValidationState);
-
     default:
       // This should never happen due to FieldName type, but TypeScript needs this
       return null;
@@ -86,7 +84,10 @@ export function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGener
   const fields: readonly { name: FieldName; label: string }[] = [
     { name: "creator", label: t1("common.creatorTitle") },
     { name: "contributor", label: t1("collection.general.contributorTitle") },
-    { name: "validationState", label: t1("collection.general.isCollectionValidTitle") },
+    {
+      name: "validationState",
+      label: t1("collection.general.isCollectionValidTitle"),
+    },
   ] as const;
 
   return (

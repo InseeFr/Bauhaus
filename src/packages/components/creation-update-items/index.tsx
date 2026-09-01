@@ -11,10 +11,12 @@ const { D } = createAllDictionary({
     en: "Modification date",
   },
 });
+
 export const DateItem = ({ date }: Readonly<{ date?: string | null }>) => {
   if (!date || date === "") {
     return <></>;
   }
+
   return stringToDate(date);
 };
 

@@ -21,6 +21,7 @@ export const usePrivileges = (): { privileges: Privilege[] } => {
     queryKey: ["users"],
     queryFn: () => UsersApi.getInfo(),
   });
+
   return { privileges };
 };
 

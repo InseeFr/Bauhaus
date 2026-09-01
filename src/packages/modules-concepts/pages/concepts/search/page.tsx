@@ -26,7 +26,9 @@ const emptyItem: ConceptForAdvancedSearch = {
 
 export const Component = () => {
   const [loading, setLoading] = useState(true);
+
   const [conceptSearchList, setConceptSearchList] = useState<ConceptForAdvancedSearch[]>([]);
+
   const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
@@ -45,7 +47,6 @@ export const Component = () => {
   ) => {
     setExporting(true);
     const promise = ConceptsApi.getConceptExportZipType(ids, type, lang, withConcepts);
-
     return promise.then(saveFileFromHttpResponse).finally(() => setExporting(false));
   };
 

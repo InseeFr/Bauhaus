@@ -19,17 +19,23 @@ import { ConceptWithLink } from "./components/LinksEdition";
 
 export const Component = () => {
   const { t } = useTranslation();
+
   const { id } = useParams<{ id: string }>();
+
   const isCreation = !id;
 
   const { properties } = useAppContext();
+
   const maxLengthScopeNote = Number(properties.maxLengthScopeNote);
 
   const { concepts, isLoading: isLoadingConcepts } = useConcepts();
+
   const { data: concept, isLoading: isLoadingConcept } = useConcept(id);
 
   const { save, isSaving } = useConceptSave(id);
+
   const [submitting, setSubmitting] = useState(false);
+
   const [section, setSection] = useUrlSection("general");
 
   useTitle(t("concept.title"), concept?.general?.prefLabelLg1);

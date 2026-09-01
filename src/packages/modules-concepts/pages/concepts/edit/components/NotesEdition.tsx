@@ -28,9 +28,11 @@ export const NotesEdition = ({
   const t1 = i18n.getFixedT("fr");
 
   const noteType = noteTypes(maxLengthScopeNote).find(({ rawTitle }) => rawTitle === activeNote);
+
   if (!noteType) return null;
 
   const { rawTitle, noteLg1Name, noteLg2Name, maxLength } = noteType;
+
   const title = t1(`concept.notes.${rawTitle}`);
 
   return (

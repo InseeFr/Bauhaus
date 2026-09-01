@@ -55,6 +55,7 @@ export const LinksEdition = ({
   activeLinkType,
 }: Readonly<LinksEditionProps>) => {
   const { t, i18n } = useTranslation();
+
   const [conceptsWithLinks, setConceptsWithLinks] = useState<ConceptWithLink[]>(() =>
     linkableConcepts(initialConceptsWithLinks, currentId),
   );
@@ -102,7 +103,9 @@ export const LinksEdition = ({
         relink(event.target as ConceptWithLink[]);
       }}
       itemTemplate={(concept: ConceptWithLink) => concept.label}
-      sourceHeader={t("concept.links.availablePanelTitle", { size: available.length })}
+      sourceHeader={t("concept.links.availablePanelTitle", {
+        size: available.length,
+      })}
       targetHeader={`${title} (${linked.length})`}
       filter
       filterBy="label"

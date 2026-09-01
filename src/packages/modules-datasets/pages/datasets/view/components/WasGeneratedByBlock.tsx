@@ -33,6 +33,7 @@ const generateGenericWasGeneratedBy = (
 
 export const WasGeneratedByBlock = ({ iris = EMPTY_ARRAY }: WasGeneratedByBlockTypes) => {
   const { data: series = [], isLoading: isSeriesLoading } = useSeries();
+
   const { data: operations = [], isLoading: isOperationsLoading } = useOperations();
 
   if (isSeriesLoading || isOperationsLoading) {

@@ -23,12 +23,16 @@ export const EquivalentLinks = ({
   updateEquivalentLinks,
 }: Readonly<EquivalentLinksTypes>) => {
   const { t } = useTranslation();
+
   const [value, setValue] = useState("");
 
   const uri = value.trim();
+
   const isValid = isAbsoluteUri(uri);
+
   // Rien à reprocher à un champ encore vide.
   const error = uri && !isValid ? t("concept.links.invalidUri") : undefined;
+
   return (
     <div className="equivalent-links">
       <Row>

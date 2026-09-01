@@ -17,12 +17,17 @@ export function reorderDocuments(
   overUri: string,
 ): Document[] {
   const subset = combined.filter(belongsToSubset);
+
   const oldIndex = subset.findIndex((doc) => doc.uri === activeUri);
+
   const newIndex = subset.findIndex((doc) => doc.uri === overUri);
+
   if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) {
     return combined;
   }
+
   const reordered = arrayMove(subset, oldIndex, newIndex);
+
   let cursor = 0;
   return combined.map((doc) => (belongsToSubset(doc) ? reordered[cursor++] : doc));
 }

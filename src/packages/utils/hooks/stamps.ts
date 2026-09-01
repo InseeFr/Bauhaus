@@ -20,6 +20,7 @@ export const useV2Stamps = () =>
 
 export const useStampsOptions = () => {
   const { data = [] } = useStamps();
+
   return data.map((stamp: string) => ({
     value: stamp,
     label: stamp,
@@ -28,6 +29,7 @@ export const useStampsOptions = () => {
 
 export const useV2StampsOptions = () => {
   const { data = [] } = useV2Stamps();
+
   return data.map(({ stamp, label }: { stamp: string; label: string }) => ({
     value: stamp,
     label: label,

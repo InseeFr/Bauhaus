@@ -77,7 +77,6 @@ const api = {
     (res: Response) => res.text(),
   ],
   deleteCodelist: (id: string) => [id, {}, () => Promise.resolve()],
-
   // --- Partial codelists ---
   getCodelistsPartial: () => ["partial"],
   /** @deprecated Use getCodelistsPartial */

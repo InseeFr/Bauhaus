@@ -83,6 +83,7 @@ export const PartialCodelistDetailEdit = ({
   );
 
   const isContributor = useAuthorizationGuard("CODESLIST_PARTIALCODESLIST", "CREATE");
+
   const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {

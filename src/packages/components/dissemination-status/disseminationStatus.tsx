@@ -9,6 +9,7 @@ export const getDisseminationStatus = (disseminationStatus: string): string => {
   if (!disseminationStatus) {
     return "";
   }
+
   if (disseminationStatus.includes("PublicGenerique")) {
     return D.disseminationStatus.DSPublicGeneriqueTitle;
   } else if (disseminationStatus.includes("PublicSpecifique")) {
@@ -38,6 +39,7 @@ interface DisseminationStatusInputTypes {
   required?: boolean;
   withLabel?: boolean;
 }
+
 export const DisseminationStatusInput = ({
   value,
   handleChange,
@@ -45,7 +47,9 @@ export const DisseminationStatusInput = ({
   withLabel = true,
 }: Readonly<DisseminationStatusInputTypes>) => {
   const disseminationStatusListOptions = useDisseminationStatusOptions();
+
   const inputId = useId();
+
   return (
     <>
       {withLabel &&

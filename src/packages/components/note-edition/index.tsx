@@ -17,6 +17,7 @@ interface NoteEditionTypes {
   maxLength: number;
   errorMessage: { errorMessage: string[]; fields: Record<string, string> };
 }
+
 export const NoteEdition = ({
   notes,
   noteLg1Name,
@@ -27,9 +28,12 @@ export const NoteEdition = ({
   errorMessage,
 }: Readonly<NoteEditionTypes>) => {
   const { i18n } = useTranslation();
+
   const { lg1, lg2 } = useLocales();
+
   const noteLg1 = notes[noteLg1Name];
   const noteLg2 = notes[noteLg2Name];
+
   return (
     <div>
       <Row>

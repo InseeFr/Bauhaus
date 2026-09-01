@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const useDatasetDeleter = (id: string) => {
   const queryClient = useQueryClient();
+
   const navigate = useNavigate();
 
   const {
@@ -14,7 +15,6 @@ export const useDatasetDeleter = (id: string) => {
     mutationFn: () => {
       return DistributionApi.deleteDistribution(id);
     },
-
     onSuccess: (id) => {
       return Promise.all([
         queryClient.removeQueries({ queryKey: ["distributions", id] }),

@@ -4,8 +4,10 @@ import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
 import { HelpInformation } from "./HelpInformation";
+
 export function MSDHelp({ metadataStructure, codesLists, organisations }) {
   const { idSection } = useParams();
+
   function MSDInformations({ msd }) {
     return (
       <>
@@ -24,10 +26,12 @@ export function MSDHelp({ metadataStructure, codesLists, organisations }) {
       </>
     );
   }
+
   return Object.values(metadataStructure).map((msd) => {
     if (idSection && msd.idMas !== idSection) {
       return null;
     }
+
     return <MSDInformations key={msd.idMas} msd={msd} />;
   });
 }

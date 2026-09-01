@@ -33,8 +33,11 @@ const SimsFieldComponent = ({
   organisationsOptions: _organisationsOptions,
 }) => {
   const { t } = useTranslation();
+
   const autoUpdatedFromModified = isAutoUpdatedFromModified(msd);
+
   const { data: organisations = [] } = useOrganizations();
+
   const organisationsIriOptions = useMemo(
     () => organisations.map((o) => ({ value: o.iri, label: o.label })),
     [organisations],
@@ -195,13 +198,11 @@ const SimsFieldComponent = ({
                     disabled={autoUpdatedFromModified}
                   />
                 )}
-
                 {msd.rangeType === RICH_TEXT && (
                   <div onBlur={handleMdBlur}>
                     <MDEditor text={localMdValue} handleChange={handleMdChange} />
                   </div>
                 )}
-
                 {msd.rangeType === CODE_LIST && codesList && (
                   <SimsCodeListSelect
                     aria-label={codesList.codeListLabelLg1}
@@ -211,7 +212,6 @@ const SimsFieldComponent = ({
                     multi={unbounded}
                   />
                 )}
-
                 {msd.rangeType === GEOGRAPHY && (
                   <SimsGeographyPicker
                     value={value}

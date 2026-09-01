@@ -12,7 +12,6 @@ export const useDatasetPublisher = (id: string) => {
     mutationFn: () => {
       return DistributionApi.publish(id);
     },
-
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["distributions", id],

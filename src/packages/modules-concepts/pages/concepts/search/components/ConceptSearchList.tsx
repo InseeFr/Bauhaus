@@ -53,9 +53,11 @@ export const ConceptSearchList = ({
   onExport,
 }: Readonly<ConceptSearchListProps>) => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), t("common.advancedSearch"));
 
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
+
   const navigate = useNavigate();
 
   const {

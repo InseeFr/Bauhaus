@@ -22,29 +22,35 @@ type ConceptSummaryRow = {
 
 type Counts = Omit<ConceptSummaryRow, "id" | "type">;
 
-const emptyCounts = (): Counts => ({ total: 0, generic: 0, specific: 0, private: 0 });
+const emptyCounts = (): Counts => ({
+  total: 0,
+  generic: 0,
+  specific: 0,
+  private: 0,
+});
 
 export const buildData = (
   d: ConceptForAdvancedSearch[],
   labels: [string, string, string, string] = ["", "", "", ""],
 ): ConceptSummaryRow[] => {
   const all = emptyCounts();
+
   const top = emptyCounts();
+
   const provisional = emptyCounts();
+
   const validDate = emptyCounts();
 
   for (const concept of d) {
     const isGeneric = concept.disseminationStatus.endsWith("PublicGenerique");
     const isSpecific = concept.disseminationStatus.endsWith("PublicSpecifique");
     const isPrivate = concept.disseminationStatus.endsWith("Prive");
-
     const increment = (counts: Counts) => {
       counts.total++;
       if (isGeneric) counts.generic++;
       if (isSpecific) counts.specific++;
       if (isPrivate) counts.private++;
     };
-
     increment(all);
     if (concept.isTopConceptOf === "true") increment(top);
     if (concept.validationState !== VALIDATED) increment(provisional);
@@ -70,13 +76,25 @@ type ConceptStampRow = {
 export const buildDataStamps = (d: ConceptForAdvancedSearch[]): ConceptStampRow[] =>
   d.reduce<ConceptStampRow[]>((acc, concept) => {
     if (!acc.some((row) => row.stamp === concept.creator)) {
-      acc.push({ stamp: concept.creator, total: 0, generic: 0, specific: 0, private: 0 });
+      acc.push({
+        stamp: concept.creator,
+        total: 0,
+        generic: 0,
+        specific: 0,
+        private: 0,
+      });
     }
+
     const row = acc.find((row) => row.stamp === concept.creator)!;
+
     row.total++;
+
     if (concept.disseminationStatus.endsWith("PublicGenerique")) row.generic++;
+
     if (concept.disseminationStatus.endsWith("PublicSpecifique")) row.specific++;
+
     if (concept.disseminationStatus.endsWith("Prive")) row.private++;
+
     return acc;
   }, []);
 
@@ -91,6 +109,7 @@ export function ConceptsSummary({
     t("dashboard.provisionalCountLabel"),
     t("dashboard.concepts.summary.validDateCountLabel"),
   ]);
+
   const dataStamps = buildDataStamps(conceptsData);
 
   return (
@@ -98,7 +117,6 @@ export function ConceptsSummary({
       <h3 className="text-center">
         {t("dashboard.concepts.summary.title")} {today()}
       </h3>
-
       <Panel>
         <DataTable value={data} withPagination={false}>
           <Column field="type" header=""></Column>
@@ -108,7 +126,6 @@ export function ConceptsSummary({
           <Column field="private" header={t("dashboard.concepts.summary.privateColumn")}></Column>
         </DataTable>
       </Panel>
-
       <Panel>
         <DataTable value={dataStamps} globalFilterFields={["stamp"]}>
           <Column

@@ -16,14 +16,19 @@ import { CollectionEditionCreation } from "./components/CollectionEditionCreatio
 
 export const Component = () => {
   const { t } = useTranslation();
+
   const { id } = useParams<{ id: string }>();
+
   const isCreation = !id;
 
   const [submitting, setSubmitting] = useState(false);
 
   const { data: collection, isLoading: loadingCollection } = useCollection(id);
+
   const { data: collectionList = [] } = useCollections();
+
   const { concepts, isLoading: isConceptLoading } = useConcepts();
+
   const { save, isSaving } = useCollectionSave(id);
 
   const { general, members = [] } = (collection ?? {}) as Partial<CollectionWithMembers>;
@@ -33,6 +38,7 @@ export const Component = () => {
   if (isSaving) {
     return <Saving />;
   }
+
   if (isConceptLoading || (!isCreation && loadingCollection) || !general) {
     return <Loading />;
   }

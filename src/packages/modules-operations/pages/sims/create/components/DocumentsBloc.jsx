@@ -46,6 +46,7 @@ export function DocumentsBloc({
   idMas,
 }) {
   const { t } = useTranslation();
+
   const { documentStores, openLateralPanelOpened, setRubricIdForNewDocument } =
     useDocumentsStoreContext();
 
@@ -77,6 +78,7 @@ export function DocumentsBloc({
   );
 
   const [panelStatus, setPanelStatus] = useState(false);
+
   const [filter, setFilter] = useState("");
 
   const baseURI = getBaseURI();
@@ -102,16 +104,17 @@ export function DocumentsBloc({
       <List.Item className="documentbloc-item" key={document.uri}>
         <span>
           <DocumentLink document={document} localPrefix={localPrefix} baseURI={baseURI} />
-
           <DocumentAsideInformation document={document} />
         </span>
         {editMode && btnBlocFunction(document)}
       </List.Item>
     );
   }
+
   const addTitle = t(objectType === "documents" ? "documents.addDocument" : "documents.addLink", {
     lng: isSecondLang ? "en" : "fr",
   });
+
   const title = t(objectType === "documents" ? "documents.titleDocument" : "documents.titleLink");
   return (
     <>

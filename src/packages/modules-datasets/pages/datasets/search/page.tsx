@@ -41,6 +41,7 @@ export const Component = () => {
   useTitle(t("dataset.searchTitle"));
 
   const [loading, setLoading] = useState(true);
+
   const [data, setData] = useState<SearchDataset[]>([]);
 
   useEffect(() => {

@@ -40,11 +40,13 @@ export const ConceptVisualizationControls = ({
   onDelete,
 }: Readonly<ConceptVisualizationControlsTypes>) => {
   const { setLoading } = useLoading();
+
   const goBack = useGoBack();
 
   const [modalOpened, setModalOpened] = useState(false);
 
   const handleNo = () => setModalOpened(false);
+
   const handleYes = () => {
     onDelete();
     setModalOpened(false);
@@ -75,11 +77,9 @@ export const ConceptVisualizationControls = ({
         <HasAccess module="CONCEPT_CONCEPT" privilege="UPDATE" stamps={[general.creator]}>
           <UpdateButton action={`/concepts/${id}/modify`} />
         </HasAccess>
-
         <HasAccess module="CONCEPT_CONCEPT" privilege="DELETE" stamps={[general.creator]}>
           <DeleteButton action={() => setModalOpened(true)} />
         </HasAccess>
-
         <HasAccess
           module="CONCEPT_CONCEPT"
           privilege="PUBLISH"

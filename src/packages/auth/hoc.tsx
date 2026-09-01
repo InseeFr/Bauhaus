@@ -6,7 +6,9 @@ import { useAppContext } from "../application/app-context";
 export const withAuth = (WrappedComponent: () => JSX.Element) => {
   const AuthComponent = () => {
     const { authType } = useAppContext();
+
     const { isUserLoggedIn } = useOidc();
+
     if (authType === OPEN_ID_CONNECT_AUTH) {
       if (!isUserLoggedIn) return <LoginComponent />;
       else return <LoggedInWrapper WrappedComponent={WrappedComponent} />;

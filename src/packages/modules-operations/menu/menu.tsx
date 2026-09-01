@@ -73,6 +73,7 @@ const extractSimsIdFromPathname = (pathname: string): string | undefined => {
 
 export const MenuOperations = () => {
   const { t } = useTranslation();
+
   const { pathname } = useLocation();
 
   const params = useParams();

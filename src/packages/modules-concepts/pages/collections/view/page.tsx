@@ -13,7 +13,9 @@ import { CollectionVisualization } from "./components/CollectionVisualization";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const [saving, setSaving] = useState(false);
+
   const queryClient = useQueryClient();
 
   const [secondLang] = useSecondLang();
@@ -37,6 +39,7 @@ export const Component = () => {
   if (saving) {
     return <Publishing />;
   }
+
   const { general, members } = collection;
 
   return (

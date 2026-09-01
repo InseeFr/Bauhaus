@@ -20,6 +20,7 @@ const formatNotes = (notes: ConceptNotes): ConceptNotes => ({
 
 export const useConcept = (id: string | undefined) => {
   const defaultContributor = useAppContext().properties.defaultContributor;
+
   return useQuery<Concept>({
     queryKey: ["concept", id],
     queryFn: async () => {

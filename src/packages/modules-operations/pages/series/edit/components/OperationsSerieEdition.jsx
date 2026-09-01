@@ -63,7 +63,9 @@ export const OperationsSerieEdition = ({
   ...props
 }) => {
   const { t } = useTranslation();
+
   const [state, setState] = useState(() => setInitialState(props));
+
   const isFirstRender = useRef(true);
 
   useEffect(() => {

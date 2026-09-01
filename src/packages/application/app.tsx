@@ -63,6 +63,7 @@ export const App = () => {
   useTitle();
 
   const { privileges = [] } = usePrivileges();
+
   const {
     properties: { modules },
   } = useAppContext();

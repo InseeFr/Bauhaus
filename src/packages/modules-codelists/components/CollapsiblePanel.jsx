@@ -11,6 +11,7 @@ export const CollapsiblePanel = ({
   collapsible = true,
 }) => {
   const [hidden, setHidden] = useState(hiddenProps);
+
   const clickTitleHandler = useCallback(() => {
     setHidden(!hidden);
   }, [hidden]);

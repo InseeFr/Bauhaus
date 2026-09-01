@@ -9,8 +9,10 @@ const { D } = createAllDictionary({
     en: "Display second language",
   },
 });
+
 export const CheckSecondLang = () => {
   const [secondLang, toggleSecondLang] = useSecondLang();
+
   return (
     <div className="row bauhaus-second-lang-checkbox">
       <div className="col-md-10 text-center col-md-offset-1">

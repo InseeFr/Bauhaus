@@ -37,7 +37,12 @@ const firstNonEmptyString = (...candidates: unknown[]): string | undefined =>
  */
 export const getApiErrorMessage = (err: unknown, fallback: string): string => {
   if (err instanceof Error) return err.message || fallback;
-  const { message, detail } = (err ?? {}) as { message?: unknown; detail?: unknown };
+
+  const { message, detail } = (err ?? {}) as {
+    message?: unknown;
+    detail?: unknown;
+  };
+
   return firstNonEmptyString(message, detail) ?? fallback;
 };
 
@@ -51,6 +56,7 @@ export const getApiErrorMessage = (err: unknown, fallback: string): string => {
  */
 export const getApiErrors = (err: unknown): string[] | null => {
   const errors = (err as { errors?: unknown })?.errors;
+
   if (!Array.isArray(errors) || errors.length === 0) return null;
 
   return errors.map((error) => (isFieldError(error) ? formatFieldError(error) : String(error)));
