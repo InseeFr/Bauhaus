@@ -1,3 +1,5 @@
+export type Dictionary = Record<string, any>;
+
 export const createAllDictionary = (dict: any) => {
   const D1 = createDictionary(firstLang, dict);
   const D2 = createDictionary(secondLang, dict);
@@ -18,12 +20,13 @@ export const createAllDictionary = (dict: any) => {
  * @param {string} lang the lang of the user
  * @param {any} dict
  */
-export const createDictionary = (lang: string, dict: any): Record<string, any> =>
+export const createDictionary = (lang: string, dict: any): Dictionary =>
   Object.keys(dict).reduce((acc, k) => {
     const hasChildObject = Object.keys(dict[k]).find(
       (key) =>
         dict[k][key] && typeof dict[k][key] === "object" && dict[k][key].constructor === Object,
     );
+
     return {
       ...acc,
       [k]: !hasChildObject ? dict[k][lang] : createDictionary(lang, dict[k]),

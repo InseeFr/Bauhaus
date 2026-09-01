@@ -7,7 +7,7 @@ import { SummaryEntry, SummaryNav } from "@components/summary-nav";
 import { useUrlSection } from "@utils/hooks/useUrlSection";
 
 import { useTitle } from "../../../../../utils/hooks/useTitle";
-import { Collection } from "../../../../types/collection";
+import { CollectionDashboardItem } from "@model/concepts/collection";
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
 import {
   DashboardTab,
@@ -24,20 +24,23 @@ import "../../../../i18n";
 
 type Props = {
   conceptsData: ConceptForAdvancedSearch[];
-  collectionsData: Collection[];
+  collectionsData: CollectionDashboardItem[];
 };
 
 export function ConceptsDashboard({ conceptsData, collectionsData }: Readonly<Props>) {
   const { t } = useTranslation();
+
   useTitle(t("dashboard.conceptsTab"), t("dashboard.administrationTitle"));
 
   const [section, setSection] = useUrlSection("concepts");
+
   const { tab, view } = resolveDashboardSection(section);
 
   const tabs: { key: DashboardTab; label: string }[] = [
     { key: "concepts", label: t("dashboard.conceptsTab") },
     { key: "collections", label: t("dashboard.collectionsTab") },
   ];
+
   const views: { key: DashboardView; label: string }[] = [
     { key: "summary", label: t("dashboard.summaryTab") },
     { key: "creations", label: t("dashboard.creationsTab") },
@@ -47,7 +50,10 @@ export function ConceptsDashboard({ conceptsData, collectionsData }: Readonly<Pr
   const entries: SummaryEntry[] = tabs.map(({ key, label }) => ({
     key,
     label,
-    items: views.map((v) => ({ key: dashboardSectionKey(key, v.key), label: v.label })),
+    items: views.map((v) => ({
+      key: dashboardSectionKey(key, v.key),
+      label: v.label,
+    })),
   }));
 
   const sections: Record<DashboardTab, Record<DashboardView, ReactNode>> = {
