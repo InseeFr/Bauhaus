@@ -21,11 +21,7 @@ type CollectionsList = {
 
 export const COLLECTION_ID_PATTERN = /^[A-Za-z0-9-]+$/;
 
-const ZodCollection = (
-  collectionList: CollectionsList,
-  initialId: string,
-  initialPrefLabelLg1: string,
-) =>
+const ZodCollection = (collectionList: CollectionsList, initialPrefLabelLg1: string) =>
   z.object({
     id: mandatoryAndNotEmptyTextField(t("common.identifiantTitle")).refine(
       (value) => value.length === 0 || COLLECTION_ID_PATTERN.test(value),
@@ -43,6 +39,5 @@ const ZodCollection = (
 export const validate = (
   general: CollectionGeneral,
   collectionList: CollectionsList,
-  initialId: string,
   initialPrefLabelLg1: string,
-) => formatValidation(ZodCollection(collectionList, initialId, initialPrefLabelLg1))(general);
+) => formatValidation(ZodCollection(collectionList, initialPrefLabelLg1))(general);

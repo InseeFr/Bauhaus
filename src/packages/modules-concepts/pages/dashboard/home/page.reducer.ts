@@ -1,15 +1,19 @@
-import { Collection } from "../../../types/collection";
+import { CollectionDashboardItem } from "@model/concepts/collection";
 import { ConceptForAdvancedSearch } from "../../../types/concept";
 
 type State = {
   loading: boolean;
   error: unknown;
   concepts: ConceptForAdvancedSearch[];
-  collections: Collection[];
+  collections: CollectionDashboardItem[];
 };
 
 type Action =
-  | { type: "FETCH_SUCCESS"; concepts: ConceptForAdvancedSearch[]; collections: Collection[] }
+  | {
+      type: "FETCH_SUCCESS";
+      concepts: ConceptForAdvancedSearch[];
+      collections: CollectionDashboardItem[];
+    }
   | { type: "FETCH_ERROR"; error: unknown }
   | { type: "FETCH_COMPLETE" };
 

@@ -1,5 +1,4 @@
-import { createDictionary, firstLang, getLang, secondLang } from "@utils/dictionnary";
-import { Dictionary } from "@utils/types";
+import { createDictionary, Dictionary, firstLang, getLang, secondLang } from "@utils/dictionnary";
 
 const dictionary = {
   btnNew: {

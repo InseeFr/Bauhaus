@@ -9,7 +9,7 @@ import { today } from "@utils/date-utils";
 
 import "../../../../../i18n";
 import { VALIDATED } from "@model/ValidationState";
-import { Collection } from "../../../../types/collection";
+import { CollectionDashboardItem } from "@model/concepts/collection";
 
 type CollectionSummaryRow = {
   id: number;
@@ -22,7 +22,7 @@ export type CollectionStampRow = {
   total: number;
 };
 
-export const buildDataStamps = (d: Collection[]): CollectionStampRow[] =>
+export const buildDataStamps = (d: CollectionDashboardItem[]): CollectionStampRow[] =>
   d.reduce<CollectionStampRow[]>((acc, collection) => {
     if (!acc.some((row) => row.stamp === collection.creator)) {
       acc.push({ stamp: collection.creator, total: 0 });
@@ -33,7 +33,7 @@ export const buildDataStamps = (d: Collection[]): CollectionStampRow[] =>
 
 export function CollectionsSummary({
   collectionsData,
-}: Readonly<{ collectionsData: Collection[] }>) {
+}: Readonly<{ collectionsData: CollectionDashboardItem[] }>) {
   const { t } = useTranslation();
 
   const data: CollectionSummaryRow[] = [
@@ -48,6 +48,7 @@ export function CollectionsSummary({
       total: collectionsData.filter((c) => c.validationState !== VALIDATED).length,
     },
   ];
+
   const dataStamps = buildDataStamps(collectionsData);
 
   return (
@@ -55,14 +56,12 @@ export function CollectionsSummary({
       <h3 className="text-center">
         {t("dashboard.collections.summary.title")} {today()}
       </h3>
-
       <Panel>
         <DataTable value={data} withPagination={false}>
           <Column field="type" header=""></Column>
           <Column field="total" header={t("dashboard.totalColumn")}></Column>
         </DataTable>
       </Panel>
-
       <Panel>
         <DataTable value={dataStamps} globalFilterFields={["stamp"]}>
           <Column
