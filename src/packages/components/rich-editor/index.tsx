@@ -27,6 +27,7 @@ interface EditorHTMLTypes {
 
 export const EditorHTML = ({ handleChange, smart, ariaLabel, text }: EditorHTMLTypes) => {
   const [editorState, setEditorState] = useState(() => editorStateFromHtml(text || ""));
+
   const isFirstRender = useRef(true);
 
   useEffect(() => {

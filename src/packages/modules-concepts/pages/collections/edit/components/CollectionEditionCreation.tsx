@@ -41,7 +41,10 @@ export const CollectionEditionCreation = ({
   save,
   setSubmitting,
 }: Readonly<CollectionEditionCreationProps>) => {
-  const [general, setGeneral] = useState<CollectionGeneral>(() => ({ ...initialGeneral }));
+  const [general, setGeneral] = useState<CollectionGeneral>(() => ({
+    ...initialGeneral,
+  }));
+
   const [members, setMembers] = useState<MemberItem[]>(() => toMemberItems(initialMembers));
 
   const handleChangeGeneral = (update: Partial<CollectionGeneral>) => {
@@ -62,7 +65,6 @@ export const CollectionEditionCreation = ({
   const errors = validate(
     general,
     collectionList.map((c) => ({ id: c.id, label: c.label?.value ?? "" })),
-    initialGeneral.id,
     initialGeneral.prefLabelLg1,
   );
 

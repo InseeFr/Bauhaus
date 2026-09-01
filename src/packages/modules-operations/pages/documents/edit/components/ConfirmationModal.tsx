@@ -21,6 +21,7 @@ export const ConfirmationModal = ({
   onNo,
 }: Readonly<ConfirmationModalTypes>) => {
   const { t } = useTranslation();
+
   const modalButtons = [
     {
       label: t("app.no"),

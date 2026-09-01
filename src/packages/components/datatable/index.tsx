@@ -17,6 +17,7 @@ const { D } = createAllDictionary({
 interface DataTableTypes {
   withPagination?: boolean;
 }
+
 export const DataTable = ({
   children,
   withPagination = true,
@@ -25,17 +26,17 @@ export const DataTable = ({
   PropsWithChildren<DataTableTypes & ComponentPropsWithoutRef<typeof PrimeDataTable>>
 >) => {
   const [globalFilterValue, setGlobalFilterValue] = useState("");
+
   const [filters, setFilters] = useState<{
     global: { value: string | null; matchMode: FilterMatchMode };
   }>({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
+
   const onGlobalFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const _filters = { ...filters };
-
     _filters["global"].value = value;
-
     setFilters(_filters);
     setGlobalFilterValue(value);
   };
@@ -55,6 +56,7 @@ export const DataTable = ({
       </div>
     );
   }
+
   return (
     <PrimeDataTable
       header={header}

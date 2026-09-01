@@ -45,17 +45,11 @@ export const Table = ({
       onPage={onPage}
     >
       <Column field="code" header={t("codes.title")}></Column>
-
       <Column field="labelLg1" header={t("codes.label", { lng: "fr" })}></Column>
-
       <Column field="labelLg2" header={t("codes.label", { lng: "en" })}></Column>
-
       <Column field="broader" header={t("codes.broader")}></Column>
-
       <Column field="narrower" header={t("codes.narrower")}></Column>
-
       <Column field="closeMatch" header={t("codes.closeMatch")}></Column>
-
       <Column field="actions" header=""></Column>
     </DataTable>
   );

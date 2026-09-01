@@ -15,12 +15,15 @@ import { GlobalErrorBloc } from "../../../components/GlobalErrorBloc";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const navigate = useNavigate();
+
   const { t } = useTranslation();
 
   const [secondLang] = useSecondLang();
 
   const [operationLoading, setOperationLoading] = useState<LoadingType>();
+
   const [error, setError] = useState<string | undefined>();
 
   const { data: concept, isLoading, refetch } = useConcept(id);
@@ -30,7 +33,6 @@ export const Component = () => {
   const handleConceptValidation = useCallback(
     (id: string) => {
       setOperationLoading("validating");
-
       ConceptsApi.putConceptValidList([id])
         .then(() => refetch())
         .catch((e: string) => setError(e))
@@ -49,7 +51,6 @@ export const Component = () => {
       .finally(() => setOperationLoading(undefined));
   }, [navigate, id]);
 
-  console.log(isLoading, operationLoading);
   if (loading) {
     return <Loading />;
   }

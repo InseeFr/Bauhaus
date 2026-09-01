@@ -17,6 +17,7 @@ export const Note = ({
   alt = "",
 }: Readonly<NoteTypes>) => {
   if (!text && !allowEmpty) return null;
+
   const cl = alone ? "col-md-12" : "col-md-6";
 
   return (

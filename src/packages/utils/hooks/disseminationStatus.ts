@@ -15,5 +15,6 @@ export const useDisseminationStatus = () => {
 
 export const useDisseminationStatusOptions = (): Options => {
   const { data = [] } = useDisseminationStatus();
+
   return data.map(({ url, label }) => ({ value: url, label }));
 };

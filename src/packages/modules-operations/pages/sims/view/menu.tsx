@@ -19,6 +19,7 @@ interface MenuTypes {
   onDelete: VoidFunction;
   onPublish: VoidFunction;
 }
+
 export const Menu = ({ sims, owners, onExport, onDelete, onPublish }: Readonly<MenuTypes>) => {
   const goBack = useGoBack();
 

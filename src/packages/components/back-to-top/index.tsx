@@ -12,6 +12,7 @@ const { D } = createAllDictionary({
     fr: "Haut de page",
   },
 });
+
 window.onload = function () {
   document.addEventListener(
     "scroll",
@@ -41,7 +42,9 @@ export function BackToTop({ label }: Readonly<BackToTopTypes>) {
       behavior: "smooth",
     });
   }, []);
+
   const text = D.backToTop || label;
+
   return (
     <button type="button" onClick={clickHandler} className={className} style={{ display: "none" }}>
       <span className="glyphicon glyphicon-chevron-up" />

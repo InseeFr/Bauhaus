@@ -121,29 +121,22 @@ const renderFieldItem = (
     case "creator":
     case "contributor":
       return renderOrganisationField(fieldName, label, value as string);
-
     case "altLabelLg1":
     case "altLabelLg2":
       return renderArrayField(fieldName, label, value as string[]);
-
     case "created":
     case "modified":
     case "valid":
       return renderDateField(fieldName, label, value as string);
-
     case "additionalMaterial":
       return renderLinkField(fieldName, label, value as string);
-
     case "disseminationStatus":
       return renderDisseminationField(fieldName, value as string);
-
     case "validationState":
       return renderValidationField(fieldName, label, value as string);
-
     case "id":
     case "conceptVersion":
       return renderSimpleField(fieldName, label, value as string);
-
     default:
       return null;
   }
@@ -151,6 +144,7 @@ const renderFieldItem = (
 
 export function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneralProps>) {
   const { lg1, lg2 } = useLocales();
+
   const { t } = useTranslation();
 
   const fields: { name: FieldName; label: string }[] = [
@@ -188,7 +182,10 @@ export function ConceptGeneral({ concept, secondLang = false }: Readonly<Concept
       name: "disseminationStatus",
       label: t("concept.general.disseminationStatusTitle"),
     },
-    { name: "validationState", label: t("concept.general.isConceptValidTitle") },
+    {
+      name: "validationState",
+      label: t("concept.general.isConceptValidTitle"),
+    },
   );
 
   if (concept.additionalMaterial) {

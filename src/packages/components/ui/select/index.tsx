@@ -32,7 +32,6 @@ export const Select = ({
         {label}
         {required && <span className="asterisk">*</span>}
       </span>
-
       {multi ? (
         <MultiSelect
           placeholder={placeholder}

@@ -44,6 +44,7 @@ export const DataStructure = ({
   const { t } = useTranslation();
 
   const { data: structures } = useStructures();
+
   const options: Option[] =
     structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ?? [];
 

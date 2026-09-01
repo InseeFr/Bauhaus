@@ -43,6 +43,7 @@ const CodeSlidingPanel = ({ code: initialCode, handleBack, handleSave, creation,
 
   const handleSubmit = () => {
     const clientSideErrors = validateCode(code, [], !creation);
+
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
       setClientSideErrors(clientSideErrors);
@@ -171,6 +172,7 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
   const { t } = useTranslation();
 
   const [state, dispatch] = useReducer(codesPanelReducer, initialCodesPanelState);
+
   const { codes, searchCode, searchLabel, lazyState, loading, openPanel, selectedCode } = state;
 
   const handleSearch = (type, valueCode, valueLabel) => {
@@ -178,7 +180,6 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
       type === "code"
         ? [valueCode, searchLabel, "SET_SEARCH_CODE", API.getCodesByCode]
         : [valueLabel, searchCode, "SET_SEARCH_LABEL", API.getCodesByLabel];
-
     dispatch({ type: searchActionType, value: handledValue });
     if (otherValue) {
       API.getCodesByCodeAndLabel(codelist.id, valueCode, valueLabel).then((cl) => {
@@ -193,7 +194,6 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
 
   const fetchCodes = () => {
     dispatch({ type: "SET_LOADING", loading: true });
-
     API.getCodesDetailedCodelist(codelist.id, (lazyState.page ?? 0) + 1)
       .then((cl) => {
         dispatch({ type: "SET_CODES", codes: cl ?? {} });

@@ -7,5 +7,6 @@ interface SimsBlockTextTypes {
 
 export const SimsBlockText = ({ currentSection, isSecondLang }: Readonly<SimsBlockTextTypes>) => {
   const content = currentSection[isSecondLang ? "labelLg2" : "labelLg1"];
+
   return content || "";
 };

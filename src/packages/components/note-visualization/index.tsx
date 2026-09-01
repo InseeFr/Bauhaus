@@ -8,6 +8,7 @@ interface NoteVizualizationTypes {
   secondLang: boolean;
   md?: boolean;
 }
+
 export const NoteVisualization = ({ params, secondLang, md }: Readonly<NoteVizualizationTypes>) => {
   return params
     .filter((note) => !!note.lg1)

@@ -12,11 +12,13 @@ export const buildFields = (fieldsWithRequired: FieldSpec[]) =>
 
 export const buildEmpty = (fieldsWithRequired: FieldSpec[]) => {
   const general = objectFromKeys<string | string[]>(buildFields(fieldsWithRequired), "");
+
   fieldsWithRequired.forEach(([field, _req, type]) => {
     if (type === "array") {
       general[field] = [];
     }
   });
+
   return general;
 };
 

@@ -20,6 +20,7 @@ export const hasAccessToModule = (module: AppName, privileges: Privilege[] | und
   };
 
   const applicationPrefix = modulePrefixMap[module];
+
   if (!applicationPrefix) {
     return false;
   }
@@ -45,6 +46,7 @@ interface UserStamp {
 
 const findPrivilegeForModule = (privileges: Privilege[], module: MODULE, privilege: PRIVILEGE) => {
   const currentModule = privileges.find((d) => d.application === module);
+
   return currentModule?.privileges.find((p) => p.privilege === privilege);
 };
 
@@ -63,6 +65,7 @@ const hasStampAccess = (
     }
     return userStamps.some((userStamp) => complementaryCheck && check(userStamp.stamp));
   }
+
   return userStamps.some(
     (userStamp) =>
       // allowedStamps peut contenir soit le stamp court, soit une URI se
@@ -83,7 +86,9 @@ export const useAuthorizationGuard = ({
   const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
 
   const { privileges } = usePrivileges();
+
   const { data: userStamps = [] } = useUserStamps();
+
   if (!privileges) {
     return false;
   }
@@ -129,5 +134,6 @@ export const HasAccess = ({
   if (!isAuthorized) {
     return null;
   }
+
   return children;
 };

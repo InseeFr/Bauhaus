@@ -6,6 +6,7 @@ import { ReturnButton } from "@components/buttons/buttons-with-icons";
 export const Controls = () => {
   const location = useLocation();
   const nextLocation = location.pathname.replace("/compare", "");
+
   return (
     <ActionToolbar>
       <ReturnButton action={nextLocation} />

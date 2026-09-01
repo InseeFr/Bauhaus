@@ -33,6 +33,7 @@ export const RelationsViewPerLgContent = ({
   langSuffix,
 }: Readonly<RelationsViewPerLgContentTypes>) => {
   const { t } = useTranslation();
+
   const lng = langSuffix === "Lg1" ? "fr" : "en";
 
   return (

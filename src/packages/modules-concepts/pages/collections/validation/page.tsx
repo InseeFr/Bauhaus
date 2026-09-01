@@ -14,11 +14,15 @@ import { useUnpublishedCollections } from "../../../hooks/useUnpublishedCollecti
 
 export const Component = () => {
   const { t } = useTranslation();
+
   useTitle(t("collection.title"), t("common.btnValid"));
 
   const [saving, setSaving] = useState(false);
+
   const [serverSideError, setServerSideError] = useState("");
+
   const queryClient = useQueryClient();
+
   const { data: collections = [], isLoading } = useUnpublishedCollections();
 
   // On reste sur la page : la liste est rechargée pour n'y laisser que les
@@ -33,14 +37,18 @@ export const Component = () => {
     } finally {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ["collections"] }),
-        queryClient.invalidateQueries({ queryKey: ["unpublished-collections"] }),
+        queryClient.invalidateQueries({
+          queryKey: ["unpublished-collections"],
+        }),
       ]);
       setSaving(false);
     }
   };
 
   if (saving) return <Publishing />;
+
   if (isLoading) return <Loading />;
+
   return (
     <CollectionsToValidate
       collections={collections}

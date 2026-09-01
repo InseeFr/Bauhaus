@@ -18,8 +18,11 @@ type Props = {
 
 export const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>) => {
   const { t } = useTranslation();
+
   const navigate = useNavigate();
+
   const dateField = type === "creations" ? "created" : "modified";
+
   const typeByLang =
     type === "creations" ? t("dashboard.creationsType") : t("dashboard.modificationsType");
 

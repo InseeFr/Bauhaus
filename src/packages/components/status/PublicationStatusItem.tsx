@@ -22,6 +22,7 @@ export const PublicationStatusItem = ({
   const normalized = {
     validationState: object.validationState ?? (UNPUBLISHED as ValidationState),
   };
+
   return (
     <li>
       {`${label} : `}

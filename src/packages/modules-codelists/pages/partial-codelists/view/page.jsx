@@ -40,7 +40,6 @@ export const Component = (props) => {
     queryFn: () => {
       return API.getCodelistPartial(id).then((cl) => {
         const idParent = codelists.find((codelist) => codelist.uri === cl.iriParent)?.id;
-
         if (!idParent) {
           return;
         }

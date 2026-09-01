@@ -14,6 +14,7 @@ interface CollectionsHomeTypes {
 
 export const CollectionsHome = ({ collections }: Readonly<CollectionsHomeTypes>) => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), t("collection.title"));
 
   return (

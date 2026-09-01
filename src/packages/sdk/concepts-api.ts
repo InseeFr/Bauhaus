@@ -91,7 +91,6 @@ const api = {
     },
   ],
   // Collections
-
   postCollection: (collection: unknown) => [
     "collection",
     {

@@ -42,7 +42,9 @@ export const ConceptVisualization = ({
   deleteConcept,
 }: Readonly<ConceptVisualizationProps>) => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), general?.prefLabelLg1);
+
   const [modalValid, setModalValid] = useState(false);
 
   const handleClickValidation = useCallback(() => {
@@ -53,10 +55,12 @@ export const ConceptVisualization = ({
   const handleCancelValidation = useCallback(() => {
     setModalValid(false);
   }, []);
+
   const handleConfirmValidation = useCallback(() => {
     handleCancelValidation();
     validateConcept(id);
   }, [id, validateConcept, handleCancelValidation]);
+
   const handleClickDeletion = useCallback(() => {
     deleteConcept(id);
   }, [id, deleteConcept]);

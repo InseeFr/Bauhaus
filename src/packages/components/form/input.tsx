@@ -30,6 +30,7 @@ export const GenericInputBlock = ({
     </>
   );
 };
+
 export const TextInput = (props: Readonly<ComponentProps<"input">>) => (
   <input type="text" className="form-control" {...props} />
 );

@@ -18,12 +18,12 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
   };
 
   const { version } = useAppContext();
+
   const footer = `${import.meta.env.VITE_NAME} - IHM ${import.meta.env.VITE_VERSION} - API ${version}`;
 
   return (
     <>
       <div id="root-app">{children}</div>
-
       <footer className="text-center">
         <button type="button" onClick={logoutAndRemoveFromStorage} className="btn btn-primary">
           {D.authentication.logout}
@@ -45,6 +45,7 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
     </>
   );
 };
+
 export const Root = () => {
   return <Routes />;
 };

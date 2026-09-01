@@ -59,7 +59,9 @@ export const Picker = ({
   serverSideError,
 }: Readonly<PickerTypes>) => {
   const [availableItems, setAvailableItems] = useState<Item[]>(() => withSafeLabels(itemsProps));
+
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
+
   const [clientSideErrors, setClientSideErrors] = useState("");
 
   const selectedIds = selectedItems.map(({ id }) => id);

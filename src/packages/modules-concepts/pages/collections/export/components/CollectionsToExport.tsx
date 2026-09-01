@@ -19,6 +19,7 @@ interface CollectionsToExportProps {
 
 export const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>) => {
   const { t } = useTranslation();
+
   const { mutate: exportCollection } = useCollectionExporter();
 
   return (

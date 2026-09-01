@@ -33,7 +33,9 @@ const DefaultStampsInput = ({
   }
 
   const Dictionnary = lang === "first" ? D1 : D;
+
   const label = !multi ? labelSingle : labelMulti;
+
   return (
     <Select
       label={label}
@@ -48,11 +50,13 @@ const DefaultStampsInput = ({
     />
   );
 };
+
 // @depreated
 export const StampsInput = (
   props: Readonly<Omit<ComponentProps<typeof DefaultStampsInput>, "options">>,
 ) => {
   const stampsOptions = useV2StampsOptions();
+
   return <DefaultStampsInput {...props} options={stampsOptions} />;
 };
 
@@ -60,10 +64,14 @@ export const OrganisationInput = (
   props: Readonly<Omit<ComponentProps<typeof DefaultStampsInput>, "options">>,
 ) => {
   const { data: organisations } = useOrganizations();
+
   return (
     <DefaultStampsInput
       {...props}
-      options={(organisations ?? []).map((o) => ({ value: o.iri, label: o.label }))}
+      options={(organisations ?? []).map((o) => ({
+        value: o.iri,
+        label: o.label,
+      }))}
     />
   );
 };

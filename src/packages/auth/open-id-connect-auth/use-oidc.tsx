@@ -24,6 +24,7 @@ export const LoggedInWrapper = ({ WrappedComponent }: OidcWrapperTypes) => {
   const { oidcTokens, renewTokens } = useOidc({
     assertUserLoggedIn: true,
   });
+
   const [userInformationLoaded, setUserInformationLoaded] = useState(false);
 
   const syncUserInformation = () => {
@@ -31,6 +32,7 @@ export const LoggedInWrapper = ({ WrappedComponent }: OidcWrapperTypes) => {
     console.debug({ oidcTokens });
     setUserInformationLoaded(true);
   };
+
   useEffect(() => {
     syncUserInformation();
     setInterval(() => {

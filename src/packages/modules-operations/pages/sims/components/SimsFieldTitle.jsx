@@ -19,11 +19,13 @@ export const SimsFieldTitle = ({ msd, secondLang, currentSection }) => {
 
 export const SimsFieldTitleIndicatorBridge = ({ msd, currentSection, secondLang }) => {
   const isEmpty = isEssentialRubricKo(msd, currentSection, secondLang);
+
   return <SimsFieldTitleIndicator msd={msd} isEmpty={isEmpty} />;
 };
 
 export const SimsFieldTitleIndicator = ({ msd, isEmpty }) => {
   const { t } = useTranslation();
+
   if (msd.minOccurs !== "1") {
     return null;
   }

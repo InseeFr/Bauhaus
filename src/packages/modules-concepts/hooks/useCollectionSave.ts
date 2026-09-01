@@ -19,8 +19,11 @@ export interface CollectionSaveData {
 
 export const useCollectionSave = (id: string | undefined) => {
   const isCreation = !id;
+
   const navigate = useNavigate();
+
   const queryClient = useQueryClient();
+
   const [isSaving, setIsSaving] = useState(false);
 
   const save = useCallback(

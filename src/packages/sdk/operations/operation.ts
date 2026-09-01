@@ -1,6 +1,5 @@
 export const operationsApi = {
   getOperationsList: () => ["operations"],
-
   getOperationsSearchList: () => ["operations/advanced-search"],
   getOperation: (id: string) => [`operation/${id}`],
   publishOperation: (operation: any) => [

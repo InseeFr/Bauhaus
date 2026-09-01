@@ -30,10 +30,13 @@ export const CollectionVisualization = ({
   validateCollection,
 }: Readonly<CollectionVisualizationProps>) => {
   const { t } = useTranslation();
+
   useTitle(t("collection.title"), general.prefLabelLg1);
 
   const { validationState } = general;
+
   const { mutate: exportCollection, isPending: isExporting } = useCollectionExporter();
+
   const handleClickValid = () => {
     validateCollection(id);
   };

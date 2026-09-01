@@ -32,6 +32,7 @@ export const mockReactQueryForRbac = (
   vi.doMock("@tanstack/react-query", async () => {
     const actual =
       await vi.importActual<typeof import("@tanstack/react-query")>("@tanstack/react-query");
+
     return {
       ...actual,
       useQuery: vi.fn().mockImplementation(({ queryKey }) => {
@@ -70,6 +71,7 @@ export const renderWithRouterAndQuery = (
   initialEntries: string[] = ["/"],
 ) => {
   const queryClient = createTestQueryClient();
+
   return render(
     <QueryClientProvider client={queryClient}>
       <MemoryRouter initialEntries={initialEntries}>{component}</MemoryRouter>
@@ -93,6 +95,7 @@ export const renderWithAppContext = (component: ReactNode, withRouter = true) =>
       ),
     });
   }
+
   return render(component, {
     wrapper: ({ children }) => (
       <RouterWrapper initialEntries={["/"]}>

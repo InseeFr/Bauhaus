@@ -13,6 +13,7 @@ interface MSDComponentTypes {
   storeCollapseState: boolean;
   metadataStructure: Record<string, MetadataStructure>;
 }
+
 export const MSDComponent = ({
   storeCollapseState,
   metadataStructure,
@@ -21,6 +22,7 @@ export const MSDComponent = ({
   disableSectionAnchor,
 }: Readonly<PropsWithChildren<MSDComponentTypes>>) => {
   const { t } = useTranslation();
+
   const [status, changeStatus] = useLayout();
 
   const changeStatusToBoth = () => changeStatus(Status.BOTH);
@@ -54,7 +56,6 @@ export const MSDComponent = ({
           </ul>
         </nav>
       </section>
-
       {status === Status.CONTENT && (
         <button type="button" className="msd-panel-trigger-left" onClick={changeStatusToBoth}>
           {t("sims.helpSummary")}

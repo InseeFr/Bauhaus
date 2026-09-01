@@ -10,6 +10,7 @@ export const Panel = ({ title, children }: Readonly<PropsWithChildren<{ title?: 
       </div>
     );
   }
+
   return (
     <div className="card panel">
       <div className="card-header">

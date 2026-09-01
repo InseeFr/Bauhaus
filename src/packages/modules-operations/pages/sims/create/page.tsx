@@ -54,8 +54,14 @@ type Action =
   | { type: "SET_PARENT"; parent: any }
   | { type: "SET_PARENT_LOADING"; loading: boolean }
   | { type: "SET_SERVER_ERROR"; error: unknown }
-  | { type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT"; id: { rubric: string; lang: string } | null }
-  | { type: "SET_LATERAL_PANEL_OPENED"; panelType: typeof DOCUMENT | typeof LINK | undefined };
+  | {
+      type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT";
+      id: { rubric: string; lang: string } | null;
+    }
+  | {
+      type: "SET_LATERAL_PANEL_OPENED";
+      panelType: typeof DOCUMENT | typeof LINK | undefined;
+    };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -76,30 +82,44 @@ function reducer(state: State, action: Action): State {
 
 export const Component = () => {
   const { t } = useTranslation();
+
   const {
     baseUrl,
     mode,
     disableSectionAnchor,
     parentType: parentTypeProp,
   } = (useLoaderData() as SimsLoaderData) ?? {};
+
   const params = useParams();
+
   const { data: organisations } = useOrganizations();
+
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
+
   const { codesLists } = useCodesLists(metadataStructure);
+
   const simsId = mode === UPDATE ? params.id : undefined;
+
   const { isLoading: simsLoading, sims } = useSims(simsId);
+
   const { mutateAsync: saveSimsMutation } = useSaveSims();
+
   const [state, dispatch] = useReducer(reducer, initialState);
+
   const { parent, parentLoading, rubricIdForNewDocument, serverError, lateralPanelOpened } = state;
+
   const { documentStores, setDocumentStores } = useDocumentsList();
+
   const setRubricIdForNewDocument = useCallback(
     (id: { rubric: string; lang: string } | null) =>
       dispatch({ type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT", id }),
     [],
   );
+
   const goBack = useGoBack();
 
   const idParent = mode === CREATE ? params.idParent : sims && getParentId(sims);
+
   const parentType = mode === CREATE ? parentTypeProp : sims && getParentType(sims);
 
   const saveSims = useCallback(

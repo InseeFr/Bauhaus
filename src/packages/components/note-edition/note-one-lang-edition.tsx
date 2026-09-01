@@ -11,6 +11,7 @@ export function NoteOneLangEdition({
   maxLength: number;
 }>) {
   const noteLength = htmlLength(note);
+
   // Une note sans longueur maximale (`Infinity`) n'a pas de compteur à afficher.
   const checkLength = Number.isFinite(maxLength) && maxLength > 0 && (
     <div>

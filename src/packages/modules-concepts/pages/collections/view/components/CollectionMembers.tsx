@@ -28,6 +28,7 @@ interface CollectionMembersProps {
 
 export function CollectionMembers({ members, secondLang }: Readonly<CollectionMembersProps>) {
   const { t } = useTranslation();
+
   const sortedMembers = sortByLabelLg1(members) as CollectionMember[];
 
   const memberListLg1 = renderMemberList(sortedMembers, "prefLabelLg1");
@@ -37,13 +38,18 @@ export function CollectionMembers({ members, secondLang }: Readonly<CollectionMe
     <Row>
       <Note
         text={memberListLg1}
-        title={t("collection.membersPanelTitle", { size: memberListLg1.length })}
+        title={t("collection.membersPanelTitle", {
+          size: memberListLg1.length,
+        })}
         alone={!secondLang}
       />
       {secondLang && (
         <Note
           text={memberListLg2}
-          title={t("collection.membersPanelTitle", { size: memberListLg2.length, lng: "en" })}
+          title={t("collection.membersPanelTitle", {
+            size: memberListLg2.length,
+            lng: "en",
+          })}
           alone={false}
         />
       )}

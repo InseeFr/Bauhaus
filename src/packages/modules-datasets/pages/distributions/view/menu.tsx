@@ -25,14 +25,13 @@ export const ViewMenu = ({
   const goBack = useGoBack();
 
   const contributors = getContributors(dataset);
+
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/datasets/distributions")} />
-
       <HasAccess module="DATASET_DISTRIBUTION" privilege="PUBLISH" stamps={contributors}>
         <ValidationButton object={distribution} callback={onPublish} />
       </HasAccess>
-
       <HasAccess
         module="DATASET_DISTRIBUTION"
         privilege="DELETE"
@@ -41,7 +40,6 @@ export const ViewMenu = ({
       >
         <DeleteButton action={onDelete} />
       </HasAccess>
-
       <HasAccess module="DATASET_DISTRIBUTION" privilege="UPDATE" stamps={contributors}>
         <UpdateButton action={`/datasets/distributions/${distribution.id}/modify`} />
       </HasAccess>

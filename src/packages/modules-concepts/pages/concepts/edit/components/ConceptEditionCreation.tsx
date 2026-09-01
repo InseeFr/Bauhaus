@@ -253,6 +253,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
   } = state;
 
   const versioningPossible = isVersioningPossibleFn();
+
   const modalButtons: ModalButton[] = [
     {
       label: t("common.btnCancel"),
@@ -288,7 +289,9 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
     dataConceptsWithLinks,
     maxLengthScopeNote,
   );
+
   const displayedErrors = state.saveAttempted ? errors : undefined;
+
   return (
     <div>
       <div className="container">

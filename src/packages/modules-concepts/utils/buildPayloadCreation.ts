@@ -42,6 +42,7 @@ export function buildPayloadCreation(concept: ConceptCreationInput) {
   const { general: rawGeneral, notes, conceptsWithLinks } = concept;
 
   const general = processGeneral(rawGeneral, generalFieldsToKeep);
+
   const links = processLinks(conceptsWithLinks);
 
   const versNotesObj = extractVersNotes(
@@ -62,6 +63,7 @@ export function buildPayloadCreation(concept: ConceptCreationInput) {
   }, []);
 
   const datableNoteTypes: (keyof ConceptNotes)[] = ["changeNoteLg1", "changeNoteLg2"];
+
   const datableNotes = datableNoteTypes
     .map((noteType): NoteEntry | null => {
       const content = notes[noteType];

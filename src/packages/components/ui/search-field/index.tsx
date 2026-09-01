@@ -21,6 +21,7 @@ export const SearchField = ({
   children: (id: string) => ReactNode;
 }>) => {
   const id = useId();
+
   return (
     <div className={cx("field", col)}>
       <label htmlFor={id}>{label}</label>

@@ -14,5 +14,6 @@ export const Component = () => {
     id: c.id,
     label: c.label.value,
   }));
+
   return <CollectionsHome collections={formattedCollections} />;
 };

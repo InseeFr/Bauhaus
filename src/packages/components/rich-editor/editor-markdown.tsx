@@ -17,6 +17,7 @@ export const EditorDeleteButton = ({ onChange }: { onChange?: (state: unknown) =
       onChange(EditorState.createEmpty());
     }
   };
+
   return (
     <div onClick={erease} className="rdw-option-wrapper" aria-selected="false" title="Delete">
       <img
@@ -26,6 +27,7 @@ export const EditorDeleteButton = ({ onChange }: { onChange?: (state: unknown) =
     </div>
   );
 };
+
 export const EditorMarkdownToolbar = {
   options: ["list", "inline"],
   list: {
@@ -42,8 +44,10 @@ interface EditorMarkdownTypes {
   text: string;
   handleChange: (value: any) => void;
 }
+
 export const EditorMarkdown = ({ text, handleChange }: EditorMarkdownTypes) => {
   const [editorState, setEditorState] = useState(() => editorStateFromMd(""));
+
   const editorRef = useRef<Editor>(null);
 
   useEffect(() => {

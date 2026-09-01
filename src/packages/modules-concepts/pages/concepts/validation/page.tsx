@@ -17,9 +17,13 @@ interface ConceptValidateItem {
 
 export const Component = () => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), t("common.btnValid"));
+
   const [loading, setLoading] = useState<boolean>(true);
+
   const [publishing, setPublishing] = useState<boolean>(false);
+
   const [concepts, setConcepts] = useState<ConceptValidateItem[]>([]);
 
   const loadConcepts = () =>

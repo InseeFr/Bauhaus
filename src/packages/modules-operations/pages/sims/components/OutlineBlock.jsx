@@ -16,13 +16,12 @@ export const OutlineBlock = ({
   children,
 }) => {
   const { t } = useTranslation();
+
   const { hash } = useLocation();
 
   useEffect(() => {
     if (!hash) return;
-
     const id = hash.replace("#", "");
-
     requestAnimationFrame(() => {
       const el = document.getElementById(id);
       el?.scrollIntoView({

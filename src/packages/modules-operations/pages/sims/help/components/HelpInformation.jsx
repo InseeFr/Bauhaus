@@ -8,9 +8,11 @@ const { CODE_LIST, ORGANIZATION } = rangeType;
 
 export function HelpInformation({ msd, codesLists, organisations }) {
   const { t } = useTranslation();
+
   if (!msd.masLabelLg1) {
     return null;
   }
+
   return (
     <dl>
       <dt>{t("app.labelTitle")}:</dt>

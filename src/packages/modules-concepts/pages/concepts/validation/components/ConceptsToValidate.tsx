@@ -34,7 +34,9 @@ export const ConceptsToValidate = ({
   handleValidateConceptList,
 }: Readonly<ConceptsToValidateProps>) => {
   const { t } = useTranslation();
+
   const [idsToPublish, setIdsToPublish] = useState<string[]>([]);
+
   const [idWithValid, setIdWithValid] = useState<IdWithValid[]>([]);
 
   // Les concepts ayant une date de fin de validité demandent une confirmation :

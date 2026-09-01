@@ -17,6 +17,7 @@ export const ClientSideError = ({
   if (!error) {
     return null;
   }
+
   return <div id={id} className="text-danger" dangerouslySetInnerHTML={{ __html: error }}></div>;
 };
 
@@ -28,6 +29,7 @@ export const GlobalClientSideErrorBloc = ({
   if (!clientSideErrors) {
     return null;
   }
+
   return clientSideErrors.length > 0 ? (
     <div className="bauhaus-error-bloc alert alert-danger" role="alert">
       <div
@@ -52,7 +54,6 @@ export const ErrorBloc = ({ error, D = OldDictionnary }: { error?: unknown; D?: 
       let errorMsg;
       try {
         const parsedError = e !== null && typeof e === "object" ? e : JSON.parse(e);
-
         if (parsedError.code && D.errors[parsedError.code]) {
           errorMsg = D.errors[parsedError.code](parsedError);
         } else if (parsedError.message && D.errors[parsedError.message]) {
@@ -67,6 +68,7 @@ export const ErrorBloc = ({ error, D = OldDictionnary }: { error?: unknown; D?: 
       }
       return errorMsg;
     });
+
   return formattedErrors.map((e, index) => (
     <div key={index} className="bauhaus-error-bloc alert alert-danger" role="alert">
       <div dangerouslySetInnerHTML={{ __html: e }} />

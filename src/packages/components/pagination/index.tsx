@@ -22,7 +22,9 @@ interface PaginationProps {
 
 export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
   const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const navigate = useNavigate();
+
   const { pathname, search } = useLocation();
 
   const [numberPerPage, setNumberPerPage] = useState(10);
@@ -51,7 +53,6 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
     const indexOfLastItem = safePage * numberPerPage;
     const indexOfFirstItem = indexOfLastItem - numberPerPage;
     const currentItems = itemEls.slice(indexOfFirstItem, indexOfLastItem);
-
     return {
       totalPages,
       safePage,
@@ -127,7 +128,6 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
                   <span aria-hidden="true">&laquo;</span>
                 </Link>
               </li>
-
               {/* Previous page */}
               <li>
                 <Link
@@ -138,7 +138,6 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
                   <span aria-hidden="true">&lt;</span>
                 </Link>
               </li>
-
               {/* Page numbers */}
               {visiblePageNumbers.map((page) => (
                 <li key={page} className={page === paginationData.safePage ? "active" : ""}>
@@ -151,7 +150,6 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
                   </Link>
                 </li>
               ))}
-
               {/* Next page */}
               <li>
                 <Link
@@ -162,7 +160,6 @@ export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {
                   <span aria-hidden="true">&gt;</span>
                 </Link>
               </li>
-
               {/* Last page */}
               <li>
                 <Link

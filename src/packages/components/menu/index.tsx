@@ -35,6 +35,7 @@ export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
   const orderedPaths = paths
     .filter((path) => path.shouldBeDisplayed !== false)
     .sort((p1, p2) => p1.order - p2.order);
+
   const allPaths = [{ label: D.home, path: "/" }, ...orderedPaths].reduce(
     (acc, path) => {
       if (path.alignToRight) {
@@ -53,7 +54,6 @@ export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
           <ul className="nav navbar-nav">
             {allPaths[0].map((path: Path, index: number) => {
               const classes = getClasses(path, index, allPaths[0]);
-
               return (
                 <li className={classes} key={path.path}>
                   <Link to={path.path} {...path.attrs}>
@@ -63,11 +63,9 @@ export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
               );
             })}
           </ul>
-
           <ul className="nav navbar-nav navbar-right">
             {allPaths[1].map((path: Path, index: number) => {
               const classes = getClasses(path, index, allPaths[1]);
-
               return (
                 <li className={classes} key={path.path}>
                   <Link to={path.path} {...path.attrs}>

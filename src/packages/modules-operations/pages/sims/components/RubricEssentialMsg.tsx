@@ -7,16 +7,21 @@ import { useEssentialRubricContext } from "../hooks/useEssentialRubricContext";
 
 export const RubricEssentialMsg = ({ secondLang }: Readonly<{ secondLang: boolean }>) => {
   const { t } = useTranslation();
+
   const essentialRubricContext = useEssentialRubricContext();
+
   const numberOfEssantialRubricsKOLg1 = Object.values(essentialRubricContext).filter(
     (rubric: any) => rubric.essentialRubricKoLg1,
   ).length;
+
   const numberOfEssantialRubricsKOLg2 = Object.values(essentialRubricContext).filter(
     (rubric: any) => rubric.essentialRubricKoLg2,
   ).length;
+
   const numberOfEssantialRubrics = Object.values(essentialRubricContext).filter(
     (rubric: any) => rubric.minOccurs === "1",
   ).length;
+
   const numberOfEssantialRubricsOKLg1 = numberOfEssantialRubrics - numberOfEssantialRubricsKOLg1;
   const numberOfEssantialRubricsOKLg2 = numberOfEssantialRubrics - numberOfEssantialRubricsKOLg2;
 
@@ -28,6 +33,7 @@ export const RubricEssentialMsg = ({ secondLang }: Readonly<{ secondLang: boolea
     numberOfEssantialRubricsOKLg2 === 1
       ? "sims.essentialRubricMsg"
       : "sims.essentialRubricMsgPlural";
+
   return (
     <Row>
       <Note

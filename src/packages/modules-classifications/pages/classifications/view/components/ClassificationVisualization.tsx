@@ -22,6 +22,7 @@ interface ClassificationVisualizationTypes {
   publish: VoidFunction;
   serverSideError?: any;
 }
+
 export const ClassificationVisualization = ({
   classification: { general, levels },
   classificationId,

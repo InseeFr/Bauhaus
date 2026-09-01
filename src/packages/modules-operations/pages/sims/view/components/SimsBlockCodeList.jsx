@@ -8,9 +8,11 @@ export const SimsBlockCodeList = ({ codesLists, currentSection, multi = false, i
 
     // If the list of codes only contain one item, we do not display a list
     const foundCode = codes.find(({ code }) => code === value[0]) ?? "";
+
     if (value.length === 1) {
       return isSecondLang ? foundCode?.labelLg2 : foundCode?.labelLg1;
     }
+
     return (
       <ul>
         {codes
@@ -21,6 +23,8 @@ export const SimsBlockCodeList = ({ codesLists, currentSection, multi = false, i
       </ul>
     );
   }
+
   const foundCode = codes.find((code) => code.code === currentSection.value);
+
   return isSecondLang ? foundCode?.labelLg2 : foundCode?.labelLg1;
 };

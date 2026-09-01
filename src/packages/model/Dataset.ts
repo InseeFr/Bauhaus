@@ -4,6 +4,7 @@ export interface PartialDataset {
   id: string;
   label: string;
 }
+
 export interface Dataset {
   accessRights: string;
   accrualPeriodicity: string;
@@ -40,7 +41,6 @@ export interface Dataset {
   issued?: string;
   updated?: string;
   type: string;
-
   abstractLg1?: string;
   abstractLg2?: string;
   descriptionLg1?: string;
@@ -48,6 +48,7 @@ export interface Dataset {
   cautionLg1?: string;
   cautionLg2?: string;
 }
+
 export interface CatalogRecord {
   created: string;
   updated: string;
@@ -56,6 +57,7 @@ export interface CatalogRecord {
   catalogRecord: CatalogRecord;
   validationState: ValidationState;
 }
+
 export interface Distribution {
   id?: string;
   validationState: ValidationState;

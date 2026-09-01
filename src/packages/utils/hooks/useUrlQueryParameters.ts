@@ -26,5 +26,6 @@ export const useUrlQueryParameters = (defaultValue: Record<string, string>) => {
       [key]: value,
     };
   }
+
   return { form, setForm, reset, handleChange };
 };

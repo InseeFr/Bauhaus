@@ -101,7 +101,6 @@ export const ClassificationTree = ({
   const nodeTemplate = (node: TreeNode) => {
     const nodeData = node.data as ClassificationItem;
     const linkPath = `/classifications/classification/${id}/item/${nodeData.id}`;
-
     return (
       <Link to={linkPath} style={{ textDecoration: "none", color: "inherit" }}>
         {node.label}

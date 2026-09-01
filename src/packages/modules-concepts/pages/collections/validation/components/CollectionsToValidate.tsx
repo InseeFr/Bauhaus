@@ -17,6 +17,7 @@ export const CollectionsToValidate = ({
   serverSideError,
 }: Readonly<CollectionsToValidateProps>) => {
   const { t } = useTranslation();
+
   return (
     <Picker
       items={collections}

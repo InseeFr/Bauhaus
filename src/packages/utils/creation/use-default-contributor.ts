@@ -15,7 +15,9 @@ export const useDefaultContributor = (useUserOrganisation: boolean): string | un
   const {
     properties: { defaultContributor },
   } = useAppContext();
+
   const { data: organisations = [] } = useOrganizations();
+
   const { data: stamps = [] } = useUserStamps();
 
   return resolveContributorIri({

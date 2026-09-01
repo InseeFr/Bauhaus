@@ -38,7 +38,9 @@ export const Component = () => {
   const goBack = useGoBack();
 
   const [editingDataset, setEditingDataset] = useState({});
+
   const [clientSideErrors, setClientSideErrors] = useState({});
+
   const [submitting, setSubmitting] = useState(false);
 
   const hasErrors = (keys) => {
@@ -49,6 +51,7 @@ export const Component = () => {
   const { data: dataset, status } = useDataset(id);
 
   const isContributor = useAuthorizationGuard("DATASET_DATASET", "CREATE");
+
   const defaultContributor = useDefaultContributor(isContributor);
   useEffect(() => {
     if (status === "success") {
@@ -76,7 +79,6 @@ export const Component = () => {
       }
       return DatasetsApi.postDataset(formattedDataset);
     },
-
     onSuccess: (id = editingDataset.id) => {
       if (isEditing) {
         queryClient.invalidateQueries(["datasets", id]);

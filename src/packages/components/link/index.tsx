@@ -16,6 +16,7 @@ export const Link = ({
   if (disabled) {
     return <span className={cx(className, "disabled")}>{children}</span>;
   }
+
   return (
     <ReactLink className={className} {...rest}>
       {children}

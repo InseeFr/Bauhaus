@@ -34,6 +34,7 @@ export const removeAccents = (text) => [...accentsMap].reduce(reducer, text);
 
 export const SimsGeographyPicker = ({ onChange, value, loadGeographies, secondLang = false }) => {
   const { t } = useTranslation();
+
   const [territory, setTerritory] = useState();
 
   const { geographiesOptions } = useGeographiesOptions();

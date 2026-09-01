@@ -119,7 +119,7 @@ export const routes: RouteObject[] = [
     path: "tree",
     lazy: () => import("../pages/tree/home/page"),
   },
-  // MSD pages
+  // Sims pages
   {
     path: "msd",
     lazy: () => import("../pages/sims/help/page"),

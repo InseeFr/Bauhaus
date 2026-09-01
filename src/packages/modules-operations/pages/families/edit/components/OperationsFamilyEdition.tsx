@@ -109,6 +109,7 @@ export const OperationsFamilyEdition = ({
   goBack,
 }: Readonly<OperationsFamilyEditionProps>) => {
   const { t } = useTranslation();
+
   const [state, dispatch] = useReducer(reducer, {
     family: {
       ...defaultFamily,

@@ -8,6 +8,7 @@ const { D } = createAllDictionary({
     en: "Metadata management application",
   },
 });
+
 export const ApplicationTitle = () => {
   return (
     <header className="application-title">

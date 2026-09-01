@@ -11,6 +11,7 @@ export const useCodesList = (notation: string) => {
     queryKey: ["codelist", notation],
     queryFn: () => fetchCodeList(notation),
   });
+
   return data ?? defaultCodesList;
 };
 

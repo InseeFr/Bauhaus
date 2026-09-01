@@ -14,7 +14,9 @@ export const SimsWithoutObjectCheckbox = ({
   secondLang: boolean;
 }>) => {
   const { t } = useTranslation();
+
   const [modalDisplay, setModalDisplayMode] = useState<boolean>(false);
+
   const input = useRef<HTMLInputElement>(null);
 
   return (

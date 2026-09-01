@@ -12,8 +12,11 @@ import { MSDHelp } from "./components/MSDHelp";
 
 export const Component = () => {
   const { baseUrl, disableSectionAnchor } = (useLoaderData() as SimsLoaderData) ?? {};
+
   const { data: organisations } = useOrganizations();
+
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
+
   const { codesLists } = useCodesLists(metadataStructure);
 
   if (metadataStructureLoading) return <Loading />;

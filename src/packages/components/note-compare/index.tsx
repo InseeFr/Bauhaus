@@ -20,8 +20,11 @@ export const CompareNotes = ({
   buildNotes,
 }: Readonly<CompareNotesTypes>) => {
   const safeVersion = Math.max(1, version);
+
   const [select1, setSelect1] = useState(Math.max(1, safeVersion - 1));
+
   const [select2, setSelect2] = useState(safeVersion);
+
   const options = Array.from({ length: version }, (_, index) => ({
     value: `${index + 1}`,
     label: `${index + 1}`,

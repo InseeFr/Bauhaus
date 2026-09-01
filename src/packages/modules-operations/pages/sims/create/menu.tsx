@@ -5,6 +5,7 @@ interface MenuTypes {
   goBackUrl: VoidFunction;
   handleSubmit: VoidFunction;
 }
+
 export const Menu = ({ goBackUrl, handleSubmit }: Readonly<MenuTypes>) => {
   return (
     <ActionToolbar>

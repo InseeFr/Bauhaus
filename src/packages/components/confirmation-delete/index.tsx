@@ -24,6 +24,7 @@ const { D } = createAllDictionary({
     en: "No",
   },
 });
+
 export const ConfirmationDelete = ({
   className,
   handleNo,
@@ -46,7 +47,6 @@ export const ConfirmationDelete = ({
           <CloseIconButton onClick={handleNo} />
           <h4 className="modal-title">{D.deleteTitle}</h4>
         </div>
-
         <div className="modal-body">{message}</div>
         <div className="modal-footer text-right">
           <ActionToolbar>

@@ -10,10 +10,8 @@ const api = {
   ...generateGenericApiEndpoints("families", "family"),
   ...seriesApi,
   ...operationsApi,
-
   getMetadataStructureList: () => ["metadataStructureDefinition"],
   getMetadataAttributesList: () => ["metadataAttributes"],
-
   getVarBookExport: (id: string, MimeType: string) => [
     `operation/${id}/variableBook`,
     {
