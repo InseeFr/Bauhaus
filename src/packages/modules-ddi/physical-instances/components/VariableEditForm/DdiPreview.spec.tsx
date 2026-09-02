@@ -4,7 +4,6 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import type { ReactElement, ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { DdiPreview } from "./DdiPreview";
-import { envelope } from "../../types/ddi4Items.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
