@@ -192,7 +192,6 @@ export const SentinelValues = ({
     };
     setEditLabel(getLocalizedText(loadedCodeList.Label) ?? selectedMmvr?.label ?? "");
     setEditRows(loadedRows);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [materializationKey]);
 
   const emitEdit = (label: string, rows: CodeTableRow[]) => {
