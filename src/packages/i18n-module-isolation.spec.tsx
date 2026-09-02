@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { configure, render, screen } from "@testing-library/react";
 import { Suspense } from "react";
 import { RouterProvider, createMemoryRouter } from "react-router-dom";
 
@@ -6,6 +6,13 @@ import { RouterProvider, createMemoryRouter } from "react-router-dom";
    la même instance i18next, le dernier module chargé écrase les ressources des
    précédents : ceux-ci retombent alors sur leurs clés brutes jusqu'au prochain
    rechargement complet de la page. */
+
+// Le test charge les layouts de deux modules par `import()`. À froid, leur transformation
+// par Vite dépasse la seconde par défaut de `findBy*` quand toute la suite tourne en
+// parallèle.
+const DEFAULT_ASYNC_UTIL_TIMEOUT = 1000;
+beforeAll(() => configure({ asyncUtilTimeout: 15000 }));
+afterAll(() => configure({ asyncUtilTimeout: DEFAULT_ASYNC_UTIL_TIMEOUT }));
 
 const MODULE_KEYS = {
   concepts: ["common.help", "Help"],
