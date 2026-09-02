@@ -12,7 +12,6 @@ const renderSummary = (props: Partial<React.ComponentProps<typeof ConceptSummary
   const { rerender: rerenderWith } = renderWithRouter(
     <ConceptSummary
       notes={emptyConceptNotes as unknown as ConceptNotes}
-      disseminationStatus=""
       maxLengthScopeNote={350}
       conceptsWithLinks={[]}
       equivalentLinks={[]}
@@ -27,7 +26,6 @@ const renderSummary = (props: Partial<React.ComponentProps<typeof ConceptSummary
     rerenderWith(
       <ConceptSummary
         notes={emptyConceptNotes as unknown as ConceptNotes}
-        disseminationStatus=""
         maxLengthScopeNote={350}
         conceptsWithLinks={[]}
         equivalentLinks={[]}
@@ -58,7 +56,7 @@ describe("concept-summary", () => {
       "General information",
       "Notes",
       "Définition courteEmpty",
-      "DéfinitionTo fix",
+      "DéfinitionEmpty",
       "Note éditorialeEmpty",
       "Note de changementEmpty",
       "Links0",
@@ -169,8 +167,28 @@ describe("concept-summary", () => {
     expect(entry(/Links/).textContent?.replace(/\s+/g, " ")).toContain("2");
   });
 
-  it("ne compte pas la définition courte comme à corriger sur un concept non public", () => {
-    renderSummary({ disseminationStatus: "Privé" });
+  it("ne reproche pas la définition manquante tant que la sauvegarde n'a pas été tentée", () => {
+    renderSummary();
+
+    expect(entry(/^Définition(?! courte)/).textContent).toContain("Empty");
+  });
+
+  it("signale la définition manquante une fois la sauvegarde tentée", () => {
+    renderSummary({ errorFields: { definitionLg1: "La définition est obligatoire" } });
+
+    expect(entry(/^Définition(?! courte)/).textContent).toContain("To fix");
+  });
+
+  it("signale la définition courte manquante une fois la sauvegarde tentée", () => {
+    renderSummary({
+      errorFields: { scopeNoteLg1: "La définition courte est obligatoire" },
+    });
+
+    expect(entry(/Définition courte/).textContent).toContain("To fix");
+  });
+
+  it("ne reproche pas la définition courte manquante tant que la validation ne la réclame pas", () => {
+    renderSummary();
 
     expect(entry(/Définition courte/).textContent).toContain("Empty");
   });

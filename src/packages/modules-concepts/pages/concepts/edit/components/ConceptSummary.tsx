@@ -20,7 +20,6 @@ export type ConceptSection = "general" | "notes" | "links";
 
 interface ConceptSummaryProps {
   notes: ConceptNotes;
-  disseminationStatus?: string;
   maxLengthScopeNote: number;
   conceptsWithLinks: ConceptWithLink[];
   equivalentLinks: (Link & { urn: string })[];
@@ -38,7 +37,6 @@ interface ConceptSummaryProps {
 
 export const ConceptSummary = ({
   notes,
-  disseminationStatus,
   maxLengthScopeNote,
   conceptsWithLinks,
   equivalentLinks,
@@ -77,7 +75,7 @@ export const ConceptSummary = ({
       key: "notes",
       label: t("common.notesTitle"),
       items: noteTypes(maxLengthScopeNote).map((noteType) => {
-        const badge = STATUS_BADGES[noteStatus(noteType, notes, disseminationStatus)];
+        const badge = STATUS_BADGES[noteStatus(noteType, notes, errorFields)];
         return {
           key: noteType.rawTitle,
           label: t1(`concept.notes.${noteType.rawTitle}`),

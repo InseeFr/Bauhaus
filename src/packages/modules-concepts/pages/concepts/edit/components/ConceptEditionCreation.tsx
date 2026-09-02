@@ -289,7 +289,6 @@ class ConceptEditionCreation extends Component<
           <div className="concept-edition">
             <ConceptSummary
               notes={notes}
-              disseminationStatus={general.disseminationStatus}
               maxLengthScopeNote={maxLengthScopeNote}
               conceptsWithLinks={conceptsWithLinks}
               equivalentLinks={this.state.data.equivalentLinks}
