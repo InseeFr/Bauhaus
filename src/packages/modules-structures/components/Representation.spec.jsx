@@ -6,7 +6,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("i18next", () => ({
+vi.mock("../i18n", () => ({
   default: {
     t: (key) => {
       const translations = {

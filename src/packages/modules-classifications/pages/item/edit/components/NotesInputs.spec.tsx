@@ -13,7 +13,7 @@ vi.mock("@components/rich-editor/react-md-editor", () => ({
   ),
 }));
 
-vi.mock("i18next", () => ({
+vi.mock("../../../../i18n", () => ({
   default: {
     t: (key: string, options?: { lng?: string }) => {
       const translations: Record<string, Record<string, string>> = {

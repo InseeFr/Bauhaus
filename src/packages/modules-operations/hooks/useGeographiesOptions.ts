@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import i18next from "../i18n";
 import { useMemo } from "react";
 
 import { Geography, useAllGeographies } from "./useAllGeographies";

@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import i18next from "../../../../i18n";
 
 import { Row } from "@components/layout";
 import { MDEditor } from "@components/rich-editor/react-md-editor";

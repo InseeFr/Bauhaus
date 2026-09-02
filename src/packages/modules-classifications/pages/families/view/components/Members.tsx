@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import i18next from "../../../../i18n";
 
 import { ClassificationMembers } from "../../../../components/ClassificationMembers";
 

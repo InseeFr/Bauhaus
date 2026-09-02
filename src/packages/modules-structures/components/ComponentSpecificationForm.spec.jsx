@@ -1,6 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 
-vi.mock("react-i18next", () => ({
+// Mock partiel : `initReactI18next` doit rester réel, l'i18n du module est
+// initialisé au chargement de son bootstrap.
+vi.mock("react-i18next", async (importOriginal) => ({
+  ...(await importOriginal()),
   useTranslation: () => ({
     t: (key, options) => {
       const translations = {

@@ -7,7 +7,7 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import i18next from "i18next";
+import i18next from "../../../i18n";
 
 import NewDictionary from "../../../../i18n";
 

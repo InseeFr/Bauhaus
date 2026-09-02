@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import i18next from "../../../../i18n";
 import { Component } from "react";
 
 import { ActionToolbar } from "@components/action-toolbar";

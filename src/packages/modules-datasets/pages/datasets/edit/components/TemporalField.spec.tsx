@@ -5,7 +5,10 @@ import { TemporalField } from "./TemporalField";
 
 const mockUpdateTemporalCoverage = vi.fn();
 
-vi.mock("react-i18next", () => ({
+// Mock partiel : `initReactI18next` doit rester réel, l'i18n du module est
+// initialisé au chargement de son bootstrap.
+vi.mock("react-i18next", async (importOriginal) => ({
+  ...(await importOriginal()),
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {

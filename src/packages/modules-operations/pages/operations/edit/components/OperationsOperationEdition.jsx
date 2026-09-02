@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import i18next from "../../../../i18n";
 import { Component } from "react";
 
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
