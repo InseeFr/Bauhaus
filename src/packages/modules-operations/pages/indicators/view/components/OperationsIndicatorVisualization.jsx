@@ -1,7 +1,7 @@
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";

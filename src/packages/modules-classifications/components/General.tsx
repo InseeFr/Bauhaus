@@ -3,7 +3,8 @@ import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationStatusItem, ValidationState } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
+import { ValidationState } from "@components/status";
 
 interface ItemAltLabel {
   length: number;

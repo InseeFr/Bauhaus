@@ -5,9 +5,8 @@ import type {
   Category,
   CategoryUsage,
   CodeListUsage,
-  LangString,
 } from "../../types/api";
-import { pickLang, singletonEntries } from "../../../utils/multilingual";
+import { pickLang, singletonEntries, type LangString } from "../../../utils/multilingual";
 
 export const createDefaultRepresentation = (
   codeListId: string,

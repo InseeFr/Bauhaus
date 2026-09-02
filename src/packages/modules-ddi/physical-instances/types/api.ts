@@ -7,8 +7,6 @@
 import type { components } from "./generated/ddi";
 import type { LangString } from "../../utils/multilingual";
 
-export type { LangString } from "../../utils/multilingual";
-
 // Enveloppe de fil, telle que la définit le `ddi-schema.json` : exactement
 // `topLevelReferences` et `items`, ce dernier étant le tableau à plat de tous les objets,
 // discriminés par leur `$type`. Le schéma déclare ces deux seules propriétés à la racine avec

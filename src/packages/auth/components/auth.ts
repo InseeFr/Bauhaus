@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 
-import { MODULE, Privilege, PRIVILEGE, usePrivileges, useUserStamps } from "@utils/hooks/users";
+import { MODULE, Privilege, PRIVILEGE } from "@utils/hooks/rbac-constants";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
 import { AppName } from "../../application/app-context";
 

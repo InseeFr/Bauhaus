@@ -71,5 +71,3 @@ const api = {
 };
 
 export const StructureApi = buildApi("structures", api) as any;
-
-export * from "./structures/saveComponent";

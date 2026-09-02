@@ -6,7 +6,7 @@ import { Organisation, Organisations } from "@components/business/organisations/
 import { Row } from "@components/layout";
 import { List } from "@components/ui/list";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 
 import { stringToDate } from "@utils/date-utils";
 import { useCodesList } from "@utils/hooks/codeslist";
