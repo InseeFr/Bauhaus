@@ -31,7 +31,6 @@ export function OperationsHome({ operations }) {
             items={operations}
             childPath={"operations/operation"}
             label="label"
-            advancedSearch={false}
             autoFocus={true}
           />
         </div>

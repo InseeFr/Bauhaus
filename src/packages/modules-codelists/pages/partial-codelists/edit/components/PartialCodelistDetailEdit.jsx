@@ -213,7 +213,6 @@ export const PartialCodelistDetailEdit = ({
               value={codelist.parentCode}
               options={globalCodeListOptions}
               onChange={handleParent}
-              searchable={true}
               disabled={updateMode}
             />
             <ClientSideError

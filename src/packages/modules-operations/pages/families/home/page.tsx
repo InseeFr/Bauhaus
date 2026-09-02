@@ -37,7 +37,6 @@ export const Component = () => {
             childPath="operations/family"
             label="label"
             searchUrl="/operations/families/search"
-            advancedSearch={false}
             autoFocus={true}
           />
         </div>
