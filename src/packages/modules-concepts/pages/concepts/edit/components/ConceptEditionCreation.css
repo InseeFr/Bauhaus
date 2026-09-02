@@ -1,6 +1,6 @@
 .concept-edition {
   display: grid;
-  grid-template-columns: 18em minmax(0, 1fr);
+  grid-template-columns: 21em minmax(0, 1fr);
   gap: 2em;
   align-items: start;
 }
@@ -14,7 +14,7 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .concept-edition .concept-summary {
+  .concept-edition .summary-nav {
     position: static;
   }
 }
