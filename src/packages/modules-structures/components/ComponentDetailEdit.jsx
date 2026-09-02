@@ -596,7 +596,6 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
             )}
             options={attributesListOptions}
             onChange={(value) => onChange({ ["attribute_" + index]: value })}
-            searchable={true}
           />
         </div>
         {!!component["attribute_" + index] && (
@@ -658,7 +657,6 @@ const AttributeCodeList = ({ onChange, value, codeListIri, codesLists, label }) 
         value={codesOptions.find((option) => option.value === value)}
         options={codesOptions}
         onChange={onChange}
-        searchable={true}
       />
     </div>
   );

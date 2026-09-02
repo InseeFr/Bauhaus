@@ -111,7 +111,6 @@ export const SimsGeographyField = ({ onCancel, onSave, territory = {} }) => {
             options={geographies}
             onChange={(value) => handleSelect(value)}
             placeholder=""
-            searchable={true}
           />
         </div>
         <div className="btn-group" role="group">
