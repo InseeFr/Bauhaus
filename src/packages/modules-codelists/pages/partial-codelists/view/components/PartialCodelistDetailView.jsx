@@ -9,7 +9,7 @@ import { DisseminationStatusVisualisation } from "@components/dissemination-stat
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 import { ValidationButton } from "@components/validationButton";
 
 import { useTitle } from "@utils/hooks/useTitle";

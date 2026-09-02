@@ -7,6 +7,7 @@ export * from "./distributions-api";
 export * from "./organisations-api";
 export * from "./stamps-api";
 export * from "./structure-api";
+export * from "./structures/saveComponent";
 export * from "./themes-api";
 export * from "./build-api";
 export * from "./ddi-api";

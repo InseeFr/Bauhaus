@@ -2,7 +2,7 @@ import { DisseminationStatusVisualisation } from "@components/dissemination-stat
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 import type { ValidationState } from "@components/status";
 
 import { stringToDate } from "@utils/date-utils";

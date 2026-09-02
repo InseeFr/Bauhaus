@@ -87,6 +87,8 @@ vi.mock("@components/note", () => ({ Note: () => null }));
 vi.mock("@components/panel", () => ({ Panel: () => null }));
 vi.mock("@components/status", () => ({
   PublicationFemale: () => null,
+}));
+vi.mock("@components/status/PublicationStatusItem", () => ({
   PublicationStatusItem: () => null,
 }));
 vi.mock("@sdk/operations-api", () => ({
@@ -105,7 +107,7 @@ vi.mock("./MissingDocumentsErrorBloc", () => ({
       <div data-testid="missing-documents-bloc">{Array.from(missingDocuments).join(",")}</div>
     ) : null,
 }));
-vi.mock("../../../../../deprecated-locales", () => ({ default: {} }));
+vi.mock("../../../../../deprecated-locales/build-dictionary", () => ({ default: {} }));
 
 import { OperationsApi } from "@sdk/operations-api";
 

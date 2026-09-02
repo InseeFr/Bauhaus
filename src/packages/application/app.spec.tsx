@@ -26,7 +26,7 @@ vi.mock("../auth/components/auth", () => ({
 }));
 
 // Mock translations
-vi.mock("../deprecated-locales", () => ({
+vi.mock("../deprecated-locales/build-dictionary", () => ({
   default: {
     analyticsTitle: "Analytics",
     adminTitle: "Administration",

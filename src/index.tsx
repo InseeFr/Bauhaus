@@ -10,7 +10,7 @@ import { AppContextProvider, type AppProperties } from "./packages/application/a
 import { Root } from "./packages/application/router";
 import { OidcProvider } from "./packages/auth/create-oidc";
 import { BackToTop } from "./packages/components/back-to-top";
-import D from "./packages/deprecated-locales";
+import D from "./packages/deprecated-locales/build-dictionary";
 import "./packages/styles/main.css";
 import { getLang } from "./packages/utils/dictionnary";
 

@@ -6,7 +6,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { usePrivileges } from "@utils/hooks/users";
 
 import { hasAccessToModule } from "../auth/components/auth";
-import D from "../deprecated-locales";
+import D from "../deprecated-locales/build-dictionary";
 import "../styles/bootstrap.css";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";

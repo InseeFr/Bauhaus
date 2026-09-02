@@ -13,7 +13,7 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { Panel } from "@components/panel";
-import { PublicationStatusItem } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 
 import { OperationsApi } from "@sdk/operations-api";
 

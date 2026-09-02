@@ -5,7 +5,8 @@ import { getDisseminationStatus } from "@components/dissemination-status/dissemi
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
-import { PublicationStatusItem, ValidationState } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
+import { ValidationState } from "@components/status";
 
 import { stringToDate } from "@utils/date-utils";
 import { renderMarkdownElement } from "@utils/html-utils";
