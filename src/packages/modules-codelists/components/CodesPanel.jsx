@@ -9,10 +9,11 @@ import { Row } from "@components/layout";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { CodelistsApi } from "@sdk/index";
+
 import { validateCode } from "../utils/validateCode";
-import { CollapsiblePanel } from "./CollapsiblePanel";
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 import { CodesPanelAddButton } from "./CodesPanelAddButton";
+import { CollapsiblePanel } from "./CollapsiblePanel";
 import "./CodesPanel.css";
 import { Table } from "./Table";
 

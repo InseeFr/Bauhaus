@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
+import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";

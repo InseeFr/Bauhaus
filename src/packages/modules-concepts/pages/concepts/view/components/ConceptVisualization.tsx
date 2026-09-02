@@ -7,18 +7,15 @@ import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
 import { NoteVisualization } from "@components/note-visualization";
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { ConceptGeneral, ConceptNotes, Link as ConceptLink } from "@model/concepts/concept";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
-import {
-  ConceptGeneral,
-  ConceptNotes,
-  Link as ConceptLink,
-} from "../../../../../model/concepts/concept";
 import { buildNotes } from "../../../../utils/buildNotes";
 import { getModalMessage } from "../../../../utils/getModalMessage";
+import { ConceptVisualizationControls } from "../menu";
 import { ConceptGeneral as ConceptGeneralComponent } from "./ConceptGeneral";
 import { ConceptLinks } from "./ConceptLinks";
-import { ConceptVisualizationControls } from "../menu";
 
 interface ConceptVisualizationProps {
   id: string;

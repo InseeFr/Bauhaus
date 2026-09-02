@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 
 import { Picker } from "@components/picker-page";
 
-import { useCollectionExporter } from "@utils/hooks/collections";
-
 import { CollectionExportFormat } from "@model/concepts/collection";
+
+import { useCollectionExporter } from "@utils/hooks/collections";
 
 import { ExportButtons } from "../../../../components/ExportButtons";
 

@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { DdiJsonPreview } from "./DdiJsonPreview";
 
 vi.mock("react-i18next", () => ({

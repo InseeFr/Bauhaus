@@ -1,5 +1,7 @@
-import { Sims } from "../../model/Sims";
-import { saveFileFromHttpResponse } from "../../utils/files";
+import { Sims } from "@model/Sims";
+
+import { saveFileFromHttpResponse } from "@utils/files";
+
 import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "../constants";
 
 const hasDocument = (sims: any, withDocument: boolean) => {

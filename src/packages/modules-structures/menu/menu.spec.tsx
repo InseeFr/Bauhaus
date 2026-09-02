@@ -1,5 +1,5 @@
-import { Menu } from "./menu";
 import { renderWithRouter } from "../../tests/render";
+import { Menu } from "./menu";
 
 describe("menu-dsds", () => {
   it("renders without crashing", () => {

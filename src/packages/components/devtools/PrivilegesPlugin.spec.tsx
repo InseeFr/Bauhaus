@@ -1,8 +1,10 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PrivilegesPlugin } from "./PrivilegesPlugin";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
+import { PrivilegesPlugin } from "./PrivilegesPlugin";
 
 describe("PrivilegesPlugin", () => {
   let queryClient: QueryClient;

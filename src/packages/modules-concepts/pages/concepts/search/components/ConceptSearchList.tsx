@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
 
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { CreatorsInput } from "@components/business/creators-input";
@@ -13,11 +13,12 @@ import { Select } from "@components/select-rmes";
 import { List } from "@components/ui/list-group";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
 
+import { validateStateOptions } from "@model/ValidationState";
+
 import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
-import { validateStateOptions } from "@model/ValidationState";
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
 import { Controls } from "./Controls";
 

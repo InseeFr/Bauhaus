@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
-import { OutlineBlock } from "./OutlineBlock";
+import { cx } from "@utils/cx";
+
 import { isOpen } from "../utils/isOpen";
 import { toggleOpen } from "../utils/toggleOpen";
-import { OutlineButtonWithScroll } from "./OutlineButtonWithScroll";
+import { OutlineBlock } from "./OutlineBlock";
 import "./Outline.css";
-import { cx } from "@utils/cx";
+import { OutlineButtonWithScroll } from "./OutlineButtonWithScroll";
 
 export const Outline = ({
   storeCollapseState,

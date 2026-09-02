@@ -1,4 +1,4 @@
-import { Sims } from "../../../../../model/Sims";
+import { Sims } from "@model/Sims";
 
 export const getParentType = (sims: Sims): "operation" | "series" | "indicator" | undefined => {
   if (sims.idOperation) {

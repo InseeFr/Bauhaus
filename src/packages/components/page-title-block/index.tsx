@@ -1,4 +1,4 @@
-import { useSecondLang } from "../../utils/hooks/second-lang";
+import { useSecondLang } from "@utils/hooks/second-lang";
 
 interface PageTitleBlockTypes {
   titleLg1?: string;

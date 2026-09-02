@@ -2,9 +2,10 @@ import { useTranslation } from "react-i18next";
 
 import { Select } from "@components/select-rmes";
 
+import { Option } from "@model/SelectOption";
+
 import { useCodesList } from "@utils/hooks/codeslist";
 
-import { Option } from "../../../../../model/SelectOption";
 import { CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
 
 interface TypeCodeInputTypes {

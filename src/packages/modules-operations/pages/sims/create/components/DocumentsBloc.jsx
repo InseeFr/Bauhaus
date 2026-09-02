@@ -20,14 +20,15 @@ import { List } from "@components/ui/list-group";
 
 import { getBaseURI } from "@sdk/build-api";
 
+import { cx } from "@utils/cx";
+
 import { DOCUMENT, LINK } from "../../../../../constants/documentType";
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
 import { useDocumentsStoreContext } from "../../hooks/useDocumentsStoreContext";
 import { DocumentAsideInformation, DocumentLink } from "./DocumentListItem";
-import { SortableDocumentItem } from "./SortableDocumentItem";
 import "./DocumentsBloc.css";
-import { cx } from "@utils/cx";
+import { SortableDocumentItem } from "./SortableDocumentItem";
 
 /**
  * This component will display a list of documents associated

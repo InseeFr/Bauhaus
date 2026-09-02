@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 
+import { Operation } from "@model/Operation";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { Operation } from "../../../../model/Operation";
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 vi.mock("react-i18next", () => ({

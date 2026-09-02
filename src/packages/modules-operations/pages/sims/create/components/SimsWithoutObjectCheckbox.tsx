@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { ConfirmationDelete } from "@components/confirmation-delete";
 
 export const SimsWithoutObjectCheckbox = ({

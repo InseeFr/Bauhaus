@@ -1,4 +1,4 @@
-import { ConceptNotes } from "../../model/concepts/concept";
+import { ConceptNotes } from "@model/concepts/concept";
 
 export const isVersioningPossible = (oldNotes: ConceptNotes, newNotes: ConceptNotes) => {
   const isChangeNote = Boolean(newNotes.changeNoteLg1);

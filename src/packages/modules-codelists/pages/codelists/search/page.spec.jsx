@@ -1,8 +1,9 @@
+import { getListItems } from "@components/ui/list-group/testing";
+
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { renderWithRouter } from "../../../../tests/render";
 import { SearchFormList } from "./page";
-import { getListItems } from "@components/ui/list-group/testing";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
 

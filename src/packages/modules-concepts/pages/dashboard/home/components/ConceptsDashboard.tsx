@@ -4,10 +4,11 @@ import { useTranslation } from "react-i18next";
 import { PageTitle } from "@components/page-title";
 import { SummaryEntry, SummaryNav } from "@components/summary-nav";
 
+import { CollectionDashboardItem } from "@model/concepts/collection";
+
+import { useTitle } from "@utils/hooks/useTitle";
 import { useUrlSection } from "@utils/hooks/useUrlSection";
 
-import { useTitle } from "../../../../../utils/hooks/useTitle";
-import { CollectionDashboardItem } from "@model/concepts/collection";
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
 import {
   DashboardTab,

@@ -1,7 +1,7 @@
+import { useAppContext } from "../application/app-context";
 import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from "./constants";
 import { useOidc } from "./create-oidc";
 import { LoginComponent, LoggedInWrapper } from "./open-id-connect-auth/use-oidc";
-import { useAppContext } from "../application/app-context";
 
 export const withAuth = (WrappedComponent: () => JSX.Element) => {
   const AuthComponent = () => {

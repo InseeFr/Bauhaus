@@ -1,4 +1,4 @@
-import { Distribution } from "../../../../model/Dataset";
+import { Distribution } from "@model/Dataset";
 
 export type DistributionEditState = {
   editingDistribution: Partial<Distribution>;

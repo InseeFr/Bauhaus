@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+
 import type { NumericRepresentation as NumericRepresentationType } from "../../types/api";
 
 interface NumericRepresentationProps {

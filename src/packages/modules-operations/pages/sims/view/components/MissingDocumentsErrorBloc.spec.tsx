@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { MissingDocumentsErrorBloc } from "./MissingDocumentsErrorBloc";
 import { DocumentsStoreProvider } from "../../hooks/useDocumentsStoreContext";
+import { MissingDocumentsErrorBloc } from "./MissingDocumentsErrorBloc";
 
 vi.mock("@components/errors-bloc", () => ({
   ErrorBloc: ({ error }: { error: string }) => <div data-testid="error-bloc">{error}</div>,

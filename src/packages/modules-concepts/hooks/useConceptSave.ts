@@ -1,10 +1,11 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+
+import { ConceptGeneral, ConceptNotes, Link } from "@model/concepts/concept";
 
 import { ConceptsApi } from "@sdk/concepts-api";
 
-import { ConceptGeneral, ConceptNotes, Link } from "../../model/concepts/concept";
 import { buildPayloadCreation } from "../utils/buildPayloadCreation";
 import { buildPayloadUpdate } from "../utils/buildPayloadUpdate";
 

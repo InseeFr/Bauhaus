@@ -1,5 +1,5 @@
-import NewDictionnary from "../../i18n";
 import OldDictionnary from "../../deprecated-locales/build-dictionary";
+import NewDictionnary from "../../i18n";
 import "./errors-bloc.css";
 
 /**

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Modal from "react-modal";
 import { useTranslation } from "react-i18next";
+import Modal from "react-modal";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CloseIconButton, SaveButton } from "@components/buttons/buttons-with-icons";

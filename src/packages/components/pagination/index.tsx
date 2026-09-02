@@ -1,11 +1,11 @@
 import { useMemo, useCallback, useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import { Link } from "../link";
-import { Select } from "../select-rmes";
-import "./pagination.css";
 import componentsI18n from "../i18n/index";
+import { Link } from "../link";
+import "./pagination.css";
+import { Select } from "../select-rmes";
 import { List } from "../ui/list-group";
 
 const PAGE_WINDOW_SIZE = 3;

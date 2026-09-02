@@ -1,6 +1,9 @@
-import { Distribution } from "@model/Dataset";
-import { DistributionApi } from "@sdk/distributions-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { Distribution } from "@model/Dataset";
+
+import { DistributionApi } from "@sdk/distributions-api";
+
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 export const useCreateOrUpdateDistribution = (isEditing: boolean) => {

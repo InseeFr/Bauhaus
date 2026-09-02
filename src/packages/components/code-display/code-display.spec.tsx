@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
 
-import { Code, CodesList } from "../../model/CodesList";
+import { Code, CodesList } from "@model/CodesList";
+
 import { CodeDisplay } from "./";
 
 describe("CodeDisplay Component", () => {

@@ -10,8 +10,8 @@ import { GeneralApi } from "@sdk/general-api";
 import { useCodesList } from "@utils/hooks/codeslist";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import { Menu } from "./menu";
 import { OperationsDocumentationVisualization } from "./components/OperationsDocumentationVisualization";
+import { Menu } from "./menu";
 
 function getPath(path) {
   return path.includes("document") ? "document" : "link";

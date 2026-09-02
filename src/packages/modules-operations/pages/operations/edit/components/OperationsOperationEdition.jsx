@@ -10,10 +10,10 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { Controls } from "./Controls";
-import { YearInput } from "./YearInput";
 import { validate } from "../validation";
+import { Controls } from "./Controls";
 import { Series } from "./Series";
+import { YearInput } from "./YearInput";
 
 const defaultOperation = {
   prefLabelLg1: "",

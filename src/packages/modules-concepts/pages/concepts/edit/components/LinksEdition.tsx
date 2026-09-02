@@ -2,9 +2,10 @@ import { PickList } from "primereact/picklist";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { Link } from "@model/concepts/concept";
+
 import { CLOSE_MATCH, NONE } from "@sdk/constants";
 
-import { Link } from "../../../../../model/concepts/concept";
 import { LINK_TYPES } from "../../../../utils/linkTypes";
 import { EquivalentLinks } from "./EquivalentLinks";
 

@@ -4,9 +4,10 @@ import { useParams } from "react-router-dom";
 import { Loading, Saving } from "@components/loading";
 
 import { CodelistsApi } from "@sdk/index";
+
+import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { PartialCodelistDetailEdit } from "./components/PartialCodelistDetailEdit";
-import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 
 export const Component = (props) => {
   const { id } = useParams();

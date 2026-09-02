@@ -8,10 +8,11 @@ import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 import { VerticalMenu } from "@components/vertical-menu";
 
+import { FamilyHome } from "@model/operations/family";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { FamilyHome } from "../../../../model/operations/family";
 
 export const Component = () => {
   const { t } = useTranslation();

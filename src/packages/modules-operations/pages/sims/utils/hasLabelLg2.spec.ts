@@ -1,4 +1,5 @@
-import { Rubric } from "../../../../model/Sims";
+import { Rubric } from "@model/Sims";
+
 import { rangeType } from "../../../constants/rangeType";
 import { hasLabelLg2 } from "./hasLabelLg2";
 

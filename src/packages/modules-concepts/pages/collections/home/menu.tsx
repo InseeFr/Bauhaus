@@ -1,6 +1,7 @@
 import { ExportButton, PublishButton } from "@components/buttons/buttons-with-icons";
 import { FeminineButton } from "@components/new-button";
 import { VerticalMenu } from "@components/vertical-menu";
+
 import { HasAccess } from "../../../../auth/components/auth";
 
 export const Menu = () => {

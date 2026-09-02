@@ -1,15 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 
+import { CodesList } from "@model/CodesList";
+import { Component } from "@model/structures/Component";
+
 import { ConceptsApi } from "@sdk/index";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
-import { CodesList } from "../../../../../model/CodesList";
-import { Component } from "../../../../../model/structures/Component";
-import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
 import { CodelistPanel } from "../../../../components/CodelistPanel";
 import { ComponentSpecificationModal } from "../../../../components/ComponentSpecificationModal";
 import { StructureComponentsSelector } from "../../../../components/StructureComponentsSelector";
+import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
 
 export const ComponentsPanel = ({ componentDefinitions = EMPTY_ARRAY }) => {
   const [concepts, setConcepts] = useState([]);

@@ -1,6 +1,7 @@
+import { ConceptGeneral, ConceptNotes, Link } from "@model/concepts/concept";
+
 import { CLOSE_MATCH, VERSIONING } from "@sdk/constants";
 
-import { ConceptGeneral, ConceptNotes, Link } from "../../model/concepts/concept";
 import { keepDatableNotes } from "./keepDatableNotes";
 import { processGeneral } from "./processGeneral";
 import { processLinks } from "./processLinks";

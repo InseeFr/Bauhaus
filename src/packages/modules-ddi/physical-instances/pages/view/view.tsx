@@ -1,3 +1,8 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { confirmDialog } from "primereact/confirmdialog";
+import { ConfirmDialog } from "primereact/confirmdialog";
+import { Message } from "primereact/message";
+import { Toast } from "primereact/toast";
 import {
   useReducer,
   useRef,
@@ -8,13 +13,9 @@ import {
   lazy,
   Suspense,
 } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
-import { Toast } from "primereact/toast";
-import { Message } from "primereact/message";
-import { confirmDialog } from "primereact/confirmdialog";
-import { ConfirmDialog } from "primereact/confirmdialog";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+
 import "./view.css";
 import type {
   PhysicalInstanceUpdateData,
@@ -26,16 +27,25 @@ const PhysicalInstanceDialog = lazy(() =>
     (module) => ({ default: module.PhysicalInstanceDialog }),
   ),
 );
-import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstanceParents";
-import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
-import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
-import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
-import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
+import { LoadingOverlay } from "@components/loading-overlay";
+
+import { getApiErrorMessage } from "@utils/api-errors";
+import { cx } from "@utils/cx";
+import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
+
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
-import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
+import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
+import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstanceParents";
 import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalInstance";
-import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
-import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
+import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
+import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
+import { pickLang, singletonEntries } from "../../../utils/multilingual";
+import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
+import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
+import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
+import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
 import type {
   VariableTableData,
@@ -46,19 +56,12 @@ import type {
   LogicalRecord,
 } from "../../types/api";
 import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
-import { LoadingOverlay } from "../../../../components/loading-overlay";
-import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
-import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { useExport } from "../../../hooks/useExport";
-import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
-import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
-import { pickLang, singletonEntries } from "../../../utils/multilingual";
-import { loadCodeListForVariable } from "./loadCodeListForVariable";
-import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
+import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
 import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
-import { cx } from "@utils/cx";
-import { getApiErrorMessage } from "@utils/api-errors";
+import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
+import { loadCodeListForVariable } from "./loadCodeListForVariable";
+import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
+import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();

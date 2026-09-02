@@ -1,6 +1,5 @@
-import { classificationsI18n } from "../../../../i18n";
-
 import { ClassificationMembers } from "../../../../components/ClassificationMembers";
+import { classificationsI18n } from "../../../../i18n";
 
 interface FamilyMember {
   id: string;

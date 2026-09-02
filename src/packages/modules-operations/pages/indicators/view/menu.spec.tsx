@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 
+import { Indicator } from "@model/operations/indicator";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { Indicator } from "../../../../model/operations/indicator";
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 vi.mock("react-i18next", () => ({

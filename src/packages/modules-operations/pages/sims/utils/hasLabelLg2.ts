@@ -1,4 +1,5 @@
-import { Rubric } from "../../../../model/Sims";
+import { Rubric } from "@model/Sims";
+
 import { rangeType } from "../../../constants/rangeType";
 
 const { RICH_TEXT, TEXT, ORGANIZATION, DATE, GEOGRAPHY, CODE_LIST } = rangeType;

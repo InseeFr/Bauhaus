@@ -4,9 +4,10 @@ import { useParams } from "react-router-dom";
 import { Loading, Saving } from "@components/loading";
 
 import { CodelistsApi } from "@sdk/index";
+
+import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 import { formatCodelist } from "../../../utils/formatCodelist";
 import { CodelistDetailEdit } from "./components/CodelistDetailEdit";
-import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
 
 export const Component = () => {
   const { id } = useParams();

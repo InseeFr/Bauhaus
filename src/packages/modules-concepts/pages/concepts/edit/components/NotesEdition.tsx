@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 
 import { NoteEdition } from "@components/note-edition";
 
-import { ConceptNotes } from "../../../../../model/concepts/concept";
+import { ConceptNotes } from "@model/concepts/concept";
+
 import { NoteRawTitle, noteTypes } from "../../../../utils/noteStatus";
 import "./NotesEdition.css";
 

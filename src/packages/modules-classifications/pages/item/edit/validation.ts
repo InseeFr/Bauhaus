@@ -1,9 +1,10 @@
-import { classificationsI18n } from "../../../i18n";
 import { z } from "zod";
 
 import { ItemGeneral } from "@model/Classification";
 
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
+
+import { classificationsI18n } from "../../../i18n";
 
 const ZodItem = (altLabelsLength: number) =>
   z.object({

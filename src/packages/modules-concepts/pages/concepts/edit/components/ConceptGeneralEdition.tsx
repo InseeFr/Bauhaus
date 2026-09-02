@@ -9,12 +9,13 @@ import { TextInput } from "@components/form/input";
 import { InputRmes } from "@components/input-rmes";
 import { Row } from "@components/layout";
 import { RequiredIcon } from "@components/required-icon";
-import { Select } from "@components/ui/select";
 import { InputMulti } from "@components/ui/forms/input-multi";
+import { Select } from "@components/ui/select";
+
+import { ConceptGeneral } from "@model/concepts/concept";
 
 import { useLocales } from "@utils/hooks/useLocales";
 
-import { ConceptGeneral } from "../../../../../model/concepts/concept";
 import { useCollections } from "../../../../hooks/useCollections";
 import { conceptGeneralFields } from "../../../../utils/conceptGeneralFields";
 

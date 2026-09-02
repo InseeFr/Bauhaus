@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link, Navigate } from "react-router-dom";
 
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { TextInput } from "@components/form/input";
@@ -9,13 +9,15 @@ import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
 import { List } from "@components/ui/list-group";
 
+import { validateStateOptions } from "@model/ValidationState";
+
+import { CodelistsApi } from "@sdk/index";
+
 import { filterKeyDeburr } from "@utils/array-utils";
 import { useStampsOptions } from "@utils/hooks/stamps";
 import { useTitle } from "@utils/hooks/useTitle";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
-import { validateStateOptions } from "../../../../model/ValidationState";
-import { CodelistsApi } from "@sdk/index";
 import { formatLabel } from "../../../utils/formatLabel";
 
 const filterId = filterKeyDeburr(["id"]);

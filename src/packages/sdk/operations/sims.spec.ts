@@ -1,8 +1,9 @@
 import { vi } from "vitest";
 
+import type { Sims } from "@model/Sims";
+
 import { buildCall } from "../build-api";
 import { simsApi } from "./sims";
-import type { Sims } from "../../model/Sims";
 
 vi.mock("../../auth/create-oidc", () => ({
   getOidc: vi.fn(() => Promise.resolve(null)),

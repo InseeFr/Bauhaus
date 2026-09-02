@@ -1,6 +1,6 @@
 import { Select } from "@components/select-rmes";
 
-import { Option } from "../../../../../model/SelectOption";
+import { Option } from "@model/SelectOption";
 
 interface SimsCodeListSelectTypes {
   multi: boolean;

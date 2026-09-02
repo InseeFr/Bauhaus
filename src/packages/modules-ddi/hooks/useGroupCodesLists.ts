@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { DDIApi } from "../../sdk";
+import { DDIApi } from "@sdk/index";
+
 import type { CodeListItem } from "./usePhysicalCodesLists";
 
 /** Forme renvoyée par l'endpoint agrégé des listes de codes d'un group (tous LP/CLS). */

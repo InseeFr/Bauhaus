@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 
+import type { Category, CodeList, CodeListUsage, CategoryUsage } from "../../types/api";
 import {
   isCodeListSharedWithOthers,
   otherVariableNames,
@@ -8,7 +9,6 @@ import {
   createCodeListVariant,
   createCategoryVariant,
 } from "./CodeRepresentation.utils";
-import type { Category, CodeList, CodeListUsage, CategoryUsage } from "../../types/api";
 
 const usage = (variableId: string, variableLabel = "Sexe"): CodeListUsage => ({
   studyUnitAgencyId: "fr.insee",

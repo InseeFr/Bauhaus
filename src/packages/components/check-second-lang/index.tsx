@@ -1,6 +1,6 @@
+import { createAllDictionary } from "@utils/dictionnary";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import { createAllDictionary } from "../../utils/dictionnary";
 import "./index.css";
 
 const { D } = createAllDictionary({

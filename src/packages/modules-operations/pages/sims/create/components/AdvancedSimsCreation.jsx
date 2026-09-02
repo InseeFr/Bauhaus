@@ -1,7 +1,7 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import { useBlocker } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
@@ -17,26 +17,26 @@ import { EMPTY_ARRAY, sortArrayByLabel } from "@utils/array-utils";
 import { cx } from "@utils/cx";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
+import { rangeType } from "../../../../constants/rangeType";
 import { flattenTree } from "../../../../utils/flattenTree";
 import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
-import { rangeType } from "../../../../constants/rangeType";
 import { RubricEssentialMsg } from "../../components/RubricEssentialMsg";
 import { useDocumentsStoreContext } from "../../hooks/useDocumentsStoreContext";
 import {
   computeEssentialRubricContext,
   EssentialRubricContextProvider,
 } from "../../hooks/useEssentialRubricContext";
-import { getParentId } from "../utils/getParentId";
-import { getParentIdName } from "../utils/getParentIdName";
 import { hasLabelLg2 } from "../../utils/hasLabelLg2";
 import { shouldDisplayTitleForPrimaryItem } from "../../utils/shouldDisplayTitleForPrimaryItem";
-import { DocumentFormPanel } from "./DocumentFormPanel";
 import { Menu } from "../menu";
+import { getDefaultSims } from "../utils/getDefaultSims";
+import { getParentId } from "../utils/getParentId";
+import { getParentIdName } from "../utils/getParentIdName";
 import "./AdvancedSimsCreation.css";
+import { getSiblingSims } from "../utils/getSiblingSims";
+import { DocumentFormPanel } from "./DocumentFormPanel";
 import { SimsDocumentFieldMemo } from "./SimsDocumentField";
 import { SimsField } from "./SimsField";
-import { getDefaultSims } from "../utils/getDefaultSims";
-import { getSiblingSims } from "../utils/getSiblingSims";
 
 const { RICH_TEXT } = rangeType;
 

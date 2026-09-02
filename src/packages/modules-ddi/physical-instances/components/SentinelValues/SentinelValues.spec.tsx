@@ -1,11 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useState } from "react";
-import { SentinelValues } from "./SentinelValues";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import type { Reference } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
+import { SentinelValues } from "./SentinelValues";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

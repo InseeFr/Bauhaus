@@ -1,14 +1,15 @@
+import { useTranslation } from "react-i18next";
+
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
 import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
+import { Operation } from "@model/Operation";
+
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { useTranslation } from "react-i18next";
-
 import { HasAccess } from "../../../../auth/components/auth";
-import { Operation } from "../../../../model/Operation";
 
 interface MenuTypes {
   operation: Operation;

@@ -1,13 +1,12 @@
-import { useState } from "react";
-
 import { PickList } from "primereact/picklist";
+import { useState } from "react";
 
 import { ErrorBloc } from "@components/errors-bloc";
 import { PageTitle } from "@components/page-title";
 
-import D from "../i18n";
 import { ActionToolbar } from "../action-toolbar";
 import { ReturnButton } from "../buttons/buttons-with-icons";
+import D from "../i18n";
 
 interface Item {
   id: string;

@@ -1,3 +1,5 @@
+import type { ValidationState } from "@components/status";
+
 import {
   BROADER,
   CLOSE_MATCH,
@@ -7,8 +9,6 @@ import {
   RELATED,
   SUCCEED,
 } from "@sdk/constants";
-
-import type { ValidationState } from "@components/status";
 
 export const linkTypes = {
   [BROADER]: BROADER,

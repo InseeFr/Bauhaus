@@ -7,7 +7,6 @@ import { NumberResults } from "@components/number-results";
 import { Panel } from "@components/panel";
 
 import { filterFromDate } from "../utils/filterFromDate";
-
 import "./DateFilteredTable.css";
 import "../../i18n";
 

@@ -3,8 +3,8 @@ import { useCallback, useState } from "react";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { ComponentDetailEdit } from "./ComponentDetailEdit";
-import { ComponentTitle } from "./ComponentTitle";
 import { ComponentDetailView } from "./ComponentDetailView";
+import { ComponentTitle } from "./ComponentTitle";
 
 export const ComponentDetail = (props) => {
   const [secondLang] = useSecondLang();

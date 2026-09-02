@@ -1,4 +1,5 @@
-import { ConceptGeneral, ConceptNotes } from "../../../../../model/concepts/concept";
+import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+
 import { renderWithAppContext } from "../../../../../tests/render";
 
 vi.mock("./ConceptCompare", () => ({

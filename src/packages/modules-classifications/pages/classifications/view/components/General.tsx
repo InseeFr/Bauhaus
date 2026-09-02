@@ -1,17 +1,17 @@
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
+import { InseeOrganisation } from "@components/business/organisations/organisations";
 import { getDisseminationStatus } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 import { ValidationState } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 
 import { stringToDate } from "@utils/date-utils";
 import { renderMarkdownElement } from "@utils/html-utils";
 
-import { InseeOrganisation } from "@components/business/organisations/organisations";
 import { Classification } from "../../../../types";
 
 type Props = Readonly<{

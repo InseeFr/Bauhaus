@@ -4,8 +4,8 @@
 // `generated/ddi.ts`. A handful stay local because the back diverges from the
 // schema on purpose — see comments by each local declaration.
 
-import type { components } from "./generated/ddi";
 import type { LangString } from "../../utils/multilingual";
+import type { components } from "./generated/ddi";
 
 // Enveloppe de fil, telle que la définit le `ddi-schema.json` : exactement
 // `topLevelReferences` et `items`, ce dernier étant le tableau à plat de tous les objets,

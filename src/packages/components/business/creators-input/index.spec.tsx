@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
+
 import { CreatorsInput } from "./index";
 
 vi.mock("../stamps-input/stamps-input", () => ({

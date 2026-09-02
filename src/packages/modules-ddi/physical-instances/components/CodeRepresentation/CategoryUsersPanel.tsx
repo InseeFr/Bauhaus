@@ -1,14 +1,15 @@
-import { useState } from "react";
 import { Panel, PanelHeaderTemplateOptions } from "primereact/panel";
+import { Tooltip } from "primereact/tooltip";
 import { Tree } from "primereact/tree";
 import type { TreeNode } from "primereact/treenode";
-import { Tooltip } from "primereact/tooltip";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import { cx } from "@utils/cx";
+
 import type { CategoryUsage } from "../../types/api";
 import { buildCategoryUsersTree, type CategoryUsersNodeData } from "./categoryUsersTree";
-import { cx } from "@utils/cx";
 
 const PHYSICAL_INSTANCE_PATH = "/ddi/physical-instances";
 const linkStyle = { textDecoration: "none", color: "inherit" } as const;

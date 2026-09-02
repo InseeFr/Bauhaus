@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
-
 import { useTranslation } from "react-i18next";
+import { useLoaderData, useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
@@ -18,15 +17,15 @@ import { useSaveSims, useSims } from "../../../hooks/useSims";
 import { SimsLoaderData } from "../../../types/sims";
 import { MSDLayout } from "../components/MSDLayout";
 import { CREATE, UPDATE } from "../constants";
-import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
 import { useDocumentsList } from "../hooks/useDocumentsList";
+import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
 import {
   computeEssentialRubricContext,
   EssentialRubricContextProvider,
 } from "../hooks/useEssentialRubricContext";
+import { AdvancedSimsCreation } from "./components/AdvancedSimsCreation";
 import { getParentId } from "./utils/getParentId";
 import { getParentType } from "./utils/getParentType";
-import { AdvancedSimsCreation } from "./components/AdvancedSimsCreation";
 
 const apiByParentType: Record<string, (id: string) => Promise<any>> = {
   indicator: OperationsApi.getIndicatorById,

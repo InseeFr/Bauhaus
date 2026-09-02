@@ -1,14 +1,16 @@
-import { render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render } from "@testing-library/react";
 
-import { Organization as OrganizationType } from "../../../model/organization";
+import { Organization as OrganizationType } from "@model/organization";
+
+import * as organizationsHook from "@utils/hooks/organizations";
+
 import {
   Organisations,
   Organisation,
   InseeOrganisations,
   InseeOrganisation,
 } from "./organisations";
-import * as organizationsHook from "../../../utils/hooks/organizations";
 
 const organizations: OrganizationType[] = [
   {

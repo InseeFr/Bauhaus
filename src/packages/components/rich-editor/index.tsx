@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-import { editorStateFromHtml, htmlFromEditorState } from "../../utils/html-utils";
+import { editorStateFromHtml, htmlFromEditorState } from "@utils/html-utils";
+
 import "./editor-html.css";
 import { EditorDeleteButton } from "./editor-markdown";
 

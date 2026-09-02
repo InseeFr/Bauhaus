@@ -3,16 +3,16 @@ import { useTranslation } from "react-i18next";
 import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 import { ClientSideError } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
-import { InputMulti } from "@components/ui/forms/input-multi";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
+import { InputMulti } from "@components/ui/forms/input-multi";
 
 import { withCodesLists } from "@utils/hoc/withCodesLists";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
-import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
 import { useThemes } from "../../../../hooks/useThemes";
+import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
 
 const GlobalInformationTab = ({
   editingDataset,

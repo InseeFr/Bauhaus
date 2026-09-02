@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { StructureApi } from "../../sdk";
+import { StructureApi } from "@sdk/index";
+
 import { MeasureAttributeValue } from "./MeasureAttributeValue";
 
 export const MeasureAttribute = ({ attribute, value, attributes, codesLists }) => {

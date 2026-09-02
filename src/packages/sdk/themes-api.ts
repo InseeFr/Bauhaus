@@ -1,4 +1,5 @@
-import { Theme } from "../model/theme";
+import { Theme } from "@model/theme";
+
 import { buildApi } from "./build-api";
 
 interface ThemesApiType {

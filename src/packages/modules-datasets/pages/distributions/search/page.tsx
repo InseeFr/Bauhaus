@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link, Navigate } from "react-router-dom";
 
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";

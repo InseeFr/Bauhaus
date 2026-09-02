@@ -5,10 +5,11 @@ import { ConditionalDisplay } from "@components/data/conditional-display";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
+import { Dataset } from "@model/Dataset";
+
 import { stringToDate } from "@utils/date-utils";
 import { useCodesList } from "@utils/hooks/codeslist";
 
-import { Dataset } from "../../../../../model/Dataset";
 import {
   CL_DATA_TYPES,
   CL_FREQ,

@@ -1,3 +1,6 @@
+import { useTranslation } from "react-i18next";
+
+import { InseeOrganisationNotes } from "@components/business/creators-view";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -6,12 +9,9 @@ import { PublicationStatusItem } from "@components/status/PublicationStatusItem"
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
-import { useTranslation } from "react-i18next";
-
 import { DisplayLinks } from "../../../../components/DisplayLinks";
-import { getSeeAlsoByType } from "../../../../utils/getSeeAlsoByType";
 import { SeeAlso } from "../../../../components/SeeAlso";
-import { InseeOrganisationNotes } from "@components/business/creators-view";
+import { getSeeAlsoByType } from "../../../../utils/getSeeAlsoByType";
 
 function DisplayMultiLangNote({ value1, value2, title1, title2, secondLang, md = false }) {
   const body1 = md ? renderMarkdownElement(value1) : value1;

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { Row } from "@components/layout";
 import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
@@ -7,7 +9,6 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { useConcepts } from "../../../hooks/useConcepts";
 import { Menu } from "./menu";
-import { useTranslation } from "react-i18next";
 
 export const Component = () => {
   const { t } = useTranslation();

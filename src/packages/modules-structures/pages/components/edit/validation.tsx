@@ -1,4 +1,3 @@
-import { structuresI18n } from "../../../i18n";
 import { z } from "zod";
 
 import {
@@ -6,6 +5,8 @@ import {
   mandatoryAndNotEmptySelectField,
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
+
+import { structuresI18n } from "../../../i18n";
 
 const ZodComponent = z.object({
   identifiant: mandatoryAndNotEmptyTextField(structuresI18n.t("component.notation")),

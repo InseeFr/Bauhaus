@@ -1,21 +1,22 @@
 import { useTranslation } from "react-i18next";
 
+import { Organisation, Organisations } from "@components/business/organisations/organisations";
 import { CodeDisplay } from "@components/code-display";
 import { ConditionalDisplay } from "@components/data/conditional-display";
-import { Organisation, Organisations } from "@components/business/organisations/organisations";
 import { Row } from "@components/layout";
-import { List } from "@components/ui/list";
 import { Note } from "@components/note";
 import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
+import { List } from "@components/ui/list";
+
+import { Dataset } from "@model/Dataset";
 
 import { stringToDate } from "@utils/date-utils";
 import { useCodesList } from "@utils/hooks/codeslist";
 import { useOrganizations } from "@utils/hooks/organizations";
 
-import { Dataset } from "../../../../../model/Dataset";
 import { CL_ACCESS_RIGHTS, CL_CONF_STATUS, CL_FREQ } from "../../../../../constants/code-lists";
-import { WasGeneratedByBlock } from "./WasGeneratedByBlock";
 import { useThemes } from "../../../../hooks/useThemes";
+import { WasGeneratedByBlock } from "./WasGeneratedByBlock";
 
 interface GlobalInformationBlockTypes {
   dataset: Dataset;

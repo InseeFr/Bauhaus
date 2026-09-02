@@ -1,10 +1,13 @@
 import { waitFor } from "@testing-library/react";
+
+import { getListItems } from "@components/ui/list-group/testing";
+
 import { ConceptsApi, StructureApi } from "@sdk/index";
+
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { renderWithRouter } from "../../../../tests/render";
 import { Component } from "./page";
-import { getListItems } from "@components/ui/list-group/testing";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
 

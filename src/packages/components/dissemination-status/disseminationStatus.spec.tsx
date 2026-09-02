@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, Mock } from "vitest";
 
-import { useDisseminationStatusOptions } from "../../utils/hooks/disseminationStatus";
+import { useDisseminationStatusOptions } from "@utils/hooks/disseminationStatus";
+
 import D from "../i18n";
 import {
   DisseminationStatusVisualisation,

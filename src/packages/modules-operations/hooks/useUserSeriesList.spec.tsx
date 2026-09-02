@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
+
 import { useUserSeriesList } from "./useUserSeriesList";
 
 vi.mock("@sdk/operations-api", () => ({

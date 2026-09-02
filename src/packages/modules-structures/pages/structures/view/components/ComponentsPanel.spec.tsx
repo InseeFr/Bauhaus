@@ -2,9 +2,10 @@ import { render, waitFor } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
-import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
+
 import { CodelistPanel } from "../../../../components/CodelistPanel";
 import { StructureComponentsSelector } from "../../../../components/StructureComponentsSelector";
+import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
 import { ComponentsPanel } from "./ComponentsPanel";
 
 vi.mock("../../../../components/CodelistPanel", () => ({

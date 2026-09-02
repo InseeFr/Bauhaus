@@ -1,8 +1,9 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 
+import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+
 import { BROADER, NARROWER } from "@sdk/constants";
 
-import { ConceptGeneral, ConceptNotes } from "../../../../../model/concepts/concept";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { emptyConceptGeneral } from "../../../../utils/emptyConceptGeneral";
 import { ConceptEditionCreation, onGeneralInformationChange } from "./ConceptEditionCreation";

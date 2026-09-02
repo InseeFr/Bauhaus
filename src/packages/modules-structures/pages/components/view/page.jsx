@@ -8,9 +8,9 @@ import { ConceptsApi, StructureApi } from "@sdk/index";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { useFormattedCodeList } from "../../../hooks/useFormattedCodeList";
-import { ComponentTitle } from "../../../components/ComponentTitle";
 import { ComponentDetailView } from "../../../components/ComponentDetailView";
+import { ComponentTitle } from "../../../components/ComponentTitle";
+import { useFormattedCodeList } from "../../../hooks/useFormattedCodeList";
 
 export const Component = (props) => {
   const goBack = useGoBack();

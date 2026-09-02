@@ -12,10 +12,10 @@ import { SearchTextField } from "@components/ui/search-field";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
-import { filterKeyDeburr } from "../../../../utils/array-utils";
 import { TypeCodeInput } from "./components/TypeCodeInput";
 
 const filterLabel = filterKeyDeburr(["prefLabelLg1"]);

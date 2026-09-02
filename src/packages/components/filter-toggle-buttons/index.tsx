@@ -1,6 +1,7 @@
-import { BOTH, DOCUMENT, LINK } from "../../constants/documentType";
-import "./filter-toggle-buttons.css";
 import { cx } from "@utils/cx";
+
+import "./filter-toggle-buttons.css";
+import { BOTH, DOCUMENT, LINK } from "../../constants/documentType";
 
 interface FilterToggleButtonsTypes {
   options: [typeof BOTH | typeof DOCUMENT | typeof LINK, string][];

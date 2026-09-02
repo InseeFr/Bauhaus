@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
 
-import { Document } from "../../../../model/operations/document";
+import { Document } from "@model/operations/document";
+
 import { DOCUMENT, LINK } from "../../../../constants/documentType";
 
 export interface DocumentsStoreObject {

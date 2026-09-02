@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { buildCategoryUsersTree } from "./categoryUsersTree";
 import type { CategoryUsage } from "../../types/api";
+import { buildCategoryUsersTree } from "./categoryUsersTree";
 
 const labels = { unknownGroup: "Groupe inconnu", unknownStudyUnit: "Unité d'enquête inconnue" };
 

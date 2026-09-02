@@ -1,10 +1,11 @@
 import { screen } from "@testing-library/react";
 
-import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
-
 import { getListItems } from "@components/ui/list-group/testing";
 
-import { HomeDocument } from "../../../../../model/operations/document";
+import { HomeDocument } from "@model/operations/document";
+
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
 import { mockReactQueryForRbac, renderWithRouter } from "../../../../../tests/render";
 
 vi.mock("react-i18next", async (importOriginal) => {

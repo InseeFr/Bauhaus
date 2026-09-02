@@ -1,4 +1,4 @@
-import { Option, Options } from "../model/SelectOption";
+import { Option, Options } from "@model/SelectOption";
 
 export const transformModelToSelectOptions = (datas: { id: string; label: string }[]): Options => {
   return datas.map(transformModelToSelectOption);

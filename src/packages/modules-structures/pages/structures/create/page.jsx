@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 
+import { PageTitle } from "@components/page-title";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { EditionForm } from "../edit/components/EditionForm";
-import { PageTitle } from "@components/page-title";
 
 export const Component = () => {
   const { t } = useTranslation();

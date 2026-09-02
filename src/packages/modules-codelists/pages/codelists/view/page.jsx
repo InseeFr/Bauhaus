@@ -3,12 +3,13 @@ import { useParams } from "react-router-dom";
 
 import { Loading, Publishing } from "@components/loading";
 
+import { CodelistsApi } from "@sdk/index";
+
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { CodelistsApi } from "@sdk/index";
-import { formatCodelist } from "../../../utils/formatCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";
+import { formatCodelist } from "../../../utils/formatCodelist";
 import { CodelistDetailView } from "./components/CodelistDetailView";
 
 export const Component = (props) => {

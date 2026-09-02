@@ -1,4 +1,5 @@
-import { Component } from "../../model/structures/Component";
+import { Component } from "@model/structures/Component";
+
 import { ATTACHMENTS } from "../constants";
 
 export const getAllAttachment = (measures: Component[] = [], specification: any) => {

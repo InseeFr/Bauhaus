@@ -1,21 +1,23 @@
-import { useReducer, useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { useReducer, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+
+import { useAppContext } from "../../../../application/app-context";
+import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
+import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
   Category,
 } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
-import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
+import { CategoryUsageDialog } from "./CategoryUsageDialog";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
 import { CodeListUsersPanel } from "./CodeListUsersPanel";
-import { CategoryUsageDialog } from "./CategoryUsageDialog";
-import { OverrideDialog } from "./OverrideDialog";
-import { SharedCodeListNotice } from "./SharedCodeListNotice";
-import { useSharedEditGuard, type ApplyEdit } from "./useSharedEditGuard";
 import { codeRepresentationReducer, initialState } from "./CodeRepresentation.reducer";
 import {
   createDefaultRepresentation,
@@ -27,11 +29,10 @@ import {
   getLocalizedText,
   otherVariableNames,
 } from "./CodeRepresentation.utils";
-import { useAppContext } from "../../../../application/app-context";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
-import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
-import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
+import { OverrideDialog } from "./OverrideDialog";
+import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
+import { SharedCodeListNotice } from "./SharedCodeListNotice";
+import { useSharedEditGuard, type ApplyEdit } from "./useSharedEditGuard";
 import "./CodeRepresentation.css";
 
 interface CodeRepresentationProps {

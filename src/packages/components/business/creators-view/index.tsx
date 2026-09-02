@@ -1,4 +1,5 @@
 import { Note } from "@components/note";
+
 import { D1 } from "../../i18n";
 import { InseeOrganisation, InseeOrganisations } from "../organisations/organisations";
 

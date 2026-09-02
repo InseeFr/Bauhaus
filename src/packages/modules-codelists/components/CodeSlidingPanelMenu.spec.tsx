@@ -4,6 +4,7 @@ import { Mock, vi } from "vitest";
 import { CodesList } from "@model/CodesList";
 
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
+
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 
 vi.mock("@utils/hooks/users", async (importOriginal) => {

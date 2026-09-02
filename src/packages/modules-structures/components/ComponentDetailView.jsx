@@ -1,7 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
+import {
+  InseeOrganisation,
+  InseeOrganisations,
+} from "@components/business/organisations/organisations";
 import { SeeButton } from "@components/buttons/see";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
@@ -9,25 +13,21 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
-import {
-  InseeOrganisation,
-  InseeOrganisations,
-} from "@components/business/organisations/organisations";
 
 import { CodelistsApi } from "@sdk/index";
 
+import { EMPTY_ARRAY } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
-import { EMPTY_ARRAY } from "@utils/array-utils";
 
+import { useAppContext } from "../../application/app-context";
+import { XSD_CODE_LIST, XSD_TYPES, ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from "../constants";
+import { ViewMenu } from "../pages/components/view/menu";
 import { getAllAttachment } from "../utils/getAllAttachment";
 import { typeUriToLabel } from "../utils/typeUriToLabel";
-import { XSD_CODE_LIST, XSD_TYPES, ATTRIBUTE_TYPE, MEASURE_PROPERTY_TYPE } from "../constants";
-import { CodelistPanel } from "./CodelistPanel";
-import { ViewMenu } from "../pages/components/view/menu";
 import "./ComponentDetailView.css";
+import { CodelistPanel } from "./CodelistPanel";
 import { MeasureAttributes } from "./MeasureAttributes";
-import { useAppContext } from "../../application/app-context";
 
 export const ComponentDetailView = ({
   component,

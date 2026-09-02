@@ -1,7 +1,8 @@
-import { classificationsI18n } from "../../../i18n";
 import { z } from "zod";
 
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
+
+import { classificationsI18n } from "../../../i18n";
 
 const ZodClassification = z.object({
   prefLabelLg1: mandatoryAndNotEmptyTextField(

@@ -1,7 +1,8 @@
 import { render } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 
-import { Rubric } from "../../../../../model/Sims";
+import { Rubric } from "@model/Sims";
+
 import { SimsBlockText } from "./SimsBlockText";
 
 describe("SimsBlockText", () => {

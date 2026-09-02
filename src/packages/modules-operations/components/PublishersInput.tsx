@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { OrganisationInput } from "../../components/business/stamps-input/stamps-input";
+import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
 
 interface PublishersInputProps {
   value: string[];

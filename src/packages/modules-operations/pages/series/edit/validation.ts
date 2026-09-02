@@ -7,9 +7,8 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import { operationsI18n } from "../../../i18n";
-
 import NewDictionary from "../../../../i18n";
+import { operationsI18n } from "../../../i18n";
 
 const ZodSerie: ZodObject<any> = z.object({
   family: z.object(

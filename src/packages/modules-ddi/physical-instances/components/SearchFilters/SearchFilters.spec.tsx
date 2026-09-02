@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
+
 import { SearchFilters } from "./SearchFilters";
 
 vi.mock("react-i18next", () => ({

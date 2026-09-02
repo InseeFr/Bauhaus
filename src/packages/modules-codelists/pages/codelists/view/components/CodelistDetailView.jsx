@@ -1,5 +1,9 @@
 import { useTranslation } from "react-i18next";
 
+import {
+  InseeOrganisation,
+  InseeOrganisations,
+} from "@components/business/organisations/organisations";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
@@ -7,10 +11,6 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
-import {
-  InseeOrganisation,
-  InseeOrganisations,
-} from "@components/business/organisations/organisations";
 
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";

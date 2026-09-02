@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
 import { Component } from "./page";
 
 // Mock des dépendances

@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc } from "@components/errors-bloc";
@@ -8,12 +8,12 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { ViewMenu } from "./menu";
-import { ViewMainBlock } from "./components/ViewMainBlock";
-import { useDistribution } from "../../../hooks/useDistribution";
 import { useDataset } from "../../../hooks/useDataset";
-import { useDatasetPublisher } from "../../../hooks/useDatasetPublisher";
 import { useDatasetDeleter } from "../../../hooks/useDatasetDeleter";
+import { useDatasetPublisher } from "../../../hooks/useDatasetPublisher";
+import { useDistribution } from "../../../hooks/useDistribution";
+import { ViewMainBlock } from "./components/ViewMainBlock";
+import { ViewMenu } from "./menu";
 
 export const Component = () => {
   const { t } = useTranslation();

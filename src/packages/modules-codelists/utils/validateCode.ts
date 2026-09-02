@@ -1,7 +1,8 @@
-import { codelistsI18n } from "../i18n";
 import { z } from "zod";
 
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
+
+import { codelistsI18n } from "../i18n";
 
 /** Valeurs saisies dans le formulaire d'un code, avant validation. */
 export interface CodeFormValues {

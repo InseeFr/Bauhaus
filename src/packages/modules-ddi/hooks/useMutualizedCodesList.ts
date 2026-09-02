@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { DDIApi } from "../../sdk";
+import { DDIApi } from "@sdk/index";
+
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 
 export const useMutualizedCodesList = (agencyId: string, id: string) => {

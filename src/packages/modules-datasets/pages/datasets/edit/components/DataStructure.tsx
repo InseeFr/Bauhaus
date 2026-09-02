@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { datasetsI18n } from "../../../../i18n";
 
 import { TextInput } from "@components/form/input";
 import { Select } from "@components/select-rmes";
@@ -9,6 +8,7 @@ import { Option } from "@model/SelectOption";
 
 import { useStructures } from "@utils/hooks/structures";
 
+import { datasetsI18n } from "../../../../i18n";
 import "./DataStructure.css";
 
 export const STRUCTURE_MODE = "STRUCTURE_MODE";

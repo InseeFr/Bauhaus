@@ -1,9 +1,10 @@
-import { MultiSelect } from "primereact/multiselect";
 import { Dropdown } from "primereact/dropdown";
+import { MultiSelect } from "primereact/multiselect";
+
+import { Option } from "@model/SelectOption";
 
 import { createAllDictionary } from "@utils/dictionnary";
 
-import { Option } from "../../model/SelectOption";
 import "./select-rmes.css";
 
 const { D } = createAllDictionary({

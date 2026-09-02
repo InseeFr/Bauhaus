@@ -5,10 +5,11 @@ import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 
+import { Family } from "@model/operations/family";
+
 import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
-import { Family } from "../../../../../model/operations/family";
 import { RelationsView } from "../../../../components/RelationsView";
 
 interface OperationsFamilyVisualizationTypes {

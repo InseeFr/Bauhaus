@@ -4,21 +4,22 @@ import { useTranslation } from "react-i18next";
 import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
 import { PageTitle } from "@components/page-title";
 
+import { ConceptGeneral, ConceptNotes, Link } from "@model/concepts/concept";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { VERSIONING, NO_VERSIONING } from "@sdk/constants";
 
-import { ConceptGeneral, ConceptNotes, Link } from "../../../../../model/concepts/concept";
-import { UNPUBLISHED } from "@model/ValidationState";
+import type { SaveFn } from "../../../../hooks/useConceptSave";
 import { areNotesImpactingVersionChanged } from "../../../../utils/areNotesImpactingVersionChanged";
-import { isVersioningPossible } from "../../../../utils/isVersioningPossible";
 import { resolveConceptSection } from "../../../../utils/conceptSection";
+import { isVersioningPossible } from "../../../../utils/isVersioningPossible";
 import { NoteRawTitle } from "../../../../utils/noteStatus";
-import { ConceptSection, ConceptSummary } from "./ConceptSummary";
 import "./ConceptEditionCreation.css";
 import { Menu } from "../menu";
 import { validate } from "../validation";
 import { ConceptGeneralEdition } from "./ConceptGeneralEdition";
+import { ConceptSection, ConceptSummary } from "./ConceptSummary";
 import { LinksEdition, ConceptWithLink } from "./LinksEdition";
-import type { SaveFn } from "../../../../hooks/useConceptSave";
 import { NotesEdition } from "./NotesEdition";
 
 type VersioningType = typeof VERSIONING | typeof NO_VERSIONING;

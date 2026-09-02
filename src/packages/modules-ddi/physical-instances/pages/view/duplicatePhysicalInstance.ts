@@ -1,7 +1,7 @@
+import { singletonEntries, makeEntry } from "../../../utils/multilingual";
+import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 import type { Variable, LogicalRecord, DataRelationship, Reference } from "../../types/api";
 import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
-import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
-import { singletonEntries, makeEntry } from "../../../utils/multilingual";
 
 interface DuplicatePhysicalInstanceParams {
   agencyId: string;

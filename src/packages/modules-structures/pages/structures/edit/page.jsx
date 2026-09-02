@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useLocation, useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
+import { PageTitle } from "@components/page-title";
+import { PageTitleBlock } from "@components/page-title-block";
 
 import { StructureApi } from "@sdk/index";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { EditionForm } from "./components/EditionForm";
-import { PageTitleBlock } from "@components/page-title-block";
-import { PageTitle } from "@components/page-title";
 
 export const Component = () => {
   const { t } = useTranslation();

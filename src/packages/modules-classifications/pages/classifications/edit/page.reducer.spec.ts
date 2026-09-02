@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { reducer, initialState, State } from "./page.reducer";
+
 import { ClassificationWithLevels } from "../../../types";
+import { reducer, initialState, State } from "./page.reducer";
 
 const mockClassification: ClassificationWithLevels = {
   general: {

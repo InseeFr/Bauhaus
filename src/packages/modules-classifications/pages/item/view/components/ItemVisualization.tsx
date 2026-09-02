@@ -3,9 +3,9 @@ import { PageSubtitle } from "@components/page-sub-title";
 import { PageTitle } from "@components/page-title";
 
 import { General } from "../../../../components/General";
+import { ClassificationNotes } from "./ClassificationNotes";
 import { ItemControls } from "./ItemControls";
 import { Narrowers } from "./Narrowers";
-import { ClassificationNotes } from "./ClassificationNotes";
 
 export const ItemVisualization = ({ item: { general, notes, narrowers }, secondLang }: any) => {
   const { classificationId, itemId, conceptVersion: version } = general;

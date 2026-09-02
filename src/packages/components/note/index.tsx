@@ -1,5 +1,6 @@
-import { Panel } from "../panel";
 import { cx } from "@utils/cx";
+
+import { Panel } from "../panel";
 
 interface NoteTypes {
   text?: string | any;

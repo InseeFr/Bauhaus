@@ -2,10 +2,8 @@ import { CheckSecondLang } from "@components/check-second-lang";
 import { CompareNotes } from "@components/note-compare";
 import { PageTitle } from "@components/page-title";
 
-import {
-  ConceptGeneral as ConceptGeneralType,
-  ConceptNotes,
-} from "../../../../../model/concepts/concept";
+import { ConceptGeneral as ConceptGeneralType, ConceptNotes } from "@model/concepts/concept";
+
 import { buildNotes } from "../../../../utils/buildNotes";
 import { ConceptGeneral } from "../../view/components/ConceptGeneral";
 import { Controls } from "./Controls";

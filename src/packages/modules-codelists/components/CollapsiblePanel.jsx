@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 
 import { Note } from "@components/note";
+
 import { cx } from "@utils/cx";
 
 export const CollapsiblePanel = ({

@@ -1,5 +1,6 @@
 import { Card } from "primereact/card";
 import { useTranslation } from "react-i18next";
+
 import { GlobalActionToolbar } from "./GlobalActionToolbar";
 import { PhysicalInstancesDataTable } from "./PhysicalInstancesDataTable";
 

@@ -1,5 +1,5 @@
-import { render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { rangeType } from "../../../../constants/rangeType";

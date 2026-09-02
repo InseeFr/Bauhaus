@@ -1,4 +1,5 @@
-import { Sims } from "../../../../../model/Sims";
+import { Sims } from "@model/Sims";
+
 import { getParentType } from "./getParentType";
 
 describe("getParentType", () => {

@@ -1,5 +1,6 @@
-import { lazy, Suspense } from "react";
 import type { TanStackDevtoolsReactPlugin } from "@tanstack/react-devtools";
+import { lazy, Suspense } from "react";
+
 import { useAppContext } from "../../application/app-context";
 import { PrivilegesPlugin } from "./PrivilegesPlugin";
 

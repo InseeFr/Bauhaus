@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 
 import { Loading } from "@components/loading";
 
+import { Series } from "@model/Series";
+
 import { OperationsApi } from "@sdk/operations-api";
 
 import { sortArray } from "@utils/array-utils";
 
-import { Series } from "../../../../model/Series";
 import { SeriesHome } from "./components/SeriesHome";
 
 export const Component = () => {

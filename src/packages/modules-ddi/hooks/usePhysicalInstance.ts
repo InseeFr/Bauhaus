@@ -1,4 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+
+import { DDIApi } from "@sdk/index";
+
 import type {
   PhysicalInstanceResponse,
   VariableTableData,
@@ -6,8 +9,6 @@ import type {
 } from "../physical-instances/types/api";
 import { itemsOfType, singleItemOfType } from "../physical-instances/types/ddi4Items";
 import { pickLang } from "../utils/multilingual";
-
-import { DDIApi } from "../../sdk";
 
 function transformVariablesToTableData(
   data: PhysicalInstanceResponse,

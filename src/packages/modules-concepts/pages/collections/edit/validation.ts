@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { CollectionGeneral } from "@model/concepts/collection";
+
 import { arrayKeepUniqueField } from "@utils/array-utils";
 import { normalize } from "@utils/string-utils";
 import {
@@ -9,7 +11,6 @@ import {
 } from "@utils/validation";
 
 import { conceptsI18n } from "../../../i18n";
-import { CollectionGeneral } from "../../../../model/concepts/collection";
 
 const t1 = conceptsI18n.getFixedT("fr");
 const t = (key: string) => conceptsI18n.t(key) as string;

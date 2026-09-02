@@ -1,6 +1,6 @@
-import { buildEmpty } from "@utils/build-general-proptypes";
-
 import { CollectionGeneral } from "@model/concepts/collection";
+
+import { buildEmpty } from "@utils/build-general-proptypes";
 
 import { collectionGeneralFields } from "./collectionGeneralFields";
 

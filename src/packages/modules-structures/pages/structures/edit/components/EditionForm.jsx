@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Navigate } from "react-router-dom";
 
+import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
+import { CreatorsInput } from "@components/business/creators-input";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Saving } from "@components/loading";
-import { CreatorsInput } from "@components/business/creators-input";
-import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 
 import { StructureApi } from "@sdk/index";
 
@@ -17,11 +17,11 @@ import { initializeContributorProperty } from "@utils/creation/contributor-init"
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
 import { useAppContext } from "../../../../../application/app-context";
-import { DISSEMINATION_STATUS } from "../../../../constants";
-import { StructureComponents } from "./StructureComponents";
-import { Controls } from "./Controls";
-import { validate } from "../validation";
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
+import { DISSEMINATION_STATUS } from "../../../../constants";
+import { validate } from "../validation";
+import { Controls } from "./Controls";
+import { StructureComponents } from "./StructureComponents";
 
 const defaultDSD = {
   identifiant: "",

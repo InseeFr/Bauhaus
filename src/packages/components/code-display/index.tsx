@@ -1,4 +1,4 @@
-import { CodesList } from "../../model/CodesList";
+import { CodesList } from "@model/CodesList";
 
 interface CodeDisplayTypes {
   codesList: CodesList;

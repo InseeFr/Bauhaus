@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import { TabView, TabPanel } from "primereact/tabview";
+import { ReactNode } from "react";
 
 import { Panel } from "../panel";
 

@@ -1,19 +1,19 @@
-import { useId } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
+
+import { cx } from "@utils/cx";
 
 import type { CategoryUsage, CodeListUsage } from "../../types/api";
 import { CategoryUsersPanel } from "./CategoryUsersPanel";
-import { UsersPanel } from "./UsersPanel";
 import { otherCodeListNames, otherVariableNames } from "./CodeRepresentation.utils";
 import {
   overrideDialogTexts,
   type OverrideDialogCase,
   type OverrideDialogChoice,
 } from "./overrideDialogTexts";
-
-import { cx } from "@utils/cx";
+import { UsersPanel } from "./UsersPanel";
 
 export interface OverrideDialogProps {
   /** `null` quand aucune édition n'est en attente de confirmation : rien n'est rendu. */

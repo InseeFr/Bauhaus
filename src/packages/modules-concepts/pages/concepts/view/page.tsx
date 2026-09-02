@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
 
@@ -8,10 +8,10 @@ import { ConceptsApi } from "@sdk/index";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
+import { GlobalErrorBloc } from "../../../components/GlobalErrorBloc";
+import { useConcept } from "../../../hooks/useConcept";
 import { ConceptVisualization } from "./components/ConceptVisualization";
 import { LoadingProvider, LoadingType } from "./components/loading";
-import { useConcept } from "../../../hooks/useConcept";
-import { GlobalErrorBloc } from "../../../components/GlobalErrorBloc";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();

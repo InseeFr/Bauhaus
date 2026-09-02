@@ -4,7 +4,6 @@ import { Tag } from "primereact/tag";
 import { Tooltip } from "primereact/tooltip";
 import { useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import { operationsI18n } from "../../../../i18n";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -25,8 +24,9 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { DOCUMENT, LINK } from "../../../../../constants/documentType";
-import { ConfirmationModal } from "./ConfirmationModal";
+import { operationsI18n } from "../../../../i18n";
 import { validate } from "../validation";
+import { ConfirmationModal } from "./ConfirmationModal";
 
 /**
  * Le fichier n'est pas envoyé par le FileUpload : il est gardé en state puis posté

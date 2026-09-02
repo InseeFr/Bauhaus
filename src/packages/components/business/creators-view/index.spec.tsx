@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import * as organizationsHook from "../../../utils/hooks/organizations";
+import * as organizationsHook from "@utils/hooks/organizations";
+
 import { InseeOrganisationNotes } from "./";
 
 vi.mock("../../i18n", () => ({

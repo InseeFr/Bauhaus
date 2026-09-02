@@ -1,4 +1,3 @@
-import { codelistsI18n } from "../../../i18n";
 import { z } from "zod";
 
 import {
@@ -6,6 +5,8 @@ import {
   mandatoryAndNotEmptySelectField,
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
+
+import { codelistsI18n } from "../../../i18n";
 
 const ZodCodeList = z.object({
   lastListUriSegment: mandatoryAndNotEmptyTextField(codelistsI18n.t("codelists.codelistURI")),

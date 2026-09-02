@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
 
+import type { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+
 import { buildPayloadCreation } from "./buildPayloadCreation";
 import { emptyConceptGeneralWithContributor } from "./emptyConceptGeneralWithContributor";
-import type { ConceptGeneral, ConceptNotes } from "../../model/concepts/concept";
 
 describe("buildPayloadCreation", () => {
   it("sends `collections` as an array (not an empty string) when no collection is associated", () => {

@@ -1,5 +1,6 @@
-import { RequiredIcon } from "../required-icon";
 import { cx } from "@utils/cx";
+
+import { RequiredIcon } from "../required-icon";
 
 interface InputRmesTypes {
   colMd?: number;

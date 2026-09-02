@@ -2,25 +2,26 @@ import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
+import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
+import { CreatorsInput } from "@components/business/creators-input";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
-import { PageTitleBlock } from "@components/page-title-block";
 import { PageTitle } from "@components/page-title";
+import { PageTitleBlock } from "@components/page-title-block";
 
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+
+import "./CodelistDetailEdit.css";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { validate } from "../validation";
-import { CodesPanel } from "../../../../components/CodesPanel";
-import "./CodelistDetailEdit.css";
-import { UriInputGroup } from "./UriInputGroup";
-import { CreatorsInput } from "@components/business/creators-input";
-import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
-import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+import { CodesPanel } from "../../../../components/CodesPanel";
+import { validate } from "../validation";
+import { UriInputGroup } from "./UriInputGroup";
 
 const defaultCodelist = {
   created: new Date(),

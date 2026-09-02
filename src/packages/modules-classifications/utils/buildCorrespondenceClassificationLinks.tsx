@@ -1,5 +1,6 @@
-import { classificationsI18n } from "../i18n";
 import { Link } from "react-router-dom";
+
+import { classificationsI18n } from "../i18n";
 
 /**
  * Builds the list of links to the source and target classifications

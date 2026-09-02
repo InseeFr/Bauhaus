@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { FilterToggleButtons } from "@components/filter-toggle-buttons";
 import { Row } from "@components/layout";
@@ -12,8 +12,8 @@ import { StructureApi } from "@sdk/index";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { formatLabel } from "../../../utils/formatLabel";
 import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants";
+import { formatLabel } from "../../../utils/formatLabel";
 import "./page.css";
 import { HomePageMenu } from "./menu";
 

@@ -3,13 +3,13 @@ import { useTranslation } from "react-i18next";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
-import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
 import { ComponentSelector } from "../../../../components/ComponentSelector";
 import {
   ATTRIBUTE_PROPERTY_TYPE,
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
 } from "../../../../constants";
+import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
 
 export const StructureComponents = ({ componentDefinitions, onChange, structure = {} }) => {
   const { t } = useTranslation();

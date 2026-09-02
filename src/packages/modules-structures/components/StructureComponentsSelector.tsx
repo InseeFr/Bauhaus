@@ -5,14 +5,15 @@ import { AddButton } from "@components/buttons/add";
 import { SeeButton } from "@components/buttons/see";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
+import { CodesList } from "@model/CodesList";
+import { Component, ComponentDefinition } from "@model/structures/Component";
+import { Structure } from "@model/structures/Structure";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { convertToArrayIfDefined } from "@utils/array-utils";
 import { useStampsOptions } from "@utils/hooks/stamps";
 
 import { HasAccess } from "../../auth/components/auth";
-import { CodesList } from "../../model/CodesList";
-import { UNPUBLISHED } from "../../model/ValidationState";
-import { Component, ComponentDefinition } from "../../model/structures/Component";
-import { Structure } from "../../model/structures/Structure";
 import { typeUriToLabel } from "../utils/typeUriToLabel";
 import { CollapsiblePanel } from "./CollapsiblePanel";
 import { ComponentDetail } from "./ComponentDetail";

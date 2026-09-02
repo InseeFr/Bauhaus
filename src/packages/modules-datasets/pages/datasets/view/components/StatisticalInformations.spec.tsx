@@ -1,10 +1,11 @@
 import { render } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
+import { Dataset } from "@model/Dataset";
+
 import * as hooks from "@utils/hooks/codeslist";
 import * as structureHooks from "@utils/hooks/structures";
 
-import { Dataset } from "../../../../../model/Dataset";
 import { StatisticalInformations } from "./StatisticalInformations";
 
 vi.mock("@utils/hooks/codeslist");

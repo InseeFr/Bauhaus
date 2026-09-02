@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { TreeButton } from "@components/buttons/buttons-with-icons";
 import { Row } from "@components/layout";
 import { FeminineButton } from "@components/new-button";
@@ -6,8 +8,6 @@ import { SearchableList } from "@components/searchable-list";
 import { VerticalMenu } from "@components/vertical-menu";
 
 import { useTitle } from "@utils/hooks/useTitle";
-
-import { useTranslation } from "react-i18next";
 
 import { HasAccess } from "../../../../../auth/components/auth";
 

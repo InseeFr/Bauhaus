@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "sortImports": {
+    "customGroups": [
+      { "groupName": "components", "elementNamePattern": ["@components/**"] },
+      { "groupName": "model", "elementNamePattern": ["@model/**"] },
+      { "groupName": "sdk", "elementNamePattern": ["@sdk/**"] },
+      { "groupName": "utils", "elementNamePattern": ["@utils/**"] },
+      { "groupName": "relative", "elementNamePattern": ["./**", "../**"] }
+    ],
+    "groups": ["external", "components", "model", "sdk", "utils", "relative", "unknown"],
+    "newlinesBetween": true
+  }
+}

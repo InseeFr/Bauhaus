@@ -3,9 +3,9 @@ import { DeleteButton, ReturnButton, UpdateButton } from "@components/buttons/bu
 import { ValidationButton } from "@components/validationButton";
 
 import { Component } from "@model/structures/Component";
+import { UNPUBLISHED } from "@model/ValidationState";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { UNPUBLISHED } from "../../../../model/ValidationState";
 
 const canBeDeleted = (component: Component) => {
   const withoutStructuresUsingThisComponent =

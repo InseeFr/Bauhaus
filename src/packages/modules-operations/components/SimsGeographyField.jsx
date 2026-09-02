@@ -7,8 +7,8 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
-import { Select } from "@components/select-rmes";
 import { Loading } from "@components/loading";
+import { Select } from "@components/select-rmes";
 
 import { GeographieApi } from "@sdk/geographie";
 

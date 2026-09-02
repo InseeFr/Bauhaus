@@ -1,4 +1,4 @@
-import { Organization } from "../../model/organization";
+import { Organization } from "@model/organization";
 
 /**
  * For some object (dataset and structure for the moment), if the user

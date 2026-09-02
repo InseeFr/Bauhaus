@@ -1,7 +1,8 @@
+import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+
 import { rawHtmlToRmesHtml } from "@utils/html-utils";
 import { takeKeys } from "@utils/take-keys";
 
-import { ConceptGeneral, ConceptNotes } from "../../model/concepts/concept";
 import { processGeneral } from "./processGeneral";
 import { processLinks } from "./processLinks";
 

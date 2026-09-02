@@ -2,11 +2,12 @@ import { ActionToolbar } from "@components/action-toolbar";
 import { DeleteButton, ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
+import { Dataset, Distribution } from "@model/Dataset";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { Dataset, Distribution } from "../../../../model/Dataset";
-import { UNPUBLISHED } from "../../../../model/ValidationState";
 import { getContributors } from "../../../utils/getContributors";
 
 interface ViewMenuTypes {

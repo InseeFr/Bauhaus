@@ -4,19 +4,19 @@ import { useTranslation } from "react-i18next";
 import { DatePicker } from "@components/date-picker";
 import { InputRmes } from "@components/input-rmes";
 import { Note } from "@components/note";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 import { Select } from "@components/select-rmes";
 
 import { sortArrayByLabel } from "@utils/array-utils";
 import { useOrganizations } from "@utils/hooks/organizations";
 
 import { SimsGeographyPicker } from "../../../../components/SimsGeographyPicker";
-import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
 import { rangeType } from "../../../../constants/rangeType";
+import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
 import { SimsFieldTitle } from "../../components/SimsFieldTitle";
-import { SimsCodeListSelect } from "./SimsCodeListSelect";
 import "./SimsField.css";
+import { SimsCodeListSelect } from "./SimsCodeListSelect";
 import { SimsWithoutObjectCheckbox } from "./SimsWithoutObjectCheckbox";
-import { MDEditor } from "@components/rich-editor/react-md-editor";
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
 

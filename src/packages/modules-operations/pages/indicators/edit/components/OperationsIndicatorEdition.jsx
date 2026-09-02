@@ -19,8 +19,8 @@ import * as ItemToSelectModel from "@utils/item-to-select-model";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
-import { Control } from "./Control";
 import { validate } from "../validation";
+import { Control } from "./Control";
 
 const defaultIndicator = {
   prefLabelLg1: "",

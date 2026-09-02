@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 
-import { getLang } from "@utils/dictionnary";
-
 import { getListItems } from "@components/ui/list-group/testing";
+
+import { getLang } from "@utils/dictionnary";
 
 import { DocumentsStoreProvider } from "../../hooks/useDocumentsStoreContext";
 import { DocumentsBloc } from "./DocumentsBloc";

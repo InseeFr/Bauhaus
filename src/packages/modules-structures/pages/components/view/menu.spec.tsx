@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
 import { Component } from "@model/structures/Component";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";

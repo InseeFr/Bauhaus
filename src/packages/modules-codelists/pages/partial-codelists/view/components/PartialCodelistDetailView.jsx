@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { ActionToolbar } from "@components/action-toolbar";
+import { InseeOrganisation } from "@components/business/organisations/organisations";
 import { DeleteButton, ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 import { CreationUpdateItems } from "@components/creation-update-items";
@@ -17,7 +18,6 @@ import { renderMarkdownElement } from "@utils/html-utils";
 
 import { HasAccess } from "../../../../../auth/components/auth";
 import { CollapsiblePanel } from "../../../../components/CollapsiblePanel";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
 
 export const PartialCodelistDetailView = ({
   codelist,

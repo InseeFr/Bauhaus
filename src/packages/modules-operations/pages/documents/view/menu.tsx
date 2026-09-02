@@ -1,10 +1,11 @@
 import { ActionToolbar } from "@components/action-toolbar";
 import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 
+import { Document } from "@model/operations/document";
+
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { Document } from "../../../../model/operations/document";
 
 interface MenuTypes {
   document: Document;

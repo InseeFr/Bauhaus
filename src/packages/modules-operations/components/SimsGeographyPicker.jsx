@@ -6,10 +6,10 @@ import { Select } from "@components/select-rmes";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { HasAccess } from "../../auth/components/auth";
-import { SimsGeographyField } from "./SimsGeographyField";
-import { SimsGeographyI18NLabel } from "./SimsGeographyI18NLabel";
-import "./SimsGeographyPicker.css";
 import { useGeographiesOptions } from "../hooks/useGeographiesOptions";
+import { SimsGeographyField } from "./SimsGeographyField";
+import "./SimsGeographyPicker.css";
+import { SimsGeographyI18NLabel } from "./SimsGeographyI18NLabel";
 
 const accentsMap = new Map([
   ["A", "Á|À|Ã|Â|Ä"],

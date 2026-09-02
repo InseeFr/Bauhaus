@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { describe, it, expect, vi } from "vitest";
 
 import { renderWithRouter } from "../../tests/render";
-
 import { SimsGeographyPicker, removeAccents } from "./SimsGeographyPicker";
 
 const queryClient = new QueryClient({

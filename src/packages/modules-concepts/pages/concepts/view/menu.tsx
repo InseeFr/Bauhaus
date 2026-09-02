@@ -10,17 +10,19 @@ import {
   UpdateButton,
 } from "@components/buttons/buttons-with-icons";
 import { ConfirmationDelete } from "@components/confirmation-delete";
-
 import type { ValidationState } from "@components/status";
 
-import { HasAccess } from "../../../../auth/components/auth";
-import { ConceptGeneral } from "../../../../model/concepts/concept";
+import { ConceptGeneral } from "@model/concepts/concept";
 import { VALIDATED } from "@model/ValidationState";
-import { ConceptsApi } from "../../../../sdk";
-import { saveFileFromHttpResponse } from "../../../../utils/files";
-import { useGoBack } from "../../../../utils/hooks/useGoBack";
+
+import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "@sdk/constants";
+import { ConceptsApi } from "@sdk/index";
+
+import { saveFileFromHttpResponse } from "@utils/files";
+import { useGoBack } from "@utils/hooks/useGoBack";
+
+import { HasAccess } from "../../../../auth/components/auth";
 import { useLoading } from "./components/loading";
-import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "../../../../sdk/constants";
 
 interface ConceptVisualizationControlsTypes {
   general: Pick<ConceptGeneral, "creator">;

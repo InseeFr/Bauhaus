@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Loading, Publishing } from "@components/loading";
@@ -9,8 +9,8 @@ import { ConceptsApi } from "@sdk/index";
 import { getApiErrorMessage } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { CollectionsToValidate } from "./components/CollectionsToValidate";
 import { useUnpublishedCollections } from "../../../hooks/useUnpublishedCollections";
+import { CollectionsToValidate } from "./components/CollectionsToValidate";
 
 export const Component = () => {
   const { t } = useTranslation();

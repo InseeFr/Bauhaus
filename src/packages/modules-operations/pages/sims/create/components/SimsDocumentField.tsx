@@ -1,10 +1,11 @@
 import { memo, useCallback } from "react";
 
-import { Document } from "../../../../../model/operations/document";
+import { Document } from "@model/operations/document";
+
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
-import { DocumentsBloc } from "./DocumentsBloc";
 import { reorderDocuments } from "../utils/reorderDocuments";
+import { DocumentsBloc } from "./DocumentsBloc";
 
 interface SimsDocumentFieldTypes {
   handleChange: any;

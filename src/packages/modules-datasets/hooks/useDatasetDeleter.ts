@@ -1,6 +1,7 @@
-import { DistributionApi } from "@sdk/distributions-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+
+import { DistributionApi } from "@sdk/distributions-api";
 
 export const useDatasetDeleter = (id: string) => {
   const queryClient = useQueryClient();

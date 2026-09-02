@@ -3,7 +3,9 @@ import { CSS } from "@dnd-kit/utilities";
 import { useTranslation } from "react-i18next";
 
 import { List } from "@components/ui/list-group";
-import { Document } from "../../../../../model/operations/document";
+
+import { Document } from "@model/operations/document";
+
 import { DocumentAsideInformation, DocumentLink } from "./DocumentListItem";
 import "./SortableDocumentItem.css";
 

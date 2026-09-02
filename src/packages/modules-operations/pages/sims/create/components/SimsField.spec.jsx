@@ -5,6 +5,7 @@ vi.mock("@utils/hooks/organizations", () => ({
   useOrganizations: () => ({ data: [] }),
 }));
 
+import { rangeType } from "../../../../constants/rangeType";
 import { SimsField as Field } from "./SimsField";
 import {
   renderWithProviders,
@@ -16,7 +17,6 @@ import {
   ORGANIZATION,
   GEOGRAPHY,
 } from "./SimsField.test-utils";
-import { rangeType } from "../../../../constants/rangeType";
 
 describe("Sims Field", () => {
   describe("Presentational Fields", () => {

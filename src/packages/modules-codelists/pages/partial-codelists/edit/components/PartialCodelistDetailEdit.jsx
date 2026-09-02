@@ -2,6 +2,8 @@ import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
+import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
+import { CreatorsInput } from "@components/business/creators-input";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
@@ -12,18 +14,18 @@ import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 import { Select } from "@components/select-rmes";
 
+import { CodelistsApi } from "@sdk/index";
+
+import { EMPTY_ARRAY } from "@utils/array-utils";
+
+import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { CodelistsApi } from "../../../../../sdk";
-import { validate } from "../validation";
-import { partialInGlobalCodes } from "../../../../utils/partialInGlobalCodes";
-import "../../../../pages/codelists/edit/components/CodelistDetailEdit.css";
-import { Picker } from "./Picker";
-import { EMPTY_ARRAY } from "@utils/array-utils";
-import { CreatorsInput } from "@components/business/creators-input";
-import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
-import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+import { partialInGlobalCodes } from "../../../../utils/partialInGlobalCodes";
+import { validate } from "../validation";
+import { Picker } from "./Picker";
 
 const defaultCodelist = {
   created: new Date(),

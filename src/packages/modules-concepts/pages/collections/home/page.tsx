@@ -1,7 +1,7 @@
 import { Loading } from "@components/loading";
 
-import { CollectionsHome } from "./components/CollectionsHome";
 import { useCollections } from "../../../hooks/useCollections";
+import { CollectionsHome } from "./components/CollectionsHome";
 
 export const Component = () => {
   const { data: collections, isLoading } = useCollections();
