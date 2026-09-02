@@ -8,7 +8,7 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { useOrganizations } from "@utils/hooks/organizations";
 
-import { useCodesLists } from "../../../hooks/useCodesLists";
+import { useCodelists } from "../../../hooks/useCodelists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { usePublishSims, useSims } from "../../../hooks/useSims";
 import { SimsLoaderData } from "../../../types/sims";
@@ -19,7 +19,7 @@ import {
   computeEssentialRubricContext,
   EssentialRubricContextProvider,
 } from "../hooks/useEssentialRubricContext";
-import { SimsVisualisation } from "./components/SimsVisualisation";
+import { SimsVisualization } from "./components/SimsVisualization";
 
 interface State {
   owners: any[];
@@ -60,11 +60,11 @@ export const Component = () => {
 
   const { id } = useParams();
 
-  const { data: organisations } = useOrganizations();
+  const { data: organizations } = useOrganizations();
 
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
 
-  const { codesLists } = useCodesLists(metadataStructure);
+  const { codelists } = useCodelists(metadataStructure);
 
   const { isLoading: simsLoading, sims } = useSims(id);
 
@@ -128,11 +128,11 @@ export const Component = () => {
       >
         <PageTitleBlock titleLg1={currentSims.labelLg1} titleLg2={currentSims.labelLg2} />
         <EssentialRubricContextProvider value={essentialRubricContext}>
-          <SimsVisualisation
+          <SimsVisualization
             sims={currentSims}
             metadataStructure={metadataStructure}
-            codesLists={codesLists}
-            organisations={organisations}
+            codelists={codelists}
+            organizations={organizations}
             publishSims={publishSims}
             exportCallback={exportCallback}
             missingDocuments={missingDocuments}

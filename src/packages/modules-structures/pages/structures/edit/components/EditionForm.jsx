@@ -186,11 +186,11 @@ export const EditionForm = ({ creation, initialStructure }) => {
         </div>
       </Row>
       <div className="form-group">
-        <CreatorsInput mode="organisation" value={creator} onChange={onChange("creator")} />
+        <CreatorsInput mode="organization" value={creator} onChange={onChange("creator")} />
       </div>
       <div className="form-group">
         <ContributorsInput
-          mode="organisation"
+          mode="organization"
           value={contributor}
           onChange={onChange("contributor")}
           multi

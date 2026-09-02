@@ -188,14 +188,14 @@ export const Component = () => {
         </div>
         <div className="form-group">
           <CreatorsInput
-            mode="organisation"
+            mode="organization"
             value={general.creator}
             onChange={(creator) => setGeneral({ creator })}
           />
         </div>
         <div className="form-group">
           <ContributorsInput
-            mode="organisation"
+            mode="organization"
             value={general.contributor}
             onChange={(contributor) => setGeneral({ contributor })}
           />

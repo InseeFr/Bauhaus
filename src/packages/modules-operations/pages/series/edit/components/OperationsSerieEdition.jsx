@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CreatorsInput } from "@components/business/creators-input";
-import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
+import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
@@ -343,7 +343,7 @@ export const OperationsSerieEdition = ({ indicators = [], series = [], ...props 
         </Row>
         <Row>
           <div className="form-group col-md-12">
-            <OrganisationInput
+            <OrganizationInput
               multi
               required={false}
               lang="first"
@@ -369,7 +369,7 @@ export const OperationsSerieEdition = ({ indicators = [], series = [], ...props 
         </Row>
         <Row>
           <div className="form-group col-md-12">
-            <OrganisationInput
+            <OrganizationInput
               multi
               required={false}
               lang="first"
@@ -396,7 +396,7 @@ export const OperationsSerieEdition = ({ indicators = [], series = [], ...props 
         <Row>
           <div className="form-group col-md-12">
             <CreatorsInput
-              mode="organisation"
+              mode="organization"
               value={serie.creators}
               onChange={(value) =>
                 onChange({

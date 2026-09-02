@@ -109,7 +109,7 @@ describe("IndicatorInformation", () => {
     expect(wasGeneratedBy.querySelector("a").href).toContain("/operations/series/s1353");
   });
 
-  it("renders contributors as IRIs resolved through the organisation list", () => {
+  it("renders contributors as IRIs resolved through the organization list", () => {
     const { container } = renderWithRouter(<OperationsIndicatorVisualization attr={indicator} />);
     const contributorsSection = container.querySelector("#contributors");
     expect(contributorsSection.textContent).toContain(

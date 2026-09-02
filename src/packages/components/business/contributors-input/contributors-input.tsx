@@ -1,12 +1,12 @@
 import { ComponentProps } from "react";
 
 import D, { D2 } from "../../i18n";
-import { OrganisationInput, StampsInput } from "../stamps-input/stamps-input";
+import { OrganizationInput, StampsInput } from "../stamps-input/stamps-input";
 
 type ContributorsInputProps = Readonly<
   Omit<ComponentProps<typeof StampsInput>, "labelSingle" | "labelMulti" | "lang"> & {
     lang?: "first" | "default";
-    mode?: "stamp" | "organisation";
+    mode?: "stamp" | "organization";
   }
 >;
 
@@ -15,13 +15,13 @@ export const ContributorsInput = ({
   mode = "stamp",
   ...props
 }: ContributorsInputProps) => {
-  const Dictionnary = lang === "first" ? D : D2;
+  const Dictionary = lang === "first" ? D : D2;
 
-  if (mode === "organisation") {
+  if (mode === "organization") {
     return (
-      <OrganisationInput
-        labelSingle={Dictionnary.contributors.title}
-        labelMulti={Dictionnary.contributors.title}
+      <OrganizationInput
+        labelSingle={Dictionary.contributors.title}
+        labelMulti={Dictionary.contributors.title}
         lang={lang}
         {...props}
       />
@@ -30,8 +30,8 @@ export const ContributorsInput = ({
 
   return (
     <StampsInput
-      labelSingle={Dictionnary.contributors.title}
-      labelMulti={Dictionnary.contributors.title}
+      labelSingle={Dictionary.contributors.title}
+      labelMulti={Dictionary.contributors.title}
       lang={lang}
       {...props}
     />

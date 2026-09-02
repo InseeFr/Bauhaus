@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-import { getLang } from "@utils/dictionnary";
+import { getLang } from "@utils/dictionary";
 
 import classificationsEn from "../modules-classifications/i18n/locales/en.json";
 import classificationsFr from "../modules-classifications/i18n/locales/fr.json";

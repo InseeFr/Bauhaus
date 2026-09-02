@@ -8,7 +8,7 @@ import { Pagination } from "@components/pagination";
 
 import { filterKeyDeburr, nbResults } from "@utils/array-utils";
 import { cx } from "@utils/cx";
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { List } from "../ui/list-group";

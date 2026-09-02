@@ -48,11 +48,11 @@ export const CodelistDetailEdit = ({
   const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {
-    let codesList = { ...initialCodelist, ...defaultCodelist };
-    if (!codesList.id) {
-      codesList.contributor = defaultContributor ? [defaultContributor] : [];
+    let codelist = { ...initialCodelist, ...defaultCodelist };
+    if (!codelist.id) {
+      codelist.contributor = defaultContributor ? [defaultContributor] : [];
     }
-    setCodelist(codesList);
+    setCodelist(codelist);
   }, [initialCodelist, defaultContributor]);
 
   const handleChange = useCallback(
@@ -185,7 +185,7 @@ export const CodelistDetailEdit = ({
         </Row>
         <div className="form-group">
           <CreatorsInput
-            mode="organisation"
+            mode="organization"
             value={codelist.creator}
             onChange={(value) => {
               setCodelist({ ...codelist, creator: value });
@@ -203,7 +203,7 @@ export const CodelistDetailEdit = ({
         <div className="form-group">
           <ContributorsInput
             multi
-            mode="organisation"
+            mode="organization"
             value={codelist.contributor}
             onChange={(values) => {
               setCodelist({ ...codelist, contributor: values });

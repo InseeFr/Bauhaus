@@ -340,28 +340,28 @@ const messages = {
     },
     1102: {
       fr: () => "Une liste de codes ne peut pas être créée sans code.",
-      en: () => "A codeList should contain at least one Code.",
+      en: () => "A codelist should contain at least one Code.",
     },
     1103: {
       fr: () => "La liste de codes n'a pas pu être supprimée : elle a déjà été publiée.",
-      en: () => "The codeList could not be removed: it is already published.",
+      en: () => "The codelist could not be removed: it is already published.",
     },
     1104: {
       fr: () =>
         "La liste de codes n'a pas pu être supprimée : une autre liste de codes dépend d'elle.",
-      en: () => "The codeList could not be removed: another codeList depends on it.",
+      en: () => "The codelist could not be removed: another codelist depends on it.",
     },
     1105: {
       fr: () => "Cette liste de codes n'existe pas.",
-      en: () => "This codeList does not exist.",
+      en: () => "This codelist does not exist.",
     },
     1106: {
       fr: () => "Ce code n'existe pas dans cette liste de codes.",
-      en: () => "This code does not exist in this codeList.",
+      en: () => "This code does not exist in this codelist.",
     },
     1107: {
       fr: () => "L'identifiant de la liste de codes ne correspond pas à celui de l'url.",
-      en: () => "The id of the codeList does not match the id of the url.",
+      en: () => "The id of the codelist does not match the id of the url.",
     },
     1108: {
       fr: () =>

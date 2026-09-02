@@ -110,7 +110,7 @@ vi.mock("./MissingDocumentsErrorBloc", () => ({
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { SimsVisualisation } from "./SimsVisualisation";
+import { SimsVisualization } from "./SimsVisualization";
 
 const mockSims = {
   id: "2253",
@@ -123,11 +123,11 @@ const renderComponent = (
   sims: Record<string, unknown> = mockSims,
 ) => {
   return render(
-    <SimsVisualisation
+    <SimsVisualization
       sims={sims as any}
       metadataStructure={{}}
-      codesLists={{}}
-      organisations={[]}
+      codelists={{}}
+      organizations={[]}
       publishSims={publishSims}
       exportCallback={vi.fn()}
       missingDocuments={new Set()}
@@ -140,7 +140,7 @@ beforeEach(() => {
   navigateMock.mockClear();
 });
 
-describe("SimsVisualisation - publish error handling", () => {
+describe("SimsVisualization - publish error handling", () => {
   it("should show error 804 with parsed target id and parent href when publish fails", () => {
     const publishSims = vi.fn((object, errorCallback) => {
       errorCallback({
@@ -207,7 +207,7 @@ describe("SimsVisualisation - publish error handling", () => {
   });
 });
 
-describe("SimsVisualisation - delete redirection", () => {
+describe("SimsVisualization - delete redirection", () => {
   it("should navigate to the parent series after deleting a SIMS that documents a series", async () => {
     renderComponent(vi.fn(), { id: "1", idSeries: "s42", rubrics: {} });
 
@@ -242,7 +242,7 @@ describe("SimsVisualisation - delete redirection", () => {
   });
 });
 
-describe("SimsVisualisation - delete error handling", () => {
+describe("SimsVisualization - delete error handling", () => {
   it("should stay on the page and show the error when the deletion fails", async () => {
     vi.mocked(OperationsApi.deleteSims).mockRejectedValueOnce({
       message: "Documentation not found",

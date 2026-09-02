@@ -7,7 +7,7 @@ import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists
 import { renderWithRouter } from "../../../../../tests/render";
 import { OperationsSerieVisualization } from "./OperationsSerieVisualization";
 
-const organisations = [
+const organizations = [
   {
     id: "GF3C",
     iri: "GF3C",
@@ -31,7 +31,7 @@ const organisations = [
 ];
 
 vi.spyOn(useOrganizationsHook, "useOrganizations").mockReturnValue({
-  data: organisations,
+  data: organizations,
 });
 
 const attr = {
@@ -100,7 +100,7 @@ describe("SerieInformation", () => {
       <OperationsSerieVisualization
         attr={attr}
         secondLang={false}
-        organisations={organisations}
+        organizations={organizations}
         langs={{ lg1: "fr" }}
       />,
     );
@@ -112,7 +112,7 @@ describe("SerieInformation", () => {
       <OperationsSerieVisualization
         attr={attr}
         secondLang={true}
-        organisations={organisations}
+        organizations={organizations}
         langs={{ lg1: "fr" }}
       />,
     );
@@ -123,7 +123,7 @@ describe("SerieInformation", () => {
       <OperationsSerieVisualization
         attr={attr}
         secondLang={true}
-        organisations={organisations}
+        organizations={organizations}
         langs={{ lg1: "fr" }}
       />,
     );
@@ -149,7 +149,7 @@ describe("SerieInformation", () => {
     expect(publisherSection.textContent).toContain("Groupe des fournisseurs (GF3C)");
   });
 
-  it("should display contributors and dataCollectors with the organisation label including the acronym", () => {
+  it("should display contributors and dataCollectors with the organization label including the acronym", () => {
     const { container } = renderWithRouter(
       <OperationsSerieVisualization attr={attr} secondLang={false} langs={{ lg1: "fr" }} />,
     );

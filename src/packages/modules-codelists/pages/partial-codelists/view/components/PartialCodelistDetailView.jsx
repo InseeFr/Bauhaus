@@ -2,11 +2,11 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DeleteButton, ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 import { CreationUpdateItems } from "@components/creation-update-items";
-import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
+import { DisseminationStatusVisualization } from "@components/dissemination-status/disseminationStatus";
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -91,14 +91,14 @@ export const PartialCodelistDetailView = ({
                 gender="female"
               />
               <li>
-                {t("partial-codelists.creator")} : <InseeOrganisation creator={codelist.creator} />
+                {t("partial-codelists.creator")} : <InseeOrganization creator={codelist.creator} />
               </li>
               <li>
                 {t("partial-codelists.contributors")} :{" "}
-                <InseeOrganisation creator={codelist.contributor} />
+                <InseeOrganization creator={codelist.contributor} />
               </li>
               <li>
-                <DisseminationStatusVisualisation
+                <DisseminationStatusVisualization
                   disseminationStatus={codelist.disseminationStatus}
                 />
               </li>

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { DataTable } from "@components/datatable";
 
-import { Code } from "@model/CodesList";
+import { Code } from "@model/Codelist";
 
 export interface TableTypes {
   loading: boolean;

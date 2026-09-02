@@ -36,7 +36,7 @@ export const PartialCodelistDetailEdit = ({
   handleSave,
   handleBack,
   updateMode,
-  globalCodeListOptions = EMPTY_ARRAY,
+  globalCodelistOptions = EMPTY_ARRAY,
   serverSideError,
 }) => {
   const { t } = useTranslation();
@@ -59,7 +59,7 @@ export const PartialCodelistDetailEdit = ({
 
   const handleParentCode = useCallback(
     (code) => {
-      CodelistsApi.getCodesListCodes(code, 1, 0).then((codes) => {
+      CodelistsApi.getCodelistCodes(code, 1, 0).then((codes) => {
         const globalWithPartialCodes =
           partialInGlobalCodes(
             Object.values(codes.items || {}),
@@ -76,12 +76,12 @@ export const PartialCodelistDetailEdit = ({
       setCodelist({
         ...codelist,
         parentCode: value,
-        iriParent: globalCodeListOptions?.find((parentCL) => parentCL.value === value)?.iriParent,
+        iriParent: globalCodelistOptions?.find((parentCL) => parentCL.value === value)?.iriParent,
       });
       resetErrorsMessages();
       handleParentCode(value);
     },
-    [codelist, handleParentCode, globalCodeListOptions],
+    [codelist, handleParentCode, globalCodelistOptions],
   );
 
   const isContributor = useAuthorizationGuard("CODESLIST_PARTIALCODESLIST", "CREATE");
@@ -89,13 +89,13 @@ export const PartialCodelistDetailEdit = ({
   const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {
-    let codesList = { ...initialCodelist, ...defaultCodelist };
+    let codelist = { ...initialCodelist, ...defaultCodelist };
 
-    if (!codesList.id) {
-      codesList.contributor = defaultContributor;
+    if (!codelist.id) {
+      codelist.contributor = defaultContributor;
     }
 
-    setCodelist(codesList);
+    setCodelist(codelist);
     if (initialCodelist.parentCode) {
       handleParentCode(initialCodelist.parentCode);
     } else {
@@ -211,7 +211,7 @@ export const PartialCodelistDetailEdit = ({
             <Select
               placeholder={t("partial-codelists.parentCodelistPlaceholder")}
               value={codelist.parentCode}
-              options={globalCodeListOptions}
+              options={globalCodelistOptions}
               onChange={handleParent}
               disabled={updateMode}
             />

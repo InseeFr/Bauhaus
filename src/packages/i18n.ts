@@ -1,4 +1,4 @@
-import { createDictionary, Dictionary, firstLang, getLang, secondLang } from "@utils/dictionnary";
+import { createDictionary, Dictionary, firstLang, getLang, secondLang } from "@utils/dictionary";
 
 const dictionary = {
   authentication: {

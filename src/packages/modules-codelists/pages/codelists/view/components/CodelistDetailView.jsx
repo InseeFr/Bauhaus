@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
 
 import {
-  InseeOrganisation,
-  InseeOrganisations,
-} from "@components/business/organisations/organisations";
+  InseeOrganization,
+  InseeOrganizations,
+} from "@components/business/organizations/organizations";
 import { ConfirmationDelete } from "@components/confirmation-delete";
 import { CreationUpdateItems } from "@components/creation-update-items";
-import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
+import { DisseminationStatusVisualization } from "@components/dissemination-status/disseminationStatus";
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -77,14 +77,14 @@ export const CodelistDetailView = ({
                 gender="female"
               />
               <li>
-                {t("codelists.creator")} : <InseeOrganisation creator={codelist.creator} />
+                {t("codelists.creator")} : <InseeOrganization creator={codelist.creator} />
               </li>
               <li>
                 {t("codelists.contributors")} :{" "}
-                <InseeOrganisations creators={codelist.contributor} />
+                <InseeOrganizations creators={codelist.contributor} />
               </li>
               <li>
-                <DisseminationStatusVisualisation
+                <DisseminationStatusVisualization
                   disseminationStatus={codelist.disseminationStatus}
                 />
               </li>

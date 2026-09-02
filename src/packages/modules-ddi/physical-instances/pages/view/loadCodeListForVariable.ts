@@ -33,7 +33,7 @@ export async function loadCodeListForVariable(
 
   const data: PhysicalInstanceResponse = await queryClient.fetchQuery({
     queryKey: ["codeListById", agency, id],
-    queryFn: () => DDIApi.getMutualizedCodesList(agency, id),
+    queryFn: () => DDIApi.getMutualizedCodeList(agency, id),
   });
 
   const codeList = itemsOfType(data, "CodeList").find((cl) => cl.ID === id);

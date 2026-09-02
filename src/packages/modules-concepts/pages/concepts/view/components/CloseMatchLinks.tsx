@@ -4,12 +4,12 @@ import { Link } from "@model/concepts/concept";
 
 export const CloseMatchLinks = ({
   links,
-  Dictionnary,
-}: Readonly<{ links: Link[]; Dictionnary: Record<string, string> }>) => {
+  Dictionary,
+}: Readonly<{ links: Link[]; Dictionary: Record<string, string> }>) => {
   return (
     links.length > 0 && (
       <li>
-        {Dictionnary.equivalentTitle} :
+        {Dictionary.equivalentTitle} :
         <ul>
           {links.map((cm) => (
             <li key={cm.urn}>

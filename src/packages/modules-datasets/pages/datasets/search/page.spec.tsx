@@ -21,7 +21,7 @@ vi.mock("@components/business/creators-input", () => ({
 }));
 
 describe("advanced search component", () => {
-  it("filters creators by organisation (HIE) and not by stamp", () => {
+  it("filters creators by organization (HIE) and not by stamp", () => {
     renderWithRouter(
       <FieldsForDatasetsAdvancedSearch
         labelLg1=""
@@ -37,7 +37,7 @@ describe("advanced search component", () => {
       />,
     );
 
-    expect(lastCreatorsInputProps?.mode).toBe("organisation");
+    expect(lastCreatorsInputProps?.mode).toBe("organization");
   });
 
   it("AdvancedSearchForm renders without crashing", () => {

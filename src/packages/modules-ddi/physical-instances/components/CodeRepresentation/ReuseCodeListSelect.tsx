@@ -4,7 +4,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
+import { useAllCodeLists } from "../../../hooks/useAllCodeLists";
 import { formatDate } from "../../../utils/formatDate";
 
 interface ReuseCodeListSelectProps {
@@ -30,32 +30,32 @@ export const ReuseCodeListSelect = ({
     agencyId: string;
   }>();
   const {
-    data: codesLists = [],
+    data: codeLists = [],
     groupLabel,
-    isLoading: isLoadingCodesLists,
-    error: codesListsError,
-  } = useAllCodesLists(agencyId, physicalInstanceId);
+    isLoading: isLoadingCodeLists,
+    error: codeListsError,
+  } = useAllCodeLists(agencyId, physicalInstanceId);
 
-  if (isLoadingCodesLists) {
+  if (isLoadingCodeLists) {
     return (
       <div className="flex gap-2">
         <ProgressSpinner style={{ width: "20px", height: "20px", margin: "0" }} strokeWidth="4" />
-        <span>{t("physicalInstance.view.code.loadingCodesLists")}</span>
+        <span>{t("physicalInstance.view.code.loadingCodeLists")}</span>
       </div>
     );
   }
 
-  if (codesListsError) {
+  if (codeListsError) {
     return (
-      <Message severity="error" text={t("physicalInstance.view.code.errorLoadingCodesLists")} />
+      <Message severity="error" text={t("physicalInstance.view.code.errorLoadingCodeLists")} />
     );
   }
 
-  if (codesLists.length === 0) {
-    return <Message severity="info" text={t("physicalInstance.view.code.noCodesListsAvailable")} />;
+  if (codeLists.length === 0) {
+    return <Message severity="info" text={t("physicalInstance.view.code.noCodeListsAvailable")} />;
   }
 
-  const toOption = (cl: (typeof codesLists)[number]): CodeListOption => {
+  const toOption = (cl: (typeof codeLists)[number]): CodeListOption => {
     const formattedDate = formatDate(cl.versionDate);
     return {
       // La date de version (mutualisées) est ajoutée entre parenthèses au libellé affiché.
@@ -75,10 +75,7 @@ export const ReuseCodeListSelect = ({
   // Tri des listes mutualisées : libellé par ordre alphabétique croissant ; à libellé égal,
   // la version la plus récente (versionDate) d'abord. Trie sur le libellé/date bruts (et non
   // sur le libellé déjà suffixé par la date) pour que le tie-break reste chronologique.
-  const byLabelThenMostRecent = (
-    a: (typeof codesLists)[number],
-    b: (typeof codesLists)[number],
-  ) => {
+  const byLabelThenMostRecent = (a: (typeof codeLists)[number], b: (typeof codeLists)[number]) => {
     const byLabel = a.label.localeCompare(b.label, "fr", { sensitivity: "base" });
     return byLabel !== 0
       ? byLabel
@@ -90,19 +87,19 @@ export const ReuseCodeListSelect = ({
       // En-tête de la section « groupe » = libellé du groupe parent de la PI, préfixé
       // par « Groupe : » ; repli sur l'intitulé générique si le libellé n'est pas disponible.
       label: groupLabel
-        ? t("physicalInstance.view.code.groupCodesListsSectionNamed", { group: groupLabel })
-        : t("physicalInstance.view.code.groupCodesListsSection"),
+        ? t("physicalInstance.view.code.groupCodeListsSectionNamed", { group: groupLabel })
+        : t("physicalInstance.view.code.groupCodeListsSection"),
       // Même tri que les mutualisées : libellé asc, puis version la plus récente d'abord.
-      items: codesLists
+      items: codeLists
         .filter((cl) => !cl.mutualized)
         .sort(byLabelThenMostRecent)
         .map(toOption),
     },
     {
-      label: t("physicalInstance.view.code.mutualizedCodesListsSection"),
+      label: t("physicalInstance.view.code.mutualizedCodeListsSection"),
       // Tri alphabétique par libellé ; à libellé égal, version la plus récente d'abord.
       // (Tri sur les données brutes avant la transformation en option.)
-      items: codesLists
+      items: codeLists
         .filter((cl) => cl.mutualized)
         .sort(byLabelThenMostRecent)
         .map(toOption),

@@ -1,7 +1,7 @@
 import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 
-import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DataTable } from "@components/datatable";
 import { Panel } from "@components/panel";
 
@@ -132,7 +132,7 @@ export function ConceptsSummary({
           <Column
             field="stamp"
             header={t("dashboard.concepts.summary.byOwnerColumn")}
-            body={(row: ConceptStampRow) => <InseeOrganisation creator={row.stamp} />}
+            body={(row: ConceptStampRow) => <InseeOrganization creator={row.stamp} />}
           ></Column>
           <Column field="total" header={t("dashboard.totalColumn")}></Column>
           <Column field="generic" header={t("dashboard.concepts.summary.genericColumn")}></Column>

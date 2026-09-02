@@ -26,8 +26,8 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("@components/business/organisations/organisations", () => ({
-  InseeOrganisation: ({ creator }: { creator: string }) => {
+vi.mock("@components/business/organizations/organizations", () => ({
+  InseeOrganization: ({ creator }: { creator: string }) => {
     const labels: Record<string, string> = {
       "DG75-L201": "INSEE",
       "DG75-L202": "DARES",

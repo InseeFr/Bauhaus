@@ -1,12 +1,12 @@
 import { ActionToolbar } from "@components/action-toolbar";
 import { ReturnButton, SaveButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 
-import { CodesList } from "@model/CodesList";
+import { Codelist } from "@model/Codelist";
 
 import { HasAccess } from "../../auth/components/auth";
 
 interface CodeSlidingPanelMenuTypes {
-  codelist: CodesList;
+  codelist: Codelist;
   handleSubmit: VoidFunction;
   handleBack: VoidFunction;
   creation: boolean;

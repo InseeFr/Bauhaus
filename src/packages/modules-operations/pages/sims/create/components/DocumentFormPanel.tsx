@@ -5,7 +5,7 @@ import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { Document } from "@model/operations/document";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 
 import { OperationsDocumentationEdition } from "../../../../pages/documents/edit/components/OperationsDocumentationEdition";
 import "./DocumentFormPanel.css";
@@ -19,7 +19,7 @@ interface DocumentFormPanelTypes {
 }
 
 export const DocumentFormPanel = ({ opened, onHide, onAdd }: Readonly<DocumentFormPanelTypes>) => {
-  const langOptions = useCodesList("ISO-639");
+  const langOptions = useCodelist("ISO-639");
 
   const { lateralPanelOpened, onLateralPanelHide, updateDocumentStores, rubricIdForNewDocument } =
     useDocumentsStoreContext();

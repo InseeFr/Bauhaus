@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
 
 import {
-  InseeOrganisation,
-  InseeOrganisations,
-} from "@components/business/organisations/organisations";
+  InseeOrganization,
+  InseeOrganizations,
+} from "@components/business/organizations/organizations";
 import { CreationUpdateItems } from "@components/creation-update-items";
-import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
+import { DisseminationStatusVisualization } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
@@ -38,13 +38,13 @@ export const GlobalInformationsPanel = ({ structure }: GlobalInformationsPanelTy
               gender="female"
             />
             <li>
-              {t("structure.creator")} : <InseeOrganisation creator={structure.creator} />
+              {t("structure.creator")} : <InseeOrganization creator={structure.creator} />
             </li>
             <li>
-              {t("structure.contributors")} : <InseeOrganisations creators={creators} />
+              {t("structure.contributors")} : <InseeOrganizations creators={creators} />
             </li>
             <li>
-              <DisseminationStatusVisualisation
+              <DisseminationStatusVisualization
                 disseminationStatus={structure.disseminationStatus}
               />
             </li>

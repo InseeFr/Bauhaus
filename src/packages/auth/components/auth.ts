@@ -70,7 +70,7 @@ const hasStampAccess = (
   return userStamps.some(
     (userStamp) =>
       // allowedStamps peut contenir soit le stamp court, soit une URI se
-      // terminant par ce stamp (ex. .../organisations/insee/DG75-L201).
+      // terminant par ce stamp (ex. .../organizations/insee/DG75-L201).
       allowedStamps.some((allowed) => allowed.endsWith(userStamp.stamp)) &&
       complementaryCheck &&
       (check ? check(userStamp.stamp) : true),

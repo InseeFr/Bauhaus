@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -27,14 +27,14 @@ interface CollectionGeneralProps {
 type FieldName = "creator" | "contributor" | "validationState";
 
 // Helper functions to render specific field types with type safety
-const renderOrganisationField = (
+const renderOrganizationField = (
   fieldName: "creator" | "contributor",
   label: string,
   value: string,
 ): JSX.Element => {
   return (
     <li key={fieldName}>
-      {label}: <InseeOrganisation creator={value} />
+      {label}: <InseeOrganization creator={value} />
     </li>
   );
 };
@@ -67,7 +67,7 @@ const renderFieldItem = (
   switch (fieldName) {
     case "creator":
     case "contributor":
-      return renderOrganisationField(fieldName, label, value as string);
+      return renderOrganizationField(fieldName, label, value as string);
     case "validationState":
       return renderValidationField(fieldName, label, value as ValidationState);
     default:

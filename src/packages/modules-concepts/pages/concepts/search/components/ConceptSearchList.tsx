@@ -120,7 +120,7 @@ export const ConceptSearchList = ({
         />
         <div className="field col-12 md:col-4">
           <CreatorsInput
-            mode="organisation"
+            mode="organization"
             value={creator}
             onChange={(value: string | string[]) => handleChange("creator", value as string)}
             required={false}

@@ -93,8 +93,8 @@ const SimsCreation = ({
   metadataStructure,
   parentType,
   onSubmit,
-  codesLists = {},
-  organisations = EMPTY_ARRAY,
+  codelists = {},
+  organizations = EMPTY_ARRAY,
   parentWithSims,
   error,
 }) => {
@@ -153,26 +153,26 @@ const SimsCreation = ({
     ? `/operations/sims/${sims.id}`
     : `/operations/${parentType}/${idParent}`;
 
-  const organisationsOptions = useMemo(
+  const organizationsOptions = useMemo(
     () =>
       sortArrayByLabel(
-        organisations.map((c) => ({
+        organizations.map((c) => ({
           label: c.label,
           value: c.id,
         })),
       ),
-    [organisations],
+    [organizations],
   );
 
-  const organisationsOptionsLg2 = useMemo(
+  const organizationsOptionsLg2 = useMemo(
     () =>
       sortArrayByLabel(
-        organisations.map((c) => ({
+        organizations.map((c) => ({
           label: c.labelLg2,
           value: c.id,
         })),
       ),
-    [organisations],
+    [organizations],
   );
 
   const operationsWithSimsOptions = useMemo(
@@ -210,10 +210,10 @@ const SimsCreation = ({
                   msd={msd}
                   currentSection={sims[msd.idMas]}
                   handleChange={handleChange}
-                  codesLists={codesLists}
+                  codelists={codelists}
                   secondLang={false}
                   alone={!hasLabelLg2(msd) || !secondLang}
-                  organisationsOptions={organisationsOptions}
+                  organizationsOptions={organizationsOptions}
                   unbounded={msd.maxOccurs === "unbounded"}
                   simsModified={simsProp.updated}
                 />
@@ -223,10 +223,10 @@ const SimsCreation = ({
                   msd={msd}
                   currentSection={sims[msd.idMas]}
                   handleChange={handleChange}
-                  codesLists={codesLists}
+                  codelists={codelists}
                   secondLang={true}
                   alone={false}
-                  organisationsOptions={organisationsOptionsLg2}
+                  organizationsOptions={organizationsOptionsLg2}
                   unbounded={msd.maxOccurs === "unbounded"}
                   simsModified={simsProp.updated}
                 />
@@ -259,7 +259,7 @@ const SimsCreation = ({
         </Fragment>
       );
     },
-    [sims, codesLists, organisationsOptions, organisationsOptionsLg2, simsProp.updated],
+    [sims, codelists, organizationsOptions, organizationsOptionsLg2, simsProp.updated],
   );
 
   const onSiblingSimsChange = () => {

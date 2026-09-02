@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
-import { InseeOrganisation } from "@components/business/organisations/organisations";
-import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
+import { InseeOrganization } from "@components/business/organizations/organizations";
+import { DisseminationStatusVisualization } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
@@ -36,14 +36,14 @@ type FieldName =
   | "validationState"
   | "additionalMaterial";
 
-const renderOrganisationField = (
+const renderOrganizationField = (
   fieldName: "creator" | "contributor",
   label: string,
   value: string,
 ): JSX.Element => {
   return (
     <li key={fieldName}>
-      {label}: <InseeOrganisation creator={value} />
+      {label}: <InseeOrganization creator={value} />
     </li>
   );
 };
@@ -80,7 +80,7 @@ const renderLinkField = (
 const renderDisseminationField = (fieldName: "disseminationStatus", value: string): JSX.Element => {
   return (
     <li key={fieldName}>
-      <DisseminationStatusVisualisation disseminationStatus={value} />
+      <DisseminationStatusVisualization disseminationStatus={value} />
     </li>
   );
 };
@@ -122,7 +122,7 @@ const renderFieldItem = (
   switch (fieldName) {
     case "creator":
     case "contributor":
-      return renderOrganisationField(fieldName, label, value as string);
+      return renderOrganizationField(fieldName, label, value as string);
     case "altLabelLg1":
     case "altLabelLg2":
       return renderArrayField(fieldName, label, value as string[]);

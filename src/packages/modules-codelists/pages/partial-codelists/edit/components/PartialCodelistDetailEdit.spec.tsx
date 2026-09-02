@@ -18,7 +18,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
 
 vi.mock("../../../sdk", () => ({
   CodelistsApi: {
-    getCodesListCodes: vi.fn(() => Promise.resolve([])),
+    getCodelistCodes: vi.fn(() => Promise.resolve([])),
   },
 }));
 
@@ -205,14 +205,14 @@ describe("CodelistPartialDetailEdit - Hook integration tests", () => {
   });
 
   describe("Global codelist options", () => {
-    it("should handle empty globalCodeListOptions", () => {
+    it("should handle empty globalCodelistOptions", () => {
       const emptyOptions: unknown[] = [];
 
       expect(emptyOptions).toHaveLength(0);
       expect(Array.isArray(emptyOptions)).toBe(true);
     });
 
-    it("should handle populated globalCodeListOptions", () => {
+    it("should handle populated globalCodelistOptions", () => {
       const options = [
         { value: "global-1", label: "Global List 1" },
         { value: "global-2", label: "Global List 2" },

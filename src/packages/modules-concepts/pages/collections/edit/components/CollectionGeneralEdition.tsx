@@ -95,7 +95,7 @@ export function CollectionGeneralEdition({
       </Row>
       <div className="form-group">
         <CreatorsInput
-          mode="organisation"
+          mode="organization"
           value={creator ?? ""}
           onChange={(value: string | string[]) => handlers.creator?.(value)}
         />
@@ -103,7 +103,7 @@ export function CollectionGeneralEdition({
       </div>
       <div className="form-group">
         <ContributorsInput
-          mode="organisation"
+          mode="organization"
           value={contributor ?? ""}
           onChange={() => {}}
           disabled

@@ -9,14 +9,14 @@ import {
   DIMENSION_PROPERTY_TYPE,
   MEASURE_PROPERTY_TYPE,
 } from "../../../../constants";
-import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
+import { useFormattedCodelist } from "../../../../hooks/useFormattedCodelist";
 
 export const StructureComponents = ({ componentDefinitions, onChange, structure = {} }) => {
   const { t } = useTranslation();
 
   const [concepts, setConcepts] = useState([]);
 
-  const { data: codesLists = [] } = useFormattedCodeList();
+  const { data: codelists = [] } = useFormattedCodelist();
 
   const [mutualizedComponents, setMutualizedComponents] = useState([]);
 
@@ -35,7 +35,7 @@ export const StructureComponents = ({ componentDefinitions, onChange, structure 
         <ComponentSelector
           componentDefinitions={componentDefinitions}
           concepts={concepts}
-          codesLists={codesLists}
+          codelists={codelists}
           mutualizedComponents={mutualizedComponents}
           type={DIMENSION_PROPERTY_TYPE}
           handleUpdate={onChange}
@@ -47,7 +47,7 @@ export const StructureComponents = ({ componentDefinitions, onChange, structure 
         <ComponentSelector
           componentDefinitions={componentDefinitions}
           concepts={concepts}
-          codesLists={codesLists}
+          codelists={codelists}
           mutualizedComponents={mutualizedComponents}
           type={MEASURE_PROPERTY_TYPE}
           handleUpdate={onChange}
@@ -59,7 +59,7 @@ export const StructureComponents = ({ componentDefinitions, onChange, structure 
         <ComponentSelector
           componentDefinitions={componentDefinitions}
           concepts={concepts}
-          codesLists={codesLists}
+          codelists={codelists}
           mutualizedComponents={mutualizedComponents}
           type={ATTRIBUTE_PROPERTY_TYPE}
           handleUpdate={onChange}

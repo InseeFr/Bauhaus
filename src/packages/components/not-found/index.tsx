@@ -1,6 +1,6 @@
 import { PageTitle } from "@components/page-title";
 
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 
 const { D } = createAllDictionary({
   notFoundTitle: {

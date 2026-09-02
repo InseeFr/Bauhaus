@@ -1,4 +1,4 @@
-import { getLang } from "./dictionnary";
+import { getLang } from "./dictionary";
 
 const toTime = (date: Date | string) => new Date(date).getTime();
 

@@ -68,10 +68,9 @@ vi.mock("../../../hooks/useAllMissingValuesRepresentations", () => ({
     mockUseAllMissingValuesRepresentations(agencyId, piId),
 }));
 
-const mockUseMutualizedCodesList = vi.fn();
-vi.mock("../../../hooks/useMutualizedCodesList", () => ({
-  useMutualizedCodesList: (agencyId: string, id: string) =>
-    mockUseMutualizedCodesList(agencyId, id),
+const mockUseMutualizedCodeList = vi.fn();
+vi.mock("../../../hooks/useMutualizedCodeList", () => ({
+  useMutualizedCodeList: (agencyId: string, id: string) => mockUseMutualizedCodeList(agencyId, id),
 }));
 
 const mockUseMmvrUsers = vi.fn();
@@ -153,7 +152,7 @@ describe("SentinelValues", () => {
       isLoading: false,
       error: undefined,
     });
-    mockUseMutualizedCodesList.mockReturnValue({ data: undefined, isLoading: false });
+    mockUseMutualizedCodeList.mockReturnValue({ data: undefined, isLoading: false });
     mockUseMmvrUsers.mockReturnValue({ data: [], isLoading: false });
   });
 
@@ -224,7 +223,7 @@ describe("SentinelValues", () => {
   });
 
   it("laisse saisir plusieurs caractères dans un code ajouté à une liste existante", async () => {
-    mockUseMutualizedCodesList.mockReturnValue({ data: sentinelCodeListContent, isLoading: false });
+    mockUseMutualizedCodeList.mockReturnValue({ data: sentinelCodeListContent, isLoading: false });
     const user = userEvent.setup();
     render(<ControlledSentinelValues initialReference={reference} />);
 
@@ -257,7 +256,7 @@ describe("SentinelValues", () => {
   });
 
   it("shows the code list as read-only when at least one OTHER variable uses the MMVR", () => {
-    mockUseMutualizedCodesList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
+    mockUseMutualizedCodeList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
     // Utilisée par la variable courante ET une autre : lecture seule.
     mockUseMmvrUsers.mockReturnValue({
       data: [usage("var-1"), usage("var-2")],
@@ -279,7 +278,7 @@ describe("SentinelValues", () => {
 
   it("keeps the code list editable and materializes edits under the same IDs when only this variable uses the MMVR", () => {
     const onChange = vi.fn();
-    mockUseMutualizedCodesList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
+    mockUseMutualizedCodeList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
     mockUseMmvrUsers.mockReturnValue({ data: [usage("var-1")], isLoading: false });
 
     render(
@@ -336,7 +335,7 @@ describe("SentinelValues", () => {
   it("shows the read-only table as soon as the code list is loaded, while usages still load", () => {
     // Chargement progressif : la table s'affiche verrouillée dès que le contenu est là ; elle ne
     // sera déverrouillée que quand les usages auront confirmé « seule utilisatrice ».
-    mockUseMutualizedCodesList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
+    mockUseMutualizedCodeList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
     mockUseMmvrUsers.mockReturnValue({ data: [], isLoading: true });
 
     render(
@@ -353,7 +352,7 @@ describe("SentinelValues", () => {
   });
 
   it("lists the other variables using the MMVR when it is shared", () => {
-    mockUseMutualizedCodesList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
+    mockUseMutualizedCodeList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
     mockUseMmvrUsers.mockReturnValue({
       data: [usage("var-1"), usage("var-2")],
       isLoading: false,
@@ -397,7 +396,7 @@ describe("SentinelValues", () => {
 
   it("locks the code list when another UNSAVED local variable references the same MMVR", () => {
     // Le back ne connaît pas encore la variable B (locale) : le décompte local complète le sien.
-    mockUseMutualizedCodesList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
+    mockUseMutualizedCodeList.mockReturnValue({ isLoading: false, data: sentinelCodeListContent });
     mockUseMmvrUsers.mockReturnValue({ data: [usage("var-1")], isLoading: false });
 
     render(

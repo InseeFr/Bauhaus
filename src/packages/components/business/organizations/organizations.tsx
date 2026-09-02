@@ -1,22 +1,22 @@
 import { ComponentType } from "react";
 
-import { Organization } from "@model/organization";
+import { Organization as OrganizationModel } from "@model/organization";
 
 import { useOrganizations } from "@utils/hooks/organizations";
 
 interface BaseOrganizationProps {
-  organizations: Organization[];
+  organizations: OrganizationModel[];
 }
 
-interface OrganisationsTypes extends BaseOrganizationProps {
+interface OrganizationsTypes extends BaseOrganizationProps {
   creators: string[];
 }
 
-interface OrganisationTypes extends BaseOrganizationProps {
+interface OrganizationTypes extends BaseOrganizationProps {
   creator: string | null;
 }
 
-export const Organisations = ({ creators, organizations }: Readonly<OrganisationsTypes>) => {
+export const Organizations = ({ creators, organizations }: Readonly<OrganizationsTypes>) => {
   if (!creators || creators.length === 0) {
     return null;
   }
@@ -25,14 +25,14 @@ export const Organisations = ({ creators, organizations }: Readonly<Organisation
     <ul>
       {creators.map((creator) => (
         <li key={creator}>
-          <Organisation creator={creator} organizations={organizations} />
+          <Organization creator={creator} organizations={organizations} />
         </li>
       ))}
     </ul>
   );
 };
 
-export const Organisation = ({ creator, organizations }: Readonly<OrganisationTypes>) => {
+export const Organization = ({ creator, organizations }: Readonly<OrganizationTypes>) => {
   if (!creator || !organizations || organizations.length === 0) {
     return null;
   }
@@ -46,7 +46,7 @@ export const Organisation = ({ creator, organizations }: Readonly<OrganisationTy
   return organization.label;
 };
 
-export const withInseeOrganisations = <P extends { organizations?: Organization[] }>(
+export const withInseeOrganizations = <P extends { organizations?: OrganizationModel[] }>(
   Component: ComponentType<P>,
 ) => {
   const WrappedComponent = (props: Omit<P, "organizations">) => {
@@ -55,10 +55,10 @@ export const withInseeOrganisations = <P extends { organizations?: Organization[
     return <Component {...(props as P)} organizations={organizations} />;
   };
 
-  WrappedComponent.displayName = `withInseeOrganisations(${Component.displayName || Component.name || "Component"})`;
+  WrappedComponent.displayName = `withInseeOrganizations(${Component.displayName || Component.name || "Component"})`;
 
   return WrappedComponent;
 };
 
-export const InseeOrganisations = withInseeOrganisations(Organisations);
-export const InseeOrganisation = withInseeOrganisations(Organisation);
+export const InseeOrganizations = withInseeOrganizations(Organizations);
+export const InseeOrganization = withInseeOrganizations(Organization);

@@ -19,7 +19,7 @@ vi.mock("@sdk/index", async (importOriginal) => {
     CodelistsApi: {
       getCodelists: vi.fn(() => Promise.resolve([{ id: "CL_PARENT", uri: "http://parent" }])),
       getCodelistPartial: vi.fn(),
-      getCodesListCodes: vi.fn(() => Promise.resolve({ items: [] })),
+      getCodelistCodes: vi.fn(() => Promise.resolve({ items: [] })),
     },
   };
 });
@@ -57,12 +57,12 @@ describe("Partial codelist view page", () => {
 
   it("displays the server error instead of crashing when the codelist cannot be loaded", async () => {
     (CodelistsApi.getCodelistPartial as Mock).mockRejectedValue({
-      message: "CodeList not found",
+      message: "Codelist not found",
       status: 404,
     });
 
     renderPage();
 
-    expect(await screen.findByRole("alert")).toHaveTextContent("CodeList not found");
+    expect(await screen.findByRole("alert")).toHaveTextContent("Codelist not found");
   });
 });

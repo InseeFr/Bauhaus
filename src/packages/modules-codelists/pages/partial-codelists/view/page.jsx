@@ -36,7 +36,7 @@ export const Component = (props) => {
     refetch,
     error: loadingError,
   } = useQuery({
-    queryKey: ["partial-codes-list", id],
+    queryKey: ["partial-code-list", id],
     enabled: codelists.length > 0,
     queryFn: () => {
       return CodelistsApi.getCodelistPartial(id).then((cl) => {
@@ -44,7 +44,7 @@ export const Component = (props) => {
         if (!idParent) {
           return;
         }
-        return CodelistsApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
+        return CodelistsApi.getCodelistCodes(idParent, 1, 0).then((codes) => {
           return formatPartialCodelist(cl, codes.items);
         });
       });

@@ -151,13 +151,13 @@ describe("CodelistDetailEdit - Hook integration tests", () => {
   });
 
   describe("Contributor initialization logic", () => {
-    // Le contributeur d'une liste de codes est une IRI d'organisation : la
+    // Le contributeur d'une liste de codes est une IRI d'organization : la
     // résolution du timbre vit dans `resolveContributorIri`, testée dans
     // `utils/creation/contributor-init.spec.ts`. Le formulaire se contente de
     // pré-remplir la valeur résolue, ou rien si elle ne l'est pas.
     it("pré-remplit le contributeur résolu à la création", () => {
       const codelist: { id?: string; contributor?: string[] } = {};
-      const defaultContributor = "http://bauhaus/organisations/insee/HIE2001201";
+      const defaultContributor = "http://bauhaus/organizations/insee/HIE2001201";
 
       if (!codelist.id) {
         codelist.contributor = defaultContributor ? [defaultContributor] : [];
@@ -166,7 +166,7 @@ describe("CodelistDetailEdit - Hook integration tests", () => {
       expect(codelist.contributor).toEqual([defaultContributor]);
     });
 
-    it("laisse le contributeur vide quand aucune organisation n'est résolue", () => {
+    it("laisse le contributeur vide quand aucune organization n'est résolue", () => {
       const codelist: { id?: string; contributor?: string[] } = {};
       const defaultContributor = undefined;
 

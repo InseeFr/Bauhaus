@@ -4,11 +4,11 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
-import { useGroupCodesLists } from "./useGroupCodesLists";
+import { useGroupCodeLists } from "./useGroupCodeLists";
 
 vi.mock("../../sdk", () => ({
   DDIApi: {
-    getGroupCodesLists: vi.fn(),
+    getGroupCodeLists: vi.fn(),
   },
 }));
 
@@ -25,7 +25,7 @@ const createWrapper = () => {
   );
 };
 
-describe("useGroupCodesLists", () => {
+describe("useGroupCodeLists", () => {
   // L'endpoint group renvoie `agency` (+ versionDate), pas `agencyId`.
   const mockResponse = [
     {
@@ -41,9 +41,9 @@ describe("useGroupCodesLists", () => {
   });
 
   it("should normalize agency to agencyId", async () => {
-    vi.mocked(DDIApi.getGroupCodesLists).mockResolvedValue(mockResponse);
+    vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockResponse);
 
-    const { result } = renderHook(() => useGroupCodesLists("fr.insee", "group-1"), {
+    const { result } = renderHook(() => useGroupCodeLists("fr.insee", "group-1"), {
       wrapper: createWrapper(),
     });
 
@@ -59,24 +59,24 @@ describe("useGroupCodesLists", () => {
         versionDate: "0001-01-01T00:00:00.000Z",
       },
     ]);
-    expect(DDIApi.getGroupCodesLists).toHaveBeenCalledWith("fr.insee", "group-1");
+    expect(DDIApi.getGroupCodeLists).toHaveBeenCalledWith("fr.insee", "group-1");
   });
 
   it("should not fetch when agencyId is empty", () => {
-    const { result } = renderHook(() => useGroupCodesLists("", "group-1"), {
+    const { result } = renderHook(() => useGroupCodeLists("", "group-1"), {
       wrapper: createWrapper(),
     });
 
     expect(result.current.fetchStatus).toBe("idle");
-    expect(DDIApi.getGroupCodesLists).not.toHaveBeenCalled();
+    expect(DDIApi.getGroupCodeLists).not.toHaveBeenCalled();
   });
 
   it("should not fetch when groupId is empty", () => {
-    const { result } = renderHook(() => useGroupCodesLists("fr.insee", ""), {
+    const { result } = renderHook(() => useGroupCodeLists("fr.insee", ""), {
       wrapper: createWrapper(),
     });
 
     expect(result.current.fetchStatus).toBe("idle");
-    expect(DDIApi.getGroupCodesLists).not.toHaveBeenCalled();
+    expect(DDIApi.getGroupCodeLists).not.toHaveBeenCalled();
   });
 });

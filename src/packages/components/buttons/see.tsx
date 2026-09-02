@@ -1,4 +1,4 @@
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 
 const { D } = createAllDictionary({
   see: {

@@ -6,7 +6,7 @@ import { rangeType } from "../../../../constants/rangeType";
 
 const { CODE_LIST, ORGANIZATION } = rangeType;
 
-export function HelpInformation({ msd, codesLists, organisations }) {
+export function HelpInformation({ msd, codelists, organizations }) {
   const { t } = useTranslation();
 
   if (!msd.masLabelLg1) {
@@ -27,20 +27,20 @@ export function HelpInformation({ msd, codesLists, organisations }) {
       )}
       <dt>{t("sims.helpRange")}:</dt>
       <dd>
-        {msd.rangeType === CODE_LIST && codesLists[msd.codeList]
-          ? `${t(`sims.help${msd.rangeType}`)} - ${codesLists[msd.codeList].codeListLabelLg1}`
+        {msd.rangeType === CODE_LIST && codelists[msd.codeList]
+          ? `${t(`sims.help${msd.rangeType}`)} - ${codelists[msd.codeList].codeListLabelLg1}`
           : `${t(`sims.help${msd.rangeType}`)}`}
 
-        {msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
+        {msd.rangeType === CODE_LIST && codelists[msd.codeList] && (
           <List.Container>
-            {codesLists[msd.codeList]?.codes.map((code) => (
+            {codelists[msd.codeList]?.codes.map((code) => (
               <List.Item key={code.code}>{code.labelLg1}</List.Item>
             ))}
           </List.Container>
         )}
         {msd.rangeType === ORGANIZATION && (
           <List.Container>
-            {organisations.map((orga) => (
+            {organizations.map((orga) => (
               <List.Item key={orga.id}>{orga.label}</List.Item>
             ))}
           </List.Container>

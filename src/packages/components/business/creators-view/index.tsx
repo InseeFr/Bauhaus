@@ -1,22 +1,22 @@
 import { Note } from "@components/note";
 
 import { D1 } from "../../i18n";
-import { InseeOrganisation, InseeOrganisations } from "../organisations/organisations";
+import { InseeOrganization, InseeOrganizations } from "../organizations/organizations";
 
-export const InseeOrganisationNotes = ({
-  organisations,
+export const InseeOrganizationNotes = ({
+  organizations,
   title = D1.creatorsInput.creatorTitle,
-}: Readonly<{ organisations?: string | string[]; title?: string }>) => {
-  if (!organisations || (Array.isArray(organisations) && organisations.length === 0)) {
+}: Readonly<{ organizations?: string | string[]; title?: string }>) => {
+  if (!organizations || (Array.isArray(organizations) && organizations.length === 0)) {
     return <Note text={<p></p>} title={title} alone={true} allowEmpty={true} />;
   }
 
-  const organisationsArray = Array.isArray(organisations) ? organisations : [organisations];
+  const organizationsArray = Array.isArray(organizations) ? organizations : [organizations];
 
-  if (organisationsArray.length === 1) {
+  if (organizationsArray.length === 1) {
     return (
       <Note
-        text={<InseeOrganisation creator={organisationsArray[0]}></InseeOrganisation>}
+        text={<InseeOrganization creator={organizationsArray[0]}></InseeOrganization>}
         title={title}
         alone={true}
         allowEmpty={true}
@@ -26,7 +26,7 @@ export const InseeOrganisationNotes = ({
 
   return (
     <Note
-      text={<InseeOrganisations creators={organisationsArray} />}
+      text={<InseeOrganizations creators={organizationsArray} />}
       title={title}
       alone={true}
       allowEmpty={true}

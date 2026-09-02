@@ -1,16 +1,16 @@
 import { useMemo } from "react";
 
-import { useGroupCodesLists } from "./useGroupCodesLists";
-import { useMutualizedCodesLists } from "./useMutualizedCodesLists";
-import { type CodeListItem } from "./usePhysicalCodesLists";
+import { useGroupCodeLists } from "./useGroupCodeLists";
+import { useMutualizedCodeLists } from "./useMutualizedCodeLists";
+import { type CodeListItem } from "./usePhysicalCodeLists";
 import { usePhysicalInstanceParents } from "./usePhysicalInstanceParents";
 
-export const useAllCodesLists = (agencyId: string, physicalInstanceId: string) => {
+export const useAllCodeLists = (agencyId: string, physicalInstanceId: string) => {
   const parentsQuery = usePhysicalInstanceParents(agencyId, physicalInstanceId);
   const group = parentsQuery.data?.group;
 
-  const groupQuery = useGroupCodesLists(group?.agency ?? "", group?.id ?? "");
-  const mutualizedQuery = useMutualizedCodesLists();
+  const groupQuery = useGroupCodeLists(group?.agency ?? "", group?.id ?? "");
+  const mutualizedQuery = useMutualizedCodeLists();
 
   const data = useMemo(() => {
     const groupLists = groupQuery.data ?? [];

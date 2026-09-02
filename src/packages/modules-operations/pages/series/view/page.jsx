@@ -8,7 +8,7 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 import { useOrganizations } from "@utils/hooks/organizations";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useLocales } from "@utils/hooks/useLocales";
@@ -28,11 +28,11 @@ export const Component = () => {
 
   const langs = useLocales();
 
-  const frequencies = useCodesList(CL_FREQ);
+  const frequencies = useCodelist(CL_FREQ);
 
-  const { data: organisations } = useOrganizations();
+  const { data: organizations } = useOrganizations();
 
-  const categories = useCodesList(CL_SOURCE_CATEGORY);
+  const categories = useCodelist(CL_SOURCE_CATEGORY);
 
   const [secondLang] = useSecondLang();
 
@@ -69,7 +69,7 @@ export const Component = () => {
         attr={series}
         frequency={frequency}
         category={category}
-        organisations={organisations}
+        organizations={organizations}
         langs={langs}
       />
     </div>

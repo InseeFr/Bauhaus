@@ -8,7 +8,7 @@ import {
 
 import { codelistsI18n } from "../../../i18n";
 
-const ZodPartialCodeList = z.object({
+const ZodPartialCodelist = z.object({
   id: mandatoryAndNotEmptyTextField(codelistsI18n.t("partial-codelists.identifier")).regex(
     /^\w*$/,
     codelistsI18n.t("partial-codelists.invalidCharactersError"),
@@ -26,4 +26,4 @@ const ZodPartialCodeList = z.object({
   ),
 });
 
-export const validate = formatValidation(ZodPartialCodeList);
+export const validate = formatValidation(ZodPartialCodelist);

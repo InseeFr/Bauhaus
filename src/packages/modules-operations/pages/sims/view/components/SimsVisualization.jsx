@@ -26,7 +26,7 @@ import { hasLabelLg2 } from "../../utils/hasLabelLg2";
 import { shouldDisplayTitleForPrimaryItem } from "../../utils/shouldDisplayTitleForPrimaryItem";
 import { Menu } from "../menu";
 import { getParentUri } from "../utils/getParentUri";
-import "./SimsVisualisation.css";
+import "./SimsVisualization.css";
 import { MissingDocumentsErrorBloc } from "./MissingDocumentsErrorBloc";
 import { SimsBlock } from "./SimsBlock";
 
@@ -43,11 +43,11 @@ const parseMissingDocuments = (details) => {
   }
 };
 
-export function SimsVisualisation({
+export function SimsVisualization({
   metadataStructure,
-  codesLists,
+  codelists,
   sims = {},
-  organisations,
+  organizations,
   publishSims,
   exportCallback,
   missingDocuments,
@@ -92,8 +92,8 @@ export function SimsVisualisation({
                 isSecondLang={false}
                 currentSection={sims.rubrics[msd.idMas]}
                 unbounded={msd.maxOccurs === "unbounded"}
-                codesLists={codesLists}
-                organisations={organisations}
+                codelists={codelists}
+                organizations={organizations}
               />
             </Panel>
           )}
@@ -112,8 +112,8 @@ export function SimsVisualisation({
                 isSecondLang={true}
                 currentSection={sims.rubrics[msd.idMas]}
                 unbounded={msd.maxOccurs === "unbounded"}
-                codesLists={codesLists}
-                organisations={organisations}
+                codelists={codelists}
+                organizations={organizations}
               />
             </Panel>
           )}

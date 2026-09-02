@@ -4,7 +4,7 @@ import { Loading } from "@components/loading";
 
 import { useOrganizations } from "@utils/hooks/organizations";
 
-import { useCodesLists } from "../../../hooks/useCodesLists";
+import { useCodelists } from "../../../hooks/useCodelists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { SimsLoaderData } from "../../../types/sims";
 import { MSDLayout } from "../components/MSDLayout";
@@ -13,11 +13,11 @@ import { MSDHelp } from "./components/MSDHelp";
 export const Component = () => {
   const { baseUrl, disableSectionAnchor } = (useLoaderData() as SimsLoaderData) ?? {};
 
-  const { data: organisations } = useOrganizations();
+  const { data: organizations } = useOrganizations();
 
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
 
-  const { codesLists } = useCodesLists(metadataStructure);
+  const { codelists } = useCodelists(metadataStructure);
 
   if (metadataStructureLoading) return <Loading />;
 
@@ -30,8 +30,8 @@ export const Component = () => {
     >
       <MSDHelp
         metadataStructure={metadataStructure}
-        codesLists={codesLists}
-        organisations={organisations}
+        codelists={codelists}
+        organizations={organizations}
       />
     </MSDLayout>
   );

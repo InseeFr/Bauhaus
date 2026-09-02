@@ -10,7 +10,7 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { ComponentDetailView } from "../../../components/ComponentDetailView";
 import { ComponentTitle } from "../../../components/ComponentTitle";
-import { useFormattedCodeList } from "../../../hooks/useFormattedCodeList";
+import { useFormattedCodelist } from "../../../hooks/useFormattedCodelist";
 
 export const Component = (props) => {
   const goBack = useGoBack();
@@ -25,7 +25,7 @@ export const Component = (props) => {
 
   const [concepts, setConcepts] = useState([]);
 
-  const { data: codesLists = [] } = useFormattedCodeList();
+  const { data: codelists = [] } = useFormattedCodelist();
 
   const [serverSideError, setServerSideError] = useState();
 
@@ -73,7 +73,7 @@ export const Component = (props) => {
       <ComponentDetailView
         {...props}
         col={2}
-        codesLists={codesLists}
+        codelists={codelists}
         component={component}
         concepts={concepts}
         handleBack={handleBack}

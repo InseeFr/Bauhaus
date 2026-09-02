@@ -4,11 +4,11 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
-import { useMutualizedCodesList } from "./useMutualizedCodesList";
+import { useMutualizedCodeList } from "./useMutualizedCodeList";
 
 vi.mock("../../sdk", () => ({
   DDIApi: {
-    getMutualizedCodesList: vi.fn(),
+    getMutualizedCodeList: vi.fn(),
   },
 }));
 
@@ -25,7 +25,7 @@ const createWrapper = () => {
   );
 };
 
-describe("useMutualizedCodesList", () => {
+describe("useMutualizedCodeList", () => {
   const mockResponse = {
     CodeList: [
       {
@@ -48,9 +48,9 @@ describe("useMutualizedCodesList", () => {
   });
 
   it("should fetch one mutualized codes list when agencyId and id are provided", async () => {
-    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue(mockResponse);
+    vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(mockResponse);
 
-    const { result } = renderHook(() => useMutualizedCodesList("fr.insee", "cl-1"), {
+    const { result } = renderHook(() => useMutualizedCodeList("fr.insee", "cl-1"), {
       wrapper: createWrapper(),
     });
 
@@ -59,15 +59,15 @@ describe("useMutualizedCodesList", () => {
     });
 
     expect(result.current.data).toEqual(mockResponse);
-    expect(DDIApi.getMutualizedCodesList).toHaveBeenCalledWith("fr.insee", "cl-1");
+    expect(DDIApi.getMutualizedCodeList).toHaveBeenCalledWith("fr.insee", "cl-1");
   });
 
   it("should be disabled when agencyId or id is missing", () => {
-    const { result } = renderHook(() => useMutualizedCodesList("", ""), {
+    const { result } = renderHook(() => useMutualizedCodeList("", ""), {
       wrapper: createWrapper(),
     });
 
     expect(result.current.fetchStatus).toBe("idle");
-    expect(DDIApi.getMutualizedCodesList).not.toHaveBeenCalled();
+    expect(DDIApi.getMutualizedCodeList).not.toHaveBeenCalled();
   });
 });

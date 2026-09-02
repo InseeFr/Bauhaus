@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { CreatorsInput } from "@components/business/creators-input";
-import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
+import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { InputRmes } from "@components/input-rmes";
 import { LabelRequired } from "@components/label-required";
@@ -284,7 +284,7 @@ export const OperationsIndicatorEdition = (props) => {
         <Row>
           <div className="form-group col-md-12">
             <CreatorsInput
-              mode="organisation"
+              mode="organization"
               value={indicator.creators}
               onChange={onChange("creators")}
               multi
@@ -297,7 +297,7 @@ export const OperationsIndicatorEdition = (props) => {
         </Row>
         <Row>
           <div className="form-group col-md-12">
-            <OrganisationInput
+            <OrganizationInput
               multi
               required={false}
               lang="first"

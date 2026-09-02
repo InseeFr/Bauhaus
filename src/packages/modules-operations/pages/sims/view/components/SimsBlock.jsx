@@ -1,8 +1,8 @@
 import { rangeType } from "../../../../constants/rangeType";
-import { SimsBlockCodeList } from "./SimsBlockCodeList";
+import { SimsBlockCodelist } from "./SimsBlockCodelist";
 import { SimsBlockDate } from "./SimsBlockDate";
 import { SimsBlockGeography } from "./SimsBlockGeography";
-import { SimsBlockOrganisation } from "./SimsBlockOrganisation";
+import { SimsBlockOrganization } from "./SimsBlockOrganization";
 import { SimsBlockRichText } from "./SimsBlockRichText";
 import { SimsBlockText } from "./SimsBlockText";
 import { SimsBlockWithoutObject } from "./SimsBlockWithoutObject";
@@ -15,7 +15,7 @@ export const SimsBlock = ({
   isSecondLang = false,
   currentSection = {},
   unbounded = false,
-  codesLists,
+  codelists,
 }) => {
   if (!msd.masLabelLg1) {
     return null;
@@ -33,16 +33,16 @@ export const SimsBlock = ({
         {currentSection.rangeType === RICH_TEXT && (
           <SimsBlockRichText currentSection={currentSection} isSecondLang={isSecondLang} />
         )}
-        {currentSection.rangeType === CODE_LIST && codesLists[currentSection.codeList] && (
-          <SimsBlockCodeList
-            codesLists={codesLists}
+        {currentSection.rangeType === CODE_LIST && codelists[currentSection.codeList] && (
+          <SimsBlockCodelist
+            codelists={codelists}
             currentSection={currentSection}
             multi={unbounded}
             isSecondLang={isSecondLang}
           />
         )}
         {currentSection.rangeType === ORGANIZATION && (
-          <SimsBlockOrganisation currentSection={currentSection} />
+          <SimsBlockOrganization currentSection={currentSection} />
         )}
         {currentSection.rangeType === GEOGRAPHY && (
           <SimsBlockGeography currentSection={currentSection} isSecondLang={isSecondLang} />

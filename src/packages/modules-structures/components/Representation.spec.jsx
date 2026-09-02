@@ -28,43 +28,43 @@ import { EMPTY_ARRAY } from "@utils/array-utils";
 import { XSD_CODE_LIST, XSD_STRING } from "../constants/xsd";
 import { Representation } from "./Representation";
 
-const codesLists = [{ id: "id", label: "label" }];
+const codelists = [{ id: "id", label: "label" }];
 
 describe("Representation", () => {
   it("should display the label of a XSD_TYPES", async () => {
     const component = {
       range: XSD_STRING,
     };
-    const handleCodesListDetail = vi.fn();
+    const handleCodelistDetail = vi.fn();
 
     render(
       <Representation
         component={component}
-        codesLists={EMPTY_ARRAY}
-        handleCodesListDetail={handleCodesListDetail}
+        codelists={EMPTY_ARRAY}
+        handleCodelistDetail={handleCodelistDetail}
       />,
     );
     await screen.findByText("String");
   });
 
-  it("should display a button with the codeList", async () => {
+  it("should display a button with the codelist", async () => {
     const component = {
       range: XSD_CODE_LIST,
       codeList: "id",
     };
-    const handleCodesListDetail = vi.fn();
+    const handleCodelistDetail = vi.fn();
 
     render(
       <Representation
         component={component}
-        codesLists={codesLists}
-        handleCodesListDetail={handleCodesListDetail}
+        codelists={codelists}
+        handleCodelistDetail={handleCodelistDetail}
       />,
     );
     await screen.findByText("label");
     const button = await screen.findByRole("button");
 
     fireEvent.click(button);
-    expect(handleCodesListDetail).toHaveBeenCalled();
+    expect(handleCodelistDetail).toHaveBeenCalled();
   });
 });

@@ -59,7 +59,7 @@ describe("Sims Field", () => {
             rangeType: TEXT,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -76,7 +76,7 @@ describe("Sims Field", () => {
             rangeType: TEXT,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           handleChange={handleChange}
           alone={true}
         />,
@@ -101,7 +101,7 @@ describe("Sims Field", () => {
             rangeType: TEXT,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           handleChange={handleChange}
           alone={true}
           secondLang={true}
@@ -127,7 +127,7 @@ describe("Sims Field", () => {
             isPresentational: false,
           }}
           currentSection={{ labelLg1: "Current value" }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -147,7 +147,7 @@ describe("Sims Field", () => {
             rangeType: DATE,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -165,7 +165,7 @@ describe("Sims Field", () => {
             isPresentational: false,
           }}
           currentSection={{ value: "2024-01-15" }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
           secondLang={false}
         />,
@@ -185,7 +185,7 @@ describe("Sims Field", () => {
             rangeType: DATE,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           handleChange={handleChange}
           alone={true}
         />,
@@ -208,7 +208,7 @@ describe("Sims Field", () => {
               isPresentational: false,
               subPropertyOf: DCTERMS_MODIFIED,
             }}
-            codesLists={{}}
+            codelists={{}}
             simsModified="2025-06-06T00:00:00.000Z"
             alone={true}
           />,
@@ -230,7 +230,7 @@ describe("Sims Field", () => {
               subPropertyOf: DCTERMS_MODIFIED,
             }}
             currentSection={{ value: "2020-01-01T00:00:00.000Z" }}
-            codesLists={{}}
+            codelists={{}}
             simsModified="2025-06-06T00:00:00.000Z"
             alone={true}
           />,
@@ -251,7 +251,7 @@ describe("Sims Field", () => {
               isPresentational: false,
               subPropertyOf: DCTERMS_MODIFIED,
             }}
-            codesLists={{}}
+            codelists={{}}
             simsModified="2025-06-06T00:00:00.000Z"
             handleChange={handleChange}
             alone={true}
@@ -273,7 +273,7 @@ describe("Sims Field", () => {
               isPresentational: false,
             }}
             currentSection={{ value: "2024-01-15T00:00:00.000Z" }}
-            codesLists={{}}
+            codelists={{}}
             alone={true}
           />,
         );
@@ -326,10 +326,10 @@ describe("Sims Field", () => {
             idMas: "1",
             rangeType: CODE_LIST,
             isPresentational: false,
-            codeList: "codeList",
+            codeList: "codelist0",
           }}
           currentSection={{ value: "value" }}
-          codesLists={{ codeList: { codes: [] } }}
+          codelists={{ codeList: { codes: [] } }}
           alone={true}
           secondLang={false}
           lang="fr"
@@ -338,8 +338,8 @@ describe("Sims Field", () => {
       expect(container.querySelectorAll(".p-dropdown")).toHaveLength(1);
     });
 
-    it("should render options from codesLists", () => {
-      const mockCodesList = {
+    it("should render options from codelists", () => {
+      const mockCodelist = {
         codeList: {
           codeListLabelLg1: "Test Code List",
           codes: [
@@ -356,10 +356,10 @@ describe("Sims Field", () => {
             idMas: "code-1",
             rangeType: CODE_LIST,
             isPresentational: false,
-            codeList: "codeList",
+            codeList: "codelist0",
           }}
           currentSection={{ value: "1" }}
-          codesLists={mockCodesList}
+          codelists={mockCodelist}
           alone={true}
           secondLang={false}
         />,
@@ -370,7 +370,7 @@ describe("Sims Field", () => {
     });
 
     it("should use Lg2 labels when secondLang is true", () => {
-      const mockCodesList = {
+      const mockCodelist = {
         codeList: {
           codeListLabelLg1: "Test Code List",
           codes: [{ code: "1", labelLg1: "Option 1", labelLg2: "Option One" }],
@@ -384,10 +384,10 @@ describe("Sims Field", () => {
             idMas: "code-1",
             rangeType: CODE_LIST,
             isPresentational: false,
-            codeList: "codeList",
+            codeList: "codelist0",
           }}
           currentSection={{ value: "1" }}
-          codesLists={mockCodesList}
+          codelists={mockCodelist}
           alone={true}
           secondLang={true}
         />,
@@ -397,7 +397,7 @@ describe("Sims Field", () => {
     });
 
     it("should support multi-select when unbounded is true", () => {
-      const mockCodesList = {
+      const mockCodelist = {
         codeList: {
           codes: [{ code: "1", labelLg1: "Option 1" }],
         },
@@ -410,9 +410,9 @@ describe("Sims Field", () => {
             idMas: "multi-1",
             rangeType: CODE_LIST,
             isPresentational: false,
-            codeList: "codeList",
+            codeList: "codelist0",
           }}
-          codesLists={mockCodesList}
+          codelists={mockCodelist}
           alone={true}
           unbounded={true}
         />,
@@ -431,7 +431,7 @@ describe("Sims Field", () => {
             isPresentational: false,
             codeList: "emptyList",
           }}
-          codesLists={{ emptyList: { codes: [] } }}
+          codelists={{ emptyList: { codes: [] } }}
           alone={true}
         />,
       );
@@ -439,7 +439,7 @@ describe("Sims Field", () => {
       expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
     });
 
-    it("should handle missing codeList", () => {
+    it("should handle missing codelist", () => {
       const { container } = render(
         <Field
           msd={{
@@ -449,7 +449,7 @@ describe("Sims Field", () => {
             isPresentational: false,
             codeList: "nonExistent",
           }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -461,22 +461,22 @@ describe("Sims Field", () => {
 
   describe("ORGANIZATION Field", () => {
     it("should display organization select", () => {
-      const mockOrganisations = [
-        { value: "org1", label: "Organisation 1" },
-        { value: "org2", label: "Organisation 2" },
+      const mockOrganizations = [
+        { value: "org1", label: "Organization 1" },
+        { value: "org2", label: "Organization 2" },
       ];
 
       render(
         <Field
           msd={{
-            masLabelLg1: "Organisation Field",
+            masLabelLg1: "Organization Field",
             idMas: "org-1",
             rangeType: ORGANIZATION,
             isPresentational: false,
           }}
-          organisationsOptions={mockOrganisations}
+          organizationsOptions={mockOrganizations}
           currentSection={{ value: "org1" }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -486,19 +486,19 @@ describe("Sims Field", () => {
 
     it("should call handleChange when organization changes", () => {
       const handleChange = vi.fn();
-      const mockOrganisations = [{ value: "org1", label: "Organisation 1" }];
+      const mockOrganizations = [{ value: "org1", label: "Organization 1" }];
 
       render(
         <Field
           msd={{
-            masLabelLg1: "Organisation Field",
+            masLabelLg1: "Organization Field",
             idMas: "org-1",
             rangeType: ORGANIZATION,
             isPresentational: false,
           }}
-          organisationsOptions={mockOrganisations}
+          organizationsOptions={mockOrganizations}
           handleChange={handleChange}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -506,17 +506,17 @@ describe("Sims Field", () => {
       expect(screen.getByRole("combobox")).toBeInTheDocument();
     });
 
-    it("should handle empty organisationsOptions", () => {
+    it("should handle empty organizationsOptions", () => {
       render(
         <Field
           msd={{
-            masLabelLg1: "Organisation Field",
+            masLabelLg1: "Organization Field",
             idMas: "org-1",
             rangeType: ORGANIZATION,
             isPresentational: false,
           }}
-          organisationsOptions={[]}
-          codesLists={{}}
+          organizationsOptions={[]}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -578,7 +578,7 @@ describe("Sims Field", () => {
             sansObject: true,
           }}
           currentSection={{}}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -597,7 +597,7 @@ describe("Sims Field", () => {
             sansObject: false,
           }}
           currentSection={{}}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -616,7 +616,7 @@ describe("Sims Field", () => {
             sansObject: true,
           }}
           currentSection={{ rangeType: rangeType.RUBRIQUE_SANS_OBJECT }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -636,7 +636,7 @@ describe("Sims Field", () => {
             sansObject: true,
           }}
           currentSection={{ rangeType: TEXT }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -658,7 +658,7 @@ describe("Sims Field", () => {
           }}
           currentSection={{}}
           handleChange={handleChange}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -685,7 +685,7 @@ describe("Sims Field", () => {
           }}
           currentSection={{ rangeType: rangeType.RUBRIQUE_SANS_OBJECT }}
           handleChange={handleChange}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -710,7 +710,7 @@ describe("Sims Field", () => {
             rangeType: TEXT,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -727,7 +727,7 @@ describe("Sims Field", () => {
             rangeType: TEXT,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -742,7 +742,7 @@ describe("Sims Field", () => {
             rangeType: TEXT,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           alone={false}
         />,
       );
@@ -760,7 +760,7 @@ describe("Sims Field", () => {
             isPresentational: false,
           }}
           currentSection={{}}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -782,7 +782,7 @@ describe("Sims Field", () => {
             rangeType: TEXT,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -798,7 +798,7 @@ describe("Sims Field", () => {
             idMas: "1",
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           alone={true}
         />,
       );
@@ -816,7 +816,7 @@ describe("Sims Field", () => {
             rangeType: TEXT,
             isPresentational: false,
           }}
-          codesLists={{}}
+          codelists={{}}
           handleChange={vi.fn()} // Provide a mock to avoid error
           alone={true}
         />,
@@ -830,7 +830,7 @@ describe("Sims Field", () => {
 
     it("should handle all props together", () => {
       const handleChange = vi.fn();
-      const mockCodesList = {
+      const mockCodelist = {
         codeList: { codes: [{ code: "1", labelLg1: "Option 1" }] },
       };
 
@@ -842,12 +842,12 @@ describe("Sims Field", () => {
             idMas: "complete-1",
             rangeType: CODE_LIST,
             isPresentational: false,
-            codeList: "codeList",
+            codeList: "codelist0",
             sansObject: true,
           }}
           currentSection={{ value: "1" }}
-          codesLists={mockCodesList}
-          organisationsOptions={[]}
+          codelists={mockCodelist}
+          organizationsOptions={[]}
           handleChange={handleChange}
           alone={true}
           unbounded={false}

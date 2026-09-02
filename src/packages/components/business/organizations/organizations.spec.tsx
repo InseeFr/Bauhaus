@@ -6,11 +6,11 @@ import { Organization as OrganizationType } from "@model/organization";
 import * as organizationsHook from "@utils/hooks/organizations";
 
 import {
-  Organisations,
-  Organisation,
-  InseeOrganisations,
-  InseeOrganisation,
-} from "./organisations";
+  Organizations,
+  Organization,
+  InseeOrganizations,
+  InseeOrganization,
+} from "./organizations";
 
 const organizations: OrganizationType[] = [
   {
@@ -32,7 +32,7 @@ describe("Organizations component", () => {
     const creators = ["creator1", "creator2"];
 
     const { getByText } = render(
-      <Organisations creators={creators} organizations={organizations} />,
+      <Organizations creators={creators} organizations={organizations} />,
     );
 
     getByText("Organization 1");
@@ -40,14 +40,14 @@ describe("Organizations component", () => {
   });
 
   it("renders nothing when creators list is empty", () => {
-    const { container } = render(<Organisations creators={[]} organizations={organizations} />);
+    const { container } = render(<Organizations creators={[]} organizations={organizations} />);
 
     expect(container.querySelector("ul")).toBeNull();
   });
 
   it("renders nothing when organizations list is empty", () => {
     const creators = ["creator1"];
-    const { container } = render(<Organisations creators={creators} organizations={[]} />);
+    const { container } = render(<Organizations creators={creators} organizations={[]} />);
 
     expect(container.querySelector("ul")).not.toBeNull();
   });
@@ -56,33 +56,33 @@ describe("Organizations component", () => {
 describe("Organization component", () => {
   it("renders the label of the organization", () => {
     const creator = "creator1";
-    const { getByText } = render(<Organisation creator={creator} organizations={organizations} />);
+    const { getByText } = render(<Organization creator={creator} organizations={organizations} />);
 
     getByText("Organization 1");
   });
 
   it("renders nothing when creator is not found", () => {
     const creator = "unknownCreator";
-    const { container } = render(<Organisation creator={creator} organizations={organizations} />);
+    const { container } = render(<Organization creator={creator} organizations={organizations} />);
 
     expect(container.textContent).toBe("");
   });
 
   it("renders nothing when creator is empty", () => {
-    const { container } = render(<Organisation creator="" organizations={organizations} />);
+    const { container } = render(<Organization creator="" organizations={organizations} />);
 
     expect(container.textContent).toBe("");
   });
 
   it("renders nothing when organizations list is empty", () => {
     const creator = "creator1";
-    const { container } = render(<Organisation creator={creator} organizations={[]} />);
+    const { container } = render(<Organization creator={creator} organizations={[]} />);
 
     expect(container.textContent).toBe("");
   });
 });
 
-describe("InseeOrganisations component", () => {
+describe("InseeOrganizations component", () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -103,7 +103,7 @@ describe("InseeOrganisations component", () => {
     } as any);
 
     const creators = ["creator1", "creator2"];
-    const { getByText } = render(<InseeOrganisations creators={creators} />, {
+    const { getByText } = render(<InseeOrganizations creators={creators} />, {
       wrapper,
     });
 
@@ -119,7 +119,7 @@ describe("InseeOrganisations component", () => {
     } as any);
 
     const creators = ["creator1"];
-    const { container } = render(<InseeOrganisations creators={creators} />, {
+    const { container } = render(<InseeOrganizations creators={creators} />, {
       wrapper,
     });
 
@@ -127,7 +127,7 @@ describe("InseeOrganisations component", () => {
   });
 });
 
-describe("InseeOrganisation component", () => {
+describe("InseeOrganization component", () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -147,7 +147,7 @@ describe("InseeOrganisation component", () => {
       error: null,
     } as any);
 
-    const { getByText } = render(<InseeOrganisation creator="creator1" />, {
+    const { getByText } = render(<InseeOrganization creator="creator1" />, {
       wrapper,
     });
 
@@ -161,7 +161,7 @@ describe("InseeOrganisation component", () => {
       error: null,
     } as any);
 
-    const { container } = render(<InseeOrganisation creator="unknownCreator" />, {
+    const { container } = render(<InseeOrganization creator="unknownCreator" />, {
       wrapper,
     });
 

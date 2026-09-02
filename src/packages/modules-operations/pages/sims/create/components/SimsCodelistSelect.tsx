@@ -2,7 +2,7 @@ import { Select } from "@components/select-rmes";
 
 import { Option } from "@model/SelectOption";
 
-interface SimsCodeListSelectTypes {
+interface SimsCodelistSelectTypes {
   multi: boolean;
   currentSection: any;
   options: Option[];
@@ -12,13 +12,13 @@ interface SimsCodeListSelectTypes {
   className?: string;
 }
 
-export const SimsCodeListSelect = ({
+export const SimsCodelistSelect = ({
   multi,
   currentSection,
   options,
   onChange,
   ...rest
-}: Readonly<SimsCodeListSelectTypes>) => {
+}: Readonly<SimsCodelistSelectTypes>) => {
   let value;
 
   if (!multi) {

@@ -1,5 +1,5 @@
-import OldDictionnary from "../../deprecated-locales/build-dictionary";
-import NewDictionnary from "../../i18n";
+import OldDictionary from "../../deprecated-locales/build-dictionary";
+import NewDictionary from "../../i18n";
 import "./errors-bloc.css";
 
 /**
@@ -34,14 +34,14 @@ export const GlobalClientSideErrorBloc = ({
     <div className="bauhaus-error-bloc alert alert-danger" role="alert">
       <div
         dangerouslySetInnerHTML={{
-          __html: NewDictionnary.errors.globalClientSideErrorBloc,
+          __html: NewDictionary.errors.globalClientSideErrorBloc,
         }}
       />
     </div>
   ) : null;
 };
 
-export const ErrorBloc = ({ error, D = OldDictionnary }: { error?: unknown; D?: any }) => {
+export const ErrorBloc = ({ error, D = OldDictionary }: { error?: unknown; D?: any }) => {
   if (!error) {
     return null;
   }
@@ -59,7 +59,7 @@ export const ErrorBloc = ({ error, D = OldDictionnary }: { error?: unknown; D?: 
         } else if (parsedError.message && D.errors[parsedError.message]) {
           errorMsg = D.errors[parsedError.message](parsedError);
         } else if (parsedError.status === 500) {
-          errorMsg = NewDictionnary.errors.serversideErrors["500"](parsedError.message);
+          errorMsg = NewDictionary.errors.serversideErrors["500"](parsedError.message);
         } else {
           errorMsg = parsedError.message;
         }

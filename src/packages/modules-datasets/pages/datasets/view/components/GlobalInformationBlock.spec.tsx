@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { CodesList } from "@model/CodesList";
+import { Codelist } from "@model/Codelist";
 import { Dataset } from "@model/Dataset";
 
-import * as useCodesListHook from "@utils/hooks/codeslist";
+import * as useCodelistHook from "@utils/hooks/codelist";
 import * as useOrganizationsHook from "@utils/hooks/organizations";
 
 import * as useThemesHook from "../../../../hooks/useThemes";
@@ -12,7 +12,7 @@ import { GlobalInformationBlock } from "./GlobalInformationBlock";
 
 vi.mock("../../../../hooks/useThemes");
 vi.mock("@utils/hooks/organizations");
-vi.mock("@utils/hooks/codeslist");
+vi.mock("@utils/hooks/codelist");
 
 vi.mock("./WasGeneratedByBlock", () => ({
   WasGeneratedByBlock: () => <div>Mocked WasGeneratedByBlock</div>,
@@ -67,22 +67,22 @@ describe("GlobalInformationBlock", () => {
       ],
     } as any);
 
-    vi.spyOn(useCodesListHook, "useCodesList").mockImplementation((notation) => {
+    vi.spyOn(useCodelistHook, "useCodelist").mockImplementation((notation) => {
       switch (notation) {
         case "CL_ACCESS_RIGHTS":
           return {
             codes: [{ iri: "CL_ACCESS_RIGHTS", labelLg1: "CL_ACCESS_RIGHTS" }],
-          } as CodesList;
+          } as Codelist;
         case "CL_FREQ":
           return {
             codes: [{ iri: "CL_FREQ", labelLg1: "CL_FREQ" }],
-          } as CodesList;
+          } as Codelist;
         case "CL_CONF_STATUS":
           return {
             codes: [{ iri: "CL_CONF_STATUS", labelLg1: "CL_CONF_STATUS" }],
-          } as CodesList;
+          } as Codelist;
         default:
-          return {} as CodesList;
+          return {} as Codelist;
       }
     });
   });

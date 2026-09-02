@@ -1,11 +1,11 @@
 import { AddButton } from "@components/buttons/add";
 
-import { CodesList } from "@model/CodesList";
+import { Codelist } from "@model/Codelist";
 
 import { HasAccess } from "../../auth/components/auth";
 
 interface CodesPanelAddButtonTypes {
-  codelist: CodesList;
+  codelist: Codelist;
   onHandlePanel: VoidFunction;
 }
 

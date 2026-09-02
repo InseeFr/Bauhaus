@@ -1,7 +1,7 @@
 import Modal from "react-modal";
 
 import { cx } from "@utils/cx";
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 
 import { ActionToolbar } from "../action-toolbar";
 import { Button } from "../buttons/button";

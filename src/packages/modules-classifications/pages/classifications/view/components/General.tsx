@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { getDisseminationStatus } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
@@ -196,7 +196,7 @@ export const General = ({ general, secondLang }: Props) => {
                     return (
                       <li key={fieldName}>
                         {`${mapping[fieldName]} : `}{" "}
-                        <InseeOrganisation creator={(general as any)[fieldName]} />
+                        <InseeOrganization creator={(general as any)[fieldName]} />
                       </li>
                     );
                   } else {

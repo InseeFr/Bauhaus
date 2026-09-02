@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 
 import "./index.css";
 

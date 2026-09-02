@@ -13,10 +13,10 @@ export interface CodeListItem {
   mutualized?: boolean;
 }
 
-export const usePhysicalCodesLists = (agencyId: string, physicalInstanceId: string) => {
+export const usePhysicalCodeLists = (agencyId: string, physicalInstanceId: string) => {
   return useQuery<CodeListItem[]>({
-    queryKey: ["physicalCodesLists", agencyId, physicalInstanceId],
-    queryFn: () => DDIApi.getPhysicalCodesLists(agencyId, physicalInstanceId),
+    queryKey: ["physicalCodeLists", agencyId, physicalInstanceId],
+    queryFn: () => DDIApi.getPhysicalCodeLists(agencyId, physicalInstanceId),
     enabled: !!agencyId && !!physicalInstanceId,
   });
 };
