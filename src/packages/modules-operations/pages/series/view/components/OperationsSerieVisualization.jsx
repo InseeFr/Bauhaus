@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { InseeOrganisationNotes } from "@components/business/creators-view";
+import { InseeOrganizationNotes } from "@components/business/creators-view";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -120,25 +120,25 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
         )}
       </Row>
       <Row id="publishers">
-        <InseeOrganisationNotes
-          organisations={attr.publishers?.map((p) => p?.id ?? p)}
-          title={t("common.organisation", { lng: "fr" })}
+        <InseeOrganizationNotes
+          organizations={attr.publishers?.map((p) => p?.id ?? p)}
+          title={t("common.organization", { lng: "fr" })}
         />
       </Row>
       <Row id="contributors">
-        <InseeOrganisationNotes
-          organisations={attr.contributors?.map((c) => c?.id ?? c)}
+        <InseeOrganizationNotes
+          organizations={attr.contributors?.map((c) => c?.id ?? c)}
           title={t("common.stakeholders", { lng: "fr" })}
         />
       </Row>
       <Row id="dataCollectors">
-        <InseeOrganisationNotes
-          organisations={attr.dataCollectors?.map((c) => c?.id ?? c)}
+        <InseeOrganizationNotes
+          organizations={attr.dataCollectors?.map((c) => c?.id ?? c)}
           title={t("common.dataCollector", { lng: "fr" })}
         />
       </Row>
       <Row id="creators">
-        <InseeOrganisationNotes organisations={attr.creators} />
+        <InseeOrganizationNotes organizations={attr.creators} />
       </Row>
       <DisplayLinks
         links={attr.replaces}

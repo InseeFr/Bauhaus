@@ -1,4 +1,4 @@
-import { createDictionary, getLang } from "./dictionnary";
+import { createDictionary, getLang } from "./dictionary";
 
 ["browserLanguage", "language"].forEach((property) => {
   test(`should return the french version when the navigator.${property} is FR`, () => {

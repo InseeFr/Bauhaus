@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 
 import "./index.css";
 

@@ -34,14 +34,14 @@ const DefaultStampsInput = ({
     creatorsArray = value ? value : undefined;
   }
 
-  const Dictionnary = lang === "first" ? D1 : D;
+  const Dictionary = lang === "first" ? D1 : D;
 
   const label = !multi ? labelSingle : labelMulti;
 
   return (
     <Select
       label={label}
-      placeholder={Dictionnary.stampsPlaceholder}
+      placeholder={Dictionary.stampsPlaceholder}
       value={creatorsArray}
       options={options}
       onChange={onChange}
@@ -62,15 +62,15 @@ export const StampsInput = (
   return <DefaultStampsInput {...props} options={stampsOptions} />;
 };
 
-export const OrganisationInput = (
+export const OrganizationInput = (
   props: Readonly<Omit<ComponentProps<typeof DefaultStampsInput>, "options">>,
 ) => {
-  const { data: organisations } = useOrganizations();
+  const { data: organizations } = useOrganizations();
 
   return (
     <DefaultStampsInput
       {...props}
-      options={(organisations ?? []).map((o) => ({
+      options={(organizations ?? []).map((o) => ({
         value: o.iri,
         label: o.label,
       }))}

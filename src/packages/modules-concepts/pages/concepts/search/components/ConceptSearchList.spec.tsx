@@ -54,21 +54,21 @@ describe("concepts-advanced-search", () => {
     });
   });
 
-  it("lets the user filter creators by organisation (HIE) and not by stamp", () => {
+  it("lets the user filter creators by organization (HIE) and not by stamp", () => {
     renderWithRouter(<AdvancedSearch conceptSearchList={[]} onExport={vi.fn()} />);
 
     expect(screen.getByTestId("creators-input")).toBeInTheDocument();
-    expect(lastCreatorsInputProps?.mode).toBe("organisation");
+    expect(lastCreatorsInputProps?.mode).toBe("organization");
   });
 
-  it("filters concepts on the creator organisation IRI coming from the URL", () => {
-    const hieIri = "http://bauhaus/organisations/insee/HIE2000069";
+  it("filters concepts on the creator organization IRI coming from the URL", () => {
+    const hieIri = "http://bauhaus/organizations/insee/HIE2000069";
     const concepts = [
       concept({ id: "1", label: "Matching concept", creator: hieIri }),
       concept({
         id: "2",
         label: "Other concept",
-        creator: "http://bauhaus/organisations/insee/HIE9999999",
+        creator: "http://bauhaus/organizations/insee/HIE9999999",
       }),
     ];
 

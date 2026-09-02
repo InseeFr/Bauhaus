@@ -18,8 +18,8 @@ export const MutualizedComponentsSelector = ({
   components,
   handleAdd,
   concepts,
-  codesLists,
-  handleCodesListDetail,
+  codelists,
+  handleCodelistDetail,
 }) => {
   const { t } = useTranslation();
 
@@ -59,12 +59,12 @@ export const MutualizedComponentsSelector = ({
     representation: (
       <Representation
         component={component}
-        codesLists={codesLists}
-        handleCodesListDetail={() => {
-          const codesList = codesLists.find(
+        codelists={codelists}
+        handleCodelistDetail={() => {
+          const codelist = codelists.find(
             ({ id }) => id?.toString() === component.codeList?.toString(),
           );
-          handleCodesListDetail(codesList);
+          handleCodelistDetail(codelist);
         }}
       />
     ),
@@ -86,7 +86,7 @@ export const MutualizedComponentsSelector = ({
       <RightSlidingPanel isOpen={openPanel} onHide={() => setOpenPanel(false)}>
         <ComponentDetail
           component={selectedComponent}
-          codesLists={codesLists}
+          codelists={codelists}
           concepts={concepts}
           handleSave={() => {}}
           handleBack={() => {

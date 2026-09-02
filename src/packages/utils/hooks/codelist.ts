@@ -1,26 +1,26 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 
-import { Code, CodesList } from "@model/CodesList";
+import { Code, Codelist } from "@model/Codelist";
 
-import { CodelistsApi, fetchCodeList } from "@sdk/index";
+import { CodelistsApi, fetchCodelist } from "@sdk/index";
 
 import { sortArray } from "../array-utils";
 
-const defaultCodesList = { codes: [] } as unknown as CodesList;
-export const useCodesList = (notation: string) => {
-  const { data } = useQuery<CodesList>({
+const defaultCodelist = { codes: [] } as unknown as Codelist;
+export const useCodelist = (notation: string) => {
+  const { data } = useQuery<Codelist>({
     queryKey: ["codelist", notation],
-    queryFn: () => fetchCodeList(notation),
+    queryFn: () => fetchCodelist(notation),
   });
 
-  return data ?? defaultCodesList;
+  return data ?? defaultCodelist;
 };
 
-export const useCodesLists = (notations: string[]) => {
+export const useCodelists = (notations: string[]) => {
   return useQueries({
     queries: notations.map((notation) => ({
       queryKey: ["codelist", notation],
-      queryFn: () => fetchCodeList(notation),
+      queryFn: () => fetchCodelist(notation),
     })),
   });
 };
@@ -30,7 +30,7 @@ export const useAllCodes = (notation: string | undefined, enabled: boolean) => {
     enabled: !!notation && enabled,
     queryKey: ["codelist", notation, "codes"],
     queryFn: () =>
-      CodelistsApi.getCodesListCodes(notation, 1, 0).then((codes: { items: Code[] }) => {
+      CodelistsApi.getCodelistCodes(notation, 1, 0).then((codes: { items: Code[] }) => {
         return sortArray("labelLg1")(codes?.items || []);
       }),
   });

@@ -9,7 +9,7 @@ import { Series } from "@model/Series";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -19,7 +19,7 @@ import { OperationsIndicatorEdition } from "./components/OperationsIndicatorEdit
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
 
-  const frequencies = useCodesList(CL_FREQ);
+  const frequencies = useCodelist(CL_FREQ);
 
   const goBack = useGoBack();
 

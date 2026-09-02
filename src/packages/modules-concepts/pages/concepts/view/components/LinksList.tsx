@@ -26,7 +26,7 @@ export const LinksList = ({
 
   const labelProperty = lang === "lg1" ? "prefLabelLg1" : "prefLabelLg2";
 
-  const dictionnary: Record<string, string> = {
+  const dictionary: Record<string, string> = {
     closeMatchTitle: t("concept.links.equivalentTitle"),
     linksTitle: t("common.linksTitle"),
   };
@@ -65,7 +65,7 @@ export const LinksList = ({
             title={t("concept.links.replacedByMasc")}
             labelProperty={labelProperty}
           />
-          <CloseMatchLinks links={links.closeMatch} Dictionnary={dictionnary} />
+          <CloseMatchLinks links={links.closeMatch} Dictionary={dictionary} />
         </dl>
       }
       title={t("common.linksTitle")}

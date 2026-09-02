@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CodesLists } from "@model/CodesList";
+import { Codelists } from "@model/Codelist";
 
 import { CodelistsApi } from "@sdk/codelists-api";
 
@@ -8,9 +8,9 @@ import { sortArray } from "@utils/array-utils";
 
 const sortByLabel = sortArray("labelLg1");
 
-export const useFormattedCodeList = () =>
-  useQuery<CodesLists>({
-    queryKey: ["formattedCodeList"],
+export const useFormattedCodelist = () =>
+  useQuery<Codelists>({
+    queryKey: ["formattedCodelist"],
     queryFn: () =>
       Promise.all([CodelistsApi.getCodelists(), CodelistsApi.getCodelistsPartial()]).then(
         ([codelists, partialCodelists]) =>

@@ -78,7 +78,7 @@ export const SearchFormList = ({ data }) => {
         />
         <div className="field col-12 md:col-6">
           <CreatorsInput
-            mode="organisation"
+            mode="organization"
             value={creator}
             onChange={(value) => handleChange("creator", value)}
             required={false}

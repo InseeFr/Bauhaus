@@ -6,7 +6,7 @@ import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
-describe("Sims Visualisation Menu", () => {
+describe("Sims Visualization Menu", () => {
   afterEach(() => {
     vi.resetModules();
     vi.clearAllMocks();

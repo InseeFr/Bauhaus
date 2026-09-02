@@ -26,15 +26,15 @@ export const ComponentSelector = ({
   componentDefinitions,
   mutualizedComponents,
   concepts = EMPTY_ARRAY,
-  codesLists = EMPTY_ARRAY,
+  codelists = EMPTY_ARRAY,
   handleUpdate,
   type,
   structure,
 }) => {
-  const [codesListNotation, setCodesListNotation] = useState(undefined);
+  const [codelistNotation, setCodelistNotation] = useState(undefined);
 
-  const handleCodesListDetail = useCallback((notation) => {
-    setCodesListNotation(notation);
+  const handleCodelistDetail = useCallback((notation) => {
+    setCodelistNotation(notation);
   }, []);
 
   const [structureComponents, setStructureComponents] = useState([]);
@@ -277,7 +277,7 @@ export const ComponentSelector = ({
       )}
       <StructureComponentsSelector
         hidden={false}
-        codesLists={codesLists}
+        codelists={codelists}
         concepts={concepts}
         componentDefinitions={componentDefinitions.filter(filterComponentDefinition(type))}
         handleRemove={handleRemove}
@@ -287,22 +287,22 @@ export const ComponentSelector = ({
         handleSpecificationClick={handleSpecificationClick}
         readOnly={false}
         type={type}
-        handleCodesListDetail={handleCodesListDetail}
+        handleCodelistDetail={handleCodelistDetail}
         structure={structure}
       />
       <MutualizedComponentsSelector
         concepts={concepts}
-        codesLists={codesLists}
+        codelists={codelists}
         hidden={true}
         components={filteredMutualizedComponents}
         handleAdd={handleAdd}
         readOnly={true}
-        handleCodesListDetail={handleCodesListDetail}
+        handleCodelistDetail={handleCodelistDetail}
       />
       <CodelistPanel
-        codesList={codesListNotation}
-        isOpen={!!codesListNotation}
-        handleBack={() => setCodesListNotation(undefined)}
+        codelist={codelistNotation}
+        isOpen={!!codelistNotation}
+        handleBack={() => setCodelistNotation(undefined)}
       />
     </>
   );

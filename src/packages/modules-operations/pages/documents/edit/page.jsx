@@ -5,7 +5,7 @@ import { Loading } from "@components/loading";
 
 import { GeneralApi } from "@sdk/general-api";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 
 import { OperationsDocumentationEdition } from "./components/OperationsDocumentationEdition";
 
@@ -16,7 +16,7 @@ export const Component = (props) => {
 
   const type = /(link|document)/.exec(pathname)[1];
 
-  const langOptions = useCodesList("ISO-639");
+  const langOptions = useCodelist("ISO-639");
 
   const [document, setDocument] = useState({});
 

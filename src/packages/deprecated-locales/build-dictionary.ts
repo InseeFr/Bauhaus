@@ -1,4 +1,4 @@
-import { createDictionary, firstLang, getLang, secondLang } from "@utils/dictionnary";
+import { createDictionary, firstLang, getLang, secondLang } from "@utils/dictionary";
 
 import appD from "./dictionary/app";
 import errors from "./dictionary/errors";

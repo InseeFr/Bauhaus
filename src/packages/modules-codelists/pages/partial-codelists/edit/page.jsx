@@ -21,7 +21,7 @@ export const Component = (props) => {
 
   const [codelist, setCodelist] = useState({});
 
-  const [globalCodeListOptions, setGlobalCodeListOptions] = useState([]);
+  const [globalCodelistOptions, setGlobalCodelistOptions] = useState([]);
 
   const [serverSideError, setServerSideError] = useState("");
 
@@ -63,7 +63,7 @@ export const Component = (props) => {
   useEffect(() => {
     CodelistsApi.getCodelists()
       .then((codelists) => {
-        setGlobalCodeListOptions(
+        setGlobalCodelistOptions(
           Object.values(codelists).map((cl) => {
             return {
               value: cl.id,
@@ -77,13 +77,13 @@ export const Component = (props) => {
   }, []);
 
   useEffect(() => {
-    if (id && globalCodeListOptions && globalCodeListOptions[0]) {
+    if (id && globalCodelistOptions && globalCodelistOptions[0]) {
       CodelistsApi.getCodelistPartial(id)
         .then((cl) => {
-          const idParent = globalCodeListOptions.find(
+          const idParent = globalCodelistOptions.find(
             (parent) => parent.iriParent === cl.iriParent,
           ).value;
-          return CodelistsApi.getCodesListCodes(idParent, 1, 0).then((codes) => {
+          return CodelistsApi.getCodelistCodes(idParent, 1, 0).then((codes) => {
             setCodelist(formatPartialCodelist(cl, codes.items));
           });
         })
@@ -93,7 +93,7 @@ export const Component = (props) => {
       setCodelist({});
       setLoadingList(false);
     }
-  }, [id, globalCodeListOptions]);
+  }, [id, globalCodelistOptions]);
 
   if (loadingList || loadingLists) {
     return <Loading />;
@@ -111,7 +111,7 @@ export const Component = (props) => {
       handleBack={handleBack}
       handleSave={handleSave}
       updateMode={id !== undefined}
-      globalCodeListOptions={globalCodeListOptions}
+      globalCodelistOptions={globalCodelistOptions}
       serverSideError={serverSideError}
     />
   );

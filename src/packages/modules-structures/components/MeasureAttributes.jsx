@@ -1,6 +1,6 @@
 import { MeasureAttribute } from "./MeasureAttribute";
 
-export const MeasureAttributes = ({ measure, attributes, codesLists }) => {
+export const MeasureAttributes = ({ measure, attributes, codelists }) => {
   const measureAttributes = Object.keys(measure)
     .filter((key) => key.startsWith("attribute_"))
     .map((key) => {
@@ -16,7 +16,7 @@ export const MeasureAttributes = ({ measure, attributes, codesLists }) => {
             attribute={key}
             value={value}
             attributes={attributes}
-            codesLists={codesLists}
+            codelists={codelists}
           />
         </li>
       ))}

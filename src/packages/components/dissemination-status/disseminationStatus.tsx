@@ -22,7 +22,7 @@ export const getDisseminationStatus = (disseminationStatus: string): string => {
   return "";
 };
 
-export const DisseminationStatusVisualisation = ({
+export const DisseminationStatusVisualization = ({
   disseminationStatus,
 }: Readonly<{
   disseminationStatus: string;

@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
-import { SimsCodeListSelect } from "./SimsCodeListSelect";
+import { SimsCodelistSelect } from "./SimsCodelistSelect";
 
-describe("SimsCodeListSelect", () => {
+describe("SimsCodelistSelect", () => {
   const mockOnChange = vi.fn();
   const mockOptions = [
     { value: "option1", label: "Option 1" },
@@ -16,7 +16,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -31,7 +31,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option2" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -46,7 +46,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: undefined };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -61,7 +61,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -78,7 +78,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: ["option1", "option2"] };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -93,7 +93,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -109,7 +109,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: ["option1", "option3"] };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -124,7 +124,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: [] };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -139,7 +139,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: undefined };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -156,7 +156,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -172,7 +172,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -188,7 +188,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -204,7 +204,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -220,7 +220,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -238,7 +238,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: null };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -253,7 +253,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={[]}
@@ -268,7 +268,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = {} as any;
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -283,7 +283,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: null };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -298,7 +298,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: ["option1", "option2", "option3"] };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -315,7 +315,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container: singleContainer } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -324,7 +324,7 @@ describe("SimsCodeListSelect", () => {
       );
 
       const { container: multiContainer } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={{ value: ["option1"] }}
           options={mockOptions}
@@ -341,7 +341,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: ["option1"] };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -361,7 +361,7 @@ describe("SimsCodeListSelect", () => {
       ];
 
       const { container, rerender } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -372,7 +372,7 @@ describe("SimsCodeListSelect", () => {
       expect(container.querySelector(".p-dropdown")).toBeTruthy();
 
       rerender(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={newOptions}
@@ -389,7 +389,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "testValue" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -405,7 +405,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: arrayValue };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -420,7 +420,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "singleValue" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -437,7 +437,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}
@@ -454,7 +454,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: ["option1"] };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={true}
           currentSection={currentSection}
           options={mockOptions}
@@ -471,7 +471,7 @@ describe("SimsCodeListSelect", () => {
       const currentSection = { value: "option1" };
 
       const { container } = render(
-        <SimsCodeListSelect
+        <SimsCodelistSelect
           multi={false}
           currentSection={currentSection}
           options={mockOptions}

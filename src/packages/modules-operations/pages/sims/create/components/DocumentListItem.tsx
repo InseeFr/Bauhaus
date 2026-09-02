@@ -2,7 +2,7 @@ import { ExternalLink } from "@components/link";
 
 import { Document } from "@model/operations/document";
 
-import { getLang } from "@utils/dictionnary";
+import { getLang } from "@utils/dictionary";
 
 import { isDocument } from "../../../../utils/isDocument";
 

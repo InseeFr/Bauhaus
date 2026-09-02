@@ -5,7 +5,7 @@ import { Note } from "@components/note";
 
 import { HelpInformation } from "./HelpInformation";
 
-export function MSDHelp({ metadataStructure, codesLists, organisations }) {
+export function MSDHelp({ metadataStructure, codelists, organizations }) {
   const { idSection } = useParams();
 
   function MSDInformations({ msd }) {
@@ -14,9 +14,7 @@ export function MSDHelp({ metadataStructure, codesLists, organisations }) {
         <Row key={msd.idMas}>
           <Note
             title={`${msd.idMas} - ${msd.masLabelLg1}`}
-            text={
-              <HelpInformation msd={msd} codesLists={codesLists} organisations={organisations} />
-            }
+            text={<HelpInformation msd={msd} codelists={codelists} organizations={organizations} />}
             alone
           />
         </Row>

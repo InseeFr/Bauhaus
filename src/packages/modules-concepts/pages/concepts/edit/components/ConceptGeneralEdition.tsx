@@ -119,7 +119,7 @@ export function ConceptGeneralEdition({
         <CreatorsInput
           value={creator}
           onChange={(value: string | string[]) => handlers.creator?.(value)}
-          mode="organisation"
+          mode="organization"
         />
         <ClientSideError id="creator-error" error={errorMessage?.fields?.creator} />
       </div>
@@ -128,7 +128,7 @@ export function ConceptGeneralEdition({
           disabled
           value={contributor ?? ""}
           onChange={() => {}}
-          mode="organisation"
+          mode="organization"
         />
       </div>
       <div className="form-group">

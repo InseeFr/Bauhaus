@@ -7,7 +7,7 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { GeneralApi } from "@sdk/general-api";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { OperationsDocumentationVisualization } from "./components/OperationsDocumentationVisualization";
@@ -26,7 +26,7 @@ export const Component = () => {
 
   const [secondLang] = useSecondLang();
 
-  const langOptions = useCodesList("ISO-639");
+  const langOptions = useCodelist("ISO-639");
 
   const [document, setDocument] = useState({});
   useEffect(() => {

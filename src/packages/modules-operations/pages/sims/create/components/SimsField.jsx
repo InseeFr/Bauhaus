@@ -15,7 +15,7 @@ import { rangeType } from "../../../../constants/rangeType";
 import { isAutoUpdatedFromModified } from "../../../../utils/isAutoUpdatedFromModified";
 import { SimsFieldTitle } from "../../components/SimsFieldTitle";
 import "./SimsField.css";
-import { SimsCodeListSelect } from "./SimsCodeListSelect";
+import { SimsCodelistSelect } from "./SimsCodelistSelect";
 import { SimsWithoutObjectCheckbox } from "./SimsWithoutObjectCheckbox";
 
 const { RICH_TEXT, TEXT, DATE, CODE_LIST, ORGANIZATION, GEOGRAPHY } = rangeType;
@@ -26,21 +26,21 @@ const SimsFieldComponent = ({
   secondLang,
   alone,
   unbounded,
-  codesLists,
+  codelists,
   handleChange,
   simsModified,
   // Uniquement lu par le comparateur de `memo` en bas de fichier.
-  organisationsOptions: _organisationsOptions,
+  organizationsOptions: _organizationsOptions,
 }) => {
   const { t } = useTranslation();
 
   const autoUpdatedFromModified = isAutoUpdatedFromModified(msd);
 
-  const { data: organisations = [] } = useOrganizations();
+  const { data: organizations = [] } = useOrganizations();
 
-  const organisationsIriOptions = useMemo(
-    () => organisations.map((o) => ({ value: o.iri, label: o.label })),
-    [organisations],
+  const organizationsIriOptions = useMemo(
+    () => organizations.map((o) => ({ value: o.iri, label: o.label })),
+    [organizations],
   );
 
   const value = useMemo(() => {
@@ -110,7 +110,7 @@ const SimsFieldComponent = ({
     });
   }, [handleChangeInternal, secondLang, localMdValue]);
 
-  const handleCodeListInput = useCallback(
+  const handleCodelistInput = useCallback(
     (value) => {
       handleChangeInternal({ codeList: msd.codeList, value });
     },
@@ -124,10 +124,10 @@ const SimsFieldComponent = ({
     [handleChangeInternal],
   );
 
-  const codesList = codesLists[msd.codeList] || {};
-  const codes = codesList.codes || [];
+  const codelist = codelists[msd.codeList] || {};
+  const codes = codelist.codes || [];
 
-  const codesListOptions = useMemo(
+  const codelistOptions = useMemo(
     () =>
       sortArrayByLabel(
         codes.map((c) => ({
@@ -138,7 +138,7 @@ const SimsFieldComponent = ({
     [codes],
   );
 
-  const codesListOptionsLg2 = useMemo(
+  const codelistOptionsLg2 = useMemo(
     () =>
       sortArrayByLabel(
         codes.map((c) => ({
@@ -181,10 +181,10 @@ const SimsFieldComponent = ({
                   <Select
                     placeholder=""
                     value={
-                      organisations.find((o) => o.iri === value || o.id === value)?.iri ?? value
+                      organizations.find((o) => o.iri === value || o.id === value)?.iri ?? value
                     }
-                    options={organisationsIriOptions}
-                    onChange={handleCodeListInput}
+                    options={organizationsIriOptions}
+                    onChange={handleCodelistInput}
                   />
                 )}
                 {msd.rangeType === DATE && (
@@ -193,7 +193,7 @@ const SimsFieldComponent = ({
                     id={msd.idMas}
                     colMd={12}
                     value={value}
-                    onChange={autoUpdatedFromModified ? undefined : handleCodeListInput}
+                    onChange={autoUpdatedFromModified ? undefined : handleCodelistInput}
                     secondLang={secondLang}
                     disabled={autoUpdatedFromModified}
                   />
@@ -203,12 +203,12 @@ const SimsFieldComponent = ({
                     <MDEditor text={localMdValue} handleChange={handleMdChange} />
                   </div>
                 )}
-                {msd.rangeType === CODE_LIST && codesList && (
-                  <SimsCodeListSelect
-                    aria-label={codesList.codeListLabelLg1}
+                {msd.rangeType === CODE_LIST && codelist && (
+                  <SimsCodelistSelect
+                    aria-label={codelist.codeListLabelLg1}
                     currentSection={currentSection}
-                    options={secondLang ? codesListOptionsLg2 : codesListOptions}
-                    onChange={handleCodeListInput}
+                    options={secondLang ? codelistOptionsLg2 : codelistOptions}
+                    onChange={handleCodelistInput}
                     multi={unbounded}
                   />
                 )}
@@ -236,7 +236,7 @@ export const SimsField = memo(SimsFieldComponent, (prevProps, nextProps) => {
     prevProps.alone === nextProps.alone &&
     prevProps.unbounded === nextProps.unbounded &&
     prevProps.simsModified === nextProps.simsModified &&
-    prevProps.codesLists === nextProps.codesLists &&
-    prevProps.organisationsOptions === nextProps.organisationsOptions
+    prevProps.codelists === nextProps.codelists &&
+    prevProps.organizationsOptions === nextProps.organizationsOptions
   );
 });

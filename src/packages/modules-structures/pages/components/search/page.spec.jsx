@@ -30,7 +30,7 @@ vi.mock("@components/business/creators-input", () => ({
   ),
 }));
 
-const ORGANISATION_IRI = "http://bauhaus/organisations/insee/HIE2000001";
+const ORGANIZATION_IRI = "http://bauhaus/organizations/insee/HIE2000001";
 
 const data = [
   {
@@ -38,7 +38,7 @@ const data = [
     labelLg1: "test",
     type: "ATTRIBUTE",
     concept: "c1",
-    creator: ORGANISATION_IRI,
+    creator: ORGANIZATION_IRI,
     validationState: "Unpublished",
   },
   {
@@ -46,7 +46,7 @@ const data = [
     labelLg1: "another",
     type: "MEASURE",
     concept: "c2",
-    creator: "http://bauhaus/organisations/insee/OTHER",
+    creator: "http://bauhaus/organizations/insee/OTHER",
     validationState: "Validated",
   },
   {
@@ -54,7 +54,7 @@ const data = [
     labelLg1: "third",
     type: "DIMENSION",
     concept: "c1",
-    creator: ORGANISATION_IRI,
+    creator: ORGANIZATION_IRI,
     validationState: "Modified",
   },
 ];
@@ -88,8 +88,8 @@ describe("<SearchFormList /> component-search", () => {
     expect(getListItems(container)).toHaveLength(1);
   });
 
-  it("filters by creator (organisation IRI)", async () => {
-    const { container } = await renderPage({ creator: ORGANISATION_IRI });
+  it("filters by creator (organization IRI)", async () => {
+    const { container } = await renderPage({ creator: ORGANIZATION_IRI });
     expect(getListItems(container)).toHaveLength(2);
   });
 
@@ -99,7 +99,7 @@ describe("<SearchFormList /> component-search", () => {
   });
 
   it("renders the CreatorsInput (not a stamp dropdown) for the creator filter", async () => {
-    const { getByTestId } = await renderPage({ creator: ORGANISATION_IRI });
-    expect(getByTestId("creators-input")).toHaveValue(ORGANISATION_IRI);
+    const { getByTestId } = await renderPage({ creator: ORGANIZATION_IRI });
+    expect(getByTestId("creators-input")).toHaveValue(ORGANIZATION_IRI);
   });
 });

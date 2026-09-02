@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
+import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
 
 interface PublishersInputProps {
   value: string[];
@@ -15,10 +15,10 @@ export const PublishersInput = ({
 }: Readonly<PublishersInputProps>) => {
   const { t } = useTranslation();
 
-  const label = t("common.organisation", { lng: "fr" });
+  const label = t("common.organization", { lng: "fr" });
 
   return (
-    <OrganisationInput
+    <OrganizationInput
       value={value}
       onChange={onChange as (value: string | string[]) => void}
       multi

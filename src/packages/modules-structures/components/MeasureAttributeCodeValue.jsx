@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 
 import { CodelistsApi } from "@sdk/index";
 
-export const MeasureAttributeCodeValue = ({ value, attribute, codesLists }) => {
-  const [codesList, setCodesList] = useState();
+export const MeasureAttributeCodeValue = ({ value, attribute, codelists }) => {
+  const [codelist, setCodelist] = useState();
 
-  const codeListNotation = codesLists.find((cl) => cl.id === attribute.codeList)?.notation;
+  const codelistNotation = codelists.find((cl) => cl.id === attribute.codeList)?.notation;
 
   useEffect(() => {
-    CodelistsApi.getCodelist(codeListNotation).then((cl) => setCodesList(cl));
-  }, [codeListNotation]);
+    CodelistsApi.getCodelist(codelistNotation).then((cl) => setCodelist(cl));
+  }, [codelistNotation]);
 
-  if (!codesList) {
+  if (!codelist) {
     return null;
   }
 
-  const code = codesList.codes.find((c) => c.iri === value);
+  const code = codelist.codes.find((c) => c.iri === value);
 
   return code?.labelLg1;
 };

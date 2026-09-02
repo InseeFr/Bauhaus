@@ -52,15 +52,15 @@ vi.mock("@utils/date-utils", () => ({
   },
 }));
 
-vi.mock("@components/business/organisations/organisations", () => ({
-  InseeOrganisation: ({ creator }: { creator: string }) => {
+vi.mock("@components/business/organizations/organizations", () => ({
+  InseeOrganization: ({ creator }: { creator: string }) => {
     const labels: Record<string, string> = {
       "DG75-L201": "INSEE",
       "DG75-L202": "DARES",
     };
     return labels[creator] ?? creator;
   },
-  InseeOrganisations: ({ creators }: { creators: string[] }) => {
+  InseeOrganizations: ({ creators }: { creators: string[] }) => {
     const labels: Record<string, string> = {
       "DG75-L201": "INSEE",
       "DG75-L202": "DARES",
@@ -76,7 +76,7 @@ vi.mock("@components/business/organisations/organisations", () => ({
 }));
 
 vi.mock("@components/dissemination-status/disseminationStatus", () => ({
-  DisseminationStatusVisualisation: ({ disseminationStatus }: { disseminationStatus: string }) => (
+  DisseminationStatusVisualization: ({ disseminationStatus }: { disseminationStatus: string }) => (
     <span>Statut de diffusion : {disseminationStatus}</span>
   ),
 }));

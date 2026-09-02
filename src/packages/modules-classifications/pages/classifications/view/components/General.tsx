@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { getDisseminationStatus } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
@@ -19,7 +19,10 @@ import { Classification } from "../../../../types";
  * cible l'identifiant porté par `idKey`, et la seconde langue s'affiche entre
  * parenthèses.
  */
-const LINKED_FIELDS: Record<string, { idKey: string; basePath: string; lg2Key: string }> = {
+const LINKED_FIELDS: Record<
+  string,
+  { idKey: string; basePath: string; lg2Key: string }
+> = {
   seriesLg1: {
     idKey: "idSeries",
     basePath: "/classifications/series",
@@ -68,72 +71,6 @@ const LinkedField = ({
     )}
   </li>
 );
-
-const GeneralField = ({
-  fieldName,
-  label,
-  general,
-  secondLang,
-}: Readonly<{
-  fieldName: string;
-  label: string;
-  general: Classification;
-  secondLang: boolean;
-}>) => {
-  const value = (general as any)[fieldName];
-  if (!Object.hasOwn(general, fieldName) || !value) {
-    return null;
-  }
-
-  const linked = LINKED_FIELDS[fieldName];
-  if (linked) {
-    return (
-      <LinkedField
-        label={label}
-        to={`${linked.basePath}/${(general as any)[linked.idKey]}`}
-        labelLg1={value}
-        labelLg2={secondLang ? (general as any)[linked.lg2Key] : undefined}
-      />
-    );
-  }
-  if (MATERIAL_FIELDS.includes(fieldName)) {
-    return (
-      <li>
-        {`${label} : `}
-        <ExternalLink href={value}>{`${value}`}</ExternalLink>
-      </li>
-    );
-  }
-  if (fieldName === "disseminationStatus") {
-    return <li>{`${label} : ${getDisseminationStatus(value)}`}</li>;
-  }
-  if (fieldName === "validationState") {
-    return (
-      <PublicationStatusItem
-        label={label}
-        object={{ validationState: value as ValidationState }}
-        gender="female"
-      />
-    );
-  }
-  if (fieldName === "altLabelLg2" && !secondLang) {
-    return null;
-  }
-  if (fieldName.includes("altLabel")) {
-    return <li>{`${label} : ${value.replaceAll(" || ", " - ")}`}</li>;
-  }
-  if (DATE_FIELDS.includes(fieldName)) {
-    return <li>{`${label} : ${stringToDate(value)}`}</li>;
-  }
-  if (ORGANISATION_FIELDS.includes(fieldName)) {
-    return (
-      <li>
-        {`${label} : `} <InseeOrganisation creator={value} />
-      </li>
-    );
-  }
-  return <li>{`${label} : ${value}`}</li>;
-};
 
 type Props = Readonly<{
   general: Classification;
@@ -190,15 +127,172 @@ export const General = ({ general, secondLang }: Props) => {
           alone={true}
           text={
             <ul>
-              {Object.keys(mapping).map((fieldName) => (
-                <GeneralField
-                  key={fieldName}
-                  fieldName={fieldName}
-                  label={mapping[fieldName]}
-                  general={general}
-                  secondLang={secondLang}
-                />
-              ))}
+              {Object.keys(mapping).map((fieldName) => {
+                if (
+                  Object.hasOwn(general, fieldName) &&
+                  (general as any)[fieldName]
+                ) {
+                  if (fieldName === "seriesLg1") {
+                    return (
+                      <li key={fieldName}>
+                        {mapping[fieldName]} :{" "}
+                        <Link
+                          to={`/classifications/series/${general.idSeries}`}
+                        >
+                          {(general as any)[fieldName]}
+                        </Link>
+                        {secondLang && (general as any).seriesLg2 && (
+                          <span>
+                            {" ("}
+                            <Link
+                              to={`/classifications/series/${general.idSeries}`}
+                            >
+                              {(general as any).seriesLg2}
+                            </Link>
+                            {")"}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  }
+                  if (fieldName === "afterLg1") {
+                    return (
+                      <li key={fieldName}>
+                        {mapping[fieldName]} :{" "}
+                        <Link
+                          to={`/classifications/classification/${general.idAfter}`}
+                        >
+                          {(general as any)[fieldName]}
+                        </Link>
+                        {secondLang && (general as any).afterLg2 && (
+                          <span>
+                            {" ("}
+                            <Link
+                              to={`/classifications/classification/${general.idAfter}`}
+                            >
+                              {(general as any).afterLg2}
+                            </Link>
+                            {")"}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  }
+                  if (fieldName === "beforeLg1") {
+                    return (
+                      <li key={fieldName}>
+                        {mapping[fieldName]} :{" "}
+                        <Link
+                          to={`/classifications/classification/${general.idBefore}`}
+                        >
+                          {(general as any)[fieldName]}
+                        </Link>
+                        {secondLang && (general as any).beforeLg2 && (
+                          <span>
+                            {" ("}
+                            <Link
+                              to={`/classifications/classification/${general.idBefore}`}
+                            >
+                              {(general as any).beforeLg2}
+                            </Link>
+                            {")"}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  }
+                  if (fieldName === "variantLg1") {
+                    return (
+                      <li key={fieldName}>
+                        {mapping[fieldName]} :{" "}
+                        <Link
+                          to={`/classifications/classification/${general.idVariant}`}
+                        >
+                          {(general as any)[fieldName]}
+                        </Link>
+                        {secondLang && (general as any).variantLg2 && (
+                          <span>
+                            {" ("}
+                            <Link
+                              to={`/classifications/classification/${general.idVariant}`}
+                            >
+                              {(general as any).variantLg2}
+                            </Link>
+                            {")"}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  }
+                  if (
+                    ["additionalMaterial", "legalMaterial"].includes(fieldName)
+                  ) {
+                    return (
+                      <li key={fieldName}>
+                        {`${mapping[fieldName]} : `}
+                        <ExternalLink
+                          href={(general as any)[fieldName]}
+                        >{`${(general as any)[fieldName]}`}</ExternalLink>
+                      </li>
+                    );
+                  }
+                  if (fieldName === "disseminationStatus") {
+                    return (
+                      <li key={fieldName}>
+                        {`${mapping[fieldName]} : ${getDisseminationStatus((general as any)[fieldName])}`}
+                      </li>
+                    );
+                  }
+                  if (fieldName === "validationState") {
+                    return (
+                      <PublicationStatusItem
+                        key={fieldName}
+                        label={mapping[fieldName]}
+                        object={{
+                          validationState: (general as any)[
+                            fieldName
+                          ] as ValidationState,
+                        }}
+                        gender="female"
+                      />
+                    );
+                  }
+                  if (fieldName === "altLabelLg2" && !secondLang) {
+                    return null;
+                  }
+                  if (fieldName.includes("altLabel")) {
+                    return (
+                      <li key={fieldName}>
+                        {`${mapping[fieldName]} : ${(general as any)[fieldName].split(" || ").join(" - ")}`}
+                      </li>
+                    );
+                  }
+                  if (
+                    ["issued", "valid", "lastRefreshedOn"].includes(fieldName)
+                  ) {
+                    return (
+                      <li key={fieldName}>
+                        {`${mapping[fieldName]} : ${stringToDate((general as any)[fieldName])}`}
+                      </li>
+                    );
+                  } else if (["creator", "contributor"].includes(fieldName)) {
+                    return (
+                      <li key={fieldName}>
+                        {`${mapping[fieldName]} : `}{" "}
+                        <InseeOrganization
+                          creator={(general as any)[fieldName]}
+                        />
+                      </li>
+                    );
+                  } else {
+                    return (
+                      <li
+                        key={fieldName}
+                      >{`${mapping[fieldName]} : ${(general as any)[fieldName]}`}</li>
+                    );
+                  }
+                } else return null;
+              })}
             </ul>
           }
         ></Note>

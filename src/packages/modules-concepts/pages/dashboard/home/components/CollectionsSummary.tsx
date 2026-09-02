@@ -1,7 +1,7 @@
 import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 
-import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DataTable } from "@components/datatable";
 import { Panel } from "@components/panel";
 
@@ -23,7 +23,9 @@ export type CollectionStampRow = {
   total: number;
 };
 
-export const buildDataStamps = (d: CollectionDashboardItem[]): CollectionStampRow[] =>
+export const buildDataStamps = (
+  d: CollectionDashboardItem[],
+): CollectionStampRow[] =>
   d.reduce<CollectionStampRow[]>((acc, collection) => {
     if (!acc.some((row) => row.stamp === collection.creator)) {
       acc.push({ stamp: collection.creator, total: 0 });
@@ -31,10 +33,6 @@ export const buildDataStamps = (d: CollectionDashboardItem[]): CollectionStampRo
     acc.find((row) => row.stamp === collection.creator)!.total++;
     return acc;
   }, []);
-
-const stampBody = (row: CollectionStampRow) => (
-  <InseeOrganisation creator={row.stamp} />
-);
 
 export function CollectionsSummary({
   collectionsData,
@@ -73,7 +71,9 @@ export function CollectionsSummary({
           <Column
             field="stamp"
             header={t("dashboard.collections.summary.byOwnerColumn")}
-            body={stampBody}
+            body={(row: CollectionStampRow) => (
+              <InseeOrganization creator={row.stamp} />
+            )}
           ></Column>
           <Column field="total" header={t("dashboard.totalColumn")}></Column>
         </DataTable>

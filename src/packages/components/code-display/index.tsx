@@ -1,10 +1,10 @@
-import { CodesList } from "@model/CodesList";
+import { Codelist } from "@model/Codelist";
 
 interface CodeDisplayTypes {
-  codesList: CodesList;
+  codelist: Codelist;
   value: string;
 }
 
-export const CodeDisplay = ({ codesList, value }: Readonly<CodeDisplayTypes>) => {
-  return codesList?.codes?.find((t) => t.iri === value)?.labelLg1;
+export const CodeDisplay = ({ codelist, value }: Readonly<CodeDisplayTypes>) => {
+  return codelist?.codes?.find((t) => t.iri === value)?.labelLg1;
 };

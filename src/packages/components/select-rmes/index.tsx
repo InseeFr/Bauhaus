@@ -3,7 +3,7 @@ import { MultiSelect } from "primereact/multiselect";
 
 import { Option } from "@model/SelectOption";
 
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 
 import "./select-rmes.css";
 

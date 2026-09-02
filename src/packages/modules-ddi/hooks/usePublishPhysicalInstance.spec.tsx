@@ -47,7 +47,7 @@ describe("usePublishPhysicalInstance", () => {
     await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-      queryKey: ["groupCodesLists", "fr.insee", "group-1"],
+      queryKey: ["groupCodeLists", "fr.insee", "group-1"],
     });
   });
 
@@ -59,7 +59,7 @@ describe("usePublishPhysicalInstance", () => {
     await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
 
     expect(invalidateQueriesSpy).not.toHaveBeenCalledWith({
-      queryKey: ["mutualizedCodesLists"],
+      queryKey: ["mutualizedCodeLists"],
     });
   });
 
@@ -110,7 +110,7 @@ describe("usePublishPhysicalInstance", () => {
     await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-      queryKey: ["physicalCodesLists", "fr.insee", "pi-1"],
+      queryKey: ["physicalCodeLists", "fr.insee", "pi-1"],
     });
   });
 

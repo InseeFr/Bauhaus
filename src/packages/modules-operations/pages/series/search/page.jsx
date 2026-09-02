@@ -5,7 +5,7 @@ import { Link, Navigate } from "react-router-dom";
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
-import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
+import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
 import { Loading } from "@components/loading";
 import { List } from "@components/ui/list-group";
 import { SearchTextField } from "@components/ui/search-field";
@@ -83,7 +83,7 @@ export const SearchFormList = ({ data }) => {
         </div>
         <div className="field col-12 md:col-6">
           <CreatorsInput
-            mode="organisation"
+            mode="organization"
             lang="default"
             value={creator}
             required={false}
@@ -93,10 +93,10 @@ export const SearchFormList = ({ data }) => {
           />
         </div>
         <div className="field col-12 md:col-6">
-          <OrganisationInput
+          <OrganizationInput
             lang="default"
-            labelSingle={t("common.organisation")}
-            labelMulti={t("common.organisation")}
+            labelSingle={t("common.organization")}
+            labelMulti={t("common.organization")}
             value={publisher}
             required={false}
             onChange={(value) => {
@@ -105,7 +105,7 @@ export const SearchFormList = ({ data }) => {
           />
         </div>
         <div className="field col-12 md:col-6">
-          <OrganisationInput
+          <OrganizationInput
             lang="default"
             labelSingle={t("common.dataCollector")}
             labelMulti={t("common.dataCollector")}

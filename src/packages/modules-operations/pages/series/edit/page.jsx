@@ -6,7 +6,7 @@ import { Loading } from "@components/loading";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 import { useOrganizations } from "@utils/hooks/organizations";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
@@ -28,11 +28,11 @@ export const Component = (props) => {
 
   const [series, setSeries] = useState([]);
 
-  const frequencies = useCodesList(CL_FREQ);
+  const frequencies = useCodelist(CL_FREQ);
 
-  const categories = useCodesList(CL_SOURCE_CATEGORY);
+  const categories = useCodelist(CL_SOURCE_CATEGORY);
 
-  const { data: organisations } = useOrganizations();
+  const { data: organizations } = useOrganizations();
 
   const goBack = useGoBack();
 
@@ -68,7 +68,7 @@ export const Component = (props) => {
       id={id}
       serie={serie}
       categories={categories}
-      organisations={organisations}
+      organizations={organizations}
       series={series}
       families={families}
       indicators={indicators}

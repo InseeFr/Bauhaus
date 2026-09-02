@@ -6,7 +6,7 @@ import { OperationsLink } from "./operations-link";
  * Indicateur tel que `GET /operations/indicator/{id}` le renvoie.
  *
  * Le back sérialise directement le résultat de la requête SPARQL : seuls `id`,
- * `prefLabelLg1` et les trois listes d'organisations (`creators`, `publishers`,
+ * `prefLabelLg1` et les trois listes d'organizations (`creators`, `publishers`,
  * `contributors`, ajoutées après coup) sont systématiquement présents. Tout le
  * reste provient de clauses `OPTIONAL` et peut manquer.
  */
@@ -28,7 +28,7 @@ export interface Indicator {
   modified?: string;
   idSims?: string;
   validationState?: ValidationState;
-  /** URI des organisations, pas des timbres. */
+  /** URI des organizations, pas des timbres. */
   creators: string[];
   publishers: string[];
   contributors: string[];

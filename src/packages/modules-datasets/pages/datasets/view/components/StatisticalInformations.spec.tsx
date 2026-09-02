@@ -3,12 +3,12 @@ import { Mock, vi } from "vitest";
 
 import { Dataset } from "@model/Dataset";
 
-import * as hooks from "@utils/hooks/codeslist";
+import * as hooks from "@utils/hooks/codelist";
 import * as structureHooks from "@utils/hooks/structures";
 
 import { StatisticalInformations } from "./StatisticalInformations";
 
-vi.mock("@utils/hooks/codeslist");
+vi.mock("@utils/hooks/codelist");
 vi.mock("@utils/hooks/structures");
 
 vi.mock("react-i18next", () => ({
@@ -43,7 +43,7 @@ describe("StatisticalInformations Component", () => {
   const mockStructures = [{ iri: "structure1", labelLg1: "Structure 1" }];
 
   it("renders all statistical information correctly", () => {
-    (hooks.useCodesList as Mock).mockReturnValue([]);
+    (hooks.useCodelist as Mock).mockReturnValue([]);
     (structureHooks.useStructures as Mock).mockReturnValue({
       data: mockStructures,
     });
@@ -56,7 +56,7 @@ describe("StatisticalInformations Component", () => {
   });
 
   it("renders datastructure URL if the structure do not exist", () => {
-    (hooks.useCodesList as Mock).mockReturnValue([]);
+    (hooks.useCodelist as Mock).mockReturnValue([]);
     (structureHooks.useStructures as Mock).mockReturnValue({
       data: [],
     });
@@ -69,7 +69,7 @@ describe("StatisticalInformations Component", () => {
   });
 
   it("renders conditional fields correctly", () => {
-    (hooks.useCodesList as Mock).mockReturnValue([]);
+    (hooks.useCodelist as Mock).mockReturnValue([]);
     (structureHooks.useStructures as Mock).mockReturnValue({
       data: mockStructures,
     });

@@ -4,7 +4,7 @@ import { NumberInput } from "@components/form/input";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 
-import { withCodesLists } from "@utils/hoc/withCodesLists";
+import { withCodelists } from "@utils/hoc/withCodelists";
 
 import {
   CL_DATA_TYPES,
@@ -199,7 +199,7 @@ const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props
   );
 };
 
-export const StatisticalInformation = withCodesLists([
+export const StatisticalInformation = withCodelists([
   CL_DATA_TYPES,
   CL_STAT_UNIT,
   CL_FREQ,

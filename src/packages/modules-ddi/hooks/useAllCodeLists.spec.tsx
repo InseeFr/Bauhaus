@@ -4,13 +4,13 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
-import { useAllCodesLists } from "./useAllCodesLists";
+import { useAllCodeLists } from "./useAllCodeLists";
 
 vi.mock("../../sdk", () => ({
   DDIApi: {
     getPhysicalInstanceParents: vi.fn(),
-    getGroupCodesLists: vi.fn(),
-    getMutualizedCodesLists: vi.fn(),
+    getGroupCodeLists: vi.fn(),
+    getMutualizedCodeLists: vi.fn(),
   },
 }));
 
@@ -27,7 +27,7 @@ const createWrapper = () => {
   );
 };
 
-describe("useAllCodesLists", () => {
+describe("useAllCodeLists", () => {
   const mockParents = {
     studyUnit: { agency: "fr.insee", id: "su-1" },
     group: { agency: "fr.insee", id: "group-1", label: "Base permanente des équipements" },
@@ -35,7 +35,7 @@ describe("useAllCodesLists", () => {
   };
 
   // L'endpoint group renvoie { agency, id, label, versionDate } (pas agencyId).
-  const mockGroupCodesLists = [
+  const mockGroupCodeLists = [
     {
       agency: "fr.insee",
       id: "group-1cl",
@@ -50,7 +50,7 @@ describe("useAllCodesLists", () => {
     },
   ];
 
-  const mockMutualizedCodesLists = [
+  const mockMutualizedCodeLists = [
     { agencyId: "fr.insee", id: "mutualized-1", label: "Liste mutualisée 1" },
     { agencyId: "fr.insee", id: "common-1", label: "Liste commune mutualisée" },
   ];
@@ -61,10 +61,10 @@ describe("useAllCodesLists", () => {
   });
 
   it("should combine group and mutualized codes lists with origin marker", async () => {
-    vi.mocked(DDIApi.getGroupCodesLists).mockResolvedValue(mockGroupCodesLists);
-    vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
+    vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockGroupCodeLists);
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
 
-    const { result } = renderHook(() => useAllCodesLists("fr.insee", "pi-123"), {
+    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
       wrapper: createWrapper(),
     });
 
@@ -91,10 +91,10 @@ describe("useAllCodesLists", () => {
   });
 
   it("should expose the parent group label", async () => {
-    vi.mocked(DDIApi.getGroupCodesLists).mockResolvedValue(mockGroupCodesLists);
-    vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
+    vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockGroupCodeLists);
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
 
-    const { result } = renderHook(() => useAllCodesLists("fr.insee", "pi-123"), {
+    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
       wrapper: createWrapper(),
     });
 
@@ -106,23 +106,23 @@ describe("useAllCodesLists", () => {
   });
 
   it("should fetch group codes lists from the physical instance parent group", async () => {
-    vi.mocked(DDIApi.getGroupCodesLists).mockResolvedValue(mockGroupCodesLists);
-    vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
+    vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockGroupCodeLists);
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
 
-    renderHook(() => useAllCodesLists("fr.insee", "pi-123"), {
+    renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
       wrapper: createWrapper(),
     });
 
     await waitFor(() => {
-      expect(DDIApi.getGroupCodesLists).toHaveBeenCalledWith("fr.insee", "group-1");
+      expect(DDIApi.getGroupCodeLists).toHaveBeenCalledWith("fr.insee", "group-1");
     });
   });
 
   it("should deduplicate by agencyId-id (mutualized takes precedence)", async () => {
-    vi.mocked(DDIApi.getGroupCodesLists).mockResolvedValue(mockGroupCodesLists);
-    vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
+    vi.mocked(DDIApi.getGroupCodeLists).mockResolvedValue(mockGroupCodeLists);
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
 
-    const { result } = renderHook(() => useAllCodesLists("fr.insee", "pi-123"), {
+    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
       wrapper: createWrapper(),
     });
 
@@ -137,10 +137,10 @@ describe("useAllCodesLists", () => {
   });
 
   it("should return empty array when both queries fail", async () => {
-    vi.mocked(DDIApi.getGroupCodesLists).mockRejectedValue(new Error("Error 1"));
-    vi.mocked(DDIApi.getMutualizedCodesLists).mockRejectedValue(new Error("Error 2"));
+    vi.mocked(DDIApi.getGroupCodeLists).mockRejectedValue(new Error("Error 1"));
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockRejectedValue(new Error("Error 2"));
 
-    const { result } = renderHook(() => useAllCodesLists("fr.insee", "pi-123"), {
+    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
       wrapper: createWrapper(),
     });
 
@@ -152,10 +152,10 @@ describe("useAllCodesLists", () => {
   });
 
   it("should expose mutualized codes lists when the group query fails", async () => {
-    vi.mocked(DDIApi.getGroupCodesLists).mockRejectedValue(new Error("group boom"));
-    vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
+    vi.mocked(DDIApi.getGroupCodeLists).mockRejectedValue(new Error("group boom"));
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
 
-    const { result } = renderHook(() => useAllCodesLists("fr.insee", "pi-123"), {
+    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
       wrapper: createWrapper(),
     });
 
@@ -174,10 +174,10 @@ describe("useAllCodesLists", () => {
   });
 
   it("should show loading when either query is loading", async () => {
-    vi.mocked(DDIApi.getGroupCodesLists).mockImplementation(() => new Promise(() => {}));
-    vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockMutualizedCodesLists);
+    vi.mocked(DDIApi.getGroupCodeLists).mockImplementation(() => new Promise(() => {}));
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockMutualizedCodeLists);
 
-    const { result } = renderHook(() => useAllCodesLists("fr.insee", "pi-123"), {
+    const { result } = renderHook(() => useAllCodeLists("fr.insee", "pi-123"), {
       wrapper: createWrapper(),
     });
 

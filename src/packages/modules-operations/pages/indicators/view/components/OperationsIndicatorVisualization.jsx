@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { InseeOrganisationNotes } from "@components/business/creators-view";
+import { InseeOrganizationNotes } from "@components/business/creators-view";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -80,17 +80,17 @@ export function OperationsIndicatorVisualization({ attr, secondLang, frequency =
         secondLang={secondLang}
       />
       <Row>
-        <InseeOrganisationNotes
-          organisations={attr.publishers}
-          title={t("common.organisation", { lng: "fr" })}
+        <InseeOrganizationNotes
+          organizations={attr.publishers}
+          title={t("common.organization", { lng: "fr" })}
         />
       </Row>
       <Row>
-        <InseeOrganisationNotes organisations={attr.creators} />
+        <InseeOrganizationNotes organizations={attr.creators} />
       </Row>
       <Row id="contributors">
-        <InseeOrganisationNotes
-          organisations={attr.contributors}
+        <InseeOrganizationNotes
+          organizations={attr.contributors}
           title={t("common.stakeholders", { lng: "fr" })}
         />
       </Row>

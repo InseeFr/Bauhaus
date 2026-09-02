@@ -12,7 +12,7 @@ import { useAppContext } from "../../../../application/app-context";
 import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useMmvrUsers } from "../../../hooks/useMmvrUsers";
-import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
+import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
 import type {
   Category,
   CodeList,
@@ -139,7 +139,7 @@ export const SentinelValues = ({
 
   // Contenu de la CodeList de sentinelles (endpoint générique). Inutile quand les modifications
   // locales portent déjà la liste.
-  const { data: codeListContent, isLoading: isLoadingCodes } = useMutualizedCodesList(
+  const { data: codeListContent, isLoading: isLoadingCodes } = useMutualizedCodeList(
     !hasLocalEdits ? (selectedMmvr?.agency ?? "") : "",
     !hasLocalEdits ? (selectedMmvr?.codeListId ?? "") : "",
   );

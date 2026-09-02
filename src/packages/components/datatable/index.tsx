@@ -5,7 +5,7 @@ import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import { ChangeEvent, ComponentPropsWithoutRef, PropsWithChildren, useState } from "react";
 
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 
 const { D } = createAllDictionary({
   placeholder: {

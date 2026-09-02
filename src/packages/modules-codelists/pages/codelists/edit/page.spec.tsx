@@ -44,12 +44,12 @@ const renderPage = () =>
 describe("Codelist edit page", () => {
   it("displays the server error when the codelist cannot be loaded", async () => {
     (CodelistsApi.getDetailedCodelist as Mock).mockRejectedValue({
-      message: "CodeList not found",
+      message: "Codelist not found",
       status: 404,
     });
 
     renderPage();
 
-    expect(await screen.findByRole("alert")).toHaveTextContent("CodeList not found");
+    expect(await screen.findByRole("alert")).toHaveTextContent("Codelist not found");
   });
 });

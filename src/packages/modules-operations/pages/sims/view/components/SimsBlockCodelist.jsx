@@ -1,5 +1,5 @@
-export const SimsBlockCodeList = ({ codesLists, currentSection, multi = false, isSecondLang }) => {
-  const codes = codesLists[currentSection.codeList].codes;
+export const SimsBlockCodelist = ({ codelists, currentSection, multi = false, isSecondLang }) => {
+  const codes = codelists[currentSection.codeList].codes;
 
   if (multi) {
     const value = Array.isArray(currentSection.value)

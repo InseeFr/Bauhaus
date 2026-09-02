@@ -8,7 +8,7 @@ import {
 
 import { codelistsI18n } from "../../../i18n";
 
-const ZodCodeList = z.object({
+const ZodCodelist = z.object({
   lastListUriSegment: mandatoryAndNotEmptyTextField(
     codelistsI18n.t("codelists.codelistURI"),
   ),
@@ -33,4 +33,4 @@ const ZodCodeList = z.object({
   ),
 });
 
-export const validate = formatValidation(ZodCodeList);
+export const validate = formatValidation(ZodCodelist);

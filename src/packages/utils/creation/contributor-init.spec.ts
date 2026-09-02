@@ -30,29 +30,29 @@ describe("initializeContributorProperty", () => {
 });
 
 describe("resolveContributorIri", () => {
-  const organisations = [
-    { iri: "http://bauhaus/organisations/insee/HIE2001201", id: "HIE2001201", label: "Division" },
-    { iri: "http://bauhaus/organisations/insee/HIE2000001", id: "HIE2000001", label: "DG" },
+  const organizations = [
+    { iri: "http://bauhaus/organizations/insee/HIE2001201", id: "HIE2001201", label: "Division" },
+    { iri: "http://bauhaus/organizations/insee/HIE2000001", id: "HIE2000001", label: "DG" },
   ];
-  const defaultContributor = "http://bauhaus/organisations/insee/HIE2004937";
+  const defaultContributor = "http://bauhaus/organizations/insee/HIE2004937";
 
-  it("résout le timbre de l'utilisateur en IRI de son organisation", () => {
+  it("résout le timbre de l'utilisateur en IRI de son organization", () => {
     const result = resolveContributorIri({
       userStamp: "HIE2001201",
-      organisations,
+      organizations,
       defaultContributor,
-      useUserOrganisation: true,
+      useUserOrganization: true,
     });
 
-    expect(result).toBe("http://bauhaus/organisations/insee/HIE2001201");
+    expect(result).toBe("http://bauhaus/organizations/insee/HIE2001201");
   });
 
   it("retombe sur le contributeur par défaut quand le timbre est inconnu du référentiel", () => {
     const result = resolveContributorIri({
       userStamp: "DG75-F302",
-      organisations,
+      organizations,
       defaultContributor,
-      useUserOrganisation: true,
+      useUserOrganization: true,
     });
 
     expect(result).toBe(defaultContributor);
@@ -61,9 +61,9 @@ describe("resolveContributorIri", () => {
   it("utilise le contributeur par défaut quand l'objet ne doit pas être rattaché à l'utilisateur", () => {
     const result = resolveContributorIri({
       userStamp: "HIE2001201",
-      organisations,
+      organizations,
       defaultContributor,
-      useUserOrganisation: false,
+      useUserOrganization: false,
     });
 
     expect(result).toBe(defaultContributor);
@@ -75,9 +75,9 @@ describe("resolveContributorIri", () => {
   it("ignore un contributeur par défaut mal configuré", () => {
     const result = resolveContributorIri({
       userStamp: "DG75-F302",
-      organisations,
+      organizations,
       defaultContributor: "DG75-L201",
-      useUserOrganisation: true,
+      useUserOrganization: true,
     });
 
     expect(result).toBeUndefined();
@@ -86,9 +86,9 @@ describe("resolveContributorIri", () => {
   it("retourne undefined quand rien n'est résolvable", () => {
     const result = resolveContributorIri({
       userStamp: undefined,
-      organisations: [],
+      organizations: [],
       defaultContributor: undefined,
-      useUserOrganisation: true,
+      useUserOrganization: true,
     });
 
     expect(result).toBeUndefined();

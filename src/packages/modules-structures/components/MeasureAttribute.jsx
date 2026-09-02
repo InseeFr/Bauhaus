@@ -4,7 +4,7 @@ import { StructureApi } from "@sdk/index";
 
 import { MeasureAttributeValue } from "./MeasureAttributeValue";
 
-export const MeasureAttribute = ({ attribute, value, attributes, codesLists }) => {
+export const MeasureAttribute = ({ attribute, value, attributes, codelists }) => {
   const attributeId = attributes.find((a) => a.iri === attribute)?.id;
 
   const [fullAttribute, setFullAttribute] = useState();
@@ -20,7 +20,7 @@ export const MeasureAttribute = ({ attribute, value, attributes, codesLists }) =
   return (
     <>
       {fullAttribute?.labelLg1}:{" "}
-      <MeasureAttributeValue value={value} attribute={fullAttribute} codesLists={codesLists} />
+      <MeasureAttributeValue value={value} attribute={fullAttribute} codelists={codelists} />
     </>
   );
 };

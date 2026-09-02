@@ -11,7 +11,7 @@ import { useOrganizations } from "@utils/hooks/organizations";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { DOCUMENT, LINK } from "../../../../constants/documentType";
-import { useCodesLists } from "../../../hooks/useCodesLists";
+import { useCodelists } from "../../../hooks/useCodelists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { useSaveSims, useSims } from "../../../hooks/useSims";
 import { SimsLoaderData } from "../../../types/sims";
@@ -91,11 +91,11 @@ export const Component = () => {
 
   const params = useParams();
 
-  const { data: organisations } = useOrganizations();
+  const { data: organizations } = useOrganizations();
 
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
 
-  const { codesLists } = useCodesLists(metadataStructure);
+  const { codelists } = useCodelists(metadataStructure);
 
   const simsId = mode === UPDATE ? params.id : undefined;
 
@@ -189,12 +189,12 @@ export const Component = () => {
             parent={parent}
             sims={currentSims}
             metadataStructure={metadataStructure}
-            codesLists={codesLists}
+            codelists={codelists}
             onSubmit={saveSims}
             idParent={idParent}
             goBack={goBack}
             mode={mode}
-            organisations={organisations}
+            organizations={organizations}
             parentType={parentType}
             error={serverError}
           />

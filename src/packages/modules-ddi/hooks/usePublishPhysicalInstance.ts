@@ -29,7 +29,7 @@ export function usePublishPhysicalInstance() {
       // Invalider le cache des code lists pour qu'elles soient disponibles
       // immédiatement dans le sélecteur "Réutiliser une code list"
       queryClient.invalidateQueries({
-        queryKey: ["physicalCodesLists", variables.agencyId, variables.id],
+        queryKey: ["physicalCodeLists", variables.agencyId, variables.id],
       });
       // Contenu des listes attachées aux variables (`loadCodeListForVariable`, clé
       // ["codeListById", agency, id]). Sans éviction (staleTime: Infinity), rouvrir une variable
@@ -56,7 +56,7 @@ export function usePublishPhysicalInstance() {
       ]);
       if (parents?.group) {
         queryClient.invalidateQueries({
-          queryKey: ["groupCodesLists", parents.group.agency, parents.group.id],
+          queryKey: ["groupCodeLists", parents.group.agency, parents.group.id],
         });
       }
     },

@@ -5,13 +5,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
 import {
-  InseeOrganisation,
-  InseeOrganisations,
-} from "@components/business/organisations/organisations";
+  InseeOrganization,
+  InseeOrganizations,
+} from "@components/business/organizations/organizations";
 import { CheckSecondLang } from "@components/check-second-lang";
 import { CodeDisplay } from "@components/code-display";
 import { ConfirmationDelete } from "@components/confirmation-delete";
-import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
+import { DisseminationStatusVisualization } from "@components/dissemination-status/disseminationStatus";
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Deleting, Loading, Publishing } from "@components/loading";
@@ -21,7 +21,7 @@ import { List } from "@components/ui/list";
 
 import { DatasetsApi } from "@sdk/index";
 
-import { withCodesLists } from "@utils/hoc/withCodesLists";
+import { withCodelists } from "@utils/hoc/withCodelists";
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -162,14 +162,14 @@ const Dataset = (props) => {
             <ul>
               <li>
                 {t("dataset.internalManagement.creator")} :{" "}
-                <InseeOrganisation creator={dataset.catalogRecord?.creator} />
+                <InseeOrganization creator={dataset.catalogRecord?.creator} />
               </li>
               <li>
                 {t("dataset.internalManagement.contributors")} :{" "}
-                <InseeOrganisations creators={dataset.catalogRecord?.contributor} />
+                <InseeOrganizations creators={dataset.catalogRecord?.contributor} />
               </li>
               <li>
-                <DisseminationStatusVisualisation
+                <DisseminationStatusVisualization
                   disseminationStatus={dataset.disseminationStatus}
                 />
               </li>
@@ -177,7 +177,7 @@ const Dataset = (props) => {
                 <li>
                   {t("dataset.internalManagement.processStep")} :{" "}
                   <CodeDisplay
-                    codesList={props[CL_PROCESS_STEP]}
+                    codelist={props[CL_PROCESS_STEP]}
                     value={dataset.processStep}
                   ></CodeDisplay>
                 </li>
@@ -247,4 +247,4 @@ const Dataset = (props) => {
   );
 };
 
-export const Component = withCodesLists([CL_PROCESS_STEP])(Dataset);
+export const Component = withCodelists([CL_PROCESS_STEP])(Dataset);

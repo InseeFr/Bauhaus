@@ -5,7 +5,7 @@ import { useDisseminationStatusOptions } from "@utils/hooks/disseminationStatus"
 
 import D from "../i18n";
 import {
-  DisseminationStatusVisualisation,
+  DisseminationStatusVisualization,
   DisseminationStatusInput,
   getDisseminationStatus,
 } from "./disseminationStatus";
@@ -36,9 +36,9 @@ describe("getDisseminationStatus", () => {
   });
 });
 
-describe("DisseminationStatusVisualisation", () => {
+describe("DisseminationStatusVisualization", () => {
   it("renders correct dissemination status", () => {
-    render(<DisseminationStatusVisualisation disseminationStatus="/PublicGenerique" />);
+    render(<DisseminationStatusVisualization disseminationStatus="/PublicGenerique" />);
     expect(
       screen.getByText(
         `${D.disseminationStatus.title} : ${D.disseminationStatus.DSPublicGeneriqueTitle}`,

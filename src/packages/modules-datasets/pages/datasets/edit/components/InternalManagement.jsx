@@ -12,7 +12,7 @@ import { Select } from "@components/select-rmes";
 
 import { DatasetsApi } from "@sdk/index";
 
-import { withCodesLists } from "@utils/hoc/withCodesLists";
+import { withCodelists } from "@utils/hoc/withCodelists";
 
 import {
   CL_ACCESS_RIGHTS,
@@ -69,7 +69,7 @@ const InternalManagementTab = ({
       <Row>
         <div className="col-md-12 form-group">
           <CreatorsInput
-            mode="organisation"
+            mode="organization"
             value={editingDataset.catalogRecord?.creator}
             onChange={(values) => {
               setEditingDataset({
@@ -91,7 +91,7 @@ const InternalManagementTab = ({
       <Row>
         <div className="col-md-12 form-group">
           <ContributorsInput
-            mode="organisation"
+            mode="organization"
             value={editingDataset.catalogRecord?.contributor}
             onChange={(values) => {
               setEditingDataset({
@@ -229,7 +229,7 @@ const InternalManagementTab = ({
   );
 };
 
-export const InternalManagement = withCodesLists([
+export const InternalManagement = withCodelists([
   CL_ACCESS_RIGHTS,
   CL_CONF_STATUS,
   CL_PROCESS_STEP,

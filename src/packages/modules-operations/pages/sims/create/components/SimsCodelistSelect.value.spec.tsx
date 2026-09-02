@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { SimsCodeListSelect } from "./SimsCodeListSelect";
+import { SimsCodelistSelect } from "./SimsCodelistSelect";
 
 const selectSpy = vi.fn();
 
@@ -19,11 +19,11 @@ const options = [
 
 const lastValue = () => selectSpy.mock.calls.at(-1)?.[0].value;
 
-describe("SimsCodeListSelect - value normalisation (multi)", () => {
+describe("SimsCodelistSelect - value normalization (multi)", () => {
   it("passes an empty array when currentSection.value is undefined", () => {
     selectSpy.mockClear();
     render(
-      <SimsCodeListSelect
+      <SimsCodelistSelect
         multi
         currentSection={{ value: undefined }}
         options={options}
@@ -36,7 +36,7 @@ describe("SimsCodeListSelect - value normalisation (multi)", () => {
   it("passes an empty array when currentSection.value is null", () => {
     selectSpy.mockClear();
     render(
-      <SimsCodeListSelect
+      <SimsCodelistSelect
         multi
         currentSection={{ value: null }}
         options={options}
@@ -49,7 +49,7 @@ describe("SimsCodeListSelect - value normalisation (multi)", () => {
   it("passes an empty array when currentSection.value is an empty string", () => {
     selectSpy.mockClear();
     render(
-      <SimsCodeListSelect
+      <SimsCodelistSelect
         multi
         currentSection={{ value: "" }}
         options={options}
@@ -62,7 +62,7 @@ describe("SimsCodeListSelect - value normalisation (multi)", () => {
   it("wraps a defined non-array value into an array", () => {
     selectSpy.mockClear();
     render(
-      <SimsCodeListSelect
+      <SimsCodelistSelect
         multi
         currentSection={{ value: "option1" }}
         options={options}
@@ -75,7 +75,7 @@ describe("SimsCodeListSelect - value normalisation (multi)", () => {
   it("keeps an array value untouched", () => {
     selectSpy.mockClear();
     render(
-      <SimsCodeListSelect
+      <SimsCodelistSelect
         multi
         currentSection={{ value: ["option1", "option2"] }}
         options={options}

@@ -61,14 +61,14 @@ const linkedAttributeLabelMapping = {
   [XSD_CODE_LIST]: structuresI18n.t("component.representation.codelist.action"),
 };
 
-const initialCodeListFormState = {
+const initialCodelistFormState = {
   codesFullListPanelOpened: false,
   codesPartialListPanelOpened: false,
   partials: [],
-  partialCodesLists: [],
+  partialCodelists: [],
 };
 
-function codeListFormReducer(state, action) {
+function codelistFormReducer(state, action) {
   switch (action.type) {
     case "SET_FULL_PANEL_OPENED":
       return { ...state, codesFullListPanelOpened: action.opened };
@@ -77,60 +77,60 @@ function codeListFormReducer(state, action) {
     case "SET_PARTIALS":
       return { ...state, partials: action.partials };
     case "SET_PARTIAL_CODES_LISTS":
-      return { ...state, partialCodesLists: action.partialCodesLists };
+      return { ...state, partialCodelists: action.partialCodelists };
     default:
       return state;
   }
 }
 
-const CodelistFormInput = ({ component, codesLists, setComponent }) => {
+const CodelistFormInput = ({ component, codelists, setComponent }) => {
   const { t } = useTranslation();
 
   const [state, dispatch] = useReducer(
-    codeListFormReducer,
-    initialCodeListFormState,
+    codelistFormReducer,
+    initialCodelistFormState,
   );
 
   const {
     codesFullListPanelOpened,
     codesPartialListPanelOpened,
     partials,
-    partialCodesLists,
+    partialCodelists,
   } = state;
 
-  const fullCodeListValue = component.fullCodeListValue || component.codeList;
+  const fullCodelistValue = component.fullCodeListValue || component.codeList;
 
-  const currentCodeList = component.codeList;
+  const currentCodelist = component.codeList;
 
   useEffect(() => {
     CodelistsApi.getCodelistsPartial().then((response) => {
       dispatch({
         type: "SET_PARTIAL_CODES_LISTS",
-        partialCodesLists: response,
+        partialCodelists: response,
       });
     });
   }, []);
 
   useEffect(() => {
-    if (fullCodeListValue) {
-      const fullCodeLists = [
-        ...codesLists,
-        ...partialCodesLists.map((l) => ({
+    if (fullCodelistValue) {
+      const fullCodelists = [
+        ...codelists,
+        ...partialCodelists.map((l) => ({
           id: l.uri,
           label: l.labelLg1,
           notation: l.id,
         })),
       ];
-      const list = fullCodeLists.find((list) => list.id === fullCodeListValue);
+      const list = fullCodelists.find((list) => list.id === fullCodelistValue);
       if (list) {
         CodelistsApi.getPartialsByParent(list.notation).then((partials) =>
           dispatch({ type: "SET_PARTIALS", partials }),
         );
       }
     }
-  }, [fullCodeListValue, codesLists, partialCodesLists]);
+  }, [fullCodelistValue, codelists, partialCodelists]);
 
-  const codeListOptions = codesLists.map(({ id, label }) => ({
+  const codelistOptions = codelists.map(({ id, label }) => ({
     value: id,
     label,
   }));
@@ -147,9 +147,9 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
           <label>{t("codelist")}</label>
           <Select
             placeholder={t("codelist")}
-            options={codeListOptions}
-            value={codeListOptions.find(
-              (c) => fullCodeListValue?.toString() === c.value?.toString(),
+            options={codelistOptions}
+            value={codelistOptions.find(
+              (c) => fullCodelistValue?.toString() === c.value?.toString(),
             )}
             onChange={(value) =>
               setComponent({
@@ -160,7 +160,7 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
             }
           />
           <SeeButton
-            disabled={!fullCodeListValue}
+            disabled={!fullCodelistValue}
             onClick={() =>
               dispatch({ type: "SET_FULL_PANEL_OPENED", opened: true })
             }
@@ -175,14 +175,14 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
               placeholder={t("partialCodelist")}
               options={partialsOptions}
               value={partialsOptions.find(
-                (c) => currentCodeList?.toString() === c.value?.toString(),
+                (c) => currentCodelist?.toString() === c.value?.toString(),
               )}
               onChange={(value) =>
                 setComponent({ ...component, codeList: value })
               }
             />
             <SeeButton
-              disabled={!currentCodeList}
+              disabled={!currentCodelist}
               onClick={() =>
                 dispatch({ type: "SET_PARTIAL_PANEL_OPENED", opened: true })
               }
@@ -191,9 +191,9 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
         </Row>
       )}
       <CodelistPanel
-        codesList={codesLists.find(
+        codelist={codelists.find(
           (c) =>
-            (fullCodeListValue?.id || fullCodeListValue)?.toString() ===
+            (fullCodelistValue?.id || fullCodelistValue)?.toString() ===
             c.id?.toString(),
         )}
         isOpen={codesFullListPanelOpened}
@@ -202,9 +202,9 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
         }
       />
       <CodelistPanel
-        codesList={{
+        codelist={{
           notation: partials.find((c) =>
-            (currentCodeList?.id || currentCodeList)
+            (currentCodelist?.id || currentCodelist)
               ?.toString()
               .includes(c.iri?.toString()),
           )?.id,
@@ -221,7 +221,7 @@ const CodelistFormInput = ({ component, codesLists, setComponent }) => {
 export const ComponentDetailEdit = ({
   component: initialComponent,
   concepts = EMPTY_ARRAY,
-  codesLists = EMPTY_ARRAY,
+  codelists = EMPTY_ARRAY,
   handleSave,
   handleBack,
   type,
@@ -575,7 +575,7 @@ export const ComponentDetailEdit = ({
         {component.range === XSD_CODE_LIST && (
           <CodelistFormInput
             component={component}
-            codesLists={codesLists}
+            codelists={codelists}
             setComponent={setComponent}
           />
         )}
@@ -583,7 +583,7 @@ export const ComponentDetailEdit = ({
           <CreatorsInput
             value={component.creator}
             onChange={(value) => setComponent({ ...component, creator: value })}
-            mode="organisation"
+            mode="organization"
           />
         </div>
         <div className="form-group">
@@ -596,7 +596,7 @@ export const ComponentDetailEdit = ({
               })
             }
             multi={true}
-            mode="organisation"
+            mode="organization"
           />
         </div>
         <div className="form-group">
@@ -639,7 +639,7 @@ export const ComponentDetailEdit = ({
             }}
             component={component}
             attributes={attributes}
-            codesLists={codesLists}
+            codelists={codelists}
           />
         )}
       </form>
@@ -647,7 +647,7 @@ export const ComponentDetailEdit = ({
   );
 };
 
-const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
+const AttributesArray = ({ onChange, component, attributes, codelists }) => {
   const { t } = useTranslation();
 
   const componentAttributes = Object.keys({
@@ -688,7 +688,7 @@ const AttributesArray = ({ onChange, component, attributes, codesLists }) => {
             }
             value={component["attributeValue_" + index]}
             selectedAttribute={component["attribute_" + index]}
-            codesLists={codesLists}
+            codelists={codelists}
             attributeId={attributeId}
           />
         )}
@@ -717,26 +717,26 @@ const AttributeTextValue = ({ onChange, value, label }) => {
 
 const sortByLabel = sortArray("label");
 
-const AttributeCodeList = ({
+const AttributeCodelist = ({
   onChange,
   value,
-  codeListIri,
-  codesLists,
+  codelistIri,
+  codelists,
   label,
 }) => {
   const { t } = useTranslation();
 
   const [codes, setCodes] = useState();
 
-  const codeListNotation = codesLists.find(
-    (cl) => cl.id === codeListIri,
+  const codelistNotation = codelists.find(
+    (cl) => cl.id === codelistIri,
   )?.notation;
 
   useEffect(() => {
-    CodelistsApi.getCodesListCodes(codeListNotation, 1, 0).then((codes) =>
+    CodelistsApi.getCodelistCodes(codelistNotation, 1, 0).then((codes) =>
       setCodes(codes),
     );
-  }, [codeListNotation]);
+  }, [codelistNotation]);
 
   if (!codes) {
     return null;
@@ -761,7 +761,7 @@ const AttributeCodeList = ({
   );
 };
 
-const AttributeValue = ({ onChange, value, codesLists, attributeId }) => {
+const AttributeValue = ({ onChange, value, codelists, attributeId }) => {
   const [attribute, setAttribute] = useState();
 
   useEffect(() => {
@@ -776,12 +776,12 @@ const AttributeValue = ({ onChange, value, codesLists, attributeId }) => {
 
   if (attribute.range === XSD_CODE_LIST) {
     return (
-      <AttributeCodeList
+      <AttributeCodelist
         label={linkedAttributeLabelMapping[attribute.range]}
         onChange={onChange}
         value={value}
-        codeListIri={attribute.codeList}
-        codesLists={codesLists}
+        codelistIri={attribute.codeList}
+        codelists={codelists}
       />
     );
   }

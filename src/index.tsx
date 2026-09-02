@@ -7,7 +7,7 @@ import { BackToTop } from "@components/back-to-top";
 
 import { GeneralApi } from "@sdk/general-api";
 
-import { getLang } from "@utils/dictionnary";
+import { getLang } from "@utils/dictionary";
 
 import { AppContextProvider, type AppProperties } from "./packages/application/app-context";
 import { Root } from "./packages/application/router";

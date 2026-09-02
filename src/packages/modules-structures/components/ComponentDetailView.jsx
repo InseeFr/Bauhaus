@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import {
-  InseeOrganisation,
-  InseeOrganisations,
-} from "@components/business/organisations/organisations";
+  InseeOrganization,
+  InseeOrganizations,
+} from "@components/business/organizations/organizations";
 import { SeeButton } from "@components/buttons/see";
 import { CreationUpdateItems } from "@components/creation-update-items";
-import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
+import { DisseminationStatusVisualization } from "@components/dissemination-status/disseminationStatus";
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -32,7 +32,7 @@ import { MeasureAttributes } from "./MeasureAttributes";
 export const ComponentDetailView = ({
   component,
   concepts = EMPTY_ARRAY,
-  codesLists = EMPTY_ARRAY,
+  codelists = EMPTY_ARRAY,
   handleUpdate,
   handleDelete,
   handleBack,
@@ -51,13 +51,13 @@ export const ComponentDetailView = ({
 
   const { lg1, lg2 } = useAppContext();
 
-  const [codesListPanelOpened, setCodesListPanelOpened] = useState(false);
+  const [codelistPanelOpened, setCodelistPanelOpened] = useState(false);
 
-  const [partialCodesLists, setPartialCodesLists] = useState([]);
+  const [partialCodelists, setPartialCodelists] = useState([]);
 
   useEffect(() => {
     CodelistsApi.getCodelistsPartial().then((response) => {
-      setPartialCodesLists(response);
+      setPartialCodelists(response);
     });
   }, []);
 
@@ -67,16 +67,16 @@ export const ComponentDetailView = ({
     (concept) => concept.id?.toString() === component.concept?.toString(),
   )?.label;
 
-  const fullCodeLists = [
-    ...codesLists,
-    ...partialCodesLists.map((l) => ({
+  const fullCodelists = [
+    ...codelists,
+    ...partialCodelists.map((l) => ({
       id: l.uri,
       label: l.labelLg1,
       notation: l.id,
     })),
   ];
 
-  const codeListValue = fullCodeLists.find(
+  const codelistValue = fullCodelists.find(
     (codelist) => component.codeList?.toString() === codelist.id?.toString(),
   )?.label;
 
@@ -110,14 +110,14 @@ export const ComponentDetailView = ({
               <CreationUpdateItems creation={component.created} update={component.modified} />
               <PublicationStatusItem label={t("component.validationStatus")} object={component} />
               <li>
-                {t("component.creator")} : <InseeOrganisation creator={component.creator} />
+                {t("component.creator")} : <InseeOrganization creator={component.creator} />
               </li>
               <li>
                 {t("component.contributors")} :{" "}
-                <InseeOrganisations creators={component.contributor} />
+                <InseeOrganizations creators={component.contributor} />
               </li>
               <li>
-                <DisseminationStatusVisualisation
+                <DisseminationStatusVisualization
                   disseminationStatus={component.disseminationStatus}
                 />
               </li>
@@ -193,8 +193,8 @@ export const ComponentDetailView = ({
           <Note
             text={
               <div className="code-list-zone-view">
-                {codeListValue}
-                <SeeButton onClick={() => setCodesListPanelOpened(true)}></SeeButton>
+                {codelistValue}
+                <SeeButton onClick={() => setCodelistPanelOpened(true)}></SeeButton>
               </div>
             }
             title={t("component.codelist")}
@@ -226,7 +226,7 @@ export const ComponentDetailView = ({
               <MeasureAttributes
                 measure={component}
                 attributes={attributes}
-                codesLists={codesLists}
+                codelists={codelists}
               />
             }
             title={t("component.type.attribute.title")}
@@ -288,11 +288,11 @@ export const ComponentDetailView = ({
         </>
       )}
       <CodelistPanel
-        codesList={fullCodeLists.find(
+        codelist={fullCodelists.find(
           (c) => (component.codeList?.id || component.codeList)?.toString() === c.id?.toString(),
         )}
-        isOpen={codesListPanelOpened}
-        handleBack={() => setCodesListPanelOpened(false)}
+        isOpen={codelistPanelOpened}
+        handleBack={() => setCodelistPanelOpened(false)}
       />
     </>
   );

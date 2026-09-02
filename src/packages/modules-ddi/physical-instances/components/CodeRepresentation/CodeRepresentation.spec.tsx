@@ -30,10 +30,10 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.code.createNewList": "Créer une nouvelle liste",
         "physicalInstance.view.code.reuseList": "Réutiliser",
         "physicalInstance.view.code.selectCodeList": "Sélectionnez une liste de codes",
-        "physicalInstance.view.code.loadingCodesLists": "Chargement des listes de codes...",
-        "physicalInstance.view.code.errorLoadingCodesLists":
+        "physicalInstance.view.code.loadingCodeLists": "Chargement des listes de codes...",
+        "physicalInstance.view.code.errorLoadingCodeLists":
           "Erreur lors du chargement des listes de codes",
-        "physicalInstance.view.code.noCodesListsAvailable": "Aucune liste de codes disponible",
+        "physicalInstance.view.code.noCodeListsAvailable": "Aucune liste de codes disponible",
         "physicalInstance.view.code.noCodes": "Aucun code",
         "physicalInstance.view.code.actionsMenu": "Menu des actions",
         "physicalInstance.view.code.moveUp": "Monter",
@@ -68,7 +68,7 @@ vi.mock("react-router-dom", () => ({
   ),
 }));
 
-const mockUseAllCodesLists = vi.fn(() => ({
+const mockUseAllCodeLists = vi.fn(() => ({
   data: [
     { id: "list-1", label: "Liste 1", agencyId: "fr.insee", mutualized: false },
     { id: "list-2", label: "Liste 2", agencyId: "fr.insee", mutualized: false },
@@ -77,19 +77,19 @@ const mockUseAllCodesLists = vi.fn(() => ({
   error: null,
 }));
 
-vi.mock("../../../hooks/useAllCodesLists", () => ({
-  useAllCodesLists: () => mockUseAllCodesLists(),
+vi.mock("../../../hooks/useAllCodeLists", () => ({
+  useAllCodeLists: () => mockUseAllCodeLists(),
 }));
 
-const mockUseMutualizedCodesList = vi.fn((_agency: string, _id: string) => ({
+const mockUseMutualizedCodeList = vi.fn((_agency: string, _id: string) => ({
   data: undefined as any,
   isLoading: false,
   isSuccess: false,
   error: null,
 }));
 
-vi.mock("../../../hooks/useMutualizedCodesList", () => ({
-  useMutualizedCodesList: (agency: string, id: string) => mockUseMutualizedCodesList(agency, id),
+vi.mock("../../../hooks/useMutualizedCodeList", () => ({
+  useMutualizedCodeList: (agency: string, id: string) => mockUseMutualizedCodeList(agency, id),
 }));
 
 const mockUseCodeListUsers = vi.fn(() => ({
@@ -223,7 +223,7 @@ vi.mock("primereact/dropdown", () => ({
     optionValue,
   }: any) => (
     <select
-      data-testid="codes-list-dropdown"
+      data-testid="code-list-dropdown"
       value={value || ""}
       onChange={(e) => onChange({ value: e.target.value })}
     >
@@ -309,7 +309,7 @@ describe("CodeRepresentation", () => {
     mockFetchCodeListUsers.mockResolvedValue([]);
     mockUseCategoryUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
     mockUseCodeListUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
-    mockUseAllCodesLists.mockReturnValue({
+    mockUseAllCodeLists.mockReturnValue({
       data: [
         { id: "codelist-1", label: "Liste 1", agencyId: "fr.insee", mutualized: false },
         { id: "list-2", label: "Liste 2", agencyId: "fr.insee", mutualized: false },
@@ -386,11 +386,11 @@ describe("CodeRepresentation", () => {
         />,
       );
 
-      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("code-list-dropdown")).not.toBeInTheDocument();
 
       fireEvent.click(screen.getByText("Réutiliser"));
 
-      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
+      expect(screen.getByTestId("code-list-dropdown")).toBeInTheDocument();
     });
 
     it("should keep ReuseCodeListSelect visible when reuse button is clicked again", () => {
@@ -406,10 +406,10 @@ describe("CodeRepresentation", () => {
       const reuseButton = screen.getByText("Réutiliser");
 
       fireEvent.click(reuseButton);
-      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
+      expect(screen.getByTestId("code-list-dropdown")).toBeInTheDocument();
 
       fireEvent.click(reuseButton);
-      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
+      expect(screen.getByTestId("code-list-dropdown")).toBeInTheDocument();
     });
 
     it("should hide ReuseCodeListSelect when create new list is clicked", () => {
@@ -423,10 +423,10 @@ describe("CodeRepresentation", () => {
       );
 
       fireEvent.click(screen.getByText("Réutiliser"));
-      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
+      expect(screen.getByTestId("code-list-dropdown")).toBeInTheDocument();
 
       fireEvent.click(screen.getByText("Créer une nouvelle liste"));
-      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("code-list-dropdown")).not.toBeInTheDocument();
       expect(screen.getByTestId("data-table")).toBeInTheDocument();
     });
 
@@ -627,7 +627,7 @@ describe("CodeRepresentation", () => {
 
   describe("read-only for mutualized lists", () => {
     it("should make code list inputs read-only when the referenced list is mutualized", () => {
-      mockUseAllCodesLists.mockReturnValue({
+      mockUseAllCodeLists.mockReturnValue({
         data: [
           { id: "codelist-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true },
         ],
@@ -667,7 +667,7 @@ describe("CodeRepresentation", () => {
 
   describe("selection of a mutualized list", () => {
     it("should display a spinner while the mutualized codes list is loading", () => {
-      mockUseAllCodesLists.mockReturnValue({
+      mockUseAllCodeLists.mockReturnValue({
         data: [{ id: "mut-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true }],
         isLoading: false,
         error: null,
@@ -685,7 +685,7 @@ describe("CodeRepresentation", () => {
         isSuccess: false,
         error: null,
       };
-      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
         agency === "fr.insee" && id === "mut-1" ? loadingResult : idleResult,
       );
 
@@ -699,7 +699,7 @@ describe("CodeRepresentation", () => {
       );
 
       fireEvent.click(screen.getByText("Réutiliser"));
-      fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+      fireEvent.change(screen.getByTestId("code-list-dropdown"), {
         target: { value: "fr.insee-mut-1" },
       });
 
@@ -708,7 +708,7 @@ describe("CodeRepresentation", () => {
     });
 
     it("should fetch and display codes read-only after selecting a mutualized list", () => {
-      mockUseAllCodesLists.mockReturnValue({
+      mockUseAllCodeLists.mockReturnValue({
         data: [{ id: "mut-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true }],
         isLoading: false,
         error: null,
@@ -748,7 +748,7 @@ describe("CodeRepresentation", () => {
         isSuccess: true,
         error: null,
       };
-      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
         agency === "fr.insee" && id === "mut-1" ? successResult : idleResult,
       );
 
@@ -763,7 +763,7 @@ describe("CodeRepresentation", () => {
 
       fireEvent.click(screen.getByText("Réutiliser"));
 
-      const dropdown = screen.getByTestId("codes-list-dropdown");
+      const dropdown = screen.getByTestId("code-list-dropdown");
       fireEvent.change(dropdown, { target: { value: "fr.insee-mut-1" } });
 
       const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
@@ -773,13 +773,13 @@ describe("CodeRepresentation", () => {
       // read-only mode: no "Ajouter un code" button
       expect(screen.queryByText("Ajouter un code")).not.toBeInTheDocument();
       // dropdown stays visible so the user can change selection
-      expect(screen.getByTestId("codes-list-dropdown")).toBeInTheDocument();
+      expect(screen.getByTestId("code-list-dropdown")).toBeInTheDocument();
     });
   });
 
   describe("reset when create new list is clicked", () => {
     it("should reset to an empty new code list when create new list is clicked after reusing a list", () => {
-      mockUseAllCodesLists.mockReturnValue({
+      mockUseAllCodeLists.mockReturnValue({
         data: [{ id: "grp-1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
         isLoading: false,
         error: null,
@@ -800,7 +800,7 @@ describe("CodeRepresentation", () => {
       });
       const idleResult = { data: undefined, isLoading: false, isSuccess: false, error: null };
       const successResult = { data: groupData, isLoading: false, isSuccess: true, error: null };
-      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
         agency === "fr.insee" && id === "grp-1" ? successResult : idleResult,
       );
 
@@ -814,7 +814,7 @@ describe("CodeRepresentation", () => {
       );
 
       fireEvent.click(screen.getByText("Réutiliser"));
-      fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+      fireEvent.change(screen.getByTestId("code-list-dropdown"), {
         target: { value: "fr.insee-grp-1" },
       });
 
@@ -831,7 +831,7 @@ describe("CodeRepresentation", () => {
       fireEvent.click(screen.getByText("Créer une nouvelle liste"));
 
       // The reuse dropdown is gone and the reused code is no longer present
-      expect(screen.queryByTestId("codes-list-dropdown")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("code-list-dropdown")).not.toBeInTheDocument();
       const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
       expect(valueInputs.some((i) => i.value === "01")).toBe(false);
       expect(valueInputs.every((i) => i.value === "")).toBe(true);
@@ -877,7 +877,7 @@ describe("CodeRepresentation", () => {
 
   describe("re-selection of an already loaded list", () => {
     it("should display the codes again when re-selecting a previously selected list", () => {
-      mockUseAllCodesLists.mockReturnValue({
+      mockUseAllCodeLists.mockReturnValue({
         data: [
           { id: "mut-1", label: "Liste 1", agencyId: "fr.insee", mutualized: true },
           { id: "mut-2", label: "Liste 2", agencyId: "fr.insee", mutualized: true },
@@ -931,7 +931,7 @@ describe("CodeRepresentation", () => {
       // renvoie un état de chargement ; une fois chargée, il renvoie les données en synchrone
       // (comme un cache hit lors d'une re-sélection).
       const loadedKeys = new Set<string>();
-      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) => {
+      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) => {
         if (!agency || !id) return idleResult;
         if (loadedKeys.has(`${agency}-${id}`)) return buildSuccess(id);
         return { data: undefined, isLoading: true, isSuccess: false, error: null };
@@ -954,7 +954,7 @@ describe("CodeRepresentation", () => {
       fireEvent.click(screen.getByText("Réutiliser"));
 
       const select = (id: string) => {
-        fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+        fireEvent.change(screen.getByTestId("code-list-dropdown"), {
           target: { value: `fr.insee-${id}` },
         });
         // Simule la résolution du fetch (puis cache hit pour les sélections suivantes)
@@ -981,7 +981,7 @@ describe("CodeRepresentation", () => {
 
   describe("selection of a group list", () => {
     it("should fetch and display codes editable after selecting a group (non-mutualized) list", () => {
-      mockUseAllCodesLists.mockReturnValue({
+      mockUseAllCodeLists.mockReturnValue({
         data: [{ id: "grp-1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
         isLoading: false,
         error: null,
@@ -1021,7 +1021,7 @@ describe("CodeRepresentation", () => {
         isSuccess: true,
         error: null,
       };
-      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
         agency === "fr.insee" && id === "grp-1" ? successResult : idleResult,
       );
 
@@ -1035,7 +1035,7 @@ describe("CodeRepresentation", () => {
       );
 
       fireEvent.click(screen.getByText("Réutiliser"));
-      fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+      fireEvent.change(screen.getByTestId("code-list-dropdown"), {
         target: { value: "fr.insee-grp-1" },
       });
 
@@ -1049,7 +1049,7 @@ describe("CodeRepresentation", () => {
     });
 
     it("keeps the referenced ID and existing codes when editing the label of a reused group list", async () => {
-      mockUseAllCodesLists.mockReturnValue({
+      mockUseAllCodeLists.mockReturnValue({
         data: [{ id: "grp-1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
         isLoading: false,
         error: null,
@@ -1071,7 +1071,7 @@ describe("CodeRepresentation", () => {
           { ID: "cat-2", Label: [{ "@language": "fr-FR", "@value": "Industrie" }] },
         ],
       });
-      mockUseMutualizedCodesList.mockImplementation((agency: string, id: string) =>
+      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
         agency === "fr.insee" && id === "grp-1"
           ? { data: groupData, isLoading: false, isSuccess: true, error: null }
           : { data: undefined, isLoading: false, isSuccess: false, error: null },
@@ -1103,7 +1103,7 @@ describe("CodeRepresentation", () => {
       render(<Harness />);
 
       fireEvent.click(screen.getByText("Réutiliser"));
-      fireEvent.change(screen.getByTestId("codes-list-dropdown"), {
+      fireEvent.change(screen.getByTestId("code-list-dropdown"), {
         target: { value: "fr.insee-grp-1" },
       });
 
@@ -1338,7 +1338,7 @@ describe("CodeRepresentation", () => {
 
     it("does not ask for confirmation when the shared list is mutualized (read-only)", () => {
       markListAsShared();
-      mockUseAllCodesLists.mockReturnValue({
+      mockUseAllCodeLists.mockReturnValue({
         data: [
           { id: "codelist-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true },
         ],

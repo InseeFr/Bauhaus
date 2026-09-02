@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import { useAppContext } from "../../../../application/app-context";
-import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
+import { useAllCodeLists } from "../../../hooks/useAllCodeLists";
 import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
+import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
@@ -65,7 +65,7 @@ export const CodeRepresentation = ({
     id: string;
     agencyId: string;
   }>();
-  const { data: allCodesLists = [] } = useAllCodesLists(agencyId, physicalInstanceId);
+  const { data: allCodeLists = [] } = useAllCodeLists(agencyId, physicalInstanceId);
   const [state, dispatch] = useReducer(codeRepresentationReducer, {
     ...initialState,
     codeListLabel: getLocalizedText(codeList?.Label) ?? "",
@@ -78,7 +78,7 @@ export const CodeRepresentation = ({
   const isReferencedListMutualized = Boolean(
     referencedCodeListAgency &&
     referencedCodeListId &&
-    allCodesLists.find(
+    allCodeLists.find(
       (cl) => cl.agencyId === referencedCodeListAgency && cl.id === referencedCodeListId,
     )?.mutualized,
   );
@@ -87,7 +87,7 @@ export const CodeRepresentation = ({
   const isSelectedListMutualized = Boolean(
     selectedAgency &&
     selectedListId &&
-    allCodesLists.find((cl) => cl.agencyId === selectedAgency && cl.id === selectedListId)
+    allCodeLists.find((cl) => cl.agencyId === selectedAgency && cl.id === selectedListId)
       ?.mutualized,
   );
 
@@ -130,7 +130,7 @@ export const CodeRepresentation = ({
   // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back (il délègue à
   // getCodeList) : il sert donc aussi bien aux listes mutualisées qu'aux listes du groupe.
   // On charge le contenu dès qu'une liste est sélectionnée, quel que soit son type.
-  const { data: selectedListCodes, isLoading: isLoadingSelectedListCodes } = useMutualizedCodesList(
+  const { data: selectedListCodes, isLoading: isLoadingSelectedListCodes } = useMutualizedCodeList(
     selectedAgency,
     selectedListId,
   );

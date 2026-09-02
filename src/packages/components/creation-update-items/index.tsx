@@ -1,5 +1,5 @@
 import { stringToDate } from "@utils/date-utils";
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 
 const { D } = createAllDictionary({
   createdDateTitle: {

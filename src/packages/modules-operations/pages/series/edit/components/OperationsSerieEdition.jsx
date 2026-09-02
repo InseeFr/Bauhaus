@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CreatorsInput } from "@components/business/creators-input";
-import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
+import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
 import {
   CancelButton,
   SaveButton,
@@ -406,7 +406,7 @@ export const OperationsSerieEdition = ({
         </Row>
         <Row>
           <div className="form-group col-md-12">
-            <OrganisationInput
+            <OrganizationInput
               multi
               required={false}
               lang="first"
@@ -432,7 +432,7 @@ export const OperationsSerieEdition = ({
         </Row>
         <Row>
           <div className="form-group col-md-12">
-            <OrganisationInput
+            <OrganizationInput
               multi
               required={false}
               lang="first"
@@ -459,7 +459,7 @@ export const OperationsSerieEdition = ({
         <Row>
           <div className="form-group col-md-12">
             <CreatorsInput
-              mode="organisation"
+              mode="organization"
               value={serie.creators}
               onChange={(value) =>
                 onChange({

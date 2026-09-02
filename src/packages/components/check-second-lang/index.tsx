@@ -1,4 +1,4 @@
-import { createAllDictionary } from "@utils/dictionnary";
+import { createAllDictionary } from "@utils/dictionary";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import "./index.css";

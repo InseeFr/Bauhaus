@@ -2,7 +2,7 @@ import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DateItem } from "@components/creation-update-items";
 import { getDisseminationStatus } from "@components/dissemination-status/disseminationStatus";
 import { PublicationMale } from "@components/status";
@@ -38,7 +38,7 @@ export const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<
       <Column
         field="creator"
         header={t("dashboard.ownerColumn")}
-        body={(item: ConceptForAdvancedSearch) => <InseeOrganisation creator={item.creator} />}
+        body={(item: ConceptForAdvancedSearch) => <InseeOrganization creator={item.creator} />}
       />
       <Column
         field="disseminationStatus"

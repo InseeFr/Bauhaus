@@ -4,7 +4,7 @@ import { Select } from "@components/select-rmes";
 
 import { Option } from "@model/SelectOption";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 
 import { CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
 
@@ -16,7 +16,7 @@ interface TypeCodeInputTypes {
 export const TypeCodeInput = ({ value, onChange }: Readonly<TypeCodeInputTypes>) => {
   const { t } = useTranslation();
 
-  const categories = useCodesList(CL_SOURCE_CATEGORY);
+  const categories = useCodelist(CL_SOURCE_CATEGORY);
 
   const options: Option[] = categories?.codes?.map((cat) => {
     return { value: cat.code, label: cat.labelLg1 };

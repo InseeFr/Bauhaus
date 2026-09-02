@@ -1,12 +1,12 @@
 import { render } from "@testing-library/react";
 
-import { SimsBlockCodeList } from "./SimsBlockCodeList";
+import { SimsBlockCodelist } from "./SimsBlockCodelist";
 
-describe("<SimsBlockCodeList />", () => {
+describe("<SimsBlockCodelist />", () => {
   it("should not display a list if the maxOccurs property is not unbounded", () => {
     const { container } = render(
-      <SimsBlockCodeList
-        codesLists={{
+      <SimsBlockCodelist
+        codelists={{
           1: {
             codes: [
               { code: "c1", labelLg1: "labelLg1 1" },
@@ -27,8 +27,8 @@ describe("<SimsBlockCodeList />", () => {
   });
   it("should not display a list if the maxOccurs property is unbounded and the value is not an array", () => {
     const { container } = render(
-      <SimsBlockCodeList
-        codesLists={{
+      <SimsBlockCodelist
+        codelists={{
           1: {
             codes: [
               { code: "c1", labelLg1: "labelLg1 1" },
@@ -49,8 +49,8 @@ describe("<SimsBlockCodeList />", () => {
   });
   it("should display a list if the maxOccurs property is unbounded and the value is an array", () => {
     const { container } = render(
-      <SimsBlockCodeList
-        codesLists={{
+      <SimsBlockCodelist
+        codelists={{
           1: {
             codes: [
               { code: "c1", labelLg1: "labelLg1 1" },

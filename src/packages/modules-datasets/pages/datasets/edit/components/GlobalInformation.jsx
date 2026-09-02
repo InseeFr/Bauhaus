@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { OrganisationInput } from "@components/business/stamps-input/stamps-input";
+import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
 import { ClientSideError } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
@@ -8,7 +8,7 @@ import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
 import { InputMulti } from "@components/ui/forms/input-multi";
 
-import { withCodesLists } from "@utils/hoc/withCodesLists";
+import { withCodelists } from "@utils/hoc/withCodelists";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
 import { useThemes } from "../../../../hooks/useThemes";
@@ -158,7 +158,7 @@ const GlobalInformationTab = ({
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <OrganisationInput
+          <OrganizationInput
             labelMulti={t("dataset.globalInformation.dataProvider")}
             multi
             value={editingDataset.creators}
@@ -173,7 +173,7 @@ const GlobalInformationTab = ({
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <OrganisationInput
+          <OrganizationInput
             labelSingle={t("dataset.globalInformation.publicationProvider")}
             value={editingDataset.publisher}
             onChange={(values) => {
@@ -273,4 +273,4 @@ const GlobalInformationTab = ({
   );
 };
 
-export const GlobalInformation = withCodesLists([CL_FREQ])(GlobalInformationTab);
+export const GlobalInformation = withCodelists([CL_FREQ])(GlobalInformationTab);

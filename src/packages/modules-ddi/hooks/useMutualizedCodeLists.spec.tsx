@@ -4,11 +4,11 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
-import { useMutualizedCodesLists } from "./useMutualizedCodesLists";
+import { useMutualizedCodeLists } from "./useMutualizedCodeLists";
 
 vi.mock("../../sdk", () => ({
   DDIApi: {
-    getMutualizedCodesLists: vi.fn(),
+    getMutualizedCodeLists: vi.fn(),
   },
 }));
 
@@ -25,8 +25,8 @@ const createWrapper = () => {
   );
 };
 
-describe("useMutualizedCodesLists", () => {
-  const mockCodesLists = [
+describe("useMutualizedCodeLists", () => {
+  const mockCodeLists = [
     { agencyId: "fr.insee", id: "mutualized-1", label: "Liste mutualisée 1" },
     { agencyId: "fr.insee", id: "mutualized-2", label: "Liste mutualisée 2" },
   ];
@@ -36,9 +36,9 @@ describe("useMutualizedCodesLists", () => {
   });
 
   it("should fetch mutualized codes lists", async () => {
-    vi.mocked(DDIApi.getMutualizedCodesLists).mockResolvedValue(mockCodesLists);
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockResolvedValue(mockCodeLists);
 
-    const { result } = renderHook(() => useMutualizedCodesLists(), {
+    const { result } = renderHook(() => useMutualizedCodeLists(), {
       wrapper: createWrapper(),
     });
 
@@ -48,15 +48,15 @@ describe("useMutualizedCodesLists", () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(result.current.data).toEqual(mockCodesLists);
-    expect(DDIApi.getMutualizedCodesLists).toHaveBeenCalled();
+    expect(result.current.data).toEqual(mockCodeLists);
+    expect(DDIApi.getMutualizedCodeLists).toHaveBeenCalled();
   });
 
   it("should handle errors", async () => {
     const error = new Error("Network error");
-    vi.mocked(DDIApi.getMutualizedCodesLists).mockRejectedValue(error);
+    vi.mocked(DDIApi.getMutualizedCodeLists).mockRejectedValue(error);
 
-    const { result } = renderHook(() => useMutualizedCodesLists(), {
+    const { result } = renderHook(() => useMutualizedCodeLists(), {
       wrapper: createWrapper(),
     });
 

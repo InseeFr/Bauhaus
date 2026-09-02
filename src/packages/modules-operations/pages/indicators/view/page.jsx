@@ -8,7 +8,7 @@ import { PageTitleBlock } from "@components/page-title-block";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { CL_FREQ } from "../../../../constants/code-lists";
@@ -20,7 +20,7 @@ export const Component = () => {
 
   const [secondLang] = useSecondLang();
 
-  const frequencies = useCodesList(CL_FREQ);
+  const frequencies = useCodelist(CL_FREQ);
 
   const [indicator, setIndicator] = useState({});
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { CodesList } from "@model/CodesList";
+import { Codelist } from "@model/Codelist";
 import { Component } from "@model/structures/Component";
 
 import { ConceptsApi } from "@sdk/index";
@@ -10,21 +10,21 @@ import { EMPTY_ARRAY } from "@utils/array-utils";
 import { CodelistPanel } from "../../../../components/CodelistPanel";
 import { ComponentSpecificationModal } from "../../../../components/ComponentSpecificationModal";
 import { StructureComponentsSelector } from "../../../../components/StructureComponentsSelector";
-import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
+import { useFormattedCodelist } from "../../../../hooks/useFormattedCodelist";
 
 export const ComponentsPanel = ({ componentDefinitions = EMPTY_ARRAY }) => {
   const [concepts, setConcepts] = useState([]);
 
-  const { data: codesLists = [] } = useFormattedCodeList();
+  const { data: codelists = [] } = useFormattedCodelist();
 
   const [modalOpened, setModalOpened] = useState(false);
 
   const [selectedComponent, setSelectedComponent] = useState<Component>();
 
-  const [codesList, setCodesList] = useState<CodesList | undefined>(undefined);
+  const [codelist, setCodelist] = useState<Codelist | undefined>(undefined);
 
-  const handleCodesListDetail = useCallback((codesList: CodesList) => {
-    setCodesList(codesList);
+  const handleCodelistDetail = useCallback((codelist: Codelist) => {
+    setCodelist(codelist);
   }, []);
 
   useEffect(() => {
@@ -57,14 +57,14 @@ export const ComponentsPanel = ({ componentDefinitions = EMPTY_ARRAY }) => {
         componentDefinitions={componentDefinitions}
         handleSpecificationClick={handleSpecificationClick}
         concepts={concepts}
-        codesLists={codesLists}
+        codelists={codelists}
         readOnly={true}
-        handleCodesListDetail={handleCodesListDetail}
+        handleCodelistDetail={handleCodelistDetail}
       />
       <CodelistPanel
-        codesList={codesList}
-        isOpen={!!codesList}
-        handleBack={() => setCodesList(undefined)}
+        codelist={codelist}
+        isOpen={!!codelist}
+        handleBack={() => setCodelist(undefined)}
       />
     </div>
   );

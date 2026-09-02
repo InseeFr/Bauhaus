@@ -776,7 +776,7 @@ export const Component = () => {
       // changé ses usages — invalider les caches correspondants pour relire l'état réel.
       queryClient.invalidateQueries({ queryKey: ["mmvrUsers"] });
       queryClient.invalidateQueries({ queryKey: ["groupMissingValuesRepresentations"] });
-      queryClient.invalidateQueries({ queryKey: ["mutualizedCodesList"] });
+      queryClient.invalidateQueries({ queryKey: ["mutualizedCodeList"] });
 
       toast.current?.show({
         severity: "success",

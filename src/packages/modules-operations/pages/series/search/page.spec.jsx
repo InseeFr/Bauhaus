@@ -1,6 +1,6 @@
 import { getListItems } from "@components/ui/list-group/testing";
 
-import * as useCodesListHook from "@utils/hooks/codeslist";
+import * as useCodelistHook from "@utils/hooks/codelist";
 import * as useStampsHook from "@utils/hooks/stamps";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
@@ -116,7 +116,7 @@ const data = [
     typeCode: "S",
   },
 ];
-const organisations = [
+const organizations = [
   { value: "Acoss", label: "Acoss" },
   { value: "DG75-A040", label: "DG75-A040" },
 ];
@@ -125,7 +125,7 @@ vi.spyOn(useStampsHook, "useStampsOptions").mockImplementation(() => {
   return [{ value: "DG57-C003", label: "DG57-C003" }];
 });
 
-vi.spyOn(useCodesListHook, "useCodesList").mockImplementation(() => {
+vi.spyOn(useCodelistHook, "useCodelist").mockImplementation(() => {
   return {
     codes: [{ code: "S", labelLg2: "Survey", labelLg1: "Enquete" }],
   };
@@ -135,7 +135,7 @@ vi.mock("../../../../utils/hooks/useUrlQueryParameters");
 
 vi.mock("../../../../utils/hooks/organizations", () => ({
   useOrganizationsOptions: () => {
-    return organisations;
+    return organizations;
   },
   useOrganizations: () => ({
     data: [

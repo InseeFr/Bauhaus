@@ -2,7 +2,7 @@ import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import { InseeOrganisation } from "@components/business/organisations/organisations";
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DateItem } from "@components/creation-update-items";
 import { PublicationFemale } from "@components/status";
 
@@ -39,7 +39,7 @@ export const CollectionsCreationsModifications = ({ collectionsData, type }: Rea
       <Column
         field="creator"
         header={t("dashboard.ownerColumn")}
-        body={(item: CollectionDashboardItem) => <InseeOrganisation creator={item.creator} />}
+        body={(item: CollectionDashboardItem) => <InseeOrganization creator={item.creator} />}
       />
       <Column
         field={dateField}

@@ -46,8 +46,8 @@ const stableSection = {
 
 const lastOptions = () => selectSpy.mock.calls.at(-1)?.[0].options;
 
-describe("SimsField - memo and codesLists", () => {
-  it("re-renders the code list options when codesLists arrives after the first render", () => {
+describe("SimsField - memo and codelists", () => {
+  it("re-renders the code list options when codelists arrives after the first render", () => {
     selectSpy.mockClear();
     const msd = buildMsd();
     const handleChange = vi.fn();
@@ -56,12 +56,12 @@ describe("SimsField - memo and codesLists", () => {
       <SimsField
         msd={msd}
         currentSection={stableSection}
-        codesLists={{}}
+        codelists={{}}
         handleChange={handleChange}
         alone={true}
         secondLang={false}
         unbounded={false}
-        organisationsOptions={[]}
+        organizationsOptions={[]}
         simsModified="2024-01-01T00:00:00.000Z"
       />,
       { wrapper: createWrapper() },
@@ -73,7 +73,7 @@ describe("SimsField - memo and codesLists", () => {
       <SimsField
         msd={msd}
         currentSection={stableSection}
-        codesLists={{
+        codelists={{
           CL_SURVEY_STATUS: {
             notation: "CL_SURVEY_STATUS",
             codes: [
@@ -86,7 +86,7 @@ describe("SimsField - memo and codesLists", () => {
         alone={true}
         secondLang={false}
         unbounded={false}
-        organisationsOptions={[]}
+        organizationsOptions={[]}
         simsModified="2024-01-01T00:00:00.000Z"
       />,
     );

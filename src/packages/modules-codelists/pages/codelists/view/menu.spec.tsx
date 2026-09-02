@@ -25,10 +25,10 @@ describe("Codes List View Menu", () => {
     (usePrivileges as Mock).mockReturnValue({ privileges: [] });
     (useUserStamps as Mock).mockReturnValue({ data: [{ stamp: "stamp" }] });
 
-    const codesList = { id: "1" };
+    const codelist = { id: "1" };
     render(
       <ViewMenu
-        codelist={codesList}
+        codelist={codelist}
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}
@@ -61,11 +61,11 @@ describe("Codes List View Menu", () => {
       data: [{ stamp: "different-stamp" }],
     });
 
-    const codesList = { id: "1" };
+    const codelist = { id: "1" };
 
     render(
       <ViewMenu
-        codelist={codesList}
+        codelist={codelist}
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}
@@ -98,7 +98,7 @@ describe("Codes List View Menu", () => {
       data: [{ stamp: "INSEE" }],
     });
 
-    const codesList = {
+    const codelist = {
       id: "1",
       contributor: "INSEE",
       validationState: UNPUBLISHED,
@@ -106,7 +106,7 @@ describe("Codes List View Menu", () => {
 
     render(
       <ViewMenu
-        codelist={codesList}
+        codelist={codelist}
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}
@@ -139,7 +139,7 @@ describe("Codes List View Menu", () => {
       data: [{ stamp: "INSEE" }],
     });
 
-    const codesList = {
+    const codelist = {
       id: "1",
       contributor: "INSEE",
       validationState: "published",
@@ -147,7 +147,7 @@ describe("Codes List View Menu", () => {
 
     render(
       <ViewMenu
-        codelist={codesList}
+        codelist={codelist}
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}
@@ -180,11 +180,11 @@ describe("Codes List View Menu", () => {
       data: [{ stamp: "XXXXXX" }],
     });
 
-    const codesList = { id: "1", contributor: "INSEE" };
+    const codelist = { id: "1", contributor: "INSEE" };
 
     render(
       <ViewMenu
-        codelist={codesList}
+        codelist={codelist}
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}

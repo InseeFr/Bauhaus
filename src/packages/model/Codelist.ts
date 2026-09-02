@@ -9,7 +9,7 @@ export interface Code {
   closeMatch?: string[];
 }
 
-export interface CodesList {
+export interface Codelist {
   id?: string;
   codes: Code[];
   notation: string;
@@ -17,7 +17,7 @@ export interface CodesList {
   contributor: string;
 }
 
-export type CodesLists = {
+export type Codelists = {
   id: string;
   label: string;
   notation: string;

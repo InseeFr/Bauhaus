@@ -3,11 +3,7 @@ import { buildApi } from "./build-api";
 const api = {
   // --- Codelists ---
   getCodelists: () => [""],
-  /** @deprecated Use getCodelists */
-  getCodesLists: () => [""],
   getCodelist: (id: string) => [`${id}`],
-  /** @deprecated Use getCodelist */
-  getCodesList: (notation: string) => [`${notation}`],
   publishCodelist: (id: string) => [
     `${id}/validate`,
     { method: "PUT" },
@@ -40,7 +36,7 @@ const api = {
     (res: Response) => res.text(),
   ],
   getCodesDetailedCodelist: (id: string, page: number) => [`detailed/${id}/codes?page=${page}`],
-  getCodesListCodes: (notation: string, page: number, perPage: number) => [
+  getCodelistCodes: (notation: string, page: number, perPage: number) => [
     `${notation}/codes?page=${page}&per_page=${perPage}`,
   ],
   getCodesByCode: (id: string, value: string) => [
@@ -79,11 +75,7 @@ const api = {
   deleteCodelist: (id: string) => [id, {}, () => Promise.resolve()],
   // --- Partial codelists ---
   getCodelistsPartial: () => ["partial"],
-  /** @deprecated Use getCodelistsPartial */
-  getPartialCodesLists: () => ["partial"],
   getCodelistPartial: (id: string) => [`partial/${id}`],
-  /** @deprecated Use getCodelistPartial */
-  getPartialCodesList: (notation: string) => [`partial/${notation}`],
   publishPartialCodelist: (id: string) => [
     `partial/${id}/validate`,
     { method: "PUT" },
@@ -116,12 +108,12 @@ const api = {
 
 export const CodelistsApi = buildApi("codeList", api) as any;
 
-export const fetchCodeList = (notation: string) => {
+export const fetchCodelist = (notation: string) => {
   return Promise.all([
-    CodelistsApi.getCodesList(notation),
-    CodelistsApi.getCodesListCodes(notation, 1, 0),
-  ]).then(([codesList, codes]) => ({
+    CodelistsApi.getCodelist(notation),
+    CodelistsApi.getCodelistCodes(notation, 1, 0),
+  ]).then(([codelist, codes]) => ({
     codes: codes.items ?? [],
-    ...codesList,
+    ...codelist,
   }));
 };

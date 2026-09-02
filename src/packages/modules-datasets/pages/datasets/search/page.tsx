@@ -181,7 +181,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
       />
       <div className="field col-12 md:col-4">
         <CreatorsInput
-          mode="organisation"
+          mode="organization"
           lang="default"
           value={creator}
           onChange={(value: any) => handleChange("creator", value)}
