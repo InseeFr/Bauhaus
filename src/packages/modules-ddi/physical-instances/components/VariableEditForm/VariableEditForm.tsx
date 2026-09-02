@@ -308,7 +308,6 @@ export const VariableEditForm = ({
     dispatch({ type: "RESET", payload: buildFormState(variable) });
     // Ne pas inclure codeList et categories dans les dépendances car ils changent
     // pendant l'édition et on ne veut pas réinitialiser le formulaire à chaque fois
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     variable.id,
     variable.label,

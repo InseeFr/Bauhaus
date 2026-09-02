@@ -44,7 +44,6 @@ export const Component = () => {
 
   useEffect(() => {
     loadConcepts().finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (publishing) {
