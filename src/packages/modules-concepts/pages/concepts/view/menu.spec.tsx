@@ -190,7 +190,7 @@ describe("concept-visualization-controls", () => {
 
     const { ConceptVisualizationControls } = await import("./menu");
 
-    const { container } = render(
+    render(
       <WithRouter>
         <ConceptVisualizationControls
           id="c1"

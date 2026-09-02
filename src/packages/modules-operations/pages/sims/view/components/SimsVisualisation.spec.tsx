@@ -107,7 +107,6 @@ vi.mock("./MissingDocumentsErrorBloc", () => ({
       <div data-testid="missing-documents-bloc">{Array.from(missingDocuments).join(",")}</div>
     ) : null,
 }));
-vi.mock("../../../../../deprecated-locales/build-dictionary", () => ({ default: {} }));
 
 import { OperationsApi } from "@sdk/operations-api";
 
