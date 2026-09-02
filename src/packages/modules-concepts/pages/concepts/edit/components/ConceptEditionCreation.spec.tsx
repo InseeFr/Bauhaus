@@ -5,6 +5,7 @@ import { BROADER, NARROWER } from "@sdk/constants";
 import { ConceptGeneral, ConceptNotes } from "../../../../../model/concepts/concept";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { emptyConceptGeneral } from "../../../../utils/emptyConceptGeneral";
+import { emptyConceptNotes } from "../../../../utils/emptyConceptNotes";
 import ConceptEditionCreation, { onGeneralInformationChange } from "./ConceptEditionCreation";
 
 vi.mock("./ConceptGeneralEdition");
@@ -123,6 +124,25 @@ describe("concept-edition-creation", () => {
         within(screen.getByRole("navigation")).getByRole("button", { name: /General information/ })
           .textContent,
       ).toContain("To fix");
+    });
+
+    it("n'affiche pas la note précédente quand le sommaire en demande une autre", () => {
+      renderWithAppContext(
+        <ConceptEditionCreation
+          {...buildBaseProps()}
+          notes={{ ...emptyConceptNotes, scopeNoteLg1: "<p>Courte</p>" } as unknown as ConceptNotes}
+          section="conceptsScopeNote"
+        />,
+      );
+      expect(screen.getByRole("region", { name: "Définition courte" })).toHaveTextContent("Courte");
+
+      fireEvent.click(
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /^Définition(?! courte)/,
+        }),
+      );
+
+      expect(screen.getByRole("region", { name: "Définition" })).not.toHaveTextContent("Courte");
     });
 
     it("affiche le type de lien choisi dans le sommaire", () => {

@@ -44,6 +44,9 @@ const NotesEdition = ({
         )}
       </header>
       <NoteEdition
+        // Les éditeurs de texte riche gardent leur propre état : sans remontage,
+        // celui de la note précédente resterait affiché sur la note suivante.
+        key={rawTitle}
         notes={notes}
         noteLg1Name={noteLg1Name}
         noteLg2Name={noteLg2Name}
