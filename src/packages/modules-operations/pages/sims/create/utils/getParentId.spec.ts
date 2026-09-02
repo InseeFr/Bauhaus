@@ -1,4 +1,5 @@
-import { Sims } from "../../../../../model/Sims";
+import { Sims } from "@model/Sims";
+
 import { getParentId } from "./getParentId";
 
 describe("getParentId", () => {

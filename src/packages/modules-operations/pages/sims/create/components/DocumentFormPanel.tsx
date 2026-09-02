@@ -3,13 +3,14 @@ import { useState } from "react";
 import { Saving } from "@components/loading";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
+import { Document } from "@model/operations/document";
+
 import { useCodesList } from "@utils/hooks/codeslist";
 
-import { Document } from "../../../../../model/operations/document";
 import { OperationsDocumentationEdition } from "../../../../pages/documents/edit/components/OperationsDocumentationEdition";
 import "./DocumentFormPanel.css";
-import { useDocumentsStoreContext } from "../../hooks/useDocumentsStoreContext";
 import { getDocumentsList } from "../../hooks/useDocumentsList";
+import { useDocumentsStoreContext } from "../../hooks/useDocumentsStoreContext";
 
 interface DocumentFormPanelTypes {
   opened: boolean;

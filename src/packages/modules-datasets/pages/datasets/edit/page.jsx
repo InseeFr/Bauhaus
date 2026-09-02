@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useLocation, useParams } from "react-router-dom";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
@@ -18,15 +18,15 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import "./page.css";
-import { LayoutWithLateralMenu } from "./components/LayoutWithLateralMenu";
-import { GlobalInformation } from "./components/GlobalInformation";
-import { InternalManagement } from "./components/InternalManagement";
-import { Notes } from "./components/Notes";
-import { StatisticalInformation } from "./components/StatisticalInformation";
-import { buildDuplicatedDataset } from "./buildDuplicatedDataset";
-import { validate } from "./validation";
 import { useAuthorizationGuard } from "../../../../auth/components/auth";
 import { useDataset } from "../../../hooks/useDataset";
+import { buildDuplicatedDataset } from "./buildDuplicatedDataset";
+import { GlobalInformation } from "./components/GlobalInformation";
+import { InternalManagement } from "./components/InternalManagement";
+import { LayoutWithLateralMenu } from "./components/LayoutWithLateralMenu";
+import { Notes } from "./components/Notes";
+import { StatisticalInformation } from "./components/StatisticalInformation";
+import { validate } from "./validation";
 
 export const Component = () => {
   const { t } = useTranslation();

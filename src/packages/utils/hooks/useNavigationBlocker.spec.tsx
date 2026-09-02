@@ -1,6 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { useNavigationBlocker } from "./useNavigationBlocker";
 
 // Mock useBlocker from react-router-dom

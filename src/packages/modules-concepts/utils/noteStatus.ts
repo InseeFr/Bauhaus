@@ -1,5 +1,6 @@
-import { ConceptNotes } from "../../model/concepts/concept";
-import { htmlIsEmpty, htmlLength } from "../../utils/html-utils";
+import { ConceptNotes } from "@model/concepts/concept";
+
+import { htmlIsEmpty, htmlLength } from "@utils/html-utils";
 
 export type NoteRawTitle =
   | "conceptsScopeNote"

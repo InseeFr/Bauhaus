@@ -1,13 +1,13 @@
 import { useTranslation } from "react-i18next";
 
+import { InseeOrganisation } from "@components/business/organisations/organisations";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 import type { ValidationState } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 
 import { isEmpty } from "@utils/value-utils";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
 
 export interface CollectionAttribute {
   created?: string;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { ConceptApi } from "@sdk/new-concept-api";
-
 import { PartialConcept } from "@model/concepts/concept";
+
+import { ConceptApi } from "@sdk/new-concept-api";
 
 import { sortArrayByLabel } from "@utils/array-utils";
 

@@ -1,5 +1,5 @@
-import { emptyCollectionGeneral } from "../../../../utils/emptyCollectionGeneral";
 import { renderWithRouter } from "../../../../../tests/render";
+import { emptyCollectionGeneral } from "../../../../utils/emptyCollectionGeneral";
 import { CollectionGeneralEdition as CollectionGeneral } from "./CollectionGeneralEdition";
 
 vi.mock("@components/form/input", () => ({ TextInput: () => <></> }));

@@ -1,14 +1,18 @@
-import { useState, type MouseEvent } from "react";
 import { Panel, PanelHeaderTemplateOptions } from "primereact/panel";
+import { Tooltip } from "primereact/tooltip";
 import { Tree } from "primereact/tree";
 import type { TreeNode } from "primereact/treenode";
-import { Tooltip } from "primereact/tooltip";
+import { useState, type MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import type { CategoryUsage } from "../../types/api";
-import { buildCategoryUsersTree, type CategoryUsersNodeData } from "./categoryUsersTree";
 import { cx } from "@utils/cx";
+
+import type { CategoryUsage } from "../../types/api";
+import {
+  buildCategoryUsersTree,
+  type CategoryUsersNodeData,
+} from "./categoryUsersTree";
 
 const PHYSICAL_INSTANCE_PATH = "/ddi/physical-instances";
 const linkStyle = { textDecoration: "none", color: "inherit" } as const;
@@ -53,8 +57,12 @@ export const CategoryUsersPanel = ({
   const [opened, setOpened] = useState(defaultOpened);
 
   const tree = buildCategoryUsersTree(usages, {
-    unknownGroup: t("physicalInstance.view.code.categoryUsersPanel.unknownGroup"),
-    unknownStudyUnit: t("physicalInstance.view.code.usersPanel.unknownStudyUnit"),
+    unknownGroup: t(
+      "physicalInstance.view.code.categoryUsersPanel.unknownGroup",
+    ),
+    unknownStudyUnit: t(
+      "physicalInstance.view.code.usersPanel.unknownStudyUnit",
+    ),
   });
 
   const helpTooltipTarget = tooltipTargetId.replace(/[^a-zA-Z0-9_-]/g, "-");
@@ -101,7 +109,11 @@ export const CategoryUsersPanel = ({
         </Link>
       );
     }
-    if (data?.kind === "variable" && data.physicalInstanceAgencyId && data.physicalInstanceId) {
+    if (
+      data?.kind === "variable" &&
+      data.physicalInstanceAgencyId &&
+      data.physicalInstanceId
+    ) {
       return (
         <Link
           to={

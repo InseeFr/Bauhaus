@@ -2,8 +2,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import * as clientModule from "./useClassificationItemClient";
 import { useClassificationParentLevels } from "./useClassificationItem";
+import * as clientModule from "./useClassificationItemClient";
 
 const mockData = [{ item: "id1", labelLg1: "Label 1" }];
 

@@ -1,7 +1,8 @@
-import { ClientSideError } from "../../../../../components/errors-bloc";
-import { LabelRequired } from "../../../../../components/label-required";
-import { Row } from "../../../../../components/layout";
-import { Select } from "../../../../../components/select-rmes";
+import { ClientSideError } from "@components/errors-bloc";
+import { LabelRequired } from "@components/label-required";
+import { Row } from "@components/layout";
+import { Select } from "@components/select-rmes";
+
 import { useUserSeriesList } from "../../../../hooks/useUserSeriesList";
 
 interface SeriesProps {

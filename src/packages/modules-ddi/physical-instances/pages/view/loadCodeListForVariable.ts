@@ -1,4 +1,7 @@
 import type { QueryClient } from "@tanstack/react-query";
+
+import { DDIApi } from "@sdk/index";
+
 import type {
   Category,
   Code,
@@ -7,7 +10,6 @@ import type {
   PhysicalInstanceResponse,
 } from "../../types/api";
 import { itemsOfType } from "../../types/ddi4Items";
-import { DDIApi } from "../../../../sdk";
 
 export interface CodeListAndCategories {
   codeList?: CodeList;

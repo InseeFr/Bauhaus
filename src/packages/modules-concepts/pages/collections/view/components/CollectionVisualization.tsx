@@ -5,10 +5,10 @@ import { Exporting } from "@components/loading";
 import { PageSubtitle } from "@components/page-sub-title";
 import { PageTitle } from "@components/page-title";
 
+import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
+
 import { useCollectionExporter } from "@utils/hooks/collections";
 import { useTitle } from "@utils/hooks/useTitle";
-
-import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
 import { Menu } from "../menu";
 import { CollectionGeneral as CollectionGeneralComponent } from "./CollectionGeneral";

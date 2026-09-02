@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 
-import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 import { UNPUBLISHED } from "@model/ValidationState";
+
+import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 describe("collection-visualization-controls", () => {
   afterEach(() => {

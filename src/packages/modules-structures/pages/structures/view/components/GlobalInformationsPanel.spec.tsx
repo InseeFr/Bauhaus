@@ -1,5 +1,5 @@
-import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen } from "@testing-library/react";
 import { PropsWithChildren } from "react";
 import { vi } from "vitest";
 
@@ -18,7 +18,8 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-import { Structure } from "../../../../../model/structures/Structure";
+import { Structure } from "@model/structures/Structure";
+
 import { GlobalInformationsPanel } from "./GlobalInformationsPanel";
 
 vi.mock("@utils/hooks/organizations", () => ({

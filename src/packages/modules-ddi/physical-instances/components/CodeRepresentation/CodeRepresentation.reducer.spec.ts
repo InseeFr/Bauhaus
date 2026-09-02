@@ -1,11 +1,12 @@
 import { describe, it, expect } from "vitest";
+
+import type { CodeTableRow } from "./CodeListDataTable";
 import {
   codeRepresentationReducer,
   initialState,
   CodeRepresentationState,
   CodeRepresentationAction,
 } from "./CodeRepresentation.reducer";
-import type { CodeTableRow } from "./CodeListDataTable";
 
 describe("codeRepresentationReducer", () => {
   const mockCode: CodeTableRow = {

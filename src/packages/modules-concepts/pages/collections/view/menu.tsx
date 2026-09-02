@@ -7,13 +7,13 @@ import {
   ReturnButton,
   UpdateButton,
 } from "@components/buttons/buttons-with-icons";
-
 import type { ValidationState } from "@components/status";
+
 import { CollectionExportFormat } from "@model/concepts/collection";
 import { VALIDATED } from "@model/ValidationState";
 
-import { ExportButtons } from "../../../components/ExportButtons";
 import { HasAccess } from "../../../../auth/components/auth";
+import { ExportButtons } from "../../../components/ExportButtons";
 
 interface MenuProps {
   validationState?: ValidationState;

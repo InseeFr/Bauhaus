@@ -4,9 +4,8 @@ import { describe, it, expect, vi } from "vitest";
 import { GeographieApi } from "@sdk/geographie";
 
 import { renderWithRouterAndQuery } from "../../tests/render";
-
-import { removeAccents } from "./SimsGeographyPicker";
 import { SimsGeographyField } from "./SimsGeographyField";
+import { removeAccents } from "./SimsGeographyPicker";
 
 vi.mock("@sdk/geographie", () => ({
   GeographieApi: {

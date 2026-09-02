@@ -5,6 +5,7 @@ import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
 import { PartialClassificationSerie } from "@model/Classification";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
 export const SeriesHome = ({

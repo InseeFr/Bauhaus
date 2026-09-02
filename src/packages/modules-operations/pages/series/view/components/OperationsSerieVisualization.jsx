@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { InseeOrganisationNotes } from "@components/business/creators-view";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
@@ -9,10 +10,9 @@ import { useTitle } from "@utils/hooks/useTitle";
 import { renderMarkdownElement } from "@utils/html-utils";
 
 import { DisplayLinks } from "../../../../components/DisplayLinks";
-import { getSeeAlsoByType } from "../../../../utils/getSeeAlsoByType";
 import { RelationsView } from "../../../../components/RelationsView";
 import { SeeAlso } from "../../../../components/SeeAlso";
-import { InseeOrganisationNotes } from "@components/business/creators-view";
+import { getSeeAlsoByType } from "../../../../utils/getSeeAlsoByType";
 
 export function OperationsSerieVisualization({ attr, secondLang, frequency = {}, category = {} }) {
   const { t } = useTranslation();

@@ -3,8 +3,8 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as clientModule from "../../../hooks/useClassificationItemClient";
 import * as classificationHook from "../../../hooks/useClassificationItem";
+import * as clientModule from "../../../hooks/useClassificationItemClient";
 import { Component } from "./page";
 
 // Mocks for APIs and SDK

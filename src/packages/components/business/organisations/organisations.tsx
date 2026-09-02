@@ -1,6 +1,8 @@
 import { ComponentType } from "react";
-import { Organization } from "../../../model/organization";
-import { useOrganizations } from "../../../utils/hooks/organizations";
+
+import { Organization } from "@model/organization";
+
+import { useOrganizations } from "@utils/hooks/organizations";
 
 interface BaseOrganizationProps {
   organizations: Organization[];

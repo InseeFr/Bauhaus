@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DDIApi } from "../../sdk";
+
+import { DDIApi } from "@sdk/index";
+
 import type { PhysicalInstanceParents } from "./usePhysicalInstanceParents";
 
 interface PublishPhysicalInstanceParams {

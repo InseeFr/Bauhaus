@@ -1,8 +1,10 @@
 import { ComponentProps } from "react";
-import { useV2StampsOptions } from "../../../utils/hooks/stamps";
+
+import { useOrganizations } from "@utils/hooks/organizations";
+import { useV2StampsOptions } from "@utils/hooks/stamps";
+
 import D, { D1 } from "../../i18n";
 import { Select } from "../../ui/select";
-import { useOrganizations } from "../../../utils/hooks/organizations";
 
 const DefaultStampsInput = ({
   value,

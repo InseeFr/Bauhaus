@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 
-import { languageName } from "@utils/language-name";
-import { useLocales } from "@utils/hooks/useLocales";
+import { ConceptNotes } from "@model/concepts/concept";
 
-import { ConceptNotes } from "../../model/concepts/concept";
+import { useLocales } from "@utils/hooks/useLocales";
+import { languageName } from "@utils/language-name";
+
 import { ClientSideError } from "../errors-bloc";
 import { Row } from "../layout";
 import { NoteOneLangEdition } from "./note-one-lang-edition";

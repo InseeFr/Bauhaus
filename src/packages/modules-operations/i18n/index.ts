@@ -1,8 +1,10 @@
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
+
+import { getLang } from "@utils/dictionnary";
+
 import en from "./locales/en.json";
 import fr from "./locales/fr.json";
-import { getLang } from "../../utils/dictionnary";
 
 export const operationsI18n = i18next.createInstance();
 

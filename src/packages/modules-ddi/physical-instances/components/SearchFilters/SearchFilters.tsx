@@ -1,9 +1,10 @@
 import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
+import { InputText } from "primereact/inputtext";
 import { useTranslation } from "react-i18next";
+
 import { HasAccess } from "../../../../auth/components/auth";
 
 interface SearchFiltersProps {

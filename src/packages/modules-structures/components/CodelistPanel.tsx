@@ -4,9 +4,10 @@ import { ActionToolbar } from "@components/action-toolbar";
 import { RightSlidingPanel } from "@components/sliding-panel";
 import { List } from "@components/ui/list-group";
 
+import { CodesList } from "@model/CodesList";
+
 import { useAllCodes } from "@utils/hooks/codeslist";
 
-import { CodesList } from "../../model/CodesList";
 import "./CodelistPanel.css";
 
 interface CodelistPanelTypes {

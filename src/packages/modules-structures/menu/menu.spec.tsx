@@ -6,7 +6,9 @@ import { Menu } from "./menu";
 
 const location = vi.fn();
 vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
+  ...(await vi.importActual<typeof import("react-router-dom")>(
+    "react-router-dom",
+  )),
   useLocation: () => location(),
 }));
 
@@ -38,7 +40,9 @@ const renderMenu = (pathname: string) => {
 };
 
 const entry = (key: string) =>
-  screen.getAllByRole("listitem").find((item) => item.textContent?.startsWith(key))!;
+  screen
+    .getAllByRole("listitem")
+    .find((item) => item.textContent?.startsWith(key))!;
 
 describe("Structures menu", () => {
   it("ne s'affiche pas sur la page d'accueil de l'application", () => {
@@ -70,8 +74,10 @@ describe("Structures menu", () => {
   it("ne marque rien sur un chemin étranger au module", () => {
     renderMenu("/concepts");
 
-    expect(screen.getAllByRole("listitem").every((item) => item.className === "inactive")).toBe(
-      true,
-    );
+    expect(
+      screen
+        .getAllByRole("listitem")
+        .every((item) => item.className === "inactive"),
+    ).toBe(true);
   });
 });

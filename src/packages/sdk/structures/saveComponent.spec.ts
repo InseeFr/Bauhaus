@@ -1,6 +1,7 @@
 import { Mock, vi } from "vitest";
 
-import { Component } from "../../model/structures/Component";
+import { Component } from "@model/structures/Component";
+
 import { StructureApi } from "../structure-api";
 import { saveComponent } from "./saveComponent";
 

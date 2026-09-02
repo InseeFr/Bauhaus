@@ -1,5 +1,5 @@
-import { MultiSelect } from "primereact/multiselect";
 import { Dropdown } from "primereact/dropdown";
+import { MultiSelect } from "primereact/multiselect";
 
 import "../../label-required/index.css";
 import { cx } from "@utils/cx";

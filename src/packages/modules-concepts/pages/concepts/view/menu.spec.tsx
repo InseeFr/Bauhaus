@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
+
 import { UNPUBLISHED, VALIDATED } from "@model/ValidationState";
+
+import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 describe("concept-visualization-controls", () => {
   afterEach(() => {

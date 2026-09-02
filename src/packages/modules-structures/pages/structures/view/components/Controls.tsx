@@ -9,11 +9,12 @@ import {
 } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
+import { Structure } from "@model/structures/Structure";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { StructureApi } from "@sdk/index";
 
 import { HasAccess } from "../../../../../auth/components/auth";
-import { UNPUBLISHED } from "../../../../../model/ValidationState";
-import { Structure } from "../../../../../model/structures/Structure";
 
 interface ControlsTypes {
   structure: Structure;

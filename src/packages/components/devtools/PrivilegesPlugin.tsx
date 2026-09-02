@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 import type { Privilege, PRIVILEGE } from "@utils/hooks/rbac-constants";
 

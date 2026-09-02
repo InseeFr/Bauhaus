@@ -13,8 +13,8 @@ import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { usePublishSims, useSims } from "../../../hooks/useSims";
 import { SimsLoaderData } from "../../../types/sims";
 import { MSDLayout } from "../components/MSDLayout";
-import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
 import { useDocumentsList } from "../hooks/useDocumentsList";
+import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
 import {
   computeEssentialRubricContext,
   EssentialRubricContextProvider,

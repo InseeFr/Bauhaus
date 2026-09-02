@@ -1,3 +1,6 @@
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
+import { InputText } from "primereact/inputtext";
 import { Link } from "react-router-dom";
 
 import { Row } from "@components/layout";
@@ -7,9 +10,7 @@ import { filterKeyDeburr, nbResults } from "@utils/array-utils";
 import { cx } from "@utils/cx";
 import { createAllDictionary } from "@utils/dictionnary";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
-import { IconField } from "primereact/iconfield";
-import { InputIcon } from "primereact/inputicon";
-import { InputText } from "primereact/inputtext";
+
 import { List } from "../ui/list-group";
 
 const { D } = createAllDictionary({

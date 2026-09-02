@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Editor from "@uiw/react-md-editor/nohighlight";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   InseeOrganisation,
@@ -10,13 +10,14 @@ import {
 } from "@components/business/organisations/organisations";
 import { CheckSecondLang } from "@components/check-second-lang";
 import { CodeDisplay } from "@components/code-display";
+import { ConfirmationDelete } from "@components/confirmation-delete";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
-import { List } from "@components/ui/list";
 import { Deleting, Loading, Publishing } from "@components/loading";
 import { Note } from "@components/note";
 import { PageTitleBlock } from "@components/page-title-block";
+import { List } from "@components/ui/list";
 
 import { DatasetsApi } from "@sdk/index";
 
@@ -25,11 +26,10 @@ import { useSecondLang } from "@utils/hooks/second-lang";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { CL_PROCESS_STEP } from "../../../../constants/code-lists";
+import { useDataset } from "../../../hooks/useDataset";
 import { GlobalInformationBlock } from "./components/GlobalInformationBlock";
 import { StatisticalInformations } from "./components/StatisticalInformations";
 import { ViewMenu } from "./menu";
-import { useDataset } from "../../../hooks/useDataset";
-import { ConfirmationDelete } from "@components/confirmation-delete";
 
 const Dataset = (props) => {
   const { t } = useTranslation();

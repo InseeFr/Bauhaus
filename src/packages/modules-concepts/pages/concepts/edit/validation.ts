@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+
 import { htmlIsEmpty, htmlLength } from "@utils/html-utils";
 import {
   formatValidation,
@@ -8,7 +10,6 @@ import {
 } from "@utils/validation";
 
 import { conceptsI18n } from "../../../i18n";
-import { ConceptGeneral, ConceptNotes } from "../../../../model/concepts/concept";
 
 const t1 = conceptsI18n.getFixedT("fr");
 const t = (key: string, options?: Record<string, unknown>): string =>

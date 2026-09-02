@@ -5,7 +5,8 @@ import { AddButton } from "@components/buttons/add";
 import { SeeButton } from "@components/buttons/see";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
-import { UNPUBLISHED } from "../../model/ValidationState";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { typeUriToLabel } from "../utils/typeUriToLabel";
 import { CollapsiblePanel } from "./CollapsiblePanel";
 import { ComponentDetail } from "./ComponentDetail";

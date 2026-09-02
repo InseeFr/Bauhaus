@@ -1,5 +1,5 @@
-import { DCTERMS_MODIFIED } from "./isAutoUpdatedFromModified";
 import { getTree } from "./getTree";
+import { DCTERMS_MODIFIED } from "./isAutoUpdatedFromModified";
 
 describe("getTree", () => {
   it("should return the right tree", () => {

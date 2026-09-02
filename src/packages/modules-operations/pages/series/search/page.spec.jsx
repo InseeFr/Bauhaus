@@ -1,11 +1,12 @@
+import { getListItems } from "@components/ui/list-group/testing";
+
 import * as useCodesListHook from "@utils/hooks/codeslist";
+import * as useStampsHook from "@utils/hooks/stamps";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../constants/code-lists";
 import { renderWithRouter } from "../../../../tests/render";
-import * as useStampsHook from "../../../../utils/hooks/stamps";
 import { SearchFormList } from "./page";
-import { getListItems } from "@components/ui/list-group/testing";
 
 const data = [
   {

@@ -1,4 +1,4 @@
-import { Rubric } from "../../../../../model/Sims";
+import { Rubric } from "@model/Sims";
 
 interface SimsBlockTextTypes {
   currentSection: Rubric;

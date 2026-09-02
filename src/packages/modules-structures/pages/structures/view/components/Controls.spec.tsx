@@ -1,11 +1,13 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { Structure } from "@model/structures/Structure";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { StructureApi } from "@sdk/index";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { UNPUBLISHED } from "../../../../../model/ValidationState";
-import { Structure } from "../../../../../model/structures/Structure";
 import { mockReactQueryForRbac, WithRouter } from "../../../../../tests/render";
 
 vi.mock("@sdk/index", () => ({

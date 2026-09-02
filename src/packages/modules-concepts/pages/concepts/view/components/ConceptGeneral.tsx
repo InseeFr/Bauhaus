@@ -1,18 +1,20 @@
+import { useTranslation } from "react-i18next";
+
+import { InseeOrganisation } from "@components/business/organisations/organisations";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 import type { ValidationState } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
+import { SingleOrNestedListItem } from "@components/ui/single-or-nested-list-item";
+
+import type { ConceptGeneral } from "@model/concepts/concept";
 
 import { stringToDate } from "@utils/date-utils";
 import { useLocales } from "@utils/hooks/useLocales";
 import { isEmpty } from "@utils/value-utils";
 
-import { useTranslation } from "react-i18next";
-import { SingleOrNestedListItem } from "../../../../../components/ui/single-or-nested-list-item";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
-import type { ConceptGeneral } from "@model/concepts/concept";
 import { CollectionsBlock } from "./CollectionsBlock";
 
 interface ConceptGeneralProps {

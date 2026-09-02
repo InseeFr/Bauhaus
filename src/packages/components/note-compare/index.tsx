@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { Select } from "@components/select-rmes";
 
-import D from "../i18n";
 import { ExplanatoryNote } from "../explanatory-note";
+import D from "../i18n";
 import { Row } from "../layout";
 
 interface CompareNotesTypes {

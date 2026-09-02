@@ -1,5 +1,4 @@
 import { structuresI18n } from "../i18n";
-
 import { XSD, INSEE, IGEO } from "./prefixes";
 
 export const XSD_DATE = `${XSD}date`;

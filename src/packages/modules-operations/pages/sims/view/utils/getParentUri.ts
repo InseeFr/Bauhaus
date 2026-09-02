@@ -1,4 +1,4 @@
-import { Sims } from "../../../../../model/Sims";
+import { Sims } from "@model/Sims";
 
 export function getParentUri(sims: Sims) {
   if (sims.idOperation) {

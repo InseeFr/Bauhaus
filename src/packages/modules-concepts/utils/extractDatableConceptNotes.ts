@@ -1,6 +1,6 @@
-import { rawHtmlToRmesHtml } from "@utils/html-utils";
+import { ConceptNotes } from "@model/concepts/concept";
 
-import { ConceptNotes } from "../../model/concepts/concept";
+import { rawHtmlToRmesHtml } from "@utils/html-utils";
 
 export const extractDatableConceptNotes = (
   notesToKeep: ConceptNotes,

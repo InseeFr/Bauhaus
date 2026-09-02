@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import { Mock, vi } from "vitest";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
+import { Mock, vi } from "vitest";
 
 import { conceptsI18n } from "../../../i18n";
 import { Component } from "./page";
@@ -38,9 +38,10 @@ vi.mock("../../../components/ExportButtons", () => ({
   ),
 }));
 
+import { useTitle } from "@utils/hooks/useTitle";
+
 import { useConceptExporter } from "../../../hooks/useConceptExporter";
 import { useConcepts } from "../../../hooks/useConcepts";
-import { useTitle } from "../../../../utils/hooks/useTitle";
 
 const renderComponent = () => {
   return render(

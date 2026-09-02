@@ -1,5 +1,6 @@
+import { MODIFIED, UNPUBLISHED, VALIDATED } from "@model/ValidationState";
+
 import D from "../../i18n";
-import { MODIFIED, UNPUBLISHED, VALIDATED } from "../../model/ValidationState";
 
 export type ValidationState = typeof MODIFIED | typeof UNPUBLISHED | typeof VALIDATED;
 

@@ -1,11 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { CodesList } from "@model/CodesList";
+import { Dataset } from "@model/Dataset";
+
 import * as useCodesListHook from "@utils/hooks/codeslist";
 import * as useOrganizationsHook from "@utils/hooks/organizations";
 
-import { CodesList } from "../../../../../model/CodesList";
-import { Dataset } from "../../../../../model/Dataset";
 import * as useThemesHook from "../../../../hooks/useThemes";
 import { GlobalInformationBlock } from "./GlobalInformationBlock";
 

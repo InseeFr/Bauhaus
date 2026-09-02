@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput, UrlInputBlock } from "@components/form/input";
@@ -13,17 +13,17 @@ import { MDEditor } from "@components/rich-editor/react-md-editor";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
+import { useCreateOrUpdateDistribution } from "../../../hooks/useCreateOrUpdateDistribution";
+import { useDistribution } from "../../../hooks/useDistribution";
 import { ByteSizeInput } from "./components/ByteSizeInput";
 import { CompressFormatInput } from "./components/CompressFormatInput";
 import { DatasetSelect } from "./components/DatasetSelect";
 import { FormatInput } from "./components/FormatInput";
 import { LanguageSelect } from "./components/LanguageSelect";
 import { MediaTypeInput } from "./components/MediaTypeInput";
-import { validate } from "./validation";
 import { Menu } from "./menu";
 import { initialState, reducer } from "./reducer";
-import { useDistribution } from "../../../hooks/useDistribution";
-import { useCreateOrUpdateDistribution } from "../../../hooks/useCreateOrUpdateDistribution";
+import { validate } from "./validation";
 
 export const Component = () => {
   const { t } = useTranslation();

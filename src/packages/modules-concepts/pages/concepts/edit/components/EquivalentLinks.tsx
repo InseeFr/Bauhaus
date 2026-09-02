@@ -6,9 +6,10 @@ import { TextInput } from "@components/form/input";
 import { Row } from "@components/layout";
 import { List } from "@components/ui/list-group";
 
+import { Link } from "@model/concepts/concept";
+
 import { CLOSE_MATCH } from "@sdk/constants";
 
-import { Link } from "../../../../../model/concepts/concept";
 import "./EquivalentLinks.css";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 import { isAbsoluteUri } from "@utils/uri";

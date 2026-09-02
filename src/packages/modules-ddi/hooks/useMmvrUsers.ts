@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { DDIApi } from "../../sdk";
+import { DDIApi } from "@sdk/index";
+
 import type { CodeListUsage } from "../physical-instances/types/api";
 
 /**

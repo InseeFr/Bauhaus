@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { structuresI18n } from "../i18n";
 
 import { ActionToolbar } from "@components/action-toolbar";
+import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
+import { CreatorsInput } from "@components/business/creators-input";
 import {
   CancelButton,
   SaveButton,
@@ -18,8 +19,6 @@ import { NumberInput, TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Select } from "@components/select-rmes";
-import { CreatorsInput } from "@components/business/creators-input";
-import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 
 import { CodelistsApi, StructureApi } from "@sdk/index";
 
@@ -28,10 +27,11 @@ import {
   EMPTY_ARRAY,
   sortArray,
 } from "@utils/array-utils";
-import { useTitle } from "@utils/hooks/useTitle";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../application/app-context";
+import { useAuthorizationGuard } from "../../auth/components/auth";
 import {
   IGEO_PAYS_OU_TERRITOIRE,
   MEASURE_PROPERTY_TYPE,
@@ -44,10 +44,10 @@ import {
   XSD_STRING,
   XSD_TYPES,
 } from "../constants";
-import { CodelistPanel } from "./CodelistPanel";
+import { structuresI18n } from "../i18n";
 import { validate } from "../pages/components/edit/validation";
 import "./ComponentDetailEdit.css";
-import { useAuthorizationGuard } from "../../auth/components/auth";
+import { CodelistPanel } from "./CodelistPanel";
 
 const linkedAttributeLabelMapping = {
   [XSD_INTEGER]: structuresI18n.t("component.representation.int.action"),

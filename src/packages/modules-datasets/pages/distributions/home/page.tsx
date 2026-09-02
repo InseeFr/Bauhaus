@@ -5,11 +5,12 @@ import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
+import { PartialDistribution } from "@model/Dataset";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { PartialDistribution } from "../../../../model/Dataset";
-import { HomePageMenu } from "./menu";
 import { useDistributions } from "../../../hooks/useDistributions";
+import { HomePageMenu } from "./menu";
 
 export const Component = () => {
   const { t } = useTranslation();

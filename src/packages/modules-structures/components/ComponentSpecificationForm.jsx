@@ -7,8 +7,8 @@ import { Select } from "@components/select-rmes";
 
 import { StructureApi } from "@sdk/index";
 
-import { getAllAttachment } from "../utils/getAllAttachment";
 import { ATTRIBUTE_PROPERTY_TYPE, MEASURE_PROPERTY_TYPE } from "../constants";
+import { getAllAttachment } from "../utils/getAllAttachment";
 import "./ComponentSpecificationForm.css";
 
 export const ComponentSpecificationForm = ({

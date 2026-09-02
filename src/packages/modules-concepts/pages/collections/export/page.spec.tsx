@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { Mock, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import { Mock, vi } from "vitest";
 
 import { Component } from "./page";
 
@@ -42,9 +42,10 @@ vi.mock("./components/CollectionsToExport", () => ({
   ),
 }));
 
-import { useCollections } from "../../../hooks/useCollections";
 import { useCollectionExporter } from "@utils/hooks/collections";
 import { useTitle } from "@utils/hooks/useTitle";
+
+import { useCollections } from "../../../hooks/useCollections";
 
 const renderComponent = () => {
   return render(

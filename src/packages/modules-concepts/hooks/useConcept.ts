@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { Concept, ConceptNotes } from "@model/concepts/concept";
+
+import { ConceptsApi } from "@sdk/index";
+
 import { rmesHtmlToRawHtml } from "@utils/html-utils";
 
-import { Concept, ConceptNotes } from "../../model/concepts/concept";
-import { ConceptsApi } from "../../sdk";
 import { useAppContext } from "../../application/app-context";
 import { emptyConcept } from "../utils/emptyConcept";
 import { emptyConceptGeneral } from "../utils/emptyConceptGeneral";

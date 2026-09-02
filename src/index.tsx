@@ -3,16 +3,17 @@ import { ComponentType } from "react";
 import { createRoot } from "react-dom/client";
 
 import { ApplicationTitle } from "@components/application-title";
+import { BackToTop } from "@components/back-to-top";
 
 import { GeneralApi } from "@sdk/general-api";
+
+import { getLang } from "@utils/dictionnary";
 
 import { AppContextProvider, type AppProperties } from "./packages/application/app-context";
 import { Root } from "./packages/application/router";
 import { OidcProvider } from "./packages/auth/create-oidc";
-import { BackToTop } from "./packages/components/back-to-top";
-import D from "./packages/deprecated-locales/build-dictionary";
 import "./packages/styles/main.css";
-import { getLang } from "./packages/utils/dictionnary";
+import D from "./packages/deprecated-locales/build-dictionary";
 
 const queryClient = new QueryClient({
   defaultOptions: {

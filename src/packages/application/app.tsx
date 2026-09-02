@@ -1,9 +1,9 @@
 import "primereact/resources/themes/lara-light-blue/theme.css";
-import { Link } from "react-router-dom";
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 
-import { useTitle } from "@utils/hooks/useTitle";
 import { usePrivileges } from "@utils/hooks/users";
+import { useTitle } from "@utils/hooks/useTitle";
 
 import { hasAccessToModule } from "../auth/components/auth";
 import D from "../deprecated-locales/build-dictionary";

@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 
+import { Link } from "@model/concepts/concept";
+
 import { CLOSE_MATCH } from "@sdk/constants";
 
+import { useTitle } from "@utils/hooks/useTitle";
+import { useUrlSection } from "@utils/hooks/useUrlSection";
+
 import { useAppContext } from "../../../../application/app-context";
-import { Link } from "../../../../model/concepts/concept";
-import { useTitle } from "../../../../utils/hooks/useTitle";
-import { useUrlSection } from "../../../../utils/hooks/useUrlSection";
 import { useConcept } from "../../../hooks/useConcept";
 import { useConcepts } from "../../../hooks/useConcepts";
 import { useConceptSave } from "../../../hooks/useConceptSave";

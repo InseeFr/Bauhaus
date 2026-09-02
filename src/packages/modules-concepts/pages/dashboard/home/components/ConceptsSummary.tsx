@@ -1,14 +1,15 @@
 import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 
+import { InseeOrganisation } from "@components/business/organisations/organisations";
 import { DataTable } from "@components/datatable";
 import { Panel } from "@components/panel";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
 
-import { today } from "@utils/date-utils";
+import { VALIDATED } from "@model/ValidationState";
 
 import "../../../../../i18n";
-import { VALIDATED } from "@model/ValidationState";
+import { today } from "@utils/date-utils";
+
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
 
 type ConceptSummaryRow = {

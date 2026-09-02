@@ -1,12 +1,18 @@
-import { useEffect, useRef, useState } from "react";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
 import { confirmDialog } from "primereact/confirmdialog";
 import { Dropdown } from "primereact/dropdown";
 import { Message } from "primereact/message";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+
+import { useAppContext } from "../../../../application/app-context";
+import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useMmvrUsers } from "../../../hooks/useMmvrUsers";
+import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
 import type {
   Category,
   CodeList,
@@ -15,7 +21,6 @@ import type {
 } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
 import { CodeListDataTable, CodeTableRow } from "../CodeRepresentation/CodeListDataTable";
-import { UsersPanel } from "../CodeRepresentation/UsersPanel";
 import {
   createCategory,
   createCode,
@@ -24,11 +29,7 @@ import {
   createLabel,
   getLocalizedText,
 } from "../CodeRepresentation/CodeRepresentation.utils";
-import { useAppContext } from "../../../../application/app-context";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
-import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
-import { useMmvrUsers } from "../../../hooks/useMmvrUsers";
+import { UsersPanel } from "../CodeRepresentation/UsersPanel";
 
 export interface SentinelValuesProps {
   missingValuesReference?: Reference;

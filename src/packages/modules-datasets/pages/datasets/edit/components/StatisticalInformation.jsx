@@ -14,8 +14,8 @@ import {
   CL_TYPE_GEO,
 } from "../../../../../constants/code-lists";
 import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
-import { TemporalField } from "./TemporalField";
 import { DataStructure } from "./DataStructure";
+import { TemporalField } from "./TemporalField";
 
 const StatisticalInformationTab = ({ editingDataset, setEditingDataset, ...props }) => {
   const { t } = useTranslation();

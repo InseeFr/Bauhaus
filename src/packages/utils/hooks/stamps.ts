@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { StampsApi, V2Api } from "../../sdk";
+import { StampsApi, V2Api } from "@sdk/index";
 
 export const useStamps = () =>
   useQuery({

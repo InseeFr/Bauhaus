@@ -1,9 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient } from "@tanstack/react-query";
-import { enrichDataWithCodeLists } from "./enrichDataWithCodeLists";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { DDIApi } from "@sdk/index";
+
 import { itemsOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
-import { DDIApi } from "../../../../sdk";
+import { enrichDataWithCodeLists } from "./enrichDataWithCodeLists";
 
 vi.mock("../../../../sdk", () => ({
   DDIApi: {

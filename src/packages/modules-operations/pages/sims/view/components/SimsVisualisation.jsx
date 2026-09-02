@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
@@ -17,18 +17,18 @@ import { PublicationStatusItem } from "@components/status/PublicationStatusItem"
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { EMPTY_ARRAY } from "@utils/array-utils";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { RubricEssentialMsg } from "../../components/RubricEssentialMsg";
 import { SimsFieldTitle } from "../../components/SimsFieldTitle";
-import { getParentUri } from "../utils/getParentUri";
 import { hasLabelLg2 } from "../../utils/hasLabelLg2";
 import { shouldDisplayTitleForPrimaryItem } from "../../utils/shouldDisplayTitleForPrimaryItem";
 import { Menu } from "../menu";
-import { SimsBlock } from "./SimsBlock";
+import { getParentUri } from "../utils/getParentUri";
 import "./SimsVisualisation.css";
-import { EMPTY_ARRAY } from "@utils/array-utils";
 import { MissingDocumentsErrorBloc } from "./MissingDocumentsErrorBloc";
+import { SimsBlock } from "./SimsBlock";
 
 // Mirror of ErrorCodes.SIMS_PUBLICATION_MISSING_DOCUMENTS on the back-end : a SIMS
 // publication blocked because some referenced documents are missing from storage.

@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
-import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
 import { useTranslation } from "react-i18next";
 
 interface PhysicalInstancesDataTableProps {

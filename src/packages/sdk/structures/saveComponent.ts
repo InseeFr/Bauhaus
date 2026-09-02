@@ -1,4 +1,5 @@
-import { Component } from "../../model/structures/Component";
+import { Component } from "@model/structures/Component";
+
 import { StructureApi } from "../structure-api";
 
 export const saveComponent = (component: Component): Promise<string | undefined> => {

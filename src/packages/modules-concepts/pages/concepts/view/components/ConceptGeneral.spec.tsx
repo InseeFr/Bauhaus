@@ -1,8 +1,10 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ConceptGeneral } from "./ConceptGeneral";
+
 import type { ConceptGeneral as ConceptGeneralType } from "@model/concepts/concept";
+
+import { ConceptGeneral } from "./ConceptGeneral";
 
 vi.mock("./CollectionsBlock", () => ({
   CollectionsBlock: () => null,

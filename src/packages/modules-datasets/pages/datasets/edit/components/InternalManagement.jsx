@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
+import { CreatorsInput } from "@components/business/creators-input";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { ClientSideError } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
@@ -17,10 +19,8 @@ import {
   CL_CONF_STATUS,
   CL_PROCESS_STEP,
 } from "../../../../../constants/code-lists";
-import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
 import { useSeriesOperationsOptions } from "../../../../hooks/useSeriesOperationsOptions";
-import { CreatorsInput } from "@components/business/creators-input";
-import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
+import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
 
 const InternalManagementTab = ({
   editingDataset,

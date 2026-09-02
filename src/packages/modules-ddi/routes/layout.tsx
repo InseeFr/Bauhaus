@@ -1,9 +1,10 @@
-import { Outlet } from "react-router-dom";
 import { I18nextProvider } from "react-i18next";
+import { Outlet } from "react-router-dom";
 
-import { useTheme } from "../../utils/hooks/useTheme";
-import { Menu } from "../menu";
+import { useTheme } from "@utils/hooks/useTheme";
+
 import { ddiI18n } from "../i18n";
+import { Menu } from "../menu";
 
 export const Component = () => {
   useTheme("ddi");

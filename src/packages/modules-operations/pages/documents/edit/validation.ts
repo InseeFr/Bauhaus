@@ -1,16 +1,16 @@
 import { z } from "zod";
 
+import { Document } from "@model/operations/document";
+
 import {
   formatValidation,
   mandatoryAndNotEmptySelectField,
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import { operationsI18n } from "../../../i18n";
-
-import NewDictionary from "../../../../i18n";
-import { Document } from "../../../../model/operations/document";
 import { LINK } from "../../../../constants/documentType";
+import NewDictionary from "../../../../i18n";
+import { operationsI18n } from "../../../i18n";
 
 const Base = (
   documentsAndLinksList: Document[],

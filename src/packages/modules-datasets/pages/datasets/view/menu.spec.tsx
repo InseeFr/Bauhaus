@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
+import { Dataset } from "@model/Dataset";
 import { UNPUBLISHED } from "@model/ValidationState";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { Dataset } from "../../../../model/Dataset";
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 describe("Dataset View Menu", () => {

@@ -1,3 +1,5 @@
+import { Links, Link } from "@model/concepts/concept";
+
 import {
   BROADER,
   CLOSE_MATCH,
@@ -8,7 +10,6 @@ import {
   SUCCEED,
 } from "@sdk/constants";
 
-import { Links, Link } from "../../../../../model/concepts/concept";
 import { LinksList } from "./LinksList";
 import "./ConceptLinks.css";
 

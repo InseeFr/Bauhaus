@@ -1,7 +1,7 @@
+import { ConceptGeneral } from "@model/concepts/concept";
+
 import { prefixWithHttp } from "@utils/prefix-with-http";
 import { takeKeys } from "@utils/take-keys";
-
-import { ConceptGeneral } from "../../model/concepts/concept";
 
 export function processGeneral(
   general: Partial<ConceptGeneral>,

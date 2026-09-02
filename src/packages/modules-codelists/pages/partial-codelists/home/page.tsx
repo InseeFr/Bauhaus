@@ -8,10 +8,11 @@ import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 import { VerticalMenu } from "@components/vertical-menu";
 
+import { CodelistsApi } from "@sdk/index";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { CodelistsApi } from "@sdk/index";
 import { formatLabel } from "../../../utils/formatLabel";
 
 export const Component = () => {

@@ -1,6 +1,6 @@
 import { arrayMove } from "@dnd-kit/sortable";
 
-import { Document } from "../../../../../model/operations/document";
+import { Document } from "@model/operations/document";
 
 /**
  * Reorder a document/link within the combined documents array of a SIMS rubric.

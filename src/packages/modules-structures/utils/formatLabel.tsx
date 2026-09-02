@@ -1,4 +1,5 @@
-import { Component } from "../../model/structures/Component";
+import { Component } from "@model/structures/Component";
+
 import { MUTUALIZED_COMPONENT_TYPES } from "../constants";
 
 export const formatLabel = (component: Component) => {

@@ -11,9 +11,10 @@ import { Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 import { EditorMarkdown } from "@components/rich-editor/editor-markdown";
 
+import { Family } from "@model/operations/family";
+
 import { OperationsApi } from "@sdk/operations-api";
 
-import { Family } from "../../../../../model/operations/family";
 import { validate } from "../validation";
 
 const defaultFamily: Partial<Family> = {

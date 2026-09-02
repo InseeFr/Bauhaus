@@ -1,10 +1,11 @@
 import Modal from "react-modal";
 
-import { createAllDictionary } from "../../utils/dictionnary";
+import { cx } from "@utils/cx";
+import { createAllDictionary } from "@utils/dictionnary";
+
 import { ActionToolbar } from "../action-toolbar";
 import { Button } from "../buttons/button";
 import { CloseIconButton } from "../buttons/buttons-with-icons";
-import { cx } from "@utils/cx";
 
 const { D } = createAllDictionary({
   deleteTitle: {

@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 
 import { List } from "@components/ui/list";
 
+import { Operation } from "@model/Operation";
+import { Series } from "@model/Series";
+
+import { EMPTY_ARRAY } from "@utils/array-utils";
 import { useOperations } from "@utils/hooks/operations";
 import { useSeries } from "@utils/hooks/series";
-
-import { Operation } from "../../../../../model/Operation";
-import { Series } from "../../../../../model/Series";
-import { EMPTY_ARRAY } from "@utils/array-utils";
 
 interface WasGeneratedByBlockTypes {
   iris: string[];

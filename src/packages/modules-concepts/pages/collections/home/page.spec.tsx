@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
-import { Component } from "./page";
 import { useCollections } from "../../../hooks/useCollections";
+import { Component } from "./page";
 
 vi.mock("../../../hooks/useCollections", () => ({
   useCollections: vi.fn(),

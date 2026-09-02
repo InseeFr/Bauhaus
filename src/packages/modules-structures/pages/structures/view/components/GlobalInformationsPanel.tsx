@@ -1,16 +1,16 @@
 import { useTranslation } from "react-i18next";
 
+import {
+  InseeOrganisation,
+  InseeOrganisations,
+} from "@components/business/organisations/organisations";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
-import {
-  InseeOrganisation,
-  InseeOrganisations,
-} from "@components/business/organisations/organisations";
 
-import { Structure } from "../../../../../model/structures/Structure";
+import { Structure } from "@model/structures/Structure";
 
 interface GlobalInformationsPanelTypes {
   structure: Structure;

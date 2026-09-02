@@ -1,5 +1,5 @@
-import { nbResults } from "../../utils/array-utils";
-import { createAllDictionary } from "../../utils/dictionnary";
+import { nbResults } from "@utils/array-utils";
+import { createAllDictionary } from "@utils/dictionnary";
 
 const { D } = createAllDictionary({
   result: {

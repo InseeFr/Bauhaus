@@ -1,9 +1,9 @@
 import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import { describe, it, expect, vi } from "vitest";
 
-import { OverrideDialog } from "./OverrideDialog";
 import type { CategoryUsage, CodeListUsage } from "../../types/api";
+import { OverrideDialog } from "./OverrideDialog";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

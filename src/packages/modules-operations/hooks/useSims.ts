@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-import { OperationsApi } from "@sdk/operations-api";
+import { Rubric } from "@model/Sims";
 
-import { Rubric } from "../../model/Sims";
+import { OperationsApi } from "@sdk/operations-api";
 
 const computeRubrics = (rubrics: Rubric[]): Record<string, Rubric & { idMas: string }> => {
   return (rubrics || []).reduce(

@@ -4,11 +4,12 @@ import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
 
+import { getBaseURI } from "@sdk/index";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { getBaseURI } from "../../../../../sdk";
-import { RelationsView } from "../../../../components/RelationsView";
 import { LINK } from "../../../../../constants/documentType";
+import { RelationsView } from "../../../../components/RelationsView";
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
 

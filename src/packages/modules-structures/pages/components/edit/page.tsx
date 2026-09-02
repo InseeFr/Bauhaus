@@ -1,18 +1,19 @@
 import { useReducer, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { Component as StructureComponent } from "@model/structures/Component";
+
 import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { Component as StructureComponent } from "../../../../model/structures/Component";
-import { useFormattedCodeList } from "../../../hooks/useFormattedCodeList";
 import { ComponentDetailEdit } from "../../../components/ComponentDetailEdit";
+import { useFormattedCodeList } from "../../../hooks/useFormattedCodeList";
 
 type EditContainerState = {
   loading: boolean;

@@ -1,5 +1,7 @@
 import { Mock, vi, describe, it, expect, beforeEach } from "vitest";
+
 import { useUserStamps } from "@utils/hooks/users";
+
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
 
 vi.mock("@utils/hooks/users", () => ({

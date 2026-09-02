@@ -1,4 +1,5 @@
-import { htmlLength } from "../../utils/html-utils";
+import { htmlLength } from "@utils/html-utils";
+
 import { ModifyNotes } from "./modify-notes";
 
 export function NoteOneLangEdition({

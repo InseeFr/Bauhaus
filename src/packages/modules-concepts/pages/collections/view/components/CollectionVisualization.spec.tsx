@@ -1,9 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
-import { CollectionVisualization } from "./CollectionVisualization";
 import type { ValidationState } from "@components/status";
+
 import { UNPUBLISHED, VALIDATED } from "@model/ValidationState";
+
+import { CollectionVisualization } from "./CollectionVisualization";
 
 vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),

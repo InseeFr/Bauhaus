@@ -1,7 +1,8 @@
 import { useMemo } from "react";
-import { type CodeListItem } from "./usePhysicalCodesLists";
+
 import { useGroupCodesLists } from "./useGroupCodesLists";
 import { useMutualizedCodesLists } from "./useMutualizedCodesLists";
+import { type CodeListItem } from "./usePhysicalCodesLists";
 import { usePhysicalInstanceParents } from "./usePhysicalInstanceParents";
 
 export const useAllCodesLists = (agencyId: string, physicalInstanceId: string) => {

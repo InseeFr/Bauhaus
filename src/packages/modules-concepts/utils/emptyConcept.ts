@@ -1,6 +1,7 @@
+import { Concept, ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+
 import { objectFromKeys } from "@utils/object-from-keys";
 
-import { Concept, ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
 import { conceptNoteFields } from "./conceptNoteFields";
 import { emptyConceptGeneralWithContributor } from "./emptyConceptGeneralWithContributor";
 

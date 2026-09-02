@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 
+import { Sims } from "@model/Sims";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { Sims } from "../../../../model/Sims";
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 describe("Sims Visualisation Menu", () => {

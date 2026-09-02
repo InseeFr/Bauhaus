@@ -1,5 +1,6 @@
-import { datasetsI18n } from "../../../i18n";
 import { z } from "zod";
+
+import { Dataset } from "@model/Dataset";
 
 import {
   formatValidation,
@@ -8,7 +9,7 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import { Dataset } from "../../../../model/Dataset";
+import { datasetsI18n } from "../../../i18n";
 
 export const validate = ({ catalogRecord, ...otherFields }: Dataset) => {
   const ZodDataset = z.object({

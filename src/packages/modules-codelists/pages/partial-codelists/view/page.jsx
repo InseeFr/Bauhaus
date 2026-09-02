@@ -4,12 +4,13 @@ import { useParams } from "react-router-dom";
 
 import { Deleting, Publishing, Loading } from "@components/loading";
 
+import { CodelistsApi } from "@sdk/index";
+
 import { useSecondLang } from "@utils/hooks/second-lang";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { CodelistsApi } from "@sdk/index";
-import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { ComponentTitle } from "../../../components/ComponentTitle";
+import { formatPartialCodelist } from "../../../utils/formatPartialCodelist";
 import { PartialCodelistDetailView } from "./components/PartialCodelistDetailView";
 
 export const Component = (props) => {

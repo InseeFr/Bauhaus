@@ -1,8 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
-import { UNPUBLISHED } from "../../../../model/ValidationState";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
+
 import { ViewMenu } from "./menu";
 
 vi.mock("@utils/hooks/users", async (importOriginal) => {

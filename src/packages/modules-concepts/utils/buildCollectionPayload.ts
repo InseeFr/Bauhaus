@@ -1,6 +1,6 @@
 import { CollectionGeneral, CollectionPayload } from "@model/concepts/collection";
 
-import { takeKeys } from "../../utils/take-keys";
+import { takeKeys } from "@utils/take-keys";
 
 export interface CollectionMemberInput {
   id: string;

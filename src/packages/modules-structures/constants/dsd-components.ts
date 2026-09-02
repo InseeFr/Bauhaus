@@ -1,5 +1,4 @@
 import { structuresI18n } from "../i18n";
-
 import { QB } from "./prefixes";
 
 export const MEASURE_TYPE = `${QB}measure`;

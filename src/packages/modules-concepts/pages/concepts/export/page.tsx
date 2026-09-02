@@ -3,9 +3,10 @@ import { useTranslation } from "react-i18next";
 import { Exporting, Loading } from "@components/loading";
 import { Picker } from "@components/picker-page";
 
-import { useConceptExporter } from "../../../hooks/useConceptExporter";
-import { useTitle } from "../../../../utils/hooks/useTitle";
+import { useTitle } from "@utils/hooks/useTitle";
+
 import { ExportButtons } from "../../../components/ExportButtons";
+import { useConceptExporter } from "../../../hooks/useConceptExporter";
 import { useConcepts } from "../../../hooks/useConcepts";
 
 export const Component = () => {

@@ -1,7 +1,7 @@
-import { classificationsI18n } from "../../../../i18n";
-
 import { Row } from "@components/layout";
 import { MDEditor } from "@components/rich-editor/react-md-editor";
+
+import { classificationsI18n } from "../../../../i18n";
 
 type Key = `${string}Lg1` | `${string}Lg2`;
 

@@ -1,5 +1,6 @@
 import { ComponentProps, ComponentPropsWithoutRef, PropsWithChildren } from "react";
 import { Link as ReactLink } from "react-router-dom";
+
 import { cx } from "@utils/cx";
 
 type LinkTypes = {

@@ -1,4 +1,5 @@
 import type { QueryClient } from "@tanstack/react-query";
+
 import type { Category, CodeList, PhysicalInstanceResponse, Variable } from "../../types/api";
 import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";

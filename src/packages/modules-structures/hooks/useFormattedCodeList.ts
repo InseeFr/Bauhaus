@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CodelistsApi } from "@sdk/codelists-api";
-import { sortArray } from "@utils/array-utils";
+import { CodesLists } from "@model/CodesList";
 
-import { CodesLists } from "../../model/CodesList";
+import { CodelistsApi } from "@sdk/codelists-api";
+
+import { sortArray } from "@utils/array-utils";
 
 const sortByLabel = sortArray("labelLg1");
 

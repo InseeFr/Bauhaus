@@ -6,8 +6,8 @@ import { Row } from "@components/layout";
 import { Note } from "@components/note";
 import { PageTitle } from "@components/page-title";
 
-import { CorrespondenceControls } from "./CorrespondenceControls";
 import { buildAssociationItemLinks } from "../../../../utils/buildAssociationItemLinks";
+import { CorrespondenceControls } from "./CorrespondenceControls";
 
 export const AssociationHome = ({
   association,

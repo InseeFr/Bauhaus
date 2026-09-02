@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CollectionApi } from "@sdk/new-collection-api";
-
 import {
   Collection,
   CollectionGeneral,
   CollectionMember,
   CollectionWithMembers,
 } from "@model/concepts/collection";
+
+import { CollectionApi } from "@sdk/new-collection-api";
 
 import { useAppContext } from "../../application/app-context";
 import { emptyCollection } from "../utils/emptyCollection";

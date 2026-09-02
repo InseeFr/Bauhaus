@@ -4,9 +4,10 @@ import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 import { Mock, vi } from "vitest";
 
+import { CodelistsApi } from "@sdk/index";
+
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
-import { CodelistsApi } from "@sdk/index";
 import { AppContextProvider } from "../../../../application/app-context";
 import { testsI18n as i18n } from "../../../../tests/i18n";
 import { Component } from "./page";

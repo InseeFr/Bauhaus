@@ -2,11 +2,12 @@ import { fireEvent, screen } from "@testing-library/react";
 import { useLocation } from "react-router-dom";
 import { Mock, vi } from "vitest";
 
-import { RBACLink } from ".";
-import { useAppContext } from "../app-context";
 import { useOidc } from "../../auth/create-oidc";
 import D from "../../i18n";
 import { renderWithAppContext } from "../../tests/render";
+import { useAppContext } from "../app-context";
+
+import { RBACLink } from ".";
 
 vi.mock("../../auth/create-oidc", async () => {
   return {

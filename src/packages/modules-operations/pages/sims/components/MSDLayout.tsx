@@ -1,7 +1,8 @@
 import { PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
 
-import { MetadataStructure } from "../../../../model/Sims";
+import { MetadataStructure } from "@model/Sims";
+
 import { Status, useLayout } from "../../../hooks/useLayout";
 import { Outline } from "./Outline";
 import "./MSDComponent.css";

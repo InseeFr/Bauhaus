@@ -1,6 +1,12 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { Dropdown } from "primereact/dropdown";
+import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
+
+import { DDIApi } from "@sdk/index";
+
+import { useAppContext } from "../../../../application/app-context";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { singletonEntries } from "../../../utils/multilingual";
 import type {
   NumericRepresentation,
   DateTimeRepresentation,
@@ -13,13 +19,13 @@ import type {
   Ddi4Item,
   PhysicalInstanceResponse,
 } from "../../types/api";
-import { DDIApi } from "../../../../sdk";
-import { useAppContext } from "../../../../application/app-context";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { DdiXmlPreview } from "./DdiXmlPreview";
 import { DdiJsonPreview } from "./DdiJsonPreview";
-import { ddiPreviewReducer, initialState, type DdiFormat } from "./DdiPreview.reducer";
-import { singletonEntries } from "../../../utils/multilingual";
+import {
+  ddiPreviewReducer,
+  initialState,
+  type DdiFormat,
+} from "./DdiPreview.reducer";
+import { DdiXmlPreview } from "./DdiXmlPreview";
 import { useSelfContainedPreview } from "./useSelfContainedPreview";
 
 interface DdiPreviewProps {
@@ -124,7 +130,10 @@ export const DdiPreview = ({
     };
 
     if (variableDescription) {
-      variableDDI.Description = singletonEntries(defaultLocale, variableDescription);
+      variableDDI.Description = singletonEntries(
+        defaultLocale,
+        variableDescription,
+      );
     }
 
     if (isGeographic) {
@@ -145,7 +154,9 @@ export const DdiPreview = ({
       variableDDI.VariableRepresentation = {
         VariableRole: "Mesure",
         // #1592 : même sans attribut saisi, le type Text doit apparaître dans le DDI.
-        TextRepresentation: textRepresentation ?? { $type: "TextRepresentationBaseType" },
+        TextRepresentation: textRepresentation ?? {
+          $type: "TextRepresentationBaseType",
+        },
       };
     } else if (variableType === "code" && codeRepresentation) {
       variableDDI.VariableRepresentation = {
@@ -213,7 +224,10 @@ export const DdiPreview = ({
   // afin que l'aperçu montre les mêmes codes que le panneau de représentation.
   const previewData = useSelfContainedPreview(ddi4Data);
 
-  const ddiJson = useMemo(() => JSON.stringify(previewData, null, 2), [previewData]);
+  const ddiJson = useMemo(
+    () => JSON.stringify(previewData, null, 2),
+    [previewData],
+  );
 
   const ddi4DataSerialized = ddiJson;
 
@@ -263,7 +277,9 @@ export const DdiPreview = ({
       )}
 
       {state.format === "DDI3" && !state.isLoading && !state.ddiXml && (
-        <div className="text-center text-gray-500">{t("physicalInstance.view.noDdiXml")}</div>
+        <div className="text-center text-gray-500">
+          {t("physicalInstance.view.noDdiXml")}
+        </div>
       )}
 
       {state.format === "DDI4" && <DdiJsonPreview code={ddiJson} />}

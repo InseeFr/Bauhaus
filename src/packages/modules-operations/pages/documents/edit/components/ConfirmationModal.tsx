@@ -1,5 +1,5 @@
-import Modal from "react-modal";
 import { useTranslation } from "react-i18next";
+import Modal from "react-modal";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";

@@ -1,4 +1,4 @@
-import { SeeAlso } from "../../model/Operation";
+import { SeeAlso } from "@model/Operation";
 
 /**
  *

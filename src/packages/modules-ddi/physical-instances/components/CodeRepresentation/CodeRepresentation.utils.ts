@@ -1,3 +1,4 @@
+import { pickLang, singletonEntries, type LangString } from "../../../utils/multilingual";
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
@@ -6,7 +7,6 @@ import type {
   CategoryUsage,
   CodeListUsage,
 } from "../../types/api";
-import { pickLang, singletonEntries, type LangString } from "../../../utils/multilingual";
 
 export const createDefaultRepresentation = (
   codeListId: string,

@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, within, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { useState } from "react";
-import { CodeRepresentation } from "./CodeRepresentation";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
@@ -10,6 +10,7 @@ import type {
   CodeListUsage,
 } from "../../types/api";
 import { envelope } from "../../types/ddi4Items.testing";
+import { CodeRepresentation } from "./CodeRepresentation";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

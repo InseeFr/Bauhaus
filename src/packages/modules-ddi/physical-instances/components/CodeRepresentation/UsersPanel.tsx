@@ -1,14 +1,18 @@
-import { useState, type MouseEvent } from "react";
 import { Panel, PanelHeaderTemplateOptions } from "primereact/panel";
+import { Tooltip } from "primereact/tooltip";
 import { Tree } from "primereact/tree";
 import type { TreeNode } from "primereact/treenode";
-import { Tooltip } from "primereact/tooltip";
+import { useState, type MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import type { CodeListUsage } from "../../types/api";
-import { buildCodeListUsersTree, type CodeListUsersNodeData } from "./codeListUsersTree";
 import { cx } from "@utils/cx";
+
+import type { CodeListUsage } from "../../types/api";
+import {
+  buildCodeListUsersTree,
+  type CodeListUsersNodeData,
+} from "./codeListUsersTree";
 
 const PHYSICAL_INSTANCE_PATH = "/ddi/physical-instances";
 const linkStyle = { textDecoration: "none", color: "inherit" } as const;
@@ -54,7 +58,11 @@ export const UsersPanel = ({
 
   const tree = buildCodeListUsersTree(
     usages.filter((usage) => usage.variableId !== currentVariableId),
-    { unknownStudyUnit: t("physicalInstance.view.code.usersPanel.unknownStudyUnit") },
+    {
+      unknownStudyUnit: t(
+        "physicalInstance.view.code.usersPanel.unknownStudyUnit",
+      ),
+    },
   );
 
   const helpTooltipTarget = tooltipTargetId.replace(/[^a-zA-Z0-9_-]/g, "-");
