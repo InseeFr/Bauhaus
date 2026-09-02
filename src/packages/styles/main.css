@@ -73,8 +73,8 @@
 
 footer {
   > button.btn {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 24px;
+    margin-bottom: 24px;
     background-color: #585e76;
     border-color: #585e76;
 
@@ -96,7 +96,7 @@ footer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    min-height: 160px;
+    min-height: 90px;
 
     > #bauhausVersion {
       padding-left: 30px;
