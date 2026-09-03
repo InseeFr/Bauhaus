@@ -39,12 +39,13 @@
     }
 
     /* Chaque item est lui-même une grid : titre en haut, flèche en haut,
-       logo aligné en bas à droite quelle que soit la hauteur du titre. */
-    a {
+       logo aligné en bas à droite quelle que soit la hauteur du titre.
+       L'enfant est un lien, ou un simple `div` quand le module est désactivé. */
+    > :is(a, div) {
       display: grid;
       grid-template: "title title" auto "arrow logo" 1fr / 1fr auto;
-      row-gap: 1.5em;
-      padding: 2em;
+      row-gap: 1em;
+      padding: 1.5em;
       color: white;
       text-decoration: none;
     }
@@ -68,7 +69,7 @@
 
       img {
         display: block;
-        width: 7cqi;
+        width: 9cqi;
       }
     }
 
@@ -78,8 +79,18 @@
 
       img {
         display: block;
-        width: 20cqi;
+        width: 28cqi;
       }
+    }
+
+    /* Module déclaré mais fermé pour l'instant : la tuile garde sa place dans la
+       grille, en gris et sans affordance de lien. */
+    &.disabled {
+      --primary-color: #a3a3a3;
+      --secondary-color: #a3a3a3;
+
+      box-shadow: 4px 12px 24px #c9c9c9;
+      cursor: default;
     }
   }
 }

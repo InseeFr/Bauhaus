@@ -17,7 +17,10 @@ vi.mock("@sdk/geographie", () => ({
 // renderWithRouterAndQuery does not wrap components in an I18nextProvider, so useTranslation()
 // falls back to whichever i18next singleton happens to be initialized in this test file's module
 // graph (none, here). Mock it directly with the real operations translations this component needs.
-vi.mock("react-i18next", () => ({
+// Mock partiel : `initReactI18next` doit rester réel, l'i18n du module est
+// initialisé au chargement de son bootstrap.
+vi.mock("react-i18next", async (importOriginal) => ({
+  ...(await importOriginal()),
   useTranslation: () => {
     const translations = {
       "geography.include": "Include",

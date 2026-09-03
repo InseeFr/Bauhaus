@@ -29,7 +29,10 @@ const mockTranslations = vi.hoisted(() => ({
   "documents.removeFile": "Remove the file",
 }));
 
-vi.mock("react-i18next", () => ({
+// Mock partiel : `initReactI18next` doit rester réel, l'i18n du module est
+// initialisé au chargement de son bootstrap.
+vi.mock("react-i18next", async (importOriginal) => ({
+  ...(await importOriginal()),
   useTranslation: () => ({
     t: (key) => mockTranslations[key] ?? key,
   }),

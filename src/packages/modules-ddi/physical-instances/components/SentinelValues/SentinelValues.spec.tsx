@@ -227,7 +227,8 @@ describe("SentinelValues", () => {
     const user = userEvent.setup();
     render(<ControlledSentinelValues initialReference={reference} />);
 
-    await user.click(screen.getByText("Valeurs sentinelles"));
+    // L'accordéon s'ouvre de lui-même quand une référence est déjà posée : cliquer sur
+    // l'entête le refermerait, et le test ne tiendrait que le temps de l'animation de repli.
     await user.click(screen.getByText("Ajouter un code"));
     await user.type(lastValueInput(), "REF");
 

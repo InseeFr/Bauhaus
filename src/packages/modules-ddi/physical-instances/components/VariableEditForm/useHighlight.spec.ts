@@ -1,7 +1,15 @@
-import { renderHook, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { configure, renderHook, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 
 import { useHighlight } from "./useHighlight";
+
+// Le hook charge highlight.js par import dynamique. À froid, la transformation du chunk
+// par Vite dépasse la seconde par défaut de `waitFor` quand les 414 fichiers de spec
+// tournent en parallèle — et `vi.resetModules()` d'un des tests refroidit à nouveau
+// l'import pour les suivants.
+const DEFAULT_ASYNC_UTIL_TIMEOUT = 1000;
+beforeAll(() => configure({ asyncUtilTimeout: 15000 }));
+afterAll(() => configure({ asyncUtilTimeout: DEFAULT_ASYNC_UTIL_TIMEOUT }));
 
 describe("useHighlight", () => {
   it("should return null initially", () => {

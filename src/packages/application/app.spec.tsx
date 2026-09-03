@@ -30,7 +30,9 @@ vi.mock("../deprecated-locales/build-dictionary", () => ({
   default: {
     analyticsTitle: "Analytics",
     adminTitle: "Administration",
+    ddiTitle: "Variables",
     modulesNavigationTitle: "Modules",
+    moduleUnavailable: "Module indisponible pour le moment",
   },
 }));
 
@@ -119,13 +121,19 @@ describe("<App />", () => {
     expect(within(navigation).getAllByRole("link")).toHaveLength(2);
   });
 
-  it("displays concepts, classifications and operations on the first row and the remaining ones on the second row", () => {
+  it("displays concepts, classifications, operations and ddi on the first row and the remaining ones on the second row", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: ["concepts", "classifications", "operations", "structures", "codelists"].map(
-          (identifier) => ({ identifier, disabled: false }),
-        ),
+        modules: [
+          "concepts",
+          "classifications",
+          "operations",
+          "structures",
+          "codelists",
+          "datasets",
+          "ddi",
+        ].map((identifier) => ({ identifier, disabled: false })),
       },
     });
 
@@ -143,20 +151,20 @@ describe("<App />", () => {
       within(firstRow)
         .getAllByRole("link")
         .map((link) => link.getAttribute("href")),
-    ).toEqual(["/concepts", "/classifications", "/operations"]);
+    ).toEqual(["/concepts", "/classifications", "/operations", "/ddi"]);
     expect(
       within(secondRow)
         .getAllByRole("link")
         .map((link) => link.getAttribute("href")),
-    ).toEqual(["/structures", "/codelists"]);
+    ).toEqual(["/structures", "/codelists", "/datasets"]);
   });
 
-  it("does not fill the first row with other modules when one of its modules is disabled", () => {
+  it("does not fill the first row with other modules when one of its modules is not accessible", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts", disabled: true },
+          { identifier: "concepts", disabled: false },
           { identifier: "classifications", disabled: false },
           { identifier: "operations", disabled: false },
           { identifier: "structures", disabled: false },
@@ -165,7 +173,7 @@ describe("<App />", () => {
       },
     });
 
-    (hasAccessToModule as any).mockImplementation(() => true);
+    (hasAccessToModule as any).mockImplementation((module: string) => module !== "concepts");
 
     render(
       <MemoryRouter>
@@ -185,6 +193,64 @@ describe("<App />", () => {
         .getAllByRole("link")
         .map((link) => link.getAttribute("href")),
     ).toEqual(["/structures", "/codelists"]);
+  });
+
+  it("keeps a disabled module on the page, greyed out and not clickable", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [] });
+    (useAppContext as any).mockReturnValue({
+      properties: {
+        modules: [
+          { identifier: "concepts", disabled: false },
+          { identifier: "classifications", disabled: false },
+          { identifier: "operations", disabled: false },
+          { identifier: "ddi", disabled: true },
+        ],
+      },
+    });
+
+    (hasAccessToModule as any).mockImplementation(() => true);
+
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const [firstRow] = screen.getAllByRole("list");
+
+    expect(
+      within(firstRow)
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual(["/concepts", "/classifications", "/operations"]);
+
+    const variables = screen.getByText("Variables").closest("li");
+
+    expect(variables).toBeInTheDocument();
+    expect(variables).toHaveClass("disabled");
+    expect(within(variables!).getByText("Module indisponible pour le moment")).toBeInTheDocument();
+  });
+
+  it("hides a disabled module the user has no access to", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [] });
+    (useAppContext as any).mockReturnValue({
+      properties: {
+        modules: [
+          { identifier: "concepts", disabled: false },
+          { identifier: "ddi", disabled: true },
+        ],
+      },
+    });
+
+    (hasAccessToModule as any).mockImplementation((module: string) => module !== "ddi");
+
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByText("Variables")).not.toBeInTheDocument();
   });
 
   it("does not display a second row when three modules or less are accessible", () => {

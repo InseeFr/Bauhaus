@@ -1,6 +1,6 @@
 .layout_with_lateral_menu {
   display: grid;
-  grid-template-columns: 18em minmax(0, 1fr);
+  grid-template-columns: 21em minmax(0, 1fr);
   gap: 2em;
   align-items: start;
   margin-top: 20px;

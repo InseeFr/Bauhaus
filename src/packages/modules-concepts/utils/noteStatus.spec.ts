@@ -27,7 +27,7 @@ describe("noteStatus", () => {
   });
 
   it("signale une note vide", () => {
-    expect(noteStatus(editorialNote, notes(), "")).toBe("empty");
+    expect(noteStatus(editorialNote, notes())).toBe("empty");
   });
 
   it("considère complète une note renseignée dans les deux langues", () => {
@@ -35,37 +35,44 @@ describe("noteStatus", () => {
       noteStatus(
         editorialNote,
         notes({ editorialNoteLg1: "<p>Note</p>", editorialNoteLg2: "<p>Note</p>" }),
-        "",
       ),
     ).toBe("ok");
   });
 
   it("signale la traduction manquante d'une note facultative", () => {
-    expect(noteStatus(editorialNote, notes({ editorialNoteLg1: "<p>Note</p>" }), "")).toBe(
+    expect(noteStatus(editorialNote, notes({ editorialNoteLg1: "<p>Note</p>" }))).toBe(
       "missingTranslation",
     );
   });
 
-  it("signale une définition absente, qui est obligatoire", () => {
-    expect(noteStatus(definition, notes(), "")).toBe("toFix");
+  it("ne reproche pas une définition absente tant que la validation ne la signale pas", () => {
+    expect(noteStatus(definition, notes())).toBe("empty");
+  });
+
+  it("signale une définition absente une fois la validation passée dessus", () => {
+    expect(
+      noteStatus(definition, notes(), { definitionLg1: "La définition est obligatoire" }),
+    ).toBe("toFix");
   });
 
   it("signale la traduction manquante d'une définition renseignée", () => {
-    expect(noteStatus(definition, notes({ definitionLg1: "<p>Définition</p>" }), "")).toBe(
+    expect(noteStatus(definition, notes({ definitionLg1: "<p>Définition</p>" }))).toBe(
       "missingTranslation",
     );
   });
 
-  it("signale la définition courte absente quand le concept est public", () => {
-    expect(noteStatus(scopeNote, notes(), "Public générique")).toBe("toFix");
+  it("signale la définition courte absente quand la validation la réclame", () => {
+    expect(
+      noteStatus(scopeNote, notes(), { scopeNoteLg1: "La définition courte est obligatoire" }),
+    ).toBe("toFix");
   });
 
-  it("tolère la définition courte absente quand le concept n'est pas public", () => {
-    expect(noteStatus(scopeNote, notes(), "Privé")).toBe("empty");
+  it("tolère la définition courte absente quand la validation ne la réclame pas", () => {
+    expect(noteStatus(scopeNote, notes(), { scopeNoteLg1: "" })).toBe("empty");
   });
 
   it("signale une définition courte trop longue", () => {
-    expect(noteStatus(scopeNote, notes({ scopeNoteLg1: `<p>${"a".repeat(351)}</p>` }), "")).toBe(
+    expect(noteStatus(scopeNote, notes({ scopeNoteLg1: `<p>${"a".repeat(351)}</p>` }))).toBe(
       "toFix",
     );
   });
@@ -78,7 +85,6 @@ describe("noteStatus", () => {
           scopeNoteLg1: "<p>Courte</p>",
           scopeNoteLg2: `<p>${"a".repeat(351)}</p>`,
         }),
-        "",
       ),
     ).toBe("toFix");
   });
@@ -88,7 +94,6 @@ describe("noteStatus", () => {
       noteStatus(
         scopeNote,
         notes({ scopeNoteLg1: `<p><strong>${"a".repeat(350)}</strong></p>`, scopeNoteLg2: "a" }),
-        "",
       ),
     ).toBe("ok");
   });

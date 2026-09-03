@@ -303,7 +303,6 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
         <div className="concept-edition">
           <ConceptSummary
             notes={dataNotes}
-            disseminationStatus={dataGeneral.disseminationStatus}
             maxLengthScopeNote={maxLengthScopeNote}
             conceptsWithLinks={dataConceptsWithLinks}
             equivalentLinks={state.data.equivalentLinks}

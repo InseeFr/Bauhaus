@@ -18,8 +18,9 @@ export interface NoteType {
 /**
  * `ok` : les deux langues sont renseignées et valides.
  * `missingTranslation` : une seule des deux langues est renseignée.
- * `empty` : aucune des deux, et la note n'est pas obligatoire ici.
- * `toFix` : la note est obligatoire et absente, ou dépasse sa longueur maximale.
+ * `empty` : aucune des deux, et rien n'est encore reproché à la note.
+ * `toFix` : la note dépasse sa longueur maximale, ou la validation a signalé une
+ * erreur dessus — ce qui n'arrive qu'une fois la sauvegarde tentée.
  */
 export type NoteStatus = "ok" | "empty" | "missingTranslation" | "toFix";
 
@@ -47,12 +48,11 @@ export const noteTypes = (maxLengthScopeNote: number): NoteType[] => [
   },
 ];
 
-const isPublic = (disseminationStatus?: string) => !!disseminationStatus?.includes("Public");
-
 export const noteStatus = (
-  { rawTitle, noteLg1Name, noteLg2Name, maxLength }: NoteType,
+  { noteLg1Name, noteLg2Name, maxLength }: NoteType,
   notes: ConceptNotes,
-  disseminationStatus?: string,
+  /** Champs en erreur remontés par `validate`, absents tant que rien n'a été soumis. */
+  errorFields?: Record<string, string>,
 ): NoteStatus => {
   const noteLg1 = (notes[noteLg1Name] as string) ?? "";
   const noteLg2 = (notes[noteLg2Name] as string) ?? "";
@@ -61,16 +61,12 @@ export const noteStatus = (
 
   if (htmlLength(noteLg1) > limit || htmlLength(noteLg2) > limit) return "toFix";
 
+  // Le caractère obligatoire d'une note est décrit par `validate` et lui seul :
+  // une note vide n'est reprochée qu'à partir du moment où il la signale.
+  if (errorFields?.[noteLg1Name] || errorFields?.[noteLg2Name]) return "toFix";
+
   const emptyLg1 = htmlIsEmpty(noteLg1);
   const emptyLg2 = htmlIsEmpty(noteLg2);
-
-  // La définition est toujours obligatoire ; la définition courte ne l'est que
-  // pour un concept diffusé publiquement.
-  const required =
-    rawTitle === "conceptsDefinition" ||
-    (rawTitle === "conceptsScopeNote" && isPublic(disseminationStatus));
-
-  if (emptyLg1 && required) return "toFix";
 
   if (emptyLg1 && emptyLg2) return "empty";
 
