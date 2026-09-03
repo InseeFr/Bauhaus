@@ -4,6 +4,17 @@ import { describe, expect, it, vi } from "vitest";
 
 import { Menu } from "./index";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "physicalInstance.pluralTitle": "Physical Instances",
+      };
+      return translations[key] ?? key;
+    },
+  }),
+}));
+
 vi.mock("@components/menu", () => ({
   MainMenu: ({ paths }: { paths: any[] }) => (
     <nav data-testid="main-menu">

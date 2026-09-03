@@ -57,6 +57,12 @@ export default defineConfig({
               label: "Roles & Permissions (RBAC)",
               link: import.meta.env.BASE_URL + "guides/rbac/",
             },
+            {
+              // Publié à côté de la documentation par le workflow documentation-deploy
+              label: "Storybook",
+              link: import.meta.env.BASE_URL + "storybook/",
+              attrs: { target: "_blank" },
+            },
           ],
         },
         {

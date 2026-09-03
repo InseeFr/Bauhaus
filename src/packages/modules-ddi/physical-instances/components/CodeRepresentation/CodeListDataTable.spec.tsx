@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { useState } from "react";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
 
 vi.mock("react-i18next", () => ({
@@ -15,6 +16,7 @@ vi.mock("react-i18next", () => ({
         "physicalInstance.view.code.moveUp": "Monter",
         "physicalInstance.view.code.moveDown": "Descendre",
         "physicalInstance.view.code.deleteCode": "Supprimer",
+        "physicalInstance.view.code.categoryUsage.menuEntry": "Utilisation",
       };
       return translations[key] || key;
     },
@@ -42,9 +44,17 @@ vi.mock("primereact/button", () => ({
   ),
 }));
 
-vi.mock("primereact/overlaypanel", () => ({
-  OverlayPanel: vi.fn().mockImplementation(() => null),
-}));
+// Le contenu du menu contextuel est rendu en ligne : les entrées sont ainsi directement
+// interrogeables, sans avoir à ouvrir un vrai overlay.
+vi.mock("primereact/overlaypanel", async () => {
+  const { forwardRef, useImperativeHandle } = await import("react");
+  return {
+    OverlayPanel: forwardRef(({ children }: any, ref: any) => {
+      useImperativeHandle(ref, () => ({ toggle: () => {}, hide: () => {} }));
+      return <div>{children}</div>;
+    }),
+  };
+});
 
 vi.mock("primereact/datatable", () => ({
   DataTable: ({ value, children, emptyMessage }: any) => {
@@ -252,6 +262,44 @@ describe("CodeListDataTable", () => {
     expect(menuButtons).toHaveLength(2);
   });
 
+  describe("entrée de menu « Utilisation »", () => {
+    it("should call onShowCategoryUsage with the row when the entry is clicked", () => {
+      const mockOnShowCategoryUsage = vi.fn();
+      render(
+        <CodeListDataTable
+          codeListLabel="Test Label"
+          codes={mockCodes}
+          onCodeListLabelChange={mockOnCodeListLabelChange}
+          onCellEdit={mockOnCellEdit}
+          onDeleteCode={mockOnDeleteCode}
+          onAddCode={mockOnAddCode}
+          onMoveCode={mockOnMoveCode}
+          onShowCategoryUsage={mockOnShowCategoryUsage}
+        />,
+      );
+
+      fireEvent.click(screen.getAllByText("Utilisation")[1]);
+
+      expect(mockOnShowCategoryUsage).toHaveBeenCalledWith(mockCodes[1]);
+    });
+
+    it("should not render the entry when no handler is provided", () => {
+      render(
+        <CodeListDataTable
+          codeListLabel="Test Label"
+          codes={mockCodes}
+          onCodeListLabelChange={mockOnCodeListLabelChange}
+          onCellEdit={mockOnCellEdit}
+          onDeleteCode={mockOnDeleteCode}
+          onAddCode={mockOnAddCode}
+          onMoveCode={mockOnMoveCode}
+        />,
+      );
+
+      expect(screen.queryByText("Utilisation")).not.toBeInTheDocument();
+    });
+  });
+
   it("should call onCellEdit when code value is edited", () => {
     render(
       <CodeListDataTable
@@ -412,6 +460,158 @@ describe("CodeListDataTable", () => {
       inputs.forEach((input) => {
         expect(input).not.toHaveClass("code-list-readonly-input");
       });
+    });
+  });
+
+  describe("guarding an edited cell", () => {
+    const mockOnCellCommit = vi.fn(() => Promise.resolve(false));
+    const mockOnCodeListLabelCommit = vi.fn(() => Promise.resolve(false));
+
+    /**
+     * Reproduit ce que fait le vrai parent : chaque frappe met à jour l'état local, donc la
+     * ligne est re-rendue avec la valeur saisie — c'est précisément ce qui rend l'édition fluide.
+     */
+    const Harness = ({ initialLabel = "Test Label" }: { initialLabel?: string }) => {
+      const [codes, setCodes] = useState(mockCodes);
+      const [label, setLabel] = useState(initialLabel);
+      return (
+        <CodeListDataTable
+          codeListLabel={label}
+          codes={codes}
+          onCodeListLabelChange={(newLabel) => {
+            mockOnCodeListLabelChange(newLabel);
+            setLabel(newLabel);
+          }}
+          onCodeListLabelCommit={mockOnCodeListLabelCommit}
+          onCellEdit={(rowData, field, newValue) => {
+            mockOnCellEdit(rowData, field, newValue);
+            setCodes((current) =>
+              current.map((code) =>
+                code.id === rowData.id ? { ...code, [field]: newValue } : code,
+              ),
+            );
+          }}
+          onCellCommit={mockOnCellCommit}
+          onDeleteCode={mockOnDeleteCode}
+          onAddCode={mockOnAddCode}
+          onMoveCode={mockOnMoveCode}
+        />
+      );
+    };
+
+    const renderTable = () => render(<Harness />);
+
+    it("asks for a decision as soon as the user types, on the very first keystroke", async () => {
+      renderTable();
+      const input = screen.getAllByPlaceholderText("Libellé")[0];
+
+      fireEvent.change(input, { target: { value: "E" } });
+
+      // La frappe est appliquée telle quelle — le caractère saisi ne disparaît pas…
+      expect(mockOnCellEdit).toHaveBeenCalledWith(expect.anything(), "label", "E");
+      // …et la décision est demandée dans la foulée, sans attendre la sortie du champ.
+      await vi.waitFor(() =>
+        expect(mockOnCellCommit).toHaveBeenCalledWith(
+          expect.objectContaining({ id: "code-1" }),
+          "label",
+          {
+            value: "E",
+            previousValue: "Label 1",
+          },
+        ),
+      );
+    });
+
+    it("asks only once per editing session, whatever the number of keystrokes", async () => {
+      renderTable();
+      const input = screen.getAllByPlaceholderText("Libellé")[0];
+
+      fireEvent.change(input, { target: { value: "E" } });
+      await vi.waitFor(() => expect(mockOnCellCommit).toHaveBeenCalledTimes(1));
+      fireEvent.change(input, { target: { value: "Eu" } });
+      fireEvent.change(input, { target: { value: "Eur" } });
+
+      // La suite de la saisie passe sans repasser par la garde.
+      expect(mockOnCellEdit).toHaveBeenCalledTimes(3);
+      expect(mockOnCellCommit).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not ask anything when the field is merely traversed", () => {
+      renderTable();
+      const input = screen.getAllByPlaceholderText("Libellé")[0];
+
+      fireEvent.focus(input);
+      fireEvent.blur(input);
+
+      expect(mockOnCellCommit).not.toHaveBeenCalled();
+    });
+
+    it("does not take an incoming value for a user edit", () => {
+      // Régression : le champ du libellé porte `autoFocus`, il prend le focus avant que l'état
+      // ne soit initialisé. Le libellé arrivant ensuite ne doit pas passer pour une saisie.
+      render(<Harness initialLabel="" />);
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+      fireEvent.focus(labelInput);
+      fireEvent.blur(labelInput);
+
+      expect(mockOnCodeListLabelCommit).not.toHaveBeenCalled();
+    });
+
+    it("freezes the field while the decision is being resolved", async () => {
+      // La garde est asynchrone. Sans ce gel, les caractères tapés pendant sa résolution ne
+      // seraient pas couverts par la décision — et disparaîtraient à la création d'une variante.
+      let decide: (interrupted: boolean) => void = () => {};
+      mockOnCellCommit.mockReturnValueOnce(
+        new Promise<boolean>((resolve) => {
+          decide = resolve;
+        }),
+      );
+      renderTable();
+      const input = screen.getAllByPlaceholderText("Libellé")[0];
+
+      fireEvent.change(input, { target: { value: "E" } });
+
+      await vi.waitFor(() => expect(input).toHaveAttribute("readonly"));
+
+      decide(true);
+      await vi.waitFor(() => expect(input).not.toHaveAttribute("readonly"));
+    });
+
+    it("gives the focus back to the edited cell when a dialog interrupted the edit", async () => {
+      // Sans cela, l'utilisateur au clavier est éjecté du tableau après chaque confirmation.
+      mockOnCellCommit.mockResolvedValueOnce(true);
+      renderTable();
+      const input = screen.getAllByPlaceholderText("Libellé")[0];
+
+      fireEvent.change(input, { target: { value: "E" } });
+
+      await vi.waitFor(() => expect(input).toHaveFocus());
+    });
+
+    it("leaves the focus alone when nothing interrupted the edit", async () => {
+      // L'utilisateur n'a pas été dérangé : lui déplacer le focus serait gratuit.
+      mockOnCellCommit.mockResolvedValueOnce(false);
+      renderTable();
+      const input = screen.getAllByPlaceholderText("Libellé")[0];
+
+      fireEvent.change(input, { target: { value: "E" } });
+
+      await vi.waitFor(() => expect(mockOnCellCommit).toHaveBeenCalled());
+      expect(input).not.toHaveFocus();
+    });
+
+    it("guards the code list label the same way", async () => {
+      renderTable();
+      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
+
+      fireEvent.change(labelInput, { target: { value: "Nouveau" } });
+
+      await vi.waitFor(() =>
+        expect(mockOnCodeListLabelCommit).toHaveBeenCalledWith({
+          value: "Nouveau",
+          previousValue: "Test Label",
+        }),
+      );
     });
   });
 });

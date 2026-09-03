@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { buildEmpty, buildEmptyWithContributor, buildFields } from "./build-general-proptypes";
+import {
+  buildEmpty,
+  buildEmptyWithContributor,
+  buildFields,
+  type FieldSpec,
+} from "./build-general-proptypes";
 
 vi.mock("./object-from-keys", () => ({
   default: (keys: string[], defaultValue: any) => {
@@ -13,10 +18,10 @@ vi.mock("./object-from-keys", () => ({
 }));
 
 describe("Module Tests", () => {
-  const fieldsWithRequired = [
-    ["name", "required", "string"],
-    ["tags", "optional", "array"],
-    ["age", "optional", "number"],
+  const fieldsWithRequired: FieldSpec[] = [
+    ["name", true, "string"],
+    ["tags", false, "array"],
+    ["age", false, "number"],
   ];
 
   describe("buildFields", () => {

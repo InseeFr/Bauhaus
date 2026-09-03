@@ -1,5 +1,5 @@
 .bauhaus-btn {
-  background-color: var(--color-3);
+  background-color: var(--primary-color);
   color: white;
   width: 100%;
   margin-bottom: 0.5em;
@@ -11,6 +11,6 @@
 
 .bauhaus-btn:focus,
 .bauhaus-btn:hover:not([disabled]) {
-  background-color: var(--color-2);
+  background-color: var(--secondary-color);
   color: white;
 }

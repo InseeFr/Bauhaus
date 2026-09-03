@@ -47,16 +47,16 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 
     await result.current.mutateAsync(testData);
 
-    expect(mockPatch).toHaveBeenCalledWith("test-agency", "test-id", {
-      physicalInstanceLabel: "Test Label",
-      dataRelationshipLabel: "Test Label",
-      logicalRecordLabel: "Test Label",
-    });
+    expect(mockPatch).toHaveBeenCalledWith("test-agency", "test-id", testData.data);
   });
 
   it("should invalidate physicalInstances query cache on success", async () => {
@@ -76,6 +76,10 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 
@@ -83,6 +87,37 @@ describe("useUpdatePhysicalInstance", () => {
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
       queryKey: ["physicalInstances"],
+    });
+  });
+
+  it("should invalidate the advanced search cache on success", async () => {
+    // La recherche avancée affiche le label et les parents : après un renommage ou un
+    // re-rattachement, elle resterait périmée (staleTime: Infinity) sans cette éviction.
+    const mockPatch = vi.fn().mockResolvedValue({});
+    (DDIApi.patchPhysicalInstance as any) = mockPatch;
+
+    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    const { result } = renderHook(() => useUpdatePhysicalInstance(), {
+      wrapper,
+    });
+
+    await result.current.mutateAsync({
+      id: "test-id-123",
+      agencyId: "test-agency-456",
+      data: {
+        physicalInstanceLabel: "Test Label",
+        dataRelationshipLabel: "Test Label",
+        logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
+      },
+    });
+
+    expect(invalidateQueriesSpy).toHaveBeenCalledWith({
+      queryKey: ["physicalInstancesSearch"],
     });
   });
 
@@ -103,6 +138,10 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 
@@ -129,6 +168,10 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 
@@ -154,6 +197,10 @@ describe("useUpdatePhysicalInstance", () => {
         physicalInstanceLabel: "Test Label",
         dataRelationshipLabel: "Test Label",
         logicalRecordLabel: "Test Label",
+        groupId: "group-1",
+        groupAgency: "fr.insee",
+        studyUnitId: "su-1",
+        studyUnitAgency: "fr.insee",
       },
     };
 

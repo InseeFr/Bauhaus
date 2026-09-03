@@ -6,7 +6,7 @@ export const ByteSizeInput = ({
   value,
   onChange,
 }: Readonly<{
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
 }>) => {
   const { t } = useTranslation();

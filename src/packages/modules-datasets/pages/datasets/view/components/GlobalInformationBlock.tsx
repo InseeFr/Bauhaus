@@ -6,7 +6,7 @@ import { Organisation, Organisations } from "@components/business/organisations/
 import { Row } from "@components/layout";
 import { List } from "@components/ui/list";
 import { Note } from "@components/note";
-import { PublicationMale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 
 import { stringToDate } from "@utils/date-utils";
 import { useCodesList } from "@utils/hooks/codeslist";
@@ -48,10 +48,10 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
               {t("dataset.globalInformation.updatingDate")} :{" "}
               {stringToDate(dataset.catalogRecord?.updated)}{" "}
             </li>
-            <li>
-              {t("dataset.globalInformation.validationStatus")} :{" "}
-              <PublicationMale object={dataset} />
-            </li>
+            <PublicationStatusItem
+              label={t("dataset.globalInformation.validationStatus")}
+              object={dataset}
+            />
             <ConditionalDisplay data={dataset?.issued}>
               <li>
                 {t("dataset.globalInformation.firstReleaseDate")} :{" "}

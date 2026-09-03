@@ -4,15 +4,19 @@ runs:
   steps:
     - name: Install pnpm
       uses: pnpm/action-setup@v4
-      with:
-        version: 10
     - uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: 24
         cache: "pnpm"
     - name: 🏗️ Generate Astro Documentation
       shell: bash
       run: ./scripts/documentation-build.sh
+    - name: 🏗️ Installing Application Dependencies
+      shell: bash
+      run: pnpm install
+    - name: 🏗️ Build Storybook
+      shell: bash
+      run: pnpm build-storybook
     - name: 📁 Generate WebSite folder before deploying
       shell: bash
       run: ./scripts/documentation-deploy.sh

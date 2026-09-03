@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useRef } from "react";
+import { useReducer, useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { useTranslation } from "react-i18next";
@@ -8,8 +8,14 @@ import type {
   CodeList,
   Category,
 } from "../../types/api";
+import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
 import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
+import { CodeListUsersPanel } from "./CodeListUsersPanel";
+import { CategoryUsageDialog } from "./CategoryUsageDialog";
+import { OverrideDialog } from "./OverrideDialog";
+import { SharedCodeListNotice } from "./SharedCodeListNotice";
+import { useSharedEditGuard, type ApplyEdit } from "./useSharedEditGuard";
 import { codeRepresentationReducer, initialState } from "./CodeRepresentation.reducer";
 import {
   createDefaultRepresentation,
@@ -19,16 +25,22 @@ import {
   createLabel,
   parseSelectedCodeListId,
   getLocalizedText,
+  otherVariableNames,
 } from "./CodeRepresentation.utils";
 import { useAppContext } from "../../../../application/app-context";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
 import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
+import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
+import "./CodeRepresentation.css";
 
 interface CodeRepresentationProps {
   representation?: CodeRepresentationType;
   codeList?: CodeList;
   categories?: Category[];
+  currentVariableId?: string;
+  /** Nom de la variable en cours d'édition, cité dans la popup de confirmation de surcharge. */
+  currentVariableName?: string;
   onChange: (
     representation: CodeRepresentationType | undefined,
     codeList?: CodeList,
@@ -40,6 +52,8 @@ export const CodeRepresentation = ({
   representation,
   codeList,
   categories = [],
+  currentVariableId,
+  currentVariableName,
   onChange,
 }: Readonly<CodeRepresentationProps>) => {
   const { t } = useTranslation();
@@ -75,6 +89,42 @@ export const CodeRepresentation = ({
     allCodesLists.find((cl) => cl.agencyId === selectedAgency && cl.id === selectedListId)
       ?.mutualized,
   );
+
+  // Liste de codes actuellement attachée à la variable (référencée ou en cours de sélection).
+  // Le panneau des utilisations s'affiche dès qu'une liste est identifiable, y compris pour les
+  // listes mutualisées.
+  const codeListUsersAgency = referencedCodeListAgency ?? selectedAgency;
+  const codeListUsersId = referencedCodeListId ?? selectedListId;
+  const showUsersPanel = Boolean(codeListUsersAgency && codeListUsersId);
+
+  // Les listes mutualisées sont en lecture seule : aucune édition (donc aucune surcharge) possible.
+  const readOnly = isReferencedListMutualized || isSelectedListMutualized;
+
+  // Variables (autres que celle en cours d'édition) qui réutilisent cette même liste de codes.
+  // On réutilise la même queryKey que CodeListUsersPanel : la requête est mutualisée en cache.
+  const { data: codeListUsages = [] } = useCodeListUsers(
+    codeListUsersAgency ?? "",
+    codeListUsersId ?? "",
+    showUsersPanel,
+  );
+
+  // Décision et application des éditions portant sur des éléments partagés (liste et/ou
+  // catégorie) : voir useSharedEditGuard.
+  const { withOverrideGuard, withCategoryOverrideGuard, resetAcknowledgements, dialog } =
+    useSharedEditGuard({
+      readOnly,
+      codeListUsersAgency,
+      codeListUsersId,
+      referencedCodeListId,
+      currentVariableId,
+      categories,
+      defaultAgencyId,
+      renderedCodeListUsages: codeListUsages,
+      onChange,
+      onCategoryReplaced: (rowId, categoryId) =>
+        dispatch({ type: "REPLACE_CODE_CATEGORY", payload: { id: rowId, categoryId } }),
+    });
+
   // Contenu (codes + catégories) de la liste sélectionnée, récupéré par agency/id.
   // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back (il délègue à
   // getCodeList) : il sert donc aussi bien aux listes mutualisées qu'aux listes du groupe.
@@ -83,6 +133,14 @@ export const CodeRepresentation = ({
     selectedAgency,
     selectedListId,
   );
+
+  // Ligne dont le menu « Utilisation » est ouvert : la popup reste montée après fermeture pour
+  // laisser jouer l'animation, mais ne charge plus rien (le hook est désactivé avec `visible`).
+  const [categoryUsageRow, setCategoryUsageRow] = useState<CodeTableRow | null>(null);
+  const [categoryUsageVisible, setCategoryUsageVisible] = useState(false);
+  const categoryUsageAgency = categoryUsageRow
+    ? (categories.find((cat) => cat.ID === categoryUsageRow.categoryId)?.Agency ?? defaultAgencyId)
+    : "";
 
   // Track the codeList ID to avoid reinitializing on every codeList change
   const codeListIdRef = useRef<string | undefined>(codeList?.ID);
@@ -99,6 +157,7 @@ export const CodeRepresentation = ({
       // Reset initialization flag when ID changes
       hasInitializedRef.current = false;
       codeListIdRef.current = codeList?.ID;
+      resetAcknowledgements();
     }
 
     if (!hasCodeListIdChanged && !hasRepresentationChanged && hasInitializedRef.current) {
@@ -156,15 +215,18 @@ export const CodeRepresentation = ({
   // puis ce chargement, sinon il écraserait les codes tout juste affichés.
   useEffect(() => {
     if (!selectedListCodes) return;
-    const fetchedCodeList = selectedListCodes.CodeList?.[0];
+    const fetchedCodeList = singleItemOfType(selectedListCodes, "CodeList");
     if (!fetchedCodeList) return;
     const categoryLabelById = new Map(
-      (selectedListCodes.Category ?? []).map((cat) => [cat.ID, getLocalizedText(cat.Label) ?? ""]),
+      itemsOfType(selectedListCodes, "Category").map((cat) => [
+        cat.ID,
+        getLocalizedText(cat.Label) ?? "",
+      ]),
     );
     const rows: CodeTableRow[] = (fetchedCodeList.Code ?? []).map((code) => ({
       id: code.ID,
       value: code.Value?.StringValue ?? "",
-      label: categoryLabelById.get(code.CategoryReference?.ID) ?? "",
+      label: categoryLabelById.get(code.CategoryReference?.ID ?? "") ?? "",
       categoryId: code.CategoryReference?.ID ?? "",
     }));
     dispatch({
@@ -174,127 +236,194 @@ export const CodeRepresentation = ({
         codes: rows,
       },
     });
+
+    // Liste de groupe (éditable) réutilisée : on matérialise le codeList complet dans la variable,
+    // SOUS L'ID DE LA LISTE PARTAGÉE. Sans cela, le codeList parent reste `undefined` et la première
+    // édition repartirait d'un nouvel ID aléatoire (liste forkée) en perdant les codes existants :
+    // la surcharge ne s'appliquerait alors pas aux autres variables référençant cette liste.
+    // Les listes mutualisées (lecture seule) restent de simples références, non matérialisées.
+    if (!readOnly && codeList?.ID !== fetchedCodeList.ID) {
+      const materializedRepresentation =
+        representation ??
+        createDefaultRepresentation(fetchedCodeList.ID, fetchedCodeList.Agency ?? defaultAgencyId);
+      onChange(
+        materializedRepresentation,
+        fetchedCodeList,
+        itemsOfType(selectedListCodes, "Category"),
+      );
+    }
   }, [selectedListCodes]);
 
-  const handleCodeListLabelChange = (newLabel: string) => {
-    dispatch({ type: "SET_CODE_LIST_LABEL", payload: newLabel });
+  /**
+   * Frappe dans le libellé de la liste : appliquée telle quelle. La décision est demandée dans la
+   * foulée ({@link handleCodeListLabelCommit}), sur une modification DÉJÀ appliquée — d'où le
+   * caractère qui s'affiche normalement et le focus rendu au champ après le choix.
+   */
+  const applyCodeListLabel = (newLabel: string): ApplyEdit => {
+    return (commit) => {
+      dispatch({ type: "SET_CODE_LIST_LABEL", payload: newLabel });
 
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(newLabel, defaultLocale),
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(newLabel, defaultLocale),
+      };
+
+      commit(currentRepresentation, updatedCodeList, categories);
     };
-
-    onChange(currentRepresentation, updatedCodeList, categories);
   };
 
-  const handleDeleteCode = (codeId: string) => {
-    const deletedCode = codes.find((c) => c.id === codeId);
-    dispatch({ type: "DELETE_CODE", payload: codeId });
+  const handleCodeListLabelChange = (newLabel: string) => applyCodeListLabel(newLabel)(onChange);
 
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(codeListLabel, defaultLocale),
-      Code: codeList?.Code?.filter((code) => code.ID !== codeId),
-    };
-
-    const updatedCategories = deletedCode
-      ? categories.filter((cat) => cat.ID !== deletedCode.categoryId)
-      : categories;
-
-    onChange(currentRepresentation, updatedCodeList, updatedCategories);
-  };
-
-  const handleCellEdit = (rowData: CodeTableRow, field: "value" | "label", newValue: string) => {
-    dispatch({
-      type: "UPDATE_CODE",
-      payload: { id: rowData.id, field, value: newValue },
+  const handleCodeListLabelCommit = ({
+    value,
+    previousValue,
+  }: {
+    value: string;
+    previousValue: string;
+  }) =>
+    withOverrideGuard(applyCodeListLabel(value), {
+      undo: () => applyCodeListLabel(previousValue)(onChange),
     });
 
-    const updatedCode = {
-      ...rowData,
-      [field]: newValue,
-    };
+  const handleDeleteCode = (codeId: string) =>
+    withOverrideGuard((commit) => {
+      const deletedCode = codes.find((c) => c.id === codeId);
+      dispatch({ type: "DELETE_CODE", payload: codeId });
 
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const newCategory = createCategory(
-      updatedCode.categoryId,
-      updatedCode.label,
-      defaultAgencyId,
-      defaultLocale,
-    );
-    const newCode = createCode(
-      updatedCode.id,
-      updatedCode.categoryId,
-      updatedCode.value,
-      defaultAgencyId,
-    );
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(codeListLabel, defaultLocale),
+        Code: codeList?.Code?.filter((code) => code.ID !== codeId),
+      };
 
-    const existingCode = codeList?.Code?.find((c) => c.ID === rowData.id);
-    let updatedCodeListCodes;
-    let updatedCategories: Category[];
+      const updatedCategories = deletedCode
+        ? categories.filter((cat) => cat.ID !== deletedCode.categoryId)
+        : categories;
 
-    if (existingCode) {
-      updatedCodeListCodes =
-        codeList?.Code?.map((code) => (code.ID === rowData.id ? newCode : code)) || [];
-      updatedCategories = categories.map((cat) =>
-        cat.ID === rowData.categoryId ? newCategory : cat,
+      commit(currentRepresentation, updatedCodeList, updatedCategories);
+    });
+
+  const applyCellEdit = (
+    rowData: CodeTableRow,
+    field: "value" | "label",
+    newValue: string,
+  ): ApplyEdit => {
+    return (commit) => {
+      dispatch({
+        type: "UPDATE_CODE",
+        payload: { id: rowData.id, field, value: newValue },
+      });
+
+      const updatedCode = {
+        ...rowData,
+        [field]: newValue,
+      };
+
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      // On repart de la catégorie existante quand il y en a une, pour ne pas perdre les champs
+      // qu'elle porte au-delà du libellé — notamment le BasedOnObject d'une variante fraîchement
+      // créée, qui serait effacé par une reconstruction de zéro.
+      const existingCategory = categories.find((cat) => cat.ID === updatedCode.categoryId);
+      const newCategory: Category = existingCategory
+        ? { ...existingCategory, Label: createLabel(updatedCode.label, defaultLocale) }
+        : createCategory(updatedCode.categoryId, updatedCode.label, defaultAgencyId, defaultLocale);
+      const newCode = createCode(
+        updatedCode.id,
+        updatedCode.categoryId,
+        updatedCode.value,
+        defaultAgencyId,
       );
-    } else {
-      updatedCodeListCodes = [...(codeList?.Code || []), newCode];
-      updatedCategories = [...categories, newCategory];
-    }
 
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(codeListLabel, defaultLocale),
-      Code: updatedCodeListCodes,
+      const existingCode = codeList?.Code?.find((c) => c.ID === rowData.id);
+      let updatedCodeListCodes;
+      let updatedCategories: Category[];
+
+      if (existingCode) {
+        updatedCodeListCodes =
+          codeList?.Code?.map((code) => (code.ID === rowData.id ? newCode : code)) || [];
+        updatedCategories = categories.map((cat) =>
+          cat.ID === rowData.categoryId ? newCategory : cat,
+        );
+      } else {
+        updatedCodeListCodes = [...(codeList?.Code || []), newCode];
+        updatedCategories = [...categories, newCategory];
+      }
+
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(codeListLabel, defaultLocale),
+        Code: updatedCodeListCodes,
+      };
+
+      commit(currentRepresentation, updatedCodeList, updatedCategories);
     };
-
-    onChange(currentRepresentation, updatedCodeList, updatedCategories);
   };
 
-  const handleAddCode = (value: string, label: string) => {
-    const newRow: CodeTableRow = {
-      id: crypto.randomUUID(),
-      value,
-      label,
-      categoryId: crypto.randomUUID(),
-      isNew: true,
-    };
+  /** Frappe dans une cellule : appliquée immédiatement (cf. la garde, déclenchée dans la foulée). */
+  const handleCellEdit = (rowData: CodeTableRow, field: "value" | "label", newValue: string) =>
+    applyCellEdit(rowData, field, newValue)(onChange);
 
-    dispatch({ type: "ADD_CODE", payload: newRow });
-
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
-    const newCategory = createCategory(
-      newRow.categoryId,
-      newRow.label,
-      defaultAgencyId,
-      defaultLocale,
-    );
-    const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
-
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(codeListLabel, defaultLocale),
-      Code: [...(codeList?.Code || []), newCode],
-    };
-
-    onChange(currentRepresentation, updatedCodeList, [...categories, newCategory]);
+  /**
+   * Garde d'une cellule éditée, sur une modification déjà appliquée. « Modifier » la confirme,
+   * « Créer » la reporte sur une variante, « Annuler » réapplique la valeur d'avant l'édition.
+   */
+  const handleCellCommit = (
+    rowData: CodeTableRow,
+    field: "value" | "label",
+    { value, previousValue }: { value: string; previousValue: string },
+  ) => {
+    const apply = applyCellEdit(rowData, field, value);
+    const undo = () => applyCellEdit(rowData, field, previousValue)(onChange);
+    return field === "label"
+      ? // Éditer le libellé d'un code, c'est éditer sa catégorie : garde spécifique (cas 2 et 3).
+        // La popup cite la catégorie sous son ancien nom, celui que les autres listes connaissent.
+        withCategoryOverrideGuard(rowData, apply, { undo, categoryLabel: previousValue })
+      : withOverrideGuard(apply, { undo });
   };
+
+  const handleAddCode = (value: string, label: string) =>
+    withOverrideGuard((commit) => {
+      const newRow: CodeTableRow = {
+        id: crypto.randomUUID(),
+        value,
+        label,
+        categoryId: crypto.randomUUID(),
+        isNew: true,
+      };
+
+      dispatch({ type: "ADD_CODE", payload: newRow });
+
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      const newCategory = createCategory(
+        newRow.categoryId,
+        newRow.label,
+        defaultAgencyId,
+        defaultLocale,
+      );
+      const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
+
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(codeListLabel, defaultLocale),
+        Code: [...(codeList?.Code || []), newCode],
+      };
+
+      commit(currentRepresentation, updatedCodeList, [...categories, newCategory]);
+    });
 
   const handleCreateNewList = () => {
     // Réinitialise complètement la liste de codes de la variable en cours d'édition :
@@ -327,33 +456,34 @@ export const CodeRepresentation = ({
     onChange(newRepresentation, newCodeList, [newCategory]);
   };
 
-  const handleMoveCode = (codeId: string, direction: "up" | "down") => {
-    dispatch({ type: "MOVE_CODE", payload: { id: codeId, direction } });
+  const handleMoveCode = (codeId: string, direction: "up" | "down") =>
+    withOverrideGuard((commit) => {
+      const currentIndex = codes.findIndex((c) => c.id === codeId);
+      if (currentIndex === -1) return;
 
-    const currentIndex = codes.findIndex((c) => c.id === codeId);
-    if (currentIndex === -1) return;
+      const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+      if (newIndex < 0 || newIndex >= codes.length) return;
 
-    const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
-    if (newIndex < 0 || newIndex >= codes.length) return;
+      dispatch({ type: "MOVE_CODE", payload: { id: codeId, direction } });
 
-    const newCodeListId = codeList?.ID || crypto.randomUUID();
-    const currentRepresentation =
-      representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+      const newCodeListId = codeList?.ID || crypto.randomUUID();
+      const currentRepresentation =
+        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
 
-    // Réorganiser les codes dans la codeList
-    const currentCodes = [...(codeList?.Code || [])];
-    const [movedCode] = currentCodes.splice(currentIndex, 1);
-    currentCodes.splice(newIndex, 0, movedCode);
+      // Réorganiser les codes dans la codeList
+      const currentCodes = [...(codeList?.Code || [])];
+      const [movedCode] = currentCodes.splice(currentIndex, 1);
+      currentCodes.splice(newIndex, 0, movedCode);
 
-    const updatedCodeList: CodeList = {
-      ...(codeList ||
-        createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
-      Label: createLabel(codeListLabel, defaultLocale),
-      Code: currentCodes,
-    };
+      const updatedCodeList: CodeList = {
+        ...(codeList ||
+          createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
+        Label: createLabel(codeListLabel, defaultLocale),
+        Code: currentCodes,
+      };
 
-    onChange(currentRepresentation, updatedCodeList, categories);
-  };
+      commit(currentRepresentation, updatedCodeList, categories);
+    });
 
   return (
     <div className="flex flex-column gap-2">
@@ -400,16 +530,54 @@ export const CodeRepresentation = ({
           <span>{t("physicalInstance.view.code.loadingCodes")}</span>
         </div>
       )}
+      {showDataTable && !readOnly && (
+        <SharedCodeListNotice
+          otherVariableNames={otherVariableNames(codeListUsages, currentVariableId)}
+        />
+      )}
       {showDataTable && (
         <CodeListDataTable
           codeListLabel={codeListLabel}
           codes={codes}
           onCodeListLabelChange={handleCodeListLabelChange}
+          onCodeListLabelCommit={handleCodeListLabelCommit}
           onCellEdit={handleCellEdit}
+          onCellCommit={handleCellCommit}
           onDeleteCode={handleDeleteCode}
           onAddCode={handleAddCode}
           onMoveCode={handleMoveCode}
-          readOnly={isReferencedListMutualized || isSelectedListMutualized}
+          onShowCategoryUsage={(row) => {
+            setCategoryUsageRow(row);
+            setCategoryUsageVisible(true);
+          }}
+          readOnly={readOnly}
+        />
+      )}
+      <OverrideDialog
+        dialogCase={dialog?.dialogCase ?? null}
+        listUsages={dialog?.listUsages ?? []}
+        categoryUsages={dialog?.categoryUsages ?? []}
+        codeListLabel={codeListLabel}
+        categoryLabel={dialog?.categoryLabel}
+        currentVariableId={currentVariableId}
+        currentVariableName={currentVariableName}
+        currentCodeListId={referencedCodeListId}
+        onCancel={() => dialog?.onCancel()}
+        onVariant={() => dialog?.onVariant()}
+        onConfirm={() => dialog?.onConfirm()}
+      />
+      <CategoryUsageDialog
+        visible={categoryUsageVisible}
+        onHide={() => setCategoryUsageVisible(false)}
+        agencyId={categoryUsageAgency}
+        categoryId={categoryUsageRow?.categoryId ?? ""}
+        categoryLabel={categoryUsageRow?.label ?? ""}
+      />
+      {showUsersPanel && (
+        <CodeListUsersPanel
+          agencyId={codeListUsersAgency!}
+          id={codeListUsersId!}
+          currentVariableId={currentVariableId}
         />
       )}
     </div>

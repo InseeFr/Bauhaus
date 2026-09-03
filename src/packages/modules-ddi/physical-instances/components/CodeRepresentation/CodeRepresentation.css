@@ -1,0 +1,117 @@
+/* Couleurs en dur en secours des tokens du thème (cf. utilitaires PrimeFlex sans effet avec
+   PrimeReact 10). */
+
+/* Rappel permanent, au-dessus du tableau, que la liste éditée est partagée : l'acquittement de
+   la popup vaut pour toute la session d'édition, il ne doit pas faire disparaître le signal. */
+.shared-code-list-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border-left: 4px solid var(--orange-500, #f59e0b);
+  background: var(--orange-50, #fffbeb);
+  color: var(--orange-900, #78350f);
+}
+
+.shared-code-list-notice .pi {
+  margin-top: 0.15rem;
+  color: var(--orange-500, #f59e0b);
+}
+
+.shared-code-list-notice-impacted {
+  font-style: italic;
+}
+
+/* Bandeau de contexte : qui d'autre utilise la liste / la catégorie. Teinte d'avertissement, car
+   c'est bien un risque qu'il annonce — modifier le travail d'autres personnes. Le bouton le plus
+   lourd de conséquences reste, lui, discret : un seul élément doit porter l'alerte. */
+.override-shared-dialog .override-dialog-context {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid var(--orange-500, #f59e0b);
+  background: var(--orange-50, #fffbeb);
+  color: var(--orange-900, #78350f);
+  font-weight: 500;
+}
+
+/* Énumération des éléments impactés : lisible sans écraser la phrase qui la précède. */
+.override-shared-dialog .override-dialog-impacted {
+  font-weight: 400;
+  font-style: italic;
+}
+
+.override-shared-dialog .override-dialog-question {
+  font-weight: 600;
+}
+
+.override-shared-dialog .override-dialog-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Chaque issue est un bouton pleine largeur : l'intitulé et sa conséquence forment une seule
+   cible, au clavier comme à la souris. */
+.override-shared-dialog .override-dialog-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--surface-300, #d1d5db);
+  border-radius: 6px;
+  background: var(--surface-0, #fff);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.override-shared-dialog .override-dialog-choice:hover {
+  background: var(--surface-50, #f9fafb);
+}
+
+.override-shared-dialog .override-dialog-choice:focus-visible {
+  outline: 2px solid var(--blue-500, #3b82f6);
+  outline-offset: 2px;
+}
+
+.override-shared-dialog .override-dialog-choice .pi {
+  margin-top: 0.2rem;
+  font-size: 1.25rem;
+}
+
+/* L'issue sans conséquence pour les autres reste distinguée par la couleur de son icône et par sa
+   position en premier — sans bordure accentuée, qui alourdissait la popup. */
+.override-shared-dialog .override-dialog-choice-variant .pi {
+  color: var(--blue-500, #3b82f6);
+}
+
+.override-shared-dialog .override-dialog-choice-overwrite .pi {
+  color: var(--orange-500, #f59e0b);
+}
+
+.override-shared-dialog .override-dialog-choice-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.override-shared-dialog .override-dialog-choice-label {
+  font-weight: 600;
+}
+
+.override-shared-dialog .override-dialog-choice-description {
+  color: var(--text-color-secondary, #6b7280);
+}

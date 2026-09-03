@@ -1,4 +1,13 @@
-import { useReducer, useRef, useMemo, useCallback, useEffect } from "react";
+import {
+  useReducer,
+  useRef,
+  useMemo,
+  useCallback,
+  useEffect,
+  useState,
+  lazy,
+  Suspense,
+} from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,7 +16,16 @@ import { Message } from "primereact/message";
 import { confirmDialog } from "primereact/confirmdialog";
 import { ConfirmDialog } from "primereact/confirmdialog";
 import "./view.css";
-import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import type {
+  PhysicalInstanceUpdateData,
+  PhysicalInstanceCreationData,
+} from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+
+const PhysicalInstanceDialog = lazy(() =>
+  import("../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog").then(
+    (module) => ({ default: module.PhysicalInstanceDialog }),
+  ),
+);
 import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstanceParents";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
@@ -19,15 +37,28 @@ import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalIns
 import { viewReducer, initialState, actions, type VariableData } from "./viewReducer";
 import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
 import { FILTER_ALL_TYPES, TOAST_DURATION, VARIABLE_TYPES } from "../../constants";
-import type { VariableTableData, Variable, CodeList, Code, Category } from "../../types/api";
-import { Loading } from "../../../../components/loading";
+import type {
+  VariableTableData,
+  Variable,
+  CodeList,
+  Code,
+  Category,
+  LogicalRecord,
+} from "../../types/api";
+import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
+import { LoadingOverlay } from "../../../../components/loading-overlay";
 import { useNavigationBlocker } from "../../../../utils/hooks/useNavigationBlocker";
 import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
 import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
 import { useExport } from "../../../hooks/useExport";
+import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
+import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
+import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
+import { cx } from "@utils/cx";
+import { getApiErrorMessage } from "@utils/api-errors";
 
 export const Component = () => {
   const { id, agencyId } = useParams<{ id: string; agencyId: string }>();
@@ -47,6 +78,9 @@ export const Component = () => {
   const currentGroup = parents?.group;
   const currentStudyUnit = parents?.studyUnit;
   const currentStamps = parents?.stamps;
+  const [duplicateDialogVisible, setDuplicateDialogVisible] = useState(false);
+  // Modifications en cours dans le panneau d'édition, non validées par « Mettre à jour ».
+  const [isEditedVariableDirty, setEditedVariableDirty] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
@@ -132,6 +166,21 @@ export const Component = () => {
     return state.localVariables.map((v) => v.id);
   }, [state.localVariables]);
 
+  // Valeurs sentinelles (#1566) : MMVR référencées par les AUTRES variables locales non
+  // sauvegardées — le back ne les connaît pas encore, ce décompte complète le sien pour la règle
+  // lecture seule/écriture de la section sentinelles.
+  const locallyUsedMmvrIds = useMemo(() => {
+    const currentId = state.selectedVariable?.id;
+    return Array.from(
+      new Set(
+        state.localVariables
+          .filter((localVar) => localVar.id !== currentId)
+          .map((localVar) => localVar.missingValuesReference?.ID)
+          .filter((mmvrId): mmvrId is string => Boolean(mmvrId)),
+      ),
+    );
+  }, [state.localVariables, state.selectedVariable?.id]);
+
   // Check if there are unsaved changes
   const hasUnsavedChanges = useMemo(() => {
     return state.localVariables.length > 0 || state.deletedVariableIds.length > 0;
@@ -168,7 +217,8 @@ export const Component = () => {
       variableMap.delete(deletedId);
     });
 
-    // Apply local modifications and add new local variables
+    // Apply local modifications to existing variables, keeping them in place
+    const newLocalVariables: VariableData[] = [];
     state.localVariables.forEach((localVar) => {
       if (variableMap.has(localVar.id)) {
         // Update existing variable with new lastModified
@@ -178,41 +228,57 @@ export const Component = () => {
           lastModified: new Date().toISOString(),
         });
       } else {
-        // Add new local variable with lastModified
-        variableMap.set(localVar.id, {
-          ...localVar,
-          lastModified: new Date().toISOString(),
-        });
+        newLocalVariables.push(localVar);
       }
     });
 
-    return Array.from(variableMap.values());
-  }, [variables, state.localVariables, state.deletedVariableIds]);
+    // Add new local variables: right after the variable they originate from when there is one
+    // (duplication), at the end of the table otherwise (creation).
+    const merged = Array.from(variableMap.values());
+    newLocalVariables.forEach((localVar) => {
+      const newVariable = {
+        ...localVar,
+        lastModified: new Date().toISOString(),
+      };
+      const anchorId = state.newVariableAnchors[localVar.id];
+      const anchorIndex = anchorId ? merged.findIndex((v) => v.id === anchorId) : -1;
+      if (anchorIndex === -1) {
+        merged.push(newVariable);
+      } else {
+        merged.splice(anchorIndex + 1, 0, newVariable);
+      }
+    });
+
+    return merged;
+  }, [variables, state.localVariables, state.deletedVariableIds, state.newVariableAnchors]);
 
   const filteredVariables = useMemo(() => {
-    let filtered = mergedVariables;
+    const searchLower = state.searchValue ? state.searchValue.toLowerCase() : null;
+    const typeLower = state.typeFilter === FILTER_ALL_TYPES ? null : state.typeFilter.toLowerCase();
 
-    // Filtre par recherche
-    if (state.searchValue) {
-      const searchLower = state.searchValue.toLowerCase();
-      filtered = filtered.filter((variable: VariableTableData) => {
-        const nameMatch = variable.name.toLowerCase().includes(searchLower);
-        const labelMatch = variable.label.toLowerCase().includes(searchLower);
-        return nameMatch || labelMatch;
-      });
-    }
-    // Filtre par type
-    if (state.typeFilter !== FILTER_ALL_TYPES) {
-      filtered = filtered.filter(
-        (variable: VariableTableData) =>
-          variable.type.toLowerCase() === state.typeFilter.toLowerCase(),
-      );
+    // Aucun filtre actif : on renvoie la référence telle quelle (pas de copie)
+    if (searchLower === null && typeLower === null) {
+      return mergedVariables;
     }
 
-    return filtered;
+    // Une seule passe combinant recherche et type
+    return mergedVariables.filter((variable: VariableTableData) => {
+      if (
+        searchLower !== null &&
+        !variable.name.toLowerCase().includes(searchLower) &&
+        !variable.label.toLowerCase().includes(searchLower)
+      ) {
+        return false;
+      }
+      if (typeLower !== null && variable.type.toLowerCase() !== typeLower) {
+        return false;
+      }
+      return true;
+    });
   }, [mergedVariables, state.searchValue, state.typeFilter]);
 
   const handleExport = useExport(data, title, toast);
+  const { validate: handleValidateDdi4, isValidating } = useValidateDdi4(data, toast);
 
   const handleSearchChange = useCallback((value: string) => {
     dispatch(actions.setSearchValue(value));
@@ -252,10 +318,7 @@ export const Component = () => {
       } catch (err: unknown) {
         dispatch(actions.setFormData({ label: previousLabel }));
 
-        const errorMessage =
-          err && typeof err === "object" && "message" in err
-            ? String(err.message)
-            : t("physicalInstance.view.saveErrorDetail");
+        const errorMessage = getApiErrorMessage(err, t("physicalInstance.view.saveErrorDetail"));
 
         toast.current?.show({
           severity: "error",
@@ -282,24 +345,64 @@ export const Component = () => {
       }
 
       // Sinon, trouver la variable complète dans les données brutes
-      const fullVariable = data?.Variable?.find((v: Variable) => v.ID === variable.id);
+      const fullVariable = itemsOfType(data, "Variable").find(
+        (v: Variable) => v.ID === variable.id,
+      );
 
       // Charger les informations complètes de la variable si trouvée
+      // VersionDate enregistrée : l'aperçu DDI doit refléter la donnée stockée, pas un
+      // horodatage recalculé à chaque ouverture (qui divergeait du XML exporté).
+      const storedVersionDate = fullVariable?.VersionDate?.DateTime;
       const description = pickLang(fullVariable?.Description, "fr-FR") || undefined;
       const isGeographic = fullVariable?.["@isGeographic"] === "true";
       const textRepresentation = fullVariable?.VariableRepresentation?.TextRepresentation;
       const numericRepresentation = fullVariable?.VariableRepresentation?.NumericRepresentation;
       const dateRepresentation = fullVariable?.VariableRepresentation?.DateTimeRepresentation;
       const codeRepresentation = fullVariable?.VariableRepresentation?.CodeRepresentation;
+      // Valeurs sentinelles (#1566) : une variable relue porte au plus la référence — la MMVR
+      // elle-même vit dans le groupe (réutilisation, lecture seule côté formulaire).
+      const missingValuesReference = fullVariable?.VariableRepresentation?.MissingValuesReference;
 
       // Les CodeList et Category ne sont plus dans la GET PI : on les charge à la
       // demande quand l'utilisateur ouvre une variable Code (cache via react-query).
       let codeList: CodeList | undefined;
       let categories: Category[] | undefined;
       if (codeRepresentation) {
+        // Si une autre variable a déjà surchargé cette liste localement (non encore enregistrée),
+        // on affiche la version surchargée plutôt que celle (périmée) rechargée du back-office.
+        const localOverride = findLocalCodeListOverride(
+          state.localVariables,
+          codeRepresentation.CodeListReference?.ID,
+        );
+        if (localOverride) {
+          dispatch(
+            actions.setSelectedVariable({
+              id: variable.id,
+              label: variable.label,
+              name: variable.name,
+              versionDate: storedVersionDate,
+              description,
+              type: variable.type,
+              isGeographic,
+              textRepresentation,
+              numericRepresentation,
+              dateRepresentation,
+              codeRepresentation,
+              codeList: localOverride.codeList,
+              categories: localOverride.categories,
+              missingValuesReference,
+            }),
+          );
+          return;
+        }
+
         const loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
         codeList = loaded.codeList;
-        categories = loaded.categories;
+        // Une catégorie peut être partagée par des listes DIFFÉRENTES : si une autre variable
+        // locale l'a déjà surchargée, on affiche sa version plutôt que celle (périmée) du back.
+        // Sans cela, valider cette variable réinjecterait l'ancienne valeur au moment de la
+        // sauvegarde et annulerait silencieusement la modification.
+        categories = findLocalCategoryOverrides(state.localVariables, loaded.categories);
 
         // La variable référence une liste de codes qui n'existe pas : on le signale
         // explicitement (agency + id de la variable ET de la liste) au lieu d'afficher
@@ -325,6 +428,7 @@ export const Component = () => {
           id: variable.id,
           label: variable.label,
           name: variable.name,
+          versionDate: storedVersionDate,
           description,
           type: variable.type,
           isGeographic,
@@ -334,6 +438,7 @@ export const Component = () => {
           codeRepresentation,
           codeList,
           categories,
+          missingValuesReference,
         }),
       );
     },
@@ -428,8 +533,8 @@ export const Component = () => {
 
   const handleVariableDuplicate = useCallback(
     (data: VariableData) => {
-      // Ajouter la variable dupliquée
-      dispatch(actions.addVariable(data));
+      // Ajouter la variable dupliquée, ancrée juste après la variable dont elle est issue
+      dispatch(actions.addVariable(data, state.selectedVariable?.id));
 
       // Garder le formulaire ouvert avec la nouvelle variable
       dispatch(actions.setSelectedVariable(data));
@@ -441,7 +546,7 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     },
-    [t],
+    [t, state.selectedVariable?.id],
   );
 
   const handleDeleteVariable = useCallback(
@@ -476,24 +581,21 @@ export const Component = () => {
     [t, state.selectedVariable],
   );
 
-  const handleSaveAll = useCallback(async () => {
+  const saveAll = useCallback(async () => {
     try {
-      // Fusionner les données avec les variables locales
-      // S'assurer que CodeList et Category ne sont jamais null mais toujours des tableaux
-      const mergedData = {
-        ...data,
-        CodeList: data?.CodeList || [],
-        Category: data?.Category || [],
-      };
+      // L'enveloppe DDI 4 ne porte qu'un tableau `items` à plat : on travaille ici sur des
+      // listes par type, réassemblées en `items` juste avant l'envoi.
+      let variables = itemsOfType(data, "Variable");
+      const codeListMap = new Map(itemsOfType(data, "CodeList").map((cl) => [cl.ID, cl]));
+      const categoryMap = new Map(itemsOfType(data, "Category").map((cat) => [cat.ID, cat]));
+      // MMVR : valeurs sentinelles, #1566
+      const mmvrMap = new Map(
+        itemsOfType(data, "ManagedMissingValuesRepresentation").map((mmvr) => [mmvr.ID, mmvr]),
+      );
 
       // Si on a des variables locales ou des suppressions, mettre à jour les variables
       if (state.localVariables.length > 0 || state.deletedVariableIds.length > 0) {
-        const existingVariables = data?.Variable || [];
-        const variableMap = new Map(existingVariables.map((v: Variable) => [v.ID, v]));
-
-        // Maps pour gérer les CodeLists et Categories
-        const codeListMap = new Map((data?.CodeList || []).map((cl: any) => [cl.ID, cl]));
-        const categoryMap = new Map((data?.Category || []).map((cat: any) => [cat.ID, cat]));
+        const variableMap = new Map(variables.map((v: Variable) => [v.ID, v]));
 
         // Supprimer les variables marquées comme supprimées
         state.deletedVariableIds.forEach((deletedId) => {
@@ -509,9 +611,13 @@ export const Component = () => {
 
           // Construire la représentation selon le type
           let variableRepresentation: Variable["VariableRepresentation"];
-          if (localVar.textRepresentation) {
+          if (localVar.type === VARIABLE_TYPES.TEXT || localVar.textRepresentation) {
+            // #1592 : le type Text doit rester explicite dans le DDI, même quand l'utilisateur
+            // n'a saisi ni longueur ni expression régulière.
             variableRepresentation = {
-              TextRepresentation: localVar.textRepresentation,
+              TextRepresentation: localVar.textRepresentation ?? {
+                $type: "TextRepresentationBaseType",
+              },
             };
           } else if (localVar.numericRepresentation) {
             variableRepresentation = {
@@ -559,18 +665,41 @@ export const Component = () => {
                 });
             }
 
-            // S'assurer que la CodeListReference pointe vers le bon ID
+            // S'assurer que la CodeListReference pointe vers le bon ID. Elle est optionnelle au
+            // schéma mais toujours posée par `createDefaultRepresentation` : une représentation
+            // code n'a pas de sens sans elle.
+            const codeListReference = localVar.codeRepresentation.CodeListReference!;
             const codeRepresentation = {
               ...localVar.codeRepresentation,
               CodeListReference: {
-                ...localVar.codeRepresentation.CodeListReference,
-                ID: localVar.codeList?.ID || localVar.codeRepresentation.CodeListReference.ID,
+                ...codeListReference,
+                ID: localVar.codeList?.ID || codeListReference.ID,
               },
             };
 
             variableRepresentation = {
               CodeRepresentation: codeRepresentation,
             };
+          }
+
+          // Valeurs sentinelles (#1566) : la référence vers la MMVR du groupe est portée par le
+          // wrapper VariableRepresentation, quel que soit le type ; une MMVR modifiée localement
+          // (variable seule utilisatrice) embarque aussi l'item, sa CodeList et ses catégories —
+          // mêmes IDs, modification en place.
+          if (localVar.missingValuesReference) {
+            variableRepresentation = {
+              ...(variableRepresentation ?? {}),
+              MissingValuesReference: localVar.missingValuesReference,
+            };
+            if (localVar.sentinelMmvr) {
+              mmvrMap.set(localVar.sentinelMmvr.ID, localVar.sentinelMmvr);
+            }
+            if (localVar.sentinelCodeList) {
+              codeListMap.set(localVar.sentinelCodeList.ID, localVar.sentinelCodeList);
+            }
+            localVar.sentinelCategories?.forEach((cat) => {
+              categoryMap.set(cat.ID, cat);
+            });
           }
 
           const ddiVariable: Variable = {
@@ -596,29 +725,40 @@ export const Component = () => {
           variableMap.set(localVar.id, ddiVariable);
         });
 
-        mergedData.Variable = Array.from(variableMap.values());
-
-        // Mettre à jour CodeList et Category avec les valeurs fusionnées
-        mergedData.CodeList = Array.from(codeListMap.values());
-        mergedData.Category = Array.from(categoryMap.values());
+        variables = Array.from(variableMap.values());
       }
 
-      // Mettre à jour les références de variables dans LogicalRecord
-      if (mergedData.DataRelationship?.[0]?.LogicalRecord?.[0] && mergedData.Variable) {
-        const allVariableIds = mergedData.Variable.map((v: Variable) => v.ID);
+      // Mettre à jour les références de variables dans le premier LogicalRecord
+      const dataRelationships = itemsOfType(data, "DataRelationship").map((dr, index) => {
+        if (index !== 0 || !dr.LogicalRecord?.[0]) return dr;
 
-        const variableReferences = allVariableIds.map((varId: string) => ({
+        const variableReferences = variables.map((v: Variable) => ({
           $type: "Variable" as const,
-          URN: `urn:ddi:${agencyId}:${varId}:1`,
+          URN: `urn:ddi:${agencyId}:${v.ID}:1`,
           Agency: agencyId!,
-          ID: varId,
+          ID: v.ID,
           Version: "1",
         }));
 
-        mergedData.DataRelationship[0].LogicalRecord[0].VariablesInRecord = {
-          VariableUsedReference: variableReferences,
+        return {
+          ...dr,
+          LogicalRecord: dr.LogicalRecord?.map((lr: LogicalRecord, lrIndex: number) =>
+            lrIndex === 0
+              ? { ...lr, VariablesInRecord: { VariableUsedReference: variableReferences } }
+              : lr,
+          ),
         };
-      }
+      });
+
+      let mergedData = replaceItemsOfType(data ?? {}, "Variable", variables);
+      mergedData = replaceItemsOfType(mergedData, "CodeList", Array.from(codeListMap.values()));
+      mergedData = replaceItemsOfType(mergedData, "Category", Array.from(categoryMap.values()));
+      mergedData = replaceItemsOfType(
+        mergedData,
+        "ManagedMissingValuesRepresentation",
+        Array.from(mmvrMap.values()),
+      );
+      mergedData = replaceItemsOfType(mergedData, "DataRelationship", dataRelationships);
 
       await savePhysicalInstance.mutateAsync({
         id: id!,
@@ -629,6 +769,12 @@ export const Component = () => {
       // Nettoyer les variables locales après une sauvegarde réussie
       dispatch(actions.clearLocalVariables());
 
+      // Valeurs sentinelles (#1566) : la sauvegarde peut avoir modifié une MMVR / sa CodeList ou
+      // changé ses usages — invalider les caches correspondants pour relire l'état réel.
+      queryClient.invalidateQueries({ queryKey: ["mmvrUsers"] });
+      queryClient.invalidateQueries({ queryKey: ["groupMissingValuesRepresentations"] });
+      queryClient.invalidateQueries({ queryKey: ["mutualizedCodesList"] });
+
       toast.current?.show({
         severity: "success",
         summary: t("physicalInstance.view.saveAllSuccess"),
@@ -636,10 +782,7 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     } catch (err: unknown) {
-      const errorMessage =
-        err && typeof err === "object" && "message" in err
-          ? String(err.message)
-          : t("physicalInstance.view.saveAllErrorDetail");
+      const errorMessage = getApiErrorMessage(err, t("physicalInstance.view.saveAllErrorDetail"));
 
       toast.current?.show({
         severity: "error",
@@ -650,45 +793,105 @@ export const Component = () => {
     }
   }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
 
-  const handleDuplicatePhysicalInstance = useCallback(async () => {
-    try {
-      const { duplicatedData, newPhysicalInstanceId, newAgencyId } =
-        buildDuplicatedPhysicalInstance({
-          agencyId: agencyId!,
-          data,
-          title,
-          defaultLocale,
+  // Sauvegarde globale : la variable ouverte dans le panneau latéral peut porter des
+  // modifications non validées par « Mettre à jour » — elles ne sont pas dans `localVariables`
+  // et seraient donc perdues sans avertissement. On confirme avant de sauvegarder sans elles.
+  const handleSaveAll = useCallback(() => {
+    if (!isEditedVariableDirty) {
+      return saveAll();
+    }
+
+    confirmDialog({
+      message: t("physicalInstance.view.pendingVariableEdit.message"),
+      header: t("physicalInstance.view.pendingVariableEdit.title"),
+      icon: "pi pi-exclamation-triangle",
+      acceptLabel: t("physicalInstance.view.pendingVariableEdit.confirm"),
+      rejectLabel: t("physicalInstance.view.pendingVariableEdit.cancel"),
+      acceptClassName: "p-button-warning",
+      accept: () => {
+        void saveAll();
+      },
+    });
+  }, [isEditedVariableDirty, saveAll, t]);
+
+  // Ouvre la modale de duplication (la duplication n'est plus immédiate, cf. #1555).
+  const handleDuplicatePhysicalInstance = useCallback(() => {
+    setDuplicateDialogVisible(true);
+  }, []);
+
+  // Libellé pré-rempli = libellé courant + suffixe « (copy) » ; Groupe/Étude pré-remplis
+  // depuis les parents de la PI courante (le Groupe sera verrouillé, l'Étude modifiable).
+  const duplicateInitialData = useMemo(
+    () => ({
+      label: `${title} (copy)`,
+      group: currentGroup,
+      studyUnit: currentStudyUnit,
+    }),
+    [title, currentGroup, currentStudyUnit],
+  );
+
+  const handleConfirmDuplicate = useCallback(
+    async (formData: PhysicalInstanceCreationData) => {
+      try {
+        const { duplicatedData, newPhysicalInstanceId, newAgencyId } =
+          buildDuplicatedPhysicalInstance({
+            agencyId: agencyId!,
+            data,
+            label: formData.label,
+            defaultLocale,
+          });
+
+        // 1) Publier le DDI dupliqué (PUT brut : ne porte ni Groupe ni Étude).
+        await savePhysicalInstance.mutateAsync({
+          id: newPhysicalInstanceId,
+          agencyId: newAgencyId,
+          data: duplicatedData,
         });
 
-      // Sauvegarder la nouvelle physical instance via l'API
-      await savePhysicalInstance.mutateAsync({
-        id: newPhysicalInstanceId,
-        agencyId: newAgencyId,
-        data: duplicatedData,
-      });
+        // 2) Rattacher la PI dupliquée au Groupe verrouillé et à l'Étude choisie via
+        // l'endpoint dédié (le PUT brut ne sait pas faire ce rattachement, cf. #1555).
+        await updatePhysicalInstance.mutateAsync({
+          id: newPhysicalInstanceId,
+          agencyId: newAgencyId,
+          data: {
+            physicalInstanceLabel: formData.label,
+            dataRelationshipLabel: formData.dataRelationshipLabel,
+            logicalRecordLabel: formData.logicalRecordLabel,
+            groupId: formData.group.id,
+            groupAgency: formData.group.agency,
+            studyUnitId: formData.studyUnit.id,
+            studyUnitAgency: formData.studyUnit.agency,
+          },
+        });
 
-      // Rediriger vers la page de la nouvelle physical instance
-      navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
+        setDuplicateDialogVisible(false);
+        navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
 
-      toast.current?.show({
-        severity: "success",
-        summary: t("physicalInstance.view.duplicateSuccess"),
-        detail: t("physicalInstance.view.duplicateSuccessDetail"),
-        life: TOAST_DURATION,
-      });
-    } catch (err) {
-      toast.current?.show({
-        severity: "error",
-        summary: t("physicalInstance.view.duplicateError"),
-        detail:
-          err instanceof Error ? err.message : t("physicalInstance.view.duplicateErrorDetail"),
-        life: TOAST_DURATION,
-      });
-    }
-  }, [agencyId, data, title, savePhysicalInstance, navigate, t]);
+        toast.current?.show({
+          severity: "success",
+          summary: t("physicalInstance.view.duplicateSuccess"),
+          detail: t("physicalInstance.view.duplicateSuccessDetail"),
+          life: TOAST_DURATION,
+        });
+      } catch (err) {
+        const errorMessage = getApiErrorMessage(
+          err,
+          t("physicalInstance.view.duplicateErrorDetail"),
+        );
+
+        toast.current?.show({
+          severity: "error",
+          summary: t("physicalInstance.view.duplicateError"),
+          detail: errorMessage,
+          life: TOAST_DURATION,
+        });
+      }
+    },
+    [agencyId, data, defaultLocale, savePhysicalInstance, updatePhysicalInstance, navigate, t],
+  );
 
   if (isLoading) {
-    return <Loading />;
+    return <LoadingOverlay textType="loading" />;
   }
 
   if (isError) {
@@ -704,7 +907,7 @@ export const Component = () => {
 
   return (
     <>
-      <div className={`pi-layout${state.selectedVariable ? " pi-open" : ""}`} role="main">
+      <div className={cx("pi-layout", state.selectedVariable && "pi-open")} role="main">
         <div className="pi-col-main">
           <div className="sticky-header">
             <PhysicalInstanceHeader
@@ -712,6 +915,9 @@ export const Component = () => {
               onSave={handleSaveEdit}
               group={currentGroup}
               studyUnit={currentStudyUnit}
+              groupLabel={currentGroup?.label}
+              studyUnitLabel={currentStudyUnit?.label}
+              physicalInstance={{ agency: agencyId!, id: id! }}
               stamps={currentStamps}
             />
 
@@ -732,6 +938,7 @@ export const Component = () => {
             variables={filteredVariables}
             onExport={handleExport}
             onDuplicate={handleDuplicatePhysicalInstance}
+            onValidateDdi4={handleValidateDdi4}
             onRowClick={handleVariableClick}
             onDeleteClick={handleDeleteVariable}
             unsavedVariableIds={unsavedVariableIds}
@@ -745,8 +952,10 @@ export const Component = () => {
               <VariableEditForm
                 variable={state.selectedVariable}
                 typeOptions={variableTypeOptions}
+                locallyUsedMmvrIds={locallyUsedMmvrIds}
                 isNew={state.selectedVariable.id === "new"}
                 onSave={handleVariableSave}
+                onDirtyChange={setEditedVariableDirty}
                 onDuplicate={handleVariableDuplicate}
                 onPrevious={handlePreviousVariable}
                 onNext={handleNextVariable}
@@ -759,7 +968,25 @@ export const Component = () => {
         </div>
       </div>
 
-      <ConfirmDialog />
+      {duplicateDialogVisible && (
+        <Suspense fallback={null}>
+          <PhysicalInstanceDialog
+            visible={duplicateDialogVisible}
+            onHide={() => setDuplicateDialogVisible(false)}
+            mode="duplicate"
+            initialData={duplicateInitialData}
+            onSubmitDuplicate={handleConfirmDuplicate}
+          />
+        </Suspense>
+      )}
+
+      {savePhysicalInstance.isPending && <LoadingOverlay textType="saving" />}
+
+      {isValidating && <LoadingOverlay text={t("physicalInstance.view.validateDdi4InProgress")} />}
+
+      {/* resizable={false} : PrimeReact rend les Dialog redimensionnables par défaut,
+          ce qui n'a pas de sens pour une simple confirmation. */}
+      <ConfirmDialog resizable={false} />
       <Toast ref={toast} />
       <DdiDevTools data={data} dataByLangs={dataByLangs} />
     </>

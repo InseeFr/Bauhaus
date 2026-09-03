@@ -1,16 +1,13 @@
-//@ts-ignore
-import dayjs from "dayjs";
-import "dayjs/locale/en";
-import "dayjs/locale/fr";
-//@ts-ignore
-import isBetween from "dayjs/plugin/isBetween";
-//@ts-ignore
-import LocalizedFormat from "dayjs/plugin/localizedFormat";
-
 import { getLang } from "./dictionnary";
 
-dayjs.extend(isBetween);
-dayjs.extend(LocalizedFormat);
+const toTime = (date: Date | string) => new Date(date).getTime();
+
+const formatLocalized = (time: number, lang: string) =>
+  new Intl.DateTimeFormat(lang, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(time);
 
 export const isDateIn = (
   date: Date | string,
@@ -20,18 +17,27 @@ export const isDateIn = (
   if (!start || !end) {
     return true;
   }
-  return dayjs(date).isBetween(start, end);
+  const time = toTime(date);
+  return time > toTime(start) && time < toTime(end);
 };
 
-export const isOutOfDate = (end: Date | string) => dayjs().isAfter(end);
+export const isOutOfDate = (end: Date | string) => {
+  if (!end) {
+    return false;
+  }
+  const time = toTime(end);
+  return !Number.isNaN(time) && Date.now() > time;
+};
 
-export const today = () => dayjs().locale(getLang()).format("L");
+export const today = () => formatLocalized(Date.now(), getLang());
 
-export const stringToDate = (string: string, lang?: string) => {
+export const stringToDate = (string: string | undefined, lang?: string) => {
   if (!string) {
     return "";
   }
-  return dayjs(string)
-    .locale(lang || getLang())
-    .format("L");
+  const time = toTime(string);
+  if (Number.isNaN(time)) {
+    return "";
+  }
+  return formatLocalized(time, lang || getLang());
 };

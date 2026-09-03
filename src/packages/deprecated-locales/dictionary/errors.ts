@@ -351,6 +351,23 @@ const messages = {
         "La liste de codes n'a pas pu être supprimée : une autre liste de codes dépend d'elle.",
       en: () => "The codeList could not be removed: another codeList depends on it.",
     },
+    1105: {
+      fr: () => "Cette liste de codes n'existe pas.",
+      en: () => "This codeList does not exist.",
+    },
+    1106: {
+      fr: () => "Ce code n'existe pas dans cette liste de codes.",
+      en: () => "This code does not exist in this codeList.",
+    },
+    1107: {
+      fr: () => "L'identifiant de la liste de codes ne correspond pas à celui de l'url.",
+      en: () => "The id of the codeList does not match the id of the url.",
+    },
+    1108: {
+      fr: () =>
+        "Le code envoyé ne correspond pas à celui de l'url : un code ne peut pas être renommé.",
+      en: () => "The submitted code does not match the code of the url: a code cannot be renamed.",
+    },
   },
 };
 

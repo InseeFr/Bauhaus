@@ -1,5 +1,10 @@
 {
+  "ddi": {
+    "title": "Variables"
+  },
   "physicalInstance": {
+    "pluralTitle": "Physical Instances",
+    "homePageTitle": "Physical Instances - Search",
     "creation": {
       "cancel": "Cancel",
       "create": "Create",
@@ -13,6 +18,21 @@
       "successMessage": "Your changes have been successfully saved",
       "successTitle": "Creation successful",
       "title": "Create a new physical instance"
+    },
+    "search": {
+      "title": "Advanced search of physical instances",
+      "backToList": "Back to the list",
+      "labelFilter": "Physical instance label",
+      "labelPlaceholder": "Label...",
+      "studyUnitFilter": "Study unit",
+      "studyUnitPlaceholder": "Select a study unit",
+      "groupFilter": "Group",
+      "groupPlaceholder": "Select a group",
+      "columns": {
+        "label": "Physical instance",
+        "studyUnit": "Study unit",
+        "group": "Group"
+      }
     },
     "view": {
       "add": "Add",
@@ -45,7 +65,83 @@
         "noCodesListsAvailable": "No code lists available",
         "reuseList": "Reuse",
         "selectCodeList": "Select a code list",
-        "value": "Value"
+        "value": "Value",
+        "usersPanel": {
+          "title": "Usages of this code list",
+          "help": "Variables and physical instances that reuse this same code list, grouped by study unit then by physical instance.",
+          "unknownStudyUnit": "Unknown study unit"
+        },
+        "categoryUsage": {
+          "menuEntry": "Usage",
+          "title": "Usages of category \"{{label}}\"",
+          "loading": "Loading usages...",
+          "empty": "This category is not used by any saved code list.",
+          "error": "Could not load the usages of this category."
+        },
+        "categoryUsersPanel": {
+          "title": "Usages of this category",
+          "help": "Code lists that reuse this same category, grouped by group, study unit and variable.",
+          "unknownGroup": "Unknown group"
+        },
+        "overrideShared": {
+          "title": "Shared code list: what should happen to your change?",
+          "message_one": "The code list “{{label}}” is also used by the variable “{{firstOther}}”.",
+          "message_other": "The code list “{{label}}” is also used by {{count}} other variables.",
+          "variantLabel": "Create a variant of the list",
+          "variantDescription": "A copy of the list, used only by “{{variable}}”. The other variables stay unchanged.",
+          "overwriteLabel": "Change the shared list",
+          "overwriteDescription_one": "The variable “{{firstOther}}” will be changed too.",
+          "overwriteDescription_other": "The {{count}} other variables using this list will be changed too."
+        },
+        "overrideSharedCategory": {
+          "title": "Shared code list and category: what should happen to your change?",
+          "categoryMessage_one": "The category “{{label}}” is also used by the code list “{{firstOther}}”.",
+          "categoryMessage_other": "The category “{{label}}” is also used by {{count}} other code lists.",
+          "variantLabel": "Create a variant of the list and the category",
+          "variantDescription": "A copy of the list and the category, used only by “{{variable}}”. Nothing else changes.",
+          "overwriteLabel": "Change the shared list and category",
+          "overwriteDescription": "Every other variable and code list using them will be changed too."
+        },
+        "overrideCategory": {
+          "title": "Shared category: what should happen to your change?",
+          "ownListMessage": "This code list is only used by the variable “{{variable}}”.",
+          "categoryMessage_one": "However, the category “{{label}}” is also used by the code list “{{firstOther}}”.",
+          "categoryMessage_other": "However, the category “{{label}}” is also used by {{count}} other code lists.",
+          "variantLabel": "Create a variant of the category",
+          "variantDescription": "A copy of the category, used only by this list. The other lists stay unchanged.",
+          "overwriteLabel": "Change the shared category",
+          "overwriteDescription_one": "The code list “{{firstOther}}” will be changed too.",
+          "overwriteDescription_other": "The {{count}} other code lists using this category will be changed too."
+        },
+        "override": {
+          "question": "Would you like to:",
+          "cancel": "Cancel",
+          "editedVariable": "being edited",
+          "andMore_one": "{{names}} and 1 more",
+          "andMore_other": "{{names}} and {{count}} more"
+        },
+        "sharedNotice": {
+          "message_one": "Code list shared with 1 other variable",
+          "message_other": "Code list shared with {{count}} other variables"
+        }
+      },
+      "sentinel": {
+        "title": "Sentinel values",
+        "createNewList": "Create",
+        "remove": "Remove",
+        "select": "Select sentinel values",
+        "loading": "Loading sentinel values...",
+        "errorLoading": "Error while loading sentinel values",
+        "usersPanel": {
+          "title": "Usages of these sentinel values",
+          "help": "Variables and data files reusing these sentinel values, grouped by study unit then data file."
+        },
+        "discardEdits": {
+          "title": "Unsaved changes",
+          "message": "The pending changes of the sentinel list will be lost. Continue?",
+          "confirm": "Continue",
+          "cancel": "Cancel"
+        }
       },
       "columns": {
         "description": "Description",
@@ -72,6 +168,11 @@
       "duplicateSuccessDetail": "The physical instance has been successfully duplicated",
       "duplicateError": "Duplication error",
       "duplicateErrorDetail": "Unable to duplicate the physical instance",
+      "duplicateModal": {
+        "cancel": "Cancel",
+        "confirm": "Duplicate",
+        "title": "Duplicate the physical instance"
+      },
       "editModal": {
         "cancel": "Cancel",
         "label": "Label",
@@ -86,6 +187,13 @@
       "exportErrorDetail": "Unable to download file",
       "exportSuccess": "Export successful",
       "exportSuccessDetail": "File in {{format}} format has been downloaded",
+      "validateDdi4": "Validate DDI4",
+      "validateDdi4InProgress": "DDI4 validation in progress...",
+      "validateDdi4Success": "Valid DDI4",
+      "validateDdi4SuccessDetail": "The physical instance complies with the DDI 4.0 schema",
+      "validateDdi4Error": "Invalid DDI4",
+      "validateDdi4ErrorDetail": "Unable to validate the physical instance",
+      "validateDdi4MoreErrors": "… and {{count}} more error(s) (see console for details)",
       "globalActions": "Global Actions",
       "import": "Import",
       "importModal": {
@@ -153,10 +261,20 @@
       "previousVariable": "Previous variable",
       "nextVariable": "Next variable",
       "totalVariables": "Total: {{count}} variable(s)",
+      "pendingVariableEdit": {
+        "title": "Unconfirmed variable change",
+        "message": "The variable being edited has changes that have not been applied with “Update”. Saving now will discard them.",
+        "confirm": "Save without these changes",
+        "cancel": "Go back to the variable"
+      },
       "unsavedChangesTitle": "Unsaved changes",
       "unsavedChangesMessage": "You have unsaved changes. Are you sure you want to leave this page?",
       "leaveWithoutSaving": "Leave without saving",
-      "stayOnPage": "Stay on page"
+      "stayOnPage": "Stay on page",
+      "groupTag": "Group: {{label}}",
+      "studyUnitTag": "Study unit: {{label}}",
+      "studyUnitSelectPlaceholder": "Go to a data file of the study unit…",
+      "studyUnitSelectEmpty": "No data file"
     }
   }
 }

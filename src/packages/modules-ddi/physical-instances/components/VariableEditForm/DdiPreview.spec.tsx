@@ -1,6 +1,7 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { DdiPreview } from "./DdiPreview";
+import { envelope } from "../../types/ddi4Items.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -133,7 +134,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               ID: "var-1",
               VariableName: [{ "@language": "fr-FR", "@value": "testVar" }],
@@ -143,6 +144,24 @@ describe("DdiPreview", () => {
         }),
       );
     });
+  });
+
+  it("should tag the variable item with its $type and a schema-shaped VersionDate", async () => {
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+
+    render(<DdiPreview {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalled();
+    });
+
+    const [payload] = mockConvertToDDI3.mock.calls[0];
+    expect(payload.items[0]).toMatchObject({
+      $type: "Variable",
+      ID: "var-1",
+      VersionDate: { DateTime: expect.any(String) },
+    });
+    expect(payload.items[0]).not.toHaveProperty("@versionDate");
   });
 
   it("should display XML content after loading in DDI3 mode", async () => {
@@ -205,7 +224,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               Description: [{ "@language": "fr-FR", "@value": "Test description" }],
             }),
@@ -224,7 +243,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               IsGeographic: true,
             }),
@@ -247,7 +266,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               VariableRepresentation: expect.objectContaining({
                 VariableRole: "Mesure",
@@ -258,5 +277,142 @@ describe("DdiPreview", () => {
         }),
       );
     });
+  });
+
+  it("should include an empty TextRepresentation when type is text without attributes (#1592)", async () => {
+    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+    mockConvertToDDI3.mockResolvedValue(mockXml);
+
+    render(<DdiPreview {...defaultProps} variableType="text" textRepresentation={undefined} />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([
+            expect.objectContaining({
+              VariableRepresentation: expect.objectContaining({
+                VariableRole: "Mesure",
+                TextRepresentation: { $type: "TextRepresentationBaseType" },
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+  });
+
+  it("should include the MissingValuesReference in the conversion payload (#1566)", async () => {
+    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+    mockConvertToDDI3.mockResolvedValue(mockXml);
+
+    const missingValuesReference = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      URN: "urn:ddi:fr.insee:mmvr-1:1",
+      Agency: "fr.insee",
+      ID: "mmvr-1",
+      Version: "1",
+    };
+
+    render(<DdiPreview {...defaultProps} missingValuesReference={missingValuesReference} />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([
+            expect.objectContaining({
+              VariableRepresentation: expect.objectContaining({
+                MissingValuesReference: missingValuesReference,
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+  });
+
+  it("should include the locally edited MMVR and its sentinel code list (#1566)", async () => {
+    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+    mockConvertToDDI3.mockResolvedValue(mockXml);
+
+    const missingValuesReference = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      URN: "urn:ddi:fr.insee:mmvr-1:1",
+      Agency: "fr.insee",
+      ID: "mmvr-1",
+      Version: "1",
+    };
+    const sentinelMmvr = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      ID: "mmvr-1",
+      Agency: "fr.insee",
+      Version: "1",
+    };
+    const sentinelCodeList = {
+      $type: "CodeList" as const,
+      URN: "urn:ddi:fr.insee:cl-sent:1",
+      Agency: "fr.insee",
+      ID: "cl-sent",
+      Version: "1",
+    } as any;
+
+    render(
+      <DdiPreview
+        {...defaultProps}
+        missingValuesReference={missingValuesReference}
+        sentinelMmvr={sentinelMmvr}
+        sentinelCodeList={sentinelCodeList}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([sentinelMmvr, sentinelCodeList]),
+        }),
+      );
+    });
+  });
+});
+
+describe("DdiPreview VersionDate", () => {
+  const baseProps = {
+    variableId: "var-1",
+    variableName: "testVar",
+    variableLabel: "Test Variable",
+    variableType: "text",
+    isGeographic: false,
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("should preview the stored VersionDate of an existing variable", async () => {
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+
+    render(<DdiPreview {...baseProps} variableVersionDate="2026-01-15T09:30:00+01:00" />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([
+            expect.objectContaining({
+              ID: "var-1",
+              VersionDate: { DateTime: "2026-01-15T09:30:00+01:00" },
+            }),
+          ]),
+        }),
+      );
+    });
+  });
+
+  it("should stamp the current date only for a variable that has never been saved", async () => {
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+
+    render(<DdiPreview {...baseProps} />);
+
+    await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalled());
+    const { VersionDate } = mockConvertToDDI3.mock.calls[0][0].items[0];
+    expect(Date.parse(VersionDate.DateTime)).toBeGreaterThan(0);
   });
 });

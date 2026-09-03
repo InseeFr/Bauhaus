@@ -1,6 +1,6 @@
 import { Loading } from "@components/loading";
 
-import CollectionsHome from "./components/home";
+import CollectionsHome from "./components/CollectionsHome";
 import { useCollections } from "../../../hooks/useCollections";
 
 export const Component = () => {
@@ -10,7 +10,7 @@ export const Component = () => {
     return <Loading />;
   }
 
-  const formattedCollections = collections.map((c) => ({
+  const formattedCollections = (collections ?? []).map((c) => ({
     id: c.id,
     label: c.label.value,
   }));

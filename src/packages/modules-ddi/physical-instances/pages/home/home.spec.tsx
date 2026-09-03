@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
@@ -19,13 +20,22 @@ vi.mock("../../../../application/app-context", () => ({
     },
   }),
 }));
-vi.mock("../../../deprecated-locales", () => ({
-  default: {
-    ddiTitle: "DDI Title",
-    physicalInstanceTitle: "Physical Instance Title",
-    physicalInstancSearcheTitle: "Physical Instance Search Title",
-  },
-}));
+vi.mock("react-i18next", async () => {
+  const originalModule = await vi.importActual("react-i18next");
+  return {
+    ...originalModule,
+    useTranslation: () => ({
+      t: (key: string) => {
+        const translations: Record<string, string> = {
+          "ddi.title": "Variables",
+          "physicalInstance.pluralTitle": "Physical Instances",
+          "physicalInstance.homePageTitle": "Physical Instances - Search",
+        };
+        return translations[key] ?? key;
+      },
+    }),
+  };
+});
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -105,5 +115,35 @@ describe("Home Component", () => {
 
     expect(screen.getByText("Physical Instances - Search")).toBeInTheDocument();
     expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
+  });
+
+  it("should filter on the date as displayed (JJ/MM/AAAA)", async () => {
+    vi.mocked(usePhysicalInstances).mockReturnValue({
+      data: [
+        {
+          id: "1",
+          label: "Enquête Emploi",
+          versionDate: "2026-02-01T14:26:32.961778",
+          agency: "fr.insee",
+        },
+        {
+          id: "2",
+          label: "Enquête Logement",
+          versionDate: "2025-11-13T10:00:00",
+          agency: "fr.insee",
+        },
+      ],
+      isLoading: false,
+      isSuccess: true,
+      isError: false,
+      error: null,
+    } as any);
+
+    render(<Component />, { wrapper: createWrapper() });
+
+    await userEvent.type(screen.getByPlaceholderText("Label..."), "01/02/2026");
+
+    expect(screen.getByText("Enquête Emploi (01/02/2026)")).toBeInTheDocument();
+    expect(screen.queryByText("Enquête Logement (13/11/2025)")).not.toBeInTheDocument();
   });
 });

@@ -19,6 +19,8 @@ import type {
   CodeRepresentation,
   CodeList,
   Category,
+  ManagedMissingValuesRepresentation,
+  Reference,
 } from "../../types/api";
 
 // Type réutilisable pour les variables
@@ -26,6 +28,8 @@ export interface VariableData {
   id: string;
   label: string;
   name: string;
+  /** VersionDate stockée ; absente pour une variable créée localement et pas encore enregistrée. */
+  versionDate?: string;
   description?: string;
   type: string;
   isGeographic?: boolean;
@@ -35,6 +39,13 @@ export interface VariableData {
   codeRepresentation?: CodeRepresentation;
   codeList?: CodeList;
   categories?: Category[];
+  // Valeurs sentinelles (#1566) : référence vers la MMVR du groupe posée sur la variable, et —
+  // quand la variable est seule utilisatrice et l'a modifiée — la MMVR matérialisée, sa CodeList
+  // de sentinelles et ses catégories à embarquer au save (mêmes IDs, modification en place).
+  missingValuesReference?: Reference;
+  sentinelMmvr?: ManagedMissingValuesRepresentation;
+  sentinelCodeList?: CodeList;
+  sentinelCategories?: Category[];
 }
 
 export interface State {
@@ -47,6 +58,12 @@ export interface State {
   selectedVariable: VariableData | null;
   localVariables: VariableData[];
   deletedVariableIds: string[];
+  /**
+   * Pour une variable ajoutée localement, l'ID de la variable après laquelle elle doit
+   * apparaître dans le tableau (duplication : juste après sa source). Sans entrée, la
+   * variable est ajoutée en fin de liste.
+   */
+  newVariableAnchors: Record<string, string>;
 }
 
 export type Action =
@@ -70,6 +87,7 @@ export type Action =
   | {
       type: typeof ACTION_TYPES.ADD_VARIABLE;
       payload: VariableData;
+      afterId?: string;
     }
   | {
       type: typeof ACTION_TYPES.DELETE_VARIABLE;
@@ -87,6 +105,7 @@ export const initialState: State = {
   selectedVariable: null,
   localVariables: [],
   deletedVariableIds: [],
+  newVariableAnchors: {},
 };
 
 export function viewReducer(state: State, action: Action): State {
@@ -131,18 +150,25 @@ export function viewReducer(state: State, action: Action): State {
       return {
         ...state,
         localVariables: [...state.localVariables, action.payload],
+        newVariableAnchors: action.afterId
+          ? { ...state.newVariableAnchors, [action.payload.id]: action.afterId }
+          : state.newVariableAnchors,
       };
-    case ACTION_TYPES.DELETE_VARIABLE:
+    case ACTION_TYPES.DELETE_VARIABLE: {
+      const { [action.payload]: _removed, ...remainingAnchors } = state.newVariableAnchors;
       return {
         ...state,
         localVariables: state.localVariables.filter((variable) => variable.id !== action.payload),
         deletedVariableIds: [...state.deletedVariableIds, action.payload],
+        newVariableAnchors: remainingAnchors,
       };
+    }
     case ACTION_TYPES.CLEAR_LOCAL_VARIABLES:
       return {
         ...state,
         localVariables: [],
         deletedVariableIds: [],
+        newVariableAnchors: {},
       };
     default:
       return state;
@@ -183,9 +209,10 @@ export const actions = {
     type: ACTION_TYPES.UPDATE_VARIABLE,
     payload,
   }),
-  addVariable: (payload: VariableData): Action => ({
+  addVariable: (payload: VariableData, afterId?: string): Action => ({
     type: ACTION_TYPES.ADD_VARIABLE,
     payload,
+    afterId,
   }),
   deleteVariable: (payload: string): Action => ({
     type: ACTION_TYPES.DELETE_VARIABLE,

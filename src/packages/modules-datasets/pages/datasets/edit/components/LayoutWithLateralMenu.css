@@ -1,0 +1,26 @@
+.layout_with_lateral_menu {
+  display: grid;
+  grid-template-columns: 21em minmax(0, 1fr);
+  gap: 2em;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.layout_with_lateral_menu__content > h2 {
+  margin-top: 0;
+}
+
+.layout_with_lateral_menu__content .panel,
+.layout_with_lateral_menu__content .panel-body {
+  background: white;
+}
+
+@media (width <= 768px) {
+  .layout_with_lateral_menu {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .layout_with_lateral_menu .summary-nav {
+    position: static;
+  }
+}

@@ -1,0 +1,20 @@
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgb(0 0 0 / 40%);
+
+  /* Au-dessus des Dialog/Toast PrimeReact (z-index auto ~1100-1200) */
+  z-index: 2000;
+}
+
+.loading-overlay-text {
+  margin: 0;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 500;
+}

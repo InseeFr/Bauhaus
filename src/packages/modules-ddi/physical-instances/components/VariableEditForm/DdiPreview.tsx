@@ -8,6 +8,10 @@ import type {
   CodeRepresentation,
   CodeList,
   Category,
+  ManagedMissingValuesRepresentation,
+  Reference,
+  Ddi4Item,
+  PhysicalInstanceResponse,
 } from "../../types/api";
 import { DDIApi } from "../../../../sdk";
 import { useAppContext } from "../../../../application/app-context";
@@ -30,6 +34,16 @@ interface DdiPreviewProps {
   codeRepresentation?: CodeRepresentation;
   codeList?: CodeList;
   categories?: Category[];
+  missingValuesReference?: Reference;
+  sentinelMmvr?: ManagedMissingValuesRepresentation;
+  sentinelCodeList?: CodeList;
+  sentinelCategories?: Category[];
+  /**
+   * VersionDate stockée de la variable. L'aperçu doit refléter la donnée enregistrée : sans elle,
+   * il afficherait un horodatage recalculé à chaque montage, différent du XML réellement exporté.
+   * Absente uniquement pour une variable jamais enregistrée, dont la date sera stampée à l'écriture.
+   */
+  variableVersionDate?: string;
 }
 
 const FORMAT_LABELS: Record<DdiFormat, string> = {
@@ -50,6 +64,11 @@ export const DdiPreview = ({
   codeRepresentation,
   codeList,
   categories,
+  missingValuesReference,
+  sentinelMmvr,
+  sentinelCodeList,
+  sentinelCategories,
+  variableVersionDate,
 }: Readonly<DdiPreviewProps>) => {
   const { t } = useTranslation();
   const { properties } = useAppContext();
@@ -57,7 +76,8 @@ export const DdiPreview = ({
   const defaultLocale = useDefaultLocale();
   const [state, dispatch] = useReducer(ddiPreviewReducer, initialState);
   const requestIdRef = useRef(0);
-  const versionDateRef = useRef(new Date().toISOString());
+  const newVariableVersionDateRef = useRef(new Date().toISOString());
+  const versionDate = variableVersionDate ?? newVariableVersionDateRef.current;
 
   const formatXml = useCallback((xml: string): string => {
     const PADDING = "  ";
@@ -90,7 +110,10 @@ export const DdiPreview = ({
 
   const ddi4Data = useMemo(() => {
     const variableDDI: any = {
-      "@versionDate": versionDateRef.current,
+      // `$type` discrimine l'item dans le tableau `items` de l'enveloppe : sans lui, le back
+      // ne sait pas quelle classe désérialiser et répond 400 « Failed to read request ».
+      $type: "Variable",
+      VersionDate: { DateTime: versionDate },
       URN: `urn:ddi:${defaultAgencyId}:${variableId}:1`,
       Agency: defaultAgencyId,
       ID: variableId,
@@ -117,10 +140,11 @@ export const DdiPreview = ({
         VariableRole: "Mesure",
         DateTimeRepresentation: dateRepresentation,
       };
-    } else if (variableType === "text" && textRepresentation) {
+    } else if (variableType === "text") {
       variableDDI.VariableRepresentation = {
         VariableRole: "Mesure",
-        TextRepresentation: textRepresentation,
+        // #1592 : même sans attribut saisi, le type Text doit apparaître dans le DDI.
+        TextRepresentation: textRepresentation ?? { $type: "TextRepresentationBaseType" },
       };
     } else if (variableType === "code" && codeRepresentation) {
       variableDDI.VariableRepresentation = {
@@ -129,22 +153,43 @@ export const DdiPreview = ({
       };
     }
 
-    const data: any = {
-      Variable: [variableDDI],
-    };
+    // Valeurs sentinelles (#1566) : la référence MMVR est portée par le wrapper
+    // VariableRepresentation, quel que soit le type de représentation.
+    if (missingValuesReference) {
+      variableDDI.VariableRepresentation = {
+        ...(variableDDI.VariableRepresentation ?? { VariableRole: "Mesure" }),
+        MissingValuesReference: missingValuesReference,
+      };
+    }
+
+    // Enveloppe DDI 4 : un seul tableau `items`, chaque objet portant son `$type`.
+    const items: Ddi4Item[] = [variableDDI];
 
     if (variableType === "code" && codeList) {
-      data.CodeList = [codeList];
+      items.push(codeList);
     }
 
     if (variableType === "code" && categories) {
-      data.Category = categories;
+      items.push(...categories);
     }
 
-    return data;
+    // MMVR modifiée localement (variable seule utilisatrice) : embarquée avec sa CodeList de
+    // sentinelles pour visualiser le XML DDI 3 réellement produit au save.
+    if (sentinelMmvr) {
+      items.push(sentinelMmvr);
+    }
+    if (sentinelCodeList) {
+      items.push(sentinelCodeList);
+    }
+    if (sentinelCategories?.length) {
+      items.push(...sentinelCategories);
+    }
+
+    return { items } satisfies PhysicalInstanceResponse;
   }, [
     defaultAgencyId,
     defaultLocale,
+    versionDate,
     variableId,
     variableName,
     variableLabel,
@@ -157,6 +202,10 @@ export const DdiPreview = ({
     codeRepresentation,
     codeList,
     categories,
+    missingValuesReference,
+    sentinelMmvr,
+    sentinelCodeList,
+    sentinelCategories,
   ]);
 
   const ddiJson = useMemo(() => JSON.stringify(ddi4Data, null, 2), [ddi4Data]);

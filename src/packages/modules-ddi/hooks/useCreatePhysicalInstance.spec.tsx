@@ -42,8 +42,7 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should resolve id and agency from the real backend response shape (TopLevelReference / $type)", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      $schema: "ddi:4.0",
-      TopLevelReference: [
+      topLevelReferences: [
         {
           $type: "PhysicalInstance",
           URN: "urn:ddi:fr.insee:236b9453:1",
@@ -52,7 +51,7 @@ describe("useCreatePhysicalInstance", () => {
           Version: "1",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -64,6 +63,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "manu",
       dataRelationshipLabel: "manu",
       logicalRecordLabel: "manu",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     });
 
     expect(created).toEqual({ id: "236b9453", agency: "fr.insee" });
@@ -71,7 +74,7 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should call postPhysicalInstance API with correct parameters", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      TopLevelReference: [
+      topLevelReferences: [
         {
           Agency: "fr.insee",
           ID: "new-id",
@@ -79,7 +82,7 @@ describe("useCreatePhysicalInstance", () => {
           $type: "PhysicalInstance",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -91,20 +94,20 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     await result.current.mutateAsync(testData);
 
-    expect(mockPost).toHaveBeenCalledWith({
-      physicalInstanceLabel: "Test Label",
-      dataRelationshipLabel: "Test Label",
-      logicalRecordLabel: "Test Label",
-    });
+    expect(mockPost).toHaveBeenCalledWith(testData);
   });
 
   it("should invalidate physicalInstances query cache on successful mutation", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      TopLevelReference: [
+      topLevelReferences: [
         {
           Agency: "fr.insee",
           ID: "new-id",
@@ -112,7 +115,7 @@ describe("useCreatePhysicalInstance", () => {
           $type: "PhysicalInstance",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -126,6 +129,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     await result.current.mutateAsync(testData);
@@ -150,6 +157,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     await expect(result.current.mutateAsync(testData)).rejects.toThrow("Creation failed");
@@ -157,7 +168,7 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should return mutation status correctly", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      TopLevelReference: [
+      topLevelReferences: [
         {
           Agency: "fr.insee",
           ID: "new-id",
@@ -165,7 +176,7 @@ describe("useCreatePhysicalInstance", () => {
           $type: "PhysicalInstance",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -181,6 +192,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     result.current.mutate(testData);
@@ -192,7 +207,7 @@ describe("useCreatePhysicalInstance", () => {
 
   it("should handle empty label and name", async () => {
     const mockPost = vi.fn().mockResolvedValue({
-      TopLevelReference: [
+      topLevelReferences: [
         {
           Agency: "fr.insee",
           ID: "new-id",
@@ -200,7 +215,7 @@ describe("useCreatePhysicalInstance", () => {
           $type: "PhysicalInstance",
         },
       ],
-      PhysicalInstance: [{ Agency: "fr.insee" }],
+      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
     });
     (DDIApi.postPhysicalInstance as any) = mockPost;
 
@@ -212,15 +227,15 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "",
       dataRelationshipLabel: "",
       logicalRecordLabel: "",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     await result.current.mutateAsync(testData);
 
-    expect(mockPost).toHaveBeenCalledWith({
-      physicalInstanceLabel: "",
-      dataRelationshipLabel: "",
-      logicalRecordLabel: "",
-    });
+    expect(mockPost).toHaveBeenCalledWith(testData);
   });
 
   it("should not invalidate cache if mutation fails", async () => {
@@ -238,6 +253,10 @@ describe("useCreatePhysicalInstance", () => {
       physicalInstanceLabel: "Test Label",
       dataRelationshipLabel: "Test Label",
       logicalRecordLabel: "Test Label",
+      groupId: "group-1",
+      groupAgency: "fr.insee",
+      studyUnitId: "su-1",
+      studyUnitAgency: "fr.insee",
     };
 
     try {

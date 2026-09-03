@@ -272,6 +272,171 @@ describe("ReuseCodeListSelect", () => {
     expect(mutualizedOption?.querySelector('[data-testid="mutualized-lock"]')).not.toBeNull();
   });
 
+  it("should sort mutualized code lists alphabetically (ascending) by label", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: [
+        { id: "m1", label: "Zèbre", agencyId: "fr.insee", mutualized: true },
+        { id: "m2", label: "Abeille", agencyId: "fr.insee", mutualized: true },
+        { id: "m3", label: "Mouton", agencyId: "fr.insee", mutualized: true },
+      ],
+      groupLabel: undefined,
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const mutualizedSection = screen
+      .getByTestId("codes-list-dropdown")
+      .querySelector('optgroup[label="Listes mutualisées"]');
+    const labels = Array.from(mutualizedSection!.querySelectorAll("option")).map(
+      (o) => o.textContent,
+    );
+    expect(labels).toEqual(["Abeille", "Mouton", "Zèbre"]);
+  });
+
+  it("orders mutualized lists by label asc, then most recent versionDate first for equal labels", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: [
+        {
+          id: "pays-old",
+          label: "Pays",
+          agencyId: "fr.insee",
+          mutualized: true,
+          versionDate: "2024-01-15T00:00:00",
+        },
+        {
+          id: "pays-new",
+          label: "Pays",
+          agencyId: "fr.insee",
+          mutualized: true,
+          versionDate: "2026-06-29T00:00:00",
+        },
+        {
+          id: "cat",
+          label: "Catégories",
+          agencyId: "fr.insee",
+          mutualized: true,
+          versionDate: "2025-01-01T00:00:00",
+        },
+      ],
+      groupLabel: undefined,
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const mutualizedSection = screen
+      .getByTestId("codes-list-dropdown")
+      .querySelector('optgroup[label="Listes mutualisées"]');
+    const values = Array.from(mutualizedSection!.querySelectorAll("option")).map((o) =>
+      o.getAttribute("value"),
+    );
+    // Catégories < Pays ; à libellé égal (Pays), la version la plus récente (2026) avant 2024.
+    expect(values).toEqual(["fr.insee-cat", "fr.insee-pays-new", "fr.insee-pays-old"]);
+  });
+
+  it("orders group lists by label asc, then most recent versionDate first for equal labels", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: [
+        {
+          id: "pays-old",
+          label: "Pays",
+          agencyId: "fr.insee",
+          mutualized: false,
+          versionDate: "2024-01-15T00:00:00",
+        },
+        {
+          id: "pays-new",
+          label: "Pays",
+          agencyId: "fr.insee",
+          mutualized: false,
+          versionDate: "2026-06-29T00:00:00",
+        },
+        {
+          id: "cat",
+          label: "Catégories",
+          agencyId: "fr.insee",
+          mutualized: false,
+          versionDate: "2025-01-01T00:00:00",
+        },
+      ],
+      groupLabel: "Base permanente des équipements",
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const groupSection = screen
+      .getByTestId("codes-list-dropdown")
+      .querySelector('optgroup[label="Groupe : Base permanente des équipements"]');
+    const values = Array.from(groupSection!.querySelectorAll("option")).map((o) =>
+      o.getAttribute("value"),
+    );
+    expect(values).toEqual(["fr.insee-cat", "fr.insee-pays-new", "fr.insee-pays-old"]);
+  });
+
+  it("should display the label only, not the technical name", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: [
+        {
+          id: "m1",
+          label: "Libellé lisible",
+          name: "CL_NOM_TECHNIQUE",
+          agencyId: "fr.insee",
+          mutualized: true,
+        },
+      ],
+      groupLabel: undefined,
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const option = screen
+      .getByTestId("codes-list-dropdown")
+      .querySelector('option[value="fr.insee-m1"]');
+    expect(option?.textContent).toContain("Libellé lisible");
+    expect(option?.textContent).not.toContain("CL_NOM_TECHNIQUE");
+  });
+
+  it("should append the versionDate (JJ/MM/AAAA) in parentheses to the option label", () => {
+    mockUseAllCodesLists.mockReturnValue({
+      data: [
+        {
+          id: "m1",
+          label: "Liste des pays",
+          agencyId: "fr.insee",
+          mutualized: true,
+          versionDate: "2026-06-29T14:26:32.961778",
+        },
+      ],
+      groupLabel: undefined,
+      isLoading: false,
+      error: null,
+    });
+
+    render(
+      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
+    );
+
+    const option = screen
+      .getByTestId("codes-list-dropdown")
+      .querySelector('option[value="fr.insee-m1"]');
+    expect(option?.textContent).toContain("Liste des pays (29/06/2026)");
+  });
+
   it("should not render a section that has no code list", () => {
     mockUseAllCodesLists.mockReturnValue({
       data: [{ id: "g1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],

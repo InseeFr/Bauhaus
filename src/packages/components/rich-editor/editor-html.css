@@ -1,0 +1,38 @@
+.rdw-option-wrapper {
+  min-width: 30px;
+  height: 30px;
+}
+
+.rdw-editor-toolbar {
+  border-style: none;
+  background: transparent;
+
+  > .rdw-option-wrapper:last-child {
+    position: absolute;
+    right: 20px;
+  }
+}
+
+.DraftEditor-root {
+  border: 2px solid var(--primary-color);
+  border-radius: 6px;
+  margin-top: 10px;
+  min-height: 200px;
+  background: white;
+  z-index: 0;
+  padding: 5px;
+}
+
+.public-DraftStyleDefault-block {
+  margin: 0;
+}
+
+.rdw-link-modal {
+  width: max-content;
+  height: max-content;
+}
+
+.rdw-link-modal-btn {
+  color: black;
+  text-align: center;
+}

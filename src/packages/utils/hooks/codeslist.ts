@@ -23,8 +23,8 @@ export const useCodesLists = (notations: string[]) => {
   });
 };
 
-export const useAllCodes = (notation: string, enabled: boolean) => {
-  return useQuery({
+export const useAllCodes = (notation: string | undefined, enabled: boolean) => {
+  return useQuery<Code[]>({
     enabled: !!notation && enabled,
     queryKey: ["codelist", notation, "codes"],
     queryFn: () =>

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
+import type { Ddi4Item, PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { type LangString, pickLangEntry, makeEntry } from "../utils/multilingual";
 
 const primaryTag = (lang: string | undefined) => lang?.split("-")[0];
@@ -26,27 +26,27 @@ const addLangsFrom = (raw: Set<string>, entries: LangString[] | undefined) => {
 const collectLangs = (data: PhysicalInstanceResponse): Set<string> => {
   const raw = new Set<string>();
 
-  data.PhysicalInstance?.forEach((pi) => {
-    addLangsFrom(raw, pi.Citation?.Title);
-  });
-
-  data.DataRelationship?.forEach((dr) => {
-    addLangsFrom(raw, dr.Label);
-    dr.LogicalRecord?.forEach((lr) => addLangsFrom(raw, lr.Label));
-  });
-
-  data.Variable?.forEach((v) => {
-    addLangsFrom(raw, v.VariableName);
-    addLangsFrom(raw, v.Label);
-    addLangsFrom(raw, v.Description);
-  });
-
-  data.CodeList?.forEach((cl) => {
-    addLangsFrom(raw, cl.Label);
-  });
-
-  data.Category?.forEach((cat) => {
-    addLangsFrom(raw, cat.Label);
+  (data.items ?? []).forEach((item) => {
+    switch (item.$type) {
+      case "PhysicalInstance":
+        addLangsFrom(raw, item.Citation?.Title);
+        break;
+      case "DataRelationship":
+        addLangsFrom(raw, item.Label);
+        item.LogicalRecord?.forEach((lr) => addLangsFrom(raw, lr.Label));
+        break;
+      case "Variable":
+        addLangsFrom(raw, item.VariableName);
+        addLangsFrom(raw, item.Label);
+        addLangsFrom(raw, item.Description);
+        break;
+      case "CodeList":
+      case "Category":
+        addLangsFrom(raw, item.Label);
+        break;
+      default:
+        break;
+    }
   });
 
   return normalizeLangs(raw);
@@ -57,48 +57,53 @@ const pickOrEmpty = (entries: LangString[] | undefined, lang: string): LangStrin
   return entry ? [entry] : [makeEntry(lang, "")];
 };
 
+/** Un item dont tous les champs multilingues sont réduits à la seule langue demandée. */
+const filterItemByLang = (item: Ddi4Item, lang: string): Ddi4Item => {
+  switch (item.$type) {
+    case "PhysicalInstance":
+      return {
+        ...item,
+        Citation: {
+          ...item.Citation,
+          Title: pickOrEmpty(item.Citation?.Title, lang),
+        },
+      };
+    case "DataRelationship":
+      return {
+        ...item,
+        ...(item.Label && { Label: pickOrEmpty(item.Label, lang) }),
+        ...(item.LogicalRecord && {
+          LogicalRecord: item.LogicalRecord.map((lr) => ({
+            ...lr,
+            ...(lr.Label && { Label: pickOrEmpty(lr.Label, lang) }),
+          })),
+        }),
+      };
+    case "Variable":
+      return {
+        ...item,
+        VariableName: pickOrEmpty(item.VariableName, lang),
+        Label: pickOrEmpty(item.Label, lang),
+        ...(item.Description && { Description: pickOrEmpty(item.Description, lang) }),
+      };
+    case "CodeList":
+      return {
+        ...item,
+        ...(item.Label && { Label: pickOrEmpty(item.Label, lang) }),
+      };
+    case "Category":
+      return { ...item, Label: pickOrEmpty(item.Label, lang) };
+    default:
+      return item;
+  }
+};
+
 const filterDataByLang = (
   data: PhysicalInstanceResponse,
   lang: string,
 ): PhysicalInstanceResponse => ({
   ...data,
-  PhysicalInstance: data.PhysicalInstance?.map((pi) => ({
-    ...pi,
-    Citation: {
-      ...pi.Citation,
-      Title: pickOrEmpty(pi.Citation?.Title, lang),
-    },
-  })),
-  DataRelationship: data.DataRelationship?.map((dr) => ({
-    ...dr,
-    ...(dr.Label && {
-      Label: pickOrEmpty(dr.Label, lang),
-    }),
-    ...(dr.LogicalRecord && {
-      LogicalRecord: dr.LogicalRecord.map((lr) => ({
-        ...lr,
-        ...(lr.Label && { Label: pickOrEmpty(lr.Label, lang) }),
-      })),
-    }),
-  })),
-  Variable: data.Variable?.map((v) => ({
-    ...v,
-    VariableName: pickOrEmpty(v.VariableName, lang),
-    Label: pickOrEmpty(v.Label, lang),
-    ...(v.Description && {
-      Description: pickOrEmpty(v.Description, lang),
-    }),
-  })),
-  CodeList: data.CodeList?.map((cl) => ({
-    ...cl,
-    ...(cl.Label && {
-      Label: pickOrEmpty(cl.Label, lang),
-    }),
-  })),
-  Category: data.Category?.map((cat) => ({
-    ...cat,
-    Label: pickOrEmpty(cat.Label, lang),
-  })),
+  items: (data.items ?? []).map((item) => filterItemByLang(item, lang)),
 });
 
 export const usePhysicalInstanceByLangs = (

@@ -33,6 +33,7 @@ describe("Dataset View Menu", () => {
     expect(screen.queryByText("Publish")).toBeNull();
     expect(screen.queryByText("Delete")).toBeNull();
     expect(screen.queryByText("Update")).toBeNull();
+    expect(screen.queryByText("Duplicate")).toBeNull();
   });
 
   it("an admin can goBack, publish, delete and update a dataset even if the stamp is not correct", async () => {
@@ -159,5 +160,28 @@ describe("Dataset View Menu", () => {
     expect(screen.queryByText("Publish")).toBeNull();
     expect(screen.queryByText("Delete")).toBeNull();
     expect(screen.queryByText("Update")).toBeNull();
+    expect(screen.queryByText("Duplicate")).toBeNull();
+  });
+  it("a user with the CREATE privilege can duplicate a dataset", async () => {
+    mockReactQueryForRbac([
+      {
+        application: MODULES.DATASET_DATASET,
+        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+      },
+    ]);
+
+    const { ViewMenu } = await import("./menu");
+
+    const dataset = { id: "jd1000" } as unknown as Dataset;
+    render(
+      <WithRouter>
+        <ViewMenu dataset={dataset} onPublish={vi.fn()} onDelete={vi.fn()}></ViewMenu>
+      </WithRouter>,
+    );
+
+    expect(screen.getByText("Duplicate").closest("a")).toHaveAttribute(
+      "href",
+      "/datasets/jd1000/duplicate",
+    );
   });
 });

@@ -1,0 +1,21 @@
+.concepts-dashboard {
+  display: grid;
+  grid-template-columns: 18em minmax(0, 1fr);
+  gap: 2em;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.concepts-dashboard__section > h3 {
+  margin-top: 0;
+}
+
+@media (width <= 768px) {
+  .concepts-dashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .concepts-dashboard .summary-nav {
+    position: static;
+  }
+}

@@ -1,4 +1,4 @@
-import { isDateIn, isOutOfDate, stringToDate } from "./date-utils";
+import { isDateIn, isOutOfDate, stringToDate, today } from "./date-utils";
 
 describe("is date in", () => {
   it("returns true if the start and end dates are null", () => {
@@ -44,5 +44,29 @@ describe("has date passed", () => {
 
   test(`should return the english version when the navigator.${property} is EN`, () => {
     expect(stringToDate("1988-02-28T10:51:47.812", "en")).toEqual("02/28/1988");
+  });
+});
+
+describe("is date in - bounds", () => {
+  it("returns false when the date is exactly the start bound", () => {
+    const bound = "2017-07-01T10:51:47.812";
+    expect(isDateIn(bound, bound, "2017-07-31T10:51:47.812")).toBe(false);
+  });
+
+  it("returns false when the date is exactly the end bound", () => {
+    const bound = "2017-07-31T10:51:47.812";
+    expect(isDateIn(bound, "2017-07-01T10:51:47.812", bound)).toBe(false);
+  });
+});
+
+describe("today", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("returns the current date formatted in the browser lang", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("1988-02-28T10:51:47.812"));
+    expect(today()).toEqual("02/28/1988");
   });
 });

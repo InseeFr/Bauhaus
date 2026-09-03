@@ -1,4 +1,5 @@
 import { RequiredIcon } from "../required-icon";
+import { cx } from "@utils/cx";
 
 interface InputRmesTypes {
   colMd?: number;
@@ -28,7 +29,7 @@ export const InputRmes = ({
 }: Readonly<InputRmesTypes>) => {
   return (
     <div className={`form-group col-md-${colMd || 12}`}>
-      <label className={`form-label ${className}`}>
+      <label className={cx("form-label", className)}>
         {label}
         {star && <RequiredIcon />}
         {hiddenStar && <span className="boldWhite">*</span>}

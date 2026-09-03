@@ -1,0 +1,120 @@
+.home-page-links {
+  --gutter: 20px;
+
+  /* Largeur d'une tuile : toujours celle d'une ligne pleine de 4, quel que soit
+     le nombre de tuiles réellement affichées sur la ligne. */
+  --per-row: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--gutter);
+  width: 55%;
+  max-width: 800px;
+  margin: 2em auto 0;
+
+  /* Le nombre de tuiles varie selon les modules accessibles :
+     `justify-content: center` centre chaque ligne, même incomplète. */
+  .home-page-links-row {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--gutter);
+  }
+
+  li {
+    flex: 0 0 calc((100% - (var(--per-row) - 1) * var(--gutter)) / var(--per-row));
+    aspect-ratio: 1;
+    container-type: inline-size;
+    display: grid;
+    background: var(--primary-color);
+    border-radius: 6px;
+    box-shadow: 4px 12px 24px grey;
+    transition: background-color 1s;
+
+    &:hover {
+      background-color: var(--secondary-color);
+    }
+
+    /* Chaque item est lui-même une grid : titre en haut, flèche en haut,
+       logo aligné en bas à droite quelle que soit la hauteur du titre.
+       L'enfant est un lien, ou un simple `div` quand le module est désactivé. */
+    > :is(a, div) {
+      display: grid;
+      grid-template: "title title" auto "arrow logo" 1fr / 1fr auto;
+      row-gap: 1em;
+      padding: 1.5em;
+      color: white;
+      text-decoration: none;
+    }
+
+    h2 {
+      grid-area: title;
+      margin: 0;
+      width: 100%;
+
+      /* Police relative à la largeur de la carte (cqi) + nowrap :
+               le titre tient sur une seule ligne à tous les breakpoints. */
+      font-size: clamp(1.7rem, 10cqi, 2.6rem);
+      line-height: 1.1;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .arrow {
+      grid-area: arrow;
+      align-self: start;
+
+      img {
+        display: block;
+        width: 9cqi;
+      }
+    }
+
+    .logo {
+      grid-area: logo;
+      place-self: end end;
+
+      img {
+        display: block;
+        width: 28cqi;
+      }
+    }
+
+    /* Module déclaré mais fermé pour l'instant : la tuile garde sa place dans la
+       grille, en gris et sans affordance de lien. */
+    &.disabled {
+      --primary-color: #a3a3a3;
+      --secondary-color: #a3a3a3;
+
+      box-shadow: 4px 12px 24px #c9c9c9;
+      cursor: default;
+    }
+  }
+}
+
+/* This declaration will be removed after receiving the icon for this application */
+/* stylelint-disable-next-line no-descending-specificity */
+.bauhaus-app img {
+  width: 50% !important;
+  margin-top: 1.5em !important;
+}
+
+@media (width >= 750px) {
+  .home-page-links {
+    --per-row: 2;
+  }
+}
+
+@media (width >= 1100px) {
+  .home-page-links {
+    --per-row: 4;
+  }
+}
+
+.ddi .container {
+  width: 95%;
+  margin: 2em auto;
+}

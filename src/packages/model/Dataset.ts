@@ -9,6 +9,12 @@ export interface Dataset {
   accrualPeriodicity: string;
   confidentialityStatus: string;
   id?: string;
+  // Champs édités par le formulaire (en .jsx, donc jamais confrontés à ce type)
+  // et exigés par le schéma de validation.
+  labelLg1: string;
+  labelLg2: string;
+  altIdentifier?: string;
+  disseminationStatus: string;
   catalogRecord: CatalogRecord;
   validationState: ValidationState;
   observationNumber: number;
@@ -32,6 +38,7 @@ export interface Dataset {
   statisticalUnit: string[];
   dataStructure: string;
   issued?: string;
+  updated?: string;
   type: string;
 
   abstractLg1?: string;

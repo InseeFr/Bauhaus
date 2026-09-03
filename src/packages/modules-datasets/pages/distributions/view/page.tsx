@@ -18,7 +18,7 @@ import { useDatasetDeleter } from "../../../hooks/useDatasetDeleter";
 export const Component = () => {
   const { t } = useTranslation();
 
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
 
   const { data: distribution, isLoading } = useDistribution(id);
 

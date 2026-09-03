@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
+import i18next from "../../../../i18n";
 
 import { TextInput } from "@components/form/input";
 import { Select } from "@components/select-rmes";

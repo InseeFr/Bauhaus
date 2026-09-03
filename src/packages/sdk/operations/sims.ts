@@ -42,7 +42,7 @@ const api = {
       return new Set();
     },
   ],
-  deleteSims: (sims: Sims) => [`metadataReport/delete/${sims.id}`, {}, () => undefined],
+  deleteSims: (sims: Sims) => [`metadataReport/${sims.id}`, {}, () => undefined],
   publishSims: (sims: Sims) => [
     `metadataReport/${sims.id}/validate`,
     { method: "PUT" },

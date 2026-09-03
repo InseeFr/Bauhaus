@@ -1,5 +1,5 @@
 .new-button {
-  background-color: var(--color-3);
+  background-color: var(--primary-color);
   color: white;
   width: 100%;
   margin-bottom: 0.5em;
@@ -11,6 +11,6 @@
 
 .new-button:focus,
 .new-button:hover:not([disabled]) {
-  background-color: var(--color-2);
+  background-color: var(--secondary-color);
   color: white;
 }
