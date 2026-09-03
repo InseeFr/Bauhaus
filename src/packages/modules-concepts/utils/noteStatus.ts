@@ -66,6 +66,10 @@ export const noteStatus = (
   // une note vide n'est reprochée qu'à partir du moment où il la signale.
   if (errorFields?.[noteLg1Name] || errorFields?.[noteLg2Name]) return "toFix";
 
+  // Le caractère obligatoire d'une note est décrit par `validate` et lui seul :
+  // une note vide n'est reprochée qu'à partir du moment où il la signale.
+  if (errorFields?.[noteLg1Name] || errorFields?.[noteLg2Name]) return "toFix";
+
   const emptyLg1 = htmlIsEmpty(noteLg1);
   const emptyLg2 = htmlIsEmpty(noteLg2);
 

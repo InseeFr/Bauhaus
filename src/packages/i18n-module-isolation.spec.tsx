@@ -61,10 +61,10 @@ describe("isolation des catalogues i18n entre modules", () => {
 
   it("traduit chaque module même quand tous les autres ont été chargés", async () => {
     const modules = await Promise.all(
-      Object.keys(MODULE_KEYS).map(async (name) => ({
-        name,
-        i18n: (await import(`./modules-${name}/i18n/index.ts`)).default,
-      })),
+      Object.keys(MODULE_KEYS).map(async (name) => {
+        const module = await import(`./modules-${name}/i18n/index.ts`);
+        return { name, i18n: module[`${name}I18n`] };
+      }),
     );
 
     const translations = modules.map(({ name, i18n }) => {
@@ -73,7 +73,9 @@ describe("isolation des catalogues i18n entre modules", () => {
     });
 
     expect(Object.fromEntries(translations)).toEqual(
-      Object.fromEntries(Object.entries(MODULE_KEYS).map(([name, [, label]]) => [name, label])),
+      Object.fromEntries(
+        Object.entries(MODULE_KEYS).map(([name, [, label]]) => [name, label]),
+      ),
     );
   });
 });
