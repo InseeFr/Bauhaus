@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Select } from "@components/select-rmes";
 
 import { ExplanatoryNote } from "../explanatory-note";
-import D from "../i18n";
+import { componentsI18n } from "../i18n";
 import { Row } from "../layout";
 
 interface CompareNotesTypes {
@@ -19,6 +20,8 @@ export const CompareNotes = ({
   version,
   buildNotes,
 }: Readonly<CompareNotesTypes>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const safeVersion = Math.max(1, version);
 
   const [select1, setSelect1] = useState(Math.max(1, safeVersion - 1));
@@ -39,7 +42,7 @@ export const CompareNotes = ({
         <div className="col-md-6 text-center">
           <Select
             options={options}
-            placeholder={D.version}
+            placeholder={t("version")}
             value={select1}
             onChange={(value) => setSelect1(Number(value))}
           />
@@ -47,7 +50,7 @@ export const CompareNotes = ({
         <div className="col-md-6 text-center">
           <Select
             options={options}
-            placeholder={D.version}
+            placeholder={t("version")}
             value={select2}
             onChange={(value) => setSelect2(Number(value))}
           />
@@ -57,10 +60,10 @@ export const CompareNotes = ({
         <Row key={`notes-compare-${i}`}>
           <ExplanatoryNote
             text={secondLang ? notesVersion1[i]["lg2"] : notesVersion1[i]["lg1"]}
-            title={D[notesVersion1[i].title]}
+            title={t(notesVersion1[i].title)}
             alone={false}
           />
-          <ExplanatoryNote text={secondLang ? n.lg2 : n.lg1} title={D[n.title]} alone={false} />
+          <ExplanatoryNote text={secondLang ? n.lg2 : n.lg1} title={t(n.title)} alone={false} />
         </Row>
       ))}
     </div>

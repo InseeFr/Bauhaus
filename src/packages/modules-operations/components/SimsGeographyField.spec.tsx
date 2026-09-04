@@ -19,18 +19,24 @@ vi.mock("@sdk/geographie", () => ({
 // graph (none, here). Mock it directly with the real operations translations this component needs.
 // Mock partiel : `initReactI18next` doit rester réel, l'i18n du module est
 // initialisé au chargement de son bootstrap.
-vi.mock("react-i18next", async (importOriginal) => ({
-  ...(await importOriginal()),
-  useTranslation: () => {
-    const translations: Record<string, string> = {
-      "geography.include": "Include",
-      "geography.exclude": "Exclude",
-      "geography.zoneName": "Zone name",
-    };
-    const t = (key: string) => translations[key] ?? key;
-    return { t };
-  },
-}));
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      const translations: Record<string, string> = {
+        "geography.include": "Include",
+        "geography.exclude": "Exclude",
+        "geography.zoneName": "Zone name",
+      };
+      const t = (key: string) => translations[key] ?? key;
+      return { t };
+    },
+  };
+});
 
 const renderComponent = (props: Partial<SimsGeographyFieldTypes> = {}) => {
   return renderWithRouterAndQuery(<SimsGeographyField {...(props as SimsGeographyFieldTypes)} />);

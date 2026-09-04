@@ -7,7 +7,7 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import NewDictionary from "../../../../i18n";
+import { appI18n } from "../../../../i18n";
 import { operationsI18n } from "../../../i18n";
 
 const ZodSerie: ZodObject<any> = z.object({
@@ -16,18 +16,26 @@ const ZodSerie: ZodObject<any> = z.object({
       id: z
         .string({
           error: (issue) =>
-            issue.input === undefined &&
-            NewDictionary.errors.mandatoryProperty(operationsI18n.t("common.familyTitle")),
+            issue.input === undefined
+              ? appI18n.t("errors.mandatoryProperty", {
+                  propertyName: operationsI18n.t("common.familyTitle"),
+                })
+              : undefined,
         })
         .trim()
         .min(1, {
-          error: NewDictionary.errors.mandatoryProperty(operationsI18n.t("common.familyTitle")),
+          error: appI18n.t("errors.mandatoryProperty", {
+            propertyName: operationsI18n.t("common.familyTitle"),
+          }),
         }),
     },
     {
       error: (issue) =>
-        issue.input === undefined &&
-        NewDictionary.errors.mandatoryProperty(operationsI18n.t("common.familyTitle")),
+        issue.input === undefined
+          ? appI18n.t("errors.mandatoryProperty", {
+              propertyName: operationsI18n.t("common.familyTitle"),
+            })
+          : undefined,
     },
   ),
   prefLabelLg1: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "fr" })),

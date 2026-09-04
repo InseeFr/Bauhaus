@@ -10,11 +10,18 @@ const translations: Record<string, string> = {
   "common.btnCollectionConceptExporter": "Exporter les fiches des concepts de la sélection",
 };
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => translations[key] ?? key,
-  }),
-}));
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return { t: (key: string) => translations[key] ?? key };
+    },
+  };
+});
 
 describe("ExportButtons Component", () => {
   it("should render all buttons with the correct labels", () => {

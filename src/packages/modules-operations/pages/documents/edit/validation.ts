@@ -9,7 +9,7 @@ import {
 } from "@utils/validation";
 
 import { LINK } from "../../../../constants/documentType";
-import NewDictionary from "../../../../i18n";
+import { appI18n } from "../../../../i18n";
 import { operationsI18n } from "../../../i18n";
 
 const Base = (
@@ -46,12 +46,16 @@ const ZodLink = (
         protocol: /^https?$/,
         error: (issue) =>
           issue.input === undefined
-            ? NewDictionary.errors.mandatoryProperty(operationsI18n.t("documents.titleLink"))
+            ? appI18n.t("errors.mandatoryProperty", {
+                propertyName: operationsI18n.t("documents.titleLink"),
+              })
             : operationsI18n.t("validation.badUrl"),
       })
       .trim()
       .min(1, {
-        error: NewDictionary.errors.mandatoryProperty(operationsI18n.t("documents.titleLink")),
+        error: appI18n.t("errors.mandatoryProperty", {
+          propertyName: operationsI18n.t("documents.titleLink"),
+        }),
       }),
   });
 

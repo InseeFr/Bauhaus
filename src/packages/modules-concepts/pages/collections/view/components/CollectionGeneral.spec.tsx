@@ -18,13 +18,22 @@ const translations: Record<"fr" | "en", Record<string, string>> = {
   },
 };
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    i18n: {
-      getFixedT: (lng: "fr" | "en") => (key: string) => translations[lng][key] ?? key,
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return {
+        i18n: {
+          getFixedT: (lng: "fr" | "en") => (key: string) => translations[lng][key] ?? key,
+        },
+      };
     },
-  }),
-}));
+  };
+});
 
 vi.mock("@components/business/organizations/organizations", () => ({
   InseeOrganization: ({ creator }: { creator: string }) => {

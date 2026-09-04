@@ -1,17 +1,10 @@
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
-import { createAllDictionary } from "@utils/dictionary";
-
+import { componentsI18n } from "../i18n";
 import "./index.css";
 
 const className = "sticky-top";
-
-const { D } = createAllDictionary({
-  backToTop: {
-    en: "Back to Top",
-    fr: "Haut de page",
-  },
-});
 
 window.onload = function () {
   document.addEventListener(
@@ -36,6 +29,8 @@ interface BackToTopTypes {
 }
 
 export function BackToTop({ label }: Readonly<BackToTopTypes>) {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const clickHandler = useCallback(() => {
     window.scrollTo({
       top: 0,
@@ -43,7 +38,7 @@ export function BackToTop({ label }: Readonly<BackToTopTypes>) {
     });
   }, []);
 
-  const text = D.backToTop || label;
+  const text = t("backToTop") || label;
 
   return (
     <button type="button" onClick={clickHandler} className={className} style={{ display: "none" }}>

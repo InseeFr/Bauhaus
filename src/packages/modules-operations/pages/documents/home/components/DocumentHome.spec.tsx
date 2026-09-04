@@ -12,15 +12,20 @@ vi.mock("react-i18next", async (importOriginal) => {
   const actual = await importOriginal<typeof import("react-i18next")>();
   return {
     ...actual,
-    useTranslation: () => ({
-      t: (key: string) => {
-        const translations: Record<string, string> = {
-          "documents.document": "Document",
-          "documents.link": "Link",
-        };
-        return translations[key] || key;
-      },
-    }),
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return {
+        t: (key: string) => {
+          const translations: Record<string, string> = {
+            "documents.document": "Document",
+            "documents.link": "Link",
+          };
+          return translations[key] || key;
+        },
+      };
+    },
   };
 });
 

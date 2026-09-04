@@ -1,4 +1,4 @@
-import i18n from "i18next";
+import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 
 import { getLang } from "@utils/dictionary";
@@ -6,12 +6,12 @@ import { getLang } from "@utils/dictionary";
 import en from "./locales/en.json";
 import fr from "./locales/fr.json";
 
-export const componentsI18n = i18n.createInstance();
+export const appI18n = i18next.createInstance();
 
-componentsI18n.use(initReactI18next).init({
+appI18n.use(initReactI18next).init({
   resources: {
-    en: { translation: en as any },
-    fr: { translation: fr as any },
+    en: { translation: en },
+    fr: { translation: fr },
   },
   lng: getLang(),
   fallbackLng: "fr",

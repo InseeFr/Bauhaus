@@ -28,11 +28,18 @@ const translations: Record<string, string> = {
   "concept.general.additionalMaterialTitle": "Document lié",
 };
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => translations[key] ?? key,
-  }),
-}));
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return { t: (key: string) => translations[key] ?? key };
+    },
+  };
+});
 
 vi.mock("@utils/hooks/useLocales", () => ({
   useLocales: () => ({

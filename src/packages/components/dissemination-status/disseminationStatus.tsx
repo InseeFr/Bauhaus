@@ -1,8 +1,9 @@
 import { useId } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useDisseminationStatusOptions } from "@utils/hooks/disseminationStatus";
 
-import D from "../i18n";
+import { componentsI18n } from "../i18n";
 import { LabelRequired } from "../label-required";
 import { Select } from "../select-rmes";
 
@@ -12,11 +13,11 @@ export const getDisseminationStatus = (disseminationStatus: string): string => {
   }
 
   if (disseminationStatus.includes("PublicGenerique")) {
-    return D.disseminationStatus.DSPublicGeneriqueTitle;
+    return componentsI18n.t("disseminationStatus.DSPublicGeneriqueTitle");
   } else if (disseminationStatus.includes("PublicSpecifique")) {
-    return D.disseminationStatus.DSPublicSpecifiqueTitle;
+    return componentsI18n.t("disseminationStatus.DSPublicSpecifiqueTitle");
   } else if (disseminationStatus.includes("Prive")) {
-    return D.disseminationStatus.DSPrivateTitle;
+    return componentsI18n.t("disseminationStatus.DSPrivateTitle");
   }
 
   return "";
@@ -27,9 +28,11 @@ export const DisseminationStatusVisualization = ({
 }: Readonly<{
   disseminationStatus: string;
 }>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <>
-      {D.disseminationStatus.title} : {getDisseminationStatus(disseminationStatus)}
+      {t("disseminationStatus.title")} : {getDisseminationStatus(disseminationStatus)}
     </>
   );
 };
@@ -47,6 +50,8 @@ export const DisseminationStatusInput = ({
   required = false,
   withLabel = true,
 }: Readonly<DisseminationStatusInputTypes>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const disseminationStatusListOptions = useDisseminationStatusOptions();
 
   const inputId = useId();
@@ -55,13 +60,13 @@ export const DisseminationStatusInput = ({
     <>
       {withLabel &&
         (required ? (
-          <LabelRequired htmlFor={inputId}>{D.disseminationStatus.title}</LabelRequired>
+          <LabelRequired htmlFor={inputId}>{t("disseminationStatus.title")}</LabelRequired>
         ) : (
-          <label htmlFor={inputId}>{D.disseminationStatus.title}</label>
+          <label htmlFor={inputId}>{t("disseminationStatus.title")}</label>
         ))}
       <Select
         inputId={inputId}
-        placeholder={D.disseminationStatus.placeholder}
+        placeholder={t("disseminationStatus.placeholder")}
         value={value}
         options={disseminationStatusListOptions}
         onChange={handleChange}

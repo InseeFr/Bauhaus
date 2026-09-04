@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
+import { useTranslation } from "react-i18next";
 
-import D, { D2 } from "../../i18n";
+import { componentsI18n } from "../../i18n";
 import { OrganizationInput, StampsInput } from "../stamps-input/stamps-input";
 
 type CreatorsInputProps = Readonly<
@@ -11,25 +12,17 @@ type CreatorsInputProps = Readonly<
 >;
 
 export const CreatorsInput = ({ lang = "first", mode = "stamp", ...props }: CreatorsInputProps) => {
-  const Dictionary = lang === "first" ? D : D2;
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
+  const options = lang === "first" ? undefined : { lng: "en" };
+  const labelSingle = t("creatorsInput.creatorTitle", options);
+  const labelMulti = t("creatorsInput.creatorsTitle", options);
 
   if (mode === "organization") {
     return (
-      <OrganizationInput
-        labelSingle={Dictionary.creatorsInput.creatorTitle}
-        labelMulti={Dictionary.creatorsInput.creatorsTitle}
-        lang={lang}
-        {...props}
-      />
+      <OrganizationInput labelSingle={labelSingle} labelMulti={labelMulti} lang={lang} {...props} />
     );
   }
 
-  return (
-    <StampsInput
-      labelSingle={Dictionary.creatorsInput.creatorTitle}
-      labelMulti={Dictionary.creatorsInput.creatorsTitle}
-      lang={lang}
-      {...props}
-    />
-  );
+  return <StampsInput labelSingle={labelSingle} labelMulti={labelMulti} lang={lang} {...props} />;
 };

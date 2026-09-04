@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ComponentType } from "react";
 import { createRoot } from "react-dom/client";
+import { useTranslation } from "react-i18next";
 
 import { ApplicationTitle } from "@components/application-title";
 import { BackToTop } from "@components/back-to-top";
@@ -12,8 +13,8 @@ import { getLang } from "@utils/dictionary";
 import { AppContextProvider, type AppProperties } from "./packages/application/app-context";
 import { Root } from "./packages/application/router";
 import { OidcProvider } from "./packages/auth/create-oidc";
+import { appI18n } from "./packages/i18n";
 import "./packages/styles/main.css";
-import D from "./packages/deprecated-locales/build-dictionary";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,11 +25,13 @@ const queryClient = new QueryClient({
 });
 
 const ErrorBlock = () => {
+  const { t } = useTranslation("translation", { i18n: appI18n });
+
   return (
     <div>
       <div className="container">
-        <h1 className="text-center">{D.errorTitle}</h1>
-        <p className="text-center">{D.errorBody}</p>
+        <h1 className="text-center">{t("home.errorTitle")}</h1>
+        <p className="text-center">{t("home.errorBody")}</p>
       </div>
     </div>
   );

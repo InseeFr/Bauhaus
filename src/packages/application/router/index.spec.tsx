@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Mock, vi } from "vitest";
 
 import { useOidc } from "../../auth/create-oidc";
-import D from "../../i18n";
+import { appI18n } from "../../i18n";
 import { renderWithAppContext } from "../../tests/render";
 import { useAppContext } from "../app-context";
 
@@ -69,7 +69,7 @@ describe("RBACLink Component", () => {
     );
 
     const logoutButton = screen.getByRole("button", {
-      name: D.authentication.logout,
+      name: appI18n.t("auth.logout"),
     });
     fireEvent.click(logoutButton);
 

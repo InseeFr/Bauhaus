@@ -3,7 +3,7 @@ import { describe, it, expect, vi, Mock } from "vitest";
 
 import { useDisseminationStatusOptions } from "@utils/hooks/disseminationStatus";
 
-import D from "../i18n";
+import { componentsI18n } from "../i18n";
 import {
   DisseminationStatusVisualization,
   DisseminationStatusInput,
@@ -17,18 +17,20 @@ vi.mock("../../utils/hooks/disseminationStatus", () => ({
 describe("getDisseminationStatus", () => {
   it("returns correct title for PublicGenerique", () => {
     expect(getDisseminationStatus("/PublicGenerique")).toBe(
-      D.disseminationStatus.DSPublicGeneriqueTitle,
+      componentsI18n.t("disseminationStatus.DSPublicGeneriqueTitle"),
     );
   });
 
   it("returns correct title for PublicSpecifique", () => {
     expect(getDisseminationStatus("/PublicSpecifique")).toBe(
-      D.disseminationStatus.DSPublicSpecifiqueTitle,
+      componentsI18n.t("disseminationStatus.DSPublicSpecifiqueTitle"),
     );
   });
 
   it("returns correct title for Prive", () => {
-    expect(getDisseminationStatus("/Prive")).toBe(D.disseminationStatus.DSPrivateTitle);
+    expect(getDisseminationStatus("/Prive")).toBe(
+      componentsI18n.t("disseminationStatus.DSPrivateTitle"),
+    );
   });
 
   it("returns empty string for unknown status", () => {
@@ -41,7 +43,7 @@ describe("DisseminationStatusVisualization", () => {
     render(<DisseminationStatusVisualization disseminationStatus="/PublicGenerique" />);
     expect(
       screen.getByText(
-        `${D.disseminationStatus.title} : ${D.disseminationStatus.DSPublicGeneriqueTitle}`,
+        `${componentsI18n.t("disseminationStatus.title")} : ${componentsI18n.t("disseminationStatus.DSPublicGeneriqueTitle")}`,
       ),
     ).toBeInTheDocument();
   });
@@ -60,7 +62,7 @@ describe("DisseminationStatusInput", () => {
         withLabel
       />,
     );
-    expect(screen.getByText(D.disseminationStatus.title)).toBeInTheDocument();
+    expect(screen.getByText(componentsI18n.t("disseminationStatus.title"))).toBeInTheDocument();
   });
 
   it("renders required label when required is true", () => {
@@ -68,7 +70,7 @@ describe("DisseminationStatusInput", () => {
       { value: "PublicGenerique", label: "Public" },
     ]);
     render(<DisseminationStatusInput value="PublicGenerique" handleChange={() => {}} required />);
-    expect(screen.getByText(D.disseminationStatus.title)).toBeInTheDocument();
+    expect(screen.getByText(componentsI18n.t("disseminationStatus.title"))).toBeInTheDocument();
   });
 
   it("associates the label with the select control", () => {
@@ -166,7 +168,7 @@ describe("DisseminationStatusInput", () => {
     );
 
     // The label should not be present
-    const labels = screen.queryAllByText(D.disseminationStatus.title);
+    const labels = screen.queryAllByText(componentsI18n.t("disseminationStatus.title"));
     expect(labels).toHaveLength(0);
   });
 
@@ -187,7 +189,7 @@ describe("DisseminationStatusInput", () => {
     // Should render a label (not LabelRequired)
     const label = container.querySelector("label");
     expect(label).toBeInTheDocument();
-    expect(label?.textContent).toBe(D.disseminationStatus.title);
+    expect(label?.textContent).toBe(componentsI18n.t("disseminationStatus.title"));
   });
 
   it("handleChange receives the correct value when called", () => {
@@ -232,7 +234,7 @@ describe("DisseminationStatusInput", () => {
     );
 
     expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
-    expect(screen.getByText(D.disseminationStatus.title)).toBeInTheDocument();
+    expect(screen.getByText(componentsI18n.t("disseminationStatus.title"))).toBeInTheDocument();
   });
 
   describe("User interactions", () => {

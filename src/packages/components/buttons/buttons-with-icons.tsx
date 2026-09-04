@@ -1,79 +1,25 @@
 import { ComponentProps } from "react";
+import { useTranslation } from "react-i18next";
 
-import { createAllDictionary } from "@utils/dictionary";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
+import { componentsI18n } from "../i18n";
 import { Button } from "./button";
 
-const { D } = createAllDictionary({
-  btnReturn: {
-    fr: "Retour",
-    en: "Back",
-  },
-  btnReinitialize: {
-    fr: "Réinitialiser",
-    en: "Reinitialize",
-  },
-  btnUpdate: {
-    fr: "Modifier",
-    en: "Update",
-  },
-  btnDelete: {
-    fr: "Supprimer",
-    en: "Delete",
-  },
-  btnExport: {
-    fr: "Exporter",
-    en: "Export",
-  },
-  btnImport: {
-    fr: "Importer",
-    en: "Import",
-  },
-  btnValid: {
-    fr: "Publier",
-    en: "Publish",
-  },
-  btnNewMale: {
-    fr: "Nouveau",
-    en: "New",
-  },
-  btnCancel: {
-    fr: "Annuler",
-    en: "Cancel",
-  },
-  btnSave: {
-    fr: "Sauvegarder",
-    en: "Save",
-  },
-  btnDuplicate: {
-    fr: "Dupliquer",
-    en: "Duplicate",
-  },
-  btnClose: {
-    fr: "Fermer",
-    en: "Close",
-  },
-  btnCompare: {
-    fr: "Comparer",
-    en: "Compare",
-  },
-  btnTree: {
-    fr: "Voir l'arborescence",
-    en: "View tree",
-  },
-});
-
 export const CloseIconButton = ({ onClick }: Readonly<{ onClick: VoidFunction }>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <button type="button" className="close" onClick={onClick}>
       <span aria-hidden="true">&times;</span>
-      <span className="sr-only">{D.btnClose}</span>
+      <span className="sr-only">{t("btnClose")}</span>
     </button>
   );
 };
 
 export const UpdateButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -93,7 +39,7 @@ export const UpdateButton = (props: Omit<ComponentProps<typeof AbstractButton>, 
       }
       {...props}
     >
-      {D.btnUpdate}
+      {t("btnUpdate")}
     </AbstractButton>
   );
 };
@@ -112,6 +58,8 @@ export const AbstractButton = (props: { icon?: unknown } & ComponentProps<typeof
 };
 
 export const ReturnButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -135,12 +83,14 @@ export const ReturnButton = (props: Omit<ComponentProps<typeof AbstractButton>, 
       }
       {...props}
     >
-      {D.btnReturn}
+      {t("btnReturn")}
     </AbstractButton>
   );
 };
 
 export const ResetButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -164,12 +114,14 @@ export const ResetButton = (props: Omit<ComponentProps<typeof AbstractButton>, "
       }
       {...props}
     >
-      {D.btnReinitialize}
+      {t("btnReinitialize")}
     </AbstractButton>
   );
 };
 
 export const ExportButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -197,12 +149,14 @@ export const ExportButton = (props: Omit<ComponentProps<typeof AbstractButton>, 
       }
       {...props}
     >
-      {D.btnExport}
+      {t("btnExport")}
     </AbstractButton>
   );
 };
 
 export const ImportButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -230,12 +184,14 @@ export const ImportButton = (props: Omit<ComponentProps<typeof AbstractButton>, 
       }
       {...props}
     >
-      {D.btnImport}
+      {t("btnImport")}
     </AbstractButton>
   );
 };
 
 export const PublishButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -259,7 +215,7 @@ export const PublishButton = (props: Omit<ComponentProps<typeof AbstractButton>,
       }
       {...props}
     >
-      {D.btnValid}
+      {t("btnValid")}
     </AbstractButton>
   );
 };
@@ -268,6 +224,8 @@ export const CancelButton = ({
   action,
   ...props
 }: Readonly<{ action: string | VoidFunction } & ComponentProps<"button">>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const goBack = useGoBack();
 
   const handleAction = () => {
@@ -302,12 +260,14 @@ export const CancelButton = ({
       onClick={handleAction}
       {...props}
     >
-      {D.btnCancel}
+      {t("btnCancel")}
     </AbstractButton>
   );
 };
 
 export const SaveButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -327,12 +287,14 @@ export const SaveButton = (props: Omit<ComponentProps<typeof AbstractButton>, "i
       }
       {...props}
     >
-      {D.btnSave}
+      {t("btnSave")}
     </AbstractButton>
   );
 };
 
 export const DuplicateButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -353,12 +315,14 @@ export const DuplicateButton = (props: Omit<ComponentProps<typeof AbstractButton
       }
       {...props}
     >
-      {D.btnDuplicate}
+      {t("btnDuplicate")}
     </AbstractButton>
   );
 };
 
 export const CompareButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -378,12 +342,14 @@ export const CompareButton = (props: Omit<ComponentProps<typeof AbstractButton>,
       }
       {...props}
     >
-      {D.btnCompare}
+      {t("btnCompare")}
     </AbstractButton>
   );
 };
 
 export const DeleteButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -404,12 +370,14 @@ export const DeleteButton = (props: Omit<ComponentProps<typeof AbstractButton>, 
       }
       {...props}
     >
-      {D.btnDelete}
+      {t("btnDelete")}
     </AbstractButton>
   );
 };
 
 export const TreeButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <AbstractButton
       icon={
@@ -432,7 +400,7 @@ export const TreeButton = (props: Omit<ComponentProps<typeof AbstractButton>, "i
       }
       {...props}
     >
-      {D.btnTree}
+      {t("btnTree")}
     </AbstractButton>
   );
 };

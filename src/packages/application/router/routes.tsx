@@ -1,4 +1,5 @@
 import { Suspense, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
 
 import { Loading } from "@components/loading";
@@ -6,7 +7,7 @@ import { NotFound, UnderMaintenance } from "@components/not-found";
 
 import { useOidc } from "../../auth/create-oidc";
 import { withAuth } from "../../auth/hoc";
-import D from "../../i18n";
+import { appI18n } from "../../i18n";
 import { routes as ClassificationsRoutes } from "../../modules-classifications/routes/index";
 import { routes as CodelistsRoutes } from "../../modules-codelists/routes/index";
 import { routes as ConceptsRoutes } from "../../modules-concepts/routes/index";
@@ -47,6 +48,8 @@ const MainLayout = withAuth(() => {
 });
 
 export const Logout = () => {
+  const { t } = useTranslation("translation", { i18n: appI18n });
+
   const { login } = useOidc({
     assertUserLoggedIn: false,
   });
@@ -66,7 +69,7 @@ export const Logout = () => {
         }}
         className="btn btn-primary"
       >
-        {D.authentication.login}
+        {t("auth.login")}
       </button>
     </div>
   );

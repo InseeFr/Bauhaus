@@ -1,6 +1,7 @@
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Row } from "@components/layout";
@@ -8,33 +9,10 @@ import { Pagination } from "@components/pagination";
 
 import { filterKeyDeburr, nbResults } from "@utils/array-utils";
 import { cx } from "@utils/cx";
-import { createAllDictionary } from "@utils/dictionary";
 import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
+import { componentsI18n } from "../i18n";
 import { List } from "../ui/list-group";
-
-const { D } = createAllDictionary({
-  searchLabelPlaceholder: {
-    fr: "Libellé...",
-    en: "Label...",
-  },
-  search: {
-    fr: "Recherchez...",
-    en: "Search...",
-  },
-  advancedSearchTitle: {
-    fr: "Recherche avancée",
-    en: "Advanced search",
-  },
-  result: {
-    fr: "résultat",
-    en: "result",
-  },
-  results: {
-    fr: "résultats",
-    en: "results",
-  },
-});
 
 const defautState = {
   search: "",
@@ -64,6 +42,8 @@ export const SearchableList = ({
   autoFocus = false,
   itemFormatter = (content: any) => content,
 }: SearchableListTypes) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const {
     form: { search },
     setForm: handleSearch,
@@ -96,8 +76,8 @@ export const SearchableList = ({
               onChange={(e) => {
                 handleSearch({ search: e.target.value });
               }}
-              placeholder={placeholder ?? D.searchLabelPlaceholder}
-              aria-label={D.search}
+              placeholder={placeholder ?? t("searchLabelPlaceholder")}
+              aria-label={t("search")}
               autoFocus={autoFocus}
               className="w-full"
             />
@@ -110,13 +90,13 @@ export const SearchableList = ({
             <Link to={searchUrl}>
               <h2>
                 <span className="glyphicon glyphicon-zoom-in" aria-hidden="true" />
-                {D.advancedSearchTitle}
+                {t("advancedSearchTitle")}
               </h2>
             </Link>
           </div>
         </Row>
       )}
-      <p aria-live="assertive">{nbResults(hits, D.results, D.result)}</p>
+      <p aria-live="assertive">{nbResults(hits, t("results"), t("result"))}</p>
       <Pagination itemEls={hitEls} />
     </div>
   );

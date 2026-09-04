@@ -14,7 +14,7 @@ graph TB
     Users[Users]
 
     subgraph Frontend["Bauhaus Frontend (React)"]
-        React["React 18 + Redux<br/>TypeScript<br/>PrimeReact UI Components<br/>react-i18next"]
+        React["React 18<br/>TypeScript<br/>TanStack Query<br/>PrimeReact UI Components<br/>react-i18next"]
     end
 
     subgraph Backend["Bauhaus Back-Office API (Spring Boot)"]
@@ -60,10 +60,13 @@ graph TB
 React single-page application (SPA) that provides the user interface for managing statistical metadata.
 
 **Key Technologies:**
-- React 18 with Redux for state management
-- TypeScript for type safety
+
+- React 18, 100% TypeScript, function components only
+- TanStack Query for server state (no global client-side state library)
 - PrimeReact for UI components
 - Vite as bundler
+- react-i18next for internationalization (see [Internationalization](../reference/project-structure/#internationalization-i18n))
+- oxlint + oxfmt for linting and formatting, knip for dead-code detection (run in `pnpm pre-push`)
 
 [React Documentation](https://react.dev/) | [Redux Documentation](https://redux.js.org/)
 
@@ -72,6 +75,7 @@ React single-page application (SPA) that provides the user interface for managin
 REST API that orchestrates all backend services and exposes business functionalities.
 
 **Responsibilities:**
+
 - Orchestration of calls to different services
 - Business logic
 - Data validation and transformation
@@ -84,6 +88,7 @@ REST API that orchestrates all backend services and exposes business functionali
 Identity and Access Management (IAM) server that secures the entire stack.
 
 **Features:**
+
 - Single Sign-On (SSO)
 - User and role management
 - OAuth2 and OpenID Connect protocols
@@ -96,6 +101,7 @@ Identity and Access Management (IAM) server that secures the entire stack.
 S3-compatible object storage server for managing documents and files.
 
 **Use Cases:**
+
 - PDF document storage
 - Images and graphics
 - Data files
@@ -108,6 +114,7 @@ S3-compatible object storage server for managing documents and files.
 Triple store for storing and querying semantic data.
 
 **Use Cases:**
+
 - Ontology storage
 - Metadata reference data
 - Semantic relationships
@@ -120,6 +127,7 @@ Triple store for storing and querying semantic data.
 Statistical metadata manager based on the DDI (Data Documentation Initiative) standard.
 
 **Features:**
+
 - Metadata lifecycle management
 - DDI Lifecycle standard support
 - Metadata versioning
@@ -154,32 +162,36 @@ Statistical metadata manager based on the DDI (Data Documentation Initiative) st
 4. Document metadata stored in GraphDB
 5. Reference returned to the frontend
 
-
 ## Frontend Code Architecture
 
-The frontend is undergoing a gradual migration to a modern, standardized stack. The DDI module (`src/packages/modules-ddi`) is the reference implementation.
+The frontend has completed its migration to a modern, standardized stack. All 7 domain modules (`concepts`, `classifications`, `operations`, `codelists`, `structures`, `datasets`, `ddi`) follow the same target architecture.
 
-### Target technical stack
+### Technical stack
 
-| Concern | Technology |
-|---|---|
-| Language | TypeScript (.tsx) |
-| UI components | PrimeReact |
-| Internationalization | react-i18next |
-| Testing | Vitest |
-| Forms | Native HTML forms with FormData API |
+| Concern              | Technology                                                                                            |
+| -------------------- | ----------------------------------------------------------------------------------------------------- |
+| Language             | TypeScript — the codebase is 100% `.ts`/`.tsx`                                                        |
+| Components           | Function components only                                                                              |
+| Module exports       | Named exports project-wide                                                                            |
+| UI components        | PrimeReact                                                                                            |
+| Styling              | Plain CSS co-located with components, CSS variables (`--color-1`, `--color-2`, …)                     |
+| Internationalization | react-i18next — see [Internationalization](../reference/project-structure/#internationalization-i18n) |
+| Testing              | Vitest, `.spec.ts(x)` co-located with source                                                          |
+| Forms                | Native HTML forms with FormData API                                                                   |
+| Linting / formatting | oxlint + oxfmt (replacing ESLint + Prettier)                                                          |
+| Dead-code detection  | knip, run automatically in `pnpm pre-push`                                                            |
 
-### Migration guidelines
+### Conventions
 
-When working on existing modules:
+When working on the codebase:
 
-1. **Gradual migration** — migrate files to TypeScript as you touch them
-2. **Component organization** — extract reusable components into dedicated files with co-located styles and tests
-3. **I18N** — use react-i18next for new features, configured at the module level via the layout component
-4. **UI components** — prefer PrimeReact over Bootstrap for new features
-5. **Styling** — use CSS files co-located with components, leverage CSS variables (`--color-1`, `--color-2`, …)
-6. **Forms** — use native HTML forms with FormData API and proper submit buttons
-7. **Testing** — write unit tests for all new components using Vitest; mock PrimeReact components when needed
+1. **Component organization** — extract reusable components into dedicated files with co-located styles and tests
+2. **I18N** — use `react-i18next`'s `useTranslation()` hook; each module owns an isolated i18next instance (never the raw global singleton), configured at the module level via the layout component
+3. **UI components** — prefer PrimeReact over Bootstrap
+4. **Styling** — use CSS files co-located with components, leverage CSS variables (`--color-1`, `--color-2`, …)
+5. **Forms** — use native HTML forms with FormData API and proper submit buttons; validate with [zod](https://zod.dev/) in a co-located `validation.ts`
+6. **Testing** — write unit tests for all new components using Vitest; mock PrimeReact components when needed
+7. **Exports** — use named exports; avoid re-export-only ("pass-through") files unless they are genuine barrel files
 
 See [Project Structure](../reference/project-structure/) for the expected module directory layout and I18N setup.
 
