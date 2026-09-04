@@ -4,15 +4,9 @@ import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
 import { ChangeEvent, ComponentPropsWithoutRef, PropsWithChildren, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import { createAllDictionary } from "@utils/dictionary";
-
-const { D } = createAllDictionary({
-  placeholder: {
-    fr: "Rechercher dans le tableau...",
-    en: "Search in the table...",
-  },
-});
+import { componentsI18n } from "../i18n";
 
 interface DataTableTypes {
   withPagination?: boolean;
@@ -25,6 +19,8 @@ export const DataTable = ({
 }: Readonly<
   PropsWithChildren<DataTableTypes & ComponentPropsWithoutRef<typeof PrimeDataTable>>
 >) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const [globalFilterValue, setGlobalFilterValue] = useState("");
 
   const [filters, setFilters] = useState<{
@@ -50,7 +46,7 @@ export const DataTable = ({
           <InputText
             value={globalFilterValue}
             onChange={onGlobalFilterChange}
-            placeholder={D.placeholder}
+            placeholder={t("datatable.placeholder")}
           />
         </IconField>
       </div>

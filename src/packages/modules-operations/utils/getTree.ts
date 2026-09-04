@@ -1,4 +1,4 @@
-import { isLang2 } from "../../i18n";
+import { isLang2 } from "@utils/dictionary";
 
 /**
  *

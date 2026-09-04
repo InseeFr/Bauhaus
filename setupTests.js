@@ -1,6 +1,8 @@
 import "@testing-library/jest-dom";
 import { vi, beforeEach } from "vitest";
 import { testsI18n } from "./src/packages/tests/i18n";
+import { appI18n } from "./src/packages/i18n";
+import { componentsI18n } from "./src/packages/components/i18n";
 import { classificationsI18n } from "./src/packages/modules-classifications/i18n";
 import { codelistsI18n } from "./src/packages/modules-codelists/i18n";
 import { conceptsI18n } from "./src/packages/modules-concepts/i18n";
@@ -14,6 +16,8 @@ import { structuresI18n } from "./src/packages/modules-structures/i18n";
 // plus the merged tests-only instance used by renderWithRouter/renderWithAppContext.
 const allTestI18nInstances = [
   testsI18n,
+  appI18n,
+  componentsI18n,
   classificationsI18n,
   codelistsI18n,
   conceptsI18n,

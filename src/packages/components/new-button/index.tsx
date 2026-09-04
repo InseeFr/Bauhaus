@@ -1,7 +1,8 @@
 import { PropsWithChildren } from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
-import D from "../i18n";
+import { componentsI18n } from "../i18n";
 import { AddLogo } from "../logo/logo-add";
 import "./newButton.css";
 
@@ -51,10 +52,14 @@ const AbstractNewButton = ({
   );
 };
 
-export const MasculineButton = (props: AbstractNewButtonTypes) => (
-  <AbstractNewButton {...props}>{D.btnNew.masculine}</AbstractNewButton>
-);
+export const MasculineButton = (props: AbstractNewButtonTypes) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
 
-export const FeminineButton = (props: AbstractNewButtonTypes) => (
-  <AbstractNewButton {...props}>{D.btnNew.feminine}</AbstractNewButton>
-);
+  return <AbstractNewButton {...props}>{t("btnNew.masculine")}</AbstractNewButton>;
+};
+
+export const FeminineButton = (props: AbstractNewButtonTypes) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
+  return <AbstractNewButton {...props}>{t("btnNew.feminine")}</AbstractNewButton>;
+};

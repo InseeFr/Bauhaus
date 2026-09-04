@@ -5,14 +5,6 @@ import * as organizationsHook from "@utils/hooks/organizations";
 
 import { InseeOrganizationNotes } from "./";
 
-vi.mock("../../i18n", () => ({
-  D1: {
-    creatorsInput: {
-      creatorTitle: "Créateur",
-    },
-  },
-}));
-
 const organizations = [
   { iri: "DG75-L201", label: "INSEE" },
   { iri: "DG75-L202", label: "DARES" },
@@ -30,7 +22,7 @@ describe("InseeOrganizationNotes", () => {
       using _spy = mockUseOrganizations();
       render(<InseeOrganizationNotes organizations="DG75-L201" />);
 
-      expect(screen.getByText("Créateur")).toBeInTheDocument();
+      expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       expect(screen.getByText("INSEE")).toBeInTheDocument();
     });
 
@@ -38,7 +30,7 @@ describe("InseeOrganizationNotes", () => {
       using _spy = mockUseOrganizations();
       render(<InseeOrganizationNotes organizations={["DG75-L201", "DG75-G001"]} />);
 
-      expect(screen.getByText("Créateur")).toBeInTheDocument();
+      expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       expect(screen.getByText("INSEE")).toBeInTheDocument();
       expect(screen.getByText("Direction Générale")).toBeInTheDocument();
 
@@ -71,7 +63,7 @@ describe("InseeOrganizationNotes", () => {
       using _spy = mockUseOrganizations();
       const { container } = render(<InseeOrganizationNotes organizations="unknown-id" />);
 
-      expect(screen.getByText("Créateur")).toBeInTheDocument();
+      expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       expect(screen.queryByText("unknown-id")).not.toBeInTheDocument();
       expect(container.querySelector("ul")).not.toBeInTheDocument();
     });
@@ -120,7 +112,7 @@ describe("InseeOrganizationNotes", () => {
       using _spy = mockUseOrganizations();
       const { container } = render(<InseeOrganizationNotes organizations={undefined} />);
 
-      expect(screen.getByText("Créateur")).toBeInTheDocument();
+      expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       const paragraph = container.querySelector("p");
       expect(paragraph).toBeInTheDocument();
       expect(paragraph?.textContent).toBe("");
@@ -130,7 +122,7 @@ describe("InseeOrganizationNotes", () => {
       using _spy = mockUseOrganizations();
       const { container } = render(<InseeOrganizationNotes organizations={[]} />);
 
-      expect(screen.getByText("Créateur")).toBeInTheDocument();
+      expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       const paragraph = container.querySelector("p");
       expect(paragraph).toBeInTheDocument();
       expect(paragraph?.textContent).toBe("");
@@ -142,7 +134,7 @@ describe("InseeOrganizationNotes", () => {
         .mockReturnValue({ data: undefined } as any);
       const { container } = render(<InseeOrganizationNotes organizations="DG75-L201" />);
 
-      expect(screen.getByText("Créateur")).toBeInTheDocument();
+      expect(screen.getByText("Propriétaire")).toBeInTheDocument();
       expect(screen.queryByText("INSEE")).not.toBeInTheDocument();
       expect(container.querySelector("ul")).not.toBeInTheDocument();
     });

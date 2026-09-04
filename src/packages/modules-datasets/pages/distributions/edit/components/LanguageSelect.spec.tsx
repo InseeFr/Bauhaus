@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { LanguageSelect } from "./LanguageSelect";
 
-vi.mock("../../../../../i18n", () => ({
+vi.mock("@utils/dictionary", () => ({
   isLang2: vi.fn(() => false),
 }));
 
@@ -35,7 +35,7 @@ describe("LanguageSelect", () => {
   });
 
   it("should render language options in French when isLang2 returns false", async () => {
-    const { isLang2 } = await import("../../../../../i18n");
+    const { isLang2 } = await import("@utils/dictionary");
     vi.mocked(isLang2).mockReturnValue(false);
 
     const mockOnChange = vi.fn();
@@ -47,7 +47,7 @@ describe("LanguageSelect", () => {
   });
 
   it("should render language options in English when isLang2 returns true", async () => {
-    const { isLang2 } = await import("../../../../../i18n");
+    const { isLang2 } = await import("@utils/dictionary");
     vi.mocked(isLang2).mockReturnValue(true);
 
     const mockOnChange = vi.fn();
@@ -101,7 +101,7 @@ describe("LanguageSelect", () => {
   });
 
   it("should display the selected value", async () => {
-    const { isLang2 } = await import("../../../../../i18n");
+    const { isLang2 } = await import("@utils/dictionary");
     vi.mocked(isLang2).mockReturnValue(false);
 
     const mockOnChange = vi.fn();

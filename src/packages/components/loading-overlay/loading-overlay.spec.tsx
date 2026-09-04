@@ -4,10 +4,13 @@ import { vi, describe, it, expect } from "vitest";
 import { LoadingOverlay } from "./";
 
 vi.mock("../i18n", () => ({
-  default: {
-    loading: {
-      saving: "Saving...",
-      loading: "Loading...",
+  componentsI18n: {
+    t: (key: string) => {
+      const translations: Record<string, string> = {
+        "loading.saving": "Saving...",
+        "loading.loading": "Loading...",
+      };
+      return translations[key] ?? key;
     },
   },
 }));

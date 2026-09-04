@@ -1,22 +1,21 @@
+import { useTranslation } from "react-i18next";
+
 import { PageTitle } from "@components/page-title";
 
-import { createAllDictionary } from "@utils/dictionary";
+import { componentsI18n } from "../i18n";
 
-const { D } = createAllDictionary({
-  notFoundTitle: {
-    fr: "Page introuvable",
-    en: "Page not found",
-  },
-  underMaintenanceTitle: {
-    fr: "En maintenance",
-    en: "Under maintenance",
-  },
-});
+export const NotFound = ({ label }: Readonly<{ label?: string }>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
 
-export const NotFound = ({ label = D.notFoundTitle }) => (
-  <div className="container not-found">
-    <PageTitle title={label} />
-  </div>
-);
+  return (
+    <div className="container not-found">
+      <PageTitle title={label ?? t("notFoundTitle")} />
+    </div>
+  );
+};
 
-export const UnderMaintenance = () => <NotFound label={D.underMaintenanceTitle} />;
+export const UnderMaintenance = () => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
+  return <NotFound label={t("underMaintenanceTitle")} />;
+};

@@ -1,9 +1,10 @@
 import { ComponentProps } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useOrganizations } from "@utils/hooks/organizations";
 import { useV2StampsOptions } from "@utils/hooks/stamps";
 
-import D, { D1 } from "../../i18n";
+import { componentsI18n } from "../../i18n";
 import { Select } from "../../ui/select";
 
 const DefaultStampsInput = ({
@@ -27,6 +28,8 @@ const DefaultStampsInput = ({
   options: { value: string; label: string }[];
   disabled?: boolean;
 }>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   let creatorsArray;
   if (multi) {
     creatorsArray = Array.isArray(value) && value.length > 0 ? value : [];
@@ -34,14 +37,15 @@ const DefaultStampsInput = ({
     creatorsArray = value ? value : undefined;
   }
 
-  const Dictionary = lang === "first" ? D1 : D;
-
   const label = !multi ? labelSingle : labelMulti;
 
   return (
     <Select
       label={label}
-      placeholder={Dictionary.stampsPlaceholder}
+      placeholder={t(
+        "contributors.stampsPlaceholder",
+        lang === "first" ? { lng: "fr" } : undefined,
+      )}
       value={creatorsArray}
       options={options}
       onChange={onChange}

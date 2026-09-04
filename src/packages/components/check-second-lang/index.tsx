@@ -1,16 +1,13 @@
-import { createAllDictionary } from "@utils/dictionary";
+import { useTranslation } from "react-i18next";
+
 import { useSecondLang } from "@utils/hooks/second-lang";
 
+import { componentsI18n } from "../i18n";
 import "./index.css";
 
-const { D } = createAllDictionary({
-  displayLg2: {
-    fr: "Afficher la seconde langue",
-    en: "Display second language",
-  },
-});
-
 export const CheckSecondLang = () => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const [secondLang, toggleSecondLang] = useSecondLang();
 
   return (
@@ -18,7 +15,7 @@ export const CheckSecondLang = () => {
       <div className="col-md-10 text-center col-md-offset-1">
         <label>
           <input type="checkbox" checked={secondLang} onChange={() => toggleSecondLang()} />{" "}
-          {D.displayLg2}
+          {t("displayLg2")}
         </label>
       </div>
     </div>

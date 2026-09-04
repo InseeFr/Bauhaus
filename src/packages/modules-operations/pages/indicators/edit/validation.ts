@@ -6,7 +6,7 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import NewDictionary from "../../../../i18n";
+import { appI18n } from "../../../../i18n";
 import { operationsI18n } from "../../../i18n";
 
 const Serie = z.object({
@@ -25,9 +25,9 @@ const ZodIndicator = z.object({
     operationsI18n.t("app.creatorsTitle"),
   ),
   wasGeneratedBy: z.array(Serie).nonempty({
-    error: NewDictionary.errors.mandatoryProperty(
-      operationsI18n.t("common.generatedBy"),
-    ),
+    error: appI18n.t("errors.mandatoryProperty", {
+      propertyName: operationsI18n.t("common.generatedBy"),
+    }),
   }),
 });
 
