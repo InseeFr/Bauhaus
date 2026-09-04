@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { Mock, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import { Mock, vi } from "vitest";
 
 import { Component } from "./page";
 
@@ -28,7 +28,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
 }));
 
 vi.mock("./components/CollectionsToExport", () => ({
-  default: ({ collections }: { collections: { id: string; label: string }[] }) => (
+  CollectionsToExport: ({ collections }: { collections: { id: string; label: string }[] }) => (
     <div data-testid="collections-to-export">
       <span data-testid="collections-count">{collections.length}</span>
       <ul>
@@ -42,9 +42,10 @@ vi.mock("./components/CollectionsToExport", () => ({
   ),
 }));
 
-import { useCollections } from "../../../hooks/useCollections";
 import { useCollectionExporter } from "@utils/hooks/collections";
 import { useTitle } from "@utils/hooks/useTitle";
+
+import { useCollections } from "../../../hooks/useCollections";
 
 const renderComponent = () => {
   return render(

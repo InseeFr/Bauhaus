@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { DDIApi } from "../../sdk";
+
+import { DDIApi } from "@sdk/index";
+
 import type { LangString } from "../utils/multilingual";
 
 export interface StudyUnit {

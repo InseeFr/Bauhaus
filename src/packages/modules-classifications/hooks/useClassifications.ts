@@ -1,5 +1,7 @@
-import { ClassificationsApi } from "@sdk/classification";
 import { useQuery } from "@tanstack/react-query";
+
+import { ClassificationsApi } from "@sdk/classification";
+
 import { PartialClassification } from "../types";
 
 export const useClassifications = () => {

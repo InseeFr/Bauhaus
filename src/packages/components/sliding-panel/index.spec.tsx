@@ -48,12 +48,12 @@ describe("RightSlidingPanel", () => {
 
   it("applies the given class name on the panel", () => {
     const { baseElement } = render(
-      <RightSlidingPanel isOpen panelClassName="codes-list-panel" onHide={vi.fn()}>
+      <RightSlidingPanel isOpen panelClassName="code-list-panel" onHide={vi.fn()}>
         <div>Panel content</div>
       </RightSlidingPanel>,
     );
 
-    expect(baseElement.querySelector(".p-sidebar.codes-list-panel")).toBeTruthy();
+    expect(baseElement.querySelector(".p-sidebar.code-list-panel")).toBeTruthy();
   });
 
   it("calls onHide when the close button is clicked", async () => {

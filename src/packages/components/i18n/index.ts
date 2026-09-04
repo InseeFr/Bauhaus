@@ -1,10 +1,12 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+
+import { getLang } from "@utils/dictionary";
+
 import en from "./locales/en.json";
 import fr from "./locales/fr.json";
-import { getLang } from "../../utils/dictionnary";
 
-const componentsI18n = i18n.createInstance();
+export const componentsI18n = i18n.createInstance();
 
 componentsI18n.use(initReactI18next).init({
   resources: {
@@ -18,5 +20,3 @@ componentsI18n.use(initReactI18next).init({
   },
   showSupportNotice: false,
 });
-
-export default componentsI18n;

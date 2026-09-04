@@ -1,4 +1,4 @@
-import { isOutOfDate, stringToDate } from "../../utils/date-utils";
+import { isOutOfDate, stringToDate } from "@utils/date-utils";
 
 export const getModalMessage = (array: { prefLabelLg1: string; valid: string }[]) =>
   array.reduce((message, { prefLabelLg1, valid }) => {

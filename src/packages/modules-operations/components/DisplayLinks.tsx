@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { Note } from "@components/note";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
 interface DisplayLinksTypes {
-  links: any[];
+  links?: any[];
   path: string;
   title: string;
   secondLang?: boolean;

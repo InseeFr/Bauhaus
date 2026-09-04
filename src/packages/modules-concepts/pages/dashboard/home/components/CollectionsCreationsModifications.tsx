@@ -1,24 +1,28 @@
 import { Column } from "primereact/column";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DateItem } from "@components/creation-update-items";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
 import { PublicationFemale } from "@components/status";
 
 import "../../../../../i18n";
-import { Collection } from "../../../../types/collection";
+import { CollectionDashboardItem } from "@model/concepts/collection";
+
 import { DateFilteredTable } from "../../../../components/DateFilteredTable";
 
 type Props = {
-  collectionsData: Collection[];
+  collectionsData: CollectionDashboardItem[];
   type: "creations" | "modifications";
 };
 
-const CollectionsCreationsModifications = ({ collectionsData, type }: Readonly<Props>) => {
+export const CollectionsCreationsModifications = ({ collectionsData, type }: Readonly<Props>) => {
   const { t } = useTranslation();
+
   const navigate = useNavigate();
+
   const dateField = type === "creations" ? "created" : "modified";
+
   const typeByLang =
     type === "creations" ? t("dashboard.creationsType") : t("dashboard.modificationsType");
 
@@ -35,24 +39,22 @@ const CollectionsCreationsModifications = ({ collectionsData, type }: Readonly<P
       <Column
         field="creator"
         header={t("dashboard.ownerColumn")}
-        body={(item: Collection) => <InseeOrganisation creator={item.creator} />}
+        body={(item: CollectionDashboardItem) => <InseeOrganization creator={item.creator} />}
       />
       <Column
         field={dateField}
         header={type === "creations" ? t("dashboard.createdColumn") : t("dashboard.modifiedColumn")}
-        body={(item: Collection) => (
+        body={(item: CollectionDashboardItem) => (
           <DateItem date={type === "creations" ? item.created : item.modified} />
         )}
       />
       <Column
         field="validationState"
         header={t("dashboard.statusColumn")}
-        body={(item: Collection) => (
+        body={(item: CollectionDashboardItem) => (
           <PublicationFemale object={{ validationState: item.validationState }} />
         )}
       />
     </DateFilteredTable>
   );
 };
-
-export default CollectionsCreationsModifications;

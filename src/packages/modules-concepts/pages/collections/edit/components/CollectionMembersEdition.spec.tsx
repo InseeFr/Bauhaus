@@ -1,6 +1,7 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 
-import CollectionMembers from "./CollectionMembersEdition";
+import { renderWithRouter } from "../../../../../tests/render";
+import { CollectionMembersEdition as CollectionMembers } from "./CollectionMembersEdition";
 
 const conceptList = [
   { id: "c1", label: "Concept 1" },
@@ -12,7 +13,7 @@ const members = [{ id: "c1", label: "Concept 1" }];
 
 const renderComponent = (props: Partial<React.ComponentProps<typeof CollectionMembers>> = {}) => {
   const handleChange = vi.fn();
-  const { container } = render(
+  const { container } = renderWithRouter(
     <CollectionMembers
       conceptList={conceptList}
       members={members}
@@ -22,7 +23,14 @@ const renderComponent = (props: Partial<React.ComponentProps<typeof CollectionMe
   );
   const [sourceList, targetList] = screen.getAllByRole("listbox");
   const [sourceFilter, targetFilter] = screen.getAllByPlaceholderText("Label...");
-  return { handleChange, container, sourceList, targetList, sourceFilter, targetFilter };
+  return {
+    handleChange,
+    container,
+    sourceList,
+    targetList,
+    sourceFilter,
+    targetFilter,
+  };
 };
 
 const optionLabels = (list: HTMLElement) =>
@@ -32,7 +40,7 @@ const optionLabels = (list: HTMLElement) =>
 
 describe("collection-edition-creation-members", () => {
   it("renders without crashing", () => {
-    render(<CollectionMembers members={[]} conceptList={[]} handleChange={vi.fn()} />);
+    renderWithRouter(<CollectionMembers members={[]} conceptList={[]} handleChange={vi.fn()} />);
   });
 
   it("liste les concepts non membres à gauche", () => {

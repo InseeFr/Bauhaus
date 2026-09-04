@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
-import { Family } from "../../../../model/operations/family";
+import { Family } from "@model/operations/family";
+
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 describe("Family Home Page Menu", () => {

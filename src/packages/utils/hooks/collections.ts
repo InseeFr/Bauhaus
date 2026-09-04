@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { CollectionExportApi, CollectionApi } from "@sdk/collection-api";
-
 import { CollectionExportFormat } from "@model/concepts/collection";
 
+import { CollectionExportApi, CollectionApi } from "@sdk/collection-api";
+import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "@sdk/constants";
+
 import { saveFileFromHttpResponse } from "../files";
-import { OPEN_DOCUMENT_TEXT_MIME_TYPE } from "../../sdk/constants";
 
 interface ExportInput {
   ids: string[];

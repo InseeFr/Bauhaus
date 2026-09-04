@@ -3,9 +3,10 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { PropsWithChildren } from "react";
 import { Mock, vi } from "vitest";
 
+import { Theme } from "@model/theme";
+
 import { ThemesApi } from "@sdk/index";
 
-import { Theme } from "../../model/theme";
 import { useThemes } from "./useThemes";
 
 const queryClient = new QueryClient();

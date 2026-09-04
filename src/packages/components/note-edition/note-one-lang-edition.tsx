@@ -1,7 +1,8 @@
-import { htmlLength } from "../../utils/html-utils";
-import ModifyNotes from "./modify-notes";
+import { htmlLength } from "@utils/html-utils";
 
-function NoteOneLangEdition({
+import { ModifyNotes } from "./modify-notes";
+
+export function NoteOneLangEdition({
   note,
   handleChange,
   maxLength,
@@ -11,6 +12,7 @@ function NoteOneLangEdition({
   maxLength: number;
 }>) {
   const noteLength = htmlLength(note);
+
   // Une note sans longueur maximale (`Infinity`) n'a pas de compteur à afficher.
   const checkLength = Number.isFinite(maxLength) && maxLength > 0 && (
     <div>
@@ -25,5 +27,3 @@ function NoteOneLangEdition({
     </div>
   );
 }
-
-export default NoteOneLangEdition;

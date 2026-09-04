@@ -5,10 +5,11 @@ import { ConditionalDisplay } from "@components/data/conditional-display";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
-import { stringToDate } from "@utils/date-utils";
-import { useCodesList } from "@utils/hooks/codeslist";
+import { Dataset } from "@model/Dataset";
 
-import { Dataset } from "../../../../../model/Dataset";
+import { stringToDate } from "@utils/date-utils";
+import { useCodelist } from "@utils/hooks/codelist";
+
 import {
   CL_DATA_TYPES,
   CL_FREQ,
@@ -25,11 +26,11 @@ interface StatisticalInformationsTypes {
 export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInformationsTypes>) => {
   const { t } = useTranslation();
 
-  const clDataTypes = useCodesList(CL_DATA_TYPES);
-  const clStatUnit = useCodesList(CL_STAT_UNIT);
-  const clTypeGeo = useCodesList(CL_TYPE_GEO);
-  const clGeo = useCodesList(CL_GEO);
-  const clFreq = useCodesList(CL_FREQ);
+  const clDataTypes = useCodelist(CL_DATA_TYPES);
+  const clStatUnit = useCodelist(CL_STAT_UNIT);
+  const clTypeGeo = useCodelist(CL_TYPE_GEO);
+  const clGeo = useCodelist(CL_GEO);
+  const clFreq = useCodelist(CL_FREQ);
 
   return (
     <Row>
@@ -39,7 +40,7 @@ export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInforma
             {dataset.type && (
               <li>
                 {t("dataset.statisticalInformation.type")} :{" "}
-                <CodeDisplay codesList={clDataTypes} value={dataset.type}></CodeDisplay>
+                <CodeDisplay codelist={clDataTypes} value={dataset.type}></CodeDisplay>
               </li>
             )}
             <ConditionalDisplay data={dataset.statisticalUnit}>
@@ -48,7 +49,7 @@ export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInforma
                 <ul>
                   {dataset.statisticalUnit.map((unit) => (
                     <li key={unit}>
-                      <CodeDisplay codesList={clStatUnit} value={unit}></CodeDisplay>
+                      <CodeDisplay codelist={clStatUnit} value={unit}></CodeDisplay>
                     </li>
                   ))}
                 </ul>
@@ -69,13 +70,13 @@ export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInforma
             {dataset.temporalResolution && (
               <li>
                 {t("dataset.statisticalInformation.temporalResolution")} :{" "}
-                <CodeDisplay codesList={clFreq} value={dataset.temporalResolution}></CodeDisplay>
+                <CodeDisplay codelist={clFreq} value={dataset.temporalResolution}></CodeDisplay>
               </li>
             )}
             {dataset.spacialCoverage && (
               <li>
                 {t("dataset.statisticalInformation.spatialCoverage")} :{" "}
-                <CodeDisplay codesList={clGeo} value={dataset.spacialCoverage}></CodeDisplay>
+                <CodeDisplay codelist={clGeo} value={dataset.spacialCoverage}></CodeDisplay>
               </li>
             )}
             {dataset.spacialTemporal && (
@@ -91,7 +92,7 @@ export const StatisticalInformations = ({ dataset }: Readonly<StatisticalInforma
                   {dataset.spacialResolutions?.map((spacialResolution) => {
                     return (
                       <li key={spacialResolution}>
-                        <CodeDisplay codesList={clTypeGeo} value={spacialResolution}></CodeDisplay>
+                        <CodeDisplay codelist={clTypeGeo} value={spacialResolution}></CodeDisplay>
                       </li>
                     );
                   })}

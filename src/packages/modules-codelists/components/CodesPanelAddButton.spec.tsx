@@ -1,9 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
-import { CodesList } from "@model/CodesList";
+import { Codelist } from "@model/Codelist";
 
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
+
 import { CodesPanelAddButton } from "./CodesPanelAddButton";
 
 vi.mock("@utils/hooks/users", async (importOriginal) => {
@@ -37,7 +38,7 @@ describe("CodesPanelAddButton", () => {
 
     render(
       <CodesPanelAddButton
-        codelist={{} as unknown as CodesList}
+        codelist={{} as unknown as Codelist}
         onHandlePanel={mockOnHandlePanel}
       />,
     );
@@ -60,7 +61,7 @@ describe("CodesPanelAddButton", () => {
 
     render(
       <CodesPanelAddButton
-        codelist={{ lastCodeUriSegment: "segment" } as unknown as CodesList}
+        codelist={{ lastCodeUriSegment: "segment" } as unknown as Codelist}
         onHandlePanel={mockOnHandlePanel}
       />,
     );
@@ -87,7 +88,7 @@ describe("CodesPanelAddButton", () => {
           {
             lastCodeUriSegment: "segment",
             contributor: "test-contributor",
-          } as unknown as CodesList
+          } as unknown as Codelist
         }
         onHandlePanel={mockOnHandlePanel}
       />,
@@ -115,7 +116,7 @@ describe("CodesPanelAddButton", () => {
           {
             lastCodeUriSegment: "segment",
             contributor: "test-contributor",
-          } as unknown as CodesList
+          } as unknown as Codelist
         }
         onHandlePanel={mockOnHandlePanel}
       />,
@@ -143,7 +144,7 @@ describe("CodesPanelAddButton", () => {
           {
             lastCodeUriSegment: "segment",
             contributor: "test-contributor",
-          } as unknown as CodesList
+          } as unknown as Codelist
         }
         onHandlePanel={mockOnHandlePanel}
       />,

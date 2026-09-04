@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
-import { RelatedItem } from "../../model/operations/related-item";
+import { RelatedItem } from "@model/operations/related-item";
 
 import "./RelationsView.css";
 
@@ -33,6 +33,7 @@ export const RelationsViewPerLgContent = ({
   langSuffix,
 }: Readonly<RelationsViewPerLgContentTypes>) => {
   const { t } = useTranslation();
+
   const lng = langSuffix === "Lg1" ? "fr" : "en";
 
   return (

@@ -1,0 +1,303 @@
+import { Dispatch, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
+
+import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
+import { ClientSideError } from "@components/errors-bloc";
+import { TextInput } from "@components/form/input";
+import { LabelRequired } from "@components/label-required";
+import { Row } from "@components/layout";
+import { Select } from "@components/select-rmes";
+import { InputMulti } from "@components/ui/forms/input-multi";
+
+import { Dataset } from "@model/Dataset";
+import { Option } from "@model/SelectOption";
+
+import { withCodelists } from "@utils/hoc/withCodelists";
+
+import { CL_FREQ } from "../../../../../constants/code-lists";
+import { useThemes } from "../../../../hooks/useThemes";
+import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
+
+type ClientSideErrors = {
+  errorMessage?: string[];
+  fields?: Record<string, string>;
+};
+
+interface GlobalInformationTypes {
+  editingDataset: Dataset;
+  setEditingDataset: (dataset: Dataset) => void;
+  clientSideErrors: ClientSideErrors;
+  setClientSideErrors: Dispatch<SetStateAction<ClientSideErrors>>;
+  [key: string]: any;
+}
+
+const GlobalInformationTab = ({
+  editingDataset,
+  setEditingDataset,
+  clientSideErrors,
+  setClientSideErrors,
+  ...props
+}: Readonly<GlobalInformationTypes>) => {
+  const { t } = useTranslation();
+
+  const clFreqOptions = convertCodelistToSelectOption(props[CL_FREQ]);
+
+  const { data: themesOptions = [] } = useThemes();
+
+  return (
+    <>
+      <Row>
+        <div className="col-md-6 form-group">
+          <LabelRequired htmlFor="labelLg1">
+            {t("dataset.globalInformation.mainTitle", { lng: "fr" })}
+          </LabelRequired>
+          <TextInput
+            id="labelLg1"
+            value={editingDataset.labelLg1}
+            onChange={(e) => {
+              setEditingDataset({
+                ...editingDataset,
+                labelLg1: e.target.value,
+              });
+              setClientSideErrors((clientSideErrors) => ({
+                ...clientSideErrors,
+                errorMessage: [],
+              }));
+            }}
+          />
+          <ClientSideError
+            id="labelLg1-error"
+            error={clientSideErrors?.fields?.labelLg1}
+          ></ClientSideError>
+        </div>
+        <div className="col-md-6 form-group">
+          <LabelRequired htmlFor="labelLg2">
+            {t("dataset.globalInformation.mainTitle", { lng: "en" })}
+          </LabelRequired>
+          <TextInput
+            id="labelLg2"
+            value={editingDataset.labelLg2}
+            onChange={(e) => {
+              setEditingDataset({
+                ...editingDataset,
+                labelLg2: e.target.value,
+              });
+              setClientSideErrors((clientSideErrors) => ({
+                ...clientSideErrors,
+                errorMessage: [],
+              }));
+            }}
+          />
+          <ClientSideError
+            id="labelLg2-error"
+            error={clientSideErrors?.fields?.labelLg2}
+          ></ClientSideError>
+        </div>
+      </Row>
+      <Row>
+        <div className="col-md-6 form-group">
+          <label htmlFor="subtitleLg1">
+            {t("dataset.globalInformation.subtitle", { lng: "fr" })}
+          </label>
+          <TextInput
+            id="subtitleLg1"
+            value={editingDataset.subTitleLg1}
+            onChange={(e) => {
+              setEditingDataset({
+                ...editingDataset,
+                subTitleLg1: e.target.value,
+              });
+            }}
+          />
+        </div>
+        <div className="col-md-6 form-group">
+          <label htmlFor="subtitleLg2">
+            {t("dataset.globalInformation.subtitle", { lng: "en" })}
+          </label>
+          <TextInput
+            id="subtitleLg2"
+            value={editingDataset.subTitleLg2}
+            onChange={(e) => {
+              setEditingDataset({
+                ...editingDataset,
+                subTitleLg2: e.target.value,
+              });
+            }}
+          />
+        </div>
+      </Row>
+      <Row>
+        <div className="col-md-12 form-group">
+          <label className="w-100 wilco-label-required">
+            {t("dataset.globalInformation.firstReleaseDate")}
+            <input
+              type="date"
+              className="form-control"
+              value={editingDataset.issued}
+              onChange={(e) => {
+                setEditingDataset({
+                  ...editingDataset,
+                  issued: e.target.value,
+                });
+              }}
+            />
+          </label>
+        </div>
+      </Row>
+      <Row>
+        <div className="col-md-12 form-group">
+          <label className="w-100 wilco-label-required">
+            {t("dataset.globalInformation.modificationDate")}
+            <input
+              type="date"
+              className="form-control"
+              value={editingDataset.updated}
+              onChange={(e) => {
+                setEditingDataset({
+                  ...editingDataset,
+                  updated: e.target.value,
+                });
+              }}
+            />
+          </label>
+        </div>
+      </Row>
+      <Row>
+        <div className="col-md-12 form-group">
+          <label className="w-100 wilco-label-required">
+            {t("dataset.globalInformation.updateFrequency")}
+            <Select
+              value={editingDataset.accrualPeriodicity}
+              options={clFreqOptions}
+              onChange={(value) => {
+                setEditingDataset({
+                  ...editingDataset,
+                  accrualPeriodicity: value,
+                });
+              }}
+            />
+          </label>
+        </div>
+      </Row>
+      <Row>
+        <div className="col-md-12 form-group">
+          <OrganizationInput
+            lang="first"
+            labelSingle={t("dataset.globalInformation.dataProvider")}
+            labelMulti={t("dataset.globalInformation.dataProvider")}
+            multi
+            value={editingDataset.creators}
+            onChange={(values) => {
+              setEditingDataset({
+                ...editingDataset,
+                creators: values as string[],
+              });
+            }}
+          />
+        </div>
+      </Row>
+      <Row>
+        <div className="col-md-12 form-group">
+          <OrganizationInput
+            lang="first"
+            labelSingle={t("dataset.globalInformation.publicationProvider")}
+            labelMulti={t("dataset.globalInformation.publicationProvider")}
+            value={editingDataset.publisher}
+            onChange={(values) => {
+              setEditingDataset({
+                ...editingDataset,
+                publisher: values as string,
+              });
+            }}
+          />
+        </div>
+      </Row>
+      <Row>
+        <div className="col-md-12 form-group">
+          <label className="w-100 wilco-label-required">
+            {t("dataset.globalInformation.theme")}
+            <Select
+              multi
+              value={editingDataset.themes}
+              options={themesOptions as unknown as Option[]}
+              onChange={(values) => {
+                setEditingDataset({
+                  ...editingDataset,
+                  themes: values,
+                });
+              }}
+            />
+          </label>
+        </div>
+      </Row>
+      <InputMulti
+        inputLg1={editingDataset.keywords?.lg1}
+        inputLg2={editingDataset.keywords?.lg2}
+        labelLg1={t("dataset.globalInformation.keywords", { lng: "fr" })}
+        labelLg2={t("dataset.globalInformation.keywords", { lng: "en" })}
+        handleChangeLg1={(keywords) => {
+          setEditingDataset({
+            ...editingDataset,
+            keywords: {
+              ...editingDataset.keywords,
+              lg1: keywords,
+            },
+          });
+        }}
+        handleChangeLg2={(keywords) => {
+          setEditingDataset({
+            ...editingDataset,
+            keywords: {
+              ...editingDataset.keywords,
+              lg2: keywords,
+            },
+          });
+        }}
+      />
+      <Row>
+        <div className="col-md-6 form-group">
+          <label htmlFor="landingPageLg1">
+            {t("dataset.globalInformation.landingPage", { lng: "fr" })}
+          </label>
+          <TextInput
+            id="landingPageLg1"
+            value={editingDataset.landingPageLg1}
+            onChange={(e) => {
+              setEditingDataset({
+                ...editingDataset,
+                landingPageLg1: e.target.value,
+              });
+            }}
+          />
+        </div>
+        <div className="col-md-6 form-group">
+          <label htmlFor="landingPageLg2">
+            {t("dataset.globalInformation.landingPage", { lng: "en" })}
+          </label>
+          <TextInput
+            id="landingPageLg2"
+            value={editingDataset.landingPageLg2}
+            onChange={(e) => {
+              setEditingDataset({
+                ...editingDataset,
+                landingPageLg2: e.target.value,
+              });
+            }}
+          />
+        </div>
+      </Row>
+      <InputMulti
+        inputLg1={editingDataset.linkedDocuments}
+        labelLg1={t("dataset.globalInformation.linkedDocuments", { lng: "fr" })}
+        handleChangeLg1={(linkedDocuments) => {
+          setEditingDataset({
+            ...editingDataset,
+            linkedDocuments,
+          });
+        }}
+      />
+    </>
+  );
+};
+
+export const GlobalInformation = withCodelists([CL_FREQ])(GlobalInformationTab);

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
-
 import { useTranslation } from "react-i18next";
+import { useLoaderData, useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
@@ -11,22 +10,22 @@ import { OperationsApi } from "@sdk/operations-api";
 import { useOrganizations } from "@utils/hooks/organizations";
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { DOCUMENT, LINK } from "../../../constants/documentType";
-import { useCodesLists } from "../../../hooks/useCodesLists";
+import { DOCUMENT, LINK } from "../../../../constants/documentType";
+import { useCodelists } from "../../../hooks/useCodelists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { useSaveSims, useSims } from "../../../hooks/useSims";
 import { SimsLoaderData } from "../../../types/sims";
-import { MSDComponent as MSDLayout } from "../components/MSDComponent";
-import { CREATE, UPDATE } from "../constants";
-import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
+import { MSDLayout } from "../components/MSDLayout";
+import { CREATE, Mode, UPDATE } from "../constants";
 import { useDocumentsList } from "../hooks/useDocumentsList";
+import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
 import {
   computeEssentialRubricContext,
   EssentialRubricContextProvider,
 } from "../hooks/useEssentialRubricContext";
+import { AdvancedSimsCreation } from "./components/AdvancedSimsCreation";
 import { getParentId } from "./utils/getParentId";
 import { getParentType } from "./utils/getParentType";
-import { AdvancedSimsCreation as SimsCreation } from "./components/AdvancedSimsCreation";
 
 const apiByParentType: Record<string, (id: string) => Promise<any>> = {
   indicator: OperationsApi.getIndicatorById,
@@ -54,8 +53,14 @@ type Action =
   | { type: "SET_PARENT"; parent: any }
   | { type: "SET_PARENT_LOADING"; loading: boolean }
   | { type: "SET_SERVER_ERROR"; error: unknown }
-  | { type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT"; id: { rubric: string; lang: string } | null }
-  | { type: "SET_LATERAL_PANEL_OPENED"; panelType: typeof DOCUMENT | typeof LINK | undefined };
+  | {
+      type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT";
+      id: { rubric: string; lang: string } | null;
+    }
+  | {
+      type: "SET_LATERAL_PANEL_OPENED";
+      panelType: typeof DOCUMENT | typeof LINK | undefined;
+    };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
@@ -76,30 +81,44 @@ function reducer(state: State, action: Action): State {
 
 export const Component = () => {
   const { t } = useTranslation();
+
   const {
     baseUrl,
     mode,
     disableSectionAnchor,
     parentType: parentTypeProp,
   } = (useLoaderData() as SimsLoaderData) ?? {};
+
   const params = useParams();
-  const { data: organisations } = useOrganizations();
+
+  const { data: organizations } = useOrganizations();
+
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
-  const { codesLists } = useCodesLists(metadataStructure);
+
+  const { codelists } = useCodelists(metadataStructure);
+
   const simsId = mode === UPDATE ? params.id : undefined;
+
   const { isLoading: simsLoading, sims } = useSims(simsId);
+
   const { mutateAsync: saveSimsMutation } = useSaveSims();
+
   const [state, dispatch] = useReducer(reducer, initialState);
+
   const { parent, parentLoading, rubricIdForNewDocument, serverError, lateralPanelOpened } = state;
+
   const { documentStores, setDocumentStores } = useDocumentsList();
+
   const setRubricIdForNewDocument = useCallback(
     (id: { rubric: string; lang: string } | null) =>
       dispatch({ type: "SET_RUBRIC_ID_FOR_NEW_DOCUMENT", id }),
     [],
   );
+
   const goBack = useGoBack();
 
   const idParent = mode === CREATE ? params.idParent : sims && getParentId(sims);
+
   const parentType = mode === CREATE ? parentTypeProp : sims && getParentType(sims);
 
   const saveSims = useCallback(
@@ -166,16 +185,16 @@ export const Component = () => {
       >
         <PageTitleBlock titleLg1={currentSims.labelLg1} titleLg2={currentSims.labelLg2} />
         <EssentialRubricContextProvider value={essentialRubricContext}>
-          <SimsCreation
+          <AdvancedSimsCreation
             parent={parent}
             sims={currentSims}
             metadataStructure={metadataStructure}
-            codesLists={codesLists}
+            codelists={codelists}
             onSubmit={saveSims}
             idParent={idParent}
             goBack={goBack}
-            mode={mode}
-            organisations={organisations}
+            mode={mode as Mode}
+            organizations={organizations}
             parentType={parentType}
             error={serverError}
           />

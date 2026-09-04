@@ -1,9 +1,11 @@
-import { renderHook, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useCreatePhysicalInstance } from "./useCreatePhysicalInstance";
-import { DDIApi } from "../../sdk";
+import { renderHook, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { DDIApi } from "@sdk/index";
+
+import { useCreatePhysicalInstance } from "./useCreatePhysicalInstance";
 
 vi.mock("../../sdk", () => ({
   DDIApi: {

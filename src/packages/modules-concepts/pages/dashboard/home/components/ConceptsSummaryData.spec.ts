@@ -1,6 +1,7 @@
-import { buildData } from "./ConceptsSummary";
 import { MODIFIED, UNPUBLISHED, VALIDATED } from "@model/ValidationState";
+
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
+import { buildData } from "./ConceptsSummary";
 
 const makeConcept = (
   overrides: Partial<ConceptForAdvancedSearch> = {},

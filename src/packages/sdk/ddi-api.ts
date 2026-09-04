@@ -88,14 +88,14 @@ const api = {
       body: JSON.stringify(data),
     },
   ],
-  getPhysicalCodesLists: (agencyId: string, physicalInstanceId: string) => [
+  getPhysicalCodeLists: (agencyId: string, physicalInstanceId: string) => [
     `physical-instance/${agencyId}/${physicalInstanceId}/codeslists`,
   ],
-  getGroupCodesLists: (agencyId: string, groupId: string) => [
+  getGroupCodeLists: (agencyId: string, groupId: string) => [
     `groups/${agencyId}/${groupId}/codes-list`,
   ],
   // Valeurs sentinelles (#1566)
-  getGroupMissingCodesLists: (agencyId: string, groupId: string) => [
+  getGroupMissingCodeLists: (agencyId: string, groupId: string) => [
     `groups/${agencyId}/${groupId}/missing-codes-list`,
   ],
   getGroupMissingValuesRepresentations: (agencyId: string, groupId: string) => [
@@ -106,8 +106,8 @@ const api = {
   ],
   getCodeListUsers: (agencyId: string, id: string) => [`codes-list/${agencyId}/${id}/users`],
   getCategoryUsers: (agencyId: string, id: string) => [`category/${agencyId}/${id}/users`],
-  getMutualizedCodesLists: () => ["mutualized-codes-list"],
-  getMutualizedCodesList: (agencyId: string, id: string) => [
+  getMutualizedCodeLists: () => ["mutualized-codes-list"],
+  getMutualizedCodeList: (agencyId: string, id: string) => [
     `mutualized-codes-list/${agencyId}/${id}`,
     {},
     // Le back renvoie 200 + corps VIDE quand la liste de codes n'existe pas

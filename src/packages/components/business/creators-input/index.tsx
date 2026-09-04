@@ -1,34 +1,28 @@
 import { ComponentProps } from "react";
-import D, { D2 } from "../../i18n";
-import { OrganisationInput, StampsInput } from "../stamps-input/stamps-input";
+import { useTranslation } from "react-i18next";
+
+import { componentsI18n } from "../../i18n";
+import { OrganizationInput, StampsInput } from "../stamps-input/stamps-input";
 
 type CreatorsInputProps = Readonly<
   Omit<ComponentProps<typeof StampsInput>, "labelSingle" | "labelMulti" | "lang"> & {
     lang?: "first" | "default";
-    mode?: "stamp" | "organisation";
+    mode?: "stamp" | "organization";
   }
 >;
 
 export const CreatorsInput = ({ lang = "first", mode = "stamp", ...props }: CreatorsInputProps) => {
-  const Dictionary = lang === "first" ? D : D2;
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
 
-  if (mode === "organisation") {
+  const options = lang === "first" ? undefined : { lng: "en" };
+  const labelSingle = t("creatorsInput.creatorTitle", options);
+  const labelMulti = t("creatorsInput.creatorsTitle", options);
+
+  if (mode === "organization") {
     return (
-      <OrganisationInput
-        labelSingle={Dictionary.creatorsInput.creatorTitle}
-        labelMulti={Dictionary.creatorsInput.creatorsTitle}
-        lang={lang}
-        {...props}
-      />
+      <OrganizationInput labelSingle={labelSingle} labelMulti={labelMulti} lang={lang} {...props} />
     );
   }
 
-  return (
-    <StampsInput
-      labelSingle={Dictionary.creatorsInput.creatorTitle}
-      labelMulti={Dictionary.creatorsInput.creatorsTitle}
-      lang={lang}
-      {...props}
-    />
-  );
+  return <StampsInput labelSingle={labelSingle} labelMulti={labelMulti} lang={lang} {...props} />;
 };

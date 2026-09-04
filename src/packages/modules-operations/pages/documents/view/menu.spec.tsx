@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 
+import { Document } from "@model/operations/document";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { Document } from "../../../../model/operations/document";
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
 describe("Document Visualization Page Menu", () => {

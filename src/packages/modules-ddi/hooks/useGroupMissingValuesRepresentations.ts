@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { DDIApi } from "../../sdk";
+import { DDIApi } from "@sdk/index";
+
 import type { PartialMissingValuesRepresentation } from "../physical-instances/types/api";
 
 /**

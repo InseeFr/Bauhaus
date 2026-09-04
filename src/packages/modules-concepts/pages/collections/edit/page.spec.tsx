@@ -1,13 +1,14 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { Mock, vi } from "vitest";
-import { useNavigate, useParams } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen, waitFor } from "@testing-library/react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Mock, vi } from "vitest";
 
-import { useCollections } from "../../../hooks/useCollections";
-import { useCollection } from "../../../hooks/useCollection";
-import { useConcepts } from "../../../hooks/useConcepts";
-import { useCollectionSave } from "../../../hooks/useCollectionSave";
 import { useTitle } from "@utils/hooks/useTitle";
+
+import { useCollection } from "../../../hooks/useCollection";
+import { useCollections } from "../../../hooks/useCollections";
+import { useCollectionSave } from "../../../hooks/useCollectionSave";
+import { useConcepts } from "../../../hooks/useConcepts";
 import { Component } from "./page";
 
 vi.mock("react-router-dom", () => ({
@@ -41,7 +42,7 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/CollectionEditionCreation", () => ({
-  default: () => <div data-testid="collection-edition-creation">Form</div>,
+  CollectionEditionCreation: () => <div data-testid="collection-edition-creation">Form</div>,
 }));
 
 describe("Edition Container Component", () => {

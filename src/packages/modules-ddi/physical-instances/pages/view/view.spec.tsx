@@ -1,10 +1,11 @@
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Component } from "./view";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { itemsOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
+import { Component } from "./view";
 
 const mockUsePhysicalInstancesData = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
@@ -108,8 +109,8 @@ vi.mock("../../../hooks/useAllMissingValuesRepresentations", () => ({
 vi.mock("../../../hooks/useMmvrUsers", () => ({
   useMmvrUsers: () => ({ data: [], isLoading: false }),
 }));
-vi.mock("../../../hooks/useMutualizedCodesList", () => ({
-  useMutualizedCodesList: () => ({ data: undefined, isLoading: false }),
+vi.mock("../../../hooks/useMutualizedCodeList", () => ({
+  useMutualizedCodeList: () => ({ data: undefined, isLoading: false }),
 }));
 
 vi.mock("../../../hooks/useGroupDetails", () => ({

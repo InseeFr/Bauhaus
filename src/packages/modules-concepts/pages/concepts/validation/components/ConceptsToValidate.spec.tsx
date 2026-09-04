@@ -1,7 +1,7 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 
 import { renderWithRouter } from "../../../../../tests/render";
-import ConceptsToValidate from "./ConceptsToValidate";
+import { ConceptsToValidate } from "./ConceptsToValidate";
 
 const concepts = [
   { id: "c1", label: "Concept sans échéance", valid: null },

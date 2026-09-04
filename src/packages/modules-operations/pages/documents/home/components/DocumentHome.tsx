@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import FilterToggleButtons from "@components/filter-toggle-buttons";
+import { FilterToggleButtons } from "@components/filter-toggle-buttons";
 import { TextInput } from "@components/form/input";
 import { Row } from "@components/layout";
 import { NumberResults } from "@components/number-results";
@@ -11,14 +11,15 @@ import { PageTitle } from "@components/page-title";
 import { Pagination } from "@components/pagination";
 import { List } from "@components/ui/list-group";
 
+import { HomeDocument } from "@model/operations/document";
+
 import { EMPTY_ARRAY, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { HomeDocument } from "../../../../../model/operations/document";
-import { Menu } from "../menu";
-import { BOTH, DOCUMENT, LINK } from "../../../../constants/documentType";
+import { BOTH, DOCUMENT, LINK } from "../../../../../constants/documentType";
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
+import { Menu } from "../menu";
 
 const formatter = (content: HomeDocument, label: keyof typeof content) => {
   const extraInformations = [];

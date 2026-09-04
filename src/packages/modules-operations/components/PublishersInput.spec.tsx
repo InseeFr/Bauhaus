@@ -1,12 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
+
 import { PublishersInput } from "./PublishersInput";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
-        "common.organisation": "Organisation publiante",
+        "common.organization": "Organization publiante",
       };
       return translations[key] ?? key;
     },
@@ -14,15 +15,15 @@ vi.mock("react-i18next", () => ({
 }));
 
 vi.mock("../../components/business/stamps-input/stamps-input", () => ({
-  OrganisationInput: ({ value, onChange, multi, labelSingle, labelMulti }: any) => (
-    <div data-testid="organisation-input">
+  OrganizationInput: ({ value, onChange, multi, labelSingle, labelMulti }: any) => (
+    <div data-testid="organization-input">
       <div data-testid="value">{JSON.stringify(value)}</div>
       <div data-testid="multi">{String(multi)}</div>
       <div data-testid="label-single">{labelSingle}</div>
       <div data-testid="label-multi">{labelMulti}</div>
       <button
         onClick={() =>
-          onChange(["http://bauhaus/organisations/X", "http://bauhaus/organisations/Y"])
+          onChange(["http://bauhaus/organizations/X", "http://bauhaus/organizations/Y"])
         }
       >
         change
@@ -32,19 +33,19 @@ vi.mock("../../components/business/stamps-input/stamps-input", () => ({
 }));
 
 describe("PublishersInput", () => {
-  it("renders OrganisationInput in multi mode and forwards an IRI list as value", () => {
+  it("renders OrganizationInput in multi mode and forwards an IRI list as value", () => {
     const onChange = vi.fn();
     render(
       <PublishersInput
-        value={["http://bauhaus/organisations/A", "http://bauhaus/organisations/B"]}
+        value={["http://bauhaus/organizations/A", "http://bauhaus/organizations/B"]}
         onChange={onChange}
       />,
     );
 
-    expect(screen.getByTestId("organisation-input")).toBeInTheDocument();
+    expect(screen.getByTestId("organization-input")).toBeInTheDocument();
     expect(screen.getByTestId("multi")).toHaveTextContent("true");
     expect(screen.getByTestId("value")).toHaveTextContent(
-      '["http://bauhaus/organisations/A","http://bauhaus/organisations/B"]',
+      '["http://bauhaus/organizations/A","http://bauhaus/organizations/B"]',
     );
   });
 
@@ -55,8 +56,8 @@ describe("PublishersInput", () => {
     screen.getByText("change").click();
 
     expect(onChange).toHaveBeenCalledWith([
-      "http://bauhaus/organisations/X",
-      "http://bauhaus/organisations/Y",
+      "http://bauhaus/organizations/X",
+      "http://bauhaus/organizations/Y",
     ]);
   });
 });

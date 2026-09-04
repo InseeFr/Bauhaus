@@ -1,9 +1,11 @@
-import { renderHook } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { usePublishPhysicalInstance } from "./usePublishPhysicalInstance";
-import { DDIApi } from "../../sdk";
+import { renderHook } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { DDIApi } from "@sdk/index";
+
+import { usePublishPhysicalInstance } from "./usePublishPhysicalInstance";
 
 vi.mock("../../sdk", () => ({
   DDIApi: {
@@ -45,7 +47,7 @@ describe("usePublishPhysicalInstance", () => {
     await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-      queryKey: ["groupCodesLists", "fr.insee", "group-1"],
+      queryKey: ["groupCodeLists", "fr.insee", "group-1"],
     });
   });
 
@@ -57,7 +59,7 @@ describe("usePublishPhysicalInstance", () => {
     await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
 
     expect(invalidateQueriesSpy).not.toHaveBeenCalledWith({
-      queryKey: ["mutualizedCodesLists"],
+      queryKey: ["mutualizedCodeLists"],
     });
   });
 
@@ -108,7 +110,7 @@ describe("usePublishPhysicalInstance", () => {
     await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
-      queryKey: ["physicalCodesLists", "fr.insee", "pi-1"],
+      queryKey: ["physicalCodeLists", "fr.insee", "pi-1"],
     });
   });
 

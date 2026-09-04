@@ -1,8 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import FilterToggleButtons from ".";
-import { BOTH, DOCUMENT, LINK } from "../../modules-operations/constants/documentType";
+import { BOTH, DOCUMENT, LINK } from "../../constants/documentType";
+
+import { FilterToggleButtons } from ".";
 
 describe("FilterToggleButtons Component", () => {
   const mockHandleSelection = vi.fn();

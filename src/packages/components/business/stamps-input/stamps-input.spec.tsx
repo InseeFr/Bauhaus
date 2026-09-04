@@ -1,7 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, Mock } from "vitest";
+
+import { useV2StampsOptions } from "@utils/hooks/stamps";
+
 import { StampsInput } from "./stamps-input";
-import { useV2StampsOptions } from "../../../utils/hooks/stamps";
 
 vi.mock("../../../utils/hooks/stamps", () => ({
   useV2StampsOptions: vi.fn(),

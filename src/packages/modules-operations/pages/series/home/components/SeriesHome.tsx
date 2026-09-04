@@ -6,10 +6,11 @@ import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 import { VerticalMenu } from "@components/vertical-menu";
 
+import { Series } from "@model/Series";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { HasAccess } from "../../../../../auth/components/auth";
-import { Series } from "../../../../../model/Series";
 
 export function SeriesHome({ series }: Readonly<{ series: Series[] }>) {
   const { t } = useTranslation();

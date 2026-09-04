@@ -1,21 +1,31 @@
 import { render, screen } from "@testing-library/react";
 
+import { Indicator } from "@model/operations/indicator";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
-import { Indicator } from "../../../../model/operations/indicator";
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "sims.btnSimsVisu": "Show the report",
-        "sims.btnSimsCreate": "Create the report",
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return {
+        t: (key: string) => {
+          const translations: Record<string, string> = {
+            "sims.btnSimsVisu": "Show the report",
+            "sims.btnSimsCreate": "Create the report",
+          };
+          return translations[key] ?? key;
+        },
       };
-      return translations[key] ?? key;
     },
-  }),
-}));
+  };
+});
 
 describe("Family Home Page Menu", () => {
   afterEach(() => {

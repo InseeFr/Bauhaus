@@ -1,6 +1,7 @@
+import { Rubric } from "@model/Sims";
+
 import { OperationsApi } from "@sdk/operations-api";
 
-import { Rubric } from "../../../../../model/Sims";
 import { DUPLICATE } from "../../constants";
 import { getDefaultSims } from "./getDefaultSims";
 

@@ -1,5 +1,5 @@
-import Modal from "react-modal";
 import { useTranslation } from "react-i18next";
+import Modal from "react-modal";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
@@ -8,7 +8,7 @@ import { CloseIconButton } from "@components/buttons/buttons-with-icons";
 import { isDocument } from "../../../../utils/isDocument";
 
 interface ConfirmationModalTypes {
-  isOpen: true;
+  isOpen: boolean;
   document: any;
   onYes: VoidFunction;
   onNo: VoidFunction;
@@ -21,6 +21,7 @@ export const ConfirmationModal = ({
   onNo,
 }: Readonly<ConfirmationModalTypes>) => {
   const { t } = useTranslation();
+
   const modalButtons = [
     {
       label: t("app.no"),

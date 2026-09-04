@@ -12,5 +12,6 @@ export const formatCodelist = (cl: any) => {
         };
       }, {});
   }
+
   return cl;
 };

@@ -1,26 +1,31 @@
-import D from "../../i18n";
-import { MODIFIED, UNPUBLISHED, VALIDATED } from "../../model/ValidationState";
+import { useTranslation } from "react-i18next";
+
+import { MODIFIED, UNPUBLISHED, VALIDATED } from "@model/ValidationState";
+
+import { appI18n } from "../../i18n";
 
 export type ValidationState = typeof MODIFIED | typeof UNPUBLISHED | typeof VALIDATED;
 
-export { PublicationStatusItem } from "./PublicationStatusItem";
 interface PublicationType {
   object: {
     validationState: ValidationState;
   };
 }
+
 export function PublicationMale({ object }: Readonly<PublicationType>) {
   return <PublicationStatus object={object} />;
 }
 
 export function PublicationFemale({ object }: Readonly<PublicationType>) {
+  const { t } = useTranslation("translation", { i18n: appI18n });
+
   return (
     <PublicationStatus
       object={object}
       dictionary={{
-        Validated: D.validationState.validated.f,
-        Unpublished: D.validationState.unpublished.f,
-        Modified: D.validationState.modified.f,
+        Validated: t("validationState.validated.f"),
+        Unpublished: t("validationState.unpublished.f"),
+        Modified: t("validationState.modified.f"),
       }}
     />
   );
@@ -31,12 +36,16 @@ type PublicationStatusType = {
 } & PublicationType;
 
 function PublicationStatus({
-  dictionary = {
-    Validated: D.validationState.validated.m,
-    Unpublished: D.validationState.unpublished.m,
-    Modified: D.validationState.modified.m,
-  },
+  dictionary,
   object: { validationState = UNPUBLISHED },
 }: Readonly<PublicationStatusType>) {
-  return dictionary[validationState];
+  const { t } = useTranslation("translation", { i18n: appI18n });
+
+  const resolvedDictionary = dictionary ?? {
+    Validated: t("validationState.validated.m"),
+    Unpublished: t("validationState.unpublished.m"),
+    Modified: t("validationState.modified.m"),
+  };
+
+  return resolvedDictionary[validationState];
 }

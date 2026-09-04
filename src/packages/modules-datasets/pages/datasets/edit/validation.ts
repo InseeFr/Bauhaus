@@ -1,5 +1,6 @@
-import i18next from "../../../i18n";
 import { z } from "zod";
+
+import { Dataset } from "@model/Dataset";
 
 import {
   formatValidation,
@@ -8,32 +9,32 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import { Dataset } from "../../../../model/Dataset";
+import { datasetsI18n } from "../../../i18n";
 
 export const validate = ({ catalogRecord, ...otherFields }: Dataset) => {
   const ZodDataset = z.object({
     labelLg1: mandatoryAndNotEmptyTextField(
-      i18next.t("dataset.globalInformation.mainTitle", { lng: "fr" }),
+      datasetsI18n.t("dataset.globalInformation.mainTitle", { lng: "fr" }),
     ),
     labelLg2: mandatoryAndNotEmptyTextField(
-      i18next.t("dataset.globalInformation.mainTitle", { lng: "en" }),
+      datasetsI18n.t("dataset.globalInformation.mainTitle", { lng: "en" }),
     ),
     altIdentifier: z
       .string()
       .regex(/^[a-zA-Z0-9-_]+$/, {
-        error: i18next.t("dataset.internalManagement.altId.error"),
+        error: datasetsI18n.t("dataset.internalManagement.altId.error"),
       })
       .or(z.string().trim().length(0))
       .optional(),
-    creator: mandatoryAndNotEmptySelectField(i18next.t("dataset.internalManagement.creator")),
+    creator: mandatoryAndNotEmptySelectField(datasetsI18n.t("dataset.internalManagement.creator")),
     contributor: mandatoryAndNotEmptyMultiSelectField(
-      i18next.t("dataset.internalManagement.contributors"),
+      datasetsI18n.t("dataset.internalManagement.contributors"),
     ),
     disseminationStatus: mandatoryAndNotEmptySelectField(
-      i18next.t("dataset.internalManagement.disseminationStatus"),
+      datasetsI18n.t("dataset.internalManagement.disseminationStatus"),
     ),
     wasGeneratedIRIs: mandatoryAndNotEmptyMultiSelectField(
-      i18next.t("dataset.internalManagement.generatedBy"),
+      datasetsI18n.t("dataset.internalManagement.generatedBy"),
     ),
   });
 

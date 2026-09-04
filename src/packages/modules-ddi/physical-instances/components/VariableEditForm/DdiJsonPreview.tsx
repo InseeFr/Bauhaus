@@ -1,5 +1,6 @@
 import { Button } from "primereact/button";
 import { useTranslation } from "react-i18next";
+
 import { useHighlight } from "./useHighlight";
 import "./DdiPreview.css";
 

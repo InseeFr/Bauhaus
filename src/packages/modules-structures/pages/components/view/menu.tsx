@@ -3,9 +3,9 @@ import { DeleteButton, ReturnButton, UpdateButton } from "@components/buttons/bu
 import { ValidationButton } from "@components/validationButton";
 
 import { Component } from "@model/structures/Component";
+import { UNPUBLISHED } from "@model/ValidationState";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { UNPUBLISHED } from "../../../../model/ValidationState";
 
 const canBeDeleted = (component: Component) => {
   const withoutStructuresUsingThisComponent =
@@ -15,7 +15,10 @@ const canBeDeleted = (component: Component) => {
 
 interface ViewMenuTypes {
   component: Component;
-  handleUpdate: VoidFunction;
+  // `AbstractButton`'s `action` prop (used by `UpdateButton`/`DeleteButton`) accepts either a
+  // route to navigate to or a callback; `handleUpdate` is a route string when editing navigates
+  // to a dedicated page (see the mutualized component view).
+  handleUpdate: VoidFunction | string;
   publish: VoidFunction;
   handleDelete: VoidFunction;
   handleBack: VoidFunction;

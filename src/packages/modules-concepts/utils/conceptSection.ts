@@ -28,12 +28,16 @@ export const resolveConceptSection = (key?: string | null): ConceptSectionState 
   };
 
   if (!key) return defaults;
+
   if (key === "general" || key === "notes" || key === "links") return { ...defaults, section: key };
+
   if (NOTES.includes(key as NoteRawTitle)) {
     return { ...defaults, section: "notes", note: key as NoteRawTitle };
   }
+
   if (LINK_TYPES.some(({ memberType }) => memberType === key)) {
     return { ...defaults, section: "links", linkType: key };
   }
+
   return defaults;
 };

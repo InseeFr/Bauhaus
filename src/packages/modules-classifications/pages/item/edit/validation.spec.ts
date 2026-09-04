@@ -1,5 +1,5 @@
 vi.mock("../../../i18n", () => ({
-  default: {
+  classificationsI18n: {
     t: (key: string, options?: { lng?: string; length?: number }) => {
       const translations: Record<string, Record<string, string>> = {
         fr: {

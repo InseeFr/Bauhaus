@@ -1,7 +1,7 @@
-import { render, screen, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 import { AppContextProvider } from "../../../../application/app-context";
 
@@ -51,9 +51,18 @@ vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("@utils/hooks/useGoBack", () => ({ useGoBack: () => vi.fn() }));
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return { t: (key: string) => key };
+    },
+  };
+});
 
 const editingDatasetProbe = ({ editingDataset }: { editingDataset: unknown }) => (
   <div data-testid="editing-dataset">{JSON.stringify(editingDataset)}</div>

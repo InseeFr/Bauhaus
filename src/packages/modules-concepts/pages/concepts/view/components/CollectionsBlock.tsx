@@ -1,11 +1,14 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+
 import { Row } from "@components/layout";
-import { Note } from "@components/note";
-import { useCollections } from "../../../../hooks/useCollections";
-import { List } from "@components/ui/list";
 import { Link } from "@components/link";
-import { useTranslation } from "@utils/hooks/useTranslation";
+import { Note } from "@components/note";
+import { List } from "@components/ui/list";
+
 import { PartialCollection } from "@model/concepts/collection";
+
+import { useCollections } from "../../../../hooks/useCollections";
 
 export const CollectionsBlock = ({
   collectionsIds = [],
@@ -13,6 +16,7 @@ export const CollectionsBlock = ({
   collectionsIds?: string[];
 }>) => {
   const { data } = useCollections();
+
   const { t } = useTranslation();
 
   const collectionsMap = useMemo(() => new Map((data ?? []).map((c) => [c.id, c])), [data]);

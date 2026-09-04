@@ -1,8 +1,9 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 
+import { ConceptNotes } from "@model/concepts/concept";
+
 import { BROADER, CLOSE_MATCH, NARROWER, NONE, RELATED } from "@sdk/constants";
 
-import { ConceptNotes } from "../../../../../model/concepts/concept";
 import { renderWithRouter } from "../../../../../tests/render";
 import { emptyConceptNotes } from "../../../../utils/emptyConceptNotes";
 import { ConceptSummary } from "./ConceptSummary";

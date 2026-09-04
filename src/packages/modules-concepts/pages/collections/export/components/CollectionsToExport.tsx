@@ -2,11 +2,11 @@ import { useTranslation } from "react-i18next";
 
 import { Picker } from "@components/picker-page";
 
-import { useCollectionExporter } from "@utils/hooks/collections";
-
 import { CollectionExportFormat } from "@model/concepts/collection";
 
-import ExportButtons from "../../../../components/ExportButtons";
+import { useCollectionExporter } from "@utils/hooks/collections";
+
+import { ExportButtons } from "../../../../components/ExportButtons";
 
 interface CollectionItem {
   id: string;
@@ -17,8 +17,9 @@ interface CollectionsToExportProps {
   collections: CollectionItem[];
 }
 
-const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>) => {
+export const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>) => {
   const { t } = useTranslation();
+
   const { mutate: exportCollection } = useCollectionExporter();
 
   return (
@@ -43,5 +44,3 @@ const CollectionsToExport = ({ collections }: Readonly<CollectionsToExportProps>
     />
   );
 };
-
-export default CollectionsToExport;

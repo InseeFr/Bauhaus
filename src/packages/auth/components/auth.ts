@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 
-import { MODULE, Privilege, PRIVILEGE, usePrivileges, useUserStamps } from "@utils/hooks/users";
+import { MODULE, Privilege, PRIVILEGE } from "@utils/hooks/rbac-constants";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
 import { AppName } from "../../application/app-context";
 
@@ -20,6 +21,7 @@ export const hasAccessToModule = (module: AppName, privileges: Privilege[] | und
   };
 
   const applicationPrefix = modulePrefixMap[module];
+
   if (!applicationPrefix) {
     return false;
   }
@@ -45,6 +47,7 @@ interface UserStamp {
 
 const findPrivilegeForModule = (privileges: Privilege[], module: MODULE, privilege: PRIVILEGE) => {
   const currentModule = privileges.find((d) => d.application === module);
+
   return currentModule?.privileges.find((p) => p.privilege === privilege);
 };
 
@@ -63,10 +66,11 @@ const hasStampAccess = (
     }
     return userStamps.some((userStamp) => complementaryCheck && check(userStamp.stamp));
   }
+
   return userStamps.some(
     (userStamp) =>
       // allowedStamps peut contenir soit le stamp court, soit une URI se
-      // terminant par ce stamp (ex. .../organisations/insee/DG75-L201).
+      // terminant par ce stamp (ex. .../organizations/insee/DG75-L201).
       allowedStamps.some((allowed) => allowed.endsWith(userStamp.stamp)) &&
       complementaryCheck &&
       (check ? check(userStamp.stamp) : true),
@@ -83,7 +87,9 @@ export const useAuthorizationGuard = ({
   const stamps = Array.isArray(stampsProps) ? stampsProps : [stampsProps];
 
   const { privileges } = usePrivileges();
+
   const { data: userStamps = [] } = useUserStamps();
+
   if (!privileges) {
     return false;
   }
@@ -129,5 +135,6 @@ export const HasAccess = ({
   if (!isAuthorized) {
     return null;
   }
+
   return children;
 };

@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Row } from "@components/layout";
 import { Loading } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
+import { IndicatorsList } from "@model/operations/indicator";
+
 import { OperationsApi } from "@sdk/operations-api";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { useTranslation } from "react-i18next";
-
-import { IndicatorsList } from "../../../../model/operations/indicator";
 import { Menu } from "./menu";
 
 export const Component = () => {

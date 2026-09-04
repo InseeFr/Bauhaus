@@ -1,13 +1,14 @@
+import { useTranslation } from "react-i18next";
+
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
+
+import { Operation } from "@model/Operation";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { useTranslation } from "react-i18next";
-
-import { Operation } from "../../../../../model/Operation";
 import { RelationsView } from "../../../../components/RelationsView";
 
 interface OperationsOperationVisualizationTypes {

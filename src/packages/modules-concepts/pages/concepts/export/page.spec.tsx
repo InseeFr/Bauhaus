@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { Mock, vi } from "vitest";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
+import { Mock, vi } from "vitest";
 
-import i18n from "../../../i18n";
+import { conceptsI18n } from "../../../i18n";
 import { Component } from "./page";
 
 vi.mock("../../../hooks/useConceptExporter", () => ({
@@ -19,7 +19,7 @@ vi.mock("../../../../utils/hooks/useTitle", () => ({
 }));
 
 vi.mock("../../../components/ExportButtons", () => ({
-  default: ({
+  ExportButtons: ({
     disabled,
     exportHandler,
   }: {
@@ -38,13 +38,14 @@ vi.mock("../../../components/ExportButtons", () => ({
   ),
 }));
 
+import { useTitle } from "@utils/hooks/useTitle";
+
 import { useConceptExporter } from "../../../hooks/useConceptExporter";
 import { useConcepts } from "../../../hooks/useConcepts";
-import { useTitle } from "../../../../utils/hooks/useTitle";
 
 const renderComponent = () => {
   return render(
-    <I18nextProvider i18n={i18n}>
+    <I18nextProvider i18n={conceptsI18n}>
       <MemoryRouter>
         <Component />
       </MemoryRouter>

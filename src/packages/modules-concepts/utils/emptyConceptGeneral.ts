@@ -1,4 +1,4 @@
-import { buildEmpty } from "../../utils/build-general-proptypes";
+import { buildEmpty } from "@utils/build-general-proptypes";
 
 import { conceptGeneralFieldsConfig } from "./conceptGeneralFieldsConfig";
 

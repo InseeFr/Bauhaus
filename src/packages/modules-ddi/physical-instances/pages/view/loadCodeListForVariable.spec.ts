@@ -1,12 +1,14 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient } from "@tanstack/react-query";
-import { loadCodeListForVariable } from "./loadCodeListForVariable";
-import { DDIApi } from "../../../../sdk";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { DDIApi } from "@sdk/index";
+
 import { envelope } from "../../types/ddi4Items.testing";
+import { loadCodeListForVariable } from "./loadCodeListForVariable";
 
 vi.mock("../../../../sdk", () => ({
   DDIApi: {
-    getMutualizedCodesList: vi.fn(),
+    getMutualizedCodeList: vi.fn(),
   },
 }));
 
@@ -18,7 +20,7 @@ describe("loadCodeListForVariable", () => {
   });
 
   it("fetches the CodeList by its CodeListReference and returns matching codeList + categories", async () => {
-    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue(
+    vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(
       envelope({
         CodeList: [
           {
@@ -48,7 +50,7 @@ describe("loadCodeListForVariable", () => {
       CodeListReference: { Agency: "fr.insee", ID: "cl-1", Version: "1" },
     } as any);
 
-    expect(DDIApi.getMutualizedCodesList).toHaveBeenCalledWith("fr.insee", "cl-1");
+    expect(DDIApi.getMutualizedCodeList).toHaveBeenCalledWith("fr.insee", "cl-1");
     expect(result.codeList?.ID).toBe("cl-1");
     const catIds = (result.categories ?? []).map((c) => c.ID).sort();
     expect(catIds).toEqual(["cat-1", "cat-2"]);
@@ -60,19 +62,19 @@ describe("loadCodeListForVariable", () => {
     } as any);
 
     expect(result).toEqual({});
-    expect(DDIApi.getMutualizedCodesList).not.toHaveBeenCalled();
+    expect(DDIApi.getMutualizedCodeList).not.toHaveBeenCalled();
   });
 
   it("flags `missing` when the referenced CodeList does not exist", async () => {
     // Le back renvoie 200 + corps null (ou une réponse sans la CL demandée)
     // quand la liste de codes référencée n'existe pas.
-    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue(null as any);
+    vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(null as any);
 
     const result = await loadCodeListForVariable(newQueryClient(), {
       CodeListReference: { Agency: "fr.insee", ID: "cl-absente", Version: "1" },
     } as any);
 
-    expect(DDIApi.getMutualizedCodesList).toHaveBeenCalledWith("fr.insee", "cl-absente");
+    expect(DDIApi.getMutualizedCodeList).toHaveBeenCalledWith("fr.insee", "cl-absente");
     expect(result.codeList).toBeUndefined();
     expect(result.missing).toBe(true);
   });

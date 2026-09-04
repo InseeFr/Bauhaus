@@ -1,14 +1,16 @@
 import { screen } from "@testing-library/react";
-import { Mock, vi } from "vitest";
 import { useNavigate, useParams } from "react-router-dom";
+import { Mock, vi } from "vitest";
 
-import { ConceptsApi } from "../../../../sdk";
+import { ConceptsApi } from "@sdk/index";
+
+import { useTitle } from "@utils/hooks/useTitle";
+
 import { useAppContext } from "../../../../application/app-context";
-import { useTitle } from "../../../../utils/hooks/useTitle";
+import { renderWithRouter } from "../../../../tests/render";
 import { useConcept } from "../../../hooks/useConcept";
 import { useConcepts } from "../../../hooks/useConcepts";
 import { useConceptSave } from "../../../hooks/useConceptSave";
-import { renderWithRouter } from "../../../../tests/render";
 import { Component } from "./page";
 
 vi.mock("react-router-dom", async () => {
@@ -53,7 +55,7 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/ConceptEditionCreation", () => ({
-  default: ({ creation, title }: { creation: boolean; title: string }) => (
+  ConceptEditionCreation: ({ creation, title }: { creation: boolean; title: string }) => (
     <div data-testid="concept-edition-creation">
       <span data-testid="is-creation">{String(creation)}</span>
       <span data-testid="title">{title}</span>

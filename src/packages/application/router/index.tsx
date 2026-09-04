@@ -1,11 +1,14 @@
 import { PropsWithChildren } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useOidc } from "../../auth/create-oidc";
-import D from "../../i18n";
+import { appI18n } from "../../i18n";
 import { useAppContext } from "../app-context";
-import Routes from "./routes";
+import { Routes } from "./routes";
 
 export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
+  const { t } = useTranslation("translation", { i18n: appI18n });
+
   const { isUserLoggedIn, logout } = useOidc();
 
   const logoutAndRemoveFromStorage = () => {
@@ -18,15 +21,15 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
   };
 
   const { version } = useAppContext();
+
   const footer = `${import.meta.env.VITE_NAME} - IHM ${import.meta.env.VITE_VERSION} - API ${version}`;
 
   return (
     <>
       <div id="root-app">{children}</div>
-
       <footer className="text-center">
         <button type="button" onClick={logoutAndRemoveFromStorage} className="btn btn-primary">
-          {D.authentication.logout}
+          {t("auth.logout")}
         </button>
         <div>
           <div id="bauhausVersion">
@@ -45,8 +48,7 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
     </>
   );
 };
-const Root = () => {
+
+export const Root = () => {
   return <Routes />;
 };
-
-export default Root;

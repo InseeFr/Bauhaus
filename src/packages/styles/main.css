@@ -2,8 +2,6 @@
 * we tried to respect the ITCSS architecture for our stylessheets
 */
 
-/* Ordre repris tel quel de la version Sass : `@import "settings.css"` y était
-   remonté en tête par le compilateur, avant les partials agrégés par `@use`. */
 @import url("settings.css");
 @import url("generic.css");
 @import url("elements.css");

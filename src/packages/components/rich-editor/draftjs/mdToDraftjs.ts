@@ -10,6 +10,7 @@ const defaultInlineStyles = {
     symbol: "*",
   },
 };
+
 export const REGEXPS = [
   {
     regexp: /((bg)?color-rgb\(\d*,\d*,\d*\))/,
@@ -30,8 +31,11 @@ const defaultBlockStyles = {
 
 const getBlockStyleForMd = (node: any, blockStyles: any) => {
   const style = node.type;
+
   const ordered = node.ordered;
+
   const depth = node.depth;
+
   if (style === "List" && ordered) {
     return "ordered-list-item";
   } else if (style === "Header") {
@@ -46,11 +50,13 @@ const getBlockStyleForMd = (node: any, blockStyles: any) => {
   } else if (node.type === "Paragraph" && node.raw && node.raw.match(/^\[\[\s\S+\s.*\S+\s\]\]/)) {
     return "atomic";
   }
+
   return blockStyles[style];
 };
 
 const joinCodeBlocks = (splitMd: string[]): any => {
   const opening = splitMd.indexOf("```");
+
   const closing = splitMd.indexOf("```", opening + 1);
 
   if (opening >= 0 && closing >= 0) {
@@ -75,17 +81,23 @@ const splitMdBlocks = (md: string) => {
   // one syntax where there's an block level opening
   // and closing symbol with content in the middle.
   const splitMdWithCodeBlocks = joinCodeBlocks(splitMd);
+
   return splitMdWithCodeBlocks;
 };
 
 const parseMdLine = (line: any, existingEntities: any, extraStyles: any = {}) => {
   const inlineStyles = { ...defaultInlineStyles, ...extraStyles.inlineStyles };
+
   const blockStyles = { ...defaultBlockStyles, ...extraStyles.blockStyles };
 
   const astString: any = parse(line);
+
   let text = "";
+
   const inlineStyleRanges: any[] = [];
+
   const entityRanges: any[] = [];
+
   const entityMap = existingEntities;
 
   const addInlineStyleRange = (offset: any, length: any, style: any) => {
@@ -134,10 +146,8 @@ const parseMdLine = (line: any, existingEntities: any, extraStyles: any = {}) =>
 
   const addVideo = (child: any) => {
     const string = child.raw;
-
     // RegEx: [[ embed url=<anything> ]]
     const url = string.match(/^\[\[\s(?:embed)\s(?:url=(\S+))\s\]\]/)[1];
-
     const entityKey = Object.keys(entityMap).length;
     entityMap[entityKey] = {
       type: "draft-js-video-plugin-video",
@@ -172,6 +182,7 @@ const parseMdLine = (line: any, existingEntities: any, extraStyles: any = {}) =>
     }
 
     const shouldManagerSubChildren = !videoShortcodeRegEx.test(child.raw);
+
     if (shouldManagerSubChildren && child.children) {
       if (child.type === "LinkReference") {
         text += "[";
@@ -184,7 +195,6 @@ const parseMdLine = (line: any, existingEntities: any, extraStyles: any = {}) =>
       child.children.forEach((grandChild: any) => {
         parseChildren(grandChild, newStyle);
       });
-
       if (child.type === "LinkReference") {
         text += "]";
       }
@@ -195,19 +205,16 @@ const parseMdLine = (line: any, existingEntities: any, extraStyles: any = {}) =>
       if (inlineStyles[child.type]) {
         addInlineStyleRange(text.length, child.value.length, inlineStyles[child.type].type);
       }
-
       if (child.type === "Str" || child.type === "LinkReference") {
         const value = child.type === "LinkReference" ? child.raw : child.value;
         let i = 0;
         let startIndex = null;
         let finalText = "";
-
         const REGEXPS = [
           {
             regexp: /^((bg)?color-rgb\(\d*,\d*,\d*\))/,
           },
         ];
-
         let removedSymbolLength = 0;
         const regexpPredicate = (reg: any) => reg.regexp.test(value.substr(i));
         while (i < value.length) {
@@ -225,17 +232,14 @@ const parseMdLine = (line: any, existingEntities: any, extraStyles: any = {}) =>
                 regexpConfig.type || symbol,
               );
               removedSymbolLength += symbol.length * 2;
-
               startIndex = null;
               i += symbol.length - 1;
             }
           } else {
             finalText += value[i];
           }
-
           i++;
         }
-
         text = `${text}${finalText}`;
       } else {
         text = `${text}${
@@ -270,7 +274,9 @@ const parseMdLine = (line: any, existingEntities: any, extraStyles: any = {}) =>
 
 export function mdToDraftjs(mdString: any, extraStyles?: any) {
   const paragraphs: any[] = splitMdBlocks(mdString);
+
   const blocks: any[] = [];
+
   let entityMap = {};
   paragraphs.forEach((paragraph: any) => {
     const result = parseMdLine(paragraph, entityMap, extraStyles);
@@ -293,6 +299,7 @@ export function mdToDraftjs(mdString: any, extraStyles?: any) {
       type: "",
     };
   }
+
   return {
     blocks,
     entityMap,

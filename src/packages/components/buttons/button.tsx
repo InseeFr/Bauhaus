@@ -13,6 +13,7 @@ type ButtonTypes = {
   classes?: string[];
   externalLink?: boolean;
 } & ComponentProps<"button">;
+
 export const Button = ({
   action,
   label,
@@ -24,7 +25,9 @@ export const Button = ({
   ...rest
 }: Readonly<PropsWithChildren<ButtonTypes>>) => {
   const content = label || children;
+
   const className = `btn bauhaus-btn btn-lg col-md-12 ${classes.join(" ")}`;
+
   let button;
   if (typeof action === "string") {
     if (externalLink) {
@@ -48,6 +51,7 @@ export const Button = ({
       </button>
     );
   }
+
   if (!wrapper) {
     return button;
   }

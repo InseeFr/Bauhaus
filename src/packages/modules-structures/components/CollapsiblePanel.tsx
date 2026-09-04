@@ -1,6 +1,7 @@
 import { useState, useCallback, PropsWithChildren } from "react";
 
 import { Note } from "@components/note";
+
 import { cx } from "@utils/cx";
 
 interface CollapsiblePanelTypes {

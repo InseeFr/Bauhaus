@@ -1,7 +1,8 @@
-import { DatasetsApi } from "@sdk/datasets-api";
 import { useQuery } from "@tanstack/react-query";
 
-export const useDataset = (id: string) => {
+import { DatasetsApi } from "@sdk/datasets-api";
+
+export const useDataset = (id: string | undefined) => {
   return useQuery({
     enabled: !!id,
     queryKey: ["datasets", id],

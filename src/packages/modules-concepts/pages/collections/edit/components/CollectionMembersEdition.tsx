@@ -1,7 +1,6 @@
+import { PickList } from "primereact/picklist";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
-import { PickList } from "primereact/picklist";
 
 import "../../../../i18n";
 
@@ -12,6 +11,7 @@ interface ConceptItem {
 
 const notMembers = (conceptList: ConceptItem[], members: ConceptItem[]): ConceptItem[] => {
   const memberIds = new Set(members.map(({ id }) => id));
+
   return conceptList.filter(({ id }) => !memberIds.has(id));
 };
 
@@ -21,15 +21,17 @@ interface CollectionMembersEditionProps {
   handleChange: (members: ConceptItem[]) => void;
 }
 
-const CollectionMembersEdition = ({
+export const CollectionMembersEdition = ({
   conceptList,
   members,
   handleChange,
 }: Readonly<CollectionMembersEditionProps>) => {
   const { t } = useTranslation();
+
   const [availableConcepts, setAvailableConcepts] = useState<ConceptItem[]>(() =>
     notMembers(conceptList, members),
   );
+
   const [selectedConcepts, setSelectedConcepts] = useState<ConceptItem[]>(() => members);
 
   return (
@@ -46,8 +48,12 @@ const CollectionMembersEdition = ({
         handleChange(selected);
       }}
       itemTemplate={(concept: ConceptItem) => concept.label}
-      sourceHeader={t("collection.availableConceptsPanelTitle", { size: availableConcepts.length })}
-      targetHeader={t("collection.membersPanelTitle", { size: selectedConcepts.length })}
+      sourceHeader={t("collection.availableConceptsPanelTitle", {
+        size: availableConcepts.length,
+      })}
+      targetHeader={t("collection.membersPanelTitle", {
+        size: selectedConcepts.length,
+      })}
       filter
       filterBy="label"
       sourceFilterPlaceholder={t("common.searchLabelPlaceholder")}
@@ -59,5 +65,3 @@ const CollectionMembersEdition = ({
     />
   );
 };
-
-export default CollectionMembersEdition;

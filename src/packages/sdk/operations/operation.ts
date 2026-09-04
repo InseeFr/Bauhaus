@@ -1,6 +1,5 @@
-const api = {
+export const operationsApi = {
   getOperationsList: () => ["operations"],
-
   getOperationsSearchList: () => ["operations/advanced-search"],
   getOperation: (id: string) => [`operation/${id}`],
   publishOperation: (operation: any) => [
@@ -31,5 +30,3 @@ const api = {
   getOperationsWithoutReport: (idSerie: string) => [`series/${idSerie}/operationsWithoutReport`],
   getOperationsWithReport: (idSerie: string) => [`series/${idSerie}/operationsWithReport`],
 } as any;
-
-export default api;

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { ErrorBloc } from "@components/errors-bloc";
+
 import { useDocumentsStoreContext } from "../../hooks/useDocumentsStoreContext";
 
 /**
@@ -26,18 +27,26 @@ export const MissingDocumentsErrorBloc = ({
   translationKey?: string;
 }>) => {
   const { t } = useTranslation();
+
   const { documentStores: documentStoresObject } = useDocumentsStoreContext();
+
   const documentStores = documentStoresObject ? Object.values(documentStoresObject).flat() : [];
 
   if (!missingDocuments || missingDocuments?.size === 0) return null;
+
   if (documentStores.length === 0) return null;
 
   const documentStoresById = new Map(documentStores.map((d) => [d.id, d]));
+
   const documentNames = Array.from(missingDocuments).map(
     (id) => documentStoresById.get(id)?.labelLg1,
   );
 
   return (
-    <ErrorBloc error={t(translationKey, { documentNames: documentNames.join("</li><li>") })} />
+    <ErrorBloc
+      error={t(translationKey, {
+        documentNames: documentNames.join("</li><li>"),
+      })}
+    />
   );
 };

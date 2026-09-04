@@ -1,9 +1,12 @@
-import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
-import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useClassificationSeries } from "./useClassificationSeries";
-import { ClassificationsApi } from "@sdk/classification";
+import { renderHook, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
+
 import type { PartialClassificationSerie } from "@model/Classification";
+
+import { ClassificationsApi } from "@sdk/classification";
+
+import { useClassificationSeries } from "./useClassificationSeries";
 
 vi.mock("@sdk/classification", () => ({
   ClassificationsApi: {

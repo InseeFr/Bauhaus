@@ -1,6 +1,6 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
 
 import { Loading, Publishing } from "@components/loading";
 
@@ -9,11 +9,13 @@ import { ConceptsApi } from "@sdk/index";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { useCollection } from "../../../hooks/useCollection";
-import CollectionVisualization from "./components/CollectionVisualization";
+import { CollectionVisualization } from "./components/CollectionVisualization";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const [saving, setSaving] = useState(false);
+
   const queryClient = useQueryClient();
 
   const [secondLang] = useSecondLang();
@@ -37,6 +39,7 @@ export const Component = () => {
   if (saving) {
     return <Publishing />;
   }
+
   const { general, members } = collection;
 
   return (

@@ -1,8 +1,9 @@
 import { screen } from "@testing-library/react";
 
+import { ValidationState } from "@components/status";
+
 import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsFamilyVisualization } from "./OperationsFamilyVisualization";
-import { ValidationState } from "../../../../../components/status";
 
 vi.mock("react-i18next", async (importOriginal) => {
   const actual = await importOriginal<typeof import("react-i18next")>();

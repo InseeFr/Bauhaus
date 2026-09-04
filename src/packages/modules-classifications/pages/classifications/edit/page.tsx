@@ -1,30 +1,30 @@
 import { useEffect, useReducer } from "react";
-import { Navigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router-dom";
 
+import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
+import { CreatorsInput } from "@components/business/creators-input";
+import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInputBlock, UrlInputBlock } from "@components/form/input";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Loading, Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
+import { MDEditor } from "@components/rich-editor/react-md-editor";
 import { Select } from "@components/select-rmes";
 
 import { useTitle } from "@utils/hooks/useTitle";
+import { transformModelToSelectOptions } from "@utils/transformer";
 
-import { MDEditor } from "@components/rich-editor/react-md-editor";
-import { transformModelToSelectOptions } from "../../../../utils/transformer";
 import { useClassification } from "../../../hooks/useClassification";
 import { useClassificationSeries } from "../../../hooks/useClassificationSeries";
 import { useUpdateClassification } from "../../../hooks/useUpdateClassification";
+import { Classification } from "../../../types";
 import { ClassificationSelect } from "./components/ClassificationSelect";
 import { Menu } from "./menu";
-import { validate } from "./validation";
-import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
-import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
-import { Classification } from "../../../types";
 import { reducer, initialState } from "./page.reducer";
-import { CreatorsInput } from "@components/business/creators-input";
+import { validate } from "./validation";
 
 export const Component = () => {
   const { t } = useTranslation();
@@ -188,14 +188,14 @@ export const Component = () => {
         </div>
         <div className="form-group">
           <CreatorsInput
-            mode="organisation"
+            mode="organization"
             value={general.creator}
             onChange={(creator) => setGeneral({ creator })}
           />
         </div>
         <div className="form-group">
           <ContributorsInput
-            mode="organisation"
+            mode="organization"
             value={general.contributor}
             onChange={(contributor) => setGeneral({ contributor })}
           />

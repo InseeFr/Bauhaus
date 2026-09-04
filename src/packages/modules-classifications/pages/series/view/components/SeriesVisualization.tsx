@@ -6,10 +6,10 @@ import { PageTitle } from "@components/page-title";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { SeriesControls } from "./SeriesControls";
 import { General } from "./General";
 import { Members } from "./Members";
 import { Notes } from "./Notes";
+import { SeriesControls } from "./SeriesControls";
 
 interface SeriesGeneral {
   prefLabelLg1: string;

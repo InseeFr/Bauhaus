@@ -24,4 +24,5 @@ const apiConfig = {
     (res: Response) => res.text(),
   ],
 };
-export const GeographieApi = buildApi("geo", apiConfig);
+
+export const GeographieApi = buildApi("geo", apiConfig) as any;

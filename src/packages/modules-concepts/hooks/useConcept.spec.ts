@@ -1,11 +1,11 @@
-import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { renderHook, waitFor } from "@testing-library/react";
 import { createElement, PropsWithChildren } from "react";
 import { vi } from "vitest";
 
-import { ConceptsApi } from "../../sdk";
-import { useAppContext } from "../../application/app-context";
+import { ConceptsApi } from "@sdk/index";
 
+import { useAppContext } from "../../application/app-context";
 import { useConcept } from "./useConcept";
 
 vi.mock("../../sdk", () => ({

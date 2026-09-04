@@ -1,18 +1,19 @@
 import { useReducer, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 import { PageTitle } from "@components/page-title";
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { Component as StructureComponent } from "@model/structures/Component";
+
 import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 
-import { Component as StructureComponent } from "../../../../model/structures/Component";
-import { useFormattedCodeList } from "../../../hooks/useFormattedCodeList";
 import { ComponentDetailEdit } from "../../../components/ComponentDetailEdit";
+import { useFormattedCodelist } from "../../../hooks/useFormattedCodelist";
 
 type EditContainerState = {
   loading: boolean;
@@ -85,7 +86,7 @@ export const Component = (props: any) => {
 
   const type = urlParams.get("type");
 
-  const { data: codesLists = [] } = useFormattedCodeList();
+  const { data: codelists = [] } = useFormattedCodelist();
 
   const [state, dispatch] = useReducer(editContainerReducer, initialState);
   const { loading, saving, component, concepts, serverSideError, attributes } = state;
@@ -132,7 +133,7 @@ export const Component = (props: any) => {
       <ComponentDetailEdit
         {...props}
         col={2}
-        codesLists={codesLists}
+        codelists={codelists}
         component={component}
         concepts={concepts}
         handleBack={handleBack}

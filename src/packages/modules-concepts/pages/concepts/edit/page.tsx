@@ -1,35 +1,43 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 
+import { Link } from "@model/concepts/concept";
+
 import { CLOSE_MATCH } from "@sdk/constants";
 
+import { useTitle } from "@utils/hooks/useTitle";
+import { useUrlSection } from "@utils/hooks/useUrlSection";
+
 import { useAppContext } from "../../../../application/app-context";
-import { Link } from "../../../../model/concepts/concept";
-import { useTitle } from "../../../../utils/hooks/useTitle";
-import { useUrlSection } from "../../../../utils/hooks/useUrlSection";
 import { useConcept } from "../../../hooks/useConcept";
 import { useConcepts } from "../../../hooks/useConcepts";
 import { useConceptSave } from "../../../hooks/useConceptSave";
 import { mergeWithAllConcepts } from "../../../utils/mergeWithAllConcepts";
-import ConceptEditionCreation from "./components/ConceptEditionCreation";
+import { ConceptEditionCreation } from "./components/ConceptEditionCreation";
 import { ConceptWithLink } from "./components/LinksEdition";
 
 export const Component = () => {
   const { t } = useTranslation();
+
   const { id } = useParams<{ id: string }>();
+
   const isCreation = !id;
 
   const { properties } = useAppContext();
+
   const maxLengthScopeNote = Number(properties.maxLengthScopeNote);
 
   const { concepts, isLoading: isLoadingConcepts } = useConcepts();
+
   const { data: concept, isLoading: isLoadingConcept } = useConcept(id);
 
   const { save, isSaving } = useConceptSave(id);
+
   const [submitting, setSubmitting] = useState(false);
+
   const [section, setSection] = useUrlSection("general");
 
   useTitle(t("concept.title"), concept?.general?.prefLabelLg1);

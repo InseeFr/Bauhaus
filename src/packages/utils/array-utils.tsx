@@ -10,6 +10,7 @@ export const EMPTY_ARRAY: any[] = [];
  */
 export const convertToArrayIfDefined = (value: string | string[]): string[] | undefined => {
   if (!value) return;
+
   return Array.isArray(value) ? value : [value];
 };
 
@@ -41,6 +42,7 @@ export const sortArray =
 
   <T,>(arr: T[], desc = false): T[] => {
     const order = desc ? 1 : -1;
+
     return [...arr].sort((a: any, b: any) => {
       const aUp = normalize(a[key]);
       const bUp = normalize(b[key]);
@@ -57,6 +59,7 @@ export const nbResults = (array: unknown[], many?: string, one?: string) =>
 
 export const filterKeyDeburr = (keys?: any[]) => (rawStr: string) => {
   const str = normalize(rawStr);
+
   if (!str) {
     return () => true;
   }
@@ -68,7 +71,9 @@ export const filterKeyDeburr = (keys?: any[]) => (rawStr: string) => {
       }
       return item[key];
     }
+
     const [first, ...rest] = key.split(".");
+
     return getValue(item[first], rest.join("."));
   }
 
@@ -79,11 +84,14 @@ export const filterKeyDeburr = (keys?: any[]) => (rawStr: string) => {
 
     for (const key of keysToCheck) {
       const value = getValue(item, key);
+
       const formattedValue = Array.isArray(value) ? value.join(",") : value;
+
       if (formattedValue && normalize(formattedValue).includes(str)) {
         return true;
       }
     }
+
     return false;
   };
 };
@@ -104,5 +112,6 @@ export const range = (start: number, end: number) =>
 
 export const filterDeburr = (rawStr: string) => {
   const str = deburr(rawStr).toLocaleLowerCase();
+
   return (item: string) => deburr(item).toLocaleLowerCase().includes(str);
 };

@@ -1,21 +1,22 @@
 import { useTranslation } from "react-i18next";
 
+import { Organization, Organizations } from "@components/business/organizations/organizations";
 import { CodeDisplay } from "@components/code-display";
 import { ConditionalDisplay } from "@components/data/conditional-display";
-import { Organisation, Organisations } from "@components/business/organisations/organisations";
 import { Row } from "@components/layout";
-import { List } from "@components/ui/list";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
+import { List } from "@components/ui/list";
+
+import { Dataset } from "@model/Dataset";
 
 import { stringToDate } from "@utils/date-utils";
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 import { useOrganizations } from "@utils/hooks/organizations";
 
-import { Dataset } from "../../../../../model/Dataset";
 import { CL_ACCESS_RIGHTS, CL_CONF_STATUS, CL_FREQ } from "../../../../../constants/code-lists";
-import { WasGeneratedByBlock } from "./WasGeneratedByBlock";
 import { useThemes } from "../../../../hooks/useThemes";
+import { WasGeneratedByBlock } from "./WasGeneratedByBlock";
 
 interface GlobalInformationBlockTypes {
   dataset: Dataset;
@@ -25,13 +26,14 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
   const { t } = useTranslation();
 
   const { data: themesOptions = [] } = useThemes();
-  const { data: organisations } = useOrganizations();
 
-  const clAccessRights = useCodesList(CL_ACCESS_RIGHTS);
-  const clFreq = useCodesList(CL_FREQ);
-  const clConfStatus = useCodesList(CL_CONF_STATUS);
+  const { data: organizations } = useOrganizations();
 
-  if (!organisations) {
+  const clAccessRights = useCodelist(CL_ACCESS_RIGHTS);
+  const clFreq = useCodelist(CL_FREQ);
+  const clConfStatus = useCodelist(CL_CONF_STATUS);
+
+  if (!organizations) {
     return null;
   }
 
@@ -61,20 +63,20 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
             {dataset.accessRights && (
               <li>
                 {t("dataset.internalManagement.accessRights")} :{" "}
-                <CodeDisplay codesList={clAccessRights} value={dataset.accessRights}></CodeDisplay>
+                <CodeDisplay codelist={clAccessRights} value={dataset.accessRights}></CodeDisplay>
               </li>
             )}
             {dataset.accrualPeriodicity && (
               <li>
                 {t("dataset.globalInformation.updateFrequency")} :{" "}
-                <CodeDisplay codesList={clFreq} value={dataset.accrualPeriodicity} />
+                <CodeDisplay codelist={clFreq} value={dataset.accrualPeriodicity} />
               </li>
             )}
             {dataset.confidentialityStatus && (
               <li>
                 {t("dataset.internalManagement.confidentialityStatus")} :{" "}
                 <CodeDisplay
-                  codesList={clConfStatus}
+                  codelist={clConfStatus}
                   value={dataset.confidentialityStatus}
                 ></CodeDisplay>
               </li>
@@ -82,13 +84,13 @@ export const GlobalInformationBlock = ({ dataset }: Readonly<GlobalInformationBl
             <ConditionalDisplay data={dataset.creators}>
               <li>
                 {t("dataset.globalInformation.dataProvider")} :
-                <Organisations creators={dataset.creators} organizations={organisations} />
+                <Organizations creators={dataset.creators} organizations={organizations} />
               </li>
             </ConditionalDisplay>
             {dataset.publisher && (
               <li>
                 {t("dataset.globalInformation.publicationProvider")} :{" "}
-                <Organisation creator={dataset.publisher} organizations={organisations} />
+                <Organization creator={dataset.publisher} organizations={organizations} />
               </li>
             )}
             <li>

@@ -1,8 +1,8 @@
-import { renderHook, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
-import { useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { renderHook, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
 
 import { CollectionApi } from "@sdk/new-collection-api";
 

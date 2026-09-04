@@ -1,4 +1,5 @@
-import { ConceptNotes } from "../../model/concepts/concept";
+import { ConceptNotes } from "@model/concepts/concept";
+
 import { isVersioningPossible } from "./isVersioningPossible";
 
 describe("isVersioningPossible", () => {

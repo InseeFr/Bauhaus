@@ -1,29 +1,40 @@
 import { useState, useEffect, useCallback } from "react";
 
+import { Codelist } from "@model/Codelist";
+import { Component, ComponentDefinition } from "@model/structures/Component";
+
 import { ConceptsApi } from "@sdk/index";
 
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
-import { CodesList } from "../../../../../model/CodesList";
-import { Component } from "../../../../../model/structures/Component";
-import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
 import { CodelistPanel } from "../../../../components/CodelistPanel";
 import { ComponentSpecificationModal } from "../../../../components/ComponentSpecificationModal";
 import { StructureComponentsSelector } from "../../../../components/StructureComponentsSelector";
+import { useFormattedCodelist } from "../../../../hooks/useFormattedCodelist";
 
-export const ComponentsPanel = ({ componentDefinitions = EMPTY_ARRAY }) => {
+interface ComponentsPanelTypes {
+  componentDefinitions?: ComponentDefinition[];
+}
+
+export const ComponentsPanel = ({
+  componentDefinitions = EMPTY_ARRAY,
+}: Readonly<ComponentsPanelTypes>) => {
   const [concepts, setConcepts] = useState([]);
 
-  const { data: codesLists = [] } = useFormattedCodeList();
+  const { data: codelists = [] } = useFormattedCodelist();
 
   const [modalOpened, setModalOpened] = useState(false);
 
+  // `StructureComponentsSelector.handleSpecificationClick` is untyped (`any`) on its side and
+  // actually invokes this callback with the matching `ComponentDefinition`, not a `Component` —
+  // kept as `Component` here (pre-existing mismatch) so behavior is unchanged; only the prop
+  // passed to `ComponentSpecificationModal` below is cast to line up with its real shape.
   const [selectedComponent, setSelectedComponent] = useState<Component>();
 
-  const [codesList, setCodesList] = useState<CodesList | undefined>(undefined);
+  const [codelist, setCodelist] = useState<Codelist | undefined>(undefined);
 
-  const handleCodesListDetail = useCallback((codesList: CodesList) => {
-    setCodesList(codesList);
+  const handleCodelistDetail = useCallback((codelist: Codelist) => {
+    setCodelist(codelist);
   }, []);
 
   useEffect(() => {
@@ -40,7 +51,7 @@ export const ComponentsPanel = ({ componentDefinitions = EMPTY_ARRAY }) => {
       {modalOpened && selectedComponent && (
         <ComponentSpecificationModal
           onClose={() => setModalOpened(false)}
-          selectedComponent={selectedComponent}
+          selectedComponent={selectedComponent as unknown as ComponentDefinition}
           structureComponents={componentDefinitions}
           disabled={true}
           specification={{
@@ -56,14 +67,14 @@ export const ComponentsPanel = ({ componentDefinitions = EMPTY_ARRAY }) => {
         componentDefinitions={componentDefinitions}
         handleSpecificationClick={handleSpecificationClick}
         concepts={concepts}
-        codesLists={codesLists}
+        codelists={codelists}
         readOnly={true}
-        handleCodesListDetail={handleCodesListDetail}
+        handleCodelistDetail={handleCodelistDetail}
       />
       <CodelistPanel
-        codesList={codesList}
-        isOpen={!!codesList}
-        handleBack={() => setCodesList(undefined)}
+        codelist={codelist}
+        isOpen={!!codelist}
+        handleBack={() => setCodelist(undefined)}
       />
     </div>
   );

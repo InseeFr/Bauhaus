@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 
-const useUrlQueryParameters = (defaultValue: Record<string, string>) => {
+export const useUrlQueryParameters = (defaultValue: Record<string, string>) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleChange = (property: string, stateChange: string) => {
@@ -26,7 +26,6 @@ const useUrlQueryParameters = (defaultValue: Record<string, string>) => {
       [key]: value,
     };
   }
+
   return { form, setForm, reset, handleChange };
 };
-
-export default useUrlQueryParameters;

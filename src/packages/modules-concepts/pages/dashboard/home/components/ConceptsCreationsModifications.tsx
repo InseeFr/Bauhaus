@@ -1,25 +1,28 @@
 import { Column } from "primereact/column";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DateItem } from "@components/creation-update-items";
 import { getDisseminationStatus } from "@components/dissemination-status/disseminationStatus";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
 import { PublicationMale } from "@components/status";
 
 import "../../../../../i18n";
-import { ConceptForAdvancedSearch } from "../../../../types/concept";
 import { DateFilteredTable } from "../../../../components/DateFilteredTable";
+import { ConceptForAdvancedSearch } from "../../../../types/concept";
 
 type Props = {
   conceptsData: ConceptForAdvancedSearch[];
   type: "creations" | "modifications";
 };
 
-const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>) => {
+export const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>) => {
   const { t } = useTranslation();
+
   const navigate = useNavigate();
+
   const dateField = type === "creations" ? "created" : "modified";
+
   const typeByLang =
     type === "creations" ? t("dashboard.creationsType") : t("dashboard.modificationsType");
 
@@ -35,7 +38,7 @@ const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>)
       <Column
         field="creator"
         header={t("dashboard.ownerColumn")}
-        body={(item: ConceptForAdvancedSearch) => <InseeOrganisation creator={item.creator} />}
+        body={(item: ConceptForAdvancedSearch) => <InseeOrganization creator={item.creator} />}
       />
       <Column
         field="disseminationStatus"
@@ -59,5 +62,3 @@ const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>)
     </DateFilteredTable>
   );
 };
-
-export default ConceptsCreationsModifications;

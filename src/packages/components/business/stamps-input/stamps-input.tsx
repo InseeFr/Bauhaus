@@ -1,8 +1,11 @@
 import { ComponentProps } from "react";
-import { useV2StampsOptions } from "../../../utils/hooks/stamps";
-import D, { D1 } from "../../i18n";
+import { useTranslation } from "react-i18next";
+
+import { useOrganizations } from "@utils/hooks/organizations";
+import { useV2StampsOptions } from "@utils/hooks/stamps";
+
+import { componentsI18n } from "../../i18n";
 import { Select } from "../../ui/select";
-import { useOrganizations } from "../../../utils/hooks/organizations";
 
 const DefaultStampsInput = ({
   value,
@@ -25,6 +28,8 @@ const DefaultStampsInput = ({
   options: { value: string; label: string }[];
   disabled?: boolean;
 }>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   let creatorsArray;
   if (multi) {
     creatorsArray = Array.isArray(value) && value.length > 0 ? value : [];
@@ -32,12 +37,15 @@ const DefaultStampsInput = ({
     creatorsArray = value ? value : undefined;
   }
 
-  const Dictionnary = lang === "first" ? D1 : D;
   const label = !multi ? labelSingle : labelMulti;
+
   return (
     <Select
       label={label}
-      placeholder={Dictionnary.stampsPlaceholder}
+      placeholder={t(
+        "contributors.stampsPlaceholder",
+        lang === "first" ? { lng: "fr" } : undefined,
+      )}
       value={creatorsArray}
       options={options}
       onChange={onChange}
@@ -48,22 +56,28 @@ const DefaultStampsInput = ({
     />
   );
 };
+
 // @depreated
 export const StampsInput = (
   props: Readonly<Omit<ComponentProps<typeof DefaultStampsInput>, "options">>,
 ) => {
   const stampsOptions = useV2StampsOptions();
+
   return <DefaultStampsInput {...props} options={stampsOptions} />;
 };
 
-export const OrganisationInput = (
+export const OrganizationInput = (
   props: Readonly<Omit<ComponentProps<typeof DefaultStampsInput>, "options">>,
 ) => {
-  const { data: organisations } = useOrganizations();
+  const { data: organizations } = useOrganizations();
+
   return (
     <DefaultStampsInput
       {...props}
-      options={(organisations ?? []).map((o) => ({ value: o.iri, label: o.label }))}
+      options={(organizations ?? []).map((o) => ({
+        value: o.iri,
+        label: o.label,
+      }))}
     />
   );
 };

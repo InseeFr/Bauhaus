@@ -7,9 +7,11 @@
  */
 export const languageName = (code: string, locale: string): string => {
   if (!code) return code;
+
   try {
     const name = new Intl.DisplayNames([locale], { type: "language" }).of(code);
     if (!name || name === code) return code;
+
     return name.charAt(0).toLocaleUpperCase(locale) + name.slice(1);
   } catch {
     return code;

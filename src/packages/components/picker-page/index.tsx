@@ -1,13 +1,13 @@
-import { useState } from "react";
-
 import { PickList } from "primereact/picklist";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ErrorBloc } from "@components/errors-bloc";
 import { PageTitle } from "@components/page-title";
 
-import D from "../i18n";
 import { ActionToolbar } from "../action-toolbar";
 import { ReturnButton } from "../buttons/buttons-with-icons";
+import { componentsI18n } from "../i18n";
 
 interface Item {
   id: string;
@@ -58,8 +58,12 @@ export const Picker = ({
   disabledWarningMessage,
   serverSideError,
 }: Readonly<PickerTypes>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const [availableItems, setAvailableItems] = useState<Item[]>(() => withSafeLabels(itemsProps));
+
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
+
   const [clientSideErrors, setClientSideErrors] = useState("");
 
   const selectedIds = selectedItems.map(({ id }) => id);
@@ -99,14 +103,14 @@ export const Picker = ({
           }}
           itemTemplate={(item: Item) => item.label}
           sourceHeader={resolvePanelTitle(
-            availablePanelTitle ?? D.availableItemsPanelTitle,
+            availablePanelTitle ?? t("availableItemsPanelTitle"),
             availableItems.length,
           )}
           targetHeader={resolvePanelTitle(panelTitle, selectedItems.length)}
           filter
           filterBy="label"
-          sourceFilterPlaceholder={D.searchLabelPlaceholder}
-          targetFilterPlaceholder={D.searchLabelPlaceholder}
+          sourceFilterPlaceholder={t("searchLabelPlaceholder")}
+          targetFilterPlaceholder={t("searchLabelPlaceholder")}
           showSourceControls={false}
           showTargetControls={false}
           sourceStyle={{ height: "20rem" }}

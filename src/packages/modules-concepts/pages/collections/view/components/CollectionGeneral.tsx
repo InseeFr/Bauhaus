@@ -1,13 +1,13 @@
 import { useTranslation } from "react-i18next";
 
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { CreationUpdateItems } from "@components/creation-update-items";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status";
 import type { ValidationState } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 
 import { isEmpty } from "@utils/value-utils";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
 
 export interface CollectionAttribute {
   created?: string;
@@ -27,14 +27,14 @@ interface CollectionGeneralProps {
 type FieldName = "creator" | "contributor" | "validationState";
 
 // Helper functions to render specific field types with type safety
-const renderOrganisationField = (
+const renderOrganizationField = (
   fieldName: "creator" | "contributor",
   label: string,
   value: string,
 ): JSX.Element => {
   return (
     <li key={fieldName}>
-      {label}: <InseeOrganisation creator={value} />
+      {label}: <InseeOrganization creator={value} />
     </li>
   );
 };
@@ -67,18 +67,16 @@ const renderFieldItem = (
   switch (fieldName) {
     case "creator":
     case "contributor":
-      return renderOrganisationField(fieldName, label, value as string);
-
+      return renderOrganizationField(fieldName, label, value as string);
     case "validationState":
       return renderValidationField(fieldName, label, value as ValidationState);
-
     default:
       // This should never happen due to FieldName type, but TypeScript needs this
       return null;
   }
 };
 
-function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps>) {
+export function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps>) {
   const { i18n } = useTranslation();
   const t1 = i18n.getFixedT("fr");
   const t2 = i18n.getFixedT("en");
@@ -86,7 +84,10 @@ function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps
   const fields: readonly { name: FieldName; label: string }[] = [
     { name: "creator", label: t1("common.creatorTitle") },
     { name: "contributor", label: t1("collection.general.contributorTitle") },
-    { name: "validationState", label: t1("collection.general.isCollectionValidTitle") },
+    {
+      name: "validationState",
+      label: t1("collection.general.isCollectionValidTitle"),
+    },
   ] as const;
 
   return (
@@ -118,5 +119,3 @@ function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps
     </>
   );
 }
-
-export default CollectionGeneral;

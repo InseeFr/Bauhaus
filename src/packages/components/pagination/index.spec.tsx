@@ -1,11 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import { describe, it, expect, vi } from "vitest";
+
 import { Pagination } from "./index";
 
 // Mock du module i18n
-vi.mock("../i18n/index", () => ({
-  default: {
+vi.mock("../i18n", () => ({
+  componentsI18n: {
     use: vi.fn().mockReturnThis(),
     init: vi.fn().mockReturnThis(),
     t: (key: string) => {

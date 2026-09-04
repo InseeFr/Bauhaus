@@ -6,13 +6,14 @@ import { ErrorBloc } from "@components/errors-bloc";
 import { Loading, Publishing } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { Family } from "@model/operations/family";
+
 import { OperationsApi } from "@sdk/operations-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import { Family } from "../../../../model/operations/family";
-import { Menu } from "./menu";
 import { OperationsFamilyVisualization } from "./components/OperationsFamilyVisualization";
+import { Menu } from "./menu";
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();

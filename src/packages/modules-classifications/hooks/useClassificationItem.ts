@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { ClassificationsApi } from "@sdk/classification";
+
 import { range } from "@utils/array-utils";
 
 import { emptyNotes } from "../utils/emptyNotes";

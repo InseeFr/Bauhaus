@@ -7,11 +7,12 @@ import {
 } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
+import { Dataset } from "@model/Dataset";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { Dataset } from "../../../../model/Dataset";
-import { UNPUBLISHED } from "../../../../model/ValidationState";
 import { getContributors } from "../../../utils/getContributors";
 
 interface ViewMenuTypes {
@@ -28,7 +29,6 @@ export const ViewMenu = ({ dataset, onPublish, onDelete }: Readonly<ViewMenuType
   return (
     <ActionToolbar>
       <ReturnButton action={() => goBack("/datasets")} />
-
       <HasAccess module="DATASET_DATASET" privilege="PUBLISH" stamps={contributors}>
         <ValidationButton object={dataset} callback={onPublish} disabled={false} />
       </HasAccess>
@@ -43,7 +43,6 @@ export const ViewMenu = ({ dataset, onPublish, onDelete }: Readonly<ViewMenuType
       >
         <DeleteButton action={onDelete} />
       </HasAccess>
-
       <HasAccess module="DATASET_DATASET" privilege="UPDATE" stamps={contributors}>
         <UpdateButton action={`/datasets/${dataset.id}/modify`} />
       </HasAccess>

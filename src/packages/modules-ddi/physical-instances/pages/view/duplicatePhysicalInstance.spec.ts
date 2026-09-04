@@ -1,11 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { itemsOfType } from "../../types/ddi4Items";
+import { envelope } from "../../types/ddi4Items.testing";
 import {
   buildDuplicatedPhysicalInstance,
   buildDuplicatedLogicalRecord,
   buildDuplicatedDataRelationship,
 } from "./duplicatePhysicalInstance";
-import { itemsOfType } from "../../types/ddi4Items";
-import { envelope } from "../../types/ddi4Items.testing";
 
 // Mock crypto.randomUUID
 const mockUUIDs: `${string}-${string}-${string}-${string}-${string}`[] = [

@@ -5,14 +5,15 @@ import { AddButton } from "@components/buttons/add";
 import { SeeButton } from "@components/buttons/see";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
+import { Codelist } from "@model/Codelist";
+import { Component, ComponentDefinition } from "@model/structures/Component";
+import { Structure } from "@model/structures/Structure";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { convertToArrayIfDefined } from "@utils/array-utils";
 import { useStampsOptions } from "@utils/hooks/stamps";
 
 import { HasAccess } from "../../auth/components/auth";
-import { CodesList } from "../../model/CodesList";
-import { UNPUBLISHED } from "../../model/ValidationState";
-import { Component, ComponentDefinition } from "../../model/structures/Component";
-import { Structure } from "../../model/structures/Structure";
 import { typeUriToLabel } from "../utils/typeUriToLabel";
 import { CollapsiblePanel } from "./CollapsiblePanel";
 import { ComponentDetail } from "./ComponentDetail";
@@ -28,10 +29,10 @@ interface StructureComponentsSelectorTypes {
   handleCreateOrUpdate?: any;
   handleSpecificationClick?: any;
   concepts: any;
-  codesLists: any;
+  codelists: any;
   readOnly: boolean;
   type?: string;
-  handleCodesListDetail: any;
+  handleCodelistDetail: any;
   structure?: Structure;
 }
 
@@ -44,10 +45,10 @@ export const StructureComponentsSelector = ({
   handleCreateOrUpdate,
   handleSpecificationClick,
   concepts,
-  codesLists,
+  codelists,
   readOnly,
   type,
-  handleCodesListDetail,
+  handleCodelistDetail,
   structure,
 }: Readonly<StructureComponentsSelectorTypes>) => {
   const { t } = useTranslation();
@@ -153,7 +154,7 @@ export const StructureComponentsSelector = ({
     (e: any) => {
       e.stopPropagation();
       // Le contributeur par défaut est résolu par le formulaire de la
-      // composante (organisation de l'utilisateur ou contributeur par défaut
+      // composante (organization de l'utilisateur ou contributeur par défaut
       // de l'instance) : il ne doit pas être figé ici.
       setSelectedComponent({
         disseminationStatus: structure?.disseminationStatus,
@@ -185,12 +186,12 @@ export const StructureComponentsSelector = ({
         representation: (
           <Representation
             component={component}
-            codesLists={codesLists}
-            handleCodesListDetail={() => {
-              const codesList = codesLists.find(
-                ({ id }: CodesList) => id?.toString() === component.codeList?.toString(),
+            codelists={codelists}
+            handleCodelistDetail={() => {
+              const codelist = codelists.find(
+                ({ id }: Codelist) => id?.toString() === component.codeList?.toString(),
               );
-              handleCodesListDetail(codesList);
+              handleCodelistDetail(codelist);
             }}
           />
         ),
@@ -271,7 +272,7 @@ export const StructureComponentsSelector = ({
       <RightSlidingPanel isOpen={openPanel} onHide={() => setOpenPanel(false)}>
         <ComponentDetail
           component={selectedComponent}
-          codesLists={codesLists}
+          codelists={codelists}
           concepts={concepts}
           handleSave={handleSave}
           handleBack={() => {

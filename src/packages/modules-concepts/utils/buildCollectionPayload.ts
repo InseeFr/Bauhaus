@@ -1,6 +1,6 @@
 import { CollectionGeneral, CollectionPayload } from "@model/concepts/collection";
 
-import { takeKeys } from "../../utils/take-keys";
+import { takeKeys } from "@utils/take-keys";
 
 export interface CollectionMemberInput {
   id: string;
@@ -25,7 +25,9 @@ function processGeneral(
   keys: (keyof CollectionGeneral)[],
 ): Omit<CollectionPayload, "conceptsIdentifiers"> {
   const extract = takeKeys(keys as string[]);
+
   const base = extract(general as unknown as Record<string, unknown>) as Partial<CollectionGeneral>;
+
   const payload: Omit<CollectionPayload, "conceptsIdentifiers"> = {
     id: base.id ?? "",
     creator: base.creator ?? "",
@@ -57,6 +59,7 @@ export function buildCollectionPayload(
     action === "CREATE"
       ? processGeneral(collection.general, generalFieldsToKeepCreate)
       : processGeneral(collection.general, generalFieldsToKeepUpdate);
+
   return {
     ...general,
     conceptsIdentifiers: processMembers(collection.members),

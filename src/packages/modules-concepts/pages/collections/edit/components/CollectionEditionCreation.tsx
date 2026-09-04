@@ -6,8 +6,8 @@ import { CollectionGeneral, CollectionMember, PartialCollection } from "@model/c
 
 import { Menu } from "../menu";
 import { validate } from "../validation";
-import GeneralEdition from "./CollectionGeneralEdition";
-import CollectionMembersEdition from "./CollectionMembersEdition";
+import { CollectionGeneralEdition } from "./CollectionGeneralEdition";
+import { CollectionMembersEdition } from "./CollectionMembersEdition";
 
 interface MemberItem {
   id: string;
@@ -30,7 +30,7 @@ interface CollectionEditionCreationProps {
 const toMemberItems = (members: CollectionMember[]): MemberItem[] =>
   members.map(({ id, prefLabelLg1 }) => ({ id, label: prefLabelLg1 }));
 
-const CollectionEditionCreation = ({
+export const CollectionEditionCreation = ({
   title,
   subtitle,
   creation,
@@ -41,7 +41,10 @@ const CollectionEditionCreation = ({
   save,
   setSubmitting,
 }: Readonly<CollectionEditionCreationProps>) => {
-  const [general, setGeneral] = useState<CollectionGeneral>(() => ({ ...initialGeneral }));
+  const [general, setGeneral] = useState<CollectionGeneral>(() => ({
+    ...initialGeneral,
+  }));
+
   const [members, setMembers] = useState<MemberItem[]>(() => toMemberItems(initialMembers));
 
   const handleChangeGeneral = (update: Partial<CollectionGeneral>) => {
@@ -62,7 +65,6 @@ const CollectionEditionCreation = ({
   const errors = validate(
     general,
     collectionList.map((c) => ({ id: c.id, label: c.label?.value ?? "" })),
-    initialGeneral.id,
     initialGeneral.prefLabelLg1,
   );
 
@@ -71,7 +73,7 @@ const CollectionEditionCreation = ({
       <div className="container">
         <PageTitle title={title} subtitle={subtitle} />
         <Menu handleSave={handleSave} redirectCancel={redirectCancel} errors={errors} />
-        <GeneralEdition
+        <CollectionGeneralEdition
           general={general}
           handleChange={handleChangeGeneral}
           errors={errors}
@@ -86,5 +88,3 @@ const CollectionEditionCreation = ({
     </div>
   );
 };
-
-export default CollectionEditionCreation;

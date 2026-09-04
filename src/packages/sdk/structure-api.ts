@@ -1,5 +1,6 @@
-import { Component } from "../model/structures/Component";
-import { Structure } from "../model/structures/Structure";
+import { Component } from "@model/structures/Component";
+import { Structure } from "@model/structures/Structure";
+
 import { buildApi } from "./build-api";
 
 const api = {
@@ -37,7 +38,6 @@ const api = {
     },
     (res: Response) => res.text(),
   ],
-
   getStructure: (id: string) => [`structure/${id}`],
   deleteStructure: (id: string) => [`structure/${id}`, (res: Response) => res.text()],
   publishStructure: (structure: Structure) => [
@@ -72,5 +72,3 @@ const api = {
 };
 
 export const StructureApi = buildApi("structures", api) as any;
-
-export * from "./structures/saveComponent";

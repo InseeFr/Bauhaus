@@ -3,13 +3,16 @@ import { useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
 
-import { ConceptGeneral, ConceptNotes } from "../../../../model/concepts/concept";
-import { ConceptsApi } from "../../../../sdk";
-import { range } from "../../../../utils/array-utils";
-import { useSecondLang } from "../../../../utils/hooks/second-lang";
-import { rmesHtmlToRawHtml } from "../../../../utils/html-utils";
+import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+
+import { ConceptsApi } from "@sdk/index";
+
+import { range } from "@utils/array-utils";
+import { useSecondLang } from "@utils/hooks/second-lang";
+import { rmesHtmlToRawHtml } from "@utils/html-utils";
+
 import { emptyConceptNotes } from "../../../utils/emptyConceptNotes";
-import ConceptCompare from "./components/ConceptCompare";
+import { ConceptCompare } from "./components/ConceptCompare";
 
 type VersionedNotes = Record<number, ConceptNotes>;
 
@@ -17,10 +20,13 @@ const EMPTY_GENERAL = {} as ConceptGeneral;
 
 export const Component = () => {
   const { id } = useParams<{ id: string }>();
+
   const [secondLang] = useSecondLang();
+
   const [loading, setLoading] = useState(true);
 
   const [general, setGeneral] = useState<ConceptGeneral>(EMPTY_GENERAL);
+
   const [notes, setNotes] = useState<VersionedNotes>({});
 
   useEffect(() => {

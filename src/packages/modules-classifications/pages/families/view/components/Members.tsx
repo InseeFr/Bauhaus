@@ -1,6 +1,5 @@
-import i18next from "../../../../i18n";
-
 import { ClassificationMembers } from "../../../../components/ClassificationMembers";
+import { classificationsI18n } from "../../../../i18n";
 
 interface FamilyMember {
   id: string;
@@ -19,7 +18,7 @@ export const Members = ({ members, secondLang }: Props) => (
     members={members}
     secondLang={secondLang}
     linkBasePath="/classifications/series"
-    titleD1={i18next.t("family.childrenSeries", { lng: "fr" })}
-    titleD2={i18next.t("family.childrenSeries", { lng: "en" })}
+    titleD1={classificationsI18n.t("family.childrenSeries", { lng: "fr" })}
+    titleD2={classificationsI18n.t("family.childrenSeries", { lng: "en" })}
   />
 );

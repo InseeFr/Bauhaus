@@ -3,8 +3,8 @@ import { describe, expect, it, vi } from "vitest";
 
 import { MainMenu } from "@components/menu";
 
-import { Menu } from "./menu";
 import { renderWithRouter } from "../../tests/render";
+import { Menu } from "./menu";
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
@@ -44,7 +44,7 @@ describe("Menu", () => {
             pathKey: "codelists",
             className: "active",
             attrs: { "aria-current": "page" },
-            label: "codelists.pluralTitle",
+            label: "Codelists",
             order: 1,
           },
         ],
@@ -67,7 +67,7 @@ describe("Menu", () => {
             pathKey: "codelists",
             className: "active",
             attrs: { "aria-current": "page" },
-            label: "codelists.pluralTitle",
+            label: "Codelists",
             order: 1,
           },
         ],

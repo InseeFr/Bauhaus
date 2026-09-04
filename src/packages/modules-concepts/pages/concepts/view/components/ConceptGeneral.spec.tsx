@@ -1,8 +1,10 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import ConceptGeneral from "./ConceptGeneral";
+
 import type { ConceptGeneral as ConceptGeneralType } from "@model/concepts/concept";
+
+import { ConceptGeneral } from "./ConceptGeneral";
 
 vi.mock("./CollectionsBlock", () => ({
   CollectionsBlock: () => null,
@@ -26,11 +28,18 @@ const translations: Record<string, string> = {
   "concept.general.additionalMaterialTitle": "Document lié",
 };
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => translations[key] ?? key,
-  }),
-}));
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return { t: (key: string) => translations[key] ?? key };
+    },
+  };
+});
 
 vi.mock("@utils/hooks/useLocales", () => ({
   useLocales: () => ({
@@ -50,15 +59,15 @@ vi.mock("@utils/date-utils", () => ({
   },
 }));
 
-vi.mock("@components/business/organisations/organisations", () => ({
-  InseeOrganisation: ({ creator }: { creator: string }) => {
+vi.mock("@components/business/organizations/organizations", () => ({
+  InseeOrganization: ({ creator }: { creator: string }) => {
     const labels: Record<string, string> = {
       "DG75-L201": "INSEE",
       "DG75-L202": "DARES",
     };
     return labels[creator] ?? creator;
   },
-  InseeOrganisations: ({ creators }: { creators: string[] }) => {
+  InseeOrganizations: ({ creators }: { creators: string[] }) => {
     const labels: Record<string, string> = {
       "DG75-L201": "INSEE",
       "DG75-L202": "DARES",
@@ -74,7 +83,7 @@ vi.mock("@components/business/organisations/organisations", () => ({
 }));
 
 vi.mock("@components/dissemination-status/disseminationStatus", () => ({
-  DisseminationStatusVisualisation: ({ disseminationStatus }: { disseminationStatus: string }) => (
+  DisseminationStatusVisualization: ({ disseminationStatus }: { disseminationStatus: string }) => (
     <span>Statut de diffusion : {disseminationStatus}</span>
   ),
 }));

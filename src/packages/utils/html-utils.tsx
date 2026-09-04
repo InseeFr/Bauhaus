@@ -18,13 +18,17 @@ export const containUnsupportedStyles = (attr: object = {}) => {
     Object.values(attr).some((value) => regexp.test(String(value))),
   );
 };
+
 export const htmlToRawText = (html: string) => {
   const el = document.createElement("div");
+
   el.innerHTML = html || "";
+
   return el.textContent;
 };
 
 export const htmlLength = (html: string) => htmlToRawText(html)!.trim().length;
+
 export const htmlIsEmpty = (html: string) => !(htmlLength(html) > 0);
 
 /**
@@ -53,7 +57,9 @@ const rNewLine = /\n/g;
 const rUselessSpace = /(>)\s*(<)/g;
 export const cleanHtml = (html: string) => {
   const rawText = htmlToRawText(html);
+
   if (rawText === "") return "";
+
   return html.replace(rNewLine, "").replace(rUselessSpace, "$1$2");
 };
 
@@ -88,6 +94,7 @@ export function htmlFromEditorState(editorState: typeof EditorState) {
   };
 
   const html = stateToHTML(editorState.getCurrentContent(), options as Options);
+
   return cleanHtml(html);
 }
 
@@ -105,38 +112,48 @@ export function mdFromEditorState(editorState: typeof EditorState) {
 
   for (const block of content.blocks) {
     const text = block.text;
+
     const inlineStyleRanges = block.inlineStyleRanges;
+
     for (
       let inlineStyleIndex = 0;
       inlineStyleIndex < inlineStyleRanges.length;
       inlineStyleIndex++
     ) {
       const currentInlineStyle = inlineStyleRanges[inlineStyleIndex];
+
       const withSameOffset = inlineStyleRanges.filter((_: unknown, index: number) => {
         return (
           index !== inlineStyleIndex &&
           inlineStyleRanges[index].offset === currentInlineStyle.offset
         );
       });
+
       let minLength = Math.min(
         currentInlineStyle.length,
         ...withSameOffset.map((style: any) => style.length),
       );
+
       if (text[currentInlineStyle.offset + minLength - 1] === " ") {
         minLength -= 1;
       }
+
       currentInlineStyle.length = minLength;
+
       withSameOffset.forEach((style: any) => {
         style.lengh = minLength;
       });
     }
   }
+
   return draftjsToMd(content);
 }
 
 export function editorStateFromMd(md = "") {
   const mdToDraftJs = mdToDraftjs(md);
+
   const convertedFromRaw = convertFromRaw(mdToDraftJs);
+
   return EditorState.createWithContent(convertedFromRaw);
 }
 
@@ -148,5 +165,6 @@ export function renderMarkdownElement(value: string) {
   if (value === null) {
     return "";
   }
+
   return <div dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }} />;
 }

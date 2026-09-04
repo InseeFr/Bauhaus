@@ -1,5 +1,6 @@
-import i18next from "../i18n";
 import { Link } from "react-router-dom";
+
+import { classificationsI18n } from "../i18n";
 
 interface SourceItemLabelTypes {
   label: string;
@@ -59,8 +60,8 @@ export const buildAssociationItemLinks = (association: any, secondLang: boolean)
   } = association;
 
   const mapping = {
-    sourceItemLabelLg1: i18next.t("correspondence.sourceItem"),
-    targetItemLabelLg1: i18next.t("correspondence.targetItem"),
+    sourceItemLabelLg1: classificationsI18n.t("correspondence.sourceItem"),
+    targetItemLabelLg1: classificationsI18n.t("correspondence.targetItem"),
   };
 
   const content = Object.keys(mapping).map((fieldName) => {

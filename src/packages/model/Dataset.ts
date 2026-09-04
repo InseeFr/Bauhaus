@@ -4,15 +4,16 @@ export interface PartialDataset {
   id: string;
   label: string;
 }
+
 export interface Dataset {
   accessRights: string;
   accrualPeriodicity: string;
   confidentialityStatus: string;
   id?: string;
-  // Champs édités par le formulaire (en .jsx, donc jamais confrontés à ce type)
-  // et exigés par le schéma de validation.
   labelLg1: string;
   labelLg2: string;
+  subTitleLg1?: string;
+  subTitleLg2?: string;
   altIdentifier?: string;
   disseminationStatus: string;
   catalogRecord: CatalogRecord;
@@ -20,6 +21,10 @@ export interface Dataset {
   observationNumber: number;
   timeSeriesNumber: number;
   linkedDocuments: string[];
+  landingPageLg1?: string;
+  landingPageLg2?: string;
+  processStep?: string;
+  archiveUnit?: string;
   keywords: {
     lg1: string[];
     lg2: string[];
@@ -40,7 +45,6 @@ export interface Dataset {
   issued?: string;
   updated?: string;
   type: string;
-
   abstractLg1?: string;
   abstractLg2?: string;
   descriptionLg1?: string;
@@ -48,6 +52,7 @@ export interface Dataset {
   cautionLg1?: string;
   cautionLg2?: string;
 }
+
 export interface CatalogRecord {
   created: string;
   updated: string;
@@ -56,6 +61,7 @@ export interface CatalogRecord {
   catalogRecord: CatalogRecord;
   validationState: ValidationState;
 }
+
 export interface Distribution {
   id?: string;
   validationState: ValidationState;

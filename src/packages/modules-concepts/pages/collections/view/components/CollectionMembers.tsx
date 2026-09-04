@@ -1,11 +1,12 @@
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
 
 import type { CollectionMember } from "@model/concepts/collection";
+
 import { sortArray } from "@utils/array-utils";
-import { useTranslation } from "@utils/hooks/useTranslation";
 
 import "../../../../i18n";
 
@@ -26,8 +27,9 @@ interface CollectionMembersProps {
   secondLang?: boolean;
 }
 
-function CollectionMembers({ members, secondLang }: Readonly<CollectionMembersProps>) {
-  const { t, t2 } = useTranslation();
+export function CollectionMembers({ members, secondLang }: Readonly<CollectionMembersProps>) {
+  const { t } = useTranslation();
+
   const sortedMembers = sortByLabelLg1(members) as CollectionMember[];
 
   const memberListLg1 = renderMemberList(sortedMembers, "prefLabelLg1");
@@ -37,18 +39,21 @@ function CollectionMembers({ members, secondLang }: Readonly<CollectionMembersPr
     <Row>
       <Note
         text={memberListLg1}
-        title={t("collection.membersPanelTitle", { size: memberListLg1.length })}
+        title={t("collection.membersPanelTitle", {
+          size: memberListLg1.length,
+        })}
         alone={!secondLang}
       />
       {secondLang && (
         <Note
           text={memberListLg2}
-          title={t2("collection.membersPanelTitle", { size: memberListLg2.length })}
+          title={t("collection.membersPanelTitle", {
+            size: memberListLg2.length,
+            lng: "en",
+          })}
           alone={false}
         />
       )}
     </Row>
   );
 }
-
-export default CollectionMembers;

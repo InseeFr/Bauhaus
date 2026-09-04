@@ -9,14 +9,15 @@ import { TextInput } from "@components/form/input";
 import { InputRmes } from "@components/input-rmes";
 import { Row } from "@components/layout";
 import { RequiredIcon } from "@components/required-icon";
-import { Select } from "@components/ui/select";
 import { InputMulti } from "@components/ui/forms/input-multi";
+import { Select } from "@components/ui/select";
+
+import { ConceptGeneral } from "@model/concepts/concept";
 
 import { useLocales } from "@utils/hooks/useLocales";
 
-import { ConceptGeneral } from "../../../../../model/concepts/concept";
 import { useCollections } from "../../../../hooks/useCollections";
-import { conceptGeneralFields as generalFields } from "../../../../utils/conceptGeneralFields";
+import { conceptGeneralFields } from "../../../../utils/conceptGeneralFields";
 
 type GeneralFieldName = keyof ConceptGeneral;
 
@@ -27,7 +28,7 @@ type FieldHandlers = Partial<Record<GeneralFieldName, (value: GeneralValue) => v
 const handleFieldChange = (
   handleChange: (update: Partial<ConceptGeneral>) => void,
 ): FieldHandlers =>
-  generalFields.reduce<FieldHandlers>((handlers, fieldName) => {
+  conceptGeneralFields.reduce<FieldHandlers>((handlers, fieldName) => {
     const key = fieldName as GeneralFieldName;
     handlers[key] = (value: GeneralValue) =>
       handleChange({ [key]: value } as Partial<ConceptGeneral>);
@@ -41,7 +42,7 @@ interface ConceptGeneralEditionProps {
   stampList?: { value: string; label: string }[];
 }
 
-function ConceptGeneralEdition({
+export function ConceptGeneralEdition({
   general,
   handleChange,
   errorMessage,
@@ -60,7 +61,9 @@ function ConceptGeneralEdition({
   } = general;
 
   const { t } = useTranslation();
+
   const { lg1, lg2 } = useLocales();
+
   const { data = [] } = useCollections();
 
   const handlers = handleFieldChange(handleChange);
@@ -116,7 +119,7 @@ function ConceptGeneralEdition({
         <CreatorsInput
           value={creator}
           onChange={(value: string | string[]) => handlers.creator?.(value)}
-          mode="organisation"
+          mode="organization"
         />
         <ClientSideError id="creator-error" error={errorMessage?.fields?.creator} />
       </div>
@@ -125,7 +128,7 @@ function ConceptGeneralEdition({
           disabled
           value={contributor ?? ""}
           onChange={() => {}}
-          mode="organisation"
+          mode="organization"
         />
       </div>
       <div className="form-group">
@@ -159,5 +162,3 @@ function ConceptGeneralEdition({
     </div>
   );
 }
-
-export default ConceptGeneralEdition;
