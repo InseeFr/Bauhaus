@@ -6,7 +6,7 @@ import { Note } from "@components/note";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 
 interface DisplayLinksTypes {
-  links: any[];
+  links?: any[];
   path: string;
   title: string;
   secondLang?: boolean;

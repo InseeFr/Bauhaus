@@ -32,7 +32,7 @@ describe("Codes List View Menu", () => {
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}
-        handleUpdate={vi.fn()}
+        handleUpdate={vi.fn() as VoidFunction}
         updatable={true}
         deletable={true}
       />,
@@ -69,7 +69,7 @@ describe("Codes List View Menu", () => {
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}
-        handleUpdate={vi.fn()}
+        handleUpdate={vi.fn() as VoidFunction}
         updatable={true}
         deletable={true}
       />,
@@ -110,7 +110,7 @@ describe("Codes List View Menu", () => {
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}
-        handleUpdate={vi.fn()}
+        handleUpdate={vi.fn() as VoidFunction}
         updatable={true}
         deletable={true}
       />,
@@ -151,7 +151,7 @@ describe("Codes List View Menu", () => {
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}
-        handleUpdate={vi.fn()}
+        handleUpdate={vi.fn() as VoidFunction}
         updatable={true}
         deletable={false}
       />,
@@ -188,7 +188,7 @@ describe("Codes List View Menu", () => {
         publish={vi.fn()}
         handleDelete={vi.fn()}
         handleBack={vi.fn()}
-        handleUpdate={vi.fn()}
+        handleUpdate={vi.fn() as VoidFunction}
         updatable={true}
         deletable={true}
       />,

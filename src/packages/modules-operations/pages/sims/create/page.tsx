@@ -16,7 +16,7 @@ import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { useSaveSims, useSims } from "../../../hooks/useSims";
 import { SimsLoaderData } from "../../../types/sims";
 import { MSDLayout } from "../components/MSDLayout";
-import { CREATE, UPDATE } from "../constants";
+import { CREATE, Mode, UPDATE } from "../constants";
 import { useDocumentsList } from "../hooks/useDocumentsList";
 import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
 import {
@@ -193,7 +193,7 @@ export const Component = () => {
             onSubmit={saveSims}
             idParent={idParent}
             goBack={goBack}
-            mode={mode}
+            mode={mode as Mode}
             organizations={organizations}
             parentType={parentType}
             error={serverError}

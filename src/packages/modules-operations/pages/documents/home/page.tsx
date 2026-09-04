@@ -19,7 +19,7 @@ export const Component = () => {
 
   useEffect(() => {
     GeneralApi.getDocumentsList()
-      .then((results) => {
+      .then((results: unknown) => {
         const sortedDocuments = sortByLabel(
           (results as Document[]).map((document) => {
             return {

@@ -9,6 +9,7 @@ const { D } = createAllDictionary({
 
 interface SeeButtonTypes {
   onClick: (e: any) => void;
+  disabled?: boolean;
 }
 
 export const SeeButton = (props: Readonly<SeeButtonTypes>) => {

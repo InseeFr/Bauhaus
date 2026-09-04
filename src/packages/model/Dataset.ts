@@ -10,10 +10,10 @@ export interface Dataset {
   accrualPeriodicity: string;
   confidentialityStatus: string;
   id?: string;
-  // Champs édités par le formulaire (en .jsx, donc jamais confrontés à ce type)
-  // et exigés par le schéma de validation.
   labelLg1: string;
   labelLg2: string;
+  subTitleLg1?: string;
+  subTitleLg2?: string;
   altIdentifier?: string;
   disseminationStatus: string;
   catalogRecord: CatalogRecord;
@@ -21,6 +21,10 @@ export interface Dataset {
   observationNumber: number;
   timeSeriesNumber: number;
   linkedDocuments: string[];
+  landingPageLg1?: string;
+  landingPageLg2?: string;
+  processStep?: string;
+  archiveUnit?: string;
   keywords: {
     lg1: string[];
     lg2: string[];

@@ -119,7 +119,7 @@ const mockSims = {
 };
 
 const renderComponent = (
-  publishSims: ReturnType<typeof vi.fn>,
+  publishSims: (sims: any, errorCallback: (err: any) => void) => void,
   sims: Record<string, unknown> = mockSims,
 ) => {
   return render(
