@@ -36,11 +36,11 @@ src/packages/modules-{module-name}/
 
 ## Internationalization (I18N)
 
-The project uses **react-i18next** exclusively — there is no legacy dictionary system left in the codebase.
+The project uses **react-i18next**.
 
 ### Isolated instances
 
-Each of the 7 domain modules bootstraps its own isolated i18next instance (via `i18next.createInstance()`, never the raw global singleton) in `modules-{name}/i18n/index.ts`, exported as a **named** export:
+Each of the 7 domain modules bootstraps its own isolated i18next instance (via `i18next.createInstance()`, never the raw global singleton) in `modules-{name}/i18n/index.ts`, exported as a named export:
 
 ```typescript
 import i18next from "i18next";
