@@ -1,8 +1,8 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 
 import "./index.css";
 
-export const Panel = ({ title, children }: Readonly<PropsWithChildren<{ title?: string }>>) => {
+export const Panel = ({ title, children }: Readonly<PropsWithChildren<{ title?: ReactNode }>>) => {
   if (!title) {
     return (
       <div className="card panel">

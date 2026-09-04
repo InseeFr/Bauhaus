@@ -1,3 +1,5 @@
+import { MouseEvent } from "react";
+
 import { AddButton } from "@components/buttons/add";
 
 import { Codelist } from "@model/Codelist";
@@ -6,7 +8,7 @@ import { HasAccess } from "../../auth/components/auth";
 
 interface CodesPanelAddButtonTypes {
   codelist: Codelist;
-  onHandlePanel: VoidFunction;
+  onHandlePanel: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const CodesPanelAddButton = ({

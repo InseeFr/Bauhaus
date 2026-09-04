@@ -8,7 +8,7 @@ import { CloseIconButton } from "@components/buttons/buttons-with-icons";
 import { isDocument } from "../../../../utils/isDocument";
 
 interface ConfirmationModalTypes {
-  isOpen: true;
+  isOpen: boolean;
   document: any;
   onYes: VoidFunction;
   onNo: VoidFunction;

@@ -1,0 +1,153 @@
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, Navigate } from "react-router-dom";
+
+import { AdvancedSearchCard } from "@components/advanced-search/fields";
+import { AdvancedSearchList } from "@components/advanced-search/home";
+import { CreatorsInput } from "@components/business/creators-input";
+import { Loading } from "@components/loading";
+import { Select } from "@components/select-rmes";
+import { List } from "@components/ui/list-group";
+import { SearchField, SearchTextField } from "@components/ui/search-field";
+
+import { validateStateOptions } from "@model/ValidationState";
+
+import { CodelistsApi } from "@sdk/index";
+
+import { filterKeyDeburr } from "@utils/array-utils";
+import { useTitle } from "@utils/hooks/useTitle";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
+
+import { formatLabel } from "../../../utils/formatLabel";
+
+/** Fiche synthétique d'une liste de codes telle que renvoyée par l'endpoint
+ * de recherche. */
+interface CodelistSearchItem {
+  id: string;
+  labelLg1: string;
+  creator?: string;
+  validationState?: string;
+  codes?: unknown[];
+}
+
+const filterId = filterKeyDeburr(["id"]);
+const filterLabel = filterKeyDeburr(["labelLg1"]);
+const filterCreator = filterKeyDeburr(["creator"]);
+const filterValidationState = filterKeyDeburr(["validationState"]);
+const filterCode = filterKeyDeburr(["codes.code"]);
+const filterCodeLabel = filterKeyDeburr(["codes.labelLg1"]);
+
+const defaultFormState = {
+  id: "",
+  labelLg1: "",
+  code: "",
+  codeLabel: "",
+  creator: "",
+  validationState: "",
+};
+
+interface SearchFormListTypes {
+  data: CodelistSearchItem[];
+}
+
+export const SearchFormList = ({ data }: Readonly<SearchFormListTypes>) => {
+  const { t } = useTranslation();
+
+  let form, reset, handleChange;
+  ({ form, reset, handleChange } = useUrlQueryParameters(defaultFormState));
+
+  const { id, labelLg1, creator, validationState, code, codeLabel } = form;
+
+  const filteredData = data
+    .filter(filterId(id))
+    .filter(filterLabel(labelLg1))
+    .filter(filterCode(code))
+    .filter(filterCodeLabel(codeLabel))
+    .filter(filterCreator(creator))
+    .filter(filterValidationState(validationState));
+
+  const dataLinks = filteredData.map((codelist) => (
+    <List.Item key={codelist.id} className="text-left">
+      <Link to={`/codelists/${codelist.id}`}>{formatLabel(codelist)}</Link>
+    </List.Item>
+  ));
+
+  return (
+    <AdvancedSearchList
+      title={t("codelists.searchTitle")}
+      data={dataLinks}
+      initializeState={reset}
+      redirect={<Navigate to="/codelists" />}
+    >
+      <AdvancedSearchCard title={t("codelists.title")} className="codelist-search-form">
+        <SearchTextField
+          label={t("codelists.identifier")}
+          value={id}
+          onChange={(value) => handleChange("id", value)}
+        />
+        <SearchTextField
+          label={t("codelists.label")}
+          value={labelLg1}
+          onChange={(value) => handleChange("labelLg1", value)}
+        />
+        <div className="field col-12 md:col-6">
+          <CreatorsInput
+            mode="organization"
+            value={creator}
+            onChange={(value) => handleChange("creator", value as string)}
+            required={false}
+          />
+        </div>
+        <SearchField label={t("codelists.validationStatus")} col="col-12 md:col-6">
+          {(selectId) => (
+            <Select
+              inputId={selectId}
+              placeholder=""
+              value={validateStateOptions.find((option) => option.value === validationState) || ""}
+              options={validateStateOptions}
+              onChange={(value) => {
+                handleChange("validationState", value);
+              }}
+            />
+          )}
+        </SearchField>
+      </AdvancedSearchCard>
+      <AdvancedSearchCard title={t("codes.title")} className="code-search-form">
+        <SearchTextField
+          label={t("codes.identifier")}
+          value={code}
+          onChange={(value) => handleChange("code", value)}
+        />
+        <SearchTextField
+          label={t("codes.label")}
+          value={codeLabel}
+          onChange={(value) => handleChange("codeLabel", value)}
+        />
+      </AdvancedSearchCard>
+    </AdvancedSearchList>
+  );
+};
+
+export const Component = () => {
+  const { t } = useTranslation();
+
+  useTitle(t("codelists.searchTitle"));
+
+  const [loading, setLoading] = useState(true);
+
+  const [items, setItems] = useState<CodelistSearchItem[]>([]);
+
+  useEffect(() => {
+    CodelistsApi.getCodelistsForSearch()
+      .then((codelists: CodelistSearchItem[]) => {
+        setItems(codelists);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  return <SearchFormList data={items} />;
+};

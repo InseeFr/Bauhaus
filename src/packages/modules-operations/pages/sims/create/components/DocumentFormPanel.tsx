@@ -55,7 +55,7 @@ export const DocumentFormPanel = ({ opened, onHide, onAdd }: Readonly<DocumentFo
         <OperationsDocumentationEdition
           document={{}}
           langOptions={langOptions}
-          type={lateralPanelOpened}
+          type={lateralPanelOpened as string}
           onCancel={onLateralPanelHide}
           onSave={onSave}
         />

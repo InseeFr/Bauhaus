@@ -5,7 +5,7 @@ import { ValidationButton } from "@components/validationButton";
 import { HasAccess } from "../../../../auth/components/auth";
 
 interface ViewMenuTypes {
-  handleUpdate: VoidFunction;
+  handleUpdate: string | VoidFunction;
   handleDelete: VoidFunction;
   handleBack: VoidFunction;
   publish: VoidFunction;

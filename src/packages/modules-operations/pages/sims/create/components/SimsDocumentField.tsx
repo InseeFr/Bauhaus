@@ -11,7 +11,7 @@ interface SimsDocumentFieldTypes {
   handleChange: any;
   msd: any;
   currentSection: any;
-  lang?: string;
+  lang?: "Lg1" | "Lg2";
 }
 
 export const SimsDocumentField = ({
@@ -21,7 +21,7 @@ export const SimsDocumentField = ({
   lang = "Lg1",
 }: Readonly<SimsDocumentFieldTypes>) => {
   const handleDeleteDocument = useCallback(
-    (uri: string) => {
+    (uri?: string) => {
       const objects = currentSection["documents" + lang] || [];
       handleChange({
         id: msd.idMas,

@@ -13,7 +13,9 @@ import "./CodelistPanel.css";
 interface CodelistPanelTypes {
   isOpen: boolean;
   handleBack: VoidFunction;
-  codelist?: Codelist;
+  // Some callers only have a partial codelist reference at hand (e.g. `{ id, label, notation }`
+  // from the `Codelists` list, or just a `{ notation }` lookup) — only `notation` is read here.
+  codelist?: Partial<Codelist>;
 }
 
 export const CodelistPanel = ({ isOpen, handleBack, codelist }: CodelistPanelTypes) => {

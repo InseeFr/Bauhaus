@@ -14,8 +14,8 @@ import { operationsI18n } from "../../../i18n";
 
 const Base = (
   documentsAndLinksList: Document[],
-  currentLabelLg1: string,
-  currentLabelLg2: string,
+  currentLabelLg1: string | undefined,
+  currentLabelLg2: string | undefined,
 ) =>
   z.object({
     labelLg1: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "fr" })).refine(
@@ -37,8 +37,8 @@ const Base = (
 
 const ZodLink = (
   documentsAndLinksList: Document[],
-  currentLabelLg1: string,
-  currentLabelLg2: string,
+  currentLabelLg1: string | undefined,
+  currentLabelLg2: string | undefined,
 ) =>
   Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
     url: z
@@ -63,8 +63,8 @@ const File = z.object({
 
 const ZodDocument = (
   documentsAndLinksList: Document[],
-  currentLabelLg1: string,
-  currentLabelLg2: string,
+  currentLabelLg1: string | undefined,
+  currentLabelLg2: string | undefined,
 ) =>
   Base(documentsAndLinksList, currentLabelLg1, currentLabelLg2).extend({
     updatedDate: z
@@ -88,8 +88,8 @@ export const validate = (
   document: Document,
   type: string,
   documentsAndLinksList: Document[],
-  currentLabelLg1: string,
-  currentLabelLg2: string,
+  currentLabelLg1: string | undefined,
+  currentLabelLg2: string | undefined,
 ) =>
   formatValidation(
     type === LINK

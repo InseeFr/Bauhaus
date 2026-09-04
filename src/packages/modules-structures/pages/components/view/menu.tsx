@@ -15,7 +15,10 @@ const canBeDeleted = (component: Component) => {
 
 interface ViewMenuTypes {
   component: Component;
-  handleUpdate: VoidFunction;
+  // `AbstractButton`'s `action` prop (used by `UpdateButton`/`DeleteButton`) accepts either a
+  // route to navigate to or a callback; `handleUpdate` is a route string when editing navigates
+  // to a dedicated page (see the mutualized component view).
+  handleUpdate: VoidFunction | string;
   publish: VoidFunction;
   handleDelete: VoidFunction;
   handleBack: VoidFunction;

@@ -27,7 +27,7 @@ describe("Component View Menu", () => {
           component={component}
           updatable={true}
           publish={vi.fn()}
-          handleUpdate={vi.fn()}
+          handleUpdate={vi.fn() as VoidFunction}
           handleDelete={vi.fn()}
           handleBack={vi.fn}
         ></ViewMenu>
@@ -61,7 +61,7 @@ describe("Component View Menu", () => {
           component={component}
           updatable={true}
           publish={vi.fn()}
-          handleUpdate={vi.fn()}
+          handleUpdate={vi.fn() as VoidFunction}
           handleDelete={vi.fn()}
           handleBack={vi.fn}
         ></ViewMenu>
@@ -103,7 +103,7 @@ describe("Component View Menu", () => {
           component={component}
           updatable={true}
           publish={vi.fn()}
-          handleUpdate={vi.fn()}
+          handleUpdate={vi.fn() as VoidFunction}
           handleDelete={vi.fn()}
           handleBack={vi.fn}
         ></ViewMenu>

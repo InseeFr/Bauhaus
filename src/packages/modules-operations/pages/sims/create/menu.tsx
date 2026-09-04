@@ -2,7 +2,7 @@ import { ActionToolbar } from "@components/action-toolbar";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 
 interface MenuTypes {
-  goBackUrl: VoidFunction;
+  goBackUrl: string | VoidFunction;
   handleSubmit: VoidFunction;
 }
 

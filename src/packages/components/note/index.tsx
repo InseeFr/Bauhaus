@@ -1,10 +1,12 @@
+import { ReactNode } from "react";
+
 import { cx } from "@utils/cx";
 
 import { Panel } from "../panel";
 
 interface NoteTypes {
   text?: string | any;
-  title: string;
+  title: ReactNode;
   alone?: boolean;
   allowEmpty?: boolean;
   alt?: string;
