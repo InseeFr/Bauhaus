@@ -19,6 +19,8 @@
     "create-zip": "cd build && bestzip build.zip *",
     "knip": "knip",
     "generate:ddi-types": "node scripts/generate-ddi-types.ts",
+    "e2e:stack": "./scripts/e2e-stack.sh",
+    "e2e": "pnpm --dir e2e test",
     "pre-push": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm test:coverage -- --allowOnly false",
     "prepare": "husky",
     "_format": "oxfmt src",
