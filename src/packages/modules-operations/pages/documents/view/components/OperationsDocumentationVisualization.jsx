@@ -120,7 +120,7 @@ export function OperationsDocumentationVisualization({ id, attr, secondLang, lan
         />
       </Row>
       <RelationsView
-        children={sims}
+        childrenItems={sims}
         childrenTitle="linkedSims"
         childrenPath="sims"
         secondLang={secondLang}

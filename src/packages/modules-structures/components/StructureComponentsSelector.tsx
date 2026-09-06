@@ -165,8 +165,8 @@ export const StructureComponentsSelector = ({
 
   const componentsWithActions = components
     .sort((cd1, cd2) => {
-      const order1 = parseInt(`${cd1.order}` || "1");
-      const order2 = parseInt(`${cd2.order}` || "1");
+      const order1 = Number.parseInt(`${cd1.order}` || "1");
+      const order2 = Number.parseInt(`${cd2.order}` || "1");
       return order1 - order2;
     })
     .map((componentDefinition, i) => {

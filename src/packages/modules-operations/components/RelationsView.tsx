@@ -14,7 +14,7 @@ import "./RelationsView.css";
  * par `RelationsView`, jamais par l'appelant.
  */
 export interface RelationsViewPerLgContentTypes {
-  children?: RelatedItem[];
+  childrenItems?: RelatedItem[];
   childrenTitle?: string;
   childrenPath?: string;
   parent?: RelatedItem;
@@ -24,7 +24,7 @@ export interface RelationsViewPerLgContentTypes {
 }
 
 export const RelationsViewPerLgContent = ({
-  children,
+  childrenItems,
   childrenTitle,
   childrenPath,
   parent,
@@ -43,13 +43,13 @@ export const RelationsViewPerLgContent = ({
           <Link to={`/operations/${parentPath}/${parent.id}`}>{parent[`label${langSuffix}`]}</Link>
         </p>
       )}
-      {children && childrenTitle && (
+      {childrenItems && childrenTitle && (
         <>
           <p>
             <span className="links-title">{t(`common.${childrenTitle}`, { lng })}</span>
           </p>
           <ul>
-            {children
+            {childrenItems
               .sort(function (a, b) {
                 return a[`label${langSuffix}`].localeCompare(b[`label${langSuffix}`]);
               })

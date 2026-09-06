@@ -59,7 +59,7 @@ const SIZE_UNITS = ["B", "KB", "MB", "GB"];
 
 const formatFileSize = (bytes) => {
   const unit = bytes > 0 ? Math.floor(Math.log(bytes) / Math.log(KILOBYTE)) : 0;
-  return `${parseFloat((bytes / KILOBYTE ** unit).toFixed(1))} ${SIZE_UNITS[unit]}`;
+  return `${Number.parseFloat((bytes / KILOBYTE ** unit).toFixed(1))} ${SIZE_UNITS[unit]}`;
 };
 
 const initDocument = {

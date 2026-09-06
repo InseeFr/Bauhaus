@@ -169,13 +169,13 @@ export const CodeRepresentation = ({
 
     if (codeList) {
       // Cas où on a une codeList complète (création ou liste existante chargée)
-      const tableData: CodeTableRow[] = (codeList.Code || []).map((code) => {
+      const tableData: CodeTableRow[] = (codeList.Code ?? []).map((code) => {
         const category = categories.find((cat) => cat.ID === code.CategoryReference?.ID);
         return {
           id: code.ID,
           value: code.Value?.StringValue ?? "",
           label: getLocalizedText(category?.Label) ?? "",
-          categoryId: category?.ID || "",
+          categoryId: category?.ID ?? "",
         };
       });
       dispatch({
@@ -265,9 +265,9 @@ export const CodeRepresentation = ({
 
       const newCodeListId = codeList?.ID || crypto.randomUUID();
       const currentRepresentation =
-        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
       const updatedCodeList: CodeList = {
-        ...(codeList ||
+        ...(codeList ??
           createDefaultCodeList(newCodeListId, newLabel, defaultAgencyId, defaultLocale)),
         Label: createLabel(newLabel, defaultLocale),
       };
@@ -296,9 +296,9 @@ export const CodeRepresentation = ({
 
       const newCodeListId = codeList?.ID || crypto.randomUUID();
       const currentRepresentation =
-        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
       const updatedCodeList: CodeList = {
-        ...(codeList ||
+        ...(codeList ??
           createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
         Label: createLabel(codeListLabel, defaultLocale),
         Code: codeList?.Code?.filter((code) => code.ID !== codeId),
@@ -329,7 +329,7 @@ export const CodeRepresentation = ({
 
       const newCodeListId = codeList?.ID || crypto.randomUUID();
       const currentRepresentation =
-        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
       // On repart de la catégorie existante quand il y en a une, pour ne pas perdre les champs
       // qu'elle porte au-delà du libellé — notamment le BasedOnObject d'une variante fraîchement
       // créée, qui serait effacé par une reconstruction de zéro.
@@ -350,17 +350,17 @@ export const CodeRepresentation = ({
 
       if (existingCode) {
         updatedCodeListCodes =
-          codeList?.Code?.map((code) => (code.ID === rowData.id ? newCode : code)) || [];
+          codeList?.Code?.map((code) => (code.ID === rowData.id ? newCode : code)) ?? [];
         updatedCategories = categories.map((cat) =>
           cat.ID === rowData.categoryId ? newCategory : cat,
         );
       } else {
-        updatedCodeListCodes = [...(codeList?.Code || []), newCode];
+        updatedCodeListCodes = [...(codeList?.Code ?? []), newCode];
         updatedCategories = [...categories, newCategory];
       }
 
       const updatedCodeList: CodeList = {
-        ...(codeList ||
+        ...(codeList ??
           createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
         Label: createLabel(codeListLabel, defaultLocale),
         Code: updatedCodeListCodes,
@@ -406,7 +406,7 @@ export const CodeRepresentation = ({
 
       const newCodeListId = codeList?.ID || crypto.randomUUID();
       const currentRepresentation =
-        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
       const newCategory = createCategory(
         newRow.categoryId,
         newRow.label,
@@ -416,10 +416,10 @@ export const CodeRepresentation = ({
       const newCode = createCode(newRow.id, newRow.categoryId, newRow.value, defaultAgencyId);
 
       const updatedCodeList: CodeList = {
-        ...(codeList ||
+        ...(codeList ??
           createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
         Label: createLabel(codeListLabel, defaultLocale),
-        Code: [...(codeList?.Code || []), newCode],
+        Code: [...(codeList?.Code ?? []), newCode],
       };
 
       commit(currentRepresentation, updatedCodeList, [...categories, newCategory]);
@@ -468,15 +468,15 @@ export const CodeRepresentation = ({
 
       const newCodeListId = codeList?.ID || crypto.randomUUID();
       const currentRepresentation =
-        representation || createDefaultRepresentation(newCodeListId, defaultAgencyId);
+        representation ?? createDefaultRepresentation(newCodeListId, defaultAgencyId);
 
       // Réorganiser les codes dans la codeList
-      const currentCodes = [...(codeList?.Code || [])];
+      const currentCodes = [...(codeList?.Code ?? [])];
       const [movedCode] = currentCodes.splice(currentIndex, 1);
       currentCodes.splice(newIndex, 0, movedCode);
 
       const updatedCodeList: CodeList = {
-        ...(codeList ||
+        ...(codeList ??
           createDefaultCodeList(newCodeListId, codeListLabel, defaultAgencyId, defaultLocale)),
         Label: createLabel(codeListLabel, defaultLocale),
         Code: currentCodes,

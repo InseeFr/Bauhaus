@@ -59,7 +59,7 @@ export function OperationsFamilyVisualization({
         )}
       </Row>
       <RelationsView
-        children={attr.series}
+        childrenItems={attr.series}
         childrenTitle="childrenSeries"
         childrenPath="series"
         secondLang={secondLang}

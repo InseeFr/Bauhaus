@@ -23,8 +23,8 @@ export const Narrowers = ({ narrowers, classificationId, secondLang }: Props) =>
     return null;
   }
 
-  const narrowersLg1 = narrowers?.map((n, i) => (
-    <li key={i}>
+  const narrowersLg1 = narrowers?.map((n) => (
+    <li key={n.id}>
       <Link to={`/classifications/classification/${classificationId}/item/${n.id}`}>
         {`${n.id} - ${n.labelLg1}`}
       </Link>
@@ -33,9 +33,9 @@ export const Narrowers = ({ narrowers, classificationId, secondLang }: Props) =>
 
   let narrowersLg2: (JSX.Element | null)[] = [];
   if (secondLang)
-    narrowersLg2 = narrowers?.map((n, i) =>
+    narrowersLg2 = narrowers?.map((n) =>
       n.labelLg2 ? (
-        <li key={i}>
+        <li key={n.id}>
           <Link to={`/classifications/classification/${classificationId}/item/${n.id}`}>
             {`${n.id} - ${n.labelLg2}`}
           </Link>

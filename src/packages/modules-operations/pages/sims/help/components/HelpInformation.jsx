@@ -11,6 +11,7 @@ export function HelpInformation({ msd, codesLists, organisations }) {
   if (!msd.masLabelLg1) {
     return null;
   }
+  const rangeLabel = t(`sims.help${msd.rangeType}`);
   return (
     <dl>
       <dt>{t("app.labelTitle")}:</dt>
@@ -26,8 +27,8 @@ export function HelpInformation({ msd, codesLists, organisations }) {
       <dt>{t("sims.helpRange")}:</dt>
       <dd>
         {msd.rangeType === CODE_LIST && codesLists[msd.codeList]
-          ? `${t(`sims.help${msd.rangeType}`)} - ${codesLists[msd.codeList].codeListLabelLg1}`
-          : `${t(`sims.help${msd.rangeType}`)}`}
+          ? `${rangeLabel} - ${codesLists[msd.codeList].codeListLabelLg1}`
+          : rangeLabel}
 
         {msd.rangeType === CODE_LIST && codesLists[msd.codeList] && (
           <List.Container>

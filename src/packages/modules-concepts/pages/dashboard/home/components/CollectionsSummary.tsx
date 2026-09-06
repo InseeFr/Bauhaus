@@ -31,6 +31,8 @@ export const buildDataStamps = (d: Collection[]): CollectionStampRow[] =>
     return acc;
   }, []);
 
+const stampBody = (row: CollectionStampRow) => <InseeOrganisation creator={row.stamp} />;
+
 function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Collection[] }>) {
   const { t } = useTranslation();
 
@@ -66,7 +68,7 @@ function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Col
           <Column
             field="stamp"
             header={t("dashboard.collections.summary.byOwnerColumn")}
-            body={(row: CollectionStampRow) => <InseeOrganisation creator={row.stamp} />}
+            body={stampBody}
           ></Column>
           <Column field="total" header={t("dashboard.totalColumn")}></Column>
         </DataTable>

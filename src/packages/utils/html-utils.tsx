@@ -39,9 +39,9 @@ export const rmesHtmlToRawHtml = (html: string) => cleanHtml(stateToHTML(stateFr
  */
 export const draftHtmlToXhtml = (html: string) =>
   html
-    .replace(/&nbsp;/g, " ")
-    .replace(/<br>/g, "<br/>")
-    .replace(/<p><\/p>/g, "<br/>");
+    .replaceAll(/&nbsp;/g, " ")
+    .replaceAll(/<br>/g, "<br/>")
+    .replaceAll(/<p><\/p>/g, "<br/>");
 
 /**
  * We need to transform back the html to comply with the repository rules
@@ -54,10 +54,10 @@ const rUselessSpace = /(>)\s*(<)/g;
 export const cleanHtml = (html: string) => {
   const rawText = htmlToRawText(html);
   if (rawText === "") return "";
-  return html.replace(rNewLine, "").replace(rUselessSpace, "$1$2");
+  return html.replaceAll(rNewLine, "").replaceAll(rUselessSpace, "$1$2");
 };
 
-export const delPTags = (s: string) => s && s.replace(/<p>/g, "").replace(/<\/p>/g, "");
+export const delPTags = (s: string) => s && s.replaceAll(/<p>/g, "").replaceAll(/<\/p>/g, "");
 
 //HACK avoid new lines and unecesseray whitespaces in the html. Not safe: some
 //of these whitespaces might impact the rendered html. But for notes edited with

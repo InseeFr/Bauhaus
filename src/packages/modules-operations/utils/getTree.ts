@@ -11,8 +11,8 @@ export function getTree(input: any[], idParent?: string, objectToMerge?: any): a
   return input
     .filter((msd) => msd.idParent === idParent)
     .sort((msd1, msd2) => {
-      const msdId1 = parseInt(msd1.idMas.substr(2).replace(".", ""), 10);
-      const msdId2 = parseInt(msd2.idMas.substr(2).replace(".", ""), 10);
+      const msdId1 = Number.parseInt(msd1.idMas.substr(2).replace(".", ""), 10);
+      const msdId2 = Number.parseInt(msd2.idMas.substr(2).replace(".", ""), 10);
 
       return msdId1 - msdId2;
     })

@@ -160,7 +160,7 @@ export function OperationsSerieVisualization({ attr, secondLang, frequency = {},
       />
       <SeeAlso links={seeAlso} secondLang={secondLang} />
       <RelationsView
-        children={attr.operations}
+        childrenItems={attr.operations}
         childrenTitle="childrenOperations"
         childrenPath="operation"
         parent={attr.family}

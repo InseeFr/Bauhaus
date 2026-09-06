@@ -60,6 +60,10 @@ vi.mock("@utils/html-utils", () => ({
   renderMarkdownElement: (v: any) => v,
 }));
 
+vi.mock("@components/business/organisations/organisations", () => ({
+  InseeOrganisation: ({ creator }: any) => <span>{`Organisation: ${creator}`}</span>,
+}));
+
 const renderGeneral = (general = {}, secondLang = false) =>
   render(
     <MemoryRouter>
@@ -132,6 +136,37 @@ describe("<General />", () => {
     expect(screen.getAllByTestId("note-content")[0]).toHaveTextContent(
       "Publication status : Provisional",
     );
+  });
+
+  it("affiche variantLg1 avec un lien vers la variante", () => {
+    renderGeneral({ variantLg1: "COICOP variante", idVariant: "coicopVariante" });
+    const link = screen.getByRole("link", { name: "COICOP variante" });
+    expect(link).toHaveAttribute("href", "/classifications/classification/coicopVariante");
+  });
+
+  it("affiche le libellé de seconde langue entre parenthèses quand secondLang est actif", () => {
+    renderGeneral({ seriesLg1: "COICOP", seriesLg2: "COICOP EN", idSeries: "coicop" }, true);
+    expect(screen.getByRole("link", { name: "COICOP EN" })).toHaveAttribute(
+      "href",
+      "/classifications/series/coicop",
+    );
+  });
+
+  it("n'affiche pas le libellé de seconde langue quand secondLang est inactif", () => {
+    renderGeneral({ seriesLg1: "COICOP", seriesLg2: "COICOP EN", idSeries: "coicop" }, false);
+    expect(screen.queryByRole("link", { name: "COICOP EN" })).toBeNull();
+  });
+
+  it("affiche le créateur via InseeOrganisation", () => {
+    renderGeneral({ creator: "DG75-H250" });
+    expect(screen.getAllByTestId("note-content")[0]).toHaveTextContent(
+      "Owner : Organisation: DG75-H250",
+    );
+  });
+
+  it("affiche les autres champs sous la forme « libellé : valeur »", () => {
+    renderGeneral({ rights: "Insee" });
+    expect(screen.getAllByTestId("note-content")[0]).toHaveTextContent("Copyright : Insee");
   });
 
   it("affiche un lien externe pour additionalMaterial", () => {

@@ -66,7 +66,7 @@ const buildDefaultPaths = (t: (key: string) => string): Record<string, UIMenuIte
 });
 
 const extractSimsIdFromPathname = (pathname: string): string | undefined => {
-  const match = pathname.match(/\/operations\/sims\/([^/]+)/);
+  const match = /\/operations\/sims\/([^/]+)/.exec(pathname);
 
   return match ? match[1] : undefined;
 };

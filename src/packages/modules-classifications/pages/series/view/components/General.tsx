@@ -91,7 +91,7 @@ export const General = ({ general, secondLang }: Props) => {
       if (fieldName.includes("altLabel")) {
         return (
           <li key={fieldName}>
-            {`${mapping[fieldName]} : ${(general[fieldName] as string).split(" || ").join(" - ")}`}
+            {`${mapping[fieldName]} : ${(general[fieldName] as string).replaceAll(" || ", " - ")}`}
           </li>
         );
       } else {

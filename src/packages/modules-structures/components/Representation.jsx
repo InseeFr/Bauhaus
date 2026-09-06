@@ -27,5 +27,5 @@ export const Representation = ({ component, codesLists, handleCodesListDetail })
     );
   }
 
-  return XSD_TYPES.find((range) => component.range === range.value)?.label || "";
+  return <>{XSD_TYPES.find((range) => component.range === range.value)?.label ?? ""}</>;
 };

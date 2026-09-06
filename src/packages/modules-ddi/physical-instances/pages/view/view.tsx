@@ -688,7 +688,7 @@ export const Component = () => {
           // mêmes IDs, modification en place.
           if (localVar.missingValuesReference) {
             variableRepresentation = {
-              ...(variableRepresentation ?? {}),
+              ...variableRepresentation,
               MissingValuesReference: localVar.missingValuesReference,
             };
             if (localVar.sentinelMmvr) {

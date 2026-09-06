@@ -42,7 +42,7 @@ describe("RelationsView Component", () => {
     labelLg1: "Libellé Parent Lg1",
     labelLg2: "Libellé Parent Lg2",
   };
-  const children = [
+  const childrenItems = [
     {
       id: "child1",
       labelLg1: "Libellé Enfant 1 Lg1",
@@ -59,7 +59,7 @@ describe("RelationsView Component", () => {
     parent,
     parentTitle: "parentTitle",
     parentPath: "parentPath",
-    children,
+    childrenItems,
     childrenTitle: "childrenTitle",
     childrenPath: "childrenPath",
     secondLang: true,

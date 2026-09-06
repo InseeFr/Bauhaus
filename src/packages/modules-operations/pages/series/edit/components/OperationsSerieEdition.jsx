@@ -48,9 +48,9 @@ export class OperationsSerieEdition extends Component {
     this.state = this.setInitialState(props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.serie.id !== this.props.serie.id) {
-      this.setState(this.setInitialState(nextProps));
+  componentDidUpdate(prevProps) {
+    if (prevProps.serie.id !== this.props.serie.id) {
+      this.setState(this.setInitialState(this.props));
     }
   }
 

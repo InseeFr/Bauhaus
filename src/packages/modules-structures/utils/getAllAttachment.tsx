@@ -3,10 +3,10 @@ import { ATTACHMENTS } from "../constants";
 
 export const getAllAttachment = (measures: Component[] = [], specification: any) => {
   // We find one measure linked to the attribute
-  const measureWithThisAttribute = measures.find((measure: any) => {
-    return !!Object.keys(measure)
+  const hasMeasureWithThisAttribute = measures.some((measure: any) => {
+    return Object.keys(measure)
       .filter((key) => key.startsWith("attribute_"))
-      .find((key) => {
+      .some((key) => {
         return measure[key] === specification.component.iri;
       });
   });
@@ -17,7 +17,7 @@ export const getAllAttachment = (measures: Component[] = [], specification: any)
   }));
 
   // If this measure exists, this attribute can only have a measure as an attachment
-  if (measureWithThisAttribute) {
+  if (hasMeasureWithThisAttribute) {
     return measuresOptions;
   }
 
