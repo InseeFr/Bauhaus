@@ -105,6 +105,27 @@ describe("generateSimsBeforeSubmit", () => {
       expect(untouched.value).toBe("manual");
     });
 
+    it("injects today's date when rubrics are indexed by id instead of listed", () => {
+      const metadataStructure = {
+        "S.2.3": { idMas: "S.2.3", subPropertyOf: DCTERMS_MODIFIED, children: {} },
+      };
+      const rubrics = {
+        "S.2.3": { idMas: "S.2.3", value: "2020-01-01T00:00:00.000Z" },
+        "S.2.4": { idMas: "S.2.4", value: "manual" },
+      };
+
+      const result = generateSimsBeforeSubmit(
+        { id: "1", labelLg1: "L1", labelLg2: "L2", created: "2023-01-01" },
+        "operation",
+        "parent",
+        rubrics,
+        metadataStructure,
+      );
+
+      expect(result.rubrics["S.2.3"].value).toBe("2026-05-07T10:00:00.000Z");
+      expect(result.rubrics["S.2.4"].value).toBe("manual");
+    });
+
     it("does nothing when no rubric is flagged", () => {
       const metadataStructure = {
         S1: { idMas: "S1", children: {} },
