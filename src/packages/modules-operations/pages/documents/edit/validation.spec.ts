@@ -28,7 +28,7 @@ describe("validation", function () {
           labelLg1: "existingLabel",
           labelLg2: "",
           lang: "l",
-          url: "http:/u",
+          url: "http://u",
         },
         "link",
         [
@@ -170,7 +170,7 @@ describe("validation", function () {
           labelLg1: "labelLg2",
           labelLg2: "labelLg2",
           lang: "l",
-          url: "https:/u",
+          url: "https://u",
         },
         "link",
         [],
