@@ -416,7 +416,7 @@ export const ComponentDetailEdit = ({
         {(component.range === XSD_DATE || component.range === XSD_DATE_TIME) && (
           <Row>
             <div className="col-md-offset-1 col-md-11 form-group">
-              <label htmlFor="format">{t("component.representation.format")}</label>
+              <label htmlFor="pattern">{t("component.representation.format")}</label>
               <TextInput
                 value={component.pattern}
                 id="pattern"
@@ -457,7 +457,7 @@ export const ComponentDetailEdit = ({
         {component.range === XSD_STRING && (
           <Row>
             <div className="col-md-offset-1 col-md-11 form-group">
-              <label htmlFor="format">{t("component.representation.format")}</label>
+              <label htmlFor="pattern">{t("component.representation.format")}</label>
               <TextInput
                 value={component.pattern}
                 id="pattern"
