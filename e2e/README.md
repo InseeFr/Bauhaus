@@ -77,7 +77,10 @@ Options utiles : `npx playwright test --ui`, `--headed`, `--debug`,
 - **Dette d'accessibilité.** `a11y/a11y.spec.ts` tolère trois règles axe déjà
   violées partout (`color-contrast`, `label`, `select-name`). Toute nouvelle
   règle violée fait échouer le test.
-- **Le workflow CI dépend d'un `compose.yaml` du Back-Office actuellement
-  cassé** (`build: ../Dockerfile.bauhaus` ne pointe pas sur un contexte de
-  build valide). Tant qu'il n'est pas corrigé côté Back-Office, l'étape
-  « Start GraphDB and the Back-Office » échouera.
+- **Le workflow CI épingle le Back-Office sur la branche `4.21.0`.** Sur la
+  branche par défaut (`main`), `compose/bauhaus-back.yaml` déclare encore
+  `build: ../Dockerfile.bauhaus` : la forme courte de `build` attend un contexte
+  de build, pas un Dockerfile, et l'étape « Start GraphDB and the Back-Office »
+  échoue sur « unable to prepare context ». Le `ref: 4.21.0` de
+  `.github/workflows/playwright.yml` est à retirer une fois le correctif
+  (`context: ../..` + `dockerfile: Dockerfile.bauhaus`) fusionné dans `main`.

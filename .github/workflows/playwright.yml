@@ -12,6 +12,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: InseeFr/Bauhaus-Back-Office
+          # Épinglé : sur la branche par défaut (`main`), compose/bauhaus-back.yaml
+          # déclare `build: ../Dockerfile.bauhaus` — la forme courte de `build` attend
+          # un contexte de build, pas un Dockerfile, et l'étape suivante échoue sur
+          # « unable to prepare context ». Repasser sur la branche par défaut (supprimer
+          # ce `ref`) une fois le correctif fusionné dans main.
+          ref: 4.21.0
           path: ./bauhaus-back-office
       - name: Install pnpm
         uses: pnpm/action-setup@v4
