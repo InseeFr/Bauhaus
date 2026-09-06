@@ -20,10 +20,14 @@ test('liste les jeux de données sans doublon', async ({ page }) => {
 	await page.goto('/datasets');
 	await expect(page.getByRole('heading', { name: 'Datasets - Search' })).toBeVisible();
 
-	const links = page.getByRole('listitem').getByRole('link');
-	const labels = await links.allInnerTexts();
-	expect(labels.length).toBeGreaterThan(0);
-	expect(new Set(labels).size, `libellés dupliqués : ${labels}`).toBe(labels.length);
+	// `ul.list-group` est la liste des résultats : les menus et la pagination
+	// ont leurs propres classes. On compare les URL, pas les intitulés — deux
+	// jeux de données distincts ont le droit de porter le même libellé, le
+	// doublon à traquer est la même fiche listée deux fois.
+	const links = page.locator('ul.list-group a');
+	const hrefs = await links.evaluateAll((anchors) => anchors.map((a) => a.getAttribute('href')));
+	expect(hrefs.length).toBeGreaterThan(0);
+	expect(new Set(hrefs).size, `fiches dupliquées : ${hrefs}`).toBe(hrefs.length);
 	expect(duplicateKeyErrors).toEqual([]);
 });
 

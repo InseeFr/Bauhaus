@@ -1,0 +1,69 @@
+# Nomenclature de test propre à la suite e2e.
+#
+# Les autres jeux de données viennent de Bauhaus-Back-Office ; celui-ci est
+# local parce qu'aucune de ses fixtures ne convient : `classifications-crud-it`
+# donne à ses postes des IRI terminées par un slash
+# (`.../codes/nafr2-it/01/`), alors que getClassificationItem.ftlh filtre par
+# `STRENDS(STR(?item), "/<notation>")`. La fiche d'un poste y remonte donc
+# vide, et le parcours « liste → nomenclature → postes → poste » ne peut pas
+# aller jusqu'au bout.
+#
+# Structure minimale exigée par les requêtes du module :
+#  - getClassifications / getClassification : ?classification a skos:ConceptScheme,
+#    IRI contenant /codes/<id>/, skos:prefLabel@fr, validationState dans le
+#    graphe « nomenclatures » ;
+#  - getClassificationItems : ?item skos:inScheme <classification>,
+#    skos:prefLabel@fr, skos:notation, et un niveau (?level skos:member ?item ;
+#    ?level xkos:depth ?depth) ;
+#  - getClassificationItem : IRI de poste terminée par /<notation>.
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xkos:  <http://rdf-vocabulary.ddialliance.org/xkos#> .
+@prefix dc:    <http://purl.org/dc/elements/1.1/> .
+@prefix insee: <http://rdf.insee.fr/def/base#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+<http://rdf.insee.fr/graphes/codes/nafe2e> {
+  <http://rdf.insee.fr/codes/nafe2e/>
+      a skos:ConceptScheme ;
+      skos:prefLabel "Nomenclature d'activités (e2e)"@fr ;
+      skos:prefLabel "Activity classification (e2e)"@en ;
+      skos:altLabel "NAF (e2e)"@fr ;
+      dc:creator "Insee" ;
+      insee:disseminationStatus <http://id.insee.fr/codes/base/statutDiffusion/Public> .
+
+  <http://rdf.insee.fr/codes/nafe2e/niveau/1>
+      a xkos:ClassificationLevel ;
+      skos:prefLabel "Sections (e2e)"@fr ;
+      skos:prefLabel "Sections (e2e)"@en ;
+      skos:member <http://rdf.insee.fr/codes/nafe2e/A> ;
+      xkos:depth "1"^^xsd:int .
+
+  <http://rdf.insee.fr/codes/nafe2e/niveau/2>
+      a xkos:ClassificationLevel ;
+      skos:prefLabel "Divisions (e2e)"@fr ;
+      skos:prefLabel "Divisions (e2e)"@en ;
+      skos:member <http://rdf.insee.fr/codes/nafe2e/01> ;
+      xkos:depth "2"^^xsd:int .
+
+  <http://rdf.insee.fr/codes/nafe2e/A>
+      a skos:Concept ;
+      skos:inScheme <http://rdf.insee.fr/codes/nafe2e/> ;
+      skos:prefLabel "Agriculture, sylviculture et pêche (e2e)"@fr ;
+      skos:prefLabel "Agriculture, forestry and fishing (e2e)"@en ;
+      skos:altLabel "Agriculture (e2e)"@fr ;
+      skos:notation "A" .
+
+  <http://rdf.insee.fr/codes/nafe2e/01>
+      a skos:Concept ;
+      skos:inScheme <http://rdf.insee.fr/codes/nafe2e/> ;
+      skos:prefLabel "Culture et production animale (e2e)"@fr ;
+      skos:prefLabel "Crop and animal production (e2e)"@en ;
+      skos:notation "01" ;
+      skos:broader <http://rdf.insee.fr/codes/nafe2e/A> .
+}
+
+<http://rdf.insee.fr/graphes/codes/nomenclatures> {
+  <http://rdf.insee.fr/codes/nafe2e/>
+      insee:validationState "Validated" .
+}

@@ -33,13 +33,19 @@ FIXTURE_NAMES=(
 	themes-jeu-de-donnees-dev
 )
 
+# Les jeux de données que la suite e2e possède en propre, chargés après ceux du
+# Back-Office. Chemins relatifs à `e2e/`, comme les configurations de dépôt.
+LOCAL_FIXTURES=(
+	./playwright/db/classifications.trig
+)
+
 # Nombre de triplets attendu dans `bauhaus` une fois les fixtures chargées.
 # Il fige le contenu des fixtures : un `.trig` tronqué, vidé ou remplacé côté
 # Back-Office fait échouer le script au lieu de laisser passer des tests e2e qui
 # s'exécutent sur des données partielles.
 # Pour le régénérer après une modification volontaire des fixtures :
 #     curl -sf "${GRAPHDB_URL}/repositories/bauhaus/size"
-EXPECTED_TRIPLES=79287
+EXPECTED_TRIPLES=79316
 
 CONFIGS=(
 	./playwright/db/config.ttl
@@ -60,8 +66,8 @@ missing=()
 for fixture in "${FIXTURE_NAMES[@]}"; do
 	[ -f "${FIXTURES}/${fixture}.trig" ] || missing+=("${FIXTURES}/${fixture}.trig")
 done
-for config in "${CONFIGS[@]}"; do
-	[ -f "${config}" ] || missing+=("${config}")
+for fixture in "${LOCAL_FIXTURES[@]}" "${CONFIGS[@]}"; do
+	[ -f "${fixture}" ] || missing+=("${fixture}")
 done
 
 if [ ${#missing[@]} -ne 0 ]; then
@@ -88,6 +94,13 @@ for fixture in "${FIXTURE_NAMES[@]}"; do
 	curl -sf -X POST "${GRAPHDB_URL}/repositories/bauhaus/statements" \
 		-H "Content-Type: application/trig" \
 		--data-binary "@${FIXTURES}/${fixture}.trig"
+done
+
+for fixture in "${LOCAL_FIXTURES[@]}"; do
+	echo "Chargement de ${fixture}"
+	curl -sf -X POST "${GRAPHDB_URL}/repositories/bauhaus/statements" \
+		-H "Content-Type: application/trig" \
+		--data-binary "@${fixture}"
 done
 
 # --- Vérification du chargement ----------------------------------------------

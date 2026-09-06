@@ -21,11 +21,15 @@ test('crée un concept, le retrouve dans la liste et le publie', async ({ page }
 	await selectFirstOne(page, 'Owner');
 	await selectOne(page, 'Dissemination status', 'Privé');
 
-	// Onglet « Notes » : la définition en langue 1 est obligatoire.
-	await page.getByRole('tab', { name: 'Notes' }).click();
-	await page.getByRole('tab', { name: 'Définition', exact: true }).click();
+	// Section « Notes » : la définition en langue 1 est obligatoire. Le sommaire
+	// a remplacé les onglets — chaque entrée est un bouton dont le nom accessible
+	// porte aussi l'état de la note (« Empty » tant qu'elle est vide), et
+	// l'ancrage de fin distingue « Définition » de « Définition courte ».
+	const summary = page.getByRole('navigation', { name: 'General information' });
+	await summary.getByRole('button', { name: 'Notes', exact: true }).click();
+	await summary.getByRole('button', { name: /^Définition Empty$/ }).click();
 	const definition = page
-		.getByRole('tabpanel', { name: 'Définition', exact: true })
+		.getByRole('region', { name: 'Définition', exact: true })
 		.getByRole('textbox', { name: 'rdw-editor' })
 		.first();
 	await definition.click();

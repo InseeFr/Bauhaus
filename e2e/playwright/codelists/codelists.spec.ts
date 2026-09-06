@@ -57,9 +57,10 @@ test('crée une liste de codes et lui ajoute un code', async ({ page }) => {
 	await page.getByRole('link', { name: 'Update' }).click();
 	await page.locator('#add-code').click();
 
-	// Le formulaire du code vit dans un panneau latéral qui duplique les ids
+	// Le formulaire du code vit dans un panneau latéral (`RightSlidingPanel`,
+	// une `Sidebar` PrimeReact, donc un « complementary ») qui duplique les ids
 	// du formulaire principal : on s'y limite explicitement.
-	const codePanel = page.locator('.sliding-panel-container');
+	const codePanel = page.getByRole('complementary');
 	await codePanel.locator('#code').fill('001');
 	await codePanel.locator('#labelLg1').fill(codeLabel);
 	await codePanel.locator('#labelLg2').fill(`${codeLabel} EN`);

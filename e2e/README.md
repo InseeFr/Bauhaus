@@ -12,12 +12,12 @@ Testing Library reste dans `src/**/*.spec.tsx`.
 | `operations/series.spec.ts`               | Créer une série → la retrouver → la publier (+ validation client)    |
 | `operations/operations.spec.ts`           | Créer une opération → la publier → initialiser son rapport SIMS      |
 | `operations/families.spec.ts`             | Créer une famille → affichage bilingue → la retrouver                |
-| `concepts/concepts.spec.ts`               | Créer un concept (onglets, éditeur riche) → le publier               |
+| `concepts/concepts.spec.ts`               | Créer un concept (sommaire, éditeur riche) → le publier              |
 | `codelists/codelists.spec.ts`             | Consulter et filtrer une liste de codes ; créer une liste + un code  |
 | `datasets/datasets.spec.ts`               | Lister sans doublon ; créer un jeu de données (multi-sections)       |
 | `structures/components.spec.ts`           | Créer une composante mutualisée                                      |
 | `classifications/classifications.spec.ts` | Naviguer nomenclature → postes → poste, et afficher l'arbre          |
-| `a11y/a11y.spec.ts`                       | Aucune nouvelle violation axe sur les écrans d'accueil des modules   |
+| `a11y/a11y.spec.ts`                       | Aucune nouvelle violation axe sur les accueils, chargement compris   |
 
 Non couvert : le module **DDI / Variables**, qui interroge Colectica. Sans
 identifiants (`COLECTICA_USERNAME` / `COLECTICA_PASSWORD`), l'API répond 401 ;
@@ -46,9 +46,9 @@ l'image du Back-Office : environ **2 min 20**.
 ### Dépendance au dépôt voisin
 
 La suite dépend deux fois du dépôt **Bauhaus-Back-Office** cloné à côté de
-`Bauhaus` : l'image du back en est **construite**, et les fixtures RDF en sont
-**lues** (`module-bauhaus-bo/src/test/resources/testcontainers/`, huit `.trig`
-chargés par `init.sh`). Si le clone n'est pas un répertoire frère :
+`Bauhaus` : l'image du back en est **construite**, et l'essentiel des fixtures
+RDF en est **lu** (`module-bauhaus-bo/src/test/resources/testcontainers/`, huit
+`.trig` chargés par `init.sh`). Si le clone n'est pas un répertoire frère :
 
 ```bash
 BACK_OFFICE_HOME=/chemin/vers/Bauhaus-Back-Office pnpm e2e:stack
@@ -58,6 +58,12 @@ Deux conséquences : un `.trig` renommé côté Back-Office casse la suite — m
 `init.sh` le détecte **avant** toute suppression de dépôt — et le contenu des
 fixtures est figé par un décompte de triplets (`EXPECTED_TRIPLES`), à régénérer
 après toute modification volontaire.
+
+La suite possède en propre `playwright/db/classifications.trig`
+(`LOCAL_FIXTURES` dans `init.sh`), chargé après les autres. Aucune fixture du
+Back-Office ne convenait : `classifications-crud-it` termine les IRI de ses
+postes par un slash, alors que `getClassificationItem.ftlh` filtre par
+`STRENDS(STR(?item), "/<notation>")` — la fiche d'un poste y remonte vide.
 
 Options utiles : `pnpm --dir e2e test --ui`, `--headed`, `--debug`,
 `pnpm --dir e2e report`.
@@ -97,6 +103,15 @@ est dans la documentation : *How to run end-to-end tests*.
 - **Dette d'accessibilité.** `a11y/a11y.spec.ts` tolère trois règles axe déjà
   violées partout (`color-contrast`, `label`, `select-name`). Toute nouvelle
   règle violée fait échouer le test.
+- **Libellés en double dans les fixtures.** `sims-codes.trig` et
+  `jeuxDeDonnees-pour-tests.trig` décrivent tous deux
+  `<http://bauhaus/codes/frequences>`, avec des libellés différents
+  (« Fréquence » / « Fréquences »). `CL_FREQ` a donc deux `skos:prefLabel` par
+  langue une fois les deux chargés, la liste des listes de codes en affiche le
+  produit — quatre lignes identiques — et React signale quatre enfants de même
+  clé. C'est la donnée qui est en cause, pas l'IHM : d'où l'absence de test de
+  non-régression « sans doublon » sur cet écran, contrairement aux jeux de
+  données.
 - **Le workflow CI épingle le Back-Office sur la branche `4.21.0`.** Le compose
   du Back-Office n'est plus cassé *sur cette branche* : `context: ../..` +
   `dockerfile: Dockerfile.bauhaus` y sont en place, et le back composé joint bien
