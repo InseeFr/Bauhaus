@@ -311,8 +311,8 @@ const messages = {
         "You do not have the required permissions for mailing a collection. For more information, please contact the management team.",
     },
     1002: {
-      fr: "Un composant avec la même liste de codes et le même concept existe déjà.",
-      en: "A component with the same code list and concept already exists.",
+      fr: () => "Un composant avec la même liste de codes et le même concept existe déjà.",
+      en: () => "A component with the same code list and concept already exists.",
     },
     1004: {
       fr: () => "Le propriétaire n'est pas défini.",
