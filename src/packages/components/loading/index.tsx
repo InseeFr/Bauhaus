@@ -17,7 +17,10 @@ export const Loading = ({ text, textType }: LoadingTypes) => {
       aria-live="polite"
       aria-label={content}
     >
-      <ProgressSpinner />
+      {/* Le `role="progressbar"` que PrimeReact pose sur le spinner n'a pas de
+          nom accessible ; c'est le conteneur qui porte le message. Le masquer
+          évite une violation axe et une annonce en double. */}
+      <ProgressSpinner aria-hidden />
       <p>{content}</p>
     </div>
   );

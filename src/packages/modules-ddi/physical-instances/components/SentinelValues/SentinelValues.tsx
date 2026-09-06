@@ -343,7 +343,9 @@ export const SentinelValues = ({
         <div className="flex flex-column gap-2">
           {isLoading && (
             <div className="flex gap-2 align-items-center">
+              {/* Décoratif : le texte qui suit porte le message. */}
               <ProgressSpinner
+                aria-hidden
                 style={{ width: "20px", height: "20px", margin: "0" }}
                 strokeWidth="4"
               />
@@ -393,7 +395,9 @@ export const SentinelValues = ({
 
           {Boolean(missingValuesReference) && isLoadingCodes && !hasLocalEdits && (
             <div className="flex gap-2 align-items-center">
+              {/* Décoratif : le texte qui suit porte le message. */}
               <ProgressSpinner
+                aria-hidden
                 style={{ width: "20px", height: "20px", margin: "0" }}
                 strokeWidth="4"
               />
