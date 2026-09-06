@@ -227,6 +227,23 @@ export const useSharedEditGuard = ({
     );
 
   /**
+   * Garde « liste seule » une fois le partage résolu. Elle est le seul point qui décide d'ouvrir
+   * la popup liste : passer par elle garantit que l'accord déjà donné pour la session est
+   * respecté, d'où qu'on vienne — y compris du repli de la garde catégorie.
+   */
+  const guardListOnly = (
+    apply: ApplyEdit,
+    listSharing: { usages: CodeListUsage[]; shared: boolean },
+    options: GuardOptions,
+  ) => {
+    if (overrideAcknowledgedRef.current || !listSharing.shared) {
+      apply(onChange);
+      return false;
+    }
+    return openListDialog(apply, listSharing.usages, options);
+  };
+
+  /**
    * Garde toute mutation de la liste : si la liste est partagée par d'autres variables (et
    * éditable), on demande confirmation avant d'appliquer le changement (cas 1). « Modifier »
    * applique sur la liste partagée et mémorise l'accord pour le reste de la session ; « Créer »
@@ -239,12 +256,7 @@ export const useSharedEditGuard = ({
       apply(onChange);
       return false;
     }
-    const listSharing = await resolveListSharing();
-    if (!listSharing.shared) {
-      apply(onChange);
-      return false;
-    }
-    return openListDialog(apply, listSharing.usages, options);
+    return guardListOnly(apply, await resolveListSharing(), options);
   };
 
   /**
@@ -274,11 +286,15 @@ export const useSharedEditGuard = ({
     ]);
 
     if (!categoryUsages || categoryUsages.length === 0) {
-      if (listSharing.shared) {
-        return openListDialog(apply, listSharing.usages, options);
+      // Aucun usage connu pour la catégorie (jamais sauvegardée, ou usages inaccessibles) : rien
+      // à confirmer la concernant, seul le partage de la liste est en jeu. On repasse donc par la
+      // garde liste, qui honore l'accord déjà donné — sans quoi la popup reviendrait à chaque
+      // frappe, la catégorie n'étant jamais acquittée par la popup liste.
+      if (categoryUsages) {
+        // Réponse ferme « aucun usage » : inutile de réinterroger à la frappe suivante.
+        categoryAcknowledgedRef.current.add(categoryId);
       }
-      apply(onChange);
-      return false;
+      return guardListOnly(apply, listSharing, options);
     }
 
     const categoryShared = isCategorySharedWithOtherLists(categoryUsages, referencedCodeListId);

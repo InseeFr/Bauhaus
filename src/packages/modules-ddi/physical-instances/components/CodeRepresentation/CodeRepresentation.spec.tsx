@@ -1705,6 +1705,48 @@ describe("CodeRepresentation", () => {
       await waitForDialog(OVERRIDE_SHARED);
     });
 
+    it("does not ask again after confirming the list dialog raised by a category edit (case 1)", async () => {
+      // Regression : la popup liste affichee en repli n'acquittait pas la categorie, si bien que
+      // la garde categorie repassait a chaque frappe et rouvrait la popup lettre apres lettre.
+      markListAsShared();
+      mockFetchCategoryUsers.mockResolvedValue([]);
+      renderShared();
+
+      editCategoryLabel("O");
+      await waitForDialog(OVERRIDE_SHARED);
+      clickDialogAction(OVERRIDE_SHARED, "confirm");
+      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+
+      mockFetchCategoryUsers.mockClear();
+      editCategoryLabel("Ou");
+
+      await waitFor(() =>
+        expect(screen.getAllByPlaceholderText("Libell\u00e9")[0]).toHaveValue("Ou"),
+      );
+      expect(mockFetchCategoryUsers).not.toHaveBeenCalled();
+      expect(overrideDialog()).not.toBeInTheDocument();
+    });
+
+    it("does not ask again after confirming when the category usages cannot be fetched", async () => {
+      // Meme boucle quand Colectica ne sait pas repondre sur la categorie (code fraichement
+      // ajoute, jamais sauvegarde) : l'accord donne sur la liste vaut pour les frappes suivantes.
+      markListAsShared();
+      mockFetchCategoryUsers.mockRejectedValue(new Error("Colectica error"));
+      renderShared();
+
+      editCategoryLabel("O");
+      await waitForDialog(OVERRIDE_SHARED);
+      clickDialogAction(OVERRIDE_SHARED, "confirm");
+      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+
+      editCategoryLabel("Ou");
+
+      await waitFor(() =>
+        expect(screen.getAllByPlaceholderText("Libell\u00e9")[0]).toHaveValue("Ou"),
+      );
+      expect(overrideDialog()).not.toBeInTheDocument();
+    });
+
     it("applies a category edit directly when neither the list nor the category is shared (case 4)", async () => {
       markListAsNotShared();
       markCategoryAsOwn();
