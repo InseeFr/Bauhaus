@@ -20,6 +20,7 @@ import { DdiXmlPreview } from "./DdiXmlPreview";
 import { DdiJsonPreview } from "./DdiJsonPreview";
 import { ddiPreviewReducer, initialState, type DdiFormat } from "./DdiPreview.reducer";
 import { singletonEntries } from "../../../utils/multilingual";
+import { useSelfContainedPreview } from "./useSelfContainedPreview";
 
 interface DdiPreviewProps {
   variableId: string;
@@ -208,7 +209,11 @@ export const DdiPreview = ({
     sentinelCategories,
   ]);
 
-  const ddiJson = useMemo(() => JSON.stringify(ddi4Data, null, 2), [ddi4Data]);
+  // Items seulement référencés (liste de codes ou MMVR réutilisée) : résolus pour l'affichage,
+  // afin que l'aperçu montre les mêmes codes que le panneau de représentation.
+  const previewData = useSelfContainedPreview(ddi4Data);
+
+  const ddiJson = useMemo(() => JSON.stringify(previewData, null, 2), [previewData]);
 
   const ddi4DataSerialized = ddiJson;
 
