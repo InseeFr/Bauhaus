@@ -1,0 +1,1 @@
+.loading-overlay{z-index:2000;background:#0006;flex-direction:column;justify-content:center;align-items:center;gap:1rem;display:flex;position:fixed;inset:0}.loading-overlay-text{color:#fff;margin:0;font-size:1.125rem;font-weight:500}

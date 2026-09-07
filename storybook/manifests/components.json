@@ -1,0 +1,61 @@
+{
+  "v": 0,
+  "components": {
+    "components-loadingoverlay": {
+      "id": "components-loadingoverlay",
+      "name": "LoadingOverlay",
+      "path": "./src/packages/components/loading-overlay/loading-overlay.stories.tsx",
+      "jsDocTags": {},
+      "description": "Loader plein écran affiché au-dessus de toute la page (fond grisé),\npour les opérations bloquantes (sauvegarde, publication, ...).\nSans `text`, le message vient du dictionnaire partagé selon `textType`\n(mêmes valeurs que le composant Loading : \"saving\", \"loading\", ...).",
+      "reactDocgen": {
+        "description": "Loader plein écran affiché au-dessus de toute la page (fond grisé),\npour les opérations bloquantes (sauvegarde, publication, ...).\nSans `text`, le message vient du dictionnaire partagé selon `textType`\n(mêmes valeurs que le composant Loading : \"saving\", \"loading\", ...).",
+        "methods": [],
+        "displayName": "LoadingOverlay",
+        "definedInFile": "/home/runner/work/Bauhaus/Bauhaus/src/packages/components/loading-overlay/index.tsx",
+        "actualName": "LoadingOverlay",
+        "exportName": "LoadingOverlay",
+        "props": {
+          "text": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          },
+          "textType": {
+            "required": false,
+            "tsType": {
+              "name": "string"
+            },
+            "description": ""
+          }
+        }
+      },
+      "stories": [
+        {
+          "id": "components-loadingoverlay--default",
+          "name": "Default",
+          "snippet": "const Default = () => <LoadingOverlay />;",
+          "description": "Sans prop : message générique de chargement du dictionnaire partagé."
+        },
+        {
+          "id": "components-loadingoverlay--saving",
+          "name": "Saving",
+          "snippet": "const Saving = () => <LoadingOverlay textType=\"saving\" />;",
+          "description": "Pendant une sauvegarde (utilisé par la page Instance Physique du module DDI)."
+        },
+        {
+          "id": "components-loadingoverlay--custom-text",
+          "name": "Custom Text",
+          "snippet": "const CustomText = () => <LoadingOverlay text=\"Duplication de l'instance physique...\" />;",
+          "description": "Message sur mesure fourni par l'appelant."
+        }
+      ],
+      "import": "import { LoadingOverlay } from \"bauhaus\";"
+    }
+  },
+  "meta": {
+    "docgen": "react-docgen",
+    "durationMs": 64
+  }
+}
