@@ -49,7 +49,14 @@ describe("useGroupCodesLists", () => {
       expect(result.current.isSuccess).toBe(true);
     });
 
-    expect(result.current.data).toEqual([{ agencyId: "fr.insee", id: "list-1", label: "Liste 1" }]);
+    expect(result.current.data).toEqual([
+      {
+        agencyId: "fr.insee",
+        id: "list-1",
+        label: "Liste 1",
+        versionDate: "0001-01-01T00:00:00.000Z",
+      },
+    ]);
     expect(DDIApi.getGroupCodesLists).toHaveBeenCalledWith("fr.insee", "group-1");
   });
 

@@ -94,8 +94,8 @@ vi.mock("primereact/dropdown", () => ({
 }));
 
 vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, type = "button" }: any) => (
-    <button type={type} onClick={onClick}>
+  Button: ({ label, onClick, type = "button", disabled }: any) => (
+    <button type={type} onClick={onClick} disabled={disabled}>
       {label}
     </button>
   ),
@@ -201,40 +201,53 @@ vi.mock("./VariableInformationTab", () => ({
   ),
 }));
 
+// Chaque rendu de l'onglet est enregistré : c'est le seul moyen d'observer un rendu intermédiaire
+// où l'identité de la variable et sa représentation ne se correspondent pas.
+const { representationTabRenders } = vi.hoisted(() => ({
+  representationTabRenders: [] as { variableId: string; selectedType: string }[],
+}));
+
 vi.mock("./VariableRepresentationTab", () => ({
-  VariableRepresentationTab: ({ selectedType, onTypeChange, typeOptions }: any) => (
-    <div data-testid="variable-representation-tab">
-      <label htmlFor="variable-type">Type</label>
-      <select
-        id="variable-type"
-        value={selectedType}
-        onChange={(e) => onTypeChange(e.target.value)}
-        required
-      >
-        {typeOptions.map((option: any) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      {selectedType === "numeric" && (
-        <div data-testid="numeric-representation">Numeric Representation Component</div>
-      )}
-      {selectedType === "date" && (
-        <div data-testid="date-representation">Date Representation Component</div>
-      )}
-      {selectedType === "text" && (
-        <div data-testid="text-representation">Text Representation Component</div>
-      )}
-      {selectedType === "code" && (
-        <div data-testid="code-representation">Code Representation Component</div>
-      )}
-    </div>
-  ),
+  VariableRepresentationTab: ({ variableId, selectedType, onTypeChange, typeOptions }: any) => {
+    representationTabRenders.push({ variableId, selectedType });
+    return (
+      <div data-testid="variable-representation-tab">
+        <label htmlFor="variable-type">Type</label>
+        <select
+          id="variable-type"
+          value={selectedType}
+          onChange={(e) => onTypeChange(e.target.value)}
+          required
+        >
+          {typeOptions.map((option: any) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        {selectedType === "numeric" && (
+          <div data-testid="numeric-representation">Numeric Representation Component</div>
+        )}
+        {selectedType === "date" && (
+          <div data-testid="date-representation">Date Representation Component</div>
+        )}
+        {selectedType === "text" && (
+          <div data-testid="text-representation">Text Representation Component</div>
+        )}
+        {selectedType === "code" && (
+          <div data-testid="code-representation">Code Representation Component</div>
+        )}
+      </div>
+    );
+  },
 }));
 
 vi.mock("./DdiPreview", () => ({
-  DdiPreview: () => <div data-testid="ddi-preview">DDI Preview Component</div>,
+  DdiPreview: (props: any) => (
+    <div data-testid="ddi-preview" data-version-date={props.variableVersionDate}>
+      DDI Preview Component
+    </div>
+  ),
 }));
 
 describe("VariableEditForm", () => {
@@ -259,6 +272,7 @@ describe("VariableEditForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockOnDuplicate.mockClear();
+    representationTabRenders.length = 0;
     // Par défaut : stratégie ALL → les boutons UPDATE sont rendus.
     (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
     (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
@@ -334,6 +348,24 @@ describe("VariableEditForm", () => {
     expect(screen.queryByTestId("numeric-representation")).not.toBeInTheDocument();
   });
 
+  it("should never render the representation of the previous variable under the new variable id", () => {
+    const codeVariable = { ...defaultVariable, id: "var-code", type: "code" };
+    const textVariable = { ...defaultVariable, id: "var-text", type: "text" };
+
+    const { rerender } = render(
+      <VariableEditForm variable={codeVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
+    );
+
+    rerender(
+      <VariableEditForm variable={textVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
+    );
+
+    expect(representationTabRenders).not.toContainEqual({
+      variableId: "var-text",
+      selectedType: "code",
+    });
+  });
+
   it("should update representation component when type changes", () => {
     render(
       <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
@@ -365,6 +397,67 @@ describe("VariableEditForm", () => {
         type: "numeric",
       }),
     );
+  });
+
+  it("should keep the sentinel values reference in the save payload, whatever the type (#1566)", () => {
+    const missingValuesReference = {
+      $type: "ManagedMissingValuesRepresentation",
+      URN: "urn:ddi:fr.insee:mmvr-1:1",
+      Agency: "fr.insee",
+      ID: "mmvr-1",
+      Version: "1",
+    } as const;
+    const numericVariableWithSentinel = {
+      ...defaultVariable,
+      missingValuesReference,
+    };
+
+    render(
+      <VariableEditForm
+        variable={numericVariableWithSentinel}
+        typeOptions={typeOptions}
+        onSave={mockOnSave}
+      />,
+    );
+
+    fireEvent.click(screen.getByText("Mettre à jour"));
+
+    expect(mockOnSave).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: "numeric",
+        missingValuesReference,
+      }),
+    );
+  });
+
+  it("should disable save while the sentinel MMVR has no label (#1566)", () => {
+    const variableWithUnlabeledSentinel = {
+      ...defaultVariable,
+      missingValuesReference: {
+        $type: "ManagedMissingValuesRepresentation",
+        URN: "urn:ddi:fr.insee:mmvr-1:1",
+        Agency: "fr.insee",
+        ID: "mmvr-1",
+        Version: "1",
+      } as const,
+      sentinelMmvr: {
+        $type: "ManagedMissingValuesRepresentation",
+        ID: "mmvr-1",
+        Agency: "fr.insee",
+        Version: "1",
+        Label: [{ "@language": "fr-FR", "@value": "" }],
+      } as any,
+    };
+
+    render(
+      <VariableEditForm
+        variable={variableWithUnlabeledSentinel}
+        typeOptions={typeOptions}
+        onSave={mockOnSave}
+      />,
+    );
+
+    expect(screen.getByText("Mettre à jour").closest("button")).toBeDisabled();
   });
 
   it("should update label and call onSave with new value", () => {
@@ -993,5 +1086,121 @@ describe("VariableEditForm", () => {
         }),
       );
     });
+  });
+
+  describe("onDirtyChange", () => {
+    it("should report a pristine form when nothing has been edited", () => {
+      const onDirtyChange = vi.fn();
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(false);
+    });
+
+    it("should report a dirty form once a field has been edited", () => {
+      const onDirtyChange = vi.fn();
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      fireEvent.change(screen.getByLabelText("Label"), {
+        target: { value: "Nouveau libellé" },
+      });
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(true);
+    });
+
+    it("should report a pristine form again when the edit is reverted", () => {
+      const onDirtyChange = vi.fn();
+
+      render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      const labelInput = screen.getByLabelText("Label");
+      fireEvent.change(labelInput, { target: { value: "Nouveau libellé" } });
+      fireEvent.change(labelInput, { target: { value: "Test Variable" } });
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(false);
+    });
+
+    it("should always report a new variable as dirty", () => {
+      const onDirtyChange = vi.fn();
+
+      render(
+        <VariableEditForm
+          variable={{ id: "new", label: "", name: "", description: "", type: "text" }}
+          typeOptions={typeOptions}
+          isNew={true}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(true);
+    });
+
+    it("should report a pristine form when it is unmounted", () => {
+      const onDirtyChange = vi.fn();
+
+      const { unmount } = render(
+        <VariableEditForm
+          variable={defaultVariable}
+          typeOptions={typeOptions}
+          onSave={mockOnSave}
+          onDirtyChange={onDirtyChange}
+        />,
+      );
+
+      fireEvent.change(screen.getByLabelText("Label"), {
+        target: { value: "Nouveau libellé" },
+      });
+      unmount();
+
+      expect(onDirtyChange).toHaveBeenLastCalledWith(false);
+    });
+  });
+});
+
+describe("VariableEditForm DDI preview", () => {
+  it("should forward the stored versionDate of the variable to the DDI preview", () => {
+    render(
+      <VariableEditForm
+        variable={{
+          id: "var-1",
+          label: "Test Variable",
+          name: "testVar",
+          type: "numeric",
+          versionDate: "2026-01-15T09:30:00+01:00",
+        }}
+        typeOptions={[{ label: "Numérique", value: "numeric" }]}
+        onSave={vi.fn()}
+      />,
+    );
+
+    fireEvent.click(screen.getAllByRole("tab")[2]);
+
+    expect(screen.getByTestId("ddi-preview")).toHaveAttribute(
+      "data-version-date",
+      "2026-01-15T09:30:00+01:00",
+    );
   });
 });

@@ -1,6 +1,10 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render as rtlRender, screen, waitFor, fireEvent } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import type { ReactElement, ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { DdiPreview } from "./DdiPreview";
+import { envelope } from "../../types/ddi4Items.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -68,12 +72,40 @@ vi.mock("highlight.js/styles/github.css", () => ({}));
 vi.mock("./DdiPreview.css", () => ({}));
 
 const mockConvertToDDI3 = vi.fn();
+const mockGetPhysicalInstanceParents = vi.fn();
+const mockGetGroupMissingValuesRepresentations = vi.fn();
+const mockGetMutualizedCodesList = vi.fn();
 
 vi.mock("../../../../sdk", () => ({
   DDIApi: {
     convertToDDI3: (...args: any[]) => mockConvertToDDI3(...args),
+    getPhysicalInstanceParents: (...args: any[]) => mockGetPhysicalInstanceParents(...args),
+    getGroupMissingValuesRepresentations: (...args: any[]) =>
+      mockGetGroupMissingValuesRepresentations(...args),
+    getMutualizedCodesList: (...args: any[]) => mockGetMutualizedCodesList(...args),
   },
 }));
+
+/**
+ * L'aperçu résout lui-même les items seulement référencés (liste de codes réutilisée, MMVR
+ * réutilisée) : il lui faut le cache react-query et les paramètres de route de la PI ouverte.
+ */
+const render = (ui: ReactElement) => {
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  const wrapper = ({ children }: { children: ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter initialEntries={["/physical-instances/fr.insee/pi-1"]}>
+        <Routes>
+          <Route path="/physical-instances/:agencyId/:id" element={children} />
+        </Routes>
+      </MemoryRouter>
+    </QueryClientProvider>
+  );
+  return rtlRender(ui, { wrapper });
+};
+
+/** Dernière enveloppe envoyée à la conversion : ce que l'aperçu affiche réellement. */
+const lastPreviewedItems = () => mockConvertToDDI3.mock.calls.at(-1)![0].items;
 
 describe("DdiPreview", () => {
   const defaultProps = {
@@ -87,6 +119,13 @@ describe("DdiPreview", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockGetPhysicalInstanceParents.mockResolvedValue({
+      studyUnit: { agency: "fr.insee", id: "su-1" },
+      group: { agency: "fr.insee", id: "grp-1" },
+      stamps: [],
+    });
+    mockGetGroupMissingValuesRepresentations.mockResolvedValue([]);
+    mockGetMutualizedCodesList.mockResolvedValue(envelope({}));
     Object.defineProperty(navigator, "clipboard", {
       value: {
         writeText: vi.fn(),
@@ -133,7 +172,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               ID: "var-1",
               VariableName: [{ "@language": "fr-FR", "@value": "testVar" }],
@@ -143,6 +182,24 @@ describe("DdiPreview", () => {
         }),
       );
     });
+  });
+
+  it("should tag the variable item with its $type and a schema-shaped VersionDate", async () => {
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+
+    render(<DdiPreview {...defaultProps} />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalled();
+    });
+
+    const [payload] = mockConvertToDDI3.mock.calls[0];
+    expect(payload.items[0]).toMatchObject({
+      $type: "Variable",
+      ID: "var-1",
+      VersionDate: { DateTime: expect.any(String) },
+    });
+    expect(payload.items[0]).not.toHaveProperty("@versionDate");
   });
 
   it("should display XML content after loading in DDI3 mode", async () => {
@@ -205,7 +262,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               Description: [{ "@language": "fr-FR", "@value": "Test description" }],
             }),
@@ -224,7 +281,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               IsGeographic: true,
             }),
@@ -247,7 +304,7 @@ describe("DdiPreview", () => {
     await waitFor(() => {
       expect(mockConvertToDDI3).toHaveBeenCalledWith(
         expect.objectContaining({
-          Variable: expect.arrayContaining([
+          items: expect.arrayContaining([
             expect.objectContaining({
               VariableRepresentation: expect.objectContaining({
                 VariableRole: "Mesure",
@@ -258,5 +315,365 @@ describe("DdiPreview", () => {
         }),
       );
     });
+  });
+
+  it("should include an empty TextRepresentation when type is text without attributes (#1592)", async () => {
+    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+    mockConvertToDDI3.mockResolvedValue(mockXml);
+
+    render(<DdiPreview {...defaultProps} variableType="text" textRepresentation={undefined} />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([
+            expect.objectContaining({
+              VariableRepresentation: expect.objectContaining({
+                VariableRole: "Mesure",
+                TextRepresentation: { $type: "TextRepresentationBaseType" },
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+  });
+
+  it("should include the MissingValuesReference in the conversion payload (#1566)", async () => {
+    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+    mockConvertToDDI3.mockResolvedValue(mockXml);
+
+    const missingValuesReference = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      URN: "urn:ddi:fr.insee:mmvr-1:1",
+      Agency: "fr.insee",
+      ID: "mmvr-1",
+      Version: "1",
+    };
+
+    render(<DdiPreview {...defaultProps} missingValuesReference={missingValuesReference} />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([
+            expect.objectContaining({
+              VariableRepresentation: expect.objectContaining({
+                MissingValuesReference: missingValuesReference,
+              }),
+            }),
+          ]),
+        }),
+      );
+    });
+  });
+
+  it("should include the locally edited MMVR and its sentinel code list (#1566)", async () => {
+    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+    mockConvertToDDI3.mockResolvedValue(mockXml);
+
+    const missingValuesReference = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      URN: "urn:ddi:fr.insee:mmvr-1:1",
+      Agency: "fr.insee",
+      ID: "mmvr-1",
+      Version: "1",
+    };
+    const sentinelMmvr = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      ID: "mmvr-1",
+      Agency: "fr.insee",
+      Version: "1",
+    };
+    const sentinelCodeList = {
+      $type: "CodeList" as const,
+      URN: "urn:ddi:fr.insee:cl-sent:1",
+      Agency: "fr.insee",
+      ID: "cl-sent",
+      Version: "1",
+    } as any;
+
+    render(
+      <DdiPreview
+        {...defaultProps}
+        missingValuesReference={missingValuesReference}
+        sentinelMmvr={sentinelMmvr}
+        sentinelCodeList={sentinelCodeList}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([sentinelMmvr, sentinelCodeList]),
+        }),
+      );
+    });
+  });
+});
+
+describe("DdiPreview VersionDate", () => {
+  const baseProps = {
+    variableId: "var-1",
+    variableName: "testVar",
+    variableLabel: "Test Variable",
+    variableType: "text",
+    isGeographic: false,
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockGetPhysicalInstanceParents.mockResolvedValue({
+      studyUnit: { agency: "fr.insee", id: "su-1" },
+      group: { agency: "fr.insee", id: "grp-1" },
+      stamps: [],
+    });
+    mockGetGroupMissingValuesRepresentations.mockResolvedValue([]);
+    mockGetMutualizedCodesList.mockResolvedValue(envelope({}));
+  });
+
+  it("should preview the stored VersionDate of an existing variable", async () => {
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+
+    render(<DdiPreview {...baseProps} variableVersionDate="2026-01-15T09:30:00+01:00" />);
+
+    await waitFor(() => {
+      expect(mockConvertToDDI3).toHaveBeenCalledWith(
+        expect.objectContaining({
+          items: expect.arrayContaining([
+            expect.objectContaining({
+              ID: "var-1",
+              VersionDate: { DateTime: "2026-01-15T09:30:00+01:00" },
+            }),
+          ]),
+        }),
+      );
+    });
+  });
+
+  it("should stamp the current date only for a variable that has never been saved", async () => {
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+
+    render(<DdiPreview {...baseProps} />);
+
+    await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalled());
+    const { VersionDate } = mockConvertToDDI3.mock.calls[0][0].items[0];
+    expect(Date.parse(VersionDate.DateTime)).toBeGreaterThan(0);
+  });
+});
+
+/**
+ * Aperçu autoportant : un item seulement *référencé* (liste de codes réutilisée, MMVR réutilisée)
+ * n'existe pas dans l'état du formulaire tant qu'on ne l'a pas modifié. L'aperçu le résout donc
+ * lui-même, pour montrer les mêmes codes que le panneau de représentation — et que l'export.
+ */
+describe("DdiPreview items référencés", () => {
+  const baseProps = {
+    variableId: "var-1",
+    variableName: "testVar",
+    variableLabel: "Test Variable",
+    variableType: "text",
+    isGeographic: false,
+  };
+
+  const missingValuesReference = {
+    $type: "ManagedMissingValuesRepresentation" as const,
+    URN: "urn:ddi:fr.insee:mmvr-1:1",
+    Agency: "fr.insee",
+    ID: "mmvr-1",
+    Version: "1",
+  };
+
+  const sentinelContent = envelope({
+    CodeList: [
+      {
+        ID: "cl-sent",
+        Agency: "fr.insee",
+        Version: "1",
+        Label: [{ "@language": "fr-FR", "@value": "Valeurs manquantes" }],
+        Code: [
+          {
+            ID: "code-9",
+            CategoryReference: { $type: "Category", ID: "cat-9" },
+            Value: { StringValue: "9" },
+          },
+        ],
+      },
+    ],
+    Category: [{ ID: "cat-9", Label: [{ "@language": "fr-FR", "@value": "Non réponse" }] }],
+  });
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockConvertToDDI3.mockResolvedValue("<xml/>");
+    mockGetPhysicalInstanceParents.mockResolvedValue({
+      studyUnit: { agency: "fr.insee", id: "su-1" },
+      group: { agency: "fr.insee", id: "grp-1" },
+      stamps: [],
+    });
+    mockGetGroupMissingValuesRepresentations.mockResolvedValue([
+      {
+        id: "mmvr-1",
+        agency: "fr.insee",
+        version: "1",
+        label: "Valeurs manquantes",
+        codeListId: "cl-sent",
+        codeValues: ["9"],
+      },
+    ]);
+    mockGetMutualizedCodesList.mockResolvedValue(sentinelContent);
+  });
+
+  it("affiche la MMVR réutilisée et ses codes sentinelles, pas seulement la référence", async () => {
+    render(<DdiPreview {...baseProps} missingValuesReference={missingValuesReference} />);
+
+    await waitFor(() => {
+      expect(lastPreviewedItems()).toContainEqual(
+        expect.objectContaining({ $type: "CodeList", ID: "cl-sent" }),
+      );
+    });
+    expect(lastPreviewedItems()).toContainEqual(
+      expect.objectContaining({
+        $type: "ManagedMissingValuesRepresentation",
+        ID: "mmvr-1",
+        Agency: "fr.insee",
+        Version: "1",
+        Label: [{ "@language": "fr-FR", "@value": "Valeurs manquantes" }],
+        MissingCodeRepresentation: [
+          expect.objectContaining({
+            CodeListReference: expect.objectContaining({ ID: "cl-sent" }),
+          }),
+        ],
+      }),
+    );
+    expect(lastPreviewedItems()).toContainEqual(
+      expect.objectContaining({ $type: "Category", ID: "cat-9" }),
+    );
+  });
+
+  it("ne date pas la MMVR réutilisée : sa VersionDate n'est pas connue du sélecteur", async () => {
+    render(<DdiPreview {...baseProps} missingValuesReference={missingValuesReference} />);
+
+    await waitFor(() => {
+      expect(lastPreviewedItems()).toContainEqual(
+        expect.objectContaining({ $type: "ManagedMissingValuesRepresentation" }),
+      );
+    });
+    const mmvr = lastPreviewedItems().find(
+      (item: any) => item.$type === "ManagedMissingValuesRepresentation",
+    );
+    expect(mmvr).not.toHaveProperty("VersionDate");
+  });
+
+  it("laisse la MMVR modifiée localement telle quelle, sans la résoudre", async () => {
+    const sentinelMmvr = {
+      $type: "ManagedMissingValuesRepresentation" as const,
+      ID: "mmvr-1",
+      Agency: "fr.insee",
+      Version: "1",
+      Label: [{ "@language": "fr-FR", "@value": "Libellé en cours de saisie" }],
+    };
+
+    render(
+      <DdiPreview
+        {...baseProps}
+        missingValuesReference={missingValuesReference}
+        sentinelMmvr={sentinelMmvr}
+      />,
+    );
+
+    await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalled());
+    const mmvrs = lastPreviewedItems().filter(
+      (item: any) => item.$type === "ManagedMissingValuesRepresentation",
+    );
+    expect(mmvrs).toEqual([sentinelMmvr]);
+  });
+
+  it("ne déclenche aucune résolution quand la variable ne référence ni liste ni MMVR", async () => {
+    render(<DdiPreview {...baseProps} />);
+
+    await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalled());
+    expect(mockGetPhysicalInstanceParents).not.toHaveBeenCalled();
+    expect(mockGetMutualizedCodesList).not.toHaveBeenCalled();
+  });
+
+  it("affiche les codes d'une liste de codes réutilisée non matérialisée", async () => {
+    mockGetMutualizedCodesList.mockResolvedValue(
+      envelope({
+        CodeList: [
+          {
+            ID: "cl-mut",
+            Agency: "fr.insee",
+            Version: "1",
+            Code: [
+              {
+                ID: "code-1",
+                CategoryReference: { $type: "Category", ID: "cat-1" },
+                Value: { StringValue: "1" },
+              },
+            ],
+          },
+        ],
+        Category: [{ ID: "cat-1", Label: [{ "@language": "fr-FR", "@value": "Oui" }] }],
+      }),
+    );
+
+    render(
+      <DdiPreview
+        {...baseProps}
+        variableType="code"
+        codeRepresentation={{
+          $type: "CodeRepresentationBaseType",
+          CodeListReference: {
+            $type: "CodeList",
+            URN: "urn:ddi:fr.insee:cl-mut:1",
+            Agency: "fr.insee",
+            ID: "cl-mut",
+            Version: "1",
+          },
+        }}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(lastPreviewedItems()).toContainEqual(
+        expect.objectContaining({ $type: "CodeList", ID: "cl-mut" }),
+      );
+    });
+    expect(lastPreviewedItems()).toContainEqual(
+      expect.objectContaining({ $type: "Category", ID: "cat-1" }),
+    );
+  });
+
+  it("ne duplique pas une liste de codes déjà matérialisée dans le formulaire", async () => {
+    const codeList = {
+      $type: "CodeList" as const,
+      ID: "cl-mut",
+      Agency: "fr.insee",
+      Version: "1",
+      Code: [],
+    } as any;
+
+    render(
+      <DdiPreview
+        {...baseProps}
+        variableType="code"
+        codeRepresentation={{
+          $type: "CodeRepresentationBaseType",
+          CodeListReference: {
+            $type: "CodeList",
+            URN: "urn:ddi:fr.insee:cl-mut:1",
+            Agency: "fr.insee",
+            ID: "cl-mut",
+            Version: "1",
+          },
+        }}
+        codeList={codeList}
+      />,
+    );
+
+    await waitFor(() => expect(mockConvertToDDI3).toHaveBeenCalled());
+    const codeLists = lastPreviewedItems().filter((item: any) => item.$type === "CodeList");
+    expect(codeLists).toEqual([codeList]);
   });
 });

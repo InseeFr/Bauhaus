@@ -1,0 +1,68 @@
+.summary-nav {
+  position: sticky;
+  top: 1em;
+
+  /* Le sommaire sert de repère de lecture : ses entrées sont plus grandes que
+     le corps de la page. */
+  font-size: 1.15em;
+}
+
+.summary-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.summary-nav ul ul {
+  padding-left: 1em;
+}
+
+.summary-nav button {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  gap: 0.5em;
+  padding: 0.45em 0.6em;
+  border: 0;
+  border-left: 2px solid transparent;
+  background: none;
+  text-align: left;
+  font: inherit;
+}
+
+.summary-nav button:hover,
+.summary-nav button:focus-visible {
+  border-left-color: currentcolor;
+  background-color: rgb(0 0 0 / 4%);
+}
+
+.summary-nav button[aria-current="true"] {
+  border-left-color: currentcolor;
+  background-color: rgb(0 0 0 / 6%);
+  font-weight: 600;
+}
+
+.summary-nav ul ul button {
+  font-size: 0.95em;
+}
+
+.summary-nav__badge {
+  margin-left: auto;
+  border-radius: 2px;
+  padding: 0.05em 0.45em;
+  font-size: 0.78em;
+  font-weight: 400;
+  background-color: #eee;
+  color: #444;
+  white-space: nowrap;
+}
+
+.summary-nav__badge--warning {
+  background-color: #fbf0dd;
+  color: #9a5c0d;
+}
+
+.summary-nav__badge--danger {
+  background-color: #fbe8e6;
+  color: #ab362c;
+}

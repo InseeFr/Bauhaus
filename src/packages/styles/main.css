@@ -1,0 +1,302 @@
+/**
+* we tried to respect the ITCSS architecture for our stylessheets
+*/
+
+/* Ordre repris tel quel de la version Sass : `@import "settings.css"` y était
+   remonté en tête par le compilateur, avant les partials agrégés par `@use`. */
+@import url("settings.css");
+@import url("generic.css");
+@import url("elements.css");
+@import url("components.css");
+@import url("utilities.css");
+
+.items {
+  display: inline-block;
+  width: 15%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 10%;
+}
+
+@media (width <= 1000px) {
+  .operations-list {
+    width: 100%;
+  }
+}
+
+.list-group-item {
+  text-align: left;
+}
+
+.nav-tabs > li {
+  border: 1px solid var(--primary-color);
+}
+
+.nav-tabs.nav-justified > li > a {
+  border-bottom: none;
+}
+
+.nav-tabs > li > a:hover {
+  background-color: var(--secondary-color) !important;
+  color: #fff !important;
+}
+
+.nav-tabs > li.active > a {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+}
+
+.nav-tabs > li > a:focus {
+  background-color: var(--primary-color) !important;
+  color: #fff;
+}
+
+.boldWhite {
+  color: white;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.editor-container {
+  margin-top: 20px;
+}
+
+.row.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.row.flex [class*="col-"] {
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  > button.btn {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    background-color: #585e76;
+    border-color: #585e76;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: #474c61;
+      border-color: #474c61;
+    }
+  }
+
+  p {
+    color: #0b0b55;
+    font-weight: bold;
+  }
+
+  > div {
+    background-color: #f2f2f2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    min-height: 90px;
+
+    > #bauhausVersion {
+      padding-left: 30px;
+
+      p {
+        color: #82848b;
+      }
+    }
+  }
+
+  a:first-child {
+    border-right: 2px solid #82848b;
+    padding-right: 20px;
+  }
+
+  a:nth-of-type(2) {
+    padding-left: 20px;
+  }
+
+  a > img {
+    width: 20%;
+  }
+}
+
+/* Mobile : numéro de version et les deux logos empilés en colonne. */
+@media (width <= 750px) {
+  footer {
+    > button.btn {
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    > div {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 1.5em;
+      padding: 1.5em 0;
+    }
+
+    #bauhausVersion {
+      padding-left: 0;
+
+      p {
+        margin: 0;
+        text-align: center;
+      }
+    }
+
+    .footer-logos {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5em;
+    }
+
+    /* Le séparateur vertical entre les deux logos devient horizontal. */
+    a:first-child {
+      border-right: none;
+      border-bottom: 2px solid #82848b;
+      padding-right: 0;
+      padding-bottom: 1.5em;
+    }
+
+    a:nth-of-type(2) {
+      padding-left: 0;
+    }
+
+    a > img {
+      width: 120px;
+    }
+  }
+}
+
+/* Zone de dépôt de fichier, calquée sur la démo « template » du FileUpload PrimeReact. */
+
+/*
+ * PrimeReact masque l'input natif de son bouton de sélection, mais sa règle vit dans
+ * `@layer primereact` : le `input[type="file"] { display: block }` de Bootstrap, non
+ * calqué, l'emporte et fait réapparaître le bouton « Parcourir » du navigateur.
+ */
+.p-fileupload-choose input[type="file"] {
+  display: none;
+}
+
+.dropzone-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropzone-placeholder .pi {
+  margin-top: 1rem;
+  padding: 2rem;
+  border-radius: 50%;
+  background-color: var(--surface-b, #f9fafb);
+  color: var(--surface-d, #e5e7eb);
+  font-size: 5em;
+}
+
+.dropzone-placeholder span {
+  margin: 2rem 0;
+  color: var(--text-color-secondary, #6b7280);
+  font-size: 1.2em;
+}
+
+.attached-files {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--surface-d, #e5e7eb);
+  border-radius: 6px;
+  list-style: none;
+}
+
+.attached-file {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.attached-file + .attached-file {
+  border-top: 1px solid var(--surface-d, #e5e7eb);
+}
+
+.attached-file .pi-file {
+  color: var(--text-color-secondary, #6b7280);
+  font-size: 1.5rem;
+}
+
+.attached-file-name {
+  word-break: break-all;
+}
+
+.attached-file .p-button {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/*
+ * Boutons de transfert de la PickList. PrimeReact les rend dans le bleu de son
+ * thème ; on les repasse dans la couleur du module, comme `.bauhaus-btn`.
+ * Le thème vit dans `@layer primereact` : une règle non calquée l'emporte,
+ * quelle que soit sa spécificité — pas besoin de `!important`.
+ */
+.p-picklist-buttons .p-button {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.p-picklist-buttons .p-button:not(:disabled):hover,
+.p-picklist-buttons .p-button:not(:disabled):active {
+  background: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: white;
+}
+
+.p-picklist-buttons .p-button:focus-visible {
+  outline: 2px solid var(--secondary-color);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.modal-header {
+  color: white;
+  background: var(--primary-color);
+
+  .close {
+    opacity: 1;
+    color: white;
+  }
+}
+
+.wilco-action-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  margin: 1em 0;
+  gap: 1em;
+  justify-content: space-between;
+
+  > * {
+    max-width: 250px;
+  }
+}
+
+.ReactModal__Overlay {
+  z-index: 20;
+}
+
+.DraftEditor-root {
+  max-height: 100px;
+  overflow: auto;
+}
+
+.form-control {
+  font-size: inherit !important;
+}
+
+.wmde-markdown {
+  font-size: unset !important;
+}

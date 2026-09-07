@@ -7,7 +7,7 @@ import { ConceptForAdvancedSearch } from "../../../types/concept";
 import { UNPUBLISHED } from "@model/ValidationState";
 import { CollectionApi } from "@sdk/new-collection-api";
 import { ConceptsApi } from "@sdk/concepts-api";
-import Dashboard from "./components/home";
+import Dashboard from "./components/ConceptsDashboard";
 import { initialState, reducer } from "./page.reducer";
 
 const emptyItem: ConceptForAdvancedSearch = {

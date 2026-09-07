@@ -63,7 +63,7 @@ export const OrganisationInput = (
   return (
     <DefaultStampsInput
       {...props}
-      options={organisations.map((o) => ({ value: o.iri, label: o.label }))}
+      options={(organisations ?? []).map((o) => ({ value: o.iri, label: o.label }))}
     />
   );
 };

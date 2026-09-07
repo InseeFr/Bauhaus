@@ -4,7 +4,7 @@ import { Dropdown } from "primereact/dropdown";
 import { createAllDictionary } from "@utils/dictionnary";
 
 import { Option } from "../../model/SelectOption";
-import "./select-rmes.scss";
+import "./select-rmes.css";
 
 const { D } = createAllDictionary({
   noResult: { fr: "Aucun résultat", en: "No results" },

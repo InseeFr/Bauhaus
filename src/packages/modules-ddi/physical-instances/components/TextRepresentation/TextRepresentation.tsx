@@ -35,11 +35,10 @@ export const TextRepresentation = ({
     if (maxLength) newRepresentation.MaxLength = Number(maxLength);
     if (regExp) newRepresentation.RegExp = regExp;
 
-    const hasContent =
-      newRepresentation.MinLength !== undefined ||
-      newRepresentation.MaxLength !== undefined ||
-      newRepresentation.RegExp !== undefined;
-    onChange(hasContent ? newRepresentation : undefined);
+    // #1592 : on émet toujours la représentation, même sans aucun attribut, sinon le type
+    // « Text » disparaît du DDI exporté (<VariableRepresentation/> vide au lieu de
+    // <r:TextRepresentation/>).
+    onChange(newRepresentation);
   }, [minLength, maxLength, regExp, onChange]);
 
   return (

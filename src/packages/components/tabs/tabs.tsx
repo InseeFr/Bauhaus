@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { TabView, TabPanel } from "primereact/tabview";
 
 import { Panel } from "../panel";
@@ -5,7 +6,7 @@ import { Panel } from "../panel";
 export const Tabs = ({
   tabs,
 }: {
-  tabs: { title: string; disabled?: boolean; content: unknown }[];
+  tabs: { title: string; disabled?: boolean; content: ReactNode }[];
 }) => {
   return (
     <TabView>

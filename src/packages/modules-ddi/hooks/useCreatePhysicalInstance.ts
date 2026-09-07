@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DDIApi } from "../../sdk";
 import { useAppContext } from "../../application/app-context";
+import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
+import { singleItemOfType } from "../physical-instances/types/ddi4Items";
 
 interface CreatePhysicalInstanceParams {
   physicalInstanceLabel: string;
@@ -10,18 +12,6 @@ interface CreatePhysicalInstanceParams {
   groupAgency: string;
   studyUnitId: string;
   studyUnitAgency: string;
-}
-
-interface TopLevelReference {
-  Agency: string | null;
-  ID: string;
-  Version: string;
-  $type: string;
-}
-
-interface ApiResponse {
-  TopLevelReference: TopLevelReference[];
-  PhysicalInstance: Array<{ Agency: string }>;
 }
 
 export interface CreatePhysicalInstanceResponse {
@@ -38,9 +28,9 @@ export function useCreatePhysicalInstance() {
     mutationFn: async (
       data: CreatePhysicalInstanceParams,
     ): Promise<CreatePhysicalInstanceResponse> => {
-      const response: ApiResponse = await DDIApi.postPhysicalInstance(data);
+      const response: PhysicalInstanceResponse = await DDIApi.postPhysicalInstance(data);
 
-      const physicalInstanceRef = response.TopLevelReference?.find(
+      const physicalInstanceRef = response.topLevelReferences?.find(
         (ref) => ref.$type === "PhysicalInstance",
       );
 
@@ -49,7 +39,9 @@ export function useCreatePhysicalInstance() {
       }
 
       const agency =
-        physicalInstanceRef.Agency || response.PhysicalInstance?.[0]?.Agency || defaultAgencyId;
+        physicalInstanceRef.Agency ||
+        singleItemOfType(response, "PhysicalInstance")?.Agency ||
+        defaultAgencyId;
 
       return {
         id: physicalInstanceRef.ID,

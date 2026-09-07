@@ -4,6 +4,7 @@ const api = {
   getGroups: () => ["group"],
   getGroup: (agencyId: string, id: string) => ["group/" + agencyId + "/" + id],
   getPhysicalInstances: () => ["physical-instance"],
+  getPhysicalInstancesForAdvancedSearch: () => ["physical-instance/search"],
   getPhysicalInstance: (agencyId: string, id: string) => [
     "physical-instance/" + agencyId + "/" + id,
   ],
@@ -74,12 +75,37 @@ const api = {
     },
     (res: Response) => res.text(),
   ],
+  // Validation du DDI4 contre ddi-schema.json (côté back). Répond 400 + le corps
+  // `{valid, errors}` quand la PI n'est pas conforme : `buildCall` rejette alors
+  // avec ce corps, c'est là que se trouvent les erreurs de schéma.
+  postValidateDdi4: (data: unknown) => [
+    "validate",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    },
+  ],
   getPhysicalCodesLists: (agencyId: string, physicalInstanceId: string) => [
     `physical-instance/${agencyId}/${physicalInstanceId}/codeslists`,
   ],
   getGroupCodesLists: (agencyId: string, groupId: string) => [
     `groups/${agencyId}/${groupId}/codes-list`,
   ],
+  // Valeurs sentinelles (#1566)
+  getGroupMissingCodesLists: (agencyId: string, groupId: string) => [
+    `groups/${agencyId}/${groupId}/missing-codes-list`,
+  ],
+  getGroupMissingValuesRepresentations: (agencyId: string, groupId: string) => [
+    `groups/${agencyId}/${groupId}/missing-values-representations`,
+  ],
+  getMissingValuesRepresentationUsers: (agencyId: string, id: string) => [
+    `missing-values-representations/${agencyId}/${id}/users`,
+  ],
+  getCodeListUsers: (agencyId: string, id: string) => [`codes-list/${agencyId}/${id}/users`],
+  getCategoryUsers: (agencyId: string, id: string) => [`category/${agencyId}/${id}/users`],
   getMutualizedCodesLists: () => ["mutualized-codes-list"],
   getMutualizedCodesList: (agencyId: string, id: string) => [
     `mutualized-codes-list/${agencyId}/${id}`,

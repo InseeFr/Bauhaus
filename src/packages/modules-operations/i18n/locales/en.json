@@ -1,5 +1,174 @@
 {
   "errors": {
-    "804": "This metadataReport cannot be published before its target (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) is published."
+    "804": "This quality report cannot be published before its target (<a href=\"{{href}}\" target=\"_blank\">{{id}}</a>) is published.",
+    "847": "This label already exists"
+  },
+  "creators": {
+    "title": "Owners",
+    "singularTitle": "Owner"
+  },
+  "geography": {
+    "zoneName": "Name of the zone",
+    "includedZone": "Geographical zones included",
+    "excludedZone": "Geographical zones excluded",
+    "include": "Include",
+    "exclude": "Exclude",
+    "noResult": "No results",
+    "btnNew": "New",
+    "btnDelete": "Delete",
+    "labelWithStartDate": "{{label}} [since {{startDate}}]",
+    "labelWithStartDateAndEndDate": "{{label}} [since {{startDate}} until {{endDate}}]"
+  },
+  "common": {
+    "operationsTitle": "Operations",
+    "familyTitle": "Family",
+    "familiesTitle": "Families",
+    "serieTitle": "Serie",
+    "seriesTitle": "Series",
+    "indicatorsTitle": "Indicators",
+    "childrenSeries": "Daughter series:",
+    "linkedSims": "Linked Sims:",
+    "childrenOperations": "Daughter operations:",
+    "parentFamily": "Parent family:",
+    "parentSeries": "Parent series:",
+    "title": "Title",
+    "theme": "Theme",
+    "summary": "Summary",
+    "history": "History",
+    "year": "Year",
+    "dataCollector": "Data collectors",
+    "stakeholders": "Stackeholders",
+    "organisation": "Legal owners",
+    "indicatorDataCollectFrequency": "Frequency of dissemination",
+    "dataCollectFrequency": "Frequency of data collection",
+    "operationType": "Operation type",
+    "replaces": "Replaces",
+    "replacedBy": "Is replaced by",
+    "replacedByMasc": "Is replaced by",
+    "indicators": "Indicators produced",
+    "seeAlso": "Related series or indicators",
+    "generatedBy": "Produced from",
+    "familyStatus": "State of the family",
+    "seriesStatus": "State of the series",
+    "operationStatus": "State of the operation",
+    "indicatorStatus": "State of the indicator",
+    "simsStatus": "State of the SIMS"
+  },
+  "families": {
+    "createTitle": "Create a new family",
+    "searchTitle": "Families - Search"
+  },
+  "series": {
+    "createTitle": "Create a new series",
+    "searchTitle": "Series - Search"
+  },
+  "operations": {
+    "createTitle": "Create a new operation",
+    "searchTitle": "Operations - Search"
+  },
+  "indicators": {
+    "createTitle": "Create a new indicator",
+    "searchTitle": "Indicators - Search"
+  },
+  "tree": {
+    "title": "Operations tree"
+  },
+  "documents": {
+    "createTitle": "Create a new document",
+    "linksCreateTitle": "Create a new link",
+    "searchTitle": "Document/Link - Search",
+    "title": "Document/Link",
+    "confirmationDelete": "You are about to permanently delete this documentation. Are you sure?",
+    "missingDocumentWhenExportingSims": "The export of this report with all included documents is incomplete. There is the following missing documents : <ul><li>{{documentNames}}</li></ul>",
+    "missingDocumentWhenPublishingSims": "This report cannot be published: the following documents are missing from storage: <ul><li>{{documentNames}}</li></ul>",
+    "document": "Document",
+    "link": "Link",
+    "titleDocument": "Document",
+    "titleLink": "Link",
+    "titleUpdatedDate": "Updated date",
+    "file": "File",
+    "addDocument": "Add a document",
+    "addLink": "Add a link",
+    "drag": "Drag n drop some files here, or click to select files",
+    "chooseFile": "Choose a file",
+    "removeFile": "Remove the file",
+    "reorderDocument": "Drag to reorder"
+  },
+  "sims": {
+    "createFromAnExistingReport": "Create from an existing quality report",
+    "helpContent": "Content",
+    "helpSummary": "Summary",
+    "helpMaxOccurs": "Maximum of occurences",
+    "helpRange": "Range",
+    "simsValue": "Value",
+    "essentialRubric": "Essential rubrics",
+    "essentialRubricMsgPlural": "You have completed {{nb}} out of {{total}} essential items.",
+    "essentialRubricMsg": "You have completed 1 out of {{total}} essential items.",
+    "essentialRubricKo": "This rubric is an essantial rubric. You should define a value.",
+    "essentialRubricOk": "This rubric is an essantial rubric",
+    "helpPresentational": "Presentational attribut",
+    "helpRICH_TEXT": "Rich text + URI",
+    "helpTEXT": "Text",
+    "helpDATE": "Date",
+    "helpCODE_LIST": "Code list",
+    "helpORGANIZATION": "Organization",
+    "btnSimsVisu": "Show the report",
+    "btnSimsCreate": "Create the report",
+    "simsTitle": "Quality report: ",
+    "exportSimsTips": "Please select the export options",
+    "exportSimsIncludeLg1": "Include first language",
+    "exportSimsIncludeLg2": "Include second language",
+    "exportLgTitle": "Select the language",
+    "exportLg1": "First language",
+    "exportLg2": "Second language",
+    "exportConcepts": "Export concepts",
+    "exportDocument": "Export documents",
+    "exportSimsIncludeEmptyMas": "Include the empty rubrics",
+    "simsWithoutObject": "Not applicable",
+    "simsConfirmationMessage": "You are about to delete the data for this rubric. Do you wish to confirm?"
+  },
+  "app": {
+    "help": "Help",
+    "display": "Display",
+    "hide": "Hide",
+    "yes": "Yes",
+    "no": "No",
+    "confirmation": "Confirm",
+    "warningDocumentWithSimsPrefix": "This document is already used by the following sims",
+    "warningLinkWithSimsPrefix": "This link is already used by the following sims",
+    "warningDocumentLinksWithSimsSuffix": "If you click on \"Yes\", it will be modified on the linked Sims. Do you want to continue?",
+    "requiredFields": "Required fields",
+    "langTitle": "Language",
+    "labelTitle": "Label",
+    "search": "Search...",
+    "searchLabelPlaceholder": "Label...",
+    "altLabel": "Short name",
+    "descriptionTitle": "Description",
+    "creatorsTitle": "Owners",
+    "duplicatedTitle": "This title already exists",
+    "globalInformationsTitle": "General information",
+    "quitWithoutSaving": "You are leaving this page without saving your changes. Do you want to continue ?",
+    "deleteTitle": "Leave without saving",
+    "btnExport": "Export options",
+    "btnExportValidate": "Export to odt",
+    "btnTree": "View tree",
+    "btnAdd": "Add",
+    "btnDelete": "Delete",
+    "advancedSearch": "Advanced search",
+    "numberProperty": "The property <strong>{{propertyName}}</strong> must be an integer.",
+    "linksTitle": "Links"
+  },
+  "validation": {
+    "requiredPrefLabel": "The title is required",
+    "requiredLang": "The language is required",
+    "badUrl": "The link is not valid",
+    "requiredFile": "The file is required",
+    "requiredUpdatedDate": "The update date is required",
+    "wrongFileName": "The file name is incorrect. It can comprise alphanumeric (except accented characters), dash and underscore symbols",
+    "documents": {
+      "serverSideErrors": {
+        "304": "You cannot edit the file if the document has a quality report attached. To modify the file, please first remove it from the quality report. For more information, please contact the administration team"
+      }
+    }
   }
 }

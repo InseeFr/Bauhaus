@@ -79,6 +79,7 @@
   "collection": {
     "title": "Collections",
     "membersPanelTitle": "Collection concept members ({{size}})",
+    "availableConceptsPanelTitle": "Available concepts ({{size}})",
     "general": {
       "contributorTitle": "Contributor",
       "isCollectionValidTitle": "Publication status",
@@ -95,12 +96,14 @@
       "title": "Update collection"
     },
     "export": {
-      "panelTitle": "Collections to export",
+      "availablePanelTitle": "Available collections ({{size}})",
+      "panelTitle": "Collections to export ({{size}})",
       "hasNot": "Add at least one collection to export"
     },
     "validation": {
       "title": "Publication of the provisional collections",
-      "panelTitle": "Collections to publish",
+      "availablePanelTitle": "Provisional collections ({{size}})",
+      "panelTitle": "Collections to publish ({{size}})",
       "hasNot": "Add at least one collection to publish"
     }
   },
@@ -119,7 +122,9 @@
       "replacesTitle": "Replaces",
       "replacedByMasc": "Is replaced by",
       "relatedTitle": "Is related to",
-      "equivalentTitle": "Matches"
+      "equivalentTitle": "Matches",
+      "availablePanelTitle": "Available concepts ({{size}})",
+      "invalidUri": "Enter a valid URI, for instance https://…"
     },
     "search": {
       "title": "Concepts - Search"
@@ -143,15 +148,21 @@
       "conceptsScopeNote": "Short definition",
       "conceptsDefinition": "Definition",
       "conceptsEditorialNote": "Editorial note",
-      "conceptsChangeNote": "Change note"
+      "conceptsChangeNote": "Change note",
+      "statusEmpty": "Empty",
+      "statusMissingTranslation": "Missing translation",
+      "statusToFix": "To fix",
+      "maxLengthReminder": "{{max}} characters maximum"
     },
     "export": {
-      "panelTitle": "Concepts to export",
+      "availablePanelTitle": "Available concepts ({{size}})",
+      "panelTitle": "Concepts to export ({{size}})",
       "hasNot": "Add at least one concept to export"
     },
     "validation": {
       "title": "Publishing of the provisional concepts",
-      "panelTitle": "Concepts to publish",
+      "availablePanelTitle": "Provisional concepts ({{size}})",
+      "panelTitle": "Concepts to publish ({{size}})",
       "hasNot": "Add at least one concept to publish"
     },
     "versioning": {

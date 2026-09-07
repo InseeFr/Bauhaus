@@ -23,10 +23,11 @@ vi.mock("primereact/card", () => ({
 }));
 
 vi.mock("./GlobalActionToolbar", () => ({
-  GlobalActionToolbar: ({ onExport, onDuplicate }: any) => (
+  GlobalActionToolbar: ({ onExport, onDuplicate, onValidateDdi4 }: any) => (
     <div data-testid="global-action-toolbar">
       <button onClick={() => onExport("DDI3")}>Export Toolbar</button>
       {onDuplicate && <button onClick={onDuplicate}>Duplicate Toolbar</button>}
+      {onValidateDdi4 && <button onClick={onValidateDdi4}>Validate Toolbar</button>}
     </div>
   ),
 }));
@@ -147,6 +148,15 @@ describe("GlobalActionsCard", () => {
     duplicateButton.click();
 
     expect(mockOnDuplicate).toHaveBeenCalledTimes(1);
+  });
+
+  it("should pass onValidateDdi4 prop to GlobalActionToolbar", () => {
+    const mockOnValidateDdi4 = vi.fn();
+
+    render(<GlobalActionsCard {...defaultProps} onValidateDdi4={mockOnValidateDdi4} />);
+    screen.getByText("Validate Toolbar").click();
+
+    expect(mockOnValidateDdi4).toHaveBeenCalledTimes(1);
   });
 
   it("should render without onDuplicate callback", () => {

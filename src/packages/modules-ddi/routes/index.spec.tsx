@@ -33,7 +33,18 @@ describe("DDI Routes", () => {
     expect(redirectRoute?.element).toBeDefined();
   });
 
+  it("should have an advanced search route registered before the item route", () => {
+    const searchIndex = routes.findIndex((route) => route.path === "physical-instances/search");
+    const itemIndex = routes.findIndex(
+      (route) => route.path === "physical-instances/:agencyId/:id",
+    );
+
+    expect(searchIndex).toBeGreaterThanOrEqual(0);
+    expect(routes[searchIndex]?.lazy).toBeDefined();
+    expect(searchIndex).toBeLessThan(itemIndex);
+  });
+
   it("should have correct number of routes", () => {
-    expect(routes).toHaveLength(3);
+    expect(routes).toHaveLength(4);
   });
 });

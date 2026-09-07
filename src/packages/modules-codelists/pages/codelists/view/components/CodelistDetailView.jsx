@@ -6,7 +6,7 @@ import { DisseminationStatusVisualisation } from "@components/dissemination-stat
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 import {
   InseeOrganisation,
   InseeOrganisations,
@@ -71,9 +71,11 @@ export const CodelistDetailView = ({
                 {t("codelists.identifier")}: {codelist.id}
               </li>
               <CreationUpdateItems creation={codelist.created} update={codelist.modified} />
-              <li>
-                {t("codelists.validationStatus")} : <PublicationFemale object={codelist} />
-              </li>
+              <PublicationStatusItem
+                label={t("codelists.validationStatus")}
+                object={codelist}
+                gender="female"
+              />
               <li>
                 {t("codelists.creator")} : <InseeOrganisation creator={codelist.creator} />
               </li>

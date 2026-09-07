@@ -7,6 +7,7 @@ import { AdvancedSearchList } from "@components/advanced-search/home";
 import { CreatorsInput } from "@components/business/creators-input";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { List } from "@components/ui/list-group";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { filterKeyDeburr } from "@utils/array-utils";
@@ -50,9 +51,9 @@ export const SearchFormList = ({ data }) => {
     .filter(filterValidationState(validationState));
 
   const dataLinks = filteredData.map((codelist) => (
-    <li key={codelist.id} className="list-group-item text-left">
+    <List.Item key={codelist.id} className="text-left">
       <Link to={`/codelists/${codelist.id}`}>{formatLabel(codelist)}</Link>
-    </li>
+    </List.Item>
   ));
 
   return (

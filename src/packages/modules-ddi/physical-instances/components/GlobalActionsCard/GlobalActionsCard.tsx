@@ -7,6 +7,8 @@ interface GlobalActionsCardProps {
   variables: any[];
   onExport: (format: "DDI3" | "DDI4") => void;
   onDuplicate?: () => void;
+  /** Outil de mise au point : le bouton n'est rendu qu'en local. */
+  onValidateDdi4?: () => void;
   onRowClick?: (data: any) => void;
   onDeleteClick?: (data: any) => void;
   unsavedVariableIds?: string[];
@@ -19,6 +21,7 @@ export const GlobalActionsCard = ({
   variables,
   onExport,
   onDuplicate,
+  onValidateDdi4,
   onRowClick,
   onDeleteClick,
   unsavedVariableIds = [],
@@ -29,7 +32,12 @@ export const GlobalActionsCard = ({
 
   return (
     <Card title={t("physicalInstance.view.globalActions")}>
-      <GlobalActionToolbar onExport={onExport} onDuplicate={onDuplicate} stamps={stamps} />
+      <GlobalActionToolbar
+        onExport={onExport}
+        onDuplicate={onDuplicate}
+        onValidateDdi4={onValidateDdi4}
+        stamps={stamps}
+      />
       <PhysicalInstancesDataTable
         variables={variables}
         onRowClick={onRowClick}

@@ -2,6 +2,8 @@ import D from "../../i18n";
 import { MODIFIED, UNPUBLISHED, VALIDATED } from "../../model/ValidationState";
 
 export type ValidationState = typeof MODIFIED | typeof UNPUBLISHED | typeof VALIDATED;
+
+export { PublicationStatusItem } from "./PublicationStatusItem";
 interface PublicationType {
   object: {
     validationState: ValidationState;

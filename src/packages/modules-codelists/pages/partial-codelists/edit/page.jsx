@@ -86,6 +86,7 @@ export const Component = (props) => {
             setCodelist(formatPartialCodelist(cl, codes.items));
           });
         })
+        .catch((error) => setServerSideError(error))
         .finally(() => setLoadingList(false));
     } else {
       setCodelist({});

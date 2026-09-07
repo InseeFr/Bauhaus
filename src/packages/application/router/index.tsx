@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-import "react-app-polyfill/stable";
 
 import { useOidc } from "../../auth/create-oidc";
 import D from "../../i18n";
@@ -25,27 +24,15 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
     <>
       <div id="root-app">{children}</div>
 
-      <footer className="text-center" style={{ marginTop: "50px" }}>
+      <footer className="text-center">
         <button type="button" onClick={logoutAndRemoveFromStorage} className="btn btn-primary">
           {D.authentication.logout}
         </button>
         <div>
           <div id="bauhausVersion">
-            <p class="text-left">
-              {/*
-            
-background-color: #F2F2F2;
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-align-items: center;
-            
-padding-left: 30px;
-
-            */}
-              {footer}
-            </p>
+            <p className="text-left">{footer}</p>
           </div>
-          <div>
+          <div className="footer-logos">
             <a href="https://www.insee.fr">
               <img src="/img/insee_logo_bas_de_page-01.svg" alt="logo insee" />
             </a>
@@ -53,7 +40,6 @@ padding-left: 30px;
               <img src="/img/casd_logo_bas_de_page-01.svg" alt="logo CASD" />
             </a>
           </div>
-          <div />
         </div>
       </footer>
     </>

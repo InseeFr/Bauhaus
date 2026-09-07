@@ -6,10 +6,11 @@ import { CollectionApi } from "@sdk/new-collection-api";
 
 import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
-import buildPayload, {
+import {
+  buildCollectionPayload,
   CollectionMemberInput,
   CollectionPayloadInput,
-} from "../utils/build-collection-payload";
+} from "../utils/buildCollectionPayload";
 
 export interface CollectionSaveData {
   general: CollectionGeneral;
@@ -30,17 +31,20 @@ export const useCollectionSave = (id: string | undefined) => {
         members: data.members.map((m) => ({ id: m.id })),
       };
       const promise = isCreation
-        ? CollectionApi.postCollection(buildPayload(payloadInput, "CREATE")).then((newId) => {
-            queryClient.invalidateQueries({ queryKey: ["collections"] });
-            navigate(`/concepts/collections/${newId}`);
-          })
-        : CollectionApi.putCollection(data.general.id, buildPayload(payloadInput, "UPDATE")).then(
-            () => {
+        ? CollectionApi.postCollection(buildCollectionPayload(payloadInput, "CREATE")).then(
+            (newId) => {
               queryClient.invalidateQueries({ queryKey: ["collections"] });
-              queryClient.invalidateQueries({ queryKey: ["collection", id] });
-              navigate(`/concepts/collections/${data.general.id}`);
+              navigate(`/concepts/collections/${newId}`);
             },
-          );
+          )
+        : CollectionApi.putCollection(
+            data.general.id,
+            buildCollectionPayload(payloadInput, "UPDATE"),
+          ).then(() => {
+            queryClient.invalidateQueries({ queryKey: ["collections"] });
+            queryClient.invalidateQueries({ queryKey: ["collection", id] });
+            navigate(`/concepts/collections/${data.general.id}`);
+          });
 
       promise.catch(() => setIsSaving(false));
     },

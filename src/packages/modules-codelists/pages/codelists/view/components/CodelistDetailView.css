@@ -35,9 +35,9 @@
 }
 
 .server-side-pagination .wilco-pagination li.active {
-  background-color: var(--color-3);
+  background-color: var(--primary-color);
   color: white;
-  border: 1px solid var(--color-3);
+  border: 1px solid var(--primary-color);
 }
 
 .server-side-pagination .wilco-pagination li button,

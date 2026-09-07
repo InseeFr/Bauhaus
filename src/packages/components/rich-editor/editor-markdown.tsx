@@ -1,7 +1,5 @@
-//@ts-ignore
 import { EditorState } from "draft-js";
 import { useEffect, useRef, useState } from "react";
-//@ts-ignore
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -9,9 +7,11 @@ import { getLang } from "@utils/dictionnary";
 import { mdFromEditorState, editorStateFromMd } from "@utils/html-utils";
 
 import "../note-edition";
-import "./editor-html.scss";
+import "./editor-html.css";
 
-export const EditorDeleteButton = ({ onChange }: { onChange?: (state: EditorState) => void }) => {
+// draft-js ne publie pas de déclarations : `EditorState` n'existe que comme valeur,
+// pas comme type. L'état est donc opaque pour l'appelant.
+export const EditorDeleteButton = ({ onChange }: { onChange?: (state: unknown) => void }) => {
   const erease = () => {
     if (onChange) {
       onChange(EditorState.createEmpty());
@@ -44,7 +44,7 @@ interface EditorMarkdownTypes {
 }
 export const EditorMarkdown = ({ text, handleChange }: EditorMarkdownTypes) => {
   const [editorState, setEditorState] = useState(() => editorStateFromMd(""));
-  const editorRef = useRef();
+  const editorRef = useRef<Editor>(null);
 
   useEffect(() => {
     setEditorState(editorStateFromMd(text || ""));

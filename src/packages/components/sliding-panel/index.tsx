@@ -1,12 +1,33 @@
-import SlidingPanelImport, { SliderProps } from "react-sliding-side-panel";
+import { Sidebar } from "primereact/sidebar";
+import type { ReactNode } from "react";
 
-const SlidingPanel: React.ComponentType<SliderProps> =
-  (SlidingPanelImport as unknown as { default: React.ComponentType<SliderProps> }).default ??
-  (SlidingPanelImport as unknown as React.ComponentType<SliderProps>);
+interface RightSlidingPanelTypes {
+  isOpen: boolean;
+  /** Appelé quand le panneau se ferme : croix, clic sur le masque ou touche Échap. */
+  onHide: VoidFunction;
+  /** Largeur du panneau, en pourcentage de la fenêtre. */
+  size?: number;
+  panelClassName?: string;
+  children: ReactNode;
+}
 
-type RightSlidingPanelTypes = Omit<SliderProps, "type" | "size"> &
-  Partial<Pick<SliderProps, "size">>;
-
-export const RightSlidingPanel = ({ size = 60, ...props }: Readonly<RightSlidingPanelTypes>) => {
-  return <SlidingPanel type="right" size={size} {...props} />;
+export const RightSlidingPanel = ({
+  isOpen,
+  onHide,
+  size = 60,
+  panelClassName,
+  children,
+}: Readonly<RightSlidingPanelTypes>) => {
+  return (
+    <Sidebar
+      visible={isOpen}
+      position="right"
+      onHide={onHide}
+      className={panelClassName}
+      style={{ width: `${size}%` }}
+      blockScroll
+    >
+      {children}
+    </Sidebar>
+  );
 };

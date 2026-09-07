@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient } from "@tanstack/react-query";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
 import { DDIApi } from "../../../../sdk";
+import { envelope } from "../../types/ddi4Items.testing";
 
 vi.mock("../../../../sdk", () => ({
   DDIApi: {
@@ -17,24 +18,31 @@ describe("loadCodeListForVariable", () => {
   });
 
   it("fetches the CodeList by its CodeListReference and returns matching codeList + categories", async () => {
-    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue({
-      CodeList: [
-        {
-          Agency: "fr.insee",
-          ID: "cl-1",
-          Label: [{ "@language": "fr-FR", "@value": "Ma CL" }],
-          Code: [
-            { ID: "c-1", CategoryReference: { ID: "cat-1" } },
-            { ID: "c-2", CategoryReference: { ID: "cat-2" } },
-          ],
-        },
-      ],
-      Category: [
-        { ID: "cat-1", Label: [{ "@language": "fr-FR", "@value": "A" }] },
-        { ID: "cat-2", Label: [{ "@language": "fr-FR", "@value": "B" }] },
-        { ID: "cat-orphan", Label: [{ "@language": "fr-FR", "@value": "Orph" }] },
-      ],
-    } as any);
+    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue(
+      envelope({
+        CodeList: [
+          {
+            $type: "CodeList",
+            Agency: "fr.insee",
+            ID: "cl-1",
+            Label: [{ "@language": "fr-FR", "@value": "Ma CL" }],
+            Code: [
+              { ID: "c-1", CategoryReference: { ID: "cat-1" } },
+              { ID: "c-2", CategoryReference: { ID: "cat-2" } },
+            ],
+          },
+        ],
+        Category: [
+          { $type: "Category", ID: "cat-1", Label: [{ "@language": "fr-FR", "@value": "A" }] },
+          { $type: "Category", ID: "cat-2", Label: [{ "@language": "fr-FR", "@value": "B" }] },
+          {
+            $type: "Category",
+            ID: "cat-orphan",
+            Label: [{ "@language": "fr-FR", "@value": "Orph" }],
+          },
+        ],
+      } as any) as any,
+    );
 
     const result = await loadCodeListForVariable(newQueryClient(), {
       CodeListReference: { Agency: "fr.insee", ID: "cl-1", Version: "1" },

@@ -1,4 +1,4 @@
-import "./page-title.scss";
+import "./page-title.css";
 
 interface PageTitleTypes {
   title: string;

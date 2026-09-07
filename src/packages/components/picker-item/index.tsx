@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { List } from "../ui/list-group";
 
 interface PickerItemTypes {
   id: string;
@@ -10,17 +11,17 @@ interface PickerItemTypes {
 export const PickerItem = ({ id, label, logo, to, handleClick }: Readonly<PickerItemTypes>) => {
   if (handleClick) {
     return (
-      <li className="list-group-item" onClick={() => handleClick(id)}>
+      <List.Item onClick={() => handleClick(id)}>
         {logo} {label}
-      </li>
+      </List.Item>
     );
   }
   if (to) {
     return (
-      <li className="list-group-item">
+      <List.Item>
         <Link to={to}>{label}</Link>
-      </li>
+      </List.Item>
     );
   }
-  return <li className="list-group-item">{label}</li>;
+  return <List.Item>{label}</List.Item>;
 };

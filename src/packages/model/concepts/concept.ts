@@ -1,7 +1,7 @@
 import { BROADER, IS_REPLACED_BY, NARROWER, REFERENCES, RELATED, SUCCEED } from "@sdk/constants";
 
 import type { ValidationState } from "@components/status";
-import { linkTypes } from "../../modules-concepts/utils/links";
+import { linkTypes } from "../../modules-concepts/utils/linkTypes";
 
 export interface PartialConcept {
   id: string;

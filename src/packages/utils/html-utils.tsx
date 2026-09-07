@@ -1,4 +1,3 @@
-//@ts-ignore
 import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
 import { Options, stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";
@@ -6,9 +5,17 @@ import { stateFromHTML } from "draft-js-import-html";
 import { draftjsToMd } from "@components/rich-editor/draftjs/draftjsToMd";
 import { mdToDraftjs, REGEXPS } from "@components/rich-editor/draftjs/mdToDraftjs";
 
-export const containUnsupportedStyles = (attr: Record<string, string> = {}) => {
-  return !!REGEXPS.map((r) => r.regexp).find(
-    (regexp) => !!Object.keys(attr).find((key) => regexp.test(attr[key])),
+/**
+ * Cherche un style non supporté dans les valeurs de `attr`.
+ *
+ * Les appelants passent des objets métier entiers (`Family`, `Series`,
+ * `Indicator`), dont toutes les valeurs ne sont pas des chaînes : d'où `object`
+ * plutôt qu'un `Record<string, string>` qu'aucune interface ne satisfait, et la
+ * conversion explicite que `RegExp.test` faisait déjà implicitement.
+ */
+export const containUnsupportedStyles = (attr: object = {}) => {
+  return REGEXPS.some(({ regexp }: { regexp: RegExp }) =>
+    Object.values(attr).some((value) => regexp.test(String(value))),
   );
 };
 export const htmlToRawText = (html: string) => {
@@ -32,9 +39,9 @@ export const rmesHtmlToRawHtml = (html: string) => cleanHtml(stateToHTML(stateFr
  */
 export const draftHtmlToXhtml = (html: string) =>
   html
-    .replace(/&nbsp;/g, " ")
-    .replace(/<br>/g, "<br/>")
-    .replace(/<p><\/p>/g, "<br/>");
+    .replaceAll(/&nbsp;/g, " ")
+    .replaceAll(/<br>/g, "<br/>")
+    .replaceAll(/<p><\/p>/g, "<br/>");
 
 /**
  * We need to transform back the html to comply with the repository rules
@@ -47,10 +54,10 @@ const rUselessSpace = /(>)\s*(<)/g;
 export const cleanHtml = (html: string) => {
   const rawText = htmlToRawText(html);
   if (rawText === "") return "";
-  return html.replace(rNewLine, "").replace(rUselessSpace, "$1$2");
+  return html.replaceAll(rNewLine, "").replaceAll(rUselessSpace, "$1$2");
 };
 
-export const delPTags = (s: string) => s && s.replace(/<p>/g, "").replace(/<\/p>/g, "");
+export const delPTags = (s: string) => s && s.replaceAll(/<p>/g, "").replaceAll(/<\/p>/g, "");
 
 //HACK avoid new lines and unecesseray whitespaces in the html. Not safe: some
 //of these whitespaces might impact the rendered html. But for notes edited with

@@ -5,7 +5,7 @@ import { TextInput } from "@components/form/input";
 const COMPRESS_FORMAT_OPTIONS = ["7Z", "TAR GZ", "ZIP"];
 
 type CompressFormatInputProps = {
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
 };
 

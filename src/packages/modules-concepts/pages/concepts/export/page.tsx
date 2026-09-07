@@ -5,7 +5,7 @@ import { Picker } from "@components/picker-page";
 
 import { useConceptExporter } from "../../../hooks/useConceptExporter";
 import { useTitle } from "../../../../utils/hooks/useTitle";
-import ExportButtons from "../../../components/CollectionExportButtons";
+import ExportButtons from "../../../components/ExportButtons";
 import { useConcepts } from "../../../hooks/useConcepts";
 
 export const Component = () => {
@@ -26,7 +26,8 @@ export const Component = () => {
     <Picker
       items={concepts}
       title={t("common.exportTitle")}
-      panelTitle={t("concept.export.panelTitle")}
+      panelTitle={(size) => t("concept.export.panelTitle", { size })}
+      availablePanelTitle={(size) => t("concept.export.availablePanelTitle", { size })}
       labelWarning={t("concept.export.hasNot")}
       handleAction={() => {}}
       context="concepts"

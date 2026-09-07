@@ -2,6 +2,7 @@ import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
 
 import { renderWithRouter } from "../../../../tests/render";
 import { SearchFormList } from "./page";
+import { getListItems } from "@components/ui/list-group/testing";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
 
@@ -53,22 +54,22 @@ const renderForm = (form = {}) => {
 describe("<SearchFormList /> codelists-search", () => {
   it("returns all data when the form is empty", () => {
     const { container } = renderForm({});
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(3);
+    expect(getListItems(container)).toHaveLength(3);
   });
 
   it("filters by label", () => {
     const { container } = renderForm({ labelLg1: "test" });
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("filters by creator (organisation IRI)", () => {
     const { container } = renderForm({ creator: ORGANISATION_IRI });
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(2);
+    expect(getListItems(container)).toHaveLength(2);
   });
 
   it("filters by validation state", () => {
     const { container } = renderForm({ validationState: "Unpublished" });
-    expect(container.querySelectorAll("li.list-group-item")).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(1);
   });
 
   it("renders the CreatorsInput (not a stamp dropdown) for the creator filter", () => {

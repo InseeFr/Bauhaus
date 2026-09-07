@@ -1,18 +1,38 @@
 {
+  "ddi": {
+    "title": "Variables"
+  },
   "physicalInstance": {
+    "pluralTitle": "Fichiers de données",
+    "homePageTitle": "Fichiers de données - Recherche",
     "creation": {
       "cancel": "Annuler",
       "create": "Créer",
       "errorMessage": "Une erreur est survenue lors de la création",
       "errorTitle": "Erreur de création",
-      "group": "Groupe",
+      "group": "Série",
       "label": "Libellé",
-      "selectGroup": "Sélectionnez un groupe",
-      "selectStudyUnit": "Sélectionnez une étude",
-      "studyUnit": "Étude",
+      "selectGroup": "Sélectionnez une série",
+      "selectStudyUnit": "Sélectionnez une opération",
+      "studyUnit": "Opération",
       "successMessage": "Vos modifications ont été sauvegardées avec succès",
       "successTitle": "Création réussie",
       "title": "Créer un nouveau fichier de données"
+    },
+    "search": {
+      "title": "Recherche avancée de fichiers de données",
+      "backToList": "Retour à la liste",
+      "labelFilter": "Libellé du fichier de données",
+      "labelPlaceholder": "Libellé...",
+      "studyUnitFilter": "Opération",
+      "studyUnitPlaceholder": "Sélectionnez une opération",
+      "groupFilter": "Série",
+      "groupPlaceholder": "Sélectionnez une série",
+      "columns": {
+        "label": "Fichier de données",
+        "studyUnit": "Opération",
+        "group": "Série"
+      }
     },
     "view": {
       "add": "Ajouter",
@@ -30,8 +50,8 @@
         "editCode": "Modifier le code",
         "errorLoadingCodesLists": "Erreur lors du chargement des listes de codes",
         "fillFieldsTooltip": "Remplissez au moins un champ pour ajouter un code",
-        "groupCodesListsSection": "Listes du groupe",
-        "groupCodesListsSectionNamed": "Groupe : {{group}}",
+        "groupCodesListsSection": "Listes de la série",
+        "groupCodesListsSectionNamed": "Série : {{group}}",
         "label": "Libellé",
         "loadingCodes": "Chargement des codes...",
         "loadingCodesLists": "Chargement des listes de codes...",
@@ -45,7 +65,83 @@
         "noCodesListsAvailable": "Aucune liste de codes disponible",
         "reuseList": "Réutiliser",
         "selectCodeList": "Sélectionnez une liste de codes",
-        "value": "Valeur"
+        "value": "Valeur",
+        "usersPanel": {
+          "title": "Utilisations de cette liste de codes",
+          "help": "Variables et instances physiques qui réutilisent cette même liste de codes, regroupées par opération puis par instance physique.",
+          "unknownStudyUnit": "Opération inconnue"
+        },
+        "categoryUsage": {
+          "menuEntry": "Utilisation",
+          "title": "Utilisations de la catégorie « {{label}} »",
+          "loading": "Chargement des utilisations...",
+          "empty": "Cette catégorie n'est utilisée par aucune liste de codes enregistrée.",
+          "error": "Impossible de charger les utilisations de cette catégorie."
+        },
+        "categoryUsersPanel": {
+          "title": "Utilisations de cette catégorie",
+          "help": "Listes de codes qui réutilisent cette même catégorie, regroupées par série, opération puis variable.",
+          "unknownGroup": "Série inconnue"
+        },
+        "overrideShared": {
+          "title": "Liste de codes partagée : que faire de votre modification ?",
+          "message_one": "La liste de codes « {{label}} » est aussi utilisée par la variable « {{firstOther}} ».",
+          "message_other": "La liste de codes « {{label}} » est aussi utilisée par {{count}} autres variables.",
+          "variantLabel": "Créer une variante de la liste",
+          "variantDescription": "Une copie de la liste, utilisée uniquement par « {{variable}} ». Les autres variables ne changent pas.",
+          "overwriteLabel": "Modifier la liste partagée",
+          "overwriteDescription_one": "La variable « {{firstOther}} » sera modifiée elle aussi.",
+          "overwriteDescription_other": "Les {{count}} autres variables qui utilisent cette liste seront modifiées elles aussi."
+        },
+        "overrideSharedCategory": {
+          "title": "Liste de codes et catégorie partagées : que faire de votre modification ?",
+          "categoryMessage_one": "La catégorie « {{label}} » est aussi utilisée par la liste de codes « {{firstOther}} ».",
+          "categoryMessage_other": "La catégorie « {{label}} » est aussi utilisée par {{count}} autres listes de codes.",
+          "variantLabel": "Créer une variante de la liste et de la catégorie",
+          "variantDescription": "Une copie de la liste et de la catégorie, utilisées uniquement par « {{variable}} ». Rien d'autre ne change.",
+          "overwriteLabel": "Modifier la liste et la catégorie partagées",
+          "overwriteDescription": "Toutes les autres variables et listes de codes qui les utilisent seront modifiées elles aussi."
+        },
+        "overrideCategory": {
+          "title": "Catégorie partagée : que faire de votre modification ?",
+          "ownListMessage": "Cette liste de codes n'est utilisée que par la variable « {{variable}} ».",
+          "categoryMessage_one": "En revanche, la catégorie « {{label}} » est aussi utilisée par la liste de codes « {{firstOther}} ».",
+          "categoryMessage_other": "En revanche, la catégorie « {{label}} » est aussi utilisée par {{count}} autres listes de codes.",
+          "variantLabel": "Créer une variante de la catégorie",
+          "variantDescription": "Une copie de la catégorie, utilisée uniquement par cette liste. Les autres listes ne changent pas.",
+          "overwriteLabel": "Modifier la catégorie partagée",
+          "overwriteDescription_one": "La liste de codes « {{firstOther}} » sera modifiée elle aussi.",
+          "overwriteDescription_other": "Les {{count}} autres listes de codes qui utilisent cette catégorie seront modifiées elles aussi."
+        },
+        "override": {
+          "question": "Souhaitez-vous :",
+          "cancel": "Annuler",
+          "editedVariable": "en cours d'édition",
+          "andMore_one": "{{names}} et 1 autre",
+          "andMore_other": "{{names}} et {{count}} autres"
+        },
+        "sharedNotice": {
+          "message_one": "Liste de codes partagée avec 1 autre variable",
+          "message_other": "Liste de codes partagée avec {{count}} autres variables"
+        }
+      },
+      "sentinel": {
+        "title": "Valeurs sentinelles",
+        "createNewList": "Créer",
+        "remove": "Retirer",
+        "select": "Sélectionnez des valeurs sentinelles",
+        "loading": "Chargement des valeurs sentinelles...",
+        "errorLoading": "Erreur lors du chargement des valeurs sentinelles",
+        "usersPanel": {
+          "title": "Utilisations de ces valeurs sentinelles",
+          "help": "Variables et fichiers de données qui réutilisent ces valeurs sentinelles, regroupés par opération puis par fichier."
+        },
+        "discardEdits": {
+          "title": "Modifications non sauvegardées",
+          "message": "Les modifications en cours de la liste de sentinelles seront perdues. Continuer ?",
+          "confirm": "Continuer",
+          "cancel": "Annuler"
+        }
       },
       "columns": {
         "description": "Description",
@@ -72,6 +168,11 @@
       "duplicateSuccessDetail": "L'instance physique a été dupliquée avec succès",
       "duplicateError": "Erreur de duplication",
       "duplicateErrorDetail": "Impossible de dupliquer l'instance physique",
+      "duplicateModal": {
+        "cancel": "Annuler",
+        "confirm": "Dupliquer",
+        "title": "Dupliquer le fichier de données"
+      },
       "editModal": {
         "cancel": "Annuler",
         "label": "Libellé",
@@ -86,6 +187,13 @@
       "exportErrorDetail": "Impossible de télécharger le fichier",
       "exportSuccess": "Export réussi",
       "exportSuccessDetail": "Le fichier au format {{format}} a été téléchargé",
+      "validateDdi4": "Valider le DDI4",
+      "validateDdi4InProgress": "Validation DDI4 en cours...",
+      "validateDdi4Success": "DDI4 valide",
+      "validateDdi4SuccessDetail": "Le fichier de données est conforme au schéma DDI 4.0",
+      "validateDdi4Error": "DDI4 non valide",
+      "validateDdi4ErrorDetail": "Impossible de valider le fichier de données",
+      "validateDdi4MoreErrors": "… et {{count}} autre(s) erreur(s) (détail dans la console)",
       "globalActions": "Actions Globales",
       "import": "Importer",
       "importModal": {
@@ -153,10 +261,20 @@
       "nextVariable": "Variable suivante",
       "variablesTable": "Tableau des variables",
       "totalVariables": "Total : {{count}} variable(s)",
+      "pendingVariableEdit": {
+        "title": "Modification de variable non validée",
+        "message": "La variable en cours d'édition contient des modifications qui n'ont pas été validées par « Mettre à jour ». Sauvegarder maintenant les perdra.",
+        "confirm": "Sauvegarder sans ces modifications",
+        "cancel": "Revenir à la variable"
+      },
       "unsavedChangesTitle": "Modifications non sauvegardées",
       "unsavedChangesMessage": "Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir quitter cette page ?",
       "leaveWithoutSaving": "Quitter sans sauvegarder",
-      "stayOnPage": "Rester sur la page"
+      "stayOnPage": "Rester sur la page",
+      "groupTag": "Série : {{label}}",
+      "studyUnitTag": "Opération : {{label}}",
+      "studyUnitSelectPlaceholder": "Aller vers un fichier de données de l'opération…",
+      "studyUnitSelectEmpty": "Aucun fichier de données"
     }
   }
 }

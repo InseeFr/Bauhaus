@@ -9,7 +9,7 @@ const api = {
   /** @deprecated Use getCodelist */
   getCodesList: (notation: string) => [`${notation}`],
   publishCodelist: (id: string) => [
-    `validate/${id}`,
+    `${id}/validate`,
     { method: "PUT" },
     (res: Response) => res.text(),
   ],
@@ -55,7 +55,6 @@ const api = {
   getSortedCodes: (id: string, sort: string) => [`detailed/${id}/codes?page=1&sort=${sort}`],
   getPartialsByParent: (parentCode: string) => [`partial/parent/${parentCode}`],
   getCodelistsForSearch: () => ["search"],
-  getCodelistCode: (id: string, code: string) => [`${id}/code/${code}`],
   postCodelist: (codelist: any) => [
     "",
     {

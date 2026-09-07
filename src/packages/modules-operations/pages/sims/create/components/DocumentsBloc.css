@@ -1,0 +1,51 @@
+.documentsbloc i {
+  margin-left: 10px;
+}
+
+.documentsbloc-btn {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  background: transparent;
+
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
+
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  /* Corrects inability to style clickable `input` types in iOS */
+  appearance: none;
+}
+
+.documentsbloc-delete {
+  float: right;
+}
+
+.documentsbloc-filepicker {
+  padding-left: 0;
+}
+
+.documentbloc-item {
+  display: flex;
+}
+
+.documentbloc-item span {
+  flex: 2 1 auto;
+}
+
+.documentblock-picker .panel-heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.documentblock-picker .panel-heading .btn {
+  background-color: transparent;
+}

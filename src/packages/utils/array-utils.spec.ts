@@ -33,6 +33,19 @@ describe("sortArray", () => {
     expect(A.sortArray("id")(array, true)).toEqual(res);
   });
 
+  it("should not mutate the input array", () => {
+    const array = [
+      { id: "2", label: "B" },
+      { id: "1", label: "A" },
+    ];
+    const sorted = A.sortArray("id")(array);
+    expect(array).toEqual([
+      { id: "2", label: "B" },
+      { id: "1", label: "A" },
+    ]);
+    expect(sorted).not.toBe(array);
+  });
+
   it("should preserve relative order of equal keys", () => {
     const array = [
       { id: "1", label: "first" },

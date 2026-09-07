@@ -25,6 +25,7 @@ export const useGroupCodesLists = (agencyId: string, groupId: string) => {
         agencyId: item.agency,
         id: item.id,
         label: item.label,
+        versionDate: item.versionDate,
       }));
     },
     enabled: !!agencyId && !!groupId,

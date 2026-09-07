@@ -79,6 +79,7 @@
   "collection": {
     "title": "Collections",
     "membersPanelTitle": "Concepts membres de la collection ({{size}})",
+    "availableConceptsPanelTitle": "Concepts disponibles ({{size}})",
     "general": {
       "contributorTitle": "Gestionnaire",
       "isCollectionValidTitle": "État de la collection",
@@ -95,12 +96,14 @@
       "title": "Modifier la collection"
     },
     "export": {
-      "panelTitle": "Collections à exporter",
+      "availablePanelTitle": "Collections disponibles ({{size}})",
+      "panelTitle": "Collections à exporter ({{size}})",
       "hasNot": "Ajouter au moins une collection à exporter"
     },
     "validation": {
       "title": "Publication des collections provisoires",
-      "panelTitle": "Collections à publier",
+      "availablePanelTitle": "Collections provisoires ({{size}})",
+      "panelTitle": "Collections à publier ({{size}})",
       "hasNot": "Ajouter au moins une collection à publier"
     }
   },
@@ -119,7 +122,9 @@
       "replacesTitle": "Remplace",
       "relatedTitle": "Est lié à",
       "equivalentTitle": "Correspond à",
-      "replacedByMasc": "Est remplacé par"
+      "availablePanelTitle": "Concepts disponibles ({{size}})",
+      "replacedByMasc": "Est remplacé par",
+      "invalidUri": "Saisissez une URI valide, par exemple https://…"
     },
     "search": {
       "title": "Concepts - Recherche"
@@ -143,15 +148,21 @@
       "conceptsScopeNote": "Définition courte",
       "conceptsDefinition": "Définition",
       "conceptsEditorialNote": "Note éditoriale",
-      "conceptsChangeNote": "Note de changement"
+      "conceptsChangeNote": "Note de changement",
+      "statusEmpty": "Vide",
+      "statusMissingTranslation": "Traduction manquante",
+      "statusToFix": "À corriger",
+      "maxLengthReminder": "{{max}} caractères maximum"
     },
     "export": {
-      "panelTitle": "Concepts à exporter",
+      "availablePanelTitle": "Concepts disponibles ({{size}})",
+      "panelTitle": "Concepts à exporter ({{size}})",
       "hasNot": "Ajouter au moins un concept à exporter"
     },
     "validation": {
       "title": "Publication des concepts provisoires",
-      "panelTitle": "Concepts à publier",
+      "availablePanelTitle": "Concepts provisoires ({{size}})",
+      "panelTitle": "Concepts à publier ({{size}})",
       "hasNot": "Ajouter au moins un concept à publier"
     },
     "versioning": {

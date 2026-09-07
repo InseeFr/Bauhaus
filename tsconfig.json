@@ -1,18 +1,22 @@
 {
 	"compilerOptions": {
-		"target": "ES2015",
-		"lib": ["dom", "dom.iterable", "esnext", "ES2015"],
+		// Aligné sur la cible réelle du build : Vite 8 émet pour `baseline-widely-available`
+		// (≈ chrome 107 / edge 107 / firefox 104 / safari 16), qui supporte tout ES2022.
+		"target": "ES2022",
+		// ESNext.Disposable est requis par le mot-clé `using` (Symbol.dispose) employé dans
+		// les specs ; le reste des APIs reste borné à ES2022 pour coller au baseline ci-dessus.
+		"lib": ["ES2022", "ESNext.Disposable", "DOM", "DOM.Iterable"],
 		"allowJs": true,
 		"skipLibCheck": true,
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
-		"strict": false,
+		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
 		"module": "esnext",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,

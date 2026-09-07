@@ -1,6 +1,6 @@
 ### BUILD STEP ###
 
-FROM node:22.19.0 AS builder
+FROM node:24.19.0 AS builder
 
 WORKDIR /bauhaus
 

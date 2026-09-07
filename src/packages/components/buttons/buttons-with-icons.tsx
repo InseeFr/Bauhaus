@@ -58,6 +58,10 @@ const { D } = createAllDictionary({
     fr: "Comparer",
     en: "Compare",
   },
+  btnTree: {
+    fr: "Voir l'arborescence",
+    en: "View tree",
+  },
 });
 
 export const CloseIconButton = ({ onClick }: Readonly<{ onClick: VoidFunction }>) => {
@@ -100,7 +104,7 @@ export const AbstractButton = (props: { icon?: unknown } & ComponentProps<typeof
     label: (
       <>
         {props.icon}
-        <span> {props.label || props.children}</span>
+        <span>{props.label || props.children}</span>
       </>
     ),
   };
@@ -399,6 +403,34 @@ export const DeleteButton = (props: Omit<ComponentProps<typeof AbstractButton>, 
       {...props}
     >
       {D.btnDelete}
+    </AbstractButton>
+  );
+};
+
+export const TreeButton = (props: Omit<ComponentProps<typeof AbstractButton>, "icon">) => {
+  return (
+    <AbstractButton
+      icon={
+        /* Organigramme, repris de `primeicons/raw-svg/sitemap.svg` : le jeu Bootstrap
+           Icons des autres boutons n'a pas d'équivalent embarqué dans le projet. */
+        <svg
+          width="1em"
+          height="1em"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M13.5,9.75h-3A1.76,1.76,0,0,1,8.75,8V5A1.76,1.76,0,0,1,10.5,3.25h3A1.76,1.76,0,0,1,15.25,5V8A1.76,1.76,0,0,1,13.5,9.75Zm-3-5a.25.25,0,0,0-.25.25V8a.25.25,0,0,0,.25.25h3A.25.25,0,0,0,13.75,8V5a.25.25,0,0,0-.25-.25Z" />
+          <path d="M6,19.75H4A1.76,1.76,0,0,1,2.25,18V16A1.76,1.76,0,0,1,4,14.25H6A1.76,1.76,0,0,1,7.75,16v2A1.76,1.76,0,0,1,6,19.75Zm-2-4a.25.25,0,0,0-.25.25v2a.25.25,0,0,0,.25.25H6A.25.25,0,0,0,6.25,18V16A.25.25,0,0,0,6,15.75Z" />
+          <path d="M13,19.75H11A1.76,1.76,0,0,1,9.25,18V16A1.76,1.76,0,0,1,11,14.25h2A1.76,1.76,0,0,1,14.75,16v2A1.76,1.76,0,0,1,13,19.75Zm-2-4a.25.25,0,0,0-.25.25v2a.25.25,0,0,0,.25.25h2a.25.25,0,0,0,.25-.25V16a.25.25,0,0,0-.25-.25Z" />
+          <path d="M20,19.75H18A1.76,1.76,0,0,1,16.25,18V16A1.76,1.76,0,0,1,18,14.25h2A1.76,1.76,0,0,1,21.75,16v2A1.76,1.76,0,0,1,20,19.75Zm-2-4a.25.25,0,0,0-.25.25v2a.25.25,0,0,0,.25.25h2a.25.25,0,0,0,.25-.25V16a.25.25,0,0,0-.25-.25Z" />
+          <path d="M19,15.75a.76.76,0,0,1-.75-.75V13a.25.25,0,0,0-.25-.25H6a.25.25,0,0,0-.25.25v2a.75.75,0,0,1-1.5,0V13A1.76,1.76,0,0,1,6,11.25H18A1.76,1.76,0,0,1,19.75,13v2A.76.76,0,0,1,19,15.75Z" />
+          <path d="M12,15.75a.76.76,0,0,1-.75-.75V9a.75.75,0,0,1,1.5,0v6A.76.76,0,0,1,12,15.75Z" />
+        </svg>
+      }
+      {...props}
+    >
+      {D.btnTree}
     </AbstractButton>
   );
 };

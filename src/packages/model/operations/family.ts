@@ -1,5 +1,7 @@
 import { ValidationState } from "@components/status";
 
+import { RelatedItem } from "./related-item";
+
 export interface Family {
   id: string;
   prefLabelLg1?: string;
@@ -9,7 +11,7 @@ export interface Family {
   modified: string;
   abstractLg1: string;
   abstractLg2: string;
-  series: unknown[];
+  series: RelatedItem[];
 }
 
 export interface FamilyHome {

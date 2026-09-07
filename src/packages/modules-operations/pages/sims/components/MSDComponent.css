@@ -1,0 +1,134 @@
+.container.msd-container {
+  width: 1300px;
+}
+
+.msd-container {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.msd-outline {
+  box-sizing: border-box;
+  width: 30%;
+  margin: 0;
+  overflow: hidden auto;
+  padding: 70px 20px 20px;
+  border-right: solid var(--primary-color) 1px;
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  scrollbar-width: none;
+  background-color: transparent;
+}
+
+.msd-outline::-webkit-scrollbar {
+  display: none;
+}
+
+.msd-outline ul {
+  list-style: none;
+}
+
+.msd-outline-title {
+  font-size: 28px;
+  font-size: 2.8rem;
+  color: var(--primary-color);
+  border: none;
+  border-bottom: solid 2px var(--primary-color);
+  padding: 0 0 10px;
+  margin: 0 0 15px;
+}
+
+.msd-outline-container {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.msd-outline-content {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.msd-content {
+  box-sizing: border-box;
+  width: 70%;
+  margin: 0;
+  padding: 70px 20px 20px;
+}
+
+.msd-content-alone {
+  box-sizing: border-box;
+  width: 60%;
+  margin: 0;
+  padding: 70px 20px 20px;
+  border-left: solid var(--primary-color) 1px;
+}
+
+.msd-content .panel {
+  background: white;
+  margin-bottom: 30px;
+}
+
+.msd-content .panel-body {
+  background: white;
+}
+
+.msd-content ul {
+  list-style: disc;
+}
+
+.msd-panel-trigger-right {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  padding: 6px 5px 2px;
+  position: absolute;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  right: 0;
+  display: block;
+}
+
+.msd-panel-trigger-left {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  padding: 6px 5px 2px;
+  position: absolute;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.msd-panel-trigger-middle {
+  position: absolute;
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  width: 50px;
+  height: 30px;
+  left: calc(30% - 30px);
+  border-radius: 2px;
+  display: table;
+}
+
+.msd-panel-trigger-middle > div {
+  vertical-align: middle;
+  display: table-cell;
+}
+
+.msd-panel-trigger-middle > div > button {
+  background: transparent;
+  border: none;
+}

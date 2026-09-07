@@ -1,5 +1,3 @@
-//@ts-ignore
-//@ts-ignore
 import DOMPurify from "dompurify";
 import { ReactNode } from "react";
 import Modal from "react-modal";

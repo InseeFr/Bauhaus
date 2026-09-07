@@ -2,6 +2,7 @@ import { MultiSelect } from "primereact/multiselect";
 import { Dropdown } from "primereact/dropdown";
 
 import "../../label-required/index.css";
+import { cx } from "@utils/cx";
 
 interface SelectProps {
   label: string;
@@ -26,7 +27,7 @@ export const Select = ({
   ...rest
 }: Readonly<SelectProps>) => {
   return (
-    <label className={`w-100${required ? " label-required" : ""}`}>
+    <label className={cx("w-100", required && "label-required")}>
       <span>
         {label}
         {required && <span className="asterisk">*</span>}

@@ -4,6 +4,7 @@ set -e
 
 DOC_FOLDER="documentation"
 SITE_FOLDER="website"
+STORYBOOK_FOLDER="storybook-static"
 
 function publish() {
   echo "Start Publishing"
@@ -14,6 +15,12 @@ function publish() {
   pushd "$SITE_FOLDER"
 
   cp -a "../$DOC_FOLDER/dist/." .
+
+  # Storybook est publié à côté de la documentation, sous /storybook/
+  if [ -d "../$STORYBOOK_FOLDER" ]; then
+    mkdir storybook
+    cp -a "../$STORYBOOK_FOLDER/." storybook/
+  fi
 
   popd
 }

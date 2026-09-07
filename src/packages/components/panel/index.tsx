@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-import "./index.scss";
+import "./index.css";
 
 export const Panel = ({ title, children }: Readonly<PropsWithChildren<{ title?: string }>>) => {
   if (!title) {

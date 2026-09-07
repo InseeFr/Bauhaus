@@ -3,6 +3,7 @@ import { DDIApi } from "../../sdk";
 import type { LangString } from "../utils/multilingual";
 
 export interface StudyUnit {
+  $type: "StudyUnit";
   ID: string;
   Agency: string;
   Version: string;
@@ -11,18 +12,25 @@ export interface StudyUnit {
   };
 }
 
-interface GroupDetailsResponse {
-  Group: Array<{
-    ID: string;
+export interface Group {
+  $type: "Group";
+  ID: string;
+  Agency: string;
+  StudyUnitReference: Array<{
     Agency: string;
-    StudyUnitReference: Array<{
-      Agency: string;
-      ID: string;
-      Version: string;
-      TypeOfObject: string;
-    }>;
+    ID: string;
+    Version: string;
+    TypeOfObject: string;
   }>;
-  StudyUnit: StudyUnit[];
+}
+
+/**
+ * Enveloppe DDI 4 du groupe : même contrat de fil que la PhysicalInstance
+ * (`topLevelReferences` + `items` discriminés par `$type`). Lire les items via `itemsOfType`.
+ */
+export interface GroupDetailsResponse {
+  topLevelReferences?: unknown[];
+  items?: Array<Group | StudyUnit>;
 }
 
 export function useGroupDetails(agencyId: string | null, groupId: string | null) {

@@ -1,25 +1,5 @@
 import { ProgressSpinner } from "primereact/progressspinner";
-import D from "../i18n";
-
-const getText = (textType?: string) => {
-  switch (textType) {
-    case "authentification":
-      return D.loading.auth;
-    case "saving":
-      return D.loading.saving;
-    case "deleting":
-      return D.loading.deleting;
-    case "sending":
-      return D.loading.sending;
-    case "exporting":
-      return D.loading.exporting;
-    case "validating":
-      return D.loading.validating;
-    case "loading":
-    default:
-      return D.loading.loading;
-  }
-};
+import { getLoadingText } from "./getLoadingText";
 
 interface LoadingTypes {
   text?: string;
@@ -27,7 +7,7 @@ interface LoadingTypes {
 }
 
 export const Loading = ({ text, textType }: LoadingTypes) => {
-  const content = text || getText(textType);
+  const content = text || getLoadingText(textType);
 
   return (
     <div
@@ -37,7 +17,10 @@ export const Loading = ({ text, textType }: LoadingTypes) => {
       aria-live="polite"
       aria-label={content}
     >
-      <ProgressSpinner />
+      {/* Le `role="progressbar"` que PrimeReact pose sur le spinner n'a pas de
+          nom accessible ; c'est le conteneur qui porte le message. Le masquer
+          évite une violation axe et une annonce en double. */}
+      <ProgressSpinner aria-hidden />
       <p>{content}</p>
     </div>
   );

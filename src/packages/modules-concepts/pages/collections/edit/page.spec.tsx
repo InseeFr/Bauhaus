@@ -40,7 +40,7 @@ vi.mock("@components/loading", () => ({
   Saving: () => <div data-testid="collection-saving">Saving...</div>,
 }));
 
-vi.mock("./components/home", () => ({
+vi.mock("./components/CollectionEditionCreation", () => ({
   default: () => <div data-testid="collection-edition-creation">Form</div>,
 }));
 

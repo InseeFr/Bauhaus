@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
@@ -7,9 +6,10 @@ import { Loading, Publishing } from "@components/loading";
 
 import { ConceptsApi } from "@sdk/index";
 
+import { getApiErrorMessage } from "@utils/api-errors";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import CollectionsToValidate from "./components/home";
+import CollectionsToValidate from "./components/CollectionsToValidate";
 import { useUnpublishedCollections } from "../../../hooks/useUnpublishedCollections";
 
 export const Component = () => {
@@ -17,19 +17,26 @@ export const Component = () => {
   useTitle(t("collection.title"), t("common.btnValid"));
 
   const [saving, setSaving] = useState(false);
-  const navigate = useNavigate();
+  const [serverSideError, setServerSideError] = useState("");
   const queryClient = useQueryClient();
   const { data: collections = [], isLoading } = useUnpublishedCollections();
 
-  const handleValidateCollectionList = (ids: string[]) => {
+  // On reste sur la page : la liste est rechargée pour n'y laisser que les
+  // collections encore provisoires.
+  const handleValidateCollectionList = async (ids: string[]) => {
     setSaving(true);
-    ConceptsApi.putCollectionValidList(ids)
-      .then(() => {
-        queryClient.invalidateQueries({ queryKey: ["collections"] });
-        queryClient.invalidateQueries({ queryKey: ["unpublished-collections"] });
-        setSaving(false);
-      })
-      .finally(() => navigate("/concepts/collections"));
+    setServerSideError("");
+    try {
+      await ConceptsApi.putCollectionValidList(ids);
+    } catch (error) {
+      setServerSideError(getApiErrorMessage(error, t("collection.validation.error")));
+    } finally {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["collections"] }),
+        queryClient.invalidateQueries({ queryKey: ["unpublished-collections"] }),
+      ]);
+      setSaving(false);
+    }
   };
 
   if (saving) return <Publishing />;
@@ -38,6 +45,7 @@ export const Component = () => {
     <CollectionsToValidate
       collections={collections}
       handleValidateCollectionList={handleValidateCollectionList}
+      serverSideError={serverSideError}
     />
   );
 };

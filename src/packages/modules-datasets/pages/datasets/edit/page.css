@@ -3,5 +3,5 @@
 }
 
 .dataset-container [role="tablist"] a {
-  color: var(--color-3);
+  color: var(--primary-color);
 }

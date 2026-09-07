@@ -1,3 +1,8 @@
+import { useTranslation } from "react-i18next";
+
+import { languageName } from "@utils/language-name";
+import { useLocales } from "@utils/hooks/useLocales";
+
 import { ConceptNotes } from "../../model/concepts/concept";
 import { ClientSideError } from "../errors-bloc";
 import { Row } from "../layout";
@@ -21,12 +26,15 @@ export const NoteEdition = ({
   maxLength,
   errorMessage,
 }: Readonly<NoteEditionTypes>) => {
+  const { i18n } = useTranslation();
+  const { lg1, lg2 } = useLocales();
   const noteLg1 = notes[noteLg1Name];
   const noteLg2 = notes[noteLg2Name];
   return (
     <div>
       <Row>
         <div className="col-md-6">
+          <span className="note-edition__lang">{languageName(lg1, i18n.language)}</span>
           <NoteOneLangEdition
             note={noteLg1 ?? ""}
             handleChange={handleChangeLg1}
@@ -38,6 +46,7 @@ export const NoteEdition = ({
           ></ClientSideError>
         </div>
         <div className="col-md-6">
+          <span className="note-edition__lang">{languageName(lg2, i18n.language)}</span>
           <NoteOneLangEdition
             note={noteLg2 ?? ""}
             handleChange={handleChangeLg2}

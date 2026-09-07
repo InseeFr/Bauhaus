@@ -4,6 +4,7 @@ import type {
   VariableTableData,
   Variable,
 } from "../physical-instances/types/api";
+import { itemsOfType, singleItemOfType } from "../physical-instances/types/ddi4Items";
 import { pickLang } from "../utils/multilingual";
 
 import { DDIApi } from "../../sdk";
@@ -12,11 +13,7 @@ function transformVariablesToTableData(
   data: PhysicalInstanceResponse,
   lang: string,
 ): VariableTableData[] {
-  if (!data.Variable) {
-    return [];
-  }
-
-  return data.Variable.map((variable: Variable) => ({
+  return itemsOfType(data, "Variable").map((variable: Variable) => ({
     id: variable.ID,
     name: pickLang(variable.VariableName, lang) ?? "",
     label: pickLang(variable.Label, lang) ?? "",
@@ -51,10 +48,11 @@ export function usePhysicalInstancesData(agencyId: string, id: string) {
     : [];
 
   const title = query.data
-    ? (pickLang(query.data.PhysicalInstance?.[0]?.Citation?.Title, DEFAULT_LANG) ?? "")
+    ? (pickLang(singleItemOfType(query.data, "PhysicalInstance")?.Citation?.Title, DEFAULT_LANG) ??
+      "")
     : "";
   const dataRelationshipName = query.data
-    ? (pickLang(query.data.DataRelationship?.[0]?.Label, DEFAULT_LANG) ?? "")
+    ? (pickLang(singleItemOfType(query.data, "DataRelationship")?.Label, DEFAULT_LANG) ?? "")
     : "";
 
   return {

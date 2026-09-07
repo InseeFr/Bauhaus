@@ -12,11 +12,14 @@ import type {
   CodeRepresentation,
   CodeList,
   Category,
+  ManagedMissingValuesRepresentation,
+  Reference,
 } from "../../types/api";
 import { DdiPreview } from "./DdiPreview";
 import { pickLang } from "../../../utils/multilingual";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
+import { cx } from "@utils/cx";
 
 const VARIABLE_TYPES = {
   NUMERIC: "numeric",
@@ -34,9 +37,22 @@ interface VariableRepresentationState {
   CodeRepresentation?: CodeRepresentation;
   CodeList?: CodeList;
   Category?: Category[];
+  // Valeurs sentinelles (#1566), communes aux quatre types : référence + modifications locales
+  // matérialisées (MMVR/CodeList/Categories) quand la variable est seule utilisatrice.
+  MissingValuesReference?: Reference;
+  SentinelMmvr?: ManagedMissingValuesRepresentation;
+  SentinelCodeList?: CodeList;
+  SentinelCategories?: Category[];
 }
 
 interface FormState {
+  /**
+   * Identité de la variable dont cet état est la photo. Portée par l'état (et non lue sur la prop
+   * `variable`) pour que l'id et la représentation soient toujours ceux d'une même variable : la
+   * prop change un rendu avant la réinitialisation de l'état, et les enfants verraient sinon le
+   * nouvel id sur l'ancienne représentation.
+   */
+  id: string;
   label: string;
   name: string;
   description: string;
@@ -65,6 +81,15 @@ type FormAction =
         codeRep: CodeRepresentation | undefined;
         codeList?: CodeList;
         categories?: Category[];
+      };
+    }
+  | {
+      type: "SET_SENTINEL_VALUES";
+      payload: {
+        missingValuesReference: Reference | undefined;
+        mmvr?: ManagedMissingValuesRepresentation;
+        sentinelCodeList?: CodeList;
+        sentinelCategories?: Category[];
       };
     }
   | { type: "RESET"; payload: FormState };
@@ -113,6 +138,17 @@ function formReducer(state: FormState, action: FormAction): FormState {
           Category: action.payload.categories,
         },
       };
+    case "SET_SENTINEL_VALUES":
+      return {
+        ...state,
+        representation: {
+          ...state.representation,
+          MissingValuesReference: action.payload.missingValuesReference,
+          SentinelMmvr: action.payload.mmvr,
+          SentinelCodeList: action.payload.sentinelCodeList,
+          SentinelCategories: action.payload.sentinelCategories,
+        },
+      };
     case "RESET":
       return action.payload;
     default:
@@ -120,51 +156,63 @@ function formReducer(state: FormState, action: FormAction): FormState {
   }
 }
 
-interface VariableEditFormProps {
-  variable: {
-    id: string;
-    label: string;
-    name: string;
-    description?: string;
-    type: string;
-    isGeographic?: boolean;
-    numericRepresentation?: NumericRepresentation;
-    dateRepresentation?: DateTimeRepresentation;
-    textRepresentation?: TextRepresentation;
-    codeRepresentation?: CodeRepresentation;
-    codeList?: CodeList;
-    categories?: Category[];
+interface VariableFormData {
+  id: string;
+  label: string;
+  name: string;
+  /** VersionDate stockée ; absente pour une variable créée localement et pas encore enregistrée. */
+  versionDate?: string;
+  description?: string;
+  type: string;
+  isGeographic?: boolean;
+  numericRepresentation?: NumericRepresentation;
+  dateRepresentation?: DateTimeRepresentation;
+  textRepresentation?: TextRepresentation;
+  codeRepresentation?: CodeRepresentation;
+  codeList?: CodeList;
+  categories?: Category[];
+  missingValuesReference?: Reference;
+  sentinelMmvr?: ManagedMissingValuesRepresentation;
+  sentinelCodeList?: CodeList;
+  sentinelCategories?: Category[];
+}
+
+function buildFormState(variable: VariableFormData): FormState {
+  return {
+    id: variable.id,
+    label: variable.label,
+    name: variable.name,
+    description: variable.description || "",
+    selectedType: variable.type,
+    isGeographic: variable.isGeographic || false,
+    representation: {
+      NumericRepresentation: variable.numericRepresentation,
+      DateTimeRepresentation: variable.dateRepresentation,
+      TextRepresentation: variable.textRepresentation,
+      CodeRepresentation: variable.codeRepresentation,
+      CodeList: variable.codeList,
+      Category: variable.categories,
+      MissingValuesReference: variable.missingValuesReference,
+      SentinelMmvr: variable.sentinelMmvr,
+      SentinelCodeList: variable.sentinelCodeList,
+      SentinelCategories: variable.sentinelCategories,
+    },
   };
+}
+
+interface VariableEditFormProps {
+  variable: VariableFormData;
   typeOptions: { label: string; value: string }[];
+  /** MMVR référencées par les autres variables locales non sauvegardées (règle RO/RW sentinelles). */
+  locallyUsedMmvrIds?: string[];
   isNew?: boolean;
-  onSave: (data: {
-    id: string;
-    label: string;
-    name: string;
-    description?: string;
-    type: string;
-    isGeographic?: boolean;
-    numericRepresentation?: NumericRepresentation;
-    dateRepresentation?: DateTimeRepresentation;
-    textRepresentation?: TextRepresentation;
-    codeRepresentation?: CodeRepresentation;
-    codeList?: CodeList;
-    categories?: Category[];
-  }) => void;
-  onDuplicate?: (data: {
-    id: string;
-    label: string;
-    name: string;
-    description?: string;
-    type: string;
-    isGeographic?: boolean;
-    numericRepresentation?: NumericRepresentation;
-    dateRepresentation?: DateTimeRepresentation;
-    textRepresentation?: TextRepresentation;
-    codeRepresentation?: CodeRepresentation;
-    codeList?: CodeList;
-    categories?: Category[];
-  }) => void;
+  onSave: (data: VariableFormData) => void;
+  /**
+   * Notifie le parent des modifications non sauvegardées du formulaire, pour qu'il puisse
+   * confirmer avant une action globale (sauvegarde de la page) qui les perdrait.
+   */
+  onDirtyChange?: (isDirty: boolean) => void;
+  onDuplicate?: (data: VariableFormData) => void;
   onPrevious?: () => void;
   onNext?: () => void;
   hasPrevious?: boolean;
@@ -176,8 +224,10 @@ interface VariableEditFormProps {
 export const VariableEditForm = ({
   variable,
   typeOptions,
+  locallyUsedMmvrIds,
   isNew = false,
   onSave,
+  onDirtyChange,
   onDuplicate,
   onPrevious,
   onNext,
@@ -217,24 +267,34 @@ export const VariableEditForm = ({
     }
   }, [activeTabIndex]);
 
-  const [state, dispatch] = useReducer(formReducer, {
-    label: variable.label,
-    name: variable.name,
-    description: variable.description || "",
-    selectedType: variable.type,
-    isGeographic: variable.isGeographic || false,
-    representation: {
-      NumericRepresentation: variable.numericRepresentation,
-      DateTimeRepresentation: variable.dateRepresentation,
-      TextRepresentation: variable.textRepresentation,
-      CodeRepresentation: variable.codeRepresentation,
-      CodeList: variable.codeList,
-      Category: variable.categories,
-    },
+  const [state, dispatch] = useReducer(formReducer, variable, buildFormState);
+
+  // Validation des champs obligatoires. Valeurs sentinelles (#1566) : le libellé de la MMVR en
+  // cours de création/modification est obligatoire (le back rejette sinon le save en 400).
+  const sentinelLabelMissing = Boolean(
+    state.representation.SentinelMmvr &&
+    !state.representation.SentinelMmvr.Label?.some((entry) => entry["@value"]?.trim()),
+  );
+  const hasValidationErrors = !state.name.trim() || !state.label.trim() || sentinelLabelMissing;
+
+  // Modifications non sauvegardées du panneau : l'état courant du formulaire comparé à
+  // l'état initial dérivé de `variable`. Une variable en cours de création est toujours
+  // considérée comme modifiée — la fermer sans « Ajouter » perd toute la saisie.
+  const isDirty = isNew || JSON.stringify(state) !== JSON.stringify(buildFormState(variable));
+
+  // Le callback du parent est lu via une ref pour que la notification ne dépende pas de la
+  // stabilité de son identité (sinon le nettoyage de démontage se déclencherait à chaque rendu).
+  const onDirtyChangeRef = useRef(onDirtyChange);
+  useEffect(() => {
+    onDirtyChangeRef.current = onDirtyChange;
   });
 
-  // Validation des champs obligatoires
-  const hasValidationErrors = !state.name.trim() || !state.label.trim();
+  useEffect(() => {
+    onDirtyChangeRef.current?.(isDirty);
+  }, [isDirty]);
+
+  // Le panneau fermé, il n'y a plus rien à confirmer.
+  useEffect(() => () => onDirtyChangeRef.current?.(false), []);
 
   useEffect(() => {
     // Réinitialiser l'onglet actif au premier onglet uniquement pour une nouvelle variable
@@ -243,24 +303,7 @@ export const VariableEditForm = ({
       setTimeout(() => nameInputRef.current?.focus(), 0);
     }
 
-    dispatch({
-      type: "RESET",
-      payload: {
-        label: variable.label,
-        name: variable.name,
-        description: variable.description || "",
-        selectedType: variable.type,
-        isGeographic: variable.isGeographic || false,
-        representation: {
-          NumericRepresentation: variable.numericRepresentation,
-          DateTimeRepresentation: variable.dateRepresentation,
-          TextRepresentation: variable.textRepresentation,
-          CodeRepresentation: variable.codeRepresentation,
-          CodeList: variable.codeList,
-          Category: variable.categories,
-        },
-      },
-    });
+    dispatch({ type: "RESET", payload: buildFormState(variable) });
     // Ne pas inclure codeList et categories dans les dépendances car ils changent
     // pendant l'édition et on ne veut pas réinitialiser le formulaire à chaque fois
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -303,7 +346,23 @@ export const VariableEditForm = ({
     [],
   );
 
+  const updateSentinelValues = useCallback(
+    (
+      missingValuesReference: Reference | undefined,
+      mmvr?: ManagedMissingValuesRepresentation,
+      sentinelCodeList?: CodeList,
+      sentinelCategories?: Category[],
+    ) => {
+      dispatch({
+        type: "SET_SENTINEL_VALUES",
+        payload: { missingValuesReference, mmvr, sentinelCodeList, sentinelCategories },
+      });
+    },
+    [],
+  );
+
   const buildSavePayload = useCallback(() => {
+    // Valeurs sentinelles (#1566) : communes aux quatre types de représentation.
     const basePayload = {
       id: variable.id,
       label: state.label,
@@ -311,6 +370,10 @@ export const VariableEditForm = ({
       description: state.description,
       type: state.selectedType,
       isGeographic: state.isGeographic,
+      missingValuesReference: state.representation.MissingValuesReference,
+      sentinelMmvr: state.representation.SentinelMmvr,
+      sentinelCodeList: state.representation.SentinelCodeList,
+      sentinelCategories: state.representation.SentinelCategories,
     };
 
     switch (state.selectedType as VariableType) {
@@ -404,7 +467,7 @@ export const VariableEditForm = ({
             <Button
               type="submit"
               label={isNew ? t("physicalInstance.view.add") : t("physicalInstance.view.update")}
-              icon="pi pi-save"
+              icon="pi pi-check"
               outlined
               disabled={hasValidationErrors}
               aria-label={
@@ -437,7 +500,7 @@ export const VariableEditForm = ({
             headerTemplate={(options) => {
               return (
                 <div
-                  className={`${options.className} flex align-items-center gap-2`}
+                  className={cx(options.className, "flex align-items-center gap-2")}
                   onClick={options.onClick}
                 >
                   <span className={hasValidationErrors ? "text-red-500" : ""}>
@@ -480,7 +543,7 @@ export const VariableEditForm = ({
             headerTemplate={(options) => {
               return (
                 <div
-                  className={`${options.className} flex align-items-center gap-2`}
+                  className={cx(options.className, "flex align-items-center gap-2")}
                   onClick={options.onClick}
                 >
                   <span>{t("physicalInstance.view.tabs.representation")}</span>
@@ -489,7 +552,8 @@ export const VariableEditForm = ({
             }}
           >
             <VariableRepresentationTab
-              variableId={variable.id}
+              variableId={state.id}
+              variableName={state.name}
               selectedType={state.selectedType}
               typeOptions={typeOptions}
               numericRepresentation={state.representation.NumericRepresentation}
@@ -498,11 +562,17 @@ export const VariableEditForm = ({
               codeRepresentation={state.representation.CodeRepresentation}
               codeList={state.representation.CodeList}
               categories={state.representation.Category}
+              missingValuesReference={state.representation.MissingValuesReference}
+              sentinelMmvr={state.representation.SentinelMmvr}
+              sentinelCodeList={state.representation.SentinelCodeList}
+              sentinelCategories={state.representation.SentinelCategories}
+              locallyUsedMmvrIds={locallyUsedMmvrIds}
               onTypeChange={(value) => dispatch({ type: "SET_TYPE", payload: value })}
               onNumericRepresentationChange={updateNumericRepresentation}
               onDateRepresentationChange={updateDateRepresentation}
               onTextRepresentationChange={updateTextRepresentation}
               onCodeRepresentationChange={updateCodeRepresentation}
+              onSentinelValuesChange={updateSentinelValues}
             />
           </TabPanel>
 
@@ -511,7 +581,7 @@ export const VariableEditForm = ({
             headerTemplate={(options) => {
               return (
                 <div
-                  className={`${options.className} flex align-items-center gap-2`}
+                  className={cx(options.className, "flex align-items-center gap-2")}
                   onClick={options.onClick}
                 >
                   <i
@@ -525,7 +595,7 @@ export const VariableEditForm = ({
           >
             {activeIndex === 2 && (
               <DdiPreview
-                variableId={variable.id}
+                variableId={state.id}
                 variableName={state.name}
                 variableLabel={state.label}
                 variableDescription={state.description}
@@ -537,6 +607,11 @@ export const VariableEditForm = ({
                 codeRepresentation={state.representation.CodeRepresentation}
                 codeList={state.representation.CodeList}
                 categories={state.representation.Category}
+                missingValuesReference={state.representation.MissingValuesReference}
+                sentinelMmvr={state.representation.SentinelMmvr}
+                sentinelCodeList={state.representation.SentinelCodeList}
+                sentinelCategories={state.representation.SentinelCategories}
+                variableVersionDate={variable.versionDate}
               />
             )}
           </TabPanel>

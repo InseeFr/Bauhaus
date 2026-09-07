@@ -6,6 +6,9 @@ on:
     paths:
       - .github/
       - documentation/**
+      # Storybook est publié avec la documentation : redéployer quand il change
+      - .storybook/**
+      - src/**
 jobs:
   deploy:
     name: Deploy to GH Pages

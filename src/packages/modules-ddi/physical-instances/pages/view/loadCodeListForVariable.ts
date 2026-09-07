@@ -6,6 +6,7 @@ import type {
   CodeRepresentation,
   PhysicalInstanceResponse,
 } from "../../types/api";
+import { itemsOfType } from "../../types/ddi4Items";
 import { DDIApi } from "../../../../sdk";
 
 export interface CodeListAndCategories {
@@ -33,7 +34,7 @@ export async function loadCodeListForVariable(
     queryFn: () => DDIApi.getMutualizedCodesList(agency, id),
   });
 
-  const codeList = data?.CodeList?.find((cl) => cl.ID === id);
+  const codeList = itemsOfType(data, "CodeList").find((cl) => cl.ID === id);
   if (!codeList) {
     // La référence pointe vers une liste de codes (agency + id) introuvable.
     return { missing: true };
@@ -47,6 +48,8 @@ export async function loadCodeListForVariable(
       Boolean(catId),
     ),
   );
-  const categories = data?.Category?.filter((cat: Category) => categoryIds.has(cat.ID!));
+  const categories = itemsOfType(data, "Category").filter((cat: Category) =>
+    categoryIds.has(cat.ID!),
+  );
   return { codeList, categories };
 }

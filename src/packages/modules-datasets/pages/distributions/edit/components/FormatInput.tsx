@@ -5,7 +5,7 @@ import { TextInput } from "@components/form/input";
 const FORMAT_OPTIONS = ["CSV", "PARQUET"];
 
 type FormatInputProps = {
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
 };
 

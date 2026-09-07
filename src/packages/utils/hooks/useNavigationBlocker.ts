@@ -26,8 +26,10 @@ export function useNavigationBlocker({ shouldBlock, onBlock }: UseNavigationBloc
   });
 
   // Memoize proceed and reset callbacks to avoid unnecessary re-renders
-  const proceed = useCallback(() => blocker.proceed(), [blocker]);
-  const reset = useCallback(() => blocker.reset(), [blocker]);
+  // `proceed`/`reset` ne sont définis par react-router que dans l'état « blocked », seul état
+  // depuis lequel ces callbacks sont appelés.
+  const proceed = useCallback(() => blocker.proceed?.(), [blocker]);
+  const reset = useCallback(() => blocker.reset?.(), [blocker]);
 
   // Handle internal navigation blocking
   useEffect(() => {

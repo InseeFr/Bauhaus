@@ -14,7 +14,7 @@ describe("page-title-bloc", () => {
   });
 
   it("renders one PageTitle only is secondLang is false", () => {
-    useSecondLang.mockReturnValue([false]);
+    vi.mocked(useSecondLang).mockReturnValue([false, vi.fn()]);
 
     const { container } = renderWithAppContext(<PageTitleBlock titleLg1="titleLg1" />);
     expect(container.querySelectorAll("h2")).toHaveLength(1);
@@ -22,14 +22,14 @@ describe("page-title-bloc", () => {
   });
 
   it("renders one PageTitle only if titleLg2 is undefined", () => {
-    useSecondLang.mockReturnValue([true]);
+    vi.mocked(useSecondLang).mockReturnValue([true, vi.fn()]);
     const { container } = renderWithAppContext(<PageTitleBlock titleLg1="titleLg1" />);
     expect(container.querySelectorAll("h2")).toHaveLength(1);
     expect(container.querySelectorAll("h2 div")).toHaveLength(0);
   });
 
   it("renders one PageTitle and one PageSubstitle", () => {
-    useSecondLang.mockReturnValue([true]);
+    vi.mocked(useSecondLang).mockReturnValue([true, vi.fn()]);
     const { container } = renderWithAppContext(
       <PageTitleBlock titleLg1="titleLg1" titleLg2="titleLg2" />,
     );

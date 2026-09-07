@@ -1,10 +1,10 @@
 import { Note } from "@components/note";
-import { D1 } from "../../../modules-operations/i18n/build-dictionary";
+import { D1 } from "../../i18n";
 import { InseeOrganisation, InseeOrganisations } from "../organisations/organisations";
 
 export const InseeOrganisationNotes = ({
   organisations,
-  title = D1.creatorTitle,
+  title = D1.creatorsInput.creatorTitle,
 }: Readonly<{ organisations?: string | string[]; title?: string }>) => {
   if (!organisations || (Array.isArray(organisations) && organisations.length === 0)) {
     return <Note text={<p></p>} title={title} alone={true} allowEmpty={true} />;

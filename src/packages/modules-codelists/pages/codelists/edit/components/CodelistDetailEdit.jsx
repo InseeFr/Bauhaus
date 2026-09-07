@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -9,6 +8,8 @@ import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@componen
 import { TextInput } from "@components/form/input";
 import LabelRequired from "@components/label-required";
 import { Row } from "@components/layout";
+import { PageTitleBlock } from "@components/page-title-block";
+import { PageTitle } from "@components/page-title";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -19,10 +20,10 @@ import { UriInputGroup } from "./UriInputGroup";
 import { CreatorsInput } from "@components/business/creators-input";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
-import { useUserStamps } from "@utils/hooks/users";
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 
 const defaultCodelist = {
-  created: dayjs(),
+  created: new Date(),
 };
 
 export const CodelistDetailEdit = ({
@@ -42,17 +43,16 @@ export const CodelistDetailEdit = ({
 
   useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
-  const { data: stamps } = useUserStamps();
-  const stamp = stamps[0]?.stamp;
   const isContributor = useAuthorizationGuard("CODESLIST_CODESLIST", "CREATE");
+  const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {
     let codesList = { ...initialCodelist, ...defaultCodelist };
     if (!codesList.id) {
-      codesList.contributor = isContributor ? [stamp] : ["DG75-L201"];
+      codesList.contributor = defaultContributor ? [defaultContributor] : [];
     }
     setCodelist(codesList);
-  }, [initialCodelist, isContributor, stamp]);
+  }, [initialCodelist, defaultContributor]);
 
   const handleChange = useCallback(
     (e) => {
@@ -82,6 +82,11 @@ export const CodelistDetailEdit = ({
 
   return (
     <>
+      {updateMode ? (
+        <PageTitleBlock titleLg1={codelist.labelLg1} titleLg2={codelist.labelLg2} />
+      ) : (
+        <PageTitle title={t("codelists.creationPageTitle")} />
+      )}
       <ActionToolbar>
         <CancelButton action={handleBack} col={3} />
         <SaveButton

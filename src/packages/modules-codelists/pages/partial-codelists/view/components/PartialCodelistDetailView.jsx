@@ -9,7 +9,7 @@ import { DisseminationStatusVisualisation } from "@components/dissemination-stat
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { PublicationFemale } from "@components/status";
+import { PublicationStatusItem } from "@components/status";
 import { ValidationButton } from "@components/validationButton";
 
 import { useTitle } from "@utils/hooks/useTitle";
@@ -85,9 +85,11 @@ export const PartialCodelistDetailView = ({
                 <Link to={`/codelists/${codelist.parentCode}`}>{codelist.parentLabel}</Link>
               </li>
               <CreationUpdateItems creation={codelist.created} update={codelist.modified} />
-              <li>
-                {t("partial-codelists.validationStatus")} : <PublicationFemale object={codelist} />
-              </li>
+              <PublicationStatusItem
+                label={t("partial-codelists.validationStatus")}
+                object={codelist}
+                gender="female"
+              />
               <li>
                 {t("partial-codelists.creator")} : <InseeOrganisation creator={codelist.creator} />
               </li>

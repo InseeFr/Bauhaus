@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
 import { DatePicker } from "./index";
 
@@ -26,10 +26,10 @@ vi.mock("primereact/calendar", () => ({
 }));
 
 describe("DatePicker", () => {
-  let onChange: ReturnType<typeof vi.fn>;
+  let onChange: Mock<(value?: string) => void>;
 
   beforeEach(() => {
-    onChange = vi.fn();
+    onChange = vi.fn<(value?: string) => void>();
   });
 
   it("should display the initial date value correctly", () => {

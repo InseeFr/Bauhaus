@@ -91,6 +91,7 @@ export const NumericRepresentation = ({
                 id="min-value"
                 name="numericMinValue"
                 type="number"
+                step="any"
                 autoComplete="off"
                 value={minValue}
                 onChange={(e) => setMinValue(e.target.value)}
@@ -129,6 +130,7 @@ export const NumericRepresentation = ({
                 id="max-value"
                 name="numericMaxValue"
                 type="number"
+                step="any"
                 autoComplete="off"
                 value={maxValue}
                 onChange={(e) => setMaxValue(e.target.value)}

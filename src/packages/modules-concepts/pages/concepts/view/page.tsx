@@ -8,7 +8,7 @@ import { ConceptsApi } from "@sdk/index";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import ConceptVisualization from "./components/home";
+import ConceptVisualization from "./components/ConceptVisualization";
 import { LoadingProvider, LoadingType } from "./components/loading";
 import { useConcept } from "../../../hooks/useConcept";
 import { GlobalErrorBloc } from "../../../components/GlobalErrorBloc";

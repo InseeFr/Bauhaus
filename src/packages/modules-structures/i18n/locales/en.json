@@ -1,0 +1,105 @@
+{
+  "structure": {
+    "title": "Structure",
+    "pluralTitle": "Structures",
+    "creationPageTitle": "Create a new structure",
+    "duplicationPageTitle": "Duplicate structure : ",
+    "homePageTitle": "Structures - Search",
+    "searchTitle": "Structures - Advanced search",
+    "notation": "Notation",
+    "creationDate": "Creation date",
+    "updatingDate": "Updating date",
+    "validationStatus": "Publication status",
+    "label": "Label",
+    "description": "Description",
+    "creator": "Owner",
+    "contributors": "Contributors",
+    "disseminationStatus": "Dissemination status",
+    "globalInformation": "Global information",
+    "componentLabel": "Component label"
+  },
+  "component": {
+    "title": "Component",
+    "pluralTitle": "Components",
+    "creationPageTitle": "Create a new component",
+    "homePageTitle": "Components - Search",
+    "searchTitle": "Components - Advanced search",
+    "notation": "Notation",
+    "creationDate": "Creation date",
+    "updatingDate": "Updating date",
+    "validationStatus": "Publication status",
+    "label": "Label",
+    "shortName": "Short name",
+    "type": {
+      "title": "Type",
+      "attribute": {
+        "title": "Attribute",
+        "pluralTitle": "Attributes",
+        "value": "Value"
+      },
+      "dimension": {
+        "title": "Dimension",
+        "pluralTitle": "Dimensions"
+      },
+      "measure": {
+        "title": "Measure",
+        "pluralTitle": "Measures"
+      }
+    },
+    "concept": "Concept",
+    "representation": {
+      "title": "Representation",
+      "date": {
+        "title": "Date",
+        "action": "Insert a date"
+      },
+      "dateTime": {
+        "title": "Date and hour",
+        "action": "Insert a date"
+      },
+      "float": {
+        "title": "Float",
+        "action": "Insert a decimal"
+      },
+      "int": {
+        "title": "Integer",
+        "action": "Insert an integer"
+      },
+      "codelist": {
+        "title": "Codelist",
+        "action": "Insert a modality"
+      },
+      "paysOuTerritoire": {
+        "title": "Country or territory",
+        "action": "Insert an official geographical code"
+      },
+      "string": { "title": "String", "action": "Insert text" },
+      "format": "Format",
+      "minLength": "Minimal length",
+      "maxLength": "Maximal length",
+      "minValue": "Minimal value",
+      "maxValue": "Maximal value"
+    },
+    "creator": "Owner",
+    "contributors": "Contributors",
+    "disseminationStatus": "Dissemination status",
+    "description": "Description",
+    "globalInformation": "Global information",
+    "stucturesUsingComponent": "Structure using the component",
+    "componentSpecification": "Component specification",
+    "attachment": "Attribute attachment",
+    "requiredSpecification": "Is this component required ?",
+    "mutualized": "Published",
+    "mutualizedComponents": "Mutualized components",
+    "seeCodelistDetails": "See the codes in this list"
+  },
+  "codelist": "Codelist",
+  "partialCodelist": "Partial codelist",
+  "yes": "Yes",
+  "no": "No",
+  "up": "Up",
+  "down": "Down",
+  "remove": "Remove",
+  "cancel": "Cancel",
+  "all": "All"
+}

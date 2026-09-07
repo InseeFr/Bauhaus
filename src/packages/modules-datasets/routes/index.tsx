@@ -22,6 +22,10 @@ export const routes: RouteObject[] = [
     path: ":id/modify",
     lazy: () => import("../pages/datasets/edit/page"),
   },
+  {
+    path: ":id/duplicate",
+    lazy: () => import("../pages/datasets/edit/page"),
+  },
   // Distributions pages
   {
     path: "distributions",

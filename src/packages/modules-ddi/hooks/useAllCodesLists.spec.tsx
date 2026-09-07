@@ -71,11 +71,12 @@ describe("useAllCodesLists", () => {
     });
 
     expect(result.current.data).toHaveLength(3);
-    // Listes du group : éditables.
+    // Listes du group : éditables (la versionDate est désormais propagée).
     expect(result.current.data).toContainEqual({
       agencyId: "fr.insee",
       id: "group-1cl",
       label: "Liste groupe 1",
+      versionDate: "0001-01-01T00:00:00.000Z",
       mutualized: false,
     });
     // Listes mutualisées : read-only.

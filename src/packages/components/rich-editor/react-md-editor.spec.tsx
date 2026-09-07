@@ -4,7 +4,7 @@ import { describe, it, vi, expect } from "vitest";
 
 import { MDEditor } from "./react-md-editor";
 
-vi.mock("@uiw/react-md-editor", () => {
+vi.mock("@uiw/react-md-editor/nohighlight", () => {
   return {
     italic: undefined,
     bold: undefined,

@@ -1,4 +1,5 @@
 import { Panel } from "../panel";
+import { cx } from "@utils/cx";
 
 interface NoteTypes {
   text?: string | any;
@@ -19,7 +20,7 @@ export const Note = ({
   const cl = alone ? "col-md-12" : "col-md-6";
 
   return (
-    <div className={`note ${cl}`} title={alt}>
+    <div className={cx("note", cl)} title={alt}>
       <Panel title={title}>{text}</Panel>
     </div>
   );

@@ -48,13 +48,14 @@ const generalApi = {
     },
     () => Promise.resolve(document.id),
   ],
+  // Renvoie la nouvelle URL du fichier, ou une chaîne vide si le nom n'a pas changé.
   putDocumentFile: (document: any, formData: any) => [
     `documents/document/${document.id}/file`,
     {
       headers: {},
       body: formData,
     },
-    () => Promise.resolve(document.id),
+    (res: Response) => res.text(),
   ],
 };
 

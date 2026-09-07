@@ -6,7 +6,7 @@ describe("ExplanatoryNote", () => {
   it("renders nothing when text is undefined", () => {
     const { container } = render(<ExplanatoryNote title="My Title" />);
     expect(container.querySelector(".col-md-6")).toBeInTheDocument();
-    expect(container).not.toHaveTextContent();
+    expect(container.textContent).toBe("");
   });
 
   it("renders markdown content when md is true", () => {

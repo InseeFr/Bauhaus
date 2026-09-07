@@ -3,6 +3,7 @@
     "title": "Jeu de données",
     "pluralTitle": "Jeux de données",
     "creationPageTitle": "Créer un nouveau jeu de données",
+    "duplicationPageTitle": "Dupliquer le jeu de données : ",
     "homePageTitle": "Jeux de données - Recherche",
     "searchTitle": "Jeux de données - Recherche avancée",
     "globalInformation": {
@@ -69,7 +70,9 @@
     "tabKO": "Il y a des erreurs dans cet onglet",
     "hide": "Cacher",
     "display": "Afficher",
-    "deletionConfirmationMessage": "Vous êtes sur le point de supprimer définitivement ce jeu de données. Êtes-vous sûr ?"
+    "deletionConfirmationMessage": "Vous êtes sur le point de supprimer définitivement ce jeu de données. Êtes-vous sûr ?",
+    "toFix": "À corriger",
+    "summary": "Sommaire"
   },
   "distribution": {
     "title": "Distribution",

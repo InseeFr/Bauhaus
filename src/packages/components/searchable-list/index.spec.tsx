@@ -133,6 +133,22 @@ describe("SearchableList", () => {
     expect(advancedLink).not.toBeInTheDocument();
   });
 
+  it("filters items on a field other than the label, such as the alternative label", () => {
+    const conceptsWithAltLabel = [
+      { id: "1", label: "Répertoire des personnes physiques", altLabel: "RNIPP" },
+      { id: "2", label: "Second Item", altLabel: null },
+    ];
+
+    render(
+      <MemoryRouter initialEntries={["/?search=RNIPP"]}>
+        <SearchableList items={conceptsWithAltLabel} childPath="concepts" />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText("Répertoire des personnes physiques")).toBeInTheDocument();
+    expect(screen.queryByText("Second Item")).not.toBeInTheDocument();
+  });
+
   it("displays result count", () => {
     render(
       <MemoryRouter>

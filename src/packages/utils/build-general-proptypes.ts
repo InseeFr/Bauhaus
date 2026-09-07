@@ -1,11 +1,17 @@
 /* eslint  @typescript-eslint/no-unused-vars: 0 */
 import objectFromKeys from "./object-from-keys";
 
-export const buildFields = (fieldsWithRequired: string[][]) =>
+/**
+ * Description d'un champ : son nom, un indicateur `required` conservé pour la
+ * documentation des modules (aucun appelant ne le lit), et son type optionnel.
+ */
+export type FieldSpec = [name: string, required: boolean, type?: string];
+
+export const buildFields = (fieldsWithRequired: FieldSpec[]) =>
   fieldsWithRequired.map(([fieldName]) => fieldName);
 
-export const buildEmpty = (fieldsWithRequired: string[][]) => {
-  const general = objectFromKeys(buildFields(fieldsWithRequired), "");
+export const buildEmpty = (fieldsWithRequired: FieldSpec[]) => {
+  const general = objectFromKeys<string | string[]>(buildFields(fieldsWithRequired), "");
   fieldsWithRequired.forEach(([field, _req, type]) => {
     if (type === "array") {
       general[field] = [];
@@ -15,7 +21,7 @@ export const buildEmpty = (fieldsWithRequired: string[][]) => {
 };
 
 export const buildEmptyWithContributor = (
-  fieldsWithRequired: string[][],
+  fieldsWithRequired: FieldSpec[],
   defaultContributor: string,
 ) => {
   return {

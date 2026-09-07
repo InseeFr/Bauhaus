@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 
 import { Note } from "@components/note";
+import { cx } from "@utils/cx";
 
 export const CollapsiblePanel = ({
   id,
@@ -35,7 +36,7 @@ export const CollapsiblePanel = ({
               onClick={clickTitleHandler}
             >
               {title}
-              <span className={`glyphicon glyphicon-chevron-${hidden ? "down" : "up"}`} />
+              <span className={cx("glyphicon", `glyphicon-chevron-${hidden ? "down" : "up"}`)} />
             </button>
           ) : (
             title

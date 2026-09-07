@@ -1,0 +1,51 @@
+@property --primary-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #91b5d0;
+}
+
+@property --secondary-color {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #7396b0;
+}
+
+body {
+  --primary-color: #91b5d0;
+  --secondary-color: #7396b0;
+}
+
+.operations {
+  --primary-color: #580d3f;
+  --secondary-color: #4b0034;
+}
+
+.concepts {
+  --primary-color: #49586a;
+  --secondary-color: #2f3d4e;
+}
+
+.classifications {
+  --primary-color: #7f763f;
+  --secondary-color: #625922;
+}
+
+.structures {
+  --primary-color: #77514c;
+  --secondary-color: #5a3632;
+}
+
+.codelists {
+  --primary-color: #9a9577;
+  --secondary-color: #7c775a;
+}
+
+.datasets {
+  --primary-color: #955249;
+  --secondary-color: #76362e;
+}
+
+.ddi {
+  --primary-color: #c17974;
+  --secondary-color: #a05c57;
+}

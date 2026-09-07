@@ -7,6 +7,8 @@ export type Classification = {
   descriptionLg1: string;
   descriptionLg2: string;
   disseminationStatus: string;
+  validationState?: string;
+  rights?: string;
   creator: string | string[];
   contributor: string | string[];
   idSeries: string;
@@ -14,8 +16,15 @@ export type Classification = {
   idBefore?: string;
   idVariant?: string;
   seriesLg1: string;
+  seriesLg2?: string;
   afterLg1: string;
+  afterLg2?: string;
+  beforeLg1?: string;
+  beforeLg2?: string;
+  variantLg1?: string;
+  variantLg2?: string;
   issued: string;
+  valid?: string;
   lastRefreshedOn: string;
   additionalMaterial?: string;
   legalMaterial?: string;
@@ -33,7 +42,7 @@ export type Classification = {
 export type Level = {
   id: string;
   labelLg1: string;
-  labelLg1_lg: string;
+  labelLg2?: string;
 };
 
 export type ClassificationWithLevels = {

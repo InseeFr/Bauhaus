@@ -15,7 +15,7 @@ export const ApplicationTitle = () => {
         <div className="application-title-wrapper flex">
           <h1 className="flex">
             <img src="/img/logo.svg" alt="application logo" />
-            {D.welcome}
+            <span className="application-title-text">{D.welcome}</span>
           </h1>
         </div>
       </div>

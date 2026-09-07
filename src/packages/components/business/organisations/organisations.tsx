@@ -11,7 +11,7 @@ interface OrganisationsTypes extends BaseOrganizationProps {
 }
 
 interface OrganisationTypes extends BaseOrganizationProps {
-  creator: string;
+  creator: string | null;
 }
 
 export const Organisations = ({ creators, organizations }: Readonly<OrganisationsTypes>) => {

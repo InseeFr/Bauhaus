@@ -442,3 +442,26 @@ describe("codeRepresentationReducer", () => {
     });
   });
 });
+
+describe("REPLACE_CODE_CATEGORY", () => {
+  it("points the row at the freshly forked category", () => {
+    // Création d'une variante de catégorie : la ligne doit cibler le nouvel item, sinon la
+    // frappe suivante recréerait la catégorie partagée d'origine.
+    const state = {
+      ...initialState,
+      codes: [
+        { id: "code-1", value: "01", label: "Europe", categoryId: "cat-partagee" },
+        { id: "code-2", value: "02", label: "Asie", categoryId: "cat-autre" },
+      ],
+    };
+
+    const next = codeRepresentationReducer(state, {
+      type: "REPLACE_CODE_CATEGORY",
+      payload: { id: "code-1", categoryId: "cat-variante" },
+    });
+
+    expect(next.codes[0].categoryId).toBe("cat-variante");
+    // Les autres lignes ne bougent pas.
+    expect(next.codes[1].categoryId).toBe("cat-autre");
+  });
+});

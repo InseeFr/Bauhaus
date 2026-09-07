@@ -41,7 +41,7 @@ vi.mock("@components/loading", () => ({
   Publishing: () => <div data-testid="collection-publishing">Publishing...</div>,
 }));
 
-vi.mock("./components/home", () => ({
+vi.mock("./components/CollectionVisualization", () => ({
   default: () => <div data-testid="collection-visualization">Visualization</div>,
 }));
 

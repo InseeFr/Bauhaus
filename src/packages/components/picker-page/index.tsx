@@ -1,41 +1,38 @@
 import { useState } from "react";
 
+import { PickList } from "primereact/picklist";
+
 import { ErrorBloc } from "@components/errors-bloc";
-import { TextInput } from "@components/form/input";
-import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
-import { Pagination } from "@components/pagination";
 
-import { filterDeburr } from "@utils/array-utils";
-
-import D from "../../deprecated-locales";
+import D from "../i18n";
 import { ActionToolbar } from "../action-toolbar";
 import { ReturnButton } from "../buttons/buttons-with-icons";
-import { AddLogo } from "../logo/logo-add";
-import { DelLogo } from "../logo/logo-del";
-import { Panel } from "../panel";
-import { PickerItem } from "../picker-item";
 
 interface Item {
   id: string;
   label: string;
 }
-const trackItems = (items: Item[]) => {
-  return (
-    items &&
-    items.map(({ id, label }) => ({
-      id,
-      label,
-      isAdded: false,
-    }))
-  );
-};
+
+/**
+ * Un intitulé de panneau est soit fixe, soit dépendant du nombre d'éléments qu'il
+ * contient — les libellés i18n des pages de publication comportent un `{{size}}`.
+ */
+type PanelTitle = string | ((size: number) => string);
+
+const resolvePanelTitle = (title: PanelTitle | undefined, size: number) =>
+  typeof title === "function" ? title(size) : title;
+
+// La PickList filtre sur `label` : un libellé absent la ferait échouer.
+const withSafeLabels = (items: Item[]): Item[] =>
+  (items ?? []).map(({ id, label }) => ({ id, label: label ?? "" }));
 
 interface PickerTypes {
   items: Item[];
   handleAction: (ids: string[]) => void;
   title: string;
-  panelTitle: string;
+  panelTitle: PanelTitle;
+  availablePanelTitle?: PanelTitle;
   labelWarning: string;
   context: string;
   ValidationButton: React.ComponentType<{
@@ -45,6 +42,7 @@ interface PickerTypes {
   }>;
   disabled?: boolean;
   disabledWarningMessage?: string;
+  serverSideError?: string;
 }
 
 export const Picker = ({
@@ -52,110 +50,68 @@ export const Picker = ({
   handleAction,
   title,
   panelTitle,
+  availablePanelTitle,
   labelWarning,
   context,
   ValidationButton,
   disabled,
   disabledWarningMessage,
+  serverSideError,
 }: Readonly<PickerTypes>) => {
-  const [search, setSearch] = useState("");
-  const [items, setItems] = useState(() => trackItems(itemsProps ?? []));
+  const [availableItems, setAvailableItems] = useState<Item[]>(() => withSafeLabels(itemsProps));
+  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const [clientSideErrors, setClientSideErrors] = useState("");
 
-  const handleChange = (searchLabel: string) => setSearch(searchLabel);
-
-  const handleUpdateIds = () => {
-    const added = items.filter(({ isAdded }) => isAdded);
-    const addedIds = added.map(({ id }) => id);
-    handleAction(addedIds);
-  };
-
-  const addItem = (id: string) => {
-    setClientSideErrors("");
-    setItems(
-      items.map((item) => {
-        if (item.id === id) item.isAdded = true;
-        return item;
-      }),
-    );
-  };
-
-  const removeItem = (id: string) => {
-    setClientSideErrors("");
-    setItems(
-      items.map((item) => {
-        if (item.id === id) item.isAdded = false;
-        return item;
-      }),
-    );
-  };
+  const selectedIds = selectedItems.map(({ id }) => id);
 
   const handleClickValid = () => {
-    const message = added.length === 0 ? labelWarning : "";
-    if (message) {
-      setClientSideErrors(message);
-    } else {
-      handleUpdateIds();
+    if (selectedItems.length === 0) {
+      setClientSideErrors(labelWarning);
+      return;
     }
+    handleAction(selectedIds);
   };
-
-  const getItemsByStatus = (): { toAdd: Item[]; added: Item[] } => {
-    const check = filterDeburr(search);
-    return items.reduce(
-      (byStatus, { id, label, isAdded }) => {
-        if (isAdded) byStatus.added.push({ id, label });
-        else if (check(label)) {
-          byStatus.toAdd.push({ id, label });
-        }
-        return byStatus;
-      },
-      { toAdd: [], added: [] } as { toAdd: Item[]; added: Item[] },
-    );
-  };
-
-  const { toAdd, added } = getItemsByStatus();
-
-  const toAddEls = toAdd.map(({ id, label }) => (
-    <PickerItem key={id} id={id} label={label} logo={<AddLogo />} handleClick={addItem} />
-  ));
-
-  const addedEls = added.map(({ id, label }) => (
-    <PickerItem key={id} id={id} label={label} logo={<DelLogo />} handleClick={removeItem} />
-  ));
-
-  const addedIds = added.map(({ id }) => id);
-
-  const controls = (
-    <ActionToolbar>
-      <ReturnButton action={`/${context}`} />
-      <ValidationButton
-        action={handleClickValid}
-        disabled={!!clientSideErrors}
-        selectedIds={addedIds}
-      />
-    </ActionToolbar>
-  );
 
   return (
     <div>
       <div className="container">
         <PageTitle title={title} />
-        {controls}
+        <ActionToolbar>
+          <ReturnButton action={`/${context}`} />
+          <ValidationButton
+            action={handleClickValid}
+            disabled={!!clientSideErrors}
+            selectedIds={selectedIds}
+          />
+        </ActionToolbar>
         <ErrorBloc error={clientSideErrors} />
+        <ErrorBloc error={serverSideError} />
         {disabled && <ErrorBloc error={disabledWarningMessage} />}
-        <Row>
-          <div className="col-md-6">
-            <Panel title={panelTitle}>{addedEls}</Panel>
-          </div>
-          <div className="col-md-6 text-center">
-            <TextInput
-              value={search}
-              onChange={(e) => handleChange(e.target.value)}
-              placeholder={D.searchLabelPlaceholder}
-            />
-            <Pagination itemEls={toAddEls} />
-          </div>
-        </Row>
+        <PickList
+          dataKey="id"
+          source={availableItems}
+          target={selectedItems}
+          onChange={(event) => {
+            // PrimeReact type les deux listes en `any` : on rétablit le type au passage.
+            setAvailableItems(event.source as Item[]);
+            setSelectedItems(event.target as Item[]);
+            setClientSideErrors("");
+          }}
+          itemTemplate={(item: Item) => item.label}
+          sourceHeader={resolvePanelTitle(
+            availablePanelTitle ?? D.availableItemsPanelTitle,
+            availableItems.length,
+          )}
+          targetHeader={resolvePanelTitle(panelTitle, selectedItems.length)}
+          filter
+          filterBy="label"
+          sourceFilterPlaceholder={D.searchLabelPlaceholder}
+          targetFilterPlaceholder={D.searchLabelPlaceholder}
+          showSourceControls={false}
+          showTargetControls={false}
+          sourceStyle={{ height: "20rem" }}
+          targetStyle={{ height: "20rem" }}
+        />
       </div>
     </div>
   );

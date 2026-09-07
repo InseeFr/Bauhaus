@@ -32,14 +32,16 @@ export const sortArray =
    *
    * If `desc` is set to true, descending order will be used
    *
+   * The input array is left untouched: a sorted copy is returned.
+   *
    * @param   {array}      arr  array of objects with the key given key
    * @param   {boolean}    desc true if descending order required
-   * @returns {array}           the array sorted by the given key
+   * @returns {array}           a new array sorted by the given key
    */
 
-  (arr: any[], desc = false) => {
+  <T,>(arr: T[], desc = false): T[] => {
     const order = desc ? 1 : -1;
-    return arr.sort((a: any, b: any) => {
+    return [...arr].sort((a: any, b: any) => {
       const aUp = normalize(a[key]);
       const bUp = normalize(b[key]);
       if (bUp > aUp) return order;
@@ -99,17 +101,6 @@ export const range = (start: number, end: number) =>
   Array(end - start)
     .fill(0)
     .map((_, i) => i + start);
-
-export const arrayDifferenceByID = (array1: { id: number }[], array2: { id: number }[]) => {
-  const idsArray1 = array1.map((item) => item.id);
-  const idsArray2 = array2.map((item) => item.id);
-
-  const diff = idsArray1.filter((id) => !idsArray2.includes(id));
-
-  const result = array1.filter((obj) => diff.includes(obj.id));
-
-  return result;
-};
 
 export const filterDeburr = (rawStr: string) => {
   const str = deburr(rawStr).toLocaleLowerCase();

@@ -7,7 +7,7 @@ import { useCollectionExporter } from "@utils/hooks/collections";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useCollections } from "../../../hooks/useCollections";
-import CollectionsToExport from "./components/home";
+import CollectionsToExport from "./components/CollectionsToExport";
 
 export const Component = () => {
   const { t } = useTranslation();

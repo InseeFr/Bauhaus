@@ -9,12 +9,13 @@ import { CLOSE_MATCH } from "@sdk/constants";
 import { useAppContext } from "../../../../application/app-context";
 import { Link } from "../../../../model/concepts/concept";
 import { useTitle } from "../../../../utils/hooks/useTitle";
+import { useUrlSection } from "../../../../utils/hooks/useUrlSection";
 import { useConcept } from "../../../hooks/useConcept";
 import { useConcepts } from "../../../hooks/useConcepts";
 import { useConceptSave } from "../../../hooks/useConceptSave";
-import { mergeWithAllConcepts } from "../../../utils/links";
-import ConceptEditionCreation from "./components/home";
-import { ConceptWithLink } from "./components/links";
+import { mergeWithAllConcepts } from "../../../utils/mergeWithAllConcepts";
+import ConceptEditionCreation from "./components/ConceptEditionCreation";
+import { ConceptWithLink } from "./components/LinksEdition";
 
 export const Component = () => {
   const { t } = useTranslation();
@@ -29,6 +30,7 @@ export const Component = () => {
 
   const { save, isSaving } = useConceptSave(id);
   const [submitting, setSubmitting] = useState(false);
+  const [section, setSection] = useUrlSection("general");
 
   useTitle(t("concept.title"), concept?.general?.prefLabelLg1);
 
@@ -65,6 +67,8 @@ export const Component = () => {
       save={save}
       submitting={submitting}
       setSubmitting={setSubmitting}
+      section={section}
+      onSectionChange={setSection}
     />
   );
 };

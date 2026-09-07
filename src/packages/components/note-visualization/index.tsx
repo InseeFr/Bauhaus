@@ -1,7 +1,7 @@
 import { ExplanatoryNote } from "@components/explanatory-note";
 import { Row } from "@components/layout";
 
-import { D1, D2 } from "../../deprecated-locales";
+import { D1, D2 } from "../i18n";
 
 interface NoteVizualizationTypes {
   params: any[];

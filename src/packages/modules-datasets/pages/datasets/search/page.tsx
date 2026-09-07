@@ -9,6 +9,7 @@ import { DatePicker } from "@components/date-picker";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
 import { Loading } from "@components/loading";
 import { Select } from "@components/select-rmes";
+import { List } from "@components/ui/list-group";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
 
 import { Options } from "@model/SelectOption";
@@ -110,9 +111,9 @@ export const AdvancedSearchForm = ({
     .filter(filterUpdatedDate(updated, today));
 
   const dataLinks = filteredData.map(({ id, labelLg1 }) => (
-    <li key={id} className="list-group-item">
+    <List.Item key={id}>
       <Link to={`/datasets/${id}`}>{labelLg1}</Link>
-    </li>
+    </List.Item>
   ));
 
   return (

@@ -284,10 +284,7 @@ export const CodesPanel = ({ codelist, hidden, editable }) => {
           state={lazyState}
         />
       </CollapsiblePanel>
-      <RightSlidingPanel
-        isOpen={openPanel}
-        backdropClicked={() => dispatch({ type: "CLOSE_PANEL" })}
-      >
+      <RightSlidingPanel isOpen={openPanel} onHide={() => dispatch({ type: "CLOSE_PANEL" })}>
         <div id="code-edit-panel">
           <CodeSlidingPanel
             code={selectedCode}

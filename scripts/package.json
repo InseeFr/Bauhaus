@@ -1,0 +1,15 @@
+{
+  "name": "@bauhaus/ddi-codegen",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./generate-ddi-types.ts"
+  },
+  "dependencies": {
+    "openapi-typescript": "^7.13.0"
+  },
+  "devDependencies": {
+    "typescript": "5.7.3"
+  }
+}

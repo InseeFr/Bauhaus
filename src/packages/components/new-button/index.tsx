@@ -35,7 +35,8 @@ const AbstractNewButton = ({
     );
   }
   return (
-    <NavLink className="new-button btn btn-lg col-md-12" to={action}>
+    // `action` est une URL en mode lien, un gestionnaire en mode bouton (voir la branche ci-dessus).
+    <NavLink className="new-button btn btn-lg col-md-12" to={action as string}>
       <AddLogo />
       {suffix ? (
         <span>
