@@ -4,6 +4,7 @@ import type { ReactElement, ReactNode } from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+import { envelope } from "../../types/ddi4Items.testing";
 import { DdiPreview } from "./DdiPreview";
 
 vi.mock("react-i18next", () => ({
@@ -82,7 +83,7 @@ vi.mock("../../../../sdk", () => ({
     getPhysicalInstanceParents: (...args: any[]) => mockGetPhysicalInstanceParents(...args),
     getGroupMissingValuesRepresentations: (...args: any[]) =>
       mockGetGroupMissingValuesRepresentations(...args),
-    getMutualizedCodesList: (...args: any[]) => mockGetMutualizedCodesList(...args),
+    getMutualizedCodeList: (...args: any[]) => mockGetMutualizedCodesList(...args),
   },
 }));
 

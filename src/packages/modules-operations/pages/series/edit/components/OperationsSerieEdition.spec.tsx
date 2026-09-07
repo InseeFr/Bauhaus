@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { PropsWithChildren } from "react";
 import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
@@ -6,11 +7,11 @@ import { vi } from "vitest";
 import { OperationsApi } from "@sdk/operations-api";
 
 import { AppContextProvider } from "../../../../../application/app-context";
-import i18n from "../../../../../modules-concepts/i18n";
+import { operationsI18n } from "../../../../i18n";
 import { OperationsSerieEdition } from "./OperationsSerieEdition";
 
 vi.mock("@components/business/stamps-input/stamps-input", () => ({
-  OrganisationInput: () => <div />,
+  OrganizationInput: () => <div />,
 }));
 vi.mock("@components/business/creators-input", () => ({
   CreatorsInput: () => <div />,
@@ -26,10 +27,10 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
-const Providers = ({ children }) => (
-  <I18nextProvider i18n={i18n}>
+const Providers = ({ children }: PropsWithChildren) => (
+  <I18nextProvider i18n={operationsI18n}>
     <MemoryRouter>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{}}>
+      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
         {children}
       </AppContextProvider>
     </MemoryRouter>
@@ -40,12 +41,12 @@ const defaultProps = {
   families: [],
   series: [],
   indicators: [],
-  organisations: [],
+  organizations: [],
   categories: { codes: [] },
   frequencies: { codes: [] },
   extraMandatoryFields: [],
   goBack: vi.fn(),
-};
+} as any;
 
 const completeSerie = {
   id: "s1",
@@ -53,7 +54,7 @@ const completeSerie = {
   prefLabelLg2: "Series 1",
   family: { id: "f1" },
   creators: ["DG75-L201"],
-};
+} as any;
 
 const renderEdition = (props = {}) =>
   render(<OperationsSerieEdition {...defaultProps} serie={completeSerie} {...props} />, {

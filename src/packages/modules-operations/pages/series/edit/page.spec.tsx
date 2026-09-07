@@ -15,7 +15,7 @@ vi.mock("react-router-dom", async () => ({
 
 vi.mock("react-i18next", async () => ({
   ...(await vi.importActual("react-i18next")),
-  useTranslation: () => ({ t: (key) => key }),
+  useTranslation: () => ({ t: (key: string) => key }),
 }));
 
 vi.mock("@sdk/operations-api", () => ({
@@ -27,8 +27,8 @@ vi.mock("@sdk/operations-api", () => ({
   },
 }));
 
-vi.mock("@utils/hooks/codeslist", () => ({
-  useCodesList: (id) => ({ codes: [{ code: id }] }),
+vi.mock("@utils/hooks/codelist", () => ({
+  useCodelist: (id: string) => ({ codes: [{ code: id }] }),
 }));
 vi.mock("@utils/hooks/organizations", () => ({
   useOrganizations: () => ({ data: [{ id: "org-1" }] }),
@@ -37,7 +37,7 @@ vi.mock("@utils/hooks/useGoBack", () => ({ useGoBack: () => vi.fn() }));
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("./components/OperationsSerieEdition", () => ({
-  OperationsSerieEdition: ({ serie, families, indicators, series, extraMandatoryFields }) => (
+  OperationsSerieEdition: ({ serie, families, indicators, series, extraMandatoryFields }: any) => (
     <form>
       <span>série:{serie.prefLabelLg1 ?? "(nouvelle)"}</span>
       <span>familles:{families.length}</span>
@@ -50,7 +50,12 @@ vi.mock("./components/OperationsSerieEdition", () => ({
 
 const renderPage = (extraMandatoryFields = ["creator"]) =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{ extraMandatoryFields }}>
+    <AppContextProvider
+      lg1="fr"
+      lg2="en"
+      version="2.0.0"
+      properties={{ extraMandatoryFields } as any}
+    >
       <MemoryRouter>
         <Component />
       </MemoryRouter>

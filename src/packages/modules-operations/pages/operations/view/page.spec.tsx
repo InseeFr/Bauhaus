@@ -19,17 +19,17 @@ vi.mock("@sdk/operations-api", () => ({
 }));
 
 vi.mock("./components/OperationsOperationVisualization", () => ({
-  OperationsOperationVisualization: ({ attr }) => <div>opération:{attr.prefLabelLg1}</div>,
+  OperationsOperationVisualization: ({ attr }: any) => <div>opération:{attr.prefLabelLg1}</div>,
 }));
 vi.mock("./menu", () => ({
-  Menu: ({ onPublish }) => <button onClick={onPublish}>publier</button>,
+  Menu: ({ onPublish }: any) => <button onClick={onPublish}>publier</button>,
 }));
 
 const operation = { id: "op-1", prefLabelLg1: "Opération FR", prefLabelLg2: "Operation EN" };
 
 const renderPage = () =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{}}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
       <MemoryRouter>
         <Component />
       </MemoryRouter>

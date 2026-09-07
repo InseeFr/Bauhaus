@@ -17,8 +17,8 @@ vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getSerie: vi.fn(), publishSeries: vi.fn() },
 }));
 
-vi.mock("@utils/hooks/codeslist", () => ({
-  useCodesList: (id) => ({
+vi.mock("@utils/hooks/codelist", () => ({
+  useCodelist: (id: string) => ({
     codes:
       id === "CL_FREQ"
         ? [{ code: "A", labelLg1: "Annuelle" }]
@@ -29,7 +29,7 @@ vi.mock("@utils/hooks/organizations", () => ({ useOrganizations: () => ({ data: 
 vi.mock("@utils/hooks/useLocales", () => ({ useLocales: () => ["fr", "en"] }));
 
 vi.mock("./components/OperationsSerieVisualization", () => ({
-  OperationsSerieVisualization: ({ frequency, category }) => (
+  OperationsSerieVisualization: ({ frequency, category }: any) => (
     <div>
       <span>fréquence:{frequency?.labelLg1 ?? "(aucune)"}</span>
       <span>catégorie:{category?.labelLg1 ?? "(aucune)"}</span>
@@ -37,7 +37,7 @@ vi.mock("./components/OperationsSerieVisualization", () => ({
   ),
 }));
 vi.mock("./menu", () => ({
-  Menu: ({ onPublish }) => <button onClick={onPublish}>publier</button>,
+  Menu: ({ onPublish }: any) => <button onClick={onPublish}>publier</button>,
 }));
 
 const serie = {
@@ -50,7 +50,7 @@ const serie = {
 
 const renderPage = () =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{}}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
       <MemoryRouter>
         <Component />
       </MemoryRouter>

@@ -15,12 +15,12 @@ vi.mock("react-router-dom", async () => ({
 }));
 
 vi.mock("@sdk/general-api", () => ({ GeneralApi: { getDocument: vi.fn() } }));
-vi.mock("@utils/hooks/codeslist", () => ({
-  useCodesList: () => ({ codes: [{ code: "fr" }] }),
+vi.mock("@utils/hooks/codelist", () => ({
+  useCodelist: () => ({ codes: [{ code: "fr" }] }),
 }));
 
 vi.mock("./components/OperationsDocumentationEdition", () => ({
-  OperationsDocumentationEdition: ({ document, id, type }) => (
+  OperationsDocumentationEdition: ({ document, id, type }: any) => (
     <form>
       <span>document:{document.labelLg1 ?? "(vide)"}</span>
       <span>id:{id ?? "(aucun)"}</span>

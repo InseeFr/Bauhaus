@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 
-import { CodelistsApi, fetchCodeList } from "./codelists-api";
+import { CodelistsApi, fetchCodelist } from "./codelists-api";
 
 vi.mock("../auth/create-oidc", () => ({
   getOidc: vi.fn(() => Promise.resolve(null)),
@@ -43,9 +43,7 @@ describe("codelists api", () => {
   describe("routes des listes complètes", () => {
     it.each([
       ["getCodelists", [], "GET", "http://back/codeList"],
-      ["getCodesLists", [], "GET", "http://back/codeList"],
       ["getCodelist", ["CL_TEST"], "GET", "http://back/codeList/CL_TEST"],
-      ["getCodesList", ["CL_TEST"], "GET", "http://back/codeList/CL_TEST"],
       ["getDetailedCodelist", ["CL_TEST"], "GET", "http://back/codeList/detailed/CL_TEST"],
       [
         "getCodesDetailedCodelist",
@@ -54,7 +52,7 @@ describe("codelists api", () => {
         "http://back/codeList/detailed/CL_TEST/codes?page=2",
       ],
       [
-        "getCodesListCodes",
+        "getCodelistCodes",
         ["CL_TEST", 1, 10],
         "GET",
         "http://back/codeList/CL_TEST/codes?page=1&per_page=10",
@@ -103,9 +101,7 @@ describe("codelists api", () => {
   describe("routes des listes partielles", () => {
     it.each([
       ["getCodelistsPartial", [], "GET", "http://back/codeList/partial"],
-      ["getPartialCodesLists", [], "GET", "http://back/codeList/partial"],
       ["getCodelistPartial", ["CL_TEST"], "GET", "http://back/codeList/partial/CL_TEST"],
-      ["getPartialCodesList", ["CL_TEST"], "GET", "http://back/codeList/partial/CL_TEST"],
       ["getCodelistsPartialForSearch", [], "GET", "http://back/codeList/partial/search"],
       ["deleteCodelistPartial", ["CL_TEST"], "DELETE", "http://back/codeList/partial/CL_TEST"],
     ])("%s appelle %s", async (method, args, httpMethod, expectedUrl) => {
@@ -161,7 +157,7 @@ describe("codelists api", () => {
     });
   });
 
-  describe("fetchCodeList", () => {
+  describe("fetchCodelist", () => {
     it("assemble la liste et ses codes en un seul objet", async () => {
       using _fetch = vi.spyOn(window, "fetch").mockImplementation(((url: string) =>
         Promise.resolve({
@@ -175,7 +171,7 @@ describe("codelists api", () => {
             ),
         })) as never);
 
-      const codeList = await fetchCodeList("CL_TEST");
+      const codeList = await fetchCodelist("CL_TEST");
 
       expect(codeList).toEqual({
         id: "CL_TEST",
@@ -187,7 +183,7 @@ describe("codelists api", () => {
     it("renvoie une liste de codes vide quand le back n'en fournit pas", async () => {
       using _fetch = vi.spyOn(window, "fetch").mockImplementation(okResponse as never);
 
-      const codeList = await fetchCodeList("CL_TEST");
+      const codeList = await fetchCodelist("CL_TEST");
 
       expect(codeList.codes).toEqual([]);
     });

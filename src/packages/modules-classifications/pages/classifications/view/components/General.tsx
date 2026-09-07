@@ -14,61 +14,6 @@ import { renderMarkdownElement } from "@utils/html-utils";
 
 import { Classification } from "../../../../types";
 
-/**
- * Champs dont la valeur est un libellé cliquable vers une autre fiche : le lien
- * cible l'identifiant porté par `idKey`, et la seconde langue s'affiche entre
- * parenthèses.
- */
-const LINKED_FIELDS: Record<string, { idKey: string; basePath: string; lg2Key: string }> = {
-  seriesLg1: {
-    idKey: "idSeries",
-    basePath: "/classifications/series",
-    lg2Key: "seriesLg2",
-  },
-  afterLg1: {
-    idKey: "idAfter",
-    basePath: "/classifications/classification",
-    lg2Key: "afterLg2",
-  },
-  beforeLg1: {
-    idKey: "idBefore",
-    basePath: "/classifications/classification",
-    lg2Key: "beforeLg2",
-  },
-  variantLg1: {
-    idKey: "idVariant",
-    basePath: "/classifications/classification",
-    lg2Key: "variantLg2",
-  },
-};
-
-const MATERIAL_FIELDS = ["additionalMaterial", "legalMaterial"];
-const DATE_FIELDS = ["issued", "valid", "lastRefreshedOn"];
-const ORGANISATION_FIELDS = ["creator", "contributor"];
-
-const LinkedField = ({
-  label,
-  to,
-  labelLg1,
-  labelLg2,
-}: Readonly<{
-  label: string;
-  to: string;
-  labelLg1: string;
-  labelLg2?: string;
-}>) => (
-  <li>
-    {label} : <Link to={to}>{labelLg1}</Link>
-    {labelLg2 && (
-      <span>
-        {" ("}
-        <Link to={to}>{labelLg2}</Link>
-        {")"}
-      </span>
-    )}
-  </li>
-);
-
 type Props = Readonly<{
   general: Classification;
   secondLang: boolean;

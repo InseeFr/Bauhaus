@@ -19,6 +19,7 @@ const ZodPartialCodelist = z.object({
   labelLg2: mandatoryAndNotEmptyTextField(
     codelistsI18n.t("partial-codelists.label", { lng: "en" }),
   ),
+  parentCode: mandatoryAndNotEmptySelectField(codelistsI18n.t("partial-codelists.parentCodelist")),
   creator: mandatoryAndNotEmptySelectField(codelistsI18n.t("partial-codelists.creator")),
   disseminationStatus: mandatoryAndNotEmptySelectField(
     codelistsI18n.t("partial-codelists.disseminationStatus"),

@@ -6,17 +6,17 @@ import { SimsBlock } from "./SimsBlock";
 
 // Chaque type de rubrique délègue à un bloc dédié : on ne vérifie ici que l'aiguillage.
 vi.mock("./SimsBlockText", () => ({
-  SimsBlockText: ({ isSecondLang }) => <span>texte:{String(isSecondLang)}</span>,
+  SimsBlockText: ({ isSecondLang }: any) => <span>texte:{String(isSecondLang)}</span>,
 }));
 vi.mock("./SimsBlockDate", () => ({ SimsBlockDate: () => <span>date</span> }));
 vi.mock("./SimsBlockRichText", () => ({
-  SimsBlockRichText: ({ isSecondLang }) => <span>riche:{String(isSecondLang)}</span>,
+  SimsBlockRichText: ({ isSecondLang }: any) => <span>riche:{String(isSecondLang)}</span>,
 }));
-vi.mock("./SimsBlockCodeList", () => ({
-  SimsBlockCodeList: ({ multi }) => <span>liste:{String(multi)}</span>,
+vi.mock("./SimsBlockCodelist", () => ({
+  SimsBlockCodelist: ({ multi }: any) => <span>liste:{String(multi)}</span>,
 }));
-vi.mock("./SimsBlockOrganisation", () => ({
-  SimsBlockOrganisation: () => <span>organisation</span>,
+vi.mock("./SimsBlockOrganization", () => ({
+  SimsBlockOrganization: () => <span>organisation</span>,
 }));
 vi.mock("./SimsBlockGeography", () => ({ SimsBlockGeography: () => <span>géographie</span> }));
 vi.mock("./SimsBlockWithoutObject", () => ({
@@ -25,7 +25,7 @@ vi.mock("./SimsBlockWithoutObject", () => ({
 
 const msd = { masLabelLg1: "Rubrique" };
 
-const renderBlock = (props = {}) => render(<SimsBlock msd={msd} codesLists={{}} {...props} />);
+const renderBlock = (props = {}) => render(<SimsBlock msd={msd} codelists={{}} {...props} />);
 
 describe("SimsBlock", () => {
   it("ne rend rien quand la rubrique n'a pas de libellé", () => {
@@ -76,7 +76,7 @@ describe("SimsBlock", () => {
   it("rend une liste de codes quand la liste attendue est connue", () => {
     renderBlock({
       currentSection: { rangeType: rangeType.CODE_LIST, codeList: "CL_FREQ" },
-      codesLists: { CL_FREQ: [{ id: "A" }] },
+      codelists: { CL_FREQ: [{ id: "A" }] },
     });
 
     expect(screen.getByText("liste:false")).toBeInTheDocument();
@@ -85,7 +85,7 @@ describe("SimsBlock", () => {
   it("passe la liste en multi-valuée quand la rubrique est non bornée", () => {
     renderBlock({
       currentSection: { rangeType: rangeType.CODE_LIST, codeList: "CL_FREQ" },
-      codesLists: { CL_FREQ: [] },
+      codelists: { CL_FREQ: [] },
       unbounded: true,
     });
 
@@ -95,7 +95,7 @@ describe("SimsBlock", () => {
   it("n'affiche pas de liste de codes tant que la liste n'est pas chargée", () => {
     renderBlock({
       currentSection: { rangeType: rangeType.CODE_LIST, codeList: "CL_ABSENTE" },
-      codesLists: {},
+      codelists: {},
     });
 
     expect(screen.queryByText(/^liste:/)).not.toBeInTheDocument();

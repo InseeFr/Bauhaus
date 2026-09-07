@@ -4,7 +4,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { getItem, setItem } from "@utils/localStorage";
 
-import { MSDComponent } from "./MSDComponent";
+import { MSDLayout } from "./MSDLayout";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -30,14 +30,14 @@ const metadataStructure = {
 
 const renderLayout = () =>
   render(
-    <MSDComponent
+    <MSDLayout
       metadataStructure={metadataStructure}
       storeCollapseState={false}
       baseUrl="/operations/sims"
       disableSectionAnchor={false}
     >
       <p>contenu du rapport</p>
-    </MSDComponent>,
+    </MSDLayout>,
   );
 
 // Les deux panneaux se distinguent par leur classe : le libellé du sommaire est aussi
@@ -45,7 +45,7 @@ const renderLayout = () =>
 const summary = () => document.querySelector<HTMLElement>("section.msd-outline")!;
 const content = () => screen.getByText("contenu du rapport").parentElement!;
 
-describe("MSDComponent", () => {
+describe("MSDLayout", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(getItem).mockReturnValue(null as any);

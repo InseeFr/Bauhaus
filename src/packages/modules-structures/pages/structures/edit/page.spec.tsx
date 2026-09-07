@@ -14,13 +14,13 @@ vi.mock("react-router-dom", async () => ({
   useLocation: () => location(),
 }));
 
-vi.mock("react-i18next", () => ({ useTranslation: () => ({ t: (key) => key }) }));
+vi.mock("react-i18next", () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 
 vi.mock("@sdk/index", () => ({ StructureApi: { getStructure: vi.fn() } }));
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("./components/EditionForm", () => ({
-  EditionForm: ({ creation, initialStructure }) => (
+  EditionForm: ({ creation, initialStructure }: any) => (
     <form>
       <span>création:{String(creation)}</span>
       <span>id:{initialStructure.id === "" ? "(vide)" : initialStructure.id}</span>
@@ -30,7 +30,7 @@ vi.mock("./components/EditionForm", () => ({
   ),
 }));
 
-const structure = {
+const structure: any = {
   id: "str-1",
   identifiant: "STR1",
   labelLg1: "Structure FR",
@@ -45,7 +45,7 @@ const structure = {
 
 const renderPage = () =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{}}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
       <MemoryRouter>
         <Component />
       </MemoryRouter>

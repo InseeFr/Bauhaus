@@ -10,7 +10,7 @@ vi.mock("react-router-dom", async () => ({
 }));
 
 vi.mock("./HelpInformation", () => ({
-  HelpInformation: ({ msd }) => <p>aide:{msd.idMas}</p>,
+  HelpInformation: ({ msd }: any) => <p>aide:{msd.idMas}</p>,
 }));
 
 // Deux racines, la première avec un enfant lui-même parent : l'aide se rend en profondeur.
@@ -26,7 +26,7 @@ const metadataStructure = {
 };
 
 const renderHelp = () =>
-  render(<MSDHelp metadataStructure={metadataStructure} codesLists={{}} organisations={[]} />);
+  render(<MSDHelp metadataStructure={metadataStructure} codelists={{}} organizations={[]} />);
 
 describe("MSDHelp", () => {
   beforeEach(() => {

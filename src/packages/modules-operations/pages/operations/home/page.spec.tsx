@@ -8,9 +8,9 @@ import { Component } from "./page";
 vi.mock("@sdk/operations-api", () => ({ OperationsApi: { getOperationsList: vi.fn() } }));
 
 vi.mock("./components/OperationsHome", () => ({
-  OperationsHome: ({ operations }) => (
+  OperationsHome: ({ operations }: any) => (
     <ul>
-      {operations.map((operation) => (
+      {operations.map((operation: any) => (
         <li key={operation.id}>{operation.label}</li>
       ))}
     </ul>

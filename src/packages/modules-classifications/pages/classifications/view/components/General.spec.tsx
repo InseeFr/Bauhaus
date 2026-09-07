@@ -67,8 +67,8 @@ vi.mock("@utils/html-utils", () => ({
   renderMarkdownElement: (v: any) => v,
 }));
 
-vi.mock("@components/business/organisations/organisations", () => ({
-  InseeOrganisation: ({ creator }: any) => <span>{`Organisation: ${creator}`}</span>,
+vi.mock("@components/business/organizations/organizations", () => ({
+  InseeOrganization: ({ creator }: any) => <span>{`Organization: ${creator}`}</span>,
 }));
 
 const renderGeneral = (general = {}, secondLang = false) =>
@@ -167,7 +167,7 @@ describe("<General />", () => {
   it("affiche le créateur via InseeOrganisation", () => {
     renderGeneral({ creator: "DG75-H250" });
     expect(screen.getAllByTestId("note-content")[0]).toHaveTextContent(
-      "Owner : Organisation: DG75-H250",
+      "Owner : Organization: DG75-H250",
     );
   });
 

@@ -15,12 +15,12 @@ vi.mock("react-router-dom", async () => ({
 }));
 
 vi.mock("@sdk/general-api", () => ({ GeneralApi: { getDocument: vi.fn() } }));
-vi.mock("@utils/hooks/codeslist", () => ({
-  useCodesList: () => ({ codes: [{ code: "fr", labelLg1: "Français" }] }),
+vi.mock("@utils/hooks/codelist", () => ({
+  useCodelist: () => ({ codes: [{ code: "fr", labelLg1: "Français" }] }),
 }));
 
 vi.mock("./components/OperationsDocumentationVisualization", () => ({
-  OperationsDocumentationVisualization: ({ attr, type, langOptions }) => (
+  OperationsDocumentationVisualization: ({ attr, type, langOptions }: any) => (
     <div>
       <span>document:{attr.labelLg1}</span>
       <span>id:{attr.id}</span>
@@ -29,11 +29,11 @@ vi.mock("./components/OperationsDocumentationVisualization", () => ({
     </div>
   ),
 }));
-vi.mock("./menu", () => ({ Menu: ({ type }) => <nav>menu:{type}</nav> }));
+vi.mock("./menu", () => ({ Menu: ({ type }: any) => <nav>menu:{type}</nav> }));
 
 const renderPage = () =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{}}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
       <MemoryRouter>
         <Component />
       </MemoryRouter>

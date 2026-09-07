@@ -17,12 +17,12 @@ vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getIndicatorById: vi.fn(), publishIndicator: vi.fn() },
 }));
 
-vi.mock("@utils/hooks/codeslist", () => ({
-  useCodesList: () => ({ codes: [{ code: "A", labelLg1: "Annuelle" }] }),
+vi.mock("@utils/hooks/codelist", () => ({
+  useCodelist: () => ({ codes: [{ code: "A", labelLg1: "Annuelle" }] }),
 }));
 
 vi.mock("./components/OperationsIndicatorVisualization", () => ({
-  OperationsIndicatorVisualization: ({ attr, frequency }) => (
+  OperationsIndicatorVisualization: ({ attr, frequency }: any) => (
     <div>
       <span>indicateur:{attr.prefLabelLg1}</span>
       <span>fréquence:{frequency?.labelLg1 ?? "(aucune)"}</span>
@@ -30,7 +30,7 @@ vi.mock("./components/OperationsIndicatorVisualization", () => ({
   ),
 }));
 vi.mock("./menu", () => ({
-  Menu: ({ publish }) => <button onClick={publish}>publier</button>,
+  Menu: ({ publish }: any) => <button onClick={publish}>publier</button>,
 }));
 
 const indicator = {
@@ -42,7 +42,7 @@ const indicator = {
 
 const renderPage = () =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{}}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
       <MemoryRouter>
         <Component />
       </MemoryRouter>

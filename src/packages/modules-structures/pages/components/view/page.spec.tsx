@@ -26,12 +26,12 @@ vi.mock("@sdk/index", () => ({
 }));
 
 vi.mock("@utils/hooks/useGoBack", () => ({ useGoBack: () => goBack }));
-vi.mock("../../../hooks/useFormattedCodeList", () => ({
-  useFormattedCodeList: () => ({ data: [{ id: "CL_1" }] }),
+vi.mock("../../../hooks/useFormattedCodelist", () => ({
+  useFormattedCodelist: () => ({ data: [{ id: "CL_1" }] }),
 }));
 
 vi.mock("../../../components/ComponentTitle", () => ({
-  ComponentTitle: ({ component }) => <h1>composante:{component.labelLg1}</h1>,
+  ComponentTitle: ({ component }: any) => <h1>composante:{component.labelLg1}</h1>,
 }));
 vi.mock("../../../components/ComponentDetailView", () => ({
   ComponentDetailView: ({
@@ -42,12 +42,12 @@ vi.mock("../../../components/ComponentDetailView", () => ({
     serverSideError,
     concepts,
     attributes,
-    codesLists,
-  }) => (
+    codelists,
+  }: any) => (
     <div>
       <span>concepts:{concepts.length}</span>
       <span>attributs:{attributes.length}</span>
-      <span>listes:{codesLists.length}</span>
+      <span>listes:{codelists.length}</span>
       <span>modifier:{handleUpdate}</span>
       <span>erreur:{serverSideError ?? "(aucune)"}</span>
       <button onClick={handleBack}>retour</button>
@@ -61,7 +61,7 @@ const component = { id: "comp-1", labelLg1: "Composante FR" };
 
 const renderPage = () =>
   render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{}}>
+    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
       <MemoryRouter>
         <Component />
       </MemoryRouter>

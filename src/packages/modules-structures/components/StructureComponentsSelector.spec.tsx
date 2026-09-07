@@ -68,14 +68,14 @@ const defaultProps = {
     { id: "c1", label: "Concept 1" },
     { id: "c2", label: "Concept 2" },
   ],
-  codesLists: [],
+  codelists: [],
   readOnly: false,
   handleRemove: vi.fn(),
   handleUp: vi.fn(),
   handleDown: vi.fn(),
   handleCreateOrUpdate: vi.fn(),
   handleSpecificationClick: vi.fn(),
-  handleCodesListDetail: vi.fn(),
+  handleCodelistDetail: vi.fn(),
 };
 
 const renderSelector = (props: Record<string, unknown> = {}) =>

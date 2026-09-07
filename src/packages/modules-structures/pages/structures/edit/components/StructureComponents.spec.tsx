@@ -12,7 +12,7 @@ import { StructureComponents } from "./StructureComponents";
 
 vi.mock("react-i18next", async () => ({
   ...(await vi.importActual("react-i18next")),
-  useTranslation: () => ({ t: (key) => key }),
+  useTranslation: () => ({ t: (key: string) => key }),
 }));
 
 vi.mock("@sdk/index", () => ({
@@ -20,15 +20,15 @@ vi.mock("@sdk/index", () => ({
   StructureApi: { getMutualizedComponents: vi.fn() },
 }));
 
-vi.mock("../../../../hooks/useFormattedCodeList", () => ({
-  useFormattedCodeList: () => ({ data: [{ id: "CL_1" }] }),
+vi.mock("../../../../hooks/useFormattedCodelist", () => ({
+  useFormattedCodelist: () => ({ data: [{ id: "CL_1" }] }),
 }));
 
 vi.mock("../../../../components/ComponentSelector", () => ({
-  ComponentSelector: ({ type, concepts, mutualizedComponents, codesLists, structure }) => (
+  ComponentSelector: ({ type, concepts, mutualizedComponents, codelists, structure }: any) => (
     <div data-testid={type}>
       concepts:{concepts.length}|mutualisées:{mutualizedComponents.length}|listes:
-      {codesLists.length}|structure:{structure.id ?? "(aucune)"}
+      {codelists.length}|structure:{structure.id ?? "(aucune)"}
     </div>
   ),
 }));

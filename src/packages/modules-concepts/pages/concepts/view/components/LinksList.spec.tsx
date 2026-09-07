@@ -26,9 +26,9 @@ vi.mock("./InternalLinks", () => ({
   ),
 }));
 vi.mock("./CloseMatchLinks", () => ({
-  CloseMatchLinks: ({ links, Dictionnary }: any) => (
+  CloseMatchLinks: ({ links, Dictionary }: any) => (
     <dd>
-      équivalents|{links.length}|{Dictionnary.closeMatchTitle}
+      équivalents|{links.length}|{Dictionary.closeMatchTitle}
     </dd>
   ),
 }));

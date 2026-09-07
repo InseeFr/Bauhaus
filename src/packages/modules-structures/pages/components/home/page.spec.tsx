@@ -18,17 +18,17 @@ vi.mock("react-router-dom", async () => ({
 // remplace que useTranslation, sinon initReactI18next disparaît et l'import échoue.
 vi.mock("react-i18next", async () => ({
   ...(await vi.importActual("react-i18next")),
-  useTranslation: () => ({ t: (key) => key }),
+  useTranslation: () => ({ t: (key: string) => key }),
 }));
 
 vi.mock("@sdk/index", () => ({ StructureApi: { getMutualizedComponents: vi.fn() } }));
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("@components/filter-toggle-buttons", () => ({
-  default: ({ currentValue, handleSelection, options }) => (
+  FilterToggleButtons: ({ currentValue, handleSelection, options }: any) => (
     <div>
       <span>filtre:{currentValue}</span>
-      {options.map(([value, label]) => (
+      {options.map(([value, label]: [string, string]) => (
         <button key={value} onClick={() => handleSelection(value)}>
           {label}
         </button>
@@ -37,9 +37,9 @@ vi.mock("@components/filter-toggle-buttons", () => ({
   ),
 }));
 vi.mock("@components/searchable-list", () => ({
-  SearchableList: ({ items }) => (
+  SearchableList: ({ items }: any) => (
     <ul>
-      {items.map((item) => (
+      {items.map((item: any) => (
         <li key={item.id}>
           {item.labelLg1}
           {Object.hasOwn(item, "type") ? "|type conservé" : ""}
@@ -48,7 +48,7 @@ vi.mock("@components/searchable-list", () => ({
     </ul>
   ),
 }));
-vi.mock("./menu", () => ({ HomePageMenu: ({ filter }) => <nav>menu:{filter}</nav> }));
+vi.mock("./menu", () => ({ HomePageMenu: ({ filter }: any) => <nav>menu:{filter}</nav> }));
 
 // Les types sont des IRI QB, et les libellés des boutons viennent d'i18next : on part des
 // constantes réelles plutôt que d'inventer des valeurs qui ne filtreraient rien.

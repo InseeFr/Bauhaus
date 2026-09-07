@@ -6,10 +6,10 @@ import { HelpInformation } from "./HelpInformation";
 
 vi.mock("react-i18next", async () => ({
   ...(await vi.importActual("react-i18next")),
-  useTranslation: () => ({ t: (key) => key }),
+  useTranslation: () => ({ t: (key: string) => key }),
 }));
 
-const codesLists = {
+const codelists = {
   CL_FREQ: {
     codeListLabelLg1: "Fréquences",
     codes: [
@@ -19,13 +19,13 @@ const codesLists = {
   },
 };
 
-const organisations = [
+const organizations = [
   { id: "org-1", label: "Insee A040" },
   { id: "org-2", label: "Insee L001" },
 ];
 
-const renderHelp = (msd) =>
-  render(<HelpInformation msd={msd} codesLists={codesLists} organisations={organisations} />);
+const renderHelp = (msd: any) =>
+  render(<HelpInformation msd={msd} codelists={codelists} organizations={organizations} />);
 
 const baseMsd = {
   masLabelLg1: "Contact",

@@ -5,7 +5,7 @@ import { getListItems } from "@components/ui/list-group/testing";
 
 import { CodelistsApi } from "@sdk/index";
 
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { renderWithRouter } from "../../../../tests/render";
 import { Component } from "./page";
@@ -22,35 +22,40 @@ vi.mock("@utils/hooks/stamps", () => ({
   useStampsOptions: () => [{ value: "DG75-L201", label: "DG75-L201" }],
 }));
 
-const ORGANISATION_IRI = "http://bauhaus/organisations/insee/HIE2000001";
+const ORGANIZATION_IRI = "http://bauhaus/organizations/insee/HIE2000001";
 
 const data = [
   {
     id: "cl1000",
     labelLg1: "Première liste",
-    creator: ORGANISATION_IRI,
+    creator: ORGANIZATION_IRI,
     validationState: "Unpublished",
     codes: [{ code: "001", labelLg1: "Premier code" }],
   },
   {
     id: "cl1001",
     labelLg1: "Deuxième liste",
-    creator: "http://bauhaus/organisations/insee/OTHER",
+    creator: "http://bauhaus/organizations/insee/OTHER",
     validationState: "Validated",
     codes: [{ code: "002", labelLg1: "Deuxième code" }],
   },
   {
     id: "cl1002",
     labelLg1: "Troisième liste",
-    creator: ORGANISATION_IRI,
+    creator: ORGANIZATION_IRI,
     validationState: "Modified",
     codes: [],
   },
 ];
 
 const renderSearch = async (form = {}) => {
-  useUrlQueryParameters.mockReturnValue({ form, reset: vi.fn(), handleChange: vi.fn() });
-  CodelistsApi.getCodelistsPartialForSearch.mockResolvedValue(data);
+  vi.mocked(useUrlQueryParameters).mockReturnValue({
+    form,
+    setForm: vi.fn(),
+    reset: vi.fn(),
+    handleChange: vi.fn(),
+  });
+  vi.mocked(CodelistsApi.getCodelistsPartialForSearch).mockResolvedValue(data);
 
   const view = renderWithRouter(<Component />);
   await waitForElementToBeRemoved(() => screen.queryByText(/loading|chargement/i));
@@ -94,7 +99,7 @@ describe("recherche avancée des listes de codes partielles", () => {
   });
 
   it("filtre par propriétaire", async () => {
-    const { container } = await renderSearch({ creator: ORGANISATION_IRI });
+    const { container } = await renderSearch({ creator: ORGANIZATION_IRI });
 
     expect(getListItems(container)).toHaveLength(2);
   });
