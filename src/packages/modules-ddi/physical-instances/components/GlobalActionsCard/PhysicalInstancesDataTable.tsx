@@ -37,7 +37,7 @@ export const PhysicalInstancesDataTable = ({
     try {
       const date = new Date(dateString);
       // Vérifier que la date est valide
-      if (isNaN(date.getTime())) return "";
+      if (Number.isNaN(date.getTime())) return "";
 
       return new Intl.DateTimeFormat(i18n.language, {
         year: "numeric",
