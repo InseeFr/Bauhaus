@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-import {
-  formatValidation,
-  mandatoryAndNotEmptyTextField,
-} from "@utils/validation";
+import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
 
 import { classificationsI18n } from "../../../i18n";
 

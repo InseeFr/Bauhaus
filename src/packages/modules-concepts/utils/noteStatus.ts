@@ -59,8 +59,7 @@ export const noteStatus = (
 
   const limit = maxLength ?? Number.POSITIVE_INFINITY;
 
-  if (htmlLength(noteLg1) > limit || htmlLength(noteLg2) > limit)
-    return "toFix";
+  if (htmlLength(noteLg1) > limit || htmlLength(noteLg2) > limit) return "toFix";
 
   // Le caractère obligatoire d'une note est décrit par `validate` et lui seul :
   // une note vide n'est reprochée qu'à partir du moment où il la signale.

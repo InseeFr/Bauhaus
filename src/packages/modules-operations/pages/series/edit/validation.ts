@@ -38,15 +38,9 @@ const ZodSerie: ZodObject<any> = z.object({
           : undefined,
     },
   ),
-  prefLabelLg1: mandatoryAndNotEmptyTextField(
-    operationsI18n.t("common.title", { lng: "fr" }),
-  ),
-  prefLabelLg2: mandatoryAndNotEmptyTextField(
-    operationsI18n.t("common.title", { lng: "en" }),
-  ),
-  creators: mandatoryAndNotEmptyMultiSelectField(
-    operationsI18n.t("app.creatorsTitle"),
-  ),
+  prefLabelLg1: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "fr" })),
+  prefLabelLg2: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "en" })),
+  creators: mandatoryAndNotEmptyMultiSelectField(operationsI18n.t("app.creatorsTitle")),
 });
 
 const fieldToTitleMapping: Record<string, string> = {
@@ -54,10 +48,7 @@ const fieldToTitleMapping: Record<string, string> = {
   accrualPeriodicityCode: operationsI18n.t("common.dataCollectFrequency"),
 };
 
-const addFieldsToObject = (
-  listOfFields: string[],
-  baseObject: ZodObject<any>,
-) => {
+const addFieldsToObject = (listOfFields: string[], baseObject: ZodObject<any>) => {
   const shapeFromFields = Object.fromEntries(
     listOfFields.map((field) => [
       field,

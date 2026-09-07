@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { getItem, setItem } from "@utils/localStorage";
+
 import { MSDComponent } from "./MSDComponent";
 
 vi.mock("react-i18next", () => ({

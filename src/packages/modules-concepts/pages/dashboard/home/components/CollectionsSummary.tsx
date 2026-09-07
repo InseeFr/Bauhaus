@@ -23,9 +23,7 @@ export type CollectionStampRow = {
   total: number;
 };
 
-export const buildDataStamps = (
-  d: CollectionDashboardItem[],
-): CollectionStampRow[] =>
+export const buildDataStamps = (d: CollectionDashboardItem[]): CollectionStampRow[] =>
   d.reduce<CollectionStampRow[]>((acc, collection) => {
     if (!acc.some((row) => row.stamp === collection.creator)) {
       acc.push({ stamp: collection.creator, total: 0 });
@@ -48,8 +46,7 @@ export function CollectionsSummary({
     {
       id: 2,
       type: t("dashboard.provisionalCountLabel"),
-      total: collectionsData.filter((c) => c.validationState !== VALIDATED)
-        .length,
+      total: collectionsData.filter((c) => c.validationState !== VALIDATED).length,
     },
   ];
 
@@ -71,9 +68,7 @@ export function CollectionsSummary({
           <Column
             field="stamp"
             header={t("dashboard.collections.summary.byOwnerColumn")}
-            body={(row: CollectionStampRow) => (
-              <InseeOrganization creator={row.stamp} />
-            )}
+            body={(row: CollectionStampRow) => <InseeOrganization creator={row.stamp} />}
           ></Column>
           <Column field="total" header={t("dashboard.totalColumn")}></Column>
         </DataTable>

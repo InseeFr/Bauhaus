@@ -3,11 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
-import {
-  ClientSideError,
-  ErrorBloc,
-  GlobalClientSideErrorBloc,
-} from "@components/errors-bloc";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { InputRmes } from "@components/input-rmes";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -65,9 +61,7 @@ const defaultIndicator: Partial<Indicator> = {
   wasGeneratedBy: [],
 };
 
-const setInitialState = (
-  props: Readonly<OperationsIndicatorEditionTypes>,
-): State => ({
+const setInitialState = (props: Readonly<OperationsIndicatorEditionTypes>): State => ({
   serverSideError: "",
   clientSideErrors: {},
   submitting: false,
@@ -90,9 +84,7 @@ const ONCHANGE_FIELDS: (keyof Indicator)[] = [
   "accrualPeriodicityCode",
 ];
 
-export const OperationsIndicatorEdition = (
-  props: Readonly<OperationsIndicatorEditionTypes>,
-) => {
+export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEditionTypes>) => {
   const { t } = useTranslation();
 
   const [state, setState] = useState<State>(() => setInitialState(props));
@@ -175,9 +167,7 @@ export const OperationsIndicatorEdition = (
   const indicator = {
     ...state.indicator,
     seeAlso: (state.indicator.seeAlso || []).map((link) => link.id),
-    wasGeneratedBy: (state.indicator.wasGeneratedBy || []).map(
-      (link) => link.id,
-    ),
+    wasGeneratedBy: (state.indicator.wasGeneratedBy || []).map((link) => link.id),
     replaces: (state.indicator.replaces || []).map((link) => link.id),
     replacedBy: (state.indicator.isReplacedBy || []).map((link) => link.id),
   };
@@ -192,28 +182,22 @@ export const OperationsIndicatorEdition = (
   // `toSelectModel`/`mergedItemsToSelectModels` type their `type` field as
   // `string | undefined` since the parameter is optional, even though it is
   // always given a literal here; the actual runtime shape does satisfy `Option`.
-  const seriesAndIndicatorsOptions =
-    ItemToSelectModel.mergedItemsToSelectModels(
-      indicatorsOptions as { type: string; label: string }[],
-      seriesOptions as { type: string; label: string }[],
-    ) as unknown as Option[];
+  const seriesAndIndicatorsOptions = ItemToSelectModel.mergedItemsToSelectModels(
+    indicatorsOptions as { type: string; label: string }[],
+    seriesOptions as { type: string; label: string }[],
+  ) as unknown as Option[];
 
   return (
     <div className="container editor-container">
       {isUpdate && (
-        <PageTitleBlock
-          titleLg1={indicator.prefLabelLg1}
-          titleLg2={indicator.prefLabelLg2}
-        />
+        <PageTitleBlock titleLg1={indicator.prefLabelLg1} titleLg2={indicator.prefLabelLg2} />
       )}
       <Control
         onSubmit={onSubmit}
         disabled={(state.clientSideErrors.errorMessage?.length ?? 0) > 0}
       />
       {state.submitting && state.clientSideErrors && (
-        <GlobalClientSideErrorBloc
-          clientSideErrors={state.clientSideErrors.errorMessage}
-        />
+        <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
       {state.serverSideError && <ErrorBloc error={state.serverSideError} />}
       <form>
@@ -280,18 +264,14 @@ export const OperationsIndicatorEdition = (
         </Row>
         <Row>
           <div className="form-group col-md-6">
-            <label htmlFor="abstractLg1">
-              {t("common.summary", { lng: "fr" })}
-            </label>
+            <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
             <EditorMarkdown
               text={indicator.abstractLg1 ?? ""}
               handleChange={onChanges.abstractLg1}
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="abstractLg2">
-              {t("common.summary", { lng: "en" })}
-            </label>
+            <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
             <EditorMarkdown
               text={indicator.abstractLg2 ?? ""}
               handleChange={onChanges.abstractLg2}
@@ -300,18 +280,14 @@ export const OperationsIndicatorEdition = (
         </Row>
         <Row>
           <div className="form-group col-md-6">
-            <label htmlFor="historyNoteLg1">
-              {t("common.history", { lng: "fr" })}
-            </label>
+            <label htmlFor="historyNoteLg1">{t("common.history", { lng: "fr" })}</label>
             <EditorMarkdown
               text={indicator.historyNoteLg1 ?? ""}
               handleChange={onChanges.historyNoteLg1}
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="historyNoteLg2">
-              {t("common.history", { lng: "en" })}
-            </label>
+            <label htmlFor="historyNoteLg2">{t("common.history", { lng: "en" })}</label>
             <EditorMarkdown
               text={indicator.historyNoteLg2 ?? ""}
               handleChange={onChanges.historyNoteLg2}
@@ -457,9 +433,7 @@ export const OperationsIndicatorEdition = (
                     value.map((v: string) => {
                       return {
                         id: v,
-                        type: value.startsWith("indicator")
-                          ? "indicator"
-                          : "series",
+                        type: value.startsWith("indicator") ? "indicator" : "series",
                       };
                     }),
                   )

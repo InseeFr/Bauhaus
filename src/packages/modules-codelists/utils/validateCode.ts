@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-import {
-  formatValidation,
-  mandatoryAndNotEmptyTextField,
-} from "@utils/validation";
+import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
 
 import { codelistsI18n } from "../i18n";
 
@@ -20,12 +17,8 @@ const ZodCode = (shouldCheckDuplicate: boolean, codes: CodeFormValues[]) =>
       (value) => !shouldCheckDuplicate || !codes.some((c) => c.code === value),
       { error: codelistsI18n.t("codes.duplicateError") },
     ),
-    labelLg1: mandatoryAndNotEmptyTextField(
-      codelistsI18n.t("codes.label", { lng: "fr" }),
-    ),
-    labelLg2: mandatoryAndNotEmptyTextField(
-      codelistsI18n.t("codes.label", { lng: "en" }),
-    ),
+    labelLg1: mandatoryAndNotEmptyTextField(codelistsI18n.t("codes.label", { lng: "fr" })),
+    labelLg2: mandatoryAndNotEmptyTextField(codelistsI18n.t("codes.label", { lng: "en" })),
   });
 
 export const validateCode = (

@@ -18,25 +18,17 @@ const Base = (
   currentLabelLg2: string | undefined,
 ) =>
   z.object({
-    labelLg1: mandatoryAndNotEmptyTextField(
-      operationsI18n.t("common.title", { lng: "fr" }),
-    ).refine(
+    labelLg1: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "fr" })).refine(
       (value) =>
         value === currentLabelLg1 ||
-        !documentsAndLinksList
-          .map((document: Document) => document.labelLg1)
-          .includes(value),
+        !documentsAndLinksList.map((document: Document) => document.labelLg1).includes(value),
 
       { error: operationsI18n.t("app.duplicatedTitle") },
     ),
-    labelLg2: mandatoryAndNotEmptyTextField(
-      operationsI18n.t("common.title", { lng: "en" }),
-    ).refine(
+    labelLg2: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "en" })).refine(
       (value) =>
         value === currentLabelLg2 ||
-        !documentsAndLinksList
-          .map((document: Document) => document.labelLg2)
-          .includes(value),
+        !documentsAndLinksList.map((document: Document) => document.labelLg2).includes(value),
 
       { error: operationsI18n.t("app.duplicatedTitle") },
     ),

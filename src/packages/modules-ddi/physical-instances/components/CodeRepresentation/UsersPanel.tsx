@@ -9,10 +9,7 @@ import { Link } from "react-router-dom";
 import { cx } from "@utils/cx";
 
 import type { CodeListUsage } from "../../types/api";
-import {
-  buildCodeListUsersTree,
-  type CodeListUsersNodeData,
-} from "./codeListUsersTree";
+import { buildCodeListUsersTree, type CodeListUsersNodeData } from "./codeListUsersTree";
 
 const PHYSICAL_INSTANCE_PATH = "/ddi/physical-instances";
 const linkStyle = { textDecoration: "none", color: "inherit" } as const;
@@ -59,9 +56,7 @@ export const UsersPanel = ({
   const tree = buildCodeListUsersTree(
     usages.filter((usage) => usage.variableId !== currentVariableId),
     {
-      unknownStudyUnit: t(
-        "physicalInstance.view.code.usersPanel.unknownStudyUnit",
-      ),
+      unknownStudyUnit: t("physicalInstance.view.code.usersPanel.unknownStudyUnit"),
     },
   );
 

@@ -43,10 +43,7 @@ const SourceItemLabel = ({
  * Builds the list of links to the source and target items paired by
  * an association, shown in its "general information" block.
  */
-export const buildAssociationItemLinks = (
-  association: any,
-  secondLang: boolean,
-) => {
+export const buildAssociationItemLinks = (association: any, secondLang: boolean) => {
   const {
     sourceClassId,
     targetClassId,

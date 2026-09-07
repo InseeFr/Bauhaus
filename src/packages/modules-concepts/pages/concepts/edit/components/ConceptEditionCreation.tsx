@@ -168,9 +168,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
     }));
   };
 
-  const handleChangeEquivalentLinks = (
-    newLinks: (Link | { urn: string })[],
-  ) => {
+  const handleChangeEquivalentLinks = (newLinks: (Link | { urn: string })[]) => {
     setSubmitting(true);
     setState((state) => ({
       ...state,
@@ -239,8 +237,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
     equivalentLinks: equivalentLinks ?? [],
   });
 
-  const isVersioningPossibleFn = (): boolean =>
-    isVersioningPossible(notes, state.data.notes);
+  const isVersioningPossibleFn = (): boolean => isVersioningPossible(notes, state.data.notes);
 
   const areNotesChanged = (): boolean => {
     const oldNotes = getOriginalData().notes;
@@ -253,11 +250,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
     activeSection,
     activeNote,
     activeLinkType,
-    data: {
-      general: dataGeneral,
-      notes: dataNotes,
-      conceptsWithLinks: dataConceptsWithLinks,
-    },
+    data: { general: dataGeneral, notes: dataNotes, conceptsWithLinks: dataConceptsWithLinks },
   } = state;
 
   const versioningPossible = isVersioningPossibleFn();
@@ -305,11 +298,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
       <div className="container">
         <PageTitle title={title} subtitle={subtitle} />
         {general.contributor && (
-          <Menu
-            errors={displayedErrors}
-            handleSave={handleSave}
-            submitting={submitting}
-          />
+          <Menu errors={displayedErrors} handleSave={handleSave} submitting={submitting} />
         )}
         <div className="concept-edition">
           <ConceptSummary
@@ -325,10 +314,7 @@ export const ConceptEditionCreation = (props: ConceptEditionCreationProps) => {
           />
           <div className="concept-edition__sections">
             {activeSection === "general" && (
-              <section
-                id="concept-general"
-                className="concept-edition__section"
-              >
+              <section id="concept-general" className="concept-edition__section">
                 <h3>{t("common.globalInformationsTitle")}</h3>
                 <ConceptGeneralEdition
                   general={dataGeneral}

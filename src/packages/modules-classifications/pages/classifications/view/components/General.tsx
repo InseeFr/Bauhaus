@@ -19,10 +19,7 @@ import { Classification } from "../../../../types";
  * cible l'identifiant porté par `idKey`, et la seconde langue s'affiche entre
  * parenthèses.
  */
-const LINKED_FIELDS: Record<
-  string,
-  { idKey: string; basePath: string; lg2Key: string }
-> = {
+const LINKED_FIELDS: Record<string, { idKey: string; basePath: string; lg2Key: string }> = {
   seriesLg1: {
     idKey: "idSeries",
     basePath: "/classifications/series",
@@ -128,25 +125,18 @@ export const General = ({ general, secondLang }: Props) => {
           text={
             <ul>
               {Object.keys(mapping).map((fieldName) => {
-                if (
-                  Object.hasOwn(general, fieldName) &&
-                  (general as any)[fieldName]
-                ) {
+                if (Object.hasOwn(general, fieldName) && (general as any)[fieldName]) {
                   if (fieldName === "seriesLg1") {
                     return (
                       <li key={fieldName}>
                         {mapping[fieldName]} :{" "}
-                        <Link
-                          to={`/classifications/series/${general.idSeries}`}
-                        >
+                        <Link to={`/classifications/series/${general.idSeries}`}>
                           {(general as any)[fieldName]}
                         </Link>
                         {secondLang && (general as any).seriesLg2 && (
                           <span>
                             {" ("}
-                            <Link
-                              to={`/classifications/series/${general.idSeries}`}
-                            >
+                            <Link to={`/classifications/series/${general.idSeries}`}>
                               {(general as any).seriesLg2}
                             </Link>
                             {")"}
@@ -159,17 +149,13 @@ export const General = ({ general, secondLang }: Props) => {
                     return (
                       <li key={fieldName}>
                         {mapping[fieldName]} :{" "}
-                        <Link
-                          to={`/classifications/classification/${general.idAfter}`}
-                        >
+                        <Link to={`/classifications/classification/${general.idAfter}`}>
                           {(general as any)[fieldName]}
                         </Link>
                         {secondLang && (general as any).afterLg2 && (
                           <span>
                             {" ("}
-                            <Link
-                              to={`/classifications/classification/${general.idAfter}`}
-                            >
+                            <Link to={`/classifications/classification/${general.idAfter}`}>
                               {(general as any).afterLg2}
                             </Link>
                             {")"}
@@ -182,17 +168,13 @@ export const General = ({ general, secondLang }: Props) => {
                     return (
                       <li key={fieldName}>
                         {mapping[fieldName]} :{" "}
-                        <Link
-                          to={`/classifications/classification/${general.idBefore}`}
-                        >
+                        <Link to={`/classifications/classification/${general.idBefore}`}>
                           {(general as any)[fieldName]}
                         </Link>
                         {secondLang && (general as any).beforeLg2 && (
                           <span>
                             {" ("}
-                            <Link
-                              to={`/classifications/classification/${general.idBefore}`}
-                            >
+                            <Link to={`/classifications/classification/${general.idBefore}`}>
                               {(general as any).beforeLg2}
                             </Link>
                             {")"}
@@ -205,17 +187,13 @@ export const General = ({ general, secondLang }: Props) => {
                     return (
                       <li key={fieldName}>
                         {mapping[fieldName]} :{" "}
-                        <Link
-                          to={`/classifications/classification/${general.idVariant}`}
-                        >
+                        <Link to={`/classifications/classification/${general.idVariant}`}>
                           {(general as any)[fieldName]}
                         </Link>
                         {secondLang && (general as any).variantLg2 && (
                           <span>
                             {" ("}
-                            <Link
-                              to={`/classifications/classification/${general.idVariant}`}
-                            >
+                            <Link to={`/classifications/classification/${general.idVariant}`}>
                               {(general as any).variantLg2}
                             </Link>
                             {")"}
@@ -224,9 +202,7 @@ export const General = ({ general, secondLang }: Props) => {
                       </li>
                     );
                   }
-                  if (
-                    ["additionalMaterial", "legalMaterial"].includes(fieldName)
-                  ) {
+                  if (["additionalMaterial", "legalMaterial"].includes(fieldName)) {
                     return (
                       <li key={fieldName}>
                         {`${mapping[fieldName]} : `}
@@ -249,9 +225,7 @@ export const General = ({ general, secondLang }: Props) => {
                         key={fieldName}
                         label={mapping[fieldName]}
                         object={{
-                          validationState: (general as any)[
-                            fieldName
-                          ] as ValidationState,
+                          validationState: (general as any)[fieldName] as ValidationState,
                         }}
                         gender="female"
                       />
@@ -267,9 +241,7 @@ export const General = ({ general, secondLang }: Props) => {
                       </li>
                     );
                   }
-                  if (
-                    ["issued", "valid", "lastRefreshedOn"].includes(fieldName)
-                  ) {
+                  if (["issued", "valid", "lastRefreshedOn"].includes(fieldName)) {
                     return (
                       <li key={fieldName}>
                         {`${mapping[fieldName]} : ${stringToDate((general as any)[fieldName])}`}
@@ -279,9 +251,7 @@ export const General = ({ general, secondLang }: Props) => {
                     return (
                       <li key={fieldName}>
                         {`${mapping[fieldName]} : `}{" "}
-                        <InseeOrganization
-                          creator={(general as any)[fieldName]}
-                        />
+                        <InseeOrganization creator={(general as any)[fieldName]} />
                       </li>
                     );
                   } else {

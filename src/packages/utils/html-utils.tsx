@@ -3,10 +3,7 @@ import { Options, stateToHTML } from "draft-js-export-html";
 import { stateFromHTML } from "draft-js-import-html";
 
 import { draftjsToMd } from "@components/rich-editor/draftjs/draftjsToMd";
-import {
-  mdToDraftjs,
-  REGEXPS,
-} from "@components/rich-editor/draftjs/mdToDraftjs";
+import { mdToDraftjs, REGEXPS } from "@components/rich-editor/draftjs/mdToDraftjs";
 
 /**
  * Cherche un style non supporté dans les valeurs de `attr`.
@@ -39,8 +36,7 @@ export const htmlIsEmpty = (html: string) => !(htmlLength(html) > 0);
  * repository. So we format it the `ui` way and then we only operate on this
  * representation.
  */
-export const rmesHtmlToRawHtml = (html: string) =>
-  cleanHtml(stateToHTML(stateFromHTML(html)));
+export const rmesHtmlToRawHtml = (html: string) => cleanHtml(stateToHTML(stateFromHTML(html)));
 
 /**
  * We need to transform Draft Html to Xhtml
@@ -67,8 +63,7 @@ export const cleanHtml = (html: string) => {
   return html.replaceAll(rNewLine, "").replaceAll(rUselessSpace, "$1$2");
 };
 
-export const delPTags = (s: string) =>
-  s && s.replaceAll(/<p>/g, "").replaceAll(/<\/p>/g, "");
+export const delPTags = (s: string) => s && s.replaceAll(/<p>/g, "").replaceAll(/<\/p>/g, "");
 
 //HACK avoid new lines and unecesseray whitespaces in the html. Not safe: some
 //of these whitespaces might impact the rendered html. But for notes edited with
@@ -127,14 +122,12 @@ export function mdFromEditorState(editorState: typeof EditorState) {
     ) {
       const currentInlineStyle = inlineStyleRanges[inlineStyleIndex];
 
-      const withSameOffset = inlineStyleRanges.filter(
-        (_: unknown, index: number) => {
-          return (
-            index !== inlineStyleIndex &&
-            inlineStyleRanges[index].offset === currentInlineStyle.offset
-          );
-        },
-      );
+      const withSameOffset = inlineStyleRanges.filter((_: unknown, index: number) => {
+        return (
+          index !== inlineStyleIndex &&
+          inlineStyleRanges[index].offset === currentInlineStyle.offset
+        );
+      });
 
       let minLength = Math.min(
         currentInlineStyle.length,

@@ -3,10 +3,10 @@ import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
-import { AppContextProvider } from "../../../../../application/app-context";
-import i18n from "../../../../../modules-concepts/i18n";
 import { OperationsApi } from "@sdk/operations-api";
 
+import { AppContextProvider } from "../../../../../application/app-context";
+import i18n from "../../../../../modules-concepts/i18n";
 import { OperationsSerieEdition } from "./OperationsSerieEdition";
 
 vi.mock("@components/business/stamps-input/stamps-input", () => ({

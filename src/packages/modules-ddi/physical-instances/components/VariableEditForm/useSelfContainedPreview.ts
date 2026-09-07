@@ -1,6 +1,9 @@
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
+import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
 import type {
   Category,
   Ddi4Item,
@@ -13,9 +16,6 @@ import {
   createDefaultRepresentation,
   createLabel,
 } from "../CodeRepresentation/CodeRepresentation.utils";
-import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
 
 /**
  * Item MMVR reconstruit depuis la vue partielle du groupe, pour une MMVR seulement réutilisée :

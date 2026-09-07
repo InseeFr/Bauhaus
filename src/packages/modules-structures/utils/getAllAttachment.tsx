@@ -3,10 +3,7 @@ import { Component } from "@model/structures/Component";
 
 import { ATTACHMENTS } from "../constants";
 
-export const getAllAttachment = (
-  measures: Component[] = [],
-  specification?: any,
-): Options => {
+export const getAllAttachment = (measures: Component[] = [], specification?: any): Options => {
   // We find one measure linked to the attribute
   const hasMeasureWithThisAttribute = measures.some((measure: any) => {
     return Object.keys(measure)

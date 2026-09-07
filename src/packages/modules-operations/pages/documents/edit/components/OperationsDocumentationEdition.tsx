@@ -6,16 +6,9 @@ import { ReactNode, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
-import {
-  CancelButton,
-  SaveButton,
-} from "@components/buttons/buttons-with-icons";
+import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { DatePicker } from "@components/date-picker";
-import {
-  ClientSideError,
-  ErrorBloc,
-  GlobalClientSideErrorBloc,
-} from "@components/errors-bloc";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -91,10 +84,7 @@ const dropzoneHeader = ({
   className: string;
   chooseButton: ReactNode;
 }) => (
-  <div
-    className={className}
-    style={{ backgroundColor: "transparent", display: "flex" }}
-  >
+  <div className={className} style={{ backgroundColor: "transparent", display: "flex" }}>
     {chooseButton}
   </div>
 );
@@ -123,11 +113,7 @@ const initDocument: Document = {
   lang: "",
 };
 
-const saveDocument = async (
-  document: Document,
-  type: string,
-  files: DocumentFile[],
-) => {
+const saveDocument = async (document: Document, type: string, files: DocumentFile[]) => {
   /**
    * If the document has no id, this is a creation
    * We have to send FormData kind of HTTP request.
@@ -154,18 +140,13 @@ const saveDocument = async (
     const formData = new FormData();
     formData.append("file", files[0] as File, files[0].name);
     // Le back ne renvoie une URL que si le nom du fichier a changé.
-    const newUrl = (await GeneralApi.putDocumentFile(
-      document,
-      formData,
-    )) as string;
+    const newUrl = (await GeneralApi.putDocumentFile(document, formData)) as string;
     if (newUrl) {
       documentToSave = { ...document, url: newUrl };
     }
   }
 
-  return GeneralApi[type === LINK ? "putLink" : "putDocument"](
-    documentToSave,
-  ) as Promise<string>;
+  return GeneralApi[type === LINK ? "putLink" : "putDocument"](documentToSave) as Promise<string>;
 };
 
 function initEditionState(defaultDocument: Document): EditionState {
@@ -181,10 +162,7 @@ function initEditionState(defaultDocument: Document): EditionState {
   };
 }
 
-function editionReducer(
-  state: EditionState,
-  action: EditionAction,
-): EditionState {
+function editionReducer(state: EditionState, action: EditionAction): EditionState {
   switch (action.type) {
     case "RESET_ERRORS_AND_SET_FILES":
       return {
@@ -251,11 +229,7 @@ export const OperationsDocumentationEdition = (
     };
   }, [documentProps]);
 
-  const [state, dispatch] = useReducer(
-    editionReducer,
-    defaultDocument,
-    initEditionState,
-  );
+  const [state, dispatch] = useReducer(editionReducer, defaultDocument, initEditionState);
 
   const {
     serverSideError,
@@ -274,9 +248,7 @@ export const OperationsDocumentationEdition = (
     if (documentsAndLinksList) {
       dispatch({
         type: "SET_CURRENT_DOCUMENT",
-        currentDocument: documentsAndLinksList.find(
-          (doc) => doc.id === document?.id,
-        ),
+        currentDocument: documentsAndLinksList.find((doc) => doc.id === document?.id),
       });
     }
   }, [documentsAndLinksList, document]);
@@ -367,42 +339,28 @@ export const OperationsDocumentationEdition = (
         }}
       />
       {isEditing && (
-        <PageTitleBlock
-          titleLg1={documentProps.labelLg1}
-          titleLg2={documentProps.labelLg2}
-        />
+        <PageTitleBlock titleLg1={documentProps.labelLg1} titleLg2={documentProps.labelLg2} />
       )}
       <ActionToolbar>
         <CancelButton
-          action={() =>
-            props.onCancel ? props.onCancel() : goBack("/operations/documents")
-          }
+          action={() => (props.onCancel ? props.onCancel() : goBack("/operations/documents"))}
         />
-        <SaveButton
-          action={onSubmit}
-          disabled={(clientSideErrors.errorMessage?.length ?? 0) > 0}
-        />
+        <SaveButton action={onSubmit} disabled={(clientSideErrors.errorMessage?.length ?? 0) > 0} />
       </ActionToolbar>
       {submitting && clientSideErrors && (
-        <GlobalClientSideErrorBloc
-          clientSideErrors={clientSideErrors.errorMessage}
-        />
+        <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
       <ErrorBloc error={serverSideError} />
       <form>
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg1">
-              {t("common.title", { lng: "fr" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="labelLg1"
               value={document.labelLg1}
               onChange={onChange}
               aria-invalid={!!clientSideErrors.fields?.labelLg1}
-              aria-describedby={
-                clientSideErrors.fields?.labelLg1 ? "labelLg1-error" : undefined
-              }
+              aria-describedby={clientSideErrors.fields?.labelLg1 ? "labelLg1-error" : undefined}
             />
             <ClientSideError
               id="labelLg1-error"
@@ -410,17 +368,13 @@ export const OperationsDocumentationEdition = (
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="prefLabelLg2">
-              {t("common.title", { lng: "en" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="labelLg2"
               value={document.labelLg2}
               onChange={onChange}
               aria-invalid={!!clientSideErrors.fields?.labelLg2}
-              aria-describedby={
-                clientSideErrors.fields?.labelLg2 ? "labelLg2-error" : undefined
-              }
+              aria-describedby={clientSideErrors.fields?.labelLg2 ? "labelLg2-error" : undefined}
             />
             <ClientSideError
               id="labelLg2-error"
@@ -430,42 +384,30 @@ export const OperationsDocumentationEdition = (
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="abstractLg1">
-              {t("app.descriptionTitle", { lng: "fr" })}
-            </label>
+            <label htmlFor="abstractLg1">{t("app.descriptionTitle", { lng: "fr" })}</label>
             <EditorMarkdown
               text={document.descriptionLg1 ?? ""}
-              handleChange={(value) =>
-                onChange({ target: { value, id: "descriptionLg1" } })
-              }
+              handleChange={(value) => onChange({ target: { value, id: "descriptionLg1" } })}
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="abstractLg2">
-              {t("app.descriptionTitle", { lng: "en" })}
-            </label>
+            <label htmlFor="abstractLg2">{t("app.descriptionTitle", { lng: "en" })}</label>
             <EditorMarkdown
               text={document.descriptionLg2 ?? ""}
-              handleChange={(value) =>
-                onChange({ target: { value, id: "descriptionLg2" } })
-              }
+              handleChange={(value) => onChange({ target: { value, id: "descriptionLg2" } })}
             />
           </div>
         </Row>
         {type === LINK && (
           <Row>
             <div className="col-md-12 form-group">
-              <LabelRequired htmlFor="url">
-                {t("documents.titleLink")}
-              </LabelRequired>
+              <LabelRequired htmlFor="url">{t("documents.titleLink")}</LabelRequired>
               <TextInput
                 id="url"
                 value={document.url}
                 onChange={onChange}
                 aria-invalid={!!clientSideErrors.fields?.url}
-                aria-describedby={
-                  clientSideErrors.fields?.url ? "url-error" : undefined
-                }
+                aria-describedby={clientSideErrors.fields?.url ? "url-error" : undefined}
               />
               <ClientSideError
                 id="url-error"
@@ -507,9 +449,7 @@ export const OperationsDocumentationEdition = (
                 auto={false}
                 customUpload
                 uploadHandler={noUpload}
-                onSelect={(event: FileUploadSelectEvent) =>
-                  uploadFile(event.files)
-                }
+                onSelect={(event: FileUploadSelectEvent) => uploadFile(event.files)}
                 chooseOptions={chooseOptions}
                 headerTemplate={dropzoneHeader}
                 emptyTemplate={dropzonePlaceholder}
@@ -522,9 +462,7 @@ export const OperationsDocumentationEdition = (
                   },
                   input: {
                     "aria-invalid": !!clientSideErrors.fields?.files,
-                    "aria-describedby": clientSideErrors.fields?.files
-                      ? "file-error"
-                      : null,
+                    "aria-describedby": clientSideErrors.fields?.files ? "file-error" : null,
                   },
                 }}
               />
@@ -545,10 +483,7 @@ export const OperationsDocumentationEdition = (
                     <i className="pi pi-file" aria-hidden="true" />
                     <span className="attached-file-name">{file.name}</span>
                     {file.size ? (
-                      <Tag
-                        value={formatFileSize(file.size)}
-                        severity="warning"
-                      />
+                      <Tag value={formatFileSize(file.size)} severity="warning" />
                     ) : null}
                     <Button
                       type="button"
@@ -569,9 +504,7 @@ export const OperationsDocumentationEdition = (
         )}
         <Row>
           <div className="col-md-12 form-group">
-            <LabelRequired htmlFor="lang">
-              {t("app.langTitle", { lng: "fr" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="lang">{t("app.langTitle", { lng: "fr" })}</LabelRequired>
             <Select
               placeholder=""
               value={document.lang}

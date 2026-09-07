@@ -28,9 +28,7 @@ describe("useHighlight", () => {
   });
 
   it("should return highlighted HTML for json", async () => {
-    const { result } = renderHook(() =>
-      useHighlight('{"key":"value"}', "json"),
-    );
+    const { result } = renderHook(() => useHighlight('{"key":"value"}', "json"));
 
     await waitFor(() => {
       expect(result.current).not.toBeNull();
@@ -40,12 +38,9 @@ describe("useHighlight", () => {
   });
 
   it("should update when code changes", async () => {
-    const { result, rerender } = renderHook(
-      ({ code, lang }) => useHighlight(code, lang),
-      {
-        initialProps: { code: "<a/>", lang: "xml" as const },
-      },
-    );
+    const { result, rerender } = renderHook(({ code, lang }) => useHighlight(code, lang), {
+      initialProps: { code: "<a/>", lang: "xml" as const },
+    });
 
     await waitFor(() => {
       expect(result.current).not.toBeNull();
@@ -69,11 +64,8 @@ describe("useHighlight", () => {
     });
     using warn = vi.spyOn(console, "warn").mockImplementation(() => {});
 
-    const { useHighlight: useHighlightWithBrokenChunk } =
-      await import("./useHighlight");
-    const { result } = renderHook(() =>
-      useHighlightWithBrokenChunk("<root/>", "xml"),
-    );
+    const { useHighlight: useHighlightWithBrokenChunk } = await import("./useHighlight");
+    const { result } = renderHook(() => useHighlightWithBrokenChunk("<root/>", "xml"));
 
     await waitFor(() => {
       expect(warn).toHaveBeenCalled();
@@ -85,13 +77,10 @@ describe("useHighlight", () => {
   });
 
   it("should update when language changes", async () => {
-    const { result, rerender } = renderHook(
-      ({ code, lang }) => useHighlight(code, lang),
-      {
-        // Le test change de langage en cours de route : le type doit couvrir les deux.
-        initialProps: { code: '{"a":1}', lang: "json" as "json" | "xml" },
-      },
-    );
+    const { result, rerender } = renderHook(({ code, lang }) => useHighlight(code, lang), {
+      // Le test change de langage en cours de route : le type doit couvrir les deux.
+      initialProps: { code: '{"a":1}', lang: "json" as "json" | "xml" },
+    });
 
     await waitFor(() => {
       expect(result.current).not.toBeNull();

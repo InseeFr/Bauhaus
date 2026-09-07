@@ -1,26 +1,13 @@
-import {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { ChangeEvent, useCallback, useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { ContributorsInput } from "@components/business/contributors-input/contributors-input";
 import { CreatorsInput } from "@components/business/creators-input";
-import {
-  CancelButton,
-  SaveButton,
-} from "@components/buttons/buttons-with-icons";
+import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { SeeButton } from "@components/buttons/see";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
-import {
-  ClientSideError,
-  ErrorBloc,
-  GlobalClientSideErrorBloc,
-} from "@components/errors-bloc";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { NumberInput, TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -32,11 +19,7 @@ import { Component } from "@model/structures/Component";
 
 import { CodelistsApi, StructureApi } from "@sdk/index";
 
-import {
-  convertToArrayIfDefined,
-  EMPTY_ARRAY,
-  sortArray,
-} from "@utils/array-utils";
+import { convertToArrayIfDefined, EMPTY_ARRAY, sortArray } from "@utils/array-utils";
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -80,9 +63,7 @@ const linkedAttributeLabelMapping: Record<string, string> = {
   [XSD_DATE]: structuresI18n.t("component.representation.date.action"),
   [XSD_DATE_TIME]: structuresI18n.t("component.representation.dateTime.action"),
   [XSD_STRING]: structuresI18n.t("component.representation.string.action"),
-  [IGEO_PAYS_OU_TERRITOIRE]: structuresI18n.t(
-    "component.representation.paysOuTerritoire.action",
-  ),
+  [IGEO_PAYS_OU_TERRITOIRE]: structuresI18n.t("component.representation.paysOuTerritoire.action"),
   [XSD_CODE_LIST]: structuresI18n.t("component.representation.codelist.action"),
 };
 
@@ -137,17 +118,10 @@ const CodelistFormInput = ({
 }: Readonly<CodelistFormInputTypes>) => {
   const { t } = useTranslation();
 
-  const [state, dispatch] = useReducer(
-    codelistFormReducer,
-    initialCodelistFormState,
-  );
+  const [state, dispatch] = useReducer(codelistFormReducer, initialCodelistFormState);
 
-  const {
-    codesFullListPanelOpened,
-    codesPartialListPanelOpened,
-    partials,
-    partialCodelists,
-  } = state;
+  const { codesFullListPanelOpened, codesPartialListPanelOpened, partials, partialCodelists } =
+    state;
 
   const fullCodelistValue = component.fullCodeListValue || component.codeList;
 
@@ -175,8 +149,7 @@ const CodelistFormInput = ({
       const list = fullCodelists.find((list) => list.id === fullCodelistValue);
       if (list) {
         CodelistsApi.getPartialsByParent(list.notation).then(
-          (partials: CodelistFormState["partials"]) =>
-            dispatch({ type: "SET_PARTIALS", partials }),
+          (partials: CodelistFormState["partials"]) => dispatch({ type: "SET_PARTIALS", partials }),
         );
       }
     }
@@ -213,9 +186,7 @@ const CodelistFormInput = ({
           />
           <SeeButton
             {...{ disabled: !fullCodelistValue }}
-            onClick={() =>
-              dispatch({ type: "SET_FULL_PANEL_OPENED", opened: true })
-            }
+            onClick={() => dispatch({ type: "SET_FULL_PANEL_OPENED", opened: true })}
           ></SeeButton>
         </div>
       </Row>
@@ -229,15 +200,11 @@ const CodelistFormInput = ({
               value={partialsOptions.find(
                 (c) => currentCodelist?.toString() === c.value?.toString(),
               )}
-              onChange={(value) =>
-                setComponent({ ...component, codeList: value })
-              }
+              onChange={(value) => setComponent({ ...component, codeList: value })}
             />
             <SeeButton
               {...{ disabled: !currentCodelist }}
-              onClick={() =>
-                dispatch({ type: "SET_PARTIAL_PANEL_OPENED", opened: true })
-              }
+              onClick={() => dispatch({ type: "SET_PARTIAL_PANEL_OPENED", opened: true })}
             ></SeeButton>
           </div>
         </Row>
@@ -245,14 +212,10 @@ const CodelistFormInput = ({
       <CodelistPanel
         codelist={codelists.find(
           (c) =>
-            (
-              (fullCodelistValue as any)?.id || fullCodelistValue
-            )?.toString() === c.id?.toString(),
+            ((fullCodelistValue as any)?.id || fullCodelistValue)?.toString() === c.id?.toString(),
         )}
         isOpen={codesFullListPanelOpened}
-        handleBack={() =>
-          dispatch({ type: "SET_FULL_PANEL_OPENED", opened: false })
-        }
+        handleBack={() => dispatch({ type: "SET_FULL_PANEL_OPENED", opened: false })}
       />
       <CodelistPanel
         codelist={{
@@ -263,9 +226,7 @@ const CodelistFormInput = ({
           )?.id,
         }}
         isOpen={codesPartialListPanelOpened}
-        handleBack={() =>
-          dispatch({ type: "SET_PARTIAL_PANEL_OPENED", opened: false })
-        }
+        handleBack={() => dispatch({ type: "SET_PARTIAL_PANEL_OPENED", opened: false })}
       />
     </>
   );
@@ -296,18 +257,13 @@ export const ComponentDetailEdit = ({
 
   const [component, setComponent] = useState<ComponentFormState>({});
 
-  const [clientSideErrors, setClientSideErrors] = useState<ClientSideErrors>(
-    {},
-  );
+  const [clientSideErrors, setClientSideErrors] = useState<ClientSideErrors>({});
 
   const [submitting, setSubmitting] = useState(false);
 
   const { lg1, lg2 } = useAppContext();
 
-  useTitle(
-    t("component.pluralTitle"),
-    component?.labelLg1 || t("component.creationPageTitle"),
-  );
+  useTitle(t("component.pluralTitle"), component?.labelLg1 || t("component.creationPageTitle"));
 
   const isContributor = useAuthorizationGuard({
     module: "STRUCTURE_COMPONENT",
@@ -320,9 +276,7 @@ export const ComponentDetailEdit = ({
     if (!component.id) {
       component.contributor = defaultContributor ? [defaultContributor] : [];
     } else {
-      component.contributor = convertToArrayIfDefined(
-        component.contributor as string | string[],
-      );
+      component.contributor = convertToArrayIfDefined(component.contributor as string | string[]);
     }
     setComponent(component);
   }, [initialComponent, defaultContributor]);
@@ -380,18 +334,15 @@ export const ComponentDetailEdit = ({
 
   const onComponentTypeChange = (option: any) => {
     // Each time we change the type of a component, we remove all linked attributes
-    const newComponentWithoutAttributes = Object.keys(component).reduce(
-      (acc: any, key) => {
-        if (key.startsWith("attribute_") || key.startsWith("attributeValue_")) {
-          return acc;
-        }
-        return {
-          ...acc,
-          [key]: component[key],
-        };
-      },
-      {},
-    );
+    const newComponentWithoutAttributes = Object.keys(component).reduce((acc: any, key) => {
+      if (key.startsWith("attribute_") || key.startsWith("attributeValue_")) {
+        return acc;
+      }
+      return {
+        ...acc,
+        [key]: component[key],
+      };
+    }, {});
     resetErrorsMessages();
     setComponent({ ...newComponentWithoutAttributes, type: option });
   };
@@ -407,17 +358,13 @@ export const ComponentDetailEdit = ({
         />
       </ActionToolbar>
       {submitting && clientSideErrors && (
-        <GlobalClientSideErrorBloc
-          clientSideErrors={clientSideErrors.errorMessage}
-        />
+        <GlobalClientSideErrorBloc clientSideErrors={clientSideErrors.errorMessage} />
       )}
       <ErrorBloc error={serverSideError} />
       <form>
         <Row>
           <div className="col-md-12 form-group">
-            <LabelRequired htmlFor="identifiant">
-              {t("component.notation")}
-            </LabelRequired>
+            <LabelRequired htmlFor="identifiant">{t("component.notation")}</LabelRequired>
             <TextInput
               id="identifiant"
               name="identifiant"
@@ -425,9 +372,7 @@ export const ComponentDetailEdit = ({
               onChange={handleChange}
               aria-invalid={!!clientSideErrors.fields?.identifiant}
               aria-describedby={
-                clientSideErrors.fields?.identifiant
-                  ? "identifiant-error"
-                  : undefined
+                clientSideErrors.fields?.identifiant ? "identifiant-error" : undefined
               }
             />
             <ClientSideError
@@ -438,18 +383,14 @@ export const ComponentDetailEdit = ({
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg1">
-              {t("component.label", { lng: "fr" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="labelLg1">{t("component.label", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="labelLg1"
               name="labelLg1"
               onChange={handleChange}
               value={component.labelLg1}
               aria-invalid={!!clientSideErrors.fields?.labelLg1}
-              aria-describedby={
-                clientSideErrors.fields?.labelLg1 ? "labelLg1-error" : undefined
-              }
+              aria-describedby={clientSideErrors.fields?.labelLg1 ? "labelLg1-error" : undefined}
             />
             <ClientSideError
               id="labelLg1-error"
@@ -457,18 +398,14 @@ export const ComponentDetailEdit = ({
             ></ClientSideError>
           </div>
           <div className="col-md-6 form-group">
-            <LabelRequired htmlFor="labelLg2">
-              {t("component.label", { lng: "en" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="labelLg2">{t("component.label", { lng: "en" })}</LabelRequired>
             <TextInput
               id="labelLg2"
               name="labelLg2"
               value={component.labelLg2}
               onChange={handleChange}
               aria-invalid={!!clientSideErrors.fields?.labelLg2}
-              aria-describedby={
-                clientSideErrors.fields?.labelLg2 ? "labelLg2-error" : undefined
-              }
+              aria-describedby={clientSideErrors.fields?.labelLg2 ? "labelLg2-error" : undefined}
             />
             <ClientSideError
               id="labelLg2-error"
@@ -478,9 +415,7 @@ export const ComponentDetailEdit = ({
         </Row>
         <Row>
           <div className="col-md-6 form-group">
-            <label htmlFor="altLabelLg1">
-              {t("component.shortName", { lng: "fr" })}
-            </label>
+            <label htmlFor="altLabelLg1">{t("component.shortName", { lng: "fr" })}</label>
             <TextInput
               id="altLabelLg1"
               name="altLabelLg1"
@@ -489,9 +424,7 @@ export const ComponentDetailEdit = ({
             />
           </div>
           <div className="col-md-6 form-group">
-            <label htmlFor="altLabelLg2">
-              {t("component.shortName", { lng: "en" })}
-            </label>
+            <label htmlFor="altLabelLg2">{t("component.shortName", { lng: "en" })}</label>
             <TextInput
               id="altLabelLg2"
               name="altLabelLg2"
@@ -505,9 +438,7 @@ export const ComponentDetailEdit = ({
             <LabelRequired>{t("component.type.title")}</LabelRequired>
             <Select
               placeholder={t("component.type.title")}
-              value={MUTUALIZED_COMPONENT_TYPES.find(
-                (c) => c.value === component.type,
-              )}
+              value={MUTUALIZED_COMPONENT_TYPES.find((c) => c.value === component.type)}
               options={MUTUALIZED_COMPONENT_TYPES}
               onChange={onComponentTypeChange}
               {...{ isDisabled: !!component.id }}
@@ -524,12 +455,8 @@ export const ComponentDetailEdit = ({
             <Select
               placeholder={t("component.concept")}
               options={conceptOptions}
-              value={conceptOptions.find(
-                (c) => c.value === component.concept?.toString(),
-              )}
-              onChange={(value) =>
-                setComponent({ ...component, concept: value })
-              }
+              value={conceptOptions.find((c) => c.value === component.concept?.toString())}
+              onChange={(value) => setComponent({ ...component, concept: value })}
             />
           </div>
         </Row>
@@ -550,13 +477,10 @@ export const ComponentDetailEdit = ({
             />
           </div>
         </Row>
-        {(component.range === XSD_DATE ||
-          component.range === XSD_DATE_TIME) && (
+        {(component.range === XSD_DATE || component.range === XSD_DATE_TIME) && (
           <Row>
             <div className="col-md-offset-1 col-md-11 form-group">
-              <label htmlFor="pattern">
-                {t("component.representation.format")}
-              </label>
+              <label htmlFor="pattern">{t("component.representation.format")}</label>
               <TextInput
                 value={component.pattern}
                 id="pattern"
@@ -572,9 +496,7 @@ export const ComponentDetailEdit = ({
           <>
             <Row>
               <div className="col-md-offset-1 col-md-11 form-group">
-                <label htmlFor="minLength">
-                  {t("component.representation.minLength")}
-                </label>
+                <label htmlFor="minLength">{t("component.representation.minLength")}</label>
                 <NumberInput
                   value={component.minLength}
                   id="minLength"
@@ -585,9 +507,7 @@ export const ComponentDetailEdit = ({
             </Row>
             <Row>
               <div className="col-md-offset-1 col-md-11 form-group">
-                <label htmlFor="maxLength">
-                  {t("component.representation.maxLength")}
-                </label>
+                <label htmlFor="maxLength">{t("component.representation.maxLength")}</label>
                 <NumberInput
                   value={component.maxLength}
                   id="maxLength"
@@ -601,9 +521,7 @@ export const ComponentDetailEdit = ({
         {component.range === XSD_STRING && (
           <Row>
             <div className="col-md-offset-1 col-md-11 form-group">
-              <label htmlFor="pattern">
-                {t("component.representation.format")}
-              </label>
+              <label htmlFor="pattern">{t("component.representation.format")}</label>
               <TextInput
                 value={component.pattern}
                 id="pattern"
@@ -617,9 +535,7 @@ export const ComponentDetailEdit = ({
           <>
             <Row>
               <div className="col-md-offset-1 col-md-11 form-group">
-                <label htmlFor="minInclusive">
-                  {t("component.representation.minValue")}
-                </label>
+                <label htmlFor="minInclusive">{t("component.representation.minValue")}</label>
                 <NumberInput
                   value={component.minInclusive}
                   id="minInclusive"
@@ -630,9 +546,7 @@ export const ComponentDetailEdit = ({
             </Row>
             <Row>
               <div className="col-md-offset-1 col-md-11 form-group">
-                <label htmlFor="maxInclusive">
-                  {t("component.representation.maxValue")}
-                </label>
+                <label htmlFor="maxInclusive">{t("component.representation.maxValue")}</label>
                 <NumberInput
                   value={component.maxInclusive}
                   id="maxInclusive"
@@ -653,9 +567,7 @@ export const ComponentDetailEdit = ({
         <div className="form-group">
           <CreatorsInput
             value={component.creator ?? ""}
-            onChange={(value) =>
-              setComponent({ ...component, creator: value as string })
-            }
+            onChange={(value) => setComponent({ ...component, creator: value as string })}
             mode="organization"
           />
         </div>
@@ -675,9 +587,7 @@ export const ComponentDetailEdit = ({
         <div className="form-group">
           <DisseminationStatusInput
             value={component.disseminationStatus ?? ""}
-            handleChange={(value) =>
-              setComponent({ ...component, disseminationStatus: value })
-            }
+            handleChange={(value) => setComponent({ ...component, disseminationStatus: value })}
           />
         </div>
         <Row>
@@ -754,9 +664,7 @@ const AttributesArray = ({
     return (
       <Row key={index}>
         <div className="col-md-6 form-group">
-          <label htmlFor="attribute">
-            {t("component.type.attribute.title")}
-          </label>
+          <label htmlFor="attribute">{t("component.type.attribute.title")}</label>
           <Select
             placeholder={t("component.type.attribute.title")}
             value={attributesListOptions.find(
@@ -768,9 +676,7 @@ const AttributesArray = ({
         </div>
         {!!component["attribute_" + index] && (
           <AttributeValue
-            onChange={(value) =>
-              onChange({ ["attributeValue_" + index]: value })
-            }
+            onChange={(value) => onChange({ ["attributeValue_" + index]: value })}
             value={component["attributeValue_" + index]}
             selectedAttribute={component["attribute_" + index]}
             codelists={codelists}
@@ -788,18 +694,12 @@ interface AttributeTextValueTypes {
   label?: string;
 }
 
-const AttributeTextValue = ({
-  onChange,
-  value,
-  label,
-}: Readonly<AttributeTextValueTypes>) => {
+const AttributeTextValue = ({ onChange, value, label }: Readonly<AttributeTextValueTypes>) => {
   const { t } = useTranslation();
 
   return (
     <div className="col-md-6 form-group">
-      <label htmlFor="attributeValue">
-        {label ?? t("component.type.attribute.value")}
-      </label>
+      <label htmlFor="attributeValue">{label ?? t("component.type.attribute.value")}</label>
       <TextInput
         value={value}
         id="attributeValue"
@@ -831,13 +731,11 @@ const AttributeCodelist = ({
 
   const [codes, setCodes] = useState<{ codes: Code[] }>();
 
-  const codelistNotation = codelists.find(
-    (cl) => cl.id === codelistIri,
-  )?.notation;
+  const codelistNotation = codelists.find((cl) => cl.id === codelistIri)?.notation;
 
   useEffect(() => {
-    CodelistsApi.getCodelistCodes(codelistNotation!, 1, 0).then(
-      (codes: { codes: Code[] }) => setCodes(codes),
+    CodelistsApi.getCodelistCodes(codelistNotation!, 1, 0).then((codes: { codes: Code[] }) =>
+      setCodes(codes),
     );
   }, [codelistNotation]);
 
@@ -846,15 +744,12 @@ const AttributeCodelist = ({
   }
 
   const codesOptions: Options = sortByLabel(
-    codes?.codes?.map((code) => ({ value: code.iri, label: code.labelLg1 })) ??
-      [],
+    codes?.codes?.map((code) => ({ value: code.iri, label: code.labelLg1 })) ?? [],
   );
 
   return (
     <div className="col-md-6 form-group">
-      <label htmlFor="attributeValue">
-        {label ?? t("component.type.attribute.value")}
-      </label>
+      <label htmlFor="attributeValue">{label ?? t("component.type.attribute.value")}</label>
       <Select
         placeholder={t("component.type.attribute.value")}
         value={codesOptions.find((option) => option.value === value)}
@@ -882,9 +777,7 @@ const AttributeValue = ({
   const [attribute, setAttribute] = useState<Component>();
 
   useEffect(() => {
-    StructureApi.getMutualizedComponent(attributeId).then((body: Component) =>
-      setAttribute(body),
-    );
+    StructureApi.getMutualizedComponent(attributeId).then((body: Component) => setAttribute(body));
   }, [attributeId]);
 
   if (!attribute) {

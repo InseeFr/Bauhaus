@@ -11,29 +11,19 @@ export const buildCorrespondenceClassificationLinks = (
   secondLang: boolean,
 ) => {
   const mapping = {
-    firstClassLabelLg1: classificationsI18n.t(
-      "correspondence.sourceClassification",
-    ),
-    secondClassLabelLg1: classificationsI18n.t(
-      "correspondence.targetClassification",
-    ),
+    firstClassLabelLg1: classificationsI18n.t("correspondence.sourceClassification"),
+    secondClassLabelLg1: classificationsI18n.t("correspondence.targetClassification"),
   };
 
   const content = Object.keys(mapping).map((fieldName) => {
-    const {
-      firstClassLabelLg1,
-      firstClassLabelLg2,
-      secondClassLabelLg1,
-      secondClassLabelLg2,
-    } = correspondence;
+    const { firstClassLabelLg1, firstClassLabelLg2, secondClassLabelLg1, secondClassLabelLg2 } =
+      correspondence;
 
     if (fieldName === "firstClassLabelLg1" && correspondence[fieldName]) {
       return (
         <li key={fieldName}>
           {mapping[fieldName]} :{" "}
-          <Link
-            to={`/classifications/classification/${correspondence.idFirstClass}`}
-          >
+          <Link to={`/classifications/classification/${correspondence.idFirstClass}`}>
             {secondLang ? firstClassLabelLg2 : firstClassLabelLg1}
           </Link>
         </li>
@@ -44,9 +34,7 @@ export const buildCorrespondenceClassificationLinks = (
       return (
         <li key={fieldName}>
           {mapping[fieldName]} :{" "}
-          <Link
-            to={`/classifications/classification/${correspondence.idSecondClass}`}
-          >
+          <Link to={`/classifications/classification/${correspondence.idSecondClass}`}>
             {secondLang ? secondClassLabelLg2 : secondClassLabelLg1}
           </Link>
         </li>

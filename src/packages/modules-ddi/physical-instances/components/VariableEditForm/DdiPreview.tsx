@@ -20,11 +20,7 @@ import type {
   PhysicalInstanceResponse,
 } from "../../types/api";
 import { DdiJsonPreview } from "./DdiJsonPreview";
-import {
-  ddiPreviewReducer,
-  initialState,
-  type DdiFormat,
-} from "./DdiPreview.reducer";
+import { ddiPreviewReducer, initialState, type DdiFormat } from "./DdiPreview.reducer";
 import { DdiXmlPreview } from "./DdiXmlPreview";
 import { useSelfContainedPreview } from "./useSelfContainedPreview";
 
@@ -130,10 +126,7 @@ export const DdiPreview = ({
     };
 
     if (variableDescription) {
-      variableDDI.Description = singletonEntries(
-        defaultLocale,
-        variableDescription,
-      );
+      variableDDI.Description = singletonEntries(defaultLocale, variableDescription);
     }
 
     if (isGeographic) {
@@ -224,10 +217,7 @@ export const DdiPreview = ({
   // afin que l'aperçu montre les mêmes codes que le panneau de représentation.
   const previewData = useSelfContainedPreview(ddi4Data);
 
-  const ddiJson = useMemo(
-    () => JSON.stringify(previewData, null, 2),
-    [previewData],
-  );
+  const ddiJson = useMemo(() => JSON.stringify(previewData, null, 2), [previewData]);
 
   const ddi4DataSerialized = ddiJson;
 
@@ -277,9 +267,7 @@ export const DdiPreview = ({
       )}
 
       {state.format === "DDI3" && !state.isLoading && !state.ddiXml && (
-        <div className="text-center text-gray-500">
-          {t("physicalInstance.view.noDdiXml")}
-        </div>
+        <div className="text-center text-gray-500">{t("physicalInstance.view.noDdiXml")}</div>
       )}
 
       {state.format === "DDI4" && <DdiJsonPreview code={ddiJson} />}

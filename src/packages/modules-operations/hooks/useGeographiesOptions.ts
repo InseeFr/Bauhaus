@@ -50,22 +50,10 @@ export const useGeographiesOptions = (): {
   const geographiesOptions = useMemo(() => {
     const geographiesSorted = geographies
       .filter(({ labelLg1 }) => labelLg1)
-      .sort((g1, g2) =>
-        g1.labelLg1.toLowerCase().localeCompare(g2.labelLg1.toLowerCase()),
-      );
+      .sort((g1, g2) => g1.labelLg1.toLowerCase().localeCompare(g2.labelLg1.toLowerCase()));
     return geographiesSorted.map((geography) => ({
-      label: formatLabel(
-        geography.labelLg1,
-        geography,
-        geographiesSorted,
-        "fr",
-      ),
-      labelLg2: formatLabel(
-        geography.labelLg2,
-        geography,
-        geographiesSorted,
-        "en",
-      ),
+      label: formatLabel(geography.labelLg1, geography, geographiesSorted, "fr"),
+      labelLg2: formatLabel(geography.labelLg2, geography, geographiesSorted, "en"),
       value: geography.uri,
       typeTerritory: geography.typeTerritory,
       id: geography.id,

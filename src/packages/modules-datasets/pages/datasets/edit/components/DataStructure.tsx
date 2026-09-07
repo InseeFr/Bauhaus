@@ -26,15 +26,11 @@ export const computeInitialMode = (
 const firstOptions = [
   {
     value: STRUCTURE_MODE,
-    label: datasetsI18n.t(
-      "dataset.statisticalInformation.dataStructure.chooseStructure",
-    ),
+    label: datasetsI18n.t("dataset.statisticalInformation.dataStructure.chooseStructure"),
   },
   {
     value: URN_MODE,
-    label: datasetsI18n.t(
-      "dataset.statisticalInformation.dataStructure.chooseURN",
-    ),
+    label: datasetsI18n.t("dataset.statisticalInformation.dataStructure.chooseURN"),
   },
 ];
 
@@ -50,12 +46,11 @@ export const DataStructure = ({
   const { data: structures } = useStructures();
 
   const options: Option[] =
-    structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ??
-    [];
+    structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ?? [];
 
-  const [mode, setMode] = useState<
-    typeof URN_MODE | typeof STRUCTURE_MODE | null
-  >(computeInitialMode(structures, value));
+  const [mode, setMode] = useState<typeof URN_MODE | typeof STRUCTURE_MODE | null>(
+    computeInitialMode(structures, value),
+  );
 
   return (
     <>

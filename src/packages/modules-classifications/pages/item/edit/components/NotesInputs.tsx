@@ -46,8 +46,7 @@ const NoteInput = ({
   values: [Key, string?][];
   onChange: (values: [Key, string?][]) => void;
 }>) => {
-  const [[firstNoteKey, firstNodeValue], [secondNoteKey, secondNoteValue]] =
-    values;
+  const [[firstNoteKey, firstNodeValue], [secondNoteKey, secondNoteValue]] = values;
 
   return (
     <Row>
@@ -124,10 +123,7 @@ export const NotesInputs = ({
           [keyLg2, values[keyLg2]],
         ]}
         onChange={(v) => {
-          const [
-            [firstNoteKey, firstNodeValue],
-            [secondNoteKey, secondNoteValue],
-          ] = v;
+          const [[firstNoteKey, firstNodeValue], [secondNoteKey, secondNoteValue]] = v;
           onChange({
             [firstNoteKey]: firstNodeValue,
             [secondNoteKey]: secondNoteValue,

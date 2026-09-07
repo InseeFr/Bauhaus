@@ -52,20 +52,12 @@ export const ReuseCodeListSelect = ({
 
   if (codeListsError) {
     return (
-      <Message
-        severity="error"
-        text={t("physicalInstance.view.code.errorLoadingCodeLists")}
-      />
+      <Message severity="error" text={t("physicalInstance.view.code.errorLoadingCodeLists")} />
     );
   }
 
   if (codeLists.length === 0) {
-    return (
-      <Message
-        severity="info"
-        text={t("physicalInstance.view.code.noCodeListsAvailable")}
-      />
-    );
+    return <Message severity="info" text={t("physicalInstance.view.code.noCodeListsAvailable")} />;
   }
 
   const toOption = (cl: (typeof codeLists)[number]): CodeListOption => {
@@ -88,10 +80,7 @@ export const ReuseCodeListSelect = ({
   // Tri des listes mutualisées : libellé par ordre alphabétique croissant ; à libellé égal,
   // la version la plus récente (versionDate) d'abord. Trie sur le libellé/date bruts (et non
   // sur le libellé déjà suffixé par la date) pour que le tie-break reste chronologique.
-  const byLabelThenMostRecent = (
-    a: (typeof codeLists)[number],
-    b: (typeof codeLists)[number],
-  ) => {
+  const byLabelThenMostRecent = (a: (typeof codeLists)[number], b: (typeof codeLists)[number]) => {
     const byLabel = a.label.localeCompare(b.label, "fr", {
       sensitivity: "base",
     });

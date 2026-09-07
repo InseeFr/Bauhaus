@@ -15,15 +15,9 @@ const Serie = z.object({
 });
 
 const ZodIndicator = z.object({
-  prefLabelLg1: mandatoryAndNotEmptyTextField(
-    operationsI18n.t("common.title", { lng: "fr" }),
-  ),
-  prefLabelLg2: mandatoryAndNotEmptyTextField(
-    operationsI18n.t("common.title", { lng: "en" }),
-  ),
-  creators: mandatoryAndNotEmptyMultiSelectField(
-    operationsI18n.t("app.creatorsTitle"),
-  ),
+  prefLabelLg1: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "fr" })),
+  prefLabelLg2: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "en" })),
+  creators: mandatoryAndNotEmptyMultiSelectField(operationsI18n.t("app.creatorsTitle")),
   wasGeneratedBy: z.array(Serie).nonempty({
     error: appI18n.t("errors.mandatoryProperty", {
       propertyName: operationsI18n.t("common.generatedBy"),

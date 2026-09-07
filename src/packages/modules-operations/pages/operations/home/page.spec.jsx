@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
+
 import { Component } from "./page";
 
 vi.mock("@sdk/operations-api", () => ({ OperationsApi: { getOperationsList: vi.fn() } }));

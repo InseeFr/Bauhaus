@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { StructureApi } from "@sdk/index";
+
 import { MUTUALIZED_COMPONENT_TYPES } from "../../../constants";
 import { Component } from "./page";
 

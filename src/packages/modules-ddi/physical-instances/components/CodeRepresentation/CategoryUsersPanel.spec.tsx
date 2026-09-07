@@ -1,9 +1,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import { describe, it, expect, vi } from "vitest";
 
-import { CategoryUsersPanel } from "./CategoryUsersPanel";
 import type { CategoryUsage } from "../../types/api";
+import { CategoryUsersPanel } from "./CategoryUsersPanel";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string) => key }),

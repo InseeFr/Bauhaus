@@ -73,9 +73,7 @@ describe("isolation des catalogues i18n entre modules", () => {
     });
 
     expect(Object.fromEntries(translations)).toEqual(
-      Object.fromEntries(
-        Object.entries(MODULE_KEYS).map(([name, [, label]]) => [name, label]),
-      ),
+      Object.fromEntries(Object.entries(MODULE_KEYS).map(([name, [, label]]) => [name, label])),
     );
   });
 });

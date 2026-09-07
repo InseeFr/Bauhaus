@@ -4,15 +4,8 @@ import { useTranslation } from "react-i18next";
 import { ActionToolbar } from "@components/action-toolbar";
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
-import {
-  CancelButton,
-  SaveButton,
-} from "@components/buttons/buttons-with-icons";
-import {
-  ClientSideError,
-  ErrorBloc,
-  GlobalClientSideErrorBloc,
-} from "@components/errors-bloc";
+import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -31,10 +24,7 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import * as ItemToSelectModel from "@utils/item-to-select-model";
 
-import {
-  CL_FREQ,
-  CL_SOURCE_CATEGORY,
-} from "../../../../../constants/code-lists";
+import { CL_FREQ, CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
 import { PublishersInput } from "../../../../components/PublishersInput";
 import { validate } from "../validation";
 
@@ -115,9 +105,7 @@ const defaultSerie: Partial<SerieEditItem> = {
   typeList: CL_SOURCE_CATEGORY,
 };
 
-const setInitialState = (
-  props: Readonly<OperationsSerieEditionTypes>,
-): State => ({
+const setInitialState = (props: Readonly<OperationsSerieEditionTypes>): State => ({
   serverSideError: "",
   clientSideErrors: {},
   submitting: false,
@@ -232,32 +220,24 @@ export const OperationsSerieEdition = ({
     "series",
   );
 
-  const indicatorsOptions = ItemToSelectModel.toSelectModel(
-    indicators,
-    "indicator",
-  );
+  const indicatorsOptions = ItemToSelectModel.toSelectModel(indicators, "indicator");
 
   // `toSelectModel`/`mergedItemsToSelectModels` type their `type` field as
   // `string | undefined` since the parameter is optional, even though it is
   // always given a literal here; the actual runtime shape does satisfy `Option`.
-  const seriesAndIndicatorsOptions =
-    ItemToSelectModel.mergedItemsToSelectModels(
-      indicatorsOptions as { type: string; label: string }[],
-      seriesOptions as { type: string; label: string }[],
-    ) as unknown as Option[];
+  const seriesAndIndicatorsOptions = ItemToSelectModel.mergedItemsToSelectModels(
+    indicatorsOptions as { type: string; label: string }[],
+    seriesOptions as { type: string; label: string }[],
+  ) as unknown as Option[];
 
   const serverSideError = state.serverSideError;
 
-  const isMandatoryField = (fieldName: string) =>
-    props.extraMandatoryFields.includes(fieldName);
+  const isMandatoryField = (fieldName: string) => props.extraMandatoryFields.includes(fieldName);
 
   return (
     <div className="container editor-container">
       {isEditing && (
-        <PageTitleBlock
-          titleLg1={props.serie.prefLabelLg1}
-          titleLg2={props.serie.prefLabelLg2}
-        />
+        <PageTitleBlock titleLg1={props.serie.prefLabelLg1} titleLg2={props.serie.prefLabelLg2} />
       )}
       <ActionToolbar>
         <CancelButton action={() => goBack("/operations/series")} />
@@ -267,9 +247,7 @@ export const OperationsSerieEdition = ({
         />
       </ActionToolbar>
       {state.submitting && state.clientSideErrors && (
-        <GlobalClientSideErrorBloc
-          clientSideErrors={state.clientSideErrors.errorMessage}
-        />
+        <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
       <ErrorBloc error={[serverSideError]} />
       <form>
@@ -296,18 +274,14 @@ export const OperationsSerieEdition = ({
         )}
         <Row>
           <div className="form-group col-md-6">
-            <LabelRequired htmlFor="prefLabelLg1">
-              {t("common.title", { lng: "fr" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
               value={serie.prefLabelLg1}
               onChange={onChange}
               aria-invalid={!!state.clientSideErrors.fields?.prefLabelLg1}
               aria-describedby={
-                state.clientSideErrors.fields?.prefLabelLg1
-                  ? "prefLabelLg1-error"
-                  : undefined
+                state.clientSideErrors.fields?.prefLabelLg1 ? "prefLabelLg1-error" : undefined
               }
             />
             <ClientSideError
@@ -316,18 +290,14 @@ export const OperationsSerieEdition = ({
             ></ClientSideError>
           </div>
           <div className="form-group col-md-6">
-            <LabelRequired htmlFor="prefLabelLg2">
-              {t("common.title", { lng: "en" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
               value={serie.prefLabelLg2}
               onChange={onChange}
               aria-invalid={!!state.clientSideErrors.fields?.prefLabelLg2}
               aria-describedby={
-                state.clientSideErrors.fields?.prefLabelLg2
-                  ? "prefLabelLg2-error"
-                  : undefined
+                state.clientSideErrors.fields?.prefLabelLg2 ? "prefLabelLg2-error" : undefined
               }
             />
             <ClientSideError
@@ -338,71 +308,43 @@ export const OperationsSerieEdition = ({
         </Row>
         <Row>
           <div className="form-group col-md-6">
-            <label htmlFor="altLabelLg1">
-              {t("app.altLabel", { lng: "fr" })}
-            </label>
-            <TextInput
-              id="altLabelLg1"
-              value={serie.altLabelLg1}
-              onChange={onChange}
-            />
+            <label htmlFor="altLabelLg1">{t("app.altLabel", { lng: "fr" })}</label>
+            <TextInput id="altLabelLg1" value={serie.altLabelLg1} onChange={onChange} />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="altLabel2">
-              {t("app.altLabel", { lng: "en" })}
-            </label>
-            <TextInput
-              id="altLabelLg2"
-              value={serie.altLabelLg2}
-              onChange={onChange}
-            />
+            <label htmlFor="altLabel2">{t("app.altLabel", { lng: "en" })}</label>
+            <TextInput id="altLabelLg2" value={serie.altLabelLg2} onChange={onChange} />
           </div>
         </Row>
         <Row>
           <div className="form-group col-md-6">
-            <label htmlFor="abstractLg1">
-              {t("common.summary", { lng: "fr" })}
-            </label>
+            <label htmlFor="abstractLg1">{t("common.summary", { lng: "fr" })}</label>
             <EditorMarkdown
               text={serie.abstractLg1 ?? ""}
-              handleChange={(value) =>
-                onChange({ target: { value, id: "abstractLg1" } })
-              }
+              handleChange={(value) => onChange({ target: { value, id: "abstractLg1" } })}
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="abstractLg2">
-              {t("common.summary", { lng: "en" })}
-            </label>
+            <label htmlFor="abstractLg2">{t("common.summary", { lng: "en" })}</label>
             <EditorMarkdown
               text={serie.abstractLg2 ?? ""}
-              handleChange={(value) =>
-                onChange({ target: { value, id: "abstractLg2" } })
-              }
+              handleChange={(value) => onChange({ target: { value, id: "abstractLg2" } })}
             />
           </div>
         </Row>
         <Row>
           <div className="form-group col-md-6">
-            <label htmlFor="historyNoteLg1">
-              {t("common.history", { lng: "fr" })}
-            </label>
+            <label htmlFor="historyNoteLg1">{t("common.history", { lng: "fr" })}</label>
             <EditorMarkdown
               text={serie.historyNoteLg1 ?? ""}
-              handleChange={(value) =>
-                onChange({ target: { value, id: "historyNoteLg1" } })
-              }
+              handleChange={(value) => onChange({ target: { value, id: "historyNoteLg1" } })}
             />
           </div>
           <div className="form-group col-md-6">
-            <label htmlFor="historyNoteLg2">
-              {t("common.history", { lng: "en" })}
-            </label>
+            <label htmlFor="historyNoteLg2">{t("common.history", { lng: "en" })}</label>
             <EditorMarkdown
               text={serie.historyNoteLg2 ?? ""}
-              handleChange={(value) =>
-                onChange({ target: { value, id: "historyNoteLg2" } })
-              }
+              handleChange={(value) => onChange({ target: { value, id: "historyNoteLg2" } })}
             />
           </div>
         </Row>
@@ -615,9 +557,7 @@ export const OperationsSerieEdition = ({
                       value: value.map((v: string) => {
                         return {
                           id: v,
-                          type: v.startsWith("indicator")
-                            ? "indicator"
-                            : "series",
+                          type: v.startsWith("indicator") ? "indicator" : "series",
                         };
                       }),
                       id: "seeAlso",

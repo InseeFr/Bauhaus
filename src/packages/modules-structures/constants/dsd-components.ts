@@ -43,6 +43,5 @@ export const MUTUALIZED_COMPONENT_TYPES = [
 ];
 
 export const DISSEMINATION_STATUS = {
-  PUBLIC_GENERIC:
-    "http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
+  PUBLIC_GENERIC: "http://id.insee.fr/codes/base/statutDiffusion/PublicGenerique",
 };

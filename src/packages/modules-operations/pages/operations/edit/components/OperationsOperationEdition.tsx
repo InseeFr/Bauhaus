@@ -1,11 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import {
-  ClientSideError,
-  ErrorBloc,
-  GlobalClientSideErrorBloc,
-} from "@components/errors-bloc";
+import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
@@ -51,9 +47,7 @@ const defaultOperation: Partial<Operation> = {
   year: undefined,
 };
 
-const setInitialState = (
-  props: Readonly<OperationsOperationEditionTypes>,
-): State => ({
+const setInitialState = (props: Readonly<OperationsOperationEditionTypes>): State => ({
   serverSideError: "",
   clientSideErrors: {},
   saving: false,
@@ -64,9 +58,7 @@ const setInitialState = (
   } as Operation,
 });
 
-export const OperationsOperationEdition = (
-  props: Readonly<OperationsOperationEditionTypes>,
-) => {
+export const OperationsOperationEdition = (props: Readonly<OperationsOperationEditionTypes>) => {
   const { t } = useTranslation();
 
   const [state, setState] = useState<State>(() => setInitialState(props));
@@ -156,9 +148,7 @@ export const OperationsOperationEdition = (
         disabled={(state.clientSideErrors.errorMessage?.length ?? 0) > 0}
       />
       {state.submitting && state.clientSideErrors && (
-        <GlobalClientSideErrorBloc
-          clientSideErrors={state.clientSideErrors.errorMessage}
-        />
+        <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
       <ErrorBloc error={serverSideError} />
       <form>
@@ -175,18 +165,14 @@ export const OperationsOperationEdition = (
         )}
         <Row className="bauhaus-row">
           <div className="form-group">
-            <LabelRequired htmlFor="prefLabelLg1">
-              {t("common.title", { lng: "fr" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg1">{t("common.title", { lng: "fr" })}</LabelRequired>
             <TextInput
               id="prefLabelLg1"
               value={operation.prefLabelLg1}
               onChange={onChange}
               aria-invalid={!!state.clientSideErrors.fields?.prefLabelLg1}
               aria-describedby={
-                state.clientSideErrors.fields?.prefLabelLg1
-                  ? "prefLabelLg1-error"
-                  : undefined
+                state.clientSideErrors.fields?.prefLabelLg1 ? "prefLabelLg1-error" : undefined
               }
             />
             <ClientSideError
@@ -195,18 +181,14 @@ export const OperationsOperationEdition = (
             ></ClientSideError>
           </div>
           <div className="form-group">
-            <LabelRequired htmlFor="prefLabelLg2">
-              {t("common.title", { lng: "en" })}
-            </LabelRequired>
+            <LabelRequired htmlFor="prefLabelLg2">{t("common.title", { lng: "en" })}</LabelRequired>
             <TextInput
               id="prefLabelLg2"
               value={operation.prefLabelLg2}
               onChange={onChange}
               aria-invalid={!!state.clientSideErrors.fields?.prefLabelLg2}
               aria-describedby={
-                state.clientSideErrors.fields?.prefLabelLg2
-                  ? "prefLabelLg2-error"
-                  : undefined
+                state.clientSideErrors.fields?.prefLabelLg2 ? "prefLabelLg2-error" : undefined
               }
             />
             <ClientSideError
@@ -217,24 +199,12 @@ export const OperationsOperationEdition = (
         </Row>
         <Row className="bauhaus-row">
           <div className="form-group">
-            <label htmlFor="altLabelLg1">
-              {t("app.altLabel", { lng: "fr" })}
-            </label>
-            <TextInput
-              id="altLabelLg1"
-              value={operation.altLabelLg1}
-              onChange={onChange}
-            />
+            <label htmlFor="altLabelLg1">{t("app.altLabel", { lng: "fr" })}</label>
+            <TextInput id="altLabelLg1" value={operation.altLabelLg1} onChange={onChange} />
           </div>
           <div className="form-group">
-            <label htmlFor="altLabelLg2">
-              {t("app.altLabel", { lng: "en" })}
-            </label>
-            <TextInput
-              id="altLabelLg2"
-              value={operation.altLabelLg2}
-              onChange={onChange}
-            />
+            <label htmlFor="altLabelLg2">{t("app.altLabel", { lng: "en" })}</label>
+            <TextInput id="altLabelLg2" value={operation.altLabelLg2} onChange={onChange} />
           </div>
         </Row>
         <YearInput

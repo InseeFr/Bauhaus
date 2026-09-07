@@ -7,11 +7,7 @@ import { isLang2 } from "@utils/dictionary";
  * @param {string} idParent
  * @param {object} objectToMerge
  */
-export function getTree(
-  input: any[],
-  idParent?: string,
-  objectToMerge?: any,
-): any {
+export function getTree(input: any[], idParent?: string, objectToMerge?: any): any {
   return input
     .filter((msd) => msd.idParent === idParent)
     .sort((msd1, msd2) => {
@@ -25,9 +21,7 @@ export function getTree(
         ...acc,
         [msd.idMas]: {
           ...msd,
-          masLabelBasedOnCurrentLang: isLang2()
-            ? msd.masLabelLg2
-            : msd.masLabelLg1,
+          masLabelBasedOnCurrentLang: isLang2() ? msd.masLabelLg2 : msd.masLabelLg1,
           isPresentational: msdToMerge.isPresentational || false,
           rangeType: msdToMerge.rangeType,
           codeList: msdToMerge.codeList,

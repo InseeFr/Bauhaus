@@ -31,8 +31,7 @@ const accentsMap = new Map([
 const reducer = (acc: string, [key]: [string, string]) =>
   acc.replace(new RegExp(accentsMap.get(key)!, "g"), key);
 
-export const removeAccents = (text: string): string =>
-  [...accentsMap].reduce(reducer, text);
+export const removeAccents = (text: string): string => [...accentsMap].reduce(reducer, text);
 
 export interface SimsGeographyPickerTypes {
   onChange: (value?: string) => void;
@@ -109,12 +108,8 @@ export const SimsGeographyPicker = ({
     ) => {
       const search = removeAccents(searchValue.toLowerCase());
       const label = removeAccents(option?.label.toLowerCase() ?? "");
-      const typeTerritory = removeAccents(
-        option?.typeTerritory.toLowerCase() ?? "",
-      );
-      return (
-        !searchValue || label.includes(search) || typeTerritory.includes(search)
-      );
+      const typeTerritory = removeAccents(option?.typeTerritory.toLowerCase() ?? "");
+      return !searchValue || label.includes(search) || typeTerritory.includes(search);
     },
     isSearchable: true,
     noResultsText: t("geography.noResult"),
@@ -135,28 +130,14 @@ export const SimsGeographyPicker = ({
           />
         </div>
         <HasAccess module="GEOGRAPHY" privilege="CREATE">
-          <button
-            type="button"
-            className="btn btn-default"
-            onClick={openNewPanel}
-          >
+          <button type="button" className="btn btn-default" onClick={openNewPanel}>
             {t("geography.btnNew")}
           </button>
         </HasAccess>
-        <SeeButton
-          disabled={!shouldSeeViewButton}
-          onClick={openViewPanel}
-        ></SeeButton>
+        <SeeButton disabled={!shouldSeeViewButton} onClick={openViewPanel}></SeeButton>
       </div>
-      <RightSlidingPanel
-        isOpen={slidingModal}
-        onHide={() => setSlidingModal(false)}
-      >
-        <SimsGeographyField
-          onCancel={onCancel}
-          onSave={onSave}
-          territory={territory}
-        />
+      <RightSlidingPanel isOpen={slidingModal} onHide={() => setSlidingModal(false)}>
+        <SimsGeographyField onCancel={onCancel} onSave={onSave} territory={territory} />
       </RightSlidingPanel>
     </>
   );

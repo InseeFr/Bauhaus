@@ -26,9 +26,7 @@ export const validate = ({ catalogRecord, ...otherFields }: Dataset) => {
       })
       .or(z.string().trim().length(0))
       .optional(),
-    creator: mandatoryAndNotEmptySelectField(
-      datasetsI18n.t("dataset.internalManagement.creator"),
-    ),
+    creator: mandatoryAndNotEmptySelectField(datasetsI18n.t("dataset.internalManagement.creator")),
     contributor: mandatoryAndNotEmptyMultiSelectField(
       datasetsI18n.t("dataset.internalManagement.contributors"),
     ),

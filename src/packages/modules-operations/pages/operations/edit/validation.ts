@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-import {
-  formatValidation,
-  mandatoryAndNotEmptyTextField,
-} from "@utils/validation";
+import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
 
 import { appI18n } from "../../../../i18n";
 import { operationsI18n } from "../../../i18n";
@@ -36,12 +33,8 @@ const ZodOperation = z.object({
           : undefined,
     },
   ),
-  prefLabelLg1: mandatoryAndNotEmptyTextField(
-    operationsI18n.t("common.title", { lng: "fr" }),
-  ),
-  prefLabelLg2: mandatoryAndNotEmptyTextField(
-    operationsI18n.t("common.title", { lng: "en" }),
-  ),
+  prefLabelLg1: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "fr" })),
+  prefLabelLg2: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "en" })),
   year: z.coerce
     .number({
       error: operationsI18n.t("app.numberProperty", {
