@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { Panel, PanelHeaderTemplateOptions } from "primereact/panel";
 import { Tree } from "primereact/tree";
 import type { TreeNode } from "primereact/treenode";
@@ -62,7 +62,18 @@ export const CategoryUsersPanel = ({
   // En-tête personnalisé : pas de bouton "+/−" par défaut, l'ouverture/fermeture se fait en
   // cliquant sur l'en-tête, et l'icône "?" porte l'explication (tooltip au survol).
   const headerTemplate = (options: PanelHeaderTemplateOptions) => (
-    <div className={cx(options.className, "cursor-pointer")} onClick={options.onTogglerClick}>
+    <div
+      className={cx(options.className, "cursor-pointer")}
+      role="button"
+      tabIndex={0}
+      onClick={options.onTogglerClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          options.onTogglerClick(event as unknown as MouseEvent<HTMLElement>);
+        }
+      }}
+    >
       <Tooltip target={`.${helpTooltipTarget}`} position="left" />
       <span className={options.titleClassName}>{title}</span>
       <i

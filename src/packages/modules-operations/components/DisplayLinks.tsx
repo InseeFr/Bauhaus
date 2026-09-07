@@ -36,7 +36,7 @@ export function DisplayLinks({
   function displayList(label: string) {
     return (
       <ul>
-        {links.sort().map((link, index) => (
+        {links.map((link, index) => (
           <li key={index}>{displayBlock(link, label)}</li>
         ))}
       </ul>
