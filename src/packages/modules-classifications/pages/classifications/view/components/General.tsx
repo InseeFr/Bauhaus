@@ -41,9 +41,9 @@ const LINKED_FIELDS: Record<string, { idKey: string; basePath: string; lg2Key: s
   },
 };
 
-const MATERIAL_FIELDS = ["additionalMaterial", "legalMaterial"];
-const DATE_FIELDS = ["issued", "valid", "lastRefreshedOn"];
-const ORGANISATION_FIELDS = ["creator", "contributor"];
+const MATERIAL_FIELDS = new Set(["additionalMaterial", "legalMaterial"]);
+const DATE_FIELDS = new Set(["issued", "valid", "lastRefreshedOn"]);
+const ORGANISATION_FIELDS = new Set(["creator", "contributor"]);
 
 const LinkedField = ({
   label,
@@ -95,7 +95,7 @@ const GeneralField = ({
       />
     );
   }
-  if (MATERIAL_FIELDS.includes(fieldName)) {
+  if (MATERIAL_FIELDS.has(fieldName)) {
     return (
       <li>
         {`${label} : `}
@@ -121,10 +121,10 @@ const GeneralField = ({
   if (fieldName.includes("altLabel")) {
     return <li>{`${label} : ${value.replaceAll(" || ", " - ")}`}</li>;
   }
-  if (DATE_FIELDS.includes(fieldName)) {
+  if (DATE_FIELDS.has(fieldName)) {
     return <li>{`${label} : ${stringToDate(value)}`}</li>;
   }
-  if (ORGANISATION_FIELDS.includes(fieldName)) {
+  if (ORGANISATION_FIELDS.has(fieldName)) {
     return (
       <li>
         {`${label} : `} <InseeOrganisation creator={value} />
