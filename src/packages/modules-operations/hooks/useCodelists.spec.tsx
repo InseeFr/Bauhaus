@@ -127,7 +127,7 @@ describe("useCodelists", () => {
       }),
     };
 
-    const { result } = renderHook(() => useCodeLists(metadataStructure), {
+    const { result } = renderHook(() => useCodelists(metadataStructure), {
       wrapper: createWrapper(),
     });
 
