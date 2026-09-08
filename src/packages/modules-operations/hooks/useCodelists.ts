@@ -19,7 +19,7 @@ const collectCodelistNotations = (tree: Record<string, MetadataNode> | undefined
 
   Object.values(tree).forEach(visit);
 
-  return [...notations].sort();
+  return [...notations].sort((a, b) => a.localeCompare(b));
 };
 
 const fetchCodelist = async (notation: string) => {

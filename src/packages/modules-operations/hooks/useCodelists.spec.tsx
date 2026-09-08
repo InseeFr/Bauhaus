@@ -114,4 +114,30 @@ describe("useCodelists", () => {
     expect(vi.mocked(CodelistsApi.getCodelist)).not.toHaveBeenCalled();
     expect(result.current.codelists).toEqual({});
   });
+
+  it("fetches the code lists in locale alphabetical order, whatever their case", async () => {
+    vi.mocked(CodelistsApi.getCodesList).mockImplementation((notation: string) =>
+      Promise.resolve({ notation }),
+    );
+    vi.mocked(CodelistsApi.getCodesListCodes).mockResolvedValue({ items: [] });
+
+    const metadataStructure = {
+      ROOT: makeNode("ROOT", "cl_activite", {
+        CHILD: makeNode("CHILD", "CL_Zone"),
+      }),
+    };
+
+    const { result } = renderHook(() => useCodesLists(metadataStructure), {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    const notationsFetched = vi
+      .mocked(CodelistsApi.getCodesList)
+      .mock.calls.map(([n]: [string]) => n);
+    expect(notationsFetched).toEqual(["cl_activite", "CL_Zone"]);
+  });
 });
