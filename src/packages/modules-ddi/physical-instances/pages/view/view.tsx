@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { confirmDialog } from "primereact/confirmdialog";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Message } from "primereact/message";
 import { Toast } from "primereact/toast";
 import {
