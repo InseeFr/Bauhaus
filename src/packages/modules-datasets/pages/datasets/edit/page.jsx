@@ -48,7 +48,7 @@ export const Component = () => {
 
   const { data: dataset, status } = useDataset(id);
 
-  const isContributor = useAuthorizationGuard("DATASET_DATASET", "CREATE");
+  const isContributor = useAuthorizationGuard({ module: "DATASET_DATASET", privilege: "CREATE" });
   const defaultContributor = useDefaultContributor(isContributor);
   useEffect(() => {
     if (status === "success") {

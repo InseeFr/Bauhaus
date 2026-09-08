@@ -22,7 +22,8 @@ const sourceDataset = {
 };
 
 vi.mock("../../../hooks/useDataset", () => ({
-  useDataset: () => ({ data: sourceDataset, status: "success" }),
+  useDataset: (id?: string) =>
+    id ? { data: sourceDataset, status: "success" } : { data: undefined, status: "pending" },
 }));
 
 const postDataset = vi.fn((_dataset: unknown) => Promise.resolve("jd2000"));
@@ -39,8 +40,16 @@ vi.mock("./validation", () => ({
   validate: () => ({ errorMessage: [] }),
 }));
 
-vi.mock("../../../../auth/components/auth", () => ({
-  useAuthorizationGuard: () => true,
+// `useAuthorizationGuard` n'est pas simulé : c'est la façon dont la page l'appelle
+// que ces tests couvrent. Seuls les hooks RBAC dont il dépend le sont.
+vi.mock("@utils/hooks/users", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@utils/hooks/users")>()),
+  usePrivileges: () => ({
+    privileges: [
+      { application: "DATASET_DATASET", privileges: [{ privilege: "CREATE", strategy: "ALL" }] },
+    ],
+  }),
+  useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
 }));
 
 vi.mock("@utils/creation/use-default-contributor", () => ({
@@ -108,6 +117,16 @@ describe("Dataset Edit Page", () => {
       await waitFor(() => expect(postDataset).toHaveBeenCalled());
       expect(putDataset).not.toHaveBeenCalled();
       expect(postDataset.mock.calls[0][0]).not.toHaveProperty("id");
+    });
+  });
+
+  describe("when creating a dataset", () => {
+    it("prefills the contributor with the default contributor", async () => {
+      await renderPage("/datasets/create", "/datasets/create");
+
+      await waitFor(() =>
+        expect(editedDataset()).toEqual({ catalogRecord: { contributor: ["DG75-L001"] } }),
+      );
     });
   });
 

@@ -31,14 +31,38 @@ describe("initializeContributorProperty", () => {
 
 describe("resolveContributorIri", () => {
   const organisations = [
-    { iri: "http://bauhaus/organisations/insee/HIE2001201", id: "HIE2001201", label: "Division" },
-    { iri: "http://bauhaus/organisations/insee/HIE2000001", id: "HIE2000001", label: "DG" },
+    {
+      iri: "http://bauhaus/organisations/insee/HIE2001201",
+      id: "HIE2001201",
+      stamp: "DG75-L201",
+      label: "Division",
+    },
+    {
+      iri: "http://bauhaus/organisations/insee/HIE2000001",
+      id: "HIE2000001",
+      stamp: "DG75-A001",
+      label: "DG",
+    },
   ];
   const defaultContributor = "http://bauhaus/organisations/insee/HIE2004937";
 
   it("résout le timbre de l'utilisateur en IRI de son organisation", () => {
     const result = resolveContributorIri({
       userStamp: "HIE2001201",
+      organisations,
+      defaultContributor,
+      useUserOrganisation: true,
+    });
+
+    expect(result).toBe("http://bauhaus/organisations/insee/HIE2001201");
+  });
+
+  // Le claim `stamp` du jeton porte le timbre (dcterms:identifier), alors que
+  // `id` est l'adms:identifier : sans rapprochement sur le timbre, aucun
+  // utilisateur ne serait jamais rattaché à son organisation.
+  it("résout le timbre de l'utilisateur quand le référentiel l'expose comme stamp", () => {
+    const result = resolveContributorIri({
+      userStamp: "DG75-L201",
       organisations,
       defaultContributor,
       useUserOrganisation: true,

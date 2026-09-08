@@ -43,7 +43,7 @@ export const CodelistDetailEdit = ({
 
   useTitle(t("codelists.pluralTitle"), codelist?.labelLg1);
 
-  const isContributor = useAuthorizationGuard("CODESLIST_CODESLIST", "CREATE");
+  const isContributor = useAuthorizationGuard({ module: "CODESLIST_CODESLIST", privilege: "CREATE" });
   const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {

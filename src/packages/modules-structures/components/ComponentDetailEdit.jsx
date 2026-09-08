@@ -206,7 +206,7 @@ export const ComponentDetailEdit = ({
 
   useTitle(t("component.pluralTitle"), component?.labelLg1 || t("component.creationPageTitle"));
 
-  const isContributor = useAuthorizationGuard("STRUCTURE_COMPONENT", "CREATE");
+  const isContributor = useAuthorizationGuard({ module: "STRUCTURE_COMPONENT", privilege: "CREATE" });
   const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {
