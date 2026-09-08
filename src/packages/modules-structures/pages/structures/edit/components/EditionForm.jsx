@@ -72,7 +72,10 @@ export const EditionForm = ({ creation, initialStructure }) => {
     disseminationStatus,
   } = structure;
 
-  const isContributor = useAuthorizationGuard({ module: "STRUCTURE_STRUCTURE", privilege: "CREATE" });
+  const isContributor = useAuthorizationGuard({
+    module: "STRUCTURE_STRUCTURE",
+    privilege: "CREATE",
+  });
 
   const defaultContributor = useDefaultContributor(isContributor);
 

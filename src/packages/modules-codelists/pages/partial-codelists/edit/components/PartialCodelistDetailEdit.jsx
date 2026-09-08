@@ -82,7 +82,10 @@ export const PartialCodelistDetailEdit = ({
     [codelist, handleParentCode, globalCodeListOptions],
   );
 
-  const isContributor = useAuthorizationGuard({ module: "CODESLIST_PARTIALCODESLIST", privilege: "CREATE" });
+  const isContributor = useAuthorizationGuard({
+    module: "CODESLIST_PARTIALCODESLIST",
+    privilege: "CREATE",
+  });
   const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {
