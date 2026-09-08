@@ -27,6 +27,8 @@ vi.mock("react-i18next", async (importOriginal) => {
         return actual.useTranslation(ns, options);
       }
       return {
+        t: (key: string, tOptions?: { lng?: "fr" | "en" }) =>
+          translations[tOptions?.lng ?? "fr"][key] ?? key,
         i18n: {
           getFixedT: (lng: "fr" | "en") => (key: string) => translations[lng][key] ?? key,
         },

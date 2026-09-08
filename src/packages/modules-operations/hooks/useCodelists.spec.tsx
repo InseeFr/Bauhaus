@@ -116,10 +116,10 @@ describe("useCodelists", () => {
   });
 
   it("fetches the code lists in locale alphabetical order, whatever their case", async () => {
-    vi.mocked(CodelistsApi.getCodesList).mockImplementation((notation: string) =>
+    vi.mocked(CodelistsApi.getCodelist).mockImplementation((notation: string) =>
       Promise.resolve({ notation }),
     );
-    vi.mocked(CodelistsApi.getCodesListCodes).mockResolvedValue({ items: [] });
+    vi.mocked(CodelistsApi.getCodelistCodes).mockResolvedValue({ items: [] });
 
     const metadataStructure = {
       ROOT: makeNode("ROOT", "cl_activite", {
@@ -136,7 +136,7 @@ describe("useCodelists", () => {
     });
 
     const notationsFetched = vi
-      .mocked(CodelistsApi.getCodesList)
+      .mocked(CodelistsApi.getCodelist)
       .mock.calls.map(([n]: [string]) => n);
     expect(notationsFetched).toEqual(["cl_activite", "CL_Zone"]);
   });
