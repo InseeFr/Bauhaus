@@ -47,7 +47,6 @@ describe("concept-edition-creation", () => {
     general: { ...emptyConceptGeneral(), contributor: "DG75-L201" } as unknown as ConceptGeneral,
     notes: {} as ConceptNotes,
     conceptsWithLinks: [],
-    stampList: [],
     save: vi.fn(),
     setSubmitting: vi.fn(),
     submitting: false,
