@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { Loading, Saving } from "@components/loading";
 
+import { useIsDefaultContributorPending } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { CollectionWithMembers } from "@model/concepts/collection";
@@ -25,6 +26,9 @@ export const Component = () => {
   const { data: collectionList = [] } = useCollections();
   const { concepts, isLoading: isConceptLoading } = useConcepts();
   const { save, isSaving } = useCollectionSave(id);
+  // Le formulaire fige `general` dans son état à l'initialisation : on attend
+  // que le contributeur par défaut soit résolu avant de le monter.
+  const isDefaultContributorPending = useIsDefaultContributorPending();
 
   const { general, members = [] } = (collection ?? {}) as Partial<CollectionWithMembers>;
 
@@ -33,7 +37,12 @@ export const Component = () => {
   if (isSaving) {
     return <Saving />;
   }
-  if (isConceptLoading || (!isCreation && loadingCollection) || !general) {
+  if (
+    isConceptLoading ||
+    (!isCreation && loadingCollection) ||
+    !general ||
+    (isCreation && isDefaultContributorPending)
+  ) {
     return <Loading />;
   }
 

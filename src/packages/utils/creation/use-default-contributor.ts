@@ -1,6 +1,6 @@
 import { useAppContext } from "../../application/app-context";
 import { useOrganizations } from "../hooks/organizations";
-import { useUserStamps } from "../hooks/users";
+import { usePrivileges, useUserStamps } from "../hooks/users";
 import { resolveContributorIri } from "./contributor-init";
 
 /**
@@ -24,4 +24,21 @@ export const useDefaultContributor = (useUserOrganisation: boolean): string | un
     defaultContributor,
     useUserOrganisation,
   });
+};
+
+/**
+ * Les données dont dépend la résolution — référentiel des organisations, timbre
+ * et droits de l'utilisateur — sont-elles encore en cours de chargement ?
+ *
+ * Tant qu'elles le sont, {@link useDefaultContributor} ne peut renvoyer que le
+ * repli (le contributeur de l'instance). Un formulaire de création qui recopie
+ * la valeur dans son état local à l'initialisation, sans la resynchroniser
+ * ensuite, doit donc attendre la fin du chargement pour ne pas figer ce repli.
+ */
+export const useIsDefaultContributorPending = (): boolean => {
+  const { isPlaceholderData: organisationsPending } = useOrganizations();
+  const { isPlaceholderData: stampsPending } = useUserStamps();
+  const { isPending: privilegesPending } = usePrivileges();
+
+  return organisationsPending || stampsPending || privilegesPending;
 };

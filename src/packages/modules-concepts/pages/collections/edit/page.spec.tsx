@@ -7,6 +7,7 @@ import { useCollections } from "../../../hooks/useCollections";
 import { useCollection } from "../../../hooks/useCollection";
 import { useConcepts } from "../../../hooks/useConcepts";
 import { useCollectionSave } from "../../../hooks/useCollectionSave";
+import { useIsDefaultContributorPending } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
 import { Component } from "./page";
 
@@ -33,6 +34,10 @@ vi.mock("../../../hooks/useCollectionSave", () => ({
 
 vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
+}));
+
+vi.mock("@utils/creation/use-default-contributor", () => ({
+  useIsDefaultContributorPending: vi.fn(),
 }));
 
 vi.mock("@components/loading", () => ({
@@ -68,6 +73,7 @@ describe("Edition Container Component", () => {
     (useCollection as Mock).mockReturnValue({ data: null, isLoading: false });
     (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: false });
     (useCollectionSave as Mock).mockReturnValue({ save: vi.fn(), isSaving: false });
+    (useIsDefaultContributorPending as Mock).mockReturnValue(false);
   });
 
   describe("Creation mode (no id)", () => {
@@ -77,6 +83,18 @@ describe("Edition Container Component", () => {
 
     it("renders Loading component while loading concept list", () => {
       (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: true });
+
+      renderWithQueryClient(<Component />);
+
+      expect(screen.getByTestId("collection-loading")).toBeInTheDocument();
+    });
+
+    it("attend la résolution du contributeur par défaut avant d'afficher le formulaire", () => {
+      (useIsDefaultContributorPending as Mock).mockReturnValue(true);
+      (useCollection as Mock).mockReturnValue({
+        data: { general: { id: "", prefLabelLg1: "" }, members: [] },
+        isLoading: false,
+      });
 
       renderWithQueryClient(<Component />);
 
@@ -113,6 +131,20 @@ describe("Edition Container Component", () => {
   describe("Edition mode (with id)", () => {
     beforeEach(() => {
       (useParams as Mock).mockReturnValue({ id: "123" });
+    });
+
+    it("n'attend pas la résolution du contributeur par défaut en modification", async () => {
+      (useIsDefaultContributorPending as Mock).mockReturnValue(true);
+      (useCollection as Mock).mockReturnValue({
+        data: { general: { id: "123", prefLabelLg1: "Test Collection" }, members: [] },
+        isLoading: false,
+      });
+
+      renderWithQueryClient(<Component />);
+
+      await waitFor(() => {
+        expect(screen.getByTestId("collection-edition-creation")).toBeInTheDocument();
+      });
     });
 
     it("renders Loading component while loading collection data", () => {

@@ -22,10 +22,10 @@ export const buildEmpty = (fieldsWithRequired: FieldSpec[]) => {
 
 export const buildEmptyWithContributor = (
   fieldsWithRequired: FieldSpec[],
-  defaultContributor: string,
+  defaultContributor: string | undefined,
 ) => {
   return {
     ...buildEmpty(fieldsWithRequired),
-    contributor: defaultContributor,
+    contributor: defaultContributor ?? "",
   };
 };

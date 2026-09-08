@@ -5,7 +5,7 @@ import { CollectionGeneral } from "@model/concepts/collection";
 import { collectionGeneralFields } from "./collectionGeneralFields";
 
 export const emptyCollectionGeneralWithContributor = (
-  defaultContributor: string,
+  defaultContributor: string | undefined,
 ): CollectionGeneral =>
   buildEmptyWithContributor(
     collectionGeneralFields,

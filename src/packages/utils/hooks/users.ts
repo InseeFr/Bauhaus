@@ -16,12 +16,12 @@ export {
 
 import type { Privilege, UserStamp } from "./rbac-constants";
 
-export const usePrivileges = (): { privileges: Privilege[] } => {
-  const { data: privileges } = useQuery({
+export const usePrivileges = (): { privileges: Privilege[]; isPending: boolean } => {
+  const { data: privileges, isPending } = useQuery({
     queryKey: ["users"],
     queryFn: () => UsersApi.getInfo(),
   });
-  return { privileges };
+  return { privileges, isPending };
 };
 
 export const useUserStamps = () =>

@@ -1,30 +1,26 @@
-import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { renderHook } from "@testing-library/react";
 import { createElement, PropsWithChildren } from "react";
 import { vi } from "vitest";
+
+import { CollectionApi } from "@sdk/new-collection-api";
 
 import { useOrganizations } from "@utils/hooks/organizations";
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
-import { ConceptsApi } from "../../sdk";
 import { useAppContext } from "../../application/app-context";
 
-import { useConcept } from "./useConcept";
+import { useCollection } from "./useCollection";
 
-vi.mock("../../sdk", () => ({
-  ConceptsApi: {
-    getConceptGeneral: vi.fn(),
-    getNoteVersionList: vi.fn(),
-    getConceptLinkList: vi.fn(),
+vi.mock("@sdk/new-collection-api", () => ({
+  CollectionApi: {
+    getCollectionById: vi.fn(),
+    getCollectionMembersList: vi.fn(),
   },
 }));
 
 vi.mock("../../application/app-context", () => ({
   useAppContext: vi.fn(),
-}));
-
-vi.mock("@utils/html-utils", () => ({
-  rmesHtmlToRawHtml: vi.fn((html) => html),
 }));
 
 vi.mock("@utils/hooks/organizations", () => ({
@@ -44,17 +40,15 @@ const mockUseAppContext = vi.mocked(useAppContext);
 const mockUseOrganizations = vi.mocked(useOrganizations);
 const mockUsePrivileges = vi.mocked(usePrivileges);
 const mockUseUserStamps = vi.mocked(useUserStamps);
+const mockGetCollectionById = vi.mocked(CollectionApi.getCollectionById);
 
-const canCreateConcepts = () =>
+const canCreateCollections = () =>
   mockUsePrivileges.mockReturnValue({
     privileges: [
-      { application: "CONCEPT_CONCEPT", privileges: [{ privilege: "CREATE", strategy: "ALL" }] },
+      { application: "CONCEPT_COLLECTION", privileges: [{ privilege: "CREATE", strategy: "ALL" }] },
     ],
     isPending: false,
   });
-const mockGetConceptGeneral = vi.mocked(ConceptsApi.getConceptGeneral);
-const mockGetNoteVersionList = vi.mocked(ConceptsApi.getNoteVersionList);
-const mockGetConceptLinkList = vi.mocked(ConceptsApi.getConceptLinkList);
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -64,7 +58,7 @@ const createWrapper = () => {
     createElement(QueryClientProvider, { client: queryClient }, children);
 };
 
-describe("useConcept", () => {
+describe("useCollection", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseAppContext.mockReturnValue({
@@ -88,63 +82,15 @@ describe("useConcept", () => {
   });
 
   it("does not call the API when id is undefined", () => {
-    const { result } = renderHook(() => useConcept(undefined), {
-      wrapper: createWrapper(),
-    });
+    renderHook(() => useCollection(undefined), { wrapper: createWrapper() });
 
-    expect(mockGetConceptGeneral).not.toHaveBeenCalled();
-    expect(result.current.data).toBeDefined();
-  });
-
-  it("returns placeholderData when id is undefined", () => {
-    const { result } = renderHook(() => useConcept(undefined), {
-      wrapper: createWrapper(),
-    });
-
-    expect(result.current.data).toMatchObject({
-      general: expect.any(Object),
-      links: [],
-      notes: expect.any(Object),
-    });
-  });
-
-  it("fetches concept data when id is provided", async () => {
-    const generalData = { conceptVersion: 1, prefLabelLg1: "Test Concept" };
-    const notesData = {};
-    const linksData = [{ typeOfLink: "closeMatch", idConcept: "2" }];
-
-    mockGetConceptGeneral.mockResolvedValue(generalData);
-    mockGetNoteVersionList.mockResolvedValue(notesData);
-    mockGetConceptLinkList.mockResolvedValue(linksData);
-
-    const { result } = renderHook(() => useConcept("42"), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => expect(mockGetConceptLinkList).toHaveBeenCalled());
-
-    expect(mockGetConceptGeneral).toHaveBeenCalledWith("42");
-    expect(mockGetNoteVersionList).toHaveBeenCalledWith("42", 1);
-    expect(mockGetConceptLinkList).toHaveBeenCalledWith("42");
-
-    await waitFor(() => expect(result.current.data?.links).toEqual(linksData));
-    expect(result.current.data?.general).toMatchObject(generalData);
-  });
-
-  it("is fetching while request is pending", () => {
-    mockGetConceptGeneral.mockReturnValue(new Promise(() => {}));
-
-    const { result } = renderHook(() => useConcept("42"), {
-      wrapper: createWrapper(),
-    });
-
-    expect(result.current.isFetching).toBe(true);
+    expect(mockGetCollectionById).not.toHaveBeenCalled();
   });
 
   it("pré-remplit le contributeur avec l'organisation de l'utilisateur habilité à créer", () => {
-    canCreateConcepts();
+    canCreateCollections();
 
-    const { result } = renderHook(() => useConcept(undefined), {
+    const { result } = renderHook(() => useCollection(undefined), {
       wrapper: createWrapper(),
     });
 
@@ -152,7 +98,7 @@ describe("useConcept", () => {
   });
 
   it("retombe sur le contributeur par défaut de l'instance sans droit de création", () => {
-    const { result } = renderHook(() => useConcept(undefined), {
+    const { result } = renderHook(() => useCollection(undefined), {
       wrapper: createWrapper(),
     });
 
