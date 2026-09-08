@@ -165,8 +165,8 @@ const SimsCreation = ({
     );
   };
 
-  const goBackUrl = sims.id
-    ? `/operations/sims/${sims.id}`
+  const goBackUrl = simsProp.id
+    ? `/operations/sims/${simsProp.id}`
     : `/operations/${parentType}/${idParent}`;
 
   const organizationsOptions = useMemo(

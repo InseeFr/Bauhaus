@@ -662,7 +662,7 @@ const AttributesArray = ({
     )?.id;
 
     return (
-      <Row key={index}>
+      <Row key={attribute}>
         <div className="col-md-6 form-group">
           <label htmlFor="attribute">{t("component.type.attribute.title")}</label>
           <Select

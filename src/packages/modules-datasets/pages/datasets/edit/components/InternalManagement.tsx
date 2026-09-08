@@ -30,6 +30,13 @@ type ClientSideErrors = {
   fields?: Record<string, string>;
 };
 
+const renderGeneratedByOption = (v: Option) => {
+  if (!v.value.includes("/serie/")) {
+    return <span className="padding">{v.label}</span>;
+  }
+  return `${v.label}`;
+};
+
 interface InternalManagementTypes {
   editingDataset: Dataset;
   setEditingDataset: (dataset: Dataset) => void;
@@ -94,7 +101,7 @@ const InternalManagementTab = ({
               setEditingDataset({
                 ...editingDataset,
                 catalogRecord: {
-                  ...(editingDataset.catalogRecord ?? {}),
+                  ...editingDataset.catalogRecord,
                   creator: values as string,
                 } as CatalogRecord,
               });
@@ -119,7 +126,7 @@ const InternalManagementTab = ({
               setEditingDataset({
                 ...editingDataset,
                 catalogRecord: {
-                  ...(editingDataset.catalogRecord ?? {}),
+                  ...editingDataset.catalogRecord,
                   contributor: values,
                 } as CatalogRecord,
               });
@@ -165,12 +172,7 @@ const InternalManagementTab = ({
             multi
             value={editingDataset.wasGeneratedIRIs}
             options={seriesOperationsOptions}
-            itemTemplate={(v) => {
-              if (!v.value.includes("/serie/")) {
-                return <span className="padding">{v.label}</span>;
-              }
-              return `${v.label}`;
-            }}
+            itemTemplate={renderGeneratedByOption}
             onChange={(values) => {
               setEditingDataset({
                 ...editingDataset,

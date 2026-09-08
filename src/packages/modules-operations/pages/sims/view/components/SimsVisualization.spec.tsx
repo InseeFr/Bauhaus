@@ -30,10 +30,6 @@ vi.mock("../utils/getParentUri", () => ({
     return undefined;
   }),
 }));
-vi.mock("../../utils/hasLabelLg2", () => ({
-  hasLabelLg2: vi.fn(() => false),
-}));
-
 vi.mock("../menu", () => ({
   Menu: ({ onPublish, onDelete }: { onPublish: () => void; onDelete: () => void }) => (
     <>
@@ -84,7 +80,6 @@ vi.mock("@components/layout", () => ({
   Row: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 vi.mock("@components/note", () => ({ Note: () => null }));
-vi.mock("@components/panel", () => ({ Panel: () => null }));
 vi.mock("@components/status", () => ({
   PublicationFemale: () => null,
 }));
@@ -97,10 +92,7 @@ vi.mock("@sdk/operations-api", () => ({
 vi.mock("../../components/RubricEssentialMsg", () => ({
   RubricEssentialMsg: () => null,
 }));
-vi.mock("../../components/SimsFieldTitle", () => ({
-  SimsFieldTitle: () => null,
-}));
-vi.mock("./SimsBlock", () => ({ SimsBlock: () => null }));
+vi.mock("./MSDInformations", () => ({ MSDInformations: () => null }));
 vi.mock("./MissingDocumentsErrorBloc", () => ({
   MissingDocumentsErrorBloc: ({ missingDocuments }: { missingDocuments: Set<string> }) =>
     missingDocuments && missingDocuments.size > 0 ? (

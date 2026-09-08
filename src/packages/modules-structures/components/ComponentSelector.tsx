@@ -74,7 +74,7 @@ export const ComponentSelector = ({
 
   const filteredMutualizedComponents = useMemo(() => {
     return mutualizedComponents.filter(filterComponent(type)).filter((component) => {
-      return !structureComponents.find(({ component: c }) => c.id === component.id);
+      return !structureComponents.some(({ component: c }) => c.id === component.id);
     });
   }, [mutualizedComponents, structureComponents, type]);
 

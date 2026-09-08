@@ -77,16 +77,14 @@ const renderFieldItem = (
 };
 
 export function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGeneralProps>) {
-  const { i18n } = useTranslation();
-  const t1 = i18n.getFixedT("fr");
-  const t2 = i18n.getFixedT("en");
+  const { t } = useTranslation();
 
   const fields: readonly { name: FieldName; label: string }[] = [
-    { name: "creator", label: t1("common.creatorTitle") },
-    { name: "contributor", label: t1("collection.general.contributorTitle") },
+    { name: "creator", label: t("common.creatorTitle") },
+    { name: "contributor", label: t("collection.general.contributorTitle") },
     {
       name: "validationState",
-      label: t1("collection.general.isCollectionValidTitle"),
+      label: t("collection.general.isCollectionValidTitle"),
     },
   ] as const;
 
@@ -94,7 +92,7 @@ export function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGener
     <>
       <Row>
         <Note
-          title={t1("common.globalInformationsTitle")}
+          title={t("common.globalInformationsTitle")}
           alone={true}
           text={
             <ul>
@@ -108,11 +106,19 @@ export function CollectionGeneral({ attr, secondLang }: Readonly<CollectionGener
         <Row>
           <Note
             text={attr.descriptionLg1}
-            title={t1("common.descriptionTitle")}
+            title={t("common.descriptionTitle", {
+              lng: "fr",
+            })}
             alone={!secondLang}
           />
           {secondLang && (
-            <Note text={attr.descriptionLg2} title={t2("common.descriptionTitle")} alone={false} />
+            <Note
+              text={attr.descriptionLg2}
+              title={t("common.descriptionTitle", {
+                lng: "en",
+              })}
+              alone={false}
+            />
           )}
         </Row>
       )}

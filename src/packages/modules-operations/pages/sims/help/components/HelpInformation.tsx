@@ -32,9 +32,12 @@ export function HelpInformation({ msd, codelists, organizations }: Readonly<Help
       )}
       <dt>{t("sims.helpRange")}:</dt>
       <dd>
-        {msd.rangeType === CODE_LIST && codelists[msd.codeList]
-          ? `${t(`sims.help${msd.rangeType}`)} - ${codelists[msd.codeList].codeListLabelLg1}`
-          : `${t(`sims.help${msd.rangeType}`)}`}
+        {(() => {
+          const rangeLabel = t(`sims.help${msd.rangeType}`);
+          return msd.rangeType === CODE_LIST && codelists[msd.codeList]
+            ? `${rangeLabel} - ${codelists[msd.codeList].codeListLabelLg1}`
+            : rangeLabel;
+        })()}
 
         {msd.rangeType === CODE_LIST && codelists[msd.codeList] && (
           <List.Container>

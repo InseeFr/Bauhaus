@@ -28,10 +28,11 @@ const accentsMap = new Map([
   ["n", "ñ"],
 ]);
 
-const reducer = (acc: string, [key]: [string, string]) =>
-  acc.replace(new RegExp(accentsMap.get(key)!, "g"), key);
-
-export const removeAccents = (text: string): string => [...accentsMap].reduce(reducer, text);
+export const removeAccents = (text: string): string =>
+  [...accentsMap].reduce(
+    (acc, [key]) => acc.replace(new RegExp(accentsMap.get(key)!, "g"), key),
+    text,
+  );
 
 export interface SimsGeographyPickerTypes {
   onChange: (value?: string) => void;

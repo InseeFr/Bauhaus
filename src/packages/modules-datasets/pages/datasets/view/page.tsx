@@ -37,6 +37,10 @@ interface DatasetTypes {
   [key: string]: any;
 }
 
+const getLinkedDocumentContent = (linkedDocument: string) => (
+  <a href={linkedDocument}>{linkedDocument}</a>
+);
+
 const Dataset = (props: Readonly<DatasetTypes>) => {
   const { t } = useTranslation();
 
@@ -154,7 +158,7 @@ const Dataset = (props: Readonly<DatasetTypes>) => {
           text={
             <List
               items={dataset.linkedDocuments as string[]}
-              getContent={(linkedDocument) => <a href={linkedDocument}>{linkedDocument}</a>}
+              getContent={getLinkedDocumentContent}
             ></List>
           }
           title={t("dataset.globalInformation.linkedDocuments", { lng: "fr" })}

@@ -40,8 +40,8 @@ export const SimsBlockCodelist = ({
       <ul>
         {codes
           .filter(({ code }) => value.includes(code))
-          .map((code, index) => (
-            <li key={index}>{isSecondLang ? code.labelLg2 : code.labelLg1}</li>
+          .map((code) => (
+            <li key={code.code}>{isSecondLang ? code.labelLg2 : code.labelLg1}</li>
           ))}
       </ul>
     );

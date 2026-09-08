@@ -83,7 +83,7 @@ export const Component = () => {
   }, []);
 
   useEffect(() => {
-    if (id && globalCodelistOptions && globalCodelistOptions[0]) {
+    if (id && globalCodelistOptions?.[0]) {
       CodelistsApi.getCodelistPartial(id)
         .then((cl: any) => {
           const idParent = globalCodelistOptions.find(

@@ -4,10 +4,10 @@ import { useUserStamps } from "../hooks/users";
 import { resolveContributorIri } from "./contributor-init";
 
 /**
- * IRI d'organization à utiliser comme contributeur par défaut à la création
+ * IRI d'organisation à utiliser comme contributeur par défaut à la création
  * d'un objet.
  *
- * @param useUserOrganization rattacher l'objet à l'organization de
+ * @param useUserOrganization rattacher l'objet à l'organisation de
  * l'utilisateur (cas d'un utilisateur dont les droits sont portés par son
  * timbre) plutôt qu'au contributeur par défaut de l'instance.
  */

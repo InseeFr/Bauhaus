@@ -133,7 +133,7 @@ export const SimsGeographyField = ({
             placeholder=""
           />
         </div>
-        <div className="btn-group" role="group">
+        <fieldset className="btn-group border-0 p-0 m-0">
           <button
             type="button"
             className="btn btn-default"
@@ -150,7 +150,7 @@ export const SimsGeographyField = ({
           >
             {t("geography.exclude")}
           </button>
-        </div>
+        </fieldset>
       </div>
       <SimsGeographySelector
         includes={includes as Geography[]}

@@ -99,6 +99,10 @@ export const buildDataStamps = (d: ConceptForAdvancedSearch[]): ConceptStampRow[
     return acc;
   }, []);
 
+function stampOwnerBody(row: ConceptStampRow) {
+  return <InseeOrganization creator={row.stamp} />;
+}
+
 export function ConceptsSummary({
   conceptsData,
 }: Readonly<{ conceptsData: ConceptForAdvancedSearch[] }>) {
@@ -132,7 +136,7 @@ export function ConceptsSummary({
           <Column
             field="stamp"
             header={t("dashboard.concepts.summary.byOwnerColumn")}
-            body={(row: ConceptStampRow) => <InseeOrganization creator={row.stamp} />}
+            body={stampOwnerBody}
           ></Column>
           <Column field="total" header={t("dashboard.totalColumn")}></Column>
           <Column field="generic" header={t("dashboard.concepts.summary.genericColumn")}></Column>

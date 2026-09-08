@@ -16,6 +16,20 @@ type Props = {
   type: "creations" | "modifications";
 };
 
+function ownerBody(item: CollectionDashboardItem) {
+  return <InseeOrganization creator={item.creator} />;
+}
+
+function dateBody(type: Props["type"]) {
+  return (item: CollectionDashboardItem) => (
+    <DateItem date={type === "creations" ? item.created : item.modified} />
+  );
+}
+
+function statusBody(item: CollectionDashboardItem) {
+  return <PublicationFemale object={{ validationState: item.validationState }} />;
+}
+
 export const CollectionsCreationsModifications = ({ collectionsData, type }: Readonly<Props>) => {
   const { t } = useTranslation();
 
@@ -36,25 +50,13 @@ export const CollectionsCreationsModifications = ({ collectionsData, type }: Rea
     >
       <Column field="label" header={t("dashboard.collections.labelColumn")} />
       <Column field="nbMembers" header={t("dashboard.collections.membersColumn")} />
-      <Column
-        field="creator"
-        header={t("dashboard.ownerColumn")}
-        body={(item: CollectionDashboardItem) => <InseeOrganization creator={item.creator} />}
-      />
+      <Column field="creator" header={t("dashboard.ownerColumn")} body={ownerBody} />
       <Column
         field={dateField}
         header={type === "creations" ? t("dashboard.createdColumn") : t("dashboard.modifiedColumn")}
-        body={(item: CollectionDashboardItem) => (
-          <DateItem date={type === "creations" ? item.created : item.modified} />
-        )}
+        body={dateBody(type)}
       />
-      <Column
-        field="validationState"
-        header={t("dashboard.statusColumn")}
-        body={(item: CollectionDashboardItem) => (
-          <PublicationFemale object={{ validationState: item.validationState }} />
-        )}
-      />
+      <Column field="validationState" header={t("dashboard.statusColumn")} body={statusBody} />
     </DateFilteredTable>
   );
 };

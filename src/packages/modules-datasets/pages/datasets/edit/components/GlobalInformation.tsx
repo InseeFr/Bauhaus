@@ -40,6 +40,16 @@ const GlobalInformationTab = ({
 }: Readonly<GlobalInformationTypes>) => {
   const { t } = useTranslation();
 
+  if (editingDataset?.updated?.includes("T")) {
+    editingDataset.updated = editingDataset.updated.substring(
+      0,
+      editingDataset.updated.indexOf("T"),
+    );
+  }
+  if (editingDataset?.issued?.includes("T")) {
+    editingDataset.issued = editingDataset.issued.substring(0, editingDataset.issued.indexOf("T"));
+  }
+
   const clFreqOptions = convertCodelistToSelectOption(props[CL_FREQ]);
 
   const { data: themesOptions = [] } = useThemes();

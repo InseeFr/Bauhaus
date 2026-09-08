@@ -12,7 +12,6 @@ import { CreationUpdateItems } from "@components/creation-update-items";
 import { ErrorBloc } from "@components/errors-bloc";
 import { Row } from "@components/layout";
 import { Note } from "@components/note";
-import { Panel } from "@components/panel";
 import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
 
 import { Organization } from "@model/organization";
@@ -24,14 +23,11 @@ import { EMPTY_ARRAY } from "@utils/array-utils";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
 import { RubricEssentialMsg } from "../../components/RubricEssentialMsg";
-import { SimsFieldTitle } from "../../components/SimsFieldTitle";
-import { hasLabelLg2 } from "../../utils/hasLabelLg2";
-import { shouldDisplayTitleForPrimaryItem } from "../../utils/shouldDisplayTitleForPrimaryItem";
 import { Menu } from "../menu";
 import { getParentUri } from "../utils/getParentUri";
 import "./SimsVisualization.css";
 import { MissingDocumentsErrorBloc } from "./MissingDocumentsErrorBloc";
-import { SimsBlock } from "./SimsBlock";
+import { MSDInformations } from "./MSDInformations";
 
 // Mirror of ErrorCodes.SIMS_PUBLICATION_MISSING_DOCUMENTS on the back-end : a SIMS
 // publication blocked because some referenced documents are missing from storage.
@@ -83,58 +79,6 @@ export function SimsVisualization({
   });
 
   const rubrics = sims.rubrics as unknown as Record<string, Rubric>;
-
-  function MSDInformations({
-    msd,
-    firstLevel = false,
-  }: Readonly<{ msd: any; firstLevel?: boolean }>) {
-    return (
-      <>
-        {firstLevel && shouldDisplayTitleForPrimaryItem(msd) && (
-          <h3 className="col-md-12 sims-title">
-            {msd.idMas} - {msd.masLabelBasedOnCurrentLang}
-          </h3>
-        )}
-        <div className="sims-row" key={msd.idMas} id={msd.idMas}>
-          {!msd.isPresentational && (
-            <Panel
-              title={
-                <SimsFieldTitle secondLang={false} msd={msd} currentSection={rubrics[msd.idMas]} />
-              }
-            >
-              <SimsBlock
-                msd={msd}
-                isSecondLang={false}
-                currentSection={rubrics[msd.idMas]}
-                unbounded={msd.maxOccurs === "unbounded"}
-                codelists={codelists}
-                organizations={organizations}
-              />
-            </Panel>
-          )}
-          {!msd.isPresentational && hasLabelLg2(msd) && secondLang && (
-            <Panel
-              title={
-                <SimsFieldTitle secondLang={true} msd={msd} currentSection={rubrics[msd.idMas]} />
-              }
-            >
-              <SimsBlock
-                msd={msd}
-                isSecondLang={true}
-                currentSection={rubrics[msd.idMas]}
-                unbounded={msd.maxOccurs === "unbounded"}
-                codelists={codelists}
-                organizations={organizations}
-              />
-            </Panel>
-          )}
-        </div>
-        {Object.values(msd.children).map((child: any) => (
-          <MSDInformations key={child.idMas} msd={child} />
-        ))}
-      </>
-    );
-  }
 
   const [serverSideError, setServerSideError] = useState<unknown>();
 
@@ -319,7 +263,17 @@ export function SimsVisualization({
           />
         </Row>
         {Object.values(metadataStructure).map((msd: any) => {
-          return <MSDInformations key={msd.idMas} msd={msd} firstLevel={true} />;
+          return (
+            <MSDInformations
+              key={msd.idMas}
+              msd={msd}
+              firstLevel={true}
+              rubrics={rubrics}
+              secondLang={secondLang}
+              codelists={codelists}
+              organizations={organizations}
+            />
+          );
         })}
       </Row>
     </>

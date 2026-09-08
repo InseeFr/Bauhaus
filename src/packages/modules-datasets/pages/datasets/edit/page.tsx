@@ -31,10 +31,15 @@ import { StatisticalInformation } from "./components/StatisticalInformation";
 import { validate } from "./validation";
 
 interface DatasetEditLayoutItem extends LayoutItemConfiguration {
-  content: () => ReactNode;
+  content: ReactNode;
 }
 
 type DatasetEditLayoutConfiguration = Record<string, DatasetEditLayoutItem>;
+
+type ClientSideErrors = {
+  errorMessage?: string[];
+  fields?: Record<string, string>;
+};
 
 export const Component = () => {
   const { t } = useTranslation();
@@ -47,10 +52,7 @@ export const Component = () => {
 
   const [editingDataset, setEditingDataset] = useState<Dataset>({} as Dataset);
 
-  const [clientSideErrors, setClientSideErrors] = useState<{
-    errorMessage?: string[];
-    fields?: Record<string, string>;
-  }>({});
+  const [clientSideErrors, setClientSideErrors] = useState<ClientSideErrors>({});
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -114,28 +116,14 @@ export const Component = () => {
     globalInformation: {
       title: t("dataset.globalInformation.title"),
       hasError: hasErrors(["labelLg1", "labelLg2"]),
-      content: () => {
-        if (editingDataset?.updated?.includes("T")) {
-          editingDataset.updated = editingDataset.updated.substring(
-            0,
-            editingDataset.updated.indexOf("T"),
-          );
-        }
-        if (editingDataset?.issued?.includes("T")) {
-          editingDataset.issued = editingDataset.issued.substring(
-            0,
-            editingDataset.issued.indexOf("T"),
-          );
-        }
-        return (
-          <GlobalInformation
-            editingDataset={editingDataset}
-            setEditingDataset={setEditingDataset}
-            clientSideErrors={clientSideErrors}
-            setClientSideErrors={setClientSideErrors}
-          />
-        );
-      },
+      content: (
+        <GlobalInformation
+          editingDataset={editingDataset}
+          setEditingDataset={setEditingDataset}
+          clientSideErrors={clientSideErrors}
+          setClientSideErrors={setClientSideErrors}
+        />
+      ),
     },
     internalManagement: {
       title: t("dataset.internalManagement.title"),
@@ -146,7 +134,7 @@ export const Component = () => {
         "idSerie",
         "altIdentifier",
       ]),
-      content: () => (
+      content: (
         <InternalManagement
           editingDataset={editingDataset}
           setEditingDataset={setEditingDataset}
@@ -157,13 +145,11 @@ export const Component = () => {
     },
     notes: {
       title: t("dataset.notes.title"),
-      content: () => (
-        <Notes editingDataset={editingDataset} setEditingDataset={setEditingDataset} />
-      ),
+      content: <Notes editingDataset={editingDataset} setEditingDataset={setEditingDataset} />,
     },
     statisticalInformation: {
       title: t("dataset.statisticalInformation.title"),
-      content: () => (
+      content: (
         <StatisticalInformation
           editingDataset={editingDataset}
           setEditingDataset={setEditingDataset}
@@ -199,7 +185,7 @@ export const Component = () => {
       <ErrorBloc error={[serverSideError]} />
       <form>
         <LayoutWithLateralMenu layoutConfiguration={layoutConfiguration}>
-          {(key) => layoutConfiguration[key].content()}
+          {(key) => layoutConfiguration[key].content}
         </LayoutWithLateralMenu>
       </form>
     </div>

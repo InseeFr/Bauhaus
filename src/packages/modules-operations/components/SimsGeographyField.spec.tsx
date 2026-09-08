@@ -125,9 +125,7 @@ describe("SimsGeographyField", () => {
       onSave: mockOnSave,
     });
 
-    const buttons = container.querySelectorAll<HTMLButtonElement>(
-      '.btn-group[role="group"] button',
-    );
+    const buttons = container.querySelectorAll<HTMLButtonElement>("fieldset.btn-group button");
     const includeButton = buttons[0];
     expect(includeButton.textContent?.trim()).toBe("Include");
     expect(includeButton.disabled).toBe(true);

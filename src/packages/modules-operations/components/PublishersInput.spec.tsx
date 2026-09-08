@@ -7,7 +7,7 @@ vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
       const translations: Record<string, string> = {
-        "common.organization": "Organization publiante",
+        "common.organization": "Organisation publiante",
       };
       return translations[key] ?? key;
     },

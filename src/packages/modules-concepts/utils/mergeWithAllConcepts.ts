@@ -1,5 +1,4 @@
-import { linkTypes } from "@model/concepts/concept";
-import { Link } from "@model/concepts/concept";
+import { linkTypes, type Link } from "@model/concepts/concept";
 
 import { NONE } from "@sdk/constants";
 
@@ -19,7 +18,7 @@ export const mergeWithAllConcepts = (concepts: { id: string; label: string }[], 
       id,
       label,
       typeOfLink,
-      prefLabelLg1: link && link.prefLabelLg1,
-      prefLabelLg2: link && link.prefLabelLg2,
+      prefLabelLg1: link?.prefLabelLg1,
+      prefLabelLg2: link?.prefLabelLg2,
     };
   });

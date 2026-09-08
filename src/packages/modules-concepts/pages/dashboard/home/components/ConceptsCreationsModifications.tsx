@@ -16,6 +16,24 @@ type Props = {
   type: "creations" | "modifications";
 };
 
+function ownerBody(item: ConceptForAdvancedSearch) {
+  return <InseeOrganization creator={item.creator} />;
+}
+
+function disseminationBody(item: ConceptForAdvancedSearch) {
+  return getDisseminationStatus(item.disseminationStatus);
+}
+
+function dateBody(type: Props["type"]) {
+  return (item: ConceptForAdvancedSearch) => (
+    <DateItem date={type === "creations" ? item.created : item.modified} />
+  );
+}
+
+function statusBody(item: ConceptForAdvancedSearch) {
+  return <PublicationMale object={{ validationState: item.validationState }} />;
+}
+
 export const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<Props>) => {
   const { t } = useTranslation();
 
@@ -35,30 +53,18 @@ export const ConceptsCreationsModifications = ({ conceptsData, type }: Readonly<
       onRowClick={(concept) => navigate(`/concepts/${concept.id}`)}
     >
       <Column field="label" header={t("dashboard.concepts.labelColumn")} />
-      <Column
-        field="creator"
-        header={t("dashboard.ownerColumn")}
-        body={(item: ConceptForAdvancedSearch) => <InseeOrganization creator={item.creator} />}
-      />
+      <Column field="creator" header={t("dashboard.ownerColumn")} body={ownerBody} />
       <Column
         field="disseminationStatus"
         header={t("dashboard.concepts.disseminationColumn")}
-        body={(item: ConceptForAdvancedSearch) => getDisseminationStatus(item.disseminationStatus)}
+        body={disseminationBody}
       />
       <Column
         field={dateField}
         header={type === "creations" ? t("dashboard.createdColumn") : t("dashboard.modifiedColumn")}
-        body={(item: ConceptForAdvancedSearch) => (
-          <DateItem date={type === "creations" ? item.created : item.modified} />
-        )}
+        body={dateBody(type)}
       />
-      <Column
-        field="validationState"
-        header={t("dashboard.statusColumn")}
-        body={(item: ConceptForAdvancedSearch) => (
-          <PublicationMale object={{ validationState: item.validationState }} />
-        )}
-      />
+      <Column field="validationState" header={t("dashboard.statusColumn")} body={statusBody} />
     </DateFilteredTable>
   );
 };

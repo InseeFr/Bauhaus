@@ -154,7 +154,7 @@ export const StructureComponentsSelector = ({
     (e: any) => {
       e.stopPropagation();
       // Le contributeur par défaut est résolu par le formulaire de la
-      // composante (organization de l'utilisateur ou contributeur par défaut
+      // composante (organisation de l'utilisateur ou contributeur par défaut
       // de l'instance) : il ne doit pas être figé ici.
       setSelectedComponent({
         disseminationStatus: structure?.disseminationStatus,

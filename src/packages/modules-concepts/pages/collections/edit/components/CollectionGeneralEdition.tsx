@@ -47,9 +47,7 @@ export function CollectionGeneralEdition({
   errors,
   creation,
 }: Readonly<CollectionGeneralEditionProps>) {
-  const { t, i18n } = useTranslation();
-  const t1 = i18n.getFixedT("fr");
-  const t2 = i18n.getFixedT("en");
+  const { t } = useTranslation();
 
   const { id, prefLabelLg1, prefLabelLg2, creator, contributor, descriptionLg1, descriptionLg2 } =
     general;
@@ -77,7 +75,9 @@ export function CollectionGeneralEdition({
       <Row>
         <InputRmes
           colMd={6}
-          label={t1("common.labelTitle")}
+          label={t("common.labelTitle", {
+            lng: "fr",
+          })}
           star
           value={prefLabelLg1 ?? ""}
           handleChange={(value: string) => handlers.prefLabelLg1?.(value)}
@@ -86,7 +86,9 @@ export function CollectionGeneralEdition({
         />
         <InputRmes
           colMd={6}
-          label={t2("common.labelTitle")}
+          label={t("common.labelTitle", {
+            lng: "en",
+          })}
           hiddenStar
           value={prefLabelLg2 ?? ""}
           handleChange={(value: string) => handlers.prefLabelLg2?.(value)}
@@ -112,14 +114,18 @@ export function CollectionGeneralEdition({
       <Row>
         <InputRmes
           colMd={6}
-          label={t1("common.descriptionTitle")}
+          label={t("common.descriptionTitle", {
+            lng: "fr",
+          })}
           value={descriptionLg1 ?? ""}
           handleChange={(value: string) => handlers.descriptionLg1?.(value)}
           className="w-100"
         />
         <InputRmes
           colMd={6}
-          label={t2("common.descriptionTitle")}
+          label={t("common.descriptionTitle", {
+            lng: "en",
+          })}
           value={descriptionLg2 ?? ""}
           handleChange={(value: string) => handlers.descriptionLg2?.(value)}
           className="w-100"

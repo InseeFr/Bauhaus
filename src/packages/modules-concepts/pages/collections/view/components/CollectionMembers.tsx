@@ -41,6 +41,7 @@ export function CollectionMembers({ members, secondLang }: Readonly<CollectionMe
         text={memberListLg1}
         title={t("collection.membersPanelTitle", {
           size: memberListLg1.length,
+          lng: "fr",
         })}
         alone={!secondLang}
       />

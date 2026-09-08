@@ -28,7 +28,7 @@ export const Component = (props: any) => {
         const result = results as Document;
         setDocument({
           ...result,
-          id: result.uri!.substr(result.uri!.lastIndexOf("/") + 1),
+          id: result.uri!.substring(result.uri!.lastIndexOf("/") + 1),
         });
       });
     }

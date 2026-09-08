@@ -1,6 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { confirmDialog } from "primereact/confirmdialog";
-import { ConfirmDialog } from "primereact/confirmdialog";
 import { Message } from "primereact/message";
 import { Toast } from "primereact/toast";
 import {
@@ -747,7 +746,12 @@ export const Component = () => {
           ...dr,
           LogicalRecord: dr.LogicalRecord?.map((lr: LogicalRecord, lrIndex: number) =>
             lrIndex === 0
-              ? { ...lr, VariablesInRecord: { VariableUsedReference: variableReferences } }
+              ? {
+                  ...lr,
+                  VariablesInRecord: {
+                    VariableUsedReference: variableReferences,
+                  },
+                }
               : lr,
           ),
         };
@@ -775,7 +779,9 @@ export const Component = () => {
       // Valeurs sentinelles (#1566) : la sauvegarde peut avoir modifié une MMVR / sa CodeList ou
       // changé ses usages — invalider les caches correspondants pour relire l'état réel.
       queryClient.invalidateQueries({ queryKey: ["mmvrUsers"] });
-      queryClient.invalidateQueries({ queryKey: ["groupMissingValuesRepresentations"] });
+      queryClient.invalidateQueries({
+        queryKey: ["groupMissingValuesRepresentations"],
+      });
       queryClient.invalidateQueries({ queryKey: ["mutualizedCodeList"] });
 
       toast.current?.show({
