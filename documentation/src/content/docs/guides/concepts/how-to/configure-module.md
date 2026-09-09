@@ -24,6 +24,8 @@ fr.insee.rmes.bauhaus:
 
 ## Hide a module
 
-Remove it from the list. A module that is not declared has no tile on the home page,
-its routes answer with an "under maintenance" message, and its REST controllers are
-not loaded at all.
+Remove it from the list. A module that is not declared has no tile on the home page and
+its REST controllers are not loaded at all. On the front end its home page answers with
+an "under maintenance" message, and none of its other pages is reachable: their routes
+are not declared, so a deep link answers "page not found" without ever downloading the
+module code.

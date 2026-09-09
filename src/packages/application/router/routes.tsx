@@ -1,5 +1,11 @@
 import { Suspense, useMemo } from "react";
-import { createBrowserRouter, Navigate, Outlet, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  RouteObject,
+  RouterProvider,
+} from "react-router-dom";
 
 import { Loading } from "@components/loading";
 import { NotFound, UnderMaintenance } from "@components/not-found";
@@ -17,6 +23,7 @@ import { routes as StructuresRoutes } from "../../modules-structures/routes/inde
 import { routes as DDIRoutes } from "../../modules-ddi/routes/index";
 import App from "../app";
 import { useAppContext } from "../app-context";
+import type { AppName, Module } from "../app-context";
 import "./routes.css";
 
 const HomePage = () => {
@@ -70,23 +77,37 @@ export const Logout = () => {
   );
 };
 
+const MODULE_ROUTES: Record<AppName, RouteObject[]> = {
+  concepts: ConceptsRoutes,
+  classifications: ClassificationsRoutes,
+  operations: OperationsRoutes,
+  structures: StructuresRoutes,
+  datasets: DatasetsRoutes,
+  codelists: CodelistsRoutes,
+  ddi: DDIRoutes,
+};
+
+/* Un module absent de la configuration n'expose aucune de ses pages : ses routes filles
+   ne sont pas déclarées, si bien qu'une URL profonde ne matche plus que la route `*` et
+   que le chunk du module n'est jamais chargé. Sa racine reste annoncée en maintenance. */
+export const buildModuleRoutes = (modules: Module[]): RouteObject[] =>
+  Object.entries(MODULE_ROUTES).map(([identifier, children]) => {
+    if (!modules.some((m) => m.identifier === identifier)) {
+      return { path: identifier, element: <UnderMaintenance /> };
+    }
+
+    return {
+      path: identifier,
+      lazy: () => import(`../../modules-${identifier}/routes/layout.tsx`),
+      children,
+    };
+  });
+
 export default () => {
   const {
     properties: { modules },
   } = useAppContext();
 
-  const getModuleHomePageRouter = (pageName: string) => {
-    const module = modules.find((m) => m.identifier === pageName);
-    if (!module) {
-      return {
-        element: <UnderMaintenance />,
-      };
-    }
-
-    return {
-      lazy: () => import(`../../modules-${pageName}/routes/layout.tsx`),
-    };
-  };
   const router = createBrowserRouter([
     {
       path: "logout",
@@ -97,41 +118,7 @@ export default () => {
       element: <MainLayout />,
       children: [
         { path: "", element: <HomePage /> },
-        {
-          path: "concepts",
-          ...getModuleHomePageRouter("concepts"),
-          children: ConceptsRoutes,
-        },
-        {
-          path: "classifications",
-          ...getModuleHomePageRouter("classifications"),
-          children: ClassificationsRoutes,
-        },
-        {
-          path: "operations",
-          ...getModuleHomePageRouter("operations"),
-          children: OperationsRoutes,
-        },
-        {
-          path: "structures",
-          ...getModuleHomePageRouter("structures"),
-          children: StructuresRoutes,
-        },
-        {
-          path: "datasets",
-          ...getModuleHomePageRouter("datasets"),
-          children: DatasetsRoutes,
-        },
-        {
-          path: "codelists",
-          ...getModuleHomePageRouter("codelists"),
-          children: CodelistsRoutes,
-        },
-        {
-          path: "ddi",
-          ...getModuleHomePageRouter("ddi"),
-          children: DDIRoutes,
-        },
+        ...buildModuleRoutes(modules),
         {
           path: "*",
           element: <NotFound />,
