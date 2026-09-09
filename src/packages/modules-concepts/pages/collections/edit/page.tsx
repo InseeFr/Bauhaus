@@ -6,6 +6,7 @@ import { Loading, Saving } from "@components/loading";
 
 import { CollectionWithMembers } from "@model/concepts/collection";
 
+import { useIsDefaultContributorPending } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useCollection } from "../../../hooks/useCollection";
@@ -30,6 +31,9 @@ export const Component = () => {
   const { concepts, isLoading: isConceptLoading } = useConcepts();
 
   const { save, isSaving } = useCollectionSave(id);
+  // Le formulaire fige `general` dans son état à l'initialisation : on attend
+  // que le contributeur par défaut soit résolu avant de le monter.
+  const isDefaultContributorPending = useIsDefaultContributorPending();
 
   const { general, members = [] } = (collection ?? {}) as Partial<CollectionWithMembers>;
 
@@ -39,7 +43,12 @@ export const Component = () => {
     return <Saving />;
   }
 
-  if (isConceptLoading || (!isCreation && loadingCollection) || !general) {
+  if (
+    isConceptLoading ||
+    (!isCreation && loadingCollection) ||
+    !general ||
+    (isCreation && isDefaultContributorPending)
+  ) {
     return <Loading />;
   }
 

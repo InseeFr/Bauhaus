@@ -5,6 +5,9 @@ import { vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
 
+import { useOrganizations } from "@utils/hooks/organizations";
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
+
 import { useAppContext } from "../../application/app-context";
 import { useConcept } from "./useConcept";
 
@@ -24,7 +27,34 @@ vi.mock("@utils/html-utils", () => ({
   rmesHtmlToRawHtml: vi.fn((html) => html),
 }));
 
+vi.mock("@utils/hooks/organizations", () => ({
+  useOrganizations: vi.fn(),
+}));
+
+vi.mock("@utils/hooks/users", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
+  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
+});
+
+const USER_STAMP = "DG75-L201";
+const USER_ORGANISATION_IRI = "http://bauhaus/organisations/insee/HIE2001201";
+const DEFAULT_CONTRIBUTOR_IRI = "http://bauhaus/organisations/insee/HIE3014990";
+
 const mockUseAppContext = vi.mocked(useAppContext);
+const mockUseOrganizations = vi.mocked(useOrganizations);
+const mockUsePrivileges = vi.mocked(usePrivileges);
+const mockUseUserStamps = vi.mocked(useUserStamps);
+
+const canCreateConcepts = () =>
+  mockUsePrivileges.mockReturnValue({
+    privileges: [
+      {
+        application: "CONCEPT_CONCEPT",
+        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+      },
+    ],
+    isPending: false,
+  });
 const mockGetConceptGeneral = vi.mocked(ConceptsApi.getConceptGeneral);
 const mockGetNoteVersionList = vi.mocked(ConceptsApi.getNoteVersionList);
 const mockGetConceptLinkList = vi.mocked(ConceptsApi.getConceptLinkList);
@@ -41,8 +71,23 @@ describe("useConcept", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockUseAppContext.mockReturnValue({
-      properties: { defaultContributor: "DG75-L201" },
+      properties: { defaultContributor: DEFAULT_CONTRIBUTOR_IRI },
     } as ReturnType<typeof useAppContext>);
+    mockUsePrivileges.mockReturnValue({ privileges: [], isPending: false });
+    mockUseUserStamps.mockReturnValue({
+      data: [{ stamp: USER_STAMP }],
+    } as ReturnType<typeof useUserStamps>);
+    mockUseOrganizations.mockReturnValue({
+      data: [
+        {
+          iri: USER_ORGANISATION_IRI,
+          id: "HIE2001201",
+          stamp: USER_STAMP,
+          label: "Organisation de l'utilisateur",
+          labelLg2: "User organisation",
+        },
+      ],
+    } as ReturnType<typeof useOrganizations>);
   });
 
   it("does not call the API when id is undefined", () => {
@@ -97,5 +142,23 @@ describe("useConcept", () => {
     });
 
     expect(result.current.isFetching).toBe(true);
+  });
+
+  it("pré-remplit le contributeur avec l'organisation de l'utilisateur habilité à créer", () => {
+    canCreateConcepts();
+
+    const { result } = renderHook(() => useConcept(undefined), {
+      wrapper: createWrapper(),
+    });
+
+    expect(result.current.data?.general.contributor).toBe(USER_ORGANISATION_IRI);
+  });
+
+  it("retombe sur le contributeur par défaut de l'instance sans droit de création", () => {
+    const { result } = renderHook(() => useConcept(undefined), {
+      wrapper: createWrapper(),
+    });
+
+    expect(result.current.data?.general.contributor).toBe(DEFAULT_CONTRIBUTOR_IRI);
   });
 });

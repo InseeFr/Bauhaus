@@ -5,7 +5,7 @@ import { objectFromKeys } from "@utils/object-from-keys";
 import { conceptNoteFields } from "./conceptNoteFields";
 import { emptyConceptGeneralWithContributor } from "./emptyConceptGeneralWithContributor";
 
-export const emptyConcept = (defaultContributor: string): Concept => ({
+export const emptyConcept = (defaultContributor: string | undefined): Concept => ({
   general: emptyConceptGeneralWithContributor(defaultContributor) as unknown as ConceptGeneral,
   links: [],
   notes: objectFromKeys(conceptNoteFields, "") as unknown as ConceptNotes,

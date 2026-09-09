@@ -34,7 +34,6 @@ describe("concept-edition-creation-general", () => {
     render(
       <ConceptGeneral
         general={emptyConceptGeneral() as unknown as ConceptGeneralType}
-        stampList={[]}
         handleChange={vi.fn()}
       />,
     );

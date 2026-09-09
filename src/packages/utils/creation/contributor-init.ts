@@ -41,12 +41,17 @@ export const resolveContributorIri = ({
   useUserOrganization,
 }: {
   userStamp: string | undefined;
-  organizations: Pick<Organization, "iri" | "id">[];
+  organizations: Pick<Organization, "iri" | "id" | "stamp">[];
   defaultContributor: string | undefined;
   useUserOrganization: boolean;
 }): string | undefined => {
+  // Le jeton porte le timbre (`dcterms:identifier`, DG75-L201) tandis que `id`
+  // est l'`adms:identifier` (HIE2001201) : le référentiel expose les deux, et
+  // selon les organisations c'est l'un ou l'autre qui correspond.
   const userOrganization = useUserOrganization
-    ? organizations.find((organization) => organization.id === userStamp)?.iri
+    ? organizations.find(
+        (organization) => organization.id === userStamp || organization.stamp === userStamp,
+      )?.iri
     : undefined;
 
   return [userOrganization, defaultContributor].find(isIri);

@@ -199,5 +199,6 @@ See [Project Structure](../reference/project-structure/) for the expected module
 
 - [Getting Started](../getting-started/) - Developer getting started guide
 - [Project Structure](../reference/project-structure/) - Module layout, I18N, and form validation reference
-- [Colectica Integration](../colectica/) - Colectica Repository integration
+- [Colectica API Reference](../variables/reference/colectica-api/) - Calls exchanged with Colectica Repository
+- [Overview — Variables Module](../variables/explanation/overview/) - The module built on top of Colectica
 - [Bauhaus Back-Office](https://github.com/InseeFr/Bauhaus-Back-Office) - Backend GitHub repository

@@ -4,6 +4,7 @@ import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
 
+import { useIsDefaultContributorPending } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAppContext } from "../../../../application/app-context";
@@ -31,6 +32,10 @@ vi.mock("../../../../application/app-context", () => ({
 
 vi.mock("../../../../utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
+}));
+
+vi.mock("../../../../utils/creation/use-default-contributor", () => ({
+  useIsDefaultContributorPending: vi.fn(),
 }));
 
 vi.mock("../../../hooks/useConcept", () => ({
@@ -82,8 +87,15 @@ describe("Component (edition-container)", () => {
       },
     });
     (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: false });
-    (useConcept as Mock).mockReturnValue({ data: mockConcept, isLoading: false });
-    (useConceptSave as Mock).mockReturnValue({ save: vi.fn(), isSaving: false });
+    (useConcept as Mock).mockReturnValue({
+      data: mockConcept,
+      isLoading: false,
+    });
+    (useConceptSave as Mock).mockReturnValue({
+      save: vi.fn(),
+      isSaving: false,
+    });
+    (useIsDefaultContributorPending as Mock).mockReturnValue(false);
   });
 
   describe("creation mode (no id)", () => {
@@ -96,6 +108,14 @@ describe("Component (edition-container)", () => {
 
       expect(screen.getByTestId("concept-edition-creation")).toBeInTheDocument();
       expect(screen.getByTestId("is-creation").textContent).toBe("true");
+    });
+
+    it("attend la résolution du contributeur par défaut avant d'afficher le formulaire", () => {
+      (useIsDefaultContributorPending as Mock).mockReturnValue(true);
+
+      renderWithRouter(<Component />);
+
+      expect(screen.getByTestId("loading")).toBeInTheDocument();
     });
 
     it("shows loading when concepts are loading", () => {
@@ -119,8 +139,19 @@ describe("Component (edition-container)", () => {
       expect(screen.getByTestId("is-creation").textContent).toBe("false");
     });
 
+    it("n'attend pas la résolution du contributeur par défaut en modification", () => {
+      (useIsDefaultContributorPending as Mock).mockReturnValue(true);
+
+      renderWithRouter(<Component />);
+
+      expect(screen.getByTestId("concept-edition-creation")).toBeInTheDocument();
+    });
+
     it("shows loading when concept is loading", () => {
-      (useConcept as Mock).mockReturnValue({ data: mockConcept, isLoading: true });
+      (useConcept as Mock).mockReturnValue({
+        data: mockConcept,
+        isLoading: true,
+      });
 
       renderWithRouter(<Component />);
 

@@ -4,9 +4,11 @@ import { Concept, ConceptNotes } from "@model/concepts/concept";
 
 import { ConceptsApi } from "@sdk/index";
 
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+import { MODULES, PRIVILEGES } from "@utils/hooks/users";
 import { rmesHtmlToRawHtml } from "@utils/html-utils";
 
-import { useAppContext } from "../../application/app-context";
+import { useAuthorizationGuard } from "../../auth/components/auth";
 import { emptyConcept } from "../utils/emptyConcept";
 import { emptyConceptGeneral } from "../utils/emptyConceptGeneral";
 import { emptyConceptNotes } from "../utils/emptyConceptNotes";
@@ -21,8 +23,11 @@ const formatNotes = (notes: ConceptNotes): ConceptNotes => ({
 });
 
 export const useConcept = (id: string | undefined) => {
-  const defaultContributor = useAppContext().properties.defaultContributor;
-
+  const isContributor = useAuthorizationGuard({
+    module: MODULES.CONCEPT_CONCEPT,
+    privilege: PRIVILEGES.CREATE,
+  });
+  const defaultContributor = useDefaultContributor(isContributor);
   return useQuery<Concept>({
     queryKey: ["concept", id],
     queryFn: async () => {

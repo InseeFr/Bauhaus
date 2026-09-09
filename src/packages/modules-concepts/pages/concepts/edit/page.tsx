@@ -8,6 +8,7 @@ import { Link } from "@model/concepts/concept";
 
 import { CLOSE_MATCH } from "@sdk/constants";
 
+import { useIsDefaultContributorPending } from "@utils/creation/use-default-contributor";
 import { useTitle } from "@utils/hooks/useTitle";
 import { useUrlSection } from "@utils/hooks/useUrlSection";
 
@@ -36,13 +37,22 @@ export const Component = () => {
 
   const { save, isSaving } = useConceptSave(id);
 
+  // Le formulaire fige `general` dans son état à l'initialisation : on attend
+  // que le contributeur par défaut soit résolu avant de le monter.
+  const isDefaultContributorPending = useIsDefaultContributorPending();
+
   const [submitting, setSubmitting] = useState(false);
 
   const [section, setSection] = useUrlSection("general");
 
   useTitle(t("concept.title"), concept?.general?.prefLabelLg1);
 
-  if (isLoadingConcept || isLoadingConcepts || !concept) {
+  if (
+    isLoadingConcept ||
+    isLoadingConcepts ||
+    !concept ||
+    (isCreation && isDefaultContributorPending)
+  ) {
     return <Loading />;
   }
 

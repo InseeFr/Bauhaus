@@ -39,7 +39,6 @@ interface ConceptGeneralEditionProps {
   general: ConceptGeneral;
   handleChange: (update: Partial<ConceptGeneral>) => void;
   errorMessage?: { fields: Record<string, string>; errorMessage: string[] };
-  stampList?: { value: string; label: string }[];
 }
 
 export function ConceptGeneralEdition({

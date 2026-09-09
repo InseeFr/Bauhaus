@@ -63,7 +63,10 @@ export const Component = () => {
 
   const { data: dataset, status } = useDataset(id);
 
-  const isContributor = useAuthorizationGuard({ module: "DATASET_DATASET", privilege: "CREATE" });
+  const isContributor = useAuthorizationGuard({
+    module: "DATASET_DATASET",
+    privilege: "CREATE",
+  });
 
   const defaultContributor = useDefaultContributor(isContributor);
   useEffect(() => {
@@ -86,7 +89,10 @@ export const Component = () => {
     error: serverSideError,
   } = useMutation({
     mutationFn: () => {
-      const formattedDataset = { ...editingDataset, themes: editingDataset.themes ?? [] };
+      const formattedDataset = {
+        ...editingDataset,
+        themes: editingDataset.themes ?? [],
+      };
       if (isEditing) {
         return DatasetsApi.putDataset(formattedDataset);
       }

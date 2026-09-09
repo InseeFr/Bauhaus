@@ -51,7 +51,6 @@ describe("concept-edition-creation", () => {
     } as unknown as ConceptGeneral,
     notes: {} as ConceptNotes,
     conceptsWithLinks: [],
-    stampList: [],
     save: vi.fn(),
     setSubmitting: vi.fn(),
     submitting: false,

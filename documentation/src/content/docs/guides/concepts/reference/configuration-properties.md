@@ -12,7 +12,7 @@ Default values are defined in `bauhaus-core.properties`.
 | `fr.insee.rmes.bauhaus.concepts.graph` | String | `concepts/definitions` | Named graph in GraphDB where concepts are stored |
 | `fr.insee.rmes.bauhaus.concepts.scheme` | String | `concepts/definitions/scheme` | IRI of the SKOS Concept Scheme |
 | `fr.insee.rmes.bauhaus.concepts.baseURI` | String | `concepts/definition` | Base URI used to mint concept IRIs |
-| `fr.insee.rmes.bauhaus.concepts.defaultContributor` | String | `http://bauhaus/organisations/insee/HIE2001203` | Default contributor IRI assigned to new concepts |
+| `fr.insee.rmes.bauhaus.defaultContributor` | String | `http://bauhaus/organisations/insee/HIE3014990` | Default contributor IRI assigned to new concepts |
 | `fr.insee.rmes.bauhaus.concepts.defaultMailSender` | String | `dg75-administration-rmes@insee.fr` | Sender address for concept notification emails |
 | `fr.insee.rmes.bauhaus.concepts.maxLengthScopeNote` | Integer | `350` | Maximum number of characters allowed in a scope note |
 

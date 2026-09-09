@@ -50,7 +50,6 @@ interface ConceptEditionCreationProps {
   conceptsWithLinks: ConceptWithLink[];
   equivalentLinks?: (Link & { urn: string })[];
   maxLengthScopeNote: number;
-  stampList?: { value: string; label: string }[];
   save: SaveFn;
   submitting: boolean;
   setSubmitting: (value: boolean) => void;
