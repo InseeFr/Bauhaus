@@ -269,6 +269,7 @@ export const ComponentDetailEdit = ({
     module: "STRUCTURE_COMPONENT",
     privilege: "CREATE",
   });
+
   const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {

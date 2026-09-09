@@ -76,6 +76,7 @@ export const CodelistDetailEdit = ({
     module: "CODESLIST_CODESLIST",
     privilege: "CREATE",
   });
+
   const defaultContributor = useDefaultContributor(isContributor);
 
   useEffect(() => {
