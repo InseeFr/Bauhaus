@@ -48,11 +48,7 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({});
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          openModule("analytics"),
-          openModule("admin"),
-          openModule("users"),
-        ],
+        modules: [openModule("analytics"), openModule("admin"), openModule("users")],
       },
     });
 
@@ -73,11 +69,7 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({ privileges: ["admin"] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          openModule("analytics"),
-          openModule("admin"),
-          openModule("users"),
-        ],
+        modules: [openModule("analytics"), openModule("admin"), openModule("users")],
       },
     });
 
@@ -104,10 +96,7 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          openModule("concepts"),
-          openModule("structures"),
-        ],
+        modules: [openModule("concepts"), openModule("structures")],
       },
     });
 
@@ -202,10 +191,7 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          openModule("concepts"),
-          { identifier: "ddi", show: false, directAccess: true },
-        ],
+        modules: [openModule("concepts"), { identifier: "ddi", show: false, directAccess: true }],
       },
     });
 
@@ -225,10 +211,7 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          openModule("concepts"),
-          openModule("ddi"),
-        ],
+        modules: [openModule("concepts"), openModule("ddi")],
       },
     });
 
@@ -247,10 +230,7 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          openModule("concepts"),
-          openModule("classifications"),
-        ],
+        modules: [openModule("concepts"), openModule("classifications")],
       },
     });
 
