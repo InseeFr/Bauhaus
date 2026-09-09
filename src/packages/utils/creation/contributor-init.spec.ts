@@ -68,7 +68,7 @@ describe("resolveContributorIri", () => {
       useUserOrganization: true,
     });
 
-    expect(result).toBe("http://bauhaus/organisations/insee/HIE2001201");
+    expect(result).toBe("http://bauhaus/organizations/insee/HIE2001201");
   });
 
   it("retombe sur le contributeur par défaut quand le timbre est inconnu du référentiel", () => {
