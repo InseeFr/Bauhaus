@@ -32,13 +32,13 @@ describe("initializeContributorProperty", () => {
 describe("resolveContributorIri", () => {
   const organizations = [
     {
-      iri: "http://bauhaus/organisations/insee/HIE2001201",
+      iri: "http://bauhaus/organizations/insee/HIE2001201",
       id: "HIE2001201",
       stamp: "DG75-L201",
       label: "Division",
     },
     {
-      iri: "http://bauhaus/organisations/insee/HIE2000001",
+      iri: "http://bauhaus/organizations/insee/HIE2000001",
       id: "HIE2000001",
       stamp: "DG75-A001",
       label: "DG",
