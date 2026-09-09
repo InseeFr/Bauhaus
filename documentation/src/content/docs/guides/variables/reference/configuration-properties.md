@@ -74,5 +74,4 @@ Prefix: `fr.insee.rmes.bauhaus.colectica`
 
 | Property | Status |
 |----------|--------|
-| `fr.insee.rmes.bauhaus.colectica.mock-server-enabled` | Still present in `colectica.yml`, but read by no code. The module has no mock mode |
 | `fr.insee.rmes.bauhaus.colectica.server.token` | Still present in `colectica.yml`, but never bound. In `token` mode the bearer token comes from Keycloak |
