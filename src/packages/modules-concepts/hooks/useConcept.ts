@@ -5,7 +5,7 @@ import { Concept, ConceptNotes } from "@model/concepts/concept";
 import { ConceptsApi } from "@sdk/index";
 
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
-import { MODULES, PRIVILEGES } from "@utils/hooks/users";
+import { MODULES, PRIVILEGES } from "@utils/hooks/rbac-constants";
 import { rmesHtmlToRawHtml } from "@utils/html-utils";
 
 import { useAuthorizationGuard } from "../../auth/components/auth";

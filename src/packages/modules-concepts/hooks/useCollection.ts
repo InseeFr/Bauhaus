@@ -10,7 +10,7 @@ import {
 import { CollectionApi } from "@sdk/new-collection-api";
 
 import { useDefaultContributor } from "@utils/creation/use-default-contributor";
-import { MODULES, PRIVILEGES } from "@utils/hooks/users";
+import { MODULES, PRIVILEGES } from "@utils/hooks/rbac-constants";
 
 import { useAuthorizationGuard } from "../../auth/components/auth";
 import { emptyCollection } from "../utils/emptyCollection";
