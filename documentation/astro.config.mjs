@@ -115,6 +115,11 @@ export default defineConfig({
           collapsed: true,
           items: [
             {
+              label: "Tutorial: Getting Started",
+              link:
+                import.meta.env.BASE_URL + "guides/getting-started-variables/",
+            },
+            {
               label: "Explanation",
               items: [
                 { autogenerate: { directory: "guides/variables/explanation" } },
@@ -129,10 +134,7 @@ export default defineConfig({
             {
               label: "Reference",
               items: [
-                {
-                  label: "Colectica API",
-                  link: import.meta.env.BASE_URL + "guides/colectica/",
-                },
+                { autogenerate: { directory: "guides/variables/reference" } },
               ],
             },
           ],
