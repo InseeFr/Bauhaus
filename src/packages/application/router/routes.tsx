@@ -77,7 +77,7 @@ export default () => {
 
   const getModuleHomePageRouter = (pageName: string) => {
     const module = modules.find((m) => m.identifier === pageName);
-    if (!module || module.disabled) {
+    if (!module) {
       return {
         element: <UnderMaintenance />,
       };

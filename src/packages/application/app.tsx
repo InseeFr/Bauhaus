@@ -15,47 +15,29 @@ import { useAppContext } from "./app-context";
 import type { AppName, Module } from "./app-context";
 import "./app.css";
 
-const AppCard = ({ app, disabled }: { app: string; disabled: boolean }) => {
+const AppCard = ({ app }: { app: string }) => {
   const getAppTitle = (appKey: string): string => {
     const titleKey = `${appKey}Title`;
     return D[titleKey as keyof typeof D] || appKey;
   };
 
-  const content = (
-    <>
-      <h2 className="items page-title page-title-link">{getAppTitle(app)}</h2>
-      <div className="arrow">
-        <img src={`/img/fleche-01.svg`} alt="" loading="lazy" />
-      </div>
-      <div className="logo">
-        <img src={`/img/${app}-01.svg`} alt="" loading="lazy" />
-      </div>
-    </>
-  );
-
-  /* Module désactivé : la tuile reste à sa place, grisée, mais n'est plus un lien.
-     Le grisé n'étant qu'une convention visuelle, l'indisponibilité est aussi
-     annoncée en texte aux lecteurs d'écran. */
-  if (disabled) {
-    return (
-      <li className={`${app} disabled`}>
-        <div>
-          {content}
-          <span className="sr-only">{D.moduleUnavailable}</span>
-        </div>
-      </li>
-    );
-  }
-
   return (
     <li className={app}>
-      <Link to={`/${app}`}>{content}</Link>
+      <Link to={`/${app}`}>
+        <h2 className="items page-title page-title-link">{getAppTitle(app)}</h2>
+        <div className="arrow">
+          <img src={`/img/fleche-01.svg`} alt="" loading="lazy" />
+        </div>
+        <div className="logo">
+          <img src={`/img/${app}-01.svg`} alt="" loading="lazy" />
+        </div>
+      </Link>
     </li>
   );
 };
 
-/* La première ligne est réservée à ces modules. Quand l'un d'eux est désactivé ou
-   inaccessible, la ligne se réduit au lieu d'être complétée par les modules
+/* La première ligne est réservée à ces modules. Quand l'un d'eux n'est pas déclaré
+   ou pas accessible, la ligne se réduit au lieu d'être complétée par les modules
    suivants, qui restent sur la seconde ligne. */
 const FIRST_ROW_MODULES: AppName[] = ["concepts", "classifications", "operations", "ddi"];
 
@@ -67,9 +49,7 @@ const App = () => {
     properties: { modules },
   } = useAppContext();
 
-  /* Un module désactivé reste affiché (grisé) tant que l'utilisateur y a droit :
-     il est simplement fermé pour l'instant. Un module hors de ses droits, lui,
-     n'a pas à lui être montré du tout. */
+  /* Un module hors des droits de l'utilisateur n'a pas à lui être montré du tout. */
   const accessibleModules = useMemo(() => {
     return modules.filter((m) => hasAccessToModule(m.identifier, privileges));
   }, [modules, privileges]);
@@ -90,7 +70,7 @@ const App = () => {
       {rows.map((row) => (
         <ul key={row[0].identifier} className="home-page-links-row">
           {row.map((m) => (
-            <AppCard key={m.identifier} app={m.identifier} disabled={m.disabled} />
+            <AppCard key={m.identifier} app={m.identifier} />
           ))}
         </ul>
       ))}

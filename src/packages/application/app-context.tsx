@@ -10,7 +10,6 @@ export type AppName =
   | "ddi";
 export interface Module {
   identifier: AppName;
-  disabled: boolean;
 }
 
 export interface AppProperties {

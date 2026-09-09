@@ -22,16 +22,8 @@ fr.insee.rmes.bauhaus:
     - identifier: operations
 ```
 
-## Mark a module as under maintenance
+## Hide a module
 
-Set `disabled: true` to keep the tile visible but block access with an "under maintenance" message:
-
-```yaml
-fr.insee.rmes.bauhaus:
-  modules:
-    - identifier: concepts
-    - identifier: classifications
-      disabled: true
-```
-
-`disabled: false` is the default and can be omitted.
+Remove it from the list. A module that is not declared has no tile on the home page,
+its routes answer with an "under maintenance" message, and its REST controllers are
+not loaded at all.

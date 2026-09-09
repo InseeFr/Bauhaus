@@ -32,7 +32,6 @@ vi.mock("../deprecated-locales", () => ({
     adminTitle: "Administration",
     ddiTitle: "Variables",
     modulesNavigationTitle: "Modules",
-    moduleUnavailable: "Module indisponible pour le moment",
   },
 }));
 
@@ -46,9 +45,9 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "analytics", disabled: false },
-          { identifier: "admin", disabled: false },
-          { identifier: "users", disabled: false },
+          { identifier: "analytics" },
+          { identifier: "admin" },
+          { identifier: "users" },
         ],
       },
     });
@@ -71,9 +70,9 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "analytics", disabled: false },
-          { identifier: "admin", disabled: false },
-          { identifier: "users", disabled: false },
+          { identifier: "analytics" },
+          { identifier: "admin" },
+          { identifier: "users" },
         ],
       },
     });
@@ -102,8 +101,8 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "structures", disabled: false },
+          { identifier: "concepts" },
+          { identifier: "structures" },
         ],
       },
     });
@@ -133,7 +132,7 @@ describe("<App />", () => {
           "codelists",
           "datasets",
           "ddi",
-        ].map((identifier) => ({ identifier, disabled: false })),
+        ].map((identifier) => ({ identifier })),
       },
     });
 
@@ -164,11 +163,11 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "classifications", disabled: false },
-          { identifier: "operations", disabled: false },
-          { identifier: "structures", disabled: false },
-          { identifier: "codelists", disabled: false },
+          { identifier: "concepts" },
+          { identifier: "classifications" },
+          { identifier: "operations" },
+          { identifier: "structures" },
+          { identifier: "codelists" },
         ],
       },
     });
@@ -195,49 +194,13 @@ describe("<App />", () => {
     ).toEqual(["/structures", "/codelists"]);
   });
 
-  it("keeps a disabled module on the page, greyed out and not clickable", () => {
+  it("hides a module the user has no access to", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "classifications", disabled: false },
-          { identifier: "operations", disabled: false },
-          { identifier: "ddi", disabled: true },
-        ],
-      },
-    });
-
-    (hasAccessToModule as any).mockImplementation(() => true);
-
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
-
-    const [firstRow] = screen.getAllByRole("list");
-
-    expect(
-      within(firstRow)
-        .getAllByRole("link")
-        .map((link) => link.getAttribute("href")),
-    ).toEqual(["/concepts", "/classifications", "/operations"]);
-
-    const variables = screen.getByText("Variables").closest("li");
-
-    expect(variables).toBeInTheDocument();
-    expect(variables).toHaveClass("disabled");
-    expect(within(variables!).getByText("Module indisponible pour le moment")).toBeInTheDocument();
-  });
-
-  it("hides a disabled module the user has no access to", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [] });
-    (useAppContext as any).mockReturnValue({
-      properties: {
-        modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "ddi", disabled: true },
+          { identifier: "concepts" },
+          { identifier: "ddi" },
         ],
       },
     });
@@ -258,8 +221,8 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "classifications", disabled: false },
+          { identifier: "concepts" },
+          { identifier: "classifications" },
         ],
       },
     });

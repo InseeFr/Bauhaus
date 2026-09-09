@@ -82,16 +82,6 @@
         width: 28cqi;
       }
     }
-
-    /* Module déclaré mais fermé pour l'instant : la tuile garde sa place dans la
-       grille, en gris et sans affordance de lien. */
-    &.disabled {
-      --primary-color: #a3a3a3;
-      --secondary-color: #a3a3a3;
-
-      box-shadow: 4px 12px 24px #c9c9c9;
-      cursor: default;
-    }
   }
 }
 
