@@ -35,6 +35,10 @@ vi.mock("../deprecated-locales", () => ({
   },
 }));
 
+/* La configuration d'un module porte deux drapeaux ; la plupart des cas ne s'intéressent
+   qu'à sa présence, d'où ce raccourci pour un module pleinement ouvert. */
+const openModule = (identifier: string) => ({ identifier, show: true, directAccess: true });
+
 describe("<App />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -45,9 +49,9 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "analytics" },
-          { identifier: "admin" },
-          { identifier: "users" },
+          openModule("analytics"),
+          openModule("admin"),
+          openModule("users"),
         ],
       },
     });
@@ -70,9 +74,9 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "analytics" },
-          { identifier: "admin" },
-          { identifier: "users" },
+          openModule("analytics"),
+          openModule("admin"),
+          openModule("users"),
         ],
       },
     });
@@ -101,8 +105,8 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts" },
-          { identifier: "structures" },
+          openModule("concepts"),
+          openModule("structures"),
         ],
       },
     });
@@ -132,7 +136,7 @@ describe("<App />", () => {
           "codelists",
           "datasets",
           "ddi",
-        ].map((identifier) => ({ identifier })),
+        ].map(openModule),
       },
     });
 
@@ -163,11 +167,11 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts" },
-          { identifier: "classifications" },
-          { identifier: "operations" },
-          { identifier: "structures" },
-          { identifier: "codelists" },
+          openModule("concepts"),
+          openModule("classifications"),
+          openModule("operations"),
+          openModule("structures"),
+          openModule("codelists"),
         ],
       },
     });
@@ -194,13 +198,36 @@ describe("<App />", () => {
     ).toEqual(["/structures", "/codelists"]);
   });
 
+  it("hides the tile of a module configured with show false", () => {
+    (usePrivileges as any).mockReturnValue({ privileges: [] });
+    (useAppContext as any).mockReturnValue({
+      properties: {
+        modules: [
+          openModule("concepts"),
+          { identifier: "ddi", show: false, directAccess: true },
+        ],
+      },
+    });
+
+    (hasAccessToModule as any).mockImplementation(() => true);
+
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    expect(screen.queryByText("Variables")).not.toBeInTheDocument();
+    expect(screen.getAllByRole("link")).toHaveLength(1);
+  });
+
   it("hides a module the user has no access to", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts" },
-          { identifier: "ddi" },
+          openModule("concepts"),
+          openModule("ddi"),
         ],
       },
     });
@@ -221,8 +248,8 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts" },
-          { identifier: "classifications" },
+          openModule("concepts"),
+          openModule("classifications"),
         ],
       },
     });

@@ -10,6 +10,10 @@ export type AppName =
   | "ddi";
 export interface Module {
   identifier: AppName;
+  /** Tuile du module sur la page d'accueil. */
+  show: boolean;
+  /** Accès aux pages du module par URL, y compris quand sa tuile est masquée. */
+  directAccess: boolean;
 }
 
 export interface AppProperties {

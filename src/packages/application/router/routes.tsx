@@ -26,19 +26,20 @@ import { useAppContext } from "../app-context";
 import type { AppName, Module } from "../app-context";
 import "./routes.css";
 
-const HomePage = () => {
+export const HomePage = () => {
   const {
     properties: { modules },
   } = useAppContext();
 
-  const pages = useMemo(() => modules.map((m) => m.identifier), [modules]);
+  /* Quand un seul module se montre, la page d'accueil n'aurait qu'une tuile à proposer :
+     autant y aller directement. Les modules masqués ne comptent pas, même joignables par URL. */
+  const shownPages = useMemo(
+    () => modules.filter((m) => m.show).map((m) => m.identifier),
+    [modules],
+  );
 
-  if (!pages) {
-    return null;
-  }
-
-  if (pages.length === 1) {
-    return <Navigate to={"/" + pages[0]} replace />;
+  if (shownPages.length === 1) {
+    return <Navigate to={"/" + shownPages[0]} replace />;
   }
 
   return <App />;
@@ -87,12 +88,15 @@ const MODULE_ROUTES: Record<AppName, RouteObject[]> = {
   ddi: DDIRoutes,
 };
 
-/* Un module absent de la configuration n'expose aucune de ses pages : ses routes filles
-   ne sont pas déclarées, si bien qu'une URL profonde ne matche plus que la route `*` et
-   que le chunk du module n'est jamais chargé. Sa racine reste annoncée en maintenance. */
+/* Un module fermé — absent de la configuration, ou déclaré sans `directAccess` — n'expose
+   aucune de ses pages : ses routes filles ne sont pas déclarées, si bien qu'une URL profonde
+   ne matche plus que la route `*` et que le chunk du module n'est jamais chargé. Sa racine
+   reste annoncée en maintenance. Un module masqué de la page d'accueil mais gardé accessible
+   (`show: false`, `directAccess: true`) conserve, lui, toutes ses routes. */
 export const buildModuleRoutes = (modules: Module[]): RouteObject[] =>
   Object.entries(MODULE_ROUTES).map(([identifier, children]) => {
-    if (!modules.some((m) => m.identifier === identifier)) {
+    const module = modules.find((m) => m.identifier === identifier);
+    if (!module?.directAccess) {
       return { path: identifier, element: <UnderMaintenance /> };
     }
 

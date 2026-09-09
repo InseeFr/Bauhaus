@@ -49,18 +49,19 @@ const App = () => {
     properties: { modules },
   } = useAppContext();
 
-  /* Un module hors des droits de l'utilisateur n'a pas à lui être montré du tout. */
-  const accessibleModules = useMemo(() => {
-    return modules.filter((m) => hasAccessToModule(m.identifier, privileges));
+  /* Deux raisons de ne pas afficher une tuile : le module se déclare masqué, ou il est hors
+     des droits de l'utilisateur. Un module masqué ici peut rester joignable par URL. */
+  const visibleModules = useMemo(() => {
+    return modules.filter((m) => m.show && hasAccessToModule(m.identifier, privileges));
   }, [modules, privileges]);
 
   const rows = useMemo(() => {
     const isOnFirstRow = (m: Module) => FIRST_ROW_MODULES.includes(m.identifier);
     return [
-      accessibleModules.filter(isOnFirstRow),
-      accessibleModules.filter((m) => !isOnFirstRow(m)),
+      visibleModules.filter(isOnFirstRow),
+      visibleModules.filter((m) => !isOnFirstRow(m)),
     ].filter((row) => row.length > 0);
-  }, [accessibleModules]);
+  }, [visibleModules]);
 
   /* Les tuiles sont la navigation principale de l'application : un landmark nommé
      permet de l'atteindre directement au lecteur d'écran. Le découpage en lignes
