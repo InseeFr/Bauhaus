@@ -128,7 +128,7 @@ Content-Type: application/json
 | `Identifier` | UUID | Item identifier |
 | `Item` | XML String | The DDI 3.3 fragment |
 | `VersionDate` | ISO DateTime | Stamped by Bauhaus — Colectica does not fill it in |
-| `VersionResponsibility` | String | From `server.versionResponsibility` |
+| `VersionResponsibility` | String | From `server.versionResponsibility`. Also written inside the fragment, as `r:VersionResponsibility` right after `r:Version` |
 | `IsPublished` / `IsDeprecated` / `IsProvisional` | Boolean | Item state flags |
 | `ItemFormat` | UUID | Format of the `Item` payload |
 
@@ -156,6 +156,7 @@ Sets an item's state — used to deprecate the groups and study units of a local
     <r:Agency>fr.insee</r:Agency>
     <r:ID>586a6306-c67d-4fda-a0ce-7e96564bda58</r:ID>
     <r:Version>1</r:Version>
+    <r:VersionResponsibility>abcde</r:VersionResponsibility>
     <r:Citation>
       <r:Title>
         <r:String xml:lang="en-GB">Household budget survey</r:String>
