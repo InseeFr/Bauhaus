@@ -1,5 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { describe, it, expect, vi } from "vitest";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
+import { beforeEach, describe, it, expect, vi } from "vitest";
+
+import { GeographieApi } from "@sdk/geographie";
 
 import { renderWithRouter } from "../../tests/render";
 import {
@@ -312,5 +315,58 @@ describe("SimsGeographyPicker - filterOption behavior", () => {
     const typeTerritory = removeAccents(option.typeTerritory.toLowerCase());
 
     expect(!searchValue || label.includes(search) || typeTerritory.includes(search)).toBe(false);
+  });
+});
+
+// `useAllGeographies` interroge le SDK via react-query : sans ce mock la liste reste vide et
+// le bouton « voir » ne peut jamais s'activer.
+vi.mock("@sdk/geographie", () => ({
+  GeographieApi: {
+    getAll: vi.fn(),
+    postTerritory: vi.fn(),
+    putTerritory: vi.fn(),
+  },
+}));
+
+describe("SimsGeographyPicker — consultation d'un territoire statistique", () => {
+  const territoireStatistique = {
+    id: "t1",
+    uri: "http://geo/zone-emploi",
+    labelLg1: "Zone d'emploi",
+    labelLg2: "Employment area",
+    typeTerritory: "Territoire Statistique",
+    unions: [],
+    difference: [],
+  };
+  const pays = {
+    id: "g1",
+    uri: "http://geo/france",
+    labelLg1: "France",
+    labelLg2: "France",
+    typeTerritory: "Pays",
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    GeographieApi.getAll.mockResolvedValue([territoireStatistique, pays]);
+  });
+
+  const seeButton = async () => (await screen.findAllByRole("button", { name: "See" }))[0];
+
+  it("n'ouvre la consultation que pour un territoire statistique", async () => {
+    renderComponent({ value: pays.uri });
+
+    expect(await seeButton()).toBeDisabled();
+  });
+
+  it("ouvre le panneau sur le territoire sélectionné", async () => {
+    renderComponent({ value: territoireStatistique.uri });
+
+    fireEvent.click(await seeButton());
+
+    const inputs = await screen.findAllByRole("textbox");
+    await waitFor(() => {
+      expect(inputs.some((i) => (i as HTMLInputElement).value === "Zone d'emploi")).toBe(true);
+    });
   });
 });

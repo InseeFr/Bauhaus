@@ -1,5 +1,5 @@
-import { fireEvent, screen, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import { beforeEach, describe, it, expect, vi } from "vitest";
 
 import { GeographieApi } from "@sdk/geographie";
 
@@ -9,6 +9,7 @@ import { removeAccents } from "./SimsGeographyPicker";
 
 vi.mock("@sdk/geographie", () => ({
   GeographieApi: {
+    getAll: vi.fn().mockResolvedValue([]),
     postTerritory: vi.fn(),
     putTerritory: vi.fn(),
   },
@@ -31,6 +32,9 @@ vi.mock("react-i18next", async (importOriginal) => {
         "geography.include": "Include",
         "geography.exclude": "Exclude",
         "geography.zoneName": "Zone name",
+        "geography.includedZone": "Included zones",
+        "geography.excludedZone": "Excluded zones",
+        "geography.btnDelete": "Delete",
       };
       const t = (key: string) => translations[key] ?? key;
       return { t };
@@ -470,5 +474,118 @@ describe("SimsGeographyPicker - filterOption behavior", () => {
     expect(filterOption(option, "terr")).toBe(true);
     expect(filterOption(option, "stat")).toBe(true);
     expect(filterOption(option, "territoire")).toBe(true);
+  });
+});
+
+describe("SimsGeographyField — zones incluses et exclues", () => {
+  const onCancel = vi.fn();
+  const onSave = vi.fn();
+
+  const france = {
+    id: "g1",
+    uri: "http://geo/france",
+    labelLg1: "France",
+    labelLg2: "France",
+    typeTerritory: "Pays",
+  };
+  const corse = {
+    id: "g2",
+    uri: "http://geo/corse",
+    labelLg1: "Corse",
+    labelLg2: "Corsica",
+    typeTerritory: "Région",
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    GeographieApi.getAll.mockResolvedValue([france, corse]);
+    GeographieApi.postTerritory.mockResolvedValue("http://new-territory");
+  });
+
+  // La liste PrimeReact pose son panneau en fin de document : on l'ouvre au clic sur le
+  // champ, puis on clique l'option, dont le libellé est aussi rendu dans le champ fermé.
+  const chooseGeography = async (label: string) => {
+    const dropdown = document.querySelector<HTMLElement>(".p-dropdown")!;
+    fireEvent.click(dropdown);
+    const items = await screen.findAllByText(label);
+    fireEvent.click(items[items.length - 1]);
+  };
+
+  const clickButton = (label: string) => fireEvent.click(screen.getByText(label));
+
+  const column = (heading: string) =>
+    within(screen.getByRole("heading", { name: heading }).parentElement!);
+
+  const addZone = async (label: string, action: "Include" | "Exclude") => {
+    await chooseGeography(label);
+    clickButton(action);
+  };
+
+  it("ajoute aux zones incluses la géographie choisie", async () => {
+    renderComponent({ onCancel, onSave });
+
+    await addZone("France", "Include");
+
+    expect(column("Included zones").getByRole("listitem")).toHaveTextContent(
+      "France (France Pays)",
+    );
+    expect(column("Excluded zones").queryByRole("listitem")).not.toBeInTheDocument();
+  });
+
+  it("ajoute aux zones exclues la géographie choisie", async () => {
+    renderComponent({ onCancel, onSave });
+
+    await addZone("Corse", "Exclude");
+
+    expect(column("Excluded zones").getByRole("listitem")).toHaveTextContent(
+      "Corse (Corsica Région)",
+    );
+    expect(column("Included zones").queryByRole("listitem")).not.toBeInTheDocument();
+  });
+
+  it("n'offre plus une géographie déjà retenue", async () => {
+    renderComponent({ onCancel, onSave });
+
+    await addZone("France", "Include");
+    fireEvent.click(document.querySelector<HTMLElement>(".p-dropdown")!);
+
+    const panel = document.querySelector<HTMLElement>(".p-dropdown-panel")!;
+    expect(within(panel).getByText("Corse")).toBeInTheDocument();
+    expect(within(panel).queryByText("France")).not.toBeInTheDocument();
+  });
+
+  it("retire une zone incluse", async () => {
+    renderComponent({ onCancel, onSave });
+    await addZone("France", "Include");
+
+    fireEvent.click(column("Included zones").getByRole("button", { name: "Delete" }));
+
+    expect(column("Included zones").queryByRole("listitem")).not.toBeInTheDocument();
+  });
+
+  it("retire une zone exclue", async () => {
+    renderComponent({ onCancel, onSave });
+    await addZone("Corse", "Exclude");
+
+    fireEvent.click(column("Excluded zones").getByRole("button", { name: "Delete" }));
+
+    expect(column("Excluded zones").queryByRole("listitem")).not.toBeInTheDocument();
+  });
+
+  it("enregistre les zones incluses et exclues sous forme d'URI", async () => {
+    renderComponent({ onCancel, onSave });
+
+    await addZone("France", "Include");
+    await addZone("Corse", "Exclude");
+    clickButton("Save");
+
+    await waitFor(() => {
+      expect(GeographieApi.postTerritory).toHaveBeenCalledWith(
+        expect.objectContaining({
+          unions: [{ uri: "http://geo/france" }],
+          difference: [{ uri: "http://geo/corse" }],
+        }),
+      );
+    });
   });
 });
