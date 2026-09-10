@@ -433,7 +433,7 @@ export const OperationsIndicatorEdition = (props: Readonly<OperationsIndicatorEd
                     value.map((v: string) => {
                       return {
                         id: v,
-                        type: value.startsWith("indicator") ? "indicator" : "series",
+                        type: v.startsWith("indicator") ? "indicator" : "series",
                       };
                     }),
                   )
