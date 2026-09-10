@@ -39,7 +39,7 @@ export const sortArray =
    * @returns {array}           a new array sorted by the given key
    */
 
-  <T,>(arr: T[], desc = false): T[] => {
+  <T>(arr: T[], desc = false): T[] => {
     const order = desc ? 1 : -1;
     return [...arr].sort((a: any, b: any) => {
       const aUp = normalize(a[key]);
