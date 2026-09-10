@@ -1,24 +1,34 @@
-import { render, screen } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen } from "@testing-library/react";
 import { PropsWithChildren } from "react";
 import { vi } from "vitest";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "structure.notation": "Notation",
-        "structure.validationStatus": "Publication status",
-        "structure.creator": "Owner",
-        "structure.contributors": "Contributors",
-        "structure.globalInformation": "Global information",
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return {
+        t: (key: string) => {
+          const translations: Record<string, string> = {
+            "structure.notation": "Notation",
+            "structure.validationStatus": "Publication status",
+            "structure.creator": "Owner",
+            "structure.contributors": "Contributors",
+            "structure.globalInformation": "Global information",
+          };
+          return translations[key] ?? key;
+        },
       };
-      return translations[key] ?? key;
     },
-  }),
-}));
+  };
+});
 
-import { Structure } from "../../../../../model/structures/Structure";
+import { Structure } from "@model/structures/Structure";
+
 import { GlobalInformationsPanel } from "./GlobalInformationsPanel";
 
 vi.mock("@utils/hooks/organizations", () => ({

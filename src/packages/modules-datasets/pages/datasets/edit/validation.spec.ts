@@ -1,7 +1,7 @@
 import { CatalogRecord, Dataset } from "@model/Dataset";
 
 vi.mock("../../../i18n", () => ({
-  default: {
+  datasetsI18n: {
     t: (key: string, options?: { lng?: string }) => {
       const translations: Record<string, Record<string, string>> = {
         fr: {

@@ -4,6 +4,7 @@ export interface PartialStructure {
   iri: string;
   labelLg1: string;
 }
+
 export type StructuresList = PartialStructure[];
 
 export interface Structure {

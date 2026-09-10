@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
-import { Operation } from "../../../../../model/Operation";
+import { Operation } from "@model/Operation";
+
 import { OperationsOperationVisualization } from "./OperationsOperationVisualization";
 
 vi.mock("react-i18next", () => {

@@ -1,4 +1,5 @@
-import { Rubric } from "../../../../../model/Sims";
+import { Rubric } from "@model/Sims";
+
 import { flattenTree } from "../../../../utils/flattenTree";
 import { DUPLICATE, HELP, CREATE, UPDATE, VIEW } from "../../constants";
 import { removeRubricsWhenDuplicate } from "./removeRubricsWhenDuplicate";

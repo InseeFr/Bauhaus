@@ -5,7 +5,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { usePrivileges } from "@utils/hooks/users";
 
 import { hasAccessToModule } from "../auth/components/auth";
-import App from "./app";
+import { App } from "./app";
 import { useAppContext } from "./app-context";
 
 // Mocks
@@ -23,16 +23,6 @@ vi.mock("./app-context", () => ({
 
 vi.mock("../auth/components/auth", () => ({
   hasAccessToModule: vi.fn(),
-}));
-
-// Mock translations
-vi.mock("../deprecated-locales", () => ({
-  default: {
-    analyticsTitle: "Analytics",
-    adminTitle: "Administration",
-    ddiTitle: "Variables",
-    modulesNavigationTitle: "Modules",
-  },
 }));
 
 /* La configuration d'un module porte deux drapeaux ; la plupart des cas ne s'intéressent
@@ -60,9 +50,9 @@ describe("<App />", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.queryByText("Analytics")).not.toBeInTheDocument();
-    expect(screen.queryByText("Administration")).not.toBeInTheDocument();
-    expect(screen.queryByText("Users")).not.toBeInTheDocument();
+    expect(screen.queryByText("analytics")).not.toBeInTheDocument();
+    expect(screen.queryByText("admin")).not.toBeInTheDocument();
+    expect(screen.queryByText("users")).not.toBeInTheDocument();
   });
 
   it("renders modules the user has access to", () => {
@@ -83,13 +73,13 @@ describe("<App />", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByText("Analytics")).toBeInTheDocument();
-    expect(screen.getByText("Administration")).toBeInTheDocument();
+    expect(screen.getByText("analytics")).toBeInTheDocument();
+    expect(screen.getByText("admin")).toBeInTheDocument();
 
-    expect(screen.queryByText("Users")).not.toBeInTheDocument();
+    expect(screen.queryByText("users")).not.toBeInTheDocument();
 
     expect(screen.getByRole("link", { name: /analytics/i })).toHaveAttribute("href", "/analytics");
-    expect(screen.getByRole("link", { name: /administration/i })).toHaveAttribute("href", "/admin");
+    expect(screen.getByRole("link", { name: /admin/i })).toHaveAttribute("href", "/admin");
   });
 
   it("groups the tiles in a navigation landmark named after the modules", () => {

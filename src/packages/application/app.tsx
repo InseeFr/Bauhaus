@@ -1,12 +1,13 @@
 import "primereact/resources/themes/lara-light-blue/theme.css";
-import { Link } from "react-router-dom";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
-import { useTitle } from "@utils/hooks/useTitle";
 import { usePrivileges } from "@utils/hooks/users";
+import { useTitle } from "@utils/hooks/useTitle";
 
 import { hasAccessToModule } from "../auth/components/auth";
-import D from "../deprecated-locales";
+import { appI18n } from "../i18n";
 import "../styles/bootstrap.css";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
@@ -16,9 +17,11 @@ import type { AppName, Module } from "./app-context";
 import "./app.css";
 
 const AppCard = ({ app }: { app: string }) => {
+  const { t, i18n } = useTranslation("translation", { i18n: appI18n });
+
   const getAppTitle = (appKey: string): string => {
-    const titleKey = `${appKey}Title`;
-    return D[titleKey as keyof typeof D] || appKey;
+    const titleKey = `home.${appKey}Title`;
+    return i18n.exists(titleKey) ? t(titleKey) : appKey;
   };
 
   return (
@@ -41,10 +44,13 @@ const AppCard = ({ app }: { app: string }) => {
    suivants, qui restent sur la seconde ligne. */
 const FIRST_ROW_MODULES: AppName[] = ["concepts", "classifications", "operations", "ddi"];
 
-const App = () => {
+export const App = () => {
+  const { t } = useTranslation("translation", { i18n: appI18n });
+
   useTitle();
 
   const { privileges = [] } = usePrivileges();
+
   const {
     properties: { modules },
   } = useAppContext();
@@ -67,7 +73,7 @@ const App = () => {
      permet de l'atteindre directement au lecteur d'écran. Le découpage en lignes
      n'étant que visuel, les `ul` restent des détails de présentation. */
   return (
-    <nav className="home-page-links" aria-label={D.modulesNavigationTitle}>
+    <nav className="home-page-links" aria-label={t("home.modulesNavigationTitle")}>
       {rows.map((row) => (
         <ul key={row[0].identifier} className="home-page-links-row">
           {row.map((m) => (
@@ -78,5 +84,3 @@ const App = () => {
     </nav>
   );
 };
-
-export default App;

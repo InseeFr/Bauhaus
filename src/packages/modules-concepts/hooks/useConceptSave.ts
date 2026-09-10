@@ -1,10 +1,11 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+
+import { ConceptGeneral, ConceptNotes, Link } from "@model/concepts/concept";
 
 import { ConceptsApi } from "@sdk/concepts-api";
 
-import { ConceptGeneral, ConceptNotes, Link } from "../../model/concepts/concept";
 import { buildPayloadCreation } from "../utils/buildPayloadCreation";
 import { buildPayloadUpdate } from "../utils/buildPayloadUpdate";
 
@@ -31,16 +32,22 @@ export type SaveFn = {
 
 export const useConceptSave = (id: string | undefined) => {
   const isCreation = !id;
+
   const navigate = useNavigate();
+
   const queryClient = useQueryClient();
+
   const [isSaving, setIsSaving] = useState(false);
+
   const [saveError, setSaveError] = useState<string | undefined>();
 
   const invalidateQueries = useCallback(
     (conceptToSave: ConceptPayload) => {
       queryClient.invalidateQueries({ queryKey: ["concepts"] });
       conceptToSave.collections.forEach((collectionId) =>
-        queryClient.invalidateQueries({ queryKey: ["collection", collectionId] }),
+        queryClient.invalidateQueries({
+          queryKey: ["collection", collectionId],
+        }),
       );
     },
     [queryClient],
@@ -55,11 +62,9 @@ export const useConceptSave = (id: string | undefined) => {
     ) => {
       setIsSaving(true);
       setSaveError(undefined);
-
       const conceptToSave = (isCreation
         ? buildPayloadCreation(dataOrId as ConceptSaveData)
         : buildPayloadUpdate(versioningType!, oldData!, data!)) as unknown as ConceptPayload;
-
       const [promise, redirect]: [Promise<string | void>, (result: string | void) => string] =
         isCreation
           ? [
@@ -76,7 +81,6 @@ export const useConceptSave = (id: string | undefined) => {
               }),
               () => `/concepts/${id}`,
             ];
-
       promise
         .then((result) => navigate(redirect(result)))
         .catch((e: string) => {

@@ -8,6 +8,7 @@ export const ConditionalDisplay = ({ data, children }: ConditionalDisplayTypes) 
   if (data === undefined) {
     return null;
   }
+
   if (Array.isArray(data)) {
     if (data.length === 0) {
       return null;

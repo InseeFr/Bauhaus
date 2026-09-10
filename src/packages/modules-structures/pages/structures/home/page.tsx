@@ -5,11 +5,12 @@ import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
 import { SearchableList } from "@components/searchable-list";
 
+import { PartialStructure, StructuresList } from "@model/structures/Structure";
+
 import { StructureApi } from "@sdk/index";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { PartialStructure, StructuresList } from "../../../../model/structures/Structure";
 import { HomePageMenu } from "./menu";
 
 export const Component = () => {

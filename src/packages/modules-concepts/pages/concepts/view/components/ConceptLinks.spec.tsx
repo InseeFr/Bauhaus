@@ -2,7 +2,8 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { BROADER, CLOSE_MATCH, NARROWER } from "@sdk/constants";
-import ConceptLinks from "./ConceptLinks";
+
+import { ConceptLinks } from "./ConceptLinks";
 
 vi.mock("./LinksList", () => ({
   LinksList: ({ links, lang, alone }: any) => (

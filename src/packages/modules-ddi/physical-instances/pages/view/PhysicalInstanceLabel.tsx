@@ -1,6 +1,7 @@
-import { useState, lazy, Suspense } from "react";
 import { Button } from "primereact/button";
+import { useState, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
+
 import { HasAccess } from "../../../../auth/components/auth";
 import type {
   PhysicalInstanceUpdateData,

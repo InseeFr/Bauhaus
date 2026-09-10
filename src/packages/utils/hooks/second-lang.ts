@@ -4,5 +4,6 @@ export const useSecondLang = (): [boolean, VoidFunction] => {
   const {
     secondLang: { value, toggle },
   } = useAppContext();
+
   return [value, toggle];
 };

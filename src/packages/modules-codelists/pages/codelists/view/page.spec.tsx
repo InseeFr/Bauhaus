@@ -4,12 +4,12 @@ import { I18nextProvider } from "react-i18next";
 import { MemoryRouter } from "react-router-dom";
 import { Mock, vi } from "vitest";
 
-import { AppContextProvider } from "../../../../application/app-context";
-import i18n from "../../../../modules-concepts/i18n";
+import { CodelistsApi } from "@sdk/index";
 
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
-import { CodelistsApi } from "@sdk/index";
+import { AppContextProvider } from "../../../../application/app-context";
+import { testsI18n as i18n } from "../../../../tests/i18n";
 import { Component } from "./page";
 
 vi.mock("@sdk/index", async (importOriginal) => {
@@ -38,7 +38,7 @@ describe("Codelist view page", () => {
 
   it("displays the server error when the codelist cannot be loaded", async () => {
     (CodelistsApi.getDetailedCodelist as Mock).mockRejectedValue({
-      message: "CodeList not found",
+      message: "Codelist not found",
       status: 404,
     });
 
@@ -56,6 +56,6 @@ describe("Codelist view page", () => {
       </QueryClientProvider>,
     );
 
-    expect(await screen.findByRole("alert")).toHaveTextContent("CodeList not found");
+    expect(await screen.findByRole("alert")).toHaveTextContent("Codelist not found");
   });
 });

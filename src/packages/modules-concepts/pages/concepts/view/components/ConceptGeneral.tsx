@@ -1,18 +1,20 @@
-import { DisseminationStatusVisualisation } from "@components/dissemination-status/disseminationStatus";
+import { useTranslation } from "react-i18next";
+
+import { InseeOrganization } from "@components/business/organizations/organizations";
+import { DisseminationStatusVisualization } from "@components/dissemination-status/disseminationStatus";
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status";
 import type { ValidationState } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
+import { SingleOrNestedListItem } from "@components/ui/single-or-nested-list-item";
+
+import type { ConceptGeneral } from "@model/concepts/concept";
 
 import { stringToDate } from "@utils/date-utils";
 import { useLocales } from "@utils/hooks/useLocales";
 import { isEmpty } from "@utils/value-utils";
 
-import { useTranslation } from "react-i18next";
-import { SingleOrNestedListItem } from "../../../../../components/ui/single-or-nested-list-item";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
-import type { ConceptGeneral } from "@model/concepts/concept";
 import { CollectionsBlock } from "./CollectionsBlock";
 
 interface ConceptGeneralProps {
@@ -34,14 +36,14 @@ type FieldName =
   | "validationState"
   | "additionalMaterial";
 
-const renderOrganisationField = (
+const renderOrganizationField = (
   fieldName: "creator" | "contributor",
   label: string,
   value: string,
 ): JSX.Element => {
   return (
     <li key={fieldName}>
-      {label}: <InseeOrganisation creator={value} />
+      {label}: <InseeOrganization creator={value} />
     </li>
   );
 };
@@ -78,7 +80,7 @@ const renderLinkField = (
 const renderDisseminationField = (fieldName: "disseminationStatus", value: string): JSX.Element => {
   return (
     <li key={fieldName}>
-      <DisseminationStatusVisualisation disseminationStatus={value} />
+      <DisseminationStatusVisualization disseminationStatus={value} />
     </li>
   );
 };
@@ -120,37 +122,31 @@ const renderFieldItem = (
   switch (fieldName) {
     case "creator":
     case "contributor":
-      return renderOrganisationField(fieldName, label, value as string);
-
+      return renderOrganizationField(fieldName, label, value as string);
     case "altLabelLg1":
     case "altLabelLg2":
       return renderArrayField(fieldName, label, value as string[]);
-
     case "created":
     case "modified":
     case "valid":
       return renderDateField(fieldName, label, value as string);
-
     case "additionalMaterial":
       return renderLinkField(fieldName, label, value as string);
-
     case "disseminationStatus":
       return renderDisseminationField(fieldName, value as string);
-
     case "validationState":
       return renderValidationField(fieldName, label, value as string);
-
     case "id":
     case "conceptVersion":
       return renderSimpleField(fieldName, label, value as string);
-
     default:
       return null;
   }
 };
 
-function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneralProps>) {
+export function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneralProps>) {
   const { lg1, lg2 } = useLocales();
+
   const { t } = useTranslation();
 
   const fields: { name: FieldName; label: string }[] = [
@@ -188,7 +184,10 @@ function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneral
       name: "disseminationStatus",
       label: t("concept.general.disseminationStatusTitle"),
     },
-    { name: "validationState", label: t("concept.general.isConceptValidTitle") },
+    {
+      name: "validationState",
+      label: t("concept.general.isConceptValidTitle"),
+    },
   );
 
   if (concept.additionalMaterial) {
@@ -215,5 +214,3 @@ function ConceptGeneral({ concept, secondLang = false }: Readonly<ConceptGeneral
     </>
   );
 }
-
-export default ConceptGeneral;

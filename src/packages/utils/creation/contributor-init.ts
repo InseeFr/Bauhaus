@@ -1,4 +1,4 @@
-import { Organization } from "../../model/organization";
+import { Organization } from "@model/organization";
 
 /**
  * For some object (dataset and structure for the moment), if the user
@@ -36,23 +36,23 @@ const isIri = (value: string | undefined): value is string =>
  */
 export const resolveContributorIri = ({
   userStamp,
-  organisations,
+  organizations,
   defaultContributor,
-  useUserOrganisation,
+  useUserOrganization,
 }: {
   userStamp: string | undefined;
-  organisations: Pick<Organization, "iri" | "id" | "stamp">[];
+  organizations: Pick<Organization, "iri" | "id" | "stamp">[];
   defaultContributor: string | undefined;
-  useUserOrganisation: boolean;
+  useUserOrganization: boolean;
 }): string | undefined => {
   // Le jeton porte le timbre (`dcterms:identifier`, DG75-L201) tandis que `id`
   // est l'`adms:identifier` (HIE2001201) : le référentiel expose les deux, et
   // selon les organisations c'est l'un ou l'autre qui correspond.
-  const userOrganisation = useUserOrganisation
-    ? organisations.find(
-        (organisation) => organisation.id === userStamp || organisation.stamp === userStamp,
+  const userOrganization = useUserOrganization
+    ? organizations.find(
+        (organization) => organization.id === userStamp || organization.stamp === userStamp,
       )?.iri
     : undefined;
 
-  return [userOrganisation, defaultContributor].find(isIri);
+  return [userOrganization, defaultContributor].find(isIri);
 };

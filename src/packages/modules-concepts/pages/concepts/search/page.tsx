@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 
 import { Exporting, Loading } from "@components/loading";
 
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { ConceptsApi } from "@sdk/index";
 
 import { saveFileFromHttpResponse } from "@utils/files";
 
 import { ConceptForAdvancedSearch } from "../../../types/concept";
-import { UNPUBLISHED } from "@model/ValidationState";
-import ConceptSearchList from "./components/ConceptSearchList";
+import { ConceptSearchList } from "./components/ConceptSearchList";
 
 const emptyItem: ConceptForAdvancedSearch = {
   id: "",
@@ -26,7 +27,9 @@ const emptyItem: ConceptForAdvancedSearch = {
 
 export const Component = () => {
   const [loading, setLoading] = useState(true);
+
   const [conceptSearchList, setConceptSearchList] = useState<ConceptForAdvancedSearch[]>([]);
+
   const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
@@ -45,7 +48,6 @@ export const Component = () => {
   ) => {
     setExporting(true);
     const promise = ConceptsApi.getConceptExportZipType(ids, type, lang, withConcepts);
-
     return promise.then(saveFileFromHttpResponse).finally(() => setExporting(false));
   };
 

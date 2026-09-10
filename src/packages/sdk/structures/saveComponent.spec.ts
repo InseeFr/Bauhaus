@@ -1,6 +1,7 @@
 import { Mock, vi } from "vitest";
 
-import { Component } from "../../model/structures/Component";
+import { Component } from "@model/structures/Component";
+
 import { StructureApi } from "../structure-api";
 import { saveComponent } from "./saveComponent";
 
@@ -22,7 +23,7 @@ describe("saveComponent", () => {
   it("should call putMutualizedComponent if component has an id", async () => {
     const mockComponent: Component = {
       id: "123",
-      codeList: "codeList",
+      codeList: "codelist0",
       fullCodeListValue: "",
       // ajoutez d'autres propriétés nécessaires
     } as Component;
@@ -33,13 +34,13 @@ describe("saveComponent", () => {
     expect(mockPutMutualizedComponent).toHaveBeenCalledWith(mockComponent);
     expect(mockPostMutualizedComponent).not.toHaveBeenCalled();
     expect(result).toBe("123");
-    expect(mockComponent.fullCodeListValue).toBe("codeList"); // Vérifie que la valeur a été synchronisée
+    expect(mockComponent.fullCodeListValue).toBe("codelist0"); // Vérifie que la valeur a été synchronisée
   });
 
   it("should call postMutualizedComponent if component does not have an id", async () => {
     const mockComponent: Component = {
       id: undefined,
-      codeList: "codeList",
+      codeList: "codelist0",
       fullCodeListValue: "",
       // ajoutez d'autres propriétés nécessaires
     } as Component;
@@ -50,13 +51,13 @@ describe("saveComponent", () => {
     expect(mockPostMutualizedComponent).toHaveBeenCalledWith(mockComponent);
     expect(mockPutMutualizedComponent).not.toHaveBeenCalled();
     expect(result).toBe("456");
-    expect(mockComponent.fullCodeListValue).toBe("codeList"); // Vérifie que la valeur a été synchronisée
+    expect(mockComponent.fullCodeListValue).toBe("codelist0"); // Vérifie que la valeur a été synchronisée
   });
 
   it("should not change fullCodeListValue if it is already set", async () => {
     const mockComponent: Component = {
       id: "123",
-      codeList: "codeList",
+      codeList: "codelist0",
       fullCodeListValue: "alreadySetValue",
       // ajoutez d'autres propriétés nécessaires
     } as Component;

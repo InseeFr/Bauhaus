@@ -1,14 +1,14 @@
-import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { renderHook, waitFor } from "@testing-library/react";
 import { createElement, PropsWithChildren } from "react";
 import { vi } from "vitest";
+
+import { ConceptsApi } from "@sdk/index";
 
 import { useOrganizations } from "@utils/hooks/organizations";
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
-import { ConceptsApi } from "../../sdk";
 import { useAppContext } from "../../application/app-context";
-
 import { useConcept } from "./useConcept";
 
 vi.mock("../../sdk", () => ({
@@ -48,7 +48,10 @@ const mockUseUserStamps = vi.mocked(useUserStamps);
 const canCreateConcepts = () =>
   mockUsePrivileges.mockReturnValue({
     privileges: [
-      { application: "CONCEPT_CONCEPT", privileges: [{ privilege: "CREATE", strategy: "ALL" }] },
+      {
+        application: "CONCEPT_CONCEPT",
+        privileges: [{ privilege: "CREATE", strategy: "ALL" }],
+      },
     ],
     isPending: false,
   });
@@ -71,9 +74,9 @@ describe("useConcept", () => {
       properties: { defaultContributor: DEFAULT_CONTRIBUTOR_IRI },
     } as ReturnType<typeof useAppContext>);
     mockUsePrivileges.mockReturnValue({ privileges: [], isPending: false });
-    mockUseUserStamps.mockReturnValue({ data: [{ stamp: USER_STAMP }] } as ReturnType<
-      typeof useUserStamps
-    >);
+    mockUseUserStamps.mockReturnValue({
+      data: [{ stamp: USER_STAMP }],
+    } as ReturnType<typeof useUserStamps>);
     mockUseOrganizations.mockReturnValue({
       data: [
         {

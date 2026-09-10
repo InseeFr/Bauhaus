@@ -3,7 +3,8 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
-import { DDIApi } from "../../sdk";
+import { DDIApi } from "@sdk/index";
+
 import { usePhysicalInstances } from "./usePhysicalInstances";
 
 vi.mock("../../sdk", () => ({

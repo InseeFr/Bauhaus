@@ -1,6 +1,6 @@
+import Editor from "@uiw/react-md-editor/nohighlight";
 import DOMPurify from "dompurify";
 
-import Editor from "@uiw/react-md-editor/nohighlight";
 import { Note } from "../note";
 
 interface ExplanatoryNoteTypes {
@@ -9,8 +9,10 @@ interface ExplanatoryNoteTypes {
   alone?: boolean;
   md?: boolean;
 }
+
 export const ExplanatoryNote = ({ text, title, alone, md }: Readonly<ExplanatoryNoteTypes>) => {
   const cl = alone ? "col-md-12" : "col-md-6";
+
   if (!text) return <div className={cl} />;
 
   const newText = text.replace(
@@ -21,6 +23,7 @@ export const ExplanatoryNote = ({ text, title, alone, md }: Readonly<Explanatory
   if (md) {
     return <Note title={title} alone={alone} text={<Editor.Markdown source={newText} />}></Note>;
   }
+
   return (
     <Note
       title={title}

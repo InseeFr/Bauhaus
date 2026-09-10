@@ -2,9 +2,8 @@ import { z } from "zod";
 
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
 
-import i18next from "../../../i18n";
-
-import NewDictionary from "../../../../i18n";
+import { appI18n } from "../../../../i18n";
+import { operationsI18n } from "../../../i18n";
 
 const ZodOperation = z.object({
   series: z.object(
@@ -12,31 +11,39 @@ const ZodOperation = z.object({
       id: z
         .string({
           error: (issue) =>
-            issue.input === undefined &&
-            NewDictionary.errors.mandatoryProperty(i18next.t("common.serieTitle")),
+            issue.input === undefined
+              ? appI18n.t("errors.mandatoryProperty", {
+                  propertyName: operationsI18n.t("common.serieTitle"),
+                })
+              : undefined,
         })
         .trim()
         .min(1, {
-          error: NewDictionary.errors.mandatoryProperty(i18next.t("common.serieTitle")),
+          error: appI18n.t("errors.mandatoryProperty", {
+            propertyName: operationsI18n.t("common.serieTitle"),
+          }),
         }),
     },
     {
       error: (issue) =>
-        issue.input === undefined &&
-        NewDictionary.errors.mandatoryProperty(i18next.t("common.serieTitle")),
+        issue.input === undefined
+          ? appI18n.t("errors.mandatoryProperty", {
+              propertyName: operationsI18n.t("common.serieTitle"),
+            })
+          : undefined,
     },
   ),
-  prefLabelLg1: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "fr" })),
-  prefLabelLg2: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "en" })),
+  prefLabelLg1: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "fr" })),
+  prefLabelLg2: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "en" })),
   year: z.coerce
     .number({
-      error: i18next.t("app.numberProperty", {
-        propertyName: i18next.t("common.year", { lng: "fr" }),
+      error: operationsI18n.t("app.numberProperty", {
+        propertyName: operationsI18n.t("common.year", { lng: "fr" }),
       }),
     })
     .int({
-      error: i18next.t("app.numberProperty", {
-        propertyName: i18next.t("common.year", { lng: "fr" }),
+      error: operationsI18n.t("app.numberProperty", {
+        propertyName: operationsI18n.t("common.year", { lng: "fr" }),
       }),
     })
     .optional(),

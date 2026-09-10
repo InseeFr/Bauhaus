@@ -1,4 +1,5 @@
-import { ConceptNotes } from "../../model/concepts/concept";
+import { ConceptNotes } from "@model/concepts/concept";
+
 import { versionableNoteFields } from "./conceptNoteFieldGroups";
 import { processConceptNoteChanges } from "./processConceptNoteChanges";
 

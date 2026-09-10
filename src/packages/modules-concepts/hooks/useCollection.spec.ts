@@ -9,7 +9,6 @@ import { useOrganizations } from "@utils/hooks/organizations";
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
 import { useAppContext } from "../../application/app-context";
-
 import { useCollection } from "./useCollection";
 
 vi.mock("@sdk/new-collection-api", () => ({

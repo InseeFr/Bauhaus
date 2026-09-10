@@ -1,4 +1,5 @@
 import { Suspense, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   createBrowserRouter,
   Navigate,
@@ -10,20 +11,21 @@ import {
 import { Loading } from "@components/loading";
 import { NotFound, UnderMaintenance } from "@components/not-found";
 
-import { RBACLink } from ".";
 import { useOidc } from "../../auth/create-oidc";
 import { withAuth } from "../../auth/hoc";
-import D from "../../i18n";
+import { appI18n } from "../../i18n";
 import { routes as ClassificationsRoutes } from "../../modules-classifications/routes/index";
 import { routes as CodelistsRoutes } from "../../modules-codelists/routes/index";
 import { routes as ConceptsRoutes } from "../../modules-concepts/routes/index";
 import { routes as DatasetsRoutes } from "../../modules-datasets/routes/index";
+import { routes as DDIRoutes } from "../../modules-ddi/routes/index";
 import { routes as OperationsRoutes } from "../../modules-operations/routes/index";
 import { routes as StructuresRoutes } from "../../modules-structures/routes/index";
-import { routes as DDIRoutes } from "../../modules-ddi/routes/index";
-import App from "../app";
+import { App } from "../app";
 import { useAppContext } from "../app-context";
 import type { AppName, Module } from "../app-context";
+
+import { RBACLink } from ".";
 import "./routes.css";
 
 export const HomePage = () => {
@@ -54,9 +56,12 @@ const MainLayout = withAuth(() => {
 });
 
 export const Logout = () => {
+  const { t } = useTranslation("translation", { i18n: appI18n });
+
   const { login } = useOidc({
     assertUserLoggedIn: false,
   });
+
   return (
     <div id="login" className="flex">
       <button
@@ -72,7 +77,7 @@ export const Logout = () => {
         }}
         className="btn btn-primary"
       >
-        {D.authentication.login}
+        {t("auth.login")}
       </button>
     </div>
   );
@@ -107,7 +112,7 @@ export const buildModuleRoutes = (modules: Module[]): RouteObject[] =>
     };
   });
 
-export default () => {
+export const Routes = () => {
   const {
     properties: { modules },
   } = useAppContext();

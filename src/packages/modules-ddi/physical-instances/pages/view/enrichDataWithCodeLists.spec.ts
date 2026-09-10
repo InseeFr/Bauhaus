@@ -1,13 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient } from "@tanstack/react-query";
-import { enrichDataWithCodeLists } from "./enrichDataWithCodeLists";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { DDIApi } from "@sdk/index";
+
 import { itemsOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
-import { DDIApi } from "../../../../sdk";
+import { enrichDataWithCodeLists } from "./enrichDataWithCodeLists";
 
 vi.mock("../../../../sdk", () => ({
   DDIApi: {
-    getMutualizedCodesList: vi.fn(),
+    getMutualizedCodeList: vi.fn(),
   },
 }));
 
@@ -59,7 +61,7 @@ describe("enrichDataWithCodeLists", () => {
   });
 
   it("injects the CodeList and Category referenced by code variables into the data", async () => {
-    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue(
+    vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(
       envelope({
         CodeList: [
           {
@@ -79,7 +81,7 @@ describe("enrichDataWithCodeLists", () => {
 
     const result = await enrichDataWithCodeLists(newQueryClient(), data);
 
-    expect(DDIApi.getMutualizedCodesList).toHaveBeenCalledWith("fr.insee", "cl-1");
+    expect(DDIApi.getMutualizedCodeList).toHaveBeenCalledWith("fr.insee", "cl-1");
     expect(itemsOfType(result, "CodeList").map((cl) => cl.ID)).toEqual(["cl-1"]);
     expect(itemsOfType(result, "Category").map((c) => c.ID)).toEqual(["cat-1"]);
   });
@@ -92,11 +94,11 @@ describe("enrichDataWithCodeLists", () => {
     const result = await enrichDataWithCodeLists(newQueryClient(), data);
 
     expect(result).toBe(data);
-    expect(DDIApi.getMutualizedCodesList).not.toHaveBeenCalled();
+    expect(DDIApi.getMutualizedCodeList).not.toHaveBeenCalled();
   });
 
   it("deduplicates a CodeList referenced by several variables", async () => {
-    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue(
+    vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(
       envelope({
         CodeList: [{ $type: "CodeList", Agency: "fr.insee", ID: "cl-1", Code: [] }],
       } as any) as any,
@@ -111,7 +113,7 @@ describe("enrichDataWithCodeLists", () => {
     expect(itemsOfType(result, "CodeList")).toHaveLength(1);
   });
   it("injects the sentinel CodeList and Category referenced by a ManagedMissingValuesRepresentation", async () => {
-    vi.mocked(DDIApi.getMutualizedCodesList).mockResolvedValue(
+    vi.mocked(DDIApi.getMutualizedCodeList).mockResolvedValue(
       codeListEnvelope("cl-sentinelles", "cat-refus"),
     );
 
@@ -122,13 +124,13 @@ describe("enrichDataWithCodeLists", () => {
 
     const result = await enrichDataWithCodeLists(newQueryClient(), data);
 
-    expect(DDIApi.getMutualizedCodesList).toHaveBeenCalledWith("fr.insee", "cl-sentinelles");
+    expect(DDIApi.getMutualizedCodeList).toHaveBeenCalledWith("fr.insee", "cl-sentinelles");
     expect(itemsOfType(result, "CodeList").map((cl) => cl.ID)).toEqual(["cl-sentinelles"]);
     expect(itemsOfType(result, "Category").map((c) => c.ID)).toEqual(["cat-refus"]);
   });
 
   it("injects both the representation CodeList and the sentinel one", async () => {
-    vi.mocked(DDIApi.getMutualizedCodesList).mockImplementation((_agency: string, id: string) =>
+    vi.mocked(DDIApi.getMutualizedCodeList).mockImplementation((_agency: string, id: string) =>
       Promise.resolve(
         id === "cl-1"
           ? codeListEnvelope("cl-1", "cat-1")

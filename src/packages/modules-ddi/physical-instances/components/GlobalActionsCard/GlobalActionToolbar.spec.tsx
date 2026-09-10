@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
+
 import { GlobalActionToolbar } from "./GlobalActionToolbar";
 
 vi.mock("react-i18next", () => ({

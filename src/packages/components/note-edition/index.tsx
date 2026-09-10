@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 
-import { languageName } from "@utils/language-name";
-import { useLocales } from "@utils/hooks/useLocales";
+import { ConceptNotes } from "@model/concepts/concept";
 
-import { ConceptNotes } from "../../model/concepts/concept";
+import { useLocales } from "@utils/hooks/useLocales";
+import { languageName } from "@utils/language-name";
+
 import { ClientSideError } from "../errors-bloc";
 import { Row } from "../layout";
-import NoteOneLangEdition from "./note-one-lang-edition";
+import { NoteOneLangEdition } from "./note-one-lang-edition";
 
 interface NoteEditionTypes {
   notes: ConceptNotes;
@@ -17,6 +18,7 @@ interface NoteEditionTypes {
   maxLength: number;
   errorMessage: { errorMessage: string[]; fields: Record<string, string> };
 }
+
 export const NoteEdition = ({
   notes,
   noteLg1Name,
@@ -27,9 +29,12 @@ export const NoteEdition = ({
   errorMessage,
 }: Readonly<NoteEditionTypes>) => {
   const { i18n } = useTranslation();
+
   const { lg1, lg2 } = useLocales();
+
   const noteLg1 = notes[noteLg1Name];
   const noteLg2 = notes[noteLg2Name];
+
   return (
     <div>
       <Row>

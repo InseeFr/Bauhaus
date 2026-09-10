@@ -5,8 +5,9 @@ import { MemoryRouter } from "react-router-dom";
 import { Mock, vi } from "vitest";
 
 import { CodelistsApi } from "@sdk/index";
+
 import { AppContextProvider } from "../../../../application/app-context";
-import i18n from "../../../../modules-concepts/i18n";
+import { testsI18n as i18n } from "../../../../tests/i18n";
 import { Component } from "./page";
 
 vi.mock("@sdk/index", async (importOriginal) => {
@@ -43,12 +44,12 @@ const renderPage = () =>
 describe("Codelist edit page", () => {
   it("displays the server error when the codelist cannot be loaded", async () => {
     (CodelistsApi.getDetailedCodelist as Mock).mockRejectedValue({
-      message: "CodeList not found",
+      message: "Codelist not found",
       status: 404,
     });
 
     renderPage();
 
-    expect(await screen.findByRole("alert")).toHaveTextContent("CodeList not found");
+    expect(await screen.findByRole("alert")).toHaveTextContent("Codelist not found");
   });
 });

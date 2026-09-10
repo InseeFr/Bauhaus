@@ -3,7 +3,6 @@ import { vi } from "vitest";
 
 import { useOrganizations } from "../hooks/organizations";
 import { usePrivileges, useUserStamps } from "../hooks/users";
-
 import { useIsDefaultContributorPending } from "./use-default-contributor";
 
 vi.mock("../hooks/organizations", () => ({ useOrganizations: vi.fn() }));

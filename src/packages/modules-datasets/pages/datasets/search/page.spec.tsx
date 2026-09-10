@@ -21,7 +21,7 @@ vi.mock("@components/business/creators-input", () => ({
 }));
 
 describe("advanced search component", () => {
-  it("filters creators by organisation (HIE) and not by stamp", () => {
+  it("filters creators by organization (HIE) and not by stamp", () => {
     renderWithRouter(
       <FieldsForDatasetsAdvancedSearch
         labelLg1=""
@@ -37,7 +37,7 @@ describe("advanced search component", () => {
       />,
     );
 
-    expect(lastCreatorsInputProps?.mode).toBe("organisation");
+    expect(lastCreatorsInputProps?.mode).toBe("organization");
   });
 
   it("AdvancedSearchForm renders without crashing", () => {
@@ -76,8 +76,8 @@ describe("advanced search component", () => {
         seriesOperationsOptions={[]}
       />,
     );
-    expect(screen.getByLabelText("dataset.globalInformation.mainTitle")).toBeInTheDocument();
-    expect(screen.getByLabelText("dataset.internalManagement.altId.title")).toBeInTheDocument();
+    expect(screen.getByLabelText("Title")).toBeInTheDocument();
+    expect(screen.getByLabelText("Alternative identifier")).toBeInTheDocument();
   });
 
   it("AdvancedSearchForm filters datasets by altIdentifier", async () => {
@@ -112,7 +112,7 @@ describe("advanced search component", () => {
     expect(screen.getByText("Dataset One")).toBeInTheDocument();
     expect(screen.getByText("Dataset Two")).toBeInTheDocument();
 
-    const altIdInput = screen.getByLabelText("dataset.internalManagement.altId.title");
+    const altIdInput = screen.getByLabelText("Alternative identifier");
     await user.type(altIdInput, "XYZ");
 
     expect(screen.getByText("Dataset One")).toBeInTheDocument();

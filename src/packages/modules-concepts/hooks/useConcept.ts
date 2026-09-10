@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { useDefaultContributor } from "@utils/creation/use-default-contributor";
-import { rmesHtmlToRawHtml } from "@utils/html-utils";
-import { MODULES, PRIVILEGES } from "@utils/hooks/users";
+import { Concept, ConceptNotes } from "@model/concepts/concept";
 
-import { Concept, ConceptNotes } from "../../model/concepts/concept";
-import { ConceptsApi } from "../../sdk";
+import { ConceptsApi } from "@sdk/index";
+
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+import { MODULES, PRIVILEGES } from "@utils/hooks/rbac-constants";
+import { rmesHtmlToRawHtml } from "@utils/html-utils";
+
 import { useAuthorizationGuard } from "../../auth/components/auth";
 import { emptyConcept } from "../utils/emptyConcept";
 import { emptyConceptGeneral } from "../utils/emptyConceptGeneral";

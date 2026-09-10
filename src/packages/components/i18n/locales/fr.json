@@ -7,5 +7,81 @@
     "previousPage": "Page précédente",
     "nextPage": "Page suivante",
     "lastPage": "Dernière page"
-  }
+  },
+  "btnNew": {
+    "masculine": "Nouveau",
+    "feminine": "Nouvelle"
+  },
+  "disseminationStatus": {
+    "DSPublicGeneriqueTitle": "Public générique",
+    "DSPublicSpecifiqueTitle": "Public spécifique",
+    "DSPrivateTitle": "Privé",
+    "title": "Statut de diffusion",
+    "placeholder": "Sélectionnez un statut de diffusion..."
+  },
+  "loading": {
+    "auth": "Authentification en cours...",
+    "saving": "Sauvegarde en cours...",
+    "sending": "Envoi en cours...",
+    "exporting": "Export en cours...",
+    "validating": "Publication en cours ...",
+    "loading": "Chargement en cours...",
+    "deleting": "Suppression en cours..."
+  },
+  "creatorsInput": {
+    "creatorsTitle": "Propriétaires",
+    "creatorTitle": "Propriétaire"
+  },
+  "contributors": {
+    "title": "Gestionnaires",
+    "stampsPlaceholder": "Sélectionnez un timbre..."
+  },
+  "searchLabelPlaceholder": "Libellé...",
+  "availableItemsPanelTitle": "Éléments disponibles",
+  "version": "Version",
+  "conceptsScopeNote": "Définition courte",
+  "conceptsDefinition": "Définition",
+  "conceptsEditorialNote": "Note éditoriale",
+  "conceptsChangeNote": "Note de changement",
+  "classificationsDefinition": "Note générale",
+  "classificationsScopeNote": "Remarque",
+  "classificationsCoreContentNote": "Contenu central",
+  "classificationsAdditionalContentNote": "Contenu limite",
+  "classificationsExclusionNote": "Note d'exclusions",
+  "classificationsChangeNote": "Note de changement",
+  "datatable": {
+    "placeholder": "Rechercher dans le tableau..."
+  },
+  "see": "Voir",
+  "search": "Recherchez...",
+  "advancedSearchTitle": "Recherche avancée",
+  "result": "résultat",
+  "results": "résultats",
+  "noResult": "Aucun résultat",
+  "notFoundTitle": "Page introuvable",
+  "underMaintenanceTitle": "En maintenance",
+  "home": "Accueil",
+  "createdDateTitle": "Date de création",
+  "modifiedDateTitle": "Date de modification",
+  "displayLg2": "Afficher la seconde langue",
+  "deleteTitle": "Suppression",
+  "confirmationConceptDelete": "Vous êtes sur le point de supprimer définitivement ce concept. Êtes-vous sûr ?",
+  "yes": "Oui",
+  "no": "Non",
+  "add": "Ajouter",
+  "backToTop": "Haut de page",
+  "welcome": "Application de gestion des métadonnées de référence",
+  "btnReturn": "Retour",
+  "btnReinitialize": "Réinitialiser",
+  "btnUpdate": "Modifier",
+  "btnDelete": "Supprimer",
+  "btnExport": "Exporter",
+  "btnImport": "Importer",
+  "btnValid": "Publier",
+  "btnCancel": "Annuler",
+  "btnSave": "Sauvegarder",
+  "btnDuplicate": "Dupliquer",
+  "btnClose": "Fermer",
+  "btnCompare": "Comparer",
+  "btnTree": "Voir l'arborescence"
 }

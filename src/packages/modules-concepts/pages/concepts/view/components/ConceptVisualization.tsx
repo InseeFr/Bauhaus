@@ -7,18 +7,15 @@ import { ModalButton, ModalRmes } from "@components/modal-rmes/modal-rmes";
 import { NoteVisualization } from "@components/note-visualization";
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { ConceptGeneral, ConceptNotes, Link as ConceptLink } from "@model/concepts/concept";
+
 import { useTitle } from "@utils/hooks/useTitle";
 
-import {
-  ConceptGeneral,
-  ConceptNotes,
-  Link as ConceptLink,
-} from "../../../../../model/concepts/concept";
 import { buildNotes } from "../../../../utils/buildNotes";
 import { getModalMessage } from "../../../../utils/getModalMessage";
-import ConceptGeneral_ from "./ConceptGeneral";
-import ConceptLinks from "./ConceptLinks";
-import ConceptVisualizationControls from "../menu";
+import { ConceptVisualizationControls } from "../menu";
+import { ConceptGeneral as ConceptGeneralComponent } from "./ConceptGeneral";
+import { ConceptLinks } from "./ConceptLinks";
 
 interface ConceptVisualizationProps {
   id: string;
@@ -31,7 +28,7 @@ interface ConceptVisualizationProps {
   deleteConcept: (id: string) => void;
 }
 
-const ConceptVisualization = ({
+export const ConceptVisualization = ({
   id,
   links,
   notes,
@@ -42,7 +39,9 @@ const ConceptVisualization = ({
   deleteConcept,
 }: Readonly<ConceptVisualizationProps>) => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), general?.prefLabelLg1);
+
   const [modalValid, setModalValid] = useState(false);
 
   const handleClickValidation = useCallback(() => {
@@ -53,10 +52,12 @@ const ConceptVisualization = ({
   const handleCancelValidation = useCallback(() => {
     setModalValid(false);
   }, []);
+
   const handleConfirmValidation = useCallback(() => {
     handleCancelValidation();
     validateConcept(id);
   }, [id, validateConcept, handleCancelValidation]);
+
   const handleClickDeletion = useCallback(() => {
     deleteConcept(id);
   }, [id, deleteConcept]);
@@ -90,7 +91,7 @@ const ConceptVisualization = ({
         />
         <ErrorBloc error={serverSideError} />
         <CheckSecondLang />
-        <ConceptGeneral_ secondLang={secondLang} concept={general} />
+        <ConceptGeneralComponent secondLang={secondLang} concept={general} />
         <ConceptLinks secondLang={secondLang} links={links} />
         <NoteVisualization params={buildNotes(notes)} secondLang={secondLang} />
       </div>
@@ -112,5 +113,3 @@ const ConceptVisualization = ({
     </>
   );
 };
-
-export default ConceptVisualization;

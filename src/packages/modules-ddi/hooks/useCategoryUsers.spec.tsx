@@ -1,9 +1,11 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useCategoryUsers, useFetchCategoryUsers } from "./useCategoryUsers";
-import { DDIApi } from "../../sdk";
+
+import { DDIApi } from "@sdk/index";
+
 import type { CategoryUsage } from "../physical-instances/types/api";
+import { useCategoryUsers, useFetchCategoryUsers } from "./useCategoryUsers";
 
 vi.mock("../../sdk", () => ({
   DDIApi: {

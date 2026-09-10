@@ -41,15 +41,14 @@ interface CollectionGeneralEditionProps {
   creation?: boolean;
 }
 
-function CollectionGeneralEdition({
+export function CollectionGeneralEdition({
   general,
   handleChange,
   errors,
   creation,
 }: Readonly<CollectionGeneralEditionProps>) {
-  const { t, i18n } = useTranslation();
-  const t1 = i18n.getFixedT("fr");
-  const t2 = i18n.getFixedT("en");
+  const { t } = useTranslation();
+
   const { id, prefLabelLg1, prefLabelLg2, creator, contributor, descriptionLg1, descriptionLg2 } =
     general;
 
@@ -60,7 +59,6 @@ function CollectionGeneralEdition({
       <h4 className="text-center">
         ( <RequiredIcon /> : {t("common.requiredFields")})
       </h4>
-
       {creation && (
         <Row>
           <InputRmes
@@ -74,11 +72,12 @@ function CollectionGeneralEdition({
           />
         </Row>
       )}
-
       <Row>
         <InputRmes
           colMd={6}
-          label={t1("common.labelTitle")}
+          label={t("common.labelTitle", {
+            lng: "fr",
+          })}
           star
           value={prefLabelLg1 ?? ""}
           handleChange={(value: string) => handlers.prefLabelLg1?.(value)}
@@ -87,17 +86,18 @@ function CollectionGeneralEdition({
         />
         <InputRmes
           colMd={6}
-          label={t2("common.labelTitle")}
+          label={t("common.labelTitle", {
+            lng: "en",
+          })}
           hiddenStar
           value={prefLabelLg2 ?? ""}
           handleChange={(value: string) => handlers.prefLabelLg2?.(value)}
           className="w-100"
         />
       </Row>
-
       <div className="form-group">
         <CreatorsInput
-          mode="organisation"
+          mode="organization"
           value={creator ?? ""}
           onChange={(value: string | string[]) => handlers.creator?.(value)}
         />
@@ -105,7 +105,7 @@ function CollectionGeneralEdition({
       </div>
       <div className="form-group">
         <ContributorsInput
-          mode="organisation"
+          mode="organization"
           value={contributor ?? ""}
           onChange={() => {}}
           disabled
@@ -114,14 +114,18 @@ function CollectionGeneralEdition({
       <Row>
         <InputRmes
           colMd={6}
-          label={t1("common.descriptionTitle")}
+          label={t("common.descriptionTitle", {
+            lng: "fr",
+          })}
           value={descriptionLg1 ?? ""}
           handleChange={(value: string) => handlers.descriptionLg1?.(value)}
           className="w-100"
         />
         <InputRmes
           colMd={6}
-          label={t2("common.descriptionTitle")}
+          label={t("common.descriptionTitle", {
+            lng: "en",
+          })}
           value={descriptionLg2 ?? ""}
           handleChange={(value: string) => handlers.descriptionLg2?.(value)}
           className="w-100"
@@ -130,5 +134,3 @@ function CollectionGeneralEdition({
     </div>
   );
 }
-
-export default CollectionGeneralEdition;

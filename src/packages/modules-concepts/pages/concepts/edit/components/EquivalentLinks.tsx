@@ -6,9 +6,10 @@ import { TextInput } from "@components/form/input";
 import { Row } from "@components/layout";
 import { List } from "@components/ui/list-group";
 
+import { Link } from "@model/concepts/concept";
+
 import { CLOSE_MATCH } from "@sdk/constants";
 
-import { Link } from "../../../../../model/concepts/concept";
 import "./EquivalentLinks.css";
 import { EMPTY_ARRAY } from "@utils/array-utils";
 import { isAbsoluteUri } from "@utils/uri";
@@ -23,12 +24,16 @@ export const EquivalentLinks = ({
   updateEquivalentLinks,
 }: Readonly<EquivalentLinksTypes>) => {
   const { t } = useTranslation();
+
   const [value, setValue] = useState("");
 
   const uri = value.trim();
+
   const isValid = isAbsoluteUri(uri);
+
   // Rien à reprocher à un champ encore vide.
   const error = uri && !isValid ? t("concept.links.invalidUri") : undefined;
+
   return (
     <div className="equivalent-links">
       <Row>

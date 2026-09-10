@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
 import { useClassifications } from "../../../hooks/useClassifications";
-
 import { Component } from "./page";
 
 vi.mock("../../../hooks/useClassifications", () => ({

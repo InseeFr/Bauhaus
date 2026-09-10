@@ -1,8 +1,10 @@
+import { render, screen } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { SeriesHome } from "./SeriesHome";
+
 import type { PartialClassificationSerie } from "@model/Classification";
+
+import { SeriesHome } from "./SeriesHome";
 
 vi.mock("@components/layout", () => ({
   Row: ({ children }: { children: ReactNode }) => <div data-testid="row">{children}</div>,

@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 import type { Privilege, PRIVILEGE } from "@utils/hooks/rbac-constants";
 
@@ -7,6 +8,7 @@ type PrivilegeStrategy = Record<string, Record<string, string>>;
 
 export const PrivilegesPlugin = () => {
   const queryClient = useQueryClient();
+
   const currentPrivileges = queryClient.getQueryData<Privilege[]>(["users"]);
 
   const [privilegeStrategies, setPrivilegeStrategies] = useState<PrivilegeStrategy>(() => {
@@ -14,7 +16,6 @@ export const PrivilegesPlugin = () => {
     Object.values(MODULES).forEach((module) => {
       initial[module] = {};
       const modulePrivilege = currentPrivileges?.find((p) => p.application === module);
-
       Object.values(PRIVILEGES).forEach((privilege) => {
         const priv = modulePrivilege?.privileges.find((p) => p.privilege === privilege);
         initial[module][privilege] = priv?.strategy || STRATEGIES.NONE;
@@ -33,7 +34,6 @@ export const PrivilegesPlugin = () => {
         })),
       }),
     );
-
     queryClient.setQueryData(["users"], newPrivileges);
   }, [privilegeStrategies, queryClient]);
 
@@ -54,7 +54,6 @@ export const PrivilegesPlugin = () => {
         Override user privileges for testing purposes. Changes are temporary and only affect the
         current session.
       </p>
-
       <div
         style={{
           display: "flex",
@@ -133,7 +132,6 @@ export const PrivilegesPlugin = () => {
           </div>
         ))}
       </div>
-
       <div
         style={{
           marginTop: "1rem",

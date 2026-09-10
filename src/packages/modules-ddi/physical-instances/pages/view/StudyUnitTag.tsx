@@ -1,8 +1,9 @@
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
-import { Tag } from "primereact/tag";
 import { Dropdown } from "primereact/dropdown";
+import { Tag } from "primereact/tag";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+
 import { usePhysicalInstancesSearch } from "../../../hooks/usePhysicalInstancesSearch";
 
 interface StudyUnitTagProps {

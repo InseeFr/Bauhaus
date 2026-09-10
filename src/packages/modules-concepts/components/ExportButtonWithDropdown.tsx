@@ -36,11 +36,12 @@ interface ExportButtonWithDropdownProps {
   disabled?: boolean;
 }
 
-const ExportButtonWithDropdown = ({
+export const ExportButtonWithDropdown = ({
   actions,
   disabled = false,
 }: Readonly<ExportButtonWithDropdownProps>) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
+
   const [open, setOpen] = useOutsideClick(dropdownRef, false);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -49,6 +50,7 @@ const ExportButtonWithDropdown = ({
       dropdownRef.current?.querySelector("button")?.focus();
     }
   };
+
   useEffect(() => {
     if (open) {
       (dropdownRef.current?.querySelector("li *") as HTMLElement | null)?.focus();
@@ -70,5 +72,3 @@ const ExportButtonWithDropdown = ({
     </div>
   );
 };
-
-export default ExportButtonWithDropdown;

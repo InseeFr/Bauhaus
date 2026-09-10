@@ -2,18 +2,19 @@ import { render, waitFor } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
-import { useFormattedCodeList } from "../../../../hooks/useFormattedCodeList";
+
 import { CodelistPanel } from "../../../../components/CodelistPanel";
 import { StructureComponentsSelector } from "../../../../components/StructureComponentsSelector";
+import { useFormattedCodelist } from "../../../../hooks/useFormattedCodelist";
 import { ComponentsPanel } from "./ComponentsPanel";
 
 vi.mock("../../../../components/CodelistPanel", () => ({
-  CodelistPanel: vi.fn(() => <div data-testid="codes-list-panel">CodelistPanel Mock</div>),
+  CodelistPanel: vi.fn(() => <div data-testid="code-list-panel">CodelistPanel Mock</div>),
 }));
 
 vi.mock("../../../../components/StructureComponentsSelector", () => ({
   StructureComponentsSelector: vi.fn(() => (
-    <div data-testid="codes-list-panel">Structure Component Selector Mock</div>
+    <div data-testid="code-list-panel">Structure Component Selector Mock</div>
   )),
 }));
 
@@ -23,8 +24,8 @@ vi.mock("../../../../components/component-specification-modal/index", () => ({
   )),
 }));
 
-vi.mock("../../../../hooks/useFormattedCodeList", () => ({
-  useFormattedCodeList: vi.fn(),
+vi.mock("../../../../hooks/useFormattedCodelist", () => ({
+  useFormattedCodelist: vi.fn(),
 }));
 
 vi.mock("@sdk/index", () => ({
@@ -35,7 +36,7 @@ vi.mock("@sdk/index", () => ({
 
 describe("ComponentsPanel", () => {
   beforeEach(() => {
-    (useFormattedCodeList as Mock).mockReturnValue({ data: [] });
+    (useFormattedCodelist as Mock).mockReturnValue({ data: [] });
     (ConceptsApi.getConceptList as Mock).mockResolvedValue([]);
   });
 
@@ -43,7 +44,7 @@ describe("ComponentsPanel", () => {
     vi.clearAllMocks();
   });
 
-  it("should render StructureComponentsSelector and CodesListPanel", async () => {
+  it("should render StructureComponentsSelector and CodelistPanel", async () => {
     render(<ComponentsPanel componentDefinitions={[]} />);
 
     await waitFor(() => {

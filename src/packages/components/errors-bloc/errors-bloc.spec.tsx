@@ -3,13 +3,6 @@ import { describe, it, expect } from "vitest";
 
 import { ClientSideError, GlobalClientSideErrorBloc, ErrorBloc } from "./index";
 
-const mockD = {
-  errors: {
-    GlobalClientSideErrorBloc: "A global client-side error occurred.",
-    SOME_ERROR_CODE: () => "Error related to SOME_ERROR_CODE.",
-  },
-};
-
 describe("ClientSideError", () => {
   it("renders error message when error is provided", () => {
     render(<ClientSideError error="<strong>Error occurred</strong>" id="error1" />);
@@ -45,14 +38,14 @@ describe("GlobalClientSideErrorBloc", () => {
 describe("ErrorBloc", () => {
   it("renders formatted errors for an array of error messages", () => {
     const errors = [
-      JSON.stringify({ code: "SOME_ERROR_CODE" }),
+      JSON.stringify({ code: "1101" }),
       JSON.stringify({ status: 500, message: "message" }),
       { status: 500, message: "object" },
       "Plain error message",
     ];
-    render(<ErrorBloc error={errors} D={mockD} />);
+    render(<ErrorBloc error={errors} />);
 
-    screen.getByText("Error related to SOME_ERROR_CODE.");
+    screen.getByText("The codelist already exists.");
     screen.getByText(
       "An error has occurred. Please contact the RMéS administration team and provide them with the following message: message",
     );
@@ -63,13 +56,13 @@ describe("ErrorBloc", () => {
   });
 
   it("renders a single error message when error is a string", () => {
-    render(<ErrorBloc error="Plain error message" D={mockD} />);
+    render(<ErrorBloc error="Plain error message" />);
     screen.getByText("Plain error message");
   });
 
   it("renders fallback message when JSON parsing fails", () => {
     const invalidError = "Invalid JSON";
-    render(<ErrorBloc error={[invalidError]} D={mockD} />);
+    render(<ErrorBloc error={[invalidError]} />);
     screen.getByText("Invalid JSON");
   });
 });

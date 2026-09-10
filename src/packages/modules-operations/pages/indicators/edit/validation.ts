@@ -6,9 +6,8 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import i18next from "../../../i18n";
-
-import NewDictionary from "../../../../i18n";
+import { appI18n } from "../../../../i18n";
+import { operationsI18n } from "../../../i18n";
 
 const Serie = z.object({
   id: z.string(),
@@ -16,11 +15,13 @@ const Serie = z.object({
 });
 
 const ZodIndicator = z.object({
-  prefLabelLg1: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "fr" })),
-  prefLabelLg2: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "en" })),
-  creators: mandatoryAndNotEmptyMultiSelectField(i18next.t("app.creatorsTitle")),
+  prefLabelLg1: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "fr" })),
+  prefLabelLg2: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "en" })),
+  creators: mandatoryAndNotEmptyMultiSelectField(operationsI18n.t("app.creatorsTitle")),
   wasGeneratedBy: z.array(Serie).nonempty({
-    error: NewDictionary.errors.mandatoryProperty(i18next.t("common.generatedBy")),
+    error: appI18n.t("errors.mandatoryProperty", {
+      propertyName: operationsI18n.t("common.generatedBy"),
+    }),
   }),
 });
 

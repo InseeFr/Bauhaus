@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
-import { Component } from "./page";
 import { useCollections } from "../../../hooks/useCollections";
+import { Component } from "./page";
 
 vi.mock("../../../hooks/useCollections", () => ({
   useCollections: vi.fn(),
@@ -13,7 +13,7 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/CollectionsHome", () => ({
-  default: ({ collections }: { collections: { id: string; label: string }[] }) => (
+  CollectionsHome: ({ collections }: { collections: { id: string; label: string }[] }) => (
     <div data-testid="collections-home">{JSON.stringify(collections)}</div>
   ),
 }));

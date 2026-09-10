@@ -1,4 +1,5 @@
 import { ComponentPropsWithoutRef, forwardRef } from "react";
+
 import { cx } from "@utils/cx";
 
 /**
@@ -21,6 +22,7 @@ const Container = ({ className, children, ...props }: ComponentPropsWithoutRef<"
     {children}
   </ul>
 );
+
 Container.displayName = "List.Container";
 
 const Item = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<"li">>(
@@ -30,6 +32,7 @@ const Item = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<"li">>(
     </li>
   ),
 );
+
 Item.displayName = "List.Item";
 
 export const List = { Container, Item };

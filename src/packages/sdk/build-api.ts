@@ -10,6 +10,7 @@ export const generateGenericApiEndpoints = (
   { advancedSearch = true }: { advancedSearch?: boolean } = {},
 ) => {
   const capitalizedPluralPrefix = pluralPrefix.charAt(0).toUpperCase() + pluralPrefix.slice(1);
+
   const capitalizedSingularPrefix =
     singularPrefix.charAt(0).toUpperCase() + singularPrefix.slice(1);
 
@@ -84,14 +85,18 @@ export const computeDscr = async (fn: any, [...args]) => {
       "API descr function should return a `string` or an `array`, got " + `\`${dscr}\`.`,
     );
   }
+
   const [url] = dscr as any;
+
   let options = dscr[1];
   let thenHandler = dscr[2];
   //We don't deep merge: all nested properties in default options (ie.
   //headers.Accept) are lost. Hence, if a prop option is overriden (ie.
   //headers), all relevant options should be present.
   options = { ...defaultOptions, ...options };
+
   const oidc = await getOidc();
+
   if (oidc && oidc.isUserLoggedIn) {
     const { accessToken } = oidc.getTokens();
     options = {
@@ -99,7 +104,9 @@ export const computeDscr = async (fn: any, [...args]) => {
       headers: { ...options.headers, Authorization: `Bearer ${accessToken}` },
     };
   }
+
   thenHandler = thenHandler || defaultThenHandler;
+
   return [url, options, thenHandler];
 };
 
@@ -108,11 +115,13 @@ export const getBaseURI = () => import.meta.env.VITE_API_BASE_HOST;
 export const buildCall = (context: string, resource: string, fn: any) => {
   return async (...args: any[]) => {
     const [path, options, thenHandler] = await computeDscr(fn, args);
+
     if (!options.method) {
       options.method = guessMethod(resource);
     }
 
     const baseURI = getBaseURI();
+
     const baseHost = removeTrailingSlash(`${baseURI}${context ? `/${context}` : ""}`);
 
     const url = path !== "" ? `${baseHost}/${path}` : baseHost;
@@ -158,7 +167,10 @@ export const guessMethod = (name: string) => {
     const pattern = config[1];
     return pattern.test(name);
   });
+
   if (!matchPattern) throw new Error(`Could not guess http method from \`${name}\``);
+
   const [method] = matchPattern;
+
   return method;
 };

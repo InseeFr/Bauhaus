@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
 import { Component } from "@model/structures/Component";
+
 import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
 
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
@@ -26,7 +27,7 @@ describe("Component View Menu", () => {
           component={component}
           updatable={true}
           publish={vi.fn()}
-          handleUpdate={vi.fn()}
+          handleUpdate={vi.fn() as VoidFunction}
           handleDelete={vi.fn()}
           handleBack={vi.fn}
         ></ViewMenu>
@@ -60,7 +61,7 @@ describe("Component View Menu", () => {
           component={component}
           updatable={true}
           publish={vi.fn()}
-          handleUpdate={vi.fn()}
+          handleUpdate={vi.fn() as VoidFunction}
           handleDelete={vi.fn()}
           handleBack={vi.fn}
         ></ViewMenu>
@@ -102,7 +103,7 @@ describe("Component View Menu", () => {
           component={component}
           updatable={true}
           publish={vi.fn()}
-          handleUpdate={vi.fn()}
+          handleUpdate={vi.fn() as VoidFunction}
           handleDelete={vi.fn()}
           handleBack={vi.fn}
         ></ViewMenu>

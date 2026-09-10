@@ -7,13 +7,13 @@ import {
   ReturnButton,
   UpdateButton,
 } from "@components/buttons/buttons-with-icons";
-
 import type { ValidationState } from "@components/status";
+
 import { CollectionExportFormat } from "@model/concepts/collection";
 import { VALIDATED } from "@model/ValidationState";
 
-import ExportButtons from "../../../components/ExportButtons";
 import { HasAccess } from "../../../../auth/components/auth";
+import { ExportButtons } from "../../../components/ExportButtons";
 
 interface MenuProps {
   validationState?: ValidationState;
@@ -43,7 +43,6 @@ export const Menu = ({
           lang: "lg1" | "lg2" = "lg1",
         ) => exportCollection({ ids: [id], type, withConcepts, lang })}
       />
-
       <HasAccess
         module="CONCEPT_COLLECTION"
         privilege="PUBLISH"
@@ -51,7 +50,6 @@ export const Menu = ({
       >
         <PublishButton action={handleValidation} />
       </HasAccess>
-
       <HasAccess module="CONCEPT_COLLECTION" privilege="UPDATE">
         <UpdateButton action={`/concepts/collections/${id}/modify`} />
       </HasAccess>

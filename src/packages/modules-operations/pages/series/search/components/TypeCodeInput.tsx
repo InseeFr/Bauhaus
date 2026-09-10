@@ -2,9 +2,10 @@ import { useTranslation } from "react-i18next";
 
 import { Select } from "@components/select-rmes";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { Option } from "@model/SelectOption";
 
-import { Option } from "../../../../../model/SelectOption";
+import { useCodelist } from "@utils/hooks/codelist";
+
 import { CL_SOURCE_CATEGORY } from "../../../../../constants/code-lists";
 
 interface TypeCodeInputTypes {
@@ -15,7 +16,7 @@ interface TypeCodeInputTypes {
 export const TypeCodeInput = ({ value, onChange }: Readonly<TypeCodeInputTypes>) => {
   const { t } = useTranslation();
 
-  const categories = useCodesList(CL_SOURCE_CATEGORY);
+  const categories = useCodelist(CL_SOURCE_CATEGORY);
 
   const options: Option[] = categories?.codes?.map((cat) => {
     return { value: cat.code, label: cat.labelLg1 };

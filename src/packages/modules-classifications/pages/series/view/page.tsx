@@ -30,6 +30,7 @@ export const Component = () => {
   }>();
 
   const [secondLang] = useSecondLang();
+
   useEffect(() => {
     Promise.all([
       ClassificationsApi.getSeriesGeneral(id),

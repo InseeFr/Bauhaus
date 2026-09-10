@@ -1,5 +1,7 @@
 import { Mock, vi, describe, it, expect, beforeEach } from "vitest";
+
 import { useUserStamps } from "@utils/hooks/users";
+
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
 
 vi.mock("@utils/hooks/users", () => ({
@@ -155,7 +157,7 @@ describe("CodelistDetailEdit - Hook integration tests", () => {
     // pré-remplir la valeur résolue, ou rien si elle ne l'est pas.
     it("pré-remplit le contributeur résolu à la création", () => {
       const codelist: { id?: string; contributor?: string[] } = {};
-      const defaultContributor = "http://bauhaus/organisations/insee/HIE2001201";
+      const defaultContributor = "http://bauhaus/organizations/insee/HIE2001201";
 
       if (!codelist.id) {
         codelist.contributor = defaultContributor ? [defaultContributor] : [];

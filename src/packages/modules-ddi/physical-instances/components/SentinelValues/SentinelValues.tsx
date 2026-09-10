@@ -1,12 +1,18 @@
-import { useEffect, useRef, useState } from "react";
 import { Accordion, AccordionTab } from "primereact/accordion";
 import { Button } from "primereact/button";
 import { confirmDialog } from "primereact/confirmdialog";
 import { Dropdown } from "primereact/dropdown";
 import { Message } from "primereact/message";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+
+import { useAppContext } from "../../../../application/app-context";
+import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useMmvrUsers } from "../../../hooks/useMmvrUsers";
+import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
 import type {
   Category,
   CodeList,
@@ -15,7 +21,6 @@ import type {
 } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
 import { CodeListDataTable, CodeTableRow } from "../CodeRepresentation/CodeListDataTable";
-import { UsersPanel } from "../CodeRepresentation/UsersPanel";
 import {
   createCategory,
   createCode,
@@ -24,11 +29,7 @@ import {
   createLabel,
   getLocalizedText,
 } from "../CodeRepresentation/CodeRepresentation.utils";
-import { useAppContext } from "../../../../application/app-context";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
-import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
-import { useMmvrUsers } from "../../../hooks/useMmvrUsers";
+import { UsersPanel } from "../CodeRepresentation/UsersPanel";
 
 export interface SentinelValuesProps {
   missingValuesReference?: Reference;
@@ -138,7 +139,7 @@ export const SentinelValues = ({
 
   // Contenu de la CodeList de sentinelles (endpoint générique). Inutile quand les modifications
   // locales portent déjà la liste.
-  const { data: codeListContent, isLoading: isLoadingCodes } = useMutualizedCodesList(
+  const { data: codeListContent, isLoading: isLoadingCodes } = useMutualizedCodeList(
     !hasLocalEdits ? (selectedMmvr?.agency ?? "") : "",
     !hasLocalEdits ? (selectedMmvr?.codeListId ?? "") : "",
   );
@@ -191,7 +192,6 @@ export const SentinelValues = ({
     };
     setEditLabel(getLocalizedText(loadedCodeList.Label) ?? selectedMmvr?.label ?? "");
     setEditRows(loadedRows);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [materializationKey]);
 
   const emitEdit = (label: string, rows: CodeTableRow[]) => {
