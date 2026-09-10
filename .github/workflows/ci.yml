@@ -21,6 +21,9 @@ jobs:
       - name: Use Generic CI For Building the Application
         uses: ./.github/actions/generic-ci-app
       - name: SonarCloud Scan
+        # Les PR Dependabot n'ont pas accès aux secrets du dépôt : le scan
+        # échouerait sur un SONAR_TOKEN vide.
+        if: github.actor != 'dependabot[bot]'
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
