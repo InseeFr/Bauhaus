@@ -5,6 +5,9 @@ name: Prepare release
 #   - prerelease : the release branch (4.21.1, …), never main
 #   - release    : main
 #
+# The logic lives in InseeFr/rmes-githubactions-commons, shared with the other
+# RMéS projects. Only what is specific to this repository stays here.
+#
 # The tag is placed ON the bump commit. That is what guarantees that the image
 # built afterwards by docker-prerelease.yml / docker.yml shows the right version:
 # VITE_VERSION is read from package.json during `pnpm build`, which runs inside
@@ -28,106 +31,14 @@ on:
         type: boolean
         default: false
 
-concurrency:
-  group: prepare-release-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   release:
-    name: ${{ inputs.kind }} from ${{ github.ref_name }}
-    runs-on: ubuntu-latest
+    uses: InseeFr/rmes-githubactions-commons/.github/workflows/prepare-release.yml@main
     permissions:
       contents: write
-    steps:
-      - name: Check the branch
-        env:
-          KIND: ${{ inputs.kind }}
-          BRANCH: ${{ github.ref_name }}
-        run: |
-          if [ "$KIND" = "prerelease" ] && [ "$BRANCH" = "main" ]; then
-            echo "::error::a prerelease is tagged on the release branch, not on main"
-            exit 1
-          fi
-          if [ "$KIND" = "release" ] && [ "$BRANCH" != "main" ]; then
-            echo "::error::a final release is tagged on main (current branch: $BRANCH)"
-            exit 1
-          fi
-
-      - uses: actions/checkout@v4
-
-      - name: Compute the version
-        id: version
-        env:
-          KIND: ${{ inputs.kind }}
-          BRANCH: ${{ github.ref_name }}
-          INPUT_VERSION: ${{ inputs.version }}
-        run: |
-          set -euo pipefail
-          current=$(jq -r .version package.json)
-
-          if [ -n "$INPUT_VERSION" ]; then
-            next="$INPUT_VERSION"
-          elif [ "$KIND" = "release" ]; then
-            next="${current%-rc*}"
-          elif [[ "$current" =~ ^(.+-rc)([0-9]+)$ ]]; then
-            next="${BASH_REMATCH[1]}$(( BASH_REMATCH[2] + 1 ))"
-          else
-            echo "::error::$current is not an -rcN version: pass the version to publish"
-            exit 1
-          fi
-
-          if [ "$next" = "$current" ]; then
-            echo "::error::package.json is already at $current: pass the version to publish"
-            exit 1
-          fi
-          if git ls-remote --exit-code --tags origin "refs/tags/$next" >/dev/null 2>&1; then
-            echo "::error::tag $next already exists"
-            exit 1
-          fi
-
-          echo "next=$next" >> "$GITHUB_OUTPUT"
-          echo "\`$current\` → \`$next\` (*$KIND*, branch \`$BRANCH\`)" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Bump, commit and tag
-        if: ${{ !inputs.dry_run }}
-        env:
-          NEXT: ${{ steps.version.outputs.next }}
-          BRANCH: ${{ github.ref_name }}
-          ACTOR: ${{ github.actor }}
-          ACTOR_ID: ${{ github.actor_id }}
-        run: |
-          set -euo pipefail
-          npm pkg set version="$NEXT"
-          if git diff --quiet; then
-            echo "::error::the bump changed nothing in package.json"
-            exit 1
-          fi
-          # Commit attributed to whoever ran the workflow: the numeric id in the
-          # noreply address is what links it back to their GitHub account.
-          git config user.name "$ACTOR"
-          git config user.email "$ACTOR_ID+$ACTOR@users.noreply.github.com"
-          git commit -am "chore: $NEXT"
-          git tag "$NEXT"
-          # Tag pushed explicitly: `--follow-tags` skips lightweight tags.
-          git push origin "HEAD:refs/heads/$BRANCH"
-          git push origin "refs/tags/$NEXT"
-
-      - name: Create the GitHub release
-        if: ${{ !inputs.dry_run }}
-        env:
-          GH_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
-          HAS_PAT: ${{ secrets.RELEASE_TOKEN != '' }}
-          NEXT: ${{ steps.version.outputs.next }}
-          BRANCH: ${{ github.ref_name }}
-          KIND: ${{ inputs.kind }}
-        run: |
-          set -euo pipefail
-          flags=(--target "$BRANCH" --title "$NEXT" --generate-notes)
-          if [ "$KIND" = "prerelease" ]; then
-            flags+=(--prerelease)
-          fi
-          gh release create "$NEXT" "${flags[@]}"
-
-          if [ "$HAS_PAT" != "true" ]; then
-            echo "::warning::release created with GITHUB_TOKEN: docker-prerelease.yml and docker.yml will NOT be triggered (GitHub never starts a workflow from an event produced by GITHUB_TOKEN). Add the RELEASE_TOKEN secret, or switch those workflows to workflow_call."
-          fi
+    secrets: inherit
+    with:
+      kind: ${{ inputs.kind }}
+      version: ${{ inputs.version }}
+      dry_run: ${{ inputs.dry_run }}
+      ecosystem: node
