@@ -41,4 +41,3 @@ jobs:
       kind: ${{ inputs.kind }}
       version: ${{ inputs.version }}
       dry_run: ${{ inputs.dry_run }}
-      ecosystem: node

@@ -1,4 +1,5 @@
 name: 'Build Application'
+description: 'Installs the dependencies, runs ESLint, TypeScript, Knip and the unit tests, then builds the application'
 runs:
   using: 'composite'
   steps:
