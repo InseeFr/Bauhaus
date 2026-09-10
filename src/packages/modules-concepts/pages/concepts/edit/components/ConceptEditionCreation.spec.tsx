@@ -1,8 +1,9 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 
 import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+import { UNPUBLISHED, VALIDATED } from "@model/ValidationState";
 
-import { BROADER, NARROWER } from "@sdk/constants";
+import { BROADER, NARROWER, NONE, NO_VERSIONING } from "@sdk/constants";
 
 import { renderWithAppContext } from "../../../../../tests/render";
 import { emptyConceptGeneral } from "../../../../utils/emptyConceptGeneral";
@@ -256,6 +257,203 @@ describe("concept-edition-creation", () => {
       fireEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
 
       expect(save).not.toHaveBeenCalled();
+    });
+  });
+  describe("sauvegarde", () => {
+    // Le minimum que `validate` exige : sans cela `handleSave` s'arrête avant
+    // d'appeler `save`, et aucun parcours de sauvegarde n'est joué.
+    const buildValidProps = (overrides: Record<string, unknown> = {}) => ({
+      ...buildBaseProps(),
+      general: {
+        ...emptyConceptGeneral(),
+        contributor: "DG75-L201",
+        prefLabelLg1: "Concept valide",
+        creator: "DG75-L201",
+        // Un statut non public dispense de la définition courte.
+        disseminationStatus: "http://id.insee.fr/codes/base/statutDiffusion/Prive",
+        validationState: UNPUBLISHED,
+      } as unknown as ConceptGeneral,
+      notes: {
+        ...emptyConceptNotes,
+        definitionLg1: "<p>Définition</p>",
+      } as unknown as ConceptNotes,
+      ...overrides,
+    });
+
+    const clickSave = () =>
+      fireEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
+
+    it("sauvegarde le concept en création avec les seules données saisies", () => {
+      const save = vi.fn();
+      renderWithAppContext(<ConceptEditionCreation {...buildValidProps({ save })} />);
+
+      clickSave();
+
+      expect(save).toHaveBeenCalledTimes(1);
+      expect(save.mock.calls[0]).toHaveLength(1);
+      expect(save.mock.calls[0][0].general.prefLabelLg1).toBe("Concept valide");
+    });
+
+    it("sauvegarde sans rien demander un concept qui n'a jamais été publié", () => {
+      const save = vi.fn();
+      renderWithAppContext(
+        <ConceptEditionCreation {...buildValidProps({ save, creation: false })} />,
+      );
+
+      clickSave();
+
+      expect(screen.queryByText("Please select versioning type")).not.toBeInTheDocument();
+      expect(save).toHaveBeenCalledWith(
+        "id",
+        NO_VERSIONING,
+        expect.objectContaining({
+          general: expect.objectContaining({ prefLabelLg1: "Concept valide" }),
+        }),
+        expect.objectContaining({
+          general: expect.objectContaining({ prefLabelLg1: "Concept valide" }),
+        }),
+      );
+    });
+
+    const buildPublishedProps = (overrides: Record<string, unknown> = {}) => {
+      const props = buildValidProps({ creation: false, ...overrides });
+      return {
+        ...props,
+        general: { ...props.general, validationState: VALIDATED } as unknown as ConceptGeneral,
+      };
+    };
+
+    it("sauvegarde sans rien demander un concept publié dont aucune note n'a changé", () => {
+      const save = vi.fn();
+      renderWithAppContext(<ConceptEditionCreation {...buildPublishedProps({ save })} />);
+
+      clickSave();
+
+      expect(screen.queryByText("Please select versioning type")).not.toBeInTheDocument();
+      expect(save).toHaveBeenCalledWith("id", NO_VERSIONING, expect.anything(), expect.anything());
+    });
+
+    // Vider la note éditoriale la fait changer sans rendre le formulaire invalide,
+    // contrairement à la définition, qui est obligatoire.
+    const emptyEditorialNote = () => {
+      fireEvent.click(
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /Note éditoriale/,
+        }),
+      );
+      const note = screen.getByRole("region", { name: "Note éditoriale" });
+      fireEvent.click(within(note).getAllByTitle("Delete")[0]);
+    };
+
+    const buildPublishedWithNote = (save: ReturnType<typeof vi.fn>) => {
+      const props = buildPublishedProps({ save });
+      return {
+        ...props,
+        notes: {
+          ...props.notes,
+          editorialNoteLg1: "<p>Note éditoriale</p>",
+        } as unknown as ConceptNotes,
+      };
+    };
+
+    it("demande quoi faire de la version quand une note impactante a changé", () => {
+      const save = vi.fn();
+      renderWithAppContext(<ConceptEditionCreation {...buildPublishedWithNote(save)} />);
+
+      emptyEditorialNote();
+      clickSave();
+
+      expect(screen.getByText("Please select versioning type")).toBeInTheDocument();
+      expect(save).not.toHaveBeenCalled();
+    });
+
+    it("écrase la version en place quand l'utilisateur le demande", () => {
+      const save = vi.fn();
+      renderWithAppContext(<ConceptEditionCreation {...buildPublishedWithNote(save)} />);
+
+      emptyEditorialNote();
+      clickSave();
+      fireEvent.click(screen.getByRole("button", { name: "Overwrite version" }));
+
+      expect(screen.queryByText("Please select versioning type")).not.toBeInTheDocument();
+      expect(save).toHaveBeenCalledWith("id", NO_VERSIONING, expect.anything(), expect.anything());
+    });
+
+    it("referme la fenêtre sans sauvegarder quand l'utilisateur renonce", () => {
+      const save = vi.fn();
+      renderWithAppContext(<ConceptEditionCreation {...buildPublishedWithNote(save)} />);
+
+      emptyEditorialNote();
+      clickSave();
+      const modal = screen.getByRole("dialog");
+      fireEvent.click(within(modal).getByRole("button", { name: "Cancel" }));
+
+      expect(screen.queryByText("Please select versioning type")).not.toBeInTheDocument();
+      expect(save).not.toHaveBeenCalled();
+    });
+
+    it("referme la fenêtre sans sauvegarder quand l'utilisateur la ferme", () => {
+      const save = vi.fn();
+      renderWithAppContext(<ConceptEditionCreation {...buildPublishedWithNote(save)} />);
+
+      emptyEditorialNote();
+      clickSave();
+      const modal = screen.getByRole("dialog");
+      fireEvent.click(within(modal).getByRole("button", { name: /Close|Fermer/ }));
+
+      expect(screen.queryByText("Please select versioning type")).not.toBeInTheDocument();
+      expect(save).not.toHaveBeenCalled();
+    });
+
+    it("interdit la version majeure tant que la note de changement n'a pas été reprise", () => {
+      renderWithAppContext(<ConceptEditionCreation {...buildPublishedWithNote(vi.fn())} />);
+
+      emptyEditorialNote();
+      clickSave();
+
+      expect(screen.getByRole("button", { name: "New version" })).toBeDisabled();
+    });
+  });
+  describe("liens", () => {
+    it("retient le lien d'équivalence ajouté", () => {
+      renderWithAppContext(<ConceptEditionCreation {...buildBaseProps()} />);
+
+      fireEvent.click(
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /Correspond à/,
+        }),
+      );
+      fireEvent.change(screen.getByPlaceholderText("New link"), {
+        target: { value: "https://stats.oecd.org/glossary/detail.asp?ID=2288" },
+      });
+      fireEvent.click(screen.getByRole("button", { name: "Add" }));
+
+      expect(
+        screen.getByText("https://stats.oecd.org/glossary/detail.asp?ID=2288"),
+      ).toBeInTheDocument();
+    });
+
+    it("retient le concept relié au type de lien affiché", () => {
+      renderWithAppContext(
+        <ConceptEditionCreation
+          {...buildBaseProps()}
+          conceptsWithLinks={[{ id: "c2", label: "Autre concept", typeOfLink: NONE }]}
+        />,
+      );
+
+      fireEvent.click(
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /A pour enfant/,
+        }),
+      );
+      fireEvent.click(screen.getByText("Autre concept"));
+      fireEvent.click(screen.getByLabelText("Move to Target"));
+
+      expect(
+        within(screen.getByRole("navigation")).getByRole("button", {
+          name: /A pour enfant/,
+        }).textContent,
+      ).toContain("1");
     });
   });
 });
