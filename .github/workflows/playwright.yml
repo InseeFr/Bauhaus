@@ -12,12 +12,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: InseeFr/Bauhaus-Back-Office
-          # Épinglé : sur la branche par défaut (`main`), compose/bauhaus-back.yaml
-          # déclare `build: ../Dockerfile.bauhaus` — la forme courte de `build` attend
-          # un contexte de build, pas un Dockerfile, et l'étape suivante échoue sur
-          # « unable to prepare context ». Repasser sur la branche par défaut (supprimer
-          # ce `ref`) une fois le correctif fusionné dans main.
-          ref: 4.21.0
+          # Épinglé sur la branche de release du back, pas sur `main` : `main` en est
+          # resté à 4.21.0, dont /api/init annonce les modules sous la forme
+          # `{identifier, disabled}`. Le front lit désormais `show` et `directAccess`
+          # (application/router/routes.tsx) : avec un back 4.21.0 aucun module n'est
+          # accessible et toutes les pages répondent « Page not found ». Repasser sur la
+          # branche par défaut (supprimer ce `ref`) une fois 4.21.1 fusionnée des deux côtés.
+          ref: 4.21.1
           path: ./bauhaus-back-office
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -38,17 +39,24 @@ jobs:
         working-directory: ./e2e
         run: npx playwright install --with-deps chromium
 
-      - name: Start GraphDB and the Back-Office
+      # Le back démarre séparément, APRÈS le chargement des fixtures : depuis 4.21.1 il
+      # vérifie au démarrage que `defaultContributor` existe en base de gestion, et il
+      # échoue définitivement (aucun `restart:`) si les dépôts RDF n'existent pas encore.
+      - name: Start GraphDB
         run: |
-          docker compose -f ./bauhaus-back-office/module-bauhaus-bo/compose.yaml up -d
+          docker compose -f ./bauhaus-back-office/module-bauhaus-bo/compose.yaml up -d graphdb minio
           timeout 300 bash -c 'until curl -sf http://localhost:7200/rest/repositories > /dev/null; do sleep 5; done'
 
       - name: Load test data
         working-directory: ./e2e
         env:
           BACK_OFFICE_HOME: ../bauhaus-back-office
+        run: ./playwright/db/init.sh
+
+      - name: Start the Back-Office
         run: |
-          ./playwright/db/init.sh
+          docker compose -f ./bauhaus-back-office/module-bauhaus-bo/compose.yaml \
+            -f ./e2e/compose.ci.yaml up -d bauhaus-back
           timeout 300 bash -c 'until curl -sf http://localhost:8080/api/init > /dev/null; do sleep 5; done'
 
       - name: Run Playwright tests
