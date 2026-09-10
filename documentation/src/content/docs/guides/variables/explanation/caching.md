@@ -49,14 +49,30 @@ fr.insee.rmes.bauhaus.colectica.cache-warmup-enabled: false   # default: true
 
 **Writes evict the search rows.** Creating a physical instance, patching it, or replacing it evicts `physicalInstanceSearchRows` entirely, so the advanced search never shows a data file that no longer matches.
 
-**Clients can force a refresh of the mutualized lists** with the standard HTTP header:
+**Clients can force a refresh** on either read path, with the standard HTTP header on the `GET`:
 
 ```http
 GET {{API_BASE_URL}}/ddi/mutualized-codes-list
 Cache-Control: no-cache
 ```
 
-`no-cache` or `no-store` evicts **both** mutualized regions before the list is recomputed. Evicting only the high-level list would recompute it from a stale package tree, which is why the two are always flushed together.
+```http
+GET {{API_BASE_URL}}/ddi/physical-instance/search
+Cache-Control: no-cache
+```
+
+In both cases the value `no-cache` **or** `no-store` — matched case-insensitively, anywhere in the header — evicts the region before the response is recomputed, never after: serving the stale entry one last time is exactly what the caller asked to avoid.
+
+The two endpoints differ in what they flush:
+
+| Endpoint | Regions evicted |
+|----------|-----------------|
+| `GET /ddi/mutualized-codes-list` | `mutualizedCodesLists` **and** `mutualizedPackageCodeListRefs` |
+| `GET /ddi/physical-instance/search` | `physicalInstanceSearchRows` |
+
+The mutualized listing flushes both of its regions together: evicting only the high-level list would recompute it from a stale package tree.
+
+Why the search rows need the header at all, given that writes already evict them: the eviction only covers writes **made through Bauhaus**. A physical instance created, moved or renamed directly in Colectica leaves the cached rows untouched, and the advanced search keeps serving them until the TTL elapses. The header is the way to pick such a change up immediately, without restarting the backend.
 
 Nothing else invalidates the mutualized regions: they describe a vocabulary maintained outside the module, so a change there becomes visible after the TTL, or after an explicit refresh.
 

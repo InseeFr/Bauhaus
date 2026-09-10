@@ -13,7 +13,7 @@ Unless stated otherwise, an endpoint requires authentication and the privilege g
 | Method | Path | Access | Description |
 |--------|------|--------|-------------|
 | `GET` | `/ddi/physical-instance` | `READ` | All physical instances, alphabetically by label. HAL, with a `self` link per entry. Filtered by stamp under the `STAMP` strategy. |
-| `GET` | `/ddi/physical-instance/search` | `READ` | Advanced-search rows: each physical instance joined to its study unit and group, labels resolved. Parent fields are `null` for an orphan instance. Filtered by stamp under `STAMP`. |
+| `GET` | `/ddi/physical-instance/search` | `READ` | Advanced-search rows: each physical instance joined to its study unit and group, labels resolved. Parent fields are `null` for an orphan instance. Filtered by stamp under `STAMP`. Send `Cache-Control: no-cache` to force a refresh. |
 | `GET` | `/ddi/physical-instance/{agency}/{id}` | `READ` | The physical instance as a DDI 4 document. **Code lists and categories are omitted** — fetch them separately. |
 | `GET` | `/ddi/physical-instance/{agency}/{id}/parents` | `READ` | Parent study unit and group (agency, id, label) plus the resolved owner stamps. |
 | `GET` | `/ddi/physical-instance/{agency}/{id}/codeslists` | `READ` | Summaries of the code lists referenced by this instance's variables. |
