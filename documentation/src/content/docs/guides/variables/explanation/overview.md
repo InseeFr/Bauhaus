@@ -54,6 +54,7 @@ The conversion between them happens inside the backend, on every read and every 
 
 ## Where to go next
 
+- [DDI Lifecycle Implementation Profile](/Bauhaus/guides/variables/reference/ddi-implementation-profile/) — the subset of DDI implemented, property by property, with cardinalities and application restrictions
 - [The DDI Metadata Model](/Bauhaus/guides/variables/explanation/metadata-model/) — the hierarchy of objects and how it is filed in Colectica
 - [Code Lists and Categories](/Bauhaus/guides/variables/explanation/code-lists-and-categories/) — reuse, sharing and variants
 - [DDI 3.3 and DDI 4](/Bauhaus/guides/variables/explanation/ddi3-and-ddi4/) — the two serialisations and the conversion between them
