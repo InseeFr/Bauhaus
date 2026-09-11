@@ -18,8 +18,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name }}
-      - name: Use Generic CI For Building the Application
-        uses: ./.github/actions/generic-ci-app
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/quality-front@main
 
   docker:
     needs: build
