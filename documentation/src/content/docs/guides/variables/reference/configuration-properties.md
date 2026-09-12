@@ -57,11 +57,17 @@ Prefix: `fr.insee.rmes.bauhaus.colectica`
 | `fr.insee.rmes.bauhaus.colectica.mutualized-codes-cache-ttl` | Duration | `24h` | `expireAfterWrite` applied to all three Colectica cache regions. Spring `Duration` format (`24h`, `30m`, `90s`) |
 | `fr.insee.rmes.bauhaus.colectica.cache-warmup-enabled` | Boolean | `true` | Pre-load the caches at startup. Non-blocking and fault-tolerant |
 
+## Operations mirror
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `fr.insee.rmes.bauhaus.colectica.operations-mirror.enabled` | Boolean | `false` | Mirror every series and operation saved in the RDF repository onto its `Group` and `StudyUnit`. Synchronous and blocking. See [Operations Mirror Mapping](/Bauhaus/guides/variables/reference/operations-mirror-mapping/) |
+
 ## Local development
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `fr.insee.rmes.bauhaus.colectica.init` | Boolean | `false` | Seed the repository from the published series and operations at startup. **Development only** — see [Seed a Local Colectica Repository](/Bauhaus/guides/variables/how-to/seed-a-local-repository/) |
+| `fr.insee.rmes.bauhaus.colectica.init` | Boolean | `false` | Seed the repository from the published series and operations at startup. **Development only**, and not meant to run alongside the operations mirror — see [Seed a Local Colectica Repository](/Bauhaus/guides/variables/how-to/seed-a-local-repository/) |
 | `fr.insee.rmes.bauhaus.enable-dev-tools` | Boolean | `false` | Enables the in-page developer tools, including the DDI 4 inspectors |
 
 ## Access control

@@ -40,6 +40,8 @@ A user may act on the data file when one of their own stamps appears in that set
 
 Groups carry the `seriesIris` that make this possible; a group linked to no series resolves to an empty stamp set, and is therefore invisible under `STAMP`.
 
+Those `seriesIris` are written by the [operations mirror](/Bauhaus/guides/variables/explanation/operations-mirror/), which stamps each series' IRI onto its group as a `r:UserID`.
+
 ## Where the strategy is applied
 
 Two mechanisms coexist, because they answer different questions.
