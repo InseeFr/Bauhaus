@@ -1,6 +1,6 @@
 {
   "name": "bauhaus",
-  "version": "4.21.0",
+  "version": "4.21.1-rc2",
   "type": "module",
   "description": "Web application for the management of concepts, classifications and other statistical objects",
   "repository": {
@@ -66,8 +66,8 @@
     "@types/react-dom": "^18.2.25",
     "@types/react-draft-wysiwyg": "^1.13.9",
     "@vitejs/plugin-react": "^6.0.1",
-    "@vitest/browser-playwright": "4.1.9",
-    "@vitest/coverage-istanbul": "^4.1.8",
+    "@vitest/browser-playwright": "5.0.0",
+    "@vitest/coverage-istanbul": "^5.0.0",
     "bestzip": "^2.2.5",
     "cross-env": "^7.0.3",
     "happy-dom": "^20.9.0",
@@ -83,7 +83,7 @@
     "vite": "^8.0.16",
     "vite-envs": "^4.6.2",
     "vite-plugin-csp-guard": "^4.0.1",
-    "vitest": "^4.1.9"
+    "vitest": "^5.0.0"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

@@ -7,9 +7,11 @@ import {
 } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
+import { Sims } from "@model/Sims";
+
+import { useGoBack } from "@utils/hooks/useGoBack";
+
 import { HasAccess } from "../../../../auth/components/auth";
-import { Sims } from "../../../../model/Sims";
-import { useGoBack } from "../../../../utils/hooks/useGoBack";
 import { getParentUri } from "./utils/getParentUri";
 
 interface MenuTypes {
@@ -19,6 +21,7 @@ interface MenuTypes {
   onDelete: VoidFunction;
   onPublish: VoidFunction;
 }
+
 export const Menu = ({ sims, owners, onExport, onDelete, onPublish }: Readonly<MenuTypes>) => {
   const goBack = useGoBack();
 

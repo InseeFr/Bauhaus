@@ -1,7 +1,7 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 
 import { renderWithRouter } from "../../../../../tests/render";
-import CollectionsToValidate from "./CollectionsToValidate";
+import { CollectionsToValidate } from "./CollectionsToValidate";
 
 const mockCollections = [
   { id: "1", label: "Collection A", creator: "DG75-L201" },

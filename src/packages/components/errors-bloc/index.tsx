@@ -1,5 +1,6 @@
-import NewDictionnary from "../../i18n";
-import OldDictionnary from "../../deprecated-locales";
+import { useTranslation } from "react-i18next";
+
+import { appI18n } from "../../i18n";
 import "./errors-bloc.css";
 
 /**
@@ -17,6 +18,7 @@ export const ClientSideError = ({
   if (!error) {
     return null;
   }
+
   return <div id={id} className="text-danger" dangerouslySetInnerHTML={{ __html: error }}></div>;
 };
 
@@ -25,21 +27,26 @@ export const GlobalClientSideErrorBloc = ({
 }: Readonly<{
   clientSideErrors?: string[];
 }>) => {
+  const { t } = useTranslation("translation", { i18n: appI18n });
+
   if (!clientSideErrors) {
     return null;
   }
+
   return clientSideErrors.length > 0 ? (
     <div className="bauhaus-error-bloc alert alert-danger" role="alert">
       <div
         dangerouslySetInnerHTML={{
-          __html: NewDictionnary.errors.globalClientSideErrorBloc,
+          __html: t("errors.globalClientSideErrorBloc"),
         }}
       />
     </div>
   ) : null;
 };
 
-export const ErrorBloc = ({ error, D = OldDictionnary }: { error?: unknown; D?: any }) => {
+export const ErrorBloc = ({ error }: { error?: unknown }) => {
+  const { t, i18n } = useTranslation("translation", { i18n: appI18n });
+
   if (!error) {
     return null;
   }
@@ -52,13 +59,12 @@ export const ErrorBloc = ({ error, D = OldDictionnary }: { error?: unknown; D?: 
       let errorMsg;
       try {
         const parsedError = e !== null && typeof e === "object" ? e : JSON.parse(e);
-
-        if (parsedError.code && D.errors[parsedError.code]) {
-          errorMsg = D.errors[parsedError.code](parsedError);
-        } else if (parsedError.message && D.errors[parsedError.message]) {
-          errorMsg = D.errors[parsedError.message](parsedError);
+        if (parsedError.code && i18n.exists(`errors.${parsedError.code}`)) {
+          errorMsg = t(`errors.${parsedError.code}`, parsedError);
+        } else if (parsedError.message && i18n.exists(`errors.${parsedError.message}`)) {
+          errorMsg = t(`errors.${parsedError.message}`, parsedError);
         } else if (parsedError.status === 500) {
-          errorMsg = NewDictionnary.errors.serversideErrors["500"](parsedError.message);
+          errorMsg = t("errors.serversideErrors500", { error: parsedError.message });
         } else {
           errorMsg = parsedError.message;
         }
@@ -67,6 +73,7 @@ export const ErrorBloc = ({ error, D = OldDictionnary }: { error?: unknown; D?: 
       }
       return errorMsg;
     });
+
   return formattedErrors.map((e, index) => (
     <div key={index} className="bauhaus-error-bloc alert alert-danger" role="alert">
       <div dangerouslySetInnerHTML={{ __html: e }} />

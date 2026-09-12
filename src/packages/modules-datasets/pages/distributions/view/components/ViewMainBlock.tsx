@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 import { Row } from "@components/layout";
 import { ExternalLink } from "@components/link";
 import { Note } from "@components/note";
-import { PublicationStatusItem } from "@components/status";
+import { PublicationStatusItem } from "@components/status/PublicationStatusItem";
+
+import { Distribution } from "@model/Dataset";
 
 import { stringToDate } from "@utils/date-utils";
 import { useSecondLang } from "@utils/hooks/second-lang";
-
-import { Distribution } from "../../../../../model/Dataset";
 
 export const ViewMainBlock = ({ distribution }: Readonly<{ distribution: Distribution }>) => {
   const { t } = useTranslation();

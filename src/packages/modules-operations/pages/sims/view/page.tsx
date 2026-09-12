@@ -8,18 +8,18 @@ import { OperationsApi } from "@sdk/operations-api";
 
 import { useOrganizations } from "@utils/hooks/organizations";
 
-import { useCodesLists } from "../../../hooks/useCodesLists";
+import { useCodelists } from "../../../hooks/useCodelists";
 import { useMetadataStructure } from "../../../hooks/useMetadataStructure";
 import { usePublishSims, useSims } from "../../../hooks/useSims";
 import { SimsLoaderData } from "../../../types/sims";
-import { MSDComponent as MSDLayout } from "../components/MSDComponent";
-import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
+import { MSDLayout } from "../components/MSDLayout";
 import { useDocumentsList } from "../hooks/useDocumentsList";
+import { DocumentsStoreProvider } from "../hooks/useDocumentsStoreContext";
 import {
   computeEssentialRubricContext,
   EssentialRubricContextProvider,
 } from "../hooks/useEssentialRubricContext";
-import { SimsVisualisation } from "./components/SimsVisualisation";
+import { SimsVisualization } from "./components/SimsVisualization";
 
 interface State {
   owners: any[];
@@ -45,7 +45,11 @@ function reducer(state: State, action: Action): State {
     case "EXPORT_STARTED":
       return { ...state, exportPending: true, missingDocuments: new Set() };
     case "EXPORT_FINISHED":
-      return { ...state, exportPending: false, missingDocuments: action.missingDocuments };
+      return {
+        ...state,
+        exportPending: false,
+        missingDocuments: action.missingDocuments,
+      };
     default:
       return state;
   }
@@ -53,14 +57,23 @@ function reducer(state: State, action: Action): State {
 
 export const Component = () => {
   const { baseUrl, disableSectionAnchor } = (useLoaderData() as SimsLoaderData) ?? {};
+
   const { id } = useParams();
-  const { data: organisations } = useOrganizations();
+
+  const { data: organizations } = useOrganizations();
+
   const { isLoading: metadataStructureLoading, metadataStructure } = useMetadataStructure();
-  const { codesLists } = useCodesLists(metadataStructure);
+
+  const { codelists } = useCodelists(metadataStructure);
+
   const { isLoading: simsLoading, sims } = useSims(id);
+
   const { mutateAsync: publishSimsMutation } = usePublishSims();
+
   const { documentStores, setDocumentStores } = useDocumentsList();
+
   const [state, dispatch] = useReducer(reducer, initialState);
+
   const { owners, exportPending, missingDocuments } = state;
 
   useEffect(() => {
@@ -95,6 +108,7 @@ export const Component = () => {
   );
 
   if (metadataStructureLoading || simsLoading) return <Loading />;
+
   if (exportPending) return <Loading />;
 
   return (
@@ -114,11 +128,11 @@ export const Component = () => {
       >
         <PageTitleBlock titleLg1={currentSims.labelLg1} titleLg2={currentSims.labelLg2} />
         <EssentialRubricContextProvider value={essentialRubricContext}>
-          <SimsVisualisation
+          <SimsVisualization
             sims={currentSims}
             metadataStructure={metadataStructure}
-            codesLists={codesLists}
-            organisations={organisations}
+            codelists={codelists}
+            organizations={organizations}
             publishSims={publishSims}
             exportCallback={exportCallback}
             missingDocuments={missingDocuments}

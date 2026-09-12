@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link, Navigate } from "react-router-dom";
 
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
@@ -17,7 +17,7 @@ import { DistributionApi } from "@sdk/distributions-api";
 
 import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { useSeriesOperationsOptions } from "../../../hooks/useSeriesOperationsOptions";
 import { FieldsForDatasetsAdvancedSearch, SearchDataset } from "../../datasets/search/page";
@@ -38,6 +38,7 @@ export const Component = () => {
   useTitle(t("distribution.searchTitle"));
 
   const [loading, setLoading] = useState(true);
+
   const [data, setData] = useState<SearchDistribution[]>([]);
 
   useEffect(() => {
@@ -57,7 +58,6 @@ const filterDistributionLabel = filterKeyDeburr(["distributionLabelLg1"]);
 const filterDistributionValidationStatus = filterKeyDeburr(["distributionValidationStatus"]);
 const filterDistributionCreatedDate = filterKeyDate("distributionCreated");
 const filterDistributionUpdatedDate = filterKeyDate("distributionUpdated");
-
 const filterLabel = filterKeyDeburr(["labelLg1"]);
 const filterAltId = filterKeyDeburr(["altIdentifier"]);
 const filterCreator = filterKeyDeburr(["creator"]);

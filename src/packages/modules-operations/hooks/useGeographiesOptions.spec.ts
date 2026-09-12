@@ -7,7 +7,7 @@ import { useGeographiesOptions } from "./useGeographiesOptions";
 vi.mock("./useAllGeographies", () => ({ useAllGeographies: vi.fn() }));
 
 vi.mock("../i18n", () => ({
-  default: {
+  operationsI18n: {
     t: (key: string, options: any) =>
       `${key}[${options.lng}]:${options.label}|${options.startDate ?? ""}|${options.endDate ?? ""}`,
   },

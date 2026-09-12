@@ -1,4 +1,5 @@
-import { Rubric } from "../../../../../model/Sims";
+import { Rubric } from "@model/Sims";
+
 import { CREATE, DUPLICATE } from "../../constants";
 import { removeRubricsWhenDuplicate } from "./removeRubricsWhenDuplicate";
 

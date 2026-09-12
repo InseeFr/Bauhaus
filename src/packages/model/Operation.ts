@@ -18,12 +18,9 @@ export interface Operation {
   series: Series & RelatedItem;
   validationState: ValidationState;
   prefLabelLg1?: string;
+  prefLabelLg2?: string;
   created: string;
   modified: string;
   altLabelLg1: string;
   altLabelLg2: string;
-}
-
-export interface SeeAlso {
-  type: string;
 }

@@ -1,6 +1,6 @@
-import { buildEmptyWithContributor } from "../../utils/build-general-proptypes";
+import { buildEmptyWithContributor } from "@utils/build-general-proptypes";
 
 import { conceptGeneralFieldsConfig } from "./conceptGeneralFieldsConfig";
 
-export const emptyConceptGeneralWithContributor = (defaultContributor: string) =>
+export const emptyConceptGeneralWithContributor = (defaultContributor: string | undefined) =>
   buildEmptyWithContributor(conceptGeneralFieldsConfig, defaultContributor);

@@ -29,12 +29,14 @@ const toIdWithValid = (concepts: ConceptToValidate[]): IdWithValid[] =>
     return acc;
   }, []);
 
-const ConceptsToValidate = ({
+export const ConceptsToValidate = ({
   concepts,
   handleValidateConceptList,
 }: Readonly<ConceptsToValidateProps>) => {
   const { t } = useTranslation();
+
   const [idsToPublish, setIdsToPublish] = useState<string[]>([]);
+
   const [idWithValid, setIdWithValid] = useState<IdWithValid[]>([]);
 
   // Les concepts ayant une date de fin de validité demandent une confirmation :
@@ -96,5 +98,3 @@ const ConceptsToValidate = ({
     </div>
   );
 };
-
-export default ConceptsToValidate;

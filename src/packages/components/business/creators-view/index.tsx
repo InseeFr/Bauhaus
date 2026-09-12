@@ -1,22 +1,29 @@
-import { Note } from "@components/note";
-import { D1 } from "../../i18n";
-import { InseeOrganisation, InseeOrganisations } from "../organisations/organisations";
+import { useTranslation } from "react-i18next";
 
-export const InseeOrganisationNotes = ({
-  organisations,
-  title = D1.creatorsInput.creatorTitle,
-}: Readonly<{ organisations?: string | string[]; title?: string }>) => {
-  if (!organisations || (Array.isArray(organisations) && organisations.length === 0)) {
-    return <Note text={<p></p>} title={title} alone={true} allowEmpty={true} />;
+import { Note } from "@components/note";
+
+import { componentsI18n } from "../../i18n";
+import { InseeOrganization, InseeOrganizations } from "../organizations/organizations";
+
+export const InseeOrganizationNotes = ({
+  organizations,
+  title,
+}: Readonly<{ organizations?: string | string[]; title?: string }>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
+  const resolvedTitle = title ?? t("creatorsInput.creatorTitle", { lng: "fr" });
+
+  if (!organizations || (Array.isArray(organizations) && organizations.length === 0)) {
+    return <Note text={<p></p>} title={resolvedTitle} alone={true} allowEmpty={true} />;
   }
 
-  const organisationsArray = Array.isArray(organisations) ? organisations : [organisations];
+  const organizationsArray = Array.isArray(organizations) ? organizations : [organizations];
 
-  if (organisationsArray.length === 1) {
+  if (organizationsArray.length === 1) {
     return (
       <Note
-        text={<InseeOrganisation creator={organisationsArray[0]}></InseeOrganisation>}
-        title={title}
+        text={<InseeOrganization creator={organizationsArray[0]}></InseeOrganization>}
+        title={resolvedTitle}
         alone={true}
         allowEmpty={true}
       />
@@ -25,8 +32,8 @@ export const InseeOrganisationNotes = ({
 
   return (
     <Note
-      text={<InseeOrganisations creators={organisationsArray} />}
-      title={title}
+      text={<InseeOrganizations creators={organizationsArray} />}
+      title={resolvedTitle}
       alone={true}
       allowEmpty={true}
     />

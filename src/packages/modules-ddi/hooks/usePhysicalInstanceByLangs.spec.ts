@@ -1,13 +1,10 @@
-import { describe, it, expect } from "vitest";
 import { renderHook } from "@testing-library/react";
-import { usePhysicalInstanceByLangs } from "./usePhysicalInstanceByLangs";
+import { describe, it, expect } from "vitest";
+
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
-import {
-  itemsOfType,
-  replaceItemsOfType,
-  singleItemOfType,
-} from "../physical-instances/types/ddi4Items";
+import { replaceItemsOfType, singleItemOfType } from "../physical-instances/types/ddi4Items";
 import { envelope } from "../physical-instances/types/ddi4Items.testing";
+import { usePhysicalInstanceByLangs } from "./usePhysicalInstanceByLangs";
 
 const baseRef = [
   {

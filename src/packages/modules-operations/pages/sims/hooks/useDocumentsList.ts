@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 
+import { Document } from "@model/operations/document";
+
 import { GeneralApi } from "@sdk/general-api";
 
 import { sortArray } from "@utils/array-utils";
 
-import { Document } from "../../../../model/operations/document";
 import { DocumentsStoreObject } from "./useDocumentsStoreContext";
 
 export const useDocumentsList = () => {

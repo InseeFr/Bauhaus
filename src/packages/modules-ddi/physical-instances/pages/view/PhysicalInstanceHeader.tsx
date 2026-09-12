@@ -1,12 +1,13 @@
 import { Tag } from "primereact/tag";
 import { useTranslation } from "react-i18next";
-import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
-import { StudyUnitTag } from "./StudyUnitTag";
+
 import type {
   PhysicalInstanceUpdateData,
   SelectedGroup,
   SelectedStudyUnit,
 } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
+import { StudyUnitTag } from "./StudyUnitTag";
 
 interface PhysicalInstanceHeaderProps {
   label: string;

@@ -1,17 +1,19 @@
 import { memo, useCallback } from "react";
 
-import { Document } from "../../../../../model/operations/document";
+import { Document } from "@model/operations/document";
+
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
-import { DocumentsBloc } from "./DocumentsBloc";
 import { reorderDocuments } from "../utils/reorderDocuments";
+import { DocumentsBloc } from "./DocumentsBloc";
 
 interface SimsDocumentFieldTypes {
   handleChange: any;
   msd: any;
   currentSection: any;
-  lang?: string;
+  lang?: "Lg1" | "Lg2";
 }
+
 export const SimsDocumentField = ({
   handleChange,
   msd,
@@ -19,7 +21,7 @@ export const SimsDocumentField = ({
   lang = "Lg1",
 }: Readonly<SimsDocumentFieldTypes>) => {
   const handleDeleteDocument = useCallback(
-    (uri: string) => {
+    (uri?: string) => {
       const objects = currentSection["documents" + lang] || [];
       handleChange({
         id: msd.idMas,
@@ -34,7 +36,6 @@ export const SimsDocumentField = ({
   const handleAddDocument = useCallback(
     (newObject: unknown) => {
       const objects = currentSection["documents" + lang] || [];
-
       handleChange({
         id: msd.idMas,
         override: {

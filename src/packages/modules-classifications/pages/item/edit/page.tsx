@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router-dom";
 
 import { ClientSideError, ErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
-import LabelRequired from "@components/label-required";
+import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
 import { Loading, Saving } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";

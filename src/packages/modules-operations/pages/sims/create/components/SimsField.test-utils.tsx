@@ -1,5 +1,5 @@
-import { render } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render } from "@testing-library/react";
 import { vi } from "vitest";
 
 import { rangeType } from "../../../../constants/rangeType";
@@ -51,9 +51,9 @@ export const createDefaultSimsFieldProps = (overrides: any = {}) => {
     },
     currentSection: overrides.currentSection || {},
     alone: overrides.alone !== undefined ? overrides.alone : true,
-    codesLists: overrides.codesLists || {},
+    codelists: overrides.codelists || {},
     handleChange: overrides.handleChange || vi.fn(),
-    organisationsOptions: overrides.organisationsOptions || [],
+    organizationsOptions: overrides.organizationsOptions || [],
     unbounded: overrides.unbounded || false,
     secondLang: overrides.secondLang || false,
     ...overrides,

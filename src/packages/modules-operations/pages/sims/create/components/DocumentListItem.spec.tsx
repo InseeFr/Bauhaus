@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 
-import { Document } from "../../../../../model/operations/document";
+import { Document } from "@model/operations/document";
+
 import { DocumentAsideInformation, DocumentLink } from "./DocumentListItem";
 
 describe("DocumentAsideInformation", () => {

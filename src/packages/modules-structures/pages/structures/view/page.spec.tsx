@@ -1,6 +1,7 @@
 import { vi } from "vitest";
 
-import { Structure } from "../../../../model/structures/Structure";
+import { Structure } from "@model/structures/Structure";
+
 import { mockReactQueryForRbac, renderWithAppContext } from "../../../../tests/render";
 
 vi.mock("./components/GlobalInformationsPanel", () => ({

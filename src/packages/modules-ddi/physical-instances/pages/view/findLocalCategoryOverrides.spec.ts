@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
 import type { Category } from "../../types/api";
+import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
 import type { VariableData } from "./viewReducer";
 
 const category = (id: string, label: string): Category => ({

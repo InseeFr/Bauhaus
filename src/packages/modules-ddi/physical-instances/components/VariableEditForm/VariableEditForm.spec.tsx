@@ -1,13 +1,15 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
-import { VariableEditForm } from "./VariableEditForm";
+
 import type {
   NumericRepresentation,
   CodeRepresentation,
   CodeList,
   Category,
 } from "../../types/api";
+import { VariableEditForm } from "./VariableEditForm";
 
 let mockSearchParams = new URLSearchParams();
 const mockSetSearchParams = vi.fn((updater: any, _options?: any) => {

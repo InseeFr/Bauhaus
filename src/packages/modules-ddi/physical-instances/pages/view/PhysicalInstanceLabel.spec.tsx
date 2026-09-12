@@ -1,8 +1,10 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
-import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
+
 import type { PhysicalInstanceUpdateData } from "../../components/PhysicalInstanceCreationDialog/PhysicalInstanceCreationDialog";
+import { PhysicalInstanceLabel } from "./PhysicalInstanceLabel";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

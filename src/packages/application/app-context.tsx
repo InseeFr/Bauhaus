@@ -8,9 +8,13 @@ export type AppName =
   | "codelists"
   | "datasets"
   | "ddi";
+
 export interface Module {
   identifier: AppName;
-  disabled: boolean;
+  /** Tuile du module sur la page d'accueil. */
+  show: boolean;
+  /** Accès aux pages du module par URL, y compris quand sa tuile est masquée. */
+  directAccess: boolean;
 }
 
 export interface AppProperties {
@@ -22,6 +26,7 @@ export interface AppProperties {
   enableDevTools?: boolean;
   colecticaLangs?: string[];
 }
+
 interface AppContextTypes {
   lg1: string;
   lg2: string;
@@ -66,10 +71,13 @@ export const AppContextProvider = ({
     </AppContext.Provider>
   );
 };
+
 export const useAppContext = (): AppContextTypes => {
   const context = useContext(AppContext);
+
   if (!context) {
     throw new Error("The context AppContextTypes is not available.");
   }
+
   return context;
 };

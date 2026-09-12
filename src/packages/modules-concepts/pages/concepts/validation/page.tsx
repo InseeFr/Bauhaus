@@ -3,10 +3,12 @@ import { useTranslation } from "react-i18next";
 
 import { Loading, Publishing } from "@components/loading";
 
-import { ConceptsApi } from "../../../../sdk";
-import { sortArrayByLabel } from "../../../../utils/array-utils";
-import { useTitle } from "../../../../utils/hooks/useTitle";
-import ConceptsToValidate from "./components/ConceptsToValidate";
+import { ConceptsApi } from "@sdk/index";
+
+import { sortArrayByLabel } from "@utils/array-utils";
+import { useTitle } from "@utils/hooks/useTitle";
+
+import { ConceptsToValidate } from "./components/ConceptsToValidate";
 
 interface ConceptValidateItem {
   id: string;
@@ -17,9 +19,13 @@ interface ConceptValidateItem {
 
 export const Component = () => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), t("common.btnValid"));
+
   const [loading, setLoading] = useState<boolean>(true);
+
   const [publishing, setPublishing] = useState<boolean>(false);
+
   const [concepts, setConcepts] = useState<ConceptValidateItem[]>([]);
 
   const loadConcepts = () =>
@@ -38,7 +44,6 @@ export const Component = () => {
 
   useEffect(() => {
     loadConcepts().finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (publishing) {

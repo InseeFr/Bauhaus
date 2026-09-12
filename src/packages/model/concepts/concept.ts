@@ -1,7 +1,24 @@
-import { BROADER, IS_REPLACED_BY, NARROWER, REFERENCES, RELATED, SUCCEED } from "@sdk/constants";
-
 import type { ValidationState } from "@components/status";
-import { linkTypes } from "../../modules-concepts/utils/linkTypes";
+
+import {
+  BROADER,
+  CLOSE_MATCH,
+  IS_REPLACED_BY,
+  NARROWER,
+  REFERENCES,
+  RELATED,
+  SUCCEED,
+} from "@sdk/constants";
+
+export const linkTypes = {
+  [BROADER]: BROADER,
+  [NARROWER]: NARROWER,
+  [REFERENCES]: REFERENCES,
+  [SUCCEED]: SUCCEED,
+  [RELATED]: RELATED,
+  [CLOSE_MATCH]: CLOSE_MATCH,
+  [IS_REPLACED_BY]: IS_REPLACED_BY,
+} as const;
 
 export interface PartialConcept {
   id: string;

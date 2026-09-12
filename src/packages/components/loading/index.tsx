@@ -1,4 +1,5 @@
 import { ProgressSpinner } from "primereact/progressspinner";
+
 import { getLoadingText } from "./getLoadingText";
 
 interface LoadingTypes {

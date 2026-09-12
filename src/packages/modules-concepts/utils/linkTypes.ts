@@ -1,22 +1,4 @@
-import {
-  BROADER,
-  NARROWER,
-  REFERENCES,
-  SUCCEED,
-  RELATED,
-  CLOSE_MATCH,
-  IS_REPLACED_BY,
-} from "@sdk/constants";
-
-export const linkTypes = {
-  [BROADER]: BROADER,
-  [NARROWER]: NARROWER,
-  [REFERENCES]: REFERENCES,
-  [SUCCEED]: SUCCEED,
-  [RELATED]: RELATED,
-  [CLOSE_MATCH]: CLOSE_MATCH,
-  [IS_REPLACED_BY]: IS_REPLACED_BY,
-} as const;
+import { BROADER, NARROWER, REFERENCES, SUCCEED, RELATED, CLOSE_MATCH } from "@sdk/constants";
 
 export interface LinkTypeDefinition {
   titleKey: string;

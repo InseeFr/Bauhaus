@@ -4,21 +4,24 @@ import { ActionToolbar } from "@components/action-toolbar";
 import { RightSlidingPanel } from "@components/sliding-panel";
 import { List } from "@components/ui/list-group";
 
-import { useAllCodes } from "@utils/hooks/codeslist";
+import { Codelist } from "@model/Codelist";
 
-import { CodesList } from "../../model/CodesList";
+import { useAllCodes } from "@utils/hooks/codelist";
+
 import "./CodelistPanel.css";
 
 interface CodelistPanelTypes {
   isOpen: boolean;
   handleBack: VoidFunction;
-  codesList?: CodesList;
+  // Some callers only have a partial codelist reference at hand (e.g. `{ id, label, notation }`
+  // from the `Codelists` list, or just a `{ notation }` lookup) — only `notation` is read here.
+  codelist?: Partial<Codelist>;
 }
 
-export const CodelistPanel = ({ isOpen, handleBack, codesList }: CodelistPanelTypes) => {
+export const CodelistPanel = ({ isOpen, handleBack, codelist }: CodelistPanelTypes) => {
   const { t } = useTranslation();
 
-  const { data: codes } = useAllCodes(codesList?.notation, isOpen);
+  const { data: codes } = useAllCodes(codelist?.notation, isOpen);
 
   if (!codes) {
     return null;
@@ -26,7 +29,7 @@ export const CodelistPanel = ({ isOpen, handleBack, codesList }: CodelistPanelTy
 
   return (
     <RightSlidingPanel
-      panelClassName="codes-list-panel"
+      panelClassName="code-list-panel"
       isOpen={isOpen}
       onHide={handleBack}
       size={30}

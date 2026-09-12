@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { DDIApi } from "../../sdk";
+
+import { DDIApi } from "@sdk/index";
 
 export interface PhysicalInstanceParents {
   /** `label` = libellé de l'étude parente, affiché en tag sous le titre de la PI. */

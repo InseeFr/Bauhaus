@@ -1,4 +1,9 @@
 name: Quality
+
+# Vérifie le front sur chaque PR et publie le rapport Sonar. Les vérifications
+# elles-mêmes vivent dans InseeFr/rmes-githubactions-commons, partagées avec les
+# autres fronts RMéS ; seul le scan Sonar reste ici, il est propre au dépôt.
+
 on:
   workflow_dispatch:
   pull_request:
@@ -18,9 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Use Generic CI For Building the Application
-        uses: ./.github/actions/generic-ci-app
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/quality-front@main
       - name: SonarCloud Scan
+        # Les PR Dependabot n'ont pas accès aux secrets du dépôt : le scan
+        # échouerait sur un SONAR_TOKEN vide.
+        if: github.actor != 'dependabot[bot]'
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

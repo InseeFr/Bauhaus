@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 
+import type { CodeList } from "../../types/api";
 import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
 import type { VariableData } from "./viewReducer";
-import type { CodeList } from "../../types/api";
 
 const codeList = (id: string, label: string): CodeList => ({
   $type: "CodeList",

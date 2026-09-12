@@ -1,7 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { TextRepresentation } from "./TextRepresentation";
+
 import type { TextRepresentation as TextRepresentationType } from "../../types/api";
+import { TextRepresentation } from "./TextRepresentation";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

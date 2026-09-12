@@ -5,11 +5,12 @@ import { Button } from "@components/buttons/button";
 import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
+import { Series } from "@model/operations/series";
+
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { containUnsupportedStyles } from "@utils/html-utils";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { Series } from "../../../../model/operations/series";
 
 interface MenuTypes {
   series: Series;

@@ -13,15 +13,15 @@ const useMetadataStructure = vi.fn();
 vi.mock("../../../hooks/useMetadataStructure", () => ({
   useMetadataStructure: () => useMetadataStructure(),
 }));
-vi.mock("../../../hooks/useCodesLists", () => ({
-  useCodesLists: () => ({ codesLists: { CL_1: [] } }),
+vi.mock("../../../hooks/useCodelists", () => ({
+  useCodelists: () => ({ codelists: { CL_1: [] } }),
 }));
 vi.mock("@utils/hooks/organizations", () => ({
   useOrganizations: () => ({ data: [{ id: "org-1" }] }),
 }));
 
-vi.mock("../components/MSDComponent", () => ({
-  MSDComponent: ({ children, baseUrl, storeCollapseState, disableSectionAnchor }: any) => (
+vi.mock("../components/MSDLayout", () => ({
+  MSDLayout: ({ children, baseUrl, storeCollapseState, disableSectionAnchor }: any) => (
     <div>
       <span>base:{baseUrl === "" ? "(vide)" : baseUrl}</span>
       <span>mémoriseRepli:{String(storeCollapseState)}</span>
@@ -31,9 +31,9 @@ vi.mock("../components/MSDComponent", () => ({
   ),
 }));
 vi.mock("./components/MSDHelp", () => ({
-  MSDHelp: ({ codesLists, organisations }: any) => (
+  MSDHelp: ({ codelists, organizations }: any) => (
     <div>
-      aide|listes:{Object.keys(codesLists).length}|organisations:{organisations.length}
+      aide|listes:{Object.keys(codelists).length}|organisations:{organizations.length}
     </div>
   ),
 }));

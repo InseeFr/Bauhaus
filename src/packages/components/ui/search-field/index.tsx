@@ -1,7 +1,8 @@
-import { ReactNode, useId } from "react";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import { InputText } from "primereact/inputtext";
+import { ReactNode, useId } from "react";
+
 import { cx } from "@utils/cx";
 
 /**
@@ -21,6 +22,7 @@ export const SearchField = ({
   children: (id: string) => ReactNode;
 }>) => {
   const id = useId();
+
   return (
     <div className={cx("field", col)}>
       <label htmlFor={id}>{label}</label>

@@ -1,4 +1,5 @@
 import { Card } from "primereact/card";
+
 import "./GlobalErrorBloc.css";
 
 interface GlobalErrorBlocProps {

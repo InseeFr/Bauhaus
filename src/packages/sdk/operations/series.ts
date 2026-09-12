@@ -1,4 +1,4 @@
-const api = {
+export const seriesApi = {
   getSeriesList: () => ["series/withSims"],
   getUserSeriesList: () => ["series/seriesWithStamp"],
   getSeriesSearchList: () => ["series/advanced-search"],
@@ -30,5 +30,3 @@ const api = {
     (res: Response) => res.text(),
   ],
 };
-
-export default api;

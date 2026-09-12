@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
+
 import { AppContextProvider } from "../../../../application/app-context";
 import { CREATE, UPDATE } from "../constants";
 import { Component } from "./page";
@@ -34,8 +35,8 @@ const goBack = vi.fn();
 vi.mock("../../../hooks/useMetadataStructure", () => ({
   useMetadataStructure: () => useMetadataStructure(),
 }));
-vi.mock("../../../hooks/useCodesLists", () => ({
-  useCodesLists: () => ({ codesLists: {} }),
+vi.mock("../../../hooks/useCodelists", () => ({
+  useCodelists: () => ({ codelists: {} }),
 }));
 vi.mock("../../../hooks/useSims", () => ({
   useSims: (id?: string) => useSims(id),
@@ -69,8 +70,8 @@ vi.mock("./components/AdvancedSimsCreation", () => ({
     </div>
   ),
 }));
-vi.mock("../components/MSDComponent", () => ({
-  MSDComponent: ({ children }: any) => <div>{children}</div>,
+vi.mock("../components/MSDLayout", () => ({
+  MSDLayout: ({ children }: any) => <div>{children}</div>,
 }));
 
 const renderPage = () =>

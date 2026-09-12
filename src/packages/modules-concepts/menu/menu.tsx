@@ -1,5 +1,5 @@
-import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 import { MainMenu } from "@components/menu";
 
@@ -11,8 +11,10 @@ const defaultAttrs = { "aria-current": "page" };
 
 export const Menu = () => {
   const { t } = useTranslation();
+
   const location = useLocation();
   const activePath = location.pathname;
+
   if (activePath === "/") return null;
 
   const canAccessAdministration = useAuthorizationGuard({
@@ -63,9 +65,11 @@ export const Menu = () => {
       ...paths,
     ];
   }
+
   const currentPath = paths.find((path) => {
     return location.pathname.includes(path.pathKey as string);
   });
+
   if (currentPath) {
     currentPath.className = "active";
     currentPath.attrs = defaultAttrs;

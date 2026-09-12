@@ -3,8 +3,9 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
-import { AppContextProvider } from "../../../../application/app-context";
 import { OperationsApi } from "@sdk/operations-api";
+
+import { AppContextProvider } from "../../../../application/app-context";
 import { Component } from "./page";
 
 vi.mock("@sdk/operations-api", () => ({

@@ -1,30 +1,39 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import { Loading, Saving } from "@components/loading";
 
-import { useTitle } from "@utils/hooks/useTitle";
-
 import { CollectionWithMembers } from "@model/concepts/collection";
+
+import { useIsDefaultContributorPending } from "@utils/creation/use-default-contributor";
+import { useTitle } from "@utils/hooks/useTitle";
 
 import { useCollection } from "../../../hooks/useCollection";
 import { useCollections } from "../../../hooks/useCollections";
 import { useCollectionSave } from "../../../hooks/useCollectionSave";
 import { useConcepts } from "../../../hooks/useConcepts";
-import CollectionEditionCreation from "./components/CollectionEditionCreation";
+import { CollectionEditionCreation } from "./components/CollectionEditionCreation";
 
 export const Component = () => {
   const { t } = useTranslation();
+
   const { id } = useParams<{ id: string }>();
+
   const isCreation = !id;
 
   const [submitting, setSubmitting] = useState(false);
 
   const { data: collection, isLoading: loadingCollection } = useCollection(id);
+
   const { data: collectionList = [] } = useCollections();
+
   const { concepts, isLoading: isConceptLoading } = useConcepts();
+
   const { save, isSaving } = useCollectionSave(id);
+  // Le formulaire fige `general` dans son état à l'initialisation : on attend
+  // que le contributeur par défaut soit résolu avant de le monter.
+  const isDefaultContributorPending = useIsDefaultContributorPending();
 
   const { general, members = [] } = (collection ?? {}) as Partial<CollectionWithMembers>;
 
@@ -33,7 +42,13 @@ export const Component = () => {
   if (isSaving) {
     return <Saving />;
   }
-  if (isConceptLoading || (!isCreation && loadingCollection) || !general) {
+
+  if (
+    isConceptLoading ||
+    (!isCreation && loadingCollection) ||
+    !general ||
+    (isCreation && isDefaultContributorPending)
+  ) {
     return <Loading />;
   }
 

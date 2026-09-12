@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 
 import { pickGeographiesByUri } from "../utils/pickGeographiesByUri";
-
 import { useGeographiesOptions } from "./useGeographiesOptions";
 
 export const useGeographies = (territory: any = {}) => {

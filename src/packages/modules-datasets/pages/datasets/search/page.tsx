@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link, Navigate } from "react-router-dom";
 
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { AdvancedSearchList } from "@components/advanced-search/home";
@@ -19,7 +19,7 @@ import { DatasetsApi } from "@sdk/datasets-api";
 
 import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { useSeriesOperationsOptions } from "../../../hooks/useSeriesOperationsOptions";
 
@@ -41,6 +41,7 @@ export const Component = () => {
   useTitle(t("dataset.searchTitle"));
 
   const [loading, setLoading] = useState(true);
+
   const [data, setData] = useState<SearchDataset[]>([]);
 
   useEffect(() => {
@@ -180,7 +181,7 @@ export const FieldsForDatasetsAdvancedSearch = ({
       />
       <div className="field col-12 md:col-4">
         <CreatorsInput
-          mode="organisation"
+          mode="organization"
           lang="default"
           value={creator}
           onChange={(value: any) => handleChange("creator", value)}

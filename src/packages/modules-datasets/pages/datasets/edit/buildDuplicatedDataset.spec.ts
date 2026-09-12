@@ -1,4 +1,5 @@
-import { Dataset } from "../../../../model/Dataset";
+import { Dataset } from "@model/Dataset";
+
 import { buildDuplicatedDataset } from "./buildDuplicatedDataset";
 
 const dataset = {

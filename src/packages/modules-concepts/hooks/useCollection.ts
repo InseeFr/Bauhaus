@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { CollectionApi as NewCollectionApi } from "@sdk/new-collection-api";
-
 import {
   Collection,
   CollectionGeneral,
@@ -9,7 +7,12 @@ import {
   CollectionWithMembers,
 } from "@model/concepts/collection";
 
-import { useAppContext } from "../../application/app-context";
+import { CollectionApi } from "@sdk/new-collection-api";
+
+import { useDefaultContributor } from "@utils/creation/use-default-contributor";
+import { MODULES, PRIVILEGES } from "@utils/hooks/rbac-constants";
+
+import { useAuthorizationGuard } from "../../auth/components/auth";
 import { emptyCollection } from "../utils/emptyCollection";
 
 const transformCollection = (data: Collection, lg1 = "fr"): CollectionGeneral => {
@@ -37,16 +40,18 @@ const transformCollection = (data: Collection, lg1 = "fr"): CollectionGeneral =>
 };
 
 export const useCollection = (id: string | undefined) => {
-  const {
-    properties: { defaultContributor },
-  } = useAppContext();
+  const isContributor = useAuthorizationGuard({
+    module: MODULES.CONCEPT_COLLECTION,
+    privilege: PRIVILEGES.CREATE,
+  });
+  const defaultContributor = useDefaultContributor(isContributor);
 
   return useQuery<CollectionWithMembers>({
     queryKey: ["collection", id],
     queryFn: async () => {
       const [general, members] = await Promise.all([
-        NewCollectionApi.getCollectionById(id!),
-        NewCollectionApi.getCollectionMembersList(id!),
+        CollectionApi.getCollectionById(id!),
+        CollectionApi.getCollectionMembersList(id!),
       ]);
       return {
         general: transformCollection(general),

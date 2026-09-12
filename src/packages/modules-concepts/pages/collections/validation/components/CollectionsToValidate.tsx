@@ -11,12 +11,13 @@ interface CollectionsToValidateProps {
   serverSideError?: string;
 }
 
-const CollectionsToValidate = ({
+export const CollectionsToValidate = ({
   collections,
   handleValidateCollectionList,
   serverSideError,
 }: Readonly<CollectionsToValidateProps>) => {
   const { t } = useTranslation();
+
   return (
     <Picker
       items={collections}
@@ -33,5 +34,3 @@ const CollectionsToValidate = ({
     />
   );
 };
-
-export default CollectionsToValidate;

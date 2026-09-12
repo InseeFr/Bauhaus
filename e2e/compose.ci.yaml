@@ -1,0 +1,10 @@
+# Surcharge du compose du Back-Office pour la suite e2e en CI, à passer en second
+# `-f` derrière `bauhaus-back-office/module-bauhaus-bo/compose.yaml`.
+services:
+  bauhaus-back:
+    environment:
+      # `defaultContributor` vaut HIE3014990, une organisation absente des fixtures de
+      # test : depuis 4.21.1 le back refuse de démarrer tant qu'elle n'est pas en base
+      # de gestion. Aucun test e2e ne s'appuie sur le contributeur par défaut, on coupe
+      # donc la vérification plutôt que de désigner une organisation au hasard.
+      - fr.insee.rmes.bauhaus.default-contributor-check-enabled=false

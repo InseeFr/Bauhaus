@@ -1,7 +1,8 @@
+import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+
 import { rawHtmlToRmesHtml } from "@utils/html-utils";
 import { takeKeys } from "@utils/take-keys";
 
-import { ConceptGeneral, ConceptNotes } from "../../model/concepts/concept";
 import { processGeneral } from "./processGeneral";
 import { processLinks } from "./processLinks";
 
@@ -42,6 +43,7 @@ export function buildPayloadCreation(concept: ConceptCreationInput) {
   const { general: rawGeneral, notes, conceptsWithLinks } = concept;
 
   const general = processGeneral(rawGeneral, generalFieldsToKeep);
+
   const links = processLinks(conceptsWithLinks);
 
   const versNotesObj = extractVersNotes(
@@ -62,6 +64,7 @@ export function buildPayloadCreation(concept: ConceptCreationInput) {
   }, []);
 
   const datableNoteTypes: (keyof ConceptNotes)[] = ["changeNoteLg1", "changeNoteLg2"];
+
   const datableNotes = datableNoteTypes
     .map((noteType): NoteEntry | null => {
       const content = notes[noteType];

@@ -1,7 +1,8 @@
-import { describe, it, expect, vi } from "vitest";
 import { renderHook } from "@testing-library/react";
-import { useDefaultLocale } from "./useDefaultLocale";
+import { describe, it, expect, vi } from "vitest";
+
 import * as appContext from "../../application/app-context";
+import { useDefaultLocale } from "./useDefaultLocale";
 
 vi.mock("../../application/app-context");
 
