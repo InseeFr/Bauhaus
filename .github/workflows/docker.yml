@@ -25,6 +25,7 @@ jobs:
     uses: InseeFr/rmes-githubactions-commons/.github/workflows/docker-publish.yml@main
     permissions:
       contents: read
+      packages: write
     secrets: inherit
     with:
       image: inseefr/bauhaus
