@@ -9,7 +9,7 @@ vi.mock("../../../../hooks/useCollections", () => ({
   useCollections: () => useCollections(),
 }));
 
-vi.mock("@utils/hooks/useTranslation", () => ({
+vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string, options?: { size: number }) => `${key}:${options?.size}`,
   }),

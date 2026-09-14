@@ -1,7 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { NumericRepresentation } from "./NumericRepresentation";
+
 import type { NumericRepresentation as NumericRepresentationType } from "../../types/api";
+import { NumericRepresentation } from "./NumericRepresentation";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

@@ -1,7 +1,8 @@
-import { useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-import { DDIApi } from "../../sdk";
+import { DDIApi } from "@sdk/index";
+
 import type { CodeListUsage } from "../physical-instances/types/api";
 
 const codeListUsersQueryKey = (agencyId: string, id: string) => ["codeListUsers", agencyId, id];

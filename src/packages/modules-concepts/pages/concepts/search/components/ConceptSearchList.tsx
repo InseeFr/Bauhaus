@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
 
 import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { CreatorsInput } from "@components/business/creators-input";
@@ -13,13 +13,14 @@ import { Select } from "@components/select-rmes";
 import { List } from "@components/ui/list-group";
 import { SearchField, SearchTextField } from "@components/ui/search-field";
 
+import { validateStateOptions } from "@model/ValidationState";
+
 import { filterKeyDate, filterKeyDeburr } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
-import useUrlQueryParameters from "@utils/hooks/useUrlQueryParameters";
+import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
-import { validateStateOptions } from "@model/ValidationState";
 import { ConceptForAdvancedSearch } from "../../../../types/concept";
-import Controls from "./Controls";
+import { Controls } from "./Controls";
 
 const filterLabel = filterKeyDeburr(["label"]);
 const filterAltLabel = filterKeyDeburr(["altLabel"]);
@@ -48,11 +49,16 @@ interface ConceptSearchListProps {
   onExport: (ids: string[], type: string, withConcepts: boolean, lang?: "lg1" | "lg2") => void;
 }
 
-const ConceptSearchList = ({ conceptSearchList, onExport }: Readonly<ConceptSearchListProps>) => {
+export const ConceptSearchList = ({
+  conceptSearchList,
+  onExport,
+}: Readonly<ConceptSearchListProps>) => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), t("common.advancedSearch"));
 
   const { form, reset, handleChange } = useUrlQueryParameters(defaultFormState);
+
   const navigate = useNavigate();
 
   const {
@@ -114,7 +120,7 @@ const ConceptSearchList = ({ conceptSearchList, onExport }: Readonly<ConceptSear
         />
         <div className="field col-12 md:col-4">
           <CreatorsInput
-            mode="organisation"
+            mode="organization"
             value={creator}
             onChange={(value: string | string[]) => handleChange("creator", value as string)}
             required={false}
@@ -181,5 +187,3 @@ const ConceptSearchList = ({ conceptSearchList, onExport }: Readonly<ConceptSear
     </div>
   );
 };
-
-export default ConceptSearchList;

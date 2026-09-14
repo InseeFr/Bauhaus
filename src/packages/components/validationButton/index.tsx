@@ -9,6 +9,7 @@ interface ValidationButtonTypes {
   callback: (value: { validationState?: string }) => void;
   disabled?: boolean;
 }
+
 export const ValidationButton = ({
   object = {},
   callback,
@@ -23,5 +24,6 @@ export const ValidationButton = ({
   if (state.includes("Validated")) {
     return null;
   }
+
   return <PublishButton action={clickHandler} disabled={disabled} />;
 };

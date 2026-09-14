@@ -1,7 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { StudyUnitTag } from "./StudyUnitTag";
+
 import type { PhysicalInstanceSearchRow } from "../../../hooks/usePhysicalInstancesSearch";
+import { StudyUnitTag } from "./StudyUnitTag";
 
 const mockNavigate = vi.fn();
 vi.mock("react-router-dom", () => ({ useNavigate: () => mockNavigate }));

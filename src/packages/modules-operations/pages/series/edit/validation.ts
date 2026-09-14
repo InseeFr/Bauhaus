@@ -7,9 +7,8 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import i18next from "../../../i18n";
-
-import NewDictionary from "../../../../i18n";
+import { appI18n } from "../../../../i18n";
+import { operationsI18n } from "../../../i18n";
 
 const ZodSerie: ZodObject<any> = z.object({
   family: z.object(
@@ -17,28 +16,36 @@ const ZodSerie: ZodObject<any> = z.object({
       id: z
         .string({
           error: (issue) =>
-            issue.input === undefined &&
-            NewDictionary.errors.mandatoryProperty(i18next.t("common.familyTitle")),
+            issue.input === undefined
+              ? appI18n.t("errors.mandatoryProperty", {
+                  propertyName: operationsI18n.t("common.familyTitle"),
+                })
+              : undefined,
         })
         .trim()
         .min(1, {
-          error: NewDictionary.errors.mandatoryProperty(i18next.t("common.familyTitle")),
+          error: appI18n.t("errors.mandatoryProperty", {
+            propertyName: operationsI18n.t("common.familyTitle"),
+          }),
         }),
     },
     {
       error: (issue) =>
-        issue.input === undefined &&
-        NewDictionary.errors.mandatoryProperty(i18next.t("common.familyTitle")),
+        issue.input === undefined
+          ? appI18n.t("errors.mandatoryProperty", {
+              propertyName: operationsI18n.t("common.familyTitle"),
+            })
+          : undefined,
     },
   ),
-  prefLabelLg1: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "fr" })),
-  prefLabelLg2: mandatoryAndNotEmptyTextField(i18next.t("common.title", { lng: "en" })),
-  creators: mandatoryAndNotEmptyMultiSelectField(i18next.t("app.creatorsTitle")),
+  prefLabelLg1: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "fr" })),
+  prefLabelLg2: mandatoryAndNotEmptyTextField(operationsI18n.t("common.title", { lng: "en" })),
+  creators: mandatoryAndNotEmptyMultiSelectField(operationsI18n.t("app.creatorsTitle")),
 });
 
 const fieldToTitleMapping: Record<string, string> = {
-  typeCode: i18next.t("common.operationType"),
-  accrualPeriodicityCode: i18next.t("common.dataCollectFrequency"),
+  typeCode: operationsI18n.t("common.operationType"),
+  accrualPeriodicityCode: operationsI18n.t("common.dataCollectFrequency"),
 };
 
 const addFieldsToObject = (listOfFields: string[], baseObject: ZodObject<any>) => {

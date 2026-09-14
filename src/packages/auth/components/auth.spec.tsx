@@ -92,7 +92,7 @@ describe("<HasAccess />", () => {
       <HasAccess
         module={MODULES.CLASSIFICATION_CLASSIFICATION}
         privilege={PRIVILEGES.UPDATE}
-        stamps={["http://bauhaus.insee.fr/organisations/insee/DG75-L201"]}
+        stamps={["http://bauhaus.insee.fr/organizations/insee/DG75-L201"]}
       >
         {DummyChild}
       </HasAccess>,

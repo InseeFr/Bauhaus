@@ -1,14 +1,11 @@
-import { MultiSelect } from "primereact/multiselect";
 import { Dropdown } from "primereact/dropdown";
+import { MultiSelect } from "primereact/multiselect";
+import { useTranslation } from "react-i18next";
 
-import { createAllDictionary } from "@utils/dictionnary";
+import { Option } from "@model/SelectOption";
 
-import { Option } from "../../model/SelectOption";
+import { componentsI18n } from "../i18n";
 import "./select-rmes.css";
-
-const { D } = createAllDictionary({
-  noResult: { fr: "Aucun résultat", en: "No results" },
-});
 
 type SelectRmesTypes = {
   onChange: (value: any) => void;
@@ -32,6 +29,8 @@ export const Select = ({
   inputId,
   ...props
 }: SelectRmesTypes) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   if (multi) {
     return (
       <MultiSelect
@@ -47,7 +46,7 @@ export const Select = ({
         className="w-full select-rmes-multi"
         disabled={disabled}
         showClear={!unclearable}
-        emptyMessage={D.noResult}
+        emptyMessage={t("noResult")}
         itemTemplate={props.itemTemplate}
       />
     );
@@ -66,7 +65,7 @@ export const Select = ({
       className="w-full select-rmes-single"
       disabled={disabled}
       showClear={!unclearable}
-      emptyMessage={D.noResult}
+      emptyMessage={t("noResult")}
       itemTemplate={props.itemTemplate}
     />
   );

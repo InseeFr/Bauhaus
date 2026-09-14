@@ -1,15 +1,16 @@
+import { useTranslation } from "react-i18next";
+
 import { ActionToolbar } from "@components/action-toolbar";
 import { Button } from "@components/buttons/button";
 import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
+import { Indicator } from "@model/operations/indicator";
+
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { containUnsupportedStyles } from "@utils/html-utils";
 
-import { useTranslation } from "react-i18next";
-
 import { HasAccess } from "../../../../auth/components/auth";
-import { Indicator } from "../../../../model/operations/indicator";
 
 interface MenuTypes {
   indicator: Indicator;

@@ -6,6 +6,7 @@ import { ClassificationWithLevels } from "../types";
 
 export const useUpdateClassification = (id: string) => {
   const queryClient = useQueryClient();
+
   const {
     isPending: isSaving,
     mutate: save,

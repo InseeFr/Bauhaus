@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 export const useGoBackOrReplace = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
   return useCallback(
     (defaultRoute: string, forceRedirect?: boolean) => {
       if (forceRedirect) {

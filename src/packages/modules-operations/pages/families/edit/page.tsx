@@ -4,12 +4,13 @@ import { useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
 
+import { Family } from "@model/operations/family";
+
 import { OperationsApi } from "@sdk/operations-api";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { Family } from "../../../../model/operations/family";
 import { OperationsFamilyEdition } from "./components/OperationsFamilyEdition";
 
 export const Component = () => {

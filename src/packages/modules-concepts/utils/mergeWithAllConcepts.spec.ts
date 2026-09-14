@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { BROADER, NARROWER, NONE } from "@sdk/constants";
+
 import { mergeWithAllConcepts } from "./mergeWithAllConcepts";
 
 const concepts = [

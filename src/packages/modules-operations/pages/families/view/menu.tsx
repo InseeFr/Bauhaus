@@ -2,11 +2,12 @@ import { ActionToolbar } from "@components/action-toolbar";
 import { ReturnButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
+import { Family } from "@model/operations/family";
+
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { containUnsupportedStyles } from "@utils/html-utils";
 
 import { HasAccess } from "../../../../auth/components/auth";
-import { Family } from "../../../../model/operations/family";
 
 interface MenuTypes {
   family: Family;

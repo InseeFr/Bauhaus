@@ -1,9 +1,11 @@
 import { Button } from "primereact/button";
+import type { MenuItem } from "primereact/menuitem";
 import { SplitButton } from "primereact/splitbutton";
 import { useTranslation } from "react-i18next";
-import type { MenuItem } from "primereact/menuitem";
-import { HasAccess } from "../../../../auth/components/auth";
+
 import { isLocalhost } from "@utils/is-localhost";
+
+import { HasAccess } from "../../../../auth/components/auth";
 
 interface GlobalActionToolbarProps {
   onExport: (format: "DDI3" | "DDI4") => void;

@@ -1,20 +1,14 @@
-import { stringToDate } from "@utils/date-utils";
-import { createAllDictionary } from "@utils/dictionnary";
+import { useTranslation } from "react-i18next";
 
-const { D } = createAllDictionary({
-  createdDateTitle: {
-    fr: "Date de création",
-    en: "Creation date",
-  },
-  modifiedDateTitle: {
-    fr: "Date de modification",
-    en: "Modification date",
-  },
-});
+import { stringToDate } from "@utils/date-utils";
+
+import { componentsI18n } from "../i18n";
+
 export const DateItem = ({ date }: Readonly<{ date?: string | null }>) => {
   if (!date || date === "") {
     return <></>;
   }
+
   return stringToDate(date);
 };
 
@@ -25,13 +19,15 @@ export const CreationUpdateItems = ({
   creation?: string | null;
   update?: string | null;
 }>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <>
       <li>
-        {D.createdDateTitle} : <DateItem date={creation} />
+        {t("createdDateTitle")} : <DateItem date={creation} />
       </li>
       <li>
-        {D.modifiedDateTitle} : <DateItem date={update} />
+        {t("modifiedDateTitle")} : <DateItem date={update} />
       </li>
     </>
   );

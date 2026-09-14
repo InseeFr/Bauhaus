@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { CollectionGeneral } from "@model/concepts/collection";
+
 import { arrayKeepUniqueField } from "@utils/array-utils";
 import { normalize } from "@utils/string-utils";
 import {
@@ -8,11 +10,10 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import i18n from "../../../i18n";
-import { CollectionGeneral } from "../../../../model/concepts/collection";
+import { conceptsI18n } from "../../../i18n";
 
-const t1 = i18n.getFixedT("fr");
-const t = (key: string) => i18n.t(key) as string;
+const t1 = conceptsI18n.getFixedT("fr");
+const t = (key: string) => conceptsI18n.t(key) as string;
 
 type CollectionsList = {
   id: string;
@@ -21,11 +22,7 @@ type CollectionsList = {
 
 export const COLLECTION_ID_PATTERN = /^[A-Za-z0-9-]+$/;
 
-const ZodCollection = (
-  collectionList: CollectionsList,
-  initialId: string,
-  initialPrefLabelLg1: string,
-) =>
+const ZodCollection = (collectionList: CollectionsList, initialPrefLabelLg1: string) =>
   z.object({
     id: mandatoryAndNotEmptyTextField(t("common.identifiantTitle")).refine(
       (value) => value.length === 0 || COLLECTION_ID_PATTERN.test(value),
@@ -43,6 +40,5 @@ const ZodCollection = (
 export const validate = (
   general: CollectionGeneral,
   collectionList: CollectionsList,
-  initialId: string,
   initialPrefLabelLg1: string,
-) => formatValidation(ZodCollection(collectionList, initialId, initialPrefLabelLg1))(general);
+) => formatValidation(ZodCollection(collectionList, initialPrefLabelLg1))(general);

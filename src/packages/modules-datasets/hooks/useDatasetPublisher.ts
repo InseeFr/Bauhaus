@@ -1,5 +1,6 @@
-import { DistributionApi } from "@sdk/distributions-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { DistributionApi } from "@sdk/distributions-api";
 
 export const useDatasetPublisher = (id: string) => {
   const queryClient = useQueryClient();
@@ -12,7 +13,6 @@ export const useDatasetPublisher = (id: string) => {
     mutationFn: () => {
       return DistributionApi.publish(id);
     },
-
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["distributions", id],

@@ -3,7 +3,7 @@ import { usePhysicalInstanceParents } from "./usePhysicalInstanceParents";
 
 /**
  * MMVR réutilisables du groupe parent d'une PhysicalInstance (valeurs sentinelles, #1566) :
- * résout d'abord le groupe parent (comme {@link useAllCodesLists}), puis liste ses MMVR.
+ * résout d'abord le groupe parent (comme {@link useAllCodeLists}), puis liste ses MMVR.
  */
 export const useAllMissingValuesRepresentations = (
   agencyId: string,

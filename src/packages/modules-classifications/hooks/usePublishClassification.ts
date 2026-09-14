@@ -4,6 +4,7 @@ import { ClassificationsApi } from "@sdk/classification";
 
 export const usePublishClassification = (id: string) => {
   const queryClient = useQueryClient();
+
   const {
     isPending: isPublishing,
     mutate: publish,

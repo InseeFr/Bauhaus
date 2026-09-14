@@ -4,5 +4,7 @@ export const StorageKeys = {
 } as const;
 
 export type StorageKeysType = (typeof StorageKeys)[keyof typeof StorageKeys];
+
 export const getItem = (key: StorageKeysType) => localStorage.getItem(key);
+
 export const setItem = (key: StorageKeysType, value: string) => localStorage.setItem(key, value);

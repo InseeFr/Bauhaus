@@ -1,25 +1,31 @@
 import { screen } from "@testing-library/react";
 
-import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
-
 import { getListItems } from "@components/ui/list-group/testing";
 
-import { HomeDocument } from "../../../../../model/operations/document";
+import { HomeDocument } from "@model/operations/document";
+
+import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+
 import { mockReactQueryForRbac, renderWithRouter } from "../../../../../tests/render";
 
 vi.mock("react-i18next", async (importOriginal) => {
   const actual = await importOriginal<typeof import("react-i18next")>();
   return {
     ...actual,
-    useTranslation: () => ({
-      t: (key: string) => {
-        const translations: Record<string, string> = {
-          "documents.document": "Document",
-          "documents.link": "Link",
-        };
-        return translations[key] || key;
-      },
-    }),
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return {
+        t: (key: string) => {
+          const translations: Record<string, string> = {
+            "documents.document": "Document",
+            "documents.link": "Link",
+          };
+          return translations[key] || key;
+        },
+      };
+    },
   };
 });
 

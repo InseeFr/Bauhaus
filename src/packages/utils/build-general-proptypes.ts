@@ -1,5 +1,4 @@
-/* eslint  @typescript-eslint/no-unused-vars: 0 */
-import objectFromKeys from "./object-from-keys";
+import { objectFromKeys } from "./object-from-keys";
 
 /**
  * Description d'un champ : son nom, un indicateur `required` conservé pour la
@@ -12,20 +11,22 @@ export const buildFields = (fieldsWithRequired: FieldSpec[]) =>
 
 export const buildEmpty = (fieldsWithRequired: FieldSpec[]) => {
   const general = objectFromKeys<string | string[]>(buildFields(fieldsWithRequired), "");
+
   fieldsWithRequired.forEach(([field, _req, type]) => {
     if (type === "array") {
       general[field] = [];
     }
   });
+
   return general;
 };
 
 export const buildEmptyWithContributor = (
   fieldsWithRequired: FieldSpec[],
-  defaultContributor: string,
+  defaultContributor: string | undefined,
 ) => {
   return {
     ...buildEmpty(fieldsWithRequired),
-    contributor: defaultContributor,
+    contributor: defaultContributor ?? "",
   };
 };

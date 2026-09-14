@@ -1,13 +1,14 @@
-import { FormEvent, useRef, useState, useMemo, useEffect } from "react";
-import { Dialog } from "primereact/dialog";
-import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import { FormEvent, useRef, useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useGroups } from "../../../hooks/useGroups";
+
 import { useGroupDetails } from "../../../hooks/useGroupDetails";
-import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
+import { useGroups } from "../../../hooks/useGroups";
 import { pickLang } from "../../../utils/multilingual";
+import { buildDataRelationshipLabel, buildLogicalRecordLabel } from "../../constants";
 import { itemsOfType } from "../../types/ddi4Items";
 import "./PhysicalInstanceCreationDialog.css";
 

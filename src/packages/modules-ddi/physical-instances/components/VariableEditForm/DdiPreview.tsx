@@ -1,6 +1,12 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { Dropdown } from "primereact/dropdown";
+import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
+
+import { DDIApi } from "@sdk/index";
+
+import { useAppContext } from "../../../../application/app-context";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { singletonEntries } from "../../../utils/multilingual";
 import type {
   NumericRepresentation,
   DateTimeRepresentation,
@@ -13,13 +19,9 @@ import type {
   Ddi4Item,
   PhysicalInstanceResponse,
 } from "../../types/api";
-import { DDIApi } from "../../../../sdk";
-import { useAppContext } from "../../../../application/app-context";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { DdiXmlPreview } from "./DdiXmlPreview";
 import { DdiJsonPreview } from "./DdiJsonPreview";
 import { ddiPreviewReducer, initialState, type DdiFormat } from "./DdiPreview.reducer";
-import { singletonEntries } from "../../../utils/multilingual";
+import { DdiXmlPreview } from "./DdiXmlPreview";
 import { useSelfContainedPreview } from "./useSelfContainedPreview";
 
 interface DdiPreviewProps {
@@ -145,7 +147,9 @@ export const DdiPreview = ({
       variableDDI.VariableRepresentation = {
         VariableRole: "Mesure",
         // #1592 : même sans attribut saisi, le type Text doit apparaître dans le DDI.
-        TextRepresentation: textRepresentation ?? { $type: "TextRepresentationBaseType" },
+        TextRepresentation: textRepresentation ?? {
+          $type: "TextRepresentationBaseType",
+        },
       };
     } else if (variableType === "code" && codeRepresentation) {
       variableDDI.VariableRepresentation = {

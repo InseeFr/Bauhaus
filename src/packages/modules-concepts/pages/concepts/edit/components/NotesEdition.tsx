@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 
 import { NoteEdition } from "@components/note-edition";
 
-import { ConceptNotes } from "../../../../../model/concepts/concept";
+import { ConceptNotes } from "@model/concepts/concept";
+
 import { NoteRawTitle, noteTypes } from "../../../../utils/noteStatus";
 import "./NotesEdition.css";
 
@@ -16,7 +17,7 @@ interface NotesEditionProps {
   activeNote: NoteRawTitle;
 }
 
-const NotesEdition = ({
+export const NotesEdition = ({
   notes,
   maxLengthScopeNote,
   handleChange,
@@ -28,9 +29,11 @@ const NotesEdition = ({
   const t1 = i18n.getFixedT("fr");
 
   const noteType = noteTypes(maxLengthScopeNote).find(({ rawTitle }) => rawTitle === activeNote);
+
   if (!noteType) return null;
 
   const { rawTitle, noteLg1Name, noteLg2Name, maxLength } = noteType;
+
   const title = t1(`concept.notes.${rawTitle}`);
 
   return (
@@ -58,5 +61,3 @@ const NotesEdition = ({
     </section>
   );
 };
-
-export default NotesEdition;

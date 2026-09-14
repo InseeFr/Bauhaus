@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Ddi4Plugin } from "./Ddi4Plugin";
+
 import type { PhysicalInstanceResponse } from "../../types/api";
+import { Ddi4Plugin } from "./Ddi4Plugin";
 
 interface Ddi4LangsPluginProps {
   dataByLangs: Map<string, PhysicalInstanceResponse>;

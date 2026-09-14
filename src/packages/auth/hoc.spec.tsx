@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
-import { withAuth } from "./hoc";
+import { useAppContext } from "../application/app-context";
 import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from "./constants";
 import { useOidc } from "./create-oidc";
-import { useAppContext } from "../application/app-context";
+import { withAuth } from "./hoc";
 
 vi.mock("./create-oidc", () => ({
   useOidc: vi.fn(),

@@ -1,4 +1,5 @@
-import { Document } from "../../../../../model/operations/document";
+import { Document } from "@model/operations/document";
+
 import { isDocument } from "../../../../utils/isDocument";
 import { isLink } from "../../../../utils/isLink";
 import { reorderDocuments } from "./reorderDocuments";

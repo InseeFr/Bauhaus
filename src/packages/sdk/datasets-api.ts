@@ -1,4 +1,5 @@
-import { Dataset } from "../model/Dataset";
+import { Dataset } from "@model/Dataset";
+
 import { buildApi } from "./build-api";
 
 const api = {

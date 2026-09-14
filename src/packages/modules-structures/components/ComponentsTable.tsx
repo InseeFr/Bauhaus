@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
 import { Column } from "primereact/column";
+import { useTranslation } from "react-i18next";
 
 import { DataTable } from "@components/datatable";
 

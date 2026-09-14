@@ -1,15 +1,16 @@
 import { Column } from "primereact/column";
 import { useTranslation } from "react-i18next";
 
+import { InseeOrganization } from "@components/business/organizations/organizations";
 import { DataTable } from "@components/datatable";
 import { Panel } from "@components/panel";
-import { InseeOrganisation } from "@components/business/organisations/organisations";
 
-import { today } from "@utils/date-utils";
+import { CollectionDashboardItem } from "@model/concepts/collection";
 
 import "../../../../../i18n";
 import { VALIDATED } from "@model/ValidationState";
-import { Collection } from "../../../../types/collection";
+
+import { today } from "@utils/date-utils";
 
 type CollectionSummaryRow = {
   id: number;
@@ -22,7 +23,7 @@ export type CollectionStampRow = {
   total: number;
 };
 
-export const buildDataStamps = (d: Collection[]): CollectionStampRow[] =>
+export const buildDataStamps = (d: CollectionDashboardItem[]): CollectionStampRow[] =>
   d.reduce<CollectionStampRow[]>((acc, collection) => {
     if (!acc.some((row) => row.stamp === collection.creator)) {
       acc.push({ stamp: collection.creator, total: 0 });
@@ -31,9 +32,11 @@ export const buildDataStamps = (d: Collection[]): CollectionStampRow[] =>
     return acc;
   }, []);
 
-const stampBody = (row: CollectionStampRow) => <InseeOrganisation creator={row.stamp} />;
+const stampBody = (row: CollectionStampRow) => <InseeOrganization creator={row.stamp} />;
 
-function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Collection[] }>) {
+export function CollectionsSummary({
+  collectionsData,
+}: Readonly<{ collectionsData: CollectionDashboardItem[] }>) {
   const { t } = useTranslation();
 
   const data: CollectionSummaryRow[] = [
@@ -48,6 +51,7 @@ function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Col
       total: collectionsData.filter((c) => c.validationState !== VALIDATED).length,
     },
   ];
+
   const dataStamps = buildDataStamps(collectionsData);
 
   return (
@@ -55,14 +59,12 @@ function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Col
       <h3 className="text-center">
         {t("dashboard.collections.summary.title")} {today()}
       </h3>
-
       <Panel>
         <DataTable value={data} withPagination={false}>
           <Column field="type" header=""></Column>
           <Column field="total" header={t("dashboard.totalColumn")}></Column>
         </DataTable>
       </Panel>
-
       <Panel>
         <DataTable value={dataStamps} globalFilterFields={["stamp"]}>
           <Column
@@ -76,5 +78,3 @@ function CollectionsSummary({ collectionsData }: Readonly<{ collectionsData: Col
     </div>
   );
 }
-
-export default CollectionsSummary;

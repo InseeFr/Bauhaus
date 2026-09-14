@@ -1,4 +1,5 @@
-import { Document } from "../../model/operations/document";
+import { Document } from "@model/operations/document";
+
 import { isDocument } from "./isDocument";
 
 describe("isDocument", () => {

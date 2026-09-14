@@ -1,7 +1,8 @@
-import i18next from "../i18n";
 import { z } from "zod";
 
 import { formatValidation, mandatoryAndNotEmptyTextField } from "@utils/validation";
+
+import { codelistsI18n } from "../i18n";
 
 /** Valeurs saisies dans le formulaire d'un code, avant validation. */
 export interface CodeFormValues {
@@ -12,12 +13,12 @@ export interface CodeFormValues {
 
 const ZodCode = (shouldCheckDuplicate: boolean, codes: CodeFormValues[]) =>
   z.object({
-    code: mandatoryAndNotEmptyTextField(i18next.t("codes.title")).refine(
+    code: mandatoryAndNotEmptyTextField(codelistsI18n.t("codes.title")).refine(
       (value) => !shouldCheckDuplicate || !codes.some((c) => c.code === value),
-      { error: i18next.t("codes.duplicateError") },
+      { error: codelistsI18n.t("codes.duplicateError") },
     ),
-    labelLg1: mandatoryAndNotEmptyTextField(i18next.t("codes.label", { lng: "fr" })),
-    labelLg2: mandatoryAndNotEmptyTextField(i18next.t("codes.label", { lng: "en" })),
+    labelLg1: mandatoryAndNotEmptyTextField(codelistsI18n.t("codes.label", { lng: "fr" })),
+    labelLg2: mandatoryAndNotEmptyTextField(codelistsI18n.t("codes.label", { lng: "en" })),
   });
 
 export const validateCode = (

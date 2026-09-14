@@ -1,9 +1,12 @@
-import { Panel } from "../panel";
+import { ReactNode } from "react";
+
 import { cx } from "@utils/cx";
+
+import { Panel } from "../panel";
 
 interface NoteTypes {
   text?: string | any;
-  title: string;
+  title: ReactNode;
   alone?: boolean;
   allowEmpty?: boolean;
   alt?: string;
@@ -17,6 +20,7 @@ export const Note = ({
   alt = "",
 }: Readonly<NoteTypes>) => {
   if (!text && !allowEmpty) return null;
+
   const cl = alone ? "col-md-12" : "col-md-6";
 
   return (

@@ -1,10 +1,14 @@
-import { Distribution } from "@model/Dataset";
-import { DistributionApi } from "@sdk/distributions-api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { Distribution } from "@model/Dataset";
+
+import { DistributionApi } from "@sdk/distributions-api";
+
 import { useGoBack } from "@utils/hooks/useGoBack";
 
 export const useCreateOrUpdateDistribution = (isEditing: boolean) => {
   const queryClient = useQueryClient();
+
   const goBack = useGoBack();
 
   const {
@@ -29,7 +33,6 @@ export const useCreateOrUpdateDistribution = (isEditing: boolean) => {
       queryClient.invalidateQueries({
         queryKey: ["distributions"],
       });
-
       goBack(`/datasets/distributions/${id}`, !isEditing);
     },
   });

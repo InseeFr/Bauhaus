@@ -1,15 +1,8 @@
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { createAllDictionary } from "@utils/dictionnary";
-
+import { componentsI18n } from "../i18n";
 import "./index.css";
-
-const { D } = createAllDictionary({
-  home: {
-    fr: "Accueil",
-    en: "Home",
-  },
-});
 
 const WITH_SEPARATOR_CLASS = "with-separator";
 
@@ -32,10 +25,13 @@ interface MainMenuTypes {
 }
 
 export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   const orderedPaths = paths
     .filter((path) => path.shouldBeDisplayed !== false)
     .sort((p1, p2) => p1.order - p2.order);
-  const allPaths = [{ label: D.home, path: "/" }, ...orderedPaths].reduce(
+
+  const allPaths = [{ label: t("home"), path: "/" }, ...orderedPaths].reduce(
     (acc, path) => {
       if (path.alignToRight) {
         return [[...acc[0]], [...acc[1], path]];
@@ -53,7 +49,6 @@ export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
           <ul className="nav navbar-nav">
             {allPaths[0].map((path: Path, index: number) => {
               const classes = getClasses(path, index, allPaths[0]);
-
               return (
                 <li className={classes} key={path.path}>
                   <Link to={path.path} {...path.attrs}>
@@ -63,11 +58,9 @@ export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
               );
             })}
           </ul>
-
           <ul className="nav navbar-nav navbar-right">
             {allPaths[1].map((path: Path, index: number) => {
               const classes = getClasses(path, index, allPaths[1]);
-
               return (
                 <li className={classes} key={path.path}>
                   <Link to={path.path} {...path.attrs}>

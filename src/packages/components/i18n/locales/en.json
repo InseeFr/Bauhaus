@@ -7,5 +7,81 @@
     "previousPage": "Previous page",
     "nextPage": "Next page",
     "lastPage": "Last page"
-  }
+  },
+  "btnNew": {
+    "masculine": "New",
+    "feminine": "New"
+  },
+  "disseminationStatus": {
+    "DSPublicGeneriqueTitle": "Public generic",
+    "DSPublicSpecifiqueTitle": "Public specific",
+    "DSPrivateTitle": "Private",
+    "title": "Dissemination status",
+    "placeholder": "Select dissemination status..."
+  },
+  "loading": {
+    "auth": "Authentication in progress...",
+    "saving": "Saving in progress...",
+    "sending": "Sending in progress...",
+    "exporting": "Export in progress...",
+    "validating": "Publish in progress ...",
+    "loading": "Loading in progress...",
+    "deleting": "Deleting in progress..."
+  },
+  "creatorsInput": {
+    "creatorsTitle": "Owners",
+    "creatorTitle": "Owner"
+  },
+  "contributors": {
+    "title": "Contributors",
+    "stampsPlaceholder": "Select stamp..."
+  },
+  "searchLabelPlaceholder": "Label...",
+  "availableItemsPanelTitle": "Available items",
+  "version": "Version",
+  "conceptsScopeNote": "Short definition",
+  "conceptsDefinition": "Definition",
+  "conceptsEditorialNote": "Editorial note",
+  "conceptsChangeNote": "Change note",
+  "classificationsDefinition": "General note",
+  "classificationsScopeNote": "Remark",
+  "classificationsCoreContentNote": "Main content",
+  "classificationsAdditionalContentNote": "Additional content",
+  "classificationsExclusionNote": "Exclusion note",
+  "classificationsChangeNote": "Change note",
+  "datatable": {
+    "placeholder": "Search in the table..."
+  },
+  "see": "See",
+  "search": "Search...",
+  "advancedSearchTitle": "Advanced search",
+  "result": "result",
+  "results": "results",
+  "noResult": "No results",
+  "notFoundTitle": "Page not found",
+  "underMaintenanceTitle": "Under maintenance",
+  "home": "Home",
+  "createdDateTitle": "Creation date",
+  "modifiedDateTitle": "Modification date",
+  "displayLg2": "Display second language",
+  "deleteTitle": "Delete",
+  "confirmationConceptDelete": "You are about to permanently delete this concept. Are you sure?",
+  "yes": "Yes",
+  "no": "No",
+  "add": "Add",
+  "backToTop": "Back to Top",
+  "welcome": "Metadata management application",
+  "btnReturn": "Back",
+  "btnReinitialize": "Reinitialize",
+  "btnUpdate": "Update",
+  "btnDelete": "Delete",
+  "btnExport": "Export",
+  "btnImport": "Import",
+  "btnValid": "Publish",
+  "btnCancel": "Cancel",
+  "btnSave": "Save",
+  "btnDuplicate": "Duplicate",
+  "btnClose": "Close",
+  "btnCompare": "Compare",
+  "btnTree": "View tree"
 }

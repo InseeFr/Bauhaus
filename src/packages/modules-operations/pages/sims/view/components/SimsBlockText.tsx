@@ -1,4 +1,4 @@
-import { Rubric } from "../../../../../model/Sims";
+import { Rubric } from "@model/Sims";
 
 interface SimsBlockTextTypes {
   currentSection: Rubric;
@@ -7,5 +7,6 @@ interface SimsBlockTextTypes {
 
 export const SimsBlockText = ({ currentSection, isSecondLang }: Readonly<SimsBlockTextTypes>) => {
   const content = currentSection[isSecondLang ? "labelLg2" : "labelLg1"];
+
   return content || "";
 };

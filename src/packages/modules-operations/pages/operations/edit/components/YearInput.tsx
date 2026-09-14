@@ -1,8 +1,8 @@
+import { useTranslation } from "react-i18next";
+
 import { ClientSideError } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { Row } from "@components/layout";
-
-import { useTranslation } from "react-i18next";
 
 interface YearInputTypes {
   value: string;

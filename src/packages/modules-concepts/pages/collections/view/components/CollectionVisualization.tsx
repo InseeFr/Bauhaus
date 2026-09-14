@@ -5,14 +5,14 @@ import { Exporting } from "@components/loading";
 import { PageSubtitle } from "@components/page-sub-title";
 import { PageTitle } from "@components/page-title";
 
+import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
+
 import { useCollectionExporter } from "@utils/hooks/collections";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
-
 import { Menu } from "../menu";
-import CollectionGeneralView from "./CollectionGeneral";
-import CollectionMembers from "./CollectionMembers";
+import { CollectionGeneral as CollectionGeneralComponent } from "./CollectionGeneral";
+import { CollectionMembers } from "./CollectionMembers";
 
 interface CollectionVisualizationProps {
   id: string;
@@ -22,7 +22,7 @@ interface CollectionVisualizationProps {
   validateCollection: (id: string) => void;
 }
 
-const CollectionVisualization = ({
+export const CollectionVisualization = ({
   id,
   general,
   members,
@@ -30,10 +30,13 @@ const CollectionVisualization = ({
   validateCollection,
 }: Readonly<CollectionVisualizationProps>) => {
   const { t } = useTranslation();
+
   useTitle(t("collection.title"), general.prefLabelLg1);
 
   const { validationState } = general;
+
   const { mutate: exportCollection, isPending: isExporting } = useCollectionExporter();
+
   const handleClickValid = () => {
     validateCollection(id);
   };
@@ -52,11 +55,9 @@ const CollectionVisualization = ({
           exportCollection={exportCollection}
         />
         <CheckSecondLang />
-        <CollectionGeneralView attr={general} secondLang={secondLang} />
+        <CollectionGeneralComponent attr={general} secondLang={secondLang} />
         <CollectionMembers members={members} secondLang={secondLang} />
       </div>
     </div>
   );
 };
-
-export default CollectionVisualization;

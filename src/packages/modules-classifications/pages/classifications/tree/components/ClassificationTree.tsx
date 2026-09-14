@@ -1,15 +1,15 @@
-import { useParams, Link } from "react-router-dom";
+import { Tree } from "primereact/tree";
+import { TreeNode } from "primereact/treenode";
 import { useTranslation } from "react-i18next";
+import { useParams, Link } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { Row } from "@components/layout";
 import { PageTitle } from "@components/page-title";
-import { Tree } from "primereact/tree";
 
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { Menu } from "../menu";
-import { TreeNode } from "primereact/treenode";
 
 type ClassificationItem = {
   id: string;
@@ -101,7 +101,6 @@ export const ClassificationTree = ({
   const nodeTemplate = (node: TreeNode) => {
     const nodeData = node.data as ClassificationItem;
     const linkPath = `/classifications/classification/${id}/item/${nodeData.id}`;
-
     return (
       <Link to={linkPath} style={{ textDecoration: "none", color: "inherit" }}>
         {node.label}

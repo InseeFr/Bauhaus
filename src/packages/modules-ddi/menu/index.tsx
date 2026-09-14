@@ -1,10 +1,11 @@
 import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 import { MainMenu } from "@components/menu";
 
 import { UIMenuItem } from "@model/Menu";
+
 const ACTIVE = "active";
 const defaultAttrs = { "aria-current": "page" };
 
@@ -12,6 +13,7 @@ type RouterConfig = Record<string, UIMenuItem>;
 
 export const Menu = () => {
   const { t } = useTranslation();
+
   const location = useLocation();
   const pathname = location.pathname;
 

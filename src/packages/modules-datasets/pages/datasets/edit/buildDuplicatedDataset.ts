@@ -1,4 +1,4 @@
-import { Dataset } from "../../../../model/Dataset";
+import { Dataset } from "@model/Dataset";
 
 /**
  * Prépare le formulaire de création à partir d'un jeu de données existant.

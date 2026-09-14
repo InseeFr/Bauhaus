@@ -3,9 +3,10 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { PropsWithChildren } from "react";
 import { vi } from "vitest";
 
+import { Series } from "@model/Series";
+
 import { OperationsApi } from "@sdk/operations-api";
 
-import { Series } from "../../model/Series";
 import { useSeries } from "./series";
 
 vi.mock("@sdk/operations-api");

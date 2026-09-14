@@ -1,21 +1,23 @@
-import { useReducer, useEffect, useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { useReducer, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+
+import { useAppContext } from "../../../../application/app-context";
+import { useAllCodeLists } from "../../../hooks/useAllCodeLists";
+import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
   Category,
 } from "../../types/api";
 import { itemsOfType, singleItemOfType } from "../../types/ddi4Items";
-import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
+import { CategoryUsageDialog } from "./CategoryUsageDialog";
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
 import { CodeListUsersPanel } from "./CodeListUsersPanel";
-import { CategoryUsageDialog } from "./CategoryUsageDialog";
-import { OverrideDialog } from "./OverrideDialog";
-import { SharedCodeListNotice } from "./SharedCodeListNotice";
-import { useSharedEditGuard, type ApplyEdit } from "./useSharedEditGuard";
 import { codeRepresentationReducer, initialState } from "./CodeRepresentation.reducer";
 import {
   createDefaultRepresentation,
@@ -27,11 +29,10 @@ import {
   getLocalizedText,
   otherVariableNames,
 } from "./CodeRepresentation.utils";
-import { useAppContext } from "../../../../application/app-context";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { useAllCodesLists } from "../../../hooks/useAllCodesLists";
-import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
-import { useCodeListUsers } from "../../../hooks/useCodeListUsers";
+import { OverrideDialog } from "./OverrideDialog";
+import { ReuseCodeListSelect } from "./ReuseCodeListSelect";
+import { SharedCodeListNotice } from "./SharedCodeListNotice";
+import { useSharedEditGuard, type ApplyEdit } from "./useSharedEditGuard";
 import "./CodeRepresentation.css";
 
 interface CodeRepresentationProps {
@@ -64,7 +65,7 @@ export const CodeRepresentation = ({
     id: string;
     agencyId: string;
   }>();
-  const { data: allCodesLists = [] } = useAllCodesLists(agencyId, physicalInstanceId);
+  const { data: allCodeLists = [] } = useAllCodeLists(agencyId, physicalInstanceId);
   const [state, dispatch] = useReducer(codeRepresentationReducer, {
     ...initialState,
     codeListLabel: getLocalizedText(codeList?.Label) ?? "",
@@ -77,7 +78,7 @@ export const CodeRepresentation = ({
   const isReferencedListMutualized = Boolean(
     referencedCodeListAgency &&
     referencedCodeListId &&
-    allCodesLists.find(
+    allCodeLists.find(
       (cl) => cl.agencyId === referencedCodeListAgency && cl.id === referencedCodeListId,
     )?.mutualized,
   );
@@ -86,7 +87,7 @@ export const CodeRepresentation = ({
   const isSelectedListMutualized = Boolean(
     selectedAgency &&
     selectedListId &&
-    allCodesLists.find((cl) => cl.agencyId === selectedAgency && cl.id === selectedListId)
+    allCodeLists.find((cl) => cl.agencyId === selectedAgency && cl.id === selectedListId)
       ?.mutualized,
   );
 
@@ -129,7 +130,7 @@ export const CodeRepresentation = ({
   // L'endpoint `mutualized-codes-list/{agency}/{id}` est générique côté back (il délègue à
   // getCodeList) : il sert donc aussi bien aux listes mutualisées qu'aux listes du groupe.
   // On charge le contenu dès qu'une liste est sélectionnée, quel que soit son type.
-  const { data: selectedListCodes, isLoading: isLoadingSelectedListCodes } = useMutualizedCodesList(
+  const { data: selectedListCodes, isLoading: isLoadingSelectedListCodes } = useMutualizedCodeList(
     selectedAgency,
     selectedListId,
   );

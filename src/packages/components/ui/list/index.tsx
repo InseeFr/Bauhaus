@@ -14,6 +14,7 @@ export const List = <T,>({
   if (!items || items.length === 0) {
     return null;
   }
+
   return (
     <ul>
       {items.map((item, index) => (

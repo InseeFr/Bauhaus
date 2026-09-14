@@ -21,19 +21,24 @@ vi.mock("../../../../application/app-context", () => ({
   }),
 }));
 vi.mock("react-i18next", async () => {
-  const originalModule = await vi.importActual("react-i18next");
+  const originalModule = await vi.importActual<typeof import("react-i18next")>("react-i18next");
   return {
     ...originalModule,
-    useTranslation: () => ({
-      t: (key: string) => {
-        const translations: Record<string, string> = {
-          "ddi.title": "Variables",
-          "physicalInstance.pluralTitle": "Physical Instances",
-          "physicalInstance.homePageTitle": "Physical Instances - Search",
-        };
-        return translations[key] ?? key;
-      },
-    }),
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return originalModule.useTranslation(ns, options);
+      }
+      return {
+        t: (key: string) => {
+          const translations: Record<string, string> = {
+            "ddi.title": "Variables",
+            "physicalInstance.pluralTitle": "Physical Instances",
+            "physicalInstance.homePageTitle": "Physical Instances - Search",
+          };
+          return translations[key] ?? key;
+        },
+      };
+    },
   };
 });
 

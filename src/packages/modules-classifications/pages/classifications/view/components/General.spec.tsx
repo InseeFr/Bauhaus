@@ -1,35 +1,42 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi } from "vitest";
+
 import { General } from "./General";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "classification.motherSeries": "Mother series",
-        "classification.previousClassification": "Previous classification",
-        "classification.followingClassification": "Following classification",
-        "classification.variant": "Variant",
-        "classification.altLabelTitle": "Alternative label",
-        "classification.issuedDate": "Legal start date",
-        "classification.validDate": "Expiration date",
-        "classification.lastRefreshedOnDate": "Last update",
-        "classification.creator": "Owner",
-        "classification.contributor": "Contributor",
-        "classification.disseminationStatus": "Dissemination status",
-        "classification.validationStatus": "Publication status",
-        "classification.rights": "Copyright",
-        "classification.additionalMaterial": "Additional material",
-        "classification.legalMaterial": "Legal material",
-        "classification.homepage": "Classification diffusion Url",
-        "classification.globalInformation": "General information",
-        "classification.descriptionTitle": "Description",
-      };
-      return translations[key] ?? key;
+const translations: Record<string, string> = {
+  "classification.motherSeries": "Mother series",
+  "classification.previousClassification": "Previous classification",
+  "classification.followingClassification": "Following classification",
+  "classification.variant": "Variant",
+  "classification.altLabelTitle": "Alternative label",
+  "classification.issuedDate": "Legal start date",
+  "classification.validDate": "Expiration date",
+  "classification.lastRefreshedOnDate": "Last update",
+  "classification.creator": "Owner",
+  "classification.contributor": "Contributor",
+  "classification.disseminationStatus": "Dissemination status",
+  "classification.validationStatus": "Publication status",
+  "classification.rights": "Copyright",
+  "classification.additionalMaterial": "Additional material",
+  "classification.legalMaterial": "Legal material",
+  "classification.homepage": "Classification diffusion Url",
+  "classification.globalInformation": "General information",
+  "classification.descriptionTitle": "Description",
+};
+
+vi.mock("react-i18next", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react-i18next")>();
+  return {
+    ...actual,
+    useTranslation: (ns?: string, options?: any) => {
+      if (options?.i18n) {
+        return actual.useTranslation(ns, options);
+      }
+      return { t: (key: string) => translations[key] ?? key };
     },
-  }),
-}));
+  };
+});
 
 vi.mock("@components/layout", () => ({
   Row: ({ children }: any) => <div>{children}</div>,
@@ -60,8 +67,8 @@ vi.mock("@utils/html-utils", () => ({
   renderMarkdownElement: (v: any) => v,
 }));
 
-vi.mock("@components/business/organisations/organisations", () => ({
-  InseeOrganisation: ({ creator }: any) => <span>{`Organisation: ${creator}`}</span>,
+vi.mock("@components/business/organizations/organizations", () => ({
+  InseeOrganization: ({ creator }: any) => <span>{`Organization: ${creator}`}</span>,
 }));
 
 const renderGeneral = (general = {}, secondLang = false) =>
@@ -160,7 +167,7 @@ describe("<General />", () => {
   it("affiche le créateur via InseeOrganisation", () => {
     renderGeneral({ creator: "DG75-H250" });
     expect(screen.getAllByTestId("note-content")[0]).toHaveTextContent(
-      "Owner : Organisation: DG75-H250",
+      "Owner : Organization: DG75-H250",
     );
   });
 

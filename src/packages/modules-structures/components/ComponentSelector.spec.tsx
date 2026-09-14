@@ -4,6 +4,10 @@ import { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
+import { Component, ComponentDefinition } from "@model/structures/Component";
+import { Structure } from "@model/structures/Structure";
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { StructureApi } from "@sdk/index";
 
 import { AppContextProvider } from "../../application/app-context";
@@ -41,15 +45,21 @@ vi.mock("@utils/hooks/users", async (importOriginal) => {
   };
 });
 
-const component = (identifiant: string, type = DIMENSION_PROPERTY_TYPE) => ({
+const component = (identifiant: string, type = DIMENSION_PROPERTY_TYPE): Component => ({
   id: identifiant,
   identifiant,
   labelLg1: `Composante ${identifiant}`,
   type,
-  validationState: "Unpublished",
+  validationState: UNPUBLISHED,
+  contributor: [],
+  structures: [],
 });
 
-const definition = (identifiant: string, order: number, type = DIMENSION_PROPERTY_TYPE) => ({
+const definition = (
+  identifiant: string,
+  order: number,
+  type = DIMENSION_PROPERTY_TYPE,
+): ComponentDefinition => ({
   order,
   component: component(identifiant, type),
 });
@@ -69,11 +79,11 @@ const handleUpdate = vi.fn();
 const renderSelector = (props: Record<string, unknown> = {}) =>
   render(
     <ComponentSelector
-      structure={{}}
+      structure={{} as Structure}
       componentDefinitions={[definition("d1", 1), definition("d2", 2)]}
       mutualizedComponents={[component("m1"), component("d1")]}
       concepts={[]}
-      codesLists={[]}
+      codelists={[]}
       handleUpdate={handleUpdate}
       type={DIMENSION_PROPERTY_TYPE}
       {...props}

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import i18next from "../../../../i18n";
 
 import { TextInput } from "@components/form/input";
 import { Select } from "@components/select-rmes";
@@ -9,6 +8,7 @@ import { Option } from "@model/SelectOption";
 
 import { useStructures } from "@utils/hooks/structures";
 
+import { datasetsI18n } from "../../../../i18n";
 import "./DataStructure.css";
 
 export const STRUCTURE_MODE = "STRUCTURE_MODE";
@@ -26,11 +26,11 @@ export const computeInitialMode = (
 const firstOptions = [
   {
     value: STRUCTURE_MODE,
-    label: i18next.t("dataset.statisticalInformation.dataStructure.chooseStructure"),
+    label: datasetsI18n.t("dataset.statisticalInformation.dataStructure.chooseStructure"),
   },
   {
     value: URN_MODE,
-    label: i18next.t("dataset.statisticalInformation.dataStructure.chooseURN"),
+    label: datasetsI18n.t("dataset.statisticalInformation.dataStructure.chooseURN"),
   },
 ];
 
@@ -44,6 +44,7 @@ export const DataStructure = ({
   const { t } = useTranslation();
 
   const { data: structures } = useStructures();
+
   const options: Option[] =
     structures?.map(({ iri, labelLg1 }) => ({ value: iri, label: labelLg1 })) ?? [];
 

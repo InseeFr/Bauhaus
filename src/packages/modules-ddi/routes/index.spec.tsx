@@ -1,5 +1,5 @@
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { render } from "@testing-library/react";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 
 import { routes } from "./index";

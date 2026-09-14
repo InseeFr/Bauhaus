@@ -1,10 +1,14 @@
-import { useCallback, useReducer, useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { Card } from "primereact/card";
 import { Button } from "primereact/button";
+import { Card } from "primereact/card";
 import { TabView, TabPanel } from "primereact/tabview";
+import { useCallback, useReducer, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
+
+import { cx } from "@utils/cx";
+
 import { HasAccess } from "../../../../auth/components/auth";
+import { pickLang } from "../../../utils/multilingual";
 import type {
   NumericRepresentation,
   DateTimeRepresentation,
@@ -16,10 +20,8 @@ import type {
   Reference,
 } from "../../types/api";
 import { DdiPreview } from "./DdiPreview";
-import { pickLang } from "../../../utils/multilingual";
 import { VariableInformationTab } from "./VariableInformationTab";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
-import { cx } from "@utils/cx";
 
 const VARIABLE_TYPES = {
   NUMERIC: "numeric",
@@ -306,7 +308,6 @@ export const VariableEditForm = ({
     dispatch({ type: "RESET", payload: buildFormState(variable) });
     // Ne pas inclure codeList et categories dans les dépendances car ils changent
     // pendant l'édition et on ne veut pas réinitialiser le formulaire à chaque fois
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     variable.id,
     variable.label,

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 
-import NoteOneLangEdition from "./note-one-lang-edition";
+import { NoteOneLangEdition } from "./note-one-lang-edition";
 
 describe("note-one-lang-edition", () => {
   it("renders without crashing", () => {

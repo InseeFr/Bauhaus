@@ -1,4 +1,4 @@
-import { useSecondLang } from "../../utils/hooks/second-lang";
+import { useSecondLang } from "@utils/hooks/second-lang";
 
 interface PageTitleBlockTypes {
   titleLg1?: string;
@@ -7,6 +7,7 @@ interface PageTitleBlockTypes {
 
 export const PageTitleBlock = ({ titleLg1, titleLg2 }: Readonly<PageTitleBlockTypes>) => {
   const [secondLang] = useSecondLang();
+
   return (
     <div className="row wilco-page-title">
       <div className="col-md-10 wilco-page-title__block col-md-offset-1">

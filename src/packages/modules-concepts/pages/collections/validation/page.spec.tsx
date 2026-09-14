@@ -20,7 +20,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
 }));
 
 vi.mock("./components/CollectionsToValidate", () => ({
-  default: ({
+  CollectionsToValidate: ({
     collections,
     handleValidateCollectionList,
     serverSideError,

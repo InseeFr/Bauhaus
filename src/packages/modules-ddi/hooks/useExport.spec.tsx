@@ -1,9 +1,10 @@
-import { renderHook } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import type { ReactNode, RefObject } from "react";
+import { renderHook } from "@testing-library/react";
 import type { Toast } from "primereact/toast";
+import type { ReactNode, RefObject } from "react";
 
-import { DDIApi } from "../../sdk";
+import { DDIApi } from "@sdk/index";
+
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { useExport } from "./useExport";
 

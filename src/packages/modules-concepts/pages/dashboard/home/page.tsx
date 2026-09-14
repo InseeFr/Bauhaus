@@ -3,11 +3,13 @@ import { useEffect, useReducer } from "react";
 import { ErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 
-import { ConceptForAdvancedSearch } from "../../../types/concept";
 import { UNPUBLISHED } from "@model/ValidationState";
-import { CollectionApi } from "@sdk/new-collection-api";
+
 import { ConceptsApi } from "@sdk/concepts-api";
-import Dashboard from "./components/ConceptsDashboard";
+import { CollectionApi } from "@sdk/new-collection-api";
+
+import { ConceptForAdvancedSearch } from "../../../types/concept";
+import { ConceptsDashboard } from "./components/ConceptsDashboard";
 import { initialState, reducer } from "./page.reducer";
 
 const emptyItem: ConceptForAdvancedSearch = {
@@ -44,7 +46,8 @@ export const Component = () => {
   }, []);
 
   if (loading) return <Loading />;
+
   if (error) return <ErrorBloc error={error} />;
 
-  return <Dashboard conceptsData={concepts} collectionsData={collections} />;
+  return <ConceptsDashboard conceptsData={concepts} collectionsData={collections} />;
 };

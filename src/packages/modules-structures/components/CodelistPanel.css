@@ -1,4 +1,4 @@
 /* Le contenu du panneau PrimeReact apporte déjà son propre padding vertical. */
-.codes-list-panel .p-sidebar-content {
+.code-list-panel .p-sidebar-content {
   padding-top: 0;
 }

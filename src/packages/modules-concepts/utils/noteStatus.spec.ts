@@ -1,4 +1,5 @@
-import { ConceptNotes } from "../../model/concepts/concept";
+import { ConceptNotes } from "@model/concepts/concept";
+
 import { emptyConceptNotes } from "./emptyConceptNotes";
 import { noteStatus, noteTypes } from "./noteStatus";
 

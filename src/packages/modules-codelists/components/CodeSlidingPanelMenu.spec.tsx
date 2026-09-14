@@ -1,9 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Mock, vi } from "vitest";
 
-import { CodesList } from "@model/CodesList";
+import { Codelist } from "@model/Codelist";
 
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
+
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 
 vi.mock("@utils/hooks/users", async (importOriginal) => {
@@ -30,7 +31,7 @@ describe("CodeSlidingPanelMenu", () => {
 
     render(
       <CodeSlidingPanelMenu
-        codelist={codelist as unknown as CodesList}
+        codelist={codelist as unknown as Codelist}
         handleSubmit={mockHandleSubmit}
         handleBack={mockHandleBack}
         creation={false}
@@ -55,7 +56,7 @@ describe("CodeSlidingPanelMenu", () => {
 
     render(
       <CodeSlidingPanelMenu
-        codelist={codelist as unknown as CodesList}
+        codelist={codelist as unknown as Codelist}
         handleSubmit={mockHandleSubmit}
         handleBack={mockHandleBack}
         creation={false}
@@ -80,7 +81,7 @@ describe("CodeSlidingPanelMenu", () => {
 
     render(
       <CodeSlidingPanelMenu
-        codelist={codelist as unknown as CodesList}
+        codelist={codelist as unknown as Codelist}
         handleSubmit={mockHandleSubmit}
         handleBack={mockHandleBack}
         creation={true}
@@ -105,7 +106,7 @@ describe("CodeSlidingPanelMenu", () => {
 
     render(
       <CodeSlidingPanelMenu
-        codelist={codelist as unknown as CodesList}
+        codelist={codelist as unknown as Codelist}
         handleSubmit={mockHandleSubmit}
         handleBack={mockHandleBack}
         creation={false}
@@ -132,7 +133,7 @@ describe("CodeSlidingPanelMenu", () => {
 
     render(
       <CodeSlidingPanelMenu
-        codelist={codelist as unknown as CodesList}
+        codelist={codelist as unknown as Codelist}
         handleSubmit={mockHandleSubmit}
         handleBack={mockHandleBack}
         creation={false}
@@ -143,7 +144,7 @@ describe("CodeSlidingPanelMenu", () => {
 
     render(
       <CodeSlidingPanelMenu
-        codelist={codelist as unknown as CodesList}
+        codelist={codelist as unknown as Codelist}
         handleSubmit={mockHandleSubmit}
         handleBack={mockHandleBack}
         creation={true}
@@ -166,7 +167,7 @@ describe("CodeSlidingPanelMenu", () => {
 
     render(
       <CodeSlidingPanelMenu
-        codelist={codelist as unknown as CodesList}
+        codelist={codelist as unknown as Codelist}
         handleSubmit={mockHandleSubmit}
         handleBack={mockHandleBack}
         creation={false}

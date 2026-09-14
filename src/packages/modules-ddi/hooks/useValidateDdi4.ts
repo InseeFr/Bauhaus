@@ -1,14 +1,16 @@
-import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import type { RefObject } from "react";
 import type { Toast } from "primereact/toast";
+import { useCallback, useState } from "react";
+import type { RefObject } from "react";
+import { useTranslation } from "react-i18next";
+
+import { DDIApi } from "@sdk/index";
+
 import { getApiErrorMessage, getApiErrors } from "@utils/api-errors";
 
-import { DDIApi } from "../../sdk";
 import { TOAST_DURATION } from "../physical-instances/constants";
-import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { enrichDataWithCodeLists } from "../physical-instances/pages/view/enrichDataWithCodeLists";
+import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 
 /** Au-delà, le toast devient illisible : on renvoie vers la console pour le détail. */
 const MAX_DISPLAYED_ERRORS = 10;

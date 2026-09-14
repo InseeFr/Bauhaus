@@ -59,4 +59,4 @@ const generalApi = {
   ],
 };
 
-export const GeneralApi = buildApi("", generalApi);
+export const GeneralApi = buildApi("", generalApi) as any;

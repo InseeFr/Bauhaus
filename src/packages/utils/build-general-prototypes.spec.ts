@@ -8,7 +8,7 @@ import {
 } from "./build-general-proptypes";
 
 vi.mock("./object-from-keys", () => ({
-  default: (keys: string[], defaultValue: any) => {
+  objectFromKeys: (keys: string[], defaultValue: any) => {
     const obj: Record<string, any> = {};
     keys.forEach((key) => {
       obj[key] = defaultValue;

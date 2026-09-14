@@ -1,19 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { ContributorsInput } from "./contributors-input";
 
-vi.mock("../../i18n", () => ({
-  default: {
-    contributors: {
-      title: "Gestionnaires",
-    },
-  },
-  D2: {
-    contributors: {
-      title: "Contributors",
-    },
-  },
-}));
+import { ContributorsInput } from "./contributors-input";
 
 vi.mock("../stamps-input/stamps-input", () => ({
   StampsInput: ({ labelSingle, labelMulti, lang, value }: any) => (
@@ -87,10 +75,10 @@ describe("ContributorsInput", () => {
       />,
     );
 
-    const labels = screen.getAllByText("Gestionnaires");
+    const labels = screen.getAllByText("Contributors");
     expect(labels).toHaveLength(2);
 
     const labelMulti = screen.getByTestId("label-multi");
-    expect(labelMulti.textContent).toBe("Gestionnaires");
+    expect(labelMulti.textContent).toBe("Contributors");
   });
 });

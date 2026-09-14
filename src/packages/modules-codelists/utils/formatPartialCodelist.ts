@@ -12,6 +12,7 @@ export const formatPartialCodelist = (cl: any, parentCl: any) => {
         };
       }, {});
   }
+
   return {
     ...cl,
     parentCode: parentCl.id,

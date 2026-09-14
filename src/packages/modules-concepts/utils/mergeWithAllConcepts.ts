@@ -1,11 +1,12 @@
-import { NONE } from "@sdk/constants";
+import { linkTypes, type Link } from "@model/concepts/concept";
 
-import { Link } from "../../model/concepts/concept";
-import { linkTypes } from "./linkTypes";
+import { NONE } from "@sdk/constants";
 
 const getType = (typeOfLink: keyof typeof linkTypes) => {
   const type: string = linkTypes[typeOfLink];
+
   if (type) return type;
+
   throw new TypeError(`The type of a link was not recognized: \`${typeOfLink}\``);
 };
 
@@ -17,7 +18,7 @@ export const mergeWithAllConcepts = (concepts: { id: string; label: string }[], 
       id,
       label,
       typeOfLink,
-      prefLabelLg1: link && link.prefLabelLg1,
-      prefLabelLg2: link && link.prefLabelLg2,
+      prefLabelLg1: link?.prefLabelLg1,
+      prefLabelLg2: link?.prefLabelLg2,
     };
   });

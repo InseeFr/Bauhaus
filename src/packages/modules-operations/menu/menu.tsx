@@ -1,5 +1,5 @@
-import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useLocation, useParams } from "react-router-dom";
 
 import { MainMenu } from "@components/menu";
 
@@ -71,8 +71,9 @@ const extractSimsIdFromPathname = (pathname: string): string | undefined => {
   return match ? match[1] : undefined;
 };
 
-export const MenuOperations = () => {
+export const Menu = () => {
   const { t } = useTranslation();
+
   const { pathname } = useLocation();
 
   const params = useParams();

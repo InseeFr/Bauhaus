@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 
-import { buildCodeListUsersTree } from "./codeListUsersTree";
 import type { CodeListUsage } from "../../types/api";
+import { buildCodeListUsersTree } from "./codeListUsersTree";
 
 const labels = { unknownStudyUnit: "Study Unit inconnue" };
 

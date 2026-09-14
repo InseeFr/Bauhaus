@@ -1,12 +1,14 @@
-import { act, renderHook } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useValidateDdi4 } from "./useValidateDdi4";
-import { DDIApi } from "../../sdk";
+import { act, renderHook } from "@testing-library/react";
+import type { Toast } from "primereact/toast";
 import type { ReactNode } from "react";
 import type { RefObject } from "react";
-import type { Toast } from "primereact/toast";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+import { DDIApi } from "@sdk/index";
+
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
+import { useValidateDdi4 } from "./useValidateDdi4";
 
 vi.mock("../../sdk", () => ({
   DDIApi: {

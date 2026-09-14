@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-
 import { ComponentProps } from "react";
 
 import { PublicationStatusItem } from "./PublicationStatusItem";

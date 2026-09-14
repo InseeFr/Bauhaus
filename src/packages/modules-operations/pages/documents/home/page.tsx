@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 
 import { Loading } from "@components/loading";
 
+import { Document, HomeDocument } from "@model/operations/document";
+
 import { GeneralApi } from "@sdk/general-api";
 
-import { Document, HomeDocument } from "../../../../model/operations/document";
-import { sortArray } from "../../../../utils/array-utils";
+import { sortArray } from "@utils/array-utils";
+
 import { DocumentHome } from "./components/DocumentHome";
 
 const sortByLabel = sortArray("label");
@@ -17,7 +19,7 @@ export const Component = () => {
 
   useEffect(() => {
     GeneralApi.getDocumentsList()
-      .then((results) => {
+      .then((results: unknown) => {
         const sortedDocuments = sortByLabel(
           (results as Document[]).map((document) => {
             return {

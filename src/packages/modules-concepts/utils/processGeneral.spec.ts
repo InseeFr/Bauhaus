@@ -1,4 +1,5 @@
-import { ConceptGeneral } from "../../model/concepts/concept";
+import { ConceptGeneral } from "@model/concepts/concept";
+
 import { processGeneral } from "./processGeneral";
 
 describe("processGeneral", () => {

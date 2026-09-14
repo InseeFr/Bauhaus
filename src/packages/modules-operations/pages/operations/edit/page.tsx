@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import { Loading } from "@components/loading";
+
+import { Operation } from "@model/Operation";
 
 import { OperationsApi } from "@sdk/operations-api";
 
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { useTranslation } from "react-i18next";
-
-import { Operation } from "../../../../model/Operation";
 import { OperationsOperationEdition } from "./components/OperationsOperationEdition";
 
 export const Component = () => {

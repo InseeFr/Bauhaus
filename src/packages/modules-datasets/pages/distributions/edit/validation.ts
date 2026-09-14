@@ -1,4 +1,3 @@
-import i18next from "../../../i18n";
 import { z } from "zod";
 
 import {
@@ -7,19 +6,21 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
+import { datasetsI18n } from "../../../i18n";
+
 const ZodDistribution = z.object({
-  idDataset: mandatoryAndNotEmptySelectField(i18next.t("dataset.title")),
-  labelLg1: mandatoryAndNotEmptyTextField(i18next.t("distribution.mainTitle", { lng: "fr" })),
-  labelLg2: mandatoryAndNotEmptyTextField(i18next.t("distribution.mainTitle", { lng: "en" })),
+  idDataset: mandatoryAndNotEmptySelectField(datasetsI18n.t("dataset.title")),
+  labelLg1: mandatoryAndNotEmptyTextField(datasetsI18n.t("distribution.mainTitle", { lng: "fr" })),
+  labelLg2: mandatoryAndNotEmptyTextField(datasetsI18n.t("distribution.mainTitle", { lng: "en" })),
   accessUrl: z
     .url({
-      error: i18next.t("distribution.URLerror"),
+      error: datasetsI18n.t("distribution.URLerror"),
     })
     .or(z.literal(""))
     .optional(),
   url: z
     .url({
-      error: i18next.t("distribution.URLerror"),
+      error: datasetsI18n.t("distribution.URLerror"),
     })
     .or(z.literal(""))
     .optional(),

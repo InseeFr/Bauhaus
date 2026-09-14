@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { CategoryUsageDialog } from "./CategoryUsageDialog";
 import type { CategoryUsage } from "../../types/api";
+import { CategoryUsageDialog } from "./CategoryUsageDialog";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({

@@ -2,9 +2,10 @@ import { useTranslation } from "react-i18next";
 
 import { SummaryBadge, SummaryEntry, SummaryNav } from "@components/summary-nav";
 
+import { ConceptNotes, Link } from "@model/concepts/concept";
+
 import { CLOSE_MATCH, NONE } from "@sdk/constants";
 
-import { ConceptNotes, Link } from "../../../../../model/concepts/concept";
 import { conceptGeneralFields } from "../../../../utils/conceptGeneralFields";
 import { LINK_TYPES } from "../../../../utils/linkTypes";
 import { NoteRawTitle, NoteStatus, noteStatus, noteTypes } from "../../../../utils/noteStatus";

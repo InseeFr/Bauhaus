@@ -1,3 +1,5 @@
+import { Links, Link } from "@model/concepts/concept";
+
 import {
   BROADER,
   CLOSE_MATCH,
@@ -8,14 +10,13 @@ import {
   SUCCEED,
 } from "@sdk/constants";
 
-import { Links, Link as LinkType } from "../../../../../model/concepts/concept";
 import { LinksList } from "./LinksList";
 import "./ConceptLinks.css";
 
-const ConceptLinks = ({
+export const ConceptLinks = ({
   secondLang,
   links,
-}: Readonly<{ secondLang: boolean; links: LinkType[] }>) => {
+}: Readonly<{ secondLang: boolean; links: Link[] }>) => {
   const linksGroupByType: Links = links.reduce(
     (acc, link) => {
       if (!Array.isArray(acc[link.typeOfLink])) {
@@ -36,7 +37,9 @@ const ConceptLinks = ({
       [IS_REPLACED_BY]: [],
     },
   );
+
   const numberOfLinks = Object.values(linksGroupByType).flat().length;
+
   if (numberOfLinks === 0) return null;
 
   return (
@@ -46,5 +49,3 @@ const ConceptLinks = ({
     </div>
   );
 };
-
-export default ConceptLinks;

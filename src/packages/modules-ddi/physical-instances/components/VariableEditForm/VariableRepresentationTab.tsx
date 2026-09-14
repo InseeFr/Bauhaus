@@ -1,5 +1,6 @@
 import { Dropdown } from "primereact/dropdown";
 import { useTranslation } from "react-i18next";
+
 import type {
   NumericRepresentation,
   DateTimeRepresentation,
@@ -10,11 +11,11 @@ import type {
   ManagedMissingValuesRepresentation,
   Reference,
 } from "../../types/api";
-import { NumericRepresentation as NumericRepresentationComponent } from "../NumericRepresentation/NumericRepresentation";
-import { DateRepresentation } from "../DateRepresentation/DateRepresentation";
-import { TextRepresentation as TextRepresentationComponent } from "../TextRepresentation/TextRepresentation";
 import { CodeRepresentation as CodeRepresentationComponent } from "../CodeRepresentation/CodeRepresentation";
+import { DateRepresentation } from "../DateRepresentation/DateRepresentation";
+import { NumericRepresentation as NumericRepresentationComponent } from "../NumericRepresentation/NumericRepresentation";
 import { SentinelValues } from "../SentinelValues/SentinelValues";
+import { TextRepresentation as TextRepresentationComponent } from "../TextRepresentation/TextRepresentation";
 
 interface VariableRepresentationTabProps {
   variableId: string;

@@ -1,6 +1,6 @@
 import { Button } from "primereact/button";
-import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { DataTable } from "primereact/datatable";
 import { useTranslation } from "react-i18next";
 
 interface PhysicalInstancesDataTableProps {
@@ -37,7 +37,7 @@ export const PhysicalInstancesDataTable = ({
     try {
       const date = new Date(dateString);
       // Vérifier que la date est valide
-      if (isNaN(date.getTime())) return "";
+      if (Number.isNaN(date.getTime())) return "";
 
       return new Intl.DateTimeFormat(i18n.language, {
         year: "numeric",

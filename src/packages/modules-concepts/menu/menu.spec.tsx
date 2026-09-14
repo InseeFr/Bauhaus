@@ -1,8 +1,9 @@
 import { screen } from "@testing-library/dom";
 import { Mock, vi } from "vitest";
 
-import { useAuthorizationGuard } from "../../auth/components/auth";
 import { MODULES, PRIVILEGES } from "@utils/hooks/rbac-constants";
+
+import { useAuthorizationGuard } from "../../auth/components/auth";
 import { renderWithRouter } from "../../tests/render";
 import { Menu } from "./menu";
 

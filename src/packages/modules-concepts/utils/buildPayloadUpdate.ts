@@ -1,6 +1,7 @@
+import { ConceptGeneral, ConceptNotes, Link } from "@model/concepts/concept";
+
 import { CLOSE_MATCH, VERSIONING } from "@sdk/constants";
 
-import { ConceptGeneral, ConceptNotes, Link } from "../../model/concepts/concept";
 import { keepDatableNotes } from "./keepDatableNotes";
 import { processGeneral } from "./processGeneral";
 import { processLinks } from "./processLinks";
@@ -44,10 +45,13 @@ export function buildPayloadUpdate(
   concept: ConceptInput,
 ) {
   const { notes: oldNotes } = oldConcept;
+
   const { general: rawGeneral, notes, conceptsWithLinks } = concept;
 
   const general = processGeneral(rawGeneral, generalFieldsToKeep);
+
   const links: LinkEntry[] = [...processLinks(conceptsWithLinks)];
+
   if (concept.equivalentLinks && concept.equivalentLinks.length > 0) {
     links.push(
       concept.equivalentLinks.reduce<UrnLink>(

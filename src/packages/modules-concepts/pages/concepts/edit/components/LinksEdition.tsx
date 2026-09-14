@@ -2,9 +2,10 @@ import { PickList } from "primereact/picklist";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { Link } from "@model/concepts/concept";
+
 import { CLOSE_MATCH, NONE } from "@sdk/constants";
 
-import { Link } from "../../../../../model/concepts/concept";
 import { LINK_TYPES } from "../../../../utils/linkTypes";
 import { EquivalentLinks } from "./EquivalentLinks";
 
@@ -46,7 +47,7 @@ const splitByLink = (conceptsWithLinks: ConceptWithLink[], memberType: LinkType)
   return { linked, available };
 };
 
-const LinksEdition = ({
+export const LinksEdition = ({
   conceptsWithLinks: initialConceptsWithLinks,
   currentId,
   handleChange,
@@ -55,6 +56,7 @@ const LinksEdition = ({
   activeLinkType,
 }: Readonly<LinksEditionProps>) => {
   const { t, i18n } = useTranslation();
+
   const [conceptsWithLinks, setConceptsWithLinks] = useState<ConceptWithLink[]>(() =>
     linkableConcepts(initialConceptsWithLinks, currentId),
   );
@@ -102,7 +104,9 @@ const LinksEdition = ({
         relink(event.target as ConceptWithLink[]);
       }}
       itemTemplate={(concept: ConceptWithLink) => concept.label}
-      sourceHeader={t("concept.links.availablePanelTitle", { size: available.length })}
+      sourceHeader={t("concept.links.availablePanelTitle", {
+        size: available.length,
+      })}
       targetHeader={`${title} (${linked.length})`}
       filter
       filterBy="label"
@@ -115,5 +119,3 @@ const LinksEdition = ({
     />
   );
 };
-
-export default LinksEdition;

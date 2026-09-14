@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { Select } from "@components/select-rmes";
 
-import { isLang2 } from "../../../../../i18n";
+import { isLang2 } from "@utils/dictionary";
 
 type LanguageSelectProps = {
   value?: string;

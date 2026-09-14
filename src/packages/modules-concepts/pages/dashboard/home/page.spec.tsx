@@ -24,7 +24,7 @@ vi.mock("@components/errors-bloc", () => ({
 }));
 
 vi.mock("./components/ConceptsDashboard", () => ({
-  default: () => <div data-testid="dashboard">Dashboard</div>,
+  ConceptsDashboard: () => <div data-testid="dashboard">Dashboard</div>,
 }));
 
 import { ConceptsApi } from "@sdk/concepts-api";

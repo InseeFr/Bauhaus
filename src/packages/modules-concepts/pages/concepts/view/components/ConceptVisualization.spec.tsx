@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { AppContextProvider } from "../../../../../application/app-context";
-import ConceptVisualization from "./ConceptVisualization";
+import { ConceptVisualization } from "./ConceptVisualization";
 
 vi.mock("react-i18next", async () => ({
   ...(await vi.importActual<typeof import("react-i18next")>("react-i18next")),
@@ -13,13 +13,13 @@ vi.mock("react-i18next", async () => ({
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("./ConceptGeneral", () => ({
-  default: ({ concept }: any) => <div>général:{concept.prefLabelLg1}</div>,
+  ConceptGeneral: ({ concept }: any) => <div>général:{concept.prefLabelLg1}</div>,
 }));
 vi.mock("./ConceptLinks", () => ({
-  default: ({ links }: any) => <div>liens:{links.length}</div>,
+  ConceptLinks: ({ links }: any) => <div>liens:{links.length}</div>,
 }));
 vi.mock("../menu", () => ({
-  default: ({ onValidate, onDelete, conceptVersion }: any) => (
+  ConceptVisualizationControls: ({ onValidate, onDelete, conceptVersion }: any) => (
     <nav>
       <span>version:{conceptVersion}</span>
       <button onClick={onValidate}>valider</button>

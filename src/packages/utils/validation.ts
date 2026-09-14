@@ -1,6 +1,6 @@
 import { z, ZodObject } from "zod";
 
-import NewDictionary from "../i18n";
+import { appI18n } from "../i18n";
 
 export const formatValidation =
   (zodObject: ZodObject<any>) =>
@@ -45,28 +45,34 @@ export const mandatoryAndNotEmptyTextField = (property: string) => {
   return z
     .string({
       error: (issue) =>
-        issue.input === undefined ? NewDictionary.errors.mandatoryProperty(property) : "",
+        issue.input === undefined
+          ? appI18n.t("errors.mandatoryProperty", { propertyName: property })
+          : "",
     })
     .trim()
-    .min(1, { error: NewDictionary.errors.mandatoryProperty(property) });
+    .min(1, { error: appI18n.t("errors.mandatoryProperty", { propertyName: property }) });
 };
 
 export const mandatoryAndNotEmptySelectField = (property: string) => {
   return z
     .string({
       error: (issue) =>
-        issue.input === undefined && NewDictionary.errors.mandatoryProperty(property),
+        issue.input === undefined
+          ? appI18n.t("errors.mandatoryProperty", { propertyName: property })
+          : undefined,
     })
-    .min(1, { error: NewDictionary.errors.mandatoryProperty(property) });
+    .min(1, { error: appI18n.t("errors.mandatoryProperty", { propertyName: property }) });
 };
 
 export const mandatoryAndNotEmptyMultiSelectField = (property: string) => {
   return z
     .array(z.string(), {
       error: (issue) =>
-        issue.input === undefined && NewDictionary.errors.mandatoryProperty(property),
+        issue.input === undefined
+          ? appI18n.t("errors.mandatoryProperty", { propertyName: property })
+          : undefined,
     })
     .nonempty({
-      error: NewDictionary.errors.mandatoryProperty(property),
+      error: appI18n.t("errors.mandatoryProperty", { propertyName: property }),
     });
 };

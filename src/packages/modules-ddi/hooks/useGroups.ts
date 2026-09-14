@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { DDIApi } from "../../sdk";
+
+import { DDIApi } from "@sdk/index";
 
 export interface Group {
   id: string;

@@ -18,6 +18,7 @@ export const DatePicker = ({
   className,
 }: Readonly<DatePickerTypes>) => {
   const date = value ? new Date(value) : undefined;
+
   return (
     <Calendar
       className={className}
@@ -31,7 +32,6 @@ export const DatePicker = ({
           onChange();
           return;
         }
-
         //We set the date in a UTC mode in order to remove the TZ
         onChange(
           new Date(

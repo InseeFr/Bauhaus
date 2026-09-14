@@ -1,5 +1,5 @@
 import { renderWithRouter } from "../../../../../tests/render";
-import ConceptsDashboardEdition from "./ConceptsCreationsModifications";
+import { ConceptsCreationsModifications as ConceptsDashboardEdition } from "./ConceptsCreationsModifications";
 
 describe("dashboard-concepts-edition", () => {
   it("renders without crashing", () => {

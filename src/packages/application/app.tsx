@@ -1,12 +1,13 @@
 import "primereact/resources/themes/lara-light-blue/theme.css";
-import { Link } from "react-router-dom";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
-import { useTitle } from "@utils/hooks/useTitle";
 import { usePrivileges } from "@utils/hooks/users";
+import { useTitle } from "@utils/hooks/useTitle";
 
 import { hasAccessToModule } from "../auth/components/auth";
-import D from "../deprecated-locales";
+import { appI18n } from "../i18n";
 import "../styles/bootstrap.css";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
@@ -15,87 +16,71 @@ import { useAppContext } from "./app-context";
 import type { AppName, Module } from "./app-context";
 import "./app.css";
 
-const AppCard = ({ app, disabled }: { app: string; disabled: boolean }) => {
+const AppCard = ({ app }: { app: string }) => {
+  const { t, i18n } = useTranslation("translation", { i18n: appI18n });
+
   const getAppTitle = (appKey: string): string => {
-    const titleKey = `${appKey}Title`;
-    return D[titleKey as keyof typeof D] || appKey;
+    const titleKey = `home.${appKey}Title`;
+    return i18n.exists(titleKey) ? t(titleKey) : appKey;
   };
-
-  const content = (
-    <>
-      <h2 className="items page-title page-title-link">{getAppTitle(app)}</h2>
-      <div className="arrow">
-        <img src={`/img/fleche-01.svg`} alt="" loading="lazy" />
-      </div>
-      <div className="logo">
-        <img src={`/img/${app}-01.svg`} alt="" loading="lazy" />
-      </div>
-    </>
-  );
-
-  /* Module désactivé : la tuile reste à sa place, grisée, mais n'est plus un lien.
-     Le grisé n'étant qu'une convention visuelle, l'indisponibilité est aussi
-     annoncée en texte aux lecteurs d'écran. */
-  if (disabled) {
-    return (
-      <li className={`${app} disabled`}>
-        <div>
-          {content}
-          <span className="sr-only">{D.moduleUnavailable}</span>
-        </div>
-      </li>
-    );
-  }
 
   return (
     <li className={app}>
-      <Link to={`/${app}`}>{content}</Link>
+      <Link to={`/${app}`}>
+        <h2 className="items page-title page-title-link">{getAppTitle(app)}</h2>
+        <div className="arrow">
+          <img src={`/img/fleche-01.svg`} alt="" loading="lazy" />
+        </div>
+        <div className="logo">
+          <img src={`/img/${app}-01.svg`} alt="" loading="lazy" />
+        </div>
+      </Link>
     </li>
   );
 };
 
-/* La première ligne est réservée à ces modules. Quand l'un d'eux est désactivé ou
-   inaccessible, la ligne se réduit au lieu d'être complétée par les modules
+/* La première ligne est réservée à ces modules. Quand l'un d'eux n'est pas déclaré
+   ou pas accessible, la ligne se réduit au lieu d'être complétée par les modules
    suivants, qui restent sur la seconde ligne. */
 const FIRST_ROW_MODULES: AppName[] = ["concepts", "classifications", "operations", "ddi"];
 
-const App = () => {
+export const App = () => {
+  const { t } = useTranslation("translation", { i18n: appI18n });
+
   useTitle();
 
   const { privileges = [] } = usePrivileges();
+
   const {
     properties: { modules },
   } = useAppContext();
 
-  /* Un module désactivé reste affiché (grisé) tant que l'utilisateur y a droit :
-     il est simplement fermé pour l'instant. Un module hors de ses droits, lui,
-     n'a pas à lui être montré du tout. */
-  const accessibleModules = useMemo(() => {
-    return modules.filter((m) => hasAccessToModule(m.identifier, privileges));
+  /* Deux raisons de ne pas afficher une tuile : le module se déclare masqué, ou il est hors
+     des droits de l'utilisateur. Un module masqué ici peut rester joignable par URL. */
+  const visibleModules = useMemo(() => {
+    return modules.filter((m) => m.show && hasAccessToModule(m.identifier, privileges));
   }, [modules, privileges]);
 
   const rows = useMemo(() => {
     const isOnFirstRow = (m: Module) => FIRST_ROW_MODULES.includes(m.identifier);
     return [
-      accessibleModules.filter(isOnFirstRow),
-      accessibleModules.filter((m) => !isOnFirstRow(m)),
+      visibleModules.filter(isOnFirstRow),
+      visibleModules.filter((m) => !isOnFirstRow(m)),
     ].filter((row) => row.length > 0);
-  }, [accessibleModules]);
+  }, [visibleModules]);
 
   /* Les tuiles sont la navigation principale de l'application : un landmark nommé
      permet de l'atteindre directement au lecteur d'écran. Le découpage en lignes
      n'étant que visuel, les `ul` restent des détails de présentation. */
   return (
-    <nav className="home-page-links" aria-label={D.modulesNavigationTitle}>
+    <nav className="home-page-links" aria-label={t("home.modulesNavigationTitle")}>
       {rows.map((row) => (
         <ul key={row[0].identifier} className="home-page-links-row">
           {row.map((m) => (
-            <AppCard key={m.identifier} app={m.identifier} disabled={m.disabled} />
+            <AppCard key={m.identifier} app={m.identifier} />
           ))}
         </ul>
       ))}
     </nav>
   );
 };
-
-export default App;

@@ -1,4 +1,5 @@
-import { Rubric } from "../../../../../model/Sims";
+import { Rubric } from "@model/Sims";
+
 import { DUPLICATE, Mode } from "../../constants";
 
 export function removeRubricsWhenDuplicate(mode: Mode, rubrics: Record<string, Rubric> = {}) {

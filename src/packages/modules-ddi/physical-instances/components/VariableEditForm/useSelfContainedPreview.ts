@@ -1,6 +1,9 @@
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
+import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
+import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useMutualizedCodeList } from "../../../hooks/useMutualizedCodeList";
 import type {
   Category,
   Ddi4Item,
@@ -13,9 +16,6 @@ import {
   createDefaultRepresentation,
   createLabel,
 } from "../CodeRepresentation/CodeRepresentation.utils";
-import { useAllMissingValuesRepresentations } from "../../../hooks/useAllMissingValuesRepresentations";
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
-import { useMutualizedCodesList } from "../../../hooks/useMutualizedCodesList";
 
 /**
  * Item MMVR reconstruit depuis la vue partielle du groupe, pour une MMVR seulement réutilisée :
@@ -85,7 +85,7 @@ export const useSelfContainedPreview = (
   const codeListMissing =
     Boolean(codeListReference?.ID) &&
     !itemsOfType(envelope, "CodeList").some((cl) => cl.ID === codeListReference?.ID);
-  const { data: codeListContent } = useMutualizedCodesList(
+  const { data: codeListContent } = useMutualizedCodeList(
     codeListMissing ? (codeListReference?.Agency ?? "") : "",
     codeListMissing ? (codeListReference?.ID ?? "") : "",
   );
@@ -107,7 +107,7 @@ export const useSelfContainedPreview = (
         (item) => item.agency === mmvrReference?.Agency && item.id === mmvrReference?.ID,
       )
     : undefined;
-  const { data: sentinelContent } = useMutualizedCodesList(
+  const { data: sentinelContent } = useMutualizedCodeList(
     reusedMmvr?.agency ?? "",
     reusedMmvr?.codeListId ?? "",
   );

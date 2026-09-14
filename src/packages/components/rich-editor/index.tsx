@@ -1,8 +1,9 @@
-import { Component } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-import { editorStateFromHtml, htmlFromEditorState } from "../../utils/html-utils";
+import { editorStateFromHtml, htmlFromEditorState } from "@utils/html-utils";
+
 import "./editor-html.css";
 import { EditorDeleteButton } from "./editor-markdown";
 
@@ -24,49 +25,36 @@ interface EditorHTMLTypes {
   ariaLabel?: string;
   text: string;
 }
-interface EditorHTMLState {
-  editorState: any;
-}
 
-export class EditorHTML extends Component<EditorHTMLTypes, EditorHTMLState> {
-  constructor(props: EditorHTMLTypes) {
-    super(props);
-    const { text } = props;
-    this.state = {
-      editorState: editorStateFromHtml(text || ""),
-    };
-  }
+export const EditorHTML = ({ handleChange, smart, ariaLabel, text }: EditorHTMLTypes) => {
+  const [editorState, setEditorState] = useState(() => editorStateFromHtml(text || ""));
 
-  handleChange = (editorState: any) => {
-    this.setState({
-      editorState,
-    });
-    this.props.handleChange(htmlFromEditorState(editorState));
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (smart) return;
+    setEditorState(editorStateFromHtml(text || ""));
+  }, [text]);
+
+  const onChange = (newEditorState: any) => {
+    setEditorState(newEditorState);
+    handleChange(htmlFromEditorState(newEditorState));
   };
 
-  componentWillReceiveProps({ text }: { text: string }) {
-    if (this.props.smart) return;
-    this.setState({
-      editorState: editorStateFromHtml(text || ""),
-    });
-  }
-
-  shouldComponentUpdate(nextProps: EditorHTMLTypes, nextState: EditorHTMLState) {
-    return this.props.smart ? nextState !== this.state : true;
-  }
-
-  render() {
-    return (
-      <Editor
-        toolbarCustomButtons={[<EditorDeleteButton key="delete" />]}
-        ariaLabel={this.props.ariaLabel}
-        editorState={this.state.editorState}
-        toolbar={toolbar}
-        toolbarClassName="home-toolbar"
-        wrapperClassName="home-wrapper"
-        editorClassName="home-editor"
-        onEditorStateChange={this.handleChange}
-      />
-    );
-  }
-}
+  return (
+    <Editor
+      toolbarCustomButtons={[<EditorDeleteButton key="delete" />]}
+      ariaLabel={ariaLabel}
+      editorState={editorState}
+      toolbar={toolbar}
+      toolbarClassName="home-toolbar"
+      wrapperClassName="home-wrapper"
+      editorClassName="home-editor"
+      onEditorStateChange={onChange}
+    />
+  );
+};

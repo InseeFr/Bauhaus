@@ -1,10 +1,11 @@
-import { render as rtlRender, screen, waitFor, fireEvent } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { render as rtlRender, screen, waitFor, fireEvent } from "@testing-library/react";
 import type { ReactElement, ReactNode } from "react";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { DdiPreview } from "./DdiPreview";
+
 import { envelope } from "../../types/ddi4Items.testing";
+import { DdiPreview } from "./DdiPreview";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -82,7 +83,7 @@ vi.mock("../../../../sdk", () => ({
     getPhysicalInstanceParents: (...args: any[]) => mockGetPhysicalInstanceParents(...args),
     getGroupMissingValuesRepresentations: (...args: any[]) =>
       mockGetGroupMissingValuesRepresentations(...args),
-    getMutualizedCodesList: (...args: any[]) => mockGetMutualizedCodesList(...args),
+    getMutualizedCodeList: (...args: any[]) => mockGetMutualizedCodesList(...args),
   },
 }));
 

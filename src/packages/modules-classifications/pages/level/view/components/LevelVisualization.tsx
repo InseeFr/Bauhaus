@@ -2,8 +2,8 @@ import { CheckSecondLang } from "@components/check-second-lang";
 import { PageSubtitle } from "@components/page-sub-title";
 import { PageTitle } from "@components/page-title";
 
-import { LevelControls } from "./LevelControls";
 import { General } from "./General";
+import { LevelControls } from "./LevelControls";
 import { Members } from "./Members";
 
 export const LevelVisualization = ({ level: { general, members }, secondLang }: any) => {

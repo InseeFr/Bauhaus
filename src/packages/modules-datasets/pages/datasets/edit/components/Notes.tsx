@@ -68,7 +68,6 @@ export const Notes = ({
           />
         </div>
       </Row>
-
       <Row>
         <div className="col-md-6 form-group">
           <label htmlFor="descriptionLg1">{t("dataset.notes.warning", { lng: "fr" })}</label>

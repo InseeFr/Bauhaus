@@ -1,7 +1,8 @@
 import { PropsWithChildren } from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
-import D from "../i18n";
+import { componentsI18n } from "../i18n";
 import { AddLogo } from "../logo/logo-add";
 import "./newButton.css";
 
@@ -10,6 +11,7 @@ interface AbstractNewButtonTypes {
   suffix?: string;
   component?: "button" | "link";
 }
+
 const AbstractNewButton = ({
   action,
   children,
@@ -34,6 +36,7 @@ const AbstractNewButton = ({
       </button>
     );
   }
+
   return (
     // `action` est une URL en mode lien, un gestionnaire en mode bouton (voir la branche ci-dessus).
     <NavLink className="new-button btn btn-lg col-md-12" to={action as string}>
@@ -49,9 +52,14 @@ const AbstractNewButton = ({
   );
 };
 
-export const MasculineButton = (props: AbstractNewButtonTypes) => (
-  <AbstractNewButton {...props}>{D.btnNew.masculine}</AbstractNewButton>
-);
-export const FeminineButton = (props: AbstractNewButtonTypes) => (
-  <AbstractNewButton {...props}>{D.btnNew.feminine}</AbstractNewButton>
-);
+export const MasculineButton = (props: AbstractNewButtonTypes) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
+  return <AbstractNewButton {...props}>{t("btnNew.masculine")}</AbstractNewButton>;
+};
+
+export const FeminineButton = (props: AbstractNewButtonTypes) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
+  return <AbstractNewButton {...props}>{t("btnNew.feminine")}</AbstractNewButton>;
+};

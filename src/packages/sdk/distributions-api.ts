@@ -1,4 +1,5 @@
-import { Distribution } from "../model/Dataset";
+import { Distribution } from "@model/Dataset";
+
 import { buildApi } from "./build-api";
 
 const api = {

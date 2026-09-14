@@ -3,21 +3,25 @@ import { useTranslation } from "react-i18next";
 import { Exporting, Loading } from "@components/loading";
 import { Picker } from "@components/picker-page";
 
+import { useTitle } from "@utils/hooks/useTitle";
+
+import { ExportButtons } from "../../../components/ExportButtons";
 import { useConceptExporter } from "../../../hooks/useConceptExporter";
-import { useTitle } from "../../../../utils/hooks/useTitle";
-import ExportButtons from "../../../components/ExportButtons";
 import { useConcepts } from "../../../hooks/useConcepts";
 
 export const Component = () => {
   const { t } = useTranslation();
+
   useTitle(t("concept.title"), t("common.exportTitle"));
 
   const { mutate: exportConcept, isPending: isExporting } = useConceptExporter();
+
   const { isLoading, concepts } = useConcepts();
 
   if (isExporting) {
     return <Exporting />;
   }
+
   if (isLoading) {
     return <Loading />;
   }

@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
+
 import { Notes } from "./Notes";
 
 // Test d'intégration : contrairement à Notes.spec.tsx, on n'mocke PAS

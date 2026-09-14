@@ -1,18 +1,11 @@
-import { nbResults } from "../../utils/array-utils";
-import { createAllDictionary } from "../../utils/dictionnary";
+import { useTranslation } from "react-i18next";
 
-const { D } = createAllDictionary({
-  result: {
-    fr: "résultat",
-    en: "result",
-  },
-  results: {
-    fr: "résultats",
-    en: "results",
-  },
-});
+import { nbResults } from "@utils/array-utils";
 
-const { result, results } = D;
+import { componentsI18n } from "../i18n";
 
-export const NumberResults = ({ results: data }: Readonly<{ results: any[] }>) =>
-  nbResults(data, results, result);
+export const NumberResults = ({ results: data }: Readonly<{ results: any[] }>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
+  return nbResults(data, t("results"), t("result"));
+};

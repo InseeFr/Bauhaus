@@ -1,5 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 
+import { useFetchCategoryUsers } from "../../../hooks/useCategoryUsers";
+import { useFetchCodeListUsers } from "../../../hooks/useCodeListUsers";
 import type {
   Category,
   CategoryUsage,
@@ -7,8 +9,6 @@ import type {
   CodeListUsage,
   CodeRepresentation as CodeRepresentationType,
 } from "../../types/api";
-import { useFetchCategoryUsers } from "../../../hooks/useCategoryUsers";
-import { useFetchCodeListUsers } from "../../../hooks/useCodeListUsers";
 import type { CodeTableRow } from "./CodeListDataTable";
 import {
   createCategoryVariant,

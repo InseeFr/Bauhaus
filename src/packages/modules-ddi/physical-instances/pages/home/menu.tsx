@@ -1,5 +1,6 @@
 import { MasculineButton } from "@components/new-button";
 import { VerticalMenu } from "@components/vertical-menu";
+
 import { usePrivileges } from "@utils/hooks/users";
 
 interface HomePageMenuProps {

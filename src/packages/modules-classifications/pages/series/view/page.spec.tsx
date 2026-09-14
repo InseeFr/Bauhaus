@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ClassificationsApi } from "@sdk/classification";
+
 import { AppContextProvider } from "../../../../application/app-context";
 import { Component } from "./page";
 

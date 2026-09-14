@@ -4,7 +4,7 @@ title: Project Structure
 
 ## Module directory layout
 
-New modules follow this structure (the DDI module is the reference implementation):
+All 7 domain modules (`concepts`, `classifications`, `operations`, `codelists`, `structures`, `datasets`, `ddi`) follow this structure:
 
 ```
 src/packages/modules-{module-name}/
@@ -36,31 +36,55 @@ src/packages/modules-{module-name}/
 
 ## Internationalization (I18N)
 
-### Modern approach (target)
+The project uses **react-i18next**.
 
-Use **react-i18next** with JSON translation files organized by module:
+### Isolated instances
+
+Each of the 7 domain modules bootstraps its own isolated i18next instance (via `i18next.createInstance()`, never the raw global singleton) in `modules-{name}/i18n/index.ts`, exported as a named export:
 
 ```typescript
-import i18n from "i18next";
+import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
-import fr from "./locales/fr.json";
-import en from "./locales/en.json";
 
-i18n.use(initReactI18next).init({
+import { getLang } from "@utils/dictionary";
+
+import en from "./locales/en.json";
+import fr from "./locales/fr.json";
+
+export const conceptsI18n = i18next.createInstance();
+
+conceptsI18n.use(initReactI18next).init({
   resources: {
     en: { translation: en },
     fr: { translation: fr },
   },
-  lng: "fr",
+  lng: getLang(),
   fallbackLng: "fr",
+  interpolation: {
+    escapeValue: false,
+  },
+  showSupportNotice: false,
 });
 ```
 
-Configure the i18n provider at the module level in your layout component, and use the `useTranslation` hook in your components.
+Configure the i18n provider at the module level in your layout component (`routes/layout.tsx`), and use the `useTranslation()` hook in your components — it picks up the module's instance from context.
 
-### Legacy approach (deprecated)
+Two additional instances cover code that sits outside any single module:
 
-Translation files are split by page or feature under `src/js/i18n/dictionary/` and imported into the main `js/i18n/dictionary/app.js` file. Do not use this approach for new work.
+- **`componentsI18n`** (`src/packages/components/i18n/`) — for shared UI components under `src/packages/components/` (buttons, pagination, dissemination status, etc.).
+- **`appI18n`** (`src/packages/i18n/`) — for cross-cutting, always-loaded content that isn't tied to a lazy-loaded module: authentication, publication status wording, generic form/backend error messages (including the full backend error-code catalogue), and the module home page.
+
+Components outside a module's own tree (i.e. anything under `src/packages/components/` or the small set of app-level files) bind to the correct instance explicitly, since there is no ambient module Provider to fall back on:
+
+```typescript
+const { t } = useTranslation("translation", { i18n: componentsI18n });
+```
+
+Outside of React rendering (e.g. a Zod validation schema built at module load time, or a plain utility function), call the instance directly: `appI18n.t("errors.mandatoryProperty", { propertyName })`.
+
+### Second language
+
+For UI that needs to display both configured languages at once (e.g. side-by-side lg1/lg2 fields), pass an explicit `lng` override rather than maintaining a second hook or a custom wrapper: `t(key, { lng: "en" })`.
 
 ## Form validation
 

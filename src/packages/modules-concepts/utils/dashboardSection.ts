@@ -14,6 +14,7 @@ export const dashboardSectionKey = (tab: DashboardTab, view: DashboardView) => `
 
 const isTab = (value: string): value is DashboardTab =>
   DASHBOARD_TABS.includes(value as DashboardTab);
+
 const isView = (value: string): value is DashboardView =>
   DASHBOARD_VIEWS.includes(value as DashboardView);
 
@@ -26,9 +27,12 @@ export const resolveDashboardSection = (key?: string | null): DashboardSectionSt
   const defaults: DashboardSectionState = { tab: "concepts", view: "summary" };
 
   if (!key) return defaults;
+
   if (isTab(key)) return { ...defaults, tab: key };
 
   const [tab, view] = key.split("-");
+
   if (isTab(tab) && isView(view)) return { tab, view };
+
   return defaults;
 };

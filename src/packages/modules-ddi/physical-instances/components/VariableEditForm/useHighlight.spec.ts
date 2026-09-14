@@ -1,5 +1,6 @@
 import { configure, renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
+
 import { useHighlight } from "./useHighlight";
 
 // Le hook charge highlight.js par import dynamique. À froid, la transformation du chunk

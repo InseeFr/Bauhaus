@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { ConfirmationDelete } from "@components/confirmation-delete";
 
 export const SimsWithoutObjectCheckbox = ({
@@ -14,7 +15,9 @@ export const SimsWithoutObjectCheckbox = ({
   secondLang: boolean;
 }>) => {
   const { t } = useTranslation();
+
   const [modalDisplay, setModalDisplayMode] = useState<boolean>(false);
+
   const input = useRef<HTMLInputElement>(null);
 
   return (

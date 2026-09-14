@@ -1,7 +1,7 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 
 import { renderWithRouter } from "../../../../../tests/render";
-import ConceptsDashboard from "./ConceptsDashboard";
+import { ConceptsDashboard } from "./ConceptsDashboard";
 
 const render = (initialEntries: string[] = ["/"]) =>
   renderWithRouter(<ConceptsDashboard conceptsData={[]} collectionsData={[]} />, initialEntries);

@@ -4,7 +4,7 @@ import { Mock } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { useCodesList } from "@utils/hooks/codeslist";
+import { useCodelist } from "@utils/hooks/codelist";
 import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
@@ -25,8 +25,8 @@ vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
 }));
 
-vi.mock("@utils/hooks/codeslist", () => ({
-  useCodesList: vi.fn(),
+vi.mock("@utils/hooks/codelist", () => ({
+  useCodelist: vi.fn(),
 }));
 
 vi.mock("@sdk/operations-api", () => ({
@@ -66,7 +66,7 @@ const series = [{ iri: "http://.../s1", id: "s1", label: "Ma série", altLabel: 
 const goBack = vi.fn();
 
 beforeEach(() => {
-  (useCodesList as Mock).mockReturnValue(frequencies);
+  (useCodelist as Mock).mockReturnValue(frequencies);
   (useGoBack as Mock).mockReturnValue(goBack);
   (OperationsApi.getAllIndicators as Mock).mockResolvedValue(indicators);
   (OperationsApi.getSeriesList as Mock).mockResolvedValue(series);
@@ -79,7 +79,7 @@ describe("indicator edition page", () => {
 
     render(<Component />);
 
-    expect(useCodesList).toHaveBeenCalledWith(CL_FREQ);
+    expect(useCodelist).toHaveBeenCalledWith(CL_FREQ);
   });
 
   it("attend l'indicateur avant d'afficher le formulaire en modification", () => {

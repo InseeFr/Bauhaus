@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { forwardRef, useEffect, useRef } from "react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
 import { PhysicalInstanceDialog } from "./PhysicalInstanceCreationDialog";
 
 vi.mock("react-i18next", () => ({

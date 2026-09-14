@@ -1,17 +1,18 @@
 import { useTranslation } from "react-i18next";
-import i18next from "../../../../i18n";
 
 import { NumberInput } from "@components/form/input";
 import { Select } from "@components/select-rmes";
 
+import { datasetsI18n } from "../../../../i18n";
+
 const datasetsTemporalCoverageOptions = [
   {
     value: "http://www.w3.org/2001/XMLSchema#gYear",
-    label: i18next.t("dataset.statisticalInformation.temporalCoverage.year"),
+    label: datasetsI18n.t("dataset.statisticalInformation.temporalCoverage.year"),
   },
   {
     value: "http://www.w3.org/2001/XMLSchema#date",
-    label: i18next.t("dataset.statisticalInformation.temporalCoverage.date"),
+    label: datasetsI18n.t("dataset.statisticalInformation.temporalCoverage.date"),
   },
 ];
 

@@ -1,7 +1,8 @@
-import { AppDevTools } from "../../../../components/devtools/AppDevTools";
-import { Ddi4Plugin } from "./Ddi4Plugin";
-import { Ddi4LangsPlugin } from "./Ddi4LangsPlugin";
+import { AppDevTools } from "@components/devtools/AppDevTools";
+
 import type { PhysicalInstanceResponse } from "../../types/api";
+import { Ddi4LangsPlugin } from "./Ddi4LangsPlugin";
+import { Ddi4Plugin } from "./Ddi4Plugin";
 
 interface DdiDevToolsProps {
   data: unknown;

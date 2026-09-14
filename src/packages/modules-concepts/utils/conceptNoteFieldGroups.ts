@@ -1,4 +1,4 @@
-import { ConceptNotes } from "../../model/concepts/concept";
+import { ConceptNotes } from "@model/concepts/concept";
 
 export const versionableNoteFields: (keyof ConceptNotes)[] = [
   "scopeNoteLg1",

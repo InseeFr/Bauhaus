@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { DisseminationStatus } from "@sdk/dissemination-status";
+import { Options } from "@model/SelectOption";
 
-import { Options } from "../../model/SelectOption";
+import { DisseminationStatus } from "@sdk/dissemination-status";
 
 export const useDisseminationStatus = () => {
   return useQuery({
@@ -15,5 +15,6 @@ export const useDisseminationStatus = () => {
 
 export const useDisseminationStatusOptions = (): Options => {
   const { data = [] } = useDisseminationStatus();
+
   return data.map(({ url, label }) => ({ value: url, label }));
 };

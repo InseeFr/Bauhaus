@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { CLOSE_MATCH, NARROWER, VERSIONING } from "@sdk/constants";
+
 import { buildPayloadUpdate } from "./buildPayloadUpdate";
 
 const general = {

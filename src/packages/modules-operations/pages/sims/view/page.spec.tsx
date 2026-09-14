@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
+
 import { AppContextProvider } from "../../../../application/app-context";
 import { Component } from "./page";
 
@@ -24,8 +25,8 @@ const publishSimsMutation = vi.fn();
 vi.mock("../../../hooks/useMetadataStructure", () => ({
   useMetadataStructure: () => useMetadataStructure(),
 }));
-vi.mock("../../../hooks/useCodesLists", () => ({
-  useCodesLists: () => ({ codesLists: { CL_1: [] } }),
+vi.mock("../../../hooks/useCodelists", () => ({
+  useCodelists: () => ({ codelists: { CL_1: [] } }),
 }));
 vi.mock("../../../hooks/useSims", () => ({
   useSims: () => useSims(),
@@ -40,8 +41,8 @@ vi.mock("../hooks/useDocumentsList", () => ({
 
 // L'écran est un assembleur : on remplace la vue par un pilote qui expose les deux
 // callbacks qu'elle reçoit, seuls chemins par lesquels le reducer de la page est atteint.
-vi.mock("./components/SimsVisualisation", () => ({
-  SimsVisualisation: ({ sims, publishSims, exportCallback, missingDocuments, owners }: any) => (
+vi.mock("./components/SimsVisualization", () => ({
+  SimsVisualization: ({ sims, publishSims, exportCallback, missingDocuments, owners }: any) => (
     <div>
       <span>sims:{sims.labelLg1 ?? "(vide)"}</span>
       <span>owners:{owners.length}</span>
@@ -51,10 +52,8 @@ vi.mock("./components/SimsVisualisation", () => ({
     </div>
   ),
 }));
-vi.mock("../components/MSDComponent", () => ({
-  MSDComponent: ({ children, baseUrl }: any) => (
-    <div data-testid={`msd-${baseUrl}`}>{children}</div>
-  ),
+vi.mock("../components/MSDLayout", () => ({
+  MSDLayout: ({ children, baseUrl }: any) => <div data-testid={`msd-${baseUrl}`}>{children}</div>,
 }));
 
 const onPublishError = vi.fn();

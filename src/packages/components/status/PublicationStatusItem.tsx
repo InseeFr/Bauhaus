@@ -1,5 +1,6 @@
+import { UNPUBLISHED } from "@model/ValidationState";
+
 import { PublicationFemale, PublicationMale } from "./index";
-import { UNPUBLISHED } from "../../model/ValidationState";
 import type { ValidationState } from "./index";
 
 interface PublicationStatusItemProps {
@@ -22,6 +23,7 @@ export const PublicationStatusItem = ({
   const normalized = {
     validationState: object.validationState ?? (UNPUBLISHED as ValidationState),
   };
+
   return (
     <li>
       {`${label} : `}

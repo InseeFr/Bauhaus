@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
 
 import { emptyCollectionGeneral } from "../../../../utils/emptyCollectionGeneral";
-import CollectionEditionCreation from "./CollectionEditionCreation";
+import { CollectionEditionCreation } from "./CollectionEditionCreation";
 
 vi.mock("../menu", () => ({
   Menu: ({
@@ -26,7 +26,7 @@ vi.mock("../menu", () => ({
 }));
 
 vi.mock("./CollectionGeneralEdition", () => ({
-  default: ({
+  CollectionGeneralEdition: ({
     general,
     handleChange,
     creation,
@@ -46,7 +46,7 @@ vi.mock("./CollectionGeneralEdition", () => ({
 }));
 
 vi.mock("./CollectionMembersEdition", () => ({
-  default: ({
+  CollectionMembersEdition: ({
     members,
     handleChange,
   }: {

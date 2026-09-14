@@ -1,4 +1,4 @@
-import { ConceptNotes } from "../../model/concepts/concept";
+import { ConceptNotes } from "@model/concepts/concept";
 
 export const buildNotes = (n: ConceptNotes) => [
   { lg1: n.scopeNoteLg1, lg2: n.scopeNoteLg2, title: "conceptsScopeNote" },

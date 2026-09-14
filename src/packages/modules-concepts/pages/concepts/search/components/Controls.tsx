@@ -1,7 +1,7 @@
 import { ActionToolbar } from "@components/action-toolbar";
 import { ResetButton, ReturnButton } from "@components/buttons/buttons-with-icons";
 
-import ExportButtons from "../../../../components/ExportButtons";
+import { ExportButtons } from "../../../../components/ExportButtons";
 
 interface ControlsProps {
   onClickReturn: () => void;
@@ -10,7 +10,7 @@ interface ControlsProps {
   conceptsList: { id: string }[];
 }
 
-const Controls = ({
+export const Controls = ({
   onClickReturn,
   initializeState,
   onExport,
@@ -31,5 +31,3 @@ const Controls = ({
     <ResetButton action={initializeState} />
   </ActionToolbar>
 );
-
-export default Controls;

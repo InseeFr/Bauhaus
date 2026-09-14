@@ -1,10 +1,10 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
-
-import { CollectionApi } from "@sdk/new-collection-api";
 
 import { CollectionGeneral, CollectionMember } from "@model/concepts/collection";
+
+import { CollectionApi } from "@sdk/new-collection-api";
 
 import {
   buildCollectionPayload,
@@ -19,8 +19,11 @@ export interface CollectionSaveData {
 
 export const useCollectionSave = (id: string | undefined) => {
   const isCreation = !id;
+
   const navigate = useNavigate();
+
   const queryClient = useQueryClient();
+
   const [isSaving, setIsSaving] = useState(false);
 
   const save = useCallback(

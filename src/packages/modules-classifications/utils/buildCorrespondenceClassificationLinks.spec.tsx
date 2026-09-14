@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { buildCorrespondenceClassificationLinks } from "./buildCorrespondenceClassificationLinks";
 
-vi.mock("../i18n", () => ({ default: { t: (key: string) => key } }));
+vi.mock("../i18n", () => ({ classificationsI18n: { t: (key: string) => key } }));
 
 const correspondence = {
   idFirstClass: "nafr2",

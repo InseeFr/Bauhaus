@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
+
 import { htmlIsEmpty, htmlLength } from "@utils/html-utils";
 import {
   formatValidation,
@@ -7,12 +9,11 @@ import {
   mandatoryAndNotEmptyTextField,
 } from "@utils/validation";
 
-import i18n from "../../../i18n";
-import { ConceptGeneral, ConceptNotes } from "../../../../model/concepts/concept";
+import { conceptsI18n } from "../../../i18n";
 
-const t1 = i18n.getFixedT("fr");
+const t1 = conceptsI18n.getFixedT("fr");
 const t = (key: string, options?: Record<string, unknown>): string =>
-  i18n.t(key, options as never) as unknown as string;
+  conceptsI18n.t(key, options as never) as unknown as string;
 
 interface Concept {
   id: string;

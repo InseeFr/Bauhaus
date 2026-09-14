@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 
-import ExportButton from "./ExportButtonWithDropdown";
+import { ExportButtonWithDropdown as ExportButton } from "./ExportButtonWithDropdown";
 
 describe("DropDown", () => {
   it("should be closed by default", () => {

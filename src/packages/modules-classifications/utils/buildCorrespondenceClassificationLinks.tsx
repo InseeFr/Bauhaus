@@ -1,5 +1,6 @@
-import i18next from "../i18n";
 import { Link } from "react-router-dom";
+
+import { classificationsI18n } from "../i18n";
 
 /**
  * Builds the list of links to the source and target classifications
@@ -10,8 +11,8 @@ export const buildCorrespondenceClassificationLinks = (
   secondLang: boolean,
 ) => {
   const mapping = {
-    firstClassLabelLg1: i18next.t("correspondence.sourceClassification"),
-    secondClassLabelLg1: i18next.t("correspondence.targetClassification"),
+    firstClassLabelLg1: classificationsI18n.t("correspondence.sourceClassification"),
+    secondClassLabelLg1: classificationsI18n.t("correspondence.targetClassification"),
   };
 
   const content = Object.keys(mapping).map((fieldName) => {

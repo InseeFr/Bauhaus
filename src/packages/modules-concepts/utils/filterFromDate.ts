@@ -11,7 +11,9 @@ export function filterFromDate<T extends object>(
     return data;
   }
   const dayBefore = new Date(from);
+
   dayBefore.setDate(dayBefore.getDate() - 1);
+
   const threshold = dayBefore.getTime();
 
   return data.filter(

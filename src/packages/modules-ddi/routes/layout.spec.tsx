@@ -2,8 +2,9 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
+import { useTheme } from "@utils/hooks/useTheme";
+
 import { Component as Layout } from "./layout";
-import { useTheme } from "../../utils/hooks/useTheme";
 
 vi.mock("../../utils/hooks/useTheme", () => ({
   useTheme: vi.fn(),

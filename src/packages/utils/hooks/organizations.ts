@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { OrganisationsApi } from "@sdk/index";
+import { Organization } from "@model/organization";
+import { Options } from "@model/SelectOption";
 
-import { Options } from "../../model/SelectOption";
-import { Organization } from "../../model/organization";
+import { OrganizationsApi } from "@sdk/index";
+
 import { transformModelToSelectOptions } from "../transformer";
 
 export const useOrganizations = () => {
@@ -11,12 +12,13 @@ export const useOrganizations = () => {
     placeholderData: [],
     queryKey: ["organization"],
     queryFn: (): Promise<Organization[]> => {
-      return OrganisationsApi.getOrganisations() as Promise<Organization[]>;
+      return OrganizationsApi.getOrganizations() as Promise<Organization[]>;
     },
   });
 };
 
 export const useOrganizationsOptions = (): Options => {
   const { data = [] } = useOrganizations();
+
   return transformModelToSelectOptions(data);
 };

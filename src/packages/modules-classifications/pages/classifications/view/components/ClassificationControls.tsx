@@ -1,13 +1,14 @@
-import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 import { ActionToolbar } from "@components/action-toolbar";
 import { ReturnButton, TreeButton, UpdateButton } from "@components/buttons/buttons-with-icons";
 import { ValidationButton } from "@components/validationButton";
 
+import { useGoBack } from "@utils/hooks/useGoBack";
+
 import { HasAccess } from "../../../../../auth/components/auth";
 import { Classification } from "../../../../types";
-import { useGoBack } from "../../../../../utils/hooks/useGoBack";
 
 interface ClassificationControlsTypes {
   classification: Classification;

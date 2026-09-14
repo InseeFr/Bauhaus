@@ -69,7 +69,7 @@ const component = {
   labelLg1: "Composante 1",
   labelLg2: "Component 1",
   type: "http://purl.org/linked-data/cube#DimensionProperty",
-  contributor: "DG75-L201",
+  contributor: ["DG75-L201"],
 };
 
 const renderEdit = (props: Record<string, unknown> = {}) =>
@@ -80,7 +80,7 @@ const renderEdit = (props: Record<string, unknown> = {}) =>
       type={undefined}
       component={component}
       concepts={[{ id: "concept1", label: "Concept 1" }]}
-      codesLists={[{ id: "cl1", label: "Liste 1", notation: "CL_1" }]}
+      codelists={[{ id: "cl1", label: "Liste 1", notation: "CL_1" }]}
       handleSave={handleSave}
       handleBack={handleBack}
       {...props}

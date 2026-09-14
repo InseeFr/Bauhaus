@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DDIApi } from "../../sdk";
+
+import { DDIApi } from "@sdk/index";
+
 import { useAppContext } from "../../application/app-context";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
 import { singleItemOfType } from "../physical-instances/types/ddi4Items";

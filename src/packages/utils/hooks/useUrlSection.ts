@@ -16,7 +16,9 @@ export const useUrlSection = (fallback: string): [string, (section: string) => v
 
   const setSection = (next: string) => {
     const params = new URLSearchParams(searchParams);
+
     params.set(PARAM, next);
+
     setSearchParams(params, { replace: true });
   };
 

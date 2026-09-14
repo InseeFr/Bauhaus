@@ -1,5 +1,5 @@
-import { MultiSelect } from "primereact/multiselect";
 import { Dropdown } from "primereact/dropdown";
+import { MultiSelect } from "primereact/multiselect";
 
 import "../../label-required/index.css";
 import { cx } from "@utils/cx";
@@ -32,7 +32,6 @@ export const Select = ({
         {label}
         {required && <span className="asterisk">*</span>}
       </span>
-
       {multi ? (
         <MultiSelect
           placeholder={placeholder}

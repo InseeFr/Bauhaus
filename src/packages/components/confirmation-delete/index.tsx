@@ -1,40 +1,26 @@
+import { useTranslation } from "react-i18next";
 import Modal from "react-modal";
 
-import { createAllDictionary } from "../../utils/dictionnary";
+import { cx } from "@utils/cx";
+
 import { ActionToolbar } from "../action-toolbar";
 import { Button } from "../buttons/button";
 import { CloseIconButton } from "../buttons/buttons-with-icons";
-import { cx } from "@utils/cx";
+import { componentsI18n } from "../i18n";
 
-const { D } = createAllDictionary({
-  deleteTitle: {
-    fr: "Suppression",
-    en: "Delete",
-  },
-  confirmationConceptDelete: {
-    fr: "Vous êtes sur le point de supprimer définitivement ce concept. Êtes-vous sûr ?",
-    en: "You are about to permanently delete this concept. Are you sure?",
-  },
-  yes: {
-    fr: "Oui",
-    en: "Yes",
-  },
-  no: {
-    fr: "Non",
-    en: "No",
-  },
-});
 export const ConfirmationDelete = ({
   className,
   handleNo,
   handleYes,
-  message = D.confirmationConceptDelete,
+  message,
 }: Readonly<{
   className?: string;
   handleNo: any;
   handleYes: any;
   message?: string;
 }>) => {
+  const { t } = useTranslation("translation", { i18n: componentsI18n });
+
   return (
     <Modal
       className={cx("Modal__Bootstrap modal-dialog", className)}
@@ -44,14 +30,13 @@ export const ConfirmationDelete = ({
       <div className="modal-content">
         <div className="modal-header">
           <CloseIconButton onClick={handleNo} />
-          <h4 className="modal-title">{D.deleteTitle}</h4>
+          <h4 className="modal-title">{t("deleteTitle")}</h4>
         </div>
-
-        <div className="modal-body">{message}</div>
+        <div className="modal-body">{message ?? t("confirmationConceptDelete")}</div>
         <div className="modal-footer text-right">
           <ActionToolbar>
-            <Button action={handleNo}>{D.no}</Button>
-            <Button action={handleYes}>{D.yes}</Button>
+            <Button action={handleNo}>{t("no")}</Button>
+            <Button action={handleYes}>{t("yes")}</Button>
           </ActionToolbar>
         </div>
       </div>

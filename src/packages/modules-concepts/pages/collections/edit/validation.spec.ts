@@ -10,7 +10,6 @@ describe("validation", function () {
           creator: "",
         },
         [],
-        "id",
         "prefLabelLg1",
       ),
     ).toEqual({
@@ -32,7 +31,6 @@ describe("validation", function () {
           creator: "creator",
         },
         [{ id: "other", label: "exemple" }],
-        "id",
         "prefLabelLg1",
       ),
     ).toEqual({
@@ -53,7 +51,6 @@ describe("validation", function () {
         creator: "creator",
       },
       [],
-      undefined as unknown as string,
       "",
     );
     expect(result.fields.id).toEqual("The property <strong>Identifier</strong> is required.");
@@ -67,7 +64,6 @@ describe("validation", function () {
         creator: "creator",
       },
       [],
-      undefined as unknown as string,
       "",
     );
     expect(result.fields.id).toEqual("Invalid identifier");
@@ -81,7 +77,6 @@ describe("validation", function () {
         creator: "creator",
       },
       [],
-      undefined as unknown as string,
       "",
     );
     expect(result.fields.id).toEqual("");
@@ -96,7 +91,6 @@ describe("validation", function () {
           creator: "creator",
         },
         [],
-        "id",
         "prefLabelLg1",
       ),
     ).toEqual({

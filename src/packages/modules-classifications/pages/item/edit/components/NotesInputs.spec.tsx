@@ -1,5 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+
 import { NotesInputs } from "./NotesInputs";
 
 vi.mock("@components/rich-editor/react-md-editor", () => ({
@@ -14,7 +15,7 @@ vi.mock("@components/rich-editor/react-md-editor", () => ({
 }));
 
 vi.mock("../../../../i18n", () => ({
-  default: {
+  classificationsI18n: {
     t: (key: string, options?: { lng?: string }) => {
       const translations: Record<string, Record<string, string>> = {
         fr: {

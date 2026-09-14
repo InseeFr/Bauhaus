@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
+import { Structure } from "@model/structures/Structure";
+
 import { StructureApi } from "@sdk/index";
 
+import { EMPTY_ARRAY } from "@utils/array-utils";
 import { useTitle } from "@utils/hooks/useTitle";
 
-import { Structure } from "../../../../model/structures/Structure";
-import { Controls } from "./components/Controls";
 import { ComponentsPanel } from "./components/ComponentsPanel";
+import { Controls } from "./components/Controls";
 import { DescriptionsPanel } from "./components/DescriptionsPanel";
 import { GlobalInformationsPanel } from "./components/GlobalInformationsPanel";
-import { EMPTY_ARRAY } from "@utils/array-utils";
 
 interface StructureViewTypes {
   structure: Structure;

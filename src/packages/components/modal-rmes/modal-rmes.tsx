@@ -10,6 +10,7 @@ export interface ModalButton {
   disabled: boolean;
   label: string | ReactNode;
 }
+
 export interface ModalRmesTypes {
   id?: string;
   isOpen?: boolean;
@@ -19,6 +20,7 @@ export interface ModalRmesTypes {
   closeCancel: VoidFunction;
   modalButtons: ModalButton[];
 }
+
 export const ModalRmes = ({
   id,
   isOpen,
@@ -39,6 +41,7 @@ export const ModalRmes = ({
       {b.label}
     </button>
   ));
+
   return (
     <Modal
       className="Modal__Bootstrap modal-dialog"

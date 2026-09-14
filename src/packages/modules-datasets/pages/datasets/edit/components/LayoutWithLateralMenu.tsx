@@ -22,7 +22,9 @@ export const LayoutWithLateralMenu = ({
   children: (key: string) => ReactNode;
 }>) => {
   const { t } = useTranslation();
+
   const [urlKey, setCurrentKey] = useUrlSection(Object.keys(layoutConfiguration)[0]);
+
   // Une URL peut désigner une partie qui n'existe pas (ou plus) : on retombe sur la première.
   const currentKey = layoutConfiguration[urlKey] ? urlKey : Object.keys(layoutConfiguration)[0];
 

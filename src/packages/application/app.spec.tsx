@@ -5,7 +5,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { usePrivileges } from "@utils/hooks/users";
 
 import { hasAccessToModule } from "../auth/components/auth";
-import App from "./app";
+import { App } from "./app";
 import { useAppContext } from "./app-context";
 
 // Mocks
@@ -25,16 +25,9 @@ vi.mock("../auth/components/auth", () => ({
   hasAccessToModule: vi.fn(),
 }));
 
-// Mock translations
-vi.mock("../deprecated-locales", () => ({
-  default: {
-    analyticsTitle: "Analytics",
-    adminTitle: "Administration",
-    ddiTitle: "Variables",
-    modulesNavigationTitle: "Modules",
-    moduleUnavailable: "Module indisponible pour le moment",
-  },
-}));
+/* La configuration d'un module porte deux drapeaux ; la plupart des cas ne s'intéressent
+   qu'à sa présence, d'où ce raccourci pour un module pleinement ouvert. */
+const openModule = (identifier: string) => ({ identifier, show: true, directAccess: true });
 
 describe("<App />", () => {
   beforeEach(() => {
@@ -45,11 +38,7 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({});
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          { identifier: "analytics", disabled: false },
-          { identifier: "admin", disabled: false },
-          { identifier: "users", disabled: false },
-        ],
+        modules: [openModule("analytics"), openModule("admin"), openModule("users")],
       },
     });
 
@@ -61,20 +50,16 @@ describe("<App />", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.queryByText("Analytics")).not.toBeInTheDocument();
-    expect(screen.queryByText("Administration")).not.toBeInTheDocument();
-    expect(screen.queryByText("Users")).not.toBeInTheDocument();
+    expect(screen.queryByText("analytics")).not.toBeInTheDocument();
+    expect(screen.queryByText("admin")).not.toBeInTheDocument();
+    expect(screen.queryByText("users")).not.toBeInTheDocument();
   });
 
   it("renders modules the user has access to", () => {
     (usePrivileges as any).mockReturnValue({ privileges: ["admin"] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          { identifier: "analytics", disabled: false },
-          { identifier: "admin", disabled: false },
-          { identifier: "users", disabled: false },
-        ],
+        modules: [openModule("analytics"), openModule("admin"), openModule("users")],
       },
     });
 
@@ -88,23 +73,20 @@ describe("<App />", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByText("Analytics")).toBeInTheDocument();
-    expect(screen.getByText("Administration")).toBeInTheDocument();
+    expect(screen.getByText("analytics")).toBeInTheDocument();
+    expect(screen.getByText("admin")).toBeInTheDocument();
 
-    expect(screen.queryByText("Users")).not.toBeInTheDocument();
+    expect(screen.queryByText("users")).not.toBeInTheDocument();
 
     expect(screen.getByRole("link", { name: /analytics/i })).toHaveAttribute("href", "/analytics");
-    expect(screen.getByRole("link", { name: /administration/i })).toHaveAttribute("href", "/admin");
+    expect(screen.getByRole("link", { name: /admin/i })).toHaveAttribute("href", "/admin");
   });
 
   it("groups the tiles in a navigation landmark named after the modules", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "structures", disabled: false },
-        ],
+        modules: [openModule("concepts"), openModule("structures")],
       },
     });
 
@@ -133,7 +115,7 @@ describe("<App />", () => {
           "codelists",
           "datasets",
           "ddi",
-        ].map((identifier) => ({ identifier, disabled: false })),
+        ].map(openModule),
       },
     });
 
@@ -164,11 +146,11 @@ describe("<App />", () => {
     (useAppContext as any).mockReturnValue({
       properties: {
         modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "classifications", disabled: false },
-          { identifier: "operations", disabled: false },
-          { identifier: "structures", disabled: false },
-          { identifier: "codelists", disabled: false },
+          openModule("concepts"),
+          openModule("classifications"),
+          openModule("operations"),
+          openModule("structures"),
+          openModule("codelists"),
         ],
       },
     });
@@ -195,16 +177,11 @@ describe("<App />", () => {
     ).toEqual(["/structures", "/codelists"]);
   });
 
-  it("keeps a disabled module on the page, greyed out and not clickable", () => {
+  it("hides the tile of a module configured with show false", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "classifications", disabled: false },
-          { identifier: "operations", disabled: false },
-          { identifier: "ddi", disabled: true },
-        ],
+        modules: [openModule("concepts"), { identifier: "ddi", show: false, directAccess: true }],
       },
     });
 
@@ -216,29 +193,15 @@ describe("<App />", () => {
       </MemoryRouter>,
     );
 
-    const [firstRow] = screen.getAllByRole("list");
-
-    expect(
-      within(firstRow)
-        .getAllByRole("link")
-        .map((link) => link.getAttribute("href")),
-    ).toEqual(["/concepts", "/classifications", "/operations"]);
-
-    const variables = screen.getByText("Variables").closest("li");
-
-    expect(variables).toBeInTheDocument();
-    expect(variables).toHaveClass("disabled");
-    expect(within(variables!).getByText("Module indisponible pour le moment")).toBeInTheDocument();
+    expect(screen.queryByText("Variables")).not.toBeInTheDocument();
+    expect(screen.getAllByRole("link")).toHaveLength(1);
   });
 
-  it("hides a disabled module the user has no access to", () => {
+  it("hides a module the user has no access to", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "ddi", disabled: true },
-        ],
+        modules: [openModule("concepts"), openModule("ddi")],
       },
     });
 
@@ -257,10 +220,7 @@ describe("<App />", () => {
     (usePrivileges as any).mockReturnValue({ privileges: [] });
     (useAppContext as any).mockReturnValue({
       properties: {
-        modules: [
-          { identifier: "concepts", disabled: false },
-          { identifier: "classifications", disabled: false },
-        ],
+        modules: [openModule("concepts"), openModule("classifications")],
       },
     });
 

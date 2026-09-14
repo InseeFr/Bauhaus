@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { CheckSecondLang } from "@components/check-second-lang";
 import { ErrorBloc } from "@components/errors-bloc";
@@ -10,10 +10,10 @@ import { PageTitle } from "@components/page-title";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { ClassificationWithLevels } from "../../../../types";
+import { ClassificationControls } from "./ClassificationControls";
 import { General } from "./General";
 import { Levels } from "./Levels";
 import { Notes } from "./Notes";
-import { ClassificationControls } from "./ClassificationControls";
 
 interface ClassificationVisualizationTypes {
   classification: ClassificationWithLevels;
@@ -22,6 +22,7 @@ interface ClassificationVisualizationTypes {
   publish: VoidFunction;
   serverSideError?: any;
 }
+
 export const ClassificationVisualization = ({
   classification: { general, levels },
   classificationId,

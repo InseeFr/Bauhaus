@@ -1,0 +1,43 @@
+name: Prepare release
+
+# Bumps the version, commits, tags and creates the GitHub release — in one click
+# from the Actions tab. Pick the branch in "Run workflow":
+#   - prerelease : the release branch (4.21.1, …), never main
+#   - release    : main
+#
+# The logic lives in InseeFr/rmes-githubactions-commons, shared with the other
+# RMéS projects. Only what is specific to this repository stays here.
+#
+# The tag is placed ON the bump commit. That is what guarantees that the image
+# built afterwards by docker-prerelease.yml / docker.yml shows the right version:
+# VITE_VERSION is read from package.json during `pnpm build`, which runs inside
+# the Dockerfile, on the tree of the tag.
+
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: "What to publish"
+        type: choice
+        options:
+          - prerelease
+          - release
+        default: prerelease
+      version:
+        description: "Explicit version. Empty = next rc (prerelease), or -rc suffix dropped (release)"
+        required: false
+      dry_run:
+        description: "Compute the version and stop there, pushing nothing"
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    uses: InseeFr/rmes-githubactions-commons/.github/workflows/prepare-release.yml@main
+    permissions:
+      contents: write
+    secrets: inherit
+    with:
+      kind: ${{ inputs.kind }}
+      version: ${{ inputs.version }}
+      dry_run: ${{ inputs.dry_run }}

@@ -1,12 +1,13 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { Mock, vi } from "vitest";
-import { useParams } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { render, screen, waitFor } from "@testing-library/react";
+import { useParams } from "react-router-dom";
+import { Mock, vi } from "vitest";
 
 import { ConceptsApi } from "@sdk/index";
 import { CollectionApi } from "@sdk/new-collection-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
+
 import { Component } from "./page";
 
 vi.mock("react-router-dom", () => ({
@@ -42,7 +43,7 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/CollectionVisualization", () => ({
-  default: () => <div data-testid="collection-visualization">Visualization</div>,
+  CollectionVisualization: () => <div data-testid="collection-visualization">Visualization</div>,
 }));
 
 describe("Visualization Container Component", () => {

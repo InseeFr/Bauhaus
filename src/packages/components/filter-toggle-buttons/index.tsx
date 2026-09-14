@@ -1,6 +1,7 @@
-import { BOTH, DOCUMENT, LINK } from "../../modules-operations/constants/documentType";
-import "./filter-toggle-buttons.css";
 import { cx } from "@utils/cx";
+
+import "./filter-toggle-buttons.css";
+import { BOTH, DOCUMENT, LINK } from "../../constants/documentType";
 
 interface FilterToggleButtonsTypes {
   options: [typeof BOTH | typeof DOCUMENT | typeof LINK, string][];
@@ -8,7 +9,7 @@ interface FilterToggleButtonsTypes {
   handleSelection: (value: typeof BOTH | typeof DOCUMENT | typeof LINK) => void;
 }
 
-const FilterToggleButtons = ({
+export const FilterToggleButtons = ({
   options,
   currentValue,
   handleSelection,
@@ -34,5 +35,3 @@ const FilterToggleButtons = ({
     </div>
   );
 };
-
-export default FilterToggleButtons;
