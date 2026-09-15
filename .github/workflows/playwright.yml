@@ -27,7 +27,7 @@ jobs:
     timeout-minutes: 45
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: InseeFr/rmes-githubactions-commons/.github/actions/playwright@main
         with:
           back-office-repository: ${{ inputs.back-office-repository }}

@@ -22,13 +22,14 @@ jobs:
     name: Test & Build & Deploy Sonar report
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: InseeFr/rmes-githubactions-commons/.github/actions/quality-front@main
       - name: SonarCloud Scan
         # Les PR Dependabot n'ont pas accès aux secrets du dépôt : le scan
         # échouerait sur un SONAR_TOKEN vide.
         if: github.actor != 'dependabot[bot]'
-        uses: sonarsource/sonarcloud-github-action@master
+        # sonarcloud-github-action est dépréciée au profit de celle-ci, qui vise
+        # SonarQube Cloud via `sonar.host.url` (sonar-project.properties).
+        uses: SonarSource/sonarqube-scan-action@v8
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
