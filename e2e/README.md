@@ -112,13 +112,10 @@ est dans la documentation : *How to run end-to-end tests*.
   clé. C'est la donnée qui est en cause, pas l'IHM : d'où l'absence de test de
   non-régression « sans doublon » sur cet écran, contrairement aux jeux de
   données.
-- **Le workflow CI épingle le Back-Office sur la branche `4.21.0`.** Le compose
-  du Back-Office n'est plus cassé *sur cette branche* : `context: ../..` +
-  `dockerfile: Dockerfile.bauhaus` y sont en place, et le back composé joint bien
-  les deux dépôts, minio et un répertoire de stockage inscriptible. Mais sur la
-  branche par défaut (`main`), `compose/bauhaus-back.yaml` déclare toujours
-  `build: ../Dockerfile.bauhaus` : la forme courte de `build` attend un contexte
-  de build, pas un Dockerfile, et l'étape « Start GraphDB and the Back-Office »
-  échoue sur « unable to prepare context ». Le `ref: 4.21.0` de
-  `.github/workflows/playwright.yml` reste donc nécessaire, à retirer une fois ce
-  correctif fusionné dans `main`.
+- **La CI choisit la branche du Back-Office par son nom.** L'action partagée
+  `playwright` (InseeFr/rmes-githubactions-commons) teste contre la branche du
+  Back-Office qui porte le même nom que la branche du front, et retombe sur la
+  branche par défaut du Back-Office quand il n'y en a pas. Une évolution à cheval
+  sur les deux dépôts n'est donc testée d'un bloc que si les deux branches sont
+  nommées pareil ; sinon, lancer le workflow à la main en renseignant
+  `back-office-ref`.

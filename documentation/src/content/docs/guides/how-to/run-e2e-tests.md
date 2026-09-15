@@ -129,17 +129,18 @@ Two consequences:
 
 ## Continuous integration
 
-`.github/workflows/playwright.yml` runs the same sequence on every pull request:
+`.github/workflows/playwright.yml` runs the same sequence on every pull request,
+through the shared `playwright` action of
+[InseeFr/rmes-githubactions-commons](https://github.com/InseeFr/rmes-githubactions-commons):
 it checks the Back-Office out into `./bauhaus-back-office`, brings up the same
 compose file, sets `BACK_OFFICE_HOME` and calls `init.sh`, then runs Playwright.
 The HTML report is uploaded as a `playwright-report` artifact.
 
-The workflow pins the Back-Office to the `4.21.0` branch. That pin is still
-required: on the default branch, `compose/bauhaus-back.yaml` declares
-`build: ../Dockerfile.bauhaus`, and the short form of `build` expects a build
-*context*, not a Dockerfile — the compose step fails with "unable to prepare
-context". Remove the `ref:` once the fix (`context: ../..` plus
-`dockerfile: Dockerfile.bauhaus`) reaches the default branch.
+The Back-Office branch is picked by name: the one called like the front-end
+branch under test, or the Back-Office default branch when there is none — the
+job summary says which. To test against another one, run the workflow manually
+from the Actions tab and fill in `back-office-ref` (a branch, a tag or a SHA),
+and `back-office-repository` to use another public repository, such as a fork.
 
 ## Conventions and known limitations
 

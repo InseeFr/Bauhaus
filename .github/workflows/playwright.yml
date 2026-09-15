@@ -1,74 +1,34 @@
 name: Playwright Tests
+
+# Tests de bout en bout contre un Back-Office et un GraphDB réels. La séquence
+# (checkout du Back-Office, GraphDB, fixtures, back, Playwright) vit dans
+# InseeFr/rmes-githubactions-commons, partagée avec les autres fronts RMéS.
+#
+# Branche du Back-Office : par défaut celle qui porte le même nom que la branche
+# du front, sinon la branche par défaut du Back-Office. Un lancement manuel peut
+# en imposer une autre, et viser un autre dépôt (un fork).
+
 on:
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      back-office-repository:
+        description: "Dépôt du Back-Office (owner/nom), par exemple un fork"
+        required: false
+        default: InseeFr/Bauhaus-Back-Office
+      back-office-ref:
+        description: "Branche, tag ou SHA du Back-Office. Vide = même nom que la branche du front, sinon la branche par défaut"
+        required: false
+        default: ''
+
 jobs:
   playwright:
     timeout-minutes: 45
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Checkout BackOffice
-        uses: actions/checkout@v4
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/playwright@main
         with:
-          repository: InseeFr/Bauhaus-Back-Office
-          # Épinglé sur la branche de release du back, pas sur `main` : `main` en est
-          # resté à 4.21.0, dont /api/init annonce les modules sous la forme
-          # `{identifier, disabled}`. Le front lit désormais `show` et `directAccess`
-          # (application/router/routes.tsx) : avec un back 4.21.0 aucun module n'est
-          # accessible et toutes les pages répondent « Page not found ». Repasser sur la
-          # branche par défaut (supprimer ce `ref`) une fois 4.21.1 fusionnée des deux côtés.
-          ref: 4.21.1
-          path: ./bauhaus-back-office
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: "pnpm"
-
-      # Le serveur de dev de l'IHM est démarré par Playwright (webServer) :
-      # ses dépendances doivent donc être installées à la racine du dépôt.
-      - name: Install app dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install e2e dependencies
-        working-directory: ./e2e
-        run: npm ci
-      - name: Install Playwright browsers
-        working-directory: ./e2e
-        run: npx playwright install --with-deps chromium
-
-      # Le back démarre séparément, APRÈS le chargement des fixtures : depuis 4.21.1 il
-      # vérifie au démarrage que `defaultContributor` existe en base de gestion, et il
-      # échoue définitivement (aucun `restart:`) si les dépôts RDF n'existent pas encore.
-      - name: Start GraphDB
-        run: |
-          docker compose -f ./bauhaus-back-office/module-bauhaus-bo/compose.yaml up -d graphdb minio
-          timeout 300 bash -c 'until curl -sf http://localhost:7200/rest/repositories > /dev/null; do sleep 5; done'
-
-      - name: Load test data
-        working-directory: ./e2e
-        env:
-          BACK_OFFICE_HOME: ../bauhaus-back-office
-        run: ./playwright/db/init.sh
-
-      - name: Start the Back-Office
-        run: |
-          docker compose -f ./bauhaus-back-office/module-bauhaus-bo/compose.yaml \
-            -f ./e2e/compose.ci.yaml up -d bauhaus-back
-          timeout 300 bash -c 'until curl -sf http://localhost:8080/api/init > /dev/null; do sleep 5; done'
-
-      - name: Run Playwright tests
-        working-directory: ./e2e
-        env:
-          CI: "true"
-          VITE_API_BASE_HOST: http://localhost:8080/api
-        run: npx playwright test
-
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: e2e/playwright-report/
-          retention-days: 30
+          back-office-repository: ${{ inputs.back-office-repository }}
+          back-office-ref: ${{ inputs.back-office-ref }}
