@@ -1,12 +1,16 @@
 name: Playwright Tests
 
-# Tests de bout en bout contre un Back-Office et un GraphDB réels. La séquence
-# (checkout du Back-Office, GraphDB, fixtures, back, Playwright) vit dans
-# InseeFr/rmes-githubactions-commons, partagée avec les autres fronts RMéS.
+# Tests de bout en bout contre un Back-Office et un GraphDB réels. La pile vit
+# ici, propre à Bauhaus : checkout du Back-Office, GraphDB, fixtures, puis le
+# back — dont les vérifications de démarrage échouent pour de bon tant que les
+# dépôts RDF n'existent pas, d'où son lancement après les fixtures. Playwright
+# lui-même (install, navigateurs, rapport) est l'action partagée de
+# InseeFr/rmes-githubactions-commons.
 #
 # Branche du Back-Office : par défaut celle qui porte le même nom que la branche
 # du front, sinon la branche par défaut du Back-Office. Un lancement manuel peut
-# en imposer une autre, et viser un autre dépôt (un fork).
+# en imposer une autre, et viser un autre dépôt (un fork) ; une branche imposée
+# est prise telle quelle, sans repli : une faute de frappe doit échouer.
 
 on:
   pull_request:
@@ -20,15 +24,91 @@ on:
       back-office-ref:
         description: "Branche, tag ou SHA du Back-Office. Vide = même nom que la branche du front, sinon la branche par défaut"
         required: false
-        default: ''
+        default: ""
 
 jobs:
   playwright:
     timeout-minutes: 45
     runs-on: ubuntu-latest
+    env:
+      BACK_OFFICE_PATH: bauhaus-back-office
+      COMPOSE_FILE_PATH: bauhaus-back-office/module-bauhaus-bo/compose.yaml
+      COMPOSE_OVERRIDE: e2e/compose.ci.yaml
+      BACK_SERVICE: bauhaus-back
+      GRAPHDB_URL: http://localhost:7200
+      READY_URL: http://localhost:8080/api/init
+      STARTUP_TIMEOUT: 300
     steps:
       - uses: actions/checkout@v7
+
+      - name: Résolution du dépôt et de la branche du Back-Office
+        id: ref
+        env:
+          INPUT_REF: ${{ inputs.back-office-ref }}
+          # Hors workflow_dispatch, l'input est vide : vide veut dire le dépôt par défaut.
+          REPOSITORY: ${{ inputs.back-office-repository || 'InseeFr/Bauhaus-Back-Office' }}
+          # Sur une pull request, github.ref_name vaut `<numéro>/merge` : la branche
+          # nommée par le développeur est head_ref.
+          FRONT_BRANCH: ${{ github.head_ref || github.ref_name }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          set -euo pipefail
+          if ! git ls-remote --exit-code "$SERVER_URL/$REPOSITORY.git" HEAD >/dev/null 2>&1; then
+            echo "::error::impossible de joindre $REPOSITORY : vérifier back-office-repository (owner/nom, dépôt public)"
+            exit 1
+          fi
+          echo "repository=$REPOSITORY" >> "$GITHUB_OUTPUT"
+          if [ -n "$INPUT_REF" ]; then
+            ref="$INPUT_REF"
+            origin="imposée"
+          elif git ls-remote --exit-code --heads "$SERVER_URL/$REPOSITORY.git" "refs/heads/$FRONT_BRANCH" >/dev/null; then
+            ref="$FRONT_BRANCH"
+            origin="même nom que la branche du front"
+          else
+            ref=$(git ls-remote --symref "$SERVER_URL/$REPOSITORY.git" HEAD | sed -n 's|^ref: refs/heads/\(.*\)\tHEAD$|\1|p')
+            if [ -z "$ref" ]; then
+              echo "::error::impossible de lire la branche par défaut de $REPOSITORY"
+              exit 1
+            fi
+            origin="branche par défaut, $REPOSITORY n'a pas de branche $FRONT_BRANCH"
+            echo "::notice::pas de branche $FRONT_BRANCH sur $REPOSITORY : tests contre sa branche par défaut, $ref"
+          fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          echo "Back-Office : \`$REPOSITORY@$ref\` ($origin)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Checkout du Back-Office
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ steps.ref.outputs.repository }}
+          ref: ${{ steps.ref.outputs.ref }}
+          path: ${{ env.BACK_OFFICE_PATH }}
+
+      - name: Démarrage de GraphDB
+        run: |
+          set -euo pipefail
+          mapfile -t services < <(docker compose -f "$COMPOSE_FILE_PATH" config --services | grep -vx "$BACK_SERVICE")
+          docker compose -f "$COMPOSE_FILE_PATH" up -d "${services[@]}"
+          timeout "$STARTUP_TIMEOUT" bash -c 'until curl -sf "$0/rest/repositories" > /dev/null; do sleep 5; done' "$GRAPHDB_URL"
+
+      - name: Chargement des données de test
+        working-directory: e2e
+        env:
+          BACK_OFFICE_HOME: ${{ github.workspace }}/${{ env.BACK_OFFICE_PATH }}
+        run: ./playwright/db/init.sh
+
+      - name: Démarrage du Back-Office
+        run: |
+          set -euo pipefail
+          files=(-f "$COMPOSE_FILE_PATH" -f "$COMPOSE_OVERRIDE")
+          docker compose "${files[@]}" up -d "$BACK_SERVICE"
+          if ! timeout "$STARTUP_TIMEOUT" bash -c 'until curl -sf "$0" > /dev/null; do sleep 5; done' "$READY_URL"; then
+            echo "::error::le Back-Office n'a pas répondu sur $READY_URL en $STARTUP_TIMEOUT s"
+            docker compose "${files[@]}" logs "$BACK_SERVICE"
+            exit 1
+          fi
+
       - uses: InseeFr/rmes-githubactions-commons/.github/actions/playwright@main
         with:
-          back-office-repository: ${{ inputs.back-office-repository }}
-          back-office-ref: ${{ inputs.back-office-ref }}
+          working-directory: e2e
+          e2e-install-command: npm ci
+          browsers: chromium
