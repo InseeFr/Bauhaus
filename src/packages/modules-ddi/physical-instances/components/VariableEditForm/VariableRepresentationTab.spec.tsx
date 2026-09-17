@@ -1,36 +1,21 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 
+import {
+  expectRepresentation,
+  nonNumericRepresentationCases,
+  typeOptions,
+} from "./variableForm.testing";
 import { VariableRepresentationTab } from "./VariableRepresentationTab";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "physicalInstance.view.columns.type": "Type",
-        "physicalInstance.view.selectType": "Sélectionnez un type",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("../representation.testing")).mockTranslations({
+    "physicalInstance.view.columns.type": "Type",
+    "physicalInstance.view.selectType": "Sélectionnez un type",
   }),
-}));
+);
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ id, value, onChange, options, required }: any) => (
-    <select
-      id={id}
-      value={value}
-      onChange={(e) => onChange({ value: e.target.value })}
-      required={required}
-    >
-      {options.map((option: any) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("primereact/dropdown", () => import("../representation.testing"));
 
 vi.mock("../NumericRepresentation/NumericRepresentation", () => ({
   NumericRepresentation: ({ onChange }: any) => (
@@ -76,13 +61,6 @@ describe("VariableRepresentationTab", () => {
   const mockOnCodeRepresentationChange = vi.fn();
   const mockOnSentinelValuesChange = vi.fn();
 
-  const typeOptions = [
-    { label: "Numérique", value: "numeric" },
-    { label: "Date", value: "date" },
-    { label: "Texte", value: "text" },
-    { label: "Code", value: "code" },
-  ];
-
   const defaultProps = {
     variableId: "var-1",
     selectedType: "numeric",
@@ -120,32 +98,16 @@ describe("VariableRepresentationTab", () => {
   it("should show NumericRepresentation when type is numeric", () => {
     render(<VariableRepresentationTab {...defaultProps} />);
 
-    expect(screen.getByTestId("numeric-representation")).toBeInTheDocument();
-    expect(screen.queryByTestId("date-representation")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("text-representation")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("code-representation")).not.toBeInTheDocument();
+    expectRepresentation("numeric", ["date", "text", "code"]);
   });
 
-  it("should show DateRepresentation when type is date", () => {
-    render(<VariableRepresentationTab {...defaultProps} selectedType="date" />);
+  for (const { name, type } of nonNumericRepresentationCases) {
+    it(name, () => {
+      render(<VariableRepresentationTab {...defaultProps} selectedType={type} />);
 
-    expect(screen.getByTestId("date-representation")).toBeInTheDocument();
-    expect(screen.queryByTestId("numeric-representation")).not.toBeInTheDocument();
-  });
-
-  it("should show TextRepresentation when type is text", () => {
-    render(<VariableRepresentationTab {...defaultProps} selectedType="text" />);
-
-    expect(screen.getByTestId("text-representation")).toBeInTheDocument();
-    expect(screen.queryByTestId("numeric-representation")).not.toBeInTheDocument();
-  });
-
-  it("should show CodeRepresentation when type is code", () => {
-    render(<VariableRepresentationTab {...defaultProps} selectedType="code" />);
-
-    expect(screen.getByTestId("code-representation")).toBeInTheDocument();
-    expect(screen.queryByTestId("numeric-representation")).not.toBeInTheDocument();
-  });
+      expectRepresentation(type, ["numeric"]);
+    });
+  }
 
   it("should pass numeric representation change callback", () => {
     render(<VariableRepresentationTab {...defaultProps} />);

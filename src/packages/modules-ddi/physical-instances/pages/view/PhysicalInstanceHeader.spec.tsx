@@ -3,12 +3,7 @@ import { describe, it, expect, vi } from "vitest";
 
 import { PhysicalInstanceHeader } from "./PhysicalInstanceHeader";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string, opts?: Record<string, unknown>) =>
-      opts?.label ? `${key}:${opts.label}` : key,
-  }),
-}));
+vi.mock("react-i18next", () => import("./i18nLabel.testing"));
 
 // On isole le header du titre (auth/privilèges) : le titre est stubé, seuls les tags
 // « groupe » / « étude » sont sous test ici.

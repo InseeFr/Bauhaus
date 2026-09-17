@@ -1,9 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
-import type { ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { envelope } from "../physical-instances/types/ddi4Items.testing";
+import { renderQueryHook, renderQueryHookUntil } from "./queryClient.testing";
 import { usePhysicalInstancesData } from "./usePhysicalInstance";
 
 // Mock fetch globally
@@ -62,34 +60,29 @@ const mockApiResponse = envelope({
 });
 
 describe("usePhysicalInstancesData", () => {
-  let queryClient: QueryClient;
+  const usePhysicalInstanceUnderTest = () => usePhysicalInstancesData("fr.insee", "test-id");
 
-  const wrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  const mockFetchOnce = (response: Record<string, unknown>) =>
+    (global.fetch as any).mockResolvedValueOnce(response);
+
+  /** Le back répond `body` en 200 ; rend le hook et attend le succès de la requête. */
+  const renderWithSuccessfulFetch = async (body: unknown) => {
+    mockFetchOnce({ ok: true, json: async () => body });
+    const { result } = await renderQueryHookUntil(usePhysicalInstanceUnderTest, "isSuccess");
+    return result;
+  };
+
+  const expectFetchErrorExposed = async () => {
+    const { result } = await renderQueryHookUntil(usePhysicalInstanceUnderTest, "isError");
+    expect(result.current.error).toBeDefined();
+  };
 
   beforeEach(() => {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-      },
-    });
     vi.clearAllMocks();
   });
 
   it("should fetch and transform data successfully", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockApiResponse,
-    });
-
-    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
-      wrapper,
-    });
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    const result = await renderWithSuccessfulFetch(mockApiResponse);
 
     expect(result.current.variables).toHaveLength(3);
     expect(result.current.variables[0]).toEqual({
@@ -115,83 +108,39 @@ describe("usePhysicalInstancesData", () => {
     });
   });
 
-  it("should handle empty variables array", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ Variable: [] }),
+  for (const { name, body } of [
+    { name: "should handle empty variables array", body: { Variable: [] } },
+    { name: "should handle missing Variable property", body: {} },
+  ]) {
+    it(name, async () => {
+      const result = await renderWithSuccessfulFetch(body);
+
+      expect(result.current.variables).toEqual([]);
     });
-
-    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
-      wrapper,
-    });
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-    expect(result.current.variables).toEqual([]);
-  });
-
-  it("should handle missing Variable property", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({}),
-    });
-
-    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
-      wrapper,
-    });
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
-
-    expect(result.current.variables).toEqual([]);
-  });
+  }
 
   it("should handle fetch error", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
-      ok: false,
-    });
+    mockFetchOnce({ ok: false });
 
-    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
-      wrapper,
-    });
-
-    await waitFor(() => expect(result.current.isError).toBe(true));
-
-    expect(result.current.error).toBeDefined();
+    await expectFetchErrorExposed();
   });
 
   it("should handle network error", async () => {
     (global.fetch as any).mockRejectedValueOnce(new Error("Network error"));
 
-    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
-      wrapper,
-    });
-
-    await waitFor(() => expect(result.current.isError).toBe(true));
-
-    expect(result.current.error).toBeDefined();
+    await expectFetchErrorExposed();
   });
 
   it("should return isLoading state initially", () => {
     (global.fetch as any).mockImplementationOnce(() => new Promise(() => {}));
 
-    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
-      wrapper,
-    });
+    const { result } = renderQueryHook(usePhysicalInstanceUnderTest);
 
     expect(result.current.isLoading).toBe(true);
   });
 
   it("should return dates in ISO format", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockApiResponse,
-    });
-
-    const { result } = renderHook(() => usePhysicalInstancesData("fr.insee", "test-id"), {
-      wrapper,
-    });
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    const result = await renderWithSuccessfulFetch(mockApiResponse);
 
     // Check that the date is in ISO format (not formatted yet)
     expect(result.current.variables[0].lastModified).toBe("2024-06-03T14:29:23.4049817Z");

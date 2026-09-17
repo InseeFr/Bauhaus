@@ -1,12 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { vi } from "vitest";
 
 import { StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../../../../application/app-context";
+import { createStructuresWrapper } from "../../../../render.testing";
 import { EditionForm } from "./EditionForm";
 
 vi.mock("@sdk/index", () => ({
@@ -33,34 +31,22 @@ vi.mock("./StructureComponents", () => ({
   StructureComponents: () => <div />,
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: () => ({
-      privileges: [
-        {
-          application: "STRUCTURE_STRUCTURE",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    }),
-    useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-  };
-});
-
-const Wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-    <MemoryRouter initialEntries={["/structures/edit"]}>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        <Routes>
-          <Route path="/structures/edit" element={children} />
-          <Route path="/structures/:id" element={<span>Fiche de la structure</span>} />
-        </Routes>
-      </AppContextProvider>
-    </MemoryRouter>
-  </QueryClientProvider>
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../../../../mocks.testing")).usersHookWithCreatePrivilege(
+    await importOriginal(),
+    "STRUCTURE_STRUCTURE",
+  ),
 );
+
+const Wrapper = createStructuresWrapper({
+  initialEntries: ["/structures/edit"],
+  routes: (children) => (
+    <Routes>
+      <Route path="/structures/edit" element={children} />
+      <Route path="/structures/:id" element={<span>Fiche de la structure</span>} />
+    </Routes>
+  ),
+});
 
 const structure = {
   id: "dsd1",

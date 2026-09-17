@@ -1,7 +1,7 @@
-name: 'Build Documentation'
+name: "Build Documentation"
 description: Builds the Astro documentation and Storybook into ./website, ready to be deployed
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Install pnpm
       uses: pnpm/action-setup@v6

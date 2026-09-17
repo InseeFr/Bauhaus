@@ -18,7 +18,7 @@ stays in `src/**/*.spec.tsx` (see [How to run tests](../run-tests/)).
   ```
 
   The suite depends on that neighbouring checkout twice over: the Back-Office
-  image is *built* from it, and the RDF fixtures are *read* from it. Point
+  image is _built_ from it, and the RDF fixtures are _read_ from it. Point
   `BACK_OFFICE_HOME` elsewhere if your clone is not a sibling directory.
 
 - Front-end dependencies installed (`pnpm install`) and Playwright dependencies
@@ -49,7 +49,7 @@ fails loudly on any of them:
 
 Steps 2 and 3 are in that order on purpose: the healthcheck answers 500 until
 `init.sh` has created the `bauhaus` and `publication` repositories, so a freshly
-composed stack is *not* healthy before the fixtures are loaded.
+composed stack is _not_ healthy before the fixtures are loaded.
 
 :::caution
 `init.sh` is destructive: it deletes and recreates the `bauhaus` and
@@ -59,12 +59,12 @@ check — it refuses to destroy anything it could not reload afterwards.
 
 ### Environment variables
 
-| Variable           | Default                   | Purpose                                       |
-| ------------------ | ------------------------- | --------------------------------------------- |
-| `BACK_OFFICE_HOME` | `../Bauhaus-Back-Office`  | Root of the Back-Office checkout               |
-| `GRAPHDB_URL`      | `http://localhost:7200`   | GraphDB REST endpoint                          |
-| `API_URL`          | `http://localhost:8080/api` | Back-Office API base URL                     |
-| `STACK_TIMEOUT`    | `600`                     | Seconds to wait per service                    |
+| Variable           | Default                     | Purpose                          |
+| ------------------ | --------------------------- | -------------------------------- |
+| `BACK_OFFICE_HOME` | `../Bauhaus-Back-Office`    | Root of the Back-Office checkout |
+| `GRAPHDB_URL`      | `http://localhost:7200`     | GraphDB REST endpoint            |
+| `API_URL`          | `http://localhost:8080/api` | Back-Office API base URL         |
+| `STACK_TIMEOUT`    | `600`                       | Seconds to wait per service      |
 
 `BACK_OFFICE_HOME` is resolved to an absolute path before being handed to
 `init.sh`, which is itself run from `e2e/` and uses `../../Bauhaus-Back-Office`
@@ -74,13 +74,13 @@ as its own default.
 
 Measured on a developer workstation on 2026-09-06:
 
-| Phase                        | Cold (containers removed) | Warm (stack already up) |
-| ---------------------------- | ------------------------- | ----------------------- |
-| `docker compose up -d`       | 1 s                       | 0 s                     |
-| GraphDB reachable            | 10 s                      | 0 s                     |
-| Loading the fixtures         | 4 s                       | 3 s                     |
-| Back-Office reachable        | 1 s                       | 0 s                     |
-| **Total**                    | **16 s**                  | **3 s**                 |
+| Phase                  | Cold (containers removed) | Warm (stack already up) |
+| ---------------------- | ------------------------- | ----------------------- |
+| `docker compose up -d` | 1 s                       | 0 s                     |
+| GraphDB reachable      | 10 s                      | 0 s                     |
+| Loading the fixtures   | 4 s                       | 3 s                     |
+| Back-Office reachable  | 1 s                       | 0 s                     |
+| **Total**              | **16 s**                  | **3 s**                 |
 
 Both figures assume the Back-Office image is already built. The very first run
 also builds it — a full Maven reactor build inside Docker, around **2 min 20**.
@@ -116,7 +116,7 @@ testcontainers fixtures, at
 Two consequences:
 
 - **Renaming a `.trig` in the Back-Office breaks this suite.** `init.sh` checks
-  all eight files (plus its own two `.ttl` repository configurations) *before*
+  all eight files (plus its own two `.ttl` repository configurations) _before_
   deleting anything, and stops with the list of missing files.
 - **The content of the fixtures is pinned by a triple count.** `init.sh` compares
   the loaded size against `EXPECTED_TRIPLES` (79 287) and fails if it differs, so

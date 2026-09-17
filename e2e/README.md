@@ -6,8 +6,8 @@ Testing Library reste dans `src/**/*.spec.tsx`.
 
 ## Parcours couverts
 
-| Fichier                                   | Parcours                                                            |
-| ----------------------------------------- | ------------------------------------------------------------------- |
+| Fichier                                   | Parcours                                                             |
+| ----------------------------------------- | -------------------------------------------------------------------- |
 | `smoke/modules.spec.ts`                   | Les 7 modules et les 9 formulaires de création s'ouvrent sans erreur |
 | `operations/series.spec.ts`               | Créer une série → la retrouver → la publier (+ validation client)    |
 | `operations/operations.spec.ts`           | Créer une opération → la publier → initialiser son rapport SIMS      |
@@ -69,7 +69,7 @@ Options utiles : `pnpm --dir e2e test --ui`, `--headed`, `--debug`,
 `pnpm --dir e2e report`.
 
 La procédure détaillée (prérequis, variables d'environnement, chronométrage, CI)
-est dans la documentation : *How to run end-to-end tests*.
+est dans la documentation : _How to run end-to-end tests_.
 
 ## Conventions
 
@@ -112,8 +112,10 @@ est dans la documentation : *How to run end-to-end tests*.
   clé. C'est la donnée qui est en cause, pas l'IHM : d'où l'absence de test de
   non-régression « sans doublon » sur cet écran, contrairement aux jeux de
   données.
-- **La CI choisit la branche du Back-Office par son nom.** L'action partagée
-  `playwright` (InseeFr/rmes-githubactions-commons) teste contre la branche du
+- **La CI choisit la branche du Back-Office par son nom.** Le workflow
+  `.github/workflows/playwright.yml` démarre GraphDB et le Back-Office, puis
+  confie Playwright à l'action partagée `playwright`
+  (InseeFr/rmes-githubactions-commons). Il teste contre la branche du
   Back-Office qui porte le même nom que la branche du front, et retombe sur la
   branche par défaut du Back-Office quand il n'y en a pas. Une évolution à cheval
   sur les deux dépôts n'est donc testée d'un bloc que si les deux branches sont

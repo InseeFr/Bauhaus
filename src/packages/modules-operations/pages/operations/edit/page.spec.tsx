@@ -22,19 +22,24 @@ const queryClient = new QueryClient({
   },
 });
 
-const renderWithRouter = (id: string) => {
+const renderAtRoute = (url: string, routePath: string) => {
   return render(
     <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
       <QueryClientProvider client={queryClient}>
-        <MemoryRouter initialEntries={[`/operations/operation/${id}`]}>
+        <MemoryRouter initialEntries={[url]}>
           <Routes>
-            <Route path="/operations/operation/:id" element={<Component />} />
+            <Route path={routePath} element={<Component />} />
           </Routes>
         </MemoryRouter>
       </QueryClientProvider>
     </AppContextProvider>,
   );
 };
+
+const renderWithRouter = (id: string) =>
+  renderAtRoute(`/operations/operation/${id}`, "/operations/operation/:id");
+
+const renderWithoutId = () => renderAtRoute("/operations/operation/", "/operations/operation/");
 
 describe("Operations Edition Index Component", () => {
   it("should display loading state when operation is being fetched", () => {
@@ -92,17 +97,7 @@ describe("Operations Edition Index Component", () => {
   it("should render OperationsOperationEdition with empty operation when creating new", async () => {
     vi.mocked(OperationsApi.getOperation).mockResolvedValue({});
 
-    render(
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        <QueryClientProvider client={queryClient}>
-          <MemoryRouter initialEntries={["/operations/operation/"]}>
-            <Routes>
-              <Route path="/operations/operation/" element={<Component />} />
-            </Routes>
-          </MemoryRouter>
-        </QueryClientProvider>
-      </AppContextProvider>,
-    );
+    renderWithoutId();
 
     await waitFor(() => {
       expect(OperationsApi.getOperation).not.toHaveBeenCalled();
@@ -140,17 +135,7 @@ describe("Operations Edition Index Component", () => {
   });
 
   it("should handle undefined operation id", () => {
-    render(
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        <QueryClientProvider client={queryClient}>
-          <MemoryRouter initialEntries={["/operations/operation/"]}>
-            <Routes>
-              <Route path="/operations/operation/" element={<Component />} />
-            </Routes>
-          </MemoryRouter>
-        </QueryClientProvider>
-      </AppContextProvider>,
-    );
+    renderWithoutId();
 
     expect(OperationsApi.getOperation).not.toHaveBeenCalled();
   });

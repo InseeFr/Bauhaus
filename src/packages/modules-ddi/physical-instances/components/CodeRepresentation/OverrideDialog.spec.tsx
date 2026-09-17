@@ -2,36 +2,19 @@ import { render, screen, fireEvent, waitFor, within } from "@testing-library/rea
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi } from "vitest";
 
-import type { CategoryUsage, CodeListUsage } from "../../types/api";
 import { OverrideDialog } from "./OverrideDialog";
+import {
+  otherVariableCategoryUsage,
+  recensementCodeListUsage as listUsage,
+} from "./usages.testing";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    // Les clés avec interpolation renvoient `clé|{options}` pour pouvoir vérifier les valeurs.
-    t: (key: string, options?: Record<string, unknown>) =>
-      options ? `${key}|${JSON.stringify(options)}` : key,
-  }),
-}));
+// Les clés avec interpolation renvoient `clé|{options}` pour pouvoir vérifier les valeurs.
+vi.mock("react-i18next", () => import("../../../i18n.testing"));
 
-const listUsage = (variableId: string, variableLabel: string): CodeListUsage => ({
-  studyUnitAgencyId: "fr.insee",
-  studyUnitId: "su-1",
-  studyUnitLabel: "Recensement",
-  physicalInstanceAgencyId: "fr.insee",
-  physicalInstanceId: "pi-1",
-  physicalInstanceLabel: "Fichier détail",
-  variableAgencyId: "fr.insee",
-  variableId,
-  variableLabel,
-});
-
-const categoryUsage = (codeListId: string): CategoryUsage => ({
-  group: { agencyId: "fr.insee", id: "grp-1", label: "Groupe démographie" },
-  studyUnit: { agencyId: "fr.insee", id: "su-1", label: "Recensement" },
-  physicalInstance: { agencyId: "fr.insee", id: "pi-1", label: "Fichier détail" },
-  variable: { agencyId: "fr.insee", id: "other-variable", label: "Autre variable" },
-  codeList: { agencyId: "fr.insee", id: codeListId, label: `Liste ${codeListId}` },
-});
+const categoryUsage = (codeListId: string) =>
+  otherVariableCategoryUsage({
+    codeList: { agencyId: "fr.insee", id: codeListId, label: `Liste ${codeListId}` },
+  });
 
 const OTHER_VARIABLE = listUsage("other-variable", "Autre variable");
 const CURRENT_VARIABLE = listUsage("current-variable", "Client");

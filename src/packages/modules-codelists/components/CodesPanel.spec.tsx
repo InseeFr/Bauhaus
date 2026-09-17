@@ -67,6 +67,16 @@ const fillPanel = (panel: HTMLElement, values: Record<string, string>) => {
   }
 };
 
+const searchByCode = (value: string) =>
+  fireEvent.change(screen.getByLabelText(/code/i, { selector: "#search-code" }), {
+    target: { value },
+  });
+
+const searchByLabel = (value: string) =>
+  fireEvent.change(screen.getByLabelText(/label/i, { selector: "#search-label" }), {
+    target: { value },
+  });
+
 describe("CodesPanel", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -90,9 +100,7 @@ describe("CodesPanel", () => {
     vi.mocked(CodelistsApi.getCodesByCode).mockResolvedValue(page([{ code: "001" }]));
     await renderPanel();
 
-    fireEvent.change(screen.getByLabelText(/code/i, { selector: "#search-code" }), {
-      target: { value: "00" },
-    });
+    searchByCode("00");
 
     expect(CodelistsApi.getCodesByCode).toHaveBeenCalledWith("cl1", "00");
   });
@@ -101,9 +109,7 @@ describe("CodesPanel", () => {
     vi.mocked(CodelistsApi.getCodesByLabel).mockResolvedValue(page([{ code: "001" }]));
     await renderPanel();
 
-    fireEvent.change(screen.getByLabelText(/label/i, { selector: "#search-label" }), {
-      target: { value: "Prem" },
-    });
+    searchByLabel("Prem");
 
     expect(CodelistsApi.getCodesByLabel).toHaveBeenCalledWith("cl1", "Prem");
   });
@@ -113,13 +119,9 @@ describe("CodesPanel", () => {
     vi.mocked(CodelistsApi.getCodesByCodeAndLabel).mockResolvedValue(page([{ code: "001" }]));
     await renderPanel();
 
-    fireEvent.change(screen.getByLabelText(/code/i, { selector: "#search-code" }), {
-      target: { value: "00" },
-    });
+    searchByCode("00");
     await waitFor(() => expect(CodelistsApi.getCodesByCode).toHaveBeenCalled());
-    fireEvent.change(screen.getByLabelText(/label/i, { selector: "#search-label" }), {
-      target: { value: "Prem" },
-    });
+    searchByLabel("Prem");
 
     expect(CodelistsApi.getCodesByCodeAndLabel).toHaveBeenCalledWith("cl1", "00", "Prem");
   });

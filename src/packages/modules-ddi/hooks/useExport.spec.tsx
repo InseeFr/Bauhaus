@@ -12,12 +12,7 @@ vi.mock("../../sdk", () => ({
   DDIApi: { convertToDDI3: vi.fn() },
 }));
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string, options?: Record<string, unknown>) =>
-      options ? `${key}|${JSON.stringify(options)}` : key,
-  }),
-}));
+vi.mock("react-i18next", () => import("../i18n.testing"));
 
 vi.mock("../physical-instances/pages/view/enrichDataWithCodeLists", () => ({
   enrichDataWithCodeLists: (_client: unknown, data: unknown) => Promise.resolve(data),

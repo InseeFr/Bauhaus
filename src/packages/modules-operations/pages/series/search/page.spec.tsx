@@ -158,40 +158,16 @@ describe("<SearchFormList />", () => {
     expect(getListItems(container)).toHaveLength(6);
   });
 
-  it("should filter by prefLabelLg1", () => {
-    const form = { prefLabelLg1: "Base" };
+  it.each([
+    { name: "should filter by prefLabelLg1", form: { prefLabelLg1: "Base" }, expected: 1 },
+    { name: "should filter by typeCode", form: { typeCode: "S" }, expected: 3 },
+    { name: "should filter by creators", form: { creator: "DG57-C003" }, expected: 1 },
+    { name: "should filter by publishers", form: { publisher: "Acoss" }, expected: 1 },
+    { name: "should filter by dataCollector", form: { dataCollector: "DG75-A040" }, expected: 1 },
+  ])("$name", ({ form, expected }) => {
     (useUrlQueryParameters as Mock).mockReturnValue({ form });
 
     const { container } = renderWithRouter(<SearchFormList data={data} />);
-    expect(getListItems(container)).toHaveLength(1);
-  });
-  it("should filter by typeCode", () => {
-    const form = { typeCode: "S" };
-    (useUrlQueryParameters as Mock).mockReturnValue({ form });
-    const { container } = renderWithRouter(<SearchFormList data={data} />);
-    expect(getListItems(container)).toHaveLength(3);
-  });
-  it("should filter by creators", async () => {
-    const form = { creator: "DG57-C003" };
-    (useUrlQueryParameters as Mock).mockReturnValue({ form });
-    const { container } = renderWithRouter(<SearchFormList data={data} />);
-
-    expect(getListItems(container)).toHaveLength(1);
-  });
-
-  it("should filter by publishers", async () => {
-    const form = { publisher: "Acoss" };
-    (useUrlQueryParameters as Mock).mockReturnValue({ form });
-    const { container } = renderWithRouter(<SearchFormList data={data} />);
-
-    expect(getListItems(container)).toHaveLength(1);
-  });
-
-  it("should filter by dataCollector", async () => {
-    const form = { dataCollector: "DG75-A040" };
-    (useUrlQueryParameters as Mock).mockReturnValue({ form });
-    const { container } = renderWithRouter(<SearchFormList data={data} />);
-
-    expect(getListItems(container)).toHaveLength(1);
+    expect(getListItems(container)).toHaveLength(expected);
   });
 });

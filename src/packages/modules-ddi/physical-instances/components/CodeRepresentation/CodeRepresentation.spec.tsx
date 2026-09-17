@@ -1,16 +1,22 @@
 import { render, screen, fireEvent, within, waitFor } from "@testing-library/react";
 import { useState } from "react";
+import type { ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import type {
   CodeRepresentation as CodeRepresentationType,
   CodeList,
   Category,
-  CategoryUsage,
-  CodeListUsage,
 } from "../../types/api";
 import { envelope } from "../../types/ddi4Items.testing";
 import { CodeRepresentation } from "./CodeRepresentation";
+import {
+  categoryUsage,
+  otherVariableCategoryUsage,
+  recensementCodeListUsage,
+} from "./usages.testing";
+
+type CodeRepresentationProps = ComponentProps<typeof CodeRepresentation>;
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -56,17 +62,7 @@ vi.mock("../../../../application/app-context", () => ({
   }),
 }));
 
-vi.mock("react-router-dom", () => ({
-  useParams: () => ({
-    id: "test-physical-instance-id",
-    agencyId: "fr.insee",
-  }),
-  Link: ({ to, children, ...props }: any) => (
-    <a href={typeof to === "string" ? to : ""} {...props}>
-      {children}
-    </a>
-  ),
-}));
+vi.mock("react-router-dom", () => import("./reactRouter.testing"));
 
 const mockUseAllCodeLists = vi.fn(() => ({
   data: [
@@ -140,6 +136,12 @@ const clickDialogAction = (keyBase: string, action: "confirm" | "variant" | "can
   fireEvent.click(inOverrideDialog().getByText(labelKey).closest("button")!);
 };
 
+/** Choisit une issue de la popup et attend sa fermeture. */
+const resolveDialog = async (keyBase: string, action: "confirm" | "variant" | "cancel") => {
+  clickDialogAction(keyBase, action);
+  await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+};
+
 const OVERRIDE_SHARED = "physicalInstance.view.code.overrideShared";
 const OVERRIDE_SHARED_CATEGORY = "physicalInstance.view.code.overrideSharedCategory";
 const OVERRIDE_CATEGORY = "physicalInstance.view.code.overrideCategory";
@@ -155,11 +157,123 @@ const editField = (input: HTMLElement, value: string) => {
   fireEvent.change(input, { target: { value } });
 };
 
-vi.mock("primereact/inputtext", () => ({
-  InputText: ({ id, value, onChange, placeholder, ...props }: any) => (
-    <input id={id} value={value} onChange={onChange} placeholder={placeholder} {...props} />
-  ),
-}));
+/** Édite la valeur du premier code et renvoie son champ. */
+const editFirstValue = (value: string) => {
+  const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
+  editField(valueInput, value);
+  return valueInput;
+};
+
+const editListLabel = (value: string) =>
+  editField(screen.getByLabelText("Libellé de la liste de codes"), value);
+
+const valueInputs = () => screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
+
+/** Réponse de `useAllCodeLists` : les listes proposées à la réutilisation. */
+const mockAllCodeLists = (data: { id: string; label: string; mutualized: boolean }[]) =>
+  mockUseAllCodeLists.mockReturnValue({
+    data: data.map(({ id, label, mutualized }) => ({
+      id,
+      label,
+      agencyId: "fr.insee",
+      mutualized,
+    })),
+    isLoading: false,
+    error: null,
+  });
+
+const idleResult = { data: undefined as any, isLoading: false, isSuccess: false, error: null };
+const successResult = (data: unknown) => ({
+  data,
+  isLoading: false,
+  isSuccess: true,
+  error: null,
+});
+
+/** `useMutualizedCodeList` renvoie `result` pour la liste `fr.insee/id`, un état inactif sinon. */
+const mockReusableCodeList = (id: string, result: unknown) =>
+  mockUseMutualizedCodeList.mockImplementation((agency: string, requestedId: string) =>
+    agency === "fr.insee" && requestedId === id ? (result as typeof idleResult) : idleResult,
+  );
+
+/** Ouvre la réutilisation et sélectionne la liste `fr.insee/id`. */
+const reuseCodeList = (id: string) => {
+  fireEvent.click(screen.getByText("Réutiliser"));
+  fireEvent.change(screen.getByTestId("code-list-dropdown"), {
+    target: { value: `fr.insee-${id}` },
+  });
+};
+
+const fr = (value: string) => [{ "@language": "fr-FR", "@value": value }];
+
+/** Liste de codes chargée depuis Colectica : chaque code pointe sur sa propre catégorie. */
+const reusedCodeList = (
+  id: string,
+  label: string,
+  codes: { id: string; value: string; categoryId: string; category: string }[] = [
+    { id: "code-1", value: "01", categoryId: "cat-1", category: "Agriculture" },
+  ],
+) =>
+  envelope({
+    CodeList: [
+      {
+        Agency: "fr.insee",
+        ID: id,
+        Label: fr(label),
+        Code: codes.map((code) => ({
+          ID: code.id,
+          Value: { StringValue: code.value },
+          CategoryReference: { ID: code.categoryId },
+        })),
+      },
+    ],
+    Category: codes.map((code) => ({ ID: code.categoryId, Label: fr(code.category) })),
+  });
+
+/** Vérifie que le code réutilisé « 01 / Agriculture » est affiché ; renvoie les champs valeur. */
+const expectReusedCodeDisplayed = () => {
+  const values = valueInputs();
+  const labelInputs = screen.getAllByPlaceholderText("Libellé") as HTMLInputElement[];
+  expect(values.some((i) => i.value === "01")).toBe(true);
+  expect(labelInputs.some((i) => i.value === "Agriculture")).toBe(true);
+  return values;
+};
+
+/**
+ * Harnais qui re-injecte les résultats de onChange comme props, comme le fait le vrai
+ * VariableEditForm. Renvoie un objet dont `last` porte les arguments du dernier onChange.
+ */
+const renderHarness = (
+  initial: Pick<CodeRepresentationProps, "representation" | "codeList" | "categories">,
+  props: Partial<CodeRepresentationProps> = {},
+) => {
+  const changes: { last: [any, CodeList | undefined, Category[] | undefined] } = {
+    last: [undefined, undefined, []],
+  };
+  const Harness = () => {
+    const [rep, setRep] = useState<any>(initial.representation);
+    const [cl, setCl] = useState<CodeList | undefined>(initial.codeList);
+    const [cats, setCats] = useState<Category[] | undefined>(initial.categories);
+    return (
+      <CodeRepresentation
+        {...props}
+        representation={rep}
+        codeList={cl}
+        categories={cats}
+        onChange={(r, c, k) => {
+          changes.last = [r, c, k];
+          setRep(r);
+          setCl(c);
+          setCats(k);
+        }}
+      />
+    );
+  };
+  render(<Harness />);
+  return changes;
+};
+
+vi.mock("primereact/inputtext", () => import("./primereact.testing"));
 
 vi.mock("primereact/button", () => ({
   Button: ({ icon, label, onClick, disabled, tooltip }: any) => (
@@ -188,60 +302,15 @@ vi.mock("primereact/datatable", () => ({
   },
 }));
 
-// Contenu du menu contextuel rendu en ligne, pour pouvoir cliquer ses entrées sans overlay réel.
-vi.mock("primereact/overlaypanel", async () => {
-  const { forwardRef, useImperativeHandle } = await import("react");
-  return {
-    OverlayPanel: forwardRef(({ children }: any, ref: any) => {
-      useImperativeHandle(ref, () => ({ toggle: () => {}, hide: () => {} }));
-      return <div>{children}</div>;
-    }),
-  };
-});
+vi.mock("primereact/overlaypanel", () => import("./primereact.testing"));
 
-vi.mock("primereact/column", () => ({
-  Column: () => null,
-}));
+vi.mock("primereact/column", () => import("./primereact.testing"));
 
-vi.mock("primereact/progressspinner", () => ({
-  ProgressSpinner: () => <div data-testid="progress-spinner">Loading...</div>,
-}));
+vi.mock("primereact/progressspinner", () => import("./primereact.testing"));
 
-vi.mock("primereact/message", () => ({
-  Message: ({ severity, text }: any) => <div data-testid={`message-${severity}`}>{text}</div>,
-}));
+vi.mock("primereact/message", () => import("./primereact.testing"));
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({
-    value,
-    options,
-    onChange,
-    placeholder,
-    optionGroupLabel,
-    optionGroupChildren,
-    optionLabel,
-    optionValue,
-  }: any) => (
-    <select
-      data-testid="code-list-dropdown"
-      value={value || ""}
-      onChange={(e) => onChange({ value: e.target.value })}
-    >
-      <option value="" disabled>
-        {placeholder}
-      </option>
-      {options?.map((group: any) => (
-        <optgroup key={group[optionGroupLabel]} label={group[optionGroupLabel]}>
-          {group[optionGroupChildren].map((option: any) => (
-            <option key={option[optionValue]} value={option[optionValue]}>
-              {option[optionLabel]}
-            </option>
-          ))}
-        </optgroup>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("primereact/dropdown", () => import("./primereact.testing"));
 
 describe("CodeRepresentation", () => {
   const mockOnChange = vi.fn();
@@ -303,72 +372,82 @@ describe("CodeRepresentation", () => {
     },
   ];
 
+  /** Le composant sur la liste « Liste de codes test » (un code « 1 / Oui »). */
+  const codeRepresentation = (props: Partial<CodeRepresentationProps> = {}) => (
+    <CodeRepresentation
+      representation={mockRepresentation}
+      codeList={mockCodeList}
+      categories={mockCategories}
+      onChange={mockOnChange}
+      {...props}
+    />
+  );
+
+  const renderCodeRepresentation = (props: Partial<CodeRepresentationProps> = {}) =>
+    render(codeRepresentation(props));
+
+  /** Le composant sans aucune liste de codes. */
+  const renderWithoutCodeList = () =>
+    renderCodeRepresentation({ representation: undefined, codeList: undefined, categories: [] });
+
+  // Le composant lit les usages via le hook (affichage) ET via le fetch impératif (gardes) :
+  // on aligne les deux mocks.
+  const otherVariableUsage = recensementCodeListUsage("other-variable", "Autre variable");
+
+  const markListAsShared = () => {
+    mockUseCodeListUsers.mockReturnValue({
+      data: [otherVariableUsage],
+      isLoading: false,
+      isError: false,
+    });
+    mockFetchCodeListUsers.mockResolvedValue([otherVariableUsage]);
+  };
+
+  const markListAsNotShared = () => {
+    mockUseCodeListUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
+    mockFetchCodeListUsers.mockResolvedValue([]);
+  };
+
+  const renderShared = () =>
+    renderCodeRepresentation({
+      currentVariableId: "current-variable",
+      currentVariableName: "Client",
+    });
+
   beforeEach(() => {
     vi.clearAllMocks();
     mockFetchCategoryUsers.mockResolvedValue([]);
     mockFetchCodeListUsers.mockResolvedValue([]);
     mockUseCategoryUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
     mockUseCodeListUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
-    mockUseAllCodeLists.mockReturnValue({
-      data: [
-        { id: "codelist-1", label: "Liste 1", agencyId: "fr.insee", mutualized: false },
-        { id: "list-2", label: "Liste 2", agencyId: "fr.insee", mutualized: false },
-      ],
-      isLoading: false,
-      error: null,
-    });
+    mockAllCodeLists([
+      { id: "codelist-1", label: "Liste 1", mutualized: false },
+      { id: "list-2", label: "Liste 2", mutualized: false },
+    ]);
   });
 
   describe("initialization", () => {
     it("should render action buttons", () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      renderCodeRepresentation();
 
       expect(screen.getByText("Créer une nouvelle liste")).toBeInTheDocument();
       expect(screen.getByText("Réutiliser")).toBeInTheDocument();
     });
 
     it("should show DataTable when codeList has codes", () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      renderCodeRepresentation();
 
       expect(screen.getByTestId("data-table")).toBeInTheDocument();
     });
 
     it("should not show DataTable when codeList is undefined", () => {
-      render(
-        <CodeRepresentation
-          representation={undefined}
-          codeList={undefined}
-          categories={[]}
-          onChange={mockOnChange}
-        />,
-      );
+      renderWithoutCodeList();
 
       expect(screen.queryByTestId("data-table")).not.toBeInTheDocument();
     });
 
     it("should initialize label from codeList", () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      renderCodeRepresentation();
 
       const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
       expect(labelInput.value).toBe("Liste de codes test");
@@ -377,14 +456,7 @@ describe("CodeRepresentation", () => {
 
   describe("toggle between modes", () => {
     it("should show ReuseCodeListSelect when reuse button is clicked", () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      renderCodeRepresentation();
 
       expect(screen.queryByTestId("code-list-dropdown")).not.toBeInTheDocument();
 
@@ -394,14 +466,7 @@ describe("CodeRepresentation", () => {
     });
 
     it("should keep ReuseCodeListSelect visible when reuse button is clicked again", () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      renderCodeRepresentation();
 
       const reuseButton = screen.getByText("Réutiliser");
 
@@ -413,14 +478,7 @@ describe("CodeRepresentation", () => {
     });
 
     it("should hide ReuseCodeListSelect when create new list is clicked", () => {
-      render(
-        <CodeRepresentation
-          representation={undefined}
-          codeList={undefined}
-          categories={[]}
-          onChange={mockOnChange}
-        />,
-      );
+      renderWithoutCodeList();
 
       fireEvent.click(screen.getByText("Réutiliser"));
       expect(screen.getByTestId("code-list-dropdown")).toBeInTheDocument();
@@ -431,14 +489,7 @@ describe("CodeRepresentation", () => {
     });
 
     it("should hide DataTable when reuse button is clicked", () => {
-      render(
-        <CodeRepresentation
-          representation={undefined}
-          codeList={undefined}
-          categories={[]}
-          onChange={mockOnChange}
-        />,
-      );
+      renderWithoutCodeList();
 
       fireEvent.click(screen.getByText("Créer une nouvelle liste"));
       expect(screen.getByTestId("data-table")).toBeInTheDocument();
@@ -450,17 +501,9 @@ describe("CodeRepresentation", () => {
 
   describe("onChange callbacks", () => {
     it("should call onChange when label is updated", async () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      renderCodeRepresentation();
 
-      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
-      fireEvent.change(labelInput, { target: { value: "Nouveau libellé" } });
+      editListLabel("Nouveau libellé");
 
       await waitFor(() => expect(mockOnChange).toHaveBeenCalledTimes(1));
       expect(mockOnChange).toHaveBeenCalledWith(
@@ -475,14 +518,7 @@ describe("CodeRepresentation", () => {
 
   describe("props update", () => {
     it("should update state when a different codeList is loaded", () => {
-      const { rerender } = render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      const { rerender } = renderCodeRepresentation();
 
       const newCodeList: CodeList = {
         ...mockCodeList,
@@ -490,34 +526,17 @@ describe("CodeRepresentation", () => {
         Label: [{ "@language": "fr-FR", "@value": "Liste modifiée" }],
       };
 
-      rerender(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={newCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      rerender(codeRepresentation({ codeList: newCodeList }));
 
       const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
       expect(labelInput.value).toBe("Liste modifiée");
     });
 
     it("should preserve label when codeList content changes but ID stays the same", async () => {
-      const { rerender } = render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      const { rerender } = renderCodeRepresentation();
 
       // Modifier le label localement
-      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
-      fireEvent.change(labelInput, {
-        target: { value: "Label modifié par l'utilisateur" },
-      });
+      editListLabel("Label modifié par l'utilisateur");
       // La garde (asynchrone) doit avoir appliqué l'édition avant le rerender.
       await waitFor(() => expect(mockOnChange).toHaveBeenCalled());
 
@@ -544,14 +563,7 @@ describe("CodeRepresentation", () => {
         ],
       };
 
-      rerender(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={updatedCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      rerender(codeRepresentation({ codeList: updatedCodeList }));
 
       // Le label devrait être préservé car l'ID n'a pas changé
       const labelInputAfter = screen.getByLabelText(
@@ -562,20 +574,25 @@ describe("CodeRepresentation", () => {
   });
 
   describe("label preservation during editing", () => {
-    it("should preserve label when adding a code", async () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
+    /** Modifie le libellé de la liste et attend que l'édition soit appliquée. */
+    const renderWithEditedLabel = async () => {
+      renderCodeRepresentation();
+      editListLabel("Mon label");
+      await waitFor(() => expect(mockOnChange).toHaveBeenCalledTimes(1));
+    };
+
+    const expectLabelPreserved = () =>
+      expect(mockOnChange).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({
+          Label: [{ "@language": "fr-FR", "@value": "Mon label" }],
+        }),
+        expect.anything(),
       );
 
+    it("should preserve label when adding a code", async () => {
       // Modifier le label
-      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
-      fireEvent.change(labelInput, { target: { value: "Mon label" } });
-      await waitFor(() => expect(mockOnChange).toHaveBeenCalledTimes(1));
+      await renderWithEditedLabel();
 
       // Ajouter un code
       const addButton = screen.getByText("Ajouter un code");
@@ -583,66 +600,29 @@ describe("CodeRepresentation", () => {
 
       // Vérifier que onChange a été appelé avec le label préservé
       await waitFor(() => expect(mockOnChange).toHaveBeenCalledTimes(2));
-      expect(mockOnChange).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.objectContaining({
-          Label: [{ "@language": "fr-FR", "@value": "Mon label" }],
-        }),
-        expect.anything(),
-      );
+      expectLabelPreserved();
     });
 
     it("should preserve label when editing a code value", async () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
-
       // Modifier le label
-      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
-      fireEvent.change(labelInput, { target: { value: "Mon label" } });
-      await waitFor(() => expect(mockOnChange).toHaveBeenCalledTimes(1));
+      await renderWithEditedLabel();
 
       mockOnChange.mockClear();
 
       // Modifier un code (via l'input dans le tableau)
-      const codeInputs = screen.getAllByPlaceholderText("Valeur");
-      fireEvent.change(codeInputs[0], { target: { value: "10" } });
+      editFirstValue("10");
 
       // Vérifier que onChange a été appelé avec le label préservé
       await waitFor(() => expect(mockOnChange).toHaveBeenCalledTimes(1));
-      expect(mockOnChange).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.objectContaining({
-          Label: [{ "@language": "fr-FR", "@value": "Mon label" }],
-        }),
-        expect.anything(),
-      );
+      expectLabelPreserved();
     });
   });
 
   describe("read-only for mutualized lists", () => {
     it("should make code list inputs read-only when the referenced list is mutualized", () => {
-      mockUseAllCodeLists.mockReturnValue({
-        data: [
-          { id: "codelist-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true },
-        ],
-        isLoading: false,
-        error: null,
-      });
+      mockAllCodeLists([{ id: "codelist-1", label: "Liste mutualisée", mutualized: true }]);
 
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      renderCodeRepresentation();
 
       const labelInput = screen.getByLabelText("Libellé de la liste de codes");
       expect(labelInput).toHaveAttribute("readOnly");
@@ -650,14 +630,7 @@ describe("CodeRepresentation", () => {
     });
 
     it("should keep code list inputs editable when the referenced list is local", () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      renderCodeRepresentation();
 
       const labelInput = screen.getByLabelText("Libellé de la liste de codes");
       expect(labelInput).not.toHaveAttribute("readOnly");
@@ -667,109 +640,26 @@ describe("CodeRepresentation", () => {
 
   describe("selection of a mutualized list", () => {
     it("should display a spinner while the mutualized codes list is loading", () => {
-      mockUseAllCodeLists.mockReturnValue({
-        data: [{ id: "mut-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true }],
-        isLoading: false,
-        error: null,
-      });
+      mockAllCodeLists([{ id: "mut-1", label: "Liste mutualisée", mutualized: true }]);
+      mockReusableCodeList("mut-1", { ...idleResult, isLoading: true });
 
-      const loadingResult = {
-        data: undefined as any,
-        isLoading: true,
-        isSuccess: false,
-        error: null,
-      };
-      const idleResult = {
-        data: undefined as any,
-        isLoading: false,
-        isSuccess: false,
-        error: null,
-      };
-      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
-        agency === "fr.insee" && id === "mut-1" ? loadingResult : idleResult,
-      );
+      renderWithoutCodeList();
 
-      render(
-        <CodeRepresentation
-          representation={undefined}
-          codeList={undefined}
-          categories={[]}
-          onChange={mockOnChange}
-        />,
-      );
-
-      fireEvent.click(screen.getByText("Réutiliser"));
-      fireEvent.change(screen.getByTestId("code-list-dropdown"), {
-        target: { value: "fr.insee-mut-1" },
-      });
+      reuseCodeList("mut-1");
 
       expect(screen.getByTestId("progress-spinner")).toBeInTheDocument();
       expect(screen.queryByTestId("data-table")).not.toBeInTheDocument();
     });
 
     it("should fetch and display codes read-only after selecting a mutualized list", () => {
-      mockUseAllCodeLists.mockReturnValue({
-        data: [{ id: "mut-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true }],
-        isLoading: false,
-        error: null,
-      });
+      mockAllCodeLists([{ id: "mut-1", label: "Liste mutualisée", mutualized: true }]);
+      mockReusableCodeList("mut-1", successResult(reusedCodeList("mut-1", "Liste mutualisée")));
 
-      const mutualizedData = envelope({
-        CodeList: [
-          {
-            Agency: "fr.insee",
-            ID: "mut-1",
-            Label: [{ "@language": "fr-FR", "@value": "Liste mutualisée" }],
-            Code: [
-              {
-                ID: "code-1",
-                Value: { StringValue: "01" },
-                CategoryReference: { ID: "cat-1" },
-              },
-            ],
-          },
-        ],
-        Category: [
-          {
-            ID: "cat-1",
-            Label: [{ "@language": "fr-FR", "@value": "Agriculture" }],
-          },
-        ],
-      });
-      const idleResult = {
-        data: undefined,
-        isLoading: false,
-        isSuccess: false,
-        error: null,
-      };
-      const successResult = {
-        data: mutualizedData,
-        isLoading: false,
-        isSuccess: true,
-        error: null,
-      };
-      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
-        agency === "fr.insee" && id === "mut-1" ? successResult : idleResult,
-      );
+      renderWithoutCodeList();
 
-      render(
-        <CodeRepresentation
-          representation={undefined}
-          codeList={undefined}
-          categories={[]}
-          onChange={mockOnChange}
-        />,
-      );
+      reuseCodeList("mut-1");
 
-      fireEvent.click(screen.getByText("Réutiliser"));
-
-      const dropdown = screen.getByTestId("code-list-dropdown");
-      fireEvent.change(dropdown, { target: { value: "fr.insee-mut-1" } });
-
-      const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
-      const labelInputs = screen.getAllByPlaceholderText("Libellé") as HTMLInputElement[];
-      expect(valueInputs.some((i) => i.value === "01")).toBe(true);
-      expect(labelInputs.some((i) => i.value === "Agriculture")).toBe(true);
+      expectReusedCodeDisplayed();
       // read-only mode: no "Ajouter un code" button
       expect(screen.queryByText("Ajouter un code")).not.toBeInTheDocument();
       // dropdown stays visible so the user can change selection
@@ -779,51 +669,15 @@ describe("CodeRepresentation", () => {
 
   describe("reset when create new list is clicked", () => {
     it("should reset to an empty new code list when create new list is clicked after reusing a list", () => {
-      mockUseAllCodeLists.mockReturnValue({
-        data: [{ id: "grp-1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
-        isLoading: false,
-        error: null,
-      });
+      mockAllCodeLists([{ id: "grp-1", label: "Liste groupe", mutualized: false }]);
+      mockReusableCodeList("grp-1", successResult(reusedCodeList("grp-1", "Liste groupe")));
 
-      const groupData = envelope({
-        CodeList: [
-          {
-            Agency: "fr.insee",
-            ID: "grp-1",
-            Label: [{ "@language": "fr-FR", "@value": "Liste groupe" }],
-            Code: [
-              { ID: "code-1", Value: { StringValue: "01" }, CategoryReference: { ID: "cat-1" } },
-            ],
-          },
-        ],
-        Category: [{ ID: "cat-1", Label: [{ "@language": "fr-FR", "@value": "Agriculture" }] }],
-      });
-      const idleResult = { data: undefined, isLoading: false, isSuccess: false, error: null };
-      const successResult = { data: groupData, isLoading: false, isSuccess: true, error: null };
-      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
-        agency === "fr.insee" && id === "grp-1" ? successResult : idleResult,
-      );
+      renderWithoutCodeList();
 
-      render(
-        <CodeRepresentation
-          representation={undefined}
-          codeList={undefined}
-          categories={[]}
-          onChange={mockOnChange}
-        />,
-      );
-
-      fireEvent.click(screen.getByText("Réutiliser"));
-      fireEvent.change(screen.getByTestId("code-list-dropdown"), {
-        target: { value: "fr.insee-grp-1" },
-      });
+      reuseCodeList("grp-1");
 
       // The reused list is now displayed with its codes
-      expect(
-        (screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[]).some(
-          (i) => i.value === "01",
-        ),
-      ).toBe(true);
+      expect(valueInputs().some((i) => i.value === "01")).toBe(true);
 
       mockOnChange.mockClear();
 
@@ -832,9 +686,9 @@ describe("CodeRepresentation", () => {
 
       // The reuse dropdown is gone and the reused code is no longer present
       expect(screen.queryByTestId("code-list-dropdown")).not.toBeInTheDocument();
-      const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
-      expect(valueInputs.some((i) => i.value === "01")).toBe(false);
-      expect(valueInputs.every((i) => i.value === "")).toBe(true);
+      const values = valueInputs();
+      expect(values.some((i) => i.value === "01")).toBe(false);
+      expect(values.every((i) => i.value === "")).toBe(true);
 
       // The label is reset and onChange notifies the parent with a brand new empty code list
       const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
@@ -851,78 +705,45 @@ describe("CodeRepresentation", () => {
     });
 
     it("should reset codes when create new list is clicked while already editing a list", () => {
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
+      renderCodeRepresentation();
 
       // The existing list shows its code with value "1"
-      expect(
-        (screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[]).some(
-          (i) => i.value === "1",
-        ),
-      ).toBe(true);
+      expect(valueInputs().some((i) => i.value === "1")).toBe(true);
 
       fireEvent.click(screen.getByText("Créer une nouvelle liste"));
 
-      const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
-      expect(valueInputs.some((i) => i.value === "1")).toBe(false);
-      expect(valueInputs.every((i) => i.value === "")).toBe(true);
+      const values = valueInputs();
+      expect(values.some((i) => i.value === "1")).toBe(false);
+      expect(values.every((i) => i.value === "")).toBe(true);
     });
   });
 
   describe("re-selection of an already loaded list", () => {
     it("should display the codes again when re-selecting a previously selected list", () => {
-      mockUseAllCodeLists.mockReturnValue({
-        data: [
-          { id: "mut-1", label: "Liste 1", agencyId: "fr.insee", mutualized: true },
-          { id: "mut-2", label: "Liste 2", agencyId: "fr.insee", mutualized: true },
-        ],
-        isLoading: false,
-        error: null,
-      });
+      mockAllCodeLists([
+        { id: "mut-1", label: "Liste 1", mutualized: true },
+        { id: "mut-2", label: "Liste 2", mutualized: true },
+      ]);
 
       const codesByList: Record<string, { value: string; label: string }> = {
         "mut-1": { value: "01", label: "Agriculture" },
         "mut-2": { value: "02", label: "Industrie" },
       };
-      const idleResult = { data: undefined, isLoading: false, isSuccess: false, error: null };
       // Références mémoïsées par liste : react-query renvoie un objet stable depuis son cache.
       // Sans cela, un nouvel objet à chaque rendu ferait boucler l'effet de chargement.
       const successCache: Record<string, any> = {};
       const buildSuccess = (id: string) => {
         if (!successCache[id]) {
-          successCache[id] = {
-            data: envelope({
-              CodeList: [
-                {
-                  Agency: "fr.insee",
-                  ID: id,
-                  Label: [{ "@language": "fr-FR", "@value": id }],
-                  Code: [
-                    {
-                      ID: `code-${id}`,
-                      Value: { StringValue: codesByList[id].value },
-                      CategoryReference: { ID: `cat-${id}` },
-                    },
-                  ],
-                },
-              ],
-              Category: [
-                {
-                  ID: `cat-${id}`,
-                  Label: [{ "@language": "fr-FR", "@value": codesByList[id].label }],
-                },
-              ],
-            }),
-            isLoading: false,
-            isSuccess: true,
-            error: null,
-          };
+          successCache[id] = successResult(
+            reusedCodeList(id, id, [
+              {
+                id: `code-${id}`,
+                value: codesByList[id].value,
+                categoryId: `cat-${id}`,
+                category: codesByList[id].label,
+              },
+            ]),
+          );
         }
         return successCache[id];
       };
@@ -981,138 +802,43 @@ describe("CodeRepresentation", () => {
 
   describe("selection of a group list", () => {
     it("should fetch and display codes editable after selecting a group (non-mutualized) list", () => {
-      mockUseAllCodeLists.mockReturnValue({
-        data: [{ id: "grp-1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
-        isLoading: false,
-        error: null,
-      });
+      mockAllCodeLists([{ id: "grp-1", label: "Liste groupe", mutualized: false }]);
+      mockReusableCodeList("grp-1", successResult(reusedCodeList("grp-1", "Liste groupe")));
 
-      const groupData = envelope({
-        CodeList: [
-          {
-            Agency: "fr.insee",
-            ID: "grp-1",
-            Label: [{ "@language": "fr-FR", "@value": "Liste groupe" }],
-            Code: [
-              {
-                ID: "code-1",
-                Value: { StringValue: "01" },
-                CategoryReference: { ID: "cat-1" },
-              },
-            ],
-          },
-        ],
-        Category: [
-          {
-            ID: "cat-1",
-            Label: [{ "@language": "fr-FR", "@value": "Agriculture" }],
-          },
-        ],
-      });
-      const idleResult = {
-        data: undefined,
-        isLoading: false,
-        isSuccess: false,
-        error: null,
-      };
-      const successResult = {
-        data: groupData,
-        isLoading: false,
-        isSuccess: true,
-        error: null,
-      };
-      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
-        agency === "fr.insee" && id === "grp-1" ? successResult : idleResult,
-      );
+      renderWithoutCodeList();
 
-      render(
-        <CodeRepresentation
-          representation={undefined}
-          codeList={undefined}
-          categories={[]}
-          onChange={mockOnChange}
-        />,
-      );
+      reuseCodeList("grp-1");
 
-      fireEvent.click(screen.getByText("Réutiliser"));
-      fireEvent.change(screen.getByTestId("code-list-dropdown"), {
-        target: { value: "fr.insee-grp-1" },
-      });
-
-      const valueInputs = screen.getAllByPlaceholderText("Valeur") as HTMLInputElement[];
-      const labelInputs = screen.getAllByPlaceholderText("Libellé") as HTMLInputElement[];
-      expect(valueInputs.some((i) => i.value === "01")).toBe(true);
-      expect(labelInputs.some((i) => i.value === "Agriculture")).toBe(true);
+      const values = expectReusedCodeDisplayed();
       // editable mode: "Ajouter un code" button is present and inputs are not read-only
       expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
-      expect(valueInputs.every((i) => !i.hasAttribute("readOnly"))).toBe(true);
+      expect(values.every((i) => !i.hasAttribute("readOnly"))).toBe(true);
     });
 
     it("keeps the referenced ID and existing codes when editing the label of a reused group list", async () => {
-      mockUseAllCodeLists.mockReturnValue({
-        data: [{ id: "grp-1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
-        isLoading: false,
-        error: null,
+      mockAllCodeLists([{ id: "grp-1", label: "Liste groupe", mutualized: false }]);
+      const groupData = reusedCodeList("grp-1", "Liste groupe", [
+        { id: "code-1", value: "01", categoryId: "cat-1", category: "Agriculture" },
+        { id: "code-2", value: "02", categoryId: "cat-2", category: "Industrie" },
+      ]);
+      mockReusableCodeList("grp-1", successResult(groupData));
+
+      // Sans ce harnais, l'édition d'une liste réutilisée part d'un codeList toujours `undefined`.
+      const changes = renderHarness({
+        representation: undefined,
+        codeList: undefined,
+        categories: [],
       });
-      const groupData = envelope({
-        CodeList: [
-          {
-            Agency: "fr.insee",
-            ID: "grp-1",
-            Label: [{ "@language": "fr-FR", "@value": "Liste groupe" }],
-            Code: [
-              { ID: "code-1", Value: { StringValue: "01" }, CategoryReference: { ID: "cat-1" } },
-              { ID: "code-2", Value: { StringValue: "02" }, CategoryReference: { ID: "cat-2" } },
-            ],
-          },
-        ],
-        Category: [
-          { ID: "cat-1", Label: [{ "@language": "fr-FR", "@value": "Agriculture" }] },
-          { ID: "cat-2", Label: [{ "@language": "fr-FR", "@value": "Industrie" }] },
-        ],
-      });
-      mockUseMutualizedCodeList.mockImplementation((agency: string, id: string) =>
-        agency === "fr.insee" && id === "grp-1"
-          ? { data: groupData, isLoading: false, isSuccess: true, error: null }
-          : { data: undefined, isLoading: false, isSuccess: false, error: null },
+
+      reuseCodeList("grp-1");
+
+      editListLabel("Libellé surchargé");
+      // La garde (asynchrone) applique l'édition dans une microtâche.
+      await waitFor(() =>
+        expect(changes.last[1]?.Label?.[0]?.["@value"]).toBe("Libellé surchargé"),
       );
 
-      // Harnais qui re-injecte les résultats de onChange comme props, comme le fait le vrai
-      // VariableEditForm. Sans cela, l'édition d'une liste réutilisée part d'un codeList
-      // toujours `undefined`.
-      let last: [CodeRepresentationType | undefined, CodeList | undefined, Category[] | undefined] =
-        [undefined, undefined, []];
-      const Harness = () => {
-        const [rep, setRep] = useState<CodeRepresentationType | undefined>(undefined);
-        const [cl, setCl] = useState<CodeList | undefined>(undefined);
-        const [cats, setCats] = useState<Category[] | undefined>([]);
-        return (
-          <CodeRepresentation
-            representation={rep}
-            codeList={cl}
-            categories={cats}
-            onChange={(r, c, k) => {
-              last = [r, c, k];
-              setRep(r);
-              setCl(c);
-              setCats(k);
-            }}
-          />
-        );
-      };
-      render(<Harness />);
-
-      fireEvent.click(screen.getByText("Réutiliser"));
-      fireEvent.change(screen.getByTestId("code-list-dropdown"), {
-        target: { value: "fr.insee-grp-1" },
-      });
-
-      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
-      fireEvent.change(labelInput, { target: { value: "Libellé surchargé" } });
-      // La garde (asynchrone) applique l'édition dans une microtâche.
-      await waitFor(() => expect(last[1]?.Label?.[0]?.["@value"]).toBe("Libellé surchargé"));
-
-      const [rep, cl] = last;
+      const [rep, cl] = changes.last;
       // La représentation ET la liste de codes doivent rester sur l'ID de la liste partagée…
       expect(rep?.CodeListReference?.ID).toBe("grp-1");
       expect(cl?.ID).toBe("grp-1");
@@ -1124,40 +850,14 @@ describe("CodeRepresentation", () => {
   });
 
   describe("confirmation before overriding a shared code list", () => {
-    const otherVariableUsage: CodeListUsage = {
-      studyUnitAgencyId: "fr.insee",
-      studyUnitId: "su-1",
-      studyUnitLabel: "Recensement",
-      physicalInstanceAgencyId: "fr.insee",
-      physicalInstanceId: "pi-1",
-      physicalInstanceLabel: "Fichier détail",
-      variableAgencyId: "fr.insee",
-      variableId: "other-variable",
-      variableLabel: "Autre variable",
+    /** Liste partagée : édite la valeur du premier code et attend la popup ; renvoie le champ. */
+    const editSharedListValue = async () => {
+      markListAsShared();
+      renderShared();
+      const valueInput = editFirstValue("10");
+      await waitForDialog(OVERRIDE_SHARED);
+      return valueInput;
     };
-
-    // Le composant lit les usages via le hook (affichage) ET via le fetch impératif (gardes) :
-    // on aligne les deux mocks.
-    const markListAsShared = () => {
-      mockUseCodeListUsers.mockReturnValue({
-        data: [otherVariableUsage],
-        isLoading: false,
-        isError: false,
-      });
-      mockFetchCodeListUsers.mockResolvedValue([otherVariableUsage]);
-    };
-
-    const renderShared = (currentVariableId = "current-variable") =>
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          currentVariableId={currentVariableId}
-          currentVariableName="Client"
-          onChange={mockOnChange}
-        />,
-      );
 
     it("asks from the very first keystroke, without waiting for the field to be left", async () => {
       // Régression : la popup n'apparaissait qu'à la sortie du champ. Elle est demandée dès la
@@ -1166,8 +866,7 @@ describe("CodeRepresentation", () => {
       markListAsShared();
       renderShared();
 
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      fireEvent.change(valueInput, { target: { value: "10" } });
+      const valueInput = editFirstValue("10");
 
       expect(lastChange()[1].Code[0].Value.StringValue).toBe("10");
       expect(valueInput).toHaveValue("10");
@@ -1182,24 +881,16 @@ describe("CodeRepresentation", () => {
       mockFetchCodeListUsers.mockResolvedValue([otherVariableUsage]);
       renderShared();
 
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      editField(valueInput, "10");
+      editFirstValue("10");
 
       await waitForDialog(OVERRIDE_SHARED);
     });
 
     it("creates a variant of the shared list when choosing Créer (case 1)", async () => {
-      markListAsShared();
-      renderShared();
-
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      editField(valueInput, "10");
-      await waitForDialog(OVERRIDE_SHARED);
-
-      clickDialogAction(OVERRIDE_SHARED, "variant");
+      await editSharedListValue();
 
       // La popup se ferme et la modification est reportée sur une NOUVELLE liste.
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await resolveDialog(OVERRIDE_SHARED, "variant");
       const [rep, variant, categories] = lastChange();
       expect(variant.ID).not.toBe("codelist-1");
       expect(variant.Version).toBe("1");
@@ -1221,16 +912,9 @@ describe("CodeRepresentation", () => {
     });
 
     it("applies the change once the user confirms (Modifier)", async () => {
-      markListAsShared();
-      renderShared();
+      await editSharedListValue();
 
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      editField(valueInput, "10");
-      await waitForDialog(OVERRIDE_SHARED);
-
-      clickDialogAction(OVERRIDE_SHARED, "confirm");
-
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await resolveDialog(OVERRIDE_SHARED, "confirm");
       expect(mockOnChange).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({
@@ -1243,12 +927,7 @@ describe("CodeRepresentation", () => {
     it("shows the code list users block inside the confirmation dialog", async () => {
       // Le contenu détaillé de la popup est couvert par OverrideDialog.spec : on vérifie ici
       // qu'elle reçoit bien les usages résolus par la garde.
-      markListAsShared();
-      renderShared();
-
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      editField(valueInput, "10");
-      await waitForDialog(OVERRIDE_SHARED);
+      await editSharedListValue();
 
       const dialog = inOverrideDialog();
       expect(
@@ -1263,14 +942,8 @@ describe("CodeRepresentation", () => {
     });
 
     it("does not ask again after the first confirmation in the same editing session", async () => {
-      markListAsShared();
-      renderShared();
-
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      editField(valueInput, "10");
-      await waitForDialog(OVERRIDE_SHARED);
-      clickDialogAction(OVERRIDE_SHARED, "confirm");
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      const valueInput = await editSharedListValue();
+      await resolveDialog(OVERRIDE_SHARED, "confirm");
 
       mockOnChange.mockClear();
       editField(valueInput, "11");
@@ -1283,16 +956,9 @@ describe("CodeRepresentation", () => {
     it("restores the previous value when the user cancels", async () => {
       // La frappe étant appliquée au fil de l'eau, renoncer ne consiste pas à « ne rien faire »
       // mais à remettre le champ dans l'état où il était avant l'édition.
-      markListAsShared();
-      renderShared();
+      const valueInput = await editSharedListValue();
 
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      editField(valueInput, "10");
-      await waitForDialog(OVERRIDE_SHARED);
-
-      clickDialogAction(OVERRIDE_SHARED, "cancel");
-
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await resolveDialog(OVERRIDE_SHARED, "cancel");
       expect(lastChange()[1].Code[0].Value.StringValue).toBe("1");
       expect(valueInput).toHaveValue("1");
     });
@@ -1306,11 +972,9 @@ describe("CodeRepresentation", () => {
       const notice = 'physicalInstance.view.code.sharedNotice.message|{"count":1}';
       expect(screen.getByText(notice)).toBeInTheDocument();
 
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      editField(valueInput, "10");
+      editFirstValue("10");
       await waitForDialog(OVERRIDE_SHARED);
-      clickDialogAction(OVERRIDE_SHARED, "confirm");
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await resolveDialog(OVERRIDE_SHARED, "confirm");
 
       expect(screen.getByText(notice)).toBeInTheDocument();
     });
@@ -1325,12 +989,10 @@ describe("CodeRepresentation", () => {
     });
 
     it("does not ask for confirmation when the list is not shared with other variables", async () => {
-      mockUseCodeListUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
-      mockFetchCodeListUsers.mockResolvedValue([]);
+      markListAsNotShared();
       renderShared();
 
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      editField(valueInput, "10");
+      editFirstValue("10");
 
       await waitFor(() => expect(mockOnChange).toHaveBeenCalledTimes(1));
       expect(overrideDialog()).not.toBeInTheDocument();
@@ -1338,62 +1000,20 @@ describe("CodeRepresentation", () => {
 
     it("does not ask for confirmation when the shared list is mutualized (read-only)", () => {
       markListAsShared();
-      mockUseAllCodeLists.mockReturnValue({
-        data: [
-          { id: "codelist-1", label: "Liste mutualisée", agencyId: "fr.insee", mutualized: true },
-        ],
-        isLoading: false,
-        error: null,
-      });
+      mockAllCodeLists([{ id: "codelist-1", label: "Liste mutualisée", mutualized: true }]);
 
       renderShared();
 
       // Liste mutualisée → lecture seule : un changement de label ne déclenche pas de confirmation.
-      const labelInput = screen.getByLabelText("Libellé de la liste de codes");
-      fireEvent.change(labelInput, { target: { value: "Tentative" } });
+      editListLabel("Tentative");
 
       expect(overrideDialog()).not.toBeInTheDocument();
     });
   });
 
   describe("confirmation before editing a shared category", () => {
-    const otherVariableUsage: CodeListUsage = {
-      studyUnitAgencyId: "fr.insee",
-      studyUnitId: "su-1",
-      studyUnitLabel: "Recensement",
-      physicalInstanceAgencyId: "fr.insee",
-      physicalInstanceId: "pi-1",
-      physicalInstanceLabel: "Fichier détail",
-      variableAgencyId: "fr.insee",
-      variableId: "other-variable",
-      variableLabel: "Autre variable",
-    };
-
-    const markListAsShared = () => {
-      mockUseCodeListUsers.mockReturnValue({
-        data: [otherVariableUsage],
-        isLoading: false,
-        isError: false,
-      });
-      mockFetchCodeListUsers.mockResolvedValue([otherVariableUsage]);
-    };
-
-    const markListAsNotShared = () => {
-      mockUseCodeListUsers.mockReturnValue({ data: [], isLoading: false, isError: false });
-      mockFetchCodeListUsers.mockResolvedValue([]);
-    };
-
-    const categoryUsageRow = (overrides: Partial<CategoryUsage> = {}): CategoryUsage => ({
-      group: { agencyId: "fr.insee", id: "grp-1", label: "Groupe démographie" },
-      studyUnit: { agencyId: "fr.insee", id: "su-1", label: "Recensement" },
-      physicalInstance: { agencyId: "fr.insee", id: "pi-1", label: "Fichier détail" },
-      variable: { agencyId: "fr.insee", id: "other-variable", label: "Autre variable" },
-      codeList: { agencyId: "fr.insee", id: "cl-2", label: "Autre liste" },
-      ...overrides,
-    });
-
-    const currentListUsage = (): CategoryUsage =>
-      categoryUsageRow({
+    const currentListUsage = () =>
+      otherVariableCategoryUsage({
         variable: { agencyId: "fr.insee", id: "current-variable", label: "Client" },
         codeList: { agencyId: "fr.insee", id: "codelist-1", label: "Liste de codes test" },
       });
@@ -1403,8 +1023,8 @@ describe("CodeRepresentation", () => {
     const markCategoryAsShared = () =>
       mockFetchCategoryUsers.mockResolvedValue([
         currentListUsage(),
-        categoryUsageRow(),
-        categoryUsageRow({
+        otherVariableCategoryUsage(),
+        otherVariableCategoryUsage({
           variable: { agencyId: "fr.insee", id: "third-variable", label: "Troisième variable" },
         }),
       ]);
@@ -1412,29 +1032,33 @@ describe("CodeRepresentation", () => {
     // La catégorie n'est utilisée que par la liste courante : non partagée.
     const markCategoryAsOwn = () => mockFetchCategoryUsers.mockResolvedValue([currentListUsage()]);
 
-    const renderShared = () =>
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          currentVariableId="current-variable"
-          currentVariableName="Client"
-          onChange={mockOnChange}
-        />,
-      );
-
     const editCategoryLabel = (value: string) =>
       editField(screen.getAllByPlaceholderText("Libellé")[0], value);
 
-    it("shows the combined list+category dialog when both are shared (case 2)", async () => {
+    /** Édite le libellé de la catégorie et attend la popup `keyBase`. */
+    const editCategoryUntilDialog = async (keyBase: string, value = "Europe modifiée") => {
+      editCategoryLabel(value);
+      await waitForDialog(keyBase);
+    };
+
+    /** Liste ET catégorie partagées (cas 2). */
+    const renderSharedListAndCategory = () => {
       markListAsShared();
       markCategoryAsShared();
       renderShared();
+    };
 
-      editCategoryLabel("Europe modifiée");
+    /** Liste propre à la variable, catégorie partagée (cas 3). */
+    const renderOwnListWithSharedCategory = () => {
+      markListAsNotShared();
+      markCategoryAsShared();
+      renderShared();
+    };
 
-      await waitForDialog(OVERRIDE_SHARED_CATEGORY);
+    it("shows the combined list+category dialog when both are shared (case 2)", async () => {
+      renderSharedListAndCategory();
+
+      await editCategoryUntilDialog(OVERRIDE_SHARED_CATEGORY);
 
       const dialog = inOverrideDialog();
       // La popup cite la liste (N variables) puis la catégorie (N listes distinctes).
@@ -1467,16 +1091,11 @@ describe("CodeRepresentation", () => {
     });
 
     it("applies the category edit once confirmed and does not ask again (case 2)", async () => {
-      markListAsShared();
-      markCategoryAsShared();
-      renderShared();
+      renderSharedListAndCategory();
 
-      editCategoryLabel("Europe modifiée");
-      await waitForDialog(OVERRIDE_SHARED_CATEGORY);
+      await editCategoryUntilDialog(OVERRIDE_SHARED_CATEGORY);
 
-      clickDialogAction(OVERRIDE_SHARED_CATEGORY, "confirm");
-
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await resolveDialog(OVERRIDE_SHARED_CATEGORY, "confirm");
       expect(mockOnChange).toHaveBeenCalledWith(
         expect.anything(),
         expect.anything(),
@@ -1497,13 +1116,9 @@ describe("CodeRepresentation", () => {
     });
 
     it("shows the category-only dialog when the list is own but the category is shared (case 3)", async () => {
-      markListAsNotShared();
-      markCategoryAsShared();
-      renderShared();
+      renderOwnListWithSharedCategory();
 
-      editCategoryLabel("Europe modifiée");
-
-      await waitForDialog(OVERRIDE_CATEGORY);
+      await editCategoryUntilDialog(OVERRIDE_CATEGORY);
 
       const dialog = inOverrideDialog();
       // « Cette liste est propre à la variable Client. En revanche, la catégorie… »
@@ -1526,8 +1141,7 @@ describe("CodeRepresentation", () => {
       ).toBeInTheDocument();
 
       // La confirmation applique l'édition.
-      clickDialogAction(OVERRIDE_CATEGORY, "confirm");
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await resolveDialog(OVERRIDE_CATEGORY, "confirm");
     });
 
     it("shows the combined dialog for a category edit of a shared list even when the category is only used by this list (case 2)", async () => {
@@ -1538,9 +1152,7 @@ describe("CodeRepresentation", () => {
       markCategoryAsOwn();
       renderShared();
 
-      editCategoryLabel("Oui modifié");
-
-      await waitForDialog(OVERRIDE_SHARED_CATEGORY);
+      await editCategoryUntilDialog(OVERRIDE_SHARED_CATEGORY, "Oui modifié");
       const dialog = inOverrideDialog();
       // Le choix porte bien sur les deux (forker la seule liste laisserait la catégorie
       // partagée entre l'originale et la variante)…
@@ -1555,39 +1167,28 @@ describe("CodeRepresentation", () => {
     it("lets the user edit the category again after cancelling (case 3)", async () => {
       // Régression : après « Annuler », le champ restait gelé et plus aucune frappe n'était prise
       // en compte — renoncer à UNE édition ne doit pas fermer l'édition de la catégorie.
-      markListAsNotShared();
-      markCategoryAsShared();
-      renderShared();
+      renderOwnListWithSharedCategory();
 
-      editCategoryLabel("Europe modifiée");
-      await waitForDialog(OVERRIDE_CATEGORY);
-      clickDialogAction(OVERRIDE_CATEGORY, "cancel");
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await editCategoryUntilDialog(OVERRIDE_CATEGORY);
+      await resolveDialog(OVERRIDE_CATEGORY, "cancel");
 
       const labelInput = screen.getAllByPlaceholderText("Libellé")[0];
       expect(labelInput).toHaveValue("Oui");
       expect(labelInput).not.toHaveAttribute("readonly");
 
       // Nouvelle tentative : la popup revient, et confirmer applique bien l'édition.
-      editCategoryLabel("Europe modifiée");
-      await waitForDialog(OVERRIDE_CATEGORY);
-      clickDialogAction(OVERRIDE_CATEGORY, "confirm");
+      await editCategoryUntilDialog(OVERRIDE_CATEGORY);
+      await resolveDialog(OVERRIDE_CATEGORY, "confirm");
 
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
       expect(lastChange()[2][0].Label[0]["@value"]).toBe("Europe modifiée");
     });
 
     it("creates a variant of the category when choosing Créer (case 3)", async () => {
-      markListAsNotShared();
-      markCategoryAsShared();
-      renderShared();
+      renderOwnListWithSharedCategory();
 
-      editCategoryLabel("Europe modifiée");
-      await waitForDialog(OVERRIDE_CATEGORY);
+      await editCategoryUntilDialog(OVERRIDE_CATEGORY);
 
-      clickDialogAction(OVERRIDE_CATEGORY, "variant");
-
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await resolveDialog(OVERRIDE_CATEGORY, "variant");
       const [, codeList, categories] = lastChange();
 
       // La liste garde son identité (elle est propre à la variable) …
@@ -1607,14 +1208,10 @@ describe("CodeRepresentation", () => {
 
     it("does not ask again after creating a category variant", async () => {
       // Regression : le choix « Créer » n'acquittait rien, la popup revenait a chaque frappe.
-      markListAsNotShared();
-      markCategoryAsShared();
-      renderShared();
+      renderOwnListWithSharedCategory();
 
-      editCategoryLabel("Europe modifiée");
-      await waitForDialog(OVERRIDE_CATEGORY);
-      clickDialogAction(OVERRIDE_CATEGORY, "variant");
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await editCategoryUntilDialog(OVERRIDE_CATEGORY);
+      await resolveDialog(OVERRIDE_CATEGORY, "variant");
 
       editCategoryLabel("Europe modifiée encore");
 
@@ -1627,46 +1224,28 @@ describe("CodeRepresentation", () => {
 
     it("keeps the BasedOn link when the freshly created variant is edited again", async () => {
       // Regression : les frappes suivantes reconstruisaient la categorie a partir de zero et
-      // perdaient le lien DDI vers la categorie d'origine. Harnais qui re-injecte les resultats
-      // de onChange comme props, comme le fait le vrai VariableEditForm.
+      // perdaient le lien DDI vers la categorie d'origine.
       markListAsNotShared();
       markCategoryAsShared();
 
-      let last: [any, CodeList | undefined, Category[] | undefined] = [undefined, undefined, []];
-      const Harness = () => {
-        const [rep, setRep] = useState<any>(mockRepresentation);
-        const [cl, setCl] = useState<CodeList | undefined>(mockCodeList);
-        const [cats, setCats] = useState<Category[] | undefined>(mockCategories);
-        return (
-          <CodeRepresentation
-            representation={rep}
-            codeList={cl}
-            categories={cats}
-            currentVariableId="current-variable"
-            currentVariableName="Client"
-            onChange={(r, c, k) => {
-              last = [r, c, k];
-              setRep(r);
-              setCl(c);
-              setCats(k);
-            }}
-          />
-        );
-      };
-      render(<Harness />);
+      const changes = renderHarness(
+        { representation: mockRepresentation, codeList: mockCodeList, categories: mockCategories },
+        { currentVariableId: "current-variable", currentVariableName: "Client" },
+      );
 
-      editCategoryLabel("Europe modifiée");
-      await waitForDialog(OVERRIDE_CATEGORY);
+      await editCategoryUntilDialog(OVERRIDE_CATEGORY);
       clickDialogAction(OVERRIDE_CATEGORY, "variant");
-      await waitFor(() => expect(last[2]?.some((cat) => cat.ID !== "category-1")).toBe(true));
+      await waitFor(() =>
+        expect(changes.last[2]?.some((cat) => cat.ID !== "category-1")).toBe(true),
+      );
 
       editCategoryLabel("Europe encore modifiée");
 
       await waitFor(() => {
-        const variant = last[2]?.find((cat) => cat.ID !== "category-1");
+        const variant = changes.last[2]?.find((cat) => cat.ID !== "category-1");
         expect(variant?.Label?.[0]?.["@value"]).toBe("Europe encore modifiée");
       });
-      const variant = last[2]!.find((cat) => cat.ID !== "category-1")!;
+      const variant = changes.last[2]!.find((cat) => cat.ID !== "category-1")!;
       // Le lien DDI vers la categorie d'origine survit aux frappes suivantes.
       expect(variant.BasedOnObject).toMatchObject({
         BasedOnReference: [expect.objectContaining({ ID: "category-1" })],
@@ -1674,16 +1253,11 @@ describe("CodeRepresentation", () => {
     });
 
     it("creates a variant of both the list and the category when choosing Créer (case 2)", async () => {
-      markListAsShared();
-      markCategoryAsShared();
-      renderShared();
+      renderSharedListAndCategory();
 
-      editCategoryLabel("Europe modifiée");
-      await waitForDialog(OVERRIDE_SHARED_CATEGORY);
+      await editCategoryUntilDialog(OVERRIDE_SHARED_CATEGORY);
 
-      clickDialogAction(OVERRIDE_SHARED_CATEGORY, "variant");
-
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await resolveDialog(OVERRIDE_SHARED_CATEGORY, "variant");
       const [rep, codeList, categories] = lastChange();
       // La liste ET la catégorie sont forkées.
       expect(codeList.ID).not.toBe("codelist-1");
@@ -1701,9 +1275,7 @@ describe("CodeRepresentation", () => {
       mockFetchCategoryUsers.mockResolvedValue([]);
       renderShared();
 
-      editCategoryLabel("Oui modifié");
-
-      await waitForDialog(OVERRIDE_SHARED);
+      await editCategoryUntilDialog(OVERRIDE_SHARED, "Oui modifié");
     });
 
     it("does not ask again after confirming the list dialog raised by a category edit (case 1)", async () => {
@@ -1713,17 +1285,13 @@ describe("CodeRepresentation", () => {
       mockFetchCategoryUsers.mockResolvedValue([]);
       renderShared();
 
-      editCategoryLabel("O");
-      await waitForDialog(OVERRIDE_SHARED);
-      clickDialogAction(OVERRIDE_SHARED, "confirm");
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await editCategoryUntilDialog(OVERRIDE_SHARED, "O");
+      await resolveDialog(OVERRIDE_SHARED, "confirm");
 
       mockFetchCategoryUsers.mockClear();
       editCategoryLabel("Ou");
 
-      await waitFor(() =>
-        expect(screen.getAllByPlaceholderText("Libell\u00e9")[0]).toHaveValue("Ou"),
-      );
+      await waitFor(() => expect(screen.getAllByPlaceholderText("Libellé")[0]).toHaveValue("Ou"));
       expect(mockFetchCategoryUsers).not.toHaveBeenCalled();
       expect(overrideDialog()).not.toBeInTheDocument();
     });
@@ -1735,16 +1303,12 @@ describe("CodeRepresentation", () => {
       mockFetchCategoryUsers.mockRejectedValue(new Error("Colectica error"));
       renderShared();
 
-      editCategoryLabel("O");
-      await waitForDialog(OVERRIDE_SHARED);
-      clickDialogAction(OVERRIDE_SHARED, "confirm");
-      await waitFor(() => expect(overrideDialog()).not.toBeInTheDocument());
+      await editCategoryUntilDialog(OVERRIDE_SHARED, "O");
+      await resolveDialog(OVERRIDE_SHARED, "confirm");
 
       editCategoryLabel("Ou");
 
-      await waitFor(() =>
-        expect(screen.getAllByPlaceholderText("Libell\u00e9")[0]).toHaveValue("Ou"),
-      );
+      await waitFor(() => expect(screen.getAllByPlaceholderText("Libellé")[0]).toHaveValue("Ou"));
       expect(overrideDialog()).not.toBeInTheDocument();
     });
 
@@ -1763,8 +1327,7 @@ describe("CodeRepresentation", () => {
       markListAsShared();
       renderShared();
 
-      const valueInput = screen.getAllByPlaceholderText("Valeur")[0];
-      editField(valueInput, "10");
+      editFirstValue("10");
 
       expect(mockFetchCategoryUsers).not.toHaveBeenCalled();
     });
@@ -1787,27 +1350,15 @@ describe("CodeRepresentation", () => {
       mockFetchCategoryUsers.mockRejectedValue(new Error("Colectica error"));
       renderShared();
 
-      editCategoryLabel("Oui modifié");
-
       // Usages de la catégorie inconnus : on ne fabrique pas une popup combinée avec un compte
       // faux, on affiche la popup liste (la liste partagée reste le risque avéré).
-      await waitForDialog(OVERRIDE_SHARED);
+      await editCategoryUntilDialog(OVERRIDE_SHARED, "Oui modifié");
     });
   });
 
   describe("category usage popup", () => {
-    const renderWithCodeList = () =>
-      render(
-        <CodeRepresentation
-          representation={mockRepresentation}
-          codeList={mockCodeList}
-          categories={mockCategories}
-          onChange={mockOnChange}
-        />,
-      );
-
     it("does not load the category usages before the popup is opened", () => {
-      renderWithCodeList();
+      renderCodeRepresentation();
 
       expect(mockUseCategoryUsers).toHaveBeenCalledWith("", "", false);
     });
@@ -1815,18 +1366,15 @@ describe("CodeRepresentation", () => {
     it("opens the usages of the category of the clicked row", async () => {
       mockUseCategoryUsers.mockReturnValue({
         data: [
-          {
-            group: { agencyId: "fr.insee", id: "grp-1", label: "Recensement" },
-            studyUnit: { agencyId: "fr.insee", id: "su-1", label: "Recensement 2024" },
-            physicalInstance: { agencyId: "fr.insee", id: "pi-1", label: "Fichier détail" },
+          categoryUsage({
             variable: { agencyId: "fr.insee", id: "other-variable", label: "Autre variable" },
             codeList: { agencyId: "fr.insee", id: "other-list", label: "Autre liste" },
-          },
+          }),
         ],
         isLoading: false,
         isError: false,
       });
-      renderWithCodeList();
+      renderCodeRepresentation();
 
       fireEvent.click(screen.getByText("Utilisation"));
 
@@ -1839,7 +1387,7 @@ describe("CodeRepresentation", () => {
     });
 
     it("does not guard the popup behind the shared-edition confirmation", () => {
-      renderWithCodeList();
+      renderCodeRepresentation();
 
       fireEvent.click(screen.getByText("Utilisation"));
 

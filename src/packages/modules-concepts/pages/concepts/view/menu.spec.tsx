@@ -1,8 +1,46 @@
 import { render, screen } from "@testing-library/react";
 
+import type { ValidationState } from "@components/status";
+
 import { UNPUBLISHED, VALIDATED } from "@model/ValidationState";
 
+import { PRIVILEGE, STRATEGY } from "@utils/hooks/rbac-constants";
+
 import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
+
+type Privileges = { privilege: PRIVILEGE; strategy: STRATEGY }[];
+
+const OWNER_STAMPS = [{ stamp: "DG75-L201" }];
+
+const renderControls = async (
+  privileges: Privileges,
+  {
+    stamps,
+    validationState = UNPUBLISHED,
+    conceptVersion = 1,
+  }: {
+    stamps?: { stamp: string }[];
+    validationState?: ValidationState;
+    conceptVersion?: number;
+  } = {},
+) => {
+  mockReactQueryForRbac([{ application: "CONCEPT_CONCEPT", privileges }], stamps);
+
+  const { ConceptVisualizationControls } = await import("./menu");
+
+  render(
+    <WithRouter>
+      <ConceptVisualizationControls
+        id="c1"
+        general={{ creator: "DG75-L201" }}
+        validationState={validationState}
+        conceptVersion={conceptVersion}
+        onValidate={vi.fn()}
+        onDelete={vi.fn()}
+      />
+    </WithRouter>,
+  );
+};
 
 describe("concept-visualization-controls", () => {
   afterEach(() => {
@@ -11,22 +49,7 @@ describe("concept-visualization-controls", () => {
   });
 
   it("renders Back and Export buttons for any user", async () => {
-    mockReactQueryForRbac([{ application: "CONCEPT_CONCEPT", privileges: [] }]);
-
-    const { ConceptVisualizationControls } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <ConceptVisualizationControls
-          id="c1"
-          general={{ creator: "DG75-L201" }}
-          validationState={UNPUBLISHED}
-          conceptVersion={1}
-          onValidate={vi.fn()}
-          onDelete={vi.fn()}
-        />
-      </WithRouter>,
-    );
+    await renderControls([]);
 
     expect(screen.getByText("Back")).toBeInTheDocument();
     expect(screen.getByText("Export")).toBeInTheDocument();
@@ -37,79 +60,24 @@ describe("concept-visualization-controls", () => {
   });
 
   it("renders Compare button when user has READ privilege and conceptVersion > 1", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "CONCEPT_CONCEPT",
-        privileges: [{ privilege: "READ", strategy: "ALL" }],
-      },
-    ]);
-
-    const { ConceptVisualizationControls } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <ConceptVisualizationControls
-          id="c1"
-          general={{ creator: "DG75-L201" }}
-          validationState={UNPUBLISHED}
-          conceptVersion={2}
-          onValidate={vi.fn()}
-          onDelete={vi.fn()}
-        />
-      </WithRouter>,
-    );
+    await renderControls([{ privilege: "READ", strategy: "ALL" }], { conceptVersion: 2 });
 
     expect(screen.getByText("Compare")).toBeInTheDocument();
   });
 
   it("does not render Compare button when user has no READ privilege", async () => {
-    mockReactQueryForRbac([{ application: "CONCEPT_CONCEPT", privileges: [] }]);
-
-    const { ConceptVisualizationControls } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <ConceptVisualizationControls
-          id="c1"
-          general={{ creator: "DG75-L201" }}
-          validationState={UNPUBLISHED}
-          conceptVersion={2}
-          onValidate={vi.fn()}
-          onDelete={vi.fn()}
-        />
-      </WithRouter>,
-    );
+    await renderControls([], { conceptVersion: 2 });
 
     expect(screen.queryByText("Compare")).toBeNull();
   });
 
   it("renders Update and Delete buttons for a user with UPDATE and DELETE privileges", async () => {
-    mockReactQueryForRbac(
+    await renderControls(
       [
-        {
-          application: "CONCEPT_CONCEPT",
-          privileges: [
-            { privilege: "UPDATE", strategy: "STAMP" },
-            { privilege: "DELETE", strategy: "STAMP" },
-          ],
-        },
+        { privilege: "UPDATE", strategy: "STAMP" },
+        { privilege: "DELETE", strategy: "STAMP" },
       ],
-      [{ stamp: "DG75-L201" }],
-    );
-
-    const { ConceptVisualizationControls } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <ConceptVisualizationControls
-          id="c1"
-          general={{ creator: "DG75-L201" }}
-          validationState={UNPUBLISHED}
-          conceptVersion={1}
-          onValidate={vi.fn()}
-          onDelete={vi.fn()}
-        />
-      </WithRouter>,
+      { stamps: OWNER_STAMPS },
     );
 
     expect(screen.getByText("Update")).toBeInTheDocument();
@@ -117,92 +85,29 @@ describe("concept-visualization-controls", () => {
   });
 
   it("renders Publish button when user has PUBLISH privilege and concept is not validated", async () => {
-    mockReactQueryForRbac(
-      [
-        {
-          application: "CONCEPT_CONCEPT",
-          privileges: [{ privilege: "PUBLISH", strategy: "STAMP" }],
-        },
-      ],
-      [{ stamp: "DG75-L201" }],
-    );
-
-    const { ConceptVisualizationControls } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <ConceptVisualizationControls
-          id="c1"
-          general={{ creator: "DG75-L201" }}
-          validationState={UNPUBLISHED}
-          conceptVersion={1}
-          onValidate={vi.fn()}
-          onDelete={vi.fn()}
-        />
-      </WithRouter>,
-    );
+    await renderControls([{ privilege: "PUBLISH", strategy: "STAMP" }], { stamps: OWNER_STAMPS });
 
     expect(screen.getByText("Publish")).toBeInTheDocument();
   });
 
   it("does not render Publish button when concept is already validated", async () => {
-    mockReactQueryForRbac(
-      [
-        {
-          application: "CONCEPT_CONCEPT",
-          privileges: [{ privilege: "PUBLISH", strategy: "STAMP" }],
-        },
-      ],
-      [{ stamp: "DG75-L201" }],
-    );
-
-    const { ConceptVisualizationControls } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <ConceptVisualizationControls
-          id="c1"
-          general={{ creator: "DG75-L201" }}
-          validationState={VALIDATED}
-          conceptVersion={1}
-          onValidate={vi.fn()}
-          onDelete={vi.fn()}
-        />
-      </WithRouter>,
-    );
+    await renderControls([{ privilege: "PUBLISH", strategy: "STAMP" }], {
+      stamps: OWNER_STAMPS,
+      validationState: VALIDATED,
+    });
 
     expect(screen.queryByText("Publish")).toBeNull();
   });
 
   it("all buttons have an SVG icon", async () => {
-    mockReactQueryForRbac(
+    await renderControls(
       [
-        {
-          application: "CONCEPT_CONCEPT",
-          privileges: [
-            { privilege: "READ", strategy: "ALL" },
-            { privilege: "UPDATE", strategy: "STAMP" },
-            { privilege: "DELETE", strategy: "STAMP" },
-            { privilege: "PUBLISH", strategy: "STAMP" },
-          ],
-        },
+        { privilege: "READ", strategy: "ALL" },
+        { privilege: "UPDATE", strategy: "STAMP" },
+        { privilege: "DELETE", strategy: "STAMP" },
+        { privilege: "PUBLISH", strategy: "STAMP" },
       ],
-      [{ stamp: "DG75-L201" }],
-    );
-
-    const { ConceptVisualizationControls } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <ConceptVisualizationControls
-          id="c1"
-          general={{ creator: "DG75-L201" }}
-          validationState={UNPUBLISHED}
-          conceptVersion={2}
-          onValidate={vi.fn()}
-          onDelete={vi.fn()}
-        />
-      </WithRouter>,
+      { stamps: OWNER_STAMPS, conceptVersion: 2 },
     );
 
     const buttons = screen.getAllByRole("button");

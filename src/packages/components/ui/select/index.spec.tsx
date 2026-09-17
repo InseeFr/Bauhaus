@@ -3,6 +3,16 @@ import { describe, expect, it, vi } from "vitest";
 
 import { Select } from "./";
 
+const { renderOptions } = vi.hoisted(() => ({
+  renderOptions: (placeholder: string) => (
+    <>
+      <option value="">{placeholder}</option>
+      <option value="a">A</option>
+      <option value="b">B</option>
+    </>
+  ),
+}));
+
 vi.mock("primereact/dropdown", () => ({
   Dropdown: ({ value, onChange, placeholder }: any) => (
     <select
@@ -10,9 +20,7 @@ vi.mock("primereact/dropdown", () => ({
       value={value ?? ""}
       onChange={(e) => onChange({ value: e.target.value })}
     >
-      <option value="">{placeholder}</option>
-      <option value="a">A</option>
-      <option value="b">B</option>
+      {renderOptions(placeholder)}
     </select>
   ),
 }));
@@ -29,9 +37,7 @@ vi.mock("primereact/multiselect", () => ({
         })
       }
     >
-      <option value="">{placeholder}</option>
-      <option value="a">A</option>
-      <option value="b">B</option>
+      {renderOptions(placeholder)}
     </select>
   ),
 }));

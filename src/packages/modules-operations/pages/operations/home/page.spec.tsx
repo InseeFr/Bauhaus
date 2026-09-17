@@ -1,21 +1,16 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { render } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { expectEmptyList, expectListSortedByLabel, expectLoading } from "../../page.testing";
 import { Component } from "./page";
 
-vi.mock("@sdk/operations-api", () => ({ OperationsApi: { getOperationsList: vi.fn() } }));
+vi.mock("@sdk/operations-api");
 
-vi.mock("./components/OperationsHome", () => ({
-  OperationsHome: ({ operations }: any) => (
-    <ul>
-      {operations.map((operation: any) => (
-        <li key={operation.id}>{operation.label}</li>
-      ))}
-    </ul>
-  ),
-}));
+vi.mock("./components/OperationsHome", async () => {
+  const { LabelList } = await import("../../page.testing");
+  return { OperationsHome: ({ operations }: any) => <LabelList items={operations} /> };
+});
 
 describe("Operations home page", () => {
   beforeEach(() => vi.clearAllMocks());
@@ -24,7 +19,7 @@ describe("Operations home page", () => {
     vi.mocked(OperationsApi.getOperationsList).mockReturnValue(new Promise(() => {}));
     render(<Component />);
 
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expectLoading();
   });
 
   it("trie les opérations par libellé", async () => {
@@ -34,15 +29,13 @@ describe("Operations home page", () => {
     ]);
     render(<Component />);
 
-    await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
-    expect(screen.getAllByRole("listitem")[0]).toHaveTextContent("Abeille");
+    await expectListSortedByLabel();
   });
 
   it("affiche une liste vide quand il n'y a aucune opération", async () => {
     vi.mocked(OperationsApi.getOperationsList).mockResolvedValue([]);
     render(<Component />);
 
-    await waitFor(() => expect(screen.queryByText(/Loading/i)).not.toBeInTheDocument());
-    expect(screen.queryAllByRole("listitem")).toHaveLength(0);
+    await expectEmptyList();
   });
 });

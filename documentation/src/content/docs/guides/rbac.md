@@ -9,11 +9,11 @@ Each role grants a set of permissions on resources. Permissions are evaluated at
 
 ## Permission Values
 
-| Value | Meaning |
-|-------|---------|
-| `ALL` | Action allowed on all objects regardless of ownership |
-| `STAMP` | Action allowed only on objects owned by the authenticated user (stamped) |
-| `NONE` | Action denied. This is also the **implicit default** — see [Default behaviour](#default-behaviour-omitted-permissions) |
+| Value   | Meaning                                                                                                                |
+| ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `ALL`   | Action allowed on all objects regardless of ownership                                                                  |
+| `STAMP` | Action allowed only on objects owned by the authenticated user (stamped)                                               |
+| `NONE`  | Action denied. This is also the **implicit default** — see [Default behaviour](#default-behaviour-omitted-permissions) |
 
 > **`ALL` still requires a stamp for write actions.** For `create`, `update`, `delete`, `publish` and `administration`, a user whose token carries no stamp is denied even when the strategy is `ALL`. `read` with `ALL` never requires a stamp.
 
@@ -30,7 +30,7 @@ As a result, writing `create: NONE` explicitly is **equivalent to omitting the l
 rbac:
   config:
     Betatest_OeDDIp_RMESGNCS:
-      ddi_physicalinstance:        # only granted module — everything else defaults to NONE
+      ddi_physicalinstance: # only granted module — everything else defaults to NONE
         create: ALL
         read: ALL
         update: ALL
@@ -46,9 +46,9 @@ Keep at least one module entry under a role so the role key itself is recognised
 
 Resources follow the pattern `{domain}_{object}`. The Concepts module exposes two resources:
 
-| Resource | Description |
-|----------|-------------|
-| `concept_concept` | Individual concepts |
+| Resource             | Description             |
+| -------------------- | ----------------------- |
+| `concept_concept`    | Individual concepts     |
 | `concept_collection` | Collections of concepts |
 
 ## Roles
@@ -63,12 +63,12 @@ Read-only (`read: ALL`) on all resources. No write access anywhere.
 
 ### Concepts roles
 
-| Role | `concept_concept` | `concept_collection` |
-|------|-------------------|----------------------|
-| `Proprietaire_concept_RMESGNCS` | create, read, update, delete, publish — ALL | create, read, update, delete, publish — ALL |
-| `Gestionnaire_concept_RMESGNCS` | create/update/publish — STAMP, read — ALL | read — ALL |
-| `Gestionnaire_ensemble_concepts_RMESGNCS` | create/update/publish — STAMP, read — ALL | read — ALL |
-| `Proprietaire_collection_concepts_RMESGNCS` | read/delete — ALL | read/update/delete — ALL |
+| Role                                        | `concept_concept`                           | `concept_collection`                        |
+| ------------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+| `Proprietaire_concept_RMESGNCS`             | create, read, update, delete, publish — ALL | create, read, update, delete, publish — ALL |
+| `Gestionnaire_concept_RMESGNCS`             | create/update/publish — STAMP, read — ALL   | read — ALL                                  |
+| `Gestionnaire_ensemble_concepts_RMESGNCS`   | create/update/publish — STAMP, read — ALL   | read — ALL                                  |
+| `Proprietaire_collection_concepts_RMESGNCS` | read/delete — ALL                           | read/update/delete — ALL                    |
 
 > `administration` on `concept_concept` is only granted to `Administrateur_RMESGNCS`.
 
@@ -86,24 +86,24 @@ The following roles have `read: ALL` on both `concept_concept` and `concept_coll
 
 ### `concept_concept`
 
-| Action | Description |
-|--------|-------------|
-| `create` | Create a new concept |
-| `read` | Read concept data |
-| `update` | Modify an existing concept |
-| `delete` | Delete a concept |
-| `publish` | Publish a concept (makes it visible externally) |
+| Action           | Description                                                              |
+| ---------------- | ------------------------------------------------------------------------ |
+| `create`         | Create a new concept                                                     |
+| `read`           | Read concept data                                                        |
+| `update`         | Modify an existing concept                                               |
+| `delete`         | Delete a concept                                                         |
+| `publish`        | Publish a concept (makes it visible externally)                          |
 | `administration` | Access administration features (restricted to `Administrateur_RMESGNCS`) |
 
 ### `concept_collection`
 
-| Action | Description |
-|--------|-------------|
-| `create` | Create a new collection |
-| `read` | Read collection data |
-| `update` | Modify an existing collection |
-| `delete` | Delete a collection |
-| `publish` | Publish a collection |
+| Action    | Description                   |
+| --------- | ----------------------------- |
+| `create`  | Create a new collection       |
+| `read`    | Read collection data          |
+| `update`  | Modify an existing collection |
+| `delete`  | Delete a collection           |
+| `publish` | Publish a collection          |
 
 ## Role assignment
 
@@ -146,8 +146,8 @@ Locate the role and add the missing action under the relevant resource:
 Gestionnaire_concept_RMESGNCS:
   concept_collection:
     read: ALL
-    create: STAMP   # added
-    update: STAMP   # added
+    create: STAMP # added
+    update: STAMP # added
 ```
 
 ### Changing a strategy
@@ -157,7 +157,7 @@ Replace `ALL` with `STAMP` (or vice versa) for the targeted action:
 ```yaml
 Proprietaire_concept_RMESGNCS:
   concept_concept:
-    delete: STAMP   # was ALL, now restricted to owned objects
+    delete: STAMP # was ALL, now restricted to owned objects
 ```
 
 ### Available modules and actions

@@ -1,25 +1,19 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { vi } from "vitest";
 
 import { ConceptsApi, saveComponent, StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { createStructuresWrapper } from "../../../render.testing";
 import { Component } from "./page";
 
-vi.mock("@sdk/index", () => ({
+vi.mock("@sdk/index", async () => ({
   StructureApi: {
     getMutualizedComponent: vi.fn(),
     getMutualizedAttributes: vi.fn(),
   },
   ConceptsApi: { getConceptList: vi.fn() },
-  CodelistsApi: {
-    getCodelistsPartial: vi.fn().mockResolvedValue([]),
-    getPartialsByParent: vi.fn().mockResolvedValue([]),
-  },
-  StampsApi: { getStamps: vi.fn().mockResolvedValue([]) },
+  ...(await import("../../../mocks.testing")).emptyCodelistsAndStampsApi(),
   saveComponent: vi.fn(),
 }));
 
@@ -35,21 +29,12 @@ vi.mock("@components/business/contributors-input/contributors-input", () => ({
   ContributorsInput: () => <div />,
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: () => ({
-      privileges: [
-        {
-          application: "STRUCTURE_COMPONENT",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    }),
-    useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-  };
-});
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../../../mocks.testing")).usersHookWithCreatePrivilege(
+    await importOriginal(),
+    "STRUCTURE_COMPONENT",
+  ),
+);
 
 const mutualizedComponent = {
   id: "c1",
@@ -59,22 +44,16 @@ const mutualizedComponent = {
   type: "http://purl.org/linked-data/cube#DimensionProperty",
 };
 
-const Wrapper =
-  (path: string) =>
-  ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider
-      client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
-    >
-      <MemoryRouter initialEntries={[path]}>
-        <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-          <Routes>
-            <Route path="/structures/components/edit/:id" element={children} />
-            <Route path="/structures/components/create" element={children} />
-          </Routes>
-        </AppContextProvider>
-      </MemoryRouter>
-    </QueryClientProvider>
-  );
+const Wrapper = (path: string) =>
+  createStructuresWrapper({
+    initialEntries: [path],
+    routes: (children) => (
+      <Routes>
+        <Route path="/structures/components/edit/:id" element={children} />
+        <Route path="/structures/components/create" element={children} />
+      </Routes>
+    ),
+  });
 
 const renderPage = async (path = "/structures/components/edit/c1") => {
   const view = render(<Component />, { wrapper: Wrapper(path) });

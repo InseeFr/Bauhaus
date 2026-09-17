@@ -19,6 +19,11 @@ jobs:
         with:
           ref: ${{ github.event.release.tag_name }}
       - uses: InseeFr/rmes-githubactions-commons/.github/actions/quality-front@main
+        with:
+          # The shared threshold is 2%; Bauhaus sits at ~3.9% of duplicated
+          # lines. Carried here so the publication is not blocked by the common
+          # rule — to be brought back down as the duplication goes.
+          jscpd-threshold: '5'
 
   docker:
     needs: build

@@ -1,24 +1,33 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { ComponentProps } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DatasetSelect } from "./DatasetSelect";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "dataset.title": "Dataset",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("../translations.testing")).translationsModule({
+    "dataset.title": "Dataset",
   }),
-}));
+);
 
 const mockUseDatasetsForDistributions = vi.fn();
 
 vi.mock("../../../../hooks/useDatasetsForDistributions", () => ({
   useDatasetsForDistributions: () => mockUseDatasetsForDistributions(),
 }));
+
+const renderDatasetSelect = (props: Partial<ComponentProps<typeof DatasetSelect>> = {}) => {
+  const mockOnChange = vi.fn();
+  const rendered = render(
+    <DatasetSelect disabled={false} value="" onChange={mockOnChange} {...props} />,
+  );
+  return { ...rendered, mockOnChange };
+};
+
+const expectDatasetLabel = (container: HTMLElement) => {
+  const label = container.querySelector('label[for="idDataset"]');
+  expect(label?.textContent).toContain("Dataset");
+};
 
 describe("DatasetSelect", () => {
   const mockDatasets = [
@@ -34,55 +43,34 @@ describe("DatasetSelect", () => {
   });
 
   it("should render the component with label", () => {
-    const mockOnChange = vi.fn();
+    const { container } = renderDatasetSelect();
 
-    const { container } = render(
-      <DatasetSelect disabled={false} value="" onChange={mockOnChange} />,
-    );
-
-    const label = container.querySelector('label[for="idDataset"]');
-    expect(label?.textContent).toContain("Dataset");
+    expectDatasetLabel(container);
   });
 
   it("should render Select with correct props", () => {
-    const mockOnChange = vi.fn();
-
-    const { container } = render(
-      <DatasetSelect disabled={false} value="2" onChange={mockOnChange} />,
-    );
+    const { container } = renderDatasetSelect({ value: "2" });
 
     const selectElement = container.querySelector(".p-dropdown");
     expect(selectElement).not.toBeNull();
   });
 
   it("should be disabled when disabled prop is true", () => {
-    const mockOnChange = vi.fn();
-
-    const { container } = render(
-      <DatasetSelect disabled={true} value="1" onChange={mockOnChange} />,
-    );
+    const { container } = renderDatasetSelect({ disabled: true, value: "1" });
 
     const selectElement = container.querySelector(".p-dropdown");
     expect(selectElement?.getAttribute("data-p-disabled")).toBe("true");
   });
 
   it("should not be disabled when disabled prop is false", () => {
-    const mockOnChange = vi.fn();
-
-    const { container } = render(
-      <DatasetSelect disabled={false} value="1" onChange={mockOnChange} />,
-    );
+    const { container } = renderDatasetSelect({ value: "1" });
 
     const selectElement = container.querySelector(".p-dropdown");
     expect(selectElement?.getAttribute("data-p-disabled")).toBe("false");
   });
 
   it("should call onChange when value changes", () => {
-    const mockOnChange = vi.fn();
-
-    const { container } = render(
-      <DatasetSelect disabled={false} value="1" onChange={mockOnChange} />,
-    );
+    const { container, mockOnChange } = renderDatasetSelect({ value: "1" });
 
     const dropdownTrigger = container.querySelector(".p-dropdown-trigger");
     if (dropdownTrigger) {
@@ -95,45 +83,32 @@ describe("DatasetSelect", () => {
   });
 
   it("should display error when error prop is provided", () => {
-    const mockOnChange = vi.fn();
     const errorMessage = "This field is required";
 
-    render(
-      <DatasetSelect disabled={false} value="" onChange={mockOnChange} error={errorMessage} />,
-    );
+    renderDatasetSelect({ error: errorMessage });
 
     expect(screen.getByText(errorMessage)).not.toBeNull();
   });
 
   it("should not display error when error prop is not provided", () => {
-    const mockOnChange = vi.fn();
-
-    render(<DatasetSelect disabled={false} value="1" onChange={mockOnChange} />);
+    renderDatasetSelect({ value: "1" });
 
     const errorElement = screen.queryByText(/error/i);
     expect(errorElement).toBeNull();
   });
 
   it("should render with empty datasets", () => {
-    const mockOnChange = vi.fn();
     mockUseDatasetsForDistributions.mockReturnValue({
       data: undefined,
     });
 
-    const { container } = render(
-      <DatasetSelect disabled={false} value="" onChange={mockOnChange} />,
-    );
+    const { container } = renderDatasetSelect();
 
-    const label = container.querySelector('label[for="idDataset"]');
-    expect(label?.textContent).toContain("Dataset");
+    expectDatasetLabel(container);
   });
 
   it("should display correct value from datasets", () => {
-    const mockOnChange = vi.fn();
-
-    const { container } = render(
-      <DatasetSelect disabled={false} value="2" onChange={mockOnChange} />,
-    );
+    const { container } = renderDatasetSelect({ value: "2" });
 
     const selectedValue = container.querySelector(".p-dropdown-label");
     expect(selectedValue?.textContent).toBe("Dataset 2");

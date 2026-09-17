@@ -1,19 +1,13 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ClassificationsApi } from "@sdk/classification";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { params } from "../../../testing/params.testing";
+import { renderClassificationsPage } from "../../../testing/render.testing";
 import { Component } from "./page";
-
-const params = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useParams: () => params(),
-}));
 
 vi.mock("@sdk/classification", () => ({
   ClassificationsApi: { getClassificationItems: vi.fn(), getClassificationGeneral: vi.fn() },
@@ -35,14 +29,7 @@ vi.mock("./components/ClassificationItems", () => ({
   ),
 }));
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderClassificationsPage(<Component />);
 
 describe("Classification items page", () => {
   beforeEach(() => {

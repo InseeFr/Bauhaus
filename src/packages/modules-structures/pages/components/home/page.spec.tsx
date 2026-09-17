@@ -16,10 +16,11 @@ vi.mock("react-router-dom", async () => ({
 
 // Le module structures initialise sa propre instance i18next au chargement : on ne
 // remplace que useTranslation, sinon initReactI18next disparaît et l'import échoue.
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual("react-i18next")),
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../../../mocks.testing")).translationKeysAsLabels(
+    await vi.importActual("react-i18next"),
+  ),
+);
 
 vi.mock("@sdk/index", () => ({ StructureApi: { getMutualizedComponents: vi.fn() } }));
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
@@ -66,6 +67,13 @@ const renderPage = () =>
     </MemoryRouter>,
   );
 
+const renderPageFilteredBySecondType = async () => {
+  renderPage();
+  await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
+
+  await userEvent.click(screen.getByRole("button", { name: secondType.labelPlural }));
+};
+
 describe("Mutualized components home page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -90,10 +98,7 @@ describe("Mutualized components home page", () => {
   });
 
   it("filtre par type et remet la pagination à la première page", async () => {
-    renderPage();
-    await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
-
-    await userEvent.click(screen.getByRole("button", { name: secondType.labelPlural }));
+    await renderPageFilteredBySecondType();
 
     await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(1));
     expect(screen.getByText("Second")).toBeInTheDocument();
@@ -101,10 +106,7 @@ describe("Mutualized components home page", () => {
   });
 
   it("mémorise le filtre choisi pour la prochaine visite", async () => {
-    renderPage();
-    await waitFor(() => expect(screen.getAllByRole("listitem")).toHaveLength(2));
-
-    await userEvent.click(screen.getByRole("button", { name: secondType.labelPlural }));
+    await renderPageFilteredBySecondType();
 
     await waitFor(() =>
       expect(sessionStorage.getItem("components-displayMode")).toBe(secondType.value),

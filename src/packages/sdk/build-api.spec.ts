@@ -104,40 +104,29 @@ describe("build call", () => {
     expect.assertions(1);
     return expect(remoteCall("john", "some text")).resolves.toEqual(42);
   });
-  it("returns an error with a JSONObject value as string", () => {
-    const resPromise = () => Promise.resolve("error");
-    const fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: false,
+  const errorBodies = [
+    { name: "returns an error with a JSONObject value as string", body: "error" },
+    { name: "returns an error with a JSONObject value as object", body: '{ "message": "error" }' },
+  ];
+
+  errorBodies.forEach(({ name, body }) =>
+    it(name, () => {
+      const fetch = vi.fn(() =>
+        Promise.resolve({
+          ok: false,
+          status: 500,
+          text: () => Promise.resolve(body),
+        }),
+      );
+      window.fetch = fetch as any;
+      const remoteCall = buildCall("context", "postComment", postCommentFn);
+      expect.assertions(1);
+      return expect(remoteCall("john", "some text")).rejects.toEqual({
+        message: "error",
         status: 500,
-        text: resPromise,
-      }),
-    );
-    window.fetch = fetch as any;
-    const remoteCall = buildCall("context", "postComment", postCommentFn);
-    expect.assertions(1);
-    return expect(remoteCall("john", "some text")).rejects.toEqual({
-      message: "error",
-      status: 500,
-    });
-  });
-  it("returns an error with a JSONObject value as object", () => {
-    const resPromise = () => Promise.resolve('{ "message": "error" }');
-    const fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: false,
-        status: 500,
-        text: resPromise,
-      }),
-    );
-    window.fetch = fetch as any;
-    const remoteCall = buildCall("context", "postComment", postCommentFn);
-    expect.assertions(1);
-    return expect(remoteCall("john", "some text")).rejects.toEqual({
-      message: "error",
-      status: 500,
-    });
-  });
+      });
+    }),
+  );
 });
 
 describe("build api", () => {

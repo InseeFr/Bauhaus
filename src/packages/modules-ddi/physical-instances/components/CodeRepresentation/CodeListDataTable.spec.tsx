@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useState } from "react";
+import type { ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { CodeListDataTable, CodeTableRow } from "./CodeListDataTable";
@@ -24,18 +25,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("primereact/inputtext", () => ({
-  InputText: ({ id, value, onChange, placeholder, ...props }: any) => (
-    <input
-      id={id}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      data-testid={id || placeholder}
-      {...props}
-    />
-  ),
-}));
+vi.mock("primereact/inputtext", () => import("./primereact.testing"));
 
 vi.mock("primereact/button", () => ({
   Button: ({ icon, onClick, label, ...props }: any) => (
@@ -45,17 +35,7 @@ vi.mock("primereact/button", () => ({
   ),
 }));
 
-// Le contenu du menu contextuel est rendu en ligne : les entrées sont ainsi directement
-// interrogeables, sans avoir à ouvrir un vrai overlay.
-vi.mock("primereact/overlaypanel", async () => {
-  const { forwardRef, useImperativeHandle } = await import("react");
-  return {
-    OverlayPanel: forwardRef(({ children }: any, ref: any) => {
-      useImperativeHandle(ref, () => ({ toggle: () => {}, hide: () => {} }));
-      return <div>{children}</div>;
-    }),
-  };
-});
+vi.mock("primereact/overlaypanel", () => import("./primereact.testing"));
 
 vi.mock("primereact/datatable", () => ({
   DataTable: ({ value, children, emptyMessage }: any) => {
@@ -106,9 +86,7 @@ vi.mock("primereact/datatable", () => ({
   },
 }));
 
-vi.mock("primereact/column", () => ({
-  Column: () => null,
-}));
+vi.mock("primereact/column", () => import("./primereact.testing"));
 
 describe("CodeListDataTable", () => {
   const mockOnCodeListLabelChange = vi.fn();
@@ -122,55 +100,46 @@ describe("CodeListDataTable", () => {
     { id: "code-2", value: "2", label: "Label 2", categoryId: "category-2" },
   ];
 
+  const renderDataTable = (props: Partial<ComponentProps<typeof CodeListDataTable>> = {}) =>
+    render(
+      <CodeListDataTable
+        codeListLabel="Test Label"
+        codes={mockCodes}
+        onCodeListLabelChange={mockOnCodeListLabelChange}
+        onCellEdit={mockOnCellEdit}
+        onDeleteCode={mockOnDeleteCode}
+        onAddCode={mockOnAddCode}
+        onMoveCode={mockOnMoveCode}
+        {...props}
+      />,
+    );
+
+  /** Tous les champs texte du tableau (libellé de la liste puis valeur/libellé de chaque code). */
+  const allTextboxes = () => {
+    const inputs = screen.getAllByRole("textbox");
+    expect(inputs.length).toBeGreaterThan(0);
+    return inputs;
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("should render code list label input", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={mockCodes}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+    renderDataTable();
 
     expect(screen.getByLabelText("Libellé de la liste de codes")).toBeInTheDocument();
   });
 
   it("should display initial code list label", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={mockCodes}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+    renderDataTable();
 
     const labelInput = screen.getByLabelText("Libellé de la liste de codes") as HTMLInputElement;
     expect(labelInput.value).toBe("Test Label");
   });
 
   it("should call onCodeListLabelChange when label changes", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={mockCodes}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+    renderDataTable();
 
     const labelInput = screen.getByLabelText("Libellé de la liste de codes");
     fireEvent.change(labelInput, { target: { value: "New Label" } });
@@ -179,50 +148,20 @@ describe("CodeListDataTable", () => {
   });
 
   it("should render table with codes", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={mockCodes}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+    renderDataTable();
 
     expect(screen.getByRole("table")).toBeInTheDocument();
     expect(screen.getAllByTestId(/^row-/)).toHaveLength(2);
   });
 
   it("should render Add a code button", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={mockCodes}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+    renderDataTable();
 
     expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
   });
 
   it("should call onAddCode when Add a code button is clicked", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={mockCodes}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+    renderDataTable();
 
     const addButton = screen.getByText("Ajouter un code");
     fireEvent.click(addButton);
@@ -231,33 +170,13 @@ describe("CodeListDataTable", () => {
   });
 
   it("should show empty message when no codes", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+    renderDataTable({ codes: [] });
 
     expect(screen.getByText("Aucun code")).toBeInTheDocument();
   });
 
   it("should render action menu button for each code", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={mockCodes}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+    renderDataTable();
 
     const menuButtons = screen.getAllByText("pi pi-ellipsis-v");
     expect(menuButtons).toHaveLength(2);
@@ -266,18 +185,7 @@ describe("CodeListDataTable", () => {
   describe("entrée de menu « Utilisation »", () => {
     it("should call onShowCategoryUsage with the row when the entry is clicked", () => {
       const mockOnShowCategoryUsage = vi.fn();
-      render(
-        <CodeListDataTable
-          codeListLabel="Test Label"
-          codes={mockCodes}
-          onCodeListLabelChange={mockOnCodeListLabelChange}
-          onCellEdit={mockOnCellEdit}
-          onDeleteCode={mockOnDeleteCode}
-          onAddCode={mockOnAddCode}
-          onMoveCode={mockOnMoveCode}
-          onShowCategoryUsage={mockOnShowCategoryUsage}
-        />,
-      );
+      renderDataTable({ onShowCategoryUsage: mockOnShowCategoryUsage });
 
       fireEvent.click(screen.getAllByText("Utilisation")[1]);
 
@@ -285,82 +193,34 @@ describe("CodeListDataTable", () => {
     });
 
     it("should not render the entry when no handler is provided", () => {
-      render(
-        <CodeListDataTable
-          codeListLabel="Test Label"
-          codes={mockCodes}
-          onCodeListLabelChange={mockOnCodeListLabelChange}
-          onCellEdit={mockOnCellEdit}
-          onDeleteCode={mockOnDeleteCode}
-          onAddCode={mockOnAddCode}
-          onMoveCode={mockOnMoveCode}
-        />,
-      );
+      renderDataTable();
 
       expect(screen.queryByText("Utilisation")).not.toBeInTheDocument();
     });
   });
 
-  it("should call onCellEdit when code value is edited", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={mockCodes}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+  it.each([
+    { field: "value", inputIndex: 1, initialValue: "1", newValue: "updated-value" },
+    { field: "label", inputIndex: 2, initialValue: "Label 1", newValue: "Updated Label" },
+  ] as const)(
+    "should call onCellEdit when code $field is edited",
+    ({ field, inputIndex, initialValue, newValue }) => {
+      renderDataTable();
 
-    const inputs = screen.getAllByRole("textbox");
-    // First input is code list label, then value/label pairs for each code
-    const codeValueInput = inputs[1] as HTMLInputElement;
+      const inputs = screen.getAllByRole("textbox");
+      // First input is code list label, then value/label pairs for each code
+      const codeInput = inputs[inputIndex] as HTMLInputElement;
 
-    expect(codeValueInput.value).toBe("1");
+      expect(codeInput.value).toBe(initialValue);
 
-    fireEvent.change(codeValueInput, { target: { value: "updated-value" } });
+      fireEvent.change(codeInput, { target: { value: newValue } });
 
-    expect(mockOnCellEdit).toHaveBeenCalledWith(mockCodes[0], "value", "updated-value");
-  });
-
-  it("should call onCellEdit when code label is edited", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel="Test Label"
-        codes={mockCodes}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
-
-    const inputs = screen.getAllByRole("textbox");
-    // First input is code list label, then value/label pairs for each code
-    const codeLabelInput = inputs[2] as HTMLInputElement;
-
-    expect(codeLabelInput.value).toBe("Label 1");
-
-    fireEvent.change(codeLabelInput, { target: { value: "Updated Label" } });
-
-    expect(mockOnCellEdit).toHaveBeenCalledWith(mockCodes[0], "label", "Updated Label");
-  });
+      expect(mockOnCellEdit).toHaveBeenCalledWith(mockCodes[0], field, newValue);
+    },
+  );
 
   it("should render with empty codes array", () => {
-    render(
-      <CodeListDataTable
-        codeListLabel=""
-        codes={[]}
-        onCodeListLabelChange={mockOnCodeListLabelChange}
-        onCellEdit={mockOnCellEdit}
-        onDeleteCode={mockOnDeleteCode}
-        onAddCode={mockOnAddCode}
-        onMoveCode={mockOnMoveCode}
-      />,
-    );
+    renderDataTable({ codeListLabel: "", codes: [] });
 
     expect(screen.getByRole("table")).toBeInTheDocument();
     expect(screen.getByText("Ajouter un code")).toBeInTheDocument();
@@ -368,97 +228,37 @@ describe("CodeListDataTable", () => {
 
   describe("readOnly mode", () => {
     it("should hide the Add a code button when readOnly", () => {
-      render(
-        <CodeListDataTable
-          codeListLabel="Test Label"
-          codes={mockCodes}
-          onCodeListLabelChange={mockOnCodeListLabelChange}
-          onCellEdit={mockOnCellEdit}
-          onDeleteCode={mockOnDeleteCode}
-          onAddCode={mockOnAddCode}
-          onMoveCode={mockOnMoveCode}
-          readOnly
-        />,
-      );
+      renderDataTable({ readOnly: true });
 
       expect(screen.queryByText("Ajouter un code")).not.toBeInTheDocument();
     });
 
     it("should hide the action menu when readOnly", () => {
-      render(
-        <CodeListDataTable
-          codeListLabel="Test Label"
-          codes={mockCodes}
-          onCodeListLabelChange={mockOnCodeListLabelChange}
-          onCellEdit={mockOnCellEdit}
-          onDeleteCode={mockOnDeleteCode}
-          onAddCode={mockOnAddCode}
-          onMoveCode={mockOnMoveCode}
-          readOnly
-        />,
-      );
+      renderDataTable({ readOnly: true });
 
       expect(screen.queryByText("pi pi-ellipsis-v")).not.toBeInTheDocument();
     });
 
     it("should disable code list label and code inputs when readOnly", () => {
-      render(
-        <CodeListDataTable
-          codeListLabel="Test Label"
-          codes={mockCodes}
-          onCodeListLabelChange={mockOnCodeListLabelChange}
-          onCellEdit={mockOnCellEdit}
-          onDeleteCode={mockOnDeleteCode}
-          onAddCode={mockOnAddCode}
-          onMoveCode={mockOnMoveCode}
-          readOnly
-        />,
-      );
+      renderDataTable({ readOnly: true });
 
-      const inputs = screen.getAllByRole("textbox");
-      expect(inputs.length).toBeGreaterThan(0);
-      inputs.forEach((input) => {
+      allTextboxes().forEach((input) => {
         expect(input).toHaveAttribute("readOnly");
       });
     });
 
     it("should grey out the code list label and code inputs when readOnly", () => {
-      render(
-        <CodeListDataTable
-          codeListLabel="Test Label"
-          codes={mockCodes}
-          onCodeListLabelChange={mockOnCodeListLabelChange}
-          onCellEdit={mockOnCellEdit}
-          onDeleteCode={mockOnDeleteCode}
-          onAddCode={mockOnAddCode}
-          onMoveCode={mockOnMoveCode}
-          readOnly
-        />,
-      );
+      renderDataTable({ readOnly: true });
 
-      const inputs = screen.getAllByRole("textbox");
-      expect(inputs.length).toBeGreaterThan(0);
-      inputs.forEach((input) => {
+      allTextboxes().forEach((input) => {
         expect(input).toHaveClass("code-list-readonly-input");
       });
     });
 
     it("should not grey out the inputs when editable", () => {
-      render(
-        <CodeListDataTable
-          codeListLabel="Test Label"
-          codes={mockCodes}
-          onCodeListLabelChange={mockOnCodeListLabelChange}
-          onCellEdit={mockOnCellEdit}
-          onDeleteCode={mockOnDeleteCode}
-          onAddCode={mockOnAddCode}
-          onMoveCode={mockOnMoveCode}
-        />,
-      );
+      renderDataTable();
 
-      const inputs = screen.getAllByRole("textbox");
-      expect(inputs.length).toBeGreaterThan(0);
-      inputs.forEach((input) => {
+      allTextboxes().forEach((input) => {
         expect(input).not.toHaveClass("code-list-readonly-input");
       });
     });
@@ -502,9 +302,14 @@ describe("CodeListDataTable", () => {
 
     const renderTable = () => render(<Harness />);
 
-    it("asks for a decision as soon as the user types, on the very first keystroke", async () => {
+    /** Rend le tableau et renvoie le champ du libellé du premier code. */
+    const renderFirstLabelInput = () => {
       renderTable();
-      const input = screen.getAllByPlaceholderText("Libellé")[0];
+      return screen.getAllByPlaceholderText("Libellé")[0];
+    };
+
+    it("asks for a decision as soon as the user types, on the very first keystroke", async () => {
+      const input = renderFirstLabelInput();
 
       fireEvent.change(input, { target: { value: "E" } });
 
@@ -524,8 +329,7 @@ describe("CodeListDataTable", () => {
     });
 
     it("asks only once per editing session, whatever the number of keystrokes", async () => {
-      renderTable();
-      const input = screen.getAllByPlaceholderText("Libellé")[0];
+      const input = renderFirstLabelInput();
 
       fireEvent.change(input, { target: { value: "E" } });
       await vi.waitFor(() => expect(mockOnCellCommit).toHaveBeenCalledTimes(1));
@@ -538,8 +342,7 @@ describe("CodeListDataTable", () => {
     });
 
     it("does not ask anything when the field is merely traversed", () => {
-      renderTable();
-      const input = screen.getAllByPlaceholderText("Libellé")[0];
+      const input = renderFirstLabelInput();
 
       fireEvent.focus(input);
       fireEvent.blur(input);
@@ -567,8 +370,7 @@ describe("CodeListDataTable", () => {
           decide = resolve;
         }),
       );
-      renderTable();
-      const input = screen.getAllByPlaceholderText("Libellé")[0];
+      const input = renderFirstLabelInput();
 
       fireEvent.change(input, { target: { value: "E" } });
 
@@ -581,8 +383,7 @@ describe("CodeListDataTable", () => {
     it("gives the focus back to the edited cell when a dialog interrupted the edit", async () => {
       // Sans cela, l'utilisateur au clavier est éjecté du tableau après chaque confirmation.
       mockOnCellCommit.mockResolvedValueOnce(true);
-      renderTable();
-      const input = screen.getAllByPlaceholderText("Libellé")[0];
+      const input = renderFirstLabelInput();
 
       fireEvent.change(input, { target: { value: "E" } });
 
@@ -592,8 +393,7 @@ describe("CodeListDataTable", () => {
     it("leaves the focus alone when nothing interrupted the edit", async () => {
       // L'utilisateur n'a pas été dérangé : lui déplacer le focus serait gratuit.
       mockOnCellCommit.mockResolvedValueOnce(false);
-      renderTable();
-      const input = screen.getAllByPlaceholderText("Libellé")[0];
+      const input = renderFirstLabelInput();
 
       fireEvent.change(input, { target: { value: "E" } });
 

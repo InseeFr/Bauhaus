@@ -16,12 +16,7 @@ vi.mock("../../sdk", () => ({
   },
 }));
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string, options?: Record<string, unknown>) =>
-      options ? `${key}|${JSON.stringify(options)}` : key,
-  }),
-}));
+vi.mock("react-i18next", () => import("../i18n.testing"));
 
 describe("useValidateDdi4", () => {
   let queryClient: QueryClient;

@@ -15,7 +15,7 @@
 #   BACK_OFFICE_HOME  racine du dépôt Bauhaus-Back-Office
 #                     (défaut ../../Bauhaus-Back-Office, soit le dépôt cloné
 #                     à côté de Bauhaus ; en CI : le checkout
-#                     bauhaus-back-office de l'action partagée `playwright`)
+#                     bauhaus-back-office de .github/workflows/playwright.yml)
 set -euo pipefail
 
 GRAPHDB_URL="${GRAPHDB_URL:-http://localhost:7200}"

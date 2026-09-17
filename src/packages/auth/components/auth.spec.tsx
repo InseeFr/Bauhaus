@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react";
+import type { ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import {
@@ -24,164 +25,104 @@ vi.mock("@utils/hooks/users", async (importOriginal) => {
 
 const DummyChild = <div>Authorized content</div>;
 
+const classificationPrivilege = (privileges: { privilege: PRIVILEGE; strategy: STRATEGY }[]) => ({
+  application: MODULES.CLASSIFICATION_CLASSIFICATION,
+  privileges,
+});
+
+const mockUser = (privileges: unknown, stamp = "STAMP1") => {
+  (usePrivileges as any).mockReturnValue({ privileges });
+  (useUserStamps as any).mockReturnValue({ data: [{ stamp }] });
+};
+
+const renderHasAccess = (props: Omit<ComponentProps<typeof HasAccess>, "module" | "children">) =>
+  render(
+    <HasAccess module={MODULES.CLASSIFICATION_CLASSIFICATION} {...props}>
+      {DummyChild}
+    </HasAccess>,
+  );
+
 describe("<HasAccess />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders children when strategy is ALL", () => {
-    (usePrivileges as any).mockReturnValue({
-      privileges: [
-        {
-          application: MODULES.CLASSIFICATION_CLASSIFICATION,
-          privileges: [{ privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL }],
-        },
-      ],
-    });
+    mockUser([classificationPrivilege([{ privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL }])]);
 
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
-
-    const { container } = render(
-      <HasAccess module={MODULES.CLASSIFICATION_CLASSIFICATION} privilege={PRIVILEGES.READ}>
-        {DummyChild}
-      </HasAccess>,
-    );
+    const { container } = renderHasAccess({ privilege: PRIVILEGES.READ });
 
     expect(container).toHaveTextContent("Authorized content");
   });
 
   it("renders children when strategy is STAMP and user stamp is included", () => {
-    (usePrivileges as any).mockReturnValue({
-      privileges: [
-        {
-          application: MODULES.CLASSIFICATION_CLASSIFICATION,
-          privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
-        },
-      ],
+    mockUser([
+      classificationPrivilege([{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }]),
+    ]);
+
+    const { container } = renderHasAccess({
+      privilege: PRIVILEGES.UPDATE,
+      stamps: ["STAMP1", "STAMP2"],
+      check: () => true,
     });
-
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
-
-    const { container } = render(
-      <HasAccess
-        module={MODULES.CLASSIFICATION_CLASSIFICATION}
-        privilege={PRIVILEGES.UPDATE}
-        stamps={["STAMP1", "STAMP2"]}
-        check={() => true}
-      >
-        {DummyChild}
-      </HasAccess>,
-    );
 
     expect(container).toHaveTextContent("Authorized content");
   });
 
   it("renders children when an allowed stamp is a URI ending with the user stamp", () => {
-    (usePrivileges as any).mockReturnValue({
-      privileges: [
-        {
-          application: MODULES.CLASSIFICATION_CLASSIFICATION,
-          privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
-        },
-      ],
-    });
-
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "DG75-L201" }] });
-
-    const { container } = render(
-      <HasAccess
-        module={MODULES.CLASSIFICATION_CLASSIFICATION}
-        privilege={PRIVILEGES.UPDATE}
-        stamps={["http://bauhaus.insee.fr/organizations/insee/DG75-L201"]}
-      >
-        {DummyChild}
-      </HasAccess>,
+    mockUser(
+      [classificationPrivilege([{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }])],
+      "DG75-L201",
     );
+
+    const { container } = renderHasAccess({
+      privilege: PRIVILEGES.UPDATE,
+      stamps: ["http://bauhaus.insee.fr/organizations/insee/DG75-L201"],
+    });
 
     expect(container).toHaveTextContent("Authorized content");
   });
 
   it("does not render children when no privilege found", () => {
-    (usePrivileges as any).mockReturnValue({
-      privileges: [
-        {
-          application: MODULES.CLASSIFICATION_CLASSIFICATION,
-          privileges: [],
-        },
-      ],
-    });
+    mockUser([classificationPrivilege([])]);
 
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
-
-    const { container } = render(
-      <HasAccess module={MODULES.CLASSIFICATION_CLASSIFICATION} privilege={PRIVILEGES.DELETE}>
-        {DummyChild}
-      </HasAccess>,
-    );
+    const { container } = renderHasAccess({ privilege: PRIVILEGES.DELETE });
 
     expect(container).toBeEmptyDOMElement();
   });
 
   it("does not render children when STAMP strategy fails complementary check", () => {
-    (usePrivileges as any).mockReturnValue({
-      privileges: [
-        {
-          application: MODULES.CLASSIFICATION_CLASSIFICATION,
-          privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
-        },
-      ],
+    mockUser([
+      classificationPrivilege([{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }]),
+    ]);
+
+    const { container } = renderHasAccess({
+      privilege: PRIVILEGES.UPDATE,
+      stamps: ["STAMP1"],
+      check: () => false,
     });
-
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
-
-    const { container } = render(
-      <HasAccess
-        module={MODULES.CLASSIFICATION_CLASSIFICATION}
-        privilege={PRIVILEGES.UPDATE}
-        stamps={["STAMP1"]}
-        check={() => false}
-      >
-        {DummyChild}
-      </HasAccess>,
-    );
 
     expect(container).toBeEmptyDOMElement();
   });
 
   it("does not render children if privileges are undefined", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: undefined });
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+    mockUser(undefined);
 
-    const { container } = render(
-      <HasAccess module={MODULES.CLASSIFICATION_CLASSIFICATION} privilege={PRIVILEGES.READ}>
-        {DummyChild}
-      </HasAccess>,
-    );
+    const { container } = renderHasAccess({ privilege: PRIVILEGES.READ });
 
     expect(container).toBeEmptyDOMElement();
   });
 
   it("does not render children when user stamp is not in allowed stamps", () => {
-    (usePrivileges as any).mockReturnValue({
-      privileges: [
-        {
-          application: MODULES.CLASSIFICATION_CLASSIFICATION,
-          privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
-        },
-      ],
-    });
-
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP3" }] });
-
-    const { container } = render(
-      <HasAccess
-        module={MODULES.CLASSIFICATION_CLASSIFICATION}
-        privilege={PRIVILEGES.UPDATE}
-        stamps={["STAMP1", "STAMP2"]}
-      >
-        {DummyChild}
-      </HasAccess>,
+    mockUser(
+      [classificationPrivilege([{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }])],
+      "STAMP3",
     );
+
+    const { container } = renderHasAccess({
+      privilege: PRIVILEGES.UPDATE,
+      stamps: ["STAMP1", "STAMP2"],
+    });
 
     expect(container).toBeEmptyDOMElement();
   });
@@ -192,44 +133,25 @@ describe("<HasAccess /> — stratégie STAMP sans prop stamps", () => {
     vi.clearAllMocks();
   });
 
-  const stampUpdatePrivilege = {
-    application: MODULES.CLASSIFICATION_CLASSIFICATION,
-    privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP }],
-  };
+  const stampUpdatePrivilege = classificationPrivilege([
+    { privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.STAMP },
+  ]);
 
   // Non-régression : un module peut câbler son gating STAMP via un `check`
   // métier sans passer `stamps` (cf. modules-operations/document). Ce cas
   // doit continuer de fonctionner après le correctif.
   it("non-régression : rend les enfants avec un check passant et sans prop stamps", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [stampUpdatePrivilege] });
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+    mockUser([stampUpdatePrivilege]);
 
-    const { container } = render(
-      <HasAccess
-        module={MODULES.CLASSIFICATION_CLASSIFICATION}
-        privilege={PRIVILEGES.UPDATE}
-        check={() => true}
-      >
-        {DummyChild}
-      </HasAccess>,
-    );
+    const { container } = renderHasAccess({ privilege: PRIVILEGES.UPDATE, check: () => true });
 
     expect(container).toHaveTextContent("Authorized content");
   });
 
   it("non-régression : masque les enfants avec un check rejetant et sans prop stamps", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [stampUpdatePrivilege] });
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+    mockUser([stampUpdatePrivilege]);
 
-    const { container } = render(
-      <HasAccess
-        module={MODULES.CLASSIFICATION_CLASSIFICATION}
-        privilege={PRIVILEGES.UPDATE}
-        check={() => false}
-      >
-        {DummyChild}
-      </HasAccess>,
-    );
+    const { container } = renderHasAccess({ privilege: PRIVILEGES.UPDATE, check: () => false });
 
     expect(container).toBeEmptyDOMElement();
   });
@@ -238,14 +160,9 @@ describe("<HasAccess /> — stratégie STAMP sans prop stamps", () => {
   // n'est pas réellement appliquée — on masque plutôt que d'ouvrir l'accès
   // à tout utilisateur tamponné.
   it("masque les enfants en stratégie STAMP sans stamps ni check, même pour un utilisateur tamponné", () => {
-    (usePrivileges as any).mockReturnValue({ privileges: [stampUpdatePrivilege] });
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+    mockUser([stampUpdatePrivilege]);
 
-    const { container } = render(
-      <HasAccess module={MODULES.CLASSIFICATION_CLASSIFICATION} privilege={PRIVILEGES.UPDATE}>
-        {DummyChild}
-      </HasAccess>,
-    );
+    const { container } = renderHasAccess({ privilege: PRIVILEGES.UPDATE });
 
     expect(container).toBeEmptyDOMElement();
   });

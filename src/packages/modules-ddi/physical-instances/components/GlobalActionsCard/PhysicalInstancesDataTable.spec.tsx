@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { PhysicalInstancesDataTable } from "./PhysicalInstancesDataTable";
+import { mockVariables } from "./variables.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -89,23 +90,6 @@ vi.mock("primereact/column", () => ({
 describe("PhysicalInstancesDataTable", () => {
   const mockOnRowClick = vi.fn();
   const mockOnDeleteClick = vi.fn();
-
-  const mockVariables = [
-    {
-      id: "1",
-      name: "Variable1",
-      label: "Label 1",
-      type: "Code",
-      lastModified: "2024-01-01",
-    },
-    {
-      id: "2",
-      name: "Variable2",
-      label: "Label 2",
-      type: "Numeric",
-      lastModified: "2024-01-02",
-    },
-  ];
 
   const defaultProps = {
     variables: mockVariables,

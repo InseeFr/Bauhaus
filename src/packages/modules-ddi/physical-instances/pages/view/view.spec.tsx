@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
 import { itemsOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
@@ -277,19 +277,244 @@ document.createElement = vi.fn((tagName: string) => {
   return element;
 }) as any;
 
-// Helper function to create a test variable and enable the Save All button
-const createTestVariable = (name = "TestVar", label = "Test Variable") => {
-  const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
-  fireEvent.click(newVariableButton);
+const EDIT_MODAL_TITLE = "physicalInstance.view.editModal.title";
+const PENDING_VARIABLE_EDIT_TITLE = "physicalInstance.view.pendingVariableEdit.title";
 
-  const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
-  const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
-  fireEvent.change(nameInput, { target: { value: name } });
-  fireEvent.change(labelInput, { target: { value: label } });
+const fr = (value: string) => [{ "@language": "fr-FR", "@value": value }];
 
-  const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
-  fireEvent.click(saveVariableButton);
+type PhysicalInstanceDataOptions = {
+  /** Titre renvoyé par le hook ; sert aussi de Citation.Title sauf si `itemTitle` est fourni. */
+  title?: string;
+  itemTitle?: string;
+  /** Nom renvoyé par le hook ; sert aussi de DataRelationshipName sauf si `itemDataRelationshipName` est fourni. */
+  dataRelationshipName?: string;
+  itemDataRelationshipName?: string;
+  /** Lignes du tableau (forme aplatie renvoyée par le hook). */
+  variables?: unknown[];
+  /** Items DDI4 `Variable` de l'enveloppe. */
+  ddiVariables?: readonly unknown[];
+  variableUsedReference?: unknown[];
+  /** Champs d'identification ajoutés aux items PhysicalInstance / DataRelationship / LogicalRecord. */
+  physicalInstance?: Record<string, unknown>;
+  dataRelationship?: Record<string, unknown>;
+  logicalRecord?: Record<string, unknown>;
+  extraItems?: Parameters<typeof envelope>[0];
 };
+
+const mockPhysicalInstanceData = ({
+  title = "Test Physical Instance",
+  itemTitle = title,
+  dataRelationshipName = "Test Data Relationship",
+  itemDataRelationshipName = dataRelationshipName,
+  variables = [],
+  ddiVariables = [],
+  variableUsedReference = [],
+  physicalInstance = {},
+  dataRelationship = {},
+  logicalRecord = {},
+  extraItems = {},
+}: PhysicalInstanceDataOptions = {}) => {
+  const data = envelope({
+    PhysicalInstance: [{ ...physicalInstance, Citation: { Title: fr(itemTitle) } }],
+    DataRelationship: [
+      {
+        ...dataRelationship,
+        DataRelationshipName: fr(itemDataRelationshipName),
+        LogicalRecord: [
+          {
+            ...logicalRecord,
+            VariablesInRecord: { VariableUsedReference: variableUsedReference },
+          },
+        ],
+      },
+    ],
+    Variable: ddiVariables,
+    ...extraItems,
+  });
+  mockUsePhysicalInstancesData.mockReturnValue({
+    data,
+    variables,
+    title,
+    dataRelationshipName,
+    isLoading: false,
+    isError: false,
+  });
+  return data;
+};
+
+// Identifiants de l'instance source, nécessaires à la duplication (BasedOnObject, URN).
+const DUPLICABLE_ITEMS = {
+  physicalInstance: { ID: "pi-original-id", Agency: "test-agency", Version: "1" },
+  dataRelationship: { ID: "dr-original-id", Agency: "test-agency", Version: "1" },
+  logicalRecord: { ID: "lr-original-id" },
+};
+
+const variableReference = (id: string) => ({
+  Agency: "test-agency-123",
+  ID: id,
+  Version: "1",
+  TypeOfObject: "Variable",
+});
+
+// Instance contenant une variable déjà enregistrée, « Variable1 » (var-1).
+const mockDataWithExistingVariable = () =>
+  mockPhysicalInstanceData({
+    title: "Test",
+    dataRelationshipName: "Test",
+    variableUsedReference: [variableReference("var-1")],
+    ddiVariables: [
+      {
+        ID: "var-1",
+        Agency: "test-agency",
+        Version: "1",
+        URN: "urn:ddi:test-agency:var-1:1",
+        VariableName: fr("Variable1"),
+        Label: fr("Variable 1"),
+        VariableRepresentation: {
+          TextRepresentation: { MaxLength: 100 },
+        },
+      },
+    ],
+    variables: [
+      {
+        id: "var-1",
+        name: "Variable1",
+        label: "Variable 1",
+        type: "text",
+        lastModified: "2024-01-01",
+      },
+    ],
+  });
+
+const mockMutation =
+  (hook: Mock) =>
+  ({
+    mutateAsync = vi.fn().mockResolvedValue({}),
+    isPending = false,
+  }: { mutateAsync?: Mock; isPending?: boolean } = {}) => {
+    hook.mockReturnValue({ mutateAsync, isPending, isError: false });
+    return mutateAsync;
+  };
+const mockPublish = mockMutation(mockPublishPhysicalInstance);
+const mockUpdate = mockMutation(mockUpdatePhysicalInstance);
+
+const selectRepresentationType = (type: string) => {
+  fireEvent.click(screen.getByText("physicalInstance.view.tabs.representation"));
+  fireEvent.change(screen.getByLabelText("physicalInstance.view.columns.type"), {
+    target: { value: type },
+  });
+};
+
+// Ouvre le formulaire de nouvelle variable et le remplit, sans l'ajouter.
+const fillNewVariable = (name: string, label: string, type?: string) => {
+  fireEvent.click(screen.getByLabelText("physicalInstance.view.newVariable"));
+  fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.name/), {
+    target: { value: name },
+  });
+  fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
+    target: { value: label },
+  });
+  if (type) {
+    selectRepresentationType(type);
+  }
+};
+
+// Helper function to create a test variable and enable the Save All button
+const createTestVariable = (name = "TestVar", label = "Test Variable", type?: string) => {
+  fillNewVariable(name, label, type);
+  fireEvent.click(screen.getByLabelText("physicalInstance.view.add"));
+};
+
+const clickSaveAll = () => fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+
+// Clique « Sauvegarder », attend la publication et renvoie l'enveloppe publiée.
+const saveAll = async (mutateAsync: Mock) => {
+  clickSaveAll();
+  await waitFor(() => {
+    expect(mutateAsync).toHaveBeenCalled();
+  });
+  return mutateAsync.mock.calls[0][0].data;
+};
+
+const savedVariableNamed = (data: any, name: string) =>
+  itemsOfType(data, "Variable").find((v: any) => v.VariableName?.[0]?.["@value"] === name);
+
+const expectUnsaved = (name: string) =>
+  waitFor(() => {
+    expect(screen.getByText(name).closest("tr")).toHaveClass("font-italic");
+  });
+
+const selectFirstVariable = () => fireEvent.click(screen.getAllByRole("row")[1]);
+
+const deleteFirstVariable = async () => {
+  fireEvent.click(screen.getAllByLabelText("physicalInstance.view.delete")[0]);
+  fireEvent.click(screen.getByText("physicalInstance.view.confirmDelete"));
+
+  // Variable should no longer be visible in the table
+  await waitFor(() => {
+    expect(screen.queryByText("Variable1")).not.toBeInTheDocument();
+  });
+};
+
+const clickEditTitle = () =>
+  fireEvent.click(screen.getByLabelText("physicalInstance.view.editTitle"));
+
+const openEditModal = async () => {
+  clickEditTitle();
+  await waitFor(() => {
+    expect(screen.getByText(EDIT_MODAL_TITLE)).toBeInTheDocument();
+  });
+};
+
+// SplitButton creates multiple elements with the same aria-label, get the first button
+const clickExport = () => {
+  const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
+  fireEvent.click(exportButtons.find((el) => el.tagName === "BUTTON")!);
+};
+
+// Capture the download link before it's removed; appendChild is restored on dispose.
+const captureDownloadLink = () => {
+  const originalAppendChild = document.body.appendChild;
+  let capturedLink: HTMLAnchorElement | null = null;
+  document.body.appendChild = vi.fn((node) => {
+    if (node instanceof HTMLAnchorElement && node.download) {
+      capturedLink = node;
+    }
+    return originalAppendChild.call(document.body, node);
+  }) as any;
+  return {
+    get download() {
+      return capturedLink?.download;
+    },
+    [Symbol.dispose]() {
+      document.body.appendChild = originalAppendChild;
+    },
+  };
+};
+
+const openDuplicationModal = () => {
+  fireEvent.click(screen.getByLabelText("physicalInstance.view.duplicatePhysicalInstance"));
+  return screen.findByText("physicalInstance.view.duplicateModal.title");
+};
+
+// La duplication n'est plus immédiate : on confirme dans la modale.
+const confirmDuplication = async () => {
+  await openDuplicationModal();
+  fireEvent.submit(screen.getByRole("dialog").querySelector("form")!);
+};
+
+const basedOn = ($type: string, id: string, version = "1") => ({
+  $type: "BasedOnObjectType",
+  BasedOnReference: [
+    {
+      $type,
+      URN: `urn:ddi:test-agency:${id}:${version}`,
+      Agency: "test-agency",
+      ID: id,
+      Version: version,
+    },
+  ],
+});
 
 describe("View Component", () => {
   let queryClient: QueryClient;
@@ -297,6 +522,8 @@ describe("View Component", () => {
   const wrapper = ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
+
+  const renderView = () => render(<Component />, { wrapper });
 
   beforeEach(() => {
     queryClient = new QueryClient({
@@ -317,29 +544,7 @@ describe("View Component", () => {
     mockSearchParams = new URLSearchParams();
 
     // Default mock implementation
-    mockUsePhysicalInstancesData.mockReturnValue({
-      data: envelope({
-        PhysicalInstance: [
-          {
-            Citation: {
-              Title: [{ "@language": "fr-FR", "@value": "Test Physical Instance" }],
-            },
-          },
-        ],
-        DataRelationship: [
-          {
-            DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test Data Relationship" }],
-            LogicalRecord: [
-              {
-                VariablesInRecord: {
-                  VariableUsedReference: [],
-                },
-              },
-            ],
-          },
-        ],
-        Variable: [],
-      }),
+    mockPhysicalInstanceData({
       variables: [
         {
           id: "1",
@@ -356,24 +561,11 @@ describe("View Component", () => {
           lastModified: "03/06/2024",
         },
       ],
-      title: "Test Physical Instance",
-      dataRelationshipName: "Test Data Relationship",
-      isLoading: false,
-      isError: false,
     });
 
     // Default mock for mutation
-    mockUpdatePhysicalInstance.mockReturnValue({
-      mutateAsync: vi.fn().mockResolvedValue({}),
-      isPending: false,
-      isError: false,
-    });
-
-    mockPublishPhysicalInstance.mockReturnValue({
-      mutateAsync: vi.fn().mockResolvedValue({}),
-      isPending: false,
-      isError: false,
-    });
+    mockUpdate();
+    mockPublish();
 
     mockValidateDdi4.mockReturnValue({
       validate: vi.fn().mockResolvedValue(undefined),
@@ -382,14 +574,16 @@ describe("View Component", () => {
   });
 
   describe("Loading state", () => {
-    it("should render a full-screen loading overlay when data is loading", () => {
+    beforeEach(() => {
       mockUsePhysicalInstancesData.mockReturnValue({
         variables: [],
         isLoading: true,
         isError: false,
       });
+    });
 
-      render(<Component />, { wrapper });
+    it("should render a full-screen loading overlay when data is loading", () => {
+      renderView();
 
       expect(screen.getByTestId("progress-spinner")).toBeInTheDocument();
       const overlay = screen.getByLabelText("Loading in progress...");
@@ -398,13 +592,7 @@ describe("View Component", () => {
     });
 
     it("should have correct accessibility attributes for loading state", () => {
-      mockUsePhysicalInstancesData.mockReturnValue({
-        variables: [],
-        isLoading: true,
-        isError: false,
-      });
-
-      render(<Component />, { wrapper });
+      renderView();
 
       const loadingContainer = screen.getByRole("status");
       expect(loadingContainer).toHaveAttribute("aria-live", "polite");
@@ -412,44 +600,37 @@ describe("View Component", () => {
   });
 
   describe("Error state", () => {
-    it("should render error message when there is an error", () => {
-      const errorMessage = "Failed to fetch data";
+    const mockError = (error: unknown) =>
       mockUsePhysicalInstancesData.mockReturnValue({
         variables: [],
         isLoading: false,
         isError: true,
-        error: new Error(errorMessage),
+        error,
       });
 
-      render(<Component />, { wrapper });
+    it("should render error message when there is an error", () => {
+      const errorMessage = "Failed to fetch data";
+      mockError(new Error(errorMessage));
+
+      renderView();
 
       expect(screen.getByTestId("message")).toBeInTheDocument();
       expect(screen.getByText(errorMessage)).toBeInTheDocument();
     });
 
     it("should have correct accessibility attributes for error state", () => {
-      mockUsePhysicalInstancesData.mockReturnValue({
-        variables: [],
-        isLoading: false,
-        isError: true,
-        error: new Error("Error"),
-      });
+      mockError(new Error("Error"));
 
-      render(<Component />, { wrapper });
+      renderView();
 
       const errorContainer = screen.getByRole("alert");
       expect(errorContainer).toHaveAttribute("aria-live", "assertive");
     });
 
     it("should render default error message when error is not an Error instance", () => {
-      mockUsePhysicalInstancesData.mockReturnValue({
-        variables: [],
-        isLoading: false,
-        isError: true,
-        error: "Unknown error",
-      });
+      mockError("Unknown error");
 
-      render(<Component />, { wrapper });
+      renderView();
 
       expect(screen.getByText("physicalInstance.view.errorLoading")).toBeInTheDocument();
     });
@@ -457,13 +638,13 @@ describe("View Component", () => {
 
   describe("Successful render", () => {
     it("should render the physical instance title", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       expect(screen.getByText("Test Physical Instance")).toBeInTheDocument();
     });
 
     it("should initialize form data with data relationship name", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       // The data relationship name is not directly displayed,
       // but it should be available in the component state for the edit modal
@@ -472,25 +653,23 @@ describe("View Component", () => {
     });
 
     it("should have correct accessibility role for main container", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       expect(screen.getByRole("main")).toBeInTheDocument();
     });
 
     it("should have correct accessibility role for complementary section", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
-      const firstRow = screen.getAllByRole("row")[1];
-      fireEvent.click(firstRow);
+      selectFirstVariable();
 
       expect(screen.getByRole("complementary")).toBeInTheDocument();
     });
 
     it("should close the side panel when Escape is pressed", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
-      const firstRow = screen.getAllByRole("row")[1];
-      fireEvent.click(firstRow);
+      selectFirstVariable();
       expect(screen.getByRole("complementary")).toBeInTheDocument();
 
       fireEvent.keyDown(document, { key: "Escape" });
@@ -499,13 +678,13 @@ describe("View Component", () => {
     });
 
     it("should render SearchFilters component", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       expect(screen.getByPlaceholderText("physicalInstance.view.search")).toBeInTheDocument();
     });
 
     it("should render GlobalActionsCard component", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       expect(screen.getByText("physicalInstance.view.globalActions")).toBeInTheDocument();
     });
@@ -513,43 +692,25 @@ describe("View Component", () => {
 
   describe("Edit modal", () => {
     it("should open edit modal when pencil button is clicked", async () => {
-      render(<Component />, { wrapper });
+      renderView();
 
-      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-      fireEvent.click(editButton);
-
-      await waitFor(() => {
-        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
-      });
+      await openEditModal();
     });
 
     it("should close edit modal when cancel is clicked", async () => {
-      render(<Component />, { wrapper });
+      renderView();
+      await openEditModal();
 
-      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-      fireEvent.click(editButton);
-
-      await waitFor(() => {
-        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
-      });
-
-      const cancelButton = screen.getByText("physicalInstance.view.editModal.cancel");
-      fireEvent.click(cancelButton);
+      fireEvent.click(screen.getByText("physicalInstance.view.editModal.cancel"));
 
       await waitFor(() => {
-        expect(screen.queryByText("physicalInstance.view.editModal.title")).not.toBeInTheDocument();
+        expect(screen.queryByText(EDIT_MODAL_TITLE)).not.toBeInTheDocument();
       });
     });
 
     it("should update form data in edit modal", async () => {
-      render(<Component />, { wrapper });
-
-      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-      fireEvent.click(editButton);
-
-      await waitFor(() => {
-        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
-      });
+      renderView();
+      await openEditModal();
 
       const labelInput = screen.getByLabelText("physicalInstance.creation.label");
       fireEvent.change(labelInput, { target: { value: "New Label" } });
@@ -560,7 +721,7 @@ describe("View Component", () => {
 
   describe("Filtering", () => {
     it("should filter variables by search value", async () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       const searchInput = screen.getByPlaceholderText("physicalInstance.view.search");
       fireEvent.change(searchInput, { target: { value: "Variable1" } });
@@ -572,7 +733,7 @@ describe("View Component", () => {
     });
 
     it("should filter variables by type", async () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       const typeDropdown = screen.getByLabelText("physicalInstance.view.typeFilter");
       fireEvent.change(typeDropdown, { target: { value: "code" } });
@@ -584,7 +745,7 @@ describe("View Component", () => {
     });
 
     it("should generate dynamic type options from variables", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       const typeDropdown = screen.getByLabelText(
         "physicalInstance.view.typeFilter",
@@ -594,29 +755,15 @@ describe("View Component", () => {
       expect(typeDropdown).toHaveValue("all");
 
       // Verify all type options are present
-      expect(
-        screen.getByRole("option", { name: "physicalInstance.view.allTypes" }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("option", {
-          name: "physicalInstance.view.variableTypes.text",
-        }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("option", {
-          name: "physicalInstance.view.variableTypes.code",
-        }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("option", {
-          name: "physicalInstance.view.variableTypes.date",
-        }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole("option", {
-          name: "physicalInstance.view.variableTypes.numeric",
-        }),
-      ).toBeInTheDocument();
+      for (const name of [
+        "physicalInstance.view.allTypes",
+        "physicalInstance.view.variableTypes.text",
+        "physicalInstance.view.variableTypes.code",
+        "physicalInstance.view.variableTypes.date",
+        "physicalInstance.view.variableTypes.numeric",
+      ]) {
+        expect(screen.getByRole("option", { name })).toBeInTheDocument();
+      }
     });
   });
 
@@ -629,23 +776,10 @@ describe("View Component", () => {
     });
 
     it("should download DDI3 file when export button is clicked (default DDI3)", async () => {
-      let capturedLink: HTMLAnchorElement | null = null;
+      using link = captureDownloadLink();
 
-      // Capture the link before it's removed
-      const originalAppendChild = document.body.appendChild;
-      document.body.appendChild = vi.fn((node) => {
-        if (node instanceof HTMLAnchorElement && node.download) {
-          capturedLink = node;
-        }
-        return originalAppendChild.call(document.body, node);
-      }) as any;
-
-      render(<Component />, { wrapper });
-
-      // SplitButton creates multiple elements with the same aria-label, get the first button
-      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
-      const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
-      fireEvent.click(exportButton!);
+      renderView();
+      clickExport();
 
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalled();
@@ -658,23 +792,14 @@ describe("View Component", () => {
       });
 
       // Check that the link has the correct download attribute
-      expect((capturedLink as HTMLAnchorElement | null)?.download).toBe(
-        "test_physical_instance-ddi3.xml",
-      );
-
-      // Restore original appendChild
-      document.body.appendChild = originalAppendChild;
+      expect(link.download).toBe("test_physical_instance-ddi3.xml");
     });
 
     it("should download DDI4 file when DDI4 option is selected", async () => {
-      render(<Component />, { wrapper });
-
-      // The export button is a SplitButton, get the first button
-      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
-      const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
+      renderView();
 
       // Click the button (which defaults to DDI3)
-      fireEvent.click(exportButton!);
+      clickExport();
 
       await waitFor(() => {
         expect(mockCreateObjectURL).toHaveBeenCalled();
@@ -683,103 +808,28 @@ describe("View Component", () => {
     });
 
     it("should sanitize title for filename", async () => {
-      let capturedLink: HTMLAnchorElement | null = null;
+      using link = captureDownloadLink();
 
-      // Capture the link before it's removed
-      const originalAppendChild = document.body.appendChild;
-      document.body.appendChild = vi.fn((node) => {
-        if (node instanceof HTMLAnchorElement && node.download) {
-          capturedLink = node;
-        }
-        return originalAppendChild.call(document.body, node);
-      }) as any;
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test Physical Instance" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test Data Relationship" }],
-              LogicalRecord: [
-                {
-                  VariablesInRecord: {
-                    VariableUsedReference: [],
-                  },
-                },
-              ],
-            },
-          ],
-          Variable: [],
-        }),
-        variables: [],
+      mockPhysicalInstanceData({
         title: "Test @ Physical # Instance!",
-        dataRelationshipName: "Test Data Relationship",
-        isLoading: false,
-        isError: false,
+        itemTitle: "Test Physical Instance",
       });
 
-      render(<Component />, { wrapper });
-
-      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
-      const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
-      fireEvent.click(exportButton!);
+      renderView();
+      clickExport();
 
       await waitFor(() => {
         expect(mockClick).toHaveBeenCalled();
       });
 
-      expect((capturedLink as HTMLAnchorElement | null)?.download).toBe(
-        "test___physical___instance_-ddi3.xml",
-      );
-
-      // Restore original appendChild
-      document.body.appendChild = originalAppendChild;
+      expect(link.download).toBe("test___physical___instance_-ddi3.xml");
     });
 
     it("should call DDIApi.convertToDDI3 with correct data", async () => {
-      const mockData = envelope({
-        PhysicalInstance: [
-          {
-            Citation: {
-              Title: [{ "@language": "fr-FR", "@value": "Test Physical Instance" }],
-            },
-          },
-        ],
-        DataRelationship: [
-          {
-            DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test Data Relationship" }],
-            LogicalRecord: [
-              {
-                VariablesInRecord: {
-                  VariableUsedReference: [],
-                },
-              },
-            ],
-          },
-        ],
-        Variable: [],
-      });
+      const mockData = mockPhysicalInstanceData();
 
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: mockData,
-        variables: [],
-        title: "Test Physical Instance",
-        dataRelationshipName: "Test Data Relationship",
-        isLoading: false,
-        isError: false,
-      });
-
-      render(<Component />, { wrapper });
-
-      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
-      const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
-      fireEvent.click(exportButton!);
+      renderView();
+      clickExport();
 
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith(
@@ -802,11 +852,8 @@ describe("View Component", () => {
         } as Response),
       );
 
-      render(<Component />, { wrapper });
-
-      const exportButtons = screen.getAllByLabelText("physicalInstance.view.export");
-      const exportButton = exportButtons.find((el) => el.tagName === "BUTTON");
-      fireEvent.click(exportButton!);
+      renderView();
+      clickExport();
 
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalled();
@@ -843,11 +890,14 @@ describe("View Component", () => {
       }
     };
 
-    it("should initialize edit modal with title", () => {
-      render(<Component />, { wrapper });
+    const expectEditModalClosed = () =>
+      waitFor(() => {
+        expect(screen.queryByText(EDIT_MODAL_TITLE)).not.toBeInTheDocument();
+      });
 
-      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-      fireEvent.click(editButton);
+    it("should initialize edit modal with title", () => {
+      renderView();
+      clickEditTitle();
 
       const labelInput = screen.getByLabelText(
         "physicalInstance.creation.label",
@@ -857,17 +907,10 @@ describe("View Component", () => {
     });
 
     it("should call mutation when save button is clicked", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockUpdatePhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockUpdate();
 
-      render(<Component />, { wrapper });
-
-      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-      fireEvent.click(editButton);
+      renderView();
+      clickEditTitle();
 
       await fillAndSubmitEditModal("Updated Title");
 
@@ -888,48 +931,27 @@ describe("View Component", () => {
       });
 
       // Wait for modal to close after successful save
-      await waitFor(() => {
-        expect(screen.queryByText("physicalInstance.view.editModal.title")).not.toBeInTheDocument();
-      });
+      await expectEditModalClosed();
     });
 
     it("should close modal after successful save", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockUpdatePhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      mockUpdate();
 
-      render(<Component />, { wrapper });
-
-      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-      fireEvent.click(editButton);
+      renderView();
+      clickEditTitle();
 
       await fillAndSubmitEditModal();
 
-      await waitFor(() => {
-        expect(screen.queryByText("physicalInstance.view.editModal.title")).not.toBeInTheDocument();
-      });
+      await expectEditModalClosed();
     });
 
     it("should handle save error gracefully", async () => {
-      const mutateAsyncMock = vi.fn().mockRejectedValue(new Error("Save failed"));
-      mockUpdatePhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
+      const mutateAsyncMock = mockUpdate({
+        mutateAsync: vi.fn().mockRejectedValue(new Error("Save failed")),
       });
 
-      render(<Component />, { wrapper });
-
-      const editButton = screen.getByLabelText("physicalInstance.view.editTitle");
-      fireEvent.click(editButton);
-
-      // Wait for modal to be visible
-      await waitFor(() => {
-        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
-      });
+      renderView();
+      await openEditModal();
 
       await fillAndSubmitEditModal();
 
@@ -939,20 +961,16 @@ describe("View Component", () => {
 
       // Modal should remain open on error
       await waitFor(() => {
-        expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
+        expect(screen.getByText(EDIT_MODAL_TITLE)).toBeInTheDocument();
       });
     });
   });
 
   describe("Save All functionality", () => {
     it("should display a full-screen saving overlay while the save is pending", () => {
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: vi.fn().mockResolvedValue({}),
-        isPending: true,
-        isError: false,
-      });
+      mockPublish({ isPending: true });
 
-      render(<Component />, { wrapper });
+      renderView();
 
       const overlay = screen.getByLabelText("Saving in progress...");
       expect(overlay).toHaveClass("loading-overlay");
@@ -960,7 +978,7 @@ describe("View Component", () => {
     });
 
     it("should not display the saving overlay when no save is pending", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       expect(screen.queryByText("Saving in progress...")).not.toBeInTheDocument();
     });
@@ -968,7 +986,7 @@ describe("View Component", () => {
     it("should display a full-screen overlay while the DDI4 validation is running", () => {
       mockValidateDdi4.mockReturnValue({ validate: vi.fn(), isValidating: true });
 
-      render(<Component />, { wrapper });
+      renderView();
 
       const overlay = screen.getByLabelText("physicalInstance.view.validateDdi4InProgress");
       expect(overlay).toHaveClass("loading-overlay");
@@ -976,7 +994,7 @@ describe("View Component", () => {
     });
 
     it("should not display the validation overlay when no validation is running", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       expect(
         screen.queryByText("physicalInstance.view.validateDdi4InProgress"),
@@ -984,29 +1002,12 @@ describe("View Component", () => {
     });
 
     it("should ship the created sentinel MMVR, its code list and the variable reference (#1566)", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockPublish();
 
-      render(<Component />, { wrapper });
+      renderView();
 
-      // Nouvelle variable numérique.
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.newVariable"));
-      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.name/), {
-        target: { value: "VarSentinelle" },
-      });
-      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
-        target: { value: "Variable à sentinelles" },
-      });
-
-      // Onglet Représentation (le TabView mocké ne rend que l'onglet actif).
-      fireEvent.click(screen.getByText("physicalInstance.view.tabs.representation"));
-      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.type/), {
-        target: { value: "numeric" },
-      });
+      // Nouvelle variable numérique (le TabView mocké ne rend que l'onglet actif).
+      fillNewVariable("VarSentinelle", "Variable à sentinelles", "numeric");
 
       // Création d'une valeur sentinelle à la volée : déplier la section, créer, nommer la liste.
       fireEvent.click(screen.getByText("physicalInstance.view.sentinel.title"));
@@ -1017,17 +1018,12 @@ describe("View Component", () => {
 
       // « Ajouter » la variable puis « Sauvegarder » le fichier.
       fireEvent.click(screen.getByLabelText("physicalInstance.view.add"));
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
-      const payload = mutateAsyncMock.mock.calls[0][0].data;
+      const payload = await saveAll(mutateAsyncMock);
 
       // La MMVR créée est embarquée, avec son label...
       expect(itemsOfType(payload, "ManagedMissingValuesRepresentation")).toHaveLength(1);
       const mmvr = itemsOfType(payload, "ManagedMissingValuesRepresentation")[0];
-      expect(mmvr.Label).toEqual([{ "@language": "fr-FR", "@value": "Sentinelles âge" }]);
+      expect(mmvr.Label).toEqual(fr("Sentinelles âge"));
       // ...la variable porte la référence vers cette MMVR...
       const savedVariable = itemsOfType(payload, "Variable").find(
         (variable: any) => variable.VariableRepresentation?.MissingValuesReference,
@@ -1041,154 +1037,65 @@ describe("View Component", () => {
     });
 
     it("should call savePhysicalInstance mutation when Save All button is clicked", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockPublish();
 
-      render(<Component />, { wrapper });
+      renderView();
 
       // Create a new variable to enable the Save All button
       createTestVariable();
 
-      // Now click Save All
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
+      await saveAll(mutateAsyncMock);
 
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalledWith({
-          id: "test-id-123",
-          agencyId: "test-agency-123",
-          data: expect.objectContaining({
-            items: expect.any(Array),
-          }),
-        });
+      expect(mutateAsyncMock).toHaveBeenCalledWith({
+        id: "test-id-123",
+        agencyId: "test-agency-123",
+        data: expect.objectContaining({
+          items: expect.any(Array),
+        }),
       });
     });
 
     it("should merge local variables with existing variables on save", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
+      const mutateAsyncMock = mockPublish();
+
+      mockPhysicalInstanceData({
+        itemTitle: "Test",
+        itemDataRelationshipName: "Test",
+        variableUsedReference: [variableReference("existing-var-1")],
+        ddiVariables: [
+          {
+            ID: "existing-var-1",
+            VariableName: fr("ExistingVar"),
+            Label: fr("Existing Variable"),
+          },
+        ],
       });
 
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: [
-                {
-                  VariablesInRecord: {
-                    VariableUsedReference: [
-                      {
-                        Agency: "test-agency-123",
-                        ID: "existing-var-1",
-                        Version: "1",
-                        TypeOfObject: "Variable",
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          ],
-          Variable: [
-            {
-              ID: "existing-var-1",
-              VariableName: [{ "@language": "fr-FR", "@value": "ExistingVar" }],
-              Label: [{ "@language": "fr-FR", "@value": "Existing Variable" }],
-            },
-          ],
-        }),
-        variables: [],
-        title: "Test Physical Instance",
-        dataRelationshipName: "Test Data Relationship",
-        isLoading: false,
-        isError: false,
-      });
+      renderView();
 
-      render(<Component />, { wrapper });
+      createTestVariable("NewVariable", "New Variable Label");
+      const savedData = await saveAll(mutateAsyncMock);
 
-      // Create a new variable
-      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
-      fireEvent.click(newVariableButton);
-
-      // Fill in the variable form
-      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
-      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
-      fireEvent.change(nameInput, { target: { value: "NewVariable" } });
-      fireEvent.change(labelInput, { target: { value: "New Variable Label" } });
-
-      // Save the variable
-      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
-      fireEvent.click(saveVariableButton);
-
-      // Save all
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-        const callArgs = mutateAsyncMock.mock.calls[0][0];
-        expect(itemsOfType(callArgs.data, "Variable")).toHaveLength(2);
-        expect(itemsOfType(callArgs.data, "Variable")).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({ ID: "existing-var-1" }),
-            expect.objectContaining({
-              VariableName: [{ "@language": "fr-FR", "@value": "NewVariable" }],
-            }),
-          ]),
-        );
-      });
+      expect(itemsOfType(savedData, "Variable")).toHaveLength(2);
+      expect(itemsOfType(savedData, "Variable")).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ ID: "existing-var-1" }),
+          expect.objectContaining({ VariableName: fr("NewVariable") }),
+        ]),
+      );
     });
 
     it("should clear local variables after successful save", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockPublish();
 
-      render(<Component />, { wrapper });
+      renderView();
 
-      // Create a new variable
-      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
-      fireEvent.click(newVariableButton);
-
-      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
-      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
-      fireEvent.change(nameInput, { target: { value: "TempVar" } });
-      fireEvent.change(labelInput, { target: { value: "Temp Variable" } });
-
-      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
-      fireEvent.click(saveVariableButton);
+      createTestVariable("TempVar", "Temp Variable");
 
       // Check that variable is marked as unsaved (italic)
-      await waitFor(() => {
-        const variableRow = screen.getByText("TempVar").closest("tr");
-        expect(variableRow).toHaveClass("font-italic");
-      });
+      await expectUnsaved("TempVar");
 
-      // Save all
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
+      await saveAll(mutateAsyncMock);
 
       // Check that local variable was cleared (variable no longer in italic or not present)
       await waitFor(() => {
@@ -1197,8 +1104,7 @@ describe("View Component", () => {
         // 1. Not exist anymore (cleared from local state and not in API response), or
         // 2. Exist without italic class (if it was added to API response)
         if (variableElement) {
-          const variableRow = variableElement.closest("tr");
-          expect(variableRow).not.toHaveClass("font-italic");
+          expect(variableElement.closest("tr")).not.toHaveClass("font-italic");
         } else {
           // Variable was cleared from local state
           expect(variableElement).toBeNull();
@@ -1207,443 +1113,134 @@ describe("View Component", () => {
     });
 
     it("should handle save all error gracefully", async () => {
-      const mutateAsyncMock = vi.fn().mockRejectedValue(new Error("Save failed"));
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
+      const mutateAsyncMock = mockPublish({
+        mutateAsync: vi.fn().mockRejectedValue(new Error("Save failed")),
       });
 
-      render(<Component />, { wrapper });
+      renderView();
 
       // Create a new variable to enable the Save All button
       createTestVariable();
 
-      // Now click Save All
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
+      await saveAll(mutateAsyncMock);
 
       // Should not crash and should show error message via toast
       expect(screen.getByRole("main")).toBeInTheDocument();
     });
 
     it("should transform local variables to DDI format correctly", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockPublish();
+      mockPhysicalInstanceData({ title: "Test", dataRelationshipName: "Test" });
 
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: [
-                {
-                  VariablesInRecord: {
-                    VariableUsedReference: [],
-                  },
-                },
-              ],
-            },
-          ],
-          Variable: [],
-        }),
-        variables: [],
-        title: "Test",
-        dataRelationshipName: "Test",
-        isLoading: false,
-        isError: false,
-      });
+      renderView();
 
-      render(<Component />, { wrapper });
+      createTestVariable("DateVar", "Date Variable", "date");
+      const savedData = await saveAll(mutateAsyncMock);
 
-      // Create a new variable with date type
-      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
-      fireEvent.click(newVariableButton);
-
-      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
-      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
-      fireEvent.change(nameInput, { target: { value: "DateVar" } });
-      fireEvent.change(labelInput, { target: { value: "Date Variable" } });
-
-      // Switch to representation tab
-      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
-      fireEvent.click(representationTab);
-
-      // Select date type
-      const typeDropdown = screen.getByLabelText("physicalInstance.view.columns.type");
-      fireEvent.change(typeDropdown, { target: { value: "date" } });
-
-      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
-      fireEvent.click(saveVariableButton);
-
-      // Save all
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-        const callArgs = mutateAsyncMock.mock.calls[0][0];
-        const dateVariable = itemsOfType(callArgs.data, "Variable").find(
-          (v: any) => v.VariableName?.[0]?.["@value"] === "DateVar",
-        );
-        expect(dateVariable).toBeDefined();
-        expect(dateVariable.VariableRepresentation).toHaveProperty("DateTimeRepresentation");
-        expect(dateVariable.VariableRepresentation.DateTimeRepresentation).toHaveProperty(
-          "DateTypeCode",
-        );
-      });
+      const dateVariable = savedVariableNamed(savedData, "DateVar");
+      expect(dateVariable).toBeDefined();
+      expect(dateVariable.VariableRepresentation).toHaveProperty("DateTimeRepresentation");
+      expect(dateVariable.VariableRepresentation.DateTimeRepresentation).toHaveProperty(
+        "DateTypeCode",
+      );
     });
 
     // #1592 : une variable Text sans aucun attribut (ni min, ni max, ni regexp) doit quand même
     // porter une TextRepresentation, sinon le DDI exporté n'a qu'un <VariableRepresentation/> vide
     // et le type Text est perdu.
     it("should keep an empty TextRepresentation for a text variable without attributes", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockPublish();
 
-      render(<Component />, { wrapper });
+      renderView();
 
       createTestVariable("EmptyTextVar", "Empty Text Variable");
+      const savedData = await saveAll(mutateAsyncMock);
 
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-        const callArgs = mutateAsyncMock.mock.calls[0][0];
-        const textVariable = itemsOfType(callArgs.data, "Variable").find(
-          (v: any) => v.VariableName?.[0]?.["@value"] === "EmptyTextVar",
-        );
-        expect(textVariable.VariableRepresentation.TextRepresentation).toEqual({
-          $type: "TextRepresentationBaseType",
-        });
+      const textVariable = savedVariableNamed(savedData, "EmptyTextVar");
+      expect(textVariable.VariableRepresentation.TextRepresentation).toEqual({
+        $type: "TextRepresentationBaseType",
       });
     });
 
     it("should not include null values in transformed variables", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockPublish();
 
-      render(<Component />, { wrapper });
+      renderView();
 
       // Create a simple text variable
-      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
-      fireEvent.click(newVariableButton);
+      createTestVariable("TextVar", "Text Variable");
+      const savedData = await saveAll(mutateAsyncMock);
 
-      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
-      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
-      fireEvent.change(nameInput, { target: { value: "TextVar" } });
-      fireEvent.change(labelInput, { target: { value: "Text Variable" } });
-
-      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
-      fireEvent.click(saveVariableButton);
-
-      // Save all
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-        const callArgs = mutateAsyncMock.mock.calls[0][0];
-        const textVariable = itemsOfType(callArgs.data, "Variable").find(
-          (v: any) => v.VariableName?.[0]?.["@value"] === "TextVar",
-        );
-        // Check that variable doesn't have Description if it wasn't set
-        expect(textVariable).not.toHaveProperty("Description");
-        // Check that @isGeographic is not present if not set
-        expect(textVariable).not.toHaveProperty("@isGeographic");
-      });
+      const textVariable = savedVariableNamed(savedData, "TextVar");
+      // Check that variable doesn't have Description if it wasn't set
+      expect(textVariable).not.toHaveProperty("Description");
+      // Check that @isGeographic is not present if not set
+      expect(textVariable).not.toHaveProperty("@isGeographic");
     });
 
-    it("should include CodeList and Category when saving code variables", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
+    describe("code variables", () => {
+      let mutateAsyncMock: Mock;
+
+      beforeEach(() => {
+        mutateAsyncMock = mockPublish();
+        mockPhysicalInstanceData({
+          title: "Test",
+          dataRelationshipName: "Test",
+          extraItems: { CodeList: [], Category: [] },
+        });
       });
 
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: [
-                {
-                  VariablesInRecord: {
-                    VariableUsedReference: [],
-                  },
-                },
-              ],
-            },
-          ],
-          Variable: [],
-          CodeList: [],
-          Category: [],
-        }),
-        variables: [],
-        title: "Test",
-        dataRelationshipName: "Test",
-        isLoading: false,
-        isError: false,
+      it("should include CodeList and Category when saving code variables", async () => {
+        renderView();
+
+        createTestVariable("CodeVar", "Code Variable", "code");
+        const savedData = await saveAll(mutateAsyncMock);
+
+        // Verify that CodeList and Category are included
+        expect(itemsOfType(savedData, "CodeList")).toBeDefined();
+        expect(itemsOfType(savedData, "Category")).toBeDefined();
+        // CodeList and Category should be arrays (not null)
+        expect(Array.isArray(itemsOfType(savedData, "CodeList"))).toBe(true);
+        expect(Array.isArray(itemsOfType(savedData, "Category"))).toBe(true);
       });
 
-      render(<Component />, { wrapper });
+      it("should ensure CodeListReference ID matches CodeList ID", async () => {
+        renderView();
 
-      // Create a new code variable
-      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
-      fireEvent.click(newVariableButton);
+        createTestVariable("CodeVar", "Code Variable", "code");
+        const savedData = await saveAll(mutateAsyncMock);
 
-      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
-      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
-      fireEvent.change(nameInput, { target: { value: "CodeVar" } });
-      fireEvent.change(labelInput, { target: { value: "Code Variable" } });
+        // Verify that CodeListReference.ID matches the CodeList.ID
+        if (
+          itemsOfType(savedData, "Variable").length > 0 &&
+          itemsOfType(savedData, "CodeList").length > 0
+        ) {
+          const variable = itemsOfType(savedData, "Variable")[0];
+          const codeList = itemsOfType(savedData, "CodeList")[0];
+          const codeListRefId =
+            variable.VariableRepresentation?.CodeRepresentation?.CodeListReference?.ID;
 
-      // Switch to representation tab
-      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
-      fireEvent.click(representationTab);
-
-      // Select code type
-      const typeDropdown = screen.getByLabelText("physicalInstance.view.columns.type");
-      fireEvent.change(typeDropdown, { target: { value: "code" } });
-
-      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
-      fireEvent.click(saveVariableButton);
-
-      // Save all
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
+          expect(codeListRefId).toBeDefined();
+          expect(codeListRefId).toBe(codeList.ID);
+        }
       });
-
-      // Verify that CodeList and Category are included
-      const savedData = mutateAsyncMock.mock.calls[0][0].data;
-      expect(itemsOfType(savedData, "CodeList")).toBeDefined();
-      expect(itemsOfType(savedData, "Category")).toBeDefined();
-      // CodeList and Category should be arrays (not null)
-      expect(Array.isArray(itemsOfType(savedData, "CodeList"))).toBe(true);
-      expect(Array.isArray(itemsOfType(savedData, "Category"))).toBe(true);
-    });
-
-    it("should ensure CodeListReference ID matches CodeList ID", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: [
-                {
-                  VariablesInRecord: {
-                    VariableUsedReference: [],
-                  },
-                },
-              ],
-            },
-          ],
-          Variable: [],
-          CodeList: [],
-          Category: [],
-        }),
-        variables: [],
-        title: "Test",
-        dataRelationshipName: "Test",
-        isLoading: false,
-        isError: false,
-      });
-
-      render(<Component />, { wrapper });
-
-      // Create a new code variable
-      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
-      fireEvent.click(newVariableButton);
-
-      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
-      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
-      fireEvent.change(nameInput, { target: { value: "CodeVar" } });
-      fireEvent.change(labelInput, { target: { value: "Code Variable" } });
-
-      // Switch to representation tab
-      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
-      fireEvent.click(representationTab);
-
-      // Select code type
-      const typeDropdown = screen.getByLabelText("physicalInstance.view.columns.type");
-      fireEvent.change(typeDropdown, { target: { value: "code" } });
-
-      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
-      fireEvent.click(saveVariableButton);
-
-      // Save all
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
-
-      // Verify that CodeListReference.ID matches the CodeList.ID
-      const savedData = mutateAsyncMock.mock.calls[0][0].data;
-      if (
-        itemsOfType(savedData, "Variable").length > 0 &&
-        itemsOfType(savedData, "CodeList").length > 0
-      ) {
-        const variable = itemsOfType(savedData, "Variable")[0];
-        const codeList = itemsOfType(savedData, "CodeList")[0];
-        const codeListRefId =
-          variable.VariableRepresentation?.CodeRepresentation?.CodeListReference?.ID;
-
-        expect(codeListRefId).toBeDefined();
-        expect(codeListRefId).toBe(codeList.ID);
-      }
     });
 
     it("should update VariablesInRecord with all variable references", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockPublish();
+      mockDataWithExistingVariable();
 
-      const existingVariable = {
-        ID: "var-1",
-        Agency: "test-agency",
-        Version: "1",
-        URN: "urn:ddi:test-agency:var-1:1",
-        VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
-        Label: [{ "@language": "fr-FR", "@value": "Variable 1" }],
-        VariableRepresentation: {
-          TextRepresentation: { MaxLength: 100 },
-        },
-      };
+      renderView();
 
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: [
-                {
-                  VariablesInRecord: {
-                    VariableUsedReference: [
-                      {
-                        Agency: "test-agency-123",
-                        ID: "var-1",
-                        Version: "1",
-                        TypeOfObject: "Variable",
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          ],
-          Variable: [existingVariable],
-        }),
-        variables: [
-          {
-            id: "var-1",
-            name: "Variable1",
-            label: "Variable 1",
-            type: "text",
-            lastModified: "2024-01-01",
-          },
-        ],
-        title: "Test",
-        dataRelationshipName: "Test",
-        isLoading: false,
-        isError: false,
-      });
-
-      render(<Component />, { wrapper });
-
-      // Create a new variable
-      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
-      fireEvent.click(newVariableButton);
-
-      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
-      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
-      fireEvent.change(nameInput, { target: { value: "NewVariable" } });
-      fireEvent.change(labelInput, { target: { value: "New Variable" } });
-
-      const saveVariableButton = screen.getByLabelText("physicalInstance.view.add");
-      fireEvent.click(saveVariableButton);
-
-      // Click Save All
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      // Wait for the save to complete
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
+      createTestVariable("NewVariable", "New Variable");
+      const savedData = await saveAll(mutateAsyncMock);
 
       // Verify that VariablesInRecord includes references to both variables
-      const savedData = mutateAsyncMock.mock.calls[0][0].data;
-      expect(
-        itemsOfType(savedData, "DataRelationship")[0].LogicalRecord[0].VariablesInRecord,
-      ).toBeDefined();
-      expect(
-        itemsOfType(savedData, "DataRelationship")[0].LogicalRecord[0].VariablesInRecord
-          .VariableUsedReference,
-      ).toHaveLength(2);
-      expect(
-        itemsOfType(savedData, "DataRelationship")[0].LogicalRecord[0].VariablesInRecord
-          .VariableUsedReference,
-      ).toEqual(
+      const variablesInRecord = itemsOfType(savedData, "DataRelationship")[0].LogicalRecord[0]
+        .VariablesInRecord;
+      expect(variablesInRecord).toBeDefined();
+      expect(variablesInRecord.VariableUsedReference).toHaveLength(2);
+      expect(variablesInRecord.VariableUsedReference).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             $type: "Variable",
@@ -1661,153 +1258,35 @@ describe("View Component", () => {
     });
 
     it("should exclude deleted variables from save", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockPublish();
+      mockDataWithExistingVariable();
 
-      const existingVariable = {
-        ID: "var-1",
-        Agency: "test-agency",
-        Version: "1",
-        URN: "urn:ddi:test-agency:var-1:1",
-        VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
-        Label: [{ "@language": "fr-FR", "@value": "Variable 1" }],
-        VariableRepresentation: {
-          TextRepresentation: { MaxLength: 100 },
-        },
-      };
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: [
-                {
-                  VariablesInRecord: {
-                    VariableUsedReference: [
-                      {
-                        Agency: "test-agency-123",
-                        ID: "var-1",
-                        Version: "1",
-                        TypeOfObject: "Variable",
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          ],
-          Variable: [existingVariable],
-        }),
-        variables: [
-          {
-            id: "var-1",
-            name: "Variable1",
-            label: "Variable 1",
-            type: "text",
-            lastModified: "2024-01-01",
-          },
-        ],
-        title: "Test",
-        dataRelationshipName: "Test",
-        isLoading: false,
-        isError: false,
-      });
-
-      render(<Component />, { wrapper });
+      renderView();
 
       // Verify variable is initially displayed
       expect(screen.getByText("Variable1")).toBeInTheDocument();
 
-      // Click delete button for the variable
-      const deleteButtons = screen.getAllByLabelText("physicalInstance.view.delete");
-      fireEvent.click(deleteButtons[0]);
-
-      // Confirm deletion in the dialog
-      const confirmButton = screen.getByText("physicalInstance.view.confirmDelete");
-      fireEvent.click(confirmButton);
-
-      // Variable should no longer be visible in the table
-      await waitFor(() => {
-        expect(screen.queryByText("Variable1")).not.toBeInTheDocument();
-      });
-
-      // Click Save All
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      // Wait for the save to complete
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
+      await deleteFirstVariable();
+      const savedData = await saveAll(mutateAsyncMock);
 
       // Verify that the saved data does not include the deleted variable
-      const savedData = mutateAsyncMock.mock.calls[0][0].data;
       expect(itemsOfType(savedData, "Variable")).toEqual([]);
     });
   });
 
   describe("Duplicate Physical Instance", () => {
     it("should open the duplication modal instead of duplicating immediately, pre-filled with <title> (copy)", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              ID: "pi-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              Citation: { Title: [{ "@language": "fr-FR", "@value": "Original Title" }] },
-            },
-          ],
-          DataRelationship: [
-            {
-              ID: "dr-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: [
-                { ID: "lr-original-id", VariablesInRecord: { VariableUsedReference: [] } },
-              ],
-            },
-          ],
-          Variable: [],
-        }),
-        variables: [],
+      const mutateAsyncMock = mockPublish();
+      mockPhysicalInstanceData({
+        ...DUPLICABLE_ITEMS,
         title: "Original Title",
         dataRelationshipName: "DR Name",
-        isLoading: false,
-        isError: false,
       });
 
-      render(<Component />, { wrapper });
-
-      const duplicateButton = screen.getByLabelText(
-        "physicalInstance.view.duplicatePhysicalInstance",
-      );
-      fireEvent.click(duplicateButton);
+      renderView();
 
       // La modale s'ouvre…
-      expect(
-        await screen.findByText("physicalInstance.view.duplicateModal.title"),
-      ).toBeInTheDocument();
+      await openDuplicationModal();
 
       // …le libellé est pré-rempli avec le suffixe (copy)…
       // La valeur est posée par un useEffect après le montage de la modale
@@ -1825,55 +1304,20 @@ describe("View Component", () => {
 
     it("should show the backend error message in the toast when duplication fails because no study unit was found", async () => {
       // Le SDK (build-api) rejette un objet nu { message, status }, jamais une Error.
-      mockPublishPhysicalInstance.mockReturnValue({
+      mockPublish({
         mutateAsync: vi.fn().mockRejectedValue({
           message: "No study unit found for physical instance fr.insee/pi-111",
           status: 404,
         }),
-        isPending: false,
-        isError: false,
       });
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              ID: "pi-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              Citation: { Title: [{ "@language": "fr-FR", "@value": "Original Title" }] },
-            },
-          ],
-          DataRelationship: [
-            {
-              ID: "dr-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: [
-                { ID: "lr-original-id", VariablesInRecord: { VariableUsedReference: [] } },
-              ],
-            },
-          ],
-          Variable: [],
-        }),
-        variables: [],
+      mockPhysicalInstanceData({
+        ...DUPLICABLE_ITEMS,
         title: "Original Title",
         dataRelationshipName: "DR Name",
-        isLoading: false,
-        isError: false,
       });
 
-      render(<Component />, { wrapper });
-
-      const duplicateButton = screen.getByLabelText(
-        "physicalInstance.view.duplicatePhysicalInstance",
-      );
-      fireEvent.click(duplicateButton);
-
-      await screen.findByText("physicalInstance.view.duplicateModal.title");
-      const duplicateForm = screen.getByRole("dialog").querySelector("form");
-      fireEvent.submit(duplicateForm!);
+      renderView();
+      await confirmDuplication();
 
       await waitFor(() => {
         expect(mockToastShow).toHaveBeenCalledWith(
@@ -1887,60 +1331,19 @@ describe("View Component", () => {
     });
 
     it("should add (copy) suffix to Citation Title and PhysicalInstanceLabel when duplicating", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              ID: "pi-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Original Title" }],
-              },
-              PhysicalInstanceLabel: [{ "@language": "fr-FR", "@value": "Original Label" }],
-            },
-          ],
-          DataRelationship: [
-            {
-              ID: "dr-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
-              LogicalRecord: [
-                {
-                  ID: "lr-original-id",
-                  VariablesInRecord: { VariableUsedReference: [] },
-                },
-              ],
-            },
-          ],
-          Variable: [],
-        }),
-        variables: [],
+      const mutateAsyncMock = mockPublish();
+      mockPhysicalInstanceData({
+        ...DUPLICABLE_ITEMS,
+        physicalInstance: {
+          ...DUPLICABLE_ITEMS.physicalInstance,
+          PhysicalInstanceLabel: fr("Original Label"),
+        },
         title: "Original Title",
         dataRelationshipName: "Original DR Name",
-        isLoading: false,
-        isError: false,
       });
 
-      render(<Component />, { wrapper });
-
-      const duplicateButton = screen.getByLabelText(
-        "physicalInstance.view.duplicatePhysicalInstance",
-      );
-      fireEvent.click(duplicateButton);
-
-      // La duplication n'est plus immédiate : on confirme dans la modale.
-      await screen.findByText("physicalInstance.view.duplicateModal.title");
-      const duplicateForm = screen.getByRole("dialog").querySelector("form");
-      fireEvent.submit(duplicateForm!);
+      renderView();
+      await confirmDuplication();
 
       await waitFor(() => {
         expect(mutateAsyncMock).toHaveBeenCalled();
@@ -1960,400 +1363,121 @@ describe("View Component", () => {
       ).toBe("Original Label");
     });
 
-    it("should add (copy) suffix to DataRelationshipName when duplicating", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
+    describe("with the duplicated instance published", () => {
+      // Duplique l'instance et renvoie l'enveloppe publiée.
+      const duplicate = async (mutateAsyncMock: Mock) => {
+        renderView();
+        await confirmDuplication();
+
+        await waitFor(() => {
+          expect(mutateAsyncMock).toHaveBeenCalled();
+        });
+
+        return mutateAsyncMock.mock.calls[0][0].data;
+      };
+
+      it("should add (copy) suffix to DataRelationshipName when duplicating", async () => {
+        const mutateAsyncMock = mockPublish();
+        mockPhysicalInstanceData({
+          ...DUPLICABLE_ITEMS,
+          title: "Test",
+          dataRelationshipName: "Original DR Name",
+        });
+
+        const savedData = await duplicate(mutateAsyncMock);
+
+        // Verify DataRelationship Label has (copy) suffix with new pattern
+        expect(itemsOfType(savedData, "DataRelationship")[0].Label[0]["@value"]).toBe(
+          "Structure : Test (copy)",
+        );
       });
 
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              ID: "pi-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              ID: "dr-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Original DR Name" }],
-              LogicalRecord: [
-                {
-                  ID: "lr-original-id",
-                  VariablesInRecord: { VariableUsedReference: [] },
-                },
-              ],
-            },
-          ],
-          Variable: [],
-        }),
-        variables: [],
-        title: "Test",
-        dataRelationshipName: "Original DR Name",
-        isLoading: false,
-        isError: false,
+      it("should add BasedOnObject to PhysicalInstance when duplicating", async () => {
+        const mutateAsyncMock = mockPublish();
+        mockPhysicalInstanceData({
+          ...DUPLICABLE_ITEMS,
+          title: "Test",
+          dataRelationshipName: "DR Name",
+        });
+
+        const savedData = await duplicate(mutateAsyncMock);
+
+        // Verify BasedOnObject is added to PhysicalInstance
+        expect(itemsOfType(savedData, "PhysicalInstance")[0].BasedOnObject).toEqual(
+          basedOn("PhysicalInstance", "pi-original-id"),
+        );
       });
 
-      render(<Component />, { wrapper });
+      it("should add BasedOnObject to DataRelationship when duplicating", async () => {
+        const mutateAsyncMock = mockPublish();
+        mockPhysicalInstanceData({
+          ...DUPLICABLE_ITEMS,
+          title: "Test",
+          dataRelationshipName: "DR Name",
+        });
 
-      const duplicateButton = screen.getByLabelText(
-        "physicalInstance.view.duplicatePhysicalInstance",
-      );
-      fireEvent.click(duplicateButton);
+        const savedData = await duplicate(mutateAsyncMock);
 
-      // La duplication n'est plus immédiate : on confirme dans la modale.
-      await screen.findByText("physicalInstance.view.duplicateModal.title");
-      const duplicateForm = screen.getByRole("dialog").querySelector("form");
-      fireEvent.submit(duplicateForm!);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
+        // Verify BasedOnObject is added to DataRelationship
+        expect(itemsOfType(savedData, "DataRelationship")[0].BasedOnObject).toEqual(
+          basedOn("DataRelationship", "dr-original-id"),
+        );
       });
 
-      const savedData = mutateAsyncMock.mock.calls[0][0].data;
-
-      // Verify DataRelationship Label has (copy) suffix with new pattern
-      expect(itemsOfType(savedData, "DataRelationship")[0].Label[0]["@value"]).toBe(
-        "Structure : Test (copy)",
-      );
-    });
-
-    it("should add BasedOnObject to PhysicalInstance when duplicating", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              ID: "pi-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              ID: "dr-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: [
-                {
-                  ID: "lr-original-id",
-                  VariablesInRecord: { VariableUsedReference: [] },
-                },
-              ],
-            },
-          ],
-          Variable: [],
-        }),
-        variables: [],
-        title: "Test",
-        dataRelationshipName: "DR Name",
-        isLoading: false,
-        isError: false,
-      });
-
-      render(<Component />, { wrapper });
-
-      const duplicateButton = screen.getByLabelText(
-        "physicalInstance.view.duplicatePhysicalInstance",
-      );
-      fireEvent.click(duplicateButton);
-
-      // La duplication n'est plus immédiate : on confirme dans la modale.
-      await screen.findByText("physicalInstance.view.duplicateModal.title");
-      const duplicateForm = screen.getByRole("dialog").querySelector("form");
-      fireEvent.submit(duplicateForm!);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
-
-      const savedData = mutateAsyncMock.mock.calls[0][0].data;
-
-      // Verify BasedOnObject is added to PhysicalInstance
-      expect(itemsOfType(savedData, "PhysicalInstance")[0].BasedOnObject).toEqual({
-        $type: "BasedOnObjectType",
-        BasedOnReference: [
-          {
-            $type: "PhysicalInstance",
-            URN: "urn:ddi:test-agency:pi-original-id:1",
-            Agency: "test-agency",
-            ID: "pi-original-id",
-            Version: "1",
-          },
-        ],
-      });
-    });
-
-    it("should add BasedOnObject to DataRelationship when duplicating", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              ID: "pi-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              ID: "dr-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: [
-                {
-                  ID: "lr-original-id",
-                  VariablesInRecord: { VariableUsedReference: [] },
-                },
-              ],
-            },
-          ],
-          Variable: [],
-        }),
-        variables: [],
-        title: "Test",
-        dataRelationshipName: "DR Name",
-        isLoading: false,
-        isError: false,
-      });
-
-      render(<Component />, { wrapper });
-
-      const duplicateButton = screen.getByLabelText(
-        "physicalInstance.view.duplicatePhysicalInstance",
-      );
-      fireEvent.click(duplicateButton);
-
-      // La duplication n'est plus immédiate : on confirme dans la modale.
-      await screen.findByText("physicalInstance.view.duplicateModal.title");
-      const duplicateForm = screen.getByRole("dialog").querySelector("form");
-      fireEvent.submit(duplicateForm!);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
-
-      const savedData = mutateAsyncMock.mock.calls[0][0].data;
-
-      // Verify BasedOnObject is added to DataRelationship
-      expect(itemsOfType(savedData, "DataRelationship")[0].BasedOnObject).toEqual({
-        $type: "BasedOnObjectType",
-        BasedOnReference: [
-          {
-            $type: "DataRelationship",
-            URN: "urn:ddi:test-agency:dr-original-id:1",
-            Agency: "test-agency",
-            ID: "dr-original-id",
-            Version: "1",
-          },
-        ],
-      });
-    });
-
-    it("should add BasedOnObject to Variables when duplicating", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              ID: "pi-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              ID: "dr-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: [
-                {
-                  ID: "lr-original-id",
-                  VariablesInRecord: { VariableUsedReference: [] },
-                },
-              ],
-            },
-          ],
-          Variable: [
+      it("should add BasedOnObject to Variables when duplicating", async () => {
+        const mutateAsyncMock = mockPublish();
+        mockPhysicalInstanceData({
+          ...DUPLICABLE_ITEMS,
+          title: "Test",
+          dataRelationshipName: "DR Name",
+          ddiVariables: [
             {
               ID: "var-original-id-1",
               Agency: "test-agency",
               Version: "1",
-              VariableName: [{ "@language": "fr-FR", "@value": "Var1" }],
-              Label: [{ "@language": "fr-FR", "@value": "Variable 1" }],
+              VariableName: fr("Var1"),
+              Label: fr("Variable 1"),
             },
             {
               ID: "var-original-id-2",
               Agency: "test-agency",
               Version: "2",
-              VariableName: [{ "@language": "fr-FR", "@value": "Var2" }],
-              Label: [{ "@language": "fr-FR", "@value": "Variable 2" }],
+              VariableName: fr("Var2"),
+              Label: fr("Variable 2"),
             },
           ],
-        }),
-        variables: [
-          {
-            id: "var-original-id-1",
-            name: "Var1",
-            label: "Variable 1",
-            type: "text",
-          },
-          {
-            id: "var-original-id-2",
-            name: "Var2",
-            label: "Variable 2",
-            type: "text",
-          },
-        ],
-        title: "Test",
-        dataRelationshipName: "DR Name",
-        isLoading: false,
-        isError: false,
+          variables: [
+            { id: "var-original-id-1", name: "Var1", label: "Variable 1", type: "text" },
+            { id: "var-original-id-2", name: "Var2", label: "Variable 2", type: "text" },
+          ],
+        });
+
+        const savedData = await duplicate(mutateAsyncMock);
+
+        // Verify BasedOnObject is added to each Variable
+        expect(itemsOfType(savedData, "Variable")[0].BasedOnObject).toEqual(
+          basedOn("Variable", "var-original-id-1"),
+        );
+        expect(itemsOfType(savedData, "Variable")[1].BasedOnObject).toEqual(
+          basedOn("Variable", "var-original-id-2", "2"),
+        );
+
+        // Verify new IDs are different from original
+        expect(itemsOfType(savedData, "Variable")[0].ID).not.toBe("var-original-id-1");
+        expect(itemsOfType(savedData, "Variable")[1].ID).not.toBe("var-original-id-2");
       });
-
-      render(<Component />, { wrapper });
-
-      const duplicateButton = screen.getByLabelText(
-        "physicalInstance.view.duplicatePhysicalInstance",
-      );
-      fireEvent.click(duplicateButton);
-
-      // La duplication n'est plus immédiate : on confirme dans la modale.
-      await screen.findByText("physicalInstance.view.duplicateModal.title");
-      const duplicateForm = screen.getByRole("dialog").querySelector("form");
-      fireEvent.submit(duplicateForm!);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
-
-      const savedData = mutateAsyncMock.mock.calls[0][0].data;
-
-      // Verify BasedOnObject is added to each Variable
-      expect(itemsOfType(savedData, "Variable")[0].BasedOnObject).toEqual({
-        $type: "BasedOnObjectType",
-        BasedOnReference: [
-          {
-            $type: "Variable",
-            URN: "urn:ddi:test-agency:var-original-id-1:1",
-            Agency: "test-agency",
-            ID: "var-original-id-1",
-            Version: "1",
-          },
-        ],
-      });
-
-      expect(itemsOfType(savedData, "Variable")[1].BasedOnObject).toEqual({
-        $type: "BasedOnObjectType",
-        BasedOnReference: [
-          {
-            $type: "Variable",
-            URN: "urn:ddi:test-agency:var-original-id-2:2",
-            Agency: "test-agency",
-            ID: "var-original-id-2",
-            Version: "2",
-          },
-        ],
-      });
-
-      // Verify new IDs are different from original
-      expect(itemsOfType(savedData, "Variable")[0].ID).not.toBe("var-original-id-1");
-      expect(itemsOfType(savedData, "Variable")[1].ID).not.toBe("var-original-id-2");
     });
 
     it("should navigate to new Physical Instance after duplication", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
-
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              ID: "pi-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              ID: "dr-original-id",
-              Agency: "test-agency",
-              Version: "1",
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "DR Name" }],
-              LogicalRecord: [
-                {
-                  ID: "lr-original-id",
-                  VariablesInRecord: { VariableUsedReference: [] },
-                },
-              ],
-            },
-          ],
-          Variable: [],
-        }),
-        variables: [],
+      mockPublish();
+      mockPhysicalInstanceData({
+        ...DUPLICABLE_ITEMS,
         title: "Test",
         dataRelationshipName: "DR Name",
-        isLoading: false,
-        isError: false,
       });
 
-      render(<Component />, { wrapper });
-
-      const duplicateButton = screen.getByLabelText(
-        "physicalInstance.view.duplicatePhysicalInstance",
-      );
-      fireEvent.click(duplicateButton);
-
-      // La duplication n'est plus immédiate : on confirme dans la modale.
-      await screen.findByText("physicalInstance.view.duplicateModal.title");
-      const duplicateForm = screen.getByRole("dialog").querySelector("form");
-      fireEvent.submit(duplicateForm!);
+      renderView();
+      await confirmDuplication();
 
       await waitFor(() => {
         expect(mockNavigate).toHaveBeenCalled();
@@ -2367,95 +1491,71 @@ describe("View Component", () => {
   });
 
   describe("Global save with a variable being edited", () => {
-    const publishMock = () => {
-      const mutateAsync = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync,
-        isPending: false,
-        isError: false,
-      });
-      return mutateAsync;
+    // Crée « TestVar », la rouvre en édition et, si demandé, modifie son libellé sans l'enregistrer.
+    const editTestVariable = async (pendingLabel?: string) => {
+      createTestVariable();
+      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
+      await screen.findByLabelText("physicalInstance.view.update");
+      if (pendingLabel) {
+        fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
+          target: { value: pendingLabel },
+        });
+      }
     };
 
+    const expectNoPendingEditDialog = () =>
+      expect(screen.queryByText(PENDING_VARIABLE_EDIT_TITLE)).not.toBeInTheDocument();
+
     it("should save straight away when no variable is being edited", async () => {
-      const mutateAsync = publishMock();
-      render(<Component />, { wrapper });
+      const mutateAsync = mockPublish();
+      renderView();
 
       createTestVariable();
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+      await saveAll(mutateAsync);
 
-      await waitFor(() => expect(mutateAsync).toHaveBeenCalled());
-      expect(
-        screen.queryByText("physicalInstance.view.pendingVariableEdit.title"),
-      ).not.toBeInTheDocument();
+      expectNoPendingEditDialog();
     });
 
     it("should save straight away when the edited variable has no pending change", async () => {
-      const mutateAsync = publishMock();
-      render(<Component />, { wrapper });
+      const mutateAsync = mockPublish();
+      renderView();
 
-      createTestVariable();
-      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
-      await screen.findByLabelText("physicalInstance.view.update");
+      await editTestVariable();
+      await saveAll(mutateAsync);
 
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
-
-      await waitFor(() => expect(mutateAsync).toHaveBeenCalled());
-      expect(
-        screen.queryByText("physicalInstance.view.pendingVariableEdit.title"),
-      ).not.toBeInTheDocument();
+      expectNoPendingEditDialog();
     });
 
     it("should ask for confirmation when the edited variable has pending changes", async () => {
-      const mutateAsync = publishMock();
-      render(<Component />, { wrapper });
+      const mutateAsync = mockPublish();
+      renderView();
 
-      createTestVariable();
-      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
-      await screen.findByLabelText("physicalInstance.view.update");
-      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
-        target: { value: "Libellé modifié" },
-      });
+      await editTestVariable("Libellé modifié");
+      clickSaveAll();
 
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
-
-      await screen.findByText("physicalInstance.view.pendingVariableEdit.title");
+      await screen.findByText(PENDING_VARIABLE_EDIT_TITLE);
       expect(mutateAsync).not.toHaveBeenCalled();
     });
 
     it("should not save when the confirmation is rejected", async () => {
-      const mutateAsync = publishMock();
-      render(<Component />, { wrapper });
+      const mutateAsync = mockPublish();
+      renderView();
 
-      createTestVariable();
-      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
-      await screen.findByLabelText("physicalInstance.view.update");
-      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
-        target: { value: "Libellé modifié" },
-      });
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+      await editTestVariable("Libellé modifié");
+      clickSaveAll();
 
       fireEvent.click(await screen.findByText("physicalInstance.view.pendingVariableEdit.cancel"));
 
-      await waitFor(() =>
-        expect(
-          screen.queryByText("physicalInstance.view.pendingVariableEdit.title"),
-        ).not.toBeInTheDocument(),
-      );
+      await waitFor(() => expectNoPendingEditDialog());
       expect(mutateAsync).not.toHaveBeenCalled();
     });
 
     it("should save without the pending change when the confirmation is accepted", async () => {
-      const mutateAsync = publishMock();
-      render(<Component />, { wrapper });
+      const mutateAsync = mockPublish();
+      renderView();
 
-      createTestVariable();
-      fireEvent.click(screen.getByText("TestVar").closest("tr")!);
-      await screen.findByLabelText("physicalInstance.view.update");
-      fireEvent.change(screen.getByLabelText(/physicalInstance\.view\.columns\.label/), {
-        target: { value: "Libellé modifié" },
-      });
-      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+      await editTestVariable("Libellé modifié");
+      clickSaveAll();
 
       fireEvent.click(await screen.findByText("physicalInstance.view.pendingVariableEdit.confirm"));
 
@@ -2467,138 +1567,51 @@ describe("View Component", () => {
 
   describe("Unsaved changes navigation blocking", () => {
     it("should not block navigation when there are no unsaved changes", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       // With no local variables or deleted variables, blocker should not be triggered
       expect(mockBlocker.state).toBe("unblocked");
     });
 
     it("should have unsaved changes when a new variable is added", async () => {
-      render(<Component />, { wrapper });
+      renderView();
 
-      // Create a new variable
       createTestVariable();
 
       // Variable should be marked as unsaved (italic)
-      await waitFor(() => {
-        const variableRow = screen.getByText("TestVar").closest("tr");
-        expect(variableRow).toHaveClass("font-italic");
-      });
+      await expectUnsaved("TestVar");
     });
 
     it("should have unsaved changes when a variable is deleted", async () => {
-      const existingVariable = {
-        ID: "var-1",
-        Agency: "test-agency",
-        Version: "1",
-        URN: "urn:ddi:test-agency:var-1:1",
-        VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
-        Label: [{ "@language": "fr-FR", "@value": "Variable 1" }],
-        VariableRepresentation: {
-          TextRepresentation: { MaxLength: 100 },
-        },
-      };
+      mockDataWithExistingVariable();
 
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              Citation: {
-                Title: [{ "@language": "fr-FR", "@value": "Test" }],
-              },
-            },
-          ],
-          DataRelationship: [
-            {
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test" }],
-              LogicalRecord: [
-                {
-                  VariablesInRecord: {
-                    VariableUsedReference: [
-                      {
-                        Agency: "test-agency-123",
-                        ID: "var-1",
-                        Version: "1",
-                        TypeOfObject: "Variable",
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          ],
-          Variable: [existingVariable],
-        }),
-        variables: [
-          {
-            id: "var-1",
-            name: "Variable1",
-            label: "Variable 1",
-            type: "text",
-            lastModified: "2024-01-01",
-          },
-        ],
-        title: "Test",
-        dataRelationshipName: "Test",
-        isLoading: false,
-        isError: false,
-      });
+      renderView();
 
-      render(<Component />, { wrapper });
-
-      // Click delete button for the variable
-      const deleteButtons = screen.getAllByLabelText("physicalInstance.view.delete");
-      fireEvent.click(deleteButtons[0]);
-
-      // Confirm deletion in the dialog
-      const confirmButton = screen.getByText("physicalInstance.view.confirmDelete");
-      fireEvent.click(confirmButton);
-
-      // Variable should no longer be visible in the table
-      await waitFor(() => {
-        expect(screen.queryByText("Variable1")).not.toBeInTheDocument();
-      });
+      await deleteFirstVariable();
 
       // At this point, the component should have unsaved changes
       // The Save All button should be enabled
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      expect(saveAllButton).not.toBeDisabled();
+      expect(screen.getByLabelText("physicalInstance.view.saveAll")).not.toBeDisabled();
     });
 
     it("should clear unsaved changes after successful save", async () => {
-      const mutateAsyncMock = vi.fn().mockResolvedValue({});
-      mockPublishPhysicalInstance.mockReturnValue({
-        mutateAsync: mutateAsyncMock,
-        isPending: false,
-        isError: false,
-      });
+      const mutateAsyncMock = mockPublish();
 
-      render(<Component />, { wrapper });
+      renderView();
 
-      // Create a new variable
       createTestVariable();
 
       // Variable should be marked as unsaved (italic)
-      await waitFor(() => {
-        const variableRow = screen.getByText("TestVar").closest("tr");
-        expect(variableRow).toHaveClass("font-italic");
-      });
+      await expectUnsaved("TestVar");
 
-      // Save all
-      const saveAllButton = screen.getByLabelText("physicalInstance.view.saveAll");
-      fireEvent.click(saveAllButton);
-
-      await waitFor(() => {
-        expect(mutateAsyncMock).toHaveBeenCalled();
-      });
+      await saveAll(mutateAsyncMock);
 
       // After save, local variables should be cleared
       // The variable should no longer be in italic (or may not exist depending on API response)
       await waitFor(() => {
         const variableElement = screen.queryByText("TestVar");
         if (variableElement) {
-          const variableRow = variableElement.closest("tr");
-          expect(variableRow).not.toHaveClass("font-italic");
+          expect(variableElement.closest("tr")).not.toHaveClass("font-italic");
         }
       });
     });
@@ -2606,10 +1619,9 @@ describe("View Component", () => {
 
   describe("Confirmation dialog", () => {
     it("should not offer a resize handle on the confirmation dialog", async () => {
-      render(<Component />, { wrapper });
+      renderView();
 
-      const deleteButtons = screen.getAllByLabelText("physicalInstance.view.delete");
-      fireEvent.click(deleteButtons[0]);
+      fireEvent.click(screen.getAllByLabelText("physicalInstance.view.delete")[0]);
 
       await screen.findByText("physicalInstance.view.confirmDelete");
 
@@ -2618,36 +1630,27 @@ describe("View Component", () => {
   });
 
   describe("URL search params synchronization", () => {
-    it("should set variableId search param when a variable is clicked", () => {
-      render(<Component />, { wrapper });
+    const clickTab = (tab: "information" | "representation") =>
+      fireEvent.click(screen.getByText(`physicalInstance.view.tabs.${tab}`));
 
-      const firstRow = screen.getAllByRole("row")[1];
-      fireEvent.click(firstRow);
+    it("should set variableId search param when a variable is clicked", () => {
+      renderView();
+
+      selectFirstVariable();
 
       expect(mockSetSearchParams).toHaveBeenCalled();
       expect(mockSearchParams.get("variableId")).toBe("1");
     });
 
     it("should remove variableId and tab search params when variable is deselected", async () => {
-      render(<Component />, { wrapper });
+      renderView();
 
-      // Select a variable
-      const firstRow = screen.getAllByRole("row")[1];
-      fireEvent.click(firstRow);
+      selectFirstVariable();
 
       expect(mockSearchParams.get("variableId")).toBe("1");
 
       // Create a new variable and save it, which deselects the variable
-      const newVariableButton = screen.getByLabelText("physicalInstance.view.newVariable");
-      fireEvent.click(newVariableButton);
-
-      const nameInput = screen.getByLabelText(/physicalInstance\.view\.columns\.name/);
-      const labelInput = screen.getByLabelText(/physicalInstance\.view\.columns\.label/);
-      fireEvent.change(nameInput, { target: { value: "NewVar" } });
-      fireEvent.change(labelInput, { target: { value: "New Variable" } });
-
-      const saveButton = screen.getByLabelText("physicalInstance.view.add");
-      fireEvent.click(saveButton);
+      createTestVariable("NewVar", "New Variable");
 
       // After saving, the variable is deselected (selectedVariable becomes null)
       await waitFor(() => {
@@ -2659,7 +1662,7 @@ describe("View Component", () => {
     it("should restore selected variable from URL on initial load", () => {
       mockSearchParams.set("variableId", "1");
 
-      render(<Component />, { wrapper });
+      renderView();
 
       // The variable should be selected and the edit form should be visible
       expect(screen.getByRole("complementary")).toBeInTheDocument();
@@ -2668,80 +1671,61 @@ describe("View Component", () => {
     it("should not restore variable if variableId in URL does not match any variable", () => {
       mockSearchParams.set("variableId", "non-existent-id");
 
-      render(<Component />, { wrapper });
+      renderView();
 
       // No variable should be selected
       expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
     });
 
     it("should set tab search param when tab is changed", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       // Select a variable to show the edit form
-      const firstRow = screen.getAllByRole("row")[1];
-      fireEvent.click(firstRow);
+      selectFirstVariable();
 
       // Click on the representation tab (index 1)
-      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
-      fireEvent.click(representationTab);
+      clickTab("representation");
 
       expect(mockSearchParams.get("tab")).toBe("1");
     });
 
     it("should not set tab param when tab 0 is selected", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
-      // Select a variable
-      const firstRow = screen.getAllByRole("row")[1];
-      fireEvent.click(firstRow);
+      selectFirstVariable();
 
       // Click on tab 1 then back to tab 0
-      const representationTab = screen.getByText("physicalInstance.view.tabs.representation");
-      fireEvent.click(representationTab);
-
-      const informationTab = screen.getByText("physicalInstance.view.tabs.information");
-      fireEvent.click(informationTab);
+      clickTab("representation");
+      clickTab("information");
 
       expect(mockSearchParams.has("tab")).toBe(false);
     });
 
-    it("should restore active tab from URL on initial load", () => {
-      mockSearchParams.set("variableId", "1");
-      mockSearchParams.set("tab", "1");
+    for (const { name, tab, expectedIndex } of [
+      { name: "should restore active tab from URL on initial load", tab: "1", expectedIndex: "1" },
+      {
+        name: "should default to tab 0 for invalid tab values in URL",
+        tab: "abc",
+        expectedIndex: "0",
+      },
+      {
+        name: "should default to tab 0 for out-of-range tab values in URL",
+        tab: "99",
+        expectedIndex: "0",
+      },
+    ]) {
+      it(name, () => {
+        mockSearchParams.set("variableId", "1");
+        mockSearchParams.set("tab", tab);
 
-      render(<Component />, { wrapper });
+        renderView();
 
-      // The variable should be selected
-      expect(screen.getByRole("complementary")).toBeInTheDocument();
+        // The variable should be selected
+        expect(screen.getByRole("complementary")).toBeInTheDocument();
 
-      // The representation tab should be active (index 1)
-      const tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "1");
-    });
-
-    it("should default to tab 0 for invalid tab values in URL", () => {
-      mockSearchParams.set("variableId", "1");
-      mockSearchParams.set("tab", "abc");
-
-      render(<Component />, { wrapper });
-
-      expect(screen.getByRole("complementary")).toBeInTheDocument();
-
-      const tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "0");
-    });
-
-    it("should default to tab 0 for out-of-range tab values in URL", () => {
-      mockSearchParams.set("variableId", "1");
-      mockSearchParams.set("tab", "99");
-
-      render(<Component />, { wrapper });
-
-      expect(screen.getByRole("complementary")).toBeInTheDocument();
-
-      const tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "0");
-    });
+        expect(screen.getByTestId("tabview")).toHaveAttribute("data-active-index", expectedIndex);
+      });
+    }
   });
 
   describe("Variable duplication", () => {
@@ -2752,10 +1736,10 @@ describe("View Component", () => {
         .map((row) => row.querySelectorAll("td")[0]?.textContent);
 
     it("should insert the duplicated variable right after the source variable", () => {
-      render(<Component />, { wrapper });
+      renderView();
 
       // Variable1 est la première ligne du tableau (aucun tri de colonne actif).
-      fireEvent.click(screen.getAllByRole("row")[1]);
+      selectFirstVariable();
       fireEvent.click(screen.getByText("physicalInstance.view.duplicate"));
 
       expect(variableNamesInTable()).toEqual(["Variable1", "Variable1 (copy)", "Variable2"]);
@@ -2763,31 +1747,18 @@ describe("View Component", () => {
   });
   describe("view — versionDate d'une variable existante", () => {
     it("should preview the stored VersionDate of an existing variable instead of the current date", async () => {
-      mockUsePhysicalInstancesData.mockReturnValue({
-        data: envelope({
-          PhysicalInstance: [
-            {
-              Citation: { Title: [{ "@language": "fr-FR", "@value": "Test Physical Instance" }] },
-            },
-          ],
-          DataRelationship: [
-            {
-              DataRelationshipName: [{ "@language": "fr-FR", "@value": "Test Data Relationship" }],
-              LogicalRecord: [{ VariablesInRecord: { VariableUsedReference: [] } }],
-            },
-          ],
-          Variable: [
-            {
-              ID: "var-1",
-              Agency: "fr.insee",
-              Version: "1",
-              VersionDate: { DateTime: "2026-01-15T09:30:00+01:00" },
-              VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
-              Label: [{ "@language": "fr-FR", "@value": "Label 1" }],
-              VariableRepresentation: { TextRepresentation: {} },
-            },
-          ],
-        }),
+      mockPhysicalInstanceData({
+        ddiVariables: [
+          {
+            ID: "var-1",
+            Agency: "fr.insee",
+            Version: "1",
+            VersionDate: { DateTime: "2026-01-15T09:30:00+01:00" },
+            VariableName: fr("Variable1"),
+            Label: fr("Label 1"),
+            VariableRepresentation: { TextRepresentation: {} },
+          },
+        ],
         variables: [
           {
             id: "var-1",
@@ -2797,13 +1768,9 @@ describe("View Component", () => {
             lastModified: "2026-01-15T09:30:00+01:00",
           },
         ],
-        title: "Test Physical Instance",
-        dataRelationshipName: "Test Data Relationship",
-        isLoading: false,
-        isError: false,
       });
 
-      render(<Component />, { wrapper });
+      renderView();
 
       fireEvent.click(screen.getByText("Variable1"));
 

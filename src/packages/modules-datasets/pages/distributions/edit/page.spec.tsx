@@ -52,16 +52,11 @@ vi.mock("@utils/hooks/useGoBack", () => ({
   useGoBack: vi.fn(() => vi.fn()),
 }));
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "distribution.mediaType": "Media type",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("./translations.testing")).translationsModule({
+    "distribution.mediaType": "Media type",
   }),
-}));
+);
 
 describe("Distribution Edit Page", () => {
   const mockSave = vi.fn();

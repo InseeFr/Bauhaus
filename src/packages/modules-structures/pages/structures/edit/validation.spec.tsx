@@ -1,87 +1,50 @@
-vi.mock("../../../i18n", () => ({
-  structuresI18n: {
-    t: (key: string, options?: { lng?: string }) => {
-      const translations: Record<string, Record<string, string>> = {
-        fr: {
-          "structure.notation": "Notation",
-          "structure.label": "Libellé",
-        },
-        en: {
-          "structure.notation": "Notation",
-          "structure.label": "Label",
-        },
-      };
-      const lng = options?.lng ?? "fr";
-      return translations[lng]?.[key] ?? key;
+vi.mock("../../../i18n", async () =>
+  (await import("../../validation.testing")).structuresI18nWith({
+    fr: {
+      "structure.notation": "Notation",
+      "structure.label": "Libellé",
     },
-  },
-}));
+    en: {
+      "structure.notation": "Notation",
+      "structure.label": "Label",
+    },
+  }),
+);
 
+import { requiredError } from "../../validation.testing";
 import { validate } from "./validation";
 
+const cases = [
+  {
+    name: "should return an error for id",
+    structure: { identifiant: "", labelLg1: "labelLg1", labelLg2: "labelLg2" },
+    errors: { identifiant: requiredError("Notation") },
+  },
+  {
+    name: "should return an error for labelLg1",
+    structure: { identifiant: "id", labelLg1: "", labelLg2: "labelLg2" },
+    errors: { labelLg1: requiredError("Libellé") },
+  },
+  {
+    name: "should return an error for labelLg2",
+    structure: { identifiant: "id", labelLg1: "labelLg1", labelLg2: "" },
+    errors: { labelLg2: requiredError("Label") },
+  },
+  {
+    name: "should return no error",
+    structure: { identifiant: "id", labelLg1: "labelLg1", labelLg2: "labelLg2" },
+    errors: {},
+  },
+];
+
 describe("validation", function () {
-  it("should return an error for id", function () {
-    expect(
-      validate({
-        identifiant: "",
-        labelLg1: "labelLg1",
-        labelLg2: "labelLg2",
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Notation</strong> is required."],
-      fields: {
-        identifiant: "The property <strong>Notation</strong> is required.",
-        labelLg1: "",
-        labelLg2: "",
-      },
-    });
-  });
-  it("should return an error for labelLg1", function () {
-    expect(
-      validate({
-        identifiant: "id",
-        labelLg1: "",
-        labelLg2: "labelLg2",
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Libellé</strong> is required."],
-      fields: {
-        identifiant: "",
-        labelLg1: "The property <strong>Libellé</strong> is required.",
-        labelLg2: "",
-      },
-    });
-  });
-  it("should return an error for labelLg2", function () {
-    expect(
-      validate({
-        identifiant: "id",
-        labelLg1: "labelLg1",
-        labelLg2: "",
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Label</strong> is required."],
-      fields: {
-        identifiant: "",
-        labelLg1: "",
-        labelLg2: "The property <strong>Label</strong> is required.",
-      },
-    });
-  });
-  it("should return no error", function () {
-    expect(
-      validate({
-        identifiant: "id",
-        labelLg1: "labelLg1",
-        labelLg2: "labelLg2",
-      }),
-    ).toEqual({
-      errorMessage: [],
-      fields: {
-        identifiant: "",
-        labelLg1: "",
-        labelLg2: "",
-      },
-    });
-  });
+  // Pas de `it.each` et de `$name` : Vitest tronque à 40 caractères les valeurs interpolées.
+  cases.forEach(({ name, structure, errors }) =>
+    it(name, function () {
+      expect(validate(structure)).toEqual({
+        errorMessage: Object.values(errors),
+        fields: { identifiant: "", labelLg1: "", labelLg2: "", ...errors },
+      });
+    }),
+  );
 });

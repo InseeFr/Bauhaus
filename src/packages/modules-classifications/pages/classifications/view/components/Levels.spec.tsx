@@ -4,19 +4,10 @@ import { describe, it, expect, vi } from "vitest";
 
 import { Levels } from "./Levels";
 
-vi.mock("@components/layout", () => ({
-  Row: ({ children }: any) => <div>{children}</div>,
-}));
+vi.mock("@components/layout", () => import("../../../../testing/component-mocks.testing"));
 
 // Le vrai Note rend `text` directement dans le corps du Panel, sans wrapper de liste.
-vi.mock("@components/note", () => ({
-  Note: ({ title, text }: any) => (
-    <div>
-      <div data-testid="note-title">{title}</div>
-      <div>{text}</div>
-    </div>
-  ),
-}));
+vi.mock("@components/note", () => import("../../../../testing/component-mocks.testing"));
 
 const levels = [
   { id: "divisions", labelLg1: "Divisions", labelLg2: "Divisions EN" },

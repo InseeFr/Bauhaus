@@ -6,22 +6,12 @@ import { vi } from "vitest";
 
 import { RelationsView } from "./RelationsView";
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: () => ({
-      t: (key: string, options?: { lng?: string }) => {
-        const translations: Record<string, Record<string, string>> = {
-          fr: { "app.linksTitle": "Liens" },
-          en: { "app.linksTitle": "Links" },
-        };
-        const lng = options?.lng || "en";
-        return translations[lng]?.[key] || key;
-      },
-    }),
-  };
-});
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("./translationsByLanguage.testing")).mockTranslationsByLanguage(importOriginal, {
+    fr: { "app.linksTitle": "Liens" },
+    en: { "app.linksTitle": "Links" },
+  }),
+);
 
 vi.mock("@components/layout", () => ({
   Row: ({ children }: { children: ReactNode }) => <div>{children}</div>,

@@ -1,15 +1,9 @@
-import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { params } from "../../../testing/params.testing";
+import { renderClassificationsPage } from "../../../testing/render.testing";
 import { Component } from "./page";
-
-const params = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useParams: () => params(),
-}));
 
 const useClassificationLevel = vi.fn();
 vi.mock("../../../hooks/useClassificationLevel", () => ({
@@ -26,14 +20,7 @@ vi.mock("./components/LevelVisualization", () => ({
   ),
 }));
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderClassificationsPage(<Component />);
 
 describe("Classifications level view page", () => {
   beforeEach(() => {

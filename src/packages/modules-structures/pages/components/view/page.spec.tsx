@@ -1,11 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ConceptsApi, StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { renderPageWithAppContext } from "../../../render.testing";
 import { Component } from "./page";
 
 const goBack = vi.fn();
@@ -59,14 +58,14 @@ vi.mock("../../../components/ComponentDetailView", () => ({
 
 const component = { id: "comp-1", labelLg1: "Composante FR" };
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderPageWithAppContext(<Component />);
+
+/** Attend l'affichage du bouton `name` de la vue (stubée) puis clique dessus. */
+const clickWhenDisplayed = async (name: string) => {
+  await waitFor(() => expect(screen.getByRole("button", { name })).toBeInTheDocument());
+
+  await userEvent.click(screen.getByRole("button", { name }));
+};
 
 describe("Mutualized component view page", () => {
   beforeEach(() => {
@@ -92,20 +91,14 @@ describe("Mutualized component view page", () => {
 
   it("revient à la liste des composantes", async () => {
     renderPage();
-    await waitFor(() => expect(screen.getByRole("button", { name: "retour" })).toBeInTheDocument());
-
-    await userEvent.click(screen.getByRole("button", { name: "retour" }));
+    await clickWhenDisplayed("retour");
 
     expect(goBack).toHaveBeenCalledWith("/structures/components");
   });
 
   it("supprime la composante puis revient à la liste", async () => {
     renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "supprimer" })).toBeInTheDocument(),
-    );
-
-    await userEvent.click(screen.getByRole("button", { name: "supprimer" }));
+    await clickWhenDisplayed("supprimer");
 
     await waitFor(() =>
       expect(StructureApi.deleteMutualizedComponent).toHaveBeenCalledWith("comp-1"),
@@ -115,11 +108,7 @@ describe("Mutualized component view page", () => {
 
   it("publie la composante puis la recharge", async () => {
     renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
-    );
-
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
+    await clickWhenDisplayed("publier");
 
     await waitFor(() =>
       expect(StructureApi.publishMutualizedComponent).toHaveBeenCalledWith(component),
@@ -130,11 +119,7 @@ describe("Mutualized component view page", () => {
   it("affiche l'erreur serveur quand la publication échoue", async () => {
     vi.mocked(StructureApi.publishMutualizedComponent).mockRejectedValue("Publication refusée");
     renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
-    );
-
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
+    await clickWhenDisplayed("publier");
 
     await waitFor(() => expect(screen.getByText("erreur:Publication refusée")).toBeInTheDocument());
   });

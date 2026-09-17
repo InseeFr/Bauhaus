@@ -12,23 +12,22 @@ import { Component } from "./page";
 
 vi.mock("../../../hooks/usePhysicalInstancesSearch");
 vi.mock("@utils/hooks/useTitle");
-vi.mock("@components/select-rmes", () => ({
-  Select: ({ inputId, value, options, onChange, disabled }: any) => (
-    <select
-      id={inputId}
-      value={value ?? ""}
-      disabled={disabled}
-      onChange={(e) => onChange(e.target.value || null)}
-    >
-      <option value="" />
-      {options.map((o: any) => (
-        <option key={o.value} value={o.value}>
-          {o.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("@components/select-rmes", async () => {
+  const { NativeOptions } = await import("../pages.testing");
+  return {
+    Select: ({ inputId, value, options, onChange, disabled }: any) => (
+      <select
+        id={inputId}
+        value={value ?? ""}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.value || null)}
+      >
+        <option value="" />
+        <NativeOptions options={options} />
+      </select>
+    ),
+  };
+});
 
 const wrapper = ({ children }: { children: ReactNode }) => <MemoryRouter>{children}</MemoryRouter>;
 
@@ -113,13 +112,18 @@ describe("Physical instances advanced search page", () => {
     expect(studyUnitSelect).toBeEnabled();
   });
 
-  it("only offers the study units of the selected group", async () => {
+  // [0] groupe.
+  const renderWithGroupG1Selected = async () => {
     const user = userEvent.setup();
     mockData(twoRows());
 
     render(<Component />, { wrapper });
 
     await user.selectOptions(screen.getAllByRole("combobox")[0], "g1");
+  };
+
+  it("only offers the study units of the selected group", async () => {
+    await renderWithGroupG1Selected();
 
     expect(screen.getByRole("option", { name: "Étude A" })).toBeInTheDocument();
     expect(screen.queryByRole("option", { name: "Étude B" })).not.toBeInTheDocument();
@@ -149,13 +153,7 @@ describe("Physical instances advanced search page", () => {
   });
 
   it("filters the results by the selected group", async () => {
-    const user = userEvent.setup();
-    mockData(twoRows());
-
-    render(<Component />, { wrapper });
-
-    // [0] groupe.
-    await user.selectOptions(screen.getAllByRole("combobox")[0], "g1");
+    await renderWithGroupG1Selected();
 
     expect(screen.getByRole("link", { name: "Recensement" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "Enquête emploi" })).not.toBeInTheDocument();

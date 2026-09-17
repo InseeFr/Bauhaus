@@ -4,19 +4,11 @@ import { describe, it, expect, vi } from "vitest";
 
 import type { CategoryUsage } from "../../types/api";
 import { CategoryUsersPanel } from "./CategoryUsersPanel";
+import { categoryUsage as usage } from "./usages.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
-
-const usage = (overrides: Partial<CategoryUsage> = {}): CategoryUsage => ({
-  group: { agencyId: "fr.insee", id: "grp-1", label: "Recensement" },
-  studyUnit: { agencyId: "fr.insee", id: "su-1", label: "Recensement 2024" },
-  physicalInstance: { agencyId: "fr.insee", id: "pi-1", label: "Fichier détail" },
-  variable: { agencyId: "fr.insee", id: "var-1", label: "Sexe" },
-  codeList: { agencyId: "fr.insee", id: "cl-1", label: "Liste des sexes" },
-  ...overrides,
-});
 
 const renderPanel = (usages: CategoryUsage[], defaultOpened = false) =>
   render(

@@ -2,30 +2,16 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import type { CategoryUsage } from "../../types/api";
 import { CategoryUsageDialog } from "./CategoryUsageDialog";
+import { categoryUsage as usage } from "./usages.testing";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string, options?: Record<string, unknown>) =>
-      options ? `${key}|${JSON.stringify(options)}` : key,
-  }),
-}));
+vi.mock("react-i18next", () => import("../../../i18n.testing"));
 
 const mockUseCategoryUsers = vi.fn();
 vi.mock("../../../hooks/useCategoryUsers", () => ({
   useCategoryUsers: (agencyId: string, id: string, enabled?: boolean) =>
     mockUseCategoryUsers(agencyId, id, enabled),
 }));
-
-const usage = (overrides: Partial<CategoryUsage> = {}): CategoryUsage => ({
-  group: { agencyId: "fr.insee", id: "grp-1", label: "Recensement" },
-  studyUnit: { agencyId: "fr.insee", id: "su-1", label: "Recensement 2024" },
-  physicalInstance: { agencyId: "fr.insee", id: "pi-1", label: "Fichier détail" },
-  variable: { agencyId: "fr.insee", id: "var-1", label: "Sexe" },
-  codeList: { agencyId: "fr.insee", id: "cl-1", label: "Liste des sexes" },
-  ...overrides,
-});
 
 const renderDialog = (visible = true) =>
   render(

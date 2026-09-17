@@ -5,10 +5,11 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { AppContextProvider } from "../../../../../application/app-context";
 import { ConceptVisualization } from "./ConceptVisualization";
 
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual<typeof import("react-i18next")>("react-i18next")),
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("../../../../../tests/react-i18next.testing")).translationKeysAsLabels(
+    await importOriginal(),
+  ),
+);
 
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 

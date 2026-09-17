@@ -36,7 +36,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser. You should 
 Log in with the default admin account created automatically by Keycloak:
 
 | Field    | Value                     |
-|----------|---------------------------|
+| -------- | ------------------------- |
 | Username | `admin`                   |
 | Password | `admin123`                |
 | Email    | `admin@bauhaus.fr`        |

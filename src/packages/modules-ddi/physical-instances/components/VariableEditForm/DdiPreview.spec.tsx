@@ -5,52 +5,37 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { envelope } from "../../types/ddi4Items.testing";
+import { mockClipboard } from "./codePreview.testing";
 import { DdiPreview } from "./DdiPreview";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "physicalInstance.view.loadingDdi": "Chargement du XML DDI...",
-        "physicalInstance.view.copyCode": "Copier le code",
-        "physicalInstance.view.noDdiXml": "Aucun XML DDI disponible",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("../representation.testing")).mockTranslations({
+    "physicalInstance.view.loadingDdi": "Chargement du XML DDI...",
+    "physicalInstance.view.copyCode": "Copier le code",
+    "physicalInstance.view.noDdiXml": "Aucun XML DDI disponible",
   }),
-}));
+);
 
-vi.mock("../../../../application/app-context", () => ({
-  useAppContext: () => ({
-    properties: {
-      defaultAgencyId: "fr.insee",
-    },
-  }),
-}));
+vi.mock(
+  "../../../../application/app-context",
+  async () => (await import("../representation.testing")).appContextModule,
+);
 
-vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, className }: any) => (
-    <button onClick={onClick} className={className}>
-      {label}
-    </button>
-  ),
-}));
+vi.mock("primereact/button", () => import("./codePreview.testing"));
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ value, options, onChange }: any) => (
-    <select
-      data-testid="format-select"
-      value={value}
-      onChange={(e) => onChange({ value: e.target.value })}
-    >
-      {options?.map((opt: any) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("primereact/dropdown", async () => {
+  const { OptionsSelect } = await import("../representation.testing");
+  return {
+    Dropdown: ({ value, options, onChange }: any) => (
+      <OptionsSelect
+        data-testid="format-select"
+        value={value}
+        onChange={onChange}
+        options={options ?? []}
+      />
+    ),
+  };
+});
 
 vi.mock("highlight.js/lib/core", () => ({
   default: {
@@ -108,32 +93,52 @@ const render = (ui: ReactElement) => {
 /** Dernière enveloppe envoyée à la conversion : ce que l'aperçu affiche réellement. */
 const lastPreviewedItems = () => mockConvertToDDI3.mock.calls.at(-1)![0].items;
 
+const mockXml = '<?xml version="1.0"?><Variable></Variable>';
+
+const baseProps = {
+  variableId: "var-1",
+  variableName: "testVar",
+  variableLabel: "Test Variable",
+  variableType: "text",
+  isGeographic: false,
+};
+
+const missingValuesReference = {
+  $type: "ManagedMissingValuesRepresentation" as const,
+  URN: "urn:ddi:fr.insee:mmvr-1:1",
+  Agency: "fr.insee",
+  ID: "mmvr-1",
+  Version: "1",
+};
+
+/** PI rattachée à un groupe sans MMVR ni liste mutualisée. */
+const mockEmptyGroup = () => {
+  mockGetPhysicalInstanceParents.mockResolvedValue({
+    studyUnit: { agency: "fr.insee", id: "su-1" },
+    group: { agency: "fr.insee", id: "grp-1" },
+    stamps: [],
+  });
+  mockGetGroupMissingValuesRepresentations.mockResolvedValue([]);
+  mockGetMutualizedCodesList.mockResolvedValue(envelope({}));
+};
+
+/** Attend qu'une conversion porte un item correspondant à `item`. */
+const expectPreviewedItem = (item: Record<string, unknown>) =>
+  waitFor(() => {
+    expect(mockConvertToDDI3).toHaveBeenCalledWith(
+      expect.objectContaining({
+        items: expect.arrayContaining([expect.objectContaining(item)]),
+      }),
+    );
+  });
+
 describe("DdiPreview", () => {
-  const defaultProps = {
-    variableId: "var-1",
-    variableName: "testVar",
-    variableLabel: "Test Variable",
-    variableDescription: "Test description",
-    variableType: "text",
-    isGeographic: false,
-  };
+  const defaultProps = { ...baseProps, variableDescription: "Test description" };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockGetPhysicalInstanceParents.mockResolvedValue({
-      studyUnit: { agency: "fr.insee", id: "su-1" },
-      group: { agency: "fr.insee", id: "grp-1" },
-      stamps: [],
-    });
-    mockGetGroupMissingValuesRepresentations.mockResolvedValue([]);
-    mockGetMutualizedCodesList.mockResolvedValue(envelope({}));
-    Object.defineProperty(navigator, "clipboard", {
-      value: {
-        writeText: vi.fn(),
-      },
-      writable: true,
-      configurable: true,
-    });
+    mockEmptyGroup();
+    mockClipboard();
   });
 
   it("should show loading state initially", () => {
@@ -165,23 +170,14 @@ describe("DdiPreview", () => {
   });
 
   it("should call convertToDDI3 with correct data", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
     render(<DdiPreview {...defaultProps} />);
 
-    await waitFor(() => {
-      expect(mockConvertToDDI3).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: expect.arrayContaining([
-            expect.objectContaining({
-              ID: "var-1",
-              VariableName: [{ "@language": "fr-FR", "@value": "testVar" }],
-              Label: [{ "@language": "fr-FR", "@value": "Test Variable" }],
-            }),
-          ]),
-        }),
-      );
+    await expectPreviewedItem({
+      ID: "var-1",
+      VariableName: [{ "@language": "fr-FR", "@value": "testVar" }],
+      Label: [{ "@language": "fr-FR", "@value": "Test Variable" }],
     });
   });
 
@@ -204,7 +200,6 @@ describe("DdiPreview", () => {
   });
 
   it("should display XML content after loading in DDI3 mode", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
     render(<DdiPreview {...defaultProps} />);
@@ -225,7 +220,6 @@ describe("DdiPreview", () => {
   });
 
   it("should switch to DDI 4.0/JSON format when selecting it", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
     render(<DdiPreview {...defaultProps} />);
@@ -239,13 +233,11 @@ describe("DdiPreview", () => {
   });
 
   it("should display JSON content in DDI4 mode", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
     render(<DdiPreview {...defaultProps} />);
 
-    const select = screen.getByTestId("format-select");
-    fireEvent.change(select, { target: { value: "DDI4" } });
+    fireEvent.change(screen.getByTestId("format-select"), { target: { value: "DDI4" } });
 
     await waitFor(() => {
       const codeElement = document.querySelector(".hljs.language-json");
@@ -255,45 +247,24 @@ describe("DdiPreview", () => {
   });
 
   it("should include description when provided", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
     render(<DdiPreview {...defaultProps} />);
 
-    await waitFor(() => {
-      expect(mockConvertToDDI3).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: expect.arrayContaining([
-            expect.objectContaining({
-              Description: [{ "@language": "fr-FR", "@value": "Test description" }],
-            }),
-          ]),
-        }),
-      );
+    await expectPreviewedItem({
+      Description: [{ "@language": "fr-FR", "@value": "Test description" }],
     });
   });
 
   it("should include geographic attribute when isGeographic is true", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
     render(<DdiPreview {...defaultProps} isGeographic={true} />);
 
-    await waitFor(() => {
-      expect(mockConvertToDDI3).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: expect.arrayContaining([
-            expect.objectContaining({
-              IsGeographic: true,
-            }),
-          ]),
-        }),
-      );
-    });
+    await expectPreviewedItem({ IsGeographic: true });
   });
 
   it("should include TextRepresentation when type is text", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
     const textRepresentation = { $type: "TextRepresentationBaseType" as const, MaxLength: 100 };
@@ -302,84 +273,42 @@ describe("DdiPreview", () => {
       <DdiPreview {...defaultProps} variableType="text" textRepresentation={textRepresentation} />,
     );
 
-    await waitFor(() => {
-      expect(mockConvertToDDI3).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: expect.arrayContaining([
-            expect.objectContaining({
-              VariableRepresentation: expect.objectContaining({
-                VariableRole: "Mesure",
-                TextRepresentation: textRepresentation,
-              }),
-            }),
-          ]),
-        }),
-      );
+    await expectPreviewedItem({
+      VariableRepresentation: expect.objectContaining({
+        VariableRole: "Mesure",
+        TextRepresentation: textRepresentation,
+      }),
     });
   });
 
   it("should include an empty TextRepresentation when type is text without attributes (#1592)", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
     render(<DdiPreview {...defaultProps} variableType="text" textRepresentation={undefined} />);
 
-    await waitFor(() => {
-      expect(mockConvertToDDI3).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: expect.arrayContaining([
-            expect.objectContaining({
-              VariableRepresentation: expect.objectContaining({
-                VariableRole: "Mesure",
-                TextRepresentation: { $type: "TextRepresentationBaseType" },
-              }),
-            }),
-          ]),
-        }),
-      );
+    await expectPreviewedItem({
+      VariableRepresentation: expect.objectContaining({
+        VariableRole: "Mesure",
+        TextRepresentation: { $type: "TextRepresentationBaseType" },
+      }),
     });
   });
 
   it("should include the MissingValuesReference in the conversion payload (#1566)", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
-
-    const missingValuesReference = {
-      $type: "ManagedMissingValuesRepresentation" as const,
-      URN: "urn:ddi:fr.insee:mmvr-1:1",
-      Agency: "fr.insee",
-      ID: "mmvr-1",
-      Version: "1",
-    };
 
     render(<DdiPreview {...defaultProps} missingValuesReference={missingValuesReference} />);
 
-    await waitFor(() => {
-      expect(mockConvertToDDI3).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: expect.arrayContaining([
-            expect.objectContaining({
-              VariableRepresentation: expect.objectContaining({
-                MissingValuesReference: missingValuesReference,
-              }),
-            }),
-          ]),
-        }),
-      );
+    await expectPreviewedItem({
+      VariableRepresentation: expect.objectContaining({
+        MissingValuesReference: missingValuesReference,
+      }),
     });
   });
 
   it("should include the locally edited MMVR and its sentinel code list (#1566)", async () => {
-    const mockXml = '<?xml version="1.0"?><Variable></Variable>';
     mockConvertToDDI3.mockResolvedValue(mockXml);
 
-    const missingValuesReference = {
-      $type: "ManagedMissingValuesRepresentation" as const,
-      URN: "urn:ddi:fr.insee:mmvr-1:1",
-      Agency: "fr.insee",
-      ID: "mmvr-1",
-      Version: "1",
-    };
     const sentinelMmvr = {
       $type: "ManagedMissingValuesRepresentation" as const,
       ID: "mmvr-1",
@@ -414,23 +343,9 @@ describe("DdiPreview", () => {
 });
 
 describe("DdiPreview VersionDate", () => {
-  const baseProps = {
-    variableId: "var-1",
-    variableName: "testVar",
-    variableLabel: "Test Variable",
-    variableType: "text",
-    isGeographic: false,
-  };
-
   beforeEach(() => {
     vi.clearAllMocks();
-    mockGetPhysicalInstanceParents.mockResolvedValue({
-      studyUnit: { agency: "fr.insee", id: "su-1" },
-      group: { agency: "fr.insee", id: "grp-1" },
-      stamps: [],
-    });
-    mockGetGroupMissingValuesRepresentations.mockResolvedValue([]);
-    mockGetMutualizedCodesList.mockResolvedValue(envelope({}));
+    mockEmptyGroup();
   });
 
   it("should preview the stored VersionDate of an existing variable", async () => {
@@ -438,17 +353,9 @@ describe("DdiPreview VersionDate", () => {
 
     render(<DdiPreview {...baseProps} variableVersionDate="2026-01-15T09:30:00+01:00" />);
 
-    await waitFor(() => {
-      expect(mockConvertToDDI3).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: expect.arrayContaining([
-            expect.objectContaining({
-              ID: "var-1",
-              VersionDate: { DateTime: "2026-01-15T09:30:00+01:00" },
-            }),
-          ]),
-        }),
-      );
+    await expectPreviewedItem({
+      ID: "var-1",
+      VersionDate: { DateTime: "2026-01-15T09:30:00+01:00" },
     });
   });
 
@@ -469,22 +376,6 @@ describe("DdiPreview VersionDate", () => {
  * lui-même, pour montrer les mêmes codes que le panneau de représentation — et que l'export.
  */
 describe("DdiPreview items référencés", () => {
-  const baseProps = {
-    variableId: "var-1",
-    variableName: "testVar",
-    variableLabel: "Test Variable",
-    variableType: "text",
-    isGeographic: false,
-  };
-
-  const missingValuesReference = {
-    $type: "ManagedMissingValuesRepresentation" as const,
-    URN: "urn:ddi:fr.insee:mmvr-1:1",
-    Agency: "fr.insee",
-    ID: "mmvr-1",
-    Version: "1",
-  };
-
   const sentinelContent = envelope({
     CodeList: [
       {
@@ -504,14 +395,27 @@ describe("DdiPreview items référencés", () => {
     Category: [{ ID: "cat-9", Label: [{ "@language": "fr-FR", "@value": "Non réponse" }] }],
   });
 
+  const reusedCodeListRepresentation = {
+    $type: "CodeRepresentationBaseType",
+    CodeListReference: {
+      $type: "CodeList",
+      URN: "urn:ddi:fr.insee:cl-mut:1",
+      Agency: "fr.insee",
+      ID: "cl-mut",
+      Version: "1",
+    },
+  } as const;
+
+  /** Attend que la conversion ait reçu un item correspondant à `item`. */
+  const expectLastPreviewToContain = (item: Record<string, unknown>) =>
+    waitFor(() => {
+      expect(lastPreviewedItems()).toContainEqual(expect.objectContaining(item));
+    });
+
   beforeEach(() => {
     vi.clearAllMocks();
     mockConvertToDDI3.mockResolvedValue("<xml/>");
-    mockGetPhysicalInstanceParents.mockResolvedValue({
-      studyUnit: { agency: "fr.insee", id: "su-1" },
-      group: { agency: "fr.insee", id: "grp-1" },
-      stamps: [],
-    });
+    mockEmptyGroup();
     mockGetGroupMissingValuesRepresentations.mockResolvedValue([
       {
         id: "mmvr-1",
@@ -528,11 +432,7 @@ describe("DdiPreview items référencés", () => {
   it("affiche la MMVR réutilisée et ses codes sentinelles, pas seulement la référence", async () => {
     render(<DdiPreview {...baseProps} missingValuesReference={missingValuesReference} />);
 
-    await waitFor(() => {
-      expect(lastPreviewedItems()).toContainEqual(
-        expect.objectContaining({ $type: "CodeList", ID: "cl-sent" }),
-      );
-    });
+    await expectLastPreviewToContain({ $type: "CodeList", ID: "cl-sent" });
     expect(lastPreviewedItems()).toContainEqual(
       expect.objectContaining({
         $type: "ManagedMissingValuesRepresentation",
@@ -555,11 +455,7 @@ describe("DdiPreview items référencés", () => {
   it("ne date pas la MMVR réutilisée : sa VersionDate n'est pas connue du sélecteur", async () => {
     render(<DdiPreview {...baseProps} missingValuesReference={missingValuesReference} />);
 
-    await waitFor(() => {
-      expect(lastPreviewedItems()).toContainEqual(
-        expect.objectContaining({ $type: "ManagedMissingValuesRepresentation" }),
-      );
-    });
+    await expectLastPreviewToContain({ $type: "ManagedMissingValuesRepresentation" });
     const mmvr = lastPreviewedItems().find(
       (item: any) => item.$type === "ManagedMissingValuesRepresentation",
     );
@@ -623,24 +519,11 @@ describe("DdiPreview items référencés", () => {
       <DdiPreview
         {...baseProps}
         variableType="code"
-        codeRepresentation={{
-          $type: "CodeRepresentationBaseType",
-          CodeListReference: {
-            $type: "CodeList",
-            URN: "urn:ddi:fr.insee:cl-mut:1",
-            Agency: "fr.insee",
-            ID: "cl-mut",
-            Version: "1",
-          },
-        }}
+        codeRepresentation={reusedCodeListRepresentation}
       />,
     );
 
-    await waitFor(() => {
-      expect(lastPreviewedItems()).toContainEqual(
-        expect.objectContaining({ $type: "CodeList", ID: "cl-mut" }),
-      );
-    });
+    await expectLastPreviewToContain({ $type: "CodeList", ID: "cl-mut" });
     expect(lastPreviewedItems()).toContainEqual(
       expect.objectContaining({ $type: "Category", ID: "cat-1" }),
     );
@@ -659,16 +542,7 @@ describe("DdiPreview items référencés", () => {
       <DdiPreview
         {...baseProps}
         variableType="code"
-        codeRepresentation={{
-          $type: "CodeRepresentationBaseType",
-          CodeListReference: {
-            $type: "CodeList",
-            URN: "urn:ddi:fr.insee:cl-mut:1",
-            Agency: "fr.insee",
-            ID: "cl-mut",
-            Version: "1",
-          },
-        }}
+        codeRepresentation={reusedCodeListRepresentation}
         codeList={codeList}
       />,
     );

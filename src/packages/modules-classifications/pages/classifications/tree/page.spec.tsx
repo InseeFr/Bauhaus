@@ -1,5 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { ClassificationsApi } from "@sdk/classification";
@@ -7,13 +6,12 @@ import { ClassificationsApi } from "@sdk/classification";
 import { useClassificationsItem } from "@utils/hooks/classifications";
 import { useSecondLang } from "@utils/hooks/second-lang";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { renderClassificationsPage } from "../../../testing/render.testing";
 import { Component } from "./page";
 
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useParams: () => ({ id: "nafr2" }),
-}));
+vi.mock("react-router-dom", async () =>
+  (await import("../../../testing/router.testing")).withMockedParams(() => ({ id: "nafr2" })),
+);
 
 vi.mock("@sdk/classification", () => ({
   ClassificationsApi: { getClassificationGeneral: vi.fn() },
@@ -31,14 +29,7 @@ vi.mock("./components/ClassificationTree", () => ({
   ),
 }));
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderClassificationsPage(<Component />);
 
 describe("Classification tree page", () => {
   beforeEach(() => {
