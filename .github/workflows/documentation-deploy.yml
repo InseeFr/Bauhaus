@@ -2,7 +2,7 @@ name: Build and Deploy Documentation On Main
 on:
   push:
     branches:
-      - 'main'
+      - "main"
     paths:
       - .github/
       - documentation/**
@@ -14,7 +14,7 @@ jobs:
     name: Deploy to GH Pages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Use Generic CI For Documentation
         uses: ./.github/actions/generic-ci-documentation
       - name: Deploy

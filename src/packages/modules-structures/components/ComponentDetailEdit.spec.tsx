@@ -1,12 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
 import { CodelistsApi, StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../application/app-context";
 import {
   MEASURE_PROPERTY_TYPE,
   XSD_CODE_LIST,
@@ -14,15 +10,12 @@ import {
   XSD_FLOAT,
   XSD_STRING,
 } from "../constants";
+import { createStructuresWrapper } from "../render.testing";
 import { ComponentDetailEdit } from "./ComponentDetailEdit";
 
-vi.mock("@sdk/index", () => ({
-  CodelistsApi: {
-    getCodelistsPartial: vi.fn().mockResolvedValue([]),
-    getPartialsByParent: vi.fn().mockResolvedValue([]),
-  },
+vi.mock("@sdk/index", async () => ({
+  ...(await import("../mocks.testing")).emptyCodelistsAndStampsApi(),
   StructureApi: { getMutualizedComponent: vi.fn() },
-  StampsApi: { getStamps: vi.fn().mockResolvedValue([]) },
 }));
 
 vi.mock("@components/business/creators-input", () => ({
@@ -34,31 +27,14 @@ vi.mock("@components/business/contributors-input/contributors-input", () => ({
   ),
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: () => ({
-      privileges: [
-        {
-          application: "STRUCTURE_COMPONENT",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    }),
-    useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-  };
-});
-
-const Wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-    <MemoryRouter>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        {children}
-      </AppContextProvider>
-    </MemoryRouter>
-  </QueryClientProvider>
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../mocks.testing")).usersHookWithCreatePrivilege(
+    await importOriginal(),
+    "STRUCTURE_COMPONENT",
+  ),
 );
+
+const Wrapper = createStructuresWrapper();
 
 const handleSave = vi.fn();
 const handleBack = vi.fn();

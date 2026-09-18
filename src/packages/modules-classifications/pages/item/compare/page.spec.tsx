@@ -1,21 +1,10 @@
-import { render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { params } from "../../../testing/params.testing";
+import { renderClassificationsPage } from "../../../testing/render.testing";
+import { itemParams, loadingItem, useClassificationItem } from "../item.testing";
 import { Component } from "./page";
-
-const params = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useParams: () => params(),
-}));
-
-const useClassificationItem = vi.fn();
-vi.mock("../../../hooks/useClassificationItem", () => ({
-  useClassificationItem: (classificationId: string, itemId: string) =>
-    useClassificationItem(classificationId, itemId),
-}));
 
 vi.mock("./components/Compare", () => ({
   Compare: ({ classificationId, general, notes, secondLang }: any) => (
@@ -28,19 +17,12 @@ vi.mock("./components/Compare", () => ({
   ),
 }));
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderClassificationsPage(<Component />);
 
 describe("Classification item compare page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    params.mockReturnValue({ classificationId: "nafr2", itemId: "01" });
+    params.mockReturnValue(itemParams);
     useClassificationItem.mockReturnValue({
       isLoading: false,
       item: { general: { prefLabelLg1: "Agriculture" }, notes: { definitionLg1: "Définition" } },
@@ -57,7 +39,7 @@ describe("Classification item compare page", () => {
   });
 
   it("affiche le chargement tant que le poste n'est pas là", () => {
-    useClassificationItem.mockReturnValue({ isLoading: true, item: undefined });
+    useClassificationItem.mockReturnValue(loadingItem);
     renderPage();
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();

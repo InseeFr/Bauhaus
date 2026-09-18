@@ -10,11 +10,9 @@ const translations: Record<string, string> = {
   "common.btnValid": "Publier",
 };
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => translations[key] ?? key,
-  }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../../../testing/i18n.testing")).translatingWith(() => translations),
+);
 
 vi.mock("../../../../utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
@@ -53,12 +51,38 @@ vi.mock("../../../../utils/array-utils", () => ({
     items.sort((a, b) => a.label.localeCompare(b.label)),
 }));
 
+const renderPage = (initialEntries?: string[]) =>
+  render(
+    <MemoryRouter initialEntries={initialEntries}>
+      <Component />
+    </MemoryRouter>,
+  );
+
+const expectEventually = (testId: string) =>
+  waitFor(() => {
+    expect(screen.getByTestId(testId)).toBeInTheDocument();
+  });
+
+const expectConceptCountEventually = (count: string) =>
+  waitFor(() => {
+    expect(screen.getByTestId("concepts-count")).toHaveTextContent(count);
+  });
+
+const validate = () => screen.getByTestId("validate-button").click();
+
 describe("ConceptValidation Home Container", () => {
   const mockConcepts = [
     { id: "1", label: "Concept B" },
     { id: "2", label: "Concept A" },
     { id: "3", label: "Concept C" },
   ];
+
+  /** Rend la page avec les concepts de référence et une publication qui réussit. */
+  const renderPublishablePage = (initialEntries?: string[]) => {
+    mockGetConceptValidateList.mockResolvedValue(mockConcepts);
+    mockPutConceptValidList.mockResolvedValue({});
+    renderPage(initialEntries);
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -77,11 +101,7 @@ describe("ConceptValidation Home Container", () => {
         }),
       );
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
       expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
 
@@ -95,11 +115,7 @@ describe("ConceptValidation Home Container", () => {
     it("should hide loading indicator after concepts are fetched", async () => {
       mockGetConceptValidateList.mockResolvedValue(mockConcepts);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
       await waitFor(() => {
         expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
@@ -111,15 +127,9 @@ describe("ConceptValidation Home Container", () => {
     it("should display concepts after successful fetch", async () => {
       mockGetConceptValidateList.mockResolvedValue(mockConcepts);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-to-validate")).toBeInTheDocument();
-      });
+      await expectEventually("concepts-to-validate");
 
       expect(screen.getByTestId("concepts-count")).toHaveTextContent("3");
     });
@@ -127,15 +137,9 @@ describe("ConceptValidation Home Container", () => {
     it("should sort concepts by label", async () => {
       mockGetConceptValidateList.mockResolvedValue(mockConcepts);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-to-validate")).toBeInTheDocument();
-      });
+      await expectEventually("concepts-to-validate");
 
       // Verify sortArrayByLabel was applied (concepts should be sorted)
       const conceptsCount = screen.getByTestId("concepts-count");
@@ -145,15 +149,9 @@ describe("ConceptValidation Home Container", () => {
     it("should display empty list when no concepts to validate", async () => {
       mockGetConceptValidateList.mockResolvedValue([]);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-to-validate")).toBeInTheDocument();
-      });
+      await expectEventually("concepts-to-validate");
 
       expect(screen.getByTestId("concepts-count")).toHaveTextContent("0");
     });
@@ -169,18 +167,11 @@ describe("ConceptValidation Home Container", () => {
       mockGetConceptValidateList.mockResolvedValue(mockConcepts);
       mockPutConceptValidList.mockReturnValue(pendingPromise);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
+      await expectEventually("validate-button");
 
-      const validateButton = screen.getByTestId("validate-button");
-      validateButton.click();
+      validate();
 
       await waitFor(() => {
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
@@ -192,34 +183,21 @@ describe("ConceptValidation Home Container", () => {
       // Resolve the promise to complete the validation
       resolvePromise!();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
+      await expectEventually("validate-button");
     });
 
     it("reste sur la page de publication une fois la publication terminée", async () => {
-      mockGetConceptValidateList.mockResolvedValue(mockConcepts);
-      mockPutConceptValidList.mockResolvedValue({});
+      renderPublishablePage(["/concepts/validation"]);
 
-      render(
-        <MemoryRouter initialEntries={["/concepts/validation"]}>
-          <Component />
-        </MemoryRouter>,
-      );
+      await expectEventually("validate-button");
 
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
-
-      screen.getByTestId("validate-button").click();
+      validate();
 
       await waitFor(() => {
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
       });
 
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-to-validate")).toBeInTheDocument();
-      });
+      await expectEventually("concepts-to-validate");
     });
 
     it("recharge les concepts restant à publier une fois la publication terminée", async () => {
@@ -228,49 +206,29 @@ describe("ConceptValidation Home Container", () => {
         .mockResolvedValueOnce([{ id: "3", label: "Concept C" }]);
       mockPutConceptValidList.mockResolvedValue({});
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-count")).toHaveTextContent("3");
-      });
+      await expectConceptCountEventually("3");
 
-      screen.getByTestId("validate-button").click();
+      validate();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-count")).toHaveTextContent("1");
-      });
+      await expectConceptCountEventually("1");
       expect(mockGetConceptValidateList).toHaveBeenCalledTimes(2);
     });
 
     it("should call API with correct concept ids", async () => {
-      mockGetConceptValidateList.mockResolvedValue(mockConcepts);
-      mockPutConceptValidList.mockResolvedValue({});
+      renderPublishablePage();
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      await expectEventually("validate-button");
 
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
-
-      const validateButton = screen.getByTestId("validate-button");
-      validateButton.click();
+      validate();
 
       await waitFor(() => {
         expect(mockPutConceptValidList).toHaveBeenCalledTimes(1);
         expect(mockPutConceptValidList).toHaveBeenCalledWith(["1", "2"]);
       });
 
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
+      await expectEventually("validate-button");
     });
   });
 
@@ -278,11 +236,7 @@ describe("ConceptValidation Home Container", () => {
     it("should still hide loading even when API returns empty array", async () => {
       mockGetConceptValidateList.mockResolvedValue([]);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
       await waitFor(() => {
         // Should hide loading even with empty result
@@ -297,18 +251,11 @@ describe("ConceptValidation Home Container", () => {
       mockGetConceptValidateList.mockResolvedValue(mockConcepts);
       mockPutConceptValidList.mockResolvedValue(undefined); // API returns undefined
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
+      await expectEventually("validate-button");
 
-      const validateButton = screen.getByTestId("validate-button");
-      validateButton.click();
+      validate();
 
       await waitFor(() => {
         expect(mockPutConceptValidList).toHaveBeenCalled();
@@ -327,11 +274,7 @@ describe("ConceptValidation Home Container", () => {
       const { useTitle } = await import("../../../../utils/hooks/useTitle");
       mockGetConceptValidateList.mockResolvedValue(mockConcepts);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
       expect(useTitle).toHaveBeenCalledWith(
         translations["concept.title"],
@@ -339,9 +282,7 @@ describe("ConceptValidation Home Container", () => {
       );
 
       // Wait for concepts to load to avoid state updates after unmount
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-to-validate")).toBeInTheDocument();
-      });
+      await expectEventually("concepts-to-validate");
     });
   });
 
@@ -354,11 +295,7 @@ describe("ConceptValidation Home Container", () => {
         }),
       );
 
-      const { unmount } = render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      const { unmount } = renderPage();
 
       unmount();
 
@@ -375,30 +312,18 @@ describe("ConceptValidation Home Container", () => {
     it("should handle empty concept list from API", async () => {
       mockGetConceptValidateList.mockResolvedValue([]);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-count")).toHaveTextContent("0");
-      });
+      await expectConceptCountEventually("0");
     });
 
     it("should handle single concept validation", async () => {
       mockGetConceptValidateList.mockResolvedValue([{ id: "1", label: "Single Concept" }]);
       mockPutConceptValidList.mockResolvedValue({});
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-count")).toHaveTextContent("1");
-      });
+      await expectConceptCountEventually("1");
     });
 
     it("should handle large number of concepts", async () => {
@@ -409,37 +334,21 @@ describe("ConceptValidation Home Container", () => {
 
       mockGetConceptValidateList.mockResolvedValue(largeConcepts);
 
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-count")).toHaveTextContent("100");
-      });
+      await expectConceptCountEventually("100");
     });
   });
 
   describe("Integration", () => {
     it("should complete full validation workflow", async () => {
-      mockGetConceptValidateList.mockResolvedValue(mockConcepts);
-      mockPutConceptValidList.mockResolvedValue({});
-
-      render(
-        <MemoryRouter>
-          <Component />
-        </MemoryRouter>,
-      );
+      renderPublishablePage();
 
       // Step 1: Wait for concepts to load
-      await waitFor(() => {
-        expect(screen.getByTestId("concepts-to-validate")).toBeInTheDocument();
-      });
+      await expectEventually("concepts-to-validate");
 
       // Step 2: Trigger validation
-      const validateButton = screen.getByTestId("validate-button");
-      validateButton.click();
+      validate();
 
       // Step 3: Verify API call
       await waitFor(() => {

@@ -7,48 +7,41 @@ vi.mock("@components/errors-bloc", () => ({ ClientSideError: () => <></> }));
 vi.mock("@components/input-rmes", () => ({
   InputRmes: ({ label }: { label: string }) => <div data-testid="input-rmes">{label}</div>,
 }));
-vi.mock("@components/business/creators-input", () => ({
-  CreatorsInput: () => <></>,
-}));
-vi.mock("@components/business/contributors-input/contributors-input", () => ({
-  ContributorsInput: () => <></>,
-}));
+vi.mock(
+  "@components/business/creators-input",
+  () => import("../../../../testing/form-stubs.testing"),
+);
+vi.mock(
+  "@components/business/contributors-input/contributors-input",
+  () => import("../../../../testing/form-stubs.testing"),
+);
 vi.mock("@components/required-icon", () => ({ RequiredIcon: () => <></> }));
+
+const renderGeneral = (creation?: boolean) =>
+  renderWithRouter(
+    <CollectionGeneral
+      general={emptyCollectionGeneral()}
+      handleChange={vi.fn()}
+      errors={{ errorMessage: [], fields: {} }}
+      creation={creation}
+    />,
+  );
+
+const inputLabels = (queryAllByTestId: (id: string) => HTMLElement[]) =>
+  queryAllByTestId("input-rmes").map((node) => node.textContent);
 
 describe("collection-edition-creation-general", () => {
   it("renders without crashing", () => {
-    renderWithRouter(
-      <CollectionGeneral
-        general={emptyCollectionGeneral()}
-        handleChange={vi.fn()}
-        errors={{ errorMessage: [], fields: {} }}
-      />,
-    );
+    renderGeneral();
   });
 
   it("shows the identifier input in creation mode", () => {
-    const { queryAllByTestId } = renderWithRouter(
-      <CollectionGeneral
-        general={emptyCollectionGeneral()}
-        handleChange={vi.fn()}
-        errors={{ errorMessage: [], fields: {} }}
-        creation
-      />,
-    );
-    const labels = queryAllByTestId("input-rmes").map((node) => node.textContent);
-    expect(labels).toContain("Identifier");
+    const { queryAllByTestId } = renderGeneral(true);
+    expect(inputLabels(queryAllByTestId)).toContain("Identifier");
   });
 
   it("hides the identifier input in edition mode", () => {
-    const { queryAllByTestId } = renderWithRouter(
-      <CollectionGeneral
-        general={emptyCollectionGeneral()}
-        handleChange={vi.fn()}
-        errors={{ errorMessage: [], fields: {} }}
-        creation={false}
-      />,
-    );
-    const labels = queryAllByTestId("input-rmes").map((node) => node.textContent);
-    expect(labels).not.toContain("Identifier");
+    const { queryAllByTestId } = renderGeneral(false);
+    expect(inputLabels(queryAllByTestId)).not.toContain("Identifier");
   });
 });

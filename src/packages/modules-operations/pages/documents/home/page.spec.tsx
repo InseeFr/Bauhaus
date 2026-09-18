@@ -3,6 +3,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { GeneralApi } from "@sdk/general-api";
 
+import { expectLoading } from "../../page.testing";
 import { Component } from "./page";
 
 vi.mock("@sdk/general-api", () => ({
@@ -28,7 +29,7 @@ describe("Documents home page", () => {
     vi.mocked(GeneralApi.getDocumentsList).mockReturnValue(new Promise(() => {}) as any);
     render(<Component />);
 
-    expect(screen.getByText(/Loading/i)).toBeInTheDocument();
+    expectLoading();
   });
 
   it("trie les documents par libellé et en dérive l'identifiant depuis l'URI", async () => {

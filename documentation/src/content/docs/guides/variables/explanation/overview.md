@@ -16,7 +16,7 @@ Everything else the module exposes exists to place those objects in context or t
 
 The module is the bridge between two worlds that Bauhaus otherwise keeps apart.
 
-- Upwards, it is anchored in the **Operations module**: a DDI `Group` points at the IRI of one or more statistical operation *series*, and a DDI `StudyUnit` points at the IRI of an *operation*. Those links are what let Bauhaus decide who owns a data file — see [Access Control](/Bauhaus/guides/variables/explanation/access-control/).
+- Upwards, it is anchored in the **Operations module**: a DDI `Group` points at the IRI of one or more statistical operation _series_, and a DDI `StudyUnit` points at the IRI of an _operation_. Those links are what let Bauhaus decide who owns a data file — see [Access Control](/Bauhaus/guides/variables/explanation/access-control/).
 - Downwards, it is the source of the DDI documents served to external consumers, under `/ddi/public/…`.
 
 Unlike Concepts, Classifications or Operations, the Variables module stores **nothing in GraphDB**. Its data lives in Colectica.
@@ -45,12 +45,12 @@ The conversion between them happens inside the backend, on every read and every 
 
 ## How the code is laid out
 
-| Where | What |
-|-------|------|
-| `Bauhaus/src/packages/modules-ddi` | The frontend module: routes, pages, hooks and components for physical instances and variables |
-| `Bauhaus-Back-Office/module-ddi` | The domain — DDI 4 models, services, conversion — and the Colectica infrastructure that implements its ports |
-| `Bauhaus-Back-Office/colectica-client` | The Colectica SDK: the only HTTP client that talks to Colectica, including token handling |
-| `Bauhaus-Back-Office/module-bauhaus-bo` | The REST controllers of the module, its exception handler, and the cache configuration |
+| Where                                   | What                                                                                                         |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `Bauhaus/src/packages/modules-ddi`      | The frontend module: routes, pages, hooks and components for physical instances and variables                |
+| `Bauhaus-Back-Office/module-ddi`        | The domain — DDI 4 models, services, conversion — and the Colectica infrastructure that implements its ports |
+| `Bauhaus-Back-Office/colectica-client`  | The Colectica SDK: the only HTTP client that talks to Colectica, including token handling                    |
+| `Bauhaus-Back-Office/module-bauhaus-bo` | The REST controllers of the module, its exception handler, and the cache configuration                       |
 
 ## Where to go next
 

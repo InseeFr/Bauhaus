@@ -155,44 +155,38 @@ describe("Distribution Edit Reducer", () => {
   });
 
   describe("CLEAR_ERROR_MESSAGES", () => {
-    it("should clear error messages while keeping field errors", () => {
-      const currentState: DistributionEditState = {
-        editingDistribution: {},
+    const clearCases = [
+      {
+        name: "should clear error messages while keeping field errors",
         clientSideErrors: {
           errorMessage: ["Error 1", "Error 2"],
           fields: { labelLg1: "Field error" },
         },
-        submitting: false,
-      };
+      },
+      {
+        name: "should work when no error messages exist",
+        clientSideErrors: { fields: { labelLg1: "Field error" } },
+      },
+    ];
 
-      const newState = reducer(currentState, {
-        type: "CLEAR_ERROR_MESSAGES",
-      });
+    clearCases.forEach(({ name, clientSideErrors }) =>
+      it(name, () => {
+        const currentState: DistributionEditState = {
+          editingDistribution: {},
+          clientSideErrors,
+          submitting: false,
+        };
 
-      expect(newState.clientSideErrors).toEqual({
-        errorMessage: [],
-        fields: { labelLg1: "Field error" },
-      });
-    });
+        const newState = reducer(currentState, {
+          type: "CLEAR_ERROR_MESSAGES",
+        });
 
-    it("should work when no error messages exist", () => {
-      const currentState: DistributionEditState = {
-        editingDistribution: {},
-        clientSideErrors: {
+        expect(newState.clientSideErrors).toEqual({
+          errorMessage: [],
           fields: { labelLg1: "Field error" },
-        },
-        submitting: false,
-      };
-
-      const newState = reducer(currentState, {
-        type: "CLEAR_ERROR_MESSAGES",
-      });
-
-      expect(newState.clientSideErrors).toEqual({
-        errorMessage: [],
-        fields: { labelLg1: "Field error" },
-      });
-    });
+        });
+      }),
+    );
 
     it("should work with empty clientSideErrors", () => {
       const newState = reducer(initialState, {

@@ -1,31 +1,17 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, screen } from "@testing-library/react";
 
 import { Series } from "@model/operations/series";
 
-import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+import { MODULES, Privilege, PRIVILEGES } from "@utils/hooks/rbac-constants";
 
-import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
+import { rbacFor, renderWithRbac } from "../../menu-rbac.testing";
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: (ns?: string, options?: any) => {
-      if (options?.i18n) {
-        return actual.useTranslation(ns, options);
-      }
-      return {
-        t: (key: string) => {
-          const translations: Record<string, string> = {
-            "sims.btnSimsVisu": "Show the report",
-            "sims.btnSimsCreate": "Create the report",
-          };
-          return translations[key] || key;
-        },
-      };
-    },
-  };
-});
+const renderMenu = (rbac: Privilege[], series: object = { creators: [] }) =>
+  renderWithRbac(
+    rbac,
+    () => import("./menu"),
+    ({ Menu }) => <Menu series={series as unknown as Series} onPublish={vi.fn()} />,
+  );
 
 describe("Family Home Page Menu", () => {
   afterEach(() => {
@@ -35,30 +21,10 @@ describe("Family Home Page Menu", () => {
   });
 
   it("can See Create the report", async () => {
-    mockReactQueryForRbac([
-      {
-        application: MODULES.OPERATION_SERIES,
-        privileges: [
-          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
-          { privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL },
-        ],
-      },
-      {
-        application: MODULES.OPERATION_SIMS,
-        privileges: [
-          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
-          { privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL },
-        ],
-      },
+    await renderMenu([
+      rbacFor(MODULES.OPERATION_SERIES, [PRIVILEGES.CREATE, PRIVILEGES.READ]),
+      rbacFor(MODULES.OPERATION_SIMS, [PRIVILEGES.CREATE, PRIVILEGES.READ]),
     ]);
-
-    const { Menu } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <Menu series={{ creators: [] } as unknown as Series} onPublish={vi.fn()} />
-      </WithRouter>,
-    );
 
     screen.getByText("Back");
     expect(screen.queryByText("Show the report")).toBeNull();
@@ -66,23 +32,10 @@ describe("Family Home Page Menu", () => {
   }, 10000);
 
   it("can See Show the report", async () => {
-    mockReactQueryForRbac([
-      {
-        application: MODULES.OPERATION_SERIES,
-        privileges: [
-          { privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL },
-          { privilege: PRIVILEGES.READ, strategy: STRATEGIES.ALL },
-        ],
-      },
-    ]);
-
-    const { Menu } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <Menu series={{ creators: [], idSims: "1" } as unknown as Series} onPublish={vi.fn()} />
-      </WithRouter>,
-    );
+    await renderMenu([rbacFor(MODULES.OPERATION_SERIES, [PRIVILEGES.CREATE, PRIVILEGES.READ])], {
+      creators: [],
+      idSims: "1",
+    });
 
     screen.getByText("Back");
     screen.getByText("Show the report");
@@ -90,39 +43,13 @@ describe("Family Home Page Menu", () => {
   });
 
   it("can see the Publish button", async () => {
-    mockReactQueryForRbac([
-      {
-        application: MODULES.OPERATION_SERIES,
-        privileges: [{ privilege: PRIVILEGES.PUBLISH, strategy: STRATEGIES.ALL }],
-      },
-    ]);
-
-    const { Menu } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <Menu series={{ creators: [] } as unknown as Series} onPublish={vi.fn()} />
-      </WithRouter>,
-    );
+    await renderMenu([rbacFor(MODULES.OPERATION_SERIES, [PRIVILEGES.PUBLISH])]);
 
     screen.getByText("Publish");
   });
 
   it("can see the Update", async () => {
-    mockReactQueryForRbac([
-      {
-        application: MODULES.OPERATION_SERIES,
-        privileges: [{ privilege: PRIVILEGES.UPDATE, strategy: STRATEGIES.ALL }],
-      },
-    ]);
-
-    const { Menu } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <Menu series={{ creators: [] } as unknown as Series} onPublish={vi.fn()} />
-      </WithRouter>,
-    );
+    await renderMenu([rbacFor(MODULES.OPERATION_SERIES, [PRIVILEGES.UPDATE])]);
 
     screen.getByText("Update");
   });

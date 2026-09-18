@@ -10,10 +10,11 @@ import {
 } from "../../../../constants";
 import { StructureComponents } from "./StructureComponents";
 
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual("react-i18next")),
-  useTranslation: () => ({ t: (key: string) => key }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../../../../mocks.testing")).translationKeysAsLabels(
+    await vi.importActual("react-i18next"),
+  ),
+);
 
 vi.mock("@sdk/index", () => ({
   ConceptsApi: { getConceptList: vi.fn() },

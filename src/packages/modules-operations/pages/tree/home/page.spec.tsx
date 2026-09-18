@@ -46,6 +46,22 @@ describe("OperationsTree", () => {
     return utils;
   };
 
+  // Famille 1 contenant la seule série « Series 1 ».
+  const mockFamilyWithOneSeries = () =>
+    vi.mocked(OperationsApi).getFamilyById.mockResolvedValue({
+      series: [{ id: "s1", label: "Series 1" }],
+    });
+
+  const expandUntilSeriesShown = async (
+    getByRole: Awaited<ReturnType<typeof renderTree>>["getByRole"],
+    family = getByRole("treeitem", { name: "Family 1" }),
+  ) => {
+    fireEvent.click(togglerOf(family));
+    await waitFor(() => {
+      expect(getByRole("treeitem", { name: "Series 1" })).toBeInTheDocument();
+    });
+  };
+
   it("affiche un lien vers chaque famille chargée au montage", async () => {
     const { getByRole } = await renderTree();
 
@@ -81,9 +97,7 @@ describe("OperationsTree", () => {
   });
 
   it("charge et affiche les opérations d'une série au dépliage", async () => {
-    vi.mocked(OperationsApi).getFamilyById.mockResolvedValue({
-      series: [{ id: "s1", label: "Series 1" }],
-    });
+    mockFamilyWithOneSeries();
     vi.mocked(OperationsApi).getSerie.mockResolvedValue({
       operations: [
         { id: "o1", label: "Operation 1" },
@@ -93,10 +107,7 @@ describe("OperationsTree", () => {
 
     const { getByRole } = await renderTree();
 
-    fireEvent.click(togglerOf(getByRole("treeitem", { name: "Family 1" })));
-    await waitFor(() => {
-      expect(getByRole("treeitem", { name: "Series 1" })).toBeInTheDocument();
-    });
+    await expandUntilSeriesShown(getByRole);
 
     fireEvent.click(togglerOf(getByRole("treeitem", { name: "Series 1" })));
 
@@ -114,17 +125,12 @@ describe("OperationsTree", () => {
   });
 
   it("ne recharge pas les séries d'une famille déjà dépliée", async () => {
-    vi.mocked(OperationsApi).getFamilyById.mockResolvedValue({
-      series: [{ id: "s1", label: "Series 1" }],
-    });
+    mockFamilyWithOneSeries();
 
     const { getByRole } = await renderTree();
     const family = getByRole("treeitem", { name: "Family 1" });
 
-    fireEvent.click(togglerOf(family));
-    await waitFor(() => {
-      expect(getByRole("treeitem", { name: "Series 1" })).toBeInTheDocument();
-    });
+    await expandUntilSeriesShown(getByRole, family);
 
     fireEvent.click(togglerOf(family)); // repli
     fireEvent.click(togglerOf(family)); // dépliage à nouveau
@@ -150,17 +156,12 @@ describe("OperationsTree", () => {
   });
 
   it("gère une série sans opération", async () => {
-    vi.mocked(OperationsApi).getFamilyById.mockResolvedValue({
-      series: [{ id: "s1", label: "Series 1" }],
-    });
+    mockFamilyWithOneSeries();
     vi.mocked(OperationsApi).getSerie.mockResolvedValue({});
 
     const { getByRole } = await renderTree();
 
-    fireEvent.click(togglerOf(getByRole("treeitem", { name: "Family 1" })));
-    await waitFor(() => {
-      expect(getByRole("treeitem", { name: "Series 1" })).toBeInTheDocument();
-    });
+    await expandUntilSeriesShown(getByRole);
 
     const series = getByRole("treeitem", { name: "Series 1" });
     fireEvent.click(togglerOf(series));

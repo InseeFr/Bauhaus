@@ -9,11 +9,9 @@ const translations: Record<string, string> = {
   "common.exportTitle": "Export",
 };
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => translations[key] ?? key,
-  }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../../../testing/i18n.testing")).translatingWith(() => translations),
+);
 
 vi.mock("../../../hooks/useCollections", () => ({
   useCollections: vi.fn(),
@@ -55,13 +53,16 @@ const renderComponent = () => {
   );
 };
 
+const givenCollections = (data: unknown, isLoading = false) =>
+  (useCollections as Mock).mockReturnValue({ data, isLoading });
+
+const givenCollectionExportPending = () =>
+  (useCollectionExporter as Mock).mockReturnValue({ mutate: vi.fn(), isPending: true });
+
 describe("Export Collections Home Container", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (useCollections as Mock).mockReturnValue({
-      data: [],
-      isLoading: false,
-    });
+    givenCollections([]);
     (useCollectionExporter as Mock).mockReturnValue({
       mutate: vi.fn(),
       isPending: false,
@@ -70,10 +71,7 @@ describe("Export Collections Home Container", () => {
 
   describe("Loading State", () => {
     it("should display loading indicator while fetching collections", () => {
-      (useCollections as Mock).mockReturnValue({
-        data: [],
-        isLoading: true,
-      });
+      givenCollections([], true);
 
       renderComponent();
 
@@ -81,10 +79,7 @@ describe("Export Collections Home Container", () => {
     });
 
     it("should display exporting indicator during export", () => {
-      (useCollectionExporter as Mock).mockReturnValue({
-        mutate: vi.fn(),
-        isPending: true,
-      });
+      givenCollectionExportPending();
 
       renderComponent();
 
@@ -92,14 +87,8 @@ describe("Export Collections Home Container", () => {
     });
 
     it("should prioritize exporting state over loading state", () => {
-      (useCollections as Mock).mockReturnValue({
-        data: [],
-        isLoading: true,
-      });
-      (useCollectionExporter as Mock).mockReturnValue({
-        mutate: vi.fn(),
-        isPending: true,
-      });
+      givenCollections([], true);
+      givenCollectionExportPending();
 
       renderComponent();
 
@@ -108,10 +97,7 @@ describe("Export Collections Home Container", () => {
     });
 
     it("should hide loading indicator after collections are fetched", () => {
-      (useCollections as Mock).mockReturnValue({
-        data: [{ id: "1", label: "Test" }],
-        isLoading: false,
-      });
+      givenCollections([{ id: "1", label: "Test" }]);
 
       renderComponent();
 
@@ -122,15 +108,11 @@ describe("Export Collections Home Container", () => {
 
   describe("Collections Display", () => {
     it("should display collections after successful fetch", () => {
-      const collectionsMock = [
+      givenCollections([
         { id: "1", label: { value: "Collection A", lang: "fr" } },
         { id: "2", label: { value: "Collection B", lang: "fr" } },
         { id: "3", label: { value: "Collection C", lang: "fr" } },
-      ];
-      (useCollections as Mock).mockReturnValue({
-        data: collectionsMock,
-        isLoading: false,
-      });
+      ]);
 
       renderComponent();
 
@@ -142,10 +124,7 @@ describe("Export Collections Home Container", () => {
     });
 
     it("should display empty list when no collections available", () => {
-      (useCollections as Mock).mockReturnValue({
-        data: [],
-        isLoading: false,
-      });
+      givenCollections([]);
 
       renderComponent();
 
@@ -154,10 +133,7 @@ describe("Export Collections Home Container", () => {
     });
 
     it("should handle undefined data with default empty array", () => {
-      (useCollections as Mock).mockReturnValue({
-        data: undefined,
-        isLoading: false,
-      });
+      givenCollections(undefined);
 
       renderComponent();
 
@@ -174,13 +150,10 @@ describe("Export Collections Home Container", () => {
     });
 
     it("should transform collections with label object to flat label", () => {
-      (useCollections as Mock).mockReturnValue({
-        data: [
-          { id: "1", label: { value: "Collection A", lang: "fr" } },
-          { id: "2", label: { value: "Collection B", lang: "fr" } },
-        ],
-        isLoading: false,
-      });
+      givenCollections([
+        { id: "1", label: { value: "Collection A", lang: "fr" } },
+        { id: "2", label: { value: "Collection B", lang: "fr" } },
+      ]);
 
       renderComponent();
 
@@ -189,14 +162,11 @@ describe("Export Collections Home Container", () => {
     });
 
     it("should handle missing label value", () => {
-      (useCollections as Mock).mockReturnValue({
-        data: [
-          { id: "1", label: { value: "Collection A", lang: "fr" } },
-          { id: "2", label: null },
-          { id: "3", label: { lang: "fr" } },
-        ],
-        isLoading: false,
-      });
+      givenCollections([
+        { id: "1", label: { value: "Collection A", lang: "fr" } },
+        { id: "2", label: null },
+        { id: "3", label: { lang: "fr" } },
+      ]);
 
       renderComponent();
 
@@ -218,10 +188,7 @@ describe("Export Collections Home Container", () => {
 
   describe("Edge Cases", () => {
     it("should handle single collection", () => {
-      (useCollections as Mock).mockReturnValue({
-        data: [{ id: "1", label: { value: "Single Collection", lang: "fr" } }],
-        isLoading: false,
-      });
+      givenCollections([{ id: "1", label: { value: "Single Collection", lang: "fr" } }]);
 
       renderComponent();
 
@@ -230,15 +197,12 @@ describe("Export Collections Home Container", () => {
     });
 
     it("should handle large number of collections", () => {
-      const largeCollections = Array.from({ length: 100 }, (_, i) => ({
-        id: `${i}`,
-        label: { value: `Collection ${i}`, lang: "fr" },
-      }));
-
-      (useCollections as Mock).mockReturnValue({
-        data: largeCollections,
-        isLoading: false,
-      });
+      givenCollections(
+        Array.from({ length: 100 }, (_, i) => ({
+          id: `${i}`,
+          label: { value: `Collection ${i}`, lang: "fr" },
+        })),
+      );
 
       renderComponent();
 
@@ -246,13 +210,10 @@ describe("Export Collections Home Container", () => {
     });
 
     it("should handle collections with special characters in labels", () => {
-      (useCollections as Mock).mockReturnValue({
-        data: [
-          { id: "1", label: { value: "Collection <test>", lang: "fr" } },
-          { id: "2", label: { value: "Collection & Co.", lang: "fr" } },
-        ],
-        isLoading: false,
-      });
+      givenCollections([
+        { id: "1", label: { value: "Collection <test>", lang: "fr" } },
+        { id: "2", label: { value: "Collection & Co.", lang: "fr" } },
+      ]);
 
       renderComponent();
 

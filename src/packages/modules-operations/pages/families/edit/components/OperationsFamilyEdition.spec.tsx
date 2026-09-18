@@ -8,28 +8,20 @@ import { OperationsApi } from "@sdk/operations-api";
 import { renderWithAppContext } from "../../../../../tests/render";
 import { OperationsFamilyEdition } from "./OperationsFamilyEdition";
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: () => ({
-      t: (key: string, options?: { lng?: string }) => {
-        const translations: Record<string, Record<string, string>> = {
-          fr: {
-            "common.title": "Intitulé",
-            "common.summary": "Résumé",
-          },
-          en: {
-            "common.title": "Title",
-            "common.summary": "Summary",
-          },
-        };
-        const lng = options?.lng || "en";
-        return translations[lng]?.[key] || key;
-      },
-    }),
-  };
-});
+vi.mock("react-i18next", async (importOriginal) =>
+  (
+    await import("../../../../components/translationsByLanguage.testing")
+  ).mockTranslationsByLanguage(importOriginal, {
+    fr: {
+      "common.title": "Intitulé",
+      "common.summary": "Résumé",
+    },
+    en: {
+      "common.title": "Title",
+      "common.summary": "Summary",
+    },
+  }),
+);
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: {
@@ -55,6 +47,36 @@ describe("OperationsFamilyEdition", () => {
       modified: "2024-06-01T00:00:00.000Z",
     },
     goBack: mockGoBack,
+  };
+
+  const newFamilyProps = {
+    ...defaultProps,
+    id: "",
+    family: { ...defaultProps.family, id: "" },
+  };
+
+  const clickSave = () => fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+
+  const saveNewFamily = () => {
+    OperationsApi.createFamily.mockResolvedValueOnce("new-id");
+    renderWithAppContext(<OperationsFamilyEdition {...newFamilyProps} />);
+    clickSave();
+  };
+
+  const saveExistingFamily = () => {
+    OperationsApi.updateFamily.mockResolvedValueOnce();
+    renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+    clickSave();
+  };
+
+  const saveAndWaitForServerError = async () => {
+    OperationsApi.updateFamily.mockRejectedValueOnce("Server error");
+    renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+    clickSave();
+
+    await waitFor(() => {
+      expect(screen.getByText("Server error")).toBeInTheDocument();
+    });
   };
 
   afterEach(() => {
@@ -120,15 +142,7 @@ describe("OperationsFamilyEdition", () => {
     });
 
     it("should clear server error when user modifies input", async () => {
-      OperationsApi.updateFamily.mockRejectedValueOnce("Server error");
-
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText("Server error")).toBeInTheDocument();
-      });
+      await saveAndWaitForServerError();
 
       const input = screen.getByDisplayValue("Test Label 1") as HTMLInputElement;
       fireEvent.change(input, {
@@ -182,34 +196,16 @@ describe("OperationsFamilyEdition", () => {
 
   describe("API Calls - Creation", () => {
     it("should call createFamily API when creating a new family", async () => {
-      const props = {
-        ...defaultProps,
-        id: "",
-        family: { ...defaultProps.family, id: "" },
-      };
-      OperationsApi.createFamily.mockResolvedValueOnce("new-id");
-
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+      saveNewFamily();
 
       await waitFor(() => {
-        expect(OperationsApi.createFamily).toHaveBeenCalledWith(props.family);
+        expect(OperationsApi.createFamily).toHaveBeenCalledWith(newFamilyProps.family);
         expect(OperationsApi.createFamily).toHaveBeenCalledTimes(1);
       });
     });
 
     it("should redirect to new family page after successful creation", async () => {
-      const props = {
-        ...defaultProps,
-        id: "",
-        family: { ...defaultProps.family, id: "" },
-      };
-      OperationsApi.createFamily.mockResolvedValueOnce("new-id");
-
-      renderWithAppContext(<OperationsFamilyEdition {...props} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+      saveNewFamily();
 
       await waitFor(() => {
         expect(mockGoBack).toHaveBeenCalledWith("/operations/family/new-id", true);
@@ -219,11 +215,7 @@ describe("OperationsFamilyEdition", () => {
 
   describe("API Calls - Update", () => {
     it("should call updateFamily API when updating an existing family", async () => {
-      OperationsApi.updateFamily.mockResolvedValueOnce();
-
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+      saveExistingFamily();
 
       await waitFor(() => {
         expect(OperationsApi.updateFamily).toHaveBeenCalledWith(defaultProps.family);
@@ -232,11 +224,7 @@ describe("OperationsFamilyEdition", () => {
     });
 
     it("should redirect to family page after successful update", async () => {
-      OperationsApi.updateFamily.mockResolvedValueOnce();
-
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
+      saveExistingFamily();
 
       await waitFor(() => {
         expect(mockGoBack).toHaveBeenCalledWith("/operations/family/1", false);
@@ -246,27 +234,11 @@ describe("OperationsFamilyEdition", () => {
 
   describe("Error Handling", () => {
     it("should display server-side error if API call fails", async () => {
-      OperationsApi.updateFamily.mockRejectedValueOnce("Server error");
-
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText("Server error")).toBeInTheDocument();
-      });
+      await saveAndWaitForServerError();
     });
 
     it("should not call goBack if API call fails", async () => {
-      OperationsApi.updateFamily.mockRejectedValueOnce("Server error");
-
-      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
-
-      fireEvent.click(screen.getByRole("button", { name: /Save/i }));
-
-      await waitFor(() => {
-        expect(screen.getByText("Server error")).toBeInTheDocument();
-      });
+      await saveAndWaitForServerError();
 
       expect(mockGoBack).not.toHaveBeenCalled();
     });

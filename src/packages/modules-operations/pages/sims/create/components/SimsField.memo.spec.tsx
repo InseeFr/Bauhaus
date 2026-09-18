@@ -1,30 +1,11 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
-import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
+import { createQueryWrapper } from "../../../../hooks/queryClientWrapper.testing";
+import { lastSelectProps, selectSpy } from "./selectRmesStub.testing";
 import { SimsField } from "./SimsField";
 
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-    },
-  });
-
-  return ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
-
-const selectSpy = vi.fn();
-
-vi.mock("@components/select-rmes", () => ({
-  Select: (props: any) => {
-    selectSpy(props);
-    return <div data-testid="select-stub" />;
-  },
-}));
+vi.mock("@components/select-rmes", () => import("./selectRmesStub.testing"));
 
 const buildMsd = () => ({
   masLabelLg1: "Statut",
@@ -44,7 +25,7 @@ const stableSection = {
   labelLg2: "",
 };
 
-const lastOptions = () => selectSpy.mock.calls.at(-1)?.[0].options;
+const lastOptions = () => lastSelectProps()?.options;
 
 describe("SimsField - memo and codelists", () => {
   it("re-renders the code list options when codelists arrives after the first render", () => {
@@ -64,7 +45,7 @@ describe("SimsField - memo and codelists", () => {
         organizationsOptions={[]}
         simsModified="2024-01-01T00:00:00.000Z"
       />,
-      { wrapper: createWrapper() },
+      { wrapper: createQueryWrapper().wrapper },
     );
 
     expect(lastOptions()).toEqual([]);

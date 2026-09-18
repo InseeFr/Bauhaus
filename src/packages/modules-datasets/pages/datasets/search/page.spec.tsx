@@ -20,22 +20,37 @@ vi.mock("@components/business/creators-input", () => ({
   },
 }));
 
+const renderEmptyFields = () =>
+  renderWithRouter(
+    <FieldsForDatasetsAdvancedSearch
+      labelLg1=""
+      altIdentifier=""
+      creator=""
+      disseminationStatus=""
+      validationStatus=""
+      wasGeneratedIRIs=""
+      created=""
+      updated=""
+      handleChange={vi.fn()}
+      seriesOperationsOptions={[]}
+    />,
+  );
+
+const datasetRow = (id: string, labelLg1: string, altIdentifier: string) => ({
+  id,
+  labelLg1,
+  creator: "",
+  disseminationStatus: "",
+  validationStatus: "",
+  wasGeneratedIRIs: "",
+  created: "",
+  updated: "",
+  altIdentifier,
+});
+
 describe("advanced search component", () => {
   it("filters creators by organization (HIE) and not by stamp", () => {
-    renderWithRouter(
-      <FieldsForDatasetsAdvancedSearch
-        labelLg1=""
-        altIdentifier=""
-        creator=""
-        disseminationStatus=""
-        validationStatus=""
-        wasGeneratedIRIs=""
-        created=""
-        updated=""
-        handleChange={vi.fn()}
-        seriesOperationsOptions={[]}
-      />,
-    );
+    renderEmptyFields();
 
     expect(lastCreatorsInputProps?.mode).toBe("organization");
   });
@@ -45,37 +60,11 @@ describe("advanced search component", () => {
   });
 
   it("FieldsForDatasetsAdvancedSearch renders without crashing", () => {
-    renderWithRouter(
-      <FieldsForDatasetsAdvancedSearch
-        labelLg1=""
-        altIdentifier=""
-        creator=""
-        disseminationStatus=""
-        validationStatus=""
-        wasGeneratedIRIs=""
-        created=""
-        updated=""
-        handleChange={vi.fn()}
-        seriesOperationsOptions={[]}
-      />,
-    );
+    renderEmptyFields();
   });
 
   it("FieldsForDatasetsAdvancedSearch associates each text input with its label", () => {
-    renderWithRouter(
-      <FieldsForDatasetsAdvancedSearch
-        labelLg1=""
-        altIdentifier=""
-        creator=""
-        disseminationStatus=""
-        validationStatus=""
-        wasGeneratedIRIs=""
-        created=""
-        updated=""
-        handleChange={vi.fn()}
-        seriesOperationsOptions={[]}
-      />,
-    );
+    renderEmptyFields();
     expect(screen.getByLabelText("Title")).toBeInTheDocument();
     expect(screen.getByLabelText("Alternative identifier")).toBeInTheDocument();
   });
@@ -83,28 +72,8 @@ describe("advanced search component", () => {
   it("AdvancedSearchForm filters datasets by altIdentifier", async () => {
     const user = userEvent.setup();
     const data = [
-      {
-        id: "1",
-        labelLg1: "Dataset One",
-        creator: "",
-        disseminationStatus: "",
-        validationStatus: "",
-        wasGeneratedIRIs: "",
-        created: "",
-        updated: "",
-        altIdentifier: "ALT-XYZ",
-      },
-      {
-        id: "2",
-        labelLg1: "Dataset Two",
-        creator: "",
-        disseminationStatus: "",
-        validationStatus: "",
-        wasGeneratedIRIs: "",
-        created: "",
-        updated: "",
-        altIdentifier: "OTHER-001",
-      },
+      datasetRow("1", "Dataset One", "ALT-XYZ"),
+      datasetRow("2", "Dataset Two", "OTHER-001"),
     ];
 
     renderWithRouter(<AdvancedSearchForm data={data} seriesOperationsOptions={[]} />);

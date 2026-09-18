@@ -28,12 +28,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("react-router-dom", () => ({
-  useParams: () => ({
-    id: "test-physical-instance-id",
-    agencyId: "fr.insee",
-  }),
-}));
+vi.mock("react-router-dom", () => import("./reactRouter.testing"));
 
 const mockUseAllCodeLists = vi.fn();
 
@@ -41,52 +36,15 @@ vi.mock("../../../hooks/useAllCodeLists", () => ({
   useAllCodeLists: () => mockUseAllCodeLists(),
 }));
 
-vi.mock("primereact/progressspinner", () => ({
-  ProgressSpinner: ({ style }: any) => (
-    <div data-testid="progress-spinner" style={style}>
-      Loading...
-    </div>
-  ),
-}));
+vi.mock("primereact/progressspinner", () => import("./primereact.testing"));
 
-vi.mock("primereact/message", () => ({
-  Message: ({ severity, text }: any) => <div data-testid={`message-${severity}`}>{text}</div>,
-}));
+vi.mock("primereact/message", () => import("./primereact.testing"));
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({
-    value,
-    options,
-    onChange,
-    placeholder,
-    className,
-    optionGroupLabel,
-    optionGroupChildren,
-    optionLabel,
-    optionValue,
-    itemTemplate,
-  }: any) => (
-    <select
-      data-testid="code-list-dropdown"
-      value={value || ""}
-      onChange={(e) => onChange({ value: e.target.value })}
-      className={className}
-    >
-      <option value="" disabled>
-        {placeholder}
-      </option>
-      {options?.map((group: any) => (
-        <optgroup key={group[optionGroupLabel]} label={group[optionGroupLabel]}>
-          {group[optionGroupChildren].map((option: any) => (
-            <option key={option[optionValue]} value={option[optionValue]}>
-              {itemTemplate ? itemTemplate(option) : option[optionLabel]}
-            </option>
-          ))}
-        </optgroup>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("primereact/dropdown", () => import("./primereact.testing"));
+
+const GROUP_LABEL = "Base permanente des équipements";
+const GROUP_SECTION = `Groupe : ${GROUP_LABEL}`;
+const MUTUALIZED_SECTION = "Listes mutualisées";
 
 describe("ReuseCodeListSelect", () => {
   const mockOnCodeListSelect = vi.fn();
@@ -106,34 +64,63 @@ describe("ReuseCodeListSelect", () => {
     },
   ];
 
-  beforeEach(() => {
-    vi.clearAllMocks();
+  /** Réponse du hook : pas de liste, pas de libellé de groupe, ni chargement ni erreur. */
+  const mockAllCodeLists = (result: {
+    data?: unknown[];
+    groupLabel?: string;
+    isLoading?: boolean;
+    error?: Error | null;
+  }) =>
     mockUseAllCodeLists.mockReturnValue({
-      data: mockCodeLists,
-      groupLabel: "Base permanente des équipements",
+      data: [],
       isLoading: false,
       error: null,
+      ...result,
     });
+
+  /** Trois listes (deux « Pays » de versions différentes, une « Catégories ») d'une même origine. */
+  const versionedCodeLists = (mutualized: boolean) =>
+    [
+      { id: "pays-old", label: "Pays", versionDate: "2024-01-15T00:00:00" },
+      { id: "pays-new", label: "Pays", versionDate: "2026-06-29T00:00:00" },
+      { id: "cat", label: "Catégories", versionDate: "2025-01-01T00:00:00" },
+    ].map((codeList) => ({ ...codeList, agencyId: "fr.insee", mutualized }));
+
+  const renderSelect = (selectedCodeListId: string | null = null) =>
+    render(
+      <ReuseCodeListSelect
+        selectedCodeListId={selectedCodeListId}
+        onCodeListSelect={mockOnCodeListSelect}
+      />,
+    );
+
+  const dropdown = () => screen.getByTestId("code-list-dropdown");
+
+  const sectionLabels = () =>
+    Array.from(dropdown().querySelectorAll("optgroup")).map((g) => g.getAttribute("label"));
+
+  const sectionOptions = (sectionLabel: string) =>
+    Array.from(
+      dropdown().querySelector(`optgroup[label="${sectionLabel}"]`)!.querySelectorAll("option"),
+    );
+
+  const optionByValue = (value: string) => dropdown().querySelector(`option[value="${value}"]`);
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockAllCodeLists({ data: mockCodeLists, groupLabel: GROUP_LABEL });
   });
 
   it("should render dropdown when data is loaded", () => {
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    expect(screen.getByTestId("code-list-dropdown")).toBeInTheDocument();
+    expect(dropdown()).toBeInTheDocument();
   });
 
   it("should display loading spinner when loading", () => {
-    mockUseAllCodeLists.mockReturnValue({
-      data: [],
-      isLoading: true,
-      error: null,
-    });
+    mockAllCodeLists({ isLoading: true });
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
     expect(screen.getByTestId("progress-spinner")).toBeInTheDocument();
     expect(screen.getByText("Chargement des listes de codes...")).toBeInTheDocument();
@@ -141,15 +128,9 @@ describe("ReuseCodeListSelect", () => {
   });
 
   it("should display error message when loading fails", () => {
-    mockUseAllCodeLists.mockReturnValue({
-      data: [],
-      isLoading: false,
-      error: new Error("Network error"),
-    });
+    mockAllCodeLists({ error: new Error("Network error") });
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
     expect(screen.getByTestId("message-error")).toBeInTheDocument();
     expect(screen.getByText("Erreur lors du chargement des listes de codes")).toBeInTheDocument();
@@ -157,15 +138,9 @@ describe("ReuseCodeListSelect", () => {
   });
 
   it("should display info message when no codes lists are available", () => {
-    mockUseAllCodeLists.mockReturnValue({
-      data: [],
-      isLoading: false,
-      error: null,
-    });
+    mockAllCodeLists({});
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
     expect(screen.getByTestId("message-info")).toBeInTheDocument();
     expect(screen.getByText("Aucune liste de codes disponible")).toBeInTheDocument();
@@ -173,9 +148,7 @@ describe("ReuseCodeListSelect", () => {
   });
 
   it("should display codes lists options", () => {
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
     const options = screen.getAllByRole("option");
     expect(options.some((opt) => opt.textContent === "Liste des statuts professionnels")).toBe(
@@ -185,12 +158,9 @@ describe("ReuseCodeListSelect", () => {
   });
 
   it("should format option value as agency-id", () => {
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const dropdown = screen.getByTestId("code-list-dropdown");
-    const options = dropdown.querySelectorAll("option");
+    const options = dropdown().querySelectorAll("option");
 
     const firstOption = Array.from(options).find(
       (opt) => opt.textContent === "Liste des statuts professionnels",
@@ -199,194 +169,84 @@ describe("ReuseCodeListSelect", () => {
   });
 
   it("should call onCodeListSelect when an option is selected", () => {
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const dropdown = screen.getByTestId("code-list-dropdown");
-    fireEvent.change(dropdown, { target: { value: "fr.insee-list-1" } });
+    fireEvent.change(dropdown(), { target: { value: "fr.insee-list-1" } });
 
     expect(mockOnCodeListSelect).toHaveBeenCalledWith("fr.insee-list-1");
   });
 
   it("should display selected value", () => {
-    render(
-      <ReuseCodeListSelect
-        selectedCodeListId="fr.insee-list-2"
-        onCodeListSelect={mockOnCodeListSelect}
-      />,
-    );
+    renderSelect("fr.insee-list-2");
 
-    const dropdown = screen.getByTestId("code-list-dropdown") as HTMLSelectElement;
-    expect(dropdown.value).toBe("fr.insee-list-2");
+    expect((dropdown() as HTMLSelectElement).value).toBe("fr.insee-list-2");
   });
 
   it("should split options into a group section labelled with the group and a mutualized section", () => {
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const dropdown = screen.getByTestId("code-list-dropdown");
-    const groups = dropdown.querySelectorAll("optgroup");
     // L'en-tête de la section « groupe » porte le libellé du groupe parent de la PI, préfixé.
-    expect(Array.from(groups).map((g) => g.getAttribute("label"))).toEqual([
-      "Groupe : Base permanente des équipements",
-      "Listes mutualisées",
-    ]);
+    expect(sectionLabels()).toEqual([GROUP_SECTION, MUTUALIZED_SECTION]);
 
-    const groupSection = dropdown.querySelector(
-      'optgroup[label="Groupe : Base permanente des équipements"]',
-    );
-    const mutualizedSection = dropdown.querySelector('optgroup[label="Listes mutualisées"]');
+    const groupSection = dropdown().querySelector(`optgroup[label="${GROUP_SECTION}"]`);
+    const mutualizedSection = dropdown().querySelector(`optgroup[label="${MUTUALIZED_SECTION}"]`);
     expect(groupSection?.querySelector('option[value="fr.insee-list-1"]')).not.toBeNull();
     expect(mutualizedSection?.querySelector('option[value="fr.insee-list-2"]')).not.toBeNull();
   });
 
   it("should fall back to the generic group section label when no group label is available", () => {
-    mockUseAllCodeLists.mockReturnValue({
-      data: mockCodeLists,
-      groupLabel: undefined,
-      isLoading: false,
-      error: null,
-    });
+    mockAllCodeLists({ data: mockCodeLists, groupLabel: undefined });
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const groups = screen.getByTestId("code-list-dropdown").querySelectorAll("optgroup");
-    expect(Array.from(groups).map((g) => g.getAttribute("label"))).toEqual([
-      "Listes du groupe",
-      "Listes mutualisées",
-    ]);
+    expect(sectionLabels()).toEqual(["Listes du groupe", MUTUALIZED_SECTION]);
   });
 
   it("should show a read-only lock on mutualized options only", () => {
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const dropdown = screen.getByTestId("code-list-dropdown");
-    const groupOption = dropdown.querySelector('option[value="fr.insee-list-1"]');
-    const mutualizedOption = dropdown.querySelector('option[value="fr.insee-list-2"]');
+    const groupOption = optionByValue("fr.insee-list-1");
+    const mutualizedOption = optionByValue("fr.insee-list-2");
     expect(groupOption?.querySelector('[data-testid="mutualized-lock"]')).toBeNull();
     expect(mutualizedOption?.querySelector('[data-testid="mutualized-lock"]')).not.toBeNull();
   });
 
   it("should sort mutualized code lists alphabetically (ascending) by label", () => {
-    mockUseAllCodeLists.mockReturnValue({
+    mockAllCodeLists({
       data: [
         { id: "m1", label: "Zèbre", agencyId: "fr.insee", mutualized: true },
         { id: "m2", label: "Abeille", agencyId: "fr.insee", mutualized: true },
         { id: "m3", label: "Mouton", agencyId: "fr.insee", mutualized: true },
       ],
-      groupLabel: undefined,
-      isLoading: false,
-      error: null,
     });
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const mutualizedSection = screen
-      .getByTestId("code-list-dropdown")
-      .querySelector('optgroup[label="Listes mutualisées"]');
-    const labels = Array.from(mutualizedSection!.querySelectorAll("option")).map(
-      (o) => o.textContent,
-    );
+    const labels = sectionOptions(MUTUALIZED_SECTION).map((o) => o.textContent);
     expect(labels).toEqual(["Abeille", "Mouton", "Zèbre"]);
   });
 
   it("orders mutualized lists by label asc, then most recent versionDate first for equal labels", () => {
-    mockUseAllCodeLists.mockReturnValue({
-      data: [
-        {
-          id: "pays-old",
-          label: "Pays",
-          agencyId: "fr.insee",
-          mutualized: true,
-          versionDate: "2024-01-15T00:00:00",
-        },
-        {
-          id: "pays-new",
-          label: "Pays",
-          agencyId: "fr.insee",
-          mutualized: true,
-          versionDate: "2026-06-29T00:00:00",
-        },
-        {
-          id: "cat",
-          label: "Catégories",
-          agencyId: "fr.insee",
-          mutualized: true,
-          versionDate: "2025-01-01T00:00:00",
-        },
-      ],
-      groupLabel: undefined,
-      isLoading: false,
-      error: null,
-    });
+    mockAllCodeLists({ data: versionedCodeLists(true) });
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const mutualizedSection = screen
-      .getByTestId("code-list-dropdown")
-      .querySelector('optgroup[label="Listes mutualisées"]');
-    const values = Array.from(mutualizedSection!.querySelectorAll("option")).map((o) =>
-      o.getAttribute("value"),
-    );
+    const values = sectionOptions(MUTUALIZED_SECTION).map((o) => o.getAttribute("value"));
     // Catégories < Pays ; à libellé égal (Pays), la version la plus récente (2026) avant 2024.
     expect(values).toEqual(["fr.insee-cat", "fr.insee-pays-new", "fr.insee-pays-old"]);
   });
 
   it("orders group lists by label asc, then most recent versionDate first for equal labels", () => {
-    mockUseAllCodeLists.mockReturnValue({
-      data: [
-        {
-          id: "pays-old",
-          label: "Pays",
-          agencyId: "fr.insee",
-          mutualized: false,
-          versionDate: "2024-01-15T00:00:00",
-        },
-        {
-          id: "pays-new",
-          label: "Pays",
-          agencyId: "fr.insee",
-          mutualized: false,
-          versionDate: "2026-06-29T00:00:00",
-        },
-        {
-          id: "cat",
-          label: "Catégories",
-          agencyId: "fr.insee",
-          mutualized: false,
-          versionDate: "2025-01-01T00:00:00",
-        },
-      ],
-      groupLabel: "Base permanente des équipements",
-      isLoading: false,
-      error: null,
-    });
+    mockAllCodeLists({ data: versionedCodeLists(false), groupLabel: GROUP_LABEL });
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const groupSection = screen
-      .getByTestId("code-list-dropdown")
-      .querySelector('optgroup[label="Groupe : Base permanente des équipements"]');
-    const values = Array.from(groupSection!.querySelectorAll("option")).map((o) =>
-      o.getAttribute("value"),
-    );
+    const values = sectionOptions(GROUP_SECTION).map((o) => o.getAttribute("value"));
     expect(values).toEqual(["fr.insee-cat", "fr.insee-pays-new", "fr.insee-pays-old"]);
   });
 
   it("should display the label only, not the technical name", () => {
-    mockUseAllCodeLists.mockReturnValue({
+    mockAllCodeLists({
       data: [
         {
           id: "m1",
@@ -396,24 +256,17 @@ describe("ReuseCodeListSelect", () => {
           mutualized: true,
         },
       ],
-      groupLabel: undefined,
-      isLoading: false,
-      error: null,
     });
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const option = screen
-      .getByTestId("code-list-dropdown")
-      .querySelector('option[value="fr.insee-m1"]');
+    const option = optionByValue("fr.insee-m1");
     expect(option?.textContent).toContain("Libellé lisible");
     expect(option?.textContent).not.toContain("CL_NOM_TECHNIQUE");
   });
 
   it("should append the versionDate (JJ/MM/AAAA) in parentheses to the option label", () => {
-    mockUseAllCodeLists.mockReturnValue({
+    mockAllCodeLists({
       data: [
         {
           id: "m1",
@@ -423,33 +276,20 @@ describe("ReuseCodeListSelect", () => {
           versionDate: "2026-06-29T14:26:32.961778",
         },
       ],
-      groupLabel: undefined,
-      isLoading: false,
-      error: null,
     });
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const option = screen
-      .getByTestId("code-list-dropdown")
-      .querySelector('option[value="fr.insee-m1"]');
-    expect(option?.textContent).toContain("Liste des pays (29/06/2026)");
+    expect(optionByValue("fr.insee-m1")?.textContent).toContain("Liste des pays (29/06/2026)");
   });
 
   it("should not render a section that has no code list", () => {
-    mockUseAllCodeLists.mockReturnValue({
+    mockAllCodeLists({
       data: [{ id: "g1", label: "Liste groupe", agencyId: "fr.insee", mutualized: false }],
-      isLoading: false,
-      error: null,
     });
 
-    render(
-      <ReuseCodeListSelect selectedCodeListId={null} onCodeListSelect={mockOnCodeListSelect} />,
-    );
+    renderSelect();
 
-    const groups = screen.getByTestId("code-list-dropdown").querySelectorAll("optgroup");
-    expect(Array.from(groups).map((g) => g.getAttribute("label"))).toEqual(["Listes du groupe"]);
+    expect(sectionLabels()).toEqual(["Listes du groupe"]);
   });
 });

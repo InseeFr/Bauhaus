@@ -88,25 +88,24 @@ vi.mock("primereact/inputtext", () => ({
   )),
 }));
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ id, value, options, onChange, placeholder, disabled, className }: any) => (
-    <select
-      id={id}
-      value={value || ""}
-      onChange={(e) => onChange({ value: e.target.value || null })}
-      disabled={disabled}
-      className={className}
-      data-testid={`dropdown-${id}`}
-    >
-      <option value="">{placeholder}</option>
-      {options?.map((opt: any) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("primereact/dropdown", async () => {
+  const { NativeOptions } = await import("../../pages/pages.testing");
+  return {
+    Dropdown: ({ id, value, options, onChange, placeholder, disabled, className }: any) => (
+      <select
+        id={id}
+        value={value || ""}
+        onChange={(e) => onChange({ value: e.target.value || null })}
+        disabled={disabled}
+        className={className}
+        data-testid={`dropdown-${id}`}
+      >
+        <option value="">{placeholder}</option>
+        <NativeOptions options={options} />
+      </select>
+    ),
+  };
+});
 
 vi.mock("primereact/button", () => ({
   Button: ({ label, onClick, type = "button", className, disabled, loading }: any) => (
@@ -150,6 +149,26 @@ describe("PhysicalInstanceDialog", () => {
   const mockOnSubmitCreate = vi.fn();
   const mockOnSubmitEdit = vi.fn();
 
+  // Remplit libellé, groupe puis étude (celle-ci n'est active qu'une fois le groupe choisi).
+  const fillCreateForm = async () => {
+    fireEvent.change(screen.getByLabelText("Label"), { target: { value: "Test Label" } });
+    fireEvent.change(screen.getByTestId("dropdown-group"), { target: { value: "group-1" } });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("dropdown-studyUnit")).not.toBeDisabled();
+    });
+
+    fireEvent.change(screen.getByTestId("dropdown-studyUnit"), { target: { value: "study-1" } });
+  };
+
+  const clickSaveOnceEnabled = async () => {
+    const saveButton = screen.getByText("Save");
+    await waitFor(() => {
+      expect(saveButton).not.toBeDisabled();
+    });
+    fireEvent.click(saveButton);
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -187,19 +206,7 @@ describe("PhysicalInstanceDialog", () => {
     it("should enable create button when all fields are filled", async () => {
       render(<PhysicalInstanceDialog {...defaultCreateProps} />);
 
-      const labelInput = screen.getByLabelText("Label");
-      fireEvent.change(labelInput, { target: { value: "Test Label" } });
-
-      const groupDropdown = screen.getByTestId("dropdown-group");
-      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
-
-      await waitFor(() => {
-        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-        expect(studyUnitDropdown).not.toBeDisabled();
-      });
-
-      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
+      await fillCreateForm();
 
       await waitFor(() => {
         const createButton = screen.getByText("Create");
@@ -211,19 +218,7 @@ describe("PhysicalInstanceDialog", () => {
       mockOnSubmitCreate.mockResolvedValue(undefined);
       render(<PhysicalInstanceDialog {...defaultCreateProps} />);
 
-      const labelInput = screen.getByLabelText("Label");
-      fireEvent.change(labelInput, { target: { value: "Test Label" } });
-
-      const groupDropdown = screen.getByTestId("dropdown-group");
-      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
-
-      await waitFor(() => {
-        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-        expect(studyUnitDropdown).not.toBeDisabled();
-      });
-
-      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
+      await fillCreateForm();
 
       const createButton = screen.getByText("Create");
       fireEvent.click(createButton);
@@ -314,11 +309,7 @@ describe("PhysicalInstanceDialog", () => {
       mockOnSubmitEdit.mockResolvedValue(undefined);
       render(<PhysicalInstanceDialog {...defaultEditProps} />);
 
-      const saveButton = screen.getByText("Save");
-      await waitFor(() => {
-        expect(saveButton).not.toBeDisabled();
-      });
-      fireEvent.click(saveButton);
+      await clickSaveOnceEnabled();
 
       await waitFor(() => {
         expect(mockOnSubmitEdit).toHaveBeenCalledWith({
@@ -414,19 +405,7 @@ describe("PhysicalInstanceDialog", () => {
       );
 
       // Fill the form
-      const labelInput = screen.getByLabelText("Label");
-      fireEvent.change(labelInput, { target: { value: "Test Label" } });
-
-      const groupDropdown = screen.getByTestId("dropdown-group");
-      fireEvent.change(groupDropdown, { target: { value: "group-1" } });
-
-      await waitFor(() => {
-        const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-        expect(studyUnitDropdown).not.toBeDisabled();
-      });
-
-      const studyUnitDropdown = screen.getByTestId("dropdown-studyUnit");
-      fireEvent.change(studyUnitDropdown, { target: { value: "study-1" } });
+      await fillCreateForm();
 
       // Submit the form
       const createButton = screen.getByText("Create");
@@ -463,11 +442,7 @@ describe("PhysicalInstanceDialog", () => {
       fireEvent.change(labelInput, { target: { value: "Modified Label" } });
 
       // Submit the form
-      const saveButton = screen.getByText("Save");
-      await waitFor(() => {
-        expect(saveButton).not.toBeDisabled();
-      });
-      fireEvent.click(saveButton);
+      await clickSaveOnceEnabled();
 
       await waitFor(() => {
         expect(mockOnSubmitEdit).toHaveBeenCalled();

@@ -46,23 +46,14 @@ vi.mock("@uiw/react-md-editor/nohighlight", () => ({
   default: { Markdown: ({ source }: { source: string }) => <div>{source}</div> },
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@utils/hooks/users")>()),
-  usePrivileges: () => ({
-    privileges: [
-      {
-        application: "DATASET_DATASET",
-        privileges: [
-          { privilege: "PUBLISH", strategy: "ALL" },
-          { privilege: "DELETE", strategy: "ALL" },
-          { privilege: "UPDATE", strategy: "ALL" },
-          { privilege: "CREATE", strategy: "ALL" },
-        ],
-      },
-    ],
-  }),
-  useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-}));
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../users-hooks.testing")).usersHooksWithDatasetPrivileges(importOriginal, [
+    "PUBLISH",
+    "DELETE",
+    "UPDATE",
+    "CREATE",
+  ]),
+);
 
 vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 

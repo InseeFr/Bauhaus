@@ -15,10 +15,11 @@ vi.mock("react-router-dom", async () => ({
   useBlocker: (predicate: any) => blocker(predicate),
 }));
 
-vi.mock("react-i18next", async () => ({
-  ...(await vi.importActual<typeof import("react-i18next")>("react-i18next")),
-  useTranslation: () => ({ t: (key: string, options?: any) => `${key}${options?.id ?? ""}` }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../../translationMock.testing")).withMockedTranslation(
+    (key, options) => `${key}${options?.id ?? ""}`,
+  ),
+);
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: {

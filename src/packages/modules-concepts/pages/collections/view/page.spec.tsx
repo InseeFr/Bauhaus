@@ -1,5 +1,5 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { screen, waitFor } from "@testing-library/react";
 import { useParams } from "react-router-dom";
 import { Mock, vi } from "vitest";
 
@@ -8,6 +8,7 @@ import { CollectionApi } from "@sdk/new-collection-api";
 
 import { useSecondLang } from "@utils/hooks/second-lang";
 
+import { renderWithQueryClient } from "../../../testing/query-client.testing";
 import { Component } from "./page";
 
 vi.mock("react-router-dom", () => ({
@@ -46,21 +47,19 @@ vi.mock("./components/CollectionVisualization", () => ({
   CollectionVisualization: () => <div data-testid="collection-visualization">Visualization</div>,
 }));
 
+const mockCollection = {
+  id: "123",
+  prefLabelLg1: "Test Collection",
+};
+const mockMembers = [{ id: "c1", label: "Concept 1" }];
+
+const mockFetchedCollection = (collection: object, members: object[]) => {
+  (CollectionApi.getCollectionById as Mock).mockResolvedValue(collection);
+  (CollectionApi.getCollectionMembersList as Mock).mockResolvedValue(members);
+};
+
 describe("Visualization Container Component", () => {
-  let queryClient: QueryClient;
-
-  const renderWithQueryClient = (component: React.ReactNode) => {
-    return render(<QueryClientProvider client={queryClient}>{component}</QueryClientProvider>);
-  };
-
   beforeEach(() => {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-      },
-    });
     vi.clearAllMocks();
     (useParams as Mock).mockReturnValue({ id: "123" });
     (useSecondLang as Mock).mockReturnValue(["en", vi.fn()]);
@@ -76,14 +75,7 @@ describe("Visualization Container Component", () => {
   });
 
   it("renders CollectionVisualization component after loading", async () => {
-    const mockCollection = {
-      id: "123",
-      prefLabelLg1: "Test Collection",
-    };
-    const mockMembers = [{ id: "c1", label: "Concept 1" }];
-
-    (CollectionApi.getCollectionById as Mock).mockResolvedValue(mockCollection);
-    (CollectionApi.getCollectionMembersList as Mock).mockResolvedValue(mockMembers);
+    mockFetchedCollection(mockCollection, mockMembers);
 
     renderWithQueryClient(<Component />);
 
@@ -93,16 +85,10 @@ describe("Visualization Container Component", () => {
   });
 
   it("renders Publishing component when validating collection", async () => {
-    const mockCollection = {
-      id: "123",
-      prefLabelLg1: "Test Collection",
-    };
-
-    (CollectionApi.getCollectionById as Mock).mockResolvedValue(mockCollection);
-    (CollectionApi.getCollectionMembersList as Mock).mockResolvedValue([]);
+    mockFetchedCollection(mockCollection, []);
     (ConceptsApi.putCollectionValidList as Mock).mockReturnValue(new Promise(() => {}));
 
-    const { rerender } = renderWithQueryClient(<Component />);
+    const { rerender, queryClient } = renderWithQueryClient(<Component />);
 
     await waitFor(() => {
       expect(screen.getByTestId("collection-visualization")).toBeInTheDocument();
@@ -118,8 +104,7 @@ describe("Visualization Container Component", () => {
   });
 
   it("calls useParams to get collection id", () => {
-    (CollectionApi.getCollectionById as Mock).mockResolvedValue({});
-    (CollectionApi.getCollectionMembersList as Mock).mockResolvedValue([]);
+    mockFetchedCollection({}, []);
 
     renderWithQueryClient(<Component />);
 
@@ -127,8 +112,7 @@ describe("Visualization Container Component", () => {
   });
 
   it("calls useSecondLang hook", () => {
-    (CollectionApi.getCollectionById as Mock).mockResolvedValue({});
-    (CollectionApi.getCollectionMembersList as Mock).mockResolvedValue([]);
+    mockFetchedCollection({}, []);
 
     renderWithQueryClient(<Component />);
 
@@ -136,14 +120,7 @@ describe("Visualization Container Component", () => {
   });
 
   it("fetches collection and members data on mount", async () => {
-    const mockCollection = {
-      id: "123",
-      prefLabelLg1: "Test Collection",
-    };
-    const mockMembers = [{ id: "c1", label: "Concept 1" }];
-
-    (CollectionApi.getCollectionById as Mock).mockResolvedValue(mockCollection);
-    (CollectionApi.getCollectionMembersList as Mock).mockResolvedValue(mockMembers);
+    mockFetchedCollection(mockCollection, mockMembers);
 
     renderWithQueryClient(<Component />);
 

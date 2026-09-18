@@ -1,120 +1,41 @@
 import { flattenTree } from "./flattenTree";
 
+const leaf = (idMas: string, idParent: string) => ({ idMas, idParent, children: {} });
+
+const node4 = leaf("4", "1");
+const node5 = leaf("5", "1");
+const node6 = leaf("6", "1");
+const node7 = leaf("7", "2");
+const node10 = leaf("10", "8");
+const node11 = leaf("11", "9");
+const node12 = leaf("12", "3");
+
+const node8 = { idMas: "8", idParent: "2", children: { 10: node10 } };
+const node9 = { idMas: "9", idParent: "3", children: { 11: node11 } };
+
+const node1 = { idMas: "1", children: { 4: node4, 5: node5, 6: node6 } };
+const node2 = { idMas: "2", children: { 7: node7, 8: node8 } };
+const node3 = { idMas: "3", children: { 9: node9, 12: node12 } };
+
 describe("flattenTree", () => {
   it("should return the right flat array", () => {
-    const output = {
-      1: {
-        children: {
-          4: { children: {}, idMas: "4", idParent: "1" },
-          5: { children: {}, idMas: "5", idParent: "1" },
-          6: { children: {}, idMas: "6", idParent: "1" },
-        },
-        idMas: "1",
-      },
-      10: { children: {}, idMas: "10", idParent: "8" },
-      11: { children: {}, idMas: "11", idParent: "9" },
-      12: { children: {}, idMas: "12", idParent: "3" },
-      2: {
-        children: {
-          7: { children: {}, idMas: "7", idParent: "2" },
-          8: {
-            children: { 10: { children: {}, idMas: "10", idParent: "8" } },
-            idMas: "8",
-            idParent: "2",
-          },
-        },
-        idMas: "2",
-      },
-      3: {
-        children: {
-          12: { children: {}, idMas: "12", idParent: "3" },
-          9: {
-            children: { 11: { children: {}, idMas: "11", idParent: "9" } },
-            idMas: "9",
-            idParent: "3",
-          },
-        },
-        idMas: "3",
-      },
-      4: { children: {}, idMas: "4", idParent: "1" },
-      5: { children: {}, idMas: "5", idParent: "1" },
-      6: { children: {}, idMas: "6", idParent: "1" },
-      7: { children: {}, idMas: "7", idParent: "2" },
-      8: {
-        children: { 10: { children: {}, idMas: "10", idParent: "8" } },
-        idMas: "8",
-        idParent: "2",
-      },
-      9: {
-        children: { 11: { children: {}, idMas: "11", idParent: "9" } },
-        idMas: "9",
-        idParent: "3",
-      },
-    };
-    const input = {
-      1: {
-        idMas: "1",
-        children: {
-          4: {
-            idMas: "4",
-            idParent: "1",
-            children: {},
-          },
-          5: {
-            idMas: "5",
-            idParent: "1",
-            children: {},
-          },
-          6: {
-            idMas: "6",
-            idParent: "1",
-            children: {},
-          },
-        },
-      },
-      2: {
-        idMas: "2",
-        children: {
-          7: {
-            idMas: "7",
-            idParent: "2",
-            children: {},
-          },
-          8: {
-            idMas: "8",
-            idParent: "2",
-            children: {
-              10: {
-                idMas: "10",
-                idParent: "8",
-                children: {},
-              },
-            },
-          },
-        },
-      },
-      3: {
-        idMas: "3",
-        children: {
-          9: {
-            idMas: "9",
-            idParent: "3",
-            children: {
-              11: {
-                idMas: "11",
-                idParent: "9",
-                children: {},
-              },
-            },
-          },
-          12: {
-            idMas: "12",
-            idParent: "3",
-            children: {},
-          },
-        },
-      },
-    };
-    expect(flattenTree(input)).toEqual(output);
+    const input = { 1: node1, 2: node2, 3: node3 };
+
+    // Chaque nœud, à quelque profondeur qu'il soit, devient une entrée de premier niveau,
+    // sans perdre ses propres enfants.
+    expect(flattenTree(input)).toEqual({
+      1: node1,
+      2: node2,
+      3: node3,
+      4: node4,
+      5: node5,
+      6: node6,
+      7: node7,
+      8: node8,
+      9: node9,
+      10: node10,
+      11: node11,
+      12: node12,
+    });
   });
 });

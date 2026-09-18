@@ -1,13 +1,9 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { PropsWithChildren } from "react";
-import { I18nextProvider } from "react-i18next";
-import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../../application/app-context";
-import { operationsI18n } from "../../../../i18n";
+import { chooseIn, EditionProviders } from "../../../edition-form.testing";
 import { OperationsSerieEdition } from "./OperationsSerieEdition";
 
 // Seule la source des organizations est simulée : les listes déroulantes qui s'en
@@ -28,16 +24,6 @@ vi.mock("@sdk/operations-api", () => ({
     putSeries: vi.fn(),
   },
 }));
-
-const Providers = ({ children }: PropsWithChildren) => (
-  <I18nextProvider i18n={operationsI18n}>
-    <MemoryRouter>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        {children}
-      </AppContextProvider>
-    </MemoryRouter>
-  </I18nextProvider>
-);
 
 const defaultProps = {
   families: [
@@ -66,7 +52,7 @@ const completeSerie = {
 
 const renderEdition = (props = {}) =>
   render(<OperationsSerieEdition {...defaultProps} serie={completeSerie} {...props} />, {
-    wrapper: Providers,
+    wrapper: EditionProviders,
   });
 
 describe("OperationsSerieEdition", () => {
@@ -77,7 +63,7 @@ describe("OperationsSerieEdition", () => {
   it("reinitialise le formulaire quand la serie affichee change", () => {
     const { rerender } = render(
       <OperationsSerieEdition {...defaultProps} serie={{ id: "1", prefLabelLg1: "Série 1" }} />,
-      { wrapper: Providers },
+      { wrapper: EditionProviders },
     );
 
     expect(screen.getByDisplayValue("Série 1")).toBeInTheDocument();
@@ -93,7 +79,7 @@ describe("OperationsSerieEdition", () => {
   it("conserve les saisies en cours quand la serie affichee ne change pas", () => {
     const { rerender } = render(
       <OperationsSerieEdition {...defaultProps} serie={{ id: "1", prefLabelLg1: "Série 1" }} />,
-      { wrapper: Providers },
+      { wrapper: EditionProviders },
     );
 
     rerender(
@@ -195,25 +181,6 @@ describe("OperationsSerieEdition — champs à choix", () => {
     OperationsApi.putSeries.mockResolvedValue(undefined);
     OperationsApi.postSeries.mockResolvedValue("s9");
   });
-
-  // Le libellé est tantôt le parent direct de la liste, tantôt son voisin dans le
-  // groupe de champs : on retient celui des deux qui la contient.
-  const fieldLabelled = (label: string | RegExp) => {
-    const node = screen.getByText(label);
-    const holder = [node.closest("label"), node.closest(".form-group")].find((el) =>
-      el?.querySelector(".p-dropdown, .p-multiselect"),
-    )!;
-    return holder.querySelector<HTMLElement>(".p-dropdown, .p-multiselect")!;
-  };
-
-  // Une liste PrimeReact s'ouvre au clic sur son champ et pose son panneau en fin
-  // de document ; le clic suivant hors du panneau le referme.
-  const chooseIn = (label: string | RegExp, option: string) => {
-    fireEvent.click(fieldLabelled(label));
-    const items = screen.getAllByText(option);
-    fireEvent.click(items[items.length - 1]);
-    fireEvent.mouseDown(document.body);
-  };
 
   const saveAndRead = async (api: "putSeries" | "postSeries" = "putSeries") => {
     fireEvent.click(screen.getByRole("button", { name: /save|sauvegarder/i }));

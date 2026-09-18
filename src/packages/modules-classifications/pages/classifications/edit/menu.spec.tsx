@@ -2,42 +2,38 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+import { mockGoBack } from "../../../testing/component-mocks.testing";
 import { Menu } from "./menu";
 
-const mockGoBack = vi.fn();
+vi.mock("@utils/hooks/useGoBack", () => import("../../../testing/component-mocks.testing"));
 
-vi.mock("@utils/hooks/useGoBack", () => ({
-  useGoBack: () => mockGoBack,
-}));
+vi.mock("@components/action-toolbar", () => import("../../../testing/component-mocks.testing"));
 
-vi.mock("@components/action-toolbar", () => ({
-  ActionToolbar: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="action-toolbar">{children}</div>
-  ),
-}));
-
-vi.mock("@components/buttons/buttons-with-icons", () => ({
-  CancelButton: ({ action }: { action: string | (() => void) }) => (
-    <button
-      data-testid="cancel-button"
-      type="button"
-      onClick={() => (typeof action === "string" ? mockGoBack(action) : action())}
-    >
-      Annuler
-    </button>
-  ),
-  SaveButton: ({
-    disabled,
-    type,
-  }: {
-    disabled?: boolean;
-    type?: "button" | "reset" | "submit";
-  }) => (
-    <button data-testid="save-button" type={type} disabled={disabled}>
-      Sauvegarder
-    </button>
-  ),
-}));
+vi.mock("@components/buttons/buttons-with-icons", async () => {
+  const { mockGoBack } = await import("../../../testing/component-mocks.testing");
+  return {
+    CancelButton: ({ action }: { action: string | (() => void) }) => (
+      <button
+        data-testid="cancel-button"
+        type="button"
+        onClick={() => (typeof action === "string" ? mockGoBack(action) : action())}
+      >
+        Annuler
+      </button>
+    ),
+    SaveButton: ({
+      disabled,
+      type,
+    }: {
+      disabled?: boolean;
+      type?: "button" | "reset" | "submit";
+    }) => (
+      <button data-testid="save-button" type={type} disabled={disabled}>
+        Sauvegarder
+      </button>
+    ),
+  };
+});
 
 const renderMenu = (disabled = false) =>
   render(

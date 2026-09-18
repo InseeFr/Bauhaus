@@ -1,38 +1,22 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import { ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
-import { AppContextProvider } from "../../application/app-context";
+import { clickIcon, createStructuresWrapper, rowOf } from "../render.testing";
 import { StructureComponentsSelector } from "./StructureComponentsSelector";
 
-vi.mock("@sdk/index", () => ({
-  CodelistsApi: {
-    getCodelistsPartial: vi.fn().mockResolvedValue([]),
-    getPartialsByParent: vi.fn().mockResolvedValue([]),
-  },
+vi.mock("@sdk/index", async () => ({
+  ...(await import("../mocks.testing")).emptyCodelistsAndStampsApi(),
   StructureApi: {
     getMutualizedComponents: vi.fn().mockResolvedValue([]),
   },
-  StampsApi: { getStamps: vi.fn().mockResolvedValue([]) },
 }));
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: () => ({
-      privileges: [
-        {
-          application: "STRUCTURE_COMPONENT",
-          privileges: [{ privilege: "CREATE", strategy: "ALL" }],
-        },
-      ],
-    }),
-    useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-  };
-});
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../mocks.testing")).usersHookWithCreatePrivilege(
+    await importOriginal(),
+    "STRUCTURE_COMPONENT",
+  ),
+);
 
 const componentDefinition = (
   identifiant: string,
@@ -52,15 +36,7 @@ const componentDefinition = (
   },
 });
 
-const Wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-    <MemoryRouter>
-      <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-        {children}
-      </AppContextProvider>
-    </MemoryRouter>
-  </QueryClientProvider>
-);
+const Wrapper = createStructuresWrapper();
 
 const defaultProps = {
   componentDefinitions: [componentDefinition("c1", 1), componentDefinition("c2", 2)],
@@ -80,12 +56,6 @@ const defaultProps = {
 
 const renderSelector = (props: Record<string, unknown> = {}) =>
   render(<StructureComponentsSelector {...defaultProps} {...props} />, { wrapper: Wrapper });
-
-/** Les gestionnaires lisent `dataset.componentId` sur le parent de la cible : on clique l'icône. */
-const clickIcon = (button: HTMLElement) => fireEvent.click(button.querySelector("span")!);
-
-const rowOf = (identifiant: string) =>
-  screen.getByText(`Composante ${identifiant}`).closest("tr") as HTMLElement;
 
 describe("StructureComponentsSelector", () => {
   beforeEach(() => {

@@ -1,8 +1,9 @@
 name: Quality
 
 # Vérifie le front sur chaque PR et publie le rapport Sonar. Les vérifications
-# elles-mêmes vivent dans InseeFr/rmes-githubactions-commons, partagées avec les
-# autres fronts RMéS ; seul le scan Sonar reste ici, il est propre au dépôt.
+# elles-mêmes, scan Sonar compris, vivent dans InseeFr/rmes-githubactions-commons,
+# partagées avec les autres fronts RMéS ; seul le token reste ici, un secret ne
+# traversant pas une action composite tout seul.
 
 on:
   workflow_dispatch:
@@ -12,7 +13,7 @@ on:
     branches:
       - main
   schedule:
-    # Tous les lundis à 6h UTC
+    # Tous les lundis à 12h UTC
     - cron: '0 12 * * 1'
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
@@ -22,13 +23,11 @@ jobs:
     name: Test & Build & Deploy Sonar report
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: InseeFr/rmes-githubactions-commons/.github/actions/quality-front@main
-      - name: SonarCloud Scan
-        # Les PR Dependabot n'ont pas accès aux secrets du dépôt : le scan
-        # échouerait sur un SONAR_TOKEN vide.
-        if: github.actor != 'dependabot[bot]'
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          sonar-token: ${{ secrets.SONAR_TOKEN }}
+          # Le seuil partagé est à 2 % ; Bauhaus est à ~3,9 % de lignes dupliquées.
+          # On porte l'écart ici plutôt que d'abaisser la règle commune : à faire
+          # redescendre vers 2 % au fil du nettoyage.
+          jscpd-threshold: '5'

@@ -198,31 +198,25 @@ describe("codeRepresentationReducer", () => {
       expect(result.codes[2].id).toBe("code-2");
     });
 
-    it("should not move the first code up", () => {
-      const action: CodeRepresentationAction = {
-        type: "MOVE_CODE",
-        payload: { id: "code-1", direction: "up" },
-      };
+    const movesAtTheEdge = [
+      { name: "should not move the first code up", id: "code-1", direction: "up" as const },
+      { name: "should not move the last code down", id: "code-3", direction: "down" as const },
+    ];
 
-      const result = codeRepresentationReducer(stateWithMultipleCodes, action);
+    movesAtTheEdge.forEach(({ name, id, direction }) =>
+      it(name, () => {
+        const action: CodeRepresentationAction = {
+          type: "MOVE_CODE",
+          payload: { id, direction },
+        };
 
-      expect(result.codes[0].id).toBe("code-1");
-      expect(result.codes[1].id).toBe("code-2");
-      expect(result.codes[2].id).toBe("code-3");
-    });
+        const result = codeRepresentationReducer(stateWithMultipleCodes, action);
 
-    it("should not move the last code down", () => {
-      const action: CodeRepresentationAction = {
-        type: "MOVE_CODE",
-        payload: { id: "code-3", direction: "down" },
-      };
-
-      const result = codeRepresentationReducer(stateWithMultipleCodes, action);
-
-      expect(result.codes[0].id).toBe("code-1");
-      expect(result.codes[1].id).toBe("code-2");
-      expect(result.codes[2].id).toBe("code-3");
-    });
+        expect(result.codes[0].id).toBe("code-1");
+        expect(result.codes[1].id).toBe("code-2");
+        expect(result.codes[2].id).toBe("code-3");
+      }),
+    );
 
     it("should not move a non-existent code", () => {
       const action: CodeRepresentationAction = {

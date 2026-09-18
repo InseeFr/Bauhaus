@@ -6,19 +6,12 @@
         "src/packages/**/i18n/index.ts",
         "i18next.config.cjs"
       ],
-      "project": [
-        "src/**/*.{ts,tsx,js,jsx}"
-      ]
+      "project": ["src/**/*.{ts,tsx,js,jsx}"]
     },
     "scripts": {
-      "project": [
-        "**/*.ts"
-      ]
+      "project": ["**/*.ts"]
     }
   },
-  "ignore": [
-    "documentation/**",
-    ".husky/**"
-  ],
+  "ignore": ["documentation/**", ".husky/**"],
   "ignoreExportsUsedInFile": true
 }

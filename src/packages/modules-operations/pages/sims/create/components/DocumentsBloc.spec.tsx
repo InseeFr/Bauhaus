@@ -177,31 +177,24 @@ describe("DocumentsBloc", () => {
     });
   });
 
-  it("should display the Add Document button if there is not more document to add", async () => {
-    const { container } = await renderWithStore(
-      <DocumentsBloc
-        documents={documents}
-        localPrefix="Lg1"
-        editMode={true}
-        objectType="documents"
-      />,
-    );
+  // Boucle plutôt que it.each : les titres interpolés sont tronqués par Vitest.
+  for (const name of [
+    "should display the Add Document button if there is not more document to add",
+    "should display the Add Document button if there is more than on document available",
+  ]) {
+    it(name, async () => {
+      const { container } = await renderWithStore(
+        <DocumentsBloc
+          documents={documents}
+          localPrefix="Lg1"
+          editMode={true}
+          objectType="documents"
+        />,
+      );
 
-    expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(1);
-  });
-
-  it("should display the Add Document button if there is more than on document available", async () => {
-    const { container } = await renderWithStore(
-      <DocumentsBloc
-        documents={documents}
-        localPrefix="Lg1"
-        editMode={true}
-        objectType="documents"
-      />,
-    );
-
-    expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(1);
-  });
+      expect(container.querySelectorAll(".documentsbloc-add")).toHaveLength(1);
+    });
+  }
 
   it("should display the Add new Document button", async () => {
     const openLateralPanelOpened = vi.fn();

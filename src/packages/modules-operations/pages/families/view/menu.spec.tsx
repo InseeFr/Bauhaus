@@ -1,32 +1,22 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 import { Family } from "@model/operations/family";
 
-import { mockReactQueryForRbac, WithRouter } from "../../../../tests/render";
+import { MODULES, PRIVILEGE, PRIVILEGES } from "@utils/hooks/rbac-constants";
+
+import { rbacFor, renderWithRbac, resetRbacMocks } from "../../menu-rbac.testing";
+
+const renderMenu = (privileges: PRIVILEGE[]) =>
+  renderWithRbac(
+    [rbacFor(MODULES.OPERATION_FAMILY, privileges)],
+    () => import("./menu"),
+    ({ Menu }) => <Menu family={{} as Family} publish={vi.fn()} />,
+  );
 
 describe("Family Home Page Menu", () => {
-  afterEach(() => {
-    vi.resetModules();
-    vi.clearAllMocks();
-  });
+  afterEach(resetRbacMocks);
   it("an admin can update and publish a family", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "OPERATION_FAMILY",
-        privileges: [
-          { privilege: "UPDATE", strategy: "ALL" },
-          { privilege: "PUBLISH", strategy: "ALL" },
-        ],
-      },
-    ]);
-
-    const { Menu } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <Menu family={{} as Family} publish={vi.fn()} />
-      </WithRouter>,
-    );
+    await renderMenu([PRIVILEGES.UPDATE, PRIVILEGES.PUBLISH]);
 
     screen.getByText("Update");
     screen.getByText("Publish");
@@ -34,20 +24,7 @@ describe("Family Home Page Menu", () => {
   });
 
   it("a user without Admin cannot create or publish a family", async () => {
-    mockReactQueryForRbac([
-      {
-        application: "OPERATION_FAMILY",
-        privileges: [],
-      },
-    ]);
-
-    const { Menu } = await import("./menu");
-
-    render(
-      <WithRouter>
-        <Menu family={{} as Family} publish={vi.fn()} />
-      </WithRouter>,
-    );
+    await renderMenu([]);
 
     expect(screen.queryByText("Update")).toBeNull();
     expect(screen.queryByText("Publish")).toBeNull();

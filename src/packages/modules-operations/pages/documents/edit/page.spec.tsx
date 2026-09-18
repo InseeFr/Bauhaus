@@ -1,23 +1,15 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { GeneralApi } from "@sdk/general-api";
 
+import { useCodelist } from "@utils/hooks/codelist";
+
+import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
-const params = vi.fn();
-const location = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
-  useParams: () => params(),
-  useLocation: () => location(),
-}));
-
 vi.mock("@sdk/general-api", () => ({ GeneralApi: { getDocument: vi.fn() } }));
-vi.mock("@utils/hooks/codelist", () => ({
-  useCodelist: () => ({ codes: [{ code: "fr" }] }),
-}));
+vi.mock("@utils/hooks/codelist");
 
 vi.mock("./components/OperationsDocumentationEdition", () => ({
   OperationsDocumentationEdition: ({ document, id, type }: any) => (
@@ -29,18 +21,13 @@ vi.mock("./components/OperationsDocumentationEdition", () => ({
   ),
 }));
 
-const renderPage = () =>
-  render(
-    <MemoryRouter>
-      <Component />
-    </MemoryRouter>,
-  );
+const renderPage = (url = "/operations/document/doc-1/modify") =>
+  renderAtRoute(<Component />, ["/operations/:type/:id/modify", "/operations/:type/create"], url);
 
 describe("Documents edit page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    params.mockReturnValue({ id: "doc-1" });
-    location.mockReturnValue({ pathname: "/operations/document/doc-1/modify" });
+    vi.mocked(useCodelist).mockReturnValue({ codes: [{ code: "fr" }] } as any);
     vi.mocked(GeneralApi.getDocument).mockResolvedValue({
       uri: "http://bauhaus/documents/doc-1",
       labelLg1: "Notice FR",
@@ -58,17 +45,14 @@ describe("Documents edit page", () => {
   });
 
   it("reconnaît un lien à son chemin", async () => {
-    location.mockReturnValue({ pathname: "/operations/link/doc-1/modify" });
-    renderPage();
+    renderPage("/operations/link/doc-1/modify");
 
     await waitFor(() => expect(screen.getByText("type:link")).toBeInTheDocument());
     expect(GeneralApi.getDocument).toHaveBeenCalledWith("doc-1", "link");
   });
 
   it("ouvre directement un formulaire vide en création, sans rien demander au serveur", () => {
-    params.mockReturnValue({});
-    location.mockReturnValue({ pathname: "/operations/document/create" });
-    renderPage();
+    renderPage("/operations/document/create");
 
     expect(screen.getByText("document:(vide)")).toBeInTheDocument();
     expect(screen.getByText("id:(aucun)")).toBeInTheDocument();

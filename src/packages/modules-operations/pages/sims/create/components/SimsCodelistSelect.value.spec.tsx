@@ -1,87 +1,52 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { lastSelectProps, selectSpy } from "./selectRmesStub.testing";
 import { SimsCodelistSelect } from "./SimsCodelistSelect";
 
-const selectSpy = vi.fn();
-
-vi.mock("@components/select-rmes", () => ({
-  Select: (props: any) => {
-    selectSpy(props);
-    return <div data-testid="select-stub" />;
-  },
-}));
+vi.mock("@components/select-rmes", () => import("./selectRmesStub.testing"));
 
 const options = [
   { value: "option1", label: "Option 1" },
   { value: "option2", label: "Option 2" },
 ];
 
-const lastValue = () => selectSpy.mock.calls.at(-1)?.[0].value;
-
 describe("SimsCodelistSelect - value normalization (multi)", () => {
-  it("passes an empty array when currentSection.value is undefined", () => {
-    selectSpy.mockClear();
-    render(
-      <SimsCodelistSelect
-        multi
-        currentSection={{ value: undefined }}
-        options={options}
-        onChange={vi.fn()}
-      />,
-    );
-    expect(lastValue()).toEqual([]);
-  });
-
-  it("passes an empty array when currentSection.value is null", () => {
-    selectSpy.mockClear();
-    render(
-      <SimsCodelistSelect
-        multi
-        currentSection={{ value: null }}
-        options={options}
-        onChange={vi.fn()}
-      />,
-    );
-    expect(lastValue()).toEqual([]);
-  });
-
-  it("passes an empty array when currentSection.value is an empty string", () => {
-    selectSpy.mockClear();
-    render(
-      <SimsCodelistSelect
-        multi
-        currentSection={{ value: "" }}
-        options={options}
-        onChange={vi.fn()}
-      />,
-    );
-    expect(lastValue()).toEqual([]);
-  });
-
-  it("wraps a defined non-array value into an array", () => {
-    selectSpy.mockClear();
-    render(
-      <SimsCodelistSelect
-        multi
-        currentSection={{ value: "option1" }}
-        options={options}
-        onChange={vi.fn()}
-      />,
-    );
-    expect(lastValue()).toEqual(["option1"]);
-  });
-
-  it("keeps an array value untouched", () => {
-    selectSpy.mockClear();
-    render(
-      <SimsCodelistSelect
-        multi
-        currentSection={{ value: ["option1", "option2"] }}
-        options={options}
-        onChange={vi.fn()}
-      />,
-    );
-    expect(lastValue()).toEqual(["option1", "option2"]);
-  });
+  // Boucle plutôt que it.each : les titres interpolés sont tronqués par Vitest.
+  for (const { name, value, expected } of [
+    {
+      name: "passes an empty array when currentSection.value is undefined",
+      value: undefined,
+      expected: [],
+    },
+    { name: "passes an empty array when currentSection.value is null", value: null, expected: [] },
+    {
+      name: "passes an empty array when currentSection.value is an empty string",
+      value: "",
+      expected: [],
+    },
+    {
+      name: "wraps a defined non-array value into an array",
+      value: "option1",
+      expected: ["option1"],
+    },
+    {
+      name: "keeps an array value untouched",
+      value: ["option1", "option2"],
+      expected: ["option1", "option2"],
+    },
+  ]) {
+    it(name, () => {
+      selectSpy.mockClear();
+      render(
+        <SimsCodelistSelect
+          multi
+          currentSection={{ value }}
+          options={options}
+          onChange={vi.fn()}
+        />,
+      );
+      expect(lastSelectProps()?.value).toEqual(expected);
+    });
+  }
 });

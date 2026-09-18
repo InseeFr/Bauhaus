@@ -3,54 +3,42 @@ import { describe, expect, it, vi } from "vitest";
 
 import { MainMenu } from "@components/menu";
 
+import { itRendersNothingOnTheHomePage } from "../../tests/menu.testing";
 import { renderWithRouter } from "../../tests/render";
 import { Menu } from "./menu";
 
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
-  return {
-    ...actual,
-    useLocation: vi.fn(),
-  };
-});
+vi.mock("react-router-dom", async (importOriginal) =>
+  (await import("../../tests/react-router.testing")).withMockedUseLocation(await importOriginal()),
+);
 
-vi.mock("@components/menu", () => ({
-  MainMenu: vi.fn(() => <div>MainMenu Mock</div>),
-}));
+vi.mock("@components/menu", () => import("../../tests/main-menu.testing"));
+
+const activeCodelistsPaths = {
+  paths: [
+    {
+      path: "/codelists",
+      pathKey: "codelists",
+      className: "active",
+      attrs: { "aria-current": "page" },
+      label: "Codelists",
+      order: 1,
+    },
+  ],
+};
 
 describe("Menu", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should not render anything if the path is "/"', () => {
-    vi.mocked(useLocation).mockReturnValue({ pathname: "/" } as any);
-
-    const { container } = renderWithRouter(<Menu />);
-
-    expect(container.firstChild).toBeNull();
-  });
+  itRendersNothingOnTheHomePage(() => renderWithRouter(<Menu />));
 
   it("should render the menu with only default paths if user does not have administration privilege", () => {
     vi.mocked(useLocation).mockReturnValue({ pathname: "/codelists" } as any);
 
     const { getByText } = renderWithRouter(<Menu />);
 
-    expect(MainMenu).toHaveBeenCalledWith(
-      {
-        paths: [
-          {
-            path: "/codelists",
-            pathKey: "codelists",
-            className: "active",
-            attrs: { "aria-current": "page" },
-            label: "Codelists",
-            order: 1,
-          },
-        ],
-      },
-      {},
-    );
+    expect(MainMenu).toHaveBeenCalledWith(activeCodelistsPaths, {});
     expect(getByText("MainMenu Mock")).toBeTruthy();
   });
 
@@ -59,20 +47,6 @@ describe("Menu", () => {
 
     renderWithRouter(<Menu />);
 
-    expect(MainMenu).toHaveBeenCalledWith(
-      {
-        paths: [
-          {
-            path: "/codelists",
-            pathKey: "codelists",
-            className: "active",
-            attrs: { "aria-current": "page" },
-            label: "Codelists",
-            order: 1,
-          },
-        ],
-      },
-      {},
-    );
+    expect(MainMenu).toHaveBeenCalledWith(activeCodelistsPaths, {});
   });
 });

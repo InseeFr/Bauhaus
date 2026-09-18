@@ -4,102 +4,48 @@ import { getListItems } from "@components/ui/list-group/testing";
 
 import { HomeDocument } from "@model/operations/document";
 
-import { MODULES, PRIVILEGES, STRATEGIES } from "@utils/hooks/rbac-constants";
+import { MODULES, PRIVILEGE, PRIVILEGES } from "@utils/hooks/rbac-constants";
 
-import { mockReactQueryForRbac, renderWithRouter } from "../../../../../tests/render";
+import { renderWithRouter } from "../../../../../tests/render";
+import { importWithRbac, rbacFor, resetRbacMocks } from "../../../menu-rbac.testing";
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: (ns?: string, options?: any) => {
-      if (options?.i18n) {
-        return actual.useTranslation(ns, options);
-      }
-      return {
-        t: (key: string) => {
-          const translations: Record<string, string> = {
-            "documents.document": "Document",
-            "documents.link": "Link",
-          };
-          return translations[key] || key;
-        },
-      };
-    },
-  };
-});
+const renderHome = async (privileges: PRIVILEGE[], documents: HomeDocument[] = []) => {
+  const { DocumentHome } = await importWithRbac(
+    [rbacFor(MODULES.OPERATION_DOCUMENT, privileges)],
+    () => import("./DocumentHome"),
+  );
+  return renderWithRouter(<DocumentHome documents={documents} />);
+};
 
 describe("DocumentHome", () => {
-  afterEach(() => {
-    vi.resetModules();
-    vi.clearAllMocks();
-  });
+  afterEach(resetRbacMocks);
 
   it("should display the PageTitle component", async () => {
-    mockReactQueryForRbac([
-      {
-        application: MODULES.OPERATION_DOCUMENT,
-        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
-      },
-    ]);
+    const { container } = await renderHome([PRIVILEGES.CREATE]);
 
-    const { DocumentHome } = await import("./DocumentHome");
-
-    const { container } = renderWithRouter(<DocumentHome documents={[]} />);
     expect(container.querySelectorAll("h1")).toHaveLength(1);
   });
   it("should display the SearchableList component", async () => {
-    mockReactQueryForRbac([
+    const { container } = await renderHome([PRIVILEGES.CREATE], [
       {
-        application: MODULES.OPERATION_DOCUMENT,
-        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
+        id: "1",
+        label: "label",
       },
-    ]);
-
-    const { DocumentHome } = await import("./DocumentHome");
-
-    const { container } = renderWithRouter(
-      <DocumentHome
-        documents={
-          [
-            {
-              id: "1",
-              label: "label",
-            },
-          ] as unknown as HomeDocument[]
-        }
-      />,
-    );
+    ] as unknown as HomeDocument[]);
     // With pagination, there are now 2 <ul>: one for documents, one for pagination
     expect(container.querySelectorAll("ul")).toHaveLength(2);
     expect(getListItems(container)).toHaveLength(1);
   });
 
   it("should display two Add buttons", async () => {
-    mockReactQueryForRbac([
-      {
-        application: MODULES.OPERATION_DOCUMENT,
-        privileges: [{ privilege: PRIVILEGES.CREATE, strategy: STRATEGIES.ALL }],
-      },
-    ]);
+    await renderHome([PRIVILEGES.CREATE]);
 
-    const { DocumentHome } = await import("./DocumentHome");
-
-    renderWithRouter(<DocumentHome documents={[]} />);
     await screen.findByText("New Document");
     await screen.findByText("New Link");
   });
   it("should not display any Add button if the user is an the right role,", async () => {
-    mockReactQueryForRbac([
-      {
-        application: MODULES.OPERATION_DOCUMENT,
-        privileges: [],
-      },
-    ]);
+    await renderHome([]);
 
-    const { DocumentHome } = await import("./DocumentHome");
-
-    renderWithRouter(<DocumentHome documents={[]} />);
     expect(screen.queryByText("New Document")).toBeNull();
     expect(screen.queryByText("New Link")).toBeNull();
   });

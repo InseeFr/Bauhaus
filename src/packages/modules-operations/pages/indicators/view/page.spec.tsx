@@ -1,17 +1,9 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { screen, waitFor } from "@testing-library/react";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { itPublishesThenReloads, itShowsPublicationError, renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
-
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
-  useParams: () => ({ id: "ind-1" }),
-}));
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getIndicatorById: vi.fn(), publishIndicator: vi.fn() },
@@ -29,9 +21,7 @@ vi.mock("./components/OperationsIndicatorVisualization", () => ({
     </div>
   ),
 }));
-vi.mock("./menu", () => ({
-  Menu: ({ publish }: any) => <button onClick={publish}>publier</button>,
-}));
+vi.mock("./menu", async () => (await import("../../page.testing")).publishMenuModule("publish"));
 
 const indicator = {
   id: "ind-1",
@@ -40,14 +30,14 @@ const indicator = {
   accrualPeriodicityCode: "A",
 };
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderAtRoute(<Component />, "/indicator/:id", "/indicator/ind-1");
+
+const publication = {
+  renderPage,
+  publish: OperationsApi.publishIndicator,
+  load: OperationsApi.getIndicatorById,
+  entity: indicator,
+};
 
 describe("Indicators view page", () => {
   beforeEach(() => {
@@ -76,27 +66,7 @@ describe("Indicators view page", () => {
     await waitFor(() => expect(screen.getByText("fréquence:(aucune)")).toBeInTheDocument());
   });
 
-  it("publie l'indicateur puis le recharge", async () => {
-    renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
-    );
+  itPublishesThenReloads("publie l'indicateur puis le recharge", publication);
 
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
-
-    await waitFor(() => expect(OperationsApi.publishIndicator).toHaveBeenCalledWith(indicator));
-    await waitFor(() => expect(OperationsApi.getIndicatorById).toHaveBeenCalledTimes(2));
-  });
-
-  it("affiche l'erreur serveur quand la publication échoue", async () => {
-    vi.mocked(OperationsApi.publishIndicator).mockRejectedValue("Publication refusée");
-    renderPage();
-    await waitFor(() =>
-      expect(screen.getByRole("button", { name: "publier" })).toBeInTheDocument(),
-    );
-
-    await userEvent.click(screen.getByRole("button", { name: "publier" }));
-
-    await waitFor(() => expect(screen.getByText("Publication refusée")).toBeInTheDocument());
-  });
+  itShowsPublicationError("affiche l'erreur serveur quand la publication échoue", publication);
 });
