@@ -9,8 +9,8 @@ import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
 
 import { renderWithRouter } from "../../tests/render";
 
-export const ORGANIZATION_IRI = "http://bauhaus/organizations/insee/HIE2000001";
-export const OTHER_ORGANIZATION_IRI = "http://bauhaus/organizations/insee/OTHER";
+export const ORGANIZATION_IRI = "https://bauhaus/organizations/insee/HIE2000001";
+export const OTHER_ORGANIZATION_IRI = "https://bauhaus/organizations/insee/OTHER";
 
 /** Résultats de recherche renvoyés par `StructureApi[searchMethod]`, sans concept (la spec doit mocker `@sdk/index`). */
 export const mockSearchApi = (searchMethod: string, results: unknown[]) => {

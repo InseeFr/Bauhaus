@@ -6,8 +6,8 @@ import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 import { useAppContext } from "../../application/app-context";
 
 export const USER_STAMP = "DG75-L201";
-export const USER_ORGANISATION_IRI = "http://bauhaus/organisations/insee/HIE2001201";
-export const DEFAULT_CONTRIBUTOR_IRI = "http://bauhaus/organisations/insee/HIE3014990";
+export const USER_ORGANISATION_IRI = "https://bauhaus/organisations/insee/HIE2001201";
+export const DEFAULT_CONTRIBUTOR_IRI = "https://bauhaus/organisations/insee/HIE3014990";
 
 type Privileges = ReturnType<typeof usePrivileges>["privileges"];
 
