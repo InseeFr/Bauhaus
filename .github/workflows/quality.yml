@@ -22,6 +22,10 @@ jobs:
   test-build:
     name: Test & Build & Deploy Sonar report
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Le contrôle du titre de PR, dans l'action `quality`, lit la pull request.
+      pull-requests: read
     steps:
       - uses: actions/checkout@v7
       - uses: InseeFr/rmes-githubactions-commons/.github/actions/quality-front@main
