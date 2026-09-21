@@ -30,6 +30,9 @@ jobs:
   playwright:
     timeout-minutes: 45
     runs-on: ubuntu-latest
+    # Lecture seule : le job clone ce dépôt et le Back-Office, tous deux publics.
+    permissions:
+      contents: read
     env:
       BACK_OFFICE_PATH: bauhaus-back-office
       COMPOSE_FILE_PATH: bauhaus-back-office/module-bauhaus-bo/compose.yaml
