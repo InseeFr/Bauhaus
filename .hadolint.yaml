@@ -1,0 +1,22 @@
+# Configuration hadolint, partagée par la CI (.github/workflows/hadolint.yml) et
+# les exécutions locales : `hadolint Dockerfile`.
+#
+# Les exceptions vivent ici, versionnées et justifiées, plutôt que dispersées en
+# `# hadolint ignore=` dans le Dockerfile ou neutralisées par un
+# `continue-on-error` dans le workflow.
+
+# Dette mesurée le 2026-09-18 : nulle à ce niveau (trois constats, tous `info`).
+# À garder en phase avec le workflow, qui passe son propre drapeau.
+failure-threshold: warning
+
+# Rien n'est ignoré aujourd'hui. Pour ouvrir une exception, décommenter la clé
+# `ignored:` ci-dessous — elle attend une liste, un `ignored:` vide ferait
+# échouer la lecture de cette configuration. Chaque entrée porte sa
+# justification écrite, et une échéance si c'est une dette temporaire :
+#
+# ignored:
+#   - DL3008  # paquets apt non épinglés : à traiter avec la refonte de l'image
+
+trustedRegistries:
+  - docker.io
+  - ghcr.io

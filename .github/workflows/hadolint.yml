@@ -1,0 +1,36 @@
+name: Hadolint
+
+# Analyse statique du Dockerfile, sur chaque PR et sur chaque push de main.
+# Les erreurs de Dockerfile — tag flottant, paquets non épinglés, exécution en
+# root, couches inutiles — ne se voient ni à la relecture ni au build : elles ne
+# deviennent un problème qu'au moment du CVE ou du build non reproductible.
+#
+# Seuil à `warning` : la dette a été mesurée le 2026-09-18 et elle est nulle à ce
+# niveau. Les trois constats du Dockerfile sont des `info` — DL3059 (RUN
+# consécutifs, lignes 10 et 11) et DL3066 (user-id non numérique, ligne 25, faux
+# positif : hadolint ne résout pas $NGINX_USER_ID, qui vaut 101). Le job est donc
+# vert aujourd'hui, et bloquera toute nouvelle alerte de niveau warning.
+#
+# Pour accepter une exception plus tard : une entrée justifiée dans `ignored:`
+# de .hadolint.yaml, jamais un `continue-on-error` qui viderait le garde-fou de
+# son sens.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  hadolint:
+    name: Lint du Dockerfile
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          # À garder en phase avec .hadolint.yaml, que l'action n'utilise pas
+          # pour ce réglage : elle passe toujours son propre drapeau.
+          failure-threshold: warning
