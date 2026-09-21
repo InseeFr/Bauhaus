@@ -3,3 +3,27 @@ packages:
   - "src/*"
   - "documentation"
   - "scripts"
+
+# `overrides` et `onlyBuiltDependencies` vivent ici, plus dans package.json :
+# pnpm ne les lit plus depuis le manifeste. Les y laisser fait échouer
+# `pnpm install --frozen-lockfile` — pnpm calcule alors zéro override, ce qui ne
+# correspond plus à ceux enregistrés dans le lockfile.
+overrides:
+  "react": "18.3.1"
+  "react-dom": "18.3.1"
+  "@types/react": "18.2.79"
+  "@types/react-dom": "18.2.25"
+  "loader-utils": "2.0.4"
+  "shell-quote": "1.8.1"
+
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - "core-js"
+  - "esbuild"
+  - "sharp"
+  - "@oxlint/darwin-universal"
+allowBuilds:
+  '@parcel/watcher': set this to true or false
+  core-js: set this to true or false
+  esbuild: set this to true or false
+  sharp: set this to true or false
