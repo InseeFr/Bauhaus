@@ -368,7 +368,9 @@ interface WithParentWithSimsProps extends Omit<SimsCreationTypes, "parentWithSim
   };
 }
 
-const withParentWithSims = (Component: (props: Readonly<SimsCreationTypes>) => JSX.Element) => {
+const withParentWithSims = (
+  Component: (props: Readonly<SimsCreationTypes>) => React.JSX.Element,
+) => {
   return (props: Readonly<WithParentWithSimsProps>) => {
     const [parentWithSims, setParentWithSims] = useState<any[]>([]);
 

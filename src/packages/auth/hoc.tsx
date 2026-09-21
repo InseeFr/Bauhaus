@@ -3,7 +3,7 @@ import { NO_AUTH, OPEN_ID_CONNECT_AUTH } from "./constants";
 import { useOidc } from "./create-oidc";
 import { LoginComponent, LoggedInWrapper } from "./open-id-connect-auth/use-oidc";
 
-export const withAuth = (WrappedComponent: () => JSX.Element) => {
+export const withAuth = (WrappedComponent: () => React.JSX.Element) => {
   const AuthComponent = () => {
     const { authType } = useAppContext();
 

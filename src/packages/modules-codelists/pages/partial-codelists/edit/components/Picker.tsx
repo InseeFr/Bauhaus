@@ -64,7 +64,7 @@ export const Picker = ({
       key={id}
       id={id}
       label={label}
-      logo={AddLogo as unknown as JSX.Element}
+      logo={AddLogo as unknown as React.JSX.Element}
       handleClick={addAction}
     />
   ));
@@ -74,7 +74,7 @@ export const Picker = ({
       key={id}
       id={id}
       label={label}
-      logo={DelLogo as unknown as JSX.Element}
+      logo={DelLogo as unknown as React.JSX.Element}
       handleClick={removeAction}
     />
   ));

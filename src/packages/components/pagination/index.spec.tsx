@@ -38,7 +38,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-const createItems = (count: number): JSX.Element[] => {
+const createItems = (count: number): React.JSX.Element[] => {
   return Array.from({ length: count }, (_, i) => (
     <li key={i} data-testid={`item-${i}`}>
       Item {i + 1}
@@ -214,7 +214,7 @@ describe("Pagination", () => {
 
   describe("Edge cases", () => {
     it("should handle empty items array", () => {
-      const items: JSX.Element[] = [];
+      const items: React.JSX.Element[] = [];
       renderWithRouter(<Pagination itemEls={items} />);
 
       const lists = screen.getAllByRole("list");
