@@ -4,7 +4,7 @@ packages:
   - "documentation"
   - "scripts"
 
-# `overrides` et `onlyBuiltDependencies` vivent ici, plus dans package.json :
+# `overrides` et les scripts de build autorisés vivent ici, plus dans package.json :
 # pnpm ne les lit plus depuis le manifeste. Les y laisser fait échouer
 # `pnpm install --frozen-lockfile` — pnpm calcule alors zéro override, ce qui ne
 # correspond plus à ceux enregistrés dans le lockfile.
@@ -16,14 +16,12 @@ overrides:
   "loader-utils": "2.0.4"
   "shell-quote": "1.8.1"
 
-onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - "core-js"
-  - "esbuild"
-  - "sharp"
-  - "@oxlint/darwin-universal"
+# Scripts d'installation autorisés. pnpm 12 ne lit plus `onlyBuiltDependencies` :
+# toute dépendance à script de build absente d'ici fait échouer `pnpm install` en
+# CI (ERR_PNPM_IGNORED_BUILDS).
 allowBuilds:
-  '@parcel/watcher': set this to true or false
-  core-js: set this to true or false
-  esbuild: set this to true or false
-  sharp: set this to true or false
+  "@parcel/watcher": true
+  core-js: true
+  esbuild: true
+  sharp: true
+  "@oxlint/darwin-universal": true
