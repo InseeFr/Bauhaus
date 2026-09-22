@@ -38,15 +38,14 @@ const ErrorBlock = () => {
   );
 };
 
+// `getInit` rejette déjà sur un statut HTTP en erreur ; le parsing est dans la
+// chaîne pour qu'un corps non JSON (page HTML d'un proxy) mène aussi à la page d'erreur.
 GeneralApi.getInit()
+  .then((res: Response) => res.json())
   .then(
-    (res: any) => (res.ok ? res.json() : Promise.reject(res.statusText)),
-    (err: any) => {
-      renderApp(<ErrorBlock />, {});
-      return Promise.reject(err.toString());
-    },
-  )
-  .then((res: any) => renderApp(<Root router={createAppRouter(res.modules)} />, res));
+    (res: any) => renderApp(<Root router={createAppRouter(res.modules)} />, res),
+    () => renderApp(<ErrorBlock />, {}),
+  );
 
 /**
  * Données renvoyées par `GeneralApi.getInit()`. Sur le chemin d'erreur, l'API
