@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useOidc } from "../../auth/create-oidc";
 import { appI18n } from "../../i18n";
 import { useAppContext } from "../app-context";
-import { Routes } from "./routes";
+import { type AppRouter, Routes } from "./routes";
 
 export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
   const { t } = useTranslation("translation", { i18n: appI18n });
@@ -49,6 +49,6 @@ export const RBACLink = ({ children }: PropsWithChildren<unknown>) => {
   );
 };
 
-export const Root = () => {
-  return <Routes />;
+export const Root = ({ router }: Readonly<{ router: AppRouter }>) => {
+  return <Routes router={router} />;
 };

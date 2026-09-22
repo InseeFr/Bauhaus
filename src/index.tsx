@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ComponentType } from "react";
+import { ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { useTranslation } from "react-i18next";
 
@@ -12,6 +12,7 @@ import { getLang } from "@utils/dictionary";
 
 import { AppContextProvider, type AppProperties } from "./packages/application/app-context";
 import { Root } from "./packages/application/router";
+import { createAppRouter } from "./packages/application/router/routes";
 import { OidcProvider } from "./packages/auth/create-oidc";
 import { appI18n } from "./packages/i18n";
 import "./packages/styles/main.css";
@@ -41,11 +42,11 @@ GeneralApi.getInit()
   .then(
     (res: any) => (res.ok ? res.json() : Promise.reject(res.statusText)),
     (err: any) => {
-      renderApp(ErrorBlock, {}, { home: true });
+      renderApp(<ErrorBlock />, {});
       return Promise.reject(err.toString());
     },
   )
-  .then((res: any) => renderApp(Root, res));
+  .then((res: any) => renderApp(<Root router={createAppRouter(res.modules)} />, res));
 
 /**
  * Données renvoyées par `GeneralApi.getInit()`. Sur le chemin d'erreur, l'API
@@ -60,11 +61,7 @@ type InitState = {
   version: string;
 } & AppProperties;
 
-const renderApp = (
-  Component: ComponentType<{ home?: boolean }>,
-  initState: Partial<InitState>,
-  props?: { home: true },
-) => {
+const renderApp = (page: ReactNode, initState: Partial<InitState>) => {
   const { authType, lg1, lg2, version, ...properties } = initState;
 
   document.querySelector("html")!.setAttribute("lang", getLang());
@@ -84,7 +81,7 @@ const renderApp = (
         >
           <ApplicationTitle />
           <main>
-            <Component {...props} />
+            {page}
             <BackToTop />
           </main>
         </AppContextProvider>

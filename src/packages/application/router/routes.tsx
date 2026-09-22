@@ -112,12 +112,11 @@ export const buildModuleRoutes = (modules: Module[]): RouteObject[] =>
     };
   });
 
-export const Routes = () => {
-  const {
-    properties: { modules },
-  } = useAppContext();
-
-  const router = createBrowserRouter([
+/* Le router se construit une seule fois, dès que la configuration des modules est connue
+   (réponse de `GeneralApi.getInit()`), et non à chaque rendu : le recréer réinitialiserait
+   son état de navigation et relancerait ses chargements. */
+export const createAppRouter = (modules: Module[]) =>
+  createBrowserRouter([
     {
       path: "logout",
       element: <Logout />,
@@ -136,9 +135,10 @@ export const Routes = () => {
     },
   ]);
 
-  return (
-    <Suspense fallback={<Loading />}>
-      <RouterProvider router={router}></RouterProvider>
-    </Suspense>
-  );
-};
+export type AppRouter = ReturnType<typeof createAppRouter>;
+
+export const Routes = ({ router }: Readonly<{ router: AppRouter }>) => (
+  <Suspense fallback={<Loading />}>
+    <RouterProvider router={router}></RouterProvider>
+  </Suspense>
+);
