@@ -5,6 +5,8 @@ import { stateFromHTML } from "draft-js-import-html";
 import { draftjsToMd } from "@components/rich-editor/draftjs/draftjsToMd";
 import { mdToDraftjs, REGEXPS } from "@components/rich-editor/draftjs/mdToDraftjs";
 
+import { sanitizeHtml } from "./sanitize-html";
+
 /**
  * Cherche un style non supporté dans les valeurs de `attr`.
  *
@@ -166,5 +168,5 @@ export function renderMarkdownElement(value: string) {
     return "";
   }
 
-  return <div dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }} />;
+  return <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(markdownToHtml(value)) }} />;
 }

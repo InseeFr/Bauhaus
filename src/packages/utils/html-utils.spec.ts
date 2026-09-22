@@ -1,3 +1,5 @@
+import { render } from "@testing-library/react";
+
 import * as htmlUtils from "./html-utils";
 
 describe("build raw html from rmes version of html", () => {
@@ -105,5 +107,13 @@ describe("containUnsupportedStyles", () => {
         key2: "bgcolor-rgb(0,0,0)valuebgcolor-rgb(0,0,0)",
       }),
     ).toBeTruthy();
+  });
+});
+
+describe("renderMarkdownElement", () => {
+  it("does not render a javascript: link", () => {
+    const { container } = render(htmlUtils.renderMarkdownElement("[x](javascript:alert(1))"));
+
+    expect(container.innerHTML).not.toContain('href="javascript:');
   });
 });
