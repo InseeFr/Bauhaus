@@ -9,6 +9,14 @@ describe("ClientSideError", () => {
     screen.getByText("Error occurred");
   });
 
+  it("does not inject event handlers into the error message", () => {
+    const { container } = render(
+      <ClientSideError error={'<img src="x" onerror="alert(1)">'} id="error1" />,
+    );
+
+    expect(container.querySelector("[onerror]")).toBeNull();
+  });
+
   it("does not render anything when error is not provided", () => {
     render(<ClientSideError id="error1" />);
     screen.queryByText("Error occurred");
@@ -58,6 +66,20 @@ describe("ErrorBloc", () => {
   it("renders a single error message when error is a string", () => {
     render(<ErrorBloc error="Plain error message" />);
     screen.getByText("Plain error message");
+  });
+
+  it("does not inject event handlers coming from a server error message", () => {
+    const { container } = render(
+      <ErrorBloc error={{ message: '<img src="x" onerror="alert(1)">' }} />,
+    );
+
+    expect(container.querySelector("[onerror]")).toBeNull();
+  });
+
+  it("keeps the formatting markup of translated messages", () => {
+    const { container } = render(<ErrorBloc error="<strong>Title</strong> is mandatory" />);
+
+    expect(container.querySelector("strong")).toHaveTextContent("Title");
   });
 
   it("renders fallback message when JSON parsing fails", () => {
