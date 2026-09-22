@@ -1,3 +1,7 @@
+// @vitest-environment jsdom
+// DOMPurify ≥ 3.4.8 ne reconnaît plus les éléments du DOM happy-dom (balises sûres
+// supprimées, <script> conservé) : ce qui passe par DOMPurify se teste sous jsdom.
+
 import { sanitizeHtml } from "./sanitize-html";
 
 describe("sanitizeHtml", () => {
