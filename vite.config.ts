@@ -74,8 +74,8 @@ export default defineConfig(() => {
           "default-src": ["'self'"],
           // 'unsafe-inline' est requis : vite-envs injecte AU RUNTIME (vite-envs.sh) un
           // <script> dont le contenu (env encodé en base64) varie par déploiement, donc
-          // non hashable au build. ajax.googleapis.com sert jQuery (cf. index.html).
-          "script-src": ["'self'", "'unsafe-inline'", "https://ajax.googleapis.com"],
+          // non hashable au build.
+          "script-src": ["'self'", "'unsafe-inline'"],
           // 'unsafe-inline' requis pour les styles inline injectés par React / PrimeReact
           // et la feuille Google Fonts chargée via <link> dans index.html.
           "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
