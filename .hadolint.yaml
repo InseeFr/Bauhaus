@@ -1,4 +1,5 @@
-# Configuration hadolint, partagée par la CI (.github/workflows/hadolint.yml) et
+# Configuration hadolint, partagée par la CI (l'étape hadolint de l'action
+# `quality` de InseeFr/rmes-githubactions-commons, activée dans quality.yml) et
 # les exécutions locales : `hadolint Dockerfile`.
 #
 # Les exceptions vivent ici, versionnées et justifiées, plutôt que dispersées en
@@ -6,7 +7,8 @@
 # `continue-on-error` dans le workflow.
 
 # Dette mesurée le 2026-09-18 : nulle à ce niveau (trois constats, tous `info`).
-# À garder en phase avec le workflow, qui passe son propre drapeau.
+# À garder en phase avec `hadolint-failure-threshold` du commons (`warning` par
+# défaut) : l'action passe son propre drapeau, elle ne lit pas celui-ci.
 failure-threshold: warning
 
 # Rien n'est ignoré aujourd'hui. Pour ouvrir une exception, décommenter la clé

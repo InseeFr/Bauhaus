@@ -35,3 +35,7 @@ jobs:
           # On porte l'écart ici plutôt que d'abaisser la règle commune : à faire
           # redescendre vers 2 % au fil du nettoyage.
           jscpd-threshold: '5'
+          # Analyse statique du Dockerfile (seuil `warning`, exceptions dans
+          # .hadolint.yaml) : l'étape vit dans le commons, elle remplace le
+          # workflow hadolint.yml que ce dépôt portait.
+          hadolint-dockerfile: Dockerfile
