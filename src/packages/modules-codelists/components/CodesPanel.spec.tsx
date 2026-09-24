@@ -1,11 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { vi } from "vitest";
 
 import { CodelistsApi } from "@sdk/index";
 
+import { CodeChanges } from "../utils/code-changes";
 import { CodesPanel } from "./CodesPanel";
 
 vi.mock("@sdk/index", () => ({
@@ -53,12 +54,35 @@ const Wrapper = ({ children }: { children: ReactNode }) => (
   </QueryClientProvider>
 );
 
+/** Tient les modifications en attente comme le fait la page d'édition de la liste. */
+const PanelWithPendingChanges = ({
+  onCodeChangesChange,
+  ...props
+}: Record<string, unknown> & { onCodeChangesChange: (changes: CodeChanges) => void }) => {
+  const [codeChanges, setCodeChanges] = useState<CodeChanges>({});
+  return (
+    <CodesPanel
+      codelist={codelist}
+      hidden={false}
+      editable
+      codeChanges={codeChanges}
+      onCodeChangesChange={(changes) => {
+        setCodeChanges(changes);
+        onCodeChangesChange(changes);
+      }}
+      {...props}
+    />
+  );
+};
+
 const renderPanel = async (props: Record<string, unknown> = {}) => {
-  const view = render(<CodesPanel codelist={codelist} hidden={false} editable {...props} />, {
-    wrapper: Wrapper,
-  });
+  const onCodeChangesChange = vi.fn();
+  const view = render(
+    <PanelWithPendingChanges onCodeChangesChange={onCodeChangesChange} {...props} />,
+    { wrapper: Wrapper },
+  );
   await screen.findByText("001");
-  return view;
+  return { ...view, onCodeChangesChange };
 };
 
 const fillPanel = (panel: HTMLElement, values: Record<string, string>) => {
@@ -136,39 +160,50 @@ describe("CodesPanel", () => {
     expect(panel.querySelector("#code")).toBeDisabled();
   });
 
-  it("enregistre la modification d'un code puis referme le panneau", async () => {
-    vi.mocked(CodelistsApi.putCodesDetailedCodelist).mockResolvedValue(undefined);
-    await renderPanel();
+  it("garde la modification d'un code en attente, sans l'envoyer au serveur", async () => {
+    const { onCodeChangesChange } = await renderPanel();
 
     fireEvent.click(screen.getAllByLabelText("See")[0].querySelector("span")!);
     const panel = await screen.findByRole("complementary");
     fillPanel(panel, { labelLg1: "Premier modifié" });
     fireEvent.click(within(panel).getByRole("button", { name: /update|modifier/i }));
 
-    await waitFor(() =>
-      expect(CodelistsApi.putCodesDetailedCodelist).toHaveBeenCalledWith(
-        "cl1",
-        expect.objectContaining({ code: "001", labelLg1: "Premier modifié" }),
-      ),
-    );
+    expect(await screen.findByText("Premier modifié")).toBeInTheDocument();
+    expect(onCodeChangesChange).toHaveBeenLastCalledWith({
+      "001": {
+        type: "updated",
+        code: expect.objectContaining({ code: "001", labelLg1: "Premier modifié" }),
+      },
+    });
+    expect(CodelistsApi.putCodesDetailedCodelist).not.toHaveBeenCalled();
+    await waitFor(() => expect(screen.queryByRole("complementary")).toBeNull());
   });
 
-  it("crée un code depuis le bouton d'ajout", async () => {
-    vi.mocked(CodelistsApi.postCodesDetailedCodelist).mockResolvedValue(undefined);
-    await renderPanel();
+  it("garde la création d'un code en attente, sans l'envoyer au serveur", async () => {
+    const { onCodeChangesChange } = await renderPanel();
 
     fireEvent.click(screen.getByRole("button", { name: "Add" }));
     const panel = await screen.findByRole("complementary");
     fillPanel(panel, { code: "003", labelLg1: "Troisième", labelLg2: "Third" });
     fireEvent.click(within(panel).getByRole("button", { name: /save|sauvegarder/i }));
 
-    await waitFor(() =>
-      expect(CodelistsApi.postCodesDetailedCodelist).toHaveBeenCalledWith("cl1", {
-        code: "003",
-        labelLg1: "Troisième",
-        labelLg2: "Third",
-      }),
-    );
+    expect(await screen.findByText("Troisième")).toBeInTheDocument();
+    expect(onCodeChangesChange).toHaveBeenLastCalledWith({
+      "003": { type: "created", code: { code: "003", labelLg1: "Troisième", labelLg2: "Third" } },
+    });
+    expect(CodelistsApi.postCodesDetailedCodelist).not.toHaveBeenCalled();
+  });
+
+  it("refuse de créer un code déjà présent dans la liste", async () => {
+    await renderPanel();
+
+    fireEvent.click(screen.getByRole("button", { name: "Add" }));
+    const panel = await screen.findByRole("complementary");
+    fillPanel(panel, { code: "001", labelLg1: "Doublon", labelLg2: "Duplicate" });
+    fireEvent.click(within(panel).getByRole("button", { name: /save|sauvegarder/i }));
+
+    expect(await within(panel).findByRole("alert")).toBeInTheDocument();
+    expect(screen.queryByText("Doublon")).toBeNull();
   });
 
   it("refuse d'enregistrer un code incomplet", async () => {
@@ -182,19 +217,16 @@ describe("CodesPanel", () => {
     expect(CodelistsApi.postCodesDetailedCodelist).not.toHaveBeenCalled();
   });
 
-  it("supprime un code puis recharge la liste", async () => {
-    vi.mocked(CodelistsApi.deleteCodesDetailedCodelist).mockResolvedValue(undefined);
-    await renderPanel();
+  it("garde la suppression d'un code en attente, sans l'envoyer au serveur", async () => {
+    const { onCodeChangesChange } = await renderPanel();
 
     fireEvent.click(screen.getAllByLabelText(/remove/i)[0].querySelector("span")!);
 
-    await waitFor(() =>
-      expect(CodelistsApi.deleteCodesDetailedCodelist).toHaveBeenCalledWith(
-        "cl1",
-        expect.objectContaining({ code: "001" }),
-      ),
-    );
-    expect(CodelistsApi.getCodesDetailedCodelist).toHaveBeenCalledTimes(2);
+    await waitFor(() => expect(screen.queryByText("001")).toBeNull());
+    expect(onCodeChangesChange).toHaveBeenLastCalledWith({
+      "001": { type: "deleted", code: expect.objectContaining({ code: "001" }) },
+    });
+    expect(CodelistsApi.deleteCodesDetailedCodelist).not.toHaveBeenCalled();
   });
 
   it("n'offre aucune action quand la liste n'est pas modifiable", async () => {

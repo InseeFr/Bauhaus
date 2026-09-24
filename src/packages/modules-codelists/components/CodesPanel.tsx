@@ -12,6 +12,14 @@ import { Code, Codelist } from "@model/Codelist";
 
 import { CodelistsApi } from "@sdk/index";
 
+import {
+  CodeChanges,
+  EditableCode,
+  mergeCodeChanges,
+  withCreatedCode,
+  withDeletedCode,
+  withUpdatedCode,
+} from "../utils/code-changes";
 import { validateCode } from "../utils/validateCode";
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 import { CodesPanelAddButton } from "./CodesPanelAddButton";
@@ -19,14 +27,7 @@ import { CollapsiblePanel } from "./CollapsiblePanel";
 import "./CodesPanel.css";
 import { Table, TableTypes } from "./Table";
 
-/** Valeurs saisies dans le formulaire d'édition d'un code. */
-interface CodeFormState {
-  code?: string;
-  labelLg1?: string;
-  labelLg2?: string;
-  descriptionLg1?: string;
-  descriptionLg2?: string;
-}
+type CodeFormState = EditableCode;
 
 interface CodeSlidingPanelTypes {
   code: CodeFormState;
@@ -34,6 +35,8 @@ interface CodeSlidingPanelTypes {
   handleSave: (code: CodeFormState, creation: boolean) => void;
   creation: boolean;
   codelist: Codelist;
+  /** Codes affichés, pour refuser la création d'un doublon. */
+  existingCodes: CodeFormState[];
 }
 
 const CodeSlidingPanel = ({
@@ -42,6 +45,7 @@ const CodeSlidingPanel = ({
   handleSave,
   creation,
   codelist,
+  existingCodes,
 }: Readonly<CodeSlidingPanelTypes>) => {
   const { t } = useTranslation();
 
@@ -71,7 +75,7 @@ const CodeSlidingPanel = ({
   };
 
   const handleSubmit = () => {
-    const clientSideErrors = validateCode(code, [], !creation);
+    const clientSideErrors = validateCode(code, existingCodes, !creation);
 
     if (clientSideErrors.errorMessage?.length > 0) {
       setSubmitting(true);
@@ -221,9 +225,18 @@ interface CodesPanelTypes {
   codelist: Codelist;
   hidden?: boolean;
   editable: boolean;
+  /** Modifications de codes en attente, envoyées à la sauvegarde de la liste. */
+  codeChanges?: CodeChanges;
+  onCodeChangesChange?: (changes: CodeChanges) => void;
 }
 
-export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTypes>) => {
+export const CodesPanel = ({
+  codelist,
+  hidden,
+  editable,
+  codeChanges = {},
+  onCodeChangesChange = () => {},
+}: Readonly<CodesPanelTypes>) => {
   const { t } = useTranslation();
 
   const [state, dispatch] = useReducer(codesPanelReducer, initialCodesPanelState);
@@ -270,7 +283,9 @@ export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTy
     dispatch({ type: "OPEN_CREATION_PANEL" });
   };
 
-  const codesWithActions = (codes.items ?? []).map((code) => {
+  const displayedCodes = mergeCodeChanges(codes.items ?? [], codeChanges);
+
+  const codesWithActions = displayedCodes.map((code) => {
     return {
       ...code,
       broader: code.broader?.length ? code.broader.join(",") : "",
@@ -291,11 +306,7 @@ export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTy
               type="button"
               className="btn btn-default"
               data-component-id={code.code}
-              onClick={() => {
-                CodelistsApi.deleteCodesDetailedCodelist(codelist.id, code).then(() =>
-                  fetchCodes(),
-                );
-              }}
+              onClick={() => onCodeChangesChange(withDeletedCode(codeChanges, code))}
               aria-label={t("codes.removeCode")}
               title={t("codes.removeCode")}
             >
@@ -347,7 +358,7 @@ export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTy
               lazyState: newLazyState as unknown as CodesPanelState["lazyState"],
             })
           }
-          total={codes.total ?? 0}
+          total={(codes.total ?? 0) + displayedCodes.length - (codes.items?.length ?? 0)}
           state={lazyState}
         />
       </CollapsiblePanel>
@@ -357,19 +368,12 @@ export const CodesPanel = ({ codelist, hidden, editable }: Readonly<CodesPanelTy
             code={selectedCode}
             codelist={codelist}
             creation={!selectedCode.code}
+            existingCodes={displayedCodes}
             handleBack={() => dispatch({ type: "CLOSE_PANEL" })}
             handleSave={(code, creation) => {
-              let promise;
-              if (creation) {
-                promise = CodelistsApi.postCodesDetailedCodelist;
-              } else {
-                promise = CodelistsApi.putCodesDetailedCodelist;
-              }
-              promise(codelist.id, code)
-                .then(() => fetchCodes())
-                .then(() => {
-                  dispatch({ type: "CLOSE_PANEL" });
-                });
+              const withCode = creation ? withCreatedCode : withUpdatedCode;
+              onCodeChangesChange(withCode(codeChanges, code));
+              dispatch({ type: "CLOSE_PANEL" });
             }}
           ></CodeSlidingPanel>
         </div>

@@ -6,6 +6,7 @@ import { Loading, Saving } from "@components/loading";
 import { CodelistsApi } from "@sdk/index";
 
 import { useGoBackOrReplace } from "../../../hooks/useGoBackOrReplace";
+import { CodeChanges, saveCodeChanges } from "../../../utils/code-changes";
 import { formatCodelist } from "../../../utils/formatCodelist";
 import { CodelistDetailEdit } from "./components/CodelistDetailEdit";
 
@@ -22,6 +23,8 @@ export const Component = () => {
 
   const [serverSideError, setServerSideError] = useState<unknown>("");
 
+  const [codeChanges, setCodeChanges] = useState<CodeChanges>({});
+
   const handleBack = useCallback(() => {
     goBackOrReplace("/codelists", true);
   }, [goBackOrReplace]);
@@ -32,6 +35,13 @@ export const Component = () => {
       setServerSideError("");
       const request = id ? CodelistsApi.putCodelist : CodelistsApi.postCodelist;
       request(codelist)
+        .then(() =>
+          // Chaque code enregistré sort des modifications en attente : en cas d'échec, seules
+          // celles qui restent seront renvoyées à la sauvegarde suivante.
+          saveCodeChanges(codelist.id, codeChanges, (code) =>
+            setCodeChanges(({ [code]: _saved, ...others }) => others),
+          ),
+        )
         .then(() => {
           goBackOrReplace(`/codelists/${codelist.id}`, !!id);
         })
@@ -41,7 +51,7 @@ export const Component = () => {
         })
         .finally(() => setSaving(false));
     },
-    [goBackOrReplace, id],
+    [goBackOrReplace, id, codeChanges],
   );
 
   useEffect(() => {
@@ -70,6 +80,8 @@ export const Component = () => {
       handleSave={handleSave}
       updateMode={id !== undefined}
       serverSideError={serverSideError}
+      codeChanges={codeChanges}
+      onCodeChangesChange={setCodeChanges}
     />
   );
 };

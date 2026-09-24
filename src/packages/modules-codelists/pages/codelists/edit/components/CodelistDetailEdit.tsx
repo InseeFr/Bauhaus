@@ -20,6 +20,7 @@ import { useTitle } from "@utils/hooks/useTitle";
 
 import { useAuthorizationGuard } from "../../../../../auth/components/auth";
 import { CodesPanel } from "../../../../components/CodesPanel";
+import { CodeChanges } from "../../../../utils/code-changes";
 import { validate } from "../validation";
 import { UriInputGroup } from "./UriInputGroup";
 
@@ -46,6 +47,9 @@ interface CodelistDetailEditTypes {
   handleBack: VoidFunction;
   updateMode: boolean;
   serverSideError?: unknown;
+  /** Modifications de codes en attente, envoyées par la page après la sauvegarde de la liste. */
+  codeChanges?: CodeChanges;
+  onCodeChangesChange?: (changes: CodeChanges) => void;
 }
 
 const defaultCodelist: CodelistFormValues = {
@@ -58,6 +62,8 @@ export const CodelistDetailEdit = ({
   handleBack,
   updateMode,
   serverSideError,
+  codeChanges,
+  onCodeChangesChange,
 }: Readonly<CodelistDetailEditTypes>) => {
   const { t } = useTranslation();
 
@@ -281,7 +287,14 @@ export const CodelistDetailEdit = ({
           </div>
         </Row>
       </form>
-      {updateMode && <CodesPanel codelist={codelist as any} editable={true} />}
+      {updateMode && (
+        <CodesPanel
+          codelist={codelist as any}
+          editable={true}
+          codeChanges={codeChanges}
+          onCodeChangesChange={onCodeChangesChange}
+        />
+      )}
     </>
   );
 };
