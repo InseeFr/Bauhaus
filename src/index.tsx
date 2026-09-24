@@ -38,15 +38,6 @@ const ErrorBlock = () => {
   );
 };
 
-// `getInit` rejette déjà sur un statut HTTP en erreur ; le parsing est dans la
-// chaîne pour qu'un corps non JSON (page HTML d'un proxy) mène aussi à la page d'erreur.
-GeneralApi.getInit()
-  .then((res: Response) => res.json())
-  .then(
-    (res: any) => renderApp(<Root router={createAppRouter(res.modules)} />, res),
-    () => renderApp(<ErrorBlock />, {}),
-  );
-
 /**
  * Données renvoyées par `GeneralApi.getInit()`. Sur le chemin d'erreur, l'API
  * n'a rien renvoyé : on rend la page d'erreur avec un état vide, d'où le
@@ -88,3 +79,27 @@ const renderApp = (page: ReactNode, initState: Partial<InitState>) => {
     </OidcProvider>,
   );
 };
+
+/**
+ * `getInit` rejette déjà sur un statut HTTP en erreur ; le parsing est dans le même
+ * `try` pour qu'un corps non JSON (page HTML d'un proxy) mène aussi à la page
+ * d'erreur. Le rendu, lui, reste hors du `try` : une erreur de rendu n'est pas un
+ * échec de l'initialisation.
+ */
+const loadInitState = async (): Promise<any> => {
+  try {
+    const response: Response = await GeneralApi.getInit();
+    return await response.json();
+  } catch {
+    return undefined;
+  }
+};
+
+// En fin de module : `renderApp` doit être initialisé quand l'exécution reprend
+// après l'await.
+const initState = await loadInitState();
+if (initState === undefined) {
+  renderApp(<ErrorBlock />, {});
+} else {
+  renderApp(<Root router={createAppRouter(initState.modules)} />, initState);
+}

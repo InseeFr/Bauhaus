@@ -43,7 +43,7 @@ export const renderAtRoute = (
 export const renderWithLoaderData = (
   ui: ReactNode,
   loaderData: unknown,
-  { path, url }: { path: string; url: string } = { path: "/", url: "/" },
+  { path = "/", url = "/" }: { path?: string; url?: string } = {},
 ) => {
   // Sans loader déclaré, le routeur démarre initialisé avec les données d'hydratation.
   const router = createMemoryRouter([{ id: "page", path, element: ui }], {

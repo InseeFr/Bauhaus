@@ -12,7 +12,7 @@ export const usePrivileges: Mock = vi.fn();
 export const useUserStamps: Mock = vi.fn();
 
 type Stamps = { stamp: string }[] | undefined;
-type StampsHook = () => { data?: Stamps };
+type StampsHook = () => { data: Stamps };
 
 /** Fait renvoyer `data` par `useUserStamps`. */
 export const mockUserStamps = (data: Stamps) => useUserStamps.mockReturnValue({ data });

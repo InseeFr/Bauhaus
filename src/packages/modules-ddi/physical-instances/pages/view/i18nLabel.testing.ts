@@ -4,7 +4,6 @@
  *
  * Usage : `vi.mock("react-i18next", () => import("./i18nLabel.testing"));`
  */
-const t = (key: string, opts?: Record<string, unknown>) =>
-  opts?.label ? `${key}:${opts.label}` : key;
+const t = (key: string, opts?: { label?: string }) => (opts?.label ? `${key}:${opts.label}` : key);
 
 export const useTranslation = () => ({ t });

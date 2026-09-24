@@ -32,6 +32,6 @@ export const fieldLabelled = (label: string | RegExp) => {
 export const chooseIn = (label: string | RegExp, option: string) => {
   fireEvent.click(fieldLabelled(label));
   const items = screen.getAllByText(option);
-  fireEvent.click(items[items.length - 1]);
+  fireEvent.click(items.at(-1)!);
   fireEvent.mouseDown(document.body);
 };
