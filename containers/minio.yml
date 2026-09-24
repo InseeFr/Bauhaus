@@ -1,6 +1,12 @@
 services:
   minio:
-    image: minio/minio:latest
+    # quay.io et non Docker Hub : MinIO n'y publie plus, et `minio/minio` y est
+    # refusé au pull (« pull access denied »), tags épinglés compris.
+    # Un volume minio-data créé par l'ancien `minio/minio:latest` n'est pas
+    # lisible par cette version (« Unknown xl meta version 3 », minio sort en 1) :
+    # le supprimer, minio-init recrée le bucket et ses fichiers.
+    #     docker volume rm bauhaus_minio-data
+    image: quay.io/minio/minio:RELEASE.2024-11-07T00-52-20Z
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minioadmin
@@ -15,6 +21,30 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  minio-init:
+    # Crée le bucket que le back lit (minio.bucketName) et y dépose les fichiers
+    # de minio-seed/ : sans eux, GET /documents/document/{id}/file répond 404
+    # pour tous les documents chargés par e2e/playwright/db/init.sh.
+    # Chaque fichier porte le nom du dernier segment du schema:url de son
+    # document (documents.trig) ; le back le cherche sous
+    # <storage.directoryGestion>/<nom>.
+    #   66   -> Notaires_m3_2p_juin2019.pdf
+    #   593  -> Methodologie_DADS_2012.pdf
+    #   1070 -> Doc_Estimations_emploi_fr.pdf
+    image: quay.io/minio/mc:RELEASE.2024-11-05T11-29-45Z
+    depends_on:
+      minio:
+        condition: service_healthy
+    volumes:
+      - ./minio-seed:/seed:ro
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 minioadmin minioadmin &&
+      mc mb --ignore-existing local/bauhaus &&
+      mc cp --recursive /seed/gestion/ local/bauhaus/gestion/ &&
+      mc ls local/bauhaus/gestion/
+      "
 
 volumes:
   minio-data:

@@ -35,9 +35,14 @@ jobs:
       contents: read
     env:
       BACK_OFFICE_PATH: bauhaus-back-office
-      COMPOSE_FILE_PATH: bauhaus-back-office/module-bauhaus-bo/compose.yaml
-      COMPOSE_OVERRIDE: e2e/compose.ci.yaml
-      BACK_SERVICE: bauhaus-back
+      # Lu par les fichiers compose (contexte de build, configuration montée) et
+      # par init.sh (fixtures RDF). Absolu : chacun le lirait sinon depuis son
+      # propre répertoire.
+      BACK_OFFICE_HOME: ${{ github.workspace }}/bauhaus-back-office
+      # Le compose racine (démo avec Keycloak), puis la surcharge e2e (back sans
+      # Keycloak), la même qu'en local.
+      COMPOSE_FILES: -f docker-compose.yml -f e2e/compose.e2e.yaml
+      BACK_SERVICE: api
       GRAPHDB_URL: http://localhost:7200
       READY_URL: http://localhost:8080/api/init
       STARTUP_TIMEOUT: 300
@@ -86,27 +91,24 @@ jobs:
           ref: ${{ steps.ref.outputs.ref }}
           path: ${{ env.BACK_OFFICE_PATH }}
 
-      - name: Démarrage de GraphDB
+      - name: Démarrage de GraphDB et minio
         run: |
           set -euo pipefail
-          mapfile -t services < <(docker compose -f "$COMPOSE_FILE_PATH" config --services | grep -vx "$BACK_SERVICE")
-          docker compose -f "$COMPOSE_FILE_PATH" up -d "${services[@]}"
+          # Keycloak et l'IHM du compose ne servent pas ici : on nomme les services.
+          docker compose $COMPOSE_FILES up -d graphdb minio minio-init
           timeout "$STARTUP_TIMEOUT" bash -c 'until curl -sf "$0/rest/repositories" > /dev/null; do sleep 5; done' "$GRAPHDB_URL"
 
       - name: Chargement des données de test
         working-directory: e2e
-        env:
-          BACK_OFFICE_HOME: ${{ github.workspace }}/${{ env.BACK_OFFICE_PATH }}
         run: ./playwright/db/init.sh
 
       - name: Démarrage du Back-Office
         run: |
           set -euo pipefail
-          files=(-f "$COMPOSE_FILE_PATH" -f "$COMPOSE_OVERRIDE")
-          docker compose "${files[@]}" up -d "$BACK_SERVICE"
+          docker compose $COMPOSE_FILES up -d "$BACK_SERVICE"
           if ! timeout "$STARTUP_TIMEOUT" bash -c 'until curl -sf "$0" > /dev/null; do sleep 5; done' "$READY_URL"; then
             echo "::error::le Back-Office n'a pas répondu sur $READY_URL en $STARTUP_TIMEOUT s"
-            docker compose "${files[@]}" logs "$BACK_SERVICE"
+            docker compose $COMPOSE_FILES logs "$BACK_SERVICE"
             exit 1
           fi
 

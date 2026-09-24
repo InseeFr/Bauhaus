@@ -40,16 +40,17 @@ pnpm e2e:stack
 The script (`scripts/e2e-stack.sh`) chains the three steps the suite needs, and
 fails loudly on any of them:
 
-1. `docker compose -f $BACK_OFFICE_HOME/module-bauhaus-bo/compose.yaml up -d` —
-   GraphDB, minio and the Back-Office, the latter built from the neighbouring
-   repository;
+1. `docker compose -f docker-compose.yml -f e2e/compose.e2e.yaml up -d graphdb minio minio-init` —
+   GraphDB, and minio seeded with a few test files (`containers/minio-seed/`);
+   the override `e2e/compose.e2e.yaml` runs the Back-Office without Keycloak;
 2. waits for GraphDB, then runs `e2e/playwright/db/init.sh` to load the test
    fixtures;
-3. waits for `GET /api/healthcheck` to answer 200.
+3. starts the Back-Office (`api`), built from the neighbouring repository, and
+   waits for `GET /api/healthcheck` to answer 200.
 
-Steps 2 and 3 are in that order on purpose: the healthcheck answers 500 until
-`init.sh` has created the `bauhaus` and `publication` repositories, so a freshly
-composed stack is _not_ healthy before the fixtures are loaded.
+Steps 2 and 3 are in that order on purpose: the Back-Office start-up checks and
+the healthcheck fail until `init.sh` has created the `bauhaus` and
+`publication` repositories.
 
 :::caution
 `init.sh` is destructive: it deletes and recreates the `bauhaus` and
@@ -66,9 +67,9 @@ check — it refuses to destroy anything it could not reload afterwards.
 | `API_URL`          | `http://localhost:8080/api` | Back-Office API base URL         |
 | `STACK_TIMEOUT`    | `600`                       | Seconds to wait per service      |
 
-`BACK_OFFICE_HOME` is resolved to an absolute path before being handed to
-`init.sh`, which is itself run from `e2e/` and uses `../../Bauhaus-Back-Office`
-as its own default.
+`BACK_OFFICE_HOME` is resolved to an absolute path and exported: `init.sh` runs
+from `e2e/`, and each compose file would otherwise read a relative path from its
+own directory.
 
 ### How long it takes
 
@@ -76,7 +77,7 @@ Measured on a developer workstation on 2026-09-06:
 
 | Phase                  | Cold (containers removed) | Warm (stack already up) |
 | ---------------------- | ------------------------- | ----------------------- |
-| `docker compose up -d` | 1 s                       | 0 s                     |
+| GraphDB, minio started | 1 s                       | 0 s                     |
 | GraphDB reachable      | 10 s                      | 0 s                     |
 | Loading the fixtures   | 4 s                       | 3 s                     |
 | Back-Office reachable  | 1 s                       | 0 s                     |

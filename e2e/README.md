@@ -32,10 +32,15 @@ pnpm e2e:stack   # GraphDB + minio + Back-Office, puis chargement des fixtures
 pnpm e2e         # les tests — Playwright démarre `pnpm start` tout seul
 ```
 
-`pnpm e2e:stack` (`scripts/e2e-stack.sh`) enchaîne `docker compose up -d` sur le
-compose du Back-Office, l'attente de GraphDB, `playwright/db/init.sh`, puis
-l'attente d'un `/api/healthcheck` en 200 — dans cet ordre, parce que le
-healthcheck sort en 500 tant que `init.sh` n'a pas créé les dépôts.
+`pnpm e2e:stack` (`scripts/e2e-stack.sh`) démarre GraphDB et minio (le compose
+racine `docker-compose.yml`, surchargé par `e2e/compose.e2e.yaml` qui retire
+Keycloak), attend GraphDB, lance `playwright/db/init.sh`, démarre le back puis
+attend un `/api/healthcheck` en 200 — dans cet ordre, parce que le back ne
+démarre pas proprement tant que `init.sh` n'a pas créé les dépôts.
+
+Le service `minio-init` dépose dans minio quelques fichiers de test
+(`containers/minio-seed/`) : les documents 66, 593 et 1070 se téléchargent
+(`GET /api/documents/document/{id}/file`), les autres répondent 404.
 
 Le tout prend **16 s** à froid (conteneurs supprimés) et **3 s** à chaud, dont
 3 à 4 s de chargement des fixtures. Le premier lancement construit en plus
