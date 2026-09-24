@@ -1,79 +1,67 @@
-@media screen and (width <= 767px) {
-  .navbar-primary {
-    .container-fluid {
-      padding-right: 0;
-      padding-left: 0;
-    }
-  }
-
-  .navbar-nav {
-    margin: 0;
-  }
-}
-
-@media screen and (width >= 767px) {
-  .navbar-primary {
-    .with-separator::after {
-      content: "";
-      height: 60%;
-      width: 1px;
-      position: absolute;
-      right: 0;
-      top: 20%;
-      background-color: white;
-    }
-  }
-}
-
-.navbar-primary {
+.main-menu {
+  display: flex;
+  justify-content: space-between;
+  min-height: 50px;
+  padding: 0 15px 0 30px;
   background: var(--primary-color);
-  font-size: 15.3pt;
   color: #cccfd9;
+  font-size: 15.3pt;
   line-height: 20px;
-  margin-bottom: 0;
-  border-radius: 0;
-  border: 0;
+}
 
-  .collapse {
+.main-menu-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-menu-item {
+  position: relative;
+  padding: 0 10px;
+
+  a {
     display: block;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+  }
+}
+
+@media screen and (width >= 768px) {
+  .main-menu-item.with-separator::after {
+    content: "";
+    position: absolute;
+    top: 20%;
+    right: 0;
+    width: 1px;
+    height: 60%;
+    background-color: white;
+  }
+}
+
+/* Après le séparateur : l'élément survolé ou courant masque le sien. */
+.main-menu-item:hover,
+.main-menu-item.active {
+  margin-left: -1px;
+  background: var(--secondary-color);
+
+  &::after {
+    background-color: transparent;
+  }
+}
+
+@media screen and (width < 768px) {
+  .main-menu,
+  .main-menu-list {
+    flex-direction: column;
   }
 
-  .navbar-nav {
-    > li {
-      padding: 0 10px;
+  .main-menu {
+    padding: 0;
+  }
 
-      &:hover,
-      &.active {
-        background: var(--secondary-color);
-        margin-left: -1px;
-
-        > a,
-        > button {
-          color: red;
-          background: none;
-
-          &:focus,
-          &:hover {
-            background: none;
-          }
-        }
-
-        &::after {
-          content: "";
-          height: 60%;
-          width: 1px;
-          position: absolute;
-          right: 0;
-          top: 20%;
-          background-color: transparent;
-        }
-      }
-
-      a {
-        color: white !important;
-        border: 0;
-        text-decoration: none;
-      }
-    }
+  .main-menu-item a {
+    padding: 10px 15px;
   }
 }

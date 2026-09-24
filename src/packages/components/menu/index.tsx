@@ -15,10 +15,22 @@ interface Path {
 }
 
 function getClasses(path: Path, index: number, paths: Path[]) {
-  return ["nav-item", path.className, !paths[index + 1] ? "" : WITH_SEPARATOR_CLASS]
+  return ["main-menu-item", path.className, !paths[index + 1] ? "" : WITH_SEPARATOR_CLASS]
     .join(" ")
     .trim();
 }
+
+const MenuList = ({ paths, className }: Readonly<{ paths: Path[]; className: string }>) => (
+  <ul className={className}>
+    {paths.map((path, index) => (
+      <li className={getClasses(path, index, paths)} key={path.path}>
+        <Link to={path.path} {...path.attrs}>
+          {path.label}
+        </Link>
+      </li>
+    ))}
+  </ul>
+);
 
 interface MainMenuTypes {
   paths: any[];
@@ -43,35 +55,11 @@ export const MainMenu = ({ paths }: Readonly<MainMenuTypes>) => {
   );
 
   return (
-    <nav className="navbar navbar-default navbar-primary">
-      <div className="container-fluid">
-        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul className="nav navbar-nav">
-            {allPaths[0].map((path: Path, index: number) => {
-              const classes = getClasses(path, index, allPaths[0]);
-              return (
-                <li className={classes} key={path.path}>
-                  <Link to={path.path} {...path.attrs}>
-                    {path.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-          <ul className="nav navbar-nav navbar-right">
-            {allPaths[1].map((path: Path, index: number) => {
-              const classes = getClasses(path, index, allPaths[1]);
-              return (
-                <li className={classes} key={path.path}>
-                  <Link to={path.path} {...path.attrs}>
-                    {path.label}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
+    <nav className="main-menu">
+      <MenuList paths={allPaths[0]} className="main-menu-list" />
+      {allPaths[1].length > 0 && (
+        <MenuList paths={allPaths[1]} className="main-menu-list main-menu-list-right" />
+      )}
     </nav>
   );
 };
