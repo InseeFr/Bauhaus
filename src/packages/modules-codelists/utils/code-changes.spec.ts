@@ -80,10 +80,59 @@ describe("mergeCodeChanges", () => {
   });
 });
 
+describe("links between codes", () => {
+  const linked = (value: string, broader: string[] = [], narrower: string[] = []) => ({
+    ...code(value),
+    broader,
+    narrower,
+  });
+
+  it("adds the child to a pending parent when a code chooses it as parent", () => {
+    const changes = withUpdatedCode(
+      withUpdatedCode({}, linked("A", [], [])),
+      linked("A1", ["A"], []),
+    );
+
+    expect(changes["A"].code.narrower).toEqual(["A1"]);
+  });
+
+  it("adds the parent to a pending child when a code chooses it as child", () => {
+    const changes = withCreatedCode(withUpdatedCode({}, linked("A1")), linked("A", [], ["A1"]));
+
+    expect(changes["A1"].code.broader).toEqual(["A"]);
+  });
+
+  it("removes the child from a pending parent when a code drops that parent", () => {
+    const changes = withUpdatedCode(
+      withUpdatedCode({}, linked("A", [], ["A1", "A2"])),
+      linked("A1", [], []),
+    );
+
+    expect(changes["A"].code.narrower).toEqual(["A2"]);
+  });
+
+  it("removes a deleted code from the links of pending codes", () => {
+    const changes = withDeletedCode(withUpdatedCode({}, linked("A", [], ["A1"])), linked("A1"));
+
+    expect(changes["A"].code.narrower).toEqual([]);
+  });
+
+  it("shows on displayed codes the links chosen from pending codes", () => {
+    const items = [linked("A"), linked("B", [], ["A2"]), linked("A2", ["B"])];
+    let changes = withUpdatedCode({}, linked("A1", ["A"], []));
+    changes = withDeletedCode(changes, linked("A2"));
+
+    const merged = mergeCodeChanges(items, changes);
+
+    expect(merged.find((c) => c.code === "A")?.narrower).toEqual(["A1"]);
+    expect(merged.find((c) => c.code === "B")?.narrower).toEqual([]);
+  });
+});
+
 describe("saveCodeChanges", () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it("sends deletions, then updates, then creations, and reports each saved code", async () => {
+  it("sends deletions, then creations, then updates, and reports each saved code", async () => {
     const calls: string[] = [];
     vi.mocked(CodelistsApi.deleteCodesDetailedCodelist).mockImplementation(async () => {
       calls.push("delete");
@@ -101,14 +150,38 @@ describe("saveCodeChanges", () => {
 
     await saveCodeChanges("cl1", changes, onSaved);
 
-    expect(calls).toEqual(["delete", "put", "post"]);
+    expect(calls).toEqual(["delete", "post", "put"]);
     expect(CodelistsApi.deleteCodesDetailedCodelist).toHaveBeenCalledWith("cl1", code("002"));
     expect(CodelistsApi.putCodesDetailedCodelist).toHaveBeenCalledWith(
       "cl1",
       code("001", "modifié"),
     );
     expect(CodelistsApi.postCodesDetailedCodelist).toHaveBeenCalledWith("cl1", code("003"));
-    expect(onSaved.mock.calls.map(([saved]) => saved)).toEqual(["002", "001", "003"]);
+    expect(onSaved.mock.calls.map(([saved]) => saved)).toEqual(["002", "003", "001"]);
+  });
+
+  it("creates a code with its links toward codes that are not created afterwards", async () => {
+    const withLinks = (value: string, broader: string[], narrower: string[] = []) => ({
+      ...code(value),
+      broader,
+      narrower,
+    });
+    let changes: CodeChanges = withCreatedCode({}, withLinks("A", ["ROOT"]));
+    changes = withCreatedCode(changes, withLinks("A1", ["A"]));
+
+    await saveCodeChanges("cl1", changes, vi.fn());
+
+    // Le lien A-A1 est posé par la création de A1, une fois A enregistré : le back l'écrit dans les deux sens.
+    expect(CodelistsApi.postCodesDetailedCodelist).toHaveBeenNthCalledWith(
+      1,
+      "cl1",
+      withLinks("A", ["ROOT"], []),
+    );
+    expect(CodelistsApi.postCodesDetailedCodelist).toHaveBeenNthCalledWith(
+      2,
+      "cl1",
+      withLinks("A1", ["A"]),
+    );
   });
 
   it("stops at the first failure, keeping the next changes unsent", async () => {

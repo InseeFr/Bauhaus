@@ -6,6 +6,7 @@ import { ClientSideError, GlobalClientSideErrorBloc } from "@components/errors-b
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
 import { Row } from "@components/layout";
+import { Select } from "@components/select-rmes";
 import { RightSlidingPanel } from "@components/sliding-panel";
 
 import { Code, Codelist } from "@model/Codelist";
@@ -37,6 +38,8 @@ interface CodeSlidingPanelTypes {
   codelist: Codelist;
   /** Codes affichés, pour refuser la création d'un doublon. */
   existingCodes: CodeFormState[];
+  /** Tous les codes de la liste, parmi lesquels choisir parents et enfants. */
+  linkableCodes: CodeFormState[];
 }
 
 const CodeSlidingPanel = ({
@@ -46,6 +49,7 @@ const CodeSlidingPanel = ({
   creation,
   codelist,
   existingCodes,
+  linkableCodes,
 }: Readonly<CodeSlidingPanelTypes>) => {
   const { t } = useTranslation();
 
@@ -73,6 +77,12 @@ const CodeSlidingPanel = ({
       [name]: value,
     });
   };
+
+  // Un même code ne peut être à la fois parent et enfant : chaque liste écarte les choix de l'autre.
+  const linkOptions = (excluded: string[] = []) =>
+    linkableCodes
+      .filter((c) => c.code !== code.code && !excluded.includes(c.code!))
+      .map((c) => ({ value: c.code!, label: `${c.code} - ${c.labelLg1}` }));
 
   const handleSubmit = () => {
     const clientSideErrors = validateCode(code, existingCodes, !creation);
@@ -166,6 +176,28 @@ const CodeSlidingPanel = ({
           />
         </div>
       </Row>
+      <Row>
+        <div className="col-md-6 form-group" id="broader-field">
+          <label htmlFor="broader">{t("codes.broader")}</label>
+          <Select
+            inputId="broader"
+            multi
+            value={code.broader ?? []}
+            options={linkOptions(code.narrower)}
+            onChange={(broader: string[]) => setCode({ ...code, broader })}
+          />
+        </div>
+        <div className="col-md-6 form-group" id="narrower-field">
+          <label htmlFor="narrower">{t("codes.narrower")}</label>
+          <Select
+            inputId="narrower"
+            multi
+            value={code.narrower ?? []}
+            options={linkOptions(code.broader)}
+            onChange={(narrower: string[]) => setCode({ ...code, narrower })}
+          />
+        </div>
+      </Row>
     </>
   );
 };
@@ -244,6 +276,16 @@ export const CodesPanel = ({
   const [state, dispatch] = useReducer(codesPanelReducer, initialCodesPanelState);
 
   const { codes, searchCode, searchLabel, lazyState, loading, openPanel, selectedCode } = state;
+
+  const [allCodes, setAllCodes] = useState<Code[]>([]);
+
+  useEffect(() => {
+    if (editable && codelist.id) {
+      CodelistsApi.getCodelistCodes(codelist.id, 1, 0).then((cl: any) =>
+        setAllCodes(cl?.items ?? []),
+      );
+    }
+  }, [codelist.id, editable]);
 
   const handleSearch = (type: "code" | "label", valueCode: string, valueLabel: string) => {
     const [handledValue, otherValue, searchActionType, getCodesBySearch]: [
@@ -371,6 +413,7 @@ export const CodesPanel = ({
             codelist={codelist}
             creation={!selectedCode.code}
             existingCodes={displayedCodes}
+            linkableCodes={mergeCodeChanges(allCodes, codeChanges)}
             handleBack={() => dispatch({ type: "CLOSE_PANEL" })}
             handleSave={(code, creation) => {
               const withCode = creation ? withCreatedCode : withUpdatedCode;

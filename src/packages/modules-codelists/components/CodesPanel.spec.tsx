@@ -12,6 +12,7 @@ import { CodesPanel } from "./CodesPanel";
 vi.mock("@sdk/index", () => ({
   CodelistsApi: {
     getCodesDetailedCodelist: vi.fn(),
+    getCodelistCodes: vi.fn(),
     getCodesByCode: vi.fn(),
     getCodesByLabel: vi.fn(),
     getCodesByCodeAndLabel: vi.fn(),
@@ -108,6 +109,14 @@ describe("CodesPanel", () => {
       page([
         { code: "001", labelLg1: "Premier", labelLg2: "First", broader: ["000"] },
         { code: "002", labelLg1: "Second", labelLg2: "Second" },
+      ]),
+    );
+    vi.mocked(CodelistsApi.getCodelistCodes).mockResolvedValue(
+      page([
+        { code: "000", labelLg1: "Racine" },
+        { code: "001", labelLg1: "Premier" },
+        { code: "002", labelLg1: "Second" },
+        { code: "003", labelLg1: "Troisième" },
       ]),
     );
   });
@@ -244,5 +253,76 @@ describe("CodesPanel", () => {
 
     expect(screen.queryByLabelText("See")).toBeNull();
     expect(screen.queryByRole("button", { name: "Add" })).toBeNull();
+  });
+  describe("liens entre codes", () => {
+    const openFirstCode = async () => {
+      fireEvent.click(screen.getAllByLabelText("See")[0].querySelector("span")!);
+      return screen.findByRole("complementary");
+    };
+
+    const openLinkSelect = async (panel: HTMLElement, id: "broader" | "narrower") => {
+      fireEvent.click(panel.querySelector(`#${id}-field .p-multiselect`)!);
+      // Sans animation sous happy-dom, le panneau reste en display: none : il est masqué pour les rôles.
+      return screen.findByRole("listbox", { hidden: true });
+    };
+
+    const optionLabels = (listbox: HTMLElement) =>
+      within(listbox)
+        .getAllByRole("option", { hidden: true })
+        .map((option) => option.textContent);
+
+    it("propose en parents tous les codes de la liste, sauf le code lui-même", async () => {
+      await renderPanel();
+      const panel = await openFirstCode();
+
+      const listbox = await openLinkSelect(panel, "broader");
+
+      await waitFor(() =>
+        expect(optionLabels(listbox)).toEqual(["000 - Racine", "002 - Second", "003 - Troisième"]),
+      );
+      expect(CodelistsApi.getCodelistCodes).toHaveBeenCalledWith("cl1", 1, 0);
+    });
+
+    it("n'offre pas en enfant un code déjà choisi comme parent", async () => {
+      await renderPanel();
+      const panel = await openFirstCode();
+
+      const listbox = await openLinkSelect(panel, "narrower");
+
+      await waitFor(() =>
+        expect(optionLabels(listbox)).toEqual(["002 - Second", "003 - Troisième"]),
+      );
+    });
+
+    it("filtre les codes proposés sur le code ou le libellé", async () => {
+      await renderPanel();
+      const panel = await openFirstCode();
+      const listbox = await openLinkSelect(panel, "narrower");
+      await waitFor(() => expect(optionLabels(listbox)).toHaveLength(2));
+
+      fireEvent.change(document.querySelector(".p-multiselect-filter")!, {
+        target: { value: "troi" },
+      });
+
+      await waitFor(() => expect(optionLabels(listbox)).toEqual(["003 - Troisième"]));
+    });
+
+    it("garde les enfants choisis dans la modification en attente", async () => {
+      const { onCodeChangesChange } = await renderPanel();
+      const panel = await openFirstCode();
+      const listbox = await openLinkSelect(panel, "narrower");
+
+      fireEvent.click(await within(listbox).findByText("003 - Troisième"));
+      fireEvent.click(within(panel).getByRole("button", { name: /update|modifier/i }));
+
+      await waitFor(() =>
+        expect(onCodeChangesChange).toHaveBeenLastCalledWith({
+          "001": {
+            type: "updated",
+            code: expect.objectContaining({ broader: ["000"], narrower: ["003"] }),
+          },
+        }),
+      );
+    });
   });
 });

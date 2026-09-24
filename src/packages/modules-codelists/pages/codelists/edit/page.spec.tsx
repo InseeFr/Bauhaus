@@ -14,6 +14,7 @@ const { detailedCodelistSdk, unknownCodelistRouter } = await vi.hoisted(
 vi.mock("@sdk/index", (importOriginal) =>
   detailedCodelistSdk(importOriginal, {
     putCodelist: vi.fn(),
+    getCodelistCodes: vi.fn(() => Promise.resolve({ items: [] })),
     postCodesDetailedCodelist: vi.fn(),
     putCodesDetailedCodelist: vi.fn(),
     deleteCodesDetailedCodelist: vi.fn(),
