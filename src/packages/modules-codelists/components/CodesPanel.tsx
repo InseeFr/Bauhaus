@@ -62,7 +62,7 @@ const CodeSlidingPanel = ({
     setCode({ ...initialCode });
   }, [initialCode]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setClientSideErrors({
       ...clientSideErrors,
@@ -147,7 +147,8 @@ const CodeSlidingPanel = ({
       <Row>
         <div className="col-md-6 form-group">
           <label htmlFor="descriptionLg1">{t("codes.description", { lng: "fr" })}</label>
-          <TextInput
+          <textarea
+            className="form-control"
             id="descriptionLg1"
             name="descriptionLg1"
             onChange={handleChange}
@@ -156,7 +157,8 @@ const CodeSlidingPanel = ({
         </div>
         <div className="col-md-6 form-group">
           <label htmlFor="descriptionLg2">{t("codes.description", { lng: "en" })}</label>
-          <TextInput
+          <textarea
+            className="form-control"
             id="descriptionLg2"
             name="descriptionLg2"
             onChange={handleChange}

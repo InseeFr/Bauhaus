@@ -206,6 +206,16 @@ describe("CodesPanel", () => {
     expect(screen.queryByText("Doublon")).toBeNull();
   });
 
+  it("saisit la description d'un code dans une zone de texte multiligne", async () => {
+    await renderPanel();
+
+    fireEvent.click(screen.getByRole("button", { name: "Add" }));
+    const panel = await screen.findByRole("complementary");
+
+    expect(panel.querySelector("textarea#descriptionLg1")).toBeInTheDocument();
+    expect(panel.querySelector("textarea#descriptionLg2")).toBeInTheDocument();
+  });
+
   it("refuse d'enregistrer un code incomplet", async () => {
     await renderPanel();
 
