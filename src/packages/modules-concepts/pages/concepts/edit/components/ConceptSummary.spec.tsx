@@ -2,7 +2,7 @@ import { fireEvent, screen, within } from "@testing-library/react";
 
 import { ConceptNotes } from "@model/concepts/concept";
 
-import { BROADER, CLOSE_MATCH, NARROWER, NONE, RELATED } from "@sdk/constants";
+import { BROADER, CLOSE_MATCH, NARROWER, REFERENCES, RELATED, SUCCEED } from "@sdk/constants";
 
 import { renderWithRouter } from "../../../../../tests/render";
 import { emptyConceptNotes } from "../../../../utils/emptyConceptNotes";
@@ -73,10 +73,10 @@ describe("concept-summary", () => {
   it("compte les liens de chaque type", () => {
     renderSummary({
       conceptsWithLinks: [
-        { id: "c1", label: "Enfant", typeOfLink: NARROWER },
-        { id: "c2", label: "Autre enfant", typeOfLink: NARROWER },
-        { id: "c3", label: "Parent", typeOfLink: BROADER },
-        { id: "c4", label: "Libre", typeOfLink: NONE },
+        { id: "c1", label: "Enfant", typesOfLink: [NARROWER] },
+        { id: "c2", label: "Autre enfant", typesOfLink: [NARROWER] },
+        { id: "c3", label: "Parent", typesOfLink: [BROADER] },
+        { id: "c4", label: "Libre", typesOfLink: [] },
       ],
       equivalentLinks: [{ urn: "urn:concept:7", typeOfLink: CLOSE_MATCH } as never],
     });
@@ -85,6 +85,16 @@ describe("concept-summary", () => {
     expect(entry(/A pour parent/).textContent).toBe("A pour parent1");
     expect(entry(/Est lié à/).textContent).toBe("Est lié à0");
     expect(entry(/Correspond à/).textContent).toBe("Correspond à1");
+  });
+
+  it("compte un concept lié par plusieurs types dans chacun d'eux", () => {
+    renderSummary({
+      conceptsWithLinks: [{ id: "c1", label: "Ancien", typesOfLink: [REFERENCES, SUCCEED] }],
+    });
+
+    expect(entry(/Référence/).textContent).toBe("Référence1");
+    expect(entry(/Remplace/).textContent).toBe("Remplace1");
+    expect(entry(/Links/).textContent?.replace(/\s+/g, " ")).toContain("2");
   });
 
   it("demande l'affichage du type de lien choisi", () => {
@@ -159,8 +169,8 @@ describe("concept-summary", () => {
   it("compte les liens du concept, correspondances externes comprises", () => {
     renderSummary({
       conceptsWithLinks: [
-        { id: "c1", label: "Enfant", typeOfLink: NARROWER },
-        { id: "c2", label: "Libre", typeOfLink: NONE },
+        { id: "c1", label: "Enfant", typesOfLink: [NARROWER] },
+        { id: "c2", label: "Libre", typesOfLink: [] },
       ],
       equivalentLinks: [{ urn: "urn:concept:7" } as never],
     });

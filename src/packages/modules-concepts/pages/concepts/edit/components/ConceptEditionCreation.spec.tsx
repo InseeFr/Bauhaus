@@ -3,7 +3,7 @@ import { fireEvent, screen, within } from "@testing-library/react";
 import { ConceptGeneral, ConceptNotes } from "@model/concepts/concept";
 import { UNPUBLISHED, VALIDATED } from "@model/ValidationState";
 
-import { BROADER, NARROWER, NONE, NO_VERSIONING } from "@sdk/constants";
+import { BROADER, NARROWER, NO_VERSIONING } from "@sdk/constants";
 
 import { renderWithAppContext } from "../../../../../tests/render";
 import { emptyConceptGeneral } from "../../../../utils/emptyConceptGeneral";
@@ -380,7 +380,7 @@ describe("concept-edition-creation", () => {
     });
 
     it("retient le concept relié au type de lien affiché", () => {
-      renderForm({ conceptsWithLinks: [{ id: "c2", label: "Autre concept", typeOfLink: NONE }] });
+      renderForm({ conceptsWithLinks: [{ id: "c2", label: "Autre concept", typesOfLink: [] }] });
 
       chooseInSummary(/A pour enfant/);
       fireEvent.click(screen.getByText("Autre concept"));

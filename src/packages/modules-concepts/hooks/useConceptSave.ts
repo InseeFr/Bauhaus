@@ -12,7 +12,7 @@ import { buildPayloadUpdate } from "../utils/buildPayloadUpdate";
 export interface ConceptSaveData {
   general: ConceptGeneral;
   notes: ConceptNotes;
-  conceptsWithLinks: { id: string; typeOfLink: string; label?: string }[];
+  conceptsWithLinks: { id: string; typesOfLink: string[]; label?: string }[];
   equivalentLinks?: (Link & { urn: string })[];
 }
 

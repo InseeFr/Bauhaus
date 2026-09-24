@@ -1,6 +1,6 @@
 import { fireEvent, screen } from "@testing-library/react";
 
-import { BROADER, CLOSE_MATCH, NARROWER, NONE, RELATED } from "@sdk/constants";
+import { BROADER, CLOSE_MATCH, NARROWER, RELATED } from "@sdk/constants";
 
 import { renderWithRouter } from "../../../../../tests/render";
 import {
@@ -14,11 +14,11 @@ import {
 import { LinksEdition as ConceptLinks } from "./LinksEdition";
 
 const conceptsWithLinks = [
-  { id: "c1", label: "Enfant", typeOfLink: NARROWER },
-  { id: "c2", label: "Parent", typeOfLink: BROADER },
-  { id: "c3", label: "Libre", typeOfLink: NONE },
-  { id: "c4", label: "Élève", typeOfLink: NONE },
-  { id: "self", label: "Concept courant", typeOfLink: NONE },
+  { id: "c1", label: "Enfant", typesOfLink: [NARROWER] },
+  { id: "c2", label: "Parent", typesOfLink: [BROADER] },
+  { id: "c3", label: "Libre", typesOfLink: [] },
+  { id: "c4", label: "Élève", typesOfLink: [] },
+  { id: "self", label: "Concept courant", typesOfLink: [] },
 ];
 
 const renderComponent = (props: Partial<React.ComponentProps<typeof ConceptLinks>> = {}) => {
@@ -65,10 +65,10 @@ describe("concept-edition-creation-links", () => {
     expect(optionLabels(linkedList())).toEqual(["Parent"]);
   });
 
-  it("propose à gauche les concepts encore non liés", () => {
+  it("propose à gauche les concepts non liés par le type demandé", () => {
     renderComponent();
 
-    expect(optionLabels(availableList())).toEqual(["Libre", "Élève"]);
+    expect(optionLabels(availableList())).toEqual(["Parent", "Libre", "Élève"]);
   });
 
   it("exclut le concept courant des concepts proposés", () => {
@@ -77,10 +77,26 @@ describe("concept-edition-creation-links", () => {
     expect(optionLabels(availableList())).not.toContain("Concept courant");
   });
 
-  it("ne propose pas les concepts déjà liés par un autre type", () => {
-    renderComponent();
+  it("lie par le type demandé un concept déjà lié par un autre type, sans perdre ce lien", () => {
+    const { handleChange } = renderComponent();
 
-    expect(optionLabels(availableList())).not.toContain("Parent");
+    link("Parent");
+
+    expect(handleChange).toHaveBeenCalledWith(
+      expect.arrayContaining([{ id: "c2", label: "Parent", typesOfLink: [BROADER, NARROWER] }]),
+    );
+  });
+
+  it("ne délie un concept lié par plusieurs types que pour le type demandé", () => {
+    const { handleChange } = renderComponent({
+      conceptsWithLinks: [{ id: "c1", label: "Enfant", typesOfLink: [BROADER, NARROWER] }],
+    });
+
+    unlink("Enfant");
+
+    expect(handleChange).toHaveBeenCalledWith([
+      { id: "c1", label: "Enfant", typesOfLink: [BROADER] },
+    ]);
   });
 
   it("compte les concepts liés dans l'en-tête", () => {
@@ -103,10 +119,10 @@ describe("concept-edition-creation-links", () => {
     link("Libre");
 
     expect(handleChange).toHaveBeenCalledWith([
-      { id: "c1", label: "Enfant", typeOfLink: NARROWER },
-      { id: "c2", label: "Parent", typeOfLink: BROADER },
-      { id: "c3", label: "Libre", typeOfLink: NARROWER },
-      { id: "c4", label: "Élève", typeOfLink: NONE },
+      { id: "c1", label: "Enfant", typesOfLink: [NARROWER] },
+      { id: "c2", label: "Parent", typesOfLink: [BROADER] },
+      { id: "c3", label: "Libre", typesOfLink: [NARROWER] },
+      { id: "c4", label: "Élève", typesOfLink: [] },
     ]);
   });
 
@@ -116,7 +132,7 @@ describe("concept-edition-creation-links", () => {
     link("Libre");
 
     expect(handleChange).toHaveBeenCalledWith(
-      expect.arrayContaining([{ id: "c3", label: "Libre", typeOfLink: RELATED }]),
+      expect.arrayContaining([{ id: "c3", label: "Libre", typesOfLink: [RELATED] }]),
     );
   });
 
@@ -126,7 +142,7 @@ describe("concept-edition-creation-links", () => {
     link("Libre");
 
     expect(optionLabels(linkedList())).toEqual(["Enfant", "Libre"]);
-    expect(optionLabels(availableList())).toEqual(["Élève"]);
+    expect(optionLabels(availableList())).toEqual(["Parent", "Élève"]);
   });
 
   it("délie un concept déjà lié", () => {
@@ -135,10 +151,10 @@ describe("concept-edition-creation-links", () => {
     unlink("Enfant");
 
     expect(handleChange).toHaveBeenCalledWith([
-      { id: "c1", label: "Enfant", typeOfLink: NONE },
-      { id: "c2", label: "Parent", typeOfLink: BROADER },
-      { id: "c3", label: "Libre", typeOfLink: NONE },
-      { id: "c4", label: "Élève", typeOfLink: NONE },
+      { id: "c1", label: "Enfant", typesOfLink: [] },
+      { id: "c2", label: "Parent", typesOfLink: [BROADER] },
+      { id: "c3", label: "Libre", typesOfLink: [] },
+      { id: "c4", label: "Élève", typesOfLink: [] },
     ]);
   });
 
@@ -148,7 +164,7 @@ describe("concept-edition-creation-links", () => {
     unlink("Enfant");
 
     expect(optionLabels(linkedList())).toEqual([]);
-    expect(optionLabels(availableList())).toEqual(["Enfant", "Libre", "Élève"]);
+    expect(optionLabels(availableList())).toEqual(["Enfant", "Parent", "Libre", "Élève"]);
   });
 
   it("laisse intacts les liens d'un autre type quand on délie tout", () => {
@@ -157,7 +173,7 @@ describe("concept-edition-creation-links", () => {
     fireEvent.click(screen.getByRole("button", { name: "Move All to Source" }));
 
     expect(handleChange).toHaveBeenCalledWith(
-      expect.arrayContaining([{ id: "c2", label: "Parent", typeOfLink: BROADER }]),
+      expect.arrayContaining([{ id: "c2", label: "Parent", typesOfLink: [BROADER] }]),
     );
   });
 

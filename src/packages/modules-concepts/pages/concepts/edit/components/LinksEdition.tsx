@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { Link } from "@model/concepts/concept";
 
-import { CLOSE_MATCH, NONE } from "@sdk/constants";
+import { CLOSE_MATCH } from "@sdk/constants";
 
 import { LINK_TYPES } from "../../../../utils/linkTypes";
 import { EquivalentLinks } from "./EquivalentLinks";
@@ -14,7 +14,8 @@ type LinkType = string;
 export interface ConceptWithLink {
   id: string;
   label: string;
-  typeOfLink: LinkType;
+  /** Un concept peut être lié par plusieurs types à la fois ; vide s'il n'est pas lié. */
+  typesOfLink: LinkType[];
   prefLabelLg1?: string;
   prefLabelLg2?: string;
 }
@@ -35,14 +36,14 @@ const linkableConcepts = (
 ): ConceptWithLink[] =>
   conceptsWithLinks
     .filter((c) => c.id !== currentId)
-    .map(({ id, label, typeOfLink }) => ({ id, label, typeOfLink }));
+    .map(({ id, label, typesOfLink }) => ({ id, label, typesOfLink }));
 
 const splitByLink = (conceptsWithLinks: ConceptWithLink[], memberType: LinkType) => {
   const linked: ConceptWithLink[] = [];
   const available: ConceptWithLink[] = [];
   conceptsWithLinks.forEach((concept) => {
-    if (concept.typeOfLink === memberType) linked.push(concept);
-    else if (concept.typeOfLink === NONE) available.push(concept);
+    if (concept.typesOfLink.includes(memberType)) linked.push(concept);
+    else available.push(concept);
   });
   return { linked, available };
 };
@@ -69,13 +70,22 @@ export const LinksEdition = ({
 
   const { linked, available } = splitByLink(conceptsWithLinks, activeLinkType);
 
-  // La PickList ne connaît que le type courant : les concepts liés par un autre
-  // type n'y figurent pas et doivent rester tels quels.
+  // La PickList ne connaît que le type courant : les liens d'un autre type
+  // doivent rester tels quels.
   const relink = (nowLinked: ConceptWithLink[]) => {
     const linkedIds = new Set(nowLinked.map(({ id }) => id));
     const updated = conceptsWithLinks.map((concept) => {
-      if (linkedIds.has(concept.id)) return { ...concept, typeOfLink: activeLinkType };
-      if (concept.typeOfLink === activeLinkType) return { ...concept, typeOfLink: NONE };
+      const wasLinked = concept.typesOfLink.includes(activeLinkType);
+      const isLinked = linkedIds.has(concept.id);
+      if (isLinked && !wasLinked) {
+        return { ...concept, typesOfLink: [...concept.typesOfLink, activeLinkType] };
+      }
+      if (!isLinked && wasLinked) {
+        return {
+          ...concept,
+          typesOfLink: concept.typesOfLink.filter((type) => type !== activeLinkType),
+        };
+      }
       return concept;
     });
     setConceptsWithLinks(updated);

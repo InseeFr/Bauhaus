@@ -4,7 +4,7 @@ import { SummaryBadge, SummaryEntry, SummaryNav } from "@components/summary-nav"
 
 import { ConceptNotes, Link } from "@model/concepts/concept";
 
-import { CLOSE_MATCH, NONE } from "@sdk/constants";
+import { CLOSE_MATCH } from "@sdk/constants";
 
 import { conceptGeneralFields } from "../../../../utils/conceptGeneralFields";
 import { LINK_TYPES } from "../../../../utils/linkTypes";
@@ -60,10 +60,11 @@ export const ConceptSummary = ({
   const countOfLinkType = (memberType: string) =>
     memberType === CLOSE_MATCH
       ? equivalentLinks.length
-      : conceptsWithLinks.filter(({ typeOfLink }) => typeOfLink === memberType).length;
+      : conceptsWithLinks.filter(({ typesOfLink }) => typesOfLink.includes(memberType)).length;
 
+  // Un concept lié par plusieurs types compte pour autant de liens.
   const linksCount =
-    conceptsWithLinks.filter(({ typeOfLink }) => typeOfLink !== NONE).length +
+    conceptsWithLinks.reduce((count, { typesOfLink }) => count + typesOfLink.length, 0) +
     equivalentLinks.length;
 
   const entries: SummaryEntry[] = [

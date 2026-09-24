@@ -9,7 +9,7 @@ import { processLinks } from "./processLinks";
 interface ConceptCreationInput {
   general: ConceptGeneral;
   notes: ConceptNotes;
-  conceptsWithLinks: { id: string; typeOfLink: string }[];
+  conceptsWithLinks: { id: string; typesOfLink: string[] }[];
 }
 
 interface NoteEntry {
