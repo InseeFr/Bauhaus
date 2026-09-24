@@ -82,10 +82,10 @@ export const Picker = ({
   return (
     <div className="container">
       <ActionToolbar>
-        <button type="button" className="btn wilco-btn btn-lg col-md-4" onClick={removeAll}>
+        <button type="button" className="btn btn-lg col-md-4" onClick={removeAll}>
           {t("partial-codelists.removeAllCodes")}
         </button>
-        <button type="button" className="btn wilco-btn btn-lg col-md-4" onClick={addAll}>
+        <button type="button" className="btn btn-lg col-md-4" onClick={addAll}>
           {t("partial-codelists.addAllCodes")}
         </button>
       </ActionToolbar>

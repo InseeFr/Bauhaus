@@ -1,0 +1,30 @@
+.action-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  margin: 1em 0;
+  gap: 1em;
+  justify-content: space-between;
+
+  /* Le clearfix de `.row` (Bootstrap) deviendrait deux items flex vides. */
+  &::before,
+  &::after {
+    content: none;
+  }
+
+  > * {
+    max-width: 250px;
+  }
+
+}
+
+@media (width <= 600px) {
+  .action-toolbar {
+    flex-wrap: wrap;
+
+    > div {
+      flex-grow: 1;
+    }
+  }
+}

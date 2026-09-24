@@ -268,20 +268,6 @@ footer {
   }
 }
 
-.wilco-action-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  margin: 1em 0;
-  gap: 1em;
-  justify-content: space-between;
-
-  > * {
-    max-width: 250px;
-  }
-}
-
 .ReactModal__Overlay {
   z-index: 20;
 }
