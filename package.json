@@ -1,6 +1,6 @@
 {
   "name": "bauhaus",
-  "version": "4.21.1",
+  "version": "4.22.0-rc0",
   "private": true,
   "description": "Web application for the management of concepts, classifications and other statistical objects",
   "license": "MIT",
