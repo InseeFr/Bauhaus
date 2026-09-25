@@ -31,7 +31,7 @@ export const Narrowers = ({ narrowers, classificationId, secondLang }: Props) =>
     </li>
   ));
 
-  let narrowersLg2: (JSX.Element | null)[] = [];
+  let narrowersLg2: (React.JSX.Element | null)[] = [];
   if (secondLang)
     narrowersLg2 = narrowers?.map((n) =>
       n.labelLg2 ? (

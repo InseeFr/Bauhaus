@@ -1,10 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
-import type { ReactNode } from "react";
+import { waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import { physicalInstanceFormData } from "./physicalInstanceFormData.testing";
+import { expectIdleMutation, renderMutationHook } from "./queryClient.testing";
 import { useCreatePhysicalInstance } from "./useCreatePhysicalInstance";
 
 vi.mock("../../sdk", () => ({
@@ -22,85 +22,57 @@ vi.mock("../../application/app-context", () => ({
 }));
 
 describe("useCreatePhysicalInstance", () => {
-  let queryClient: QueryClient;
+  const stubPost = (mockPost: ReturnType<typeof vi.fn>) => {
+    (DDIApi.postPhysicalInstance as any) = mockPost;
+    return mockPost;
+  };
 
-  const wrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
+  const mockPostResolving = (
+    topLevelReference: Record<string, string> = {
+      Agency: "fr.insee",
+      ID: "new-id",
+      Version: "1",
+      $type: "PhysicalInstance",
+    },
+  ) =>
+    stubPost(
+      vi.fn().mockResolvedValue({
+        topLevelReferences: [topLevelReference],
+        items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
+      }),
+    );
+
+  const mockPostRejecting = (message: string) =>
+    stubPost(vi.fn().mockRejectedValue(new Error(message)));
+
+  const renderCreate = () => renderMutationHook(() => useCreatePhysicalInstance());
 
   beforeEach(() => {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-        mutations: {
-          retry: false,
-        },
-      },
-    });
     vi.clearAllMocks();
   });
 
   it("should resolve id and agency from the real backend response shape (TopLevelReference / $type)", async () => {
-    const mockPost = vi.fn().mockResolvedValue({
-      topLevelReferences: [
-        {
-          $type: "PhysicalInstance",
-          URN: "urn:ddi:fr.insee:236b9453:1",
-          Agency: "fr.insee",
-          ID: "236b9453",
-          Version: "1",
-        },
-      ],
-      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
-    });
-    (DDIApi.postPhysicalInstance as any) = mockPost;
-
-    const { result } = renderHook(() => useCreatePhysicalInstance(), {
-      wrapper,
+    mockPostResolving({
+      $type: "PhysicalInstance",
+      URN: "urn:ddi:fr.insee:236b9453:1",
+      Agency: "fr.insee",
+      ID: "236b9453",
+      Version: "1",
     });
 
-    const created = await result.current.mutateAsync({
-      physicalInstanceLabel: "manu",
-      dataRelationshipLabel: "manu",
-      logicalRecordLabel: "manu",
-      groupId: "group-1",
-      groupAgency: "fr.insee",
-      studyUnitId: "su-1",
-      studyUnitAgency: "fr.insee",
-    });
+    const { result } = renderCreate();
+
+    const created = await result.current.mutateAsync(physicalInstanceFormData("manu"));
 
     expect(created).toEqual({ id: "236b9453", agency: "fr.insee" });
   });
 
   it("should call postPhysicalInstance API with correct parameters", async () => {
-    const mockPost = vi.fn().mockResolvedValue({
-      topLevelReferences: [
-        {
-          Agency: "fr.insee",
-          ID: "new-id",
-          Version: "1",
-          $type: "PhysicalInstance",
-        },
-      ],
-      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
-    });
-    (DDIApi.postPhysicalInstance as any) = mockPost;
+    const mockPost = mockPostResolving();
 
-    const { result } = renderHook(() => useCreatePhysicalInstance(), {
-      wrapper,
-    });
+    const { result } = renderCreate();
 
-    const testData = {
-      physicalInstanceLabel: "Test Label",
-      dataRelationshipLabel: "Test Label",
-      logicalRecordLabel: "Test Label",
-      groupId: "group-1",
-      groupAgency: "fr.insee",
-      studyUnitId: "su-1",
-      studyUnitAgency: "fr.insee",
-    };
+    const testData = physicalInstanceFormData();
 
     await result.current.mutateAsync(testData);
 
@@ -108,36 +80,12 @@ describe("useCreatePhysicalInstance", () => {
   });
 
   it("should invalidate physicalInstances query cache on successful mutation", async () => {
-    const mockPost = vi.fn().mockResolvedValue({
-      topLevelReferences: [
-        {
-          Agency: "fr.insee",
-          ID: "new-id",
-          Version: "1",
-          $type: "PhysicalInstance",
-        },
-      ],
-      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
-    });
-    (DDIApi.postPhysicalInstance as any) = mockPost;
+    mockPostResolving();
 
+    const { result, queryClient } = renderCreate();
     using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
-    const { result } = renderHook(() => useCreatePhysicalInstance(), {
-      wrapper,
-    });
-
-    const testData = {
-      physicalInstanceLabel: "Test Label",
-      dataRelationshipLabel: "Test Label",
-      logicalRecordLabel: "Test Label",
-      groupId: "group-1",
-      groupAgency: "fr.insee",
-      studyUnitId: "su-1",
-      studyUnitAgency: "fr.insee",
-    };
-
-    await result.current.mutateAsync(testData);
+    await result.current.mutateAsync(physicalInstanceFormData());
 
     await waitFor(() => {
       expect(invalidateQueriesSpy).toHaveBeenCalledWith({
@@ -147,60 +95,23 @@ describe("useCreatePhysicalInstance", () => {
   });
 
   it("should handle API errors correctly", async () => {
-    const mockError = new Error("Creation failed");
-    const mockPost = vi.fn().mockRejectedValue(mockError);
-    (DDIApi.postPhysicalInstance as any) = mockPost;
+    mockPostRejecting("Creation failed");
 
-    const { result } = renderHook(() => useCreatePhysicalInstance(), {
-      wrapper,
-    });
+    const { result } = renderCreate();
 
-    const testData = {
-      physicalInstanceLabel: "Test Label",
-      dataRelationshipLabel: "Test Label",
-      logicalRecordLabel: "Test Label",
-      groupId: "group-1",
-      groupAgency: "fr.insee",
-      studyUnitId: "su-1",
-      studyUnitAgency: "fr.insee",
-    };
-
-    await expect(result.current.mutateAsync(testData)).rejects.toThrow("Creation failed");
+    await expect(result.current.mutateAsync(physicalInstanceFormData())).rejects.toThrow(
+      "Creation failed",
+    );
   });
 
   it("should return mutation status correctly", async () => {
-    const mockPost = vi.fn().mockResolvedValue({
-      topLevelReferences: [
-        {
-          Agency: "fr.insee",
-          ID: "new-id",
-          Version: "1",
-          $type: "PhysicalInstance",
-        },
-      ],
-      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
-    });
-    (DDIApi.postPhysicalInstance as any) = mockPost;
+    mockPostResolving();
 
-    const { result } = renderHook(() => useCreatePhysicalInstance(), {
-      wrapper,
-    });
+    const { result } = renderCreate();
 
-    expect(result.current.isPending).toBe(false);
-    expect(result.current.isError).toBe(false);
-    expect(result.current.isSuccess).toBe(false);
+    expectIdleMutation(result.current);
 
-    const testData = {
-      physicalInstanceLabel: "Test Label",
-      dataRelationshipLabel: "Test Label",
-      logicalRecordLabel: "Test Label",
-      groupId: "group-1",
-      groupAgency: "fr.insee",
-      studyUnitId: "su-1",
-      studyUnitAgency: "fr.insee",
-    };
-
-    result.current.mutate(testData);
+    result.current.mutate(physicalInstanceFormData());
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);
@@ -208,32 +119,11 @@ describe("useCreatePhysicalInstance", () => {
   });
 
   it("should handle empty label and name", async () => {
-    const mockPost = vi.fn().mockResolvedValue({
-      topLevelReferences: [
-        {
-          Agency: "fr.insee",
-          ID: "new-id",
-          Version: "1",
-          $type: "PhysicalInstance",
-        },
-      ],
-      items: [{ $type: "PhysicalInstance", Agency: "fr.insee" }],
-    });
-    (DDIApi.postPhysicalInstance as any) = mockPost;
+    const mockPost = mockPostResolving();
 
-    const { result } = renderHook(() => useCreatePhysicalInstance(), {
-      wrapper,
-    });
+    const { result } = renderCreate();
 
-    const testData = {
-      physicalInstanceLabel: "",
-      dataRelationshipLabel: "",
-      logicalRecordLabel: "",
-      groupId: "group-1",
-      groupAgency: "fr.insee",
-      studyUnitId: "su-1",
-      studyUnitAgency: "fr.insee",
-    };
+    const testData = physicalInstanceFormData("");
 
     await result.current.mutateAsync(testData);
 
@@ -241,28 +131,13 @@ describe("useCreatePhysicalInstance", () => {
   });
 
   it("should not invalidate cache if mutation fails", async () => {
-    const mockError = new Error("API Error");
-    const mockPost = vi.fn().mockRejectedValue(mockError);
-    (DDIApi.postPhysicalInstance as any) = mockPost;
+    mockPostRejecting("API Error");
 
+    const { result, queryClient } = renderCreate();
     using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
 
-    const { result } = renderHook(() => useCreatePhysicalInstance(), {
-      wrapper,
-    });
-
-    const testData = {
-      physicalInstanceLabel: "Test Label",
-      dataRelationshipLabel: "Test Label",
-      logicalRecordLabel: "Test Label",
-      groupId: "group-1",
-      groupAgency: "fr.insee",
-      studyUnitId: "su-1",
-      studyUnitAgency: "fr.insee",
-    };
-
     try {
-      await result.current.mutateAsync(testData);
+      await result.current.mutateAsync(physicalInstanceFormData());
     } catch {
       // Expected to fail
     }

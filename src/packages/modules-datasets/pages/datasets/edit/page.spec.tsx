@@ -42,15 +42,11 @@ vi.mock("./validation", () => ({
 
 // `useAuthorizationGuard` n'est pas simulé : c'est la façon dont la page l'appelle
 // que ces tests couvrent. Seuls les hooks RBAC dont il dépend le sont.
-vi.mock("@utils/hooks/users", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@utils/hooks/users")>()),
-  usePrivileges: () => ({
-    privileges: [
-      { application: "DATASET_DATASET", privileges: [{ privilege: "CREATE", strategy: "ALL" }] },
-    ],
-  }),
-  useUserStamps: () => ({ data: [{ stamp: "DG75-L201" }] }),
-}));
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../users-hooks.testing")).usersHooksWithDatasetPrivileges(importOriginal, [
+    "CREATE",
+  ]),
+);
 
 vi.mock("@utils/creation/use-default-contributor", () => ({
   useDefaultContributor: () => "DG75-L001",
@@ -60,18 +56,12 @@ vi.mock("@utils/hooks/useTitle", () => ({ useTitle: vi.fn() }));
 
 vi.mock("@utils/hooks/useGoBack", () => ({ useGoBack: () => vi.fn() }));
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: (ns?: string, options?: any) => {
-      if (options?.i18n) {
-        return actual.useTranslation(ns, options);
-      }
-      return { t: (key: string) => key };
-    },
-  };
-});
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("../../../../tests/react-i18next.testing")).withMockedTranslation(
+    await importOriginal(),
+    { t: (key: string) => key },
+  ),
+);
 
 const editingDatasetProbe = ({ editingDataset }: { editingDataset: unknown }) => (
   <div data-testid="editing-dataset">{JSON.stringify(editingDataset)}</div>

@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "description": "Tests de bout en bout de Bauhaus (Playwright)",
+  "license": "ISC",
   "scripts": {
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "report": "playwright show-report"
   },
-  "license": "ISC",
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
     "@playwright/test": "^1.59.1",

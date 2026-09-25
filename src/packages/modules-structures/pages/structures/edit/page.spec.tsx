@@ -1,10 +1,9 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { StructureApi } from "@sdk/index";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { renderPageWithAppContext } from "../../../render.testing";
 import { Component } from "./page";
 
 const location = vi.fn();
@@ -43,14 +42,7 @@ const structure: any = {
   ],
 };
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = () => renderPageWithAppContext(<Component />);
 
 describe("Structures edit page", () => {
   beforeEach(() => {

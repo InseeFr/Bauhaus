@@ -12,13 +12,13 @@ Every endpoint is guarded by the module `DDI_PHYSICALINSTANCE`, written `ddi_phy
 
 The privileges are not distributed the way the object hierarchy might suggest — everything the module exposes, groups and study units included, is guarded by that single module:
 
-| Privilege | What it guards |
-|-----------|----------------|
-| `read` | Every listing and detail endpoint — physical instances, groups, study units, code lists, usages, conversions, schema |
-| `create` | Creating a physical instance, creating or updating a study unit |
-| `update` | `PATCH` and `PUT` on a physical instance |
-| `publish` | `POST /ddi/validate` |
-| `delete` | Nothing today — no endpoint of the module checks it. Deleting a variable is a local edit, saved through `update`. |
+| Privilege | What it guards                                                                                                       |
+| --------- | -------------------------------------------------------------------------------------------------------------------- |
+| `read`    | Every listing and detail endpoint — physical instances, groups, study units, code lists, usages, conversions, schema |
+| `create`  | Creating a physical instance, creating or updating a study unit                                                      |
+| `update`  | `PATCH` and `PUT` on a physical instance                                                                             |
+| `publish` | `POST /ddi/validate`                                                                                                 |
+| `delete`  | Nothing today — no endpoint of the module checks it. Deleting a variable is a local edit, saved through `update`.    |
 
 ## How a data file gets a stamp
 
@@ -54,11 +54,11 @@ The interface mirrors this: the create button is shown as soon as the `CREATE` s
 
 ## Roles granted by default
 
-| Role | Strategy |
-|------|----------|
+| Role                              | Strategy                   |
+| --------------------------------- | -------------------------- |
 | `Gestionnaire_variables_RMESGNCS` | `STAMP` on every privilege |
-| `Betatest_OeDDIp_RMESGNCS` | `ALL` on every privilege |
-| `Administrateur_RMESGNCS` | `ALL` on every privilege |
+| `Betatest_OeDDIp_RMESGNCS`        | `ALL` on every privilege   |
+| `Administrateur_RMESGNCS`         | `ALL` on every privilege   |
 
 See [Grant Access to the Variables Module](/Bauhaus/guides/variables/how-to/grant-access/) to change that.
 

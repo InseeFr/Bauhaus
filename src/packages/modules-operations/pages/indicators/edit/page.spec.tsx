@@ -1,5 +1,4 @@
-import { render, screen } from "@testing-library/react";
-import { useParams } from "react-router-dom";
+import { screen } from "@testing-library/react";
 import { Mock } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
@@ -9,25 +8,14 @@ import { useGoBack } from "@utils/hooks/useGoBack";
 import { useTitle } from "@utils/hooks/useTitle";
 
 import { CL_FREQ } from "../../../../constants/code-lists";
+import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
 
 const { editionProps } = vi.hoisted(() => ({ editionProps: vi.fn() }));
 
-vi.mock("react-router-dom", () => ({
-  useParams: vi.fn(),
-}));
-
-vi.mock("@utils/hooks/useGoBack", () => ({
-  useGoBack: vi.fn(),
-}));
-
-vi.mock("@utils/hooks/useTitle", () => ({
-  useTitle: vi.fn(),
-}));
-
-vi.mock("@utils/hooks/codelist", () => ({
-  useCodelist: vi.fn(),
-}));
+vi.mock("@utils/hooks/useGoBack");
+vi.mock("@utils/hooks/useTitle");
+vi.mock("@utils/hooks/codelist");
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: {
@@ -65,6 +53,10 @@ const series = [{ iri: "http://.../s1", id: "s1", label: "Ma série", altLabel: 
 
 const goBack = vi.fn();
 
+const renderCreation = () => renderAtRoute(<Component />, "/indicator/create", "/indicator/create");
+const renderModification = () =>
+  renderAtRoute(<Component />, "/indicator/:id/modify", "/indicator/i1/modify");
+
 beforeEach(() => {
   (useCodelist as Mock).mockReturnValue(frequencies);
   (useGoBack as Mock).mockReturnValue(goBack);
@@ -75,52 +67,40 @@ beforeEach(() => {
 
 describe("indicator edition page", () => {
   it("charge la liste des fréquences de collecte", () => {
-    (useParams as Mock).mockReturnValue({});
-
-    render(<Component />);
+    renderCreation();
 
     expect(useCodelist).toHaveBeenCalledWith(CL_FREQ);
   });
 
   it("attend l'indicateur avant d'afficher le formulaire en modification", () => {
-    (useParams as Mock).mockReturnValue({ id: "i1" });
-
-    render(<Component />);
+    renderModification();
 
     screen.getByText("Loading...");
   });
 
   it("affiche le formulaire dès que l'indicateur est chargé", async () => {
-    (useParams as Mock).mockReturnValue({ id: "i1" });
-
-    render(<Component />);
+    renderModification();
 
     await screen.findByText("Operations Indicator Edition Component");
     expect(OperationsApi.getIndicatorById).toHaveBeenCalledWith("i1");
   });
 
   it("affiche le formulaire sans attendre en création", async () => {
-    (useParams as Mock).mockReturnValue({});
-
-    render(<Component />);
+    renderCreation();
 
     await screen.findByText("Operations Indicator Edition Component");
     expect(OperationsApi.getIndicatorById).not.toHaveBeenCalled();
   });
 
   it("titre la page avec le libellé de l'indicateur édité", async () => {
-    (useParams as Mock).mockReturnValue({ id: "i1" });
-
-    render(<Component />);
+    renderModification();
 
     await screen.findByText("Operations Indicator Edition Component");
     expect(useTitle).toHaveBeenLastCalledWith(expect.any(String), "Mon indicateur");
   });
 
   it("transmet au formulaire l'indicateur, les listes de rattachement et le retour", async () => {
-    (useParams as Mock).mockReturnValue({ id: "i1" });
-
-    render(<Component />);
+    renderModification();
 
     await screen.findByText("Operations Indicator Edition Component");
     expect(editionProps).toHaveBeenLastCalledWith({
@@ -133,9 +113,7 @@ describe("indicator edition page", () => {
   });
 
   it("transmet un indicateur vide au formulaire en création", async () => {
-    (useParams as Mock).mockReturnValue({});
-
-    render(<Component />);
+    renderCreation();
 
     await screen.findByText("Operations Indicator Edition Component");
     expect(editionProps).toHaveBeenLastCalledWith(expect.objectContaining({ indicator: {} }));

@@ -1,134 +1,104 @@
-vi.mock("../../../i18n", () => ({
-  operationsI18n: {
-    t: (key: string, options?: { lng?: string; propertyName?: string }) => {
-      const translations: Record<string, Record<string, string>> = {
-        fr: {
-          "common.title": "Intitulé",
-          "common.year": "Millésime",
-        },
-        en: {
-          "common.title": "Title",
-          "common.serieTitle": "Serie",
-          "app.numberProperty":
-            "The property <strong>{{propertyName}}</strong> must be an integer.",
-        },
-      };
-      const lng = options?.lng || "en";
-      const template = translations[lng]?.[key] || key;
-      return options?.propertyName
-        ? template.replace("{{propertyName}}", options.propertyName)
-        : template;
-    },
-  },
-}));
+import { i18nStub, mandatoryPropertyError } from "@utils/validation.testing";
 
 import { validate } from "./validation";
 
-describe("validation", function () {
-  it("should return an error for prefLabelLg1", function () {
-    expect(
-      validate({
-        series: { id: "i" },
-        prefLabelLg1: "",
-        prefLabelLg2: "prefLabelLg2",
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Intitulé</strong> is required."],
-      fields: {
-        series: "",
-        prefLabelLg1: "The property <strong>Intitulé</strong> is required.",
-        prefLabelLg2: "",
-        year: "",
+vi.mock("../../../i18n", () => ({
+  operationsI18n: i18nStub(
+    {
+      fr: {
+        "common.title": "Intitulé",
+        "common.year": "Millésime",
       },
-    });
-  });
-  it("should return an error for prefLabelLg2", function () {
-    expect(
-      validate({
-        series: { id: "i" },
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "",
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Title</strong> is required."],
-      fields: {
-        series: "",
-        prefLabelLg1: "",
-        prefLabelLg2: "The property <strong>Title</strong> is required.",
-        year: "",
+      en: {
+        "common.title": "Title",
+        "common.serieTitle": "Serie",
+        "app.numberProperty": "The property <strong>{{propertyName}}</strong> must be an integer.",
       },
-    });
-  });
-  it("should return an error for series", function () {
-    expect(
-      validate({
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Serie</strong> is required."],
-      fields: {
-        series: "The property <strong>Serie</strong> is required.",
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        year: "",
-      },
-    });
-  });
-  it("should return an error if the year is not a number", function () {
-    expect(
-      validate({
-        series: { id: "i" },
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-        year: "aazeaz",
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Millésime</strong> must be an integer."],
-      fields: {
-        series: "",
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        year: "The property <strong>Millésime</strong> must be an integer.",
-      },
-    });
-  });
+    },
+    "en",
+  ),
+}));
 
-  it("should return an error if the year is not a float", function () {
-    expect(
-      validate({
-        series: { id: "i" },
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-        year: 5.4,
-      }),
-    ).toEqual({
-      errorMessage: ["The property <strong>Millésime</strong> must be an integer."],
-      fields: {
-        series: "",
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        year: "The property <strong>Millésime</strong> must be an integer.",
-      },
-    });
-  });
+const validOperation = {
+  series: { id: "i" },
+  prefLabelLg1: "prefLabelLg1",
+  prefLabelLg2: "prefLabelLg2",
+};
 
-  it("should return no error", function () {
-    expect(
-      validate({
-        series: { id: "i" },
-        prefLabelLg1: "prefLabelLg1",
-        prefLabelLg2: "prefLabelLg2",
-        year: 2020,
-      }),
-    ).toEqual({
+const NO_FIELD_ERROR = {
+  series: "",
+  prefLabelLg1: "",
+  prefLabelLg2: "",
+  year: "",
+};
+
+const titleLg1Required = mandatoryPropertyError("Intitulé");
+const titleLg2Required = mandatoryPropertyError("Title");
+const seriesRequired = mandatoryPropertyError("Serie");
+const yearMustBeAnInteger = "The property <strong>Millésime</strong> must be an integer.";
+
+const cases: {
+  name: string;
+  operation: Parameters<typeof validate>[0];
+  expected: ReturnType<typeof validate>;
+}[] = [
+  {
+    name: "should return an error for prefLabelLg1",
+    operation: { ...validOperation, prefLabelLg1: "" },
+    expected: {
+      errorMessage: [titleLg1Required],
+      fields: { ...NO_FIELD_ERROR, prefLabelLg1: titleLg1Required },
+    },
+  },
+  {
+    name: "should return an error for prefLabelLg2",
+    operation: { ...validOperation, prefLabelLg2: "" },
+    expected: {
+      errorMessage: [titleLg2Required],
+      fields: { ...NO_FIELD_ERROR, prefLabelLg2: titleLg2Required },
+    },
+  },
+  {
+    name: "should return an error for series",
+    operation: {
+      prefLabelLg1: "prefLabelLg1",
+      prefLabelLg2: "prefLabelLg2",
+    },
+    expected: {
+      errorMessage: [seriesRequired],
+      fields: { ...NO_FIELD_ERROR, series: seriesRequired },
+    },
+  },
+  {
+    name: "should return an error if the year is not a number",
+    operation: { ...validOperation, year: "aazeaz" },
+    expected: {
+      errorMessage: [yearMustBeAnInteger],
+      fields: { ...NO_FIELD_ERROR, year: yearMustBeAnInteger },
+    },
+  },
+  {
+    name: "should return an error if the year is not a float",
+    operation: { ...validOperation, year: 5.4 },
+    expected: {
+      errorMessage: [yearMustBeAnInteger],
+      fields: { ...NO_FIELD_ERROR, year: yearMustBeAnInteger },
+    },
+  },
+  {
+    name: "should return no error",
+    operation: { ...validOperation, year: 2020 },
+    expected: {
       errorMessage: [],
-      fields: {
-        series: "",
-        prefLabelLg1: "",
-        prefLabelLg2: "",
-        year: "",
-      },
+      fields: NO_FIELD_ERROR,
+    },
+  },
+];
+
+describe("validation", function () {
+  cases.forEach(({ name, operation, expected }) => {
+    it(name, function () {
+      expect(validate(operation)).toEqual(expected);
     });
   });
 });

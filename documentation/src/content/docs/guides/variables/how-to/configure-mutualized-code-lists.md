@@ -51,8 +51,8 @@ Only one strategy is active at a time; `mutualized-codes-package` is read only b
 
 ```yaml
 fr.insee.rmes.bauhaus.colectica:
-  mutualized-codes-cache-ttl: 24h      # Spring Duration; default 24h
-  cache-warmup-enabled: true           # pre-load at startup; default true
+  mutualized-codes-cache-ttl: 24h # Spring Duration; default 24h
+  cache-warmup-enabled: true # pre-load at startup; default true
 ```
 
 Lower the TTL if the shared vocabulary changes often; disable the warm-up if you want a faster startup and accept that the first user pays for the walk.

@@ -2,11 +2,21 @@ name: Build Documentation on PR
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    # Mêmes chemins que documentation-deploy.yml : sans ce filtre, toute PR —
+    # même sans rapport avec la documentation — installait les dépendances de
+    # l'application et reconstruisait l'intégralité de Storybook.
+    paths:
+      - .github/
+      - documentation/**
+      - .storybook/**
+      - src/**
 jobs:
   deploy:
     name: Build Documentation
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Use Generic CI For Documentation
         uses: ./.github/actions/generic-ci-documentation

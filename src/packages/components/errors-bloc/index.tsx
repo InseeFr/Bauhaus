@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { appI18n } from "../../i18n";
+import { sanitizeHtml } from "../../utils/sanitize-html";
 import "./errors-bloc.css";
 
 /**
@@ -19,7 +20,13 @@ export const ClientSideError = ({
     return null;
   }
 
-  return <div id={id} className="text-danger" dangerouslySetInnerHTML={{ __html: error }}></div>;
+  return (
+    <div
+      id={id}
+      className="text-danger"
+      dangerouslySetInnerHTML={{ __html: sanitizeHtml(error) }}
+    ></div>
+  );
 };
 
 export const GlobalClientSideErrorBloc = ({
@@ -76,7 +83,7 @@ export const ErrorBloc = ({ error }: { error?: unknown }) => {
 
   return formattedErrors.map((e, index) => (
     <div key={index} className="bauhaus-error-bloc alert alert-danger" role="alert">
-      <div dangerouslySetInnerHTML={{ __html: e }} />
+      <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(e) }} />
     </div>
   ));
 };

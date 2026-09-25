@@ -6,8 +6,8 @@ Testing Library reste dans `src/**/*.spec.tsx`.
 
 ## Parcours couverts
 
-| Fichier                                   | Parcours                                                            |
-| ----------------------------------------- | ------------------------------------------------------------------- |
+| Fichier                                   | Parcours                                                             |
+| ----------------------------------------- | -------------------------------------------------------------------- |
 | `smoke/modules.spec.ts`                   | Les 7 modules et les 9 formulaires de création s'ouvrent sans erreur |
 | `operations/series.spec.ts`               | Créer une série → la retrouver → la publier (+ validation client)    |
 | `operations/operations.spec.ts`           | Créer une opération → la publier → initialiser son rapport SIMS      |
@@ -32,10 +32,15 @@ pnpm e2e:stack   # GraphDB + minio + Back-Office, puis chargement des fixtures
 pnpm e2e         # les tests — Playwright démarre `pnpm start` tout seul
 ```
 
-`pnpm e2e:stack` (`scripts/e2e-stack.sh`) enchaîne `docker compose up -d` sur le
-compose du Back-Office, l'attente de GraphDB, `playwright/db/init.sh`, puis
-l'attente d'un `/api/healthcheck` en 200 — dans cet ordre, parce que le
-healthcheck sort en 500 tant que `init.sh` n'a pas créé les dépôts.
+`pnpm e2e:stack` (`scripts/e2e-stack.sh`) démarre GraphDB et minio (le compose
+racine `docker-compose.yml`, surchargé par `e2e/compose.e2e.yaml` qui retire
+Keycloak), attend GraphDB, lance `playwright/db/init.sh`, démarre le back puis
+attend un `/api/healthcheck` en 200 — dans cet ordre, parce que le back ne
+démarre pas proprement tant que `init.sh` n'a pas créé les dépôts.
+
+Le service `minio-init` dépose dans minio quelques fichiers de test
+(`containers/minio-seed/`) : les documents 66, 593 et 1070 se téléchargent
+(`GET /api/documents/document/{id}/file`), les autres répondent 404.
 
 Le tout prend **16 s** à froid (conteneurs supprimés) et **3 s** à chaud, dont
 3 à 4 s de chargement des fixtures. Le premier lancement construit en plus
@@ -69,7 +74,7 @@ Options utiles : `pnpm --dir e2e test --ui`, `--headed`, `--debug`,
 `pnpm --dir e2e report`.
 
 La procédure détaillée (prérequis, variables d'environnement, chronométrage, CI)
-est dans la documentation : *How to run end-to-end tests*.
+est dans la documentation : _How to run end-to-end tests_.
 
 ## Conventions
 
@@ -112,13 +117,12 @@ est dans la documentation : *How to run end-to-end tests*.
   clé. C'est la donnée qui est en cause, pas l'IHM : d'où l'absence de test de
   non-régression « sans doublon » sur cet écran, contrairement aux jeux de
   données.
-- **Le workflow CI épingle le Back-Office sur la branche `4.21.0`.** Le compose
-  du Back-Office n'est plus cassé *sur cette branche* : `context: ../..` +
-  `dockerfile: Dockerfile.bauhaus` y sont en place, et le back composé joint bien
-  les deux dépôts, minio et un répertoire de stockage inscriptible. Mais sur la
-  branche par défaut (`main`), `compose/bauhaus-back.yaml` déclare toujours
-  `build: ../Dockerfile.bauhaus` : la forme courte de `build` attend un contexte
-  de build, pas un Dockerfile, et l'étape « Start GraphDB and the Back-Office »
-  échoue sur « unable to prepare context ». Le `ref: 4.21.0` de
-  `.github/workflows/playwright.yml` reste donc nécessaire, à retirer une fois ce
-  correctif fusionné dans `main`.
+- **La CI choisit la branche du Back-Office par son nom.** Le workflow
+  `.github/workflows/playwright.yml` démarre GraphDB et le Back-Office, puis
+  confie Playwright à l'action partagée `playwright`
+  (InseeFr/rmes-githubactions-commons). Il teste contre la branche du
+  Back-Office qui porte le même nom que la branche du front, et retombe sur la
+  branche par défaut du Back-Office quand il n'y en a pas. Une évolution à cheval
+  sur les deux dépôts n'est donc testée d'un bloc que si les deux branches sont
+  nommées pareil ; sinon, lancer le workflow à la main en renseignant
+  `back-office-ref`.

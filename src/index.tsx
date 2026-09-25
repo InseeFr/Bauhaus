@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ComponentType } from "react";
+import { ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { useTranslation } from "react-i18next";
 
@@ -12,6 +12,7 @@ import { getLang } from "@utils/dictionary";
 
 import { AppContextProvider, type AppProperties } from "./packages/application/app-context";
 import { Root } from "./packages/application/router";
+import { createAppRouter } from "./packages/application/router/routes";
 import { OidcProvider } from "./packages/auth/create-oidc";
 import { appI18n } from "./packages/i18n";
 import "./packages/styles/main.css";
@@ -37,16 +38,6 @@ const ErrorBlock = () => {
   );
 };
 
-GeneralApi.getInit()
-  .then(
-    (res: any) => (res.ok ? res.json() : Promise.reject(res.statusText)),
-    (err: any) => {
-      renderApp(ErrorBlock, {}, { home: true });
-      return Promise.reject(err.toString());
-    },
-  )
-  .then((res: any) => renderApp(Root, res));
-
 /**
  * Données renvoyées par `GeneralApi.getInit()`. Sur le chemin d'erreur, l'API
  * n'a rien renvoyé : on rend la page d'erreur avec un état vide, d'où le
@@ -60,11 +51,7 @@ type InitState = {
   version: string;
 } & AppProperties;
 
-const renderApp = (
-  Component: ComponentType<{ home?: boolean }>,
-  initState: Partial<InitState>,
-  props?: { home: true },
-) => {
+const renderApp = (page: ReactNode, initState: Partial<InitState>) => {
   const { authType, lg1, lg2, version, ...properties } = initState;
 
   document.querySelector("html")!.setAttribute("lang", getLang());
@@ -84,7 +71,7 @@ const renderApp = (
         >
           <ApplicationTitle />
           <main>
-            <Component {...props} />
+            {page}
             <BackToTop />
           </main>
         </AppContextProvider>
@@ -92,3 +79,27 @@ const renderApp = (
     </OidcProvider>,
   );
 };
+
+/**
+ * `getInit` rejette déjà sur un statut HTTP en erreur ; le parsing est dans le même
+ * `try` pour qu'un corps non JSON (page HTML d'un proxy) mène aussi à la page
+ * d'erreur. Le rendu, lui, reste hors du `try` : une erreur de rendu n'est pas un
+ * échec de l'initialisation.
+ */
+const loadInitState = async (): Promise<any> => {
+  try {
+    const response: Response = await GeneralApi.getInit();
+    return await response.json();
+  } catch {
+    return undefined;
+  }
+};
+
+// En fin de module : `renderApp` doit être initialisé quand l'exécution reprend
+// après l'await.
+const initState = await loadInitState();
+if (initState === undefined) {
+  renderApp(<ErrorBlock />, {});
+} else {
+  renderApp(<Root router={createAppRouter(initState.modules)} />, initState);
+}

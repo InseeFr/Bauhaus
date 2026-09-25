@@ -1,13 +1,13 @@
-name: 'Build Documentation'
+name: "Build Documentation"
+description: Builds the Astro documentation and Storybook into ./website, ready to be deployed
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
-    - name: Install pnpm
-      uses: pnpm/action-setup@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 24
-        cache: "pnpm"
+    # Node et pnpm : les versions partagées, déclarées une seule fois dans le
+    # commons. Cette action lisait auparavant le `packageManager` du manifeste,
+    # qui n'existe plus — sans version ni de l'un ni de l'autre côté,
+    # pnpm/action-setup refuse de démarrer.
+    - uses: InseeFr/rmes-githubactions-commons/.github/actions/setup-front@main
     - name: 🏗️ Generate Astro Documentation
       shell: bash
       run: ./scripts/documentation-build.sh

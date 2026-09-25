@@ -1,40 +1,25 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { renderWithLoaderData } from "../../page.testing";
+import { mockMetadataStructure } from "../metadata-structure.testing";
 import { Component } from "./page";
-
-const loaderData = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual<typeof import("react-router-dom")>("react-router-dom")),
-  useLoaderData: () => loaderData(),
-  useParams: () => ({ id: "sims-1" }),
-}));
 
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: { getOwners: vi.fn(), exportSims: vi.fn() },
 }));
 
-const useMetadataStructure = vi.fn();
 const useSims = vi.fn();
 const publishSimsMutation = vi.fn();
-vi.mock("../../../hooks/useMetadataStructure", () => ({
-  useMetadataStructure: () => useMetadataStructure(),
-}));
-vi.mock("../../../hooks/useCodelists", () => ({
-  useCodelists: () => ({ codelists: { CL_1: [] } }),
-}));
+vi.mock("../../../hooks/useMetadataStructure");
+vi.mock("../../../hooks/useCodelists", () => import("../msd-hooks.testing"));
 vi.mock("../../../hooks/useSims", () => ({
   useSims: () => useSims(),
   usePublishSims: () => ({ mutateAsync: publishSimsMutation }),
 }));
-vi.mock("@utils/hooks/organizations", () => ({
-  useOrganizations: () => ({ data: [{ id: "org-1" }] }),
-}));
+vi.mock("@utils/hooks/organizations", () => import("../msd-hooks.testing"));
 vi.mock("../hooks/useDocumentsList", () => ({
   useDocumentsList: () => ({ documentStores: [], setDocumentStores: vi.fn() }),
 }));
@@ -58,27 +43,23 @@ vi.mock("../components/MSDLayout", () => ({
 
 const onPublishError = vi.fn();
 
+let loaderData: unknown;
+
 const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+  renderWithLoaderData(<Component />, loaderData, { path: "/sims/:id", url: "/sims/sims-1" });
 
 describe("Sims view page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    loaderData.mockReturnValue({ baseUrl: "/operations/sims", disableSectionAnchor: false });
-    useMetadataStructure.mockReturnValue({ isLoading: false, metadataStructure: {} });
+    loaderData = { baseUrl: "/operations/sims", disableSectionAnchor: false };
+    mockMetadataStructure({ loaded: true });
     useSims.mockReturnValue({ isLoading: false, sims: { id: "sims-1", labelLg1: "Rapport" } });
     vi.mocked(OperationsApi.getOwners).mockResolvedValue([{ id: "owner-1" }]);
     vi.mocked(OperationsApi.exportSims).mockResolvedValue(new Set(["doc-1"]));
   });
 
   it("affiche le chargement tant que la structure de métadonnées n'est pas là", () => {
-    useMetadataStructure.mockReturnValue({ isLoading: true, metadataStructure: undefined });
+    mockMetadataStructure({ loaded: false });
     renderPage();
 
     expect(screen.getByText(/Loading/i)).toBeInTheDocument();
@@ -148,7 +129,7 @@ describe("Sims view page", () => {
   });
 
   it("retombe sur des valeurs par défaut quand le loader ne fournit rien", () => {
-    loaderData.mockReturnValue(undefined);
+    loaderData = undefined;
     renderPage();
 
     expect(screen.getByTestId("msd-")).toBeInTheDocument();

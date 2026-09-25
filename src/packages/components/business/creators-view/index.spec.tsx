@@ -16,6 +16,19 @@ const organizations = [
 const mockUseOrganizations = (data: unknown = organizations) =>
   vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({ data } as any);
 
+const expectListItemLabels = (container: HTMLElement, labels: string[]) => {
+  const listItems = container.querySelectorAll("li");
+  expect(listItems).toHaveLength(labels.length);
+  labels.forEach((label, index) => expect(listItems[index].textContent).toBe(label));
+};
+
+const expectEmptyNote = (container: HTMLElement) => {
+  expect(screen.getByText("Propriétaire")).toBeInTheDocument();
+  const paragraph = container.querySelector("p");
+  expect(paragraph).toBeInTheDocument();
+  expect(paragraph?.textContent).toBe("");
+};
+
 describe("InseeOrganizationNotes", () => {
   describe("Label mapping", () => {
     it("should map single organization ID to label", () => {
@@ -86,11 +99,7 @@ describe("InseeOrganizationNotes", () => {
         <InseeOrganizationNotes organizations={["DG75-L201", "DG75-L202", "DG75-G001"]} />,
       );
 
-      const listItems = container.querySelectorAll("li");
-      expect(listItems).toHaveLength(3);
-      expect(listItems[0].textContent).toBe("INSEE");
-      expect(listItems[1].textContent).toBe("DARES");
-      expect(listItems[2].textContent).toBe("Direction Générale");
+      expectListItemLabels(container, ["INSEE", "DARES", "Direction Générale"]);
     });
 
     it("should handle mix of known and unknown IDs in list", () => {
@@ -99,11 +108,7 @@ describe("InseeOrganizationNotes", () => {
         <InseeOrganizationNotes organizations={["DG75-L201", "unknown-org", "DG75-G001"]} />,
       );
 
-      const listItems = container.querySelectorAll("li");
-      expect(listItems).toHaveLength(3);
-      expect(listItems[0].textContent).toBe("INSEE");
-      expect(listItems[1].textContent).toBe("");
-      expect(listItems[2].textContent).toBe("Direction Générale");
+      expectListItemLabels(container, ["INSEE", "", "Direction Générale"]);
     });
   });
 
@@ -112,20 +117,14 @@ describe("InseeOrganizationNotes", () => {
       using _spy = mockUseOrganizations();
       const { container } = render(<InseeOrganizationNotes organizations={undefined} />);
 
-      expect(screen.getByText("Propriétaire")).toBeInTheDocument();
-      const paragraph = container.querySelector("p");
-      expect(paragraph).toBeInTheDocument();
-      expect(paragraph?.textContent).toBe("");
+      expectEmptyNote(container);
     });
 
     it("should render empty note when organizations is empty array", () => {
       using _spy = mockUseOrganizations();
       const { container } = render(<InseeOrganizationNotes organizations={[]} />);
 
-      expect(screen.getByText("Propriétaire")).toBeInTheDocument();
-      const paragraph = container.querySelector("p");
-      expect(paragraph).toBeInTheDocument();
-      expect(paragraph?.textContent).toBe("");
+      expectEmptyNote(container);
     });
 
     it("should render empty body when organizations are still loading", () => {

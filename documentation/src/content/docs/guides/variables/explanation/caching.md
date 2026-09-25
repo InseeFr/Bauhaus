@@ -10,11 +10,11 @@ The backend therefore memoises them in an **in-process Caffeine cache**, driven 
 
 ## The three cache regions
 
-| Region | Content | Populated by |
-|--------|---------|--------------|
-| `mutualizedCodesLists` | The code list summaries (agency, id, label, name, version date) returned by `GET /ddi/mutualized-codes-list` | `DDIRepository.getMutualizedCodesLists()` |
-| `mutualizedPackageCodeListRefs` | The deduplicated set of every `CodeList` reference considered mutualized | `MutualizedCodeListRefsProvider` / `ConfiguredGroupsCodeListRefsProvider` |
-| `physicalInstanceSearchRows` | The rows of `GET /ddi/physical-instance/search`, joining each physical instance to its study unit and group | `DDIRepository.getPhysicalInstanceSearchRows()` |
+| Region                          | Content                                                                                                      | Populated by                                                              |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| `mutualizedCodesLists`          | The code list summaries (agency, id, label, name, version date) returned by `GET /ddi/mutualized-codes-list` | `DDIRepository.getMutualizedCodesLists()`                                 |
+| `mutualizedPackageCodeListRefs` | The deduplicated set of every `CodeList` reference considered mutualized                                     | `MutualizedCodeListRefsProvider` / `ConfiguredGroupsCodeListRefsProvider` |
+| `physicalInstanceSearchRows`    | The rows of `GET /ddi/physical-instance/search`, joining each physical instance to its study unit and group  | `DDIRepository.getPhysicalInstanceSearchRows()`                           |
 
 The region names are declared once in `ColecticaCacheNames`, shared between the `@Cacheable` annotations in `module-ddi` and the `CacheManager` in `module-bauhaus-bo`, so both always refer to the same regions.
 
@@ -42,7 +42,7 @@ The warm-up is deliberately unobtrusive:
 Disable it with:
 
 ```yaml
-fr.insee.rmes.bauhaus.colectica.cache-warmup-enabled: false   # default: true
+fr.insee.rmes.bauhaus.colectica.cache-warmup-enabled: false # default: true
 ```
 
 ## Invalidation
@@ -65,10 +65,10 @@ In both cases the value `no-cache` **or** `no-store` — matched case-insensitiv
 
 The two endpoints differ in what they flush:
 
-| Endpoint | Regions evicted |
-|----------|-----------------|
-| `GET /ddi/mutualized-codes-list` | `mutualizedCodesLists` **and** `mutualizedPackageCodeListRefs` |
-| `GET /ddi/physical-instance/search` | `physicalInstanceSearchRows` |
+| Endpoint                            | Regions evicted                                                |
+| ----------------------------------- | -------------------------------------------------------------- |
+| `GET /ddi/mutualized-codes-list`    | `mutualizedCodesLists` **and** `mutualizedPackageCodeListRefs` |
+| `GET /ddi/physical-instance/search` | `physicalInstanceSearchRows`                                   |
 
 The mutualized listing flushes both of its regions together: evicting only the high-level list would recompute it from a stale package tree.
 

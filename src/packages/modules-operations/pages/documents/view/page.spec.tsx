@@ -1,18 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { GeneralApi } from "@sdk/general-api";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
-
-const location = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
-  useParams: () => ({ id: "doc-1" }),
-  useLocation: () => location(),
-}));
 
 vi.mock("@sdk/general-api", () => ({ GeneralApi: { getDocument: vi.fn() } }));
 vi.mock("@utils/hooks/codelist", () => ({
@@ -31,19 +23,12 @@ vi.mock("./components/OperationsDocumentationVisualization", () => ({
 }));
 vi.mock("./menu", () => ({ Menu: ({ type }: any) => <nav>menu:{type}</nav> }));
 
-const renderPage = () =>
-  render(
-    <AppContextProvider lg1="fr" lg2="en" version="2.0.0" properties={{} as any}>
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = (url = "/operations/document/doc-1") =>
+  renderAtRoute(<Component />, "/operations/:type/:id", url);
 
 describe("Documents view page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    location.mockReturnValue({ pathname: "/operations/document/doc-1" });
     vi.mocked(GeneralApi.getDocument).mockResolvedValue({
       uri: "http://bauhaus/documents/doc-1",
       labelLg1: "Notice FR",
@@ -68,8 +53,7 @@ describe("Documents view page", () => {
   });
 
   it("reconnaît un lien à son chemin", async () => {
-    location.mockReturnValue({ pathname: "/operations/link/doc-1" });
-    renderPage();
+    renderPage("/operations/link/doc-1");
 
     await waitFor(() => expect(screen.getByText("type:link")).toBeInTheDocument());
     expect(GeneralApi.getDocument).toHaveBeenCalledWith("doc-1", "link");

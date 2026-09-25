@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, useLocation } from "react-router-dom";
 
+import { createTestQueryClient } from "../../../testing/query-client.testing";
 import { Component } from "./page";
 
 const translations: Record<string, string> = {
@@ -9,11 +10,9 @@ const translations: Record<string, string> = {
   "common.btnValid": "Publier",
 };
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => translations[key] ?? key,
-  }),
-}));
+vi.mock("react-i18next", async () =>
+  (await import("../../../testing/i18n.testing")).translatingWith(() => translations),
+);
 
 vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
@@ -61,15 +60,11 @@ const VALIDATION_ROUTE = "/concepts/collections/validation";
 
 const LocationProbe = () => <span data-testid="location">{useLocation().pathname}</span>;
 
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-  return ({ children }: { children: React.ReactNode }) => (
+type Wrapper = ({ children }: { children: React.ReactNode }) => React.JSX.Element;
+
+const createWrapper = (): Wrapper => {
+  const queryClient = createTestQueryClient();
+  return ({ children }) => (
     <QueryClientProvider client={queryClient}>
       <MemoryRouter initialEntries={[VALIDATION_ROUTE]}>
         {children}
@@ -77,6 +72,33 @@ const createWrapper = () => {
       </MemoryRouter>
     </QueryClientProvider>
   );
+};
+
+const renderPage = (wrapper: Wrapper = createWrapper()) => render(<Component />, { wrapper });
+
+const waitForTestId = (testId: string) =>
+  waitFor(() => {
+    expect(screen.getByTestId(testId)).toBeInTheDocument();
+  });
+
+const waitForCount = (count: string) =>
+  waitFor(() => {
+    expect(screen.getByTestId("collections-count")).toHaveTextContent(count);
+  });
+
+const clickValidate = () =>
+  act(async () => {
+    screen.getByTestId("validate-button").click();
+  });
+
+/** Rend la page, attend que la liste soit prête puis déclenche la publication. */
+const renderAndPublish = async ({
+  wrapper,
+  readyTestId = "validate-button",
+}: { wrapper?: Wrapper; readyTestId?: string } = {}) => {
+  renderPage(wrapper);
+  await waitForTestId(readyTestId);
+  await clickValidate();
 };
 
 describe("Collection Validation Home Container", () => {
@@ -103,7 +125,7 @@ describe("Collection Validation Home Container", () => {
         }),
       );
 
-      render(<Component />, { wrapper: createWrapper() });
+      renderPage();
 
       expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
 
@@ -117,7 +139,7 @@ describe("Collection Validation Home Container", () => {
     it("should hide loading indicator after collections are fetched", async () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
 
-      render(<Component />, { wrapper: createWrapper() });
+      renderPage();
 
       await waitFor(() => {
         expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
@@ -129,11 +151,9 @@ describe("Collection Validation Home Container", () => {
     it("should display collections after successful fetch", async () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
 
-      render(<Component />, { wrapper: createWrapper() });
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
-      });
+      await waitForTestId("collections-to-validate");
 
       expect(screen.getByTestId("collections-count")).toHaveTextContent("3");
     });
@@ -141,11 +161,9 @@ describe("Collection Validation Home Container", () => {
     it("should display empty list when no collections to validate", async () => {
       mockGetCollectionValidateList.mockResolvedValue([]);
 
-      render(<Component />, { wrapper: createWrapper() });
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
-      });
+      await waitForTestId("collections-to-validate");
 
       expect(screen.getByTestId("collections-count")).toHaveTextContent("0");
     });
@@ -156,15 +174,7 @@ describe("Collection Validation Home Container", () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList.mockResolvedValue({});
 
-      render(<Component />, { wrapper: createWrapper() });
-
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
-
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
+      await renderAndPublish();
 
       await waitFor(() => {
         expect(mockPutCollectionValidList).toHaveBeenCalledWith(["1", "2"]);
@@ -175,15 +185,7 @@ describe("Collection Validation Home Container", () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList.mockResolvedValue({});
 
-      render(<Component />, { wrapper: createWrapper() });
-
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
-
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
+      await renderAndPublish();
 
       await waitFor(() => {
         expect(mockPutCollectionValidList).toHaveBeenCalledTimes(1);
@@ -197,11 +199,9 @@ describe("Collection Validation Home Container", () => {
       const { useTitle } = await import("@utils/hooks/useTitle");
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
 
-      render(<Component />, { wrapper: createWrapper() });
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
-      });
+      await waitForTestId("collections-to-validate");
 
       expect(useTitle).toHaveBeenCalledWith(
         translations["collection.title"],
@@ -214,11 +214,9 @@ describe("Collection Validation Home Container", () => {
     it("should handle empty collection list from API", async () => {
       mockGetCollectionValidateList.mockResolvedValue([]);
 
-      render(<Component />, { wrapper: createWrapper() });
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-count")).toHaveTextContent("0");
-      });
+      await waitForCount("0");
     });
 
     it("should handle single collection validation", async () => {
@@ -226,11 +224,9 @@ describe("Collection Validation Home Container", () => {
         { id: "1", label: "Single Collection", creator: "DG75-L201" },
       ]);
 
-      render(<Component />, { wrapper: createWrapper() });
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-count")).toHaveTextContent("1");
-      });
+      await waitForCount("1");
     });
 
     it("should handle large number of collections", async () => {
@@ -242,11 +238,9 @@ describe("Collection Validation Home Container", () => {
 
       mockGetCollectionValidateList.mockResolvedValue(largeCollections);
 
-      render(<Component />, { wrapper: createWrapper() });
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-count")).toHaveTextContent("100");
-      });
+      await waitForCount("100");
     });
   });
 
@@ -255,15 +249,7 @@ describe("Collection Validation Home Container", () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList.mockResolvedValue({});
 
-      render(<Component />, { wrapper: createWrapper() });
-
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
-      });
-
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
+      await renderAndPublish({ readyTestId: "collections-to-validate" });
 
       await waitFor(() => {
         expect(mockPutCollectionValidList).toHaveBeenCalledWith(["1", "2"]);
@@ -280,15 +266,7 @@ describe("Collection Validation Home Container", () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList.mockResolvedValue({});
 
-      render(<Component />, { wrapper: createWrapper() });
-
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
-
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
+      await renderAndPublish();
 
       await waitFor(() => {
         expect(mockPutCollectionValidList).toHaveBeenCalled();
@@ -302,19 +280,13 @@ describe("Collection Validation Home Container", () => {
         .mockResolvedValue([mockCollections[2]]);
       mockPutCollectionValidList.mockResolvedValue({});
 
-      render(<Component />, { wrapper: createWrapper() });
+      renderPage();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-count")).toHaveTextContent("3");
-      });
+      await waitForCount("3");
 
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
+      await clickValidate();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-count")).toHaveTextContent("1");
-      });
+      await waitForCount("1");
     });
 
     it("should report the message returned by the back-office when the publication fails", async () => {
@@ -324,15 +296,7 @@ describe("Collection Validation Home Container", () => {
         status: 400,
       });
 
-      render(<Component />, { wrapper: createWrapper() });
-
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
-
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
+      await renderAndPublish();
 
       await waitFor(() => {
         expect(screen.getByTestId("server-side-error")).toHaveTextContent(
@@ -347,22 +311,12 @@ describe("Collection Validation Home Container", () => {
         .mockRejectedValueOnce({ detail: "Collections already published: c1000", status: 400 })
         .mockResolvedValue({});
 
-      render(<Component />, { wrapper: createWrapper() });
-
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
-
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
+      await renderAndPublish();
       await waitFor(() => {
         expect(screen.getByTestId("server-side-error")).not.toBeEmptyDOMElement();
       });
 
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
+      await clickValidate();
 
       await waitFor(() => {
         expect(screen.getByTestId("server-side-error")).toBeEmptyDOMElement();
@@ -373,19 +327,9 @@ describe("Collection Validation Home Container", () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList.mockRejectedValue(new Error("400"));
 
-      render(<Component />, { wrapper: createWrapper() });
+      await renderAndPublish();
 
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
-
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
-
-      await waitFor(() => {
-        expect(screen.getByTestId("collections-to-validate")).toBeInTheDocument();
-      });
+      await waitForTestId("collections-to-validate");
       expect(screen.queryByText("Publishing in progress...")).not.toBeInTheDocument();
     });
   });
@@ -395,9 +339,7 @@ describe("Collection Validation Home Container", () => {
       mockGetCollectionValidateList.mockResolvedValue(mockCollections);
       mockPutCollectionValidList.mockResolvedValue({});
 
-      const queryClient = new QueryClient({
-        defaultOptions: { queries: { retry: false } },
-      });
+      const queryClient: QueryClient = createTestQueryClient();
       using invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
       const wrapper = ({ children }: { children: React.ReactNode }) => (
         <QueryClientProvider client={queryClient}>
@@ -405,15 +347,7 @@ describe("Collection Validation Home Container", () => {
         </QueryClientProvider>
       );
 
-      render(<Component />, { wrapper });
-
-      await waitFor(() => {
-        expect(screen.getByTestId("validate-button")).toBeInTheDocument();
-      });
-
-      await act(async () => {
-        screen.getByTestId("validate-button").click();
-      });
+      await renderAndPublish({ wrapper });
 
       await waitFor(() => {
         expect(invalidateSpy).toHaveBeenCalledWith({ queryKey: ["collections"] });

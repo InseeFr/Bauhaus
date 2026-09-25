@@ -13,7 +13,7 @@ export interface TableTypes {
       broader: string;
       narrower: string;
       closeMatch: string;
-      actions: JSX.Element;
+      actions: React.JSX.Element;
     }[];
   total: number;
   state: {

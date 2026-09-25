@@ -31,16 +31,16 @@ graph TD
     MMVR -->|MissingCodeRepresentation| CL
 ```
 
-| Object | What it represents |
-|--------|--------------------|
-| `Group` | A statistical operation **series**. Carries `seriesIris`, the IRIs of the Bauhaus series it mirrors. |
-| `StudyUnit` | A statistical **operation**. Carries `operationIri`, the IRI of the Bauhaus operation it mirrors. |
-| `PhysicalInstance` | A **data file** — the object users create and edit in the module. |
-| `DataRelationship` | The structure of that file. One per physical instance, created with it. |
-| `LogicalRecord` | One record type inside the structure, holding the list of variables. |
-| `Variable` | One column of the file, with a name, labels, and a representation. |
-| `CodeList` / `Category` | The permitted values of a coded variable, and the meaning of each. |
-| `ManagedMissingValuesRepresentation` | A reusable set of **sentinel values** (missing-value codes) attached to a variable. |
+| Object                               | What it represents                                                                                   |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `Group`                              | A statistical operation **series**. Carries `seriesIris`, the IRIs of the Bauhaus series it mirrors. |
+| `StudyUnit`                          | A statistical **operation**. Carries `operationIri`, the IRI of the Bauhaus operation it mirrors.    |
+| `PhysicalInstance`                   | A **data file** — the object users create and edit in the module.                                    |
+| `DataRelationship`                   | The structure of that file. One per physical instance, created with it.                              |
+| `LogicalRecord`                      | One record type inside the structure, holding the list of variables.                                 |
+| `Variable`                           | One column of the file, with a name, labels, and a representation.                                   |
+| `CodeList` / `Category`              | The permitted values of a coded variable, and the meaning of each.                                   |
+| `ManagedMissingValuesRepresentation` | A reusable set of **sentinel values** (missing-value codes) attached to a variable.                  |
 
 ## Creating a data file creates three objects
 
@@ -50,18 +50,18 @@ The same is true of duplication: duplicating a data file duplicates the whole ch
 
 ## Schemes: where objects are filed
 
-Colectica does not let items float. Every code list, category and variable must be filed under a *scheme*, and every scheme under a `LogicalProduct`. The module applies a fixed placement rule, and applies it automatically when you save.
+Colectica does not let items float. Every code list, category and variable must be filed under a _scheme_, and every scheme under a `LogicalProduct`. The module applies a fixed placement rule, and applies it automatically when you save.
 
-| Object saved | Filed under | Which belongs to |
-|--------------|-------------|------------------|
-| CodeList | `CodeListScheme` | the parent **Group** |
-| Category | `CategoryScheme` | the parent **Group** |
-| ManagedMissingValuesRepresentation | `ManagedRepresentationScheme` | the parent **Group** |
-| Variable | `VariableScheme` | the parent **StudyUnit** |
+| Object saved                       | Filed under                   | Which belongs to         |
+| ---------------------------------- | ----------------------------- | ------------------------ |
+| CodeList                           | `CodeListScheme`              | the parent **Group**     |
+| Category                           | `CategoryScheme`              | the parent **Group**     |
+| ManagedMissingValuesRepresentation | `ManagedRepresentationScheme` | the parent **Group**     |
+| Variable                           | `VariableScheme`              | the parent **StudyUnit** |
 
 Code lists and categories sit at the **group** level because that is the scope over which they are meant to be reused: several data files of the same series can point at the same list. Variables sit at the **study unit** level because they describe one operation's files.
 
-If a required scheme does not exist yet, the save creates it — along with a `LogicalProduct` to hold it when the group or study unit has none. All the schemes created for a given group are filed under a *single* logical product, so a group never ends up with its code list scheme and its category scheme in two different branches.
+If a required scheme does not exist yet, the save creates it — along with a `LogicalProduct` to hold it when the group or study unit has none. All the schemes created for a given group are filed under a _single_ logical product, so a group never ends up with its code list scheme and its category scheme in two different branches.
 
 Everything a save touches — the physical instance, its variables, the new lists and categories, the schemes that had to be provisioned, and the parent items that had to be updated to reference them — is written to Colectica in **one atomic batch**.
 
@@ -75,7 +75,7 @@ Every DDI item is identified by a triple, which is why almost every route in the
 
 The canonical form is a URN: `urn:ddi:fr.insee:586a6306-c67d-4fda-a0ce-7e96564bda58:1`.
 
-An item's label is *not* part of its identity. Renaming a code list does not create a new one — see [Code Lists and Categories](/Bauhaus/guides/variables/explanation/code-lists-and-categories/).
+An item's label is _not_ part of its identity. Renaming a code list does not create a new one — see [Code Lists and Categories](/Bauhaus/guides/variables/explanation/code-lists-and-categories/).
 
 ## The link back to Operations
 

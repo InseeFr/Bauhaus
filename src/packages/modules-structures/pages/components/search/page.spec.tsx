@@ -1,36 +1,18 @@
-import { waitFor } from "@testing-library/react";
-
-import { getListItems } from "@components/ui/list-group/testing";
-
-import { ConceptsApi, StructureApi } from "@sdk/index";
-
-import { useUrlQueryParameters } from "@utils/hooks/useUrlQueryParameters";
-
-import { renderWithRouter } from "../../../../tests/render";
+import {
+  creatorAndValidationStateCases,
+  itBehavesAsAnAdvancedSearchPage,
+  ORGANIZATION_IRI,
+  OTHER_ORGANIZATION_IRI,
+} from "../../search.testing";
 import { Component } from "./page";
 
 vi.mock("@utils/hooks/useUrlQueryParameters");
 
-vi.mock("@sdk/index", () => ({
-  StructureApi: {
-    getMutualizedComponentsForSearch: vi.fn(),
-  },
-  ConceptsApi: {
-    getConceptList: vi.fn(),
-  },
-}));
+vi.mock("@sdk/index", async () =>
+  (await import("../../../mocks.testing")).searchPageApi("getMutualizedComponentsForSearch"),
+);
 
-vi.mock("@components/business/creators-input", () => ({
-  CreatorsInput: ({ value, onChange }: { value?: string; onChange: (value: string) => void }) => (
-    <input
-      data-testid="creators-input"
-      value={value ?? ""}
-      onChange={(e) => onChange(e.target.value)}
-    />
-  ),
-}));
-
-const ORGANIZATION_IRI = "http://bauhaus/organizations/insee/HIE2000001";
+vi.mock("@components/business/creators-input", () => import("../../creators-input.testing"));
 
 const data = [
   {
@@ -46,7 +28,7 @@ const data = [
     labelLg1: "another",
     type: "MEASURE",
     concept: "c2",
-    creator: "http://bauhaus/organizations/insee/OTHER",
+    creator: OTHER_ORGANIZATION_IRI,
     validationState: "Validated",
   },
   {
@@ -59,48 +41,16 @@ const data = [
   },
 ];
 
-const renderPage = async (form = {}) => {
-  vi.mocked(useUrlQueryParameters).mockReturnValue({
-    form,
-    setForm: vi.fn(),
-    reset: vi.fn(),
-    handleChange: vi.fn(),
-  });
-  const result = renderWithRouter(<Component />);
-  await waitFor(() => {
-    expect(result.container.querySelector(".component-search-form")).not.toBeNull();
-  });
-  return result;
-};
-
 describe("<SearchFormList /> component-search", () => {
-  beforeEach(() => {
-    StructureApi.getMutualizedComponentsForSearch.mockResolvedValue(data);
-    ConceptsApi.getConceptList.mockResolvedValue([]);
-  });
-
-  it("returns all data when the form is empty", async () => {
-    const { container } = await renderPage({});
-    expect(getListItems(container)).toHaveLength(3);
-  });
-
-  it("filters by label", async () => {
-    const { container } = await renderPage({ labelLg1: "test" });
-    expect(getListItems(container)).toHaveLength(1);
-  });
-
-  it("filters by creator (organization IRI)", async () => {
-    const { container } = await renderPage({ creator: ORGANIZATION_IRI });
-    expect(getListItems(container)).toHaveLength(2);
-  });
-
-  it("filters by validation state", async () => {
-    const { container } = await renderPage({ validationState: "Unpublished" });
-    expect(getListItems(container)).toHaveLength(1);
-  });
-
-  it("renders the CreatorsInput (not a stamp dropdown) for the creator filter", async () => {
-    const { getByTestId } = await renderPage({ creator: ORGANIZATION_IRI });
-    expect(getByTestId("creators-input")).toHaveValue(ORGANIZATION_IRI);
+  itBehavesAsAnAdvancedSearchPage({
+    Component,
+    formSelector: ".component-search-form",
+    searchMethod: "getMutualizedComponentsForSearch",
+    data,
+    cases: [
+      { name: "returns all data when the form is empty", form: {}, expected: 3 },
+      { name: "filters by label", form: { labelLg1: "test" }, expected: 1 },
+      ...creatorAndValidationStateCases,
+    ],
   });
 });

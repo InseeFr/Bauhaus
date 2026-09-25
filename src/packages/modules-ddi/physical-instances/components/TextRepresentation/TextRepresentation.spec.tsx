@@ -4,34 +4,41 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { TextRepresentation as TextRepresentationType } from "../../types/api";
 import { TextRepresentation } from "./TextRepresentation";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "physicalInstance.view.text.minLength": "Taille minimale",
-        "physicalInstance.view.text.maxLength": "Taille maximale",
-        "physicalInstance.view.text.regExp": "Expression régulière",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("../representation.testing")).mockTranslations({
+    "physicalInstance.view.text.minLength": "Taille minimale",
+    "physicalInstance.view.text.maxLength": "Taille maximale",
+    "physicalInstance.view.text.regExp": "Expression régulière",
   }),
-}));
+);
 
-vi.mock("primereact/inputtext", () => ({
-  InputText: ({ id, value, onChange, type, ...props }: any) => (
-    <input id={id} type={type} value={value} onChange={onChange} {...props} />
-  ),
-}));
+vi.mock("primereact/inputtext", () => import("../representation.testing"));
 
 describe("TextRepresentation", () => {
   const mockOnChange = vi.fn();
+
+  const filledRepresentation: TextRepresentationType = {
+    $type: "TextRepresentationBaseType",
+    MinLength: 5,
+    MaxLength: 100,
+    RegExp: "^[A-Z]+$",
+  };
+
+  const renderText = (representation?: TextRepresentationType) =>
+    render(<TextRepresentation representation={representation} onChange={mockOnChange} />);
+
+  const getInputs = () => ({
+    minLengthInput: screen.getByLabelText("Taille minimale") as HTMLInputElement,
+    maxLengthInput: screen.getByLabelText("Taille maximale") as HTMLInputElement,
+    regExpInput: screen.getByLabelText("Expression régulière") as HTMLInputElement,
+  });
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("should render all three input fields", () => {
-    render(<TextRepresentation representation={undefined} onChange={mockOnChange} />);
+    renderText();
 
     expect(screen.getByLabelText("Taille minimale")).toBeInTheDocument();
     expect(screen.getByLabelText("Taille maximale")).toBeInTheDocument();
@@ -39,18 +46,9 @@ describe("TextRepresentation", () => {
   });
 
   it("should display initial values from representation", () => {
-    const representation: TextRepresentationType = {
-      $type: "TextRepresentationBaseType",
-      MinLength: 5,
-      MaxLength: 100,
-      RegExp: "^[A-Z]+$",
-    };
+    renderText(filledRepresentation);
 
-    render(<TextRepresentation representation={representation} onChange={mockOnChange} />);
-
-    const minLengthInput = screen.getByLabelText("Taille minimale") as HTMLInputElement;
-    const maxLengthInput = screen.getByLabelText("Taille maximale") as HTMLInputElement;
-    const regExpInput = screen.getByLabelText("Expression régulière") as HTMLInputElement;
+    const { minLengthInput, maxLengthInput, regExpInput } = getInputs();
 
     expect(minLengthInput.value).toBe("5");
     expect(maxLengthInput.value).toBe("100");
@@ -58,10 +56,9 @@ describe("TextRepresentation", () => {
   });
 
   it("should call onChange when minLength changes", () => {
-    render(<TextRepresentation representation={undefined} onChange={mockOnChange} />);
+    renderText();
 
-    const minLengthInput = screen.getByLabelText("Taille minimale");
-    fireEvent.change(minLengthInput, { target: { value: "10" } });
+    fireEvent.change(getInputs().minLengthInput, { target: { value: "10" } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
       $type: "TextRepresentationBaseType",
@@ -70,10 +67,9 @@ describe("TextRepresentation", () => {
   });
 
   it("should call onChange when maxLength changes", () => {
-    render(<TextRepresentation representation={undefined} onChange={mockOnChange} />);
+    renderText();
 
-    const maxLengthInput = screen.getByLabelText("Taille maximale");
-    fireEvent.change(maxLengthInput, { target: { value: "50" } });
+    fireEvent.change(getInputs().maxLengthInput, { target: { value: "50" } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
       $type: "TextRepresentationBaseType",
@@ -82,10 +78,9 @@ describe("TextRepresentation", () => {
   });
 
   it("should call onChange when regExp changes", () => {
-    render(<TextRepresentation representation={undefined} onChange={mockOnChange} />);
+    renderText();
 
-    const regExpInput = screen.getByLabelText("Expression régulière");
-    fireEvent.change(regExpInput, { target: { value: "^[0-9]+$" } });
+    fireEvent.change(getInputs().regExpInput, { target: { value: "^[0-9]+$" } });
 
     expect(mockOnChange).toHaveBeenCalledWith({
       $type: "TextRepresentationBaseType",
@@ -94,11 +89,9 @@ describe("TextRepresentation", () => {
   });
 
   it("should call onChange with complete representation when all fields are filled", () => {
-    render(<TextRepresentation representation={undefined} onChange={mockOnChange} />);
+    renderText();
 
-    const minLengthInput = screen.getByLabelText("Taille minimale");
-    const maxLengthInput = screen.getByLabelText("Taille maximale");
-    const regExpInput = screen.getByLabelText("Expression régulière");
+    const { minLengthInput, maxLengthInput, regExpInput } = getInputs();
 
     fireEvent.change(minLengthInput, { target: { value: "1" } });
     fireEvent.change(maxLengthInput, { target: { value: "255" } });
@@ -113,18 +106,9 @@ describe("TextRepresentation", () => {
   });
 
   it("should keep the representation with only $type when all fields are empty (#1592)", () => {
-    const representation: TextRepresentationType = {
-      $type: "TextRepresentationBaseType",
-      MinLength: 5,
-      MaxLength: 100,
-      RegExp: "^[A-Z]+$",
-    };
+    renderText(filledRepresentation);
 
-    render(<TextRepresentation representation={representation} onChange={mockOnChange} />);
-
-    const minLengthInput = screen.getByLabelText("Taille minimale");
-    const maxLengthInput = screen.getByLabelText("Taille maximale");
-    const regExpInput = screen.getByLabelText("Expression régulière");
+    const { minLengthInput, maxLengthInput, regExpInput } = getInputs();
 
     fireEvent.change(minLengthInput, { target: { value: "" } });
     fireEvent.change(maxLengthInput, { target: { value: "" } });
@@ -136,9 +120,7 @@ describe("TextRepresentation", () => {
   });
 
   it("should update when representation prop changes", () => {
-    const { rerender } = render(
-      <TextRepresentation representation={undefined} onChange={mockOnChange} />,
-    );
+    const { rerender } = renderText();
 
     const newRepresentation: TextRepresentationType = {
       $type: "TextRepresentationBaseType",
@@ -148,8 +130,7 @@ describe("TextRepresentation", () => {
 
     rerender(<TextRepresentation representation={newRepresentation} onChange={mockOnChange} />);
 
-    const minLengthInput = screen.getByLabelText("Taille minimale") as HTMLInputElement;
-    const maxLengthInput = screen.getByLabelText("Taille maximale") as HTMLInputElement;
+    const { minLengthInput, maxLengthInput } = getInputs();
 
     expect(minLengthInput.value).toBe("20");
     expect(maxLengthInput.value).toBe("200");

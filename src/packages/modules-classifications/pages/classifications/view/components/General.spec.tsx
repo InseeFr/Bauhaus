@@ -25,31 +25,16 @@ const translations: Record<string, string> = {
   "classification.descriptionTitle": "Description",
 };
 
-vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: (ns?: string, options?: any) => {
-      if (options?.i18n) {
-        return actual.useTranslation(ns, options);
-      }
-      return { t: (key: string) => translations[key] ?? key };
-    },
-  };
-});
-
-vi.mock("@components/layout", () => ({
-  Row: ({ children }: any) => <div>{children}</div>,
-}));
-
-vi.mock("@components/note", () => ({
-  Note: ({ title, text }: any) => (
-    <div>
-      <div data-testid="note-title">{title}</div>
-      <div data-testid="note-content">{text}</div>
-    </div>
+vi.mock("react-i18next", async (importOriginal) =>
+  (await import("../../../../../tests/react-i18next.testing")).withMockedTranslation(
+    await importOriginal(),
+    { t: (key: string) => translations[key] ?? key },
   ),
-}));
+);
+
+vi.mock("@components/layout", () => import("../../../../testing/component-mocks.testing"));
+
+vi.mock("@components/note", () => import("../../../../testing/component-mocks.testing"));
 
 vi.mock("@components/link", () => ({
   ExternalLink: ({ href, children }: any) => <a href={href}>{children}</a>,

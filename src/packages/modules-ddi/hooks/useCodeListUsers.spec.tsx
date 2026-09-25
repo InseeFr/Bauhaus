@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import { expectIdleQuery, renderQueryHook, renderQueryHookUntil } from "./queryClient.testing";
 import { useCodeListUsers, useFetchCodeListUsers } from "./useCodeListUsers";
 
 vi.mock("../../sdk", () => ({
@@ -11,19 +10,6 @@ vi.mock("../../sdk", () => ({
     getCodeListUsers: vi.fn(),
   },
 }));
-
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-  return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
 
 describe("useCodeListUsers", () => {
   const mockResponse = [
@@ -47,34 +33,25 @@ describe("useCodeListUsers", () => {
   it("should fetch the code list users when agencyId and id are provided", async () => {
     vi.mocked(DDIApi.getCodeListUsers).mockResolvedValue(mockResponse);
 
-    const { result } = renderHook(() => useCodeListUsers("fr.insee", "cl-1"), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBe(true);
-    });
+    const { result } = await renderQueryHookUntil(
+      () => useCodeListUsers("fr.insee", "cl-1"),
+      "isSuccess",
+    );
 
     expect(result.current.data).toEqual(mockResponse);
     expect(DDIApi.getCodeListUsers).toHaveBeenCalledWith("fr.insee", "cl-1");
   });
 
   it("should be disabled when agencyId or id is missing", () => {
-    const { result } = renderHook(() => useCodeListUsers("", ""), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderQueryHook(() => useCodeListUsers("", ""));
 
-    expect(result.current.fetchStatus).toBe("idle");
-    expect(DDIApi.getCodeListUsers).not.toHaveBeenCalled();
+    expectIdleQuery(result.current, DDIApi.getCodeListUsers);
   });
 
   it("should be disabled when enabled is false even with agencyId and id", () => {
-    const { result } = renderHook(() => useCodeListUsers("fr.insee", "cl-1", false), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderQueryHook(() => useCodeListUsers("fr.insee", "cl-1", false));
 
-    expect(result.current.fetchStatus).toBe("idle");
-    expect(DDIApi.getCodeListUsers).not.toHaveBeenCalled();
+    expectIdleQuery(result.current, DDIApi.getCodeListUsers);
   });
 
   describe("useFetchCodeListUsers", () => {
@@ -83,9 +60,7 @@ describe("useCodeListUsers", () => {
       // édition paierait la marche relationnelle Colectica alors que la réponse vient d'arriver.
       vi.mocked(DDIApi.getCodeListUsers).mockResolvedValue(mockResponse);
 
-      const { result } = renderHook(() => useFetchCodeListUsers(), {
-        wrapper: createWrapper(),
-      });
+      const { result } = renderQueryHook(() => useFetchCodeListUsers());
 
       await result.current("fr.insee", "cl-1");
       const second = await result.current("fr.insee", "cl-1");

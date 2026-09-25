@@ -1,5 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Mock, vi } from "vitest";
 
@@ -10,6 +9,7 @@ import { useCollection } from "../../../hooks/useCollection";
 import { useCollections } from "../../../hooks/useCollections";
 import { useCollectionSave } from "../../../hooks/useCollectionSave";
 import { useConcepts } from "../../../hooks/useConcepts";
+import { renderWithQueryClient } from "../../../testing/query-client.testing";
 import { Component } from "./page";
 
 vi.mock("react-router-dom", () => ({
@@ -50,29 +50,33 @@ vi.mock("./components/CollectionEditionCreation", () => ({
   CollectionEditionCreation: () => <div data-testid="collection-edition-creation">Form</div>,
 }));
 
+const mockConceptsLoading = (isLoading: boolean) =>
+  (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading });
+
+const mockCollectionLoaded = (general: { id: string; prefLabelLg1: string }) =>
+  (useCollection as Mock).mockReturnValue({
+    data: { general, members: [] },
+    isLoading: false,
+  });
+
+const expectTestIdEventually = (testId: string) =>
+  waitFor(() => {
+    expect(screen.getByTestId(testId)).toBeInTheDocument();
+  });
+
 describe("Edition Container Component", () => {
   const mockNavigate = vi.fn();
-  let queryClient: QueryClient;
-
-  const renderWithQueryClient = (component: React.ReactNode) => {
-    return render(<QueryClientProvider client={queryClient}>{component}</QueryClientProvider>);
-  };
+  const newCollection = { id: "", prefLabelLg1: "" };
+  const existingCollection = { id: "123", prefLabelLg1: "Test Collection" };
 
   beforeEach(() => {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: {
-          retry: false,
-        },
-      },
-    });
     vi.clearAllMocks();
     (useNavigate as Mock).mockReturnValue(mockNavigate);
     (useCollections as Mock).mockReturnValue({
       data: [{ id: "1", label: { value: "Collection 1", lang: "fr" } }],
     });
     (useCollection as Mock).mockReturnValue({ data: null, isLoading: false });
-    (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: false });
+    mockConceptsLoading(false);
     (useCollectionSave as Mock).mockReturnValue({
       save: vi.fn(),
       isSaving: false,
@@ -86,7 +90,7 @@ describe("Edition Container Component", () => {
     });
 
     it("renders Loading component while loading concept list", () => {
-      (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: true });
+      mockConceptsLoading(true);
 
       renderWithQueryClient(<Component />);
 
@@ -95,10 +99,7 @@ describe("Edition Container Component", () => {
 
     it("attend la résolution du contributeur par défaut avant d'afficher le formulaire", () => {
       (useIsDefaultContributorPending as Mock).mockReturnValue(true);
-      (useCollection as Mock).mockReturnValue({
-        data: { general: { id: "", prefLabelLg1: "" }, members: [] },
-        isLoading: false,
-      });
+      mockCollectionLoaded(newCollection);
 
       renderWithQueryClient(<Component />);
 
@@ -106,25 +107,17 @@ describe("Edition Container Component", () => {
     });
 
     it("renders CollectionEditionCreation component after loading", async () => {
-      (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: false });
-      (useCollection as Mock).mockReturnValue({
-        data: { general: { id: "", prefLabelLg1: "" }, members: [] },
-        isLoading: false,
-      });
+      mockConceptsLoading(false);
+      mockCollectionLoaded(newCollection);
 
       renderWithQueryClient(<Component />);
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collection-edition-creation")).toBeInTheDocument();
-      });
+      await expectTestIdEventually("collection-edition-creation");
     });
 
     it("calls useTitle with the correct title", () => {
-      (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: false });
-      (useCollection as Mock).mockReturnValue({
-        data: { general: { id: "", prefLabelLg1: "" }, members: [] },
-        isLoading: false,
-      });
+      mockConceptsLoading(false);
+      mockCollectionLoaded(newCollection);
 
       renderWithQueryClient(<Component />);
 
@@ -139,24 +132,16 @@ describe("Edition Container Component", () => {
 
     it("n'attend pas la résolution du contributeur par défaut en modification", async () => {
       (useIsDefaultContributorPending as Mock).mockReturnValue(true);
-      (useCollection as Mock).mockReturnValue({
-        data: {
-          general: { id: "123", prefLabelLg1: "Test Collection" },
-          members: [],
-        },
-        isLoading: false,
-      });
+      mockCollectionLoaded(existingCollection);
 
       renderWithQueryClient(<Component />);
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collection-edition-creation")).toBeInTheDocument();
-      });
+      await expectTestIdEventually("collection-edition-creation");
     });
 
     it("renders Loading component while loading collection data", () => {
       (useCollection as Mock).mockReturnValue({ data: null, isLoading: true });
-      (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: false });
+      mockConceptsLoading(false);
 
       renderWithQueryClient(<Component />);
 
@@ -164,48 +149,26 @@ describe("Edition Container Component", () => {
     });
 
     it("renders Loading component while loading concept list", async () => {
-      (useCollection as Mock).mockReturnValue({
-        data: {
-          general: { id: "123", prefLabelLg1: "Test Collection" },
-          members: [],
-        },
-        isLoading: false,
-      });
-      (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: true });
+      mockCollectionLoaded(existingCollection);
+      mockConceptsLoading(true);
 
       renderWithQueryClient(<Component />);
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collection-loading")).toBeInTheDocument();
-      });
+      await expectTestIdEventually("collection-loading");
     });
 
     it("renders CollectionEditionCreation component after loading", async () => {
-      (useCollection as Mock).mockReturnValue({
-        data: {
-          general: { id: "123", prefLabelLg1: "Test Collection" },
-          members: [],
-        },
-        isLoading: false,
-      });
-      (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: false });
+      mockCollectionLoaded(existingCollection);
+      mockConceptsLoading(false);
 
       renderWithQueryClient(<Component />);
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collection-edition-creation")).toBeInTheDocument();
-      });
+      await expectTestIdEventually("collection-edition-creation");
     });
 
     it("calls useTitle with the correct title", () => {
-      (useCollection as Mock).mockReturnValue({
-        data: {
-          general: { id: "123", prefLabelLg1: "Test Collection" },
-          members: [],
-        },
-        isLoading: false,
-      });
-      (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: false });
+      mockCollectionLoaded(existingCollection);
+      mockConceptsLoading(false);
 
       renderWithQueryClient(<Component />);
 
@@ -213,14 +176,8 @@ describe("Edition Container Component", () => {
     });
 
     it("renders Saving component when saving", async () => {
-      (useCollection as Mock).mockReturnValue({
-        data: {
-          general: { id: "123", prefLabelLg1: "Test Collection" },
-          members: [],
-        },
-        isLoading: false,
-      });
-      (useConcepts as Mock).mockReturnValue({ concepts: [], isLoading: false });
+      mockCollectionLoaded(existingCollection);
+      mockConceptsLoading(false);
       (useCollectionSave as Mock).mockReturnValue({
         save: vi.fn(),
         isSaving: true,
@@ -228,9 +185,7 @@ describe("Edition Container Component", () => {
 
       renderWithQueryClient(<Component />);
 
-      await waitFor(() => {
-        expect(screen.getByTestId("collection-saving")).toBeInTheDocument();
-      });
+      await expectTestIdEventually("collection-saving");
 
       expect(screen.queryByTestId("collection-edition-creation")).not.toBeInTheDocument();
     });

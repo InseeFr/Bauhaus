@@ -1,10 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import { renderQueryHook, renderQueryHookUntil } from "./queryClient.testing";
 import { usePhysicalInstancesSearch } from "./usePhysicalInstancesSearch";
 
 vi.mock("../../sdk", () => ({
@@ -13,26 +11,11 @@ vi.mock("../../sdk", () => ({
   },
 }));
 
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-  return ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
-
 describe("usePhysicalInstancesSearch", () => {
   it("should return loading state initially", () => {
     vi.mocked(DDIApi.getPhysicalInstancesForAdvancedSearch).mockResolvedValue([]);
 
-    const { result } = renderHook(() => usePhysicalInstancesSearch(), {
-      wrapper: createWrapper(),
-    });
+    const { result } = renderQueryHook(() => usePhysicalInstancesSearch());
 
     expect(result.current.isLoading).toBe(true);
     expect(result.current.data).toBeUndefined();
@@ -55,13 +38,7 @@ describe("usePhysicalInstancesSearch", () => {
     ];
     vi.mocked(DDIApi.getPhysicalInstancesForAdvancedSearch).mockResolvedValue(mockData);
 
-    const { result } = renderHook(() => usePhysicalInstancesSearch(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isSuccess).toBe(true);
-    });
+    const { result } = await renderQueryHookUntil(() => usePhysicalInstancesSearch(), "isSuccess");
 
     expect(result.current.data).toEqual(mockData);
   });
@@ -70,13 +47,7 @@ describe("usePhysicalInstancesSearch", () => {
     const error = new Error("API Error");
     vi.mocked(DDIApi.getPhysicalInstancesForAdvancedSearch).mockRejectedValue(error);
 
-    const { result } = renderHook(() => usePhysicalInstancesSearch(), {
-      wrapper: createWrapper(),
-    });
-
-    await waitFor(() => {
-      expect(result.current.isError).toBe(true);
-    });
+    const { result } = await renderQueryHookUntil(() => usePhysicalInstancesSearch(), "isError");
 
     expect(result.current.error).toEqual(error);
   });

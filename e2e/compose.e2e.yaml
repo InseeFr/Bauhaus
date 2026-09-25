@@ -1,0 +1,14 @@
+# Surcharge de ../docker-compose.yml pour la suite e2e, à passer en second `-f` :
+#     docker compose -f docker-compose.yml -f e2e/compose.e2e.yaml up -d ...
+#
+# Le compose racine monte la démo complète : back en `prod`, authentifié par
+# Keycloak. Les tests e2e tournent sans Keycloak : le back y repasse dans son
+# mode `NoAuth` (un utilisateur ADMIN fictif, aucun jeton demandé). Le reste de
+# la configuration du back est celle de containers/api.yml.
+services:
+  api:
+    environment:
+      FR_INSEE_RMES_BAUHAUS_ENV: NoAuth
+    # Pas de Keycloak en e2e. GraphDB et minio démarrent avant le back (et les
+    # fixtures sont chargées entre les deux) : pas besoin de les attendre ici.
+    depends_on: !reset []

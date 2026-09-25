@@ -5,7 +5,7 @@ import { List } from "../ui/list-group";
 interface PickerItemTypes {
   id: string;
   label: string;
-  logo: JSX.Element;
+  logo: React.JSX.Element;
   to?: string;
   handleClick?: (id: string) => void;
 }

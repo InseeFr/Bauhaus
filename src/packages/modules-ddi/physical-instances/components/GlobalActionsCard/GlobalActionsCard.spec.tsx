@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { GlobalActionsCard } from "./GlobalActionsCard";
+import { mockVariables } from "./variables.testing";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -47,23 +48,6 @@ describe("GlobalActionsCard", () => {
   const mockOnDuplicate = vi.fn();
   const mockOnRowClick = vi.fn();
   const mockOnDeleteClick = vi.fn();
-
-  const mockVariables = [
-    {
-      id: "1",
-      name: "Variable1",
-      label: "Label 1",
-      type: "Code",
-      lastModified: "2024-01-01",
-    },
-    {
-      id: "2",
-      name: "Variable2",
-      label: "Label 2",
-      type: "Numeric",
-      lastModified: "2024-01-02",
-    },
-  ];
 
   const defaultProps = {
     variables: mockVariables,

@@ -1,8 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { screen, fireEvent } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { renderOnRoute } from "../../../testing/render.testing";
 import { Component } from "./page";
 
 vi.mock("../../../hooks/useClassification", () => ({
@@ -50,14 +49,9 @@ vi.mock("@components/rich-editor/react-md-editor", () => ({
   MDEditor: () => <div data-testid="md-editor" />,
 }));
 
-vi.mock("@components/loading", () => ({
-  Loading: () => <div>Loading</div>,
-  Saving: () => <div>Saving</div>,
-}));
+vi.mock("@components/loading", () => import("../../../testing/component-mocks.testing"));
 
-vi.mock("@components/page-title-block", () => ({
-  PageTitleBlock: ({ titleLg1 }: any) => <h1>{titleLg1}</h1>,
-}));
+vi.mock("@components/page-title-block", () => import("../../../testing/component-mocks.testing"));
 
 vi.mock("@components/errors-bloc", () => ({
   GlobalClientSideErrorBloc: ({ clientSideErrors }: any) => (
@@ -65,9 +59,7 @@ vi.mock("@components/errors-bloc", () => ({
   ),
 }));
 
-vi.mock("@components/layout", () => ({
-  Row: ({ children }: any) => <div>{children}</div>,
-}));
+vi.mock("@components/layout", () => import("../../../testing/component-mocks.testing"));
 
 vi.mock("@components/label-required", () => ({
   default: ({ children }: any) => <label>{children}</label>,
@@ -124,32 +116,40 @@ const mockClassification = {
   levels: [],
 };
 
-const renderComponent = (id = "coicop2016") => {
-  const queryClient = new QueryClient();
-  return render(
-    <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={[`/classifications/classification/${id}`]}>
-        <Routes>
-          <Route path="/classifications/classification/:id" element={<Component />} />
-        </Routes>
-      </MemoryRouter>
-    </QueryClientProvider>,
+const renderComponent = (id = "coicop2016") =>
+  renderOnRoute(
+    <Component />,
+    "/classifications/classification/:id",
+    `/classifications/classification/${id}`,
   );
-};
+
+const mockUseClassification = (value: Record<string, unknown>) =>
+  (classificationHook.useClassification as any).mockReturnValue(value);
+
+const mockLoadedClassification = () =>
+  mockUseClassification({
+    isLoading: false,
+    classification: mockClassification,
+    status: "success",
+  });
+
+const mockUpdateClassification = (overrides: Record<string, unknown> = {}) =>
+  (updateClassificationHook.useUpdateClassification as any).mockReturnValue({
+    save: vi.fn(),
+    isSavingSuccess: false,
+    isSaving: false,
+    ...overrides,
+  });
 
 describe("<Component />", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (classificationSeriesHook.useClassificationSeries as any).mockReturnValue({ series: [] });
-    (updateClassificationHook.useUpdateClassification as any).mockReturnValue({
-      save: vi.fn(),
-      isSavingSuccess: false,
-      isSaving: false,
-    });
+    mockUpdateClassification();
   });
 
   it("affiche Loading quand isLoading est true", () => {
-    (classificationHook.useClassification as any).mockReturnValue({
+    mockUseClassification({
       isLoading: true,
       classification: undefined,
       status: "loading",
@@ -159,41 +159,21 @@ describe("<Component />", () => {
   });
 
   it("affiche Saving quand isSaving est true", () => {
-    (classificationHook.useClassification as any).mockReturnValue({
-      isLoading: false,
-      classification: mockClassification,
-      status: "success",
-    });
-    (updateClassificationHook.useUpdateClassification as any).mockReturnValue({
-      save: vi.fn(),
-      isSavingSuccess: false,
-      isSaving: true,
-    });
+    mockLoadedClassification();
+    mockUpdateClassification({ isSaving: true });
     renderComponent();
     expect(screen.getByText("Saving")).toBeInTheDocument();
   });
 
   it("redirige vers la page de visualisation quand isSavingSuccess est true", () => {
-    (classificationHook.useClassification as any).mockReturnValue({
-      isLoading: false,
-      classification: mockClassification,
-      status: "success",
-    });
-    (updateClassificationHook.useUpdateClassification as any).mockReturnValue({
-      save: vi.fn(),
-      isSavingSuccess: true,
-      isSaving: false,
-    });
+    mockLoadedClassification();
+    mockUpdateClassification({ isSavingSuccess: true });
     renderComponent();
     expect(screen.queryByRole("form")).not.toBeInTheDocument();
   });
 
   it("affiche le formulaire avec les valeurs de la classification", () => {
-    (classificationHook.useClassification as any).mockReturnValue({
-      isLoading: false,
-      classification: mockClassification,
-      status: "success",
-    });
+    mockLoadedClassification();
     renderComponent();
 
     expect(screen.getByDisplayValue("Classification COICOP 2016")).toBeInTheDocument();
@@ -201,21 +181,13 @@ describe("<Component />", () => {
   });
 
   it("affiche le titre de la page", () => {
-    (classificationHook.useClassification as any).mockReturnValue({
-      isLoading: false,
-      classification: mockClassification,
-      status: "success",
-    });
+    mockLoadedClassification();
     renderComponent();
     expect(screen.getByRole("heading")).toHaveTextContent("Classification COICOP 2016");
   });
 
   it("affiche les erreurs de validation quand le formulaire est soumis avec des données invalides", () => {
-    (classificationHook.useClassification as any).mockReturnValue({
-      isLoading: false,
-      classification: mockClassification,
-      status: "success",
-    });
+    mockLoadedClassification();
     (validation.validate as any).mockReturnValue({
       errorMessage: ["Champ requis"],
       fields: { prefLabelLg1: "Champ requis" },
@@ -229,16 +201,8 @@ describe("<Component />", () => {
 
   it("appelle save quand le formulaire est soumis avec des données valides", () => {
     const save = vi.fn();
-    (classificationHook.useClassification as any).mockReturnValue({
-      isLoading: false,
-      classification: mockClassification,
-      status: "success",
-    });
-    (updateClassificationHook.useUpdateClassification as any).mockReturnValue({
-      save,
-      isSavingSuccess: false,
-      isSaving: false,
-    });
+    mockLoadedClassification();
+    mockUpdateClassification({ save });
     (validation.validate as any).mockReturnValue({ errorMessage: [], fields: {} });
 
     const { container } = renderComponent();
@@ -253,7 +217,7 @@ describe("<Component />", () => {
   });
 
   it("ne rend rien si value.general est absent", () => {
-    (classificationHook.useClassification as any).mockReturnValue({
+    mockUseClassification({
       isLoading: false,
       classification: undefined,
       status: "idle",

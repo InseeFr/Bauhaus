@@ -4,34 +4,27 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { DateTimeRepresentation } from "../../types/api";
 import { DateRepresentation } from "./DateRepresentation";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "physicalInstance.view.date.type": "Type de date",
-        "physicalInstance.view.date.selectType": "Sélectionnez un type de date",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("../representation.testing")).mockTranslations({
+    "physicalInstance.view.date.type": "Type de date",
+    "physicalInstance.view.date.selectType": "Sélectionnez un type de date",
   }),
-}));
+);
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ id, value, onChange, options, placeholder }: any) => (
-    <select
-      id={id}
-      value={value}
-      onChange={(e) => onChange({ value: e.target.value })}
-      aria-label={placeholder}
-    >
-      {options.map((option: any) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("primereact/dropdown", async () => {
+  const { OptionsSelect } = await import("../representation.testing");
+  return {
+    Dropdown: ({ id, value, onChange, options, placeholder }: any) => (
+      <OptionsSelect
+        id={id}
+        value={value}
+        onChange={onChange}
+        options={options}
+        aria-label={placeholder}
+      />
+    ),
+  };
+});
 
 describe("DateRepresentation", () => {
   const mockOnChange = vi.fn();

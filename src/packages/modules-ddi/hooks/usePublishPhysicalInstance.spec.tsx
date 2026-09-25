@@ -1,10 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook } from "@testing-library/react";
-import type { ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { DDIApi } from "@sdk/index";
 
+import { renderMutationHook } from "./queryClient.testing";
 import { usePublishPhysicalInstance } from "./usePublishPhysicalInstance";
 
 vi.mock("../../sdk", () => ({
@@ -14,37 +12,31 @@ vi.mock("../../sdk", () => ({
 }));
 
 describe("usePublishPhysicalInstance", () => {
-  let queryClient: QueryClient;
-
-  const wrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-
-  const seedParents = () => {
+  /**
+   * Amorce les parents de la PI dans le cache, publie, et renvoie l'espion des invalidations
+   * (à lier avec `using` pour le restaurer en fin de test).
+   */
+  const publishAndSpyInvalidations = async () => {
+    const { result, queryClient } = renderMutationHook(() => usePublishPhysicalInstance());
     queryClient.setQueryData(["physicalInstanceParents", "fr.insee", "pi-1"], {
       studyUnit: { agency: "fr.insee", id: "su-1" },
       group: { agency: "fr.insee", id: "group-1", label: "Mon groupe" },
       stamps: [],
     });
+    const invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
+
+    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+
+    return invalidateQueriesSpy;
   };
 
   beforeEach(() => {
-    queryClient = new QueryClient({
-      defaultOptions: {
-        queries: { retry: false },
-        mutations: { retry: false },
-      },
-    });
     vi.clearAllMocks();
     (DDIApi.putPhysicalInstance as any) = vi.fn().mockResolvedValue({});
   });
 
   it("should invalidate the parent group's code lists cache on success", async () => {
-    seedParents();
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
-    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+    using invalidateQueriesSpy = await publishAndSpyInvalidations();
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
       queryKey: ["groupCodeLists", "fr.insee", "group-1"],
@@ -52,11 +44,7 @@ describe("usePublishPhysicalInstance", () => {
   });
 
   it("should not invalidate the mutualized code lists cache on success", async () => {
-    seedParents();
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
-    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+    using invalidateQueriesSpy = await publishAndSpyInvalidations();
 
     expect(invalidateQueriesSpy).not.toHaveBeenCalledWith({
       queryKey: ["mutualizedCodeLists"],
@@ -67,11 +55,7 @@ describe("usePublishPhysicalInstance", () => {
     // L'enregistrement ajoute/retire des variables référençant des listes de codes : sans cette
     // éviction, `useCodeListUsers` (staleTime: Infinity) resterait sur un résultat périmé et la
     // confirmation de surcharge d'une liste partagée n'apparaîtrait qu'après un F5.
-    seedParents();
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
-    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+    using invalidateQueriesSpy = await publishAndSpyInvalidations();
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["codeListUsers"] });
   });
@@ -79,11 +63,7 @@ describe("usePublishPhysicalInstance", () => {
   it("should invalidate the physical instances list cache on success", async () => {
     // Le PUT stampe un nouveau versionDate : sans éviction, la liste de la home
     // (staleTime: Infinity) afficherait une date périmée jusqu'au F5.
-    seedParents();
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
-    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+    using invalidateQueriesSpy = await publishAndSpyInvalidations();
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
       queryKey: ["physicalInstances"],
@@ -91,11 +71,7 @@ describe("usePublishPhysicalInstance", () => {
   });
 
   it("should invalidate the advanced search cache on success", async () => {
-    seedParents();
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
-    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+    using invalidateQueriesSpy = await publishAndSpyInvalidations();
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
       queryKey: ["physicalInstancesSearch"],
@@ -103,11 +79,7 @@ describe("usePublishPhysicalInstance", () => {
   });
 
   it("should still invalidate the physical instance's own code lists cache on success", async () => {
-    seedParents();
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
-    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+    using invalidateQueriesSpy = await publishAndSpyInvalidations();
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
       queryKey: ["physicalCodeLists", "fr.insee", "pi-1"],
@@ -119,11 +91,7 @@ describe("usePublishPhysicalInstance", () => {
     // `loadCodeListForVariable` sous la cle ["codeListById", agency, id]. Sans eviction
     // (staleTime: Infinity), rouvrir la variable apres la sauvegarde reservirait la version
     // d'avant le PUT : la modification semblait perdue jusqu'au F5.
-    seedParents();
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
-    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+    using invalidateQueriesSpy = await publishAndSpyInvalidations();
 
     // Prefixe entier : une sauvegarde peut toucher plusieurs listes (edition + variante creee).
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({
@@ -136,11 +104,7 @@ describe("usePublishPhysicalInstance", () => {
     // Apres la creation d'une variante, la categorie d'origine n'est plus referencee par cette
     // variable : sans eviction, la garde continuerait de la croire partagee pendant tout le
     // staleTime, et la popup reapparaitrait a tort.
-    seedParents();
-    using invalidateQueriesSpy = vi.spyOn(queryClient, "invalidateQueries");
-
-    const { result } = renderHook(() => usePublishPhysicalInstance(), { wrapper });
-    await result.current.mutateAsync({ id: "pi-1", agencyId: "fr.insee", data: {} });
+    using invalidateQueriesSpy = await publishAndSpyInvalidations();
 
     expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ["categoryUsers"] });
   });

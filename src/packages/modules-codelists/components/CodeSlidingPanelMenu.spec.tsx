@@ -1,178 +1,84 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { Mock, vi } from "vitest";
+import { vi } from "vitest";
 
 import { Codelist } from "@model/Codelist";
 
-import { usePrivileges, useUserStamps } from "@utils/hooks/users";
-
+import { mockCodelistPrivileges } from "../testing/users.testing";
 import { CodeSlidingPanelMenu } from "./CodeSlidingPanelMenu";
 
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return {
-    ...actual,
-    usePrivileges: vi.fn(),
-    useUserStamps: vi.fn(),
-  };
-});
+vi.mock("@utils/hooks/users", () => import("../testing/users.testing"));
 
 describe("CodeSlidingPanelMenu", () => {
   const mockHandleSubmit = vi.fn();
   const mockHandleBack = vi.fn();
-  const codelist = { contributor: "test-contributor" };
+  const codelist = { contributor: "test-contributor" } as unknown as Codelist;
+
+  const renderMenu = (creation = false) =>
+    render(
+      <CodeSlidingPanelMenu
+        codelist={codelist}
+        handleSubmit={mockHandleSubmit}
+        handleBack={mockHandleBack}
+        creation={creation}
+      />,
+    );
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("renders the ReturnButton", () => {
-    (usePrivileges as Mock).mockReturnValue({ privileges: [] });
-    (useUserStamps as Mock).mockReturnValue({ data: [] });
+    mockCodelistPrivileges([]);
 
-    render(
-      <CodeSlidingPanelMenu
-        codelist={codelist as unknown as Codelist}
-        handleSubmit={mockHandleSubmit}
-        handleBack={mockHandleBack}
-        creation={false}
-      />,
-    );
+    renderMenu();
 
     screen.getByRole("button", { name: /back/i });
   });
 
   it("renders the UpdateButton when not in creation mode and has permission", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [{ privilege: "UPDATE", strategy: "STAMP" }],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({
-      data: [{ stamp: "test-contributor" }],
-    });
+    mockCodelistPrivileges([{ privilege: "UPDATE", strategy: "STAMP" }], ["test-contributor"]);
 
-    render(
-      <CodeSlidingPanelMenu
-        codelist={codelist as unknown as Codelist}
-        handleSubmit={mockHandleSubmit}
-        handleBack={mockHandleBack}
-        creation={false}
-      />,
-    );
+    renderMenu();
 
     screen.getByRole("button", { name: /update/i });
   });
 
   it("renders the SaveButton when in creation mode and has permission", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [{ privilege: "CREATE", strategy: "STAMP" }],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({
-      data: [{ stamp: "test-contributor" }],
-    });
+    mockCodelistPrivileges([{ privilege: "CREATE", strategy: "STAMP" }], ["test-contributor"]);
 
-    render(
-      <CodeSlidingPanelMenu
-        codelist={codelist as unknown as Codelist}
-        handleSubmit={mockHandleSubmit}
-        handleBack={mockHandleBack}
-        creation={true}
-      />,
-    );
+    renderMenu(true);
 
     screen.getByRole("button", { name: /save/i });
   });
 
   it("does not render UpdateButton or SaveButton when user lacks permissions", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [{ privilege: "UPDATE", strategy: "STAMP" }],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({
-      data: [{ stamp: "other-contributor" }],
-    });
+    mockCodelistPrivileges([{ privilege: "UPDATE", strategy: "STAMP" }], ["other-contributor"]);
 
-    render(
-      <CodeSlidingPanelMenu
-        codelist={codelist as unknown as Codelist}
-        handleSubmit={mockHandleSubmit}
-        handleBack={mockHandleBack}
-        creation={false}
-      />,
-    );
+    renderMenu();
 
     expect(screen.queryByRole("button", { name: /update/i })).toBeNull();
     expect(screen.queryByRole("button", { name: /save/i })).toBeNull();
   });
 
   it("renders the UpdateButton and SaveButton for admin users", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [
-            { privilege: "UPDATE", strategy: "ALL" },
-            { privilege: "CREATE", strategy: "ALL" },
-          ],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({ data: [] });
+    mockCodelistPrivileges([
+      { privilege: "UPDATE", strategy: "ALL" },
+      { privilege: "CREATE", strategy: "ALL" },
+    ]);
 
-    render(
-      <CodeSlidingPanelMenu
-        codelist={codelist as unknown as Codelist}
-        handleSubmit={mockHandleSubmit}
-        handleBack={mockHandleBack}
-        creation={false}
-      />,
-    );
+    renderMenu();
 
     screen.getByRole("button", { name: /update/i });
 
-    render(
-      <CodeSlidingPanelMenu
-        codelist={codelist as unknown as Codelist}
-        handleSubmit={mockHandleSubmit}
-        handleBack={mockHandleBack}
-        creation={true}
-      />,
-    );
+    renderMenu(true);
 
     screen.getByRole("button", { name: /save/i });
   });
 
   it("triggers the appropriate actions on button clicks", () => {
-    (usePrivileges as Mock).mockReturnValue({
-      privileges: [
-        {
-          application: "CODESLIST_CODESLIST",
-          privileges: [{ privilege: "UPDATE", strategy: "ALL" }],
-        },
-      ],
-    });
-    (useUserStamps as Mock).mockReturnValue({ data: [] });
+    mockCodelistPrivileges([{ privilege: "UPDATE", strategy: "ALL" }]);
 
-    render(
-      <CodeSlidingPanelMenu
-        codelist={codelist as unknown as Codelist}
-        handleSubmit={mockHandleSubmit}
-        handleBack={mockHandleBack}
-        creation={false}
-      />,
-    );
+    renderMenu();
 
     fireEvent.click(screen.getByRole("button", { name: /back/i }));
     expect(mockHandleBack).toHaveBeenCalled();

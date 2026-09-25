@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { itLoadsAComponentForEveryLazyRoute } from "../../tests/routes.testing";
 import { CREATE, UPDATE, VIEW } from "../pages/sims/constants";
 import { routes } from "./index";
 
@@ -23,16 +24,7 @@ describe("Operations routes", () => {
     expect(routeAt("").element).toBeDefined();
   });
 
-  // Chaque `lazy` doit résoudre un module exportant `Component` : une route qui pointe vers
-  // un fichier renommé ou sans export `Component` casse au clic, pas au build.
-  it.each(routes.filter((route) => route.lazy).map((route) => [route.path, route.lazy!] as const))(
-    "route %s : le module chargé à la demande expose un Component",
-    async (_path, lazy) => {
-      const module = (await (lazy as any)()) as { Component?: unknown };
-
-      expect(module.Component).toBeInstanceOf(Function);
-    },
-  );
+  itLoadsAComponentForEveryLazyRoute(routes);
 
   it("charge la liste des familles au chargement de la route familles", () => {
     (routeAt("families").loader as any)({});

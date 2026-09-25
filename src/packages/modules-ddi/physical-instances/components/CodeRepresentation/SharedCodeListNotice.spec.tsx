@@ -3,12 +3,7 @@ import { describe, it, expect, vi } from "vitest";
 
 import { SharedCodeListNotice } from "./SharedCodeListNotice";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string, options?: Record<string, unknown>) =>
-      options ? `${key}|${JSON.stringify(options)}` : key,
-  }),
-}));
+vi.mock("react-i18next", () => import("../../../i18n.testing"));
 
 describe("SharedCodeListNotice", () => {
   it("renders nothing when the list belongs to this variable alone", () => {

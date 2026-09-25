@@ -1,74 +1,119 @@
 name: Playwright Tests
+
+# Tests de bout en bout contre un Back-Office et un GraphDB réels. La pile vit
+# ici, propre à Bauhaus : checkout du Back-Office, GraphDB, fixtures, puis le
+# back — dont les vérifications de démarrage échouent pour de bon tant que les
+# dépôts RDF n'existent pas, d'où son lancement après les fixtures. Playwright
+# lui-même (install, navigateurs, rapport) est l'action partagée de
+# InseeFr/rmes-githubactions-commons.
+#
+# Branche du Back-Office : par défaut celle qui porte le même nom que la branche
+# du front, sinon la branche par défaut du Back-Office. Un lancement manuel peut
+# en imposer une autre, et viser un autre dépôt (un fork) ; une branche imposée
+# est prise telle quelle, sans repli : une faute de frappe doit échouer.
+
 on:
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      back-office-repository:
+        description: "Dépôt du Back-Office (owner/nom), par exemple un fork"
+        required: false
+        default: InseeFr/Bauhaus-Back-Office
+      back-office-ref:
+        description: "Branche, tag ou SHA du Back-Office. Vide = même nom que la branche du front, sinon la branche par défaut"
+        required: false
+        default: ""
+
 jobs:
   playwright:
     timeout-minutes: 45
     runs-on: ubuntu-latest
+    # Lecture seule : le job clone ce dépôt et le Back-Office, tous deux publics.
+    permissions:
+      contents: read
+    env:
+      BACK_OFFICE_PATH: bauhaus-back-office
+      # Lu par les fichiers compose (contexte de build, configuration montée) et
+      # par init.sh (fixtures RDF). Absolu : chacun le lirait sinon depuis son
+      # propre répertoire.
+      BACK_OFFICE_HOME: ${{ github.workspace }}/bauhaus-back-office
+      # Le compose racine (démo avec Keycloak), puis la surcharge e2e (back sans
+      # Keycloak), la même qu'en local.
+      COMPOSE_FILES: -f docker-compose.yml -f e2e/compose.e2e.yaml
+      BACK_SERVICE: api
+      GRAPHDB_URL: http://localhost:7200
+      READY_URL: http://localhost:8080/api/init
+      STARTUP_TIMEOUT: 300
     steps:
-      - uses: actions/checkout@v4
-      - name: Checkout BackOffice
-        uses: actions/checkout@v4
-        with:
-          repository: InseeFr/Bauhaus-Back-Office
-          # Épinglé sur la branche de release du back, pas sur `main` : `main` en est
-          # resté à 4.21.0, dont /api/init annonce les modules sous la forme
-          # `{identifier, disabled}`. Le front lit désormais `show` et `directAccess`
-          # (application/router/routes.tsx) : avec un back 4.21.0 aucun module n'est
-          # accessible et toutes les pages répondent « Page not found ». Repasser sur la
-          # branche par défaut (supprimer ce `ref`) une fois 4.21.1 fusionnée des deux côtés.
-          ref: 4.21.1
-          path: ./bauhaus-back-office
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: "pnpm"
+      - uses: actions/checkout@v7
 
-      # Le serveur de dev de l'IHM est démarré par Playwright (webServer) :
-      # ses dépendances doivent donc être installées à la racine du dépôt.
-      - name: Install app dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install e2e dependencies
-        working-directory: ./e2e
-        run: npm ci
-      - name: Install Playwright browsers
-        working-directory: ./e2e
-        run: npx playwright install --with-deps chromium
-
-      # Le back démarre séparément, APRÈS le chargement des fixtures : depuis 4.21.1 il
-      # vérifie au démarrage que `defaultContributor` existe en base de gestion, et il
-      # échoue définitivement (aucun `restart:`) si les dépôts RDF n'existent pas encore.
-      - name: Start GraphDB
-        run: |
-          docker compose -f ./bauhaus-back-office/module-bauhaus-bo/compose.yaml up -d graphdb minio
-          timeout 300 bash -c 'until curl -sf http://localhost:7200/rest/repositories > /dev/null; do sleep 5; done'
-
-      - name: Load test data
-        working-directory: ./e2e
+      - name: Résolution du dépôt et de la branche du Back-Office
+        id: ref
         env:
-          BACK_OFFICE_HOME: ../bauhaus-back-office
+          INPUT_REF: ${{ inputs.back-office-ref }}
+          # Hors workflow_dispatch, l'input est vide : vide veut dire le dépôt par défaut.
+          REPOSITORY: ${{ inputs.back-office-repository || 'InseeFr/Bauhaus-Back-Office' }}
+          # Sur une pull request, github.ref_name vaut `<numéro>/merge` : la branche
+          # nommée par le développeur est head_ref.
+          FRONT_BRANCH: ${{ github.head_ref || github.ref_name }}
+          SERVER_URL: ${{ github.server_url }}
+        run: |
+          set -euo pipefail
+          if ! git ls-remote --exit-code "$SERVER_URL/$REPOSITORY.git" HEAD >/dev/null 2>&1; then
+            echo "::error::impossible de joindre $REPOSITORY : vérifier back-office-repository (owner/nom, dépôt public)"
+            exit 1
+          fi
+          echo "repository=$REPOSITORY" >> "$GITHUB_OUTPUT"
+          if [ -n "$INPUT_REF" ]; then
+            ref="$INPUT_REF"
+            origin="imposée"
+          elif git ls-remote --exit-code --heads "$SERVER_URL/$REPOSITORY.git" "refs/heads/$FRONT_BRANCH" >/dev/null; then
+            ref="$FRONT_BRANCH"
+            origin="même nom que la branche du front"
+          else
+            ref=$(git ls-remote --symref "$SERVER_URL/$REPOSITORY.git" HEAD | sed -n 's|^ref: refs/heads/\(.*\)\tHEAD$|\1|p')
+            if [ -z "$ref" ]; then
+              echo "::error::impossible de lire la branche par défaut de $REPOSITORY"
+              exit 1
+            fi
+            origin="branche par défaut, $REPOSITORY n'a pas de branche $FRONT_BRANCH"
+            echo "::notice::pas de branche $FRONT_BRANCH sur $REPOSITORY : tests contre sa branche par défaut, $ref"
+          fi
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          echo "Back-Office : \`$REPOSITORY@$ref\` ($origin)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Checkout du Back-Office
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ steps.ref.outputs.repository }}
+          ref: ${{ steps.ref.outputs.ref }}
+          path: ${{ env.BACK_OFFICE_PATH }}
+
+      - name: Démarrage de GraphDB et minio
+        run: |
+          set -euo pipefail
+          # Keycloak et l'IHM du compose ne servent pas ici : on nomme les services.
+          docker compose $COMPOSE_FILES up -d graphdb minio minio-init
+          timeout "$STARTUP_TIMEOUT" bash -c 'until curl -sf "$0/rest/repositories" > /dev/null; do sleep 5; done' "$GRAPHDB_URL"
+
+      - name: Chargement des données de test
+        working-directory: e2e
         run: ./playwright/db/init.sh
 
-      - name: Start the Back-Office
+      - name: Démarrage du Back-Office
         run: |
-          docker compose -f ./bauhaus-back-office/module-bauhaus-bo/compose.yaml \
-            -f ./e2e/compose.ci.yaml up -d bauhaus-back
-          timeout 300 bash -c 'until curl -sf http://localhost:8080/api/init > /dev/null; do sleep 5; done'
+          set -euo pipefail
+          docker compose $COMPOSE_FILES up -d "$BACK_SERVICE"
+          if ! timeout "$STARTUP_TIMEOUT" bash -c 'until curl -sf "$0" > /dev/null; do sleep 5; done' "$READY_URL"; then
+            echo "::error::le Back-Office n'a pas répondu sur $READY_URL en $STARTUP_TIMEOUT s"
+            docker compose $COMPOSE_FILES logs "$BACK_SERVICE"
+            exit 1
+          fi
 
-      - name: Run Playwright tests
-        working-directory: ./e2e
-        env:
-          CI: "true"
-          VITE_API_BASE_HOST: http://localhost:8080/api
-        run: npx playwright test
-
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/playwright@main
         with:
-          name: playwright-report
-          path: e2e/playwright-report/
-          retention-days: 30
+          working-directory: e2e
+          e2e-install-command: npm ci
+          browsers: chromium

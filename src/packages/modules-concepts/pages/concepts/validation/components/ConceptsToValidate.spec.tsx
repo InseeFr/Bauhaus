@@ -1,6 +1,15 @@
 import { fireEvent, screen, within } from "@testing-library/react";
 
 import { renderWithRouter } from "../../../../../tests/render";
+import {
+  expectBackLinkTo,
+  filterSource,
+  moveToSource as unpick,
+  moveToTarget as pick,
+  optionLabels,
+  sourceList as availableList,
+  targetList as toPublishList,
+} from "../../../../testing/pick-list.testing";
 import { ConceptsToValidate } from "./ConceptsToValidate";
 
 const concepts = [
@@ -19,24 +28,6 @@ const renderComponent = (props: Partial<React.ComponentProps<typeof ConceptsToVa
     />,
   );
   return { handleValidateConceptList, container };
-};
-
-const availableList = () => screen.getAllByRole("listbox")[0];
-const toPublishList = () => screen.getAllByRole("listbox")[1];
-
-const optionLabels = (list: HTMLElement) =>
-  within(list)
-    .queryAllByRole("option")
-    .map((option) => option.textContent);
-
-const pick = (label: string) => {
-  fireEvent.click(within(availableList()).getByRole("option", { name: label }));
-  fireEvent.click(screen.getByRole("button", { name: "Move to Target" }));
-};
-
-const unpick = (label: string) => {
-  fireEvent.click(within(toPublishList()).getByRole("option", { name: label }));
-  fireEvent.click(screen.getByRole("button", { name: "Move to Source" }));
 };
 
 const publish = () => fireEvent.click(screen.getByRole("button", { name: "Publish" }));
@@ -91,9 +82,7 @@ describe("concept-validation", () => {
   it("filtre les concepts publiables sur le libellé", () => {
     renderComponent();
 
-    fireEvent.input(screen.getAllByPlaceholderText("Label...")[0], {
-      target: { value: "sans" },
-    });
+    filterSource("sans");
 
     expect(optionLabels(availableList())).toEqual(["Concept sans échéance"]);
   });
@@ -101,7 +90,7 @@ describe("concept-validation", () => {
   it("propose un retour vers la liste des concepts", () => {
     renderComponent();
 
-    expect(screen.getByText("Back").closest("a")).toHaveAttribute("href", "/concepts");
+    expectBackLinkTo("/concepts");
   });
 
   it("publie directement les concepts sans date de fin de validité", () => {

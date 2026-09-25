@@ -1,8 +1,16 @@
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 
 import { BROADER, CLOSE_MATCH, NARROWER, NONE, RELATED } from "@sdk/constants";
 
 import { renderWithRouter } from "../../../../../tests/render";
+import {
+  filterSource as filterAvailable,
+  moveToSource as unlink,
+  moveToTarget as link,
+  optionLabels,
+  sourceList as availableList,
+  targetList as linkedList,
+} from "../../../../testing/pick-list.testing";
 import { LinksEdition as ConceptLinks } from "./LinksEdition";
 
 const conceptsWithLinks = [
@@ -30,26 +38,13 @@ const renderComponent = (props: Partial<React.ComponentProps<typeof ConceptLinks
   return { handleChange, handleChangeEquivalentLinks, container };
 };
 
-const availableList = () => screen.getAllByRole("listbox")[0];
-const linkedList = () => screen.getAllByRole("listbox")[1];
+const typeEquivalentLink = (value: string) =>
+  fireEvent.change(screen.getByPlaceholderText("New link"), { target: { value } });
 
-const optionLabels = (list: HTMLElement) =>
-  within(list)
-    .queryAllByRole("option")
-    .map((option) => option.textContent);
-
-const link = (label: string) => {
-  fireEvent.click(within(availableList()).getByRole("option", { name: label }));
-  fireEvent.click(screen.getByRole("button", { name: "Move to Target" }));
+const addEquivalentLink = (value: string) => {
+  typeEquivalentLink(value);
+  fireEvent.click(screen.getByRole("button", { name: "Add" }));
 };
-
-const unlink = (label: string) => {
-  fireEvent.click(within(linkedList()).getByRole("option", { name: label }));
-  fireEvent.click(screen.getByRole("button", { name: "Move to Source" }));
-};
-
-const filterAvailable = (label: string) =>
-  fireEvent.input(screen.getAllByPlaceholderText("Label...")[0], { target: { value: label } });
 
 describe("concept-edition-creation-links", () => {
   it("n'imbrique plus la saisie des liens dans des onglets", () => {
@@ -181,36 +176,28 @@ describe("concept-edition-creation-links", () => {
 
   it("n'autorise pas l'ajout d'un lien équivalent réduit à des espaces", () => {
     renderComponent({ activeLinkType: CLOSE_MATCH });
-    fireEvent.change(screen.getByPlaceholderText("New link"), { target: { value: "   " } });
+    typeEquivalentLink("   ");
 
     expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 
   it("autorise l'ajout dès qu'un lien équivalent est saisi", () => {
     renderComponent({ activeLinkType: CLOSE_MATCH });
-    fireEvent.change(screen.getByPlaceholderText("New link"), {
-      target: { value: "urn:concept:42" },
-    });
+    typeEquivalentLink("urn:concept:42");
 
     expect(screen.getByRole("button", { name: "Add" })).toBeEnabled();
   });
 
   it("réinterdit l'ajout une fois le lien équivalent ajouté", () => {
     renderComponent({ activeLinkType: CLOSE_MATCH });
-    fireEvent.change(screen.getByPlaceholderText("New link"), {
-      target: { value: "urn:concept:42" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Add" }));
+    addEquivalentLink("urn:concept:42");
 
     expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 
   it("remonte l'ajout d'un lien équivalent", () => {
     const { handleChangeEquivalentLinks } = renderComponent({ activeLinkType: CLOSE_MATCH });
-    fireEvent.change(screen.getByPlaceholderText("New link"), {
-      target: { value: "urn:concept:42" },
-    });
-    fireEvent.click(screen.getByRole("button", { name: "Add" }));
+    addEquivalentLink("urn:concept:42");
 
     expect(handleChangeEquivalentLinks).toHaveBeenCalledWith([
       expect.objectContaining({ urn: "urn:concept:42" }),

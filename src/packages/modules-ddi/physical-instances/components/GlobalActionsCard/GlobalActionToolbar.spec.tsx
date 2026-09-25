@@ -1,47 +1,24 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
-import { usePrivileges, useUserStamps } from "@utils/hooks/users";
-
+import { mockDdiAccess } from "./actions.testing";
 import { GlobalActionToolbar } from "./GlobalActionToolbar";
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "physicalInstance.view.export": "Exporter",
-        "physicalInstance.view.duplicatePhysicalInstance": "Dupliquer",
-        "physicalInstance.view.validateDdi4": "Valider le DDI4",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("./translations.testing")).mockTranslations({
+    "physicalInstance.view.export": "Exporter",
+    "physicalInstance.view.duplicatePhysicalInstance": "Dupliquer",
+    "physicalInstance.view.validateDdi4": "Valider le DDI4",
   }),
-}));
+);
 
 // On monte le vrai <HasAccess> ; seules les sources de privilèges et de
 // stamps sont mockées.
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
-});
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
+);
 
-const ddiPrivileges = (strategy: string) => ({
-  privileges: [
-    {
-      application: "DDI_PHYSICALINSTANCE",
-      privileges: [{ privilege: "CREATE", strategy }],
-    },
-  ],
-});
-
-vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, icon, ...props }: any) => (
-    <button type="button" onClick={onClick} {...props}>
-      {icon && <span className={icon} />}
-      {label}
-    </button>
-  ),
-}));
+vi.mock("primereact/button", () => import("./actions.testing"));
 
 vi.mock("primereact/splitbutton", () => ({
   SplitButton: ({ label, onClick, model, icon, ...props }: any) => (
@@ -76,8 +53,7 @@ describe("GlobalActionToolbar", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Par défaut : stratégie ALL → le bouton de duplication est rendu.
-    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
-    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+    mockDdiAccess("CREATE", "ALL");
   });
 
   it("should render export and duplicate buttons", () => {
@@ -211,8 +187,7 @@ describe("GlobalActionToolbar", () => {
 
   describe("gating STAMP du bouton de duplication", () => {
     it("affiche le bouton de duplication quand un stamp utilisateur appartient aux stamps de l'instance source", () => {
-      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
-      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+      mockDdiAccess("CREATE", "STAMP", ["STAMP1"]);
 
       render(
         <GlobalActionToolbar
@@ -226,8 +201,7 @@ describe("GlobalActionToolbar", () => {
     });
 
     it("masque le bouton de duplication quand aucun stamp utilisateur n'appartient aux stamps de l'instance source", () => {
-      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
-      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
+      mockDdiAccess("CREATE", "STAMP", ["STAMP9"]);
 
       render(
         <GlobalActionToolbar

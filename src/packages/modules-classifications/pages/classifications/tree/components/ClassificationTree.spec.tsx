@@ -8,9 +8,7 @@ vi.mock("@utils/hooks/useTitle", () => ({
   useTitle: vi.fn(),
 }));
 
-vi.mock("@components/layout", () => ({
-  Row: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-}));
+vi.mock("@components/layout", () => import("../../../../testing/component-mocks.testing"));
 
 vi.mock("@components/page-title", () => ({
   PageTitle: ({ title, subtitle }: { title: string; subtitle: string }) => (
@@ -21,13 +19,12 @@ vi.mock("@components/page-title", () => ({
   ),
 }));
 
-vi.mock("@components/check-second-lang", () => ({
-  CheckSecondLang: () => <div data-testid="check-second-lang" />,
-}));
+vi.mock(
+  "@components/check-second-lang",
+  () => import("../../../../testing/component-mocks.testing"),
+);
 
-vi.mock("../menu", () => ({
-  Menu: () => <div data-testid="controls" />,
-}));
+vi.mock("../menu", () => import("../../../../testing/component-mocks.testing"));
 
 vi.mock("primereact/tree", () => ({
   Tree: ({ value, nodeTemplate }: any) => (

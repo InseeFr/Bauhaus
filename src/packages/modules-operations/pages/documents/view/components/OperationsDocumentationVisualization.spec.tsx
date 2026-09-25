@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import { Document } from "@model/operations/document";
 
@@ -61,6 +61,24 @@ describe("OperationsDocumentationVisualization", () => {
     );
     const notes = container.querySelectorAll(".note");
     expect(notes).toHaveLength(7);
+  });
+
+  it("should display the size of the file on the right of the download link", async () => {
+    const d = { ...document, uri: "/document/uri", labelLg1: "Note technique", size: 130048 };
+    render(<OperationsDocumentationVisualization attr={d} secondLang={false} />);
+
+    const link = screen.getByRole("link", { name: "Note technique" });
+    const size = screen.getByText("(130 kB)");
+    expect(link.nextElementSibling).toContainElement(size);
+    expect(size).toHaveAttribute("aria-hidden", "true");
+    expect(screen.getByText("130 kilobytes")).toHaveClass("sr-only");
+  });
+
+  it("should not display any size when the file size is unknown", async () => {
+    const d = { ...document, uri: "/document/uri", labelLg1: "Note technique" };
+    render(<OperationsDocumentationVisualization attr={d} secondLang={false} />);
+
+    expect(screen.getByRole("link", { name: "Note technique" }).nextElementSibling).toBeNull();
   });
 
   it("should not display the date if this one is not valid", async () => {

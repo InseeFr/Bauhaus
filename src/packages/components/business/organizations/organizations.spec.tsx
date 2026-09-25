@@ -27,6 +27,25 @@ const organizations: OrganizationType[] = [
   },
 ];
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
+
+const mockUseOrganizations = (data: OrganizationType[] = organizations) =>
+  vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
+    data,
+    isLoading: false,
+    error: null,
+  } as any);
+
 describe("Organizations component", () => {
   it("renders a list of organizations", () => {
     const creators = ["creator1", "creator2"];
@@ -83,24 +102,8 @@ describe("Organization component", () => {
 });
 
 describe("InseeOrganizations component", () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-
   it("renders organizations by calling useOrganizations hook", () => {
-    using _useOrgsSpy = vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
-      data: organizations,
-      isLoading: false,
-      error: null,
-    } as any);
+    using _useOrgsSpy = mockUseOrganizations();
 
     const creators = ["creator1", "creator2"];
     const { getByText } = render(<InseeOrganizations creators={creators} />, {
@@ -112,11 +115,7 @@ describe("InseeOrganizations component", () => {
   });
 
   it("renders nothing when organizations data is empty", () => {
-    using _useOrgsSpy = vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
-      data: [],
-      isLoading: false,
-      error: null,
-    } as any);
+    using _useOrgsSpy = mockUseOrganizations([]);
 
     const creators = ["creator1"];
     const { container } = render(<InseeOrganizations creators={creators} />, {
@@ -128,24 +127,8 @@ describe("InseeOrganizations component", () => {
 });
 
 describe("InseeOrganization component", () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
-  const wrapper = ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-
   it("renders organization by calling useOrganizations hook", () => {
-    using _useOrgsSpy = vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
-      data: organizations,
-      isLoading: false,
-      error: null,
-    } as any);
+    using _useOrgsSpy = mockUseOrganizations();
 
     const { getByText } = render(<InseeOrganization creator="creator1" />, {
       wrapper,
@@ -155,11 +138,7 @@ describe("InseeOrganization component", () => {
   });
 
   it("renders nothing when organization is not found", () => {
-    using _useOrgsSpy = vi.spyOn(organizationsHook, "useOrganizations").mockReturnValue({
-      data: organizations,
-      isLoading: false,
-      error: null,
-    } as any);
+    using _useOrgsSpy = mockUseOrganizations();
 
     const { container } = render(<InseeOrganization creator="unknownCreator" />, {
       wrapper,

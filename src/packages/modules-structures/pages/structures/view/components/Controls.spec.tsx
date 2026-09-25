@@ -16,6 +16,16 @@ vi.mock("@sdk/index", () => ({
   },
 }));
 
+const renderControls = async (structure: Structure) => {
+  const { Controls } = await import("./Controls");
+
+  render(
+    <WithRouter>
+      <Controls structure={structure} publish={vi.fn()}></Controls>
+    </WithRouter>,
+  );
+};
+
 describe("Structure View Menu", () => {
   afterEach(() => {
     vi.resetModules();
@@ -29,21 +39,13 @@ describe("Structure View Menu", () => {
       },
     ]);
 
-    const { Controls } = await import("./Controls");
+    StructureApi.deleteStructure.mockReturnValue(Promise.resolve());
 
-    const structure = {
+    await renderControls({
       id: "1",
       contributor: "someStamp",
       validationState: UNPUBLISHED,
-    } as Structure;
-
-    StructureApi.deleteStructure.mockReturnValue(Promise.resolve());
-
-    render(
-      <WithRouter>
-        <Controls structure={structure} publish={vi.fn()}></Controls>
-      </WithRouter>,
-    );
+    } as Structure);
 
     const deleteButton = screen.getByRole("button", { name: /delete/i });
     fireEvent.click(deleteButton);
@@ -59,14 +61,7 @@ describe("Structure View Menu", () => {
       },
     ]);
 
-    const { Controls } = await import("./Controls");
-
-    const structure = { id: "1" } as Structure;
-    render(
-      <WithRouter>
-        <Controls structure={structure} publish={vi.fn()}></Controls>
-      </WithRouter>,
-    );
+    await renderControls({ id: "1" } as Structure);
 
     screen.getByText("Back");
     expect(screen.queryByText("Publish")).toBeNull();
@@ -88,15 +83,7 @@ describe("Structure View Menu", () => {
       },
     ]);
 
-    const { Controls } = await import("./Controls");
-
-    const structure = { id: "1" } as Structure;
-
-    render(
-      <WithRouter>
-        <Controls structure={structure} publish={vi.fn()}></Controls>
-      </WithRouter>,
-    );
+    await renderControls({ id: "1" } as Structure);
 
     screen.getByText("Back");
     screen.getByText("Publish");

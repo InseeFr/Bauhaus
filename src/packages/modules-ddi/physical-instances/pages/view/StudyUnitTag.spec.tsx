@@ -7,12 +7,7 @@ import { StudyUnitTag } from "./StudyUnitTag";
 const mockNavigate = vi.fn();
 vi.mock("react-router-dom", () => ({ useNavigate: () => mockNavigate }));
 
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string, opts?: Record<string, unknown>) =>
-      opts?.label ? `${key}:${opts.label}` : key,
-  }),
-}));
+vi.mock("react-i18next", () => import("./i18nLabel.testing"));
 
 const mockSearch = vi.fn();
 vi.mock("../../../hooks/usePhysicalInstancesSearch", () => ({
@@ -20,18 +15,17 @@ vi.mock("../../../hooks/usePhysicalInstancesSearch", () => ({
 }));
 
 // Dropdown PrimeReact → <select> natif pour piloter options / onChange en test.
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ options, onChange, placeholder }: any) => (
-    <select aria-label="study-unit-select" onChange={(e) => onChange({ value: e.target.value })}>
-      <option value="">{placeholder}</option>
-      {options.map((o: any) => (
-        <option key={o.value} value={o.value}>
-          {o.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
+vi.mock("primereact/dropdown", async () => {
+  const { NativeOptions } = await import("../pages.testing");
+  return {
+    Dropdown: ({ options, onChange, placeholder }: any) => (
+      <select aria-label="study-unit-select" onChange={(e) => onChange({ value: e.target.value })}>
+        <option value="">{placeholder}</option>
+        <NativeOptions options={options} />
+      </select>
+    ),
+  };
+});
 
 vi.mock("primereact/tag", () => ({
   Tag: ({ value }: any) => <span>{value}</span>,

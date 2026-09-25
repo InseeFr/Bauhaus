@@ -150,6 +150,11 @@ describe("OperationsDocumentationEdition, replacing the attached file", () => {
     await userEvent.click(screen.getByRole("button", { name: /Sauvegarder|Save/ }));
   };
 
+  const replaceExistingFileWith = async (fileName: string, onSave = vi.fn()) => {
+    const { container } = renderEdition(existingDocument, { onSave });
+    await replaceFile(container, new File(["v2"], fileName, { type: "application/pdf" }));
+  };
+
   beforeEach(() => {
     vi.mocked(GeneralApi.putDocument).mockResolvedValue("d1");
     vi.mocked(GeneralApi.putDocumentFile).mockResolvedValue("");
@@ -165,9 +170,7 @@ describe("OperationsDocumentationEdition, replacing the attached file", () => {
     vi.mocked(GeneralApi.putDocumentFile).mockReturnValue(
       new Promise((resolve) => (uploaded = resolve)),
     );
-    const { container } = renderEdition(existingDocument, { onSave: vi.fn() });
-
-    await replaceFile(container, new File(["v2"], "rapport-v2.pdf", { type: "application/pdf" }));
+    await replaceExistingFileWith("rapport-v2.pdf");
 
     await waitFor(() => expect(GeneralApi.putDocumentFile).toHaveBeenCalled());
     expect(GeneralApi.putDocument).not.toHaveBeenCalled();
@@ -178,9 +181,7 @@ describe("OperationsDocumentationEdition, replacing the attached file", () => {
 
   it("saves the document with the URL returned by the upload", async () => {
     vi.mocked(GeneralApi.putDocumentFile).mockResolvedValue("file:///documents/rapport-v2.pdf");
-    const { container } = renderEdition(existingDocument, { onSave: vi.fn() });
-
-    await replaceFile(container, new File(["v2"], "rapport-v2.pdf", { type: "application/pdf" }));
+    await replaceExistingFileWith("rapport-v2.pdf");
 
     await waitFor(() =>
       expect(GeneralApi.putDocument).toHaveBeenCalledWith(
@@ -191,9 +192,7 @@ describe("OperationsDocumentationEdition, replacing the attached file", () => {
 
   it("keeps the current URL when the new file reuses the same name", async () => {
     vi.mocked(GeneralApi.putDocumentFile).mockResolvedValue("");
-    const { container } = renderEdition(existingDocument, { onSave: vi.fn() });
-
-    await replaceFile(container, new File(["v2"], "rapport.pdf", { type: "application/pdf" }));
+    await replaceExistingFileWith("rapport.pdf");
 
     await waitFor(() =>
       expect(GeneralApi.putDocument).toHaveBeenCalledWith(
@@ -205,9 +204,7 @@ describe("OperationsDocumentationEdition, replacing the attached file", () => {
   it("does not save the metadata when the upload fails", async () => {
     vi.mocked(GeneralApi.putDocumentFile).mockRejectedValue({ message: "boom" });
     const onSave = vi.fn();
-    const { container } = renderEdition(existingDocument, { onSave });
-
-    await replaceFile(container, new File(["v2"], "rapport-v2.pdf", { type: "application/pdf" }));
+    await replaceExistingFileWith("rapport-v2.pdf", onSave);
 
     await waitFor(() => expect(GeneralApi.putDocumentFile).toHaveBeenCalled());
     expect(GeneralApi.putDocument).not.toHaveBeenCalled();

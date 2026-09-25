@@ -17,7 +17,7 @@ const numberPerPageOptions = [
 ];
 
 interface PaginationProps {
-  itemEls: JSX.Element[];
+  itemEls: React.JSX.Element[];
 }
 
 export const Pagination = ({ itemEls }: Readonly<PaginationProps>) => {

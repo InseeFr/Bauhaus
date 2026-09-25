@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import type { ComponentProps } from "react";
 import { describe, it, expect, vi, Mock } from "vitest";
 
 import { useDisseminationStatusOptions } from "@utils/hooks/disseminationStatus";
@@ -13,6 +14,25 @@ import {
 vi.mock("../../utils/hooks/disseminationStatus", () => ({
   useDisseminationStatusOptions: vi.fn(),
 }));
+
+type Option = { value: string; label: string };
+
+const PUBLIC: Option = { value: "PublicGenerique", label: "Public" };
+const PUBLIC_GENERIQUE: Option = { value: "PublicGenerique", label: "Public Generique" };
+const PUBLIC_SPECIFIQUE: Option = { value: "PublicSpecifique", label: "Public Specifique" };
+const PRIVE: Option = { value: "Prive", label: "Private" };
+
+const mockOptions = (...options: Option[]) =>
+  (useDisseminationStatusOptions as Mock).mockReturnValue(options);
+
+const renderInput = (props: Partial<ComponentProps<typeof DisseminationStatusInput>> = {}) =>
+  render(<DisseminationStatusInput value="PublicGenerique" handleChange={() => {}} {...props} />);
+
+const expectDropdown = (container: HTMLElement) =>
+  expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
+
+const expectTitleLabel = () =>
+  expect(screen.getByText(componentsI18n.t("disseminationStatus.title"))).toBeInTheDocument();
 
 describe("getDisseminationStatus", () => {
   it("returns correct title for PublicGenerique", () => {
@@ -51,36 +71,21 @@ describe("DisseminationStatusVisualization", () => {
 
 describe("DisseminationStatusInput", () => {
   it("renders label if withLabel is true", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public" },
-    ]);
-    render(
-      <DisseminationStatusInput
-        value="PublicGenerique"
-        handleChange={() => {}}
-        required
-        withLabel
-      />,
-    );
-    expect(screen.getByText(componentsI18n.t("disseminationStatus.title"))).toBeInTheDocument();
+    mockOptions(PUBLIC);
+    renderInput({ required: true, withLabel: true });
+    expectTitleLabel();
   });
 
   it("renders required label when required is true", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public" },
-    ]);
-    render(<DisseminationStatusInput value="PublicGenerique" handleChange={() => {}} required />);
-    expect(screen.getByText(componentsI18n.t("disseminationStatus.title"))).toBeInTheDocument();
+    mockOptions(PUBLIC);
+    renderInput({ required: true });
+    expectTitleLabel();
   });
 
   it("associates the label with the select control", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public" },
-    ]);
+    mockOptions(PUBLIC);
 
-    const { container } = render(
-      <DisseminationStatusInput value="PublicGenerique" handleChange={() => {}} withLabel />,
-    );
+    const { container } = renderInput({ withLabel: true });
 
     const label = container.querySelector("label[for]");
     const forId = label?.getAttribute("for");
@@ -89,83 +94,52 @@ describe("DisseminationStatusInput", () => {
   });
 
   it("passes value prop to Select component", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public Generique" },
-      { value: "PublicSpecifique", label: "Public Specifique" },
-      { value: "Prive", label: "Private" },
-    ]);
+    mockOptions(PUBLIC_GENERIQUE, PUBLIC_SPECIFIQUE, PRIVE);
 
-    const { container } = render(
-      <DisseminationStatusInput value="PublicGenerique" handleChange={() => {}} />,
-    );
+    const { container } = renderInput();
 
     // Verify the Select component is rendered
-    expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
+    expectDropdown(container);
   });
 
   it("calls handleChange when value changes", () => {
     const mockHandleChange = vi.fn();
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public Generique" },
-      { value: "PublicSpecifique", label: "Public Specifique" },
-    ]);
+    mockOptions(PUBLIC_GENERIQUE, PUBLIC_SPECIFIQUE);
 
-    render(<DisseminationStatusInput value="PublicGenerique" handleChange={mockHandleChange} />);
+    renderInput({ handleChange: mockHandleChange });
 
     // The handleChange should not be called on initial render
     expect(mockHandleChange).not.toHaveBeenCalled();
   });
 
   it("renders with different value options", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public Generique" },
-      { value: "PublicSpecifique", label: "Public Specifique" },
-      { value: "Prive", label: "Private" },
-    ]);
+    mockOptions(PUBLIC_GENERIQUE, PUBLIC_SPECIFIQUE, PRIVE);
 
-    const { container } = render(
-      <DisseminationStatusInput value="PublicSpecifique" handleChange={() => {}} />,
-    );
+    const { container } = renderInput({ value: "PublicSpecifique" });
 
-    expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
+    expectDropdown(container);
   });
 
   it("renders with Prive value", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public Generique" },
-      { value: "Prive", label: "Private" },
-    ]);
+    mockOptions(PUBLIC_GENERIQUE, PRIVE);
 
-    const { container } = render(
-      <DisseminationStatusInput value="Prive" handleChange={() => {}} />,
-    );
+    const { container } = renderInput({ value: "Prive" });
 
-    expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
+    expectDropdown(container);
   });
 
   it("renders with empty value", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public Generique" },
-      { value: "PublicSpecifique", label: "Public Specifique" },
-    ]);
+    mockOptions(PUBLIC_GENERIQUE, PUBLIC_SPECIFIQUE);
 
-    const { container } = render(<DisseminationStatusInput value="" handleChange={() => {}} />);
+    const { container } = renderInput({ value: "" });
 
-    expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
+    expectDropdown(container);
   });
 
   it("does not render label when withLabel is false", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public" },
-    ]);
+    mockOptions(PUBLIC);
 
-    render(
-      <DisseminationStatusInput
-        value="PublicGenerique"
-        handleChange={() => {}}
-        withLabel={false}
-      />,
-    );
+    renderInput({ withLabel: false });
 
     // The label should not be present
     const labels = screen.queryAllByText(componentsI18n.t("disseminationStatus.title"));
@@ -173,18 +147,9 @@ describe("DisseminationStatusInput", () => {
   });
 
   it("renders optional label when required is false and withLabel is true", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public" },
-    ]);
+    mockOptions(PUBLIC);
 
-    const { container } = render(
-      <DisseminationStatusInput
-        value="PublicGenerique"
-        handleChange={() => {}}
-        required={false}
-        withLabel={true}
-      />,
-    );
+    const { container } = renderInput({ required: false, withLabel: true });
 
     // Should render a label (not LabelRequired)
     const label = container.querySelector("label");
@@ -194,76 +159,47 @@ describe("DisseminationStatusInput", () => {
 
   it("handleChange receives the correct value when called", () => {
     const mockHandleChange = vi.fn();
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public Generique" },
-      { value: "PublicSpecifique", label: "Public Specifique" },
-    ]);
+    mockOptions(PUBLIC_GENERIQUE, PUBLIC_SPECIFIQUE);
 
-    render(<DisseminationStatusInput value="PublicGenerique" handleChange={mockHandleChange} />);
+    renderInput({ handleChange: mockHandleChange });
 
     // Verify handleChange is a function and ready to be called
     expect(typeof mockHandleChange).toBe("function");
   });
 
   it("renders Select with correct options from hook", () => {
-    const mockOptions = [
-      { value: "option1", label: "Option 1" },
-      { value: "option2", label: "Option 2" },
-    ];
-    (useDisseminationStatusOptions as Mock).mockReturnValue(mockOptions);
+    mockOptions({ value: "option1", label: "Option 1" }, { value: "option2", label: "Option 2" });
 
-    const { container } = render(
-      <DisseminationStatusInput value="option1" handleChange={() => {}} />,
-    );
+    const { container } = renderInput({ value: "option1" });
 
-    expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
+    expectDropdown(container);
   });
 
   it("renders with all required props", () => {
-    (useDisseminationStatusOptions as Mock).mockReturnValue([
-      { value: "PublicGenerique", label: "Public" },
-    ]);
+    mockOptions(PUBLIC);
 
-    const { container } = render(
-      <DisseminationStatusInput
-        value="PublicGenerique"
-        handleChange={() => {}}
-        required={true}
-        withLabel={true}
-      />,
-    );
+    const { container } = renderInput({ required: true, withLabel: true });
 
-    expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
-    expect(screen.getByText(componentsI18n.t("disseminationStatus.title"))).toBeInTheDocument();
+    expectDropdown(container);
+    expectTitleLabel();
   });
 
   describe("User interactions", () => {
     it("should have a functional dropdown component", () => {
       const mockHandleChange = vi.fn();
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public Generique" },
-        { value: "PublicSpecifique", label: "Public Specifique" },
-        { value: "Prive", label: "Private" },
-      ]);
+      mockOptions(PUBLIC_GENERIQUE, PUBLIC_SPECIFIQUE, PRIVE);
 
-      const { container } = render(
-        <DisseminationStatusInput value="PublicGenerique" handleChange={mockHandleChange} />,
-      );
+      const { container } = renderInput({ handleChange: mockHandleChange });
 
       const dropdown = screen.getByRole("combobox");
       expect(dropdown).toBeInTheDocument();
-      expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
+      expectDropdown(container);
     });
 
     it("should render with correct value selected", () => {
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public Generique" },
-        { value: "Prive", label: "Private" },
-      ]);
+      mockOptions(PUBLIC_GENERIQUE, PRIVE);
 
-      const { container } = render(
-        <DisseminationStatusInput value="Prive" handleChange={() => {}} />,
-      );
+      const { container } = renderInput({ value: "Prive" });
 
       // Verify the dropdown label shows the correct selected value
       const dropdownLabel = container.querySelector(".p-dropdown-label");
@@ -271,13 +207,9 @@ describe("DisseminationStatusInput", () => {
     });
 
     it("should have clearable dropdown", () => {
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public Generique" },
-      ]);
+      mockOptions(PUBLIC_GENERIQUE);
 
-      const { container } = render(
-        <DisseminationStatusInput value="PublicGenerique" handleChange={() => {}} />,
-      );
+      const { container } = renderInput();
 
       // PrimeReact dropdown should have clear icon
       const clearIcon = container.querySelector(".p-dropdown-clear-icon");
@@ -287,93 +219,56 @@ describe("DisseminationStatusInput", () => {
 
   describe("Validation tests", () => {
     it("should show required label when required prop is true", () => {
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public" },
-      ]);
+      mockOptions(PUBLIC);
 
-      const { container } = render(
-        <DisseminationStatusInput
-          value=""
-          handleChange={() => {}}
-          required={true}
-          withLabel={true}
-        />,
-      );
+      const { container } = renderInput({ value: "", required: true, withLabel: true });
 
       const requiredLabel = container.querySelector(".label-required");
       expect(requiredLabel).toBeInTheDocument();
     });
 
     it("should show optional label when required prop is false", () => {
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public" },
-      ]);
+      mockOptions(PUBLIC);
 
-      const { container } = render(
-        <DisseminationStatusInput
-          value=""
-          handleChange={() => {}}
-          required={false}
-          withLabel={true}
-        />,
-      );
+      const { container } = renderInput({ value: "", required: false, withLabel: true });
 
       const optionalLabel = container.querySelector("label:not(.label-required)");
       expect(optionalLabel).toBeInTheDocument();
     });
 
     it("should accept empty value when not required", () => {
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public Generique" },
-      ]);
+      mockOptions(PUBLIC_GENERIQUE);
 
-      const { container } = render(
-        <DisseminationStatusInput value="" handleChange={() => {}} required={false} />,
-      );
+      const { container } = renderInput({ value: "", required: false });
 
-      const dropdown = container.querySelector(".p-dropdown");
-      expect(dropdown).toBeInTheDocument();
+      expectDropdown(container);
       // No error should be displayed
       const errorElements = container.querySelectorAll(".alert-danger");
       expect(errorElements).toHaveLength(0);
     });
 
     it("should validate that value is one of the available options", () => {
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public Generique" },
-        { value: "PublicSpecifique", label: "Public Specifique" },
-      ]);
+      mockOptions(PUBLIC_GENERIQUE, PUBLIC_SPECIFIQUE);
 
-      const { container } = render(
-        <DisseminationStatusInput value="PublicGenerique" handleChange={() => {}} />,
-      );
+      const { container } = renderInput();
 
-      expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
+      expectDropdown(container);
     });
 
     it("should handle invalid value gracefully", () => {
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public Generique" },
-      ]);
+      mockOptions(PUBLIC_GENERIQUE);
 
-      const { container } = render(
-        <DisseminationStatusInput value="InvalidValue" handleChange={() => {}} />,
-      );
+      const { container } = renderInput({ value: "InvalidValue" });
 
       // Component should still render without crashing
-      expect(container.querySelector(".p-dropdown")).toBeInTheDocument();
+      expectDropdown(container);
     });
 
     it("should update value when handleChange is called with valid option", () => {
       const mockHandleChange = vi.fn();
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public Generique" },
-        { value: "Prive", label: "Private" },
-      ]);
+      mockOptions(PUBLIC_GENERIQUE, PRIVE);
 
-      const { rerender } = render(
-        <DisseminationStatusInput value="PublicGenerique" handleChange={mockHandleChange} />,
-      );
+      const { rerender } = renderInput({ handleChange: mockHandleChange });
 
       // Simulate calling handleChange
       mockHandleChange("Prive");
@@ -389,11 +284,9 @@ describe("DisseminationStatusInput", () => {
     });
 
     it("should display placeholder when no value is selected", () => {
-      (useDisseminationStatusOptions as Mock).mockReturnValue([
-        { value: "PublicGenerique", label: "Public Generique" },
-      ]);
+      mockOptions(PUBLIC_GENERIQUE);
 
-      render(<DisseminationStatusInput value="" handleChange={() => {}} />);
+      renderInput({ value: "" });
 
       // The Select component should render with placeholder support
       expect(screen.getByRole("combobox")).toBeInTheDocument();

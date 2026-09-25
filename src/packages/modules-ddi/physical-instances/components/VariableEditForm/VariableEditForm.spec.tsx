@@ -1,8 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import type { ComponentProps } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { usePrivileges, useUserStamps } from "@utils/hooks/users";
 
+import { ddiPrivileges } from "../../../privileges.testing";
 import type {
   NumericRepresentation,
   CodeRepresentation,
@@ -10,58 +12,40 @@ import type {
   Category,
 } from "../../types/api";
 import { VariableEditForm } from "./VariableEditForm";
+import {
+  expectRepresentation,
+  nonNumericRepresentationCases,
+  searchParamsMock,
+  typeOptions,
+  urlTabCases,
+} from "./variableForm.testing";
 
-let mockSearchParams = new URLSearchParams();
-const mockSetSearchParams = vi.fn((updater: any, _options?: any) => {
-  if (typeof updater === "function") {
-    mockSearchParams = new URLSearchParams(updater(mockSearchParams));
-  } else if (updater instanceof URLSearchParams) {
-    mockSearchParams = new URLSearchParams(updater);
-  }
-});
+vi.mock(
+  "react-router-dom",
+  async () => (await import("./variableForm.testing")).searchParamsRouterModule,
+);
 
-vi.mock("react-router-dom", () => ({
-  useSearchParams: () => [mockSearchParams, mockSetSearchParams],
-}));
-
-vi.mock("react-i18next", () => ({
-  useTranslation: () => ({
-    t: (key: string) => {
-      const translations: Record<string, string> = {
-        "physicalInstance.view.editVariable": "Modifier la variable",
-        "physicalInstance.view.newVariable": "Ajouter une variable",
-        "physicalInstance.view.add": "Ajouter",
-        "physicalInstance.view.update": "Mettre à jour",
-        "physicalInstance.view.duplicate": "Dupliquer",
-        "physicalInstance.view.columns.label": "Label",
-        "physicalInstance.view.columns.name": "Nom",
-        "physicalInstance.view.columns.description": "Description",
-        "physicalInstance.view.columns.type": "Type",
-        "physicalInstance.view.selectType": "Sélectionnez un type",
-        "physicalInstance.view.tabs.information": "Informations",
-        "physicalInstance.view.tabs.representation": "Représentation",
-        "physicalInstance.view.tabs.ddiXml": "Aperçu DDI XML",
-      };
-      return translations[key] || key;
-    },
+vi.mock("react-i18next", async () =>
+  (await import("../representation.testing")).mockTranslations({
+    "physicalInstance.view.editVariable": "Modifier la variable",
+    "physicalInstance.view.newVariable": "Ajouter une variable",
+    "physicalInstance.view.add": "Ajouter",
+    "physicalInstance.view.update": "Mettre à jour",
+    "physicalInstance.view.duplicate": "Dupliquer",
+    "physicalInstance.view.columns.label": "Label",
+    "physicalInstance.view.columns.name": "Nom",
+    "physicalInstance.view.columns.description": "Description",
+    "physicalInstance.view.columns.type": "Type",
+    "physicalInstance.view.selectType": "Sélectionnez un type",
+    "physicalInstance.view.tabs.information": "Informations",
+    "physicalInstance.view.tabs.representation": "Représentation",
+    "physicalInstance.view.tabs.ddiXml": "Aperçu DDI XML",
   }),
-}));
+);
 
-// On monte le vrai <HasAccess> ; seules les sources de privilèges et de
-// stamps sont mockées.
-vi.mock("@utils/hooks/users", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
-  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
-});
-
-const ddiPrivileges = (strategy: string) => ({
-  privileges: [
-    {
-      application: "DDI_PHYSICALINSTANCE",
-      privileges: [{ privilege: "UPDATE", strategy }],
-    },
-  ],
-});
+vi.mock("@utils/hooks/users", async (importOriginal) =>
+  (await import("../../../privileges.testing")).mockUsersHooks(importOriginal),
+);
 
 vi.mock("primereact/card", () => ({
   Card: ({ title, children }: any) => (
@@ -78,30 +62,8 @@ vi.mock("primereact/inputtext", () => ({
   ),
 }));
 
-vi.mock("primereact/dropdown", () => ({
-  Dropdown: ({ id, value, onChange, options, required }: any) => (
-    <select
-      id={id}
-      value={value}
-      onChange={(e) => onChange({ value: e.target.value })}
-      required={required}
-    >
-      {options.map((option: any) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
-  ),
-}));
-
-vi.mock("primereact/button", () => ({
-  Button: ({ label, onClick, type = "button", disabled }: any) => (
-    <button type={type} onClick={onClick} disabled={disabled}>
-      {label}
-    </button>
-  ),
-}));
+vi.mock("primereact/dropdown", () => import("../representation.testing"));
+vi.mock("primereact/button", () => import("../representation.testing"));
 
 vi.mock("primereact/checkbox", () => ({
   Checkbox: ({ inputId, checked, onChange }: any) => (
@@ -121,21 +83,18 @@ vi.mock("primereact/inputtextarea", () => ({
 }));
 
 vi.mock("primereact/tabview", () => ({
-  TabView: ({ children, activeIndex, onTabChange }: any) => {
-    const panels = Array.isArray(children) ? children : [children];
-    return (
-      <div data-testid="tabview" data-active-index={activeIndex}>
-        <div role="tablist">
-          {panels.map((_child: any, index: number) => (
-            <div key={index} role="tab" onClick={() => onTabChange?.({ index })}>
-              {`Tab ${index}`}
-            </div>
-          ))}
-        </div>
-        {children}
+  TabView: ({ children, activeIndex, onTabChange }: any) => (
+    <div data-testid="tabview" data-active-index={activeIndex}>
+      <div role="tablist">
+        {(Array.isArray(children) ? children : [children]).map((_child: any, index: number) => (
+          <div key={index} role="tab" onClick={() => onTabChange?.({ index })}>
+            {`Tab ${index}`}
+          </div>
+        ))}
       </div>
-    );
-  },
+      {children}
+    </div>
+  ),
   TabPanel: ({ header, children }: any) => (
     <div>
       <h3>{header}</h3>
@@ -252,16 +211,11 @@ vi.mock("./DdiPreview", () => ({
   ),
 }));
 
+type FormProps = ComponentProps<typeof VariableEditForm>;
+
 describe("VariableEditForm", () => {
   const mockOnSave = vi.fn();
   const mockOnDuplicate = vi.fn();
-
-  const typeOptions = [
-    { label: "Numérique", value: "numeric" },
-    { label: "Date", value: "date" },
-    { label: "Texte", value: "text" },
-    { label: "Code", value: "code" },
-  ];
 
   const defaultVariable = {
     id: "var-1",
@@ -271,34 +225,59 @@ describe("VariableEditForm", () => {
     type: "numeric",
   };
 
+  const emptyNewVariable = {
+    id: "new",
+    label: "",
+    name: "",
+    description: "",
+    type: "text",
+  };
+
+  const formElement = (props: Partial<FormProps> = {}) => (
+    <VariableEditForm
+      variable={defaultVariable}
+      typeOptions={typeOptions}
+      onSave={mockOnSave}
+      {...props}
+    />
+  );
+
+  const renderForm = (props: Partial<FormProps> = {}) => render(formElement(props));
+
+  const getFields = () => ({
+    nameInput: screen.getByLabelText("Nom") as HTMLInputElement,
+    labelInput: screen.getByLabelText("Label") as HTMLInputElement,
+    descriptionInput: screen.getByLabelText("Description") as HTMLTextAreaElement,
+    typeSelect: screen.getByRole("combobox", { name: "Type" }) as HTMLSelectElement,
+  });
+
+  const changeField = (label: string, value: string) =>
+    fireEvent.change(screen.getByLabelText(label), { target: { value } });
+
+  const clickSave = () => fireEvent.click(screen.getByText("Mettre à jour"));
+
+  const expectActiveTab = (index: string) =>
+    expect(screen.getByTestId("tabview")).toHaveAttribute("data-active-index", index);
+
   beforeEach(() => {
     vi.clearAllMocks();
     mockOnDuplicate.mockClear();
     representationTabRenders.length = 0;
     // Par défaut : stratégie ALL → les boutons UPDATE sont rendus.
-    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
+    (usePrivileges as any).mockReturnValue(ddiPrivileges("UPDATE", "ALL"));
     (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
   });
 
   it("should render the form with title", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    renderForm();
 
     expect(screen.getByText("Modifier la variable - testVar")).toBeInTheDocument();
   });
 
   it("should display variable name, label, description and type", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    renderForm();
 
-    const nameInput = screen.getByLabelText("Nom") as HTMLInputElement;
-    const labelInput = screen.getByLabelText("Label") as HTMLInputElement;
-    const descriptionInput = screen.getByLabelText("Description") as HTMLTextAreaElement;
-    const typeSelect = screen.getByRole("combobox", {
-      name: "Type",
-    }) as HTMLSelectElement;
+    const { nameInput, labelInput, descriptionInput, typeSelect } = getFields();
 
     expect(nameInput.value).toBe("testVar");
     expect(labelInput.value).toBe("Test Variable");
@@ -307,60 +286,26 @@ describe("VariableEditForm", () => {
   });
 
   it("should show NumericRepresentation when type is numeric", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    renderForm();
 
-    expect(screen.getByTestId("numeric-representation")).toBeInTheDocument();
-    expect(screen.queryByTestId("date-representation")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("text-representation")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("code-representation")).not.toBeInTheDocument();
+    expectRepresentation("numeric", ["date", "text", "code"]);
   });
 
-  it("should show DateRepresentation when type is date", () => {
-    const dateVariable = { ...defaultVariable, type: "date" };
+  for (const { name, type } of nonNumericRepresentationCases) {
+    it(name, () => {
+      renderForm({ variable: { ...defaultVariable, type } });
 
-    render(
-      <VariableEditForm variable={dateVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    expect(screen.getByTestId("date-representation")).toBeInTheDocument();
-    expect(screen.queryByTestId("numeric-representation")).not.toBeInTheDocument();
-  });
-
-  it("should show TextRepresentation when type is text", () => {
-    const textVariable = { ...defaultVariable, type: "text" };
-
-    render(
-      <VariableEditForm variable={textVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    expect(screen.getByTestId("text-representation")).toBeInTheDocument();
-    expect(screen.queryByTestId("numeric-representation")).not.toBeInTheDocument();
-  });
-
-  it("should show CodeRepresentation when type is code", () => {
-    const codeVariable = { ...defaultVariable, type: "code" };
-
-    render(
-      <VariableEditForm variable={codeVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    expect(screen.getByTestId("code-representation")).toBeInTheDocument();
-    expect(screen.queryByTestId("numeric-representation")).not.toBeInTheDocument();
-  });
+      expectRepresentation(type, ["numeric"]);
+    });
+  }
 
   it("should never render the representation of the previous variable under the new variable id", () => {
     const codeVariable = { ...defaultVariable, id: "var-code", type: "code" };
     const textVariable = { ...defaultVariable, id: "var-text", type: "text" };
 
-    const { rerender } = render(
-      <VariableEditForm variable={codeVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    const { rerender } = renderForm({ variable: codeVariable });
 
-    rerender(
-      <VariableEditForm variable={textVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    rerender(formElement({ variable: textVariable }));
 
     expect(representationTabRenders).not.toContainEqual({
       variableId: "var-text",
@@ -369,26 +314,20 @@ describe("VariableEditForm", () => {
   });
 
   it("should update representation component when type changes", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    renderForm();
 
     expect(screen.getByTestId("numeric-representation")).toBeInTheDocument();
 
     const typeSelect = screen.getByRole("combobox", { name: "Type" });
     fireEvent.change(typeSelect, { target: { value: "date" } });
 
-    expect(screen.getByTestId("date-representation")).toBeInTheDocument();
-    expect(screen.queryByTestId("numeric-representation")).not.toBeInTheDocument();
+    expectRepresentation("date", ["numeric"]);
   });
 
   it("should call onSave with correct data on form submit", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    renderForm();
 
-    const saveButton = screen.getByText("Mettre à jour");
-    fireEvent.click(saveButton);
+    clickSave();
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -409,20 +348,10 @@ describe("VariableEditForm", () => {
       ID: "mmvr-1",
       Version: "1",
     } as const;
-    const numericVariableWithSentinel = {
-      ...defaultVariable,
-      missingValuesReference,
-    };
 
-    render(
-      <VariableEditForm
-        variable={numericVariableWithSentinel}
-        typeOptions={typeOptions}
-        onSave={mockOnSave}
-      />,
-    );
+    renderForm({ variable: { ...defaultVariable, missingValuesReference } });
 
-    fireEvent.click(screen.getByText("Mettre à jour"));
+    clickSave();
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -451,68 +380,44 @@ describe("VariableEditForm", () => {
       } as any,
     };
 
-    render(
-      <VariableEditForm
-        variable={variableWithUnlabeledSentinel}
-        typeOptions={typeOptions}
-        onSave={mockOnSave}
-      />,
-    );
+    renderForm({ variable: variableWithUnlabeledSentinel });
 
     expect(screen.getByText("Mettre à jour").closest("button")).toBeDisabled();
   });
 
-  it("should update label and call onSave with new value", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+  for (const { name, field, key, value } of [
+    {
+      name: "should update label and call onSave with new value",
+      field: "Label",
+      key: "label",
+      value: "Updated Label",
+    },
+    {
+      name: "should update name and call onSave with new value",
+      field: "Nom",
+      key: "name",
+      value: "updatedVar",
+    },
+  ]) {
+    it(name, () => {
+      renderForm();
 
-    const labelInput = screen.getByLabelText("Label");
-    fireEvent.change(labelInput, { target: { value: "Updated Label" } });
+      changeField(field, value);
 
-    const saveButton = screen.getByText("Mettre à jour");
-    fireEvent.click(saveButton);
+      clickSave();
 
-    expect(mockOnSave).toHaveBeenCalledWith(
-      expect.objectContaining({
-        label: "Updated Label",
-      }),
-    );
-  });
-
-  it("should update name and call onSave with new value", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    const nameInput = screen.getByLabelText("Nom");
-    fireEvent.change(nameInput, { target: { value: "updatedVar" } });
-
-    const saveButton = screen.getByText("Mettre à jour");
-    fireEvent.click(saveButton);
-
-    expect(mockOnSave).toHaveBeenCalledWith(
-      expect.objectContaining({
-        name: "updatedVar",
-      }),
-    );
-  });
+      expect(mockOnSave).toHaveBeenCalledWith(expect.objectContaining({ [key]: value }));
+    });
+  }
 
   it("should only include numericRepresentation when type is numeric", () => {
     const numericRepresentation: NumericRepresentation = {
       NumericTypeCode: "Integer",
     };
 
-    const variable = {
-      ...defaultVariable,
-      type: "numeric",
-      numericRepresentation,
-    };
+    renderForm({ variable: { ...defaultVariable, type: "numeric", numericRepresentation } });
 
-    render(<VariableEditForm variable={variable} typeOptions={typeOptions} onSave={mockOnSave} />);
-
-    const saveButton = screen.getByText("Mettre à jour");
-    fireEvent.click(saveButton);
+    clickSave();
 
     const savedData = mockOnSave.mock.calls[0][0];
     expect(savedData).toHaveProperty("numericRepresentation");
@@ -524,9 +429,7 @@ describe("VariableEditForm", () => {
   });
 
   it("should update when variable prop changes", () => {
-    const { rerender } = render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    const { rerender } = renderForm();
 
     const newVariable = {
       id: "var-2",
@@ -536,16 +439,9 @@ describe("VariableEditForm", () => {
       type: "date",
     };
 
-    rerender(
-      <VariableEditForm variable={newVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    rerender(formElement({ variable: newVariable }));
 
-    const nameInput = screen.getByLabelText("Nom") as HTMLInputElement;
-    const labelInput = screen.getByLabelText("Label") as HTMLInputElement;
-    const descriptionInput = screen.getByLabelText("Description") as HTMLTextAreaElement;
-    const typeSelect = screen.getByRole("combobox", {
-      name: "Type",
-    }) as HTMLSelectElement;
+    const { nameInput, labelInput, descriptionInput, typeSelect } = getFields();
 
     expect(nameInput.value).toBe("newVar");
     expect(labelInput.value).toBe("New Variable");
@@ -575,16 +471,9 @@ describe("VariableEditForm", () => {
       categories: [] as Category[],
     };
 
-    render(
-      <VariableEditForm
-        variable={variableWithAllRepresentations}
-        typeOptions={typeOptions}
-        onSave={mockOnSave}
-      />,
-    );
+    renderForm({ variable: variableWithAllRepresentations });
 
-    const saveButton = screen.getByText("Mettre à jour");
-    fireEvent.click(saveButton);
+    clickSave();
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -598,17 +487,9 @@ describe("VariableEditForm", () => {
   it("should preserve isGeographic from variable prop in onSave payload", () => {
     // La checkbox isGeographic a été retirée de l'UI : la valeur n'est plus éditable mais reste
     // portée par la variable et renvoyée telle quelle au save (round-trip DDI préservé).
-    const geoVariable = {
-      ...defaultVariable,
-      isGeographic: true,
-    };
+    renderForm({ variable: { ...defaultVariable, isGeographic: true } });
 
-    render(
-      <VariableEditForm variable={geoVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    const saveButton = screen.getByText("Mettre à jour");
-    fireEvent.click(saveButton);
+    clickSave();
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -617,64 +498,48 @@ describe("VariableEditForm", () => {
     );
   });
 
-  it("should handle label changes with reducer", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+  for (const { name, field, key, initial, value } of [
+    {
+      name: "should handle label changes with reducer",
+      field: "Label",
+      key: "label",
+      initial: "Test Variable",
+      value: "New Label",
+    },
+    {
+      name: "should handle name changes with reducer",
+      field: "Nom",
+      key: "name",
+      initial: "testVar",
+      value: "newName",
+    },
+  ]) {
+    it(name, () => {
+      renderForm();
 
-    const labelInput = screen.getByLabelText("Label") as HTMLInputElement;
-    expect(labelInput.value).toBe("Test Variable");
+      const input = screen.getByLabelText(field) as HTMLInputElement;
+      expect(input.value).toBe(initial);
 
-    fireEvent.change(labelInput, { target: { value: "New Label" } });
-    expect(labelInput.value).toBe("New Label");
+      fireEvent.change(input, { target: { value } });
+      expect(input.value).toBe(value);
 
-    const saveButton = screen.getByText("Mettre à jour");
-    fireEvent.click(saveButton);
+      clickSave();
 
-    expect(mockOnSave).toHaveBeenCalledWith(
-      expect.objectContaining({
-        label: "New Label",
-      }),
-    );
-  });
-
-  it("should handle name changes with reducer", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
-
-    const nameInput = screen.getByLabelText("Nom") as HTMLInputElement;
-    expect(nameInput.value).toBe("testVar");
-
-    fireEvent.change(nameInput, { target: { value: "newName" } });
-    expect(nameInput.value).toBe("newName");
-
-    const saveButton = screen.getByText("Mettre à jour");
-    fireEvent.click(saveButton);
-
-    expect(mockOnSave).toHaveBeenCalledWith(
-      expect.objectContaining({
-        name: "newName",
-      }),
-    );
-  });
+      expect(mockOnSave).toHaveBeenCalledWith(expect.objectContaining({ [key]: value }));
+    });
+  }
 
   it("should handle type changes with reducer", () => {
-    render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    renderForm();
 
-    const typeSelect = screen.getByRole("combobox", {
-      name: "Type",
-    }) as HTMLSelectElement;
+    const { typeSelect } = getFields();
     expect(typeSelect.value).toBe("numeric");
 
     fireEvent.change(typeSelect, { target: { value: "text" } });
     expect(typeSelect.value).toBe("text");
     expect(screen.getByTestId("text-representation")).toBeInTheDocument();
 
-    const saveButton = screen.getByText("Mettre à jour");
-    fireEvent.click(saveButton);
+    clickSave();
 
     expect(mockOnSave).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -684,9 +549,7 @@ describe("VariableEditForm", () => {
   });
 
   it("should reset state when variable prop changes", () => {
-    const { rerender } = render(
-      <VariableEditForm variable={defaultVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    const { rerender } = renderForm();
 
     const labelInput = screen.getByLabelText("Label") as HTMLInputElement;
     fireEvent.change(labelInput, { target: { value: "Modified Label" } });
@@ -701,124 +564,59 @@ describe("VariableEditForm", () => {
       isGeographic: true,
     };
 
-    rerender(
-      <VariableEditForm variable={newVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-    );
+    rerender(formElement({ variable: newVariable }));
 
-    const updatedNameInput = screen.getByLabelText("Nom") as HTMLInputElement;
-    const updatedLabelInput = screen.getByLabelText("Label") as HTMLInputElement;
-    const updatedDescriptionInput = screen.getByLabelText("Description") as HTMLTextAreaElement;
+    const updated = getFields();
 
-    expect(updatedNameInput.value).toBe("differentVar");
-    expect(updatedLabelInput.value).toBe("Different Variable");
-    expect(updatedDescriptionInput.value).toBe("Different description");
+    expect(updated.nameInput.value).toBe("differentVar");
+    expect(updated.labelInput.value).toBe("Different Variable");
+    expect(updated.descriptionInput.value).toBe("Different description");
     expect(screen.getByTestId("date-representation")).toBeInTheDocument();
   });
 
   describe("Tab management", () => {
     beforeEach(() => {
-      mockSearchParams = new URLSearchParams();
-      mockSetSearchParams.mockClear();
+      searchParamsMock.reset();
     });
 
     it("should initialize with first tab active when no URL param", () => {
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
+      renderForm();
 
-      const tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "0");
+      expectActiveTab("0");
     });
 
-    it("should restore active tab from URL on initial load", () => {
-      mockSearchParams.set("tab", "1");
+    for (const { name, tab, expectedIndex } of urlTabCases) {
+      it(name, () => {
+        searchParamsMock.current.set("tab", tab);
 
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
+        renderForm();
 
-      const tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "1");
-    });
-
-    it("should default to tab 0 for invalid tab values in URL", () => {
-      mockSearchParams.set("tab", "abc");
-
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
-
-      const tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "0");
-    });
-
-    it("should default to tab 0 for out-of-range tab values in URL", () => {
-      mockSearchParams.set("tab", "99");
-
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
-
-      const tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "0");
-    });
+        expectActiveTab(expectedIndex);
+      });
+    }
 
     it("should set tab search param when a non-first tab is clicked", () => {
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
+      renderForm();
 
       const tabs = screen.getAllByRole("tab");
       fireEvent.click(tabs[1]);
 
-      expect(mockSearchParams.get("tab")).toBe("1");
+      expect(searchParamsMock.current.get("tab")).toBe("1");
     });
 
     it("should delete tab search param when first tab is selected", () => {
-      mockSearchParams.set("tab", "1");
+      searchParamsMock.current.set("tab", "1");
 
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
+      renderForm();
 
       const tabs = screen.getAllByRole("tab");
       fireEvent.click(tabs[0]);
 
-      expect(mockSearchParams.has("tab")).toBe(false);
+      expect(searchParamsMock.current.has("tab")).toBe(false);
     });
 
     it("should reset to first tab when variable changes", () => {
-      const { rerender } = render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
+      const { rerender } = renderForm();
 
       const newVariable = {
         id: "var-2",
@@ -828,48 +626,33 @@ describe("VariableEditForm", () => {
         type: "text",
       };
 
-      rerender(
-        <VariableEditForm variable={newVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-      );
+      rerender(formElement({ variable: newVariable }));
 
-      const tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "0");
+      expectActiveTab("0");
     });
 
     it("should initialize with first tab active for new variable", () => {
-      const newVariable = {
-        id: "new",
-        label: "",
-        name: "",
-        description: "",
-        type: "text",
-      };
+      renderForm({ variable: emptyNewVariable });
 
-      render(
-        <VariableEditForm variable={newVariable} typeOptions={typeOptions} onSave={mockOnSave} />,
-      );
-
-      const tabView = screen.getByTestId("tabview");
-      expect(tabView).toHaveAttribute("data-active-index", "0");
+      expectActiveTab("0");
     });
   });
 
   describe("Duplicate functionality", () => {
-    it("should duplicate variable when duplicate button is clicked", () => {
-      const mockUUID = "11111111-1111-1111-1111-111111111111" as const;
+    const duplicate = (
+      mockUUID: `${string}-${string}-${string}-${string}-${string}`,
+      variable: FormProps["variable"] = defaultVariable,
+    ) => {
       using _randomUUIDSpy = vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
 
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-          onDuplicate={mockOnDuplicate}
-        />,
-      );
+      renderForm({ variable, onDuplicate: mockOnDuplicate });
 
-      const duplicateButton = screen.getByText("Dupliquer");
-      fireEvent.click(duplicateButton);
+      fireEvent.click(screen.getByText("Dupliquer"));
+    };
+
+    it("should duplicate variable when duplicate button is clicked", () => {
+      const mockUUID = "11111111-1111-1111-1111-111111111111" as const;
+      duplicate(mockUUID);
 
       expect(mockOnDuplicate).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -884,27 +667,13 @@ describe("VariableEditForm", () => {
 
     it("should duplicate variable with representation data", () => {
       const mockUUID = "22222222-2222-2222-2222-222222222222" as const;
-      using _randomUUIDSpy = vi.spyOn(crypto, "randomUUID").mockReturnValue(mockUUID);
-
-      const variableWithRepresentation = {
+      duplicate(mockUUID, {
         ...defaultVariable,
         numericRepresentation: {
           $type: "NumericRepresentationBaseType" as const,
           NumericTypeCode: "Double",
         },
-      };
-
-      render(
-        <VariableEditForm
-          variable={variableWithRepresentation}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-          onDuplicate={mockOnDuplicate}
-        />,
-      );
-
-      const duplicateButton = screen.getByText("Dupliquer");
-      fireEvent.click(duplicateButton);
+      });
 
       expect(mockOnDuplicate).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -920,13 +689,7 @@ describe("VariableEditForm", () => {
     });
 
     it("should not call onDuplicate if prop is not provided", () => {
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
+      renderForm();
 
       const duplicateButton = screen.getByText("Dupliquer");
       fireEvent.click(duplicateButton);
@@ -937,35 +700,22 @@ describe("VariableEditForm", () => {
   });
 
   describe("gating STAMP des boutons UPDATE", () => {
-    it("affiche les boutons dupliquer/enregistrer quand un stamp utilisateur appartient à parents.stamps", () => {
-      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
-      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+    const renderWithUserStamp = (userStamp: string) => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("UPDATE", "STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: userStamp }] });
 
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-          stamps={["STAMP1", "STAMP2"]}
-        />,
-      );
+      renderForm({ stamps: ["STAMP1", "STAMP2"] });
+    };
+
+    it("affiche les boutons dupliquer/enregistrer quand un stamp utilisateur appartient à parents.stamps", () => {
+      renderWithUserStamp("STAMP1");
 
       expect(screen.queryByText("Dupliquer")).toBeInTheDocument();
       expect(screen.queryByText("Mettre à jour")).toBeInTheDocument();
     });
 
     it("masque les boutons dupliquer/enregistrer quand aucun stamp utilisateur n'appartient à parents.stamps", () => {
-      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
-      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
-
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-          stamps={["STAMP1", "STAMP2"]}
-        />,
-      );
+      renderWithUserStamp("STAMP9");
 
       expect(screen.queryByText("Dupliquer")).not.toBeInTheDocument();
       expect(screen.queryByText("Mettre à jour")).not.toBeInTheDocument();
@@ -974,89 +724,46 @@ describe("VariableEditForm", () => {
 
   describe("isNew prop functionality", () => {
     it('should display "Ajouter une variable" title when isNew is true', () => {
-      const newVariable = {
-        id: "new",
-        label: "",
-        name: "",
-        description: "",
-        type: "text",
-      };
-
-      render(
-        <VariableEditForm
-          variable={newVariable}
-          typeOptions={typeOptions}
-          isNew={true}
-          onSave={mockOnSave}
-        />,
-      );
+      renderForm({ variable: emptyNewVariable, isNew: true });
 
       expect(screen.getByText("Ajouter une variable")).toBeInTheDocument();
       expect(screen.queryByText(/Modifier la variable/)).not.toBeInTheDocument();
     });
 
     it('should display "Modifier la variable" title when isNew is false', () => {
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          isNew={false}
-          onSave={mockOnSave}
-        />,
-      );
+      renderForm({ isNew: false });
 
       expect(screen.getByText("Modifier la variable - testVar")).toBeInTheDocument();
       expect(screen.queryByText("Ajouter une variable")).not.toBeInTheDocument();
     });
 
-    it('should display "Ajouter" button when isNew is true', () => {
-      const newVariable = {
-        id: "new",
-        label: "",
-        name: "",
-        description: "",
-        type: "text",
-      };
+    for (const { name, props, shown, absent } of [
+      {
+        name: 'should display "Ajouter" button when isNew is true',
+        props: { variable: emptyNewVariable, isNew: true },
+        shown: "Ajouter",
+        absent: "Mettre à jour",
+      },
+      {
+        name: 'should display "Mettre à jour" button when isNew is false',
+        props: { isNew: false },
+        shown: "Mettre à jour",
+        absent: "Ajouter",
+      },
+      {
+        name: 'should display "Mettre à jour" button by default when isNew is not provided',
+        props: {},
+        shown: "Mettre à jour",
+        absent: "Ajouter",
+      },
+    ]) {
+      it(name, () => {
+        renderForm(props);
 
-      render(
-        <VariableEditForm
-          variable={newVariable}
-          typeOptions={typeOptions}
-          isNew={true}
-          onSave={mockOnSave}
-        />,
-      );
-
-      expect(screen.getByText("Ajouter")).toBeInTheDocument();
-      expect(screen.queryByText("Mettre à jour")).not.toBeInTheDocument();
-    });
-
-    it('should display "Mettre à jour" button when isNew is false', () => {
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          isNew={false}
-          onSave={mockOnSave}
-        />,
-      );
-
-      expect(screen.getByText("Mettre à jour")).toBeInTheDocument();
-      expect(screen.queryByText("Ajouter")).not.toBeInTheDocument();
-    });
-
-    it('should display "Mettre à jour" button by default when isNew is not provided', () => {
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-        />,
-      );
-
-      expect(screen.getByText("Mettre à jour")).toBeInTheDocument();
-      expect(screen.queryByText("Ajouter")).not.toBeInTheDocument();
-    });
+        expect(screen.getByText(shown)).toBeInTheDocument();
+        expect(screen.queryByText(absent)).not.toBeInTheDocument();
+      });
+    }
 
     it('should call onSave correctly when "Ajouter" button is clicked', () => {
       const newVariable = {
@@ -1067,14 +774,7 @@ describe("VariableEditForm", () => {
         type: "text",
       };
 
-      render(
-        <VariableEditForm
-          variable={newVariable}
-          typeOptions={typeOptions}
-          isNew={true}
-          onSave={mockOnSave}
-        />,
-      );
+      renderForm({ variable: newVariable, isNew: true });
 
       const addButton = screen.getByText("Ajouter");
       fireEvent.click(addButton);
@@ -1091,90 +791,48 @@ describe("VariableEditForm", () => {
   });
 
   describe("onDirtyChange", () => {
-    it("should report a pristine form when nothing has been edited", () => {
+    const renderTrackingDirtiness = (props: Partial<FormProps> = {}) => {
       const onDirtyChange = vi.fn();
+      const rendered = renderForm({ onDirtyChange, ...props });
+      return { onDirtyChange, ...rendered };
+    };
 
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-          onDirtyChange={onDirtyChange}
-        />,
-      );
+    it("should report a pristine form when nothing has been edited", () => {
+      const { onDirtyChange } = renderTrackingDirtiness();
 
       expect(onDirtyChange).toHaveBeenLastCalledWith(false);
     });
 
     it("should report a dirty form once a field has been edited", () => {
-      const onDirtyChange = vi.fn();
+      const { onDirtyChange } = renderTrackingDirtiness();
 
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-          onDirtyChange={onDirtyChange}
-        />,
-      );
-
-      fireEvent.change(screen.getByLabelText("Label"), {
-        target: { value: "Nouveau libellé" },
-      });
+      changeField("Label", "Nouveau libellé");
 
       expect(onDirtyChange).toHaveBeenLastCalledWith(true);
     });
 
     it("should report a pristine form again when the edit is reverted", () => {
-      const onDirtyChange = vi.fn();
+      const { onDirtyChange } = renderTrackingDirtiness();
 
-      render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-          onDirtyChange={onDirtyChange}
-        />,
-      );
-
-      const labelInput = screen.getByLabelText("Label");
-      fireEvent.change(labelInput, { target: { value: "Nouveau libellé" } });
-      fireEvent.change(labelInput, { target: { value: "Test Variable" } });
+      changeField("Label", "Nouveau libellé");
+      changeField("Label", "Test Variable");
 
       expect(onDirtyChange).toHaveBeenLastCalledWith(false);
     });
 
     it("should always report a new variable as dirty", () => {
-      const onDirtyChange = vi.fn();
-
-      render(
-        <VariableEditForm
-          variable={{ id: "new", label: "", name: "", description: "", type: "text" }}
-          typeOptions={typeOptions}
-          isNew={true}
-          onSave={mockOnSave}
-          onDirtyChange={onDirtyChange}
-        />,
-      );
+      const { onDirtyChange } = renderTrackingDirtiness({
+        variable: emptyNewVariable,
+        isNew: true,
+      });
 
       expect(onDirtyChange).toHaveBeenLastCalledWith(true);
     });
 
     it("should report a pristine form when it is unmounted", () => {
-      const onDirtyChange = vi.fn();
+      const { onDirtyChange, unmount } = renderTrackingDirtiness();
 
-      const { unmount } = render(
-        <VariableEditForm
-          variable={defaultVariable}
-          typeOptions={typeOptions}
-          onSave={mockOnSave}
-          onDirtyChange={onDirtyChange}
-        />,
-      );
-
-      fireEvent.change(screen.getByLabelText("Label"), {
-        target: { value: "Nouveau libellé" },
-      });
+      changeField("Label", "Nouveau libellé");
       unmount();
 
       expect(onDirtyChange).toHaveBeenLastCalledWith(false);

@@ -11,16 +11,10 @@ const translations: Record<string, string> = {
 };
 
 vi.mock("react-i18next", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("react-i18next")>();
-  return {
-    ...actual,
-    useTranslation: (ns?: string, options?: any) => {
-      if (options?.i18n) {
-        return actual.useTranslation(ns, options);
-      }
-      return { t: (key: string) => translations[key] ?? key };
-    },
-  };
+  const { withMockedTranslation } = await import("../testing/i18n.testing");
+  return withMockedTranslation(await importOriginal(), {
+    t: (key: string) => translations[key] ?? key,
+  });
 });
 
 describe("ExportButtons Component", () => {

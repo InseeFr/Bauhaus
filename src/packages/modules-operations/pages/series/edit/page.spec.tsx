@@ -1,17 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { AppContextProvider } from "../../../../application/app-context";
+import { renderAtRoute } from "../../page.testing";
 import { Component } from "./page";
-
-const params = vi.fn();
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
-  useParams: () => params(),
-}));
 
 vi.mock("react-i18next", async () => ({
   ...(await vi.importActual("react-i18next")),
@@ -48,24 +41,14 @@ vi.mock("./components/OperationsSerieEdition", () => ({
   ),
 }));
 
-const renderPage = (extraMandatoryFields = ["creator"]) =>
-  render(
-    <AppContextProvider
-      lg1="fr"
-      lg2="en"
-      version="2.0.0"
-      properties={{ extraMandatoryFields } as any}
-    >
-      <MemoryRouter>
-        <Component />
-      </MemoryRouter>
-    </AppContextProvider>,
-  );
+const renderPage = (extraMandatoryFields = ["creator"], url = "/series/s-1/modify") =>
+  renderAtRoute(<Component />, ["/series/:id/modify", "/series/create"], url, {
+    extraMandatoryFields,
+  });
 
 describe("Series edit page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    params.mockReturnValue({ id: "s-1" });
     vi.mocked(OperationsApi.getSerie).mockResolvedValue({ id: "s-1", prefLabelLg1: "Série FR" });
     vi.mocked(OperationsApi.getAllFamilies).mockResolvedValue([{ id: "f-1" }]);
     vi.mocked(OperationsApi.getAllIndicators).mockResolvedValue([{ id: "i-1" }, { id: "i-2" }]);
@@ -85,8 +68,7 @@ describe("Series edit page", () => {
   });
 
   it("ouvre directement un formulaire vide en création", async () => {
-    params.mockReturnValue({});
-    renderPage();
+    renderPage(undefined, "/series/create");
 
     await waitFor(() => expect(screen.getByText("série:(nouvelle)")).toBeInTheDocument());
     expect(OperationsApi.getSerie).not.toHaveBeenCalled();

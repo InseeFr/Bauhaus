@@ -5,6 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { MainMenu } from "@components/menu";
 
+import { itRendersNothingOnTheHomePage } from "../../tests/menu.testing";
 import { Menu } from "./menu";
 
 vi.mock("react-i18next", () => ({
@@ -24,30 +25,50 @@ vi.mock("react-i18next", () => ({
 const renderWithRouter = (ui: React.ReactElement, pathname = "/") =>
   render(<MemoryRouter initialEntries={[pathname]}>{ui}</MemoryRouter>);
 
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
-  return {
-    ...actual,
-    useLocation: vi.fn(),
-  };
-});
+vi.mock("react-router-dom", async (importOriginal) =>
+  (await import("../../tests/react-router.testing")).withMockedUseLocation(await importOriginal()),
+);
 
-vi.mock("@components/menu", () => ({
-  MainMenu: vi.fn(() => <div>MainMenu Mock</div>),
-}));
+vi.mock("@components/menu", () => import("../../tests/main-menu.testing"));
+
+const menuPaths = [
+  {
+    path: "/classifications/families",
+    pathKey: "classifications/famil",
+    label: "Familles",
+    order: 0,
+  },
+  { path: "/classifications/series", pathKey: "classifications/series", label: "Séries", order: 1 },
+  {
+    path: "/classifications/correspondences",
+    pathKey: "classifications/correspondence",
+    label: "Tables de correspondances",
+    order: 3,
+  },
+  { path: "/classifications", pathKey: "classification", label: "Nomenclatures", order: 2 },
+];
+
+const expectMenuWithActivePath = (activePath: string) =>
+  expect(MainMenu).toHaveBeenCalledWith(
+    {
+      paths: menuPaths.map((menuPath) => {
+        const active = menuPath.path === activePath;
+        return {
+          ...menuPath,
+          className: active ? "active" : null,
+          attrs: active ? { "aria-current": "page" } : null,
+        };
+      }),
+    },
+    {},
+  );
 
 describe("Menu", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should not render anything if the path is "/"', () => {
-    vi.mocked(useLocation).mockReturnValue({ pathname: "/" } as any);
-
-    const { container } = renderWithRouter(<Menu />);
-
-    expect(container.firstChild).toBeNull();
-  });
+  itRendersNothingOnTheHomePage(() => renderWithRouter(<Menu />));
 
   it("should render the menu with paths, and highlight the active path", () => {
     vi.mocked(useLocation).mockReturnValue({
@@ -56,45 +77,7 @@ describe("Menu", () => {
 
     renderWithRouter(<Menu />);
 
-    expect(MainMenu).toHaveBeenCalledWith(
-      {
-        paths: [
-          {
-            path: "/classifications/families",
-            pathKey: "classifications/famil",
-            className: "active",
-            attrs: { "aria-current": "page" },
-            label: "Familles",
-            order: 0,
-          },
-          {
-            path: "/classifications/series",
-            pathKey: "classifications/series",
-            className: null,
-            attrs: null,
-            label: "Séries",
-            order: 1,
-          },
-          {
-            path: "/classifications/correspondences",
-            pathKey: "classifications/correspondence",
-            className: null,
-            attrs: null,
-            label: "Tables de correspondances",
-            order: 3,
-          },
-          {
-            path: "/classifications",
-            pathKey: "classification",
-            className: null,
-            attrs: null,
-            label: "Nomenclatures",
-            order: 2,
-          },
-        ],
-      },
-      {},
-    );
+    expectMenuWithActivePath("/classifications/families");
   });
 
   it("should mark the correct path as active based on location.pathname", () => {
@@ -104,45 +87,7 @@ describe("Menu", () => {
 
     renderWithRouter(<Menu />);
 
-    expect(MainMenu).toHaveBeenCalledWith(
-      {
-        paths: [
-          {
-            path: "/classifications/families",
-            pathKey: "classifications/famil",
-            className: null,
-            attrs: null,
-            label: "Familles",
-            order: 0,
-          },
-          {
-            path: "/classifications/series",
-            pathKey: "classifications/series",
-            className: "active",
-            attrs: { "aria-current": "page" },
-            label: "Séries",
-            order: 1,
-          },
-          {
-            path: "/classifications/correspondences",
-            pathKey: "classifications/correspondence",
-            className: null,
-            attrs: null,
-            label: "Tables de correspondances",
-            order: 3,
-          },
-          {
-            path: "/classifications",
-            pathKey: "classification",
-            className: null,
-            attrs: null,
-            label: "Nomenclatures",
-            order: 2,
-          },
-        ],
-      },
-      {},
-    );
+    expectMenuWithActivePath("/classifications/series");
   });
 
   it('should apply "active" to the root classification path if no specific path matches', () => {
@@ -152,44 +97,6 @@ describe("Menu", () => {
 
     renderWithRouter(<Menu />);
 
-    expect(MainMenu).toHaveBeenCalledWith(
-      {
-        paths: [
-          {
-            path: "/classifications/families",
-            pathKey: "classifications/famil",
-            className: null,
-            attrs: null,
-            label: "Familles",
-            order: 0,
-          },
-          {
-            path: "/classifications/series",
-            pathKey: "classifications/series",
-            className: null,
-            attrs: null,
-            label: "Séries",
-            order: 1,
-          },
-          {
-            path: "/classifications/correspondences",
-            pathKey: "classifications/correspondence",
-            className: null,
-            attrs: null,
-            label: "Tables de correspondances",
-            order: 3,
-          },
-          {
-            path: "/classifications",
-            pathKey: "classification",
-            className: "active",
-            attrs: { "aria-current": "page" },
-            label: "Nomenclatures",
-            order: 2,
-          },
-        ],
-      },
-      {},
-    );
+    expectMenuWithActivePath("/classifications");
   });
 });

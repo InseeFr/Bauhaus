@@ -1,11 +1,36 @@
 services:
   api:
     build:
-      context: ../../Bauhaus-Back-Office
+      # Racine du dépôt Bauhaus-Back-Office : le Dockerfile y copie mvnw et
+      # .mvn, puis lance le build Maven de tous les modules. BACK_OFFICE_HOME
+      # doit être absolu : un chemin relatif se lirait depuis containers/.
+      context: ${BACK_OFFICE_HOME:-../../Bauhaus-Back-Office}
       dockerfile: Dockerfile.bauhaus
     ports:
       - "8080:8080"
+    volumes:
+      # La configuration locale du Back-Office n'est pas dans l'image : on la
+      # monte là où application.properties la cherche (./config, relatif au
+      # WORKDIR /opt/app). Elle porte des propriétés sans valeur par défaut
+      # (claims JWT, stockage) ; les variables ci-dessous la surchargent.
+      - ${BACK_OFFICE_HOME:-../../Bauhaus-Back-Office}/module-bauhaus-bo/config/bauhaus-local-dev.properties:/opt/app/config/bauhaus-local-dev.properties:ro
+    tmpfs:
+      # Le healthcheck écrit `<chemin>` + `testHealthcheck.txt` sans séparateur :
+      # ses trois fichiers de test atterrissent donc ici, dans le répertoire
+      # parent, et non dans trois sous-dossiers. uid/gid : l'image tourne en 10000.
+      - /opt/app/data/storage:uid=10000,gid=10000
     environment:
+      # Stockage : la valeur de la configuration locale vaut ${HOME}/…, or
+      # useradd ne crée pas /home/javauser : rien n'y est inscriptible et
+      # /api/healthcheck sort en 500. Le profil s3 étant actif, les documents
+      # vont dans minio : ces chemins ne servent qu'au healthcheck, d'où le tmpfs.
+      FR_INSEE_RMES_BAUHAUS_STORAGE_DOCUMENT_GESTION: /opt/app/data/storage/gestion
+      FR_INSEE_RMES_BAUHAUS_STORAGE_DOCUMENT_PUBLICATION: /opt/app/data/storage/publication
+      FR_INSEE_RMES_BAUHAUS_STORAGE_DOCUMENT_PUBLICATION_INTERNE: /opt/app/data/storage/publicationInterne
+      # `defaultContributor` vaut HIE3014990, une organisation absente des jeux
+      # de données de test : depuis 4.21.1 le back refuse de démarrer tant
+      # qu'elle n'est pas en base de gestion.
+      FR_INSEE_RMES_BAUHAUS_DEFAULT_CONTRIBUTOR_CHECK_ENABLED: "false"
       # Auth
       FR_INSEE_RMES_BAUHAUS_ENV: prod
       FR_INSEE_RMES_BAUHAUS_KEYCLOAK_SERVER_URL: http://keycloak:8180
