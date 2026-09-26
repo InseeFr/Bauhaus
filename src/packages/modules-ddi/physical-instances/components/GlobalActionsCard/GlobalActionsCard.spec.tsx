@@ -34,10 +34,11 @@ vi.mock("./GlobalActionToolbar", () => ({
 }));
 
 vi.mock("./PhysicalInstancesDataTable", () => ({
-  PhysicalInstancesDataTable: ({ variables, unsavedVariableIds }: any) => (
+  PhysicalInstancesDataTable: ({ variables, unsavedVariableIds, stamps }: any) => (
     <div data-testid="physical-instances-data-table">
       <div>Variables: {variables.length}</div>
       <div>Unsaved: {unsavedVariableIds.length}</div>
+      <div>Table stamps: {stamps?.join(",")}</div>
     </div>
   ),
 }));
@@ -167,5 +168,11 @@ describe("GlobalActionsCard", () => {
     };
 
     expect(() => render(<GlobalActionsCard {...propsWithoutDuplicate} />)).not.toThrow();
+  });
+
+  it("transmet les stamps de l'instance au tableau des variables", () => {
+    render(<GlobalActionsCard {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+
+    expect(screen.getByText("Table stamps: STAMP1,STAMP2")).toBeInTheDocument();
   });
 });

@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+import { usePrivileges, useUserStamps } from "@utils/hooks/users";
+
 import { PhysicalInstancesDataTable } from "./PhysicalInstancesDataTable";
 
 vi.mock("react-i18next", () => ({
@@ -22,6 +24,22 @@ vi.mock("react-i18next", () => ({
     },
   }),
 }));
+
+// On monte le vrai <HasAccess> ; seules les sources de privilèges et de
+// stamps sont mockées.
+vi.mock("@utils/hooks/users", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@utils/hooks/users")>();
+  return { ...actual, usePrivileges: vi.fn(), useUserStamps: vi.fn() };
+});
+
+const ddiPrivileges = (strategy: string) => ({
+  privileges: [
+    {
+      application: "DDI_PHYSICALINSTANCE",
+      privileges: [{ privilege: "UPDATE", strategy }],
+    },
+  ],
+});
 
 vi.mock("primereact/button", () => ({
   Button: ({
@@ -115,6 +133,9 @@ describe("PhysicalInstancesDataTable", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    // Par défaut : stratégie ALL → les boutons de suppression sont rendus.
+    (usePrivileges as any).mockReturnValue(ddiPrivileges("ALL"));
+    (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
   });
 
   it("should render data table with correct columns", () => {
@@ -198,6 +219,34 @@ describe("PhysicalInstancesDataTable", () => {
 
       expect(mockOnDeleteClick).toHaveBeenCalledTimes(1);
       expect(mockOnRowClick).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("gating des boutons de suppression", () => {
+    it("affiche les boutons de suppression quand un stamp utilisateur appartient aux stamps de l'instance", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP1" }] });
+
+      render(<PhysicalInstancesDataTable {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+
+      expect(screen.getAllByLabelText("Supprimer")).toHaveLength(mockVariables.length);
+    });
+
+    it("masque les boutons de suppression quand aucun stamp utilisateur n'appartient aux stamps de l'instance", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("STAMP"));
+      (useUserStamps as any).mockReturnValue({ data: [{ stamp: "STAMP9" }] });
+
+      render(<PhysicalInstancesDataTable {...defaultProps} stamps={["STAMP1", "STAMP2"]} />);
+
+      expect(screen.queryByLabelText("Supprimer")).not.toBeInTheDocument();
+    });
+
+    it("masque les boutons de suppression sans privilège de modification", () => {
+      (usePrivileges as any).mockReturnValue(ddiPrivileges("NONE"));
+
+      render(<PhysicalInstancesDataTable {...defaultProps} />);
+
+      expect(screen.queryByLabelText("Supprimer")).not.toBeInTheDocument();
     });
   });
 

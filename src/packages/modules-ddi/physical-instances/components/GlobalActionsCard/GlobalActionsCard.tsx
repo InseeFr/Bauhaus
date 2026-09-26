@@ -14,7 +14,7 @@ interface GlobalActionsCardProps {
   onDeleteClick?: (data: any) => void;
   unsavedVariableIds?: string[];
   selectedVariableId?: string | null;
-  /** Stamps de l'instance source — gating STAMP du bouton de duplication. */
+  /** Stamps de l'instance — gating STAMP de la duplication et des suppressions. */
   stamps?: string[];
 }
 
@@ -45,6 +45,7 @@ export const GlobalActionsCard = ({
         onDeleteClick={onDeleteClick}
         unsavedVariableIds={unsavedVariableIds}
         selectedVariableId={selectedVariableId}
+        stamps={stamps}
       />
     </Card>
   );
