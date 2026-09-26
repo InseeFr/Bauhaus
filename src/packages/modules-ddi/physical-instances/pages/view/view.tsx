@@ -28,7 +28,6 @@ const PhysicalInstanceDialog = lazy(() =>
 );
 import { LoadingOverlay } from "@components/loading-overlay";
 
-import { getApiErrorMessage } from "@utils/api-errors";
 import { cx } from "@utils/cx";
 import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
 
@@ -40,6 +39,7 @@ import { usePhysicalInstanceParents } from "../../../hooks/usePhysicalInstancePa
 import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalInstance";
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
+import { getDdiErrorMessage } from "../../../utils/api-errors";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
@@ -320,7 +320,7 @@ export const Component = () => {
       } catch (err: unknown) {
         dispatch(actions.setFormData({ label: previousLabel }));
 
-        const errorMessage = getApiErrorMessage(err, t("physicalInstance.view.saveErrorDetail"));
+        const errorMessage = getDdiErrorMessage(err, t, t("physicalInstance.view.saveErrorDetail"));
 
         toast.current?.show({
           severity: "error",
@@ -791,7 +791,11 @@ export const Component = () => {
         life: TOAST_DURATION,
       });
     } catch (err: unknown) {
-      const errorMessage = getApiErrorMessage(err, t("physicalInstance.view.saveAllErrorDetail"));
+      const errorMessage = getDdiErrorMessage(
+        err,
+        t,
+        t("physicalInstance.view.saveAllErrorDetail"),
+      );
 
       toast.current?.show({
         severity: "error",
@@ -883,8 +887,9 @@ export const Component = () => {
           life: TOAST_DURATION,
         });
       } catch (err) {
-        const errorMessage = getApiErrorMessage(
+        const errorMessage = getDdiErrorMessage(
           err,
+          t,
           t("physicalInstance.view.duplicateErrorDetail"),
         );
 

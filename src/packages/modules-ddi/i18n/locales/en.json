@@ -275,6 +275,14 @@
       "studyUnitTag": "Study unit: {{label}}",
       "studyUnitSelectPlaceholder": "Go to a data file of the study unit…",
       "studyUnitSelectEmpty": "No data file"
+    },
+    "errors": {
+      "GROUP_MISSING_CODE_LIST_SCHEME": "The series ({{group}}) has no CodeListScheme to file its code lists: it must be created beforehand.",
+      "GROUP_MISSING_CATEGORY_SCHEME": "The series ({{group}}) has no CategoryScheme to file its categories: it must be created beforehand.",
+      "GROUP_MISSING_MANAGED_REPRESENTATION_SCHEME": "The series ({{group}}) has no ManagedRepresentationScheme to file its sentinel values: it must be created beforehand.",
+      "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "The operation ({{studyUnit}}) has no LogicalProduct to file its variables: it must be created beforehand.",
+      "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "The operation ({{studyUnit}}) has {{count}} LogicalProducts: only one is expected to file its variables.",
+      "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "The operation ({{studyUnit}}) has no VariableScheme to file its variables: it must be created beforehand."
     }
   }
 }

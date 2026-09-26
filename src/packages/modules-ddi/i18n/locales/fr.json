@@ -275,6 +275,14 @@
       "studyUnitTag": "Opération : {{label}}",
       "studyUnitSelectPlaceholder": "Aller vers un fichier de données de l'opération…",
       "studyUnitSelectEmpty": "Aucun fichier de données"
+    },
+    "errors": {
+      "GROUP_MISSING_CODE_LIST_SCHEME": "La série ({{group}}) n'a pas de CodeListScheme pour ranger ses listes de codes : il doit être créé en amont.",
+      "GROUP_MISSING_CATEGORY_SCHEME": "La série ({{group}}) n'a pas de CategoryScheme pour ranger ses catégories : il doit être créé en amont.",
+      "GROUP_MISSING_MANAGED_REPRESENTATION_SCHEME": "La série ({{group}}) n'a pas de ManagedRepresentationScheme pour ranger ses valeurs sentinelles : il doit être créé en amont.",
+      "STUDY_UNIT_MISSING_LOGICAL_PRODUCT": "L'opération ({{studyUnit}}) n'a pas de LogicalProduct pour ranger ses variables : il doit être créé en amont.",
+      "STUDY_UNIT_SEVERAL_LOGICAL_PRODUCTS": "L'opération ({{studyUnit}}) a {{count}} LogicalProducts : un seul est attendu pour ranger ses variables.",
+      "STUDY_UNIT_MISSING_VARIABLE_SCHEME": "L'opération ({{studyUnit}}) n'a pas de VariableScheme pour ranger ses variables : il doit être créé en amont."
     }
   }
 }
