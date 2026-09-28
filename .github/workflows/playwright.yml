@@ -53,15 +53,24 @@ jobs:
             -f ./e2e/compose.ci.yaml up -d bauhaus-back
           timeout 300 bash -c 'until curl -sf http://localhost:8080/api/init > /dev/null; do sleep 5; done'
 
+      # La suite dure ~2 min : au-delà de 10, elle est bloquée. Un timeout d'étape
+      # fait échouer le job (au lieu de l'annuler au bout des 45 min du job), et
+      # l'upload du rapport ci-dessous tourne quand même.
       - name: Run Playwright tests
+        timeout-minutes: 10
         working-directory: ./e2e
         env:
           CI: "true"
           VITE_API_BASE_HOST: http://localhost:8080/api
-        run: npx playwright test
+          # Trace le lancement de Chromium : un blocage à cette étape n'est borné
+          # par aucun timeout Playwright et ne laisse sinon aucune trace.
+          DEBUG: pw:browser
+        # `list` affiche chaque test à son démarrage : le reporter `github` seul
+        # n'écrit rien avant la fin, un blocage restait donc muet.
+        run: npx playwright test --reporter=list,github,html
 
       - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+        if: always()
         with:
           name: playwright-report
           path: e2e/playwright-report/
