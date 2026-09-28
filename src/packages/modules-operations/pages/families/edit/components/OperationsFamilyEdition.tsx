@@ -15,7 +15,7 @@ import { Family } from "@model/operations/family";
 
 import { OperationsApi } from "@sdk/operations-api";
 
-import { getApiFieldErrors } from "@utils/api-errors";
+import { toFormErrors } from "@utils/api-errors";
 
 import { validate } from "../validation";
 
@@ -158,20 +158,12 @@ export const OperationsFamilyEdition = ({
             goBack(`/operations/family/${id}`, isCreation);
           },
           (err: unknown) => {
-            const apiErrors = getApiFieldErrors(err, FIELDS_WITH_ERROR_SLOT);
-            if (apiErrors && Object.keys(apiErrors.fields).length > 0) {
+            const { clientSideErrors, serverSideError } = toFormErrors(err, FIELDS_WITH_ERROR_SLOT);
+            if (clientSideErrors) {
               dispatch({ type: "SET_SUBMITTING", payload: true });
-              dispatch({
-                type: "SET_CLIENT_ERRORS",
-                payload: {
-                  errorMessage: Object.values(apiErrors.fields),
-                  fields: apiErrors.fields,
-                },
-              });
-              dispatch({ type: "SET_SERVER_ERROR", payload: apiErrors.others });
-            } else {
-              dispatch({ type: "SET_SERVER_ERROR", payload: err });
+              dispatch({ type: "SET_CLIENT_ERRORS", payload: clientSideErrors });
             }
+            dispatch({ type: "SET_SERVER_ERROR", payload: serverSideError });
           },
         )
         .finally(() => dispatch({ type: "SET_SAVING", payload: false }));

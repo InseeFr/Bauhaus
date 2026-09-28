@@ -1,4 +1,4 @@
-import { getApiErrorMessage, getApiErrors, getApiFieldErrors } from "./api-errors";
+import { getApiErrorMessage, getApiErrors, toFormErrors } from "./api-errors";
 
 describe("getApiErrorMessage", () => {
   it("lit le message d'un rejet nu du SDK", () => {
@@ -74,36 +74,51 @@ describe("getApiErrors", () => {
   });
 });
 
-describe("getApiFieldErrors", () => {
+describe("toFormErrors", () => {
   const displayedFields = ["prefLabelLg1", "prefLabelLg2"];
 
-  it("rattache à son champ le message d'une erreur portant sur un champ affiché", () => {
+  it("place sous sa saisie l'erreur d'un champ affiché et garde les autres pour le bandeau", () => {
     expect(
-      getApiFieldErrors(
-        { errors: [{ field: "prefLabelLg1", message: "must not be blank" }] },
-        displayedFields,
-      ),
-    ).toEqual({ fields: { prefLabelLg1: "must not be blank" }, others: [] });
-  });
-
-  it("garde en lignes à part les erreurs sans champ affiché", () => {
-    expect(
-      getApiFieldErrors(
+      toFormErrors(
         {
           errors: [
+            { field: "prefLabelLg1", message: "must not be blank" },
             { field: "created", message: "is not a valid LocalDate" },
-            { field: "body", message: "the request body could not be read" },
           ],
         },
         displayedFields,
       ),
     ).toEqual({
-      fields: {},
-      others: ["created : is not a valid LocalDate", "the request body could not be read"],
+      clientSideErrors: {
+        errorMessage: ["must not be blank"],
+        fields: { prefLabelLg1: "must not be blank" },
+      },
+      serverSideError: ["created : is not a valid LocalDate"],
     });
   });
 
-  it("renvoie null quand il n'y a pas d'erreurs détaillées", () => {
-    expect(getApiFieldErrors({ message: "Boom" }, displayedFields)).toBeNull();
+  it("laisse le rejet entier au bandeau quand aucune erreur ne vise un champ affiché", () => {
+    const err = { errors: [{ field: "created", message: "is not a valid LocalDate" }] };
+
+    expect(toFormErrors(err, displayedFields)).toEqual({
+      clientSideErrors: null,
+      serverSideError: err,
+    });
+  });
+
+  it("laisse au bandeau un rejet sans erreurs détaillées", () => {
+    const err = { message: "Boom", status: 500 };
+
+    expect(toFormErrors(err, displayedFields)).toEqual({
+      clientSideErrors: null,
+      serverSideError: err,
+    });
+  });
+
+  it("laisse au bandeau un rejet chaîne", () => {
+    expect(toFormErrors("Boom", displayedFields)).toEqual({
+      clientSideErrors: null,
+      serverSideError: "Boom",
+    });
   });
 });

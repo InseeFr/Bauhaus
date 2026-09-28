@@ -75,7 +75,7 @@ export const getApiErrors = (err: unknown): string[] | null => {
  *
  * Renvoie `null` quand la réponse ne porte pas d'erreurs détaillées.
  */
-export const getApiFieldErrors = (
+const getApiFieldErrors = (
   err: unknown,
   displayedFields: readonly string[],
 ): { fields: Record<string, string>; others: string[] } | null => {
@@ -99,4 +99,30 @@ export const getApiFieldErrors = (
   }
 
   return { fields, others };
+};
+
+/** Erreurs d'un formulaire, à la forme attendue par les écrans d'édition. */
+export interface FormErrors {
+  /** `null` quand aucune erreur ne vise un champ affiché. */
+  clientSideErrors: { errorMessage: string[]; fields: Record<string, string> } | null;
+  /** Ce qu'il reste à afficher dans le bandeau : le rejet entier, ou les lignes non rattachées. */
+  serverSideError: unknown;
+}
+
+/**
+ * Transforme le rejet d'un enregistrement en état de formulaire : les erreurs des champs affichés
+ * vont sous leur saisie, le reste au bandeau. Sans erreur rattachable à un champ affiché, le rejet
+ * est laissé tel quel au bandeau.
+ */
+export const toFormErrors = (err: unknown, displayedFields: readonly string[]): FormErrors => {
+  const apiErrors = getApiFieldErrors(err, displayedFields);
+
+  if (!apiErrors || Object.keys(apiErrors.fields).length === 0) {
+    return { clientSideErrors: null, serverSideError: err };
+  }
+
+  return {
+    clientSideErrors: { errorMessage: Object.values(apiErrors.fields), fields: apiErrors.fields },
+    serverSideError: apiErrors.others,
+  };
 };
