@@ -28,6 +28,12 @@ const formatFieldError = ({ field, message }: FieldError) =>
 const firstNonEmptyString = (...candidates: unknown[]): string | undefined =>
   candidates.find((candidate): candidate is string => typeof candidate === "string" && !!candidate);
 
+const detailedErrorsOf = (err: unknown): unknown[] | null => {
+  const errors = (err as { errors?: unknown })?.errors;
+
+  return Array.isArray(errors) && errors.length > 0 ? errors : null;
+};
+
 /**
  * Message court d'un échec d'appel, pour un toast ou un bandeau.
  *
@@ -55,9 +61,42 @@ export const getApiErrorMessage = (err: unknown, fallback: string): string => {
  * {@link getApiErrorMessage} qu'il faut utiliser.
  */
 export const getApiErrors = (err: unknown): string[] | null => {
-  const errors = (err as { errors?: unknown })?.errors;
+  const errors = detailedErrorsOf(err);
 
-  if (!Array.isArray(errors) || errors.length === 0) return null;
+  if (!errors) return null;
 
   return errors.map((error) => (isFieldError(error) ? formatFieldError(error) : String(error)));
+};
+
+/**
+ * Erreurs de validation réparties pour un formulaire : celles qui portent sur un champ affiché sont
+ * indexées par ce champ (à afficher à côté de la saisie), les autres restent des lignes à afficher
+ * dans le bandeau.
+ *
+ * Renvoie `null` quand la réponse ne porte pas d'erreurs détaillées.
+ */
+export const getApiFieldErrors = (
+  err: unknown,
+  displayedFields: readonly string[],
+): { fields: Record<string, string>; others: string[] } | null => {
+  const errors = detailedErrorsOf(err);
+
+  if (!errors) return null;
+
+  const fields: Record<string, string> = {};
+  const others: string[] = [];
+
+  for (const error of errors) {
+    if (
+      isFieldError(error) &&
+      typeof error.field === "string" &&
+      displayedFields.includes(error.field)
+    ) {
+      fields[error.field] = String(error.message);
+    } else {
+      others.push(isFieldError(error) ? formatFieldError(error) : String(error));
+    }
+  }
+
+  return { fields, others };
 };

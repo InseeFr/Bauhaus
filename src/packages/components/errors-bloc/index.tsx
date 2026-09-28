@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { appI18n } from "../../i18n";
+import { getApiErrors } from "../../utils/api-errors";
 import { sanitizeHtml } from "../../utils/sanitize-html";
 import "./errors-bloc.css";
 
@@ -62,10 +63,14 @@ export const ErrorBloc = ({ error }: { error?: unknown }) => {
 
   const formattedErrors = errors
     .filter((e) => !!e)
-    .map((e) => {
+    .flatMap((e) => {
       let errorMsg;
       try {
         const parsedError = e !== null && typeof e === "object" ? e : JSON.parse(e);
+        const detailedErrors = getApiErrors(parsedError);
+        if (detailedErrors) {
+          return detailedErrors;
+        }
         if (parsedError.code && i18n.exists(`errors.${parsedError.code}`)) {
           errorMsg = t(`errors.${parsedError.code}`, parsedError);
         } else if (parsedError.message && i18n.exists(`errors.${parsedError.message}`)) {

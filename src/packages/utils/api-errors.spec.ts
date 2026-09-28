@@ -1,4 +1,4 @@
-import { getApiErrorMessage, getApiErrors } from "./api-errors";
+import { getApiErrorMessage, getApiErrors, getApiFieldErrors } from "./api-errors";
 
 describe("getApiErrorMessage", () => {
   it("lit le message d'un rejet nu du SDK", () => {
@@ -71,5 +71,39 @@ describe("getApiErrors", () => {
 
   it("renvoie null sur une liste d'erreurs vide", () => {
     expect(getApiErrors({ errors: [] })).toBeNull();
+  });
+});
+
+describe("getApiFieldErrors", () => {
+  const displayedFields = ["prefLabelLg1", "prefLabelLg2"];
+
+  it("rattache à son champ le message d'une erreur portant sur un champ affiché", () => {
+    expect(
+      getApiFieldErrors(
+        { errors: [{ field: "prefLabelLg1", message: "must not be blank" }] },
+        displayedFields,
+      ),
+    ).toEqual({ fields: { prefLabelLg1: "must not be blank" }, others: [] });
+  });
+
+  it("garde en lignes à part les erreurs sans champ affiché", () => {
+    expect(
+      getApiFieldErrors(
+        {
+          errors: [
+            { field: "created", message: "is not a valid LocalDate" },
+            { field: "body", message: "the request body could not be read" },
+          ],
+        },
+        displayedFields,
+      ),
+    ).toEqual({
+      fields: {},
+      others: ["created : is not a valid LocalDate", "the request body could not be read"],
+    });
+  });
+
+  it("renvoie null quand il n'y a pas d'erreurs détaillées", () => {
+    expect(getApiFieldErrors({ message: "Boom" }, displayedFields)).toBeNull();
   });
 });

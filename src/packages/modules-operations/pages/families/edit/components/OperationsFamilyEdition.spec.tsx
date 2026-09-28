@@ -237,6 +237,30 @@ describe("OperationsFamilyEdition", () => {
       await saveAndWaitForServerError();
     });
 
+    it("should display a server field error next to its field, like a client-side error", async () => {
+      OperationsApi.updateFamily.mockRejectedValueOnce({
+        status: 400,
+        errors: [{ field: "prefLabelLg1", message: "must not be blank" }],
+      });
+      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      clickSave();
+
+      const input = await screen.findByDisplayValue("Test Label 1");
+      await waitFor(() => expect(input).toHaveAccessibleDescription("must not be blank"));
+      expect(input).toHaveAttribute("aria-invalid", "true");
+    });
+
+    it("should display in the error banner a server error on a field absent from the form", async () => {
+      OperationsApi.updateFamily.mockRejectedValueOnce({
+        status: 400,
+        errors: [{ field: "created", message: "is not a valid LocalDate" }],
+      });
+      renderWithAppContext(<OperationsFamilyEdition {...defaultProps} />);
+      clickSave();
+
+      expect(await screen.findByText("created : is not a valid LocalDate")).toBeInTheDocument();
+    });
+
     it("should not call goBack if API call fails", async () => {
       await saveAndWaitForServerError();
 

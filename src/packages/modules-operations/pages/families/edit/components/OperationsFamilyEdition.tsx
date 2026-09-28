@@ -15,7 +15,12 @@ import { Family } from "@model/operations/family";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { getApiFieldErrors } from "@utils/api-errors";
+
 import { validate } from "../validation";
+
+/** Champs dont une erreur de validation du back s'affiche à côté de la saisie. */
+const FIELDS_WITH_ERROR_SLOT = ["prefLabelLg1", "prefLabelLg2"];
 
 const defaultFamily: Partial<Family> = {
   prefLabelLg1: "",
@@ -37,7 +42,7 @@ interface State {
     errorMessage: string[];
     fields?: Record<string, string>;
   };
-  serverSideError: string;
+  serverSideError: unknown;
   submitting: boolean;
   saving: boolean;
 }
@@ -46,7 +51,7 @@ type Action =
   | { type: "RESET_STATE"; payload: Family }
   | { type: "UPDATE_FIELD"; payload: { field: string; value: string } }
   | { type: "SET_CLIENT_ERRORS"; payload: State["clientSideErrors"] }
-  | { type: "SET_SERVER_ERROR"; payload: string }
+  | { type: "SET_SERVER_ERROR"; payload: unknown }
   | { type: "SET_SAVING"; payload: boolean }
   | { type: "SET_SUBMITTING"; payload: boolean };
 
@@ -152,8 +157,21 @@ export const OperationsFamilyEdition = ({
           (id = state.family.id) => {
             goBack(`/operations/family/${id}`, isCreation);
           },
-          (err: string) => {
-            dispatch({ type: "SET_SERVER_ERROR", payload: err });
+          (err: unknown) => {
+            const apiErrors = getApiFieldErrors(err, FIELDS_WITH_ERROR_SLOT);
+            if (apiErrors && Object.keys(apiErrors.fields).length > 0) {
+              dispatch({ type: "SET_SUBMITTING", payload: true });
+              dispatch({
+                type: "SET_CLIENT_ERRORS",
+                payload: {
+                  errorMessage: Object.values(apiErrors.fields),
+                  fields: apiErrors.fields,
+                },
+              });
+              dispatch({ type: "SET_SERVER_ERROR", payload: apiErrors.others });
+            } else {
+              dispatch({ type: "SET_SERVER_ERROR", payload: err });
+            }
           },
         )
         .finally(() => dispatch({ type: "SET_SAVING", payload: false }));
@@ -179,7 +197,7 @@ export const OperationsFamilyEdition = ({
       {state.submitting && state.clientSideErrors && (
         <GlobalClientSideErrorBloc clientSideErrors={state.clientSideErrors.errorMessage} />
       )}
-      <ErrorBloc error={[state.serverSideError]} />
+      <ErrorBloc error={state.serverSideError} />
       <form>
         <Row>
           <div className="col-md-6 form-group">
