@@ -11,6 +11,7 @@ import { getApiErrorMessage, getApiErrors } from "@utils/api-errors";
 import { TOAST_DURATION } from "../physical-instances/constants";
 import { enrichDataWithCodeLists } from "../physical-instances/pages/view/enrichDataWithCodeLists";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
+import { errorToastTiming } from "../utils/error-toast";
 
 /** Au-delà, le toast devient illisible : on renvoie vers la console pour le détail. */
 const MAX_DISPLAYED_ERRORS = 10;
@@ -42,7 +43,7 @@ export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject
           severity: "error",
           summary: t("physicalInstance.view.validateDdi4Error"),
           detail: getApiErrorMessage(err, t("physicalInstance.view.validateDdi4ErrorDetail")),
-          sticky: true,
+          ...errorToastTiming(),
         });
         return;
       }
@@ -62,7 +63,7 @@ export const useValidateDdi4 = (data: PhysicalInstanceResponse, toast: RefObject
         severity: "error",
         summary: t("physicalInstance.view.validateDdi4Error"),
         detail,
-        sticky: true,
+        ...errorToastTiming(),
       });
     } finally {
       setIsValidating(false);

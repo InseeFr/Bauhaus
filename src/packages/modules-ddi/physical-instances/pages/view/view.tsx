@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Message } from "primereact/message";
-import { Toast } from "primereact/toast";
+import type { Toast } from "primereact/toast";
 import {
   useReducer,
   useRef,
@@ -40,8 +40,10 @@ import { usePublishPhysicalInstance } from "../../../hooks/usePublishPhysicalIns
 import { useUpdatePhysicalInstance } from "../../../hooks/useUpdatePhysicalInstance";
 import { useValidateDdi4 } from "../../../hooks/useValidateDdi4";
 import { getDdiErrorMessage } from "../../../utils/api-errors";
+import { errorToastTiming } from "../../../utils/error-toast";
 import { pickLang, singletonEntries } from "../../../utils/multilingual";
 import { DdiDevTools } from "../../components/DdiDevTools/DdiDevTools";
+import { DdiToast } from "../../components/DdiToast/DdiToast";
 import { GlobalActionsCard } from "../../components/GlobalActionsCard/GlobalActionsCard";
 import { SearchFilters } from "../../components/SearchFilters/SearchFilters";
 import { VariableEditForm } from "../../components/VariableEditForm/VariableEditForm";
@@ -326,7 +328,7 @@ export const Component = () => {
           severity: "error",
           summary: t("physicalInstance.view.saveError"),
           detail: errorMessage,
-          life: TOAST_DURATION,
+          ...errorToastTiming(),
         });
 
         throw err;
@@ -420,7 +422,7 @@ export const Component = () => {
               codeListAgency: ref?.Agency,
               codeListId: ref?.ID,
             }),
-            sticky: true,
+            ...errorToastTiming(),
           });
         }
       }
@@ -801,7 +803,7 @@ export const Component = () => {
         severity: "error",
         summary: t("physicalInstance.view.saveAllError"),
         detail: errorMessage,
-        life: TOAST_DURATION,
+        ...errorToastTiming(),
       });
     }
   }, [id, agencyId, data, state.localVariables, state.deletedVariableIds, savePhysicalInstance, t]);
@@ -897,7 +899,7 @@ export const Component = () => {
           severity: "error",
           summary: t("physicalInstance.view.duplicateError"),
           detail: errorMessage,
-          life: TOAST_DURATION,
+          ...errorToastTiming(),
         });
       }
     },
@@ -1001,7 +1003,7 @@ export const Component = () => {
       {/* resizable={false} : PrimeReact rend les Dialog redimensionnables par défaut,
           ce qui n'a pas de sens pour une simple confirmation. */}
       <ConfirmDialog resizable={false} />
-      <Toast ref={toast} />
+      <DdiToast ref={toast} />
       <DdiDevTools data={data} dataByLangs={dataByLangs} />
     </>
   );

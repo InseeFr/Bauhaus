@@ -11,6 +11,7 @@ import { getApiErrorMessage } from "@utils/api-errors";
 import { TOAST_DURATION } from "../physical-instances/constants";
 import { enrichDataWithCodeLists } from "../physical-instances/pages/view/enrichDataWithCodeLists";
 import type { PhysicalInstanceResponse } from "../physical-instances/types/api";
+import { errorToastTiming } from "../utils/error-toast";
 
 export const useExport = (
   data: PhysicalInstanceResponse,
@@ -61,7 +62,7 @@ export const useExport = (
           severity: "error",
           summary: t("physicalInstance.view.exportError"),
           detail: getApiErrorMessage(err, t("physicalInstance.view.exportErrorDetail")),
-          life: TOAST_DURATION,
+          ...errorToastTiming(),
         });
       }
     },
