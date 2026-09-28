@@ -31,13 +31,23 @@ on:
         type: boolean
         default: false
 
+# An action cannot declare its own concurrency: two runs on the same branch would
+# compute the same version.
+concurrency:
+  group: prepare-release-${{ github.repository }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
-    uses: InseeFr/rmes-githubactions-commons/.github/workflows/prepare-release.yml@main
+    name: ${{ inputs.kind }} from ${{ github.ref_name }}
+    runs-on: ubuntu-latest
     permissions:
       contents: write
-    secrets: inherit
-    with:
-      kind: ${{ inputs.kind }}
-      version: ${{ inputs.version }}
-      dry_run: ${{ inputs.dry_run }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/prepare-release@main
+        with:
+          kind: ${{ inputs.kind }}
+          version: ${{ inputs.version }}
+          dry_run: ${{ inputs.dry_run }}
+          release-token: ${{ secrets.RELEASE_TOKEN }}
