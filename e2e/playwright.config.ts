@@ -44,7 +44,10 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: 'pnpm start',
+		/* vite lancé directement, sans passer par `pnpm start` : depuis pnpm 12.6,
+		   Playwright n'arrive plus à arrêter le serveur à travers pnpm et attend
+		   indéfiniment à la fin de la suite (tests verts, puis timeout du job). */
+		command: 'node node_modules/vite/bin/vite.js',
 		cwd: '..',
 		env: {
 			VITE_API_BASE_HOST: process.env.VITE_API_BASE_HOST ?? 'http://localhost:8080/api',

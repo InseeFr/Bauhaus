@@ -942,6 +942,36 @@ describe("View Component", () => {
         expect(screen.getByText("physicalInstance.view.editModal.title")).toBeInTheDocument();
       });
     });
+
+    it("should show the translated backend error in the toast when the edit fails because a scheme is missing", async () => {
+      // Le back refuse le PATCH (409) quand l'opération n'a pas le LogicalProduct / VariableScheme
+      // où ranger les variables : il n'en crée plus à la volée. Son code est traduit.
+      mockUpdatePhysicalInstance.mockReturnValue({
+        mutateAsync: vi.fn().mockRejectedValue({
+          message: "L'opération (StudyUnit agency-1/study-1) n'a pas de VariableScheme…",
+          code: "STUDY_UNIT_MISSING_VARIABLE_SCHEME",
+          params: { studyUnit: "agency-1/study-1" },
+          status: 409,
+        }),
+        isPending: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.editTitle"));
+      await fillAndSubmitEditModal();
+
+      await waitFor(() => {
+        expect(mockToastShow).toHaveBeenCalledWith(
+          expect.objectContaining({
+            severity: "error",
+            summary: "physicalInstance.view.saveError",
+            detail: "physicalInstance.errors.STUDY_UNIT_MISSING_VARIABLE_SCHEME",
+          }),
+        );
+      });
+    });
   });
 
   describe("Save All functionality", () => {
@@ -1229,6 +1259,37 @@ describe("View Component", () => {
 
       // Should not crash and should show error message via toast
       expect(screen.getByRole("main")).toBeInTheDocument();
+    });
+
+    it("should show the translated backend error in the toast when save all fails because a scheme is missing", async () => {
+      // Le back refuse le save (409) quand la série n'a pas le scheme où ranger les objets :
+      // il n'en crée plus à la volée. Le SDK rejette un objet nu { message, code, params, status },
+      // dont le code est traduit (le t mocké renvoie la clé).
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: vi.fn().mockRejectedValue({
+          message: "La série (Group fr.insee/group-1) n'a pas de CodeListScheme…",
+          code: "GROUP_MISSING_CODE_LIST_SCHEME",
+          params: { group: "fr.insee/group-1" },
+          status: 409,
+        }),
+        isPending: false,
+        isError: false,
+      });
+
+      render(<Component />, { wrapper });
+
+      createTestVariable();
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+
+      await waitFor(() => {
+        expect(mockToastShow).toHaveBeenCalledWith(
+          expect.objectContaining({
+            severity: "error",
+            summary: "physicalInstance.view.saveAllError",
+            detail: "physicalInstance.errors.GROUP_MISSING_CODE_LIST_SCHEME",
+          }),
+        );
+      });
     });
 
     it("should transform local variables to DDI format correctly", async () => {
