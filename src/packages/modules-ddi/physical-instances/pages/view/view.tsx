@@ -31,7 +31,7 @@ import { LoadingOverlay } from "@components/loading-overlay";
 import { cx } from "@utils/cx";
 import { useNavigationBlocker } from "@utils/hooks/useNavigationBlocker";
 
-import { useDefaultLocale } from "../../../hooks/useDefaultLocale";
+import { useDuplicatePhysicalInstance } from "../../../hooks/useDuplicatePhysicalInstance";
 import { useExport } from "../../../hooks/useExport";
 import { usePhysicalInstancesData } from "../../../hooks/usePhysicalInstance";
 import { usePhysicalInstanceByLangs } from "../../../hooks/usePhysicalInstanceByLangs";
@@ -57,7 +57,6 @@ import type {
   LogicalRecord,
 } from "../../types/api";
 import { itemsOfType, replaceItemsOfType } from "../../types/ddi4Items";
-import { buildDuplicatedPhysicalInstance } from "./duplicatePhysicalInstance";
 import { findLocalCategoryOverrides } from "./findLocalCategoryOverrides";
 import { findLocalCodeListOverride } from "./findLocalCodeListOverride";
 import { loadCodeListForVariable } from "./loadCodeListForVariable";
@@ -88,7 +87,7 @@ export const Component = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
-  const defaultLocale = useDefaultLocale();
+  const duplicatePhysicalInstance = useDuplicatePhysicalInstance();
   const dataByLangs = usePhysicalInstanceByLangs(data);
 
   useEffect(() => {
@@ -848,26 +847,11 @@ export const Component = () => {
   const handleConfirmDuplicate = useCallback(
     async (formData: PhysicalInstanceCreationData) => {
       try {
-        const { duplicatedData, newPhysicalInstanceId, newAgencyId } =
-          buildDuplicatedPhysicalInstance({
-            agencyId: agencyId!,
-            data,
-            label: formData.label,
-            defaultLocale,
-          });
-
-        // 1) Publier le DDI dupliqué (PUT brut : ne porte ni Groupe ni Étude).
-        await savePhysicalInstance.mutateAsync({
-          id: newPhysicalInstanceId,
-          agencyId: newAgencyId,
-          data: duplicatedData,
-        });
-
-        // 2) Rattacher la PI dupliquée au Groupe verrouillé et à l'Étude choisie via
-        // l'endpoint dédié (le PUT brut ne sait pas faire ce rattachement, cf. #1555).
-        await updatePhysicalInstance.mutateAsync({
-          id: newPhysicalInstanceId,
-          agencyId: newAgencyId,
+        // La copie, son rattachement au Groupe verrouillé et à l'Étude choisie, et le rangement de
+        // ses variables sont faits par le back en un seul enregistrement.
+        const copy = await duplicatePhysicalInstance.mutateAsync({
+          agencyId: agencyId!,
+          id: id!,
           data: {
             physicalInstanceLabel: formData.label,
             dataRelationshipLabel: formData.dataRelationshipLabel,
@@ -880,7 +864,7 @@ export const Component = () => {
         });
 
         setDuplicateDialogVisible(false);
-        navigate(`/ddi/physical-instances/${newAgencyId}/${newPhysicalInstanceId}`);
+        navigate(`/ddi/physical-instances/${copy.agency}/${copy.id}`);
 
         toast.current?.show({
           severity: "success",
@@ -903,7 +887,7 @@ export const Component = () => {
         });
       }
     },
-    [agencyId, data, defaultLocale, savePhysicalInstance, updatePhysicalInstance, navigate, t],
+    [agencyId, id, duplicatePhysicalInstance, navigate, t],
   );
 
   if (isLoading) {
