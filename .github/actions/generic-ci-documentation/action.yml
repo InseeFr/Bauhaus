@@ -2,12 +2,8 @@ name: 'Build Documentation'
 runs:
   using: 'composite'
   steps:
-    - name: Install pnpm
-      uses: pnpm/action-setup@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 24
-        cache: "pnpm"
+    # Node and pnpm versions are shared by every RMéS front-end.
+    - uses: InseeFr/rmes-githubactions-commons/.github/actions/setup-front@main
     - name: 🏗️ Generate Astro Documentation
       shell: bash
       run: ./scripts/documentation-build.sh
