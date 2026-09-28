@@ -12,13 +12,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: InseeFr/Bauhaus-Back-Office
-          # Épinglé sur la branche de release du back, pas sur `main` : `main` en est
-          # resté à 4.21.0, dont /api/init annonce les modules sous la forme
-          # `{identifier, disabled}`. Le front lit désormais `show` et `directAccess`
-          # (application/router/routes.tsx) : avec un back 4.21.0 aucun module n'est
-          # accessible et toutes les pages répondent « Page not found ». Repasser sur la
-          # branche par défaut (supprimer ce `ref`) une fois 4.21.1 fusionnée des deux côtés.
-          ref: 4.21.1
+          # Épinglé sur la branche de release du back, pas sur `main` : `main` (= tag
+          # 4.21.1) tire encore `minio/minio`, refusé au pull par Docker Hub ; l'image
+          # pgsty/minio n'existe qu'à partir de 4.21.2. Repasser sur la branche par
+          # défaut (supprimer ce `ref`) une fois 4.21.2 fusionnée dans `main`.
+          ref: 4.21.2
           path: ./bauhaus-back-office
       # Versions de Node et pnpm partagées par tous les fronts RMéS.
       - uses: InseeFr/rmes-githubactions-commons/.github/actions/setup-front@main
