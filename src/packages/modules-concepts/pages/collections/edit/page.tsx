@@ -30,7 +30,7 @@ export const Component = () => {
 
   const { concepts, isLoading: isConceptLoading } = useConcepts();
 
-  const { save, isSaving } = useCollectionSave(id);
+  const { save, isSaving, saveError } = useCollectionSave(id);
   // Le formulaire fige `general` dans son état à l'initialisation : on attend
   // que le contributeur par défaut soit résolu avant de le monter.
   const isDefaultContributorPending = useIsDefaultContributorPending();
@@ -64,6 +64,7 @@ export const Component = () => {
       save={save}
       submitting={submitting}
       setSubmitting={setSubmitting}
+      serverSideError={saveError}
     />
   );
 };

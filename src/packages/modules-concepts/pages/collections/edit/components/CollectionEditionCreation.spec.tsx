@@ -242,4 +242,16 @@ describe("collection-edition-creation", () => {
 
     expect(screen.getByTestId("error-count")).toHaveTextContent("0");
   });
+
+  it("affiche l'erreur renvoyée par le serveur à l'enregistrement", () => {
+    renderComponent({ serverSideError: { status: 409, message: "Libellé déjà utilisé" } });
+
+    expect(screen.getByRole("alert")).toHaveTextContent("Libellé déjà utilisé");
+  });
+
+  it("n'affiche aucune erreur serveur tant que l'enregistrement n'a pas échoué", () => {
+    renderComponent();
+
+    expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  });
 });

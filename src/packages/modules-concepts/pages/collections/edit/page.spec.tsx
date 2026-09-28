@@ -47,7 +47,12 @@ vi.mock("@components/loading", () => ({
 }));
 
 vi.mock("./components/CollectionEditionCreation", () => ({
-  CollectionEditionCreation: () => <div data-testid="collection-edition-creation">Form</div>,
+  CollectionEditionCreation: ({ serverSideError }: { serverSideError?: { message: string } }) => (
+    <div data-testid="collection-edition-creation">
+      Form
+      <span data-testid="server-side-error">{serverSideError?.message}</span>
+    </div>
+  ),
 }));
 
 const mockConceptsLoading = (isLoading: boolean) =>
@@ -188,6 +193,21 @@ describe("Edition Container Component", () => {
       await expectTestIdEventually("collection-saving");
 
       expect(screen.queryByTestId("collection-edition-creation")).not.toBeInTheDocument();
+    });
+
+    it("transmet au formulaire l'erreur d'un enregistrement échoué", async () => {
+      mockCollectionLoaded(existingCollection);
+      mockConceptsLoading(false);
+      (useCollectionSave as Mock).mockReturnValue({
+        save: vi.fn(),
+        isSaving: false,
+        saveError: { status: 500, message: "Erreur du serveur" },
+      });
+
+      renderWithQueryClient(<Component />);
+
+      await expectTestIdEventually("collection-edition-creation");
+      expect(screen.getByTestId("server-side-error")).toHaveTextContent("Erreur du serveur");
     });
   });
 });

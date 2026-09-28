@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
@@ -50,5 +50,25 @@ describe("useCollectionSave", () => {
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith("/concepts/collections/Collection-001");
     });
+  });
+
+  it("exposes the save error and leaves the saving state when the API rejects", async () => {
+    const apiError = { status: 500, message: "Erreur du serveur" };
+    (CollectionApi.putCollection as Mock).mockRejectedValue(apiError);
+
+    const data: CollectionSaveData = {
+      general: { id: "Collection-001", prefLabelLg1: "Ma collection" } as never,
+      members: [] as never,
+    };
+
+    const { result } = renderHook(() => useCollectionSave("Collection-001"), { wrapper });
+
+    act(() => result.current.save(data));
+
+    await waitFor(() => {
+      expect(result.current.saveError).toEqual(apiError);
+    });
+    expect(result.current.isSaving).toBe(false);
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });
