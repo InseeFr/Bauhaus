@@ -20,12 +20,8 @@ jobs:
           # branche par défaut (supprimer ce `ref`) une fois 4.21.1 fusionnée des deux côtés.
           ref: 4.21.1
           path: ./bauhaus-back-office
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: "pnpm"
+      # Versions de Node et pnpm partagées par tous les fronts RMéS.
+      - uses: InseeFr/rmes-githubactions-commons/.github/actions/setup-front@main
 
       # Le serveur de dev de l'IHM est démarré par Playwright (webServer) :
       # ses dépendances doivent donc être installées à la racine du dépôt.
