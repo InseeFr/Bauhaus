@@ -28,28 +28,35 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+const mockUseGroups = vi.fn();
+const mockUseGroupDetails = vi.fn();
+
 vi.mock("../../../hooks/useGroups", () => ({
-  useGroups: () => ({
-    data: [
-      {
-        id: "group-1",
-        label: "Group 1",
-        agency: "agency-1",
-        versionDate: "2024-01-01",
-      },
-      {
-        id: "group-2",
-        label: "Group 2",
-        agency: "agency-2",
-        versionDate: "2024-01-02",
-      },
-    ],
-    isLoading: false,
-  }),
+  useGroups: (...args: unknown[]) => {
+    mockUseGroups(...args);
+    return {
+      data: [
+        {
+          id: "group-1",
+          label: "Group 1",
+          agency: "agency-1",
+          versionDate: "2024-01-01",
+        },
+        {
+          id: "group-2",
+          label: "Group 2",
+          agency: "agency-2",
+          versionDate: "2024-01-02",
+        },
+      ],
+      isLoading: false,
+    };
+  },
 }));
 
 vi.mock("../../../hooks/useGroupDetails", () => ({
   useGroupDetails: (agencyId: string | null, groupId: string | null) => {
+    mockUseGroupDetails(agencyId, groupId);
     if (agencyId === "agency-1" && groupId === "group-1") {
       return {
         data: {
@@ -310,6 +317,35 @@ describe("PhysicalInstanceDialog", () => {
       expect(screen.getByTestId("dropdown-studyUnit")).toBeDisabled();
     });
 
+    it("shows the current group and study unit labels without loading them", () => {
+      render(
+        <PhysicalInstanceDialog
+          {...defaultEditProps}
+          initialData={{
+            label: "Existing Label",
+            group: { id: "group-9", agency: "agency-9", label: "Groupe courant" },
+            studyUnit: { id: "study-9", agency: "agency-9", label: "Étude courante" },
+          }}
+        />,
+      );
+
+      expect(screen.getByTestId("dropdown-group")).toHaveDisplayValue("Groupe courant");
+      expect(screen.getByTestId("dropdown-studyUnit")).toHaveDisplayValue("Étude courante");
+    });
+
+    it("does not fetch the groups nor the group details, both selects being read-only", () => {
+      render(<PhysicalInstanceDialog {...defaultEditProps} />);
+
+      expect(mockUseGroups).toHaveBeenCalled();
+      for (const [options] of mockUseGroups.mock.calls) {
+        expect(options).toEqual({ enabled: false });
+      }
+      expect(mockUseGroupDetails).toHaveBeenCalled();
+      for (const args of mockUseGroupDetails.mock.calls) {
+        expect(args).toEqual([null, null]);
+      }
+    });
+
     it("should call onSubmitEdit when form is submitted in edit mode", async () => {
       mockOnSubmitEdit.mockResolvedValue(undefined);
       render(<PhysicalInstanceDialog {...defaultEditProps} />);
@@ -345,6 +381,31 @@ describe("PhysicalInstanceDialog", () => {
       },
       onSubmitDuplicate: mockOnSubmitDuplicate,
     };
+
+    it("shows the locked group label without fetching the groups list", () => {
+      render(
+        <PhysicalInstanceDialog
+          {...defaultDuplicateProps}
+          initialData={{
+            ...defaultDuplicateProps.initialData,
+            group: { id: "group-1", agency: "agency-1", label: "Groupe courant" },
+          }}
+        />,
+      );
+
+      expect(screen.getByTestId("dropdown-group")).toHaveDisplayValue("Groupe courant");
+      expect(mockUseGroups).toHaveBeenCalled();
+      for (const [options] of mockUseGroups.mock.calls) {
+        expect(options).toEqual({ enabled: false });
+      }
+    });
+
+    it("still loads the group details to list the study units to choose from", () => {
+      render(<PhysicalInstanceDialog {...defaultDuplicateProps} />);
+
+      expect(mockUseGroupDetails).toHaveBeenCalledWith("agency-1", "group-1");
+      expect(screen.getByRole("option", { name: "Study Unit 2" })).toBeInTheDocument();
+    });
 
     it("should render the dialog in duplicate mode with correct title and confirm button", () => {
       render(<PhysicalInstanceDialog {...defaultDuplicateProps} />);
