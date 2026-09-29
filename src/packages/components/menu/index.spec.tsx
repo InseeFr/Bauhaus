@@ -94,4 +94,15 @@ describe("MainMenu", () => {
       "with-separator",
     );
   });
+
+  it("shows a disabled path as a greyed out entry the user cannot follow", () => {
+    renderWithRouter(
+      <MainMenu paths={[path({ path: "/soon", label: "Soon", order: 1, disabled: true })]} />,
+    );
+
+    expect(screen.queryByRole("link", { name: "Soon" })).toBeNull();
+    const entry = screen.getByText("Soon");
+    expect(entry).toHaveAttribute("aria-disabled", "true");
+    expect(entry.closest("li")).toHaveClass("disabled");
+  });
 });

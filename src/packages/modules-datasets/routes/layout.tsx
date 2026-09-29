@@ -3,15 +3,15 @@ import { Outlet } from "react-router-dom";
 
 import { useTheme } from "@utils/hooks/useTheme";
 
+import { DataDescriptionMenu } from "../../application/section-menus";
 import { datasetsI18n } from "../i18n";
-import { Menu } from "../menu/menu";
 
 export const Component = () => {
   useTheme("datasets");
 
   return (
     <I18nextProvider i18n={datasetsI18n}>
-      <Menu />
+      <DataDescriptionMenu />
       <Outlet />
     </I18nextProvider>
   );

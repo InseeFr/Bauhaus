@@ -12,21 +12,32 @@ interface Path {
   attrs: Record<string, string>;
   image?: string;
   label: string;
+  /** Entrée annoncée mais pas encore disponible : affichée grisée, sans lien. */
+  disabled?: boolean;
 }
 
 function getClasses(path: Path, index: number, paths: Path[]) {
-  return ["main-menu-item", path.className, !paths[index + 1] ? "" : WITH_SEPARATOR_CLASS]
-    .join(" ")
-    .trim();
+  return [
+    "main-menu-item",
+    path.className,
+    path.disabled ? "disabled" : "",
+    !paths[index + 1] ? "" : WITH_SEPARATOR_CLASS,
+  ]
+    .filter(Boolean)
+    .join(" ");
 }
 
 const MenuList = ({ paths, className }: Readonly<{ paths: Path[]; className: string }>) => (
   <ul className={className}>
     {paths.map((path, index) => (
       <li className={getClasses(path, index, paths)} key={path.path}>
-        <Link to={path.path} {...path.attrs}>
-          {path.label}
-        </Link>
+        {path.disabled ? (
+          <span aria-disabled="true">{path.label}</span>
+        ) : (
+          <Link to={path.path} {...path.attrs}>
+            {path.label}
+          </Link>
+        )}
       </li>
     ))}
   </ul>

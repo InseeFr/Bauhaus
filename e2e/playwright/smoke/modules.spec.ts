@@ -10,9 +10,8 @@ const MODULES = [
   { tile: "Concepts", url: "/concepts", heading: "Concepts - Search" },
   { tile: "Classifications", url: "/classifications", heading: "Classifications - Search" },
   { tile: "Operations", url: "/operations/series", heading: "Series - Search" },
-  { tile: "Structures", url: "/structures", heading: "Structures - Search" },
-  { tile: "Codelists", url: "/codelists", heading: "Codelists - Search" },
-  { tile: "Datasets", url: "/datasets", heading: "Datasets - Search" },
+  { tile: "Data description", url: "/datasets", heading: "Datasets - Search" },
+  { tile: "Administration", url: "/codelists", heading: "Codelists - Search" },
 ];
 
 for (const { tile, url, heading } of MODULES) {
@@ -60,14 +59,28 @@ for (const url of CREATION_FORMS) {
 }
 
 /**
+ * Les modules regroupés sous une tuile s'atteignent par le menu commun de la tuile.
+ */
+test("le menu Administration mène aux structures", async ({ page }) => {
+  await page.goto("/codelists");
+  await page.getByRole("link", { name: "Structures", exact: true }).click();
+
+  await expect(page).toHaveURL(/\/structures$/);
+  await expect(page.getByRole("heading", { name: "Structures - Search" })).toBeVisible();
+});
+
+/**
  * Le module DDI (Variables) interroge Colectica : sans identifiants, l'API
  * répond 401 et la liste reste vide. On vérifie donc uniquement que le module
  * se monte — le parcours métier DDI demande un environnement Colectica.
  */
-test("le module Variables (DDI) s'ouvre depuis l'accueil", async ({ page }) => {
-  await page.goto("/");
+test("le menu Description des données mène aux variables (DDI)", async ({ page }) => {
+  await page.goto("/datasets");
   await page.getByRole("link", { name: "Variables", exact: true }).click();
 
   await expect(page).toHaveURL(/\/ddi(\/physical-instances)?$/);
-  await expect(page.getByRole("link", { name: "Physical Instances" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Variables", exact: true })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
 });

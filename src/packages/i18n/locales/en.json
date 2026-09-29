@@ -106,6 +106,16 @@
     "structuresTitle": "Structures",
     "codelistsTitle": "Codelists",
     "datasetsTitle": "Datasets",
-    "ddiTitle": "Variables"
+    "ddiTitle": "Variables",
+    "dataDescriptionTitle": "Data description",
+    "administrationTitle": "Administration"
+  },
+  "menu": {
+    "datasets": "Datasets",
+    "distributions": "Distributions",
+    "variables": "Variables",
+    "codelists": "Codelists",
+    "structures": "Structures",
+    "components": "Components"
   }
 }

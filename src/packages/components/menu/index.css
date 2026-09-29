@@ -20,11 +20,17 @@
   position: relative;
   padding: 0 10px;
 
-  a {
+  :is(a, span) {
     display: block;
     padding: 15px;
     color: white;
     text-decoration: none;
+  }
+
+  /* Entrée annoncée mais pas encore disponible. */
+  span[aria-disabled="true"] {
+    color: #b0b0b0;
+    cursor: not-allowed;
   }
 }
 
@@ -41,7 +47,7 @@
 }
 
 /* Après le séparateur : l'élément survolé ou courant masque le sien. */
-.main-menu-item:hover,
+.main-menu-item:not(.disabled):hover,
 .main-menu-item.active {
   margin-left: -1px;
   background: var(--secondary-color);
@@ -61,7 +67,7 @@
     padding: 0;
   }
 
-  .main-menu-item a {
+  .main-menu-item :is(a, span) {
     padding: 10px 15px;
   }
 }

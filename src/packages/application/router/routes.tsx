@@ -24,6 +24,7 @@ import { routes as StructuresRoutes } from "../../modules-structures/routes/inde
 import { App } from "../app";
 import { useAppContext } from "../app-context";
 import type { AppName, Module } from "../app-context";
+import { landingModule, SECTION_ROWS } from "../sections";
 
 import { RBACLink } from ".";
 import "./routes.css";
@@ -33,15 +34,16 @@ export const HomePage = () => {
     properties: { modules },
   } = useAppContext();
 
-  /* Quand un seul module se montre, la page d'accueil n'aurait qu'une tuile à proposer :
-     autant y aller directement. Les modules masqués ne comptent pas, même joignables par URL. */
-  const shownPages = useMemo(
-    () => modules.filter((m) => m.show).map((m) => m.identifier),
-    [modules],
-  );
+  /* Quand une seule tuile se montre, la page d'accueil n'aurait rien à proposer :
+     autant aller directement sur son module. Les modules masqués ne comptent pas,
+     même joignables par URL. */
+  const targets = useMemo(() => {
+    const shownModules = modules.filter((m) => m.show).map((m) => m.identifier);
+    return SECTION_ROWS.flat().flatMap((section) => landingModule(section, shownModules) ?? []);
+  }, [modules]);
 
-  if (shownPages.length === 1) {
-    return <Navigate to={"/" + shownPages[0]} replace />;
+  if (targets.length === 1) {
+    return <Navigate to={"/" + targets[0]} replace />;
   }
 
   return <App />;

@@ -84,6 +84,7 @@ describe("<HomePage />", () => {
     const routes: RouteObject[] = [
       { path: "/", element: <HomePage /> },
       { path: "/concepts", element: <div>concepts landing</div> },
+      { path: "/datasets", element: <div>datasets landing</div> },
     ];
     render(<RouterProvider router={createMemoryRouter(routes, { initialEntries: ["/"] })} />);
   };
@@ -95,5 +96,11 @@ describe("<HomePage />", () => {
     ]);
 
     expect(screen.getByText("concepts landing")).toBeInTheDocument();
+  });
+
+  it("goes straight to the only tile shown, even when it groups several modules", () => {
+    renderHomePageWith([openModule("datasets"), openModule("ddi")]);
+
+    expect(screen.getByText("datasets landing")).toBeInTheDocument();
   });
 });

@@ -3,15 +3,15 @@ import { Outlet } from "react-router-dom";
 
 import { useTheme } from "@utils/hooks/useTheme";
 
+import { AdministrationMenu } from "../../application/section-menus";
 import { codelistsI18n } from "../i18n";
-import { Menu } from "../menu/menu";
 
 export const Component = () => {
   useTheme("codelists");
 
   return (
     <I18nextProvider i18n={codelistsI18n}>
-      <Menu />
+      <AdministrationMenu />
       <div className="container">
         <Outlet />
       </div>

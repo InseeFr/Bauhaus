@@ -10,8 +10,8 @@ vi.mock("../../utils/hooks/useTheme", () => ({
   useTheme: vi.fn(),
 }));
 
-vi.mock("../menu", () => ({
-  Menu: () => <nav data-testid="ddi-menu">DDI Menu</nav>,
+vi.mock("../../application/section-menus", () => ({
+  DataDescriptionMenu: () => <nav data-testid="ddi-menu">DDI Menu</nav>,
 }));
 
 vi.mock("react-router-dom", async () => {

@@ -106,6 +106,16 @@
     "structuresTitle": "Structures",
     "codelistsTitle": "Listes de codes",
     "datasetsTitle": "Jeux de données",
-    "ddiTitle": "Variables"
+    "ddiTitle": "Variables",
+    "dataDescriptionTitle": "Description des données",
+    "administrationTitle": "Administration"
+  },
+  "menu": {
+    "datasets": "Jeux de données",
+    "distributions": "Distributions",
+    "variables": "Variables",
+    "codelists": "Listes de codes",
+    "structures": "Structures",
+    "components": "Composants"
   }
 }
