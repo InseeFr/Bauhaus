@@ -84,6 +84,7 @@ export const Component = () => {
   const [duplicateDialogVisible, setDuplicateDialogVisible] = useState(false);
   // Modifications en cours dans le panneau d'édition, non validées par « Mettre à jour ».
   const [isEditedVariableDirty, setEditedVariableDirty] = useState(false);
+  const [isReloadingAfterSave, setReloadingAfterSave] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const updatePhysicalInstance = useUpdatePhysicalInstance();
   const savePhysicalInstance = usePublishPhysicalInstance();
@@ -774,6 +775,19 @@ export const Component = () => {
         data: mergedData,
       });
 
+      // Le PUT a déjà lancé (via l'invalidation) le GET de la PI : on l'attend sous un loader
+      // dédié, pour ne rendre la main qu'une fois l'état relu du serveur affiché.
+      // `cancelRefetch: false` réutilise ce GET en vol au lieu d'en relancer un second.
+      setReloadingAfterSave(true);
+      try {
+        await queryClient.refetchQueries(
+          { queryKey: ["physicalInstanceById", agencyId, id], exact: true },
+          { cancelRefetch: false },
+        );
+      } finally {
+        setReloadingAfterSave(false);
+      }
+
       // Nettoyer les variables locales après une sauvegarde réussie
       dispatch(actions.clearLocalVariables());
 
@@ -981,6 +995,10 @@ export const Component = () => {
       )}
 
       {savePhysicalInstance.isPending && <LoadingOverlay textType="saving" />}
+
+      {isReloadingAfterSave && (
+        <LoadingOverlay text={t("physicalInstance.view.reloadingAfterSave")} />
+      )}
 
       {isValidating && <LoadingOverlay text={t("physicalInstance.view.validateDdi4InProgress")} />}
 

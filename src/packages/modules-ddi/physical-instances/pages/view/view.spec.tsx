@@ -1109,6 +1109,46 @@ describe("View Component", () => {
       });
     });
 
+    it("should keep a reloading overlay after the PUT until the physical instance is fetched again", async () => {
+      mockPublishPhysicalInstance.mockReturnValue({
+        mutateAsync: vi.fn().mockResolvedValue({}),
+        isPending: false,
+        isError: false,
+      });
+      let resolveReload!: (value: unknown) => void;
+      const getPhysicalInstanceMock = vi
+        .fn()
+        .mockResolvedValueOnce({})
+        .mockReturnValueOnce(new Promise((resolve) => (resolveReload = resolve)));
+      await queryClient.prefetchQuery({
+        queryKey: ["physicalInstanceById", "test-agency-123", "test-id-123"],
+        queryFn: getPhysicalInstanceMock,
+      });
+
+      render(<Component />, { wrapper });
+      createTestVariable();
+      fireEvent.click(screen.getByLabelText("physicalInstance.view.saveAll"));
+
+      expect(
+        await screen.findByText("physicalInstance.view.reloadingAfterSave"),
+      ).toBeInTheDocument();
+      expect(getPhysicalInstanceMock).toHaveBeenCalledTimes(2);
+      expect(mockToastShow).not.toHaveBeenCalledWith(
+        expect.objectContaining({ summary: "physicalInstance.view.saveAllSuccess" }),
+      );
+
+      resolveReload({});
+
+      await waitFor(() => {
+        expect(
+          screen.queryByText("physicalInstance.view.reloadingAfterSave"),
+        ).not.toBeInTheDocument();
+      });
+      expect(mockToastShow).toHaveBeenCalledWith(
+        expect.objectContaining({ summary: "physicalInstance.view.saveAllSuccess" }),
+      );
+    });
+
     it("should merge local variables with existing variables on save", async () => {
       const mutateAsyncMock = vi.fn().mockResolvedValue({});
       mockPublishPhysicalInstance.mockReturnValue({

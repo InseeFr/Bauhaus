@@ -86,6 +86,8 @@ const api = {
         },
         body: stringified,
       },
+      // 204 sans corps : l'instance à jour se relit par le GET (invalidé après la sauvegarde).
+      () => Promise.resolve(undefined),
     ];
   },
   convertToDDI3: (data: unknown) => [
