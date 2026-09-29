@@ -6,11 +6,11 @@ import { Dataset } from "@model/Dataset";
 
 import * as useCodelistHook from "@utils/hooks/codelist";
 import * as useOrganizationsHook from "@utils/hooks/organizations";
+import * as useThemesHook from "@utils/hooks/themes";
 
-import * as useThemesHook from "../../../../hooks/useThemes";
 import { GlobalInformationBlock } from "./GlobalInformationBlock";
 
-vi.mock("../../../../hooks/useThemes");
+vi.mock("@utils/hooks/themes");
 vi.mock("@utils/hooks/organizations");
 vi.mock("@utils/hooks/codelist");
 

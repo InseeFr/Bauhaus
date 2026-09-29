@@ -10,9 +10,12 @@ export const useThemes = () =>
     queryKey: ["themes"],
     queryFn: async () => {
       const themes = await ThemesApi.getThemes();
-      return themes.map((theme) => ({
-        value: theme.uri,
-        label: <>{theme.label.value}</>,
-      }));
+      // Le ORDER BY SPARQL relègue les libellés accentués (« Économie ») en fin de liste.
+      return [...themes]
+        .sort((a, b) => a.label.value.localeCompare(b.label.value, "fr"))
+        .map((theme) => ({
+          value: theme.uri,
+          label: <>{theme.label.value}</>,
+        }));
     },
   });

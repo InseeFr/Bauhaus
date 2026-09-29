@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ActionToolbar } from "@components/action-toolbar";
 import { CreatorsInput } from "@components/business/creators-input";
 import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
+import { ThemesSelect } from "@components/business/themes";
 import { CancelButton, SaveButton } from "@components/buttons/buttons-with-icons";
 import { ClientSideError, ErrorBloc, GlobalClientSideErrorBloc } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
@@ -58,6 +59,8 @@ export interface SerieEditItem {
   isReplacedBy?: OperationsLink[];
   seeAlso?: OperationsLink[];
   generate?: OperationsLink[];
+  /** IRI des thèmes, enregistrés en `dcterms:subject`. */
+  themes?: string[];
 }
 
 export interface SeriesOrIndicatorItem {
@@ -404,6 +407,15 @@ export const OperationsSerieEdition = ({
               id="accrualPeriodicityCode-error"
               error={state.clientSideErrors?.fields?.accrualPeriodicityCode}
             ></ClientSideError>
+          </div>
+        </Row>
+        <Row>
+          <div className="form-group col-md-12">
+            <ThemesSelect
+              label={t("common.themes", { lng: "fr" })}
+              value={serie.themes}
+              onChange={(value) => onChange({ target: { value, id: "themes" } })}
+            />
           </div>
         </Row>
         <Row>

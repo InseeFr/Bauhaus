@@ -7,7 +7,7 @@ import { Theme } from "@model/theme";
 
 import { ThemesApi } from "@sdk/index";
 
-import { useThemes } from "./useThemes";
+import { useThemes } from "./themes";
 
 const queryClient = new QueryClient();
 const wrapper = ({ children }: PropsWithChildren<unknown>) => (
@@ -37,6 +37,27 @@ describe("useThemes Hook", () => {
     await waitFor(() => {
       expect(result.current?.data?.[0].value).toBe("theme1");
       expect(result.current?.data?.[1].value).toBe("theme2");
+    });
+  });
+
+  it("trie les thèmes à la française, les libellés en É parmi les E", async () => {
+    // Ordre renvoyé par SPARQL : ORDER BY place « Économie » après « Emploi ».
+    const mockThemes: Theme[] = [
+      { uri: "agr", label: { value: "Agriculture", lang: "fr" } },
+      { uri: "emp", label: { value: "Emploi", lang: "fr" } },
+      { uri: "eco", label: { value: "Économie", lang: "fr" } },
+    ];
+
+    (ThemesApi.getThemes as Mock).mockResolvedValue(mockThemes);
+
+    const { result } = renderHook(() => useThemes(), {
+      wrapper: ({ children }: PropsWithChildren<unknown>) => (
+        <QueryClientProvider client={new QueryClient()}>{children}</QueryClientProvider>
+      ),
+    });
+
+    await waitFor(() => {
+      expect(result.current?.data?.map((option) => option.value)).toEqual(["agr", "eco", "emp"]);
     });
   });
 });

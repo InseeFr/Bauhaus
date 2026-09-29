@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 
 import { OrganizationInput } from "@components/business/stamps-input/stamps-input";
+import { ThemesSelect } from "@components/business/themes";
 import { ClientSideError } from "@components/errors-bloc";
 import { TextInput } from "@components/form/input";
 import { LabelRequired } from "@components/label-required";
@@ -10,12 +11,10 @@ import { Select } from "@components/select-rmes";
 import { InputMulti } from "@components/ui/forms/input-multi";
 
 import { Dataset } from "@model/Dataset";
-import { Option } from "@model/SelectOption";
 
 import { withCodelists } from "@utils/hoc/withCodelists";
 
 import { CL_FREQ } from "../../../../../constants/code-lists";
-import { useThemes } from "../../../../hooks/useThemes";
 import { convertCodelistToSelectOption } from "../../../../utils/convertCodelistToSelectOption";
 
 type ClientSideErrors = {
@@ -51,8 +50,6 @@ const GlobalInformationTab = ({
   }
 
   const clFreqOptions = convertCodelistToSelectOption(props[CL_FREQ]);
-
-  const { data: themesOptions = [] } = useThemes();
 
   return (
     <>
@@ -224,20 +221,17 @@ const GlobalInformationTab = ({
       </Row>
       <Row>
         <div className="col-md-12 form-group">
-          <label className="w-100 wilco-label-required">
-            {t("dataset.globalInformation.theme")}
-            <Select
-              multi
-              value={editingDataset.themes}
-              options={themesOptions as unknown as Option[]}
-              onChange={(values) => {
-                setEditingDataset({
-                  ...editingDataset,
-                  themes: values,
-                });
-              }}
-            />
-          </label>
+          <ThemesSelect
+            label={t("dataset.globalInformation.theme")}
+            required
+            value={editingDataset.themes}
+            onChange={(themes) => {
+              setEditingDataset({
+                ...editingDataset,
+                themes,
+              });
+            }}
+          />
         </div>
       </Row>
       <InputMulti

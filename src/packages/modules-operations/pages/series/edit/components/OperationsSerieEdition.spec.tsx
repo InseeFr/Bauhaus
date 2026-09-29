@@ -18,6 +18,15 @@ vi.mock("@utils/hooks/organizations", () => ({
   }),
 }));
 
+vi.mock("@utils/hooks/themes", () => ({
+  useThemes: () => ({
+    data: [
+      { value: "http://bauhaus/concepts/theme/agr", label: "Agriculture" },
+      { value: "http://bauhaus/concepts/theme/eco", label: "Économie" },
+    ],
+  }),
+}));
+
 vi.mock("@sdk/operations-api", () => ({
   OperationsApi: {
     postSeries: vi.fn(),
@@ -237,6 +246,20 @@ describe("OperationsSerieEdition — champs à choix", () => {
         publishers: [{ id: "http://org/insee" }],
         contributors: [{ id: "http://org/dares" }],
         dataCollectors: [{ id: "http://org/insee" }],
+      }),
+    );
+  });
+
+  it("ajoute le thème choisi à ceux déjà enregistrés", async () => {
+    renderEdition({
+      serie: { ...completeSerie, themes: ["http://bauhaus/concepts/theme/agr"] },
+    });
+
+    chooseIn("Thèmes", "Économie");
+
+    expect(await saveAndRead()).toEqual(
+      expect.objectContaining({
+        themes: ["http://bauhaus/concepts/theme/agr", "http://bauhaus/concepts/theme/eco"],
       }),
     );
   });
