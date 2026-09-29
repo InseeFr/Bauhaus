@@ -22,7 +22,7 @@ const AppCard = ({ section, target }: { section: Section; target: AppName }) => 
   return (
     <li className={section.identifier}>
       <Link to={`/${target}`}>
-        <h2 className="items page-title page-title-link">{t(`home.${section.identifier}Title`)}</h2>
+        <h2>{t(`home.${section.identifier}Title`)}</h2>
         <div className="arrow">
           <img src={`/img/fleche-01.svg`} alt="" loading="lazy" />
         </div>

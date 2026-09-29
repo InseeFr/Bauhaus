@@ -1,10 +1,12 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouteObject, RouterProvider } from "react-router-dom";
 import { describe, expect, it, Mock, vi } from "vitest";
 
+import { useOidc } from "../../auth/create-oidc";
 import type { Module } from "../app-context";
 import { useAppContext } from "../app-context";
-import { buildModuleRoutes, HomePage } from "./routes";
+import { buildModuleRoutes, HomePage, Logout } from "./routes";
 
 /* Le sujet du test est le routage, pas la formulation des pages d'erreur : des marqueurs
    rendent l'assertion insensible à la langue du navigateur de test. */
@@ -102,5 +104,17 @@ describe("<HomePage />", () => {
     renderHomePageWith([openModule("datasets"), openModule("ddi")]);
 
     expect(screen.getByText("datasets landing")).toBeInTheDocument();
+  });
+});
+
+describe("<Logout />", () => {
+  it("logs the user back in to the home page", async () => {
+    const login = vi.fn();
+    (useOidc as Mock).mockReturnValue({ login });
+
+    render(<Logout />);
+    await userEvent.click(screen.getByRole("button", { name: "Login" }));
+
+    expect(login).toHaveBeenCalledWith({ doesCurrentHrefRequiresAuth: true, redirectUrl: "/" });
   });
 });

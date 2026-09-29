@@ -1,3 +1,4 @@
+import { Button } from "primereact/button";
 import { Suspense, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -66,8 +67,8 @@ export const Logout = () => {
 
   return (
     <div id="login" className="flex">
-      <button
-        type="button"
+      <Button
+        label={t("auth.login")}
         onClick={() => {
           if (!login) {
             return;
@@ -77,10 +78,7 @@ export const Logout = () => {
             redirectUrl: "/",
           });
         }}
-        className="btn btn-primary"
-      >
-        {t("auth.login")}
-      </button>
+      />
     </div>
   );
 };

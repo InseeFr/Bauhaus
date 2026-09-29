@@ -8,14 +8,6 @@
 @import url("components.css");
 @import url("utilities.css");
 
-.items {
-  display: inline-block;
-  width: 15%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 10%;
-}
-
 @media (width <= 1000px) {
   .operations-list {
     width: 100%;
