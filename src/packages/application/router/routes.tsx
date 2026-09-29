@@ -116,24 +116,29 @@ export const buildModuleRoutes = (modules: Module[]): RouteObject[] =>
    (réponse de `GeneralApi.getInit()`), et non à chaque rendu : le recréer réinitialiserait
    son état de navigation et relancerait ses chargements. */
 export const createAppRouter = (modules: Module[]) =>
-  createBrowserRouter([
+  createBrowserRouter(
+    [
+      {
+        path: "logout",
+        element: <Logout />,
+      },
+      {
+        path: "",
+        element: <MainLayout />,
+        children: [
+          { path: "", element: <HomePage /> },
+          ...buildModuleRoutes(modules),
+          {
+            path: "*",
+            element: <NotFound />,
+          },
+        ],
+      },
+    ],
     {
-      path: "logout",
-      element: <Logout />,
+      future: { v7_relativeSplatPath: true },
     },
-    {
-      path: "",
-      element: <MainLayout />,
-      children: [
-        { path: "", element: <HomePage /> },
-        ...buildModuleRoutes(modules),
-        {
-          path: "*",
-          element: <NotFound />,
-        },
-      ],
-    },
-  ]);
+  );
 
 export type AppRouter = ReturnType<typeof createAppRouter>;
 

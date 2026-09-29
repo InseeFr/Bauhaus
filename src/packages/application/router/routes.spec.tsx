@@ -6,7 +6,7 @@ import { describe, expect, it, Mock, vi } from "vitest";
 import { useOidc } from "../../auth/create-oidc";
 import type { Module } from "../app-context";
 import { useAppContext } from "../app-context";
-import { buildModuleRoutes, HomePage, Logout } from "./routes";
+import { buildModuleRoutes, createAppRouter, HomePage, Logout } from "./routes";
 
 /* Le sujet du test est le routage, pas la formulation des pages d'erreur : des marqueurs
    rendent l'assertion insensible à la langue du navigateur de test. */
@@ -116,5 +116,13 @@ describe("<Logout />", () => {
     await userEvent.click(screen.getByRole("button", { name: "Login" }));
 
     expect(login).toHaveBeenCalledWith({ doesCurrentHrefRequiresAuth: true, redirectUrl: "/" });
+  });
+});
+
+describe("createAppRouter", () => {
+  /* Anticipe le comportement de React Router 7 : sous une route `*`, un lien relatif se
+     résout depuis l'URL complète, et non plus depuis le parent de la route splat. */
+  it("resolves relative paths of splat routes against the full URL", () => {
+    expect(createAppRouter([]).future.v7_relativeSplatPath).toBe(true);
   });
 });
