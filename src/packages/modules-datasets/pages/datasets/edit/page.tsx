@@ -88,6 +88,7 @@ export const Component = () => {
     mutate: save,
     error: serverSideError,
   } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: () => {
       const formattedDataset = {
         ...editingDataset,

@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { useTranslation } from "react-i18next";
@@ -11,19 +11,15 @@ import { GeneralApi } from "@sdk/general-api";
 import { getLang } from "@utils/dictionary";
 
 import { AppContextProvider, type AppProperties } from "./packages/application/app-context";
+import { GlobalErrorToast } from "./packages/application/global-error-toast";
+import { createQueryClient } from "./packages/application/query-client";
 import { Root } from "./packages/application/router";
 import { createAppRouter } from "./packages/application/router/routes";
 import { OidcProvider } from "./packages/auth/create-oidc";
 import { appI18n } from "./packages/i18n";
 import "./packages/styles/main.css";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: Infinity,
-    },
-  },
-});
+const queryClient = createQueryClient();
 
 const ErrorBlock = () => {
   const { t } = useTranslation("translation", { i18n: appI18n });
@@ -70,6 +66,7 @@ const renderApp = (page: ReactNode, initState: Partial<InitState>) => {
           authType={authType}
         >
           <ApplicationTitle />
+          <GlobalErrorToast />
           <main>
             {page}
             <BackToTop />

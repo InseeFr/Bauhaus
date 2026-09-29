@@ -1,3 +1,5 @@
+import type { i18n as I18n } from "i18next";
+
 /**
  * Lecture des erreurs renvoyées par le back-office.
  *
@@ -52,6 +54,16 @@ const isJsonStructure = (text: string) => {
     return false;
   }
 };
+
+/**
+ * Vrai pour un rejet produit par le SDK (`sdk/build-api.ts`) : un objet nu portant un `status`
+ * numérique, jamais une `Error`.
+ */
+export const isSdkRejection = (reason: unknown): boolean =>
+  typeof reason === "object" &&
+  reason !== null &&
+  !(reason instanceof Error) &&
+  typeof (reason as { status?: unknown }).status === "number";
 
 /** Codes des échecs que le SDK constate lui-même, sans réponse lisible du serveur. */
 const SDK_ERROR_CODES: readonly unknown[] = ["NETWORK_ERROR", "UNREADABLE_RESPONSE"];
@@ -164,4 +176,45 @@ export const toFormErrors = (err: unknown, displayedFields: readonly string[]): 
     clientSideErrors: { errorMessage: Object.values(apiErrors.fields), fields: apiErrors.fields },
     serverSideError: apiErrors.others,
   };
+};
+
+/**
+ * Lignes à afficher pour un échec (ou une liste d'échecs), dans l'ordre de résolution de
+ * l'ADR-1264 : erreurs détaillées, `code` traduit, `message` porteur d'une clé, message du
+ * serveur, puis repli selon le statut. Une chaîne qui n'est pas du JSON est affichée telle quelle.
+ */
+export const formatApiErrors = (error: unknown, i18n: I18n): string[] => {
+  const errors: unknown[] = Array.isArray(error) ? error : [error];
+
+  return errors.filter((e) => !!e).flatMap((e) => formatApiError(e, i18n));
+};
+
+const formatApiError = (e: any, i18n: I18n): string | string[] => {
+  const { t } = i18n;
+  let parsedError;
+  try {
+    parsedError = e !== null && typeof e === "object" ? e : JSON.parse(e);
+  } catch {
+    return e;
+  }
+
+  const detailedErrors = getApiErrors(parsedError);
+  if (detailedErrors) {
+    return detailedErrors;
+  }
+  if (parsedError.code && i18n.exists(`errors.${parsedError.code}`)) {
+    return String(t(`errors.${parsedError.code}`, parsedError));
+  }
+  if (parsedError.message && i18n.exists(`errors.${parsedError.message}`)) {
+    return String(t(`errors.${parsedError.message}`, parsedError));
+  }
+
+  const serverMessage = getServerMessage(parsedError);
+
+  if (!serverMessage) {
+    return t(getFallbackMessageKey(parsedError.status));
+  }
+  return parsedError.status === 500
+    ? t("errors.serversideErrors500", { error: serverMessage })
+    : serverMessage;
 };

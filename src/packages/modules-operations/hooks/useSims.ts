@@ -83,6 +83,7 @@ export const useSaveSims = () => {
   const simsTitleLg2 = t("sims.simsTitle", { lng: "en" });
 
   return useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: async (sims: any) => {
       let simsToSave = sims;
       if (!sims.labelLg1) {
@@ -102,6 +103,7 @@ export const usePublishSims = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: async (sims: any) => {
       return OperationsApi.publishSims(sims);
     },

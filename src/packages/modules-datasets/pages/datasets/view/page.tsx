@@ -67,6 +67,7 @@ const Dataset = (props: Readonly<DatasetTypes>) => {
     mutate: publish,
     error: publishServerSideError,
   } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: () => {
       return DatasetsApi.publish(id);
     },

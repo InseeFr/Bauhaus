@@ -14,6 +14,7 @@ export function usePublishPhysicalInstance() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: ({ id, agencyId, data }: PublishPhysicalInstanceParams) =>
       DDIApi.putPhysicalInstance(agencyId, id, data),
     onSuccess: (_, variables) => {

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { appI18n } from "../../i18n";
-import { getApiErrors, getFallbackMessageKey, getServerMessage } from "../../utils/api-errors";
+import { formatApiErrors } from "../../utils/api-errors";
 import { sanitizeHtml } from "../../utils/sanitize-html";
 import "./errors-bloc.css";
 
@@ -53,46 +53,15 @@ export const GlobalClientSideErrorBloc = ({
 };
 
 export const ErrorBloc = ({ error }: { error?: unknown }) => {
-  const { t, i18n } = useTranslation("translation", { i18n: appI18n });
+  // Le hook abonne le bandeau aux changements de langue ; le texte vient de l'instance du
+  // composant partagé, jamais de celle de l'écran.
+  useTranslation("translation", { i18n: appI18n });
 
   if (!error) {
     return null;
   }
 
-  const errors = Array.isArray(error) ? error : [error];
-
-  const formattedErrors = errors
-    .filter((e) => !!e)
-    .flatMap((e) => {
-      let errorMsg;
-      try {
-        const parsedError = e !== null && typeof e === "object" ? e : JSON.parse(e);
-        const detailedErrors = getApiErrors(parsedError);
-        if (detailedErrors) {
-          return detailedErrors;
-        }
-        if (parsedError.code && i18n.exists(`errors.${parsedError.code}`)) {
-          errorMsg = t(`errors.${parsedError.code}`, parsedError);
-        } else if (parsedError.message && i18n.exists(`errors.${parsedError.message}`)) {
-          errorMsg = t(`errors.${parsedError.message}`, parsedError);
-        } else {
-          const serverMessage = getServerMessage(parsedError);
-
-          if (!serverMessage) {
-            errorMsg = t(getFallbackMessageKey(parsedError.status));
-          } else if (parsedError.status === 500) {
-            errorMsg = t("errors.serversideErrors500", { error: serverMessage });
-          } else {
-            errorMsg = serverMessage;
-          }
-        }
-      } catch {
-        errorMsg = e;
-      }
-      return errorMsg;
-    });
-
-  return formattedErrors.map((e, index) => (
+  return formatApiErrors(error, appI18n).map((e, index) => (
     <div key={index} className="bauhaus-error-bloc alert alert-danger" role="alert">
       <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(e) }} />
     </div>

@@ -13,6 +13,7 @@ export const useDatasetDeleter = (id: string) => {
     mutate: remove,
     error: deleteServerSideError,
   } = useMutation({
+    meta: { globalErrorToast: false },
     mutationFn: () => {
       return DistributionApi.deleteDistribution(id);
     },
