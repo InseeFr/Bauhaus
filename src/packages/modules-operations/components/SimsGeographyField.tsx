@@ -12,6 +12,8 @@ import { Select } from "@components/select-rmes";
 
 import { GeographieApi } from "@sdk/geographie";
 
+import { getApiErrorMessage } from "@utils/api-errors";
+
 import { useGeographies } from "../hooks/useGeographies";
 import { GeographyOption } from "../hooks/useGeographiesOptions";
 import { Geography, SimsGeographySelector } from "./SimsGeographySelector";
@@ -96,8 +98,10 @@ export const SimsGeographyField = ({
       .then((uri: unknown) => {
         onSave(territory.uri ?? (uri as string));
       })
-      .catch((err: unknown) => setServerSideError(JSON.parse(err as string).message));
-  }, [territory, name, nameLg2, includes, excludes, onSave]);
+      .catch((err: unknown) =>
+        setServerSideError(getApiErrorMessage(err, t("geography.saveError"))),
+      );
+  }, [territory, name, nameLg2, includes, excludes, onSave, t]);
 
   if (isLoading) {
     return <Loading />;

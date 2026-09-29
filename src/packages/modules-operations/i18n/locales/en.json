@@ -15,6 +15,7 @@
     "exclude": "Exclude",
     "noResult": "No results",
     "btnNew": "New",
+    "saveError": "Unable to save the territory",
     "btnDelete": "Delete",
     "labelWithStartDate": "{{label}} [since {{startDate}}]",
     "labelWithStartDateAndEndDate": "{{label}} [since {{startDate}} until {{endDate}}]"

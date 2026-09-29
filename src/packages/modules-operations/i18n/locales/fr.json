@@ -15,6 +15,7 @@
     "exclude": "Exclure",
     "noResult": "Aucun résultat",
     "btnNew": "Nouveau",
+    "saveError": "Impossible d'enregistrer le territoire",
     "btnDelete": "Supprimer",
     "labelWithStartDate": "{{label}} [depuis le {{startDate}}]",
     "labelWithStartDateAndEndDate": "{{label}} [depuis le {{startDate}} jusqu'au {{endDate}}]"

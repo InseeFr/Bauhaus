@@ -908,7 +908,7 @@ export const Component = () => {
       <div role="alert" aria-live="assertive">
         <Message
           severity="error"
-          text={error instanceof Error ? error.message : t("physicalInstance.view.errorLoading")}
+          text={getApiErrorMessage(error, t("physicalInstance.view.errorLoading"))}
         />
       </div>
     );

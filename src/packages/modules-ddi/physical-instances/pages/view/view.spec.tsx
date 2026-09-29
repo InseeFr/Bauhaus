@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitFor, act } from "@testing-library/react"
 import type { ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach, type Mock } from "vitest";
 
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { itemsOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
 import { Component } from "./view";
@@ -625,6 +626,14 @@ describe("View Component", () => {
 
       const errorContainer = screen.getByRole("alert");
       expect(errorContainer).toHaveAttribute("aria-live", "assertive");
+    });
+
+    it("should render the message of an API error rejected by the SDK", () => {
+      mockError(sdkRejection.text(500, "Colectica unavailable"));
+
+      renderView();
+
+      expect(screen.getByText("Colectica unavailable")).toBeInTheDocument();
     });
 
     it("should render default error message when error is not an Error instance", () => {

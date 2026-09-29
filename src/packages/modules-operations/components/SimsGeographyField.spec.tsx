@@ -4,6 +4,7 @@ import { beforeEach, describe, it, expect, vi } from "vitest";
 import { GeographieApi } from "@sdk/geographie";
 
 import { renderWithRouterAndQuery } from "../../tests/render";
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { SimsGeographyField, SimsGeographyFieldTypes } from "./SimsGeographyField";
 import { removeAccents } from "./SimsGeographyPicker";
 
@@ -26,6 +27,7 @@ vi.mock("react-i18next", async (importOriginal) =>
     "geography.includedZone": "Included zones",
     "geography.excludedZone": "Excluded zones",
     "geography.btnDelete": "Delete",
+    "geography.saveError": "Unable to save the territory",
   }),
 );
 
@@ -164,19 +166,33 @@ describe("SimsGeographyField", () => {
     });
   });
 
-  it("should display error message when save fails", async () => {
-    const errorMessage = "Save failed";
-    GeographieApi.postTerritory.mockRejectedValue(JSON.stringify({ message: errorMessage }));
+  describe("when the save fails", () => {
+    const saveWithRejection = (rejection: unknown) => {
+      GeographieApi.postTerritory.mockRejectedValue(rejection);
 
-    const { container } = renderField();
+      const { container } = renderField();
+      const inputs = container.querySelectorAll<HTMLInputElement>('input[type="text"]');
+      fireEvent.change(inputs[0], { target: { value: "Test" } });
 
-    const inputs = container.querySelectorAll<HTMLInputElement>('input[type="text"]');
-    fireEvent.change(inputs[0], { target: { value: "Test" } });
+      clickSave();
+    };
 
-    clickSave();
+    it("displays the message of the API error", async () => {
+      saveWithRejection(sdkRejection.json(409, { message: "Territory already exists" }));
 
-    await waitFor(() => {
-      expect(container.querySelector(".alert-danger")).toBeTruthy();
+      expect(await screen.findByText("Territory already exists")).toBeInTheDocument();
+    });
+
+    it("displays the detail of a ProblemDetail", async () => {
+      saveWithRejection(sdkRejection.problemDetail(400, "Invalid territory"));
+
+      expect(await screen.findByText("Invalid territory")).toBeInTheDocument();
+    });
+
+    it("displays a fallback message on a network failure", async () => {
+      saveWithRejection(sdkRejection.network());
+
+      expect(await screen.findByText("Unable to save the territory")).toBeInTheDocument();
     });
   });
 
