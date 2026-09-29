@@ -72,6 +72,13 @@ Read-only (`read: ALL`) on all resources. No write access anywhere.
 
 > `administration` on `concept_concept` is only granted to `Administrateur_RMESGNCS`.
 
+### Administration module
+
+Codes lists, structures and components are grouped under the _Administration_ tile of the home page.
+Only `Administrateur_RMESGNCS` can create, update, delete or publish them (`codeslist_codeslist`,
+`codeslist_partialcodeslist`, `structure_structure`, `structure_component`). Every other role,
+including `Gestionnaire_structures_RMESGNCS` and `Gestionnaire_liste_codes_RMESGNCS`, has `read: ALL` only.
+
 ### Other module roles (read-only on Concepts)
 
 The following roles have `read: ALL` on both `concept_concept` and `concept_collection` but no write access:
