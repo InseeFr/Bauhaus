@@ -76,7 +76,7 @@ export const Component = () => {
     id!,
   );
 
-  const { data: parents } = usePhysicalInstanceParents(agencyId!, id!);
+  const { data: parents, isLoading: isLoadingParents } = usePhysicalInstanceParents(agencyId!, id!);
 
   const currentGroup = parents?.group;
   const currentStudyUnit = parents?.studyUnit;
@@ -904,7 +904,9 @@ export const Component = () => {
     [agencyId, id, duplicatePhysicalInstance, navigate, t],
   );
 
-  if (isLoading) {
+  // Les parents (Groupe / Étude) portent les droits d'édition : sans eux, la page s'afficherait
+  // d'abord en lecture seule puis changerait sous les yeux de l'utilisateur.
+  if (isLoading || isLoadingParents) {
     return <LoadingOverlay textType="loading" />;
   }
 

@@ -8,6 +8,7 @@ import { envelope } from "../../types/ddi4Items.testing";
 import { Component } from "./view";
 
 const mockUsePhysicalInstancesData = vi.fn();
+const mockUsePhysicalInstanceParents = vi.fn();
 const mockUpdatePhysicalInstance = vi.fn();
 const mockPublishPhysicalInstance = vi.fn();
 const mockDuplicatePhysicalInstance = vi.fn();
@@ -93,13 +94,7 @@ vi.mock("../../../hooks/useGroups", () => ({
 }));
 
 vi.mock("../../../hooks/usePhysicalInstanceParents", () => ({
-  usePhysicalInstanceParents: () => ({
-    data: {
-      group: { agency: "agency-1", id: "group-1" },
-      studyUnit: { agency: "agency-1", id: "study-1" },
-    },
-    isLoading: false,
-  }),
+  usePhysicalInstanceParents: () => mockUsePhysicalInstanceParents(),
 }));
 
 // Hooks de la section « Valeurs sentinelles » (#1566) : pas de fetch réel dans ces tests.
@@ -367,6 +362,14 @@ describe("View Component", () => {
       isError: false,
     });
 
+    mockUsePhysicalInstanceParents.mockReturnValue({
+      data: {
+        group: { agency: "agency-1", id: "group-1" },
+        studyUnit: { agency: "agency-1", id: "study-1" },
+      },
+      isLoading: false,
+    });
+
     // Default mock for mutation
     mockUpdatePhysicalInstance.mockReturnValue({
       mutateAsync: vi.fn().mockResolvedValue({}),
@@ -406,6 +409,14 @@ describe("View Component", () => {
       const overlay = screen.getByLabelText("Loading in progress...");
       expect(overlay).toHaveClass("loading-overlay");
       expect(screen.getByText("Loading in progress...")).toBeInTheDocument();
+    });
+
+    it("keeps the loading overlay while the parents request is not finished", () => {
+      mockUsePhysicalInstanceParents.mockReturnValue({ data: undefined, isLoading: true });
+
+      render(<Component />, { wrapper });
+
+      expect(screen.getByLabelText("Loading in progress...")).toHaveClass("loading-overlay");
     });
 
     it("should have correct accessibility attributes for loading state", () => {
