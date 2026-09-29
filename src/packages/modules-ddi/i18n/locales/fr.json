@@ -68,7 +68,7 @@
         "value": "Valeur",
         "usersPanel": {
           "title": "Utilisations de cette liste de codes",
-          "help": "Variables et instances physiques qui réutilisent cette même liste de codes, regroupées par opération puis par instance physique.",
+          "help": "Variables et fichiers de données qui réutilisent cette même liste de codes, regroupées par opération puis par fichier de données.",
           "unknownStudyUnit": "Opération inconnue"
         },
         "categoryUsage": {
@@ -164,10 +164,10 @@
       "deleteVariableSuccess": "Variable supprimée",
       "deleteVariableSuccessDetail": "La variable a été supprimée avec succès",
       "duplicate": "Dupliquer",
-      "duplicateSuccess": "Instance physique dupliquée",
-      "duplicateSuccessDetail": "L'instance physique a été dupliquée avec succès",
+      "duplicateSuccess": "Fichier de données dupliqué",
+      "duplicateSuccessDetail": "Le fichier de données a été dupliqué avec succès",
       "duplicateError": "Erreur de duplication",
-      "duplicateErrorDetail": "Impossible de dupliquer l'instance physique",
+      "duplicateErrorDetail": "Impossible de dupliquer le fichier de données",
       "duplicateModal": {
         "cancel": "Annuler",
         "confirm": "Dupliquer",
@@ -224,9 +224,9 @@
       "saveAllSuccess": "Sauvegarde réussie",
       "saveAllSuccessDetail": "Toutes les modifications ont été sauvegardées avec succès",
       "saveError": "Erreur lors de l'enregistrement",
-      "saveErrorDetail": "Impossible d'enregistrer l'instance physique",
+      "saveErrorDetail": "Impossible d'enregistrer le fichier de données",
       "saveSuccess": "Enregistrement réussi",
-      "saveSuccessDetail": "L'instance physique a été mise à jour",
+      "saveSuccessDetail": "Le fichier de données a été mis à jour",
       "search": "Rechercher",
       "selectType": "Sélectionnez un type",
       "selectVariable": "Sélectionnez une variable pour l'éditer",
