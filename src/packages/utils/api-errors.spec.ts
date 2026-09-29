@@ -1,3 +1,4 @@
+import { sdkRejection } from "../tests/sdk-rejection.testing";
 import { getApiErrorMessage, getApiErrors, toFormErrors } from "./api-errors";
 
 describe("getApiErrorMessage", () => {
@@ -15,6 +16,15 @@ describe("getApiErrorMessage", () => {
 
   it("retombe sur le repli quand le message est vide", () => {
     expect(getApiErrorMessage({ message: "" }, "repli")).toBe("repli");
+  });
+
+  it("retombe sur le repli de l'écran pour un échec produit par le SDK, qui n'est pas un message du serveur", () => {
+    expect(getApiErrorMessage(sdkRejection.network(), "repli")).toBe("repli");
+    expect(getApiErrorMessage(sdkRejection.unreadableResponse(200), "repli")).toBe("repli");
+  });
+
+  it("retombe sur le repli quand le message est du JSON", () => {
+    expect(getApiErrorMessage(sdkRejection.text(500, '{"code":804}'), "repli")).toBe("repli");
   });
 
   it("retombe sur le repli sur une valeur non exploitable", () => {

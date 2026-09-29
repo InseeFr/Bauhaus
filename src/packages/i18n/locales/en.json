@@ -81,6 +81,15 @@
     "1106": "This code does not exist in this codelist.",
     "1107": "The id of the codelist does not match the id of the url.",
     "1108": "The submitted code does not match the code of the url: a code cannot be renamed.",
+    "NETWORK_ERROR": "The server cannot be reached. Check your connection and try again.",
+    "UNREADABLE_RESPONSE": "The server response could not be read.",
+    "fallback": {
+      "unauthorized": "You are not signed in or your session has expired. Please sign in again and retry.",
+      "forbidden": "You do not have permission to perform this action.",
+      "notFound": "The requested item could not be found.",
+      "server": "An unexpected error occurred on the server. Please try again later or contact the RMéS administration team.",
+      "generic": "An error has occurred. Please try again or contact the RMéS administration team."
+    },
     "globalClientSideErrorBloc": "You have errors in this form.",
     "serversideErrors500": "An error has occurred. Please contact the RMéS administration team and provide them with the following message: {{error}}",
     "mandatoryProperty": "The property <strong>{{propertyName}}</strong> is required.",

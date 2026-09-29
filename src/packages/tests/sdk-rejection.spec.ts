@@ -63,10 +63,16 @@ describe("sdkRejection reproduit exactement les rejets de buildCall", () => {
     expect(rejection).not.toHaveProperty("message");
   });
 
-  it("erreur réseau : une chaîne, pas un objet", async () => {
+  it("erreur réseau : un objet NETWORK_ERROR de statut 0", async () => {
     const rejection = await rejectionOf(() => Promise.reject(new TypeError("Failed to fetch")));
 
-    expect(rejection).toBe(sdkRejection.network());
-    expect(rejection).toBe("TypeError: Failed to fetch");
+    expect(rejection).toEqual(sdkRejection.network());
+    expect(rejection).toMatchObject({ status: 0, code: "NETWORK_ERROR" });
+  });
+
+  it("réponse 2xx illisible : un objet UNREADABLE_RESPONSE avec le statut", async () => {
+    const rejection = await rejectionOf(respond(200, ""));
+
+    expect(rejection).toEqual(sdkRejection.unreadableResponse(200));
   });
 });

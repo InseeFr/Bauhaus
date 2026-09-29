@@ -3,8 +3,10 @@
 // supprimées, <script> conservé) : ce qui passe par DOMPurify se teste sous jsdom.
 
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { afterEach, describe, it, expect } from "vitest";
 
+import { appI18n } from "../../i18n";
+import { sdkRejection } from "../../tests/sdk-rejection.testing";
 import { ClientSideError, GlobalClientSideErrorBloc, ErrorBloc } from "./index";
 
 describe("ClientSideError", () => {
@@ -90,5 +92,107 @@ describe("ErrorBloc", () => {
     const invalidError = "Invalid JSON";
     render(<ErrorBloc error={[invalidError]} />);
     screen.getByText("Invalid JSON");
+  });
+
+  describe("never renders an empty or unreadable banner", () => {
+    const bannerText = () => screen.getByRole("alert").textContent;
+
+    it("explains a forbidden action when a 403 has no body", () => {
+      render(<ErrorBloc error={sdkRejection.emptyBody(403)} />);
+
+      expect(bannerText()).toBe("You do not have permission to perform this action.");
+    });
+
+    it("asks to sign in again when a 401 has no body", () => {
+      render(<ErrorBloc error={sdkRejection.emptyBody(401)} />);
+
+      expect(bannerText()).toBe(
+        "You are not signed in or your session has expired. Please sign in again and retry.",
+      );
+    });
+
+    it("explains a missing item when a 404 has no body", () => {
+      render(<ErrorBloc error={sdkRejection.emptyBody(404)} />);
+
+      expect(bannerText()).toBe("The requested item could not be found.");
+    });
+
+    it("renders a generic message when another 4xx has no body", () => {
+      render(<ErrorBloc error={sdkRejection.emptyBody(400)} />);
+
+      expect(bannerText()).toBe(
+        "An error has occurred. Please try again or contact the RMéS administration team.",
+      );
+    });
+
+    it("renders a generic server message when a 500 has no body", () => {
+      render(<ErrorBloc error={sdkRejection.emptyBody(500)} />);
+
+      expect(bannerText()).toBe(
+        "An unexpected error occurred on the server. Please try again later or contact the RMéS administration team.",
+      );
+    });
+
+    it("renders the detail of a 4xx ProblemDetail", () => {
+      render(<ErrorBloc error={sdkRejection.problemDetail(409, "Collection already published")} />);
+
+      expect(bannerText()).toBe("Collection already published");
+    });
+
+    it("renders the detail of a 500 ProblemDetail inside the server error message", () => {
+      render(<ErrorBloc error={sdkRejection.problemDetail(500, "Repository unavailable")} />);
+
+      expect(bannerText()).toBe(
+        "An error has occurred. Please contact the RMéS administration team and provide them with the following message: Repository unavailable",
+      );
+    });
+
+    it("does not render raw JSON carried by the message", () => {
+      render(<ErrorBloc error={sdkRejection.text(403, '{"code":"x","details":"y"}')} />);
+
+      expect(bannerText()).toBe("You do not have permission to perform this action.");
+    });
+
+    it("says the server cannot be reached on a network failure", () => {
+      render(<ErrorBloc error={sdkRejection.network()} />);
+
+      expect(bannerText()).toBe(
+        "The server cannot be reached. Check your connection and try again.",
+      );
+    });
+
+    it("says the response could not be read when a successful response is unreadable", () => {
+      render(<ErrorBloc error={sdkRejection.unreadableResponse(200)} />);
+
+      expect(bannerText()).toBe("The server response could not be read.");
+    });
+
+    it("keeps the server message when it is readable", () => {
+      render(<ErrorBloc error={sdkRejection.json(409, { message: "Territory already exists" })} />);
+
+      expect(bannerText()).toBe("Territory already exists");
+    });
+  });
+
+  describe("in French", () => {
+    afterEach(() => appI18n.changeLanguage("en"));
+
+    it("renders the fallback message in French", async () => {
+      await appI18n.changeLanguage("fr");
+      render(<ErrorBloc error={sdkRejection.emptyBody(403)} />);
+
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Vous n'avez pas les droits pour effectuer cette action.",
+      );
+    });
+
+    it("renders the network failure in French", async () => {
+      await appI18n.changeLanguage("fr");
+      render(<ErrorBloc error={sdkRejection.network()} />);
+
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Le serveur est injoignable. Vérifiez votre connexion et réessayez.",
+      );
+    });
   });
 });

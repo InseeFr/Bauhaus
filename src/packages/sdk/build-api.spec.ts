@@ -1,5 +1,6 @@
 import { vi } from "vitest";
 
+import { appI18n } from "../i18n";
 import {
   buildApi,
   computeDscr,
@@ -127,6 +128,42 @@ describe("build call", () => {
       });
     }),
   );
+
+  it("rejects an object, not a string, when the server cannot be reached", async () => {
+    const cause = new TypeError("Failed to fetch");
+    window.fetch = vi.fn(() => Promise.reject(cause)) as any;
+
+    await expect(buildCall("context", "getSomething", () => ["something"])()).rejects.toEqual({
+      status: 0,
+      code: "NETWORK_ERROR",
+      message: "The server cannot be reached. Check your connection and try again.",
+      cause,
+    });
+  });
+
+  it("writes the network failure message in the current language", async () => {
+    await appI18n.changeLanguage("fr");
+    window.fetch = vi.fn(() => Promise.reject(new TypeError("Failed to fetch"))) as any;
+
+    await expect(buildCall("context", "getSomething", () => ["something"])()).rejects.toMatchObject(
+      {
+        message: "Le serveur est injoignable. Vérifiez votre connexion et réessayez.",
+      },
+    );
+
+    await appI18n.changeLanguage("en");
+  });
+
+  it("rejects an object when a successful response cannot be read", async () => {
+    window.fetch = vi.fn(() => Promise.resolve(new Response("", { status: 200 }))) as any;
+
+    await expect(buildCall("context", "getSomething", () => ["something"])()).rejects.toEqual({
+      status: 200,
+      code: "UNREADABLE_RESPONSE",
+      message: "The server response could not be read.",
+      cause: expect.any(SyntaxError),
+    });
+  });
 });
 
 describe("build api", () => {

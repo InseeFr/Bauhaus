@@ -41,15 +41,54 @@ const detailedErrorsOf = (err: unknown): unknown[] | null => {
  * `application/problem+json` (RFC 7807) : le message y est porté par `detail`, pas par
  * `message`.
  */
-export const getApiErrorMessage = (err: unknown, fallback: string): string => {
-  if (err instanceof Error) return err.message || fallback;
+export const getApiErrorMessage = (err: unknown, fallback: string): string =>
+  getServerMessage(err) ?? fallback;
 
-  const { message, detail } = (err ?? {}) as {
+const isJsonStructure = (text: string) => {
+  try {
+    const parsed: unknown = JSON.parse(text);
+    return typeof parsed === "object" && parsed !== null;
+  } catch {
+    return false;
+  }
+};
+
+/** Codes des échecs que le SDK constate lui-même, sans réponse lisible du serveur. */
+const SDK_ERROR_CODES: readonly unknown[] = ["NETWORK_ERROR", "UNREADABLE_RESPONSE"];
+
+/**
+ * Message porté par la réponse, s'il est affichable : ni vide, ni du JSON. `detail` est lu pour
+ * les réponses `ProblemDetail`, jusqu'à leur retrait (ADR-1264, ticket 18). Le message d'un échec
+ * produit par le SDK n'en est pas un : il est affiché par la traduction de son `code`.
+ */
+export const getServerMessage = (err: unknown): string | undefined => {
+  const { message, detail, code } = (err ?? {}) as {
     message?: unknown;
     detail?: unknown;
+    code?: unknown;
   };
 
-  return firstNonEmptyString(message, detail) ?? fallback;
+  if (SDK_ERROR_CODES.includes(code)) return undefined;
+
+  const text = firstNonEmptyString(message, detail);
+
+  return text && !isJsonStructure(text) ? text : undefined;
+};
+
+const fallbackMessageKeys: Record<number, string> = {
+  401: "errors.fallback.unauthorized",
+  403: "errors.fallback.forbidden",
+  404: "errors.fallback.notFound",
+};
+
+/** Clé de traduction du message à afficher quand la réponse n'en porte aucun d'affichable. */
+export const getFallbackMessageKey = (status: unknown): string => {
+  if (typeof status !== "number") return "errors.fallback.generic";
+
+  return (
+    fallbackMessageKeys[status] ??
+    (status >= 500 ? "errors.fallback.server" : "errors.fallback.generic")
+  );
 };
 
 /**

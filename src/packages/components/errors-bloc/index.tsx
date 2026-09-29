@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { appI18n } from "../../i18n";
-import { getApiErrors } from "../../utils/api-errors";
+import { getApiErrors, getFallbackMessageKey, getServerMessage } from "../../utils/api-errors";
 import { sanitizeHtml } from "../../utils/sanitize-html";
 import "./errors-bloc.css";
 
@@ -75,10 +75,16 @@ export const ErrorBloc = ({ error }: { error?: unknown }) => {
           errorMsg = t(`errors.${parsedError.code}`, parsedError);
         } else if (parsedError.message && i18n.exists(`errors.${parsedError.message}`)) {
           errorMsg = t(`errors.${parsedError.message}`, parsedError);
-        } else if (parsedError.status === 500) {
-          errorMsg = t("errors.serversideErrors500", { error: parsedError.message });
         } else {
-          errorMsg = parsedError.message;
+          const serverMessage = getServerMessage(parsedError);
+
+          if (!serverMessage) {
+            errorMsg = t(getFallbackMessageKey(parsedError.status));
+          } else if (parsedError.status === 500) {
+            errorMsg = t("errors.serversideErrors500", { error: serverMessage });
+          } else {
+            errorMsg = serverMessage;
+          }
         }
       } catch {
         errorMsg = e;

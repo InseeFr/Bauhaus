@@ -81,6 +81,15 @@
     "1106": "Ce code n'existe pas dans cette liste de codes.",
     "1107": "L'identifiant de la liste de codes ne correspond pas à celui de l'url.",
     "1108": "Le code envoyé ne correspond pas à celui de l'url : un code ne peut pas être renommé.",
+    "NETWORK_ERROR": "Le serveur est injoignable. Vérifiez votre connexion et réessayez.",
+    "UNREADABLE_RESPONSE": "La réponse du serveur est illisible.",
+    "fallback": {
+      "unauthorized": "Vous n'êtes pas connecté ou votre session a expiré. Reconnectez-vous puis réessayez.",
+      "forbidden": "Vous n'avez pas les droits pour effectuer cette action.",
+      "notFound": "L'élément demandé est introuvable.",
+      "server": "Une erreur inattendue s'est produite sur le serveur. Réessayez plus tard ou contactez l'équipe d'administration RMéS.",
+      "generic": "Une erreur s'est produite. Réessayez ou contactez l'équipe d'administration RMéS."
+    },
     "globalClientSideErrorBloc": "Vous avez des erreurs dans ce formulaire.",
     "serversideErrors500": "Une erreur s'est produite. Veuillez contacter l'équipe d'administration RMéS en lui communiquant le message suivant: {{error}}",
     "mandatoryProperty": "La propriété <strong>{{propertyName}}</strong> est obligatoire.",
