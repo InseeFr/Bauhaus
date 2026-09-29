@@ -2,7 +2,6 @@
   z-index: 0;
 }
 
-
 /* Tous les boutons alignent leur contenu sur la gauche : dans une pile de boutons,
    les icônes se retrouvent ainsi sur la même verticale, à la même distance du
    libellé. Le sélecteur est qualifié par le nom de l'élément pour passer devant le
