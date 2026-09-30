@@ -1,3 +1,4 @@
+import { OPEN_ID_CONNECT_AUTH } from "../auth/constants";
 import { getOidc } from "../auth/create-oidc";
 
 /**
@@ -78,6 +79,14 @@ export const defaultOptions = {
 
 export const defaultThenHandler = (res: Response) => res.json();
 
+// Mode d'authentification annoncé par le back (`init`). Hors OpenID Connect, aucun jeton n'est
+// envoyé, même si oidc-spa a ouvert une session par SSO silencieux (ex. session Keycloak de prod).
+let authType: string | undefined;
+
+export const setAuthType = (value: string | undefined) => {
+  authType = value;
+};
+
 export const computeDscr = async (fn: any, [...args]) => {
   const dscr = fn(...args);
   if (!Array.isArray(dscr)) {
@@ -97,7 +106,7 @@ export const computeDscr = async (fn: any, [...args]) => {
 
   const oidc = await getOidc();
 
-  if (oidc && oidc.isUserLoggedIn) {
+  if (authType === OPEN_ID_CONNECT_AUTH && oidc && oidc.isUserLoggedIn) {
     const { accessToken } = oidc.getTokens();
     options = {
       ...options,

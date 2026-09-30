@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { ApplicationTitle } from "@components/application-title";
 import { BackToTop } from "@components/back-to-top";
 
+import { setAuthType } from "@sdk/build-api";
 import { GeneralApi } from "@sdk/general-api";
 
 import { getLang } from "@utils/dictionary";
@@ -66,6 +67,8 @@ const renderApp = (
   props?: { home: true },
 ) => {
   const { authType, lg1, lg2, version, ...properties } = initState;
+
+  setAuthType(authType);
 
   document.querySelector("html")!.setAttribute("lang", getLang());
 
