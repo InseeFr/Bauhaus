@@ -57,6 +57,8 @@
         "loadingCodeLists": "Chargement des listes de codes...",
         "missingCodeListDetail": "La variable {{variableAgency}}/{{variableId}} référence la liste de codes {{codeListAgency}}/{{codeListId}} qui n'existe pas.",
         "missingCodeListTitle": "Liste de codes introuvable",
+        "loadCodeListErrorTitle": "Impossible de charger la liste de codes",
+        "loadCodeListErrorDetail": "La liste de codes de cette variable n'a pas pu être chargée. Réessayez plus tard.",
         "moveDown": "Descendre",
         "moveUp": "Monter",
         "mutualizedCodeListsSection": "Listes mutualisées",

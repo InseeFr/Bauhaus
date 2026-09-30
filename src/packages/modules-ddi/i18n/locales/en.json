@@ -57,6 +57,8 @@
         "loadingCodeLists": "Loading code lists...",
         "missingCodeListDetail": "Variable {{variableAgency}}/{{variableId}} references code list {{codeListAgency}}/{{codeListId}}, which does not exist.",
         "missingCodeListTitle": "Code list not found",
+        "loadCodeListErrorTitle": "Unable to load the code list",
+        "loadCodeListErrorDetail": "The code list of this variable could not be loaded. Please try again later.",
         "moveDown": "Move down",
         "moveUp": "Move up",
         "mutualizedCodeListsSection": "Mutualized code lists",

@@ -400,7 +400,24 @@ export const Component = () => {
           return;
         }
 
-        const loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
+        let loaded;
+        try {
+          loaded = await loadCodeListForVariable(queryClient, codeRepresentation);
+        } catch (err: unknown) {
+          // Sans sa liste de codes, la variable ne peut pas être éditée : on le dit et on la
+          // laisse fermée, plutôt que de laisser l'échec sans réponse.
+          toast.current?.show({
+            severity: "error",
+            summary: t("physicalInstance.view.code.loadCodeListErrorTitle"),
+            detail: getDdiErrorMessage(
+              err,
+              t,
+              t("physicalInstance.view.code.loadCodeListErrorDetail"),
+            ),
+            ...errorToastTiming(),
+          });
+          return;
+        }
         codeList = loaded.codeList;
         // Une catégorie peut être partagée par des listes DIFFÉRENTES : si une autre variable
         // locale l'a déjà surchargée, on affiche sa version plutôt que celle (périmée) du back.
@@ -459,7 +476,7 @@ export const Component = () => {
       if (variableId) {
         const variable = variables.find((v: VariableTableData) => v.id === variableId);
         if (variable) {
-          handleVariableClick(variable);
+          void handleVariableClick(variable);
         }
       }
     }
@@ -488,7 +505,7 @@ export const Component = () => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const previousIndex =
         currentVariableIndex === 0 ? filteredVariables.length - 1 : currentVariableIndex - 1;
-      handleVariableClick(filteredVariables[previousIndex]);
+      void handleVariableClick(filteredVariables[previousIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
 
@@ -496,7 +513,7 @@ export const Component = () => {
     if (currentVariableIndex >= 0 && filteredVariables.length > 0) {
       const nextIndex =
         currentVariableIndex === filteredVariables.length - 1 ? 0 : currentVariableIndex + 1;
-      handleVariableClick(filteredVariables[nextIndex]);
+      void handleVariableClick(filteredVariables[nextIndex]);
     }
   }, [currentVariableIndex, filteredVariables, handleVariableClick]);
 

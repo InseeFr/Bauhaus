@@ -3,6 +3,8 @@ import { render, screen, fireEvent, waitFor, act } from "@testing-library/react"
 import type { ReactNode } from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+import { DDIApi } from "@sdk/index";
+
 import { itemsOfType } from "../../types/ddi4Items";
 import { envelope } from "../../types/ddi4Items.testing";
 import { Component } from "./view";
@@ -2255,6 +2257,43 @@ describe("View Component", () => {
       await screen.findByText("physicalInstance.view.confirmDelete");
 
       expect(document.querySelector(".p-dialog .p-resizable-handle")).toBeNull();
+    });
+  });
+
+  describe("Opening a code variable", () => {
+    it("shows the module error toast when the code list of the variable cannot be loaded", async () => {
+      using _codeListSpy = vi
+        .spyOn(DDIApi, "getMutualizedCodeList")
+        // Rejet réel du SDK pour une 500 à corps vide : un objet nu, jamais une Error.
+        .mockRejectedValue({ message: "", status: 500 });
+      mockSearchParams = new URLSearchParams("variableId=1");
+      mockUsePhysicalInstancesData.mockReturnValue({
+        ...mockUsePhysicalInstancesData(),
+        data: envelope({
+          Variable: [
+            {
+              ID: "1",
+              VariableName: [{ "@language": "fr-FR", "@value": "Variable1" }],
+              VariableRepresentation: {
+                CodeRepresentation: {
+                  CodeListReference: { Agency: "agency-1", ID: "cl-1", TypeOfObject: "CodeList" },
+                },
+              },
+            },
+          ],
+        }),
+      });
+
+      render(<Component />, { wrapper });
+
+      await waitFor(() =>
+        expect(mockToastShow).toHaveBeenCalledWith(
+          expect.objectContaining({
+            severity: "error",
+            summary: "physicalInstance.view.code.loadCodeListErrorTitle",
+          }),
+        ),
+      );
     });
   });
 
