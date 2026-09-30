@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { useLoaderData, useParams } from "react-router-dom";
 
+import { ErrorBloc } from "@components/errors-bloc";
 import { Loading } from "@components/loading";
 import { PageTitleBlock } from "@components/page-title-block";
 
@@ -25,6 +26,8 @@ interface State {
   owners: any[];
   exportPending: boolean;
   missingDocuments: Set<any>;
+  /** Rejet du dernier export. */
+  exportError?: unknown;
 }
 
 const initialState: State = {
@@ -36,20 +39,23 @@ const initialState: State = {
 type Action =
   | { type: "SET_OWNERS"; owners: any[] }
   | { type: "EXPORT_STARTED" }
-  | { type: "EXPORT_FINISHED"; missingDocuments: Set<any> };
+  | { type: "EXPORT_FINISHED"; missingDocuments: Set<any> }
+  | { type: "EXPORT_FAILED"; error: unknown };
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_OWNERS":
       return { ...state, owners: action.owners };
     case "EXPORT_STARTED":
-      return { ...state, exportPending: true, missingDocuments: new Set() };
+      return { ...state, exportPending: true, missingDocuments: new Set(), exportError: undefined };
     case "EXPORT_FINISHED":
       return {
         ...state,
         exportPending: false,
         missingDocuments: action.missingDocuments,
       };
+    case "EXPORT_FAILED":
+      return { ...state, exportPending: false, exportError: action.error };
     default:
       return state;
   }
@@ -74,7 +80,7 @@ export const Component = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { owners, exportPending, missingDocuments } = state;
+  const { owners, exportPending, missingDocuments, exportError } = state;
 
   useEffect(() => {
     if (id) {
@@ -95,9 +101,11 @@ export const Component = () => {
 
   const exportCallback = useCallback((exportId: any, config: any, exportSims: any) => {
     dispatch({ type: "EXPORT_STARTED" });
-    OperationsApi.exportSims(exportId, config, exportSims).then((missingDocs: any) => {
-      dispatch({ type: "EXPORT_FINISHED", missingDocuments: missingDocs });
-    });
+    OperationsApi.exportSims(exportId, config, exportSims)
+      .then((missingDocs: any) => {
+        dispatch({ type: "EXPORT_FINISHED", missingDocuments: missingDocs });
+      })
+      .catch((error: unknown) => dispatch({ type: "EXPORT_FAILED", error }));
   }, []);
 
   const currentSims = sims || {};
@@ -127,6 +135,7 @@ export const Component = () => {
         disableSectionAnchor={disableSectionAnchor ?? false}
       >
         <PageTitleBlock titleLg1={currentSims.labelLg1} titleLg2={currentSims.labelLg2} />
+        <ErrorBloc error={exportError} />
         <EssentialRubricContextProvider value={essentialRubricContext}>
           <SimsVisualization
             sims={currentSims}

@@ -11,15 +11,6 @@ import {
 } from "../../../../testing/pick-list.testing";
 import { CollectionsToExport } from "./CollectionsToExport";
 
-const mockExportCollection = vi.fn();
-
-vi.mock("@utils/hooks/collections", () => ({
-  useCollectionExporter: () => ({
-    mutate: mockExportCollection,
-    isPending: false,
-  }),
-}));
-
 vi.mock(
   "../../../../components/ExportButtons",
   () => import("../../../../testing/export-buttons.testing"),
@@ -35,7 +26,7 @@ const renderComponent = (collections = mockCollections) => {
   return render(
     <I18nextProvider i18n={conceptsI18n}>
       <MemoryRouter>
-        <CollectionsToExport collections={collections} />
+        <CollectionsToExport collections={collections} exportCollection={vi.fn()} />
       </MemoryRouter>
     </I18nextProvider>,
   );

@@ -31,5 +31,7 @@ export const useCollectionExporter = () => {
 
       return promise.then(saveFileFromHttpResponse);
     },
+    // Les écrans d'export affichent eux-mêmes l'échec.
+    meta: { globalErrorToast: false },
   });
 };

@@ -59,6 +59,7 @@ const renderConcept = (general: any = {}) =>
         general={{ prefLabelLg1: "Chômage", conceptVersion: "2", ...general }}
         validateConcept={validateConcept}
         deleteConcept={deleteConcept}
+        exportConcept={vi.fn()}
       />
     </AppContextProvider>,
   );
@@ -133,6 +134,7 @@ describe("ConceptVisualization", () => {
           general={{ prefLabelLg1: "Chômage" } as any}
           validateConcept={validateConcept}
           deleteConcept={deleteConcept}
+          exportConcept={vi.fn()}
         />
       </AppContextProvider>,
     );

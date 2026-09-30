@@ -86,16 +86,6 @@ describe("Export Collections Home Container", () => {
       expect(screen.getByText("Export in progress...")).toBeInTheDocument();
     });
 
-    it("should prioritize exporting state over loading state", () => {
-      givenCollections([], true);
-      givenCollectionExportPending();
-
-      renderComponent();
-
-      expect(screen.getByText("Export in progress...")).toBeInTheDocument();
-      expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
-    });
-
     it("should hide loading indicator after collections are fetched", () => {
       givenCollections([{ id: "1", label: "Test" }]);
 

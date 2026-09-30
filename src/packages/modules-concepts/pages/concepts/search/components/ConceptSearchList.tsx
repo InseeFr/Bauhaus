@@ -6,6 +6,7 @@ import { AdvancedSearchCard } from "@components/advanced-search/fields";
 import { CreatorsInput } from "@components/business/creators-input";
 import { DatePicker } from "@components/date-picker";
 import { DisseminationStatusInput } from "@components/dissemination-status/disseminationStatus";
+import { ErrorBloc } from "@components/errors-bloc";
 import { NumberResults } from "@components/number-results";
 import { PageTitle } from "@components/page-title";
 import { Pagination } from "@components/pagination";
@@ -47,11 +48,14 @@ const defaultFormState = {
 interface ConceptSearchListProps {
   conceptSearchList: ConceptForAdvancedSearch[];
   onExport: (ids: string[], type: string, withConcepts: boolean, lang?: "lg1" | "lg2") => void;
+  /** Rejet du dernier export. */
+  exportError?: unknown;
 }
 
 export const ConceptSearchList = ({
   conceptSearchList,
   onExport,
+  exportError,
 }: Readonly<ConceptSearchListProps>) => {
   const { t } = useTranslation();
 
@@ -99,6 +103,7 @@ export const ConceptSearchList = ({
         onExport={onExport}
         conceptsList={hits}
       />
+      <ErrorBloc error={exportError} />
       <AdvancedSearchCard className="concept-search-form">
         <SearchTextField
           label={t("common.labelTitle")}

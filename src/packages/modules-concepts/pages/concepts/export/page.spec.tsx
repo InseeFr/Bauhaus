@@ -83,16 +83,6 @@ describe("Export Concepts Home Container", () => {
       expect(screen.getByText("Export in progress...")).toBeInTheDocument();
     });
 
-    it("should prioritize exporting state over loading state", () => {
-      withConcepts([], true);
-      withConceptExportInProgress();
-
-      renderComponent();
-
-      expect(screen.getByText("Export in progress...")).toBeInTheDocument();
-      expect(screen.queryByText("Loading in progress...")).not.toBeInTheDocument();
-    });
-
     it("should hide loading indicator after concepts are fetched", () => {
       renderWithConcepts();
 

@@ -37,6 +37,7 @@ const renderControls = async (
         conceptVersion={conceptVersion}
         onValidate={vi.fn()}
         onDelete={vi.fn()}
+        onExport={vi.fn()}
       />
     </WithRouter>,
   );

@@ -21,5 +21,7 @@ export const useConceptExporter = () => {
         saveFileFromHttpResponse,
       );
     },
+    // L'écran d'export affiche lui-même l'échec.
+    meta: { globalErrorToast: false },
   });
 };

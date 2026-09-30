@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 
 import { OperationsApi } from "@sdk/operations-api";
 
+import { sdkRejection } from "../../../../tests/sdk-rejection.testing";
 import { renderWithLoaderData } from "../../page.testing";
 import { mockMetadataStructure } from "../metadata-structure.testing";
 import { Component } from "./page";
@@ -126,6 +127,18 @@ describe("Sims view page", () => {
     resolveExport(new Set(["doc-1", "doc-2"]));
 
     await waitFor(() => expect(screen.getByText("missing:doc-1,doc-2")).toBeInTheDocument());
+  });
+
+  it("sort du chargement et affiche le message du serveur quand l'export échoue", async () => {
+    vi.mocked(OperationsApi.exportSims).mockRejectedValue(
+      sdkRejection.json(500, { message: "L'export a échoué" }),
+    );
+    renderPage();
+
+    await userEvent.click(screen.getByRole("button", { name: "exporter" }));
+
+    expect(await screen.findByText(/L'export a échoué/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "exporter" })).toBeEnabled();
   });
 
   it("retombe sur des valeurs par défaut quand le loader ne fournit rien", () => {

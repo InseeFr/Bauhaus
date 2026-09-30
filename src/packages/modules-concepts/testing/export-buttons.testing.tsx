@@ -6,11 +6,11 @@ export const ExportButtons = ({
   disabled,
   exportHandler,
 }: {
-  disabled: boolean;
+  disabled?: boolean;
   exportHandler: (type: string, withConcepts: boolean, lang?: string) => void;
 }) => (
   <div data-testid="export-buttons">
-    <span data-testid="disabled-state">{disabled.toString()}</span>
+    <span data-testid="disabled-state">{String(!!disabled)}</span>
     <button data-testid="export-ods" onClick={() => exportHandler("ods", false)}>
       Export ODS
     </button>
