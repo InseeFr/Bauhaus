@@ -83,6 +83,8 @@
     "1108": "Le code envoyé ne correspond pas à celui de l'url : un code ne peut pas être renommé.",
     "NETWORK_ERROR": "Le serveur est injoignable. Vérifiez votre connexion et réessayez.",
     "UNREADABLE_RESPONSE": "La réponse du serveur est illisible.",
+    "PUBLICATION_REPOSITORY_UNAVAILABLE": "La publication a échoué : le référentiel de diffusion est indisponible. Réessayez plus tard.",
+    "INVALID_REQUEST_BODY": "Les données envoyées sont invalides.",
     "fallback": {
       "unauthorized": "Vous n'êtes pas connecté ou votre session a expiré. Reconnectez-vous puis réessayez.",
       "forbidden": "Vous n'avez pas les droits pour effectuer cette action.",

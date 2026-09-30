@@ -186,6 +186,37 @@ describe("ErrorBloc", () => {
       );
     });
 
+    it("explains a failed publication without the technical detail", async () => {
+      await appI18n.changeLanguage("fr");
+      render(
+        <ErrorBloc
+          error={sdkRejection.json(503, {
+            code: "PUBLICATION_REPOSITORY_UNAVAILABLE",
+            message:
+              "Publication failed: the dissemination repository is unavailable. Please try again later.",
+          })}
+        />,
+      );
+
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "La publication a échoué : le référentiel de diffusion est indisponible. Réessayez plus tard.",
+      );
+    });
+
+    it("says the submitted data is invalid when the body cannot be read", async () => {
+      await appI18n.changeLanguage("fr");
+      render(
+        <ErrorBloc
+          error={sdkRejection.json(400, {
+            code: "INVALID_REQUEST_BODY",
+            message: "The submitted data is invalid",
+          })}
+        />,
+      );
+
+      expect(screen.getByRole("alert")).toHaveTextContent("Les données envoyées sont invalides.");
+    });
+
     it("renders the network failure in French", async () => {
       await appI18n.changeLanguage("fr");
       render(<ErrorBloc error={sdkRejection.network()} />);

@@ -65,7 +65,7 @@ export function SimsVisualization({
 }: Readonly<SimsVisualizationTypes>) {
   const [secondLang] = useSecondLang();
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [modalOpened, setModalOpened] = useState(false);
 
@@ -94,6 +94,12 @@ export function SimsVisualization({
             setPublishMissingDocuments(parseMissingDocuments(err.details));
             return;
           }
+          // Refus métier traduits par le module (ex. 804, cible non publiée) ; les autres échecs,
+          // dont l'indisponibilité du référentiel de diffusion, sont lus par ErrorBloc.
+          if (!i18n.exists(`errors.${err.code}`)) {
+            setServerSideError([err]);
+            return;
+          }
           const targetMatch = err.details?.match(/Indicator\/Series\/Operation:\s*(\S+)/);
           const targetId = targetMatch?.[1];
           const href = getParentUri(object);
@@ -101,7 +107,7 @@ export function SimsVisualization({
         }
       });
     },
-    [publishSims, t],
+    [publishSims, t, i18n],
   );
 
   /**

@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { sdkRejection } from "../../../../../tests/sdk-rejection.testing";
+
 vi.mock("react-modal", () => ({
   default: ({ children, isOpen }: { children: React.ReactNode; isOpen: boolean }) =>
     isOpen ? <div>{children}</div> : null,
@@ -15,6 +17,7 @@ vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string, params: Record<string, string>) =>
       `${key}[id=${params?.id},href=${params?.href}]`,
+    i18n: { exists: (key: string) => key === "errors.804" },
   }),
 }));
 
@@ -147,6 +150,24 @@ describe("SimsVisualization - publish error handling", () => {
 
     expect(screen.getByTestId("error-bloc")).toHaveTextContent(
       "errors.804[id=s1034,href=/operations/series/s1034]",
+    );
+  });
+
+  it("should hand a technical publication failure to the error bloc instead of a raw translation key", () => {
+    const rejection = sdkRejection.json(503, {
+      code: "PUBLICATION_REPOSITORY_UNAVAILABLE",
+      message:
+        "Publication failed: the dissemination repository is unavailable. Please try again later.",
+    });
+    const publishSims = vi.fn((object, errorCallback) => errorCallback(rejection));
+
+    renderComponent(publishSims);
+    fireEvent.click(screen.getByTestId("publish-btn"));
+
+    const errorBloc = screen.getByTestId("error-bloc");
+    expect(errorBloc).not.toHaveTextContent("errors.PUBLICATION_REPOSITORY_UNAVAILABLE");
+    expect(errorBloc).toHaveTextContent(
+      "Publication failed: the dissemination repository is unavailable. Please try again later.",
     );
   });
 
